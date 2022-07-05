@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5DE567509
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 19:01:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2F0567506
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 19:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438AB926E1;
-	Tue,  5 Jul 2022 17:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E85A92738;
+	Tue,  5 Jul 2022 17:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43176926E1;
- Tue,  5 Jul 2022 17:01:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37EC5926FF;
+ Tue,  5 Jul 2022 17:01:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657040484; x=1688576484;
+ t=1657040482; x=1688576482;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=DdSWLWV6h1FcenkEhqE7q80VF+1KzLQ27NhPU+jHsRo=;
- b=AI7YURqiPw98kuMKx4LGQP5kZVsXOfwyjlMqL5JvuIlj0L/R1yrvmodW
- VeShBiy0Z6klSgesn6HzGsqBuDBDtAaBtdIfhfhXVo7hIzYCbpCOIMiol
- 7NjFdL+sROZDGYH6tIHAN+BG2hGHfMr2I23L9MZmw7JpPyTMd0pIIq3t1 k=;
+ bh=jeChhiyWoLcjAegHXqh/rf8PudXtR1Yc73pLcMWtrq0=;
+ b=SAJXe65gnRo0R1SUbC93oj/RdiB4HwYFMYXSE266StGEBqA+fUgjpyNZ
+ dxZ1jhieYGFjt3mPH0IG6FNIHIic0qb6uVIOyTmgJCaUMkzhvrnZZDPtJ
+ Ydpt1hVvA1QwLHabmH0NtnDNIMxE/i0yKXzvF9K+ubMSqgUIBfTlQErQu Q=;
 Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 05 Jul 2022 10:01:23 -0700
+ by alexa-out.qualcomm.com with ESMTP; 05 Jul 2022 10:01:22 -0700
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 05 Jul 2022 10:01:22 -0700
+ 05 Jul 2022 10:01:21 -0700
 X-QCInternal: smtphost
 Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg01-blr.qualcomm.com with ESMTP; 05 Jul 2022 22:31:01 +0530
+ by ironmsg01-blr.qualcomm.com with ESMTP; 05 Jul 2022 22:31:07 +0530
 Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id A997F3CBE; Tue,  5 Jul 2022 22:31:00 +0530 (IST)
+ id 1D9E73CBE; Tue,  5 Jul 2022 22:31:06 +0530 (IST)
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v4 4/7] drm/bridge: use atomic enable/disable callbacks for
- panel bridge
-Date: Tue,  5 Jul 2022 22:30:42 +0530
-Message-Id: <1657040445-13067-5-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v4 5/7] drm/bridge: Add psr support for panel bridge callbacks
+Date: Tue,  5 Jul 2022 22:30:43 +0530
+Message-Id: <1657040445-13067-6-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1657040445-13067-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1657040445-13067-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -62,72 +61,96 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use atomic variants for panel bridge callback functions such that
-certain states like self-refresh can be accessed as part of
-enable/disable sequence.
+This change will handle the psr entry exit cases in the panel
+bridge atomic callback functions. For example, the panel power
+should not turn off if the panel is entering psr.
 
 Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 ---
- drivers/gpu/drm/bridge/panel.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/panel.c | 48 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 0ee563e..eeb9546 100644
+index eeb9546..9770b8c 100644
 --- a/drivers/gpu/drm/bridge/panel.c
 +++ b/drivers/gpu/drm/bridge/panel.c
-@@ -108,28 +108,32 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
- 		drm_connector_cleanup(connector);
- }
- 
--static void panel_bridge_pre_enable(struct drm_bridge *bridge)
-+static void panel_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *old_bridge_state)
+@@ -112,6 +112,18 @@ static void panel_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 				struct drm_bridge_state *old_bridge_state)
  {
  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
++	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
++	struct drm_encoder *encoder = bridge->encoder;
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *old_crtc_state;
++
++	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, encoder);
++	if (!crtc)
++		return;
++
++	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
++	if (old_crtc_state && old_crtc_state->self_refresh_active)
++		return;
  
  	drm_panel_prepare(panel_bridge->panel);
  }
- 
--static void panel_bridge_enable(struct drm_bridge *bridge)
-+static void panel_bridge_atomic_enable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *old_bridge_state)
+@@ -120,6 +132,18 @@ static void panel_bridge_atomic_enable(struct drm_bridge *bridge,
+ 				struct drm_bridge_state *old_bridge_state)
  {
  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
++	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
++	struct drm_encoder *encoder = bridge->encoder;
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *old_crtc_state;
++
++	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, encoder);
++	if (!crtc)
++		return;
++
++	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
++	if (old_crtc_state && old_crtc_state->self_refresh_active)
++		return;
  
  	drm_panel_enable(panel_bridge->panel);
  }
- 
--static void panel_bridge_disable(struct drm_bridge *bridge)
-+static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *old_bridge_state)
+@@ -128,6 +152,18 @@ static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
+ 				struct drm_bridge_state *old_bridge_state)
  {
  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
++	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
++	struct drm_encoder *encoder = bridge->encoder;
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *new_crtc_state;
++
++	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
++	if (!crtc)
++		return;
++
++	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
++	if (new_crtc_state && new_crtc_state->self_refresh_active)
++		return;
  
  	drm_panel_disable(panel_bridge->panel);
  }
- 
--static void panel_bridge_post_disable(struct drm_bridge *bridge)
-+static void panel_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *old_bridge_state)
+@@ -136,6 +172,18 @@ static void panel_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 				struct drm_bridge_state *old_bridge_state)
  {
  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
++	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
++	struct drm_encoder *encoder = bridge->encoder;
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *new_crtc_state;
++
++	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, encoder);
++	if (!crtc)
++		return;
++
++	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
++	if (new_crtc_state && new_crtc_state->self_refresh_active)
++		return;
  
-@@ -158,10 +162,10 @@ static void panel_bridge_debugfs_init(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
- 	.attach = panel_bridge_attach,
- 	.detach = panel_bridge_detach,
--	.pre_enable = panel_bridge_pre_enable,
--	.enable = panel_bridge_enable,
--	.disable = panel_bridge_disable,
--	.post_disable = panel_bridge_post_disable,
-+	.atomic_pre_enable = panel_bridge_atomic_pre_enable,
-+	.atomic_enable = panel_bridge_atomic_enable,
-+	.atomic_disable = panel_bridge_atomic_disable,
-+	.atomic_post_disable = panel_bridge_atomic_post_disable,
- 	.get_modes = panel_bridge_get_modes,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	drm_panel_unprepare(panel_bridge->panel);
+ }
 -- 
 2.7.4
 
