@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EFB566989
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:33:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 587325669A2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3FE810E750;
-	Tue,  5 Jul 2022 11:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A67A10EC08;
+	Tue,  5 Jul 2022 11:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2248510E021
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:02:44 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 171B310E021
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657015363;
+ s=mimecast20190719; t=1657015360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sq1P6bjPwZGpMS6ut0qkpzOv+ePOi9aPiP7nYH2z6s0=;
- b=EGgk9PMxaNd/ceEtrMSo6RrykG37VIXGp/c602unfeiKvMR0UdA9mT750Kki1JiEStgeoL
- eYo4iO8NmzohPXfl5raUJrpG6fjTJM7Ob4VWuq7sGyg7uGNR4m2XVPqGTeTSOT7+z6W9/g
- A6SanFtLnifH58CoK3t9ryH8M53VA78=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PXp75we4g7tfDLKjBv7MZGhsHN2tTZVGENMsoYt5xd8=;
+ b=d37FDTbue/zG8qUaBocnybdF20Tn9w/LHgQDDpYjKBfkFOuCSEYowyyWLlhzoEs8LQuSlp
+ 1SnfVsrNCErkpfIeoUhNycF4xTtoaiVArdacwASasy6GzSPnd2/zlKQUSdL5YclmcZhPDp
+ 8xT1kW6ORqBKGfhmLXSPHs75jC+9PN0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-HExAWQQqO6O-aeWsfpGR4g-1; Tue, 05 Jul 2022 06:02:37 -0400
-X-MC-Unique: HExAWQQqO6O-aeWsfpGR4g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m20-20020a05600c4f5400b003a03aad6bdfso5041443wmq.6
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
+ us-mta-310-vJcLB_HpOYWYK9pMI16LoA-1; Tue, 05 Jul 2022 06:02:39 -0400
+X-MC-Unique: vJcLB_HpOYWYK9pMI16LoA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n35-20020a05600c3ba300b003a02d7bd5caso6562437wms.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Jul 2022 03:02:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Sq1P6bjPwZGpMS6ut0qkpzOv+ePOi9aPiP7nYH2z6s0=;
- b=TyzpIE7DqCatwJ/p8yQ7J8pTMlmSh0mxx16ITRVqYzsWNV90Z2k+WALViFsZegsJjE
- 0z8OanXJgykzjTTBCE7Ch8i6mst1QSIhlyR+1gwTO51SBUPpCeFl19kZfMuHPPQPUJ1e
- XrGFT7L28F+PWzhFjmWiaiBTy0gvgKjV4OA3kEgLpiCjbH0nIBMPl1LtIizO7AXxl4mZ
- NdldMlUyjJ536yAtS1s7Hxm71Zwrzm/CkXSMmA5SPu/jFG6WP8luMklfN3MKyDV3mMeQ
- WpEv9SJVhX3i03qmKsb31U56WJJVT/HXIgeO0YtnqNs2Dto4WwuTk6My6RE47PyrijSl
- 1bbQ==
-X-Gm-Message-State: AJIora8yKpCjSKaDdrd+FJ8GdhWyUeyz9rmrCCJfICuZd6MJPAuXlQvU
- sgVUHXFLs4oK1+1kCLaUHDJ0mNRGcRHAsFeHWThEg2IAoQ0xYO6LSXcj6kCZRBSeatUbuTYYLyj
- FH6tdtQt1ijZTlp4Tz394Zgbdte45
-X-Received: by 2002:adf:e889:0:b0:21d:6510:b750 with SMTP id
- d9-20020adfe889000000b0021d6510b750mr13203107wrm.498.1657015356428; 
- Tue, 05 Jul 2022 03:02:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u8SE6G4/Be28Rs7e4q8Eg7G3RpZqKHzTQ9mDJPsqfzMfDXb7eIz1ukYB668iijCdejuSh1Mw==
-X-Received: by 2002:adf:e889:0:b0:21d:6510:b750 with SMTP id
- d9-20020adfe889000000b0021d6510b750mr13203083wrm.498.1657015356198; 
- Tue, 05 Jul 2022 03:02:36 -0700 (PDT)
+ bh=PXp75we4g7tfDLKjBv7MZGhsHN2tTZVGENMsoYt5xd8=;
+ b=O1AYUr5eZBeMy/BEOcLhgCKIs+qbkoPwTmlvfdNpa4ZF4git98vtboBJf+K3jV1f9a
+ Lz8t4sRFfbFpMC+iAioadcJnOwFMXwOykbMOLvN664Iuiy219giOEEec0ihZsyjxmRU6
+ XeqkFDOgVGntYX6vPm+Kal78rqN3xxWW8eGttZjJSY62ABXuDWDzmdEn8CUQ6jjTYFWW
+ 8Qp1ZAGGGQc5bpyWqpulc55ln5O9ZWLdkbBjweKSqHLRYTk4CLQutk+75yA2Vn0yEL2V
+ gP5r+djpnuMhgL0p83r85X6zFpSBx77fmHYtfzW0cqEXeCxWZNcVVf8DBbRY/4EiGVie
+ /Ngw==
+X-Gm-Message-State: AJIora90JTa6jM7xucIEjMpPbG04gjkdzXR/pIL2Klq+EpxvCS2fVSAb
+ BynI4VDs7OCsIVAsYxCPox5wQdJ9+ir4Fsh4B0/ca+7wu3Vx+1KRaCVF4yaX0n0Vu2WSQwHg5Nb
+ fUcLhewfzvDOVUYWP9ytXQG5tTYcN
+X-Received: by 2002:adf:f84a:0:b0:21d:6e52:7957 with SMTP id
+ d10-20020adff84a000000b0021d6e527957mr5815162wrq.252.1657015357805; 
+ Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vZWSLJ9APoFLLcARii/p9DrogtNdYkpeeiX/0eZqF0i0sAWYJXINSPuRKOHdGqmknYrdkgDA==
+X-Received: by 2002:adf:f84a:0:b0:21d:6e52:7957 with SMTP id
+ d10-20020adff84a000000b0021d6e527957mr5815138wrq.252.1657015357593; 
+ Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f7-20020a0560001b0700b0021d68e1fd42sm6255192wrz.89.2022.07.05.03.02.35
+ f7-20020a0560001b0700b0021d68e1fd42sm6255192wrz.89.2022.07.05.03.02.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 03:02:35 -0700 (PDT)
+ Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] drm: Use size_t type for len variable in
- drm_copy_field()
-Date: Tue,  5 Jul 2022 12:02:13 +0200
-Message-Id: <20220705100215.572498-2-javierm@redhat.com>
+Subject: [PATCH v2 2/2] drm: Prevent drm_copy_field() to attempt copying a
+ NULL pointer
+Date: Tue,  5 Jul 2022 12:02:14 +0200
+Message-Id: <20220705100215.572498-3-javierm@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220705100215.572498-1-javierm@redhat.com>
 References: <20220705100215.572498-1-javierm@redhat.com>
@@ -71,8 +71,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,44 +91,83 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The strlen() function returns a size_t which is an unsigned int on 32-bit
-arches and an unsigned long on 64-bit arches. But in the drm_copy_field()
-function, the strlen() return value is assigned to an 'int len' variable.
+There are some struct drm_driver fields that are required by drivers since
+drm_copy_field() attempts to copy them to user-space via DRM_IOCTL_VERSION.
 
-Later, the len variable is passed as copy_from_user() third argument that
-is an unsigned long parameter as well.
+But it can be possible that a driver has a bug and did not set some of the
+fields, which leads to drm_copy_field() attempting to copy a NULL pointer:
 
-In theory, this can lead to an integer overflow via type conversion. Since
-the assignment happens to a signed int lvalue instead of a size_t lvalue.
+[ +10.395966] Unable to handle kernel access to user memory outside uaccess routines at virtual address 0000000000000000
+[  +0.010955] Mem abort info:
+[  +0.002835]   ESR = 0x0000000096000004
+[  +0.003872]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  +0.005395]   SET = 0, FnV = 0
+[  +0.003113]   EA = 0, S1PTW = 0
+[  +0.003182]   FSC = 0x04: level 0 translation fault
+[  +0.004964] Data abort info:
+[  +0.002919]   ISV = 0, ISS = 0x00000004
+[  +0.003886]   CM = 0, WnR = 0
+[  +0.003040] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000115dad000
+[  +0.006536] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+[  +0.006925] Internal error: Oops: 96000004 [#1] SMP
+...
+[  +0.011113] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  +0.007061] pc : __pi_strlen+0x14/0x150
+[  +0.003895] lr : drm_copy_field+0x30/0x1a4
+[  +0.004156] sp : ffff8000094b3a50
+[  +0.003355] x29: ffff8000094b3a50 x28: ffff8000094b3b70 x27: 0000000000000040
+[  +0.007242] x26: ffff443743c2ba00 x25: 0000000000000000 x24: 0000000000000040
+[  +0.007243] x23: ffff443743c2ba00 x22: ffff8000094b3b70 x21: 0000000000000000
+[  +0.007241] x20: 0000000000000000 x19: ffff8000094b3b90 x18: 0000000000000000
+[  +0.007241] x17: 0000000000000000 x16: 0000000000000000 x15: 0000aaab14b9af40
+[  +0.007241] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+[  +0.007239] x11: 0000000000000000 x10: 0000000000000000 x9 : ffffa524ad67d4d8
+[  +0.007242] x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : 6c6e6263606e7141
+[  +0.007239] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+[  +0.007241] x2 : 0000000000000000 x1 : ffff8000094b3b90 x0 : 0000000000000000
+[  +0.007240] Call trace:
+[  +0.002475]  __pi_strlen+0x14/0x150
+[  +0.003537]  drm_version+0x84/0xac
+[  +0.003448]  drm_ioctl_kernel+0xa8/0x16c
+[  +0.003975]  drm_ioctl+0x270/0x580
+[  +0.003448]  __arm64_sys_ioctl+0xb8/0xfc
+[  +0.003978]  invoke_syscall+0x78/0x100
+[  +0.003799]  el0_svc_common.constprop.0+0x4c/0xf4
+[  +0.004767]  do_el0_svc+0x38/0x4c
+[  +0.003357]  el0_svc+0x34/0x100
+[  +0.003185]  el0t_64_sync_handler+0x11c/0x150
+[  +0.004418]  el0t_64_sync+0x190/0x194
+[  +0.003716] Code: 92402c04 b200c3e8 f13fc09f 5400088c (a9400c02)
+[  +0.006180] ---[ end trace 0000000000000000 ]---
 
-In practice though, that's unlikely since the values copied are set by DRM
-drivers and not controlled by userspace. But using a size_t for len is the
-correct thing to do anyways.
-
+Reported-by: Peter Robinson <pbrobinson@gmail.com>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Tested-by: Peter Robinson <pbrobinson@gmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
 
 Changes in v2:
-- Add Peter Robinson Tested-by and Thomas Zimmermann Reviewed-by tags.
+- Just warn if a value isn't set and report it as a string of length 0.
+  (Thomas Zimmermann).
 
- drivers/gpu/drm/drm_ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_ioctl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 8faad23dc1d8..e1b9a03e619c 100644
+index e1b9a03e619c..ca2a6e6101dc 100644
 --- a/drivers/gpu/drm/drm_ioctl.c
 +++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -472,7 +472,7 @@ EXPORT_SYMBOL(drm_invalid_op);
-  */
- static int drm_copy_field(char __user *buf, size_t *buf_len, const char *value)
+@@ -474,6 +474,12 @@ static int drm_copy_field(char __user *buf, size_t *buf_len, const char *value)
  {
--	int len;
-+	size_t len;
+ 	size_t len;
  
++	/* don't attempt to copy a NULL pointer */
++	if (WARN_ONCE(!value, "BUG: the value to copy was not set!")) {
++		*buf_len = 0;
++		return 0;
++	}
++
  	/* don't overflow userbuf */
  	len = strlen(value);
+ 	if (len > *buf_len)
 -- 
 2.36.1
 
