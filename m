@@ -1,48 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26A6566980
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:33:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 738765669BB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E926510FA44;
-	Tue,  5 Jul 2022 11:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF054113757;
+	Tue,  5 Jul 2022 11:31:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2AC910E021
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:36:30 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1o8fuq-0001LC-19; Tue, 05 Jul 2022 12:36:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1o8fue-004XxA-J7; Tue, 05 Jul 2022 12:36:16 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1o8fuh-0038F6-8t; Tue, 05 Jul 2022 12:36:15 +0200
-Date: Tue, 5 Jul 2022 12:36:15 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jean Delvare <jdelvare@suse.de>
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220705103615.ceeq7rku53x743ps@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <20220705120852.049dc235@endymion.delvare>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B9310E021;
+ Tue,  5 Jul 2022 10:52:35 +0000 (UTC)
+Received: from [192.168.2.145] (unknown [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 04042660180F;
+ Tue,  5 Jul 2022 11:52:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1657018353;
+ bh=C0XVywH+oyNLG15zS9kJCfV/f1r6tRA5EPvm3RYnUOM=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=BFsJtEh/gBUsqY7oLRLDvEEt2L0qJInllcm8ERMdMkKs/ivYjVrMj7HM0VLqfdii4
+ iZJrTAHKS+FQJADUDLdChPRH7Y6aiXltet0/Ptkf7VzEZKH0NTIj3TrpzjnTsS5eIM
+ +daU4k8lz/lV6BZmBuVv7AHzc7nHJfY2f1YwSD3ROdt84HfzsTGjByasgAXNcMz4d1
+ qg/O+0qPRX6gCd4cBJwu1DYAoDwhHm0Pyvxxug8XaHFbhF++KaNwZMKNBglpUncQwu
+ n6itsrDfKq1GL6c0rmng3zw4Cd6j6JFnFqIEoFQiM5a30K8uZbuwLUOjlQtKkbkZuL
+ 78aARH30ofTdQ==
+Message-ID: <37f028a0-f54a-a1a9-e23a-3c1af6979a62@collabora.com>
+Date: Tue, 5 Jul 2022 13:52:28 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gut2agzhpaayxotv"
-Content-Disposition: inline
-In-Reply-To: <20220705120852.049dc235@endymion.delvare>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+ <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
+ <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+ <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
+ <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
+ <0d88cf7c-61e5-d7a8-a6ba-83388114a1fa@collabora.com>
+ <fd026c44-b067-3537-3020-4ae8f24137ad@collabora.com>
+In-Reply-To: <fd026c44-b067-3537-3020-4ae8f24137ad@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,112 +63,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Guenter Roeck <groeck@chromium.org>, linux-stm32@st-md-mailman.stormreply.com,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-staging@lists.linux.dev,
- kasan-dev@googlegroups.com, linux-clk@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-gpio@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- openipmi-developer@lists.sourceforge.net, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
- netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ linux-media@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/5/22 01:38, Dmitry Osipenko wrote:
+...
+>>> Also i915 will run into trouble with attach. In particular since i915
+>>> starts a full ww transaction in its attach callback to be able to lock
+>>> other objects if migration is needed. I think i915 CI would catch this
+>>> in a selftest.
+>> Seems it indeed it should deadlock. But i915 selftests apparently
+>> should've caught it and they didn't, I'll re-check what happened.
+>>
+> 
+> The i915 selftests use a separate mock_dmabuf_ops. That's why it works
+> for the selftests, i.e. there is no deadlock.
+> 
+> Thomas, would i915 CI run a different set of tests or will it be the
+> default i915 selftests ran by IGT?
+> 
 
---gut2agzhpaayxotv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nevermind, I had a local kernel change that was forgotten about.. it
+prevented the i915 live tests from running.
 
-On Tue, Jul 05, 2022 at 12:08:52PM +0200, Jean Delvare wrote:
-> On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >=20
-> > The value returned by an i2c driver's remove function is mostly ignored.
-> > (Only an error message is printed if the value is non-zero that the
-> > error is ignored.)
-> >=20
-> > So change the prototype of the remove function to return no value. This
-> > way driver authors are not tempted to assume that passing an error to
-> > the upper layer is a good idea. All drivers are adapted accordingly.
-> > There is no intended change of behaviour, all callbacks were prepared to
-> > return 0 before.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
->=20
-> That's a huge change for a relatively small benefit, but if this is
-> approved by the I2C core maintainer then fine with me. For:
-
-Agreed, it's huge. The benefit isn't really measureable, the motivation
-is to improve the situation for driver authors who with the change
-cannot make wrong assumptions about what to return in .remove(). During
-the preparation this uncovered a few bugs. See for example
-bbc126ae381cf0a27822c1f822d0aeed74cc40d9.
-
-> >  drivers/hwmon/adc128d818.c                                | 4 +---
-> >  drivers/hwmon/adt7470.c                                   | 3 +--
-> >  drivers/hwmon/asb100.c                                    | 6 ++----
-> >  drivers/hwmon/asc7621.c                                   | 4 +---
-> >  drivers/hwmon/dme1737.c                                   | 4 +---
-> >  drivers/hwmon/f75375s.c                                   | 5 ++---
-> >  drivers/hwmon/fschmd.c                                    | 6 ++----
-> >  drivers/hwmon/ftsteutates.c                               | 3 +--
-> >  drivers/hwmon/ina209.c                                    | 4 +---
-> >  drivers/hwmon/ina3221.c                                   | 4 +---
-> >  drivers/hwmon/jc42.c                                      | 3 +--
-> >  drivers/hwmon/mcp3021.c                                   | 4 +---
-> >  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
-> >  drivers/hwmon/pcf8591.c                                   | 3 +--
-> >  drivers/hwmon/smm665.c                                    | 3 +--
-> >  drivers/hwmon/tps23861.c                                  | 4 +---
-> >  drivers/hwmon/w83781d.c                                   | 4 +---
-> >  drivers/hwmon/w83791d.c                                   | 6 ++----
-> >  drivers/hwmon/w83792d.c                                   | 6 ++----
-> >  drivers/hwmon/w83793.c                                    | 6 ++----
-> >  drivers/hwmon/w83795.c                                    | 4 +---
-> >  drivers/hwmon/w83l785ts.c                                 | 6 ++----
-> >  drivers/i2c/i2c-core-base.c                               | 6 +-----
-> >  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
-> >  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
-> >  drivers/i2c/i2c-smbus.c                                   | 3 +--
-> >  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
-> >  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
-> >  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
->=20
-> Reviewed-by: Jean Delvare <jdelvare@suse.de>
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gut2agzhpaayxotv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLEFBwACgkQwfwUeK3K
-7AkavggAgLmynakXX/rOF4Jwy2OuBXH29kecKqPd6xj4yHsu3ggy8kd/hlU4jJib
-vV0H9ioq69hhMqjme5AHJJsueLFi/t/iwuQwuWUKluCBBlx0RXBsVx8qxV7A0uWa
-mdKU3ApPaN7y0cS1jccdN7ydsL3H2ayzIwfQuNqx1G3P/uqXfkusV0fjwQ/rQct3
-qs4t2/QiHUd0tStlGw2eSKxp1z5KRrDMstK17fiZSsw/SYoMyldV8Ame6+gaxx0X
-e93FqM5jj67ovjD3jJanfOwI5vesu4+szu4GK6vHRWvpsieHsSeyS+GNgfM5oLA7
-iguZ0rauzy0je3hrHuKgp1maJ59ibQ==
-=fYiS
------END PGP SIGNATURE-----
-
---gut2agzhpaayxotv--
+-- 
+Best regards,
+Dmitry
