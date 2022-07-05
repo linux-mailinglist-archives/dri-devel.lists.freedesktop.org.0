@@ -1,57 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC5E5672F8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 17:45:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAACB568024
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 09:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C6714ABA6;
-	Tue,  5 Jul 2022 15:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE832112375;
+	Wed,  6 Jul 2022 07:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466C614A806
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 15:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657035916;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8LevNv3Hf68ZwMaX/GpqTB2JxrZ9cDDvu+Nb0ET+5is=;
- b=TC5+BBKbTM7a1nsGnpu9RKcNL7z+vS0nrH4Mo3cdfZAgzcwTiiuZGJAp/h8wF/0GpZyKL5
- ke2KczaVq7HKxk0+7fbYNHtErdtmTUEJCTgkJk8dnRlLMIfo5uw6fo5yJauXjQR6je/NXE
- EXd0N6Lm3uJljlTuTWxzdYZ30GNIbnA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-loLCFY4GMoicMdzRKYlMbQ-1; Tue, 05 Jul 2022 11:45:13 -0400
-X-MC-Unique: loLCFY4GMoicMdzRKYlMbQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A3B1185A7B2;
- Tue,  5 Jul 2022 15:45:12 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B75ED404E4DC;
- Tue,  5 Jul 2022 15:45:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 173C31800083; Tue,  5 Jul 2022 17:45:07 +0200 (CEST)
-Date: Tue, 5 Jul 2022 17:45:07 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v7 7/9] drm/virtio: Improve DMA API usage for shmem BOs
-Message-ID: <20220705154507.67ovlun4m26xzppn@sirius.home.kraxel.org>
-References: <20220630200726.1884320-1-dmitry.osipenko@collabora.com>
- <20220630200726.1884320-8-dmitry.osipenko@collabora.com>
- <20220705135323.emr4gdbcxoisdcxe@sirius.home.kraxel.org>
- <d2c64d09-c4bb-9aed-069d-a9b4d07a1f66@collabora.com>
+X-Greylist: delayed 336 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Jul 2022 15:58:31 UTC
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5B758DF2C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 15:58:31 +0000 (UTC)
+Received: from rustam-GF63-Thin-9RCX (unknown [83.149.199.65])
+ by mail.ispras.ru (Postfix) with ESMTPS id AC12440737BD;
+ Tue,  5 Jul 2022 15:52:51 +0000 (UTC)
+Message-ID: <f483778df438c24ac57d660785c71402a1ba2d2c.camel@ispras.ru>
+Subject: [POSSIBLE BUG] Unreachable code or possible dereferencing of NULL
+ pointer
+From: Subkhankulov Rustam <subkhankulov@ispras.ru>
+To: David Airlie <airlied@linux.ie>
+Date: Tue, 05 Jul 2022 18:52:45 +0300
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2c64d09-c4bb-9aed-069d-a9b4d07a1f66@collabora.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 06 Jul 2022 07:41:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +40,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org
+Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
 
-> > Also note that pci is not the only virtio transport we have.
-> 
-> The VirtIO indeed has other transports, but only PCI is really supported
-> in case of the VirtIO-GPU in kernel and in Qemu/crosvm, AFAICT. Hence
-> only the PCI transport was tested.
+Version: 5.19-rc5
 
-qemu -M microvm \
-  -global virtio-mmio.force-legacy=false \
-  -device virtio-gpu-device
+In function 'via_do_init_map' (drivers/gpu/drm/via/via_map.c: 54)
+'drm_legacy_findmap' can return NULL pointer. If that happens,it calls
+'via_do_cleanup_map' (drivers/gpu/drm/via/via_map.c: 58).
 
-Gives you a functional virtio-gpu device on virtio-mmio.
+---------------------------------------------------------------------
+54    dev_priv->mmio = drm_legacy_findmap(dev, init->mmio_offset);
+55    if (!dev_priv->mmio) {
+56        DRM_ERROR("could not find mmio region!\n");
+57        dev->dev_private = (void *)dev_priv;
+58        via_do_cleanup_map(dev);
+59        return -EINVAL;
+60    }
+---------------------------------------------------------------------
 
-aarch64 virt machines support both pci and mmio too.
-s390x has virtio-gpu-ccw ...
+'via_do_cleanup' functions calls
+'via_dma_cleanup'(drivers/gpu/drm/via/via_map.c: 78).
 
-take care,
-  Gerd
+---------------------------------------------------------------------
+76    int via_do_cleanup_map(struct drm_device *dev)
+77    {
+78        via_dma_cleanup(dev);
+79
+80        return 0;
+81    }
+---------------------------------------------------------------------
+
+In 'via_dma_cleanup' there is another conditional construction
+(drivers/gpu/drm/via/via_dma.c: 168). 
+
+---------------------------------------------------------------------
+168   if (dev_priv->ring.virtual_start) {
+169       via_cmdbuf_reset(dev_priv);
+170
+171       drm_legacy_ioremapfree(&dev_priv->ring.map, dev);
+172       dev_priv->ring.virtual_start = NULL;
+173   }
+---------------------------------------------------------------------
+
+It seems like there are two possible ways: 
+
+1) dev_priv->ring.virtual_start != 0. 
+
+In that case function call chain happens: 'via_cmdbuf_reset',
+'via_cmdbuf_flush', 'via_hook_segment' and 'via_read'
+(drivers/gpu/drm/via/via_drv.h: 124).
+In 'via_read' dereferencing of "dev_priv->mmio" happens, which is NULL.
+
+---------------------------------------------------------------------
+124    static inline u32 via_read(struct drm_via_private *dev_priv, u32
+reg)
+125    {
+126        return readl((void __iomem *)(dev_priv->mmio->handle +
+reg));
+127    }
+---------------------------------------------------------------------
+
+2) dev_priv->ring.virtual_start == 0.
+Then all function calls located inside conditional construction
+(drivers/gpu/drm/via/via_dma.c: 168) do not happen.
+
+Thus, if dev_priv->mmio == NULL, call of 'via_do_cleanup_map'
+(drivers/gpu/drm/via/via_map.c: 58) may result in either an error or
+nothing at all.
+Should we remove call to via_do_cleanup_map(dev) or should we somehow
+avoid NULL pointer dereference in 'via_read'?
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+regards,
+Rustam Subkhankulov
 
