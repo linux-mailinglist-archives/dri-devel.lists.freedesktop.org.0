@@ -1,51 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DEBC566997
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F13C456697D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:33:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3D81123E6;
-	Tue,  5 Jul 2022 11:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9EE410FA14;
+	Tue,  5 Jul 2022 11:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0B610E048
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:25:38 +0000 (UTC)
-X-UUID: 97de2dd08bf74424afe93a7b053a3fca-20220705
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4204710E021
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:25:40 +0000 (UTC)
+X-UUID: 7188962c75d04bd6af6038151b670d1a-20220705
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:2767743d-9db3-4103-be55-2f0f30d08cb4, OB:0,
+X-CID-O-INFO: VERSION:1.1.8, REQID:50bc81cf-2c11-48c2-8199-6e93489a7070, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:90
-X-CID-INFO: VERSION:1.1.8, REQID:2767743d-9db3-4103-be55-2f0f30d08cb4, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:90
-X-CID-META: VersionHash:0f94e32, CLOUDID:96a47563-0b3f-4b2c-b3a6-ed5c044366a0,
+ B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:-5
+X-CID-META: VersionHash:0f94e32, CLOUDID:bd3d9886-57f0-47ca-ba27-fe8c57fbf305,
  C
- OID:75d5afd46aa7,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 97de2dd08bf74424afe93a7b053a3fca-20220705
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 649888291; Tue, 05 Jul 2022 18:25:32 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: 7188962c75d04bd6af6038151b670d1a-20220705
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1962218896; Tue, 05 Jul 2022 18:25:34 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 5 Jul 2022 18:25:31 +0800
+ Tue, 5 Jul 2022 18:25:32 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Tue, 5 Jul 2022 18:25:30 +0800
+ 15.2.792.3 via Frontend Transport; Tue, 5 Jul 2022 18:25:32 +0800
 From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
  <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
  <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v16 0/5] drm/mediatek: Add MT8195 dp_intf driver
-Date: Tue, 5 Jul 2022 18:25:25 +0800
-Message-ID: <20220705102530.1344-1-rex-bc.chen@mediatek.com>
+Subject: [PATCH v16 1/5] drm/mediatek: dpi: Add YUV422 output support
+Date: Tue, 5 Jul 2022 18:25:26 +0800
+Message-ID: <20220705102530.1344-2-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220705102530.1344-1-rex-bc.chen@mediatek.com>
+References: <20220705102530.1344-1-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -71,72 +69,98 @@ Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dpi/dpintf driver and the added helper functions are required for
-the DisplayPort driver to work.
+Dp_intf supports YUV422 as output format. In MT8195 Chrome project,
+YUV422 output format is used for 4K resolution.
 
-This series is separated from [1] which is original from Guillaume.
-The display port driver is [2].
+To support this, it is also needed to support color format transfer.
+Color format transfer is a new feature for both dpi and dpintf of MT8195.
 
-Changes for v16:
-1. Separate input_2pixel and pixels_per_iter to other patches.
-2. Remove function "mtk_dpi_matrix_sel" and color_fmt_trans_support
-   in patch "Add YUV422 output support".
-3. Drop patches which are accepted.
+The input format could be RGB888 and output format for dp_intf should be
+YUV422. Therefore, we add a mtk_dpi_matrix_sel() helper to update the
+DPI_MATRIX_SET register depending on the color format.
 
-Changes for v15:
-1. Add a patch to remove support for output yuv422 for previous socs.
-2. Only remain output format of reg888/yuv422 support for mt8195.
-3. Adjust the order of patches.
+Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dpi.c      | 34 +++++++++++++++++++------
+ drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  6 +++++
+ 2 files changed, 32 insertions(+), 8 deletions(-)
 
-Changes for v14:
-1. Separate a new binding patch to modify mediatek string format.
-2. Use GENMASK(4, 0) for INT_MATRIX_SEL_MASK in patch
-   "Add YUV422 output support"
-3. Change kernel doc description of support_direct_pin.
-4. Change to use pixels_per_iter to control quantity of transferred
-   pixels per iterration.
-
-Changes for v13:
-1. Change mediatek,mt8195-dp_intf to mediatek,mt8195-dp-intf.
-2. Add kernel doc for mtk_dpi_conf.
-3. Drop patch of tvd_pll enable.
-4. Squash some color format transfer related patches.
-5. Add new patch to support setting of direct connection to pins.
-6. Change fix tag of "drm/mediatek: dpi: Only enable dpi after the bridge
-   is enabled".
-
-Changes for v12:
-1. Remove pll_gate.
-2. Add more detailed commit message.
-3. Separate tvd_clk patch and yuv422 output support from add dpintf
-   support patch
-4. Remove limit patch and use common driver codes to determine this.
-
-Changes for v11:
-1. Rename ck_cg to pll_gate.
-2. Add some commit message to clarify the modification reason.
-3. Fix some driver order and modify for reviewers' comments.
-
-[1]:https://lore.kernel.org/all/20220523104758.29531-1-granquet@baylibre.com/
-[2]:https://lore.kernel.org/all/20220610105522.13449-1-rex-bc.chen@mediatek.com/
-
-Bo-Chen Chen (4):
-  drm/mediatek: dpi: Add YUV422 output support
-  drm/mediatek: dpi: add config to support direct connection to dpi
-    panels
-  drm/mediatek: dpi: Add input_2pixel config support
-  drm/mediatek: dpi: Add pixels_per_iter config support
-
-Guillaume Ranquet (1):
-  drm/mediatek: dpi: Add dp_intf support
-
- drivers/gpu/drm/mediatek/mtk_dpi.c          | 115 +++++++++++++++++---
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h     |  18 +++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   4 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   3 +
- 5 files changed, 126 insertions(+), 15 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index ea8d866e67bc..79060f272e4a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -54,7 +54,8 @@ enum mtk_dpi_out_channel_swap {
+ };
+ 
+ enum mtk_dpi_out_color_format {
+-	MTK_DPI_COLOR_FORMAT_RGB
++	MTK_DPI_COLOR_FORMAT_RGB,
++	MTK_DPI_COLOR_FORMAT_YCBCR_422
+ };
+ 
+ struct mtk_dpi {
+@@ -409,12 +410,26 @@ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+ 					enum mtk_dpi_out_color_format format)
+ {
+-	/* only support RGB888 */
+-	mtk_dpi_config_yuv422_enable(dpi, false);
+-	mtk_dpi_config_csc_enable(dpi, false);
+-	if (dpi->conf->swap_input_support)
+-		mtk_dpi_config_swap_input(dpi, false);
+-	mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
++	if (format == MTK_DPI_COLOR_FORMAT_YCBCR_422) {
++		mtk_dpi_config_yuv422_enable(dpi, true);
++		mtk_dpi_config_csc_enable(dpi, true);
++
++		/*
++		 * If height is smaller than 720, we need to use RGB_TO_BT601
++		 * to transfer to yuv422. Otherwise, we use RGB_TO_JPEG.
++		 */
++		mtk_dpi_mask(dpi, DPI_MATRIX_SET, dpi->mode.hdisplay <= 720 ?
++			     MATRIX_SEL_RGB_TO_BT601 : MATRIX_SEL_RGB_TO_JPEG,
++			     INT_MATRIX_SEL_MASK);
++
++		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
++	} else {
++		mtk_dpi_config_yuv422_enable(dpi, false);
++		mtk_dpi_config_csc_enable(dpi, false);
++		if (dpi->conf->swap_input_support)
++			mtk_dpi_config_swap_input(dpi, false);
++		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
++	}
+ }
+ 
+ static void mtk_dpi_dual_edge(struct mtk_dpi *dpi)
+@@ -648,7 +663,10 @@ static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
+ 	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
+ 	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
+ 	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
+-	dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
++	if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
++		dpi->color_format = MTK_DPI_COLOR_FORMAT_YCBCR_422;
++	else
++		dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
+index 3a02fabe1662..9ce300313f3e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
++++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
+@@ -217,4 +217,10 @@
+ 
+ #define EDGE_SEL_EN			BIT(5)
+ #define H_FRE_2N			BIT(25)
++
++#define DPI_MATRIX_SET		0xB4
++#define INT_MATRIX_SEL_MASK		GENMASK(4, 0)
++#define MATRIX_SEL_RGB_TO_JPEG		0
++#define MATRIX_SEL_RGB_TO_BT601		2
++
+ #endif /* __MTK_DPI_REGS_H */
 -- 
 2.18.0
 
