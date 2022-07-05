@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F838566935
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E3C56696F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAFE710E319;
-	Tue,  5 Jul 2022 11:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D11110F6AE;
+	Tue,  5 Jul 2022 11:30:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-DM6-obe.outbound.protection.outlook.com
  (mail-dm6nam11on2042.outbound.protection.outlook.com [40.107.223.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F0810E72D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D04910EBD6;
  Tue,  5 Jul 2022 06:54:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YsjmWIcVkY11FGkc1nwVtyplCRNHYsk85s8ySIG2HpUxMkrG0N8Kr2m2jBcwLzPslbV5xN5aC+fVjFVy6qhP/Jz3oLyKLanhuqhmxoj1R0SP0F7mscAySYLWEwmVIcYu/9zRhRd5sSYD2GXwp8GwExQd2cqMrkIYgxLVhiEL1lqHOLKNshrLF2cK3DJg21WGrlS3chgelW4R2rG8DiViio1s2XJT+o3DIWr1msKwGLPc4/Qi3nC2yQUZdxUz6BEnb3h9yBgKyg7BtAnt4uTakYF2sfeSUYvdiN7KGS4x3Hdm2BNRWIk6YmVrjjnQU8LUK2biHQwrcevtdLAHsnWY4A==
+ b=SgDD8yI4zZ9YX7oSP+t6FPFwil7GuAHVmFEdxp+QpLTXNNA1waK2Nmbj5lSGx+mjJQbA6MBxRaBmwcvPpNM2COy7jXsiWAzuvhdyHPVXyghUK7/etXUmSPUiDubLy0iiSEYz0DgVeRyALBNBHB5bEN/Be6uAeORWjxUkWPUFsQMQVGpmWbq3ZU6UCYoVfZPFtTrLXDplFUotSXuikbrGNuSeKG+IcG0zrcFTUUmqUI5wnfdvGaZzR+r24PwKVDgYwX/5ogULJzQtPUCep74zrdR0A+vUnjWQIJHywml2RkEfoDFBElKL7F4vVkvqNQ8L/J+u/0wi0l7KjNo9FlXMag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FZSpUPQm8/GoXB5LJvqeHEQaIgiA1ivPkAy6fjBcoNc=;
- b=ka6W091KEAVP/ssiIWYJ/osv8n8IYjfgC0+cgN2cUO/14WnOJJ4Mg01Ck91g+33OTz04ahJrKB0q06ULkGFKtuhBLpaeEtuq+HIF77tNtPZEuY937w/XHH8qzDQtu/FrcFOOfdMz6YloxQ+RU6ITMghNdBTYCOsFWnHUasfx6xVyidEdLSyu/73/L7rOdQ5LqWy2jORKGMjirPuQpXy5bhu8G+1A7fGVxNGetfP63dCMRDiCJ8OE1jzRayRdXaM5902R/djp4JUuj63zscBDTfkDJ422/QcrrqMdnlyDHfrK9YIb2Per7RAHz2qaAEL9HSuIiMLQSVKM9vBcY+7y5w==
+ bh=2Gwj0RViNwpyF8BjbSXegSC7KXflXMfkeyYaM4Ob3JY=;
+ b=Ge08+GqWwhE3LFr8dUhbVEDovicEuNfK0+NIJgS52STuTW8BR2EDZ1bnIZwRGP298FLW5LwYbu5p97RiVo/N5i1n5SeqiJW48AFomN4QV9RFa65TmcZ3YGMvBcg6IPcZOjX1SRFYogaJEfIfHbysMm1qSx0WZO3C4o/fT3EXEhPj18Ck/qIWpt5D1g1XzuqpRWW4TRmUUuLY20crOdXrZHJe1y5sMstC0XLxLG8WdZo/Dvu+SDKEL0mksbsen+o3mxMrdKN+8kpYANm0qu25AucIXAusI6qGH48uoIKea1yuS2Gh6qMe0yq3KWebqnncPrO4InNpc4nae4hbm9oyVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FZSpUPQm8/GoXB5LJvqeHEQaIgiA1ivPkAy6fjBcoNc=;
- b=H8duMx7x2z5lqXthEjelMpd3DCQnexzGB+hxhOCTaa7ch3v94TqhZ7C5gdty7TVGALGnS0jLKeUbfO05lsGRBdoNidIe90M+KCcDzTm7AMJCXkDqDWhit7H3wgF+Iobn3kLowCfg6SFdUsql8nT+Bp/Cc8UYTbb5L7AqnuW8ev07CB0FxjzShknImucGX2CpNN/iKmum6hOQJWwGYltPzvwmZA8vwYkycRaBcR37nQjZPIQetXcyMRrNYfvgPjZmUcy1ulA2g2kOEpkVuwybLX+6DIkxkiCJjKCzhjA1VI5DO6OHU7tHR25QOrUcjUjXPMRywo+2PCYgos1WUUUtIA==
+ bh=2Gwj0RViNwpyF8BjbSXegSC7KXflXMfkeyYaM4Ob3JY=;
+ b=Oa7M8g4ASyHk138KXfoBzLf6cFI1OSeXsYoKH5KpB9Y7yMCbsO8VyqBpVvCmJ2kvNtae/XVEmesG6zvXziR3IPvTnl82POn4CjtNzgXamFiWQtVS0L1UF7u0DCe5mm50uobe+vjOL2Y04OqZTBSWrJV0Z3pOJCSsElEW84T7TTDJ1VryNbS7L2x08Shmqa52n1ELKO8sLyhnokp/uW5QPhdqzvDOfrZLJ3hEcz7z2omexu71keEoQK2UUPHKYCRQICsDg80Fq3363j/JuIOjwPvOxhOFL66NXwe6rFb1Gi5LH+1h22oWNADMjf4ogRa5P1pmTlmc/mTX8rNzSxJbFQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
  by CY4PR12MB1173.namprd12.prod.outlook.com (2603:10b6:903:41::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.17; Tue, 5 Jul
- 2022 00:59:05 +0000
+ 2022 00:59:06 +0000
 Received: from MN2PR12MB4192.namprd12.prod.outlook.com
  ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
  ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5395.021; Tue, 5 Jul 2022
- 00:59:05 +0000
+ 00:59:06 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: Alexander Gordeev <agordeev@linux.ibm.com>,
  David Airlie <airlied@linux.ie>,
@@ -59,66 +59,65 @@ To: Alexander Gordeev <agordeev@linux.ibm.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Vineeth Vijayan <vneethv@linux.ibm.com>,
  Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
-Subject: [PATCH v3 1/2] vfio: Replace the DMA unmapping notifier with a
- callback
-Date: Mon,  4 Jul 2022 21:59:03 -0300
-Message-Id: <1-v3-7593f297c43f+56ce-vfio_unmap_notif_jgg@nvidia.com>
+Subject: [PATCH v3 2/2] vfio: Replace the iommu notifier with a device list
+Date: Mon,  4 Jul 2022 21:59:04 -0300
+Message-Id: <2-v3-7593f297c43f+56ce-vfio_unmap_notif_jgg@nvidia.com>
 In-Reply-To: <0-v3-7593f297c43f+56ce-vfio_unmap_notif_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BL1P223CA0016.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::21) To MN2PR12MB4192.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR07CA0012.namprd07.prod.outlook.com
+ (2603:10b6:208:1a0::22) To MN2PR12MB4192.namprd12.prod.outlook.com
  (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e74e7931-5cd5-488b-385a-08da5e218ec7
+X-MS-Office365-Filtering-Correlation-Id: 1b5f1d46-7825-409a-1f56-08da5e218f11
 X-MS-TrafficTypeDiagnostic: CY4PR12MB1173:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Arms9Sju9y7GIJPY1mfn1u2hqebwYTg3UYyqOHsCcWGOmNaAHDrF74tBfxlla+ZbxFqQvYffzbnw+VkfWuvb9B+94vci+X6h4Drc5TSSYqzQezggXMpJkKOBjnA+VFzfwQeCbHpvuySU1N97w1uHVD93RkwZqYAQD/74F5U8ahJh2av40bfrnKfw1X97Ejll5l33YwB5cLExFuKKUk3LIhVIOiJy/SE4unGryTEoIRgGVzL0dD4qAjWRJlSrfWeVDuaRFyUmlbgRymigsuXEN7nHw/ksmlpkgoyA+iYXiwH2EGAv2/F1lXuwyC3TobOt/YVn9ULRV3gwAjSHOMhZ98ax8z4t6jxjvJNGO2gVQ2H/OSa7YKWJTNwn1d3kFRoAxk1W5eKWzFf+pzKlT86oQBoI5JB87bxlzTaM5Y+7HkshhOnPLXRTQDQ5zBZAmi1SYcQaYnzwGtDs3xhhP2L+pfin5aFUBDX0zf0b/zeEz5k3KqFis/BCVCg1NR+a+OOfxLGYdHZeZhDYDVAMBy/RxwKbvu55siP/YQz8EVkI7GfmatuHkwahW3OFJHG1/pkvMFeQoje2uZGFJHco+DxsGO2YX00xvPWo8mb2NnT2mNMAIuisN5qvW1iERiY9Q095skqTSIsgl1m0J27ZQS/FntR96dqkxig9PvFyuddyPIaUNw3YXexScD00wNb2PTZwrFTkdI2zWAODwbLDWg39Z2JcxEYpSn2B8QfLj0BWUK9M8fGsm30oWq3wWivLIybdWaTTXDrE78bOksoiFzgRM2IRFDctY5mnEXxvBDUSYZG9/31PJ0y8JaVSWFs5apW3
+X-Microsoft-Antispam-Message-Info: e/VM+SoK2HWPFTKu031MPO5oC6rmm4Wn2JGO3d8/FvGEwi4BcSGNm3pr0um/xY0R5oTlD/LQy8Bghg6XuDvFCMhhyO7C2WK30FrdeHqp06+Gd4h9Qc8LWQmen1XwF9n80jxkKfkKBromggSFfylc3ZVt1BlKscMhxakyec6Rnc49vcPh73M5jS6qNUnHQWU4B6fSMJCCnD6MnQ67Sw9Cxu6k/XN3PNTSSfpQqH+UCUEA2/Ln2AuQqLjl/akRqYRzwXo5o3qHWjsB0n/M+vjaUgE1xUgmmfhjlP9cdN0WewheWD2rw+ryxfbkN3tHZuyKOX7Z2c6yS4WDQ1jCLO/Jah7g+BuGmhrDQjl10j37jlLAc/8p1jU2xHfYfWxWQCLq+saNUJTYw8kghVRhlgp8EiCfR66CuLmKot4I19H1QMrZvZb3/AG7Mk/aDnN9wuUvv4+epXkTYOxb/VVSjqRxRFiuX7jjkN9dCeFGEwAmgUqLjJQXtIYMGWAhllKtSxjyJFPKAQDvdQ5qdQ8JPv48QkC/1xA76ZIzlugFhD0TsL1R5rCHbPZ1dP+b1I1kPM7Kb/4fu1iMOPU7nHKrtX+LDG4Ym/KBwaPVSDfaQrF+i1RFjFf7SYbnZGKnGs2yg2SGjHoZKgRCUhcOg2wZooX4KJec/cPuo54niWoIyVURgtoKbl2ylPGT1wUSfBS2C0osyLf8gYKJGs5ksWK/60CwgJgB/g8VvAFPrf6eyrGdHYuwlPU/5c/5So1gHxYdNqVXdOAV7TSmTjBFdMoqVCqFuYXvs9S5M6DAe/TWy+q5FSVolFnRTloMtyu2weWyoyn1
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(4636009)(136003)(346002)(366004)(376002)(396003)(39860400002)(110136005)(6486002)(26005)(54906003)(6512007)(186003)(36756003)(316002)(83380400001)(66946007)(86362001)(2616005)(5660300002)(2906002)(7416002)(7406005)(478600001)(6506007)(8936002)(30864003)(4326008)(66476007)(66556008)(38100700002)(8676002)(41300700001)(921005)(4216001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Iw7QJH7K5wIeh+2gqR8Z940dqfSgGYNzmHIsd8aHbI2L/DeZWHnxjeZ502a5?=
- =?us-ascii?Q?ZiCMzI/VGG6YXqXCYX5MIAfaEWq2/b6XPyp8jSqP8u6IXdZf0T1NM5HT7u+W?=
- =?us-ascii?Q?rKHe0skLTpNTlyEQVRS9I6l/qbSMgql3Y6U94I7s7lpIVVNSmJoyvri6Xpee?=
- =?us-ascii?Q?unqVECbxcUTEXKeGenLK53sIwhxsWYQwjB9SSD3Yo8qtFKiYJdQyFxIH2jDd?=
- =?us-ascii?Q?zFFA3o5qjDMnysr7JZ+xvUsLWUcePCNnh2xInvK1N00xUMno1wmYCyFm0g5i?=
- =?us-ascii?Q?BWOjosMYGOCRwKz/e9O/R+XBecshDj7NKA4vzB0uk7Si/XKnBuwY84o7+V5u?=
- =?us-ascii?Q?VniSTK08ZkZ8NlnXtdBjCUDzM0NsD7RtssIv9BJM09jkf0UvBFVbDCaSLqY4?=
- =?us-ascii?Q?5qldgM3f5Gu5yqDa7K6SnZ9gG1oODOr88fcm30liRcgnNzYM9vpOtEmcuAnG?=
- =?us-ascii?Q?+aa1T+t0C0G/OEfCSPmgbYWmtODweUkl4bGGIZgFoegjc+FUOjTaZQjHWC1V?=
- =?us-ascii?Q?lfhEI4t9cql3il7QDKwi/0RQ0XG9tJzRden9TU597u+dO+QCUgpX8H4AJE43?=
- =?us-ascii?Q?K6IcwY77kNey/y62Z1zb0aCiGX8rkCBV8PCV2lhBlB8B74GAMbqJnX9TJOFj?=
- =?us-ascii?Q?pxiClduCKe6kPse19hVTPbF9pSPueWAkh++wsAxuulVS4bsG/kvu/9Aa4/y6?=
- =?us-ascii?Q?gEK+D99hu4rMxYOkS5V/r/0zNfsWJDXwBDMTyKkFkmU15GGMZaXnONfmKxmu?=
- =?us-ascii?Q?U/CtuvBYctLAT30A8tOTvE+0W/Y8LIx99wvOLBfN1eyc0BsDgkF+tufMnKmI?=
- =?us-ascii?Q?K9lk0bfpMLfnYoMmRfddSYiLHeVwtGKPhWCVqW4cKvvX6RxJKkDlSvUsVlNU?=
- =?us-ascii?Q?0fJ8lkleoBhokvbGBKyUl/rjefzw6Z7Ia3nRyKamyxhI2P4xmMCFRzwGe8jc?=
- =?us-ascii?Q?vsrlwXMg+YuI5I/C9AlUOaA0OTSmvBvVMaVQFPX5sXRNu2x5Z3br6yq7mD3b?=
- =?us-ascii?Q?Jf6025zlHhgCFPYvYKFKeeXYszAAQB3dUSBKNVDYrUlk+ZMbxj3Ths1Sa4Ch?=
- =?us-ascii?Q?t6uVP5Q0Setaf43LvHZC9dc1LOivxnHI6QCEP8FzPKIBUC8EVqU57mLLbtp2?=
- =?us-ascii?Q?rUYZX9OKeSoYKsqLYZqbw1q4GSgEa6kSTCmIT/HDlNi6VD7KH3HpUNCv6WXz?=
- =?us-ascii?Q?4SQLH5UnGalc4LcRHhXqa/+BuaZWyElDxF5m7Xo5M0xV3i8j4mVM/b8WSh5P?=
- =?us-ascii?Q?snEtkSQfPYm7emSOXT2QsNP2GRpgdl5Whtczn+6XfUHp59+P/LbRlee0UG2E?=
- =?us-ascii?Q?0FOxdpSjTPsfEnI7fhE44AD9TKhNpZAZxxDylka+6uWm9aP2qFIb2Ri1l7bz?=
- =?us-ascii?Q?kjNzLpeCJ8lcndgngYVWGTuwv2cnbMebybIRYwirFreKRNbbJNLoihgK9j+c?=
- =?us-ascii?Q?DfNn6FpWIjHhqcUjoIFGmgvXed/2CH+H9FHQRG/E3QNkHQo1zzVxKqA54g6V?=
- =?us-ascii?Q?vPRh9txj58gxMEV+M95tUcy+AfgSIQ+EKOOEFFxGh4p1o7UKjNfJYR1EZhKg?=
- =?us-ascii?Q?IedYASO3B5LobAsttZxSqIAiT7FsgxqIRXLuVaXv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jzfwxuYtCSKsmZJZNw/TIRiYjeN2ZbN3He7bLxxx7tTHdul8/nEMkNg9Q/tT?=
+ =?us-ascii?Q?+/Yra32wZ/PcpiUyH1u9XU9lIGe6J31nBFOMmBCie8Uc3T1HeNeq+k/llSPM?=
+ =?us-ascii?Q?8L6O2Q3wnMuSYIcApqSDFThwyXvvuePDptGvSJ1Sh98yHndeOmiyaL9Q7Ryp?=
+ =?us-ascii?Q?d50nUbbvNgdWaVe3o5VK6NC0GOOLGYoBxIx0dOB8m+RUW8w0RrX3FrZnmIty?=
+ =?us-ascii?Q?86f0wuJIHxlj4wJBg/boAg13MW46P1wPtQNYLK5hhsVYT2ue61DrISTzMEaO?=
+ =?us-ascii?Q?74FMnq+9ayb9FRj88gX49EpZvUTMs+xpcmtwS5F4pW72B01cfk1ovqCrmjlq?=
+ =?us-ascii?Q?IYEqd2sEmParm/LnrNmvdAxN7ZdavXDfts4JbSfoW6nwZ+6H0zD0LM73K3XR?=
+ =?us-ascii?Q?WRomNiHbwuA6kq3cznX1FMiij8+8YVD3R8OzRmW/2/k1mn+WCpKlUqrbyIin?=
+ =?us-ascii?Q?CaBst6C+EqvtvsxPGRbpO49J4hVtr/cey4RPVV9MORKtvgl2kFf9ElZ2WY5f?=
+ =?us-ascii?Q?0Zj9BlNQ5phOweNxrvPSRfNLOcwAzQsqrmSTjG3XBynsJ7gzDCOAeJenI1U+?=
+ =?us-ascii?Q?uVaZZH1Vp5F/QykGdaOdjkxjrf1ll794k8eVIhAlzJQKJjQB1jWUCMtXWpoR?=
+ =?us-ascii?Q?/QOmhxjKJwx2P+hEntE/IeDC8l6IO2D1CGFxVS6bDvySDLw7N8PJCdyrLTCW?=
+ =?us-ascii?Q?/SOTDv9hynTELsCn4uihyjuMhWhii/ap64QK6I5vjRsgv0sfihBCz1Aq/G/d?=
+ =?us-ascii?Q?fnBEn+02sj9vlrAmm/3/fq/tYwz1ASs6qwlu5tMoQ6lh1jbtfBzXEPKmkOYp?=
+ =?us-ascii?Q?Qc/yJxR13dur2BdVAS6Lgo1TEjiFW9XV4AN9+x76YJqJ6rH1e5yMfFCwur9+?=
+ =?us-ascii?Q?ZMmLi/OzPjg4Qv3tvhogWY5Upjz55do/gFR5fvAcliJT3rZwNBMVKo6Uf/wI?=
+ =?us-ascii?Q?rgmOtdlP98RMf7cPH5U7EPL82V2KBGNOD0tMGmHlSCzFtE6nyU5oDGe7k0Gf?=
+ =?us-ascii?Q?cs3Rq+wgbKwtVlAHcJsRC0FdynJmJdV2g+AedP4jkLGJTgtNOZm4ae7VHWYL?=
+ =?us-ascii?Q?cwbEg87wHT2+ZaAO/48L0VEsEXoATvA1t7X8+QWhDMOceO9yFZWGKbp+sIC+?=
+ =?us-ascii?Q?mbM/LoW9py/pRqIbqdIxNduv0wnjyk3JvTUgANhjrI2j6HUhEGcD01j1ZW6N?=
+ =?us-ascii?Q?dU70+z7x89RK4NrFz28FiRKFd7aQetuVyOmZNqY+uEwnXMFdyO/tBMkuN6yY?=
+ =?us-ascii?Q?XVCnQjyWA9dmXa9DcZLc3AEDNOaFWRI02YA3/S1GytqVrVaO+7iXYsvSGcqO?=
+ =?us-ascii?Q?XzoV5v0edurEepZbsPD5s6e3tAQt2WLDee0lt1TYRHeRJcjf7jaDjHhCmHRi?=
+ =?us-ascii?Q?dV17CSRVniG9cvrMoER4tBtS8pkzXf+zYQU44Adn60vF77iVKWp7usqiNeBL?=
+ =?us-ascii?Q?z32acgb/HVxsVLrwmcTazKnxjYDcX1QTKn1JvOWUYai/6cx4Z++gFoJmtrh+?=
+ =?us-ascii?Q?Zrj12skI4wT/cVOXnWcblHKG3FlFlk39J/LNHNk7HZA66xGyw1bPIQnUDof2?=
+ =?us-ascii?Q?NgnYI0Q3UOrUdg0VG74OoLBUt+xTLIA6lC9epaTY?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e74e7931-5cd5-488b-385a-08da5e218ec7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b5f1d46-7825-409a-1f56-08da5e218f11
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 00:59:05.1042 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 00:59:05.5416 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xql1vZbIUfTDIgPesx0+VqQgqW6/661OoQY/JckSayS/2ZHU5ZLISqrzUzJzabWx
+X-MS-Exchange-CrossTenant-UserPrincipalName: viFMw/SJ84cBvOnhKHYGL2fuOrgH25xSTHCwztDMJJ5Soqxsdl1ffYnNIZ2eEo4A
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -137,648 +136,337 @@ Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of having drivers register the notifier with explicit code just
-have them provide a dma_unmap callback op in their driver ops and rely on
-the core code to wire it up.
+Instead of bouncing the function call to the driver op through a blocking
+notifier just have the iommu layer call it directly.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
+Register each device that is being attached to the iommu with the lower
+driver which then threads them on a linked list and calls the appropriate
+driver op at the right time.
+
+Currently the only use is if dma_unmap() is defined.
+
+Also, fully lock all the debugging tests on the pinning path that a
+dma_unmap is registered.
+
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-Reviewed-by: Tony Krowiak <akrowiak@linux.ibm.com>
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/gpu/drm/i915/gvt/gvt.h        |   1 -
- drivers/gpu/drm/i915/gvt/kvmgt.c      |  75 ++++-----------
- drivers/s390/cio/vfio_ccw_ops.c       |  41 ++------
- drivers/s390/cio/vfio_ccw_private.h   |   2 -
- drivers/s390/crypto/vfio_ap_ops.c     |  53 ++---------
- drivers/s390/crypto/vfio_ap_private.h |   3 -
- drivers/vfio/vfio.c                   | 129 +++++++++-----------------
- drivers/vfio/vfio.h                   |   3 +
- include/linux/vfio.h                  |  21 +----
- 9 files changed, 88 insertions(+), 240 deletions(-)
+ drivers/vfio/vfio.c             |  41 ++++---------
+ drivers/vfio/vfio.h             |  12 ++--
+ drivers/vfio/vfio_iommu_type1.c | 103 ++++++++++++++++++++------------
+ include/linux/vfio.h            |   2 +-
+ 4 files changed, 81 insertions(+), 77 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
-index aee1a45da74bcb..705689e6401197 100644
---- a/drivers/gpu/drm/i915/gvt/gvt.h
-+++ b/drivers/gpu/drm/i915/gvt/gvt.h
-@@ -226,7 +226,6 @@ struct intel_vgpu {
- 	unsigned long nr_cache_entries;
- 	struct mutex cache_lock;
- 
--	struct notifier_block iommu_notifier;
- 	atomic_t released;
- 
- 	struct kvm_page_track_notifier_node track_node;
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index e2f6c56ab3420c..ecd5bb37b63a2a 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -729,34 +729,25 @@ int intel_gvt_set_edid(struct intel_vgpu *vgpu, int port_num)
- 	return ret;
- }
- 
--static int intel_vgpu_iommu_notifier(struct notifier_block *nb,
--				     unsigned long action, void *data)
-+static void intel_vgpu_dma_unmap(struct vfio_device *vfio_dev, u64 iova,
-+				 u64 length)
- {
--	struct intel_vgpu *vgpu =
--		container_of(nb, struct intel_vgpu, iommu_notifier);
--
--	if (action == VFIO_IOMMU_NOTIFY_DMA_UNMAP) {
--		struct vfio_iommu_type1_dma_unmap *unmap = data;
--		struct gvt_dma *entry;
--		unsigned long iov_pfn, end_iov_pfn;
-+	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
-+	struct gvt_dma *entry;
-+	u64 iov_pfn = iova >> PAGE_SHIFT;
-+	u64 end_iov_pfn = iov_pfn + length / PAGE_SIZE;
- 
--		iov_pfn = unmap->iova >> PAGE_SHIFT;
--		end_iov_pfn = iov_pfn + unmap->size / PAGE_SIZE;
-+	mutex_lock(&vgpu->cache_lock);
-+	for (; iov_pfn < end_iov_pfn; iov_pfn++) {
-+		entry = __gvt_cache_find_gfn(vgpu, iov_pfn);
-+		if (!entry)
-+			continue;
- 
--		mutex_lock(&vgpu->cache_lock);
--		for (; iov_pfn < end_iov_pfn; iov_pfn++) {
--			entry = __gvt_cache_find_gfn(vgpu, iov_pfn);
--			if (!entry)
--				continue;
--
--			gvt_dma_unmap_page(vgpu, entry->gfn, entry->dma_addr,
--					   entry->size);
--			__gvt_cache_remove_entry(vgpu, entry);
--		}
--		mutex_unlock(&vgpu->cache_lock);
-+		gvt_dma_unmap_page(vgpu, entry->gfn, entry->dma_addr,
-+				   entry->size);
-+		__gvt_cache_remove_entry(vgpu, entry);
- 	}
--
--	return NOTIFY_OK;
-+	mutex_unlock(&vgpu->cache_lock);
- }
- 
- static bool __kvmgt_vgpu_exist(struct intel_vgpu *vgpu)
-@@ -783,36 +774,20 @@ static bool __kvmgt_vgpu_exist(struct intel_vgpu *vgpu)
- static int intel_vgpu_open_device(struct vfio_device *vfio_dev)
- {
- 	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
--	unsigned long events;
--	int ret;
--
--	vgpu->iommu_notifier.notifier_call = intel_vgpu_iommu_notifier;
- 
--	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
--	ret = vfio_register_notifier(vfio_dev, VFIO_IOMMU_NOTIFY, &events,
--				     &vgpu->iommu_notifier);
--	if (ret != 0) {
--		gvt_vgpu_err("vfio_register_notifier for iommu failed: %d\n",
--			ret);
--		goto out;
--	}
--
--	ret = -EEXIST;
- 	if (vgpu->attached)
--		goto undo_iommu;
-+		return -EEXIST;
- 
--	ret = -ESRCH;
- 	if (!vgpu->vfio_device.kvm ||
- 	    vgpu->vfio_device.kvm->mm != current->mm) {
- 		gvt_vgpu_err("KVM is required to use Intel vGPU\n");
--		goto undo_iommu;
-+		return -ESRCH;
- 	}
- 
- 	kvm_get_kvm(vgpu->vfio_device.kvm);
- 
--	ret = -EEXIST;
- 	if (__kvmgt_vgpu_exist(vgpu))
--		goto undo_iommu;
-+		return -EEXIST;
- 
- 	vgpu->attached = true;
- 
-@@ -831,12 +806,6 @@ static int intel_vgpu_open_device(struct vfio_device *vfio_dev)
- 
- 	atomic_set(&vgpu->released, 0);
- 	return 0;
--
--undo_iommu:
--	vfio_unregister_notifier(vfio_dev, VFIO_IOMMU_NOTIFY,
--				 &vgpu->iommu_notifier);
--out:
--	return ret;
- }
- 
- static void intel_vgpu_release_msi_eventfd_ctx(struct intel_vgpu *vgpu)
-@@ -853,8 +822,6 @@ static void intel_vgpu_release_msi_eventfd_ctx(struct intel_vgpu *vgpu)
- static void intel_vgpu_close_device(struct vfio_device *vfio_dev)
- {
- 	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
--	struct drm_i915_private *i915 = vgpu->gvt->gt->i915;
--	int ret;
- 
- 	if (!vgpu->attached)
- 		return;
-@@ -864,11 +831,6 @@ static void intel_vgpu_close_device(struct vfio_device *vfio_dev)
- 
- 	intel_gvt_release_vgpu(vgpu);
- 
--	ret = vfio_unregister_notifier(&vgpu->vfio_device, VFIO_IOMMU_NOTIFY,
--				       &vgpu->iommu_notifier);
--	drm_WARN(&i915->drm, ret,
--		 "vfio_unregister_notifier for iommu failed: %d\n", ret);
--
- 	debugfs_remove(debugfs_lookup(KVMGT_DEBUGFS_FILENAME, vgpu->debugfs));
- 
- 	kvm_page_track_unregister_notifier(vgpu->vfio_device.kvm,
-@@ -1610,6 +1572,7 @@ static const struct vfio_device_ops intel_vgpu_dev_ops = {
- 	.write		= intel_vgpu_write,
- 	.mmap		= intel_vgpu_mmap,
- 	.ioctl		= intel_vgpu_ioctl,
-+	.dma_unmap	= intel_vgpu_dma_unmap,
- };
- 
- static int intel_vgpu_probe(struct mdev_device *mdev)
-diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
-index b49e2e9db2dc6f..09e0ce7b72324c 100644
---- a/drivers/s390/cio/vfio_ccw_ops.c
-+++ b/drivers/s390/cio/vfio_ccw_ops.c
-@@ -44,31 +44,19 @@ static int vfio_ccw_mdev_reset(struct vfio_ccw_private *private)
- 	return ret;
- }
- 
--static int vfio_ccw_mdev_notifier(struct notifier_block *nb,
--				  unsigned long action,
--				  void *data)
-+static void vfio_ccw_dma_unmap(struct vfio_device *vdev, u64 iova, u64 length)
- {
- 	struct vfio_ccw_private *private =
--		container_of(nb, struct vfio_ccw_private, nb);
--
--	/*
--	 * Vendor drivers MUST unpin pages in response to an
--	 * invalidation.
--	 */
--	if (action == VFIO_IOMMU_NOTIFY_DMA_UNMAP) {
--		struct vfio_iommu_type1_dma_unmap *unmap = data;
--
--		if (!cp_iova_pinned(&private->cp, unmap->iova))
--			return NOTIFY_OK;
-+		container_of(vdev, struct vfio_ccw_private, vdev);
- 
--		if (vfio_ccw_mdev_reset(private))
--			return NOTIFY_BAD;
-+	/* Drivers MUST unpin pages in response to an invalidation. */
-+	if (!cp_iova_pinned(&private->cp, iova))
-+		return;
- 
--		cp_free(&private->cp);
--		return NOTIFY_OK;
--	}
-+	if (vfio_ccw_mdev_reset(private))
-+		return;
- 
--	return NOTIFY_DONE;
-+	cp_free(&private->cp);
- }
- 
- static ssize_t name_show(struct mdev_type *mtype,
-@@ -178,19 +166,11 @@ static int vfio_ccw_mdev_open_device(struct vfio_device *vdev)
- {
- 	struct vfio_ccw_private *private =
- 		container_of(vdev, struct vfio_ccw_private, vdev);
--	unsigned long events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
- 	int ret;
- 
--	private->nb.notifier_call = vfio_ccw_mdev_notifier;
--
--	ret = vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY,
--				     &events, &private->nb);
--	if (ret)
--		return ret;
--
- 	ret = vfio_ccw_register_async_dev_regions(private);
- 	if (ret)
--		goto out_unregister;
-+		return ret;
- 
- 	ret = vfio_ccw_register_schib_dev_regions(private);
- 	if (ret)
-@@ -204,7 +184,6 @@ static int vfio_ccw_mdev_open_device(struct vfio_device *vdev)
- 
- out_unregister:
- 	vfio_ccw_unregister_dev_regions(private);
--	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY, &private->nb);
- 	return ret;
- }
- 
-@@ -222,7 +201,6 @@ static void vfio_ccw_mdev_close_device(struct vfio_device *vdev)
- 
- 	cp_free(&private->cp);
- 	vfio_ccw_unregister_dev_regions(private);
--	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY, &private->nb);
- }
- 
- static ssize_t vfio_ccw_mdev_read_io_region(struct vfio_ccw_private *private,
-@@ -645,6 +623,7 @@ static const struct vfio_device_ops vfio_ccw_dev_ops = {
- 	.write = vfio_ccw_mdev_write,
- 	.ioctl = vfio_ccw_mdev_ioctl,
- 	.request = vfio_ccw_mdev_request,
-+	.dma_unmap = vfio_ccw_dma_unmap,
- };
- 
- struct mdev_driver vfio_ccw_mdev_driver = {
-diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
-index b7163bac8cc75d..61418109238976 100644
---- a/drivers/s390/cio/vfio_ccw_private.h
-+++ b/drivers/s390/cio/vfio_ccw_private.h
-@@ -74,7 +74,6 @@ struct vfio_ccw_crw {
-  * @completion: synchronization helper of the I/O completion
-  * @avail: available for creating a mediated device
-  * @mdev: pointer to the mediated device
-- * @nb: notifier for vfio events
-  * @io_region: MMIO region to input/output I/O arguments/results
-  * @io_mutex: protect against concurrent update of I/O regions
-  * @region: additional regions for other subchannel operations
-@@ -98,7 +97,6 @@ struct vfio_ccw_private {
- 	struct completion	*completion;
- 	atomic_t		avail;
- 	struct mdev_device	*mdev;
--	struct notifier_block	nb;
- 	struct ccw_io_region	*io_region;
- 	struct mutex		io_mutex;
- 	struct vfio_ccw_region *region;
-diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-index a7d2a95796d360..bb1a1677c5c230 100644
---- a/drivers/s390/crypto/vfio_ap_ops.c
-+++ b/drivers/s390/crypto/vfio_ap_ops.c
-@@ -1226,34 +1226,14 @@ static int vfio_ap_mdev_set_kvm(struct ap_matrix_mdev *matrix_mdev,
- 	return 0;
- }
- 
--/**
-- * vfio_ap_mdev_iommu_notifier - IOMMU notifier callback
-- *
-- * @nb: The notifier block
-- * @action: Action to be taken
-- * @data: data associated with the request
-- *
-- * For an UNMAP request, unpin the guest IOVA (the NIB guest address we
-- * pinned before). Other requests are ignored.
-- *
-- * Return: for an UNMAP request, NOFITY_OK; otherwise NOTIFY_DONE.
-- */
--static int vfio_ap_mdev_iommu_notifier(struct notifier_block *nb,
--				       unsigned long action, void *data)
-+static void vfio_ap_mdev_dma_unmap(struct vfio_device *vdev, u64 iova,
-+				   u64 length)
- {
--	struct ap_matrix_mdev *matrix_mdev;
--
--	matrix_mdev = container_of(nb, struct ap_matrix_mdev, iommu_notifier);
--
--	if (action == VFIO_IOMMU_NOTIFY_DMA_UNMAP) {
--		struct vfio_iommu_type1_dma_unmap *unmap = data;
--		unsigned long g_pfn = unmap->iova >> PAGE_SHIFT;
--
--		vfio_unpin_pages(&matrix_mdev->vdev, &g_pfn, 1);
--		return NOTIFY_OK;
--	}
-+	struct ap_matrix_mdev *matrix_mdev =
-+		container_of(vdev, struct ap_matrix_mdev, vdev);
-+	unsigned long g_pfn = iova >> PAGE_SHIFT;
- 
--	return NOTIFY_DONE;
-+	vfio_unpin_pages(&matrix_mdev->vdev, &g_pfn, 1);
- }
- 
- /**
-@@ -1380,27 +1360,11 @@ static int vfio_ap_mdev_open_device(struct vfio_device *vdev)
- {
- 	struct ap_matrix_mdev *matrix_mdev =
- 		container_of(vdev, struct ap_matrix_mdev, vdev);
--	unsigned long events;
--	int ret;
- 
- 	if (!vdev->kvm)
- 		return -EINVAL;
- 
--	ret = vfio_ap_mdev_set_kvm(matrix_mdev, vdev->kvm);
--	if (ret)
--		return ret;
--
--	matrix_mdev->iommu_notifier.notifier_call = vfio_ap_mdev_iommu_notifier;
--	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
--	ret = vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY, &events,
--				     &matrix_mdev->iommu_notifier);
--	if (ret)
--		goto err_kvm;
--	return 0;
--
--err_kvm:
--	vfio_ap_mdev_unset_kvm(matrix_mdev);
--	return ret;
-+	return vfio_ap_mdev_set_kvm(matrix_mdev, vdev->kvm);
- }
- 
- static void vfio_ap_mdev_close_device(struct vfio_device *vdev)
-@@ -1408,8 +1372,6 @@ static void vfio_ap_mdev_close_device(struct vfio_device *vdev)
- 	struct ap_matrix_mdev *matrix_mdev =
- 		container_of(vdev, struct ap_matrix_mdev, vdev);
- 
--	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY,
--				 &matrix_mdev->iommu_notifier);
- 	vfio_ap_mdev_unset_kvm(matrix_mdev);
- }
- 
-@@ -1461,6 +1423,7 @@ static const struct vfio_device_ops vfio_ap_matrix_dev_ops = {
- 	.open_device = vfio_ap_mdev_open_device,
- 	.close_device = vfio_ap_mdev_close_device,
- 	.ioctl = vfio_ap_mdev_ioctl,
-+	.dma_unmap = vfio_ap_mdev_dma_unmap,
- };
- 
- static struct mdev_driver vfio_ap_matrix_driver = {
-diff --git a/drivers/s390/crypto/vfio_ap_private.h b/drivers/s390/crypto/vfio_ap_private.h
-index a26efd804d0df3..abb59d59f81b20 100644
---- a/drivers/s390/crypto/vfio_ap_private.h
-+++ b/drivers/s390/crypto/vfio_ap_private.h
-@@ -81,8 +81,6 @@ struct ap_matrix {
-  * @node:	allows the ap_matrix_mdev struct to be added to a list
-  * @matrix:	the adapters, usage domains and control domains assigned to the
-  *		mediated matrix device.
-- * @iommu_notifier: notifier block used for specifying callback function for
-- *		    handling the VFIO_IOMMU_NOTIFY_DMA_UNMAP even
-  * @kvm:	the struct holding guest's state
-  * @pqap_hook:	the function pointer to the interception handler for the
-  *		PQAP(AQIC) instruction.
-@@ -92,7 +90,6 @@ struct ap_matrix_mdev {
- 	struct vfio_device vdev;
- 	struct list_head node;
- 	struct ap_matrix matrix;
--	struct notifier_block iommu_notifier;
- 	struct kvm *kvm;
- 	crypto_hook pqap_hook;
- 	struct mdev_device *mdev;
 diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 61e71c1154be67..610bb884d9197b 100644
+index 610bb884d9197b..e43b9496464bbf 100644
 --- a/drivers/vfio/vfio.c
 +++ b/drivers/vfio/vfio.c
-@@ -231,6 +231,9 @@ int vfio_register_iommu_driver(const struct vfio_iommu_driver_ops *ops)
+@@ -231,7 +231,7 @@ int vfio_register_iommu_driver(const struct vfio_iommu_driver_ops *ops)
  {
  	struct vfio_iommu_driver *driver, *tmp;
  
-+	if (WARN_ON(!ops->register_notifier != !ops->unregister_notifier))
-+		return -EINVAL;
-+
+-	if (WARN_ON(!ops->register_notifier != !ops->unregister_notifier))
++	if (WARN_ON(!ops->register_device != !ops->unregister_device))
+ 		return -EINVAL;
+ 
  	driver = kzalloc(sizeof(*driver), GFP_KERNEL);
- 	if (!driver)
- 		return -ENOMEM;
-@@ -1077,8 +1080,20 @@ static void vfio_device_unassign_container(struct vfio_device *device)
+@@ -1080,17 +1080,6 @@ static void vfio_device_unassign_container(struct vfio_device *device)
  	up_write(&device->group->group_rwsem);
  }
  
-+static int vfio_iommu_notifier(struct notifier_block *nb, unsigned long action,
-+			       void *data)
-+{
-+	struct vfio_device *vfio_device =
-+		container_of(nb, struct vfio_device, iommu_nb);
-+	struct vfio_iommu_type1_dma_unmap *unmap = data;
-+
-+	vfio_device->ops->dma_unmap(vfio_device, unmap->iova, unmap->size);
-+	return NOTIFY_OK;
-+}
-+
+-static int vfio_iommu_notifier(struct notifier_block *nb, unsigned long action,
+-			       void *data)
+-{
+-	struct vfio_device *vfio_device =
+-		container_of(nb, struct vfio_device, iommu_nb);
+-	struct vfio_iommu_type1_dma_unmap *unmap = data;
+-
+-	vfio_device->ops->dma_unmap(vfio_device, unmap->iova, unmap->size);
+-	return NOTIFY_OK;
+-}
+-
  static struct file *vfio_device_open(struct vfio_device *device)
  {
-+	struct vfio_iommu_driver *iommu_driver;
- 	struct file *filep;
- 	int ret;
- 
-@@ -1109,6 +1124,18 @@ static struct file *vfio_device_open(struct vfio_device *device)
- 			if (ret)
- 				goto err_undo_count;
+ 	struct vfio_iommu_driver *iommu_driver;
+@@ -1126,15 +1115,9 @@ static struct file *vfio_device_open(struct vfio_device *device)
  		}
-+
-+		iommu_driver = device->group->container->iommu_driver;
-+		if (device->ops->dma_unmap && iommu_driver &&
-+		    iommu_driver->ops->register_notifier) {
-+			unsigned long events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
-+
-+			device->iommu_nb.notifier_call = vfio_iommu_notifier;
-+			iommu_driver->ops->register_notifier(
-+				device->group->container->iommu_data, &events,
-+				&device->iommu_nb);
-+		}
-+
+ 
+ 		iommu_driver = device->group->container->iommu_driver;
+-		if (device->ops->dma_unmap && iommu_driver &&
+-		    iommu_driver->ops->register_notifier) {
+-			unsigned long events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
+-
+-			device->iommu_nb.notifier_call = vfio_iommu_notifier;
+-			iommu_driver->ops->register_notifier(
+-				device->group->container->iommu_data, &events,
+-				&device->iommu_nb);
+-		}
++		if (iommu_driver && iommu_driver->ops->register_device)
++			iommu_driver->ops->register_device(
++				device->group->container->iommu_data, device);
+ 
  		up_read(&device->group->group_rwsem);
  	}
- 	mutex_unlock(&device->dev_set->lock);
-@@ -1143,8 +1170,16 @@ static struct file *vfio_device_open(struct vfio_device *device)
- err_close_device:
- 	mutex_lock(&device->dev_set->lock);
- 	down_read(&device->group->group_rwsem);
--	if (device->open_count == 1 && device->ops->close_device)
-+	if (device->open_count == 1 && device->ops->close_device) {
+@@ -1174,11 +1157,9 @@ static struct file *vfio_device_open(struct vfio_device *device)
  		device->ops->close_device(device);
-+
-+		iommu_driver = device->group->container->iommu_driver;
-+		if (device->ops->dma_unmap && iommu_driver &&
-+		    iommu_driver->ops->unregister_notifier)
-+			iommu_driver->ops->unregister_notifier(
-+				device->group->container->iommu_data,
-+				&device->iommu_nb);
-+	}
+ 
+ 		iommu_driver = device->group->container->iommu_driver;
+-		if (device->ops->dma_unmap && iommu_driver &&
+-		    iommu_driver->ops->unregister_notifier)
+-			iommu_driver->ops->unregister_notifier(
+-				device->group->container->iommu_data,
+-				&device->iommu_nb);
++		if (iommu_driver && iommu_driver->ops->unregister_device)
++			iommu_driver->ops->unregister_device(
++				device->group->container->iommu_data, device);
+ 	}
  err_undo_count:
  	device->open_count--;
- 	if (device->open_count == 0 && device->kvm)
-@@ -1339,12 +1374,20 @@ static const struct file_operations vfio_group_fops = {
- static int vfio_device_fops_release(struct inode *inode, struct file *filep)
- {
- 	struct vfio_device *device = filep->private_data;
-+	struct vfio_iommu_driver *iommu_driver;
- 
- 	mutex_lock(&device->dev_set->lock);
- 	vfio_assert_device_open(device);
- 	down_read(&device->group->group_rwsem);
- 	if (device->open_count == 1 && device->ops->close_device)
+@@ -1383,11 +1364,9 @@ static int vfio_device_fops_release(struct inode *inode, struct file *filep)
  		device->ops->close_device(device);
-+
-+	iommu_driver = device->group->container->iommu_driver;
-+	if (device->ops->dma_unmap && iommu_driver &&
-+	    iommu_driver->ops->unregister_notifier)
-+		iommu_driver->ops->unregister_notifier(
-+			device->group->container->iommu_data,
-+			&device->iommu_nb);
+ 
+ 	iommu_driver = device->group->container->iommu_driver;
+-	if (device->ops->dma_unmap && iommu_driver &&
+-	    iommu_driver->ops->unregister_notifier)
+-		iommu_driver->ops->unregister_notifier(
+-			device->group->container->iommu_data,
+-			&device->iommu_nb);
++	if (iommu_driver && iommu_driver->ops->unregister_device)
++		iommu_driver->ops->unregister_device(
++			device->group->container->iommu_data, device);
  	up_read(&device->group->group_rwsem);
  	device->open_count--;
  	if (device->open_count == 0)
-@@ -2027,90 +2070,6 @@ int vfio_dma_rw(struct vfio_device *device, dma_addr_t user_iova, void *data,
- }
- EXPORT_SYMBOL(vfio_dma_rw);
- 
--static int vfio_register_iommu_notifier(struct vfio_group *group,
--					unsigned long *events,
--					struct notifier_block *nb)
--{
--	struct vfio_container *container;
--	struct vfio_iommu_driver *driver;
--	int ret;
--
--	lockdep_assert_held_read(&group->group_rwsem);
--
--	container = group->container;
--	driver = container->iommu_driver;
--	if (likely(driver && driver->ops->register_notifier))
--		ret = driver->ops->register_notifier(container->iommu_data,
--						     events, nb);
--	else
--		ret = -ENOTTY;
--
--	return ret;
--}
--
--static int vfio_unregister_iommu_notifier(struct vfio_group *group,
--					  struct notifier_block *nb)
--{
--	struct vfio_container *container;
--	struct vfio_iommu_driver *driver;
--	int ret;
--
--	lockdep_assert_held_read(&group->group_rwsem);
--
--	container = group->container;
--	driver = container->iommu_driver;
--	if (likely(driver && driver->ops->unregister_notifier))
--		ret = driver->ops->unregister_notifier(container->iommu_data,
--						       nb);
--	else
--		ret = -ENOTTY;
--
--	return ret;
--}
--
--int vfio_register_notifier(struct vfio_device *device,
--			   enum vfio_notify_type type, unsigned long *events,
--			   struct notifier_block *nb)
--{
--	struct vfio_group *group = device->group;
--	int ret;
--
--	if (!nb || !events || (*events == 0) ||
--	    !vfio_assert_device_open(device))
--		return -EINVAL;
--
--	switch (type) {
--	case VFIO_IOMMU_NOTIFY:
--		ret = vfio_register_iommu_notifier(group, events, nb);
--		break;
--	default:
--		ret = -EINVAL;
--	}
--	return ret;
--}
--EXPORT_SYMBOL(vfio_register_notifier);
--
--int vfio_unregister_notifier(struct vfio_device *device,
--			     enum vfio_notify_type type,
--			     struct notifier_block *nb)
--{
--	struct vfio_group *group = device->group;
--	int ret;
--
--	if (!nb || !vfio_assert_device_open(device))
--		return -EINVAL;
--
--	switch (type) {
--	case VFIO_IOMMU_NOTIFY:
--		ret = vfio_unregister_iommu_notifier(group, nb);
--		break;
--	default:
--		ret = -EINVAL;
--	}
--	return ret;
--}
--EXPORT_SYMBOL(vfio_unregister_notifier);
--
- /*
-  * Module/class support
-  */
 diff --git a/drivers/vfio/vfio.h b/drivers/vfio/vfio.h
-index a6713022115155..25da02ca1568fc 100644
+index 25da02ca1568fc..4a7db1f3c33e7e 100644
 --- a/drivers/vfio/vfio.h
 +++ b/drivers/vfio/vfio.h
-@@ -33,6 +33,9 @@ enum vfio_iommu_notify_type {
+@@ -33,9 +33,6 @@ enum vfio_iommu_notify_type {
  	VFIO_IOMMU_CONTAINER_CLOSE = 0,
  };
  
-+/* events for register_notifier() */
-+#define VFIO_IOMMU_NOTIFY_DMA_UNMAP BIT(0)
-+
+-/* events for register_notifier() */
+-#define VFIO_IOMMU_NOTIFY_DMA_UNMAP BIT(0)
+-
  /**
   * struct vfio_iommu_driver_ops - VFIO IOMMU driver callbacks
   */
+@@ -58,11 +55,10 @@ struct vfio_iommu_driver_ops {
+ 				     unsigned long *phys_pfn);
+ 	int		(*unpin_pages)(void *iommu_data,
+ 				       unsigned long *user_pfn, int npage);
+-	int		(*register_notifier)(void *iommu_data,
+-					     unsigned long *events,
+-					     struct notifier_block *nb);
+-	int		(*unregister_notifier)(void *iommu_data,
+-					       struct notifier_block *nb);
++	void		(*register_device)(void *iommu_data,
++					   struct vfio_device *vdev);
++	void		(*unregister_device)(void *iommu_data,
++					     struct vfio_device *vdev);
+ 	int		(*dma_rw)(void *iommu_data, dma_addr_t user_iova,
+ 				  void *data, size_t count, bool write);
+ 	struct iommu_domain *(*group_iommu_domain)(void *iommu_data,
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index c13b9290e35759..4ddb1f1abd238b 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -67,7 +67,8 @@ struct vfio_iommu {
+ 	struct list_head	iova_list;
+ 	struct mutex		lock;
+ 	struct rb_root		dma_list;
+-	struct blocking_notifier_head notifier;
++	struct list_head	device_list;
++	struct mutex		device_list_lock;
+ 	unsigned int		dma_avail;
+ 	unsigned int		vaddr_invalid_count;
+ 	uint64_t		pgsize_bitmap;
+@@ -865,8 +866,8 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+ 		}
+ 	}
+ 
+-	/* Fail if notifier list is empty */
+-	if (!iommu->notifier.head) {
++	/* Fail if no dma_umap notifier is registered */
++	if (list_empty(&iommu->device_list)) {
+ 		ret = -EINVAL;
+ 		goto pin_done;
+ 	}
+@@ -1287,6 +1288,35 @@ static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+ 	return 0;
+ }
+ 
++/*
++ * Notify VFIO drivers using vfio_register_emulated_iommu_dev() to invalidate
++ * and unmap iovas within the range we're about to unmap. Drivers MUST unpin
++ * pages in response to an invalidation.
++ */
++static void vfio_notify_dma_unmap(struct vfio_iommu *iommu,
++				  struct vfio_dma *dma)
++{
++	struct vfio_device *device;
++
++	if (list_empty(&iommu->device_list))
++		return;
++
++	/*
++	 * The device is expected to call vfio_unpin_pages() for any IOVA it has
++	 * pinned within the range. Since vfio_unpin_pages() will eventually
++	 * call back down to this code and try to obtain the iommu->lock we must
++	 * drop it.
++	 */
++	mutex_lock(&iommu->device_list_lock);
++	mutex_unlock(&iommu->lock);
++
++	list_for_each_entry(device, &iommu->device_list, iommu_entry)
++		device->ops->dma_unmap(device, dma->iova, dma->size);
++
++	mutex_unlock(&iommu->device_list_lock);
++	mutex_lock(&iommu->lock);
++}
++
+ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+ 			     struct vfio_iommu_type1_dma_unmap *unmap,
+ 			     struct vfio_bitmap *bitmap)
+@@ -1406,8 +1436,6 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+ 		}
+ 
+ 		if (!RB_EMPTY_ROOT(&dma->pfn_list)) {
+-			struct vfio_iommu_type1_dma_unmap nb_unmap;
+-
+ 			if (dma_last == dma) {
+ 				BUG_ON(++retries > 10);
+ 			} else {
+@@ -1415,20 +1443,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+ 				retries = 0;
+ 			}
+ 
+-			nb_unmap.iova = dma->iova;
+-			nb_unmap.size = dma->size;
+-
+-			/*
+-			 * Notify anyone (mdev vendor drivers) to invalidate and
+-			 * unmap iovas within the range we're about to unmap.
+-			 * Vendor drivers MUST unpin pages in response to an
+-			 * invalidation.
+-			 */
+-			mutex_unlock(&iommu->lock);
+-			blocking_notifier_call_chain(&iommu->notifier,
+-						    VFIO_IOMMU_NOTIFY_DMA_UNMAP,
+-						    &nb_unmap);
+-			mutex_lock(&iommu->lock);
++			vfio_notify_dma_unmap(iommu, dma);
+ 			goto again;
+ 		}
+ 
+@@ -2478,7 +2493,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
+ 
+ 		if (list_empty(&iommu->emulated_iommu_groups) &&
+ 		    list_empty(&iommu->domain_list)) {
+-			WARN_ON(iommu->notifier.head);
++			WARN_ON(!list_empty(&iommu->device_list));
+ 			vfio_iommu_unmap_unpin_all(iommu);
+ 		}
+ 		goto detach_group_done;
+@@ -2510,7 +2525,8 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
+ 		if (list_empty(&domain->group_list)) {
+ 			if (list_is_singular(&iommu->domain_list)) {
+ 				if (list_empty(&iommu->emulated_iommu_groups)) {
+-					WARN_ON(iommu->notifier.head);
++					WARN_ON(!list_empty(
++						&iommu->device_list));
+ 					vfio_iommu_unmap_unpin_all(iommu);
+ 				} else {
+ 					vfio_iommu_unmap_unpin_reaccount(iommu);
+@@ -2571,7 +2587,8 @@ static void *vfio_iommu_type1_open(unsigned long arg)
+ 	iommu->dma_avail = dma_entry_limit;
+ 	iommu->container_open = true;
+ 	mutex_init(&iommu->lock);
+-	BLOCKING_INIT_NOTIFIER_HEAD(&iommu->notifier);
++	mutex_init(&iommu->device_list_lock);
++	INIT_LIST_HEAD(&iommu->device_list);
+ 	init_waitqueue_head(&iommu->vaddr_wait);
+ 	iommu->pgsize_bitmap = PAGE_MASK;
+ 	INIT_LIST_HEAD(&iommu->emulated_iommu_groups);
+@@ -3008,28 +3025,40 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+ 	}
+ }
+ 
+-static int vfio_iommu_type1_register_notifier(void *iommu_data,
+-					      unsigned long *events,
+-					      struct notifier_block *nb)
++static void vfio_iommu_type1_register_device(void *iommu_data,
++					     struct vfio_device *vdev)
+ {
+ 	struct vfio_iommu *iommu = iommu_data;
+ 
+-	/* clear known events */
+-	*events &= ~VFIO_IOMMU_NOTIFY_DMA_UNMAP;
+-
+-	/* refuse to register if still events remaining */
+-	if (*events)
+-		return -EINVAL;
++	if (!vdev->ops->dma_unmap)
++		return;
+ 
+-	return blocking_notifier_chain_register(&iommu->notifier, nb);
++	/*
++	 * list_empty(&iommu->device_list) is tested under the iommu->lock while
++	 * iteration for dma_unmap must be done under the device_list_lock.
++	 * Holding both locks here allows avoiding the device_list_lock in
++	 * several fast paths. See vfio_notify_dma_unmap()
++	 */
++	mutex_lock(&iommu->lock);
++	mutex_lock(&iommu->device_list_lock);
++	list_add(&vdev->iommu_entry, &iommu->device_list);
++	mutex_unlock(&iommu->device_list_lock);
++	mutex_unlock(&iommu->lock);
+ }
+ 
+-static int vfio_iommu_type1_unregister_notifier(void *iommu_data,
+-						struct notifier_block *nb)
++static void vfio_iommu_type1_unregister_device(void *iommu_data,
++					       struct vfio_device *vdev)
+ {
+ 	struct vfio_iommu *iommu = iommu_data;
+ 
+-	return blocking_notifier_chain_unregister(&iommu->notifier, nb);
++	if (!vdev->ops->dma_unmap)
++		return;
++
++	mutex_lock(&iommu->lock);
++	mutex_lock(&iommu->device_list_lock);
++	list_del(&vdev->iommu_entry);
++	mutex_unlock(&iommu->device_list_lock);
++	mutex_unlock(&iommu->lock);
+ }
+ 
+ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
+@@ -3163,8 +3192,8 @@ static const struct vfio_iommu_driver_ops vfio_iommu_driver_ops_type1 = {
+ 	.detach_group		= vfio_iommu_type1_detach_group,
+ 	.pin_pages		= vfio_iommu_type1_pin_pages,
+ 	.unpin_pages		= vfio_iommu_type1_unpin_pages,
+-	.register_notifier	= vfio_iommu_type1_register_notifier,
+-	.unregister_notifier	= vfio_iommu_type1_unregister_notifier,
++	.register_device	= vfio_iommu_type1_register_device,
++	.unregister_device	= vfio_iommu_type1_unregister_device,
+ 	.dma_rw			= vfio_iommu_type1_dma_rw,
+ 	.group_iommu_domain	= vfio_iommu_type1_group_iommu_domain,
+ 	.notify			= vfio_iommu_type1_notify,
 diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 49580fa2073a8d..8c5c389d42d918 100644
+index 8c5c389d42d918..cd76b73f22d64c 100644
 --- a/include/linux/vfio.h
 +++ b/include/linux/vfio.h
-@@ -44,6 +44,7 @@ struct vfio_device {
+@@ -44,7 +44,7 @@ struct vfio_device {
  	unsigned int open_count;
  	struct completion comp;
  	struct list_head group_next;
-+	struct notifier_block iommu_nb;
+-	struct notifier_block iommu_nb;
++	struct list_head iommu_entry;
  };
  
  /**
-@@ -60,6 +61,8 @@ struct vfio_device {
-  * @match: Optional device name match callback (return: 0 for no-match, >0 for
-  *         match, -errno for abort (ex. match with insufficient or incorrect
-  *         additional args)
-+ * @dma_unmap: Called when userspace unmaps IOVA from the container
-+ *             this device is attached to.
-  * @device_feature: Optional, fill in the VFIO_DEVICE_FEATURE ioctl
-  * @migration_set_state: Optional callback to change the migration state for
-  *         devices that support migration. It's mandatory for
-@@ -85,6 +88,7 @@ struct vfio_device_ops {
- 	int	(*mmap)(struct vfio_device *vdev, struct vm_area_struct *vma);
- 	void	(*request)(struct vfio_device *vdev, unsigned int count);
- 	int	(*match)(struct vfio_device *vdev, char *buf);
-+	void	(*dma_unmap)(struct vfio_device *vdev, u64 iova, u64 length);
- 	int	(*device_feature)(struct vfio_device *device, u32 flags,
- 				  void __user *arg, size_t argsz);
- 	struct file *(*migration_set_state)(
-@@ -154,23 +158,6 @@ int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
- int vfio_dma_rw(struct vfio_device *device, dma_addr_t user_iova,
- 		void *data, size_t len, bool write);
- 
--/* each type has independent events */
--enum vfio_notify_type {
--	VFIO_IOMMU_NOTIFY = 0,
--};
--
--/* events for VFIO_IOMMU_NOTIFY */
--#define VFIO_IOMMU_NOTIFY_DMA_UNMAP	BIT(0)
--
--int vfio_register_notifier(struct vfio_device *device,
--			   enum vfio_notify_type type,
--			   unsigned long *required_events,
--			   struct notifier_block *nb);
--int vfio_unregister_notifier(struct vfio_device *device,
--			     enum vfio_notify_type type,
--			     struct notifier_block *nb);
--
--
- /*
-  * Sub-module helpers
-  */
 -- 
 2.37.0
 
