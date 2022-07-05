@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F09567214
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 17:08:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91157567221
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 17:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B98772B4A6;
-	Tue,  5 Jul 2022 15:08:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50BB112A0A0;
+	Tue,  5 Jul 2022 15:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5C72AF83;
- Tue,  5 Jul 2022 15:08:03 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id d2so22215357ejy.1;
- Tue, 05 Jul 2022 08:08:03 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5562E10EFB9;
+ Tue,  5 Jul 2022 15:10:21 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id ay16so22189321ejb.6;
+ Tue, 05 Jul 2022 08:10:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yUHKUShGAQP2s0iIm1zksJJpl/lyBcXlcuW/RNUcNOw=;
- b=IDDc7PbjlYsmcvapnMmOnTjbeWHQyiWvbpdubYiGv6GHn3wNXZw1SHsS26wKxR3lwK
- oD3T+GoCb0yTNmS+JT6WPxmg+gsNdf4D7eksw27wxHyEiQ7khLHq3dAmWRVk9KuUSwqa
- rziB77pfJPJKFjhFQuVIveMEvxy/7CKEGEntEfmHTnmv5h1WjyOsOYS8pJF9Lmw33gGb
- /QhsVPZHm+YUnJ2z0Ob6TuuDxd51yGJWszDdkBkSyRoAWk3diP6G+4QDBOA5vZZB7vT9
- zgi5XWaMKddZnBOmLB4yERgvna6wUF/FILWLaKbd3/hjYH+qpYcBn1llfAux1LZmpDNA
- NAUw==
+ :cc:content-transfer-encoding;
+ bh=dkpN1b4wP9gTZUtEgRoxQX0uUzfu9gESHo4XVBhNNPA=;
+ b=jtX3byuXyfc2mF/rBU1M4/i77Y3tRdz2XH46byqIsfIKKhOLkoBSf+LTlU7hrA6X2j
+ 8iKu9cxdOL/P9b6KmRtmTaKvprIJ42mVGAdpNqhVtfAnpBOjqNtHWcfnTd9JOfMluq8V
+ 3t1exD8XY3OfFVfq50fAeo620chL6sdXcvktq3qjgBgPHwRkEFXmlhFtILjfrXZ7fGPo
+ 9FbxvE388pdW6PVWA7jDHcswPCzy/j0JPDhP/6OeXV7RewR9E/G+8J5C9H0gSaM3GiEl
+ K80kZ8LmV8wNAJbNoZM+6zll2pSiw1hlxn0S+ZFqHHULCmt4KZXnUHUeQRnKzYDsKYYQ
+ iG9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yUHKUShGAQP2s0iIm1zksJJpl/lyBcXlcuW/RNUcNOw=;
- b=3pn7TZg9VfGCKE+GafH0GO27UPJ/scHLG1dk0AM9En2Yn23JihsrHTTHVGzATrgpvP
- KiiseCln2ZvPcX7wtGHlSbcCaAYTAX1IMJ1qHiwf/bAPKOHi828ox1KixY574abC4Qgo
- 0XU/TSxYilqcHHz4sZn0Trsw7mN+TRonIlcshMiaJwZgPd2L8jzzfX0oLd6p4Gp7NW7v
- U1ijQ1nPybacA4FnOG4MNOEzpKFPohG96vX+YLDb0WfhuiVr/vOg704tsjq9MRkE0q+E
- Ob5MKhxnGox4H1oiKffTt/1sOW7+03MNYVAQJyZoG0t1KK28D/gjiliyQecBMZW5eQr4
- IZzw==
-X-Gm-Message-State: AJIora/P6KBEge5SgtKsK5SyfiAwosDWgYqa3qN1VIhcG084TUfEbtpv
- pcRHjOSqsNMj4o8kqS/i2j8MPsVPymyRHaunfFFNkNL7
-X-Google-Smtp-Source: AGRyM1s+vm1yrGPFkRTzyEnJsJBVgVgLOikAVgvDRDQD3cUHQg60f6JD//PitFt+3o++hjcOjP1u/C54mVfPllNIJmc=
-X-Received: by 2002:a17:906:dc93:b0:726:a75b:f60f with SMTP id
- cs19-20020a170906dc9300b00726a75bf60fmr33893933ejc.564.1657033681853; Tue, 05
- Jul 2022 08:08:01 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dkpN1b4wP9gTZUtEgRoxQX0uUzfu9gESHo4XVBhNNPA=;
+ b=DRxgDKh5uviJeu57VSQ55He5jRF3SVvK1ZyJ7JT+6LbJ7LN9dpiKpy4sRMyDBG06Nr
+ ODAoYaBNQ/j8e7kOXI1bgHOWCuoJa94BMSxZLmuTBXeDRk7+kPC3SxMy6/GRyTDPhMQH
+ 7aPycnqwrKPkS/9r00qUHnmfvPGZHjbajmPO0Tc9p8LRzTRJGWgybwe14wQ9bCHIGZ3o
+ qUjvrMMxYiVuL+dWH/LeyiJbhxQd24t1yuMsuL4HVfrWG6vUSFFK9NXVHsfllqeA0u+L
+ iDYr/aRQcvDBH2cm3TfIM5Mf5vO0i5RNu5HuTz+DJ47lFB6dg2/CwE7ReF4RK81nZCIf
+ CDbQ==
+X-Gm-Message-State: AJIora9dbxijbk9EWzHa3sgAXnqvoUXryriTuHKBKWbNMH7g3No7TZFI
+ e8M+jVgqis5Xx1Z/ym3ni62Hq8PKAC+ceVwYC1eaN1NF
+X-Google-Smtp-Source: AGRyM1t2xhRsfyqVg5935Rq05PnjacmxfFyEeFcbXVcIX7X+PnwWDRi5pnasbbuvQSDhCYj3EMsFY8eF4tcYWyJs1Sc=
+X-Received: by 2002:a17:906:5d0b:b0:726:a043:fcb4 with SMTP id
+ g11-20020a1709065d0b00b00726a043fcb4mr35047447ejt.508.1657033819797; Tue, 05
+ Jul 2022 08:10:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705134603.2248455-1-niejianglei2021@163.com>
-In-Reply-To: <20220705134603.2248455-1-niejianglei2021@163.com>
+References: <20220704134532.103876-1-andrealmeid@igalia.com>
+ <db6ab6f5-e3b1-f068-37ac-807e1ff074a8@amd.com>
+In-Reply-To: <db6ab6f5-e3b1-f068-37ac-807e1ff074a8@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Jul 2022 11:07:49 -0400
-Message-ID: <CADnq5_P7Ojd8beMqZ-N9EJJV9eONJVXMpaSGQt=PC9YXJ_FmHQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/mes: Fix an error handling path in
- amdgpu_mes_self_test()
-To: Jianglei Nie <niejianglei2021@163.com>
+Date: Tue, 5 Jul 2022 11:10:07 -0400
+Message-ID: <CADnq5_O3i2ciutAFS-uzX8bedOXxeOJUNWGRfsuOqpmL-tW64w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdpgu/debugfs: Simplify some exit paths
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +65,318 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Joshi, Mukul" <mukul.joshi@amd.com>, Jack Xiao <Jack.Xiao@amd.com>,
- Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Jack Xiao <Jack.Xiao@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, kernel-dev@igalia.com,
+ David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Pan Xinhui <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Jul 5, 2022 at 9:46 AM Jianglei Nie <niejianglei2021@163.com> wrote:
+On Mon, Jul 4, 2022 at 12:23 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> if amdgpu_mes_ctx_alloc_meta_data() fails, we should call amdgpu_vm_fini()
-> to handle amdgpu_vm_init().
+> Am 04.07.22 um 15:45 schrieb Andr=C3=A9 Almeida:
+> > To avoid code repetition, unify the function exit path when possible. N=
+o
+> > functional changes.
+> >
+> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
 >
-> Add a new lable before amdgpu_vm_init() and goto this lable when
-> amdgpu_mes_ctx_alloc_meta_data() fails.
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 >
-> Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> index 69a70a0aaed9..7c196b8ac49f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> @@ -1157,7 +1157,7 @@ int amdgpu_mes_self_test(struct amdgpu_device *adev)
->         r = amdgpu_mes_ctx_alloc_meta_data(adev, &ctx_data);
->         if (r) {
->                 DRM_ERROR("failed to alloc ctx meta data\n");
-> -               goto error_pasid;
-> +               goto error_fini;
->         }
->
->         ctx_data.meta_data_gpu_addr = AMDGPU_VA_RESERVED_SIZE;
-> @@ -1215,6 +1215,8 @@ int amdgpu_mes_self_test(struct amdgpu_device *adev)
->         BUG_ON(amdgpu_bo_reserve(ctx_data.meta_data_obj, true));
->         amdgpu_vm_bo_del(adev, ctx_data.meta_data_va);
->         amdgpu_bo_unreserve(ctx_data.meta_data_obj);
-> +
-> +error_fini:
->         amdgpu_vm_fini(adev, vm);
->
->  error_pasid:
-> --
-> 2.25.1
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 107 ++++++++-----------=
+-
+> >   1 file changed, 42 insertions(+), 65 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_debugfs.c
+> > index f3ac7912c29c..f3b3c688e4e7 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > @@ -383,12 +383,8 @@ static ssize_t amdgpu_debugfs_regs_pcie_read(struc=
+t file *f, char __user *buf,
+> >
+> >               value =3D RREG32_PCIE(*pos);
+> >               r =3D put_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     amdgpu_virt_disable_access_debugfs(adev);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               result +=3D 4;
+> >               buf +=3D 4;
+> > @@ -396,11 +392,12 @@ static ssize_t amdgpu_debugfs_regs_pcie_read(stru=
+ct file *f, char __user *buf,
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > -
+> >       amdgpu_virt_disable_access_debugfs(adev);
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   /**
+> > @@ -441,12 +438,8 @@ static ssize_t amdgpu_debugfs_regs_pcie_write(stru=
+ct file *f, const char __user
+> >               uint32_t value;
+> >
+> >               r =3D get_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     amdgpu_virt_disable_access_debugfs(adev);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               WREG32_PCIE(*pos, value);
+> >
+> > @@ -456,11 +449,12 @@ static ssize_t amdgpu_debugfs_regs_pcie_write(str=
+uct file *f, const char __user
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > -
+> >       amdgpu_virt_disable_access_debugfs(adev);
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   /**
+> > @@ -502,12 +496,8 @@ static ssize_t amdgpu_debugfs_regs_didt_read(struc=
+t file *f, char __user *buf,
+> >
+> >               value =3D RREG32_DIDT(*pos >> 2);
+> >               r =3D put_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     amdgpu_virt_disable_access_debugfs(adev);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               result +=3D 4;
+> >               buf +=3D 4;
+> > @@ -515,11 +505,12 @@ static ssize_t amdgpu_debugfs_regs_didt_read(stru=
+ct file *f, char __user *buf,
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > -
+> >       amdgpu_virt_disable_access_debugfs(adev);
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   /**
+> > @@ -560,12 +551,8 @@ static ssize_t amdgpu_debugfs_regs_didt_write(stru=
+ct file *f, const char __user
+> >               uint32_t value;
+> >
+> >               r =3D get_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     amdgpu_virt_disable_access_debugfs(adev);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               WREG32_DIDT(*pos >> 2, value);
+> >
+> > @@ -575,11 +562,12 @@ static ssize_t amdgpu_debugfs_regs_didt_write(str=
+uct file *f, const char __user
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > -
+> >       amdgpu_virt_disable_access_debugfs(adev);
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   /**
+> > @@ -621,12 +609,8 @@ static ssize_t amdgpu_debugfs_regs_smc_read(struct=
+ file *f, char __user *buf,
+> >
+> >               value =3D RREG32_SMC(*pos);
+> >               r =3D put_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     amdgpu_virt_disable_access_debugfs(adev);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               result +=3D 4;
+> >               buf +=3D 4;
+> > @@ -634,11 +618,12 @@ static ssize_t amdgpu_debugfs_regs_smc_read(struc=
+t file *f, char __user *buf,
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > -
+> >       amdgpu_virt_disable_access_debugfs(adev);
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   /**
+> > @@ -679,12 +664,8 @@ static ssize_t amdgpu_debugfs_regs_smc_write(struc=
+t file *f, const char __user *
+> >               uint32_t value;
+> >
+> >               r =3D get_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     amdgpu_virt_disable_access_debugfs(adev);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               WREG32_SMC(*pos, value);
+> >
+> > @@ -694,11 +675,12 @@ static ssize_t amdgpu_debugfs_regs_smc_write(stru=
+ct file *f, const char __user *
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > -
+> >       amdgpu_virt_disable_access_debugfs(adev);
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   /**
+> > @@ -1090,11 +1072,8 @@ static ssize_t amdgpu_debugfs_gfxoff_write(struc=
+t file *f, const char __user *bu
+> >               uint32_t value;
+> >
+> >               r =3D get_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               amdgpu_gfx_off_ctrl(adev, value ? true : false);
+> >
+> > @@ -1104,10 +1083,12 @@ static ssize_t amdgpu_debugfs_gfxoff_write(stru=
+ct file *f, const char __user *bu
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> >
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >
+> > @@ -1139,18 +1120,12 @@ static ssize_t amdgpu_debugfs_gfxoff_read(struc=
+t file *f, char __user *buf,
+> >               uint32_t value;
+> >
+> >               r =3D amdgpu_get_gfx_off_status(adev, &value);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               r =3D put_user(value, (uint32_t *)buf);
+> > -             if (r) {
+> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
+;
+> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
+);
+> > -                     return r;
+> > -             }
+> > +             if (r)
+> > +                     goto out;
+> >
+> >               result +=3D 4;
+> >               buf +=3D 4;
+> > @@ -1158,10 +1133,12 @@ static ssize_t amdgpu_debugfs_gfxoff_read(struc=
+t file *f, char __user *buf,
+> >               size -=3D 4;
+> >       }
+> >
+> > +     r =3D result;
+> > +out:
+> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> >
+> > -     return result;
+> > +     return r;
+> >   }
+> >
+> >   static const struct file_operations amdgpu_debugfs_regs2_fops =3D {
 >
