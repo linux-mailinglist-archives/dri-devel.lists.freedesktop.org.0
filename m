@@ -1,69 +1,150 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BBE5677CA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 21:29:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBF95677DC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 21:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6F58E53F;
-	Tue,  5 Jul 2022 19:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 644D48F2A1;
+	Tue,  5 Jul 2022 19:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E070A8E53E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 19:29:02 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id s14so15804812ljs.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Jul 2022 12:29:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1VgOWoxdHJaJBsEjIDFmiVwIuhku52jXC11mYAa4h9k=;
- b=lxi1ymOKQ4CT3lZCH3OsCQ5bK2vjI/nGRq/O9TM8d5pLLrWDSTNJEUWCJIY/rnAI5j
- glM+57wIjmpJGxLyaAc2U95HFpb2tr2fBeaCZZZebwtdAQB0Q5GjCTJNhzzaWSQTR+4N
- rqjGE7hee0kAWHmiV7iFn1gX3iQmlLhUvqjjlnxm7556U+6VlrZUpEZPY5IH8BCuZsXv
- 9wKuRY3Rx3+9gSGZ4c3NxQg3220E6RklrRW3o+1H6CsWGzUP2XSo5st0Di8+YoBnsuY3
- KUcOXokO3xiX1yfW0W2XBI8uw/DJGlo52Lj9regalGrm22SC1KqCvpMlffzanqhK1Z7i
- HqQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1VgOWoxdHJaJBsEjIDFmiVwIuhku52jXC11mYAa4h9k=;
- b=qmI+Hb6utu4lAT9BPCxj/jfIHr1XW7zwLPWdSVa+Inv1DvbAdXBwpi3nU8pr2vLwkX
- mvD/a1rrY9yewBYZgsDNTHS2pBlnRSWg3LpD0gMDhsAjrH4a0N4MfrIj7QaZyPsXXqn5
- ogrW/3t19n8s7rdXCGOySom/dk3wbSUXBAf75iahYU+oGDUYujyO/IKtZsG7Le5yIMxz
- K0vodLtpZuQ3eNDGXFxGdghgqbZpx8wQwvsy2XbcoijNiuKw8iCLy5GmhkT7WOi7gv+5
- 09CkMHDSxYDHroUarTC0LJzEJMzOyaammWlTbzD6x1HBzX3CUNaJ+GwkFWaVMqHEQhjs
- IWlw==
-X-Gm-Message-State: AJIora/MYv/a/rM0O6BllTdzAJsfYUVdF0qBtEiWhfguK+HucjcBoYGe
- 62S4N0BrpGPodLEjRVLvjmQkDw==
-X-Google-Smtp-Source: AGRyM1vEHBmGFGGMmGEURwZhXQjQdD3p9u3BKBLIMtH8vilOsmO3cr5rwNAV9v8Ln8UlIYvO3+bX/Q==
-X-Received: by 2002:a2e:6a03:0:b0:25b:f8cf:8e39 with SMTP id
- f3-20020a2e6a03000000b0025bf8cf8e39mr17468064ljc.166.1657049341040; 
- Tue, 05 Jul 2022 12:29:01 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a056512208600b0047f79487758sm5840644lfr.133.2022.07.05.12.29.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 12:29:00 -0700 (PDT)
-Message-ID: <068d19ac-2a07-73b8-392b-63b1bd0f0e1c@linaro.org>
-Date: Tue, 5 Jul 2022 22:28:59 +0300
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E05B68F305
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 19:32:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1657049524; x=1688585524;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=7/gGw9w6DZ9qgDInt943ujTKH42tl2cdu5jRvmtUO9A=;
+ b=EEYtvadHHOwIaCliK0k1Mb6lusrxI8ZMehHy2Sn+DHRc+iwfAeij+WTZ
+ OTb/o4ogG2VYzJZ6BOotiICsRqpPOyzrMQvCRC5AgOBnCTvvxQ6HUqOSi
+ HzvN9uX0UrsvOYXwpFA8+VCcAzMUuoyOirTVOJe1H4gh1UD0dWhkyaFCo
+ co7GJ8iJi/mSzv2eXEW12YpdUvMuFTp5ElJbvWl7nx/nJYwdkIjK/zqsZ
+ JuN1hfcOkimm7lln/9Swm4FkEPD6aFa+v1LH+tuaxFLb/MQe/Iuo7Ho8m
+ 7OLviS0r19mdzl3rFaT1GyX/h4iSU/FJiXcJyiAxPS5Bk4uzQeqmkfswl w==;
+X-IronPort-AV: E=Sophos;i="5.92,247,1650956400"; d="scan'208";a="170869105"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 05 Jul 2022 12:32:02 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Tue, 5 Jul 2022 12:32:00 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17 via Frontend Transport; Tue, 5 Jul 2022 12:32:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PsYzt/3wXnvasFp0NRZLSPgNCfbsNUuC0S9Ea8tCZ5HKR3cOEuLuvLzGprra7bwxHU1dn3OV4rnv/fM9AbDMkNR/NVD41hdO8LWG07iWFOi04XbLyHFs9YBmJ5iPC5d8i2FBd6ifFpH1yw8+jbzUjh1CiJaoO4vp52gZ0QuiYOFw4HTWkLC5FUtGOYZ8ozl1hfwdh8+GUdiwypRXWrGKPc8xzUWm8/+n2eEPGokePLo2b8fO4ksvxDtd1IUM9fkErJngcJnfmGqIPb9uM/M8s4hjHpXPARlj3KyLCuaS2LrHV0SK/ktaFvbZXYlLPKCQM/71/AS2Cb5sL8KEH4cJmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7/gGw9w6DZ9qgDInt943ujTKH42tl2cdu5jRvmtUO9A=;
+ b=RuLYPNN9sEzzVTB45r1JZB/Jsz1VvuTw5Fk4dl3khpyP9oFI8pCP0SsBYB6P5u56B6zC5m2vzeURXDpLgBBG+d8d1A7aUEns7ywUKy/OmfMype7R7B/Aism/WqHn8QPC0X8G8TU263msYw/tMQNEALjlTQmfT1IjcWkUFpQPVqSLBkESHKPTCRLvOoUYMTUGa8pNY34T4/owlPq+aJt2qua73oTWxs7vi5s6ecc7Xs1t3IBk0P3N0NeSk0n3Wqy0X5ouBmgFF7SbHk7UrDs5BKZ/mRnxgfL2DIaEGw30RrTAeJEAERpXX0dEgZJv6NV+E7I0O9Nve632MB87MgB93Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7/gGw9w6DZ9qgDInt943ujTKH42tl2cdu5jRvmtUO9A=;
+ b=fsWcV7QpInY7ZiZY3O3s3qIiQfyQVGGuQB/ltm563pCYG/sfvvCqc/94kSRhyEM/d1Ywubzm7Cnp8NCnIF8HrcoyeIMaewjCHAMfig86rlP7xM+eE4sPguYjiqelQZD/CqJJi8IqwpUowffzZ354GLnBE8TXAytNTVxZpiJ5F5w=
+Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
+ by DM5PR1101MB2074.namprd11.prod.outlook.com (2603:10b6:4:50::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.17; Tue, 5 Jul
+ 2022 19:31:55 +0000
+Received: from CO1PR11MB5154.namprd11.prod.outlook.com
+ ([fe80::699b:5c23:de4f:2bfa]) by CO1PR11MB5154.namprd11.prod.outlook.com
+ ([fe80::699b:5c23:de4f:2bfa%4]) with mapi id 15.20.5395.021; Tue, 5 Jul 2022
+ 19:31:55 +0000
+From: <Conor.Dooley@microchip.com>
+To: <robh@kernel.org>
+Subject: Re: [PATCH v4 05/14] dt-bindings: memory-controllers: add canaan k210
+ sram controller
+Thread-Topic: [PATCH v4 05/14] dt-bindings: memory-controllers: add canaan
+ k210 sram controller
+Thread-Index: AQHYjYAvHczrGH5faUaoq3axDB0JHK1wLk+AgAABY4CAAAESgA==
+Date: Tue, 5 Jul 2022 19:31:55 +0000
+Message-ID: <821fd47f-6703-4f05-8fa5-3b1e04555af7@microchip.com>
+References: <20220701192300.2293643-1-conor@kernel.org>
+ <20220701192300.2293643-6-conor@kernel.org>
+ <20220705192307.GA2471961-robh@kernel.org>
+ <d2369d3c-adfb-3158-2fa6-81c336502db9@microchip.com>
+In-Reply-To: <d2369d3c-adfb-3158-2fa6-81c336502db9@microchip.com>
+Accept-Language: en-IE, en-US
+Content-Language: en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8148cf57-eb27-4908-e825-08da5ebd0541
+x-ms-traffictypediagnostic: DM5PR1101MB2074:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hyVBJaL0KeDzM5WfHAtDsyx8OWaYeuKo07Ph45k0SYu3dF9wo30LJX/x6WpocogqDaAzue/DIAG4JFBMwAd0XJt1uavWR09U7DYBWpMbUGYlRnGHEi3jC2hTu+MiWmCKOKOkCdfEAK2EMVApaTK4dnbP0JP8ZhBb7GVEldAWs9w43ytaN+OfI4QCsKw0bvc6gTqqIQaxKsE/FacOE+vUfh63Nww1OdF88L4NWQ//37WHHzJeL4IGPEfrBpN+ai2/LfVyCiYbaSwJ4P2qyIrrUyPjAluItpABm9Bb4CI5UhttvIp/YesM2o4icAwTkAFvSIW1noEVMmnTBtKx0nKKhtiTM270Xl7nBVTJ2oGFc3bIxu6nSqub3lSCeSKq6z3tZVgmLd4IjnQNmdgBxD/ppRK7vluMpVEubxKHUxqU9gqsKT2T3zfQTT9WqtcBkg6As5sb2A7rp1s5Dx9YU08NIoEU+GXRa/oQZx9lTtzHjZqGqbpBzgr0CdSj9m8yb4GmwIvE+4MXTvzEabAk1MVfKemUipk5ebgs4WjNgwzOStQIT+TQFZ0VwH3+KWyGxWgllbbr0ObWY53H88agCYdPm8m6gQdHHnbaEGVL0cqqdl6KE1FhOnceDUwSsNMzFdTG4PDbNMCCy4/XQHzcRJLOsygD7a8pyv23PJ2pK8PVjOucszOKxq1a8JB+7BpliivITOkpvdPwt8Mqy02gtysyJr4sodU28ySThSd+dr7UpCXYD+mBMa0yjCCnLaNhCNfukfznvZT+ku4kDNmDNgNPz6BMtyKdgrOtWmWmvKk1hrKkrtXxKFavo9WiQat6+yabAIDoxgl9KR2TwML6vgacvJk88mo0qPUfi4g3yM5pshC4lFWtUy7XfTM1wSBsM7Uhezb0nSsbkULqEELnHhpccq60OzYZVRm8ZaSu2ly8nG9iiWDtP6Okprr6GqqnAJZY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5154.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(396003)(136003)(39860400002)(366004)(376002)(346002)(66476007)(6512007)(186003)(31696002)(83380400001)(38100700002)(66946007)(64756008)(26005)(2616005)(66556008)(76116006)(36756003)(54906003)(316002)(4326008)(6916009)(31686004)(38070700005)(91956017)(8676002)(8936002)(966005)(6486002)(41300700001)(6506007)(2906002)(66446008)(5660300002)(7416002)(478600001)(53546011)(86362001)(71200400001)(122000001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dnFhaE02ZC9Ia2YvYkhMdU9KYnlKVzRheHVPY3YwdmV3VHNhK053RlB5M094?=
+ =?utf-8?B?OVB4YlRuc0gzdHFLKy9uU2VUcU4waFhkVlAwQWJadTVUWk13WXpTVEl3c3NP?=
+ =?utf-8?B?SVlZNkd6eXloSnhENEJnNjliZ0dRZ1F3WmVKWTFZa2RDZTRNbEd6dk1ka3J0?=
+ =?utf-8?B?TU4yblluVVZOU3lDZjBoOGdISDVTUFNyS29ITHh4SitDU0NUR29CZkg4QWUw?=
+ =?utf-8?B?TERZRjlza0FoWnJGQTFjSGhrTWF5eEVvVUNQamtNZ1dPQzRJUnIvcnZCS25h?=
+ =?utf-8?B?bWM1cTNwMVNCdnFDNXcwdkg4eWZ1SXJ5L3VQTlFJYTcrMW1kUGxwc2xNRGxM?=
+ =?utf-8?B?S0xJY1Zxcmp5cjBqRDhtRXVMQk8yVW1aVjdpcTd6dS9JMllXaDBGOVZWenAv?=
+ =?utf-8?B?Q2FPQzI0WXNIcUV1Yzh1Ky9HS0lPR09rbFEveG5oMmJ4NkVJRTRnZlMxaGFs?=
+ =?utf-8?B?cDRZYWFld2NBeHBHUzBySS9ZbVlFWjhaN2RMRnVXYW1iNjExNDd4TXdGTHM2?=
+ =?utf-8?B?OEN3VGU1OUdhZGtnYkVHUzBia0daRFN5NWpvOEFqajNnWHRCcE1rUTJ3ODln?=
+ =?utf-8?B?TTgreVN4bDlsWTNibE14U0h0bUphZHdCK21TdGNlSGo4WnJTWGE0ZWtVNkc2?=
+ =?utf-8?B?ejNnZnNDNWNsMWhuQTJpM1UrYTJ0bWJFc0RpWU1LRm55QzkyT201OFczZmJx?=
+ =?utf-8?B?NzRyVG1TR0pRTWhpazRlUmZRYmJnZzd5WU1XL3k0NmlicjhEODlFTHlyZXFO?=
+ =?utf-8?B?YUozMUpXQlllbmhQUVRpbE9uNXFjRlVzTEJyeHVNK0tjSncrbCtLMEE0UHln?=
+ =?utf-8?B?anVaMG85bEZidk04ZFRrYmJadTQ0U3pYdDBQVHVlQnJnWmJCR3NHVGQ2N3hT?=
+ =?utf-8?B?c2pFREROU3NmYlFvVUZPOGcyMDZmcVlSUUJ2bzBONnBKVk5RTHVEK2hXY0t3?=
+ =?utf-8?B?NUxFWXo1Rkx2eUtKS3pwcVFXbFZNNjFkWWwwM2F2SHRZazFIdlcwelZ0emhl?=
+ =?utf-8?B?TXc0aWlPUkYwRUIxQWx6dWl3b3ByNVZDbXVzOGoxZk93YUg0YjNYSjdVb2dY?=
+ =?utf-8?B?dkgxQk9JNHBuMXNXSVpGMFhSb1BHR1FuSHJSdWJFUS9uclY2WWtMcnZZOHZJ?=
+ =?utf-8?B?dFkzZG4vNk9uQks2bGdpSlY5WkIrUW91YVFxcmJtNDl5cDhoMW1iaStyUTdI?=
+ =?utf-8?B?bUR0aWRnSEE2YmpWZlVLS0llNFluWUpFQzk5bDNyWjdiKzVKREM5SU9CcHk0?=
+ =?utf-8?B?QW5oN3pvYnlDZEZlcFNJMUU0cG5qVi83UStuWW9SM1ZHZldPYytnaGxyRThn?=
+ =?utf-8?B?eU1qVEVFeWFlUjUrNU9vVHhhNDVDYjNGdkh1RzlzUXV3c2pyU01TWkdXTFl0?=
+ =?utf-8?B?S0lEZk5Gdk9CR3BMMEI5eUlmN040R1NZZ0Yyd0dqRC9YYVVGbGhYWWJtZlg4?=
+ =?utf-8?B?bVJLdnh3NTFkdncrSWdmR3daMDZqS3F2OFdoYlF5ZENockxHRlI1cXhEK0Yr?=
+ =?utf-8?B?amNyL04rRzdTOUVBSEdpb0xHNVFrNHFyUW9XRWJyZEJKOTVBY2Q5SGxDS2xh?=
+ =?utf-8?B?TkcwRjZNS3ZDZEhCOXlBUTVybXJuQXBUbFhvbHNIQWZyd2NNdGhsV2FuL25P?=
+ =?utf-8?B?cHhhMHpzbnBJbGtQZTBCTzFPOE1PNXI0bjVWR3JVbVY3aTExaVFueVpiUkNL?=
+ =?utf-8?B?TDJ2YkpVWmdsSytPODY1WWh5ajNrek5RblJpRnpYZFNjaG9rWmU5aHBVUXhv?=
+ =?utf-8?B?eHhPZjZUTTV5UXE2SHJ1aWk1Q3p0SDNEY256MGZ6dFpKbDNZb1FIajBVdkIr?=
+ =?utf-8?B?QlZZSDRvdWRoL2F1RVFDNW5CcTgrQ2laU0xVQlN4dTNmSUlJenpXWlhwQzRi?=
+ =?utf-8?B?aW1QZU1ENVVDdFZ6RHV4c3BjSGJIV1FvejdWK2g2Z2E1VFZ3d2doL3ZySGR6?=
+ =?utf-8?B?T01GSVFBbElVOXV3M0NIV1VwcEsxK3ByV2FqQWdSUnJDbEwrUHJKTWFYUXJx?=
+ =?utf-8?B?QWR6Si9GZHIvOHQ2NFRhK0Jsa3N6eGdjOUR0aW1tb3dMdHdOWU9iOU1yV0dy?=
+ =?utf-8?B?S3Zkcy9xdStKbnJsY09MNzIrb2xoQkRCQXdOcDRVRjZxOG1manFBRGlYMGIx?=
+ =?utf-8?Q?t2pklkDjilG4MQg2A4Ut4r4z2?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <69479B5B1810E0468DE93D14FE2E7E38@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 3/7] drm/msm/dp: Add basic PSR support for eDP
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1657040445-13067-1-git-send-email-quic_vpolimer@quicinc.com>
- <1657040445-13067-4-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1657040445-13067-4-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8148cf57-eb27-4908-e825-08da5ebd0541
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jul 2022 19:31:55.6225 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +rBtdMyKTGNL3J58cfFEXviOGdyNmwjFxtIzCIzQ3LvUQaxJoFT1/nWowV17NIfOUYd9s47Pd3JA4+G1jJhfseC2kfoYYXBqGOvdNAH1d2E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,831 +157,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com,
- linux-kernel@vger.kernel.org, quic_khsieh@quicinc.com,
- bjorn.andersson@linaro.org, quic_aravindh@quicinc.com, swboyd@chromium.org
+Cc: niklas.cassel@wdc.com, alsa-devel@alsa-project.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-riscv@lists.infradead.org, sam@ravnborg.org,
+ damien.lemoal@opensource.wdc.com, daniel.lezcano@linaro.org,
+ joabreu@synopsys.com, geert@linux-m68k.org, Eugeniy.Paltsev@synopsys.com,
+ devicetree@vger.kernel.org, aou@eecs.berkeley.edu, broonie@kernel.org,
+ palmer@rivosinc.com, paul.walmsley@sifive.com, dillon.minfei@gmail.com,
+ lgirdwood@gmail.com, fancer.lancer@gmail.com, vkoul@kernel.org,
+ palmer@dabbelt.com, dmaengine@vger.kernel.org, masahiroy@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/07/2022 20:00, Vinod Polimera wrote:
-> Add support for basic panel self refresh (PSR) feature for eDP.
-> Add a new interface to set PSR state in the sink from DPU.
-> Program the eDP controller to issue PSR enter and exit SDP to
-> the sink.
-> 
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_catalog.c |  81 ++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_catalog.h |   4 +
->   drivers/gpu/drm/msm/dp/dp_ctrl.c    |  76 ++++++++++++++-
->   drivers/gpu/drm/msm/dp/dp_ctrl.h    |   3 +
->   drivers/gpu/drm/msm/dp/dp_display.c |  31 +++---
->   drivers/gpu/drm/msm/dp/dp_display.h |   2 +
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 186 ++++++++++++++++++++++++++++++++++--
->   drivers/gpu/drm/msm/dp/dp_drm.h     |   9 +-
->   drivers/gpu/drm/msm/dp/dp_link.c    |  36 +++++++
->   drivers/gpu/drm/msm/dp/dp_panel.c   |  22 +++++
->   drivers/gpu/drm/msm/dp/dp_panel.h   |   6 ++
->   drivers/gpu/drm/msm/dp/dp_reg.h     |  27 ++++++
->   12 files changed, 458 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 7257515..b9021ed 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -47,6 +47,14 @@
->   #define DP_INTERRUPT_STATUS2_MASK \
->   	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
->   
-> +#define DP_INTERRUPT_STATUS4 \
-> +	(PSR_UPDATE_INT | PSR_CAPTURE_INT | PSR_EXIT_INT | \
-> +	PSR_UPDATE_ERROR_INT | PSR_WAKE_ERROR_INT)
-> +
-> +#define DP_INTERRUPT_MASK4 \
-> +	(PSR_UPDATE_MASK | PSR_CAPTURE_MASK | PSR_EXIT_MASK | \
-> +	PSR_UPDATE_ERROR_MASK | PSR_WAKE_ERROR_MASK)
-> +
->   struct dp_catalog_private {
->   	struct device *dev;
->   	struct drm_device *drm_dev;
-> @@ -359,6 +367,24 @@ void dp_catalog_ctrl_lane_mapping(struct dp_catalog *dp_catalog)
->   			ln_mapping);
->   }
->   
-> +void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog,
-> +						bool enable)
-> +{
-> +	u32 val;
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +
-> +	val = dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +	val &= ~DP_MAINLINK_CTRL_ENABLE;
-> +
-> +	if (enable)
-> +		val |= DP_MAINLINK_CTRL_ENABLE;
-> +	else
-> +		val &= ~DP_MAINLINK_CTRL_ENABLE;
-> +
-> +	dp_write_link(catalog, REG_DP_MAINLINK_CTRL, val);
-> +}
-> +
->   void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog,
->   						bool enable)
->   {
-> @@ -610,6 +636,47 @@ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
->   	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
->   }
->   
-> +static void dp_catalog_enable_sdp(struct dp_catalog_private *catalog)
-> +{
-> +	/* trigger sdp */
-> +	dp_write_link(catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
-> +	dp_write_link(catalog, MMSS_DP_SDP_CFG3, !UPDATE_SDP);
-> +}
-> +
-> +void dp_catalog_ctrl_config_psr(struct dp_catalog *dp_catalog)
-> +{
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +	u32 config;
-> +
-> +	/* enable PSR1 function */
-> +	config = dp_read_link(catalog, REG_PSR_CONFIG);
-> +	config |= PSR1_SUPPORTED;
-> +	dp_write_link(catalog, REG_PSR_CONFIG, config);
-> +
-> +	dp_write_ahb(catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-> +	dp_catalog_enable_sdp(catalog);
-> +}
-> +
-> +void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter)
-> +{
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +			struct dp_catalog_private, dp_catalog);
-> +	u32 cmd;
-> +
-> +	cmd = dp_read_link(catalog, REG_PSR_CMD);
-> +
-> +	cmd &= ~(PSR_ENTER | PSR_EXIT);
-> +
-> +	if (enter)
-> +		cmd |= PSR_ENTER;
-> +	else
-> +		cmd |= PSR_EXIT;
-> +
-> +	dp_catalog_enable_sdp(catalog);
-> +	dp_write_link(catalog, REG_PSR_CMD, cmd);
-> +}
-> +
->   u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog)
->   {
->   	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> @@ -645,6 +712,20 @@ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
->   	return isr & (mask | ~DP_DP_HPD_INT_MASK);
->   }
->   
-> +int dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog)
-> +{
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +	u32 intr, intr_ack;
-> +
-> +	intr = dp_read_ahb(catalog, REG_DP_INTR_STATUS4);
-> +	intr_ack = (intr & DP_INTERRUPT_STATUS4)
-> +			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-> +	dp_write_ahb(catalog, REG_DP_INTR_STATUS4, intr_ack);
-> +
-> +	return intr;
-> +}
-> +
->   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
->   {
->   	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 1f717f4..6454845 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -93,6 +93,7 @@ void dp_catalog_ctrl_state_ctrl(struct dp_catalog *dp_catalog, u32 state);
->   void dp_catalog_ctrl_config_ctrl(struct dp_catalog *dp_catalog, u32 config);
->   void dp_catalog_ctrl_lane_mapping(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog, bool enable);
-> +void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog, bool enable);
->   void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
->   void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
->   				u32 stream_rate_khz, bool fixed_nvid);
-> @@ -104,12 +105,15 @@ void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
->   void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
->   			u32 intr_mask, bool en);
->   void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
-> +void dp_catalog_ctrl_config_psr(struct dp_catalog *dp_catalog);
-> +void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
->   u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
->   u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
->   int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog, u8 v_level,
->   				u8 p_level);
->   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog);
-> +int dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_update_transfer_unit(struct dp_catalog *dp_catalog,
->   				u32 dp_tu, u32 valid_boundary,
->   				u32 valid_boundary2);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index d21971b..485e8f5 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -22,6 +22,7 @@
->   
->   #define DP_KHZ_TO_HZ 1000
->   #define IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES	(30 * HZ / 1000) /* 30 ms */
-> +#define PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES       (300 * HZ / 1000) /* 300 ms */
->   #define WAIT_FOR_VIDEO_READY_TIMEOUT_JIFFIES (HZ / 2)
->   
->   #define DP_CTRL_INTR_READY_FOR_VIDEO     BIT(0)
-> @@ -80,6 +81,7 @@ struct dp_ctrl_private {
->   	struct dp_catalog *catalog;
->   
->   	struct completion idle_comp;
-> +	struct completion psr_op_comp;
->   	struct completion video_comp;
->   };
->   
-> @@ -153,6 +155,9 @@ static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
->   	config |= DP_CONFIGURATION_CTRL_STATIC_DYNAMIC_CN;
->   	config |= DP_CONFIGURATION_CTRL_SYNC_ASYNC_CLK;
->   
-> +	if (ctrl->panel->psr_cap.version)
-> +		config |= DP_CONFIGURATION_CTRL_SEND_VSC;
-> +
->   	dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
->   }
->   
-> @@ -1382,11 +1387,64 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
->   	return ret;
->   }
->   
-> -void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
-> +void dp_ctrl_config_psr(struct dp_ctrl *dp_ctrl)
->   {
-> -	struct dp_ctrl_private *ctrl;
-> +	u8 cfg;
-> +	struct dp_ctrl_private *ctrl = container_of(dp_ctrl,
-> +			struct dp_ctrl_private, dp_ctrl);
->   
-> -	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-> +	if (!ctrl->panel->psr_cap.version)
-> +		return;
-> +
-> +	dp_catalog_ctrl_config_psr(ctrl->catalog);
-> +
-> +	cfg = DP_PSR_ENABLE;
-> +	drm_dp_dpcd_write(ctrl->aux, DP_PSR_EN_CFG, &cfg, 1);
-> +}
-> +
-> +void dp_ctrl_set_psr(struct dp_ctrl *dp_ctrl, bool enter)
-> +{
-> +	struct dp_ctrl_private *ctrl = container_of(dp_ctrl,
-> +			struct dp_ctrl_private, dp_ctrl);
-> +
-> +	if (!ctrl->panel->psr_cap.version)
-> +		return;
-> +
-> +	/*
-> +	 * When entering PSR,
-> +	 * 1. Send PSR enter SDP and wait for the PSR_UPDATE_INT
-> +	 * 2. Turn off video
-> +	 * 3. Disable the mainlink
-> +	 *
-> +	 * When exiting PSR,
-> +	 * 1. Enable the mainlink
-> +	 * 2. Send the PSR exit SDP
-> +	 */
-> +	if (enter) {
-> +		reinit_completion(&ctrl->psr_op_comp);
-> +		dp_catalog_ctrl_set_psr(ctrl->catalog, true);
-> +
-> +		if (!wait_for_completion_timeout(&ctrl->psr_op_comp,
-> +			PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES)) {
-> +			DRM_ERROR("PSR_ENTRY timedout\n");
-> +			dp_catalog_ctrl_set_psr(ctrl->catalog, false);
-> +			return;
-> +		}
-> +
-> +		dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-> +
-> +		dp_catalog_ctrl_psr_mainlink_enable(ctrl->catalog, false);
-> +	} else {
-> +		dp_catalog_ctrl_psr_mainlink_enable(ctrl->catalog, true);
-> +
-> +		dp_catalog_ctrl_set_psr(ctrl->catalog, false);
-> +	}
-> +}
-> +
-> +void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
-
-Please revert this part (dp_ctrl_reset_irq_ctrl()), so that there are no 
-'extra' changes. The patch is big enough w/o them.
-
-> +{
-> +	struct dp_ctrl_private *ctrl = container_of(dp_ctrl,
-> +			struct dp_ctrl_private, dp_ctrl);
->   
->   	dp_catalog_ctrl_reset(ctrl->catalog);
->   
-> @@ -1997,6 +2055,17 @@ void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
->   
->   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->   
-> +	if (ctrl->panel->psr_cap.version) {
-> +		isr = dp_catalog_ctrl_read_psr_interrupt_status(ctrl->catalog);
-> +
-> +		if (isr == PSR_UPDATE_INT)
-> +			drm_dbg_dp(ctrl->drm_dev, "PSR frame update done\n");
-> +		else if (isr == PSR_EXIT_INT)
-> +			drm_dbg_dp(ctrl->drm_dev, "PSR exit done\n");
-> +
-> +		complete(&ctrl->psr_op_comp);
-
-Do we always need to complete on psr_op_comp? Maybe only if isr is 
-sensible? Otherwise the driver would complete psr_op_comp on each and 
-every DP interrupt.
-
-> +	}
-> +
->   	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
->   
->   	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
-> @@ -2043,6 +2112,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->   		dev_err(dev, "failed to add DP OPP table\n");
->   
->   	init_completion(&ctrl->idle_comp);
-> +	init_completion(&ctrl->psr_op_comp);
->   	init_completion(&ctrl->video_comp);
->   
->   	/* in parameters */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index 0745fde..be074ae 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -38,4 +38,7 @@ void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
->   void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
->   void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
->   
-> +void dp_ctrl_set_psr(struct dp_ctrl *dp_ctrl, bool enable);
-> +void dp_ctrl_config_psr(struct dp_ctrl *dp_ctrl);
-> +
->   #endif /* _DP_CTRL_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index bce7793..2b3ec6b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -388,6 +388,8 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
->   
->   	edid = dp->panel->edid;
->   
-> +	dp->dp_display.psr_supported = !!dp->panel->psr_cap.version;
-> +
->   	dp->audio_supported = drm_detect_monitor_audio(edid);
->   	dp_panel_handle_sink_request(dp->panel);
->   
-> @@ -895,6 +897,10 @@ static int dp_display_post_enable(struct msm_dp *dp_display)
->   
->   	/* signal the connect event late to synchronize video and display */
->   	dp_display_handle_plugged_change(dp_display, true);
-> +
-> +	if (dp_display->psr_supported)
-> +		dp_ctrl_config_psr(dp->ctrl);
-> +
->   	return 0;
->   }
->   
-> @@ -980,14 +986,6 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
->   		return -EINVAL;
->   	}
->   
-> -	/*
-> -	 * The eDP controller currently does not have a reliable way of
-> -	 * enabling panel power to read sink capabilities. So, we rely
-> -	 * on the panel driver to populate only supported modes for now.
-> -	 */
-> -	if (dp->is_edp)
-> -		return MODE_OK;
-
-I'd split this to a separate commit.
-
-> -
->   	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
->   		return MODE_BAD;
->   
-> @@ -1094,6 +1092,14 @@ static void dp_display_config_hpd(struct dp_display_private *dp)
->   	enable_irq(dp->irq);
->   }
->   
-> +void dp_display_set_psr(struct msm_dp *dp_display, bool enter)
-> +{
-> +	struct dp_display_private *dp;
-> +
-> +	dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +	dp_ctrl_set_psr(dp->ctrl, enter);
-> +}
-> +
->   static int hpd_event_thread(void *data)
->   {
->   	struct dp_display_private *dp_priv;
-> @@ -1652,7 +1658,8 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   	return 0;
->   }
->   
-> -void dp_bridge_enable(struct drm_bridge *drm_bridge)
-> +void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
-> +			     struct drm_bridge_state *old_bridge_state)
-
-This also should go to a separate commit.
-
->   {
->   	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
->   	struct msm_dp *dp = dp_bridge->dp_display;
-> @@ -1716,7 +1723,8 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
->   	mutex_unlock(&dp_display->event_mutex);
->   }
->   
-> -void dp_bridge_disable(struct drm_bridge *drm_bridge)
-> +void dp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
-> +			      struct drm_bridge_state *old_bridge_state)
->   {
->   	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
->   	struct msm_dp *dp = dp_bridge->dp_display;
-> @@ -1727,7 +1735,8 @@ void dp_bridge_disable(struct drm_bridge *drm_bridge)
->   	dp_ctrl_push_idle(dp_display->ctrl);
->   }
->   
-> -void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
-> +void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> +				   struct drm_bridge_state *old_bridge_state)
->   {
->   	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
->   	struct msm_dp *dp = dp_bridge->dp_display;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 4f9fe4d..1feaada 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -29,6 +29,7 @@ struct msm_dp {
->   
->   	u32 max_dp_lanes;
->   	struct dp_audio *dp_audio;
-> +	bool psr_supported;
->   };
->   
->   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
-> @@ -39,5 +40,6 @@ bool dp_display_check_video_test(struct msm_dp *dp_display);
->   int dp_display_get_test_bpp(struct msm_dp *dp_display);
->   void dp_display_signal_audio_start(struct msm_dp *dp_display);
->   void dp_display_signal_audio_complete(struct msm_dp *dp_display);
-> +void dp_display_set_psr(struct msm_dp *dp, bool enter);
->   
->   #endif /* _DP_DISPLAY_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 62d58b9..b9cf6c27 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -60,14 +60,184 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
->   	return rc;
->   }
->   
-> +static int edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
-> +				   struct drm_bridge_state *bridge_state,
-> +				   struct drm_crtc_state *crtc_state,
-> +				   struct drm_connector_state *conn_state)
-> +{
-> +	struct msm_dp *dp;
-> +
-> +	dp = to_dp_bridge(drm_bridge)->dp_display;
-> +	if (WARN_ON(!conn_state))
-> +		return -ENODEV;
-> +
-> +	if (dp->psr_supported)
-> +		conn_state->self_refresh_aware = true;
-> +
-> +	if (!conn_state->crtc || !crtc_state)
-> +		return 0;
-> +
-> +	if (crtc_state->self_refresh_active && !dp->psr_supported)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static void edp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
-> +				     struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *old_crtc_state;
-> +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
-> +	struct msm_dp *dp = dp_bridge->dp_display;
-> +
-> +	/*
-> +	 * Check the old state of the crtc to determine if the panel
-> +	 * was put into psr state previously by the edp_bridge_atomic_disable.
-> +	 * If the panel is in psr, just exit psr state and skip the full
-> +	 * bridge enable sequence.
-> +	 */
-> +	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, dp->encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
-> +
-> +	if (old_crtc_state && old_crtc_state->self_refresh_active) {
-> +		dp_display_set_psr(dp, false);
-> +		return;
-> +	}
-> +
-> +	dp_bridge_atomic_enable(drm_bridge, old_bridge_state);
-> +}
-> +
-> +static void edp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
-> +				      struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state = NULL, *old_crtc_state = NULL;
-> +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
-> +	struct msm_dp *dp = dp_bridge->dp_display;
-> +
-> +	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, dp->encoder);
-> +	if (!crtc)
-> +		goto out;
-> +
-> +	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
-> +	if (!new_crtc_state)
-> +		goto out;
-> +
-> +	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
-> +	if (!old_crtc_state)
-> +		goto out;
-> +
-> +	/*
-> +	 * Set self refresh mode if current crtc state is active.
-> +	 *
-> +	 * If old crtc state is active, then this is a display disable
-> +	 * call while the sink is in psr state. So, exit psr here.
-> +	 * The eDP controller will be disabled in the
-> +	 * edp_bridge_atomic_post_disable function.
-> +	 *
-> +	 * We observed sink is stuck in self refresh if psr exit is skipped
-> +	 * when display disable occurs while the sink is in psr state.
-> +	 */
-> +	if (new_crtc_state->self_refresh_active) {
-> +		dp_display_set_psr(dp, true);
-> +		return;
-> +	} else if (old_crtc_state->self_refresh_active) {
-> +		dp_display_set_psr(dp, false);
-> +		return;
-> +	}
-> +
-> +out:
-> +	dp_bridge_atomic_disable(drm_bridge, old_bridge_state);
-> +}
-> +
-> +static void edp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> +				struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state = NULL;
-> +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
-> +	struct msm_dp *dp = dp_bridge->dp_display;
-> +
-> +	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, dp->encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
-> +	if (!new_crtc_state)
-> +		return;
-> +
-> +	/*
-> +	 * Self refresh mode is already set in edp_bridge_atomic_disable.
-> +	 */
-> +	if (new_crtc_state->self_refresh_active)
-> +		return;
-> +
-> +	dp_bridge_atomic_post_disable(drm_bridge, old_bridge_state);
-> +}
-> +
-> +/**
-> + * edp_bridge_mode_valid - callback to determine if specified mode is valid
-> + * @bridge: Pointer to drm bridge structure
-> + * @info: display info
-> + * @mode: Pointer to drm mode structure
-> + * Returns: Validity status for specified mode
-> + */
-> +static enum drm_mode_status edp_bridge_mode_valid(struct drm_bridge *bridge,
-> +					  const struct drm_display_info *info,
-> +					  const struct drm_display_mode *mode)
-> +{
-> +	struct msm_dp *dp;
-> +	int mode_pclk_khz = mode->clock;
-> +
-> +	dp = to_dp_bridge(bridge)->dp_display;
-> +
-> +	if (!dp || !mode_pclk_khz || !dp->connector) {
-> +		DRM_ERROR("invalid params\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	/*
-> +	 * The eDP controller currently does not have a reliable way of
-> +	 * enabling panel power to read sink capabilities. So, we rely
-> +	 * on the panel driver to populate only supported modes for now.
-> +	 */
-> +	return MODE_OK;
-> +}
-> +
-> +static const struct drm_bridge_funcs edp_bridge_ops = {
-> +	.atomic_enable          = edp_bridge_atomic_enable,
-> +	.atomic_disable         = edp_bridge_atomic_disable,
-> +	.atomic_post_disable    = edp_bridge_atomic_post_disable,
-> +	.mode_set               = dp_bridge_mode_set,
-> +	.mode_valid             = edp_bridge_mode_valid,
-> +	.atomic_reset           = drm_atomic_helper_bridge_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_check           = edp_bridge_atomic_check,
-> +};
-> +
->   static const struct drm_bridge_funcs dp_bridge_ops = {
-> -	.enable       = dp_bridge_enable,
-> -	.disable      = dp_bridge_disable,
-> -	.post_disable = dp_bridge_post_disable,
-> -	.mode_set     = dp_bridge_mode_set,
-> -	.mode_valid   = dp_bridge_mode_valid,
-> -	.get_modes    = dp_bridge_get_modes,
-> -	.detect       = dp_bridge_detect,
-> +	.atomic_enable          = dp_bridge_atomic_enable,
-> +	.atomic_disable         = dp_bridge_atomic_disable,
-> +	.atomic_post_disable    = dp_bridge_atomic_post_disable,
-> +	.mode_set               = dp_bridge_mode_set,
-> +	.mode_valid             = dp_bridge_mode_valid,
-> +	.get_modes              = dp_bridge_get_modes,
-> +	.detect                 = dp_bridge_detect,
-> +	.atomic_reset           = drm_atomic_helper_bridge_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_check           = edp_bridge_atomic_check,
-
-No fancy indentation/tabs please.
-
->   };
->   
->   struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-> @@ -84,7 +254,7 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
->   	dp_bridge->dp_display = dp_display;
->   
->   	bridge = &dp_bridge->bridge;
-> -	bridge->funcs = &dp_bridge_ops;
-> +	bridge->funcs = dp_display->is_edp ? &edp_bridge_ops : &dp_bridge_ops;
->   	bridge->type = dp_display->connector_type;
->   
->   	/*
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> index f4b1ed1..6b8ef29 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> @@ -23,9 +23,12 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display);
->   struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
->   			struct drm_encoder *encoder);
->   
-> -void dp_bridge_enable(struct drm_bridge *drm_bridge);
-> -void dp_bridge_disable(struct drm_bridge *drm_bridge);
-> -void dp_bridge_post_disable(struct drm_bridge *drm_bridge);
-> +void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
-> +			     struct drm_bridge_state *old_bridge_state);
-> +void dp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
-> +			      struct drm_bridge_state *old_bridge_state);
-> +void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> +				   struct drm_bridge_state *old_bridge_state);
->   enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
->   					  const struct drm_display_info *info,
->   					  const struct drm_display_mode *mode);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index 36f0af0..84af70a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -934,6 +934,38 @@ static int dp_link_process_phy_test_pattern_request(
->   	return 0;
->   }
->   
-> +static bool dp_link_read_psr_error_status(struct dp_link_private *link)
-> +{
-> +	u8 status;
-> +
-> +	drm_dp_dpcd_read(link->aux, DP_PSR_ERROR_STATUS, &status, 1);
-> +
-> +	if (status & DP_PSR_LINK_CRC_ERROR)
-> +		DRM_ERROR("PSR LINK CRC ERROR\n");
-> +	else if (status & DP_PSR_RFB_STORAGE_ERROR)
-> +		DRM_ERROR("PSR RFB STORAGE ERROR\n");
-> +	else if (status & DP_PSR_VSC_SDP_UNCORRECTABLE_ERROR)
-> +		DRM_ERROR("PSR VSC SDP UNCORRECTABLE ERROR\n");
-> +	else
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static bool dp_link_psr_capability_changed(struct dp_link_private *link)
-> +{
-> +	u8 status;
-> +
-> +	drm_dp_dpcd_read(link->aux, DP_PSR_ESI, &status, 1);
-> +
-> +	if (status & DP_PSR_CAPS_CHANGE) {
-> +		drm_dbg_dp(link->drm_dev, "PSR Capability Change\n");
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   static u8 get_link_status(const u8 link_status[DP_LINK_STATUS_SIZE], int r)
->   {
->   	return link_status[r - DP_LANE0_1_STATUS];
-> @@ -1053,6 +1085,10 @@ int dp_link_process_request(struct dp_link *dp_link)
->   		dp_link->sink_request |= DP_TEST_LINK_TRAINING;
->   	} else if (!dp_link_process_phy_test_pattern_request(link)) {
->   		dp_link->sink_request |= DP_TEST_LINK_PHY_TEST_PATTERN;
-> +	} else if (dp_link_read_psr_error_status(link)) {
-> +		DRM_ERROR("PSR IRQ_HPD received\n");
-> +	} else if (dp_link_psr_capability_changed(link)) {
-> +		drm_dbg_dp(link->drm_dev, "PSR Capabiity changed");
->   	} else {
->   		ret = dp_link_process_link_status_update(link);
->   		if (!ret) {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 5149ceb..8bf8ab4 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -20,6 +20,27 @@ struct dp_panel_private {
->   	bool aux_cfg_update_done;
->   };
->   
-> +static void dp_panel_read_psr_cap(struct dp_panel_private *panel)
-> +{
-> +	ssize_t rlen;
-> +	struct dp_panel *dp_panel;
-> +
-> +	dp_panel = &panel->dp_panel;
-> +
-> +	/* edp sink */
-> +	if (dp_panel->dpcd[DP_EDP_CONFIGURATION_CAP]) {
-> +		rlen = drm_dp_dpcd_read(panel->aux, DP_PSR_SUPPORT,
-> +				&dp_panel->psr_cap, sizeof(dp_panel->psr_cap));
-> +		if (rlen == sizeof(dp_panel->psr_cap)) {
-> +			drm_dbg_dp(panel->drm_dev,
-> +				"psr version: 0x%x, psr_cap: 0x%x\n",
-> +				dp_panel->psr_cap.version,
-> +				dp_panel->psr_cap.capabilities);
-> +		} else
-> +			DRM_ERROR("failed to read psr info, rlen=%zd\n", rlen);
-> +	}
-> +}
-> +
->   static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->   {
->   	int rc = 0;
-> @@ -106,6 +127,7 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->   		}
->   	}
->   
-> +	dp_panel_read_psr_cap(panel);
->   end:
->   	return rc;
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> index d861197a..2d0826a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> @@ -34,6 +34,11 @@ struct dp_panel_in {
->   	struct dp_catalog *catalog;
->   };
->   
-> +struct dp_panel_psr {
-> +	u8 version;
-> +	u8 capabilities;
-> +};
-> +
->   struct dp_panel {
->   	/* dpcd raw data */
->   	u8 dpcd[DP_RECEIVER_CAP_SIZE + 1];
-> @@ -46,6 +51,7 @@ struct dp_panel {
->   	struct edid *edid;
->   	struct drm_connector *connector;
->   	struct dp_display_mode dp_mode;
-> +	struct dp_panel_psr psr_cap;
->   	bool video_test;
->   
->   	u32 vic;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-> index 2686028..ea85a69 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-> @@ -22,6 +22,20 @@
->   #define REG_DP_INTR_STATUS2			(0x00000024)
->   #define REG_DP_INTR_STATUS3			(0x00000028)
->   
-> +#define REG_DP_INTR_STATUS4			(0x0000002C)
-> +#define PSR_UPDATE_INT				(0x00000001)
-> +#define PSR_CAPTURE_INT				(0x00000004)
-> +#define PSR_EXIT_INT				(0x00000010)
-> +#define PSR_UPDATE_ERROR_INT			(0x00000040)
-> +#define PSR_WAKE_ERROR_INT			(0x00000100)
-> +
-> +#define REG_DP_INTR_MASK4			(0x00000030)
-> +#define PSR_UPDATE_MASK				(0x00000001)
-> +#define PSR_CAPTURE_MASK			(0x00000002)
-> +#define PSR_EXIT_MASK				(0x00000004)
-> +#define PSR_UPDATE_ERROR_MASK			(0x00000008)
-> +#define PSR_WAKE_ERROR_MASK			(0x00000010)
-> +
->   #define REG_DP_DP_HPD_CTRL			(0x00000000)
->   #define DP_DP_HPD_CTRL_HPD_EN			(0x00000001)
->   
-> @@ -164,6 +178,16 @@
->   #define MMSS_DP_AUDIO_TIMING_RBR_48		(0x00000094)
->   #define MMSS_DP_AUDIO_TIMING_HBR_48		(0x00000098)
->   
-> +#define REG_PSR_CONFIG				(0x00000100)
-> +#define DISABLE_PSR				(0x00000000)
-> +#define PSR1_SUPPORTED				(0x00000001)
-> +#define PSR2_WITHOUT_FRAMESYNC			(0x00000002)
-> +#define PSR2_WITH_FRAMESYNC			(0x00000003)
-> +
-> +#define REG_PSR_CMD				(0x00000110)
-> +#define PSR_ENTER				(0x00000001)
-> +#define PSR_EXIT				(0x00000002)
-> +
->   #define MMSS_DP_PSR_CRC_RG			(0x00000154)
->   #define MMSS_DP_PSR_CRC_B			(0x00000158)
->   
-> @@ -184,6 +208,9 @@
->   #define MMSS_DP_AUDIO_STREAM_0			(0x00000240)
->   #define MMSS_DP_AUDIO_STREAM_1			(0x00000244)
->   
-> +#define MMSS_DP_SDP_CFG3			(0x0000024c)
-> +#define UPDATE_SDP				(0x00000001)
-> +
->   #define MMSS_DP_EXTENSION_0			(0x00000250)
->   #define MMSS_DP_EXTENSION_1			(0x00000254)
->   #define MMSS_DP_EXTENSION_2			(0x00000258)
-
-
--- 
-With best wishes
-Dmitry
+DQoNCk9uIDA1LzA3LzIwMjIgMjA6MjgsIENvbm9yLkRvb2xleUBtaWNyb2NoaXAuY29tIHdyb3Rl
+Og0KPiANCj4gDQo+IE9uIDA1LzA3LzIwMjIgMjA6MjMsIFJvYiBIZXJyaW5nIHdyb3RlOg0KPj4g
+T24gRnJpLCBKdWwgMDEsIDIwMjIgYXQgMDg6MjI6NTFQTSArMDEwMCwgQ29ub3IgRG9vbGV5IHdy
+b3RlOg0KPj4+IEZyb206IENvbm9yIERvb2xleSA8Y29ub3IuZG9vbGV5QG1pY3JvY2hpcC5jb20+
+DQo+Pj4NCj4+PiBUaGUgazIxMCBVLUJvb3QgcG9ydCBoYXMgYmVlbiB1c2luZyB0aGUgY2xvY2tz
+IGRlZmluZWQgaW4gdGhlDQo+Pj4gZGV2aWNldHJlZSB0byBicmluZyB1cCB0aGUgYm9hcmQncyBT
+UkFNLCBidXQgdGhpcyB2aW9sYXRlcyB0aGUNCj4+PiBkdC1zY2hlbWEuIEFzIHN1Y2gsIG1vdmUg
+dGhlIGNsb2NrcyB0byBhIGRlZGljYXRlZCBub2RlIHdpdGgNCj4+PiB0aGUgc2FtZSBjb21wYXRp
+YmxlIHN0cmluZyAmIGRvY3VtZW50IGl0Lg0KPj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTogQ29ub3Ig
+RG9vbGV5IDxjb25vci5kb29sZXlAbWljcm9jaGlwLmNvbT4NCj4+PiAtLS0NCj4+PiAgLi4uL21l
+bW9yeS1jb250cm9sbGVycy9jYW5hYW4sazIxMC1zcmFtLnlhbWwgIHwgNTIgKysrKysrKysrKysr
+KysrKysrKw0KPj4+ICAxIGZpbGUgY2hhbmdlZCwgNTIgaW5zZXJ0aW9ucygrKQ0KPj4+ICBjcmVh
+dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lbW9yeS1j
+b250cm9sbGVycy9jYW5hYW4sazIxMC1zcmFtLnlhbWwNCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVtb3J5LWNvbnRyb2xsZXJzL2NhbmFh
+bixrMjEwLXNyYW0ueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZW1v
+cnktY29udHJvbGxlcnMvY2FuYWFuLGsyMTAtc3JhbS55YW1sDQo+Pj4gbmV3IGZpbGUgbW9kZSAx
+MDA2NDQNCj4+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjgyYmUzMjc1NzcxMw0KPj4+IC0tLSAvZGV2
+L251bGwNCj4+PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVtb3J5
+LWNvbnRyb2xsZXJzL2NhbmFhbixrMjEwLXNyYW0ueWFtbA0KPj4+IEBAIC0wLDAgKzEsNTIgQEAN
+Cj4+PiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1D
+bGF1c2UpDQo+Pj4gKyVZQU1MIDEuMg0KPj4+ICstLS0NCj4+PiArJGlkOiBodHRwOi8vZGV2aWNl
+dHJlZS5vcmcvc2NoZW1hcy9tZW1vcnktY29udHJvbGxlcnMvY2FuYWFuLGsyMTAtc3JhbS55YW1s
+Iw0KPj4+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUu
+eWFtbCMNCj4+PiArDQo+Pj4gK3RpdGxlOiBDYW5hYW4gSzIxMCBTUkFNIG1lbW9yeSBjb250cm9s
+bGVyDQo+Pj4gKw0KPj4+ICtkZXNjcmlwdGlvbjogfA0KPj4NCj4+IERvbid0IG5lZWQgJ3wnLg0K
+Pj4NCj4+PiArICBUaGUgQ2FuYWFuIEsyMTAgU1JBTSBtZW1vcnkgY29udHJvbGxlciBpcyBpbml0
+aWFsaXNlZCBhbmQgcHJvZ3JhbW1lZCBieQ0KPj4+ICsgIGZpcm13YXJlLCBidXQgYW4gT1MgbWln
+aHQgd2FudCB0byByZWFkIGl0cyByZWdpc3RlcnMgZm9yIGVycm9yIHJlcG9ydGluZw0KPj4+ICsg
+IHB1cnBvc2VzIGFuZCB0byBsZWFybiBhYm91dCB0aGUgRFJBTSB0b3BvbG9neS4NCj4+DQo+PiBI
+b3cgdGhlIE9TIGdvaW5nIHRvIGRvIHRoYXQ/IFlvdSBkb24ndCBoYXZlIGFueSB3YXkgZGVmaW5l
+ZCB0byBhY2Nlc3MgDQo+PiB0aGUgcmVnaXN0ZXJzLg0KPiANCj4gRXVnaCwgY29weSBwYXN0ZS4g
+SSdsbCByZXBocmFzZSBpbiB0aGUgcmVzcGluLiBJdCBzaG91bGQgYmUgImluaXRpYWxpc2VkIGJ5
+DQo+IGZpcm13YXJlLiIgVGhlcmUgYXJlIG5vIHJlZ2lzdGVycywgb25seSBjbG9ja3MuDQoNCnMv
+ZmlybXdhcmUvYm9vdGxvYWRlcg0KDQo+IA0KPj4NCj4+IEFsc28sIHdoZXJlIGlzIHRoZSBTUkFN
+IGFkZHJlc3MgaXRzZWxmIGRlZmluZWQ/DQo+IA0KPiBUaGUgYWN0dWFsIHNyYW0gaXMgaW4gdGhl
+IG1lbW9yeSBub2RlLg0KPiANCj4+DQo+Pj4gKw0KPj4+ICttYWludGFpbmVyczoNCj4+PiArICAt
+IENvbm9yIERvb2xleSA8Y29ub3JAa2VybmVsLm9yZz4NCj4+PiArDQo+Pj4gK3Byb3BlcnRpZXM6
+DQo+Pj4gKyAgY29tcGF0aWJsZToNCj4+PiArICAgIGVudW06DQo+Pj4gKyAgICAgIC0gY2FuYWFu
+LGsyMTAtc3JhbQ0KPj4+ICsNCj4+PiArICBjbG9ja3M6DQo+Pj4gKyAgICBtaW5JdGVtczogMQ0K
+Pj4+ICsgICAgaXRlbXM6DQo+Pj4gKyAgICAgIC0gZGVzY3JpcHRpb246IHNyYW0wIGNsb2NrDQo+
+Pj4gKyAgICAgIC0gZGVzY3JpcHRpb246IHNyYW0xIGNsb2NrDQo+Pj4gKyAgICAgIC0gZGVzY3Jp
+cHRpb246IGFpc3JhbSBjbG9jaw0KPj4+ICsNCj4+PiArICBjbG9jay1uYW1lczoNCj4+PiArICAg
+IG1pbkl0ZW1zOiAxDQo+Pj4gKyAgICBpdGVtczoNCj4+PiArICAgICAgLSBjb25zdDogc3JhbTAN
+Cj4+PiArICAgICAgLSBjb25zdDogc3JhbTENCj4+PiArICAgICAgLSBjb25zdDogYWlzcmFtDQo+
+Pj4gKw0KPj4+ICtyZXF1aXJlZDoNCj4+PiArICAtIGNvbXBhdGlibGUNCj4+PiArICAtIGNsb2Nr
+cw0KPj4+ICsgIC0gY2xvY2stbmFtZXMNCj4+PiArDQo+Pj4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVz
+OiBmYWxzZQ0KPj4+ICsNCj4+PiArZXhhbXBsZXM6DQo+Pj4gKyAgLSB8DQo+Pj4gKyAgICAjaW5j
+bHVkZSA8ZHQtYmluZGluZ3MvY2xvY2svazIxMC1jbGsuaD4NCj4+PiArICAgIG1lbW9yeS1jb250
+cm9sbGVyIHsNCj4+PiArICAgICAgICBjb21wYXRpYmxlID0gImNhbmFhbixrMjEwLXNyYW0iOw0K
+Pj4+ICsgICAgICAgIGNsb2NrcyA9IDwmc3lzY2xrIEsyMTBfQ0xLX1NSQU0wPiwNCj4+PiArICAg
+ICAgICAgICAgICAgICA8JnN5c2NsayBLMjEwX0NMS19TUkFNMT4sDQo+Pj4gKyAgICAgICAgICAg
+ICAgICAgPCZzeXNjbGsgSzIxMF9DTEtfQUk+Ow0KPj4+ICsgICAgICAgIGNsb2NrLW5hbWVzID0g
+InNyYW0wIiwgInNyYW0xIiwgImFpc3JhbSI7DQo+Pj4gKyAgICB9Ow0KPj4+IC0tIA0KPj4+IDIu
+MzcuMA0KPj4+DQo+Pj4NCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18NCj4gbGludXgtcmlzY3YgbWFpbGluZyBsaXN0DQo+IGxpbnV4LXJpc2N2QGxpc3Rz
+LmluZnJhZGVhZC5vcmcNCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9saW51eC1yaXNjdg0K
