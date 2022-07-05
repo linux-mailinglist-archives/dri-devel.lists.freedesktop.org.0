@@ -1,46 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F4A567508
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 19:01:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFC0567517
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 19:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DC3D9274A;
-	Tue,  5 Jul 2022 17:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7745D9286D;
+	Tue,  5 Jul 2022 17:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712F692714;
- Tue,  5 Jul 2022 17:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657040482; x=1688576482;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=j4XjTkVXddfE+bmZZGuKw6202v++M2QtpsDa3jAyli0=;
- b=jgn6zPmMnTf2pYaFD0IJlvc9ZCx8+9S7gDH9DdOQD9sSO6RQr+Q6XXPq
- kQNuZ7XRmD2obOIHhicUhXg5C80wdG3NTpS5tCppnyAiR/D2165DPVoML
- NEgi/TOmTp4Vk85ccWk2bOwIo0DZ0akq+0Ik0maooz3OE9UHg3VVAumA5 k=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 05 Jul 2022 10:01:22 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 05 Jul 2022 10:01:21 -0700
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg01-blr.qualcomm.com with ESMTP; 05 Jul 2022 22:31:10 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id AA6A53CBE; Tue,  5 Jul 2022 22:31:09 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v4 7/7] drm/msm/disp/dpu1: add PSR support for eDP interface
- in dpu driver
-Date: Tue,  5 Jul 2022 22:30:45 +0530
-Message-Id: <1657040445-13067-8-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1657040445-13067-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1657040445-13067-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C33F9283E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 17:02:14 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
+ [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F238A660166D;
+ Tue,  5 Jul 2022 18:02:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1657040532;
+ bh=l3lVYraeVRjfudV5BktsYjuOavhLJKEFAe1rgIjHK58=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mWg/MwfgtEriDXF2t98MRae4d5bqs3kk7Js+amAsZGsV6Ctdl6bGY1cpzpl+C4IPN
+ PGzD493+kFEltUPLTV9RQFLOf3G7jZf/9eTxosnWS8/Vlu9LMt8RJFIentc/p8hnH8
+ RjYB6oNaba4T5dh++v6AIuwpWcX9Dh61kglQ06dHR6i7/X9EKzaLQh5nTTAMCBzoTI
+ LOoax3z6f5YnwXzPFvuxi8L9x9UQCDpS2WpBNR/rIINOOiLBfAki3t28B0CDXL7w03
+ Pc352NJgO6eOyoOVWrcPjN26G0/gaw100OTLvr3yLiXjZyFkg35PeqvjvYMDenn0iq
+ IrMEg7wGfO68A==
+Message-ID: <1380526d-17fb-6eb2-0fd5-5cddbdf0a92e@collabora.com>
+Date: Tue, 5 Jul 2022 20:02:09 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 7/9] drm/virtio: Improve DMA API usage for shmem BOs
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20220630200726.1884320-1-dmitry.osipenko@collabora.com>
+ <20220630200726.1884320-8-dmitry.osipenko@collabora.com>
+ <20220705135323.emr4gdbcxoisdcxe@sirius.home.kraxel.org>
+ <d2c64d09-c4bb-9aed-069d-a9b4d07a1f66@collabora.com>
+ <20220705154507.67ovlun4m26xzppn@sirius.home.kraxel.org>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220705154507.67ovlun4m26xzppn@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,142 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com, quic_khsieh@quicinc.com,
- dianders@chromium.org, linux-kernel@vger.kernel.org,
- bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable PSR on eDP interface using drm self-refresh librabry.
-This patch uses a trigger from self-refresh library to enter/exit
-into PSR, when there are no updates from framework.
+On 7/5/22 18:45, Gerd Hoffmann wrote:
+>   Hi,
+> 
+>>> Also note that pci is not the only virtio transport we have.
+>>
+>> The VirtIO indeed has other transports, but only PCI is really supported
+>> in case of the VirtIO-GPU in kernel and in Qemu/crosvm, AFAICT. Hence
+>> only the PCI transport was tested.
+> 
+> qemu -M microvm \
+>   -global virtio-mmio.force-legacy=false \
+>   -device virtio-gpu-device
+> 
+> Gives you a functional virtio-gpu device on virtio-mmio.
+> 
+> aarch64 virt machines support both pci and mmio too.
+> s390x has virtio-gpu-ccw ...
 
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 13 ++++++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 19 ++++++++++++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
- 3 files changed, 31 insertions(+), 3 deletions(-)
+Gerd, thank you very much! It's was indeed unclear to me how to test the
+MMIO GPU, but yours variant with microvm works! I was looking for trying
+aarch64 in the past, but it also was unclear how to do it since there is
+no DT support for the VirtIO-GPU, AFAICS.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index f91e3d1..e63e363 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_self_refresh_helper.h>
- 
- #include "dpu_kms.h"
- #include "dpu_hw_lm.h"
-@@ -961,6 +962,9 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
- 
-+	if (old_crtc_state->self_refresh_active)
-+		return;
-+
- 	/* Disable/save vblank irq handling */
- 	drm_crtc_vblank_off(crtc);
- 
-@@ -1019,7 +1023,9 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct drm_encoder *encoder;
- 	bool request_bandwidth = false;
-+	struct drm_crtc_state *old_crtc_state;
- 
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
- 	pm_runtime_get_sync(crtc->dev->dev);
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
-@@ -1521,7 +1527,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- {
- 	struct drm_crtc *crtc = NULL;
- 	struct dpu_crtc *dpu_crtc = NULL;
--	int i;
-+	int i, ret;
- 
- 	dpu_crtc = kzalloc(sizeof(*dpu_crtc), GFP_KERNEL);
- 	if (!dpu_crtc)
-@@ -1558,6 +1564,11 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- 	/* initialize event handling */
- 	spin_lock_init(&dpu_crtc->event_lock);
- 
-+	ret = drm_self_refresh_helper_init(crtc);
-+	if (ret)
-+		DPU_ERROR("Failed to initialize %s with self-refresh helpers %d\n",
-+			crtc->name, ret);
-+
- 	DRM_DEBUG_KMS("%s: successfully initialized crtc\n", dpu_crtc->name);
- 	return crtc;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index f01a976..e2a74ba 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -225,6 +225,11 @@ bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
- 	return dpu_enc->wide_bus_en;
- }
- 
-+static inline bool is_self_refresh_active(const struct drm_crtc_state *state)
-+{
-+	return (state && state->self_refresh_active);
-+}
-+
- static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
- {
- 	struct dpu_hw_dither_cfg dither_cfg = { 0 };
-@@ -592,7 +597,7 @@ static int dpu_encoder_virt_atomic_check(
- 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
- 			dpu_rm_release(global_state, drm_enc);
- 
--			if (!crtc_state->active_changed || crtc_state->active)
-+			if (!crtc_state->active_changed || crtc_state->enable)
- 				ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
- 						drm_enc, crtc_state, topology);
- 		}
-@@ -1171,11 +1176,23 @@ static void dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
- 					struct drm_atomic_state *state)
- {
- 	struct dpu_encoder_virt *dpu_enc = NULL;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *old_state;
- 	int i = 0;
- 
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 	DPU_DEBUG_ENC(dpu_enc, "\n");
- 
-+	crtc = drm_enc->crtc;
-+	old_state = drm_atomic_get_old_crtc_state(state, crtc);
-+
-+	/*
-+	 * The encoder disabled already occurred when self refresh mode
-+	 * was set earlier, in the old_state for the corresponding crtc.
-+	 */
-+	if (is_self_refresh_active(old_state))
-+		return;
-+
- 	mutex_lock(&dpu_enc->enc_lock);
- 	dpu_enc->enabled = false;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index bce4764..cc0a674 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -507,7 +507,7 @@ static void dpu_kms_wait_for_commit_done(struct msm_kms *kms,
- 		return;
- 	}
- 
--	if (!crtc->state->active) {
-+	if (!drm_atomic_crtc_effectively_active(crtc->state)) {
- 		DPU_DEBUG("[crtc:%d] not active\n", crtc->base.id);
- 		return;
- 	}
+I booted kernel with this patchset applied and everything is okay, Xorg
+works.
+
+ [drm] Initialized virtio_gpu 0.1.0 0 for LNRO0005:01 on minor 0
+ virtio-mmio LNRO0005:01: [drm] drm_plane_enable_fb_damage_clips() not
+called
+ virtio-mmio LNRO0005:01: [drm] fb0: virtio_gpudrmfb frame buffer device
+
+There is no virgl support because it's a virtio-gpu-device and not
+virtio-gpu-device-gl that is PCI-only in Qemu. Hence everything seems good.
+
+I'd appreciate if you could give s390x a test.. I never touched s390x
+and it will probably take some extra effort to get into it.
+
 -- 
-2.7.4
-
+Best regards,
+Dmitry
