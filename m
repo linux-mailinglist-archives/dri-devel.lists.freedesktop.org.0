@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E09E5669AE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A4566998
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6326D1130B5;
-	Tue,  5 Jul 2022 11:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7131D1123F2;
+	Tue,  5 Jul 2022 11:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 407B810E021
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 08:40:05 +0000 (UTC)
-X-UUID: 7d46a24791974c1e8e4667ef18ec91a0-20220705
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:e6562949-3de4-4beb-8bd8-491e86c3ebff, OB:10,
- L
- OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
- CTION:release,TS:45
-X-CID-INFO: VERSION:1.1.8, REQID:e6562949-3de4-4beb-8bd8-491e86c3ebff, OB:10,
- LOB
- :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-META: VersionHash:0f94e32, CLOUDID:8335a5d6-5d6d-4eaf-a635-828a3ee48b7c,
- C
- OID:c605775d9f6f,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 7d46a24791974c1e8e4667ef18ec91a0-20220705
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1389409534; Tue, 05 Jul 2022 16:39:58 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 5 Jul 2022 16:39:57 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 5 Jul 2022 16:39:57 +0800
-Message-ID: <807fa1a3e896eaaa02aec6166f5fb833d7917da7.camel@mediatek.com>
-Subject: Re: [PATCH v15 13/16] drm/mediatek: dpi: Add YUV422 output support
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
- <airlied@linux.ie>
-Date: Tue, 5 Jul 2022 16:39:56 +0800
-In-Reply-To: <f834d5612bef6fa216602b3dcbed629f1b4c903b.camel@mediatek.com>
-References: <20220701035845.16458-1-rex-bc.chen@mediatek.com>
- <20220701035845.16458-14-rex-bc.chen@mediatek.com>
- <f834d5612bef6fa216602b3dcbed629f1b4c903b.camel@mediatek.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774E310E021;
+ Tue,  5 Jul 2022 08:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657010472; x=1688546472;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=k/PvjGj1vez4RbCyJrMtmTB3BwPmamHO4vIR+jarKsc=;
+ b=D/aDYHuFYcU43LCL9m5NM+OKjKTlmwvhLerZBUtbO0E8bZzDRPVa2YJs
+ 92RaAJ0udgYNzUEYWwAwWDbRCOwIsAAwknpCw8+MXvEP99UvAxd0byU7s
+ l/BCRJ5Ark0j84TNiKq22OTlkPMzpS0t344pbj4IUiztV83aFu81pkJbA
+ gHj9M+edLVoeJHUV7jsVPlfjPLEoss4dtFBdcUSgskASLQAykrpaagDfs
+ Nxd5FKFS4J8ygmzWZi+hcBYMXqbsfpCckyiQy3YT71K68PDOI5+jeT+hk
+ 5EbeDXJSBQFpN3N9JcivOJWx2XtpUf45GjeeR/p5cTMQXs9l9l6t3LE9Q A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="263716362"
+X-IronPort-AV: E=Sophos;i="5.92,245,1650956400"; d="scan'208";a="263716362"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jul 2022 01:41:12 -0700
+X-IronPort-AV: E=Sophos;i="5.92,245,1650956400"; d="scan'208";a="619730888"
+Received: from sfhansen-mobl4.ger.corp.intel.com (HELO [10.249.254.61])
+ ([10.249.254.61])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jul 2022 01:41:04 -0700
+Message-ID: <549c2e3253f847aabcc7366c9d5efa582e51f8e8.camel@linux.intel.com>
+Subject: Re: [RFC 10/10] drm/i915/vm_bind: Fix vm->vm_bind_mutex and
+ vm->mutex nesting
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Date: Tue, 05 Jul 2022 10:40:56 +0200
+In-Reply-To: <20220701225055.8204-11-niranjana.vishwanathapura@intel.com>
+References: <20220701225055.8204-1-niranjana.vishwanathapura@intel.com>
+ <20220701225055.8204-11-niranjana.vishwanathapura@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,219 +61,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- xinlei.lee@mediatek.com, liangxu.xu@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ lionel.g.landwerlin@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-07-05 at 13:21 +0800, CK Hu wrote:
-> Hi, Bo-Chen:
-> 
-> On Fri, 2022-07-01 at 11:58 +0800, Bo-Chen Chen wrote:
-> > Dp_intf supports YUV422 as output format. In MT8195 Chrome project,
-> > YUV422 output format is used for 4K resolution.
-> > 
-> > To support this, it is also needed to support color format
-> > transfer.
-> > Color format transfer is a new feature for both dpi and dpintf of
-> > MT8195.
-> > 
-> > The input format could be RGB888 and output format for dp_intf
-> > should
-> > be
-> > YUV422. Therefore, we add a mtk_dpi_matrix_sel() helper to update
-> > the
-> > DPI_MATRIX_SET register depending on the color format.
-> > 
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c      | 61 +++++++++++++++++++++
-> > ----
-> >  drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  6 +++
-> >  2 files changed, 59 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 3085033becbd..0a604bf68b1b 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -54,7 +54,8 @@ enum mtk_dpi_out_channel_swap {
-> >  };
-> >  
-> >  enum mtk_dpi_out_color_format {
-> > -	MTK_DPI_COLOR_FORMAT_RGB
-> > +	MTK_DPI_COLOR_FORMAT_RGB,
-> > +	MTK_DPI_COLOR_FORMAT_YCBCR_422
-> >  };
-> >  
-> >  struct mtk_dpi {
-> > @@ -122,6 +123,7 @@ struct mtk_dpi_yc_limit {
-> >   * @num_output_fmts: Quantity of supported output formats.
-> >   * @is_ck_de_pol: Support CK/DE polarity.
-> >   * @swap_input_support: Support input swap function.
-> > + * @color_fmt_trans_support: Enable color format transfer.
-> >   * @dimension_mask: Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and
-> > VSYNC_PORCH
-> >   *		    (no shift).
-> >   * @hvsize_mask: Mask of HSIZE and VSIZE mask (no shift).
-> > @@ -138,6 +140,7 @@ struct mtk_dpi_conf {
-> >  	u32 num_output_fmts;
-> >  	bool is_ck_de_pol;
-> >  	bool swap_input_support;
-> > +	bool color_fmt_trans_support;
-> >  	u32 dimension_mask;
-> >  	u32 hvsize_mask;
-> >  	u32 channel_swap_shift;
-> > @@ -406,15 +409,54 @@ static void
-> > mtk_dpi_config_disable_edge(struct
-> > mtk_dpi *dpi)
-> >  		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0,
-> > EDGE_SEL_EN);
-> >  }
-> >  
-> > +static void mtk_dpi_matrix_sel(struct mtk_dpi *dpi,
-> > +			       enum mtk_dpi_out_color_format format)
-> 
-> The format would only be MTK_DPI_COLOR_FORMAT_YCBCR_422, so drop the
-> parameter format.
-> 
-> > +{
-> > +	u32 matrix_sel;
-> > +
-> > +	if (!dpi->conf->color_fmt_trans_support) {
-> 
-> Only YUV format would call this function, and I think YUV support
-> would
-> imply that color_fmt_trans_support is true. So drop
-> color_fmt_trans_support.
-> 
-> > +		dev_info(dpi->dev, "matrix_sel is not supported.\n");
-> > +		return;
-> > +	}
-> > +
-> > +	switch (format) {
-> > +	case MTK_DPI_COLOR_FORMAT_YCBCR_422:
-> > +		/*
-> > +		 * If height is smaller than 720, we need to use
-> > RGB_TO_BT601
-> > +		 * to transfer to yuv422. Otherwise, we use
-> > RGB_TO_JPEG.
-> > +		 */
-> > +		if (dpi->mode.hdisplay <= 720)
-> > +			matrix_sel = MATRIX_SEL_RGB_TO_BT601;
-> > +		else
-> > +			matrix_sel = MATRIX_SEL_RGB_TO_JPEG;
-> > +		break;
-> > +	default:
-> > +		matrix_sel = MATRIX_SEL_RGB_TO_JPEG;
-> > +		break;
-> > +	}
-> > +	mtk_dpi_mask(dpi, DPI_MATRIX_SET, matrix_sel,
-> > INT_MATRIX_SEL_MASK);
-> 
-> it seems that we could drop this function and write register as:
-> 
-> mtk_dpi_mask(dpi, DPI_MATRIX_SET, dpi->mode.hdisplay <= 720
-> ? MATRIX_SEL_RGB_TO_BT601 : MATRIX_SEL_RGB_TO_JPEG,
-> INT_MATRIX_SEL_MASK);
-> 
-
-Hello CK,
-
-ok, I will drop this function and config.
-
-> > +}
-> > +
-> >  static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
-> >  					enum mtk_dpi_out_color_format
-> > format)
-> >  {
-> > -	/* only support RGB888 */
-> > -	mtk_dpi_config_yuv422_enable(dpi, false);
-> > -	mtk_dpi_config_csc_enable(dpi, false);
-> > -	if (dpi->conf->swap_input_support)
-> > -		mtk_dpi_config_swap_input(dpi, false);
-> > -	mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
-> > +	if (format == MTK_DPI_COLOR_FORMAT_YCBCR_422) {
-> > +		mtk_dpi_config_yuv422_enable(dpi, true);
-> > +		mtk_dpi_config_csc_enable(dpi, true);
-> > +		mtk_dpi_matrix_sel(dpi, format);
-> > +		if (dpi->conf->swap_input_support)
-> 
-> This would never be true because only MT8195 support
-> MTK_DPI_COLOR_FORMAT_YCBCR_422 and swap_input_support of MT8195 is
-> false.
-> 
-
-I think for mt8195, it should be support output format yuv422 and
-rgb888.
-
-please refer to [16/16]
-
-+static const u32 mt8195_output_fmts[] = {
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+	MEDIA_BUS_FMT_YUYV8_1X16,
-+};
-
-BRs,
-Bo-Chen
-> Regards,
-> CK
-> 
-> > +			mtk_dpi_config_swap_input(dpi, true);
-> > +		else
-> > +			dev_warn(dpi->dev,
-> > +				 "Failed to swap input, hw is not
-> > supported.\n");
-> > +		mtk_dpi_config_channel_swap(dpi,
-> > MTK_DPI_OUT_CHANNEL_SWAP_RGB);
-> > +	} else {
-> > +		mtk_dpi_config_yuv422_enable(dpi, false);
-> > +		mtk_dpi_config_csc_enable(dpi, false);
-> > +		if (dpi->conf->swap_input_support)
-> > +			mtk_dpi_config_swap_input(dpi, false);
-> > +		mtk_dpi_config_channel_swap(dpi,
-> > MTK_DPI_OUT_CHANNEL_SWAP_RGB);
-> > +	}
-> >  }
-> >  
-> >  static void mtk_dpi_dual_edge(struct mtk_dpi *dpi)
-> > @@ -649,7 +691,10 @@ static int mtk_dpi_bridge_atomic_check(struct
-> > drm_bridge *bridge,
-> >  	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
-> >  	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
-> >  	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
-> > -	dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
-> > +	if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
-> > +		dpi->color_format = MTK_DPI_COLOR_FORMAT_YCBCR_422;
-> > +	else
-> > +		dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
-> >  
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> > b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> > index 3a02fabe1662..9ce300313f3e 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> > @@ -217,4 +217,10 @@
-> >  
-> >  #define EDGE_SEL_EN			BIT(5)
-> >  #define H_FRE_2N			BIT(25)
-> > +
-> > +#define DPI_MATRIX_SET		0xB4
-> > +#define INT_MATRIX_SEL_MASK		GENMASK(4, 0)
-> > +#define MATRIX_SEL_RGB_TO_JPEG		0
-> > +#define MATRIX_SEL_RGB_TO_BT601		2
-> > +
-> >  #endif /* __MTK_DPI_REGS_H */
-> 
-> 
+T24gRnJpLCAyMDIyLTA3LTAxIGF0IDE1OjUwIC0wNzAwLCBOaXJhbmphbmEgVmlzaHdhbmF0aGFw
+dXJhIHdyb3RlOgo+IFZNX0JJTkQgZnVuY3Rpb25hbGl0eSBtYWludGFpbiB0aGF0IHZtLT52bV9i
+aW5kX211dGV4IHdpbGwgbmV2ZXIgYmUKPiB0YWtlbgo+IHdoaWxlIGhvbGRpbmcgdm0tPm11dGV4
+Lgo+IEhvd2V2ZXIsIHdoaWxlIGNsb3NpbmcgJ3ZtJywgdm1hIGlzIGRlc3Ryb3llZCB3aGlsZSBo
+b2xkaW5nIHZtLQo+ID5tdXRleC4KPiBCdXQgdm1hIHJlbGVhc2luZyBuZWVkcyB0byB0YWtlIHZt
+LT52bV9iaW5kX211dGV4IGluIG9yZGVyIHRvIGRlbGV0ZQo+IHZtYQo+IGZyb20gdGhlIHZtX2Jp
+bmRfbGlzdC4gVG8gYXZvaWQgdGhpcywgZGVzdHJveSB0aGUgdm1hIG91dHNpZGUgdm0tCj4gPm11
+dGV4Cj4gd2hpbGUgY2xvc2luZyB0aGUgJ3ZtJy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBOaXJhbmph
+bmEgVmlzaHdhbmF0aGFwdXJhCgpGaXJzdCwgd2hlbiBpbnRyb2R1Y2luZyBhIG5ldyBmZWF0dXJl
+IGxpa2UgdGhpcywgd2Ugc2hvdWxkIG5vdCBuZWVkIHRvCmVuZCB0aGUgc2VyaWVzIHdpdGggIkZp
+eC4uIiBwYXRjaGVzIGxpa2UgdGhpcywgcmF0aGVyIHdoYXRldmVyIG5lZWRzIHRvCmJlIGZpeGVk
+IHNob3VsZCBiZSBmaXhlZCB3aGVyZSB0aGUgY29kZSB3YXMgaW50cm9kdWNlZC4KClNlY29uZCwg
+YW4gYW5hbG9neSB3aGl0aCBsaW51eCBrZXJuZWwgQ1BVIG1hcHBpbmcsIGNvdWxkIHdlIGluc3Rl
+YWQKdGhpbmsgb2YgdGhlIHZtX2JpbmRfbG9jayBiZWluZyBzaW1pbGFyIHRvIHRoZSBtbWFwX2xv
+Y2ssIGFuZCB0aGUKdm1fbXV0ZXggYmVpbmcgc2ltaWxhciB0byB0aGUgaV9tbWFwX2xvY2ssIHRo
+ZSBmb3JtZXIgYmVpbmcgdXNlZCBmb3IgVkEKbWFuaXB1bGF0aW9uIGFuZCB0aGUgbGF0dGVyIHdo
+ZW4gYXR0YWNoaW5nIC8gcmVtb3ZpbmcgdGhlIGJhY2tpbmcgc3RvcmUKZnJvbSB0aGUgVkE/CgpU
+aGVuIHdlIHdvdWxkIG5vdCBuZWVkIHRvIHRha2UgdGhlIHZtX2JpbmRfbG9jayBmcm9tIHZtYSBk
+ZXN0cnVjdGlvbgpzaW5jZSB0aGUgVkEgd291bGQgYWxyZWFkeSBoYXZlIGJlZW4gcmVjbGFpbWVk
+IGF0IHRoYXQgcG9pbnQuIEZvciB2bQpkZXN0cnVjdGlvbiBoZXJlIHdlJ2QgbG9vcCBvdmVyIGFs
+bCByZWxldmFudCB2bSBiaW5kIFZBcyB1bmRlciB0aGUKdm1fYmluZCBsb2NrIGFuZCBjYWxsIHZt
+X3VuYmluZD8gV291bGQgdGhhdCB3b3JrPwoKL1Rob21hcwoKCj4gPG5pcmFuamFuYS52aXNod2Fu
+YXRoYXB1cmFAaW50ZWwuY29tPgo+IC0tLQo+IMKgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50
+ZWxfZ3R0LmMgfCAyMyArKysrKysrKysrKysrKysrKystLS0tLQo+IMKgMSBmaWxlIGNoYW5nZWQs
+IDE4IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0dC5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9n
+dC9pbnRlbF9ndHQuYwo+IGluZGV4IDRhYjNiZGE2NDRmZi4uNGY3MDdkMGViM2VmIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0dC5jCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3R0LmMKPiBAQCAtMTA5LDcgKzEwOSw4IEBAIGludCBt
+YXBfcHRfZG1hX2xvY2tlZChzdHJ1Y3QgaTkxNV9hZGRyZXNzX3NwYWNlCj4gKnZtLCBzdHJ1Y3Qg
+ZHJtX2k5MTVfZ2VtX29iamVjdAo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiDCoH0KPiDC
+oAo+IC1zdGF0aWMgdm9pZCBjbGVhcl92bV9saXN0KHN0cnVjdCBsaXN0X2hlYWQgKmxpc3QpCj4g
+K3N0YXRpYyB2b2lkIGNsZWFyX3ZtX2xpc3Qoc3RydWN0IGxpc3RfaGVhZCAqbGlzdCwKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBsaXN0
+X2hlYWQgKmRlc3Ryb3lfbGlzdCkKPiDCoHsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGk5MTVf
+dm1hICp2bWEsICp2bjsKPiDCoAo+IEBAIC0xMzgsOCArMTM5LDcgQEAgc3RhdGljIHZvaWQgY2xl
+YXJfdm1fbGlzdChzdHJ1Y3QgbGlzdF9oZWFkICpsaXN0KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGk5MTVfdm1fcmVzdl9nZXQodm1hLT52bSk7Cj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdm1hLT52bV9k
+ZGVzdHJveSA9IHRydWU7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9IGVsc2Ug
+ewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaTkxNV92
+bWFfZGVzdHJveV9sb2NrZWQodm1hKTsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoGk5MTVfZ2VtX29iamVjdF9wdXQob2JqKTsKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGxpc3RfbW92ZV90YWlsKCZ2bWEtPnZt
+X2xpbmssIGRlc3Ryb3lfbGlzdCk7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
+Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IEBAIC0xNDcsMTYgKzE0NywyOSBAQCBzdGF0aWMg
+dm9pZCBjbGVhcl92bV9saXN0KHN0cnVjdCBsaXN0X2hlYWQKPiAqbGlzdCkKPiDCoAo+IMKgc3Rh
+dGljIHZvaWQgX19pOTE1X3ZtX2Nsb3NlKHN0cnVjdCBpOTE1X2FkZHJlc3Nfc3BhY2UgKnZtKQo+
+IMKgewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBpOTE1X3ZtYSAqdm1hLCAqdm47Cj4gK8KgwqDC
+oMKgwqDCoMKgc3RydWN0IGxpc3RfaGVhZCBsaXN0Owo+ICsKPiArwqDCoMKgwqDCoMKgwqBJTklU
+X0xJU1RfSEVBRCgmbGlzdCk7Cj4gKwo+IMKgwqDCoMKgwqDCoMKgwqBtdXRleF9sb2NrKCZ2bS0+
+bXV0ZXgpOwo+IMKgCj4gLcKgwqDCoMKgwqDCoMKgY2xlYXJfdm1fbGlzdCgmdm0tPmJvdW5kX2xp
+c3QpOwo+IC3CoMKgwqDCoMKgwqDCoGNsZWFyX3ZtX2xpc3QoJnZtLT51bmJvdW5kX2xpc3QpOwo+
+ICvCoMKgwqDCoMKgwqDCoGNsZWFyX3ZtX2xpc3QoJnZtLT5ib3VuZF9saXN0LCAmbGlzdCk7Cj4g
+K8KgwqDCoMKgwqDCoMKgY2xlYXJfdm1fbGlzdCgmdm0tPnVuYm91bmRfbGlzdCwgJmxpc3QpOwo+
+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoC8qIENoZWNrIGZvciBtdXN0LWZpeCB1bmFudGljaXBhdGVk
+IHNpZGUtZWZmZWN0cyAqLwo+IMKgwqDCoMKgwqDCoMKgwqBHRU1fQlVHX09OKCFsaXN0X2VtcHR5
+KCZ2bS0+Ym91bmRfbGlzdCkpOwo+IMKgwqDCoMKgwqDCoMKgwqBHRU1fQlVHX09OKCFsaXN0X2Vt
+cHR5KCZ2bS0+dW5ib3VuZF9saXN0KSk7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgbXV0ZXhfdW5s
+b2NrKCZ2bS0+bXV0ZXgpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqAvKiBEZXN0cm95IHZtYXMgb3V0
+c2lkZSB2bS0+bXV0ZXggKi8KPiArwqDCoMKgwqDCoMKgwqBsaXN0X2Zvcl9lYWNoX2VudHJ5X3Nh
+ZmUodm1hLCB2biwgJmxpc3QsIHZtX2xpbmspIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiA9IHZtYS0+b2JqOwo+ICsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaTkxNV92bWFfZGVzdHJveSh2bWEpOwo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpOTE1X2dlbV9vYmplY3RfcHV0KG9iaik7Cj4g
+K8KgwqDCoMKgwqDCoMKgfQo+IMKgfQo+IMKgCj4gwqAvKiBsb2NrIHRoZSB2bSBpbnRvIHRoZSBj
+dXJyZW50IHd3LCBpZiB3ZSBsb2NrIG9uZSwgd2UgbG9jayBhbGwgKi8KCg==
 
