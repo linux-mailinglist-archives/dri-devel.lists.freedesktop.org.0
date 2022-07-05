@@ -1,58 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91157567221
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 17:10:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A448D567222
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 17:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BB112A0A0;
-	Tue,  5 Jul 2022 15:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B59A310F8D6;
+	Tue,  5 Jul 2022 15:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5562E10EFB9;
- Tue,  5 Jul 2022 15:10:21 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id ay16so22189321ejb.6;
- Tue, 05 Jul 2022 08:10:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dkpN1b4wP9gTZUtEgRoxQX0uUzfu9gESHo4XVBhNNPA=;
- b=jtX3byuXyfc2mF/rBU1M4/i77Y3tRdz2XH46byqIsfIKKhOLkoBSf+LTlU7hrA6X2j
- 8iKu9cxdOL/P9b6KmRtmTaKvprIJ42mVGAdpNqhVtfAnpBOjqNtHWcfnTd9JOfMluq8V
- 3t1exD8XY3OfFVfq50fAeo620chL6sdXcvktq3qjgBgPHwRkEFXmlhFtILjfrXZ7fGPo
- 9FbxvE388pdW6PVWA7jDHcswPCzy/j0JPDhP/6OeXV7RewR9E/G+8J5C9H0gSaM3GiEl
- K80kZ8LmV8wNAJbNoZM+6zll2pSiw1hlxn0S+ZFqHHULCmt4KZXnUHUeQRnKzYDsKYYQ
- iG9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dkpN1b4wP9gTZUtEgRoxQX0uUzfu9gESHo4XVBhNNPA=;
- b=DRxgDKh5uviJeu57VSQ55He5jRF3SVvK1ZyJ7JT+6LbJ7LN9dpiKpy4sRMyDBG06Nr
- ODAoYaBNQ/j8e7kOXI1bgHOWCuoJa94BMSxZLmuTBXeDRk7+kPC3SxMy6/GRyTDPhMQH
- 7aPycnqwrKPkS/9r00qUHnmfvPGZHjbajmPO0Tc9p8LRzTRJGWgybwe14wQ9bCHIGZ3o
- qUjvrMMxYiVuL+dWH/LeyiJbhxQd24t1yuMsuL4HVfrWG6vUSFFK9NXVHsfllqeA0u+L
- iDYr/aRQcvDBH2cm3TfIM5Mf5vO0i5RNu5HuTz+DJ47lFB6dg2/CwE7ReF4RK81nZCIf
- CDbQ==
-X-Gm-Message-State: AJIora9dbxijbk9EWzHa3sgAXnqvoUXryriTuHKBKWbNMH7g3No7TZFI
- e8M+jVgqis5Xx1Z/ym3ni62Hq8PKAC+ceVwYC1eaN1NF
-X-Google-Smtp-Source: AGRyM1t2xhRsfyqVg5935Rq05PnjacmxfFyEeFcbXVcIX7X+PnwWDRi5pnasbbuvQSDhCYj3EMsFY8eF4tcYWyJs1Sc=
-X-Received: by 2002:a17:906:5d0b:b0:726:a043:fcb4 with SMTP id
- g11-20020a1709065d0b00b00726a043fcb4mr35047447ejt.508.1657033819797; Tue, 05
- Jul 2022 08:10:19 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E6111BC06
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 15:10:24 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2D656BB;
+ Tue,  5 Jul 2022 17:10:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1657033822;
+ bh=PWh8L5jrworbt4/8YMDIMjVP8a6XVCiG2OWrajdQNNM=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=qjn0TfRAl5zvhUYkJQvIq3iO9/6amU4wA6/IIGcvd1W1fEDFiKoQv0eeFBzG5a0Mt
+ AJd283hGOLPCx58zRnynQCfUUBDaD9qSno99/DMBohCcXOxSjdSAMcket/+uo2ZVnT
+ G/PXYdNp57vhskHTFkMedt822ouzhWX0oguzVNEY=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220704134532.103876-1-andrealmeid@igalia.com>
- <db6ab6f5-e3b1-f068-37ac-807e1ff074a8@amd.com>
-In-Reply-To: <db6ab6f5-e3b1-f068-37ac-807e1ff074a8@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Jul 2022 11:10:07 -0400
-Message-ID: <CADnq5_O3i2ciutAFS-uzX8bedOXxeOJUNWGRfsuOqpmL-tW64w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdpgu/debugfs: Simplify some exit paths
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0f803b7c-d004-1302-6ef8-205e5b177918@prevas.dk>
+References: <0f803b7c-d004-1302-6ef8-205e5b177918@prevas.dk>
+Subject: Re: connecting a sn65dsi86 to displayport connector
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Douglas Anderson <dianders@chromium.org>,
+ Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date: Tue, 05 Jul 2022 16:10:20 +0100
+Message-ID: <165703382008.2228597.17239168312569308180@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,318 +48,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Xiao <Jack.Xiao@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, kernel-dev@igalia.com,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sandeep Panda <spanda@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Rasmus,
 
-On Mon, Jul 4, 2022 at 12:23 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 04.07.22 um 15:45 schrieb Andr=C3=A9 Almeida:
-> > To avoid code repetition, unify the function exit path when possible. N=
-o
-> > functional changes.
-> >
-> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
->
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 107 ++++++++-----------=
--
-> >   1 file changed, 42 insertions(+), 65 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_debugfs.c
-> > index f3ac7912c29c..f3b3c688e4e7 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > @@ -383,12 +383,8 @@ static ssize_t amdgpu_debugfs_regs_pcie_read(struc=
-t file *f, char __user *buf,
-> >
-> >               value =3D RREG32_PCIE(*pos);
-> >               r =3D put_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     amdgpu_virt_disable_access_debugfs(adev);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               result +=3D 4;
-> >               buf +=3D 4;
-> > @@ -396,11 +392,12 @@ static ssize_t amdgpu_debugfs_regs_pcie_read(stru=
-ct file *f, char __user *buf,
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > -
-> >       amdgpu_virt_disable_access_debugfs(adev);
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   /**
-> > @@ -441,12 +438,8 @@ static ssize_t amdgpu_debugfs_regs_pcie_write(stru=
-ct file *f, const char __user
-> >               uint32_t value;
-> >
-> >               r =3D get_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     amdgpu_virt_disable_access_debugfs(adev);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               WREG32_PCIE(*pos, value);
-> >
-> > @@ -456,11 +449,12 @@ static ssize_t amdgpu_debugfs_regs_pcie_write(str=
-uct file *f, const char __user
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > -
-> >       amdgpu_virt_disable_access_debugfs(adev);
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   /**
-> > @@ -502,12 +496,8 @@ static ssize_t amdgpu_debugfs_regs_didt_read(struc=
-t file *f, char __user *buf,
-> >
-> >               value =3D RREG32_DIDT(*pos >> 2);
-> >               r =3D put_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     amdgpu_virt_disable_access_debugfs(adev);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               result +=3D 4;
-> >               buf +=3D 4;
-> > @@ -515,11 +505,12 @@ static ssize_t amdgpu_debugfs_regs_didt_read(stru=
-ct file *f, char __user *buf,
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > -
-> >       amdgpu_virt_disable_access_debugfs(adev);
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   /**
-> > @@ -560,12 +551,8 @@ static ssize_t amdgpu_debugfs_regs_didt_write(stru=
-ct file *f, const char __user
-> >               uint32_t value;
-> >
-> >               r =3D get_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     amdgpu_virt_disable_access_debugfs(adev);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               WREG32_DIDT(*pos >> 2, value);
-> >
-> > @@ -575,11 +562,12 @@ static ssize_t amdgpu_debugfs_regs_didt_write(str=
-uct file *f, const char __user
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > -
-> >       amdgpu_virt_disable_access_debugfs(adev);
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   /**
-> > @@ -621,12 +609,8 @@ static ssize_t amdgpu_debugfs_regs_smc_read(struct=
- file *f, char __user *buf,
-> >
-> >               value =3D RREG32_SMC(*pos);
-> >               r =3D put_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     amdgpu_virt_disable_access_debugfs(adev);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               result +=3D 4;
-> >               buf +=3D 4;
-> > @@ -634,11 +618,12 @@ static ssize_t amdgpu_debugfs_regs_smc_read(struc=
-t file *f, char __user *buf,
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > -
-> >       amdgpu_virt_disable_access_debugfs(adev);
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   /**
-> > @@ -679,12 +664,8 @@ static ssize_t amdgpu_debugfs_regs_smc_write(struc=
-t file *f, const char __user *
-> >               uint32_t value;
-> >
-> >               r =3D get_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     amdgpu_virt_disable_access_debugfs(adev);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               WREG32_SMC(*pos, value);
-> >
-> > @@ -694,11 +675,12 @@ static ssize_t amdgpu_debugfs_regs_smc_write(stru=
-ct file *f, const char __user *
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > -
-> >       amdgpu_virt_disable_access_debugfs(adev);
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   /**
-> > @@ -1090,11 +1072,8 @@ static ssize_t amdgpu_debugfs_gfxoff_write(struc=
-t file *f, const char __user *bu
-> >               uint32_t value;
-> >
-> >               r =3D get_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               amdgpu_gfx_off_ctrl(adev, value ? true : false);
-> >
-> > @@ -1104,10 +1083,12 @@ static ssize_t amdgpu_debugfs_gfxoff_write(stru=
-ct file *f, const char __user *bu
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> >
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >
-> > @@ -1139,18 +1120,12 @@ static ssize_t amdgpu_debugfs_gfxoff_read(struc=
-t file *f, char __user *buf,
-> >               uint32_t value;
-> >
-> >               r =3D amdgpu_get_gfx_off_status(adev, &value);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               r =3D put_user(value, (uint32_t *)buf);
-> > -             if (r) {
-> > -                     pm_runtime_mark_last_busy(adev_to_drm(adev)->dev)=
-;
-> > -                     pm_runtime_put_autosuspend(adev_to_drm(adev)->dev=
-);
-> > -                     return r;
-> > -             }
-> > +             if (r)
-> > +                     goto out;
-> >
-> >               result +=3D 4;
-> >               buf +=3D 4;
-> > @@ -1158,10 +1133,12 @@ static ssize_t amdgpu_debugfs_gfxoff_read(struc=
-t file *f, char __user *buf,
-> >               size -=3D 4;
-> >       }
-> >
-> > +     r =3D result;
-> > +out:
-> >       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> >
-> > -     return result;
-> > +     return r;
-> >   }
-> >
-> >   static const struct file_operations amdgpu_debugfs_regs2_fops =3D {
->
+Quoting Rasmus Villemoes (2022-07-05 10:08:37)
+> Hi
+>=20
+> I have an imx8mp board with a sn65dsi86 and a (full-size) DisplayPort
+> connector, which I'm trying to get up and running.
+>=20
+> The display connector registers itself as a bridge; I do get
+> successfully to the end of display_connector_probe(). But
+> ti_sn_bridge_probe() only looks for a panel (passing NULL for the
+> drm_bridge** argument), so always fails with -EPROBE_DEFER.
+>=20
+> This text
+>=20
+>   At the moment, this binding only handles the eDP case. It is
+>   possible it will be extended in the future to handle the DP case.
+>   For DP, presumably a connector would be listed under the DP AUX
+>   bus instead of a panel.
+>=20
+> in dp-aux-bus.yaml suggests that what I'm trying to do is simply not
+> supported yet. But then I stumbled on commit 5a6bca1ff7a5 (arm64: dts:
+> renesas: falcon-cpu: Add DSI display output), which seems to do exactly
+> what I'm trying to, except with a mini dp connector. So I must be
+> missing something; maybe ti_sn_bridge_probe() failing is not actually a
+> problem and I could be looking at the wrong place.
+>=20
+> Snippets from my .dts; the dp connector is currently placed at top
+> level, i.e. not within an aux-bus node below the sn65dsi86:
+>=20
+>         display_port0: connector {
+>                 compatible =3D "dp-connector";
+>                 label =3D "DP0";
+>                 type =3D "full-size";
+>                 dp-pwr-supply =3D <&reg_DP_PWR>;
+>=20
+>                 port {
+>                         dp_connector_in: endpoint {
+>                                 remote-endpoint =3D <&sn65dsi86_out>;
+>                         };
+>                 };
+>         };
+>=20
+> &i2c5 {
+> ...
+>         eDP: bridge@2c {
+>                 compatible =3D "ti,sn65dsi86";
+>                 reg =3D <0x2c>;
+>                 pinctrl-names =3D "default";
+>                 pinctrl-0 =3D <&pinctrl_eDP>;
+>=20
+>                 interrupts-extended =3D <&gpio3 14 IRQ_TYPE_LEVEL_HIGH>;
+>                 enable-gpios =3D <&gpio3 9 GPIO_ACTIVE_HIGH>;
+>=20
+>                 vpll-supply =3D <&VDD_1V8>;
+>                 vccio-supply =3D <&VDD_1V8>;
+>                 vcca-supply =3D <&reg_1V2>;
+>                 vcc-supply =3D <&reg_1V2>;
+>=20
+>                 clocks =3D <&clk_38_4MHz>;
+>                 clock-names =3D "refclk";
+>=20
+>                 ports {
+>                         #address-cells =3D <1>;
+>                         #size-cells =3D <0>;
+>=20
+>                         port@0 {
+>                                 reg =3D <0>;
+>                                 sn65dsi86_in_a: endpoint {
+>                                         remote-endpoint =3D <&mipi_dsi_ou=
+t>;
+>                                 };
+>                         };
+>=20
+>                         port@1 {
+>                                 reg =3D <1>;
+>                                 sn65dsi86_out: endpoint {
+>                                         remote-endpoint =3D <&dp_connecto=
+r_in>;
+>                                         data-lanes =3D <3 2 1 0>;
+>                                 };
+>                         };
+>                 };
+>         };
+> };
+>=20
+> When I manually set the enable-gpio high in U-Boot, I can talk to the
+> device and e.g. read out the 8 device_id bytes which match what I expect.
+>=20
+> Any hints would be highly appreciated.
+
+If it helps, this is an area I've been working to support one of our
+boards. I have a branch at:
+
+ git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git
+ kbingham/drm-misc/next/sn65dsi86/hpd
+
+But it's still a work in progress, and now needs rebasing to account for
+Sam's latest updates.
+
+I intend to resume this in a few weeks, but hopefully that branch may
+have some helpful pointers to get things progressing for you too.
+
+--
+Kieran
+
+
+>=20
+> Thanks,
+> Rasmus
