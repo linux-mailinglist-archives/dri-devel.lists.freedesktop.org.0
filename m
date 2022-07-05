@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587325669A2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82114568023
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 09:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A67A10EC08;
-	Tue,  5 Jul 2022 11:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F27ED11237E;
+	Wed,  6 Jul 2022 07:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 171B310E021
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657015360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6662910E021
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:08:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4BB4A1F91F;
+ Tue,  5 Jul 2022 10:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1657015735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PXp75we4g7tfDLKjBv7MZGhsHN2tTZVGENMsoYt5xd8=;
- b=d37FDTbue/zG8qUaBocnybdF20Tn9w/LHgQDDpYjKBfkFOuCSEYowyyWLlhzoEs8LQuSlp
- 1SnfVsrNCErkpfIeoUhNycF4xTtoaiVArdacwASasy6GzSPnd2/zlKQUSdL5YclmcZhPDp
- 8xT1kW6ORqBKGfhmLXSPHs75jC+9PN0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-vJcLB_HpOYWYK9pMI16LoA-1; Tue, 05 Jul 2022 06:02:39 -0400
-X-MC-Unique: vJcLB_HpOYWYK9pMI16LoA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n35-20020a05600c3ba300b003a02d7bd5caso6562437wms.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Jul 2022 03:02:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PXp75we4g7tfDLKjBv7MZGhsHN2tTZVGENMsoYt5xd8=;
- b=O1AYUr5eZBeMy/BEOcLhgCKIs+qbkoPwTmlvfdNpa4ZF4git98vtboBJf+K3jV1f9a
- Lz8t4sRFfbFpMC+iAioadcJnOwFMXwOykbMOLvN664Iuiy219giOEEec0ihZsyjxmRU6
- XeqkFDOgVGntYX6vPm+Kal78rqN3xxWW8eGttZjJSY62ABXuDWDzmdEn8CUQ6jjTYFWW
- 8Qp1ZAGGGQc5bpyWqpulc55ln5O9ZWLdkbBjweKSqHLRYTk4CLQutk+75yA2Vn0yEL2V
- gP5r+djpnuMhgL0p83r85X6zFpSBx77fmHYtfzW0cqEXeCxWZNcVVf8DBbRY/4EiGVie
- /Ngw==
-X-Gm-Message-State: AJIora90JTa6jM7xucIEjMpPbG04gjkdzXR/pIL2Klq+EpxvCS2fVSAb
- BynI4VDs7OCsIVAsYxCPox5wQdJ9+ir4Fsh4B0/ca+7wu3Vx+1KRaCVF4yaX0n0Vu2WSQwHg5Nb
- fUcLhewfzvDOVUYWP9ytXQG5tTYcN
-X-Received: by 2002:adf:f84a:0:b0:21d:6e52:7957 with SMTP id
- d10-20020adff84a000000b0021d6e527957mr5815162wrq.252.1657015357805; 
- Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vZWSLJ9APoFLLcARii/p9DrogtNdYkpeeiX/0eZqF0i0sAWYJXINSPuRKOHdGqmknYrdkgDA==
-X-Received: by 2002:adf:f84a:0:b0:21d:6e52:7957 with SMTP id
- d10-20020adff84a000000b0021d6e527957mr5815138wrq.252.1657015357593; 
- Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f7-20020a0560001b0700b0021d68e1fd42sm6255192wrz.89.2022.07.05.03.02.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 03:02:37 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm: Prevent drm_copy_field() to attempt copying a
- NULL pointer
-Date: Tue,  5 Jul 2022 12:02:14 +0200
-Message-Id: <20220705100215.572498-3-javierm@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220705100215.572498-1-javierm@redhat.com>
-References: <20220705100215.572498-1-javierm@redhat.com>
+ bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
+ b=eByb4sSPqg6rRuVWR7Uyol2qkXUh2FlAJZJl6kQB2+c8EEhcdaxtq/jkX0dVzdvL/5s6D3
+ /efNTsY/bdasP3pVQxu6qP4nvHO+zcS4O9fblGgs1NR89rSYgTvYETM292rGHy3CrhOSj+
+ qGcOFU+GGl+mKHAF54mbZA9ZrTUJOaY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1657015735;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
+ b=jKWTp5GMggeoLloojImrUvPvKkYL+8GQzQSR8Qi8VzqCYEK46zUKh7GMjl/cO3qvfPDiP7
+ DHXFfHIde+vxx5CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E2AF1339A;
+ Tue,  5 Jul 2022 10:08:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VBGsCbYNxGK1BQAAMHmgww
+ (envelope-from <jdelvare@suse.de>); Tue, 05 Jul 2022 10:08:54 +0000
+Date: Tue, 5 Jul 2022 12:08:52 +0200
+From: Jean Delvare <jdelvare@suse.de>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <20220705120852.049dc235@endymion.delvare>
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 06 Jul 2022 07:41:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,89 +71,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Peter Robinson <pbrobinson@gmail.com>
+Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Guenter Roeck <groeck@chromium.org>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-staging@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-clk@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+ acpi4asus-user@lists.sourceforge.net, linux-gpio@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ openipmi-developer@lists.sourceforge.net, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
+ netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some struct drm_driver fields that are required by drivers since
-drm_copy_field() attempts to copy them to user-space via DRM_IOCTL_VERSION.
+On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=C3=B6nig wrote:
+> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+>=20
+> The value returned by an i2c driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
+>=20
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
 
-But it can be possible that a driver has a bug and did not set some of the
-fields, which leads to drm_copy_field() attempting to copy a NULL pointer:
+That's a huge change for a relatively small benefit, but if this is
+approved by the I2C core maintainer then fine with me. For:
 
-[ +10.395966] Unable to handle kernel access to user memory outside uaccess routines at virtual address 0000000000000000
-[  +0.010955] Mem abort info:
-[  +0.002835]   ESR = 0x0000000096000004
-[  +0.003872]   EC = 0x25: DABT (current EL), IL = 32 bits
-[  +0.005395]   SET = 0, FnV = 0
-[  +0.003113]   EA = 0, S1PTW = 0
-[  +0.003182]   FSC = 0x04: level 0 translation fault
-[  +0.004964] Data abort info:
-[  +0.002919]   ISV = 0, ISS = 0x00000004
-[  +0.003886]   CM = 0, WnR = 0
-[  +0.003040] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000115dad000
-[  +0.006536] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
-[  +0.006925] Internal error: Oops: 96000004 [#1] SMP
-...
-[  +0.011113] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  +0.007061] pc : __pi_strlen+0x14/0x150
-[  +0.003895] lr : drm_copy_field+0x30/0x1a4
-[  +0.004156] sp : ffff8000094b3a50
-[  +0.003355] x29: ffff8000094b3a50 x28: ffff8000094b3b70 x27: 0000000000000040
-[  +0.007242] x26: ffff443743c2ba00 x25: 0000000000000000 x24: 0000000000000040
-[  +0.007243] x23: ffff443743c2ba00 x22: ffff8000094b3b70 x21: 0000000000000000
-[  +0.007241] x20: 0000000000000000 x19: ffff8000094b3b90 x18: 0000000000000000
-[  +0.007241] x17: 0000000000000000 x16: 0000000000000000 x15: 0000aaab14b9af40
-[  +0.007241] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-[  +0.007239] x11: 0000000000000000 x10: 0000000000000000 x9 : ffffa524ad67d4d8
-[  +0.007242] x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : 6c6e6263606e7141
-[  +0.007239] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-[  +0.007241] x2 : 0000000000000000 x1 : ffff8000094b3b90 x0 : 0000000000000000
-[  +0.007240] Call trace:
-[  +0.002475]  __pi_strlen+0x14/0x150
-[  +0.003537]  drm_version+0x84/0xac
-[  +0.003448]  drm_ioctl_kernel+0xa8/0x16c
-[  +0.003975]  drm_ioctl+0x270/0x580
-[  +0.003448]  __arm64_sys_ioctl+0xb8/0xfc
-[  +0.003978]  invoke_syscall+0x78/0x100
-[  +0.003799]  el0_svc_common.constprop.0+0x4c/0xf4
-[  +0.004767]  do_el0_svc+0x38/0x4c
-[  +0.003357]  el0_svc+0x34/0x100
-[  +0.003185]  el0t_64_sync_handler+0x11c/0x150
-[  +0.004418]  el0t_64_sync+0x190/0x194
-[  +0.003716] Code: 92402c04 b200c3e8 f13fc09f 5400088c (a9400c02)
-[  +0.006180] ---[ end trace 0000000000000000 ]---
+>  drivers/hwmon/adc128d818.c                                | 4 +---
+>  drivers/hwmon/adt7470.c                                   | 3 +--
+>  drivers/hwmon/asb100.c                                    | 6 ++----
+>  drivers/hwmon/asc7621.c                                   | 4 +---
+>  drivers/hwmon/dme1737.c                                   | 4 +---
+>  drivers/hwmon/f75375s.c                                   | 5 ++---
+>  drivers/hwmon/fschmd.c                                    | 6 ++----
+>  drivers/hwmon/ftsteutates.c                               | 3 +--
+>  drivers/hwmon/ina209.c                                    | 4 +---
+>  drivers/hwmon/ina3221.c                                   | 4 +---
+>  drivers/hwmon/jc42.c                                      | 3 +--
+>  drivers/hwmon/mcp3021.c                                   | 4 +---
+>  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
+>  drivers/hwmon/pcf8591.c                                   | 3 +--
+>  drivers/hwmon/smm665.c                                    | 3 +--
+>  drivers/hwmon/tps23861.c                                  | 4 +---
+>  drivers/hwmon/w83781d.c                                   | 4 +---
+>  drivers/hwmon/w83791d.c                                   | 6 ++----
+>  drivers/hwmon/w83792d.c                                   | 6 ++----
+>  drivers/hwmon/w83793.c                                    | 6 ++----
+>  drivers/hwmon/w83795.c                                    | 4 +---
+>  drivers/hwmon/w83l785ts.c                                 | 6 ++----
+>  drivers/i2c/i2c-core-base.c                               | 6 +-----
+>  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
+>  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
+>  drivers/i2c/i2c-smbus.c                                   | 3 +--
+>  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
+>  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
+>  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
 
-Reported-by: Peter Robinson <pbrobinson@gmail.com>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-Changes in v2:
-- Just warn if a value isn't set and report it as a string of length 0.
-  (Thomas Zimmermann).
-
- drivers/gpu/drm/drm_ioctl.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index e1b9a03e619c..ca2a6e6101dc 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -474,6 +474,12 @@ static int drm_copy_field(char __user *buf, size_t *buf_len, const char *value)
- {
- 	size_t len;
- 
-+	/* don't attempt to copy a NULL pointer */
-+	if (WARN_ONCE(!value, "BUG: the value to copy was not set!")) {
-+		*buf_len = 0;
-+		return 0;
-+	}
-+
- 	/* don't overflow userbuf */
- 	len = strlen(value);
- 	if (len > *buf_len)
--- 
-2.36.1
-
+--=20
+Jean Delvare
+SUSE L3 Support
