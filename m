@@ -1,69 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB59D5679AA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 23:52:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FED567A8A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 01:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6833891AC4;
-	Tue,  5 Jul 2022 21:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EAEA112480;
+	Tue,  5 Jul 2022 23:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79B6A91B4C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 21:52:42 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id v14so19386430wra.5
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Jul 2022 14:52:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lj8lQBl+rzKhHnZ+Xd+ZIX70dBba4zQ87/hMtZKztKo=;
- b=SWBLyNd34TD/mZu6n2FRfmU1HE1CDonJi13qsFyhAyqnSyEQ/KmdR1UWXQSWh8Lc4S
- wboztDYyEl0cB6dNxkPhLH8Vut8eQklDlAzLAba8wD+ncpM0c/ss1G9HZw6iwywvQYDc
- Wp4EiJ8gFj2NtEhHkoHzq6BO5iZJQV8yqDNi/hV+TI3EdwxWa8PyiRtclVAhofmrQMv1
- O4MgZCyDw4sYc3gDgn4HyTIQC0OgktoApwqj7hpRysjTLfmxTwmhIL9038u47rfi3QnR
- TEsjdMTU0aXj0ZC25wthUzJnFtFa+8G8sy0GbjfRv+uUUgqNTVhurKapbgEb8iTWOR1w
- qZPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lj8lQBl+rzKhHnZ+Xd+ZIX70dBba4zQ87/hMtZKztKo=;
- b=FmWsJ+e+xVslLfn1UHV1nGnTcWQMf9pqEg+w9FeUR0ZGIs0NPR8dLcl4xne7jRfqRc
- UapcQb76CXADnN6z2E38g65KI3mMKZSkf+EZteXNeTiM3CydKY+ITuKamSOtQHLQEp07
- X/YKZ/5k5f3oh/YRm/ZrbophDflNgCTwOggiiwTyc3oCXxKsg/RF3JYcrU8yucg+d0Kf
- bFRQgCn1FYQIXtm8+7AYuBIPOFMzG9xgbM6silt8wGnHukfTlr+LJOhKH9Cc9xThEcYd
- i7t7aioYGaWBVzv01GaZtC5cPnmVybRuDX2RNeaPj6xMLYi+ic9nHTvbO4Bwv0iWD/x7
- ZXpA==
-X-Gm-Message-State: AJIora/B25K/9P6z/7QPdtWzvbIgVNJSaYzc33hUGBF/NP5Ufo+j4VMl
- 0vtaj34r/NnYdXZBUW93+qyn4Q==
-X-Google-Smtp-Source: AGRyM1tr0mSvjiKuETZ7gcWxREDHaUXAsNoHFiE497jvmcwKxLKMvl+jTlZGzJe6mijwSzLjNBUwQQ==
-X-Received: by 2002:a5d:64aa:0:b0:21b:c38b:bb81 with SMTP id
- m10-20020a5d64aa000000b0021bc38bbb81mr33626354wrp.666.1657057962100; 
- Tue, 05 Jul 2022 14:52:42 -0700 (PDT)
-Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- g34-20020a05600c4ca200b0039c7dbafa7asm18353920wmp.19.2022.07.05.14.52.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 14:52:41 -0700 (PDT)
-From: Conor Dooley <mail@conchuod.ie>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v5 13/13] riscv: dts: canaan: build all devicetress if
- SOC_CANAAN
-Date: Tue,  5 Jul 2022 22:52:14 +0100
-Message-Id: <20220705215213.1802496-14-mail@conchuod.ie>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220705215213.1802496-1-mail@conchuod.ie>
-References: <20220705215213.1802496-1-mail@conchuod.ie>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62C5411243B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 23:08:52 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
+ [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EEDD066015C8;
+ Wed,  6 Jul 2022 00:08:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1657062530;
+ bh=WPOS98C1ww0h7wB7KgFVUb6rtlK2oW5qXdt8zEVQLug=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=N7LGrGeSOIko5kkF72sygNNFT39CyshZm8kTw0mZ2MqISS2fFDrzoNnac+9PrU5pf
+ 4eegombBvVeNI/s7PuLSkI3bRvgO+qteC33drFOT/VyMMT4mz4RFpVyDx1NVba1jc/
+ hbwksP4piUZr58sEzyF87b00UNBUZOP5MxOSqtAo3bCc1cK8ONDNvXEDMrgKtPPe9H
+ MpwjB2D6/wmWjuQ04HLpwt07Hg6vicwf7onlWmvE1nS5PNXG4ErSF2+fXpZMugI88P
+ TaS7d5HJczeWywpx3fd2Zwwx6IPIDeEYSkI9enCN9HSrz3BWrqewBqD0TWTtMdI9IU
+ 7ha4eh69MxKQg==
+Message-ID: <005b1bc3-084c-2ae4-e30a-71b0f239cc67@collabora.com>
+Date: Wed, 6 Jul 2022 02:08:47 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 7/9] drm/virtio: Improve DMA API usage for shmem BOs
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20220630200726.1884320-1-dmitry.osipenko@collabora.com>
+ <20220630200726.1884320-8-dmitry.osipenko@collabora.com>
+ <20220705135323.emr4gdbcxoisdcxe@sirius.home.kraxel.org>
+ <d2c64d09-c4bb-9aed-069d-a9b4d07a1f66@collabora.com>
+ <20220705154507.67ovlun4m26xzppn@sirius.home.kraxel.org>
+ <1380526d-17fb-6eb2-0fd5-5cddbdf0a92e@collabora.com>
+ <CAF6AEGtE+3AbaJnSZ07VY0xMOJMNz6BSQ+mPKmPYLi_Z-CLAig@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAF6AEGtE+3AbaJnSZ07VY0xMOJMNz6BSQ+mPKmPYLi_Z-CLAig@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,46 +61,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, Albert Ou <aou@eecs.berkeley.edu>,
- devicetree@vger.kernel.org, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, dmaengine@vger.kernel.org,
- linux-riscv@lists.infradead.org, Dillon Min <dillon.minfei@gmail.com>,
- Masahiro Yamada <masahiroy@kernel.org>
+Cc: David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Robin Murphy <robin.murphy@arm.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Conor Dooley <conor.dooley@microchip.com>
+On 7/6/22 00:39, Rob Clark wrote:
+> On Tue, Jul 5, 2022 at 10:02 AM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+>>
+>> On 7/5/22 18:45, Gerd Hoffmann wrote:
+>>>   Hi,
+>>>
+>>>>> Also note that pci is not the only virtio transport we have.
+>>>>
+>>>> The VirtIO indeed has other transports, but only PCI is really supported
+>>>> in case of the VirtIO-GPU in kernel and in Qemu/crosvm, AFAICT. Hence
+>>>> only the PCI transport was tested.
+>>>
+>>> qemu -M microvm \
+>>>   -global virtio-mmio.force-legacy=false \
+>>>   -device virtio-gpu-device
+>>>
+>>> Gives you a functional virtio-gpu device on virtio-mmio.
+>>>
+>>> aarch64 virt machines support both pci and mmio too.
+>>> s390x has virtio-gpu-ccw ...
+>>
+>> Gerd, thank you very much! It's was indeed unclear to me how to test the
+>> MMIO GPU, but yours variant with microvm works! I was looking for trying
+>> aarch64 in the past, but it also was unclear how to do it since there is
+>> no DT support for the VirtIO-GPU, AFAICS.
+> 
+> just a drive-by note, IME on aarch64 kernels, at least with crosvm,
+> virtgpu is also a pci device.. the non-pci things in the guest kernel
+> use dt, but devices on discoverable busses like pci don't need dt
+> nodes (which is true also in the non-vm case)
 
-Testing & checking the Canaan devicetrees is inconvenient as only the
-devicetree corresponding to SOC_CANAAN_K210_DTB_BUILTIN will be built.
-Change the Makefile so that all devicetrees are built by default if
-SOC_CANAAN but only the one specified by SOC_CANAAN_K210_DTB_BUILTIN
-gets built as an object.
+Sure, I was only looking how to test MMIO GPU on aarch64. Since I
+haven't a found a way to test MMIO back then, I concluded that the MMIO
+case wasn't really well supported.
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- arch/riscv/boot/dts/canaan/Makefile | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/arch/riscv/boot/dts/canaan/Makefile b/arch/riscv/boot/dts/canaan/Makefile
-index c61b08ac8554..befe4eb7527b 100644
---- a/arch/riscv/boot/dts/canaan/Makefile
-+++ b/arch/riscv/boot/dts/canaan/Makefile
-@@ -1,3 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
--dtb-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
--obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .o, $(dtb-y))
-+dtb-$(CONFIG_SOC_CANAAN) += canaan_kd233.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += k210_generic.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_bit.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_dock.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_go.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maixduino.dtb
-+
-+obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb.o, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
 -- 
-2.37.0
-
+Best regards,
+Dmitry
