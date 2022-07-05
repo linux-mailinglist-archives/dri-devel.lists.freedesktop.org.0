@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05525669A3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26A6566980
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:33:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCFA910EC6D;
-	Tue,  5 Jul 2022 11:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E926510FA44;
+	Tue,  5 Jul 2022 11:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F2C10E021
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:25:39 +0000 (UTC)
-X-UUID: 443a77fc714a46e48ff617db64538ef4-20220705
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:72fa5360-ef72-4550-8bff-0c7b1ea22e5d, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:-5
-X-CID-META: VersionHash:0f94e32, CLOUDID:36eea7d6-5d6d-4eaf-a635-828a3ee48b7c,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 443a77fc714a46e48ff617db64538ef4-20220705
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1788566286; Tue, 05 Jul 2022 18:25:34 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 5 Jul 2022 18:25:33 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Tue, 5 Jul 2022 18:25:33 +0800
-From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v16 5/5] drm/mediatek: dpi: Add dp_intf support
-Date: Tue, 5 Jul 2022 18:25:30 +0800
-Message-ID: <20220705102530.1344-6-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220705102530.1344-1-rex-bc.chen@mediatek.com>
-References: <20220705102530.1344-1-rex-bc.chen@mediatek.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2AC910E021
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:36:30 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1o8fuq-0001LC-19; Tue, 05 Jul 2022 12:36:24 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1o8fue-004XxA-J7; Tue, 05 Jul 2022 12:36:16 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1o8fuh-0038F6-8t; Tue, 05 Jul 2022 12:36:15 +0200
+Date: Tue, 5 Jul 2022 12:36:15 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jean Delvare <jdelvare@suse.de>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <20220705103615.ceeq7rku53x743ps@pengutronix.de>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ <20220705120852.049dc235@endymion.delvare>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gut2agzhpaayxotv"
+Content-Disposition: inline
+In-Reply-To: <20220705120852.049dc235@endymion.delvare>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,233 +55,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- xinlei.lee@mediatek.com, liangxu.xu@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Guenter Roeck <groeck@chromium.org>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-staging@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-clk@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+ acpi4asus-user@lists.sourceforge.net, linux-gpio@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ openipmi-developer@lists.sourceforge.net, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
+ netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guillaume Ranquet <granquet@baylibre.com>
 
-Dpintf is the displayport interface hardware unit. This unit is similar
-to dpi and can reuse most of the code.
+--gut2agzhpaayxotv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch adds support for mt8195-dpintf to this dpi driver. Main
-differences are:
- - 4 pixels for one iteration for dp_intf while dpi is 1 pixel for one
-   iteration. Therefore, we add a new config "pixels_per_iter" to control
-   quantity of transferred pixels per iteration.
- - Input of dp_intf is two pixels per iteration, so we add a new config
-   "input_2pixel" to control this.
- - Some register contents differ slightly between the two components. To
-   work around this I added register bits/masks with a DPINTF_ prefix
-   and use them where different.
+On Tue, Jul 05, 2022 at 12:08:52PM +0200, Jean Delvare wrote:
+> On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=F6nig wrote:
+> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
+> >=20
+> > The value returned by an i2c driver's remove function is mostly ignored.
+> > (Only an error message is printed if the value is non-zero that the
+> > error is ignored.)
+> >=20
+> > So change the prototype of the remove function to return no value. This
+> > way driver authors are not tempted to assume that passing an error to
+> > the upper layer is a good idea. All drivers are adapted accordingly.
+> > There is no intended change of behaviour, all callbacks were prepared to
+> > return 0 before.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+>=20
+> That's a huge change for a relatively small benefit, but if this is
+> approved by the I2C core maintainer then fine with me. For:
 
-Based on a separate driver for dpintf created by
-Jitao shi <jitao.shi@mediatek.com>.
+Agreed, it's huge. The benefit isn't really measureable, the motivation
+is to improve the situation for driver authors who with the change
+cannot make wrong assumptions about what to return in .remove(). During
+the preparation this uncovered a few bugs. See for example
+bbc126ae381cf0a27822c1f822d0aeed74cc40d9.
 
-Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c          | 32 +++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h     | 11 +++++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  4 +++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  3 ++
- 5 files changed, 51 insertions(+)
+> >  drivers/hwmon/adc128d818.c                                | 4 +---
+> >  drivers/hwmon/adt7470.c                                   | 3 +--
+> >  drivers/hwmon/asb100.c                                    | 6 ++----
+> >  drivers/hwmon/asc7621.c                                   | 4 +---
+> >  drivers/hwmon/dme1737.c                                   | 4 +---
+> >  drivers/hwmon/f75375s.c                                   | 5 ++---
+> >  drivers/hwmon/fschmd.c                                    | 6 ++----
+> >  drivers/hwmon/ftsteutates.c                               | 3 +--
+> >  drivers/hwmon/ina209.c                                    | 4 +---
+> >  drivers/hwmon/ina3221.c                                   | 4 +---
+> >  drivers/hwmon/jc42.c                                      | 3 +--
+> >  drivers/hwmon/mcp3021.c                                   | 4 +---
+> >  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
+> >  drivers/hwmon/pcf8591.c                                   | 3 +--
+> >  drivers/hwmon/smm665.c                                    | 3 +--
+> >  drivers/hwmon/tps23861.c                                  | 4 +---
+> >  drivers/hwmon/w83781d.c                                   | 4 +---
+> >  drivers/hwmon/w83791d.c                                   | 6 ++----
+> >  drivers/hwmon/w83792d.c                                   | 6 ++----
+> >  drivers/hwmon/w83793.c                                    | 6 ++----
+> >  drivers/hwmon/w83795.c                                    | 4 +---
+> >  drivers/hwmon/w83l785ts.c                                 | 6 ++----
+> >  drivers/i2c/i2c-core-base.c                               | 6 +-----
+> >  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
+> >  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
+> >  drivers/i2c/i2c-smbus.c                                   | 3 +--
+> >  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
+> >  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
+> >  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
+>=20
+> Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 5f71a68c6a0b..c176d2041eca 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -853,6 +853,16 @@ static unsigned int mt8183_calculate_factor(int clock)
- 		return 2;
- }
- 
-+static unsigned int mt8195_dpintf_calculate_factor(int clock)
-+{
-+	if (clock < 70000)
-+		return 4;
-+	else if (clock < 200000)
-+		return 2;
-+	else
-+		return 1;
-+}
-+
- static const u32 mt8173_output_fmts[] = {
- 	MEDIA_BUS_FMT_RGB888_1X24,
- };
-@@ -862,6 +872,11 @@ static const u32 mt8183_output_fmts[] = {
- 	MEDIA_BUS_FMT_RGB888_2X12_BE,
- };
- 
-+static const u32 mt8195_output_fmts[] = {
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+	MEDIA_BUS_FMT_YUYV8_1X16,
-+};
-+
- static const struct mtk_dpi_conf mt8173_conf = {
- 	.cal_factor = mt8173_calculate_factor,
- 	.reg_h_fre_con = 0xe0,
-@@ -931,6 +946,20 @@ static const struct mtk_dpi_conf mt8192_conf = {
- 	.csc_enable_bit = CSC_ENABLE,
- };
- 
-+static const struct mtk_dpi_conf mt8195_dpintf_conf = {
-+	.cal_factor = mt8195_dpintf_calculate_factor,
-+	.max_clock_khz = 600000,
-+	.output_fmts = mt8195_output_fmts,
-+	.num_output_fmts = ARRAY_SIZE(mt8195_output_fmts),
-+	.pixels_per_iter = 4,
-+	.input_2pixel = true,
-+	.dimension_mask = DPINTF_HPW_MASK,
-+	.hvsize_mask = DPINTF_HSIZE_MASK,
-+	.channel_swap_shift = DPINTF_CH_SWAP,
-+	.yuv422_en_bit = DPINTF_YUV422_EN,
-+	.csc_enable_bit = DPINTF_CSC_ENABLE,
-+};
-+
- static int mtk_dpi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1053,6 +1082,9 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = &mt8192_conf,
- 	},
-+	{ .compatible = "mediatek,mt8195-dp-intf",
-+	  .data = &mt8195_dpintf_conf,
-+	},
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-index 305066577d41..62bd4931b344 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-@@ -40,10 +40,13 @@
- #define FAKE_DE_LEVEN			BIT(21)
- #define FAKE_DE_RODD			BIT(22)
- #define FAKE_DE_REVEN			BIT(23)
-+#define DPINTF_YUV422_EN		BIT(24)
-+#define DPINTF_CSC_ENABLE		BIT(26)
- #define DPINTF_INPUT_2P_EN		BIT(29)
- 
- #define DPI_OUTPUT_SETTING	0x14
- #define CH_SWAP				0
-+#define DPINTF_CH_SWAP			1
- #define CH_SWAP_MASK			(0x7 << 0)
- #define SWAP_RGB			0x00
- #define SWAP_GBR			0x01
-@@ -81,8 +84,10 @@
- #define DPI_SIZE		0x18
- #define HSIZE				0
- #define HSIZE_MASK			(0x1FFF << 0)
-+#define DPINTF_HSIZE_MASK		(0xFFFF << 0)
- #define VSIZE				16
- #define VSIZE_MASK			(0x1FFF << 16)
-+#define DPINTF_VSIZE_MASK		(0xFFFF << 16)
- 
- #define DPI_DDR_SETTING		0x1C
- #define DDR_EN				BIT(0)
-@@ -94,24 +99,30 @@
- #define DPI_TGEN_HWIDTH		0x20
- #define HPW				0
- #define HPW_MASK			(0xFFF << 0)
-+#define DPINTF_HPW_MASK			(0xFFFF << 0)
- 
- #define DPI_TGEN_HPORCH		0x24
- #define HBP				0
- #define HBP_MASK			(0xFFF << 0)
-+#define DPINTF_HBP_MASK			(0xFFFF << 0)
- #define HFP				16
- #define HFP_MASK			(0xFFF << 16)
-+#define DPINTF_HFP_MASK			(0xFFFF << 16)
- 
- #define DPI_TGEN_VWIDTH		0x28
- #define DPI_TGEN_VPORCH		0x2C
- 
- #define VSYNC_WIDTH_SHIFT		0
- #define VSYNC_WIDTH_MASK		(0xFFF << 0)
-+#define DPINTF_VSYNC_WIDTH_MASK		(0xFFFF << 0)
- #define VSYNC_HALF_LINE_SHIFT		16
- #define VSYNC_HALF_LINE_MASK		BIT(16)
- #define VSYNC_BACK_PORCH_SHIFT		0
- #define VSYNC_BACK_PORCH_MASK		(0xFFF << 0)
-+#define DPINTF_VSYNC_BACK_PORCH_MASK	(0xFFFF << 0)
- #define VSYNC_FRONT_PORCH_SHIFT		16
- #define VSYNC_FRONT_PORCH_MASK		(0xFFF << 16)
-+#define DPINTF_VSYNC_FRONT_PORCH_MASK	(0xFFFF << 16)
- 
- #define DPI_BG_HCNTL		0x30
- #define BG_RIGHT			(0x1FFF << 0)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 2aab1e1eda36..5bef085714a1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -427,6 +427,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_RDMA] = "rdma",
- 	[MTK_DISP_UFOE] = "ufoe",
- 	[MTK_DISP_WDMA] = "wdma",
-+	[MTK_DP_INTF] = "dp-intf",
- 	[MTK_DPI] = "dpi",
- 	[MTK_DSI] = "dsi",
- };
-@@ -450,6 +451,8 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX]
- 	[DDP_COMPONENT_DRM_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
- 	[DDP_COMPONENT_DSC0]		= { MTK_DISP_DSC,		0, &ddp_dsc },
- 	[DDP_COMPONENT_DSC1]		= { MTK_DISP_DSC,		1, &ddp_dsc },
-+	[DDP_COMPONENT_DP_INTF0]	= { MTK_DP_INTF,		0, &ddp_dpi },
-+	[DDP_COMPONENT_DP_INTF1]	= { MTK_DP_INTF,		1, &ddp_dpi },
- 	[DDP_COMPONENT_DSI0]		= { MTK_DSI,			0, &ddp_dsi },
- 	[DDP_COMPONENT_DSI1]		= { MTK_DSI,			1, &ddp_dsi },
- 	[DDP_COMPONENT_DSI2]		= { MTK_DSI,			2, &ddp_dsi },
-@@ -575,6 +578,7 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 	    type == MTK_DISP_PWM ||
- 	    type == MTK_DISP_RDMA ||
- 	    type == MTK_DPI ||
-+	    type == MTK_DP_INTF ||
- 	    type == MTK_DSI)
- 		return 0;
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index af9a6671f9c4..3084cc4e2830 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -38,6 +38,7 @@ enum mtk_ddp_comp_type {
- 	MTK_DISP_UFOE,
- 	MTK_DISP_WDMA,
- 	MTK_DPI,
-+	MTK_DP_INTF,
- 	MTK_DSI,
- 	MTK_DDP_COMP_TYPE_MAX,
- };
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 78e79c8449c8..a7a0dbbca823 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -788,6 +788,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8192-dpi",
- 	  .data = (void *)MTK_DPI },
-+	{ .compatible = "mediatek,mt8195-dp-intf",
-+	  .data = (void *)MTK_DP_INTF },
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8173-dsi",
-@@ -931,6 +933,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		    comp_type == MTK_DISP_OVL_2L ||
- 		    comp_type == MTK_DISP_OVL_ADAPTOR ||
- 		    comp_type == MTK_DISP_RDMA ||
-+		    comp_type == MTK_DP_INTF ||
- 		    comp_type == MTK_DPI ||
- 		    comp_type == MTK_DSI) {
- 			dev_info(dev, "Adding component match for %pOF\n",
--- 
-2.18.0
+Thanks
+Uwe
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--gut2agzhpaayxotv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLEFBwACgkQwfwUeK3K
+7AkavggAgLmynakXX/rOF4Jwy2OuBXH29kecKqPd6xj4yHsu3ggy8kd/hlU4jJib
+vV0H9ioq69hhMqjme5AHJJsueLFi/t/iwuQwuWUKluCBBlx0RXBsVx8qxV7A0uWa
+mdKU3ApPaN7y0cS1jccdN7ydsL3H2ayzIwfQuNqx1G3P/uqXfkusV0fjwQ/rQct3
+qs4t2/QiHUd0tStlGw2eSKxp1z5KRrDMstK17fiZSsw/SYoMyldV8Ame6+gaxx0X
+e93FqM5jj67ovjD3jJanfOwI5vesu4+szu4GK6vHRWvpsieHsSeyS+GNgfM5oLA7
+iguZ0rauzy0je3hrHuKgp1maJ59ibQ==
+=fYiS
+-----END PGP SIGNATURE-----
+
+--gut2agzhpaayxotv--
