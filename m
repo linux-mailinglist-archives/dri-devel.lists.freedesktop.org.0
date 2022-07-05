@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBB9566C27
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 14:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193DA566C30
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 14:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 679F414A231;
-	Tue,  5 Jul 2022 12:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72CC914A2F3;
+	Tue,  5 Jul 2022 12:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4182814A215
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 12:11:51 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 265CBQ0b048797;
- Tue, 5 Jul 2022 07:11:26 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAAA14A2D7
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 12:12:10 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 265CBTfD115013;
+ Tue, 5 Jul 2022 07:11:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1657023086;
- bh=DdKYIDUtMAM+MphRAs2vZgvWfyg6OQsVaA35wJnU7CU=;
- h=From:To:CC:Subject:Date;
- b=XTlnfN4jbsti3M/WIragQoOnZnptrOtpqacEqE39LJQ7DH2J1hXoKD9MrsoloCDD9
- bT1U+KZ0v1/TrsiLj16fW8gLexRuzZBYuzHIgwRwjgZLWO8VIP6IHe4atMTM10i6nZ
- W37+ILCB7/1LKfNDWaahWzBpWtO/Tj/Ab9P2pZv0=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 265CBQZx017026
+ s=ti-com-17Q1; t=1657023089;
+ bh=iWlNjdimpa3kHJZ7xEjNp+ff4LaL81Rz+E9yME20FKQ=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=kygmDkoByAmwol1mlsVJQk6q0jvj1VunM0cjrxncilH3sgxvJGoVtbKSTMtR8+mQE
+ jrY7a8o8/hJOqLLOPLMIEU3H8cZE09mvEK9myERUfqtN6J2JMB1r42JxPw7wNssv0e
+ 3DjSDudnP+kpUH1R3cwoerrccUh1QMgfC9wpCT5w=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 265CBTar083954
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 5 Jul 2022 07:11:26 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 5 Jul 2022 07:11:29 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 5
- Jul 2022 07:11:26 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Jul 2022 07:11:28 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 5 Jul 2022 07:11:26 -0500
+ Frontend Transport; Tue, 5 Jul 2022 07:11:28 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 265CBOqx023307;
- Tue, 5 Jul 2022 07:11:25 -0500
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 265CBRmX052048;
+ Tue, 5 Jul 2022 07:11:28 -0500
 From: Rahul T R <r-ravikumar@ti.com>
 To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v4 0/5] Add support for CDNS DSI J721E wrapper
-Date: Tue, 5 Jul 2022 17:41:11 +0530
-Message-ID: <20220705121116.24121-1-r-ravikumar@ti.com>
+Subject: [PATCH v4 1/5] dt-bindings: display: bridge: Convert cdns,
+ dsi.txt to yaml
+Date: Tue, 5 Jul 2022 17:41:12 +0530
+Message-ID: <20220705121116.24121-2-r-ravikumar@ti.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220705121116.24121-1-r-ravikumar@ti.com>
+References: <20220705121116.24121-1-r-ravikumar@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -69,49 +72,338 @@ Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following series of patches adds supports for CDNS DSI
-bridge on j721e.
+Convert cdns,dsi.txt binding to yaml format
 
-v4:
- - split conversion txt to yaml
- - seperate commit for addinig new compatible
- - conditionally limit the items for reg property, based on the compatible
-
-v3:
- - Convert cdns-dsi.txt binding to yaml
- - Move the bridge under display/bridge/cadence
- - Add new compatible to enable the wrapper module
-
-v2:
- - Moved setting DPI0 to bridge_enable, since it
-   should be done after pm_runtime_get
-
-Rahul T R (5):
-  dt-bindings: display: bridge: Convert cdns,dsi.txt to yaml
-  dt-bindings: display: bridge: cdns,dsi: Add compatible for dsi on
-    j721e
-  drm/bridge: cdns-dsi: Move to drm/bridge/cadence
-  drm/bridge: cdns-dsi: Create a header file
-  drm/bridge: cdns-dsi: Add support for J721E wrapper
-
- .../bindings/display/bridge/cdns,dsi.txt      | 112 ----
- .../bindings/display/bridge/cdns,dsi.yaml     | 218 ++++++++
- drivers/gpu/drm/bridge/Kconfig                |  11 -
- drivers/gpu/drm/bridge/Makefile               |   1 -
- drivers/gpu/drm/bridge/cadence/Kconfig        |  21 +
- drivers/gpu/drm/bridge/cadence/Makefile       |   3 +
- .../{cdns-dsi.c => cadence/cdns-dsi-core.c}   | 483 ++----------------
- .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 471 +++++++++++++++++
- .../gpu/drm/bridge/cadence/cdns-dsi-j721e.c   |  51 ++
- .../gpu/drm/bridge/cadence/cdns-dsi-j721e.h   |  18 +
- 10 files changed, 819 insertions(+), 570 deletions(-)
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ .../bindings/display/bridge/cdns,dsi.txt      | 112 ----------
+ .../bindings/display/bridge/cdns,dsi.yaml     | 198 ++++++++++++++++++
+ 2 files changed, 198 insertions(+), 112 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
- rename drivers/gpu/drm/bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c} (65%)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.h
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+deleted file mode 100644
+index 525a4bfd8634..000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
++++ /dev/null
+@@ -1,112 +0,0 @@
+-Cadence DSI bridge
+-==================
+-
+-The Cadence DSI bridge is a DPI to DSI bridge supporting up to 4 DSI lanes.
+-
+-Required properties:
+-- compatible: should be set to "cdns,dsi".
+-- reg: physical base address and length of the controller's registers.
+-- interrupts: interrupt line connected to the DSI bridge.
+-- clocks: DSI bridge clocks.
+-- clock-names: must contain "dsi_p_clk" and "dsi_sys_clk".
+-- phys: phandle link to the MIPI D-PHY controller.
+-- phy-names: must contain "dphy".
+-- #address-cells: must be set to 1.
+-- #size-cells: must be set to 0.
+-
+-Optional properties:
+-- resets: DSI reset lines.
+-- reset-names: can contain "dsi_p_rst".
+-
+-Required subnodes:
+-- ports: Ports as described in Documentation/devicetree/bindings/graph.txt.
+-  2 ports are available:
+-  * port 0: this port is only needed if some of your DSI devices are
+-	    controlled through  an external bus like I2C or SPI. Can have at
+-	    most 4 endpoints. The endpoint number is directly encoding the
+-	    DSI virtual channel used by this device.
+-  * port 1: represents the DPI input.
+-  Other ports will be added later to support the new kind of inputs.
+-
+-- one subnode per DSI device connected on the DSI bus. Each DSI device should
+-  contain a reg property encoding its virtual channel.
+-
+-Example:
+-	dsi0: dsi@fd0c0000 {
+-		compatible = "cdns,dsi";
+-		reg = <0x0 0xfd0c0000 0x0 0x1000>;
+-		clocks = <&pclk>, <&sysclk>;
+-		clock-names = "dsi_p_clk", "dsi_sys_clk";
+-		interrupts = <1>;
+-		phys = <&dphy0>;
+-		phy-names = "dphy";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@1 {
+-				reg = <1>;
+-				dsi0_dpi_input: endpoint {
+-					remote-endpoint = <&xxx_dpi_output>;
+-				};
+-			};
+-		};
+-
+-		panel: dsi-dev@0 {
+-			compatible = "<vendor,panel>";
+-			reg = <0>;
+-		};
+-	};
+-
+-or
+-
+-	dsi0: dsi@fd0c0000 {
+-		compatible = "cdns,dsi";
+-		reg = <0x0 0xfd0c0000 0x0 0x1000>;
+-		clocks = <&pclk>, <&sysclk>;
+-		clock-names = "dsi_p_clk", "dsi_sys_clk";
+-		interrupts = <1>;
+-		phys = <&dphy1>;
+-		phy-names = "dphy";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-
+-				dsi0_output: endpoint@0 {
+-					reg = <0>;
+-					remote-endpoint = <&dsi_panel_input>;
+-				};
+-			};
+-
+-			port@1 {
+-				reg = <1>;
+-				dsi0_dpi_input: endpoint {
+-					remote-endpoint = <&xxx_dpi_output>;
+-				};
+-			};
+-		};
+-	};
+-
+-	i2c@xxx {
+-		panel: panel@59 {
+-			compatible = "<vendor,panel>";
+-			reg = <0x59>;
+-
+-			port {
+-				dsi_panel_input: endpoint {
+-					remote-endpoint = <&dsi0_output>;
+-				};
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+new file mode 100644
+index 000000000000..ccedc73d8c18
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+@@ -0,0 +1,198 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/cdns,dsi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cadence DSI bridge
++
++maintainers:
++  - Boris Brezillon <boris.brezillon@bootlin.com>
++
++description: |
++   CDNS DSI is a bridge device which converts DPI to DSI
++
++properties:
++  compatible:
++    items:
++      - const: cdns,dsi
++
++  reg:
++    items:
++      - description:
++          Register block for controller's registers.
++
++  clocks:
++    items:
++      - description: PSM clock, used by the IP
++      - description: sys clock, used by the IP
++
++  clock-names:
++    items:
++      - const: dsi_p_clk
++      - const: dsi_sys_clk
++
++  phys:
++    maxItems: 1
++    description: phandle link to the MIPI D-PHY controller.
++
++  phy-names:
++    const: dphy
++
++  power-domains:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++    description: PHY reset.
++
++  reset-names:
++    const: dsi_p_rst
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Output port representing the DSI output. It can have
++          most 4 endpoints. The endpoint number is directly encoding
++          the DSI virtual channel used by this device.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Input port representing the DP bridge input.
++
++    required:
++      - port@1
++
++allOf:
++  - $ref: ../dsi-controller.yaml#
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - phys
++  - phy-names
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    bus {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        dsi@fd0c0000 {
++            compatible = "cdns,dsi";
++            reg = <0x0 0xfd0c0000 0x0 0x1000>;
++            clocks = <&pclk>, <&sysclk>;
++            clock-names = "dsi_p_clk", "dsi_sys_clk";
++            interrupts = <1>;
++            phys = <&dphy0>;
++            phy-names = "dphy";
++
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@1 {
++                    reg = <1>;
++                    endpoint {
++                        remote-endpoint = <&xxx_dpi_output>;
++                    };
++                };
++            };
++
++            panel@0 {
++                compatible = "panasonic,vvx10f034n00";
++                reg = <0>;
++                power-supply = <&vcc_lcd_reg>;
++            };
++        };
++    };
++
++  - |
++    bus {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        dsi@fd0c0000 {
++            compatible = "cdns,dsi";
++            reg = <0x0 0xfd0c0000 0x0 0x1000>;
++            clocks = <&pclk>, <&sysclk>;
++            clock-names = "dsi_p_clk", "dsi_sys_clk";
++            interrupts = <1>;
++            phys = <&dphy1>;
++            phy-names = "dphy";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    dsi0_output: endpoint@0 {
++                        reg = <0>;
++                        remote-endpoint = <&dsi_panel_input>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    endpoint {
++                        remote-endpoint = <&xxx_dpi_output>;
++                    };
++                };
++            };
++        };
++
++        i2c {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            bridge@2d {
++                compatible = "ti,sn65dsi86";
++                reg = <0x2d>;
++
++                vpll-supply = <&src_pp1800_s4a>;
++                vccio-supply = <&src_pp1800_s4a>;
++                vcca-supply = <&src_pp1200_l2a>;
++                vcc-supply = <&src_pp1200_l2a>;
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++                        dsi_panel_input: endpoint {
++                            remote-endpoint = <&dsi0_output>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++                        endpoint {
++                            remote-endpoint = <&panel_in_edp>;
++                        };
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.36.1
 
