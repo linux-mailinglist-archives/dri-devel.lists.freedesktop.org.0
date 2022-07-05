@@ -1,33 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAACB568024
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 09:41:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7EF5673BC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 18:02:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE832112375;
-	Wed,  6 Jul 2022 07:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D54414A3F5;
+	Tue,  5 Jul 2022 16:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 336 seconds by postgrey-1.36 at gabe;
- Tue, 05 Jul 2022 15:58:31 UTC
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B758DF2C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 15:58:31 +0000 (UTC)
-Received: from rustam-GF63-Thin-9RCX (unknown [83.149.199.65])
- by mail.ispras.ru (Postfix) with ESMTPS id AC12440737BD;
- Tue,  5 Jul 2022 15:52:51 +0000 (UTC)
-Message-ID: <f483778df438c24ac57d660785c71402a1ba2d2c.camel@ispras.ru>
-Subject: [POSSIBLE BUG] Unreachable code or possible dereferencing of NULL
- pointer
-From: Subkhankulov Rustam <subkhankulov@ispras.ru>
-To: David Airlie <airlied@linux.ie>
-Date: Tue, 05 Jul 2022 18:52:45 +0300
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4389614A3EB;
+ Tue,  5 Jul 2022 16:01:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HjX1+dFKMxm3w/7W9CZWJ7Qz8KT63ihri+cMsMYkN4og/7tM5ctwse2HCRJr1JseycDH2CyzgZLX70mUvwzGR8svcyiYHubpj0ScuNn460MxAOR1Dh9/Aq8F0Et+Fejfq5cRHDtabNGuFOwpmW2eKW0M0Kyc6xrauHoCDIG1qI5e93J+d2inWegtAeBUlqFZ+qcnG0bzmzWJFkxguF5u0c929rnjrcY2zG40wRNpNT0WJRlHUD+ExNODgbUV/S8S6tpmGN4AGLJihVR5+sg0aSKWTJ4hdjLDJpn3eWQUAczVZ9U1uOxr1nlBSnM4NlFZaz7LktCc9PTYkEV8BMa5pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EfriI0IEzx3AV5qpwY8V/jbTR7EjP7oiHn8kiOz8JW4=;
+ b=RQ6yYEappgHHB+1JgCuXIzvxqHix3095bTuPlTJo70BJm4tZLxZiWnSQdSUjgjo3J2XBoBOdVyi4KA9JNGsBMBGm/71X4Is2MzNTnG4/3mD/Epojjs+dMDEbVGXbvVdj4sIkUkptwedNfEVpuXTv/k+WOoWxw4RCAAhEwv9ovqfDgbTvr7nXgosaT23yTV1zslSwqqWcNHqL2U130qGivVF2ZAbSKmQ2gGl4xIa6D47DBL4vASsq3E3eJiQAnsrhOXIJ9ZJFp4g5T7YKscnt7YlgZTw2POuw1F/jV+iOY3HBBXfQmrxZS+DJhnN2ALZ5tyA0i8nNFoTKyk+VhkTMpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EfriI0IEzx3AV5qpwY8V/jbTR7EjP7oiHn8kiOz8JW4=;
+ b=BdnjIPpEQfMEAyl2AG7tTicP+fnWfyI1+KAAFuVpH1ydtc1YaEy2P0ImYDBmrxKZDbxy23RaDxfe9uIlfO0CboodmvHbEZMXoalBQxEjlBrTqT5wtNJ/JlBzn4UZ2xbylK9e1MLihag85MPLuhYeJZ2xzqhl52APtiooyl30wEw=
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
+ by SJ0PR05MB7578.namprd05.prod.outlook.com (2603:10b6:a03:2ab::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.11; Tue, 5 Jul
+ 2022 16:01:54 +0000
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::14fc:26d8:a523:ce02]) by CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::14fc:26d8:a523:ce02%3]) with mapi id 15.20.5417.013; Tue, 5 Jul 2022
+ 16:01:54 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 1/4] drm/vmwgfx: Stop using 'TRUE'
+Thread-Topic: [PATCH v2 1/4] drm/vmwgfx: Stop using 'TRUE'
+Thread-Index: AQHYjLrHSjLD0TrK9kuBq0FP+jeA2K1v96EA
+Date: Tue, 5 Jul 2022 16:01:54 +0000
+Message-ID: <52FD33F8-7349-4ED9-9DE7-B4BC4BE5A634@vmware.com>
+References: <20220630195114.17407-1-ville.syrjala@linux.intel.com>
+ <20220630195114.17407-2-ville.syrjala@linux.intel.com>
+In-Reply-To: <20220630195114.17407-2-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.100.31)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2764733f-a812-4184-041e-08da5e9fae6f
+x-ms-traffictypediagnostic: SJ0PR05MB7578:EE_
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +7YSG5v2gZ9yrd2S0d7Bg2y+tfZdb9G+oatgcGZnEmveSgtsBkUm4O2Hkyzx5LvPVrgQBjgXgGJJQeryJCbMvTo3TwZX+y9rXexQzUeY8ahlkXY3x1s9safswnn+m9DA1soMCV+jincQXR7FyiAXr25sksF/ECY2JH/kDd7YS++taNdeC0KlAsxVuNjqET7KBhJihfht8SgHtbOXvK8p4D86WBFZbcaNYSGMefgglxDtqP2aJhZtB1O+XeuWcck1Mb3gSuiIl95X/5oeKwQj0TWHu9i4zYBI8XOwL7CnSJQ/dczwm6jOjnN2+BvmSbVC1QMTEpNTG7+5mEmEqAhVYelYHOhCuPoWOPEYe1eS77U7m2KuHzJk2FUouyVsvFkvwBACXXadb7f9kKnZdCiSuU9yNRRO/B+W7/ACNAMXzdn9DIUqZ7k98e2UlKEGOLAj2aSmuvx61qtMWZehHY2sdeSDLJlZWMacaduWm/lJtLPSatb/GC1J/erAI+Qv962+dS+PnyT2yeh30pwmLOzUJXooPgaCnCRAYoZ/gjSaxmc6jFcvWueK4FEt8I+LtZQfKttgbMZ5H1f4GGW5XnS5opdEbz4HYAvUwlyQAE6Qg5IhWmr8ZM1naR59UDFvgEBuQxS7UbkPkZgOiGxnakjAy1qe6GwTEp5kXZS7pp4FQLVWvqQ2wozWwmLT+InCjYtFflB+C0RSGM5tuZLJgH4zr/fI8dGuvYXHA2pgiSUwBZtAsEMC8wNZdKhJi1AMhhcTg76MDxulxi+aY5JwV7peSACeo9HsC/eNNicDHSwo/1yMVTMUdAwp7lRbz5UBehC7T7ipYRuMBycFKKldlqmoy/9eYg+4EoqrYshAypkGxRs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(366004)(376002)(39860400002)(346002)(136003)(53546011)(6506007)(8936002)(478600001)(5660300002)(2906002)(76116006)(91956017)(41300700001)(38070700005)(33656002)(122000001)(66446008)(64756008)(8676002)(4326008)(66476007)(66556008)(38100700002)(66946007)(36756003)(71200400001)(186003)(6486002)(6916009)(66574015)(26005)(54906003)(6512007)(86362001)(2616005)(83380400001)(316002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z3JBU1Rqb1QzbUlUUXBtc3hsY3YwQU9QQ25KZkxGSlVva0dZRjRXWTlzRlpW?=
+ =?utf-8?B?ZjRRQm5VUmZDUEl2NjJ3dWN1TlYyWmx0cmo0R0RBOEd3dW45WXdFRWFuNDYw?=
+ =?utf-8?B?S0lQRUJvakpjQnBsTWpyNW81Q3NUemJnclp4cXRGOVZCRlRBY3lkZTlHMkNI?=
+ =?utf-8?B?b3I3UHorWDNyaHFMeTlqZlFXYmdiVktteHJJRGZZaUJCWFZ5NS9kVkpBbFFN?=
+ =?utf-8?B?WDFsWWduL1owaVF3TFpqY29ZM2poMEFUbGh2SVNMbnk3RmNoTXZRejUxZnRW?=
+ =?utf-8?B?bWJVT0xTdEh0RzM4Tk5sdEFPVy8vZ2M3bnU1bjJuMjMxdjdVUG1qcWdQVmYw?=
+ =?utf-8?B?MlVqaWtqMW5YZm9vVy83cGd2YWtmZU43d2lzdlFYcmRFMWtvSlJPVmhzSzh1?=
+ =?utf-8?B?aHFoZWxua1QvejdsRFNtNlF4WnhvUjFyV2l1YXJsc1FXdmhLMkFKQW5kRmIz?=
+ =?utf-8?B?R3VXSGgvSE1IYTBERXZwbk9qQ0VIalN1OTlXTWRiZmxaTVFiZWlRc3A4ME1y?=
+ =?utf-8?B?UEhQay85ZFJlWExuUDd3QVBzNnRjR21DUXVhSmgyVmp3dmN2V0ZkYi9wT09S?=
+ =?utf-8?B?K0FaQTdpRGE2cDFyZ0d3ZlhxdXhPT2Q2Y25TQnltb200N1pUeWltcEZ2VjhT?=
+ =?utf-8?B?RDhucGJlRTNoRHVrU05mSHY2dGF4VXRYOGc0SDhFOE5kNWpvQUhGT3RyQ1Uw?=
+ =?utf-8?B?cytrQ01Td0JKcnU1SFA5RlZzYzcxcGsxNlJMeVNPNmo5K3FWRmh1UXk4Z0k3?=
+ =?utf-8?B?THRWdmZCaHN3VURFNXdRcGZWVUhlQ0xaSmFhYzdqQkQwVUpjSU9mbllwV3dv?=
+ =?utf-8?B?aDBML0xsbWVOcVhWM1dDVFVwTEZHVE82Zklac1BhS1NhVU83NGVpcUFEWVBI?=
+ =?utf-8?B?a0RMazRJbVQ1RC9HbVdGTXNpMmNQb3hNbGdod05SMythKzcrRVlBbnNSdHJW?=
+ =?utf-8?B?dTl0enZta3gwRUtiaHhCWHRhVHNqeGVra3dUa1Bsd1I4aFNvZnB3d3gveSs4?=
+ =?utf-8?B?TlY3UnZrTWlaWmtFdkVNWlR6ZTF4UVZFb1EyZWhjWWxLUmJNaHlWOU0wRlFy?=
+ =?utf-8?B?MFIyd1JuVW15VnZBbXE4djU5dUs1V2hqZktiZmtralE0Q1FCZzNsMit6a3Ju?=
+ =?utf-8?B?TG5zdUVpUlJsb2J4WG9Rdk1CWEJyc0NkYnlnK2hGTGJvQ3B2K21hTGNKdEJ6?=
+ =?utf-8?B?OTA0SEExQ2psMERxQXB3ZjdiVTRsMVBSRUpTeEw1RitZNmRVU2txaHkra2RE?=
+ =?utf-8?B?S3F6VjQwcnRWaEJIVDd5cVlDZjAxWDNyeFdnTjJ3QWsxdDkxWjdaY3dlUXJI?=
+ =?utf-8?B?YmZWdllvVE9sdTZab2dZOW5YSjF6VFZSWXJvN1E0cXdCYVhvWHRZL2MzTjdV?=
+ =?utf-8?B?S1VoOFZJQkxLWkZPc1hwSVAwWmovRHpFSjJld05rOGJHOEJSTWVReFFNL2ZN?=
+ =?utf-8?B?dE1JY1hHTlhQdnA4NkhRUDJSRDhNN3I0UWtqZHdveFJ4T2ZsSzhLWEt6ZVZy?=
+ =?utf-8?B?djdUeWt6RGFkcHFQaTZFV3UwaW5ycy96alFVN2dZTTR4c2c1aS9oL1hBTHp6?=
+ =?utf-8?B?ZFNzMmUxRFRyZVRVLzRhRzdrOWJnbHc0Y2d2T05zMlc4YXJTZVNQS2hZU1NC?=
+ =?utf-8?B?Vis5eGx4VVRsWEl4QlFMZGZ1OVlCZGdZZzJKK050ZUJSeW9vL0QvTmM0enpS?=
+ =?utf-8?B?eW9oR08xdUxVcjRqTTI0N29jaVdkTjN4KzJxRkZNL3lUZFVQaHhTOFVZTlZ1?=
+ =?utf-8?B?MGkwZ2NrdERjR0RHMUpaN3BKWFRZZFl2UmdhRWFRT0FQeVFkd0Y1QjdYb2NR?=
+ =?utf-8?B?cFVQdndib3FCb0lJaXpWaklaNGhRdTFiRXQrTXVnN0xNUWxXVkhxSjJ1d055?=
+ =?utf-8?B?Qm43N3BvQ0FhY1JILzdjS05EcWhybjk3YTVTcEk0a0RNd3hnalprZ2E4dzdY?=
+ =?utf-8?B?cGNsTUpaZnBZY1FwRGR3WUkzRk1EckhCODYrdHZYZHZCQ3czOWwvaXpsS2F4?=
+ =?utf-8?B?Rk1FVTc4QzhnN1ZhdGxDdlVQQWpHSDNieE9vUHQrejBUcCsrSGJPTzBPYkoz?=
+ =?utf-8?B?djRsa3FtZVRGdkZqdjRodDQ0eEpDMm1Pc3FvRkZNdUtsMHdxakRyZHVxTDFZ?=
+ =?utf-8?Q?oVBypfDAKrd7cJuFAgDIN8etK?=
+Content-Type: multipart/alternative;
+ boundary="_000_52FD33F873494ED99DE7B4BC4BE5A634vmwarecom_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 06 Jul 2022 07:41:40 +0000
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2764733f-a812-4184-041e-08da5e9fae6f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jul 2022 16:01:54.5356 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Sv7OUY9dSDjRyeCpmYUmspYHAMfWLLDYyrxdxg9AdZhUvIJftn6ie83rYudnKQdckiaTZ2cVCtpGRU87IvipPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB7578
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,82 +128,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--_000_52FD33F873494ED99DE7B4BC4BE5A634vmwarecom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Version: 5.19-rc5
+DQpPbiBKdW4gMzAsIDIwMjIsIGF0IDM6NTEgUE0sIFZpbGxlIFN5cmphbGEgPHZpbGxlLnN5cmph
+bGFAbGludXguaW50ZWwuY29tPG1haWx0bzp2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4+
+IHdyb3RlOg0KDQpGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50
+ZWwuY29tPG1haWx0bzp2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4+DQoNClN0b3AgdXNp
+bmcgdGhlICdUUlVFJyBkZWZpbmUuIFRoaXMgdWx0aW1hdGVseSBnZXRzIGRlZmluZWQgYnkNCmFj
+cGkvYWN0eXBlcy5oIHRoYXQgZ2V0cyBpbmNsdWRlZCBoZXJlIHZpYSBhIGNvbnZvbHV0ZWQgY2hh
+aW4gb2YNCm90aGVyIGhlYWRlcnMuIGRybV9jcnRjLmggaXMgcGFydCBvZiB0aGF0IGNoYWluLCBh
+bmQgSSdtIHRyeWluZw0KdG8gZWxpbWluYXRlIGFsbCB1bm5lY2Vzc2FyeSBpbmNsdWRlcyBmcm9t
+IGl0IHRvIGF2b2lkIHBvaW50bGVzcw0KcmVidWlsZHMuDQoNCnYyOiBTcGxpdCBvdXQgZnJvbSB0
+aGUgYmlnZ2VyIHBhdGNoDQoNCkNjOiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPG1haWx0
+bzp6YWNrckB2bXdhcmUuY29tPj4NCkNjOiBWTXdhcmUgR3JhcGhpY3MgUmV2aWV3ZXJzIDxsaW51
+eC1ncmFwaGljcy1tYWludGFpbmVyQHZtd2FyZS5jb208bWFpbHRvOmxpbnV4LWdyYXBoaWNzLW1h
+aW50YWluZXJAdm13YXJlLmNvbT4+DQpBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPG1haWx0bzpzYW1AcmF2bmJvcmcub3JnPj4NCkFja2VkLWJ5OiBKYW5pIE5pa3VsYSA8
+amFuaS5uaWt1bGFAaW50ZWwuY29tPG1haWx0bzpqYW5pLm5pa3VsYUBpbnRlbC5jb20+Pg0KU2ln
+bmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNv
+bTxtYWlsdG86dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Pg0KLS0tDQpkcml2ZXJzL2dw
+dS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYyB8IDIgKy0NCjEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfa21zLmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYw0K
+aW5kZXggNjkzMDI4YzMxYjZiLi5mZjJmNzM1YmJlN2EgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYw0KKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
+bXdnZnhfa21zLmMNCkBAIC0yNTIsNyArMjUyLDcgQEAgc3RhdGljIHZvaWQgdm13X2N1cnNvcl91
+cGRhdGVfcG9zaXRpb24oc3RydWN0IHZtd19wcml2YXRlICpkZXZfcHJpdiwNCnZtd193cml0ZShk
+ZXZfcHJpdiwgU1ZHQV9SRUdfQ1VSU09SNF9ZLCB5KTsNCnZtd193cml0ZShkZXZfcHJpdiwgU1ZH
+QV9SRUdfQ1VSU09SNF9TQ1JFRU5fSUQsIFNWR0EzRF9JTlZBTElEX0lEKTsNCnZtd193cml0ZShk
+ZXZfcHJpdiwgU1ZHQV9SRUdfQ1VSU09SNF9PTiwgc3ZnYV9jdXJzb3Jfb24pOw0KLSB2bXdfd3Jp
+dGUoZGV2X3ByaXYsIFNWR0FfUkVHX0NVUlNPUjRfU1VCTUlULCBUUlVFKTsNCisgdm13X3dyaXRl
+KGRldl9wcml2LCBTVkdBX1JFR19DVVJTT1I0X1NVQk1JVCwgMSk7DQp9IGVsc2UgaWYgKHZtd19p
+c19jdXJzb3JfYnlwYXNzM19lbmFibGVkKGRldl9wcml2KSkgew0Kdm13X2ZpZm9fbWVtX3dyaXRl
+KGRldl9wcml2LCBTVkdBX0ZJRk9fQ1VSU09SX09OLCBzdmdhX2N1cnNvcl9vbik7DQp2bXdfZmlm
+b19tZW1fd3JpdGUoZGV2X3ByaXYsIFNWR0FfRklGT19DVVJTT1JfWCwgeCk7DQoNCkhpLCBWaWxs
+ZS4NCg0KU29ycnkgZm9yIHRoZSBkZWxheS4gTG9va3MgZ3JlYXQuIEluIGNhc2UgeW91IGhhdmVu
+4oCZdCBwdXNoZWQgaXQgdG8gZHJtLW1pc2MtbmV4dCB5ZXQ6DQoNClJldmlld2VkLWJ5OiBaYWNr
+IFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPG1haWx0bzp6YWNrckB2bXdhcmUuY29tPj4NCg0Keg0K
 
-In function 'via_do_init_map' (drivers/gpu/drm/via/via_map.c: 54)
-'drm_legacy_findmap' can return NULL pointer. If that happens,it calls
-'via_do_cleanup_map' (drivers/gpu/drm/via/via_map.c: 58).
+--_000_52FD33F873494ED99DE7B4BC4BE5A634vmwarecom_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <EB69E01C2A45C64187FD2DF7704998F7@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
----------------------------------------------------------------------
-54    dev_priv->mmio = drm_legacy_findmap(dev, init->mmio_offset);
-55    if (!dev_priv->mmio) {
-56        DRM_ERROR("could not find mmio region!\n");
-57        dev->dev_private = (void *)dev_priv;
-58        via_do_cleanup_map(dev);
-59        return -EINVAL;
-60    }
----------------------------------------------------------------------
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IHN0eWxlPSJ3b3JkLXdy
+YXA6IGJyZWFrLXdvcmQ7IC13ZWJraXQtbmJzcC1tb2RlOiBzcGFjZTsgbGluZS1icmVhazogYWZ0
+ZXItd2hpdGUtc3BhY2U7IiBjbGFzcz0iIj4NCjxiciBjbGFzcz0iIj4NCjxkaXY+DQo8YmxvY2tx
+dW90ZSB0eXBlPSJjaXRlIiBjbGFzcz0iIj4NCjxkaXYgY2xhc3M9IiI+T24gSnVuIDMwLCAyMDIy
+LCBhdCAzOjUxIFBNLCBWaWxsZSBTeXJqYWxhICZsdDs8YSBocmVmPSJtYWlsdG86dmlsbGUuc3ly
+amFsYUBsaW51eC5pbnRlbC5jb20iIGNsYXNzPSIiPnZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
+Y29tPC9hPiZndDsgd3JvdGU6PC9kaXY+DQo8YnIgY2xhc3M9IkFwcGxlLWludGVyY2hhbmdlLW5l
+d2xpbmUiPg0KPGRpdiBjbGFzcz0iIj4NCjxkaXYgY2xhc3M9IiI+RnJvbTogVmlsbGUgU3lyasOk
+bMOkICZsdDs8YSBocmVmPSJtYWlsdG86dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20iIGNs
+YXNzPSIiPnZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPC9hPiZndDs8YnIgY2xhc3M9IiI+
+DQo8YnIgY2xhc3M9IiI+DQpTdG9wIHVzaW5nIHRoZSAnVFJVRScgZGVmaW5lLiBUaGlzIHVsdGlt
+YXRlbHkgZ2V0cyBkZWZpbmVkIGJ5PGJyIGNsYXNzPSIiPg0KYWNwaS9hY3R5cGVzLmggdGhhdCBn
+ZXRzIGluY2x1ZGVkIGhlcmUgdmlhIGEgY29udm9sdXRlZCBjaGFpbiBvZjxiciBjbGFzcz0iIj4N
+Cm90aGVyIGhlYWRlcnMuIGRybV9jcnRjLmggaXMgcGFydCBvZiB0aGF0IGNoYWluLCBhbmQgSSdt
+IHRyeWluZzxiciBjbGFzcz0iIj4NCnRvIGVsaW1pbmF0ZSBhbGwgdW5uZWNlc3NhcnkgaW5jbHVk
+ZXMgZnJvbSBpdCB0byBhdm9pZCBwb2ludGxlc3M8YnIgY2xhc3M9IiI+DQpyZWJ1aWxkcy48YnIg
+Y2xhc3M9IiI+DQo8YnIgY2xhc3M9IiI+DQp2MjogU3BsaXQgb3V0IGZyb20gdGhlIGJpZ2dlciBw
+YXRjaDxiciBjbGFzcz0iIj4NCjxiciBjbGFzcz0iIj4NCkNjOiBaYWNrIFJ1c2luICZsdDs8YSBo
+cmVmPSJtYWlsdG86emFja3JAdm13YXJlLmNvbSIgY2xhc3M9IiI+emFja3JAdm13YXJlLmNvbTwv
+YT4mZ3Q7PGJyIGNsYXNzPSIiPg0KQ2M6IFZNd2FyZSBHcmFwaGljcyBSZXZpZXdlcnMgJmx0Ozxh
+IGhyZWY9Im1haWx0bzpsaW51eC1ncmFwaGljcy1tYWludGFpbmVyQHZtd2FyZS5jb20iIGNsYXNz
+PSIiPmxpbnV4LWdyYXBoaWNzLW1haW50YWluZXJAdm13YXJlLmNvbTwvYT4mZ3Q7PGJyIGNsYXNz
+PSIiPg0KQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnNhbUByYXZu
+Ym9yZy5vcmciIGNsYXNzPSIiPnNhbUByYXZuYm9yZy5vcmc8L2E+Jmd0OzxiciBjbGFzcz0iIj4N
+CkFja2VkLWJ5OiBKYW5pIE5pa3VsYSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmphbmkubmlrdWxhQGlu
+dGVsLmNvbSIgY2xhc3M9IiI+amFuaS5uaWt1bGFAaW50ZWwuY29tPC9hPiZndDs8YnIgY2xhc3M9
+IiI+DQpTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgJmx0OzxhIGhyZWY9Im1haWx0bzp2
+aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbSIgY2xhc3M9IiI+dmlsbGUuc3lyamFsYUBsaW51
+eC5pbnRlbC5jb208L2E+Jmd0OzxiciBjbGFzcz0iIj4NCi0tLTxiciBjbGFzcz0iIj4NCmRyaXZl
+cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jIHwgMiArLTxiciBjbGFzcz0iIj4NCjEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKTxiciBjbGFzcz0iIj4NCjxi
+ciBjbGFzcz0iIj4NCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9r
+bXMuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jPGJyIGNsYXNzPSIiPg0K
+aW5kZXggNjkzMDI4YzMxYjZiLi5mZjJmNzM1YmJlN2EgMTAwNjQ0PGJyIGNsYXNzPSIiPg0KLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfa21zLmM8YnIgY2xhc3M9IiI+DQorKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYzxiciBjbGFzcz0iIj4NCkBAIC0y
+NTIsNyArMjUyLDcgQEAgc3RhdGljIHZvaWQgdm13X2N1cnNvcl91cGRhdGVfcG9zaXRpb24oc3Ry
+dWN0IHZtd19wcml2YXRlICpkZXZfcHJpdiw8YnIgY2xhc3M9IiI+DQo8c3BhbiBjbGFzcz0iQXBw
+bGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPjwvc3Bhbj48c3BhbiBjbGFzcz0i
+QXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPjwvc3Bhbj52bXdfd3JpdGUo
+ZGV2X3ByaXYsIFNWR0FfUkVHX0NVUlNPUjRfWSwgeSk7PGJyIGNsYXNzPSIiPg0KPHNwYW4gY2xh
+c3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj48L3NwYW4+PHNwYW4g
+Y2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj48L3NwYW4+dm13
+X3dyaXRlKGRldl9wcml2LCBTVkdBX1JFR19DVVJTT1I0X1NDUkVFTl9JRCwgU1ZHQTNEX0lOVkFM
+SURfSUQpOzxiciBjbGFzcz0iIj4NCjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9
+IndoaXRlLXNwYWNlOnByZSI+PC9zcGFuPjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5
+bGU9IndoaXRlLXNwYWNlOnByZSI+PC9zcGFuPnZtd193cml0ZShkZXZfcHJpdiwgU1ZHQV9SRUdf
+Q1VSU09SNF9PTiwgc3ZnYV9jdXJzb3Jfb24pOzxiciBjbGFzcz0iIj4NCi08c3BhbiBjbGFzcz0i
+QXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPiA8L3NwYW4+PHNwYW4gY2xh
+c3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj48L3NwYW4+dm13X3dy
+aXRlKGRldl9wcml2LCBTVkdBX1JFR19DVVJTT1I0X1NVQk1JVCwgVFJVRSk7PGJyIGNsYXNzPSIi
+Pg0KKzxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+
+IDwvc3Bhbj48c3BhbiBjbGFzcz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpw
+cmUiPjwvc3Bhbj52bXdfd3JpdGUoZGV2X3ByaXYsIFNWR0FfUkVHX0NVUlNPUjRfU1VCTUlULCAx
+KTs8YnIgY2xhc3M9IiI+DQo8c3BhbiBjbGFzcz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0
+ZS1zcGFjZTpwcmUiPjwvc3Bhbj59IGVsc2UgaWYgKHZtd19pc19jdXJzb3JfYnlwYXNzM19lbmFi
+bGVkKGRldl9wcml2KSkgezxiciBjbGFzcz0iIj4NCjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3Bh
+biIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+PC9zcGFuPjxzcGFuIGNsYXNzPSJBcHBsZS10YWIt
+c3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+PC9zcGFuPnZtd19maWZvX21lbV93cml0ZShk
+ZXZfcHJpdiwgU1ZHQV9GSUZPX0NVUlNPUl9PTiwgc3ZnYV9jdXJzb3Jfb24pOzxiciBjbGFzcz0i
+Ij4NCjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+
+PC9zcGFuPjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnBy
+ZSI+PC9zcGFuPnZtd19maWZvX21lbV93cml0ZShkZXZfcHJpdiwgU1ZHQV9GSUZPX0NVUlNPUl9Y
+LCB4KTs8YnIgY2xhc3M9IiI+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGJyIGNs
+YXNzPSIiPg0KPC9kaXY+DQo8ZGl2PkhpLCBWaWxsZS48L2Rpdj4NCjxkaXY+PGJyIGNsYXNzPSIi
+Pg0KPC9kaXY+DQo8ZGl2PlNvcnJ5IGZvciB0aGUgZGVsYXkuIExvb2tzIGdyZWF0LiBJbiBjYXNl
+IHlvdSBoYXZlbuKAmXQgcHVzaGVkIGl0IHRvIGRybS1taXNjLW5leHQgeWV0OjwvZGl2Pg0KPGRp
+dj48YnIgY2xhc3M9IiI+DQo8L2Rpdj4NCjxkaXY+UmV2aWV3ZWQtYnk6IFphY2sgUnVzaW4gJmx0
+OzxhIGhyZWY9Im1haWx0bzp6YWNrckB2bXdhcmUuY29tIiBjbGFzcz0iIj56YWNrckB2bXdhcmUu
+Y29tPC9hPiZndDs8L2Rpdj4NCjxkaXY+PGJyIGNsYXNzPSIiPg0KPC9kaXY+DQo8ZGl2Pno8L2Rp
+dj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-'via_do_cleanup' functions calls
-'via_dma_cleanup'(drivers/gpu/drm/via/via_map.c: 78).
-
----------------------------------------------------------------------
-76    int via_do_cleanup_map(struct drm_device *dev)
-77    {
-78        via_dma_cleanup(dev);
-79
-80        return 0;
-81    }
----------------------------------------------------------------------
-
-In 'via_dma_cleanup' there is another conditional construction
-(drivers/gpu/drm/via/via_dma.c: 168). 
-
----------------------------------------------------------------------
-168   if (dev_priv->ring.virtual_start) {
-169       via_cmdbuf_reset(dev_priv);
-170
-171       drm_legacy_ioremapfree(&dev_priv->ring.map, dev);
-172       dev_priv->ring.virtual_start = NULL;
-173   }
----------------------------------------------------------------------
-
-It seems like there are two possible ways: 
-
-1) dev_priv->ring.virtual_start != 0. 
-
-In that case function call chain happens: 'via_cmdbuf_reset',
-'via_cmdbuf_flush', 'via_hook_segment' and 'via_read'
-(drivers/gpu/drm/via/via_drv.h: 124).
-In 'via_read' dereferencing of "dev_priv->mmio" happens, which is NULL.
-
----------------------------------------------------------------------
-124    static inline u32 via_read(struct drm_via_private *dev_priv, u32
-reg)
-125    {
-126        return readl((void __iomem *)(dev_priv->mmio->handle +
-reg));
-127    }
----------------------------------------------------------------------
-
-2) dev_priv->ring.virtual_start == 0.
-Then all function calls located inside conditional construction
-(drivers/gpu/drm/via/via_dma.c: 168) do not happen.
-
-Thus, if dev_priv->mmio == NULL, call of 'via_do_cleanup_map'
-(drivers/gpu/drm/via/via_map.c: 58) may result in either an error or
-nothing at all.
-Should we remove call to via_do_cleanup_map(dev) or should we somehow
-avoid NULL pointer dereference in 'via_read'?
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-regards,
-Rustam Subkhankulov
-
+--_000_52FD33F873494ED99DE7B4BC4BE5A634vmwarecom_--
