@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CAB568BFE
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D27569030
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91D4911273A;
-	Wed,  6 Jul 2022 14:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB29C11BCEE;
+	Wed,  6 Jul 2022 17:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF6C1127CA
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 14:58:12 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id p128so14245631iof.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 07:58:12 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA13E112933
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 14:58:15 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id s1so22450858wra.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 07:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:message-id:mime-version;
+ bh=LKQeiupsjWXxBDwoTZSPPHdlPTjQPIAaFqaKyAW0P6U=;
+ b=AD0lLbpH8JCVYBU8V3rmJht/6J16Po5+P/vNLyVCHtt0EA7frZi8VfFKSmyBXKf0UF
+ Fq25TQnM5SB2+zbQWN6y0vPiJFPJM6O0GT6AoAcjzDAPAJbK6dcEoF90dlVg3kCrCCYk
+ yWGGQmVHEFjX8mNnIffKqpqRyvvECVP1kZvEqxIoVNLPc0ecAit3djDIupPDkRSFEPlr
+ QupFTmdUsp/26Hv2YB0A32L8MC+e+PYmq7DBZaFZ3wAyIc87LuvPMXimrafEvRFelH3K
+ 4WiR0RjZUX2l1DJed69UhYRXtCC7dqTun6l2iQqSErP6Y/CR7KENojKdPyxDjveccUk0
+ K/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Vx9EKWNYpcHBOsFbrprMQU719uQis38dKdcJXfbwAb4=;
- b=hN4zG2q1MP5lutJ4Q0wH4iQveV/fXY9iH7zQESzD+v/eBMNTuGUeBuO2EsQlEdMZO0
- oOY+PFn143dLWful2GT9tVbcaRgcP+VK0Juw23z9GT6clnZwCUETwv8pmhcSFpJntU1k
- nlZyu5IIgL74TxpUud0uIUeDa3L18JeRr2RGDxfjMULSN2jeMnx/JFkXJpG3ppN37r00
- nSkaXfUzTgxnGn6vdHeo0Nck6I0aBi4x5sUVji9VRchR0++o5PihkUZV5iWywYlaSPNH
- v/RlvagA4xJCCNEQyhwUE0AAW6F7Rv2Jzy4NrQGXLCYBsd4qlx+64WMbuYg+55cYLRD+
- x4KQ==
-X-Gm-Message-State: AJIora84Z7g+vj0InmcE3uodrrl+77JESUv/uXRoigPvw4ATM5ezcnDb
- pLfg1lSa7ZfRnOIK6kxiMg==
-X-Google-Smtp-Source: AGRyM1udQ5XczJ1KHQSlRVuFA63BJs50eNEvdvNtfvmCm02Cs9+9gEXCy7woVdpj6J2kIFqyxJ2AXw==
-X-Received: by 2002:a6b:f206:0:b0:675:544d:45ec with SMTP id
- q6-20020a6bf206000000b00675544d45ecmr21193391ioh.96.1657119492022; 
- Wed, 06 Jul 2022 07:58:12 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
+ h=x-gm-message-state:date:from:subject:to:cc:message-id:mime-version;
+ bh=LKQeiupsjWXxBDwoTZSPPHdlPTjQPIAaFqaKyAW0P6U=;
+ b=AcP3aRuSqBeTCjnqM+0b7ICaSOJG/+3y9nbvTVNBly8f6zy0aS8UYlSeoJ9UUmAWW6
+ aVfKVUGVFpU8CVd/l/2/kOnFYIarSWUP6SFA9zFbCBIuH5zwI5Ky/vyzLF+VNwo3UfE9
+ 4hAYLr4mH52lumORKdxYqWRG1Lj+Y2fYijYQ0WWBaNXFBeueFOz6JMJs6vOy9nXww7w2
+ LrflWCqpgrMh1Yfu9FCqS0woV8Flggo8fL3J2I24XiCtJaM5uIz65VwL3Ehmr+scolb/
+ SMV2k/y1PANnT9BBrDHNvGzBkuOozCsj1V5XpiPlb7tCUEy20Ha/wuucSA3Ewj2xaOnv
+ bkgA==
+X-Gm-Message-State: AJIora/dxeyNcBMGNjmB28XArqZ1kh/q+dHqBRvdQVp/QGfGOt1iwGlb
+ eN6O640JTswykO+o3fBpc9g=
+X-Google-Smtp-Source: AGRyM1t7OPKW7PZbAb2gyV/DYZUlzsdR3QqWCthq6pHCgy7hgoIS8GpNVeQjjUpKLMQt6P7ZydXHhg==
+X-Received: by 2002:adf:e104:0:b0:21b:9938:b07a with SMTP id
+ t4-20020adfe104000000b0021b9938b07amr38373405wrz.682.1657119494202; 
+ Wed, 06 Jul 2022 07:58:14 -0700 (PDT)
+Received: from fedora ([2a01:e0a:1d2:1f90:be95:f3a2:4d99:a3b3])
  by smtp.gmail.com with ESMTPSA id
- q15-20020a02a98f000000b0033ee1e67c6esm2876600jam.79.2022.07.06.07.58.10
+ v3-20020a5d59c3000000b00210bac248c8sm18593495wry.11.2022.07.06.07.58.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 07:58:11 -0700 (PDT)
-Received: (nullmailer pid 35182 invoked by uid 1000);
- Wed, 06 Jul 2022 14:58:07 -0000
-Date: Wed, 6 Jul 2022 08:58:07 -0600
-From: Rob Herring <robh@kernel.org>
-To: Rahul T R <r-ravikumar@ti.com>
-Subject: Re: [PATCH v5 1/5] dt-bindings: display: bridge: Convert
- cdns,dsi.txt to yaml
-Message-ID: <20220706145807.GA22662-robh@kernel.org>
-References: <20220706114053.3454-1-r-ravikumar@ti.com>
- <20220706114053.3454-2-r-ravikumar@ti.com>
+ Wed, 06 Jul 2022 07:58:13 -0700 (PDT)
+Date: Wed, 06 Jul 2022 16:58:08 +0200
+From: Matthieu CHARETTE <matthieu.charette@gmail.com>
+Subject: [PATCH] drm: Fix EDID firmware load on resume
+To: matthieu.charette@gmail.com
+Message-Id: <WKTLER.NFH5CX2O259Q@gmail.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706114053.3454-2-r-ravikumar@ti.com>
+Content-Type: text/plain; charset=us-ascii; format=flowed
+X-Mailman-Approved-At: Wed, 06 Jul 2022 17:03:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,368 +66,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, a-bhatia1@ti.com, jonas@kwiboo.se,
- airlied@linux.ie, tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- vigneshr@ti.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andrzej.hajda@intel.com, jpawar@cadence.com, lee.jones@linaro.org,
- laurent.pinchart@ideasonboard.com
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ matthieu.charette@gmail.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 06, 2022 at 05:10:49PM +0530, Rahul T R wrote:
-> Convert cdns,dsi.txt binding to yaml format
-> 
-> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> ---
->  .../bindings/display/bridge/cdns,dsi.txt      | 112 ----------
->  .../bindings/display/bridge/cdns,dsi.yaml     | 195 ++++++++++++++++++
->  2 files changed, 195 insertions(+), 112 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
-> deleted file mode 100644
-> index 525a4bfd8634..000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
-> +++ /dev/null
-> @@ -1,112 +0,0 @@
-> -Cadence DSI bridge
-> -==================
-> -
-> -The Cadence DSI bridge is a DPI to DSI bridge supporting up to 4 DSI lanes.
-> -
-> -Required properties:
-> -- compatible: should be set to "cdns,dsi".
-> -- reg: physical base address and length of the controller's registers.
-> -- interrupts: interrupt line connected to the DSI bridge.
-> -- clocks: DSI bridge clocks.
-> -- clock-names: must contain "dsi_p_clk" and "dsi_sys_clk".
-> -- phys: phandle link to the MIPI D-PHY controller.
-> -- phy-names: must contain "dphy".
-> -- #address-cells: must be set to 1.
-> -- #size-cells: must be set to 0.
-> -
-> -Optional properties:
-> -- resets: DSI reset lines.
-> -- reset-names: can contain "dsi_p_rst".
-> -
-> -Required subnodes:
-> -- ports: Ports as described in Documentation/devicetree/bindings/graph.txt.
-> -  2 ports are available:
-> -  * port 0: this port is only needed if some of your DSI devices are
-> -	    controlled through  an external bus like I2C or SPI. Can have at
-> -	    most 4 endpoints. The endpoint number is directly encoding the
-> -	    DSI virtual channel used by this device.
-> -  * port 1: represents the DPI input.
-> -  Other ports will be added later to support the new kind of inputs.
-> -
-> -- one subnode per DSI device connected on the DSI bus. Each DSI device should
-> -  contain a reg property encoding its virtual channel.
-> -
-> -Example:
-> -	dsi0: dsi@fd0c0000 {
-> -		compatible = "cdns,dsi";
-> -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
-> -		clocks = <&pclk>, <&sysclk>;
-> -		clock-names = "dsi_p_clk", "dsi_sys_clk";
-> -		interrupts = <1>;
-> -		phys = <&dphy0>;
-> -		phy-names = "dphy";
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -
-> -		ports {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -
-> -			port@1 {
-> -				reg = <1>;
-> -				dsi0_dpi_input: endpoint {
-> -					remote-endpoint = <&xxx_dpi_output>;
-> -				};
-> -			};
-> -		};
-> -
-> -		panel: dsi-dev@0 {
-> -			compatible = "<vendor,panel>";
-> -			reg = <0>;
-> -		};
-> -	};
-> -
-> -or
-> -
-> -	dsi0: dsi@fd0c0000 {
-> -		compatible = "cdns,dsi";
-> -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
-> -		clocks = <&pclk>, <&sysclk>;
-> -		clock-names = "dsi_p_clk", "dsi_sys_clk";
-> -		interrupts = <1>;
-> -		phys = <&dphy1>;
-> -		phy-names = "dphy";
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -
-> -		ports {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -
-> -			port@0 {
-> -				reg = <0>;
-> -				#address-cells = <1>;
-> -				#size-cells = <0>;
-> -
-> -				dsi0_output: endpoint@0 {
-> -					reg = <0>;
-> -					remote-endpoint = <&dsi_panel_input>;
-> -				};
-> -			};
-> -
-> -			port@1 {
-> -				reg = <1>;
-> -				dsi0_dpi_input: endpoint {
-> -					remote-endpoint = <&xxx_dpi_output>;
-> -				};
-> -			};
-> -		};
-> -	};
-> -
-> -	i2c@xxx {
-> -		panel: panel@59 {
-> -			compatible = "<vendor,panel>";
-> -			reg = <0x59>;
-> -
-> -			port {
-> -				dsi_panel_input: endpoint {
-> -					remote-endpoint = <&dsi0_output>;
-> -				};
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-> new file mode 100644
-> index 000000000000..865b3005c091
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-> @@ -0,0 +1,195 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/cdns,dsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cadence DSI bridge
-> +
-> +maintainers:
-> +  - Boris Brezillon <boris.brezillon@bootlin.com>
-> +
-> +description: |
-> +   CDNS DSI is a bridge device which converts DPI to DSI
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cdns,dsi
-> +
-> +  reg:
-> +    items:
-> +      - description:
-> +          Register block for controller's registers.
+Loading an EDID using drm.edid_firmware parameter makes resume to fail
+after firmware cache is being cleaned. This is because edid_load() use a
+temporary device to request the firmware. This cause the EDID firmware
+not to be cached from suspend. And, requesting the EDID firmware return
+an error during resume.
+So the request_firmware() call should use a permanent device for each
+connector. Also, we should cache the EDID even if no monitor is
+connected, in case it's plugged while suspended.
 
-No need for generic descriptions. Just 'maxItems: 1' when there's only 1 
-entry.
+Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
+---
+ drivers/gpu/drm/drm_connector.c | 9 ++++
+ drivers/gpu/drm/drm_edid_load.c | 81 ++++++++++++++++++++++++++++-----
+ include/drm/drm_connector.h | 12 +++++
+ include/drm/drm_edid.h | 3 ++
+ 4 files changed, 94 insertions(+), 11 deletions(-)
 
-> +
-> +  clocks:
-> +    items:
-> +      - description: PSM clock, used by the IP
-> +      - description: sys clock, used by the IP
-> +
-> +  clock-names:
-> +    items:
-> +      - const: dsi_p_clk
-> +      - const: dsi_sys_clk
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: phandle link to the MIPI D-PHY controller.
+diff --git a/drivers/gpu/drm/drm_connector.c 
+b/drivers/gpu/drm/drm_connector.c
+index 1c48d162c77e..e8819ebf1c4b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_privacy_screen_consumer.h>
+ #include <drm/drm_sysfs.h>
 
-Drop
++#include <linux/platform_device.h>
+ #include <linux/uaccess.h>
 
-> +
-> +  phy-names:
-> +    const: dphy
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +    description: PHY reset.
+ #include "drm_crtc_internal.h"
+@@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
 
-Drop
+  drm_connector_get_cmdline_mode(connector);
 
-> +
-> +  reset-names:
-> +    const: dsi_p_rst
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port representing the DSI output. It can have
-> +          most 4 endpoints. The endpoint number is directly encoding
++ connector->edid_load_pdev = NULL;
++ drm_cache_edid_firmware(connector);
++
+  /* We should add connectors at the end to avoid upsetting the 
+connector
+   * index too much.
+   */
+@@ -473,6 +477,11 @@ void drm_connector_cleanup(struct drm_connector 
+*connector)
+   connector->tile_group = NULL;
+  }
 
-at most
++ if (connector->edid_load_pdev) {
++ platform_device_unregister(connector->edid_load_pdev);
++ connector->edid_load_pdev = NULL;
++ }
++
+  list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
+   drm_mode_remove(connector, mode);
 
-> +          the DSI virtual channel used by this device.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Input port representing the DP bridge input.
+diff --git a/drivers/gpu/drm/drm_edid_load.c 
+b/drivers/gpu/drm/drm_edid_load.c
+index 37d8ba3ddb46..5a82be9917ec 100644
+--- a/drivers/gpu/drm/drm_edid_load.c
++++ b/drivers/gpu/drm/drm_edid_load.c
+@@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int data_size)
+  return (edid[0x7e] + 1) * EDID_LENGTH;
+ }
 
-DP?
++static struct platform_device *edid_pdev(const char *connector_name)
++{
++ struct platform_device *pdev = 
+platform_device_register_simple(connector_name, -1, NULL, 0);
++
++ if (IS_ERR(pdev)) {
++ DRM_ERROR("Failed to register EDID firmware platform device "
++ "for connector \"%s\"\n", connector_name);
++ return ERR_CAST(pdev);
++ }
++
++ return pdev;
++}
++
+ static void *edid_load(struct drm_connector *connector, const char 
+*name,
+    const char *connector_name)
+ {
+@@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector 
+*connector, const char *name,
+   fwdata = generic_edid[builtin];
+   fwsize = sizeof(generic_edid[builtin]);
+  } else {
+- struct platform_device *pdev;
++ struct platform_device *pdev = connector->edid_load_pdev;
+   int err;
 
-s/DP bridge/parallel/
+- pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
+- if (IS_ERR(pdev)) {
+- DRM_ERROR("Failed to register EDID firmware platform device "
+- "for connector \"%s\"\n", connector_name);
+- return ERR_CAST(pdev);
++ if (WARN_ON(!pdev)) {
++ pdev = edid_pdev(connector_name);
++ if (IS_ERR(pdev))
++ return ERR_CAST(pdev);
++ connector->edid_load_pdev = pdev;
+   }
 
-> +
-> +    required:
-> +      - port@1
-> +
-> +allOf:
-> +  - $ref: ../dsi-controller.yaml#
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - phys
-> +  - phy-names
-> +  - ports
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        dsi@fd0c0000 {
-> +            compatible = "cdns,dsi";
-> +            reg = <0x0 0xfd0c0000 0x0 0x1000>;
-> +            clocks = <&pclk>, <&sysclk>;
-> +            clock-names = "dsi_p_clk", "dsi_sys_clk";
-> +            interrupts = <1>;
-> +            phys = <&dphy0>;
-> +            phy-names = "dphy";
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    endpoint {
-> +                        remote-endpoint = <&xxx_dpi_output>;
-> +                    };
-> +                };
-> +            };
-> +
-> +            panel@0 {
-> +                compatible = "panasonic,vvx10f034n00";
-> +                reg = <0>;
-> +                power-supply = <&vcc_lcd_reg>;
-> +            };
-> +        };
-> +    };
-> +
-> +  - |
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        dsi@fd0c0000 {
-> +            compatible = "cdns,dsi";
-> +            reg = <0x0 0xfd0c0000 0x0 0x1000>;
-> +            clocks = <&pclk>, <&sysclk>;
-> +            clock-names = "dsi_p_clk", "dsi_sys_clk";
-> +            interrupts = <1>;
-> +            phys = <&dphy1>;
-> +            phy-names = "dphy";
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    dsi0_output: endpoint@0 {
-> +                        reg = <0>;
-> +                        remote-endpoint = <&dsi_panel_input>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    endpoint {
-> +                        remote-endpoint = <&xxx_dpi_output>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +
-> +        i2c {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            bridge@2d {
-> +                compatible = "ti,sn65dsi86";
-> +                reg = <0x2d>;
+   err = request_firmware(&fw, name, &pdev->dev);
+- platform_device_unregister(pdev);
+   if (err) {
+    DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+       name, err);
+@@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector 
+*connector, const char *name,
+  return edid;
+ }
 
-This device isn't relevant to the example. Drop.
+-struct edid *drm_load_edid_firmware(struct drm_connector *connector)
++static char *edid_name(const char *connector_name)
+ {
+- const char *connector_name = connector->name;
+  char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+- struct edid *edid;
 
-> +
-> +                vpll-supply = <&src_pp1800_s4a>;
-> +                vccio-supply = <&src_pp1800_s4a>;
-> +                vcca-supply = <&src_pp1200_l2a>;
-> +                vcc-supply = <&src_pp1200_l2a>;
-> +
-> +                ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                        reg = <0>;
-> +                        dsi_panel_input: endpoint {
-> +                            remote-endpoint = <&dsi0_output>;
-> +                        };
-> +                    };
-> +
-> +                    port@1 {
-> +                        reg = <1>;
-> +                        endpoint {
-> +                            remote-endpoint = <&panel_in_edp>;
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.36.1
-> 
-> 
+  if (edid_firmware[0] == '\0')
+   return ERR_PTR(-ENOENT);
+@@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct 
+drm_connector *connector)
+  if (*last == '\n')
+   *last = '\0';
+
+- edid = edid_load(connector, edidname, connector_name);
++ edidname = kstrdup(edidname, GFP_KERNEL);
++ if (!edidname) {
++ kfree(fwstr);
++ return ERR_PTR(-ENOMEM);
++ }
++
+  kfree(fwstr);
++ return edidname;
++}
++
++void drm_cache_edid_firmware(struct drm_connector *connector)
++{
++ const char *connector_name = connector->name;
++ const char *edidname = edid_name(connector_name);
++ struct platform_device *pdev;
++ int err;
++
++ if (IS_ERR(edidname))
++ return;
++
++ if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 0) {
++ kfree(edidname);
++ return;
++ }
++
++ pdev = edid_pdev(connector_name);
++ if (IS_ERR(pdev)) {
++ kfree(edidname);
++ return;
++ }
++ connector->edid_load_pdev = pdev;
++
++ err = firmware_request_cache(&pdev->dev, edidname);
++ if (err)
++ DRM_ERROR("Requesting EDID firmware cache \"%s\" failed (err=%d)\n",
++ edidname, err);
++
++ kfree(edidname);
++}
++
++struct edid *drm_load_edid_firmware(struct drm_connector *connector)
++{
++ const char *connector_name = connector->name;
++ const char *edidname = edid_name(connector_name);
++ struct edid *edid;
++
++ if (IS_ERR(edidname))
++ return ERR_CAST(edidname);
++
++ edid = edid_load(connector, edidname, connector_name);
++ kfree(edidname);
+
+  return edid;
+ }
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f257..47c84741517e 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1573,6 +1573,18 @@ struct drm_connector {
+   */
+  struct i2c_adapter *ddc;
+
++ /**
++ * @edid_load_pdev: Platform device for loading EDID via firmware.
++ *
++ * The platform device is registered in drm_connector_init() in case a
++ * custom EDID firmware is used with `edid_firmware` parameter. 
+Otherwise,
++ * it is set to NULL.
++ *
++ * Platform device is unregistered in drm_connector_cleanup() if it
++ * is not NULL.
++ */
++ struct platform_device *edid_load_pdev;
++
+  /**
+   * @null_edid_counter: track sinks that give us all zeros for the 
+EDID.
+   * Needed to workaround some HW bugs where we get all 0s
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index b2756753370b..b54cea3f1107 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector 
+*connector,
+         const struct drm_display_mode *mode);
+
+ #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
++void drm_cache_edid_firmware(struct drm_connector *connector);
+ struct edid *drm_load_edid_firmware(struct drm_connector *connector);
+ int __drm_set_edid_firmware_path(const char *path);
+ int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+ #else
++static inline void
++drm_cache_edid_firmware(struct drm_connector *connector);
+ static inline struct edid *
+ drm_load_edid_firmware(struct drm_connector *connector)
+ {
+-- 
+2.36.1
+
+
+
