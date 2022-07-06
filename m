@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96795569069
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBF156909A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBBE11A33D;
-	Wed,  6 Jul 2022 17:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE1DE10E4E7;
+	Wed,  6 Jul 2022 17:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4485611A3BE
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 17:14:17 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id x1so19162315qtv.8
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 10:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gdl58Y6eruxO/UF9iHebd7iAX1fPwcfZcdGK1G6I67A=;
- b=NcYmRAhNkr+Sej+dUBW/rUemcu4qhrB0eGXwYx5FTFmtQ8tKRufDlwJ/lkS7wER2zJ
- jV6wRoRmAMNdAQSXMkcvIOLC2e60hR5mw9xUwmncmRINM3JFeYMHnzmNaXHfIjFlbf7S
- LDX+d7jVDzt3eROD00YFUpwlzzpN+FGYYubdZ94XUT/jDUnTLGCPskgT+K5yZnTAH4nR
- 9KN4M7fzv63p/y1wtxjpDfTTuC85SufMiPGqenPoHFa91gprzBOo9A8iG+THujkecbCy
- fhtfwsTjXDPXOWFw8PTjz5echkBOFR7P9QzIipHzfLD0oVava1d+90rXJYk2Old6RtK3
- GuUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gdl58Y6eruxO/UF9iHebd7iAX1fPwcfZcdGK1G6I67A=;
- b=k/s1ceR07vIF33cZdZI/rAJOQ3QQgFOG22wDQb3Yvh+4q4OxQwIlrvZCjg0aKtYvSB
- 3EMZ1PvRaKbLlJtBkRhBQ58VYcQvws5uB968mko+sFcWbuQIb6HgJUz24xkcFQMogVPr
- xls7plYHssB3csG98vZBj89u0k8WLd+CduHK3rzOj8X5dRqqpxDFiAREzNh0Uo8eeFWA
- vUNyEmnA+RRh1y/At1MNLxr/+AQRc/+gubIh2w0EF/Fw0xMjLao+XrA99uu/68lVP+LA
- l9F+IUNP5bGqpkjhMDUYFgT+D6MQHk6YcXWFFXnPHDrfL88w6ulGxtJFSHYHzUmAupXB
- 3MeA==
-X-Gm-Message-State: AJIora8/bYKxGJfC5VzIFvAwqz9WEo8Cwf55ULWDLNfM0f+hIfYs29Kz
- 9RD2Yswnf3LBvivZt3bh+RwWOoWUq0D1Ou6Ui58xkA==
-X-Google-Smtp-Source: AGRyM1siyHqhjYbCijMakD/a+R1/ORAjQrKAxonXg7rZEccsGYIKNljc2HpasXRM2tM13BML+/t+aFxBEkjO+7fgSBU=
-X-Received: by 2002:ac8:5c96:0:b0:31a:c19a:7da1 with SMTP id
- r22-20020ac85c96000000b0031ac19a7da1mr33974182qta.62.1657127656137; Wed, 06
- Jul 2022 10:14:16 -0700 (PDT)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398F810E4E7;
+ Wed,  6 Jul 2022 17:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1657128276; x=1688664276;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=mceTDkANXKKZ+cDEZtrXAG36yhBvkMzaJGxFZJ3jvww=;
+ b=BYgKGigXhgbLhrEgzrRxnG3xchEAKeBCkeqaiXzVWgXpJRIDaEuStqNz
+ mfJ0lf+LfIlD2yDZ6JzPNW9o8k1mxSCTj+W+8NCwzIrhM+8UwiwRDHS0w
+ t6nit7DC0GMmx66VTYEcN3eeDFei8oX8S7uPPtKW3U0M+rmq50vuIhV70 o=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 06 Jul 2022 10:24:35 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 10:24:34 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 6 Jul 2022 10:24:14 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 6 Jul 2022 10:24:13 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v3] drm/msm/dp: make eDP panel as the first connected connector
+Date: Wed, 6 Jul 2022 10:24:06 -0700
+Message-ID: <1657128246-15929-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <0083bc7e23753c19902580b902582ae499b44dbf.1657113388.git.geert@linux-m68k.org>
-In-Reply-To: <0083bc7e23753c19902580b902582ae499b44dbf.1657113388.git.geert@linux-m68k.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Jul 2022 20:14:05 +0300
-Message-ID: <CAA8EJpp2u4NuimhvkXwcO2kPQCopgbDV5x=B+LEkyqoQrSW5rg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/adreno: Do not propagate void return values
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,33 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Guenter Roeck <linux@roeck-us.net>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Jul 2022 at 16:18, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> With sparse ("make C=2"), lots of
->
->   error: return expression in void function
->
-> messages are seen.
->
-> Fix this by removing the return statements to propagate void return
-> values.
->
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Some userspace presumes that the first connected connector is the main
+display, where it's supposed to display e.g. the login screen. For
+laptops, this should be the main panel.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This patch call drm_helper_move_panel_connectors_to_head() after
+drm_bridge_connector_init() to make sure eDP stay at head of
+connected connector list. This fixes unexpected corruption happen
+at eDP panel if eDP is not placed at head of connected connector
+list.
 
-> ---
-> v2:
->   - Add Reviewed-by.
+Changes in v2:
+-- move drm_helper_move_panel_connectors_to_head() to
+		dpu_kms_drm_obj_init()
 
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 2b9d931..50ff666 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -763,6 +763,8 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+ 	if (ret)
+ 		return ret;
+ 
++	drm_helper_move_panel_connectors_to_head(dev);
++
+ 	num_encoders = 0;
+ 	drm_for_each_encoder(encoder, dev)
+ 		num_encoders++;
 -- 
-With best wishes
-Dmitry
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
