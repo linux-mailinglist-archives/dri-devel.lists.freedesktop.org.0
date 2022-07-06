@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5215688BB
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 14:53:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0615688BC
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 14:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D9B011AEF8;
-	Wed,  6 Jul 2022 12:53:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C8811AF03;
+	Wed,  6 Jul 2022 12:53:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 723BF11AEEA
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 12:53:07 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- z12-20020a17090a7b8c00b001ef84000b8bso9932472pjc.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 05:53:07 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1698D11AF02
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 12:53:10 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id l12so8216954plk.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 05:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=02sx8dmnjBV/TuA75YAbyzwEMk2jxyWLuGZcJUXA1mA=;
- b=X9gPzsTtEqyMRnO0Ze3pIsRss45disf2+3R39oFMVTCGIQYT5ISLaMeO4Gh8LRckRx
- OERTPNsDduJXlF7SJsWM6NOCPOLaRNPDFhuL1h/nJ9YD5qa9n21qbyoY8vZic5K1hDcl
- VxrOjj8xpT3Tn2zhuDO+XCcn7MNtsKGW5+rZg=
+ bh=jts1Y9JMpVL0If8P8yimWr5loe4E0VIqYItcqhdJT04=;
+ b=J5h7sC+wpA1ej0AY7GGFDGcLzlBfbS2jtjQAtEj3EooYLMSkvj+E/iH7Ihp5W/wj/U
+ 5av2KGOQdc8rZFtYkRx2Ww0Ty5D2u9A2G7dZfNfbS7wy/za51jTXhMuKYfj+XqabLgs/
+ EtJmN4yrr1ag0rJ9mDGzrgjDPQDiRCkguqDAE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=02sx8dmnjBV/TuA75YAbyzwEMk2jxyWLuGZcJUXA1mA=;
- b=vQJJ/pgo8fsj65GG6WUXadzKg5qQrhKZ+0dJjyi5eEWz4zOnYVDZuhikbKSfQlTr1O
- fTsXeEHSwcvRo+cffu+azq66iWrcgPHhQZZSEq4fAFiYvFm8eIP7fZ3KFNfLcL0kmdrc
- Ztrq1Q6+FnabO1vW5tUjsJBv1sKUd9/qnYElMQlWzCU2veINNTnYlnW2dBW5ZI82uTZU
- LOh7FA0L3UlYSfaqgsHxlqD1YlJKwR3mlr7aX8m0W+xjSV96R1q6x0rDYfLKe2uDBCPs
- xlpQ8E9BT1KuPWEgVnFqeYCXHUC02i86d6uJFyvHHYypo7V7kRVLpW5WiezB0jFCl2uy
- 8HBg==
-X-Gm-Message-State: AJIora/M9SRnbukM0LNQ3gaEQ+Rx0VWbzYKq6/ptChaaDyLdtH21gyf0
- w5iLG+epsOEsr/5dq5gqO4uiJg==
-X-Google-Smtp-Source: AGRyM1tVtIQMvEuRrEN1V6YdOkUQGwBxQrSJYSlc5cAvGJXjazJWEXQKaWJoonujkv303bFau4bonQ==
-X-Received: by 2002:a17:90a:1a42:b0:1ef:680b:8ecd with SMTP id
- 2-20020a17090a1a4200b001ef680b8ecdmr30544374pjl.88.1657111986992; 
- Wed, 06 Jul 2022 05:53:06 -0700 (PDT)
+ bh=jts1Y9JMpVL0If8P8yimWr5loe4E0VIqYItcqhdJT04=;
+ b=jm+QWCPH4AcN9mW9FhB+Axf0f4WscV9yEIoWQV/t4xtgg50xCWDFKZiW+9LjqJKWgy
+ nKdQD7pj2FUxoJTm2VRMQ+L/m4Lhkx+qodIiuybV+CMXKJlyJS9gldScez8lFHnRh5S6
+ +aDSSE4pnJ+NGBJU2fxJ2uqCruzDMzxlagf3RXBREpI2EYXuWNH8R7ziniEa3lvyuHk4
+ KziaYqKFBhnDzvVHhnDR4jBzbHkIFmaUYQbjaiHAboJMXTA9a9NJvkwVs8fNVfeYWbCW
+ hyvhO59048NPWcEu784vRu3oRQivA0upeyymLIiaZnv7Wom8DFhazoHyN1Kf6PPVbkhc
+ nvAw==
+X-Gm-Message-State: AJIora+0xw+pp3pwNGbD7EC9bFEsqKr5tuHTK2NUaSBOVKt65eW6s4Ep
+ S8LYCH0mGVH+gc1X5chFGmfr3O1HuTqfdQ==
+X-Google-Smtp-Source: AGRyM1t3rkNRA6Pzf7Rhejl5i6Yk/NJFrroHb1CZ1jTGwinOP7wTDoxpkRm6jtCxnL+OTuJWRwSxKw==
+X-Received: by 2002:a17:903:41d0:b0:16a:55e0:6c3d with SMTP id
+ u16-20020a17090341d000b0016a55e06c3dmr47794830ple.21.1657111989582; 
+ Wed, 06 Jul 2022 05:53:09 -0700 (PDT)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:5300:b974:1680:1bd])
  by smtp.gmail.com with ESMTPSA id
- u12-20020a17090341cc00b0016a6cd546d6sm25640127ple.251.2022.07.06.05.53.04
+ u12-20020a17090341cc00b0016a6cd546d6sm25640127ple.251.2022.07.06.05.53.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 05:53:06 -0700 (PDT)
+ Wed, 06 Jul 2022 05:53:09 -0700 (PDT)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Robert Foss <robert.foss@linaro.org>,
 	Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH v2 2/4] drm/bridge: anx7625: use
- pm_runtime_force_suspend(resume)
-Date: Wed,  6 Jul 2022 20:52:52 +0800
-Message-Id: <20220706125254.2474095-3-hsinyi@chromium.org>
+Subject: [PATCH v2 3/4] drm/bridge: anx7625: Fix NULL pointer crash when using
+ edp-panel
+Date: Wed,  6 Jul 2022 20:52:53 +0800
+Message-Id: <20220706125254.2474095-4-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 In-Reply-To: <20220706125254.2474095-1-hsinyi@chromium.org>
 References: <20220706125254.2474095-1-hsinyi@chromium.org>
@@ -80,65 +79,55 @@ Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no need to check for IRQ or disable it in suspend.
+Move devm_of_dp_aux_populate_ep_devices() after pm runtime and i2c setup
+to avoid NULL pointer crash.
 
-Use pm_runtime_force_suspend(resume) to make sure anx7625 is powered off
-correctly. Make the system suspend/resume and pm runtime suspend/resume
-more consistent.
+edp-panel probe (generic_edp_panel_probe) calls pm_runtime_get_sync() to
+read EDID. At this time, bridge should have pm runtime enabled and i2c
+clients ready.
 
+Fixes: adca62ec370c ("drm/bridge: anx7625: Support reading edid through aux channel")
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 Reviewed-by: Xin Ji <xji@analogixsemi.com>
 ---
-v1->v2: Fix typo.
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 33 ++---------------------
- 1 file changed, 2 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index ab346d32d8735..fcf07a037c2c8 100644
+index fcf07a037c2c8..aded20b9e25b1 100644
 --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
 +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2504,38 +2504,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
- 	return 0;
- }
+@@ -2590,14 +2590,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	platform->aux.dev = dev;
+ 	platform->aux.transfer = anx7625_aux_transfer;
+ 	drm_dp_aux_init(&platform->aux);
+-	devm_of_dp_aux_populate_ep_devices(&platform->aux);
+-
+-	ret = anx7625_parse_dt(dev, pdata);
+-	if (ret) {
+-		if (ret != -EPROBE_DEFER)
+-			DRM_DEV_ERROR(dev, "fail to parse DT : %d\n", ret);
+-		goto free_wq;
+-	}
  
--static int __maybe_unused anx7625_resume(struct device *dev)
--{
--	struct anx7625_data *ctx = dev_get_drvdata(dev);
--
--	if (!ctx->pdata.intp_irq)
--		return 0;
--
--	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
--		enable_irq(ctx->pdata.intp_irq);
--		anx7625_runtime_pm_resume(dev);
--	}
--
--	return 0;
--}
--
--static int __maybe_unused anx7625_suspend(struct device *dev)
--{
--	struct anx7625_data *ctx = dev_get_drvdata(dev);
--
--	if (!ctx->pdata.intp_irq)
--		return 0;
--
--	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
--		anx7625_runtime_pm_suspend(dev);
--		disable_irq(ctx->pdata.intp_irq);
--	}
--
--	return 0;
--}
--
- static const struct dev_pm_ops anx7625_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- 	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
- 			   anx7625_runtime_pm_resume, NULL)
- };
+ 	if (anx7625_register_i2c_dummy_clients(platform, client) != 0) {
+ 		ret = -ENOMEM;
+@@ -2613,6 +2605,15 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (ret)
+ 		goto free_wq;
+ 
++	devm_of_dp_aux_populate_ep_devices(&platform->aux);
++
++	ret = anx7625_parse_dt(dev, pdata);
++	if (ret) {
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "fail to parse DT : %d\n", ret);
++		goto free_wq;
++	}
++
+ 	if (!platform->pdata.low_power_mode) {
+ 		anx7625_disable_pd_protocol(platform);
+ 		pm_runtime_get_sync(dev);
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
