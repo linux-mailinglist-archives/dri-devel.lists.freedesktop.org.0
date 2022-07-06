@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D38E56899A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 15:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26185689C0
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 15:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12680113AAB;
-	Wed,  6 Jul 2022 13:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A970411AFC7;
+	Wed,  6 Jul 2022 13:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 408CD113A33
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 13:34:53 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-10c0d96953fso7799271fac.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 06:34:53 -0700 (PDT)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A61D11B384
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 13:42:38 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id i3so19888595oif.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 06:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wxuLumhCwznNZcI7GXJpC/L4mRfNizaGC/XbqUh/5Cc=;
- b=AqUniGBmIEOL+tLXImG0kxgTzaHAcBgZIbmsAqJmlfD/1+CCSQQQ7fOFUyBwJOfH7O
- /hN00Tl01eYwBZF4e1pZ7Q+tApZ1qiK+RK4Ru+2hq6o5tgGK+lln1NNTwENYUlgkbC1K
- rdyupyZE5Mha3b82G4Jfrh5ZlgVF3GO/3HD/KbdcP1tlke7SyICrOMH352c5DVDr/9TM
- iWT9Lb1fVshNkcAR/pZ6tt8AWpNk6ZjjzOa1bTA8P9eO4ZXpukNXRCv8JEiLkEnj1Y+L
- wpC0B4Pl75FW+tjLmBQQe70vIu14NhnmepHDNd0ceQkG9FzoIf/vCb39baBBba1LEGT4
- L63g==
+ :cc; bh=pwXpporGBrh2vPam61ccyHgP72+OSTmsQcN2nueaNYg=;
+ b=uz+nhisJOJYV6nP7e8GcmFLdBRDBAcgMTUSZuSWlJ8PuEhgs0Br1v7GXICt1D+5PC+
+ dR9tSS9TbM2pJucVtO8PG0DjekrctOykWN9syOU+z8nhi17DNhDujVoknpweb9jCB8fL
+ A5Ifg9IKvfo4+QSvdy8Q/vxXdi2CozUuthFynwq2/BKc+uZY0l1sdze/ds3jc3Fv9fuW
+ 7Vca3ceG9HbtK2teNK7Sg8vdHzjCcIJdKIzVoVPTU28ul1QpNxyByz3WVtgnm12y4aY5
+ 5rFt0UO1+4GDpEnAhKQo4yKt/JmyRvjcJ5IWR/EVFcVxgmdDs8BtjKTPfXmFbZtNoX1O
+ N48w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wxuLumhCwznNZcI7GXJpC/L4mRfNizaGC/XbqUh/5Cc=;
- b=UO5J2Skm4+1bwiQykGIERC+AeIIT71uNsuJhAJytmXh+08NNhQXko/g4EfugKctX3Y
- zgDaVv/G9M231zsbc4U4ywOcT7Zxw92fQMO/w7OwVZNALW6HAjaYTZLHFhucPZNE5HcS
- l35g/sBAs69kgcBnh8BFLwDVZJZNUo+x8SD06sCSR9eAb5Ula9hhDn1FeycCQ59PXkUo
- JJurlhr9gyHYJCnWbXnSLaapuRjuYocFS0takbELPSKoJcmQKXqT8WJKJisKqLKmGzKt
- K7rCXpAOMPUnAtQa+gZc7m2c8kLHdQhQMEoI2X6epBhNk3xWKj6/5q7EGWv27UtLg+ao
- rg7w==
-X-Gm-Message-State: AJIora+Zx1GTBCL3t6cY0hHao7e1g2m8zwQRcmulVbrnBzGNqbVihYAi
- Mrm+1y3bQeDAZZ40fAvHgNu8ZI+ZpxG9irF+2ef/cg==
-X-Google-Smtp-Source: AGRyM1vHdnhl8q3DuApTpUlCTFeXaNxX7B0xLQkj5wv6yAKOaA3nem0reFJL6DuiqrgxWKvNo1Oja+FRy4Kflu4g/3Y=
-X-Received: by 2002:a05:6870:65a4:b0:10b:f0a4:17d2 with SMTP id
- fp36-20020a05687065a400b0010bf0a417d2mr11636243oab.241.1657114492343; Wed, 06
- Jul 2022 06:34:52 -0700 (PDT)
+ bh=pwXpporGBrh2vPam61ccyHgP72+OSTmsQcN2nueaNYg=;
+ b=f7T8JKn+HQH/8BmQrl+66qfQk0ZHAZumIy1APXKuvOT9AmhOKrOvGrIymoLTAGyndZ
+ M5bP8nsOPunQwbspRCf7XdA4hzrHyPjKYipxuXs89quRpYUp/pbieIZkuzjg5pBCcJD5
+ Ajw2TBSATlO1ozHsb95tz0Bb+l/Cz9iT7+S3Xov0k1muiBW9uRvNZjfOUC1U0raCbzXO
+ LCmELghqou/GbAxPUqsnWxcv22Hl4GaQP6vBEL/bb1AleoU4b/mk6g/nrY+KJ74D8Zqu
+ E3KYdfaf2oVo4Y/vrsshF8RNknyORLP6JSqvnzWSaGkQ3fLhQdK0shFguuipGpj//riX
+ 5+zw==
+X-Gm-Message-State: AJIora/fiRitA2kGc63iJXi8Xxl9PiY0gHUAoqGA7TKeOl2I7NCsj0vh
+ DYhaZD4ul0aAjlnTXMX/0lSKp0aXMqgKW2hcl0DqjA==
+X-Google-Smtp-Source: AGRyM1vFidvgmPygsQWI63TdbrNVuaRRz0y9igLsuN9p3evihgLEkBFKYIxlMDqoqOvru7fWThMRS0uY73DfiqSRdoo=
+X-Received: by 2002:a05:6808:14ca:b0:335:b401:9054 with SMTP id
+ f10-20020a05680814ca00b00335b4019054mr20350449oiw.241.1657114957546; Wed, 06
+ Jul 2022 06:42:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220701065634.4027537-1-victor.liu@nxp.com>
- <20220701065634.4027537-2-victor.liu@nxp.com>
- <201c6bb7-ad86-5b89-e9a1-20a5740b8869@denx.de>
-In-Reply-To: <201c6bb7-ad86-5b89-e9a1-20a5740b8869@denx.de>
+References: <20220706132812.2171250-1-l.stach@pengutronix.de>
+ <20220706132812.2171250-3-l.stach@pengutronix.de>
+In-Reply-To: <20220706132812.2171250-3-l.stach@pengutronix.de>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 6 Jul 2022 15:34:40 +0200
-Message-ID: <CAG3jFyun7NkLCy+bM0XHNRPrk6_kt7z8aB4Ud+4HdeNhffQydA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/bridge: fsl-ldb: Fix mode clock rate validation
-To: Marek Vasut <marex@denx.de>
+Date: Wed, 6 Jul 2022 15:42:25 +0200
+Message-ID: <CAG3jFytKthxb27FHRG7wPvtU6T=t314Nw-SCo75qFxTe3ij_OA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/bridge: tc358767: disable main link PHYs on main
+ link disable
+To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,37 +64,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, narmstrong@baylibre.com,
- Liu Ying <victor.liu@nxp.com>, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, airlied@linux.ie,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, sam@ravnborg.org,
- linux-imx@nxp.com
+Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, patchwork-lst@pengutronix.de,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Jul 2022 at 13:00, Marek Vasut <marex@denx.de> wrote:
+On Wed, 6 Jul 2022 at 15:28, Lucas Stach <l.stach@pengutronix.de> wrote:
 >
-> On 7/1/22 08:56, Liu Ying wrote:
-> > With LVDS dual link, up to 160MHz mode clock rate is supported.
-> > With LVDS single link, up to 80MHz mode clock rate is supported.
-> > Fix mode clock rate validation by swapping the maximum mode clock
-> > rates of the two link modes.
-> >
-> > Fixes: 463db5c2ed4a ("drm: bridge: ldb: Implement simple Freescale i.MX8MP LDB bridge")
-> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Marek Vasut <marex@denx.de>
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> Disable the main link PHYs and put them into reset when the main link
+> is disabled. When the PHYs stay enabled while the rest of the DP link
+> circuits are disabled there is some noise on the data lanes, which some
+> displays try to lock onto, waking them up from their low power state.
 >
-> Reviewed-by: Marek Vasut <marex@denx.de>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index fd4936215b55..615b4988bf34 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1249,7 +1249,13 @@ static int tc_main_link_disable(struct tc_data *tc)
+>         if (ret)
+>                 return ret;
+>
+> -       return regmap_write(tc->regmap, DP0CTL, 0);
+> +       ret = regmap_write(tc->regmap, DP0CTL, 0);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return regmap_update_bits(tc->regmap, DP_PHY_CTRL,
+> +                                 PHY_M0_RST | PHY_M1_RST | PHY_M0_EN,
+> +                                 PHY_M0_RST | PHY_M1_RST);
+>  }
+>
+>  static int tc_dsi_rx_enable(struct tc_data *tc)
+> --
+> 2.30.2
+>
 
-Applied 1-2/3 to drm-misc-next. Picked Mareks patch for 3/3 since it
-was submitted first and is identical.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
