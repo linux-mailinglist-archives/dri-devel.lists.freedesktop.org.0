@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76706568CD8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 17:31:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 387E9568CE1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 17:32:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB4510EFD4;
-	Wed,  6 Jul 2022 15:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 277B110EECD;
+	Wed,  6 Jul 2022 15:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCC710EECD
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 15:31:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2EEF112ECB
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 15:32:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 81FB0B81D90;
- Wed,  6 Jul 2022 15:31:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E590FC341C8;
- Wed,  6 Jul 2022 15:31:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9761B61FF8;
+ Wed,  6 Jul 2022 15:32:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D92AC3411C;
+ Wed,  6 Jul 2022 15:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657121502;
- bh=EHaW5uknTyMS+Mg4sdu93WsWqNnHJWDthq1NYAiEJKg=;
+ s=k20201202; t=1657121566;
+ bh=dJ/ClODH9MSblUyY3ISrR3RfultNhLe428VSshkHzf4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XxfJGi1FxE6gqccq07OjeSkiLUtC2iuwoE1tA8MpvLLj6o9M0ir8GTuw4d6CRoDtP
- wDs+TIB71o1KFJ68y1NRhKtMjGxeVCPuSr/IbZdGPXR3DNwKtbmtJlqWi8Ij9AYzXK
- BnROQxBTpQ9UsxWM3sXx6tGV7vjip3AHGu/ypAoUxiw/SR4XCsBis71vHq64zUtZmK
- qO6t8dTchDHB6nKYONDzL+5ZYq1UAns8OvZlFCiTJKQjJ3G7A3qSBR6U5JPShSh9Vr
- EHDdqFTlhfUQjkR+ZiMak5CUSLMDJADm1/ZX4XyiJAhq7ntv2AGPReDMvxPFW8Jcsq
- INa2hL4FuUfkw==
+ b=sEOTeR3O4+FDm62kEvp+gwMLbOTEPNRgpxROQA/b8CFvOgrg1KNYDVv+qXjqDHSl+
+ 7Fk0sDp+bca/EqtKIpnPebQKHhBo9Z5hiHkGi946KUBVnxVfYNa+N+3C3quP5K87kb
+ 4hRmbPVuSstk3NazCZPtUf3+mV5A1na/spwZXzrod29Kesi5oH9hta/7kXyyOKQQ4r
+ JDT1I+KoAEuKImdb9qvymp2+POPaokAiLU9+HvnazMb1YjIRPwzb83ddxCIFULHOpQ
+ cs1lS/MzN+IF8/jXBFGmdP3CmzKrskq7rGxa02OjJ7f5zDeB0M9yIc6ojA1KlGBaXR
+ Sohqlw7EpI/HA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 17/22] fbdev: Disable sysfb device registration
+Subject: [PATCH AUTOSEL 5.15 13/18] fbdev: Disable sysfb device registration
  when removing conflicting FBs
-Date: Wed,  6 Jul 2022 11:30:35 -0400
-Message-Id: <20220706153041.1597639-17-sashal@kernel.org>
+Date: Wed,  6 Jul 2022 11:31:48 -0400
+Message-Id: <20220706153153.1598076-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220706153041.1597639-1-sashal@kernel.org>
-References: <20220706153041.1597639-1-sashal@kernel.org>
+In-Reply-To: <20220706153153.1598076-1-sashal@kernel.org>
+References: <20220706153153.1598076-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,9 +57,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
  tzimmermann@suse.de, Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- deng.changcheng@zte.com.cn, thunder.leizhen@huawei.com,
- alexander.deucher@amd.com, sam@ravnborg.org
+ zheyuma97@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, deng.changcheng@zte.com.cn,
+ thunder.leizhen@huawei.com, alexander.deucher@amd.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -93,7 +92,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+)
 
 diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index a6bb0e438216..70b67e24e830 100644
+index 0371ad233fdf..ba9c66a95ada 100644
 --- a/drivers/video/fbdev/core/fbmem.c
 +++ b/drivers/video/fbdev/core/fbmem.c
 @@ -19,6 +19,7 @@
@@ -104,7 +103,7 @@ index a6bb0e438216..70b67e24e830 100644
  #include <linux/mm.h>
  #include <linux/mman.h>
  #include <linux/vt.h>
-@@ -1775,6 +1776,17 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
+@@ -1774,6 +1775,17 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
  		do_free = true;
  	}
  
