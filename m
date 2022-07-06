@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30920568582
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 12:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14344568589
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 12:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB6211332D;
-	Wed,  6 Jul 2022 10:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23184113540;
+	Wed,  6 Jul 2022 10:29:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 952B9112C3F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 10:27:20 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id h23so26243729ejj.12
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 03:27:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6ENJfxqPBBQz/R+NUn7IaG1mKPSNywix+0hK+k3KoFs=;
- b=IiUuZfq1K1q4mgiK8JNxARJvGCUN/B4iMGo9yJEkxZ5pzF0QaF+G8t8bUjT0SqAvwj
- ILK0vfItMCR0rViqjawuEeztKvbwM+EOj1ESxn1YNL6ARzyWcb8g2Ux38YrXaWWtVbv7
- sMPgbHAFd3Y86zDG6NVFnuzAfqbbi9h20AOhKPCyAS8cWi/1axw3BVOK/QgqC4GeBWUz
- 4yz15kg2iC0hCrCrtn/0Fj1+ze080J9SEaJPt/WO/ckdxT2rYyeCniVYzDK3V/PilsH2
- 3x+XhOtshZz04srjpkl3U9cozhqEVs88nQbWyyFFAeovAY/Pbs507ryHNDYLPagG82eA
- yDsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6ENJfxqPBBQz/R+NUn7IaG1mKPSNywix+0hK+k3KoFs=;
- b=Vzo3IsCG4QN5ccXN/nKhXifI6vJomOgqUYEfxHdsRNV2xKkoHiwlsgDca+wf6VqLLU
- A4zFs12TYHYV3GRF4XiPxSxyq170Rj6NoSq7akzXtJ3pOCH3QHpwZJPcW9Ys/9JZHZL3
- UixFtQSbV4F4xMQWuS+cBHxk1kPDqM/mT07nMgYjxH6grgOZ7v5ZqriWok7psjku8nXd
- ttMnfzhzaSSl539n7sWudav+FQJWR0MG8yehcjbTUsW0F4OrfyzLhwlSB1Y4XfFNcr0C
- mvhYiX5+BnZim9Ui8x9d1e6Zb5Qsr1GXtnyESAtwBsChTk9un5U+hIQNgCbpPppHD99C
- N1CA==
-X-Gm-Message-State: AJIora8X4BZPzw7txqrgAVp+pvJy3enOytNcacgMAuCTjget+U0YywTi
- c2zvKFFJ4/oeqgiOsmi/8wrRjcZeki64gw77JFFqOA==
-X-Google-Smtp-Source: AGRyM1uyQJXaVGt6eK1Teb+QwFBHkAgAo9HOCH69e8hv9+oG+G/GNw8fRKb2aCECxpZYld2xPeasBAHKb0bxsegL9CA=
-X-Received: by 2002:a17:907:2d9e:b0:726:a03a:16c4 with SMTP id
- gt30-20020a1709072d9e00b00726a03a16c4mr36786267ejc.742.1657103239036; Wed, 06
- Jul 2022 03:27:19 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE04A113540;
+ Wed,  6 Jul 2022 10:29:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J29yd2lpY8RZYIf842orvCZiYre/B05eQmuuOZz0gdwxihTSlyrMe0NhNrHh1DuqHBjz5D7RO6mrbg9I9q1yA+4utLUfyO/kiillZEQC8k4+/8iQQ68n0KJavWzzwiiXim2pXpT1lh/QVCZNdC+wOw2+GwO1712fTZc552BErHA20V47pX8ACfoyrDy9oOAc2kIFiY/fq59JSLHggDSkq+Cw2dOWTjH+WHNWfnuUDvuu+TnjbQVz70HT1mwG5jzl92x1kDNszX5ULQBvHFynYBzbg50DrRopcwi6ilh4i+TkkbWfoFsX4xB95eslr9C2Lngw+lmMpj2CGCojfv19TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8rN1Gw+F2UlK7cFjCkeitzaWjpiLHEjAZJOk42jV9Fs=;
+ b=lR776golhZQzk7OLQWhk7YY4Zx5+C6ki2C0muoVOH5Msl4zPM9gJbyk7slr8SNFP0encZ65LkZGFlunELfj4N3PvPiUIAGTN8H3P4JG5Bw4YhzOwqeAA4TmJXJGWcj4u0c2xS9OgHriwlF4/0546NhNT5LznxzCkQZRmVsrs6tdDIRQ7Z7hQBX1/spO1vajrNAuCgXhykvi26IEmwXgC/j6oM0KitZ78DuQgGjStsY19wl+A/otOpIEWDgrum5WRdw/nOzPevpAgjroelYDNxc5jN5pic+a+91/z4vImBD2oLmsJ9V8wGM5KyJCtlsmRRGtNuxaWnae8ebngq8d2FQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8rN1Gw+F2UlK7cFjCkeitzaWjpiLHEjAZJOk42jV9Fs=;
+ b=b63GcKy42xKiCdY4R9nBWA0KTxQfeRKipa5YfQqwqBXSk9YndnaiAj38m3lARhM5V1fnUQar4CoIlk/PzEhJl6qnJWVLnbbDiHHEysm3ebVqcq/aE0AMVM0Afgf5woSPFgv7sRtwSoRP5n7lTqADA2QV+uriIKzAoAQxdZdIKgo=
+Received: from DM5PR07CA0064.namprd07.prod.outlook.com (2603:10b6:4:ad::29) by
+ IA1PR12MB6388.namprd12.prod.outlook.com (2603:10b6:208:388::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5395.20; Wed, 6 Jul 2022 10:29:14 +0000
+Received: from DM6NAM11FT005.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:ad:cafe::27) by DM5PR07CA0064.outlook.office365.com
+ (2603:10b6:4:ad::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15 via Frontend
+ Transport; Wed, 6 Jul 2022 10:29:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT005.mail.protection.outlook.com (10.13.172.238) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5417.15 via Frontend Transport; Wed, 6 Jul 2022 10:29:13 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 6 Jul
+ 2022 05:29:13 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 6 Jul
+ 2022 05:29:13 -0500
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.28
+ via Frontend Transport; Wed, 6 Jul 2022 05:29:03 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v3 1/3] drm/amdgpu: fix for coding style issues
+Date: Wed, 6 Jul 2022 15:58:48 +0530
+Message-ID: <20220706102851.2451164-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1646406653.git.dave.stevenson@raspberrypi.com>
- <CAPY8ntC-2Yij+a5wWEZ3BRBSh7bz+74coHCoB01ZhY550H+BDg@mail.gmail.com>
- <CGME20220405114402eucas1p1d139ce6825a481d1318f013cf27a5fe7@eucas1p1.samsung.com>
- <CAPY8ntAi1tM7BZEpKkMAasRH3R_+tJCUFY7k-yVBdtogvxQNRA@mail.gmail.com>
- <e96197f9-948a-997e-5453-9f9d179b5f5a@samsung.com>
- <7d3bcbaa027422018b956507d5ac5d19422dc892.camel@pengutronix.de>
- <27702b37-2904-3a2a-dd0b-1111efe70826@kontron.de>
-In-Reply-To: <27702b37-2904-3a2a-dd0b-1111efe70826@kontron.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 6 Jul 2022 11:27:03 +0100
-Message-ID: <CAPY8ntA_P1qzkd7YJ3HqOsa5D9GDCGm6LWo8tmytbYqxgJDR+g@mail.gmail.com>
-Subject: Re: [PATCH V2 0/3] DSI host and peripheral initialisation ordering
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b67fffc3-3fd0-4213-3e79-08da5f3a5f70
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6388:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bzKfEcAZzDREUu5QDixeGWBHAQo6yoHV0O1F86JAnfoSKBjOZjrhwil//Ah4qkZqxWCbXu90GAZE0qnGC2xhS8QdQ7FnTluiRQKP5zMaN3/p2LlnK/DYfxfekodH78cAi/x7WrOzggdNTPqSemfSKArhfFRwRZ6J++bLVoaULDYlLz5cH6xW3LtCX2tr0ctKUyVGnHgAHllZgQ40le4h5MDWrKovhMPyk3v+n7/jJJ/LleQeqwMH+V/GN15ujGlqDW6+jFZmkxL3qbEEIsT5yxad8vtTVrM6BRpqZq3QheuxaC1SxWbXGd0Bxop3+93JCSLOTVyoeLaMxoPRpI84C38LqwxTS7Z75TwqutKRK0xhTo/xtXbsFmaI2RbpaHlv22caMH1RQyDmwIsyJtQkr+h332e+1E41bv69l+i1H9KEllrtcfdl1OO6TtsejlPFahJg17RiM+YdmhtXsuZFtDoLhtGEXei1hAFiO5ou4oRKPJHoUrL4Ezejqu5KB7HEoj9VabUB9odZWgF9Hvx/um11F2pA3X0rNm5MUdpNrQ/RAmgzKvclno72cyWwEW+ufeE7gacVUQzYAcRZa4GTFWSR1mN+225YfnDybIxjEKfkukH/HcxOGoJ8fD42lSy0XNgCl2HnTGFbzBDXOQ/d9QT7KDH7Ec4v2JvIj+LJGAVujOpRK17Hc/QfaSjI4P0FWx0Z43mH1s2LSdBRE+nFUneQTJw1X5JJOESxWBB1JbaA4mJtphfRIe8vmsLS/Zn0Zyf15jUkSnJhsBWiGeSn7jukqytNzL/PoNsW0s1pyjfBh0dmnHbA2xK61woUlF4zvPccV2BxhVfRwg+SI0UfENO/vCSWgmU0sPQ6rTuz3uDgsl6YXVNVfnpBTKL2O/ci
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(39860400002)(376002)(396003)(136003)(40470700004)(36840700001)(46966006)(478600001)(82740400003)(316002)(356005)(110136005)(70206006)(336012)(54906003)(41300700001)(83380400001)(70586007)(81166007)(426003)(34020700004)(8676002)(186003)(36860700001)(1076003)(2616005)(4326008)(7696005)(2906002)(47076005)(6666004)(26005)(36756003)(82310400005)(86362001)(5660300002)(8936002)(40480700001)(40460700003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 10:29:13.9342 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b67fffc3-3fd0-4213-3e79-08da5f3a5f70
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT005.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6388
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,166 +102,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Sunil-kumar.Dommati@amd.com, David Airlie <airlied@linux.ie>,
+ Basavaraj.Hiregoudar@amd.com, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, zhuning@everest-semi.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Frieder.
+Fixed below checkpatch warnings and errors
 
-Apologies Lucas - I missed your response.
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:131: CHECK: Comparison to NULL could be written "apd"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:150: CHECK: Comparison to NULL could be written "apd"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:196: CHECK: Prefer kernel type 'u64' over 'uint64_t'
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:224: CHECK: Please don't use multiple blank lines
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:226: CHECK: Comparison to NULL could be written "!adev->acp.acp_genpd"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:233: CHECK: Please don't use multiple blank lines
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:239: CHECK: Alignment should match open parenthesis
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:241: CHECK: Comparison to NULL could be written "!adev->acp.acp_cell"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:247: CHECK: Comparison to NULL could be written "!adev->acp.acp_res"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:253: CHECK: Comparison to NULL could be written "!i2s_pdata"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:350: CHECK: Alignment should match open parenthesis
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:550: ERROR: that open brace { should be on the previous line
 
-On Wed, 6 Jul 2022 at 08:09, Frieder Schrempf
-<frieder.schrempf@kontron.de> wrote:
->
-> Am 10.06.22 um 09:52 schrieb Lucas Stach:
-> > Hi,
-> >
-> > Am Mittwoch, dem 11.05.2022 um 16:58 +0200 schrieb Marek Szyprowski:
-> >> Hi Dave,
-> >>
-> >> On 05.04.2022 13:43, Dave Stevenson wrote:
-> >>> On Fri, 18 Mar 2022 at 12:25, Dave Stevenson
-> >>> <dave.stevenson@raspberrypi.com>  wrote:
-> >>>> On Fri, 4 Mar 2022 at 15:18, Dave Stevenson
-> >>>> <dave.stevenson@raspberrypi.com>  wrote:
-> >>>>> Hi All
-> >>>> A gentle ping on this series. Any comments on the approach?
-> >>>> Thanks.
-> >>> I realise the merge window has just closed and therefore folks have
-> >>> been busy, but no responses on this after a month?
-> >>>
-> >>> Do I give up and submit a patch to document that DSI is broken and no one cares?
-> >>
-> >> Thanks for pointing this patchset in the 'drm: bridge: Add Samsung MIPI
-> >> DSIM bridge' thread, otherwise I would miss it since I'm not involved
-> >> much in the DRM development.
-> >>
-> >> This resolves most of the issues in the Exynos DSI and its recent
-> >> conversion to the drm bridge framework. I've added the needed
-> >> prepare_upstream_first flags to the panels and everything works fine
-> >> without the bridge chain order hacks.
-> >>
-> >> Feel free to add:
-> >>
-> >> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> >>
-> >>
-> >> The only remaining thing to resolve is the moment of enabling DSI host.
-> >> The proper sequence is:
-> >>
-> >> 1. host power on, 2. device power on, 3. host init, 4. device init, 5.
-> >> video enable.
-> >>
-> >> #1 is done in dsi's pre_enable, #2 is done in panel's prepare. #3 was so
-> >> far done in the first host transfer call, which usually happens in
-> >> panel's prepare, then the #4 happens. Then video enable is done in the
-> >> enable callbacks.
-> >>
-> >> Jagan wants to move it to the dsi host pre_enable() to let it work with
-> >> DSI bridges controlled over different interfaces
-> >> (https://lore.kernel.org/all/20220504114021.33265-6-jagan@amarulasolutions.com/
-> >> ). This however fails on Exynos with DSI panels, because when dsi's
-> >> pre_enable is called, the dsi device is not yet powered. I've discussed
-> >> this with Andrzej Hajda and we came to the conclusion that this can be
-> >> resolved by adding the init() callback to the struct mipi_dsi_host_ops.
-> >> Then DSI client (next bridge or panel) would call it after powering self
-> >> on, but before sending any DSI commands in its pre_enable/prepare functions.
-> >>
-> >> I've prepared a prototype of such solution. This approach finally
-> >> resolved all the initialization issues! The bridge chain finally matches
-> >> the hardware, no hack are needed, and everything is controlled by the
-> >> DRM core. This prototype also includes the Jagan's patches, which add
-> >> IMX support to Samsung DSIM. If one is interested, here is my git repo
-> >> with all the PoC patches:
-> >>
-> >> https://github.com/mszyprow/linux/tree/v5.18-next-20220511-dsi-rework
-> >
-> > While this needs rework on the bridge chip side, I fear that we need
-> > something like that to allow the bridge to control the sequencing of
-> > the DSI host init. While most bridges that aren't controlled via the
-> > DSI channel might be fine with just initializing the host right before
-> > a video signal is driven, there are some that need a different
-> > sequencing.
-> >
-> > The chip I'm currently looking at is a TC368767, where the datasheet
-> > states that the DSI lanes must be in LP-11 before the reset is
-> > released. While the datasheet doesn't specify what happens if that
-> > sequence is violated, Marek Vasut found that the chip enters a test
-> > mode if the lanes are not in LP-11 at that point and I can confirm this
-> > observation.
->
-> The SN65DSI84 also has this requirement according to the datasheet.
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-SN65DSI8[3|4|5] need LP-11 before the chip comes out of reset, but
-that only happens as part of enabling the bridge chain. This patch set
-allows it to request the DSI host to be initialised first in order to
-meet that constraint, which is common with many DSI sink devices.
+---
+changes since v2:
+          - Removed Null check for apd structure
+          - Modified commit message
+changes since v1:
+           - Modified commit label as drm/amdgpu
 
-Lucas' comment with TC368767 is that it is doing other things for
-display negotiation over the AUX channel prior to enabling the video
-path, and that is needing the DSI interface to be enabled and in LP-11
-much earlier (and potentially clock lane in HS if not using an
-external clock).
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c | 35 +++++++++----------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
 
-> > Now with the TC358767 being a DSI to (e)DP converter, we need to
-> > release the chip from reset pretty early to establish the DP AUX
-> > connection to communicate with the display, in order to find out which
-> > video modes we can drive. As the chip is controlled via i2c in my case,
-> > initializing the DSI host on first DSI command transaction is out and
-> > doing so before the bridge pre_enable is way too late.
-> >
-> > What I would need for this chip to work properly is an explicit call,
-> > like the mipi_dsi_host_init() added in the PoC above, to allow the
-> > bridge driver to kick the DSI host initialization before releasing the
-> > chip from reset state.
->
-> So to sum up on the missing parts:
->
-> 1. This series needs more reviews, but is generally agreed on.
-> 2. Jagan will integrate Marek's mipi_dsi_host_init() PoC when respinning
-> his series "drm: bridge: Add Samsung MIPI DSIM bridge".
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+index cc9c9f8b23b2..ceda19152c77 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+@@ -128,16 +128,14 @@ static int acp_poweroff(struct generic_pm_domain *genpd)
+ 	struct amdgpu_device *adev;
+ 
+ 	apd = container_of(genpd, struct acp_pm_domain, gpd);
+-	if (apd != NULL) {
+-		adev = apd->adev;
++	adev = apd->adev;
+ 	/* call smu to POWER GATE ACP block
+ 	 * smu will
+ 	 * 1. turn off the acp clock
+ 	 * 2. power off the acp tiles
+ 	 * 3. check and enter ulv state
+ 	 */
+-		amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_ACP, true);
+-	}
++	amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_ACP, true);
+ 	return 0;
+ }
+ 
+@@ -147,16 +145,14 @@ static int acp_poweron(struct generic_pm_domain *genpd)
+ 	struct amdgpu_device *adev;
+ 
+ 	apd = container_of(genpd, struct acp_pm_domain, gpd);
+-	if (apd != NULL) {
+-		adev = apd->adev;
++	adev = apd->adev;
+ 	/* call smu to UNGATE ACP block
+ 	 * smu will
+ 	 * 1. exit ulv
+ 	 * 2. turn on acp clock
+ 	 * 3. power on acp tiles
+ 	 */
+-		amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_ACP, false);
+-	}
++	amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_ACP, false);
+ 	return 0;
+ }
+ 
+@@ -193,7 +189,7 @@ static int acp_genpd_remove_device(struct device *dev, void *data)
+ static int acp_hw_init(void *handle)
+ {
+ 	int r;
+-	uint64_t acp_base;
++	u64 acp_base;
+ 	u32 val = 0;
+ 	u32 count = 0;
+ 	struct i2s_platform_data *i2s_pdata = NULL;
+@@ -220,37 +216,32 @@ static int acp_hw_init(void *handle)
+ 		return -EINVAL;
+ 
+ 	acp_base = adev->rmmio_base;
+-
+-
+ 	adev->acp.acp_genpd = kzalloc(sizeof(struct acp_pm_domain), GFP_KERNEL);
+-	if (adev->acp.acp_genpd == NULL)
++	if (!adev->acp.acp_genpd)
+ 		return -ENOMEM;
+ 
+ 	adev->acp.acp_genpd->gpd.name = "ACP_AUDIO";
+ 	adev->acp.acp_genpd->gpd.power_off = acp_poweroff;
+ 	adev->acp.acp_genpd->gpd.power_on = acp_poweron;
+-
+-
+ 	adev->acp.acp_genpd->adev = adev;
+ 
+ 	pm_genpd_init(&adev->acp.acp_genpd->gpd, NULL, false);
+ 
+-	adev->acp.acp_cell = kcalloc(ACP_DEVS, sizeof(struct mfd_cell),
+-							GFP_KERNEL);
++	adev->acp.acp_cell = kcalloc(ACP_DEVS, sizeof(struct mfd_cell), GFP_KERNEL);
+ 
+-	if (adev->acp.acp_cell == NULL) {
++	if (!adev->acp.acp_cell) {
+ 		r = -ENOMEM;
+ 		goto failure;
+ 	}
+ 
+ 	adev->acp.acp_res = kcalloc(5, sizeof(struct resource), GFP_KERNEL);
+-	if (adev->acp.acp_res == NULL) {
++	if (!adev->acp.acp_res) {
+ 		r = -ENOMEM;
+ 		goto failure;
+ 	}
+ 
+ 	i2s_pdata = kcalloc(3, sizeof(struct i2s_platform_data), GFP_KERNEL);
+-	if (i2s_pdata == NULL) {
++	if (!i2s_pdata) {
+ 		r = -ENOMEM;
+ 		goto failure;
+ 	}
+@@ -346,8 +337,7 @@ static int acp_hw_init(void *handle)
+ 	adev->acp.acp_cell[3].platform_data = &i2s_pdata[2];
+ 	adev->acp.acp_cell[3].pdata_size = sizeof(struct i2s_platform_data);
+ 
+-	r = mfd_add_hotplug_devices(adev->acp.parent, adev->acp.acp_cell,
+-								ACP_DEVS);
++	r = mfd_add_hotplug_devices(adev->acp.parent, adev->acp.acp_cell, ACP_DEVS);
+ 	if (r)
+ 		goto failure;
+ 
+@@ -546,8 +536,7 @@ static const struct amd_ip_funcs acp_ip_funcs = {
+ 	.set_powergating_state = acp_set_powergating_state,
+ };
+ 
+-const struct amdgpu_ip_block_version acp_ip_block =
+-{
++const struct amdgpu_ip_block_version acp_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_ACP,
+ 	.major = 2,
+ 	.minor = 2,
+-- 
+2.25.1
 
-I'm still not clear as to whether Marek's mipi_dsi_host_init is needed
-in the majority of cases.
-Exynos appeared to be trying to check for no contention as part of the
-initialisation to LP-11, and that isn't necessary. No one has come
-back on that one.
-
-Adding a mipi_dsi_host_init would potentially solve the additional
-issue for TC358767.
-However it leaves a number of open questions. The first I can think of
-is that there are no defined mechanisms for specifying the link
-frequency prior to having a video mode set. Yes struct mipi_dsi_device
-has hs_rate, but that is defined as the maximum HS rate that the
-device supports, and therefore open to variation in the
-implementation. Exynos has various vendor specific DT parameters to
-configure link frequencies, which ought to be standardised if that is
-the preferred approach.
-
-> 3. Bridge drivers need to be adjusted to call mipi_dsi_host_init() if
-> required.
-
-Which hopefully is only the weirder devices such as TC358767.
-SN65DSI8[3|4|5] do not need this, but they will need
-pre_enable_upstream_first if/when the enable logic is shifted from
-atomic_enable to atomic_pre_enable.
-
-Cheers.
-  Dave
-
-> Did I get anything wrong here, or is there some point that I'm missing?
-> Jagan, do you have any plan to pick up the threads?
->
-> Thanks
-> Frieder
