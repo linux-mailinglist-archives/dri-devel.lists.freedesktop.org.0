@@ -2,63 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43CE56837E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 11:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08162568388
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 11:35:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C3411304F;
-	Wed,  6 Jul 2022 09:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53F81130D6;
+	Wed,  6 Jul 2022 09:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD8011304F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 09:31:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1BA3B22BF5;
- Wed,  6 Jul 2022 09:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657099891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WxxqpMAuOVpv1DP82yuC2uIlQM/SC1LvROg83kPMDtM=;
- b=J51Q9FcJEcCJfZtpU+yGxO5XTt8IkHAX0tO+cN+b1E6Lpkx1tBZLbbriOHVz67As+Vhtnj
- VVKPTPdNzX3OZD71hIDNbn88ow8SmDSW/6MjiNLOZQxyct1wrx3/AHMoKM6nSgj9/HhdiM
- fDz2GYvm2/C0bqwpSxu1TrPhvk8LnKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657099891;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WxxqpMAuOVpv1DP82yuC2uIlQM/SC1LvROg83kPMDtM=;
- b=27DvZWywNGj+6aAZ3CgY9xYXrrnGBP9kA+Zv4rEM8Ez6NJG4qUQvJ7Wns5MvrYVPlOxv+Q
- ptpxOKBpwtsVrXCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EB91C134CF;
- Wed,  6 Jul 2022 09:31:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id i5dxOHJWxWI/QAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Jul 2022 09:31:30 +0000
-Message-ID: <22154fda-9724-9f0a-8452-08b49e20ed00@suse.de>
-Date: Wed, 6 Jul 2022 11:31:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/3] drm: rename CMA helpers to DMA helpers
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 665891130D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 09:35:30 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCE3230A;
+ Wed,  6 Jul 2022 11:35:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1657100129;
+ bh=4zkQzHQrrr0qsqWadoeQZ13X+oUw8LH4NzxBxEpmJsY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IUuT7PpCOomOoes0GgNHu1sykwJIuuibpUu6xsq5o3djYjNbgCVFY9PUpd6ahxO6g
+ PdbA7Uhkn2CCimY7mbzkwrtIWmHBukLu1HgMo9P/+G8+l1Jqyo3TNaKGFHbuzYegD5
+ X9bd+yQpRP0YOqr9fXOXfphE50sVH5LVkw6yReKs=
+Date: Wed, 6 Jul 2022 12:35:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH 1/3] drm/fb: rename FB CMA helpers to FB DMA helpers
+Message-ID: <YsVXR4bLp8G7FU8j@pendragon.ideasonboard.com>
 References: <20220705212613.732039-1-dakr@redhat.com>
- <066c5652-79e8-85df-fcf6-f5ea46f4cd48@suse.de>
- <YsVQo40s5PlPwynD@pendragon.ideasonboard.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YsVQo40s5PlPwynD@pendragon.ideasonboard.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xi4MSPoZfSl1nMlsdooL31dD"
+ <20220705212613.732039-2-dakr@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220705212613.732039-2-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,266 +47,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xi4MSPoZfSl1nMlsdooL31dD
-Content-Type: multipart/mixed; boundary="------------o9csn4HstEuM80bCSoec0Sbj";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org
-Message-ID: <22154fda-9724-9f0a-8452-08b49e20ed00@suse.de>
-Subject: Re: [PATCH 0/3] drm: rename CMA helpers to DMA helpers
-References: <20220705212613.732039-1-dakr@redhat.com>
- <066c5652-79e8-85df-fcf6-f5ea46f4cd48@suse.de>
- <YsVQo40s5PlPwynD@pendragon.ideasonboard.com>
-In-Reply-To: <YsVQo40s5PlPwynD@pendragon.ideasonboard.com>
+Hi Danilo,
 
---------------o9csn4HstEuM80bCSoec0Sbj
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thank you for the patch. I've been bothered by the CMA name in this
+helper for quite some time but never found time to fix it, so I'm happy
+to see these patches.
 
-SGkNCg0KQW0gMDYuMDcuMjIgdW0gMTE6MDYgc2NocmllYiBMYXVyZW50IFBpbmNoYXJ0Og0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBXZWQsIEp1bCAwNiwgMjAyMiBhdCAxMDozNDoxM0FN
-ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEFtIDA1LjA3LjIyIHVtIDIz
-OjI2IHNjaHJpZWIgRGFuaWxvIEtydW1tcmljaDoNCj4+PiBUaGlzIHBhdGNoIHNlcmllcyBy
-ZW5hbWVzIGFsbCBDTUEgaGVscGVycyB0byBETUEgaGVscGVycyAtIGNvbnNpZGVyaW5nIHRo
-ZQ0KPj4+IGhpZXJhcmNoeSBvZiBBUElzIChtbS9jbWEgLT4gZG1hIC0+IGdlbS9mYiBkbWEg
-aGVscGVycykgY2FsbGluZyB0aGVtIERNQQ0KPj4+IGhlbHBlcnMgc2VlbXMgdG8gYmUgbW9y
-ZSBhcHBsaWNhYmxlLg0KPj4NCj4+IE9rLCB3aHkgbm90Lg0KPj4NCj4+IEFja2VkLWJ5OiBU
-aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+DQo+PiBmb3IgdGhl
-IHNlcmllcy4NCj4+DQo+PiBTb21ldGltZXMgYWxsb2NhdGlvbiBmYWlscyBiZWNhdXNlIHRo
-ZXJlJ3Mgbm8gQ01BIG1lbW9yeSBsZWZ0Lg0KPj4gSW5jcmVhc2luZyB0aGF0IHZhbHVlIG9u
-IGJvb3QgdXN1YWxseSBmaXhlcyB0aGUgcHJvYmxlbS4gU2hvdWxkIHdlIG5vdGUNCj4+IHNv
-bWV3aGVyZSBpbiB0aGUgZG9jcyB0aGF0IHRoZSBhbGxvY2F0b3IgaXMgYmFja2VkIGJ5IHBh
-Z2VzIGluIENNQSBtZW1vcnk/DQo+IA0KPiBDTUEgaXMgb25seSBvbmUgb2YgdGhlIGJhY2tl
-bmRzIHRoYXQgY2FuIGJlIHVzZWQgaGVyZS4gRm9yIGluc3RhbmNlLCBpZg0KPiB0aGUgZGV2
-aWNlIHBlcmZvcm1zIERNQSB0aHJvdWdoIGFuIElPTU1VLCB0aGVuIENNQSB3b24ndCBiZSB1
-c2VkLg0KDQpPaywgdGhhbmtzIGZvciBjbGFyaWZ5aW5nLiBNeSB1bmRlcnN0YW5kaW5nIHdh
-cyB0aGF0IGl0J3MgYWxsIENNQS4gU28gDQpyZW5hbWluZyBtYWtlcyBldmVuIG1vcmUgc2Vu
-c2UuDQoNCj4gDQo+IFRoaXMgYmVpbmcgc2FpZCwgaGVscGluZyB1c2VycyB3aG8gbWF5IGZh
-Y2UgYSBwcm9ibGVtIHdpdGggdG9vIGxpdHRsZQ0KPiBDTUEgbWVtb3J5IGlzIHVzZWZ1bCwg
-YnV0IEknbSBub3Qgc3VyZSB3aGVyZSB0aGUgYmVzdCBwbGFjZSB0byBwdXQgdGhhdA0KPiBp
-bmZvcm1hdGlvbiB3b3VsZCBiZS4NCg0KTWUgbmVpdGhlci4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4+PiBBZGRpdGlvbmFsbHksIGNvbW1pdCBlNTc5MjRkNGFlODAgKCJk
-cm0vZG9jOiBUYXNrIHRvIHJlbmFtZSBDTUEgaGVscGVycyIpDQo+Pj4gcmVxdWVzdHMgdG8g
-cmVuYW1lIHRoZSBDTUEgaGVscGVycyBhbmQgaW1wbGllcyB0aGF0IHBlb3BsZSBzZWVtIHRv
-IGJlIGNvbmZ1c2VkDQo+Pj4gYWJvdXQgdGhlIG5hbWluZy4NCj4+Pg0KPj4+IFRoZSBwYXRj
-aGVzIGFyZSBjb21waWxlLXRpbWUgdGVzdGVkIGJ1aWxkaW5nIGEgeDg2XzY0IGtlcm5lbCB3
-aXRoDQo+Pj4gYG1ha2UgYWxseWVzY29uZmlnICYmIG1ha2UgZHJpdmVycy9ncHUvZHJtYC4N
-Cj4+Pg0KPj4+IERhbmlsbyBLcnVtbXJpY2ggKDMpOg0KPj4+ICAgICBkcm0vZmI6IHJlbmFt
-ZSBGQiBDTUEgaGVscGVycyB0byBGQiBETUEgaGVscGVycw0KPj4+ICAgICBkcm0vZ2VtOiBy
-ZW5hbWUgR0VNIENNQSBoZWxwZXJzIHRvIEdFTSBETUEgaGVscGVycw0KPj4+ICAgICBkcm0v
-dG9kbzogcmVtb3ZlIHRhc2sgdG8gcmVuYW1lIENNQSBoZWxwZXJzDQo+Pj4NCj4+PiAgICBE
-b2N1bWVudGF0aW9uL2dwdS9kcm0ta21zLWhlbHBlcnMucnN0ICAgICAgICAgfCAgIDggKy0N
-Cj4+PiAgICBEb2N1bWVudGF0aW9uL2dwdS9kcm0tbW0ucnN0ICAgICAgICAgICAgICAgICAg
-fCAgMTYgKy0NCj4+PiAgICBEb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCAgICAgICAgICAg
-ICAgICAgICAgfCAgMTMgLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAg
-ICAgICAgICAgICAgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9NYWtl
-ZmlsZSAgICAgICAgICAgICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9hcm0vS2NvbmZpZyAgICAgICAgICAgICAgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9LY29uZmlnICAgICAgICAgICB8ICAgMiArLQ0K
-Pj4+ICAgIC4uLi9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ZyYW1lYnVmZmVyLmMgICB8
-ICAxMCArLQ0KPj4+ICAgIC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFf
-a21zLmMgICB8ICAxMCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0
-Yy5jICAgICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hcm0v
-aGRsY2RfZHJ2LmMgICAgICAgICAgICAgICB8ICAgOCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9hcm0vbWFsaWRwX2Rydi5jICAgICAgICAgICAgICB8ICAxMCArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX213LmMgICAgICAgICAgICAgICB8ICAgNiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jICAgICAgICAgICB8
-ICAyNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2dlbS5jICAg
-ICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hc3BlZWQvS2NvbmZp
-ZyAgICAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hc3Bl
-ZWQvYXNwZWVkX2dmeF9jcnRjLmMgICAgICB8ICAgOCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYyAgICAgICB8ICAgOCArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9hdG1lbC1obGNkYy9LY29uZmlnICAgICAgICAgICB8ICAgMiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19kYy5jICB8
-ICAgNiArLQ0KPj4+ICAgIC4uLi9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX3Bs
-YW5lLmMgICB8ICAgNiArLQ0KPj4+ICAgIC4uLnJtX2ZiX2NtYV9oZWxwZXIuYyA9PiBkcm1f
-ZmJfZG1hX2hlbHBlci5jfSB8ICA1MiArLS0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2ZpbGUuYyAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0NCj4+PiAgICBkcml2ZXJzL2dw
-dS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuYyAgICAgICAgICAgfCAgIDQgKy0NCj4+PiAgICAu
-Li5fZ2VtX2NtYV9oZWxwZXIuYyA9PiBkcm1fZ2VtX2RtYV9oZWxwZXIuY30gfCAyOTYgKysr
-KysrKysrLS0tLS0tLS0tDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5j
-ICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2ZzbC1k
-Y3UvS2NvbmZpZyAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fZHJ2LmMgICAgIHwgICA4ICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fa21zLmMgICAgIHwgICAyICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fcGxhbmUuYyAgIHwg
-ICA4ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9LY29uZmln
-ICAgICAgIHwgICAyICstDQo+Pj4gICAgLi4uL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tp
-cmluX2RybV9hZGUuYyAgIHwgIDEwICstDQo+Pj4gICAgLi4uL2dwdS9kcm0vaGlzaWxpY29u
-L2tpcmluL2tpcmluX2RybV9kcnYuYyAgIHwgICA0ICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL2lteC9LY29uZmlnICAgICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL2lteC9kY3NzL0tjb25maWcgICAgICAgICAgICAgIHwgICAyICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3Mta21zLmMgICAgICAgICAgIHwg
-ICA2ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtcGxhbmUuYyAg
-ICAgICAgIHwgIDE4ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtZHJtLWNv
-cmUuYyAgICAgICAgICAgIHwgIDEwICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2lteC9p
-bXgtZHJtLmggICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL2lteC9pcHV2My1jcnRjLmMgICAgICAgICAgICAgIHwgICA0ICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFuZS5jICAgICAgICAgICAgIHwgIDI4ICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvS2NvbmZpZyAgICAgICAgICAgICAgIHwg
-ICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2
-LmMgICAgIHwgIDE0ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5p
-Yy1pcHUuYyAgICAgICAgIHwgIDEyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2ttYi9L
-Y29uZmlnICAgICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL2ttYi9rbWJfZHJ2LmMgICAgICAgICAgICAgICAgIHwgICA2ICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYyAgICAgICAgICAgICAgIHwgIDEwICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL21jZGUvS2NvbmZpZyAgICAgICAgICAgICAgICAgIHwg
-ICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kaXNwbGF5LmMgICAg
-ICAgICAgIHwgICA4ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kcnYu
-YyAgICAgICAgICAgICAgIHwgIDEwICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL0tjb25maWcgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMgICAgICAgIHwgICA0ICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL21lc29uL0tjb25maWcgICAgICAgICAgICAgICAgIHwg
-ICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2Rydi5jICAgICAg
-ICAgICAgIHwgIDEwICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX292
-ZXJsYXkuYyAgICAgICAgIHwgIDEyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21lc29u
-L21lc29uX3BsYW5lLmMgICAgICAgICAgIHwgICA4ICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL21zbS9tc21fZHJ2LmMgICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL214c2ZiL0tjb25maWcgICAgICAgICAgICAgICAgIHwgICAyICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jICAgICAgICAgICAgIHwg
-ICA2ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2ttcy5jICAgICAg
-ICAgICAgIHwgIDEwICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL0tjb25maWcg
-ICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLWlsaXRlay1pbGk5MzQxLmMgIHwgICA2ICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL3BsMTExL0tjb25maWcgICAgICAgICAgICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJp
-dmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rpc3BsYXkuYyAgICAgICAgIHwgICA4ICstDQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jICAgICAgICAgICAgIHwg
-IDEwICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvS2NvbmZpZyAgICAgICAg
-ICAgICAgIHwgICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9k
-dV9jcnRjLmMgICAgICAgIHwgICA0ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JjYXIt
-ZHUvcmNhcl9kdV9kcnYuYyAgICAgICAgIHwgICA2ICstDQo+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV9rbXMuYyAgICAgICAgIHwgIDM4ICstLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfcGxhbmUuYyAgICAgICB8ICAgOCArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfdnNwLmMgICAgICAgICB8
-ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29uZmlnICAgICAg
-ICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2Nr
-Y2hpcF9kcm1fZHJ2LmMgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yb2Nr
-Y2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9zaG1vYmlsZS9LY29uZmlnICAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fY3J0Yy5jICAgICB8ICAxMCArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fZHJ2LmMgICAgICB8
-ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fa21z
-LmMgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1v
-Yl9kcm1fa21zLmggICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zaG1v
-YmlsZS9zaG1vYl9kcm1fcGxhbmUuYyAgICB8ICAxMCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9zb2xvbW9uL3NzZDEzMHguYyAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9zcHJkL0tjb25maWcgICAgICAgICAgICAgICAgICB8ICAgMiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zcHJkL3NwcmRfZHB1LmMgICAgICAgICAgICAgICB8
-ICAxMCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zcHJkL3NwcmRfZHJtLmMgICAgICAg
-ICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdGkvS2NvbmZpZyAg
-ICAgICAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdGkv
-c3RpX2N1cnNvci5jICAgICAgICAgICAgICB8ICAxNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9zdGkvc3RpX2Rydi5jICAgICAgICAgICAgICAgICB8ICAgOCArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9zdGkvc3RpX2dkcC5jICAgICAgICAgICAgICAgICB8ICAxOCArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hxdmRwLmMgICAgICAgICAgICAgICB8
-ICAxOCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX3BsYW5lLmMgICAgICAg
-ICAgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdG0vS2NvbmZpZyAg
-ICAgICAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdG0v
-ZHJ2LmMgICAgICAgICAgICAgICAgICAgICB8ICAxMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9zdG0vbHRkYy5jICAgICAgICAgICAgICAgICAgICB8ICAxNiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9zdW40aS9LY29uZmlnICAgICAgICAgICAgICAgICB8ICAgMiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9iYWNrZW5kLmMgICAgICAgICB8
-ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9kcnYuYyAgICAg
-ICAgICAgICB8ICAxMCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9m
-cm9udGVuZC5jICAgICAgICB8ICAxMCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9zdW40
-aS9zdW44aV9taXhlci5jICAgICAgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9zdW40aS9zdW44aV91aV9sYXllci5jICAgICAgICB8ICAgOCArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5jICAgICAgICB8ICAgOCArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYi5jICAgICAgICAgICAgICAgICAgICB8
-ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWRzcy9LY29uZmlnICAgICAgICAg
-ICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19j
-cnRjLmMgICAgICAgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWRz
-cy90aWRzc19kaXNwYy5jICAgICAgICAgICB8ICAxMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS90aWRzcy90aWRzc19kcnYuYyAgICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19rbXMuYyAgICAgICAgICAgICB8ICAgMiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19wbGFuZS5jICAgICAgICAgICB8
-ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWxjZGMvS2NvbmZpZyAgICAgICAg
-ICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2Rj
-X2NydGMuYyAgICAgICAgICB8ICAgOCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aWxj
-ZGMvdGlsY2RjX2Rydi5jICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS90aW55L0tjb25maWcgICAgICAgICAgICAgICAgICB8ICAyMiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS90aW55L2FyY3BndS5jICAgICAgICAgICAgICAgICB8ICAxMiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2h4ODM1N2QuYyAgICAgICAgICAgICAgICB8
-ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2lsaTkxNjMuYyAgICAgICAg
-ICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2lsaTkyMjUu
-YyAgICAgICAgICAgICAgICB8ICAxMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55
-L2lsaTkzNDEuYyAgICAgICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS90aW55L2lsaTk0ODYuYyAgICAgICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS90aW55L21pMDI4M3F0LmMgICAgICAgICAgICAgICB8ICAgNiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L3BhbmVsLW1pcGktZGJpLmMgICAgICAgICB8
-ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L3JlcGFwZXIuYyAgICAgICAg
-ICAgICAgICB8ICAxMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L3N0NzU4Ni5j
-ICAgICAgICAgICAgICAgICB8ICAxMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55
-L3N0NzczNXIuYyAgICAgICAgICAgICAgICB8ICAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS90dmUyMDAvS2NvbmZpZyAgICAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRy
-aXZlcnMvZ3B1L2RybS90dmUyMDAvdHZlMjAwX2Rpc3BsYXkuYyAgICAgICB8ICAxMiArLQ0K
-Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90dmUyMDAvdHZlMjAwX2Rydi5jICAgICAgICAgICB8
-ICAgOCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Rydi5jICAgICAgICAg
-ICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5j
-ICAgICAgICAgICAgICAgICB8ICAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS92YzQv
-S2NvbmZpZyAgICAgICAgICAgICAgICAgICB8ICAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS92YzQvdmM0X2JvLmMgICAgICAgICAgICAgICAgICB8ICA0NCArLS0NCj4+PiAgICBk
-cml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9jcnRjLmMgICAgICAgICAgICAgICAgfCAgMTAgKy0N
-Cj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9kcnYuYyAgICAgICAgICAgICAgICAg
-fCAgIDggKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9kcnYuaCAgICAgICAg
-ICAgICAgICAgfCAgMTggKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9nZW0u
-YyAgICAgICAgICAgICAgICAgfCAgIDQgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0
-L3ZjNF9wbGFuZS5jICAgICAgICAgICAgICAgfCAgMTAgKy0NCj4+PiAgICBkcml2ZXJzL2dw
-dS9kcm0vdmM0L3ZjNF9yZW5kZXJfY2wuYyAgICAgICAgICAgfCAgMjYgKy0NCj4+PiAgICBk
-cml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF90eHAuYyAgICAgICAgICAgICAgICAgfCAgIDYgKy0N
-Cj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF92M2QuYyAgICAgICAgICAgICAgICAg
-fCAgIDQgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF92YWxpZGF0ZS5jICAg
-ICAgICAgICAgfCAgMTYgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF92YWxp
-ZGF0ZV9zaGFkZXJzLmMgICAgfCAgIDIgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veGxu
-eC9LY29uZmlnICAgICAgICAgICAgICAgICAgfCAgIDIgKy0NCj4+PiAgICBkcml2ZXJzL2dw
-dS9kcm0veGxueC96eW5xbXBfZGlzcC5jICAgICAgICAgICAgfCAgIDQgKy0NCj4+PiAgICBk
-cml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHBzdWIuYyAgICAgICAgICAgfCAgIDggKy0N
-Cj4+PiAgICAuLi5ybV9mYl9jbWFfaGVscGVyLmggPT4gZHJtX2ZiX2RtYV9oZWxwZXIuaH0g
-fCAgMTAgKy0NCj4+PiAgICBpbmNsdWRlL2RybS9kcm1fZ2VtLmggICAgICAgICAgICAgICAg
-ICAgICAgICAgfCAgIDIgKy0NCj4+PiAgICAuLi5fZ2VtX2NtYV9oZWxwZXIuaCA9PiBkcm1f
-Z2VtX2RtYV9oZWxwZXIuaH0gfCAxNTQgKysrKy0tLS0tDQo+Pj4gICAgMTQ2IGZpbGVzIGNo
-YW5nZWQsIDc3NyBpbnNlcnRpb25zKCspLCA3OTAgZGVsZXRpb25zKC0pDQo+Pj4gICAgcmVu
-YW1lIGRyaXZlcnMvZ3B1L2RybS97ZHJtX2ZiX2NtYV9oZWxwZXIuYyA9PiBkcm1fZmJfZG1h
-X2hlbHBlci5jfSAoNjglKQ0KPj4+ICAgIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0ve2RybV9n
-ZW1fY21hX2hlbHBlci5jID0+IGRybV9nZW1fZG1hX2hlbHBlci5jfSAoNjAlKQ0KPj4+ICAg
-IHJlbmFtZSBpbmNsdWRlL2RybS97ZHJtX2ZiX2NtYV9oZWxwZXIuaCA9PiBkcm1fZmJfZG1h
-X2hlbHBlci5ofSAoNTYlKQ0KPj4+ICAgIHJlbmFtZSBpbmNsdWRlL2RybS97ZHJtX2dlbV9j
-bWFfaGVscGVyLmggPT4gZHJtX2dlbV9kbWFfaGVscGVyLmh9ICg1MyUpDQo+IA0KDQotLSAN
-ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
-ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
-vHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0
-c2bDvGhyZXI6IEl2byBUb3Rldg0K
+On Tue, Jul 05, 2022 at 11:26:11PM +0200, Danilo Krummrich wrote:
+> Rename "FB CMA" helpers to "FB DMA" helpers - considering the hierarchy
+> of APIs (mm/cma -> dma -> fb dma) calling them "FB DMA" seems to be
+> more applicable.
+> 
+> Besides that, commit e57924d4ae80 ("drm/doc: Task to rename CMA helpers")
+> requests to rename the CMA helpers and implies that people seem to be
+> confused about the naming.
+> 
+> In order to do this renaming the following script was used:
+> 
+> ```
+> 	#!/bin/bash
+> 
+> 	DIRS="drivers/gpu include/drm Documentation/gpu"
+> 
+> 	REGEX_SYM_UPPER="[0-9A-Z_\-]"
+> 	REGEX_SYM_LOWER="[0-9a-z_\-]"
+> 
+> 	REGEX_GREP_UPPER="(${REGEX_SYM_UPPER}*)(FB)_CMA_(${REGEX_SYM_UPPER}*)"
+> 	REGEX_GREP_LOWER="(${REGEX_SYM_LOWER}*)(fb)_cma_(${REGEX_SYM_LOWER}*)"
+> 
+> 	REGEX_SED_UPPER="s/${REGEX_GREP_UPPER}/\1\2_DMA_\3/g"
+> 	REGEX_SED_LOWER="s/${REGEX_GREP_LOWER}/\1\2_dma_\3/g"
+> 
+> 	# Find all upper case 'CMA' symbols and replace them with 'DMA'.
+> 	for ff in $(grep -REHl "${REGEX_GREP_UPPER}" $DIRS)
+> 	do
+> 	       sed -i -E "$REGEX_SED_UPPER" $ff
+> 	done
+> 
+> 	# Find all lower case 'cma' symbols and replace them with 'dma'.
+> 	for ff in $(grep -REHl "${REGEX_GREP_LOWER}" $DIRS)
+> 	do
+> 	       sed -i -E "$REGEX_SED_LOWER" $ff
+> 	done
+> 
+> 	# Replace all occurrences of 'CMA' / 'cma' in comments and
+> 	# documentation files with 'DMA' / 'dma'.
+> 	for ff in $(grep -RiHl " cma " $DIRS)
+> 	do
+> 		sed -i -E "s/ cma / dma /g" $ff
+> 		sed -i -E "s/ CMA / DMA /g" $ff
+> 	done
+> ```
+> 
+> Only a few more manual modifications were needed, e.g. reverting the
+> following modifications in some DRM Kconfig files
+> 
+>     -       select CMA if HAVE_DMA_CONTIGUOUS
+>     +       select DMA if HAVE_DMA_CONTIGUOUS
+> 
+> as well as manually picking the occurrences of 'CMA'/'cma' in comments and
+> documentation which relate to "FB CMA", but not "GEM CMA".
+> 
+> This patch is compile-time tested building a x86_64 kernel with
+> `make allyesconfig && make drivers/gpu/drm`.
+> 
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+>  Documentation/gpu/drm-kms-helpers.rst         |  8 ++--
+>  drivers/gpu/drm/Makefile                      |  2 +-
+>  .../arm/display/komeda/komeda_framebuffer.c   |  4 +-
+>  drivers/gpu/drm/arm/hdlcd_crtc.c              |  4 +-
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
+>  drivers/gpu/drm/arm/malidp_mw.c               |  4 +-
+>  drivers/gpu/drm/arm/malidp_planes.c           |  8 ++--
+>  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |  4 +-
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+>  .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |  4 +-
+>  ...rm_fb_cma_helper.c => drm_fb_dma_helper.c} | 38 +++++++++----------
+>  drivers/gpu/drm/drm_format_helper.c           |  4 +-
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c     |  2 +-
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c   |  4 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  4 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
+>  drivers/gpu/drm/imx/dcss/dcss-plane.c         |  6 +--
+>  drivers/gpu/drm/imx/imx-drm-core.c            |  2 +-
+>  drivers/gpu/drm/imx/ipuv3-crtc.c              |  2 +-
+>  drivers/gpu/drm/imx/ipuv3-plane.c             |  8 ++--
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  6 +--
+>  drivers/gpu/drm/ingenic/ingenic-ipu.c         | 10 ++---
+>  drivers/gpu/drm/kmb/kmb_plane.c               |  8 ++--
+>  drivers/gpu/drm/mcde/mcde_display.c           |  6 +--
+>  drivers/gpu/drm/mcde/mcde_drv.c               |  4 +-
+>  drivers/gpu/drm/meson/meson_overlay.c         |  8 ++--
+>  drivers/gpu/drm/meson/meson_plane.c           |  4 +-
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c             |  8 ++--
+>  drivers/gpu/drm/pl111/pl111_display.c         |  6 +--
+>  drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c       |  4 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  4 +-
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c     |  6 +--
+>  drivers/gpu/drm/shmobile/shmob_drm_kms.c      |  2 +-
+>  drivers/gpu/drm/shmobile/shmob_drm_plane.c    |  6 +--
+>  drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+>  drivers/gpu/drm/sprd/sprd_dpu.c               |  4 +-
+>  drivers/gpu/drm/sti/sti_cursor.c              |  6 +--
+>  drivers/gpu/drm/sti/sti_drv.c                 |  2 +-
+>  drivers/gpu/drm/sti/sti_gdp.c                 |  6 +--
+>  drivers/gpu/drm/sti/sti_hqvdp.c               |  6 +--
+>  drivers/gpu/drm/sti/sti_plane.c               |  2 +-
+>  drivers/gpu/drm/stm/drv.c                     |  2 +-
+>  drivers/gpu/drm/stm/ltdc.c                    | 14 +++----
+>  drivers/gpu/drm/sun4i/sun4i_backend.c         |  4 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
+>  drivers/gpu/drm/sun4i/sun4i_frontend.c        |  8 ++--
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c           |  2 +-
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  4 +-
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  4 +-
+>  drivers/gpu/drm/tegra/fb.c                    |  2 +-
+>  drivers/gpu/drm/tidss/tidss_crtc.c            |  2 +-
+>  drivers/gpu/drm/tidss/tidss_dispc.c           |  6 +--
+>  drivers/gpu/drm/tidss/tidss_kms.c             |  2 +-
+>  drivers/gpu/drm/tidss/tidss_plane.c           |  2 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_crtc.c          |  4 +-
+>  drivers/gpu/drm/tiny/arcpgu.c                 |  4 +-
+>  drivers/gpu/drm/tiny/ili9225.c                |  4 +-
+>  drivers/gpu/drm/tiny/repaper.c                |  4 +-
+>  drivers/gpu/drm/tiny/st7586.c                 |  4 +-
+>  drivers/gpu/drm/tve200/tve200_display.c       | 10 ++---
+>  drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
+>  drivers/gpu/drm/v3d/v3d_drv.c                 |  2 +-
+>  drivers/gpu/drm/vc4/vc4_crtc.c                |  8 ++--
+>  drivers/gpu/drm/vc4/vc4_drv.c                 |  2 +-
+>  drivers/gpu/drm/vc4/vc4_plane.c               | 10 ++---
+>  drivers/gpu/drm/vc4/vc4_txp.c                 |  4 +-
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c            |  4 +-
+>  ...rm_fb_cma_helper.h => drm_fb_dma_helper.h} | 10 ++---
+>  74 files changed, 181 insertions(+), 181 deletions(-)
+>  rename drivers/gpu/drm/{drm_fb_cma_helper.c => drm_fb_dma_helper.c} (75%)
+>  rename include/drm/{drm_fb_cma_helper.h => drm_fb_dma_helper.h} (56%)
 
---------------o9csn4HstEuM80bCSoec0Sbj--
+[snip]
 
---------------xi4MSPoZfSl1nMlsdooL31dD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> diff --git a/drivers/gpu/drm/drm_fb_cma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
+> similarity index 75%
+> rename from drivers/gpu/drm/drm_fb_cma_helper.c
+> rename to drivers/gpu/drm/drm_fb_dma_helper.c
+> index 69c57273b184..69b8e0534191 100644
+> --- a/drivers/gpu/drm/drm_fb_cma_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * drm kms/fb cma (contiguous memory allocator) helper functions
+> + * drm kms/fb dma helper functions
+>   *
+>   * Copyright (C) 2012 Analog Devices Inc.
+>   *   Author: Lars-Peter Clausen <lars@metafoo.de>
+> @@ -10,7 +10,7 @@
+>   */
+>  
+>  #include <drm/drm_damage_helper.h>
+> -#include <drm/drm_fb_cma_helper.h>
+> +#include <drm/drm_fb_dma_helper.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_gem_cma_helper.h>
+> @@ -20,17 +20,17 @@
+>  #include <linux/module.h>
+>  
+>  /**
+> - * DOC: framebuffer cma helper functions
+> + * DOC: framebuffer dma helper functions
+>   *
+> - * Provides helper functions for creating a cma (contiguous memory allocator)
+> - * backed framebuffer.
+> + * Provides helper functions for creating a (contiguous) dma capable
 
------BEGIN PGP SIGNATURE-----
+I would drop the parentheses around "contiguous" here, as the whole
+point of this helper is to provide DMA-contiguous framebuffer. You could
+write it as
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLFVnIFAwAAAAAACgkQlh/E3EQov+Dq
-SA//eqb+lPyTm6d151m7kDjxg4QI5dOC1RXOvbz1squuXi8216/Jei2rlxs30lv7nZAUSis1/eSI
-eg0h3HAfMRhMVDvTk+vEc8Laf2uAhuvwGfGRa4DW51YgJX6DyVlNr2SaK+DMNUYXKe04NqORFULc
-8zWkOGRoriN/Ce2ATy8qzOm2AFvGYUcub5yyaH9nIAeOlbZeav2/WBAdRMPTqNCdSZ2UHeSBTqVv
-kqms/4ItZsPxy6tFgIl+mO7t8b4UC+rgGIEZApLfbKZVkET6z5w8xIC/2VpAH+ZPZ9k6Qpav35io
-S3eq0mXQumO6ZghWPnuhnfjSTfWr6MHzcIdQrtKkfLrK7UGxhBK7u5ytgwqXiqt21Dwt5sr2qtgH
-Sb3q5yS1Yghy/sSKLu+qP3JECWE6eoQZOptK7XB+GmEBGy8WbZJ0HbfZCzhvvkav6IbIwYjDchLa
-tkKs5c6k+DGUTFr4os69HbmHIioEY/q9J0OcOVamhPj59Jgql1hnLcPWk8/p5wfp6j+AuH3wqe0B
-v28qgvCnezbUnPbmZS74iyjsqunLOM04Qrk+cj7HBubdc2zfJ9QGDQUhmemgFwe+d4rTzECPRwqV
-Oslvw2fPUneKBmBZEQRwLm8Eb/JHyHzsTAB4prdr7/oLGk2wS+MDnQ3ukt7rb3m+frUdjzthc2wo
-GlU=
-=3ksj
------END PGP SIGNATURE-----
+ * Provides helper functions to create a DMA-contiguous framebuffer.
 
---------------xi4MSPoZfSl1nMlsdooL31dD--
+> + * framebuffer.
+>   *
+>   * drm_gem_fb_create() is used in the &drm_mode_config_funcs.fb_create
+> - * callback function to create a cma backed framebuffer.
+> + * callback function to create a dma backed framebuffer.
+
+"dma backed" doesn't make much sense I think, I'd write "to create a
+DMA-contiguous framebuffer".
+
+>   */
+>  
+>  /**
+> - * drm_fb_cma_get_gem_obj() - Get CMA GEM object for framebuffer
+> + * drm_fb_dma_get_gem_obj() - Get CMA GEM object for framebuffer
+>   * @fb: The framebuffer
+>   * @plane: Which plane
+>   *
+> @@ -38,7 +38,7 @@
+>   *
+>   * This function will usually be called from the CRTC callback functions.
+>   */
+> -struct drm_gem_cma_object *drm_fb_cma_get_gem_obj(struct drm_framebuffer *fb,
+> +struct drm_gem_cma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
+>  						  unsigned int plane)
+>  {
+>  	struct drm_gem_object *gem;
+> @@ -49,20 +49,20 @@ struct drm_gem_cma_object *drm_fb_cma_get_gem_obj(struct drm_framebuffer *fb,
+>  
+>  	return to_drm_gem_cma_obj(gem);
+>  }
+> -EXPORT_SYMBOL_GPL(drm_fb_cma_get_gem_obj);
+> +EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_obj);
+>  
+>  /**
+> - * drm_fb_cma_get_gem_addr() - Get physical address for framebuffer, for pixel
+> + * drm_fb_dma_get_gem_addr() - Get physical address for framebuffer, for pixel
+
+It's actually the DMA address, not the physical address, so you could
+fix it while at it.
+
+>   * formats where values are grouped in blocks this will get you the beginning of
+>   * the block
+>   * @fb: The framebuffer
+>   * @state: Which state of drm plane
+>   * @plane: Which plane
+> - * Return the CMA GEM address for given framebuffer.
+> + * Return the DMA GEM address for given framebuffer.
+>   *
+>   * This function will usually be called from the PLANE callback functions.
+>   */
+> -dma_addr_t drm_fb_cma_get_gem_addr(struct drm_framebuffer *fb,
+> +dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
+>  				   struct drm_plane_state *state,
+>  				   unsigned int plane)
+>  {
+> @@ -77,7 +77,7 @@ dma_addr_t drm_fb_cma_get_gem_addr(struct drm_framebuffer *fb,
+>  	u32 block_start_y;
+>  	u32 num_hblocks;
+>  
+> -	obj = drm_fb_cma_get_gem_obj(fb, plane);
+> +	obj = drm_fb_dma_get_gem_obj(fb, plane);
+>  	if (!obj)
+>  		return 0;
+>  
+> @@ -98,10 +98,10 @@ dma_addr_t drm_fb_cma_get_gem_addr(struct drm_framebuffer *fb,
+>  
+>  	return paddr;
+>  }
+> -EXPORT_SYMBOL_GPL(drm_fb_cma_get_gem_addr);
+> +EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
+>  
+>  /**
+> - * drm_fb_cma_sync_non_coherent - Sync GEM object to non-coherent backing
+> + * drm_fb_dma_sync_non_coherent - Sync GEM object to non-coherent backing
+>   *	memory
+>   * @drm: DRM device
+>   * @old_state: Old plane state
+> @@ -112,7 +112,7 @@ EXPORT_SYMBOL_GPL(drm_fb_cma_get_gem_addr);
+>   * in a plane's .atomic_update ensures that all the data in the backing
+>   * memory have been written to RAM.
+>   */
+> -void drm_fb_cma_sync_non_coherent(struct drm_device *drm,
+> +void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
+>  				  struct drm_plane_state *old_state,
+>  				  struct drm_plane_state *state)
+>  {
+> @@ -125,11 +125,11 @@ void drm_fb_cma_sync_non_coherent(struct drm_device *drm,
+>  	size_t nb_bytes;
+>  
+>  	for (i = 0; i < finfo->num_planes; i++) {
+> -		cma_obj = drm_fb_cma_get_gem_obj(state->fb, i);
+> +		cma_obj = drm_fb_dma_get_gem_obj(state->fb, i);
+>  		if (!cma_obj->map_noncoherent)
+>  			continue;
+>  
+> -		daddr = drm_fb_cma_get_gem_addr(state->fb, state, i);
+> +		daddr = drm_fb_dma_get_gem_addr(state->fb, state, i);
+>  		drm_atomic_helper_damage_iter_init(&iter, old_state, state);
+>  
+>  		drm_atomic_for_each_plane_damage(&iter, &clip) {
+> @@ -142,4 +142,4 @@ void drm_fb_cma_sync_non_coherent(struct drm_device *drm,
+>  		}
+>  	}
+>  }
+> -EXPORT_SYMBOL_GPL(drm_fb_cma_sync_non_coherent);
+> +EXPORT_SYMBOL_GPL(drm_fb_dma_sync_non_coherent);
+
+[snip]
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+-- 
+Regards,
+
+Laurent Pinchart
