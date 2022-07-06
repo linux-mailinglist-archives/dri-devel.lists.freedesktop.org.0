@@ -1,40 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E43569208
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 20:42:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A99569270
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 21:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABCE11B0A0;
-	Wed,  6 Jul 2022 18:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5953B11BD23;
+	Wed,  6 Jul 2022 19:12:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A00511B088
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 18:42:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=4l3ZvU4NeEg70mOy/QdaF5EMsczj8SOOaqrfx4OWw+w=; b=NXcsWHSchhBzKCNrRLKYwSPT2f
- GApL1MraIqrTVq94Qn5899yWJgu725ZZMbJ+yEB5VUBrlM7ny2yW7cr8P19V4f8l7ej0WMVACOlPK
- 4/wz37oFaAUfGrgXwF0lvgDmZc3o7frxfBgm1+gxMaiFFZVXwoH3l1oLgTheQqqa74r9y2MYF97dj
- EOqh+suY/K+KeLqabM5FVjGee8BT/PQl4MpamY2baqJk7Mra7EKRc8DqsXhEQ25zULpss51pHILtB
- 0rU8423dGPl5R8EmfoJP+1HD3HFH3Pd2nUP0KfRaAaKkU7HRYBnYSF/9KuWo59Zn9CSSZxjHfiszX
- X61PmUyQ==;
-Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1o99yo-001so3-2w; Wed, 06 Jul 2022 18:42:30 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: xlnx: add <linux/io.h> for readl/writel
-Date: Wed,  6 Jul 2022 11:42:24 -0700
-Message-Id: <20220706184224.29116-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.36.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D79C11BD23
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 19:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657134744; x=1688670744;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=DZdncc++SX6z3qvBj/0o2B0yIiwG2l2LTgHc5TLKSbU=;
+ b=SYpH9nlHR5VcTzwpRet5cr9M6bBK0l2N5ooZNh0vWVA/LJsqusajdKSe
+ wtygPD4QuUV+7b1eTPFbSs29Y/apsQqiQoacGVz5Edip4ManverpF8LVY
+ 71L7oY83EK7ZfUVHFMBbiobTuvxFApbMUeAKf5D3Bs25GrF6l8xq478cB
+ DgON9MhOUt/lhpWI0kO6NVYnBSi0KP0YAJvgCX1nAMZQ6GE4AiS2C7JiC
+ UH+i2UsqNwP2UDpCJGrKG2+jbFAKYAIo1PE8b6oIbQjuepwDBJeW0/n/0
+ V+DJBgSPAXFkVIQefGkCvOOZAMZQpdCJ54Vww/jxBcyllSMdmuk56HB2W w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="347830722"
+X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; d="scan'208";a="347830722"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 12:12:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; d="scan'208";a="568197894"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.161])
+ by orsmga006.jf.intel.com with SMTP; 06 Jul 2022 12:12:20 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 06 Jul 2022 22:12:19 +0300
+Date: Wed, 6 Jul 2022 22:12:19 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] drm: xlnx: add <linux/io.h> for readl/writel
+Message-ID: <YsXekxslwDbfk4ax@intel.com>
+References: <20220706184224.29116-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220706184224.29116-1-rdunlap@infradead.org>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,42 +59,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Hyun Kwon <hyun.kwon@xilinx.com>,
- David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- patches@lists.linux.dev, Michal Simek <michal.simek@xilinx.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Michal Simek <michal.simek@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a header file to prevent build errors:
+On Wed, Jul 06, 2022 at 11:42:24AM -0700, Randy Dunlap wrote:
+> Add a header file to prevent build errors:
+> 
+> ../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_write’:
+> ../drivers/gpu/drm/xlnx/zynqmp_dp.c:335:9: error: implicit declaration of function ‘writel’ [-Werror=implicit-function-declaration]
+>   335 |         writel(val, dp->iomem + offset);
+> ../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_read’:
+> ../drivers/gpu/drm/xlnx/zynqmp_dp.c:340:16: error: implicit declaration of function ‘readl’ [-Werror=implicit-function-declaration]
+>   340 |         return readl(dp->iomem + offset);
+> 
+> Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
 
-../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_write’:
-../drivers/gpu/drm/xlnx/zynqmp_dp.c:335:9: error: implicit declaration of function ‘writel’ [-Werror=implicit-function-declaration]
-  335 |         writel(val, dp->iomem + offset);
-../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_read’:
-../drivers/gpu/drm/xlnx/zynqmp_dp.c:340:16: error: implicit declaration of function ‘readl’ [-Werror=implicit-function-declaration]
-  340 |         return readl(dp->iomem + offset);
+Should be
+Fixes: a204f9743b68 ("drm: Remove linux/i2c.h from drm_crtc.h")
+probably?
 
-Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: linux-arm-kernel@lists.infradead.org
----
- drivers/gpu/drm/xlnx/zynqmp_dp.c |    1 +
- 1 file changed, 1 insertion(+)
+allmodconfig caught a few other drivers needing io.h but somehow
+this one built for me without that header on both arm and x86.
+Was this on some other architecture, or maybe there's some weird
+config dependency that pulls in io.h for allmodconfig?
 
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -25,6 +25,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-+#include <linux/io.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Michal Simek <michal.simek@xilinx.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+> +#include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+
+-- 
+Ville Syrjälä
+Intel
