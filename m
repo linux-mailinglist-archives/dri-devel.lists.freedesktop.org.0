@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941E4569277
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 21:15:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA20569278
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 21:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7888511B1AE;
-	Wed,  6 Jul 2022 19:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F251010E52D;
+	Wed,  6 Jul 2022 19:15:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E94113935
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 19:14:45 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- x18-20020a17090a8a9200b001ef83b332f5so11056094pjn.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 12:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rmyIuGz4xgr5RGO7XFrd0kJyn+/e00wc5WntWtW/Wbo=;
- b=lONXGA0Oa94we1VM7SSu7upm24Oh6HuikccFcEH52YRtWEe8CoVmmJw6AlYuEhyklh
- GhsqRocP4eFVQvD8NknHWpsvJ20dKMNLUp8qwtWaozNM7OA2uVx9cz3ROUU1epoBvz9S
- 07+zyYz+BjlojJI3SZUG4GbsjOnPHRpGMAUp0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rmyIuGz4xgr5RGO7XFrd0kJyn+/e00wc5WntWtW/Wbo=;
- b=zkDVFc0e8HAeBW3o489npP2b9wA/h3jxwcjAIEd2YijCcbuxRiZW9Eo9W1CXRGt6LN
- KlD6mbqQTuuUUjdRPE4wXamzRvx0mzm4/BhGqy6aMzEqnb2ruzTzdHHNvsNmZAs2Z6HE
- SlBUYXNEA908mQGwEuWqsOd0MM0IRuTj5XnBNW2epYtk/PwPKgBtD6bTjp1W+l7obSqm
- YmkCtSUJTS6GtxuV0RagmQG7rr8dHPkzEeQzBN0mdTB4UVKUlPJzwGTvbs2oUf5M5CDT
- GxomAZ2AxsNw309+pMWFIjnwZemLBF7ACyENJQsBlV7Oqv1Skzk6RR7qncMhuvXdHh/m
- Np7A==
-X-Gm-Message-State: AJIora+pGcpSWze+XY3Opm0Ub83U3+khXUC5LMhz8BBt6Ue5dZCzEM7+
- kC1PJTBNDN2UDcAPv+RgKVEEjw==
-X-Google-Smtp-Source: AGRyM1s4Ik+wpzNwQpGqqCRJEELSjtoAI7uTiFsZlXwgvkaUnMOhJxHPZHTcNWqz5GJbIRFES3lg7A==
-X-Received: by 2002:a17:902:988b:b0:16b:fae3:fcd5 with SMTP id
- s11-20020a170902988b00b0016bfae3fcd5mr7996093plp.109.1657134884659; 
- Wed, 06 Jul 2022 12:14:44 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:a20f:cad4:2229:c6bb])
- by smtp.gmail.com with ESMTPSA id
- n9-20020a17090b0d0900b001ef8912f763sm7051714pjz.7.2022.07.06.12.14.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 12:14:44 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH] drm/msm/dsi: Set panel orientation when directly connected
-Date: Wed,  6 Jul 2022 12:14:42 -0700
-Message-Id: <20220706191442.1150634-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB23D10E52D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 19:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=KfA7rQZnJC7/yvlTVPzr+t4ZswOKj5E0Kw9j6v3yIfw=; b=1NX6lk0iaqz4IM75k5SCvTRqR1
+ WaTcvvKRSvGjupYn3ybjdUvewO4v171dyH3cSS6r1H5dSIwsnIH9am2iBB0iHiFIOPqetwLvt11x+
+ DZ97m06d7DMeFx0KXdoP+MHat/B6T1vlLwMBbPHOfChUBxIZzbew91t/Fd6GtkyJl3Z2s+jU68/Jx
+ z1x7RbAsXdOs3NP8dm0PHlIOzNZg78Pqa8Pu/PfFecCJpVvLsT4DmJaWFsuVpDK7bPUurmDj/61Zd
+ ZZJInKqMJAkemeN72mXukq28wCM18f4CUXaD/kVoQuegrjPL9zWHtDaJxxbOQaMrxDqBlzhvep29/
+ 8G/ikdzQ==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1o9AUe-00CAyZ-Sw; Wed, 06 Jul 2022 19:15:25 +0000
+Message-ID: <7669696e-16ec-21fc-a992-92a5a77babce@infradead.org>
+Date: Wed, 6 Jul 2022 12:15:23 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm: xlnx: add <linux/io.h> for readl/writel
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20220706184224.29116-1-rdunlap@infradead.org>
+ <YsXekxslwDbfk4ax@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <YsXekxslwDbfk4ax@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,45 +52,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Hsin-Yi Wang <hsinyi@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, David Airlie <airlied@linux.ie>,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Michal Simek <michal.simek@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the panel orientation in drm when the panel is directly connected,
-i.e. we're not using an external bridge. The external bridge case is
-already handled by the panel bridge code, so we only update the path we
-take when the panel is directly connected/internal. This silences a
-warning splat coming from __drm_mode_object_add() on Wormdingler boards.
 
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
 
-This relies on commit 5e41b01a7808 ("drm/panel: Add an API to allow drm
-to set orientation from panel") which is in drm-misc
+On 7/6/22 12:12, Ville Syrjälä wrote:
+> On Wed, Jul 06, 2022 at 11:42:24AM -0700, Randy Dunlap wrote:
+>> Add a header file to prevent build errors:
+>>
+>> ../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_write’:
+>> ../drivers/gpu/drm/xlnx/zynqmp_dp.c:335:9: error: implicit declaration of function ‘writel’ [-Werror=implicit-function-declaration]
+>>   335 |         writel(val, dp->iomem + offset);
+>> ../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_read’:
+>> ../drivers/gpu/drm/xlnx/zynqmp_dp.c:340:16: error: implicit declaration of function ‘readl’ [-Werror=implicit-function-declaration]
+>>   340 |         return readl(dp->iomem + offset);
+>>
+>> Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
+> 
+> Should be
+> Fixes: a204f9743b68 ("drm: Remove linux/i2c.h from drm_crtc.h")
+> probably?
 
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 ++
- 1 file changed, 2 insertions(+)
+Ack, thanks.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index cb84d185d73a..9333f7095acd 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -268,6 +268,8 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
- 		return PTR_ERR(panel);
- 	}
- 
-+	drm_connector_set_orientation_from_panel(conn, panel);
-+
- 	if (!panel || !IS_BONDED_DSI())
- 		goto out;
- 
+> 
+> allmodconfig caught a few other drivers needing io.h but somehow
+> this one built for me without that header on both arm and x86.
+> Was this on some other architecture, or maybe there's some weird
+> config dependency that pulls in io.h for allmodconfig?
 
-base-commit: 15b9ca1641f0c3cd74885280331e9172c62a125e
+x86_64 in linux-next 20220706. (some randconfig)
+
+> 
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+>> Cc: David Airlie <airlied@linux.ie>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: Michal Simek <michal.simek@xilinx.com>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> ---
+>>  drivers/gpu/drm/xlnx/zynqmp_dp.c |    1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>> @@ -25,6 +25,7 @@
+>>  #include <linux/clk.h>
+>>  #include <linux/delay.h>
+>>  #include <linux/device.h>
+>> +#include <linux/io.h>
+>>  #include <linux/module.h>
+>>  #include <linux/platform_device.h>
+>>  #include <linux/pm_runtime.h>
+> 
+
 -- 
-https://chromeos.dev
-
+~Randy
