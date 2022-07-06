@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32E9568E4C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 17:53:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0F4568E4F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 17:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C5E11B186;
-	Wed,  6 Jul 2022 15:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E84E11B35E;
+	Wed,  6 Jul 2022 15:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643E711B186
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 15:53:29 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id i18so26628064lfu.8
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 08:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=X7T59me0wj8EL8IWcKYPdBXPVV7Xe/PyIIDPA9tAhFM=;
- b=dl4RsWOOioDPEEZSV8Q6d1C3NeXb2s6TuE2AtCTvg1n2n6/6YwKz2nxQSaM9tjfRx4
- hayZOC68rIk7ugJTK1DzmSsW6EQJqgtKirrG4qYdZ/XKCjidBQAJt8OVMxX0hOko2Yjw
- QOEQhj6uQKEJBMR6hkkKGUzYR0dRjysM309Gm6zgtiGXVtHLdPrIsQMf1rJrtyulksaX
- 0hPPbXPYnYCMQqlEtgabfJUdZGrLNLHxfgTzJFo73d+jRerPsesaK7CXHqsLf83WLseU
- V4VFhxLkQLh5PtSecTxnpY/eHIKb6ZbTuDhAbWf+/BEG8Z+Wx9yCavzKM1Y149j2SZHd
- mfwQ==
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48A2711B482;
+ Wed,  6 Jul 2022 15:53:50 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id k30so11712335edk.8;
+ Wed, 06 Jul 2022 08:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gwbqnUpjiSN4hgfIC7ffIeFKyZvoDEGRDTZHu+A2QaQ=;
+ b=ILrEVzPO9R1qY/womGdC0iB2h8cQstee4G6RPCy8IsBo5G+Oq1Ac4D3JEMDqXno5YZ
+ rFglDoNwKgK5Ahs8bN0iXQY4O5xB27jjUnHkySSsL57Ii34QAArVmX3OQekHTkkSSiRB
+ lDv7xx5uodVD6HJ2t6PVpYOHPl2h1WdPvty70Z6HrwMflqOXkgWnbVt8eI4WTxeM5L1+
+ h6j7f0LJ8E2EwJPhDutzUUJMM+MwW9MLyJ4qwQhfTDR9UGXJn3it3H1kXzCocDtQlz8V
+ EcrMmHqGrEZcZS5qLyv4QAPv8RvMVvgUYNGpB5zviOt1DErrU4n2KBj2EfHGsTOfRjfv
+ 8CTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=X7T59me0wj8EL8IWcKYPdBXPVV7Xe/PyIIDPA9tAhFM=;
- b=FPS3tHvAlMDJuaNWD/udUaMN5wN2C+J+IzmEbbtB4i+n7qaQ9CHT0cD5KO4bwz+C5s
- 3mYAbEreshK+HM5TzsdtMGxG3QdL6b+7SA5axRkls/faxWtGDb2ELOzolmuH68LeSfHJ
- EeVfQCNxjaIqR4qONfwwmQhsuEUDut6NQDDWo+4vfIRsf7WGMXQAlzheSepA6a75mPwl
- k4WXd3uKfsy6o+9WpSRn9qhjLn1v7PRZCqEP98bTC/QARxAaVDNghhMWeQgFATst1alD
- UhKrB9OXjufovzz+wqbnfOVzejYmvMbEJcadXyfLkKCvtaBdEmAIfszkkKW+8JO9nzU7
- 5VEw==
-X-Gm-Message-State: AJIora8p7gH1l1pvrnm4wgXo50mR1xItK20yeVxkswBrSYqlR3vh+Niy
- 12WKGMqkp2HdLUQ1XisXfKRitA==
-X-Google-Smtp-Source: AGRyM1v3k7cZraOuJLcFdr4BGuOWAHZA/5OiHqQ5QQb46JslGgrl4Cflu5asFPXT2Tam6Cs/eLAhpw==
-X-Received: by 2002:a05:6512:2210:b0:484:f174:bd51 with SMTP id
- h16-20020a056512221000b00484f174bd51mr4617778lfu.482.1657122808976; 
- Wed, 06 Jul 2022 08:53:28 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
- by smtp.gmail.com with ESMTPSA id
- cf6-20020a056512280600b0048724eb8cffsm211734lfb.255.2022.07.06.08.53.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 08:53:28 -0700 (PDT)
-Message-ID: <c23149f3-9070-8727-e30a-4a7a82794082@linaro.org>
-Date: Wed, 6 Jul 2022 17:53:27 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gwbqnUpjiSN4hgfIC7ffIeFKyZvoDEGRDTZHu+A2QaQ=;
+ b=id4CR8C2WSfccbxLUE2J91T3wrNhT9sDi4Vg01LlMTLToT1DCLsja9tsQRrystZ7uT
+ IUdH76WXv6T8oSZiakETf1dt7wVHNopvwwQUw18XFTAEvpjSFBPdvXwO/J4eyrs5+n8V
+ 8tv3IIC6UFLkXSXL2I8LY8oOHyHPTsh9jwGPxvuaUToiCaxwNKHOd+WkouMKyyUonqb+
+ xtECmqM85ujokPtADXEf+STSccJtAzq18COSgx4pHGwzXMbLJPixOxIFj3SXBZqwmV4J
+ XUi39MDXL4eTa4PhwGE1NqKQaprjGPPfNCl0J6o45haZlz+A/UoGZMX6KJCxOKOxJ0C0
+ GT+w==
+X-Gm-Message-State: AJIora+5ocqOedVqnuDK/8w7fzuuxxo/mXJhQWqk4oq0TExS0CuerYhb
+ O6I0n0cgyGxs1DT3lif1icpT/+sd77FaZymW3As=
+X-Google-Smtp-Source: AGRyM1uwT5QDUQoR6JIWgndHtR6Gp682jCxMwaMSkfBVcUtVDpJAybSMPRNGuI9Y7y3A8712mLoRkOZB/2rknVTIUzo=
+X-Received: by 2002:a05:6402:380a:b0:437:d11f:b8b0 with SMTP id
+ es10-20020a056402380a00b00437d11fb8b0mr55333549edb.425.1657122828767; Wed, 06
+ Jul 2022 08:53:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 4/4] dt-bindings: display/msm/mdp4: require 4 IOMMUs
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220706145222.1565238-1-dmitry.baryshkov@linaro.org>
- <20220706145222.1565238-5-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220706145222.1565238-5-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220706091329.62192-1-guozhengkui@vivo.com>
+ <5dc99a6e-569c-a736-9f64-ac632433da81@amd.com>
+In-Reply-To: <5dc99a6e-569c-a736-9f64-ac632433da81@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 6 Jul 2022 11:53:36 -0400
+Message-ID: <CADnq5_NLkSzg9PA+JHoCi+0+vtkVrSctGs=RPTBeYrW7YbyTgQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: remove repeated includes
+To: Harry Wentland <harry.wentland@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,22 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Guo Zhengkui <guozhengkui@vivo.com>, Leo Li <sunpeng.li@amd.com>,
+ zhengkui_guo@outlook.com, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jimmy Kizito <Jimmy.Kizito@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/07/2022 16:52, Dmitry Baryshkov wrote:
-> APQ8064, the only supported mdp4 platform, uses 4 IOMMUs for the MDP4
-> device. Update schema accordingly. When we have other MDP4 platforms,
-> this spec can be updated accordingly.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Applied.  Thanks!
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Best regards,
-Krzysztof
+On Wed, Jul 6, 2022 at 9:49 AM Harry Wentland <harry.wentland@amd.com> wrote:
+>
+> On 2022-07-06 05:13, Guo Zhengkui wrote:
+> > Remove a repeated "#include <drm/drm_print.h>"
+> >
+> > Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/os_types.h | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/os_types.h b/drivers/gpu/drm/amd/display/dc/os_types.h
+> > index 795dd486b6d6..6b88ae14f1f9 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/os_types.h
+> > +++ b/drivers/gpu/drm/amd/display/dc/os_types.h
+> > @@ -39,8 +39,6 @@
+> >  #include <drm/display/drm_dp_helper.h>
+> >  #include <drm/drm_print.h>
+> >
+> > -#include <drm/drm_print.h>
+> > -
+> >  #include "cgs_common.h"
+> >
+> >  #if defined(__BIG_ENDIAN) && !defined(BIGENDIAN_CPU)
+>
