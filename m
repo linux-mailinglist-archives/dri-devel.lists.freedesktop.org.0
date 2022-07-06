@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F30568C5A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 17:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8358F568C80
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 17:20:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74F1111B7C5;
-	Wed,  6 Jul 2022 15:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9006010F437;
+	Wed,  6 Jul 2022 15:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B8D011B7C5
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 15:09:20 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id fd6so19671797edb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 08:09:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tWkPAvso+ZOY5J8m11tm/D33qCyCvXMXIKAra4EHeoQ=;
- b=Ul3PKAfjjUI3een1wMpx82e0JWlIoNp6SACtn929e6XH1v+tLcuoBHS20ZPHavPmTJ
- owOy3ATFv3bBf3EkeLWvjyEHtapBIITsqw2PBSzi8BuBM4t7FC1cr57KK5G0BxjxK87H
- 7BYg/HKZyMk3qc4JUILB+ciIjjsFWRyd8xmH/IQW5EfBl5sucZknFy5u+nKU/9mNqLH7
- 40Uo8ZNQ237yq8efoNXOttqV8nGZA9UCLAjy3z9rNuIXOXNJgKxXh6MWhaZkaA89dktc
- SBPmA56oCaxH9kv7m/9N3k9Dz39SF8f2am/XbIz5cvK7RtayYwDe+ObwicChiz/o8Er6
- 8gJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tWkPAvso+ZOY5J8m11tm/D33qCyCvXMXIKAra4EHeoQ=;
- b=sGIkDRcBmVNNcaWyjyx8YH4LYWEEu5z0Tnh1G5cNtfmKT9Cqfq8UwNAnzzKgUCeRrD
- M6GsiAMUJ30fQlNYBR678wILRXdDl9mdG0GpxnoRPNou+d9qwFk8zC1DcHEyXeI2NDkr
- MAMi9wbb5gncTREebQJx3uWLNyOsN4SXh277R0FG5JQku0NDajzp8+qq0c2+kkyywf28
- t8upbZEbWoxRs35OE6nrCdzpQYRW5DN3LYzD4Nm5cEHv7L/6otaMAjArVdVfsIeisxki
- PUcP9Jn8RXjXjIhd0izPY+zxTWYxcRZHdScMovAxWjWcDkzvqSx10GFfEYocECKpm9qv
- AsNQ==
-X-Gm-Message-State: AJIora/TIAq1m2c1BlR6QLn37F/ZmIDCH2Ryc+E24tUsWyG7seNB80tJ
- cxHeAqOpMQVrmVYaUKxeCk0yv0prxGORIiC8D7MrNA==
-X-Google-Smtp-Source: AGRyM1tkptQtQ/hm9yp8mb1+Q6DRIbca8Q8vdZkFVa0SM0coRxgvEgzd94Ct1G0VXK9IXYeqB7jbG/DS5b6tI2+o1Z8=
-X-Received: by 2002:a05:6402:248c:b0:437:afe7:818b with SMTP id
- q12-20020a056402248c00b00437afe7818bmr54139444eda.239.1657120158562; Wed, 06
- Jul 2022 08:09:18 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E66B610F437
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 15:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1657120795;
+ bh=b+vt/0cGEYcZZG9BWVam5Ip3R961sQPxGZVgSe7MWj0=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=KxYkqTGKZCI/tspnJULL/opvxGa9gQzUjW4iKogMkmQFTuAYk9aeasjjGtKajq0RP
+ uD7j9uGS8Z6obGwGNg368LxEk10VmtiKJao307VjUv1O4/7dQTTwsv5bhet3IUHmrX
+ 6qmQIkCdogO8TerPkFu8uj5dBZj0GNyPbdKr3Bdg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.134.81]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRmjq-1o35Um3wAk-00THSi; Wed, 06
+ Jul 2022 17:19:55 +0200
+Message-ID: <1c8235c2-62ca-c464-76f6-b06db573adea@gmx.de>
+Date: Wed, 6 Jul 2022 17:19:54 +0200
 MIME-Version: 1.0
-References: <20220703184007.3488567-1-sam@ravnborg.org>
- <20220703184007.3488567-2-sam@ravnborg.org>
-In-Reply-To: <20220703184007.3488567-2-sam@ravnborg.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 6 Jul 2022 17:09:07 +0200
-Message-ID: <CAG3jFyvmMoi7iFaVi00XoXx71rE7WJ9oFcDfF7SiFOo1RPExng@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] drm/bridge: ti-sn65dsi86: Use atomic variants of
- drm_bridge_funcs
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] video: of_display_timing.h: include errno.h
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>
+References: <20220630173328.1369576-1-hsinyi@chromium.org>
+ <CAE-0n50Pe2=tYeuuhBVHsTV9BqU1huU-w-xMMn-1scj2OxBWbg@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAE-0n50Pe2=tYeuuhBVHsTV9BqU1huU-w-xMMn-1scj2OxBWbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:n2uCNbVzwhkQ9zgDVeIADvB/xMYqvgs2r8gEs29DdUD0FcmdWPV
+ fCn/APP0oFD8Ae1+JgXMBf0yEq5uP8cVusEGjVO5FImhwvHrvZVPsuDZwZ6Uoy2rgANeTIH
+ Fgk1DNLv2kpj/QqZJ54hM2mCw6wtNIWzPItpeJhMe96C6wn04G9j8/+YGXvmY/qvZO+MsaW
+ AKkfgA12Abd2P9HJmrh3g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wEaaUDar/Eo=:IzN8sQ8xQY6lLOBf6dPtaL
+ VJYnYKld5t6sQ97t4ftKIW3Y/eHAS9QgVnBa0uRN3710YXkemrbytArkZBug0OHrk368kLreY
+ 4bwoFCBuPglE0NCL91cIdGEvVDa8JIMv9AeEr3GVicRelAdYzxd06Kc7Hwa4qTZ4uJEzP9TCQ
+ yk9ti2/BtU7RWZ1hxbp+nvSY34dLmfSHH5uyOGlgM+G54JMzU1qrfWUQkToHUREkuo52PYbsV
+ jV8wHewZP1LMcg5ClP5iKdqT2wW/s9D2uH9xAtATh7CB7eo0WhRNtvXlD/hxiTY+cFa9e7T9v
+ eet4dKpASuEkLO6UdCFgtY7JRPVGUio5NJj8PHIkfUvH7RdCYBHo6rs1m0UvoLLUUQ6EcyuGF
+ TsiToVzVQunZKLLY9O8yJFPqjBpbYwq3vRrfuIfbXRl0qtMc3QLfiC7K1KMLBYpDdgqhoryvT
+ +lBuU2CrgTvsgQeac6B2ay4qOm4ueU1g2sGYzIPSIzdbaCJ1YL8N4xEATCFF21Eg6M+VS1Oui
+ Q7Poqk5tRS3SplFAcWa4PQluPt8F7rESAi0+SYl2Xm9Z6i2jTYmCbPuVfvd7nLkEEmz2aM9L9
+ G5F+EPDb+IzVPy84/DwsnvJxsjPJ+7ktc7BaoSiT/4qvLY43uPmTfJwbRjOL+J61fhkDbw9KA
+ xyg5dYcfdU3ugvqc5hw+wuqnM5G+hBiMV8c05NY7J1BvPIlziiK8VRbBaMqA4yuJghUbJJ9zf
+ VoMWfuA0pNqW17CwFKLqrbWGVfgJF17Za4DjhuuyltT4pyQxLuuEczKpkUcpwho491DT542bA
+ Bm1CBBj6/ZVkBAkqCbOSwr3zSRvrlkN0lUeRGDYCAm0TVK0G1NiwHJ0tkAVMJKR4faTyXVt4P
+ lmw9PTwL9RcYLc7nCp1y8XAZE7JXrn/3v+2yo1L6oFF9Nr7QenF22xWdK7wm+b9Z/FF5RgIGH
+ 9Pu07Xm+0Yri9fHkiL2RmvKjZCIUe0BLUQwQBKvxJBbbJcO5cSXqHacDBe5zLmL2579L/+3A3
+ 4nvn2Ktq+yA1f4Eqi86RTql41FWMYTteu44ANcnwuIc+h/2wBWIvnitdsApkTYRD1lSS+ZkDi
+ oF8lV53sGUMBBUxoDA1p31ajj2svwdbEThUHCwSsORB23/OJ0OlqTs8DQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,105 +72,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 3 Jul 2022 at 20:40, Sam Ravnborg <sam@ravnborg.org> wrote:
+On 7/1/22 01:27, Stephen Boyd wrote:
+> Quoting Hsin-Yi Wang (2022-06-30 10:33:29)
+>> If CONFIG_OF is not enabled, default of_get_display_timing() returns an
+>> errno, so include the header.
+>>
+>> Fixes: 422b67e0b31a ("videomode: provide dummy inline functions for !CO=
+NFIG_OF")
+>> Suggested-by: Stephen Boyd <swboyd@chromium.org>
+>> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+>> ---
 >
-> Move away from the deprecated enable/disable operations in
-> drm_bridge_funcs and enable atomic use.
->
-> v3:
->  - Drop use of DRM_BRIDGE_STATE_OPS
->
-> v2:
->  - fix build (kernel test robot <lkp@intel.com>)
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 +++++++++++++++--------
->  1 file changed, 15 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index c2b9227f7042..d6dd4d99a229 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -752,7 +752,8 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
->         return MODE_OK;
->  }
->
-> -static void ti_sn_bridge_disable(struct drm_bridge *bridge)
-> +static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
-> +                                       struct drm_bridge_state *old_bridge_state)
->  {
->         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->
-> @@ -1011,7 +1012,8 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
->         return ret;
->  }
->
-> -static void ti_sn_bridge_enable(struct drm_bridge *bridge)
-> +static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
-> +                                      struct drm_bridge_state *old_bridge_state)
->  {
->         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->         const char *last_err_str = "No supported DP rate";
-> @@ -1080,7 +1082,8 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->                            VSTREAM_ENABLE);
->  }
->
-> -static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
-> +static void ti_sn_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> +                                          struct drm_bridge_state *old_bridge_state)
->  {
->         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->
-> @@ -1093,7 +1096,8 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
->         usleep_range(100, 110);
->  }
->
-> -static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
-> +static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
-> +                                            struct drm_bridge_state *old_bridge_state)
->  {
->         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->
-> @@ -1114,10 +1118,13 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->         .attach = ti_sn_bridge_attach,
->         .detach = ti_sn_bridge_detach,
->         .mode_valid = ti_sn_bridge_mode_valid,
-> -       .pre_enable = ti_sn_bridge_pre_enable,
-> -       .enable = ti_sn_bridge_enable,
-> -       .disable = ti_sn_bridge_disable,
-> -       .post_disable = ti_sn_bridge_post_disable,
-> +       .atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
-> +       .atomic_enable = ti_sn_bridge_atomic_enable,
-> +       .atomic_disable = ti_sn_bridge_atomic_disable,
-> +       .atomic_post_disable = ti_sn_bridge_atomic_post_disable,
-> +       .atomic_reset = drm_atomic_helper_bridge_reset,
-> +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->  };
->
->  static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-> --
-> 2.34.1
->
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Applied to fbdev git tree.
 
-Applied to drm-misc-next.
+Thanks!
+Helge
+
