@@ -2,55 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9B05688C5
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 14:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0ED5688CA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 14:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBD811ADF3;
-	Wed,  6 Jul 2022 12:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1771E11B01C;
+	Wed,  6 Jul 2022 12:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
- [IPv6:2607:f8b0:4864:20::e32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A33D11ADAE
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 12:56:16 +0000 (UTC)
-Received: by mail-vs1-xe32.google.com with SMTP id j6so15015828vsi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 05:56:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ftHZZjzjHuQ5RstQIIDyF6vKwdb+4jCrB5fE7wJXhXI=;
- b=OYMHe00vhSCdQKounufbbnq7t4ywQ/6Qz1qrQd965AUAXyEOlAWrR9cwKIK/kx6wc9
- dqafYJyTSY+T9AZIcn5RnkMFQ1uVu+SI2QMxoF36hlh4WBXbaOzx1n5OOeBH9ihVB3M4
- caIlT0KaYNUnbxTywtFHT8PYllnBRE0fbPRZQ=
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB62211B01F
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 12:57:39 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id bx13so18367155ljb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 05:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=q4qL646g+dPV/1dAguuPRJHbp+riKG5TWuUodAczhNs=;
+ b=bLFBOIfT+FRUTzf2Ks12yMYU4s5V4up/R+PtWt8nbikcgt9NCOKMfeLcdKDhkhwl0v
+ 91rDCPlPZS7N9fZLgJSZrlP6l5RFxWukCoOwWF/sprACqs8TD/XVCx43j+jP8H3lLGTm
+ ZrK3B3B+TDwa/pOdvV2HLijpVWPoPaloRYZU8Fv9moyRt7Kle/xZ8fGEkqi1D4J246oi
+ MqyTtkToqlrktl174U3Gbevdic1nFeZ+s+tmH/PvEoNxP0TXIeQkz7lEdjwpa+eGifdX
+ 0EuUbUfBlUiRf6dAUO9dmot/C/lRCBzbt1gylFiaKKRy/TWVps3SLOE0I7h2k71U94Qq
+ lWLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ftHZZjzjHuQ5RstQIIDyF6vKwdb+4jCrB5fE7wJXhXI=;
- b=vNh4PsmS2kdUMSCEkFZVU8dSg1FNzIWVdcNw543qF88gXOaBeaxnbDosfIcPwAm53i
- dz265QXb3fZTfT/KWAuxG/VK2Q/4xvggHf3HRlWI2l6qeBUvnNPE7V9D7vSTdlvSUtba
- huLzLSHmSA/L1M801Rc9mpEVTFyTEq+eb+IweUAoUloD76S1DH/OvMYnLqmV1BjZKUQc
- AUXew/Bn3ZXeuMfX7sI351sfW8bHZee7m81VzgprpaOrlOfM41AWTx/+PHN0jN6+jKdH
- f84lFqnAEQLTSxb1dRRuEO3pgDqu9FtyJEWlFfIJBrMN0KAloLW9dxjTeoSDq0YrZCxV
- ylMw==
-X-Gm-Message-State: AJIora/aZIMQgGtj5d0xmXXkaIdUZbngLwqQXNz2YTjaA9hKNj27psD9
- PqhfYuFmR5c0cn0DupInqPySM/6+3X6A186z7iGt/w==
-X-Google-Smtp-Source: AGRyM1v8+1lLl6CxRomPKuorDgyLBosxmWFekpHYOOEPWv1JdKZP/TrygR3Ms8/Co+uxT6oA8JlZ8VyKJzwG6s7mGJ0=
-X-Received: by 2002:a67:e196:0:b0:356:f35c:a5d with SMTP id
- e22-20020a67e196000000b00356f35c0a5dmr5343260vsl.19.1657112175366; Wed, 06
- Jul 2022 05:56:15 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=q4qL646g+dPV/1dAguuPRJHbp+riKG5TWuUodAczhNs=;
+ b=PrS+hC/F7LB62bTfQo0tQJP6UVI0FG3akooQuT5xHSY6aXFuR8WXb9bTK4Tfi3FljT
+ VfMb4wLDxBRSTUFy4/LTx7iVGCP1ljENe322cr/1BiJ/9K61n6KUrw9sTvcM4bhER51A
+ ulgABn6kueIrn3vpM8VL+hqeYpGhIQQVX5NsW9AoebrcmYeEi0Gvc3n/PkmNHO9TeypK
+ A8TAf5Tr8kfz5EqgCcq5400A18XfFDfh33Wb/oQdoKlYcnxfQ9h6dnwwgKUaYIo+vcKt
+ 1N6sooeBnag74TL+mpRAKZRlUfmE0wOaem7GOtxTd4ehKoWQoN4DOeyb8jxydSKa9w2i
+ klEw==
+X-Gm-Message-State: AJIora/vvNaiSwiP1QYLJr2ud0z2p2aVOyjL2/cvX3CiAPW700M/HQIb
+ P8KP5kQ8EhEE5uA4HfqV5BnotQ==
+X-Google-Smtp-Source: AGRyM1sxSzE4RVFE/z7AFhVcj2m8K5D5n91eVpcb8YK/KiiDH7f5ktCSCDvDHHo9EBFmBkwiBIRyzg==
+X-Received: by 2002:a2e:3215:0:b0:25a:93bb:f801 with SMTP id
+ y21-20020a2e3215000000b0025a93bbf801mr23378514ljy.489.1657112258181; 
+ Wed, 06 Jul 2022 05:57:38 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ c25-20020ac24159000000b00478f174c598sm6268148lfi.95.2022.07.06.05.57.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 05:57:37 -0700 (PDT)
+Message-ID: <6130f39d-21b6-145d-8e6b-26c2f4b89e88@linaro.org>
+Date: Wed, 6 Jul 2022 15:57:36 +0300
 MIME-Version: 1.0
-References: <20220629160550.433980-1-hsinyi@chromium.org>
- <20220629160550.433980-2-hsinyi@chromium.org>
- <20220706022926.GA2357796@anxtwsw-Precision-3640-Tower>
- <CAG3jFyu2KObuc5CiFFK=NzkE1LOTSFVoA3mNyY6r1aKs2SU3ow@mail.gmail.com>
-In-Reply-To: <CAG3jFyu2KObuc5CiFFK=NzkE1LOTSFVoA3mNyY6r1aKs2SU3ow@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Wed, 6 Jul 2022 20:55:49 +0800
-Message-ID: <CAJMQK-gaOPJeSSionbG=WXvf9adF6ZFYeWV3duqcu+3TCtfXcA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/bridge: anx7625: Convert to
- devm_i2c_new_dummy_device()
-To: Robert Foss <robert.foss@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 6/7] dt-bindings: msm: dsi: Add missing clocks to 28nm DSI
+ PHY YAML
+Content-Language: en-GB
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
+ <20220630120845.3356144-7-bryan.odonoghue@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220630120845.3356144-7-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,172 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Xin Ji <xji@analogixsemi.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ quic_mkrishn@quicinc.com, swboyd@chromium.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 6, 2022 at 8:31 PM Robert Foss <robert.foss@linaro.org> wrote:
->
-> Hey Hsin-Yi,
->
-> On Wed, 6 Jul 2022 at 04:29, Xin Ji <xji@analogixsemi.com> wrote:
-> >
-> > Hi Hsin-Yi, thanks for your patch, looks good to me.
-> >
-> > Reviewed-by: Xin Ji <xji@analogixsemi.com>
-> >
-> > On Thu, Jun 30, 2022 at 12:05:47AM +0800, Hsin-Yi Wang wrote:
-> > > Simplify the resource management.
-> > >
-> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 96 +++++++----------------
-> > >  1 file changed, 27 insertions(+), 69 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > index 3710fa9ee0acd..f89e8151475f7 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > @@ -2436,82 +2436,44 @@ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
-> > >  static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
-> > >                                             struct i2c_client *client)
-> > >  {
-> > > -     int err = 0;
-> > > +     struct device *dev = &ctx->client->dev;
-> > >
-> > > -     ctx->i2c.tx_p0_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                  TX_P0_ADDR >> 1);
-> > > +     ctx->i2c.tx_p0_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             TX_P0_ADDR >> 1);
-> > >       if (IS_ERR(ctx->i2c.tx_p0_client))
-> > >               return PTR_ERR(ctx->i2c.tx_p0_client);
-> > >
-> > > -     ctx->i2c.tx_p1_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                  TX_P1_ADDR >> 1);
-> > > -     if (IS_ERR(ctx->i2c.tx_p1_client)) {
-> > > -             err = PTR_ERR(ctx->i2c.tx_p1_client);
-> > > -             goto free_tx_p0;
-> > > -     }
-> > > +     ctx->i2c.tx_p1_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             TX_P1_ADDR >> 1);
-> > > +     if (IS_ERR(ctx->i2c.tx_p1_client))
-> > > +             return PTR_ERR(ctx->i2c.tx_p1_client);
-> > >
-> > > -     ctx->i2c.tx_p2_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                  TX_P2_ADDR >> 1);
-> > > -     if (IS_ERR(ctx->i2c.tx_p2_client)) {
-> > > -             err = PTR_ERR(ctx->i2c.tx_p2_client);
-> > > -             goto free_tx_p1;
-> > > -     }
-> > > +     ctx->i2c.tx_p2_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             TX_P2_ADDR >> 1);
-> > > +     if (IS_ERR(ctx->i2c.tx_p2_client))
-> > > +             return PTR_ERR(ctx->i2c.tx_p2_client);
-> > >
-> > > -     ctx->i2c.rx_p0_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                  RX_P0_ADDR >> 1);
-> > > -     if (IS_ERR(ctx->i2c.rx_p0_client)) {
-> > > -             err = PTR_ERR(ctx->i2c.rx_p0_client);
-> > > -             goto free_tx_p2;
-> > > -     }
-> > > +     ctx->i2c.rx_p0_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             RX_P0_ADDR >> 1);
-> > > +     if (IS_ERR(ctx->i2c.rx_p0_client))
-> > > +             return PTR_ERR(ctx->i2c.rx_p0_client);
-> > >
-> > > -     ctx->i2c.rx_p1_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                  RX_P1_ADDR >> 1);
-> > > -     if (IS_ERR(ctx->i2c.rx_p1_client)) {
-> > > -             err = PTR_ERR(ctx->i2c.rx_p1_client);
-> > > -             goto free_rx_p0;
-> > > -     }
-> > > +     ctx->i2c.rx_p1_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             RX_P1_ADDR >> 1);
-> > > +     if (IS_ERR(ctx->i2c.rx_p1_client))
-> > > +             return PTR_ERR(ctx->i2c.rx_p1_client);
-> > >
-> > > -     ctx->i2c.rx_p2_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                  RX_P2_ADDR >> 1);
-> > > -     if (IS_ERR(ctx->i2c.rx_p2_client)) {
-> > > -             err = PTR_ERR(ctx->i2c.rx_p2_client);
-> > > -             goto free_rx_p1;
-> > > -     }
-> > > +     ctx->i2c.rx_p2_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             RX_P2_ADDR >> 1);
-> > > +     if (IS_ERR(ctx->i2c.rx_p2_client))
-> > > +             return PTR_ERR(ctx->i2c.rx_p2_client);
-> > >
-> > > -     ctx->i2c.tcpc_client = i2c_new_dummy_device(client->adapter,
-> > > -                                                 TCPC_INTERFACE_ADDR >> 1);
-> > > -     if (IS_ERR(ctx->i2c.tcpc_client)) {
-> > > -             err = PTR_ERR(ctx->i2c.tcpc_client);
-> > > -             goto free_rx_p2;
-> > > -     }
-> > > +     ctx->i2c.tcpc_client = devm_i2c_new_dummy_device(dev, client->adapter,
-> > > +                                             TCPC_INTERFACE_ADDR >> 1);
-> > > +     if (IS_ERR(ctx->i2c.tcpc_client))
-> > > +             return PTR_ERR(ctx->i2c.tcpc_client);
-> > >
-> > >       return 0;
-> > > -
-> > > -free_rx_p2:
-> > > -     i2c_unregister_device(ctx->i2c.rx_p2_client);
-> > > -free_rx_p1:
-> > > -     i2c_unregister_device(ctx->i2c.rx_p1_client);
-> > > -free_rx_p0:
-> > > -     i2c_unregister_device(ctx->i2c.rx_p0_client);
-> > > -free_tx_p2:
-> > > -     i2c_unregister_device(ctx->i2c.tx_p2_client);
-> > > -free_tx_p1:
-> > > -     i2c_unregister_device(ctx->i2c.tx_p1_client);
-> > > -free_tx_p0:
-> > > -     i2c_unregister_device(ctx->i2c.tx_p0_client);
-> > > -
-> > > -     return err;
-> > > -}
-> > > -
-> > > -static void anx7625_unregister_i2c_dummy_clients(struct anx7625_data *ctx)
-> > > -{
-> > > -     i2c_unregister_device(ctx->i2c.tx_p0_client);
-> > > -     i2c_unregister_device(ctx->i2c.tx_p1_client);
-> > > -     i2c_unregister_device(ctx->i2c.tx_p2_client);
-> > > -     i2c_unregister_device(ctx->i2c.rx_p0_client);
-> > > -     i2c_unregister_device(ctx->i2c.rx_p1_client);
-> > > -     i2c_unregister_device(ctx->i2c.rx_p2_client);
-> > > -     i2c_unregister_device(ctx->i2c.tcpc_client);
-> > >  }
-> > >
-> > >  static int __maybe_unused anx7625_runtime_pm_suspend(struct device *dev)
-> > > @@ -2723,8 +2685,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
-> > >       if (!platform->pdata.low_power_mode)
-> > >               pm_runtime_put_sync_suspend(&client->dev);
-> > >
-> > > -     anx7625_unregister_i2c_dummy_clients(platform);
-> > > -
-> > >  free_wq:
-> > >       if (platform->workqueue)
-> > >               destroy_workqueue(platform->workqueue);
-> > > @@ -2754,8 +2714,6 @@ static int anx7625_i2c_remove(struct i2c_client *client)
-> > >       if (!platform->pdata.low_power_mode)
-> > >               pm_runtime_put_sync_suspend(&client->dev);
-> > >
-> > > -     anx7625_unregister_i2c_dummy_clients(platform);
-> > > -
-> > >       if (platform->pdata.audio_en)
-> > >               anx7625_unregister_audio(platform);
-> > >
-> > > --
-> > > 2.37.0.rc0.161.g10f37bed90-goog
->
-> Can you fix the checkpatch --strict warnings and formatting issues in
-> this series?
+On 30/06/2022 15:08, Bryan O'Donoghue wrote:
+> Add in missing clock and clock-names declarations to the 28nm DSI PHY.
+> When converting from .txt to .yaml we missed these.
+> 
+> Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bindings")
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Done. Fix them in v2.
+I checked the schema. I think you can drop this patch. The issue that 
+you probably saw with apq8064 should be solved in the dtsi, not in the 
+schema.
 
-Thanks.
+> ---
+>   .../bindings/display/msm/dsi-phy-28nm.yaml      | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
+> index 3d8540a06fe22..9ecd513d93661 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
+> @@ -19,6 +19,21 @@ properties:
+>         - qcom,dsi-phy-28nm-lp
+>         - qcom,dsi-phy-28nm-8960
+>   
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iface
+> +        description: AHB clock
+> +      - const: iface_clk
+> +        description: AHB clock
+> +      - const: ref
+> +        description: Block reference clock
+> +    minItems: 1
+> +    maxItems: 2
+> +
+>     reg:
+>       items:
+>         - description: dsi pll register set
+> @@ -36,6 +51,8 @@ properties:
+>   
+>   required:
+>     - compatible
+> +  - clocks
+> +  - clock-names
+>     - reg
+>     - reg-names
+>     - vddio-supply
+
+
+-- 
+With best wishes
+Dmitry
