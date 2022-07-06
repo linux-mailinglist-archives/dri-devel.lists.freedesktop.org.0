@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7405568BC4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56800568BFC
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92EDE10FEB6;
-	Wed,  6 Jul 2022 14:52:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E960112640;
+	Wed,  6 Jul 2022 14:57:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C87710FDE5
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 14:52:31 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id t19so25714704lfl.5
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 07:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vXi6F2VH59Ysan4BDfp4AdUlcPkLPDowInIn+GuvGdw=;
- b=hK2Oe9Wf4TgWPdYRY/ql5AAziNtA+NvPlRysTvW4VFmhUWug1/D480ktSh3FVjLjCS
- isipSJy/2JQOKcNzktqPSHgW3beSBpRoxYGZEdUSkwex+vrjtAvFBJ/wypDHtRsl+RuK
- RaehicsjHbV/2g1rCWDq5sL2Q3PYOxt3Mc22icHCyJg47YCK7GHWC0dasfegyJIz5IvB
- buk0Mynpk6Yh5uYy2uFbppqtpZmufEZ0p7s3jdocOSIkXMAy4DrkesI/H+DWXNoB39Xb
- tEFGPakv+dp4sfUa3+4+f2VgM3rBSAMfSvv7QnbswJ7HDtgb8cxXATTcKCHnk5cboZG3
- PvgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vXi6F2VH59Ysan4BDfp4AdUlcPkLPDowInIn+GuvGdw=;
- b=g255xZsCmSGcuxfd7v7Eo9ie5jkR9YLN+SIuP3+feO+kAl70hSdoiWCG7jyH1jh8JC
- CqyQArZfx4M4rZzQZ1tGhCHSYDLnxDCadHBhSpD5PNGvo0aXMLqz/AfjsFca0sgoCvQd
- 2Zh7MWNSJV2wnBxiNB4TOiyZuXGawXBFIkovoxmQcDnOrcOlvvJI+5XVU8q93Ew2XjUT
- /uF3ncW9RefU0ni0FGmVrVl0hMuDUFzWdnKTnr3byJL4F3wf/YJwwgtq4sjzL9hSOPeY
- G557XDBK4LJUXrAvy/kYM13NyEo1/fAWXcUXdZrek+qtrenRrp2LYFqU6JDBkeCSYOT1
- TxLA==
-X-Gm-Message-State: AJIora9RXJ+D52RyxRx9UmoyYH0/hZ5iv2G21DNOSEcyavIxDwISKaBV
- oJoVq6XltJ0Fhi8zpXsWl1Dazg==
-X-Google-Smtp-Source: AGRyM1tXufqQv7dKCmxJenUnKtY5GI0T/veI1VtYXrKeGe18nnO0SqXXjGuVp5vwNK2VBJhTfJXrtA==
-X-Received: by 2002:a05:6512:b8f:b0:47f:b8fa:20ac with SMTP id
- b15-20020a0565120b8f00b0047fb8fa20acmr28714517lfv.199.1657119149633; 
- Wed, 06 Jul 2022 07:52:29 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- v25-20020a056512049900b004855e979abcsm556617lfq.99.2022.07.06.07.52.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 07:52:28 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 4/4] dt-bindings: display/msm/mdp4: require 4 IOMMUs
-Date: Wed,  6 Jul 2022 17:52:22 +0300
-Message-Id: <20220706145222.1565238-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220706145222.1565238-1-dmitry.baryshkov@linaro.org>
-References: <20220706145222.1565238-1-dmitry.baryshkov@linaro.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5517D112640
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 14:57:31 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
+ [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E876366019AA;
+ Wed,  6 Jul 2022 15:57:28 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1657119449;
+ bh=gKKVNdBjcN8KkoeprOxQ8ffGlP7W2ucwq70DNkoi0pM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AFo5SHqa1+b4dKZSAM5aDazw8Dg2FSqMDEb3VHe4xH5gT2saeZZZURl7+B4fIuO7W
+ YFfBEEN4fNQmNUyiudA4KYXf+8e7c8bOOjy/hoVWKs8W1XSCJ3qmtfYpXtJFWmswcI
+ an0mMfgGHr9fFc2LS2KrBOhUoH2qUxqsZxx3/SjV3lzhtfX1qujv2JEgNOFzsKa0HO
+ XhOVOWY4yr6+GasG6QxhB4zXKuMAJ3RdbwDectgJ0Kmyj0zZ7gE6OfzvwcAvEGIm37
+ lHf8Lw66AuZovpAJ0Cxwdn2UsegQD/cvnZsJ5LP9C3PTgqzsIbE6uoCrNZa3wOPj/9
+ MimulBF98GOog==
+Message-ID: <4cb8ef00-1b8a-7ef0-aa4c-be0912aba496@collabora.com>
+Date: Wed, 6 Jul 2022 17:57:25 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1] drm/scheduler: Don't kill jobs in interrupt context
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Erico Nunes <nunes.erico@gmail.com>, Steven Price <steven.price@arm.com>
+References: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
+ <a78343c8-2a6d-b223-4219-6b6b0a4fcb1f@arm.com>
+ <CAK4VdL2hCEoshWZbCh5mkHuS6wYMiPFR3v4MWTnrEKM9zyv6Mw@mail.gmail.com>
+ <ef88ec2c-77b5-fa0d-49d1-fdd2451713b7@collabora.com>
+ <573fae0d-c9ab-98b0-c6f1-5b0d4e52dd01@amd.com>
+ <a33ab7b9-738f-db91-f6ba-78a9641365e8@amd.com>
+ <b05f9861-1966-72f5-132b-aebb4b6e0c6b@collabora.com>
+ <107fe968-8311-0511-cc31-22feb994a6d7@collabora.com>
+ <3e07a8d0-2cbc-8f3e-8f9f-5b73fb82028b@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <3e07a8d0-2cbc-8f3e-8f9f-5b73fb82028b@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,34 +64,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-APQ8064, the only supported mdp4 platform, uses 4 IOMMUs for the MDP4
-device. Update schema accordingly. When we have other MDP4 platforms,
-this spec can be updated accordingly.
+On 7/6/22 16:49, Andrey Grodzovsky wrote:
+> On 2022-07-06 03:07, Dmitry Osipenko wrote:
+> 
+>> Hello Andrey,
+>>
+>> On 5/17/22 17:48, Dmitry Osipenko wrote:
+>>> On 5/17/22 17:13, Andrey Grodzovsky wrote:
+>>>> Done.
+>>>>
+>>>> Andrey
+>>> Awesome, thank you!
+>>>
+>> Given that this drm-scheduler issue needs to be fixed in the 5.19-RC and
+>> earlier, shouldn't it be in the drm-fixes and not in drm-next?
+> 
+> 
+> I pushed it into drm-misc from where it got into drm-next. I don't have
+> permission for drm-fixes.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- Documentation/devicetree/bindings/display/msm/mdp4.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you
 
-diff --git a/Documentation/devicetree/bindings/display/msm/mdp4.yaml b/Documentation/devicetree/bindings/display/msm/mdp4.yaml
-index f63f60fea27c..58c13f5277b6 100644
---- a/Documentation/devicetree/bindings/display/msm/mdp4.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/mdp4.yaml
-@@ -36,7 +36,7 @@ properties:
-     maxItems: 1
- 
-   iommus:
--    maxItems: 1
-+    maxItems: 4
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
 -- 
-2.35.1
-
+Best regards,
+Dmitry
