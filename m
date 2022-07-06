@@ -2,106 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0B056918F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 20:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3800D569B95
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 09:30:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF0610F318;
-	Wed,  6 Jul 2022 18:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93ADF11B74B;
+	Thu,  7 Jul 2022 07:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8C710F318;
- Wed,  6 Jul 2022 18:17:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nD0mZK/iWrilnkplbeolFnPUtzot9Tq48dnUc5hnqqd46ZE7b21+ClT2hQin7nodsLpmRS9gapNJ4CoIW9NuySvUUIarwaBt5zgu6tYGlvfwEea6LiKy2gpMbcoFDt7WatDWn3hvFS7SALc07LObsXkJcMlhwhXNw6axr1wdXpgLNEy+Dv3PqkNEqnKe2szPJbp+a/H7hUNQzW4A9u6weKivC1iI26k8MwanbAkrRqRvamX2O977ecmPgGOsWmjUaOB3v/tHyP4owHQcJAt9lK3TnrAtrANQxoQ54twiuG906FyhmZIx0ONP3jAiz/QkbBGo/rMJ1Zs3V09FnzIu9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cqqCaJUTDwkQzINKh1omiIkhvxtSOljICtjbbMkdZYc=;
- b=hCqzOAApaRWSvzsvuPOUXEKyyEer4Kur5uVoUosgduBsvj5/XeOE3TLtJWv4Y0DMpzG/47pQZMoMD6MT6mDyNj75+jmYHXr/v9ol9E7sLR5THp9Izp+BGXsCzXmyCCbY2z3Pn9nXifdJmC8UNANt4MGJmXEM/iI2vZJkCi8CgkXtc3ry/r77Sa48SR2PFfUSf8AVf1YCSd9qQ12NThXuayjXvvuPXe0Xs7ya88oaZVHIHSStPasGOZI2n1vSYdRqLgwE2PJAQvtYun3J3wchYPJv2vr03LgR47G9F0Obe6awbPbfFaUEKv3hG1aePGkZ4fpBF9Wx8oyyymzU5G9RHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cqqCaJUTDwkQzINKh1omiIkhvxtSOljICtjbbMkdZYc=;
- b=RkbgEhTQBgjXp0//QP2/R1wDlsDBSNH6WnZKv+kzKmuT92ZDD31wSt1wCwkZtpWCAQyD4Azn2dfmJL3//mO+/AscWhiii5n2Om5KSssUrbUIL6ZGnRPF65jcQ9zypRZa9ufrKxJBH3t8wLKMk0Shh4vZXEObMsEMn9+9Q+Y2nIFTeJH7NKbO2kF0tcxtSTE4TvXnqqm/4AiJnNp8z3ePbUAlTqkxZAfCLtKuSzr3PwezCZKUPFnW6htPWvyBdaXh3sE2J9x630NPkIY63NqBh8wjIEgBfW+WDKeRaVqakxDejAYoJp2O0hNAxn4PzQkN+SbzRZXd++tXE2+ryma/vA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by BY5PR12MB4952.namprd12.prod.outlook.com (2603:10b6:a03:1d8::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Wed, 6 Jul
- 2022 18:17:05 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5395.021; Wed, 6 Jul 2022
- 18:17:05 +0000
-Date: Wed, 6 Jul 2022 15:17:04 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [RFT][PATCH v2 8/9] vfio/ccw: Add kmap_local_page() for memcpy
-Message-ID: <20220706181704.GP693670@nvidia.com>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-9-nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706062759.24946-9-nicolinc@nvidia.com>
-X-ClientProxiedBy: MN2PR13CA0011.namprd13.prod.outlook.com
- (2603:10b6:208:160::24) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6CD510F6DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 18:17:21 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ y22-20020a056602215600b00673b11a9cd5so8431241ioy.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 11:17:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=yr/Dj0dm/9Dq/Ynx8tnyc9XTP29/T0M4vNro1Nx3hDo=;
+ b=unOA+4abZSiFr8gvED8vKZGDIeZJ617DyCqIu2FWm8KqnwyJs7JUaAPmh6bEmZCAyR
+ D+dgmIhZ2ebWvV0Mb1PUhO5SAAWYyHCStEX4GUnirVHldvfmsnCml+9i044Gz1Bz6FoQ
+ N0TazU06v56I3sxFiVD3UaBCgyGZwDR9OsbhaW3QysBh9WoknJYIHewM62l3hCylO373
+ fcTMcKratwHm9YwiLqwMtZZpaGNOUHeNoVmetguQzyY7nMPXZl2wn0USmNHCmLMOfogv
+ vR49RQR3IDFJElWy1tMCFJ6bsTJv2+6jvhkO0yelFScpHWkkg74UitbohBQkJrmTCB8C
+ 22mQ==
+X-Gm-Message-State: AJIora+zvsOzmDfxkz+mRw1PpgqIJRuqQBOGdeszMyoe3IzM34vw0UFt
+ Muw+jfbYrpzrBRWBqNdJIjX//cOcw5uxkAuQb0fCeL3Ida3S
+X-Google-Smtp-Source: AGRyM1uf5E4TqGfB06vj9vugXPx49QouG29+Ufp8mxUzufVcZu7xf7skpGDaVQppkoOnZMyLHyGFU2NN93PgTg5Bs1XiHJjLHZQC
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f95bc4ff-7b64-414a-86fc-08da5f7bbaf5
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4952:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2bxRzMFuYYft40WJXyfzt0IkuKUb2W6CkHcVeeagcsTs8/UkPIJhTaBEl8O1AJMfbqOJg3cpeGkZx3gI2szskQIMzwyt4fFcqm8kHOr9nEGbKKYOQN9XInuszWPXSRef57gLqjcScNB0IHsYw5pEOkBB1J6i6xAQ9TPB+lk5UfRS7GuF18W3ie9+5IMQRDoPWdTXiOrtY+Oxg9boKZO/6i6UH+BPh+NExTqEdpwWjFRlrmpPRr2iWsMjCmofWZKNcStDDs8ycsFTHCf6+IKOxUeF0SWAxUP7h7TO8obSQ/tAZPlighgQ3rJ584Ark62mj4cIWe5zUBeWZrR/LGCXzF066UPoA0q5hIRngCL3js+I2y/mT7AfwhADARHsw+BkEm0HMcPkUf373NrlorgswSqKF7NdGQZNonLVJsJYLfdz9+9U2vq6KH4zQiZWBJil88ZFZg4JAeHDtcIReDFFLfPB/UWar0LLcUVL1mCaH6XdepIo9T34U6eYX73JMD+G0b+tjGn6xErea8yQHd9xRON72MWv73wPWrl/Tkwj4mkG0wxe7a1qsV2aOVSP+gpZ4ECCkHjXLJl/ZBQfI0VblhJpgjFhWGf/J1eEZ55BSZqW2JRnFXQ8TKSCG7aucjGBONb5mvc6AhfGGihfxA7eT2NMECIAo0X9UnFjDsasr+xgCj42JjjucYBd7BHhxRHjjycla5zhJ+AI+1dy+zVe1ztQT17ILTzGqLGMKoIHT7hFcq6okbfVj53Z6ZiEx5/yZXXBW1PmO3qI2SvHsFSyqsG7yHESOj9yYz0/Q7TvovXEQxEO6SfQv8gHR9AQFDYR
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(346002)(366004)(39860400002)(396003)(478600001)(6486002)(38100700002)(2906002)(36756003)(2616005)(1076003)(33656002)(186003)(6506007)(66476007)(41300700001)(316002)(6862004)(86362001)(7416002)(5660300002)(7406005)(8936002)(6636002)(37006003)(26005)(6512007)(4326008)(83380400001)(66946007)(66556008)(8676002)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FW25mylLFsUnbbLT8GuwYAGaEQioW664t5vCnay2iSu3OQd+2u6/DkDH7qjI?=
- =?us-ascii?Q?Ek0cV7i3JV3XfPNAQiP0fJBSpBlDjcMfj3vjEw8J5EglI8S4rNWf3Q/6CcD0?=
- =?us-ascii?Q?PKphuhVwMhW/zIJ8P2fyM4mSXn2XhdP0gVGmlS6JiJ5JsnwatjmqQXzLqW6/?=
- =?us-ascii?Q?8oZZlNx0v1M9XcZUibQ0QGddVr+er4SdkukNda4sWU0Nsti0x+mCxm1SFLFa?=
- =?us-ascii?Q?zmPPMrul1K1850oHJ8W93Ka/loHPflZsVweFobJvR6Nb826D7qD9O2eF33wF?=
- =?us-ascii?Q?9WhAkDEymGOuIYTV7C+y52GdbHkQufFhhfSXp+zmNh2Iys7DHbPEcKl5IkRZ?=
- =?us-ascii?Q?jrMXPUDUjV2zPnIRRUqpn6Bgei2Hyr7bh6kv97rlOW7x9BTytq6T5gFIBpMn?=
- =?us-ascii?Q?O72FqHPxLPdxI9FN1T5RF6U8RILFYSa8YxA+LyVuphpf3oV6RosFpL+PxU26?=
- =?us-ascii?Q?zRzkRWMYkyNS+BIEcKCifVW5FzYaWDlyDtnL+AW2ULPNXS0+GL3zNS+hVqfA?=
- =?us-ascii?Q?5X6YZc0lWm4KkYNKJHlnYMdlOAhUeNWCQrZsjvI/SSd3m03MmS/zhAJrxLlg?=
- =?us-ascii?Q?9Kx4RV54uVqTCCGe0quqNkvENMv2Yg9fKI+DXWHOZOOC9MYiYbP0gVlzowxJ?=
- =?us-ascii?Q?J7qb2tfS5rJY86+i0rOd1QsmvMkyHh+GsxB382TB10kP8jf+3OA95njmd2ZY?=
- =?us-ascii?Q?QrY8DcKYGSpAnK4msb+4657yOkD6dWVArRy/uXEo/kgsG87u959niHCmwE+6?=
- =?us-ascii?Q?EoZ71IgHr8niNW3a07Wt7Hb+ciDBBxI6iy7NYiG25kZd6LXFDKv7qdHabrzJ?=
- =?us-ascii?Q?eBRbe3mczesu2zUY/76Ru701DXuipJsGCD4Wlo+nSN9fFy/Ssz8U/INbJeth?=
- =?us-ascii?Q?14vk3iAxp6Baq9u7hPYeQjKnUMuYof+Fg/nwyMDyOSTcavDMieO2gegvqC8k?=
- =?us-ascii?Q?ugJJJSTDhnyf1PrQKcbTTHhGOd5hV1l+BhrGwAiuEXldi9VTovGXi8BO86a2?=
- =?us-ascii?Q?J8V/APElEnYOVpD8G80jckvZFC58djyjJ5Gt1c9XL7vKOV/ef/vHXkkEMA6p?=
- =?us-ascii?Q?sdMgTlyrmYMUCitcmUVJScnqc4/IVXd5kBtFSvS8tE13cpgmPtDqbC9kBTkp?=
- =?us-ascii?Q?ylikwLBxW7QyngWXxjwnj5InqZeQPC99Gk0WBVwTtYkcr7Rea5jBi1U53gwP?=
- =?us-ascii?Q?ujCBJyZo0tACXECoFdKdhPR6RTafIkGRrpnyzCBLvnT7hdK1ZRESfaZmR95A?=
- =?us-ascii?Q?KQeHbq74sUkqs9yeCLmdgOEG3it+pYLB7iqJ8QTV/Lm51L4j210r0oNBQx3Z?=
- =?us-ascii?Q?XK0VsxaOSwGuAGr+Lh2Z+AR8eHK0n7e30iHOhI0VFBTVswsMJuRfHqGJpL+s?=
- =?us-ascii?Q?obc1VyF8phOecCuFcV4xMdbo202FhqdDgDO7vWRIottkcaLHcfOsEerXlwwq?=
- =?us-ascii?Q?k8K1OCvuEDvCmscIzpcGzO/JTV5kH1RJzHyU7IIZoHMTqboq4akWZOM25q9K?=
- =?us-ascii?Q?YYIPndM/Z+c0yigTr7ox8EYtwduj5Yazolf4jkt5Qu2IP39T+FbsI6KPNQsF?=
- =?us-ascii?Q?DJROoXT8hGBDA9SENdb66Bl7G0HQFRtP/QevXP+M?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f95bc4ff-7b64-414a-86fc-08da5f7bbaf5
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 18:17:05.0646 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O3a+ZyPY2LJd01cSjVrtFF5jWPWm/L5Fn056qIPPu+4tBX7vzDUfK4Mn7/tBjEKq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4952
+X-Received: by 2002:a05:6638:1347:b0:33e:9dd1:d3f6 with SMTP id
+ u7-20020a056638134700b0033e9dd1d3f6mr19824538jad.131.1657131441267; Wed, 06
+ Jul 2022 11:17:21 -0700 (PDT)
+Date: Wed, 06 Jul 2022 11:17:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000e72d3c05e326fae4@google.com>
+Subject: [syzbot] general protection fault in virtio_gpu_object_create (2)
+From: syzbot <syzbot+2f09dba03ce3f3b0a2cf@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ gurchetansingh@chromium.org, kraxel@redhat.com, linux-kernel@vger.kernel.org, 
+ olvaffe@gmail.com, syzkaller-bugs@googlegroups.com, 
+ virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Thu, 07 Jul 2022 07:29:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,43 +57,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
- kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
- agordeev@linux.ibm.com, hch@infradead.org, kvm@vger.kernel.org, corbet@lwn.net,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, jjherne@linux.ibm.com,
- farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
- linux-s390@vger.kernel.org, hca@linux.ibm.com, alex.williamson@redhat.com,
- freude@linux.ibm.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
- tvrtko.ursulin@linux.intel.com, cohuck@redhat.com, oberpar@linux.ibm.com,
- svens@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 05, 2022 at 11:27:58PM -0700, Nicolin Chen wrote:
-> A PFN is not secure enough to promise that the memory is not IO. And
-> direct access via memcpy() that only handles CPU memory will crash on
-> S390 if the PFN is an IO PFN, as we have to use the memcpy_to/fromio()
-> that uses the special S390 IO access instructions. On the other hand,
-> a "struct page *" is always a CPU coherent thing that fits memcpy().
-> 
-> Also, casting a PFN to "void *" for memcpy() is not a proper practice,
-> kmap_local_page() is the correct API to call here, though S390 doesn't
-> use highmem, which means kmap_local_page() is a NOP.
-> 
-> There's a following patch changing the vfio_pin_pages() API to return
-> a list of "struct page *" instead of PFNs. It will block any IO memory
-> from ever getting into this call path, for such a security purpose. In
-> this patch, add kmap_local_page() to prepare for that.
-> 
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  drivers/s390/cio/vfio_ccw_cp.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+Hello,
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+syzbot found the following issue on:
 
-Jason
+HEAD commit:    089866061428 Merge tag 'libnvdimm-fixes-5.19-rc5' of git:/..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15ce44ec080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3a010dbf6a7af480
+dashboard link: https://syzkaller.appspot.com/bug?extid=2f09dba03ce3f3b0a2cf
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13650150080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16687b6c080000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2f09dba03ce3f3b0a2cf@syzkaller.appspotmail.com
+
+general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 PID: 3668 Comm: syz-executor918 Not tainted 5.19.0-rc4-syzkaller-00187-g089866061428 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+RIP: 0010:virtio_gpu_object_shmem_init drivers/gpu/drm/virtio/virtgpu_object.c:183 [inline]
+RIP: 0010:virtio_gpu_object_create+0x29b/0xd90 drivers/gpu/drm/virtio/virtgpu_object.c:249
+Code: 89 de e8 98 3c ed fc 48 85 db 0f 85 9f 03 00 00 e8 2a 40 ed fc 49 8d 7f 0c 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 82
+RSP: 0018:ffffc90002e5fad0 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff848c5756 RDI: 0000000000000000
+RBP: ffff88802286b800 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: ffffc90002e5fbd0
+R13: ffff88801c4c0010 R14: ffff88801c4c0000 R15: fffffffffffffff4
+FS:  0000555556654300(0000) GS:ffff88802c800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fa12e2a42a4 CR3: 0000000015c4e000 CR4: 0000000000150ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ virtio_gpu_gem_create drivers/gpu/drm/virtio/virtgpu_gem.c:42 [inline]
+ virtio_gpu_mode_dumb_create+0x319/0x5c0 drivers/gpu/drm/virtio/virtgpu_gem.c:90
+ drm_mode_create_dumb+0x26c/0x2f0 drivers/gpu/drm/drm_dumb_buffers.c:96
+ drm_ioctl_kernel+0x27d/0x4e0 drivers/gpu/drm/drm_ioctl.c:782
+ drm_ioctl+0x51e/0x9d0 drivers/gpu/drm/drm_ioctl.c:885
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl fs/ioctl.c:856 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x46/0xb0
+RIP: 0033:0x7fa12e24c699
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff25d83428 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007fa12e24c699
+RDX: 0000000020000000 RSI: 00000000c02064b2 RDI: 0000000000000003
+RBP: 00007fff25d83440 R08: 0000000000000002 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000004
+R13: 431bde82d7b634db R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:virtio_gpu_object_shmem_init drivers/gpu/drm/virtio/virtgpu_object.c:183 [inline]
+RIP: 0010:virtio_gpu_object_create+0x29b/0xd90 drivers/gpu/drm/virtio/virtgpu_object.c:249
+Code: 89 de e8 98 3c ed fc 48 85 db 0f 85 9f 03 00 00 e8 2a 40 ed fc 49 8d 7f 0c 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 82
+RSP: 0018:ffffc90002e5fad0 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff848c5756 RDI: 0000000000000000
+RBP: ffff88802286b800 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: ffffc90002e5fbd0
+R13: ffff88801c4c0010 R14: ffff88801c4c0000 R15: fffffffffffffff4
+FS:  0000555556654300(0000) GS:ffff88802c800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fa12e2a42a4 CR3: 0000000015c4e000 CR4: 0000000000150ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	89 de                	mov    %ebx,%esi
+   2:	e8 98 3c ed fc       	callq  0xfced3c9f
+   7:	48 85 db             	test   %rbx,%rbx
+   a:	0f 85 9f 03 00 00    	jne    0x3af
+  10:	e8 2a 40 ed fc       	callq  0xfced403f
+  15:	49 8d 7f 0c          	lea    0xc(%r15),%rdi
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
+  2e:	48 89 f8             	mov    %rdi,%rax
+  31:	83 e0 07             	and    $0x7,%eax
+  34:	83 c0 03             	add    $0x3,%eax
+  37:	38 d0                	cmp    %dl,%al
+  39:	7c 08                	jl     0x43
+  3b:	84 d2                	test   %dl,%dl
+  3d:	0f                   	.byte 0xf
+  3e:	85                   	.byte 0x85
+  3f:	82                   	.byte 0x82
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
