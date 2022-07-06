@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2059568B9E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B1F568BB9
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:52:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B98D10F911;
-	Wed,  6 Jul 2022 14:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7488E10F477;
+	Wed,  6 Jul 2022 14:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
- [209.85.166.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1284F10F911
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 14:48:32 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id z3so4069758ilz.5
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 07:48:31 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB99010F4AD
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 14:52:25 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id d12so3016827lfq.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 07:52:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6HBzK/l93JxPEmhI/JaroF5KDLT4SrwcSehWqsU43NQ=;
+ b=t5eWjH/Dg2AmKlwx139MJxWOxq1jBDfwI9WMSF9SAsITjUshwwbKTHgMGW7RsPmUEL
+ WRjlBA9lYI4N6n9cI/+G6qoCxwnaTGChhWReYDxD7o59MfrLVGgn4kS3kBzwT9QobPUi
+ NvVWvkeRTBQrbidYucWeDo0DhaVmV/lpGwP/2gU6MGUM4NDGG4y3Wv5mlQvQLODFDGvR
+ vAZlDgycFrQfRjJQBrk96/jBs8pBtl/1NHdKuqiXr7kTk0bs0HfVHUTEC9KW2v0BDt/R
+ HzkrRibSmZ2PNYK6/kmlVaBdzaMO0cfX3unVdnk/qwtXt57GyYullp+GmdIhDdMiIAF3
+ z7Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Wrq2JNxdSNjz+AtYT/VK5cdxeQSjmsW3VIzTuH5qvso=;
- b=y/A0EIoAPKQhb5RYOZxzfNfjeRD+8wMcXVrdfEf9KS3zViswHebnMTZ0hDnP2+f1CO
- UfjpWU/rGW12ocGYsYd3d2sskpl6TtC9Zl/PUyQAZKY3W2bcgQHluHPBgNAeI7lKOb8l
- G3m6uqunROoEk9o9YnaV0iyCipyYKDVV78hFTGHt7Lt5nT8jaJ5ny8R4b60dAUrqEinT
- Nd8Sn4gRWjiX5GmzXoMOAqOsI0wjoi19tYsy7Hu79yzf6wCBjZYGJ/Zd/hUi+PgHD8yB
- Ac7yUwifS/8u2VVDGGqxrJKvGN2eUv5ZXXLxz7NO1quikIeCXV740hSsFIMUtR763uIH
- Wg+w==
-X-Gm-Message-State: AJIora9uZbfKTZUEvdBc2qOK5NsnbQsSaLKkAChlv3x8KhKJqE4tVWn/
- uCSzIu6Bnh3CzKRf1O4yAg==
-X-Google-Smtp-Source: AGRyM1sb5HmhX0XgK9jcKFeRefRiVrF9p1b4SQg8YeeZGNu7klKkXRLtLFt3S05zijGKW8PJyzkj/Q==
-X-Received: by 2002:a92:d946:0:b0:2d8:e271:79c2 with SMTP id
- l6-20020a92d946000000b002d8e27179c2mr24307561ilq.240.1657118911231; 
- Wed, 06 Jul 2022 07:48:31 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id
- a21-20020a027355000000b0033ebd47834fsm5173779jae.128.2022.07.06.07.48.29
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6HBzK/l93JxPEmhI/JaroF5KDLT4SrwcSehWqsU43NQ=;
+ b=InTujdwnG8hhTxUZM2IhH00oVbAAEi/SZ1qmrZCSpVhQTCT/t6POd0IlBYyc8qj5x8
+ e+rBW4AblnZ/SjM5k5bJoFF4OzriMKz6q//B2z7x8JuL/Rl3Y7lEJ8MSxbpQmXmseUC8
+ rxCgGBic0hP+HYTMo4XiJqApTaaOMCyyb9c6rFXH6OrnHvl6ptlmlDUtXwthcL7nL/oq
+ SB/r3K21K7yJaWiDRyk9tStBQY8tyr4l9amra4BSv+OxSVJhBIOlIg9ovS3z4PGumj8j
+ Obil6FpMDxJxO9uLlYidYGRZMmhR6Mc8IgeNoc0RZAtke9QXYWZ5uuV92JAglewdvq7h
+ rrOw==
+X-Gm-Message-State: AJIora+uTFeba3IEDmjjhq3yEGpQxFJ3N6SemPNjCCnvmIw0bF1ZASBR
+ /mXGbmw4GHlYt0JOwnvsC2eSDw==
+X-Google-Smtp-Source: AGRyM1tFUXYXbeJILL9shHP73Zaabp7CJDJi2SC1ggS6bSdLsSQuPcyJ0S3/TA7y9BPw7jXiyAx3LA==
+X-Received: by 2002:a05:6512:3a91:b0:47f:97fe:fa16 with SMTP id
+ q17-20020a0565123a9100b0047f97fefa16mr25290467lfu.120.1657119144151; 
+ Wed, 06 Jul 2022 07:52:24 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ v25-20020a056512049900b004855e979abcsm556617lfq.99.2022.07.06.07.52.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 07:48:30 -0700 (PDT)
-Received: (nullmailer pid 21846 invoked by uid 1000);
- Wed, 06 Jul 2022 14:48:28 -0000
-Date: Wed, 6 Jul 2022 08:48:28 -0600
-From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <mail@conchuod.ie>
-Subject: Re: [PATCH v5 04/13] dt-bindings: memory-controllers: add canaan
- k210 sram controller
-Message-ID: <20220706144828.GA21787-robh@kernel.org>
-References: <20220705215213.1802496-1-mail@conchuod.ie>
- <20220705215213.1802496-5-mail@conchuod.ie>
+ Wed, 06 Jul 2022 07:52:23 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH 0/4] dt-bindings: display/msm: schema fixes for gpu,
+ gmu and mdp4
+Date: Wed,  6 Jul 2022 17:52:18 +0300
+Message-Id: <20220706145222.1565238-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220705215213.1802496-5-mail@conchuod.ie>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,37 +73,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, devicetree@vger.kernel.org,
- Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh+dt@kernel.org>,
- Palmer Dabbelt <palmer@rivosinc.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Dillon Min <dillon.minfei@gmail.com>, linux-kernel@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, dmaengine@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Jul 2022 22:52:05 +0100, Conor Dooley wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
-> 
-> The k210 U-Boot port has been using the clocks defined in the
-> devicetree to bring up the board's SRAM, but this violates the
-> dt-schema. As such, move the clocks to a dedicated node with
-> the same compatible string & document it.
-> 
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  .../memory-controllers/canaan,k210-sram.yaml  | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/memory-controllers/canaan,k210-sram.yaml
-> 
+Fix several issues in MSM display schema.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Dmitry Baryshkov (4):
+  dt-bindings: display/msm/gpu: allow specifying several IOMMU nodes
+  dt-bindings: display/msm/gpu: document using the amd,imageon adreno
+    too
+  dt-bindings: display/msm/gmu: account for different GMU variants
+  dt-bindings: display/msm/mdp4: require 4 IOMMUs
+
+ .../devicetree/bindings/display/msm/gmu.yaml  | 166 +++++++++++++++---
+ .../devicetree/bindings/display/msm/gpu.yaml  |   9 +-
+ .../devicetree/bindings/display/msm/mdp4.yaml |   2 +-
+ 3 files changed, 155 insertions(+), 22 deletions(-)
+
+-- 
+2.35.1
+
