@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940CD568637
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 12:54:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EA6568661
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 13:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C731138F0;
-	Wed,  6 Jul 2022 10:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAAFB113AC1;
+	Wed,  6 Jul 2022 11:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC1E11138CD;
- Wed,  6 Jul 2022 10:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657104864; x=1688640864;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=qrEumAiCGHwpWr14nERu9HZ9oiyvzZusQBL2z+Vav/k=;
- b=bER994W5wY2F+6s8IbZy8vZLQNlANe2b324DAqgxANJDEKscGPwKi3+Z
- smh2h6RUnodplGPNljN/L/eWSVWQ1i9gbGBU+hEacAqS0dDFWweIvWSrP
- UdblaBKCic2vvXq/M0tSeoaGCE6309funo782CdlmWL2B9chrnb6ie2E2
- FBSodpn/BbwX3JygVhWLeGvdUce1gF+pm734o0CGEb02LhJGemsHa758I
- meXSQ848mCEPv08zXICeeuUJiAEz2MPRVA9TlUZx+4IcNUA2Mng1GPujH
- MQzHQewpFYjqivc+J4fB2xCBAX3nUjj6xtW6m2yxBg1xlZ062qtn0t5uF g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="347697803"
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="347697803"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 03:51:38 -0700
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="620260611"
-Received: from mropara-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.49.154])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 03:51:33 -0700
-Date: Wed, 6 Jul 2022 12:51:31 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v3 1/2] drm/i915/gt: Serialize GRDOM access between
- multiple engine resets
-Message-ID: <YsVpM1f86FAIEO8i@alfio.lan>
-References: <cover.1656921701.git.mchehab@kernel.org>
- <ccc54757d89d38af35e5c5885edfb980c7b227f6.1656921701.git.mchehab@kernel.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F266C113ABE;
+ Wed,  6 Jul 2022 11:07:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 3C999CE0764;
+ Wed,  6 Jul 2022 11:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E15CEC3411C;
+ Wed,  6 Jul 2022 11:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657105670;
+ bh=57+IIFMCOJgxTrNyjjSpEHzoTqQk48pg/9WlJ8B9Hss=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=HhF+epXMG8KWIa3I0W71AAmPpb0KmibjMO/OMAaGXzlffBzAFnnAjpekhOmxf5Nu2
+ WSKxHfLYAMxz/Dzt9BUT275H+sh2p5/vyPz1pWAiJqYPdArVuOy+haglQDqT8VRjWG
+ FKwwa6+MPhRV0zMen51CDA8IGis2lkZD48VVLe9ZxmK5TsTBCYiBI1Vrzr/QfsEc+4
+ Rcqenq/nog1UndpF7kImKT/TlosE/t8REsz7M+VasqVmZ3iLsAzfIlb2Dmln9jz2Jg
+ ELq63znCYbdNcgViyYWeu1Ve83+TCSfbae0WiP+ITl4xpYt15Dk/p5sXyPbQ2wBiAG
+ WcF2doDIxhv2A==
+From: Mark Brown <broonie@kernel.org>
+To: alsa-devel@alsa-project.org, Vijendar.Mukunda@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+In-Reply-To: <20220701114107.1105948-1-Vijendar.Mukunda@amd.com>
+References: <20220701114107.1105948-1-Vijendar.Mukunda@amd.com>
+Subject: Re: (subset) [PATCH V2 0/5] I2S driver changes for Jadeite platform
+Message-Id: <165710566863.237380.14611432933578872657.b4-ty@kernel.org>
+Date: Wed, 06 Jul 2022 12:07:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ccc54757d89d38af35e5c5885edfb980c7b227f6.1656921701.git.mchehab@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,141 +52,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- dri-devel@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Bruce Chang <yu.bruce.chang@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- stable@vger.kernel.org,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@intel.com>
+Cc: Alexander.Deucher@amd.com, zhuning@everest-semi.com,
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro and Chris,
-
-On Mon, Jul 04, 2022 at 09:09:28AM +0100, Mauro Carvalho Chehab wrote:
-> From: Chris Wilson <chris.p.wilson@intel.com>
+On Fri, 1 Jul 2022 17:11:02 +0530, Vijendar Mukunda wrote:
+> Jadeite(JD) platform is Stoney APU varaint which uses I2S MICSP
+> instance and ES8336 Codec.
+> This patch series creates I2S platform devices for JD platform,
+> adds I2S MICSP instance support and Machine driver support
 > 
-> Don't allow two engines to be reset in parallel, as they would both
-> try to select a reset bit (and send requests to common registers)
-> and wait on that register, at the same time. Serialize control of
-> the reset requests/acks using the uncore->lock, which will also ensure
-> that no other GT state changes at the same time as the actual reset.
+> This patch set depends on:
+>         --checkpatch warnings patch
+> 	--https://patchwork.kernel.org/project/alsa-devel/patch/20220627125834.481731-1-Vijendar.Mukunda@amd.com/
 > 
-> Cc: stable@vger.kernel.org # Up to 4.4
-> Reported-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@intel.com>
-> Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> [...]
 
-sorry for the delay but I wanted to understand what has been
-agreed between you and Tvrtko about the Cc'ing the stable list.
+Applied to
 
-Anyway, I confirm my review here.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Andi
+Thanks!
 
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v3 0/2] at: https://lore.kernel.org/all/cover.1656921701.git.mchehab@kernel.org/
-> 
->  drivers/gpu/drm/i915/gt/intel_reset.c | 37 ++++++++++++++++++++-------
->  1 file changed, 28 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> index a5338c3fde7a..c68d36fb5bbd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> @@ -300,9 +300,9 @@ static int gen6_hw_domain_reset(struct intel_gt *gt, u32 hw_domain_mask)
->  	return err;
->  }
->  
-> -static int gen6_reset_engines(struct intel_gt *gt,
-> -			      intel_engine_mask_t engine_mask,
-> -			      unsigned int retry)
-> +static int __gen6_reset_engines(struct intel_gt *gt,
-> +				intel_engine_mask_t engine_mask,
-> +				unsigned int retry)
->  {
->  	struct intel_engine_cs *engine;
->  	u32 hw_mask;
-> @@ -321,6 +321,20 @@ static int gen6_reset_engines(struct intel_gt *gt,
->  	return gen6_hw_domain_reset(gt, hw_mask);
->  }
->  
-> +static int gen6_reset_engines(struct intel_gt *gt,
-> +			      intel_engine_mask_t engine_mask,
-> +			      unsigned int retry)
-> +{
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	spin_lock_irqsave(&gt->uncore->lock, flags);
-> +	ret = __gen6_reset_engines(gt, engine_mask, retry);
-> +	spin_unlock_irqrestore(&gt->uncore->lock, flags);
-> +
-> +	return ret;
-> +}
-> +
->  static struct intel_engine_cs *find_sfc_paired_vecs_engine(struct intel_engine_cs *engine)
->  {
->  	int vecs_id;
-> @@ -487,9 +501,9 @@ static void gen11_unlock_sfc(struct intel_engine_cs *engine)
->  	rmw_clear_fw(uncore, sfc_lock.lock_reg, sfc_lock.lock_bit);
->  }
->  
-> -static int gen11_reset_engines(struct intel_gt *gt,
-> -			       intel_engine_mask_t engine_mask,
-> -			       unsigned int retry)
-> +static int __gen11_reset_engines(struct intel_gt *gt,
-> +				 intel_engine_mask_t engine_mask,
-> +				 unsigned int retry)
->  {
->  	struct intel_engine_cs *engine;
->  	intel_engine_mask_t tmp;
-> @@ -583,8 +597,11 @@ static int gen8_reset_engines(struct intel_gt *gt,
->  	struct intel_engine_cs *engine;
->  	const bool reset_non_ready = retry >= 1;
->  	intel_engine_mask_t tmp;
-> +	unsigned long flags;
->  	int ret;
->  
-> +	spin_lock_irqsave(&gt->uncore->lock, flags);
-> +
->  	for_each_engine_masked(engine, gt, engine_mask, tmp) {
->  		ret = gen8_engine_reset_prepare(engine);
->  		if (ret && !reset_non_ready)
-> @@ -612,17 +629,19 @@ static int gen8_reset_engines(struct intel_gt *gt,
->  	 * This is best effort, so ignore any error from the initial reset.
->  	 */
->  	if (IS_DG2(gt->i915) && engine_mask == ALL_ENGINES)
-> -		gen11_reset_engines(gt, gt->info.engine_mask, 0);
-> +		__gen11_reset_engines(gt, gt->info.engine_mask, 0);
->  
->  	if (GRAPHICS_VER(gt->i915) >= 11)
-> -		ret = gen11_reset_engines(gt, engine_mask, retry);
-> +		ret = __gen11_reset_engines(gt, engine_mask, retry);
->  	else
-> -		ret = gen6_reset_engines(gt, engine_mask, retry);
-> +		ret = __gen6_reset_engines(gt, engine_mask, retry);
->  
->  skip_reset:
->  	for_each_engine_masked(engine, gt, engine_mask, tmp)
->  		gen8_engine_reset_cancel(engine);
->  
-> +	spin_unlock_irqrestore(&gt->uncore->lock, flags);
-> +
->  	return ret;
->  }
->  
-> -- 
-> 2.36.1
+[3/5] ASoC: amd: add I2S MICSP instance support
+      commit: 3eb8440d0d268437202ccbd28a3ca3212e02e57f
+[4/5] ASoC: amd: add Machine driver for Jadeite platform
+      commit: 02527c3f2300100a25524c8c020d98c7957e485e
+[5/5] ASoC: amd: enable machine driver build for Jadeite platform
+      commit: f94fa84058014f81ad526641f1b1f583ca2cf32f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
