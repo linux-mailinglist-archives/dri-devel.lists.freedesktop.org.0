@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55226568926
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 15:16:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A305456893E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 15:18:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B18811B43A;
-	Wed,  6 Jul 2022 13:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E714011B52C;
+	Wed,  6 Jul 2022 13:18:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from michel.telenet-ops.be (michel.telenet-ops.be
  [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D70CE11B43A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 13:16:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98D311B52C
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 13:18:55 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
  by michel.telenet-ops.be with bizsmtp
- id rpGL2700W4C55Sk06pGLll; Wed, 06 Jul 2022 15:16:21 +0200
+ id rpJr2700E4C55Sk06pJr8g; Wed, 06 Jul 2022 15:18:54 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o94tA-002L9t-35; Wed, 06 Jul 2022 15:16:20 +0200
+ id 1o94va-002LB9-R2; Wed, 06 Jul 2022 15:18:50 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o94t9-009enR-L2; Wed, 06 Jul 2022 15:16:19 +0200
+ id 1o94va-009esk-7c; Wed, 06 Jul 2022 15:18:50 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/fb: Improve drm_framebuffer.offsets documentation
-Date: Wed,  6 Jul 2022 15:16:18 +0200
-Message-Id: <33fda13b500b39645e7363806c6e458e915b581e.1657113304.git.geert@linux-m68k.org>
+Subject: [PATCH v2] drm/msm/adreno: Do not propagate void return values
+Date: Wed,  6 Jul 2022 15:18:48 +0200
+Message-Id: <0083bc7e23753c19902580b902582ae499b44dbf.1657113388.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,46 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ freedreno@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix various spelling and grammar mistakes in the kerneldoc comments
-documenting the offsets member in the drm_framebuffer structure:
-  - s/laytou/layout/,
-  - Add missing "is",
-  - s/it/its/.
+With sparse ("make C=2"), lots of
+
+  error: return expression in void function
+
+messages are seen.
+
+Fix this by removing the return statements to propagate void return
+values.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 ---
 v2:
-  - Add Acked-by, Reviewed-by.
+  - Add Reviewed-by.
 ---
- include/drm/drm_framebuffer.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h | 4 ++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-index f67c5b7bcb68654a..0dcc07b68654844b 100644
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -154,10 +154,10 @@ struct drm_framebuffer {
- 	 * drm_mode_fb_cmd2.
- 	 *
- 	 * Note that this is a linear offset and does not take into account
--	 * tiling or buffer laytou per @modifier. It meant to be used when the
--	 * actual pixel data for this framebuffer plane starts at an offset,
--	 * e.g.  when multiple planes are allocated within the same backing
--	 * storage buffer object. For tiled layouts this generally means it
-+	 * tiling or buffer layout per @modifier. It is meant to be used when
-+	 * the actual pixel data for this framebuffer plane starts at an offset,
-+	 * e.g. when multiple planes are allocated within the same backing
-+	 * storage buffer object. For tiled layouts this generally means its
- 	 * @offsets must at least be tile-size aligned, but hardware often has
- 	 * stricter requirements.
- 	 *
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 9f76f5b157598c27..ccf7b29473f0ea4e 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -504,7 +504,7 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
+ 
+ static inline void pdc_write(void __iomem *ptr, u32 offset, u32 value)
+ {
+-	return msm_writel(value, ptr + (offset << 2));
++	msm_writel(value, ptr + (offset << 2));
+ }
+ 
+ static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index 84bd516f01e895b2..e034935b3986f9f2 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -98,7 +98,7 @@ static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
+ 
+ static inline void gmu_write(struct a6xx_gmu *gmu, u32 offset, u32 value)
+ {
+-	return msm_writel(value, gmu->mmio + (offset << 2));
++	msm_writel(value, gmu->mmio + (offset << 2));
+ }
+ 
+ static inline void
+@@ -138,7 +138,7 @@ static inline u32 gmu_read_rscc(struct a6xx_gmu *gmu, u32 offset)
+ 
+ static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
+ {
+-	return msm_writel(value, gmu->rscc + (offset << 2));
++	msm_writel(value, gmu->rscc + (offset << 2));
+ }
+ 
+ #define gmu_poll_timeout_rscc(gmu, addr, val, cond, interval, timeout) \
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 42ed9a3c490551a2..2613219a778717a2 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1446,7 +1446,7 @@ static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask, u32 or)
+ 
+ static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 value)
+ {
+-	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
++	msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
+ }
+ 
+ static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
 -- 
 2.25.1
 
