@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B47B569B93
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 09:29:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E43569208
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 20:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0C711B377;
-	Thu,  7 Jul 2022 07:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABCE11B0A0;
+	Wed,  6 Jul 2022 18:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com
- [IPv6:2607:f8b0:4864:20::e2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8007811B0A4
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 18:41:39 +0000 (UTC)
-Received: by mail-vs1-xe2e.google.com with SMTP id j1so15958083vsj.12
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 11:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Mx+gg3QeKmgimEFCxkgENq8mFFJCcPLK3Tpa8KBdXZQ=;
- b=5ImEhxj9zI5QeixgMRy2oCb09ZTGtoB6sy1iCWHZJEwpEb/2tcEQxNADRv6npBljpf
- RBFko9PzIovMhvzHZ+vyuSY9vlzgMgLtBESaw2zseX/uky3RQSPesFJA7iiB5rqdAelc
- QqO/eolI+l+BGzAnaeiSqx+J2cXRfnGkBXNCoX8Cocg4mvfcLmEDIYihPzYg3lL4e6fH
- c31WF1yoKJqHG4OJKSXfh3bZjjACv8KSKvVqBdHOm2zFuV0N1e9b1eTWMLU8SyRimOVg
- qN9LUzsND3dfxynncyS+fU3Q3Yv20MOwuTJjyZFc71LvOjkWOc9oJIOSzCqOcTAZh26S
- Pc1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Mx+gg3QeKmgimEFCxkgENq8mFFJCcPLK3Tpa8KBdXZQ=;
- b=xnx8TI22O0bO76RRKEiT4vi7ilHnSzm7YiPwAxx967SYmUS3WyY7+r5SN8JeuusvRE
- ShI08cPTcBXUp54PPEJ0/e0QKZs5++BhccL3Y0m73xfU9mEnRZ7Gd+iNIiAVrpC0Ftem
- rsgnoWGYe3dXfvvATwQYh2cA5elrz/xUPURy11GIWAAZlFLkw/KribFbG3LGpBCDToU+
- 5LKy8381VTc7ykKR4BNg5YBNUKZgO8x4XVSpYM1Z/CGKqMQ+dHxg2KngFWLgUHbrl/1j
- KXxH/d4j2jHRZkfJy7XoxumB7av+LH5yGsX76LsjvsZHYRKQTzUyBL6KoTLOsO2bON90
- z0wg==
-X-Gm-Message-State: AJIora8drJgMw49oLcm2nIB4QBF9JSYZYxG88GiMJEOvezAD1vK+gWsN
- oo9By3KNe4tBnIHCIfeHXjL08MsVkGPJQ/Xb
-X-Google-Smtp-Source: AGRyM1s5ukynxxAouwTdeCJdufFu6R51/gQaW1DL+UIgufieP8aySiDkibXdqieMtaA8i4QJFxT64Q==
-X-Received: by 2002:a05:6102:244a:b0:354:4eaa:f176 with SMTP id
- g10-20020a056102244a00b003544eaaf176mr22415969vss.45.1657132898361; 
- Wed, 06 Jul 2022 11:41:38 -0700 (PDT)
-Received: from zeta-build.. ([190.190.187.68])
- by smtp.gmail.com with ESMTPSA id
- j12-20020ab06cac000000b003828662fb30sm6052225uaa.39.2022.07.06.11.41.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 11:41:37 -0700 (PDT)
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/ssd130x: Fix pre-charge period setting
-Date: Wed,  6 Jul 2022 15:41:33 -0300
-Message-Id: <20220706184133.210888-1-ezequiel@vanguardiasur.com.ar>
-X-Mailer: git-send-email 2.34.3
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A00511B088
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 18:42:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=4l3ZvU4NeEg70mOy/QdaF5EMsczj8SOOaqrfx4OWw+w=; b=NXcsWHSchhBzKCNrRLKYwSPT2f
+ GApL1MraIqrTVq94Qn5899yWJgu725ZZMbJ+yEB5VUBrlM7ny2yW7cr8P19V4f8l7ej0WMVACOlPK
+ 4/wz37oFaAUfGrgXwF0lvgDmZc3o7frxfBgm1+gxMaiFFZVXwoH3l1oLgTheQqqa74r9y2MYF97dj
+ EOqh+suY/K+KeLqabM5FVjGee8BT/PQl4MpamY2baqJk7Mra7EKRc8DqsXhEQ25zULpss51pHILtB
+ 0rU8423dGPl5R8EmfoJP+1HD3HFH3Pd2nUP0KfRaAaKkU7HRYBnYSF/9KuWo59Zn9CSSZxjHfiszX
+ X61PmUyQ==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1o99yo-001so3-2w; Wed, 06 Jul 2022 18:42:30 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: xlnx: add <linux/io.h> for readl/writel
+Date: Wed,  6 Jul 2022 11:42:24 -0700
+Message-Id: <20220706184224.29116-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 07 Jul 2022 07:29:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,33 +47,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-arm-kernel@lists.infradead.org, Hyun Kwon <hyun.kwon@xilinx.com>,
+ David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
+ patches@lists.linux.dev, Michal Simek <michal.simek@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix small typo which causes the mask for the 'precharge1' setting
-to be used with the 'precharge2' value.
+Add a header file to prevent build errors:
 
-Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_write’:
+../drivers/gpu/drm/xlnx/zynqmp_dp.c:335:9: error: implicit declaration of function ‘writel’ [-Werror=implicit-function-declaration]
+  335 |         writel(val, dp->iomem + offset);
+../drivers/gpu/drm/xlnx/zynqmp_dp.c: In function ‘zynqmp_dp_read’:
+../drivers/gpu/drm/xlnx/zynqmp_dp.c:340:16: error: implicit declaration of function ‘readl’ [-Werror=implicit-function-declaration]
+  340 |         return readl(dp->iomem + offset);
+
+Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/gpu/drm/solomon/ssd130x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 08394444dd6e..f4886e66ff34 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -350,7 +350,7 @@ static int ssd130x_init(struct ssd130x_device *ssd130x)
- 
- 	/* Set precharge period in number of ticks from the internal clock */
- 	precharge = (SSD130X_SET_PRECHARGE_PERIOD1_SET(ssd130x->prechargep1) |
--		     SSD130X_SET_PRECHARGE_PERIOD1_SET(ssd130x->prechargep2));
-+		     SSD130X_SET_PRECHARGE_PERIOD2_SET(ssd130x->prechargep2));
- 	ret = ssd130x_write_cmd(ssd130x, 2, SSD130X_SET_PRECHARGE_PERIOD, precharge);
- 	if (ret < 0)
- 		return ret;
--- 
-2.34.3
-
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -25,6 +25,7 @@
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
++#include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
