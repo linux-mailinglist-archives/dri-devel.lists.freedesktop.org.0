@@ -2,39 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4445568941
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 15:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC7156895F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 15:27:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F476112A35;
-	Wed,  6 Jul 2022 13:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B04611B686;
+	Wed,  6 Jul 2022 13:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D54610FAAC
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 13:20:22 +0000 (UTC)
-Received: from ramsan.of.borg ([84.195.186.194])
- by michel.telenet-ops.be with bizsmtp
- id rpLL2700B4C55Sk06pLLLQ; Wed, 06 Jul 2022 15:20:20 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1o94x1-002LC2-P3; Wed, 06 Jul 2022 15:20:19 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1o94x1-009ewI-F5; Wed, 06 Jul 2022 15:20:19 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3] drm/mode: Improve drm_mode_fb_cmd2 documentation
-Date: Wed,  6 Jul 2022 15:20:18 +0200
-Message-Id: <536de72eab09242e1faf22fa58d91c9005d6ea51.1657113597.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA83111B686
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 13:27:37 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id m16so3796274edb.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 06:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VAoTYvqtCGzGoHx8PH7beT1Zf6846EDzggUtK1ftd2Q=;
+ b=vGbQcro1TYNGE7MExrnv/MlDFRVV0IXZ2Jy9LsMcYNBQi2F0t3KNJ3VsPSKX4tVy/G
+ w2TwOFSmBmjYfBy+nMZ3xjYyeK2Px3YJza4NS/MMPZBQPUAhKKOw4S/L55LaYWOWn+8R
+ LrkjnwYS7pSwUdJ7Ry9v3RbB+pHFN7BpmoFKQHb67ywFaHAsPMNwTK66yb2wSrMxXHlp
+ VsYiT9a95MbVqYVn/eROOkWwdR8UVNqqlRf+wtmKL29UPSxX/+X6K2bpYeCt1VqlOQRD
+ ML9U7+xSLHgO4pYsUaQEkq727dc2IA+RAEYpdhSdTjJyPMJbNVUEpBqOakOLG7TwhVM7
+ 4LtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VAoTYvqtCGzGoHx8PH7beT1Zf6846EDzggUtK1ftd2Q=;
+ b=m5CMDdvJSovibiN3tPDnqpjnTlBAJRmO93kmGbX68K+HvXTPTybfuD7pmDzPgIXhSj
+ ltSGBUGI6FQTzS+zaW27Z2hx8gHM+GuAc99XPNMWPA0bTSAJTzzzLguYnMAvqAwV4K4Z
+ AIKYRySR/A1KK0WS4qqzrEg+sYPrbjrm4DxdivoJdOeJ1OREK5ebxPrve9K0UhzJddVQ
+ 5H/Es0uyEKeB84/Qk7+RbDp1uK1NUfrvgelcYkengDewXDIhucwwGi/NDRwNEFEXdhLJ
+ 8s3P9nrKTlAxgJWJ9HrmjBbYJmQAExwbjv39MSXR1gbZskO6CEeaM+otz7SQYB78m6ME
+ LPow==
+X-Gm-Message-State: AJIora/S2Eo8FGqljVqt4yenT3IYo8ZjnIOg/2R2tfFy8ScOJckbmKzB
+ Yq7FUvSnGzROGEyDG8uEMYpLDEJkJzq2UZBm67LyEA==
+X-Google-Smtp-Source: AGRyM1vskFTZF4O+wMm1zEX9P3+2rr/5OchnqP4tR+YTAB8khuncXQa7GbdaxEgG8xneGNRXKppyB7z/4iXwxeYfhcI=
+X-Received: by 2002:a05:6402:248c:b0:437:afe7:818b with SMTP id
+ q12-20020a056402248c00b00437afe7818bmr53505217eda.239.1657114056472; Wed, 06
+ Jul 2022 06:27:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220706125254.2474095-1-hsinyi@chromium.org>
+In-Reply-To: <20220706125254.2474095-1-hsinyi@chromium.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 6 Jul 2022 15:27:24 +0200
+Message-ID: <CAG3jFytve9yrhfwiG-PTcq-KFPN1Hb52DPZM4nWpd5pQ9mx5Cw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] anx7625: Cleanup, fixes,
+ and implement wait_hpd_asserted
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,51 +63,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Xin Ji <xji@analogixsemi.com>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix various grammar mistakes in the kerneldoc comments documenting the
-drm_mode_fb_cmd2 structure:
-  - s/is/are/,
-  - s/8 bit/8-bit/.
+On Wed, 6 Jul 2022 at 14:53, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> This series contains:
+> Cleanup:
+> - Convert to use devm_i2c_new_dummy_device()
+> - Use pm_runtime_force_suspend(resume)
+> Fixes:
+> - Fix NULL pointer crash when using edp-panel
+> and Impelment wait_hpd_asserted() callback.
+>
+> The patches are not related to each other, but they are all
+> anx7625 patches so they are all stacked in this series.
+>
+> Hsin-Yi Wang (4):
+>   drm/bridge: anx7625: Convert to devm_i2c_new_dummy_device()
+>   drm/bridge: anx7625: use pm_runtime_force_suspend(resume)
+>   drm/bridge: anx7625: Fix NULL pointer crash when using edp-panel
+>   drm/bridge: anx7625: Add wait_hpd_asserted() callback
+>
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 179 ++++++++--------------
+>  1 file changed, 65 insertions(+), 114 deletions(-)
+>
+> --
+> 2.37.0.rc0.161.g10f37bed90-goog
+>
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Simon Ser <contact@emersion.fr>
----
-v3:
-  - Add Reviewed-by.
-
-v2:
-  - Add Acked-by,
-  - Rebase on top of commit a3574119826d9a4e ("drm: document struct
-    drm_mode_fb_cmd2") in v5.18.
----
- include/uapi/drm/drm_mode.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 0a0d56a6158e6327..fa953309d9ce5775 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -675,11 +675,11 @@ struct drm_mode_fb_cmd {
-  *   fetch metadata about an existing frame-buffer.
-  *
-  * In case of planar formats, this struct allows up to 4 buffer objects with
-- * offsets and pitches per plane. The pitch and offset order is dictated by the
-- * format FourCC as defined by ``drm_fourcc.h``, e.g. NV12 is described as:
-+ * offsets and pitches per plane. The pitch and offset order are dictated by
-+ * the format FourCC as defined by ``drm_fourcc.h``, e.g. NV12 is described as:
-  *
-- *     YUV 4:2:0 image with a plane of 8 bit Y samples followed by an
-- *     interleaved U/V plane containing 8 bit 2x2 subsampled colour difference
-+ *     YUV 4:2:0 image with a plane of 8-bit Y samples followed by an
-+ *     interleaved U/V plane containing 8-bit 2x2 subsampled colour difference
-  *     samples.
-  *
-  * So it would consist of a Y plane at ``offsets[0]`` and a UV plane at
--- 
-2.25.1
-
+Applied to drm-misc-next
