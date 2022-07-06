@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59664569060
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96795569069
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:14:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C96C711A101;
-	Wed,  6 Jul 2022 17:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBBE11A33D;
+	Wed,  6 Jul 2022 17:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D53D113D2B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 17:13:03 +0000 (UTC)
-Received: by mail-qk1-x732.google.com with SMTP id v6so11538472qkh.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 10:13:03 -0700 (PDT)
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4485611A3BE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 17:14:17 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id x1so19162315qtv.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 10:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k571fgeaK+k/31zy+4bBBONuf43p2TWINbGcjpkfNDc=;
- b=gX42jT2AYWNC7cGaOXGMeyQVMtNb6kCasYmmMrL9KFkEIIs2xt5sy2zzchC93vpHTz
- v59M7rdb5HcbOUm/cw6snNW3veLXa9nQ/4OOt25hR9nNGpne0qAyUW8245N7bqaVYfj2
- PssWLrzqWO/ag27nGs2Z0NxMqd7e/UBKiOUmhGkOGZ1vrMLZsmAMIOuACTwc9wOlpuYV
- XP8x0iru35oYUAPSM4qWwDPuYkF0Eeb1acBHz9B33aS8XmHty+Z8hUnQazIdlE9hJLe+
- PQ3ldCY0JGmq3J05OVVxEpsF5Cfqdqdbw1q1BkD3VIyTtrL3YBw/iOcwS5dQ1rULVFkL
- tU2Q==
+ :cc; bh=Gdl58Y6eruxO/UF9iHebd7iAX1fPwcfZcdGK1G6I67A=;
+ b=NcYmRAhNkr+Sej+dUBW/rUemcu4qhrB0eGXwYx5FTFmtQ8tKRufDlwJ/lkS7wER2zJ
+ jV6wRoRmAMNdAQSXMkcvIOLC2e60hR5mw9xUwmncmRINM3JFeYMHnzmNaXHfIjFlbf7S
+ LDX+d7jVDzt3eROD00YFUpwlzzpN+FGYYubdZ94XUT/jDUnTLGCPskgT+K5yZnTAH4nR
+ 9KN4M7fzv63p/y1wtxjpDfTTuC85SufMiPGqenPoHFa91gprzBOo9A8iG+THujkecbCy
+ fhtfwsTjXDPXOWFw8PTjz5echkBOFR7P9QzIipHzfLD0oVava1d+90rXJYk2Old6RtK3
+ GuUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k571fgeaK+k/31zy+4bBBONuf43p2TWINbGcjpkfNDc=;
- b=FCdl7QffSuWfWo3PchT5lnJG6R98Q7X1uQNhaOvNiScabuM+TbZ3pFoGbdL1g4XuGf
- JsCKc80mbxMS1ggiW0H+REjQvyX7X0KOfJW5u8mk45DgX90pgzK1y9CCrEjuq5L/F4vZ
- vm+Cka+h1XuRpiImTsBkOfoRF5v4t0ueNLKhslkHwOBvk3c3gwGk/6cv7pZOvuZNWv0e
- H3D2VBTuwb7hkWeIJYpMAEthmHVxE0utpuACVdbADyNezNiTg8bT85s1BshY8nu6dETJ
- kbTs8IMd5h9VHjRhtycjetT2711chUqvJIA2z+xAJ68C54+CL29RtBz1H5gG0GoXFKeA
- dKCg==
-X-Gm-Message-State: AJIora97f8c4oho3kZGiVXNJlEllvwxe60LZje31Kb45BjKRHRmdiyvn
- CWePtOjryC7lUe2cKVyXXjibAsbNda4ST4IzttWGFQ==
-X-Google-Smtp-Source: AGRyM1u3X21Jwan4j95LttRmYI0ORhnnl1BSnKPKeE019vkiDLJpcdFvlA+szPY66CexrkV0lPm7pe6AVsuV3Mi3Ens=
-X-Received: by 2002:ae9:ed56:0:b0:6ae:f7cf:7f5c with SMTP id
- c83-20020ae9ed56000000b006aef7cf7f5cmr27970088qkg.59.1657127581718; Wed, 06
- Jul 2022 10:13:01 -0700 (PDT)
+ bh=Gdl58Y6eruxO/UF9iHebd7iAX1fPwcfZcdGK1G6I67A=;
+ b=k/s1ceR07vIF33cZdZI/rAJOQ3QQgFOG22wDQb3Yvh+4q4OxQwIlrvZCjg0aKtYvSB
+ 3EMZ1PvRaKbLlJtBkRhBQ58VYcQvws5uB968mko+sFcWbuQIb6HgJUz24xkcFQMogVPr
+ xls7plYHssB3csG98vZBj89u0k8WLd+CduHK3rzOj8X5dRqqpxDFiAREzNh0Uo8eeFWA
+ vUNyEmnA+RRh1y/At1MNLxr/+AQRc/+gubIh2w0EF/Fw0xMjLao+XrA99uu/68lVP+LA
+ l9F+IUNP5bGqpkjhMDUYFgT+D6MQHk6YcXWFFXnPHDrfL88w6ulGxtJFSHYHzUmAupXB
+ 3MeA==
+X-Gm-Message-State: AJIora8/bYKxGJfC5VzIFvAwqz9WEo8Cwf55ULWDLNfM0f+hIfYs29Kz
+ 9RD2Yswnf3LBvivZt3bh+RwWOoWUq0D1Ou6Ui58xkA==
+X-Google-Smtp-Source: AGRyM1siyHqhjYbCijMakD/a+R1/ORAjQrKAxonXg7rZEccsGYIKNljc2HpasXRM2tM13BML+/t+aFxBEkjO+7fgSBU=
+X-Received: by 2002:ac8:5c96:0:b0:31a:c19a:7da1 with SMTP id
+ r22-20020ac85c96000000b0031ac19a7da1mr33974182qta.62.1657127656137; Wed, 06
+ Jul 2022 10:14:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <1657123936-2459-1-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1657123936-2459-1-git-send-email-quic_khsieh@quicinc.com>
+References: <0083bc7e23753c19902580b902582ae499b44dbf.1657113388.git.geert@linux-m68k.org>
+In-Reply-To: <0083bc7e23753c19902580b902582ae499b44dbf.1657113388.git.geert@linux-m68k.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Jul 2022 20:12:50 +0300
-Message-ID: <CAA8EJpr_u4PEOFE22EkAvDbvECzaY89oGHA+fjvrbZCYYYNK4A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dp: make eDP panel as the first connected
- connector
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Date: Wed, 6 Jul 2022 20:14:05 +0300
+Message-ID: <CAA8EJpp2u4NuimhvkXwcO2kPQCopgbDV5x=B+LEkyqoQrSW5rg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/adreno: Do not propagate void return values
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,56 +62,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
- bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
- quic_aravindh@quicinc.com, swboyd@chromium.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Jul 2022 at 19:12, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+On Wed, 6 Jul 2022 at 16:18, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Some userspace presumes that the first connected connector is the main
-> display, where it's supposed to display e.g. the login screen. For
-> laptops, this should be the main panel.
+> With sparse ("make C=2"), lots of
 >
-> This patch call drm_helper_move_panel_connectors_to_head() after
-> drm_bridge_connector_init() to make sure eDP stay at head of
-> connected connector list. This fixes unexpected corruption happen
-> at eDP panel if eDP is not placed at head of connected connector
-> list.
+>   error: return expression in void function
 >
-> Changes in v2:
-> -- move drm_helper_move_panel_connectors_to_head() to
->                 dpu_kms_drm_obj_init()
+> messages are seen.
 >
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Tested-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Fix this by removing the return statements to propagate void return
+> values.
+>
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Technically this patch was neither  Reviewed, nor Tested. Please
-refrain from posting wrong tags.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 2b9d931..50ff666 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -763,6 +763,8 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
->         if (ret)
->                 return ret;
->
-> +       drm_helper_move_panel_connectors_to_head(dev);
-> +
->         num_encoders = 0;
->         drm_for_each_encoder(encoder, dev)
->                 num_encoders++;
+> v2:
+>   - Add Reviewed-by.
 
 -- 
 With best wishes
