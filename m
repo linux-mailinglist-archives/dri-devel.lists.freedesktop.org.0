@@ -1,57 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C628656873E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 13:49:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F511568B15
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5AD710E3AB;
-	Wed,  6 Jul 2022 11:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2664610EE4B;
+	Wed,  6 Jul 2022 14:20:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA86910E3AB
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 11:49:38 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 266Bn2t8098388;
- Wed, 6 Jul 2022 06:49:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1657108142;
- bh=/Hm5NKuHmkEI4J5IotvfxOBgX6aPW33OTxGtM8kezI0=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=olY9UmIeriL4Blon2c68kr9dbzLTc/e6b5aK8NpZaeX/BHjPkL16yhtL5sZrf7A16
- vdGCnm2o+Wlql6GxO2osDdYebZwtGPu579ENX3h2DL76+6L5WlYnzPvTwk7Zai8Gnh
- lxJNJ6NiQghOpF358SCHWCelaE1kXZ4deaYBj1ZM=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 266Bn2CW002838
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 6 Jul 2022 06:49:02 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 6
- Jul 2022 06:49:02 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Wed, 6 Jul 2022 06:49:02 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 266Bn05F100662;
- Wed, 6 Jul 2022 06:49:01 -0500
-Date: Wed, 6 Jul 2022 17:19:00 +0530
-From: Rahul T R <r-ravikumar@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 1/5] dt-bindings: display: bridge: Convert
- cdns,dsi.txt to yaml
-Message-ID: <20220706114859.kz7qzthabg6yx7ch@uda0490373>
-References: <20220705121116.24121-1-r-ravikumar@ti.com>
- <20220705121116.24121-2-r-ravikumar@ti.com>
- <2f809ae4-a7cc-4210-b56f-bd09e3f2a599@linaro.org>
+Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF0E711A333
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 11:55:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1657108519; x=1688644519;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9/V+jeecOKQ9buv2Jjb6PxTGk0efO8S6cyBl2B3zFEA=;
+ b=Sroos3SzfYaun0+bXCjm/pU9SaTx1YEj0Jao7/NKnJDX16I+lphOapMN
+ fiO25a4SL3OcVDRyh0V4xgF9MxgLeNupxYWzQxgAO6vsJHpo3DrbAR36x
+ rtmYtdMWBA3FLMiF2Og16B901AxxWpBr90ndYBRrfrbf0w5VmJBs8oa/g
+ g0GkKcXkBqOL4XAhfGHhZiqAukSNGXhhkjejYs44MP0FGvcuhFRvZMzNC
+ ZRxq2kpYU8Uinl/JYvdAmYK8a6cP0M8NmeiF2mDLn+2JDPCRzG6/TfOkp
+ NgRjCGy4NIQfCZop+V02XHMSYKhAsUHTxLvMmPI7sDi/dbsHT0MSi1qEP w==;
+X-IronPort-AV: E=Sophos;i="5.92,249,1650902400"; d="scan'208";a="209871839"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jul 2022 19:55:18 +0800
+IronPort-SDR: gT5EUfscnjZDioIPPvd4OOBFSQEHpToTfAM/Vxf3ltidnldKCXfFCKDHL2rQzLjE3NsCa3qyAR
+ M8uSj2evdS7ot1ZW//vG2EZHsZRv9W/Bq+UcpS1Lz57rAqz2JHzHFKHITMeFHrgOyjtlrf6qHY
+ gI7SWjwRfj4z5IC2VIxXiNcPB07czlsWnSnxpCrImWKOsJr4DiaZF/gV90WbezGrvzhkGNCIPt
+ tnNAI0KvMVz7+PNsTEeYU29Vhzbci8JS+KbovFKrbFAyThBKTqdWVl3u50yhy6J90QyS6AfCkA
+ p+dCy/5yFiCS4IUJmt4OmAvK
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 06 Jul 2022 04:12:34 -0700
+IronPort-SDR: uqFVBT3qybuQTEEyG20Es+uH8L1ZW0NY9+0qJpLaHrel5hR8NM61nYt/b++vOsZXcK9aaRjHXn
+ u0Tm939Y2oRKJW0izUqp8xW3jMQc4eofoyh+mOChovuu30blsvQJluHOIWkbgx5eWQ44WwbjAj
+ 40KLqVtXSU+byXXhifOHk5511eBPgbHG8svJ1ein4xF/uRIVoh3juYUDSVxXQYJ8mPETVLRyND
+ QS4+JGXV7gfiAe/PoGPr+xPk6teVpQEfAWw8ToocRYFCz6y3PGDHzMLMIsG50pbm/d9bzeYB9g
+ YY4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 06 Jul 2022 04:55:20 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LdHzW39DSz1Rwnm
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 04:55:19 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1657108518; x=1659700519; bh=9/V+jeecOKQ9buv2Jjb6PxTGk0efO8S6cyB
+ l2B3zFEA=; b=lSIPiRDEYyFvXDQNNHtQithq0+PFOLUo0Zk5PgdLd4mByWeGnNN
+ mmmcjxvF73+JD1P4+Jg0yEzzRaf1IOlCheyb3waduJZm0F+naD4PCRHqVenKcJ1K
+ U0OvntK9Pwm854EII6t0DrgJeVT7QGYTS+NzhHak9QpOx92XMa0YDwBYa5FX4haO
+ 8axnji6jHR3fLDFFFGb8R78ev10jcmpthVCoKyLX0oBtrFPjCl4go3l1lMtMlG93
+ w+NoTe8NHULN+cpr1zGvHwMUgA4sBowVM6sQlIkw4S7LIDEKBB9Nn8tZjS1DWMnK
+ pB4c7HiF+n/4PXarEzy96uJIB2IBW4ZsJOw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026)
+ with ESMTP id lUZebQiIs8ML for <dri-devel@lists.freedesktop.org>;
+ Wed,  6 Jul 2022 04:55:18 -0700 (PDT)
+Received: from [10.225.163.110] (unknown [10.225.163.110])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LdHzQ65N7z1RtVk;
+ Wed,  6 Jul 2022 04:55:14 -0700 (PDT)
+Message-ID: <160267df-2f3f-02f7-4a4d-21baf60c4a44@opensource.wdc.com>
+Date: Wed, 6 Jul 2022 20:55:13 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <2f809ae4-a7cc-4210-b56f-bd09e3f2a599@linaro.org>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 00/13] Canaan devicetree fixes
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Conor Dooley <mail@conchuod.ie>
+References: <20220705215213.1802496-1-mail@conchuod.ie>
+ <CAMuHMdVOK+iHeTfRLDeMF1mwZoeH1KH_GHuCY72YnhQibGqhwA@mail.gmail.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <CAMuHMdVOK+iHeTfRLDeMF1mwZoeH1KH_GHuCY72YnhQibGqhwA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 06 Jul 2022 14:20:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,258 +99,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, a-bhatia1@ti.com, narmstrong@baylibre.com,
- airlied@linux.ie, tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- vigneshr@ti.com, devicetree@vger.kernel.org, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com, jpawar@cadence.com,
- lee.jones@linaro.org, laurent.pinchart@ideasonboard.com
+Cc: Niklas Cassel <niklas.cassel@wdc.com>, David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Dillon Min <dillon.minfei@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Serge Semin <fancer.lancer@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, dmaengine <dmaengine@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+On 7/6/22 17:03, Geert Uytterhoeven wrote:
+> Hi Conor,
+> 
+> On Tue, Jul 5, 2022 at 11:52 PM Conor Dooley <mail@conchuod.ie> wrote:
+>> I *DO NOT* have any Canaan hardware so I have not tested any of this in
+>> action. Since I sent v1, I tried to buy some since it's cheap - but could
+>> out of the limited stockists none seemed to want to deliver to Ireland :(
+>> I based the series on next-20220617.
+> 
+> Digi-Key does not want to ship to IRL?
+> The plain MAiX BiT is out-of-stock, but the kit incl. a display is
+> available (97 in stock).
 
-On 10:17-20220706, Krzysztof Kozlowski wrote:
-> On 05/07/2022 14:11, Rahul T R wrote:
-> > Convert cdns,dsi.txt binding to yaml format
-> > 
-> > Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> > ---
-> >  .../bindings/display/bridge/cdns,dsi.txt      | 112 ----------
-> >  .../bindings/display/bridge/cdns,dsi.yaml     | 198 ++++++++++++++++++
-> >  2 files changed, 198 insertions(+), 112 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
-> > deleted file mode 100644
-> > index 525a4bfd8634..000000000000
-> > --- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
-> > +++ /dev/null
-> > @@ -1,112 +0,0 @@
-> > -Cadence DSI bridge
-> > -==================
-> > -
-> > -The Cadence DSI bridge is a DPI to DSI bridge supporting up to 4 DSI lanes.
-> > -
-> > -Required properties:
-> > -- compatible: should be set to "cdns,dsi".
-> > -- reg: physical base address and length of the controller's registers.
-> > -- interrupts: interrupt line connected to the DSI bridge.
-> > -- clocks: DSI bridge clocks.
-> > -- clock-names: must contain "dsi_p_clk" and "dsi_sys_clk".
-> > -- phys: phandle link to the MIPI D-PHY controller.
-> > -- phy-names: must contain "dphy".
-> > -- #address-cells: must be set to 1.
-> > -- #size-cells: must be set to 0.
-> > -
-> > -Optional properties:
-> > -- resets: DSI reset lines.
-> > -- reset-names: can contain "dsi_p_rst".
-> > -
-> > -Required subnodes:
-> > -- ports: Ports as described in Documentation/devicetree/bindings/graph.txt.
-> > -  2 ports are available:
-> > -  * port 0: this port is only needed if some of your DSI devices are
-> > -	    controlled through  an external bus like I2C or SPI. Can have at
-> > -	    most 4 endpoints. The endpoint number is directly encoding the
-> > -	    DSI virtual channel used by this device.
-> > -  * port 1: represents the DPI input.
-> > -  Other ports will be added later to support the new kind of inputs.
-> > -
-> > -- one subnode per DSI device connected on the DSI bus. Each DSI device should
-> > -  contain a reg property encoding its virtual channel.
-> > -
-> > -Example:
-> > -	dsi0: dsi@fd0c0000 {
-> > -		compatible = "cdns,dsi";
-> > -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
-> > -		clocks = <&pclk>, <&sysclk>;
-> > -		clock-names = "dsi_p_clk", "dsi_sys_clk";
-> > -		interrupts = <1>;
-> > -		phys = <&dphy0>;
-> > -		phy-names = "dphy";
-> > -		#address-cells = <1>;
-> > -		#size-cells = <0>;
-> > -
-> > -		ports {
-> > -			#address-cells = <1>;
-> > -			#size-cells = <0>;
-> > -
-> > -			port@1 {
-> > -				reg = <1>;
-> > -				dsi0_dpi_input: endpoint {
-> > -					remote-endpoint = <&xxx_dpi_output>;
-> > -				};
-> > -			};
-> > -		};
-> > -
-> > -		panel: dsi-dev@0 {
-> > -			compatible = "<vendor,panel>";
-> > -			reg = <0>;
-> > -		};
-> > -	};
-> > -
-> > -or
-> > -
-> > -	dsi0: dsi@fd0c0000 {
-> > -		compatible = "cdns,dsi";
-> > -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
-> > -		clocks = <&pclk>, <&sysclk>;
-> > -		clock-names = "dsi_p_clk", "dsi_sys_clk";
-> > -		interrupts = <1>;
-> > -		phys = <&dphy1>;
-> > -		phy-names = "dphy";
-> > -		#address-cells = <1>;
-> > -		#size-cells = <0>;
-> > -
-> > -		ports {
-> > -			#address-cells = <1>;
-> > -			#size-cells = <0>;
-> > -
-> > -			port@0 {
-> > -				reg = <0>;
-> > -				#address-cells = <1>;
-> > -				#size-cells = <0>;
-> > -
-> > -				dsi0_output: endpoint@0 {
-> > -					reg = <0>;
-> > -					remote-endpoint = <&dsi_panel_input>;
-> > -				};
-> > -			};
-> > -
-> > -			port@1 {
-> > -				reg = <1>;
-> > -				dsi0_dpi_input: endpoint {
-> > -					remote-endpoint = <&xxx_dpi_output>;
-> > -				};
-> > -			};
-> > -		};
-> > -	};
-> > -
-> > -	i2c@xxx {
-> > -		panel: panel@59 {
-> > -			compatible = "<vendor,panel>";
-> > -			reg = <0x59>;
-> > -
-> > -			port {
-> > -				dsi_panel_input: endpoint {
-> > -					remote-endpoint = <&dsi0_output>;
-> > -				};
-> > -			};
-> > -		};
-> > -	};
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-> > new file mode 100644
-> > index 000000000000..ccedc73d8c18
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
-> > @@ -0,0 +1,198 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/cdns,dsi.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Cadence DSI bridge
-> > +
-> > +maintainers:
-> > +  - Boris Brezillon <boris.brezillon@bootlin.com>
-> > +
-> > +description: |
-> > +   CDNS DSI is a bridge device which converts DPI to DSI
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> 
-> These are not items and it does not make any sense, because you remove
-> it in second patch. Just make it an enum.
-> 
-> > +      - const: cdns,dsi
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description:
-> > +          Register block for controller's registers.
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: PSM clock, used by the IP
-> > +      - description: sys clock, used by the IP
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: dsi_p_clk
-> > +      - const: dsi_sys_clk
-> > +
-> > +  phys:
-> > +    maxItems: 1
-> > +    description: phandle link to the MIPI D-PHY controller.
-> > +
-> > +  phy-names:
-> > +    const: dphy
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> 
-> This was not present in old bindings and your commit msg says it is only
-> a conversion.
-> 
+Seedstudio is out of stock on the MAIX bit, but they have maixduino, which
+is the same, almost (pin wiring differs, everything else is the same).
 
-Thanks for the review !
-I have sent a v5 with the fixes
-please review
+https://www.seeedstudio.com/Sipeed-Maixduino-Kit-for-RISC-V-AI-IoT-p-4047.html
 
-Regards
-Rahul T R
+And you can still find plenty of MAIX bit on Aliexpress too.
 
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +    description: PHY reset.
-> > +
-> > +  reset-names:
-> > +    const: dsi_p_rst
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Output port representing the DSI output. It can have
-> > +          most 4 endpoints. The endpoint number is directly encoding
-> > +          the DSI virtual channel used by this device.
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Input port representing the DP bridge input.
-> > +
-> > +    required:
-> > +      - port@1
-> > +
-> > +allOf:
-> > +  - $ref: ../dsi-controller.yaml#
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - phys
-> > +  - phy-names
-> > +  - ports
-> > +
-> > +unevaluatedProperties: false
-> > +
 > 
-> Best regards,
-> Krzysztof
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+
+-- 
+Damien Le Moal
+Western Digital Research
