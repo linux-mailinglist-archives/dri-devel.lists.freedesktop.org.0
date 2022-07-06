@@ -1,40 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629AC56826D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 11:07:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEC1568B14
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 16:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D395112C46;
-	Wed,  6 Jul 2022 09:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31B9F10EF13;
+	Wed,  6 Jul 2022 14:20:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30948112C4A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 09:07:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18C3830A;
- Wed,  6 Jul 2022 11:07:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1657098429;
- bh=7a7sP/qfgjxBwlIY6oHlcCZlyF3jnNgn1GFBh6GTvz4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LQU4kBpLaR61Qojw4Rbx/fxB1BSWUUpqPVgc/NBbKyBBVp9rDnxq0tMg7PWsvBan4
- 6Ovr39q+qE5gV/ojoBmGniKZJl6Ma7CnUbh4+xTkA/IG1SSvjGzUEGAVf3+4lem1Kl
- 6EFL0BxNNzCiFinA8lNV+AVZCCRqcB4RWjjHOszw=
-Date: Wed, 6 Jul 2022 12:06:43 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/3] drm: rename CMA helpers to DMA helpers
-Message-ID: <YsVQo40s5PlPwynD@pendragon.ideasonboard.com>
-References: <20220705212613.732039-1-dakr@redhat.com>
- <066c5652-79e8-85df-fcf6-f5ea46f4cd48@suse.de>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B03112CF5
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 09:13:20 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id v12so5810853edc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 02:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=WKlacHhWVR2IblvCAgYMcCw7cvtmo7gBzlhxFpijOWM=;
+ b=UyINPEp8aUU7+iO4UvYReAysG8acJi4s0lW7fYS990hIHuI2KgReqshlPjlC0FcdQX
+ RWLEJ1iagzj5JHTLAwg1Tfl34CjKErUg06qCwRi5FpbuqXpIfRK0B8kuUc2l5x+40o+8
+ 2YldATzAdsq2GhIZIL2D0cZi8oKOkVG5Y5xLvvP4kajNiX5yCXAJSyEYBx1RvA9W9SdO
+ piij5Lfa0VXVwqnHofYdHxRPOmYTBO/NXTATLm6C9JRKYr2iRvgzlsZTZRGqO8gtc9pI
+ zkPBxco6Fa5B8qkZy3WblPhpXY+1PsQ3ol/zLxC+L8wAov5SdI1JA4byrn/VHyXJavbs
+ ZPkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=WKlacHhWVR2IblvCAgYMcCw7cvtmo7gBzlhxFpijOWM=;
+ b=nP1h8ZdjaAhDWg8sE5i8aDsHSqBKTumYBK5qyP4TWJkIpLAf3yIeuVJ05IxLXPAa0x
+ AKBbWaXhuXmX+Aig939ukjecMGsBZLswGbhIzS5cg+k02oBryiuZOuT3pXlCfFrEuFUB
+ 3cXiNM8n57az2ve/A91jW1wSyUQGTFBjDFMJ3UiS/GIjfWIEiXeRZMN12AiOi7ZbXsd8
+ AVO72ns9iSJTOAEc2cDB2j7mwEQ4MPj66PnxU2E6VupMZyw3eTbntZJcsdIehxAeXfwQ
+ 1tZqPDMDcfUxSIkQ6mWtLDn0RNj4YU4nTrafmR0db2BpcqWh8cBJfuYhyYzWoGZ8htBd
+ bKbQ==
+X-Gm-Message-State: AJIora/Wi+qkth84tVKgELGNb+gxrMv5gp5NCGDwhst/GlW7W8EdLSw2
+ I83IFIa61GYf3i4eSu8qBFw=
+X-Google-Smtp-Source: AGRyM1tgzHocOxIjG9HexS+g9z9ap2nsem/HblqVyMjIbl5ZbLhG8nAvflW5PCvUObUWjIPHfLadCA==
+X-Received: by 2002:a05:6402:350a:b0:435:df44:30aa with SMTP id
+ b10-20020a056402350a00b00435df4430aamr51209856edd.403.1657098799156; 
+ Wed, 06 Jul 2022 02:13:19 -0700 (PDT)
+Received: from skbuf ([188.26.185.61]) by smtp.gmail.com with ESMTPSA id
+ er13-20020a056402448d00b0043a5bcf80a2sm6350790edb.60.2022.07.06.02.13.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Jul 2022 02:13:18 -0700 (PDT)
+Date: Wed, 6 Jul 2022 12:13:15 +0300
+From: Vladimir Oltean <olteanv@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <20220706091315.p5k2jck3rmyjhvqw@skbuf>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <066c5652-79e8-85df-fcf6-f5ea46f4cd48@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+X-Mailman-Approved-At: Wed, 06 Jul 2022 14:20:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,201 +72,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-staging@lists.linux.dev, kasan-dev@googlegroups.com,
+ linux-clk@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+ linux-pm@vger.kernel.org, acpi4asus-user@lists.sourceforge.net,
+ linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-usb@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
+ linux-crypto@vger.kernel.org, netdev@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-On Wed, Jul 06, 2022 at 10:34:13AM +0200, Thomas Zimmermann wrote:
-> Am 05.07.22 um 23:26 schrieb Danilo Krummrich:
-> > This patch series renames all CMA helpers to DMA helpers - considering the
-> > hierarchy of APIs (mm/cma -> dma -> gem/fb dma helpers) calling them DMA
-> > helpers seems to be more applicable.
+On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-König wrote:
+> From: Uwe Kleine-König <uwe@kleine-koenig.org>
 > 
-> Ok, why not.
+> The value returned by an i2c driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
 > 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
 > 
-> for the series.
-> 
-> Sometimes allocation fails because there's no CMA memory left. 
-> Increasing that value on boot usually fixes the problem. Should we note 
-> somewhere in the docs that the allocator is backed by pages in CMA memory?
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
 
-CMA is only one of the backends that can be used here. For instance, if
-the device performs DMA through an IOMMU, then CMA won't be used.
+Assuming you remove the spurious kasan change:
 
-This being said, helping users who may face a problem with too little
-CMA memory is useful, but I'm not sure where the best place to put that
-information would be.
-
-> > Additionally, commit e57924d4ae80 ("drm/doc: Task to rename CMA helpers")
-> > requests to rename the CMA helpers and implies that people seem to be confused
-> > about the naming.
-> > 
-> > The patches are compile-time tested building a x86_64 kernel with
-> > `make allyesconfig && make drivers/gpu/drm`.
-> > 
-> > Danilo Krummrich (3):
-> >    drm/fb: rename FB CMA helpers to FB DMA helpers
-> >    drm/gem: rename GEM CMA helpers to GEM DMA helpers
-> >    drm/todo: remove task to rename CMA helpers
-> > 
-> >   Documentation/gpu/drm-kms-helpers.rst         |   8 +-
-> >   Documentation/gpu/drm-mm.rst                  |  16 +-
-> >   Documentation/gpu/todo.rst                    |  13 -
-> >   drivers/gpu/drm/Kconfig                       |   4 +-
-> >   drivers/gpu/drm/Makefile                      |   6 +-
-> >   drivers/gpu/drm/arm/Kconfig                   |   4 +-
-> >   drivers/gpu/drm/arm/display/Kconfig           |   2 +-
-> >   .../arm/display/komeda/komeda_framebuffer.c   |  10 +-
-> >   .../gpu/drm/arm/display/komeda/komeda_kms.c   |  10 +-
-> >   drivers/gpu/drm/arm/hdlcd_crtc.c              |   6 +-
-> >   drivers/gpu/drm/arm/hdlcd_drv.c               |   8 +-
-> >   drivers/gpu/drm/arm/malidp_drv.c              |  10 +-
-> >   drivers/gpu/drm/arm/malidp_mw.c               |   6 +-
-> >   drivers/gpu/drm/arm/malidp_planes.c           |  24 +-
-> >   drivers/gpu/drm/armada/armada_gem.c           |   6 +-
-> >   drivers/gpu/drm/aspeed/Kconfig                |   2 +-
-> >   drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |   8 +-
-> >   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |   8 +-
-> >   drivers/gpu/drm/atmel-hlcdc/Kconfig           |   2 +-
-> >   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |   6 +-
-> >   .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |   6 +-
-> >   ...rm_fb_cma_helper.c => drm_fb_dma_helper.c} |  52 +--
-> >   drivers/gpu/drm/drm_file.c                    |   2 +-
-> >   drivers/gpu/drm/drm_format_helper.c           |   4 +-
-> >   ..._gem_cma_helper.c => drm_gem_dma_helper.c} | 296 +++++++++---------
-> >   drivers/gpu/drm/drm_mipi_dbi.c                |   2 +-
-> >   drivers/gpu/drm/fsl-dcu/Kconfig               |   2 +-
-> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |   8 +-
-> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c     |   2 +-
-> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c   |   8 +-
-> >   drivers/gpu/drm/hisilicon/kirin/Kconfig       |   2 +-
-> >   .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  10 +-
-> >   .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |   4 +-
-> >   drivers/gpu/drm/imx/Kconfig                   |   2 +-
-> >   drivers/gpu/drm/imx/dcss/Kconfig              |   2 +-
-> >   drivers/gpu/drm/imx/dcss/dcss-kms.c           |   6 +-
-> >   drivers/gpu/drm/imx/dcss/dcss-plane.c         |  18 +-
-> >   drivers/gpu/drm/imx/imx-drm-core.c            |  10 +-
-> >   drivers/gpu/drm/imx/imx-drm.h                 |   2 +-
-> >   drivers/gpu/drm/imx/ipuv3-crtc.c              |   4 +-
-> >   drivers/gpu/drm/imx/ipuv3-plane.c             |  28 +-
-> >   drivers/gpu/drm/ingenic/Kconfig               |   2 +-
-> >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  14 +-
-> >   drivers/gpu/drm/ingenic/ingenic-ipu.c         |  12 +-
-> >   drivers/gpu/drm/kmb/Kconfig                   |   2 +-
-> >   drivers/gpu/drm/kmb/kmb_drv.c                 |   6 +-
-> >   drivers/gpu/drm/kmb/kmb_plane.c               |  10 +-
-> >   drivers/gpu/drm/mcde/Kconfig                  |   2 +-
-> >   drivers/gpu/drm/mcde/mcde_display.c           |   8 +-
-> >   drivers/gpu/drm/mcde/mcde_drv.c               |  10 +-
-> >   drivers/gpu/drm/mediatek/Kconfig              |   2 +-
-> >   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   2 +-
-> >   drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   4 +-
-> >   drivers/gpu/drm/meson/Kconfig                 |   2 +-
-> >   drivers/gpu/drm/meson/meson_drv.c             |  10 +-
-> >   drivers/gpu/drm/meson/meson_overlay.c         |  12 +-
-> >   drivers/gpu/drm/meson/meson_plane.c           |   8 +-
-> >   drivers/gpu/drm/msm/msm_drv.c                 |   2 +-
-> >   drivers/gpu/drm/mxsfb/Kconfig                 |   2 +-
-> >   drivers/gpu/drm/mxsfb/mxsfb_drv.c             |   6 +-
-> >   drivers/gpu/drm/mxsfb/mxsfb_kms.c             |  10 +-
-> >   drivers/gpu/drm/panel/Kconfig                 |   2 +-
-> >   drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   6 +-
-> >   drivers/gpu/drm/pl111/Kconfig                 |   2 +-
-> >   drivers/gpu/drm/pl111/pl111_display.c         |   8 +-
-> >   drivers/gpu/drm/pl111/pl111_drv.c             |  10 +-
-> >   drivers/gpu/drm/rcar-du/Kconfig               |   2 +-
-> >   drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   4 +-
-> >   drivers/gpu/drm/rcar-du/rcar_du_drv.c         |   6 +-
-> >   drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  38 +--
-> >   drivers/gpu/drm/rcar-du/rcar_du_plane.c       |   8 +-
-> >   drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |   6 +-
-> >   drivers/gpu/drm/rockchip/Kconfig              |   2 +-
-> >   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +-
-> >   drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   4 +-
-> >   drivers/gpu/drm/shmobile/Kconfig              |   2 +-
-> >   drivers/gpu/drm/shmobile/shmob_drm_crtc.c     |  10 +-
-> >   drivers/gpu/drm/shmobile/shmob_drm_drv.c      |   6 +-
-> >   drivers/gpu/drm/shmobile/shmob_drm_kms.c      |   4 +-
-> >   drivers/gpu/drm/shmobile/shmob_drm_kms.h      |   2 +-
-> >   drivers/gpu/drm/shmobile/shmob_drm_plane.c    |  10 +-
-> >   drivers/gpu/drm/solomon/ssd130x.c             |   2 +-
-> >   drivers/gpu/drm/sprd/Kconfig                  |   2 +-
-> >   drivers/gpu/drm/sprd/sprd_dpu.c               |  10 +-
-> >   drivers/gpu/drm/sprd/sprd_drm.c               |   6 +-
-> >   drivers/gpu/drm/sti/Kconfig                   |   2 +-
-> >   drivers/gpu/drm/sti/sti_cursor.c              |  14 +-
-> >   drivers/gpu/drm/sti/sti_drv.c                 |   8 +-
-> >   drivers/gpu/drm/sti/sti_gdp.c                 |  18 +-
-> >   drivers/gpu/drm/sti/sti_hqvdp.c               |  18 +-
-> >   drivers/gpu/drm/sti/sti_plane.c               |   4 +-
-> >   drivers/gpu/drm/stm/Kconfig                   |   2 +-
-> >   drivers/gpu/drm/stm/drv.c                     |  12 +-
-> >   drivers/gpu/drm/stm/ltdc.c                    |  16 +-
-> >   drivers/gpu/drm/sun4i/Kconfig                 |   2 +-
-> >   drivers/gpu/drm/sun4i/sun4i_backend.c         |   6 +-
-> >   drivers/gpu/drm/sun4i/sun4i_drv.c             |  10 +-
-> >   drivers/gpu/drm/sun4i/sun4i_frontend.c        |  10 +-
-> >   drivers/gpu/drm/sun4i/sun8i_mixer.c           |   4 +-
-> >   drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |   8 +-
-> >   drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |   8 +-
-> >   drivers/gpu/drm/tegra/fb.c                    |   2 +-
-> >   drivers/gpu/drm/tidss/Kconfig                 |   2 +-
-> >   drivers/gpu/drm/tidss/tidss_crtc.c            |   4 +-
-> >   drivers/gpu/drm/tidss/tidss_dispc.c           |  12 +-
-> >   drivers/gpu/drm/tidss/tidss_drv.c             |   6 +-
-> >   drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
-> >   drivers/gpu/drm/tidss/tidss_plane.c           |   2 +-
-> >   drivers/gpu/drm/tilcdc/Kconfig                |   2 +-
-> >   drivers/gpu/drm/tilcdc/tilcdc_crtc.c          |   8 +-
-> >   drivers/gpu/drm/tilcdc/tilcdc_drv.c           |   6 +-
-> >   drivers/gpu/drm/tiny/Kconfig                  |  22 +-
-> >   drivers/gpu/drm/tiny/arcpgu.c                 |  12 +-
-> >   drivers/gpu/drm/tiny/hx8357d.c                |   6 +-
-> >   drivers/gpu/drm/tiny/ili9163.c                |   6 +-
-> >   drivers/gpu/drm/tiny/ili9225.c                |  12 +-
-> >   drivers/gpu/drm/tiny/ili9341.c                |   6 +-
-> >   drivers/gpu/drm/tiny/ili9486.c                |   6 +-
-> >   drivers/gpu/drm/tiny/mi0283qt.c               |   6 +-
-> >   drivers/gpu/drm/tiny/panel-mipi-dbi.c         |   6 +-
-> >   drivers/gpu/drm/tiny/repaper.c                |  12 +-
-> >   drivers/gpu/drm/tiny/st7586.c                 |  12 +-
-> >   drivers/gpu/drm/tiny/st7735r.c                |   6 +-
-> >   drivers/gpu/drm/tve200/Kconfig                |   2 +-
-> >   drivers/gpu/drm/tve200/tve200_display.c       |  12 +-
-> >   drivers/gpu/drm/tve200/tve200_drv.c           |   8 +-
-> >   drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
-> >   drivers/gpu/drm/v3d/v3d_gem.c                 |   4 +-
-> >   drivers/gpu/drm/vc4/Kconfig                   |   2 +-
-> >   drivers/gpu/drm/vc4/vc4_bo.c                  |  44 +--
-> >   drivers/gpu/drm/vc4/vc4_crtc.c                |  10 +-
-> >   drivers/gpu/drm/vc4/vc4_drv.c                 |   8 +-
-> >   drivers/gpu/drm/vc4/vc4_drv.h                 |  18 +-
-> >   drivers/gpu/drm/vc4/vc4_gem.c                 |   4 +-
-> >   drivers/gpu/drm/vc4/vc4_plane.c               |  10 +-
-> >   drivers/gpu/drm/vc4/vc4_render_cl.c           |  26 +-
-> >   drivers/gpu/drm/vc4/vc4_txp.c                 |   6 +-
-> >   drivers/gpu/drm/vc4/vc4_v3d.c                 |   4 +-
-> >   drivers/gpu/drm/vc4/vc4_validate.c            |  16 +-
-> >   drivers/gpu/drm/vc4/vc4_validate_shaders.c    |   2 +-
-> >   drivers/gpu/drm/xlnx/Kconfig                  |   2 +-
-> >   drivers/gpu/drm/xlnx/zynqmp_disp.c            |   4 +-
-> >   drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |   8 +-
-> >   ...rm_fb_cma_helper.h => drm_fb_dma_helper.h} |  10 +-
-> >   include/drm/drm_gem.h                         |   2 +-
-> >   ..._gem_cma_helper.h => drm_gem_dma_helper.h} | 154 ++++-----
-> >   146 files changed, 777 insertions(+), 790 deletions(-)
-> >   rename drivers/gpu/drm/{drm_fb_cma_helper.c => drm_fb_dma_helper.c} (68%)
-> >   rename drivers/gpu/drm/{drm_gem_cma_helper.c => drm_gem_dma_helper.c} (60%)
-> >   rename include/drm/{drm_fb_cma_helper.h => drm_fb_dma_helper.h} (56%)
-> >   rename include/drm/{drm_gem_cma_helper.h => drm_gem_dma_helper.h} (53%)
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
