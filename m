@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A785680C7
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 10:10:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE6A5680C4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 10:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B01E410FF22;
-	Wed,  6 Jul 2022 08:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4014510EB16;
+	Wed,  6 Jul 2022 08:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15E2111228F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 08:10:00 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id v6so10513867qkh.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 01:10:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pNNZ2G3zXs1oo3JcBfsTX3whovGatUAPfm1YVK9uZPI=;
- b=nJxeEaWjia6T6eFZSZjhBh307gRsytGXxC9mrF0x1y30XQNFOsw/+mu3YdddP+R/it
- +2Rk5lDqc1mSW9TR42LWS4e3GGL4kPdJjgWP98qgbp9Fl4kGtAXI59DKsTNMgUd+C7SY
- vQxCmrx4c0Kg3mi+j8dgXPMLkGKThhQS4fkapb7DO1DcInjOxMGOiksBzKzxHqRFfSPF
- i4VQ5lK4xZph6tYiA76wrlp4R1KQIW0meTDakMz82gFliwydY9lPY7oDHju+rFTEvwR0
- XwCMWh0ohG98/P3GydKv8wpEmznQbumFi2fsOWwzZMmnv1s7qVeYrIbaFxyoAfxpTT5C
- bLDg==
-X-Gm-Message-State: AJIora+bxJhctiofqgjglox4sJcEBFXdNlTlVsP9hQphD6EwIJFW9Jek
- sAZOWb44C5Zd7JKdZAYyONvy8PZWXkp+7w==
-X-Google-Smtp-Source: AGRyM1s00XACF5LMWuDMslWYCuZTVCcCKXF0PgH64hyER+CjEgKYUvlK7xXg7weTHDwktMdBRGTvGg==
-X-Received: by 2002:a05:620a:461f:b0:6af:6f18:b429 with SMTP id
- br31-20020a05620a461f00b006af6f18b429mr26057872qkb.646.1657094998869; 
- Wed, 06 Jul 2022 01:09:58 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
- [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
- r4-20020ac84244000000b00317ca023e33sm23352701qtm.80.2022.07.06.01.09.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 01:09:58 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id i14so6323814yba.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 01:09:58 -0700 (PDT)
-X-Received: by 2002:a25:be49:0:b0:64a:2089:f487 with SMTP id
- d9-20020a25be49000000b0064a2089f487mr27921915ybm.202.1657094998024; Wed, 06
- Jul 2022 01:09:58 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8A53E10E608;
+ Wed,  6 Jul 2022 08:09:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D6E51596;
+ Wed,  6 Jul 2022 01:09:55 -0700 (PDT)
+Received: from [10.57.42.44] (unknown [10.57.42.44])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F28C3F792;
+ Wed,  6 Jul 2022 01:09:51 -0700 (PDT)
+Message-ID: <ca5b2602-358c-ce37-c698-8aaf4f579945@arm.com>
+Date: Wed, 6 Jul 2022 09:09:50 +0100
 MIME-Version: 1.0
-References: <20220705215213.1802496-1-mail@conchuod.ie>
-In-Reply-To: <20220705215213.1802496-1-mail@conchuod.ie>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Jul 2022 10:09:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXrVsvYRth+edCs6_bdDTWDacxegMDmgy9HeaKPRaWfkg@mail.gmail.com>
-Message-ID: <CAMuHMdXrVsvYRth+edCs6_bdDTWDacxegMDmgy9HeaKPRaWfkg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/13] Canaan devicetree fixes
-To: Conor Dooley <mail@conchuod.ie>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH V3 02/20] OPP: Make dev_pm_opp_set_regulators() accept
+ NULL terminated list
+Content-Language: en-GB
+To: Viresh Kumar <viresh.kumar@linaro.org>
+References: <cover.1656935522.git.viresh.kumar@linaro.org>
+ <9730e011004b7526e79c6f409f5147fb235b414a.1656935522.git.viresh.kumar@linaro.org>
+ <48d865e8-6c0d-99c0-a43b-89793d5c3f85@arm.com>
+ <20220705043439.xlrxusxrhwjupiyt@vireshk-i7>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20220705043439.xlrxusxrhwjupiyt@vireshk-i7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +47,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv <linux-riscv@lists.infradead.org>, Sam Ravnborg <sam@ravnborg.org>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Dillon Min <dillon.minfei@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Serge Semin <fancer.lancer@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, dmaengine <dmaengine@vger.kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Vincent Guittot <vincent.guittot@linaro.org>, lima@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, linux-pm@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Conor,
+On 05/07/2022 05:34, Viresh Kumar wrote:
+> On 04-07-22, 15:35, Steven Price wrote:
+>> I have to say the 'new improved' list ending with NULL approach doesn't
+>> work out so well for Panfrost. We already have to have a separate
+>> 'num_supplies' variable for devm_regulator_bulk_get() /
+>> regulator_bulk_{en,dis}able(), so the keeping everything in sync
+>> argument is lost here.
+>>
+>> I would suggest added the NULL on the end of the lists in panfrost_drv.c
+>> but then it would break the use of ARRAY_SIZE() to automagically keep
+>> the length correct...
+> 
+> Actually we can still make it work.
+> 
+>> For now the approach isn't too bad because Panfrost doesn't yet support
+>> enabling devfreq with more than one supply. But that array isn't going
+>> to work so nicely when that restriction is removed.
+>>
+>> The only sane way I can see of handling this in Panfrost would be
+>> replicating the loop to count the supplies in the Panfrost code which
+>> would allow dropping num_supplies from struct panfrost_compatible and
+>> then supply_names in the same struct could be NULL terminated ready for
+>> devm_pm_opp_set_regulators().
+> 
+> Or doing this, which will simplify both the cases.
 
-On Tue, Jul 5, 2022 at 11:52 PM Conor Dooley <mail@conchuod.ie> wrote:
-> This series should rid us of dtbs_check errors for the RISC-V Canaan k210
-> based boards. To make keeping it that way a little easier, I changed the
-> Canaan devicetree Makefile so that it would build all of the devicetrees
-> in the directory if SOC_CANAAN.
->
-> I *DO NOT* have any Canaan hardware so I have not tested any of this in
-> action. Since I sent v1, I tried to buy some since it's cheap - but could
-> out of the limited stockists none seemed to want to deliver to Ireland :(
-> I based the series on next-20220617.
+Yes the below works, it's just a bit ugly having the "- 1", and
+potentially easy to forgot when adding another. However I don't suppose
+it would get far in that case so I think it would be spotted quickly
+when adding a new compatible.
 
-Boots fine on SiPEED MAiX BiT, so
-Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+It's probably the best solution at the moment.
 
-Gr{oetje,eeting}s,
+Thanks,
 
-                        Geert
+Steve
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 7fcbc2a5b6cd..b3b55565b8ef 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -625,24 +625,29 @@ static int panfrost_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>  
+> -static const char * const default_supplies[] = { "mali" };
+> +/*
+> + * The OPP core wants the supply names to be NULL terminated, but we need the
+> + * correct num_supplies value for regulator core. Hence, we NULL terminate here
+> + * and then initialize num_supplies with ARRAY_SIZE - 1.
+> + */
+> +static const char * const default_supplies[] = { "mali", NULL };
+>  static const struct panfrost_compatible default_data = {
+> -       .num_supplies = ARRAY_SIZE(default_supplies),
+> +       .num_supplies = ARRAY_SIZE(default_supplies) - 1,
+>         .supply_names = default_supplies,
+>         .num_pm_domains = 1, /* optional */
+>         .pm_domain_names = NULL,
+>  };
+>  
+>  static const struct panfrost_compatible amlogic_data = {
+> -       .num_supplies = ARRAY_SIZE(default_supplies),
+> +       .num_supplies = ARRAY_SIZE(default_supplies) - 1,
+>         .supply_names = default_supplies,
+>         .vendor_quirk = panfrost_gpu_amlogic_quirk,
+>  };
+>  
+> -static const char * const mediatek_mt8183_supplies[] = { "mali", "sram" };
+> +static const char * const mediatek_mt8183_supplies[] = { "mali", "sram", NULL };
+>  static const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
+>  static const struct panfrost_compatible mediatek_mt8183_data = {
+> -       .num_supplies = ARRAY_SIZE(mediatek_mt8183_supplies),
+> +       .num_supplies = ARRAY_SIZE(mediatek_mt8183_supplies) - 1,
+>         .supply_names = mediatek_mt8183_supplies,
+>         .num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
+>         .pm_domain_names = mediatek_mt8183_pm_domains,
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
