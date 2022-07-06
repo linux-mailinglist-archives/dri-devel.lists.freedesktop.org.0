@@ -2,106 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D9756904D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF34569055
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:10:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88D8411AA2B;
-	Wed,  6 Jul 2022 17:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF80F10F09F;
+	Wed,  6 Jul 2022 17:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2051.outbound.protection.outlook.com [40.107.96.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51A7910FD4E;
- Wed,  6 Jul 2022 17:05:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d4bGOIb7VrnTuCUL9Yv0GNUIjp4eB6gU60DxnPq1tjdmBhoN4aGeQlpCF3a99qZq2eoBVdQmQOhucFXiW8t835oFULRCTYAnTHlLMcodEk9N2xqpkAHhKalzqj8exjFGMpOpU+sP0QSEGymNXZQ1CX43/DIpKMKKTr3SNlFnFavoCCRs6nvggHdcckrFKjss831RJz/lbkTsGw4g9niSwKPy1wvs6Ksdgl5kIiCMtauDaf8oLAvl1D3KTjF1K/fkFVL/bZ/JtlNfICF1ZR/SPFfwSOmhxOndikn0utCl2HUZraALZ1U1m/GBHTGMSbKlxWCd8PU2zIB3vsRkTeAk7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HAbWpD5CJOJvzysXSSJ2RQv2wM/6KghQ1ASRtvVljvE=;
- b=CUfm4YfSoFdOLXKpLTSFpbdsZHsuaOTLSyQCssppLoWLcgNsmg2UhaNnaEzBscwV0oHhe/CTwsq27to37JocIOtKG4hTyTOiat+SHYDa/isvBp/g7ChxgFCtKZWzHLlJqSIOeU2b53Lb1GGMHhP/J4Li+VWT6kB1JeGAu2J0W8IFZUy0u4BPKuuUmMV6rvYRIMcHgLovN2dvd/bTBi9ZMlx4dgnAAlRCo38/RCeREp/9eXUjuJNNnPRVTWkiJiCbfpB/3M8IbXUweO5bJ4RLgbY1fgVixf9uwVwTKBGnwUNLYrG5sVe3+YVa3DOvL1a0nXLIsWjrQa1IfbYCrMeswA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HAbWpD5CJOJvzysXSSJ2RQv2wM/6KghQ1ASRtvVljvE=;
- b=iCctWF59r58iKiu7YUVC63xcNmAulrvg/qojH6xtyD8DET0BNt9qMANX2hiCH64R7dZ7wHnbnfCrL9IVk3UQY7h0tfa81kTp1s02QwWxE0QEkkYsf2a9DvEg/BkumvF6CIeO/dHqg17fZHDkfTTB1oMkC5EfA49Yae+njsF8xsqknm1M/3t2FW7NvPBtDSpqxCGJeowvLJ6PR8e0s7hThjx72zi34puWVzavjejeB38PJpiAdXPycJmmHJcZ4EszYzzhjRv8+SLbWGxE9kVVMzl1q3Mrxcx6kpRybaJfRaBpaIhWaOvYpYpKeCDKMftWi4g8E8V8ZBPO2XV83OFLow==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by MW4PR12MB5643.namprd12.prod.outlook.com (2603:10b6:303:188::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.21; Wed, 6 Jul
- 2022 17:05:55 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5395.021; Wed, 6 Jul 2022
- 17:05:55 +0000
-Date: Wed, 6 Jul 2022 14:05:53 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [RFT][PATCH v2 3/9] vfio/ccw: Only pass in contiguous pages
-Message-ID: <20220706170553.GK693670@nvidia.com>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-4-nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706062759.24946-4-nicolinc@nvidia.com>
-X-ClientProxiedBy: MN2PR02CA0020.namprd02.prod.outlook.com
- (2603:10b6:208:fc::33) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B341C10EB54;
+ Wed,  6 Jul 2022 17:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657127423; x=1688663423;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=TbGQzRVjQ1/KRLj9FlG4JIIf1fYkf9EIHFnhf/OkieA=;
+ b=nC5ngAI2BM7Wp2Bq7+VL5Zu1ysQ7j1PbzWouAm15GDaOiPMNg2l64CbW
+ 4T1AgsUf3M9DqBFLrtkXllvHqfagWLrmsjmFCnH2evGuzO1w+NbsLP+Uh
+ 996OIA7kh9k9vDMSES8v+EOhfUEVJET8B3SFv4OKdqiwmvDepTyi38een
+ hd5ZervmJXyjjPfH9L5NZn6poWzhsCKWzGmgY155dkEMMZju10FXs/fOq
+ SkHRa0MO5GXA+KrgCzejxcHF9PddpTrzm1GO8arFH1kNlnGPTqNx/YaQ0
+ KeCsLJr8FfG/IvTTTmN6uj2irM1LYWgKP9Y1tIkHz6/xWMdptu0HIInqx A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="284937420"
+X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; d="scan'208";a="284937420"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 10:10:22 -0700
+X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; d="scan'208";a="620412713"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
+ ([10.249.32.242])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 10:10:19 -0700
+Date: Wed, 6 Jul 2022 19:10:16 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH v2 2/7] drm/i915/gem: Typecheck page lookups
+Message-ID: <20220706191016.5108f063@maurocar-mobl2>
+In-Reply-To: <f2f2dd4e-c6b5-8d69-3ddc-e1e1bfdd02f3@intel.com>
+References: <20220705122455.3866745-1-gwan-gyeong.mun@intel.com>
+ <20220705122455.3866745-3-gwan-gyeong.mun@intel.com>
+ <20220705163508.4dc35087@maurocar-mobl2>
+ <f2f2dd4e-c6b5-8d69-3ddc-e1e1bfdd02f3@intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 304915a4-a3b3-46dd-8de8-08da5f71c9cf
-X-MS-TrafficTypeDiagnostic: MW4PR12MB5643:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PucM7TtUSEr0BcCoFSp+1008lUFmNqRHkrCk44oKpjCckqYkkKxtXEHgNmSEFZRK+Dl+pYFlYMINuMx8X8iMi4P4UJmRig6eMakbtScW4IOPnjB0lxQFOI2azY3clO1ZO4oTB/wf7vtk3Vzg1T+rns0Ua1NJBxeTNAuF0g8jnEM7Er0F7FArh2DhwZa+Hz+CygczNFPjA9GYet4EyhbBVCh+Q7LaCw4suQdab0hQ87el1+UIUn/uhD8PVPBn+y59ERIzu1Zd1Mjb/EwGy0fYGOl4c4RzXfh4iiYDDSCA4AWwwMxSCb1A5PukkM33/tH9pphktalBQt9Fl8CTPtwYPipJaBpBQLTHisM+KlQXBVjchegTGgAFuO4vJswqbQsDsB4vHNHEkzWp/LLux936lPJOj9AT0jj50LG3QuKYyw/OjyQ+MR4fvPYFl/iijH1qCXN3zQI7w6QI0Psaxskx5O8xFM1oMg5SpuQoQKBpeWV29I1YrFWHIp1FGR+VodMJqs9aYsX5jXJSg9bvMRlaoQ8KT4MtKhD1o/XUPE5UXAWhGAEngk4ky6g2+IrLNgMh0R/mYqeNvu3NqmeTNh2hQXDCgH02eUYLPx7BH3zuQWsxW4YuJtcVCFFiTRliqVjqgwu1EER01c8TS1LNUXdFs5rLatE8zPB3nFRKjneYOmNV+lgty4C+I9N7bTpBQp295htj4H/kFrEp2q7szpEgwqLArOPbzvcJTH92CtSZB+b51eQRwYEc/hDT7/qpN8lyrXziUz7IGo81OQrxu4/QbJLWBYSucH2WIjKDgWRC1pScc7LVVy9O1IuC6a6hybOQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(8676002)(4326008)(478600001)(66946007)(66556008)(1076003)(66476007)(6486002)(186003)(41300700001)(6506007)(2616005)(6636002)(37006003)(83380400001)(316002)(26005)(86362001)(2906002)(6512007)(38100700002)(8936002)(6862004)(36756003)(7406005)(7416002)(5660300002)(33656002)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NLxmbqXRv3rr0GSNGOvXMHrJL5qC3g815C7cDXyIJsbQQFAUX4TyCYLVJXrV?=
- =?us-ascii?Q?R3Ap2sGDvHVutcr0UxvOrMeydcYryET/cNXqitz7y5TdDc2X18GVBw5dPWEj?=
- =?us-ascii?Q?XMrvkN08rEmSCBnFbZwjYExflIK2I7Q8deiCHqvlOBJFP3EDmaehc2gUsdpx?=
- =?us-ascii?Q?CI0hCqc9jsskC0FTAntRDriKQ+SciSktcDwTNS/rwvyXCxSoYreidw79u5TX?=
- =?us-ascii?Q?QAUCxv4xpb3nSQ2FA6CeX49xtFlx3Egs2vg+ueTBM4IEFJ4V8Ho0sOWqdrCK?=
- =?us-ascii?Q?b72Tm0i526ok4u80UvX90z7qy61YYstCYNgkZLiC+WuYNdq+00i3aq8/cegy?=
- =?us-ascii?Q?nn8LdOP8FCAft2QKMnd3Z73vz7zDo1ZeJ/nfRvOHZtBnWs8+Q8YsriRvAwyn?=
- =?us-ascii?Q?1nrwPgGOT9IwHrmnHGNQEaXMn4dsgEAawkVtgdzr/bdwXNx1oD167CT5pwaM?=
- =?us-ascii?Q?kHiKB0DVWnA/yEGnrNH+f273MgzFpS84ycJmUAh7XofpU3NxgwJ/h3lknOVl?=
- =?us-ascii?Q?4QA1YKYiczt7Ykd3Z2b5RWvcimsO78OFEjyJLa9qBbRPQffkj+Qiroft7yJN?=
- =?us-ascii?Q?6HkwXZnnjnEJ/0hw4R5diW1IiwXNO4FrtJDgdTxWod0twpjqmy/BzKghrCtS?=
- =?us-ascii?Q?qQnXseSAKCn5PexAGoKJojGEQjENyabDJUFO53qNaurAML7iIG1/nMDXeWeW?=
- =?us-ascii?Q?C+kfnX87s0ak92Edi6X3A5+O2Idse0tZAFcmco1qSMvzeWsOH1kxlpEtSIoX?=
- =?us-ascii?Q?WxWxL9e4lPnwVqW4z37Uacg8GJEzXD0JAp9aIsCpeC2DAxVPVWPzm8gS8UmC?=
- =?us-ascii?Q?DnTSZjgz+SsU1w6TXTTrP2BR8hBUaMlWzhOlnJf5OCVWp1BkT2u9yi6ZfbMB?=
- =?us-ascii?Q?4MnSrMkpX7iYLyajJfgd3bXUGUuqpWAs753rN7ji+e9ZPpdq5pOuaerEtz4e?=
- =?us-ascii?Q?Ugb+NvfjsnIg9TueuwaxxbS/el7lw6juteyx7DFWOKXIlltcgzkMrDfPR2d6?=
- =?us-ascii?Q?SojdhyhEk7thBmEh4RsTfIEUBhFAjac57Uv/z60dIe0lOJYDapMaeFk8b/Qk?=
- =?us-ascii?Q?j7CKxqn1dCIVXEfjUjLfKO9Vabt97sr1Po0v6F6pa72vyIwtdwGiCUZrmKJc?=
- =?us-ascii?Q?eNM3KqLi4E+YtcyaQHWGACkE+ah6WoT0F56PpVVTsMLo6ThNma7Q8Y8vsheC?=
- =?us-ascii?Q?mT4hdBBb33kLd9eWrOsx4sWHjfcWHPeuPBFmQF1kC5koqdLXt8sQ9O9MzeVL?=
- =?us-ascii?Q?YPqh+5KCWMuMkmvE31WEMEeaafu+kdp2Mpkn73zhG3ZvWwe6wABAvPMpu/NX?=
- =?us-ascii?Q?+Y9bSIUDRwFFpyQCO8qNzYaj8w9fd13f5gzj7AtyUA1HkwIRfcB8e79Wr/8l?=
- =?us-ascii?Q?SEY4rXYaW4/58tOWBbfKIXAcV5qiSVAsmtXBq+EkEQBO7g8/FQyQi6sGy8wn?=
- =?us-ascii?Q?lk/jfoWT1E8pVYSW9vPB9m4XsAUjFv3N7yrjIahDEjDmPwFBDOtIa9+AvlFc?=
- =?us-ascii?Q?J5g9D7nMMrvLChYdkudIJ4hNrfRG+W3Ljl3/vVJW2uWc5Acxw/ii9To9Ld7a?=
- =?us-ascii?Q?SnLPACzIA1i0p5Ru1NDNm12pSHhZ7hTSqjxBei0A?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 304915a4-a3b3-46dd-8de8-08da5f71c9cf
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 17:05:54.9830 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JZfRcwtynMltMjOJ6h/4HPw33pgBa2bF5CjhLq/WDC5KTHfLIVtMThnkKJsZIP3l
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5643
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,56 +60,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
- kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
- agordeev@linux.ibm.com, hch@infradead.org, kvm@vger.kernel.org, corbet@lwn.net,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, jjherne@linux.ibm.com,
- farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
- linux-s390@vger.kernel.org, hca@linux.ibm.com, alex.williamson@redhat.com,
- freude@linux.ibm.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
- tvrtko.ursulin@linux.intel.com, cohuck@redhat.com, oberpar@linux.ibm.com,
- svens@linux.ibm.com
+Cc: thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, airlied@linux.ie, matthew.auld@intel.com,
+ nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 05, 2022 at 11:27:53PM -0700, Nicolin Chen wrote:
-> This driver is the only caller of vfio_pin/unpin_pages that might pass
-> in a non-contiguous PFN list, but in many cases it has a contiguous PFN
-> list to process. So letting VFIO API handle a non-contiguous PFN list
-> is actually counterproductive.
-> 
-> Add a pair of simple loops to pass in contiguous PFNs only, to have an
-> efficient implementation in VFIO.
-> 
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  drivers/s390/cio/vfio_ccw_cp.c | 70 +++++++++++++++++++++++++++-------
->  1 file changed, 56 insertions(+), 14 deletions(-)
+On Wed, 6 Jul 2022 19:33:22 +0300
+Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
 
-I think this is fine as-is for this series, but someone who knows and
-can test ccw should go in and fix things so that pfn_array_alloc()
-doesn't exist. Allocating memory and filling it with consecutive
-integers is kind of silly given we can just call vfio_pin_pages() with
-pa_nr directly.
+> On 7/5/22 5:35 PM, Mauro Carvalho Chehab wrote:
+> > On Tue,  5 Jul 2022 15:24:50 +0300
+> > Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
+> >  =20
+> >> From: Chris Wilson <chris@chris-wilson.co.uk>
+> >>
+> >> We need to check that we avoid integer overflows when looking up a pag=
+e,
+> >> and so fix all the instances where we have mistakenly used a plain
+> >> integer instead of a more suitable long. Be pedantic and add integer
+> >> typechecking to the lookup so that we can be sure that we are safe.
+> >> And it also uses pgoff_t as our page lookups must remain compatible wi=
+th
+> >> the page cache, pgoff_t is currently exactly unsigned long.
+> >>
+> >> v2: Move added i915_utils's macro into drm_util header (Jani N)
+> >>
+> >> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> >> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> >> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> >> Cc: Matthew Auld <matthew.auld@intel.com>
+> >> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> >> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> >> ---
+> >>   drivers/gpu/drm/i915/gem/i915_gem_object.c    |  7 +-
+> >>   drivers/gpu/drm/i915/gem/i915_gem_object.h    | 67 ++++++++++++++---=
+--
+> >>   drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 25 ++++---
+> >>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  2 +-
+> >>   .../drm/i915/gem/selftests/i915_gem_context.c | 12 ++--
+> >>   .../drm/i915/gem/selftests/i915_gem_mman.c    |  8 +--
+> >>   .../drm/i915/gem/selftests/i915_gem_object.c  |  8 +--
+> >>   drivers/gpu/drm/i915/i915_gem.c               | 18 +++--
+> >>   drivers/gpu/drm/i915/i915_vma.c               |  8 +--
+> >>   9 files changed, 100 insertions(+), 55 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/=
+drm/i915/gem/i915_gem_object.c
+> >> index ccec4055fde3..90996fe8ad45 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> >> @@ -421,10 +421,11 @@ void __i915_gem_object_invalidate_frontbuffer(st=
+ruct drm_i915_gem_object *obj,
+> >>   static void
+> >>   i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj,=
+ u64 offset, void *dst, int size)
+> >>   {
+> >> +	pgoff_t idx =3D offset >> PAGE_SHIFT;
+> >>   	void *src_map;
+> >>   	void *src_ptr;
+> >>  =20
+> >> -	src_map =3D kmap_atomic(i915_gem_object_get_page(obj, offset >> PAGE=
+_SHIFT));
+> >> +	src_map =3D kmap_atomic(i915_gem_object_get_page(obj, idx));
+> >>  =20
+> >>   	src_ptr =3D src_map + offset_in_page(offset);
+> >>   	if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
+> >> @@ -437,9 +438,10 @@ i915_gem_object_read_from_page_kmap(struct drm_i9=
+15_gem_object *obj, u64 offset,
+> >>   static void
+> >>   i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj=
+, u64 offset, void *dst, int size)
+> >>   {
+> >> +	pgoff_t idx =3D offset >> PAGE_SHIFT;
+> >> +	dma_addr_t dma =3D i915_gem_object_get_dma_address(obj, idx);
+> >>   	void __iomem *src_map;
+> >>   	void __iomem *src_ptr;
+> >> -	dma_addr_t dma =3D i915_gem_object_get_dma_address(obj, offset >> PA=
+GE_SHIFT);
+> >>  =20
+> >>   	src_map =3D io_mapping_map_wc(&obj->mm.region->iomap,
+> >>   				    dma - obj->mm.region->region.start,
+> >> @@ -468,6 +470,7 @@ i915_gem_object_read_from_page_iomap(struct drm_i9=
+15_gem_object *obj, u64 offset
+> >>    */
+> >>   int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, =
+u64 offset, void *dst, int size)
+> >>   {
+> >> +	GEM_BUG_ON(overflows_type(offset >> PAGE_SHIFT, pgoff_t));
+> >>   	GEM_BUG_ON(offset >=3D obj->base.size);
+> >>   	GEM_BUG_ON(offset_in_page(offset) > PAGE_SIZE - size);
+> >>   	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/=
+drm/i915/gem/i915_gem_object.h
+> >> index 6f0a3ce35567..a60c6f4517d5 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> >> @@ -27,8 +27,10 @@ enum intel_region_id;
+> >>    * spot such a local variable, please consider fixing!
+> >>    *
+> >>    * Aside from our own locals (for which we have no excuse!):
+> >> - * - sg_table embeds unsigned int for num_pages
+> >> - * - get_user_pages*() mixed ints with longs
+> >> + * - sg_table embeds unsigned int for nents
+> >> + *
+> >> + * We can check for invalidly typed locals with typecheck(), see for =
+example
+> >> + * i915_gem_object_get_sg().
+> >>    */
+> >>   #define GEM_CHECK_SIZE_OVERFLOW(sz) \
+> >>   	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
+> >> @@ -366,41 +368,70 @@ int i915_gem_object_set_tiling(struct drm_i915_g=
+em_object *obj,
+> >>   struct scatterlist *
+> >>   __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+> >>   			 struct i915_gem_object_page_iter *iter,
+> >> -			 unsigned int n,
+> >> -			 unsigned int *offset, bool dma);
+> >> +			 pgoff_t  n,
+> >> +			 unsigned int *offset);
+> >> +
+> >> +#define __i915_gem_object_get_sg(obj, it, n, offset) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(__i915_gem_object_get_sg)(obj, it, n, offset); \
+> >> +})
+> >>  =20
+> >>   static inline struct scatterlist *
+> >> -i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+> >> -		       unsigned int n,
+> >> +i915_gem_object_get_sg(struct drm_i915_gem_object *obj, pgoff_t n,
+> >>   		       unsigned int *offset)
+> >>   {
+> >> -	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, f=
+alse);
+> >> +	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset);
+> >>   }
+> >>  =20
+> >> +#define i915_gem_object_get_sg(obj, n, offset) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(i915_gem_object_get_sg)(obj, n, offset); \
+> >> +})
+> >> +
+> >>   static inline struct scatterlist *
+> >> -i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
+> >> -			   unsigned int n,
+> >> +i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj, pgoff_t n,
+> >>   			   unsigned int *offset)
+> >>   {
+> >> -	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offse=
+t, true);
+> >> +	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offse=
+t);
+> >>   }
+> >>  =20
+> >> +#define i915_gem_object_get_sg_dma(obj, n, offset) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(i915_gem_object_get_sg_dma)(obj, n, offset); \
+> >> +})
+> >> +
+> >>   struct page *
+> >> -i915_gem_object_get_page(struct drm_i915_gem_object *obj,
+> >> -			 unsigned int n);
+> >> +i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n);
+> >> +
+> >> +#define i915_gem_object_get_page(obj, n) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(i915_gem_object_get_page)(obj, n); \
+> >> +})
+> >>  =20
+> >>   struct page *
+> >> -i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj,
+> >> -			       unsigned int n);
+> >> +i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj, pgoff=
+_t n);
+> >> +
+> >> +#define i915_gem_object_get_dirty_page(obj, n) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(i915_gem_object_get_dirty_page)(obj, n); \
+> >> +})
+> >>  =20
+> >>   dma_addr_t
+> >> -i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
+> >> -				    unsigned long n,
+> >> +i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj, =
+pgoff_t n,
+> >>   				    unsigned int *len);
+> >>  =20
+> >> +#define i915_gem_object_get_dma_address_len(obj, n, len) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(i915_gem_object_get_dma_address_len)(obj, n, len); \
+> >> +})
+> >> +
+> >>   dma_addr_t
+> >> -i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj,
+> >> -				unsigned long n);
+> >> +i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj, pgof=
+f_t n);
+> >> +
+> >> +#define i915_gem_object_get_dma_address(obj, n) ({ \
+> >> +	exactly_pgoff_t(n); \
+> >> +	(i915_gem_object_get_dma_address)(obj, n); \
+> >> +})
+> >>  =20
+> >>   void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+> >>   				 struct sg_table *pages,
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_pages.c
+> >> index 97c820eee115..1d1edcb3514b 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> >> @@ -503,14 +503,16 @@ void __i915_gem_object_release_map(struct drm_i9=
+15_gem_object *obj)
+> >>   }
+> >>  =20
+> >>   struct scatterlist *
+> >> -__i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+> >> +(__i915_gem_object_get_sg)(struct drm_i915_gem_object *obj,
+> >>   			 struct i915_gem_object_page_iter *iter,
+> >> -			 unsigned int n,
+> >> -			 unsigned int *offset,
+> >> -			 bool dma)
+> >> +			 pgoff_t n,
+> >> +			 unsigned int *offset)
+> >> + =20
+> >=20
+> > Nitpick: no need to place the function name in parenthesis.
+> >  =20
+> >>   {
+> >> -	struct scatterlist *sg;
+> >> +	const bool dma =3D iter =3D=3D &obj->mm.get_dma_page ||
+> >> +			 iter =3D=3D &obj->ttm.get_io_page;
+> >>   	unsigned int idx, count;
+> >> +	struct scatterlist *sg;
+> >>  =20
+> >>   	might_sleep();
+> >>   	GEM_BUG_ON(n >=3D obj->base.size >> PAGE_SHIFT);
+> >> @@ -618,7 +620,7 @@ __i915_gem_object_get_sg(struct drm_i915_gem_objec=
+t *obj,
+> >>   }
+> >>  =20
+> >>   struct page *
+> >> -i915_gem_object_get_page(struct drm_i915_gem_object *obj, unsigned in=
+t n)
+> >> +(i915_gem_object_get_page)(struct drm_i915_gem_object *obj, pgoff_t n=
+) =20
+> >=20
+> > Same as above: why are you placing parenthesis at the function name her=
+e?
+> > Just use:
+> > =09
+> > 	struct page *
+> > 	i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n)
+> > =20
+> In this case, the macro and function have the same name. If parenthesis=20
+> is not used, the following compile error occurs as the macro is applied=20
+> to the c code.
+>=20
+> ./drivers/gpu/drm/i915/gem/i915_gem_object.h:356:55: error: expected=20
+> identifier or =E2=80=98(=E2=80=99 before =E2=80=98{=E2=80=99 token
+>    356 | #define __i915_gem_object_get_sg(obj, it, n, offset) ({ \
+>        |                                                       ^
+> drivers/gpu/drm/i915/gem/i915_gem_pages.c:506:1: note: in expansion of=20
+> macro =E2=80=98__i915_gem_object_get_sg=E2=80=99
+>    506 | __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
+>        | ^~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+> And all of the parts you leave comments below are cases where the names=20
+> of macros and functions are the same.
 
-	pa->pa_iova_pfn[0] = pa->pa_iova >> PAGE_SHIFT;
-	pa->pa_pfn[0] = -1ULL;
-	for (i = 1; i < pa->pa_nr; i++) {
-		pa->pa_iova_pfn[i] = pa->pa_iova_pfn[i - 1] + 1;
+Don't use the same macro name on a function. This is very confusing
+and will prevent ever adding documentation for it, as, for kernel-doc,
+macros and functions are handled at the same namespace. So, no
+duplication is allowed.
 
-It looks like only the 'ccw_is_idal' flow can actually create
-non-continuities. Also the loop in copy_from_iova() should ideally be
-using the much faster 'rw' interface, and not a pin/unpin cycle just
-to memcpy.
+Probably the best here would be to replace the macros by inlined
+functions.
 
-If I guess right these changes would significantly speed this driver
-up.
+Regards,
+Mauro
 
-Anyhow,
-
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-
-Jason
