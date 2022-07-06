@@ -2,53 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9610056903C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D9756904D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 19:06:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3BEB11A70A;
-	Wed,  6 Jul 2022 17:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88D8411AA2B;
+	Wed,  6 Jul 2022 17:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1864D11A70A;
- Wed,  6 Jul 2022 17:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657127121; x=1688663121;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=D6oRJugJMsdPnOsTCDFsAgCqLEy6PYXErv0bTQqOdnY=;
- b=HbHIhzAmCCA1wVk1hXvdqJIFh3fYabHunAM2verRUBOztLr+kivrPAgg
- RIWDCwyWhah/YbqeJVRI+XzivpJwkMRT8aExLZQ0lx8x8c2QAVbYa0ya6
- DCohhkYpYznWZ80CwGP+uVx5TvP9vB9s9YC6dyuzoB6xkLI490ptgNyxw
- PK1miAyvtG5v1Cr+2axUWYoVWE+IdAE/jCDjqAh3mAQeTuy3Pao4CWf+I
- A0nRoxCN1Hf5A0uIrFir/ABEKReTzVnmboWUs5E75tNfF4T64Qzi4GY/6
- 5PJyJMomzvw2W5ZVk0+tjJDVy9fGZ0WAk2StEKUWZ0lEVIkRaeecqYO9I Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="284936068"
-X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; d="scan'208";a="284936068"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 10:05:19 -0700
-X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; d="scan'208";a="650756560"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
- ([10.249.32.242])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 10:05:16 -0700
-Date: Wed, 6 Jul 2022 19:05:13 +0200
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [PATCH v2 1/7] drm: Move and add a few utility macros into drm
- util header
-Message-ID: <20220706190513.38bf0be0@maurocar-mobl2>
-In-Reply-To: <2da2f40a-cf5e-ed3d-fee7-877910f377bb@intel.com>
-References: <20220705122455.3866745-1-gwan-gyeong.mun@intel.com>
- <20220705122455.3866745-2-gwan-gyeong.mun@intel.com>
- <20220705162320.3f64e203@maurocar-mobl2>
- <2da2f40a-cf5e-ed3d-fee7-877910f377bb@intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2051.outbound.protection.outlook.com [40.107.96.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A7910FD4E;
+ Wed,  6 Jul 2022 17:05:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d4bGOIb7VrnTuCUL9Yv0GNUIjp4eB6gU60DxnPq1tjdmBhoN4aGeQlpCF3a99qZq2eoBVdQmQOhucFXiW8t835oFULRCTYAnTHlLMcodEk9N2xqpkAHhKalzqj8exjFGMpOpU+sP0QSEGymNXZQ1CX43/DIpKMKKTr3SNlFnFavoCCRs6nvggHdcckrFKjss831RJz/lbkTsGw4g9niSwKPy1wvs6Ksdgl5kIiCMtauDaf8oLAvl1D3KTjF1K/fkFVL/bZ/JtlNfICF1ZR/SPFfwSOmhxOndikn0utCl2HUZraALZ1U1m/GBHTGMSbKlxWCd8PU2zIB3vsRkTeAk7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HAbWpD5CJOJvzysXSSJ2RQv2wM/6KghQ1ASRtvVljvE=;
+ b=CUfm4YfSoFdOLXKpLTSFpbdsZHsuaOTLSyQCssppLoWLcgNsmg2UhaNnaEzBscwV0oHhe/CTwsq27to37JocIOtKG4hTyTOiat+SHYDa/isvBp/g7ChxgFCtKZWzHLlJqSIOeU2b53Lb1GGMHhP/J4Li+VWT6kB1JeGAu2J0W8IFZUy0u4BPKuuUmMV6rvYRIMcHgLovN2dvd/bTBi9ZMlx4dgnAAlRCo38/RCeREp/9eXUjuJNNnPRVTWkiJiCbfpB/3M8IbXUweO5bJ4RLgbY1fgVixf9uwVwTKBGnwUNLYrG5sVe3+YVa3DOvL1a0nXLIsWjrQa1IfbYCrMeswA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HAbWpD5CJOJvzysXSSJ2RQv2wM/6KghQ1ASRtvVljvE=;
+ b=iCctWF59r58iKiu7YUVC63xcNmAulrvg/qojH6xtyD8DET0BNt9qMANX2hiCH64R7dZ7wHnbnfCrL9IVk3UQY7h0tfa81kTp1s02QwWxE0QEkkYsf2a9DvEg/BkumvF6CIeO/dHqg17fZHDkfTTB1oMkC5EfA49Yae+njsF8xsqknm1M/3t2FW7NvPBtDSpqxCGJeowvLJ6PR8e0s7hThjx72zi34puWVzavjejeB38PJpiAdXPycJmmHJcZ4EszYzzhjRv8+SLbWGxE9kVVMzl1q3Mrxcx6kpRybaJfRaBpaIhWaOvYpYpKeCDKMftWi4g8E8V8ZBPO2XV83OFLow==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MW4PR12MB5643.namprd12.prod.outlook.com (2603:10b6:303:188::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.21; Wed, 6 Jul
+ 2022 17:05:55 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5395.021; Wed, 6 Jul 2022
+ 17:05:55 +0000
+Date: Wed, 6 Jul 2022 14:05:53 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [RFT][PATCH v2 3/9] vfio/ccw: Only pass in contiguous pages
+Message-ID: <20220706170553.GK693670@nvidia.com>
+References: <20220706062759.24946-1-nicolinc@nvidia.com>
+ <20220706062759.24946-4-nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220706062759.24946-4-nicolinc@nvidia.com>
+X-ClientProxiedBy: MN2PR02CA0020.namprd02.prod.outlook.com
+ (2603:10b6:208:fc::33) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 304915a4-a3b3-46dd-8de8-08da5f71c9cf
+X-MS-TrafficTypeDiagnostic: MW4PR12MB5643:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PucM7TtUSEr0BcCoFSp+1008lUFmNqRHkrCk44oKpjCckqYkkKxtXEHgNmSEFZRK+Dl+pYFlYMINuMx8X8iMi4P4UJmRig6eMakbtScW4IOPnjB0lxQFOI2azY3clO1ZO4oTB/wf7vtk3Vzg1T+rns0Ua1NJBxeTNAuF0g8jnEM7Er0F7FArh2DhwZa+Hz+CygczNFPjA9GYet4EyhbBVCh+Q7LaCw4suQdab0hQ87el1+UIUn/uhD8PVPBn+y59ERIzu1Zd1Mjb/EwGy0fYGOl4c4RzXfh4iiYDDSCA4AWwwMxSCb1A5PukkM33/tH9pphktalBQt9Fl8CTPtwYPipJaBpBQLTHisM+KlQXBVjchegTGgAFuO4vJswqbQsDsB4vHNHEkzWp/LLux936lPJOj9AT0jj50LG3QuKYyw/OjyQ+MR4fvPYFl/iijH1qCXN3zQI7w6QI0Psaxskx5O8xFM1oMg5SpuQoQKBpeWV29I1YrFWHIp1FGR+VodMJqs9aYsX5jXJSg9bvMRlaoQ8KT4MtKhD1o/XUPE5UXAWhGAEngk4ky6g2+IrLNgMh0R/mYqeNvu3NqmeTNh2hQXDCgH02eUYLPx7BH3zuQWsxW4YuJtcVCFFiTRliqVjqgwu1EER01c8TS1LNUXdFs5rLatE8zPB3nFRKjneYOmNV+lgty4C+I9N7bTpBQp295htj4H/kFrEp2q7szpEgwqLArOPbzvcJTH92CtSZB+b51eQRwYEc/hDT7/qpN8lyrXziUz7IGo81OQrxu4/QbJLWBYSucH2WIjKDgWRC1pScc7LVVy9O1IuC6a6hybOQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(8676002)(4326008)(478600001)(66946007)(66556008)(1076003)(66476007)(6486002)(186003)(41300700001)(6506007)(2616005)(6636002)(37006003)(83380400001)(316002)(26005)(86362001)(2906002)(6512007)(38100700002)(8936002)(6862004)(36756003)(7406005)(7416002)(5660300002)(33656002)(27376004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NLxmbqXRv3rr0GSNGOvXMHrJL5qC3g815C7cDXyIJsbQQFAUX4TyCYLVJXrV?=
+ =?us-ascii?Q?R3Ap2sGDvHVutcr0UxvOrMeydcYryET/cNXqitz7y5TdDc2X18GVBw5dPWEj?=
+ =?us-ascii?Q?XMrvkN08rEmSCBnFbZwjYExflIK2I7Q8deiCHqvlOBJFP3EDmaehc2gUsdpx?=
+ =?us-ascii?Q?CI0hCqc9jsskC0FTAntRDriKQ+SciSktcDwTNS/rwvyXCxSoYreidw79u5TX?=
+ =?us-ascii?Q?QAUCxv4xpb3nSQ2FA6CeX49xtFlx3Egs2vg+ueTBM4IEFJ4V8Ho0sOWqdrCK?=
+ =?us-ascii?Q?b72Tm0i526ok4u80UvX90z7qy61YYstCYNgkZLiC+WuYNdq+00i3aq8/cegy?=
+ =?us-ascii?Q?nn8LdOP8FCAft2QKMnd3Z73vz7zDo1ZeJ/nfRvOHZtBnWs8+Q8YsriRvAwyn?=
+ =?us-ascii?Q?1nrwPgGOT9IwHrmnHGNQEaXMn4dsgEAawkVtgdzr/bdwXNx1oD167CT5pwaM?=
+ =?us-ascii?Q?kHiKB0DVWnA/yEGnrNH+f273MgzFpS84ycJmUAh7XofpU3NxgwJ/h3lknOVl?=
+ =?us-ascii?Q?4QA1YKYiczt7Ykd3Z2b5RWvcimsO78OFEjyJLa9qBbRPQffkj+Qiroft7yJN?=
+ =?us-ascii?Q?6HkwXZnnjnEJ/0hw4R5diW1IiwXNO4FrtJDgdTxWod0twpjqmy/BzKghrCtS?=
+ =?us-ascii?Q?qQnXseSAKCn5PexAGoKJojGEQjENyabDJUFO53qNaurAML7iIG1/nMDXeWeW?=
+ =?us-ascii?Q?C+kfnX87s0ak92Edi6X3A5+O2Idse0tZAFcmco1qSMvzeWsOH1kxlpEtSIoX?=
+ =?us-ascii?Q?WxWxL9e4lPnwVqW4z37Uacg8GJEzXD0JAp9aIsCpeC2DAxVPVWPzm8gS8UmC?=
+ =?us-ascii?Q?DnTSZjgz+SsU1w6TXTTrP2BR8hBUaMlWzhOlnJf5OCVWp1BkT2u9yi6ZfbMB?=
+ =?us-ascii?Q?4MnSrMkpX7iYLyajJfgd3bXUGUuqpWAs753rN7ji+e9ZPpdq5pOuaerEtz4e?=
+ =?us-ascii?Q?Ugb+NvfjsnIg9TueuwaxxbS/el7lw6juteyx7DFWOKXIlltcgzkMrDfPR2d6?=
+ =?us-ascii?Q?SojdhyhEk7thBmEh4RsTfIEUBhFAjac57Uv/z60dIe0lOJYDapMaeFk8b/Qk?=
+ =?us-ascii?Q?j7CKxqn1dCIVXEfjUjLfKO9Vabt97sr1Po0v6F6pa72vyIwtdwGiCUZrmKJc?=
+ =?us-ascii?Q?eNM3KqLi4E+YtcyaQHWGACkE+ah6WoT0F56PpVVTsMLo6ThNma7Q8Y8vsheC?=
+ =?us-ascii?Q?mT4hdBBb33kLd9eWrOsx4sWHjfcWHPeuPBFmQF1kC5koqdLXt8sQ9O9MzeVL?=
+ =?us-ascii?Q?YPqh+5KCWMuMkmvE31WEMEeaafu+kdp2Mpkn73zhG3ZvWwe6wABAvPMpu/NX?=
+ =?us-ascii?Q?+Y9bSIUDRwFFpyQCO8qNzYaj8w9fd13f5gzj7AtyUA1HkwIRfcB8e79Wr/8l?=
+ =?us-ascii?Q?SEY4rXYaW4/58tOWBbfKIXAcV5qiSVAsmtXBq+EkEQBO7g8/FQyQi6sGy8wn?=
+ =?us-ascii?Q?lk/jfoWT1E8pVYSW9vPB9m4XsAUjFv3N7yrjIahDEjDmPwFBDOtIa9+AvlFc?=
+ =?us-ascii?Q?J5g9D7nMMrvLChYdkudIJ4hNrfRG+W3Ljl3/vVJW2uWc5Acxw/ii9To9Ld7a?=
+ =?us-ascii?Q?SnLPACzIA1i0p5Ru1NDNm12pSHhZ7hTSqjxBei0A?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 304915a4-a3b3-46dd-8de8-08da5f71c9cf
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 17:05:54.9830 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JZfRcwtynMltMjOJ6h/4HPw33pgBa2bF5CjhLq/WDC5KTHfLIVtMThnkKJsZIP3l
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5643
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,246 +114,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, airlied@linux.ie, matthew.auld@intel.com,
- nirmoy.das@intel.com
+Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
+ kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
+ agordeev@linux.ibm.com, hch@infradead.org, kvm@vger.kernel.org, corbet@lwn.net,
+ pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, jjherne@linux.ibm.com,
+ farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
+ linux-s390@vger.kernel.org, hca@linux.ibm.com, alex.williamson@redhat.com,
+ freude@linux.ibm.com, rodrigo.vivi@intel.com,
+ intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
+ tvrtko.ursulin@linux.intel.com, cohuck@redhat.com, oberpar@linux.ibm.com,
+ svens@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Jul 2022 18:04:20 +0300
-Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
+On Tue, Jul 05, 2022 at 11:27:53PM -0700, Nicolin Chen wrote:
+> This driver is the only caller of vfio_pin/unpin_pages that might pass
+> in a non-contiguous PFN list, but in many cases it has a contiguous PFN
+> list to process. So letting VFIO API handle a non-contiguous PFN list
+> is actually counterproductive.
+> 
+> Add a pair of simple loops to pass in contiguous PFNs only, to have an
+> efficient implementation in VFIO.
+> 
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  drivers/s390/cio/vfio_ccw_cp.c | 70 +++++++++++++++++++++++++++-------
+>  1 file changed, 56 insertions(+), 14 deletions(-)
 
-> On 7/5/22 5:23 PM, Mauro Carvalho Chehab wrote:
-> > On Tue,  5 Jul 2022 15:24:49 +0300
-> > Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
-> >  =20
-> >> It moves overflows_type utility macro into drm util header from i915_u=
-tils
-> >> header. The overflows_type can be used to catch the truncation between=
- data
-> >> types. And it adds safe_conversion() macro which performs a type conve=
-rsion
-> >> (cast) of an source value into a new variable, checking that the
-> >> destination is large enough to hold the source value.
-> >> And it adds exact_type and exactly_pgoff_t macro to catch type mis-mat=
-ch
-> >> while compiling.
-> >>
-> >> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> >> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >> Cc: Matthew Auld <matthew.auld@intel.com>
-> >> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> >> Cc: Jani Nikula <jani.nikula@intel.com>
-> >> ---
-> >>   drivers/gpu/drm/i915/i915_utils.h |  5 +--
-> >>   include/drm/drm_util.h            | 54 +++++++++++++++++++++++++++++=
-++
-> >>   2 files changed, 55 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/=
-i915_utils.h
-> >> index c10d68cdc3ca..345e5b2dc1cd 100644
-> >> --- a/drivers/gpu/drm/i915/i915_utils.h
-> >> +++ b/drivers/gpu/drm/i915/i915_utils.h
-> >> @@ -32,6 +32,7 @@
-> >>   #include <linux/types.h>
-> >>   #include <linux/workqueue.h>
-> >>   #include <linux/sched/clock.h>
-> >> +#include <drm/drm_util.h>
-> >>  =20
-> >>   #ifdef CONFIG_X86
-> >>   #include <asm/hypervisor.h>
-> >> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
-> >>   #define range_overflows_end_t(type, start, size, max) \
-> >>   	range_overflows_end((type)(start), (type)(size), (type)(max))
-> >>  =20
-> >> -/* Note we don't consider signbits :| */
-> >> -#define overflows_type(x, T) \
-> >> -	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
-> >> -
-> >>   #define ptr_mask_bits(ptr, n) ({					\
-> >>   	unsigned long __v =3D (unsigned long)(ptr);			\
-> >>   	(typeof(ptr))(__v & -BIT(n));					\
-> >> diff --git a/include/drm/drm_util.h b/include/drm/drm_util.h
-> >> index 79952d8c4bba..c56230e39e37 100644
-> >> --- a/include/drm/drm_util.h
-> >> +++ b/include/drm/drm_util.h
-> >> @@ -62,6 +62,60 @@
-> >>    */
-> >>   #define for_each_if(condition) if (!(condition)) {} else
-> >>  =20
-> >> +/**
-> >> + * overflows_type - helper for checking the truncation between data t=
-ypes
-> >> + * @x: Source for overflow type comparison
-> >> + * @T: Destination for overflow type comparison
-> >> + *
-> >> + * It compares the values and size of each data type between the firs=
-t and
-> >> + * second argument to check whether truncation can occur when assigni=
-ng the
-> >> + * first argument to the variable of the second argument.
-> >> + * It does't consider signbits.
-> >> + *
-> >> + * Returns:
-> >> + * True if truncation can occur, false otherwise.
-> >> + */
-> >> +#define overflows_type(x, T) \
-> >> +	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))=20
-> >=20
-> > As pointed on its description, this macro only works if both types
-> > are either signed or unsigned. However, the macro itself doesn't check
-> > it.
-> >=20
-> > It probably worth adding something there to ensure that both types are
-> > either signed or unsigned. I would add this ancillary macro probably on
-> > on a generic kernel header - as this can be useful outside drm:
-> >=20
-> > 	#define sign_matches(x, y) \
-> > 	        (!((typeof(x))-1 >=3D 0) ^ ((typeof(y))-1 >=3D 0))
-> >=20
-> > And then include use it at overflows_type:
-> >=20
-> > 	BUILD_BUG_ON(!sign_matches(x, T))
-> >  =20
-> Hi Mauro, thanks for checking it.
->=20
-> What you commented here (sign_matches macro) is to check whether the=20
-> sign bits of two types are the same,  but the purpose of the=20
-> overflows_type() macro checks overflows while assigning a variable with=20
-> a large data size (BITS_PER_TYPE is large) to a variable with a small=20
-> data size (BITS_PER_TYPE is small).
+I think this is fine as-is for this series, but someone who knows and
+can test ccw should go in and fix things so that pfn_array_alloc()
+doesn't exist. Allocating memory and filling it with consecutive
+integers is kind of silly given we can just call vfio_pin_pages() with
+pa_nr directly.
 
-True, but the problem is that such macro just assumes that either both
-are signed or unsigned without actually checking it.
+	pa->pa_iova_pfn[0] = pa->pa_iova >> PAGE_SHIFT;
+	pa->pa_pfn[0] = -1ULL;
+	for (i = 1; i < pa->pa_nr; i++) {
+		pa->pa_iova_pfn[i] = pa->pa_iova_pfn[i - 1] + 1;
 
-Basically, if one tries to store for instance a s32 value on an u64 var,
-the value won't be stored correctly, due to an underflow. As the hole
-idea of this macro is to exactly detect if the "container" variable
-is big enough to properly represent the measure, it sounds incomplete
-to not handle the integer signal.
+It looks like only the 'ccw_is_idal' flow can actually create
+non-continuities. Also the loop in copy_from_iova() should ideally be
+using the much faster 'rw' interface, and not a pin/unpin cycle just
+to memcpy.
 
-Btw, after reviewing all patches, using BUILD_BUG_ON() is not needed
-here, as such macro (or similar) is already used at the callers code.
+If I guess right these changes would significantly speed this driver
+up.
 
-So, I would just return false if the signals are incompatible, e. g.=20
-if the type of the source value is signed and the type of the=20
-destination value is unsigned.
+Anyhow,
 
-So:
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-#define overflows_type(x, T) \
-	(!signal_matches(x,T) || (sizeof(x) > sizeof(T)))
-
-Should do the trick[1].=20
-
-[1] using BITS_PER_TYPE() macro is not really needed, as this is
-    defined as:
-
-	#define BITS_PER_BYTE              8
-	#define BITS_PER_TYPE(type)      (sizeof(type) * BITS_PER_BYTE)
-
-    So, checking if sizeof(x) > sizeof(T) is enough. Btw, the check
-    there seems to be inverted, making the macro to always return zero!
-
-Yet, strictly speaking, it is possible to store an unsigned value on a=20
-signed type, if the signed type is bigger than the size of unsigned
-(so, a s64 int can store u32, but a s32 can't store u32).
-
-Adding a check that would consider this should be like:
-
-	#define is_type_unsigned(x) ((typeof(x))-1 >=3D 0)=20
-	#define is_type_signed(x) (!is_type_unsigned(x))=20
-	#define overflows_type(x, T)							 \
-	(										 \
-		(is_type_signed(x) && is_type_unsigned(T)) ||				 \
-		(is_type_unsigned(x) && is_type_signed(T) && (sizeof(x) =3D=3D sizeof(T))=
-) ||\
-		(sizeof(x) > sizeof(T))							 \
-	) =09
-
-This should be generic enough to be used anywhere.
-
-> we can check the additional sign bit by adding sign_matches() to the=20
-> overflows_type() macro, but in the current scenario, it is used only=20
-> when the sign bit is the same.
-
-Yeah, but "current scenarios" can easily be extended to something
-else, quickly going sideways specially on a subsystem-wide macro.=20
-Also, getting this right is particularly tricky when comparing typedef
-integers. So, I would be more comfortable if the logic will also
-check the signal at the destination variable.
-
-> Should the macro be extended even for cases where the sign bit is=20
-> different in the current state? (If yes, I'll updated it as v3)
->=20
-> In addition, the place where this macro is currently used is only in the=
-=20
-> i915 driver, so it has been moved to the header of the drm subsystem.
-> IMHO, moving the macro location so that it can be used by multiple=20
-> subsystems of linux would be a good idea when there is a use case for=20
-> this macro. What do you think?
-
-Good point. Yeah, it can stay there while not needed outside drm.
-
-Btw, in order to get it right, I suggest double-checking in userspace
-how each macros are evaluated, like using the code below.
-
-It helps to check if the logic is doing what's expected or not.
-
-----
-
-#include <stdio.h>
-#include <stdint.h>
-
-// Kernel definitions from bits.h and bitops.h
-#define BITS_PER_BYTE              8
-#define BITS_PER_TYPE(type)      (sizeof(type) * BITS_PER_BYTE)
-
-#define sign_matches(x, y) \
-	(!((typeof(x))-1 >=3D 0) ^ ((typeof(y))-1 >=3D 0))
-
-#define is_type_unsigned(x) ((typeof(x))-1 >=3D 0)
-#define is_type_signed(x) (!is_type_unsigned(x))
-
-#define overflows_type(x, T)								 \
-	(										 \
-		(is_type_signed(x) && is_type_unsigned(T)) ||				 \
-		(is_type_unsigned(x) && is_type_signed(T) && (sizeof(x) =3D=3D sizeof(T))=
-) ||\
-		(sizeof(x) > sizeof(T))							 \
-	) ? "OVERFLOW" : "don't overflow"
-
-int main(void)
-{
-	uint32_t	u32_1 =3D 0, u32_2 =3D 0;
-	int32_t		s32_1 =3D 0, s32_2 =3D 0;
-	uint64_t	u64_1 =3D 0, u64_2 =3D 0;
-	int64_t		s64_1 =3D 0, s64_2 =3D 0;
-
-	printf("u32 stored into u32: %s\n", overflows_type(u32_1, u32_2));
-	printf("u64 stored into u32: %s\n", overflows_type(u64_1, u32_2));
-	printf("s32 stored into u32: %s\n", overflows_type(s32_1, u32_2));
-	printf("s64 stored into u32: %s\n", overflows_type(s64_1, u32_2));
-
-	printf("u32 stored into s32: %s\n", overflows_type(u32_1, s32_2));
-	printf("u64 stored into s32: %s\n", overflows_type(u64_1, s32_2));
-	printf("s32 stored into s32: %s\n", overflows_type(s32_1, s32_2));
-	printf("s64 stored into s32: %s\n", overflows_type(s64_1, s32_2));
-
-	printf("u32 stored into u64: %s\n", overflows_type(u32_1, u64_2));
-	printf("u64 stored into u64: %s\n", overflows_type(u64_1, u64_2));
-	printf("s32 stored into u64: %s\n", overflows_type(s32_1, u64_2));
-	printf("s64 stored into u64: %s\n", overflows_type(s64_1, u64_2));
-
-	printf("u32 stored into s64: %s\n", overflows_type(u32_1, s64_2));
-	printf("u64 stored into s64: %s\n", overflows_type(u64_1, s64_2));
-	printf("s32 stored into u64: %s\n", overflows_type(s32_1, u64_2));
-	printf("s64 stored into u64: %s\n", overflows_type(s64_1, u64_2));
-
-	// Shutup warnings
-	s64_1 =3D u32_1 + u32_2 + s64_2 + s32_1 + s32_2 + u64_1 + u64_2;
-
-	return 0;
-}
+Jason
