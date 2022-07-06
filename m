@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E66B56888F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 14:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8182D56888E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 14:44:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1FD11266E;
-	Wed,  6 Jul 2022 12:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DA710FF52;
+	Wed,  6 Jul 2022 12:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B05BD10FF50
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 12:44:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF20110FF50
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 12:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1657111472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=086BdUcFgStWmq7OtXJfjEjYnQUSk8Ts7dXv+bLouMY=;
- b=AE0w6CBS7jcuOl+dqFEmKuUilh4PGqDvpBEtIAKHAKzfiWp2ZDNlc01F4yUGU9/qW0fUaR
- 4Jh7MNQJkPPzUjL4YqoRqFmdx9Ds1uswlW1Q6ms4XmVUd49fs1ZUAAETmf35AfOvT8YoiS
- QS9BccZK1oEKgJcFIwGeDzBZAHWPAMU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wU+mPgXw65HGfedwYwlTjGUt4b7R8HzvCYFgdfNKNEo=;
+ b=NkBKmFVg0w+z7MHSuNH1wHbv0XCYuhsv3DoOslwf6O2FTH4+yC4TQFPMW2y007XjFfCddS
+ KbuTks04S4t0gbwRHLZ9pCsMyVFNYpK1ZmJoXU0AhV1Mi7fXco9KBV2lUoPGl7QUuVK68Y
+ kLkrNyQY2XzK+WZihThBpX/YQFjbZA8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-Z5dkiOYnN0eLTJSn9oCewQ-1; Wed, 06 Jul 2022 08:44:31 -0400
-X-MC-Unique: Z5dkiOYnN0eLTJSn9oCewQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- r12-20020a05640251cc00b00435afb01d7fso11546767edd.18
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 05:44:31 -0700 (PDT)
+ us-mta-517-nN6-YJ5fOs-tcPRpissf1A-1; Wed, 06 Jul 2022 08:44:31 -0400
+X-MC-Unique: nN6-YJ5fOs-tcPRpissf1A-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f13-20020a0564021e8d00b00437a2acb543so11508153edf.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 05:44:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=086BdUcFgStWmq7OtXJfjEjYnQUSk8Ts7dXv+bLouMY=;
- b=g795TgtiHpU8XJ0Zi59JrZuSuR+kkEVdXTitIGAehCmYv4D3RNjTIM8HKUWWIPnOqX
- lzEwqH24TI59TXQEXdEfCj6Q5FBkayUgNuMl342ojsJn/CQbHOH0hggEf8VbzAwRMh0B
- XZbIUgHrlrE2Y4Cukq7QTk1E7dIuFBgEvPFq5OqQxOYF+ZImxw2hR3hkZR+TvW5mrTNR
- XyLAOx+73XsfmwrQW0JBroPJRhHxYzLaLiaSKDuTgSUCV0cJkQqlw4tbwzUox95nQwib
- T1C9/rjebOdSoq4F91Q5H06OnJ/e6hXYOdso3aF/a4cGfohe266OQZko5z2A+f2SMcq1
- rJqg==
-X-Gm-Message-State: AJIora+jv8jYHZEBdEpaJ9LoWtt5YplmCujoaGRigJvkTd5DCWqQf0Cp
- bdqnESq7CLpkgVFmT8RQi6uuQQj5n93X8jd/10iAejMuPg2HxfxoByz3c4QoZouhMjI3r71fR8j
- wJjTtZryy+/ZCUXnPBFh3EQM1ecf+
-X-Received: by 2002:a17:907:168f:b0:726:2bd0:1091 with SMTP id
- hc15-20020a170907168f00b007262bd01091mr38655296ejc.137.1657111468344; 
+ bh=wU+mPgXw65HGfedwYwlTjGUt4b7R8HzvCYFgdfNKNEo=;
+ b=Io9+cR3Qf/OfXijiRQHTfyg0BpsoNj8qy34yDESMd5OXxNzvycPVYh985aEMYZbMZL
+ ZOBnAfZxKhP1AyCrdDAfbt+MvsILOW/jVwxoe1hVrOmo5fYF64aiCvHT/RVQeM85HkMC
+ ldlqKrd2//8oy4gx156qAzSrjNsBoAR0QP4jE5NmqJnujUGwwr2mBYsIx7YBeUjC1hhn
+ 8wNyidhVDY244KSBRStwfHQ12llwRWtvy6S3vSAlSEFhNevKZhM0kLIJxj6GHwSQJcn9
+ jhs+6RABE+ogAr5a05eVFU/YKWxSN9j9PQXhalAroht1XIOrhhPlbP7EsK4i/PLE6/sf
+ QpQw==
+X-Gm-Message-State: AJIora8ZMM8BX4ihIIP1d2oe0Ya+KqDlXPQdWwJ+Br7hq85GzKVewp/G
+ o3Sss9sdgTaRUu0tUUW6iVQtpi4xad+xenxym923po28zhuaybVAUUaplvaw6NYUXX57Mu/p2Up
+ PFPgNT4uShDlFPVbs9mPyL3k8eSBV
+X-Received: by 2002:a05:6402:5510:b0:43a:76ff:b044 with SMTP id
+ fi16-20020a056402551000b0043a76ffb044mr12567044edb.197.1657111469257; 
+ Wed, 06 Jul 2022 05:44:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u40FNYNqIvGE1SsdDWKUk8C5WgM7UYr8B1j+fFKny1RusJ8BB2IF70/lnOxCaE+VLbmGV/sg==
+X-Received: by 2002:a05:6402:5510:b0:43a:76ff:b044 with SMTP id
+ fi16-20020a056402551000b0043a76ffb044mr12567000edb.197.1657111468885; 
  Wed, 06 Jul 2022 05:44:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1toilfvTWd7Gj/xwTO/jjXHuU408AsHRRICVEDzCjOA9TJ2goGusawSJoivXQNMpjeb3O118w==
-X-Received: by 2002:a17:907:168f:b0:726:2bd0:1091 with SMTP id
- hc15-20020a170907168f00b007262bd01091mr38655233ejc.137.1657111467404; 
- Wed, 06 Jul 2022 05:44:27 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- v26-20020a170906489a00b00705f6dab05bsm17237433ejq.183.2022.07.06.05.44.26
+ v26-20020a170906489a00b00705f6dab05bsm17237433ejq.183.2022.07.06.05.44.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 05:44:26 -0700 (PDT)
+ Wed, 06 Jul 2022 05:44:28 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: daniel@ffwll.ch, laurent.pinchart@ideasonboard.com, airlied@linux.ie,
  tzimmermann@suse.de
-Subject: [PATCH v2 2/4] drm/gem: rename GEM CMA helpers to GEM DMA helpers
-Date: Wed,  6 Jul 2022 14:43:50 +0200
-Message-Id: <20220706124352.874528-3-dakr@redhat.com>
+Subject: [PATCH v2 3/4] drm/gem: rename struct drm_gem_dma_object.{paddr =>
+ dma_addr}
+Date: Wed,  6 Jul 2022 14:43:51 +0200
+Message-Id: <20220706124352.874528-4-dakr@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220706124352.874528-1-dakr@redhat.com>
 References: <20220706124352.874528-1-dakr@redhat.com>
@@ -90,4834 +91,705 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename "GEM CMA" helpers to "GEM DMA" helpers - considering the
-hierarchy of APIs (mm/cma -> dma -> gem dma) calling them "GEM
-DMA" seems to be more applicable.
+The field paddr of struct drm_gem_dma_object holds a DMA address, which
+might actually be a physical address. However, depending on the platform,
+it can also be a bus address or a virtual address managed by an IOMMU.
 
-Besides that, commit e57924d4ae80 ("drm/doc: Task to rename CMA helpers")
-requests to rename the CMA helpers and implies that people seem to be
-confused about the naming.
+Hence, rename the field to dma_addr, which is more applicable.
 
-In order to do this renaming the following script was used:
-
-```
-	#!/bin/bash
-
-	DIRS="drivers/gpu include/drm Documentation/gpu"
-
-	REGEX_SYM_UPPER="[0-9A-Z_\-]"
-	REGEX_SYM_LOWER="[0-9a-z_\-]"
-
-	REGEX_GREP_UPPER="(${REGEX_SYM_UPPER}*)(GEM)_CMA_(${REGEX_SYM_UPPER}*)"
-	REGEX_GREP_LOWER="(${REGEX_SYM_LOWER}*)(gem)_cma_(${REGEX_SYM_LOWER}*)"
-
-	REGEX_SED_UPPER="s/${REGEX_GREP_UPPER}/\1\2_DMA_\3/g"
-	REGEX_SED_LOWER="s/${REGEX_GREP_LOWER}/\1\2_dma_\3/g"
-
-	# Find all upper case 'CMA' symbols and replace them with 'DMA'.
-	for ff in $(grep -REHl "${REGEX_GREP_UPPER}" $DIRS)
-	do
-	       sed -i -E "$REGEX_SED_UPPER" $ff
-	done
-
-	# Find all lower case 'cma' symbols and replace them with 'dma'.
-	for ff in $(grep -REHl "${REGEX_GREP_LOWER}" $DIRS)
-	do
-	       sed -i -E "$REGEX_SED_LOWER" $ff
-	done
-
-	# Replace all occurrences of 'CMA' / 'cma' in comments and
-	# documentation files with 'DMA' / 'dma'.
-	for ff in $(grep -RiHl " cma " $DIRS)
-	do
-		sed -i -E "s/ cma / dma /g" $ff
-		sed -i -E "s/ CMA / DMA /g" $ff
-	done
-
-	# Rename all 'cma_obj's to 'dma_obj'.
-	for ff in $(grep -RiHl "cma_obj" $DIRS)
-	do
-		sed -i -E "s/cma_obj/dma_obj/g" $ff
-	done
-```
-
-Only a few more manual modifications were needed, e.g. reverting the
-following modifications in some DRM Kconfig files
-
-    -       select CMA if HAVE_DMA_CONTIGUOUS
-    +       select DMA if HAVE_DMA_CONTIGUOUS
-
-as well as manually picking the occurrences of 'CMA'/'cma' in comments and
-documentation which relate to "GEM CMA", but not "FB CMA".
-
-Also drivers/gpu/drm/Makefile was fixed up manually after renaming
-drm_gem_cma_helper.c to drm_gem_dma_helper.c.
-
-This patch is compile-time tested building a x86_64 kernel with
+Since 'paddr' is a very commonly used term and symbol name a simple regex
+does not do the trick. Instead, users of the struct were fixed up
+iteratively with a trial and error approach building with
 `make allyesconfig && make drivers/gpu/drm`.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- Documentation/gpu/drm-mm.rst                  |  16 +-
- drivers/gpu/drm/Kconfig                       |   4 +-
- drivers/gpu/drm/Makefile                      |   6 +-
- drivers/gpu/drm/arm/Kconfig                   |   4 +-
- drivers/gpu/drm/arm/display/Kconfig           |   2 +-
- .../arm/display/komeda/komeda_framebuffer.c   |   6 +-
- .../gpu/drm/arm/display/komeda/komeda_kms.c   |  10 +-
- drivers/gpu/drm/arm/hdlcd_crtc.c              |   2 +-
- drivers/gpu/drm/arm/hdlcd_drv.c               |   6 +-
- drivers/gpu/drm/arm/malidp_drv.c              |   8 +-
- drivers/gpu/drm/arm/malidp_mw.c               |   4 +-
- drivers/gpu/drm/arm/malidp_planes.c           |  16 +-
- drivers/gpu/drm/armada/armada_gem.c           |   6 +-
- drivers/gpu/drm/aspeed/Kconfig                |   2 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |   4 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |   6 +-
- drivers/gpu/drm/atmel-hlcdc/Kconfig           |   2 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |   6 +-
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |   4 +-
- drivers/gpu/drm/drm_fb_dma_helper.c           |  20 +-
- drivers/gpu/drm/drm_file.c                    |   2 +-
- ..._gem_cma_helper.c => drm_gem_dma_helper.c} | 309 +++++++++---------
- drivers/gpu/drm/drm_mipi_dbi.c                |   2 +-
- drivers/gpu/drm/fsl-dcu/Kconfig               |   2 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |   6 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c   |   4 +-
- drivers/gpu/drm/hisilicon/kirin/Kconfig       |   2 +-
- .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |   8 +-
- .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |   2 +-
- drivers/gpu/drm/imx/Kconfig                   |   2 +-
- drivers/gpu/drm/imx/dcss/Kconfig              |   2 +-
- drivers/gpu/drm/imx/dcss/dcss-kms.c           |   6 +-
- drivers/gpu/drm/imx/dcss/dcss-plane.c         |  16 +-
- drivers/gpu/drm/imx/imx-drm-core.c            |   8 +-
- drivers/gpu/drm/imx/imx-drm.h                 |   2 +-
- drivers/gpu/drm/imx/ipuv3-crtc.c              |   2 +-
- drivers/gpu/drm/imx/ipuv3-plane.c             |  26 +-
- drivers/gpu/drm/ingenic/Kconfig               |   2 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   8 +-
- drivers/gpu/drm/ingenic/ingenic-ipu.c         |   2 +-
- drivers/gpu/drm/kmb/Kconfig                   |   2 +-
- drivers/gpu/drm/kmb/kmb_drv.c                 |   6 +-
- drivers/gpu/drm/kmb/kmb_plane.c               |   2 +-
- drivers/gpu/drm/mcde/Kconfig                  |   2 +-
- drivers/gpu/drm/mcde/mcde_display.c           |   2 +-
- drivers/gpu/drm/mcde/mcde_drv.c               |   6 +-
- drivers/gpu/drm/mediatek/Kconfig              |   2 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   2 +-
- drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   4 +-
- drivers/gpu/drm/meson/Kconfig                 |   2 +-
- drivers/gpu/drm/meson/meson_drv.c             |  10 +-
- drivers/gpu/drm/meson/meson_overlay.c         |   4 +-
- drivers/gpu/drm/meson/meson_plane.c           |   4 +-
- drivers/gpu/drm/msm/msm_drv.c                 |   2 +-
- drivers/gpu/drm/mxsfb/Kconfig                 |   2 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c             |   6 +-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c             |   2 +-
- drivers/gpu/drm/panel/Kconfig                 |   2 +-
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   6 +-
- drivers/gpu/drm/pl111/Kconfig                 |   2 +-
- drivers/gpu/drm/pl111/pl111_display.c         |   2 +-
- drivers/gpu/drm/pl111/pl111_drv.c             |   8 +-
- drivers/gpu/drm/rcar-du/Kconfig               |   2 +-
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   2 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c         |   4 +-
- drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  36 +-
- drivers/gpu/drm/rcar-du/rcar_du_plane.c       |   4 +-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |   4 +-
- drivers/gpu/drm/rockchip/Kconfig              |   2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   4 +-
- drivers/gpu/drm/shmobile/Kconfig              |   2 +-
- drivers/gpu/drm/shmobile/shmob_drm_crtc.c     |   4 +-
- drivers/gpu/drm/shmobile/shmob_drm_drv.c      |   6 +-
- drivers/gpu/drm/shmobile/shmob_drm_kms.c      |   2 +-
- drivers/gpu/drm/shmobile/shmob_drm_kms.h      |   2 +-
- drivers/gpu/drm/shmobile/shmob_drm_plane.c    |   4 +-
- drivers/gpu/drm/sprd/Kconfig                  |   2 +-
- drivers/gpu/drm/sprd/sprd_dpu.c               |   8 +-
- drivers/gpu/drm/sprd/sprd_drm.c               |   6 +-
- drivers/gpu/drm/sti/Kconfig                   |   2 +-
- drivers/gpu/drm/sti/sti_cursor.c              |  10 +-
- drivers/gpu/drm/sti/sti_drv.c                 |   6 +-
- drivers/gpu/drm/sti/sti_gdp.c                 |  14 +-
- drivers/gpu/drm/sti/sti_hqvdp.c               |  14 +-
- drivers/gpu/drm/sti/sti_plane.c               |   2 +-
- drivers/gpu/drm/stm/Kconfig                   |   2 +-
- drivers/gpu/drm/stm/drv.c                     |  10 +-
- drivers/gpu/drm/stm/ltdc.c                    |   2 +-
- drivers/gpu/drm/sun4i/Kconfig                 |   2 +-
- drivers/gpu/drm/sun4i/sun4i_backend.c         |   2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |   8 +-
- drivers/gpu/drm/sun4i/sun4i_frontend.c        |   2 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c           |   2 +-
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |   4 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |   4 +-
- drivers/gpu/drm/tidss/Kconfig                 |   2 +-
- drivers/gpu/drm/tidss/tidss_crtc.c            |   2 +-
- drivers/gpu/drm/tidss/tidss_dispc.c           |   6 +-
- drivers/gpu/drm/tidss/tidss_drv.c             |   6 +-
- drivers/gpu/drm/tilcdc/Kconfig                |   2 +-
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c          |   4 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c           |   6 +-
- drivers/gpu/drm/tiny/Kconfig                  |  22 +-
- drivers/gpu/drm/tiny/arcpgu.c                 |   8 +-
- drivers/gpu/drm/tiny/hx8357d.c                |   6 +-
- drivers/gpu/drm/tiny/ili9163.c                |   6 +-
- drivers/gpu/drm/tiny/ili9225.c                |  10 +-
- drivers/gpu/drm/tiny/ili9341.c                |   6 +-
- drivers/gpu/drm/tiny/ili9486.c                |   6 +-
- drivers/gpu/drm/tiny/mi0283qt.c               |   6 +-
- drivers/gpu/drm/tiny/panel-mipi-dbi.c         |   6 +-
- drivers/gpu/drm/tiny/repaper.c                |  10 +-
- drivers/gpu/drm/tiny/st7586.c                 |  10 +-
- drivers/gpu/drm/tiny/st7735r.c                |   6 +-
- drivers/gpu/drm/tve200/Kconfig                |   2 +-
- drivers/gpu/drm/tve200/tve200_display.c       |   2 +-
- drivers/gpu/drm/tve200/tve200_drv.c           |   6 +-
- drivers/gpu/drm/v3d/v3d_gem.c                 |   4 +-
- drivers/gpu/drm/vc4/Kconfig                   |   2 +-
- drivers/gpu/drm/vc4/vc4_bo.c                  |  44 +--
- drivers/gpu/drm/vc4/vc4_crtc.c                |   6 +-
- drivers/gpu/drm/vc4/vc4_drv.c                 |   6 +-
- drivers/gpu/drm/vc4/vc4_drv.h                 |  18 +-
- drivers/gpu/drm/vc4/vc4_gem.c                 |   4 +-
- drivers/gpu/drm/vc4/vc4_plane.c               |   4 +-
- drivers/gpu/drm/vc4/vc4_render_cl.c           |  26 +-
- drivers/gpu/drm/vc4/vc4_txp.c                 |   2 +-
- drivers/gpu/drm/vc4/vc4_v3d.c                 |   4 +-
- drivers/gpu/drm/vc4/vc4_validate.c            |  16 +-
- drivers/gpu/drm/vc4/vc4_validate_shaders.c    |   2 +-
- drivers/gpu/drm/xlnx/Kconfig                  |   2 +-
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |   8 +-
- include/drm/drm_fb_dma_helper.h               |   2 +-
- include/drm/drm_gem.h                         |   2 +-
- ..._gem_cma_helper.h => drm_gem_dma_helper.h} | 156 ++++-----
- 136 files changed, 630 insertions(+), 627 deletions(-)
- rename drivers/gpu/drm/{drm_gem_cma_helper.c => drm_gem_dma_helper.c} (57%)
- rename include/drm/{drm_gem_cma_helper.h => drm_gem_dma_helper.h} (53%)
+ .../arm/display/komeda/komeda_framebuffer.c   |  4 ++--
+ drivers/gpu/drm/arm/malidp_mw.c               |  2 +-
+ drivers/gpu/drm/arm/malidp_planes.c           | 12 +++++-----
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |  2 +-
+ drivers/gpu/drm/drm_fb_dma_helper.c           | 10 ++++----
+ drivers/gpu/drm/drm_gem_dma_helper.c          | 23 +++++++++++--------
+ drivers/gpu/drm/imx/ipuv3-plane.c             |  6 ++---
+ drivers/gpu/drm/sprd/sprd_dpu.c               |  2 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        | 14 +++++------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        | 14 +++++------
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 16 ++++++-------
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                  |  2 +-
+ drivers/gpu/drm/vc4/vc4_gem.c                 |  8 +++----
+ drivers/gpu/drm/vc4/vc4_irq.c                 |  2 +-
+ drivers/gpu/drm/vc4/vc4_plane.c               |  4 ++--
+ drivers/gpu/drm/vc4/vc4_render_cl.c           | 14 +++++------
+ drivers/gpu/drm/vc4/vc4_txp.c                 |  2 +-
+ drivers/gpu/drm/vc4/vc4_v3d.c                 |  4 ++--
+ drivers/gpu/drm/vc4/vc4_validate.c            | 12 +++++-----
+ include/drm/drm_gem_dma_helper.h              |  4 ++--
+ 21 files changed, 81 insertions(+), 78 deletions(-)
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index f32ccce5722d..a79fd3549ff8 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -300,12 +300,12 @@ Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
- For platforms without MMU the GEM core provides a helper method
--drm_gem_cma_get_unmapped_area(). The mmap() routines will call this to get a
-+drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
- 
--To use drm_gem_cma_get_unmapped_area(), drivers must fill the struct
-+To use drm_gem_dma_get_unmapped_area(), drivers must fill the struct
- :c:type:`struct file_operations <file_operations>` get_unmapped_area field with
--a pointer on drm_gem_cma_get_unmapped_area().
-+a pointer on drm_gem_dma_get_unmapped_area().
- 
- More detailed information about get_unmapped_area can be found in
- Documentation/admin-guide/mm/nommu-mmap.rst
-@@ -355,16 +355,16 @@ GEM Function Reference
- .. kernel-doc:: drivers/gpu/drm/drm_gem.c
-    :export:
- 
--GEM CMA Helper Functions Reference
-+GEM DMA Helper Functions Reference
- ----------------------------------
- 
--.. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
--   :doc: cma helpers
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_dma_helper.c
-+   :doc: dma helpers
- 
--.. kernel-doc:: include/drm/drm_gem_cma_helper.h
-+.. kernel-doc:: include/drm/drm_gem_dma_helper.h
-    :internal:
- 
--.. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
-+.. kernel-doc:: drivers/gpu/drm/drm_gem_dma_helper.c
-    :export:
- 
- GEM SHMEM Helper Function Reference
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index e88c497fa010..007304cfb7df 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -198,11 +198,11 @@ config DRM_TTM_HELPER
- 	help
- 	  Helpers for ttm-based gem objects
- 
--config DRM_GEM_CMA_HELPER
-+config DRM_GEM_DMA_HELPER
- 	tristate
- 	depends on DRM
- 	help
--	  Choose this if you need the GEM CMA helper functions
-+	  Choose this if you need the GEM DMA helper functions
- 
- config DRM_GEM_SHMEM_HELPER
- 	tristate
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 1240e77c4962..29a87c7f47a2 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -40,9 +40,9 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
- 
- obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
- 
--drm_cma_helper-y := drm_gem_cma_helper.o
--drm_cma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_dma_helper.o
--obj-$(CONFIG_DRM_GEM_CMA_HELPER) += drm_cma_helper.o
-+drm_dma_helper-y := drm_gem_dma_helper.o
-+drm_dma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_dma_helper.o
-+obj-$(CONFIG_DRM_GEM_DMA_HELPER) += drm_dma_helper.o
- 
- drm_shmem_helper-y := drm_gem_shmem_helper.o
- obj-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_shmem_helper.o
-diff --git a/drivers/gpu/drm/arm/Kconfig b/drivers/gpu/drm/arm/Kconfig
-index 6e3f1d600541..c1b89274d2a4 100644
---- a/drivers/gpu/drm/arm/Kconfig
-+++ b/drivers/gpu/drm/arm/Kconfig
-@@ -6,7 +6,7 @@ config DRM_HDLCD
- 	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	help
- 	  Choose this option if you have an ARM High Definition Colour LCD
- 	  controller.
-@@ -27,7 +27,7 @@ config DRM_MALI_DISPLAY
- 	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VIDEOMODE_HELPERS
- 	help
- 	  Choose this option if you want to compile the ARM Mali Display
-diff --git a/drivers/gpu/drm/arm/display/Kconfig b/drivers/gpu/drm/arm/display/Kconfig
-index e91598b60781..4acc4285a4eb 100644
---- a/drivers/gpu/drm/arm/display/Kconfig
-+++ b/drivers/gpu/drm/arm/display/Kconfig
-@@ -4,7 +4,7 @@ config DRM_KOMEDA
- 	depends on DRM && OF
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VIDEOMODE_HELPERS
- 	help
- 	  Choose this option if you want to compile the ARM Komeda display
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index ea45da663dfb..f1b27db5dad5 100644
+index f1b27db5dad5..df5da5a44755 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -7,7 +7,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- 
- #include "komeda_framebuffer.h"
 @@ -137,7 +137,7 @@ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev, struct komeda_fb *kfb,
  		}
  
  		min_size = komeda_fb_get_pixel_addr(kfb, 0, fb->height, i)
--			 - to_drm_gem_cma_obj(obj)->paddr;
-+			 - to_drm_gem_dma_obj(obj)->paddr;
+-			 - to_drm_gem_dma_obj(obj)->paddr;
++			 - to_drm_gem_dma_obj(obj)->dma_addr;
  		if (obj->size < min_size) {
  			DRM_DEBUG_KMS("The fb->obj[%d] size: 0x%zx lower than the minimum requirement: 0x%llx.\n",
  				      i, obj->size, min_size);
-@@ -239,7 +239,7 @@ dma_addr_t
- komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane)
- {
- 	struct drm_framebuffer *fb = &kfb->base;
--	const struct drm_gem_cma_object *obj;
-+	const struct drm_gem_dma_object *obj;
- 	u32 offset, plane_x, plane_y, block_w, block_sz;
+@@ -260,7 +260,7 @@ komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane)
+ 			+ plane_y * fb->pitches[plane];
+ 	}
  
- 	if (plane >= fb->format->num_planes) {
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-index 93b7f09b96ca..f6881880f660 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-@@ -11,7 +11,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-@@ -21,9 +21,9 @@
- #include "komeda_framebuffer.h"
- #include "komeda_kms.h"
- 
--DEFINE_DRM_GEM_CMA_FOPS(komeda_cma_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(komeda_cma_fops);
- 
--static int komeda_gem_cma_dumb_create(struct drm_file *file,
-+static int komeda_gem_dma_dumb_create(struct drm_file *file,
- 				      struct drm_device *dev,
- 				      struct drm_mode_create_dumb *args)
- {
-@@ -32,7 +32,7 @@ static int komeda_gem_cma_dumb_create(struct drm_file *file,
- 
- 	args->pitch = ALIGN(pitch, mdev->chip.bus_width);
- 
--	return drm_gem_cma_dumb_create_internal(file, dev, args);
-+	return drm_gem_dma_dumb_create_internal(file, dev, args);
+-	return obj->paddr + offset;
++	return obj->dma_addr + offset;
  }
  
- static irqreturn_t komeda_kms_irq_handler(int irq, void *data)
-@@ -60,7 +60,7 @@ static irqreturn_t komeda_kms_irq_handler(int irq, void *data)
- static const struct drm_driver komeda_kms_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.lastclose			= drm_fb_helper_lastclose,
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(komeda_gem_cma_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(komeda_gem_dma_dumb_create),
- 	.fops = &komeda_cma_fops,
- 	.name = "komeda",
- 	.desc = "Arm Komeda Display Processor driver",
-diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index 20543fe7154d..7bd33d41307b 100644
---- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-+++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -20,7 +20,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index fab18135f12b..e32405ca6cc9 100644
---- a/drivers/gpu/drm/arm/hdlcd_drv.c
-+++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -27,7 +27,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper.h>
- #include <drm/drm_module.h>
-@@ -255,11 +255,11 @@ static void hdlcd_debugfs_init(struct drm_minor *minor)
- }
- #endif
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver hdlcd_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = hdlcd_debugfs_init,
- #endif
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 4e78a64c5d37..f9180ff6f9ea 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -22,7 +22,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper.h>
- #include <drm/drm_module.h>
-@@ -457,7 +457,7 @@ static int malidp_irq_init(struct platform_device *pdev)
- 	return 0;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static int malidp_dumb_create(struct drm_file *file_priv,
- 			      struct drm_device *drm,
-@@ -469,7 +469,7 @@ static int malidp_dumb_create(struct drm_file *file_priv,
- 
- 	args->pitch = ALIGN(DIV_ROUND_UP(args->width * args->bpp, 8), alignment);
- 
--	return drm_gem_cma_dumb_create_internal(file_priv, drm, args);
-+	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
- }
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -566,7 +566,7 @@ static void malidp_debugfs_init(struct drm_minor *minor)
- 
- static const struct drm_driver malidp_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(malidp_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(malidp_dumb_create),
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = malidp_debugfs_init,
- #endif
+ /* if the fb can be supported by a specific layer */
 diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-index d341df370422..0fc6c5069e00 100644
+index 0fc6c5069e00..a9a5dc40dba6 100644
 --- a/drivers/gpu/drm/arm/malidp_mw.c
 +++ b/drivers/gpu/drm/arm/malidp_mw.c
-@@ -11,7 +11,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_writeback.h>
- 
-@@ -158,7 +158,7 @@ malidp_mw_encoder_atomic_check(struct drm_encoder *encoder,
- 
- 	n_planes = fb->format->num_planes;
- 	for (i = 0; i < n_planes; i++) {
--		struct drm_gem_cma_object *obj = drm_fb_dma_get_gem_obj(fb, i);
-+		struct drm_gem_dma_object *obj = drm_fb_dma_get_gem_obj(fb, i);
- 		/* memory write buffers are never rotated */
- 		u8 alignment = malidp_hw_get_pitch_align(malidp->dev, 0);
+@@ -168,7 +168,7 @@ malidp_mw_encoder_atomic_check(struct drm_encoder *encoder,
+ 			return -EINVAL;
+ 		}
+ 		mw_state->pitches[i] = fb->pitches[i];
+-		mw_state->addrs[i] = obj->paddr + fb->offsets[i];
++		mw_state->addrs[i] = obj->dma_addr + fb->offsets[i];
+ 	}
+ 	mw_state->n_planes = n_planes;
  
 diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index 281889389a49..75be194d4f13 100644
+index 75be194d4f13..a0fd03c428ad 100644
 --- a/drivers/gpu/drm/arm/malidp_planes.c
 +++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -14,7 +14,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_print.h>
-@@ -332,15 +332,15 @@ static bool malidp_check_pages_threshold(struct malidp_plane_state *ms,
- 
- 	for (i = 0; i < ms->n_planes; i++) {
- 		struct drm_gem_object *obj;
--		struct drm_gem_cma_object *cma_obj;
-+		struct drm_gem_dma_object *dma_obj;
- 		struct sg_table *sgt;
- 		struct scatterlist *sgl;
- 
- 		obj = drm_gem_fb_get_obj(ms->base.fb, i);
--		cma_obj = to_drm_gem_cma_obj(obj);
-+		dma_obj = to_drm_gem_dma_obj(obj);
- 
--		if (cma_obj->sgt)
--			sgt = cma_obj->sgt;
-+		if (dma_obj->sgt)
-+			sgt = dma_obj->sgt;
- 		else
- 			sgt = obj->funcs->get_sg_table(obj);
- 
-@@ -351,14 +351,14 @@ static bool malidp_check_pages_threshold(struct malidp_plane_state *ms,
- 
- 		while (sgl) {
- 			if (sgl->length < pgsize) {
--				if (!cma_obj->sgt)
-+				if (!dma_obj->sgt)
- 					kfree(sgt);
- 				return false;
- 			}
- 
- 			sgl = sg_next(sgl);
- 		}
--		if (!cma_obj->sgt)
-+		if (!dma_obj->sgt)
- 			kfree(sgt);
- 	}
- 
-@@ -731,7 +731,7 @@ static void malidp_set_plane_base_addr(struct drm_framebuffer *fb,
- 		paddr = drm_fb_dma_get_gem_addr(fb, plane->state,
- 						plane_index);
+@@ -713,7 +713,7 @@ static void malidp_set_plane_base_addr(struct drm_framebuffer *fb,
+ 				       struct malidp_plane *mp,
+ 				       int plane_index)
+ {
+-	dma_addr_t paddr;
++	dma_addr_t dma_addr;
+ 	u16 ptr;
+ 	struct drm_plane *plane = &mp->base;
+ 	bool afbc = fb->modifier ? true : false;
+@@ -728,8 +728,8 @@ static void malidp_set_plane_base_addr(struct drm_framebuffer *fb,
+ 	 * and _AD_CROP_V registers.
+ 	 */
+ 	if (!afbc) {
+-		paddr = drm_fb_dma_get_gem_addr(fb, plane->state,
+-						plane_index);
++		dma_addr = drm_fb_dma_get_gem_addr(fb, plane->state,
++						   plane_index);
  	} else {
--		struct drm_gem_cma_object *obj;
-+		struct drm_gem_dma_object *obj;
+ 		struct drm_gem_dma_object *obj;
  
- 		obj = drm_fb_dma_get_gem_obj(fb, plane_index);
+@@ -737,11 +737,11 @@ static void malidp_set_plane_base_addr(struct drm_framebuffer *fb,
  
-diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
-index 147abf1a3968..5430265ad458 100644
---- a/drivers/gpu/drm/armada/armada_gem.c
-+++ b/drivers/gpu/drm/armada/armada_gem.c
-@@ -107,11 +107,11 @@ armada_gem_linear_back(struct drm_device *dev, struct armada_gem_object *obj)
+ 		if (WARN_ON(!obj))
+ 			return;
+-		paddr = obj->paddr;
++		dma_addr = obj->dma_addr;
  	}
  
- 	/*
--	 * We could grab something from CMA if it's enabled, but that
-+	 * We could grab something from DMA if it's enabled, but that
- 	 * involves building in a problem:
- 	 *
--	 * CMA's interface uses dma_alloc_coherent(), which provides us
--	 * with an CPU virtual address and a device address.
-+	 * GEM DMA helper interface uses dma_alloc_coherent(), which provides
-+	 * us with an CPU virtual address and a device address.
- 	 *
- 	 * The CPU virtual address may be either an address in the kernel
- 	 * direct mapped region (for example, as it would be on x86) or
-diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
-index 024ccab14f88..8137c39b057b 100644
---- a/drivers/gpu/drm/aspeed/Kconfig
-+++ b/drivers/gpu/drm/aspeed/Kconfig
-@@ -5,7 +5,7 @@ config DRM_ASPEED_GFX
- 	depends on (COMPILE_TEST || ARCH_ASPEED)
- 	depends on MMU
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DMA_CMA if HAVE_DMA_CONTIGUOUS
- 	select CMA if HAVE_DMA_CONTIGUOUS
- 	select MFD_SYSCON
+-	malidp_hw_write(mp->hwdev, lower_32_bits(paddr), ptr);
+-	malidp_hw_write(mp->hwdev, upper_32_bits(paddr), ptr + 4);
++	malidp_hw_write(mp->hwdev, lower_32_bits(dma_addr), ptr);
++	malidp_hw_write(mp->hwdev, upper_32_bits(dma_addr), ptr + 4);
+ }
+ 
+ static void malidp_de_set_plane_afbc(struct drm_plane *plane)
 diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-index a86aaab6d7ac..a6259b7d9c1f 100644
+index a6259b7d9c1f..a0cd3757f912 100644
 --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
 +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-@@ -10,7 +10,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
-@@ -167,7 +167,7 @@ static void aspeed_gfx_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_framebuffer *fb = pipe->plane.state->fb;
- 	struct drm_pending_vblank_event *event;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 
- 	spin_lock_irq(&crtc->dev->event_lock);
- 	event = crtc->state->event;
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index ff2cfc622072..5666e3ae2493 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -246,11 +246,11 @@ static void aspeed_gfx_unload(struct drm_device *drm)
- 	drm_kms_helper_poll_fini(drm);
+@@ -187,7 +187,7 @@ static void aspeed_gfx_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	gem = drm_fb_dma_get_gem_obj(fb, 0);
+ 	if (!gem)
+ 		return;
+-	writel(gem->paddr, priv->base + CRT_ADDR);
++	writel(gem->dma_addr, priv->base + CRT_ADDR);
  }
  
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver aspeed_gfx_driver = {
- 	.driver_features        = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.fops = &fops,
- 	.name = "aspeed-gfx-drm",
- 	.desc = "ASPEED GFX DRM",
-diff --git a/drivers/gpu/drm/atmel-hlcdc/Kconfig b/drivers/gpu/drm/atmel-hlcdc/Kconfig
-index 8ae679f1a518..3bdbab3a6333 100644
---- a/drivers/gpu/drm/atmel-hlcdc/Kconfig
-+++ b/drivers/gpu/drm/atmel-hlcdc/Kconfig
-@@ -2,7 +2,7 @@
- config DRM_ATMEL_HLCDC
- 	tristate "DRM Support for ATMEL HLCDC Display Controller"
- 	depends on DRM && OF && COMMON_CLK && MFD_ATMEL_HLCDC && ARM
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	help
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index 651e3c109360..f7e7f4e919c7 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -20,7 +20,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -730,11 +730,11 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
- 	clk_disable_unprepare(dc->hlcdc->periph_clk);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver atmel_hlcdc_dc_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.fops = &fops,
- 	.name = "atmel-hlcdc",
- 	.desc = "Atmel HLCD Controller DRM",
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-index 349c99585ff5..d7855ced9d0c 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- 
- #include "atmel_hlcdc_dc.h"
-@@ -447,7 +447,7 @@ static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
- 	sr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_CHSR);
- 
- 	for (i = 0; i < state->nplanes; i++) {
--		struct drm_gem_cma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
-+		struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
- 
- 		state->dscrs[i]->addr = gem->paddr + state->offsets[i];
- 
+ static int aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)
 diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
-index 85fd21cd9dda..b601073c22de 100644
+index b601073c22de..3b535ad1b07c 100644
 --- a/drivers/gpu/drm/drm_fb_dma_helper.c
 +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane.h>
- #include <linux/dma-mapping.h>
-@@ -35,15 +35,15 @@
-  */
- 
- /**
-- * drm_fb_dma_get_gem_obj() - Get CMA GEM object for framebuffer
-+ * drm_fb_dma_get_gem_obj() - Get DMA GEM object for framebuffer
-  * @fb: The framebuffer
-  * @plane: Which plane
-  *
-- * Return the CMA GEM object for given framebuffer.
-+ * Return the DMA GEM object for given framebuffer.
-  *
-  * This function will usually be called from the CRTC callback functions.
-  */
--struct drm_gem_cma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
-+struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
- 						  unsigned int plane)
- {
- 	struct drm_gem_object *gem;
-@@ -52,7 +52,7 @@ struct drm_gem_cma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
- 	if (!gem)
- 		return NULL;
- 
--	return to_drm_gem_cma_obj(gem);
-+	return to_drm_gem_dma_obj(gem);
- }
- EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_obj);
- 
-@@ -71,7 +71,7 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
- 				   struct drm_plane_state *state,
+@@ -72,7 +72,7 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
  				   unsigned int plane)
  {
--	struct drm_gem_cma_object *obj;
-+	struct drm_gem_dma_object *obj;
- 	dma_addr_t paddr;
+ 	struct drm_gem_dma_object *obj;
+-	dma_addr_t paddr;
++	dma_addr_t dma_addr;
  	u8 h_div = 1, v_div = 1;
  	u32 block_w = drm_format_info_block_width(fb->format, plane);
-@@ -113,7 +113,7 @@ EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
-  * @state: New plane state
-  *
-  * This function can be used by drivers that use damage clips and have
-- * CMA GEM objects backed by non-coherent memory. Calling this function
-+ * DMA GEM objects backed by non-coherent memory. Calling this function
-  * in a plane's .atomic_update ensures that all the data in the backing
-  * memory have been written to RAM.
-  */
-@@ -123,15 +123,15 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
- {
- 	const struct drm_format_info *finfo = state->fb->format;
- 	struct drm_atomic_helper_damage_iter iter;
--	const struct drm_gem_cma_object *cma_obj;
-+	const struct drm_gem_dma_object *dma_obj;
- 	unsigned int offset, i;
- 	struct drm_rect clip;
- 	dma_addr_t daddr;
- 	size_t nb_bytes;
+ 	u32 block_h = drm_format_info_block_height(fb->format, plane);
+@@ -86,7 +86,7 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
+ 	if (!obj)
+ 		return 0;
  
- 	for (i = 0; i < finfo->num_planes; i++) {
--		cma_obj = drm_fb_dma_get_gem_obj(state->fb, i);
--		if (!cma_obj->map_noncoherent)
-+		dma_obj = drm_fb_dma_get_gem_obj(state->fb, i);
-+		if (!dma_obj->map_noncoherent)
- 			continue;
+-	paddr = obj->paddr + fb->offsets[plane];
++	dma_addr = obj->dma_addr + fb->offsets[plane];
  
- 		daddr = drm_fb_dma_get_gem_addr(state->fb, state, i);
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index ed25168619fc..fa55c9a562f3 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -131,7 +131,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
-  *     };
-  *
-  * For plain GEM based drivers there is the DEFINE_DRM_GEM_FOPS() macro, and for
-- * CMA based drivers there is the DEFINE_DRM_GEM_CMA_FOPS() macro to make this
-+ * DMA based drivers there is the DEFINE_DRM_GEM_DMA_FOPS() macro to make this
-  * simpler.
-  *
-  * The driver's &file_operations must be stored in &drm_driver.fops.
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-similarity index 57%
-rename from drivers/gpu/drm/drm_gem_cma_helper.c
-rename to drivers/gpu/drm/drm_gem_dma_helper.c
-index f36734c2c9e1..56fc1a1e7f87 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * drm gem CMA (contiguous memory allocator) helper functions
-+ * drm gem DMA helper functions
-  *
-  * Copyright (C) 2012 Sascha Hauer, Pengutronix
-  *
-@@ -20,50 +20,53 @@
- #include <drm/drm.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_vma_manager.h>
+ 	if (plane > 0) {
+ 		h_div = fb->format->hsub;
+@@ -98,10 +98,10 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
+ 	block_start_y = (sample_y / block_h) * block_h;
+ 	num_hblocks = sample_x / block_w;
  
- /**
-- * DOC: cma helpers
-+ * DOC: dma helpers
-  *
-- * The Contiguous Memory Allocator reserves a pool of memory at early boot
-- * that is used to service requests for large blocks of contiguous memory.
-+ * The DRM GEM/DMA helpers use the DMA mapping API to allocate buffers that are
-+ * DMA-contiguous in memory. This is useful for display drivers that are unable
-+ * to use scattered buffers.
-  *
-- * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
-- * objects that are physically contiguous in memory. This is useful for
-- * display drivers that are unable to map scattered buffers via an IOMMU.
-+ * Depending on the platform, the buffers may be physically non-contiguous and
-+ * mapped through an IOMMU or a similar mechanism, or allocated from
-+ * physically-contiguous memory (using, for instance, CMA or a pool of memory
-+ * reserved at early boot). This is handled behind the scenes by the DMA mapping
-+ * API.
-  *
-  * For GEM callback helpers in struct &drm_gem_object functions, see likewise
-- * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
-- * drm_gem_cma_vmap()). These helpers perform the necessary type conversion.
-+ * named functions with an _object_ infix (e.g., drm_gem_dma_object_vmap() wraps
-+ * drm_gem_dma_vmap()). These helpers perform the necessary type conversion.
-  */
+-	paddr += fb->pitches[plane] * block_start_y;
+-	paddr += block_size * num_hblocks;
++	dma_addr += fb->pitches[plane] * block_start_y;
++	dma_addr += block_size * num_hblocks;
  
--static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
--	.free = drm_gem_cma_object_free,
--	.print_info = drm_gem_cma_object_print_info,
--	.get_sg_table = drm_gem_cma_object_get_sg_table,
--	.vmap = drm_gem_cma_object_vmap,
--	.mmap = drm_gem_cma_object_mmap,
--	.vm_ops = &drm_gem_cma_vm_ops,
-+static const struct drm_gem_object_funcs drm_gem_dma_default_funcs = {
-+	.free = drm_gem_dma_object_free,
-+	.print_info = drm_gem_dma_object_print_info,
-+	.get_sg_table = drm_gem_dma_object_get_sg_table,
-+	.vmap = drm_gem_dma_object_vmap,
-+	.mmap = drm_gem_dma_object_mmap,
-+	.vm_ops = &drm_gem_dma_vm_ops,
- };
- 
- /**
-- * __drm_gem_cma_create - Create a GEM CMA object without allocating memory
-+ * __drm_gem_dma_create - Create a GEM DMA object without allocating memory
-  * @drm: DRM device
-  * @size: size of the object to allocate
-  * @private: true if used for internal purposes
-  *
-- * This function creates and initializes a GEM CMA object of the given size,
-+ * This function creates and initializes a GEM DMA object of the given size,
-  * but doesn't allocate any memory to back the object.
-  *
-  * Returns:
-- * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
-+ * A struct drm_gem_dma_object * on success or an ERR_PTR()-encoded negative
-  * error code on failure.
-  */
--static struct drm_gem_cma_object *
--__drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
-+static struct drm_gem_dma_object *
-+__drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_gem_object *gem_obj;
- 	int ret = 0;
- 
-@@ -71,22 +74,22 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
- 		gem_obj = drm->driver->gem_create_object(drm, size);
- 		if (IS_ERR(gem_obj))
- 			return ERR_CAST(gem_obj);
--		cma_obj = to_drm_gem_cma_obj(gem_obj);
-+		dma_obj = to_drm_gem_dma_obj(gem_obj);
- 	} else {
--		cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
--		if (!cma_obj)
-+		dma_obj = kzalloc(sizeof(*dma_obj), GFP_KERNEL);
-+		if (!dma_obj)
- 			return ERR_PTR(-ENOMEM);
--		gem_obj = &cma_obj->base;
-+		gem_obj = &dma_obj->base;
- 	}
- 
- 	if (!gem_obj->funcs)
--		gem_obj->funcs = &drm_gem_cma_default_funcs;
-+		gem_obj->funcs = &drm_gem_dma_default_funcs;
- 
- 	if (private) {
- 		drm_gem_private_object_init(drm, gem_obj, size);
- 
- 		/* Always use writecombine for dma-buf mappings */
--		cma_obj->map_noncoherent = false;
-+		dma_obj->map_noncoherent = false;
- 	} else {
- 		ret = drm_gem_object_init(drm, gem_obj, size);
- 	}
-@@ -99,91 +102,91 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
- 		goto error;
- 	}
- 
--	return cma_obj;
-+	return dma_obj;
- 
- error:
--	kfree(cma_obj);
-+	kfree(dma_obj);
- 	return ERR_PTR(ret);
+-	return paddr;
++	return dma_addr;
  }
+ EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
  
- /**
-- * drm_gem_cma_create - allocate an object with the given size
-+ * drm_gem_dma_create - allocate an object with the given size
-  * @drm: DRM device
-  * @size: size of the object to allocate
-  *
-- * This function creates a CMA GEM object and allocates a contiguous chunk of
-- * memory as backing store.
-+ * This function creates a DMA GEM object and allocates a DMA-contiguous chunk
-+ * of memory as backing store.
-  *
-  * Returns:
-- * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
-+ * A struct drm_gem_dma_object * on success or an ERR_PTR()-encoded negative
-  * error code on failure.
-  */
--struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
-+struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
- 					      size_t size)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	int ret;
+diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+index 56fc1a1e7f87..8851d294bb53 100644
+--- a/drivers/gpu/drm/drm_gem_dma_helper.c
++++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+@@ -135,11 +135,12 @@ struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
  
- 	size = round_up(size, PAGE_SIZE);
- 
--	cma_obj = __drm_gem_cma_create(drm, size, false);
--	if (IS_ERR(cma_obj))
--		return cma_obj;
-+	dma_obj = __drm_gem_dma_create(drm, size, false);
-+	if (IS_ERR(dma_obj))
-+		return dma_obj;
- 
--	if (cma_obj->map_noncoherent) {
--		cma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
--						       &cma_obj->paddr,
-+	if (dma_obj->map_noncoherent) {
-+		dma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
-+						       &dma_obj->paddr,
+ 	if (dma_obj->map_noncoherent) {
+ 		dma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
+-						       &dma_obj->paddr,
++						       &dma_obj->dma_addr,
  						       DMA_TO_DEVICE,
  						       GFP_KERNEL | __GFP_NOWARN);
  	} else {
--		cma_obj->vaddr = dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
-+		dma_obj->vaddr = dma_alloc_wc(drm->dev, size, &dma_obj->paddr,
+-		dma_obj->vaddr = dma_alloc_wc(drm->dev, size, &dma_obj->paddr,
++		dma_obj->vaddr = dma_alloc_wc(drm->dev, size,
++					      &dma_obj->dma_addr,
  					      GFP_KERNEL | __GFP_NOWARN);
  	}
--	if (!cma_obj->vaddr) {
-+	if (!dma_obj->vaddr) {
- 		drm_dbg(drm, "failed to allocate buffer with size %zu\n",
- 			 size);
- 		ret = -ENOMEM;
- 		goto error;
- 	}
- 
--	return cma_obj;
-+	return dma_obj;
- 
- error:
--	drm_gem_object_put(&cma_obj->base);
-+	drm_gem_object_put(&dma_obj->base);
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_create);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_create);
- 
- /**
-- * drm_gem_cma_create_with_handle - allocate an object with the given size and
-+ * drm_gem_dma_create_with_handle - allocate an object with the given size and
-  *     return a GEM handle to it
-  * @file_priv: DRM file-private structure to register the handle for
-  * @drm: DRM device
-  * @size: size of the object to allocate
-  * @handle: return location for the GEM handle
-  *
-- * This function creates a CMA GEM object, allocating a physically contiguous
-- * chunk of memory as backing store. The GEM object is then added to the list
-- * of object associated with the given file and a handle to it is returned.
-+ * This function creates a DMA GEM object, allocating a DMA-contiguous chunk
-+ * of memory as backing store. The GEM object is then added to the list of
-+ * object associated with the given file and a handle to it is returned.
-  *
-  * Returns:
-- * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
-+ * A struct drm_gem_dma_object * on success or an ERR_PTR()-encoded negative
-  * error code on failure.
-  */
--static struct drm_gem_cma_object *
--drm_gem_cma_create_with_handle(struct drm_file *file_priv,
-+static struct drm_gem_dma_object *
-+drm_gem_dma_create_with_handle(struct drm_file *file_priv,
- 			       struct drm_device *drm, size_t size,
- 			       uint32_t *handle)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_gem_object *gem_obj;
- 	int ret;
- 
--	cma_obj = drm_gem_cma_create(drm, size);
--	if (IS_ERR(cma_obj))
--		return cma_obj;
-+	dma_obj = drm_gem_dma_create(drm, size);
-+	if (IS_ERR(dma_obj))
-+		return dma_obj;
- 
--	gem_obj = &cma_obj->base;
-+	gem_obj = &dma_obj->base;
- 
- 	/*
- 	 * allocate a id of idr table where the obj is registered
-@@ -195,44 +198,44 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	return cma_obj;
-+	return dma_obj;
- }
- 
- /**
-- * drm_gem_cma_free - free resources associated with a CMA GEM object
-- * @cma_obj: CMA GEM object to free
-+ * drm_gem_dma_free - free resources associated with a DMA GEM object
-+ * @dma_obj: DMA GEM object to free
-  *
-- * This function frees the backing memory of the CMA GEM object, cleans up the
-+ * This function frees the backing memory of the DMA GEM object, cleans up the
-  * GEM object state and frees the memory used to store the object itself.
-  * If the buffer is imported and the virtual address is set, it is released.
-  */
--void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj)
-+void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj)
- {
--	struct drm_gem_object *gem_obj = &cma_obj->base;
--	struct iosys_map map = IOSYS_MAP_INIT_VADDR(cma_obj->vaddr);
-+	struct drm_gem_object *gem_obj = &dma_obj->base;
-+	struct iosys_map map = IOSYS_MAP_INIT_VADDR(dma_obj->vaddr);
- 
- 	if (gem_obj->import_attach) {
--		if (cma_obj->vaddr)
-+		if (dma_obj->vaddr)
- 			dma_buf_vunmap(gem_obj->import_attach->dmabuf, &map);
--		drm_prime_gem_destroy(gem_obj, cma_obj->sgt);
--	} else if (cma_obj->vaddr) {
--		if (cma_obj->map_noncoherent)
--			dma_free_noncoherent(gem_obj->dev->dev, cma_obj->base.size,
--					     cma_obj->vaddr, cma_obj->paddr,
-+		drm_prime_gem_destroy(gem_obj, dma_obj->sgt);
-+	} else if (dma_obj->vaddr) {
-+		if (dma_obj->map_noncoherent)
-+			dma_free_noncoherent(gem_obj->dev->dev, dma_obj->base.size,
-+					     dma_obj->vaddr, dma_obj->paddr,
+ 	if (!dma_obj->vaddr) {
+@@ -221,11 +222,11 @@ void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj)
+ 	} else if (dma_obj->vaddr) {
+ 		if (dma_obj->map_noncoherent)
+ 			dma_free_noncoherent(gem_obj->dev->dev, dma_obj->base.size,
+-					     dma_obj->vaddr, dma_obj->paddr,
++					     dma_obj->vaddr, dma_obj->dma_addr,
  					     DMA_TO_DEVICE);
  		else
--			dma_free_wc(gem_obj->dev->dev, cma_obj->base.size,
--				    cma_obj->vaddr, cma_obj->paddr);
-+			dma_free_wc(gem_obj->dev->dev, dma_obj->base.size,
-+				    dma_obj->vaddr, dma_obj->paddr);
+ 			dma_free_wc(gem_obj->dev->dev, dma_obj->base.size,
+-				    dma_obj->vaddr, dma_obj->paddr);
++				    dma_obj->vaddr, dma_obj->dma_addr);
  	}
  
  	drm_gem_object_release(gem_obj);
- 
--	kfree(cma_obj);
-+	kfree(dma_obj);
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_free);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_free);
- 
- /**
-- * drm_gem_cma_dumb_create_internal - create a dumb buffer object
-+ * drm_gem_dma_dumb_create_internal - create a dumb buffer object
-  * @file_priv: DRM file-private structure to create the dumb buffer for
-  * @drm: DRM device
-  * @args: IOCTL data
-@@ -245,12 +248,12 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_free);
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_cma_dumb_create_internal(struct drm_file *file_priv,
-+int drm_gem_dma_dumb_create_internal(struct drm_file *file_priv,
- 				     struct drm_device *drm,
- 				     struct drm_mode_create_dumb *args)
- {
- 	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 
- 	if (args->pitch < min_pitch)
- 		args->pitch = min_pitch;
-@@ -258,14 +261,14 @@ int drm_gem_cma_dumb_create_internal(struct drm_file *file_priv,
- 	if (args->size < args->pitch * args->height)
- 		args->size = args->pitch * args->height;
- 
--	cma_obj = drm_gem_cma_create_with_handle(file_priv, drm, args->size,
-+	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
- 						 &args->handle);
--	return PTR_ERR_OR_ZERO(cma_obj);
-+	return PTR_ERR_OR_ZERO(dma_obj);
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_dumb_create_internal);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_dumb_create_internal);
- 
- /**
-- * drm_gem_cma_dumb_create - create a dumb buffer object
-+ * drm_gem_dma_dumb_create - create a dumb buffer object
-  * @file_priv: DRM file-private structure to create the dumb buffer for
-  * @drm: DRM device
-  * @args: IOCTL data
-@@ -277,35 +280,35 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_dumb_create_internal);
-  *
-  * For hardware with additional restrictions, drivers can adjust the fields
-  * set up by userspace and pass the IOCTL data along to the
-- * drm_gem_cma_dumb_create_internal() function.
-+ * drm_gem_dma_dumb_create_internal() function.
-  *
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_cma_dumb_create(struct drm_file *file_priv,
-+int drm_gem_dma_dumb_create(struct drm_file *file_priv,
- 			    struct drm_device *drm,
- 			    struct drm_mode_create_dumb *args)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 
- 	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
- 	args->size = args->pitch * args->height;
- 
--	cma_obj = drm_gem_cma_create_with_handle(file_priv, drm, args->size,
-+	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
- 						 &args->handle);
--	return PTR_ERR_OR_ZERO(cma_obj);
-+	return PTR_ERR_OR_ZERO(dma_obj);
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_dumb_create);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_dumb_create);
- 
--const struct vm_operations_struct drm_gem_cma_vm_ops = {
-+const struct vm_operations_struct drm_gem_dma_vm_ops = {
- 	.open = drm_gem_vm_open,
- 	.close = drm_gem_vm_close,
- };
--EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_vm_ops);
- 
- #ifndef CONFIG_MMU
- /**
-- * drm_gem_cma_get_unmapped_area - propose address for mapping in noMMU cases
-+ * drm_gem_dma_get_unmapped_area - propose address for mapping in noMMU cases
-  * @filp: file object
-  * @addr: memory address
-  * @len: buffer size
-@@ -320,13 +323,13 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
-  * Returns:
-  * mapping address on success or a negative error code on failure.
-  */
--unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
-+unsigned long drm_gem_dma_get_unmapped_area(struct file *filp,
- 					    unsigned long addr,
- 					    unsigned long len,
- 					    unsigned long pgoff,
- 					    unsigned long flags)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_gem_object *obj = NULL;
- 	struct drm_file *priv = filp->private_data;
- 	struct drm_device *dev = priv->minor->dev;
-@@ -365,35 +368,35 @@ unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
- 		return -EACCES;
- 	}
- 
--	cma_obj = to_drm_gem_cma_obj(obj);
-+	dma_obj = to_drm_gem_dma_obj(obj);
- 
- 	drm_gem_object_put(obj);
- 
--	return cma_obj->vaddr ? (unsigned long)cma_obj->vaddr : -EINVAL;
-+	return dma_obj->vaddr ? (unsigned long)dma_obj->vaddr : -EINVAL;
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_get_unmapped_area);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_get_unmapped_area);
- #endif
- 
- /**
-- * drm_gem_cma_print_info() - Print &drm_gem_cma_object info for debugfs
-- * @cma_obj: CMA GEM object
-+ * drm_gem_dma_print_info() - Print &drm_gem_dma_object info for debugfs
-+ * @dma_obj: DMA GEM object
+@@ -383,12 +384,12 @@ EXPORT_SYMBOL_GPL(drm_gem_dma_get_unmapped_area);
   * @p: DRM printer
   * @indent: Tab indentation level
   *
-  * This function prints paddr and vaddr for use in e.g. debugfs output.
+- * This function prints paddr and vaddr for use in e.g. debugfs output.
++ * This function prints dma_addr and vaddr for use in e.g. debugfs output.
   */
--void drm_gem_cma_print_info(const struct drm_gem_cma_object *cma_obj,
-+void drm_gem_dma_print_info(const struct drm_gem_dma_object *dma_obj,
+ void drm_gem_dma_print_info(const struct drm_gem_dma_object *dma_obj,
  			    struct drm_printer *p, unsigned int indent)
  {
--	drm_printf_indent(p, indent, "paddr=%pad\n", &cma_obj->paddr);
--	drm_printf_indent(p, indent, "vaddr=%p\n", cma_obj->vaddr);
-+	drm_printf_indent(p, indent, "paddr=%pad\n", &dma_obj->paddr);
-+	drm_printf_indent(p, indent, "vaddr=%p\n", dma_obj->vaddr);
+-	drm_printf_indent(p, indent, "paddr=%pad\n", &dma_obj->paddr);
++	drm_printf_indent(p, indent, "dma_addr=%pad\n", &dma_obj->dma_addr);
+ 	drm_printf_indent(p, indent, "vaddr=%p\n", dma_obj->vaddr);
  }
--EXPORT_SYMBOL(drm_gem_cma_print_info);
-+EXPORT_SYMBOL(drm_gem_dma_print_info);
- 
- /**
-- * drm_gem_cma_get_sg_table - provide a scatter/gather table of pinned
-- *     pages for a CMA GEM object
-- * @cma_obj: CMA GEM object
-+ * drm_gem_dma_get_sg_table - provide a scatter/gather table of pinned
-+ *     pages for a DMA GEM object
-+ * @dma_obj: DMA GEM object
-  *
-  * This function exports a scatter/gather table by calling the standard
-  * DMA mapping API.
-@@ -401,9 +404,9 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-  */
--struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj)
-+struct sg_table *drm_gem_dma_get_sg_table(struct drm_gem_dma_object *dma_obj)
- {
--	struct drm_gem_object *obj = &cma_obj->base;
-+	struct drm_gem_object *obj = &dma_obj->base;
- 	struct sg_table *sgt;
- 	int ret;
- 
-@@ -411,8 +414,8 @@ struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj)
- 	if (!sgt)
+ EXPORT_SYMBOL(drm_gem_dma_print_info);
+@@ -415,7 +416,7 @@ struct sg_table *drm_gem_dma_get_sg_table(struct drm_gem_dma_object *dma_obj)
  		return ERR_PTR(-ENOMEM);
  
--	ret = dma_get_sgtable(obj->dev->dev, sgt, cma_obj->vaddr,
--			      cma_obj->paddr, obj->size);
-+	ret = dma_get_sgtable(obj->dev->dev, sgt, dma_obj->vaddr,
-+			      dma_obj->paddr, obj->size);
+ 	ret = dma_get_sgtable(obj->dev->dev, sgt, dma_obj->vaddr,
+-			      dma_obj->paddr, obj->size);
++			      dma_obj->dma_addr, obj->size);
  	if (ret < 0)
  		goto out;
  
-@@ -422,10 +425,10 @@ struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj)
- 	kfree(sgt);
- 	return ERR_PTR(ret);
+@@ -460,10 +461,11 @@ drm_gem_dma_prime_import_sg_table(struct drm_device *dev,
+ 	if (IS_ERR(dma_obj))
+ 		return ERR_CAST(dma_obj);
+ 
+-	dma_obj->paddr = sg_dma_address(sgt->sgl);
++	dma_obj->dma_addr = sg_dma_address(sgt->sgl);
+ 	dma_obj->sgt = sgt;
+ 
+-	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &dma_obj->paddr, attach->dmabuf->size);
++	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &dma_obj->dma_addr,
++							 attach->dmabuf->size);
+ 
+ 	return &dma_obj->base;
  }
--EXPORT_SYMBOL_GPL(drm_gem_cma_get_sg_table);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_get_sg_table);
- 
- /**
-- * drm_gem_cma_prime_import_sg_table - produce a CMA GEM object from another
-+ * drm_gem_dma_prime_import_sg_table - produce a DMA GEM object from another
-  *     driver's scatter/gather table of pinned pages
-  * @dev: device to import into
-  * @attach: DMA-BUF attachment
-@@ -434,7 +437,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_get_sg_table);
-  * This function imports a scatter/gather table exported via DMA-BUF by
-  * another driver. Imported buffers must be physically contiguous in memory
-  * (i.e. the scatter/gather table must contain a single entry). Drivers that
-- * use the CMA helpers should set this as their
-+ * use the DMA helpers should set this as their
-  * &drm_driver.gem_prime_import_sg_table callback.
-  *
-  * Returns:
-@@ -442,56 +445,56 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_get_sg_table);
-  * error code on failure.
-  */
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
-+drm_gem_dma_prime_import_sg_table(struct drm_device *dev,
- 				  struct dma_buf_attachment *attach,
- 				  struct sg_table *sgt)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 
- 	/* check if the entries in the sg_table are contiguous */
- 	if (drm_prime_get_contiguous_size(sgt) < attach->dmabuf->size)
- 		return ERR_PTR(-EINVAL);
- 
--	/* Create a CMA GEM buffer. */
--	cma_obj = __drm_gem_cma_create(dev, attach->dmabuf->size, true);
--	if (IS_ERR(cma_obj))
--		return ERR_CAST(cma_obj);
-+	/* Create a DMA GEM buffer. */
-+	dma_obj = __drm_gem_dma_create(dev, attach->dmabuf->size, true);
-+	if (IS_ERR(dma_obj))
-+		return ERR_CAST(dma_obj);
- 
--	cma_obj->paddr = sg_dma_address(sgt->sgl);
--	cma_obj->sgt = sgt;
-+	dma_obj->paddr = sg_dma_address(sgt->sgl);
-+	dma_obj->sgt = sgt;
- 
--	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &cma_obj->paddr, attach->dmabuf->size);
-+	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &dma_obj->paddr, attach->dmabuf->size);
- 
--	return &cma_obj->base;
-+	return &dma_obj->base;
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_prime_import_sg_table);
- 
- /**
-- * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
-+ * drm_gem_dma_vmap - map a DMA GEM object into the kernel's virtual
-  *     address space
-- * @cma_obj: CMA GEM object
-- * @map: Returns the kernel virtual address of the CMA GEM object's backing
-+ * @dma_obj: DMA GEM object
-+ * @map: Returns the kernel virtual address of the DMA GEM object's backing
-  *       store.
-  *
-  * This function maps a buffer into the kernel's virtual address space.
-- * Since the CMA buffers are already mapped into the kernel virtual address
-+ * Since the DMA buffers are already mapped into the kernel virtual address
-  * space this simply returns the cached virtual address.
-  *
-  * Returns:
-  * 0 on success, or a negative error code otherwise.
-  */
--int drm_gem_cma_vmap(struct drm_gem_cma_object *cma_obj,
-+int drm_gem_dma_vmap(struct drm_gem_dma_object *dma_obj,
- 		     struct iosys_map *map)
- {
--	iosys_map_set_vaddr(map, cma_obj->vaddr);
-+	iosys_map_set_vaddr(map, dma_obj->vaddr);
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_vmap);
- 
- /**
-- * drm_gem_cma_mmap - memory-map an exported CMA GEM object
-- * @cma_obj: CMA GEM object
-+ * drm_gem_dma_mmap - memory-map an exported DMA GEM object
-+ * @dma_obj: DMA GEM object
-  * @vma: VMA for the area to be mapped
-  *
-  * This function maps a buffer into a userspace process's address space.
-@@ -501,9 +504,9 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *vma)
-+int drm_gem_dma_mmap(struct drm_gem_dma_object *dma_obj, struct vm_area_struct *vma)
- {
--	struct drm_gem_object *obj = &cma_obj->base;
-+	struct drm_gem_object *obj = &dma_obj->base;
- 	int ret;
- 
- 	/*
-@@ -515,37 +518,37 @@ int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *
- 	vma->vm_flags &= ~VM_PFNMAP;
- 	vma->vm_flags |= VM_DONTEXPAND;
- 
--	if (cma_obj->map_noncoherent) {
-+	if (dma_obj->map_noncoherent) {
- 		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 
--		ret = dma_mmap_pages(cma_obj->base.dev->dev,
-+		ret = dma_mmap_pages(dma_obj->base.dev->dev,
- 				     vma, vma->vm_end - vma->vm_start,
--				     virt_to_page(cma_obj->vaddr));
-+				     virt_to_page(dma_obj->vaddr));
+@@ -526,7 +528,8 @@ int drm_gem_dma_mmap(struct drm_gem_dma_object *dma_obj, struct vm_area_struct *
+ 				     virt_to_page(dma_obj->vaddr));
  	} else {
--		ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
--				  cma_obj->paddr, vma->vm_end - vma->vm_start);
-+		ret = dma_mmap_wc(dma_obj->base.dev->dev, vma, dma_obj->vaddr,
-+				  dma_obj->paddr, vma->vm_end - vma->vm_start);
+ 		ret = dma_mmap_wc(dma_obj->base.dev->dev, vma, dma_obj->vaddr,
+-				  dma_obj->paddr, vma->vm_end - vma->vm_start);
++				  dma_obj->dma_addr,
++				  vma->vm_end - vma->vm_start);
  	}
  	if (ret)
  		drm_gem_vm_close(vma);
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
-+EXPORT_SYMBOL_GPL(drm_gem_dma_mmap);
- 
- /**
-- * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
-+ * drm_gem_dma_prime_import_sg_table_vmap - PRIME import another driver's
-  *	scatter/gather table and get the virtual address of the buffer
-  * @dev: DRM device
-  * @attach: DMA-BUF attachment
-  * @sgt: Scatter/gather table of pinned pages
-  *
-  * This function imports a scatter/gather table using
-- * drm_gem_cma_prime_import_sg_table() and uses dma_buf_vmap() to get the kernel
-- * virtual address. This ensures that a CMA GEM object always has its virtual
-+ * drm_gem_dma_prime_import_sg_table() and uses dma_buf_vmap() to get the kernel
-+ * virtual address. This ensures that a DMA GEM object always has its virtual
-  * address set. This address is released when the object is freed.
-  *
-  * This function can be used as the &drm_driver.gem_prime_import_sg_table
-- * callback. The &DRM_GEM_CMA_DRIVER_OPS_VMAP macro provides a shortcut to set
-+ * callback. The &DRM_GEM_DMA_DRIVER_OPS_VMAP macro provides a shortcut to set
-  * the necessary DRM driver operations.
-  *
-  * Returns:
-@@ -553,11 +556,11 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
-  * error code on failure.
-  */
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
-+drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
- 				       struct dma_buf_attachment *attach,
- 				       struct sg_table *sgt)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_gem_object *obj;
- 	struct iosys_map map;
- 	int ret;
-@@ -568,19 +571,19 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
- 		return ERR_PTR(ret);
- 	}
- 
--	obj = drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
-+	obj = drm_gem_dma_prime_import_sg_table(dev, attach, sgt);
- 	if (IS_ERR(obj)) {
- 		dma_buf_vunmap(attach->dmabuf, &map);
- 		return obj;
- 	}
- 
--	cma_obj = to_drm_gem_cma_obj(obj);
--	cma_obj->vaddr = map.vaddr;
-+	dma_obj = to_drm_gem_dma_obj(obj);
-+	dma_obj->vaddr = map.vaddr;
- 
- 	return obj;
- }
--EXPORT_SYMBOL(drm_gem_cma_prime_import_sg_table_vmap);
-+EXPORT_SYMBOL(drm_gem_dma_prime_import_sg_table_vmap);
- 
--MODULE_DESCRIPTION("DRM CMA memory-management helpers");
-+MODULE_DESCRIPTION("DRM DMA memory-management helpers");
- MODULE_IMPORT_NS(DMA_BUF);
- MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 9314f2ead79f..00b63493c88c 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -1134,7 +1134,7 @@ int mipi_dbi_spi_init(struct spi_device *spi, struct mipi_dbi *dbi,
- 	/*
- 	 * Even though it's not the SPI device that does DMA (the master does),
- 	 * the dma mask is necessary for the dma_alloc_wc() in the GEM code
--	 * (e.g., drm_gem_cma_create()). The dma_addr returned will be a physical
-+	 * (e.g., drm_gem_dma_create()). The dma_addr returned will be a physical
- 	 * address which might be different from the bus address, but this is
- 	 * not a problem since the address will not be used.
- 	 * The virtual address is used in the transfer and the SPI core
-diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
-index e95e96c565ba..5ca71ef87325 100644
---- a/drivers/gpu/drm/fsl-dcu/Kconfig
-+++ b/drivers/gpu/drm/fsl-dcu/Kconfig
-@@ -3,7 +3,7 @@ config DRM_FSL_DCU
- 	tristate "DRM Support for Freescale DCU"
- 	depends on DRM && OF && ARM && COMMON_CLK
- 	select BACKLIGHT_CLASS_DEVICE
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select REGMAP_MMIO
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-index 58c69206414b..33361ed95aeb 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-@@ -22,7 +22,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_modeset_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -150,13 +150,13 @@ static void fsl_dcu_unload(struct drm_device *dev)
- 	dev->dev_private = NULL;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(fsl_dcu_drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fsl_dcu_drm_fops);
- 
- static const struct drm_driver fsl_dcu_drm_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.load			= fsl_dcu_load,
- 	.unload			= fsl_dcu_unload,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.fops			= &fsl_dcu_drm_fops,
- 	.name			= "fsl-dcu-drm",
- 	.desc			= "Freescale DCU DRM",
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-index f00083191792..7614b4558393 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-@@ -12,7 +12,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -83,7 +83,7 @@ static void fsl_dcu_drm_plane_atomic_update(struct drm_plane *plane,
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
- 									   plane);
- 	struct drm_framebuffer *fb = plane->state->fb;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	unsigned int alpha = DCU_LAYER_AB_NONE, bpp;
- 	int index;
- 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/Kconfig b/drivers/gpu/drm/hisilicon/kirin/Kconfig
-index b770f7662830..c5265675bf0c 100644
---- a/drivers/gpu/drm/hisilicon/kirin/Kconfig
-+++ b/drivers/gpu/drm/hisilicon/kirin/Kconfig
-@@ -3,7 +3,7 @@ config DRM_HISI_KIRIN
- 	tristate "DRM Support for Hisilicon Kirin series SoCs Platform"
- 	depends on DRM && OF && ARM64
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DSI
- 	help
- 	  Choose this option if you have a hisilicon Kirin chipsets(hi6220).
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-index eea51a6dd8ab..25b717a8697e 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-@@ -26,7 +26,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-@@ -548,7 +548,7 @@ static const struct drm_crtc_funcs ade_crtc_funcs = {
- static void ade_rdma_set(void __iomem *base, struct drm_framebuffer *fb,
- 			 u32 ch, u32 y, u32 in_h, u32 fmt)
- {
--	struct drm_gem_cma_object *obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *obj = drm_fb_dma_get_gem_obj(fb, 0);
- 	u32 reg_ctrl, reg_addr, reg_size, reg_stride, reg_space, reg_en;
- 	u32 stride = fb->pitches[0];
- 	u32 addr = (u32)obj->paddr + y * stride;
-@@ -919,12 +919,12 @@ static const struct drm_mode_config_funcs ade_mode_config_funcs = {
- 
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(ade_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ade_fops);
- 
- static const struct drm_driver ade_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops = &ade_fops,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.name = "kirin",
- 	.desc = "Hisilicon Kirin620 SoC DRM Driver",
- 	.date = "20150718",
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-index d16f9a69cf0c..42f626a1546b 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-@@ -21,7 +21,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_of.h>
-diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
-index bb9738c7c825..975de4ff7313 100644
---- a/drivers/gpu/drm/imx/Kconfig
-+++ b/drivers/gpu/drm/imx/Kconfig
-@@ -3,7 +3,7 @@ config DRM_IMX
- 	tristate "DRM Support for Freescale i.MX"
- 	select DRM_KMS_HELPER
- 	select VIDEOMODE_HELPERS
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	depends on DRM && (ARCH_MXC || ARCH_MULTIPLATFORM || COMPILE_TEST)
- 	depends on IMX_IPUV3_CORE
-diff --git a/drivers/gpu/drm/imx/dcss/Kconfig b/drivers/gpu/drm/imx/dcss/Kconfig
-index 5c2b2277afbf..3ffc061d392b 100644
---- a/drivers/gpu/drm/imx/dcss/Kconfig
-+++ b/drivers/gpu/drm/imx/dcss/Kconfig
-@@ -2,7 +2,7 @@ config DRM_IMX_DCSS
- 	tristate "i.MX8MQ DCSS"
- 	select IMX_IRQSTEER
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VIDEOMODE_HELPERS
- 	depends on DRM && ARCH_MXC && ARM64
- 	help
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index 9b84df34a6a1..f50814e9d549 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -8,7 +8,7 @@
- #include <drm/drm_bridge_connector.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-@@ -17,7 +17,7 @@
- #include "dcss-dev.h"
- #include "dcss-kms.h"
- 
--DEFINE_DRM_GEM_CMA_FOPS(dcss_cma_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(dcss_cma_fops);
- 
- static const struct drm_mode_config_funcs dcss_drm_mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create,
-@@ -28,7 +28,7 @@ static const struct drm_mode_config_funcs dcss_drm_mode_config_funcs = {
- 
- static const struct drm_driver dcss_kms_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.fops			= &dcss_cma_fops,
- 	.name			= "imx-dcss",
- 	.desc			= "i.MX8MQ Display Subsystem",
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-index 7794018252c2..fdf5ae23b15c 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-@@ -7,7 +7,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- 
- #include "dcss-dev.h"
- #include "dcss-kms.h"
-@@ -145,7 +145,7 @@ static int dcss_plane_atomic_check(struct drm_plane *plane,
- 	struct dcss_dev *dcss = plane->dev->dev_private;
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	bool is_primary_plane = plane->type == DRM_PLANE_TYPE_PRIMARY;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_crtc_state *crtc_state;
- 	int hdisplay, vdisplay;
- 	int min, max;
-@@ -154,8 +154,8 @@ static int dcss_plane_atomic_check(struct drm_plane *plane,
- 	if (!fb || !new_plane_state->crtc)
- 		return 0;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
--	WARN_ON(!cma_obj);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	WARN_ON(!dma_obj);
- 
- 	crtc_state = drm_atomic_get_existing_crtc_state(state,
- 							new_plane_state->crtc);
-@@ -216,26 +216,26 @@ static void dcss_plane_atomic_set_base(struct dcss_plane *dcss_plane)
- 	struct dcss_dev *dcss = plane->dev->dev_private;
- 	struct drm_framebuffer *fb = state->fb;
- 	const struct drm_format_info *format = fb->format;
--	struct drm_gem_cma_object *cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 	unsigned long p1_ba = 0, p2_ba = 0;
- 
- 	if (!format->is_yuv ||
- 	    format->format == DRM_FORMAT_NV12 ||
- 	    format->format == DRM_FORMAT_NV21)
--		p1_ba = cma_obj->paddr + fb->offsets[0] +
-+		p1_ba = dma_obj->paddr + fb->offsets[0] +
- 			fb->pitches[0] * (state->src.y1 >> 16) +
- 			format->char_per_block[0] * (state->src.x1 >> 16);
- 	else if (format->format == DRM_FORMAT_UYVY ||
- 		 format->format == DRM_FORMAT_VYUY ||
- 		 format->format == DRM_FORMAT_YUYV ||
- 		 format->format == DRM_FORMAT_YVYU)
--		p1_ba = cma_obj->paddr + fb->offsets[0] +
-+		p1_ba = dma_obj->paddr + fb->offsets[0] +
- 			fb->pitches[0] * (state->src.y1 >> 16) +
- 			2 * format->char_per_block[0] * (state->src.x1 >> 17);
- 
- 	if (format->format == DRM_FORMAT_NV12 ||
- 	    format->format == DRM_FORMAT_NV21)
--		p2_ba = cma_obj->paddr + fb->offsets[1] +
-+		p2_ba = dma_obj->paddr + fb->offsets[1] +
- 			(((fb->pitches[1] >> 1) * (state->src.y1 >> 17) +
- 			(state->src.x1 >> 17)) << 1);
- 
-diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
-index 5923e8e42fd4..07c1f52c314c 100644
---- a/drivers/gpu/drm/imx/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/imx-drm-core.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
-@@ -34,7 +34,7 @@
- static int legacyfb_depth = 16;
- module_param(legacyfb_depth, int, 0444);
- 
--DEFINE_DRM_GEM_CMA_FOPS(imx_drm_driver_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(imx_drm_driver_fops);
- 
- void imx_drm_connector_destroy(struct drm_connector *connector)
- {
-@@ -154,7 +154,7 @@ static int imx_drm_dumb_create(struct drm_file *file_priv,
- 
- 	args->width = ALIGN(width, 8);
- 
--	ret = drm_gem_cma_dumb_create(file_priv, drm, args);
-+	ret = drm_gem_dma_dumb_create(file_priv, drm, args);
- 	if (ret)
- 		return ret;
- 
-@@ -164,7 +164,7 @@ static int imx_drm_dumb_create(struct drm_file *file_priv,
- 
- static const struct drm_driver imx_drm_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(imx_drm_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(imx_drm_dumb_create),
- 	.ioctls			= imx_drm_ioctls,
- 	.num_ioctls		= ARRAY_SIZE(imx_drm_ioctls),
- 	.fops			= &imx_drm_driver_fops,
-diff --git a/drivers/gpu/drm/imx/imx-drm.h b/drivers/gpu/drm/imx/imx-drm.h
-index c3e1a3f14d30..e721bebda2bd 100644
---- a/drivers/gpu/drm/imx/imx-drm.h
-+++ b/drivers/gpu/drm/imx/imx-drm.h
-@@ -32,7 +32,7 @@ extern struct platform_driver ipu_drm_driver;
- 
- void imx_drm_mode_config_init(struct drm_device *drm);
- 
--struct drm_gem_cma_object *imx_drm_fb_get_obj(struct drm_framebuffer *fb);
-+struct drm_gem_dma_object *imx_drm_fb_get_obj(struct drm_framebuffer *fb);
- 
- int imx_drm_encoder_parse_of(struct drm_device *drm,
- 	struct drm_encoder *encoder, struct device_node *np);
-diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
-index 38121f3a0f18..6de7b1f58210 100644
---- a/drivers/gpu/drm/imx/ipuv3-crtc.c
-+++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
-@@ -19,7 +19,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
 diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 3fcaf7b335b3..bad63e2e11b3 100644
+index bad63e2e11b3..7bbd4b8208fa 100644
 --- a/drivers/gpu/drm/imx/ipuv3-plane.c
 +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -10,7 +10,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
+@@ -131,7 +131,7 @@ drm_plane_state_to_eba(struct drm_plane_state *state, int plane)
+ 	dma_obj = drm_fb_dma_get_gem_obj(fb, plane);
+ 	BUG_ON(!dma_obj);
  
-@@ -124,14 +124,14 @@ static inline unsigned long
- drm_plane_state_to_eba(struct drm_plane_state *state, int plane)
- {
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	int x = state->src.x1 >> 16;
- 	int y = state->src.y1 >> 16;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, plane);
--	BUG_ON(!cma_obj);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, plane);
-+	BUG_ON(!dma_obj);
- 
--	return cma_obj->paddr + fb->offsets[plane] + fb->pitches[plane] * y +
-+	return dma_obj->paddr + fb->offsets[plane] + fb->pitches[plane] * y +
+-	return dma_obj->paddr + fb->offsets[plane] + fb->pitches[plane] * y +
++	return dma_obj->dma_addr + fb->offsets[plane] + fb->pitches[plane] * y +
  	       fb->format->cpp[plane] * x;
  }
  
-@@ -139,18 +139,18 @@ static inline unsigned long
- drm_plane_state_to_ubo(struct drm_plane_state *state)
- {
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	unsigned long eba = drm_plane_state_to_eba(state, 0);
- 	int x = state->src.x1 >> 16;
- 	int y = state->src.y1 >> 16;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, 1);
--	BUG_ON(!cma_obj);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, 1);
-+	BUG_ON(!dma_obj);
- 
+@@ -150,7 +150,7 @@ drm_plane_state_to_ubo(struct drm_plane_state *state)
  	x /= fb->format->hsub;
  	y /= fb->format->vsub;
  
--	return cma_obj->paddr + fb->offsets[1] + fb->pitches[1] * y +
-+	return dma_obj->paddr + fb->offsets[1] + fb->pitches[1] * y +
+-	return dma_obj->paddr + fb->offsets[1] + fb->pitches[1] * y +
++	return dma_obj->dma_addr + fb->offsets[1] + fb->pitches[1] * y +
  	       fb->format->cpp[1] * x - eba;
  }
  
-@@ -158,18 +158,18 @@ static inline unsigned long
- drm_plane_state_to_vbo(struct drm_plane_state *state)
- {
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	unsigned long eba = drm_plane_state_to_eba(state, 0);
- 	int x = state->src.x1 >> 16;
- 	int y = state->src.y1 >> 16;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, 2);
--	BUG_ON(!cma_obj);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, 2);
-+	BUG_ON(!dma_obj);
- 
+@@ -169,7 +169,7 @@ drm_plane_state_to_vbo(struct drm_plane_state *state)
  	x /= fb->format->hsub;
  	y /= fb->format->vsub;
  
--	return cma_obj->paddr + fb->offsets[2] + fb->pitches[2] * y +
-+	return dma_obj->paddr + fb->offsets[2] + fb->pitches[2] * y +
+-	return dma_obj->paddr + fb->offsets[2] + fb->pitches[2] * y +
++	return dma_obj->dma_addr + fb->offsets[2] + fb->pitches[2] * y +
  	       fb->format->cpp[2] * x - eba;
  }
  
-diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-index 090830bcbde7..a53f475d33df 100644
---- a/drivers/gpu/drm/ingenic/Kconfig
-+++ b/drivers/gpu/drm/ingenic/Kconfig
-@@ -8,7 +8,7 @@ config DRM_INGENIC
- 	select DRM_BRIDGE
- 	select DRM_PANEL_BRIDGE
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
- 	help
- 	  Choose this option for DRM support for the Ingenic SoCs.
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 88ece2c6c7a1..8a4158d64a0f 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -29,7 +29,7 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-@@ -911,7 +911,7 @@ static struct drm_gem_object *
- ingenic_drm_gem_create_object(struct drm_device *drm, size_t size)
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(drm);
--	struct drm_gem_cma_object *obj;
-+	struct drm_gem_dma_object *obj;
- 
- 	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
- 	if (!obj)
-@@ -944,7 +944,7 @@ static void ingenic_drm_destroy_state(struct drm_private_obj *obj,
- 	kfree(priv_state);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ingenic_drm_fops);
- 
- static const struct drm_driver ingenic_drm_driver_data = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-@@ -957,7 +957,7 @@ static const struct drm_driver ingenic_drm_driver_data = {
- 
- 	.fops			= &ingenic_drm_fops,
- 	.gem_create_object	= ingenic_drm_gem_create_object,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- };
- 
- static const struct drm_plane_funcs ingenic_drm_primary_plane_funcs = {
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 273fe84c8abc..2481aded6269 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -25,7 +25,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_plane_helper.h>
-diff --git a/drivers/gpu/drm/kmb/Kconfig b/drivers/gpu/drm/kmb/Kconfig
-index 5fdd43dad507..fd011367db1d 100644
---- a/drivers/gpu/drm/kmb/Kconfig
-+++ b/drivers/gpu/drm/kmb/Kconfig
-@@ -3,7 +3,7 @@ config DRM_KMB_DISPLAY
- 	depends on DRM
- 	depends on ARCH_KEEMBAY || COMPILE_TEST
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DSI
- 	help
- 	Choose this option if you have Intel's KeemBay SOC which integrates
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 76fef0880504..2382ccb3ee99 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -16,7 +16,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -433,14 +433,14 @@ static void kmb_irq_uninstall(struct drm_device *drm)
- 	free_irq(kmb->irq_lcd, drm);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver kmb_driver = {
- 	.driver_features = DRIVER_GEM |
- 	    DRIVER_MODESET | DRIVER_ATOMIC,
- 	/* GEM Operations */
- 	.fops = &fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.name = "kmb-drm",
- 	.desc = "KEEMBAY DISPLAY DRIVER",
- 	.date = DRIVER_DATE,
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 3768d6b03a1a..c0004676df51 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -10,7 +10,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
- 
-diff --git a/drivers/gpu/drm/mcde/Kconfig b/drivers/gpu/drm/mcde/Kconfig
-index d0bf1bc8da3f..4f3d68e11bc1 100644
---- a/drivers/gpu/drm/mcde/Kconfig
-+++ b/drivers/gpu/drm/mcde/Kconfig
-@@ -10,7 +10,7 @@ config DRM_MCDE
- 	select DRM_BRIDGE
- 	select DRM_PANEL_BRIDGE
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
- 	help
- 	  Choose this option for DRM support for the ST-Ericsson MCDE
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index 920b1430565b..819cceedba75 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -14,7 +14,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_bridge.h>
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 509c2b03bc42..1c4482ad507d 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -71,7 +71,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
-@@ -198,7 +198,7 @@ static int mcde_modeset_init(struct drm_device *drm)
- 	return 0;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(drm_fops);
- 
- static const struct drm_driver mcde_drm_driver = {
- 	.driver_features =
-@@ -212,7 +212,7 @@ static const struct drm_driver mcde_drm_driver = {
- 	.major = 1,
- 	.minor = 0,
- 	.patchlevel = 0,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- };
- 
- static int mcde_drm_bind(struct device *dev)
-diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
-index 2976d21e9a34..6d7d0e207082 100644
---- a/drivers/gpu/drm/mediatek/Kconfig
-+++ b/drivers/gpu/drm/mediatek/Kconfig
-@@ -7,7 +7,7 @@ config DRM_MEDIATEK
- 	depends on HAVE_ARM_SMCCC
- 	depends on OF
- 	depends on MTK_MMSYS
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 6abe6bcacbdc..d13036ab0fe3 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-index 139d7724c6d0..47e96b0289f9 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-@@ -8,7 +8,7 @@
- #include <drm/drm.h>
- #include <drm/drm_device.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_prime.h>
- 
- #include "mtk_drm_drv.h"
-@@ -22,7 +22,7 @@ static const struct drm_gem_object_funcs mtk_drm_gem_object_funcs = {
- 	.vmap = mtk_drm_gem_prime_vmap,
- 	.vunmap = mtk_drm_gem_prime_vunmap,
- 	.mmap = mtk_drm_gem_object_mmap,
--	.vm_ops = &drm_gem_cma_vm_ops,
-+	.vm_ops = &drm_gem_dma_vm_ops,
- };
- 
- static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
-diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
-index 6c70fc3214af..823909da87db 100644
---- a/drivers/gpu/drm/meson/Kconfig
-+++ b/drivers/gpu/drm/meson/Kconfig
-@@ -4,7 +4,7 @@ config DRM_MESON
- 	depends on DRM && OF && (ARM || ARM64)
- 	depends on ARCH_MESON || COMPILE_TEST
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_DISPLAY_CONNECTOR
- 	select VIDEOMODE_HELPERS
- 	select REGMAP_MMIO
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 1b70938cfd2c..ef386d7b9450 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -19,7 +19,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_module.h>
-@@ -87,16 +87,16 @@ static int meson_dumb_create(struct drm_file *file, struct drm_device *dev,
- 	args->pitch = ALIGN(DIV_ROUND_UP(args->width * args->bpp, 8), SZ_64);
- 	args->size = PAGE_ALIGN(args->pitch * args->height);
- 
--	return drm_gem_cma_dumb_create_internal(file, dev, args);
-+	return drm_gem_dma_dumb_create_internal(file, dev, args);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver meson_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 
--	/* CMA Ops */
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(meson_dumb_create),
-+	/* DMA Ops */
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(meson_dumb_create),
- 
- 	/* Misc */
- 	.fops			= &fops,
-diff --git a/drivers/gpu/drm/meson/meson_overlay.c b/drivers/gpu/drm/meson/meson_overlay.c
-index 9aaad048f931..03d5b8d44db6 100644
---- a/drivers/gpu/drm/meson/meson_overlay.c
-+++ b/drivers/gpu/drm/meson/meson_overlay.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- 
- #include "meson_overlay.h"
-@@ -475,7 +475,7 @@ static void meson_overlay_atomic_update(struct drm_plane *plane,
- 									   plane);
- 	struct drm_framebuffer *fb = new_state->fb;
- 	struct meson_drm *priv = meson_overlay->priv;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	unsigned long flags;
- 	bool interlace_mode;
- 
-diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index a292f502f1b2..01a6d4a6c83e 100644
---- a/drivers/gpu/drm/meson/meson_plane.c
-+++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- 
- #include "meson_plane.h"
-@@ -138,7 +138,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
- 	struct drm_rect dest = drm_plane_state_dest(new_state);
- 	struct meson_drm *priv = meson_plane->priv;
- 	struct drm_framebuffer *fb = new_state->fb;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	unsigned long flags;
- 	int vsc_ini_rcv_num, vsc_ini_rpt_p0_num;
- 	int vsc_bot_rcv_num, vsc_bot_rpt_p0_num;
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 14ab9a627d8b..c9a37c7f2f34 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -310,7 +310,7 @@ static int msm_init_vram(struct drm_device *dev)
- 		DRM_INFO("using VRAM carveout: %lx@%pa\n", size, &r.start);
- 
- 		/* if we have no IOMMU, then we need to use carveout allocator.
--		 * Grab the entire CMA chunk carved out in early startup in
-+		 * Grab the entire DMA chunk carved out in early startup in
- 		 * mach-msm:
- 		 */
- 	} else if (!msm_use_mmu(dev)) {
-diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-index 987170e16ebd..4bdcf99ec9f8 100644
---- a/drivers/gpu/drm/mxsfb/Kconfig
-+++ b/drivers/gpu/drm/mxsfb/Kconfig
-@@ -10,7 +10,7 @@ config DRM_MXSFB
- 	depends on COMMON_CLK
- 	select DRM_MXS
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL
- 	select DRM_PANEL_BRIDGE
- 	help
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 55aad92e08ba..b29b332ed381 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -22,7 +22,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_mode_config.h>
- #include <drm/drm_module.h>
-@@ -324,11 +324,11 @@ static void mxsfb_unload(struct drm_device *drm)
- 	pm_runtime_disable(drm->dev);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver mxsfb_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.fops	= &fops,
- 	.name	= "mxsfb-drm",
- 	.desc	= "MXSFB Controller DRM",
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 3529b483762a..2e7571bb4f68 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -22,7 +22,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_vblank.h>
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 38799effd00a..d5514969fac9 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -155,7 +155,7 @@ config DRM_PANEL_ILITEK_ILI9341
- 	tristate "Ilitek ILI9341 240x320 QVGA panels"
- 	depends on OF && SPI
- 	depends on DRM_KMS_HELPER
--	depends on DRM_GEM_CMA_HELPER
-+	depends on DRM_GEM_DMA_HELPER
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	select DRM_MIPI_DBI
- 	help
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-index 6826f4d4826a..7da09e34385d 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -32,7 +32,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modes.h>
-@@ -586,12 +586,12 @@ static const struct drm_display_mode ili9341_dbi_mode = {
- 	DRM_SIMPLE_MODE(240, 320, 37, 49),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(ili9341_dbi_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ili9341_dbi_fops);
- 
- static struct drm_driver ili9341_dbi_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &ili9341_dbi_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "ili9341",
- 	.desc			= "Ilitek ILI9341",
-diff --git a/drivers/gpu/drm/pl111/Kconfig b/drivers/gpu/drm/pl111/Kconfig
-index 91ee05b01303..ad24cdf1d992 100644
---- a/drivers/gpu/drm/pl111/Kconfig
-+++ b/drivers/gpu/drm/pl111/Kconfig
-@@ -6,7 +6,7 @@ config DRM_PL111
- 	depends on VEXPRESS_CONFIG || VEXPRESS_CONFIG=n
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_BRIDGE
- 	select DRM_PANEL_BRIDGE
- 	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
-diff --git a/drivers/gpu/drm/pl111/pl111_display.c b/drivers/gpu/drm/pl111/pl111_display.c
-index 905b597423d9..700a9e88a6c0 100644
---- a/drivers/gpu/drm/pl111/pl111_display.c
-+++ b/drivers/gpu/drm/pl111/pl111_display.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_vblank.h>
- 
- #include "pl111_drm.h"
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index 5852af7374dd..d9b40b2e8d7a 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -50,7 +50,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-@@ -207,10 +207,10 @@ pl111_gem_import_sg_table(struct drm_device *dev,
- 	if (priv->use_device_memory)
- 		return ERR_PTR(-EINVAL);
- 
--	return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
-+	return drm_gem_dma_prime_import_sg_table(dev, attach, sgt);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(drm_fops);
- 
- static const struct drm_driver pl111_drm_driver = {
- 	.driver_features =
-@@ -223,7 +223,7 @@ static const struct drm_driver pl111_drm_driver = {
- 	.major = 1,
- 	.minor = 0,
- 	.patchlevel = 0,
--	.dumb_create = drm_gem_cma_dumb_create,
-+	.dumb_create = drm_gem_dma_dumb_create,
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index f6e6a6d5d987..c959e8c6be7d 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -5,7 +5,7 @@ config DRM_RCAR_DU
- 	depends on ARM || ARM64
- 	depends on ARCH_RENESAS || COMPILE_TEST
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VIDEOMODE_HELPERS
- 	help
- 	  Choose this option if you have an R-Car chipset.
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 9404dc32668e..6ad6a0523c1d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 3d8f6e9cfb3c..4c5f9b79bfa9 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -22,7 +22,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -562,7 +562,7 @@ const char *rcar_du_output_name(enum rcar_du_output output)
-  * DRM operations
-  */
- 
--DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(rcar_du_fops);
- 
- static const struct drm_driver rcar_du_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index c39d901b21d3..fdede5afc056 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -12,7 +12,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-@@ -327,12 +327,12 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
-  */
- 
- static const struct drm_gem_object_funcs rcar_du_gem_funcs = {
--	.free = drm_gem_cma_object_free,
--	.print_info = drm_gem_cma_object_print_info,
--	.get_sg_table = drm_gem_cma_object_get_sg_table,
--	.vmap = drm_gem_cma_object_vmap,
--	.mmap = drm_gem_cma_object_mmap,
--	.vm_ops = &drm_gem_cma_vm_ops,
-+	.free = drm_gem_dma_object_free,
-+	.print_info = drm_gem_dma_object_print_info,
-+	.get_sg_table = drm_gem_dma_object_get_sg_table,
-+	.vmap = drm_gem_dma_object_vmap,
-+	.mmap = drm_gem_dma_object_mmap,
-+	.vm_ops = &drm_gem_dma_vm_ops,
- };
- 
- struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
-@@ -340,33 +340,33 @@ struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
- 				struct sg_table *sgt)
- {
- 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_gem_object *gem_obj;
- 	int ret;
- 
- 	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
--		return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
-+		return drm_gem_dma_prime_import_sg_table(dev, attach, sgt);
- 
--	/* Create a CMA GEM buffer. */
--	cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
--	if (!cma_obj)
-+	/* Create a DMA GEM buffer. */
-+	dma_obj = kzalloc(sizeof(*dma_obj), GFP_KERNEL);
-+	if (!dma_obj)
- 		return ERR_PTR(-ENOMEM);
- 
--	gem_obj = &cma_obj->base;
-+	gem_obj = &dma_obj->base;
- 	gem_obj->funcs = &rcar_du_gem_funcs;
- 
- 	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
--	cma_obj->map_noncoherent = false;
-+	dma_obj->map_noncoherent = false;
- 
- 	ret = drm_gem_create_mmap_offset(gem_obj);
- 	if (ret) {
- 		drm_gem_object_release(gem_obj);
--		kfree(cma_obj);
-+		kfree(dma_obj);
- 		return ERR_PTR(ret);
- 	}
- 
--	cma_obj->paddr = 0;
--	cma_obj->sgt = sgt;
-+	dma_obj->paddr = 0;
-+	dma_obj->sgt = sgt;
- 
- 	return gem_obj;
- }
-@@ -389,7 +389,7 @@ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
- 
- 	args->pitch = roundup(min_pitch, align);
- 
--	return drm_gem_cma_dumb_create_internal(file, dev, args);
-+	return drm_gem_dma_dumb_create_internal(file, dev, args);
- }
- 
- static struct drm_framebuffer *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 274dc5f1fc2d..30fa14224dd1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- 
- #include "rcar_du_drv.h"
-@@ -340,7 +340,7 @@ static void rcar_du_plane_setup_scanout(struct rcar_du_group *rgrp,
- 
- 	if (state->source == RCAR_DU_PLANE_MEMORY) {
- 		struct drm_framebuffer *fb = state->state.fb;
--		struct drm_gem_cma_object *gem;
-+		struct drm_gem_dma_object *gem;
- 		unsigned int i;
- 
- 		if (state->format->planes == 2)
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 07f69b656832..9a0477a7e07b 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_vblank.h>
-@@ -182,7 +182,7 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
- 	int ret;
- 
- 	for (i = 0; i < fb->format->num_planes; ++i) {
--		struct drm_gem_cma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
-+		struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
- 		struct sg_table *sgt = &sg_tables[i];
- 
- 		if (gem->sgt) {
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index 5afab49dc4f2..4db4260f5a04 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -3,7 +3,7 @@ config DRM_ROCKCHIP
- 	tristate "DRM Support for Rockchip"
- 	depends on DRM && ROCKCHIP_IOMMU
- 	select DRM_DISPLAY_HELPER if ROCKCHIP_ANALOGIX_DP
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select VIDEOMODE_HELPERS
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index 67d38f53d3e5..49831c738d4d 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-index 985584147da1..614e97aaac80 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-@@ -10,7 +10,7 @@
- 
- #include <drm/drm.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_vma_manager.h>
- 
-@@ -279,7 +279,7 @@ static const struct drm_gem_object_funcs rockchip_gem_object_funcs = {
- 	.vmap = rockchip_gem_prime_vmap,
- 	.vunmap	= rockchip_gem_prime_vunmap,
- 	.mmap = rockchip_drm_gem_object_mmap,
--	.vm_ops = &drm_gem_cma_vm_ops,
-+	.vm_ops = &drm_gem_dma_vm_ops,
- };
- 
- static struct rockchip_gem_object *
-diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/shmobile/Kconfig
-index 288b838a904a..4ec5dc74a6b0 100644
---- a/drivers/gpu/drm/shmobile/Kconfig
-+++ b/drivers/gpu/drm/shmobile/Kconfig
-@@ -5,7 +5,7 @@ config DRM_SHMOBILE
- 	depends on ARCH_SHMOBILE || COMPILE_TEST
- 	select BACKLIGHT_CLASS_DEVICE
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	help
- 	  Choose this option if you have an SH Mobile chipset.
- 	  If M is selected the module will be called shmob-drm.
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-index 215f1294293d..8996988f5e09 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-@@ -14,7 +14,7 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -288,7 +288,7 @@ static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
- {
- 	struct drm_crtc *crtc = &scrtc->crtc;
- 	struct drm_framebuffer *fb = crtc->primary->fb;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	unsigned int bpp;
- 
- 	bpp = scrtc->format->yuv ? 8 : scrtc->format->bpp;
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 731cbad7520f..3d511fa38913 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -17,7 +17,7 @@
- 
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-@@ -126,11 +126,11 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(shmob_drm_fops);
- 
- static const struct drm_driver shmob_drm_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 	.fops			= &shmob_drm_fops,
- 	.name			= "shmob-drm",
- 	.desc			= "Renesas SH Mobile DRM",
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-index 1dfb9e4bf215..261232243ad6 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-@@ -10,7 +10,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.h b/drivers/gpu/drm/shmobile/shmob_drm_kms.h
-index 6ec2b732bb94..0347b1fd2338 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_kms.h
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.h
-@@ -12,7 +12,7 @@
- 
- #include <linux/types.h>
- 
--struct drm_gem_cma_object;
-+struct drm_gem_dma_object;
- struct shmob_drm_device;
- 
- struct shmob_drm_format_info {
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-index c68f56d9136c..939c2861217b 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_plane.c
-@@ -11,7 +11,7 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- 
- #include "shmob_drm_drv.h"
- #include "shmob_drm_kms.h"
-@@ -40,7 +40,7 @@ static void shmob_drm_plane_compute_base(struct shmob_drm_plane *splane,
- 					 struct drm_framebuffer *fb,
- 					 int x, int y)
- {
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	unsigned int bpp;
- 
- 	bpp = splane->format->yuv ? 8 : splane->format->bpp;
-diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
-index 9a9c7ebfc716..e22b780fe822 100644
---- a/drivers/gpu/drm/sprd/Kconfig
-+++ b/drivers/gpu/drm/sprd/Kconfig
-@@ -2,7 +2,7 @@ config DRM_SPRD
- 	tristate "DRM Support for Unisoc SoCs Platform"
- 	depends on ARCH_SPRD || COMPILE_TEST
- 	depends on DRM && OF
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select VIDEOMODE_HELPERS
 diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-index c9d380cc9fce..5cbbf86dd509 100644
+index 5cbbf86dd509..a5700262b94e 100644
 --- a/drivers/gpu/drm/sprd/sprd_dpu.c
 +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-@@ -19,7 +19,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
- 
-@@ -322,7 +322,7 @@ static u32 drm_blend_to_dpu(struct drm_plane_state *state)
- static void sprd_dpu_layer(struct sprd_dpu *dpu, struct drm_plane_state *state)
- {
- 	struct dpu_context *ctx = &dpu->ctx;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct drm_framebuffer *fb = state->fb;
- 	u32 addr, size, offset, pitch, blend, format, rotation;
- 	u32 src_x = state->src_x >> 16;
-@@ -339,8 +339,8 @@ static void sprd_dpu_layer(struct sprd_dpu *dpu, struct drm_plane_state *state)
- 	size = (src_w & 0xffff) | (src_h << 16);
+@@ -340,7 +340,7 @@ static void sprd_dpu_layer(struct sprd_dpu *dpu, struct drm_plane_state *state)
  
  	for (i = 0; i < fb->format->num_planes; i++) {
--		cma_obj = drm_fb_dma_get_gem_obj(fb, i);
--		addr = cma_obj->paddr + fb->offsets[i];
-+		dma_obj = drm_fb_dma_get_gem_obj(fb, i);
-+		addr = dma_obj->paddr + fb->offsets[i];
+ 		dma_obj = drm_fb_dma_get_gem_obj(fb, i);
+-		addr = dma_obj->paddr + fb->offsets[i];
++		addr = dma_obj->dma_addr + fb->offsets[i];
  
  		if (i == 0)
  			layer_reg_wr(ctx, REG_LAY_BASE_ADDR0, addr, index);
-diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-index b8fc1c6a0cb8..9d42f17a5734 100644
---- a/drivers/gpu/drm/sprd/sprd_drm.c
-+++ b/drivers/gpu/drm/sprd/sprd_drm.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-@@ -48,14 +48,14 @@ static void sprd_drm_mode_config_init(struct drm_device *drm)
- 	drm->mode_config.helper_private = &sprd_drm_mode_config_helper;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(sprd_drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(sprd_drm_fops);
- 
- static struct drm_driver sprd_drm_drv = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &sprd_drm_fops,
- 
- 	/* GEM Operations */
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 
- 	.name			= DRIVER_NAME,
- 	.desc			= DRIVER_DESC,
-diff --git a/drivers/gpu/drm/sti/Kconfig b/drivers/gpu/drm/sti/Kconfig
-index 246a94afbe74..f2a880c48485 100644
---- a/drivers/gpu/drm/sti/Kconfig
-+++ b/drivers/gpu/drm/sti/Kconfig
-@@ -4,7 +4,7 @@ config DRM_STI
- 	depends on OF && DRM && (ARCH_STI || ARCH_MULTIPLATFORM)
- 	select RESET_CONTROLLER
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL
- 	select FW_LOADER
- 	select SND_SOC_HDMI_CODEC if SND_SOC
-diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
-index dd82673ebc23..9a4723c23b2c 100644
---- a/drivers/gpu/drm/sti/sti_cursor.c
-+++ b/drivers/gpu/drm/sti/sti_cursor.c
-@@ -12,7 +12,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- 
- #include "sti_compositor.h"
- #include "sti_cursor.h"
-@@ -243,7 +243,7 @@ static int sti_cursor_atomic_check(struct drm_plane *drm_plane,
- 	}
- 
- 	if (!drm_fb_dma_get_gem_obj(fb, 0)) {
--		DRM_ERROR("Can't get CMA GEM object for fb\n");
-+		DRM_ERROR("Can't get DMA GEM object for fb\n");
- 		return -EINVAL;
- 	}
- 
-@@ -266,7 +266,7 @@ static void sti_cursor_atomic_update(struct drm_plane *drm_plane,
- 	struct drm_framebuffer *fb = newstate->fb;
- 	struct drm_display_mode *mode;
- 	int dst_x, dst_y;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	u32 y, x;
- 	u32 val;
- 
-@@ -277,10 +277,10 @@ static void sti_cursor_atomic_update(struct drm_plane *drm_plane,
- 	dst_x = newstate->crtc_x;
- 	dst_y = newstate->crtc_y;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 
- 	/* Convert ARGB8888 to CLUT8 */
--	sti_cursor_argb8888_to_clut8(cursor, (u32 *)cma_obj->vaddr);
-+	sti_cursor_argb8888_to_clut8(cursor, (u32 *)dma_obj->vaddr);
- 
- 	/* AWS and AWE depend on the mode */
- 	y = sti_vtg_get_line_number(*mode, 0);
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index d5528d53ecdd..ff3b0b4d5825 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -16,7 +16,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-@@ -128,12 +128,12 @@ static void sti_mode_config_init(struct drm_device *dev)
- 	dev->mode_config.normalize_zpos = true;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(sti_driver_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(sti_driver_fops);
- 
- static const struct drm_driver sti_driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
- 	.fops = &sti_driver_fops,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- 
- 	.debugfs_init = sti_drm_dbg_init,
- 
-diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
-index 6b1b541adc9d..bdefb88b0af7 100644
---- a/drivers/gpu/drm/sti/sti_gdp.c
-+++ b/drivers/gpu/drm/sti/sti_gdp.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- 
- #include "sti_compositor.h"
- #include "sti_gdp.h"
-@@ -657,7 +657,7 @@ static int sti_gdp_atomic_check(struct drm_plane *drm_plane,
- 	}
- 
- 	if (!drm_fb_dma_get_gem_obj(fb, 0)) {
--		DRM_ERROR("Can't get CMA GEM object for fb\n");
-+		DRM_ERROR("Can't get DMA GEM object for fb\n");
- 		return -EINVAL;
- 	}
- 
-@@ -712,7 +712,7 @@ static void sti_gdp_atomic_update(struct drm_plane *drm_plane,
- 	struct drm_display_mode *mode;
- 	int dst_x, dst_y, dst_w, dst_h;
- 	int src_x, src_y, src_w, src_h;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct sti_gdp_node_list *list;
- 	struct sti_gdp_node_list *curr_list;
- 	struct sti_gdp_node *top_field, *btm_field;
-@@ -776,15 +776,15 @@ static void sti_gdp_atomic_update(struct drm_plane *drm_plane,
- 	top_field->gam_gdp_ctl |= sti_gdp_get_alpharange(format);
- 	top_field->gam_gdp_ppt &= ~GAM_GDP_PPT_IGNORE;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 
- 	DRM_DEBUG_DRIVER("drm FB:%d format:%.4s phys@:0x%lx\n", fb->base.id,
- 			 (char *)&fb->format->format,
--			 (unsigned long)cma_obj->paddr);
-+			 (unsigned long)dma_obj->paddr);
- 
- 	/* pixel memory location */
- 	bpp = fb->format->cpp[0];
--	top_field->gam_gdp_pml = (u32)cma_obj->paddr + fb->offsets[0];
-+	top_field->gam_gdp_pml = (u32)dma_obj->paddr + fb->offsets[0];
- 	top_field->gam_gdp_pml += src_x * bpp;
- 	top_field->gam_gdp_pml += src_y * fb->pitches[0];
- 
-@@ -829,7 +829,7 @@ static void sti_gdp_atomic_update(struct drm_plane *drm_plane,
- 	dev_dbg(gdp->dev, "Current NVN:0x%X\n",
- 		readl(gdp->regs + GAM_GDP_NVN_OFFSET));
- 	dev_dbg(gdp->dev, "Posted buff: %lx current buff: %x\n",
--		(unsigned long)cma_obj->paddr,
-+		(unsigned long)dma_obj->paddr,
- 		readl(gdp->regs + GAM_GDP_PML_OFFSET));
- 
- 	if (!curr_list) {
-diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-index af1185d393ee..8433bd4d62dd 100644
---- a/drivers/gpu/drm/sti/sti_hqvdp.c
-+++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_device.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- 
- #include "sti_compositor.h"
- #include "sti_drv.h"
-@@ -1054,7 +1054,7 @@ static int sti_hqvdp_atomic_check(struct drm_plane *drm_plane,
- 	}
- 
- 	if (!drm_fb_dma_get_gem_obj(fb, 0)) {
--		DRM_ERROR("Can't get CMA GEM object for fb\n");
-+		DRM_ERROR("Can't get DMA GEM object for fb\n");
- 		return -EINVAL;
- 	}
- 
-@@ -1122,7 +1122,7 @@ static void sti_hqvdp_atomic_update(struct drm_plane *drm_plane,
- 	struct drm_display_mode *mode;
- 	int dst_x, dst_y, dst_w, dst_h;
- 	int src_x, src_y, src_w, src_h;
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct sti_hqvdp_cmd *cmd;
- 	int scale_h, scale_v;
- 	int cmd_offset;
-@@ -1176,15 +1176,15 @@ static void sti_hqvdp_atomic_update(struct drm_plane *drm_plane,
- 	cmd->iqi.sat_gain = IQI_SAT_GAIN_DFLT;
- 	cmd->iqi.pxf_conf = IQI_PXF_CONF_DFLT;
- 
--	cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 
- 	DRM_DEBUG_DRIVER("drm FB:%d format:%.4s phys@:0x%lx\n", fb->base.id,
- 			 (char *)&fb->format->format,
--			 (unsigned long)cma_obj->paddr);
-+			 (unsigned long)dma_obj->paddr);
- 
- 	/* Buffer planes address */
--	cmd->top.current_luma = (u32)cma_obj->paddr + fb->offsets[0];
--	cmd->top.current_chroma = (u32)cma_obj->paddr + fb->offsets[1];
-+	cmd->top.current_luma = (u32)dma_obj->paddr + fb->offsets[0];
-+	cmd->top.current_chroma = (u32)dma_obj->paddr + fb->offsets[1];
- 
- 	/* Pitches */
- 	cmd->top.luma_processed_pitch = fb->pitches[0];
-diff --git a/drivers/gpu/drm/sti/sti_plane.c b/drivers/gpu/drm/sti/sti_plane.c
-index 00bfdfac2709..bc85a65c3531 100644
---- a/drivers/gpu/drm/sti/sti_plane.c
-+++ b/drivers/gpu/drm/sti/sti_plane.c
-@@ -10,7 +10,7 @@
- 
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- 
- #include "sti_compositor.h"
- #include "sti_drv.h"
-diff --git a/drivers/gpu/drm/stm/Kconfig b/drivers/gpu/drm/stm/Kconfig
-index e0379488cd0d..ded72f879482 100644
---- a/drivers/gpu/drm/stm/Kconfig
-+++ b/drivers/gpu/drm/stm/Kconfig
-@@ -3,7 +3,7 @@ config DRM_STM
- 	tristate "DRM Support for STMicroelectronics SoC Series"
- 	depends on DRM && (ARCH_STM32 || ARCH_MULTIPLATFORM)
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL_BRIDGE
- 	select VIDEOMODE_HELPERS
- 	select FB_PROVIDE_GET_FB_UNMAPPED_AREA if FB
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 7d0bd699416f..a5112a30951c 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -20,7 +20,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -37,7 +37,7 @@ static const struct drm_mode_config_funcs drv_mode_config_funcs = {
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
--static int stm_gem_cma_dumb_create(struct drm_file *file,
-+static int stm_gem_dma_dumb_create(struct drm_file *file,
- 				   struct drm_device *dev,
- 				   struct drm_mode_create_dumb *args)
- {
-@@ -50,10 +50,10 @@ static int stm_gem_cma_dumb_create(struct drm_file *file,
- 	args->pitch = roundup(min_pitch, 128);
- 	args->height = roundup(args->height, 4);
- 
--	return drm_gem_cma_dumb_create_internal(file, dev, args);
-+	return drm_gem_dma_dumb_create_internal(file, dev, args);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(drv_driver_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(drv_driver_fops);
- 
- static const struct drm_driver drv_driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-@@ -64,7 +64,7 @@ static const struct drm_driver drv_driver = {
- 	.minor = 0,
- 	.patchlevel = 0,
- 	.fops = &drv_driver_fops,
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(stm_gem_cma_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(stm_gem_dma_dumb_create),
- };
- 
- static int drv_load(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 377de80c4d97..b2756ad42ecc 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -28,7 +28,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 3a43c436c74a..23ab48cad805 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -3,7 +3,7 @@ config DRM_SUN4I
- 	tristate "DRM Support for Allwinner A10 Display Engine"
- 	depends on DRM && COMMON_CLK
- 	depends on ARCH_SUNXI || COMPILE_TEST
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select REGMAP_MMIO
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 103f13dc7ae0..59297bbcb060 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -20,7 +20,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 70b08d4a65ff..338afb53bc5e 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -19,7 +19,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-@@ -38,10 +38,10 @@ static int drm_sun4i_gem_dumb_create(struct drm_file *file_priv,
- 	/* The hardware only allows even pitches for YUV buffers. */
- 	args->pitch = ALIGN(DIV_ROUND_UP(args->width * args->bpp, 8), 2);
- 
--	return drm_gem_cma_dumb_create_internal(file_priv, drm, args);
-+	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(sun4i_drv_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(sun4i_drv_fops);
- 
- static const struct drm_driver sun4i_drv_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-@@ -55,7 +55,7 @@ static const struct drm_driver sun4i_drv_driver = {
- 	.minor			= 0,
- 
- 	/* GEM Operations */
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(drm_sun4i_gem_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(drm_sun4i_gem_dumb_create),
- };
- 
- static int sun4i_drv_bind(struct device *dev)
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index 4a811e803dac..baeeda04691f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane.h>
- 
- #include "sun4i_drv.h"
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 0422e73fcd4f..74a7cc203464 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- 
 diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index d310e459c1b6..8de9a59198e3 100644
+index 8de9a59198e3..0f93c3aec917 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -15,7 +15,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -191,7 +191,7 @@ static int sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
- {
+@@ -192,7 +192,7 @@ static int sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
  	struct drm_plane_state *state = plane->state;
  	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	dma_addr_t paddr;
+ 	struct drm_gem_dma_object *gem;
+-	dma_addr_t paddr;
++	dma_addr_t dma_addr;
  	u32 ch_base;
  	int bpp;
+ 
+@@ -201,15 +201,15 @@ static int sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+ 	/* Get the physical address of the buffer in memory */
+ 	gem = drm_fb_dma_get_gem_obj(fb, 0);
+ 
+-	DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->paddr);
++	DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
+ 
+ 	/* Compute the start of the displayed memory */
+ 	bpp = fb->format->cpp[0];
+-	paddr = gem->paddr + fb->offsets[0];
++	dma_addr = gem->dma_addr + fb->offsets[0];
+ 
+ 	/* Fixup framebuffer address for src coordinates */
+-	paddr += (state->src.x1 >> 16) * bpp;
+-	paddr += (state->src.y1 >> 16) * fb->pitches[0];
++	dma_addr += (state->src.x1 >> 16) * bpp;
++	dma_addr += (state->src.y1 >> 16) * fb->pitches[0];
+ 
+ 	/* Set the line width */
+ 	DRM_DEBUG_DRIVER("Layer line width: %d bytes\n", fb->pitches[0]);
+@@ -217,11 +217,11 @@ static int sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+ 		     SUN8I_MIXER_CHAN_UI_LAYER_PITCH(ch_base, overlay),
+ 		     fb->pitches[0]);
+ 
+-	DRM_DEBUG_DRIVER("Setting buffer address to %pad\n", &paddr);
++	DRM_DEBUG_DRIVER("Setting buffer address to %pad\n", &dma_addr);
+ 
+ 	regmap_write(mixer->engine.regs,
+ 		     SUN8I_MIXER_CHAN_UI_LAYER_TOP_LADDR(ch_base, overlay),
+-		     lower_32_bits(paddr));
++		     lower_32_bits(dma_addr));
+ 
+ 	return 0;
+ }
 diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index d7713df4ee73..a0a2ee9f0a47 100644
+index a0a2ee9f0a47..3df15d25c3df 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -8,7 +8,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -307,7 +307,7 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
- 	struct drm_plane_state *state = plane->state;
- 	struct drm_framebuffer *fb = state->fb;
+@@ -309,7 +309,7 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
  	const struct drm_format_info *format = fb->format;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
+ 	struct drm_gem_dma_object *gem;
  	u32 dx, dy, src_x, src_y;
- 	dma_addr_t paddr;
+-	dma_addr_t paddr;
++	dma_addr_t dma_addr;
  	u32 ch_base;
-diff --git a/drivers/gpu/drm/tidss/Kconfig b/drivers/gpu/drm/tidss/Kconfig
-index bc4fa59b6fa9..378600806167 100644
---- a/drivers/gpu/drm/tidss/Kconfig
-+++ b/drivers/gpu/drm/tidss/Kconfig
-@@ -3,7 +3,7 @@ config DRM_TIDSS
- 	depends on DRM && OF
- 	depends on ARM || ARM64 || COMPILE_TEST
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	help
- 	  The TI Keystone family SoCs introduced a new generation of
- 	  Display SubSystem. There is currently three Keystone family
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index 87b9b7633e77..1da9f6cbcc27 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -9,7 +9,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_vblank.h>
+ 	int i;
  
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 0261e16ea689..962d37aeb2b1 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -23,7 +23,7 @@
+@@ -323,10 +323,10 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+ 		/* Get the physical address of the buffer in memory */
+ 		gem = drm_fb_dma_get_gem_obj(fb, i);
  
- #include <drm/drm_fourcc.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_panel.h>
+-		DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->paddr);
++		DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
  
- #include "tidss_crtc.h"
-@@ -1954,7 +1954,7 @@ static
- dma_addr_t dispc_plane_state_paddr(const struct drm_plane_state *state)
- {
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	u32 x = state->src_x >> 16;
- 	u32 y = state->src_y >> 16;
+ 		/* Compute the start of the displayed memory */
+-		paddr = gem->paddr + fb->offsets[i];
++		dma_addr = gem->dma_addr + fb->offsets[i];
  
-@@ -1968,7 +1968,7 @@ static
- dma_addr_t dispc_plane_state_p_uv_addr(const struct drm_plane_state *state)
- {
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	u32 x = state->src_x >> 16;
- 	u32 y = state->src_y >> 16;
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 04cfff89ee51..15cd9b91b7e2 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -15,7 +15,7 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
-@@ -101,13 +101,13 @@ static void tidss_release(struct drm_device *ddev)
- 	drm_kms_helper_poll_fini(ddev);
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(tidss_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(tidss_fops);
- 
- static const struct drm_driver tidss_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &tidss_fops,
- 	.release		= tidss_release,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.name			= "tidss",
- 	.desc			= "TI Keystone DSS",
- 	.date			= "20180215",
-diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
-index e315591eb36b..d3bd2d7a181e 100644
---- a/drivers/gpu/drm/tilcdc/Kconfig
-+++ b/drivers/gpu/drm/tilcdc/Kconfig
-@@ -3,7 +3,7 @@ config DRM_TILCDC
- 	tristate "DRM Support for TI LCDC Display Controller"
- 	depends on DRM && OF && ARM
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_BRIDGE
- 	select DRM_PANEL_BRIDGE
- 	select VIDEOMODE_HELPERS
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index f74f98009eb7..b0c92894ba9b 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -14,7 +14,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
- #include <drm/drm_vblank.h>
-@@ -63,7 +63,7 @@ static void set_scanout(struct drm_crtc *crtc, struct drm_framebuffer *fb)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct tilcdc_drm_private *priv = dev->dev_private;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	dma_addr_t start, end;
- 	u64 dma_base_and_ceiling;
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index eee3c447fbac..f72755b8ea14 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_mm.h>
- #include <drm/drm_probe_helper.h>
-@@ -476,11 +476,11 @@ static void tilcdc_debugfs_init(struct drm_minor *minor)
- }
- #endif
- 
--DEFINE_DRM_GEM_CMA_FOPS(fops);
-+DEFINE_DRM_GEM_DMA_FOPS(fops);
- 
- static const struct drm_driver tilcdc_driver = {
- 	.driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init       = tilcdc_debugfs_init,
- #endif
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 627d637a1e7e..98a542f3c522 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -3,7 +3,7 @@
- config DRM_ARCPGU
- 	tristate "ARC PGU"
- 	depends on DRM && OF
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	help
- 	  Choose this option if you have an ARC PGU controller.
-@@ -55,7 +55,7 @@ config DRM_PANEL_MIPI_DBI
- 	tristate "DRM support for MIPI DBI compatible panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	select VIDEOMODE_HELPERS
-@@ -86,7 +86,7 @@ config TINYDRM_HX8357D
- 	tristate "DRM support for HX8357D display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	help
-@@ -99,7 +99,7 @@ config TINYDRM_ILI9163
- 	tristate "DRM support for ILI9163 display panels"
- 	depends on DRM && SPI
- 	select BACKLIGHT_CLASS_DEVICE
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DBI
- 	help
-@@ -112,7 +112,7 @@ config TINYDRM_ILI9225
- 	tristate "DRM support for ILI9225 display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	help
- 	  DRM driver for the following Ilitek ILI9225 panels:
-@@ -124,7 +124,7 @@ config TINYDRM_ILI9341
- 	tristate "DRM support for ILI9341 display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	help
-@@ -137,7 +137,7 @@ config TINYDRM_ILI9486
- 	tristate "DRM support for ILI9486 display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	help
-@@ -151,7 +151,7 @@ config TINYDRM_MI0283QT
- 	tristate "DRM support for MI0283QT"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	help
-@@ -162,7 +162,7 @@ config TINYDRM_REPAPER
- 	tristate "DRM support for Pervasive Displays RePaper panels (V231)"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	help
- 	  DRM driver for the following Pervasive Displays panels:
- 	  1.44" TFT EPD Panel (E1144CS021)
-@@ -176,7 +176,7 @@ config TINYDRM_ST7586
- 	tristate "DRM support for Sitronix ST7586 display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	help
- 	  DRM driver for the following Sitronix ST7586 panels:
-@@ -188,7 +188,7 @@ config TINYDRM_ST7735R
- 	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	help
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index fb6e97c22959..e9ebd22bf0c2 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_of.h>
-@@ -218,7 +218,7 @@ static void arc_pgu_update(struct drm_simple_display_pipe *pipe,
- 			   struct drm_plane_state *state)
- {
- 	struct arcpgu_drm_private *arcpgu;
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 
- 	if (!pipe->plane.state->fb)
- 		return;
-@@ -241,7 +241,7 @@ static const struct drm_mode_config_funcs arcpgu_drm_modecfg_funcs = {
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(arcpgu_drm_ops);
-+DEFINE_DRM_GEM_DMA_FOPS(arcpgu_drm_ops);
- 
- static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- {
-@@ -368,7 +368,7 @@ static const struct drm_driver arcpgu_drm_driver = {
- 	.minor = 0,
- 	.patchlevel = 0,
- 	.fops = &arcpgu_drm_ops,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = arcpgu_debugfs_init,
- #endif
-diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357d.c
-index ebb025543f8d..57f229a785bf 100644
---- a/drivers/gpu/drm/tiny/hx8357d.c
-+++ b/drivers/gpu/drm/tiny/hx8357d.c
-@@ -20,7 +20,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modeset_helper.h>
-@@ -190,12 +190,12 @@ static const struct drm_display_mode yx350hv15_mode = {
- 	DRM_SIMPLE_MODE(320, 480, 60, 75),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(hx8357d_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(hx8357d_fops);
- 
- static const struct drm_driver hx8357d_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &hx8357d_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "hx8357d",
- 	.desc			= "HX8357D",
-diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
-index fc8ed245b0bc..86439e50e304 100644
---- a/drivers/gpu/drm/tiny/ili9163.c
-+++ b/drivers/gpu/drm/tiny/ili9163.c
-@@ -11,7 +11,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modeset_helper.h>
- 
-@@ -110,12 +110,12 @@ static const struct drm_display_mode yx240qv29_mode = {
- 	DRM_SIMPLE_MODE(128, 160, 28, 35),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(ili9163_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ili9163_fops);
- 
- static struct drm_driver ili9163_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &ili9163_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "ili9163",
- 	.desc			= "Ilitek ILI9163",
-diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
-index 7ddf6b9ac2f5..b21dc2da644c 100644
---- a/drivers/gpu/drm/tiny/ili9225.c
-+++ b/drivers/gpu/drm/tiny/ili9225.c
-@@ -23,7 +23,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_rect.h>
-@@ -77,7 +77,7 @@ static inline int ili9225_command(struct mipi_dbi *dbi, u8 cmd, u16 data)
- 
- static void ili9225_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
- {
--	struct drm_gem_cma_object *cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
- 	unsigned int height = rect->y2 - rect->y1;
- 	unsigned int width = rect->x2 - rect->x1;
-@@ -103,7 +103,7 @@ static void ili9225_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
- 		if (ret)
- 			goto err_msg;
- 	} else {
--		tr = cma_obj->vaddr;
-+		tr = dma_obj->vaddr;
- 	}
- 
- 	switch (dbidev->rotation) {
-@@ -334,12 +334,12 @@ static const struct drm_display_mode ili9225_mode = {
- 	DRM_SIMPLE_MODE(176, 220, 35, 44),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(ili9225_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ili9225_fops);
- 
- static const struct drm_driver ili9225_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &ili9225_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.name			= "ili9225",
- 	.desc			= "Ilitek ILI9225",
- 	.date			= "20171106",
-diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili9341.c
-index 5b8cc770ee7b..b8826a0b086b 100644
---- a/drivers/gpu/drm/tiny/ili9341.c
-+++ b/drivers/gpu/drm/tiny/ili9341.c
-@@ -19,7 +19,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modeset_helper.h>
-@@ -146,12 +146,12 @@ static const struct drm_display_mode yx240qv29_mode = {
- 	DRM_SIMPLE_MODE(240, 320, 37, 49),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(ili9341_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ili9341_fops);
- 
- static const struct drm_driver ili9341_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &ili9341_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "ili9341",
- 	.desc			= "Ilitek ILI9341",
-diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
-index 6d655e18e0aa..a5b433a8e0d8 100644
---- a/drivers/gpu/drm/tiny/ili9486.c
-+++ b/drivers/gpu/drm/tiny/ili9486.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modeset_helper.h>
-@@ -159,12 +159,12 @@ static const struct drm_display_mode waveshare_mode = {
- 	DRM_SIMPLE_MODE(480, 320, 73, 49),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(ili9486_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(ili9486_fops);
- 
- static const struct drm_driver ili9486_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &ili9486_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "ili9486",
- 	.desc			= "Ilitek ILI9486",
-diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
-index 5e060f6910bb..27f1bd4da2f4 100644
---- a/drivers/gpu/drm/tiny/mi0283qt.c
-+++ b/drivers/gpu/drm/tiny/mi0283qt.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modeset_helper.h>
-@@ -150,12 +150,12 @@ static const struct drm_display_mode mi0283qt_mode = {
- 	DRM_SIMPLE_MODE(320, 240, 58, 43),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(mi0283qt_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(mi0283qt_fops);
- 
- static const struct drm_driver mi0283qt_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &mi0283qt_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "mi0283qt",
- 	.desc			= "Multi-Inno MI0283QT",
-diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-index c759ff9c2c87..a76fefa8adbc 100644
---- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-+++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modes.h>
-@@ -217,12 +217,12 @@ static const struct drm_simple_display_pipe_funcs panel_mipi_dbi_pipe_funcs = {
- 	.update = mipi_dbi_pipe_update,
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(panel_mipi_dbi_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(panel_mipi_dbi_fops);
- 
- static const struct drm_driver panel_mipi_dbi_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &panel_mipi_dbi_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "panel-mipi-dbi",
- 	.desc			= "MIPI DBI compatible display panel",
-diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-index 30f56f4ce722..bcf193ed8a8d 100644
---- a/drivers/gpu/drm/tiny/repaper.c
-+++ b/drivers/gpu/drm/tiny/repaper.c
-@@ -29,7 +29,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modes.h>
-@@ -510,7 +510,7 @@ static void repaper_get_temperature(struct repaper_epd *epd)
- 
- static int repaper_fb_dirty(struct drm_framebuffer *fb)
- {
--	struct drm_gem_cma_object *cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 	struct repaper_epd *epd = drm_to_epd(fb->dev);
- 	struct drm_rect clip;
- 	int idx, ret = 0;
-@@ -540,7 +540,7 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb)
- 	if (ret)
- 		goto out_free;
- 
--	drm_fb_xrgb8888_to_mono(buf, 0, cma_obj->vaddr, fb, &clip);
-+	drm_fb_xrgb8888_to_mono(buf, 0, dma_obj->vaddr, fb, &clip);
- 
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- 
-@@ -902,12 +902,12 @@ static const struct drm_display_mode repaper_e2271cs021_mode = {
- static const u8 repaper_e2271cs021_cs[] = { 0x00, 0x00, 0x00, 0x7f,
- 					    0xff, 0xfe, 0x00, 0x00 };
- 
--DEFINE_DRM_GEM_CMA_FOPS(repaper_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(repaper_fops);
- 
- static const struct drm_driver repaper_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &repaper_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.name			= "repaper",
- 	.desc			= "Pervasive Displays RePaper e-ink panels",
- 	.date			= "20170405",
-diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-index 66da78a203ce..aa5313e8f3f0 100644
---- a/drivers/gpu/drm/tiny/st7586.c
-+++ b/drivers/gpu/drm/tiny/st7586.c
-@@ -19,7 +19,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
-@@ -91,8 +91,8 @@ static void st7586_xrgb8888_to_gray332(u8 *dst, void *vaddr,
- static int st7586_buf_copy(void *dst, struct drm_framebuffer *fb,
- 			   struct drm_rect *clip)
- {
--	struct drm_gem_cma_object *cma_obj = drm_fb_dma_get_gem_obj(fb, 0);
--	void *src = cma_obj->vaddr;
-+	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
-+	void *src = dma_obj->vaddr;
- 	int ret = 0;
- 
- 	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-@@ -268,12 +268,12 @@ static const struct drm_display_mode st7586_mode = {
- 	DRM_SIMPLE_MODE(178, 128, 37, 27),
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(st7586_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(st7586_fops);
- 
- static const struct drm_driver st7586_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &st7586_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "st7586",
- 	.desc			= "Sitronix ST7586",
-diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-index 29d618093e94..50ce6f6be76a 100644
---- a/drivers/gpu/drm/tiny/st7735r.c
-+++ b/drivers/gpu/drm/tiny/st7735r.c
-@@ -20,7 +20,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mipi_dbi.h>
- 
-@@ -151,12 +151,12 @@ static const struct st7735r_cfg rh128128t_cfg = {
- 	.rgb		= true,
- };
- 
--DEFINE_DRM_GEM_CMA_FOPS(st7735r_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(st7735r_fops);
- 
- static const struct drm_driver st7735r_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &st7735r_fops,
--	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
- 	.debugfs_init		= mipi_dbi_debugfs_init,
- 	.name			= "st7735r",
- 	.desc			= "Sitronix ST7735R",
-diff --git a/drivers/gpu/drm/tve200/Kconfig b/drivers/gpu/drm/tve200/Kconfig
-index 47a7dbe6c114..11e865be81c6 100644
---- a/drivers/gpu/drm/tve200/Kconfig
-+++ b/drivers/gpu/drm/tve200/Kconfig
-@@ -8,7 +8,7 @@ config DRM_TVE200
- 	select DRM_BRIDGE
- 	select DRM_PANEL_BRIDGE
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
- 	help
- 	  Choose this option for DRM support for the Faraday TV Encoder
-diff --git a/drivers/gpu/drm/tve200/tve200_display.c b/drivers/gpu/drm/tve200/tve200_display.c
-index 64674781e9dd..deb4a609d5c0 100644
---- a/drivers/gpu/drm/tve200/tve200_display.c
-+++ b/drivers/gpu/drm/tve200/tve200_display.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index db8129c9ade8..09ba2c6fcd29 100644
---- a/drivers/gpu/drm/tve200/tve200_drv.c
-+++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -41,7 +41,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fb_helper.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
- #include <drm/drm_of.h>
-@@ -135,7 +135,7 @@ static int tve200_modeset_init(struct drm_device *dev)
- 	return ret;
- }
- 
--DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(drm_fops);
- 
- static const struct drm_driver tve200_drm_driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-@@ -147,7 +147,7 @@ static const struct drm_driver tve200_drm_driver = {
- 	.major = 1,
- 	.minor = 0,
- 	.patchlevel = 0,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_DMA_DRIVER_OPS,
- };
- 
- static int tve200_probe(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 2352e9640922..8b6733bc66dd 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -314,7 +314,7 @@ v3d_lookup_bos(struct drm_device *dev,
- 	}
- 
- 	job->bo = kvmalloc_array(job->bo_count,
--				 sizeof(struct drm_gem_cma_object *),
-+				 sizeof(struct drm_gem_dma_object *),
- 				 GFP_KERNEL | __GFP_ZERO);
- 	if (!job->bo) {
- 		DRM_DEBUG("Failed to allocate validated BO pointers\n");
-@@ -1102,7 +1102,7 @@ v3d_gem_init(struct drm_device *dev)
- 	if (!v3d->pt) {
- 		drm_mm_takedown(&v3d->mm);
- 		dev_err(v3d->drm.dev,
--			"Failed to allocate page tables. Please ensure you have CMA enabled.\n");
-+			"Failed to allocate page tables. Please ensure you have DMA enabled.\n");
- 		return -ENOMEM;
- 	}
- 
-diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-index 061be9a6619d..9ff87a11e1c9 100644
---- a/drivers/gpu/drm/vc4/Kconfig
-+++ b/drivers/gpu/drm/vc4/Kconfig
-@@ -11,7 +11,7 @@ config DRM_VC4
- 	select DRM_DISPLAY_HDMI_HELPER
- 	select DRM_DISPLAY_HELPER
- 	select DRM_KMS_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL_BRIDGE
- 	select SND_PCM
- 	select SND_PCM_ELD
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index b8d856312846..da22e1de35bc 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -8,10 +8,10 @@
-  *
-  * The VC4 GPU architecture (both scanout and rendering) has direct
-  * access to system memory with no MMU in between.  To support it, we
-- * use the GEM CMA helper functions to allocate contiguous ranges of
-+ * use the GEM DMA helper functions to allocate contiguous ranges of
-  * physical memory for our BOs.
-  *
-- * Since the CMA allocator is very slow, we keep a cache of recently
-+ * Since the DMA allocator is very slow, we keep a cache of recently
-  * freed BOs around so that the kernel's allocation of objects for 3D
-  * rendering can return quickly.
-  */
-@@ -177,7 +177,7 @@ static void vc4_bo_destroy(struct vc4_bo *bo)
- 		bo->validated_shader = NULL;
- 	}
- 
--	drm_gem_cma_free(&bo->base);
-+	drm_gem_dma_free(&bo->base);
- }
- 
- static void vc4_bo_remove_from_cache(struct vc4_bo *bo)
-@@ -385,7 +385,7 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
-  * @dev: DRM device
-  * @size: Size in bytes of the memory the object will reference
-  *
-- * This lets the CMA helpers allocate object structs for us, and keep
-+ * This lets the DMA helpers allocate object structs for us, and keep
-  * our BO stats correct.
-  */
- struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
-@@ -419,7 +419,7 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t unaligned_size,
- {
- 	size_t size = roundup(unaligned_size, PAGE_SIZE);
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_dma_object *dma_obj;
- 	struct vc4_bo *bo;
- 
- 	if (WARN_ON_ONCE(vc4->is_vc5))
-@@ -436,39 +436,39 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t unaligned_size,
- 		return bo;
- 	}
- 
--	cma_obj = drm_gem_cma_create(dev, size);
--	if (IS_ERR(cma_obj)) {
-+	dma_obj = drm_gem_dma_create(dev, size);
-+	if (IS_ERR(dma_obj)) {
- 		/*
--		 * If we've run out of CMA memory, kill the cache of
--		 * CMA allocations we've got laying around and try again.
-+		 * If we've run out of DMA memory, kill the cache of
-+		 * DMA allocations we've got laying around and try again.
- 		 */
- 		vc4_bo_cache_purge(dev);
--		cma_obj = drm_gem_cma_create(dev, size);
-+		dma_obj = drm_gem_dma_create(dev, size);
- 	}
- 
--	if (IS_ERR(cma_obj)) {
-+	if (IS_ERR(dma_obj)) {
- 		/*
--		 * Still not enough CMA memory, purge the userspace BO
-+		 * Still not enough DMA memory, purge the userspace BO
- 		 * cache and retry.
- 		 * This is sub-optimal since we purge the whole userspace
- 		 * BO cache which forces user that want to re-use the BO to
- 		 * restore its initial content.
- 		 * Ideally, we should purge entries one by one and retry
--		 * after each to see if CMA allocation succeeds. Or even
-+		 * after each to see if DMA allocation succeeds. Or even
- 		 * better, try to find an entry with at least the same
- 		 * size.
- 		 */
- 		vc4_bo_userspace_cache_purge(dev);
--		cma_obj = drm_gem_cma_create(dev, size);
-+		dma_obj = drm_gem_dma_create(dev, size);
- 	}
- 
--	if (IS_ERR(cma_obj)) {
-+	if (IS_ERR(dma_obj)) {
- 		struct drm_printer p = drm_info_printer(vc4->base.dev);
--		DRM_ERROR("Failed to allocate from CMA:\n");
-+		DRM_ERROR("Failed to allocate from GEM DMA helper:\n");
- 		vc4_bo_stats_print(&p, vc4);
- 		return ERR_PTR(-ENOMEM);
- 	}
--	bo = to_vc4_bo(&cma_obj->base);
-+	bo = to_vc4_bo(&dma_obj->base);
- 
- 	/* By default, BOs do not support the MADV ioctl. This will be enabled
- 	 * only on BOs that are exposed to userspace (V3D, V3D_SHADER and DUMB
-@@ -477,7 +477,7 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t unaligned_size,
- 	bo->madv = __VC4_MADV_NOTSUPP;
- 
- 	mutex_lock(&vc4->bo_lock);
--	vc4_bo_set_label(&cma_obj->base, type);
-+	vc4_bo_set_label(&dma_obj->base, type);
- 	mutex_unlock(&vc4->bo_lock);
- 
- 	return bo;
-@@ -562,7 +562,7 @@ static void vc4_free_object(struct drm_gem_object *gem_bo)
- 		goto out;
- 	}
- 
--	/* If this object was partially constructed but CMA allocation
-+	/* If this object was partially constructed but DMA allocation
- 	 * had failed, just free it. Can also happen when the BO has been
- 	 * purged.
- 	 */
-@@ -740,7 +740,7 @@ static int vc4_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct
- 		return -EINVAL;
- 	}
- 
--	return drm_gem_cma_mmap(&bo->base, vma);
-+	return drm_gem_dma_mmap(&bo->base, vma);
- }
- 
- static const struct vm_operations_struct vc4_vm_ops = {
-@@ -752,8 +752,8 @@ static const struct vm_operations_struct vc4_vm_ops = {
- static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
- 	.free = vc4_free_object,
- 	.export = vc4_prime_export,
--	.get_sg_table = drm_gem_cma_object_get_sg_table,
--	.vmap = drm_gem_cma_object_vmap,
-+	.get_sg_table = drm_gem_dma_object_get_sg_table,
-+	.vmap = drm_gem_dma_object_vmap,
- 	.mmap = vc4_gem_object_mmap,
- 	.vm_ops = &vc4_vm_ops,
- };
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 1a472c5a46ce..5671018ab308 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -816,7 +816,7 @@ static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
- 	struct vc4_bo *bo = NULL;
- 
- 	if (flip_state->old_fb) {
--		struct drm_gem_cma_object *cma_bo =
-+		struct drm_gem_dma_object *cma_bo =
- 			drm_fb_dma_get_gem_obj(flip_state->old_fb, 0);
- 		bo = to_vc4_bo(&cma_bo->base);
- 	}
-@@ -850,7 +850,7 @@ static int vc4_async_set_fence_cb(struct drm_device *dev,
- 				  struct vc4_async_flip_state *flip_state)
- {
- 	struct drm_framebuffer *fb = flip_state->fb;
--	struct drm_gem_cma_object *cma_bo = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *cma_bo = drm_fb_dma_get_gem_obj(fb, 0);
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct dma_fence *fence;
- 	int ret;
-@@ -938,7 +938,7 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct drm_gem_cma_object *cma_bo = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *cma_bo = drm_fb_dma_get_gem_obj(fb, 0);
- 	struct vc4_bo *bo = to_vc4_bo(&cma_bo->base);
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index cd89abf55062..c0a45e4e3c8a 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -86,7 +86,7 @@ static int vc5_dumb_create(struct drm_file *file_priv,
- 	if (ret)
- 		return ret;
- 
--	return drm_gem_cma_dumb_create_internal(file_priv, dev, args);
-+	return drm_gem_dma_dumb_create_internal(file_priv, dev, args);
- }
- 
- static int vc4_get_param_ioctl(struct drm_device *dev, void *data,
-@@ -212,7 +212,7 @@ static const struct drm_driver vc4_drm_driver = {
- 
- 	.gem_create_object = vc4_create_object,
- 
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(vc4_bo_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc4_bo_dumb_create),
- 
- 	.ioctls = vc4_drm_ioctls,
- 	.num_ioctls = ARRAY_SIZE(vc4_drm_ioctls),
-@@ -235,7 +235,7 @@ static const struct drm_driver vc5_drm_driver = {
- 	.debugfs_init = vc4_debugfs_init,
- #endif
- 
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
- 
- 	.fops = &vc4_drm_fops,
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 93fd55b9e99e..05d1dce2b42f 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -13,7 +13,7 @@
- #include <drm/drm_debugfs.h>
- #include <drm/drm_device.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mm.h>
- #include <drm/drm_modeset_lock.h>
-@@ -240,7 +240,7 @@ to_vc4_dev(struct drm_device *dev)
- }
- 
- struct vc4_bo {
--	struct drm_gem_cma_object base;
-+	struct drm_gem_dma_object base;
- 
- 	/* seqno of the last job to render using this BO. */
- 	uint64_t seqno;
-@@ -289,7 +289,7 @@ struct vc4_bo {
- static inline struct vc4_bo *
- to_vc4_bo(struct drm_gem_object *bo)
- {
--	return container_of(to_drm_gem_cma_obj(bo), struct vc4_bo, base);
-+	return container_of(to_drm_gem_dma_obj(bo), struct vc4_bo, base);
- }
- 
- struct vc4_fence {
-@@ -603,14 +603,14 @@ struct vc4_exec_info {
- 	/* This is the array of BOs that were looked up at the start of exec.
- 	 * Command validation will use indices into this array.
- 	 */
--	struct drm_gem_cma_object **bo;
-+	struct drm_gem_dma_object **bo;
- 	uint32_t bo_count;
- 
- 	/* List of BOs that are being written by the RCL.  Other than
- 	 * the binner temporary storage, this is all the BOs written
- 	 * by the job.
- 	 */
--	struct drm_gem_cma_object *rcl_write_bo[4];
-+	struct drm_gem_dma_object *rcl_write_bo[4];
- 	uint32_t rcl_write_bo_count;
- 
- 	/* Pointers for our position in vc4->job_list */
-@@ -629,7 +629,7 @@ struct vc4_exec_info {
- 	/* This is the BO where we store the validated command lists, shader
- 	 * records, and uniforms.
- 	 */
--	struct drm_gem_cma_object *exec_bo;
-+	struct drm_gem_dma_object *exec_bo;
- 
- 	/**
- 	 * This tracks the per-shader-record state (packet 64) that
-@@ -983,19 +983,19 @@ vc4_validate_bin_cl(struct drm_device *dev,
- int
- vc4_validate_shader_recs(struct drm_device *dev, struct vc4_exec_info *exec);
- 
--struct drm_gem_cma_object *vc4_use_bo(struct vc4_exec_info *exec,
-+struct drm_gem_dma_object *vc4_use_bo(struct vc4_exec_info *exec,
- 				      uint32_t hindex);
- 
- int vc4_get_rcl(struct drm_device *dev, struct vc4_exec_info *exec);
- 
- bool vc4_check_tex_size(struct vc4_exec_info *exec,
--			struct drm_gem_cma_object *fbo,
-+			struct drm_gem_dma_object *fbo,
- 			uint32_t offset, uint8_t tiling_format,
- 			uint32_t width, uint32_t height, uint8_t cpp);
- 
- /* vc4_validate_shader.c */
- struct vc4_validated_shader_info *
--vc4_validate_shader(struct drm_gem_cma_object *shader_obj);
-+vc4_validate_shader(struct drm_gem_dma_object *shader_obj);
- 
- /* vc4_perfmon.c */
- void vc4_perfmon_get(struct vc4_perfmon *perfmon);
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index fe10d9c3fff8..dbd375c89733 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -764,7 +764,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
- 	}
- 
- 	exec->bo = kvmalloc_array(exec->bo_count,
--				    sizeof(struct drm_gem_cma_object *),
-+				    sizeof(struct drm_gem_dma_object *),
- 				    GFP_KERNEL | __GFP_ZERO);
- 	if (!exec->bo) {
- 		DRM_ERROR("Failed to allocate validated BO pointers\n");
-@@ -797,7 +797,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
+ 		dx = src_x;
+ 		dy = src_y;
+@@ -337,8 +337,8 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
  		}
  
- 		drm_gem_object_get(bo);
--		exec->bo[i] = (struct drm_gem_cma_object *)bo;
-+		exec->bo[i] = (struct drm_gem_dma_object *)bo;
- 	}
- 	spin_unlock(&file_priv->table_lock);
+ 		/* Fixup framebuffer address for src coordinates */
+-		paddr += dx * format->cpp[i];
+-		paddr += dy * fb->pitches[i];
++		dma_addr += dx * format->cpp[i];
++		dma_addr += dy * fb->pitches[i];
  
+ 		/* Set the line width */
+ 		DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
+@@ -349,12 +349,12 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+ 			     fb->pitches[i]);
+ 
+ 		DRM_DEBUG_DRIVER("Setting %d. buffer address to %pad\n",
+-				 i + 1, &paddr);
++				 i + 1, &dma_addr);
+ 
+ 		regmap_write(mixer->engine.regs,
+ 			     SUN8I_MIXER_CHAN_VI_LAYER_TOP_LADDR(ch_base,
+ 								 overlay, i),
+-			     lower_32_bits(paddr));
++			     lower_32_bits(dma_addr));
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 962d37aeb2b1..98bbf00e3dbf 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -1951,7 +1951,7 @@ int dispc_plane_check(struct dispc_device *dispc, u32 hw_plane,
+ }
+ 
+ static
+-dma_addr_t dispc_plane_state_paddr(const struct drm_plane_state *state)
++dma_addr_t dispc_plane_state_dma_addr(const struct drm_plane_state *state)
+ {
+ 	struct drm_framebuffer *fb = state->fb;
+ 	struct drm_gem_dma_object *gem;
+@@ -1960,7 +1960,7 @@ dma_addr_t dispc_plane_state_paddr(const struct drm_plane_state *state)
+ 
+ 	gem = drm_fb_dma_get_gem_obj(state->fb, 0);
+ 
+-	return gem->paddr + fb->offsets[0] + x * fb->format->cpp[0] +
++	return gem->dma_addr + fb->offsets[0] + x * fb->format->cpp[0] +
+ 		y * fb->pitches[0];
+ }
+ 
+@@ -1977,7 +1977,7 @@ dma_addr_t dispc_plane_state_p_uv_addr(const struct drm_plane_state *state)
+ 
+ 	gem = drm_fb_dma_get_gem_obj(fb, 1);
+ 
+-	return gem->paddr + fb->offsets[1] +
++	return gem->dma_addr + fb->offsets[1] +
+ 		(x * fb->format->cpp[1] / fb->format->hsub) +
+ 		(y * fb->pitches[1] / fb->format->vsub);
+ }
+@@ -1990,17 +1990,17 @@ int dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
+ 	u32 fourcc = state->fb->format->format;
+ 	u16 cpp = state->fb->format->cpp[0];
+ 	u32 fb_width = state->fb->pitches[0] / cpp;
+-	dma_addr_t paddr = dispc_plane_state_paddr(state);
++	dma_addr_t dma_addr = dispc_plane_state_dma_addr(state);
+ 	struct dispc_scaling_params scale;
+ 
+ 	dispc_vid_calc_scaling(dispc, state, &scale, lite);
+ 
+ 	dispc_plane_set_pixel_format(dispc, hw_plane, fourcc);
+ 
+-	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_0, paddr & 0xffffffff);
+-	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_EXT_0, (u64)paddr >> 32);
+-	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_1, paddr & 0xffffffff);
+-	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_EXT_1, (u64)paddr >> 32);
++	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_0, dma_addr & 0xffffffff);
++	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_EXT_0, (u64)dma_addr >> 32);
++	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_1, dma_addr & 0xffffffff);
++	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_EXT_1, (u64)dma_addr >> 32);
+ 
+ 	dispc_vid_write(dispc, hw_plane, DISPC_VID_PICTURE_SIZE,
+ 			(scale.in_w - 1) | ((scale.in_h - 1) << 16));
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index e9ebd22bf0c2..98d829813c0a 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -225,7 +225,7 @@ static void arc_pgu_update(struct drm_simple_display_pipe *pipe,
+ 
+ 	arcpgu = pipe_to_arcpgu_priv(pipe);
+ 	gem = drm_fb_dma_get_gem_obj(pipe->plane.state->fb, 0);
+-	arc_pgu_write(arcpgu, ARCPGU_REG_BUF0_ADDR, gem->paddr);
++	arc_pgu_write(arcpgu, ARCPGU_REG_BUF0_ADDR, gem->dma_addr);
+ }
+ 
+ static const struct drm_simple_display_pipe_funcs arc_pgu_pipe_funcs = {
+diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+index da22e1de35bc..cdbe6e7432ac 100644
+--- a/drivers/gpu/drm/vc4/vc4_bo.c
++++ b/drivers/gpu/drm/vc4/vc4_bo.c
+@@ -301,7 +301,7 @@ static void vc4_bo_purge(struct drm_gem_object *obj)
+ 
+ 	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
+ 
+-	dma_free_wc(dev->dev, obj->size, bo->base.vaddr, bo->base.paddr);
++	dma_free_wc(dev->dev, obj->size, bo->base.vaddr, bo->base.dma_addr);
+ 	bo->base.vaddr = NULL;
+ 	bo->madv = __VC4_MADV_PURGED;
+ }
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index dbd375c89733..b7c85e47c4ed 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -126,7 +126,7 @@ vc4_get_hang_state_ioctl(struct drm_device *dev, void *data,
+ 			goto err_delete_handle;
+ 		}
+ 		bo_state[i].handle = handle;
+-		bo_state[i].paddr = vc4_bo->base.paddr;
++		bo_state[i].paddr = vc4_bo->base.dma_addr;
+ 		bo_state[i].size = vc4_bo->base.base.size;
+ 	}
+ 
+@@ -917,16 +917,16 @@ vc4_get_bcl(struct drm_device *dev, struct vc4_exec_info *exec)
+ 	list_add_tail(&to_vc4_bo(&exec->exec_bo->base)->unref_head,
+ 		      &exec->unref_list);
+ 
+-	exec->ct0ca = exec->exec_bo->paddr + bin_offset;
++	exec->ct0ca = exec->exec_bo->dma_addr + bin_offset;
+ 
+ 	exec->bin_u = bin;
+ 
+ 	exec->shader_rec_v = exec->exec_bo->vaddr + shader_rec_offset;
+-	exec->shader_rec_p = exec->exec_bo->paddr + shader_rec_offset;
++	exec->shader_rec_p = exec->exec_bo->dma_addr + shader_rec_offset;
+ 	exec->shader_rec_size = args->shader_rec_size;
+ 
+ 	exec->uniforms_v = exec->exec_bo->vaddr + uniforms_offset;
+-	exec->uniforms_p = exec->exec_bo->paddr + uniforms_offset;
++	exec->uniforms_p = exec->exec_bo->dma_addr + uniforms_offset;
+ 	exec->uniforms_size = args->uniforms_size;
+ 
+ 	ret = vc4_validate_bin_cl(dev,
+diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
+index 2eacfb6773d2..8cdc26b66259 100644
+--- a/drivers/gpu/drm/vc4/vc4_irq.c
++++ b/drivers/gpu/drm/vc4/vc4_irq.c
+@@ -105,7 +105,7 @@ vc4_overflow_mem_work(struct work_struct *work)
+ 	}
+ 	vc4->bin_alloc_overflow = BIT(bin_bo_slot);
+ 
+-	V3D_WRITE(V3D_BPOA, bo->base.paddr + bin_bo_slot * vc4->bin_alloc_size);
++	V3D_WRITE(V3D_BPOA, bo->base.dma_addr + bin_bo_slot * vc4->bin_alloc_size);
+ 	V3D_WRITE(V3D_BPOS, bo->base.base.size);
+ 	V3D_WRITE(V3D_INTCTL, V3D_INT_OUTOMEM);
+ 	V3D_WRITE(V3D_INTENA, V3D_INT_OUTOMEM);
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index afeeae682e4e..afb4547b48a8 100644
+index afb4547b48a8..8f2983a665d2 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -338,7 +338,7 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
- {
- 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(state);
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_cma_object *bo = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *bo = drm_fb_dma_get_gem_obj(fb, 0);
- 	u32 subpixel_src_mask = (1 << 16) - 1;
- 	int num_planes = fb->format->num_planes;
- 	struct drm_crtc_state *crtc_state;
-@@ -1214,7 +1214,7 @@ u32 vc4_plane_dlist_size(const struct drm_plane_state *state)
- void vc4_plane_async_set_fb(struct drm_plane *plane, struct drm_framebuffer *fb)
- {
- 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(plane->state);
--	struct drm_gem_cma_object *bo = drm_fb_dma_get_gem_obj(fb, 0);
-+	struct drm_gem_dma_object *bo = drm_fb_dma_get_gem_obj(fb, 0);
- 	uint32_t addr;
+@@ -359,7 +359,7 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
+ 		return ret;
  
- 	/* We're skipping the address adjustment for negative origin,
+ 	for (i = 0; i < num_planes; i++)
+-		vc4_state->offsets[i] = bo->paddr + fb->offsets[i];
++		vc4_state->offsets[i] = bo->dma_addr + fb->offsets[i];
+ 
+ 	/* We don't support subpixel source positioning for scaling. */
+ 	if ((state->src.x1 & subpixel_src_mask) ||
+@@ -1221,7 +1221,7 @@ void vc4_plane_async_set_fb(struct drm_plane *plane, struct drm_framebuffer *fb)
+ 	 * because this is only called on the primary plane.
+ 	 */
+ 	WARN_ON_ONCE(plane->state->crtc_x < 0 || plane->state->crtc_y < 0);
+-	addr = bo->paddr + fb->offsets[0];
++	addr = bo->dma_addr + fb->offsets[0];
+ 
+ 	/* Write the new address into the hardware immediately.  The
+ 	 * scanout will start from this address as soon as the FIFO
 diff --git a/drivers/gpu/drm/vc4/vc4_render_cl.c b/drivers/gpu/drm/vc4/vc4_render_cl.c
-index f6b7dc3df08c..c8a92023238c 100644
+index c8a92023238c..1bda5010f15a 100644
 --- a/drivers/gpu/drm/vc4/vc4_render_cl.c
 +++ b/drivers/gpu/drm/vc4/vc4_render_cl.c
-@@ -40,14 +40,14 @@
- #include "vc4_packet.h"
- 
- struct vc4_rcl_setup {
--	struct drm_gem_cma_object *color_read;
--	struct drm_gem_cma_object *color_write;
--	struct drm_gem_cma_object *zs_read;
--	struct drm_gem_cma_object *zs_write;
--	struct drm_gem_cma_object *msaa_color_write;
--	struct drm_gem_cma_object *msaa_zs_write;
--
--	struct drm_gem_cma_object *rcl;
-+	struct drm_gem_dma_object *color_read;
-+	struct drm_gem_dma_object *color_write;
-+	struct drm_gem_dma_object *zs_read;
-+	struct drm_gem_dma_object *zs_write;
-+	struct drm_gem_dma_object *msaa_color_write;
-+	struct drm_gem_dma_object *msaa_zs_write;
-+
-+	struct drm_gem_dma_object *rcl;
- 	u32 next_offset;
- 
- 	u32 next_write_bo_index;
-@@ -97,7 +97,7 @@ static void vc4_store_before_load(struct vc4_rcl_setup *setup)
-  * coordinates packet, and instead just store to the address given.
-  */
- static uint32_t vc4_full_res_offset(struct vc4_exec_info *exec,
--				    struct drm_gem_cma_object *bo,
-+				    struct drm_gem_dma_object *bo,
+@@ -101,7 +101,7 @@ static uint32_t vc4_full_res_offset(struct vc4_exec_info *exec,
  				    struct drm_vc4_submit_rcl_surface *surf,
  				    uint8_t x, uint8_t y)
  {
-@@ -381,7 +381,7 @@ static int vc4_create_rcl_bo(struct drm_device *dev, struct vc4_exec_info *exec,
+-	return bo->paddr + surf->offset + VC4_TILE_BUFFER_SIZE *
++	return bo->dma_addr + surf->offset + VC4_TILE_BUFFER_SIZE *
+ 		(DIV_ROUND_UP(exec->args->width, 32) * y + x);
  }
  
- static int vc4_full_res_bounds_check(struct vc4_exec_info *exec,
--				     struct drm_gem_cma_object *obj,
-+				     struct drm_gem_dma_object *obj,
- 				     struct drm_vc4_submit_rcl_surface *surf)
- {
- 	struct drm_vc4_submit_cl *args = exec->args;
-@@ -407,7 +407,7 @@ static int vc4_full_res_bounds_check(struct vc4_exec_info *exec,
- }
+@@ -142,7 +142,7 @@ static void emit_tile(struct vc4_exec_info *exec,
+ 		} else {
+ 			rcl_u8(setup, VC4_PACKET_LOAD_TILE_BUFFER_GENERAL);
+ 			rcl_u16(setup, args->color_read.bits);
+-			rcl_u32(setup, setup->color_read->paddr +
++			rcl_u32(setup, setup->color_read->dma_addr +
+ 				args->color_read.offset);
+ 		}
+ 	}
+@@ -164,7 +164,7 @@ static void emit_tile(struct vc4_exec_info *exec,
+ 		} else {
+ 			rcl_u8(setup, VC4_PACKET_LOAD_TILE_BUFFER_GENERAL);
+ 			rcl_u16(setup, args->zs_read.bits);
+-			rcl_u32(setup, setup->zs_read->paddr +
++			rcl_u32(setup, setup->zs_read->dma_addr +
+ 				args->zs_read.offset);
+ 		}
+ 	}
+@@ -232,7 +232,7 @@ static void emit_tile(struct vc4_exec_info *exec,
+ 			(last_tile_write ?
+ 			 0 : VC4_STORE_TILE_BUFFER_DISABLE_COLOR_CLEAR));
+ 		rcl_u32(setup,
+-			(setup->zs_write->paddr + args->zs_write.offset) |
++			(setup->zs_write->dma_addr + args->zs_write.offset) |
+ 			((last && last_tile_write) ?
+ 			 VC4_LOADSTORE_TILE_BUFFER_EOF : 0));
+ 	}
+@@ -355,7 +355,7 @@ static int vc4_create_rcl_bo(struct drm_device *dev, struct vc4_exec_info *exec,
  
- static int vc4_rcl_msaa_surface_setup(struct vc4_exec_info *exec,
--				      struct drm_gem_cma_object **obj,
-+				      struct drm_gem_dma_object **obj,
- 				      struct drm_vc4_submit_rcl_surface *surf)
- {
- 	if (surf->flags != 0 || surf->bits != 0) {
-@@ -433,7 +433,7 @@ static int vc4_rcl_msaa_surface_setup(struct vc4_exec_info *exec,
- }
- 
- static int vc4_rcl_surface_setup(struct vc4_exec_info *exec,
--				 struct drm_gem_cma_object **obj,
-+				 struct drm_gem_dma_object **obj,
- 				 struct drm_vc4_submit_rcl_surface *surf,
- 				 bool is_write)
- {
-@@ -533,7 +533,7 @@ static int vc4_rcl_surface_setup(struct vc4_exec_info *exec,
- static int
- vc4_rcl_render_config_surface_setup(struct vc4_exec_info *exec,
- 				    struct vc4_rcl_setup *setup,
--				    struct drm_gem_cma_object **obj,
-+				    struct drm_gem_dma_object **obj,
- 				    struct drm_vc4_submit_rcl_surface *surf)
- {
- 	uint8_t tiling = VC4_GET_FIELD(surf->bits,
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 5e018cafa272..03d191d3b18c 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -278,7 +278,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
- 	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(state,
- 										    conn);
- 	struct vc4_txp *txp = connector_to_vc4_txp(conn);
--	struct drm_gem_cma_object *gem;
-+	struct drm_gem_dma_object *gem;
- 	struct drm_display_mode *mode;
- 	struct drm_framebuffer *fb;
- 	u32 ctrl;
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index cc714dcfe1f2..d42fea5c0e63 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -231,7 +231,7 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
-  * if it doesn't fit within the buffer that we allocated up front.
-  * However, it turns out that 16MB is "enough for anybody", and
-  * real-world applications run into allocation failures from the
-- * overall CMA pool before they make scenes complicated enough to run
-+ * overall DMA pool before they make scenes complicated enough to run
-  * out of bin space.
-  */
- static int bin_bo_alloc(struct vc4_dev *vc4)
-@@ -261,7 +261,7 @@ static int bin_bo_alloc(struct vc4_dev *vc4)
- 
- 			dev_err(&v3d->pdev->dev,
- 				"Failed to allocate memory for tile binning: "
--				"%d. You may need to enable CMA or give it "
-+				"%d. You may need to enable DMA or give it "
- 				"more memory.",
- 				ret);
- 			break;
-diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
-index 2feba55bcef7..d5dc6b51ec69 100644
---- a/drivers/gpu/drm/vc4/vc4_validate.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate.c
-@@ -102,11 +102,11 @@ size_is_lt(uint32_t width, uint32_t height, int cpp)
- 		height <= 4 * utile_height(cpp));
- }
- 
--struct drm_gem_cma_object *
-+struct drm_gem_dma_object *
- vc4_use_bo(struct vc4_exec_info *exec, uint32_t hindex)
- {
- 	struct vc4_dev *vc4 = exec->dev;
--	struct drm_gem_cma_object *obj;
-+	struct drm_gem_dma_object *obj;
- 	struct vc4_bo *bo;
- 
- 	if (WARN_ON_ONCE(vc4->is_vc5))
-@@ -129,7 +129,7 @@ vc4_use_bo(struct vc4_exec_info *exec, uint32_t hindex)
- 	return obj;
- }
- 
--static struct drm_gem_cma_object *
-+static struct drm_gem_dma_object *
- vc4_use_handle(struct vc4_exec_info *exec, uint32_t gem_handles_packet_index)
- {
- 	return vc4_use_bo(exec, exec->bo_index[gem_handles_packet_index]);
-@@ -160,7 +160,7 @@ gl_shader_rec_size(uint32_t pointer_bits)
- }
- 
- bool
--vc4_check_tex_size(struct vc4_exec_info *exec, struct drm_gem_cma_object *fbo,
-+vc4_check_tex_size(struct vc4_exec_info *exec, struct drm_gem_dma_object *fbo,
- 		   uint32_t offset, uint8_t tiling_format,
- 		   uint32_t width, uint32_t height, uint8_t cpp)
- {
-@@ -263,7 +263,7 @@ validate_increment_semaphore(VALIDATE_ARGS)
- static int
- validate_indexed_prim_list(VALIDATE_ARGS)
- {
--	struct drm_gem_cma_object *ib;
-+	struct drm_gem_dma_object *ib;
- 	uint32_t length = *(uint32_t *)(untrusted + 1);
- 	uint32_t offset = *(uint32_t *)(untrusted + 5);
- 	uint32_t max_index = *(uint32_t *)(untrusted + 9);
-@@ -575,7 +575,7 @@ reloc_tex(struct vc4_exec_info *exec,
- 	  struct vc4_texture_sample_info *sample,
- 	  uint32_t texture_handle_index, bool is_cs)
- {
--	struct drm_gem_cma_object *tex;
-+	struct drm_gem_dma_object *tex;
- 	uint32_t p0 = *(uint32_t *)(uniform_data_u + sample->p_offset[0]);
- 	uint32_t p1 = *(uint32_t *)(uniform_data_u + sample->p_offset[1]);
- 	uint32_t p2 = (sample->p_offset[2] != ~0 ?
-@@ -765,7 +765,7 @@ validate_gl_shader_rec(struct drm_device *dev,
- 		28, /* cs */
- 	};
- 	uint32_t shader_reloc_count = ARRAY_SIZE(shader_reloc_offsets);
--	struct drm_gem_cma_object *bo[ARRAY_SIZE(shader_reloc_offsets) + 8];
-+	struct drm_gem_dma_object *bo[ARRAY_SIZE(shader_reloc_offsets) + 8];
- 	uint32_t nr_attributes, nr_relocs, packet_size;
- 	int i;
- 
-@@ -896,7 +896,7 @@ validate_gl_shader_rec(struct drm_device *dev,
+ 	rcl_u8(setup, VC4_PACKET_TILE_RENDERING_MODE_CONFIG);
+ 	rcl_u32(setup,
+-		(setup->color_write ? (setup->color_write->paddr +
++		(setup->color_write ? (setup->color_write->dma_addr +
+ 				       args->color_write.offset) :
+ 		 0));
+ 	rcl_u16(setup, args->width);
+@@ -374,8 +374,8 @@ static int vc4_create_rcl_bo(struct drm_device *dev, struct vc4_exec_info *exec,
  	}
  
- 	for (i = 0; i < nr_attributes; i++) {
--		struct drm_gem_cma_object *vbo =
-+		struct drm_gem_dma_object *vbo =
- 			bo[ARRAY_SIZE(shader_reloc_offsets) + i];
- 		uint32_t o = 36 + i * 8;
- 		uint32_t offset = *(uint32_t *)(pkt_u + o + 0);
-diff --git a/drivers/gpu/drm/vc4/vc4_validate_shaders.c b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-index e315aeb5fef5..9745f8810eca 100644
---- a/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-@@ -776,7 +776,7 @@ vc4_handle_branch_target(struct vc4_shader_validation_state *validation_state)
+ 	BUG_ON(setup->next_offset != size);
+-	exec->ct1ca = setup->rcl->paddr;
+-	exec->ct1ea = setup->rcl->paddr + setup->next_offset;
++	exec->ct1ca = setup->rcl->dma_addr;
++	exec->ct1ea = setup->rcl->dma_addr + setup->next_offset;
+ 
+ 	return 0;
  }
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 03d191d3b18c..4a26f722c2a2 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -312,7 +312,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 		ctrl |= TXP_ALPHA_INVERT;
  
- struct vc4_validated_shader_info *
--vc4_validate_shader(struct drm_gem_cma_object *shader_obj)
-+vc4_validate_shader(struct drm_gem_dma_object *shader_obj)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(shader_obj->base.dev);
- 	bool found_shader_end = false;
-diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
-index f9cf93c9e7e3..68ee897de9d7 100644
---- a/drivers/gpu/drm/xlnx/Kconfig
-+++ b/drivers/gpu/drm/xlnx/Kconfig
-@@ -8,7 +8,7 @@ config DRM_ZYNQMP_DPSUB
- 	select DMA_ENGINE
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HELPER
--	select DRM_GEM_CMA_HELPER
-+	select DRM_GEM_DMA_HELPER
- 	select DRM_KMS_HELPER
- 	select GENERIC_PHY
- 	help
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 824b510e337b..1de2d927c32b 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -21,7 +21,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mode_config.h>
-@@ -47,7 +47,7 @@ static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
- 	/* Enforce the alignment constraints of the DMA engine. */
- 	args->pitch = ALIGN(pitch, dpsub->dma_align);
+ 	gem = drm_fb_dma_get_gem_obj(fb, 0);
+-	TXP_WRITE(TXP_DST_PTR, gem->paddr + fb->offsets[0]);
++	TXP_WRITE(TXP_DST_PTR, gem->dma_addr + fb->offsets[0]);
+ 	TXP_WRITE(TXP_DST_PITCH, fb->pitches[0]);
+ 	TXP_WRITE(TXP_DIM,
+ 		  VC4_SET_FIELD(mode->hdisplay, TXP_WIDTH) |
+diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+index d42fea5c0e63..c6c7c4910e2d 100644
+--- a/drivers/gpu/drm/vc4/vc4_v3d.c
++++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+@@ -268,8 +268,8 @@ static int bin_bo_alloc(struct vc4_dev *vc4)
+ 		}
  
--	return drm_gem_cma_dumb_create_internal(file_priv, drm, args);
-+	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
+ 		/* Check if this BO won't trigger the addressing bug. */
+-		if ((bo->base.paddr & 0xf0000000) ==
+-		    ((bo->base.paddr + bo->base.base.size - 1) & 0xf0000000)) {
++		if ((bo->base.dma_addr & 0xf0000000) ==
++		    ((bo->base.dma_addr + bo->base.base.size - 1) & 0xf0000000)) {
+ 			vc4->bin_bo = bo;
+ 
+ 			/* Set up for allocating 512KB chunks of
+diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
+index d5dc6b51ec69..520231af4df9 100644
+--- a/drivers/gpu/drm/vc4/vc4_validate.c
++++ b/drivers/gpu/drm/vc4/vc4_validate.c
+@@ -294,7 +294,7 @@ validate_indexed_prim_list(VALIDATE_ARGS)
+ 		return -EINVAL;
+ 	}
+ 
+-	*(uint32_t *)(validated + 5) = ib->paddr + offset;
++	*(uint32_t *)(validated + 5) = ib->dma_addr + offset;
+ 
+ 	return 0;
  }
- 
- static struct drm_framebuffer *
-@@ -75,13 +75,13 @@ static const struct drm_mode_config_funcs zynqmp_dpsub_mode_config_funcs = {
-  * DRM/KMS Driver
-  */
- 
--DEFINE_DRM_GEM_CMA_FOPS(zynqmp_dpsub_drm_fops);
-+DEFINE_DRM_GEM_DMA_FOPS(zynqmp_dpsub_drm_fops);
- 
- static const struct drm_driver zynqmp_dpsub_drm_driver = {
- 	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
- 					  DRIVER_ATOMIC,
- 
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
- 
- 	.fops				= &zynqmp_dpsub_drm_fops,
- 
-diff --git a/include/drm/drm_fb_dma_helper.h b/include/drm/drm_fb_dma_helper.h
-index 05f657363b30..d5e036c57801 100644
---- a/include/drm/drm_fb_dma_helper.h
-+++ b/include/drm/drm_fb_dma_helper.h
-@@ -8,7 +8,7 @@ struct drm_device;
- struct drm_framebuffer;
- struct drm_plane_state;
- 
--struct drm_gem_cma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
-+struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
- 	unsigned int plane);
- 
- dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 9d7c61a122dc..0827856e95dc 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -217,7 +217,7 @@ struct drm_gem_object {
- 	 *
- 	 * SHMEM file node used as backing storage for swappable buffer objects.
- 	 * GEM also supports driver private objects with driver-specific backing
--	 * storage (contiguous CMA memory, special reserved blocks). In this
-+	 * storage (contiguous DMA memory, special reserved blocks). In this
- 	 * case @filp is NULL.
+@@ -400,7 +400,7 @@ validate_tile_binning_config(VALIDATE_ARGS)
+ 	 * free when the job completes rendering.
  	 */
- 	struct file *filp;
-diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_dma_helper.h
-similarity index 53%
-rename from include/drm/drm_gem_cma_helper.h
-rename to include/drm/drm_gem_dma_helper.h
-index fbda4ce5d5fb..82805069b37a 100644
---- a/include/drm/drm_gem_cma_helper.h
+ 	exec->bin_slots |= BIT(bin_slot);
+-	bin_addr = vc4->bin_bo->base.paddr + bin_slot * vc4->bin_alloc_size;
++	bin_addr = vc4->bin_bo->base.dma_addr + bin_slot * vc4->bin_alloc_size;
+ 
+ 	/* The tile state data array is 48 bytes per tile, and we put it at
+ 	 * the start of a BO containing both it and the tile alloc.
+@@ -608,7 +608,7 @@ reloc_tex(struct vc4_exec_info *exec,
+ 				  "outside of UBO\n");
+ 			goto fail;
+ 		}
+-		*validated_p0 = tex->paddr + p0;
++		*validated_p0 = tex->dma_addr + p0;
+ 		return true;
+ 	}
+ 
+@@ -736,7 +736,7 @@ reloc_tex(struct vc4_exec_info *exec,
+ 		offset -= level_size;
+ 	}
+ 
+-	*validated_p0 = tex->paddr + p0;
++	*validated_p0 = tex->dma_addr + p0;
+ 
+ 	if (is_cs) {
+ 		exec->bin_dep_seqno = max(exec->bin_dep_seqno,
+@@ -840,7 +840,7 @@ validate_gl_shader_rec(struct drm_device *dev,
+ 		void *uniform_data_u;
+ 		uint32_t tex, uni;
+ 
+-		*(uint32_t *)(pkt_v + o) = bo[i]->paddr + src_offset;
++		*(uint32_t *)(pkt_v + o) = bo[i]->dma_addr + src_offset;
+ 
+ 		if (src_offset != 0) {
+ 			DRM_DEBUG("Shaders must be at offset 0 of "
+@@ -928,7 +928,7 @@ validate_gl_shader_rec(struct drm_device *dev,
+ 			}
+ 		}
+ 
+-		*(uint32_t *)(pkt_v + o) = vbo->paddr + offset;
++		*(uint32_t *)(pkt_v + o) = vbo->dma_addr + offset;
+ 	}
+ 
+ 	return 0;
+diff --git a/include/drm/drm_gem_dma_helper.h b/include/drm/drm_gem_dma_helper.h
+index 82805069b37a..8a043235dad8 100644
+--- a/include/drm/drm_gem_dma_helper.h
 +++ b/include/drm/drm_gem_dma_helper.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef __DRM_GEM_CMA_HELPER_H__
--#define __DRM_GEM_CMA_HELPER_H__
-+#ifndef __DRM_GEM_DMA_HELPER_H__
-+#define __DRM_GEM_DMA_HELPER_H__
- 
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-@@ -9,128 +9,128 @@
- struct drm_mode_create_dumb;
- 
+@@ -11,7 +11,7 @@ struct drm_mode_create_dumb;
  /**
-- * struct drm_gem_cma_object - GEM object backed by CMA memory allocations
-+ * struct drm_gem_dma_object - GEM object backed by DMA memory allocations
+  * struct drm_gem_dma_object - GEM object backed by DMA memory allocations
   * @base: base GEM object
-- * @paddr: physical address of the backing memory
-+ * @paddr: DMA address of the backing memory
+- * @paddr: DMA address of the backing memory
++ * @dma_addr: DMA address of the backing memory
   * @sgt: scatter/gather table for imported PRIME buffers. The table can have
   *       more than one entry but they are guaranteed to have contiguous
   *       DMA addresses.
-  * @vaddr: kernel virtual address of the backing memory
-  * @map_noncoherent: if true, the GEM object is backed by non-coherent memory
+@@ -20,7 +20,7 @@ struct drm_mode_create_dumb;
   */
--struct drm_gem_cma_object {
-+struct drm_gem_dma_object {
+ struct drm_gem_dma_object {
  	struct drm_gem_object base;
- 	dma_addr_t paddr;
+-	dma_addr_t paddr;
++	dma_addr_t dma_addr;
  	struct sg_table *sgt;
  
--	/* For objects with DMA memory allocated by GEM CMA */
-+	/* For objects with DMA memory allocated by GEM DMA */
- 	void *vaddr;
- 
- 	bool map_noncoherent;
- };
- 
--#define to_drm_gem_cma_obj(gem_obj) \
--	container_of(gem_obj, struct drm_gem_cma_object, base)
-+#define to_drm_gem_dma_obj(gem_obj) \
-+	container_of(gem_obj, struct drm_gem_dma_object, base)
- 
--struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
-+struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
- 					      size_t size);
--void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj);
--void drm_gem_cma_print_info(const struct drm_gem_cma_object *cma_obj,
-+void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj);
-+void drm_gem_dma_print_info(const struct drm_gem_dma_object *dma_obj,
- 			    struct drm_printer *p, unsigned int indent);
--struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj);
--int drm_gem_cma_vmap(struct drm_gem_cma_object *cma_obj,
-+struct sg_table *drm_gem_dma_get_sg_table(struct drm_gem_dma_object *dma_obj);
-+int drm_gem_dma_vmap(struct drm_gem_dma_object *dma_obj,
- 		     struct iosys_map *map);
--int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *vma);
-+int drm_gem_dma_mmap(struct drm_gem_dma_object *dma_obj, struct vm_area_struct *vma);
- 
--extern const struct vm_operations_struct drm_gem_cma_vm_ops;
-+extern const struct vm_operations_struct drm_gem_dma_vm_ops;
- 
- /*
-  * GEM object functions
-  */
- 
- /**
-- * drm_gem_cma_object_free - GEM object function for drm_gem_cma_free()
-+ * drm_gem_dma_object_free - GEM object function for drm_gem_dma_free()
-  * @obj: GEM object to free
-  *
-- * This function wraps drm_gem_cma_free_object(). Drivers that employ the CMA helpers
-+ * This function wraps drm_gem_dma_free_object(). Drivers that employ the DMA helpers
-  * should use it as their &drm_gem_object_funcs.free handler.
-  */
--static inline void drm_gem_cma_object_free(struct drm_gem_object *obj)
-+static inline void drm_gem_dma_object_free(struct drm_gem_object *obj)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
- 
--	drm_gem_cma_free(cma_obj);
-+	drm_gem_dma_free(dma_obj);
- }
- 
- /**
-- * drm_gem_cma_object_print_info() - Print &drm_gem_cma_object info for debugfs
-+ * drm_gem_dma_object_print_info() - Print &drm_gem_dma_object info for debugfs
-  * @p: DRM printer
-  * @indent: Tab indentation level
-  * @obj: GEM object
-  *
-- * This function wraps drm_gem_cma_print_info(). Drivers that employ the CMA helpers
-+ * This function wraps drm_gem_dma_print_info(). Drivers that employ the DMA helpers
-  * should use this function as their &drm_gem_object_funcs.print_info handler.
-  */
--static inline void drm_gem_cma_object_print_info(struct drm_printer *p, unsigned int indent,
-+static inline void drm_gem_dma_object_print_info(struct drm_printer *p, unsigned int indent,
- 						 const struct drm_gem_object *obj)
- {
--	const struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+	const struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
- 
--	drm_gem_cma_print_info(cma_obj, p, indent);
-+	drm_gem_dma_print_info(dma_obj, p, indent);
- }
- 
- /**
-- * drm_gem_cma_object_get_sg_table - GEM object function for drm_gem_cma_get_sg_table()
-+ * drm_gem_dma_object_get_sg_table - GEM object function for drm_gem_dma_get_sg_table()
-  * @obj: GEM object
-  *
-- * This function wraps drm_gem_cma_get_sg_table(). Drivers that employ the CMA helpers should
-+ * This function wraps drm_gem_dma_get_sg_table(). Drivers that employ the DMA helpers should
-  * use it as their &drm_gem_object_funcs.get_sg_table handler.
-  *
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-  */
--static inline struct sg_table *drm_gem_cma_object_get_sg_table(struct drm_gem_object *obj)
-+static inline struct sg_table *drm_gem_dma_object_get_sg_table(struct drm_gem_object *obj)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
- 
--	return drm_gem_cma_get_sg_table(cma_obj);
-+	return drm_gem_dma_get_sg_table(dma_obj);
- }
- 
- /*
-- * drm_gem_cma_object_vmap - GEM object function for drm_gem_cma_vmap()
-+ * drm_gem_dma_object_vmap - GEM object function for drm_gem_dma_vmap()
-  * @obj: GEM object
-- * @map: Returns the kernel virtual address of the CMA GEM object's backing store.
-+ * @map: Returns the kernel virtual address of the DMA GEM object's backing store.
-  *
-- * This function wraps drm_gem_cma_vmap(). Drivers that employ the CMA helpers should
-+ * This function wraps drm_gem_dma_vmap(). Drivers that employ the DMA helpers should
-  * use it as their &drm_gem_object_funcs.vmap handler.
-  *
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--static inline int drm_gem_cma_object_vmap(struct drm_gem_object *obj,
-+static inline int drm_gem_dma_object_vmap(struct drm_gem_object *obj,
- 					  struct iosys_map *map)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
- 
--	return drm_gem_cma_vmap(cma_obj, map);
-+	return drm_gem_dma_vmap(dma_obj, map);
- }
- 
- /**
-- * drm_gem_cma_object_mmap - GEM object function for drm_gem_cma_mmap()
-+ * drm_gem_dma_object_mmap - GEM object function for drm_gem_dma_mmap()
-  * @obj: GEM object
-  * @vma: VMA for the area to be mapped
-  *
-- * This function wraps drm_gem_cma_mmap(). Drivers that employ the cma helpers should
-+ * This function wraps drm_gem_dma_mmap(). Drivers that employ the dma helpers should
-  * use it as their &drm_gem_object_funcs.mmap handler.
-  *
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--static inline int drm_gem_cma_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+static inline int drm_gem_dma_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
- 
--	return drm_gem_cma_mmap(cma_obj, vma);
-+	return drm_gem_dma_mmap(dma_obj, vma);
- }
- 
- /*
-@@ -138,57 +138,57 @@ static inline int drm_gem_cma_object_mmap(struct drm_gem_object *obj, struct vm_
-  */
- 
- /* create memory region for DRM framebuffer */
--int drm_gem_cma_dumb_create_internal(struct drm_file *file_priv,
-+int drm_gem_dma_dumb_create_internal(struct drm_file *file_priv,
- 				     struct drm_device *drm,
- 				     struct drm_mode_create_dumb *args);
- 
- /* create memory region for DRM framebuffer */
--int drm_gem_cma_dumb_create(struct drm_file *file_priv,
-+int drm_gem_dma_dumb_create(struct drm_file *file_priv,
- 			    struct drm_device *drm,
- 			    struct drm_mode_create_dumb *args);
- 
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
-+drm_gem_dma_prime_import_sg_table(struct drm_device *dev,
- 				  struct dma_buf_attachment *attach,
- 				  struct sg_table *sgt);
- 
- /**
-- * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
-+ * DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE - DMA GEM driver operations
-  * @dumb_create_func: callback function for .dumb_create
-  *
-  * This macro provides a shortcut for setting the default GEM operations in the
-  * &drm_driver structure.
-  *
-- * This macro is a variant of DRM_GEM_CMA_DRIVER_OPS for drivers that
-+ * This macro is a variant of DRM_GEM_DMA_DRIVER_OPS for drivers that
-  * override the default implementation of &struct rm_driver.dumb_create. Use
-- * DRM_GEM_CMA_DRIVER_OPS if possible. Drivers that require a virtual address
-+ * DRM_GEM_DMA_DRIVER_OPS if possible. Drivers that require a virtual address
-  * on imported buffers should use
-- * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead.
-+ * DRM_GEM_DMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead.
-  */
--#define DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(dumb_create_func) \
-+#define DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(dumb_create_func) \
- 	.dumb_create		= (dumb_create_func), \
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table, \
-+	.gem_prime_import_sg_table = drm_gem_dma_prime_import_sg_table, \
- 	.gem_prime_mmap		= drm_gem_prime_mmap
- 
- /**
-- * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations
-+ * DRM_GEM_DMA_DRIVER_OPS - DMA GEM driver operations
-  *
-  * This macro provides a shortcut for setting the default GEM operations in the
-  * &drm_driver structure.
-  *
-  * Drivers that come with their own implementation of
-  * &struct drm_driver.dumb_create should use
-- * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE() instead. Use
-- * DRM_GEM_CMA_DRIVER_OPS if possible. Drivers that require a virtual address
-- * on imported buffers should use DRM_GEM_CMA_DRIVER_OPS_VMAP instead.
-+ * DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE() instead. Use
-+ * DRM_GEM_DMA_DRIVER_OPS if possible. Drivers that require a virtual address
-+ * on imported buffers should use DRM_GEM_DMA_DRIVER_OPS_VMAP instead.
-  */
--#define DRM_GEM_CMA_DRIVER_OPS \
--	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(drm_gem_cma_dumb_create)
-+#define DRM_GEM_DMA_DRIVER_OPS \
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(drm_gem_dma_dumb_create)
- 
- /**
-- * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE - CMA GEM driver operations
-+ * DRM_GEM_DMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE - DMA GEM driver operations
-  *                                                ensuring a virtual address
-  *                                                on the buffer
-  * @dumb_create_func: callback function for .dumb_create
-@@ -197,21 +197,21 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
-  * &drm_driver structure for drivers that need the virtual address also on
-  * imported buffers.
-  *
-- * This macro is a variant of DRM_GEM_CMA_DRIVER_OPS_VMAP for drivers that
-+ * This macro is a variant of DRM_GEM_DMA_DRIVER_OPS_VMAP for drivers that
-  * override the default implementation of &struct drm_driver.dumb_create. Use
-- * DRM_GEM_CMA_DRIVER_OPS_VMAP if possible. Drivers that do not require a
-+ * DRM_GEM_DMA_DRIVER_OPS_VMAP if possible. Drivers that do not require a
-  * virtual address on imported buffers should use
-- * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE() instead.
-+ * DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE() instead.
-  */
--#define DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(dumb_create_func) \
-+#define DRM_GEM_DMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(dumb_create_func) \
- 	.dumb_create		= dumb_create_func, \
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table_vmap, \
-+	.gem_prime_import_sg_table = drm_gem_dma_prime_import_sg_table_vmap, \
- 	.gem_prime_mmap		= drm_gem_prime_mmap
- 
- /**
-- * DRM_GEM_CMA_DRIVER_OPS_VMAP - CMA GEM driver operations ensuring a virtual
-+ * DRM_GEM_DMA_DRIVER_OPS_VMAP - DMA GEM driver operations ensuring a virtual
-  *                               address on the buffer
-  *
-  * This macro provides a shortcut for setting the default GEM operations in the
-@@ -220,16 +220,16 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
-  *
-  * Drivers that come with their own implementation of
-  * &struct drm_driver.dumb_create should use
-- * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead. Use
-- * DRM_GEM_CMA_DRIVER_OPS_VMAP if possible. Drivers that do not require a
-- * virtual address on imported buffers should use DRM_GEM_CMA_DRIVER_OPS
-+ * DRM_GEM_DMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead. Use
-+ * DRM_GEM_DMA_DRIVER_OPS_VMAP if possible. Drivers that do not require a
-+ * virtual address on imported buffers should use DRM_GEM_DMA_DRIVER_OPS
-  * instead.
-  */
--#define DRM_GEM_CMA_DRIVER_OPS_VMAP \
--	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(drm_gem_cma_dumb_create)
-+#define DRM_GEM_DMA_DRIVER_OPS_VMAP \
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(drm_gem_dma_dumb_create)
- 
- struct drm_gem_object *
--drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
-+drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *drm,
- 				       struct dma_buf_attachment *attach,
- 				       struct sg_table *sgt);
- 
-@@ -238,22 +238,22 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
-  */
- 
- #ifndef CONFIG_MMU
--unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
-+unsigned long drm_gem_dma_get_unmapped_area(struct file *filp,
- 					    unsigned long addr,
- 					    unsigned long len,
- 					    unsigned long pgoff,
- 					    unsigned long flags);
--#define DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
--	.get_unmapped_area	= drm_gem_cma_get_unmapped_area,
-+#define DRM_GEM_DMA_UNMAPPED_AREA_FOPS \
-+	.get_unmapped_area	= drm_gem_dma_get_unmapped_area,
- #else
--#define DRM_GEM_CMA_UNMAPPED_AREA_FOPS
-+#define DRM_GEM_DMA_UNMAPPED_AREA_FOPS
- #endif
- 
- /**
-- * DEFINE_DRM_GEM_CMA_FOPS() - macro to generate file operations for CMA drivers
-+ * DEFINE_DRM_GEM_DMA_FOPS() - macro to generate file operations for DMA drivers
-  * @name: name for the generated structure
-  *
-- * This macro autogenerates a suitable &struct file_operations for CMA based
-+ * This macro autogenerates a suitable &struct file_operations for DMA based
-  * drivers, which can be assigned to &drm_driver.fops. Note that this structure
-  * cannot be shared between drivers, because it contains a reference to the
-  * current module using THIS_MODULE.
-@@ -262,7 +262,7 @@ unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
-  * non-static version of this you're probably doing it wrong and will break the
-  * THIS_MODULE reference by accident.
-  */
--#define DEFINE_DRM_GEM_CMA_FOPS(name) \
-+#define DEFINE_DRM_GEM_DMA_FOPS(name) \
- 	static const struct file_operations name = {\
- 		.owner		= THIS_MODULE,\
- 		.open		= drm_open,\
-@@ -273,7 +273,7 @@ unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
- 		.read		= drm_read,\
- 		.llseek		= noop_llseek,\
- 		.mmap		= drm_gem_mmap,\
--		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
-+		DRM_GEM_DMA_UNMAPPED_AREA_FOPS \
- 	}
- 
--#endif /* __DRM_GEM_CMA_HELPER_H__ */
-+#endif /* __DRM_GEM_DMA_HELPER_H__ */
+ 	/* For objects with DMA memory allocated by GEM DMA */
 -- 
 2.36.1
 
