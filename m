@@ -1,85 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B03569EF8
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 12:00:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEBE569F51
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 12:16:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84AF14B256;
-	Thu,  7 Jul 2022 10:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6E214B061;
+	Thu,  7 Jul 2022 10:16:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C413D14B252
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 10:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657188008;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5BlLzfOx3FLxzW29hP5Bj1ajkUHJeIlb1UbxuDrAMzo=;
- b=HbB+yy3ldQnYMphcDugzhQa92A0F/ioe5zH4qVEYA1hpsbGw0fKj7lsBzSvuhNWIX5oF6P
- +5dPCpXUwmUdDGQNnlCqXfRXqyOf5Y4dcHWS2dzpd6R4GwMh9+ovfyZCAnJPKsNJQJYJbC
- VoWIqQxPQsXxO0jLTEKVX8Ui8Y7W+oM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-kwVW_xWPNiqvoZKWV2c_jw-1; Thu, 07 Jul 2022 06:00:07 -0400
-X-MC-Unique: kwVW_xWPNiqvoZKWV2c_jw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hp8-20020a1709073e0800b0072629757566so4513933ejc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 03:00:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=5BlLzfOx3FLxzW29hP5Bj1ajkUHJeIlb1UbxuDrAMzo=;
- b=PJCihIRL6XoTVP465UU8xrIIkhn0HrkW/0V/vdW2sPP0D9LNKm0HgaP8b6PsPSd608
- JkC2ZwenAKC+FiBZzQMUIhOT/xhPBLIavhVt1n7ZI2p45eeb2bjGuMbu4sMHEcGIq7xN
- 1Le+kRVHPgfBFHINY4Ihgzt0DUGsdwGZMR/EA7wXHptDTpfnROCDXEJ8tpgiOGNy8pxa
- FWguEGeWJCE1rt2SiFu1FGk+Q3e7dNoOxxMZBpbpba9FdiKfZCmcC+CLMkikFRBp08+r
- IdwtsjWEE4KET0X+bwg1Md24YP68nfIi3jKEJgP9jmkGD03JWD7x9fNjxIOwMOaB8jtr
- Bbsw==
-X-Gm-Message-State: AJIora+Fkj229vUXcBhKagiVnsizJQNIvqx8Q36ajHDrvkLI5CS4ZUl6
- lfR11ACPSJgmzyOoijY+Y1PpFCuLnX1tBD8zhPAg0c/rzX/rGgn+K5oiK90ew/kl1z9vdf5LiSv
- PKkLDvhj95NtXjz8wZzBseGw/EdNW
-X-Received: by 2002:a17:906:4ccc:b0:6fe:9155:47ae with SMTP id
- q12-20020a1709064ccc00b006fe915547aemr42781585ejt.246.1657188006735; 
- Thu, 07 Jul 2022 03:00:06 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vCcqxxR9iYFoEqi0TCN+XK4jUnidd2zGq8y1AASMZW6c4WUTTDCUQ6aEVHyqlMF/LQ2T/HNw==
-X-Received: by 2002:a17:906:4ccc:b0:6fe:9155:47ae with SMTP id
- q12-20020a1709064ccc00b006fe915547aemr42781562ejt.246.1657188006501; 
- Thu, 07 Jul 2022 03:00:06 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
- ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- g17-20020aa7c591000000b0043a4a5813d8sm9613259edq.2.2022.07.07.03.00.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jul 2022 03:00:06 -0700 (PDT)
-Message-ID: <a063d7f3-cacf-c51a-a306-5acd85b680d8@redhat.com>
-Date: Thu, 7 Jul 2022 12:00:04 +0200
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1254C14AE20
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 10:16:24 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 267AG4OB082090;
+ Thu, 7 Jul 2022 05:16:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1657188964;
+ bh=sW5gI6HYnTdz5TO9TTaO/3u/2ZnabasMP4Tl8TiyKVY=;
+ h=From:To:CC:Subject:Date;
+ b=Kw76MCeerkplZkTKHq5TQna2G4UbXOTlgmP2GTBr60Nc8NbCcY46mTPEGS8HOmSv7
+ HpS84garLjILYMGyaly5ajcf2NbHWB7zhfj2HkbLUO9SLDXAgwbhLY4RBfzhGkhDP8
+ flNBCcGvVTj2koM44VCVrkq8sPZGaBYU1Qewob8s=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 267AG4SU012976
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 7 Jul 2022 05:16:04 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 7
+ Jul 2022 05:16:04 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Thu, 7 Jul 2022 05:16:04 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 267AG3mM126559;
+ Thu, 7 Jul 2022 05:16:04 -0500
+From: Rahul T R <r-ravikumar@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v6 0/5] Add support for CDNS DSI J721E wrapper
+Date: Thu, 7 Jul 2022 15:45:56 +0530
+Message-ID: <20220707101601.7081-1-r-ravikumar@ti.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 3/4] drm/gem: rename struct drm_gem_dma_object.{paddr
- => dma_addr}
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220706124352.874528-1-dakr@redhat.com>
- <20220706124352.874528-4-dakr@redhat.com>
- <YsXGPfKYhPsayHpv@pendragon.ideasonboard.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <YsXGPfKYhPsayHpv@pendragon.ideasonboard.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dakr@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,95 +60,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, vigneshr@ti.com,
+ devicetree@vger.kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ jpawar@cadence.com, lee.jones@linaro.org, Rahul T R <r-ravikumar@ti.com>,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Following series of patches adds supports for CDNS DSI
+bridge on j721e.
 
-On 7/6/22 19:28, Laurent Pinchart wrote:
-> Hi Danilo,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Jul 06, 2022 at 02:43:51PM +0200, Danilo Krummrich wrote:
->> The field paddr of struct drm_gem_dma_object holds a DMA address, which
->> might actually be a physical address. However, depending on the platform,
->> it can also be a bus address or a virtual address managed by an IOMMU.
->>
->> Hence, rename the field to dma_addr, which is more applicable.
->>
->> Since 'paddr' is a very commonly used term and symbol name a simple regex
->> does not do the trick. Instead, users of the struct were fixed up
->> iteratively with a trial and error approach building with
->> `make allyesconfig && make drivers/gpu/drm`.
-> 
-> Not for this patch as you've already done the work manually, but can I
-> recommend the excellent coccinelle tool ? Its semantic patches can very
-> easily rename structure members.
-Actually, I should have and I will. It seems like there are a few 
-drivers I missed with that - the ones not using CONFIG_COMPILE_TEST.
+v6:
+ - Dropped generic definations for properties like reg, resets etc..
+ - Fixed the defination for port@0 and port@1
+ - removed the ti,sn65dsi86 node from the example, which is not related
 
-Additionally, I will also test cross-compiling for ARM and ARM64.
+v5:
+ - Remove power-domain property in the conversion commit
+ - Add power-domain only for j721e compatible
+ - Fix white space error in one of the commit
 
-- Danilo
-> 
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->> ---
->>   .../arm/display/komeda/komeda_framebuffer.c   |  4 ++--
->>   drivers/gpu/drm/arm/malidp_mw.c               |  2 +-
->>   drivers/gpu/drm/arm/malidp_planes.c           | 12 +++++-----
->>   drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |  2 +-
->>   drivers/gpu/drm/drm_fb_dma_helper.c           | 10 ++++----
->>   drivers/gpu/drm/drm_gem_dma_helper.c          | 23 +++++++++++--------
->>   drivers/gpu/drm/imx/ipuv3-plane.c             |  6 ++---
->>   drivers/gpu/drm/sprd/sprd_dpu.c               |  2 +-
->>   drivers/gpu/drm/sun4i/sun8i_ui_layer.c        | 14 +++++------
->>   drivers/gpu/drm/sun4i/sun8i_vi_layer.c        | 14 +++++------
->>   drivers/gpu/drm/tidss/tidss_dispc.c           | 16 ++++++-------
->>   drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
->>   drivers/gpu/drm/vc4/vc4_bo.c                  |  2 +-
->>   drivers/gpu/drm/vc4/vc4_gem.c                 |  8 +++----
->>   drivers/gpu/drm/vc4/vc4_irq.c                 |  2 +-
->>   drivers/gpu/drm/vc4/vc4_plane.c               |  4 ++--
->>   drivers/gpu/drm/vc4/vc4_render_cl.c           | 14 +++++------
->>   drivers/gpu/drm/vc4/vc4_txp.c                 |  2 +-
->>   drivers/gpu/drm/vc4/vc4_v3d.c                 |  4 ++--
->>   drivers/gpu/drm/vc4/vc4_validate.c            | 12 +++++-----
->>   include/drm/drm_gem_dma_helper.h              |  4 ++--
->>   21 files changed, 81 insertions(+), 78 deletions(-)
-> 
-> [snip]
-> 
->> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
->> index 56fc1a1e7f87..8851d294bb53 100644
->> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> 
-> [snip]
-> 
->> @@ -460,10 +461,11 @@ drm_gem_dma_prime_import_sg_table(struct drm_device *dev,
->>   	if (IS_ERR(dma_obj))
->>   		return ERR_CAST(dma_obj);
->>   
->> -	dma_obj->paddr = sg_dma_address(sgt->sgl);
->> +	dma_obj->dma_addr = sg_dma_address(sgt->sgl);
->>   	dma_obj->sgt = sgt;
->>   
->> -	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &dma_obj->paddr, attach->dmabuf->size);
->> +	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &dma_obj->dma_addr,
->> +							 attach->dmabuf->size);
-> 
-> The second line should be aligned left, just right of the opening
-> parenthesis.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->>   
->>   	return &dma_obj->base;
->>   }
-> 
-> [snip]
-> 
+v4:
+ - split conversion txt to yaml
+ - seperate commit for addinig new compatible
+ - conditionally limit the items for reg property, based on the compatible
+
+v3:
+ - Convert cdns-dsi.txt binding to yaml
+ - Move the bridge under display/bridge/cadence
+ - Add new compatible to enable the wrapper module
+
+v2:
+ - Moved setting DPI0 to bridge_enable, since it
+   should be done after pm_runtime_get
+
+Rahul T R (5):
+  dt-bindings: display: bridge: Convert cdns,dsi.txt to yaml
+  dt-bindings: display: bridge: cdns,dsi: Add compatible for dsi on
+    j721e
+  drm/bridge: cdns-dsi: Move to drm/bridge/cadence
+  drm/bridge: cdns-dsi: Create a header file
+  drm/bridge: cdns-dsi: Add support for J721E wrapper
+
+ .../bindings/display/bridge/cdns,dsi.txt      | 112 ----
+ .../bindings/display/bridge/cdns,dsi.yaml     | 180 +++++++
+ drivers/gpu/drm/bridge/Kconfig                |  11 -
+ drivers/gpu/drm/bridge/Makefile               |   1 -
+ drivers/gpu/drm/bridge/cadence/Kconfig        |  21 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |   3 +
+ .../{cdns-dsi.c => cadence/cdns-dsi-core.c}   | 483 ++----------------
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 471 +++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-dsi-j721e.c   |  51 ++
+ .../gpu/drm/bridge/cadence/cdns-dsi-j721e.h   |  18 +
+ 10 files changed, 781 insertions(+), 570 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+ rename drivers/gpu/drm/bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c} (65%)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.h
+
+-- 
+2.37.0
 
