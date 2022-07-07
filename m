@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F8656ACF3
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5531F56AD41
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:11:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D52614AB7D;
-	Thu,  7 Jul 2022 20:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4745112853;
+	Thu,  7 Jul 2022 21:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E4814AB83
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 20:51:05 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id o7so4007113lfq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 13:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1yCn9FzE3TgPn9G9aMPiVPfAOGS2N8GQpGxVZMGerPY=;
- b=xOPoHYFsS3NPMHesqsz3d/V7flw6QibIRa52MJorz6ZxvJKN9QBEIYgo0qcMCT933D
- XLChc0UZYhnk66+HrEPy+AjH0K3NCiJ2Nd2Wi+cDxK2OJOeqa5oI+6+xfeEuLTVE1Kwc
- jdCw0eAubPWWwY6SLkdR7tFbawyksR/tx2pRe2fEuw1tMid/UMGjep+YwCLQFtq9n68k
- Ng2sagiJPQG80XifY2wKkPd1g7eNcfK8arcTcOYKzbzc5Hhl4IrcsGOKjMjHe/qh/4A2
- 1Q+J8SqXGvSpHcSnN/zhZPv8gR4U6T8l2v60uv61WJAU0GmpLT4Qsn7aH5vTK4hFWWUR
- Ck5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1yCn9FzE3TgPn9G9aMPiVPfAOGS2N8GQpGxVZMGerPY=;
- b=6jFEJIWi/dp5xM0yl91nPu1zLb/K4A5SNGvR9JV4Tmgy/Ui9qp2lPP7tqdpWLQma2I
- NQBm4nFVaJXXX1pGubK7iygODPyrHiien0y7BNpVn6GtSGduT0pGG/XH/tn4C+4TYEC/
- m0nRCEkad39yY+F2hWVhm39QmxhJj6n2Mp2qrvWh/BA35y5P4jwAEqFZ99xghnLsNQ/h
- XAdotX6LKKU7eAjUZqp8idtoeL9zBHGPbrL3NiKikHqO/3DEWkJ54LvMIjZOWm+y5DTc
- QjeyTQkpqtbI3+EA3PUI6n0+dyzTaSCmIk0k7k7ms4859/lfbpKjNicrmVWcXp9TxSAL
- Kymw==
-X-Gm-Message-State: AJIora/wPGmYjJMB7KzkuuEA+ZXca+LXK+bhmsQ0qNxOVTDdAroTQMY2
- jMy9uL9NAENCYWxyUS3pK0IWdg==
-X-Google-Smtp-Source: AGRyM1tMDs6Igfr2CIm7SALgNlpy/riEx4RV4z/bsOQ3j14KxMMU9E3LGwhg9JehjwtKyPbRJFvJlQ==
-X-Received: by 2002:a05:6512:3084:b0:47f:6c9e:952e with SMTP id
- z4-20020a056512308400b0047f6c9e952emr43810lfd.332.1657227063392; 
- Thu, 07 Jul 2022 13:51:03 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a056512358600b0047f8de9734asm7040369lfr.123.2022.07.07.13.51.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jul 2022 13:51:02 -0700 (PDT)
-Message-ID: <ecbbe366-b7c7-885d-f574-0ac900d7599a@linaro.org>
-Date: Thu, 7 Jul 2022 23:51:01 +0300
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8824E1136ED;
+ Thu,  7 Jul 2022 21:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1657228275; x=1688764275;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8cWXuoA3a8r8Bn5R5HljIheMcXCj6sEHWX+Ss3Kqdjo=;
+ b=RDoX3O/9s9jt8/xHKGi2S4satAUF3DvincmutoqVxLmdZjSEZY9JNMh4
+ 3fgPqAe3hXax5TNHiBC1stnOGUGyUv0GeSQpLOn2zrhCnaZ2t47pRKlEJ
+ xlnAQhQK6MBII/OHaf1uo3jKSY1lGvc91gm/01Q9LOXIgE9g54zs6vLqd c=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 07 Jul 2022 14:11:14 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 14:11:13 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 7 Jul 2022 14:11:13 -0700
+Received: from [10.111.163.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 7 Jul 2022
+ 14:11:10 -0700
+Message-ID: <40b6a28c-0237-55d7-2f5d-1c571f27e7d6@quicinc.com>
+Date: Thu, 7 Jul 2022 14:11:08 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4] drm/msm/dp: make eDP panel as the first connected
- connector
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dsi: Set panel orientation when directly connected
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220706191442.1150634-1-swboyd@chromium.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220706191442.1150634-1-swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,54 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+Cc: Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Hsin-Yi Wang <hsinyi@chromium.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/07/2022 22:32, Kuogee Hsieh wrote:
-> Some userspace presumes that the first connected connector is the main
-> display, where it's supposed to display e.g. the login screen. For
-> laptops, this should be the main panel.
-> 
-> This patch call drm_helper_move_panel_connectors_to_head() after
-> drm_bridge_connector_init() to make sure eDP stay at head of
-> connected connector list. This fixes unexpected corruption happen
-> at eDP panel if eDP is not placed at head of connected connector
-> list.
-> 
-> Changes in v2:
-> -- move drm_helper_move_panel_connectors_to_head() to
-> 		dpu_kms_drm_obj_init()
-> 
-> Changes in v4:
-> -- move drm_helper_move_panel_connectors_to_head() to msm_drm_init()
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+On 7/6/2022 12:14 PM, Stephen Boyd wrote:
+> Set the panel orientation in drm when the panel is directly connected,
+> i.e. we're not using an external bridge. The external bridge case is
+> already handled by the panel bridge code, so we only update the path we
+> take when the panel is directly connected/internal. This silences a
+> warning splat coming from __drm_mode_object_add() on Wormdingler boards.
+> 
+> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->   drivers/gpu/drm/msm/msm_drv.c | 2 ++
+> 
+> This relies on commit 5e41b01a7808 ("drm/panel: Add an API to allow drm
+> to set orientation from panel") which is in drm-misc
+> 
+>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 ++
 >   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 4a3dda2..4d518c2 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -419,6 +419,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   		}
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index cb84d185d73a..9333f7095acd 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -268,6 +268,8 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
+>   		return PTR_ERR(panel);
 >   	}
 >   
-> +	drm_helper_move_panel_connectors_to_head(ddev);
+> +	drm_connector_set_orientation_from_panel(conn, panel);
 > +
->   	ddev->mode_config.funcs = &mode_config_funcs;
->   	ddev->mode_config.helper_private = &mode_config_helper_funcs;
+
+This should be moved below the !panel check since you are passing panel 
+as one of the params.
+
+I looked up the doc and it says that for unknown(default cases) this is 
+a no-op so I think this change is fine otherwise.
+
+"It is allowed to call this function with a panel_orientation of 
+DRM_MODE_PANEL_ORIENTATION_UNKNOWN, in which case it is a no-op."
+
+
+>   	if (!panel || !IS_BONDED_DSI())
+>   		goto out;
 >   
-
-
--- 
-With best wishes
-Dmitry
+> 
+> base-commit: 15b9ca1641f0c3cd74885280331e9172c62a125e
