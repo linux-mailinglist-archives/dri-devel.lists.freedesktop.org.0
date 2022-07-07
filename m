@@ -2,42 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A2256AEF7
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 01:18:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5428E56AF2A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 01:57:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9A411B211;
-	Thu,  7 Jul 2022 23:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A857110EF48;
+	Thu,  7 Jul 2022 23:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4F611A971
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 23:18:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 330096BD;
- Fri,  8 Jul 2022 01:18:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1657235886;
- bh=qSeXY27IM1qa1/MU9knkhDz4oP6xqDtjt40vvRl1R9I=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=Ozvahh+cS4IQ8Pbs1xjnS4zvcawgbNeFJAkJFuABJyYT6Z3neuhSoiWS9Xu/Ly4m6
- PDXLonNcmrpxOhnAHK8laXcbWJSeIV/UIFe/a/eWuHrwc+fXhOUNKHCxJNH43/v8Ua
- xPRGnC3WzyCVcxQ8vxdE9y3UOXeqnG/AX7JbWmfg=
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
+ [209.85.161.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 221ED10FDC9
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 23:56:07 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id
+ 2-20020a4a1a02000000b004285895836aso3631735oof.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 16:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=9ntP1WDLnC6Yx7jFk7jZStLEDziwDqk+ZlwPsvE1xWs=;
+ b=bXuaYmps3SO/5Gg3nxuV379NqM1hoHcyQbvWn/KnsI4akOLpYz+plOpnE5dn9mRH7Z
+ Ba4pUy+ktATqZI/NUhKueHyeRHspJaPiUIEewUlCm9RQVmwSizU1Qt7YSZVn+1svIEIs
+ iVy1O+bxNmKs1ULMXdsz6tbhueBjHT39Ggtcs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=9ntP1WDLnC6Yx7jFk7jZStLEDziwDqk+ZlwPsvE1xWs=;
+ b=qRpLBc7+lMyhYc4pWUmEE4R9PE9t32hDkCGYQtEfFc2R7Uj0dxIM76ag0Ir4q2SYIp
+ qvQY9ydnH/AdvuF+zdLXkJYUFzQQYPj0t4eVea8WrfQzech6+ndqAIHUgufG9WG6Jm9w
+ fW7NuYhCsVSkKmOt26AACwgAjGh+d/rWuyu5u+DsVjNMdoYDIJzCBFcfyN2c755MOs2u
+ KovwLq+4CpM/gjPK5ysNSEC9SdMvyeYkujOKmHA43f3TQ7URXpww964aft5f4aHjT1d5
+ 6UPnjQ1GyY0bheDZZYD6ueAMT9Dqih0yPIV9hKdsDdhix6wrVMBrAdjoCAJ+KwzGyyGh
+ Uy0g==
+X-Gm-Message-State: AJIora+U0VLI8JnwrNBWlfjxUDgE+P+sTQsSJP+vQEeor5sZrzSwS4O5
+ p785xl8wO2ua28ub68i3UtaMxOe8+sYw2F0dVWCalA==
+X-Google-Smtp-Source: AGRyM1s5aRJwu3pF2TR9+JflN9Xt6rSHUQxPIdyIsKnn5I3uBjzRJFONFzrC6JiOmFqLVKBgHodXNbkvtUIvE0e4ebU=
+X-Received: by 2002:a4a:81c1:0:b0:425:b01b:f757 with SMTP id
+ s1-20020a4a81c1000000b00425b01bf757mr305054oog.1.1657238106090; Thu, 07 Jul
+ 2022 16:55:06 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 Jul 2022 16:55:05 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b7d9c7d5-283c-a922-f773-17d722ff03dc@prevas.dk>
-References: <0f803b7c-d004-1302-6ef8-205e5b177918@prevas.dk>
- <165703382008.2228597.17239168312569308180@Monstersaurus>
- <b7d9c7d5-283c-a922-f773-17d722ff03dc@prevas.dk>
-Subject: Re: connecting a sn65dsi86 to displayport connector
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Douglas Anderson <dianders@chromium.org>,
- Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Date: Fri, 08 Jul 2022 00:18:03 +0100
-Message-ID: <165723588318.2961003.13657946179211177978@Monstersaurus>
+In-Reply-To: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
+Date: Thu, 7 Jul 2022 16:55:05 -0700
+Message-ID: <CAE-0n506RwOi8xqVEAaLjfhb3vey7R2FF_72_F-nmgrXrP6RWQ@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/msm/dp: make eDP panel as the first connected
+ connector
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,48 +68,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rasmus Villemoes (2022-07-07 10:46:24)
-> On 05/07/2022 17.10, Kieran Bingham wrote:
-> > Hi Rasmus,
-> >=20
-> > Quoting Rasmus Villemoes (2022-07-05 10:08:37)
-> >> Hi
-> >>
-> >> I have an imx8mp board with a sn65dsi86 and a (full-size) DisplayPort
-> >> connector, which I'm trying to get up and running.
-> >>
-> [...]
-> >> Any hints would be highly appreciated.
-> >=20
-> > If it helps, this is an area I've been working to support one of our
-> > boards. I have a branch at:
-> >=20
-> >  git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git
-> >  kbingham/drm-misc/next/sn65dsi86/hpd
-> >=20
-> > But it's still a work in progress, and now needs rebasing to account for
-> > Sam's latest updates.
-> >=20
-> > I intend to resume this in a few weeks, but hopefully that branch may
-> > have some helpful pointers to get things progressing for you too.
->=20
-> Hi Kieran
->=20
-> Thanks for the pointer, I'll take a look. But just to be clear: Is the
-> board you're referring to above the same as the one where the DT changes
-> went in with commit 5a6bca1ff7 ? Or does that Falcon board work with the
-> current state of mainline, and the patches in the above branch are to
-> support some other board/use case?
+Quoting Kuogee Hsieh (2022-07-06 12:32:08)
+> Some userspace presumes that the first connected connector is the main
+> display, where it's supposed to display e.g. the login screen. For
+> laptops, this should be the main panel.
+>
+> This patch call drm_helper_move_panel_connectors_to_head() after
+> drm_bridge_connector_init() to make sure eDP stay at head of
+> connected connector list. This fixes unexpected corruption happen
+> at eDP panel if eDP is not placed at head of connected connector
+> list.
+>
+> Changes in v2:
+> -- move drm_helper_move_panel_connectors_to_head() to
+>                 dpu_kms_drm_obj_init()
+>
+> Changes in v4:
+> -- move drm_helper_move_panel_connectors_to_head() to msm_drm_init()
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
 
-Yes, the board I have is the Falcon V3U, as referred to in 5a6bca1ff7.
---
-Kieran
-
->=20
-> Thanks,
-> Rasmus
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
