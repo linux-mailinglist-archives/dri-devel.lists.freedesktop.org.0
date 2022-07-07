@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEF856AE65
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 00:28:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A2256AEF7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 01:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B07EB14A222;
-	Thu,  7 Jul 2022 22:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9A411B211;
+	Thu,  7 Jul 2022 23:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03FCB14A247;
- Thu,  7 Jul 2022 22:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657232893; x=1688768893;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=bxnC823s2jQTCTW1F00fQ9L9FPUuS6prikA03g2KwGA=;
- b=SSKznTUVhFrndsuWSMLeRc/bJ5qk33jbKTnLeBpIaEH29DH283Iq9dte
- okgbTPehKl7/aRhNuA2tDMi7MKJGKWVfEyiPae41vyQqFznhZzPpk8K57
- xJLoFjC/V8LZbj8Xlo/HQbBbcRGb+oCvKR7omwfSAVGGW0WwHA0k3+qMn s=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Jul 2022 15:28:12 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 15:28:12 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 7 Jul 2022 15:28:11 -0700
-Received: from [10.111.163.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 7 Jul 2022
- 15:28:09 -0700
-Message-ID: <5112b6fd-32c3-c447-61e1-828d5a0aa7c6@quicinc.com>
-Date: Thu, 7 Jul 2022 15:28:07 -0700
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4F611A971
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 23:18:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 330096BD;
+ Fri,  8 Jul 2022 01:18:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1657235886;
+ bh=qSeXY27IM1qa1/MU9knkhDz4oP6xqDtjt40vvRl1R9I=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=Ozvahh+cS4IQ8Pbs1xjnS4zvcawgbNeFJAkJFuABJyYT6Z3neuhSoiWS9Xu/Ly4m6
+ PDXLonNcmrpxOhnAHK8laXcbWJSeIV/UIFe/a/eWuHrwc+fXhOUNKHCxJNH43/v8Ua
+ xPRGnC3WzyCVcxQ8vxdE9y3UOXeqnG/AX7JbWmfg=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: Fix for non-visible planes
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20220707212003.1710163-1-robdclark@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220707212003.1710163-1-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b7d9c7d5-283c-a922-f773-17d722ff03dc@prevas.dk>
+References: <0f803b7c-d004-1302-6ef8-205e5b177918@prevas.dk>
+ <165703382008.2228597.17239168312569308180@Monstersaurus>
+ <b7d9c7d5-283c-a922-f773-17d722ff03dc@prevas.dk>
+Subject: Re: connecting a sn65dsi86 to displayport connector
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Douglas Anderson <dianders@chromium.org>,
+ Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date: Fri, 08 Jul 2022 00:18:03 +0100
+Message-ID: <165723588318.2961003.13657946179211177978@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +50,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>,
- Fernando Ramos <greenfoo@u92.eu>, Mark Yacoub <markyacoub@google.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Rasmus Villemoes (2022-07-07 10:46:24)
+> On 05/07/2022 17.10, Kieran Bingham wrote:
+> > Hi Rasmus,
+> >=20
+> > Quoting Rasmus Villemoes (2022-07-05 10:08:37)
+> >> Hi
+> >>
+> >> I have an imx8mp board with a sn65dsi86 and a (full-size) DisplayPort
+> >> connector, which I'm trying to get up and running.
+> >>
+> [...]
+> >> Any hints would be highly appreciated.
+> >=20
+> > If it helps, this is an area I've been working to support one of our
+> > boards. I have a branch at:
+> >=20
+> >  git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git
+> >  kbingham/drm-misc/next/sn65dsi86/hpd
+> >=20
+> > But it's still a work in progress, and now needs rebasing to account for
+> > Sam's latest updates.
+> >=20
+> > I intend to resume this in a few weeks, but hopefully that branch may
+> > have some helpful pointers to get things progressing for you too.
+>=20
+> Hi Kieran
+>=20
+> Thanks for the pointer, I'll take a look. But just to be clear: Is the
+> board you're referring to above the same as the one where the DT changes
+> went in with commit 5a6bca1ff7 ? Or does that Falcon board work with the
+> current state of mainline, and the patches in the above branch are to
+> support some other board/use case?
 
+Yes, the board I have is the Falcon V3U, as referred to in 5a6bca1ff7.
+--
+Kieran
 
-On 7/7/2022 2:20 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Fixes `kms_cursor_crc --run-subtest cursor-offscreen`.. when the cursor
-> moves offscreen the plane becomes non-visible, so we need to skip over
-> it in crtc atomic test and mixer setup.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-Will pick up the fixes tag from Dmitry's r-b.
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 4dd0ce09ca74..4ba000951a90 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -422,6 +422,9 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
->   		if (!state)
->   			continue;
->   
-> +		if (!state->visible)
-> +			continue;
-> +
->   		pstate = to_dpu_plane_state(state);
->   		fb = state->fb;
->   
-> @@ -1195,6 +1198,9 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->   		if (cnt >= DPU_STAGE_MAX * 4)
->   			continue;
->   
-> +		if (!pstate->visible)
-> +			continue;
-> +
->   		pstates[cnt].dpu_pstate = dpu_pstate;
->   		pstates[cnt].drm_pstate = pstate;
->   		pstates[cnt].stage = pstate->normalized_zpos;
+>=20
+> Thanks,
+> Rasmus
