@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCE356AD94
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:32:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB13756AD90
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B1C11B79A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579D611B6F0;
 	Thu,  7 Jul 2022 21:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3BF11B606
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 21:32:13 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id w2so7477346ljj.7
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 14:32:13 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B9211AFE5
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 21:32:12 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id t24so33339886lfr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 14:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4qmHqomtPIyCyTmU9c0GuY++F1fuqEtzhO4HzH/F14o=;
- b=JqL35clNBQYGPpaEjGmP1beT+IT1EyV8unkvRsu5HYH9lBGYNo8xV8yONYTT2/4waM
- IL+rG1NWqVUWLiB+qBszuthBY4ieC94jIpRIfmk/47TSLj5BnjI2Ccy64RKUULYP4DrQ
- 0YXS3RxG7Dw5reRbvYjC2YN3uhuQilzvFhiTCDRB052/MbM1RINhz3eEIYv0Xvu9/ZIG
- thmEVSfE6eP6P/+9pErPme9PIGxByD4IxyC2nPV27Yr5TijqJkipUQfG1XmuMZ6KgZHv
- tbZmH7a9yV/I7dd3Y1DeyQR5OklzSRZjn23nsxSsRpBCIzwoXhfGNL0YvNOy+BDljE3l
- Ku9w==
+ bh=IhjBNRgDY3D4V2rQwtlvIRuVCHJhruesxJluDAINOWs=;
+ b=VUbk51kgK6DWakFxbopkmxoVeUdQfuTBMzzkRp1o9o0TohK4VU5w6H0cmE9AGZ/IgD
+ 5zFriWo3SMyG9WWdwzHFq+HAHv28Y1gLiWW8GxYjMVpjuS1LJFxYkryE1PmDoGTYp451
+ z4dts5pr+AxlcwoM0jDhH96C/wiYS+kL/sJG4MQTHbzc8nil0XiZ1LtYJuSW0bXYk9cA
+ 95YOvAJJWSWwNCkJqN0k6RUh54ADoFCr6z2cNdvqxmCFU97OZwsHL+/GcElb1I94kOgx
+ h1cgYs/y5OFeYYfYtVDyhG0D3/BDp3gTQCbOdqN0Ejv9M2m5ypPZ7KoF19Fq44nV6SwH
+ XvIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4qmHqomtPIyCyTmU9c0GuY++F1fuqEtzhO4HzH/F14o=;
- b=Q1gihQPadJ17W3ZfCvMBk0K55MWLJMBc77trpFGpn/E4Yv3/9OyreFIzpP104Z7M/j
- 5lkTbMjsfdFkpAPr6fR6yOvQZEpQhrqFVBW9Y0P6PEQDmm2IGIWqXEu7GQ5hj77XsJ65
- 9cynSzxbXVjvG34e/eHT3XO91Jl/gT5eicpGAJF2rKYfZOqQcx1Lb5GDmwM9cag09nWZ
- mj2DjKIrRKWYKrsUF54xrpqroWIh1ZaMIBFlGh9/S9BgvzWDSdRUUL71u+69IsbRPetY
- kwbx4Rzi4vmBoEchRijd+680YPmBeAaDYydqUm8+clmULl2Qb3/kzmBUOpJCgr6j1J31
- DLFQ==
-X-Gm-Message-State: AJIora/+SGuR7WLlQut4jYD+w5H3fn3rALA3qcS6qDkEg7V6EBpd/xCE
- 7AU6BPnlq2tBkQYsdca4I5TJ3g==
-X-Google-Smtp-Source: AGRyM1u/zrZV5WDyRRmrgrTfbAEEMXa9NwgyyQheuXKk49R9ljtdKrfrkROt+ndm+hSOiQv8gSUPfQ==
-X-Received: by 2002:a2e:2284:0:b0:25d:490f:60d3 with SMTP id
- i126-20020a2e2284000000b0025d490f60d3mr20372lji.486.1657229531507; 
- Thu, 07 Jul 2022 14:32:11 -0700 (PDT)
+ bh=IhjBNRgDY3D4V2rQwtlvIRuVCHJhruesxJluDAINOWs=;
+ b=OKTkdIp+M4nICPPr8kMipEyp3MEekgAliff94oPlgAkl5TvOtSwyItqOrXD72b88lH
+ BiYzxtIcWtWFVYSKzT+UE3Kas0d9Bwv8cLsYaK41etcLA99YLfHjRstS+U2QWwJImSpF
+ t4NnGUHAu6hqUC6iYm1VLK3pHjW9sQSNVhEZixPnCpRt/Hi9kAnvN107vXpDk5YA8N2C
+ z2rMW8rPVdEAFKIgffxk/77bOFFBHr795H8HHMMlmcCXPCNL7w3sHfYKHH9M2omcGW35
+ LmGlIs4MQN7cgMH87UI+ywgJAa8cJyD2jo4VRBVVRttnVdAAQy22Ey3HROuyFa5D+v7m
+ 2nGA==
+X-Gm-Message-State: AJIora8evtTQaLbcp1ywyPyU+F8K6wAVYq+Cbmsazm/WYPXDuBIbCTkM
+ vt8HbB6ehmCnF9NkDiQRYgcGYw==
+X-Google-Smtp-Source: AGRyM1vTK4quBnMmp1glbsvEm1q+zLVGJvI7AgXn5761ZrteP/d/rp7gn6cwUMDjPfLOSwVH2NZtsQ==
+X-Received: by 2002:a05:6512:1043:b0:481:31f:5505 with SMTP id
+ c3-20020a056512104300b00481031f5505mr163208lfb.112.1657229532475; 
+ Thu, 07 Jul 2022 14:32:12 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- o19-20020ac24e93000000b0047f8cb94004sm7046709lfr.35.2022.07.07.14.32.10
+ o19-20020ac24e93000000b0047f8cb94004sm7046709lfr.35.2022.07.07.14.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:32:10 -0700 (PDT)
+ Thu, 07 Jul 2022 14:32:12 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,9 +54,10 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 6/9] dt-bindings: msm/dp: handle DP vs eDP difference
-Date: Fri,  8 Jul 2022 00:32:01 +0300
-Message-Id: <20220707213204.2605816-7-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 7/9] arm64: dts: qcom: sc7180: drop #clock-cells from
+ displayport-controller
+Date: Fri,  8 Jul 2022 00:32:02 +0300
+Message-Id: <20220707213204.2605816-8-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
 References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
@@ -80,53 +81,27 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The #sound-dai-cells property should be used only for DP controllers. It
-doesn't make sense for eDP, there is no support for audio output. Also
-aux-bus should not be used for DP controllers. Take care of these
-differences.
+Drop #clock-cells from DP device node. It is a leftover from the times
+before splitting the it into controller and PHY devices. Now clocks are
+provided by the PHY, while the controller doesn't provide any clocks.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/display/msm/dp-controller.yaml   | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index 1ef845005b14..491f4aefe0db 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -107,7 +107,6 @@ required:
-   - clock-names
-   - phys
-   - phy-names
--  - "#sound-dai-cells"
-   - power-domains
-   - ports
- 
-@@ -155,6 +154,24 @@ allOf:
-             - const: ctrl_link_iface
-             - const: stream_pixel
- 
-+  # AUX BUS does not exist on DP controllers
-+  # Audio output also is present only on DP output
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,sc7280-edp
-+              - qcom,sc8180x-edp
-+    then:
-+      properties:
-+        "#sound-dai-cells": false
-+    else:
-+      properties:
-+        aux-bus: false
-+      required:
-+        - "#sound-dai-cells"
-+
- additionalProperties: false
- 
- examples:
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index 47ce5787ed5b..dc2767cd852d 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -3092,7 +3092,6 @@ mdss_dp: displayport-controller@ae90000 {
+ 					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
+ 				clock-names = "core_iface", "core_aux", "ctrl_link",
+ 					      "ctrl_link_iface", "stream_pixel";
+-				#clock-cells = <1>;
+ 				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
+ 						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+ 				assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
 -- 
 2.35.1
 
