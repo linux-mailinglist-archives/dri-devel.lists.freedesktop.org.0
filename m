@@ -2,99 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528C356A904
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 19:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B7156A91E
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 19:09:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F7910F0C7;
-	Thu,  7 Jul 2022 17:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC30810F656;
+	Thu,  7 Jul 2022 17:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D436110F0C7;
- Thu,  7 Jul 2022 17:05:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fNPbadA3HM6xBDFAGd4BLMTD+8r4WXLe5zs4NMZ4DiSX6PU1DAZIkxZfyl3psQzo1vdf+klsMwInA/S9W+1CLkBTSRnv6s2RSisoNiV0J0ymzFVFXVBcKwFAN8RlnAO9kMqm9Ru95JZRU9yJDtSEJUmknwvdOfKqs64hiFLIJfC9MVeqpRMywBqVPTWHweCMx7adt41q+OwQXV97QvNwnWrUq+fw3bdkk+4t3ziLLaeYVJTMfHz/ygAPNuJgUHfDAdFylQnGyEMs5LLCbJ31rQE8lnF8SxtVzxZVOCCYl/5yS3xeCqJRHj/QU2QbctQqlvs0hQ3iNriLxrGcTk/DQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=88UnIf43lwxpdCNhm/ISe+bcIYrn7GgyOosKacYKM+U=;
- b=Kp6HS1tLLKNj3/0jcMVMyhu0XlgKGTimEUIMAe2ABzVzNF9T3s/NnFwh6IahErChQUdU0oYr6/Ej+XPl70S42SghVtgmkJkWUmtGNO/fDJlxj13xT5rqvhmiT4sgPKEwpR3a2Dzt879vcGJLzbgiT8efrZT8aD7oHtVA5t3VsMUcs+8TQgJHxYIuQXL4+cvb4MqSdn0TDxAXfBSEA4Vfj6IFCWwkMzP2ucS0+CWyoHLY8BJDA67qk3pNRs3hldP3I5HokplwIbv/EaJzzVnF2OHUjZpRI4BHKfZmlBYUVwoBFlnXyPZD40JhZiYSNVn+M0F+HwLG1/jVFQmbDQwuIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=88UnIf43lwxpdCNhm/ISe+bcIYrn7GgyOosKacYKM+U=;
- b=W1Yvl+J2T0DLGOPEb+KtpETytyYQF/PxMfLhMS3rY0PHzIhHANiJQNd/5Qphl5Lc/6CLiz5NHOA3i4x8lcxw7p+lZ9p30vMl6OPzX9WypeI6yr/vrU59nobAUrYf810eje2XXglPCKRMfXjGlzD0QDcalmXNXW9ajIg2+n1BntcYSiVzs28yvfcplHsoTiZnpOFmFqfj4iwWdi2UfjV3iG7Blqm0ZZpaiaWYr1n4rvtWCpiQsBzL+taPTgcJFvGXiQgEvKQoR/Vt5p86M9cbxJ3zOHBLXKPthzjlqdL0HgqaKGGfkkIPbiMbTAer12kuTnr5J6OHEmmeEmDTywWmtA==
-Received: from BN6PR1701CA0013.namprd17.prod.outlook.com
- (2603:10b6:405:15::23) by BN6PR12MB1812.namprd12.prod.outlook.com
- (2603:10b6:404:108::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Thu, 7 Jul
- 2022 17:05:03 +0000
-Received: from BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:15:cafe::5) by BN6PR1701CA0013.outlook.office365.com
- (2603:10b6:405:15::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.19 via Frontend
- Transport; Thu, 7 Jul 2022 17:05:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT014.mail.protection.outlook.com (10.13.177.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 17:05:02 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- DRHQMAIL105.nvidia.com (10.27.9.14) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Thu, 7 Jul 2022 17:05:01 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Thu, 7 Jul 2022 10:05:01 -0700
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.126.190.181)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Thu, 7 Jul 2022 10:05:00 -0700
-Date: Thu, 7 Jul 2022 10:04:58 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFT][PATCH v2 4/9] vfio: Pass in starting IOVA to
- vfio_pin/unpin_pages API
-Message-ID: <YscSOo/3tLrBX8hz@Asurada-Nvidia>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-5-nicolinc@nvidia.com>
- <BN9PR11MB52769E657ED58B29677AC4F88C839@BN9PR11MB5276.namprd11.prod.outlook.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91BFA10F444;
+ Thu,  7 Jul 2022 17:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657213788; x=1688749788;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=UeAta2ygFOZcuqPC0SF8T8hpoHqQvh2wSKLEex3uH+k=;
+ b=IhHl9JBIR30Dfz5mDpn+u39f3Tt7ACHUNBQ6NvVCzNIuU05oEd1mY5Yv
+ T8Cic0pVN+p3QHApbEWueGM8xa96h4+XKiuClPUJyVcKBUoMaw71iONsW
+ V+9xv+/k8q/N/QdNCHydbVvwJ3hxkHkW8Q1c9TaVlLEbjPVg7MByZANAB
+ hh8lZuverZKfGVUEVdYHfYtMhcontgObY6pyfLNHIroG9Y+IlcbgHYKS+
+ jqZFF09U3zvN2jwYw44Qv3QiAu/i67nwFxKcVnheNrjlXeaNe4YUDfu9Z
+ VwyxnHI3tTVtP3kwyYh6ZHyFSJ/eFKic6haveEg+RcEAJqsfiXePmVriq w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="370392549"
+X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; d="scan'208";a="370392549"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 10:09:47 -0700
+X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; d="scan'208";a="543893883"
+Received: from amohindr-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.226.251])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 10:09:46 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/ttm: fix sg_table construction
+Date: Thu,  7 Jul 2022 18:09:27 +0100
+Message-Id: <20220707170927.499451-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52769E657ED58B29677AC4F88C839@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 90c632d3-b3bc-4859-c623-08da603ad545
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1812:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x5Cngu0YlMH740gvU99zar3UvqQX7QtFGFeuXfqdvEnTH3IdZs+PvmVVvPbaPYJkVLF8oceVxb4zR1PhO4qAeEBiywlpvN26cuO25BZcsCdgvnSQBKVyQXs4aFdgxmqRMRpi6eTi9CSwi/BaHRtfvvtLF+x8qfX4msq3Cg536ahY7uHYm87oo3SqNcYfzNKkEyZ+LhTwikwGKXFEHy08l/5s+6w44vDA6Y1FIvl6qHk26N8gLh4lSopgtUQUIRP6s+SxbFRm3B+6se04Y00OTjHW8Vrff6VmpBDcJU7Cb6Tf8ebrjxUsOvCf2JbQ9Si+/kzaK1XLindz9baL7nHBS+j66R95MbB7ApxFuSZrnjACjcPHKBmgyxOW4EqTD4qpC7B//TM+jx/WRZXXg1WfA+rV0zVBQcRS6U6zkFSkLZW5rrdWrOYKygx5WunR6jX/RrEeI6jh7MH9/jnFrE67OADJLsZxcnWBitC1A9XgL0Tb1RQQU8wFnEBpxTVM6AQEDJS2O4CnMSXqK3mqr0X8NtVZ57K7BnS/vWE3jymGoaSsEotozFQsTc68Z00bT+Mmv/mNeY4evJ0ir3AuSFaQTUBjnkfaaD5ZRVwIKDDqgCAK4mKHvVX//toqmV58NZI9TsGMIjWo4uAUrOSjAj5gMkx2qF6X5w6naEIwhHcwTU0VFQ43c5KJbv9v8X8Vg5YXAT1g4hREmagDNpPwFN8Vn/NLaD659maiiye6Hr5nst7fVLVL3kjBaHsitO2FBVE0TULXcGoPq75QrqV7s+yulRQ0TQRFGP1QkwjLz9ZmBfNRKTILOKzGlRzkAkYeMr76r97rMvPfcX/1gs5xLPKwgydBcahgZ+3MMR5F7n9T6Lg=
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(346002)(376002)(39860400002)(136003)(36840700001)(40470700004)(46966006)(41300700001)(40480700001)(54906003)(36860700001)(82310400005)(7416002)(316002)(2906002)(33716001)(55016003)(4326008)(6862004)(70206006)(478600001)(86362001)(82740400003)(5660300002)(83380400001)(426003)(186003)(8676002)(70586007)(336012)(47076005)(26005)(356005)(8936002)(4744005)(81166007)(40460700003)(7406005)(9686003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 17:05:02.6961 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90c632d3-b3bc-4859-c623-08da603ad545
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1812
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,62 +55,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "vneethv@linux.ibm.com" <vneethv@linux.ibm.com>,
- "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
- "hch@infradead.org" <hch@infradead.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
- "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "jchrist@linux.ibm.com" <jchrist@linux.ibm.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "hca@linux.ibm.com" <hca@linux.ibm.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "freude@linux.ibm.com" <freude@linux.ibm.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
- "svens@linux.ibm.com" <svens@linux.ibm.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 07, 2022 at 08:46:12AM +0000, Tian, Kevin wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> > From: Nicolin Chen
-> > Sent: Wednesday, July 6, 2022 2:28 PM
-> >  /*
-> > - * Pin a set of guest PFNs and return their associated host PFNs for local
-> > + * Pin contiguous guest pages and return their associated host pages for
-> > local
-> 
-> can we replace 'guest' with 'user'?
-> 
-> >   * domain only.
-> >   * @device [in]  : device
-> > - * @user_pfn [in]: array of user/guest PFNs to be pinned.
-> > - * @npage [in]   : count of elements in user_pfn array.  This count should
-> > not
-> > + * @iova [in]    : starting IOVA of user/guest pages to be pinned.
-> 
-> remove 'guest'.
-> 
-> > + * @npage [in]   : count of pages to be pinned.  This count should not
-> >   *              be greater VFIO_PIN_PAGES_MAX_ENTRIES.
-> 
-> greater 'than' ...
+If we encounter some monster sized local-memory page that exceeds the
+maximum sg length (UINT32_MAX), ensure that don't end up with some
+misaligned address in the entry that follows, leading to fireworks
+later. Also ensure we have some coverage of this in the selftests.
 
-Will update them in v3. Thanks
+Fixes: f701b16d4cc5 ("drm/i915/ttm: add i915_sg_from_buddy_resource")
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6379
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 11 +++++++++--
+ drivers/gpu/drm/i915/i915_scatterlist.c       | 19 +++++++++++++++----
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  6 ++++--
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 10 +++++++---
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  3 ++-
+ .../drm/i915/selftests/intel_memory_region.c  | 17 ++++++++++++++++-
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  3 ++-
+ 7 files changed, 55 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 7e1f8b83077f..c5c8aa1f8558 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -602,10 +602,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 			 struct ttm_resource *res)
+ {
+ 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
++	u64 page_alignment;
+ 
+ 	if (!i915_ttm_gtt_binds_lmem(res))
+ 		return i915_ttm_tt_get_st(bo->ttm);
+ 
++	page_alignment = bo->page_alignment << PAGE_SHIFT;
++	if (!page_alignment)
++		page_alignment = obj->mm.region->min_page_size;
++
+ 	/*
+ 	 * If CPU mapping differs, we need to add the ttm_tt pages to
+ 	 * the resulting st. Might make sense for GGTT.
+@@ -616,7 +621,8 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 			struct i915_refct_sgt *rsgt;
+ 
+ 			rsgt = intel_region_ttm_resource_to_rsgt(obj->mm.region,
+-								 res);
++								 res,
++								 page_alignment);
+ 			if (IS_ERR(rsgt))
+ 				return rsgt;
+ 
+@@ -625,7 +631,8 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 		return i915_refct_sgt_get(obj->ttm.cached_io_rsgt);
+ 	}
+ 
+-	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res);
++	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res,
++						 page_alignment);
+ }
+ 
+ static int i915_ttm_truncate(struct drm_i915_gem_object *obj)
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
+index 159571b9bd24..f774c6e3c92d 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.c
++++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+@@ -68,6 +68,7 @@ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
+  * drm_mm_node
+  * @node: The drm_mm_node.
+  * @region_start: An offset to add to the dma addresses of the sg list.
++ * @page_alignment: Required page alignment for each sg entry. Power of two.
+  *
+  * Create a struct sg_table, initializing it from a struct drm_mm_node,
+  * taking a maximum segment length into account, splitting into segments
+@@ -77,15 +78,18 @@ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
+  * error code cast to an error pointer on failure.
+  */
+ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+-					      u64 region_start)
++					      u64 region_start,
++					      u64 page_alignment)
+ {
+-	const u64 max_segment = SZ_1G; /* Do we have a limit on this? */
++	const u64 max_segment = round_down(UINT_MAX, page_alignment);
+ 	u64 segment_pages = max_segment >> PAGE_SHIFT;
+ 	u64 block_size, offset, prev_end;
+ 	struct i915_refct_sgt *rsgt;
+ 	struct sg_table *st;
+ 	struct scatterlist *sg;
+ 
++	GEM_BUG_ON(!max_segment);
++
+ 	rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
+ 	if (!rsgt)
+ 		return ERR_PTR(-ENOMEM);
+@@ -112,6 +116,8 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+ 				sg = __sg_next(sg);
+ 
+ 			sg_dma_address(sg) = region_start + offset;
++			GEM_BUG_ON(!IS_ALIGNED(sg_dma_address(sg),
++					       page_alignment));
+ 			sg_dma_len(sg) = 0;
+ 			sg->length = 0;
+ 			st->nents++;
+@@ -138,6 +144,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+  * i915_buddy_block list
+  * @res: The struct i915_ttm_buddy_resource.
+  * @region_start: An offset to add to the dma addresses of the sg list.
++ * @page_alignment: Required page alignment for each sg entry. Power of two.
+  *
+  * Create a struct sg_table, initializing it from struct i915_buddy_block list,
+  * taking a maximum segment length into account, splitting into segments
+@@ -147,11 +154,12 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+  * error code cast to an error pointer on failure.
+  */
+ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+-						     u64 region_start)
++						     u64 region_start,
++						     u64 page_alignment)
+ {
+ 	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
+ 	const u64 size = res->num_pages << PAGE_SHIFT;
+-	const u64 max_segment = rounddown(UINT_MAX, PAGE_SIZE);
++	const u64 max_segment = rounddown(UINT_MAX, page_alignment);
+ 	struct drm_buddy *mm = bman_res->mm;
+ 	struct list_head *blocks = &bman_res->blocks;
+ 	struct drm_buddy_block *block;
+@@ -161,6 +169,7 @@ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+ 	resource_size_t prev_end;
+ 
+ 	GEM_BUG_ON(list_empty(blocks));
++	GEM_BUG_ON(!max_segment);
+ 
+ 	rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
+ 	if (!rsgt)
+@@ -191,6 +200,8 @@ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+ 					sg = __sg_next(sg);
+ 
+ 				sg_dma_address(sg) = region_start + offset;
++				GEM_BUG_ON(!IS_ALIGNED(sg_dma_address(sg),
++						       page_alignment));
+ 				sg_dma_len(sg) = 0;
+ 				sg->length = 0;
+ 				st->nents++;
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+index 12c6a1684081..b13e4cdea923 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.h
++++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+@@ -213,9 +213,11 @@ static inline void __i915_refct_sgt_init(struct i915_refct_sgt *rsgt,
+ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size);
+ 
+ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+-					      u64 region_start);
++					      u64 region_start,
++					      u64 page_alignment);
+ 
+ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+-						     u64 region_start);
++						     u64 region_start,
++						     u64 page_alignment);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 62ff77445b01..6873808a7015 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -152,6 +152,7 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
+  * Convert an opaque TTM resource manager resource to a refcounted sg_table.
+  * @mem: The memory region.
+  * @res: The resource manager resource obtained from the TTM resource manager.
++ * @page_alignment: Required page alignment for each sg entry. Power of two.
+  *
+  * The gem backends typically use sg-tables for operations on the underlying
+  * io_memory. So provide a way for the backends to translate the
+@@ -161,16 +162,19 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
+  */
+ struct i915_refct_sgt *
+ intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
+-				  struct ttm_resource *res)
++				  struct ttm_resource *res,
++				  u64 page_alignment)
+ {
+ 	if (mem->is_range_manager) {
+ 		struct ttm_range_mgr_node *range_node =
+ 			to_ttm_range_mgr_node(res);
+ 
+ 		return i915_rsgt_from_mm_node(&range_node->mm_nodes[0],
+-					      mem->region.start);
++					      mem->region.start,
++					      page_alignment);
+ 	} else {
+-		return i915_rsgt_from_buddy_resource(res, mem->region.start);
++		return i915_rsgt_from_buddy_resource(res, mem->region.start,
++						     page_alignment);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
+index cf9d86dcf409..98fba5155619 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.h
++++ b/drivers/gpu/drm/i915/intel_region_ttm.h
+@@ -24,7 +24,8 @@ int intel_region_ttm_fini(struct intel_memory_region *mem);
+ 
+ struct i915_refct_sgt *
+ intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
+-				  struct ttm_resource *res);
++				  struct ttm_resource *res,
++				  u64 page_alignment);
+ 
+ void intel_region_ttm_resource_free(struct intel_memory_region *mem,
+ 				    struct ttm_resource *res);
+diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+index 73eb53edb8de..4e0069a87f15 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+@@ -460,7 +460,9 @@ static int igt_mock_max_segment(void *arg)
+ 	struct drm_buddy *mm;
+ 	struct list_head *blocks;
+ 	struct scatterlist *sg;
++	I915_RND_STATE(prng);
+ 	LIST_HEAD(objects);
++	unsigned int ps;
+ 	u64 size;
+ 	int err = 0;
+ 
+@@ -472,7 +474,11 @@ static int igt_mock_max_segment(void *arg)
+ 	 */
+ 
+ 	size = SZ_8G;
+-	mem = mock_region_create(i915, 0, size, PAGE_SIZE, 0, 0);
++	ps = PAGE_SIZE;
++	if (i915_prandom_u64_state(&prng) & 1)
++		ps = SZ_64K; /* For something like DG2 */
++
++	mem = mock_region_create(i915, 0, size, ps, 0, 0);
+ 	if (IS_ERR(mem))
+ 		return PTR_ERR(mem);
+ 
+@@ -498,12 +504,21 @@ static int igt_mock_max_segment(void *arg)
+ 	}
+ 
+ 	for (sg = obj->mm.pages->sgl; sg; sg = sg_next(sg)) {
++		dma_addr_t daddr = sg_dma_address(sg);
++
+ 		if (sg->length > max_segment) {
+ 			pr_err("%s: Created an oversized scatterlist entry, %u > %u\n",
+ 			       __func__, sg->length, max_segment);
+ 			err = -EINVAL;
+ 			goto out_close;
+ 		}
++
++		if (!IS_ALIGNED(daddr, ps)) {
++			pr_err("%s: Created an unaligned scatterlist entry, addr=%pa, ps=%u\n",
++			       __func__,  &daddr, ps);
++			err = -EINVAL;
++			goto out_close;
++		}
+ 	}
+ 
+ out_close:
+diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
+index 670557ce1024..bac21fe84ca5 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_region.c
++++ b/drivers/gpu/drm/i915/selftests/mock_region.c
+@@ -33,7 +33,8 @@ static int mock_region_get_pages(struct drm_i915_gem_object *obj)
+ 		return PTR_ERR(obj->mm.res);
+ 
+ 	obj->mm.rsgt = intel_region_ttm_resource_to_rsgt(obj->mm.region,
+-							 obj->mm.res);
++							 obj->mm.res,
++							 obj->mm.region->min_page_size);
+ 	if (IS_ERR(obj->mm.rsgt)) {
+ 		err = PTR_ERR(obj->mm.rsgt);
+ 		goto err_free_resource;
+-- 
+2.36.1
+
