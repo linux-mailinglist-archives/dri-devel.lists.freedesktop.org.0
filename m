@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AF3569A78
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 08:26:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23054569AB3
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 08:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A52911B708;
-	Thu,  7 Jul 2022 06:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3DE512BD5A;
+	Thu,  7 Jul 2022 06:48:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C91F211B5DD
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 06:26:07 +0000 (UTC)
-X-UUID: 32387981d5ee4f7dbd5a8f18bdead6cd-20220707
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:9adf498b-6916-4522-b531-8c71f165c085, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:dc3fc886-57f0-47ca-ba27-fe8c57fbf305,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 32387981d5ee4f7dbd5a8f18bdead6cd-20220707
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 99316468; Thu, 07 Jul 2022 14:26:03 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 7 Jul 2022 14:26:02 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 7 Jul 2022 14:26:02 +0800
-Message-ID: <4a4f26bf8d0b0da7e442ea799250e31860b28ed1.camel@mediatek.com>
-Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Thu, 7 Jul 2022 14:26:02 +0800
-In-Reply-To: <20220701062808.18596-6-rex-bc.chen@mediatek.com>
-References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
- <20220701062808.18596-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF3FD12BD5A
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 06:48:13 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B79041FCFE;
+ Thu,  7 Jul 2022 06:48:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1657176491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ezI2wgd5vk4+DLzf9+ul629HY6YzF+sgOrUugloJjK8=;
+ b=cBUhKTuOeXYvY57xYaMkM2TyTEUpqWOOw6pABSSc90qtOkcGEvYctxiu9Qs4U+tqonK0++
+ PFa6N+IxaQf0qgrWX5mCHAepGD8NbGqyAsW+vopCMVxtAikBeymNkpOUUl7MgOYcQas5V3
+ J19lcUF6XGrXiUO/+KI1L6I0yYkTUsU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1657176491;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ezI2wgd5vk4+DLzf9+ul629HY6YzF+sgOrUugloJjK8=;
+ b=fMfxENJh0fSlxIO2t8tPpwM6lH24Oc6/mDaJWwy4TnUmUAmEdwx+A67LsQljJ6QAZA89ei
+ 1TC5vxTEnSUk7ECw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 96B0F13A33;
+ Thu,  7 Jul 2022 06:48:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +7vmI6uBxmKHRwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 06:48:11 +0000
+Message-ID: <3bdb8f9c-10cb-1cc3-d3d3-4ad7917a20fe@suse.de>
+Date: Thu, 7 Jul 2022 08:48:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 00/71] drm/vc4: Fix hotplug for vc4
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+References: <20220629123510.1915022-1-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------STBPE0rB0hn48du69abMJEkV"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +71,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------STBPE0rB0hn48du69abMJEkV
+Content-Type: multipart/mixed; boundary="------------R4OmQui1DixOGsn7gASreszr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <3bdb8f9c-10cb-1cc3-d3d3-4ad7917a20fe@suse.de>
+Subject: Re: [PATCH v3 00/71] drm/vc4: Fix hotplug for vc4
+References: <20220629123510.1915022-1-maxime@cerno.tech>
+In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 
-On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
+--------------R4OmQui1DixOGsn7gASreszr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-[snip]
+SGkNCg0KQW0gMjkuMDYuMjIgdW0gMTQ6MzMgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
+aSwNCj4gDQo+IEhlcmUgaXMgYSBzZXJpZXMgdGhhdCBhZGRyZXNzIG11bHRpcGxlIGlzc3Vl
+cyB3aGVuIHRyeWluZyB0byB1bmJpbmQvcmViaW5kDQo+IHZjNC1yZWxhdGVkIGRldmljZXMg
+dG8gdGhlaXIgZHJpdmVycy4NCj4gDQo+IE1vc3Qgb2YgdGhlc2UgaXNzdWVzIGludm9sdmUg
+ZWl0aGVyIHVzZS1hZnRlci1mcmVlLCBpbXByb3BlciByZXNvdXJjZQ0KPiBsaWJlcmF0aW9u
+IG9yIHNpbWlsYXIuDQo+IA0KPiBJdCBoYXMgYmVlbiB0ZXN0ZWQgb24gdGhlIFBpMyBhbmQg
+UGk0LCB3aXRoIFggYW5kIGdseGdlYXJzIHJ1bm5pbmcgYW5kIEtBU0FODQo+IGVuYWJsZWQg
+dG8gcHJvcGVybHkgdmFsaWRhdGUgb3VyIG1lbW9yeSBhY2Nlc3Nlcy4NCj4gDQo+IFBpMyBp
+c24ndCBmdW5jdGlvbmFsIGFmdGVyIGEgcmViaW5kIHRob3VnaCwgd2l0aCB2YmxhbmsgdGlt
+ZW91dHMgb2NjdXJpbmcuIEknbQ0KPiBub3QgcXVpdGUgc3VyZSB3aHkgYXQgdGhpcyBwb2lu
+dCwgYnV0IGF0IGxlYXN0IHRoZSBrZXJuZWwgZG9lc24ndCBjb21wbGV0ZWx5DQo+IGNyYXNo
+IG5vdy4NCj4gDQoNCkphbmkgY29tbWVudGVkIG9uIHJlcGxhY2luZyBXQVJOX09OIHdpdCBo
+ZHJtX1dBUk5fT04uIE1heWJlIGdvIHRocm91Z2ggDQp0aGUgcGF0Y2hlcyBhbmQgbWFrZSBz
+dXJlIHRoYXQgZHJtIHByaW50IGZ1bmN0aW9ucyBhcmUgdXNlZCBldmVyd2hlcmUuIA0KV2l0
+aCB0aGlzOg0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+DQoNCmZvciB0aGUgc2VyaWVzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
+IExldCBtZSBrbm93IHdoYXQgeW91IHRoaW5rLA0KPiBNYXhpbWUNCj4gDQo+IC0tLQ0KPiAN
+Cj4gQ2hhbmdlcyBmcm9tIHYyOg0KPiAgICAtIFJlYmFzZWQgb24gdG9wIG9mIG5leHQtMjAy
+MjA2MjkNCj4gICAgLSBGaXggdmEgYXJndW1lbnRzIG9uIHRoZSBjcnRjIGFuZCBlbmNvZGVy
+IGluaXQNCj4gICAgLSBSZW1vdmVkIGRybW1fY29ubmVjdG9yX2luaXRfd2l0aF9kZGMgYW5k
+IGNvbnNvbGlkYXRlZCBkcm1fY29ubmVjdG9yX2luaXQqDQo+ICAgIC0gUmV3b3JrZWQgdGhl
+IGRvYyBmb3IgZHJtbV9vZl9nZXRfYnJpZGdlDQo+IA0KPiBDaGFuZ2VzIGZyb20gdjE6DQo+
+ICAgIC0gUmViYXNlZCBvbiB0b3Agb24gbmV4dC0yMDIyMDYyMg0KPiAgICAtIENvbnNvbGlk
+YXRlZCB0aGUgbmV3IGRybW0gaW5pdCBoZWxwZXJzIHdpdGggdGhlaXIgYWxsb2MgY291bnRl
+cnBhcnRzDQo+ICAgIC0gRHJvcHBlZCB0aGUgZHJtbSB3cml0ZWJhY2sgYW5kIHNpbXBsZSBl
+bmNvZGVyIGhlbHBlcnMNCj4gICAgLSBDbGFyaWZpZWQgdGhlIGRvY3VtZW50YXRpb24gb2Yg
+ZHJtX2Nvbm5lY3Rvcl91bnJlZ2lzdGVyDQo+ICAgIC0gUmVtb3ZlZCB0aGUgZHJtX2Nvbm5l
+Y3Rvcl91bnJlZ2lzdGVyIHVzYWdlDQo+ICAgIC0gRml4ZWQgYSB2YmxhbmsgdGltZW91dCB3
+aGVuIHVuYmluZGluZw0KPiAgICAtIFJlbmFtZWQgdGhlIGtyZWYgZnVuY3Rpb25zIGluIHZj
+NF9kc2kNCj4gICAgLSBDb2xsZWN0ZWQgdGhlIHRhZ3MNCj4gDQo+IE1heGltZSBSaXBhcmQg
+KDcxKToNCj4gICAgZHJtL21pcGktZHNpOiBEZXRhY2ggZGV2aWNlcyB3aGVuIHJlbW92aW5n
+IHRoZSBob3N0DQo+ICAgIGRybS9jcnRjOiBJbnRyb2R1Y2UgZHJtbV9jcnRjX2luaXRfd2l0
+aF9wbGFuZXMNCj4gICAgZHJtL2VuY29kZXI6IEludHJvZHVjZSBkcm1tX2VuY29kZXJfaW5p
+dA0KPiAgICBkcm0vY29ubmVjdG9yOiBSZW9yZGVyIGhlYWRlcnMNCj4gICAgZHJtL2Nvbm5l
+Y3RvcjogTWVudGlvbiB0aGUgY2xlYW51cCBhZnRlciBkcm1fY29ubmVjdG9yX2luaXQNCj4g
+ICAgZHJtL2Nvbm5lY3RvcjogQ2xhcmlmeSB3aGVuIGRybV9jb25uZWN0b3JfdW5yZWdpc3Rl
+ciBpcyBuZWVkZWQNCj4gICAgZHJtL2Nvbm5lY3RvcjogQ29uc29saWRhdGUgQ29ubmVjdG9y
+IEluaXRpYWxpemF0aW9uDQo+ICAgIGRybS9jb25uZWN0b3I6IENoZWNrIGZvciBkZXN0cm95
+IGltcGxlbWVudGF0aW9uDQo+ICAgIGRybS9jb25uZWN0b3I6IEludHJvZHVjZSBkcm1tX2Nv
+bm5lY3Rvcl9pbml0DQo+ICAgIGRybS9icmlkZ2U6IHBhbmVsOiBJbnRyb2R1Y2UgZHJtbV9w
+YW5lbF9icmlkZ2VfYWRkDQo+ICAgIGRybS9icmlkZ2U6IHBhbmVsOiBJbnRyb2R1Y2UgZHJt
+bV9vZl9nZXRfYnJpZGdlDQo+ICAgIGRybS92YzQ6IGRydjogQ2FsbCBjb21wb25lbnRfdW5i
+aW5kX2FsbCgpDQo+ICAgIGRybS92YzQ6IGRydjogVXNlIGRybV9kZXZfdW5wbHVnDQo+ICAg
+IGRybS92YzQ6IGNydGM6IENyZWF0ZSB2YmxhbmsgcmVwb3J0aW5nIGZ1bmN0aW9uDQo+ICAg
+IGRybS92YzQ6IGh2czogUHJvdGVjdCBkZXZpY2UgcmVzb3VyY2VzIGFmdGVyIHJlbW92YWwN
+Cj4gICAgZHJtL3ZjNDogaHZzOiBSZW1vdmUgcGxhbmVzIGN1cnJlbnRseSBhbGxvY2F0ZWQg
+YmVmb3JlIHRha2luZyBkb3duDQo+ICAgIGRybS92YzQ6IHBsYW5lOiBUYWtlIHBvc3NpYmxl
+X2NydGNzIGFzIGFuIGFyZ3VtZW50DQo+ICAgIGRybS92YzQ6IGNydGM6IFJlbW92ZSBtYW51
+YWwgcGxhbmUgcmVtb3ZhbCBvbiBlcnJvcg0KPiAgICBkcm0vdmM0OiBwbGFuZTogU3dpdGNo
+IHRvIGRybW1fdW5pdmVyc2FsX3BsYW5lX2FsbG9jKCkNCj4gICAgZHJtL3ZjNDogY3J0Yzog
+TW92ZSBkZWJ1Z2ZzX25hbWUgdG8gY3J0Y19kYXRhDQo+ICAgIGRybS92YzQ6IGNydGM6IFN3
+aXRjaCB0byBkcm1tX2t6YWxsb2MNCj4gICAgZHJtL3ZjNDogY3J0YzogU3dpdGNoIHRvIERS
+TS1tYW5hZ2VkIENSVEMgaW5pdGlhbGl6YXRpb24NCj4gICAgZHJtL3ZjNDogZHBpOiBSZW1v
+dmUgdmM0X2RldiBkcGkgcG9pbnRlcg0KPiAgICBkcm0vdmM0OiBkcGk6IEVtYmVkIERSTSBz
+dHJ1Y3R1cmVzIGludG8gdGhlIHByaXZhdGUgc3RydWN0dXJlDQo+ICAgIGRybS92YzQ6IGRw
+aTogU3dpdGNoIHRvIGRybW1fa3phbGxvYw0KPiAgICBkcm0vdmM0OiBkcGk6IFJldHVybiBh
+biBlcnJvciBpZiB3ZSBjYW4ndCBlbmFibGUgb3VyIGNsb2NrDQo+ICAgIGRybS92YzQ6IGRw
+aTogUmVtb3ZlIHVubmVjZXNzYXJ5IGRybV9vZl9wYW5lbF9icmlkZ2VfcmVtb3ZlIGNhbGwN
+Cj4gICAgZHJtL3ZjNDogZHBpOiBBZGQgYWN0aW9uIHRvIGRpc2FibGUgdGhlIGNsb2NrDQo+
+ICAgIGRybS92YzQ6IGRwaTogU3dpdGNoIHRvIERSTS1tYW5hZ2VkIGVuY29kZXIgaW5pdGlh
+bGl6YXRpb24NCj4gICAgZHJtL3ZjNDogZHBpOiBTd2l0Y2ggdG8gZHJtbV9vZl9nZXRfYnJp
+ZGdlDQo+ICAgIGRybS92YzQ6IGRwaTogUHJvdGVjdCBkZXZpY2UgcmVzb3VyY2VzDQo+ICAg
+IGRybS92YzQ6IGRzaTogRW1iZWQgRFJNIHN0cnVjdHVyZXMgaW50byB0aGUgcHJpdmF0ZSBz
+dHJ1Y3R1cmUNCj4gICAgZHJtL3ZjNDogZHNpOiBTd2l0Y2ggdG8gRFJNLW1hbmFnZWQgZW5j
+b2RlciBpbml0aWFsaXphdGlvbg0KPiAgICBkcm0vdmM0OiBkc2k6IFN3aXRjaCB0byBkcm1t
+X29mX2dldF9icmlkZ2UNCj4gICAgZHJtL3ZjNDogZHNpOiBGaXggdGhlIGRyaXZlciBzdHJ1
+Y3R1cmUgbGlmZXRpbWUNCj4gICAgZHJtL3ZjNDogZHNpOiBTd2l0Y2ggdG8gZGV2bV9wbV9y
+dW50aW1lX2VuYWJsZQ0KPiAgICBkcm0vdmM0OiBoZG1pOiBEZXBlbmRzIG9uIENPTkZJR19Q
+TQ0KPiAgICBkcm0vdmM0OiBoZG1pOiBSZXdvcmsgcG93ZXIgdXANCj4gICAgZHJtL3ZjNDog
+aGRtaTogU3dpdGNoIHRvIGRybW1fa3phbGxvYw0KPiAgICBkcm0vdmM0OiBoZG1pOiBSZW1v
+dmUgY2FsbCB0byBkcm1fY29ubmVjdG9yX3VucmVnaXN0ZXIoKQ0KPiAgICBkcm0vdmM0OiBo
+ZG1pOiBTd2l0Y2ggdG8gRFJNLW1hbmFnZWQgZW5jb2RlciBpbml0aWFsaXphdGlvbg0KPiAg
+ICBkcm0vdmM0OiBoZG1pOiBTd2l0Y2ggdG8gRFJNLW1hbmFnZWQgY29ubmVjdG9yIGluaXRp
+YWxpemF0aW9uDQo+ICAgIGRybS92YzQ6IGhkbWk6IFN3aXRjaCB0byBkZXZpY2UtbWFuYWdl
+ZCBBTFNBIGluaXRpYWxpemF0aW9uDQo+ICAgIGRybS92YzQ6IGhkbWk6IFN3aXRjaCB0byBk
+ZXZpY2UtbWFuYWdlZCBDRUMgaW5pdGlhbGl6YXRpb24NCj4gICAgZHJtL3ZjNDogaGRtaTog
+VXNlIGEgZGV2aWNlLW1hbmFnZWQgYWN0aW9uIGZvciBEREMNCj4gICAgZHJtL3ZjNDogaGRt
+aTogU3dpdGNoIHRvIERSTS1tYW5hZ2VkIGtmcmVlIHRvIGJ1aWxkIHJlZ3NldHMNCj4gICAg
+ZHJtL3ZjNDogaGRtaTogVXNlIGRldm0gdG8gcmVnaXN0ZXIgaG90cGx1ZyBpbnRlcnJ1cHRz
+DQo+ICAgIGRybS92YzQ6IGhkbWk6IE1vdmUgYXVkaW8gc3RydWN0dXJlIG9mZnNldCBjaGVj
+a3MNCj4gICAgZHJtL3ZjNDogaGRtaTogUHJvdGVjdCBkZXZpY2UgcmVzb3VyY2VzIGFmdGVy
+IHJlbW92YWwNCj4gICAgZHJtL3ZjNDogaGRtaTogU3dpdGNoIHRvIGRldm1fcG1fcnVudGlt
+ZV9lbmFibGUNCj4gICAgZHJtL3ZjNDogdHhwOiBSZW1vdmUgdmM0X2RldiB0eHAgcG9pbnRl
+cg0KPiAgICBkcm0vdmM0OiB0eHA6IFJlbW92ZSBkdXBsaWNhdGUgcmVnc2V0DQo+ICAgIGRy
+bS92YzQ6IHR4cDogU3dpdGNoIHRvIGRybW1fa3phbGxvYw0KPiAgICBkcm0vdmM0OiB0eHA6
+IFJlbW92ZSBjYWxsIHRvIGRybV9jb25uZWN0b3JfdW5yZWdpc3RlcigpDQo+ICAgIGRybS92
+YzQ6IHR4cDogUHJvdGVjdCBkZXZpY2UgcmVzb3VyY2VzDQo+ICAgIGRybS92YzQ6IHZlYzog
+UmVtb3ZlIHZjNF9kZXYgdmVjIHBvaW50ZXINCj4gICAgZHJtL3ZjNDogdmVjOiBFbWJlZCBE
+Uk0gc3RydWN0dXJlcyBpbnRvIHRoZSBwcml2YXRlIHN0cnVjdHVyZQ0KPiAgICBkcm0vdmM0
+OiB2ZWM6IFN3aXRjaCB0byBkcm1tX2t6YWxsb2MNCj4gICAgZHJtL3ZjNDogdmVjOiBSZW1v
+dmUgY2FsbCB0byBkcm1fY29ubmVjdG9yX3VucmVnaXN0ZXIoKQ0KPiAgICBkcm0vdmM0OiB2
+ZWM6IFN3aXRjaCB0byBEUk0tbWFuYWdlZCBlbmNvZGVyIGluaXRpYWxpemF0aW9uDQo+ICAg
+IGRybS92YzQ6IHZlYzogU3dpdGNoIHRvIERSTS1tYW5hZ2VkIGNvbm5lY3RvciBpbml0aWFs
+aXphdGlvbg0KPiAgICBkcm0vdmM0OiB2ZWM6IFByb3RlY3QgZGV2aWNlIHJlc291cmNlcyBh
+ZnRlciByZW1vdmFsDQo+ICAgIGRybS92YzQ6IHZlYzogU3dpdGNoIHRvIGRldm1fcG1fcnVu
+dGltZV9lbmFibGUNCj4gICAgZHJtL3ZjNDogZGVidWdmczogUHJvdGVjdCBkZXZpY2UgcmVz
+b3VyY2VzDQo+ICAgIGRybS92YzQ6IGRlYnVnZnM6IFJldHVybiBhbiBlcnJvciBvbiBmYWls
+dXJlDQo+ICAgIGRybS92YzQ6IGRlYnVnZnM6IFNpbXBsaWZ5IGRlYnVnZnMgcmVnaXN0cmF0
+aW9uDQo+ICAgIGRybS92YzQ6IFN3aXRjaCB0byBkcm1tX211dGV4X2luaXQNCj4gICAgZHJt
+L3ZjNDogcGVyZm1vbjogQWRkIG1pc3NpbmcgbXV0ZXhfZGVzdHJveQ0KPiAgICBkcm0vdmM0
+OiB2M2Q6IFN0b3AgZGlzYWJsaW5nIGludGVycnVwdHMNCj4gICAgZHJtL3ZjNDogdjNkOiBS
+ZXdvcmsgdGhlIHJ1bnRpbWVfcG0gc2V0dXANCj4gICAgZHJtL3ZjNDogdjNkOiBTd2l0Y2gg
+dG8gZGV2bV9wbV9ydW50aW1lX2VuYWJsZQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL3BhbmVsLmMgICAgfCAgNzQgKysrKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29u
+bmVjdG9yLmMgICB8IDE0MyArKysrKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9jcnRj
+LmMgICAgICAgIHwgIDkzICsrKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VuY29kZXIu
+YyAgICAgfCAgNzYgKysrLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fbWlwaV9kc2kuYyAg
+ICB8ICAgMSArDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC9LY29uZmlnICAgICAgIHwgICAx
+ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9iby5jICAgICAgfCAgMzMgKy0NCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9jcnRjLmMgICAgfCAgOTAgKystLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS92YzQvdmM0X2RlYnVnZnMuYyB8ICA3MSArKy0tDQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL3ZjNC92YzRfZHBpLmMgICAgIHwgMTMxICsrKy0tLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS92YzQvdmM0X2Rydi5jICAgICB8ICAyMSArLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS92YzQvdmM0X2Rydi5oICAgICB8ICA0NyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92YzQv
+dmM0X2RzaS5jICAgICB8IDEzMyArKysrLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3Zj
+NF9nZW0uYyAgICAgfCAgMTAgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1p
+LmMgICAgfCA2ODMgKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tDQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5oICAgIHwgICAzICstDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL3ZjNC92YzRfaHZzLmMgICAgIHwgMTQ1ICsrKysrKy0NCj4gICBkcml2ZXJzL2dwdS9k
+cm0vdmM0L3ZjNF9pcnEuYyAgICAgfCAgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0
+L3ZjNF9wZXJmbW9uLmMgfCAgIDEgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3Bs
+YW5lLmMgICB8ICAzNiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3R4cC5jICAg
+ICB8ICA1NSArKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF92M2QuYyAgICAgfCAg
+NjUgKystDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfdmVjLmMgICAgIHwgMjE2ICsr
+KysrLS0tLS0NCj4gICBpbmNsdWRlL2RybS9kcm1fYnJpZGdlLmggICAgICAgICAgfCAgIDQg
+Kw0KPiAgIGluY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCAgICAgICB8ICAgNSArDQo+ICAg
+aW5jbHVkZS9kcm0vZHJtX2NydGMuaCAgICAgICAgICAgIHwgICA5ICsNCj4gICBpbmNsdWRl
+L2RybS9kcm1fZW5jb2Rlci5oICAgICAgICAgfCAgIDYgKw0KPiAgIDI3IGZpbGVzIGNoYW5n
+ZWQsIDE1MTQgaW5zZXJ0aW9ucygrKSwgNjQwIGRlbGV0aW9ucygtKQ0KPiANCg0KLS0gDQpU
+aG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0
+d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
+bmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNm
+w7xocmVyOiBJdm8gVG90ZXYNCg==
 
-> +
-> +static void mtk_dp_video_enable(struct mtk_dp *mtk_dp, bool enable)
-> +{
-> +	if (enable) {
-> +		mtk_dp_set_tx_out(mtk_dp);
-> +		mtk_dp_video_mute(mtk_dp, false);
-> +	} else {
-> +		mtk_dp_video_mute(mtk_dp, true);
+--------------R4OmQui1DixOGsn7gASreszr--
 
-In mtk_dp_set_tx_out(), disable some function. Why not enable that
-function here?
+--------------STBPE0rB0hn48du69abMJEkV
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Regards,
-CK
+-----BEGIN PGP SIGNATURE-----
 
-> +	}
-> +}
-> +
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLGgaoFAwAAAAAACgkQlh/E3EQov+A2
+8g/8CA8dbvhrwqz/7wSkdLXzWFGdh8pxOFNJER0l9Pb5e1AVEoGifyvfdtYCwObW1RxyA8ULxy/q
+ZbEY/NwUDfTEs5bWKo1RH65jDpU8u7MgQRY1JWam4jGqMFBgKYLN7be9v1+vemGPVpLrHQ82Vj1N
+jTSZx0QQzsRlAiAnkN5YnP04dO+gmpiaLRuM3sZDPyy7FlKtpWY9YA8EV5byN4SFTUK5I792bi/M
+istYonkRUY9/HKktkUnoMvjTmncstyqcnNlrOFsemwO1Qljo0I93I9FycCMrTUaGX/zumR8i8DSN
+tGW2N1BSMw5n400qTJSBdDZs+1QNf5M75tTJsXdqqbboVoIVLwgO7+vfxRZKbHMwpFI3lI4EG5YB
+FRUbvUXA3qey19pTmO5peyuWjV8mdYpyi/mkAgsg9iNpBUkeH+YHuVt/eeRSH3cxkSKHSUEvtrzU
+iVD9sK/uEUoS6WPTK9DX/kFi/e6uOPgi4Ehc3HyzJnHFIhEqDf5dCl8UTZbTDPUZaIwCUESX1cCW
+NLnfuN+0VtwbUjyenBn3eNr1FnEnxoKPBILMu7sTMwOOIzfrSz2QuVFhWvMfvxox3ykLrjpd/R1b
+/vGhhpxzX5jso4Mwi9wYW5aNK7E/sXz+tKV8+ooBfWFnxsD0qKqCEjjn015hdb0If4rzTLR6Cn/R
+KxU=
+=3PFy
+-----END PGP SIGNATURE-----
 
+--------------STBPE0rB0hn48du69abMJEkV--
