@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1E156AC60
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AB356AC56
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:03:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F3011B6D8;
-	Thu,  7 Jul 2022 20:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8016711B6E7;
+	Thu,  7 Jul 2022 20:02:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C32011B6D0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5BE811B6C3;
  Thu,  7 Jul 2022 20:02:49 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A4C9D66019DD;
- Thu,  7 Jul 2022 21:02:47 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 633BC66019E2;
+ Thu,  7 Jul 2022 21:02:48 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1657224167;
- bh=vcV9d53cSiZS9S6xUBuwTwjcLWVgxyTlm1c7ldt4HDk=;
+ s=mail; t=1657224168;
+ bh=BJ87eisXj9Ppx4nwiDdWpEsHsZ0BoBn8nQEON2j1/N8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DkdaUT9KatkLleaiwgAQXYI5tiMl4pr7LWT3/t9PDKeOVGNBCamBwHfChCGxn6FpO
- xP4dFE70BvWSXHUzda+yHPqbXv7s0MyYpPfGQM5sdl2Mh0bjDh43mfjst82FRUDgHL
- Wo4wESi3d3rPIRtRqT8qD263nLVzjRLyeH00YMZrrkf4LMukqm+4vZdL6xrGFaCc/j
- Qakp0dMbC37zF/3DArOAaGy0CAcJInWyhdWRCnZJoVh6F+lHRQ3bNcIVwUGpAl2xEH
- pI3qgQEyQve11NAxOk5QJLgygwc++0l8PXrWsEbb/r2ZMILOArx8k+iz5xe5XElcEZ
- pMyQXDuLsDWMg==
+ b=eMVQAxAA055i7JCbwZV4VOLNSzs/tarHYtDiTlr9njl1uqAHufvYPx23qR5eAwSUW
+ ZVHVSmD8hBjGAJtpVUnnnpRmsnWcu/y7+u5IiiRbJwf+er3koiV+mGcCNEcYGzXr7Y
+ Ff0TJGoWs2BfEOeMXRNkZFqVXyj+JukdEKhLX9iw9P6YIJPP3yvXLwIyMWqyi9n92k
+ JnJV2SYaKFQX8OGfkIZkBNouzRAevtR9wzvQpmdNd/Tvs+PaI12MYc+3/m2YaZsW6s
+ Wft5LOa+oUnQaNdqJ9ViZXisA0oKzW25j0ued7BY53r1g8c4MWU4RDN9sJb2lP+/ab
+ QHkPQV3xvU7NA==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -36,14 +36,13 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v10 07/11] drm/i915: ttm move/clear logic fix
-Date: Thu,  7 Jul 2022 20:02:25 +0000
-Message-Id: <20220707200230.1657555-8-bob.beckett@collabora.com>
+Subject: [PATCH v10 08/11] drm/i915/ttm: add buffer pin on alloc flag
+Date: Thu,  7 Jul 2022 20:02:26 +0000
+Message-Id: <20220707200230.1657555-9-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707200230.1657555-1-bob.beckett@collabora.com>
 References: <20220707200230.1657555-1-bob.beckett@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,68 +63,114 @@ Cc: Robert Beckett <bob.beckett@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ttm managed buffers start off with system resource definitions and ttm_tt
-tracking structures allocated (though unpopulated).
-currently this prevents clearing of buffers on first move to desired
-placements.
-
-The desired behaviour is to clear user allocated buffers and any kernel
-buffers that specifically requests it only.
-Make the logic match the desired behaviour.
+For situations where allocations need to fail on alloc instead of
+delayed get_pages, add a new alloc flag to pin the ttm bo.
+This makes sure that the resource has been allocated during buffer
+creation, allowing it to fail with an error if the placement is
+exhausted.
+This allows existing fallback options for stolen backend allocation like
+create_ring_vma to work as expected.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 22 +++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 13 ++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 25 ++++++++++++++++++-
+ 2 files changed, 32 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index 81c67ca9edda..a3f8fc056dbc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2021 Intel Corporation
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 6632ed52e919..07bc11247a3e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -325,17 +325,20 @@ struct drm_i915_gem_object {
+  * dealing with userspace objects the CPU fault handler is free to ignore this.
   */
+ #define I915_BO_ALLOC_GPU_ONLY	  BIT(6)
++/* object should be pinned in destination region from allocation */
++#define I915_BO_ALLOC_PINNED	  BIT(7)
+ #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
+ 			     I915_BO_ALLOC_VOLATILE | \
+ 			     I915_BO_ALLOC_CPU_CLEAR | \
+ 			     I915_BO_ALLOC_USER | \
+ 			     I915_BO_ALLOC_PM_VOLATILE | \
+ 			     I915_BO_ALLOC_PM_EARLY | \
+-			     I915_BO_ALLOC_GPU_ONLY)
+-#define I915_BO_READONLY          BIT(7)
+-#define I915_TILING_QUIRK_BIT     8 /* unknown swizzling; do not release! */
+-#define I915_BO_PROTECTED         BIT(9)
+-#define I915_BO_WAS_BOUND_BIT     10
++			     I915_BO_ALLOC_GPU_ONLY | \
++			     I915_BO_ALLOC_PINNED)
++#define I915_BO_READONLY          BIT(8)
++#define I915_TILING_QUIRK_BIT     9 /* unknown swizzling; do not release! */
++#define I915_BO_PROTECTED         BIT(10)
++#define I915_BO_WAS_BOUND_BIT     11
+ 	/**
+ 	 * @mem_flags - Mutable placement-related flags
+ 	 *
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 27d59639177f..bb988608296d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -998,6 +998,13 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+ {
+ 	GEM_BUG_ON(!obj->ttm.created);
  
-+#include "drm/ttm/ttm_tt.h"
- #include <drm/ttm/ttm_bo_driver.h>
- 
- #include "i915_deps.h"
-@@ -476,6 +477,25 @@ __i915_ttm_move(struct ttm_buffer_object *bo,
- 	return fence;
++	/* stolen objects are pinned for lifetime. Unpin before putting */
++	if (obj->flags & I915_BO_ALLOC_PINNED) {
++		ttm_bo_reserve(i915_gem_to_ttm(obj), true, false, NULL);
++		ttm_bo_unpin(i915_gem_to_ttm(obj));
++		ttm_bo_unreserve(i915_gem_to_ttm(obj));
++	}
++
+ 	ttm_bo_put(i915_gem_to_ttm(obj));
  }
  
-+static bool
-+allow_clear(struct drm_i915_gem_object *obj, struct ttm_tt *ttm, struct ttm_resource *dst_mem)
-+{
-+	/* never clear stolen */
-+	if (dst_mem->mem_type == I915_PL_STOLEN)
-+		return false;
-+	/*
-+	 * we want to clear user buffers and any kernel buffers
-+	 * that specifically request clearing.
-+	 */
-+	if (obj->flags & I915_BO_ALLOC_USER)
-+		return true;
-+
-+	if (ttm && ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)
-+		return true;
-+
-+	return false;
-+}
-+
- /**
-  * i915_ttm_move - The TTM move callback used by i915.
-  * @bo: The buffer object.
-@@ -526,7 +546,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 		return PTR_ERR(dst_rsgt);
+@@ -1193,6 +1200,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 		.no_wait_gpu = false,
+ 	};
+ 	enum ttm_bo_type bo_type;
++	struct ttm_place _place;
++	struct ttm_placement _placement;
++	struct ttm_placement *placement;
+ 	int ret;
  
- 	clear = !i915_ttm_cpu_maps_iomem(bo->resource) && (!ttm || !ttm_tt_is_populated(ttm));
--	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC))) {
-+	if (!clear || allow_clear(obj, ttm, dst_mem)) {
- 		struct i915_deps deps;
+ 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
+@@ -1222,6 +1232,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 */
+ 	i915_gem_object_make_unshrinkable(obj);
  
- 		i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
++	if (obj->flags & I915_BO_ALLOC_PINNED) {
++		i915_ttm_place_from_region(mem, &_place, obj->bo_offset,
++					   obj->base.size, obj->flags);
++		_placement.num_placement = 1;
++		_placement.placement = &_place;
++		_placement.num_busy_placement = 0;
++		_placement.busy_placement = NULL;
++		placement = &_placement;
++	} else {
++		placement = &i915_sys_placement;
++	}
+ 	/*
+ 	 * If this function fails, it will call the destructor, but
+ 	 * our caller still owns the object. So no freeing in the
+@@ -1230,7 +1251,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 * until successful initialization.
+ 	 */
+ 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
+-				   bo_type, &i915_sys_placement,
++				   bo_type, placement,
+ 				   page_size >> PAGE_SHIFT,
+ 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
+ 	if (ret)
+@@ -1242,6 +1263,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	i915_ttm_adjust_domains_after_move(obj);
+ 	i915_ttm_adjust_gem_after_move(obj);
+ 	obj->ttm.cache_level_override = false;
++	if (obj->flags & I915_BO_ALLOC_PINNED)
++		ttm_bo_pin(i915_gem_to_ttm(obj));
+ 	i915_gem_object_unlock(obj);
+ 
+ 	return 0;
 -- 
 2.25.1
 
