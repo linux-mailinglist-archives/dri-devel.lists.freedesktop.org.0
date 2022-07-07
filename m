@@ -1,44 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382B056983D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 04:34:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C154356983F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 04:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B06510F78A;
-	Thu,  7 Jul 2022 02:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 074F910F956;
+	Thu,  7 Jul 2022 02:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m963.mail.126.com (mail-m963.mail.126.com [123.126.96.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id A856B10F78A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 02:34:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=+3p10
- C0HusD/dCt1yiDLoyszOMBI+0onvKujFtchS58=; b=W9X4zBu3Cwzfky3n/sQnC
- I0077NyZNP4b6T2pn9g11DW4JOTDq/vCQYnNqcT5gwuhjGN0mRKpVr/2Dj5qKCSi
- oWBJYLn+90mroITjWbBeA78H98iYI14gJF/+y4wizsmQ2c97Kl3O7dXE6P1/mOr9
- SmnRziyxmb7u1X5gsghJWA=
-Received: from localhost.localdomain (unknown [124.16.139.61])
- by smtp8 (Coremail) with SMTP id NORpCgDXNZqvRcZiaayfHQ--.23276S2;
- Thu, 07 Jul 2022 10:32:16 +0800 (CST)
-From: Liang He <windhl@126.com>
-To: laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, airlied@linux.ie,
- daniel@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, dri-devel@lists.freedesktop.org,
- windhl@126.com
-Subject: [PATCH] drm/imx/dcss: Add missing of_node_put() in fail path
-Date: Thu,  7 Jul 2022 10:32:14 +0800
-Message-Id: <20220707023214.307451-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB9B10F969
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 02:35:21 +0000 (UTC)
+X-UUID: aea485e3a2284a3e9e63ebfef824fbd7-20220707
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:f012d853-75bc-4ace-afd1-96143a306e21, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:0f94e32, CLOUDID:9504c286-57f0-47ca-ba27-fe8c57fbf305,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: aea485e3a2284a3e9e63ebfef824fbd7-20220707
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 327723911; Thu, 07 Jul 2022 10:35:14 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 7 Jul 2022 10:35:13 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 7 Jul 2022 10:35:13 +0800
+Message-ID: <ee075f26d133342e0ef386d4afc6173e420e30c5.camel@mediatek.com>
+Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Thu, 7 Jul 2022 10:35:13 +0800
+In-Reply-To: <20220701062808.18596-6-rex-bc.chen@mediatek.com>
+References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
+ <20220701062808.18596-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: NORpCgDXNZqvRcZiaayfHQ--.23276S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF4UCFy7try5WFy5XF1xGrg_yoW3KFc_Ga
- 48Zr9rXr4kCF4ktry3Aw43Wryqkr1F9r4xZF1IyayFqr42vwn8XwsFqryqq34Uua1UJF9x
- Cws3u3W5ArZrKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRp6wGPUUUUU==
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbi7RA3F1pEAWkCoQAAsI
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,30 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In dcss_dev_create(), we should call of_node_put() in fail path for
-of_graph_get_port_by_id() which will increase the refcount.
+Hi, Bo-Chen:
 
-Fixes: 9021c317b770 ("drm/imx: Add initial support for DCSS on iMX8MQ")
-Signed-off-by: Liang He <windhl@126.com>
----
- drivers/gpu/drm/imx/dcss/dcss-dev.c | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
+> 
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+> +
+> +static void mtk_dp_power_enable(struct mtk_dp *mtk_dp)
+> +{
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
+> +			   0, SW_RST_B_PHYD);
+> +
+> +	/* Wait for power enable */
+> +	usleep_range(10, 200);
+> +
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
+> +			   SW_RST_B_PHYD, SW_RST_B_PHYD);
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+> +			   DP_PWR_STATE_BANDGAP_TPLL,
+> DP_PWR_STATE_MASK);
+> +	mtk_dp_write(mtk_dp, MTK_DP_1040, 0x7);
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-dev.c b/drivers/gpu/drm/imx/dcss/dcss-dev.c
-index c849533ca83e..a99141538621 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-dev.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-dev.c
-@@ -207,6 +207,7 @@ struct dcss_dev *dcss_dev_create(struct device *dev, bool hdmi_output)
- 
- 	ret = dcss_submodules_init(dcss);
- 	if (ret) {
-+		of_node_put(dcss->of_port);
- 		dev_err(dev, "submodules initialization failed\n");
- 		goto clks_err;
- 	}
--- 
-2.25.1
+You have define the bit definition. Use the bit definition instead of a
+magic number.
+
++#define MTK_DP_1040			0x1040
++#define RG_DPAUX_RX_VALID_DEGLITCH_EN	BIT(2)
++#define RG_XTP_GLB_CKDET_EN		BIT(1)
++#define RG_DPAUX_RX_EN			BIT(0)
+
+> +}
+> +
 
