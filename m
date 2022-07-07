@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9758556A796
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 18:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBC456A798
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 18:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6654011AFCA;
-	Thu,  7 Jul 2022 16:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEC511B1F4;
+	Thu,  7 Jul 2022 16:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBC911B195;
- Thu,  7 Jul 2022 16:11:52 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C9211B1F4;
+ Thu,  7 Jul 2022 16:11:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657210312; x=1688746312;
+ t=1657210318; x=1688746318;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=SF0+mltqMQO54WCs04EtSDjlOt+0NsQwSfvlvOiqPvk=;
- b=WtFcsMkQ4oHgljz7q9xInOpNcwHu0fmWjBKmHaDsMYplpDFiyR3p7NqC
- pVsVayQb/AFG1q0dNx8t/SRuMtt4i9ABmsQm7Em3igU+MhB5XuEb6ISwW
- kSmz8iQrxFpVJaOtzRd2v+xNgH6u0ehVhDrb6S3tX6tSdCuwbulzQ+iRV E=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Jul 2022 09:11:52 -0700
+ bh=Qgry4ruyTQ3cr6aDgMN4Adk0Rw6bWhgUBj7xtKHRZQ8=;
+ b=UlK96L142OfzGtwoyLytb/GUu5qUHiNyNNHCsu5hgHFYK57JuMwRCEdI
+ OYsUiKcBViF7evN4oyGn1xFEtcTDVVcYuvpTHXpz1KxhbBeTdan3X+xwf
+ /oP4YIc4MgoaJqzzPy7Gtf1abhHG4R2MuMukyBB403f0vQuYLgs2Id/eq A=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 07 Jul 2022 09:11:57 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 09:11:51 -0700
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 09:11:56 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 7 Jul 2022 09:11:51 -0700
+ 15.2.986.22; Thu, 7 Jul 2022 09:11:56 -0700
 Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 7 Jul 2022 09:11:45 -0700
+ 15.2.986.22; Thu, 7 Jul 2022 09:11:51 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 To: freedreno <freedreno@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, Rob Clark
  <robdclark@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: [PATCH 4/7] drm/msm: Ensure cx gdsc collapse during recovery
-Date: Thu, 7 Jul 2022 21:40:59 +0530
-Message-ID: <20220707213950.4.I510084ecc82b2efe42dd904fea595cdec99058b2@changeid>
+Subject: [PATCH 5/7] arm64: dts: qcom: sc7280: Update gpu register list
+Date: Thu, 7 Jul 2022 21:41:00 +0530
+Message-ID: <20220707213950.5.I7291c830ace04fce07e6bd95a11de4ba91410f7b@changeid>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1657210262-17166-1-git-send-email-quic_akhilpo@quicinc.com>
 References: <1657210262-17166-1-git-send-email-quic_akhilpo@quicinc.com>
@@ -63,92 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>,
+Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
  Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
- Matthias Kaehlcke <mka@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To improve our chance of a successful recovery, we should ensure that
-cx headswitch collapses. Cx headswitch might be kept enabled through a
-vote from another driver like iommu or even another hardware subsystem.
-So, poll the cx gdscr register to ensure that it collapses during
-recovery.
+Update gpu register array with gpucc memory region.
 
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 ++++++++++++-
- drivers/gpu/drm/msm/msm_gpu.c         |  4 ++++
- drivers/gpu/drm/msm/msm_gpu.h         |  1 +
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 57a7ad5..e956a13 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1189,11 +1189,15 @@ static void a6xx_dump(struct msm_gpu *gpu)
- #define VBIF_RESET_ACK_TIMEOUT	100
- #define VBIF_RESET_ACK_MASK	0x00f0
- 
-+#define CX_GDSCR_OFFSET	0x106c
-+#define CX_GDSC_ON_MASK	BIT(31)
-+
- static void a6xx_recover(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
--	int i;
-+	int i, ret;
-+	u32 val;
- 
- 	adreno_dump_info(gpu);
- 
-@@ -1220,6 +1224,13 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	/* And the final one from recover worker */
- 	pm_runtime_put_sync(&gpu->pdev->dev);
- 
-+	if (gpu->gpucc_io) {
-+		ret = readl_poll_timeout(gpu->gpucc_io + CX_GDSCR_OFFSET, val,
-+			!(val & CX_GDSC_ON_MASK), 100, 500000);
-+		if (ret)
-+			DRM_DEV_INFO(&gpu->pdev->dev, "cx gdsc didn't collapse\n");
-+	}
-+
- 	for (i = gpu->active_submits; i > 0; i--)
- 		pm_runtime_get(&gpu->pdev->dev);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 48171b6..29ee615 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -881,6 +881,10 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 		goto fail;
- 	}
- 
-+	gpu->gpucc_io = msm_ioremap(pdev, "gpucc");
-+	if (IS_ERR(gpu->gpucc_io))
-+		gpu->gpucc_io = NULL;
-+
- 	/* Get Interrupt: */
- 	gpu->irq = platform_get_irq(pdev, 0);
- 	if (gpu->irq < 0) {
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 6def008..07578778 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -217,6 +217,7 @@ struct msm_gpu {
- 	int global_faults;
- 
- 	void __iomem *mmio;
-+	void __iomem *gpucc_io;
- 	int irq;
- 
- 	struct msm_gem_address_space *aspace;
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index e66fc67..defdb25 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -2228,10 +2228,12 @@
+ 			compatible = "qcom,adreno-635.0", "qcom,adreno";
+ 			reg = <0 0x03d00000 0 0x40000>,
+ 			      <0 0x03d9e000 0 0x1000>,
+-			      <0 0x03d61000 0 0x800>;
++			      <0 0x03d61000 0 0x800>,
++			      <0 0x03d90000 0 0x2000>;
+ 			reg-names = "kgsl_3d0_reg_memory",
+ 				    "cx_mem",
+-				    "cx_dbgc";
++				    "cx_dbgc",
++				    "gpucc";
+ 			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+ 			iommus = <&adreno_smmu 0 0x401>;
+ 			operating-points-v2 = <&gpu_opp_table>;
 -- 
 2.7.4
 
