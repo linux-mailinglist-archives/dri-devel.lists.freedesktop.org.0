@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48295699AF
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 07:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048925699B8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 07:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F1111BC54;
-	Thu,  7 Jul 2022 05:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C915610E895;
+	Thu,  7 Jul 2022 05:14:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 852F611BC54
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 05:07:19 +0000 (UTC)
-X-UUID: 3c0c14ac62204467be601a08ec5b786d-20220707
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A46910E6E2
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 05:14:50 +0000 (UTC)
+X-UUID: 58f5c9dbb434497d9b99c2d6b4dd5ce6-20220707
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:5a41f761-d6f4-414c-8e86-d67772b6b2c2, OB:0,
+X-CID-O-INFO: VERSION:1.1.8, REQID:e290d56d-f96a-4348-b372-e63675557bda, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:f72bc686-57f0-47ca-ba27-fe8c57fbf305,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8, REQID:e290d56d-f96a-4348-b372-e63675557bda, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:0f94e32, CLOUDID:85bfa363-0b3f-4b2c-b3a6-ed5c044366a0,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 3c0c14ac62204467be601a08ec5b786d-20220707
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ OID:687ad5be47b9,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 58f5c9dbb434497d9b99c2d6b4dd5ce6-20220707
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1765858335; Thu, 07 Jul 2022 13:07:14 +0800
+ with ESMTP id 435513236; Thu, 07 Jul 2022 13:14:44 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 7 Jul 2022 13:07:12 +0800
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 7 Jul 2022 13:14:43 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 7 Jul 2022 13:07:12 +0800
-Message-ID: <4e09ec20087d8a197d32294806c5ecfecaff84fa.camel@mediatek.com>
+ Transport; Thu, 7 Jul 2022 13:14:43 +0800
+Message-ID: <6b4a4be9b5c93b1931cdbd5b009eac3bfa9badbe.camel@mediatek.com>
 Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -43,7 +47,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Thu, 7 Jul 2022 13:07:12 +0800
+Date: Thu, 7 Jul 2022 13:14:43 +0800
 In-Reply-To: <20220701062808.18596-6-rex-bc.chen@mediatek.com>
 References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
  <20220701062808.18596-6-rex-bc.chen@mediatek.com>
@@ -105,50 +109,51 @@ On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +struct mtk_dp_timings {
-> +	struct videomode vm;
-> +	u8 frame_rate;
+> +static ssize_t mtk_dp_hpd_sink_event(struct mtk_dp *mtk_dp)
 
-You just assign value to frame_rate, but you never use this frame_rate,
-so drop it.
+The caller never use the return value, so let this function to void.
 
-Regards,
+> +{
+> +	ssize_t ret;
+> +	u8 sink_count;
+> +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
+> +	u32 sink_count_reg = DP_SINK_COUNT_ESI;
+> +	u32 link_status_reg = DP_LANE0_1_STATUS;
+> +
+> +	ret = drm_dp_dpcd_readb(&mtk_dp->aux, sink_count_reg,
+> &sink_count);
+
+You read sink_count but never use it, so this read is redundant. Remove
+it.
+
+> +	if (ret < 1) {
+> +		drm_err(mtk_dp->drm_dev, "Read sink count failed\n");
+> +		return ret == 0 ? -EIO : ret;
+> +	}
+> +
+> +	ret = drm_dp_dpcd_read(&mtk_dp->aux, link_status_reg,
+> link_status,
+> +			       sizeof(link_status));
+> +	if (!ret) {
+> +		drm_err(mtk_dp->drm_dev, "Read link status failed\n");
+> +		return ret;
+> +	}
+> +
+> +	drm_dp_channel_eq_ok(link_status, mtk_dp-
+> >train_info.lane_count);
+
+This function just return true or false, and you does not process the
+return value, so this is redundant. Remove it.
+
+Regard,
 CK
 
-> +};
 > +
-
-[snip]
-
+> +	if (link_status[1] & DP_REMOTE_CONTROL_COMMAND_PENDING)
+> +		drm_dp_dpcd_writeb(&mtk_dp->aux,
+> DP_DEVICE_SERVICE_IRQ_VECTOR,
+> +				   DP_REMOTE_CONTROL_COMMAND_PENDING);
 > +
-> +static void mtk_dp_initialize_priv_data(struct mtk_dp *mtk_dp)
-> +{
-> +	mtk_dp->train_info.link_rate = DP_LINK_BW_5_4;
-> +	mtk_dp->train_info.lane_count = mtk_dp->max_lanes;
-> +	mtk_dp->train_info.cable_plugged_in = false;
-> +	mtk_dp->train_info.cable_state_change = false;
-> +	memset(&mtk_dp->train_info.irq_sta, 0, sizeof(struct
-> mtk_dp_irq_sta));
-> +
-> +	mtk_dp->info.format = DP_PIXELFORMAT_RGB;
-> +	mtk_dp->info.depth = DP_MSA_MISC_8_BPC;
-> +	memset(&mtk_dp->info.timings, 0, sizeof(struct
-> mtk_dp_timings));
-> +	mtk_dp->info.timings.frame_rate = 60;
+> +	return 0;
 > +}
-> +
-
-[snip]
-
-> +
-> +static void mtk_dp_parse_drm_mode_timings(struct mtk_dp *mtk_dp,
-> +					  struct drm_display_mode
-> *mode)
-> +{
-> +	struct mtk_dp_timings *timings = &mtk_dp->info.timings;
-> +
-> +	drm_display_mode_to_videomode(mode, &timings->vm);
-> +	timings->frame_rate = drm_mode_vrefresh(mode);
-> +}
-> +
 
