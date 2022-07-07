@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CA25695D7
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 01:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94315696CE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 02:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 344A910E260;
-	Wed,  6 Jul 2022 23:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D7110E81F;
+	Thu,  7 Jul 2022 00:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A276810E260
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jul 2022 23:25:35 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id r18so21078468edb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 16:25:35 -0700 (PDT)
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA08710E81F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 00:17:55 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-10bec750eedso15684487fac.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 17:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q/Ysdr5RliGVgXwVXSg+b/L5hF2oyr6zGQqCB2KMY/0=;
- b=gUDNXgh8oYKcJZw0fUdo4BytcCdgQxI55O9Z8eNCVrgBjjaoaN+pidJLGzKrW3fAqI
- hsvgccN+NLv3W4Qd5dsHD4E/vPub65TAG6ylvI/+TfIpXY4YS8UOm1l61MtOvueWxmzh
- TU02Ugf9JLdShW2ETtxvEPvMRHEZhot0uKREE=
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=A9KMWBQbXLx/bx1xZ0Ut5YH6Gehkg3o6EpAfQEv3oiQ=;
+ b=aFZdN/uwvv5by+9RhHiClMYZnVo6UGSzcXWWtCAt5r2fbdoUTBbHZ9NDK6Jj0z1pNd
+ T38kEws2G5cAXs85Wvufk9YgEiWLP8NOvEtr1Snrb9gDrm/lX9iG4ufe56aRHSMlmDW1
+ eNHW9MDnS+MOypb2lP2JCNoRd/AhNVVaO2PaE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q/Ysdr5RliGVgXwVXSg+b/L5hF2oyr6zGQqCB2KMY/0=;
- b=57ubDh181uX1rruiL/icVvElBifxntHX8pb4tWNxrNVfMFPgdccJcCaZP+ZVQ0ySyd
- qo9ukZSR3OExqHI3zXB1zMz2In6GnI/g3Ivj4tmt7WGuCmUCJvmpzZM6A4TZHE2bdXhe
- ymOgDrz+zIubt3/qyCZxbETX0QtZag3yx2szxX89nY9wDqmhzCrm7U36BHFs0iUWXM3E
- RYy+hcBBiLoozNE0++Y6ea9GpAVW6ioDlEZvfieszlboSQTbRG2MpCvLWiXx52VmqYzU
- gSEQI9WvfEhKy+CbL9elvDF9ATD+NvVbRTPPqnx5J9Ag5uPh7GOA3xdeETB+PD3gmwy6
- xbtg==
-X-Gm-Message-State: AJIora+oDZ4xydaFNnXyB+t4K9hwttj35sa3EKMCM/ABqODv3OTx8mV7
- yQBmFL5lwfkUSwLEwtqOEB1S8D8vSPVI7bBVKt0=
-X-Google-Smtp-Source: AGRyM1t3gyVUt+miggo2Urfpo4nRcnOtxDxiGDKZBgD5XwfP/fW3cIv+mpyeKJ38nVODNRrqFtEYoQ==
-X-Received: by 2002:a05:6402:528e:b0:43a:2079:6411 with SMTP id
- en14-20020a056402528e00b0043a20796411mr31040822edb.267.1657149933947; 
- Wed, 06 Jul 2022 16:25:33 -0700 (PDT)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com.
- [209.85.221.50]) by smtp.gmail.com with ESMTPSA id
- f22-20020a50ee96000000b0043a0da110e3sm10292055edr.43.2022.07.06.16.25.33
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 16:25:33 -0700 (PDT)
-Received: by mail-wr1-f50.google.com with SMTP id b26so24040926wrc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 16:25:33 -0700 (PDT)
-X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
- b13-20020adff90d000000b0020cde324d35mr38633425wrr.583.1657149550898; Wed, 06
- Jul 2022 16:19:10 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=A9KMWBQbXLx/bx1xZ0Ut5YH6Gehkg3o6EpAfQEv3oiQ=;
+ b=0RnNXZzlsZbpHgiSW/CRx/f3iK/GZjzFPdxrHd/4jAULGAqouJe5K8VUmKrEgCRyAC
+ lY6fPfoeK8oKrKtJmjuN0hhlHB+AKDFq3H1f2rKH4sTMU55pKF9C8EoWXEypYf4X4uIG
+ B7IVINrsFWzZIvfa/SalSdv3IFCZTf1xDcbXIYBCmHa/ElujuIYhw6ZFMJEAUpVbW6pA
+ WEqBOFuttrcc4CSKFwkL8zQMyW9svReCBtbPm8JbfVEYfWM/hXkXOK+jT01D8a1beH91
+ 2Rw0YW/RQJKYeuDyX6fK2FaQketl1fMmQBa30rSuj/+S7qnQFknfGgBDtx2rTC3LRGsp
+ y4pQ==
+X-Gm-Message-State: AJIora9pT+qVAyiFviLx7NwsgVUE7nQpZysjekwhaJK9eH+DQEGkdgn2
+ Fe7kePYDY4ZrPglee+HFhuEsw58EbtdGDRw/8HtICA==
+X-Google-Smtp-Source: AGRyM1vRIZqEOwogKZJcIXv6VDYldqs4L085Qun9gEFdF2cBslF60GMIX99hLqqjzW1HACZsMRx+6b3IRlXWzJ9eHZs=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr961649oap.63.1657153075078; Wed, 06 Jul
+ 2022 17:17:55 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 6 Jul 2022 20:17:54 -0400
 MIME-Version: 1.0
-References: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Jul 2022 16:18:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vx7LAXuUZjvgZZejPh7DvBinVbjNpOddFrL1xtHJMnjw@mail.gmail.com>
-Message-ID: <CAD=FV=Vx7LAXuUZjvgZZejPh7DvBinVbjNpOddFrL1xtHJMnjw@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/msm/dp: make eDP panel as the first connected
- connector
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CACeCKafya_XA+C3eJUvT4vjQSgsjdewVkCb+Jr2tA1605jjfjg@mail.gmail.com>
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-6-pmalani@chromium.org>
+ <CAE-0n517BB8YbN5AZG6M3ZrZGOJDV=+t0R9d8wD+gVqO1aD1Xg@mail.gmail.com>
+ <CACeCKafR8hFke_tc2=1VGDNF-CFrZoAG1aUKuxGJG-6pd37hbg@mail.gmail.com>
+ <CAE-0n50XbO5Wu4-429Ao05A4QrbSXoi1wBjTpGFjKm3pZj1Ybg@mail.gmail.com>
+ <CACeCKafzB0wW_B2TOEWywLMyB+UhYCpXYDVBV=UbyxBiGnv1Rw@mail.gmail.com>
+ <CAE-0n50Akd8QikGhaAQgxLkJBhE-7KQf5aJ_P2ajOmCjLk555g@mail.gmail.com>
+ <CACeCKafQT_RBrkHJNE2ezahSsHLPrbnS69QbfnjxBoUhi6hjwQ@mail.gmail.com>
+ <CACeCKafya_XA+C3eJUvT4vjQSgsjdewVkCb+Jr2tA1605jjfjg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 6 Jul 2022 20:17:54 -0400
+Message-ID: <CAE-0n53kujMrzFG++5kaS4QKj2YrzLJEu5R76W887rCW_S592g@mail.gmail.com>
+Subject: Re: [PATCH v5 5/9] drm/bridge: anx7625: Add typec_mux_set callback
+ function
+To: Prashant Malani <pmalani@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,62 +73,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
- Vinod Koul <vkoul@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, Jul 6, 2022 at 12:32 PM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+Quoting Prashant Malani (2022-07-06 11:26:19)
 >
-> Some userspace presumes that the first connected connector is the main
-> display, where it's supposed to display e.g. the login screen. For
-> laptops, this should be the main panel.
->
-> This patch call drm_helper_move_panel_connectors_to_head() after
-> drm_bridge_connector_init() to make sure eDP stay at head of
-> connected connector list. This fixes unexpected corruption happen
-> at eDP panel if eDP is not placed at head of connected connector
-> list.
->
-> Changes in v2:
-> -- move drm_helper_move_panel_connectors_to_head() to
->                 dpu_kms_drm_obj_init()
->
-> Changes in v4:
-> -- move drm_helper_move_panel_connectors_to_head() to msm_drm_init()
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/msm_drv.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Stephen, any pending concerns?
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Tested-by: Douglas Anderson <dianders@chromium.org>
+No more pending concerns.
 
-NOTE: I tested this upstream with these two trees merged together:
+> If not,I will post a v6 series with the suggested changes:
+> - Drop typec-switch binding; instead add a new top-level port with
+> end-points for each Type-C connector's switch.
+> - Drop it6505 patches.
+> - Squash anx7625 driver patches into one patch.
+> - Add a comment mentioning that we aren't registering the orientation-switch.
 
-msm-next: 1ff1da40d6fc Merge branches 'msm-next-lumag-core'...
-qcom/for-next: d014f9463260 Merge branches 'arm64-for-5.20'...
-
-...plus a revert to make things boot again [1]. I booted this on a
-sc7280-herobrine running Chrome OS. When I do this, the original
-reported glitching is fixed (yay) and I think we should land it.
-
-...but I'm not convinced that all glitching is fixed by this. In
-particular I've occasionally seen an underrun at bootup (blue color)
-followed by a temporary glitch. With the above plus ${SUBJECT} patch I
-also reliably see a glitch on my external (DP) display every time I
-plug in. I don't see either on the downstream Chrome OS kernel,
-though...
-
-[1] https://lore.kernel.org/r/20220706144706.1.I48f35820bf3670d54940110462555c2d0a6d5eb2@changeid
+Ok. I'll take a look on v6.
