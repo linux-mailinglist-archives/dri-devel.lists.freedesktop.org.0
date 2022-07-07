@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78080569C48
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 09:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39747569C55
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 10:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B08814A1A6;
-	Thu,  7 Jul 2022 07:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFFC11AEA1;
+	Thu,  7 Jul 2022 08:01:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7334314A1A6
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 07:57:14 +0000 (UTC)
-X-UUID: ba0d47e5bc3342db93345a5becc5375f-20220707
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E8F11AB48
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 08:01:11 +0000 (UTC)
+X-UUID: 8e11ae3e131f4fe9aad04cfe3e6e87c3-20220707
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:21a3e37c-bc2d-48ce-8d86-e463756ca306, OB:0,
+X-CID-O-INFO: VERSION:1.1.8, REQID:0d6df8ef-6d73-434d-8be4-4eae1ed0160d, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:59f7ca86-57f0-47ca-ba27-fe8c57fbf305,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8, REQID:0d6df8ef-6d73-434d-8be4-4eae1ed0160d, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:0f94e32, CLOUDID:1f1acb86-57f0-47ca-ba27-fe8c57fbf305,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: ba0d47e5bc3342db93345a5becc5375f-20220707
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2098088199; Thu, 07 Jul 2022 15:57:08 +0800
+ OID:6d872c5026ec,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 8e11ae3e131f4fe9aad04cfe3e6e87c3-20220707
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1296204468; Thu, 07 Jul 2022 16:00:55 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 7 Jul 2022 15:57:07 +0800
+ Thu, 7 Jul 2022 16:00:53 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 7 Jul 2022 15:57:07 +0800
-Message-ID: <b84eb2804ac74b1851dea800d471d415ced7e2c4.camel@mediatek.com>
+ Transport; Thu, 7 Jul 2022 16:00:53 +0800
+Message-ID: <7af5710c5a9c0c30e38ca81a72fe30c1c7749bbb.camel@mediatek.com>
 Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -43,7 +47,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Thu, 7 Jul 2022 15:57:07 +0800
+Date: Thu, 7 Jul 2022 16:00:53 +0800
 In-Reply-To: <20220701062808.18596-6-rex-bc.chen@mediatek.com>
 References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
  <20220701062808.18596-6-rex-bc.chen@mediatek.com>
@@ -105,37 +109,39 @@ On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +static int mtk_dp_set_color_depth(struct mtk_dp *mtk_dp)
+> +static int mtk_dp_set_color_format(struct mtk_dp *mtk_dp,
+> +				   enum dp_pixelformat color_format)
 > +{
 > +	u32 val;
-> +	/* Only support 8 bits currently */
-> +	u32 color_depth = DP_MSA_MISC_8_BPC;
 > +
-> +	mtk_dp->info.depth = color_depth;
-> +
-> +	/* Update MISC0 */
+> +	/* update MISC0 */
 > +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
-> +			   color_depth, DP_TEST_BIT_DEPTH_MASK);
+> +			   color_format << DP_TEST_COLOR_FORMAT_SHIFT,
+> +			   DP_TEST_COLOR_FORMAT_MASK);
 > +
-> +	switch (color_depth) {
+> +	switch (color_format) {
+> +	case DP_PIXELFORMAT_YUV422:
+> +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_YCBCR422;
+> +		break;
+> +	case DP_PIXELFORMAT_RGB:
+> +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_RGB;
+> +		break;
+> +	default:
 
-Drop the switch because color_depth is always DP_MSA_MISC_8_BPC.
+The default case would never happen, remove it.
 
 Regards,
 CK
 
-> +	case DP_MSA_MISC_8_BPC:
-> +		val = VIDEO_COLOR_DEPTH_DP_ENC0_P0_8BIT;
-> +		break;
-> +	default:
-> +		drm_warn(mtk_dp->drm_dev, "Unsupported color depth
+> +		drm_warn(mtk_dp->drm_dev, "Unsupported color format:
 > %d\n",
-> +			 color_depth);
+> +			 color_format);
 > +		return -EINVAL;
 > +	}
 > +
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C, val,
-> +			   VIDEO_COLOR_DEPTH_DP_ENC0_P0_MASK);
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C,
+> +			   val, PIXEL_ENCODE_FORMAT_DP_ENC0_P0_MASK);
 > +	return 0;
 > +}
+> +
 
