@@ -1,163 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2808569DA0
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 10:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDCD569DB0
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 10:45:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4151E14A44C;
-	Thu,  7 Jul 2022 08:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE6D14A4B6;
+	Thu,  7 Jul 2022 08:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A33A14A443;
- Thu,  7 Jul 2022 08:42:33 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE1BA14A350;
+ Thu,  7 Jul 2022 08:45:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657183353; x=1688719353;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=0/fqLmI7qJTokHP14KeCe0rfUeYYD68w6VO7Am9TbdM=;
- b=kEfdgN3mUme1UuZCqdLCzp3yqFtGBNRvPr26AvhcD7Mw0zX+K6g9KKxs
- hAa1oLZzbXi5IGC0+MWf1lHTsni43BR/vSh0gIOLMddvjSNeUJIhsvf5c
- zD7F3Jy/S14L+emQz6SMAYelPBaNOUI+JwQnF4+08J0/Hx3snrxc0NC7m
- +oSNN2NBN/O8u4lkcYEdw11NtB4qfvQJnbS9/IuIA2JiXGMXP+eyTt4Gp
- ms2LCcfghZc/h5h+BVoqJHJg5oW772o8H6Gc6K+LRP1Or9C0jlyo+B3sC
- HRWGSS91MsLRYxaJ8KzBnviidkM7T8N7DBw9ereGy5yi3nO13SfbJcfCV g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="263754661"
-X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; d="scan'208";a="263754661"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 01:42:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; d="scan'208";a="597954229"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga007.fm.intel.com with ESMTP; 07 Jul 2022 01:42:31 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 7 Jul 2022 01:42:30 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 7 Jul 2022 01:42:30 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 7 Jul 2022 01:42:30 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 7 Jul 2022 01:42:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MgjMFCjPAdnkzHplep5OJjIwcJVtsYuRh16mdBRwbczm9JadBwkmnWt1MSkpNkfNV7OpUdX38k4h9sFUpw859zlIycVcEimhm0MyRv9c70poM474E6AQLD7ZUOZccWZOst7ykNkf5TN5v0dRLlcXvFEMjDpthQWsVq1z7CWZg3dENbzT5SAMZcdVfOKXH/twXqOrraryOuuFEgc0n35sHkoLbfPnj9AlOqyDzzBwYBaGxLYPer2a16TL9lr8OlD+6br5zdFChVTeU6lzx3XPCmAa29kg++qqeu/nz5gUJ4Y/9EQ6BTZ3owGzDwqEO+Pp1Ga3E/qt+rCqw/PomlvJxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6FjMsp5Pcakqnbew0Z0H3HdHj3S2H7AgFuo/fxGr9gc=;
- b=iCjfmXPlObCsMcV8Nq11BkTNQX1a+dJrO0RkPHfbwx74aKrU4chpwjoYeDlbMEvmCWzf2KEb0IkFFuutBkONGv1HEQ2AXZvyLHG5aN9ZdjE3lmEKAOp0+cCczxpMKN1VLfdCXtvxn37ECvaKOWdiyw+tNlC08LtREaFcV4ARwoAQ1uSy01bA2ruM2tflBRQ21vC4t8E8/v1ZcL4C3YDJJ4WZo3b7Twqqy9lGlBuC1Bpj2ltIatnEZAZyrpWaX9iiExHopAWDgWaVw9Hxxl9bMZiL6P0laLM9hxHejUUo7GydXYFPnt7rAfIPe9CuJCULkCRbN3H5mGSJqxbPB2sa4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by SN6PR11MB2654.namprd11.prod.outlook.com (2603:10b6:805:54::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.17; Thu, 7 Jul
- 2022 08:42:28 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::8435:5a99:1e28:b38c]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::8435:5a99:1e28:b38c%2]) with mapi id 15.20.5395.021; Thu, 7 Jul 2022
- 08:42:28 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, "kwankhede@nvidia.com"
- <kwankhede@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "hca@linux.ibm.com" <hca@linux.ibm.com>, "gor@linux.ibm.com"
- <gor@linux.ibm.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
- "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
- "svens@linux.ibm.com" <svens@linux.ibm.com>, "zhenyuw@linux.intel.com"
- <zhenyuw@linux.intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, "tvrtko.ursulin@linux.intel.com"
- <tvrtko.ursulin@linux.intel.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "farman@linux.ibm.com"
- <farman@linux.ibm.com>, "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "vneethv@linux.ibm.com"
- <vneethv@linux.ibm.com>, "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
- "freude@linux.ibm.com" <freude@linux.ibm.com>, "akrowiak@linux.ibm.com"
- <akrowiak@linux.ibm.com>, "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
- "hch@infradead.org" <hch@infradead.org>
-Subject: RE: [RFT][PATCH v2 1/9] vfio: Make vfio_unpin_pages() return void
-Thread-Topic: [RFT][PATCH v2 1/9] vfio: Make vfio_unpin_pages() return void
-Thread-Index: AQHYkQGZdvHyN+uRrkKQFdPKxVWBWq1ylc3w
-Date: Thu, 7 Jul 2022 08:42:28 +0000
-Message-ID: <BN9PR11MB527643D01DFF0AFCED1614488C839@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-2-nicolinc@nvidia.com>
-In-Reply-To: <20220706062759.24946-2-nicolinc@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.500.17
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b9ffb10b-cfbb-46d7-e396-08da5ff49fd8
-x-ms-traffictypediagnostic: SN6PR11MB2654:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9msCuaf3DB+OEHMxJ4IGBDWpW3UUrMR1Q4VitYy8YHf6BK48bKBv8XHGCVJfDNMtgJvMEd6q0tgORX/JhrAq6FKP05ASymiIYZxzApraldXy7koJNbBXPQZlT1jz2DFv7/fbvUDXPZmJYu1N6l1XgQ7oo1J701SqF9J/3XKcjv1PQN884WBDxSgB+2HNU37FTjx2wLAMTUPkPShZvfuF2gTld3D5p1USvZHwKcbqycoAR79oIJo3+AjH/EcJptJ6Z6bcQ+ylSGJzyobvz75J9SXHDAmUh/UNpMobSlwx1TTLCItFcPwkn05wL0FA0p3FRQzRiFY9rq8vGN/qJB/cXnGtl8iXERxCTmyxkQyMZ8S/Id8n5YEjeuiYwwiwkqSU3e+VEFeC28CP0BshFF+NmSaiXLfVtWeurZRVs50Qqmjo91J9RjGU+KvcuN7rjZDpVRdeZU17oWkQqWoQiYQ2Pa0J8rY9FumAjdbC3sItcNScRJXHSG+1OQFHQE/QiEgBOpodrkCDOS4PkgZIKaVYvqOkstLcT5b3SfY9W00VWLGTaPhdtl95zOQzAOz7zsHCCfoh+wgE93AwFQH2lmtgzHc9+RoF6AMmh85lMkkzPF35vNz09kTaNfJ5FbozFyY6M1XObOGbwAKcjD9J/bzhYmbnA8lACBIaxSRDXnc7Pex2M97WhScEx4QpFns6cE/OZuSdj2qEj54MNbusZef6MP/5aXHS67Gc+9FK8GhePia/ltXLOfShEDJtrvHZs8yTenWlIudlNXcRYkE65DlspncwjqZ54ghONlScqqRLnlPjFzGhD2HFKAdvClFZ7tcNTpvkWQDJdxTpG9ed1h6e2A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(396003)(376002)(39860400002)(366004)(136003)(9686003)(6506007)(82960400001)(26005)(478600001)(7696005)(71200400001)(186003)(38070700005)(38100700002)(33656002)(122000001)(55016003)(2906002)(8676002)(76116006)(66446008)(54906003)(921005)(52536014)(86362001)(8936002)(7416002)(5660300002)(41300700001)(316002)(110136005)(4326008)(66946007)(4744005)(66556008)(66476007)(64756008)(7406005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ifi9pI2UPNeDVW2a5CRmSvnQFTtss3PdaL80N/CqSRW/9+WR8cMlL5mJPwWp?=
- =?us-ascii?Q?vtAuZ/6DHIGsppZSinZizQttf9k5yDrx6FcNw9cUxp2ouJjmnUKp65QcVBFg?=
- =?us-ascii?Q?OZOg8J5f9MTode8oQnEAnTyUNeGIo64fesz9cxh+EbVlfXdnsy/1CaPvipRs?=
- =?us-ascii?Q?sX1Yq3gpVKylCfGf7USTcibyXhrFQkkh8/moncCJieFW4K1NFkr68tav8DRW?=
- =?us-ascii?Q?Pat8z+E3GFEu3OQoQEfMGGG/rR619EuBBK8UV31MLuLM6ouETvmfJ6D388WS?=
- =?us-ascii?Q?1SqDuq99ov1fhayvXsqyehv62zcDGwjENP7YGj1bRVLiEn99pXI+gs3cIIW5?=
- =?us-ascii?Q?ruecI4/28TjKsK75seTXEZw+2/XLgbMuqqVe7LI6icED/F5HhJJMdb6Za1aO?=
- =?us-ascii?Q?77DKYtXHTaOxR5mdZ3Izv9cWyD3MW9nTWIiOm0fN7yEg8hvsq2blJ2xcvSmI?=
- =?us-ascii?Q?IkhEB4thZ0OukSQAaWD1JaN1SusR8fAOaMG4gZkhRm3kcyUpBpliMBwN6vmk?=
- =?us-ascii?Q?qArjFQBgtRvJwUdWvIHPLP+MImqS7PXkqNTsX5b+iCgeyZGHm8KbDQxQ/Nn2?=
- =?us-ascii?Q?CsVjTuBk1X4N8k9MMJhqwMWnVCCf+SeTl8up2RzDh/Tkx9/UNtqYVvGcNEg0?=
- =?us-ascii?Q?dak1U6oBIKTMRDFOY3BI2qt9WQme0e/zff64/b9TpHqid8jLccnRJzszXpvR?=
- =?us-ascii?Q?LotZz8VOP4I2MCBZ/m0ljbu9gbCgAVK4hm8TwJcUaLTCfa1zFbAiS/LxwJAf?=
- =?us-ascii?Q?JSNJk3LhI4ZdLJ/2oV/GjI1/h6IHas1mlB9NDBpI3EhqKsav2M0bflP1q58f?=
- =?us-ascii?Q?L8rioKt+rdy0xpagAQcl5BZLukotUjg81nKCiWafYg5ENUZhsvNROmWY1JkF?=
- =?us-ascii?Q?mOkmpGDqUZFQzEQwG/A/JMGyvJU75QnzytVqNimH3ga0YwRMBCP77VxshnMd?=
- =?us-ascii?Q?J6WSnpQr53VuX0jmnd3GR2VylfPVyxzZhisBiJavzVpLuYDXqUVoEY20rjkl?=
- =?us-ascii?Q?Gyh3hni0Ej2q/Ng4Y8WEZ5gPTlZKC9PSQX08gv3FqZv3Ece4f8z+DqAyPejE?=
- =?us-ascii?Q?1XJz/HJeMR//Q8AGRWFtLLMu04ceSt5uEL6+/Gcem1KzsGWZUvDIMkmCByws?=
- =?us-ascii?Q?kv/fzUwqm7H51ui4j4mXjzIpglqgry3FFX5VE3S69FeiDe+Kpya7PdE1pNnW?=
- =?us-ascii?Q?pdilU5MpHPv0yMijEAnsFQkC251HFEq5gDOVTf93nBeF9HLoETKTDwI6FcNs?=
- =?us-ascii?Q?gdu7+RAjhExlQUg5glAFYLOiPo1sLRaIKrzCxBdQtfwK1xrjXlukq3or4dK4?=
- =?us-ascii?Q?K0lZt8UzmnOhOpUVX8A022tcva7jW09fzjoOqM3AtZRN3G3jIf/itXSEN0/f?=
- =?us-ascii?Q?04D/f8oCpQcJET3fKBoBAjs3Do57nyepTFn5iXQj2rb9AzHu6dbAB8TEDCeZ?=
- =?us-ascii?Q?NIoA5drWi327m/bJf5Fwvj1HSsPo8VrKjH05BdtpeCGSxrTiGiQx8adFOg/4?=
- =?us-ascii?Q?OercA1I+xICib35M5YXoPfkOETpysLJZGHMhbLuadxz5uLT5YcYDCVMDAaI3?=
- =?us-ascii?Q?bOdHJUJbnQz66CqZakUnZ7xV7kWPwpYF+feI6+w5?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ t=1657183506; x=1688719506;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=edbKoKalbvq90CBmxogPesuIiDjl8rwJ49B+zZvetjQ=;
+ b=N/mCoF0Pc9xAh6tFiANMxU1gWgasXXUAiNZv9V8dMltagBIq/wDF5444
+ kFcV87NsES5cLom92TK8US673A7vIObnygWRrn8AjH8ItryYRmifHtcHc
+ ehxaD61g/ALIPKh/XXxIDJZtU8X51lVQYtE/dIekf+UKKN1Y2nLqQ5Nn1
+ OyanwVjklXOtUHbkyWiNpzi38USve2MSkuMVx7VgscFumzr7cG4xDhcK/
+ KxS4PmReDsj0JPCC7/6rQ5RXglZlh8dZ1Lcpbrcrd/0Blq4RgHaJxFl2l
+ eyiLbucZXXrWhj1qVXpVqRoFNaO4EJqH0iiglpKHxQdFmSZIViKpLDblB Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="345659130"
+X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; d="scan'208";a="345659130"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 01:45:06 -0700
+X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; d="scan'208";a="651047273"
+Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.255.31.6])
+ ([10.255.31.6])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 01:44:45 -0700
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 088b9c375534d905a4d337c78db3b3bfbb52c4a0
+To: Greg KH <gregkh@linuxfoundation.org>, kernel test robot <lkp@intel.com>
+References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+ <YsaUgfPbOg7WuBuB@kroah.com>
+From: "Chen, Rong A" <rong.a.chen@intel.com>
+Message-ID: <c86816fd-aaba-01a9-5def-44868f0a46c9@intel.com>
+Date: Thu, 7 Jul 2022 16:44:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9ffb10b-cfbb-46d7-e396-08da5ff49fd8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2022 08:42:28.4328 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QNgmliOFzpcd2fL/IpMuPCEs3ph5n3ns3ECRYbGFeWgs/9gvpD026Da0K64Fiz+MF9RP8qXLfrynUSUSXrELWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2654
-X-OriginatorOrg: intel.com
+In-Reply-To: <YsaUgfPbOg7WuBuB@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,36 +61,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "jchrist@linux.ibm.com" <jchrist@linux.ibm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
+Cc: nvdimm@lists.linux.dev, legousb-devel@lists.sourceforge.net,
+ dri-devel@lists.freedesktop.org, linux-sctp@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ ceph-devel@vger.kernel.org, linux-pm@vger.kernel.org,
+ usbb2k-api-dev@nongnu.org, linux-omap@vger.kernel.org,
+ megaraidlinux.pdl@broadcom.com, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-wpan@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-parport@lists.infradead.org, linux-doc@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-cxl@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, dm-devel@redhat.com,
+ target-devel@vger.kernel.org, dev@openvswitch.org, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ iommu@lists.linux.dev, coreteam@netfilter.org, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, greybus-dev@lists.linaro.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-mtd@lists.infradead.org, cgroups@vger.kernel.org,
+ linux-phy@lists.infradead.org, sound-open-firmware@alsa-project.org,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, isdn4linux@listserv.isdn4linux.de,
+ linux-input@vger.kernel.org, linux-ext4@vger.kernel.org,
+ ath11k@lists.infradead.org, mjpeg-users@lists.sourceforge.net,
+ openipmi-developer@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-mmc@vger.kernel.org, iommu@lists.linux-foundation.org,
+ keyrings@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
+ damon@lists.linux.dev, linux-mm@kvack.org,
+ accessrunner-general@lists.sourceforge.net,
+ linux1394-devel@lists.sourceforge.net, linux-leds@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-x25@vger.kernel.org, dccp@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-nfc@lists.01.org,
+ osmocom-net-gprs@lists.osmocom.org, apparmor@lists.ubuntu.com,
+ linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-scsi@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-unionfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ ntb@lists.linux.dev, tipc-discussion@lists.sourceforge.net,
+ linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Nicolin Chen <nicolinc@nvidia.com>
-> Sent: Wednesday, July 6, 2022 2:28 PM
->=20
-> There's only one caller that checks its return value with a WARN_ON_ONCE,
-> while all other callers do not check return value at all. So simplify the
-> API to return void by embedding similar WARN_ON_ONCEs.
 
-While this change keeps the similar effect as before it leads to different
-policy for same type of errors between pin and unpin paths:
 
-e.g.
+On 7/7/2022 4:08 PM, Greg KH wrote:
+> On Thu, Jul 07, 2022 at 02:56:34PM +0800, kernel test robot wrote:
+>> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> branch HEAD: 088b9c375534d905a4d337c78db3b3bfbb52c4a0  Add linux-next specific files for 20220706
+>>
+>> Error/Warning reports:
+>>
+>> https://lore.kernel.org/linux-doc/202207070644.x48XOOvs-lkp@intel.com
+>>
+>> Error/Warning: (recently discovered and may have been fixed)
+>>
+>> Documentation/arm/google/chromebook-boot-flow.rst: WARNING: document isn't included in any toctree
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1108): undefined reference to `__aeabi_ddiv'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1124): undefined reference to `__aeabi_ui2d'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1164): undefined reference to `__aeabi_dmul'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1170): undefined reference to `__aeabi_dadd'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1180): undefined reference to `__aeabi_dsub'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1190): undefined reference to `__aeabi_d2uiz'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x162c): undefined reference to `__aeabi_d2iz'
+>> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x16b0): undefined reference to `__aeabi_i2d'
+>> dc_dmub_srv.c:(.text+0x10f8): undefined reference to `__aeabi_ui2d'
+>> dc_dmub_srv.c:(.text+0x464): undefined reference to `__floatunsidf'
+>> dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x33c): undefined reference to `__floatunsidf'
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
+>> drivers/vfio/vfio_iommu_type1.c:2141:35: warning: cast to smaller integer type 'enum iommu_cap' from 'void *' [-Wvoid-pointer-to-enum-cast]
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x34c): undefined reference to `__floatunsidf'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x378): undefined reference to `__divdf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x38c): undefined reference to `__muldf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3a0): undefined reference to `__adddf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3b4): undefined reference to `__subdf3'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3d4): undefined reference to `__fixunsdfsi'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x750): undefined reference to `__fixdfsi'
+>> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x7c0): undefined reference to `__floatsidf'
+>> powerpc-linux-ld: drivers/pci/endpoint/functions/pci-epf-vntb.c:174: undefined reference to `ntb_link_event'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x468): undefined reference to `__divdf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x46c): undefined reference to `__muldf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x470): undefined reference to `__adddf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x474): undefined reference to `__subdf3'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x478): undefined reference to `__fixunsdfsi'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x47c): undefined reference to `__fixdfsi'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x480): undefined reference to `__floatsidf'
+>> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x60c): undefined reference to `__floatunsidf'
+>>
+>> Unverified Error/Warning (likely false positive, please contact us if interested):
+>>
+>> arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
+>> drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
+>> drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
+>> drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
+>> drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
+>> drivers/base/regmap/regmap.c:1996:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/char/random.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
+>> drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+>> drivers/greybus/operation.c:617:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> 
+> <snip>
+> 
+> When the compiler crashes, why are you blaming all of these different
+> mailing lists?  Perhaps you need to fix your compiler :)
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-vfio_unpin_pages():
-	if (WARN_ON_ONCE(!user_pfn || !npage || !vfio_assert_device_open(device)))
-		return;
+Hi Greg,
 
-vfio_pin_pages():
-	if (!user_pfn || !phys_pfn || !npage ||
-	    !vfio_assert_device_open(device))
-		return -EINVAL;
+Sorry for the inconvience, we'll fix it ASAP.
 
-It sounds a bit weird when reading related code...
+Best Regards,
+Rong Chen
