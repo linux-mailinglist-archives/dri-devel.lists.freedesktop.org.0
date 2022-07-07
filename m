@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C435756A83C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 18:37:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DA656A83A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 18:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B4A511302A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BADB1128D2;
 	Thu,  7 Jul 2022 16:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1653B1128FD;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC323113A72;
  Thu,  7 Jul 2022 16:36:46 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7EF1566019C6;
- Thu,  7 Jul 2022 17:36:44 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2996C66019CB;
+ Thu,  7 Jul 2022 17:36:45 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1657211804;
- bh=x5DY8lqdscLPNZjf5Ukvpn+M8BELAAg44M2twj/KzYc=;
+ s=mail; t=1657211805;
+ bh=qy8+fGCHoC0k4JC8KL3MA8/A+stlKuCvaW0SY+DabgM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dB6WqyfoGeOIBLkJFALwwSlluSy82NL38D243B17dNo8/3QjF84XKM196k5KT/S3K
- dkZhhNFX5zByloLMVGawXxjc/M0oNo1RECrDroPsIJh6wCztDmzgrUtegN0I3h4cy4
- BEHkGXALp0eAC5bmHrAzazCWxgBhQ+Nr7ri5Ns4B2KxpBnKTCU18ff0oweL9+CU4ox
- vjCxApRAOHP2kuhetXChqUFLJ3XHiG4zQiEvWBkTdZTIkhID1r+edT8NEoqTsGODio
- dwUJtzKQP5XxnxbNoKVjmHt6MfkNJFZkWpCcutS4wm09IGmT/McpjpRHd63b9cddwV
- X/zl4M+mYo2sQ==
+ b=KQceRyr8HJTiByldyuhsZFJRYl7MX/X07QW4Lo6mbI8Itl7B9EQ1WtMYTQBvsmHsO
+ i1hK3gE81mt27Y7DGyKztLQ9AZvsAVHa0pj8rw0IB+cEKPpe8Bf44SI4KfLyuY1pm/
+ Sz5fuNP+9Q/V5MKuxozHPw4yazMG5ri+rWshkly6a4PAOfYIfvoqzeECPrpnJ+/mey
+ tB5TtnM0h3+fdCZnpgaDE35bKH4ldgyUJzHGLgjlyq3NgmoiyF1MuIRjGf4ANZ+Ism
+ gLW7nIRgLiBvqsG1cF4PMXRJxbkecdHF7LOTkBidjLw7r7Hw6xgxa8Y667qaEHZwIV
+ CTNLHA4K0lm1g==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -36,10 +36,10 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v9 03/11] drm/i915/ttm: only trust snooping for dgfx when
- deciding default cache_level
-Date: Thu,  7 Jul 2022 16:35:58 +0000
-Message-Id: <20220707163606.1474111-4-bob.beckett@collabora.com>
+Subject: [PATCH v9 04/11] drm/i915/gem: selftest should not attempt mmap of
+ private regions
+Date: Thu,  7 Jul 2022 16:35:59 +0000
+Message-Id: <20220707163606.1474111-5-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707163606.1474111-1-bob.beckett@collabora.com>
 References: <20220707163606.1474111-1-bob.beckett@collabora.com>
@@ -65,33 +65,28 @@ Cc: Robert Beckett <bob.beckett@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default i915_ttm_cache_level() decides I915_CACHE_LLC if HAS_SNOOP.
-This is divergent from existing backends code which only considers
-HAS_LLC.
-Testing shows that trusting snooping on gen5- is unreliable and bsw via
-ggtt mappings, so limit DGFX for now and maintain previous behaviour.
+During testing make can_mmap consider whether the region is private.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index 4c1de0b4a10f..40249fa28a7a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -46,7 +46,9 @@ static enum i915_cache_level
- i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
- 		     struct ttm_tt *ttm)
- {
--	return ((HAS_LLC(i915) || HAS_SNOOP(i915)) &&
-+	bool can_snoop = HAS_SNOOP(i915) && IS_DGFX(i915);
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 5bc93a1ce3e3..76181e28c75e 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -869,6 +869,9 @@ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	bool no_map;
+ 
++	if (obj->mm.region && obj->mm.region->private)
++		return false;
 +
-+	return ((HAS_LLC(i915) || can_snoop) &&
- 		!i915_ttm_gtt_binds_lmem(res) &&
- 		ttm->caching == ttm_cached) ? I915_CACHE_LLC :
- 		I915_CACHE_NONE;
+ 	if (obj->ops->mmap_offset)
+ 		return type == I915_MMAP_TYPE_FIXED;
+ 	else if (type == I915_MMAP_TYPE_FIXED)
 -- 
 2.25.1
 
