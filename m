@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC9356AA52
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 20:17:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA3256AA66
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 20:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67E74112A11;
-	Thu,  7 Jul 2022 18:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984ED11B848;
+	Thu,  7 Jul 2022 18:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9A42112A7E;
- Thu,  7 Jul 2022 18:17:39 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id u12so33809044eja.8;
- Thu, 07 Jul 2022 11:17:39 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0011E11B6CE;
+ Thu,  7 Jul 2022 18:22:33 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id j22so7604322ejs.2;
+ Thu, 07 Jul 2022 11:22:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xSMXSdyrhgxe/LPeOG9nwUhQ7bCN6L6RT7Z5TEvSX/k=;
- b=JCNjsSHGeIt/T9GRSU4+KoOf4kHWc+fTg9gE2OTI8ZhDBr/Q7oCXYPkRYVYUVZyGne
- XukdokHNmuNj4N0/jjkqnmwPTOYKzh6WspGHl1mffSUqDHiNMERPBqQnZov9/qk8+jqr
- wsJAf2a7Gr38RVsl9okaxE0FcZ93spRUaXiqJJ7MYOqiYKFi3X2NHqARrMEH+QSo7SZ/
- 3H6zfhyAu5YN/F5+xok0AQuN4lUBQqT/eEp4YwSJ4UNXsk2O3wERi8lfVQ3u/ZJ2b7Jx
- 2SHWu1lTqP1NZDnNcNsW0b8zVR0ourvq4u58yE/ZNQzmqk+hHCiAmEke4jyg5n+CcIIi
- 5Ljw==
+ :cc; bh=j6ncolguiQ+DPHRmzlhAw1z57F0HnokCJKSQgzd3UQs=;
+ b=ohjqe3h1JnbCwaBEIZ2d69QR8cz52UUygEFiOvnMYGlCpXpnR1Qmj4YvAuvK0EJiWY
+ 4FGWd1fhgqJ8Hh/fZ0Up/Iu7IjXoofz/xMywSFCvKE8NSlPntfPXJZXlicN6Xw2E9/6l
+ uFb+mi5Dacf9U9diBw77SQKNmaPSR3msiqmJY1fQA6skgYg/D7VFo/r7b52ybuRrtb1I
+ fEii4Ih35R9wz1QXi0i6uzhivzSvYEXvDYNQmTAK/sOTg+IckYEmgXnTc9rTEml/aFgo
+ y6NemwFJTWIUgYrRhYMmXfajWOACfbStbqrgZEYPmoeAnLoWh1oCHM4dWsKrmRJJnhxm
+ 9FLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xSMXSdyrhgxe/LPeOG9nwUhQ7bCN6L6RT7Z5TEvSX/k=;
- b=k26YRuz+Ctk2GDRaLjMsv04kuePcADHxoHNZLrnjfcfEzWxPIwtCAD5niQYcLnrAUU
- V6gnDz/7xjE3y8MeGoFohDgAMOLuJmwefS1uIllYAyqFXQEXzS5hpzFQ0X8DWQAQEP8B
- NXvq+odg5qDvPCzQ8obmAmSQlklGVP/qijc1YVLl5llQtZeu193f06/WqizHvJwsWtJC
- u0S1zm6+tTN9WhyXg8A5dRPQ/adPuCF2eG63F6T9DFEY9hN3hCEzAxzFfsqvZ+fJJZzV
- UwvmC0SD2m7VPOSVeJuOHQ9mlBBLv/YHr0YqCW8bPn/spCZthNuEQLnJkU/1uoa4uV9E
- mRYw==
-X-Gm-Message-State: AJIora83+6M72avOZKuAB507vsY1A8yqPaXQNtd5k4LYZTyxi9ff6N6Y
- dkw5vercvgLgEhpR/AksUWZNpRl8BMJG54l13SgZkMgL
-X-Google-Smtp-Source: AGRyM1uKhskxc8ShQ8HBDSEUOs9v5bJUfRFy8vHIbrZPDlA+g5jVfZKGLahYkwBWgTJefRsXToP8LLkYvfuDAxYz2mk=
-X-Received: by 2002:a17:906:dc93:b0:726:a75b:f60f with SMTP id
- cs19-20020a170906dc9300b00726a75bf60fmr45516409ejc.564.1657217858197; Thu, 07
- Jul 2022 11:17:38 -0700 (PDT)
+ bh=j6ncolguiQ+DPHRmzlhAw1z57F0HnokCJKSQgzd3UQs=;
+ b=CLTBI8GtZOjsr8v0A5iZFqUa3jyyBpOoMVi4L4K3qPEwODlgXbvr9J0HYLOIyTle0E
+ Mb5KHUtn4P5kn/Hj4wwI/FpWVmE21+vLoMisVTH8Z7Wk6LfwkA4aNpIWoZ7voxrtUOcB
+ tn02V06daY+iU2y13ICuFPnkAST3x5zBotsDZw4JJhpZkt0d/KzZHIWBCFRObA+IyROg
+ fxX32A5cxhEVprvmT7d/EkRhs4hBBRfS8/X4B3o0NsXMywx0UWSzuiZEOyD3vW/qEpIN
+ IAKZA/GE+0nAJmJsgqVPgfUakzTwjPQ0MKF4wBbWWqXMJE7CZMdCrfhrXJQ7gXBw8ONe
+ jBRA==
+X-Gm-Message-State: AJIora8d8SAmSYjbI/zeQiHaxBl+2wzwCkVBEIws74QWoW+zmNRXtq4I
+ 0Z7SlB06fAijqzrUWHHYymZzPSh6LF6vF8bi/Yc=
+X-Google-Smtp-Source: AGRyM1vFFoUfixEhOUfl68/WDDiWcPlIS3gYGV84R38m2q33oIwZHt0dcJvwcUsnsfbSVJdNmTunjpQ6rR123O2EcU0=
+X-Received: by 2002:a17:907:a40f:b0:726:a8f5:1031 with SMTP id
+ sg15-20020a170907a40f00b00726a8f51031mr46947213ejc.185.1657218152576; Thu, 07
+ Jul 2022 11:22:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220707013812.64057-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20220707013812.64057-1-yang.lee@linux.alibaba.com>
+References: <20220706063951.54122-1-hbut_tan@163.com>
+In-Reply-To: <20220706063951.54122-1-hbut_tan@163.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 7 Jul 2022 14:17:26 -0400
-Message-ID: <CADnq5_Pe_bOh_=oFFu=zhyR=kXNrcVjwFLj0T5zrtwX_ntpTyw@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: clean up some inconsistent
- indenting
-To: Yang Li <yang.lee@linux.alibaba.com>
+Date: Thu, 7 Jul 2022 14:22:20 -0400
+Message-ID: <CADnq5_NpXcua54cSeSGaG2X_afcvoGswKgSb=Gysr5gpoT0AHw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix unsigned expression compared with
+ zero
+To: Zhongjun Tan <hbut_tan@163.com>, "Wentland, Harry" <Harry.Wentland@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,81 +63,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
  "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, Zhongjun Tan <tanzhongjun@coolpad.com>,
+ Dave Airlie <airlied@linux.ie>, cai.huoqing@linux.dev,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
  Alexander" <alexander.deucher@amd.com>,
  Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Wed, Jul 6, 2022 at 3:41 AM Zhongjun Tan <hbut_tan@163.com> wrote:
+>
+> From: Zhongjun Tan <tanzhongjun@coolpad.com>
+>
+> Fix unsigned expression compared with zero
+>
+> Signed-off-by: Zhongjun Tan <tanzhongjun@coolpad.com>
+> ---
+>  .../gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+> index 548cdef8a8ad..21e4af38b8c1 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+> @@ -244,8 +244,8 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+>         bool req128_c = false;
+>         bool surf_linear = (pipe_src_param->sw_mode == dm_sw_linear);
+>         bool surf_vert = (pipe_src_param->source_scan == dm_vert);
+> -       unsigned int log2_swath_height_l = 0;
+> -       unsigned int log2_swath_height_c = 0;
+> +       int log2_swath_height_l = 0;
+> +       int log2_swath_height_c = 0;
+
+@Wentland, Harry Can you comment on the required range needed for
+these integers?  Maybe it would be better to just drop the comparisons
+with 0.
 
 Alex
 
-On Wed, Jul 6, 2022 at 9:38 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
+>         unsigned int detile_buf_size_in_bytes = mode_lib->ip.det_buffer_size_kbytes * 1024;
 >
-> Eliminate the follow smatch warnings:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser2.c:405 get_bios_object_from_path_v3() warn: inconsistent indenting
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser2.c:611 bios_parser_get_hpd_info() warn: inconsistent indenting
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser2.c:818 bios_parser_get_device_tag() warn: inconsistent indenting
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser2.c:1599 bios_parser_is_device_id_supported() warn: inconsistent indenting
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> index c332650b7048..6f514d92b401 100644
-> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> @@ -402,7 +402,7 @@ static struct atom_display_object_path_v3 *get_bios_object_from_path_v3(
->                 return NULL;
->         }
->
-> -    return NULL;
-> +       return NULL;
->  }
->
->  static enum bp_result bios_parser_get_i2c_info(struct dc_bios *dcb,
-> @@ -605,8 +605,8 @@ static enum bp_result bios_parser_get_hpd_info(
->             default:
->                 object = get_bios_object(bp, id);
->
-> -                       if (!object)
-> -                               return BP_RESULT_BADINPUT;
-> +               if (!object)
-> +                       return BP_RESULT_BADINPUT;
->
->                 record = get_hpd_record(bp, object);
->
-> @@ -810,10 +810,10 @@ static enum bp_result bios_parser_get_device_tag(
->                 /* getBiosObject will return MXM object */
->                 object = get_bios_object(bp, connector_object_id);
->
-> -                       if (!object) {
-> -                               BREAK_TO_DEBUGGER(); /* Invalid object id */
-> -                               return BP_RESULT_BADINPUT;
-> -                       }
-> +               if (!object) {
-> +                       BREAK_TO_DEBUGGER(); /* Invalid object id */
-> +                       return BP_RESULT_BADINPUT;
-> +               }
->
->                 info->acpi_device = 0; /* BIOS no longer provides this */
->                 info->dev_id = device_type_from_device_id(object->device_tag);
-> @@ -1596,7 +1596,7 @@ static bool bios_parser_is_device_id_supported(
->                         break;
->         }
->
-> -    return false;
-> +       return false;
->  }
->
->  static uint32_t bios_parser_get_ss_entry_number(
+>         full_swath_bytes_packed_l = rq_param->misc.rq_l.full_swath_bytes;
 > --
-> 2.20.1.7.g153144c
+> 2.29.0
 >
