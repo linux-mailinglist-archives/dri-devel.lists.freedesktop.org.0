@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048925699B8
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 07:14:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D035699C2
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 07:19:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C915610E895;
-	Thu,  7 Jul 2022 05:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE29310E470;
+	Thu,  7 Jul 2022 05:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A46910E6E2
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 05:14:50 +0000 (UTC)
-X-UUID: 58f5c9dbb434497d9b99c2d6b4dd5ce6-20220707
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:e290d56d-f96a-4348-b372-e63675557bda, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.8, REQID:e290d56d-f96a-4348-b372-e63675557bda, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:0f94e32, CLOUDID:85bfa363-0b3f-4b2c-b3a6-ed5c044366a0,
- C
- OID:687ad5be47b9,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 58f5c9dbb434497d9b99c2d6b4dd5ce6-20220707
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 435513236; Thu, 07 Jul 2022 13:14:44 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 7 Jul 2022 13:14:43 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 7 Jul 2022 13:14:43 +0800
-Message-ID: <6b4a4be9b5c93b1931cdbd5b009eac3bfa9badbe.camel@mediatek.com>
-Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Thu, 7 Jul 2022 13:14:43 +0800
-In-Reply-To: <20220701062808.18596-6-rex-bc.chen@mediatek.com>
-References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
- <20220701062808.18596-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1838F1122A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 05:19:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657171167; x=1688707167;
+ h=subject:references:in-reply-to:to:cc:from:message-id:
+ date:mime-version:content-transfer-encoding;
+ bh=JnsdlBnemi3+nXZhtC2fFwNrIgLD1cmfnw2eTSz6klU=;
+ b=Ju59EGDNta+sKzj7WGv2XQhPmDwZvYh/iz11e9mo/KCUxJ3ThkEgxRxf
+ dQFFaYQ22Mm2PAZVrWurkimfwnxAJH6NB5M1a7o4tjRe3gzKCvuMejpDE
+ g9NXqYYlm7JQaxv0BKk0h6UPiHIFGPY91boOQDRUu4eugIJhBZSZP3Vnn
+ p0sWvZUjyARJEQRCTIItOBwtjruz7g02N6MLA+r8/sahK4pWn/1Q/zk5P
+ vf6+pUyReX55p1SBmQ2uu42PX1r0rxIszNj67OdfzlmRurmCNNmLI6+iv
+ HNSNhETcaVOJbc+gKPm8HmgT62duS4MaZaylindPQxG68PG4zr4qIoSF7 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="309489876"
+X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; d="scan'208";a="309489876"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 22:19:26 -0700
+X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; d="scan'208";a="650975358"
+Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.255.31.6])
+ ([10.255.31.6])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 22:19:23 -0700
+Subject: Re: [PATCH v2 3/4] drm/gem: rename struct drm_gem_dma_object.{paddr
+ => dma_addr}
+References: <202207070426.Bj47lRp2-lkp@intel.com>
+In-Reply-To: <202207070426.Bj47lRp2-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
+ laurent.pinchart@ideasonboard.com, airlied@linux.ie, tzimmermann@suse.de
+From: kernel test robot <rong.a.chen@intel.com>
+X-Forwarded-Message-Id: <202207070426.Bj47lRp2-lkp@intel.com>
+Message-ID: <75985d03-11aa-1c0a-d1c0-6a6cbd56cbce@intel.com>
+Date: Thu, 7 Jul 2022 13:19:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,92 +62,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Danilo Krummrich <dakr@redhat.com>, kbuild-all@lists.01.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+Hi Danilo,
 
-On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
+Thank you for the patch! Yet something to improve:
 
-[snip]
+[auto build test ERROR on v5.19-rc5]
+[also build test ERROR on linus/master]
+[cannot apply to drm-misc/drm-misc-next anholt/for-next 
+pinchartl-media/drm/du/next next-20220706]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +
-> +static ssize_t mtk_dp_hpd_sink_event(struct mtk_dp *mtk_dp)
+url: 
+https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-rename-CMA-helpers-to-DMA-helpers/20220706-204716
+base:    88084a3df1672e131ddc1b4e39eeacfd39864acf
+config: arm-buildonly-randconfig-r003-20220706 
+(https://download.01.org/0day-ci/archive/20220707/202207070426.Bj47lRp2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+         wget 
+https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross 
+-O ~/bin/make.cross
+         chmod +x ~/bin/make.cross
+         # 
+https://github.com/intel-lab-lkp/linux/commit/54853a66aeea45ecb99d39dec51a7018803174e6
+         git remote add linux-review https://github.com/intel-lab-lkp/linux
+         git fetch --no-tags linux-review 
+Danilo-Krummrich/drm-rename-CMA-helpers-to-DMA-helpers/20220706-204716
+         git checkout 54853a66aeea45ecb99d39dec51a7018803174e6
+         # save the config file
+         mkdir build_dir && cp config build_dir/.config
+         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross 
+W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/tilcdc/
 
-The caller never use the return value, so let this function to void.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> +{
-> +	ssize_t ret;
-> +	u8 sink_count;
-> +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
-> +	u32 sink_count_reg = DP_SINK_COUNT_ESI;
-> +	u32 link_status_reg = DP_LANE0_1_STATUS;
-> +
-> +	ret = drm_dp_dpcd_readb(&mtk_dp->aux, sink_count_reg,
-> &sink_count);
+All errors (new ones prefixed by >>):
 
-You read sink_count but never use it, so this read is redundant. Remove
-it.
+    drivers/gpu/drm/tilcdc/tilcdc_crtc.c: In function 'set_scanout':
+>> drivers/gpu/drm/tilcdc/tilcdc_crtc.c:72:22: error: 'struct drm_gem_dma_object' has no member named 'paddr'; did you mean 'vaddr'?
+       72 |         start = gem->paddr + fb->offsets[0] +
+          |                      ^~~~~
+          |                      vaddr
 
-> +	if (ret < 1) {
-> +		drm_err(mtk_dp->drm_dev, "Read sink count failed\n");
-> +		return ret == 0 ? -EIO : ret;
-> +	}
-> +
-> +	ret = drm_dp_dpcd_read(&mtk_dp->aux, link_status_reg,
-> link_status,
-> +			       sizeof(link_status));
-> +	if (!ret) {
-> +		drm_err(mtk_dp->drm_dev, "Read link status failed\n");
-> +		return ret;
-> +	}
-> +
-> +	drm_dp_channel_eq_ok(link_status, mtk_dp-
-> >train_info.lane_count);
 
-This function just return true or false, and you does not process the
-return value, so this is redundant. Remove it.
+vim +72 drivers/gpu/drm/tilcdc/tilcdc_crtc.c
 
-Regard,
-CK
-
-> +
-> +	if (link_status[1] & DP_REMOTE_CONTROL_COMMAND_PENDING)
-> +		drm_dp_dpcd_writeb(&mtk_dp->aux,
-> DP_DEVICE_SERVICE_IRQ_VECTOR,
-> +				   DP_REMOTE_CONTROL_COMMAND_PENDING);
-> +
-> +	return 0;
-> +}
-
+16ea975eac671fa Rob Clark        2013-01-08  61  2b2080d7e9ae246 Tomi 
+Valkeinen   2015-10-20  62  static void set_scanout(struct drm_crtc 
+*crtc, struct drm_framebuffer *fb)
+16ea975eac671fa Rob Clark        2013-01-08  63  {
+16ea975eac671fa Rob Clark        2013-01-08  64  	struct drm_device *dev 
+= crtc->dev;
+4c268d635f8d4f5 Daniel Schultz   2016-10-28  65  	struct 
+tilcdc_drm_private *priv = dev->dev_private;
+efb5bf503f38a8d Danilo Krummrich 2022-07-06  66  	struct 
+drm_gem_dma_object *gem;
+2b2080d7e9ae246 Tomi Valkeinen   2015-10-20  67  	dma_addr_t start, end;
+7eb9f069ff5dd39 Jyri Sarha       2016-08-26  68  	u64 dma_base_and_ceiling;
+16ea975eac671fa Rob Clark        2013-01-08  69  d47caa3aaf3da1e Danilo 
+Krummrich 2022-07-06  70  	gem = drm_fb_dma_get_gem_obj(fb, 0);
+16ea975eac671fa Rob Clark        2013-01-08  71  2b2080d7e9ae246 Tomi 
+Valkeinen   2015-10-20 @72  	start = gem->paddr + fb->offsets[0] +
+2b2080d7e9ae246 Tomi Valkeinen   2015-10-20  73  		crtc->y * 
+fb->pitches[0] +
+353c859899635ea Ville Syrjälä    2016-12-14  74  		crtc->x * 
+fb->format->cpp[0];
+16ea975eac671fa Rob Clark        2013-01-08  75  2b2080d7e9ae246 Tomi 
+Valkeinen   2015-10-20  76  	end = start + (crtc->mode.vdisplay * 
+fb->pitches[0]);
+16ea975eac671fa Rob Clark        2013-01-08  77  7eb9f069ff5dd39 Jyri 
+Sarha       2016-08-26  78  	/* Write LCDC_DMA_FB_BASE_ADDR_0_REG and 
+LCDC_DMA_FB_CEILING_ADDR_0_REG
+7eb9f069ff5dd39 Jyri Sarha       2016-08-26  79  	 * with a single 
+insruction, if available. This should make it more
+7eb9f069ff5dd39 Jyri Sarha       2016-08-26  80  	 * unlikely that LCDC 
+would fetch the DMA addresses in the middle of
+7eb9f069ff5dd39 Jyri Sarha       2016-08-26  81  	 * an update.
+7eb9f069ff5dd39 Jyri Sarha       2016-08-26  82  	 */
+4c268d635f8d4f5 Daniel Schultz   2016-10-28  83  	if (priv->rev == 1)
+4c268d635f8d4f5 Daniel Schultz   2016-10-28  84  		end -= 1;
+4c268d635f8d4f5 Daniel Schultz   2016-10-28  85  4c268d635f8d4f5 Daniel 
+Schultz   2016-10-28  86  	dma_base_and_ceiling = (u64)end << 32 | start;
+7eb9f069ff5dd39 Jyri Sarha       2016-08-26  87  	tilcdc_write64(dev, 
+LCDC_DMA_FB_BASE_ADDR_0_REG, dma_base_and_ceiling);
+16ea975eac671fa Rob Clark        2013-01-08  88  }
+16ea975eac671fa Rob Clark        2013-01-08  89
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
