@@ -1,44 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65EC56AC37
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 21:50:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE7356AC4F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3570F112085;
-	Thu,  7 Jul 2022 19:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E01811B57E;
+	Thu,  7 Jul 2022 20:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1101112085;
- Thu,  7 Jul 2022 19:50:02 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A6B11B57E;
+ Thu,  7 Jul 2022 20:02:44 +0000 (UTC)
+Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
+ [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4Lf6Sp2Dr6zDr4k;
- Thu,  7 Jul 2022 19:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1657223402; bh=ied7/wQBWyRAGNRM3YJQ9nmwASEEztOFVReHeNDPqs4=;
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbeckett)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 258C266019C5;
+ Thu,  7 Jul 2022 21:02:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1657224163;
+ bh=0/9ffiL/HKZsLdVNSgPipF3QEZXI8sb1Hip5T/0uQzw=;
  h=From:To:Cc:Subject:Date:From;
- b=fOz0/Uf6U90A9zYKjLrYyhaK5DOKfrFIvBM0bBMLHLM9VoHoTj9ZNQ0iwIL5u+zEg
- AXXyOp3vVyjQtpP6Niv30wOp8BgS0agFINCJYPfOw15jlGX0oCHKxGiK25p318rtNi
- ZVCcN8sHivF7gRafsWqVjJfzsx2zMERBdPOxal4w=
-X-Riseup-User-ID: 8654BB5CEEAED37E29E93B549D0D383934D30FA2C2F8B642BBBDF6AF5CF020CD
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4Lf6Sk2jRDz5vXK;
- Thu,  7 Jul 2022 19:49:58 +0000 (UTC)
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/amd/display: Drop dm_sw_gfx7_2d_thin_l_vp and
- dm_sw_gfx7_2d_thin_gl
-Date: Thu,  7 Jul 2022 16:49:49 -0300
-Message-Id: <20220707194949.103978-1-mairacanal@riseup.net>
+ b=S5ExfCKzodgjL7Q0+f+mRj2N8C9azsfuAvh1aW+ivjUsVfTnPw7RV4Z1IAfDqmbsx
+ ZiJzqyqA3M7KJfRbVOyGL4shIJQV/+1R6gB1I6JjiVyjcImVp3wn4cnq99XQT4MgXA
+ aJJJNGN81rT9EVnunLNJHEFRw0w7aCXey/vmJIC3roeuvUt/aA7gYqp+4rR2lBXXHd
+ mnuuQE0sV5+39W3g1aaOgSWhPyEp0IQbGrMbtP2ftT2TfgsKp/xA/gTr+U18+xgJX1
+ rnMKpU+y5KYwshwxJsfPeCoBgOv+8nIzP4gVyxdRXY6G4hJYePJd3AnNnR2NuW/zem
+ wwYbiFT5gmncQ==
+From: Robert Beckett <bob.beckett@collabora.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v10 00/11] drm/i915: ttm for stolen
+Date: Thu,  7 Jul 2022 20:02:18 +0000
+Message-Id: <20220707200230.1657555-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -54,194 +51,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ kernel@collabora.com, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the enum dm_sw_gfx7_2d_thin_gl and dm_sw_gfx7_2d_thin_l_vp are not
-used on the codebase, this commit drops those entries from enum
-dm_swizzle_mode.
+This series refactors i915's stolen memory region to use ttm.
 
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
----
- .../dc/dml/dcn20/display_mode_vba_20.c        | 26 +++++-------------
- .../dc/dml/dcn20/display_mode_vba_20v2.c      | 26 +++++-------------
- .../dc/dml/dcn21/display_mode_vba_21.c        | 27 +++++--------------
- .../amd/display/dc/dml/display_mode_enums.h   |  2 --
- .../display/dc/dml/dml_wrapper_translation.c  |  9 -------
- 5 files changed, 19 insertions(+), 71 deletions(-)
+v2:	handle disabled stolen similar to legacy version.
+	relying on ttm to fail allocs works fine, but is dmesg noisy and causes testing
+	dmesg warning regressions.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-index d3b5b6fedf04..4e4cb0927057 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-@@ -938,7 +938,7 @@ static unsigned int CalculateVMAndRowBytes(
- 		*MetaRowByte = 0;
- 	}
- 
--	if (SurfaceTiling == dm_sw_linear || SurfaceTiling == dm_sw_gfx7_2d_thin_gl || SurfaceTiling == dm_sw_gfx7_2d_thin_l_vp) {
-+	if (SurfaceTiling == dm_sw_linear) {
- 		MacroTileSizeBytes = 256;
- 		MacroTileHeight = BlockHeight256Bytes;
- 	} else if (SurfaceTiling == dm_sw_4kb_s || SurfaceTiling == dm_sw_4kb_s_x
-@@ -3347,26 +3347,12 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 										== dm_420_8
- 								|| mode_lib->vba.SourcePixelFormat[k]
- 										== dm_420_10))
--				|| (((mode_lib->vba.SurfaceTiling[k] == dm_sw_gfx7_2d_thin_gl
--						|| mode_lib->vba.SurfaceTiling[k]
--								== dm_sw_gfx7_2d_thin_l_vp)
--						&& !((mode_lib->vba.SourcePixelFormat[k]
--								== dm_444_64
-+				|| (mode_lib->vba.DCCEnable[k] == true
-+						&& (mode_lib->vba.SurfaceTiling[k] == dm_sw_linear
- 								|| mode_lib->vba.SourcePixelFormat[k]
--										== dm_444_32)
--								&& mode_lib->vba.SourceScan[k]
--										== dm_horz
--								&& mode_lib->vba.SupportGFX7CompatibleTilingIn32bppAnd64bpp
--										== true
--								&& mode_lib->vba.DCCEnable[k]
--										== false))
--						|| (mode_lib->vba.DCCEnable[k] == true
--								&& (mode_lib->vba.SurfaceTiling[k]
--										== dm_sw_linear
--										|| mode_lib->vba.SourcePixelFormat[k]
--												== dm_420_8
--										|| mode_lib->vba.SourcePixelFormat[k]
--												== dm_420_10)))) {
-+										== dm_420_8
-+								|| mode_lib->vba.SourcePixelFormat[k]
-+										== dm_420_10))) {
- 			mode_lib->vba.SourceFormatPixelAndScanSupport = false;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-index 63bbdf8b8678..eaa0cdb599ba 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-@@ -998,7 +998,7 @@ static unsigned int CalculateVMAndRowBytes(
- 		*MetaRowByte = 0;
- 	}
- 
--	if (SurfaceTiling == dm_sw_linear || SurfaceTiling == dm_sw_gfx7_2d_thin_gl || SurfaceTiling == dm_sw_gfx7_2d_thin_l_vp) {
-+	if (SurfaceTiling == dm_sw_linear) {
- 		MacroTileSizeBytes = 256;
- 		MacroTileHeight = BlockHeight256Bytes;
- 	} else if (SurfaceTiling == dm_sw_4kb_s || SurfaceTiling == dm_sw_4kb_s_x
-@@ -3454,26 +3454,12 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
- 										== dm_420_8
- 								|| mode_lib->vba.SourcePixelFormat[k]
- 										== dm_420_10))
--				|| (((mode_lib->vba.SurfaceTiling[k] == dm_sw_gfx7_2d_thin_gl
--						|| mode_lib->vba.SurfaceTiling[k]
--								== dm_sw_gfx7_2d_thin_l_vp)
--						&& !((mode_lib->vba.SourcePixelFormat[k]
--								== dm_444_64
-+				|| (mode_lib->vba.DCCEnable[k] == true
-+						&& (mode_lib->vba.SurfaceTiling[k] == dm_sw_linear
- 								|| mode_lib->vba.SourcePixelFormat[k]
--										== dm_444_32)
--								&& mode_lib->vba.SourceScan[k]
--										== dm_horz
--								&& mode_lib->vba.SupportGFX7CompatibleTilingIn32bppAnd64bpp
--										== true
--								&& mode_lib->vba.DCCEnable[k]
--										== false))
--						|| (mode_lib->vba.DCCEnable[k] == true
--								&& (mode_lib->vba.SurfaceTiling[k]
--										== dm_sw_linear
--										|| mode_lib->vba.SourcePixelFormat[k]
--												== dm_420_8
--										|| mode_lib->vba.SourcePixelFormat[k]
--												== dm_420_10)))) {
-+										== dm_420_8
-+								|| mode_lib->vba.SourcePixelFormat[k]
-+										== dm_420_10))) {
- 			mode_lib->vba.SourceFormatPixelAndScanSupport = false;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-index 8a7485e21d53..198d81861ac5 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-@@ -1342,7 +1342,7 @@ static unsigned int CalculateVMAndRowBytes(
- 		*MetaRowByte = 0;
- 	}
- 
--	if (SurfaceTiling == dm_sw_linear || SurfaceTiling == dm_sw_gfx7_2d_thin_gl || SurfaceTiling == dm_sw_gfx7_2d_thin_l_vp) {
-+	if (SurfaceTiling == dm_sw_linear) {
- 		MacroTileSizeBytes = 256;
- 		MacroTileHeight = BlockHeight256Bytes;
- 	} else if (SurfaceTiling == dm_sw_4kb_s || SurfaceTiling == dm_sw_4kb_s_x
-@@ -3579,26 +3579,13 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 										== dm_420_8
- 								|| mode_lib->vba.SourcePixelFormat[k]
- 										== dm_420_10))
--				|| (((mode_lib->vba.SurfaceTiling[k] == dm_sw_gfx7_2d_thin_gl
--						|| mode_lib->vba.SurfaceTiling[k]
--								== dm_sw_gfx7_2d_thin_l_vp)
--						&& !((mode_lib->vba.SourcePixelFormat[k]
--								== dm_444_64
-+				|| (mode_lib->vba.DCCEnable[k] == true
-+						&& (mode_lib->vba.SurfaceTiling[k]
-+								== dm_sw_linear
- 								|| mode_lib->vba.SourcePixelFormat[k]
--										== dm_444_32)
--								&& mode_lib->vba.SourceScan[k]
--										== dm_horz
--								&& mode_lib->vba.SupportGFX7CompatibleTilingIn32bppAnd64bpp
--										== true
--								&& mode_lib->vba.DCCEnable[k]
--										== false))
--						|| (mode_lib->vba.DCCEnable[k] == true
--								&& (mode_lib->vba.SurfaceTiling[k]
--										== dm_sw_linear
--										|| mode_lib->vba.SourcePixelFormat[k]
--												== dm_420_8
--										|| mode_lib->vba.SourcePixelFormat[k]
--												== dm_420_10)))) {
-+										== dm_420_8
-+								|| mode_lib->vba.SourcePixelFormat[k]
-+										== dm_420_10))) {
- 			mode_lib->vba.SourceFormatPixelAndScanSupport = false;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h b/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h
-index f394b3f3922a..0e06727d40b3 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h
-+++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h
-@@ -89,8 +89,6 @@ enum dm_swizzle_mode {
- 	dm_sw_var_s_x = 29,
- 	dm_sw_var_d_x = 30,
- 	dm_sw_var_r_x = 31,
--	dm_sw_gfx7_2d_thin_l_vp,
--	dm_sw_gfx7_2d_thin_gl,
- };
- enum lb_depth {
- 	dm_lb_10 = 0, dm_lb_8 = 1, dm_lb_6 = 2, dm_lb_12 = 3, dm_lb_16 = 4,
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c
-index 4ec5310a2962..9edcb6fc83c1 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c
-@@ -35,15 +35,6 @@ static void gfx10array_mode_to_dml_params(
- 	case DC_ARRAY_LINEAR_GENERAL:
- 		*sw_mode = dm_sw_linear;
- 		break;
--	case DC_ARRAY_2D_TILED_THIN1:
--// DC_LEGACY_TILING_ADDR_GEN_ZERO - undefined as per current code hence removed
--#if 0
--		if (compat_level == DC_LEGACY_TILING_ADDR_GEN_ZERO)
--			*sw_mode = dm_sw_gfx7_2d_thin_l_vp;
--		else
--			*sw_mode = dm_sw_gfx7_2d_thin_gl;
--#endif
--		break;
- 	default:
- 		ASSERT(0); /* Not supported */
- 		break;
+v3:	rebase to latest drm-tip.
+	fix v2 code refactor which could leave a buffer pinned.
+	locally passes fftl again now.
+
+v4:	- Allow memory regions creators to do allocation. Allows stolen region to track
+	  it's own reservations.
+	- Pre-reserve first page of stolen mem (add back WaSkipStolenMemoryFirstPage:bdw+)
+	- Improve commit descritpion for "drm/i915: sanitize mem_flags for stolen buffers"
+	- replace i915_gem_object_pin_pages_unlocked() call with manual locking and pinning.
+	  this avoids ww ctx class reuse during context creation -> ring vma obj alloc.
+
+v5:	- detect both types of stolen as stolen buffers in
+	  "drm/i915: sanitize mem_flags for stolen buffers"
+	- in stolen_object_init limit page size to mem region minimum.
+	  The range allocator expects the page_size to define the
+	  alignment
+
+v6:	- Share first 4 patches from ttm for internal series as generic
+	  i915 ttm fixes
+	- Drop patch 4 from v5. We don't need separate object ops just
+	  to satisfy test interfaces. The tests have now been fixed via
+	  checking whether the memory region is private to decide
+	  whether to mmap
+	- Add new buffer pin alloc flag to allow creation of buffers in
+	  their final ttm placement instead of deferring until
+	  get_pages. This fixes legacy fallback paths for buffer
+	  allocations during stolen memory pressure.
+
+v7: 	- fix mock_region_get_pages() to correctly handle I915_BO_INVALID_OFFSET
+
+v8:	- Reserve I915_GEM_STOLEN_BIAS area from stolen
+
+v9:	- drop patch 8 "drm/i915: allow memory region creators to alloc and free the region"
+	  store bias reservation in drm_i915_private instead.
+	- Restrict reset selftest to only test !GuC engines.
+	  Resetting individual GuC engines from host is not supported
+	- Wait for outstanding requests in reset selftest
+	  This prevents previous engine test context cleanup appearing
+	  as false positive stolen corruption check
+
+v10:	- Fix wiating on requests early error path during reset selftest
+	  If a single request fails to complete, the others would not be
+	  put, resulting in leaks. Make sure all requests are put before
+	  test exit.
+
+Robert Beckett (11):
+  drm/i915/ttm: dont trample cache_level overrides during ttm move
+  drm/i915: limit ttm to dma32 for i965G[M]
+  drm/i915/ttm: only trust snooping for dgfx when deciding default
+    cache_level
+  drm/i915/gem: selftest should not attempt mmap of private regions
+  drm/i915: instantiate ttm ranger manager for stolen memory
+  drm/i915: sanitize mem_flags for stolen buffers
+  drm/i915: ttm move/clear logic fix
+  drm/i915/ttm: add buffer pin on alloc flag
+  drm/i915/selftest: don't attempt engine reset of guc submission
+    engines
+  drm/i915/selftest: wait for requests during engine reset selftest
+  drm/i915: stolen memory use ttm backend
+
+ drivers/gpu/drm/i915/display/intel_fbc.c      |  78 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  16 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    | 425 ++++++------------
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h    |  21 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  29 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   7 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  47 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   3 +
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |   4 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  53 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   7 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   6 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  80 +++-
+ drivers/gpu/drm/i915/intel_region_ttm.h       |   8 +-
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
+ 16 files changed, 420 insertions(+), 377 deletions(-)
+
 -- 
-2.36.1
+2.25.1
 
