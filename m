@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1722756AD87
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:32:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCE356AD94
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:32:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1A011B4F5;
-	Thu,  7 Jul 2022 21:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9B1C11B79A;
+	Thu,  7 Jul 2022 21:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
  [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D909F11B05E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 21:32:10 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id s14so23856219ljs.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 14:32:10 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3BF11B606
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 21:32:13 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id w2so7477346ljj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 14:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=deR1nxfWNzf3dpwLPDYkcufOtw07ZRiv7QMZfcD7n5Q=;
- b=aCvAysEOZv/lB2z2SXSndq3Rm/9OxE9vikZvWZXDkgaVHdKCRluxhSy/OrPtjbibpc
- gAETvrlfJtC+eM3bFRzoOZcxo9CP96APqbcPOHsLXe8VGWmOmMwxaqp24dCYthWZYRie
- RvSb3ak/GBBOEW6JTFEYqQXWF9/kfkg8yiH5MmJU5JXq+yZrOCz4L9K882Od2aewaAo/
- yRhbSbESWtTkkObDlbVapdi8EjKTqx0GY+ors3TxuhMo8X/ocsp+EQ7zIzJg4vPdpANI
- A2Mrp8FdxxEvrE78B3hEhmmBD+EKIXxxa6JNtXUDtVEwXE6XTWPhPzwWJVWlosA4qrIo
- FDpQ==
+ bh=4qmHqomtPIyCyTmU9c0GuY++F1fuqEtzhO4HzH/F14o=;
+ b=JqL35clNBQYGPpaEjGmP1beT+IT1EyV8unkvRsu5HYH9lBGYNo8xV8yONYTT2/4waM
+ IL+rG1NWqVUWLiB+qBszuthBY4ieC94jIpRIfmk/47TSLj5BnjI2Ccy64RKUULYP4DrQ
+ 0YXS3RxG7Dw5reRbvYjC2YN3uhuQilzvFhiTCDRB052/MbM1RINhz3eEIYv0Xvu9/ZIG
+ thmEVSfE6eP6P/+9pErPme9PIGxByD4IxyC2nPV27Yr5TijqJkipUQfG1XmuMZ6KgZHv
+ tbZmH7a9yV/I7dd3Y1DeyQR5OklzSRZjn23nsxSsRpBCIzwoXhfGNL0YvNOy+BDljE3l
+ Ku9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=deR1nxfWNzf3dpwLPDYkcufOtw07ZRiv7QMZfcD7n5Q=;
- b=dPL4ORgmDdZVSgyU7h7KajmkypPRFyfZyxlS/9SDsQBX8TbRxiNQ8Qe8xlHWXZr6bj
- UDo4ZpofMhF+RWVfIKyuQTDqkUqrA2VK44DKntmRTRFeYr4f+1NzVIcjOch/cghY+ubj
- XrN3KYpX3vwR9Bnd9s4RR+56vk23tVmUO493CwrpFWoyXsbsOVxZijqMsxdj/DDzS9Hl
- 6EwN1CcJ3ZU1sbRNdu7yZRYQcJAgOPG5/Ehmdp5X4BCmbVOO5lBjhDC3bRY5wwzbSTVo
- wwbU/tlR9KthX7cuYEDkAeJubEheQX0H1RoBH9tY1pMBvu7fCoyH4y+5j/On6oyOdEaB
- L/sg==
-X-Gm-Message-State: AJIora+K/0ww2d2NGHDIaBi1w7kZOoQn2Z0pgf+1vsxq+cMEKyRkGPHC
- ES6I4eY1hK86ylMvaIUCsJPyog==
-X-Google-Smtp-Source: AGRyM1syma+AzNNuFCY/QL5hX+OuBGxgZPtBeQejNm2Im/56/APYMORKQOJbo+AE8PAWbCqVxfie8A==
-X-Received: by 2002:a05:651c:545:b0:25b:c791:816c with SMTP id
- q5-20020a05651c054500b0025bc791816cmr12841ljp.161.1657229530435; 
- Thu, 07 Jul 2022 14:32:10 -0700 (PDT)
+ bh=4qmHqomtPIyCyTmU9c0GuY++F1fuqEtzhO4HzH/F14o=;
+ b=Q1gihQPadJ17W3ZfCvMBk0K55MWLJMBc77trpFGpn/E4Yv3/9OyreFIzpP104Z7M/j
+ 5lkTbMjsfdFkpAPr6fR6yOvQZEpQhrqFVBW9Y0P6PEQDmm2IGIWqXEu7GQ5hj77XsJ65
+ 9cynSzxbXVjvG34e/eHT3XO91Jl/gT5eicpGAJF2rKYfZOqQcx1Lb5GDmwM9cag09nWZ
+ mj2DjKIrRKWYKrsUF54xrpqroWIh1ZaMIBFlGh9/S9BgvzWDSdRUUL71u+69IsbRPetY
+ kwbx4Rzi4vmBoEchRijd+680YPmBeAaDYydqUm8+clmULl2Qb3/kzmBUOpJCgr6j1J31
+ DLFQ==
+X-Gm-Message-State: AJIora/+SGuR7WLlQut4jYD+w5H3fn3rALA3qcS6qDkEg7V6EBpd/xCE
+ 7AU6BPnlq2tBkQYsdca4I5TJ3g==
+X-Google-Smtp-Source: AGRyM1u/zrZV5WDyRRmrgrTfbAEEMXa9NwgyyQheuXKk49R9ljtdKrfrkROt+ndm+hSOiQv8gSUPfQ==
+X-Received: by 2002:a2e:2284:0:b0:25d:490f:60d3 with SMTP id
+ i126-20020a2e2284000000b0025d490f60d3mr20372lji.486.1657229531507; 
+ Thu, 07 Jul 2022 14:32:11 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- o19-20020ac24e93000000b0047f8cb94004sm7046709lfr.35.2022.07.07.14.32.09
+ o19-20020ac24e93000000b0047f8cb94004sm7046709lfr.35.2022.07.07.14.32.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:32:09 -0700 (PDT)
+ Thu, 07 Jul 2022 14:32:10 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,10 +54,9 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 5/9] dt-bindings: msm/dp: account for clocks specific for qcom,
- sc7280-edp
-Date: Fri,  8 Jul 2022 00:32:00 +0300
-Message-Id: <20220707213204.2605816-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 6/9] dt-bindings: msm/dp: handle DP vs eDP difference
+Date: Fri,  8 Jul 2022 00:32:01 +0300
+Message-Id: <20220707213204.2605816-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
 References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
@@ -81,92 +80,49 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On SC7280 platform the eDP controller uses an extended amount of clocks.
-Since it is the only known platform using such configuration, use
-if-then-else rather than listing each and every compatible string in the
-if conditions.
+The #sound-dai-cells property should be used only for DP controllers. It
+doesn't make sense for eDP, there is no support for audio output. Also
+aux-bus should not be used for DP controllers. Take care of these
+differences.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/display/msm/dp-controller.yaml   | 60 +++++++++++++++----
- 1 file changed, 48 insertions(+), 12 deletions(-)
+ .../bindings/display/msm/dp-controller.yaml   | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index f00eae66196f..1ef845005b14 100644
+index 1ef845005b14..491f4aefe0db 100644
 --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -38,20 +38,12 @@ properties:
-     maxItems: 1
- 
-   clocks:
--    items:
--      - description: AHB clock to enable register access
--      - description: Display Port AUX clock
--      - description: Display Port Link clock
--      - description: Link interface clock between DP and PHY
--      - description: Display Port Pixel clock
-+    minItems: 5
-+    maxItems: 7
- 
-   clock-names:
--    items:
--      - const: core_iface
--      - const: core_aux
--      - const: ctrl_link
--      - const: ctrl_link_iface
--      - const: stream_pixel
-+    minItems: 5
-+    maxItems: 7
- 
-   assigned-clocks:
-     items:
-@@ -119,6 +111,50 @@ required:
+@@ -107,7 +107,6 @@ required:
+   - clock-names
+   - phys
+   - phy-names
+-  - "#sound-dai-cells"
    - power-domains
    - ports
  
-+allOf:
+@@ -155,6 +154,24 @@ allOf:
+             - const: ctrl_link_iface
+             - const: stream_pixel
+ 
++  # AUX BUS does not exist on DP controllers
++  # Audio output also is present only on DP output
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
 +            enum:
 +              - qcom,sc7280-edp
++              - qcom,sc8180x-edp
 +    then:
 +      properties:
-+        clocks:
-+          items:
-+            - description: XO clock
-+            - description: eDP reference clock
-+            - description: AHB clock to enable register access
-+            - description: Display Port AUX clock
-+            - description: Display Port Link clock
-+            - description: Link interface clock between DP and PHY
-+            - description: Display Port Pixel clock
-+        clock-names:
-+          items:
-+            - const: core_xo
-+            - const: core_ref
-+            - const: core_iface
-+            - const: core_aux
-+            - const: ctrl_link
-+            - const: ctrl_link_iface
-+            - const: stream_pixel
++        "#sound-dai-cells": false
 +    else:
 +      properties:
-+        clocks:
-+          items:
-+            - description: AHB clock to enable register access
-+            - description: Display Port AUX clock
-+            - description: Display Port Link clock
-+            - description: Link interface clock between DP and PHY
-+            - description: Display Port Pixel clock
-+        clock-names:
-+          items:
-+            - const: core_iface
-+            - const: core_aux
-+            - const: ctrl_link
-+            - const: ctrl_link_iface
-+            - const: stream_pixel
++        aux-bus: false
++      required:
++        - "#sound-dai-cells"
 +
  additionalProperties: false
  
