@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7529556AD8F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC5B56ADBB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:35:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9AB11B63A;
-	Thu,  7 Jul 2022 21:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA85C112249;
+	Thu,  7 Jul 2022 21:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F275011AFE5
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 21:32:15 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id bu42so13447370lfb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 14:32:15 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1D7113B1E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 21:35:12 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id o7so4177756lfq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 14:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LmG27VAvPqwLokCgRV28hmE5ll7C/l8IW7AnNAbPsYQ=;
- b=jDaLV0ZBuyPjn14Y17cRatbbTN/Tkwejw4WZCqmEGWAVvzFp01TyY1lb64FKqPlpYy
- eiLpoye+eG9hRhG2corcbLnLmL06G3Wqmp0K8G+bh4rBR9T8hX5Rji1Eaq+Fm+JCK5Tw
- vsUAMAY+2SS0uWh+gmcBL9AatnNo/C3ffGAnS6eAhcW5qOdILnjx6kkxPdVsxCgCPS84
- md7dr7V/DVs2gt0zvyoB8+7rJ25h082E8Ju/0CGiSExSSk/y7QvDUOqRs8QadyMjyw7n
- F7vrk3O66oVEGvZUCZ2hUdvkkVNaUL0A8ADnCYayOxEupDTsERiQioKlE/p40Uw8vFR8
- KUpg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=SD0NxvCJo32HYd+2WD+ONWSoll8afsUSYzd6YC6f2ac=;
+ b=Yd0rw0t7ckAq+3RTm6AZOhVD5TIdiSyr2zkVbGg0YMmzpPjSBZrfpkkLZnKgXan7Pj
+ dEsi8Jpkd1Bhm89Bfp+vTzdZiT2ydU3CAp6VVx64w//Eh2wWBQp3TKdtdYsbJUv1DgfI
+ Uj0311zBVQEtAC0LBOoA+qJcL3woCe1W83n+ASzjW8Lct/UohtvCvqj29Gn+VCbymwff
+ jHKwaTPdJ6M81cT9nFb36WAfYM/e4mqk7q22zULxugh8oqHHe1m+Xwf5N+J2E56JM8/W
+ aY9yYy7zPXWEuStZfNAjd7PfGmXs0NE0AUpKMrE6qPPa1gr6MxPjFu6Kw472nk1jO7cH
+ SgIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LmG27VAvPqwLokCgRV28hmE5ll7C/l8IW7AnNAbPsYQ=;
- b=U2q+9Ey6oTgqnwxLJqQjQgFd0MH2wO9ltaVO20GgMeJ/2faT9swApiDfzuIDiF1mup
- a7Jrsq857m6/Z1rWzTPBzT3W4seatSjJ6AQtsT8bQKpH87KvV5kY8C2D2DP4TIW1OJcT
- mXeClw4ZWB8Qh/wQi2MI6Tw7pCXTXZtf2qYPdNc0FPHfgLm7Mmf0RwoL1oDwJgCsj6ev
- MNWZMjT05LNo0QmhBejvP9mL4hlYTE0u1ChSIsfsb9nB8Bot5iqAuY94QiC7IsxcctIR
- qS4SbD7KUyZgioOuQNd6zSlJMLIv57sX92KvGFcIaVxOGoYoikpf7Jh/Hpxa2IpHS3Hw
- s/OA==
-X-Gm-Message-State: AJIora9v6e9nxxsNKakcZ5WtFLIp5Fy+g0hdDwOIz6e/DZG60EpVOLvF
- xxeiq/WBbQOwA/gSpXAaKejN8Q==
-X-Google-Smtp-Source: AGRyM1smbr0/8AujEHBcLyNC+lvRU2ijM+Qi7JuhUY4++YSEHvrLz3qMQdbflIiMW/6j79iVTBfIag==
-X-Received: by 2002:ac2:53b6:0:b0:486:3357:c67d with SMTP id
- j22-20020ac253b6000000b004863357c67dmr128289lfh.433.1657229534248; 
- Thu, 07 Jul 2022 14:32:14 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- o19-20020ac24e93000000b0047f8cb94004sm7046709lfr.35.2022.07.07.14.32.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:32:13 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 9/9] arm64: dts: qcom: sc7280: drop address/size-cells from
- eDP node
-Date: Fri,  8 Jul 2022 00:32:04 +0300
-Message-Id: <20220707213204.2605816-10-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
-References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SD0NxvCJo32HYd+2WD+ONWSoll8afsUSYzd6YC6f2ac=;
+ b=IKwoUM954AdjC2l1GfNTYOKmRJ/Ti+ffm0AsiNhUSeELN5AjIIn4C9fTBntPf2Ahcg
+ TqynHMcTSRAfh+ZoFkfSNz7ITgEF0xthd78S2lrB08Cdk18zip9aNE9hk4UvlTE4XZnZ
+ kQH4pe+OjfJtQLhlQaVUidHF+o3isHCrj1qV+HlslEKZBYtVCFSprIpHns30JnHbeHH2
+ sm/ViFKAwupSxft2oJlCiX532N39zzlvr9qR2gReTeISNBbwL/jQh5079eEX70KHaM0u
+ WcUNhLoMK+0FfYXJhMJddjrR58ENw7a82+SFxo4uQ2uHQ5gwuEFUO2myShBjt2DB0KvM
+ yTkA==
+X-Gm-Message-State: AJIora+Wi0CStyQneTYW/rpQ4O8i9v+vDwOE5ucx/BbJh5VA8TupZwjR
+ OtxA1EQNfRWQsTCjv8qfp9RC5w==
+X-Google-Smtp-Source: AGRyM1s01Ak2ESoCsiR0hzOAkFb6zGRLzecc9aB/OcMWeyDDvPq67Rf/HR/PYmmWNLqShfF28ejfig==
+X-Received: by 2002:a05:6512:2810:b0:47f:a76c:8770 with SMTP id
+ cf16-20020a056512281000b0047fa76c8770mr182935lfb.116.1657229711019; 
+ Thu, 07 Jul 2022 14:35:11 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ u10-20020a05651220ca00b0048957b0c58fsm182205lfr.47.2022.07.07.14.35.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jul 2022 14:35:10 -0700 (PDT)
+Message-ID: <92483e36-e0bc-3cdb-a9b9-fa354c948c19@linaro.org>
+Date: Fri, 8 Jul 2022 00:35:09 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/msm/dpu: Fix for non-visible planes
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220707212003.1710163-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220707212003.1710163-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,36 +73,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Fernando Ramos <greenfoo@u92.eu>, Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop #address/#size-cells from eDP device node. For eDP the panels are
-not described directly under the controller node. They are either
-present under aux-bus child node, or they are declared separately (e.g.
-in a /soc node).
+On 08/07/2022 00:20, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Fixes `kms_cursor_crc --run-subtest cursor-offscreen`.. when the cursor
+> moves offscreen the plane becomes non-visible, so we need to skip over
+> it in crtc atomic test and mixer setup.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 3 ---
- 1 file changed, 3 deletions(-)
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 21ab986968e2..004cbbb084a2 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -3740,9 +3740,6 @@ mdss_edp: edp@aea0000 {
- 				operating-points-v2 = <&edp_opp_table>;
- 				power-domains = <&rpmhpd SC7280_CX>;
- 
--				#address-cells = <1>;
--				#size-cells = <0>;
--
- 				status = "disabled";
- 
- 				ports {
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 4dd0ce09ca74..4ba000951a90 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -422,6 +422,9 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   		if (!state)
+>   			continue;
+>   
+> +		if (!state->visible)
+> +			continue;
+> +
+>   		pstate = to_dpu_plane_state(state);
+>   		fb = state->fb;
+>   
+> @@ -1195,6 +1198,9 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   		if (cnt >= DPU_STAGE_MAX * 4)
+>   			continue;
+>   
+> +		if (!pstate->visible)
+> +			continue;
+> +
+>   		pstates[cnt].dpu_pstate = dpu_pstate;
+>   		pstates[cnt].drm_pstate = pstate;
+>   		pstates[cnt].stage = pstate->normalized_zpos;
+
+
 -- 
-2.35.1
-
+With best wishes
+Dmitry
