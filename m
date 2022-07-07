@@ -1,64 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA7056ACEE
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:48:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F8656ACF3
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:51:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EEF614AB2A;
-	Thu,  7 Jul 2022 20:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D52614AB7D;
+	Thu,  7 Jul 2022 20:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A9714AB2A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 20:48:30 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 322C2B823FD
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 20:48:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF014C341C8
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 20:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657226905;
- bh=Kl9IpbC2nEfAlX2SJeyCzIKZNijQs3Ywjm7XD0lnhX0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=WjlmzwSbgiGjy0ze31q/LNfxb7sgQgW+uYM5sIV0yqr3fq2Q+z0dXPutiE/OJx+4S
- C3M3EIW/ybEvGpEooAgdpRsoKSfU3nzPA55HSgs7Ffk2BtAAJPRvrBu+xWMV9TR1ez
- i4BpgE1G6Ca3vPrTCkyn2X/vJj0/cL2XteF3ZAbzX3b868rmHCEZ6mYXHgnD5v8EFq
- Pj5MQJHHiN1/pSKRW5QGzgXNvD6ue2MRkdyw5xkF+S/oNGcDlGYVOBu2fRa5bQwznT
- 2MFOtUdHiF8cSQXHDEKTQNZpzJyWs7VK44roI77tdfXnVkJtdhuVasME+fNTKXZydB
- 7pmAiFSIBLP9g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B82C1CC13B8; Thu,  7 Jul 2022 20:48:25 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208835] amdgpu fails to resume from suspend
-Date: Thu, 07 Jul 2022 20:48:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status cc
-Message-ID: <bug-208835-2300-5tDpkqY9KQ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208835-2300@https.bugzilla.kernel.org/>
-References: <bug-208835-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E4814AB83
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 20:51:05 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id o7so4007113lfq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 13:51:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1yCn9FzE3TgPn9G9aMPiVPfAOGS2N8GQpGxVZMGerPY=;
+ b=xOPoHYFsS3NPMHesqsz3d/V7flw6QibIRa52MJorz6ZxvJKN9QBEIYgo0qcMCT933D
+ XLChc0UZYhnk66+HrEPy+AjH0K3NCiJ2Nd2Wi+cDxK2OJOeqa5oI+6+xfeEuLTVE1Kwc
+ jdCw0eAubPWWwY6SLkdR7tFbawyksR/tx2pRe2fEuw1tMid/UMGjep+YwCLQFtq9n68k
+ Ng2sagiJPQG80XifY2wKkPd1g7eNcfK8arcTcOYKzbzc5Hhl4IrcsGOKjMjHe/qh/4A2
+ 1Q+J8SqXGvSpHcSnN/zhZPv8gR4U6T8l2v60uv61WJAU0GmpLT4Qsn7aH5vTK4hFWWUR
+ Ck5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1yCn9FzE3TgPn9G9aMPiVPfAOGS2N8GQpGxVZMGerPY=;
+ b=6jFEJIWi/dp5xM0yl91nPu1zLb/K4A5SNGvR9JV4Tmgy/Ui9qp2lPP7tqdpWLQma2I
+ NQBm4nFVaJXXX1pGubK7iygODPyrHiien0y7BNpVn6GtSGduT0pGG/XH/tn4C+4TYEC/
+ m0nRCEkad39yY+F2hWVhm39QmxhJj6n2Mp2qrvWh/BA35y5P4jwAEqFZ99xghnLsNQ/h
+ XAdotX6LKKU7eAjUZqp8idtoeL9zBHGPbrL3NiKikHqO/3DEWkJ54LvMIjZOWm+y5DTc
+ QjeyTQkpqtbI3+EA3PUI6n0+dyzTaSCmIk0k7k7ms4859/lfbpKjNicrmVWcXp9TxSAL
+ Kymw==
+X-Gm-Message-State: AJIora/wPGmYjJMB7KzkuuEA+ZXca+LXK+bhmsQ0qNxOVTDdAroTQMY2
+ jMy9uL9NAENCYWxyUS3pK0IWdg==
+X-Google-Smtp-Source: AGRyM1tMDs6Igfr2CIm7SALgNlpy/riEx4RV4z/bsOQ3j14KxMMU9E3LGwhg9JehjwtKyPbRJFvJlQ==
+X-Received: by 2002:a05:6512:3084:b0:47f:6c9e:952e with SMTP id
+ z4-20020a056512308400b0047f6c9e952emr43810lfd.332.1657227063392; 
+ Thu, 07 Jul 2022 13:51:03 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ m6-20020a056512358600b0047f8de9734asm7040369lfr.123.2022.07.07.13.51.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jul 2022 13:51:02 -0700 (PDT)
+Message-ID: <ecbbe366-b7c7-885d-f574-0ac900d7599a@linaro.org>
+Date: Thu, 7 Jul 2022 23:51:01 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4] drm/msm/dp: make eDP panel as the first connected
+ connector
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
+ vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
+ bjorn.andersson@linaro.org
+References: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +77,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D208835
+On 06/07/2022 22:32, Kuogee Hsieh wrote:
+> Some userspace presumes that the first connected connector is the main
+> display, where it's supposed to display e.g. the login screen. For
+> laptops, this should be the main panel.
+> 
+> This patch call drm_helper_move_panel_connectors_to_head() after
+> drm_bridge_connector_init() to make sure eDP stay at head of
+> connected connector list. This fixes unexpected corruption happen
+> at eDP panel if eDP is not placed at head of connected connector
+> list.
+> 
+> Changes in v2:
+> -- move drm_helper_move_panel_connectors_to_head() to
+> 		dpu_kms_drm_obj_init()
+> 
+> Changes in v4:
+> -- move drm_helper_move_panel_connectors_to_head() to msm_drm_init()
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |NEEDINFO
-                 CC|                            |mario.limonciello@amd.com
+> ---
+>   drivers/gpu/drm/msm/msm_drv.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 4a3dda2..4d518c2 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -419,6 +419,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   		}
+>   	}
+>   
+> +	drm_helper_move_panel_connectors_to_head(ddev);
+> +
+>   	ddev->mode_config.funcs = &mode_config_funcs;
+>   	ddev->mode_config.helper_private = &mode_config_helper_funcs;
+>   
 
---- Comment #5 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
-Can you please re-check this on a recent 5.18.y kernel and latest
-linux-firmware?  I don't believe it should still be an issue.  If it is, I
-would like to see a new log.
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+With best wishes
+Dmitry
