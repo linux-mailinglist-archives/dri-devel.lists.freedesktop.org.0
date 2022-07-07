@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5531F56AD41
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:11:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3C356AD53
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 23:19:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4745112853;
-	Thu,  7 Jul 2022 21:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B7C10E26A;
+	Thu,  7 Jul 2022 21:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8824E1136ED;
- Thu,  7 Jul 2022 21:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657228275; x=1688764275;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8cWXuoA3a8r8Bn5R5HljIheMcXCj6sEHWX+Ss3Kqdjo=;
- b=RDoX3O/9s9jt8/xHKGi2S4satAUF3DvincmutoqVxLmdZjSEZY9JNMh4
- 3fgPqAe3hXax5TNHiBC1stnOGUGyUv0GeSQpLOn2zrhCnaZ2t47pRKlEJ
- xlnAQhQK6MBII/OHaf1uo3jKSY1lGvc91gm/01Q9LOXIgE9g54zs6vLqd c=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 07 Jul 2022 14:11:14 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 14:11:13 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 7 Jul 2022 14:11:13 -0700
-Received: from [10.111.163.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 7 Jul 2022
- 14:11:10 -0700
-Message-ID: <40b6a28c-0237-55d7-2f5d-1c571f27e7d6@quicinc.com>
-Date: Thu, 7 Jul 2022 14:11:08 -0700
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FED610E26A;
+ Thu,  7 Jul 2022 21:19:47 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id j3so9214638pfb.6;
+ Thu, 07 Jul 2022 14:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Mqly/bmUD1+v4qx6JacIhpg9Ul0/6TMbAP2G8iAsIU=;
+ b=Jy4LjqYXsHRJLEuWMy15VqPLyEiaTsf1cyTgG4LnEAnQ7+ZyzBgRaBgfsI3OLsSR25
+ AuLZIiP5ku1xcxEhyGX5xE6iCy8uPyufdJk38lQyS+2dEFVCnjKfrxa9QjazqgFtkLNt
+ XalKugilrwzxZdCPatAWtUZ10lmpfA0Dtsql+0SPL9T2QedYTIpGZoBWxMfR+mvz1XxA
+ oIianSf1mDs/H+/vYnKJFDZ2HpWIwjTIINByzQRlhyKgKGjFW1OTLD/crJxSprvn7wwb
+ D0tbQYBroY3kOJ8Syaut1HUYM0gwZXrTTqT3pWsLinpnHkfx4W6B1d29eeE02zENM2E5
+ 4wOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Mqly/bmUD1+v4qx6JacIhpg9Ul0/6TMbAP2G8iAsIU=;
+ b=RjuK89u+72xyWBmG+aWOBC10v+6xalggu7fNolixXBGy7rDTBARUHEdFIUsbHQhEGg
+ 4WtHIqJYZs+ctAg6piiihFTUqNALjiR3Mo6fk5BxKq+C88yvmqyleqmdC8I9iBZuCDzN
+ ZGjBPkJzolRJJ/tmJg4H2yvUK3oDCAXdq1RMNUWFDhQUBXhc53sG3+NNvta/OQJhPEI6
+ CI7H3Ppz38FbbvccrE4BzkGaA9YZqWrXG5qi2mJ3qD1Ny6uhLfBMRW9OGpaB1dCAdZ7/
+ SI8f65W+2aoVBkNH3dLoD68R78E2K2pewFchliPtGovF8rQLJSK0QCOkalg6atJlqIzT
+ yMGQ==
+X-Gm-Message-State: AJIora/xox1oEoz9Zpiv4sv9oPk9JRGNWr58rfGR+mUvGwjhAdhbdnd0
+ S4HIJ5EJGIxa5mcib4TfSC3OAt8QUZ4=
+X-Google-Smtp-Source: AGRyM1t5W9ZMr1j90syEK2lDjCt9pxLeU/e2mHN5T0KEFQkQACvggQZHVEjihw+PqNIHYc4CePKp/g==
+X-Received: by 2002:a63:5cd:0:b0:412:b163:b7e1 with SMTP id
+ 196-20020a6305cd000000b00412b163b7e1mr51911pgf.451.1657228786230; 
+ Thu, 07 Jul 2022 14:19:46 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ h12-20020a170902f70c00b0016bfa1a5170sm5207389plo.285.2022.07.07.14.19.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 14:19:45 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/dpu: Fix for non-visible planes
+Date: Thu,  7 Jul 2022 14:20:00 -0700
+Message-Id: <20220707212003.1710163-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dsi: Set panel orientation when directly connected
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220706191442.1150634-1-swboyd@chromium.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220706191442.1150634-1-swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,56 +67,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Hsin-Yi Wang <hsinyi@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org,
+ Fernando Ramos <greenfoo@u92.eu>, Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
+Fixes `kms_cursor_crc --run-subtest cursor-offscreen`.. when the cursor
+moves offscreen the plane becomes non-visible, so we need to skip over
+it in crtc atomic test and mixer setup.
 
-On 7/6/2022 12:14 PM, Stephen Boyd wrote:
-> Set the panel orientation in drm when the panel is directly connected,
-> i.e. we're not using an external bridge. The external bridge case is
-> already handled by the panel bridge code, so we only update the path we
-> take when the panel is directly connected/internal. This silences a
-> warning splat coming from __drm_mode_object_add() on Wormdingler boards.
-> 
-> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
-> 
-> This relies on commit 5e41b01a7808 ("drm/panel: Add an API to allow drm
-> to set orientation from panel") which is in drm-misc
-> 
->   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index cb84d185d73a..9333f7095acd 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -268,6 +268,8 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
->   		return PTR_ERR(panel);
->   	}
->   
-> +	drm_connector_set_orientation_from_panel(conn, panel);
-> +
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This should be moved below the !panel check since you are passing panel 
-as one of the params.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 4dd0ce09ca74..4ba000951a90 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -422,6 +422,9 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 		if (!state)
+ 			continue;
+ 
++		if (!state->visible)
++			continue;
++
+ 		pstate = to_dpu_plane_state(state);
+ 		fb = state->fb;
+ 
+@@ -1195,6 +1198,9 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		if (cnt >= DPU_STAGE_MAX * 4)
+ 			continue;
+ 
++		if (!pstate->visible)
++			continue;
++
+ 		pstates[cnt].dpu_pstate = dpu_pstate;
+ 		pstates[cnt].drm_pstate = pstate;
+ 		pstates[cnt].stage = pstate->normalized_zpos;
+-- 
+2.36.1
 
-I looked up the doc and it says that for unknown(default cases) this is 
-a no-op so I think this change is fine otherwise.
-
-"It is allowed to call this function with a panel_orientation of 
-DRM_MODE_PANEL_ORIENTATION_UNKNOWN, in which case it is a no-op."
-
-
->   	if (!panel || !IS_BONDED_DSI())
->   		goto out;
->   
-> 
-> base-commit: 15b9ca1641f0c3cd74885280331e9172c62a125e
