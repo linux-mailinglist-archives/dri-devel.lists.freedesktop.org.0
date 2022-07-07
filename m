@@ -1,66 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94315696CE
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 02:18:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F87569707
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 02:50:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D7110E81F;
-	Thu,  7 Jul 2022 00:17:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E3110E0FA;
+	Thu,  7 Jul 2022 00:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA08710E81F
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 00:17:55 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-10bec750eedso15684487fac.8
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 17:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=A9KMWBQbXLx/bx1xZ0Ut5YH6Gehkg3o6EpAfQEv3oiQ=;
- b=aFZdN/uwvv5by+9RhHiClMYZnVo6UGSzcXWWtCAt5r2fbdoUTBbHZ9NDK6Jj0z1pNd
- T38kEws2G5cAXs85Wvufk9YgEiWLP8NOvEtr1Snrb9gDrm/lX9iG4ufe56aRHSMlmDW1
- eNHW9MDnS+MOypb2lP2JCNoRd/AhNVVaO2PaE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=A9KMWBQbXLx/bx1xZ0Ut5YH6Gehkg3o6EpAfQEv3oiQ=;
- b=0RnNXZzlsZbpHgiSW/CRx/f3iK/GZjzFPdxrHd/4jAULGAqouJe5K8VUmKrEgCRyAC
- lY6fPfoeK8oKrKtJmjuN0hhlHB+AKDFq3H1f2rKH4sTMU55pKF9C8EoWXEypYf4X4uIG
- B7IVINrsFWzZIvfa/SalSdv3IFCZTf1xDcbXIYBCmHa/ElujuIYhw6ZFMJEAUpVbW6pA
- WEqBOFuttrcc4CSKFwkL8zQMyW9svReCBtbPm8JbfVEYfWM/hXkXOK+jT01D8a1beH91
- 2Rw0YW/RQJKYeuDyX6fK2FaQketl1fMmQBa30rSuj/+S7qnQFknfGgBDtx2rTC3LRGsp
- y4pQ==
-X-Gm-Message-State: AJIora9pT+qVAyiFviLx7NwsgVUE7nQpZysjekwhaJK9eH+DQEGkdgn2
- Fe7kePYDY4ZrPglee+HFhuEsw58EbtdGDRw/8HtICA==
-X-Google-Smtp-Source: AGRyM1vRIZqEOwogKZJcIXv6VDYldqs4L085Qun9gEFdF2cBslF60GMIX99hLqqjzW1HACZsMRx+6b3IRlXWzJ9eHZs=
-X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
- w1-20020a056870b38100b000fe2004b3b5mr961649oap.63.1657153075078; Wed, 06 Jul
- 2022 17:17:55 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 6 Jul 2022 20:17:54 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F38D010E77D;
+ Thu,  7 Jul 2022 00:50:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657155022; x=1688691022;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=z2kn5UrzMsmmqcJPLc55lis3ovPPGrDP2druIwjVJGI=;
+ b=nRcoRGR7kYB4Cg6YeIhnkJSQbzP82ukn/Qh/mhJj5/zCPI96fS+PaiBH
+ m64MTQy8AviPBnc1089/KYGJkTcc9PBSiH7H3bkeMcSNs4MvvwEIweM+n
+ ethf8VQaX/IJDbCjsN0/3XmXsy9RLrsxNqEohsBcJJAZ2hoi4NgEyB5Xi
+ 6dgObVhknoJZjPKLiJVBhUyDR18MR6yH0HwKaez+8AcyoiWAj6eNyD147
+ k/LGbXzk9JURXH5/IvOsiq4KUCvTxadGJCc+W+Y8FbBtAOn7AYhdlh/fe
+ Rmfj98eMAoGX0FHsA87SZr3ZsmUWfxdC9wjC07w9Y/n79z2n7xAqQVZtT A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="266929783"
+X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; d="scan'208";a="266929783"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 17:50:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,251,1650956400"; d="scan'208";a="626111711"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 06 Jul 2022 17:50:18 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o9Fij-000LL4-Iq;
+ Thu, 07 Jul 2022 00:50:17 +0000
+Date: Thu, 7 Jul 2022 08:50:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dsi: switch to DRM_PANEL_BRIDGE
+Message-ID: <202207070852.WWBrOFY1-lkp@intel.com>
+References: <20220706200237.2118303-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CACeCKafya_XA+C3eJUvT4vjQSgsjdewVkCb+Jr2tA1605jjfjg@mail.gmail.com>
-References: <20220622173605.1168416-1-pmalani@chromium.org>
- <20220622173605.1168416-6-pmalani@chromium.org>
- <CAE-0n517BB8YbN5AZG6M3ZrZGOJDV=+t0R9d8wD+gVqO1aD1Xg@mail.gmail.com>
- <CACeCKafR8hFke_tc2=1VGDNF-CFrZoAG1aUKuxGJG-6pd37hbg@mail.gmail.com>
- <CAE-0n50XbO5Wu4-429Ao05A4QrbSXoi1wBjTpGFjKm3pZj1Ybg@mail.gmail.com>
- <CACeCKafzB0wW_B2TOEWywLMyB+UhYCpXYDVBV=UbyxBiGnv1Rw@mail.gmail.com>
- <CAE-0n50Akd8QikGhaAQgxLkJBhE-7KQf5aJ_P2ajOmCjLk555g@mail.gmail.com>
- <CACeCKafQT_RBrkHJNE2ezahSsHLPrbnS69QbfnjxBoUhi6hjwQ@mail.gmail.com>
- <CACeCKafya_XA+C3eJUvT4vjQSgsjdewVkCb+Jr2tA1605jjfjg@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 6 Jul 2022 20:17:54 -0400
-Message-ID: <CAE-0n53kujMrzFG++5kaS4QKj2YrzLJEu5R76W887rCW_S592g@mail.gmail.com>
-Subject: Re: [PATCH v5 5/9] drm/bridge: anx7625: Add typec_mux_set callback
- function
-To: Prashant Malani <pmalani@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220706200237.2118303-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,36 +60,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Prashant Malani (2022-07-06 11:26:19)
->
-> Stephen, any pending concerns?
+Hi Dmitry,
 
-No more pending concerns.
+I love your patch! Yet something to improve:
 
-> If not,I will post a v6 series with the suggested changes:
-> - Drop typec-switch binding; instead add a new top-level port with
-> end-points for each Type-C connector's switch.
-> - Drop it6505 patches.
-> - Squash anx7625 driver patches into one patch.
-> - Add a comment mentioning that we aren't registering the orientation-switch.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v5.19-rc5 next-20220706]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Ok. I'll take a look on v6.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-dsi-switch-to-DRM_PANEL_BRIDGE/20220707-040414
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+config: arc-randconfig-r043-20220706 (https://download.01.org/0day-ci/archive/20220707/202207070852.WWBrOFY1-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5eeb41ba36c536b30a6494df55ed441f005a6b11
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-dsi-switch-to-DRM_PANEL_BRIDGE/20220707-040414
+        git checkout 5eeb41ba36c536b30a6494df55ed441f005a6b11
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/msm/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/msm/dsi/dsi_host.c: In function 'msm_dsi_host_modeset_init':
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:2159:17: error: implicit declaration of function 'msm_dsi_host_get_panel'; did you mean 'msm_dsi_host_get_bridge'? [-Werror=implicit-function-declaration]
+    2159 |         panel = msm_dsi_host_get_panel(&msm_host->base);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 msm_dsi_host_get_bridge
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:2159:15: warning: assignment to 'struct drm_panel *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2159 |         panel = msm_dsi_host_get_panel(&msm_host->base);
+         |               ^
+   cc1: some warnings being treated as errors
+
+
+vim +2159 drivers/gpu/drm/msm/dsi/dsi_host.c
+
+a689554ba6ed81c Hai Li      2015-03-31  2149  
+a689554ba6ed81c Hai Li      2015-03-31  2150  int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
+a689554ba6ed81c Hai Li      2015-03-31  2151  					struct drm_device *dev)
+a689554ba6ed81c Hai Li      2015-03-31  2152  {
+a689554ba6ed81c Hai Li      2015-03-31  2153  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+8f7ca5409063ade Sibi Sankar 2018-05-29  2154  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2155  	struct drm_panel *panel;
+a689554ba6ed81c Hai Li      2015-03-31  2156  	int ret;
+a689554ba6ed81c Hai Li      2015-03-31  2157  
+a689554ba6ed81c Hai Li      2015-03-31  2158  	msm_host->dev = dev;
+0f40ba48de3b8a4 Vinod Koul  2022-04-06 @2159  	panel = msm_dsi_host_get_panel(&msm_host->base);
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2160  
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2161  	if (!IS_ERR(panel) && panel->dsc) {
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2162  		struct msm_display_dsc_config *dsc = msm_host->dsc;
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2163  
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2164  		if (!dsc) {
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2165  			dsc = devm_kzalloc(&msm_host->pdev->dev, sizeof(*dsc), GFP_KERNEL);
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2166  			if (!dsc)
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2167  				return -ENOMEM;
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2168  			dsc->drm = panel->dsc;
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2169  			msm_host->dsc = dsc;
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2170  		}
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2171  	}
+0f40ba48de3b8a4 Vinod Koul  2022-04-06  2172  
+8f7ca5409063ade Sibi Sankar 2018-05-29  2173  	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
+a689554ba6ed81c Hai Li      2015-03-31  2174  	if (ret) {
+a689554ba6ed81c Hai Li      2015-03-31  2175  		pr_err("%s: alloc tx gem obj failed, %d\n", __func__, ret);
+a689554ba6ed81c Hai Li      2015-03-31  2176  		return ret;
+a689554ba6ed81c Hai Li      2015-03-31  2177  	}
+a689554ba6ed81c Hai Li      2015-03-31  2178  
+a689554ba6ed81c Hai Li      2015-03-31  2179  	return 0;
+a689554ba6ed81c Hai Li      2015-03-31  2180  }
+a689554ba6ed81c Hai Li      2015-03-31  2181  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
