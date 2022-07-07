@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797A156A71D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 17:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38DB56A728
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 17:40:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0CDC10F24D;
-	Thu,  7 Jul 2022 15:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BC11127C7;
+	Thu,  7 Jul 2022 15:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FEB110FECB
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9301F10FD1F
  for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 15:40:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id ECA6822174;
- Thu,  7 Jul 2022 15:39:58 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3093B1FE63;
+ Thu,  7 Jul 2022 15:39:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657208398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1657208399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SuKPmf5uVn0ang87bL1p9igKcmpSelj6HtQl75lgOic=;
- b=SfQxXCLKjgtvjg+zEtlWRH8/KVF2A2Hps7+xniscEVYkP5g4NmpKOXRxyBN3U0uA/uaPIu
- jcoDKlpN7ANxHTGrB2aAAua/fs9Dm6tjE24QPeDHH60y/pJtfzvayw9ZazIf5k6bsp8yB1
- i6ziG9e+cx2HAGsxaH6gVVIzrhEvjp8=
+ bh=lF9a02oUlFzrrOo5gyMhGnhLeg9CuZy/YxicIfRKwl4=;
+ b=joOnQDXCl+KbKC1sFIJcHKXxuEBjkDT3R/h6zSRm04R3k0k+ED662VUX8iZ4KrzEU8di6g
+ 6nD26GmkdiQiewCuVdvpKtL3gxKfNRC8cXJaUrX8s4AcdVJgkchWdFWKAzYUjrrjMSoM5h
+ U+ST+B7U8AtgM1+jVQvj1YtD9A6njVg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657208398;
+ s=susede2_ed25519; t=1657208399;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SuKPmf5uVn0ang87bL1p9igKcmpSelj6HtQl75lgOic=;
- b=Tqe011xR3issK0a7FZWCIfV/WclJKTiGHPujqnwmpM3xBj4oQlVXY5ewEvNF8UY+/u0Y2Q
- zlFoAEVUXfVmylCQ==
+ bh=lF9a02oUlFzrrOo5gyMhGnhLeg9CuZy/YxicIfRKwl4=;
+ b=bzFgz22rL0pfT6r+zmlwzJcdN2QXc3guOQyztpoSC9205UNBsbLYM6s6GDHJ0N64Zl98dw
+ uImxwMt8Tft/DEBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BDBCC13A33;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F09B113B4E;
  Thu,  7 Jul 2022 15:39:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qE9sLU7+xmI9UQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id YOfdOU7+xmI9UQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 15:39:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
  maxime@cerno.tech
-Subject: [PATCH 03/11] fbdev/vga16fb: Auto-generate module init/exit code
-Date: Thu,  7 Jul 2022 17:39:44 +0200
-Message-Id: <20220707153952.32264-4-tzimmermann@suse.de>
+Subject: [PATCH 04/11] fbdev/core: Remove remove_conflicting_pci_framebuffers()
+Date: Thu,  7 Jul 2022 17:39:45 +0200
+Message-Id: <20220707153952.32264-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220707153952.32264-1-tzimmermann@suse.de>
 References: <20220707153952.32264-1-tzimmermann@suse.de>
@@ -73,74 +73,143 @@ Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move vgag16fb's option parsing into the driver's probe function and
-generate the rest of the module's init/exit functions from macros.
-Keep the options code, although there are no options defined.
+Remove remove_conflicting_pci_framebuffers() and implement similar
+functionality in aperture_remove_conflicting_pci_device(), which was
+the only caller. Removes an otherwise unused interface and streamlines
+the aperture helper. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/vga16fb.c | 35 ++++++++++-------------------------
- 1 file changed, 10 insertions(+), 25 deletions(-)
+ drivers/video/aperture.c         | 30 ++++++++++++--------
+ drivers/video/fbdev/core/fbmem.c | 48 --------------------------------
+ include/linux/fb.h               |  2 --
+ 3 files changed, 18 insertions(+), 62 deletions(-)
 
-diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-index f7c1bb018843..e7767ed50c5b 100644
---- a/drivers/video/fbdev/vga16fb.c
-+++ b/drivers/video/fbdev/vga16fb.c
-@@ -1321,12 +1321,21 @@ static int __init vga16fb_setup(char *options)
- 
- static int vga16fb_probe(struct platform_device *dev)
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 538f2d40acda..f42a0d8bc211 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -321,30 +321,36 @@ EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+  */
+ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
  {
-+#ifndef MODULE
-+	char *option = NULL;
-+#endif
- 	struct screen_info *si;
- 	struct fb_info *info;
- 	struct vga16fb_par *par;
- 	int i;
- 	int ret = 0;
++	bool primary = false;
+ 	resource_size_t base, size;
+ 	int bar, ret;
  
-+#ifndef MODULE
-+	if (fb_get_options("vga16fb", &option))
-+		return -ENODEV;
-+	vga16fb_setup(option);
-+#endif
-+
- 	si = dev_get_platdata(&dev->dev);
- 	if (!si)
- 		return -ENODEV;
-@@ -1449,31 +1458,7 @@ static struct platform_driver vga16fb_driver = {
- 	.id_table = vga16fb_driver_id_table,
- };
- 
--static int __init vga16fb_init(void)
--{
--	int ret;
--#ifndef MODULE
--	char *option = NULL;
--
--	if (fb_get_options("vga16fb", &option))
--		return -ENODEV;
--
--	vga16fb_setup(option);
--#endif
--
--	ret = platform_driver_register(&vga16fb_driver);
+-	/*
+-	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+-	 * otherwise the vga fbdev driver falls over.
+-	 */
+-#if IS_REACHABLE(CONFIG_FB)
+-	ret = remove_conflicting_pci_framebuffers(pdev, name);
 -	if (ret)
 -		return ret;
--
--	return 0;
--}
--
--static void __exit vga16fb_exit(void)
--{
--	platform_driver_unregister(&vga16fb_driver);
--}
-+module_platform_driver(vga16fb_driver);
++#ifdef CONFIG_X86
++	primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
+ #endif
+-	ret = vga_remove_vgacon(pdev);
+-	if (ret)
+-		return ret;
  
- MODULE_DESCRIPTION("Legacy VGA framebuffer device driver");
- MODULE_LICENSE("GPL");
--module_init(vga16fb_init);
--module_exit(vga16fb_exit);
+ 	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+ 		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+ 			continue;
++
+ 		base = pci_resource_start(pdev, bar);
+ 		size = pci_resource_len(pdev, bar);
+-		aperture_detach_devices(base, size);
++		ret = aperture_remove_conflicting_devices(base, size, primary, name);
++		if (ret)
++			break;
+ 	}
+ 
++	if (ret)
++		return ret;
++
++	/*
++	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
++	 * otherwise the vga fbdev driver falls over.
++	 */
++	ret = vga_remove_vgacon(pdev);
++	if (ret)
++		return ret;
++
+ 	return 0;
+ 
+ }
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index c4a18322dee9..877de85309f3 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1787,54 +1787,6 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
+ }
+ EXPORT_SYMBOL(remove_conflicting_framebuffers);
+ 
+-/**
+- * remove_conflicting_pci_framebuffers - remove firmware-configured framebuffers for PCI devices
+- * @pdev: PCI device
+- * @name: requesting driver name
+- *
+- * This function removes framebuffer devices (eg. initialized by firmware)
+- * using memory range configured for any of @pdev's memory bars.
+- *
+- * The function assumes that PCI device with shadowed ROM drives a primary
+- * display and so kicks out vga16fb.
+- */
+-int remove_conflicting_pci_framebuffers(struct pci_dev *pdev, const char *name)
+-{
+-	struct apertures_struct *ap;
+-	bool primary = false;
+-	int err, idx, bar;
+-
+-	for (idx = 0, bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+-		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+-			continue;
+-		idx++;
+-	}
+-
+-	ap = alloc_apertures(idx);
+-	if (!ap)
+-		return -ENOMEM;
+-
+-	for (idx = 0, bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+-		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+-			continue;
+-		ap->ranges[idx].base = pci_resource_start(pdev, bar);
+-		ap->ranges[idx].size = pci_resource_len(pdev, bar);
+-		pci_dbg(pdev, "%s: bar %d: 0x%lx -> 0x%lx\n", __func__, bar,
+-			(unsigned long)pci_resource_start(pdev, bar),
+-			(unsigned long)pci_resource_end(pdev, bar));
+-		idx++;
+-	}
+-
+-#ifdef CONFIG_X86
+-	primary = pdev->resource[PCI_ROM_RESOURCE].flags &
+-					IORESOURCE_ROM_SHADOW;
+-#endif
+-	err = remove_conflicting_framebuffers(ap, name, primary);
+-	kfree(ap);
+-	return err;
+-}
+-EXPORT_SYMBOL(remove_conflicting_pci_framebuffers);
+-
+ /**
+  *	register_framebuffer - registers a frame buffer device
+  *	@fb_info: frame buffer info structure
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 07fcd0e56682..b91c77016560 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -615,8 +615,6 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+ /* drivers/video/fbmem.c */
+ extern int register_framebuffer(struct fb_info *fb_info);
+ extern void unregister_framebuffer(struct fb_info *fb_info);
+-extern int remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+-					       const char *name);
+ extern int remove_conflicting_framebuffers(struct apertures_struct *a,
+ 					   const char *name, bool primary);
+ extern int fb_prepare_logo(struct fb_info *fb_info, int rotate);
 -- 
 2.36.1
 
