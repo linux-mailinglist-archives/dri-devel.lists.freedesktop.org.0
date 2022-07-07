@@ -1,113 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFFA569898
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 05:09:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3910569B94
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 09:30:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8506B112A5A;
-	Thu,  7 Jul 2022 03:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF9911B680;
+	Thu,  7 Jul 2022 07:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C22DD112A5A;
- Thu,  7 Jul 2022 03:08:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nD/1RhAKCMacZwXIehXdnvPiev7txtkFirh6PLlgRI6I1hdMG6C3Vv8PYfVuzD4rhFo5AoAKx+evWLgIYWUabeRF2H24D0Dj/r1TRUKCST3AdOdAMj/pTwPlOUWjCIBWiz9LoZiFw4IrmDl7WpLipXUdRLi+GeqZbhA2ViQdvQpjI4QUTsTH04Tm40IUElHfWpX7Nmxu5fBBf+LIJG8mXTcfaOel2K+xiW0wN2UCcz/FvxKRs1iwBWiQmP+LAtiVnVhlAmTRzky94WwzdhlXivcEtvI3iRog5UFFAydY6P/YvT40Znh53PVHE2oUzXC2288XCOOrsC1qDxx0Jq8jug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KxRGhgWWZLBaMofv67QO2JJLLoym+6H00Y+ucZcT3bI=;
- b=MynYTIr4nD+MQB45jMP9yrQBtsJ6VnTL1trRheApwYo64d//rC9pJAcRN92EI0yXoa0GvA0tRS5gV8isOj70z3wOx0Hg0f2F3CkGPJ2mRN5MAyBcAJR8Rw1Svj43H2JmXb6GlLBfbYGBlPmX/cb8You5rze1UZ92vNCL3vjgRQUz1HFYMkLidyzYkDoJN1mqEbWKKqS/OXatIVlfCKD49ttfBbfNOc7LzrlvxvKk7isxadKD1jGDxZeZMNDkDApyoulOO0PWmf8WJ8lZEuHRl4Jt5rX2Otx2+QNeqzDrXlq7WCEOxCyn1c/KvKPooIkIHPG/QpxkiZndKMM4AiLQ0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KxRGhgWWZLBaMofv67QO2JJLLoym+6H00Y+ucZcT3bI=;
- b=JaOGXRK5pX1DwybyKrLI9Gg30aKCLHU8SqEetZqs977IUIl+PNtf+9MxShu6cOKdsxt5c2/AY3Q8DYrBNnzV9m9RvVwywx9xYCOAXUcbXpHo3BavOKvb3RmjJYCZN/t97tzc4j2G7DcuVVmkGinqbu5sh6QF0dseW9szbE3gq08=
-Received: from CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34) by
- CH0PR12MB5154.namprd12.prod.outlook.com (2603:10b6:610:b9::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5417.15; Thu, 7 Jul 2022 03:08:57 +0000
-Received: from CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
- (2603:10b6:100:0:cafe::2c) by CO2PR07CA0066.outlook.office365.com
- (2603:10b6:100::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16 via Frontend
- Transport; Thu, 7 Jul 2022 03:08:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT015.mail.protection.outlook.com (10.13.175.130) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 03:08:56 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 6 Jul
- 2022 22:08:55 -0500
-Received: from dev-desktop.guestwireless.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28
- via Frontend Transport; Wed, 6 Jul 2022 22:08:46 -0500
-From: jie1zhan <jesse.zhang@amd.com>
-To: <broonie@kernel.org>, <dri-devel-bounces@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v1] drm/syncobj: Fix sync syncobj issue
-Date: Thu, 7 Jul 2022 11:08:45 +0800
-Message-ID: <20220707030845.4059465-1-jesse.zhang@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9D6112FC9
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 03:16:36 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id g126so2307014pfb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jul 2022 20:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iz8bT7YPyUHTObGNpxtkrlymFcuBRN0N5+wdic9C3L4=;
+ b=lwK7nZnAqoEfwZSi3ADNeCmp05JBi6r8bMu0FjA92uIV1hn/W/FSMqO95gQPBWROaO
+ abd8cFVXuM1+ASNDEMmRCL2gXajlq7mkuQd9pG7diS/TkTHBFFrNmicaOUxv0SSR7rIg
+ eAfPfZhFxzAtsCEh1cab1yaeV1BbLQ1pz1sR6bOYZefwVr72C+4mNEFILWJtSjogD39X
+ aeSaOwaDrzd920nyxkYC35r+m/PkjFhv6+9vGPZDRJYjHCxHt9IP9oZvCUpUgHURJP5i
+ b58iyXneMr/rTC2UrifFBEdEM496F+3zxvGUAgMN8vRxfMJa4ClBsqlhMUZ2/BjqXPe7
+ vkWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iz8bT7YPyUHTObGNpxtkrlymFcuBRN0N5+wdic9C3L4=;
+ b=Tk4p/yb4yPKcJwi9e5i7MBrTmTCXLIPq6fnZai9yerwpIrZeeSprgKGaATe/OGEwdH
+ NMt7V+APb7Mzi59MMAAL0aiFclOU9PhIucj0xeDy3C7qCgLW2YjMDxhhNqX+iSwkk2/H
+ xxje4rMmg3xNA50yCTV+kAtCaSUbthLsZpMP4Vw011hAjB53iVew7Pi4Xi9AWSgsO1xV
+ f0f8ij0X6psC/s5zdzsfJKI9DAUp2xnD7FLfu2gvyn8/fJ8UDVNW/8Oq3guPr5tOtpqL
+ dL9AMqG8c8Gd5L1hHLMykqGb50CrPInym2+pzj7YzPHIe7KO9HCbLtjip1CV4VjG5R1I
+ 9gVA==
+X-Gm-Message-State: AJIora8G47hvYBBRaALrvV8MiteJZtcpraVqLZWDPPygkLNzZBCrNhUf
+ 1QxbkBF+cY/YpB7Qb1GL7XE=
+X-Google-Smtp-Source: AGRyM1uUHqjIghM0UtgfGgY5IRQsr1pqtJOorvHFq22ScvtJJmMi82QNp4Ajjmo9vIYp3D7UoFj8Xg==
+X-Received: by 2002:a17:902:7582:b0:16a:307a:5965 with SMTP id
+ j2-20020a170902758200b0016a307a5965mr51283157pll.159.1657163796394; 
+ Wed, 06 Jul 2022 20:16:36 -0700 (PDT)
+Received: from localhost.localdomain ([112.0.189.16])
+ by smtp.gmail.com with ESMTPSA id
+ ne22-20020a17090b375600b001ef899eb51fsm7413256pjb.29.2022.07.06.20.16.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Jul 2022 20:16:35 -0700 (PDT)
+From: MollySophia <mollysophia379@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: panel: Add novatek nt35596s panel driver
+Date: Thu,  7 Jul 2022 11:16:23 +0800
+Message-Id: <20220707031623.220073-1-mollysophia379@gmail.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38cf8906-ab21-40d6-0d92-08da5fc6081e
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5154:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QnN0dXY5OUdIcGYxWFZxQ1p0TWpMQm5vSXVZNWxKaVZZekxleEswL25IZksy?=
- =?utf-8?B?VVdzMlA1Sm5tQXpaek9zVk5WK24xV2ZoNnlzd09mc0xsRVFST2EvWm5qTVlj?=
- =?utf-8?B?bnJmUkhQNWN1ZngwU2c1dmc3a0JZR2hqamRoZW45WjczUmR3dmlPemRRL2FE?=
- =?utf-8?B?TStUK0xJSHp4OHZIZ0tCZFpnNjJVUGVrQnYxaVh1NFp3WUozR0dBem00UStq?=
- =?utf-8?B?TUExVm1xNW1SYUlweWtwdVI0VXhPWmdGTHNuZ1NwVnYyYTdocm52NnBoOE1H?=
- =?utf-8?B?RmEvU2pGZVVNTFJpS25ZMDJZcHRmS1hzclVVcXd3YjJXMXc2SVNFUHVzOE9X?=
- =?utf-8?B?MVdVbHVCUkxoY1BCMndCamg4WkNNbHBVYTVZZjZ3NXdYOCtlNGJ6RFppaUd6?=
- =?utf-8?B?a1NKRWRxcmdmNnZDY0NqUUZMWlRSWFJNTVU1NXVTVWk0aGtQMlJUL2pGL2Va?=
- =?utf-8?B?dzhvYmVreTZRSFRHcU9mRXNDQnQvZms4TFFCdXQreW1hRjZKYnpybGUxTVFQ?=
- =?utf-8?B?WnRnbm9tcmUvblFZRmlMTzhGRFVqR0RabTNtMnVNVFRRc2hsRmRwQ1BwazRD?=
- =?utf-8?B?QnRDZytONjJ2cmZIM0hDS0FETkR6Q0VINnVnV25HL284OU5iYldoU2h3R1Fx?=
- =?utf-8?B?K0ZsNjRGQnQrUWFUdEVFY0RmRHdocWJsOWFmdHZOdHBTdE13UzIrdk9QR3BQ?=
- =?utf-8?B?Vll3ODdOa2Q1a2psUXYzMlJqNWUyTFZTeEZBZ3dLTUtZd1p0Sm5VaElaWTY0?=
- =?utf-8?B?SXptTUI4cGVoQkFTdnVSS0M4ZlNrazJndEN5ekthSHlvTnJqMy8waStUWExZ?=
- =?utf-8?B?VHBEMW9zbTYranJTK3VneHBFbnNnY3dNckQvelBTaWxvZlYzc2F4ZVRwTVdp?=
- =?utf-8?B?TDNwU2lFY0lTN2loSVYxQkxvMGovaTVYTUM5Z1hFTWR6TklwZWpMVEo5QVhS?=
- =?utf-8?B?b1ZaaDlGY2hSakNXd1IrbURJUHArb2cxd0Fld0cwZzAyNEtJQ20zcFlRZnZi?=
- =?utf-8?B?VDBZUmFqM2pMbzdQQjFQMG5IbEdxOGRFYkJ0Q010Zi9GMGxITDJnZWc2d0Fz?=
- =?utf-8?B?RjBobjR3L29yY3ZlY0tRMmxTKzF3ZUZaak8xb1JkY3lyNnVQSWxHN3g2dEF5?=
- =?utf-8?B?em1xN3A4K2JsSFRXb1kwR0loSWd3REg4WjFldkFMZG81dUNVWUsxaUVJZWty?=
- =?utf-8?B?TWh5NzZXZDYrbDQvWkFFek00OXNCc3AxNTg1c1ljSlJkRzc3N1huYWNEc3Rx?=
- =?utf-8?B?cGpXMW5lbWVlNWhzRVJVaWNrZnAyM1NRdDU2SU91c2wwR3RnZz09?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(136003)(376002)(396003)(39860400002)(40470700004)(46966006)(36840700001)(2906002)(8936002)(5660300002)(81166007)(86362001)(7416002)(82740400003)(36756003)(70206006)(478600001)(356005)(8676002)(40460700003)(4744005)(70586007)(186003)(4326008)(40480700001)(36860700001)(82310400005)(34020700004)(316002)(2616005)(41300700001)(336012)(47076005)(426003)(54906003)(7696005)(1076003)(110136005)(26005)(43062005)(36900700001)(473944003)(414714003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 03:08:56.8822 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38cf8906-ab21-40d6-0d92-08da5fc6081e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5154
+X-Mailman-Approved-At: Thu, 07 Jul 2022 07:29:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,39 +70,524 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sunil-kumar.Dommati@amd.com, ajitkumar.pandey@amd.com,
- David Airlie <airlied@linux.ie>, Basavaraj.Hiregoudar@amd.com,
- jie1zhan <jesse.zhang@amd.com>, lucas.demarchi@intel.com,
- open list <linux-kernel@vger.kernel.org>, lionel.g.landwerlin@intel.com,
- nirmoy.das@linux.intel.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Vijendar.Mukunda@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: MollySophia <mollysophia379@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-enable signaling after flatten dma_fence_chains on transfer
+Novatek NT35596s is a generic DSI IC that drives command and video mode
+panels. Add the driver for it. Currently add support for the LCD panel
+from JDI connected with this IC, as found on Xiaomi Mi Mix2s phones.
 
-Signed-off-by: jie1zhan <jesse.zhang@amd.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Reviewed-by: Nirmoy Das <nirmoy.das@linux.intel.com>
+Signed-off-by: MollySophia <mollysophia379@gmail.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-jdi-fhd-nt35596s.c    | 464 ++++++++++++++++++
+ 3 files changed, 474 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 7e48dcd1bee4..0d9d3577325f 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -920,6 +920,7 @@ static int drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
- 	if (ret)
- 		goto err_free_fence;
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index d5176f75248f..a54389c107bc 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -231,6 +231,15 @@ config DRM_PANEL_JDI_R63452
+ 	  Say Y here if you want to enable support for the JDI R63452
+ 	  DSI command mode panel as found in Xiaomi Mi 5 Devices.
  
-+	dma_fence_enable_sw_signaling(fence);
- 	chain = dma_fence_chain_alloc();
- 	if (!chain) {
- 		ret = -ENOMEM;
++config DRM_PANEL_JDI_NT35596S
++	tristate "JDI NT35596S Full HD DSI panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to enable support for the JDI NT35596S
++	  DSI video mode panel as found in Xiaomi Mi Mix2s Devices.
++
+ config DRM_PANEL_KHADAS_TS050
+ 	tristate "Khadas TS050 panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index ef89dada021d..40db5e6dcbf5 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -21,6 +21,7 @@ obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
+ obj-$(CONFIG_DRM_PANEL_INNOLUX_TD4328) += panel-innolux-td4328.o
+ obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
+ obj-$(CONFIG_DRM_PANEL_JDI_R63452) += panel-jdi-fhd-r63452.o
++obj-$(CONFIG_DRM_PANEL_JDI_NT35596S) += panel-jdi-fhd-nt35596s.o
+ obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
+ obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
+ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
+diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c b/drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c
+new file mode 100644
+index 000000000000..0793bcd872e2
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c
+@@ -0,0 +1,464 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022 Molly Sophia <mollysophia379@gmail.com>
++ *
++ */
++
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/regulator/consumer.h>
++#include <linux/swab.h>
++#include <linux/backlight.h>
++
++#include <video/mipi_display.h>
++
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++
++struct nt35596s_panel_cmd {
++	const char data[2];
++};
++
++static const char *const nt35596s_regulator_names[] = {
++	"vddio",
++	"vddpos",
++	"vddneg",
++};
++
++static const unsigned long nt35596s_regulator_enable_loads[] = { 62000, 100000,
++								 100000 };
++
++struct nt35596s_panel_desc {
++	const struct drm_display_mode *display_mode;
++	const char *panel_name;
++
++	unsigned int width_mm;
++	unsigned int height_mm;
++
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	unsigned int lanes;
++
++	unsigned int num_on_cmds;
++	const struct nt35596s_panel_cmd *on_cmds;
++};
++
++struct nt35596s_panel {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	const struct nt35596s_panel_desc *desc;
++
++	struct regulator_bulk_data
++		supplies[ARRAY_SIZE(nt35596s_regulator_names)];
++
++	struct gpio_desc *reset_gpio;
++	bool prepared;
++};
++
++static inline struct nt35596s_panel *to_nt35596s_panel(struct drm_panel *panel)
++{
++	return container_of(panel, struct nt35596s_panel, panel);
++}
++
++static int nt35596s_send_cmds(struct drm_panel *panel,
++			      const struct nt35596s_panel_cmd *cmds, int num)
++{
++	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
++	unsigned int i;
++	int err;
++
++	for (i = 0; i < num; i++) {
++		const struct nt35596s_panel_cmd *cmd = &cmds[i];
++
++		err = mipi_dsi_dcs_write(pinfo->dsi, cmd->data[0],
++					 cmd->data + 1, 1);
++
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++
++static int nt35596s_panel_power_off(struct drm_panel *panel)
++{
++	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
++	int ret = 0;
++
++	gpiod_set_value(pinfo->reset_gpio, 1);
++
++	ret = regulator_bulk_disable(ARRAY_SIZE(pinfo->supplies),
++				     pinfo->supplies);
++	if (ret)
++		dev_err(panel->dev, "regulator_bulk_disable failed %d\n", ret);
++
++	return ret;
++}
++
++static int nt35596s_panel_unprepare(struct drm_panel *panel)
++{
++	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
++	int ret;
++
++	if (!pinfo->prepared)
++		return 0;
++
++	ret = mipi_dsi_dcs_set_display_off(pinfo->dsi);
++	if (ret < 0)
++		dev_err(panel->dev, "set_display_off cmd failed ret = %d\n",
++			ret);
++
++	/* 120ms delay required here as per DCS spec */
++	msleep(120);
++
++	ret = mipi_dsi_dcs_enter_sleep_mode(pinfo->dsi);
++	if (ret < 0)
++		dev_err(panel->dev, "enter_sleep cmd failed ret = %d\n", ret);
++
++	/* 0x46 = 70ms delay */
++	msleep(70);
++
++	ret = nt35596s_panel_power_off(panel);
++	if (ret < 0)
++		dev_err(panel->dev, "power_off failed ret = %d\n", ret);
++
++	pinfo->prepared = false;
++
++	return ret;
++}
++
++static int nt35596s_panel_power_on(struct nt35596s_panel *pinfo)
++{
++	int ret;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(pinfo->supplies),
++				    pinfo->supplies);
++	if (ret < 0)
++		return ret;
++
++	gpiod_set_value(pinfo->reset_gpio, 1);
++	msleep(200);
++	gpiod_set_value(pinfo->reset_gpio, 0);
++	msleep(200);
++
++	return 0;
++}
++
++static int nt35596s_panel_prepare(struct drm_panel *panel)
++{
++	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
++	int err;
++
++	if (pinfo->prepared)
++		return 0;
++
++	err = nt35596s_panel_power_on(pinfo);
++	if (err < 0)
++		goto poweroff;
++
++	err = nt35596s_send_cmds(panel, pinfo->desc->on_cmds,
++				 pinfo->desc->num_on_cmds);
++
++	if (err < 0) {
++		dev_err(panel->dev, "failed to send DCS Init Code: %d\n", err);
++		goto poweroff;
++	}
++
++	err = mipi_dsi_dcs_exit_sleep_mode(pinfo->dsi);
++	if (err < 0) {
++		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
++		goto poweroff;
++	}
++
++	/* 0x46 = 70 ms delay */
++	msleep(70);
++
++	err = mipi_dsi_dcs_set_display_on(pinfo->dsi);
++	if (err < 0) {
++		dev_err(panel->dev, "failed to Set Display ON: %d\n", err);
++		goto poweroff;
++	}
++
++	msleep(120);
++
++	pinfo->prepared = true;
++
++	return 0;
++
++poweroff:
++	gpiod_set_value(pinfo->reset_gpio, 0);
++	return err;
++}
++
++static int nt35596s_panel_get_modes(struct drm_panel *panel,
++				    struct drm_connector *connector)
++{
++	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
++	const struct drm_display_mode *m = pinfo->desc->display_mode;
++	struct drm_display_mode *mode;
++
++	mode = drm_mode_duplicate(connector->dev, m);
++	if (!mode) {
++		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
++			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
++		return -ENOMEM;
++	}
++
++	connector->display_info.width_mm = pinfo->desc->width_mm;
++	connector->display_info.height_mm = pinfo->desc->height_mm;
++
++	drm_mode_set_name(mode);
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs panel_funcs = {
++	.prepare = nt35596s_panel_prepare,
++	.unprepare = nt35596s_panel_unprepare,
++	.get_modes = nt35596s_panel_get_modes,
++};
++
++static const struct nt35596s_panel_cmd jdi_fhd_video_on_cmds[] = {
++	{ .data = { 0xff, 0x24 } }, { .data = { 0x9d, 0x34 } },
++	{ .data = { 0xfb, 0x01 } }, { .data = { 0xc4, 0x25 } },
++	{ .data = { 0xd1, 0x08 } }, { .data = { 0xd2, 0x84 } },
++	{ .data = { 0xff, 0x26 } }, { .data = { 0xfb, 0x01 } },
++	{ .data = { 0x03, 0x1c } }, { .data = { 0x3b, 0x08 } },
++	{ .data = { 0x6b, 0x08 } }, { .data = { 0x97, 0x08 } },
++	{ .data = { 0xc5, 0x08 } }, { .data = { 0xfb, 0x01 } },
++	{ .data = { 0xff, 0x23 } }, { .data = { 0xfb, 0x01 } },
++	{ .data = { 0x01, 0x84 } }, { .data = { 0x05, 0x2d } },
++	{ .data = { 0x06, 0x00 } }, { .data = { 0x33, 0x07 } },
++	{ .data = { 0x21, 0xee } }, { .data = { 0x22, 0xed } },
++	{ .data = { 0x23, 0xea } }, { .data = { 0x24, 0xe8 } },
++	{ .data = { 0x25, 0xe5 } }, { .data = { 0x26, 0xe2 } },
++	{ .data = { 0x27, 0xde } }, { .data = { 0x28, 0xbb } },
++	{ .data = { 0x29, 0x87 } }, { .data = { 0x2a, 0x77 } },
++	{ .data = { 0x32, 0x0c } }, { .data = { 0x13, 0x3f } },
++	{ .data = { 0x14, 0x34 } }, { .data = { 0x15, 0x2a } },
++	{ .data = { 0x16, 0x25 } }, { .data = { 0x17, 0x9d } },
++	{ .data = { 0x18, 0x9a } }, { .data = { 0x19, 0x97 } },
++	{ .data = { 0x1a, 0x94 } }, { .data = { 0x1b, 0x91 } },
++	{ .data = { 0x1c, 0x8e } }, { .data = { 0x1d, 0x8b } },
++	{ .data = { 0x1e, 0x89 } }, { .data = { 0x1f, 0x86 } },
++	{ .data = { 0x20, 0x83 } }, { .data = { 0xff, 0x22 } },
++	{ .data = { 0x00, 0x0a } }, { .data = { 0x01, 0x43 } },
++	{ .data = { 0x02, 0x5b } }, { .data = { 0x03, 0x6a } },
++	{ .data = { 0x04, 0x7a } }, { .data = { 0x05, 0x82 } },
++	{ .data = { 0x06, 0x85 } }, { .data = { 0x07, 0x80 } },
++	{ .data = { 0x08, 0x7c } }, { .data = { 0x09, 0x7c } },
++	{ .data = { 0x0a, 0x74 } }, { .data = { 0x0b, 0x71 } },
++	{ .data = { 0x0c, 0x6e } }, { .data = { 0x0d, 0x68 } },
++	{ .data = { 0x0e, 0x65 } }, { .data = { 0x0f, 0x5c } },
++	{ .data = { 0x10, 0x32 } }, { .data = { 0x11, 0x18 } },
++	{ .data = { 0x12, 0x00 } }, { .data = { 0x13, 0x00 } },
++	{ .data = { 0x1a, 0x00 } }, { .data = { 0x1b, 0x00 } },
++	{ .data = { 0x1c, 0x00 } }, { .data = { 0x1d, 0x00 } },
++	{ .data = { 0x1e, 0x00 } }, { .data = { 0x1f, 0x00 } },
++	{ .data = { 0x20, 0x00 } }, { .data = { 0x21, 0x00 } },
++	{ .data = { 0x22, 0x00 } }, { .data = { 0x23, 0x00 } },
++	{ .data = { 0x24, 0x00 } }, { .data = { 0x25, 0x00 } },
++	{ .data = { 0x26, 0x00 } }, { .data = { 0x27, 0x00 } },
++	{ .data = { 0x28, 0x00 } }, { .data = { 0x29, 0x00 } },
++	{ .data = { 0x2a, 0x00 } }, { .data = { 0x2b, 0x00 } },
++	{ .data = { 0x2f, 0x00 } }, { .data = { 0x30, 0x00 } },
++	{ .data = { 0x31, 0x00 } }, { .data = { 0x32, 0x0c } },
++	{ .data = { 0x33, 0x0c } }, { .data = { 0x34, 0x0c } },
++	{ .data = { 0x35, 0x0b } }, { .data = { 0x36, 0x09 } },
++	{ .data = { 0x37, 0x09 } }, { .data = { 0x38, 0x08 } },
++	{ .data = { 0x39, 0x05 } }, { .data = { 0x3a, 0x03 } },
++	{ .data = { 0x3b, 0x00 } }, { .data = { 0x3f, 0x00 } },
++	{ .data = { 0x40, 0x00 } }, { .data = { 0x41, 0x00 } },
++	{ .data = { 0x42, 0x00 } }, { .data = { 0x43, 0x00 } },
++	{ .data = { 0x44, 0x00 } }, { .data = { 0x45, 0x00 } },
++	{ .data = { 0x46, 0x00 } }, { .data = { 0x47, 0x00 } },
++	{ .data = { 0x48, 0x00 } }, { .data = { 0x49, 0x03 } },
++	{ .data = { 0x4a, 0x06 } }, { .data = { 0x4b, 0x07 } },
++	{ .data = { 0x4c, 0x07 } }, { .data = { 0x53, 0x01 } },
++	{ .data = { 0x54, 0x01 } }, { .data = { 0x55, 0x89 } },
++	{ .data = { 0x56, 0x00 } }, { .data = { 0x58, 0x00 } },
++	{ .data = { 0x68, 0x00 } }, { .data = { 0x84, 0xff } },
++	{ .data = { 0x85, 0xff } }, { .data = { 0x86, 0x03 } },
++	{ .data = { 0x87, 0x00 } }, { .data = { 0x88, 0x00 } },
++	{ .data = { 0xa2, 0x20 } }, { .data = { 0xa9, 0x01 } },
++	{ .data = { 0xaa, 0x12 } }, { .data = { 0xab, 0x13 } },
++	{ .data = { 0xac, 0x0a } }, { .data = { 0xad, 0x74 } },
++	{ .data = { 0xaf, 0x33 } }, { .data = { 0xb0, 0x03 } },
++	{ .data = { 0xb1, 0x14 } }, { .data = { 0xb2, 0x42 } },
++	{ .data = { 0xb3, 0x40 } }, { .data = { 0xb4, 0xa5 } },
++	{ .data = { 0xb6, 0x44 } }, { .data = { 0xb7, 0x04 } },
++	{ .data = { 0xb8, 0x14 } }, { .data = { 0xb9, 0x42 } },
++	{ .data = { 0xba, 0x40 } }, { .data = { 0xbb, 0xa5 } },
++	{ .data = { 0xbd, 0x44 } }, { .data = { 0xbe, 0x04 } },
++	{ .data = { 0xbf, 0x00 } }, { .data = { 0xc0, 0x75 } },
++	{ .data = { 0xc1, 0x6a } }, { .data = { 0xc2, 0xa5 } },
++	{ .data = { 0xc4, 0x22 } }, { .data = { 0xc5, 0x02 } },
++	{ .data = { 0xc6, 0x00 } }, { .data = { 0xc7, 0x95 } },
++	{ .data = { 0xc8, 0x8a } }, { .data = { 0xc9, 0xa5 } },
++	{ .data = { 0xcb, 0x22 } }, { .data = { 0xcc, 0x02 } },
++	{ .data = { 0xcd, 0x00 } }, { .data = { 0xce, 0xb5 } },
++	{ .data = { 0xcf, 0xaa } }, { .data = { 0xd0, 0xa5 } },
++	{ .data = { 0xd2, 0x22 } }, { .data = { 0xd3, 0x02 } },
++	{ .data = { 0xfb, 0x01 } }, { .data = { 0xff, 0x10 } },
++	{ .data = { 0x26, 0x02 } }, { .data = { 0x35, 0x00 } },
++	{ .data = { 0x51, 0xff } }, { .data = { 0x53, 0x24 } },
++	{ .data = { 0x55, 0x00 } }, { .data = { 0xb0, 0x00 } },
++};
++
++static const struct drm_display_mode jdi_fhd_video_panel_mode = {
++	.clock = (1080 + 16 + 28 + 40) * (2160 + 7 + 4 + 24) * 60 / 1000,
++
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 16,
++	.hsync_end = 1080 + 16 + 28,
++	.htotal = 1080 + 16 + 28 + 40,
++
++	.vdisplay = 2160,
++	.vsync_start = 2160 + 7,
++	.vsync_end = 2160 + 7 + 4,
++	.vtotal = 2160 + 7 + 4 + 24,
++
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++};
++
++static const struct nt35596s_panel_desc jdi_fhd_video_panel_desc = {
++	.display_mode = &jdi_fhd_video_panel_mode,
++
++	.width_mm = 68,
++	.height_mm = 136,
++
++	.mode_flags = MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_VIDEO |
++		      MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_CLOCK_NON_CONTINUOUS |
++		      MIPI_DSI_MODE_VIDEO_BURST,
++	.format = MIPI_DSI_FMT_RGB888,
++	.lanes = 4,
++	.on_cmds = jdi_fhd_video_on_cmds,
++	.num_on_cmds = ARRAY_SIZE(jdi_fhd_video_on_cmds),
++};
++
++static int nt35596s_panel_add(struct nt35596s_panel *pinfo)
++{
++	struct device *dev = &pinfo->dsi->dev;
++	int i, ret;
++
++	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++)
++		pinfo->supplies[i].supply = nt35596s_regulator_names[i];
++
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pinfo->supplies),
++				      pinfo->supplies);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to get regulators\n");
++
++	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++) {
++		ret = regulator_set_load(pinfo->supplies[i].consumer,
++					 nt35596s_regulator_enable_loads[i]);
++		if (ret)
++			return dev_err_probe(
++				dev, ret,
++				"failed to set regulator enable loads\n");
++	}
++
++	pinfo->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(pinfo->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(pinfo->reset_gpio),
++				     "failed to get reset gpio from DT\n");
++
++	drm_panel_init(&pinfo->panel, dev, &panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++
++	ret = drm_panel_of_backlight(&pinfo->panel);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get backlight\n");
++
++	drm_panel_add(&pinfo->panel);
++
++	return 0;
++}
++
++static int nt35596s_panel_probe(struct mipi_dsi_device *dsi)
++{
++	struct nt35596s_panel *pinfo;
++	const struct nt35596s_panel_desc *desc;
++	int err;
++
++	pinfo = devm_kzalloc(&dsi->dev, sizeof(*pinfo), GFP_KERNEL);
++	if (!pinfo)
++		return -ENOMEM;
++
++	desc = of_device_get_match_data(&dsi->dev);
++	dsi->mode_flags = desc->mode_flags;
++	dsi->format = desc->format;
++	dsi->lanes = desc->lanes;
++	pinfo->desc = desc;
++	pinfo->dsi = dsi;
++
++	mipi_dsi_set_drvdata(dsi, pinfo);
++
++	err = nt35596s_panel_add(pinfo);
++	if (err < 0)
++		return err;
++
++	err = mipi_dsi_attach(dsi);
++	if (err < 0) {
++		drm_panel_remove(&pinfo->panel);
++		return err;
++	}
++
++	return 0;
++}
++
++static int nt35596s_panel_remove(struct mipi_dsi_device *dsi)
++{
++	struct nt35596s_panel *pinfo = mipi_dsi_get_drvdata(dsi);
++	int err;
++
++	err = drm_panel_unprepare(&pinfo->panel);
++	if (err < 0)
++		dev_err(&dsi->dev, "failed to unprepare panel: %d\n", err);
++
++	err = drm_panel_disable(&pinfo->panel);
++	if (err < 0)
++		dev_err(&dsi->dev, "failed to disable panel: %d\n", err);
++
++	err = mipi_dsi_detach(dsi);
++	if (err < 0)
++		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
++
++	drm_panel_remove(&pinfo->panel);
++
++	return 0;
++}
++
++static void nt35596s_panel_shutdown(struct mipi_dsi_device *dsi)
++{
++	struct nt35596s_panel *pinfo = mipi_dsi_get_drvdata(dsi);
++
++	drm_panel_disable(&pinfo->panel);
++	drm_panel_unprepare(&pinfo->panel);
++}
++
++static const struct of_device_id nt35596s_panel_of_match[] = {
++	{ .compatible = "jdi,fhd-nt35596s", .data = &jdi_fhd_video_panel_desc },
++	{}
++};
++MODULE_DEVICE_TABLE(of, nt35596s_panel_of_match);
++
++static struct mipi_dsi_driver nt35596s_panel_driver = {
++	.driver = {
++		.name = "panel-jdi-fhd-nt35596s",
++		.of_match_table = nt35596s_panel_of_match,
++	},
++	.probe = nt35596s_panel_probe,
++	.remove = nt35596s_panel_remove,
++	.shutdown = nt35596s_panel_shutdown,
++};
++module_mipi_dsi_driver(nt35596s_panel_driver);
++
++MODULE_AUTHOR("Molly Sophia <mollysophia379@gmail.com>");
++MODULE_DESCRIPTION("DRM driver for JDI FHD nt35596s DSI panel, video mode");
++MODULE_LICENSE("GPL");
 -- 
-2.25.1
+2.37.0
 
