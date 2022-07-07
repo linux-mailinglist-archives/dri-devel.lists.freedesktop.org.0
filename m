@@ -2,79 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D504F56AC2E
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 21:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65EC56AC37
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 21:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C636D14A262;
-	Thu,  7 Jul 2022 19:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3570F112085;
+	Thu,  7 Jul 2022 19:50:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 695C614A257
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 19:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657223355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b/09duIaIEFfbOfOoFpBzJ/OHB5C+OhETNK1haqEKUI=;
- b=JssJj4Od/GVA/d2hi3cXTasM9SCztaB0WtIBuxDGQdQ2fnOrwy8kHEn7twFQhdQVhPThK3
- 14dIbYqRpGXi314qZkMAA0KSrZ7A38iW4dVJuLHFN2HOfzFhNbLMxjJoMiditFoF7KifSE
- u0BVR04sYXs+Peap+MOo6m8woP/rNxI=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-Dj2-PGcYOiiULVHTJ5RmXg-1; Thu, 07 Jul 2022 15:49:14 -0400
-X-MC-Unique: Dj2-PGcYOiiULVHTJ5RmXg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- q184-20020a378ec1000000b006b14460be35so19032567qkd.22
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 12:49:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=b/09duIaIEFfbOfOoFpBzJ/OHB5C+OhETNK1haqEKUI=;
- b=CKbxQdQhqxrd0MiTpkdep/tyBVPrMO1LtYaJ2C3eLBfZZsKjWc3j0ohMS7RdOvOf5H
- baWb3BcX75uLmmfQyNZmnKBg5nWfzi+zEUmDAzVrjlCu+lETqpqUU5QtNbXtuiqa/i1S
- LWbPdOjtt71z/3JGgFIx+HcooS6lplqtJBnlT2CNHqszHVYzyX/KVtNLlUf8QO3gCRUY
- 2i8evKeYFOf/KmblNMO0POPIJOEPDS+TPaYUw3rSxl1G65Owizoz5qZYb5D7YRpiqpqm
- PUvirEIIIUgY4EHZJBi5AOZKkhtx1T8jEibXlcJ97yhZxEV2+N/0YnJBk+pwhiBoQIP6
- YBxQ==
-X-Gm-Message-State: AJIora9wNBTyCv2ecmNmzDEOqPBJqzCfJiYhbqoI+wBrYFNtsqfkvziM
- ZliyttNK42WqRogNv3+MFXipQ7fL8hrpvRtyu92uUSaWznLGL5Eg+ilanTOq+z7SeajVArtP6tY
- W8Q9d6enEe5gpT3dxcXmLDsh5ZkSM
-X-Received: by 2002:a05:6214:2027:b0:473:2d58:7ce9 with SMTP id
- 7-20020a056214202700b004732d587ce9mr4481196qvf.107.1657223353553; 
- Thu, 07 Jul 2022 12:49:13 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v30p/B+gX/BnCMrUQB1lcXkKCSu9pY+vBctYwrmJAVo313ntD9v5GhZQ9NfuVfNRds55Wb4A==
-X-Received: by 2002:a05:6214:2027:b0:473:2d58:7ce9 with SMTP id
- 7-20020a056214202700b004732d587ce9mr4481163qvf.107.1657223353007; 
- Thu, 07 Jul 2022 12:49:13 -0700 (PDT)
-Received: from [192.168.8.138] ([141.154.49.182])
- by smtp.gmail.com with ESMTPSA id
- dm15-20020a05620a1d4f00b006b555509398sm1582726qkb.136.2022.07.07.12.49.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 12:49:12 -0700 (PDT)
-Message-ID: <a6e04ca0ff6134652f5ddf4bdbce1f1e90270e2e.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau: fix a use-after-free in
- nouveau_gem_prime_import_sg_table()
-From: Lyude Paul <lyude@redhat.com>
-To: Jianglei Nie <niejianglei2021@163.com>, bskeggs@redhat.com, 
- kherbst@redhat.com, airlied@linux.ie, daniel@ffwll.ch
-Date: Thu, 07 Jul 2022 15:49:11 -0400
-In-Reply-To: <20220705132546.2247677-1-niejianglei2021@163.com>
-References: <20220705132546.2247677-1-niejianglei2021@163.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1101112085;
+ Thu,  7 Jul 2022 19:50:02 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Lf6Sp2Dr6zDr4k;
+ Thu,  7 Jul 2022 19:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1657223402; bh=ied7/wQBWyRAGNRM3YJQ9nmwASEEztOFVReHeNDPqs4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fOz0/Uf6U90A9zYKjLrYyhaK5DOKfrFIvBM0bBMLHLM9VoHoTj9ZNQ0iwIL5u+zEg
+ AXXyOp3vVyjQtpP6Niv30wOp8BgS0agFINCJYPfOw15jlGX0oCHKxGiK25p318rtNi
+ ZVCcN8sHivF7gRafsWqVjJfzsx2zMERBdPOxal4w=
+X-Riseup-User-ID: 8654BB5CEEAED37E29E93B549D0D383934D30FA2C2F8B642BBBDF6AF5CF020CD
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4Lf6Sk2jRDz5vXK;
+ Thu,  7 Jul 2022 19:49:58 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: Drop dm_sw_gfx7_2d_thin_l_vp and
+ dm_sw_gfx7_2d_thin_gl
+Date: Thu,  7 Jul 2022 16:49:49 -0300
+Message-Id: <20220707194949.103978-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,46 +54,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+As the enum dm_sw_gfx7_2d_thin_gl and dm_sw_gfx7_2d_thin_l_vp are not
+used on the codebase, this commit drops those entries from enum
+dm_swizzle_mode.
 
-Will push to the appropriate branch in a moment
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
+ .../dc/dml/dcn20/display_mode_vba_20.c        | 26 +++++-------------
+ .../dc/dml/dcn20/display_mode_vba_20v2.c      | 26 +++++-------------
+ .../dc/dml/dcn21/display_mode_vba_21.c        | 27 +++++--------------
+ .../amd/display/dc/dml/display_mode_enums.h   |  2 --
+ .../display/dc/dml/dml_wrapper_translation.c  |  9 -------
+ 5 files changed, 19 insertions(+), 71 deletions(-)
 
-On Tue, 2022-07-05 at 21:25 +0800, Jianglei Nie wrote:
-> nouveau_bo_init() is backed by ttm_bo_init() and ferries its return code
-> back to the caller. On failures, ttm will call nouveau_bo_del_ttm() and
-> free the memory.Thus, when nouveau_bo_init() returns an error, the gem
-> object has already been released. Then the call to nouveau_bo_ref() will
-> use the freed "nvbo->bo" and lead to a use-after-free bug.
-> 
-> We should delete the call to nouveau_bo_ref() to avoid the use-after-free.
-> 
-> Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_prime.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c
-> b/drivers/gpu/drm/nouveau/nouveau_prime.c
-> index 347488685f74..9608121e49b7 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-> @@ -71,7 +71,6 @@ struct drm_gem_object
-> *nouveau_gem_prime_import_sg_table(struct drm_device *dev,
->         ret = nouveau_bo_init(nvbo, size, align, NOUVEAU_GEM_DOMAIN_GART,
->                               sg, robj);
->         if (ret) {
-> -               nouveau_bo_ref(NULL, &nvbo);
->                 obj = ERR_PTR(ret);
->                 goto unlock;
->         }
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+index d3b5b6fedf04..4e4cb0927057 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
+@@ -938,7 +938,7 @@ static unsigned int CalculateVMAndRowBytes(
+ 		*MetaRowByte = 0;
+ 	}
+ 
+-	if (SurfaceTiling == dm_sw_linear || SurfaceTiling == dm_sw_gfx7_2d_thin_gl || SurfaceTiling == dm_sw_gfx7_2d_thin_l_vp) {
++	if (SurfaceTiling == dm_sw_linear) {
+ 		MacroTileSizeBytes = 256;
+ 		MacroTileHeight = BlockHeight256Bytes;
+ 	} else if (SurfaceTiling == dm_sw_4kb_s || SurfaceTiling == dm_sw_4kb_s_x
+@@ -3347,26 +3347,12 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 										== dm_420_8
+ 								|| mode_lib->vba.SourcePixelFormat[k]
+ 										== dm_420_10))
+-				|| (((mode_lib->vba.SurfaceTiling[k] == dm_sw_gfx7_2d_thin_gl
+-						|| mode_lib->vba.SurfaceTiling[k]
+-								== dm_sw_gfx7_2d_thin_l_vp)
+-						&& !((mode_lib->vba.SourcePixelFormat[k]
+-								== dm_444_64
++				|| (mode_lib->vba.DCCEnable[k] == true
++						&& (mode_lib->vba.SurfaceTiling[k] == dm_sw_linear
+ 								|| mode_lib->vba.SourcePixelFormat[k]
+-										== dm_444_32)
+-								&& mode_lib->vba.SourceScan[k]
+-										== dm_horz
+-								&& mode_lib->vba.SupportGFX7CompatibleTilingIn32bppAnd64bpp
+-										== true
+-								&& mode_lib->vba.DCCEnable[k]
+-										== false))
+-						|| (mode_lib->vba.DCCEnable[k] == true
+-								&& (mode_lib->vba.SurfaceTiling[k]
+-										== dm_sw_linear
+-										|| mode_lib->vba.SourcePixelFormat[k]
+-												== dm_420_8
+-										|| mode_lib->vba.SourcePixelFormat[k]
+-												== dm_420_10)))) {
++										== dm_420_8
++								|| mode_lib->vba.SourcePixelFormat[k]
++										== dm_420_10))) {
+ 			mode_lib->vba.SourceFormatPixelAndScanSupport = false;
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+index 63bbdf8b8678..eaa0cdb599ba 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
+@@ -998,7 +998,7 @@ static unsigned int CalculateVMAndRowBytes(
+ 		*MetaRowByte = 0;
+ 	}
+ 
+-	if (SurfaceTiling == dm_sw_linear || SurfaceTiling == dm_sw_gfx7_2d_thin_gl || SurfaceTiling == dm_sw_gfx7_2d_thin_l_vp) {
++	if (SurfaceTiling == dm_sw_linear) {
+ 		MacroTileSizeBytes = 256;
+ 		MacroTileHeight = BlockHeight256Bytes;
+ 	} else if (SurfaceTiling == dm_sw_4kb_s || SurfaceTiling == dm_sw_4kb_s_x
+@@ -3454,26 +3454,12 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
+ 										== dm_420_8
+ 								|| mode_lib->vba.SourcePixelFormat[k]
+ 										== dm_420_10))
+-				|| (((mode_lib->vba.SurfaceTiling[k] == dm_sw_gfx7_2d_thin_gl
+-						|| mode_lib->vba.SurfaceTiling[k]
+-								== dm_sw_gfx7_2d_thin_l_vp)
+-						&& !((mode_lib->vba.SourcePixelFormat[k]
+-								== dm_444_64
++				|| (mode_lib->vba.DCCEnable[k] == true
++						&& (mode_lib->vba.SurfaceTiling[k] == dm_sw_linear
+ 								|| mode_lib->vba.SourcePixelFormat[k]
+-										== dm_444_32)
+-								&& mode_lib->vba.SourceScan[k]
+-										== dm_horz
+-								&& mode_lib->vba.SupportGFX7CompatibleTilingIn32bppAnd64bpp
+-										== true
+-								&& mode_lib->vba.DCCEnable[k]
+-										== false))
+-						|| (mode_lib->vba.DCCEnable[k] == true
+-								&& (mode_lib->vba.SurfaceTiling[k]
+-										== dm_sw_linear
+-										|| mode_lib->vba.SourcePixelFormat[k]
+-												== dm_420_8
+-										|| mode_lib->vba.SourcePixelFormat[k]
+-												== dm_420_10)))) {
++										== dm_420_8
++								|| mode_lib->vba.SourcePixelFormat[k]
++										== dm_420_10))) {
+ 			mode_lib->vba.SourceFormatPixelAndScanSupport = false;
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
+index 8a7485e21d53..198d81861ac5 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
+@@ -1342,7 +1342,7 @@ static unsigned int CalculateVMAndRowBytes(
+ 		*MetaRowByte = 0;
+ 	}
+ 
+-	if (SurfaceTiling == dm_sw_linear || SurfaceTiling == dm_sw_gfx7_2d_thin_gl || SurfaceTiling == dm_sw_gfx7_2d_thin_l_vp) {
++	if (SurfaceTiling == dm_sw_linear) {
+ 		MacroTileSizeBytes = 256;
+ 		MacroTileHeight = BlockHeight256Bytes;
+ 	} else if (SurfaceTiling == dm_sw_4kb_s || SurfaceTiling == dm_sw_4kb_s_x
+@@ -3579,26 +3579,13 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 										== dm_420_8
+ 								|| mode_lib->vba.SourcePixelFormat[k]
+ 										== dm_420_10))
+-				|| (((mode_lib->vba.SurfaceTiling[k] == dm_sw_gfx7_2d_thin_gl
+-						|| mode_lib->vba.SurfaceTiling[k]
+-								== dm_sw_gfx7_2d_thin_l_vp)
+-						&& !((mode_lib->vba.SourcePixelFormat[k]
+-								== dm_444_64
++				|| (mode_lib->vba.DCCEnable[k] == true
++						&& (mode_lib->vba.SurfaceTiling[k]
++								== dm_sw_linear
+ 								|| mode_lib->vba.SourcePixelFormat[k]
+-										== dm_444_32)
+-								&& mode_lib->vba.SourceScan[k]
+-										== dm_horz
+-								&& mode_lib->vba.SupportGFX7CompatibleTilingIn32bppAnd64bpp
+-										== true
+-								&& mode_lib->vba.DCCEnable[k]
+-										== false))
+-						|| (mode_lib->vba.DCCEnable[k] == true
+-								&& (mode_lib->vba.SurfaceTiling[k]
+-										== dm_sw_linear
+-										|| mode_lib->vba.SourcePixelFormat[k]
+-												== dm_420_8
+-										|| mode_lib->vba.SourcePixelFormat[k]
+-												== dm_420_10)))) {
++										== dm_420_8
++								|| mode_lib->vba.SourcePixelFormat[k]
++										== dm_420_10))) {
+ 			mode_lib->vba.SourceFormatPixelAndScanSupport = false;
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h b/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h
+index f394b3f3922a..0e06727d40b3 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h
++++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_enums.h
+@@ -89,8 +89,6 @@ enum dm_swizzle_mode {
+ 	dm_sw_var_s_x = 29,
+ 	dm_sw_var_d_x = 30,
+ 	dm_sw_var_r_x = 31,
+-	dm_sw_gfx7_2d_thin_l_vp,
+-	dm_sw_gfx7_2d_thin_gl,
+ };
+ enum lb_depth {
+ 	dm_lb_10 = 0, dm_lb_8 = 1, dm_lb_6 = 2, dm_lb_12 = 3, dm_lb_16 = 4,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c
+index 4ec5310a2962..9edcb6fc83c1 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper_translation.c
+@@ -35,15 +35,6 @@ static void gfx10array_mode_to_dml_params(
+ 	case DC_ARRAY_LINEAR_GENERAL:
+ 		*sw_mode = dm_sw_linear;
+ 		break;
+-	case DC_ARRAY_2D_TILED_THIN1:
+-// DC_LEGACY_TILING_ADDR_GEN_ZERO - undefined as per current code hence removed
+-#if 0
+-		if (compat_level == DC_LEGACY_TILING_ADDR_GEN_ZERO)
+-			*sw_mode = dm_sw_gfx7_2d_thin_l_vp;
+-		else
+-			*sw_mode = dm_sw_gfx7_2d_thin_gl;
+-#endif
+-		break;
+ 	default:
+ 		ASSERT(0); /* Not supported */
+ 		break;
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+2.36.1
 
