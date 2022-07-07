@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AB356AC56
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:03:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370AF56AC69
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 22:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8016711B6E7;
-	Thu,  7 Jul 2022 20:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DA012B9A8;
+	Thu,  7 Jul 2022 20:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BE811B6C3;
- Thu,  7 Jul 2022 20:02:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7192B11B66D;
+ Thu,  7 Jul 2022 20:02:50 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 633BC66019E2;
- Thu,  7 Jul 2022 21:02:48 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 08AEB66019E7;
+ Thu,  7 Jul 2022 21:02:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1657224168;
- bh=BJ87eisXj9Ppx4nwiDdWpEsHsZ0BoBn8nQEON2j1/N8=;
+ s=mail; t=1657224169;
+ bh=yyqoiKo1vjbgBxUDvFfH6fIoAaG7ofkIEVjSYkMkda8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eMVQAxAA055i7JCbwZV4VOLNSzs/tarHYtDiTlr9njl1uqAHufvYPx23qR5eAwSUW
- ZVHVSmD8hBjGAJtpVUnnnpRmsnWcu/y7+u5IiiRbJwf+er3koiV+mGcCNEcYGzXr7Y
- Ff0TJGoWs2BfEOeMXRNkZFqVXyj+JukdEKhLX9iw9P6YIJPP3yvXLwIyMWqyi9n92k
- JnJV2SYaKFQX8OGfkIZkBNouzRAevtR9wzvQpmdNd/Tvs+PaI12MYc+3/m2YaZsW6s
- Wft5LOa+oUnQaNdqJ9ViZXisA0oKzW25j0ued7BY53r1g8c4MWU4RDN9sJb2lP+/ab
- QHkPQV3xvU7NA==
+ b=jxcCnHRvMsZooefKE1L+riEhT0DTivOOpHuwBE74HcbdbVkGnvIxNHyOmXJQt/b0H
+ yD9IJJ1DlVtNoeY7VQgePaGz3DfgeXPME8mN0WPZ8sfYPXv9PbKp9uppjJ+iI1Al7M
+ DFWZZVf5MANOJ4mF4+6lhwqQxuuq1xaShFE2tq2i6tV4EJT0/jKGKZryH2r1Kz5SRV
+ weyzCxtpTWONDfevbIkhyMBKebe7EO4uaRuOeRXhsfYQDCoryFPJ2Z2j+NVTm1L9Wr
+ gj1CpHJt0y/TM/Iv0mENn83ah7SITLEhAxYL6OMjLaIdVRwD59yR601W51Jo1gpfCL
+ hw++BJC9wbaWA==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -36,9 +36,10 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v10 08/11] drm/i915/ttm: add buffer pin on alloc flag
-Date: Thu,  7 Jul 2022 20:02:26 +0000
-Message-Id: <20220707200230.1657555-9-bob.beckett@collabora.com>
+Subject: [PATCH v10 09/11] drm/i915/selftest: don't attempt engine reset of
+ guc submission engines
+Date: Thu,  7 Jul 2022 20:02:27 +0000
+Message-Id: <20220707200230.1657555-10-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707200230.1657555-1-bob.beckett@collabora.com>
 References: <20220707200230.1657555-1-bob.beckett@collabora.com>
@@ -63,114 +64,38 @@ Cc: Robert Beckett <bob.beckett@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For situations where allocations need to fail on alloc instead of
-delayed get_pages, add a new alloc flag to pin the ttm bo.
-This makes sure that the resource has been allocated during buffer
-creation, allowing it to fail with an error if the placement is
-exhausted.
-This allows existing fallback options for stolen backend allocation like
-create_ring_vma to work as expected.
+igt_reset_engines_stolen tries to reset engines without checking if it
+is possible.
+Engines using GuC submission are not able to be reset from the host.
+
+In this scenario, the reset exits early, then on the next iteration of
+the each engine loop, the async teardown of the spinner request
+context's ring occurs while the next engine is under test.
+
+This is seen as a stolen memory corruption as the ring buffer was busy
+initially, but free during the confirmation check and had been poisoned
+during cleanup.
+
+Fix this by not testing GuC submission using engines.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 ---
- .../gpu/drm/i915/gem/i915_gem_object_types.h  | 13 ++++++----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 25 ++++++++++++++++++-
- 2 files changed, 32 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gt/selftest_reset.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 6632ed52e919..07bc11247a3e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -325,17 +325,20 @@ struct drm_i915_gem_object {
-  * dealing with userspace objects the CPU fault handler is free to ignore this.
-  */
- #define I915_BO_ALLOC_GPU_ONLY	  BIT(6)
-+/* object should be pinned in destination region from allocation */
-+#define I915_BO_ALLOC_PINNED	  BIT(7)
- #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
- 			     I915_BO_ALLOC_VOLATILE | \
- 			     I915_BO_ALLOC_CPU_CLEAR | \
- 			     I915_BO_ALLOC_USER | \
- 			     I915_BO_ALLOC_PM_VOLATILE | \
- 			     I915_BO_ALLOC_PM_EARLY | \
--			     I915_BO_ALLOC_GPU_ONLY)
--#define I915_BO_READONLY          BIT(7)
--#define I915_TILING_QUIRK_BIT     8 /* unknown swizzling; do not release! */
--#define I915_BO_PROTECTED         BIT(9)
--#define I915_BO_WAS_BOUND_BIT     10
-+			     I915_BO_ALLOC_GPU_ONLY | \
-+			     I915_BO_ALLOC_PINNED)
-+#define I915_BO_READONLY          BIT(8)
-+#define I915_TILING_QUIRK_BIT     9 /* unknown swizzling; do not release! */
-+#define I915_BO_PROTECTED         BIT(10)
-+#define I915_BO_WAS_BOUND_BIT     11
- 	/**
- 	 * @mem_flags - Mutable placement-related flags
- 	 *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 27d59639177f..bb988608296d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -998,6 +998,13 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
- {
- 	GEM_BUG_ON(!obj->ttm.created);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index 37c38bdd5f47..55f3b34e5f6e 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -194,6 +194,8 @@ static int igt_reset_engines_stolen(void *arg)
+ 		return 0;
  
-+	/* stolen objects are pinned for lifetime. Unpin before putting */
-+	if (obj->flags & I915_BO_ALLOC_PINNED) {
-+		ttm_bo_reserve(i915_gem_to_ttm(obj), true, false, NULL);
-+		ttm_bo_unpin(i915_gem_to_ttm(obj));
-+		ttm_bo_unreserve(i915_gem_to_ttm(obj));
-+	}
-+
- 	ttm_bo_put(i915_gem_to_ttm(obj));
- }
- 
-@@ -1193,6 +1200,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 		.no_wait_gpu = false,
- 	};
- 	enum ttm_bo_type bo_type;
-+	struct ttm_place _place;
-+	struct ttm_placement _placement;
-+	struct ttm_placement *placement;
- 	int ret;
- 
- 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
-@@ -1222,6 +1232,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 */
- 	i915_gem_object_make_unshrinkable(obj);
- 
-+	if (obj->flags & I915_BO_ALLOC_PINNED) {
-+		i915_ttm_place_from_region(mem, &_place, obj->bo_offset,
-+					   obj->base.size, obj->flags);
-+		_placement.num_placement = 1;
-+		_placement.placement = &_place;
-+		_placement.num_busy_placement = 0;
-+		_placement.busy_placement = NULL;
-+		placement = &_placement;
-+	} else {
-+		placement = &i915_sys_placement;
-+	}
- 	/*
- 	 * If this function fails, it will call the destructor, but
- 	 * our caller still owns the object. So no freeing in the
-@@ -1230,7 +1251,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 * until successful initialization.
- 	 */
- 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
--				   bo_type, &i915_sys_placement,
-+				   bo_type, placement,
- 				   page_size >> PAGE_SHIFT,
- 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
- 	if (ret)
-@@ -1242,6 +1263,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_ttm_adjust_domains_after_move(obj);
- 	i915_ttm_adjust_gem_after_move(obj);
- 	obj->ttm.cache_level_override = false;
-+	if (obj->flags & I915_BO_ALLOC_PINNED)
-+		ttm_bo_pin(i915_gem_to_ttm(obj));
- 	i915_gem_object_unlock(obj);
- 
- 	return 0;
+ 	for_each_engine(engine, gt, id) {
++		if (intel_engine_uses_guc(engine))
++			continue;
+ 		err = __igt_reset_stolen(gt, engine->mask, engine->name);
+ 		if (err)
+ 			return err;
 -- 
 2.25.1
 
