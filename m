@@ -2,133 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8478456A32F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 15:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3156B56A399
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jul 2022 15:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1B118A8CA;
-	Thu,  7 Jul 2022 13:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A2214A1F9;
+	Thu,  7 Jul 2022 13:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C5118A8D0;
- Thu,  7 Jul 2022 13:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657199499; x=1688735499;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=5IMvRqffyMCOIcj2nkiEhOlw/AuVz1O4Y2IimSR32KY=;
- b=lkt9vK8pHbYVXZQFx6lc9cZJ//PZk0QUgPuL6jWLJ4KaeZ1J3o5Tk/u7
- iNKxY+LRbqKSggs3hzN59FEdBIsF2yBI5Dp4gPnjLdmtkYMlfc3KbGghH
- x72fp9CuDwv9I/QDFawmHy86wy/vxwnAqXXdLWut9rBULyKZGwouZ+2o7
- 0cv0YXSCe9SQc1ctK8qjWnnXRQ7hK07JAkMXcHPsUqxYOYd9g2d5tAJtA
- DQkRz+ptQSGpUoemBKf5yix0DA/luwqxAESK3YyoFoWVXQ/tpw5QkbttI
- f3iPKCuPQJ5vg6KJLeaTy/vI3ZERN+cXrikZOtvIMAe/YVOLPXi29pqg7 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="272814188"
-X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; d="scan'208";a="272814188"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 06:11:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; d="scan'208";a="683304940"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2022 06:11:37 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 7 Jul 2022 06:11:37 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 7 Jul 2022 06:11:37 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 7 Jul 2022 06:11:36 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7168D14A3C5;
+ Thu,  7 Jul 2022 13:27:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gty6WuLelQxpvgMMETPZuyOv4BHKnqv7UCDnpsFXXA45MZIq/zNkMAaDQvPpTXTQy9cZXVwFH53PbYkHaAOaPT46dnaXMqRxF24EsR+dEsWzORcUrqBct5OhKDtW+sxlXwCsa841qYBTtHf26qliB574J94hWcyN/oXvx/6tbTmXa+/5w0JOM8kUeuGT7WoslmNXsGerxMxu7o5MiZoMYnKhO8hDTNCTkTdeRYrYl9eTagMcXYZgRuJn26xz5+PXxp5g5QN56MX6MfgAR125BoKWJhTvSUU9iddLzwMzlFgtj5qikMC3/dit/Pvq+JJjltRlsBiaYh8eAmWDsqYyyQ==
+ b=EWefag5Z7RwOHcXFJLSUYlTz8zdOn8aTetv4vuYosBSWY5tfFoWA58RszQyMhbTfQb0NejlBvdfspnGitA0JiRYcd0dYOdYQwE/uXfK218jCz99C5Q41Ls7roaXDIwdlxSfdS7Vv3F8qhB19NKATc3r45Lmybj9x4p8lzQxBjmUZ99e0/oEog4brlkyOeRCzZaiqFPxsTsYxeTfGRJ9SxUKl+OJOT/be6RjRauDrm3gDxohnyAHkpoqdcuGbRiPSXlbqt1pZwJ/PhL+DDU4DJNV38ArlXYt3G3yORhvJ/IwLJ7WBZ15zB9D0J41MkMBwJ408WnxY3wiUEAVIweVFpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vfUZ0TbXw05khgC2QWxiXyTgjico1/GpYJQ8gIb5w3U=;
- b=R1vmWDWqfskE0dux10hVULthUO/HGhuUWffPQDA861zUcrfkwZj4YVHfWSJ8b2ZTupw7O9IBAMNg4xJfx85OnOKZg8Fp+flJZhekTW4uED6NejMWMCyBjpuFpKwQIwZmxfVxxE//yma6SGNofya0hQMP6dnXIHnWaS0tVP8use+8b8MYQZxS9vTsRmnet9jCNSUSP7OMyAphiFNoFPYC9nSm0zoE3h/aPd6vUTEYKYO256BFSvesh6Kw3LLiWMy+/dP2iJLejc+r1x0VES7tog+k+vs7WNJodpseH/0UGN3HSycEXghYJMeD+ergmSVT1WEnKCOZpMX3G9myW3O1Yw==
+ bh=BNg3XPpZ7z4A/1wjoJkpZsDgZkKOpBTYxj82RWdIeck=;
+ b=VwpDKKzGc6tq9To6D3hoLp1eBpK9yPECu039pPKX+B5cGeoxzyxhyzcWber2kp0IZiaKtCAXjwvjrSSbNtrrbGS1lln+uWQqe4Hvs00swLHvlHEoJQz9JMAxe350rBc+cgaaUWrengVOXMmQv0/D8C7i9OMSweES64ZJNG4JvbqeGRZyvCyTf7h9KNB6ynTHHWguvmuzkKcktSjB6No0VHcEN2UzL6L1rKEZZJpHfIm9qlzt4M+qs1dk1gnZ8KiA8UFvra2G7bY5F4ZipgTppNeK3WyO0GMAjjRzp2/JsRSdnZI6XwLHQQTvIjPLKDL3WqZvKVRJlaH9WdvAOyDLkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BNg3XPpZ7z4A/1wjoJkpZsDgZkKOpBTYxj82RWdIeck=;
+ b=pe2UIH3QiVF/aSvkpiB73hJMRQQv9GNSlAFqkezsGfSuZlJWRPLjRWAQUpSHk2t0wrtnMbyw4lWkksLKXsQ1pLJqKFpTffXTkYQHz4oR9WYKmTDTGq7xly+gZJAYr1nJ2JzWWVS49kC2ByTcWU+aD5tgl+JBHZ5gw5LbLqGGrDU=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by DM6PR11MB4428.namprd11.prod.outlook.com (2603:10b6:5:202::31) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM5PR12MB1273.namprd12.prod.outlook.com (2603:10b6:3:76::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.17; Thu, 7 Jul
- 2022 13:11:35 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::8053:3c59:9f5d:b615]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::8053:3c59:9f5d:b615%9]) with mapi id 15.20.5395.021; Thu, 7 Jul 2022
- 13:11:35 +0000
-Date: Thu, 7 Jul 2022 09:11:29 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <YsbbgWnLTR8fr4lj@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PH0PR07CA0071.namprd07.prod.outlook.com
- (2603:10b6:510:f::16) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 7 Jul
+ 2022 13:27:50 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5417.016; Thu, 7 Jul 2022
+ 13:27:50 +0000
+Message-ID: <13a5c5ba-8860-512e-5e92-3f30beca2dc3@amd.com>
+Date: Thu, 7 Jul 2022 15:27:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC 03/10] drm/i915/vm_bind: Support private and shared BOs
+Content-Language: en-US
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220701225055.8204-1-niranjana.vishwanathapura@intel.com>
+ <20220701225055.8204-4-niranjana.vishwanathapura@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220701225055.8204-4-niranjana.vishwanathapura@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR08CA0044.eurprd08.prod.outlook.com
+ (2603:10a6:20b:c0::32) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9cbad8f9-6c9d-4e57-67c6-08da601a37ca
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4428:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3d2db53-c6ea-4fed-b381-08da601c7cd7
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1273:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lbfeLYDO+rMmE8Xohv6voh051HBQVGon+Lhc5y3cOaACOietrA31+eI/ZcjMyyoJ/CieYcHgZjelkMUcmL7qheWrsP95/PbKvFS0gf+bNSpp/zdeNbaXXflKus8bU5ObYZ9K+dlRqfg8nOhxyp3v1G153jR0FeAO99eVBcPFLuYtMYxAtvR3QUQo5SODD47pH79NRq//ul34Q2Ei60BIQ/xCh2lkXU7uzpdi/rR8jPlDE8J9k6F+hqsAb54ywtXtfHu8yPGJpUHds2iMtX9zqtvqZL0CdXXoNkdyfQnLyd9Em8x9SVaMmU1YOjjkvAaUqERdFPerqxNRjVsOt9rlbobpg6Pe8w1f/kNxBQ0FOK4aoFn/Lqvzk8Bht59OBFdmnliuwx1QNvRgpnn9U3ixs2EnNOJnnsL2O5gHTlkAwsveVL2v7Xi0PggnMn/XNbgcJFWQsls1fjNyv9pcN3qHoiVJhjN+kqv0WPVH7gbEAmacp61Nd/0om9ZErI4OTKYp7XtYcC62ZEH6NCNHIHzwbNtWaHSIp1FPj1rRAdrJoFhWJICqgInJx6o4DVpezXMxs3krhgRRv5Dtc33F9/VpxEC4UUkI9CEX0jiJcB1fjthrUNY+4pkvaGeKztxeEqc/LpVGmnkGmyyU26rtwtXrj5Ho7A1gQ7Bb69QJ/xDEXduugmCxng6Wj2rSw3QdrvHvUYtXsLI91qb4US3HU1slyFkYztqV0DkBY1Lqw9TQ4EWPIqOgBqH4yaJaL/PbRn3X
+X-Microsoft-Antispam-Message-Info: ir+8sA6hvqc5RJDgoBovl+7hX/pN2Pgs4G9Wt+i5H6pfuxErKiZ5DImTLyyI39ddUJshuxKf96lYGAI348o4HHjelZgPAaySRA1Wtymjv5RxY5Kqa5UTStnDGVt9jKGFes5Xb+tFSBoIt/8En3ccJviacZYz/tLzLNCJnGsd5cqirwO26xyXC1mP0cS3AAFa01i4nTlPC7zcew2yjFmzKVaHlqBQKMKOUTVp3Op6RUqT12/GbaJFcK1XksrO5t1YQIOZiEiMliTGpX0I4HrjepPM6dm3l1CihQKZn2PKF7BN6QHDE4Tl2PXfoGSNnZHxD9FuCVNZ9bS/a7584kCs74qdv68vZFjpmWfSjCYCVfp5T5kvnfE7VbbhZNzo9EEd05+azmRoaw354FxO6Z9u/6wTvgDwZ03VZuM3ZbtwwMo7RLuzT+VqzOEYh8LPfwa0LfEPtQxKFre7sPT9O7xB8bPaVbhjQcyAa0COtjn3wpeGL0cK+AD0YVCjYDyQEvXHTL8KsX8GDIf5q01m+fudcrQ6svoBYrPjhw/gOLvHRrP4DIwENokx+GRPef1WGfsINP5z0OdUkg/P6mpU5RrrXJf9+v+7uDMsyokVSeQ0E0S551ZbmdYWibD3dl7SufiGG29zcRXfKfuEH5tws+QHSKBAQuLjj7UoOfRKmaz+eLxi0JUkzEoaGHulKjHjUNiO3Y2dtJ/nnNxL2UrFAF6FZDjJqvwNCGSrV8IrPubHcmpf82u2bw0qYAGgne0Oul6Tz8/NQCaoplH/EozaSUjksZfHo7EGJsJF2SqAN4zNX7YhBfp16YM2UmY2s7A6WIFaVk5bp1buDOnaba6rLNOWIA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39860400002)(376002)(396003)(366004)(346002)(136003)(8936002)(7416002)(478600001)(2906002)(83380400001)(6506007)(5660300002)(82960400001)(66556008)(6666004)(8676002)(4326008)(38100700002)(66476007)(36756003)(186003)(26005)(41300700001)(110136005)(66574015)(6486002)(2616005)(66946007)(86362001)(316002)(44832011)(6512007)(54906003);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(366004)(396003)(346002)(376002)(136003)(5660300002)(8936002)(30864003)(7416002)(2906002)(83380400001)(41300700001)(478600001)(31696002)(36756003)(86362001)(6486002)(66946007)(316002)(4326008)(8676002)(66476007)(38100700002)(66556008)(186003)(2616005)(6666004)(6512007)(6506007)(26005)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?0enRw8qgBP6utgcoAODcNkrwxTwPgSpmIwnpgpazXJzon/gR91Uf44lP2Z?=
- =?iso-8859-1?Q?IH5hicDlqEw09vBWV/EKa800rpyZ7W2mjv3qh3HzngOG3yWTC/vhTxLGdA?=
- =?iso-8859-1?Q?DHeSzDTZ8QtDSNzoH3OQnzJESZKxkY7AQ5xFnpDyHLgM9ypOcmdh3zh1At?=
- =?iso-8859-1?Q?ZOG201xKzfCedWMq0XNCGK47nzunPY7NnJOvAMweUEObu0NHJ3s0cBmzrT?=
- =?iso-8859-1?Q?2Bqpm08gjzA8hPs+gD9ozJUFE4xtQI8v5Ums2/2ykaB7kZ8iOLMt6FqZuQ?=
- =?iso-8859-1?Q?qgtDcOTRTcEwJUoZvYVyNtuk9dco8aCWlYSY+qMJs86B0tqajqR1q/utU2?=
- =?iso-8859-1?Q?8XWfw+QAZan5COPk7qvj+hHm3ZJGPzMvNpLrVQu+O1xSMgkjr5nsT1bGwR?=
- =?iso-8859-1?Q?jg/x0NowXKTWEIQzVWQx+Wl8jLSeZuYB95+42G8IkgAuEUBmCSLo81QV31?=
- =?iso-8859-1?Q?k0BW+9ErLmOBIfZfLyi+mKbTpMpWICNojrPVpywWQ76LSb9EIf/WVLOmKj?=
- =?iso-8859-1?Q?zd48EpIUgmI4Dgd0+vTNEiuU32k2gsVGQVi/NqnnR9TPDgWUszj3XFqf/M?=
- =?iso-8859-1?Q?ZUAQyVMAlL3ic39wfoPXuXyioSibxhYdEn/JkpM0uZf7zIxDRKOOarb/zJ?=
- =?iso-8859-1?Q?V4gHVPgumObcM0Mqqjd9cn6klG5keuWFxNR1PuBBENi3LUOiwfDrmmGTAM?=
- =?iso-8859-1?Q?dInze1cPgZz36E1A/VQRme4OATwi1rfQ5ifjr+WjaJJNgLdLdQ52dEehWU?=
- =?iso-8859-1?Q?O6t/p3WVeECfjLA2R2yMLUp42/dzXvfSsZGx1Df4b47cKptDQxB2lwiMBC?=
- =?iso-8859-1?Q?i/0AQpXZ554QP5XefNgTvInhM1Cu0KfBPwMvJxakmeAdiXTfC9Thw0UV+U?=
- =?iso-8859-1?Q?+BGlmBjL+W22GFJaB6l5FznQtGkQ0KDokRDFL8ibZcxSJWoTLTpREoaWmq?=
- =?iso-8859-1?Q?Iv7eFo+3fb9mpwN9NCSLV6bKMcwYoxLJk+SVxCDrZIyCF9r4iiBV88s04M?=
- =?iso-8859-1?Q?aLJohaLxx2N2Uv8agruABCPYjN8PMDYKcA4YSU6n9fLRnZ4vWU1BMy/v8o?=
- =?iso-8859-1?Q?yMF6oZVQjweC5I8UQadMHXKElIX75EMmLFwQL3hYic06yCONXxki8Jiz2W?=
- =?iso-8859-1?Q?IEhHjCou2/OP4IfXqLLyrFLVN3ZFqUnyWMYrCS3vlAmW8KmIm6LmAhyreb?=
- =?iso-8859-1?Q?8DyiREqlEpItC/ybHCnKF3eqIv65Vl4mxPtKgiKi9IDfj6msVzSUOp3UzN?=
- =?iso-8859-1?Q?aVPJw+V/G/96Xb+nrBFPgGt3FVPwea0Ze+4S+/b+j+QStY6W47BvEzGOEn?=
- =?iso-8859-1?Q?gNex2fHg3DcHU1GbiCSHDtheUCOJeAn3YLPXpkRNLHFgnhgAuFUz4DYNZ/?=
- =?iso-8859-1?Q?3bA4P6vdGtg9Rj1K49PKp+kxRKZWuunQiGSDmx17awMYUoyO6dVCV0O6TT?=
- =?iso-8859-1?Q?t6xbS0oON5Lbb6kTTPwps6SQYah7/Ng66V+IVTIy0TjpKS2TbeMNIC54am?=
- =?iso-8859-1?Q?8Fm6egPHNZBKECo/tPIbF3oj2o/zRpQN4jL80QUm7CkaPx9A27+mW43y83?=
- =?iso-8859-1?Q?/TdZ9S2fhSeNyclmyKY3NOI+LakbDS0axnhuZ6UPcS5P2zGgLnZOYWYRkQ?=
- =?iso-8859-1?Q?fViKVTG1w960R3NHv8PMbwZS7XlsymjY6/MB+livVU1f8TJfKPUzsygw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cbad8f9-6c9d-4e57-67c6-08da601a37ca
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmROd0ZPNUU2SUVPMmlNcGxmMjdUNzIrbkEwQmpxcW1kUVBCemJBNW5Cc2VD?=
+ =?utf-8?B?TzcvdldnMUt0d3EvWjlhTXVRYnpTVm45ZklYMVo1UXliYmpmMlp1YTEzRGN6?=
+ =?utf-8?B?WGc3V0V4WXlNbEl5VjJhQ3owcmhWeUhMeHZ4R2xVdnd1K0VNSElPSjlPZUpu?=
+ =?utf-8?B?ZThrMENxWC9WeitEWEw3R1JDazRrVzZFaG9TeDV4d0pzMnBkZ0czKzhjTFh5?=
+ =?utf-8?B?YzVLUG1wcVZKR243R05QRlMzbWtOd2xYVTlLcEFiUDZYL2NBaVprNnZEdERn?=
+ =?utf-8?B?OVBUbnNKZUx4Rko4dTEybEtLUUJMR2Q2ZHp1NUdvN2JSOEk3STMvSUthWjhK?=
+ =?utf-8?B?dDJsa2ozMU9BT0o5eVNvM3dDV1J3Yk1PSmI1K2pBc2RBaldmU01nRDg5M3Ra?=
+ =?utf-8?B?emJjRG1tVkdwMzlaTzdXMDJ6Z3A1S0hCcFB0TTg2UkdGTXNrdFc5MStsenE3?=
+ =?utf-8?B?dllFYjd0c0xjWHk5QmpFQ0Q3QWxYZStEbmg4WHRkc1o0ZmhxcExDQVRheW05?=
+ =?utf-8?B?bldvTFIrak8yTEd3R0d1SkVQVWk2K3B1ekJWVERCelljOTMyQksvK0hwT0FR?=
+ =?utf-8?B?U0xacU93SjNpRnhUcTFuVWg0dHFOY3dxVzFCZWI2K3NDdE9iajB0L3ZURmVr?=
+ =?utf-8?B?RVFHeWw5UjJDYlplKzZ2N254V0piNzRHTVZHaWZ5LzVVMDJIVUYzb0hxM1RN?=
+ =?utf-8?B?NVFxRkFMUk5xL3BYQktxd0lkSWUzYThBNW15K2d6K3ZJeDUzOUhSeVBWOTk4?=
+ =?utf-8?B?THFZWHNYZUpuOEhNaVpOYlJOaUJabGsvcWRkMmc4cGtjWk9ITnFqdVUzZVFj?=
+ =?utf-8?B?VG9GV093NlhXY0Q1enBqODZuWXJ5eFNPOTJaVTQrTWdGUGdkUmg1U0U1OUts?=
+ =?utf-8?B?TUMvQVAxZXkvQTNHUjB5R09vRERWZzZtVTluYm9EeGlZUGJBL0dJTTYrRXhl?=
+ =?utf-8?B?UldBdVR1dnFlQkZscFRWOWlmTmVVbEJpSlVpK1JISlhzV0RZNm5veEl4TUFE?=
+ =?utf-8?B?dks0bGhpL0UzaVFQSGx0Tm5qQi9sOXdGTUdPMmwxZTd0eGRXSHlzMDhuWVdE?=
+ =?utf-8?B?TnN0UTZIVWFLa3VhK0N5WnZvTVVnZlA3Z3FETzNPMWtiNmhBUnJia0tqN1dq?=
+ =?utf-8?B?QVFZME8zcHp5NGlOTXV3SmhBdWU1a0o2Sko2SmtqeFdwcHZwMEpqOURGZUdH?=
+ =?utf-8?B?cGpGSUdlK3NPaGN4b0xteWE0T00wSW5JSUlhUk9JakpDWXZxVWhxUTdSLzM3?=
+ =?utf-8?B?bzNGQ0k0RWJQeVROT3JEN29rZlp0L1JrT0ladXlqcWtLUmlwaWQzTTltbkxS?=
+ =?utf-8?B?L1V5c2ZWdldYc2tsYVh6d3V3aVFvbmRreERLZEIxQTY3Q3E3dWtpUjBCSW5X?=
+ =?utf-8?B?SjZKQ0Y3bHFGaDN2ZldhMEpaN1JhQ21qdFJDRUpXZEN4UkozbjVEMzlpZHEw?=
+ =?utf-8?B?am8rNjFoWWlEdS9CQWFERzVZK2NoSUdqSndORUlXYzJaVW9oT3ptQThSQit2?=
+ =?utf-8?B?WWw0ZXRKZmRhQWJoRlNGNFJhbTFldTJwSkNod29wTjFxUW4wTVNPOWtIL0xw?=
+ =?utf-8?B?dDh0MlFXcjN3aDZoMHV1YW1hVlVyTFhWcGxCcXI3RG81V1RGZEZGUzhZbXE2?=
+ =?utf-8?B?ZktsWjRadTJRMUdNNjQ0azg2MTNDS2hob2RFMlFkVk13VVFZVjZuVEdwb3la?=
+ =?utf-8?B?MkZ4bW80VXYwM2NRRUN4bDY0T1pUcmw0bGt0dnc1bm1CRWdWZG9qa096MXhn?=
+ =?utf-8?B?TTNXSEpwMGRrWGVNdkQ0bCt6YVBEcU42aGYyaDNnRGFXbnNHVE5yWkllK2o1?=
+ =?utf-8?B?Rmw0dVg1UlJ4UmFUQzVVSVpwamdMRmpReG10UmVLSW1yVEg5ZnpEV3pxM2I1?=
+ =?utf-8?B?S1Z3OUZKbkFqTGVsNWRWRHpLdnJnYThRSnY4Z09rZXJPMU1FdUFza081MFVP?=
+ =?utf-8?B?SXVnU1lQR1ZOZGhNYW5WS0N2OEo0c25qRENOanFxSW5mOExXS2RJRGVZeGY5?=
+ =?utf-8?B?TG5LMXVWcXQ0TnhxSkpQNlE2K0NtaWRpVHhGMCtRWUtUWFNoUVNvcW9ha0Ji?=
+ =?utf-8?B?WG5YOTNCdXoxc052NjNkWmN3ME1zVXBGeUtqSEYzS1VsTnRFZ3NocDgyNW5l?=
+ =?utf-8?Q?N+pwvbwFk1MxfE4rMr8EfHKmG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3d2db53-c6ea-4fed-b381-08da601c7cd7
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 13:11:34.9649 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 13:27:49.9020 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 39btRGDSjQPSIrs7DcAXQHgh47s6dHPnCBoHrYCuAsk2ArRZXe0XHGGBXPfkupnpFrU1gilHN42oK9wRo2anWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4428
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: pLydqwPSWVHKUoao6JAM4FFuiETKWIyj8zdwsU3INjylbB0083TArsQ/ZrQS3DxU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1273
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,57 +126,349 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ lionel.g.landwerlin@intel.com, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, jason@jlekstrand.net, daniel.vetter@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Am 02.07.22 um 00:50 schrieb Niranjana Vishwanathapura:
+> Add uapi allowing user to specify a BO as private to a specified VM
+> during the BO creation.
+> VM private BOs can only be mapped on the specified VM and can't be
+> dma_buf exported. VM private BOs share a single common dma_resv object,
+> hence has a performance advantage requiring a single dma_resv object
+> update in the execbuf path compared to non-private (shared) BOs.
 
-Here goes our fixes targeting 5.19-rc6.
+Sounds like you picked up the per VM BO idea from amdgpu here :)
 
-There will probably be a couple more important fixes coming
-next week for the -rc7
+Of hand looks like a good idea, but shouldn't we add a few comments in 
+the common documentation about that?
 
-drm-intel-fixes-2022-07-07:
+E.g. something like "Multiple buffer objects sometimes share the same 
+dma_resv object....." to the dma_resv documentation.
 
-- Fix a possible refcount leak in DP MST connector (Hangyu)
-- Fix on loading guc on ADL-N (Daniele)
-- Fix vm use-after-free in vma destruction (Thomas)
+Probably best as a separate patch after this here has landed.
 
-Thanks,
-Rodrigo.
+Regards,
+Christian.
 
-The following changes since commit 79538490fd7ade244dba400923e792519a2bdfea:
+>
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_create.c    | 41 ++++++++++++++++++-
+>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  6 +++
+>   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  3 ++
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  3 ++
+>   drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   | 11 +++++
+>   .../drm/i915/gem/i915_gem_vm_bind_object.c    |  9 ++++
+>   drivers/gpu/drm/i915/gt/intel_gtt.c           |  4 ++
+>   drivers/gpu/drm/i915/gt/intel_gtt.h           |  2 +
+>   drivers/gpu/drm/i915/i915_vma.c               |  1 +
+>   drivers/gpu/drm/i915/i915_vma_types.h         |  2 +
+>   include/uapi/drm/i915_drm.h                   | 30 ++++++++++++++
+>   11 files changed, 110 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> index 927a87e5ec59..7e264566b51f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> @@ -11,6 +11,7 @@
+>   #include "pxp/intel_pxp.h"
+>   
+>   #include "i915_drv.h"
+> +#include "i915_gem_context.h"
+>   #include "i915_gem_create.h"
+>   #include "i915_trace.h"
+>   #include "i915_user_extensions.h"
+> @@ -243,6 +244,7 @@ struct create_ext {
+>   	unsigned int n_placements;
+>   	unsigned int placement_mask;
+>   	unsigned long flags;
+> +	u32 vm_id;
+>   };
+>   
+>   static void repr_placements(char *buf, size_t size,
+> @@ -392,9 +394,24 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
+>   	return 0;
+>   }
+>   
+> +static int ext_set_vm_private(struct i915_user_extension __user *base,
+> +			      void *data)
+> +{
+> +	struct drm_i915_gem_create_ext_vm_private ext;
+> +	struct create_ext *ext_data = data;
+> +
+> +	if (copy_from_user(&ext, base, sizeof(ext)))
+> +		return -EFAULT;
+> +
+> +	ext_data->vm_id = ext.vm_id;
+> +
+> +	return 0;
+> +}
+> +
+>   static const i915_user_extension_fn create_extensions[] = {
+>   	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
+>   	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
+> +	[I915_GEM_CREATE_EXT_VM_PRIVATE] = ext_set_vm_private,
+>   };
+>   
+>   /**
+> @@ -410,6 +427,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   	struct drm_i915_private *i915 = to_i915(dev);
+>   	struct drm_i915_gem_create_ext *args = data;
+>   	struct create_ext ext_data = { .i915 = i915 };
+> +	struct i915_address_space *vm = NULL;
+>   	struct drm_i915_gem_object *obj;
+>   	int ret;
+>   
+> @@ -423,6 +441,12 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   	if (ret)
+>   		return ret;
+>   
+> +	if (ext_data.vm_id) {
+> +		vm = i915_gem_vm_lookup(file->driver_priv, ext_data.vm_id);
+> +		if (unlikely(!vm))
+> +			return -ENOENT;
+> +	}
+> +
+>   	if (!ext_data.n_placements) {
+>   		ext_data.placements[0] =
+>   			intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
+> @@ -449,8 +473,21 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   						ext_data.placements,
+>   						ext_data.n_placements,
+>   						ext_data.flags);
+> -	if (IS_ERR(obj))
+> -		return PTR_ERR(obj);
+> +	if (IS_ERR(obj)) {
+> +		ret = PTR_ERR(obj);
+> +		goto vm_put;
+> +	}
+> +
+> +	if (vm) {
+> +		obj->base.resv = vm->root_obj->base.resv;
+> +		obj->priv_root = i915_gem_object_get(vm->root_obj);
+> +		i915_vm_put(vm);
+> +	}
+>   
+>   	return i915_gem_publish(obj, file, &args->size, &args->handle);
+> +vm_put:
+> +	if (vm)
+> +		i915_vm_put(vm);
+> +
+> +	return ret;
+>   }
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> index f5062d0c6333..6433173c3e84 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> @@ -218,6 +218,12 @@ struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags)
+>   	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
+>   	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>   
+> +	if (obj->priv_root) {
+> +		drm_dbg(obj->base.dev,
+> +			"Exporting VM private objects is not allowed\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+>   	exp_info.ops = &i915_dmabuf_ops;
+>   	exp_info.size = gem_obj->size;
+>   	exp_info.flags = flags;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> index 5cf36a130061..9fe3395ad4d9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> @@ -241,6 +241,9 @@ struct drm_i915_gem_object {
+>   
+>   	const struct drm_i915_gem_object_ops *ops;
+>   
+> +	/* Shared root is object private to a VM; NULL otherwise */
+> +	struct drm_i915_gem_object *priv_root;
+> +
+>   	struct {
+>   		/**
+>   		 * @vma.lock: protect the list/tree of vmas
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 7e1f8b83077f..f1912b12db00 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -1152,6 +1152,9 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+>   	i915_gem_object_release_memory_region(obj);
+>   	mutex_destroy(&obj->ttm.get_io_page.lock);
+>   
+> +	if (obj->priv_root)
+> +		i915_gem_object_put(obj->priv_root);
+> +
+>   	if (obj->ttm.created) {
+>   		/*
+>   		 * We freely manage the shrinker LRU outide of the mm.pages life
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+> index 642cdb559f17..ee6e4c52e80e 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+> @@ -26,6 +26,17 @@ static inline void i915_gem_vm_bind_unlock(struct i915_address_space *vm)
+>   	mutex_unlock(&vm->vm_bind_lock);
+>   }
+>   
+> +static inline int i915_gem_vm_priv_lock(struct i915_address_space *vm,
+> +					struct i915_gem_ww_ctx *ww)
+> +{
+> +	return i915_gem_object_lock(vm->root_obj, ww);
+> +}
+> +
+> +static inline void i915_gem_vm_priv_unlock(struct i915_address_space *vm)
+> +{
+> +	i915_gem_object_unlock(vm->root_obj);
+> +}
+> +
+>   struct i915_vma *
+>   i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va);
+>   void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+> index 43ceb4dcca6c..3201204c8e74 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+> @@ -85,6 +85,7 @@ void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+>   
+>   	if (!list_empty(&vma->vm_bind_link)) {
+>   		list_del_init(&vma->vm_bind_link);
+> +		list_del_init(&vma->non_priv_vm_bind_link);
+>   		i915_vm_bind_it_remove(vma, &vma->vm->va);
+>   
+>   		/* Release object */
+> @@ -185,6 +186,11 @@ int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>   		goto put_obj;
+>   	}
+>   
+> +	if (obj->priv_root && obj->priv_root != vm->root_obj) {
+> +		ret = -EINVAL;
+> +		goto put_obj;
+> +	}
+> +
+>   	ret = i915_gem_vm_bind_lock_interruptible(vm);
+>   	if (ret)
+>   		goto put_obj;
+> @@ -211,6 +217,9 @@ int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>   
+>   	list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
+>   	i915_vm_bind_it_insert(vma, &vm->va);
+> +	if (!obj->priv_root)
+> +		list_add_tail(&vma->non_priv_vm_bind_link,
+> +			      &vm->non_priv_vm_bind_list);
+>   
+>   	/* Hold object reference until vm_unbind */
+>   	i915_gem_object_get(vma->obj);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> index 135dc4a76724..df0a8459c3c6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> @@ -176,6 +176,7 @@ int i915_vm_lock_objects(struct i915_address_space *vm,
+>   void i915_address_space_fini(struct i915_address_space *vm)
+>   {
+>   	drm_mm_takedown(&vm->mm);
+> +	i915_gem_object_put(vm->root_obj);
+>   	GEM_BUG_ON(!RB_EMPTY_ROOT(&vm->va.rb_root));
+>   	mutex_destroy(&vm->vm_bind_lock);
+>   }
+> @@ -289,6 +290,9 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
+>   	INIT_LIST_HEAD(&vm->vm_bind_list);
+>   	INIT_LIST_HEAD(&vm->vm_bound_list);
+>   	mutex_init(&vm->vm_bind_lock);
+> +	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
+> +	vm->root_obj = i915_gem_object_create_internal(vm->i915, PAGE_SIZE);
+> +	GEM_BUG_ON(IS_ERR(vm->root_obj));
+>   }
+>   
+>   void *__px_vaddr(struct drm_i915_gem_object *p)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+> index d4a6ce65251d..f538ce9115c9 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+> @@ -267,6 +267,8 @@ struct i915_address_space {
+>   	struct list_head vm_bound_list;
+>   	/* va tree of persistent vmas */
+>   	struct rb_root_cached va;
+> +	struct list_head non_priv_vm_bind_list;
+> +	struct drm_i915_gem_object *root_obj;
+>   
+>   	/* Global GTT */
+>   	bool is_ggtt:1;
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index d324e29cef0a..f0226581d342 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -236,6 +236,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>   	mutex_unlock(&vm->mutex);
+>   
+>   	INIT_LIST_HEAD(&vma->vm_bind_link);
+> +	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
+>   	return vma;
+>   
+>   err_unlock:
+> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+> index b6d179bdbfa0..2298b3d6b7c4 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+> @@ -290,6 +290,8 @@ struct i915_vma {
+>   	struct list_head vm_link;
+>   
+>   	struct list_head vm_bind_link; /* Link in persistent VMA list */
+> +	/* Link in non-private persistent VMA list */
+> +	struct list_head non_priv_vm_bind_link;
+>   
+>   	/** Interval tree structures for persistent vma */
+>   	struct rb_node rb;
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 26cca49717f8..ce1c6592b0d7 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -3542,9 +3542,13 @@ struct drm_i915_gem_create_ext {
+>   	 *
+>   	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+>   	 * struct drm_i915_gem_create_ext_protected_content.
+> +	 *
+> +	 * For I915_GEM_CREATE_EXT_VM_PRIVATE usage see
+> +	 * struct drm_i915_gem_create_ext_vm_private.
+>   	 */
+>   #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+>   #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+> +#define I915_GEM_CREATE_EXT_VM_PRIVATE 2
+>   	__u64 extensions;
+>   };
+>   
+> @@ -3662,6 +3666,32 @@ struct drm_i915_gem_create_ext_protected_content {
+>   /* ID of the protected content session managed by i915 when PXP is active */
+>   #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+>   
+> +/**
+> + * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
+> + * private to the specified VM.
+> + *
+> + * See struct drm_i915_gem_create_ext.
+> + *
+> + * By default, BOs can be mapped on multiple VMs and can also be dma-buf
+> + * exported. Hence these BOs are referred to as Shared BOs.
+> + * During each execbuf3 submission, the request fence must be added to the
+> + * dma-resv fence list of all shared BOs mapped on the VM.
+> + *
+> + * Unlike Shared BOs, these VM private BOs can only be mapped on the VM they
+> + * are private to and can't be dma-buf exported. All private BOs of a VM share
+> + * the dma-resv object. Hence during each execbuf3 submission, they need only
+> + * one dma-resv fence list updated. Thus, the fast path (where required
+> + * mappings are already bound) submission latency is O(1) w.r.t the number of
+> + * VM private BOs.
+> + */
+> +struct drm_i915_gem_create_ext_vm_private {
+> +	/** @base: Extension link. See struct i915_user_extension. */
+> +	struct i915_user_extension base;
+> +
+> +	/** @vm_id: Id of the VM to which the object is private */
+> +	__u32 vm_id;
+> +};
+> +
+>   /**
+>    * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>    *
 
-  drm/i915: tweak the ordering in cpu_write_needs_clflush (2022-06-27 18:12:10 +0300)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-07-07
-
-for you to fetch changes up to 12058077b2e963d16d2d673d46233a7f46add7c9:
-
-  drm/i915: Fix vm use-after-free in vma destruction (2022-07-06 23:04:55 -0400)
-
-----------------------------------------------------------------
-- Fix a possible refcount leak in DP MST connector (Hangyu)
-- Fix on loading guc on ADL-N (Daniele)
-- Fix vm use-after-free in vma destruction (Thomas)
-
-----------------------------------------------------------------
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: ADL-N should use the same GuC FW as ADL-S
-
-Hangyu Hua (1):
-      drm/i915: fix a possible refcount leak in intel_dp_add_mst_connector()
-
-Thomas Hellström (1):
-      drm/i915: Fix vm use-after-free in vma destruction
-
- drivers/gpu/drm/i915/display/intel_dp_mst.c |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c    |  9 +++++++++
- drivers/gpu/drm/i915/i915_vma.c             | 12 ++++++++----
- 3 files changed, 18 insertions(+), 4 deletions(-)
