@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F8156C166
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:54:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBD356C167
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:54:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6354510EACE;
-	Fri,  8 Jul 2022 20:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA0710EAB9;
+	Fri,  8 Jul 2022 20:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA09A10EAC4
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:54:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5331810EAB9
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1657313662; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1657313664; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FYgqLSUgOUPjjJXK0NhPam949HCvw65D5TBh/S76VPc=;
- b=i2o6KSOyIMyxJAhPP2GAkvn3iQb1ygKYo57gDKA6Qc2TcDbzl52O6j2E+NeUg/hYoeW15n
- WynxsPbrQuStRXOgL0BWHSakMkqcOTqL4kGKguuliirTNnP59CMABRvLqZuydhW6bEtmqv
- BmPxWTvVlj9V4ExBtkb2+DUVG9/Fsj0=
+ bh=ZsmOgxVVFKAi6We+Fa/t9BWj1gjKa2nAi7YQfMy/OG4=;
+ b=DgsHAiF2KQTgAd3uK9vqRF2PFq3Meig+1VcimiGTQtsuJ169HT/acSLFmTg+S+W5V6L+3Q
+ AFkpFRd9W4gIjkt8BnfSIzJEmp4PfDpLxwpWRsy2/eCGYAUvM2amSTbA0mjKhXveAqZmdm
+ LaP7B/KWdfVHHWAf/PspQI04Xzsm/4o=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/6] drm/ingenic: Fix MODULE_LICENSE() string
-Date: Fri,  8 Jul 2022 21:54:02 +0100
-Message-Id: <20220708205406.96473-3-paul@crapouillou.net>
+Subject: [PATCH 3/6] drm/ingenic: Add support for the JZ4760(B)
+Date: Fri,  8 Jul 2022 21:54:03 +0100
+Message-Id: <20220708205406.96473-4-paul@crapouillou.net>
 In-Reply-To: <20220708205406.96473-1-paul@crapouillou.net>
 References: <20220708205406.96473-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -50,24 +50,60 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous "GPL v2" string is deprecated. For more info, see commit
-bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
+Add support for the JZ4760 and JZ4760B SoCs to the ingenic-drm display
+driver.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 28 +++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index eb8208bfe5ab..e435c19d54d5 100644
+index e435c19d54d5..78d0b035e2d7 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1616,4 +1616,4 @@ module_exit(ingenic_drm_exit);
+@@ -1541,6 +1541,32 @@ static const struct jz_soc_info jz4725b_soc_info = {
+ 	.num_formats_f0 = ARRAY_SIZE(jz4725b_formats_f0),
+ };
  
- MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
- MODULE_DESCRIPTION("DRM driver for the Ingenic SoCs\n");
--MODULE_LICENSE("GPL v2");
-+MODULE_LICENSE("GPL");
++static const struct jz_soc_info jz4760_soc_info = {
++	.needs_dev_clk = false,
++	.has_osd = true,
++	.map_noncoherent = false,
++	.max_width = 1280,
++	.max_height = 720,
++	.max_burst = JZ_LCD_CTRL_BURST_32,
++	.formats_f1 = jz4770_formats_f1,
++	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
++	.formats_f0 = jz4770_formats_f0,
++	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
++};
++
++static const struct jz_soc_info jz4760b_soc_info = {
++	.needs_dev_clk = false,
++	.has_osd = true,
++	.map_noncoherent = false,
++	.max_width = 1280,
++	.max_height = 720,
++	.max_burst = JZ_LCD_CTRL_BURST_64,
++	.formats_f1 = jz4770_formats_f1,
++	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
++	.formats_f0 = jz4770_formats_f0,
++	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
++};
++
+ static const struct jz_soc_info jz4770_soc_info = {
+ 	.needs_dev_clk = false,
+ 	.has_osd = true,
+@@ -1572,6 +1598,8 @@ static const struct jz_soc_info jz4780_soc_info = {
+ static const struct of_device_id ingenic_drm_of_match[] = {
+ 	{ .compatible = "ingenic,jz4740-lcd", .data = &jz4740_soc_info },
+ 	{ .compatible = "ingenic,jz4725b-lcd", .data = &jz4725b_soc_info },
++	{ .compatible = "ingenic,jz4760-lcd", .data = &jz4760_soc_info },
++	{ .compatible = "ingenic,jz4760b-lcd", .data = &jz4760b_soc_info },
+ 	{ .compatible = "ingenic,jz4770-lcd", .data = &jz4770_soc_info },
+ 	{ .compatible = "ingenic,jz4780-lcd", .data = &jz4780_soc_info },
+ 	{ /* sentinel */ },
 -- 
 2.35.1
 
