@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5428E56AF2A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 01:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D551656AFC1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 03:30:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A857110EF48;
-	Thu,  7 Jul 2022 23:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D9810FEAF;
+	Fri,  8 Jul 2022 01:29:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 221ED10FDC9
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jul 2022 23:56:07 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 2-20020a4a1a02000000b004285895836aso3631735oof.4
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 16:56:07 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470E389247
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 01:29:51 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id l81so25418513oif.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 18:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=9ntP1WDLnC6Yx7jFk7jZStLEDziwDqk+ZlwPsvE1xWs=;
- b=bXuaYmps3SO/5Gg3nxuV379NqM1hoHcyQbvWn/KnsI4akOLpYz+plOpnE5dn9mRH7Z
- Ba4pUy+ktATqZI/NUhKueHyeRHspJaPiUIEewUlCm9RQVmwSizU1Qt7YSZVn+1svIEIs
- iVy1O+bxNmKs1ULMXdsz6tbhueBjHT39Ggtcs=
+ bh=HQoQSqm1Y6gc3vLd2/YcryN+qPwBTmG72+1Cc+N5QmA=;
+ b=CykAEtsvYnPfrFIuJwuOCf0sw8z7xciHsnHSMcRh16QnXk6QlIvfrYCuLdkrEmDw8Y
+ xUg/8KmL2U/g8kmyvsdHQy7ZmsMN3fBtiainjMMGzfllqj0dlPHpKGRfFA4CTnWyv2mx
+ SaD57uEHfP6TCBWZoutJutR3hP34XDXxaOhfM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=9ntP1WDLnC6Yx7jFk7jZStLEDziwDqk+ZlwPsvE1xWs=;
- b=qRpLBc7+lMyhYc4pWUmEE4R9PE9t32hDkCGYQtEfFc2R7Uj0dxIM76ag0Ir4q2SYIp
- qvQY9ydnH/AdvuF+zdLXkJYUFzQQYPj0t4eVea8WrfQzech6+ndqAIHUgufG9WG6Jm9w
- fW7NuYhCsVSkKmOt26AACwgAjGh+d/rWuyu5u+DsVjNMdoYDIJzCBFcfyN2c755MOs2u
- KovwLq+4CpM/gjPK5ysNSEC9SdMvyeYkujOKmHA43f3TQ7URXpww964aft5f4aHjT1d5
- 6UPnjQ1GyY0bheDZZYD6ueAMT9Dqih0yPIV9hKdsDdhix6wrVMBrAdjoCAJ+KwzGyyGh
- Uy0g==
-X-Gm-Message-State: AJIora+U0VLI8JnwrNBWlfjxUDgE+P+sTQsSJP+vQEeor5sZrzSwS4O5
- p785xl8wO2ua28ub68i3UtaMxOe8+sYw2F0dVWCalA==
-X-Google-Smtp-Source: AGRyM1s5aRJwu3pF2TR9+JflN9Xt6rSHUQxPIdyIsKnn5I3uBjzRJFONFzrC6JiOmFqLVKBgHodXNbkvtUIvE0e4ebU=
-X-Received: by 2002:a4a:81c1:0:b0:425:b01b:f757 with SMTP id
- s1-20020a4a81c1000000b00425b01bf757mr305054oog.1.1657238106090; Thu, 07 Jul
- 2022 16:55:06 -0700 (PDT)
+ bh=HQoQSqm1Y6gc3vLd2/YcryN+qPwBTmG72+1Cc+N5QmA=;
+ b=yl0S7lp8gvL/TFXaSAJFzMMEnYfbMSYNwDzQSQ1dbuDj7SousNqwkWoEYK1QolTCgM
+ mVG7wfkyAnbRnyl0mk/1EfoIHdmurjsP2ugWwhCf3W00WyQRDZdosEeRpzS/CuejVsyN
+ +BZqyobrrU8f98Aq4kue/zGCZRXD+SfM9ZxKmVJIXkJexzrU33TFjhYaPXDdDYhkD4kA
+ IKFS7kafgMtf9qfNBoRTAa48480cSgZlljEwu4fgnMWmHiQZICVbijDKi/5r7euxTnpD
+ 0+ASJEBPl867NLdtSLzeGO4wc6T+RV6P8O3oX6znBGTkgXzsEexwwVYmWBap3R8XmTmp
+ LZag==
+X-Gm-Message-State: AJIora+QgZqNZjLT6b7JHQoY55X5Je4twGPQeUWcCzhFJgJp1Q9mByr5
+ rUxY2t/J8MmXW7cXnO33oOIot9WeUikn0ao9SBjWtw==
+X-Google-Smtp-Source: AGRyM1uJ8/E8SerdAnJl3f3McgySgrfAOxikx5UkGEHyUZlQA3GOjpCjdWqPyZoanxplGHhTQrvxDsHhBt2MrfSEudI=
+X-Received: by 2002:a05:6808:e87:b0:32e:4789:d2c with SMTP id
+ k7-20020a0568080e8700b0032e47890d2cmr457469oil.193.1657243730587; Thu, 07 Jul
+ 2022 18:28:50 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 7 Jul 2022 16:55:05 -0700
+ HTTPREST; Thu, 7 Jul 2022 18:28:50 -0700
 MIME-Version: 1.0
-In-Reply-To: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <20220707213204.2605816-2-dmitry.baryshkov@linaro.org>
+References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
+ <20220707213204.2605816-2-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 7 Jul 2022 16:55:05 -0700
-Message-ID: <CAE-0n506RwOi8xqVEAaLjfhb3vey7R2FF_72_F-nmgrXrP6RWQ@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/msm/dp: make eDP panel as the first connected
- connector
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
- dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
+Date: Thu, 7 Jul 2022 18:28:50 -0700
+Message-ID: <CAE-0n53zV2OjXxjJ_AwCDcAZvOY+BU0-xipxQkup3muHMRCPXA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: msm/dp: drop extra p1 region
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,32 +70,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-07-06 12:32:08)
-> Some userspace presumes that the first connected connector is the main
-> display, where it's supposed to display e.g. the login screen. For
-> laptops, this should be the main panel.
->
-> This patch call drm_helper_move_panel_connectors_to_head() after
-> drm_bridge_connector_init() to make sure eDP stay at head of
-> connected connector list. This fixes unexpected corruption happen
-> at eDP panel if eDP is not placed at head of connected connector
-> list.
->
-> Changes in v2:
-> -- move drm_helper_move_panel_connectors_to_head() to
->                 dpu_kms_drm_obj_init()
->
-> Changes in v4:
-> -- move drm_helper_move_panel_connectors_to_head() to msm_drm_init()
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
+Quoting Dmitry Baryshkov (2022-07-07 14:31:56)
+> The p1 region was probably added by mistake, none of the DTS files
+> provides one (and the driver source code also doesn't use one). Drop it
+> now.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Yes, looks like the driver doesn't use it.
+
+>
+> Fixes: 687825c402f1 ("dt-bindings: msm/dp: Change reg definition")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index 94bc6e1b6451..d6bbe58ef9e8 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -29,7 +29,6 @@ properties:
+>        - description: aux register block
+>        - description: link register block
+>        - description: p0 register block
+> -      - description: p1 register block
+
+The p1 registers exist on sc7180. They start where the example starts,
+at 0xae91400.
