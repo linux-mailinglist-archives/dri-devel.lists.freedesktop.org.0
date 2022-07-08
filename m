@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C7D56B62B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5EB56B632
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B175311383C;
-	Fri,  8 Jul 2022 09:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B30111383F;
+	Fri,  8 Jul 2022 09:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
  [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFD5D11383C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:57:59 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 7211832009AC;
- Fri,  8 Jul 2022 05:57:58 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0009113840
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:58:02 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 79A1D3200980;
+ Fri,  8 Jul 2022 05:58:01 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 08 Jul 2022 05:57:59 -0400
+ by compute5.internal (MEProxy); Fri, 08 Jul 2022 05:58:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657274277; x=1657360677; bh=hm
- 6271RTN8xsRIYP7cmZXIatnDes90SwSdCjM9cSQf4=; b=uYdaZ77xsyuXJsPmib
- TtXuf0rO0oiGbkFMBQcz4xB1dJtTmnXGO7r/Tk0Ug9gJIt+IRfMciLkGg+PolnEb
- LtaQctsO2eIBkkdVwSHNUemDiwVFL4mDrPDAnSw53k8QI0SiONrZLwStsW2k4+JQ
- A6J9hgi8zgT/vlBslRq0BVvErsAWhUFww1p9Y9lpKcKuM73EsQVeG6A91bpWMYwq
- 13eU7M1RTHnfRVHAoBKUuhu07QHAd/txhtjpopgDF5nwUQpOf92d7wTARhtxPKcD
- s05xLRqyYTd+OeMnN4QQ5MBPXpPO7Aujc/Bnz9u01HMo2O1BWaqqDbHdAPU4fc+w
- zxVg==
+ :subject:subject:to:to; s=fm2; t=1657274280; x=1657360680; bh=g+
+ c2P0WM5+6YNkAz9QjIqt8yEn/XxjI5gjlYe1i0StA=; b=YABf9AyP2kqpceeXtf
+ Emcn4dY4EfBwm9cwaBxH//0BNqKczJ2pYANHL85QzBLcAYRXM77U18/SFzMvllrG
+ kDZEb6KBnpNJl5k0/nmME3myBJ0nGNKt/TAeIB8xpxameNfQC7zmxaRqpbAzUlMk
+ MDHFFYajafjfl7T8XRn7EcJEgTRwvbcH4twjP/LxslWdFAQx3sG4NyZOy5PVH/Jf
+ GBpJwmAhKYRoF2VTizKfCkEjJQTA82xHo53GYpEacfDZ/1B4tsS+TUVoORSBKsbi
+ RwyUl7dALiXKUcDw5dwblBeMkBp1U8Zj0fiBAFGHBHCsQ0nB07Mc6yJz7M1u5vIC
+ M0Ug==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657274277; x=1657360677; bh=hm6271RTN8xsR
- IYP7cmZXIatnDes90SwSdCjM9cSQf4=; b=LfZd93DCKHnyBxHYlIpC8J+2aC00r
- jABsAZ8W4kcTGhpH9zY5i/fg2BpAaiClrs8BjZRjQMoMFOyp2si4tbIYKmengh7u
- uKJ9UsWMxq5DSnxPytbmOxhOeM/WIchZ11bkweXBUeOBJ24BAloNMnIvJXiheoxu
- UFjvYoECHEi+VFb91FTt9OoGwRflzIS0RzzMBy42abAtm/QV2F0/ZLuCEDK5Pqqb
- TqB81t4y58lLgLnrWUYUBfUa/Ca2VVRWR+6e3dNlpx+tlMVbougYzt0lWJqsuA7M
- RHlEAwO/AbiR1JZykrbhTyItV6++1V7cTsRTXLtGUhdIQUNrWhMv+iPCA==
-X-ME-Sender: <xms:pf_HYlLsUfFY7SbIS0RtDGK6VeJ_ZoEn6srDEqyYuT2nQysDZ76oNQ>
- <xme:pf_HYhJnwZkS-dgHiUKBNt4xRRT0FBD--UkvkZObZCZU4IM_EkiNlu86T89Vdc20W
- 3LDtz0vKxPlQ2-4apA>
-X-ME-Received: <xmr:pf_HYttm69GgmoOv0LE20GaUKTPNjEA7pgs4bvlcqw6xsp9yC84eQWb_q3vNTMk2GY6ndmP_0aoX5fTIZUxtH6CeHG5cv5kw47kymyc>
+ :x-sasl-enc; s=fm3; t=1657274280; x=1657360680; bh=g+c2P0WM5+6YN
+ kAz9QjIqt8yEn/XxjI5gjlYe1i0StA=; b=BppWiU901C7nZxa+Fl4HDFZ++JVmx
+ fp67OruDJQzAsH9KoWt18SdBslF9tC51xTdFoIE4kPQOQok3Mp5k7zWhPxxQI6GR
+ SpUsHCxapeufoMNoBy6mWFxKIBkjdqh+jJ0RQ4IbGYTX0WPMV33FMo2vrpYrx8/V
+ gszfW46jYF83pi+5d6jjPMiq0gbkF1dARKF2xK//7qmaL5u48M2hNSUt36V7Zsi9
+ 8BgaLtBWmY5RS42l3pSljCuihPNtpu77TpyUNniy0FdpyklQGnbfiOibiR2LmUTy
+ t3AyhcWz7HJPdoYoG9ad+v+qOLIr48+LVmZttQYog17twoLRFRFnBCAjg==
+X-ME-Sender: <xms:qP_HYt7NbVnYOoYf9Cvw1-1P-v_bOILtRSVyB6vj10ZalCIG3hkFrg>
+ <xme:qP_HYq43VE-2eHXnto4Sk70fQ4lZOLphyLsXYgpgEfG2cvdAS5ScPBxYEsI6KbDbM
+ 1Hshw8DakBKAWWUbHQ>
+X-ME-Received: <xmr:qP_HYkdhqqBdeZiW5GCLKI-S5cgI-MrlhS5dYVrz-sGgegzcAYosvOlNKEpK2U9OyPvvgWBHUndypy7he-C-scfznDIjESzVGsh_MPE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeijedgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pf_HYmb5auB9L0p_v8yujHbUOjPEJBlk1Wq9lMbT-8hvR3krtF_OcA>
- <xmx:pf_HYsaY6UM9mlSMZhrwdKSlvmhv9XDsEjOxhKbG-NTefJzsyiMr5w>
- <xmx:pf_HYqCMJtUaHfxnVzUnrfJMOxe9uINCZL4Z-EZ0NslE-i3TdvFliA>
- <xmx:pf_HYrwNBLdBg8Kg_1RXs2Xpo-EQgsile2UETIJUXLDt64HfmYeImw>
+X-ME-Proxy: <xmx:qP_HYmKhSADdprzeBZxdqTHbs2D7VeJKcXyL5npi9_Dm-nQAAC4o3g>
+ <xmx:qP_HYhKHhl68CqvsPbUL9jZbU7jmCCPUz46OpnD2DixUHT8jeb6xHQ>
+ <xmx:qP_HYvxKIL6o8OAtAYVGHlmNHSjvPxkdRzrUUJj3yV_o7ygMPpok7w>
+ <xmx:qP_HYvj0Dci1_joLlVmnYBNWn2us_bSuNWa4Yf8MCQpR6xHpulMGVg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Jul 2022 05:57:57 -0400 (EDT)
+ 8 Jul 2022 05:58:00 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4 16/69] drm/vc4: hvs: Remove planes currently allocated
- before taking down
-Date: Fri,  8 Jul 2022 11:56:14 +0200
-Message-Id: <20220708095707.257937-17-maxime@cerno.tech>
+Subject: [PATCH v4 17/69] drm/vc4: plane: Take possible_crtcs as an argument
+Date: Fri,  8 Jul 2022 11:56:15 +0200
+Message-Id: <20220708095707.257937-18-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220708095707.257937-1-maxime@cerno.tech>
 References: <20220708095707.257937-1-maxime@cerno.tech>
@@ -90,44 +89,100 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the HVS driver is unbound, a lot of memory allocations in the LBM and
-DLIST RAM are still assigned to planes that are still allocated.
+vc4_plane_init() currently initialises the plane with no possible CRTCs,
+and will expect the caller to set it up by itself.
 
-Thus, we hit a warning when calling drm_mm_takedown() since the memory pool
-is not completely free of allocations.
-
-Let's free all the currently live entries before calling drm_mm_takedown().
+Let's change that logic a bit to follow the syntax of
+drm_universal_plane_init() and pass the possible CRTCs bitmask as an
+argument to the function instead.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/vc4/vc4_crtc.c  |  2 +-
+ drivers/gpu/drm/vc4/vc4_drv.h   |  3 ++-
+ drivers/gpu/drm/vc4/vc4_plane.c | 15 +++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index f2d6e62e7585..a62f222255ce 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -873,11 +873,18 @@ static void vc4_hvs_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_hvs *hvs = vc4->hvs;
-+	struct drm_mm_node *node, *next;
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index faad9e564772..d391e894ee6c 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -1244,7 +1244,7 @@ int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
+ 	 * requirement of the plane configuration, and reject ones
+ 	 * that will take too much.
+ 	 */
+-	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY);
++	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY, 0);
+ 	if (IS_ERR(primary_plane)) {
+ 		dev_err(drm->dev, "failed to construct primary plane\n");
+ 		return PTR_ERR(primary_plane);
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index de326cf10564..d935aa3e4409 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -960,7 +960,8 @@ int vc4_kms_load(struct drm_device *dev);
  
- 	if (drm_mm_node_allocated(&vc4->hvs->mitchell_netravali_filter))
- 		drm_mm_remove_node(&vc4->hvs->mitchell_netravali_filter);
+ /* vc4_plane.c */
+ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+-				 enum drm_plane_type type);
++				 enum drm_plane_type type,
++				 uint32_t possible_crtcs);
+ int vc4_plane_create_additional_planes(struct drm_device *dev);
+ u32 vc4_plane_write_dlist(struct drm_plane *plane, u32 __iomem *dlist);
+ u32 vc4_plane_dlist_size(const struct drm_plane_state *state);
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index f27e87a23df7..a344762d86eb 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1492,7 +1492,8 @@ static const struct drm_plane_funcs vc4_plane_funcs = {
+ };
  
-+	drm_mm_for_each_node_safe(node, next, &vc4->hvs->dlist_mm)
-+		drm_mm_remove_node(node);
-+
- 	drm_mm_takedown(&vc4->hvs->dlist_mm);
-+
-+	drm_mm_for_each_node_safe(node, next, &vc4->hvs->lbm_mm)
-+		drm_mm_remove_node(node);
- 	drm_mm_takedown(&vc4->hvs->lbm_mm);
+ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+-				 enum drm_plane_type type)
++				 enum drm_plane_type type,
++				 uint32_t possible_crtcs)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_plane *plane = NULL;
+@@ -1523,7 +1524,7 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+ 	}
  
- 	clk_disable_unprepare(hvs->core_clk);
+ 	plane = &vc4_plane->base;
+-	ret = drm_universal_plane_init(dev, plane, 0,
++	ret = drm_universal_plane_init(dev, plane, possible_crtcs,
+ 				       &vc4_plane_funcs,
+ 				       formats, num_formats,
+ 				       modifiers, type, NULL);
+@@ -1575,13 +1576,11 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
+ 	 */
+ 	for (i = 0; i < 16; i++) {
+ 		struct drm_plane *plane =
+-			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
++			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY,
++				       GENMASK(drm->mode_config.num_crtc - 1, 0));
+ 
+ 		if (IS_ERR(plane))
+ 			continue;
+-
+-		plane->possible_crtcs =
+-			GENMASK(drm->mode_config.num_crtc - 1, 0);
+ 	}
+ 
+ 	drm_for_each_crtc(crtc, drm) {
+@@ -1589,9 +1588,9 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
+ 		 * since we overlay planes on the CRTC in the order they were
+ 		 * initialized.
+ 		 */
+-		cursor_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_CURSOR);
++		cursor_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_CURSOR,
++					      drm_crtc_mask(crtc));
+ 		if (!IS_ERR(cursor_plane)) {
+-			cursor_plane->possible_crtcs = drm_crtc_mask(crtc);
+ 			crtc->cursor = cursor_plane;
+ 		}
+ 	}
 -- 
 2.36.1
 
