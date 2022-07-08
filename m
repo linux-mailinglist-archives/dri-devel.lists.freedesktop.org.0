@@ -1,59 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438A456C11C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:42:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E38F256C11D
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:46:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF8710E183;
-	Fri,  8 Jul 2022 19:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D1510E231;
+	Fri,  8 Jul 2022 19:46:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F1D10E0AD;
- Fri,  8 Jul 2022 19:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657309365; x=1688845365;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=cvvPOf0ESif5qtfECCusv626UD+VI6e+YqhLOB1P/oY=;
- b=DBxQPUL+qwuVLamFIWWktqbV3ixcmdwVXO5WtTCRRUzW9hhXVetlCzUn
- zlgeaitEg2hvenB4dX83ICidAue/Ygpq6r9b5FkfL74CPWMrV2e3OrImD
- 4Vo6BJRi4r/2Qahnj309OAf9qitLorWqC8tKe+GsQAYxNKtNV/L28h+bT 8=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Jul 2022 12:42:44 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2022 12:42:44 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 8 Jul 2022 12:42:43 -0700
-Received: from [10.111.160.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 8 Jul 2022
- 12:42:41 -0700
-Message-ID: <ffad2e39-f775-00de-3119-f9b0ca3fe4f7@quicinc.com>
-Date: Fri, 8 Jul 2022 12:42:39 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3928010E227
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 19:46:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657309562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vLjxfS/IkYLw35yGStC8uj/FyqMkGDcG5weCQvZVRiw=;
+ b=UcCFRvYxdUpr0Ig8rGAe0wnHaolOcBy9nTlcUb+qSteeVDBbBdoyGt5rQYHWHxV0I2UbBO
+ j6cPGOAFXvb58HT7tLDx6Ttuzf9tdlJ5axddDktjUVv5R5WLTJz1HnbL//NvErmK7XgYkN
+ WLjKCv5qy1wzvfiPO0gkinQfG2ZrrB0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-120-2cpWypx3ONmtphKW-9irDg-1; Fri, 08 Jul 2022 15:46:00 -0400
+X-MC-Unique: 2cpWypx3ONmtphKW-9irDg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ e20-20020a170906315400b007262bd0111eso5978022eje.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 12:46:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vLjxfS/IkYLw35yGStC8uj/FyqMkGDcG5weCQvZVRiw=;
+ b=0xxoROORD9CH2svjxrthDyAPheit23QUNJHdlduayHoMOym0Mk3RCa3bYrJF1pPprR
+ Gs7FetgstYur3worpA8oCWHHdUW1rmBnh6HtzOWZ9nBGQRld97dErlIlPyomA8YSHrNy
+ 3t/GTB6wQ7+HHMxYPya22zhruT9+pOaN3uhhyzaJ2SZamvUPxByJDAgEyAW2D1QO+zGz
+ nKjOcaIh3JHZe2CC/LwgGTjA8ez2xWFUhZdCMuwdFTWPehS4aX5vb+s1Sjz5He0hZNjr
+ HiuaisoR4AigHF1SsnrubJnAPCul1qIDOqGy1BKHtcv+TJWQcK/Z4hjsXeZD2tV/QXT1
+ A4lA==
+X-Gm-Message-State: AJIora8aCWa0W7UDQTLMr2op94DxZOSn3pVPJjlNqn4Vm9r4kOB0vr4c
+ D4di1uax7r2S2r3Z1N5fCfuxxeMzjXHRRYYg20mWnYtwTIuL43j4NvtXXAGMyPgIZpE4aFtfxfu
+ xdY/Ud+N9kCIImrupK0EdRrrJUcvG
+X-Received: by 2002:a17:906:84f0:b0:72b:136a:a406 with SMTP id
+ zp16-20020a17090684f000b0072b136aa406mr5208088ejb.700.1657309559679; 
+ Fri, 08 Jul 2022 12:45:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1soRNcaDcTHOuYD8Mr2wY+AfEJyajgo94gJG5OzKtzrgk5L+7s97fmEIdCygRjckvG23MWK6Q==
+X-Received: by 2002:a17:906:84f0:b0:72b:136a:a406 with SMTP id
+ zp16-20020a17090684f000b0072b136aa406mr5208072ejb.700.1657309559515; 
+ Fri, 08 Jul 2022 12:45:59 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ f13-20020a170906824d00b00726e108b566sm15039136ejx.173.2022.07.08.12.45.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 12:45:59 -0700 (PDT)
+Message-ID: <c95724ad-a3b0-2ac8-5413-b971626e7e63@redhat.com>
+Date: Fri, 8 Jul 2022 21:45:58 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dsi: Set panel orientation when directly connected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/5] drm/modes: Extract drm_mode_parse_cmdline_named_mode()
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <cover.1657301107.git.geert@linux-m68k.org>
+ <402dea47269f2e3960946d186ba3cb118066e74a.1657301107.git.geert@linux-m68k.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <402dea47269f2e3960946d186ba3cb118066e74a.1657301107.git.geert@linux-m68k.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Doug Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>
-References: <20220706191442.1150634-1-swboyd@chromium.org>
- <CAD=FV=UrYCwm2ByN_5EN3fq-ayMJNjmWfJ5sooRy51ZiCoMcjA@mail.gmail.com>
- <60252405-81f2-2465-bc20-5f91a9072031@quicinc.com>
-In-Reply-To: <60252405-81f2-2465-bc20-5f91a9072031@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,92 +93,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, patches@lists.linux.dev,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 7/8/2022 9:00 AM, Abhinav Kumar wrote:
+On 7/8/22 20:21, Geert Uytterhoeven wrote:
+> Extract the code to check for a named mode parameter into its own
+> function, to streamline the main parsing flow.
 > 
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+>  drivers/gpu/drm/drm_modes.c | 41 +++++++++++++++++++++++++++----------
+>  1 file changed, 30 insertions(+), 11 deletions(-)
 > 
-> On 7/8/2022 8:25 AM, Doug Anderson wrote:
->> Hi,
->>
->> On Wed, Jul 6, 2022 at 12:14 PM Stephen Boyd <swboyd@chromium.org> wrote:
->>>
->>> Set the panel orientation in drm when the panel is directly connected,
->>> i.e. we're not using an external bridge. The external bridge case is
->>> already handled by the panel bridge code, so we only update the path we
->>> take when the panel is directly connected/internal. This silences a
->>> warning splat coming from __drm_mode_object_add() on Wormdingler boards.
->>>
->>> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
->>> Cc: Douglas Anderson <dianders@chromium.org>
->>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->>> ---
->>>
->>> This relies on commit 5e41b01a7808 ("drm/panel: Add an API to allow drm
->>> to set orientation from panel") which is in drm-misc
->>>
->>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 ++
->>>   1 file changed, 2 insertions(+)
->>
->> I don't personally have objections to this, but (to my understanding)
->> "the future" is that everyone should use panel_bridge. If we made the
->> move to panel_bridge today then we wouldn't need to do this. In
->> general I think panel_bridge would end up letting us delete a bunch of
->> code...
->>
->> See commit 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with
->> panel-bridge") for when this was done by ti-sn65dsi86.
->>
->> Then again, I spent a small amount of time looking into this and it's
->> definitely non-trivial. Still likely worthwhile, but not worth
->> blocking a tiny fix like this. It also should be fairly obvious that
->> we should delete this when we switch to panel_bridge.
-> 
-> Right, from what I saw on IRC, panel_bridge is the way forward and 
-> dmitry did push a change to do that
-> 
-> https://patchwork.freedesktop.org/patch/492585/
-> 
-> But I think we can go ahead with this change because its simple enough.
-> 
-> Regarding the panel_bridge migration, I am going to start reviewing that 
-> as well.
-> 
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 30a7be97707bfb16..434383469e9d984d 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1749,6 +1749,30 @@ static const char * const drm_named_modes_whitelist[] = {
+>  	"PAL",
+>  };
+>  
+> +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> +					     unsigned int length,
+> +					     bool refresh,
+> +					     struct drm_cmdline_mode *mode)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> +		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> +		if (!ret)
 
-I did some more digging up on the panel_bridge migration.
+As discussed in my review of 1/5 this needs to become:
 
-Dmitry has posted this towards december last year
+		if (ret != length)
+> +			continue;
 
-https://patches.linaro.org/project/dri-devel/patch/20211207222901.988484-3-dmitry.baryshkov@linaro.org/ 
+Which renders my other comment on this patch (length not being used) mute.
 
+Regards,
 
-and I had given my R-b on this already in Jan.
+Hans
 
-I am not sure why this change was dropped OR was not part of msm-next 
-already.
+> +
+> +		if (refresh)
+> +			return -EINVAL; /* named + refresh is invalid */
+> +
+> +		strcpy(mode->name, drm_named_modes_whitelist[i]);
+> +		mode->specified = true;
+> +		return 0;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drm_mode_parse_command_line_for_connector - parse command line modeline for connector
+>   * @mode_option: optional per connector mode option
+> @@ -1785,7 +1809,7 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>  	const char *bpp_ptr = NULL, *refresh_ptr = NULL, *extra_ptr = NULL;
+>  	const char *options_ptr = NULL;
+>  	char *bpp_end_ptr = NULL, *refresh_end_ptr = NULL;
+> -	int i, len, ret;
+> +	int len, ret;
+>  
+>  	memset(mode, 0, sizeof(*mode));
+>  	mode->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> @@ -1823,16 +1847,11 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>  	}
+>  
+>  	/* First check for a named mode */
+> -	for (i = 0; mode_end && i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> -		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> -		if (ret) {
+> -			if (refresh_ptr)
+> -				return false; /* named + refresh is invalid */
+> -
+> -			strcpy(mode->name, drm_named_modes_whitelist[i]);
+> -			mode->specified = true;
+> -			break;
+> -		}
+> +	if (mode_end) {
+> +		ret = drm_mode_parse_cmdline_named_mode(name, mode_end,
+> +							refresh_ptr, mode);
+> +		if (ret)
+> +			return false;
+>  	}
+>  
+>  	/* No named mode? Check for a normal mode argument, e.g. 1024x768 */
 
-Dmitry, any reason this change was left out so long and why the R-b was 
-not retained and this was reposted?
-
- From what i can see the change looks identical.
-
-Thanks
-
-Abhinav
->>
->> Thus:
->>
->> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->>
->> I'll assume that we'll just snooze this commit until drm-misc-next
->> merges into a tree that msm-next is based on, which will probably be
->> the next -rc1. If desired and Acked I could land this in
->> drm-misc-next, but it's probably not worth it?
