@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33A656B6A1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E32856B6A2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:08:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0378113875;
-	Fri,  8 Jul 2022 09:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6636C113876;
+	Fri,  8 Jul 2022 09:58:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
  [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B31113874
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:58:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3C3113876
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:58:38 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 2DD6B32009AE;
- Fri,  8 Jul 2022 05:58:34 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 2EAE432009AE;
+ Fri,  8 Jul 2022 05:58:37 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 08 Jul 2022 05:58:34 -0400
+ by compute4.internal (MEProxy); Fri, 08 Jul 2022 05:58:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657274313; x=1657360713; bh=pJ
- crKCoG7IhNWP+w2dHjwD9Iin4zKcCM6h6ityddm2A=; b=f132AtUh0iWv01jfvF
- olEFvH2+UyGt/Pqb1E9Rao5s5pKv6l1GmKxrxJ/lJO5RbcBYjv/zWSqgzFbPDm+O
- eBL82dwNm38Qg4fmwbVIRniMrzG65qqtnzwmmlaaNwzRFSialW6dzsAHIsZIepic
- bSv2hcW6vw33LtabEVw/3mtMIljdekjPzFSf1ERub+n0Tm1mfznthyjbHYpVQqCj
- /g0+F56kneLGS5CAjDtsQRffewaW+0KR1eO6DV0iWjdgqaX8LPnIqIzohfJgG5Wj
- O5hNvxPcZ5LojW5u2KFTkw5remaaRUaXGRRB4gMiaz67Hc7hmjkF+BIfk1DHNRkG
- QlbA==
+ :subject:subject:to:to; s=fm2; t=1657274316; x=1657360716; bh=4u
+ DgSdHpp+qURN8db9X4iLS+B4ku09Ksntp7OG8mbY4=; b=UhCPqMhM1/UcYQ32BK
+ hR+4bY+tbj7yHSYcshXEc14Y3pFrm4Ld24vJH9Jq+PanOJhd15AELM2XWcloBNYN
+ AU8RefoZX9vAysAWrXmGW6GnmAAPT2g59aQvXKLxTDfWwaGXy/3/lJ6AYP5abjJS
+ Buqb5oP3ZqInU/W0ME4l8HmyzwNzVrKi5e+d2JuNyreJDnT43j1S4BUBDwaVc8kI
+ C4drAkLDrg3+OTkMFvWsaFSF2LB9EwbFJru7o7FMJ1dhWl8Jc3CTUm/EVqgBt2/0
+ 1J03frW597FqEKPDu1DmQpHW6bKGKb/3bqMT9I+v9DXnqTz1UPtcAdlYKjJ0WMMF
+ Gxgw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657274313; x=1657360713; bh=pJcrKCoG7IhNW
- P+w2dHjwD9Iin4zKcCM6h6ityddm2A=; b=ZmqDHhgD6zhJRA7bor2Q3Zb5Ysp+b
- 5wZ3hwhWBVfIqhCAjL0UH/XTDm3DrTvV9pdAoj4MkPSLzVk3j0z+pG73aUuMipDR
- TgSCzOMufnoPDzS7fzpAdJM9M0/LuSQBZUuvYtlbBCWrFcmGh6eQpVHsNQl8ZD4U
- tJQdyI9NDd+3qdlUXwfF1qCyZl4lXcRqDNB+C6mRVd5SfcbkPy/e+MFHWfv5oH5u
- 7eEeIVbDOgY5w+3MBtF1BSmcSNnz67YOMdl0j1ITtIwwwp7fCifNpkatrZNUHHIc
- osFxfBQG8pdgVAh5h9hEXBnIx5QGNYWpd/xeaNIFkkNcyQR2Bjwx7ON7w==
-X-ME-Sender: <xms:yf_HYnCCHfX8fNEZtY9itUGknHKShda0wK1J-W_UDD3bfz8PLHzD8A>
- <xme:yf_HYthF94dJ_KITYpOVoDMaPgrXbYZMW2VU9D16_-Q-cuzJxSVt8hFlhVYYfjRMR
- VetotNDdsqUKseX0Hs>
-X-ME-Received: <xmr:yf_HYiklibeaC4shtBME88E8iD5tFZk9etUva6AS6LEBSzTJLKwy0n04mGA39vOmjnaj1EdtSjew9D-yKwr4rXsk3fL8IIfOpSkjjMY>
+ :x-sasl-enc; s=fm3; t=1657274316; x=1657360716; bh=4uDgSdHpp+qUR
+ N8db9X4iLS+B4ku09Ksntp7OG8mbY4=; b=G40FWO1cnY5sKrHvLXw9ppm8xgjsM
+ gFHU+lr8zGe85vtkHfc7NVCl5vDND3kphBfpRrX+pP7BRUscs3HL4MtcEkiHMmKQ
+ mjpGysUVwsdzakg1L/lLh51wH0pSQi1697OIBdFtEDhJySW2k+LR9cfhyjH0RaUI
+ xHPmBj44pgdydUE75JEZpyTeO6BF1l8z+Gu6ag3NrXWavdUZIF13/oEfVYUAFJYn
+ L3dmakigfuHT7kZGRdxcZNUhYgCgMv7DwJbvpPWrp3bB6L7BJK+gMZ+Zx4GAplrr
+ sYefE3Df0KPGdGwJCZErhc5azupeh3b45Q00fAHAuLJv38hZ6isFz/i4Q==
+X-ME-Sender: <xms:zP_HYk4g21WBByglKslvLO4vNG_2hufnpBAW-riJhcxk3FKVduocnQ>
+ <xme:zP_HYl7xMCGeadGPQo1AvI3Tbg7C2YZYPu_DiekXxqgi6eqvQ1DDKQEUwTy3g455F
+ Hy1fSa77Ubc5_tdHLE>
+X-ME-Received: <xmr:zP_HYjeRuRhckF2eEzB9qjX2GqrLnbFg3KHm9j0JV90h5yfMwe3-8wbrnkySAR7DlgGQVmw8RhvRYnU1wKnrc9cNA7bKnEP1iNyIIRQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeijedgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:yf_HYpwUd3HZFT_bG5GcdJrLw8cl830lGU5WVpCpPWSpP5GroOek1w>
- <xmx:yf_HYsSyS9BXAUGfv8gSqiYbVlTIOHkinbbW3rWBA70bmDwlambRSg>
- <xmx:yf_HYsbRbfgqed_qGYr_SIrdizxaawwujwxqUwjBvPKsMVxOpdU5_g>
- <xmx:yf_HYhIjQRT8N14x4EKMFzL8ohdTV72PGUtjeXAr3Cn6dwr6jEwtaw>
+X-ME-Proxy: <xmx:zP_HYpKqERWNtMCgYyTg5mKz5hvd6QFkXaw0hVamjSuFP6ZrbO-f6g>
+ <xmx:zP_HYoKQoO4qogW3QfFFZYrISpjfgxjYB-g4tid1zrKmI2fm3nvj5A>
+ <xmx:zP_HYqzv8FDMB2foRHXWU2z8QV3oaUhHJR9PDTibt09q7uiGk78oAg>
+ <xmx:zP_HYii3f5zGe8j4W44RU3iB8__hG4vmX2o7GRCdAdLQNwnPN_mv7w>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Jul 2022 05:58:33 -0400 (EDT)
+ 8 Jul 2022 05:58:36 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4 28/69] drm/vc4: dpi: Add action to disable the clock
-Date: Fri,  8 Jul 2022 11:56:26 +0200
-Message-Id: <20220708095707.257937-29-maxime@cerno.tech>
+Subject: [PATCH v4 29/69] drm/vc4: dpi: Switch to DRM-managed encoder
+ initialization
+Date: Fri,  8 Jul 2022 11:56:27 +0200
+Message-Id: <20220708095707.257937-30-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220708095707.257937-1-maxime@cerno.tech>
 References: <20220708095707.257937-1-maxime@cerno.tech>
@@ -89,65 +90,69 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DPI controller has two clocks called core and pixel, the core clock
-being enabled at bind time.
+The current code will call drm_encoder_cleanup() when the device is
+unbound. However, by then, there might still be some references held to
+that encoder, including by the userspace that might still have the DRM
+device open.
 
-Adding a device-managed action will make the error path easier, so let's
-create one to disable it.
+Let's switch to a DRM-managed initialization to clean up after ourselves
+only once the DRM device has been last closed.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_dpi.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index f18b05cee8bc..c4ea99f85e5b 100644
+index c4ea99f85e5b..ceb14aea6c05 100644
 --- a/drivers/gpu/drm/vc4/vc4_dpi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -257,6 +257,13 @@ static int vc4_dpi_init_bridge(struct vc4_dpi *dpi)
- 	return drm_bridge_attach(&dpi->encoder.base, bridge, NULL, 0);
- }
- 
-+static void vc4_dpi_disable_clock(void *ptr)
-+{
-+	struct vc4_dpi *dpi = ptr;
-+
-+	clk_disable_unprepare(dpi->core_clock);
-+}
-+
- static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -305,6 +312,10 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+@@ -316,35 +316,28 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
  		return ret;
- 	}
  
-+	ret = devm_add_action_or_reset(dev, vc4_dpi_disable_clock, dpi);
+-	drm_simple_encoder_init(drm, &dpi->encoder.base, DRM_MODE_ENCODER_DPI);
++	ret = drmm_encoder_init(drm, &dpi->encoder.base,
++				NULL,
++				DRM_MODE_ENCODER_DPI,
++				NULL);
 +	if (ret)
 +		return ret;
 +
- 	drm_simple_encoder_init(drm, &dpi->encoder.base, DRM_MODE_ENCODER_DPI);
  	drm_encoder_helper_add(&dpi->encoder.base, &vc4_dpi_encoder_helper_funcs);
  
-@@ -320,7 +331,6 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+ 	ret = vc4_dpi_init_bridge(dpi);
+ 	if (ret)
+-		goto err_destroy_encoder;
++		return ret;
  
- err_destroy_encoder:
- 	drm_encoder_cleanup(&dpi->encoder.base);
--	clk_disable_unprepare(dpi->core_clock);
- 	return ret;
- }
+ 	dev_set_drvdata(dev, dpi);
  
-@@ -330,8 +340,6 @@ static void vc4_dpi_unbind(struct device *dev, struct device *master,
- 	struct vc4_dpi *dpi = dev_get_drvdata(dev);
+ 	vc4_debugfs_add_regset32(drm, "dpi_regs", &dpi->regset);
  
- 	drm_encoder_cleanup(&dpi->encoder.base);
+ 	return 0;
 -
--	clk_disable_unprepare(dpi->core_clock);
+-err_destroy_encoder:
+-	drm_encoder_cleanup(&dpi->encoder.base);
+-	return ret;
+-}
+-
+-static void vc4_dpi_unbind(struct device *dev, struct device *master,
+-			   void *data)
+-{
+-	struct vc4_dpi *dpi = dev_get_drvdata(dev);
+-
+-	drm_encoder_cleanup(&dpi->encoder.base);
  }
  
  static const struct component_ops vc4_dpi_ops = {
+ 	.bind   = vc4_dpi_bind,
+-	.unbind = vc4_dpi_unbind,
+ };
+ 
+ static int vc4_dpi_dev_probe(struct platform_device *pdev)
 -- 
 2.36.1
 
