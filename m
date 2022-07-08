@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB98356BEB0
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:22:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F2C56BEAA
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A19EC10EC11;
-	Fri,  8 Jul 2022 18:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0904810EBF9;
+	Fri,  8 Jul 2022 18:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A0D810EBD7
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:53 +0000 (UTC)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C64910EBE1
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:47 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
- by michel.telenet-ops.be with bizsmtp
- id siMs2700M4C55Sk06iMslr; Fri, 08 Jul 2022 20:21:52 +0200
+ by albert.telenet-ops.be with bizsmtp
+ id siMn270054C55Sk06iMnbu; Fri, 08 Jul 2022 20:21:47 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o9sbw-002fNc-Ev; Fri, 08 Jul 2022 20:21:52 +0200
+ id 1o9sbq-002fMY-Ty; Fri, 08 Jul 2022 20:21:46 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o9sbw-00BtUp-10; Fri, 08 Jul 2022 20:21:52 +0200
+ id 1o9sbq-00BtTD-A9; Fri, 08 Jul 2022 20:21:46 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v2 00/10] Big-endian fixes
+Subject: [PATCH libdrm v2 09/10] modetest: Add support for DRM_FORMAT_C[124]
 Date: Fri,  8 Jul 2022 20:21:39 +0200
-Message-Id: <cover.1657302103.git.geert@linux-m68k.org>
+Message-Id: <49042436e4f9ee709a616779def3c0c0833176f6.1657302034.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1657302034.git.geert@linux-m68k.org>
+References: <cover.1657302034.git.geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,60 +50,50 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Hi all,
+Add support for creating buffers using the new color-indexed frame
+buffer formats with two, four, and sixteen colors.
 
-This patch series fixes some endianness issues in libdrm.
-It has been tested on ARAnyM using a work-in-progress Atari DRM driver.
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+v2:
+  - Split off changes to tests/modetest/buffers.c.
+---
+ tests/modetest/buffers.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Changes compared to v1:
-  - Consider arm, aarch64, microblaze, s390, and sh in endianness
-    checks,
-  - Add Acked-by,
-  - Add swap32() intermediate helper,
-  - Fix 16 bpp formats on big-endian,
-  - Add support for big-endian XRGB1555 and RGB565,
-  - Fix printing of big-endian fourcc values,
-  - Fix pwetty on big-endian.
-
-Please refer to [2] for related Linux DRM patches and background
-information.
-
-Thanks for your comments!
-
-[1] "[PATCH RFC libdrm 0/2] Big-endian fixes"
-    https://lore.kernel.org/r/cover.1646684158.git.geert@linux-m68k.org
-[2] "[PATCH v3 00/10] drm: Add support for low-color frame buffer formats"
-    https://lore.kernel.org/r/cover.1657294931.git.geert@linux-m68k.org
-
-Geert Uytterhoeven (11):
-  intel: Improve checks for big-endian
-  util: Fix 32 bpp patterns on big-endian
-  util: Fix 16 bpp patterns on big-endian
-  util: Add missing big-endian RGB16 frame buffer formats
-  modetest: Fix printing of big-endian fourcc values
-  modetest: Add support for parsing big-endian formats
-  util: Add test pattern support for big-endian XRGB1555/RGB565
-  util: Fix pwetty on big-endian
-  util: Add pwetty support for big-endian RGB565
-  modetest: Add support for big-endian XRGB1555/RGB565
-
- intel/uthash.h            |   2 +-
- tests/modetest/buffers.c  |   4 ++
- tests/modetest/modetest.c |  25 ++++---
- tests/util/format.c       |   3 +
- tests/util/pattern.c      | 115 +++++++++++++++++++++++++++++++-------
- 5 files changed, 115 insertions(+), 29 deletions(-)
-
+diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
+index 8a8d9e0143474378..af7f60b4fb4d09ad 100644
+--- a/tests/modetest/buffers.c
++++ b/tests/modetest/buffers.c
+@@ -135,6 +135,18 @@ bo_create(int fd, unsigned int format,
+ 	int ret;
+ 
+ 	switch (format) {
++	case DRM_FORMAT_C1:
++		bpp = 1;
++		break;
++
++	case DRM_FORMAT_C2:
++		bpp = 2;
++		break;
++
++	case DRM_FORMAT_C4:
++		bpp = 4;
++		break;
++
+ 	case DRM_FORMAT_C8:
+ 	case DRM_FORMAT_NV12:
+ 	case DRM_FORMAT_NV21:
+@@ -283,6 +295,9 @@ bo_create(int fd, unsigned int format,
+ 		planes[2] = virtual + offsets[2];
+ 		break;
+ 
++	case DRM_FORMAT_C1:
++	case DRM_FORMAT_C2:
++	case DRM_FORMAT_C4:
+ 	case DRM_FORMAT_C8:
+ 	case DRM_FORMAT_ARGB4444:
+ 	case DRM_FORMAT_XRGB4444:
 -- 
 2.25.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
