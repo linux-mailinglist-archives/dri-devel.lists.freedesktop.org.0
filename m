@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0342756B6B0
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7088056B6A9
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:10:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C99B8113886;
-	Fri,  8 Jul 2022 09:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD794113887;
+	Fri,  8 Jul 2022 09:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
  [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44D4E11388F
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:58:50 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 096D932009AE;
- Fri,  8 Jul 2022 05:58:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 08 Jul 2022 05:58:49 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 464D5113887
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:58:53 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 09F9E32009CD;
+ Fri,  8 Jul 2022 05:58:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 08 Jul 2022 05:58:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657274328; x=1657360728; bh=Eb
- gzlmH0IrZ0FiuXQtmne1cDBzit1A+6m6yHtcrTrt0=; b=bd5agLNmoP84Bchls3
- fenvUKuknfiu8F2Cgw+qt39OwryhBTmbLszWrYplU1IbvSqnRy7EuSILeA6VruvC
- vJkbSP6xx5Q2kETPow7lHrENhjFOcZwsBcHkOwWmgg0IAPFQRk3+aZtwtIF9DRrZ
- faviVPVYw/j9djbYdrfwZRQWBerPIH2DQHTc922GX7d4HJQTb5POA47Fx2b9ote5
- uuQCHkIHHEknCreOV2k3bVMasGjEjjmjXdPJN5iW12KYqk2/iHnT8fGXfjH4gb65
- FKEhHVHEJ1dG2T9pzKuqON27Iyfx7ASAhLWIQrVBozfD576+5Ad5bL53LBkCwKqY
- rwAA==
+ :subject:subject:to:to; s=fm2; t=1657274331; x=1657360731; bh=+z
+ CUXkmF4tS8sqQ1rQ2w5YxcSkyBM2Wb6w6+V0uBnTY=; b=V89Z6yiK+q7hxPDwVE
+ fNad3LaMWUOPEqKD2kwTiplh1C7ouFrYRGOWQ5voMVanv34TRskzSjt1jszD2LEg
+ vWRoqknxCf9LC4gd6v1cctNapJUdknl1Vg7Zfmfzf2+D+JdKZhi8IMSDeAtYPl2U
+ GBkzu9/Dz+aV3D4Jxm0sqfjW08GiDcynatJx8tWo0GUvVUWTZc2cCsvOoLYmId9p
+ 1gU3svF4dkuxuEy2p9fuy8THPmD0wnFx2b17q2YJqLUrES4vcjaVsrqmcGeeFkxo
+ jkpzw55ZCt8Oq3jEvB59DfwP4bSESQg0TkGSLcuRg8qjdR3JumLGmeiWm8f9FMu1
+ L4Pg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657274328; x=1657360728; bh=EbgzlmH0IrZ0F
- iuXQtmne1cDBzit1A+6m6yHtcrTrt0=; b=aXtRyLdNyN4TGSbCE1VPRGPbZZpIQ
- WbVocCDO4UNldeHveCk0apIoUCZlGgrcJkwdpgyqSvUVrbAzfPIkRHQZf00DwcvD
- mAkkKXrKd0JHwkUJ9iXpGhKFdsGxpd3y693j7lkOusXZmeDZhx1ZRdso5xIWo1Q1
- 7azvvk9R36QSeauU4nLXRzfbrumKc0mu5PgyegLvck4vNZrJ4DkqDLPu14NHqvfB
- IbYRnoyLI4laEju3P0D2Bsa49QqZYqtycQ8PSYBKkF1N81ZQV1N38851rcCEC1jo
- QuSjoz3WkcIYiRg7y0C34JArq9qwRy2C65PT/63AFUOuiFtwuAbaIMJxw==
-X-ME-Sender: <xms:2P_HYvvUzWd3wvxEE5Dom-5ej1rTSGXm7SmU_95anz0cFYfeHSCQJQ>
- <xme:2P_HYgdNV2lxWTeyQaMxWAGeAxgH95u3-JbvM66Y162y_fO5OkxQwxzAZqDjb9KDb
- E7jecx9GpyOhekLhNw>
-X-ME-Received: <xmr:2P_HYixuNFUroVp7T7cXa9rhzOBv87UOP6UrtJQReUPN6GkyE0Ti1Q1h4MvU8EF4K1ovKFN_56Ggt-Oles5pbJpdUjY_FVsMvlO4ecc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeijedgvdefucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm3; t=1657274331; x=1657360731; bh=+zCUXkmF4tS8s
+ qQ1rQ2w5YxcSkyBM2Wb6w6+V0uBnTY=; b=zoQXXeJlfPQMUDHonJZDM40jWQfX9
+ fBGpPiDqAeG39beueBahKYE+1yPl4fYHWCcbjQQvJzzCCzegdjvkAHCGFndLdu29
+ PEV1E4Lm5fy2zZMSrZnCXJPbfufVQnmdAyfwznCV78PjVPUHL+xWc+lbCgeykEiu
+ Wu2vJNb7GeNkIIjHRHO171AVCf8WSg2vnyCVykceCrI8Su6tdQ4FepZlBY7yJoAA
+ i2dXEYF62akilUhvfuixqRBeq3jdT5dB4w+ShYYdYo9MDGyDrHmxf3QYOyhs81mP
+ 4WK4+FobmkOMUmrEn8BZ7HISlhcwBCDJ48qY3Jj8IGtDPdzYhL3Qtgl+g==
+X-ME-Sender: <xms:2__HYgDFQ7KVmziu4CcbRlf31D_BEf-vrvufr3uyGUUpdXFdxIpiQA>
+ <xme:2__HYij9zq31fuqCiwA7NNdgUcPcHKCtoHJVkCnQduZnktZfuGBvh7d3BCFgiSMjA
+ VF7V8w3yOxMqgzzgYo>
+X-ME-Received: <xmr:2__HYjkS1AAcfWNM73w_CS0ayU3Dis8g1pyyVkGie9eL7M4YEa17FEPkZ8OFseUec_ZZVvqFf5dxIwAJLNC5SIpwB39SafoYJWLDoIM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeijedgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:2P_HYuPcwV-5ZC-hMyQgNnBhYSX2oaZzAGoaJPQ4RV-W9jbop1B2_A>
- <xmx:2P_HYv_Chqmr-5TBTmHBbTsmxFvesQRx0pL3Kfi3ERHv6lrJJ6Wmlg>
- <xmx:2P_HYuW8jKcsQ7puvCqkukfLwbTZtH2m-GvPzVyrkLxqj6HQNr0eTw>
- <xmx:2P_HYqko08rRiAOl2xSEl9k928RZQrYuei9Ku4J21Tpuxwl79k2Zig>
+X-ME-Proxy: <xmx:2__HYmxkGmIFuOKo86kM8IPMuICPeyUlbvaXnrkfh-IjCKi3BVbADg>
+ <xmx:2__HYlSOSfPcuOZ3uMMMSzbqmQXnYXcjAjW4wTBn-uxZjAuEVg3iSw>
+ <xmx:2__HYhauhzr5KCpI8bGkzvRKluZmT2THMZLGYivvGMGKCNIv4DwTdg>
+ <xmx:2__HYuJp3MkJCaKg_l2XNXb7lgvEBiEXxfA4GT3KI8xF1QeTxNAMyQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Jul 2022 05:58:48 -0400 (EDT)
+ 8 Jul 2022 05:58:51 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4 33/69] drm/vc4: dsi: Switch to DRM-managed encoder
- initialization
-Date: Fri,  8 Jul 2022 11:56:31 +0200
-Message-Id: <20220708095707.257937-34-maxime@cerno.tech>
+Subject: [PATCH v4 34/69] drm/vc4: dsi: Switch to drmm_of_get_bridge
+Date: Fri,  8 Jul 2022 11:56:32 +0200
+Message-Id: <20220708095707.257937-35-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220708095707.257937-1-maxime@cerno.tech>
 References: <20220708095707.257937-1-maxime@cerno.tech>
@@ -90,48 +89,36 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code will call drm_encoder_cleanup() when the device is
-unbound. However, by then, there might still be some references held to
-that encoder, including by the userspace that might still have the DRM
-device open.
+The current code uses a device-managed function to retrieve the next bridge
+downstream.
 
-Let's switch to a DRM-managed initialization to clean up after ourselves
-only once the DRM device has been last closed.
+However, that means that it will be removed at unbind time, where the DRM
+device is still very much live and might still have some applications that
+still have it open.
+
+Switch to a DRM-managed variant to clean everything up once the DRM device
+has been last closed.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dsi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 72889524540e..1a55b7ea52a8 100644
+index 1a55b7ea52a8..13266ff334d0 100644
 --- a/drivers/gpu/drm/vc4/vc4_dsi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -1687,7 +1687,13 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
+@@ -1672,7 +1672,7 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
  		return ret;
+ 	}
  
--	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DSI);
-+	ret = drmm_encoder_init(drm, encoder,
-+				NULL,
-+				DRM_MODE_ENCODER_DSI,
-+				NULL);
-+	if (ret)
-+		return ret;
-+
- 	drm_encoder_helper_add(encoder, &vc4_dsi_encoder_helper_funcs);
+-	dsi->bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
++	dsi->bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
+ 	if (IS_ERR(dsi->bridge))
+ 		return PTR_ERR(dsi->bridge);
  
- 	ret = drm_bridge_attach(encoder, dsi->bridge, NULL, 0);
-@@ -1720,7 +1726,6 @@ static void vc4_dsi_unbind(struct device *dev, struct device *master,
- 	 * normally.
- 	 */
- 	list_splice_init(&dsi->bridge_chain, &encoder->bridge_chain);
--	drm_encoder_cleanup(encoder);
- }
- 
- static const struct component_ops vc4_dsi_ops = {
 -- 
 2.36.1
 
