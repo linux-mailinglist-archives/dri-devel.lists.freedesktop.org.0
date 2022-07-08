@@ -2,85 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38F256C11D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFEF56C11F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:47:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D1510E231;
-	Fri,  8 Jul 2022 19:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFE410E1AC;
+	Fri,  8 Jul 2022 19:47:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3928010E227
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 19:46:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657309562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vLjxfS/IkYLw35yGStC8uj/FyqMkGDcG5weCQvZVRiw=;
- b=UcCFRvYxdUpr0Ig8rGAe0wnHaolOcBy9nTlcUb+qSteeVDBbBdoyGt5rQYHWHxV0I2UbBO
- j6cPGOAFXvb58HT7tLDx6Ttuzf9tdlJ5axddDktjUVv5R5WLTJz1HnbL//NvErmK7XgYkN
- WLjKCv5qy1wzvfiPO0gkinQfG2ZrrB0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-2cpWypx3ONmtphKW-9irDg-1; Fri, 08 Jul 2022 15:46:00 -0400
-X-MC-Unique: 2cpWypx3ONmtphKW-9irDg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- e20-20020a170906315400b007262bd0111eso5978022eje.9
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 12:46:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vLjxfS/IkYLw35yGStC8uj/FyqMkGDcG5weCQvZVRiw=;
- b=0xxoROORD9CH2svjxrthDyAPheit23QUNJHdlduayHoMOym0Mk3RCa3bYrJF1pPprR
- Gs7FetgstYur3worpA8oCWHHdUW1rmBnh6HtzOWZ9nBGQRld97dErlIlPyomA8YSHrNy
- 3t/GTB6wQ7+HHMxYPya22zhruT9+pOaN3uhhyzaJ2SZamvUPxByJDAgEyAW2D1QO+zGz
- nKjOcaIh3JHZe2CC/LwgGTjA8ez2xWFUhZdCMuwdFTWPehS4aX5vb+s1Sjz5He0hZNjr
- HiuaisoR4AigHF1SsnrubJnAPCul1qIDOqGy1BKHtcv+TJWQcK/Z4hjsXeZD2tV/QXT1
- A4lA==
-X-Gm-Message-State: AJIora8aCWa0W7UDQTLMr2op94DxZOSn3pVPJjlNqn4Vm9r4kOB0vr4c
- D4di1uax7r2S2r3Z1N5fCfuxxeMzjXHRRYYg20mWnYtwTIuL43j4NvtXXAGMyPgIZpE4aFtfxfu
- xdY/Ud+N9kCIImrupK0EdRrrJUcvG
-X-Received: by 2002:a17:906:84f0:b0:72b:136a:a406 with SMTP id
- zp16-20020a17090684f000b0072b136aa406mr5208088ejb.700.1657309559679; 
- Fri, 08 Jul 2022 12:45:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1soRNcaDcTHOuYD8Mr2wY+AfEJyajgo94gJG5OzKtzrgk5L+7s97fmEIdCygRjckvG23MWK6Q==
-X-Received: by 2002:a17:906:84f0:b0:72b:136a:a406 with SMTP id
- zp16-20020a17090684f000b0072b136aa406mr5208072ejb.700.1657309559515; 
- Fri, 08 Jul 2022 12:45:59 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- f13-20020a170906824d00b00726e108b566sm15039136ejx.173.2022.07.08.12.45.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 12:45:59 -0700 (PDT)
-Message-ID: <c95724ad-a3b0-2ac8-5413-b971626e7e63@redhat.com>
-Date: Fri, 8 Jul 2022 21:45:58 +0200
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5FB10E0AD;
+ Fri,  8 Jul 2022 19:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1657309634; x=1688845634;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=y8svXHFAGBhEoIgUxuvGzQVF++l56a0jj2PjO4kDLlU=;
+ b=KEFHDKjXgTD6wtusei4l90dV2o6kNH8nQQmPIKu+WvyAp43D5PSNZqbp
+ VnGJpMuRc9g8tnaMtS8Hp/aGL6PMN3ILeGb0iahxhuI7qW3H2JDNvMowx
+ jciTGpXTYjI2uKQvFw50BPDBNbrUKD3BomvEU9SxwvGDWDmrYs+/wcjzY E=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 08 Jul 2022 12:47:13 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2022 12:47:13 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 8 Jul 2022 12:47:12 -0700
+Received: from [10.110.5.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 8 Jul 2022
+ 12:47:11 -0700
+Message-ID: <a7f2e673-a732-d06c-e17e-746cedf42c7a@quicinc.com>
+Date: Fri, 8 Jul 2022 12:47:10 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/5] drm/modes: Extract drm_mode_parse_cmdline_named_mode()
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <cover.1657301107.git.geert@linux-m68k.org>
- <402dea47269f2e3960946d186ba3cb118066e74a.1657301107.git.geert@linux-m68k.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <402dea47269f2e3960946d186ba3cb118066e74a.1657301107.git.geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/9] dt-bindings: msm/dp: drop extra p1 region
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd
+ <swboyd@chromium.org>, Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Rob Clark <robdclark@gmail.com>, "Rob
+ Herring" <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
+References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
+ <20220707213204.2605816-2-dmitry.baryshkov@linaro.org>
+ <CAE-0n53zV2OjXxjJ_AwCDcAZvOY+BU0-xipxQkup3muHMRCPXA@mail.gmail.com>
+ <b8ee5a03-1168-d5ca-97fe-f82a9d7e453e@linaro.org>
+ <CAE-0n52YGDOSZpL+3d=_APsOwVvrJG7uR-x1AcsBej5KrDct5w@mail.gmail.com>
+ <eb22ae44-b347-1566-939a-4ca840688f07@quicinc.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <eb22ae44-b347-1566-939a-4ca840688f07@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,97 +73,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 7/8/22 20:21, Geert Uytterhoeven wrote:
-> Extract the code to check for a named mode parameter into its own
-> function, to streamline the main parsing flow.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
->  drivers/gpu/drm/drm_modes.c | 41 +++++++++++++++++++++++++++----------
->  1 file changed, 30 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 30a7be97707bfb16..434383469e9d984d 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -1749,6 +1749,30 @@ static const char * const drm_named_modes_whitelist[] = {
->  	"PAL",
->  };
->  
-> +static int drm_mode_parse_cmdline_named_mode(const char *name,
-> +					     unsigned int length,
-> +					     bool refresh,
-> +					     struct drm_cmdline_mode *mode)
-> +{
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> +		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
-> +		if (!ret)
+On 7/8/2022 12:38 PM, Abhinav Kumar wrote:
+> + kuogee
+>
+> On 7/8/2022 12:27 PM, Stephen Boyd wrote:
+>> Quoting Dmitry Baryshkov (2022-07-07 20:46:43)
+>>> On 08/07/2022 04:28, Stephen Boyd wrote:
+>>>> Quoting Dmitry Baryshkov (2022-07-07 14:31:56)
+>>>>> The p1 region was probably added by mistake, none of the DTS files
+>>>>> provides one (and the driver source code also doesn't use one). 
+>>>>> Drop it
+>>>>> now.
+>>>>
+>>>> Yes, looks like the driver doesn't use it.
+>>>>
+>>>>>
+>>>>> Fixes: 687825c402f1 ("dt-bindings: msm/dp: Change reg definition")
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>>> Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 
+>>>>> 1 -
+>>>>>    1 file changed, 1 deletion(-)
+>>>>>
+>>>>> diff --git 
+>>>>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml 
+>>>>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>>>> index 94bc6e1b6451..d6bbe58ef9e8 100644
+>>>>> --- 
+>>>>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>>>> +++ 
+>>>>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>>>> @@ -29,7 +29,6 @@ properties:
+>>>>>          - description: aux register block
+>>>>>          - description: link register block
+>>>>>          - description: p0 register block
+>>>>> -      - description: p1 register block
+>>>>
+>>>> The p1 registers exist on sc7180. They start where the example starts,
+>>>> at 0xae91400.
+>>>
+>>> Do they exist on e.g. sc7280? In other words, should we add the region
+>>> to the DTS? For now I'm going to mark it as optional.
+>>>
+>>
+>> Yes I see the same address for P1 on sc7280. Maybe it's a typo? Abhinav,
+>> can you confirm?
+>
+> P1 block does exist on sc7280 and yes its address is same as the 
+> address mentioned in sc7180. So its not a typo.
+>
+> Yes, we are not programming this today but I would prefer to keep this 
+> as optional.
+>
+> I did sync up with Kuogee on this change this morning, we will check a 
+> few things internally on the P1 block's usage as to which use-cases we 
+> need to program it for and update here.
+>
+P1 block is for dp MST application.  This allow two dp streams can be 
+mux into same DP phy.
 
-As discussed in my review of 1/5 this needs to become:
+We should keep it since we may support MST later.
 
-		if (ret != length)
-> +			continue;
-
-Which renders my other comment on this patch (length not being used) mute.
-
-Regards,
-
-Hans
-
-> +
-> +		if (refresh)
-> +			return -EINVAL; /* named + refresh is invalid */
-> +
-> +		strcpy(mode->name, drm_named_modes_whitelist[i]);
-> +		mode->specified = true;
-> +		return 0;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * drm_mode_parse_command_line_for_connector - parse command line modeline for connector
->   * @mode_option: optional per connector mode option
-> @@ -1785,7 +1809,7 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
->  	const char *bpp_ptr = NULL, *refresh_ptr = NULL, *extra_ptr = NULL;
->  	const char *options_ptr = NULL;
->  	char *bpp_end_ptr = NULL, *refresh_end_ptr = NULL;
-> -	int i, len, ret;
-> +	int len, ret;
->  
->  	memset(mode, 0, sizeof(*mode));
->  	mode->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-> @@ -1823,16 +1847,11 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
->  	}
->  
->  	/* First check for a named mode */
-> -	for (i = 0; mode_end && i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> -		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
-> -		if (ret) {
-> -			if (refresh_ptr)
-> -				return false; /* named + refresh is invalid */
-> -
-> -			strcpy(mode->name, drm_named_modes_whitelist[i]);
-> -			mode->specified = true;
-> -			break;
-> -		}
-> +	if (mode_end) {
-> +		ret = drm_mode_parse_cmdline_named_mode(name, mode_end,
-> +							refresh_ptr, mode);
-> +		if (ret)
-> +			return false;
->  	}
->  
->  	/* No named mode? Check for a normal mode argument, e.g. 1024x768 */
-
+> The idea behind having this register space listed in the yaml is thats 
+> how the software documents have the blocks listed so dropping P1 block 
+> just because its unused seemed wrong to me. Optional seems more 
+> appropriate.
+>
+> Thanks
+>
+> Abhinav
