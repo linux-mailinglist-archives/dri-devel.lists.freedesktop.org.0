@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FCD56B6DD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B573856B6DC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 12:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56051138B5;
-	Fri,  8 Jul 2022 09:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD831138B7;
+	Fri,  8 Jul 2022 09:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
  [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A04E1138B5
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:59:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CDA1138BA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:59:40 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 2ECE332009D0;
- Fri,  8 Jul 2022 05:59:36 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id E0A7C32009CA;
+ Fri,  8 Jul 2022 05:59:38 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 08 Jul 2022 05:59:36 -0400
+ by compute4.internal (MEProxy); Fri, 08 Jul 2022 05:59:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657274375; x=1657360775; bh=sb
- a5PzDP+J8k8Lo2f5odJ2lk/8LYYlMABKNOH5ANJWw=; b=jTngp+4uZXWC4sF5kD
- XsTNCU9BIGmoIde84glykcHD9brwlgG7N5+lDCntPbf9+NjUDj8sxuwgBVB4habJ
- M04YZPMQwH1BaOzjKOnO06fOPklMBpRlAEGoHlzLauYfJV14dT8aICGgkkZN8XEo
- PpwQfhYKl/W1LS9uyc3V+Tn6qECaYRCFP0jWOpOzu6l7LZZpGBuCm2ahli45ZL9Y
- lUFSOFxp4NWwwbJjdm5zt96AnLNv6wEFbFD2H8nNq2sgzf8GAU2KBlgEam3vqqda
- aS1lN16Rl17hVMN//aUKI5Hnov7Q5Rfg8ifMT9tfM6UvLkIrJaa+hsAjWnMSuWyl
- WS0A==
+ :subject:subject:to:to; s=fm2; t=1657274378; x=1657360778; bh=kW
+ 4lqq+LnFUibttzUI04gh6WR+RRTgJCgPAjjmiSa5Q=; b=Z7FRdRMfDKOnzhBQY/
+ XtuchDhQnP4SdmEngr2r+U//zS83DQVnLGWXPXTBEtWffEZBbMFXxOzhd68Ill97
+ 9WauFjdgePyElcPYsBqkY/A1TdDvz6gRPTY/Abm4XoyrasCAihNw9Be6+JPnSiYK
+ hxENziwXQ4WdCCo9VBz19tK0SGIjUVgHVDYN2evvKuvd4uqhiHrn3jVP8EeIZ9Cj
+ 5EcVWDg01HCIQj37C2fUUUBg6v+UVpBoYWcDL9tRo1OgxKyNUvYPFris+/8O131f
+ gv50vpuSgH+9my6VSJWvmYZwFAKHEUkuoywt1vAvfmsSzFmtIB+e3R5gpsYZkGtN
+ veKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657274375; x=1657360775; bh=sba5PzDP+J8k8
- Lo2f5odJ2lk/8LYYlMABKNOH5ANJWw=; b=gyUSupM9phYA2dByFtJP5CYLlKNXH
- P6NYh954TDLBj3XHYLiaPrleNrLPOapBt+Ub+08dXwpny809cIqtncCoQZ5pvXI9
- E9VCiQnpMyP3k0t4Mn0Lj738/ahHuvHxlQd1hfGg6NP6SzEnbSmDFmCgOPO1Q7jf
- Ql97yGsC12+kbWF3RmRbcxnwN+NH0Ev+oHfKuyOEEBYCLfSllLZoyFQ98PUKXUul
- 3aW3HcRuK2F/BkVxxYyjxnT9DvAh9YKHu7Aub2lsdWYB28STqtOt6cliQrytWqTW
- VTuVmHaa+5NkPF7pTJr5CcFm6Xw41ZtTckeHqqvi7fjhESJ/JpaYC2hpA==
-X-ME-Sender: <xms:BwDIYg-XapRe8RzN_yIiGttub9t4WaWHrUElpMaWVO-AC4ZGf_GkHA>
- <xme:BwDIYovn44CTzUdniwPNf4H6irhA0kdD0yLd3qTrlOsDj6pjKD3lf1t3aK7R7I2zl
- RNFMLmmfcliFobCUhE>
-X-ME-Received: <xmr:BwDIYmDQlJg6Kk9zZ7lMQt2zXe-8jyOB_rFa-teqH5-u6Fyj9z8V1_ynipzHtki197kqyhfPdaNsomGwXDCNI8M4zW8zcYmdj-7mNKo>
+ :x-sasl-enc; s=fm3; t=1657274378; x=1657360778; bh=kW4lqq+LnFUib
+ ttzUI04gh6WR+RRTgJCgPAjjmiSa5Q=; b=g/PqpHIJpdSZnKQowjXYqZEwUGL3A
+ DEaCXO6FeQT2ttXiqaP/E8IURlzGZSJ/NuvwF+flY/Ue8hoRw0RWQv/6SwDzcK8H
+ +GXfnlRxss3CQXW2+aJERZBegjqA2Mn5nBuW7Eq+2jvEU+izWVAoP9Aljw+Pta37
+ N/pFdM6+DQ/fyJjLYc+MW4q7eCdZJ0nORrYeyO1V//NezuJS6TCPreEKlQIKD/1j
+ nY9gRqN5vZ+EO4heKfgavI+lfSAlLDiu6Wqvmgd2AyyovzO3ufFy4m1aEUniq2x3
+ r8w6V2mPiMdnlFIJ8BcDdsDAP6xXYxqqI4IUZ/KtinvqWDe4xxuBZ+ZxA==
+X-ME-Sender: <xms:CgDIYtbkKI8h0_bABvKTtruNfpNAIv1YXIz5wc0yW8EbyQQcHGwB6g>
+ <xme:CgDIYkbPP4Nn1ejXwSGH6cohgz4wBsuCinLMg6qL5QR3FwkIvGz13oKIWVOMIQW-D
+ Hj9GJJDIb_wBkdXql8>
+X-ME-Received: <xmr:CgDIYv98TPbcCZDONU1fVRdePoOXybX5JYIaXPCyCU1MoGqUUnok3zdo72huV-AJV2KKuyueitujwVLALohvGPXe6YmBjff3dsRIlow>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeijedgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeduvdenucfrrghrrghmpehmrghilhhfrhhomh
+ vdejhfenucevlhhushhtvghrufhiiigvpedufeenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:BwDIYgdl9kdK6lEXB7ovOsLi9rSktVTY6mP3XwRoYSE01-XODDT2eQ>
- <xmx:BwDIYlMSZXMCrVUlVwqRgv9Istbrf8LmpPi-nmUqOkiLSPMXD_IovQ>
- <xmx:BwDIYqn76U_VI2UItiwzLZpYG1nvR30ZB4y36uGkoSUObOCJODxXBQ>
- <xmx:BwDIYqpRzIq51paBneSX3uprPqQ_AC5RagzLhLtk5-1dbjUtuEtBUA>
+X-ME-Proxy: <xmx:CgDIYrq-1TiFF_KepNgRJIqsAl_mZR1HxCdUIpGL4GAnnlFEgFDptA>
+ <xmx:CgDIYooVGZhuZucuJTLManMdf8oG00UvVPpOHNXI87ma7UfvSafrpQ>
+ <xmx:CgDIYhTEJlSeNkuj9GcmyGhQcjZs5ZcX3mZQ3x8dDKds-UhumUzQ2A>
+ <xmx:CgDIYhmM_UHi9Q6KCsiFSfRlDsZEDbsR_YIJAIVbwWCAUaFLM0D-bQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Jul 2022 05:59:35 -0400 (EDT)
+ 8 Jul 2022 05:59:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4 49/69] drm/vc4: txp: Remove vc4_dev txp pointer
-Date: Fri,  8 Jul 2022 11:56:47 +0200
-Message-Id: <20220708095707.257937-50-maxime@cerno.tech>
+Subject: [PATCH v4 50/69] drm/vc4: txp: Remove duplicate regset
+Date: Fri,  8 Jul 2022 11:56:48 +0200
+Message-Id: <20220708095707.257937-51-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220708095707.257937-1-maxime@cerno.tech>
 References: <20220708095707.257937-1-maxime@cerno.tech>
@@ -88,61 +88,49 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no user for that pointer so let's just get rid of it.
+There's already a regset in the vc4_crtc structure so there's no need to
+duplicate it in vc4_txp.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h | 1 -
- drivers/gpu/drm/vc4/vc4_txp.c | 6 ------
- 2 files changed, 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_txp.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 835d286c2802..0eb5f8a669fe 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -85,7 +85,6 @@ struct vc4_dev {
- 	struct vc4_hvs *hvs;
- 	struct vc4_v3d *v3d;
- 	struct vc4_vec *vec;
--	struct vc4_txp *txp;
- 
- 	struct vc4_hang_state *hang_state;
- 
 diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 448d48e7e99f..483a03a07ed2 100644
+index 483a03a07ed2..19e37924ce77 100644
 --- a/drivers/gpu/drm/vc4/vc4_txp.c
 +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -469,7 +469,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct drm_device *drm = dev_get_drvdata(master);
--	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_crtc *vc4_crtc;
- 	struct vc4_txp *txp;
- 	struct drm_crtc *crtc;
-@@ -523,7 +522,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
+@@ -155,7 +155,6 @@ struct vc4_txp {
+ 	struct drm_writeback_connector connector;
+ 
+ 	void __iomem *regs;
+-	struct debugfs_regset32 regset;
+ };
+ 
+ static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+@@ -494,9 +493,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	txp->regs = vc4_ioremap_regs(pdev, 0);
+ 	if (IS_ERR(txp->regs))
+ 		return PTR_ERR(txp->regs);
+-	txp->regset.base = txp->regs;
+-	txp->regset.regs = txp_regs;
+-	txp->regset.nregs = ARRAY_SIZE(txp_regs);
++	vc4_crtc->regset.base = txp->regs;
++	vc4_crtc->regset.regs = txp_regs;
++	vc4_crtc->regset.nregs = ARRAY_SIZE(txp_regs);
+ 
+ 	drm_connector_helper_add(&txp->connector.base,
+ 				 &vc4_txp_connector_helper_funcs);
+@@ -523,7 +522,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
  
  	dev_set_drvdata(dev, txp);
--	vc4->txp = txp;
  
- 	vc4_debugfs_add_regset32(drm, "txp_regs", &txp->regset);
+-	vc4_debugfs_add_regset32(drm, "txp_regs", &txp->regset);
++	vc4_debugfs_add_regset32(drm, "txp_regs", &vc4_crtc->regset);
  
-@@ -533,13 +531,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- static void vc4_txp_unbind(struct device *dev, struct device *master,
- 			   void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_txp *txp = dev_get_drvdata(dev);
- 
- 	vc4_txp_connector_destroy(&txp->connector.base);
--
--	vc4->txp = NULL;
+ 	return 0;
  }
- 
- static const struct component_ops vc4_txp_ops = {
 -- 
 2.36.1
 
