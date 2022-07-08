@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673BD56BA94
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 15:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110E756BA96
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 15:23:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49F81112168;
-	Fri,  8 Jul 2022 13:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89B8113320;
+	Fri,  8 Jul 2022 13:23:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23315112778;
- Fri,  8 Jul 2022 13:23:29 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2E9711324D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 13:23:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657286609; x=1688822609;
+ t=1657286634; x=1688822634;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=q20/o8OUZqAVs3+xKBc+3RPcUwgNgC2ZTobv1ZDYEPY=;
- b=ITmbO2Ahk5y8KoZgJeYNZ2yyLwwQhlumflk8Uj9EmMg9ohMUVfY6x49m
- EiMC+Yagb1N+D2MQJ+Y6tKsBy1r4OB7o6Jb1DMvbzeTbZPGpXq+uCbfLe
- QsExM3kHQziF7DrKdNrVhTHNV1FzMnfJJL/fCGjdV7YL1CsWNZDFw7GBX
- Lc/9K15jtAYWh0kSDCTwF5irtoFX9HGQADfBRlOopKhNy7/A6A3YBV5QN
- z11rLGWCcg3zo9e82BykHyIrP8SDaPxDeK3eQF/ubtaOAMSBfY5QEs5IX
- O+XAkwl1XdH5b6zQtKxVZniFflsj1PfiDbmeQQtdsFT9bGZS4tPd9pOU6 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="370591653"
-X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; d="scan'208";a="370591653"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2022 06:23:28 -0700
-X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; d="scan'208";a="621214661"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2022 06:23:27 -0700
-Date: Fri, 8 Jul 2022 06:23:09 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [RFC 03/10] drm/i915/vm_bind: Support private and shared BOs
-Message-ID: <20220708132307.GV14039@nvishwa1-DESK>
-References: <20220701225055.8204-1-niranjana.vishwanathapura@intel.com>
- <20220701225055.8204-4-niranjana.vishwanathapura@intel.com>
- <13a5c5ba-8860-512e-5e92-3f30beca2dc3@amd.com>
+ mime-version:in-reply-to;
+ bh=oYhBSaiW1UBg6AWLFa9PNoYfdaB2PrXd0fUmsivGyyY=;
+ b=J2RESHLtbVQpqL2+uzdFCCZHXg02H7XW8tcHMZ0kGo/fJ4IXvCHzEfw3
+ y5S/ZfHbIItlkdyqwnSpREeiOK9j4tfIQiXGjxc9Hq/CtCjmB988Juq+F
+ aki7w8RkIm5xlSA5AoJCyvaxxD3y/YPFVE6U5gozqaKHEdbYz3Gxfe/TM
+ 2J1I6IzOSk/3x1kCi+geMffxMsyQm6oqaSvzedAAXm/L0Dqi2gZPPypta
+ JxM5Q+WU2oPT5ymUBaiUH2azh7qpn17vPuNLKpyqQT3NT69X8eGTydKbJ
+ fWMpxStL1/wyAyQ16+ooQzW/pE98WkAYhfGQII57etKUVSxIVOlbNoM2l g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="348262604"
+X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; d="scan'208";a="348262604"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2022 06:23:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; d="scan'208";a="594118872"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+ by orsmga002.jf.intel.com with ESMTP; 08 Jul 2022 06:23:50 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o9nxV-000NWE-Rw;
+ Fri, 08 Jul 2022 13:23:49 +0000
+Date: Fri, 8 Jul 2022 21:23:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, deller@gmx.de,
+ manoj@linux.ibm.com, mrochs@linux.ibm.com, ukrishn@linux.ibm.com,
+ jejb@linux.ibm.com, martin.petersen@oracle.com, tzimmermann@suse.de
+Subject: Re: [PATCH v3 3/4] powerpc: Remove asm/prom.h from asm/mpc52xx.h and
+ asm/pci.h
+Message-ID: <202207082135.sstYWd2x-lkp@intel.com>
+References: <cf5243343e2364c2b40f22ee5ad9a6e2453d1121.1657264228.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <13a5c5ba-8860-512e-5e92-3f30beca2dc3@amd.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <cf5243343e2364c2b40f22ee5ad9a6e2453d1121.1657264228.git.christophe.leroy@csgroup.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,336 +63,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- intel-gfx@lists.freedesktop.org, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, dri-devel@lists.freedesktop.org,
- jason@jlekstrand.net, daniel.vetter@intel.com, matthew.auld@intel.com
+Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
+ linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ dri-devel@lists.freedesktop.org, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 07, 2022 at 03:27:43PM +0200, Christian König wrote:
->Am 02.07.22 um 00:50 schrieb Niranjana Vishwanathapura:
->>Add uapi allowing user to specify a BO as private to a specified VM
->>during the BO creation.
->>VM private BOs can only be mapped on the specified VM and can't be
->>dma_buf exported. VM private BOs share a single common dma_resv object,
->>hence has a performance advantage requiring a single dma_resv object
->>update in the execbuf path compared to non-private (shared) BOs.
->
->Sounds like you picked up the per VM BO idea from amdgpu here :)
->
->Of hand looks like a good idea, but shouldn't we add a few comments in 
->the common documentation about that?
->
->E.g. something like "Multiple buffer objects sometimes share the same 
->dma_resv object....." to the dma_resv documentation.
->
->Probably best as a separate patch after this here has landed.
+Hi Christophe,
 
-:)
-Sounds good. Probably we need to update documentation of
-drm_gem_object.resv and drm_gem_object._resv here, right?
+I love your patch! Yet something to improve:
 
-Doing it in a separate patch after this series lands sounds good to me.
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on mkp-scsi/for-next linus/master v5.19-rc5 next-20220708]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-Niranjana
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/video-fbdev-offb-Include-missing-linux-platform_device-h/20220708-151246
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+config: powerpc-randconfig-m031-20220708 (https://download.01.org/0day-ci/archive/20220708/202207082135.sstYWd2x-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e04280406bcc48b3e940fdd770fa9a7c62185e02
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christophe-Leroy/video-fbdev-offb-Include-missing-linux-platform_device-h/20220708-151246
+        git checkout e04280406bcc48b3e940fdd770fa9a7c62185e02
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/edac/
 
->
->Regards,
->Christian.
->
->>
->>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->>---
->>  drivers/gpu/drm/i915/gem/i915_gem_create.c    | 41 ++++++++++++++++++-
->>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  6 +++
->>  .../gpu/drm/i915/gem/i915_gem_object_types.h  |  3 ++
->>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  3 ++
->>  drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   | 11 +++++
->>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  9 ++++
->>  drivers/gpu/drm/i915/gt/intel_gtt.c           |  4 ++
->>  drivers/gpu/drm/i915/gt/intel_gtt.h           |  2 +
->>  drivers/gpu/drm/i915/i915_vma.c               |  1 +
->>  drivers/gpu/drm/i915/i915_vma_types.h         |  2 +
->>  include/uapi/drm/i915_drm.h                   | 30 ++++++++++++++
->>  11 files changed, 110 insertions(+), 2 deletions(-)
->>
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>index 927a87e5ec59..7e264566b51f 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>@@ -11,6 +11,7 @@
->>  #include "pxp/intel_pxp.h"
->>  #include "i915_drv.h"
->>+#include "i915_gem_context.h"
->>  #include "i915_gem_create.h"
->>  #include "i915_trace.h"
->>  #include "i915_user_extensions.h"
->>@@ -243,6 +244,7 @@ struct create_ext {
->>  	unsigned int n_placements;
->>  	unsigned int placement_mask;
->>  	unsigned long flags;
->>+	u32 vm_id;
->>  };
->>  static void repr_placements(char *buf, size_t size,
->>@@ -392,9 +394,24 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
->>  	return 0;
->>  }
->>+static int ext_set_vm_private(struct i915_user_extension __user *base,
->>+			      void *data)
->>+{
->>+	struct drm_i915_gem_create_ext_vm_private ext;
->>+	struct create_ext *ext_data = data;
->>+
->>+	if (copy_from_user(&ext, base, sizeof(ext)))
->>+		return -EFAULT;
->>+
->>+	ext_data->vm_id = ext.vm_id;
->>+
->>+	return 0;
->>+}
->>+
->>  static const i915_user_extension_fn create_extensions[] = {
->>  	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
->>  	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
->>+	[I915_GEM_CREATE_EXT_VM_PRIVATE] = ext_set_vm_private,
->>  };
->>  /**
->>@@ -410,6 +427,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
->>  	struct drm_i915_private *i915 = to_i915(dev);
->>  	struct drm_i915_gem_create_ext *args = data;
->>  	struct create_ext ext_data = { .i915 = i915 };
->>+	struct i915_address_space *vm = NULL;
->>  	struct drm_i915_gem_object *obj;
->>  	int ret;
->>@@ -423,6 +441,12 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
->>  	if (ret)
->>  		return ret;
->>+	if (ext_data.vm_id) {
->>+		vm = i915_gem_vm_lookup(file->driver_priv, ext_data.vm_id);
->>+		if (unlikely(!vm))
->>+			return -ENOENT;
->>+	}
->>+
->>  	if (!ext_data.n_placements) {
->>  		ext_data.placements[0] =
->>  			intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
->>@@ -449,8 +473,21 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
->>  						ext_data.placements,
->>  						ext_data.n_placements,
->>  						ext_data.flags);
->>-	if (IS_ERR(obj))
->>-		return PTR_ERR(obj);
->>+	if (IS_ERR(obj)) {
->>+		ret = PTR_ERR(obj);
->>+		goto vm_put;
->>+	}
->>+
->>+	if (vm) {
->>+		obj->base.resv = vm->root_obj->base.resv;
->>+		obj->priv_root = i915_gem_object_get(vm->root_obj);
->>+		i915_vm_put(vm);
->>+	}
->>  	return i915_gem_publish(obj, file, &args->size, &args->handle);
->>+vm_put:
->>+	if (vm)
->>+		i915_vm_put(vm);
->>+
->>+	return ret;
->>  }
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->>index f5062d0c6333..6433173c3e84 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->>@@ -218,6 +218,12 @@ struct dma_buf *i915_gem_prime_export(struct drm_gem_object *gem_obj, int flags)
->>  	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
->>  	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->>+	if (obj->priv_root) {
->>+		drm_dbg(obj->base.dev,
->>+			"Exporting VM private objects is not allowed\n");
->>+		return ERR_PTR(-EINVAL);
->>+	}
->>+
->>  	exp_info.ops = &i915_dmabuf_ops;
->>  	exp_info.size = gem_obj->size;
->>  	exp_info.flags = flags;
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>index 5cf36a130061..9fe3395ad4d9 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>@@ -241,6 +241,9 @@ struct drm_i915_gem_object {
->>  	const struct drm_i915_gem_object_ops *ops;
->>+	/* Shared root is object private to a VM; NULL otherwise */
->>+	struct drm_i915_gem_object *priv_root;
->>+
->>  	struct {
->>  		/**
->>  		 * @vma.lock: protect the list/tree of vmas
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>index 7e1f8b83077f..f1912b12db00 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>@@ -1152,6 +1152,9 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
->>  	i915_gem_object_release_memory_region(obj);
->>  	mutex_destroy(&obj->ttm.get_io_page.lock);
->>+	if (obj->priv_root)
->>+		i915_gem_object_put(obj->priv_root);
->>+
->>  	if (obj->ttm.created) {
->>  		/*
->>  		 * We freely manage the shrinker LRU outide of the mm.pages life
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->>index 642cdb559f17..ee6e4c52e80e 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
->>@@ -26,6 +26,17 @@ static inline void i915_gem_vm_bind_unlock(struct i915_address_space *vm)
->>  	mutex_unlock(&vm->vm_bind_lock);
->>  }
->>+static inline int i915_gem_vm_priv_lock(struct i915_address_space *vm,
->>+					struct i915_gem_ww_ctx *ww)
->>+{
->>+	return i915_gem_object_lock(vm->root_obj, ww);
->>+}
->>+
->>+static inline void i915_gem_vm_priv_unlock(struct i915_address_space *vm)
->>+{
->>+	i915_gem_object_unlock(vm->root_obj);
->>+}
->>+
->>  struct i915_vma *
->>  i915_gem_vm_bind_lookup_vma(struct i915_address_space *vm, u64 va);
->>  void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj);
->>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>index 43ceb4dcca6c..3201204c8e74 100644
->>--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
->>@@ -85,6 +85,7 @@ void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
->>  	if (!list_empty(&vma->vm_bind_link)) {
->>  		list_del_init(&vma->vm_bind_link);
->>+		list_del_init(&vma->non_priv_vm_bind_link);
->>  		i915_vm_bind_it_remove(vma, &vma->vm->va);
->>  		/* Release object */
->>@@ -185,6 +186,11 @@ int i915_gem_vm_bind_obj(struct i915_address_space *vm,
->>  		goto put_obj;
->>  	}
->>+	if (obj->priv_root && obj->priv_root != vm->root_obj) {
->>+		ret = -EINVAL;
->>+		goto put_obj;
->>+	}
->>+
->>  	ret = i915_gem_vm_bind_lock_interruptible(vm);
->>  	if (ret)
->>  		goto put_obj;
->>@@ -211,6 +217,9 @@ int i915_gem_vm_bind_obj(struct i915_address_space *vm,
->>  	list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
->>  	i915_vm_bind_it_insert(vma, &vm->va);
->>+	if (!obj->priv_root)
->>+		list_add_tail(&vma->non_priv_vm_bind_link,
->>+			      &vm->non_priv_vm_bind_list);
->>  	/* Hold object reference until vm_unbind */
->>  	i915_gem_object_get(vma->obj);
->>diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>index 135dc4a76724..df0a8459c3c6 100644
->>--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->>+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>@@ -176,6 +176,7 @@ int i915_vm_lock_objects(struct i915_address_space *vm,
->>  void i915_address_space_fini(struct i915_address_space *vm)
->>  {
->>  	drm_mm_takedown(&vm->mm);
->>+	i915_gem_object_put(vm->root_obj);
->>  	GEM_BUG_ON(!RB_EMPTY_ROOT(&vm->va.rb_root));
->>  	mutex_destroy(&vm->vm_bind_lock);
->>  }
->>@@ -289,6 +290,9 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
->>  	INIT_LIST_HEAD(&vm->vm_bind_list);
->>  	INIT_LIST_HEAD(&vm->vm_bound_list);
->>  	mutex_init(&vm->vm_bind_lock);
->>+	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
->>+	vm->root_obj = i915_gem_object_create_internal(vm->i915, PAGE_SIZE);
->>+	GEM_BUG_ON(IS_ERR(vm->root_obj));
->>  }
->>  void *__px_vaddr(struct drm_i915_gem_object *p)
->>diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>index d4a6ce65251d..f538ce9115c9 100644
->>--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
->>+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>@@ -267,6 +267,8 @@ struct i915_address_space {
->>  	struct list_head vm_bound_list;
->>  	/* va tree of persistent vmas */
->>  	struct rb_root_cached va;
->>+	struct list_head non_priv_vm_bind_list;
->>+	struct drm_i915_gem_object *root_obj;
->>  	/* Global GTT */
->>  	bool is_ggtt:1;
->>diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
->>index d324e29cef0a..f0226581d342 100644
->>--- a/drivers/gpu/drm/i915/i915_vma.c
->>+++ b/drivers/gpu/drm/i915/i915_vma.c
->>@@ -236,6 +236,7 @@ vma_create(struct drm_i915_gem_object *obj,
->>  	mutex_unlock(&vm->mutex);
->>  	INIT_LIST_HEAD(&vma->vm_bind_link);
->>+	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
->>  	return vma;
->>  err_unlock:
->>diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
->>index b6d179bdbfa0..2298b3d6b7c4 100644
->>--- a/drivers/gpu/drm/i915/i915_vma_types.h
->>+++ b/drivers/gpu/drm/i915/i915_vma_types.h
->>@@ -290,6 +290,8 @@ struct i915_vma {
->>  	struct list_head vm_link;
->>  	struct list_head vm_bind_link; /* Link in persistent VMA list */
->>+	/* Link in non-private persistent VMA list */
->>+	struct list_head non_priv_vm_bind_link;
->>  	/** Interval tree structures for persistent vma */
->>  	struct rb_node rb;
->>diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>index 26cca49717f8..ce1c6592b0d7 100644
->>--- a/include/uapi/drm/i915_drm.h
->>+++ b/include/uapi/drm/i915_drm.h
->>@@ -3542,9 +3542,13 @@ struct drm_i915_gem_create_ext {
->>  	 *
->>  	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
->>  	 * struct drm_i915_gem_create_ext_protected_content.
->>+	 *
->>+	 * For I915_GEM_CREATE_EXT_VM_PRIVATE usage see
->>+	 * struct drm_i915_gem_create_ext_vm_private.
->>  	 */
->>  #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
->>  #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->>+#define I915_GEM_CREATE_EXT_VM_PRIVATE 2
->>  	__u64 extensions;
->>  };
->>@@ -3662,6 +3666,32 @@ struct drm_i915_gem_create_ext_protected_content {
->>  /* ID of the protected content session managed by i915 when PXP is active */
->>  #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
->>+/**
->>+ * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
->>+ * private to the specified VM.
->>+ *
->>+ * See struct drm_i915_gem_create_ext.
->>+ *
->>+ * By default, BOs can be mapped on multiple VMs and can also be dma-buf
->>+ * exported. Hence these BOs are referred to as Shared BOs.
->>+ * During each execbuf3 submission, the request fence must be added to the
->>+ * dma-resv fence list of all shared BOs mapped on the VM.
->>+ *
->>+ * Unlike Shared BOs, these VM private BOs can only be mapped on the VM they
->>+ * are private to and can't be dma-buf exported. All private BOs of a VM share
->>+ * the dma-resv object. Hence during each execbuf3 submission, they need only
->>+ * one dma-resv fence list updated. Thus, the fast path (where required
->>+ * mappings are already bound) submission latency is O(1) w.r.t the number of
->>+ * VM private BOs.
->>+ */
->>+struct drm_i915_gem_create_ext_vm_private {
->>+	/** @base: Extension link. See struct i915_user_extension. */
->>+	struct i915_user_extension base;
->>+
->>+	/** @vm_id: Id of the VM to which the object is private */
->>+	__u32 vm_id;
->>+};
->>+
->>  /**
->>   * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
->>   *
->
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/edac/mpc85xx_edac.c: In function 'mpc85xx_l2_err_probe':
+>> drivers/edac/mpc85xx_edac.c:514:15: error: implicit declaration of function 'of_address_to_resource' [-Werror=implicit-function-declaration]
+     514 |         res = of_address_to_resource(op->dev.of_node, 0, &r);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/edac/mpc85xx_edac.c:559:30: error: implicit declaration of function 'irq_of_parse_and_map' [-Werror=implicit-function-declaration]
+     559 |                 pdata->irq = irq_of_parse_and_map(op->dev.of_node, 0);
+         |                              ^~~~~~~~~~~~~~~~~~~~
+>> drivers/edac/mpc85xx_edac.c:566:25: error: implicit declaration of function 'irq_dispose_mapping' [-Werror=implicit-function-declaration]
+     566 |                         irq_dispose_mapping(pdata->irq);
+         |                         ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/of_address_to_resource +514 drivers/edac/mpc85xx_edac.c
+
+a9a753d53204bf Dave Jiang         2008-02-07  488  
+9b3c6e85c2cfa7 Greg Kroah-Hartman 2012-12-21  489  static int mpc85xx_l2_err_probe(struct platform_device *op)
+a9a753d53204bf Dave Jiang         2008-02-07  490  {
+a9a753d53204bf Dave Jiang         2008-02-07  491  	struct edac_device_ctl_info *edac_dev;
+a9a753d53204bf Dave Jiang         2008-02-07  492  	struct mpc85xx_l2_pdata *pdata;
+a9a753d53204bf Dave Jiang         2008-02-07  493  	struct resource r;
+a9a753d53204bf Dave Jiang         2008-02-07  494  	int res;
+a9a753d53204bf Dave Jiang         2008-02-07  495  
+a9a753d53204bf Dave Jiang         2008-02-07  496  	if (!devres_open_group(&op->dev, mpc85xx_l2_err_probe, GFP_KERNEL))
+a9a753d53204bf Dave Jiang         2008-02-07  497  		return -ENOMEM;
+a9a753d53204bf Dave Jiang         2008-02-07  498  
+a9a753d53204bf Dave Jiang         2008-02-07  499  	edac_dev = edac_device_alloc_ctl_info(sizeof(*pdata),
+a9a753d53204bf Dave Jiang         2008-02-07  500  					      "cpu", 1, "L", 1, 2, NULL, 0,
+a9a753d53204bf Dave Jiang         2008-02-07  501  					      edac_dev_idx);
+a9a753d53204bf Dave Jiang         2008-02-07  502  	if (!edac_dev) {
+a9a753d53204bf Dave Jiang         2008-02-07  503  		devres_release_group(&op->dev, mpc85xx_l2_err_probe);
+a9a753d53204bf Dave Jiang         2008-02-07  504  		return -ENOMEM;
+a9a753d53204bf Dave Jiang         2008-02-07  505  	}
+a9a753d53204bf Dave Jiang         2008-02-07  506  
+a9a753d53204bf Dave Jiang         2008-02-07  507  	pdata = edac_dev->pvt_info;
+a9a753d53204bf Dave Jiang         2008-02-07  508  	pdata->name = "mpc85xx_l2_err";
+a9a753d53204bf Dave Jiang         2008-02-07  509  	edac_dev->dev = &op->dev;
+a9a753d53204bf Dave Jiang         2008-02-07  510  	dev_set_drvdata(edac_dev->dev, edac_dev);
+a9a753d53204bf Dave Jiang         2008-02-07  511  	edac_dev->ctl_name = pdata->name;
+a9a753d53204bf Dave Jiang         2008-02-07  512  	edac_dev->dev_name = pdata->name;
+a9a753d53204bf Dave Jiang         2008-02-07  513  
+a26f95fed31d91 Anatolij Gustschin 2010-06-03 @514  	res = of_address_to_resource(op->dev.of_node, 0, &r);
+a9a753d53204bf Dave Jiang         2008-02-07  515  	if (res) {
+88857ebe7116b0 York Sun           2016-08-09  516  		pr_err("%s: Unable to get resource for L2 err regs\n", __func__);
+a9a753d53204bf Dave Jiang         2008-02-07  517  		goto err;
+a9a753d53204bf Dave Jiang         2008-02-07  518  	}
+a9a753d53204bf Dave Jiang         2008-02-07  519  
+a9a753d53204bf Dave Jiang         2008-02-07  520  	/* we only need the error registers */
+a9a753d53204bf Dave Jiang         2008-02-07  521  	r.start += 0xe00;
+a9a753d53204bf Dave Jiang         2008-02-07  522  
+28f65c11f2ffb3 Joe Perches        2011-06-09  523  	if (!devm_request_mem_region(&op->dev, r.start, resource_size(&r),
+28f65c11f2ffb3 Joe Perches        2011-06-09  524  				     pdata->name)) {
+88857ebe7116b0 York Sun           2016-08-09  525  		pr_err("%s: Error while requesting mem region\n", __func__);
+a9a753d53204bf Dave Jiang         2008-02-07  526  		res = -EBUSY;
+a9a753d53204bf Dave Jiang         2008-02-07  527  		goto err;
+a9a753d53204bf Dave Jiang         2008-02-07  528  	}
+a9a753d53204bf Dave Jiang         2008-02-07  529  
+28f65c11f2ffb3 Joe Perches        2011-06-09  530  	pdata->l2_vbase = devm_ioremap(&op->dev, r.start, resource_size(&r));
+a9a753d53204bf Dave Jiang         2008-02-07  531  	if (!pdata->l2_vbase) {
+88857ebe7116b0 York Sun           2016-08-09  532  		pr_err("%s: Unable to setup L2 err regs\n", __func__);
+a9a753d53204bf Dave Jiang         2008-02-07  533  		res = -ENOMEM;
+a9a753d53204bf Dave Jiang         2008-02-07  534  		goto err;
+a9a753d53204bf Dave Jiang         2008-02-07  535  	}
+a9a753d53204bf Dave Jiang         2008-02-07  536  
+a9a753d53204bf Dave Jiang         2008-02-07  537  	out_be32(pdata->l2_vbase + MPC85XX_L2_ERRDET, ~0);
+a9a753d53204bf Dave Jiang         2008-02-07  538  
+a9a753d53204bf Dave Jiang         2008-02-07  539  	orig_l2_err_disable = in_be32(pdata->l2_vbase + MPC85XX_L2_ERRDIS);
+a9a753d53204bf Dave Jiang         2008-02-07  540  
+a9a753d53204bf Dave Jiang         2008-02-07  541  	/* clear the err_dis */
+a9a753d53204bf Dave Jiang         2008-02-07  542  	out_be32(pdata->l2_vbase + MPC85XX_L2_ERRDIS, 0);
+a9a753d53204bf Dave Jiang         2008-02-07  543  
+a9a753d53204bf Dave Jiang         2008-02-07  544  	edac_dev->mod_name = EDAC_MOD_STR;
+a9a753d53204bf Dave Jiang         2008-02-07  545  
+a9a753d53204bf Dave Jiang         2008-02-07  546  	if (edac_op_state == EDAC_OPSTATE_POLL)
+a9a753d53204bf Dave Jiang         2008-02-07  547  		edac_dev->edac_check = mpc85xx_l2_check;
+a9a753d53204bf Dave Jiang         2008-02-07  548  
+a9a753d53204bf Dave Jiang         2008-02-07  549  	mpc85xx_set_l2_sysfs_attributes(edac_dev);
+a9a753d53204bf Dave Jiang         2008-02-07  550  
+a9a753d53204bf Dave Jiang         2008-02-07  551  	pdata->edac_idx = edac_dev_idx++;
+a9a753d53204bf Dave Jiang         2008-02-07  552  
+a9a753d53204bf Dave Jiang         2008-02-07  553  	if (edac_device_add_device(edac_dev) > 0) {
+956b9ba156dbfd Joe Perches        2012-04-29  554  		edac_dbg(3, "failed edac_device_add_device()\n");
+a9a753d53204bf Dave Jiang         2008-02-07  555  		goto err;
+a9a753d53204bf Dave Jiang         2008-02-07  556  	}
+a9a753d53204bf Dave Jiang         2008-02-07  557  
+a9a753d53204bf Dave Jiang         2008-02-07  558  	if (edac_op_state == EDAC_OPSTATE_INT) {
+a26f95fed31d91 Anatolij Gustschin 2010-06-03 @559  		pdata->irq = irq_of_parse_and_map(op->dev.of_node, 0);
+a9a753d53204bf Dave Jiang         2008-02-07  560  		res = devm_request_irq(&op->dev, pdata->irq,
+a18c3f16a907b8 Borislav Petkov    2014-09-30  561  				       mpc85xx_l2_isr, IRQF_SHARED,
+a9a753d53204bf Dave Jiang         2008-02-07  562  				       "[EDAC] L2 err", edac_dev);
+a9a753d53204bf Dave Jiang         2008-02-07  563  		if (res < 0) {
+88857ebe7116b0 York Sun           2016-08-09  564  			pr_err("%s: Unable to request irq %d for MPC85xx L2 err\n",
+88857ebe7116b0 York Sun           2016-08-09  565  				__func__, pdata->irq);
+a9a753d53204bf Dave Jiang         2008-02-07 @566  			irq_dispose_mapping(pdata->irq);
+a9a753d53204bf Dave Jiang         2008-02-07  567  			res = -ENODEV;
+a9a753d53204bf Dave Jiang         2008-02-07  568  			goto err2;
+a9a753d53204bf Dave Jiang         2008-02-07  569  		}
+a9a753d53204bf Dave Jiang         2008-02-07  570  
+88857ebe7116b0 York Sun           2016-08-09  571  		pr_info(EDAC_MOD_STR " acquired irq %d for L2 Err\n", pdata->irq);
+a9a753d53204bf Dave Jiang         2008-02-07  572  
+a9a753d53204bf Dave Jiang         2008-02-07  573  		edac_dev->op_state = OP_RUNNING_INTERRUPT;
+a9a753d53204bf Dave Jiang         2008-02-07  574  
+a9a753d53204bf Dave Jiang         2008-02-07  575  		out_be32(pdata->l2_vbase + MPC85XX_L2_ERRINTEN, L2_EIE_MASK);
+a9a753d53204bf Dave Jiang         2008-02-07  576  	}
+a9a753d53204bf Dave Jiang         2008-02-07  577  
+a9a753d53204bf Dave Jiang         2008-02-07  578  	devres_remove_group(&op->dev, mpc85xx_l2_err_probe);
+a9a753d53204bf Dave Jiang         2008-02-07  579  
+956b9ba156dbfd Joe Perches        2012-04-29  580  	edac_dbg(3, "success\n");
+88857ebe7116b0 York Sun           2016-08-09  581  	pr_info(EDAC_MOD_STR " L2 err registered\n");
+a9a753d53204bf Dave Jiang         2008-02-07  582  
+a9a753d53204bf Dave Jiang         2008-02-07  583  	return 0;
+a9a753d53204bf Dave Jiang         2008-02-07  584  
+a9a753d53204bf Dave Jiang         2008-02-07  585  err2:
+a9a753d53204bf Dave Jiang         2008-02-07  586  	edac_device_del_device(&op->dev);
+a9a753d53204bf Dave Jiang         2008-02-07  587  err:
+a9a753d53204bf Dave Jiang         2008-02-07  588  	devres_release_group(&op->dev, mpc85xx_l2_err_probe);
+a9a753d53204bf Dave Jiang         2008-02-07  589  	edac_device_free_ctl_info(edac_dev);
+a9a753d53204bf Dave Jiang         2008-02-07  590  	return res;
+a9a753d53204bf Dave Jiang         2008-02-07  591  }
+a9a753d53204bf Dave Jiang         2008-02-07  592  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
