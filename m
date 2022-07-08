@@ -2,36 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9910F56BEB9
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD61756BF59
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA5E10EC14;
-	Fri,  8 Jul 2022 18:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C069810E25B;
+	Fri,  8 Jul 2022 18:35:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDC410EC1D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:22:31 +0000 (UTC)
-Received: from ramsan.of.borg ([84.195.186.194])
- by laurent.telenet-ops.be with bizsmtp
- id siNW2700c4C55Sk01iNWyH; Fri, 08 Jul 2022 20:22:30 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1o9scY-002fP0-Fp; Fri, 08 Jul 2022 20:22:30 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1o9scX-00BtXe-Uq; Fri, 08 Jul 2022 20:22:29 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm] modetest: Add support for named modes containing dashes
-Date: Fri,  8 Jul 2022 20:22:26 +0200
-Message-Id: <509f0c272b2bf50c2bb937cf520d554ce970808e.1657302118.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE08310E25B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:35:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2C3E3B8292F;
+ Fri,  8 Jul 2022 18:35:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9E61C341C0;
+ Fri,  8 Jul 2022 18:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657305336;
+ bh=z+GHsCdf2pwA+gg5fxsvlmPtx5RoBQCMcMAvIXWgz78=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=uZ9rkgX1lKlqKFYbCn34OMB5qY5T4M95pCX192u2uBaSSC9jzMmQPE+xqorSCwEHG
+ q95jP5f6WmsPg63olTm3Cb4lkgYvSm+Ag5XIpMWyd1n2RqfaqzxpOGiCNg8Bz+M5xY
+ 0zgwbMI0qRazo/RYTscyD5mjgPt5muxk3oTGGXedNZgzjBHv5rEFZK/qwzGKWGygAn
+ XNqIItujeL3o83Ga48ogL/4GaSAqSoHxqnYVBrKmY8S0YuOhH4BiwwyhKaT4G7IBMB
+ mUCwbgm1SMgVVHnEOYryiARzKpUGkUzR62PXKRqiPemeLA9eKOU/iRT0ODAXU3Zbyn
+ OUcESptK+GzPw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ A6966E45BDA; Fri,  8 Jul 2022 18:35:36 +0000 (UTC)
+Subject: Re: [GIT PULL] fbdev updates & fixes for v5.19-rc6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Ysfe2JUDCg/S1ArT@ls3530>
+References: <Ysfe2JUDCg/S1ArT@ls3530>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Ysfe2JUDCg/S1ArT@ls3530>
+X-PR-Tracked-Remote: http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
+ tags/for-5.19/fbdev-3
+X-PR-Tracked-Commit-Id: 53a6e66b1b4fea4b52f8bc62e5f9530af9061027
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 086ff84617185393a0bbf25830c4f36412a7d3f4
+Message-Id: <165730533667.9073.8217130699510457786.pr-tracker-bot@kernel.org>
+Date: Fri, 08 Jul 2022 18:35:36 +0000
+To: Helge Deller <deller@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,49 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-fbdev@vger.kernel.org, Guiling Deng <greens9@163.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is fairly common for named video modes to contain dashes (e.g.
-"tt-mid" on Atari, "dblntsc-ff" on Amiga).  Currently such mode names
-are not recognized, as the dash is considered to be a separator between
-mode name and vertical refrsh.
+The pull request you sent on Fri, 8 Jul 2022 09:38:00 +0200:
 
-Fix this by skipping any dashes that are not followed immediately by a
-digit when looking for the separator.
+> http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/for-5.19/fbdev-3
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
-Please refer to [1] for related Linux DRM patches and background
-information.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/086ff84617185393a0bbf25830c4f36412a7d3f4
 
-v2:
-  - New.
+Thank you!
 
-[1] "[PATCH v3 00/10] drm: Add support for low-color frame buffer formats"
-    https://lore.kernel.org/r/cover.1657294931.git.geert@linux-m68k.org
----
- tests/modetest/modetest.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index 7c6c21ef5174c41a..09f026764a07aad9 100644
---- a/tests/modetest/modetest.c
-+++ b/tests/modetest/modetest.c
-@@ -1903,8 +1903,11 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
- 
- 	arg = endp + 1;
- 
--	/* Search for the vertical refresh or the format. */
-+	/* Search for the vertical refresh or the format, */
-+	/* The former must be followed by a number */
- 	p = strpbrk(arg, "-@");
-+	while (p && *p == '-' && !isdigit(p[1]))
-+		p = strpbrk(p + 1, "-@");
- 	if (p == NULL)
- 		p = arg + strlen(arg);
- 	len = min(sizeof pipe->mode_str - 1, (unsigned int)(p - arg));
 -- 
-2.25.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
