@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF9756B12E
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 05:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADF656B132
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 06:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7FF12B3A0;
-	Fri,  8 Jul 2022 03:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF3611B7F2;
+	Fri,  8 Jul 2022 04:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBCF12B37C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 03:57:16 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id t24so34370294lfr.4
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 20:57:16 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F0D12B3DD
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 04:00:05 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id t24so34377284lfr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 21:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=d+W+CYgVHtPdSnaUFsEjZFbm2jY1agIXuYI2yF5T55s=;
- b=CUSWi9iZiYqV8xxuelbTxPoAfwl0RSCC5FtSv9FJHgRupYh7jA0kqdmc03Ttntsccn
- IGECCxuzBqfBpq+dyL4ZPuly0Kj45ZgfMX2JZxHKIF9+4evrZxah1Y3PeimYZEf2T+Hm
- NO9Qtk1vhQLUUcQNte/vg03RcSrtRZW5bhAEHuZa0ADAISlzWEBvMzJZx2GpA8ccGvtp
- Oi4WZVzynG6uv1YAsX9UrzYjC8QMDSrx2BCtr5V7FIWor1xKNvKkn3yLwjFsj/M2eKPq
- kZs4d2au+MZbK1Ve9cw2ln1wN36iBQmQ8RcxaIuEvDcXj7u7zYWXDwBBnjzJwi7QGTrE
- aYNg==
+ bh=aAubjKUK2nvZa3+RCLOOAOMis1QabrjDrjrCRAE8h/E=;
+ b=qww2OpEmxQcjgXhzyViRkvjf67EADqjJIy1LBy1nME9FLCw8/Q1HrvzxEdN7ReePYw
+ QGB6qXnJFoPiR3CIdkO1UdR/aAmZ0tEgvs7EiisvvKTR8Sc9YuvWqDkHuN5TZ94Qt5Fl
+ NlgUPJ+8kIXh6jzraFGtchfvszL+kDbg8R46P1nGKzHBoQQup/aId1wApLfj506VoAnW
+ dEEKAhPyYRnILhMD9J3qwEH6kabuBGjqbg3uxRDFON0qoyhaelgMFcddBS2UER4VFOZT
+ qOBGIHmOtJAtzjfzMqowtY+0D0niWmurk+rttHduGEW9noGdfgCnB1NcO2oVizoNyUC4
+ 7/KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=d+W+CYgVHtPdSnaUFsEjZFbm2jY1agIXuYI2yF5T55s=;
- b=mTKqFSBEVnlvOfL4LkMT0jB2xxyMEM5gQM5lDiGju16SCLbtAxA5LpxFHOjwvcqYyP
- P9vU4gGg5vyvxturXsQ4SZaUEBc3QT62Uw1G39bqgkW29xDio7y5cP7WCdClCNa8dBYM
- CaPOGMb9QKCa/VIDjlJoy18sq3alL8UvW0D7yyZbKX/MF3M3KTt7h8TSpsT3sRd+uIgG
- /UD3+dG5OKJdIavqj4s4hVXhNMOX0V/Uj9aGMDCFzHSvTeqfSZ029LylHu+3JB4BEDT6
- Pv0jWnZSDFAZry0cvq0D4+aZKQMEsXXBpyxbkbE99rxQttrXivLu/5qhGin0LmaTne0U
- rAEA==
-X-Gm-Message-State: AJIora8ZGHmY5cqYyNG0YS1FNTXNLOsGgtCLZZhWeQsVfp75FkoClysL
- M4JKe7vITDvO29z9R7ML+Ue7zw==
-X-Google-Smtp-Source: AGRyM1v0VsbaUzE0u1YassAPiTUnCpM49yJzVyct4bGbaAQTJ3+q52gkGEn7IrfMV/C5w1BrzdrzQQ==
-X-Received: by 2002:a05:6512:a8c:b0:47f:749e:8de3 with SMTP id
- m12-20020a0565120a8c00b0047f749e8de3mr943503lfu.568.1657252574779; 
- Thu, 07 Jul 2022 20:56:14 -0700 (PDT)
+ bh=aAubjKUK2nvZa3+RCLOOAOMis1QabrjDrjrCRAE8h/E=;
+ b=lC2ob44O9d9VsTMtH65dH1TQB/qii1JuJjJ6e/n+lLyr128iMq8heYlV35yy29+Iyd
+ a5GE4Ulch9uBzGNL53QM0YNWkLGCYrL9QofseS4zu0rPFkJVrvtwxDp4C+cM5BPviFr+
+ UBfvY3FQmvvr0YQodvdG7heomDDw0uVKDAu6H2tPzcj7C2r271qjMdjF1qRL9Wu6Z+km
+ FiLbH9FT4z4jcHqcZMlFSGpb0uVJYZDS/l7n9vSuhjU9Tn80S+GxBUJLtqS3kS9JJdM7
+ 0oyrcQIjElYqW/JvGq/PmkRA7VgsPeXwbmKTB54DHBclquK7fxtclxQ5YH9hV5sDfJzX
+ /6Vw==
+X-Gm-Message-State: AJIora8OwuNGRpz0KjLUpaycYmnwm3qFUeZjOQeTLCl++RWA9nDbj1cN
+ 6x/EMJq2HhHjeuM/pjIYS7ZfUw==
+X-Google-Smtp-Source: AGRyM1vzkVpTNli+0OYoyR5TM0tYAsic8Qhv+kQwSwdOh6zSfqRjoNSH4KsvEUsAI54nceW4y4w6Kw==
+X-Received: by 2002:a05:6512:68b:b0:485:f4a1:c2db with SMTP id
+ t11-20020a056512068b00b00485f4a1c2dbmr1023356lfe.119.1657252743410; 
+ Thu, 07 Jul 2022 20:59:03 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- s21-20020a056512315500b0047f6e91d4fesm4788536lfi.141.2022.07.07.20.56.13
+ c7-20020a19e347000000b004791fc12f6asm7199835lfk.46.2022.07.07.20.59.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jul 2022 20:56:14 -0700 (PDT)
-Message-ID: <88d21de7-58b8-7915-9fa4-783ed07efd62@linaro.org>
-Date: Fri, 8 Jul 2022 06:56:13 +0300
+ Thu, 07 Jul 2022 20:59:02 -0700 (PDT)
+Message-ID: <36a3490f-5c94-0c54-caa4-1b381dae7745@linaro.org>
+Date: Fri, 8 Jul 2022 06:59:02 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 2/9] dt-bindings: msm/dp: bring back support for legacy DP
- reg property
+Subject: Re: [PATCH 5/9] dt-bindings: msm/dp: account for clocks specific for
+ qcom,sc7280-edp
 Content-Language: en-GB
 To: Stephen Boyd <swboyd@chromium.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>,
@@ -64,10 +64,10 @@ To: Stephen Boyd <swboyd@chromium.org>,
  Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
  Sean Paul <sean@poorly.run>
 References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
- <20220707213204.2605816-3-dmitry.baryshkov@linaro.org>
- <CAE-0n519u3S0WK-712aM-2zhZXrRvr7gh9aDSvRfMtkh-f4eUQ@mail.gmail.com>
+ <20220707213204.2605816-6-dmitry.baryshkov@linaro.org>
+ <CAE-0n53An_S5H-jj7GPorLg0Q4jW=KqEn5CCrfqs6fn6LBtGNA@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n519u3S0WK-712aM-2zhZXrRvr7gh9aDSvRfMtkh-f4eUQ@mail.gmail.com>
+In-Reply-To: <CAE-0n53An_S5H-jj7GPorLg0Q4jW=KqEn5CCrfqs6fn6LBtGNA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,19 +88,42 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/07/2022 04:29, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-07-07 14:31:57)
->> The commit 687825c402f1 ("dt-bindings: msm/dp: Change reg definition")
->> changed reg property to list separate register blocks, which broke
->> validation of DT files using single register block. Restore
->> compatibility with older (single register block) DT files by declaring
->> it as a deprecated alternative.
+On 08/07/2022 04:32, Stephen Boyd wrote:
+> Quoting Dmitry Baryshkov (2022-07-07 14:32:00)
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>> index f00eae66196f..1ef845005b14 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>> @@ -119,6 +111,50 @@ required:
+>>     - power-domains
+>>     - ports
+>>
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - qcom,sc7280-edp
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: XO clock
 > 
-> I think the intention was to quickly migrate the dts files to the
-> multiple register regions. Why not just do that and drop this
-> deprecation binding update?
+> What is this for? I would guess it's for the eDP phy, but that isn't
+> part of the eDP controller, so probably it can be removed.
 
-Ack, will do in v2.
+Good question. I was documenting what is present in the sc7280-edp 
+controller DT entry. Could you please check if we can drop them? I don't 
+have the hardware at hand.
+
+> 
+>> +            - description: eDP reference clock
+> 
+> Same for this one, looking at the binding for qcom,sc7280-edp-phy. Can
+> we simply remove these two clks from sc7280? I think it will be fine.
+
 
 -- 
 With best wishes
