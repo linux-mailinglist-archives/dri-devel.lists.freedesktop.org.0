@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859B956AFC5
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 03:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC09656AFC9
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 03:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF6DE10FB57;
-	Fri,  8 Jul 2022 01:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C209E10E14F;
+	Fri,  8 Jul 2022 01:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
- [209.85.167.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F80210F42C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 01:31:32 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id s188so25192005oib.6
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 18:31:32 -0700 (PDT)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 767C810E14F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 01:33:49 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ t26-20020a9d775a000000b006168f7563daso15259295otl.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 18:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=mGR8qW/qcR3tV8N518zXTOtY5AVTv6L2Gv4vwTMvX2c=;
- b=Ue0qNkMJastmFq+YudyeYt2KIe+niHTqyrivhnn+9BmvMSOmjJzkOt/UBQWfBf2b53
- cC1+vGvZvdYF516WCMQwCHxWN3Q/j7JhyJOecljID8oFeNWFvSQkgWYcRvUfp8fhypoT
- fqeCky+as3DBGScPTDOT6uHMYWv6Qge4d41+Y=
+ bh=NZJnks1XrICiLmh83N/nfcU+CsA4QrBVqgFUGpAdW4k=;
+ b=HPhW9RBebWqkQ9PrCQBGni3TYxxHU0PMMIzS+aI8g7tdTc/ktP9jChMXoLxyZLZzok
+ 6jJbBqFyVY98ivY+HhPAl1eSH/pKrNe+5DUTFW4SQ2V5tO+sIDjoHSgR24wBj+m1u0lf
+ WaYaF42SUgX3aZq6FtJWxMtiennDcPDH2n2vE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=mGR8qW/qcR3tV8N518zXTOtY5AVTv6L2Gv4vwTMvX2c=;
- b=Qi40hzWzSBzr+Fba+FnEeoiejoGMqzPzD/y1LY04xmbbQV3+PH/gFl7JesOxaO9OJi
- FYDii752e34hMjXQdmYCbogIggsCp3fIrEEHb1Y/jDj7meIDZbDcThG7ZjjWTTsqTojL
- K6oUJ/ox6hGhUOu2WVqDBxyX6FgXd2eokcwmXun4Gqup5Ix3zJehjzk4N7KL7XXvVwxc
- 7Lpx0VKFGrx70DXW38L9GX3OCR6RE3FPJTi+VJUxpcAUFyTPKOwPYwa8A5ZUzQMyGAxo
- LgLuNABeLlwAu6r4GxQtGAT9zfLjxAUx8y4hbbaiqWdiFkrcMeV5F9ehYhkBjhRsaXwB
- VNeQ==
-X-Gm-Message-State: AJIora9aSgoKYesFFsTR0j+1FC67IwCTUWRi00zed0OCZIrijmU5IlTn
- Yq3AcffSH4NcjytuRDq6a/SW9MkfaGAkRekVdAmKaw==
-X-Google-Smtp-Source: AGRyM1seFnmCmW9IUueoNP90VpqA1jwKAoGBliX7GDJogEyAv6R8J1FU+8CcIIRVxUr4LlXHPKu47wp3cT8ZmPpjRSE=
-X-Received: by 2002:a05:6808:171c:b0:334:9342:63ef with SMTP id
- bc28-20020a056808171c00b00334934263efmr498377oib.63.1657243832038; Thu, 07
- Jul 2022 18:30:32 -0700 (PDT)
+ bh=NZJnks1XrICiLmh83N/nfcU+CsA4QrBVqgFUGpAdW4k=;
+ b=VP41C1Jqrzs82Ao5o6wDav9Lx1LxEtQj4PTPfKQ+ESd1bKiKGTO5kDXQUnt/gJDaKE
+ 8jfv4KgBlWMWd9ojsaJVIhII7RYr6QmypQ+hZFvrU8HdBt8dWP3JER2MXO5Ms/Nf8Gor
+ 7zFAxp6UqEmZxdJc/FnLJb3WDuQj7oOOB+sf+bW3mDUsZjbVTFgezgYyKDm/rYvWEUTS
+ N7DGuDl9DpXwGnlSff7G3jd5mJWHuaQkHZgRp/1+v1s1cPocwd+yFzXsDLU0CgRGlEZ/
+ 7YmwecgAw0Pp+2ja8F82Exbkf1WfoFhwsgXMvtyiU0E+UJfz79LfLXkJAGGsyqA+FdDq
+ vJkQ==
+X-Gm-Message-State: AJIora81w0WCjsn4fT0pDJRh/nrdc19kjxYRImZwOxKkPyB8A0PngNhj
+ GvTGbDN1ITTFMVUgXLq0gTT540bKJckkNv30GKIDqw==
+X-Google-Smtp-Source: AGRyM1uyEcjzTSo/c6W2hKlHGeOkhVQpn/Aafq4q9l5KVnaNd85lX4vrq2pZIBrYfA8oXbPHME/u1frODdIdXteTN/I=
+X-Received: by 2002:a9d:6484:0:b0:60b:eb0b:4054 with SMTP id
+ g4-20020a9d6484000000b0060beb0b4054mr474851otl.159.1657243968788; Thu, 07 Jul
+ 2022 18:32:48 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 7 Jul 2022 18:30:31 -0700
+ HTTPREST; Thu, 7 Jul 2022 18:32:48 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220707213204.2605816-5-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220707213204.2605816-6-dmitry.baryshkov@linaro.org>
 References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
- <20220707213204.2605816-5-dmitry.baryshkov@linaro.org>
+ <20220707213204.2605816-6-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 7 Jul 2022 18:30:31 -0700
-Message-ID: <CAE-0n53ES+cLCWpd_T1bohybNrw4V7ntj87AbsesQJcmFedcgw@mail.gmail.com>
-Subject: Re: [PATCH 4/9] dt-bindings: msm/dp: add missing properties
+Date: Thu, 7 Jul 2022 18:32:48 -0700
+Message-ID: <CAE-0n53An_S5H-jj7GPorLg0Q4jW=KqEn5CCrfqs6fn6LBtGNA@mail.gmail.com>
+Subject: Re: [PATCH 5/9] dt-bindings: msm/dp: account for clocks specific for
+ qcom, sc7280-edp
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
@@ -76,11 +78,32 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-07-07 14:31:59)
-> Document missing definitions for opp-table (DP controller OPPs), aux-bus
-> (eDP AUX BUS) and data-lanes (DP/eDP lanes mapping) properties.
+Quoting Dmitry Baryshkov (2022-07-07 14:32:00)
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index f00eae66196f..1ef845005b14 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -119,6 +111,50 @@ required:
+>    - power-domains
+>    - ports
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sc7280-edp
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: XO clock
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+What is this for? I would guess it's for the eDP phy, but that isn't
+part of the eDP controller, so probably it can be removed.
+
+> +            - description: eDP reference clock
+
+Same for this one, looking at the binding for qcom,sc7280-edp-phy. Can
+we simply remove these two clks from sc7280? I think it will be fine.
