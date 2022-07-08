@@ -1,61 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6C556BE8A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:11:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7E556BE8D
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 377DA10EB6C;
-	Fri,  8 Jul 2022 18:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8FBE10EAEB;
+	Fri,  8 Jul 2022 18:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C61E10EB5D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:11:39 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id sb34so38920064ejc.11
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 11:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sKekwu6m5vtQW6PSsmPF+hhuEPf3m/e/qMg3BM7xWQw=;
- b=UlPIo/7zkJHh9tSf+BQmQW/kdRIa+hP/tDZ22WYRFIM3hv/yrOYRXPpT5Cc0yWEHSr
- UmdI3/8QBRBITlRWviW+Ln30yOfraZa5/HOjcSz1+IiDAtJ+1oNAEjwNTEKAWJrZFn8G
- U0aoVv/8dIur3fMWz5B6S634ilslx8HnaPlloUx/3qAeX61zBbQ9QszK/gzGuTczO4Nv
- r14Zdda+xpF001A6Cml6DsFmdA6waOw+ZXqTJoI4gb+ZN4gsEg40+KvJUWZM4/vw5bya
- qvJD92dyC3cPivgeN5p7ptFcTZb2cIbgUZlt5ZG8OntvvWl2/YFQA218PsVkyoVrW44I
- jy6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sKekwu6m5vtQW6PSsmPF+hhuEPf3m/e/qMg3BM7xWQw=;
- b=If9QzGku6RCVqjongn2HNbi6N9CZ1+sG6Tb7VFAJwsHDB4kdAo94DWZ+sONS80YdXI
- G7lBy0lsPdH3ExaQ8BwvnPIx2epSKQnktGfnwfSTJ55lj7nDs/UBilMjrN6kmJOdPb+F
- OjoQm1+wbkUGLk9EfLGFI7PfmM18rn9xqopYX/ejoqBCr+YTYzFg0Z9moE45bNajSPkp
- 9j74K83EU/Ybjau5IGbRHMq1AlVPV20dQy2rXqwSlgc6w/AkjIWBfHMtYtUjeSEjlIp9
- XajzXu+JwHQOlnQMlrTAlpoktx0cL47rvR/f45vRexAO0beSBnQBzgyACPRSvTqEppfM
- bhaQ==
-X-Gm-Message-State: AJIora++SHmXDbbrCFSHZLVyVMyuGlEPy7C07cb7uJPh3uOkFR4XfIa/
- 9Lfh8p3nEhiBl7BPFpL4heg=
-X-Google-Smtp-Source: AGRyM1t8yFGgmwwWr6T5GslV5qgxQX0W2tfRRaFMWJMQiIDaqUY+XIBbggGcvKxKzvlEFP/Ugvk/7A==
-X-Received: by 2002:a17:906:6c82:b0:709:f868:97f6 with SMTP id
- s2-20020a1709066c8200b00709f86897f6mr4831133ejr.555.1657303898095; 
- Fri, 08 Jul 2022 11:11:38 -0700 (PDT)
-Received: from localhost
- (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- s22-20020a170906a19600b0071cef8bafc3sm20606206ejy.1.2022.07.08.11.11.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 11:11:37 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL] drm/tegra: Changes for v5.20-rc1
-Date: Fri,  8 Jul 2022 20:11:36 +0200
-Message-Id: <20220708181136.673789-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.36.1
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 353CD10EAEB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:09 +0000 (UTC)
+Received: from ramsan.of.borg ([84.195.186.194])
+ by laurent.telenet-ops.be with bizsmtp
+ id siM7270094C55Sk01iM7mo; Fri, 08 Jul 2022 20:21:08 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1o9sbC-002fGb-Lh; Fri, 08 Jul 2022 20:21:06 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1o9sbC-00BtJ3-7L; Fri, 08 Jul 2022 20:21:06 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 00/10] drm: Add support for low-color frame buffer formats
+Date: Fri,  8 Jul 2022 20:20:45 +0200
+Message-Id: <cover.1657294931.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,177 +47,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+	Hi all,
 
-The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
+A long outstanding issue with the DRM subsystem has been the lack of
+support for low-color displays, as used typically on older desktop
+systems, and on small embedded displays.
 
-  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
+This patch series adds support for color-indexed frame buffer formats
+with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+work-in-progress Atari DRM driver supporting 2, 4, 16, 256, and 65536
+colors, with text console operation, fbtest, and modetest.
 
-are available in the Git repository at:
+Overview:
+  - Patch 1 introduces a helper, to be used by later patches in the
+    series,
+  - Patch 2 introduces a flag to indicate color-indexed formats,
+  - Patches 3 and 4 correct calculations of bits per pixel for sub-byte
+    pixel formats,
+  - Patches 5 and 6 introduce the new C[124] formats,
+  - Patch 7 fixes an untested code path,
+  - Patch 8 documents the use of "red" for light-on-dark displays,
+  - Patches 9 and 10 add more fourcc codes for light-on-dark and
+    dark-on-light frame buffer formats, which may be useful for e.g. the
+    ssd130x and repaper drivers.
 
-  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.20-rc1
+Changes compared to v2[1]:
+  - Add Reviewed-by,
+  - Document fill order,
+  - Fix FB_VISUAL_TRUECOLOR,
+  - Replace light-on-dark/dark-on-light by direct/inverse relationship
+    between channel value and brightness.
 
-for you to fetch changes up to 135f4c551d51065ee2d0677bf5344a89767e9d9b:
+Changes compared to v1[2]:
+  - Reshuffle patches,
+  - New patch "[PATCH v2 02/10] drm/fourcc: Add
+    drm_format_info.is_color_indexed flag",
+  - Improve pixel descriptions,
+  - Require depth to match bpp in drm_mode_legacy_fb_format(),
+  - Set .is_color_indexed flag.
+  - Use drm_format_info_bpp() helper instead of deprecated .depth field
+    or format-dependent calculations,
+  - Use new .is_color_indexed field instead of checking against a list
+    of formats,
+  - Add Acked-by,
+  - Replace FIXME by TODO comment,
+  - New patch "[PATCH v2 08/10] [RFC] drm/fourcc: Document that
+    single-channel "red" can be any color",
+  - Add rationale for adding new formats,
+  - Add D[248] for completeness.
 
-  drm/tegra: vic: Use devm_platform_ioremap_resource() (2022-07-08 17:54:42 +0200)
+Notes:
+  - This is the first patch series in a series of 3:
+      - To make high-color modes work on big-endian, you also need [3],
+      - To make mode selection on the command line work for Atari video
+	modes, you need [4].
+  - There is also a related series of 3 patch series for modetest:
+      - Using modetest with low-color formats (C[124]) requires [5],
+      - Using modetest with high-color formats (RG16, XR24) requires
+	[6],
+      - Using modetest with video mode names containing dashes requires
+	[7].
+  - As this was used on emulated hardware only, and I do not have Atari
+    hardware, I do not have performance figures to compare with fbdev.
+    I hope to do proper measuring with an Amiga DRM driver, eventually.
+  - While the Atari DRM driver is not fit for submission yet, you can
+    find it at [8], if you are adventurous.
 
-Thanks,
-Thierry
+Thanks for your comments!
 
-----------------------------------------------------------------
-drm/tegra: Changes for v5.20-rc1
+[1] "[PATCH v2 00/10] drm: Add support for low-color frame buffer
+    formats"
+    https://lore.kernel.org/r/cover.1646683502.git.geert@linux-m68k.org/
+[2] "[PATCH 0/8] drm: Add support for low-color frame buffer formats"
+    https://lore.kernel.org/r/20220215165226.2738568-1-geert@linux-m68k.org/
+[3] "[PATCH 0/3] drm: Endianness fixes"
+    https://lore.kernel.org/r/cover.1657300532.git.geert@linux-m68k.org
+[4] "[PATCH 0/5] drm/modes: Command line mode selection fixes and
+    improvements"
+    https://lore.kernel.org/r/cover.1657301107.git.geert@linux-m68k.org
+[5] "[PATCH libdrm v2 00/10] Add support for low-color frame buffer
+    formats"
+    https://lore.kernel.org/r/cover.1657302034.git.geert@linux-m68k.org
+[6] "[PATCH libdrm v2 00/10] Big-endian fixes"
+    https://lore.kernel.org/r/cover.1657302103.git.geert@linux-m68k.org
+[7] "[PATCH libdrm] modetest: Add support for named modes containing
+    dashes"
+[8] https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git/log/?h=atari-drm-wip
 
-The bulk of these changes adds support for context isolation for the
-various supported host1x engines, as well as support for the hardware
-found on the new Tegra234 SoC generation.
+Geert Uytterhoeven (10):
+  drm/fourcc: Add drm_format_info_bpp() helper
+  drm/fourcc: Add drm_format_info.is_color_indexed flag
+  drm/client: Use actual bpp when allocating frame buffers
+  drm/framebuffer: Use actual bpp for DRM_IOCTL_MODE_GETFB
+  drm/fourcc: Add DRM_FORMAT_C[124]
+  drm/fb-helper: Add support for DRM_FORMAT_C[124]
+  drm/gem-fb-helper: Use actual bpp for size calculations
+  drm/fourcc: Clarify the meaning of single-channel "red"
+  [RFC] drm/fourcc: Add DRM_FORMAT_R[124]
+  [RFC] drm/fourcc: Add DRM_FORMAT_D[1248]
 
-There's also a couple of fixes and cleanups. To round things off, the
-device tree bindings are converted to the new json-schema format that
-allows DTBs to be validated.
+ drivers/gpu/drm/drm_client.c                 |   4 +-
+ drivers/gpu/drm/drm_fb_helper.c              | 101 ++++++++++++++-----
+ drivers/gpu/drm/drm_fourcc.c                 |  55 +++++++++-
+ drivers/gpu/drm/drm_framebuffer.c            |   2 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |  12 +--
+ include/drm/drm_fourcc.h                     |   4 +
+ include/uapi/drm/drm_fourcc.h                |  32 +++++-
+ 7 files changed, 167 insertions(+), 43 deletions(-)
 
-----------------------------------------------------------------
-Christophe JAILLET (1):
-      gpu: host1x: Use the bitmap API to allocate bitmaps
+-- 
+2.25.1
 
-Dmitry Osipenko (1):
-      drm/tegra: Fix vmapping of prime buffers
+Gr{oetje,eeting}s,
 
-Lukas Bulwahn (1):
-      MAINTAINERS: Rectify entry for NVIDIA TEGRA DRM and VIDEO DRIVER
+						Geert
 
-Lv Ruyi (1):
-      drm/tegra: vic: Use devm_platform_ioremap_resource()
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Mikko Perttunen (21):
-      dt-bindings: host1x: Add iommu-map property
-      dt-bindings: Add bindings for Tegra234 Host1x and VIC
-      dt-bindings: host1x: Fix bracketing in example
-      gpu: host1x: Add context device management code
-      gpu: host1x: Program context stream ID on submission
-      drm/tegra: falcon: Set DMACTX field on DMA transactions
-      drm/tegra: nvdec: Fix TRANSCFG register offset
-      drm/tegra: Support context isolation
-      drm/tegra: Implement stream ID related callbacks on engines
-      gpu: host1x: Deduplicate hardware headers
-      gpu: host1x: Simplify register mapping and add common aperture
-      gpu: host1x: Program virtualization tables
-      gpu: host1x: Allow reset to be missing
-      gpu: host1x: Program interrupt destinations on Tegra234
-      gpu: host1x: Tegra234 device data and headers
-      gpu: host1x: Rewrite job opcode sequence
-      gpu: host1x: Add MLOCK release code on Tegra234
-      gpu: host1x: Use RESTART_W to skip timed out jobs on Tegra186+
-      drm/tegra: vic: Add Tegra234 support
-      gpu: host1x: Initialize syncval in channel_submit()
-      gpu: host1x: Generalize host1x_cdma_push_wide()
-
-Robin Murphy (2):
-      gpu: host1x: Register context bus unconditionally
-      drm/tegra: Include DMA API header where used
-
-Thierry Reding (1):
-      dt-bindings: display: tegra: Convert to json-schema
-
-YueHaibing (1):
-      drm/tegra: vic: Fix build warning when CONFIG_PM=n
-
- .../display/tegra/nvidia,tegra114-mipi.txt         |  41 --
- .../display/tegra/nvidia,tegra114-mipi.yaml        |  74 +++
- .../display/tegra/nvidia,tegra124-dpaux.yaml       | 152 +++++
- .../display/tegra/nvidia,tegra124-sor.yaml         | 197 ++++++
- .../display/tegra/nvidia,tegra124-vic.yaml         |  72 +++
- .../bindings/display/tegra/nvidia,tegra186-dc.yaml |  85 +++
- .../display/tegra/nvidia,tegra186-display.yaml     | 310 ++++++++++
- .../display/tegra/nvidia,tegra186-dsi-padctl.yaml  |  45 ++
- .../bindings/display/tegra/nvidia,tegra20-dc.yaml  | 183 ++++++
- .../bindings/display/tegra/nvidia,tegra20-dsi.yaml | 159 +++++
- .../bindings/display/tegra/nvidia,tegra20-epp.yaml |  70 +++
- .../display/tegra/nvidia,tegra20-gr2d.yaml         |  74 +++
- .../display/tegra/nvidia,tegra20-gr3d.yaml         | 215 +++++++
- .../display/tegra/nvidia,tegra20-hdmi.yaml         | 126 ++++
- .../display/tegra/nvidia,tegra20-host1x.txt        | 675 ---------------------
- .../display/tegra/nvidia,tegra20-host1x.yaml       | 431 +++++++++++++
- .../bindings/display/tegra/nvidia,tegra20-isp.yaml |  67 ++
- .../bindings/display/tegra/nvidia,tegra20-mpe.yaml |  73 +++
- .../bindings/display/tegra/nvidia,tegra20-tvo.yaml |  58 ++
- .../bindings/display/tegra/nvidia,tegra20-vi.yaml  | 163 +++++
- .../display/tegra/nvidia,tegra210-csi.yaml         |  52 ++
- .../pinctrl/nvidia,tegra124-dpaux-padctl.txt       |  59 --
- MAINTAINERS                                        |   4 +-
- drivers/gpu/drm/tegra/dc.c                         |   1 +
- drivers/gpu/drm/tegra/drm.c                        |   1 +
- drivers/gpu/drm/tegra/drm.h                        |  11 +
- drivers/gpu/drm/tegra/falcon.c                     |   8 +
- drivers/gpu/drm/tegra/falcon.h                     |   1 +
- drivers/gpu/drm/tegra/gem.c                        |  11 +-
- drivers/gpu/drm/tegra/hub.c                        |   1 +
- drivers/gpu/drm/tegra/nvdec.c                      |  14 +-
- drivers/gpu/drm/tegra/plane.c                      |   1 +
- drivers/gpu/drm/tegra/submit.c                     |  48 +-
- drivers/gpu/drm/tegra/uapi.c                       |  43 +-
- drivers/gpu/drm/tegra/vic.c                        |  92 ++-
- drivers/gpu/host1x/Makefile                        |   6 +-
- drivers/gpu/host1x/cdma.c                          |  43 +-
- drivers/gpu/host1x/channel.c                       |   8 +-
- drivers/gpu/host1x/context.c                       | 160 +++++
- drivers/gpu/host1x/context.h                       |  38 ++
- drivers/gpu/host1x/context_bus.c                   |   5 -
- drivers/gpu/host1x/dev.c                           | 124 ++--
- drivers/gpu/host1x/dev.h                           |  13 +
- drivers/gpu/host1x/hw/cdma_hw.c                    |  34 ++
- drivers/gpu/host1x/hw/channel_hw.c                 | 137 ++++-
- drivers/gpu/host1x/hw/host1x01_hardware.h          | 114 +---
- drivers/gpu/host1x/hw/host1x02_hardware.h          | 113 +---
- drivers/gpu/host1x/hw/host1x04_hardware.h          | 113 +---
- drivers/gpu/host1x/hw/host1x05_hardware.h          | 113 +---
- drivers/gpu/host1x/hw/host1x06_hardware.h          | 118 +---
- drivers/gpu/host1x/hw/host1x07_hardware.h          | 118 +---
- drivers/gpu/host1x/hw/host1x08.c                   |  33 +
- drivers/gpu/host1x/hw/host1x08.h                   |  15 +
- drivers/gpu/host1x/hw/host1x08_hardware.h          |  21 +
- drivers/gpu/host1x/hw/hw_host1x08_channel.h        |  11 +
- drivers/gpu/host1x/hw/hw_host1x08_common.h         |  11 +
- drivers/gpu/host1x/hw/hw_host1x08_hypervisor.h     |   9 +
- drivers/gpu/host1x/hw/hw_host1x08_uclass.h         | 181 ++++++
- drivers/gpu/host1x/hw/hw_host1x08_vm.h             |  36 ++
- drivers/gpu/host1x/hw/intr_hw.c                    |  11 +
- drivers/gpu/host1x/hw/opcodes.h                    | 150 +++++
- include/linux/host1x.h                             |  42 ++
- 62 files changed, 3815 insertions(+), 1579 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.txt
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-dpaux-padctl.txt
- create mode 100644 drivers/gpu/host1x/context.c
- create mode 100644 drivers/gpu/host1x/context.h
- create mode 100644 drivers/gpu/host1x/hw/host1x08.c
- create mode 100644 drivers/gpu/host1x/hw/host1x08.h
- create mode 100644 drivers/gpu/host1x/hw/host1x08_hardware.h
- create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_channel.h
- create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_common.h
- create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_hypervisor.h
- create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_uclass.h
- create mode 100644 drivers/gpu/host1x/hw/hw_host1x08_vm.h
- create mode 100644 drivers/gpu/host1x/hw/opcodes.h
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
