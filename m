@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF5956C1AB
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 00:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC6956C19F
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 00:44:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E6F10EEF5;
-	Fri,  8 Jul 2022 22:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3ED10EED9;
+	Fri,  8 Jul 2022 22:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1323810EEE2;
- Fri,  8 Jul 2022 22:44:47 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A84D10EED3;
+ Fri,  8 Jul 2022 22:44:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kCuy+G6A7B8W9prJ0TnNrf5wTHJZ4gx7BdsYtH8mllRumJVNVDkHRuB3Ezn0uYv8NFijsB6dVUNm8SHmpNwQHQZ1iLeB6lNRQ6LZWx3b6cz8LZxv3F/Wb1l5qQxQftcpufg+Pb7AtGCT16Q8pz54+1E7pMtuIpnx15GjUOE+Mwh1kGN1vq6FFkzFsVwNu4MNKx/VGhva34kPLCbRxmMqjW2EOcpIV6KdH9icNUxYQ0POXqba7XLv0gvLLc40DL+9I0RgeRq2eXTdEG6wEBG+HwePOH/uvxX5rVozUwK6Y/hqGB4mjp1RWZiundtEjqaMjfiI17B2LhlL6P9i2j4siA==
+ b=Goq4yuPe0M04NBwCvoYzYeklEDF/jXU5bz9sO2L5EVpQg654vJ+uPFQjitnxY+TqDT78Y+b0n4TEexdj0GORwFyNWT4JUyrSGSv3c91SJ8mPJb524/uEY6Pg3Co33dNcYdkxn3YkLfzKhd0Ie++vse3EsoillyupNvY/uqroMbYLeU4vSKhz+2ur+Z4M7C7t96Dcw91Kw5ATgbOjnXiyH+q8kCkzFlJ63OOw425rsFqHM0YxUd96wIcdqvxqb+KrhiKRXWMRekNWN87isxmZuspkepe3sMbWXgU1lNR76RQHE8CLADgkaofkW/PSIUZkPhGGaw0FVo6j/VnNMPWzAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q0T0MeOm9gYLXJdm4J7+F9ldk7GTe67bOPL6x/8LKQU=;
- b=lhs+fGJk53bPBneIVgA2OkEXIogdmTmQIBOtSS96QR0ROLbKxIDkb2SB5LcpIucpKSrQBIbYVUXqlAmprPxMYGBX5HpFO20NjEi7qGZvvWOc87gZd+0HP4g6Wes3hysnsNPhTnz+10nyFgXF/aGtwklByPIzNavw55bwVWMngS7OlJR4AsaapBXYIXftKaEn4OK92bqYYS0EUyL/32BY0SxMYRNNNM4EJ+yDWvsMYOdk5kVLuUUNGK0iHZPfsSOfewMloMbvXT1R3osEjBRTi1PAvWMkKWGTjYfGiAoQZB394kVR2FiC00ErQEMZa86/2PLVoZBS2pA4H/X1VKUHTQ==
+ bh=CKTgHJGg5UHbdd7Ozc3zY7SfTzGo+6iV/wMuSdjES2Y=;
+ b=DRojYB4FjOPQ7+GU5DNIVSWo0hMdVLOTiDjrpfpVy41BJqnTCHgYi4zGS9vyHZo9JMphtyvfEQP40dOIW13AEX9UyC8gLvdQyizEv0hDPcsQ+CeKef53IVfXscVFa5UocInAzCqSfgKaNkgUzeQFwzXqAFeviosDH41Jfl5pm1ysrxj5cfvpAGOxtrDUmjQeTOA6m/zZPln3aNC8a2Ywj27LQmaIx9hZjkfAnQJh6Fsc5bckLu4hIz+m40FxQrvkPIewbHMyt+LAYZ263XPnYLsJ0Xv60E+o1DAAzPoZsgAesV8qIW14TVdEJNI14DK7VPWqQFbK3Jgx7zRr7sZ8rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ 12.22.5.238) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q0T0MeOm9gYLXJdm4J7+F9ldk7GTe67bOPL6x/8LKQU=;
- b=dnvB3Wfra/sHf25b30BoM/cb8OTyuvmVJpNcXr+TjX9gpdfoLkNq6ul/jWdmzaGM0LuWaSHgRqD+OFK3iSii3SCgIJeiP+yngVjfnArD5rTEVvMDYmAc5vYya8t/JzMUcoW4DJB+g7XYooEwZ0tYjmcGWMVNu9HXeSzAiBrDyjG+NV2OdHFxc19qVT3ThDIurBykPznxF1PdjhdlGOV7aNm0dYSbnntqi4BunPvnENlSna0zGhQ249pyp1yrWwf8qZT1oGMbT6lt7qD0UTmnD5QBoRj6ezYw8CfR/z3mZcvTrhXR/M7t6fYmCz3VmDuF0fjlv1Y65alBT+OGePY54Q==
-Received: from BN8PR03CA0002.namprd03.prod.outlook.com (2603:10b6:408:94::15)
- by IA1PR12MB6018.namprd12.prod.outlook.com (2603:10b6:208:3d6::6)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=CKTgHJGg5UHbdd7Ozc3zY7SfTzGo+6iV/wMuSdjES2Y=;
+ b=Hqq7+XoAMabBEFkficNm0hPo71wRK5Bq76MM+QEUjqIWD/lEk6FhKIxsbAZ5WLI4L1P9LEebCGZszTMGOvcpqKb+flE/zT5keVKCIJIfP28R9Ck2BlIf8h1O7sCeYX4IBIdPLjrM7Iaa7PKW/LULCX+lcVetXyrA5XC7dvFKuX///G1wLPsB72nBI1DlMVdS0RSkqMn/gSNV+vhitihXsTeBlirCrWuRYlnjAmVb74Bo8xZvgmo6T9qLRThK3XAqJXo5VnCi9E6OnHSAQQuNK6TRAM4WGBpxWLJDJNQuSomikBpowX3Str4lVMrU4NVcsWwU+NM9e3Oonb3OyOa92A==
+Received: from MWH0EPF00056D0B.namprd21.prod.outlook.com
+ (2603:10b6:30f:fff2:0:1:0:b) by BY5PR12MB3762.namprd12.prod.outlook.com
+ (2603:10b6:a03:196::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Fri, 8 Jul
- 2022 22:44:34 +0000
-Received: from BN8NAM11FT010.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:94:cafe::c8) by BN8PR03CA0002.outlook.office365.com
- (2603:10b6:408:94::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16 via Frontend
- Transport; Fri, 8 Jul 2022 22:44:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ 2022 22:44:36 +0000
+Received: from CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
+ (2a01:111:f400:7eab::205) by MWH0EPF00056D0B.outlook.office365.com
+ (2603:1036:d20::b) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.7 via Frontend
+ Transport; Fri, 8 Jul 2022 22:44:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT010.mail.protection.outlook.com (10.13.177.53) with Microsoft SMTP
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.238) by
+ CO1NAM11FT030.mail.protection.outlook.com (10.13.174.125) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Fri, 8 Jul 2022 22:44:33 +0000
+ 15.20.5417.15 via Frontend Transport; Fri, 8 Jul 2022 22:44:35 +0000
 Received: from drhqmail203.nvidia.com (10.126.190.182) by
- DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Fri, 8 Jul 2022 22:44:33 +0000
+ DRHQMAIL105.nvidia.com (10.27.9.14) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.32; Fri, 8 Jul 2022 22:44:35 +0000
 Received: from drhqmail202.nvidia.com (10.126.190.181) by
  drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Fri, 8 Jul 2022 15:44:32 -0700
+ 15.2.986.26; Fri, 8 Jul 2022 15:44:34 -0700
 Received: from Asurada-Nvidia.nvidia.com (10.127.8.13) by mail.nvidia.com
  (10.126.190.181) with Microsoft SMTP Server id 15.2.986.26 via Frontend
- Transport; Fri, 8 Jul 2022 15:44:31 -0700
+ Transport; Fri, 8 Jul 2022 15:44:33 -0700
 From: Nicolin Chen <nicolinc@nvidia.com>
 To: <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
  <gor@linux.ibm.com>, <agordeev@linux.ibm.com>, <borntraeger@linux.ibm.com>,
@@ -70,9 +70,9 @@ To: <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
  <oberpar@linux.ibm.com>, <freude@linux.ibm.com>, <akrowiak@linux.ibm.com>,
  <jjherne@linux.ibm.com>, <alex.williamson@redhat.com>, <cohuck@redhat.com>,
  <jgg@nvidia.com>, <kevin.tian@intel.com>, <hch@infradead.org>
-Subject: [PATCH v3 01/10] vfio: Make vfio_unpin_pages() return void
-Date: Fri, 8 Jul 2022 15:44:19 -0700
-Message-ID: <20220708224427.1245-2-nicolinc@nvidia.com>
+Subject: [PATCH v3 02/10] drm/i915/gvt: Replace roundup with DIV_ROUND_UP
+Date: Fri, 8 Jul 2022 15:44:20 -0700
+Message-ID: <20220708224427.1245-3-nicolinc@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220708224427.1245-1-nicolinc@nvidia.com>
 References: <20220708224427.1245-1-nicolinc@nvidia.com>
@@ -80,26 +80,26 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84d534f9-b87e-4c68-9954-08da61336dde
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6018:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30db4118-9672-4402-48ef-08da61336ed0
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3762:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0W/v2Zg3MpO07J6IlV3z+EYhJCC4DDCGxq+kXVsn6lLCEllwCBEIp2KRGUxcJNEjwYkmh3tJZyAwYELOJmVw4AhbKVabulopamn51CX9NLZmKc5XbzmQOtgs02Qq5JDZQF0A3QmB1ZWLMJi7Hy409r0Mijb9PluACuh5RFgLRNxXHHr4f18BRjvCUkwzCWbbJ6iQgKTBjGugPj+MJyK0aJbUbTeOO/7/xbx8jQ5mywT3yAdjwuW0rgC6Hu3p8zEk9uWai3ami9qsLhWOeU5wQB+Ip8PVIpgCIawiC3W+xsqMtxfD/WzlpE0RhcQdgVcKRGdJmrSX+dgmrzWdHDR+580G9pI6zA8Xy1qQ2EyXb0VztKvY+81wUXT3AT/YF8ZYQ2CkWL0PC+V05vWrk+75kpKWjb7ihK0nlTto4ei3g59Ho4N7y8GrF9HbU5Oq1lycoA131+YOKZyt0uoW3dZrTn+5KaQdEFeMC3ytGMZ/vV+oXm412dLyo3cWbJPGcp2CLCcs8IZ4ia4/HhgsgLKOTHzQ0WHhGmYwi9H+LqhjcvgjYliv3ds+WsxsOWZfMSNB6PsXWM5Sn6/AlU1PqXtfKjl3lOgdEc4C2JBvvz8sbSiNjFHnxjQGl3Pv+D6Kkxq9ynhJw22KUDWblhm8W3CJ744nE6OeYkkXoT0+mKPwVTUfE6OnyJTKToxh/nsvlXLi7UjP5hiiK7hBZErOEAiHhHrPdw0j7scAS/hl5or2EC3U3ESsmJfQOaC1y8keFvv/hqI6hd/cO252yGEAa6iNcbW7vtM05rL+VTfL+aeV+eSMOHV8aHRmw8ib7vgzJxN7xT+cOz2NmTKOW9RDmJB09ZQkbP6bU/piWrCOqS8hk1EAFRTElBhVscjzIidwCzxzuhyTfygNehnRs8wyVQigdZuK9qZV8+6dZycwfLjek98=
-X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
+X-Microsoft-Antispam-Message-Info: 5OA9VHEcyeWGs2Hfc5tQJpnYcSFuEgms4qtqmTNOef+xp/Da3YIlP2ND7MdAWb1g6tVCWxs+n/rBzkYN7beRQgr8/hqULvkI4UpBB6jKEFi/HqnewLZ42UD28+wRy/2tKzOZVCP6wJB6lyZ7qy+2IeoczKAgwfNDe/fq+8xfPb3dTJmRcO+HQQsQkZst7wXcM69GfoI/07qNezQ2DbgoH6IszioprZdqKSfm0MQeSpgeb2epXuNDVQSQBl5WkWqZIK4fV6ckegcfcCsR1anWQNi/c4UeWm8qkmfYXctGIan+aN/ZMWJ0eAQOeSac90kT54vb/qCNi40XE2zvmdZI+xJYj+T/HCQR8JL5QHeZiWUzq4uasp1oFR5S2Add29mSsdTznu6fN4AsERJcPMfG3jCTaVdHxXtJ+s/tt5VWCMJiFMSsaCTMjdBIK3dV7gg0qGHDq2jlcycLGVr2RcKRYbqRGp0m9RLRBQhEQmYkwJizxichdvp5EjmpbFdvGC/k0GXi38zbWq2jdwH0A594igPSWGZCw4GLICFRWNgInc60/pC8xXRaLowKcoIQDYfiLw479DpNOrFxWcIHIrxJjcMcqBipy67LluKhDpSKXdJJ0OS6GJRAC2Y9QFBrpkWWkXNmbLkOyiSnj4dC18ifVe10NzT/aP6aDAmgNk9vKi4/SNu9L9NB8zsnvr38VvT025Z9EntXa0lK6ZbpLhZg1nQQ0AD9raSML/WTuIchO7AiRQ3czrPNjhJNMeY9rcix0YDQUdmggu/Kn8BRVRHkEyxwd2Sg6Fu3c3mcVSkctwNdwM3qL1KIE4X9XTwsb3PqyPTdiI3Z1VN+qTGovkX6Hg1qb6MQpwqGX//tPo/Fs3R63rlUhuBWjmxWUYX21IFF0WnQHRLCO0KZvYHdgKDl0bWlUVl7DXvPYAx5vpbagpE=
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(396003)(346002)(39860400002)(36840700001)(46966006)(40470700004)(110136005)(47076005)(40480700001)(70586007)(336012)(54906003)(83380400001)(426003)(5660300002)(40460700003)(82310400005)(8936002)(478600001)(26005)(7696005)(7416002)(36860700001)(7406005)(6666004)(41300700001)(86362001)(81166007)(186003)(36756003)(8676002)(356005)(4326008)(1076003)(316002)(2906002)(921005)(2616005)(70206006)(82740400003)(83996005)(2101003)(36900700001);
+ SFS:(13230016)(4636009)(396003)(376002)(136003)(39860400002)(346002)(46966006)(40470700004)(36840700001)(7406005)(186003)(1076003)(26005)(316002)(5660300002)(2616005)(47076005)(7696005)(41300700001)(336012)(36860700001)(426003)(7416002)(82310400005)(86362001)(70586007)(478600001)(6666004)(4326008)(81166007)(110136005)(82740400003)(40480700001)(54906003)(83380400001)(2906002)(36756003)(70206006)(8936002)(40460700003)(921005)(356005)(8676002)(83996005)(36900700001)(2101003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2022 22:44:33.9315 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84d534f9-b87e-4c68-9954-08da61336dde
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2022 22:44:35.5466 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30db4118-9672-4402-48ef-08da61336ed0
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT010.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6018
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3762
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,180 +119,46 @@ Cc: linux-s390@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's only one caller that checks its return value with a WARN_ON_ONCE,
-while all other callers don't check the return value at all. Above that,
-an undo function should not fail. So, simplify the API to return void by
-embedding similar WARN_ONs.
+It's a bit redundant for the maths here using roundup.
 
-Also for users to pinpoint which condition fails, separate WARN_ON lines,
-yet remove the "driver->ops->unpin_pages" check, since it's unreasonable
-for callers to unpin on something totally random that wasn't even pinned.
-And remove NULL pointer checks for they would trigger oops vs. warnings.
-Note that npage is already validated in the vfio core, thus drop the same
-check in the type1 code.
-
-Suggested-by: Christoph Hellwig <hch@infradead.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
+Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
 Tested-by: Terrence Xu <terrence.xu@intel.com>
 Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
 ---
- .../driver-api/vfio-mediated-device.rst       |  2 +-
- drivers/gpu/drm/i915/gvt/kvmgt.c              |  5 +----
- drivers/vfio/vfio.c                           | 21 +++++++------------
- drivers/vfio/vfio.h                           |  2 +-
- drivers/vfio/vfio_iommu_type1.c               | 15 ++++++-------
- include/linux/vfio.h                          |  4 ++--
- 6 files changed, 18 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/i915/gvt/kvmgt.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
-index d7a512676853..4307421dcaa0 100644
---- a/Documentation/driver-api/vfio-mediated-device.rst
-+++ b/Documentation/driver-api/vfio-mediated-device.rst
-@@ -263,7 +263,7 @@ driver::
- 	int vfio_pin_pages(struct vfio_device *device, unsigned long *user_pfn,
- 				  int npage, int prot, unsigned long *phys_pfn);
- 
--	int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
-+	void vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
- 				    int npage);
- 
- These functions call back into the back-end IOMMU module by using the pin_pages
 diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index e2f6c56ab342..8c67c9aba82d 100644
+index 8c67c9aba82d..7ce7b09aa5b2 100644
 --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
 +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -231,18 +231,15 @@ static void intel_gvt_cleanup_vgpu_type_groups(struct intel_gvt *gvt)
+@@ -231,11 +231,9 @@ static void intel_gvt_cleanup_vgpu_type_groups(struct intel_gvt *gvt)
  static void gvt_unpin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
  		unsigned long size)
  {
--	struct drm_i915_private *i915 = vgpu->gvt->gt->i915;
- 	int total_pages;
+-	int total_pages;
++	int total_pages = DIV_ROUND_UP(size, PAGE_SIZE);
  	int npage;
--	int ret;
  
- 	total_pages = roundup(size, PAGE_SIZE) / PAGE_SIZE;
- 
+-	total_pages = roundup(size, PAGE_SIZE) / PAGE_SIZE;
+-
  	for (npage = 0; npage < total_pages; npage++) {
  		unsigned long cur_gfn = gfn + npage;
  
--		ret = vfio_unpin_pages(&vgpu->vfio_device, &cur_gfn, 1);
--		drm_WARN_ON(&i915->drm, ret != 1);
-+		vfio_unpin_pages(&vgpu->vfio_device, &cur_gfn, 1);
- 	}
- }
- 
-diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 100a3d84380c..ad90adbfddc8 100644
---- a/drivers/vfio/vfio.c
-+++ b/drivers/vfio/vfio.c
-@@ -1964,31 +1964,24 @@ EXPORT_SYMBOL(vfio_pin_pages);
-  *		   PFNs should not be greater than VFIO_PIN_PAGES_MAX_ENTRIES.
-  * @npage [in]   : count of elements in user_pfn array.  This count should not
-  *                 be greater than VFIO_PIN_PAGES_MAX_ENTRIES.
-- * Return error or number of pages unpinned.
-  */
--int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
--		     int npage)
-+void vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
-+		      int npage)
+@@ -247,12 +245,11 @@ static void gvt_unpin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
+ static int gvt_pin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
+ 		unsigned long size, struct page **page)
  {
- 	struct vfio_container *container;
- 	struct vfio_iommu_driver *driver;
--	int ret;
++	int total_pages = DIV_ROUND_UP(size, PAGE_SIZE);
+ 	unsigned long base_pfn = 0;
+-	int total_pages;
+ 	int npage;
+ 	int ret;
  
--	if (!user_pfn || !npage || !vfio_assert_device_open(device))
--		return -EINVAL;
-+	if (WARN_ON(npage <= 0 || npage > VFIO_PIN_PAGES_MAX_ENTRIES))
-+		return;
- 
--	if (npage > VFIO_PIN_PAGES_MAX_ENTRIES)
--		return -E2BIG;
-+	if (WARN_ON(!vfio_assert_device_open(device)))
-+		return;
- 
- 	/* group->container cannot change while a vfio device is open */
- 	container = device->group->container;
- 	driver = container->iommu_driver;
--	if (likely(driver && driver->ops->unpin_pages))
--		ret = driver->ops->unpin_pages(container->iommu_data, user_pfn,
--					       npage);
--	else
--		ret = -ENOTTY;
- 
--	return ret;
-+	driver->ops->unpin_pages(container->iommu_data, user_pfn, npage);
- }
- EXPORT_SYMBOL(vfio_unpin_pages);
- 
-diff --git a/drivers/vfio/vfio.h b/drivers/vfio/vfio.h
-index a67130221151..bef4edf58138 100644
---- a/drivers/vfio/vfio.h
-+++ b/drivers/vfio/vfio.h
-@@ -53,7 +53,7 @@ struct vfio_iommu_driver_ops {
- 				     unsigned long *user_pfn,
- 				     int npage, int prot,
- 				     unsigned long *phys_pfn);
--	int		(*unpin_pages)(void *iommu_data,
-+	void		(*unpin_pages)(void *iommu_data,
- 				       unsigned long *user_pfn, int npage);
- 	int		(*register_notifier)(void *iommu_data,
- 					     unsigned long *events,
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index db24062fb343..cfeea4efd625 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -948,20 +948,16 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
- 	return ret;
- }
- 
--static int vfio_iommu_type1_unpin_pages(void *iommu_data,
--					unsigned long *user_pfn,
--					int npage)
-+static void vfio_iommu_type1_unpin_pages(void *iommu_data,
-+					 unsigned long *user_pfn, int npage)
- {
- 	struct vfio_iommu *iommu = iommu_data;
- 	bool do_accounting;
- 	int i;
- 
--	if (!iommu || !user_pfn || npage <= 0)
--		return -EINVAL;
--
- 	/* Supported for v2 version only */
--	if (!iommu->v2)
--		return -EACCES;
-+	if (WARN_ON(!iommu->v2))
-+		return;
- 
- 	mutex_lock(&iommu->lock);
- 
-@@ -979,7 +975,8 @@ static int vfio_iommu_type1_unpin_pages(void *iommu_data,
- 	}
- 
- 	mutex_unlock(&iommu->lock);
--	return i > 0 ? i : -EINVAL;
-+
-+	WARN_ON(i != npage);
- }
- 
- static long vfio_sync_unpin(struct vfio_dma *dma, struct vfio_domain *domain,
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 4d26e149db81..5348ef353029 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -159,8 +159,8 @@ bool vfio_file_has_dev(struct file *file, struct vfio_device *device);
- 
- int vfio_pin_pages(struct vfio_device *device, unsigned long *user_pfn,
- 		   int npage, int prot, unsigned long *phys_pfn);
--int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
--		     int npage);
-+void vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
-+		      int npage);
- int vfio_dma_rw(struct vfio_device *device, dma_addr_t user_iova,
- 		void *data, size_t len, bool write);
- 
+-	total_pages = roundup(size, PAGE_SIZE) / PAGE_SIZE;
+ 	/*
+ 	 * We pin the pages one-by-one to avoid allocating a big arrary
+ 	 * on stack to hold pfns.
 -- 
 2.17.1
 
