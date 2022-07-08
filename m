@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6468956BEA1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:21:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D9A56BE9F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:21:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C542610EBD1;
-	Fri,  8 Jul 2022 18:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01ED10EBCF;
+	Fri,  8 Jul 2022 18:21:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D71210EBD0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:46 +0000 (UTC)
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACE310EBC7
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:40 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
- by albert.telenet-ops.be with bizsmtp
- id siMk2700F4C55Sk06iMkay; Fri, 08 Jul 2022 20:21:46 +0200
+ by michel.telenet-ops.be with bizsmtp
+ id siMf2700n4C55Sk06iMfjX; Fri, 08 Jul 2022 20:21:40 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o9sbg-002fKo-MX; Fri, 08 Jul 2022 20:21:36 +0200
+ id 1o9sbg-002fKp-Nn; Fri, 08 Jul 2022 20:21:36 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o9sbg-00BtPq-6k; Fri, 08 Jul 2022 20:21:36 +0200
+ id 1o9sbg-00BtPy-8U; Fri, 08 Jul 2022 20:21:36 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH 3/5] drm/modes: parse_cmdline: Make mode->*specified handling
- more uniform
-Date: Fri,  8 Jul 2022 20:21:27 +0200
-Message-Id: <4bd5f539b686fbcd097fa07cff2eb6f60ca9bec1.1657301107.git.geert@linux-m68k.org>
+Subject: [PATCH 4/5] drm/modes: Add support for driver-specific named modes
+Date: Fri,  8 Jul 2022 20:21:28 +0200
+Message-Id: <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657301107.git.geert@linux-m68k.org>
 References: <cover.1657301107.git.geert@linux-m68k.org>
@@ -56,61 +55,93 @@ Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The various mode->*specified flags are not handled in an uniform way:
-some flags are set by the corresponding drm_mode_parse_cmdline_*()
-function, some flags by the caller of the function, and some flags by
-both.
+The mode parsing code recognizes named modes only if they are explicitly
+listed in the internal whitelist, which is currently limited to "NTSC"
+and "PAL".
 
-Make this uniform by making this the responsibility of the various
-parsing helpers, i.e.
-  - Move the setting of mode->specified from caller to callee,
-  - Drop the duplicate setting of mode->bpp_specified and
-    mode->refresh_specified from callers.
+Provide a mechanism for drivers to override this list to support custom
+mode names.
+
+Ideally, this list should just come from the driver's actual list of
+modes, but connector->probed_modes is not yet populated at the time of
+parsing.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- drivers/gpu/drm/drm_modes.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/drm_modes.c | 15 +++++++++++----
+ include/drm/drm_connector.h | 10 ++++++++++
+ 2 files changed, 21 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 434383469e9d984d..9ce275fbda566b7c 100644
+index 9ce275fbda566b7c..7a00eb6df502e991 100644
 --- a/drivers/gpu/drm/drm_modes.c
 +++ b/drivers/gpu/drm/drm_modes.c
-@@ -1599,6 +1599,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
- 	mode->yres = yres;
- 	mode->cvt = cvt;
- 	mode->rb = rb;
-+	mode->specified = true;
+@@ -1748,25 +1748,31 @@ static int drm_mode_parse_cmdline_options(const char *str,
+ static const char * const drm_named_modes_whitelist[] = {
+ 	"NTSC",
+ 	"PAL",
++	NULL
+ };
  
- 	return 0;
- }
-@@ -1862,8 +1863,6 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
- 						      mode);
+ static int drm_mode_parse_cmdline_named_mode(const char *name,
+ 					     unsigned int length,
+ 					     bool refresh,
++					     const struct drm_connector *connector,
+ 					     struct drm_cmdline_mode *mode)
+ {
++	const char * const *named_modes_whitelist;
+ 	unsigned int i;
+ 	int ret;
+ 
+-	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+-		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
++	named_modes_whitelist = connector->named_modes_whitelist ? :
++				drm_named_modes_whitelist;
++
++	for (i = 0; named_modes_whitelist[i]; i++) {
++		ret = str_has_prefix(name, named_modes_whitelist[i]);
+ 		if (!ret)
+ 			continue;
+ 
+ 		if (refresh)
+ 			return -EINVAL; /* named + refresh is invalid */
+ 
+-		strcpy(mode->name, drm_named_modes_whitelist[i]);
++		strcpy(mode->name, named_modes_whitelist[i]);
+ 		mode->specified = true;
+ 		return 0;
+ 	}
+@@ -1850,7 +1856,8 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+ 	/* First check for a named mode */
+ 	if (mode_end) {
+ 		ret = drm_mode_parse_cmdline_named_mode(name, mode_end,
+-							refresh_ptr, mode);
++							refresh_ptr, connector,
++							mode);
  		if (ret)
  			return false;
--
--		mode->specified = true;
  	}
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f2571c4c..6361f8a596c01107 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1659,6 +1659,16 @@ struct drm_connector {
  
- 	/* No mode? Check for freestanding extras and/or options */
-@@ -1885,8 +1884,6 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
- 		ret = drm_mode_parse_cmdline_bpp(bpp_ptr, &bpp_end_ptr, mode);
- 		if (ret)
- 			return false;
--
--		mode->bpp_specified = true;
- 	}
+ 	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
+ 	struct hdr_sink_metadata hdr_sink_metadata;
++
++	/**
++	 * @named_modes_whitelist:
++	 *
++	 * Optional NULL-terminated array of names to be considered valid mode
++	 * names.  This lets the command line option parser distinguish between
++	 * mode names and freestanding extras and/or options.
++	 * If not set, a set of defaults will be used.
++	 */
++	const char * const *named_modes_whitelist;
+ };
  
- 	if (refresh_ptr) {
-@@ -1894,8 +1891,6 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
- 						     &refresh_end_ptr, mode);
- 		if (ret)
- 			return false;
--
--		mode->refresh_specified = true;
- 	}
- 
- 	/*
+ #define obj_to_connector(x) container_of(x, struct drm_connector, base)
 -- 
 2.25.1
 
