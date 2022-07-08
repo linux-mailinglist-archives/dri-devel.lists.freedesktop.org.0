@@ -1,64 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F0F56BD20
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 18:03:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA07456BD25
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 18:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E4C410E1EC;
-	Fri,  8 Jul 2022 16:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E624E10E25A;
+	Fri,  8 Jul 2022 16:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2C410E2B8
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 16:03:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6339261A1D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 16:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C5274C341CB
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 16:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657296186;
- bh=dZXBTlu0yG5zEsqW+hi9OD6jf1AM1qG4PSLtC+edkm4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=mthPe0YCuzKxk1ynB5/xtqUTkaX9zgNwKKPCYOrgW0c+GmU/DHhKug9yYXiw99966
- 0bZ8wIpgmAPnOPuY8RmYY6QIxDaQ81vJ5eZK5bJhseFYeZUiNEqfnyTBQKhDREyZn5
- cyoXu8UBDRfin8T87G2HsKYFQxh1/Jhq5r6GOEsOFbn7nAiCtkiwLLP2/Hz+IUW1Er
- laGxG5nmdlet8pwHsKUZ3DVy2zrYpySGikA7xrSk/lT6bWZcIt/AOEKLFoklE5szKT
- Avi7SkZbMpsMErLz8l2LMx1IBN6FfzMpqZTkN1RJeeFFdLHa2n+B+CwKV3WyQGa/yV
- eGeL7F/wosBlg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id AB0FFCC13B8; Fri,  8 Jul 2022 16:03:06 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208835] amdgpu fails to resume from suspend
-Date: Fri, 08 Jul 2022 16:03:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-208835-2300-V3fbNKBAMh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208835-2300@https.bugzilla.kernel.org/>
-References: <bug-208835-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 85F0210E1F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 16:03:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 995571063
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:03:51 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 093E63F66F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:03:50 -0700 (PDT)
+Date: Fri, 8 Jul 2022 17:03:49 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: carsten.haitzler@foss.arm.com
+Subject: Re: [PATCH 1/3] drm/komeda - Add legacy FB support so VT's work as
+ expected
+Message-ID: <YshVZQmYlgE8dIao@e110455-lin.cambridge.arm.com>
+References: <20220606114714.175499-1-carsten.haitzler@foss.arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220606114714.175499-1-carsten.haitzler@foss.arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,20 +43,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D208835
+On Mon, Jun 06, 2022 at 12:47:12PM +0100, carsten.haitzler@foss.arm.com wrote:
+> From: Carsten Haitzler <carsten.haitzler@arm.com>
+> 
+> The komeda driver doesn't come up with a visible text (FB) mode VT by
+> default as it was missing legacy FB support. It's useful to have a
+> working text VT on a system for debug and general usability, so enable
+> it. You can always toggle CONFIG_FRAMEBUFFER_CONSOLE.
+> 
+> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
 
-Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEEDINFO                    |RESOLVED
-         Resolution|---                         |PATCH_ALREADY_AVAILABLE
 
---=20
-You may reply to this email to add a comment.
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> index e7933930a657..c0c7933a9631 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/component.h>
+>  #include <linux/pm_runtime.h>
+> +#include <drm/drm_fb_helper.h>
+>  #include <drm/drm_of.h>
+>  #include "komeda_dev.h"
+>  #include "komeda_kms.h"
+> @@ -71,6 +72,7 @@ static int komeda_bind(struct device *dev)
+>  	}
+>  
+>  	dev_set_drvdata(dev, mdrv);
+> +	drm_fbdev_generic_setup(&mdrv->kms->base, 32);
+>  
+>  	return 0;
+>  
+> -- 
+> 2.32.0
+> 
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
