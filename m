@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E4656C165
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F8156C166
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08BD10EAD7;
-	Fri,  8 Jul 2022 20:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6354510EACE;
+	Fri,  8 Jul 2022 20:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D89E010EAEC
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:54:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA09A10EAC4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1657313661; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1657313662; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gDom/uPmSe9UiwdDAFbjIzOeDiIX+x98YrGKZn/GFRU=;
- b=EgWJ4HV/Vkvqm0qcPZ2jWu76bMes33ds1tI2iDm/nRa7H2hSqoLtMVAx8K0OhK6xMSWZ3C
- NYjnchaPA1lYy3L3u4LKXf1Pvk+B4EK9xrE2B+ATt3svos+IMkbXRcl7HbWbbY21vaNRoI
- BBCvfG0prmzbmpcc/PLhMkrBaM4j1S8=
+ bh=FYgqLSUgOUPjjJXK0NhPam949HCvw65D5TBh/S76VPc=;
+ b=i2o6KSOyIMyxJAhPP2GAkvn3iQb1ygKYo57gDKA6Qc2TcDbzl52O6j2E+NeUg/hYoeW15n
+ WynxsPbrQuStRXOgL0BWHSakMkqcOTqL4kGKguuliirTNnP59CMABRvLqZuydhW6bEtmqv
+ BmPxWTvVlj9V4ExBtkb2+DUVG9/Fsj0=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/6] dt-bindings/display: ingenic: Add compatible string for
- the JZ4760(B)
-Date: Fri,  8 Jul 2022 21:54:01 +0100
-Message-Id: <20220708205406.96473-2-paul@crapouillou.net>
+Subject: [PATCH 2/6] drm/ingenic: Fix MODULE_LICENSE() string
+Date: Fri,  8 Jul 2022 21:54:02 +0100
+Message-Id: <20220708205406.96473-3-paul@crapouillou.net>
 In-Reply-To: <20220708205406.96473-1-paul@crapouillou.net>
 References: <20220708205406.96473-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -44,39 +43,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, list@opendingux.net,
+Cc: Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, list@opendingux.net,
  Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible strings for the LCD controllers found in the JZ4760 and
-JZ4760B SoCs from Ingenic.
+The previous "GPL v2" string is deprecated. For more info, see commit
+bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: devicetree@vger.kernel.org
 ---
- Documentation/devicetree/bindings/display/ingenic,lcd.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-index 0049010b37ca..c0bb02fb49f4 100644
---- a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-+++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-@@ -17,6 +17,8 @@ properties:
-     enum:
-       - ingenic,jz4740-lcd
-       - ingenic,jz4725b-lcd
-+      - ingenic,jz4760-lcd
-+      - ingenic,jz4760b-lcd
-       - ingenic,jz4770-lcd
-       - ingenic,jz4780-lcd
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index eb8208bfe5ab..e435c19d54d5 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -1616,4 +1616,4 @@ module_exit(ingenic_drm_exit);
  
+ MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
+ MODULE_DESCRIPTION("DRM driver for the Ingenic SoCs\n");
+-MODULE_LICENSE("GPL v2");
++MODULE_LICENSE("GPL");
 -- 
 2.35.1
 
