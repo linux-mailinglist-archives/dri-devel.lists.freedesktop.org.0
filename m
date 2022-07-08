@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9EB56B5BC
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 11:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6C656B5B8
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 11:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC1510FBA4;
-	Fri,  8 Jul 2022 09:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B62DB10FC40;
+	Fri,  8 Jul 2022 09:39:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1DF10FBAA
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B6610F556
  for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:39:34 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 74AB41FEFE;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9F4A221D24;
  Fri,  8 Jul 2022 09:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1657273172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iRpd1UjBpCsAD/+smBPJYttRvYTQFmvCTzC2wu6RFnE=;
- b=gQCnOIp7lW4LrQJjJrFkuCg96/z+elfAxYn8fM9a52JS6YqIvexiotBIRQWs6baj3VVccW
- aGFU3fZuhJxt02hxg5Hs+sFQezpqKCbdiSbTTk2BpGR+4NoAWgpD3sor8FQRDHi0DXYaa5
- FmwRnQuFqDoeY9ASCSd5A5dWibjNM8A=
+ bh=jkdim2bwbmg4xLk1nO5EgX0S2/bVDi3tXNRoknGidxc=;
+ b=SX3GTn9p9bGiMIYHQD3xhGn/MhTdQRv9FkRmYshpIFmVCb1eb8id6SCLegwhhsq6f3BpmJ
+ 5o9Q8FtMY2tHyTe8eaXq6ATlrFBn31NV5glqmLOAtlxyaJ27emLBiGLnv7jyPNFmaqZi4Q
+ tyTK2Kl3KfkkxOXnDPscARgLHv7CH4E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1657273172;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iRpd1UjBpCsAD/+smBPJYttRvYTQFmvCTzC2wu6RFnE=;
- b=4RmDKnWD6oQaXZD/4zYt/mGvuFKmLkIRTDnQuRr/dmp62u9M2zwJ2KlxS7neXx1JJ7C+1b
- +3trSmfv1Ux9eXCw==
+ bh=jkdim2bwbmg4xLk1nO5EgX0S2/bVDi3tXNRoknGidxc=;
+ b=+XhMfE/o13PNB/7G2vPUPq7j27E9bL7eZnN90ScXA3kovwfxosG9oqpkjCCipbdYlakPSQ
+ eL7JB6EWFBqFV+CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4BEAE13B24;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7717213A7D;
  Fri,  8 Jul 2022 09:39:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YEivEVT7x2J5TwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aLo+HFT7x2J5TwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 08 Jul 2022 09:39:32 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, airlied@linux.ie, jfalempe@redhat.com, daniel@ffwll.ch
-Subject: [PATCH 09/14] drm/mgag200: Add per-device callbacks
-Date: Fri,  8 Jul 2022 11:39:24 +0200
-Message-Id: <20220708093929.4446-10-tzimmermann@suse.de>
+Subject: [PATCH 10/14] drm/mgag200: Provide per-device callbacks for BMC
+ synchronization
+Date: Fri,  8 Jul 2022 11:39:25 +0200
+Message-Id: <20220708093929.4446-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220708093929.4446-1-tzimmermann@suse.de>
 References: <20220708093929.4446-1-tzimmermann@suse.de>
@@ -71,264 +72,349 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While currently empty, the device callbacks will allow mgag200's
-modesetting code to interact with the BMC and PIXPLLC.
+Move the BMC-related code into its own file and wire it up with device
+callbacks.
+
+While programming a new display mode, G200EW3 and G200WB have to de-
+synchronize with the BMC. Synchronization is done via VIDRST pins
+and controlled via VRSTEN and HRSTEN bits. Move the BMC code behind
+a serviceable interface and call it from the CRTC's enable and
+disable functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c     | 4 +++-
- drivers/gpu/drm/mgag200/mgag200_drv.h     | 7 ++++++-
- drivers/gpu/drm/mgag200/mgag200_g200.c    | 6 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200eh.c  | 6 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200eh3.c | 6 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200er.c  | 6 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200ev.c  | 6 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c | 6 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200se.c  | 5 ++++-
- drivers/gpu/drm/mgag200/mgag200_g200wb.c  | 6 +++++-
- 10 files changed, 48 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/mgag200/Makefile          |   1 +
+ drivers/gpu/drm/mgag200/mgag200_bmc.c     |  99 ++++++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_drv.h     |  15 +++
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  |   2 +
+ drivers/gpu/drm/mgag200/mgag200_mode.c    | 107 ++--------------------
+ 6 files changed, 129 insertions(+), 97 deletions(-)
+ create mode 100644 drivers/gpu/drm/mgag200/mgag200_bmc.c
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 73e8e4e9e54b..c20a59a2cd91 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -162,13 +162,15 @@ int mgag200_device_preinit(struct mga_device *mdev)
- }
- 
- int mgag200_device_init(struct mga_device *mdev, enum mga_type type,
--			const struct mgag200_device_info *info)
-+			const struct mgag200_device_info *info,
-+			const struct mgag200_device_funcs *funcs)
- {
- 	struct drm_device *dev = &mdev->base;
- 	u8 crtcext3, misc;
- 	int ret;
- 
- 	mdev->info = info;
-+	mdev->funcs = funcs;
- 	mdev->type = type;
- 
- 	ret = drmm_mutex_init(dev, &mdev->rmmio_lock);
+diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
+index 89558549c3af..94d465a2b753 100644
+--- a/drivers/gpu/drm/mgag200/Makefile
++++ b/drivers/gpu/drm/mgag200/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ mgag200-y := \
++	mgag200_bmc.o \
+ 	mgag200_drv.o \
+ 	mgag200_g200.o \
+ 	mgag200_g200eh.o \
+diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+new file mode 100644
+index 000000000000..2ba2e3c5086a
+--- /dev/null
++++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
+@@ -0,0 +1,99 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/delay.h>
++
++#include "mgag200_drv.h"
++
++void mgag200_bmc_disable_vidrst(struct mga_device *mdev)
++{
++	u8 tmp;
++	int iter_max;
++
++	/*
++	 * 1 - The first step is to inform the BMC of an upcoming mode
++	 * change. We are putting the misc<0> to output.
++	 */
++
++	WREG8(DAC_INDEX, MGA1064_GEN_IO_CTL);
++	tmp = RREG8(DAC_DATA);
++	tmp |= 0x10;
++	WREG_DAC(MGA1064_GEN_IO_CTL, tmp);
++
++	/* we are putting a 1 on the misc<0> line */
++	WREG8(DAC_INDEX, MGA1064_GEN_IO_DATA);
++	tmp = RREG8(DAC_DATA);
++	tmp |= 0x10;
++	WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
++
++	/*
++	 * 2- Second step to mask any further scan request. This is
++	 * done by asserting the remfreqmsk bit (XSPAREREG<7>)
++	 */
++
++	WREG8(DAC_INDEX, MGA1064_SPAREREG);
++	tmp = RREG8(DAC_DATA);
++	tmp |= 0x80;
++	WREG_DAC(MGA1064_SPAREREG, tmp);
++
++	/*
++	 * 3a- The third step is to verify if there is an active scan.
++	 * We are waiting for a 0 on remhsyncsts <XSPAREREG<0>).
++	 */
++	iter_max = 300;
++	while (!(tmp & 0x1) && iter_max) {
++		WREG8(DAC_INDEX, MGA1064_SPAREREG);
++		tmp = RREG8(DAC_DATA);
++		udelay(1000);
++		iter_max--;
++	}
++
++	/*
++	 * 3b- This step occurs only if the remove is actually
++	 * scanning. We are waiting for the end of the frame which is
++	 * a 1 on remvsyncsts (XSPAREREG<1>)
++	 */
++	if (iter_max) {
++		iter_max = 300;
++		while ((tmp & 0x2) && iter_max) {
++			WREG8(DAC_INDEX, MGA1064_SPAREREG);
++			tmp = RREG8(DAC_DATA);
++			udelay(1000);
++			iter_max--;
++		}
++	}
++}
++
++void mgag200_bmc_enable_vidrst(struct mga_device *mdev)
++{
++	u8 tmp;
++
++	/* Ensure that the vrsten and hrsten are set */
++	WREG8(MGAREG_CRTCEXT_INDEX, 1);
++	tmp = RREG8(MGAREG_CRTCEXT_DATA);
++	WREG8(MGAREG_CRTCEXT_DATA, tmp | 0x88);
++
++	/* Assert rstlvl2 */
++	WREG8(DAC_INDEX, MGA1064_REMHEADCTL2);
++	tmp = RREG8(DAC_DATA);
++	tmp |= 0x8;
++	WREG8(DAC_DATA, tmp);
++
++	udelay(10);
++
++	/* Deassert rstlvl2 */
++	tmp &= ~0x08;
++	WREG8(DAC_INDEX, MGA1064_REMHEADCTL2);
++	WREG8(DAC_DATA, tmp);
++
++	/* Remove mask of scan request */
++	WREG8(DAC_INDEX, MGA1064_SPAREREG);
++	tmp = RREG8(DAC_DATA);
++	tmp &= ~0x80;
++	WREG8(DAC_DATA, tmp);
++
++	/* Put back a 0 on the misc<0> line */
++	WREG8(DAC_INDEX, MGA1064_GEN_IO_DATA);
++	tmp = RREG8(DAC_DATA);
++	tmp &= ~0x10;
++	WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
++}
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 84579c2e1f3c..68c0b72f7430 100644
+index 68c0b72f7430..e8b338198fdb 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -235,10 +235,14 @@ struct mgag200_device_info {
- 		.bug_no_startadd = (_bug_no_startadd), \
+@@ -236,6 +236,17 @@ struct mgag200_device_info {
  	}
  
-+struct mgag200_device_funcs {
-+};
+ struct mgag200_device_funcs {
++	/*
++	 * Disables an external reset source (i.e., BMC) before programming
++	 * a new display mode.
++	 */
++	void (*disable_vidrst)(struct mga_device *mdev);
 +
++	/*
++	 * Enables an external reset source (i.e., BMC) after programming
++	 * a new display mode.
++	 */
++	void (*enable_vidrst)(struct mga_device *mdev);
+ };
+ 
  struct mga_device {
- 	struct drm_device base;
+@@ -327,6 +338,10 @@ resource_size_t mgag200_device_probe_vram(struct mga_device *mdev);
+ void mgag200_init_registers(struct mga_device *mdev);
+ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_fb_available);
  
- 	const struct mgag200_device_info *info;
-+	const struct mgag200_device_funcs *funcs;
- 
- 	struct resource			*rmmio_res;
- 	void __iomem			*rmmio;
-@@ -295,7 +299,8 @@ resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size);
- resource_size_t mgag200_device_probe_vram(struct mga_device *mdev);
- int mgag200_device_preinit(struct mga_device *mdev);
- int mgag200_device_init(struct mga_device *mdev, enum mga_type type,
--			const struct mgag200_device_info *info);
-+			const struct mgag200_device_info *info,
-+			const struct mgag200_device_funcs *funcs);
- 
- 				/* mgag200_<device type>.c */
- struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
-index c6303fcb8fe7..5de77ef637f7 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
-@@ -195,6 +195,9 @@ static void mgag200_g200_init_refclk(struct mgag200_g200_device *g200)
- 	pci_unmap_rom(pdev, rom);
- }
- 
-+static const struct mgag200_device_funcs mgag200_g200_device_funcs = {
-+};
++				/* mgag200_bmc.c */
++void mgag200_bmc_disable_vidrst(struct mga_device *mdev);
++void mgag200_bmc_enable_vidrst(struct mga_device *mdev);
 +
- struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
- 					      enum mga_type type)
- {
-@@ -222,7 +225,8 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
- 
- 	mgag200_g200_init_refclk(g200);
- 
--	ret = mgag200_device_init(mdev, type, &mgag200_g200_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200_device_info,
-+				  &mgag200_g200_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-index 365f486d3ce7..6acfc9eeeda9 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-@@ -47,6 +47,9 @@ void mgag200_g200eh_init_registers(struct mga_device *mdev)
- static const struct mgag200_device_info mgag200_g200eh_device_info =
- 	MGAG200_DEVICE_INFO_INIT(2048, 2048, 37500, false, 1, 0, false);
- 
-+static const struct mgag200_device_funcs mgag200_g200eh_device_funcs = {
-+};
-+
- struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
- 						enum mga_type type)
- {
-@@ -70,7 +73,8 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, &mgag200_g200eh_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200eh_device_info,
-+				  &mgag200_g200eh_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-index adb9190b62af..99e00aa848e1 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-@@ -13,6 +13,9 @@
- static const struct mgag200_device_info mgag200_g200eh3_device_info =
- 	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false, 1, 0, false);
- 
-+static const struct mgag200_device_funcs mgag200_g200eh3_device_funcs = {
-+};
-+
- struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
- 						 const struct drm_driver *drv,
- 						 enum mga_type type)
-@@ -37,7 +40,8 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, &mgag200_g200eh3_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200eh3_device_info,
-+				  &mgag200_g200eh3_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index 4489b382ebd0..76eb4776658a 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -47,6 +47,9 @@ static void mgag200_g200er_init_registers(struct mga_device *mdev)
- static const struct mgag200_device_info mgag200_g200er_device_info =
- 	MGAG200_DEVICE_INFO_INIT(2048, 2048, 55000, false, 1, 0, false);
- 
-+static const struct mgag200_device_funcs mgag200_g200er_device_funcs = {
-+};
-+
- struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
- 						enum mga_type type)
- {
-@@ -66,7 +69,8 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, &mgag200_g200er_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200er_device_info,
-+				  &mgag200_g200er_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-index ce26d48c9691..e9ea09195471 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-@@ -51,6 +51,9 @@ static void mgag200_g200ev_init_registers(struct mga_device *mdev)
- static const struct mgag200_device_info mgag200_g200ev_device_info =
- 	MGAG200_DEVICE_INFO_INIT(2048, 2048, 32700, false, 0, 1, false);
- 
-+static const struct mgag200_device_funcs mgag200_g200ev_device_funcs = {
-+};
-+
- struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
- 						enum mga_type type)
- {
-@@ -74,7 +77,8 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, &mgag200_g200ev_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200ev_device_info,
-+				  &mgag200_g200ev_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
+ 				/* mgag200_i2c.c */
+ int mgag200_i2c_init(struct mga_device *mdev, struct mga_i2c_chan *i2c);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-index a4ecdd3784a3..202db00bb62e 100644
+index 202db00bb62e..19a870120ebc 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-@@ -20,6 +20,9 @@ static void mgag200_g200ew3_init_registers(struct mga_device *mdev)
- static const struct mgag200_device_info mgag200_g200ew3_device_info =
+@@ -21,6 +21,8 @@ static const struct mgag200_device_info mgag200_g200ew3_device_info =
  	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, true, 0, 1, false);
  
-+static const struct mgag200_device_funcs mgag200_g200ew3_device_funcs = {
-+};
-+
+ static const struct mgag200_device_funcs mgag200_g200ew3_device_funcs = {
++	.disable_vidrst = mgag200_bmc_disable_vidrst,
++	.enable_vidrst = mgag200_bmc_enable_vidrst,
+ };
+ 
  static resource_size_t mgag200_g200ew3_device_probe_vram(struct mga_device *mdev)
- {
- 	resource_size_t vram_size = resource_size(mdev->vram_res);
-@@ -53,7 +56,8 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, &mgag200_g200ew3_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200ew3_device_info,
-+				  &mgag200_g200ew3_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-index 9f51be8ef731..5bdc20db3810 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-@@ -108,6 +108,9 @@ static int mgag200_g200se_init_unique_rev_id(struct mgag200_g200se_device *g200s
- 	return 0;
- }
- 
-+static const struct mgag200_device_funcs mgag200_g200se_device_funcs = {
-+};
-+
- struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
- 						enum mga_type type)
- {
-@@ -159,7 +162,7 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	ret = mgag200_device_init(mdev, type, info);
-+	ret = mgag200_device_init(mdev, type, info, &mgag200_g200se_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-index e4de4b2dc2e2..3ca016b33e9a 100644
+index 3ca016b33e9a..92e174d63752 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-@@ -45,6 +45,9 @@ void mgag200_g200wb_init_registers(struct mga_device *mdev)
- static const struct mgag200_device_info mgag200_g200wb_device_info =
+@@ -46,6 +46,8 @@ static const struct mgag200_device_info mgag200_g200wb_device_info =
  	MGAG200_DEVICE_INFO_INIT(1280, 1024, 31877, true, 0, 1, false);
  
-+static const struct mgag200_device_funcs mgag200_g200wb_device_funcs = {
-+};
-+
+ static const struct mgag200_device_funcs mgag200_g200wb_device_funcs = {
++	.disable_vidrst = mgag200_bmc_disable_vidrst,
++	.enable_vidrst = mgag200_bmc_enable_vidrst,
+ };
+ 
  struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
- 						enum mga_type type)
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 789e02b8615f..7bcd3f6d891d 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -132,95 +132,6 @@ static inline void mga_wait_busy(struct mga_device *mdev)
+ 	} while ((status & 0x01) && time_before(jiffies, timeout));
+ }
+ 
+-static void mgag200_g200wb_hold_bmc(struct mga_device *mdev)
+-{
+-	u8 tmp;
+-	int iter_max;
+-
+-	/* 1- The first step is to warn the BMC of an upcoming mode change.
+-	 * We are putting the misc<0> to output.*/
+-
+-	WREG8(DAC_INDEX, MGA1064_GEN_IO_CTL);
+-	tmp = RREG8(DAC_DATA);
+-	tmp |= 0x10;
+-	WREG_DAC(MGA1064_GEN_IO_CTL, tmp);
+-
+-	/* we are putting a 1 on the misc<0> line */
+-	WREG8(DAC_INDEX, MGA1064_GEN_IO_DATA);
+-	tmp = RREG8(DAC_DATA);
+-	tmp |= 0x10;
+-	WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
+-
+-	/* 2- Second step to mask and further scan request
+-	 * This will be done by asserting the remfreqmsk bit (XSPAREREG<7>)
+-	 */
+-	WREG8(DAC_INDEX, MGA1064_SPAREREG);
+-	tmp = RREG8(DAC_DATA);
+-	tmp |= 0x80;
+-	WREG_DAC(MGA1064_SPAREREG, tmp);
+-
+-	/* 3a- the third step is to verifu if there is an active scan
+-	 * We are searching for a 0 on remhsyncsts <XSPAREREG<0>)
+-	 */
+-	iter_max = 300;
+-	while (!(tmp & 0x1) && iter_max) {
+-		WREG8(DAC_INDEX, MGA1064_SPAREREG);
+-		tmp = RREG8(DAC_DATA);
+-		udelay(1000);
+-		iter_max--;
+-	}
+-
+-	/* 3b- this step occurs only if the remove is actually scanning
+-	 * we are waiting for the end of the frame which is a 1 on
+-	 * remvsyncsts (XSPAREREG<1>)
+-	 */
+-	if (iter_max) {
+-		iter_max = 300;
+-		while ((tmp & 0x2) && iter_max) {
+-			WREG8(DAC_INDEX, MGA1064_SPAREREG);
+-			tmp = RREG8(DAC_DATA);
+-			udelay(1000);
+-			iter_max--;
+-		}
+-	}
+-}
+-
+-static void mgag200_g200wb_release_bmc(struct mga_device *mdev)
+-{
+-	u8 tmp;
+-
+-	/* 1- The first step is to ensure that the vrsten and hrsten are set */
+-	WREG8(MGAREG_CRTCEXT_INDEX, 1);
+-	tmp = RREG8(MGAREG_CRTCEXT_DATA);
+-	WREG8(MGAREG_CRTCEXT_DATA, tmp | 0x88);
+-
+-	/* 2- second step is to assert the rstlvl2 */
+-	WREG8(DAC_INDEX, MGA1064_REMHEADCTL2);
+-	tmp = RREG8(DAC_DATA);
+-	tmp |= 0x8;
+-	WREG8(DAC_DATA, tmp);
+-
+-	/* wait 10 us */
+-	udelay(10);
+-
+-	/* 3- deassert rstlvl2 */
+-	tmp &= ~0x08;
+-	WREG8(DAC_INDEX, MGA1064_REMHEADCTL2);
+-	WREG8(DAC_DATA, tmp);
+-
+-	/* 4- remove mask of scan request */
+-	WREG8(DAC_INDEX, MGA1064_SPAREREG);
+-	tmp = RREG8(DAC_DATA);
+-	tmp &= ~0x80;
+-	WREG8(DAC_DATA, tmp);
+-
+-	/* 5- put back a 0 on the misc<0> line */
+-	WREG8(DAC_INDEX, MGA1064_GEN_IO_DATA);
+-	tmp = RREG8(DAC_DATA);
+-	tmp &= ~0x10;
+-	WREG_DAC(MGA1064_GEN_IO_DATA, tmp);
+-}
+-
+ /*
+  * This is how the framebuffer base address is stored in g200 cards:
+  *   * Assume @offset is the gpu_addr variable of the framebuffer object
+@@ -804,14 +715,15 @@ static void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc,
  {
-@@ -68,7 +71,8 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
+ 	struct drm_device *dev = crtc->dev;
+ 	struct mga_device *mdev = to_mga_device(dev);
++	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+ 	const struct drm_format_info *format = mgag200_crtc_state->format;
+ 	struct mgag200_pll *pixpll = &mdev->pixpll;
  
--	ret = mgag200_device_init(mdev, type, &mgag200_g200wb_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200wb_device_info,
-+				  &mgag200_g200wb_device_funcs);
- 	if (ret)
- 		return ERR_PTR(ret);
+-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
+-		mgag200_g200wb_hold_bmc(mdev);
++	if (funcs->disable_vidrst)
++		funcs->disable_vidrst(mdev);
  
+ 	mgag200_set_format_regs(mdev, format);
+ 	mgag200_set_mode_regs(mdev, adjusted_mode);
+@@ -828,22 +740,23 @@ static void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 
+ 	mgag200_enable_display(mdev);
+ 
+-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
+-		mgag200_g200wb_release_bmc(mdev);
++	if (funcs->enable_vidrst)
++		funcs->enable_vidrst(mdev);
+ }
+ 
+ static void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+ 					       struct drm_atomic_state *old_state)
+ {
+ 	struct mga_device *mdev = to_mga_device(crtc->dev);
++	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 
+-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
+-		mgag200_g200wb_hold_bmc(mdev);
++	if (funcs->disable_vidrst)
++		funcs->disable_vidrst(mdev);
+ 
+ 	mgag200_disable_display(mdev);
+ 
+-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
+-		mgag200_g200wb_release_bmc(mdev);
++	if (funcs->enable_vidrst)
++		funcs->enable_vidrst(mdev);
+ }
+ 
+ static const struct drm_crtc_helper_funcs mgag200_crtc_helper_funcs = {
 -- 
 2.36.1
 
