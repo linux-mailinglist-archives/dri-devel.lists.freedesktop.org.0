@@ -2,31 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBD356C167
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C4D56C168
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:54:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA0710EAB9;
-	Fri,  8 Jul 2022 20:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A5210EADC;
+	Fri,  8 Jul 2022 20:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5331810EAB9
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:54:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 328AD10EAC4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1657313664; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1657313665; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZsmOgxVVFKAi6We+Fa/t9BWj1gjKa2nAi7YQfMy/OG4=;
- b=DgsHAiF2KQTgAd3uK9vqRF2PFq3Meig+1VcimiGTQtsuJ169HT/acSLFmTg+S+W5V6L+3Q
- AFkpFRd9W4gIjkt8BnfSIzJEmp4PfDpLxwpWRsy2/eCGYAUvM2amSTbA0mjKhXveAqZmdm
- LaP7B/KWdfVHHWAf/PspQI04Xzsm/4o=
+ bh=CstdOR1GH8PTss/tJU+TspqDPaPgCuNQmeryFjsonoU=;
+ b=TPmZ7n5f1FV3VmbioC9/itJnqP+g7Wd+oEJvJgMscumGiuhjgGrq75k36fLXS2/cnIR/yE
+ H0ulKt9cE8YSO7jkAhHeztipZVZmMtGTmHgMw87bRNGh9fZ8harlsb9UYwqjjgmLsKlIWs
+ AkzukoBLeReRnCs8F1cNUF+lUN46108=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/6] drm/ingenic: Add support for the JZ4760(B)
-Date: Fri,  8 Jul 2022 21:54:03 +0100
-Message-Id: <20220708205406.96473-4-paul@crapouillou.net>
+Subject: [PATCH 4/6] drm/ingenic: Don't request full modeset if property is
+ not modified
+Date: Fri,  8 Jul 2022 21:54:04 +0100
+Message-Id: <20220708205406.96473-5-paul@crapouillou.net>
 In-Reply-To: <20220708205406.96473-1-paul@crapouillou.net>
 References: <20220708205406.96473-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -50,60 +51,40 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the JZ4760 and JZ4760B SoCs to the ingenic-drm display
-driver.
+Avoid requesting a full modeset if the sharpness property is not
+modified, because then we don't actually need it.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 28 +++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index e435c19d54d5..78d0b035e2d7 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1541,6 +1541,32 @@ static const struct jz_soc_info jz4725b_soc_info = {
- 	.num_formats_f0 = ARRAY_SIZE(jz4725b_formats_f0),
- };
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index 32a50935aa6d..d13f58ad4769 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -697,10 +697,12 @@ ingenic_ipu_plane_atomic_set_property(struct drm_plane *plane,
+ {
+ 	struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
+ 	struct drm_crtc_state *crtc_state;
++	bool mode_changed;
  
-+static const struct jz_soc_info jz4760_soc_info = {
-+	.needs_dev_clk = false,
-+	.has_osd = true,
-+	.map_noncoherent = false,
-+	.max_width = 1280,
-+	.max_height = 720,
-+	.max_burst = JZ_LCD_CTRL_BURST_32,
-+	.formats_f1 = jz4770_formats_f1,
-+	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
-+	.formats_f0 = jz4770_formats_f0,
-+	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
-+};
-+
-+static const struct jz_soc_info jz4760b_soc_info = {
-+	.needs_dev_clk = false,
-+	.has_osd = true,
-+	.map_noncoherent = false,
-+	.max_width = 1280,
-+	.max_height = 720,
-+	.max_burst = JZ_LCD_CTRL_BURST_64,
-+	.formats_f1 = jz4770_formats_f1,
-+	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
-+	.formats_f0 = jz4770_formats_f0,
-+	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
-+};
-+
- static const struct jz_soc_info jz4770_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
-@@ -1572,6 +1598,8 @@ static const struct jz_soc_info jz4780_soc_info = {
- static const struct of_device_id ingenic_drm_of_match[] = {
- 	{ .compatible = "ingenic,jz4740-lcd", .data = &jz4740_soc_info },
- 	{ .compatible = "ingenic,jz4725b-lcd", .data = &jz4725b_soc_info },
-+	{ .compatible = "ingenic,jz4760-lcd", .data = &jz4760_soc_info },
-+	{ .compatible = "ingenic,jz4760b-lcd", .data = &jz4760b_soc_info },
- 	{ .compatible = "ingenic,jz4770-lcd", .data = &jz4770_soc_info },
- 	{ .compatible = "ingenic,jz4780-lcd", .data = &jz4780_soc_info },
- 	{ /* sentinel */ },
+ 	if (property != ipu->sharpness_prop)
+ 		return -EINVAL;
+ 
++	mode_changed = val != ipu->sharpness;
+ 	ipu->sharpness = val;
+ 
+ 	if (state->crtc) {
+@@ -708,7 +710,7 @@ ingenic_ipu_plane_atomic_set_property(struct drm_plane *plane,
+ 		if (WARN_ON(!crtc_state))
+ 			return -EINVAL;
+ 
+-		crtc_state->mode_changed = true;
++		crtc_state->mode_changed |= mode_changed;
+ 	}
+ 
+ 	return 0;
 -- 
 2.35.1
 
