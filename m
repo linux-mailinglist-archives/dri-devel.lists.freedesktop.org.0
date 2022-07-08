@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653DA56C12F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:09:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362D256C131
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 22:14:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1985010E446;
-	Fri,  8 Jul 2022 20:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 426DF10E244;
+	Fri,  8 Jul 2022 20:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
  [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D715E10E309
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:09:19 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id z13so28955923qts.12
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 13:09:19 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58B1910E244
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 20:14:25 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id e7so3452084qts.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 13:14:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=g4cN28gLKvnxOr4BZ0S05ExiGP3ONr1wnsZDOx3J0h4=;
- b=2ni/EC8FKgndXcVoWX3tiezb94nX4/BjRx7FjcXX0aii5A12TSF4UwJcg0Y6QE4mxe
- 7JDUjc+Gb4jro4/YXiNGxgiqQBcoTjFzywqUt+QWRonG6fBoP8FR0cJcda7Irwu0uiXb
- u4VZCngR8YX2bu8eN4p2SjjyTLirlkS6ReTHmXGlfsznfJlGMuwmoSOwovcdpkLjnel3
- zvcWhpOSFTln4k+IkPHYyL2wu1u5rhT6n+THuIBclE7+0eGq4o2ssPEGYL2dylfrZ5Ve
- U1bmhSRWJWtLuBEc+SbdaFY+sIlH2xa5bl2ARbQsBvU+uqBlAR7OYr5313UP5BpxM7Yn
- vPPA==
-X-Gm-Message-State: AJIora87p2WYG+dK+F8u6zEQ/IyXTARXs/JWC8DZ+VKfI4HJA1/8PdBo
- slOpfJNzsZ4JAhhoK4omdKWzXk3Umeqnow==
-X-Google-Smtp-Source: AGRyM1uLayaXP5uxkSn1U3JKx1YW2Kh+YTsr5URZSyWHyvIjQE/OdycqUCtCPNWE3gC63v6OiTxglA==
-X-Received: by 2002:a05:6214:621:b0:432:5e0d:cb64 with SMTP id
- a1-20020a056214062100b004325e0dcb64mr4182808qvx.65.1657310955203; 
- Fri, 08 Jul 2022 13:09:15 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
- [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
- l21-20020a37f915000000b006b470422c78sm12141929qkj.121.2022.07.08.13.09.13
+ bh=/zOe+CzPYZZs/hmA7mLwnSYETa9zn5ouTBI7OSu/RXM=;
+ b=jlg0sYmxCSlekWEk7NQBkZ/v19Hol4dEJFytfqMvbXmbrylbgmUsznHW5deXL+GObI
+ c9byJ1xxn732BGyPZ2YFgZLKvzzaoXyXJ6YeErMhzlypeTGdazaAf+aUh/ymUhJVSQ0V
+ l2C1701eGKL0YDrYY9Y2TP59wQS5z8Fn2t8Do0KbrAv/mYj4EcDcAtR7VomZn/I9xgPi
+ 9Z/G/Er3bYo3/GsTBOiKm+/9X8Y3ZKCnB4UhMLx4GkVS2khn6ek7Doiic9qM/hqjzz2O
+ /yFe3k0pc+AGbxbBTqgWS9mF1Adb0Tu4jPCtp6dyMaIcOYUWBspkGCMNt8qD74p+ihaU
+ SycA==
+X-Gm-Message-State: AJIora8oZleOYK+UYfWISSXCg1dYExfPR9kZkOm+3ay5l+R1TPsFeImW
+ +JWjZzuQZJtCp1ShPhZyGtWtACVf43Ea/g==
+X-Google-Smtp-Source: AGRyM1vkPAZ/W8ItE4S7+4xtuhs2HDnG9sXtuixKO6eD+KFfN4Tv8nWPIGREYWlbDX70NPD7cSZZ0Q==
+X-Received: by 2002:a0c:d983:0:b0:472:ee1a:8ef2 with SMTP id
+ y3-20020a0cd983000000b00472ee1a8ef2mr4184503qvj.111.1657311264384; 
+ Fri, 08 Jul 2022 13:14:24 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
+ s9-20020ac85289000000b00304efba3d84sm29357158qtn.25.2022.07.08.13.14.18
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 13:09:14 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-31cf1adbf92so81436547b3.4
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 13:09:13 -0700 (PDT)
-X-Received: by 2002:a0d:dd09:0:b0:31c:e3b9:7442 with SMTP id
- g9-20020a0ddd09000000b0031ce3b97442mr5915415ywe.47.1657310953183; Fri, 08 Jul
- 2022 13:09:13 -0700 (PDT)
+ Fri, 08 Jul 2022 13:14:20 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id f73so8752049yba.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 13:14:18 -0700 (PDT)
+X-Received: by 2002:a05:6902:701:b0:66e:a06d:53d7 with SMTP id
+ k1-20020a056902070100b0066ea06d53d7mr5316435ybt.604.1657311257860; Fri, 08
+ Jul 2022 13:14:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1657301107.git.geert@linux-m68k.org>
- <64e2e9b14c26df28908789374253fd12072c26c2.1657301107.git.geert@linux-m68k.org>
- <b7d937bc-d7c3-6f7a-047c-fc6e5756a5a0@redhat.com>
- <CAMuHMdWCz4j5bxKBY-W3zWiCLRc9QP+OKco-haGH_9YUhaROgA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWCz4j5bxKBY-W3zWiCLRc9QP+OKco-haGH_9YUhaROgA@mail.gmail.com>
+ <402dea47269f2e3960946d186ba3cb118066e74a.1657301107.git.geert@linux-m68k.org>
+ <c95724ad-a3b0-2ac8-5413-b971626e7e63@redhat.com>
+In-Reply-To: <c95724ad-a3b0-2ac8-5413-b971626e7e63@redhat.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 Jul 2022 22:09:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWmBsakEndNi0+r3NZ2xLkVt6ZhAoJGS2eWhcc1Bi20HQ@mail.gmail.com>
-Message-ID: <CAMuHMdWmBsakEndNi0+r3NZ2xLkVt6ZhAoJGS2eWhcc1Bi20HQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/modes: parse_cmdline: Handle empty mode name part
+Date: Fri, 8 Jul 2022 22:14:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU4tmYfnc96SGKuvdKC_JGNOHUmmNwrN4DdOmw0LijPvA@mail.gmail.com>
+Message-ID: <CAMuHMdU4tmYfnc96SGKuvdKC_JGNOHUmmNwrN4DdOmw0LijPvA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/modes: Extract drm_mode_parse_cmdline_named_mode()
 To: Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,43 +77,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Hans,
 
-On Fri, Jul 8, 2022 at 10:06 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Jul 8, 2022 at 9:28 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> > On 7/8/22 20:21, Geert Uytterhoeven wrote:
-> > > If no mode name part was specified, mode_end is zero, and the "ret ==
-> > > mode_end" check does the wrong thing.
-> > >
-> > > Fix this by checking for a non-zero return value instead.
+On Fri, Jul 8, 2022 at 9:46 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 7/8/22 20:21, Geert Uytterhoeven wrote:
+> > Extract the code to check for a named mode parameter into its own
+> > function, to streamline the main parsing flow.
 > >
-> > Which is wrong to do, since now if you have e.g. a mode list
-> > with:
-> >
-> > "dblntsc",
-> > "dblntsc-ff"
-> >
-> > in there and the cmdline contains "dblntsc-ff" then you
-> > will already stop with a (wrong!) match at "dblntsc".
->
-> It indeed behaves that way, and did so before, as str_has_prefix()
-> checks for a matching prefix, and thus may never get to the full
-> match.  However, can we change that to an exact match, without
-> introducing regressions?
-> This can be avoided by reverse-sorting the modelist (or iterating
-> backwards through a sorted modelist), though.
->
-> > > While at it, skip all named mode handling when mode_end is zero, as it
-> > > is futile.
-> >
-> > AFAICT, this is actually what needs to be done to fix this, while keeping
-> > the ret == mode_end check.
->
-> "ret == mode_end" or "ret" doesn't matter (except for the special
-> case of mode_end is zero), as str_has_prefix() returns either zero or
-> the length of the prefix.  Hence it never returns a non-zero value
-> smaller than the length of the prefix.
+> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Ignore that.  I finally saw what's really happening.
-And I do agree with your comment.
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -1749,6 +1749,30 @@ static const char * const drm_named_modes_whitelist[] = {
+> >       "PAL",
+> >  };
+> >
+> > +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> > +                                          unsigned int length,
+> > +                                          bool refresh,
+> > +                                          struct drm_cmdline_mode *mode)
+> > +{
+> > +     unsigned int i;
+> > +     int ret;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> > +             ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> > +             if (!ret)
+>
+> As discussed in my review of 1/5 this needs to become:
+>
+>                 if (ret != length)
+> > +                     continue;
+
+Agreed.
+
+> Which renders my other comment on this patch (length not being used) mute.
+
+/me wonders if he would have seen the light earlier if gcc would have
+warned about that...
 
 Gr{oetje,eeting}s,
 
