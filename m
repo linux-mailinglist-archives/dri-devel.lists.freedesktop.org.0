@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9EC56B5AE
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 11:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAF756B5B3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 11:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E43B510FF36;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB60710FC30;
 	Fri,  8 Jul 2022 09:39:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 074FD10FBE9
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:39:32 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C8E10FBEA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 09:39:33 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6D86521D20;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 95FF01FDC9;
  Fri,  8 Jul 2022 09:39:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1657273171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Kw27SST5IkqNDmyaMELD6Ijve+e3agxxbuGcWV7Ys8=;
- b=U+20K4oAwcDn9UCX/6Nlu8X91JqEUShTbEPW3qCDGy00kIbu+yg5Sr5f9mNlVZELEf+7S4
- 6gowbD1Cj/+1T2Zxf8f6VBWdgaWB3hNFgme7EzMIQcspDZFMoy7FfAOG8JKlHGbzxFcBL/
- FrhZvpYWIC4Su/BLsmBsSToblIYp1Kk=
+ bh=mvm+htpXADT4/+NssZF6iggKg/2XFj9c6CsaUWQNlas=;
+ b=BX0zgNV1y/rarVpff/Eei6bpOhkBcoahvUMiF/ThEtHJRS9Dkc9NizPUigNLO3h1BoG82p
+ jUkCd459mHEWyK4yqf9LuUqI/HIpZx6JlEsQLX0mkTrNC2TTwpOzGBv8FQfS7LSRhSZNeC
+ eshOwboRsDgZcjT4Z99xk3rlpP5ypbU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1657273171;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Kw27SST5IkqNDmyaMELD6Ijve+e3agxxbuGcWV7Ys8=;
- b=VMJmIQNFba1WYKyfcCUkX8/YW9xZIxMSrCtUGYOBocYLW5ToGVgfQ6jjCwPyeKa8ISBM85
- xr4yX156P2eSKQAg==
+ bh=mvm+htpXADT4/+NssZF6iggKg/2XFj9c6CsaUWQNlas=;
+ b=B764Qvfi+I2bxG3dxAeAuCF4aTF3b+sgtXi5Qm2InA5IFfvMfhf6/REVql/0kNx77Zxif6
+ InsSj8qr2n294fBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4513613B24;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6F80313A7D;
  Fri,  8 Jul 2022 09:39:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4DUHEFP7x2J5TwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aI9mGlP7x2J5TwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 08 Jul 2022 09:39:31 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, airlied@linux.ie, jfalempe@redhat.com, daniel@ffwll.ch
-Subject: [PATCH 03/14] dmr/mgag200: Move ER/EW3 register initializatino to
- per-model code
-Date: Fri,  8 Jul 2022 11:39:18 +0200
-Message-Id: <20220708093929.4446-4-tzimmermann@suse.de>
+Subject: [PATCH 04/14] drm/mgag200: Acquire I/O-register lock in
+ atomic_commit_tail function
+Date: Fri,  8 Jul 2022 11:39:19 +0200
+Message-Id: <20220708093929.4446-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220708093929.4446-1-tzimmermann@suse.de>
 References: <20220708093929.4446-1-tzimmermann@suse.de>
@@ -72,73 +72,109 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The register initialization code contains special cases for G200ER
-and G200EW3 hardware. Move this to per-model code.
+Hold I/O-register lock in atomic_commit_tail to protect all pipeline
+updates at once. Protects against concurrent I/O access in get-modes
+helper.
+
+Complex modesetting operations involve mode changes, plane updates and
+possibly BMC updates. Make all this atomic wrt to reading display modes
+via EDID. It's not so much an issue with simple-KMS helpers, but will
+become necessary for using regular atomic helpers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_g200er.c  | 2 ++
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c | 9 ++++++++-
- drivers/gpu/drm/mgag200/mgag200_mode.c    | 6 ------
- 3 files changed, 10 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 36 ++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index acdccc419944..4489b382ebd0 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -36,6 +36,8 @@ static void mgag200_g200er_init_registers(struct mga_device *mdev)
- 	WREG_DAC(0x90, 0); /* G200ER specific */
- 
- 	mgag200_init_registers(mdev);
-+
-+	WREG_ECRT(0x24, 0x5); /* G200ER specific */
- }
- 
- /*
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-index d86284c0eb4d..a4ecdd3784a3 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-@@ -6,6 +6,13 @@
- 
- #include "mgag200_drv.h"
- 
-+static void mgag200_g200ew3_init_registers(struct mga_device *mdev)
-+{
-+	mgag200_g200wb_init_registers(mdev); // same as G200WB
-+
-+	WREG_ECRT(0x34, 0x5); // G200EW3 specific
-+}
-+
- /*
-  * DRM device
-  */
-@@ -50,7 +57,7 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	mgag200_g200wb_init_registers(mdev); // same as G200WB
-+	mgag200_g200ew3_init_registers(mdev);
- 
- 	vram_available = mgag200_g200ew3_device_probe_vram(mdev);
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index f9868d728e6d..9bd5d743a87e 100644
+index 9bd5d743a87e..0c98742a1b65 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -288,12 +288,6 @@ void mgag200_init_registers(struct mga_device *mdev)
- 		    MGAREG_CRTC11_VINTCLR);
- 	WREG_CRT(0x11, crtc11);
+@@ -11,6 +11,7 @@
+ #include <linux/delay.h>
+ #include <linux/iosys-map.h>
  
--	if (mdev->type == G200_ER)
--		WREG_ECRT(0x24, 0x5);
++#include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_crtc_helper.h>
+@@ -703,14 +704,6 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 		.y2 = fb->height,
+ 	};
+ 
+-	/*
+-	 * Concurrent operations could possibly trigger a call to
+-	 * drm_connector_helper_funcs.get_modes by trying to read the
+-	 * display modes. Protect access to I/O registers by acquiring
+-	 * the I/O-register lock.
+-	 */
+-	mutex_lock(&mdev->rmmio_lock);
 -
--	if (mdev->type == G200_EW3)
--		WREG_ECRT(0x34, 0x5);
+ 	if (mdev->type == G200_WB || mdev->type == G200_EW3)
+ 		mgag200_g200wb_hold_bmc(mdev);
+ 
+@@ -742,8 +735,6 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	/* Always scanout image at VRAM offset 0 */
+ 	mgag200_set_startadd(mdev, (u32)0);
+ 	mgag200_set_offset(mdev, fb);
 -
- 	misc = RREG8(MGA_MISC_IN);
- 	misc |= MGAREG_MISC_IOADSEL;
- 	WREG8(MGA_MISC_OUT, misc);
+-	mutex_unlock(&mdev->rmmio_lock);
+ }
+ 
+ static void
+@@ -813,8 +804,6 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	if (!fb)
+ 		return;
+ 
+-	mutex_lock(&mdev->rmmio_lock);
+-
+ 	if (crtc->state->color_mgmt_changed && crtc->state->gamma_lut)
+ 		mgag200_crtc_set_gamma(mdev, fb->format, crtc->state->gamma_lut->data);
+ 
+@@ -825,8 +814,6 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	/* Always scanout image at VRAM offset 0 */
+ 	mgag200_set_startadd(mdev, (u32)0);
+ 	mgag200_set_offset(mdev, fb);
+-
+-	mutex_unlock(&mdev->rmmio_lock);
+ }
+ 
+ static struct drm_crtc_state *
+@@ -904,6 +891,26 @@ static const uint64_t mgag200_simple_display_pipe_fmtmods[] = {
+  * Mode config
+  */
+ 
++static void mgag200_mode_config_helper_atomic_commit_tail(struct drm_atomic_state *state)
++{
++	struct mga_device *mdev = to_mga_device(state->dev);
++
++	/*
++	 * Concurrent operations could possibly trigger a call to
++	 * drm_connector_helper_funcs.get_modes by trying to read the
++	 * display modes. Protect access to I/O registers by acquiring
++	 * the I/O-register lock.
++	 */
++	mutex_lock(&mdev->rmmio_lock);
++	drm_atomic_helper_commit_tail(state);
++	mutex_unlock(&mdev->rmmio_lock);
++}
++
++static const struct drm_mode_config_helper_funcs mgag200_mode_config_helper_funcs = {
++	.atomic_commit_tail = mgag200_mode_config_helper_atomic_commit_tail,
++};
++
++
+ /* Calculates a mode's required memory bandwidth (in KiB/sec). */
+ static uint32_t mgag200_calculate_mode_bandwidth(const struct drm_display_mode *mode,
+ 						 unsigned int bits_per_pixel)
+@@ -984,6 +991,7 @@ static int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vra
+ 	dev->mode_config.preferred_depth = 24;
+ 	dev->mode_config.fb_base = mdev->vram_res->start;
+ 	dev->mode_config.funcs = &mgag200_mode_config_funcs;
++	dev->mode_config.helper_private = &mgag200_mode_config_helper_funcs;
+ 
+ 	return 0;
+ }
 -- 
 2.36.1
 
