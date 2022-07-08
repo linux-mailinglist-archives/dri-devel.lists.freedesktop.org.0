@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADF656B132
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 06:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5167956B13F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 06:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF3611B7F2;
-	Fri,  8 Jul 2022 04:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48D8212B4C6;
+	Fri,  8 Jul 2022 04:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F0D12B3DD
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 04:00:05 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id t24so34377284lfr.4
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jul 2022 21:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=aAubjKUK2nvZa3+RCLOOAOMis1QabrjDrjrCRAE8h/E=;
- b=qww2OpEmxQcjgXhzyViRkvjf67EADqjJIy1LBy1nME9FLCw8/Q1HrvzxEdN7ReePYw
- QGB6qXnJFoPiR3CIdkO1UdR/aAmZ0tEgvs7EiisvvKTR8Sc9YuvWqDkHuN5TZ94Qt5Fl
- NlgUPJ+8kIXh6jzraFGtchfvszL+kDbg8R46P1nGKzHBoQQup/aId1wApLfj506VoAnW
- dEEKAhPyYRnILhMD9J3qwEH6kabuBGjqbg3uxRDFON0qoyhaelgMFcddBS2UER4VFOZT
- qOBGIHmOtJAtzjfzMqowtY+0D0niWmurk+rttHduGEW9noGdfgCnB1NcO2oVizoNyUC4
- 7/KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aAubjKUK2nvZa3+RCLOOAOMis1QabrjDrjrCRAE8h/E=;
- b=lC2ob44O9d9VsTMtH65dH1TQB/qii1JuJjJ6e/n+lLyr128iMq8heYlV35yy29+Iyd
- a5GE4Ulch9uBzGNL53QM0YNWkLGCYrL9QofseS4zu0rPFkJVrvtwxDp4C+cM5BPviFr+
- UBfvY3FQmvvr0YQodvdG7heomDDw0uVKDAu6H2tPzcj7C2r271qjMdjF1qRL9Wu6Z+km
- FiLbH9FT4z4jcHqcZMlFSGpb0uVJYZDS/l7n9vSuhjU9Tn80S+GxBUJLtqS3kS9JJdM7
- 0oyrcQIjElYqW/JvGq/PmkRA7VgsPeXwbmKTB54DHBclquK7fxtclxQ5YH9hV5sDfJzX
- /6Vw==
-X-Gm-Message-State: AJIora8OwuNGRpz0KjLUpaycYmnwm3qFUeZjOQeTLCl++RWA9nDbj1cN
- 6x/EMJq2HhHjeuM/pjIYS7ZfUw==
-X-Google-Smtp-Source: AGRyM1vzkVpTNli+0OYoyR5TM0tYAsic8Qhv+kQwSwdOh6zSfqRjoNSH4KsvEUsAI54nceW4y4w6Kw==
-X-Received: by 2002:a05:6512:68b:b0:485:f4a1:c2db with SMTP id
- t11-20020a056512068b00b00485f4a1c2dbmr1023356lfe.119.1657252743410; 
- Thu, 07 Jul 2022 20:59:03 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- c7-20020a19e347000000b004791fc12f6asm7199835lfk.46.2022.07.07.20.59.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jul 2022 20:59:02 -0700 (PDT)
-Message-ID: <36a3490f-5c94-0c54-caa4-1b381dae7745@linaro.org>
-Date: Fri, 8 Jul 2022 06:59:02 +0300
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E9DB12B4B6;
+ Fri,  8 Jul 2022 04:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657253306; x=1688789306;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=w+a9pw0jGz5UJqQLkFKwzJOSX8nn6ZRwZsIYHTH/MAs=;
+ b=RJXYnItHYsAlAY7+hJZ7wcTJcD9SdHwydCzWntsAMw55tEfvpQ6n+fyw
+ Fp2zXJcgbBgFFyPiefIwYhLWXkYMvkW8d7P7kXDQvidRM7IFCCRIUOQGx
+ xLnaCk6CsAVl1LItBsS8Jo5iLBqwxQI1dsgr+uCHqrzqBiNvI3+Zc8My4
+ Opmh+e5W0NkLW0HRaCwk7UgLv2dV1XncHpftDaGQ7/N5wCh2frn21RRlE
+ y0sqKgRNBIXSk9m/nsFZsPhsITFF9QNhrIpYaXYctBe6dXLttB+83t5wx
+ vSZr+kcFPxwno3Gx3xRxBaR9nabWwtQKiQfikCxaGfrZf03tCvAHYlbzo Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="285311017"
+X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="285311017"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 21:08:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="661634281"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 07 Jul 2022 21:08:23 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o9fHy-000MtG-QC;
+ Fri, 08 Jul 2022 04:08:22 +0000
+Date: Fri, 8 Jul 2022 12:07:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/ttm: fix sg_table construction
+Message-ID: <202207081158.l1RcEsDh-lkp@intel.com>
+References: <20220707170927.499451-1-matthew.auld@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 5/9] dt-bindings: msm/dp: account for clocks specific for
- qcom,sc7280-edp
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <sean@poorly.run>
-References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
- <20220707213204.2605816-6-dmitry.baryshkov@linaro.org>
- <CAE-0n53An_S5H-jj7GPorLg0Q4jW=KqEn5CCrfqs6fn6LBtGNA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n53An_S5H-jj7GPorLg0Q4jW=KqEn5CCrfqs6fn6LBtGNA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220707170927.499451-1-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,49 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ llvm@lists.linux.dev, kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/07/2022 04:32, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-07-07 14:32:00)
->> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->> index f00eae66196f..1ef845005b14 100644
->> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->> @@ -119,6 +111,50 @@ required:
->>     - power-domains
->>     - ports
->>
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - qcom,sc7280-edp
->> +    then:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: XO clock
-> 
-> What is this for? I would guess it's for the eDP phy, but that isn't
-> part of the eDP controller, so probably it can be removed.
+Hi Matthew,
 
-Good question. I was documenting what is present in the sc7280-edp 
-controller DT entry. Could you please check if we can drop them? I don't 
-have the hardware at hand.
+Thank you for the patch! Yet something to improve:
 
-> 
->> +            - description: eDP reference clock
-> 
-> Same for this one, looking at the binding for qcom,sc7280-edp-phy. Can
-> we simply remove these two clks from sc7280? I think it will be fine.
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v5.19-rc5 next-20220707]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Auld/drm-i915-ttm-fix-sg_table-construction/20220708-011115
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20220708/202207081158.l1RcEsDh-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 66ae1d60bb278793fd651cece264699d522bab84)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a318752ca76b5fc3e8d9efa87d483c88d177475a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthew-Auld/drm-i915-ttm-fix-sg_table-construction/20220708-011115
+        git checkout a318752ca76b5fc3e8d9efa87d483c88d177475a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "__umoddi3" [drivers/gpu/drm/i915/i915.ko] undefined!
+>> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/i915/i915.ko] undefined!
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://01.org/lkp
