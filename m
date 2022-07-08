@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C24356B3AD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 09:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE9C56B3BA
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 09:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9954510F5C8;
-	Fri,  8 Jul 2022 07:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27E4E10F65F;
+	Fri,  8 Jul 2022 07:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6AC10F5C3
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 07:38:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1657265917;
- bh=D7qLA/iJlSBt219O7ShLPD2VmW/Mh0zlsFCsD09xipk=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=CNCBPo5cFJy9jTNXF0KEQHs1ciAH0UaM4mMuy5Sr9/a9yB1b01LJRJKnUqnxhAgME
- qiH3wBZR5JueKcqlyb/qE5Kudl6MyQ4imPppThKoXp1EyZ53Ey6BsEEAacofFwhq70
- lpKvaN1dbHJtbdTyGgbREzMBWp0CpQWcohWEMhUc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530 ([92.116.171.120]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTRMi-1o1yF641y0-00ToJk; Fri, 08
- Jul 2022 09:38:37 +0200
-Date: Fri, 8 Jul 2022 09:38:00 +0200
-From: Helge Deller <deller@gmx.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev updates & fixes for v5.19-rc6
-Message-ID: <Ysfe2JUDCg/S1ArT@ls3530>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA63D10F63D;
+ Fri,  8 Jul 2022 07:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657266134; x=1688802134;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PNbNFGBoN6Z26HFRKMwE//FDpyl4vo8ybzTd5ozRp3w=;
+ b=UAaJabEk7yhT7QcfFIxdLBctcKPUHUEgEYPuU3PMGEJ7zS3rSgH+wY+9
+ Qc1o41Gas/pONfIC/GYqjm4RVdv1AxQ6MBlVEpg2V1TREt5+7djvt21ef
+ PbJFweW69WpowQvphONSpvmov4c5SC71jDR7H7ZmGMdAZNTU1fDVJyOOL
+ NU7AuYvgTLRY/e17i63X0Qy8GmEo8mTmCNdW3iS8fTNgL5dK6UkjEEXPu
+ bGAfNQ2CT9BGvQSrWgC6fjxrvQiibV88KcnB3A6H4WQ/F1ASqMkpQ2byQ
+ G90KHb2yW0khr4ojNoZ7lAMGGQuOSVf0sMa2tRpG6QmtkLP24d0urX+gL A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="284961759"
+X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="284961759"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2022 00:42:07 -0700
+X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="621120481"
+Received: from cmchugh-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.229.21])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2022 00:42:05 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/ttm: fix sg_table construction
+Date: Fri,  8 Jul 2022 08:41:57 +0100
+Message-Id: <20220708074157.557932-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:nJ3VXKnb6rO003B31GtKc9A3gfM+urPI3N8+onViOP6BaLUD24d
- 2ixfeMSDhOccbMHOD5J1cPmkRe0gOdse1ZwSTa3M1+7sJrfIMvSYCj+gGgQWaDjJEnc5pH2
- wsl1TVjIHvPzPcbPzROATlYC0jngHn4XL76TOlU0eqsw3aO8KLprl4ok8qmWFlN031usWa4
- UWfc2Zg3jlh8ahRpwGR4A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bctC6tNHHYw=:DMLVXF6SgA58MF5C6Rp9eL
- O3hvCLUDxLfhGI8uzTGN0irrzFmFpU44k/Ei9yZnkql6mqmhO6yDH9xuYkx2RwTM9/SOAPyM/
- SQD/kR/9A0/PbanpF435xVXCI2UPUPaElxQ+rnZqKz2P5ncJg5qIICRNb6ntx12JKEmsO2QF1
- NMZLn/AOUkc3WTVE53XLIIYZ3dXtH82iFVnncG3COC6CT87Y5um1wTeKbIFKRROYNjvfKwcio
- mb/76c156+VLcdkY7A8PXwwkbYw/ti+u8Nw6K5ekKkcLfjNHQEKM4OBwbfiTKRdERi1KjnJxM
- qPme1thlSWDAgb9X83p4sjxrZlaDpcgpUmwbsbCanLRuD+ZWqokDlPhfUaCeLWXHQYB3Dp2kh
- 5fGbYXy9nsgWBcpIh2JcGSS7KJ5vygN/p3arF4I4i3+qa/wBKd02FiXf/4Eg8NzsWAOVii78p
- vxr9tjlF3eCa3/u5XQ/g0QZWFm9gZK/PavwvLdLAlzHFua++a6fq9uKt96mehnZRRMidnPmo8
- D5RihhD5JCcMqH8C581EcRw5T9OU+wzVMFUScgFJyKuC859cG5ba/dv098kTuxIBuGAPzntZy
- fq2KaU/DKrRNA1FccNKPiGY7CLNnSrT54UTqMz250X07p4jfcHXIpxfeXkbYnZKqIlyK9+/Fx
- 4LHPm4NRujw0ppVY7jS/MQ4fAJP/0cjcvWs/dLdsAtldrj8un+nmXhNeiHuQKC2ua3g3Srv/q
- d1NZ0sDNwOO6zSbhdeLBJkBYlpsSEcDI70THMDW+kr0RreQ3KqVTM8QgtxYJyHgAz488IDrl8
- vLImIdcwCfBZcSZ5QonXRxzi3RjFHFljRM1KVsWfXQY7MvvHrvN61XePuYGnWDkqABsTVkLat
- m7lz9R4qKOM2dkRAoedVrtqfBKKGY0bTDPYpDRHMKdu80Z5m3ey8k7qynw3b2ZiGGKBt+++bs
- N6XkCyswklQImhmNj2E8LqcruhajlQnSKsbA2T5fpOpCwMa9NIjQ9ZcorCc3iDvZxBkizCVTb
- kofwxdK8ikOGvCH9i1RdB/4+A1yMGhFLej3KqocCtsnwmQIiZxMmpUf/4mrKXdbaGIsPav+ky
- QCOwHoXEb77ub4c8+4bbZbRF0MQQusi0Y9R7+zekbFnkWVRLdzvX3mifg==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +55,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guiling Deng <greens9@163.com>, Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following changes since commit 88084a3df1672e131ddc1b4e39eeacfd39864acf:
+If we encounter some monster sized local-memory page that exceeds the
+maximum sg length (UINT32_MAX), ensure that don't end up with some
+misaligned address in the entry that follows, leading to fireworks
+later. Also ensure we have some coverage of this in the selftests.
 
-  Linux 5.19-rc5 (2022-07-03 15:39:28 -0700)
+v2(Chris): use round_down consistently to avoid udiv errors
 
-are available in the Git repository at:
+Fixes: f701b16d4cc5 ("drm/i915/ttm: add i915_sg_from_buddy_resource")
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6379
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 11 +++++++++--
+ drivers/gpu/drm/i915/i915_scatterlist.c       | 19 +++++++++++++++----
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  6 ++++--
+ drivers/gpu/drm/i915/intel_region_ttm.c       | 10 +++++++---
+ drivers/gpu/drm/i915/intel_region_ttm.h       |  3 ++-
+ .../drm/i915/selftests/intel_memory_region.c  | 17 ++++++++++++++++-
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  3 ++-
+ 7 files changed, 55 insertions(+), 14 deletions(-)
 
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/for-5.19/fbdev-3
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 7e1f8b83077f..c5c8aa1f8558 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -602,10 +602,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 			 struct ttm_resource *res)
+ {
+ 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
++	u64 page_alignment;
+ 
+ 	if (!i915_ttm_gtt_binds_lmem(res))
+ 		return i915_ttm_tt_get_st(bo->ttm);
+ 
++	page_alignment = bo->page_alignment << PAGE_SHIFT;
++	if (!page_alignment)
++		page_alignment = obj->mm.region->min_page_size;
++
+ 	/*
+ 	 * If CPU mapping differs, we need to add the ttm_tt pages to
+ 	 * the resulting st. Might make sense for GGTT.
+@@ -616,7 +621,8 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 			struct i915_refct_sgt *rsgt;
+ 
+ 			rsgt = intel_region_ttm_resource_to_rsgt(obj->mm.region,
+-								 res);
++								 res,
++								 page_alignment);
+ 			if (IS_ERR(rsgt))
+ 				return rsgt;
+ 
+@@ -625,7 +631,8 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 		return i915_refct_sgt_get(obj->ttm.cached_io_rsgt);
+ 	}
+ 
+-	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res);
++	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res,
++						 page_alignment);
+ }
+ 
+ static int i915_ttm_truncate(struct drm_i915_gem_object *obj)
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
+index 159571b9bd24..f63b50b71e10 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.c
++++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+@@ -68,6 +68,7 @@ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
+  * drm_mm_node
+  * @node: The drm_mm_node.
+  * @region_start: An offset to add to the dma addresses of the sg list.
++ * @page_alignment: Required page alignment for each sg entry. Power of two.
+  *
+  * Create a struct sg_table, initializing it from a struct drm_mm_node,
+  * taking a maximum segment length into account, splitting into segments
+@@ -77,15 +78,18 @@ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
+  * error code cast to an error pointer on failure.
+  */
+ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+-					      u64 region_start)
++					      u64 region_start,
++					      u64 page_alignment)
+ {
+-	const u64 max_segment = SZ_1G; /* Do we have a limit on this? */
++	const u64 max_segment = round_down(UINT_MAX, page_alignment);
+ 	u64 segment_pages = max_segment >> PAGE_SHIFT;
+ 	u64 block_size, offset, prev_end;
+ 	struct i915_refct_sgt *rsgt;
+ 	struct sg_table *st;
+ 	struct scatterlist *sg;
+ 
++	GEM_BUG_ON(!max_segment);
++
+ 	rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
+ 	if (!rsgt)
+ 		return ERR_PTR(-ENOMEM);
+@@ -112,6 +116,8 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+ 				sg = __sg_next(sg);
+ 
+ 			sg_dma_address(sg) = region_start + offset;
++			GEM_BUG_ON(!IS_ALIGNED(sg_dma_address(sg),
++					       page_alignment));
+ 			sg_dma_len(sg) = 0;
+ 			sg->length = 0;
+ 			st->nents++;
+@@ -138,6 +144,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+  * i915_buddy_block list
+  * @res: The struct i915_ttm_buddy_resource.
+  * @region_start: An offset to add to the dma addresses of the sg list.
++ * @page_alignment: Required page alignment for each sg entry. Power of two.
+  *
+  * Create a struct sg_table, initializing it from struct i915_buddy_block list,
+  * taking a maximum segment length into account, splitting into segments
+@@ -147,11 +154,12 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+  * error code cast to an error pointer on failure.
+  */
+ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+-						     u64 region_start)
++						     u64 region_start,
++						     u64 page_alignment)
+ {
+ 	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
+ 	const u64 size = res->num_pages << PAGE_SHIFT;
+-	const u64 max_segment = rounddown(UINT_MAX, PAGE_SIZE);
++	const u64 max_segment = round_down(UINT_MAX, page_alignment);
+ 	struct drm_buddy *mm = bman_res->mm;
+ 	struct list_head *blocks = &bman_res->blocks;
+ 	struct drm_buddy_block *block;
+@@ -161,6 +169,7 @@ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+ 	resource_size_t prev_end;
+ 
+ 	GEM_BUG_ON(list_empty(blocks));
++	GEM_BUG_ON(!max_segment);
+ 
+ 	rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
+ 	if (!rsgt)
+@@ -191,6 +200,8 @@ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+ 					sg = __sg_next(sg);
+ 
+ 				sg_dma_address(sg) = region_start + offset;
++				GEM_BUG_ON(!IS_ALIGNED(sg_dma_address(sg),
++						       page_alignment));
+ 				sg_dma_len(sg) = 0;
+ 				sg->length = 0;
+ 				st->nents++;
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+index 12c6a1684081..b13e4cdea923 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.h
++++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+@@ -213,9 +213,11 @@ static inline void __i915_refct_sgt_init(struct i915_refct_sgt *rsgt,
+ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size);
+ 
+ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+-					      u64 region_start);
++					      u64 region_start,
++					      u64 page_alignment);
+ 
+ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
+-						     u64 region_start);
++						     u64 region_start,
++						     u64 page_alignment);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 62ff77445b01..6873808a7015 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -152,6 +152,7 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
+  * Convert an opaque TTM resource manager resource to a refcounted sg_table.
+  * @mem: The memory region.
+  * @res: The resource manager resource obtained from the TTM resource manager.
++ * @page_alignment: Required page alignment for each sg entry. Power of two.
+  *
+  * The gem backends typically use sg-tables for operations on the underlying
+  * io_memory. So provide a way for the backends to translate the
+@@ -161,16 +162,19 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
+  */
+ struct i915_refct_sgt *
+ intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
+-				  struct ttm_resource *res)
++				  struct ttm_resource *res,
++				  u64 page_alignment)
+ {
+ 	if (mem->is_range_manager) {
+ 		struct ttm_range_mgr_node *range_node =
+ 			to_ttm_range_mgr_node(res);
+ 
+ 		return i915_rsgt_from_mm_node(&range_node->mm_nodes[0],
+-					      mem->region.start);
++					      mem->region.start,
++					      page_alignment);
+ 	} else {
+-		return i915_rsgt_from_buddy_resource(res, mem->region.start);
++		return i915_rsgt_from_buddy_resource(res, mem->region.start,
++						     page_alignment);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
+index cf9d86dcf409..98fba5155619 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.h
++++ b/drivers/gpu/drm/i915/intel_region_ttm.h
+@@ -24,7 +24,8 @@ int intel_region_ttm_fini(struct intel_memory_region *mem);
+ 
+ struct i915_refct_sgt *
+ intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
+-				  struct ttm_resource *res);
++				  struct ttm_resource *res,
++				  u64 page_alignment);
+ 
+ void intel_region_ttm_resource_free(struct intel_memory_region *mem,
+ 				    struct ttm_resource *res);
+diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+index 73eb53edb8de..4e0069a87f15 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+@@ -460,7 +460,9 @@ static int igt_mock_max_segment(void *arg)
+ 	struct drm_buddy *mm;
+ 	struct list_head *blocks;
+ 	struct scatterlist *sg;
++	I915_RND_STATE(prng);
+ 	LIST_HEAD(objects);
++	unsigned int ps;
+ 	u64 size;
+ 	int err = 0;
+ 
+@@ -472,7 +474,11 @@ static int igt_mock_max_segment(void *arg)
+ 	 */
+ 
+ 	size = SZ_8G;
+-	mem = mock_region_create(i915, 0, size, PAGE_SIZE, 0, 0);
++	ps = PAGE_SIZE;
++	if (i915_prandom_u64_state(&prng) & 1)
++		ps = SZ_64K; /* For something like DG2 */
++
++	mem = mock_region_create(i915, 0, size, ps, 0, 0);
+ 	if (IS_ERR(mem))
+ 		return PTR_ERR(mem);
+ 
+@@ -498,12 +504,21 @@ static int igt_mock_max_segment(void *arg)
+ 	}
+ 
+ 	for (sg = obj->mm.pages->sgl; sg; sg = sg_next(sg)) {
++		dma_addr_t daddr = sg_dma_address(sg);
++
+ 		if (sg->length > max_segment) {
+ 			pr_err("%s: Created an oversized scatterlist entry, %u > %u\n",
+ 			       __func__, sg->length, max_segment);
+ 			err = -EINVAL;
+ 			goto out_close;
+ 		}
++
++		if (!IS_ALIGNED(daddr, ps)) {
++			pr_err("%s: Created an unaligned scatterlist entry, addr=%pa, ps=%u\n",
++			       __func__,  &daddr, ps);
++			err = -EINVAL;
++			goto out_close;
++		}
+ 	}
+ 
+ out_close:
+diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
+index 670557ce1024..bac21fe84ca5 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_region.c
++++ b/drivers/gpu/drm/i915/selftests/mock_region.c
+@@ -33,7 +33,8 @@ static int mock_region_get_pages(struct drm_i915_gem_object *obj)
+ 		return PTR_ERR(obj->mm.res);
+ 
+ 	obj->mm.rsgt = intel_region_ttm_resource_to_rsgt(obj->mm.region,
+-							 obj->mm.res);
++							 obj->mm.res,
++							 obj->mm.region->min_page_size);
+ 	if (IS_ERR(obj->mm.rsgt)) {
+ 		err = PTR_ERR(obj->mm.rsgt);
+ 		goto err_free_resource;
+-- 
+2.36.1
 
-for you to fetch changes up to 53a6e66b1b4fea4b52f8bc62e5f9530af9061027:
-
-  fbcon: Use fbcon_info_from_console() in fbcon_modechange_possible() (2022-07-07 10:52:35 +0200)
-
-----------------------------------------------------------------
-fbdev fixes and updates for kernel v5.19-rc6:
-
-fbcon now prevents switching to screen resolutions which are smaller
-than the font size, and prevents enabling a font which is bigger than
-the current screen resolution. This fixes vmalloc-out-of-bounds accesses
-found by KASAN.
-
-Guiling Deng fixed a bug where the centered fbdev logo wasn't displayed
-correctly if the screen size matched the logo size.
-
-Hsin-Yi Wang provided a patch to include errno.h to fix build when
-CONFIG_OF isn't enabled.
-
-----------------------------------------------------------------
-Guiling Deng (1):
-      fbdev: fbmem: Fix logo center image dx issue
-
-Helge Deller (4):
-      fbcon: Disallow setting font bigger than screen size
-      fbcon: Prevent that screen size is smaller than font size
-      fbmem: Check virtual screen sizes in fb_set_var()
-      fbcon: Use fbcon_info_from_console() in fbcon_modechange_possible()
-
-Hsin-Yi Wang (1):
-      video: of_display_timing.h: include errno.h
-
- drivers/video/fbdev/core/fbcon.c  | 33 +++++++++++++++++++++++++++++++++
- drivers/video/fbdev/core/fbmem.c  | 16 ++++++++++++++--
- include/linux/fbcon.h             |  4 ++++
- include/video/of_display_timing.h |  2 ++
- 4 files changed, 53 insertions(+), 2 deletions(-)
