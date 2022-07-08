@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23C856BE91
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C5556BE8F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 20:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F4110EBAD;
-	Fri,  8 Jul 2022 18:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1283210EBA9;
+	Fri,  8 Jul 2022 18:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1DB10EAEB
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:11 +0000 (UTC)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892FC10EBA4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 18:21:10 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
- by michel.telenet-ops.be with bizsmtp
- id siM72700P4C55Sk06iM7fl; Fri, 08 Jul 2022 20:21:09 +0200
+ by laurent.telenet-ops.be with bizsmtp
+ id siM72700E4C55Sk01iM7mq; Fri, 08 Jul 2022 20:21:09 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o9sbD-002fGk-0M; Fri, 08 Jul 2022 20:21:07 +0200
+ id 1o9sbD-002fGn-2I; Fri, 08 Jul 2022 20:21:07 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1o9sbC-00BtJb-EA; Fri, 08 Jul 2022 20:21:06 +0200
+ id 1o9sbC-00BtJi-Fw; Fri, 08 Jul 2022 20:21:06 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 05/10] drm/fourcc: Add DRM_FORMAT_C[124]
-Date: Fri,  8 Jul 2022 20:20:50 +0200
-Message-Id: <3d88ca7ad32ff3ff3469c10f0b36c312ea233a33.1657294931.git.geert@linux-m68k.org>
+Subject: [PATCH v3 06/10] drm/fb-helper: Add support for DRM_FORMAT_C[124]
+Date: Fri,  8 Jul 2022 20:20:51 +0200
+Message-Id: <db3e80b445df661ff0cd7e698507a8d24a4c867e.1657294931.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657294931.git.geert@linux-m68k.org>
 References: <cover.1657294931.git.geert@linux-m68k.org>
@@ -49,97 +49,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Pekka Paalanen <pekka.paalanen@collabora.com>,
- linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-m68k@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce fourcc codes for color-indexed frame buffer formats with two,
-four, and sixteen colors, and provide a mapping from bits per pixel and
-depth to fourcc codes.
-
-As the number of bits per pixel is less than eight, these rely on proper
-block handling for the calculation of bits per pixel and pitch.
-
-The fill order (the order in which multiple pixels are packed in a byte)
-is the same order as used for indexed-color (2, 4, and 16 colors) images
-in the PNG specification, Version 1.2.
-This order is also the recommended and default order (FillOrder = 1) for
-palette-color (16 colors) images in the TIFF 6.0 Specification, and is
-also used for 16-color Linux frame buffer logos.
+Add support for color-indexed frame buffer formats with two, four, and
+sixteen colors to the DRM framebuffer helper functions:
+  1. Add support for 1, 2, and 4 bits per pixel to the damage helper,
+  2. For color-indexed modes, the length of the color bitfields must be
+     set to the color depth, else the logo code may pick a logo with too
+     many colors.  Drop the incorrect DAC width comment, which
+     originates from the i915 driver.
+  3. Accept C[124] modes when validating or filling in struct
+     fb_var_screeninfo, and use the correct number of bits per pixel.
+  4. Set the visual to FB_VISUAL_PSEUDOCOLOR for all color-indexed
+     modes.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
+If "[PATCH] drm/fb-helper: Remove helpers to change frame buffer
+config"[1] is accepted, the changes to drm_fb_helper_check_var() can
+just be removed.
+
 v3:
+  - Fix FB_VISUAL_TRUECOLOR,
   - Add Reviewed-by,
-  - Document fill order,
 
 v2:
-  - Improve pixel description,
-  - Require depth to match bpp in drm_mode_legacy_fb_format(),
-  - Set .is_color_indexed flag.
----
- drivers/gpu/drm/drm_fourcc.c  | 21 +++++++++++++++++++++
- include/uapi/drm/drm_fourcc.h |  3 +++
- 2 files changed, 24 insertions(+)
+  - Use drm_format_info_bpp() helper instead of deprecated .depth field
+    or format-dependent calculations,
+  - Use new .is_color_indexed field instead of checking against a list
+    of formats.
 
-diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index 6c76bd821d17e7c7..29f4fe199c4ddcf0 100644
---- a/drivers/gpu/drm/drm_fourcc.c
-+++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -43,6 +43,21 @@ uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth)
- 	uint32_t fmt = DRM_FORMAT_INVALID;
- 
- 	switch (bpp) {
-+	case 1:
-+		if (depth == 1)
-+			fmt = DRM_FORMAT_C1;
-+		break;
-+
-+	case 2:
-+		if (depth == 2)
-+			fmt = DRM_FORMAT_C2;
-+		break;
-+
-+	case 4:
-+		if (depth == 4)
-+			fmt = DRM_FORMAT_C4;
-+		break;
-+
- 	case 8:
- 		if (depth == 8)
- 			fmt = DRM_FORMAT_C8;
-@@ -132,6 +147,12 @@ EXPORT_SYMBOL(drm_driver_legacy_fb_format);
- const struct drm_format_info *__drm_format_info(u32 format)
+[1] Link: https://lore.kernel.org/r/20220629105658.1373770-1-geert@linux-m68k.org
+---
+ drivers/gpu/drm/drm_fb_helper.c | 101 ++++++++++++++++++++++++--------
+ 1 file changed, 75 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 1705e8d345aba50a..5098efb374fe64ed 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -376,12 +376,31 @@ static void drm_fb_helper_damage_blit_real(struct drm_fb_helper *fb_helper,
+ 					   struct iosys_map *dst)
  {
- 	static const struct drm_format_info formats[] = {
-+		{ .format = DRM_FORMAT_C1,		.depth = 1,  .num_planes = 1,
-+		  .char_per_block = { 1, }, .block_w = { 8, }, .block_h = { 1, }, .hsub = 1, .vsub = 1, .is_color_indexed = true },
-+		{ .format = DRM_FORMAT_C2,		.depth = 2,  .num_planes = 1,
-+		  .char_per_block = { 1, }, .block_w = { 4, }, .block_h = { 1, }, .hsub = 1, .vsub = 1, .is_color_indexed = true },
-+		{ .format = DRM_FORMAT_C4,		.depth = 4,  .num_planes = 1,
-+		  .char_per_block = { 1, }, .block_w = { 2, }, .block_h = { 1, }, .hsub = 1, .vsub = 1, .is_color_indexed = true },
- 		{ .format = DRM_FORMAT_C8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1, .is_color_indexed = true },
- 		{ .format = DRM_FORMAT_R8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
- 		{ .format = DRM_FORMAT_R10,		.depth = 10, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 0980678d502dc784..e18de6f258302673 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -99,6 +99,9 @@ extern "C" {
- #define DRM_FORMAT_INVALID	0
+ 	struct drm_framebuffer *fb = fb_helper->fb;
+-	unsigned int cpp = fb->format->cpp[0];
+-	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
+-	void *src = fb_helper->fbdev->screen_buffer + offset;
+-	size_t len = (clip->x2 - clip->x1) * cpp;
++	size_t offset = clip->y1 * fb->pitches[0];
++	size_t len = clip->x2 - clip->x1;
+ 	unsigned int y;
++	void *src;
  
- /* color index */
-+#define DRM_FORMAT_C1		fourcc_code('C', '1', ' ', ' ') /* [7:0] C0:C1:C2:C3:C4:C5:C6:C7 1:1:1:1:1:1:1:1 eight pixels/byte */
-+#define DRM_FORMAT_C2		fourcc_code('C', '2', ' ', ' ') /* [7:0] C0:C1:C2:C3 2:2:2:2 four pixels/byte */
-+#define DRM_FORMAT_C4		fourcc_code('C', '4', ' ', ' ') /* [7:0] C0:C1 4:4 two pixels/byte */
- #define DRM_FORMAT_C8		fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
++	switch (drm_format_info_bpp(fb->format, 0)) {
++	case 1:
++		offset += clip->x1 / 8;
++		len = DIV_ROUND_UP(len + clip->x1 % 8, 8);
++		break;
++	case 2:
++		offset += clip->x1 / 4;
++		len = DIV_ROUND_UP(len + clip->x1 % 4, 4);
++		break;
++	case 4:
++		offset += clip->x1 / 2;
++		len = DIV_ROUND_UP(len + clip->x1 % 2, 2);
++		break;
++	default:
++		offset += clip->x1 * fb->format->cpp[0];
++		len *= fb->format->cpp[0];
++		break;
++	}
++
++	src = fb_helper->fbdev->screen_buffer + offset;
+ 	iosys_map_incr(dst, offset); /* go to first pixel within clip rect */
  
- /* 8 bpp Red */
+ 	for (y = clip->y1; y < clip->y2; y++) {
+@@ -1273,19 +1292,23 @@ static bool drm_fb_pixel_format_equal(const struct fb_var_screeninfo *var_1,
+ }
+ 
+ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
+-					 u8 depth)
++					 const struct drm_format_info *format)
+ {
+-	switch (depth) {
+-	case 8:
++	u8 depth = format->depth;
++
++	if (format->is_color_indexed) {
+ 		var->red.offset = 0;
+ 		var->green.offset = 0;
+ 		var->blue.offset = 0;
+-		var->red.length = 8; /* 8bit DAC */
+-		var->green.length = 8;
+-		var->blue.length = 8;
++		var->red.length = depth;
++		var->green.length = depth;
++		var->blue.length = depth;
+ 		var->transp.offset = 0;
+ 		var->transp.length = 0;
+-		break;
++		return;
++	}
++
++	switch (depth) {
+ 	case 15:
+ 		var->red.offset = 10;
+ 		var->green.offset = 5;
+@@ -1340,7 +1363,9 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ {
+ 	struct drm_fb_helper *fb_helper = info->par;
+ 	struct drm_framebuffer *fb = fb_helper->fb;
++	const struct drm_format_info *format = fb->format;
+ 	struct drm_device *dev = fb_helper->dev;
++	unsigned int bpp;
+ 
+ 	if (in_dbg_master())
+ 		return -EINVAL;
+@@ -1350,22 +1375,33 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ 		var->pixclock = 0;
+ 	}
+ 
+-	if ((drm_format_info_block_width(fb->format, 0) > 1) ||
+-	    (drm_format_info_block_height(fb->format, 0) > 1))
+-		return -EINVAL;
++	switch (format->format) {
++	case DRM_FORMAT_C1:
++	case DRM_FORMAT_C2:
++	case DRM_FORMAT_C4:
++		/* supported format with sub-byte pixels */
++		break;
++
++	default:
++		if ((drm_format_info_block_width(format, 0) > 1) ||
++		    (drm_format_info_block_height(format, 0) > 1))
++			return -EINVAL;
++		break;
++	}
+ 
+ 	/*
+ 	 * Changes struct fb_var_screeninfo are currently not pushed back
+ 	 * to KMS, hence fail if different settings are requested.
+ 	 */
+-	if (var->bits_per_pixel > fb->format->cpp[0] * 8 ||
++	bpp = drm_format_info_bpp(format, 0);
++	if (var->bits_per_pixel > bpp ||
+ 	    var->xres > fb->width || var->yres > fb->height ||
+ 	    var->xres_virtual > fb->width || var->yres_virtual > fb->height) {
+ 		drm_dbg_kms(dev, "fb requested width/height/bpp can't fit in current fb "
+ 			  "request %dx%d-%d (virtual %dx%d) > %dx%d-%d\n",
+ 			  var->xres, var->yres, var->bits_per_pixel,
+ 			  var->xres_virtual, var->yres_virtual,
+-			  fb->width, fb->height, fb->format->cpp[0] * 8);
++			  fb->width, fb->height, bpp);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1380,13 +1416,13 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ 	    !var->blue.length    && !var->transp.length   &&
+ 	    !var->red.msb_right  && !var->green.msb_right &&
+ 	    !var->blue.msb_right && !var->transp.msb_right) {
+-		drm_fb_helper_fill_pixel_fmt(var, fb->format->depth);
++		drm_fb_helper_fill_pixel_fmt(var, format);
+ 	}
+ 
+ 	/*
+ 	 * Likewise, bits_per_pixel should be rounded up to a supported value.
+ 	 */
+-	var->bits_per_pixel = fb->format->cpp[0] * 8;
++	var->bits_per_pixel = bpp;
+ 
+ 	/*
+ 	 * drm fbdev emulation doesn't support changing the pixel format at all,
+@@ -1722,11 +1758,11 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ }
+ 
+ static void drm_fb_helper_fill_fix(struct fb_info *info, uint32_t pitch,
+-				   uint32_t depth)
++				   bool is_color_indexed)
+ {
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+-	info->fix.visual = depth == 8 ? FB_VISUAL_PSEUDOCOLOR :
+-		FB_VISUAL_TRUECOLOR;
++	info->fix.visual = is_color_indexed ? FB_VISUAL_PSEUDOCOLOR
++					    : FB_VISUAL_TRUECOLOR;
+ 	info->fix.mmio_start = 0;
+ 	info->fix.mmio_len = 0;
+ 	info->fix.type_aux = 0;
+@@ -1743,19 +1779,31 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+ 				   uint32_t fb_width, uint32_t fb_height)
+ {
+ 	struct drm_framebuffer *fb = fb_helper->fb;
++	const struct drm_format_info *format = fb->format;
++
++	switch (format->format) {
++	case DRM_FORMAT_C1:
++	case DRM_FORMAT_C2:
++	case DRM_FORMAT_C4:
++		/* supported format with sub-byte pixels */
++		break;
++
++	default:
++		WARN_ON((drm_format_info_block_width(format, 0) > 1) ||
++			(drm_format_info_block_height(format, 0) > 1));
++		break;
++	}
+ 
+-	WARN_ON((drm_format_info_block_width(fb->format, 0) > 1) ||
+-		(drm_format_info_block_height(fb->format, 0) > 1));
+ 	info->pseudo_palette = fb_helper->pseudo_palette;
+ 	info->var.xres_virtual = fb->width;
+ 	info->var.yres_virtual = fb->height;
+-	info->var.bits_per_pixel = fb->format->cpp[0] * 8;
++	info->var.bits_per_pixel = drm_format_info_bpp(format, 0);
+ 	info->var.accel_flags = FB_ACCELF_TEXT;
+ 	info->var.xoffset = 0;
+ 	info->var.yoffset = 0;
+ 	info->var.activate = FB_ACTIVATE_NOW;
+ 
+-	drm_fb_helper_fill_pixel_fmt(&info->var, fb->format->depth);
++	drm_fb_helper_fill_pixel_fmt(&info->var, format);
+ 
+ 	info->var.xres = fb_width;
+ 	info->var.yres = fb_height;
+@@ -1780,7 +1828,8 @@ void drm_fb_helper_fill_info(struct fb_info *info,
+ {
+ 	struct drm_framebuffer *fb = fb_helper->fb;
+ 
+-	drm_fb_helper_fill_fix(info, fb->pitches[0], fb->format->depth);
++	drm_fb_helper_fill_fix(info, fb->pitches[0],
++			       fb->format->is_color_indexed);
+ 	drm_fb_helper_fill_var(info, fb_helper,
+ 			       sizes->fb_width, sizes->fb_height);
+ 
 -- 
 2.25.1
 
