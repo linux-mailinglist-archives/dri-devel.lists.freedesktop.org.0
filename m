@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6208C56C10F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:24:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F7C56C112
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:27:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE6210E117;
-	Fri,  8 Jul 2022 19:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C82A210E09F;
+	Fri,  8 Jul 2022 19:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A3210E05A
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 19:24:31 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id w83so28162758oiw.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 12:24:31 -0700 (PDT)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A98110E05A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jul 2022 19:27:27 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-10c0430e27dso18933036fac.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jul 2022 12:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=WEH0jKAhMg/R/ZAtXcmhJHyQlTHAR3FwpDaho4cHgOY=;
- b=InH2K7dH2NjuGoaeuhMHZJKkEoIt8KoqlBs0E+Q3TTBS5RZRETLKTZRZT3Y0z2Gv/r
- 2khUzoWLTbkefDeaKsc6pHYPsvYpONGBlM58vaEqm98vTDeKmrMelIOsi+LNxKzJ++6F
- HaSvWuREHYxyFwh4AjtzoLhPQruLwmmGLLxKw=
+ bh=nb54qYULM0vTsfoEr7Cgmm5gQnfLelqJiQLdthiv74w=;
+ b=D/+DcpfH0jUz0UsYC43QGWVbL2V/iV2tPM39nWkKun2O+TzQU/iFYfFp6BL8IVrVlp
+ bpz79YOq5TrNK3DqJAz16WF8vfx7cBZ/oBPPAI/PkBna+a2odWqP2EG5Bv8/kdTy8nhz
+ JqMdy0IYlsCuop0krC1KCGQTDnSFLM71u6XhI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=WEH0jKAhMg/R/ZAtXcmhJHyQlTHAR3FwpDaho4cHgOY=;
- b=2PpIlwANzIHpoF9ab12IY5h2W2Xv7oFqHEJ+eAJtdfNS6t5AyuXENTYeEAfCG9Y5Wq
- s/kWG+mqTGbeMR2Rh5yfJ6zkSFI5Sj5iUgIla4c0Dh5OOsD/UT/N6vL5js9NxXC0C/AC
- GMj6LLs3J4C1amkbLsxgpjYJmivUAMhRwOwkdC4FMPH80Naw5XOCp6Fbjxc/6B4aNn92
- UzDjG9Pd+R3kSJu7i6nV7my9uuGI2DPq5gUh1TpxxplNEdLSuzFVHWMHp0m3W2LhTwOW
- KazH1DD5D6zlLxyushTXJT1Hsaf0tmvBFLURkV5wd5JRwivEZvbOZAKg+nA5sv5h3ZeA
- ZCCg==
-X-Gm-Message-State: AJIora/UUdAyFe2JguMYWzh1mnqmCX1DyyOQ935FTLoARVDX3OhFPgQT
- K0pRucKwmGbYZCnAVh4ecbp9Dxy0sH6wuGzjfW0Aew==
-X-Google-Smtp-Source: AGRyM1ux2p5+c4xtdy4iOeVBnPoqwt4uYj+n6OsML6osTpvAhyLCATU4q8jvRdoE/W3LIwJY4+8mxYJs/1atXzH8xbs=
-X-Received: by 2002:a05:6808:171c:b0:334:9342:63ef with SMTP id
- bc28-20020a056808171c00b00334934263efmr831806oib.63.1657308270538; Fri, 08
- Jul 2022 12:24:30 -0700 (PDT)
+ bh=nb54qYULM0vTsfoEr7Cgmm5gQnfLelqJiQLdthiv74w=;
+ b=zAss/Q2xHkfGsOVd9bETW/rPP3nxBESRaYdWZhDqG4bgtyy3/MEuPkJBABHDpxFrkQ
+ G4g2hJEttf1wHC0zV/oFbMU4BiemQM7HyQcrnP1jkDUZeyNXVlodVgod/nBxzYK+Rxyv
+ pl/km8iPwMIYqPcRiaAByS0b6lWyrDhK2WW2cfP8vUObsZFUhLQ8aMhH1WO3ckqYrSBL
+ IMxDC0oQQw8rsnqviO6Bj8seuvVsdn9kPlOqPSROBHj9P96HC4U44TgeHUovFtjZQzSn
+ 7DE4bADdiQIcyGOjL77eEh4AT3XSYaQKHisKl8K6FgajmJBHwAGLQ6xNGgh4ODmIeJHg
+ bu0Q==
+X-Gm-Message-State: AJIora/0MZVpzovHpK2L8rdBjHQJxnqtrat0p2RCZsYRob3vkXVBMKxa
+ F4dtR0x+BVKsFOBqkhnp1PNeQR4zu3buPowboS73sw==
+X-Google-Smtp-Source: AGRyM1vWz0fkrGew2h/UaZYoqGkwYKUnte/wQFFmA/erT7vfCPThAI2cVqmWJbI4fa7+R6xFCtz07OHf3t06kAfGQCs=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr888548oap.63.1657308446479; Fri, 08 Jul
+ 2022 12:27:26 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 8 Jul 2022 12:24:29 -0700
+ HTTPREST; Fri, 8 Jul 2022 12:27:26 -0700
 MIME-Version: 1.0
-In-Reply-To: <36a3490f-5c94-0c54-caa4-1b381dae7745@linaro.org>
+In-Reply-To: <b8ee5a03-1168-d5ca-97fe-f82a9d7e453e@linaro.org>
 References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
- <20220707213204.2605816-6-dmitry.baryshkov@linaro.org>
- <CAE-0n53An_S5H-jj7GPorLg0Q4jW=KqEn5CCrfqs6fn6LBtGNA@mail.gmail.com>
- <36a3490f-5c94-0c54-caa4-1b381dae7745@linaro.org>
+ <20220707213204.2605816-2-dmitry.baryshkov@linaro.org>
+ <CAE-0n53zV2OjXxjJ_AwCDcAZvOY+BU0-xipxQkup3muHMRCPXA@mail.gmail.com>
+ <b8ee5a03-1168-d5ca-97fe-f82a9d7e453e@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Fri, 8 Jul 2022 12:24:29 -0700
-Message-ID: <CAE-0n53GJANJT5uXzffPqFZuKu4YkzfrhyaCL15vq1VQrDzSag@mail.gmail.com>
-Subject: Re: [PATCH 5/9] dt-bindings: msm/dp: account for clocks specific for
- qcom, sc7280-edp
+Date: Fri, 8 Jul 2022 12:27:25 -0700
+Message-ID: <CAE-0n52YGDOSZpL+3d=_APsOwVvrJG7uR-x1AcsBej5KrDct5w@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: msm/dp: drop extra p1 region
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
@@ -79,37 +79,38 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-07-07 20:59:02)
-> On 08/07/2022 04:32, Stephen Boyd wrote:
-> > Quoting Dmitry Baryshkov (2022-07-07 14:32:00)
+Quoting Dmitry Baryshkov (2022-07-07 20:46:43)
+> On 08/07/2022 04:28, Stephen Boyd wrote:
+> > Quoting Dmitry Baryshkov (2022-07-07 14:31:56)
+> >> The p1 region was probably added by mistake, none of the DTS files
+> >> provides one (and the driver source code also doesn't use one). Drop it
+> >> now.
+> >
+> > Yes, looks like the driver doesn't use it.
+> >
+> >>
+> >> Fixes: 687825c402f1 ("dt-bindings: msm/dp: Change reg definition")
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> ---
+> >>   Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 -
+> >>   1 file changed, 1 deletion(-)
+> >>
 > >> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> >> index f00eae66196f..1ef845005b14 100644
+> >> index 94bc6e1b6451..d6bbe58ef9e8 100644
 > >> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
 > >> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> >> @@ -119,6 +111,50 @@ required:
-> >>     - power-domains
-> >>     - ports
-> >>
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            enum:
-> >> +              - qcom,sc7280-edp
-> >> +    then:
-> >> +      properties:
-> >> +        clocks:
-> >> +          items:
-> >> +            - description: XO clock
+> >> @@ -29,7 +29,6 @@ properties:
+> >>         - description: aux register block
+> >>         - description: link register block
+> >>         - description: p0 register block
+> >> -      - description: p1 register block
 > >
-> > What is this for? I would guess it's for the eDP phy, but that isn't
-> > part of the eDP controller, so probably it can be removed.
+> > The p1 registers exist on sc7180. They start where the example starts,
+> > at 0xae91400.
 >
-> Good question. I was documenting what is present in the sc7280-edp
-> controller DT entry. Could you please check if we can drop them? I don't
-> have the hardware at hand.
+> Do they exist on e.g. sc7280? In other words, should we add the region
+> to the DTS? For now I'm going to mark it as optional.
 >
 
-eDP works fine without those two clks on CRD (hoglin). They can be
-dropped from the dtsi file.
+Yes I see the same address for P1 on sc7280. Maybe it's a typo? Abhinav,
+can you confirm?
