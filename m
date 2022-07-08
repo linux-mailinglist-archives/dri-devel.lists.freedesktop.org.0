@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A0756C11A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438A456C11C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jul 2022 21:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 146DD10E1B5;
-	Fri,  8 Jul 2022 19:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF8710E183;
+	Fri,  8 Jul 2022 19:42:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A898110E183;
- Fri,  8 Jul 2022 19:38:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F1D10E0AD;
+ Fri,  8 Jul 2022 19:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657309097; x=1688845097;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=tRTAvQvXyCx+iHi+vFlwJ3NFM7bf+wS8w/ZhSeqFyeI=;
- b=LR38Ue+3wzbwObUVNBrt31HPwc1RuYh7i/lDpCxZdRJ2NVvujz/R6v8n
- MG+w2P+h4pSYA/qnSe9K1S7JfdsxXSBeDudoA1IYsu3Jhi0yKItzuZb/4
- Or5XWFossgdGBJG2ciyIDhDp1jNkq2KeYFYs2dBEvV3LFMp8vLYbCUZwb s=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Jul 2022 12:38:16 -0700
+ t=1657309365; x=1688845365;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=cvvPOf0ESif5qtfECCusv626UD+VI6e+YqhLOB1P/oY=;
+ b=DBxQPUL+qwuVLamFIWWktqbV3ixcmdwVXO5WtTCRRUzW9hhXVetlCzUn
+ zlgeaitEg2hvenB4dX83ICidAue/Ygpq6r9b5FkfL74CPWMrV2e3OrImD
+ 4Vo6BJRi4r/2Qahnj309OAf9qitLorWqC8tKe+GsQAYxNKtNV/L28h+bT 8=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Jul 2022 12:42:44 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2022 12:38:15 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2022 12:42:44 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 8 Jul 2022 12:38:15 -0700
+ 15.2.986.22; Fri, 8 Jul 2022 12:42:43 -0700
 Received: from [10.111.160.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 8 Jul 2022
- 12:38:11 -0700
-Message-ID: <eb22ae44-b347-1566-939a-4ca840688f07@quicinc.com>
-Date: Fri, 8 Jul 2022 12:38:09 -0700
+ 12:42:41 -0700
+Message-ID: <ffad2e39-f775-00de-3119-f9b0ca3fe4f7@quicinc.com>
+Date: Fri, 8 Jul 2022 12:42:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH 1/9] dt-bindings: msm/dp: drop extra p1 region
+Subject: Re: [PATCH] drm/msm/dsi: Set panel orientation when directly connected
 Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>, "Bjorn
- Andersson" <bjorn.andersson@linaro.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>, Sean Paul
- <sean@poorly.run>, Kuogee Hsieh <quic_khsieh@quicinc.com>
-References: <20220707213204.2605816-1-dmitry.baryshkov@linaro.org>
- <20220707213204.2605816-2-dmitry.baryshkov@linaro.org>
- <CAE-0n53zV2OjXxjJ_AwCDcAZvOY+BU0-xipxQkup3muHMRCPXA@mail.gmail.com>
- <b8ee5a03-1168-d5ca-97fe-f82a9d7e453e@linaro.org>
- <CAE-0n52YGDOSZpL+3d=_APsOwVvrJG7uR-x1AcsBej5KrDct5w@mail.gmail.com>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAE-0n52YGDOSZpL+3d=_APsOwVvrJG7uR-x1AcsBej5KrDct5w@mail.gmail.com>
+To: Doug Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>
+References: <20220706191442.1150634-1-swboyd@chromium.org>
+ <CAD=FV=UrYCwm2ByN_5EN3fq-ayMJNjmWfJ5sooRy51ZiCoMcjA@mail.gmail.com>
+ <60252405-81f2-2465-bc20-5f91a9072031@quicinc.com>
+In-Reply-To: <60252405-81f2-2465-bc20-5f91a9072031@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,65 +66,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, patches@lists.linux.dev,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ kuogee
 
-On 7/8/2022 12:27 PM, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-07-07 20:46:43)
->> On 08/07/2022 04:28, Stephen Boyd wrote:
->>> Quoting Dmitry Baryshkov (2022-07-07 14:31:56)
->>>> The p1 region was probably added by mistake, none of the DTS files
->>>> provides one (and the driver source code also doesn't use one). Drop it
->>>> now.
->>>
->>> Yes, looks like the driver doesn't use it.
->>>
->>>>
->>>> Fixes: 687825c402f1 ("dt-bindings: msm/dp: Change reg definition")
->>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>> ---
->>>>    Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 -
->>>>    1 file changed, 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>> index 94bc6e1b6451..d6bbe58ef9e8 100644
->>>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>> @@ -29,7 +29,6 @@ properties:
->>>>          - description: aux register block
->>>>          - description: link register block
->>>>          - description: p0 register block
->>>> -      - description: p1 register block
->>>
->>> The p1 registers exist on sc7180. They start where the example starts,
->>> at 0xae91400.
->>
->> Do they exist on e.g. sc7280? In other words, should we add the region
->> to the DTS? For now I'm going to mark it as optional.
->>
+
+On 7/8/2022 9:00 AM, Abhinav Kumar wrote:
 > 
-> Yes I see the same address for P1 on sc7280. Maybe it's a typo? Abhinav,
-> can you confirm?
+> 
+> On 7/8/2022 8:25 AM, Doug Anderson wrote:
+>> Hi,
+>>
+>> On Wed, Jul 6, 2022 at 12:14 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>>>
+>>> Set the panel orientation in drm when the panel is directly connected,
+>>> i.e. we're not using an external bridge. The external bridge case is
+>>> already handled by the panel bridge code, so we only update the path we
+>>> take when the panel is directly connected/internal. This silences a
+>>> warning splat coming from __drm_mode_object_add() on Wormdingler boards.
+>>>
+>>> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+>>> Cc: Douglas Anderson <dianders@chromium.org>
+>>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>>> ---
+>>>
+>>> This relies on commit 5e41b01a7808 ("drm/panel: Add an API to allow drm
+>>> to set orientation from panel") which is in drm-misc
+>>>
+>>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>
+>> I don't personally have objections to this, but (to my understanding)
+>> "the future" is that everyone should use panel_bridge. If we made the
+>> move to panel_bridge today then we wouldn't need to do this. In
+>> general I think panel_bridge would end up letting us delete a bunch of
+>> code...
+>>
+>> See commit 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with
+>> panel-bridge") for when this was done by ti-sn65dsi86.
+>>
+>> Then again, I spent a small amount of time looking into this and it's
+>> definitely non-trivial. Still likely worthwhile, but not worth
+>> blocking a tiny fix like this. It also should be fairly obvious that
+>> we should delete this when we switch to panel_bridge.
+> 
+> Right, from what I saw on IRC, panel_bridge is the way forward and 
+> dmitry did push a change to do that
+> 
+> https://patchwork.freedesktop.org/patch/492585/
+> 
+> But I think we can go ahead with this change because its simple enough.
+> 
+> Regarding the panel_bridge migration, I am going to start reviewing that 
+> as well.
+> 
 
-P1 block does exist on sc7280 and yes its address is same as the address 
-mentioned in sc7180. So its not a typo.
+I did some more digging up on the panel_bridge migration.
 
-Yes, we are not programming this today but I would prefer to keep this 
-as optional.
+Dmitry has posted this towards december last year
 
-I did sync up with Kuogee on this change this morning, we will check a 
-few things internally on the P1 block's usage as to which use-cases we 
-need to program it for and update here.
+https://patches.linaro.org/project/dri-devel/patch/20211207222901.988484-3-dmitry.baryshkov@linaro.org/ 
 
-The idea behind having this register space listed in the yaml is thats 
-how the software documents have the blocks listed so dropping P1 block 
-just because its unused seemed wrong to me. Optional seems more appropriate.
+
+and I had given my R-b on this already in Jan.
+
+I am not sure why this change was dropped OR was not part of msm-next 
+already.
+
+Dmitry, any reason this change was left out so long and why the R-b was 
+not retained and this was reposted?
+
+ From what i can see the change looks identical.
 
 Thanks
 
 Abhinav
+>>
+>> Thus:
+>>
+>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>
+>> I'll assume that we'll just snooze this commit until drm-misc-next
+>> merges into a tree that msm-next is based on, which will probably be
+>> the next -rc1. If desired and Acked I could land this in
+>> drm-misc-next, but it's probably not worth it?
