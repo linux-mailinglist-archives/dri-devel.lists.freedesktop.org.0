@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5FE56CAF3
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 19:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECE056CB54
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 22:14:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC0AE11A075;
-	Sat,  9 Jul 2022 17:36:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB4211AFEF;
+	Sat,  9 Jul 2022 20:14:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA32113FFC
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 17:36:25 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3A660845E3;
- Sat,  9 Jul 2022 19:36:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1657388183;
- bh=ejhlCQfiKtKRvIn6WGQWt+nRi+8ptnpW/1C7jajPIT8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oEqC0Qo9KWR1DpFgXtw8y9Ajw3cYa18fNth62NfxdSy+fJbH6l2gDBFO5tChTyuFd
- aTWQDsDe9FdHqdao09A7R6NxIzOfFCnkqm2QlxyhoYGOXqPsmRv1VjYW5haW7OAGoB
- 4IYuuSSl4C4ZOdhZmq5gW6Njmb/i+R6jki6TVxa6C0YyRR+3g7DchsRqfhhoisvHbY
- cusmipS+zvst9I1ASUEFAcf0aJCZ8wqKGxeQ/NAGS0busLub81F6tHTLy6RAECBmvI
- p6ZK3UHSxFaUZWy4J2Bib06LMmnBAt80HBzOwmwsrsBkLhRehFZAMER4s2+WZcQgPO
- 0tabi6ONjy+HQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 4/4] drm/lcdif: switch to devm_drm_of_get_bridge
-Date: Sat,  9 Jul 2022 19:36:06 +0200
-Message-Id: <20220709173606.72852-4-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220709173606.72852-1-marex@denx.de>
-References: <20220709173606.72852-1-marex@denx.de>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAF90113A33;
+ Sat,  9 Jul 2022 20:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657397648; x=1688933648;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=PI3SdYJJX/AtfnQZjnhPrqVmNnq8hjACDYyS3abbCwU=;
+ b=VBs39yVsEszUWXazPJwGKVm74K5jDD60N7Q+SjbHZD0v7XInfdCTLpnA
+ Pf1NiR2jmt7LZ3MpyxEaaT5fSLeAB1In63H34MkS5l/SBjSgDojsvpHux
+ GXzu5NV9uk7mloRI5o/TlBzQCUYaC1IL8ev8ti/SKybL1SXu67R9QhyU6
+ NvD2NkFv3M/zYPRVEB0z5S47nrmFBgpYxFbqx8FZpaNpzWRL+IM4lOfXf
+ a5RU6m/nynGC5s97yi0eUQusftYxGg5BH1lkGIid7rU/v3MtOX2Nza042
+ Lvut+w11TWKO64ekW99aog9FWlsmnOR4rgbGAZCE4i5vfwiE6AatzHdpa w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="283212700"
+X-IronPort-AV: E=Sophos;i="5.92,259,1650956400"; d="scan'208";a="283212700"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2022 13:14:07 -0700
+X-IronPort-AV: E=Sophos;i="5.92,259,1650956400"; d="scan'208";a="569317093"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2022 13:14:07 -0700
+Date: Sat, 9 Jul 2022 13:13:48 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+Subject: Re: [RFC 03/10] drm/i915/vm_bind: Support private and shared BOs
+Message-ID: <20220709201347.GA14039@nvishwa1-DESK>
+References: <20220701225055.8204-1-niranjana.vishwanathapura@intel.com>
+ <20220701225055.8204-4-niranjana.vishwanathapura@intel.com>
+ <e004aef5d2c491e584d6d3c2e6627093ec89d119.camel@intel.com>
+ <20220708131446.GU14039@nvishwa1-DESK>
+ <14ea50c0efa43f569c0662bafcea5ad81f4886d9.camel@intel.com>
+ <b9cae3426f00b1f8335a45f6458c430710b06e8c.camel@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+In-Reply-To: <b9cae3426f00b1f8335a45f6458c430710b06e8c.camel@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,75 +62,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Alexander Stein <alexander.stein@ew.tq-group.com>, Peng Fan <peng.fan@nxp.com>,
- Liu Ying <victor.liu@nxp.com>, robert.foss@linaro.org,
- Liu Ying <victor.liu@oss.nxp.com>, Martyn Welch <martyn.welch@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: "Brost, Matthew" <matthew.brost@intel.com>, "Zanoni,
+ Paulo R" <paulo.r.zanoni@intel.com>, "Landwerlin,
+ Lionel G" <lionel.g.landwerlin@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>,
+ "jason@jlekstrand.net" <jason@jlekstrand.net>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function "drm_of_find_panel_or_bridge" has been deprecated in
-favor of "devm_drm_of_get_bridge".
+On Fri, Jul 08, 2022 at 07:44:54AM -0700, Hellstrom, Thomas wrote:
+>On Fri, 2022-07-08 at 15:43 +0200, Thomas Hellström wrote:
+>> > The vm_bind/bound_list and the non_priv_vm_bind_list are there for
+>> > very different reasons.
+>> >
+>> > The reason for having separate vm_bind_list and vm_bound_list is
+>> > that
+>> > during the execbuf path, we can rebind the unbound mappings by
+>> > scooping
+>> > all unbound vmas back from bound list into the bind list and
+>> > binding
+>> > them. In fact, this probably can be done with a single vm_bind_list
+>> > and
+>> > a 'eb.bind_list' (local to execbuf3 ioctl) for rebinding.
+>> >
+>> > The non_priv_vm_bind_list is just an optimization to loop only
+>> > through
+>> > non-priv objects while taking the locks in
+>> > eb_lock_persistent_vmas()
+>> > as only non-priv objects needs that (private objects are locked in
+>> > a
+>> > single shot with vm_priv_lock). A non-priv mapping will also be in
+>> > the
+>> > vm_bind/bound_list.
+>> >
+>> > I think, we need to add this as documentation to be more clear.
+>>
+>> OK, I understood it as private objects were either on the vm_bind
+>> list
+>> or vm_bound_list depending on whether they needed rebinding or not,
+>> and
+>> shared objects only on the non_priv_vm_bind list, and were always
+>> locked, validated and fenced...
+>>
+>> Need to take a deeper look...
+>>
+>> /Thomas
+>>
+>>
+>>
+>> >
+>> > Niranjana
+>> >
+>> >
+>
+>Hmm. Just a quick thought on this, Since the non-private vm-bind
+>objects all need to be iterated through (locked and fenced and userptr
+>valid) on each execbuf, and checking for validation (resident and
+>bound) is a very quick check, then we'd never need to add them to the
+>rebind list at all, right? If so the rebind list would be exclusive to
+>vm-private objects.
 
-Switch to the new function and reduce boilerplate.
+Yah, non-private vm-bind objects all need to be iterated through, locked
+and fenced (not required to be validated/userptr validated unless there
+is an invalidation).
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
-Reported-by: Liu Ying <victor.liu@oss.nxp.com>
-Tested-by: Martyn Welch <martyn.welch@collabora.com>
-Fixes: 9db35bb349a0e ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Martyn Welch <martyn.welch@collabora.com>
-Cc: Peng Fan <peng.fan@nxp.com>
-Cc: Robby Cai <robby.cai@nxp.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stefan Agner <stefan@agner.ch>
----
-V2: Add RB from Liu
-V3: Add TB from Martyn from V1
-V4: Add AB from Sam from V2
----
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Yah, we can say that it is a quick check to see if BO needs rebinding
+(validated), and hence rebind_list is mainly useful only for vm-private
+objects.
+But there has been some discussions to optimize the non-private BOs case
+by not having to iterate. I am not sure how that will shape up, but
+something to consider here.
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 1370889c6d687..746a4261f3da2 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -42,23 +42,11 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
- {
- 	struct drm_device *drm = lcdif->drm;
- 	struct drm_bridge *bridge;
--	struct drm_panel *panel;
- 	int ret;
- 
--	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
--					  &bridge);
--	if (ret)
--		return ret;
--
--	if (panel) {
--		bridge = devm_drm_panel_bridge_add_typed(drm->dev, panel,
--							 DRM_MODE_CONNECTOR_DPI);
--		if (IS_ERR(bridge))
--			return PTR_ERR(bridge);
--	}
--
--	if (!bridge)
--		return -ENODEV;
-+	bridge = devm_drm_of_get_bridge(drm->dev, drm->dev->of_node, 0, 0);
-+	if (IS_ERR(bridge))
-+		return PTR_ERR(bridge);
- 
- 	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
- 	if (ret)
--- 
-2.35.1
+>
+>Also I don't think the vm_bind list can be execbuf-local, since binding
+>may not have completed at vma_release time, at which point the objects
+>need to remain on the vm_bind list until the next execbuf...
 
+Yah, in execbuf3, after scooping all unbind BOs in vm_bind_list and
+validating (binding) them, during eb_release_vmas, we only move those
+BOs to vm_bound_list for which the binding is complete. If not, they
+will remain in vm_bind_list. If we make this list, execbuf-local, then
+we have to add all the BOs for which binding is not complete back into
+rebind_list so that next execbuf will pick it up. Probably the current
+vm_bind/bound_list is the better option.
+
+Niranjana
+
+>
+>/Thomas
+>
+>
