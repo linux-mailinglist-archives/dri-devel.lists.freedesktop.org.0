@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26CC56C8B3
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 12:07:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E41B56C8B6
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 12:08:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89EB010E044;
-	Sat,  9 Jul 2022 10:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95F8C10FB0D;
+	Sat,  9 Jul 2022 10:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C0010E071
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7061D88F0D
  for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 10:07:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 47AF1B819D8;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BD97760EDE;
  Sat,  9 Jul 2022 10:07:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61729C341CD;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E85C341E4;
  Sat,  9 Jul 2022 10:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657361258;
- bh=03e50XPPwE+9afVhjrLNxqR8eX0CecNoQW3lmsb6LX8=;
+ bh=qiRPr94AFRMOGdMAE4cJrf7t0rv+9IXQLXV79wY5o4s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E0+yfzSHM8m2gOWe7vV0L+CWyQ5/YNPe3KtYoDzVCvQ4m+CRz5uV7AqvuzEx9gWgl
- jw8tkH4OWFWSc4IewUD1Ytr27Pi8IGHPIQU0fbXe7Sh37dF7ZsCs6W2h/sOi1a4BjX
- +a+LXyFDRCfmTjMjJ/f9AcHIA5mZimLXhm34WptOEw/rEKubEU55kIh5CBvh7OskYc
- 6yg0ck1EJzI1m4xfvC66gfjLBYryGTmGGiIlxqf99/ud6pbuF1HoFr2xd8ex9scj3v
- V9rMj5z6ooBe1mvDrp4DEUviq5e9gydLqgXEaqhbAGZ181H7apSWnuMjkz/pKdV2DV
- 8i22lXKZe911Q==
+ b=FUrhBDV8qQ3BBmHXqnc/8ipJ4ijIhzVDDemntLvaD+ld6JNia3myDoK968lVQT/JF
+ 777qXSX6Qv2PjJJhVV2o2E9tWWIDi4BQAwPhdGPILIE4Oo/k8JjN+1eOsn1Emy3uMB
+ qw1e3XET2y58XYWDuz0Iu6BJ6jb321aA0GC0GT6kUD1YPdxlT3SqRFgCCVB3ikR601
+ u0F2G8WS8ueJDx+sysVVEBz1iif53JLznhQngkj4Mu87YRPKBWEWKljrUNBTZJ/j4V
+ Q1fgEz5I3zCS6KOuXs1pk+Vw1MyPtzhQBr7aVzuDwylIhadsV0Ug2Pa252oHxnwANG
+ 9DMDhL+eyM8uQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oA7N9-004EGu-If;
+ (envelope-from <mchehab@kernel.org>) id 1oA7N9-004EGx-JK;
  Sat, 09 Jul 2022 11:07:35 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH v3 10/21] drm/scheduler: add a missing kernel-doc parameter
-Date: Sat,  9 Jul 2022 11:07:23 +0100
-Message-Id: <16fa23368e6728fd77016e804779ea1d37ccfc40.1657360984.git.mchehab@kernel.org>
+Subject: [PATCH v3 11/21] kfence: fix a kernel-doc parameter
+Date: Sat,  9 Jul 2022 11:07:24 +0100
+Message-Id: <4e4f3c9fa6b379a82b9647d2f4152cfb520730ff.1657360984.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657360984.git.mchehab@kernel.org>
 References: <cover.1657360984.git.mchehab@kernel.org>
@@ -54,41 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>,
+Cc: Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dmitry Vyukov <dvyukov@google.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a description for struct device at drm_sched_init(), in order
-to solve this warning:
+The kernel-doc markup is missing the slab pointer description:
 
-	drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
+	include/linux/kfence.h:221: warning: Function parameter or member 'slab' not described in '__kfence_obj_info'
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Document it.
+
+Reviewed-by: Marco Elver <elver@google.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/21] at: https://lore.kernel.org/all/cover.1657360984.git.mchehab@kernel.org/
 
- drivers/gpu/drm/scheduler/sched_main.c | 1 +
+ include/linux/kfence.h | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 68317d3a7a27..9d27cd280c89 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -994,6 +994,7 @@ static int drm_sched_main(void *param)
-  *		used
-  * @score: optional score atomic shared with other schedulers
-  * @name: name used for debugging
-+ * @dev: pointer to struct device
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index 726857a4b680..9c242f4e9fab 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -210,6 +210,7 @@ struct kmem_obj_info;
+  * __kfence_obj_info() - fill kmem_obj_info struct
+  * @kpp: kmem_obj_info to be filled
+  * @object: the object
++ * @slab: pointer to slab
   *
-  * Return 0 on success, otherwise error code.
-  */
+  * Return:
+  * * false - not a KFENCE object
 -- 
 2.36.1
 
