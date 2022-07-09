@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DDF56C95E
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 14:27:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B78D56C95F
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 14:27:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A1D1131DF;
-	Sat,  9 Jul 2022 12:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90EFA1131ED;
+	Sat,  9 Jul 2022 12:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400E11131DF
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:26:57 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5075F1131EC
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:27:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B1B0F60F23
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:26:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 17F58C3411C
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:26:56 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E0189B817D3
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:27:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AC0B8C341CD
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:27:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657369616;
- bh=GNdksOHkNz6OmZJkj0g/NtACVUOkuBbv5Pu4s0+Frhc=;
+ s=k20201202; t=1657369640;
+ bh=J2Dq5d9ac9JY0wbGvPJGTjyfeSk6zHFGiofQKFRB3i0=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QCtGkeCuwmKZ+j/u1aHjN5F5rSw3U91KnJVZdAK4cYteCm5xIu+An5Mjs+pHKIboE
- s8TjVyWAsfmLoM+3iszy+QJwQMZHRtn6QUJIkI/cRUsVQAmxTNja0u4j5lTyp7oUxs
- DaGFmy59m6Rxj+lAtivGud0jB9xjAJxHgkXNlV3zOCUCpr2dLedXM4X2tTCXafb8S0
- nWJeqOoEXdLu0EHobgLK2mLxl0uZ0pbCcnLjc6u1Q28Lcxx3NZZHt7D9MQRL5XWDdI
- AqYQtIIgxGDVaiiM8u2F9zHcnMPDyEi/VftwQkiGMrhEEmqlG0RMdn3+FqdxWCyrSx
- ZtMOYDnX2E8Qg==
+ b=q1KWTkv/ZRhshP7fqx72lHECDXCZuzod1wT4EuCsGkL8TKUJcWLzxmvyXwOb3iFuI
+ 2zsqCxoQNyvn3owqDNHPme8Vv7e/3YK8rXqZFQlWTMsYoqx4Clk5zr2e2s6M1sWDm+
+ rAHQ99jE0fPt5dvZF8GbiIqMZan4bbcK5+Jov9qb+MlUbdKYwHRS1uCmOEbEb+YJNu
+ i+63Yb5900sUuKrf8kj4PzFAPgZXS74L4zGL4GDna1Cxh4qixyk9qedYztX613rQg2
+ 9wYAoOgoU5NVTADnzUWWu/4gMgAKtfxCI1PweaGK2ffGWZ8V84ILJUuHbveK8O5K9z
+ Kz+sCFwptln9w==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id F0053CC13B6; Sat,  9 Jul 2022 12:26:55 +0000 (UTC)
+ from userid 48) id 9A38FCC13B1; Sat,  9 Jul 2022 12:27:20 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216226] [amdgpu] BUG: kernel NULL pointer dereference
-Date: Sat, 09 Jul 2022 12:26:55 +0000
+Subject: [Bug 216224] AMDGPU fails to reset RX 480 after Ring GFX timeout
+Date: Sat, 09 Jul 2022 12:27:20 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -43,7 +43,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: high
 X-Bugzilla-Who: aros@gmx.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: ANSWERED
@@ -51,9 +51,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216226-2300-R5ytXO2src@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216226-2300@https.bugzilla.kernel.org/>
-References: <bug-216226-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-216224-2300-zBRnf38ve3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216224-2300@https.bugzilla.kernel.org/>
+References: <bug-216224-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -74,7 +74,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216226
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216224
 
 Artem S. Tashkinov (aros@gmx.com) changed:
 
@@ -83,8 +83,8 @@ Artem S. Tashkinov (aros@gmx.com) changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |ANSWERED
 
---- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
-PLease report to https://gitlab.freedesktop.org/drm/amd/-/issues
+--- Comment #4 from Artem S. Tashkinov (aros@gmx.com) ---
+Please report to https://gitlab.freedesktop.org/drm/amd/-/issues
 
 --=20
 You may reply to this email to add a comment.
