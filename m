@@ -2,41 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4582156C905
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 12:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4018A56C90D
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 12:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D581610FB07;
-	Sat,  9 Jul 2022 10:30:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB9A112644;
+	Sat,  9 Jul 2022 10:43:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC5C10FB06
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 10:30:57 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 83ADEB819D5;
- Sat,  9 Jul 2022 10:30:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6E90C3411C;
- Sat,  9 Jul 2022 10:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1657362654;
- bh=+StW1gOLTZgdcvRatpGmh7s1OknwJrHLQ9GRWP9NdC8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pq0+JUbS8bqFQopWY7oG/wgS3nVVemFHzsgErgrU8PhKix5W7hEKYR00OQoTTbLj6
- AyPtvlTxYKaQs2yAtMR4m6WqGOmM5cKLm+jHp4m3Nqdyt47+z7zMDR5IIZqbFNlz1f
- /URWkB56i7OyC8F/r/2ewjWYTVYROKlIwxo/uNLE=
-Date: Sat, 9 Jul 2022 12:30:51 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Christos Kollintzas <c.kollintzas.92@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: replace udelay with usleep_range
-Message-ID: <YslY25NnW6O5Tn+p@kroah.com>
-References: <YslTQLhM7GSaGXki@mandalorian.koija>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72442112644
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 10:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1657363417; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HZm4gVWjiDEO5u30RuW6VoyxTvmlC8q+Qpm+4tGQ74c=;
+ b=RGYSTeN8yc1avmOrmXEF+5G8x0qBiLTYlaLGRTfv0Ur08nsmZIN1nQxFVg8sxhc5jgT/23
+ IAres0EXXDFv6C4qMzlSVyxiRiO0wanAYIP+cvBF3mdZimJ043vuUB+zjwrV/GN7GtooZl
+ 8qxjC9mvgSbDa8qr4SiG6c1CC4I7nEE=
+Date: Sat, 09 Jul 2022 11:43:27 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 0/6] drm/ingenic: JZ4760(B) support and random changes
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <FS1RER.IMGKHPGOL0LF1@crapouillou.net>
+In-Reply-To: <Ysk88cZO1iQhX/I2@ravnborg.org>
+References: <20220708205406.96473-1-paul@crapouillou.net>
+ <Ysk88cZO1iQhX/I2@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YslTQLhM7GSaGXki@mandalorian.koija>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +45,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ list@opendingux.net, Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 09, 2022 at 01:06:56PM +0300, Christos Kollintzas wrote:
-> Adhere to Linux kernel coding style.
-> 
-> Reported by checkpatch:
-> 
-> CHECK: usleep_range is preferred over udelay
-> 
-> Signed-off-by: Christos Kollintzas <c.kollintzas.92@gmail.com>
-> ---
->  drivers/staging/fbtft/fb_upd161704.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
-> index c680160d6380..eeafbab4ace1 100644
-> --- a/drivers/staging/fbtft/fb_upd161704.c
-> +++ b/drivers/staging/fbtft/fb_upd161704.c
-> @@ -32,27 +32,27 @@ static int init_display(struct fbtft_par *par)
->  
->  	/* oscillator start */
->  	write_reg(par, 0x003A, 0x0001);	/*Oscillator 0: stop, 1: operation */
-> -	udelay(100);
-> +	usleep_range(100, 110);
+Hi Sam,
 
-When doing these types of changes, you really need access to the
-hardware involved in order to be able to properly test it.
+Le sam., juil. 9 2022 at 10:31:45 +0200, Sam Ravnborg=20
+<sam@ravnborg.org> a =C3=A9crit :
+> Hi Paul,
+>=20
+> On Fri, Jul 08, 2022 at 09:54:00PM +0100, Paul Cercueil wrote:
+>>  Hi,
+>>=20
+>>  A small set of changes to the ingenic-drm driver.
+>>=20
+>>  The most notable thing is that ingenic-ipu is now its own platform
+>>  driver.
+> It would be nice to know what is achieved by this change, I could
+> see the code being a tad simpler, but the cost was more EXPORTs.
 
-Especially for this type of function which is trying to do timing
-changes which the hardware requires.
+Well=E2=80=A6 we now have two separate drivers instead of one driver that=20
+deals with two different devices. I thought the benefit here was=20
+obvious.
 
-Did you test this on the real hardware and did it work properly?
+> With the added explanation, which you can add when applying, all=20
+> patches are:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-thanks,
+I'll apply the other ones and keep this patch for a V2. You made me=20
+realize that I could use namespaced exports instead of global ones.
 
-greg k-h
+Thanks,
+-Paul
+
+
