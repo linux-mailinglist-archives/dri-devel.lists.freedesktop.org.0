@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B78D56C95F
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 14:27:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC9A56C991
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 15:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90EFA1131ED;
-	Sat,  9 Jul 2022 12:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A81F113AF0;
+	Sat,  9 Jul 2022 13:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5075F1131EC
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:27:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E0189B817D3
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:27:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AC0B8C341CD
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 12:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657369640;
- bh=J2Dq5d9ac9JY0wbGvPJGTjyfeSk6zHFGiofQKFRB3i0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=q1KWTkv/ZRhshP7fqx72lHECDXCZuzod1wT4EuCsGkL8TKUJcWLzxmvyXwOb3iFuI
- 2zsqCxoQNyvn3owqDNHPme8Vv7e/3YK8rXqZFQlWTMsYoqx4Clk5zr2e2s6M1sWDm+
- rAHQ99jE0fPt5dvZF8GbiIqMZan4bbcK5+Jov9qb+MlUbdKYwHRS1uCmOEbEb+YJNu
- i+63Yb5900sUuKrf8kj4PzFAPgZXS74L4zGL4GDna1Cxh4qixyk9qedYztX613rQg2
- 9wYAoOgoU5NVTADnzUWWu/4gMgAKtfxCI1PweaGK2ffGWZ8V84ILJUuHbveK8O5K9z
- Kz+sCFwptln9w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9A38FCC13B1; Sat,  9 Jul 2022 12:27:20 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216224] AMDGPU fails to reset RX 480 after Ring GFX timeout
-Date: Sat, 09 Jul 2022 12:27:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216224-2300-zBRnf38ve3@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216224-2300@https.bugzilla.kernel.org/>
-References: <bug-216224-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE73113AED
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 13:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=XmkcfsDh57jd1J2jvUdL+BZKRd9qAe04YaTvDGQ4b5o=;
+ b=Zo5LqVUaSgfH1W5v9cXv82HIf2UTJGKnsGbh9Q5tzQ5DCQVt79EHEiPIYgGqC+LE6cN0xxGkryJDx
+ Sp02VZSmTBldxoUo61et9Qo2JEd9uUmzNkIIKYq559XURbuO8uDvFwZs+u32a+rWhq/PQyS+SnSw89
+ HimmnJkdp5Ju4TTcVkXNMc+L2IeyHNsCPV2femt6bvayQs9DetIkw6DnJsrkIu6ezP+gWpDC4pnLst
+ MmlDrPUqgq5sjtMzIVIKVwzsiOI0OI5XKk+7BUokSL7RTJio7Y5RPlUoZCByQ+PeVKO4Mp7rt24cRZ
+ p4HI8rrjcytPKML9EX1DQLjkw3fSQDg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=XmkcfsDh57jd1J2jvUdL+BZKRd9qAe04YaTvDGQ4b5o=;
+ b=6o3gycdRpEHGoNrAwURicgyEGwLg1iuyxseqGoOk4kRzw82swxTrUITH5wBxDFk1KMBrTPUNWvZOh
+ dt2Z1nrAQ==
+X-HalOne-Cookie: aedeed65c7618423d082425d94c8b2f248725526
+X-HalOne-ID: 6b4eb816-ff8c-11ec-be7e-d0431ea8bb03
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 6b4eb816-ff8c-11ec-be7e-d0431ea8bb03;
+ Sat, 09 Jul 2022 13:38:30 +0000 (UTC)
+Date: Sat, 9 Jul 2022 15:38:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 00/10] drm: Add support for low-color frame buffer
+ formats
+Message-ID: <YsmE1D8lGp4XKs99@ravnborg.org>
+References: <cover.1657294931.git.geert@linux-m68k.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1657294931.git.geert@linux-m68k.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,23 +59,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-m68k@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216224
+Hi Geert,
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+On Fri, Jul 08, 2022 at 08:20:45PM +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> A long outstanding issue with the DRM subsystem has been the lack of
+> support for low-color displays, as used typically on older desktop
+> systems, and on small embedded displays.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+IT is super to have this addressed - thanks!
 
---- Comment #4 from Artem S. Tashkinov (aros@gmx.com) ---
-Please report to https://gitlab.freedesktop.org/drm/amd/-/issues
+> 
+> This patch series adds support for color-indexed frame buffer formats
+> with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+> work-in-progress Atari DRM driver supporting 2, 4, 16, 256, and 65536
+> colors, with text console operation, fbtest, and modetest.
+> 
+> Overview:
+>   - Patch 1 introduces a helper, to be used by later patches in the
+>     series,
+>   - Patch 2 introduces a flag to indicate color-indexed formats,
+>   - Patches 3 and 4 correct calculations of bits per pixel for sub-byte
+>     pixel formats,
+>   - Patches 5 and 6 introduce the new C[124] formats,
+>   - Patch 7 fixes an untested code path,
+>   - Patch 8 documents the use of "red" for light-on-dark displays,
+>   - Patches 9 and 10 add more fourcc codes for light-on-dark and
+>     dark-on-light frame buffer formats, which may be useful for e.g. the
+>     ssd130x and repaper drivers.
 
---=20
-You may reply to this email to add a comment.
+Applied all patches to drm-misc (drm-misc-next), including the last two
+RFC patches as we then have the formats ready when a user pops up.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+	Sam
