@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB7456C78A
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 08:27:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6B756C78B
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 08:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD8210FA9F;
-	Sat,  9 Jul 2022 06:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E4D610F582;
+	Sat,  9 Jul 2022 06:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A7110FAA6
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 06:27:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304D510F582
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 06:28:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 788A960C70
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 06:27:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D5B78C341CD
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 06:27:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 90EF760C70
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 06:28:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F2C13C341CA
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 06:28:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657348033;
- bh=b39wv4T75z5CQQLz7c/sqvcxpRGLvDBbP1XAjDLK4uQ=;
+ s=k20201202; t=1657348085;
+ bh=FxJ7uzpsT7/KBm9ko8l22g37ubQgSPb6CMBXVuLKAEc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=pZYMKStiOgFJbKIsrL3+LKAgTbtv5n+1A8nJaIA+7yDccLFAvNILnNGOSg+FZoz7Q
- B2jVzY9VULiI3XLzQ5CXM2Pv+LCIWw2gJJcrVVIm9F4DGcoNiCK/68cFER88h4f+aG
- hmpo2Oi5K9SVqo18k16z+VI+3Q/szHd41GEyVFT8Q/touQfu7St0Brfqnm+GaO2Gnt
- +YvDRirTEdzGTGkmfpRVB5ibIz9u9+cVJFMYQdQ8F4D/FteVgcnu7lPmt3NOyG2YLk
- Wlbej/cv5LpMbtOky7zBSDdlYIhUuWeHfHxGhQF9LhNUmslx2RrvGDBI3h/WHWq8AO
- 9Eby0rfviSbzA==
+ b=mCQuNNMX1pZd0Qyyvy8G+QIElxkNoETc+oFDBo0ZomC1duaP2QaSp4nCKuFBYFvQ/
+ wKrYEQ4mfMzjciw7tMfpuBocCkhYwWhCTFnqCz+elQQ6MPlNlX3Dz4J3LMapwwMqQ+
+ s4QErUeCvVhDF2vGXYWpQ7QfHsc3tcIlWWaTgEV2/19mNZg6/IIVA49zZzW06X5kHE
+ dB0NI/X+WlBa+ghW4eE0OQh1HN40BxoTCBKuWQ/ICaBpLLHmkkqIdPTxX/GFFbFi5P
+ Y7tAy9DPitsffHxPrtqe90VVlt25UftxkMq7d3n4jz5UC4FqDCijSESH5Wq2AFgu6Y
+ W9BP67JIsplGA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C3C4ECC13B6; Sat,  9 Jul 2022 06:27:13 +0000 (UTC)
+ from userid 48) id E1F07CC13B6; Sat,  9 Jul 2022 06:28:04 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216224] AMDGPU fails to reset RX 480 after Ring GFX timeout
-Date: Sat, 09 Jul 2022 06:27:13 +0000
+Date: Sat, 09 Jul 2022 06:28:04 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,8 +49,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.description
-Message-ID: <bug-216224-2300-XGd6xq9K2z@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-216224-2300-2PIUXoxwfI@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216224-2300@https.bugzilla.kernel.org/>
 References: <bug-216224-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,12 +75,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216224
 
-happysmash27@protonmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #301374|SteamTV-induced crash       |SteamVR-induced crash
-        description|2022-07-08                  |2022-07-08
+--- Comment #1 from happysmash27@protonmail.com ---
+Created attachment 301375
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301375&action=3Dedit
+SteamVR-induced crash 2022-06-18
 
 --=20
 You may reply to this email to add a comment.
