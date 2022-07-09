@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD4056C837
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 11:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD92456C85B
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 11:30:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8C5112202;
-	Sat,  9 Jul 2022 09:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84F91124F0;
+	Sat,  9 Jul 2022 09:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A1F112208
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 09:07:08 +0000 (UTC)
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623211124F9
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 09:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=bQao0uhcvp+1LML5tn0jIDi+JBcfo6KzruckDKC3200=;
- b=Zx7kpXndr5SVSWcRnKMCgbXGc41CeI+YBqFqw9lfB9KyhGx7kx6LILIip5cIKSq66lnHckwdThCH6
- EvkXHVzjn4AWSTT8FaGwVS/OK3j1w9BazJy/bg9s5aosL293b1f4BzssBH0bvj4D3hLzQiPXt2YYhf
- U3nRlwzNTuOvRMCG47AqXDryAjBS2v0B1rlKkgplcw9xa0cPxistjxJrO0ATmUPVOOck0PfEyAm/de
- Gy8X5kUDOipjR5Sf2i/DoCaoBPOFed4YxKx0+ikFATPhp0Kcv20pK581tYO2ztkqTLTCMJbfDwGzti
- v4E0foZa6DWsS7Wefq2UC7JaRzVLMGg==
+ bh=IdOsexCTm1DbOGBMB7hSgC0LQ+yPdYR7j9ULfoLOTkQ=;
+ b=TAc+TRI9Xt6L6CvuOcgbuFGDn7dbo2w+JxGySLsxF+k5agG0gGWcUgjl8SpoG/xAQOt8DfXYb0Qy6
+ 14ckbNDw3d3FoS8U2AJa7FI74WUhpkusKce1HMEONIw45SEDYg4OkP+Kn7B4Yn6dF2qREuyHJkWOwC
+ QLdQZVBDpSzYi2927yWisNKWtb5R8w0xRfy3C66SNBTVoRGih9nU5Cy5cM6SzoH0g/ebYRHVehoCtz
+ bgFYY04Jr2zFMH5DUUnEc4475uig+JINBNh7FYjh0BMS7HVLjZmYIsoL/kqSLCezHvJkYLUvcyIlxJ
+ KZ8RhVCOJbaV6OT/xfGnryimKnmbSYw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=bQao0uhcvp+1LML5tn0jIDi+JBcfo6KzruckDKC3200=;
- b=iLvft4rlxwG6L3oaWSPOLOufdauTPHbYccYyEMqEW2sMLdLHTEJovzFCWbf0h//uiGB67ygy/dCmC
- 5NjgJFQCg==
-X-HalOne-Cookie: d1d041af6dd76b0adfe09725c6a117cc2310e10a
-X-HalOne-ID: 811e08aa-ff66-11ec-be7e-d0431ea8bb03
-Received: from mailproxy3.cst.dirpod3-cph3.one.com
+ bh=IdOsexCTm1DbOGBMB7hSgC0LQ+yPdYR7j9ULfoLOTkQ=;
+ b=yvNdxKJVpsPK8paWoYa2H9lux8XzxApep349W9HZqkQU3DpxehomNGPmDKX4aRvFob+qB/tcrxbMS
+ xvmwpW0BA==
+X-HalOne-Cookie: f694ca950a74160f82af1c72980ebbcf61aeb4fe
+X-HalOne-ID: c7271ad8-ff69-11ec-a6c6-d0431ea8a283
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 811e08aa-ff66-11ec-be7e-d0431ea8bb03;
- Sat, 09 Jul 2022 09:07:06 +0000 (UTC)
-Date: Sat, 9 Jul 2022 11:07:04 +0200
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id c7271ad8-ff69-11ec-a6c6-d0431ea8a283;
+ Sat, 09 Jul 2022 09:30:32 +0000 (UTC)
+Date: Sat, 9 Jul 2022 11:30:30 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: MollySophia <mollysophia379@gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: display: panel: Add Novatek NT35596S
- panel bindings
-Message-ID: <YslFOHQMSSVG7czY@ravnborg.org>
+Subject: Re: [PATCH] drm: panel: Add novatek nt35596s panel driver
+Message-ID: <YslKtrZa0QdRsBLD@ravnborg.org>
 References: <20220708021824.9167-1-mollysophia379@gmail.com>
- <20220708021824.9167-2-mollysophia379@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220708021824.9167-2-mollysophia379@gmail.com>
+In-Reply-To: <20220708021824.9167-1-mollysophia379@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,143 +70,552 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Molly,
 
-On Fri, Jul 08, 2022 at 10:18:24AM +0800, MollySophia wrote:
-> Add documentation for "novatek,nt35596s" panel.
+Thanks for submitting this driver.
+A few comments follows - the most relevant is the error handling when
+unprepare/disable.
 
-As a general note, we cannot apply a driver without the binding.
-So this patch should be the first in the series.
-
-Not a big deal, but it makes it easier on the committer later.
-
-A few comments below.
+Please take a look and re-submit.
 
 	Sam
+
+On Fri, Jul 08, 2022 at 10:18:23AM +0800, MollySophia wrote:
+> Novatek NT35596s is a generic DSI IC that drives command and video mode
+> panels. Add the driver for it. Currently add support for the LCD panel
+> from JDI connected with this IC, as found on Xiaomi Mi Mix2s phones.
+
+
 
 > 
 > Signed-off-by: MollySophia <mollysophia379@gmail.com>
 > ---
->  .../display/panel/novatek,nt35596s.yaml       | 88 +++++++++++++++++++
->  1 file changed, 88 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt35596s.yaml
+>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  .../gpu/drm/panel/panel-jdi-fhd-nt35596s.c    | 464 ++++++++++++++++++
+>  3 files changed, 474 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35596s.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35596s.yaml
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index d5176f75248f..a54389c107bc 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -231,6 +231,15 @@ config DRM_PANEL_JDI_R63452
+>  	  Say Y here if you want to enable support for the JDI R63452
+>  	  DSI command mode panel as found in Xiaomi Mi 5 Devices.
+> 
+> +config DRM_PANEL_JDI_NT35596S
+> +	tristate "JDI NT35596S Full HD DSI panel"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for the JDI NT35596S
+> +	  DSI video mode panel as found in Xiaomi Mi Mix2s Devices.
+> +
+Alphabetic order is preferred, so it comes before DRM_PANEL_JDI_R63452
+
+>  config DRM_PANEL_KHADAS_TS050
+>  	tristate "Khadas TS050 panel"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index ef89dada021d..40db5e6dcbf5 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -21,6 +21,7 @@ obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
+>  obj-$(CONFIG_DRM_PANEL_INNOLUX_TD4328) += panel-innolux-td4328.o
+>  obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
+>  obj-$(CONFIG_DRM_PANEL_JDI_R63452) += panel-jdi-fhd-r63452.o
+> +obj-$(CONFIG_DRM_PANEL_JDI_NT35596S) += panel-jdi-fhd-nt35596s.o
+Alphabetic order is preferred, so again before CONFIG_DRM_PANEL_JDI_R63452
+
+>  obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
+>  obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
+>  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
+> diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c b/drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c
 > new file mode 100644
-> index 000000000000..937b194a6f18
+> index 000000000000..0793bcd872e2
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35596s.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/novatek,nt35596s.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/gpu/drm/panel/panel-jdi-fhd-nt35596s.c
+> @@ -0,0 +1,464 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022 Molly Sophia <mollysophia379@gmail.com>
+> + *
+> + */
 > +
-> +title: Novatek NT35596S based DSI display Panels
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/swab.h>
+> +#include <linux/backlight.h>
 > +
-> +maintainers:
-> +  - Molly Sophia <mollysophia379@gmail.com>
+> +#include <video/mipi_display.h>
 > +
-> +description: |
-> +  The nt35596s IC from Novatek is a generic DSI Panel IC used to drive dsi
-> +  panels.
-> +  Right now, support is added only for a JDI FHD+ LCD display panel with a
-> +  resolution of 1080x2160. It is a video mode DSI panel.
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
 > +
-> +allOf:
-> +  - $ref: panel-common.yaml#
+> +struct nt35596s_panel_cmd {
+> +	const char data[2];
+> +};
 > +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - jdi,fhd-nt35596s
-> +      - const: novatek,nt35596s
-> +    description: This indicates the panel manufacturer of the panel that is
-> +      in turn using the NT35596S panel driver. This compatible string
-> +      determines how the NT35596S panel driver is configured for the indicated
-> +      panel. The novatek,nt35596s compatible shall always be provided as a fallback.
+> +static const char *const nt35596s_regulator_names[] = {
+> +	"vddio",
+> +	"vddpos",
+> +	"vddneg",
+> +};
 > +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: phandle of gpio for reset line - This should be 8mA, gpio
-> +      can be configured using mux, pinctrl, pinctrl-names (active high)
-reset-gpios is part of panel-common and there is no need to describe it
-here. The description, which looks like a copy from another binding,
-does not really tell anything that is specific for this HW.
-So replace it with a
-    reset-gpios: true
-later in the binding would be better.
+> +static const unsigned long nt35596s_regulator_enable_loads[] = { 62000, 100000,
+> +								 100000 };
+> +
+> +struct nt35596s_panel_desc {
+> +	const struct drm_display_mode *display_mode;
+> +	const char *panel_name;
+panel_name is not used - drop it.
+> +
+> +	unsigned int width_mm;
+> +	unsigned int height_mm;
+> +
+> +	unsigned long mode_flags;
+> +	enum mipi_dsi_pixel_format format;
+> +	unsigned int lanes;
+> +
+> +	unsigned int num_on_cmds;
+> +	const struct nt35596s_panel_cmd *on_cmds;
+> +};
+> +
+> +struct nt35596s_panel {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi;
+> +	const struct nt35596s_panel_desc *desc;
+> +
+> +	struct regulator_bulk_data
+> +		supplies[ARRAY_SIZE(nt35596s_regulator_names)];
+> +
+> +	struct gpio_desc *reset_gpio;
+> +	bool prepared;
+> +};
+> +
+> +static inline struct nt35596s_panel *to_nt35596s_panel(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct nt35596s_panel, panel);
+> +}
+> +
+> +static int nt35596s_send_cmds(struct drm_panel *panel,
+> +			      const struct nt35596s_panel_cmd *cmds, int num)
+> +{
+> +	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
+> +	unsigned int i;
+> +	int err;
+> +
+> +	for (i = 0; i < num; i++) {
+> +		const struct nt35596s_panel_cmd *cmd = &cmds[i];
+> +
+> +		err = mipi_dsi_dcs_write(pinfo->dsi, cmd->data[0],
+> +					 cmd->data + 1, 1);
+> +
+> +		if (err < 0)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int nt35596s_panel_power_off(struct drm_panel *panel)
+> +{
+> +	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
+> +	int ret = 0;
+> +
+> +	gpiod_set_value(pinfo->reset_gpio, 1);
+> +
+> +	ret = regulator_bulk_disable(ARRAY_SIZE(pinfo->supplies),
+> +				     pinfo->supplies);
+> +	if (ret)
+> +		dev_err(panel->dev, "regulator_bulk_disable failed %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int nt35596s_panel_unprepare(struct drm_panel *panel)
+> +{
+> +	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
+> +	int ret;
+> +
+> +	if (!pinfo->prepared)
+> +		return 0;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(pinfo->dsi);
+> +	if (ret < 0)
+> +		dev_err(panel->dev, "set_display_off cmd failed ret = %d\n",
+> +			ret);
+> +
+> +	/* 120ms delay required here as per DCS spec */
+> +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(pinfo->dsi);
+> +	if (ret < 0)
+> +		dev_err(panel->dev, "enter_sleep cmd failed ret = %d\n", ret);
+> +
+> +	/* 0x46 = 70ms delay */
+> +	msleep(70);
+> +
+> +	ret = nt35596s_panel_power_off(panel);
+> +	if (ret < 0)
+> +		dev_err(panel->dev, "power_off failed ret = %d\n", ret);
+Two error messages are written here. One in nt35596s_panel_power_off()
+and one here. It would be better to keep all dev_err in the caller and
+drop it from nt35596s_panel_power_off().
+
 
 > +
-> +  vddi0-supply:
-> +    description: phandle of the regulator that provides the supply voltage
-> +      Power IC supply
-Please drop the "phandle of the" part. This is implicit and does not
-provide any extra info on the actual HW.
-This comments applies for all *-supply.
+> +	pinfo->prepared = false;
+> +
+> +	return ret;
+> +}
+> +
+> +static int nt35596s_panel_power_on(struct nt35596s_panel *pinfo)
+> +{
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(pinfo->supplies),
+> +				    pinfo->supplies);
+> +	if (ret < 0)
+> +		return ret;
+No error message here - so the off and on variant are not the same.
+If the code fails to power on then consider to apply reset here - so
+there is no need to think about reset in the prepare function.
 
 > +
-> +  vddpos-supply:
-> +    description: phandle of the positive boost supply regulator
+> +	gpiod_set_value(pinfo->reset_gpio, 1);
+> +	msleep(200);
+> +	gpiod_set_value(pinfo->reset_gpio, 0);
+> +	msleep(200);
 > +
-> +  vddneg-supply:
-> +    description: phandle of the negative boost supply regulator
+> +	return 0;
+> +}
 > +
-> +  reg: true
-> +  port: true
-> +  backlight: true
+> +static int nt35596s_panel_prepare(struct drm_panel *panel)
+> +{
+> +	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
+> +	int err;
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vddi0-supply
-> +  - vddpos-supply
-> +  - vddneg-supply
-> +  - reset-gpios
-> +  - port
+> +	if (pinfo->prepared)
+> +		return 0;
 > +
-> +unevaluatedProperties: false
-
-Use:
-additionalProperties: false
-
-This will catch if the DT file contains any properties that is not
-mentioned here.
-The use of unevaluatedProperties in the file you copied from looks
-wrong.
+> +	err = nt35596s_panel_power_on(pinfo);
+> +	if (err < 0)
+> +		goto poweroff;
+Here it would have been nice to tell that power on failed.
+If nt35596s_panel_power_on() do the reset handling the function can exit
+here.
 
 > +
-> +examples:
-> +  - |+
-No need for the + sign here.
+> +	err = nt35596s_send_cmds(panel, pinfo->desc->on_cmds,
+> +				 pinfo->desc->num_on_cmds);
+> +
+> +	if (err < 0) {
+> +		dev_err(panel->dev, "failed to send DCS Init Code: %d\n", err);
+> +		goto poweroff;
+> +	}
+> +
+> +	err = mipi_dsi_dcs_exit_sleep_mode(pinfo->dsi);
+> +	if (err < 0) {
+> +		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
+> +		goto poweroff;
+> +	}
+> +
+> +	/* 0x46 = 70 ms delay */
+> +	msleep(70);
+> +
+> +	err = mipi_dsi_dcs_set_display_on(pinfo->dsi);
+> +	if (err < 0) {
+> +		dev_err(panel->dev, "failed to Set Display ON: %d\n", err);
+> +		goto poweroff;
+> +	}
+> +
+> +	msleep(120);
+> +
+> +	pinfo->prepared = true;
+> +
+> +	return 0;
+> +
+> +poweroff:
+> +	gpiod_set_value(pinfo->reset_gpio, 0);
+Here it would be better to do what the label says and call the power_off
+function. Right now the display may be left powered on but reset.
 
-> +    #include <dt-bindings/gpio/gpio.h>
+> +	return err;
+> +}
 > +
-> +    dsi0 {
-dsi {
-
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +static int nt35596s_panel_get_modes(struct drm_panel *panel,
+> +				    struct drm_connector *connector)
+> +{
+> +	struct nt35596s_panel *pinfo = to_nt35596s_panel(panel);
+> +	const struct drm_display_mode *m = pinfo->desc->display_mode;
+> +	struct drm_display_mode *mode;
 > +
-> +        panel@0 {
-> +            compatible = "jdi,fhd-nt35596s", "novatek,nt35596s";
-> +            reg = <0>;
-> +            vddi0-supply = <&vreg_l14a_1p88>;
-> +            vddpos-supply = <&lab>;
-> +            vddneg-supply = <&ibb>;
+> +	mode = drm_mode_duplicate(connector->dev, m);
+> +	if (!mode) {
+> +		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
+> +			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
+> +		return -ENOMEM;
+> +	}
 > +
-> +            backlight = <&pmi8998_wled>;
-> +            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+> +	connector->display_info.width_mm = pinfo->desc->width_mm;
+> +	connector->display_info.height_mm = pinfo->desc->height_mm;
 > +
-> +            port {
-> +                jdi_nt35596s_in_0: endpoint {
-> +                    remote-endpoint = <&dsi0_out>;
-> +                };
-> +            };
-> +        };
-> +    };
+> +	drm_mode_set_name(mode);
+> +	drm_mode_probed_add(connector, mode);
 > +
-> +...
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs panel_funcs = {
+> +	.prepare = nt35596s_panel_prepare,
+> +	.unprepare = nt35596s_panel_unprepare,
+> +	.get_modes = nt35596s_panel_get_modes,
+> +};
+> +
+> +static const struct nt35596s_panel_cmd jdi_fhd_video_on_cmds[] = {
+> +	{ .data = { 0xff, 0x24 } }, { .data = { 0x9d, 0x34 } },
+> +	{ .data = { 0xfb, 0x01 } }, { .data = { 0xc4, 0x25 } },
+> +	{ .data = { 0xd1, 0x08 } }, { .data = { 0xd2, 0x84 } },
+> +	{ .data = { 0xff, 0x26 } }, { .data = { 0xfb, 0x01 } },
+> +	{ .data = { 0x03, 0x1c } }, { .data = { 0x3b, 0x08 } },
+> +	{ .data = { 0x6b, 0x08 } }, { .data = { 0x97, 0x08 } },
+> +	{ .data = { 0xc5, 0x08 } }, { .data = { 0xfb, 0x01 } },
+> +	{ .data = { 0xff, 0x23 } }, { .data = { 0xfb, 0x01 } },
+> +	{ .data = { 0x01, 0x84 } }, { .data = { 0x05, 0x2d } },
+> +	{ .data = { 0x06, 0x00 } }, { .data = { 0x33, 0x07 } },
+> +	{ .data = { 0x21, 0xee } }, { .data = { 0x22, 0xed } },
+> +	{ .data = { 0x23, 0xea } }, { .data = { 0x24, 0xe8 } },
+> +	{ .data = { 0x25, 0xe5 } }, { .data = { 0x26, 0xe2 } },
+> +	{ .data = { 0x27, 0xde } }, { .data = { 0x28, 0xbb } },
+> +	{ .data = { 0x29, 0x87 } }, { .data = { 0x2a, 0x77 } },
+> +	{ .data = { 0x32, 0x0c } }, { .data = { 0x13, 0x3f } },
+> +	{ .data = { 0x14, 0x34 } }, { .data = { 0x15, 0x2a } },
+> +	{ .data = { 0x16, 0x25 } }, { .data = { 0x17, 0x9d } },
+> +	{ .data = { 0x18, 0x9a } }, { .data = { 0x19, 0x97 } },
+> +	{ .data = { 0x1a, 0x94 } }, { .data = { 0x1b, 0x91 } },
+> +	{ .data = { 0x1c, 0x8e } }, { .data = { 0x1d, 0x8b } },
+> +	{ .data = { 0x1e, 0x89 } }, { .data = { 0x1f, 0x86 } },
+> +	{ .data = { 0x20, 0x83 } }, { .data = { 0xff, 0x22 } },
+> +	{ .data = { 0x00, 0x0a } }, { .data = { 0x01, 0x43 } },
+> +	{ .data = { 0x02, 0x5b } }, { .data = { 0x03, 0x6a } },
+> +	{ .data = { 0x04, 0x7a } }, { .data = { 0x05, 0x82 } },
+> +	{ .data = { 0x06, 0x85 } }, { .data = { 0x07, 0x80 } },
+> +	{ .data = { 0x08, 0x7c } }, { .data = { 0x09, 0x7c } },
+> +	{ .data = { 0x0a, 0x74 } }, { .data = { 0x0b, 0x71 } },
+> +	{ .data = { 0x0c, 0x6e } }, { .data = { 0x0d, 0x68 } },
+> +	{ .data = { 0x0e, 0x65 } }, { .data = { 0x0f, 0x5c } },
+> +	{ .data = { 0x10, 0x32 } }, { .data = { 0x11, 0x18 } },
+> +	{ .data = { 0x12, 0x00 } }, { .data = { 0x13, 0x00 } },
+> +	{ .data = { 0x1a, 0x00 } }, { .data = { 0x1b, 0x00 } },
+> +	{ .data = { 0x1c, 0x00 } }, { .data = { 0x1d, 0x00 } },
+> +	{ .data = { 0x1e, 0x00 } }, { .data = { 0x1f, 0x00 } },
+> +	{ .data = { 0x20, 0x00 } }, { .data = { 0x21, 0x00 } },
+> +	{ .data = { 0x22, 0x00 } }, { .data = { 0x23, 0x00 } },
+> +	{ .data = { 0x24, 0x00 } }, { .data = { 0x25, 0x00 } },
+> +	{ .data = { 0x26, 0x00 } }, { .data = { 0x27, 0x00 } },
+> +	{ .data = { 0x28, 0x00 } }, { .data = { 0x29, 0x00 } },
+> +	{ .data = { 0x2a, 0x00 } }, { .data = { 0x2b, 0x00 } },
+> +	{ .data = { 0x2f, 0x00 } }, { .data = { 0x30, 0x00 } },
+> +	{ .data = { 0x31, 0x00 } }, { .data = { 0x32, 0x0c } },
+> +	{ .data = { 0x33, 0x0c } }, { .data = { 0x34, 0x0c } },
+> +	{ .data = { 0x35, 0x0b } }, { .data = { 0x36, 0x09 } },
+> +	{ .data = { 0x37, 0x09 } }, { .data = { 0x38, 0x08 } },
+> +	{ .data = { 0x39, 0x05 } }, { .data = { 0x3a, 0x03 } },
+> +	{ .data = { 0x3b, 0x00 } }, { .data = { 0x3f, 0x00 } },
+> +	{ .data = { 0x40, 0x00 } }, { .data = { 0x41, 0x00 } },
+> +	{ .data = { 0x42, 0x00 } }, { .data = { 0x43, 0x00 } },
+> +	{ .data = { 0x44, 0x00 } }, { .data = { 0x45, 0x00 } },
+> +	{ .data = { 0x46, 0x00 } }, { .data = { 0x47, 0x00 } },
+> +	{ .data = { 0x48, 0x00 } }, { .data = { 0x49, 0x03 } },
+> +	{ .data = { 0x4a, 0x06 } }, { .data = { 0x4b, 0x07 } },
+> +	{ .data = { 0x4c, 0x07 } }, { .data = { 0x53, 0x01 } },
+> +	{ .data = { 0x54, 0x01 } }, { .data = { 0x55, 0x89 } },
+> +	{ .data = { 0x56, 0x00 } }, { .data = { 0x58, 0x00 } },
+> +	{ .data = { 0x68, 0x00 } }, { .data = { 0x84, 0xff } },
+> +	{ .data = { 0x85, 0xff } }, { .data = { 0x86, 0x03 } },
+> +	{ .data = { 0x87, 0x00 } }, { .data = { 0x88, 0x00 } },
+> +	{ .data = { 0xa2, 0x20 } }, { .data = { 0xa9, 0x01 } },
+> +	{ .data = { 0xaa, 0x12 } }, { .data = { 0xab, 0x13 } },
+> +	{ .data = { 0xac, 0x0a } }, { .data = { 0xad, 0x74 } },
+> +	{ .data = { 0xaf, 0x33 } }, { .data = { 0xb0, 0x03 } },
+> +	{ .data = { 0xb1, 0x14 } }, { .data = { 0xb2, 0x42 } },
+> +	{ .data = { 0xb3, 0x40 } }, { .data = { 0xb4, 0xa5 } },
+> +	{ .data = { 0xb6, 0x44 } }, { .data = { 0xb7, 0x04 } },
+> +	{ .data = { 0xb8, 0x14 } }, { .data = { 0xb9, 0x42 } },
+> +	{ .data = { 0xba, 0x40 } }, { .data = { 0xbb, 0xa5 } },
+> +	{ .data = { 0xbd, 0x44 } }, { .data = { 0xbe, 0x04 } },
+> +	{ .data = { 0xbf, 0x00 } }, { .data = { 0xc0, 0x75 } },
+> +	{ .data = { 0xc1, 0x6a } }, { .data = { 0xc2, 0xa5 } },
+> +	{ .data = { 0xc4, 0x22 } }, { .data = { 0xc5, 0x02 } },
+> +	{ .data = { 0xc6, 0x00 } }, { .data = { 0xc7, 0x95 } },
+> +	{ .data = { 0xc8, 0x8a } }, { .data = { 0xc9, 0xa5 } },
+> +	{ .data = { 0xcb, 0x22 } }, { .data = { 0xcc, 0x02 } },
+> +	{ .data = { 0xcd, 0x00 } }, { .data = { 0xce, 0xb5 } },
+> +	{ .data = { 0xcf, 0xaa } }, { .data = { 0xd0, 0xa5 } },
+> +	{ .data = { 0xd2, 0x22 } }, { .data = { 0xd3, 0x02 } },
+> +	{ .data = { 0xfb, 0x01 } }, { .data = { 0xff, 0x10 } },
+> +	{ .data = { 0x26, 0x02 } }, { .data = { 0x35, 0x00 } },
+> +	{ .data = { 0x51, 0xff } }, { .data = { 0x53, 0x24 } },
+> +	{ .data = { 0x55, 0x00 } }, { .data = { 0xb0, 0x00 } },
+> +};
+> +
+> +static const struct drm_display_mode jdi_fhd_video_panel_mode = {
+> +	.clock = (1080 + 16 + 28 + 40) * (2160 + 7 + 4 + 24) * 60 / 1000,
+> +
+> +	.hdisplay = 1080,
+> +	.hsync_start = 1080 + 16,
+> +	.hsync_end = 1080 + 16 + 28,
+> +	.htotal = 1080 + 16 + 28 + 40,
+> +
+> +	.vdisplay = 2160,
+> +	.vsync_start = 2160 + 7,
+> +	.vsync_end = 2160 + 7 + 4,
+> +	.vtotal = 2160 + 7 + 4 + 24,
+> +
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+> +
+> +static const struct nt35596s_panel_desc jdi_fhd_video_panel_desc = {
+> +	.display_mode = &jdi_fhd_video_panel_mode,
+> +
+> +	.width_mm = 68,
+> +	.height_mm = 136,
+> +
+> +	.mode_flags = MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> +		      MIPI_DSI_MODE_VIDEO_BURST,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +	.lanes = 4,
+> +	.on_cmds = jdi_fhd_video_on_cmds,
+> +	.num_on_cmds = ARRAY_SIZE(jdi_fhd_video_on_cmds),
+> +};
+> +
+> +static int nt35596s_panel_add(struct nt35596s_panel *pinfo)
+> +{
+> +	struct device *dev = &pinfo->dsi->dev;
+> +	int i, ret;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++)
+> +		pinfo->supplies[i].supply = nt35596s_regulator_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pinfo->supplies),
+> +				      pinfo->supplies);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
+> +
+> +	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++) {
+> +		ret = regulator_set_load(pinfo->supplies[i].consumer,
+> +					 nt35596s_regulator_enable_loads[i]);
+> +		if (ret)
+> +			return dev_err_probe(
+> +				dev, ret,
+> +				"failed to set regulator enable loads\n");
+> +	}
+> +
+> +	pinfo->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(pinfo->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(pinfo->reset_gpio),
+> +				     "failed to get reset gpio from DT\n");
+> +
+> +	drm_panel_init(&pinfo->panel, dev, &panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +
+> +	ret = drm_panel_of_backlight(&pinfo->panel);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+> +
+> +	drm_panel_add(&pinfo->panel);
+> +
+> +	return 0;
+> +}
+> +
+> +static int nt35596s_panel_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct nt35596s_panel *pinfo;
+> +	const struct nt35596s_panel_desc *desc;
+> +	int err;
+> +
+> +	pinfo = devm_kzalloc(&dsi->dev, sizeof(*pinfo), GFP_KERNEL);
+> +	if (!pinfo)
+> +		return -ENOMEM;
+> +
+> +	desc = of_device_get_match_data(&dsi->dev);
+> +	dsi->mode_flags = desc->mode_flags;
+> +	dsi->format = desc->format;
+> +	dsi->lanes = desc->lanes;
+> +	pinfo->desc = desc;
+> +	pinfo->dsi = dsi;
+> +
+> +	mipi_dsi_set_drvdata(dsi, pinfo);
+> +
+> +	err = nt35596s_panel_add(pinfo);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	err = mipi_dsi_attach(dsi);
+> +	if (err < 0) {
+> +		drm_panel_remove(&pinfo->panel);
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int nt35596s_panel_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct nt35596s_panel *pinfo = mipi_dsi_get_drvdata(dsi);
+> +	int err;
+> +
+> +	err = drm_panel_unprepare(&pinfo->panel);
+> +	if (err < 0)
+> +		dev_err(&dsi->dev, "failed to unprepare panel: %d\n", err);
+> +
+> +	err = drm_panel_disable(&pinfo->panel);
+> +	if (err < 0)
+> +		dev_err(&dsi->dev, "failed to disable panel: %d\n", err);
+> +
+> +	err = mipi_dsi_detach(dsi);
+> +	if (err < 0)
+> +		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
+> +
+> +	drm_panel_remove(&pinfo->panel);
+> +
+> +	return 0;
+> +}
+> +
+> +static void nt35596s_panel_shutdown(struct mipi_dsi_device *dsi)
+> +{
+> +	struct nt35596s_panel *pinfo = mipi_dsi_get_drvdata(dsi);
+> +
+> +	drm_panel_disable(&pinfo->panel);
+> +	drm_panel_unprepare(&pinfo->panel);
+> +}
+> +
+> +static const struct of_device_id nt35596s_panel_of_match[] = {
+> +	{ .compatible = "jdi,fhd-nt35596s", .data = &jdi_fhd_video_panel_desc },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, nt35596s_panel_of_match);
+> +
+> +static struct mipi_dsi_driver nt35596s_panel_driver = {
+> +	.driver = {
+> +		.name = "panel-jdi-fhd-nt35596s",
+> +		.of_match_table = nt35596s_panel_of_match,
+> +	},
+> +	.probe = nt35596s_panel_probe,
+> +	.remove = nt35596s_panel_remove,
+> +	.shutdown = nt35596s_panel_shutdown,
+> +};
+> +module_mipi_dsi_driver(nt35596s_panel_driver);
+> +
+> +MODULE_AUTHOR("Molly Sophia <mollysophia379@gmail.com>");
+> +MODULE_DESCRIPTION("DRM driver for JDI FHD nt35596s DSI panel, video mode");
+> +MODULE_LICENSE("GPL");
 > -- 
 > 2.37.0
