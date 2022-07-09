@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4453856C75C
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 08:00:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E9856C760
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 08:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDEEC10EC64;
-	Sat,  9 Jul 2022 06:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3553410EC7F;
+	Sat,  9 Jul 2022 06:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF8510EC77;
- Sat,  9 Jul 2022 06:00:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F5810EC81;
+ Sat,  9 Jul 2022 06:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657346419; x=1688882419;
+ t=1657346426; x=1688882426;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=wJCaw3CiF0MD4eKDCyob1ussNDvrGgARTORwyELixQI=;
- b=E9J1ust4U08lWioh28u1HXHKvQidz52xohF55cQEb/MooVO1Jber6Fw9
- FErZwfqifBiI7BsFE7BXieGgYBI+2jIJv6ZzlMn9JvWiZAyf0LG2FMoZq
- SjgJGeMJJkXHYq0G5S/iyPt9nIWj/UEDXcFsSJGn+znOqHOIMo9oyQqQE 8=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Jul 2022 23:00:18 -0700
+ bh=XGQbLWmmXvctI4HYl9j46qsii5iPHrQ4eKepFp+Nbs8=;
+ b=OdQHJC8yKH6jBT/zlTck0m0ZDpbvAJyvsVTefw+poRF+R9Z00G5VabFc
+ PB81/Utpv6LKjNDlz71qm83ChC+vEAK3Nod9DD20DEUzyZlu81nooxFcP
+ uJlAoo7xXyGwP3udbBH1M6coVQX7g6/luBN6PFUUnc5SAEAHGJBQQWok6 4=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Jul 2022 23:00:25 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2022 23:00:18 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2022 23:00:24 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 8 Jul 2022 23:00:18 -0700
+ 15.2.986.22; Fri, 8 Jul 2022 23:00:24 -0700
 Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 8 Jul 2022 23:00:12 -0700
+ 15.2.986.22; Fri, 8 Jul 2022 23:00:18 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 To: freedreno <freedreno@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, Rob Clark
  <robdclark@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: [PATCH v2 3/7] drm/msm: Fix cx collapse issue during recovery
-Date: Sat, 9 Jul 2022 11:29:31 +0530
-Message-ID: <20220709112837.v2.3.I4ac27a0b34ea796ce0f938bb509e257516bc6f57@changeid>
+Subject: [PATCH v2 4/7] drm/msm: Ensure cx gdsc collapse during recovery
+Date: Sat, 9 Jul 2022 11:29:32 +0530
+Message-ID: <20220709112837.v2.4.I510084ecc82b2efe42dd904fea595cdec99058b2@changeid>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
 References: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
@@ -65,6 +65,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jonathan Marek <jonathan@marek.ca>,
  Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Douglas
  Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
@@ -74,65 +75,84 @@ Cc: Jonathan Marek <jonathan@marek.ca>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some hardware logic under CX domain. For a successful
-recovery, we should ensure cx headswitch collapses to ensure all the
-stale states are cleard out. This is especially true to for a6xx family
-where we can GMU co-processor.
-
-Currently, cx doesn't collapse due to a devlink between gpu and its
-smmu. So the *struct gpu device* needs to be runtime suspended to ensure
-that the iommu driver removes its vote on cx gdsc.
+To improve our chance of a successful recovery, we should ensure that
+cx headswitch collapses. Cx headswitch might be kept enabled through a
+vote from another driver like iommu or even another hardware subsystem.
+So, poll the cx gdscr register to ensure that it collapses during
+recovery.
 
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 16 ++++++++++++++--
- drivers/gpu/drm/msm/msm_gpu.c         |  2 --
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 ++++++++++++-
+ drivers/gpu/drm/msm/msm_gpu.c         |  4 ++++
+ drivers/gpu/drm/msm/msm_gpu.h         |  1 +
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 4d50110..7ed347c 100644
+index 7ed347c..9aaa469 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1278,8 +1278,20 @@ static void a6xx_recover(struct msm_gpu *gpu)
- 	 */
- 	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+@@ -1257,11 +1257,15 @@ static void a6xx_dump(struct msm_gpu *gpu)
+ #define VBIF_RESET_ACK_TIMEOUT	100
+ #define VBIF_RESET_ACK_MASK	0x00f0
  
--	gpu->funcs->pm_suspend(gpu);
--	gpu->funcs->pm_resume(gpu);
-+	/*
-+	 * Now drop all the pm_runtime usage count to allow cx gdsc to collapse.
-+	 * First drop the usage count from all active submits
-+	 */
-+	for (i = gpu->active_submits; i > 0; i--)
-+		pm_runtime_put(&gpu->pdev->dev);
++#define CX_GDSCR_OFFSET	0x106c
++#define CX_GDSC_ON_MASK	BIT(31)
 +
-+	/* And the final one from recover worker */
-+	pm_runtime_put_sync(&gpu->pdev->dev);
-+
-+	for (i = gpu->active_submits; i > 0; i--)
-+		pm_runtime_get(&gpu->pdev->dev);
-+
-+	pm_runtime_get_sync(&gpu->pdev->dev);
+ static void a6xx_recover(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+-	int i;
++	int i, ret;
++	u32 val;
  
- 	msm_gpu_hw_init(gpu);
- }
+ 	adreno_dump_info(gpu);
+ 
+@@ -1288,6 +1292,13 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 	/* And the final one from recover worker */
+ 	pm_runtime_put_sync(&gpu->pdev->dev);
+ 
++	if (gpu->gpucc_io) {
++		ret = readl_poll_timeout(gpu->gpucc_io + CX_GDSCR_OFFSET, val,
++			!(val & CX_GDSC_ON_MASK), 100, 500000);
++		if (ret)
++			DRM_DEV_INFO(&gpu->pdev->dev, "cx gdsc didn't collapse\n");
++	}
++
+ 	for (i = gpu->active_submits; i > 0; i--)
+ 		pm_runtime_get(&gpu->pdev->dev);
+ 
 diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 18c1544..aa6f34f 100644
+index aa6f34f..7ada0785 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.c
 +++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -422,9 +422,7 @@ static void recover_worker(struct kthread_work *work)
- 		/* retire completed submits, plus the one that hung: */
- 		retire_submits(gpu);
+@@ -865,6 +865,10 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		goto fail;
+ 	}
  
--		pm_runtime_get_sync(&gpu->pdev->dev);
- 		gpu->funcs->recover(gpu);
--		pm_runtime_put_sync(&gpu->pdev->dev);
++	gpu->gpucc_io = msm_ioremap(pdev, "gpucc");
++	if (IS_ERR(gpu->gpucc_io))
++		gpu->gpucc_io = NULL;
++
+ 	/* Get Interrupt: */
+ 	gpu->irq = platform_get_irq(pdev, 0);
+ 	if (gpu->irq < 0) {
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 4d935fe..1fe498f 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -226,6 +226,7 @@ struct msm_gpu {
+ 	int global_faults;
  
- 		/*
- 		 * Replay all remaining submits starting with highest priority
+ 	void __iomem *mmio;
++	void __iomem *gpucc_io;
+ 	int irq;
+ 
+ 	struct msm_gem_address_space *aspace;
 -- 
 2.7.4
 
