@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E60556C94D
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 13:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A173B56C949
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 13:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5572A112EB3;
-	Sat,  9 Jul 2022 11:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E747112EB5;
+	Sat,  9 Jul 2022 11:58:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8B4112EB1
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 11:58:48 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- bi22-20020a05600c3d9600b003a04de22ab6so590128wmb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Jul 2022 04:58:48 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 746D5112EB3
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 11:58:49 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id l68so658678wml.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Jul 2022 04:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=diHVyWaKn6Q/nu2QvOdZ3HTvtDhCo0LX1HleEXdmXqI=;
- b=DWnqE//9FMXAxffjNAXz30EtSW+qp/5vJj2E5W+p4i2W8l/cEecvh8/ar4q095uLXb
- Z8bjLP6cIuNiv0DLgpTYKCYDUhSKds8/BUkC15uc/B3Lw529CuCghyagrtfNDuDoh4ac
- wHVUFnPwK1by1BTZKBN4BN36YfOMpgytcJbZI4ZuHoPy2J8F6+Jq5o1+L8ri62UjXPiu
- rEr+ajtR4MU9c7URWYOU0Vx4/2K4ejgsphClfOVSJLHF2sDDl1qVCyC4u14OxcgEQzli
- bXgLyybpjy3npfKqkLPM629/B/3Re6ZprYhcBJg8WGz/gidLBmnAHkEZRVO/ANW7tsl7
- 4V+g==
+ bh=dHq8eIN5kbK/6ZDjIj/3D1vTFqSkXTQkrho9nQ1d6+o=;
+ b=lnYomu7TWcBNGp4X4XxO9j/KkPMVpk9ajD4O5axwDO/Tpr5yj79EUpdiyG4UG81N1s
+ sq9aOoGpnRezRctUpnBoyTVFMaVQ/BD1mQLZXBQ+YBpligjqiMtBAY/Ina+C28dPHyPU
+ bdmxeOc4juBrXH6ZXnihWiJk+qaBWrszd0++CFGMDkY5lqNNMDEkNDDUxmOrNKz5Abzq
+ pDwTqGl82rdMM4Zdrm3B1wcHw+MCy3ymHEiu6qpA/S5FBzm4lhY0UKzOvUUl27t2NXMi
+ PQdxztKrsj0OxFUKm0nGHCg+HoB56KWy6AA82KOCgZdDP+sDc3/6fjLDmXfUpLioakLo
+ wd8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=diHVyWaKn6Q/nu2QvOdZ3HTvtDhCo0LX1HleEXdmXqI=;
- b=ZagyfW4GMoQWfhTr+QcTJReUVSqwQGS+ot3XvLKGsFBQ6X72WaqJJoRx65elgGddL/
- IoQ/RO7pYR4gDriCOoG4oMnDuKcMvklbrCzukHPnMhHH78yIazobGLbvGcaItsF+82eb
- SQPl5nyC7lQUCpNTdQ/nDPq/btefrkNdsNpHInjBogqDw+nbnZ59YgSWmbWh8+UEIWO9
- WljoLryjjlut7p+DCTLjQ0fsR6GVk+GXQAIMnbyeO8VgjrDT/NGue2IpUxe+I4quW1ub
- QuIOk33lZrXxf/8bgl3jn3v6smNmx9cYzgkcBwS8J5dJzk1j/YCqovl0E9gOdbVLWy+g
- IiGw==
-X-Gm-Message-State: AJIora/X7y4SNzy2lLSo2kvw03H63aHPV1iammr40iaIvnnoP7QPIfSg
- E5gimwXxssz1l3SkpH2yafA=
-X-Google-Smtp-Source: AGRyM1vVsISrYMEwIKnQOUVlwE02A9wmCavPdKoQTAmON+qapDhbuEkmWNfKWaE4RiRcjz1TIDdG2Q==
-X-Received: by 2002:a05:600c:4e07:b0:3a1:8548:4dd7 with SMTP id
- b7-20020a05600c4e0700b003a185484dd7mr5198289wmq.170.1657367926988; 
- Sat, 09 Jul 2022 04:58:46 -0700 (PDT)
+ bh=dHq8eIN5kbK/6ZDjIj/3D1vTFqSkXTQkrho9nQ1d6+o=;
+ b=j6lxhswncdF5B6RTsKZmB1Rwx2GumFPlumRunAWjEZb/418RpeBf6hlUotWxaDUY6a
+ 6YvzOC9cAegauNBqnh+31NBrlKF6+JzSMPXNegNB8+iP2KGo9aJT6CwIP9HTDsKuKpru
+ f+4RBVOKqKGYOZLauSGwxsaZmszw5y45A/Io+0QTZEi4sCc4O1boXpXpmg/st9wVoNdK
+ l31L61hyBsPT45NHhAjGujWWuKre6oPZXIRp8iPm8L4AqGvloJDw9c65ixXTo320W8S+
+ jNqmpt2yiXNu6i+YjzxWwS8ljjj/3zj21hbR96ZeMC9aX981yFaEuOnA0ZpZFxy5OflB
+ P3gw==
+X-Gm-Message-State: AJIora+uG34n22ViXgHGE7SFbiyhQOerhvXzZsQD8WBandKx17En+Fhm
+ Fvooa6M8L440RpFvIPa8EjU=
+X-Google-Smtp-Source: AGRyM1v2/yU5e9CVpXAuQmo186YPK77B9a21RT4A0gSk/R4S3OtSDgaJtTvEVmX9OSElSkkT5+zyZA==
+X-Received: by 2002:a05:600c:4254:b0:3a1:6c19:f3aa with SMTP id
+ r20-20020a05600c425400b003a16c19f3aamr4993203wmm.205.1657367927979; 
+ Sat, 09 Jul 2022 04:58:47 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.36.185])
  by smtp.gmail.com with ESMTPSA id
- co1-20020a0560000a0100b0021cf31e1f7csm1199494wrb.102.2022.07.09.04.58.46
+ co1-20020a0560000a0100b0021cf31e1f7csm1199494wrb.102.2022.07.09.04.58.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Jul 2022 04:58:46 -0700 (PDT)
+ Sat, 09 Jul 2022 04:58:47 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: javierm@redhat.com
-Subject: [PATCH v2 1/4] drm/format-helper: Fix test on big endian architectures
-Date: Sat,  9 Jul 2022 13:58:34 +0200
-Message-Id: <20220709115837.560877-2-jose.exposito89@gmail.com>
+Subject: [PATCH v2 2/4] drm/format-helper: Rename test cases to make them more
+ generic
+Date: Sat,  9 Jul 2022 13:58:35 +0200
+Message-Id: <20220709115837.560877-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220709115837.560877-1-jose.exposito89@gmail.com>
 References: <20220709115837.560877-1-jose.exposito89@gmail.com>
@@ -80,69 +80,75 @@ Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tests fail on big endian architectures, like PowerPC:
+The tests available at the moment only check the conversion from
+XRGB8888 to RGB332. However, more conversions will be tested in the
+future.
 
- $ ./tools/testing/kunit/kunit.py run \
-   --kunitconfig=drivers/gpu/drm/tests \
-   --arch=powerpc --cross_compile=powerpc64-linux-gnu-
+In order to make the struct and functions present in the tests more
+generic, rename xrgb8888_to_rgb332_* to convert_xrgb8888_*.
 
-Transform the XRGB8888 buffer from little endian to the CPU endian
-before calling the conversion function to avoid this error.
-
-Fixes: 8f456104915f ("drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb332()")
-Reported-by: David Gow <davidgow@google.com>
+Tested-by: Tales L. Aparecida <tales.aparecida@gmail.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- .../gpu/drm/tests/drm_format_helper_test.c    | 23 +++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tests/drm_format_helper_test.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 98583bf56044..4d074c2e48bf 100644
+index 4d074c2e48bf..f66aaa0e52c9 100644
 --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -111,6 +111,21 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
- 	return dst_pitch * drm_rect_height(clip);
+@@ -16,7 +16,7 @@
+ 
+ #define TEST_BUF_SIZE 50
+ 
+-struct xrgb8888_to_rgb332_case {
++struct convert_xrgb8888_case {
+ 	const char *name;
+ 	unsigned int pitch;
+ 	unsigned int dst_pitch;
+@@ -25,7 +25,7 @@ struct xrgb8888_to_rgb332_case {
+ 	const u8 expected[4 * TEST_BUF_SIZE];
+ };
+ 
+-static struct xrgb8888_to_rgb332_case xrgb8888_to_rgb332_cases[] = {
++static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+ 	{
+ 		.name = "single_pixel_source_buffer",
+ 		.pitch = 1 * 4,
+@@ -126,18 +126,18 @@ static u32 *le32buf_to_cpu(struct kunit *test, const u32 *buf, size_t buf_size)
+ 	return dst;
  }
  
-+static u32 *le32buf_to_cpu(struct kunit *test, const u32 *buf, size_t buf_size)
-+{
-+	u32 *dst = NULL;
-+	int n;
-+
-+	dst = kunit_kzalloc(test, buf_size, GFP_KERNEL);
-+	if (!dst)
-+		return NULL;
-+
-+	for (n = 0; n < buf_size; n++)
-+		dst[n] = le32_to_cpu(buf[n]);
-+
-+	return dst;
-+}
-+
- static void xrgb8888_to_rgb332_case_desc(struct xrgb8888_to_rgb332_case *t,
- 					 char *desc)
+-static void xrgb8888_to_rgb332_case_desc(struct xrgb8888_to_rgb332_case *t,
+-					 char *desc)
++static void convert_xrgb8888_case_desc(struct convert_xrgb8888_case *t,
++				       char *desc)
  {
-@@ -125,6 +140,7 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
- 	const struct xrgb8888_to_rgb332_case *params = test->param_value;
+ 	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
+ }
+ 
+-KUNIT_ARRAY_PARAM(xrgb8888_to_rgb332, xrgb8888_to_rgb332_cases,
+-		  xrgb8888_to_rgb332_case_desc);
++KUNIT_ARRAY_PARAM(convert_xrgb8888, convert_xrgb8888_cases,
++		  convert_xrgb8888_case_desc);
+ 
+ static void xrgb8888_to_rgb332_test(struct kunit *test)
+ {
+-	const struct xrgb8888_to_rgb332_case *params = test->param_value;
++	const struct convert_xrgb8888_case *params = test->param_value;
  	size_t dst_size;
  	__u8 *dst = NULL;
-+	__u32 *src = NULL;
- 
- 	struct drm_framebuffer fb = {
- 		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-@@ -138,8 +154,11 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
- 	dst = kunit_kzalloc(test, dst_size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
- 
--	drm_fb_xrgb8888_to_rgb332(dst, params->dst_pitch, params->xrgb8888,
--				  &fb, &params->clip);
-+	src = le32buf_to_cpu(test, params->xrgb8888, TEST_BUF_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, src);
-+
-+	drm_fb_xrgb8888_to_rgb332(dst, params->dst_pitch, src, &fb,
-+				  &params->clip);
- 	KUNIT_EXPECT_EQ(test, memcmp(dst, params->expected, dst_size), 0);
+ 	__u32 *src = NULL;
+@@ -163,8 +163,7 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
  }
+ 
+ static struct kunit_case drm_format_helper_test_cases[] = {
+-	KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test,
+-			 xrgb8888_to_rgb332_gen_params),
++	KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test, convert_xrgb8888_gen_params),
+ 	{}
+ };
  
 -- 
 2.25.1
