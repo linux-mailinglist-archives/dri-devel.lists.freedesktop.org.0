@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A549656C82A
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 10:51:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EE556C82B
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 10:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7193610FF56;
-	Sat,  9 Jul 2022 08:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D281310FF63;
+	Sat,  9 Jul 2022 08:51:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E93210FF56
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 08:50:59 +0000 (UTC)
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58B2410FF63
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 08:51:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
  message-id:subject:cc:to:from:date:from;
- bh=gs8KDmhlNILcqnUdnit/VGq/nXBrEPUEnhWCQD8FeIs=;
- b=bmF/IMxAjnXDRuQ3Dcxc6gR4dANeUF5ACmpcsOmWh9UuQHms6+O4U5vwEWaWrcLl6GQfIvMQSS2jg
- cq8psRmKdZ65ZDRs7y54rXhHX3ws8sxbXGtnThh2l2tCTKJNrg7xqJonnpMiJFiWjyVi9BEzmwWl7T
- h0yUo9KSb+BruHjp0mLw10DPXq6zPEsHjKwU2NLq5IrwPdX86pdsJu0y1VzhPo3w7mfzfiAFE5iIjQ
- R/Qz+MfHxTfYvLctdcfiq02Ltm86Hm20+Lqa4RkVKl5nTPqcEFgGEHISwmNnWXuoH9rCUd8jfgYqib
- dXGSg/twBzLpoSwXAJultec8JmiEnKA==
+ bh=a/etUxJvUZ7VsOvxKXGQRMYQdxPjcKSao39BKwK+g5o=;
+ b=eB6HM7zuFgBSWZDpn/VmoilXnqoLjbOykUP9rNEb97cP7refGjsCvXfQh5UoOFImgHJykFg7gvfVu
+ m58lPkNJCQY2EEQS27/p/PyasoLpMbh3PF0WmhEfb3EdTrpIwlL/EHQnuysFvDgRmEdhb2Pbvy5IYb
+ 5qdLzMJTDHbt1ehka59zxOdhI0H5nPzzzhC1u0LUK3GieqjppR0grTUBrY1geybaBS8dYJ1GXfo+As
+ 3FpSGqlW78NFWXOQShNCI/B/r00vtu3vJ37ZhMT0aQo+y8pevk6kyiXTs+xHf2OfoLm7/mncZWgk1U
+ OPbkN/80C7hNnScsmmACM5erN16Aqcg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
  message-id:subject:cc:to:from:date:from;
- bh=gs8KDmhlNILcqnUdnit/VGq/nXBrEPUEnhWCQD8FeIs=;
- b=AnCp4W94Flg0SH6/23lt0UAXeESaD/wz1vmTrXIpKW+/6hBXLOV9qFxY+jU8tyHFeXycJ5NmeYm19
- GWI7+tLCg==
-X-HalOne-Cookie: 78badfdac9c01378d6bba2482b7622648e92dd25
-X-HalOne-ID: 3f61f2c4-ff64-11ec-a917-d0431ea8a290
-Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ bh=a/etUxJvUZ7VsOvxKXGQRMYQdxPjcKSao39BKwK+g5o=;
+ b=qnw769rIuh6xZM2T7MzF+iFCeYKroklxwDBxRaDss+/ZrMpVt3URZEM/919hTTrSmE+iJtrvoUGnf
+ Ru3cRsFCg==
+X-HalOne-Cookie: e30285ddbb863a4d4c6cd1d1d4f5ece6af4d2934
+X-HalOne-ID: 4bf04b3c-ff64-11ec-a6c6-d0431ea8a283
+Received: from mailproxy4.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 3f61f2c4-ff64-11ec-a917-d0431ea8a290;
- Sat, 09 Jul 2022 08:50:57 +0000 (UTC)
-Date: Sat, 9 Jul 2022 10:50:55 +0200
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 4bf04b3c-ff64-11ec-a6c6-d0431ea8a283;
+ Sat, 09 Jul 2022 08:51:17 +0000 (UTC)
+Date: Sat, 9 Jul 2022 10:51:16 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 3/3] drm/mipi-dsi: Make remove callback return void
-Message-ID: <YslBbzfNQgNwUcIm@ravnborg.org>
+Subject: Re: [PATCH 1/3] drm/panel: simple: Make panel_simple_remove() return
+ void
+Message-ID: <YslBhN2zQxnGJ6xY@ravnborg.org>
 References: <20220708094922.1408248-1-u.kleine-koenig@pengutronix.de>
- <20220708094922.1408248-4-u.kleine-koenig@pengutronix.de>
+ <20220708094922.1408248-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220708094922.1408248-4-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220708094922.1408248-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, kernel@pengutronix.de,
- Thierry Reding <thierry.reding@gmail.com>, Purism Kernel Team <kernel@puri.sm>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Chiras <robert.chiras@nxp.com>,
- Icenowy Zheng <icenowy@aosc.io>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 08, 2022 at 11:49:22AM +0200, Uwe Kleine-König wrote:
-> All implementations return 0 and the return value of mipi_dsi_drv_remove()
-> is ignored anyhow.
+Hi Uwe,
+
+On Fri, Jul 08, 2022 at 11:49:20AM +0200, Uwe Kleine-König wrote:
+> panel_simple_remove() returns zero unconditionally. Make it return no value
+> instead making more obvious what happens in the callers.
 > 
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour.
+> This is a preparation for making platform and mipi-dsi remove callbacks
+> return void.
 > 
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
 Reviewed and applied to drm-misc (drm-misc-next).
-While applying updating panel-ebbg-ft8719
 
 	Sam
