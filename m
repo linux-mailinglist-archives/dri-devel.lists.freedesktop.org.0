@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FEB56CA2F
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 16:48:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D9756CA32
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 16:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 337C010F679;
-	Sat,  9 Jul 2022 14:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F2010F684;
+	Sat,  9 Jul 2022 14:48:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA16510F67F
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB3E910F682
  for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 14:48:41 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B1C08845D9;
- Sat,  9 Jul 2022 16:48:39 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 1CDAA845E3;
+ Sat,  9 Jul 2022 16:48:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1657378120;
- bh=eRxAiov1tyHHVHQKg4SaG3M57lSjaFbycGfr0v9KPXQ=;
+ bh=0zrQ6GD2zG3NCklZYU8acqqFAbaDs7HNGn9HLBmlFD8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OKsBG1YkHRMoxZCHjlnr5tb3RSkXehXZudTBc+LdnEIv8BlxeDlMMM6e3VAAMOvnD
- zMMhY1ZiCZ8IAcK3rsYmazoic23aJLpr9MGxPUd9f0Q3JUFgZK1G9YXrbDSYBNdM57
- 4hNDpK2pPCTi7L4d/L9HGEeS5Ta7WK/N1v3zslASRyNz1fzB60BsWod6E84/Auyi4P
- 1dhVeQBRgDB09U9Djf01cjZhieXo/T83cH8TVysWoPhzlkM3bN+kYzogDlvN0dIFsR
- 5iDU3j7uAJXkHBxqCZKrP6+BPsz//0Rz45y+Zw87rxeWgbqcMP6ugFm8sszGYcrr1I
- IYb1FhIj0D8xQ==
+ b=EvwVDcC1Q/NTwT4sOhNx0yQwjjQ0F9w5LUS9Ql7Ve+4IISougWPAooe2DOCdDH+CP
+ POmMg4ZVkTHQd3sZI+sOxHJD1hZU2CFL+ubc4RrnhvBZ86e+3htPX969Z/vhiO87XF
+ 6X91JIg0wHtvqrZAMW/Kzzie7jCMExCKKpE31XYwEOWO+BiUOcudcUsUD0NEWv5Tfu
+ VNQYIhWSv1kMrLNYMKX0zwZU8CqhWIO8OMDGFRbWLEpDCCjT29Y56ARW/qEwnv3ydj
+ aCRQH47PdSxftYvbZwYULVnaMDZvkVDQSVj2gmxKSf38xA3JhZ0FLmf72wAQa+TXGn
+ lwWqprmlPlo2A==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/4] drm/lcdif: Clean up debug prints and comments
-Date: Sat,  9 Jul 2022 16:48:25 +0200
-Message-Id: <20220709144826.9278-3-marex@denx.de>
+Subject: [PATCH v3 4/4] drm/lcdif: switch to devm_drm_of_get_bridge
+Date: Sat,  9 Jul 2022 16:48:26 +0200
+Message-Id: <20220709144826.9278-4-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220709144826.9278-1-marex@denx.de>
 References: <20220709144826.9278-1-marex@denx.de>
@@ -62,8 +61,10 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update debug print to report bridge timings over connector ones.
-Drop missed comment commit from mxsfb.
+The function "drm_of_find_panel_or_bridge" has been deprecated in
+favor of "devm_drm_of_get_bridge".
+
+Switch to the new function and reduce boilerplate.
 
 Reviewed-by: Liu Ying <victor.liu@nxp.com>
 Reported-by: Liu Ying <victor.liu@oss.nxp.com>
@@ -84,30 +85,40 @@ Cc: Stefan Agner <stefan@agner.ch>
 V2: Add RB from Liu
 V3: Add TB from Martyn from V1
 ---
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_drv.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index 829b0a6bb0d3f..9a77c631300a4 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -204,7 +204,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
- 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
- 			     m->crtc_clock,
- 			     (int)(clk_get_rate(lcdif->clk) / 1000));
--	DRM_DEV_DEBUG_DRIVER(drm->dev, "Connector bus_flags: 0x%08X\n",
-+	DRM_DEV_DEBUG_DRIVER(drm->dev, "Bridge bus_flags: 0x%08X\n",
- 			     bus_flags);
- 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+index 1370889c6d687..746a4261f3da2 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+@@ -42,23 +42,11 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+ {
+ 	struct drm_device *drm = lcdif->drm;
+ 	struct drm_bridge *bridge;
+-	struct drm_panel *panel;
+ 	int ret;
  
-@@ -296,7 +296,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+-	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
+-					  &bridge);
+-	if (ret)
+-		return ret;
+-
+-	if (panel) {
+-		bridge = devm_drm_panel_bridge_add_typed(drm->dev, panel,
+-							 DRM_MODE_CONNECTOR_DPI);
+-		if (IS_ERR(bridge))
+-			return PTR_ERR(bridge);
+-	}
+-
+-	if (!bridge)
+-		return -ENODEV;
++	bridge = devm_drm_of_get_bridge(drm->dev, drm->dev->of_node, 0, 0);
++	if (IS_ERR(bridge))
++		return PTR_ERR(bridge);
  
- 	lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
- 
--	/* Write cur_buf as well to avoid an initial corrupt frame */
- 	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
- 	if (paddr) {
- 		writel(lower_32_bits(paddr),
+ 	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
+ 	if (ret)
 -- 
 2.35.1
 
