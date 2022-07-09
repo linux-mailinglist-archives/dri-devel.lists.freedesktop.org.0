@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9FD56C5B7
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 03:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1372556C616
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jul 2022 04:53:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81A5410E35F;
-	Sat,  9 Jul 2022 01:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29B2010E723;
+	Sat,  9 Jul 2022 02:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 266C210E35F;
- Sat,  9 Jul 2022 01:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657329919; x=1688865919;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=ToGIrpaik+FfnS+EUjmOmYrL8k1OnurM1lQ2zt15+nA=;
- b=Q6TJ6orDM2EJa+M7zMlSfvxcR0q9rvFRF7WR9feMI/RP5J6k42BwMQQf
- 8B3rKIA9S+InMAfn3pgLeOBKSPCvcsj5iAtCLuqgRWFJCBYLhU+VpNeqm
- OEtj4+S82Fygpvzkw3EkgMVF4S4bZl5fmvaLm/VTfbVu5Yq411WHhlWjl
- fIfqb4a5aC1O4wFvNPxdsN8AccdghoAYJqu98TOw9o0/mFQurGs/QDG1u
- DpQFvQ/SWdxdTVEiwgzDqlECoGsVPGnCWK1nUND4fHQqD03JgG7OcM2Gj
- tctXC15YOE40AmwEYA7gNnDddqqWJ6RyBPO09RnV4YDtATa+eLQTk0X4K w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="370707075"
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; d="scan'208";a="370707075"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2022 18:25:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; d="scan'208";a="594303042"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 08 Jul 2022 18:25:15 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1o9zDe-000O8a-Uf;
- Sat, 09 Jul 2022 01:25:14 +0000
-Date: Sat, 9 Jul 2022 09:24:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Subject: [drm-tip:drm-tip 3/8] include/linux/container_of.h:19:54: error:
- invalid use of undefined type 'struct drm_buddy_block'
-Message-ID: <202207090946.Xujb0GPO-lkp@intel.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D994710E723
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jul 2022 02:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:From:References:Cc:To:
+ Subject:MIME-Version:Date:Message-ID:Content-Type:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=SAkqflvTbe47thqbiG9KQWVnbI+v3YM4VMRocUrWH+8=; b=URo4bGUwFGJrwhniS7s5/r6rX4
+ LYA9qL30p+41ixLmFCGrOpeAzijpu0dy5Qn+TGXIFG3H1vjoR5GbFKRsyCilLAJpEYK6A3aMYYx9p
+ WXLKc6YAsQbCwYwemBArjvF0Fsdxm9DdLsHE7TBNW7LPm/UHzmq4v7ye1xB5oRO+EhGimSAR76LYm
+ 9eUBjEUSMjuewa8hgSni57Q82dendLtG8meBJpehZSSFA464LEfbn6ZNzqoY1wjvVi0GFXcPFpkWb
+ nQeQ57A0L9MvUDIJ9bi8RANpP4XOqDUxcID/XnfA/o7HdoyD/43IpS/aXaU5eAqIWgt0wtwadOnlu
+ 1hTdbhNw==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1oA0bH-006ney-2b; Sat, 09 Jul 2022 02:53:43 +0000
+Content-Type: multipart/mixed; boundary="------------AXvbxwgMnADPNQsSbabdfB5f"
+Message-ID: <2dd3c008-4cdb-a2ca-e973-4ec94c0ccd73@infradead.org>
+Date: Fri, 8 Jul 2022 19:53:41 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: linux-next: Tree for Jul 8 (FRAMEBUFFER_CONSOLE without VT)
+Content-Language: en-US
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: <20220708201559.1ed59912@canb.auug.org.au>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220708201559.1ed59912@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,487 +51,768 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-head:   36d2ac0e15af4dfb942279e8097ab831661859e6
-commit: cf07f850c0483b3314eb69fd8c810e461cef4035 [3/8] Merge remote-tracking branch 'drm/drm-next' into drm-tip
-config: microblaze-randconfig-r011-20220707 (https://download.01.org/0day-ci/archive/20220709/202207090946.Xujb0GPO-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
-        git fetch --no-tags drm-tip drm-tip
-        git checkout cf07f850c0483b3314eb69fd8c810e461cef4035
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/bits.h:22,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function 'amdgpu_vram_mgr_first_block':
->> include/linux/container_of.h:19:54: error: invalid use of undefined type 'struct drm_buddy_block'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:27: note: in expansion of macro 'list_entry'
-     555 |         pos__ != head__ ? list_entry(pos__, type, member) : NULL; \
-         |                           ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:54:16: note: in expansion of macro 'list_first_entry_or_null'
-      54 |         return list_first_entry_or_null(list, struct drm_buddy_block, link);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:293:27: error: expression in static assertion is not an integer
-     293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:27: note: in expansion of macro 'list_entry'
-     555 |         pos__ != head__ ? list_entry(pos__, type, member) : NULL; \
-         |                           ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:54:16: note: in expansion of macro 'list_first_entry_or_null'
-      54 |         return list_first_entry_or_null(list, struct drm_buddy_block, link);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/microblaze/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:248,
-                    from include/linux/string.h:5,
-                    from include/linux/dma-mapping.h:6,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct drm_buddy_block'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:22:28: note: in expansion of macro 'offsetof'
-      22 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:27: note: in expansion of macro 'list_entry'
-     555 |         pos__ != head__ ? list_entry(pos__, type, member) : NULL; \
-         |                           ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:54:16: note: in expansion of macro 'list_first_entry_or_null'
-      54 |         return list_first_entry_or_null(list, struct drm_buddy_block, link);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function 'amdgpu_is_vram_mgr_blocks_contiguous':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:66:29: error: invalid use of undefined type 'struct drm_buddy_block'
-      66 |         while (head != block->link.next) {
-         |                             ^~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:67:25: error: implicit declaration of function 'amdgpu_vram_mgr_block_start'; did you mean 'amdgpu_vram_mgr_alloc_sgt'? [-Werror=implicit-function-declaration]
-      67 |                 start = amdgpu_vram_mgr_block_start(block);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         amdgpu_vram_mgr_alloc_sgt
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:68:24: error: implicit declaration of function 'amdgpu_vram_mgr_block_size'; did you mean 'amdgpu_vram_mgr_alloc_sgt'? [-Werror=implicit-function-declaration]
-      68 |                 size = amdgpu_vram_mgr_block_size(block);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        amdgpu_vram_mgr_alloc_sgt
-   In file included from include/linux/list.h:5,
-                    from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:41: error: invalid use of undefined type 'struct drm_buddy_block'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                                         ^~
-   include/linux/container_of.h:18:33: note: in definition of macro 'container_of'
-      18 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:25: note: in expansion of macro 'list_entry'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                         ^~~~~~~~~~
-   In file included from include/linux/bits.h:22,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:41: error: invalid use of undefined type 'struct drm_buddy_block'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:25: note: in expansion of macro 'list_entry'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                         ^~~~~~~~~~
->> include/linux/container_of.h:19:54: error: invalid use of undefined type 'struct drm_buddy_block'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:25: note: in expansion of macro 'list_entry'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                         ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:41: error: invalid use of undefined type 'struct drm_buddy_block'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:25: note: in expansion of macro 'list_entry'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                         ^~~~~~~~~~
-   include/linux/compiler_types.h:293:27: error: expression in static assertion is not an integer
-     293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:25: note: in expansion of macro 'list_entry'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                         ^~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/microblaze/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:248,
-                    from include/linux/string.h:5,
-                    from include/linux/dma-mapping.h:6,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct drm_buddy_block'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:22:28: note: in expansion of macro 'offsetof'
-      22 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:70:25: note: in expansion of macro 'list_entry'
-      70 |                 block = list_entry(block->link.next, struct drm_buddy_block, link);
-         |                         ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function 'amdgpu_vram_mgr_new':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:488:13: error: 'cur_size' undeclared (first use in this function)
-     488 |         if (cur_size != size) {
-         |             ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:488:13: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:488:25: error: 'size' undeclared (first use in this function); did you mean 'ksize'?
-     488 |         if (cur_size != size) {
-         |                         ^~~~
-         |                         ksize
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:494:30: error: 'vres' undeclared (first use in this function); did you mean 'res'?
-     494 |                 trim_list = &vres->blocks;
-         |                              ^~~~
-         |                              res
-   In file included from include/linux/bits.h:22,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> include/linux/container_of.h:19:54: error: invalid use of undefined type 'struct drm_buddy_block'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:542:9: note: in expansion of macro 'list_entry'
-     542 |         list_entry((ptr)->prev, type, member)
-         |         ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:502:33: note: in expansion of macro 'list_last_entry'
-     502 |                         block = list_last_entry(&vres->blocks, typeof(*block), link);
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:293:27: error: expression in static assertion is not an integer
-     293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:542:9: note: in expansion of macro 'list_entry'
-     542 |         list_entry((ptr)->prev, type, member)
-         |         ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:502:33: note: in expansion of macro 'list_last_entry'
-     502 |                         block = list_last_entry(&vres->blocks, typeof(*block), link);
-         |                                 ^~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/microblaze/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:248,
-                    from include/linux/string.h:5,
-                    from include/linux/dma-mapping.h:6,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct drm_buddy_block'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:22:28: note: in expansion of macro 'offsetof'
-      22 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:542:9: note: in expansion of macro 'list_entry'
-     542 |         list_entry((ptr)->prev, type, member)
-         |         ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:502:33: note: in expansion of macro 'list_last_entry'
-     502 |                         block = list_last_entry(&vres->blocks, typeof(*block), link);
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:503:46: error: invalid use of undefined type 'struct drm_buddy_block'
-     503 |                         list_move_tail(&block->link, &temp);
-         |                                              ^~
-   In file included from include/linux/rhashtable-types.h:14,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/sched.h:15,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:512:28: error: passing argument 1 of 'mutex_lock_nested' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     512 |                 mutex_lock(&mgr->lock);
-         |                            ^~~~~~~~~~
-         |                            |
-         |                            spinlock_t * {aka struct spinlock *}
-   include/linux/mutex.h:187:44: note: in definition of macro 'mutex_lock'
-     187 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-         |                                            ^~~~
-   include/linux/mutex.h:178:45: note: expected 'struct mutex *' but argument is of type 'spinlock_t *' {aka 'struct spinlock *'}
-     178 | extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass);
-         |                               ~~~~~~~~~~~~~~^~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:513:17: error: implicit declaration of function 'drm_buddy_block_trim' [-Werror=implicit-function-declaration]
-     513 |                 drm_buddy_block_trim(mm,
-         |                 ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:516:30: error: passing argument 1 of 'mutex_unlock' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     516 |                 mutex_unlock(&mgr->lock);
-         |                              ^~~~~~~~~~
-         |                              |
-         |                              spinlock_t * {aka struct spinlock *}
-   In file included from include/linux/rhashtable-types.h:14,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/sched.h:15,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-   include/linux/mutex.h:218:40: note: expected 'struct mutex *' but argument is of type 'spinlock_t *' {aka 'struct spinlock *'}
-     218 | extern void mutex_unlock(struct mutex *lock);
-         |                          ~~~~~~~~~~~~~~^~~~
-   In file included from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:523:29: error: 'block' undeclared (first use in this function); did you mean 'flock'?
-     523 |         list_for_each_entry(block, &vres->blocks, link) {
-         |                             ^~~~~
-   include/linux/list.h:674:14: note: in definition of macro 'list_for_each_entry'
-     674 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |              ^~~
-   In file included from include/linux/bits.h:22,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-   include/linux/compiler_types.h:293:27: error: expression in static assertion is not an integer
-     293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
-     531 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:674:20: note: in expansion of macro 'list_first_entry'
-     674 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:523:9: note: in expansion of macro 'list_for_each_entry'
-     523 |         list_for_each_entry(block, &vres->blocks, link) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:293:27: error: expression in static assertion is not an integer
-     293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:19:9: note: in expansion of macro 'static_assert'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:19:23: note: in expansion of macro '__same_type'
-      19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:676:20: note: in expansion of macro 'list_next_entry'
-     676 |              pos = list_next_entry(pos, member))
-         |                    ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:523:9: note: in expansion of macro 'list_for_each_entry'
-     523 |         list_for_each_entry(block, &vres->blocks, link) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:26,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
->> include/linux/minmax.h:36:9: error: first argument to '__builtin_choose_expr' not a constant
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:52:25: note: in expansion of macro '__careful_cmp'
-      52 | #define max(x, y)       __careful_cmp(x, y, >)
-         |                         ^~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:534:36: note: in expansion of macro 'max'
-     534 |                 vres->base.start = max(vres->base.start, start);
-         |                                    ^~~
-   cc1: some warnings being treated as errors
+This is a multi-part message in MIME format.
+--------------AXvbxwgMnADPNQsSbabdfB5f
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +19 include/linux/container_of.h
 
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08   9  
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  10  /**
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  15   *
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  16   */
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  17  #define container_of(ptr, type, member) ({				\
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  18  	void *__mptr = (void *)(ptr);					\
-e1edc277e6f6dfb Rasmus Villemoes 2021-11-08 @19  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
-e1edc277e6f6dfb Rasmus Villemoes 2021-11-08  20  		      __same_type(*(ptr), void),			\
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  21  		      "pointer type mismatch in container_of()");	\
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  22  	((type *)(__mptr - offsetof(type, member))); })
-d2a8ebbf8192b84 Andy Shevchenko  2021-11-08  23  
+On 7/8/22 03:15, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20220707:
+> 
 
-:::::: The code at line 19 was first introduced by commit
-:::::: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: switch to static_assert
+on uml/x86_64:
 
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
+  Depends on [n]: VT [=n] && FB [=y] && !UML [=y]
+  Selected by [y]:
+  - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM_KMS_HELPER [=y] && (FB [=y]=y || FB [=y]=DRM_KMS_HELPER [=y]) && !EXPERT [=n]
+
+WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
+  Depends on [n]: VT [=n] && FRAMEBUFFER_CONSOLE [=y]
+  Selected by [y]:
+  - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM_KMS_HELPER [=y] && (FB [=y]=y || FB [=y]=DRM_KMS_HELPER [=y]) && FRAMEBUFFER_CONSOLE [=y]
+
+WARNING: unmet direct dependencies detected for VT_HW_CONSOLE_BINDING
+  Depends on [n]: TTY [=y] && HW_CONSOLE [=n]
+  Selected by [y]:
+  - DRM_PL111 [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && (VEXPRESS_CONFIG [=n] || VEXPRESS_CONFIG [=n]=n) && COMMON_CLK [=y] && FRAMEBUFFER_CONSOLE [=y]
+
+WARNING: unmet direct dependencies detected for FONT_8x16
+  Depends on [n]: FONT_SUPPORT [=n]
+  Selected by [y]:
+  - FB_VT8623 [=y] && HAS_IOMEM [=y] && FB [=y] && PCI [=y] && FRAMEBUFFER_CONSOLE [=y]
+  - FB_ARK [=y] && HAS_IOMEM [=y] && FB [=y] && PCI [=y] && FRAMEBUFFER_CONSOLE [=y]
+
+WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
+  Depends on [n]: VT [=n] && FB [=y] && !UML [=y]
+  Selected by [y]:
+  - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM_KMS_HELPER [=y] && (FB [=y]=y || FB [=y]=DRM_KMS_HELPER [=y]) && !EXPERT [=n]
+
+WARNING: unmet direct dependencies detected for VT_HW_CONSOLE_BINDING
+  Depends on [n]: TTY [=y] && HW_CONSOLE [=n]
+  Selected by [y]:
+  - DRM_PL111 [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && (VEXPRESS_CONFIG [=n] || VEXPRESS_CONFIG [=n]=n) && COMMON_CLK [=y] && FRAMEBUFFER_CONSOLE [=y]
+
+WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
+  Depends on [n]: VT [=n] && FRAMEBUFFER_CONSOLE [=y]
+  Selected by [y]:
+  - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM_KMS_HELPER [=y] && (FB [=y]=y || FB [=y]=DRM_KMS_HELPER [=y]) && FRAMEBUFFER_CONSOLE [=y]
+
+WARNING: unmet direct dependencies detected for FONT_8x16
+  Depends on [n]: FONT_SUPPORT [=n]
+  Selected by [y]:
+  - FB_VT8623 [=y] && HAS_IOMEM [=y] && FB [=y] && PCI [=y] && FRAMEBUFFER_CONSOLE [=y]
+  - FB_ARK [=y] && HAS_IOMEM [=y] && FB [=y] && PCI [=y] && FRAMEBUFFER_CONSOLE [=y]
+
+
+Full randconfig file is attached.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+~Randy
+--------------AXvbxwgMnADPNQsSbabdfB5f
+Content-Type: application/gzip; name="config-uml-console.gz"
+Content-Disposition: attachment; filename="config-uml-console.gz"
+Content-Transfer-Encoding: base64
+
+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
+
+
+--------------AXvbxwgMnADPNQsSbabdfB5f--
