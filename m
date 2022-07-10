@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB44956CDFA
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:41:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6E156CDFC
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37C7911BF9A;
-	Sun, 10 Jul 2022 08:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1636F11BFE6;
+	Sun, 10 Jul 2022 08:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1C8C11BECA
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:41:41 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id c15so3067597ljr.0
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 01:41:41 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5155111BF6C
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:41:44 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id z25so4258752lfr.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 01:41:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oNLGCTerIVU1NE0L2+9ZJZEaHYA06VymBP0XUK3FvOI=;
- b=f1xZvLdxIkr/qu2hjEDFS8sXYLdPm7Jtl0doodfayg3Vd0Wsfirqs5uPdAGaih45Bn
- jJaZ2nLWojWiJFP5bCZfyeUnHN22yuHH9Xe/YVxItgOa6egYddq/OJ43eby/JqyueMpJ
- MXS4oTxiCtadilu93wXnJz6ZJakP1PTK60Z27+9QZdNU7oZFBUN0kvGN3ZW7gHM3fNUS
- 3gufFqAeuvwVWaP1M8IajxlauhOuUCfbTDYaBS/ezl612F6ruN9sVYbjFPNyD21yXd6g
- UhXEaWJGkq3HtsGfd53APbxKuk5GIZmAWoMvTZEbZjmA7sEjiDr9jHQla+GmY1qdk0to
- pRxQ==
+ bh=uL7wiVg1RgrpxbM/E5AHKRDJeIFgAkbS4akWzL7eFSM=;
+ b=cduRVgw3BOsc7BKIWJ1NZS3FAwj24GNmlO+somU5Bcit3gf6AnzVVzJuU7gvux7O9D
+ 8uZq4Y0nZ9o0Fl9dGvnGSPVmHmQq5TvJiAxnR3omUILA8LD5HNoSh0NmPyyLe1qMhEhd
+ IZvhJapk8M18k5UF07RQ7eXmXRqXpRNrM01qOzVPGtudfIRS4irAPRcLoM7JrRZwL8jt
+ Etxj+Q9GX6u9Z/EavcWWVNjqj669zdSyqJEQkFzojAX+aIr8OVm6cx1BPH5Gh4KwzUQn
+ Wfhb7W1bzbaOlWvZbT2c3nSayub/Tn66VZdgKcboKKsRCIr+CH4ibLKSLZ/mnO708moY
+ LjnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oNLGCTerIVU1NE0L2+9ZJZEaHYA06VymBP0XUK3FvOI=;
- b=rNOp+GNYfyIDFMPS85SxphBThChWCiH9Na0g285M4Racrl91aDo0sEUOLVaL9IL8gu
- TPX0YHBAXXToi+o2RhWsSr+FEzUKQMk3aT3SS5i6ladrzLEgsAGvLJZvdfma6YsMIG2J
- P5BtL+xz0SsgZoTRZdvl1BdNLa/iYH94ny2YzJVmVAHfCx/1A2r4ByPwYWDJiQFTAax6
- UBihV7cWZfFTFMybyD3cuqLmIpsMynSeFjUrEP315KUPF+qNBcb51w6YqZC+I66fVYA0
- mFWro9E6gJXmPR0x/Mw9ZQFtf0+4CEk8tS42J/3dKPzNtWfAUOEShhpX5Jwgj4EGZPQR
- mIVw==
-X-Gm-Message-State: AJIora9KE/IrvYwCBkNCa2+YqmxLyfEdatTjbfqi9PZjcaLLVJnRbdtL
- WWa5IW3OpruW371M4YvotO5ijA==
-X-Google-Smtp-Source: AGRyM1uMQ+Au377P7UQcUkkMJiumuyq+AuV4ZGQK5zcJ79AGgiGLygxHH0WKoJXCOE4P7zCEhBnN5Q==
-X-Received: by 2002:a2e:b049:0:b0:25a:89a2:df44 with SMTP id
- d9-20020a2eb049000000b0025a89a2df44mr7018017ljl.207.1657442501548; 
- Sun, 10 Jul 2022 01:41:41 -0700 (PDT)
+ bh=uL7wiVg1RgrpxbM/E5AHKRDJeIFgAkbS4akWzL7eFSM=;
+ b=YDJJD3aIfj+KojBGW2KzU2hiMEdpha6mfwyJMb0CS9GYeqCnVTYt1qJt77epEHSz11
+ aq4cgSL9Wtn7vepjQqCoR2eNW6mPryg6X/E7vU9jh3Q4wOB6GzjMIym2fSN4NCWEVmfg
+ U04nKtxKKv40YK012FhryJ6Cepsmj9As7WvhC3fsmOkNdyNUiGLM7le+Jsb31Er0kfcJ
+ r0NFRvtm/5e3aK4xOOGO+Bz4GOButG8mtx5Uy2O+661JKdSO3O8K2gWx17XSRzbcW+PZ
+ C0Umacppm49UdaP7oLGExnfrpYFP0pbYzFXKSQfzVzefy85RkYVG9USjOGAWYlZoI/iJ
+ pTHg==
+X-Gm-Message-State: AJIora+R3ed6pRXQa1Zgz1/o7tjhUPgPTomCFexH3DXJUsqeRQgHNLYe
+ eXRjYNpmkpd6gXHH3DuEkgW6/A==
+X-Google-Smtp-Source: AGRyM1v3sQKMx15SYFl9GMpgtDEpQhV6ZiOxRN71c1mR6H49vk4tEqt3nmzxHSnEcHRz4fU7sQn+Ag==
+X-Received: by 2002:a05:6512:e93:b0:486:5c68:e46d with SMTP id
+ bi19-20020a0565120e9300b004865c68e46dmr8631570lfb.670.1657442502675; 
+ Sun, 10 Jul 2022 01:41:42 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- i21-20020a2ea235000000b0025d4addbad4sm912536ljm.91.2022.07.10.01.41.40
+ i21-20020a2ea235000000b0025d4addbad4sm912536ljm.91.2022.07.10.01.41.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 01:41:41 -0700 (PDT)
+ Sun, 10 Jul 2022 01:41:42 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,10 +54,9 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 6/9] arm64: dts: qcom: sc7280: drop unused clocks from eDP
- node
-Date: Sun, 10 Jul 2022 11:41:30 +0300
-Message-Id: <20220710084133.30976-7-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 7/9] dt-bindings: msm/dp: mark vdda supplies as deprecated
+Date: Sun, 10 Jul 2022 11:41:31 +0300
+Message-Id: <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
 References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
@@ -82,39 +81,44 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The eDP node includes two clocks which are used by the eDP PHY rather
-than eDP controller itself. Drop these clocks to remove extra difference
-between eDP and DP controllers.
+The commit fa384dd8b9b8 ("drm/msm/dp: delete vdda regulator related
+functions from eDP/DP controller") removed support for VDDA supplies
+from the DP controller driver. These supplies are now handled by the eDP
+or QMP PHYs. Mark these properties as deprecated and drop them from the
+example.
 
-Suggested-by: Stephen Boyd <swboyd@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ .../devicetree/bindings/display/msm/dp-controller.yaml   | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 13590e84772e..5bb536d76f5e 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -3716,16 +3716,12 @@ mdss_edp: edp@aea0000 {
- 				interrupt-parent = <&mdss>;
- 				interrupts = <14>;
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index 94bc6e1b6451..391910d91e43 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -76,8 +76,10 @@ properties:
+   "#sound-dai-cells":
+     const: 0
  
--				clocks = <&rpmhcc RPMH_CXO_CLK>,
--					 <&gcc GCC_EDP_CLKREF_EN>,
--					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
- 					 <&dispcc DISP_CC_MDSS_EDP_AUX_CLK>,
- 					 <&dispcc DISP_CC_MDSS_EDP_LINK_CLK>,
- 					 <&dispcc DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
- 					 <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK>;
--				clock-names = "core_xo",
--					      "core_ref",
--					      "core_iface",
-+				clock-names = "core_iface",
- 					      "core_aux",
- 					      "ctrl_link",
- 					      "ctrl_link_iface",
+-  vdda-0p9-supply: true
+-  vdda-1p2-supply: true
++  vdda-0p9-supply:
++    deprecated: true
++  vdda-1p2-supply:
++    deprecated: true
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+@@ -140,9 +142,6 @@ examples:
+ 
+         power-domains = <&rpmhpd SC7180_CX>;
+ 
+-        vdda-0p9-supply = <&vdda_usb_ss_dp_core>;
+-        vdda-1p2-supply = <&vdda_usb_ss_dp_1p2>;
+-
+         ports {
+             #address-cells = <1>;
+             #size-cells = <0>;
 -- 
 2.35.1
 
