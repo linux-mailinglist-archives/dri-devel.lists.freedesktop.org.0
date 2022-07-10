@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729A556CE1B
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A0E56CE1C
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764CE112662;
-	Sun, 10 Jul 2022 08:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 953AA11BAA2;
+	Sun, 10 Jul 2022 08:55:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
  (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C47E11AFD9
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EBAA112662
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=mPoAI7MqmyIkZAA0X/UwY3qpmPmGOGOfI9hT5KDA7rk=;
- b=oBI/TG0AlE5tm4gnL7LM2HAr9V3cJoae6Un9fUBttp9RRMReGqdrdzUFLTqwZ808nq2e8GHOLxcmy
- 58jj0Liw3UPJgqTa7vh6W85RaXCjiwlLmX3ADJSmp4SCAb4bu83GbzPm6CuaO7cEJXaw9cRHvZAQW8
- 7FdxhthRUzOZ1uI6zQ5VzX0juNYg4ZGmHGk823kj3fu1HX1HYVGkeViQS3Y3gBzPkSZ9WnGz1fp14V
- Uwx3+RKQGF5cbdJpPivKXX2XmvTe7kNuOThWr3rcJSeZJmT1RQXi86fS0XOOWEGOpwc6RX+4AsAM/e
- u1LV2p4K3Z5q0WNymTx1uguMWrvWSIw==
+ bh=f7KRsIisg8BZEwi+w62noBfQ07y4s/2S5JPqAUnUomw=;
+ b=Jxbf08R//ryif6ZjwLUJl1yugwdZtiZmIT93jMZ21q4UsatmnsO26r36b5q+08A/IQviTt5nsAlQJ
+ yXwl4risfiqShM1hdOQuJPsRvEC7vHWq63BQmsbiGDyXTiDyUEBrNwvOCsx2KiclhSv9spltwA7YGI
+ CFvMkVWGQO7s1Ab5JEX1D5SIFUpIV4T6OyLBLVlJjTTrYpyVMjacHJ77+R+H5AIhCwffNKMzJ1nCIF
+ KjLLOQqmqggioCun7JpCUrJ31Ng8YsSmP5XbEIrRtRVHzK+n8jXfeoxPF3IehlgmjZ1Wb6jR86Wzhq
+ rD3syVgdPmZ/WMKGOGG66wV+Vk8dYag==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=mPoAI7MqmyIkZAA0X/UwY3qpmPmGOGOfI9hT5KDA7rk=;
- b=EpOflI1KPMhD5XEMGL9iEaCui3dydLmdKgPIg1uiqag9ylmQUaURNtFvzBQVgeKqmG1yqadH0P17q
- 7S9y2adDQ==
-X-HalOne-Cookie: 60487e0077f7a1c02a2448bfcbcd4309b9bfcbca
-X-HalOne-ID: 12d1c109-002e-11ed-a6c6-d0431ea8a283
+ bh=f7KRsIisg8BZEwi+w62noBfQ07y4s/2S5JPqAUnUomw=;
+ b=LX1M8u9oDZtF0N8dpMgwEvNMvaQr9ttoQsKV5o1B1hbf1Cvk27ivSMZWftGuBjLDWGNWDqsagdNZe
+ BlXa6b1CQ==
+X-HalOne-Cookie: 2e0e1f0bf0bc44718d3f8f0c5acd86901af1279e
+X-HalOne-ID: 130f478f-002e-11ed-a6c6-d0431ea8a283
 Received: from mailproxy4.cst.dirpod4-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 12d1c109-002e-11ed-a6c6-d0431ea8a283;
+ id 130f478f-002e-11ed-a6c6-d0431ea8a283;
  Sun, 10 Jul 2022 08:55:40 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 10/11] drm/via: Rename the via driver to via_dri1
-Date: Sun, 10 Jul 2022 10:55:05 +0200
-Message-Id: <20220710085506.1384056-11-sam@ravnborg.org>
+Subject: [PATCH v1 11/11] drm/via: Update to the latest via_3d_reg file
+Date: Sun, 10 Jul 2022 10:55:06 +0200
+Message-Id: <20220710085506.1384056-12-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220710085506.1384056-1-sam@ravnborg.org>
 References: <20220710085506.1384056-1-sam@ravnborg.org>
@@ -64,29 +64,525 @@ Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The via driver is a dri1 driver.
-Make this obvious in the name of the driver.
-
-This also make the diver name "via" free for the upcoming openchrome
+Updated the 3d_reg header file to match what is used by the openchrome
 driver.
+This verifies that the two drivers can use the same header file.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/via/Makefile | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/via/via_3d_reg.h | 395 ++++++++++++++++++++++++-------
+ 1 file changed, 304 insertions(+), 91 deletions(-)
 
-diff --git a/drivers/gpu/drm/via/Makefile b/drivers/gpu/drm/via/Makefile
-index 8b978dd51a25..ae36eda2d01e 100644
---- a/drivers/gpu/drm/via/Makefile
-+++ b/drivers/gpu/drm/via/Makefile
-@@ -3,6 +3,4 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+diff --git a/drivers/gpu/drm/via/via_3d_reg.h b/drivers/gpu/drm/via/via_3d_reg.h
+index 462375d543b9..fc74647f512a 100644
+--- a/drivers/gpu/drm/via/via_3d_reg.h
++++ b/drivers/gpu/drm/via/via_3d_reg.h
+@@ -1,6 +1,6 @@
+ /*
+- * Copyright 1998-2003 VIA Technologies, Inc. All Rights Reserved.
+- * Copyright 2001-2003 S3 Graphics, Inc. All Rights Reserved.
++ * Copyright 1998-2011 VIA Technologies, Inc. All Rights Reserved.
++ * Copyright 2001-2011 S3 Graphics, Inc. All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -16,7 +16,7 @@
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * THE AUTHOR(S) OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+  * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  * DEALINGS IN THE SOFTWARE.
+@@ -50,6 +50,7 @@
+ #define HC_ParaType_Palette     0x0003
+ #define HC_ParaType_PreCR       0x0010
+ #define HC_ParaType_Auto        0x00fe
++#define INV_ParaType_Dummy          0x00300000
  
--via-y    := via_dri1.o
--
--obj-$(CONFIG_DRM_VIA)	+=via.o
-+obj-$(CONFIG_DRM_VIA)	+= via_dri1.o
+ /* Transmission Space
+  */
+@@ -176,7 +177,7 @@
+ /* Command
+  * Command A
+  */
+-#define HC_HCmdHeader_MASK      0xfe000000	/*0xffe00000 */
++#define HC_HCmdHeader_MASK      0xfe000000  /*0xffe00000 */
+ #define HC_HE3Fire_MASK         0x00100000
+ #define HC_HPMType_MASK         0x000f0000
+ #define HC_HEFlag_MASK          0x0000e000
+@@ -236,6 +237,8 @@
+ /* Enable Setting
+  */
+ #define HC_SubA_HEnable         0x0000
++#define HC_HenForce1P_MASK      0x00800000  /* [Force 1 Pipe] */
++#define HC_HenZDCheck_MASK      0x00400000  /* [Z dirty bit settings] */
+ #define HC_HenTXEnvMap_MASK     0x00200000
+ #define HC_HenVertexCNT_MASK    0x00100000
+ #define HC_HenCPUDAZ_MASK       0x00080000
+@@ -682,6 +685,12 @@
+ #define HC_FogDenst_MASK        0x001fff00
+ #define HC_FogEndL_MASK         0x000000ff
+ 
++/* Texture subtype definitions
++ */
++#define HC_SubType_Samp0        0x00000020
++#define HC_SubType_Samp1        0x00000021
++
++
+ /* Texture subtype definitions
+  */
+ #define HC_SubType_Tex0         0x00000000
+@@ -762,7 +771,13 @@
+ #define HC_SubA_HTXnBumpM10     0x0092
+ #define HC_SubA_HTXnBumpM11     0x0093
+ #define HC_SubA_HTXnLScale      0x0094
+-#define HC_SubA_HTXSMD          0x0000
++
++#define HC_SubA_HTXSMD             0x0000
++#define HC_SubA_HTXYUV2RGB1        0x0001
++#define HC_SubA_HTXYUV2RGB2        0x0002
++#define HC_SubA_HTXYUV2RGB3        0x0003
++#define HTXYUV2RGB4BT601           (1<<23)
++#define HTXYUV2RGB4BT709           (1<<22)
+ /* HC_SubA_HTXnL012BasH    0x0020
+  */
+ #define HC_HTXnL0BasH_MASK      0x000000ff
+@@ -965,6 +980,7 @@
+ #define HC_HTXnFM_Lum           0x00100000
+ #define HC_HTXnFM_Alpha         0x00180000
+ #define HC_HTXnFM_DX            0x00280000
++#define HC_HTXnFM_YUV           0x00300000
+ #define HC_HTXnFM_ARGB16        0x00880000
+ #define HC_HTXnFM_ARGB32        0x00980000
+ #define HC_HTXnFM_ABGR16        0x00a80000
+@@ -995,6 +1011,12 @@
+ #define HC_HTXnFM_DX1           (HC_HTXnFM_DX        | 0x00010000)
+ #define HC_HTXnFM_DX23          (HC_HTXnFM_DX        | 0x00020000)
+ #define HC_HTXnFM_DX45          (HC_HTXnFM_DX        | 0x00030000)
++/* YUV package mode */
++#define HC_HTXnFM_YUY2          (HC_HTXnFM_YUV           | 0x00000000)
++/* YUV planner mode */
++#define HC_HTXnFM_YV12          (HC_HTXnFM_YUV           | 0x00040000)
++/* YUV planner mode */
++#define HC_HTXnFM_IYUV          (HC_HTXnFM_YUV           | 0x00040000)
+ #define HC_HTXnFM_RGB555        (HC_HTXnFM_ARGB16    | 0x00000000)
+ #define HC_HTXnFM_RGB565        (HC_HTXnFM_ARGB16    | 0x00010000)
+ #define HC_HTXnFM_ARGB1555      (HC_HTXnFM_ARGB16    | 0x00020000)
+@@ -1023,6 +1045,13 @@
+ #define HC_HTXnLoc_Local        0x00000000
+ #define HC_HTXnLoc_Sys          0x00000002
+ #define HC_HTXnLoc_AGP          0x00000003
++
++/* Video Texture */
++#define HC_HTXnYUV2RGBMode_RGB          0x00000000
++#define HC_HTXnYUV2RGBMode_SDTV         0x00000001
++#define HC_HTXnYUV2RGBMode_HDTV         0x00000002
++#define HC_HTXnYUV2RGBMode_TABLE        0x00000003
++
+ /* HC_SubA_HTXnTRAH        0x007f
+  */
+ #define HC_HTXnTRAH_MASK        0x00ff0000
+@@ -1330,9 +1359,9 @@
+  */
+ #define HC_HFthRTXA_MASK        0x000000ff
+ 
+-/******************************************************************************
++/****************************************************************************
+ ** Define the Halcyon Internal register access constants. For simulator only.
+-******************************************************************************/
++****************************************************************************/
+ #define HC_SIMA_HAGPBstL        0x0000
+ #define HC_SIMA_HAGPBendL       0x0001
+ #define HC_SIMA_HAGPCMNT        0x0002
+@@ -1477,80 +1506,154 @@
+ #define HC_SIMA_TX0TX1_OFF      0x0050
+ /*---- start of texture 1 setting ----
+  */
+-#define HC_SIMA_HTX1L0BasL      (HC_SIMA_HTX0L0BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L1BasL      (HC_SIMA_HTX0L1BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L2BasL      (HC_SIMA_HTX0L2BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L3BasL      (HC_SIMA_HTX0L3BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L4BasL      (HC_SIMA_HTX0L4BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L5BasL      (HC_SIMA_HTX0L5BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6BasL      (HC_SIMA_HTX0L6BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L7BasL      (HC_SIMA_HTX0L7BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L8BasL      (HC_SIMA_HTX0L8BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L9BasL      (HC_SIMA_HTX0L9BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LaBasL      (HC_SIMA_HTX0LaBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LbBasL      (HC_SIMA_HTX0LbBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LcBasL      (HC_SIMA_HTX0LcBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LdBasL      (HC_SIMA_HTX0LdBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LeBasL      (HC_SIMA_HTX0LeBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LfBasL      (HC_SIMA_HTX0LfBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L10BasL     (HC_SIMA_HTX0L10BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L11BasL     (HC_SIMA_HTX0L11BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L012BasH    (HC_SIMA_HTX0L012BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L345BasH    (HC_SIMA_HTX0L345BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L678BasH    (HC_SIMA_HTX0L678BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L9abBasH    (HC_SIMA_HTX0L9abBasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LcdeBasH    (HC_SIMA_HTX0LcdeBasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1Lf1011BasH  (HC_SIMA_HTX0Lf1011BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0Pit       (HC_SIMA_HTX0L0Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L1Pit       (HC_SIMA_HTX0L1Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L2Pit       (HC_SIMA_HTX0L2Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L3Pit       (HC_SIMA_HTX0L3Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L4Pit       (HC_SIMA_HTX0L4Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L5Pit       (HC_SIMA_HTX0L5Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6Pit       (HC_SIMA_HTX0L6Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L7Pit       (HC_SIMA_HTX0L7Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L8Pit       (HC_SIMA_HTX0L8Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L9Pit       (HC_SIMA_HTX0L9Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LaPit       (HC_SIMA_HTX0LaPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LbPit       (HC_SIMA_HTX0LbPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LcPit       (HC_SIMA_HTX0LcPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LdPit       (HC_SIMA_HTX0LdPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LePit       (HC_SIMA_HTX0LePit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LfPit       (HC_SIMA_HTX0LfPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L10Pit      (HC_SIMA_HTX0L10Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L11Pit      (HC_SIMA_HTX0L11Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0_5WE      (HC_SIMA_HTX0L0_5WE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6_bWE      (HC_SIMA_HTX0L6_bWE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1Lc_11WE     (HC_SIMA_HTX0Lc_11WE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0_5HE      (HC_SIMA_HTX0L0_5HE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6_bHE      (HC_SIMA_HTX0L6_bHE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1Lc_11HE      (HC_SIMA_HTX0Lc_11HE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0OS        (HC_SIMA_HTX0L0OS + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TB          (HC_SIMA_HTX0TB + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1MPMD        (HC_SIMA_HTX0MPMD + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1CLODu       (HC_SIMA_HTX0CLODu + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1FM          (HC_SIMA_HTX0FM + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TRCH        (HC_SIMA_HTX0TRCH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TRCL        (HC_SIMA_HTX0TRCL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBC         (HC_SIMA_HTX0TBC + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TRAH        (HC_SIMA_HTX0TRAH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LTC         (HC_SIMA_HTX0LTC + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LTA         (HC_SIMA_HTX0LTA + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLCsat     (HC_SIMA_HTX0TBLCsat + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLCop      (HC_SIMA_HTX0TBLCop + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLMPfog    (HC_SIMA_HTX0TBLMPfog + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLAsat     (HC_SIMA_HTX0TBLAsat + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCa      (HC_SIMA_HTX0TBLRCa + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCb      (HC_SIMA_HTX0TBLRCb + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCc      (HC_SIMA_HTX0TBLRCc + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCbias   (HC_SIMA_HTX0TBLRCbias + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRAa      (HC_SIMA_HTX0TBLRAa + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRFog     (HC_SIMA_HTX0TBLRFog + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM00     (HC_SIMA_HTX0BumpM00 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM01     (HC_SIMA_HTX0BumpM01 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM10     (HC_SIMA_HTX0BumpM10 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM11     (HC_SIMA_HTX0BumpM11 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LScale      (HC_SIMA_HTX0LScale + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0BasL      \
++    (HC_SIMA_HTX0L0BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L1BasL      \
++    (HC_SIMA_HTX0L1BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L2BasL      \
++    (HC_SIMA_HTX0L2BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L3BasL      \
++    (HC_SIMA_HTX0L3BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L4BasL      (\
++    HC_SIMA_HTX0L4BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L5BasL      \
++    (HC_SIMA_HTX0L5BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6BasL      \
++    (HC_SIMA_HTX0L6BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L7BasL      \
++    (HC_SIMA_HTX0L7BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L8BasL      \
++    (HC_SIMA_HTX0L8BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L9BasL      \
++    (HC_SIMA_HTX0L9BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LaBasL      \
++    (HC_SIMA_HTX0LaBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LbBasL      \
++    (HC_SIMA_HTX0LbBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LcBasL      \
++    (HC_SIMA_HTX0LcBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LdBasL      \
++    (HC_SIMA_HTX0LdBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LeBasL      \
++    (HC_SIMA_HTX0LeBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LfBasL      \
++    (HC_SIMA_HTX0LfBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L10BasL     \
++    (HC_SIMA_HTX0L10BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L11BasL     \
++    (HC_SIMA_HTX0L11BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L012BasH    \
++    (HC_SIMA_HTX0L012BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L345BasH    \
++    (HC_SIMA_HTX0L345BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L678BasH    \
++    (HC_SIMA_HTX0L678BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L9abBasH    \
++    (HC_SIMA_HTX0L9abBasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LcdeBasH    \
++    (HC_SIMA_HTX0LcdeBasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1Lf1011BasH  \
++    (HC_SIMA_HTX0Lf1011BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0Pit       \
++    (HC_SIMA_HTX0L0Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L1Pit       \
++    (HC_SIMA_HTX0L1Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L2Pit       \
++    (HC_SIMA_HTX0L2Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L3Pit       \
++    (HC_SIMA_HTX0L3Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L4Pit       \
++    (HC_SIMA_HTX0L4Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L5Pit       \
++    (HC_SIMA_HTX0L5Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6Pit       \
++    (HC_SIMA_HTX0L6Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L7Pit       \
++    (HC_SIMA_HTX0L7Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L8Pit       \
++    (HC_SIMA_HTX0L8Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L9Pit       \
++    (HC_SIMA_HTX0L9Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LaPit       \
++    (HC_SIMA_HTX0LaPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LbPit       \
++    (HC_SIMA_HTX0LbPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LcPit       \
++    (HC_SIMA_HTX0LcPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LdPit       \
++    (HC_SIMA_HTX0LdPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LePit       \
++    (HC_SIMA_HTX0LePit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LfPit       \
++    (HC_SIMA_HTX0LfPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L10Pit      \
++    (HC_SIMA_HTX0L10Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L11Pit      \
++    (HC_SIMA_HTX0L11Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0_5WE      \
++    (HC_SIMA_HTX0L0_5WE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6_bWE      \
++    (HC_SIMA_HTX0L6_bWE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1Lc_11WE     \
++    (HC_SIMA_HTX0Lc_11WE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0_5HE      \
++    (HC_SIMA_HTX0L0_5HE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6_bHE      \
++    (HC_SIMA_HTX0L6_bHE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1Lc_11HE      \
++    (HC_SIMA_HTX0Lc_11HE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0OS        \
++    (HC_SIMA_HTX0L0OS + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TB          \
++    (HC_SIMA_HTX0TB + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1MPMD        \
++    (HC_SIMA_HTX0MPMD + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1CLODu       \
++    (HC_SIMA_HTX0CLODu + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1FM          \
++    (HC_SIMA_HTX0FM + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TRCH        \
++    (HC_SIMA_HTX0TRCH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TRCL        \
++    (HC_SIMA_HTX0TRCL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBC         \
++    (HC_SIMA_HTX0TBC + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TRAH        \
++    (HC_SIMA_HTX0TRAH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LTC         \
++    (HC_SIMA_HTX0LTC + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LTA         \
++    (HC_SIMA_HTX0LTA + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLCsat     \
++    (HC_SIMA_HTX0TBLCsat + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLCop      \
++    (HC_SIMA_HTX0TBLCop + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLMPfog    \
++    (HC_SIMA_HTX0TBLMPfog + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLAsat     \
++    (HC_SIMA_HTX0TBLAsat + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCa      \
++    (HC_SIMA_HTX0TBLRCa + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCb      \
++    (HC_SIMA_HTX0TBLRCb + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCc      \
++    (HC_SIMA_HTX0TBLRCc + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCbias   \
++    (HC_SIMA_HTX0TBLRCbias + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRAa      \
++    (HC_SIMA_HTX0TBLRAa + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRFog     \
++    (HC_SIMA_HTX0TBLRFog + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM00     \
++    (HC_SIMA_HTX0BumpM00 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM01     \
++    (HC_SIMA_HTX0BumpM01 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM10     \
++    (HC_SIMA_HTX0BumpM10 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM11     \
++    (HC_SIMA_HTX0BumpM11 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LScale      \
++    (HC_SIMA_HTX0LScale + HC_SIMA_TX0TX1_OFF)
+ /*---- end of texture 1 setting ---- 0xaf
+  */
+ #define HC_SIMA_HTXSMD          0x00b0
+@@ -1580,9 +1683,9 @@
+ #define HC_SIMA_HRErr           0x0445
+ #define HC_SIMA_FIFOstatus      0x0446
+ 
+-/******************************************************************************
++/****************************************************************************
+ ** Define the AGP command header.
+-******************************************************************************/
++****************************************************************************/
+ #define HC_ACMD_MASK            0xfe000000
+ #define HC_ACMD_SUB_MASK        0x0c000000
+ #define HC_ACMD_HCmdA           0xee000000
+@@ -1605,18 +1708,18 @@
+ #define HC_ACMD_H4COUNT_MASK    0x01fffe00
+ #define HC_ACMD_H4COUNT_SHIFT   9
+ 
+-/********************************************************************************
++/*****************************************************************************
+ ** Define Header
+-********************************************************************************/
+-#define HC_HEADER2		0xF210F110
++*****************************************************************************/
++#define HC_HEADER2        0xF210F110
+ 
+-/********************************************************************************
++/*****************************************************************************
+ ** Define Dummy Value
+-********************************************************************************/
+-#define HC_DUMMY		0xCCCCCCCC
+-/********************************************************************************
++*****************************************************************************/
++#define HC_DUMMY        0xCCCCCCCC
++/*****************************************************************************
+ ** Define for DMA use
+-********************************************************************************/
++*****************************************************************************/
+ #define HALCYON_HEADER2     0XF210F110
+ #define HALCYON_FIRECMD     0XEE100000
+ #define HALCYON_FIREMASK    0XFFF00000
+@@ -1643,8 +1746,118 @@
+ #define HC_HAGPBpID_STOP        0x00000002
+ #define HC_HAGPBpH_MASK         0x00ffffff
+ 
++
+ #define VIA_VIDEO_HEADER5       0xFE040000
+ #define VIA_VIDEO_HEADER6       0xFE050000
+ #define VIA_VIDEO_HEADER7       0xFE060000
+ #define VIA_VIDEOMASK           0xFFFF0000
++
++/*****************************************************************************
++** Define for H5 DMA use
++*****************************************************************************/
++#define H5_HC_DUMMY                    0xCC000000
++
++/* Command Header Type */
++#define INV_DUMMY_MASK		0xFF000000
++#define INV_AGPHeader0              0xFE000000
++#define INV_AGPHeader1              0xFE010000
++#define INV_AGPHeader2              0xFE020000
++#define INV_AGPHeader3              0xFE030000
++#define INV_AGPHeader4              0xFE040000
++#define INV_AGPHeader5              0xFE050000
++#define INV_AGPHeader6              0xFE060000
++#define INV_AGPHeader7              0xFE070000
++#define INV_AGPHeader9              0xFE090000
++#define INV_AGPHeaderA              0xFE0A0000
++#define INV_AGPHeader40             0xFE400000
++#define INV_AGPHeader41             0xFE410000
++#define INV_AGPHeader43             0xFE430000
++#define INV_AGPHeader45             0xFE450000
++#define INV_AGPHeader47             0xFE470000
++#define INV_AGPHeader4A             0xFE4A0000
++#define INV_AGPHeader82             0xFE820000
++#define INV_AGPHeader83             0xFE830000
++#define INV_AGPHeader_MASK          0xFFFF0000
++#define INV_AGPHeader2A             0xFE2A0000
++#define INV_AGPHeader25             0xFE250000
++#define INV_AGPHeader20             0xFE200000
++#define INV_AGPHeader23             0xFE230000
++#define INV_AGPHeaderE2             0xFEE20000
++#define INV_AGPHeaderE3             0xFEE30000
++
++/*Transmission IO Space*/
++#define INV_REG_CR_TRANS            0x041C
++#define INV_REG_CR_BEGIN            0x0420
++#define INV_REG_CR_END              0x0438
++
++#define INV_REG_3D_TRANS            0x043C
++#define INV_REG_3D_BEGIN            0x0440
++#define INV_REG_3D_END              0x06FC
++
++#define INV_ParaType_CmdVdata        0x0000
++
++/* H5 Enable Setting
++ */
++#define INV_HC_SubA_HEnable1        0x00
++
++#define INV_HC_HenAT4ALLRT_MASK     0x00100000
++#define INV_HC_HenATMRT3_MASK       0x00080000
++#define INV_HC_HenATMRT2_MASK       0x00040000
++#define INV_HC_HenATMRT1_MASK       0x00020000
++#define INV_HC_HenATMRT0_MASK        0x00010000
++#define INV_HC_HenSCMRT3_MASK        0x00008000
++#define INV_HC_HenSCMRT2_MASK        0x00004000
++#define INV_HC_HenSCMRT1_MASK        0x00002000
++#define INV_HC_HenSCMRT0_MASK        0x00001000
++#define INV_HC_HenFOGMRT3_MASK        0x00000800
++#define INV_HC_HenFOGMRT2_MASK        0x00000400
++#define INV_HC_HenFOGMRT1_MASK        0x00000200
++#define INV_HC_HenFOGMRT0_MASK        0x00000100
++#define INV_HC_HenABLMRT3_MASK        0x00000080
++#define INV_HC_HenABLMRT2_MASK        0x00000040
++#define INV_HC_HenABLMRT1_MASK        0x00000020
++#define INV_HC_HenABLMRT0_MASK        0x00000010
++#define INV_HC_HenDTMRT3_MASK        0x00000008
++#define INV_HC_HenDTMRT2_MASK        0x00000004
++#define INV_HC_HenDTMRT1_MASK        0x00000002
++#define INV_HC_HenDTMRT0_MASK        0x00000001
++
++#define INV_HC_SubA_HEnable2        0x01
++
++#define INV_HC_HenLUL2DR_MASK         0x00800000
++#define INV_HC_HenLDIAMOND_MASK     0x00400000
++#define INV_HC_HenPSPRITE_MASK         0x00200000
++#define INV_HC_HenC2S_MASK             0x00100000
++#define INV_HC_HenFOGPP_MASK           0x00080000
++#define INV_HC_HenSCPP_MASK           0x00040000
++#define INV_HC_HenCPP_MASK           0x00020000
++#define INV_HC_HenCZ_MASK            0x00002000
++#define INV_HC_HenVC_MASK            0x00001000
++#define INV_HC_HenCL_MASK            0x00000800
++#define INV_HC_HenPS_MASK            0x00000400
++#define INV_HC_HenWCZ_MASK            0x00000200
++#define INV_HC_HenTXCH_MASK            0x00000100
++#define INV_HC_HenBFCULL_MASK        0x00000080
++#define INV_HC_HenCW_MASK            0x00000040
++#define INV_HC_HenAA_MASK            0x00000020
++#define INV_HC_HenST_MASK            0x00000010
++#define INV_HC_HenZT_MASK            0x00000008
++#define INV_HC_HenZW_MASK            0x00000004
++#define INV_HC_HenSP_MASK            0x00000002
++#define INV_HC_HenLP_MASK            0x00000001
++
++/* H5 Miscellaneous Settings
++ */
++#define INV_HC_SubA_HCClipTL           0x0080
++#define INV_HC_SubA_HCClipBL           0x0081
++#define INV_HC_SubA_HSClipTL           0x0082
++#define INV_HC_SubA_HSClipBL           0x0083
++#define INV_HC_SubA_HSolidCL        0x0086
++#define INV_HC_SubA_HSolidCH        0x0087
++#define INV_HC_SubA_HGBClipGL       0x0088
++#define INV_HC_SubA_HGBClipGR       0x0089
++
++
++#define INV_HC_ParaType_Vetex        0x00040000
++
+ #endif
 -- 
 2.34.1
 
