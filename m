@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4728B56CEAF
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 13:12:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8184F56CEE2
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 13:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9465512B543;
-	Sun, 10 Jul 2022 11:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC31F113712;
+	Sun, 10 Jul 2022 11:55:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13DB412B543
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 11:12:39 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id t1so977700lft.8
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 04:12:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FyXy5TjIeN2i2aopPk/0TcbFsrLrz+0mOcQvKieLAgs=;
- b=AVsBkVxSGjmMrlMgLlrP5/Og5M26fZ//6szKK+z5/y5TC3fuiy3PdEbAl4y9EAIfLl
- RwQw/wcfPUlcScjWyvRhl6NnTjRxSedfLzpacBoFTv6y8neq6+2A0VHAXUa51t3gMsCE
- 6nhQEzmhZPYwXTtBhgzPtDlfUN/pMhVoSG2RkNIf4cXg4TWqdDRya04rtiNj0qWBGS3t
- ADBEva+Kc9OALVzTjELogwJIB3Ept5FOWn8/jFJiEx0jFBdPdsllAbIfdWWCclgb9jbp
- VmiGMLuDS5Fw6g7KUGnXx27l55TvM6RvIM4G705fmsuBurObPlON40b0O931Tls0Tk42
- Vmdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FyXy5TjIeN2i2aopPk/0TcbFsrLrz+0mOcQvKieLAgs=;
- b=pFWgu+HoDf/wuPJKeGI1A7IfOA+3lA4WLFNVM9inX41EI1J7B0ki8qh86pHmUtiJoy
- qcTQInu1YjPQ6iExRbQZUJMsSMSqKiHY2Y/VdHFUKEI5O1+jS5dOp6c5hZt62nc4Y7Hm
- 2DVoAgNkx6esDE9nQeh149X22N3ZqY2N9EyC3/xn2uOruXxOc/Wb3DNdUMPGHxmSWV6m
- wqKmv8k9yccU8UwQ0/lF0yZeJHJj8f6CaVXx05HiZIl8XdUwOmcJ61R2ggO7faz9ZfbE
- 7jvvOLBGkBJ8OiXkH1z2CvDH61jU5Gx9GeqA7ZgtnW77UG3yUCNJ8kn1ml4nWHzwsRxS
- np1g==
-X-Gm-Message-State: AJIora/Zyf9VlRwMLXvYFqGagGhL6a3fzJRJWEEbuirb2lzC/zpF32tW
- +aS/QxlAVzm2L/b4RHWsBt46zW135T66q1icO3s=
-X-Google-Smtp-Source: AGRyM1u0OGJS9PhIeRmEySxnDLxPd1zI7kCNJHCLtw/jwkLnbBxpxXt1oYS/9m8zYuakMD7chWQr/WZxl9Ac74CStHQ=
-X-Received: by 2002:a05:6512:398e:b0:481:154b:a92 with SMTP id
- j14-20020a056512398e00b00481154b0a92mr9073036lfu.110.1657451557184; Sun, 10
- Jul 2022 04:12:37 -0700 (PDT)
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54F961135DA
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 11:55:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=sl6VoKbkWuLeqSDckxMqFupQqky69Mgc4GHkmn0W8Uc=;
+ b=ayg7WXbuOLxfFcUQGgCyIwaqq9oBroKQCQKAWYCECnfqOaDyaX764YkO0Q0TU4tGEPe0CxpdgnHGh
+ E0IjiTUbyrgXHQ9lZU8poic9ghmEYFR0ACDWRYaQhUvWrx8DasP/pAMYs947Onun1XrnCYcZWl9f+Z
+ xZmsDMnaFASPjxEy2kFsRV6ZfcU10q1BvGhmrKJHT6gOg/LQCHqMd0dkBw2hdSF2pxuX5AVGxi7HVL
+ 0Ik0aV1SmYDfKC/s1sdqBKb39wZRfPK3ChIbCkiQtQwUb+PSFoCeSlr6PQbTyv8GRhxqOFpbrHTahu
+ RoxAVaLn3nmOS7rsd219iM/TVJetWSQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=sl6VoKbkWuLeqSDckxMqFupQqky69Mgc4GHkmn0W8Uc=;
+ b=Fr+VKWXXhJiZu5zYOcXUJNbsrScvyKVf+nOb0ZmDVbpAoQHkhTAoYX+cpAxE8B5GZ8bemePTxcK7J
+ 3eYQlOxBA==
+X-HalOne-Cookie: ae0e36a951df1365868c870872e99beb831bb273
+X-HalOne-ID: 3e797074-0047-11ed-823d-d0431ea8bb10
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 3e797074-0047-11ed-823d-d0431ea8bb10;
+ Sun, 10 Jul 2022 11:55:51 +0000 (UTC)
+Date: Sun, 10 Jul 2022 13:55:49 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH libdrm v2 01/10] util: Improve SMPTE color LUT accuracy
+Message-ID: <Ysq+RUzLURDxmQqZ@ravnborg.org>
+References: <cover.1657302034.git.geert@linux-m68k.org>
+ <a35154278816426fee7045795aa4894ff615efdf.1657302034.git.geert@linux-m68k.org>
+ <YsqqiMAikaBP/3vt@ravnborg.org>
+ <CAMuHMdWJf6HR-jf+UijFgfpXpG2UFj+Z-9ef2y5u6CTrZBsS+g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220709141136.58298-1-mollysophia379@gmail.com>
- <YsnpXU2w1wsXiGrs@ravnborg.org>
- <CAK0UmJBL9tj+XLa3GQHqk_gMHz9tZRoWEj=3G9zjNaPkZw9+5A@mail.gmail.com>
- <YsqmRzxlvdoK8iK8@ravnborg.org>
-In-Reply-To: <YsqmRzxlvdoK8iK8@ravnborg.org>
-From: Molly Sophia <mollysophia379@gmail.com>
-Date: Sun, 10 Jul 2022 19:12:26 +0800
-Message-ID: <CAK0UmJAwyNbjgz2tM1O+5twrDASk4bc3q9L-OqhF=KOSMK3Wxw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add Novatek NT35596S
- panel bindings
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/alternative; boundary="0000000000004c68f705e371835a"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWJf6HR-jf+UijFgfpXpG2UFj+Z-9ef2y5u6CTrZBsS+g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,156 +61,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000004c68f705e371835a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Geert,
 
-Hi Sam,
-Thank you again for your support. I forgot that point, which is really
-important to know.
-
-    Molly
-
-Sam Ravnborg <sam@ravnborg.org> =E4=BA=8E2022=E5=B9=B47=E6=9C=8810=E6=97=A5=
-=E5=91=A8=E6=97=A5 18:13=E5=86=99=E9=81=93=EF=BC=9A
-
-> Hi Molly,
->
-> On Sun, Jul 10, 2022 at 02:19:41PM +0800, Molly Sophia wrote:
-> > Hi Sam,
+On Sun, Jul 10, 2022 at 01:04:23PM +0200, Geert Uytterhoeven wrote:
+> Hi Sam,
+> 
+> On Sun, Jul 10, 2022 at 12:31 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > On Fri, Jul 08, 2022 at 08:21:31PM +0200, Geert Uytterhoeven wrote:
+> > > Fill in the LSB when converting color components from 8-bit to 16-bit.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > ---
+> > > v2:
+> > >   - New.
+> > > ---
+> > >  tests/util/pattern.c | 6 +++---
+> > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/tests/util/pattern.c b/tests/util/pattern.c
+> > > index 178aee8341a38920..3753ebc1eeae6c9a 100644
+> > > --- a/tests/util/pattern.c
+> > > +++ b/tests/util/pattern.c
+> > > @@ -646,9 +646,9 @@ void util_smpte_c8_gamma(unsigned size, struct drm_color_lut *lut)
+> > >       memset(lut, 0, size * sizeof(struct drm_color_lut));
+> > >
+> > >  #define FILL_COLOR(idx, r, g, b) \
+> > > -     lut[idx].red = (r) << 8; \
+> > > -     lut[idx].green = (g) << 8; \
+> > > -     lut[idx].blue = (b) << 8
+> > > +     lut[idx].red = (r) * 0x101; \
 > >
-> > Thanks for your suggestions.
+> >         (lut[idx].red = (r) << 8) | 1;
 > >
-> > Sam Ravnborg <sam@ravnborg.org> =E4=BA=8E 2022=E5=B9=B47=E6=9C=8810=E6=
-=97=A5=E5=91=A8=E6=97=A5 =E4=B8=8A=E5=8D=884:47=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > > Hi Molly,
-> > >
-> > > thanks for the quick response to the review comments.
-> > >
-> > > On Sat, Jul 09, 2022 at 10:11:35PM +0800, MollySophia wrote:
-> > > > Add documentation for "novatek,nt35596s" panel.
-> > > >
-> > > > Signed-off-by: MollySophia <mollysophia379@gmail.com>
-> > > The s-o-b needs your real name - guess the above is a concatenation o=
-f
-> > > first name and surname.
-> > >
-> > > The binding included in this patch fails the check:
-> > > $ make DT_CHECKER_FLAGS=3D-m dt_binding_check
-> > >
-> > > You may need to run:
-> > > $ pip3 install dtschema --upgrade
-> > >
-> > > Or you may have to install some dependencies first.
-> > > The problem is that the patch is missing a "reset-gpios: true"
-> > >
-> > > On top of this I looked at the binding - and the description
-> > > this is copied from is almost identical.
-> > > So another approach would be to extend the existing binding like
-> > > in the following.
-> > >
-> > > And this also gives a good hint that maybe this can be embedded in
-> > > the existing driver - and there is no need for a new driver.
-> > > Could you try to give this a spin and get back on this.
-> > >
-> >
-> > That's reasonable. Actually, this driver was modified from
-> > novatek,nt35596s, with different panel initialization commands, and it
-> > seems easy to be embedded in
-> > the existing driver. However, I wonder what the driver file name would
-> > be...? "panel-novatek-nt35596s-nt36672a.c" or something else?
->
-> Just keep the current driver name - we cannot embed all the supported HW
-> in one driver name anyway. And then you do not break currents users in
-> case they have hardwired the current driver name.
->
->         Sam
->
+> > had IMO been easier to read.
+> 
+> I guess you mean "| (r)" instead of "| 1"?
+Well, I meant what I wrote but it is obviously wrong.
 
---0000000000004c68f705e371835a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So yes
+	lut[idx].red = (r) << 8 | (r);
 
-<div dir=3D"ltr">Hi Sam,<div>Thank you again for your support. I forgot tha=
-t point, which is really important to know.</div><div><br></div><div>=C2=A0=
- =C2=A0 Molly</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org">sam=
-@ravnborg.org</a>&gt; =E4=BA=8E2022=E5=B9=B47=E6=9C=8810=E6=97=A5=E5=91=A8=
-=E6=97=A5 18:13=E5=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">Hi Molly,<br>
-<br>
-On Sun, Jul 10, 2022 at 02:19:41PM +0800, Molly Sophia wrote:<br>
-&gt; Hi Sam,<br>
-&gt; <br>
-&gt; Thanks for your suggestions.<br>
-&gt; <br>
-&gt; Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org" target=3D"_blank"=
->sam@ravnborg.org</a>&gt; =E4=BA=8E 2022=E5=B9=B47=E6=9C=8810=E6=97=A5=E5=
-=91=A8=E6=97=A5 =E4=B8=8A=E5=8D=884:47=E5=86=99=E9=81=93=EF=BC=9A<br>
-&gt; <br>
-&gt; &gt; Hi Molly,<br>
-&gt; &gt;<br>
-&gt; &gt; thanks for the quick response to the review comments.<br>
-&gt; &gt;<br>
-&gt; &gt; On Sat, Jul 09, 2022 at 10:11:35PM +0800, MollySophia wrote:<br>
-&gt; &gt; &gt; Add documentation for &quot;novatek,nt35596s&quot; panel.<br=
->
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: MollySophia &lt;<a href=3D"mailto:mollysophia=
-379@gmail.com" target=3D"_blank">mollysophia379@gmail.com</a>&gt;<br>
-&gt; &gt; The s-o-b needs your real name - guess the above is a concatenati=
-on of<br>
-&gt; &gt; first name and surname.<br>
-&gt; &gt;<br>
-&gt; &gt; The binding included in this patch fails the check:<br>
-&gt; &gt; $ make DT_CHECKER_FLAGS=3D-m dt_binding_check<br>
-&gt; &gt;<br>
-&gt; &gt; You may need to run:<br>
-&gt; &gt; $ pip3 install dtschema --upgrade<br>
-&gt; &gt;<br>
-&gt; &gt; Or you may have to install some dependencies first.<br>
-&gt; &gt; The problem is that the patch is missing a &quot;reset-gpios: tru=
-e&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; On top of this I looked at the binding - and the description<br>
-&gt; &gt; this is copied from is almost identical.<br>
-&gt; &gt; So another approach would be to extend the existing binding like<=
-br>
-&gt; &gt; in the following.<br>
-&gt; &gt;<br>
-&gt; &gt; And this also gives a good hint that maybe this can be embedded i=
-n<br>
-&gt; &gt; the existing driver - and there is no need for a new driver.<br>
-&gt; &gt; Could you try to give this a spin and get back on this.<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; That&#39;s reasonable. Actually, this driver was modified from<br>
-&gt; novatek,nt35596s, with different panel initialization commands, and it=
-<br>
-&gt; seems easy to be embedded in<br>
-&gt; the existing driver. However, I wonder what the driver file name would=
-<br>
-&gt; be...? &quot;panel-novatek-nt35596s-nt36672a.c&quot; or something else=
-?<br>
-<br>
-Just keep the current driver name - we cannot embed all the supported HW<br=
->
-in one driver name anyway. And then you do not break currents users in<br>
-case they have hardwired the current driver name.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam<br>
-</blockquote></div>
+is the equivalent of multiplying with 0x101.
 
---0000000000004c68f705e371835a--
+Whatever works, but if you update this patch, then please update the
+later patch where the multiply with 0x101 is also used.
+
+	Sam
