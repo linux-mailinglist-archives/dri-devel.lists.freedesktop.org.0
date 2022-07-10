@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6E156CDFC
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:42:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 747F056CDFF
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1636F11BFE6;
-	Sun, 10 Jul 2022 08:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6641E11BEFD;
+	Sun, 10 Jul 2022 08:41:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5155111BF6C
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:41:44 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id z25so4258752lfr.2
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 01:41:44 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818E611BEB4
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:41:45 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id z25so4258782lfr.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 01:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uL7wiVg1RgrpxbM/E5AHKRDJeIFgAkbS4akWzL7eFSM=;
- b=cduRVgw3BOsc7BKIWJ1NZS3FAwj24GNmlO+somU5Bcit3gf6AnzVVzJuU7gvux7O9D
- 8uZq4Y0nZ9o0Fl9dGvnGSPVmHmQq5TvJiAxnR3omUILA8LD5HNoSh0NmPyyLe1qMhEhd
- IZvhJapk8M18k5UF07RQ7eXmXRqXpRNrM01qOzVPGtudfIRS4irAPRcLoM7JrRZwL8jt
- Etxj+Q9GX6u9Z/EavcWWVNjqj669zdSyqJEQkFzojAX+aIr8OVm6cx1BPH5Gh4KwzUQn
- Wfhb7W1bzbaOlWvZbT2c3nSayub/Tn66VZdgKcboKKsRCIr+CH4ibLKSLZ/mnO708moY
- LjnA==
+ bh=WZU55ztxCr9hrm/X9mq0W7rnO8DhBgA9l+GjYiiRXCk=;
+ b=j7WKH1P9qrMtVfM+BgRoq05JqWY9cqgdDSOY0uMJ+i+8vwStr6I3MUVM2F/0mo/bUn
+ SRQnXsUNDz88GLtbvVdJknG/dcAAY3PhVKkvsj/NJbuQbxyk6L3hksHvGDEDgSGUkzYz
+ OTCvxU/U/EqnQUgDNdO1/bBL87VtpycpRHXJO3EecLnuPnLC/meVtM6JmLc7ZsDUM1Xp
+ Pu0Azk4GUHVoOAQHhPPDRfHw6TfHz+PKCpedDEl3vvE2OOhOapqMh650MEQa/IbKocSc
+ FQHjPK89bsHYItgUfUEyRUvnNHs3VQKamH1aNwj6U6A7mDEhCP69LjegN8zYxKva8k3u
+ Js2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uL7wiVg1RgrpxbM/E5AHKRDJeIFgAkbS4akWzL7eFSM=;
- b=YDJJD3aIfj+KojBGW2KzU2hiMEdpha6mfwyJMb0CS9GYeqCnVTYt1qJt77epEHSz11
- aq4cgSL9Wtn7vepjQqCoR2eNW6mPryg6X/E7vU9jh3Q4wOB6GzjMIym2fSN4NCWEVmfg
- U04nKtxKKv40YK012FhryJ6Cepsmj9As7WvhC3fsmOkNdyNUiGLM7le+Jsb31Er0kfcJ
- r0NFRvtm/5e3aK4xOOGO+Bz4GOButG8mtx5Uy2O+661JKdSO3O8K2gWx17XSRzbcW+PZ
- C0Umacppm49UdaP7oLGExnfrpYFP0pbYzFXKSQfzVzefy85RkYVG9USjOGAWYlZoI/iJ
- pTHg==
-X-Gm-Message-State: AJIora+R3ed6pRXQa1Zgz1/o7tjhUPgPTomCFexH3DXJUsqeRQgHNLYe
- eXRjYNpmkpd6gXHH3DuEkgW6/A==
-X-Google-Smtp-Source: AGRyM1v3sQKMx15SYFl9GMpgtDEpQhV6ZiOxRN71c1mR6H49vk4tEqt3nmzxHSnEcHRz4fU7sQn+Ag==
-X-Received: by 2002:a05:6512:e93:b0:486:5c68:e46d with SMTP id
- bi19-20020a0565120e9300b004865c68e46dmr8631570lfb.670.1657442502675; 
- Sun, 10 Jul 2022 01:41:42 -0700 (PDT)
+ bh=WZU55ztxCr9hrm/X9mq0W7rnO8DhBgA9l+GjYiiRXCk=;
+ b=3NJXmjbHAKnga2EzFTlDMh4rGTThdwylqcp+Y1/bpkxTg9HeSN0VF9SP0KG70d+iSX
+ 1RBuWPVMkm/HSecr2FSf+D891Vp+HaoBhWFRnw764t6PEg9fm2evMm93b3xmcuMgAvT3
+ o1mwIS31F3+Ecx3h98Hl1lAxVyLH0AOzVJr823Zaymco9aZMjTovWTsvN6OJ0HgQP5eL
+ 2vBuiwbLHqDw9u/+Cu7PYviFXJ8GmLaZdLEapEB1keoCgPIC2MeK5j3lbf1kFmwuk8iB
+ j/TTlXty6PM5Abu+e2+wqqzjboqqJcudfp1k0FVxGPfooets3iedSpxw7C+mDsp/uOwX
+ 7atQ==
+X-Gm-Message-State: AJIora94xTA3tesdWHMPt3oQGORTxagkbT2QpRSbFc10jYBCnGDl/cyl
+ NKyUILdqUIr1CGqyBdMjloUvDA==
+X-Google-Smtp-Source: AGRyM1vxQa30p97YqLFfiaEcWr22TJ7iZraKSZ6N1/3jsyAQ35Xl5FJKJAdTXadD7Mj4DfudYkLbbw==
+X-Received: by 2002:a05:6512:2306:b0:485:8e08:5740 with SMTP id
+ o6-20020a056512230600b004858e085740mr8320796lfu.354.1657442503707; 
+ Sun, 10 Jul 2022 01:41:43 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- i21-20020a2ea235000000b0025d4addbad4sm912536ljm.91.2022.07.10.01.41.41
+ i21-20020a2ea235000000b0025d4addbad4sm912536ljm.91.2022.07.10.01.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 01:41:42 -0700 (PDT)
+ Sun, 10 Jul 2022 01:41:43 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,9 +54,9 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 7/9] dt-bindings: msm/dp: mark vdda supplies as deprecated
-Date: Sun, 10 Jul 2022 11:41:31 +0300
-Message-Id: <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 8/9] dt-bindings: msm/dp: add missing properties
+Date: Sun, 10 Jul 2022 11:41:32 +0300
+Message-Id: <20220710084133.30976-9-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
 References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
@@ -81,44 +81,41 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit fa384dd8b9b8 ("drm/msm/dp: delete vdda regulator related
-functions from eDP/DP controller") removed support for VDDA supplies
-from the DP controller driver. These supplies are now handled by the eDP
-or QMP PHYs. Mark these properties as deprecated and drop them from the
-example.
+Document missing definitions for opp-table (DP controller OPPs), aux-bus
+(DP AUX BUS) and data-lanes (DP/eDP lanes mapping) properties.
 
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../devicetree/bindings/display/msm/dp-controller.yaml   | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ .../bindings/display/msm/dp-controller.yaml          | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index 94bc6e1b6451..391910d91e43 100644
+index 391910d91e43..52cbf00df0ba 100644
 --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -76,8 +76,10 @@ properties:
+@@ -70,9 +70,21 @@ properties:
+   operating-points-v2:
+     maxItems: 1
+ 
++  opp-table: true
++
+   power-domains:
+     maxItems: 1
+ 
++  aux-bus:
++    $ref: /schemas/display/dp-aux-bus.yaml#
++
++  data-lanes:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    maxItems: 4
++    items:
++      maximum: 3
++
    "#sound-dai-cells":
      const: 0
  
--  vdda-0p9-supply: true
--  vdda-1p2-supply: true
-+  vdda-0p9-supply:
-+    deprecated: true
-+  vdda-1p2-supply:
-+    deprecated: true
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-@@ -140,9 +142,6 @@ examples:
- 
-         power-domains = <&rpmhpd SC7180_CX>;
- 
--        vdda-0p9-supply = <&vdda_usb_ss_dp_core>;
--        vdda-1p2-supply = <&vdda_usb_ss_dp_1p2>;
--
-         ports {
-             #address-cells = <1>;
-             #size-cells = <0>;
 -- 
 2.35.1
 
