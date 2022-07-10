@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A2456CE12
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FB056CE15
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB04112DBF;
-	Sun, 10 Jul 2022 08:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6687113E01;
+	Sun, 10 Jul 2022 08:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
  (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6722811227E
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9B311227E
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
- message-id:date:subject:cc:to:from:from;
- bh=LKWCAFxWGrUbpFnn4uO/tJ+FZBDgSWb5uQItsJB82c4=;
- b=GrU9R3ZmIkDHl2CBCh+s1VdL02YYpsYLOhe9Q6vzbxsBkDb7C/OAiLxcQkRQEI4npremqPpW1OwM9
- TOsyCnmSFcir5M3pvRL8oy69GI8OmToq9UvPjxydWsczKjANZQFBm2av4BcDKDWtSvzh/JC8RC2kgN
- nXuewvWI1EIYAqdgmrnO8Zfjdtgog6mnqAG2qAnrHOuZYGI+82skLwKS31SPDr/t6YFunRo9lmUaSz
- iIvbVAC2y+UPF1EN8fFsWJi9ueIhDz3iPnybTujfvxy+K/kZhH7euhsmrEd0JXIiwvPeJhRjbT2Dqj
- GhnFnmOw3CbV6l0DL3FSsgT9guVUENw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+ subject:cc:to:from:from;
+ bh=YPgocX5x9/fsx72NnKk3UVj/ZQka4YbbnmSPMjMel5U=;
+ b=isUB6G5MbDopz/VjAfQj1J3myUk7TaMauzS7bhsNqO8aMu7rYTLGZ63zB44kgwC6K6JgFtjhprbD/
+ PpK/NPwmcru4UJ+Gnl6aBmVq1T9pyIzC5Q2E9RBkO8v/KzYXn/0YcmRKFftJggCXn4Rhis0Rh7gZKC
+ isLlSNwa78OFApb3YJtoKZBKGxJ+YMcYqcT63epprUqeBS4JuLbvXqD7Rlp+5HypkRBjOejzd9cn5I
+ BUFvKmxnWAFxx1uZjiiw3McOTpG1tKS9WLED+Gfpll/38pJjUg0ER1/09kYG/pjaVrTB9UkWdn+ZhR
+ dDdbvucUmOzMUWgC4AkQomw4nd2qe7A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
- h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
- message-id:date:subject:cc:to:from:from;
- bh=LKWCAFxWGrUbpFnn4uO/tJ+FZBDgSWb5uQItsJB82c4=;
- b=wV20LuKSvvnvnyicnSufi/8Gbhf2J/Qz9+8IhEbo/ct9SgINqW9khQDZ4NBz+TibB/vyYEty4KpOZ
- GALaKtGAQ==
-X-HalOne-Cookie: 6deb3c8039721b95790c940c4c4e06fefa5d0506
-X-HalOne-ID: 0b247715-002e-11ed-a6c6-d0431ea8a283
+ h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+ subject:cc:to:from:from;
+ bh=YPgocX5x9/fsx72NnKk3UVj/ZQka4YbbnmSPMjMel5U=;
+ b=MzQ/Pv/xnGvNJfBVrBU0pe4LZWKYHFpW424UXMuDuqzhVTA0MMj7wmgXGa6EtkWqvTZyoQnxhieOv
+ QtKhKlVAQ==
+X-HalOne-Cookie: 06f4ef9a823b0d3990937528f8270caa59c443dd
+X-HalOne-ID: 0bf53e2e-002e-11ed-a6c6-d0431ea8a283
 Received: from mailproxy4.cst.dirpod4-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 0b247715-002e-11ed-a6c6-d0431ea8a283;
- Sun, 10 Jul 2022 08:55:27 +0000 (UTC)
+ id 0bf53e2e-002e-11ed-a6c6-d0431ea8a283;
+ Sun, 10 Jul 2022 08:55:28 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 04/11] drm/via: Embed via_mm in via_dri1
-Date: Sun, 10 Jul 2022 10:54:59 +0200
-Message-Id: <20220710085506.1384056-5-sam@ravnborg.org>
+Subject: [PATCH v1 05/11] drm/via: Embed via_video in via_dri1
+Date: Sun, 10 Jul 2022 10:55:00 +0200
+Message-Id: <20220710085506.1384056-6-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220710085506.1384056-1-sam@ravnborg.org>
 References: <20220710085506.1384056-1-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,297 +64,144 @@ Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All functions was made static as there are no external users.
+All functions are made static as there are no more external users.
+The file had a new copyright that is kept.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/via/Makefile   |   2 +-
- drivers/gpu/drm/via/via_dri1.c | 208 ++++++++++++++++++++++++++++
- drivers/gpu/drm/via/via_drv.h  |   9 --
- drivers/gpu/drm/via/via_mm.c   | 241 ---------------------------------
- 4 files changed, 209 insertions(+), 251 deletions(-)
- delete mode 100644 drivers/gpu/drm/via/via_mm.c
+ drivers/gpu/drm/via/Makefile    |  2 +-
+ drivers/gpu/drm/via/via_dri1.c  | 66 ++++++++++++++++++++++-
+ drivers/gpu/drm/via/via_drv.h   |  4 --
+ drivers/gpu/drm/via/via_video.c | 94 ---------------------------------
+ 4 files changed, 66 insertions(+), 100 deletions(-)
+ delete mode 100644 drivers/gpu/drm/via/via_video.c
 
 diff --git a/drivers/gpu/drm/via/Makefile b/drivers/gpu/drm/via/Makefile
-index be12cbfa4d7f..daadc0d3233f 100644
+index daadc0d3233f..398be21c6df8 100644
 --- a/drivers/gpu/drm/via/Makefile
 +++ b/drivers/gpu/drm/via/Makefile
 @@ -3,6 +3,6 @@
  # Makefile for the drm device driver.  This driver provides support for the
  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--via-y    := via_irq.o via_dri1.o via_mm.o via_verifier.o via_video.o via_dmablit.o
-+via-y    := via_irq.o via_dri1.o via_verifier.o via_video.o via_dmablit.o
+-via-y    := via_irq.o via_dri1.o via_verifier.o via_video.o via_dmablit.o
++via-y    := via_irq.o via_dri1.o via_verifier.o via_dmablit.o
  
  obj-$(CONFIG_DRM_VIA)	+=via.o
 diff --git a/drivers/gpu/drm/via/via_dri1.c b/drivers/gpu/drm/via/via_dri1.c
-index 2fa22359b1f6..3ebe17649ec2 100644
+index 3ebe17649ec2..4c5517330110 100644
 --- a/drivers/gpu/drm/via/via_dri1.c
 +++ b/drivers/gpu/drm/via/via_dri1.c
-@@ -2,6 +2,7 @@
-  * Copyright 1998-2003 VIA Technologies, Inc. All Rights Reserved.
-  * Copyright 2001-2003 S3 Graphics, Inc. All Rights Reserved.
-  * Copyright 2003 Tungsten Graphics, Inc., Cedar Park, Texas. All Rights Reserved.
-+ * Copyright 2006 Tungsten Graphics Inc., Bismarck, ND., USA.
+@@ -5,7 +5,8 @@
+  * Copyright 2006 Tungsten Graphics Inc., Bismarck, ND., USA.
   * Copyright 2004 Digeo, Inc., Palo Alto, CA, U.S.A. All Rights Reserved.
   * Copyright 2004 The Unichrome project. All Rights Reserved.
-   *
-@@ -67,6 +68,213 @@
- 	dev_priv->dma_low += 8;			\
- } while (0)
+-  *
++ * Copyright 2005 Thomas Hellstrom. All Rights Reserved.
++ *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+  * to deal in the Software without restriction, including without limitation
+@@ -76,6 +77,69 @@ struct via_memblock {
+ 	struct list_head owner_list;
+ };
  
-+#define VIA_MM_ALIGN_SHIFT 4
-+#define VIA_MM_ALIGN_MASK ((1 << VIA_MM_ALIGN_SHIFT) - 1)
-+
-+struct via_memblock {
-+	struct drm_mm_node mm_node;
-+	struct list_head owner_list;
-+};
-+
-+static int via_agp_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
++static void via_init_futex(drm_via_private_t *dev_priv)
 +{
-+	drm_via_agp_t *agp = data;
-+	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
++	unsigned int i;
 +
-+	mutex_lock(&dev->struct_mutex);
-+	drm_mm_init(&dev_priv->agp_mm, 0, agp->size >> VIA_MM_ALIGN_SHIFT);
++	DRM_DEBUG("\n");
 +
-+	dev_priv->agp_initialized = 1;
-+	dev_priv->agp_offset = agp->offset;
-+	mutex_unlock(&dev->struct_mutex);
-+
-+	DRM_DEBUG("offset = %u, size = %u\n", agp->offset, agp->size);
-+	return 0;
-+}
-+
-+static int via_fb_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	drm_via_fb_t *fb = data;
-+	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
-+
-+	mutex_lock(&dev->struct_mutex);
-+	drm_mm_init(&dev_priv->vram_mm, 0, fb->size >> VIA_MM_ALIGN_SHIFT);
-+
-+	dev_priv->vram_initialized = 1;
-+	dev_priv->vram_offset = fb->offset;
-+
-+	mutex_unlock(&dev->struct_mutex);
-+	DRM_DEBUG("offset = %u, size = %u\n", fb->offset, fb->size);
-+
-+	return 0;
-+
-+}
-+
-+static int via_final_context(struct drm_device *dev, int context)
-+{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
-+
-+	via_release_futex(dev_priv, context);
-+
-+	/* Linux specific until context tracking code gets ported to BSD */
-+	/* Last context, perform cleanup */
-+	if (list_is_singular(&dev->ctxlist)) {
-+		DRM_DEBUG("Last Context\n");
-+		drm_legacy_irq_uninstall(dev);
-+		via_cleanup_futex(dev_priv);
-+		via_do_cleanup_map(dev);
++	for (i = 0; i < VIA_NR_XVMC_LOCKS; ++i) {
++		init_waitqueue_head(&(dev_priv->decoder_queue[i]));
++		XVMCLOCKPTR(dev_priv->sarea_priv, i)->lock = 0;
 +	}
-+	return 1;
 +}
 +
-+static void via_lastclose(struct drm_device *dev)
++static void via_cleanup_futex(drm_via_private_t *dev_priv)
 +{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
++}
 +
-+	if (!dev_priv)
++static void via_release_futex(drm_via_private_t *dev_priv, int context)
++{
++	unsigned int i;
++	volatile int *lock;
++
++	if (!dev_priv->sarea_priv)
 +		return;
 +
-+	mutex_lock(&dev->struct_mutex);
-+	if (dev_priv->vram_initialized) {
-+		drm_mm_takedown(&dev_priv->vram_mm);
-+		dev_priv->vram_initialized = 0;
++	for (i = 0; i < VIA_NR_XVMC_LOCKS; ++i) {
++		lock = (volatile int *)XVMCLOCKPTR(dev_priv->sarea_priv, i);
++		if ((_DRM_LOCKING_CONTEXT(*lock) == context)) {
++			if (_DRM_LOCK_IS_HELD(*lock)
++			    && (*lock & _DRM_LOCK_CONT)) {
++				wake_up(&(dev_priv->decoder_queue[i]));
++			}
++			*lock = 0;
++		}
 +	}
-+	if (dev_priv->agp_initialized) {
-+		drm_mm_takedown(&dev_priv->agp_mm);
-+		dev_priv->agp_initialized = 0;
-+	}
-+	mutex_unlock(&dev->struct_mutex);
 +}
 +
-+static int via_mem_alloc(struct drm_device *dev, void *data,
-+		  struct drm_file *file)
++static int via_decoder_futex(struct drm_device *dev, void *data, struct drm_file *file_priv)
 +{
-+	drm_via_mem_t *mem = data;
-+	int retval = 0, user_key;
-+	struct via_memblock *item;
++	drm_via_futex_t *fx = data;
++	volatile int *lock;
 +	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
-+	struct via_file_private *file_priv = file->driver_priv;
-+	unsigned long tmpSize;
++	drm_via_sarea_t *sAPriv = dev_priv->sarea_priv;
++	int ret = 0;
 +
-+	if (mem->type > VIA_MEM_AGP) {
-+		DRM_ERROR("Unknown memory type allocation\n");
-+		return -EINVAL;
++	DRM_DEBUG("\n");
++
++	if (fx->lock >= VIA_NR_XVMC_LOCKS)
++		return -EFAULT;
++
++	lock = (volatile int *)XVMCLOCKPTR(sAPriv, fx->lock);
++
++	switch (fx->func) {
++	case VIA_FUTEX_WAIT:
++		VIA_WAIT_ON(ret, dev_priv->decoder_queue[fx->lock],
++			    (fx->ms / 10) * (HZ / 100), *lock != fx->val);
++		return ret;
++	case VIA_FUTEX_WAKE:
++		wake_up(&(dev_priv->decoder_queue[fx->lock]));
++		return 0;
 +	}
-+	mutex_lock(&dev->struct_mutex);
-+	if (0 == ((mem->type == VIA_MEM_VIDEO) ? dev_priv->vram_initialized :
-+		      dev_priv->agp_initialized)) {
-+		mutex_unlock(&dev->struct_mutex);
-+		DRM_ERROR
-+		    ("Attempt to allocate from uninitialized memory manager.\n");
-+		return -EINVAL;
-+	}
-+
-+	item = kzalloc(sizeof(*item), GFP_KERNEL);
-+	if (!item) {
-+		retval = -ENOMEM;
-+		goto fail_alloc;
-+	}
-+
-+	tmpSize = (mem->size + VIA_MM_ALIGN_MASK) >> VIA_MM_ALIGN_SHIFT;
-+	if (mem->type == VIA_MEM_AGP)
-+		retval = drm_mm_insert_node(&dev_priv->agp_mm,
-+					    &item->mm_node,
-+					    tmpSize);
-+	else
-+		retval = drm_mm_insert_node(&dev_priv->vram_mm,
-+					    &item->mm_node,
-+					    tmpSize);
-+	if (retval)
-+		goto fail_alloc;
-+
-+	retval = idr_alloc(&dev_priv->object_idr, item, 1, 0, GFP_KERNEL);
-+	if (retval < 0)
-+		goto fail_idr;
-+	user_key = retval;
-+
-+	list_add(&item->owner_list, &file_priv->obj_list);
-+	mutex_unlock(&dev->struct_mutex);
-+
-+	mem->offset = ((mem->type == VIA_MEM_VIDEO) ?
-+		      dev_priv->vram_offset : dev_priv->agp_offset) +
-+	    ((item->mm_node.start) << VIA_MM_ALIGN_SHIFT);
-+	mem->index = user_key;
-+
-+	return 0;
-+
-+fail_idr:
-+	drm_mm_remove_node(&item->mm_node);
-+fail_alloc:
-+	kfree(item);
-+	mutex_unlock(&dev->struct_mutex);
-+
-+	mem->offset = 0;
-+	mem->size = 0;
-+	mem->index = 0;
-+	DRM_DEBUG("Video memory allocation failed\n");
-+
-+	return retval;
-+}
-+
-+static int via_mem_free(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	drm_via_private_t *dev_priv = dev->dev_private;
-+	drm_via_mem_t *mem = data;
-+	struct via_memblock *obj;
-+
-+	mutex_lock(&dev->struct_mutex);
-+	obj = idr_find(&dev_priv->object_idr, mem->index);
-+	if (obj == NULL) {
-+		mutex_unlock(&dev->struct_mutex);
-+		return -EINVAL;
-+	}
-+
-+	idr_remove(&dev_priv->object_idr, mem->index);
-+	list_del(&obj->owner_list);
-+	drm_mm_remove_node(&obj->mm_node);
-+	kfree(obj);
-+	mutex_unlock(&dev->struct_mutex);
-+
-+	DRM_DEBUG("free = 0x%lx\n", mem->index);
-+
 +	return 0;
 +}
 +
-+
-+static void via_reclaim_buffers_locked(struct drm_device *dev,
-+				struct drm_file *file)
-+{
-+	struct via_file_private *file_priv = file->driver_priv;
-+	struct via_memblock *entry, *next;
-+
-+	if (!(dev->master && file->master->lock.hw_lock))
-+		return;
-+
-+	drm_legacy_idlelock_take(&file->master->lock);
-+
-+	mutex_lock(&dev->struct_mutex);
-+	if (list_empty(&file_priv->obj_list)) {
-+		mutex_unlock(&dev->struct_mutex);
-+		drm_legacy_idlelock_release(&file->master->lock);
-+
-+		return;
-+	}
-+
-+	via_driver_dma_quiescent(dev);
-+
-+	list_for_each_entry_safe(entry, next, &file_priv->obj_list,
-+				 owner_list) {
-+		list_del(&entry->owner_list);
-+		drm_mm_remove_node(&entry->mm_node);
-+		kfree(entry);
-+	}
-+	mutex_unlock(&dev->struct_mutex);
-+
-+	drm_legacy_idlelock_release(&file->master->lock);
-+
-+	return;
-+}
-+
- static int via_do_init_map(struct drm_device *dev, drm_via_init_t *init)
+ static int via_agp_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
  {
- 	drm_via_private_t *dev_priv = dev->dev_private;
+ 	drm_via_agp_t *agp = data;
 diff --git a/drivers/gpu/drm/via/via_drv.h b/drivers/gpu/drm/via/via_drv.h
-index 4eaad17c0e02..c1a5fdf0bc4b 100644
+index c1a5fdf0bc4b..312e86b850f6 100644
 --- a/drivers/gpu/drm/via/via_drv.h
 +++ b/drivers/gpu/drm/via/via_drv.h
-@@ -183,17 +183,12 @@ do {								\
+@@ -183,7 +183,6 @@ do {								\
  	remove_wait_queue(&(queue), &entry);			\
  } while (0)
  
--extern int via_fb_init(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int via_mem_alloc(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int via_mem_free(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int via_agp_init(struct drm_device *dev, void *data, struct drm_file *file_priv);
- extern int via_decoder_futex(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int via_decoder_futex(struct drm_device *dev, void *data, struct drm_file *file_priv);
  extern int via_wait_irq(struct drm_device *dev, void *data, struct drm_file *file_priv);
  extern int via_dma_blit_sync(struct drm_device *dev, void *data, struct drm_file *file_priv);
  extern int via_dma_blit(struct drm_device *dev, void *data, struct drm_file *file_priv);
+@@ -203,9 +202,6 @@ extern void via_driver_irq_uninstall(struct drm_device *dev);
+ extern int via_dma_cleanup(struct drm_device *dev);
+ extern void via_init_command_verifier(void);
+ extern int via_driver_dma_quiescent(struct drm_device *dev);
+-extern void via_init_futex(drm_via_private_t *dev_priv);
+-extern void via_cleanup_futex(drm_via_private_t *dev_priv);
+-extern void via_release_futex(drm_via_private_t *dev_priv, int context);
  
- extern int via_init_context(struct drm_device *dev, int context);
--extern int via_final_context(struct drm_device *dev, int context);
- 
- extern int via_do_cleanup_map(struct drm_device *dev);
- extern u32 via_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
-@@ -212,10 +207,6 @@ extern void via_init_futex(drm_via_private_t *dev_priv);
- extern void via_cleanup_futex(drm_via_private_t *dev_priv);
- extern void via_release_futex(drm_via_private_t *dev_priv, int context);
- 
--extern void via_reclaim_buffers_locked(struct drm_device *dev,
--				       struct drm_file *file_priv);
--extern void via_lastclose(struct drm_device *dev);
--
  extern void via_dmablit_handler(struct drm_device *dev, int engine, int from_irq);
  extern void via_init_dmablit(struct drm_device *dev);
- 
-diff --git a/drivers/gpu/drm/via/via_mm.c b/drivers/gpu/drm/via/via_mm.c
+diff --git a/drivers/gpu/drm/via/via_video.c b/drivers/gpu/drm/via/via_video.c
 deleted file mode 100644
-index c9afa1a51f23..000000000000
---- a/drivers/gpu/drm/via/via_mm.c
+index 53b1f58f99b4..000000000000
+--- a/drivers/gpu/drm/via/via_video.c
 +++ /dev/null
-@@ -1,241 +0,0 @@
+@@ -1,94 +0,0 @@
 -/*
-- * Copyright 2006 Tungsten Graphics Inc., Bismarck, ND., USA.
-- * All rights reserved.
+- * Copyright 2005 Thomas Hellstrom. All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
@@ -371,228 +217,82 @@ index c9afa1a51f23..000000000000
 - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 - * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS AND/OR THEIR SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * THE AUTHOR(S), AND/OR THE COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 - * DEALINGS IN THE SOFTWARE.
+- *
+- * Author: Thomas Hellstrom 2005.
+- *
+- * Video and XvMC related functions.
 - */
--/*
-- * Authors: Thomas Hellström <thomas-at-tungstengraphics-dot-com>
-- */
--
--#include <linux/slab.h>
 -
 -#include <drm/drm_device.h>
--#include <drm/drm_file.h>
 -#include <drm/via_drm.h>
 -
 -#include "via_drv.h"
 -
--#define VIA_MM_ALIGN_SHIFT 4
--#define VIA_MM_ALIGN_MASK ((1 << VIA_MM_ALIGN_SHIFT) - 1)
--
--struct via_memblock {
--	struct drm_mm_node mm_node;
--	struct list_head owner_list;
--};
--
--int via_agp_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-void via_init_futex(drm_via_private_t *dev_priv)
 -{
--	drm_via_agp_t *agp = data;
--	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
+-	unsigned int i;
 -
--	mutex_lock(&dev->struct_mutex);
--	drm_mm_init(&dev_priv->agp_mm, 0, agp->size >> VIA_MM_ALIGN_SHIFT);
+-	DRM_DEBUG("\n");
 -
--	dev_priv->agp_initialized = 1;
--	dev_priv->agp_offset = agp->offset;
--	mutex_unlock(&dev->struct_mutex);
--
--	DRM_DEBUG("offset = %u, size = %u\n", agp->offset, agp->size);
--	return 0;
--}
--
--int via_fb_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_via_fb_t *fb = data;
--	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
--
--	mutex_lock(&dev->struct_mutex);
--	drm_mm_init(&dev_priv->vram_mm, 0, fb->size >> VIA_MM_ALIGN_SHIFT);
--
--	dev_priv->vram_initialized = 1;
--	dev_priv->vram_offset = fb->offset;
--
--	mutex_unlock(&dev->struct_mutex);
--	DRM_DEBUG("offset = %u, size = %u\n", fb->offset, fb->size);
--
--	return 0;
--
--}
--
--int via_final_context(struct drm_device *dev, int context)
--{
--	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
--
--	via_release_futex(dev_priv, context);
--
--	/* Linux specific until context tracking code gets ported to BSD */
--	/* Last context, perform cleanup */
--	if (list_is_singular(&dev->ctxlist)) {
--		DRM_DEBUG("Last Context\n");
--		drm_legacy_irq_uninstall(dev);
--		via_cleanup_futex(dev_priv);
--		via_do_cleanup_map(dev);
+-	for (i = 0; i < VIA_NR_XVMC_LOCKS; ++i) {
+-		init_waitqueue_head(&(dev_priv->decoder_queue[i]));
+-		XVMCLOCKPTR(dev_priv->sarea_priv, i)->lock = 0;
 -	}
--	return 1;
 -}
 -
--void via_lastclose(struct drm_device *dev)
+-void via_cleanup_futex(drm_via_private_t *dev_priv)
 -{
--	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
+-}
 -
--	if (!dev_priv)
+-void via_release_futex(drm_via_private_t *dev_priv, int context)
+-{
+-	unsigned int i;
+-	volatile int *lock;
+-
+-	if (!dev_priv->sarea_priv)
 -		return;
 -
--	mutex_lock(&dev->struct_mutex);
--	if (dev_priv->vram_initialized) {
--		drm_mm_takedown(&dev_priv->vram_mm);
--		dev_priv->vram_initialized = 0;
+-	for (i = 0; i < VIA_NR_XVMC_LOCKS; ++i) {
+-		lock = (volatile int *)XVMCLOCKPTR(dev_priv->sarea_priv, i);
+-		if ((_DRM_LOCKING_CONTEXT(*lock) == context)) {
+-			if (_DRM_LOCK_IS_HELD(*lock)
+-			    && (*lock & _DRM_LOCK_CONT)) {
+-				wake_up(&(dev_priv->decoder_queue[i]));
+-			}
+-			*lock = 0;
+-		}
 -	}
--	if (dev_priv->agp_initialized) {
--		drm_mm_takedown(&dev_priv->agp_mm);
--		dev_priv->agp_initialized = 0;
--	}
--	mutex_unlock(&dev->struct_mutex);
 -}
 -
--int via_mem_alloc(struct drm_device *dev, void *data,
--		  struct drm_file *file)
+-int via_decoder_futex(struct drm_device *dev, void *data, struct drm_file *file_priv)
 -{
--	drm_via_mem_t *mem = data;
--	int retval = 0, user_key;
--	struct via_memblock *item;
+-	drm_via_futex_t *fx = data;
+-	volatile int *lock;
 -	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
--	struct via_file_private *file_priv = file->driver_priv;
--	unsigned long tmpSize;
+-	drm_via_sarea_t *sAPriv = dev_priv->sarea_priv;
+-	int ret = 0;
 -
--	if (mem->type > VIA_MEM_AGP) {
--		DRM_ERROR("Unknown memory type allocation\n");
--		return -EINVAL;
+-	DRM_DEBUG("\n");
+-
+-	if (fx->lock >= VIA_NR_XVMC_LOCKS)
+-		return -EFAULT;
+-
+-	lock = (volatile int *)XVMCLOCKPTR(sAPriv, fx->lock);
+-
+-	switch (fx->func) {
+-	case VIA_FUTEX_WAIT:
+-		VIA_WAIT_ON(ret, dev_priv->decoder_queue[fx->lock],
+-			    (fx->ms / 10) * (HZ / 100), *lock != fx->val);
+-		return ret;
+-	case VIA_FUTEX_WAKE:
+-		wake_up(&(dev_priv->decoder_queue[fx->lock]));
+-		return 0;
 -	}
--	mutex_lock(&dev->struct_mutex);
--	if (0 == ((mem->type == VIA_MEM_VIDEO) ? dev_priv->vram_initialized :
--		      dev_priv->agp_initialized)) {
--		mutex_unlock(&dev->struct_mutex);
--		DRM_ERROR
--		    ("Attempt to allocate from uninitialized memory manager.\n");
--		return -EINVAL;
--	}
--
--	item = kzalloc(sizeof(*item), GFP_KERNEL);
--	if (!item) {
--		retval = -ENOMEM;
--		goto fail_alloc;
--	}
--
--	tmpSize = (mem->size + VIA_MM_ALIGN_MASK) >> VIA_MM_ALIGN_SHIFT;
--	if (mem->type == VIA_MEM_AGP)
--		retval = drm_mm_insert_node(&dev_priv->agp_mm,
--					    &item->mm_node,
--					    tmpSize);
--	else
--		retval = drm_mm_insert_node(&dev_priv->vram_mm,
--					    &item->mm_node,
--					    tmpSize);
--	if (retval)
--		goto fail_alloc;
--
--	retval = idr_alloc(&dev_priv->object_idr, item, 1, 0, GFP_KERNEL);
--	if (retval < 0)
--		goto fail_idr;
--	user_key = retval;
--
--	list_add(&item->owner_list, &file_priv->obj_list);
--	mutex_unlock(&dev->struct_mutex);
--
--	mem->offset = ((mem->type == VIA_MEM_VIDEO) ?
--		      dev_priv->vram_offset : dev_priv->agp_offset) +
--	    ((item->mm_node.start) << VIA_MM_ALIGN_SHIFT);
--	mem->index = user_key;
--
 -	return 0;
--
--fail_idr:
--	drm_mm_remove_node(&item->mm_node);
--fail_alloc:
--	kfree(item);
--	mutex_unlock(&dev->struct_mutex);
--
--	mem->offset = 0;
--	mem->size = 0;
--	mem->index = 0;
--	DRM_DEBUG("Video memory allocation failed\n");
--
--	return retval;
--}
--
--int via_mem_free(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_via_private_t *dev_priv = dev->dev_private;
--	drm_via_mem_t *mem = data;
--	struct via_memblock *obj;
--
--	mutex_lock(&dev->struct_mutex);
--	obj = idr_find(&dev_priv->object_idr, mem->index);
--	if (obj == NULL) {
--		mutex_unlock(&dev->struct_mutex);
--		return -EINVAL;
--	}
--
--	idr_remove(&dev_priv->object_idr, mem->index);
--	list_del(&obj->owner_list);
--	drm_mm_remove_node(&obj->mm_node);
--	kfree(obj);
--	mutex_unlock(&dev->struct_mutex);
--
--	DRM_DEBUG("free = 0x%lx\n", mem->index);
--
--	return 0;
--}
--
--
--void via_reclaim_buffers_locked(struct drm_device *dev,
--				struct drm_file *file)
--{
--	struct via_file_private *file_priv = file->driver_priv;
--	struct via_memblock *entry, *next;
--
--	if (!(dev->master && file->master->lock.hw_lock))
--		return;
--
--	drm_legacy_idlelock_take(&file->master->lock);
--
--	mutex_lock(&dev->struct_mutex);
--	if (list_empty(&file_priv->obj_list)) {
--		mutex_unlock(&dev->struct_mutex);
--		drm_legacy_idlelock_release(&file->master->lock);
--
--		return;
--	}
--
--	via_driver_dma_quiescent(dev);
--
--	list_for_each_entry_safe(entry, next, &file_priv->obj_list,
--				 owner_list) {
--		list_del(&entry->owner_list);
--		drm_mm_remove_node(&entry->mm_node);
--		kfree(entry);
--	}
--	mutex_unlock(&dev->struct_mutex);
--
--	drm_legacy_idlelock_release(&file->master->lock);
--
--	return;
 -}
 -- 
 2.34.1
