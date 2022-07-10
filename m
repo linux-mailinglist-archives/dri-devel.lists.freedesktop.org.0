@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3A256D0CE
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 20:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88A456D0D3
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 20:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37C3118A8D7;
-	Sun, 10 Jul 2022 18:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5778A18A8E8;
+	Sun, 10 Jul 2022 18:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDDE618A8DE
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 18:45:40 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id n18so3778411lfq.1
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 11:45:40 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 297E818A8DF
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 18:45:42 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id bn33so3932593ljb.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 11:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=w6H7AZgWHjuSnqSkX8Y5Hss8POYSqDNUbN9BjUh/yDM=;
- b=PL4jm3aHr8zv3Siu2NU0vyTZ9tXLSyocFJSVWzdqXUrieXJal8Ug+C6gobbwdWi+Pk
- z7PQbmHSJtYluNTxYqqf7UrwBkPBOIXrRMMekQr2G1idzUUVpzjr9MCziEN/ECo4qzvR
- dp10xxn6fTLaL+pwxMspEnyAVmyLygmfMq8U+NdssrfQTZbzgXOnNZ/BvyGTN/yf6ntP
- YlYKdczhHXIunwtFKOs9iSy9RkLREc6kVLIW21Ees1ESyaW3nanxjgvGeO6FIpUg8oTB
- Ry2uZeVD01iFVkvlICysqTcA1fhvTMBR5m2fMWBNVJ+3s73ghy+vgVP4PAHYI80b1vri
- megg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uWwdgVhw97ycQZv8C/Sh0UEbnMAmSyLV+RkBre0LXe8=;
+ b=VM59dWdakzh5XQwNICK6kXEEo+YWwiCVy9JGbP2JY5W6Y0kvU1OHuBZJBMFg2Hvce5
+ c7FxYxH1HATW4UfDyk5KLRqgWx94ckF7ge1rihrl/atMrsUo2R4q8tEwC2JgOXgiGw2Z
+ cuOTpgg1JRo8fStkzOMwcl1mLNHkR2YFO/yhiD0ZsyVxv/xeWD3bcge4mpFZ91SLib2V
+ 5tDd8W6ESihmQKkDYyxw4GERoPV4u5L+0njRB0htab1ioKOLxk8SsvwhACYGXyA8vBFs
+ WqS+PcxOp2Z4LMD4tY4a7vqlMcHwa28YyNeLPuJsHuxPrqPjj9unesNAyZQrWJjG+y4S
+ OXcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=w6H7AZgWHjuSnqSkX8Y5Hss8POYSqDNUbN9BjUh/yDM=;
- b=l0BHX8pH4OMaPfSnu34mDtzYnAL7s1wCcLuYgzXFFoxM/NPR5/s/G3TgmriyAY2g/4
- G0wwjygQJDdb+V65irbF+RsQtY16H14qQklUaSJoTRIx8g/bFSP442O5MQmEb24CK+0P
- bEaFFdpNlQDhiBdScAunbNyYi4vQ68i/zBqzGGwu7Vi+W7em2PuuI0oOqfr7+LYgSeYR
- 3TWlolzqC63QiWpPxkfBHLx6uesq07YMAHzzQCuXqzig4p3jTNtx6N5nG0Ta7GCebLzE
- KSgbYqHQ10Yg6AlR/cfCV+DSM9nr0D8XID5Zglki6dGPRx96MEnxv+zZbAWFCah3ZvvK
- SvVw==
-X-Gm-Message-State: AJIora/O7xHu6756ZrCNpYNV9gJPvhnb8bIUmx/gbZXNk2TyC0b0i6Qt
- US3ii0LuHApH/aBcn8k48FfbCQ==
-X-Google-Smtp-Source: AGRyM1vo2MPiyoFOAGF5g9FgIpCiw6LZZk+dlO6WMHVsPOY4WYNygn8jlVz98uqq43jvOuikyC+uEw==
-X-Received: by 2002:a05:6512:2311:b0:488:b732:5ae7 with SMTP id
- o17-20020a056512231100b00488b7325ae7mr8967324lfu.40.1657478739101; 
- Sun, 10 Jul 2022 11:45:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uWwdgVhw97ycQZv8C/Sh0UEbnMAmSyLV+RkBre0LXe8=;
+ b=KjIUUZw87zY5u4QVwYeGeBaR90O4D0lToOD2qY0Zs7VigW9AC/mmzXeoH8EzyKUGT3
+ J2W4+0oIp9wU59+lpFIjDIfd//Zd2NBExYONHw6rMMfV5DVHQwQc0OKMCPLA8DNvtz+f
+ s1uMjp2XnZuRLkEpexyeeVk8V/68+py5JMiGv37z6XEaz7GxXSqpP3Di9yIDvs1EOe6v
+ Ucedntds7guQhh0jT5VX8HZeKKUk5pXBnpN6kGxoFTy+vPrbSZX0eXWmbFh1ELT8LZ2c
+ t8rxRhUb7erGA+12cd6AlZXeyO4hUaLRoRGMrsNzHrYSnVNeg0eSSPs38sxD8TV7tDT1
+ 9chQ==
+X-Gm-Message-State: AJIora9Hd1KM4cywervXuSrYLjfkZ3HgzPeyLLrDnBo6JGN3zaPAqWoU
+ YhE3VQuTXh9Fii9BZzjxHnGsCA==
+X-Google-Smtp-Source: AGRyM1vc2XvQcEV3NW4pR+bqJctZPGBZRBAOO5hfwQBC6CMtGP22NXTaB+XZ0SdndD67zQAcAfdasw==
+X-Received: by 2002:a05:651c:508:b0:25b:b0e4:8a0f with SMTP id
+ o8-20020a05651c050800b0025bb0e48a0fmr8063260ljp.72.1657478740219; 
+ Sun, 10 Jul 2022 11:45:40 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- c21-20020a056512325500b0047255d21132sm1051562lfr.97.2022.07.10.11.45.37
+ c21-20020a056512325500b0047255d21132sm1051562lfr.97.2022.07.10.11.45.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 11:45:38 -0700 (PDT)
+ Sun, 10 Jul 2022 11:45:39 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -54,11 +54,12 @@ To: Douglas Anderson <dianders@chromium.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Stephen Boyd <swboyd@chromium.org>
-Subject: [RFC PATCH 0/3] drm/bridge: ti-sn65dsi86: support
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Sun, 10 Jul 2022 21:45:33 +0300
-Message-Id: <20220710184536.172705-1-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH 1/3] drm/bridge: ti-sn65dsi86: switch to atomic ops
+Date: Sun, 10 Jul 2022 21:45:34 +0300
+Message-Id: <20220710184536.172705-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220710184536.172705-1-dmitry.baryshkov@linaro.org>
+References: <20220710184536.172705-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,21 +81,73 @@ Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An RFC (or rather RFT, Request-for-Testing) series adding support for
-DRM_BRIDGE_ATTACH_NO_CONNECTOR. Note, it was compile-tested only.  This
-bridge is the last one used on the Qualcomm platforms (in
-upstream-supported devices) and thus it is the only bridge that prevents
-us from removing support for bridge-created connectors from MSM DSI
-code.
+Make ti-sn65dsi86 use atomic_enable / atomic_disable / atomic_pre_enable
+/ atomic_post_disable rather than their non-atomic versions.
 
-Dmitry Baryshkov (3):
-  drm/bridge: ti-sn65dsi86: switch to atomic ops
-  drm/bridge: ti-sn65dsi86: fetch bpc using drm_atomic_state
-  drm/bridge: ti-sn65dsi86: support DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 55 +++++++++++++++------------
- 1 file changed, 31 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 8cad662de9bb..01171547f638 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -752,7 +752,8 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
+ 
+-static void ti_sn_bridge_disable(struct drm_bridge *bridge)
++static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
++					struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+ 
+@@ -1011,7 +1012,8 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+ 	return ret;
+ }
+ 
+-static void ti_sn_bridge_enable(struct drm_bridge *bridge)
++static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
++				       struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+ 	const char *last_err_str = "No supported DP rate";
+@@ -1080,7 +1082,8 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+ 			   VSTREAM_ENABLE);
+ }
+ 
+-static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
++static void ti_sn_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					   struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+ 
+@@ -1093,7 +1096,8 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+ 	usleep_range(100, 110);
+ }
+ 
+-static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
++static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
++					     struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+ 
+@@ -1114,10 +1118,10 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+ 	.attach = ti_sn_bridge_attach,
+ 	.detach = ti_sn_bridge_detach,
+ 	.mode_valid = ti_sn_bridge_mode_valid,
+-	.pre_enable = ti_sn_bridge_pre_enable,
+-	.enable = ti_sn_bridge_enable,
+-	.disable = ti_sn_bridge_disable,
+-	.post_disable = ti_sn_bridge_post_disable,
++	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
++	.atomic_enable = ti_sn_bridge_atomic_enable,
++	.atomic_disable = ti_sn_bridge_atomic_disable,
++	.atomic_post_disable = ti_sn_bridge_atomic_post_disable,
+ };
+ 
+ static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
 -- 
 2.35.1
 
