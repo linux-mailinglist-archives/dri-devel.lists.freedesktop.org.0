@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F6056CE17
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD41556CE19
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B678A11A260;
-	Sun, 10 Jul 2022 08:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1EE411AFD9;
+	Sun, 10 Jul 2022 08:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
  (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EACC911A260
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97A65112662
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
- subject:cc:to:from:from;
- bh=XM9h/98r49D6BJja1PieK3Qgd/nh6N7et54jcugDq10=;
- b=IgKpCwE0nXkaEuw6iOOE0Ep4rxWvXCSc/muoYvqx9Dg+99hMEBFW72cmiucz5wkfsX7Hq731G9RCe
- sETEELcuUrdnUuuUEM1QXUacrFKYMQ8LReved3d3GrLmf38NqPhM4kV14+FqwCujNOCeYs8LL0H1i9
- zGKB0JBG0zMgz/Ao8dwW1rLHD3trDjSaHXqnQG8GIyOFeSt2UZsSlEvGlcgNTA3VWLuOpAOCQU/om1
- ygBNwXvMEyLnBzA1O504i4Ic+Xn7LScL4KoBpliKs8fH7f0XBWmaAMK0KR5g6DWxZVoAjXNU62oCCZ
- KGqDJpzX/faXcMz0teibVWQsVjR5T0g==
+ h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+ message-id:date:subject:cc:to:from:from;
+ bh=H/YjEE3NKPbjrSfkeS17IKRijbKar/zFTtfBFAImxRY=;
+ b=n0K1ULKzPSfwDwJprVLdMrxfTMdx1BP3yZeRrYXaHZtwLpoD1APjcG3u3M0Qb6d+X09FIjON9OkTn
+ /u5giOzJe6ckuBLQYDfj04M/lQZmB1ZsNCmsQ9W7K9UB9Tdo0ERodl3qbjR0125TMoNwrQ+FQ20nPF
+ mWak4CbzMzI0GGF9DFq7UjUXD0RxfckGe/QfyZfaNRhqfLL3yMji6pW85Ye2hWUX1spSApZEFYINrm
+ 35ifb8wnTDbfIOokSJ/OKxn6T6oZ482z4hPsKpzyIAMBEDVcWDkSwlNIOKHJlV5mtVVvvrR0tfIvjx
+ v2fCqC4Ub9WCsZLdQ/WKtFXey1xvNTw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
- h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
- subject:cc:to:from:from;
- bh=XM9h/98r49D6BJja1PieK3Qgd/nh6N7et54jcugDq10=;
- b=pdvE0TdqQ4/PJbIPy/auxuv3fmxtBEskZ71MhY3PTBjqgqlPdOJlOV7yRvl0aWROJKneGvuprnPqU
- 0JS673ADA==
-X-HalOne-Cookie: c0de33ea802d25dae068547dc3e2dbd60039bd04
-X-HalOne-ID: 0da39508-002e-11ed-a6c6-d0431ea8a283
+ h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+ message-id:date:subject:cc:to:from:from;
+ bh=H/YjEE3NKPbjrSfkeS17IKRijbKar/zFTtfBFAImxRY=;
+ b=CKZ3EjyuOPTCdZuI3D6kS7dv8n1nU1rsphal8lBVwWmCBmGbFunzJENkY41lBKa3K49qaTL5/0RHt
+ yS7UH/eCg==
+X-HalOne-Cookie: 9b02fc43d2817cf44d4deaa93c32396e017a9d1a
+X-HalOne-ID: 0fd84f89-002e-11ed-a6c6-d0431ea8a283
 Received: from mailproxy4.cst.dirpod4-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 0da39508-002e-11ed-a6c6-d0431ea8a283;
- Sun, 10 Jul 2022 08:55:31 +0000 (UTC)
+ id 0fd84f89-002e-11ed-a6c6-d0431ea8a283;
+ Sun, 10 Jul 2022 08:55:35 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 07/11] drm/via: Embed via_dmablit in via_dri1
-Date: Sun, 10 Jul 2022 10:55:02 +0200
-Message-Id: <20220710085506.1384056-8-sam@ravnborg.org>
+Subject: [PATCH v1 08/11] drm/via: Embed via_verifier in via_dri1
+Date: Sun, 10 Jul 2022 10:55:03 +0200
+Message-Id: <20220710085506.1384056-9-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220710085506.1384056-1-sam@ravnborg.org>
 References: <20220710085506.1384056-1-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,1894 +65,2346 @@ Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Embed some of the header file in via_drv.h and
-the rest in via_dri1.c
-While embedding deleted extra empty lines and functions that
-has no external users are made static.
+Embed the header file in via_drv.h and the code in via_dri1.
+All functions are made static as there are no more external users.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/via/Makefile      |   2 +-
- drivers/gpu/drm/via/via_dmablit.c | 807 ------------------------------
- drivers/gpu/drm/via/via_dmablit.h | 140 ------
- drivers/gpu/drm/via/via_dri1.c    | 786 +++++++++++++++++++++++++++++
- drivers/gpu/drm/via/via_drv.h     |  56 ++-
- 5 files changed, 835 insertions(+), 956 deletions(-)
- delete mode 100644 drivers/gpu/drm/via/via_dmablit.c
- delete mode 100644 drivers/gpu/drm/via/via_dmablit.h
+ drivers/gpu/drm/via/Makefile       |    2 +-
+ drivers/gpu/drm/via/via_dri1.c     | 1071 +++++++++++++++++++++++++++
+ drivers/gpu/drm/via/via_drv.h      |   29 +-
+ drivers/gpu/drm/via/via_verifier.c | 1110 ----------------------------
+ drivers/gpu/drm/via/via_verifier.h |   62 --
+ 5 files changed, 1099 insertions(+), 1175 deletions(-)
+ delete mode 100644 drivers/gpu/drm/via/via_verifier.c
+ delete mode 100644 drivers/gpu/drm/via/via_verifier.h
 
 diff --git a/drivers/gpu/drm/via/Makefile b/drivers/gpu/drm/via/Makefile
-index dd75ea8a1423..66125b150478 100644
+index 66125b150478..8b978dd51a25 100644
 --- a/drivers/gpu/drm/via/Makefile
 +++ b/drivers/gpu/drm/via/Makefile
 @@ -3,6 +3,6 @@
  # Makefile for the drm device driver.  This driver provides support for the
  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--via-y    := via_dri1.o via_verifier.o via_dmablit.o
-+via-y    := via_dri1.o via_verifier.o
+-via-y    := via_dri1.o via_verifier.o
++via-y    := via_dri1.o
  
  obj-$(CONFIG_DRM_VIA)	+=via.o
-diff --git a/drivers/gpu/drm/via/via_dmablit.c b/drivers/gpu/drm/via/via_dmablit.c
-deleted file mode 100644
-index e016a4d62090..000000000000
---- a/drivers/gpu/drm/via/via_dmablit.c
-+++ /dev/null
-@@ -1,807 +0,0 @@
--/* via_dmablit.c -- PCI DMA BitBlt support for the VIA Unichrome/Pro
-- *
-- * Copyright (C) 2005 Thomas Hellstrom, All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sub license,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Thomas Hellstrom.
-- *    Partially based on code obtained from Digeo Inc.
-- */
--
--
--/*
-- * Unmaps the DMA mappings.
-- * FIXME: Is this a NoOp on x86? Also
-- * FIXME: What happens if this one is called and a pending blit has previously done
-- * the same DMA mappings?
-- */
--
--#include <linux/pagemap.h>
--#include <linux/pci.h>
--#include <linux/slab.h>
--#include <linux/vmalloc.h>
--
--#include <drm/drm_device.h>
--#include <drm/via_drm.h>
--
--#include "via_dmablit.h"
--#include "via_drv.h"
--
--#define VIA_PGDN(x)	     (((unsigned long)(x)) & PAGE_MASK)
--#define VIA_PGOFF(x)	    (((unsigned long)(x)) & ~PAGE_MASK)
--#define VIA_PFN(x)	      ((unsigned long)(x) >> PAGE_SHIFT)
--
--typedef struct _drm_via_descriptor {
--	uint32_t mem_addr;
--	uint32_t dev_addr;
--	uint32_t size;
--	uint32_t next;
--} drm_via_descriptor_t;
--
--
--/*
-- * Unmap a DMA mapping.
-- */
--
--
--
--static void
--via_unmap_blit_from_device(struct pci_dev *pdev, drm_via_sg_info_t *vsg)
--{
--	int num_desc = vsg->num_desc;
--	unsigned cur_descriptor_page = num_desc / vsg->descriptors_per_page;
--	unsigned descriptor_this_page = num_desc % vsg->descriptors_per_page;
--	drm_via_descriptor_t *desc_ptr = vsg->desc_pages[cur_descriptor_page] +
--		descriptor_this_page;
--	dma_addr_t next = vsg->chain_start;
--
--	while (num_desc--) {
--		if (descriptor_this_page-- == 0) {
--			cur_descriptor_page--;
--			descriptor_this_page = vsg->descriptors_per_page - 1;
--			desc_ptr = vsg->desc_pages[cur_descriptor_page] +
--				descriptor_this_page;
--		}
--		dma_unmap_single(&pdev->dev, next, sizeof(*desc_ptr), DMA_TO_DEVICE);
--		dma_unmap_page(&pdev->dev, desc_ptr->mem_addr, desc_ptr->size, vsg->direction);
--		next = (dma_addr_t) desc_ptr->next;
--		desc_ptr--;
--	}
--}
--
--/*
-- * If mode = 0, count how many descriptors are needed.
-- * If mode = 1, Map the DMA pages for the device, put together and map also the descriptors.
-- * Descriptors are run in reverse order by the hardware because we are not allowed to update the
-- * 'next' field without syncing calls when the descriptor is already mapped.
-- */
--
--static void
--via_map_blit_for_device(struct pci_dev *pdev,
--		   const drm_via_dmablit_t *xfer,
--		   drm_via_sg_info_t *vsg,
--		   int mode)
--{
--	unsigned cur_descriptor_page = 0;
--	unsigned num_descriptors_this_page = 0;
--	unsigned char *mem_addr = xfer->mem_addr;
--	unsigned char *cur_mem;
--	unsigned char *first_addr = (unsigned char *)VIA_PGDN(mem_addr);
--	uint32_t fb_addr = xfer->fb_addr;
--	uint32_t cur_fb;
--	unsigned long line_len;
--	unsigned remaining_len;
--	int num_desc = 0;
--	int cur_line;
--	dma_addr_t next = 0 | VIA_DMA_DPR_EC;
--	drm_via_descriptor_t *desc_ptr = NULL;
--
--	if (mode == 1)
--		desc_ptr = vsg->desc_pages[cur_descriptor_page];
--
--	for (cur_line = 0; cur_line < xfer->num_lines; ++cur_line) {
--
--		line_len = xfer->line_length;
--		cur_fb = fb_addr;
--		cur_mem = mem_addr;
--
--		while (line_len > 0) {
--
--			remaining_len = min(PAGE_SIZE-VIA_PGOFF(cur_mem), line_len);
--			line_len -= remaining_len;
--
--			if (mode == 1) {
--				desc_ptr->mem_addr =
--					dma_map_page(&pdev->dev,
--						     vsg->pages[VIA_PFN(cur_mem) -
--								VIA_PFN(first_addr)],
--						     VIA_PGOFF(cur_mem), remaining_len,
--						     vsg->direction);
--				desc_ptr->dev_addr = cur_fb;
--
--				desc_ptr->size = remaining_len;
--				desc_ptr->next = (uint32_t) next;
--				next = dma_map_single(&pdev->dev, desc_ptr, sizeof(*desc_ptr),
--						      DMA_TO_DEVICE);
--				desc_ptr++;
--				if (++num_descriptors_this_page >= vsg->descriptors_per_page) {
--					num_descriptors_this_page = 0;
--					desc_ptr = vsg->desc_pages[++cur_descriptor_page];
--				}
--			}
--
--			num_desc++;
--			cur_mem += remaining_len;
--			cur_fb += remaining_len;
--		}
--
--		mem_addr += xfer->mem_stride;
--		fb_addr += xfer->fb_stride;
--	}
--
--	if (mode == 1) {
--		vsg->chain_start = next;
--		vsg->state = dr_via_device_mapped;
--	}
--	vsg->num_desc = num_desc;
--}
--
--/*
-- * Function that frees up all resources for a blit. It is usable even if the
-- * blit info has only been partially built as long as the status enum is consistent
-- * with the actual status of the used resources.
-- */
--
--
--static void
--via_free_sg_info(struct pci_dev *pdev, drm_via_sg_info_t *vsg)
--{
--	int i;
--
--	switch (vsg->state) {
--	case dr_via_device_mapped:
--		via_unmap_blit_from_device(pdev, vsg);
--		fallthrough;
--	case dr_via_desc_pages_alloc:
--		for (i = 0; i < vsg->num_desc_pages; ++i) {
--			if (vsg->desc_pages[i] != NULL)
--				free_page((unsigned long)vsg->desc_pages[i]);
--		}
--		kfree(vsg->desc_pages);
--		fallthrough;
--	case dr_via_pages_locked:
--		unpin_user_pages_dirty_lock(vsg->pages, vsg->num_pages,
--					   (vsg->direction == DMA_FROM_DEVICE));
--		fallthrough;
--	case dr_via_pages_alloc:
--		vfree(vsg->pages);
--		fallthrough;
--	default:
--		vsg->state = dr_via_sg_init;
--	}
--	vfree(vsg->bounce_buffer);
--	vsg->bounce_buffer = NULL;
--	vsg->free_on_sequence = 0;
--}
--
--/*
-- * Fire a blit engine.
-- */
--
--static void
--via_fire_dmablit(struct drm_device *dev, drm_via_sg_info_t *vsg, int engine)
--{
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--
--	via_write(dev_priv, VIA_PCI_DMA_MAR0 + engine*0x10, 0);
--	via_write(dev_priv, VIA_PCI_DMA_DAR0 + engine*0x10, 0);
--	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_DD | VIA_DMA_CSR_TD |
--		  VIA_DMA_CSR_DE);
--	via_write(dev_priv, VIA_PCI_DMA_MR0  + engine*0x04, VIA_DMA_MR_CM | VIA_DMA_MR_TDIE);
--	via_write(dev_priv, VIA_PCI_DMA_BCR0 + engine*0x10, 0);
--	via_write(dev_priv, VIA_PCI_DMA_DPR0 + engine*0x10, vsg->chain_start);
--	wmb();
--	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_DE | VIA_DMA_CSR_TS);
--	via_read(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04);
--}
--
--/*
-- * Obtain a page pointer array and lock all pages into system memory. A segmentation violation will
-- * occur here if the calling user does not have access to the submitted address.
-- */
--
--static int
--via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_via_dmablit_t *xfer)
--{
--	int ret;
--	unsigned long first_pfn = VIA_PFN(xfer->mem_addr);
--	vsg->num_pages = VIA_PFN(xfer->mem_addr + (xfer->num_lines * xfer->mem_stride - 1)) -
--		first_pfn + 1;
--
--	vsg->pages = vzalloc(array_size(sizeof(struct page *), vsg->num_pages));
--	if (NULL == vsg->pages)
--		return -ENOMEM;
--	ret = pin_user_pages_fast((unsigned long)xfer->mem_addr,
--			vsg->num_pages,
--			vsg->direction == DMA_FROM_DEVICE ? FOLL_WRITE : 0,
--			vsg->pages);
--	if (ret != vsg->num_pages) {
--		if (ret < 0)
--			return ret;
--		vsg->state = dr_via_pages_locked;
--		return -EINVAL;
--	}
--	vsg->state = dr_via_pages_locked;
--	DRM_DEBUG("DMA pages locked\n");
--	return 0;
--}
--
--/*
-- * Allocate DMA capable memory for the blit descriptor chain, and an array that keeps track of the
-- * pages we allocate. We don't want to use kmalloc for the descriptor chain because it may be
-- * quite large for some blits, and pages don't need to be contiguous.
-- */
--
--static int
--via_alloc_desc_pages(drm_via_sg_info_t *vsg)
--{
--	int i;
--
--	vsg->descriptors_per_page = PAGE_SIZE / sizeof(drm_via_descriptor_t);
--	vsg->num_desc_pages = (vsg->num_desc + vsg->descriptors_per_page - 1) /
--		vsg->descriptors_per_page;
--
--	if (NULL ==  (vsg->desc_pages = kcalloc(vsg->num_desc_pages, sizeof(void *), GFP_KERNEL)))
--		return -ENOMEM;
--
--	vsg->state = dr_via_desc_pages_alloc;
--	for (i = 0; i < vsg->num_desc_pages; ++i) {
--		if (NULL == (vsg->desc_pages[i] =
--			     (drm_via_descriptor_t *) __get_free_page(GFP_KERNEL)))
--			return -ENOMEM;
--	}
--	DRM_DEBUG("Allocated %d pages for %d descriptors.\n", vsg->num_desc_pages,
--		  vsg->num_desc);
--	return 0;
--}
--
--static void
--via_abort_dmablit(struct drm_device *dev, int engine)
--{
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--
--	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_TA);
--}
--
--static void
--via_dmablit_engine_off(struct drm_device *dev, int engine)
--{
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--
--	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_TD | VIA_DMA_CSR_DD);
--}
--
--
--
--/*
-- * The dmablit part of the IRQ handler. Trying to do only reasonably fast things here.
-- * The rest, like unmapping and freeing memory for done blits is done in a separate workqueue
-- * task. Basically the task of the interrupt handler is to submit a new blit to the engine, while
-- * the workqueue task takes care of processing associated with the old blit.
-- */
--
--void
--via_dmablit_handler(struct drm_device *dev, int engine, int from_irq)
--{
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--	drm_via_blitq_t *blitq = dev_priv->blit_queues + engine;
--	int cur;
--	int done_transfer;
--	unsigned long irqsave = 0;
--	uint32_t status = 0;
--
--	DRM_DEBUG("DMA blit handler called. engine = %d, from_irq = %d, blitq = 0x%lx\n",
--		  engine, from_irq, (unsigned long) blitq);
--
--	if (from_irq)
--		spin_lock(&blitq->blit_lock);
--	else
--		spin_lock_irqsave(&blitq->blit_lock, irqsave);
--
--	done_transfer = blitq->is_active &&
--	  ((status = via_read(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04)) & VIA_DMA_CSR_TD);
--	done_transfer = done_transfer || (blitq->aborting && !(status & VIA_DMA_CSR_DE));
--
--	cur = blitq->cur;
--	if (done_transfer) {
--
--		blitq->blits[cur]->aborted = blitq->aborting;
--		blitq->done_blit_handle++;
--		wake_up(blitq->blit_queue + cur);
--
--		cur++;
--		if (cur >= VIA_NUM_BLIT_SLOTS)
--			cur = 0;
--		blitq->cur = cur;
--
--		/*
--		 * Clear transfer done flag.
--		 */
--
--		via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04,  VIA_DMA_CSR_TD);
--
--		blitq->is_active = 0;
--		blitq->aborting = 0;
--		schedule_work(&blitq->wq);
--
--	} else if (blitq->is_active && time_after_eq(jiffies, blitq->end)) {
--
--		/*
--		 * Abort transfer after one second.
--		 */
--
--		via_abort_dmablit(dev, engine);
--		blitq->aborting = 1;
--		blitq->end = jiffies + HZ;
--	}
--
--	if (!blitq->is_active) {
--		if (blitq->num_outstanding) {
--			via_fire_dmablit(dev, blitq->blits[cur], engine);
--			blitq->is_active = 1;
--			blitq->cur = cur;
--			blitq->num_outstanding--;
--			blitq->end = jiffies + HZ;
--			if (!timer_pending(&blitq->poll_timer))
--				mod_timer(&blitq->poll_timer, jiffies + 1);
--		} else {
--			if (timer_pending(&blitq->poll_timer))
--				del_timer(&blitq->poll_timer);
--			via_dmablit_engine_off(dev, engine);
--		}
--	}
--
--	if (from_irq)
--		spin_unlock(&blitq->blit_lock);
--	else
--		spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--}
--
--
--
--/*
-- * Check whether this blit is still active, performing necessary locking.
-- */
--
--static int
--via_dmablit_active(drm_via_blitq_t *blitq, int engine, uint32_t handle, wait_queue_head_t **queue)
--{
--	unsigned long irqsave;
--	uint32_t slot;
--	int active;
--
--	spin_lock_irqsave(&blitq->blit_lock, irqsave);
--
--	/*
--	 * Allow for handle wraparounds.
--	 */
--
--	active = ((blitq->done_blit_handle - handle) > (1 << 23)) &&
--		((blitq->cur_blit_handle - handle) <= (1 << 23));
--
--	if (queue && active) {
--		slot = handle - blitq->done_blit_handle + blitq->cur - 1;
--		if (slot >= VIA_NUM_BLIT_SLOTS)
--			slot -= VIA_NUM_BLIT_SLOTS;
--		*queue = blitq->blit_queue + slot;
--	}
--
--	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--
--	return active;
--}
--
--/*
-- * Sync. Wait for at least three seconds for the blit to be performed.
-- */
--
--static int
--via_dmablit_sync(struct drm_device *dev, uint32_t handle, int engine)
--{
--
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--	drm_via_blitq_t *blitq = dev_priv->blit_queues + engine;
--	wait_queue_head_t *queue;
--	int ret = 0;
--
--	if (via_dmablit_active(blitq, engine, handle, &queue)) {
--		VIA_WAIT_ON(ret, *queue, 3 * HZ,
--			    !via_dmablit_active(blitq, engine, handle, NULL));
--	}
--	DRM_DEBUG("DMA blit sync handle 0x%x engine %d returned %d\n",
--		  handle, engine, ret);
--
--	return ret;
--}
--
--
--/*
-- * A timer that regularly polls the blit engine in cases where we don't have interrupts:
-- * a) Broken hardware (typically those that don't have any video capture facility).
-- * b) Blit abort. The hardware doesn't send an interrupt when a blit is aborted.
-- * The timer and hardware IRQ's can and do work in parallel. If the hardware has
-- * irqs, it will shorten the latency somewhat.
-- */
--
--
--
--static void
--via_dmablit_timer(struct timer_list *t)
--{
--	drm_via_blitq_t *blitq = from_timer(blitq, t, poll_timer);
--	struct drm_device *dev = blitq->dev;
--	int engine = (int)
--		(blitq - ((drm_via_private_t *)dev->dev_private)->blit_queues);
--
--	DRM_DEBUG("Polling timer called for engine %d, jiffies %lu\n", engine,
--		  (unsigned long) jiffies);
--
--	via_dmablit_handler(dev, engine, 0);
--
--	if (!timer_pending(&blitq->poll_timer)) {
--		mod_timer(&blitq->poll_timer, jiffies + 1);
--
--	       /*
--		* Rerun handler to delete timer if engines are off, and
--		* to shorten abort latency. This is a little nasty.
--		*/
--
--	       via_dmablit_handler(dev, engine, 0);
--
--	}
--}
--
--
--
--
--/*
-- * Workqueue task that frees data and mappings associated with a blit.
-- * Also wakes up waiting processes. Each of these tasks handles one
-- * blit engine only and may not be called on each interrupt.
-- */
--
--
--static void
--via_dmablit_workqueue(struct work_struct *work)
--{
--	drm_via_blitq_t *blitq = container_of(work, drm_via_blitq_t, wq);
--	struct drm_device *dev = blitq->dev;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	unsigned long irqsave;
--	drm_via_sg_info_t *cur_sg;
--	int cur_released;
--
--
--	DRM_DEBUG("Workqueue task called for blit engine %ld\n", (unsigned long)
--		  (blitq - ((drm_via_private_t *)dev->dev_private)->blit_queues));
--
--	spin_lock_irqsave(&blitq->blit_lock, irqsave);
--
--	while (blitq->serviced != blitq->cur) {
--
--		cur_released = blitq->serviced++;
--
--		DRM_DEBUG("Releasing blit slot %d\n", cur_released);
--
--		if (blitq->serviced >= VIA_NUM_BLIT_SLOTS)
--			blitq->serviced = 0;
--
--		cur_sg = blitq->blits[cur_released];
--		blitq->num_free++;
--
--		spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--
--		wake_up(&blitq->busy_queue);
--
--		via_free_sg_info(pdev, cur_sg);
--		kfree(cur_sg);
--
--		spin_lock_irqsave(&blitq->blit_lock, irqsave);
--	}
--
--	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--}
--
--
--/*
-- * Init all blit engines. Currently we use two, but some hardware have 4.
-- */
--
--
--void
--via_init_dmablit(struct drm_device *dev)
--{
--	int i, j;
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	drm_via_blitq_t *blitq;
--
--	pci_set_master(pdev);
--
--	for (i = 0; i < VIA_NUM_BLIT_ENGINES; ++i) {
--		blitq = dev_priv->blit_queues + i;
--		blitq->dev = dev;
--		blitq->cur_blit_handle = 0;
--		blitq->done_blit_handle = 0;
--		blitq->head = 0;
--		blitq->cur = 0;
--		blitq->serviced = 0;
--		blitq->num_free = VIA_NUM_BLIT_SLOTS - 1;
--		blitq->num_outstanding = 0;
--		blitq->is_active = 0;
--		blitq->aborting = 0;
--		spin_lock_init(&blitq->blit_lock);
--		for (j = 0; j < VIA_NUM_BLIT_SLOTS; ++j)
--			init_waitqueue_head(blitq->blit_queue + j);
--		init_waitqueue_head(&blitq->busy_queue);
--		INIT_WORK(&blitq->wq, via_dmablit_workqueue);
--		timer_setup(&blitq->poll_timer, via_dmablit_timer, 0);
--	}
--}
--
--/*
-- * Build all info and do all mappings required for a blit.
-- */
--
--
--static int
--via_build_sg_info(struct drm_device *dev, drm_via_sg_info_t *vsg, drm_via_dmablit_t *xfer)
--{
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	int draw = xfer->to_fb;
--	int ret = 0;
--
--	vsg->direction = (draw) ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
--	vsg->bounce_buffer = NULL;
--
--	vsg->state = dr_via_sg_init;
--
--	if (xfer->num_lines <= 0 || xfer->line_length <= 0) {
--		DRM_ERROR("Zero size bitblt.\n");
--		return -EINVAL;
--	}
--
--	/*
--	 * Below check is a driver limitation, not a hardware one. We
--	 * don't want to lock unused pages, and don't want to incoporate the
--	 * extra logic of avoiding them. Make sure there are no.
--	 * (Not a big limitation anyway.)
--	 */
--
--	if ((xfer->mem_stride - xfer->line_length) > 2*PAGE_SIZE) {
--		DRM_ERROR("Too large system memory stride. Stride: %d, "
--			  "Length: %d\n", xfer->mem_stride, xfer->line_length);
--		return -EINVAL;
--	}
--
--	if ((xfer->mem_stride == xfer->line_length) &&
--	   (xfer->fb_stride == xfer->line_length)) {
--		xfer->mem_stride *= xfer->num_lines;
--		xfer->line_length = xfer->mem_stride;
--		xfer->fb_stride = xfer->mem_stride;
--		xfer->num_lines = 1;
--	}
--
--	/*
--	 * Don't lock an arbitrary large number of pages, since that causes a
--	 * DOS security hole.
--	 */
--
--	if (xfer->num_lines > 2048 || (xfer->num_lines*xfer->mem_stride > (2048*2048*4))) {
--		DRM_ERROR("Too large PCI DMA bitblt.\n");
--		return -EINVAL;
--	}
--
--	/*
--	 * we allow a negative fb stride to allow flipping of images in
--	 * transfer.
--	 */
--
--	if (xfer->mem_stride < xfer->line_length ||
--		abs(xfer->fb_stride) < xfer->line_length) {
--		DRM_ERROR("Invalid frame-buffer / memory stride.\n");
--		return -EINVAL;
--	}
--
--	/*
--	 * A hardware bug seems to be worked around if system memory addresses start on
--	 * 16 byte boundaries. This seems a bit restrictive however. VIA is contacted
--	 * about this. Meanwhile, impose the following restrictions:
--	 */
--
--#ifdef VIA_BUGFREE
--	if ((((unsigned long)xfer->mem_addr & 3) != ((unsigned long)xfer->fb_addr & 3)) ||
--	    ((xfer->num_lines > 1) && ((xfer->mem_stride & 3) != (xfer->fb_stride & 3)))) {
--		DRM_ERROR("Invalid DRM bitblt alignment.\n");
--		return -EINVAL;
--	}
--#else
--	if ((((unsigned long)xfer->mem_addr & 15) ||
--	      ((unsigned long)xfer->fb_addr & 3)) ||
--	   ((xfer->num_lines > 1) &&
--	   ((xfer->mem_stride & 15) || (xfer->fb_stride & 3)))) {
--		DRM_ERROR("Invalid DRM bitblt alignment.\n");
--		return -EINVAL;
--	}
--#endif
--
--	if (0 != (ret = via_lock_all_dma_pages(vsg, xfer))) {
--		DRM_ERROR("Could not lock DMA pages.\n");
--		via_free_sg_info(pdev, vsg);
--		return ret;
--	}
--
--	via_map_blit_for_device(pdev, xfer, vsg, 0);
--	if (0 != (ret = via_alloc_desc_pages(vsg))) {
--		DRM_ERROR("Could not allocate DMA descriptor pages.\n");
--		via_free_sg_info(pdev, vsg);
--		return ret;
--	}
--	via_map_blit_for_device(pdev, xfer, vsg, 1);
--
--	return 0;
--}
--
--
--/*
-- * Reserve one free slot in the blit queue. Will wait for one second for one
-- * to become available. Otherwise -EBUSY is returned.
-- */
--
--static int
--via_dmablit_grab_slot(drm_via_blitq_t *blitq, int engine)
--{
--	int ret = 0;
--	unsigned long irqsave;
--
--	DRM_DEBUG("Num free is %d\n", blitq->num_free);
--	spin_lock_irqsave(&blitq->blit_lock, irqsave);
--	while (blitq->num_free == 0) {
--		spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--
--		VIA_WAIT_ON(ret, blitq->busy_queue, HZ, blitq->num_free > 0);
--		if (ret)
--			return (-EINTR == ret) ? -EAGAIN : ret;
--
--		spin_lock_irqsave(&blitq->blit_lock, irqsave);
--	}
--
--	blitq->num_free--;
--	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--
--	return 0;
--}
--
--/*
-- * Hand back a free slot if we changed our mind.
-- */
--
--static void
--via_dmablit_release_slot(drm_via_blitq_t *blitq)
--{
--	unsigned long irqsave;
--
--	spin_lock_irqsave(&blitq->blit_lock, irqsave);
--	blitq->num_free++;
--	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--	wake_up(&blitq->busy_queue);
--}
--
--/*
-- * Grab a free slot. Build blit info and queue a blit.
-- */
--
--
--static int
--via_dmablit(struct drm_device *dev, drm_via_dmablit_t *xfer)
--{
--	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
--	drm_via_sg_info_t *vsg;
--	drm_via_blitq_t *blitq;
--	int ret;
--	int engine;
--	unsigned long irqsave;
--
--	if (dev_priv == NULL) {
--		DRM_ERROR("Called without initialization.\n");
--		return -EINVAL;
--	}
--
--	engine = (xfer->to_fb) ? 0 : 1;
--	blitq = dev_priv->blit_queues + engine;
--	if (0 != (ret = via_dmablit_grab_slot(blitq, engine)))
--		return ret;
--	if (NULL == (vsg = kmalloc(sizeof(*vsg), GFP_KERNEL))) {
--		via_dmablit_release_slot(blitq);
--		return -ENOMEM;
--	}
--	if (0 != (ret = via_build_sg_info(dev, vsg, xfer))) {
--		via_dmablit_release_slot(blitq);
--		kfree(vsg);
--		return ret;
--	}
--	spin_lock_irqsave(&blitq->blit_lock, irqsave);
--
--	blitq->blits[blitq->head++] = vsg;
--	if (blitq->head >= VIA_NUM_BLIT_SLOTS)
--		blitq->head = 0;
--	blitq->num_outstanding++;
--	xfer->sync.sync_handle = ++blitq->cur_blit_handle;
--
--	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
--	xfer->sync.engine = engine;
--
--	via_dmablit_handler(dev, engine, 0);
--
--	return 0;
--}
--
--/*
-- * Sync on a previously submitted blit. Note that the X server use signals extensively, and
-- * that there is a very big probability that this IOCTL will be interrupted by a signal. In that
-- * case it returns with -EAGAIN for the signal to be delivered.
-- * The caller should then reissue the IOCTL. This is similar to what is being done for drmGetLock().
-- */
--
--int
--via_dma_blit_sync(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_via_blitsync_t *sync = data;
--	int err;
--
--	if (sync->engine >= VIA_NUM_BLIT_ENGINES)
--		return -EINVAL;
--
--	err = via_dmablit_sync(dev, sync->sync_handle, sync->engine);
--
--	if (-EINTR == err)
--		err = -EAGAIN;
--
--	return err;
--}
--
--
--/*
-- * Queue a blit and hand back a handle to be used for sync. This IOCTL may be interrupted by a signal
-- * while waiting for a free slot in the blit queue. In that case it returns with -EAGAIN and should
-- * be reissued. See the above IOCTL code.
-- */
--
--int
--via_dma_blit(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_via_dmablit_t *xfer = data;
--	int err;
--
--	err = via_dmablit(dev, xfer);
--
--	return err;
--}
-diff --git a/drivers/gpu/drm/via/via_dmablit.h b/drivers/gpu/drm/via/via_dmablit.h
-deleted file mode 100644
-index 9b662a327cef..000000000000
---- a/drivers/gpu/drm/via/via_dmablit.h
-+++ /dev/null
-@@ -1,140 +0,0 @@
--/* via_dmablit.h -- PCI DMA BitBlt support for the VIA Unichrome/Pro
-- *
-- * Copyright 2005 Thomas Hellstrom.
-- * All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sub license,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Thomas Hellstrom.
-- *    Register info from Digeo Inc.
-- */
--
--#ifndef _VIA_DMABLIT_H
--#define _VIA_DMABLIT_H
--
--#include <linux/dma-mapping.h>
--
--#define VIA_NUM_BLIT_ENGINES 2
--#define VIA_NUM_BLIT_SLOTS 8
--
--struct _drm_via_descriptor;
--
--typedef struct _drm_via_sg_info {
--	struct page **pages;
--	unsigned long num_pages;
--	struct _drm_via_descriptor **desc_pages;
--	int num_desc_pages;
--	int num_desc;
--	enum dma_data_direction direction;
--	unsigned char *bounce_buffer;
--	dma_addr_t chain_start;
--	uint32_t free_on_sequence;
--	unsigned int descriptors_per_page;
--	int aborted;
--	enum {
--		dr_via_device_mapped,
--		dr_via_desc_pages_alloc,
--		dr_via_pages_locked,
--		dr_via_pages_alloc,
--		dr_via_sg_init
--	} state;
--} drm_via_sg_info_t;
--
--typedef struct _drm_via_blitq {
--	struct drm_device *dev;
--	uint32_t cur_blit_handle;
--	uint32_t done_blit_handle;
--	unsigned serviced;
--	unsigned head;
--	unsigned cur;
--	unsigned num_free;
--	unsigned num_outstanding;
--	unsigned long end;
--	int aborting;
--	int is_active;
--	drm_via_sg_info_t *blits[VIA_NUM_BLIT_SLOTS];
--	spinlock_t blit_lock;
--	wait_queue_head_t blit_queue[VIA_NUM_BLIT_SLOTS];
--	wait_queue_head_t busy_queue;
--	struct work_struct wq;
--	struct timer_list poll_timer;
--} drm_via_blitq_t;
--
--
--/*
-- *  PCI DMA Registers
-- *  Channels 2 & 3 don't seem to be implemented in hardware.
-- */
--
--#define VIA_PCI_DMA_MAR0            0xE40   /* Memory Address Register of Channel 0 */
--#define VIA_PCI_DMA_DAR0            0xE44   /* Device Address Register of Channel 0 */
--#define VIA_PCI_DMA_BCR0            0xE48   /* Byte Count Register of Channel 0 */
--#define VIA_PCI_DMA_DPR0            0xE4C   /* Descriptor Pointer Register of Channel 0 */
--
--#define VIA_PCI_DMA_MAR1            0xE50   /* Memory Address Register of Channel 1 */
--#define VIA_PCI_DMA_DAR1            0xE54   /* Device Address Register of Channel 1 */
--#define VIA_PCI_DMA_BCR1            0xE58   /* Byte Count Register of Channel 1 */
--#define VIA_PCI_DMA_DPR1            0xE5C   /* Descriptor Pointer Register of Channel 1 */
--
--#define VIA_PCI_DMA_MAR2            0xE60   /* Memory Address Register of Channel 2 */
--#define VIA_PCI_DMA_DAR2            0xE64   /* Device Address Register of Channel 2 */
--#define VIA_PCI_DMA_BCR2            0xE68   /* Byte Count Register of Channel 2 */
--#define VIA_PCI_DMA_DPR2            0xE6C   /* Descriptor Pointer Register of Channel 2 */
--
--#define VIA_PCI_DMA_MAR3            0xE70   /* Memory Address Register of Channel 3 */
--#define VIA_PCI_DMA_DAR3            0xE74   /* Device Address Register of Channel 3 */
--#define VIA_PCI_DMA_BCR3            0xE78   /* Byte Count Register of Channel 3 */
--#define VIA_PCI_DMA_DPR3            0xE7C   /* Descriptor Pointer Register of Channel 3 */
--
--#define VIA_PCI_DMA_MR0             0xE80   /* Mode Register of Channel 0 */
--#define VIA_PCI_DMA_MR1             0xE84   /* Mode Register of Channel 1 */
--#define VIA_PCI_DMA_MR2             0xE88   /* Mode Register of Channel 2 */
--#define VIA_PCI_DMA_MR3             0xE8C   /* Mode Register of Channel 3 */
--
--#define VIA_PCI_DMA_CSR0            0xE90   /* Command/Status Register of Channel 0 */
--#define VIA_PCI_DMA_CSR1            0xE94   /* Command/Status Register of Channel 1 */
--#define VIA_PCI_DMA_CSR2            0xE98   /* Command/Status Register of Channel 2 */
--#define VIA_PCI_DMA_CSR3            0xE9C   /* Command/Status Register of Channel 3 */
--
--#define VIA_PCI_DMA_PTR             0xEA0   /* Priority Type Register */
--
--/* Define for DMA engine */
--/* DPR */
--#define VIA_DMA_DPR_EC		(1<<1)	/* end of chain */
--#define VIA_DMA_DPR_DDIE	(1<<2)	/* descriptor done interrupt enable */
--#define VIA_DMA_DPR_DT		(1<<3)	/* direction of transfer (RO) */
--
--/* MR */
--#define VIA_DMA_MR_CM		(1<<0)	/* chaining mode */
--#define VIA_DMA_MR_TDIE		(1<<1)	/* transfer done interrupt enable */
--#define VIA_DMA_MR_HENDMACMD		(1<<7) /* ? */
--
--/* CSR */
--#define VIA_DMA_CSR_DE		(1<<0)	/* DMA enable */
--#define VIA_DMA_CSR_TS		(1<<1)	/* transfer start */
--#define VIA_DMA_CSR_TA		(1<<2)	/* transfer abort */
--#define VIA_DMA_CSR_TD		(1<<3)	/* transfer done */
--#define VIA_DMA_CSR_DD		(1<<4)	/* descriptor done */
--#define VIA_DMA_DPR_EC          (1<<1)  /* end of chain */
--
--
--
--#endif
 diff --git a/drivers/gpu/drm/via/via_dri1.c b/drivers/gpu/drm/via/via_dri1.c
-index 32aae172c6f3..f8b1f837feb1 100644
+index f8b1f837feb1..f9285cc3e1c7 100644
 --- a/drivers/gpu/drm/via/via_dri1.c
 +++ b/drivers/gpu/drm/via/via_dri1.c
-@@ -32,6 +32,7 @@
- #include <linux/delay.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/vmalloc.h>
+@@ -201,7 +201,1078 @@ typedef struct _drm_via_descriptor {
+ 	uint32_t next;
+ } drm_via_descriptor_t;
  
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -98,6 +99,62 @@ struct via_memblock {
- #define VIA_IRQ_DMA1_DD_PENDING (1 << 6)
- #define VIA_IRQ_DMA1_TD_PENDING (1 << 7)
- 
-+/*
-+ *  PCI DMA Registers
-+ *  Channels 2 & 3 don't seem to be implemented in hardware.
-+ */
++typedef enum {
++	state_command,
++	state_header2,
++	state_header1,
++	state_vheader5,
++	state_vheader6,
++	state_error
++} verifier_state_t;
 +
-+#define VIA_PCI_DMA_MAR0            0xE40   /* Memory Address Register of Channel 0 */
-+#define VIA_PCI_DMA_DAR0            0xE44   /* Device Address Register of Channel 0 */
-+#define VIA_PCI_DMA_BCR0            0xE48   /* Byte Count Register of Channel 0 */
-+#define VIA_PCI_DMA_DPR0            0xE4C   /* Descriptor Pointer Register of Channel 0 */
-+
-+#define VIA_PCI_DMA_MAR1            0xE50   /* Memory Address Register of Channel 1 */
-+#define VIA_PCI_DMA_DAR1            0xE54   /* Device Address Register of Channel 1 */
-+#define VIA_PCI_DMA_BCR1            0xE58   /* Byte Count Register of Channel 1 */
-+#define VIA_PCI_DMA_DPR1            0xE5C   /* Descriptor Pointer Register of Channel 1 */
-+
-+#define VIA_PCI_DMA_MAR2            0xE60   /* Memory Address Register of Channel 2 */
-+#define VIA_PCI_DMA_DAR2            0xE64   /* Device Address Register of Channel 2 */
-+#define VIA_PCI_DMA_BCR2            0xE68   /* Byte Count Register of Channel 2 */
-+#define VIA_PCI_DMA_DPR2            0xE6C   /* Descriptor Pointer Register of Channel 2 */
-+
-+#define VIA_PCI_DMA_MAR3            0xE70   /* Memory Address Register of Channel 3 */
-+#define VIA_PCI_DMA_DAR3            0xE74   /* Device Address Register of Channel 3 */
-+#define VIA_PCI_DMA_BCR3            0xE78   /* Byte Count Register of Channel 3 */
-+#define VIA_PCI_DMA_DPR3            0xE7C   /* Descriptor Pointer Register of Channel 3 */
-+
-+#define VIA_PCI_DMA_MR0             0xE80   /* Mode Register of Channel 0 */
-+#define VIA_PCI_DMA_MR1             0xE84   /* Mode Register of Channel 1 */
-+#define VIA_PCI_DMA_MR2             0xE88   /* Mode Register of Channel 2 */
-+#define VIA_PCI_DMA_MR3             0xE8C   /* Mode Register of Channel 3 */
-+
-+#define VIA_PCI_DMA_CSR0            0xE90   /* Command/Status Register of Channel 0 */
-+#define VIA_PCI_DMA_CSR1            0xE94   /* Command/Status Register of Channel 1 */
-+#define VIA_PCI_DMA_CSR2            0xE98   /* Command/Status Register of Channel 2 */
-+#define VIA_PCI_DMA_CSR3            0xE9C   /* Command/Status Register of Channel 3 */
-+
-+#define VIA_PCI_DMA_PTR             0xEA0   /* Priority Type Register */
-+
-+/* Define for DMA engine */
-+/* DPR */
-+#define VIA_DMA_DPR_EC		(1<<1)	/* end of chain */
-+#define VIA_DMA_DPR_DDIE	(1<<2)	/* descriptor done interrupt enable */
-+#define VIA_DMA_DPR_DT		(1<<3)	/* direction of transfer (RO) */
-+
-+/* MR */
-+#define VIA_DMA_MR_CM		(1<<0)	/* chaining mode */
-+#define VIA_DMA_MR_TDIE		(1<<1)	/* transfer done interrupt enable */
-+#define VIA_DMA_MR_HENDMACMD		(1<<7) /* ? */
-+
-+/* CSR */
-+#define VIA_DMA_CSR_DE		(1<<0)	/* DMA enable */
-+#define VIA_DMA_CSR_TS		(1<<1)	/* transfer start */
-+#define VIA_DMA_CSR_TA		(1<<2)	/* transfer abort */
-+#define VIA_DMA_CSR_TD		(1<<3)	/* transfer done */
-+#define VIA_DMA_CSR_DD		(1<<4)	/* descriptor done */
-+#define VIA_DMA_DPR_EC          (1<<1)  /* end of chain */
-+
- /*
-  * Device-specific IRQs go here. This type might need to be extended with
-  * the register if there are multiple IRQ control registers.
-@@ -127,6 +184,735 @@ static int via_num_unichrome = ARRAY_SIZE(via_unichrome_irqs);
- static int via_irqmap_unichrome[] = {-1, -1, -1, 0, -1, 1};
- 
++typedef enum {
++	no_check = 0,
++	check_for_header2,
++	check_for_header1,
++	check_for_header2_err,
++	check_for_header1_err,
++	check_for_fire,
++	check_z_buffer_addr0,
++	check_z_buffer_addr1,
++	check_z_buffer_addr_mode,
++	check_destination_addr0,
++	check_destination_addr1,
++	check_destination_addr_mode,
++	check_for_dummy,
++	check_for_dd,
++	check_texture_addr0,
++	check_texture_addr1,
++	check_texture_addr2,
++	check_texture_addr3,
++	check_texture_addr4,
++	check_texture_addr5,
++	check_texture_addr6,
++	check_texture_addr7,
++	check_texture_addr8,
++	check_texture_addr_mode,
++	check_for_vertex_count,
++	check_number_texunits,
++	forbidden_command
++} hazard_t;
  
 +/*
-+ * Unmaps the DMA mappings.
-+ * FIXME: Is this a NoOp on x86? Also
-+ * FIXME: What happens if this one is called and a pending blit has previously done
-+ * the same DMA mappings?
++ * Associates each hazard above with a possible multi-command
++ * sequence. For example an address that is split over multiple
++ * commands and that needs to be checked at the first command
++ * that does not include any part of the address.
 + */
-+#define VIA_PGDN(x)	     (((unsigned long)(x)) & PAGE_MASK)
-+#define VIA_PGOFF(x)	    (((unsigned long)(x)) & ~PAGE_MASK)
-+#define VIA_PFN(x)	      ((unsigned long)(x) >> PAGE_SHIFT)
 +
-+typedef struct _drm_via_descriptor {
-+	uint32_t mem_addr;
-+	uint32_t dev_addr;
-+	uint32_t size;
-+	uint32_t next;
-+} drm_via_descriptor_t;
++static drm_via_sequence_t seqs[] = {
++	no_sequence,
++	no_sequence,
++	no_sequence,
++	no_sequence,
++	no_sequence,
++	no_sequence,
++	z_address,
++	z_address,
++	z_address,
++	dest_address,
++	dest_address,
++	dest_address,
++	no_sequence,
++	no_sequence,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	tex_address,
++	no_sequence
++};
 +
++typedef struct {
++	unsigned int code;
++	hazard_t hz;
++} hz_init_t;
 +
-+/*
-+ * Unmap a DMA mapping.
-+ */
-+static void
-+via_unmap_blit_from_device(struct pci_dev *pdev, drm_via_sg_info_t *vsg)
++static hz_init_t init_table1[] = {
++	{0xf2, check_for_header2_err},
++	{0xf0, check_for_header1_err},
++	{0xee, check_for_fire},
++	{0xcc, check_for_dummy},
++	{0xdd, check_for_dd},
++	{0x00, no_check},
++	{0x10, check_z_buffer_addr0},
++	{0x11, check_z_buffer_addr1},
++	{0x12, check_z_buffer_addr_mode},
++	{0x13, no_check},
++	{0x14, no_check},
++	{0x15, no_check},
++	{0x23, no_check},
++	{0x24, no_check},
++	{0x33, no_check},
++	{0x34, no_check},
++	{0x35, no_check},
++	{0x36, no_check},
++	{0x37, no_check},
++	{0x38, no_check},
++	{0x39, no_check},
++	{0x3A, no_check},
++	{0x3B, no_check},
++	{0x3C, no_check},
++	{0x3D, no_check},
++	{0x3E, no_check},
++	{0x40, check_destination_addr0},
++	{0x41, check_destination_addr1},
++	{0x42, check_destination_addr_mode},
++	{0x43, no_check},
++	{0x44, no_check},
++	{0x50, no_check},
++	{0x51, no_check},
++	{0x52, no_check},
++	{0x53, no_check},
++	{0x54, no_check},
++	{0x55, no_check},
++	{0x56, no_check},
++	{0x57, no_check},
++	{0x58, no_check},
++	{0x70, no_check},
++	{0x71, no_check},
++	{0x78, no_check},
++	{0x79, no_check},
++	{0x7A, no_check},
++	{0x7B, no_check},
++	{0x7C, no_check},
++	{0x7D, check_for_vertex_count}
++};
++
++static hz_init_t init_table2[] = {
++	{0xf2, check_for_header2_err},
++	{0xf0, check_for_header1_err},
++	{0xee, check_for_fire},
++	{0xcc, check_for_dummy},
++	{0x00, check_texture_addr0},
++	{0x01, check_texture_addr0},
++	{0x02, check_texture_addr0},
++	{0x03, check_texture_addr0},
++	{0x04, check_texture_addr0},
++	{0x05, check_texture_addr0},
++	{0x06, check_texture_addr0},
++	{0x07, check_texture_addr0},
++	{0x08, check_texture_addr0},
++	{0x09, check_texture_addr0},
++	{0x20, check_texture_addr1},
++	{0x21, check_texture_addr1},
++	{0x22, check_texture_addr1},
++	{0x23, check_texture_addr4},
++	{0x2B, check_texture_addr3},
++	{0x2C, check_texture_addr3},
++	{0x2D, check_texture_addr3},
++	{0x2E, check_texture_addr3},
++	{0x2F, check_texture_addr3},
++	{0x30, check_texture_addr3},
++	{0x31, check_texture_addr3},
++	{0x32, check_texture_addr3},
++	{0x33, check_texture_addr3},
++	{0x34, check_texture_addr3},
++	{0x4B, check_texture_addr5},
++	{0x4C, check_texture_addr6},
++	{0x51, check_texture_addr7},
++	{0x52, check_texture_addr8},
++	{0x77, check_texture_addr2},
++	{0x78, no_check},
++	{0x79, no_check},
++	{0x7A, no_check},
++	{0x7B, check_texture_addr_mode},
++	{0x7C, no_check},
++	{0x7D, no_check},
++	{0x7E, no_check},
++	{0x7F, no_check},
++	{0x80, no_check},
++	{0x81, no_check},
++	{0x82, no_check},
++	{0x83, no_check},
++	{0x85, no_check},
++	{0x86, no_check},
++	{0x87, no_check},
++	{0x88, no_check},
++	{0x89, no_check},
++	{0x8A, no_check},
++	{0x90, no_check},
++	{0x91, no_check},
++	{0x92, no_check},
++	{0x93, no_check}
++};
++
++static hz_init_t init_table3[] = {
++	{0xf2, check_for_header2_err},
++	{0xf0, check_for_header1_err},
++	{0xcc, check_for_dummy},
++	{0x00, check_number_texunits}
++};
++
++static hazard_t table1[256];
++static hazard_t table2[256];
++static hazard_t table3[256];
++
++static __inline__ int
++eat_words(const uint32_t **buf, const uint32_t *buf_end, unsigned num_words)
 +{
-+	int num_desc = vsg->num_desc;
-+	unsigned cur_descriptor_page = num_desc / vsg->descriptors_per_page;
-+	unsigned descriptor_this_page = num_desc % vsg->descriptors_per_page;
-+	drm_via_descriptor_t *desc_ptr = vsg->desc_pages[cur_descriptor_page] +
-+		descriptor_this_page;
-+	dma_addr_t next = vsg->chain_start;
-+
-+	while (num_desc--) {
-+		if (descriptor_this_page-- == 0) {
-+			cur_descriptor_page--;
-+			descriptor_this_page = vsg->descriptors_per_page - 1;
-+			desc_ptr = vsg->desc_pages[cur_descriptor_page] +
-+				descriptor_this_page;
-+		}
-+		dma_unmap_single(&pdev->dev, next, sizeof(*desc_ptr), DMA_TO_DEVICE);
-+		dma_unmap_page(&pdev->dev, desc_ptr->mem_addr, desc_ptr->size, vsg->direction);
-+		next = (dma_addr_t) desc_ptr->next;
-+		desc_ptr--;
++	if ((buf_end - *buf) >= num_words) {
++		*buf += num_words;
++		return 0;
 +	}
++	DRM_ERROR("Illegal termination of DMA command buffer\n");
++	return 1;
 +}
 +
 +/*
-+ * If mode = 0, count how many descriptors are needed.
-+ * If mode = 1, Map the DMA pages for the device, put together and map also the descriptors.
-+ * Descriptors are run in reverse order by the hardware because we are not allowed to update the
-+ * 'next' field without syncing calls when the descriptor is already mapped.
++ * Partially stolen from drm_memory.h
 + */
-+static void
-+via_map_blit_for_device(struct pci_dev *pdev,
-+		   const drm_via_dmablit_t *xfer,
-+		   drm_via_sg_info_t *vsg,
-+		   int mode)
++
++static __inline__ drm_local_map_t *via_drm_lookup_agp_map(drm_via_state_t *seq,
++						    unsigned long offset,
++						    unsigned long size,
++						    struct drm_device *dev)
 +{
-+	unsigned cur_descriptor_page = 0;
-+	unsigned num_descriptors_this_page = 0;
-+	unsigned char *mem_addr = xfer->mem_addr;
-+	unsigned char *cur_mem;
-+	unsigned char *first_addr = (unsigned char *)VIA_PGDN(mem_addr);
-+	uint32_t fb_addr = xfer->fb_addr;
-+	uint32_t cur_fb;
-+	unsigned long line_len;
-+	unsigned remaining_len;
-+	int num_desc = 0;
-+	int cur_line;
-+	dma_addr_t next = 0 | VIA_DMA_DPR_EC;
-+	drm_via_descriptor_t *desc_ptr = NULL;
++	struct drm_map_list *r_list;
++	drm_local_map_t *map = seq->map_cache;
 +
-+	if (mode == 1)
-+		desc_ptr = vsg->desc_pages[cur_descriptor_page];
++	if (map && map->offset <= offset
++	    && (offset + size) <= (map->offset + map->size)) {
++		return map;
++	}
 +
-+	for (cur_line = 0; cur_line < xfer->num_lines; ++cur_line) {
++	list_for_each_entry(r_list, &dev->maplist, head) {
++		map = r_list->map;
++		if (!map)
++			continue;
++		if (map->offset <= offset
++		    && (offset + size) <= (map->offset + map->size)
++		    && !(map->flags & _DRM_RESTRICTED)
++		    && (map->type == _DRM_AGP)) {
++			seq->map_cache = map;
++			return map;
++		}
++	}
++	return NULL;
++}
 +
-+		line_len = xfer->line_length;
-+		cur_fb = fb_addr;
-+		cur_mem = mem_addr;
++/*
++ * Require that all AGP texture levels reside in the same AGP map which should
++ * be mappable by the client. This is not a big restriction.
++ * FIXME: To actually enforce this security policy strictly, drm_rmmap
++ * would have to wait for dma quiescent before removing an AGP map.
++ * The via_drm_lookup_agp_map call in reality seems to take
++ * very little CPU time.
++ */
 +
-+		while (line_len > 0) {
++static __inline__ int finish_current_sequence(drm_via_state_t * cur_seq)
++{
++	switch (cur_seq->unfinished) {
++	case z_address:
++		DRM_DEBUG("Z Buffer start address is 0x%x\n", cur_seq->z_addr);
++		break;
++	case dest_address:
++		DRM_DEBUG("Destination start address is 0x%x\n",
++			  cur_seq->d_addr);
++		break;
++	case tex_address:
++		if (cur_seq->agp_texture) {
++			unsigned start =
++			    cur_seq->tex_level_lo[cur_seq->texture];
++			unsigned end = cur_seq->tex_level_hi[cur_seq->texture];
++			unsigned long lo = ~0, hi = 0, tmp;
++			uint32_t *addr, *pitch, *height, tex;
++			unsigned i;
++			int npot;
 +
-+			remaining_len = min(PAGE_SIZE-VIA_PGOFF(cur_mem), line_len);
-+			line_len -= remaining_len;
++			if (end > 9)
++				end = 9;
++			if (start > 9)
++				start = 9;
 +
-+			if (mode == 1) {
-+				desc_ptr->mem_addr =
-+					dma_map_page(&pdev->dev,
-+						     vsg->pages[VIA_PFN(cur_mem) -
-+								VIA_PFN(first_addr)],
-+						     VIA_PGOFF(cur_mem), remaining_len,
-+						     vsg->direction);
-+				desc_ptr->dev_addr = cur_fb;
-+
-+				desc_ptr->size = remaining_len;
-+				desc_ptr->next = (uint32_t) next;
-+				next = dma_map_single(&pdev->dev, desc_ptr, sizeof(*desc_ptr),
-+						      DMA_TO_DEVICE);
-+				desc_ptr++;
-+				if (++num_descriptors_this_page >= vsg->descriptors_per_page) {
-+					num_descriptors_this_page = 0;
-+					desc_ptr = vsg->desc_pages[++cur_descriptor_page];
-+				}
++			addr =
++			    &(cur_seq->t_addr[tex = cur_seq->texture][start]);
++			pitch = &(cur_seq->pitch[tex][start]);
++			height = &(cur_seq->height[tex][start]);
++			npot = cur_seq->tex_npot[tex];
++			for (i = start; i <= end; ++i) {
++				tmp = *addr++;
++				if (tmp < lo)
++					lo = tmp;
++				if (i == 0 && npot)
++					tmp += (*height++ * *pitch++);
++				else
++					tmp += (*height++ << *pitch++);
++				if (tmp > hi)
++					hi = tmp;
 +			}
 +
-+			num_desc++;
-+			cur_mem += remaining_len;
-+			cur_fb += remaining_len;
++			if (!via_drm_lookup_agp_map
++			    (cur_seq, lo, hi - lo, cur_seq->dev)) {
++				DRM_ERROR
++				    ("AGP texture is not in allowed map\n");
++				return 2;
++			}
 +		}
-+
-+		mem_addr += xfer->mem_stride;
-+		fb_addr += xfer->fb_stride;
-+	}
-+
-+	if (mode == 1) {
-+		vsg->chain_start = next;
-+		vsg->state = dr_via_device_mapped;
-+	}
-+	vsg->num_desc = num_desc;
-+}
-+
-+/*
-+ * Function that frees up all resources for a blit. It is usable even if the
-+ * blit info has only been partially built as long as the status enum is consistent
-+ * with the actual status of the used resources.
-+ */
-+static void
-+via_free_sg_info(struct pci_dev *pdev, drm_via_sg_info_t *vsg)
-+{
-+	int i;
-+
-+	switch (vsg->state) {
-+	case dr_via_device_mapped:
-+		via_unmap_blit_from_device(pdev, vsg);
-+		fallthrough;
-+	case dr_via_desc_pages_alloc:
-+		for (i = 0; i < vsg->num_desc_pages; ++i) {
-+			if (vsg->desc_pages[i] != NULL)
-+				free_page((unsigned long)vsg->desc_pages[i]);
-+		}
-+		kfree(vsg->desc_pages);
-+		fallthrough;
-+	case dr_via_pages_locked:
-+		unpin_user_pages_dirty_lock(vsg->pages, vsg->num_pages,
-+					   (vsg->direction == DMA_FROM_DEVICE));
-+		fallthrough;
-+	case dr_via_pages_alloc:
-+		vfree(vsg->pages);
-+		fallthrough;
++		break;
 +	default:
-+		vsg->state = dr_via_sg_init;
++		break;
 +	}
-+	vfree(vsg->bounce_buffer);
-+	vsg->bounce_buffer = NULL;
-+	vsg->free_on_sequence = 0;
++	cur_seq->unfinished = no_sequence;
++	return 0;
 +}
 +
-+/*
-+ * Fire a blit engine.
-+ */
-+static void
-+via_fire_dmablit(struct drm_device *dev, drm_via_sg_info_t *vsg, int engine)
++static __inline__ int
++investigate_hazard(uint32_t cmd, hazard_t hz, drm_via_state_t *cur_seq)
 +{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
++	register uint32_t tmp, *tmp_addr;
 +
-+	via_write(dev_priv, VIA_PCI_DMA_MAR0 + engine*0x10, 0);
-+	via_write(dev_priv, VIA_PCI_DMA_DAR0 + engine*0x10, 0);
-+	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_DD | VIA_DMA_CSR_TD |
-+		  VIA_DMA_CSR_DE);
-+	via_write(dev_priv, VIA_PCI_DMA_MR0  + engine*0x04, VIA_DMA_MR_CM | VIA_DMA_MR_TDIE);
-+	via_write(dev_priv, VIA_PCI_DMA_BCR0 + engine*0x10, 0);
-+	via_write(dev_priv, VIA_PCI_DMA_DPR0 + engine*0x10, vsg->chain_start);
-+	wmb();
-+	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_DE | VIA_DMA_CSR_TS);
-+	via_read(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04);
-+}
-+
-+/*
-+ * Obtain a page pointer array and lock all pages into system memory. A segmentation violation will
-+ * occur here if the calling user does not have access to the submitted address.
-+ */
-+static int
-+via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_via_dmablit_t *xfer)
-+{
-+	int ret;
-+	unsigned long first_pfn = VIA_PFN(xfer->mem_addr);
-+	vsg->num_pages = VIA_PFN(xfer->mem_addr + (xfer->num_lines * xfer->mem_stride - 1)) -
-+		first_pfn + 1;
-+
-+	vsg->pages = vzalloc(array_size(sizeof(struct page *), vsg->num_pages));
-+	if (NULL == vsg->pages)
-+		return -ENOMEM;
-+	ret = pin_user_pages_fast((unsigned long)xfer->mem_addr,
-+			vsg->num_pages,
-+			vsg->direction == DMA_FROM_DEVICE ? FOLL_WRITE : 0,
-+			vsg->pages);
-+	if (ret != vsg->num_pages) {
-+		if (ret < 0)
++	if (cur_seq->unfinished && (cur_seq->unfinished != seqs[hz])) {
++		int ret;
++		if ((ret = finish_current_sequence(cur_seq)))
 +			return ret;
-+		vsg->state = dr_via_pages_locked;
-+		return -EINVAL;
-+	}
-+	vsg->state = dr_via_pages_locked;
-+	DRM_DEBUG("DMA pages locked\n");
-+	return 0;
-+}
-+
-+/*
-+ * Allocate DMA capable memory for the blit descriptor chain, and an array that keeps track of the
-+ * pages we allocate. We don't want to use kmalloc for the descriptor chain because it may be
-+ * quite large for some blits, and pages don't need to be contiguous.
-+ */
-+static int
-+via_alloc_desc_pages(drm_via_sg_info_t *vsg)
-+{
-+	int i;
-+
-+	vsg->descriptors_per_page = PAGE_SIZE / sizeof(drm_via_descriptor_t);
-+	vsg->num_desc_pages = (vsg->num_desc + vsg->descriptors_per_page - 1) /
-+		vsg->descriptors_per_page;
-+
-+	if (NULL ==  (vsg->desc_pages = kcalloc(vsg->num_desc_pages, sizeof(void *), GFP_KERNEL)))
-+		return -ENOMEM;
-+
-+	vsg->state = dr_via_desc_pages_alloc;
-+	for (i = 0; i < vsg->num_desc_pages; ++i) {
-+		if (NULL == (vsg->desc_pages[i] =
-+			     (drm_via_descriptor_t *) __get_free_page(GFP_KERNEL)))
-+			return -ENOMEM;
-+	}
-+	DRM_DEBUG("Allocated %d pages for %d descriptors.\n", vsg->num_desc_pages,
-+		  vsg->num_desc);
-+	return 0;
-+}
-+
-+static void
-+via_abort_dmablit(struct drm_device *dev, int engine)
-+{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
-+
-+	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_TA);
-+}
-+
-+static void
-+via_dmablit_engine_off(struct drm_device *dev, int engine)
-+{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
-+
-+	via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04, VIA_DMA_CSR_TD | VIA_DMA_CSR_DD);
-+}
-+
-+/*
-+ * The dmablit part of the IRQ handler. Trying to do only reasonably fast things here.
-+ * The rest, like unmapping and freeing memory for done blits is done in a separate workqueue
-+ * task. Basically the task of the interrupt handler is to submit a new blit to the engine, while
-+ * the workqueue task takes care of processing associated with the old blit.
-+ */
-+static void
-+via_dmablit_handler(struct drm_device *dev, int engine, int from_irq)
-+{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
-+	drm_via_blitq_t *blitq = dev_priv->blit_queues + engine;
-+	int cur;
-+	int done_transfer;
-+	unsigned long irqsave = 0;
-+	uint32_t status = 0;
-+
-+	DRM_DEBUG("DMA blit handler called. engine = %d, from_irq = %d, blitq = 0x%lx\n",
-+		  engine, from_irq, (unsigned long) blitq);
-+
-+	if (from_irq)
-+		spin_lock(&blitq->blit_lock);
-+	else
-+		spin_lock_irqsave(&blitq->blit_lock, irqsave);
-+
-+	done_transfer = blitq->is_active &&
-+	  ((status = via_read(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04)) & VIA_DMA_CSR_TD);
-+	done_transfer = done_transfer || (blitq->aborting && !(status & VIA_DMA_CSR_DE));
-+
-+	cur = blitq->cur;
-+	if (done_transfer) {
-+
-+		blitq->blits[cur]->aborted = blitq->aborting;
-+		blitq->done_blit_handle++;
-+		wake_up(blitq->blit_queue + cur);
-+
-+		cur++;
-+		if (cur >= VIA_NUM_BLIT_SLOTS)
-+			cur = 0;
-+		blitq->cur = cur;
-+
-+		/*
-+		 * Clear transfer done flag.
-+		 */
-+
-+		via_write(dev_priv, VIA_PCI_DMA_CSR0 + engine*0x04,  VIA_DMA_CSR_TD);
-+
-+		blitq->is_active = 0;
-+		blitq->aborting = 0;
-+		schedule_work(&blitq->wq);
-+
-+	} else if (blitq->is_active && time_after_eq(jiffies, blitq->end)) {
-+
-+		/*
-+		 * Abort transfer after one second.
-+		 */
-+
-+		via_abort_dmablit(dev, engine);
-+		blitq->aborting = 1;
-+		blitq->end = jiffies + HZ;
 +	}
 +
-+	if (!blitq->is_active) {
-+		if (blitq->num_outstanding) {
-+			via_fire_dmablit(dev, blitq->blits[cur], engine);
-+			blitq->is_active = 1;
-+			blitq->cur = cur;
-+			blitq->num_outstanding--;
-+			blitq->end = jiffies + HZ;
-+			if (!timer_pending(&blitq->poll_timer))
-+				mod_timer(&blitq->poll_timer, jiffies + 1);
++	switch (hz) {
++	case check_for_header2:
++		if (cmd == HALCYON_HEADER2)
++			return 1;
++		return 0;
++	case check_for_header1:
++		if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
++			return 1;
++		return 0;
++	case check_for_header2_err:
++		if (cmd == HALCYON_HEADER2)
++			return 1;
++		DRM_ERROR("Illegal DMA HALCYON_HEADER2 command\n");
++		break;
++	case check_for_header1_err:
++		if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
++			return 1;
++		DRM_ERROR("Illegal DMA HALCYON_HEADER1 command\n");
++		break;
++	case check_for_fire:
++		if ((cmd & HALCYON_FIREMASK) == HALCYON_FIRECMD)
++			return 1;
++		DRM_ERROR("Illegal DMA HALCYON_FIRECMD command\n");
++		break;
++	case check_for_dummy:
++		if (HC_DUMMY == cmd)
++			return 0;
++		DRM_ERROR("Illegal DMA HC_DUMMY command\n");
++		break;
++	case check_for_dd:
++		if (0xdddddddd == cmd)
++			return 0;
++		DRM_ERROR("Illegal DMA 0xdddddddd command\n");
++		break;
++	case check_z_buffer_addr0:
++		cur_seq->unfinished = z_address;
++		cur_seq->z_addr = (cur_seq->z_addr & 0xFF000000) |
++		    (cmd & 0x00FFFFFF);
++		return 0;
++	case check_z_buffer_addr1:
++		cur_seq->unfinished = z_address;
++		cur_seq->z_addr = (cur_seq->z_addr & 0x00FFFFFF) |
++		    ((cmd & 0xFF) << 24);
++		return 0;
++	case check_z_buffer_addr_mode:
++		cur_seq->unfinished = z_address;
++		if ((cmd & 0x0000C000) == 0)
++			return 0;
++		DRM_ERROR("Attempt to place Z buffer in system memory\n");
++		return 2;
++	case check_destination_addr0:
++		cur_seq->unfinished = dest_address;
++		cur_seq->d_addr = (cur_seq->d_addr & 0xFF000000) |
++		    (cmd & 0x00FFFFFF);
++		return 0;
++	case check_destination_addr1:
++		cur_seq->unfinished = dest_address;
++		cur_seq->d_addr = (cur_seq->d_addr & 0x00FFFFFF) |
++		    ((cmd & 0xFF) << 24);
++		return 0;
++	case check_destination_addr_mode:
++		cur_seq->unfinished = dest_address;
++		if ((cmd & 0x0000C000) == 0)
++			return 0;
++		DRM_ERROR
++		    ("Attempt to place 3D drawing buffer in system memory\n");
++		return 2;
++	case check_texture_addr0:
++		cur_seq->unfinished = tex_address;
++		tmp = (cmd >> 24);
++		tmp_addr = &cur_seq->t_addr[cur_seq->texture][tmp];
++		*tmp_addr = (*tmp_addr & 0xFF000000) | (cmd & 0x00FFFFFF);
++		return 0;
++	case check_texture_addr1:
++		cur_seq->unfinished = tex_address;
++		tmp = ((cmd >> 24) - 0x20);
++		tmp += tmp << 1;
++		tmp_addr = &cur_seq->t_addr[cur_seq->texture][tmp];
++		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF) << 24);
++		tmp_addr++;
++		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF00) << 16);
++		tmp_addr++;
++		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF0000) << 8);
++		return 0;
++	case check_texture_addr2:
++		cur_seq->unfinished = tex_address;
++		cur_seq->tex_level_lo[tmp = cur_seq->texture] = cmd & 0x3F;
++		cur_seq->tex_level_hi[tmp] = (cmd & 0xFC0) >> 6;
++		return 0;
++	case check_texture_addr3:
++		cur_seq->unfinished = tex_address;
++		tmp = ((cmd >> 24) - HC_SubA_HTXnL0Pit);
++		if (tmp == 0 &&
++		    (cmd & HC_HTXnEnPit_MASK)) {
++			cur_seq->pitch[cur_seq->texture][tmp] =
++				(cmd & HC_HTXnLnPit_MASK);
++			cur_seq->tex_npot[cur_seq->texture] = 1;
 +		} else {
-+			if (timer_pending(&blitq->poll_timer))
-+				del_timer(&blitq->poll_timer);
-+			via_dmablit_engine_off(dev, engine);
++			cur_seq->pitch[cur_seq->texture][tmp] =
++				(cmd & HC_HTXnLnPitE_MASK) >> HC_HTXnLnPitE_SHIFT;
++			cur_seq->tex_npot[cur_seq->texture] = 0;
++			if (cmd & 0x000FFFFF) {
++				DRM_ERROR
++					("Unimplemented texture level 0 pitch mode.\n");
++				return 2;
++			}
++		}
++		return 0;
++	case check_texture_addr4:
++		cur_seq->unfinished = tex_address;
++		tmp_addr = &cur_seq->t_addr[cur_seq->texture][9];
++		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF) << 24);
++		return 0;
++	case check_texture_addr5:
++	case check_texture_addr6:
++		cur_seq->unfinished = tex_address;
++		/*
++		 * Texture width. We don't care since we have the pitch.
++		 */
++		return 0;
++	case check_texture_addr7:
++		cur_seq->unfinished = tex_address;
++		tmp_addr = &(cur_seq->height[cur_seq->texture][0]);
++		tmp_addr[5] = 1 << ((cmd & 0x00F00000) >> 20);
++		tmp_addr[4] = 1 << ((cmd & 0x000F0000) >> 16);
++		tmp_addr[3] = 1 << ((cmd & 0x0000F000) >> 12);
++		tmp_addr[2] = 1 << ((cmd & 0x00000F00) >> 8);
++		tmp_addr[1] = 1 << ((cmd & 0x000000F0) >> 4);
++		tmp_addr[0] = 1 << (cmd & 0x0000000F);
++		return 0;
++	case check_texture_addr8:
++		cur_seq->unfinished = tex_address;
++		tmp_addr = &(cur_seq->height[cur_seq->texture][0]);
++		tmp_addr[9] = 1 << ((cmd & 0x0000F000) >> 12);
++		tmp_addr[8] = 1 << ((cmd & 0x00000F00) >> 8);
++		tmp_addr[7] = 1 << ((cmd & 0x000000F0) >> 4);
++		tmp_addr[6] = 1 << (cmd & 0x0000000F);
++		return 0;
++	case check_texture_addr_mode:
++		cur_seq->unfinished = tex_address;
++		if (2 == (tmp = cmd & 0x00000003)) {
++			DRM_ERROR
++			    ("Attempt to fetch texture from system memory.\n");
++			return 2;
++		}
++		cur_seq->agp_texture = (tmp == 3);
++		cur_seq->tex_palette_size[cur_seq->texture] =
++		    (cmd >> 16) & 0x000000007;
++		return 0;
++	case check_for_vertex_count:
++		cur_seq->vertex_count = cmd & 0x0000FFFF;
++		return 0;
++	case check_number_texunits:
++		cur_seq->multitex = (cmd >> 3) & 1;
++		return 0;
++	default:
++		DRM_ERROR("Illegal DMA data: 0x%x\n", cmd);
++		return 2;
++	}
++	return 2;
++}
++
++static __inline__ int
++via_check_prim_list(uint32_t const **buffer, const uint32_t * buf_end,
++		    drm_via_state_t *cur_seq)
++{
++	drm_via_private_t *dev_priv =
++	    (drm_via_private_t *) cur_seq->dev->dev_private;
++	uint32_t a_fire, bcmd, dw_count;
++	int ret = 0;
++	int have_fire;
++	const uint32_t *buf = *buffer;
++
++	while (buf < buf_end) {
++		have_fire = 0;
++		if ((buf_end - buf) < 2) {
++			DRM_ERROR
++			    ("Unexpected termination of primitive list.\n");
++			ret = 1;
++			break;
++		}
++		if ((*buf & HC_ACMD_MASK) != HC_ACMD_HCmdB)
++			break;
++		bcmd = *buf++;
++		if ((*buf & HC_ACMD_MASK) != HC_ACMD_HCmdA) {
++			DRM_ERROR("Expected Vertex List A command, got 0x%x\n",
++				  *buf);
++			ret = 1;
++			break;
++		}
++		a_fire =
++		    *buf++ | HC_HPLEND_MASK | HC_HPMValidN_MASK |
++		    HC_HE3Fire_MASK;
++
++		/*
++		 * How many dwords per vertex ?
++		 */
++
++		if (cur_seq->agp && ((bcmd & (0xF << 11)) == 0)) {
++			DRM_ERROR("Illegal B command vertex data for AGP.\n");
++			ret = 1;
++			break;
++		}
++
++		dw_count = 0;
++		if (bcmd & (1 << 7))
++			dw_count += (cur_seq->multitex) ? 2 : 1;
++		if (bcmd & (1 << 8))
++			dw_count += (cur_seq->multitex) ? 2 : 1;
++		if (bcmd & (1 << 9))
++			dw_count++;
++		if (bcmd & (1 << 10))
++			dw_count++;
++		if (bcmd & (1 << 11))
++			dw_count++;
++		if (bcmd & (1 << 12))
++			dw_count++;
++		if (bcmd & (1 << 13))
++			dw_count++;
++		if (bcmd & (1 << 14))
++			dw_count++;
++
++		while (buf < buf_end) {
++			if (*buf == a_fire) {
++				if (dev_priv->num_fire_offsets >=
++				    VIA_FIRE_BUF_SIZE) {
++					DRM_ERROR("Fire offset buffer full.\n");
++					ret = 1;
++					break;
++				}
++				dev_priv->fire_offsets[dev_priv->
++						       num_fire_offsets++] =
++				    buf;
++				have_fire = 1;
++				buf++;
++				if (buf < buf_end && *buf == a_fire)
++					buf++;
++				break;
++			}
++			if ((*buf == HALCYON_HEADER2) ||
++			    ((*buf & HALCYON_FIREMASK) == HALCYON_FIRECMD)) {
++				DRM_ERROR("Missing Vertex Fire command, "
++					  "Stray Vertex Fire command  or verifier "
++					  "lost sync.\n");
++				ret = 1;
++				break;
++			}
++			if ((ret = eat_words(&buf, buf_end, dw_count)))
++				break;
++		}
++		if (buf >= buf_end && !have_fire) {
++			DRM_ERROR("Missing Vertex Fire command or verifier "
++				  "lost sync.\n");
++			ret = 1;
++			break;
++		}
++		if (cur_seq->agp && ((buf - cur_seq->buf_start) & 0x01)) {
++			DRM_ERROR("AGP Primitive list end misaligned.\n");
++			ret = 1;
++			break;
 +		}
 +	}
-+
-+	if (from_irq)
-+		spin_unlock(&blitq->blit_lock);
-+	else
-+		spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+}
-+
-+/*
-+ * Check whether this blit is still active, performing necessary locking.
-+ */
-+static int
-+via_dmablit_active(drm_via_blitq_t *blitq, int engine, uint32_t handle, wait_queue_head_t **queue)
-+{
-+	unsigned long irqsave;
-+	uint32_t slot;
-+	int active;
-+
-+	spin_lock_irqsave(&blitq->blit_lock, irqsave);
-+
-+	/*
-+	 * Allow for handle wraparounds.
-+	 */
-+
-+	active = ((blitq->done_blit_handle - handle) > (1 << 23)) &&
-+		((blitq->cur_blit_handle - handle) <= (1 << 23));
-+
-+	if (queue && active) {
-+		slot = handle - blitq->done_blit_handle + blitq->cur - 1;
-+		if (slot >= VIA_NUM_BLIT_SLOTS)
-+			slot -= VIA_NUM_BLIT_SLOTS;
-+		*queue = blitq->blit_queue + slot;
-+	}
-+
-+	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+
-+	return active;
-+}
-+
-+/*
-+ * Sync. Wait for at least three seconds for the blit to be performed.
-+ */
-+static int
-+via_dmablit_sync(struct drm_device *dev, uint32_t handle, int engine)
-+{
-+
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
-+	drm_via_blitq_t *blitq = dev_priv->blit_queues + engine;
-+	wait_queue_head_t *queue;
-+	int ret = 0;
-+
-+	if (via_dmablit_active(blitq, engine, handle, &queue)) {
-+		VIA_WAIT_ON(ret, *queue, 3 * HZ,
-+			    !via_dmablit_active(blitq, engine, handle, NULL));
-+	}
-+	DRM_DEBUG("DMA blit sync handle 0x%x engine %d returned %d\n",
-+		  handle, engine, ret);
-+
++	*buffer = buf;
 +	return ret;
 +}
 +
-+/*
-+ * A timer that regularly polls the blit engine in cases where we don't have interrupts:
-+ * a) Broken hardware (typically those that don't have any video capture facility).
-+ * b) Blit abort. The hardware doesn't send an interrupt when a blit is aborted.
-+ * The timer and hardware IRQ's can and do work in parallel. If the hardware has
-+ * irqs, it will shorten the latency somewhat.
-+ */
-+static void
-+via_dmablit_timer(struct timer_list *t)
++static __inline__ verifier_state_t
++via_check_header2(uint32_t const **buffer, const uint32_t *buf_end,
++		  drm_via_state_t *hc_state)
 +{
-+	drm_via_blitq_t *blitq = from_timer(blitq, t, poll_timer);
-+	struct drm_device *dev = blitq->dev;
-+	int engine = (int)
-+		(blitq - ((drm_via_private_t *)dev->dev_private)->blit_queues);
++	uint32_t cmd;
++	int hz_mode;
++	hazard_t hz;
++	const uint32_t *buf = *buffer;
++	const hazard_t *hz_table;
 +
-+	DRM_DEBUG("Polling timer called for engine %d, jiffies %lu\n", engine,
-+		  (unsigned long) jiffies);
-+
-+	via_dmablit_handler(dev, engine, 0);
-+
-+	if (!timer_pending(&blitq->poll_timer)) {
-+		mod_timer(&blitq->poll_timer, jiffies + 1);
-+
-+	       /*
-+		* Rerun handler to delete timer if engines are off, and
-+		* to shorten abort latency. This is a little nasty.
-+		*/
-+
-+	       via_dmablit_handler(dev, engine, 0);
-+
++	if ((buf_end - buf) < 2) {
++		DRM_ERROR
++		    ("Illegal termination of DMA HALCYON_HEADER2 sequence.\n");
++		return state_error;
 +	}
++	buf++;
++	cmd = (*buf++ & 0xFFFF0000) >> 16;
++
++	switch (cmd) {
++	case HC_ParaType_CmdVdata:
++		if (via_check_prim_list(&buf, buf_end, hc_state))
++			return state_error;
++		*buffer = buf;
++		return state_command;
++	case HC_ParaType_NotTex:
++		hz_table = table1;
++		break;
++	case HC_ParaType_Tex:
++		hc_state->texture = 0;
++		hz_table = table2;
++		break;
++	case (HC_ParaType_Tex | (HC_SubType_Tex1 << 8)):
++		hc_state->texture = 1;
++		hz_table = table2;
++		break;
++	case (HC_ParaType_Tex | (HC_SubType_TexGeneral << 8)):
++		hz_table = table3;
++		break;
++	case HC_ParaType_Auto:
++		if (eat_words(&buf, buf_end, 2))
++			return state_error;
++		*buffer = buf;
++		return state_command;
++	case (HC_ParaType_Palette | (HC_SubType_Stipple << 8)):
++		if (eat_words(&buf, buf_end, 32))
++			return state_error;
++		*buffer = buf;
++		return state_command;
++	case (HC_ParaType_Palette | (HC_SubType_TexPalette0 << 8)):
++	case (HC_ParaType_Palette | (HC_SubType_TexPalette1 << 8)):
++		DRM_ERROR("Texture palettes are rejected because of "
++			  "lack of info how to determine their size.\n");
++		return state_error;
++	case (HC_ParaType_Palette | (HC_SubType_FogTable << 8)):
++		DRM_ERROR("Fog factor palettes are rejected because of "
++			  "lack of info how to determine their size.\n");
++		return state_error;
++	default:
++
++		/*
++		 * There are some unimplemented HC_ParaTypes here, that
++		 * need to be implemented if the Mesa driver is extended.
++		 */
++
++		DRM_ERROR("Invalid or unimplemented HALCYON_HEADER2 "
++			  "DMA subcommand: 0x%x. Previous dword: 0x%x\n",
++			  cmd, *(buf - 2));
++		*buffer = buf;
++		return state_error;
++	}
++
++	while (buf < buf_end) {
++		cmd = *buf++;
++		if ((hz = hz_table[cmd >> 24])) {
++			if ((hz_mode = investigate_hazard(cmd, hz, hc_state))) {
++				if (hz_mode == 1) {
++					buf--;
++					break;
++				}
++				return state_error;
++			}
++		} else if (hc_state->unfinished &&
++			   finish_current_sequence(hc_state)) {
++			return state_error;
++		}
++	}
++	if (hc_state->unfinished && finish_current_sequence(hc_state))
++		return state_error;
++	*buffer = buf;
++	return state_command;
 +}
 +
-+/*
-+ * Workqueue task that frees data and mappings associated with a blit.
-+ * Also wakes up waiting processes. Each of these tasks handles one
-+ * blit engine only and may not be called on each interrupt.
-+ */
-+static void
-+via_dmablit_workqueue(struct work_struct *work)
++static __inline__ verifier_state_t
++via_parse_header2(drm_via_private_t *dev_priv, uint32_t const **buffer,
++		  const uint32_t *buf_end, int *fire_count)
 +{
-+	drm_via_blitq_t *blitq = container_of(work, drm_via_blitq_t, wq);
-+	struct drm_device *dev = blitq->dev;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	unsigned long irqsave;
-+	drm_via_sg_info_t *cur_sg;
-+	int cur_released;
++	uint32_t cmd;
++	const uint32_t *buf = *buffer;
++	const uint32_t *next_fire;
++	int burst = 0;
 +
++	next_fire = dev_priv->fire_offsets[*fire_count];
++	buf++;
++	cmd = (*buf & 0xFFFF0000) >> 16;
++	via_write(dev_priv, HC_REG_TRANS_SET + HC_REG_BASE, *buf++);
++	switch (cmd) {
++	case HC_ParaType_CmdVdata:
++		while ((buf < buf_end) &&
++		       (*fire_count < dev_priv->num_fire_offsets) &&
++		       (*buf & HC_ACMD_MASK) == HC_ACMD_HCmdB) {
++			while (buf <= next_fire) {
++				via_write(dev_priv, HC_REG_TRANS_SPACE + HC_REG_BASE +
++					  (burst & 63), *buf++);
++				burst += 4;
++			}
++			if ((buf < buf_end)
++			    && ((*buf & HALCYON_FIREMASK) == HALCYON_FIRECMD))
++				buf++;
 +
-+	DRM_DEBUG("Workqueue task called for blit engine %ld\n", (unsigned long)
-+		  (blitq - ((drm_via_private_t *)dev->dev_private)->blit_queues));
++			if (++(*fire_count) < dev_priv->num_fire_offsets)
++				next_fire = dev_priv->fire_offsets[*fire_count];
++		}
++		break;
++	default:
++		while (buf < buf_end) {
 +
-+	spin_lock_irqsave(&blitq->blit_lock, irqsave);
++			if (*buf == HC_HEADER2 ||
++			    (*buf & HALCYON_HEADER1MASK) == HALCYON_HEADER1 ||
++			    (*buf & VIA_VIDEOMASK) == VIA_VIDEO_HEADER5 ||
++			    (*buf & VIA_VIDEOMASK) == VIA_VIDEO_HEADER6)
++				break;
 +
-+	while (blitq->serviced != blitq->cur) {
-+
-+		cur_released = blitq->serviced++;
-+
-+		DRM_DEBUG("Releasing blit slot %d\n", cur_released);
-+
-+		if (blitq->serviced >= VIA_NUM_BLIT_SLOTS)
-+			blitq->serviced = 0;
-+
-+		cur_sg = blitq->blits[cur_released];
-+		blitq->num_free++;
-+
-+		spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+
-+		wake_up(&blitq->busy_queue);
-+
-+		via_free_sg_info(pdev, cur_sg);
-+		kfree(cur_sg);
-+
-+		spin_lock_irqsave(&blitq->blit_lock, irqsave);
++			via_write(dev_priv, HC_REG_TRANS_SPACE + HC_REG_BASE +
++				  (burst & 63), *buf++);
++			burst += 4;
++		}
 +	}
-+
-+	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
++	*buffer = buf;
++	return state_command;
 +}
 +
-+/*
-+ * Init all blit engines. Currently we use two, but some hardware have 4.
-+ */
-+static void
-+via_init_dmablit(struct drm_device *dev)
++static __inline__ int verify_mmio_address(uint32_t address)
 +{
-+	int i, j;
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	drm_via_blitq_t *blitq;
-+
-+	pci_set_master(pdev);
-+
-+	for (i = 0; i < VIA_NUM_BLIT_ENGINES; ++i) {
-+		blitq = dev_priv->blit_queues + i;
-+		blitq->dev = dev;
-+		blitq->cur_blit_handle = 0;
-+		blitq->done_blit_handle = 0;
-+		blitq->head = 0;
-+		blitq->cur = 0;
-+		blitq->serviced = 0;
-+		blitq->num_free = VIA_NUM_BLIT_SLOTS - 1;
-+		blitq->num_outstanding = 0;
-+		blitq->is_active = 0;
-+		blitq->aborting = 0;
-+		spin_lock_init(&blitq->blit_lock);
-+		for (j = 0; j < VIA_NUM_BLIT_SLOTS; ++j)
-+			init_waitqueue_head(blitq->blit_queue + j);
-+		init_waitqueue_head(&blitq->busy_queue);
-+		INIT_WORK(&blitq->wq, via_dmablit_workqueue);
-+		timer_setup(&blitq->poll_timer, via_dmablit_timer, 0);
++	if ((address > 0x3FF) && (address < 0xC00)) {
++		DRM_ERROR("Invalid VIDEO DMA command. "
++			  "Attempt to access 3D- or command burst area.\n");
++		return 1;
++	} else if ((address > 0xCFF) && (address < 0x1300)) {
++		DRM_ERROR("Invalid VIDEO DMA command. "
++			  "Attempt to access PCI DMA area.\n");
++		return 1;
++	} else if (address > 0x13FF) {
++		DRM_ERROR("Invalid VIDEO DMA command. "
++			  "Attempt to access VGA registers.\n");
++		return 1;
 +	}
-+}
-+
-+/*
-+ * Build all info and do all mappings required for a blit.
-+ */
-+static int
-+via_build_sg_info(struct drm_device *dev, drm_via_sg_info_t *vsg, drm_via_dmablit_t *xfer)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	int draw = xfer->to_fb;
-+	int ret = 0;
-+
-+	vsg->direction = (draw) ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+	vsg->bounce_buffer = NULL;
-+
-+	vsg->state = dr_via_sg_init;
-+
-+	if (xfer->num_lines <= 0 || xfer->line_length <= 0) {
-+		DRM_ERROR("Zero size bitblt.\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * Below check is a driver limitation, not a hardware one. We
-+	 * don't want to lock unused pages, and don't want to incoporate the
-+	 * extra logic of avoiding them. Make sure there are no.
-+	 * (Not a big limitation anyway.)
-+	 */
-+
-+	if ((xfer->mem_stride - xfer->line_length) > 2*PAGE_SIZE) {
-+		DRM_ERROR("Too large system memory stride. Stride: %d, "
-+			  "Length: %d\n", xfer->mem_stride, xfer->line_length);
-+		return -EINVAL;
-+	}
-+
-+	if ((xfer->mem_stride == xfer->line_length) &&
-+	   (xfer->fb_stride == xfer->line_length)) {
-+		xfer->mem_stride *= xfer->num_lines;
-+		xfer->line_length = xfer->mem_stride;
-+		xfer->fb_stride = xfer->mem_stride;
-+		xfer->num_lines = 1;
-+	}
-+
-+	/*
-+	 * Don't lock an arbitrary large number of pages, since that causes a
-+	 * DOS security hole.
-+	 */
-+
-+	if (xfer->num_lines > 2048 || (xfer->num_lines*xfer->mem_stride > (2048*2048*4))) {
-+		DRM_ERROR("Too large PCI DMA bitblt.\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * we allow a negative fb stride to allow flipping of images in
-+	 * transfer.
-+	 */
-+
-+	if (xfer->mem_stride < xfer->line_length ||
-+		abs(xfer->fb_stride) < xfer->line_length) {
-+		DRM_ERROR("Invalid frame-buffer / memory stride.\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * A hardware bug seems to be worked around if system memory addresses start on
-+	 * 16 byte boundaries. This seems a bit restrictive however. VIA is contacted
-+	 * about this. Meanwhile, impose the following restrictions:
-+	 */
-+
-+#ifdef VIA_BUGFREE
-+	if ((((unsigned long)xfer->mem_addr & 3) != ((unsigned long)xfer->fb_addr & 3)) ||
-+	    ((xfer->num_lines > 1) && ((xfer->mem_stride & 3) != (xfer->fb_stride & 3)))) {
-+		DRM_ERROR("Invalid DRM bitblt alignment.\n");
-+		return -EINVAL;
-+	}
-+#else
-+	if ((((unsigned long)xfer->mem_addr & 15) ||
-+	      ((unsigned long)xfer->fb_addr & 3)) ||
-+	   ((xfer->num_lines > 1) &&
-+	   ((xfer->mem_stride & 15) || (xfer->fb_stride & 3)))) {
-+		DRM_ERROR("Invalid DRM bitblt alignment.\n");
-+		return -EINVAL;
-+	}
-+#endif
-+
-+	if (0 != (ret = via_lock_all_dma_pages(vsg, xfer))) {
-+		DRM_ERROR("Could not lock DMA pages.\n");
-+		via_free_sg_info(pdev, vsg);
-+		return ret;
-+	}
-+
-+	via_map_blit_for_device(pdev, xfer, vsg, 0);
-+	if (0 != (ret = via_alloc_desc_pages(vsg))) {
-+		DRM_ERROR("Could not allocate DMA descriptor pages.\n");
-+		via_free_sg_info(pdev, vsg);
-+		return ret;
-+	}
-+	via_map_blit_for_device(pdev, xfer, vsg, 1);
-+
 +	return 0;
 +}
 +
-+/*
-+ * Reserve one free slot in the blit queue. Will wait for one second for one
-+ * to become available. Otherwise -EBUSY is returned.
-+ */
-+static int
-+via_dmablit_grab_slot(drm_via_blitq_t *blitq, int engine)
++static __inline__ int
++verify_video_tail(uint32_t const **buffer, const uint32_t * buf_end,
++		  uint32_t dwords)
 +{
-+	int ret = 0;
-+	unsigned long irqsave;
++	const uint32_t *buf = *buffer;
 +
-+	DRM_DEBUG("Num free is %d\n", blitq->num_free);
-+	spin_lock_irqsave(&blitq->blit_lock, irqsave);
-+	while (blitq->num_free == 0) {
-+		spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+
-+		VIA_WAIT_ON(ret, blitq->busy_queue, HZ, blitq->num_free > 0);
-+		if (ret)
-+			return (-EINTR == ret) ? -EAGAIN : ret;
-+
-+		spin_lock_irqsave(&blitq->blit_lock, irqsave);
++	if (buf_end - buf < dwords) {
++		DRM_ERROR("Illegal termination of video command.\n");
++		return 1;
 +	}
-+
-+	blitq->num_free--;
-+	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+
++	while (dwords--) {
++		if (*buf++) {
++			DRM_ERROR("Illegal video command tail.\n");
++			return 1;
++		}
++	}
++	*buffer = buf;
 +	return 0;
 +}
 +
-+/*
-+ * Hand back a free slot if we changed our mind.
-+ */
++static __inline__ verifier_state_t
++via_check_header1(uint32_t const **buffer, const uint32_t * buf_end)
++{
++	uint32_t cmd;
++	const uint32_t *buf = *buffer;
++	verifier_state_t ret = state_command;
++
++	while (buf < buf_end) {
++		cmd = *buf;
++		if ((cmd > ((0x3FF >> 2) | HALCYON_HEADER1)) &&
++		    (cmd < ((0xC00 >> 2) | HALCYON_HEADER1))) {
++			if ((cmd & HALCYON_HEADER1MASK) != HALCYON_HEADER1)
++				break;
++			DRM_ERROR("Invalid HALCYON_HEADER1 command. "
++				  "Attempt to access 3D- or command burst area.\n");
++			ret = state_error;
++			break;
++		} else if (cmd > ((0xCFF >> 2) | HALCYON_HEADER1)) {
++			if ((cmd & HALCYON_HEADER1MASK) != HALCYON_HEADER1)
++				break;
++			DRM_ERROR("Invalid HALCYON_HEADER1 command. "
++				  "Attempt to access VGA registers.\n");
++			ret = state_error;
++			break;
++		} else {
++			buf += 2;
++		}
++	}
++	*buffer = buf;
++	return ret;
++}
++
++static __inline__ verifier_state_t
++via_parse_header1(drm_via_private_t *dev_priv, uint32_t const **buffer,
++		  const uint32_t *buf_end)
++{
++	register uint32_t cmd;
++	const uint32_t *buf = *buffer;
++
++	while (buf < buf_end) {
++		cmd = *buf;
++		if ((cmd & HALCYON_HEADER1MASK) != HALCYON_HEADER1)
++			break;
++		via_write(dev_priv, (cmd & ~HALCYON_HEADER1MASK) << 2, *++buf);
++		buf++;
++	}
++	*buffer = buf;
++	return state_command;
++}
++
++static __inline__ verifier_state_t
++via_check_vheader5(uint32_t const **buffer, const uint32_t *buf_end)
++{
++	uint32_t data;
++	const uint32_t *buf = *buffer;
++
++	if (buf_end - buf < 4) {
++		DRM_ERROR("Illegal termination of video header5 command\n");
++		return state_error;
++	}
++
++	data = *buf++ & ~VIA_VIDEOMASK;
++	if (verify_mmio_address(data))
++		return state_error;
++
++	data = *buf++;
++	if (*buf++ != 0x00F50000) {
++		DRM_ERROR("Illegal header5 header data\n");
++		return state_error;
++	}
++	if (*buf++ != 0x00000000) {
++		DRM_ERROR("Illegal header5 header data\n");
++		return state_error;
++	}
++	if (eat_words(&buf, buf_end, data))
++		return state_error;
++	if ((data & 3) && verify_video_tail(&buf, buf_end, 4 - (data & 3)))
++		return state_error;
++	*buffer = buf;
++	return state_command;
++
++}
++
++static __inline__ verifier_state_t
++via_parse_vheader5(drm_via_private_t *dev_priv, uint32_t const **buffer,
++		   const uint32_t *buf_end)
++{
++	uint32_t addr, count, i;
++	const uint32_t *buf = *buffer;
++
++	addr = *buf++ & ~VIA_VIDEOMASK;
++	i = count = *buf;
++	buf += 3;
++	while (i--)
++		via_write(dev_priv, addr, *buf++);
++	if (count & 3)
++		buf += 4 - (count & 3);
++	*buffer = buf;
++	return state_command;
++}
++
++static __inline__ verifier_state_t
++via_check_vheader6(uint32_t const **buffer, const uint32_t * buf_end)
++{
++	uint32_t data;
++	const uint32_t *buf = *buffer;
++	uint32_t i;
++
++	if (buf_end - buf < 4) {
++		DRM_ERROR("Illegal termination of video header6 command\n");
++		return state_error;
++	}
++	buf++;
++	data = *buf++;
++	if (*buf++ != 0x00F60000) {
++		DRM_ERROR("Illegal header6 header data\n");
++		return state_error;
++	}
++	if (*buf++ != 0x00000000) {
++		DRM_ERROR("Illegal header6 header data\n");
++		return state_error;
++	}
++	if ((buf_end - buf) < (data << 1)) {
++		DRM_ERROR("Illegal termination of video header6 command\n");
++		return state_error;
++	}
++	for (i = 0; i < data; ++i) {
++		if (verify_mmio_address(*buf++))
++			return state_error;
++		buf++;
++	}
++	data <<= 1;
++	if ((data & 3) && verify_video_tail(&buf, buf_end, 4 - (data & 3)))
++		return state_error;
++	*buffer = buf;
++	return state_command;
++}
++
++static __inline__ verifier_state_t
++via_parse_vheader6(drm_via_private_t *dev_priv, uint32_t const **buffer,
++		   const uint32_t *buf_end)
++{
++
++	uint32_t addr, count, i;
++	const uint32_t *buf = *buffer;
++
++	i = count = *++buf;
++	buf += 3;
++	while (i--) {
++		addr = *buf++;
++		via_write(dev_priv, addr, *buf++);
++	}
++	count <<= 1;
++	if (count & 3)
++		buf += 4 - (count & 3);
++	*buffer = buf;
++	return state_command;
++}
++
++static int
++via_verify_command_stream(const uint32_t * buf, unsigned int size,
++			  struct drm_device * dev, int agp)
++{
++
++	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
++	drm_via_state_t *hc_state = &dev_priv->hc_state;
++	drm_via_state_t saved_state = *hc_state;
++	uint32_t cmd;
++	const uint32_t *buf_end = buf + (size >> 2);
++	verifier_state_t state = state_command;
++	int cme_video;
++	int supported_3d;
++
++	cme_video = (dev_priv->chipset == VIA_PRO_GROUP_A ||
++		     dev_priv->chipset == VIA_DX9_0);
++
++	supported_3d = dev_priv->chipset != VIA_DX9_0;
++
++	hc_state->dev = dev;
++	hc_state->unfinished = no_sequence;
++	hc_state->map_cache = NULL;
++	hc_state->agp = agp;
++	hc_state->buf_start = buf;
++	dev_priv->num_fire_offsets = 0;
++
++	while (buf < buf_end) {
++
++		switch (state) {
++		case state_header2:
++			state = via_check_header2(&buf, buf_end, hc_state);
++			break;
++		case state_header1:
++			state = via_check_header1(&buf, buf_end);
++			break;
++		case state_vheader5:
++			state = via_check_vheader5(&buf, buf_end);
++			break;
++		case state_vheader6:
++			state = via_check_vheader6(&buf, buf_end);
++			break;
++		case state_command:
++			cmd = *buf;
++			if ((cmd == HALCYON_HEADER2) && supported_3d)
++				state = state_header2;
++			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
++				state = state_header1;
++			else if (cme_video
++				 && (cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER5)
++				state = state_vheader5;
++			else if (cme_video
++				 && (cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER6)
++				state = state_vheader6;
++			else if ((cmd == HALCYON_HEADER2) && !supported_3d) {
++				DRM_ERROR("Accelerated 3D is not supported on this chipset yet.\n");
++				state = state_error;
++			} else {
++				DRM_ERROR
++				    ("Invalid / Unimplemented DMA HEADER command. 0x%x\n",
++				     cmd);
++				state = state_error;
++			}
++			break;
++		case state_error:
++		default:
++			*hc_state = saved_state;
++			return -EINVAL;
++		}
++	}
++	if (state == state_error) {
++		*hc_state = saved_state;
++		return -EINVAL;
++	}
++	return 0;
++}
++
++static int
++via_parse_command_stream(struct drm_device *dev, const uint32_t *buf,
++			 unsigned int size)
++{
++
++	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
++	uint32_t cmd;
++	const uint32_t *buf_end = buf + (size >> 2);
++	verifier_state_t state = state_command;
++	int fire_count = 0;
++
++	while (buf < buf_end) {
++
++		switch (state) {
++		case state_header2:
++			state =
++			    via_parse_header2(dev_priv, &buf, buf_end,
++					      &fire_count);
++			break;
++		case state_header1:
++			state = via_parse_header1(dev_priv, &buf, buf_end);
++			break;
++		case state_vheader5:
++			state = via_parse_vheader5(dev_priv, &buf, buf_end);
++			break;
++		case state_vheader6:
++			state = via_parse_vheader6(dev_priv, &buf, buf_end);
++			break;
++		case state_command:
++			cmd = *buf;
++			if (cmd == HALCYON_HEADER2)
++				state = state_header2;
++			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
++				state = state_header1;
++			else if ((cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER5)
++				state = state_vheader5;
++			else if ((cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER6)
++				state = state_vheader6;
++			else {
++				DRM_ERROR
++				    ("Invalid / Unimplemented DMA HEADER command. 0x%x\n",
++				     cmd);
++				state = state_error;
++			}
++			break;
++		case state_error:
++		default:
++			return -EINVAL;
++		}
++	}
++	if (state == state_error)
++		return -EINVAL;
++	return 0;
++}
++
 +static void
-+via_dmablit_release_slot(drm_via_blitq_t *blitq)
++setup_hazard_table(hz_init_t init_table[], hazard_t table[], int size)
 +{
-+	unsigned long irqsave;
++	int i;
 +
-+	spin_lock_irqsave(&blitq->blit_lock, irqsave);
-+	blitq->num_free++;
-+	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+	wake_up(&blitq->busy_queue);
++	for (i = 0; i < 256; ++i)
++		table[i] = forbidden_command;
++
++	for (i = 0; i < size; ++i)
++		table[init_table[i].code] = init_table[i].hz;
 +}
 +
-+/*
-+ * Grab a free slot. Build blit info and queue a blit.
-+ */
-+static int
-+via_dmablit(struct drm_device *dev, drm_via_dmablit_t *xfer)
++static void via_init_command_verifier(void)
 +{
-+	drm_via_private_t *dev_priv = (drm_via_private_t *)dev->dev_private;
-+	drm_via_sg_info_t *vsg;
-+	drm_via_blitq_t *blitq;
-+	int ret;
-+	int engine;
-+	unsigned long irqsave;
-+
-+	if (dev_priv == NULL) {
-+		DRM_ERROR("Called without initialization.\n");
-+		return -EINVAL;
-+	}
-+
-+	engine = (xfer->to_fb) ? 0 : 1;
-+	blitq = dev_priv->blit_queues + engine;
-+	if (0 != (ret = via_dmablit_grab_slot(blitq, engine)))
-+		return ret;
-+	if (NULL == (vsg = kmalloc(sizeof(*vsg), GFP_KERNEL))) {
-+		via_dmablit_release_slot(blitq);
-+		return -ENOMEM;
-+	}
-+	if (0 != (ret = via_build_sg_info(dev, vsg, xfer))) {
-+		via_dmablit_release_slot(blitq);
-+		kfree(vsg);
-+		return ret;
-+	}
-+	spin_lock_irqsave(&blitq->blit_lock, irqsave);
-+
-+	blitq->blits[blitq->head++] = vsg;
-+	if (blitq->head >= VIA_NUM_BLIT_SLOTS)
-+		blitq->head = 0;
-+	blitq->num_outstanding++;
-+	xfer->sync.sync_handle = ++blitq->cur_blit_handle;
-+
-+	spin_unlock_irqrestore(&blitq->blit_lock, irqsave);
-+	xfer->sync.engine = engine;
-+
-+	via_dmablit_handler(dev, engine, 0);
-+
-+	return 0;
++	setup_hazard_table(init_table1, table1, ARRAY_SIZE(init_table1));
++	setup_hazard_table(init_table2, table2, ARRAY_SIZE(init_table2));
++	setup_hazard_table(init_table3, table3, ARRAY_SIZE(init_table3));
 +}
-+
-+/*
-+ * Sync on a previously submitted blit. Note that the X server use signals extensively, and
-+ * that there is a very big probability that this IOCTL will be interrupted by a signal. In that
-+ * case it returns with -EAGAIN for the signal to be delivered.
-+ * The caller should then reissue the IOCTL. This is similar to what is being done for drmGetLock().
-+ */
-+static int
-+via_dma_blit_sync(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	drm_via_blitsync_t *sync = data;
-+	int err;
-+
-+	if (sync->engine >= VIA_NUM_BLIT_ENGINES)
-+		return -EINVAL;
-+
-+	err = via_dmablit_sync(dev, sync->sync_handle, sync->engine);
-+
-+	if (-EINTR == err)
-+		err = -EAGAIN;
-+
-+	return err;
-+}
-+
-+/*
-+ * Queue a blit and hand back a handle to be used for sync. This IOCTL may be interrupted by a signal
-+ * while waiting for a free slot in the blit queue. In that case it returns with -EAGAIN and should
-+ * be reissued. See the above IOCTL code.
-+ */
-+static int
-+via_dma_blit(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	drm_via_dmablit_t *xfer = data;
-+	int err;
-+
-+	err = via_dmablit(dev, xfer);
-+
-+	return err;
-+}
-+
- static u32 via_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
- {
- 	drm_via_private_t *dev_priv = dev->dev_private;
+ /*
+  * Unmap a DMA mapping.
+  */
 diff --git a/drivers/gpu/drm/via/via_drv.h b/drivers/gpu/drm/via/via_drv.h
-index a1bbe3d5247e..6b26decfadb8 100644
+index 6b26decfadb8..640a7701f606 100644
 --- a/drivers/gpu/drm/via/via_drv.h
 +++ b/drivers/gpu/drm/via/via_drv.h
-@@ -24,6 +24,7 @@
- #ifndef _VIA_DRV_H_
- #define _VIA_DRV_H_
+@@ -46,7 +46,33 @@
+ #define DRIVER_MINOR		11
+ #define DRIVER_PATCHLEVEL	1
  
-+#include <linux/dma-mapping.h>
- #include <linux/irqreturn.h>
- #include <linux/jiffies.h>
- #include <linux/sched.h>
-@@ -47,12 +48,57 @@
+-#include "via_verifier.h"
++typedef enum {
++	no_sequence = 0,
++	z_address,
++	dest_address,
++	tex_address
++} drm_via_sequence_t;
++
++typedef struct {
++	unsigned texture;
++	uint32_t z_addr;
++	uint32_t d_addr;
++	uint32_t t_addr[2][10];
++	uint32_t pitch[2][10];
++	uint32_t height[2][10];
++	uint32_t tex_level_lo[2];
++	uint32_t tex_level_hi[2];
++	uint32_t tex_palette_size[2];
++	uint32_t tex_npot[2];
++	drm_via_sequence_t unfinished;
++	int agp_texture;
++	int multitex;
++	struct drm_device *dev;
++	drm_local_map_t *map_cache;
++	uint32_t vertex_count;
++	int agp;
++	const uint32_t *buf_start;
++} drm_via_state_t;
  
- #include "via_verifier.h"
- 
--#include "via_dmablit.h"
--
  #define VIA_PCI_BUF_SIZE 60000
  #define VIA_FIRE_BUF_SIZE  1024
- #define VIA_NUM_IRQS 4
- 
-+
-+#define VIA_NUM_BLIT_ENGINES 2
-+#define VIA_NUM_BLIT_SLOTS 8
-+
-+struct _drm_via_descriptor;
-+
-+typedef struct _drm_via_sg_info {
-+	struct page **pages;
-+	unsigned long num_pages;
-+	struct _drm_via_descriptor **desc_pages;
-+	int num_desc_pages;
-+	int num_desc;
-+	enum dma_data_direction direction;
-+	unsigned char *bounce_buffer;
-+	dma_addr_t chain_start;
-+	uint32_t free_on_sequence;
-+	unsigned int descriptors_per_page;
-+	int aborted;
-+	enum {
-+		dr_via_device_mapped,
-+		dr_via_desc_pages_alloc,
-+		dr_via_pages_locked,
-+		dr_via_pages_alloc,
-+		dr_via_sg_init
-+	} state;
-+} drm_via_sg_info_t;
-+
-+typedef struct _drm_via_blitq {
-+	struct drm_device *dev;
-+	uint32_t cur_blit_handle;
-+	uint32_t done_blit_handle;
-+	unsigned serviced;
-+	unsigned head;
-+	unsigned cur;
-+	unsigned num_free;
-+	unsigned num_outstanding;
-+	unsigned long end;
-+	int aborting;
-+	int is_active;
-+	drm_via_sg_info_t *blits[VIA_NUM_BLIT_SLOTS];
-+	spinlock_t blit_lock;
-+	wait_queue_head_t blit_queue[VIA_NUM_BLIT_SLOTS];
-+	wait_queue_head_t busy_queue;
-+	struct work_struct wq;
-+	struct timer_list poll_timer;
-+} drm_via_blitq_t;
-+
- typedef struct drm_via_ring_buffer {
- 	drm_local_map_t map;
- 	char *virtual_start;
-@@ -183,9 +229,6 @@ do {								\
- 	remove_wait_queue(&(queue), &entry);			\
- } while (0)
- 
--extern int via_dma_blit_sync(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int via_dma_blit(struct drm_device *dev, void *data, struct drm_file *file_priv);
--
- extern int via_init_context(struct drm_device *dev, int context);
- 
+@@ -234,7 +260,6 @@ extern int via_init_context(struct drm_device *dev, int context);
  extern int via_do_cleanup_map(struct drm_device *dev);
-@@ -194,7 +237,4 @@ extern int via_dma_cleanup(struct drm_device *dev);
- extern void via_init_command_verifier(void);
+ 
+ extern int via_dma_cleanup(struct drm_device *dev);
+-extern void via_init_command_verifier(void);
  extern int via_driver_dma_quiescent(struct drm_device *dev);
  
--extern void via_dmablit_handler(struct drm_device *dev, int engine, int from_irq);
--extern void via_init_dmablit(struct drm_device *dev);
--
  #endif
+diff --git a/drivers/gpu/drm/via/via_verifier.c b/drivers/gpu/drm/via/via_verifier.c
+deleted file mode 100644
+index 3d6e3a70f318..000000000000
+--- a/drivers/gpu/drm/via/via_verifier.c
++++ /dev/null
+@@ -1,1110 +0,0 @@
+-/*
+- * Copyright 2004 The Unichrome Project. All Rights Reserved.
+- * Copyright 2005 Thomas Hellstrom. All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE AUTHOR(S), AND/OR THE COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Author: Thomas Hellstrom 2004, 2005.
+- * This code was written using docs obtained under NDA from VIA Inc.
+- *
+- * Don't run this code directly on an AGP buffer. Due to cache problems it will
+- * be very slow.
+- */
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/via_drm.h>
+-
+-#include "via_3d_reg.h"
+-#include "via_drv.h"
+-#include "via_verifier.h"
+-
+-typedef enum {
+-	state_command,
+-	state_header2,
+-	state_header1,
+-	state_vheader5,
+-	state_vheader6,
+-	state_error
+-} verifier_state_t;
+-
+-typedef enum {
+-	no_check = 0,
+-	check_for_header2,
+-	check_for_header1,
+-	check_for_header2_err,
+-	check_for_header1_err,
+-	check_for_fire,
+-	check_z_buffer_addr0,
+-	check_z_buffer_addr1,
+-	check_z_buffer_addr_mode,
+-	check_destination_addr0,
+-	check_destination_addr1,
+-	check_destination_addr_mode,
+-	check_for_dummy,
+-	check_for_dd,
+-	check_texture_addr0,
+-	check_texture_addr1,
+-	check_texture_addr2,
+-	check_texture_addr3,
+-	check_texture_addr4,
+-	check_texture_addr5,
+-	check_texture_addr6,
+-	check_texture_addr7,
+-	check_texture_addr8,
+-	check_texture_addr_mode,
+-	check_for_vertex_count,
+-	check_number_texunits,
+-	forbidden_command
+-} hazard_t;
+-
+-/*
+- * Associates each hazard above with a possible multi-command
+- * sequence. For example an address that is split over multiple
+- * commands and that needs to be checked at the first command
+- * that does not include any part of the address.
+- */
+-
+-static drm_via_sequence_t seqs[] = {
+-	no_sequence,
+-	no_sequence,
+-	no_sequence,
+-	no_sequence,
+-	no_sequence,
+-	no_sequence,
+-	z_address,
+-	z_address,
+-	z_address,
+-	dest_address,
+-	dest_address,
+-	dest_address,
+-	no_sequence,
+-	no_sequence,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	tex_address,
+-	no_sequence
+-};
+-
+-typedef struct {
+-	unsigned int code;
+-	hazard_t hz;
+-} hz_init_t;
+-
+-static hz_init_t init_table1[] = {
+-	{0xf2, check_for_header2_err},
+-	{0xf0, check_for_header1_err},
+-	{0xee, check_for_fire},
+-	{0xcc, check_for_dummy},
+-	{0xdd, check_for_dd},
+-	{0x00, no_check},
+-	{0x10, check_z_buffer_addr0},
+-	{0x11, check_z_buffer_addr1},
+-	{0x12, check_z_buffer_addr_mode},
+-	{0x13, no_check},
+-	{0x14, no_check},
+-	{0x15, no_check},
+-	{0x23, no_check},
+-	{0x24, no_check},
+-	{0x33, no_check},
+-	{0x34, no_check},
+-	{0x35, no_check},
+-	{0x36, no_check},
+-	{0x37, no_check},
+-	{0x38, no_check},
+-	{0x39, no_check},
+-	{0x3A, no_check},
+-	{0x3B, no_check},
+-	{0x3C, no_check},
+-	{0x3D, no_check},
+-	{0x3E, no_check},
+-	{0x40, check_destination_addr0},
+-	{0x41, check_destination_addr1},
+-	{0x42, check_destination_addr_mode},
+-	{0x43, no_check},
+-	{0x44, no_check},
+-	{0x50, no_check},
+-	{0x51, no_check},
+-	{0x52, no_check},
+-	{0x53, no_check},
+-	{0x54, no_check},
+-	{0x55, no_check},
+-	{0x56, no_check},
+-	{0x57, no_check},
+-	{0x58, no_check},
+-	{0x70, no_check},
+-	{0x71, no_check},
+-	{0x78, no_check},
+-	{0x79, no_check},
+-	{0x7A, no_check},
+-	{0x7B, no_check},
+-	{0x7C, no_check},
+-	{0x7D, check_for_vertex_count}
+-};
+-
+-static hz_init_t init_table2[] = {
+-	{0xf2, check_for_header2_err},
+-	{0xf0, check_for_header1_err},
+-	{0xee, check_for_fire},
+-	{0xcc, check_for_dummy},
+-	{0x00, check_texture_addr0},
+-	{0x01, check_texture_addr0},
+-	{0x02, check_texture_addr0},
+-	{0x03, check_texture_addr0},
+-	{0x04, check_texture_addr0},
+-	{0x05, check_texture_addr0},
+-	{0x06, check_texture_addr0},
+-	{0x07, check_texture_addr0},
+-	{0x08, check_texture_addr0},
+-	{0x09, check_texture_addr0},
+-	{0x20, check_texture_addr1},
+-	{0x21, check_texture_addr1},
+-	{0x22, check_texture_addr1},
+-	{0x23, check_texture_addr4},
+-	{0x2B, check_texture_addr3},
+-	{0x2C, check_texture_addr3},
+-	{0x2D, check_texture_addr3},
+-	{0x2E, check_texture_addr3},
+-	{0x2F, check_texture_addr3},
+-	{0x30, check_texture_addr3},
+-	{0x31, check_texture_addr3},
+-	{0x32, check_texture_addr3},
+-	{0x33, check_texture_addr3},
+-	{0x34, check_texture_addr3},
+-	{0x4B, check_texture_addr5},
+-	{0x4C, check_texture_addr6},
+-	{0x51, check_texture_addr7},
+-	{0x52, check_texture_addr8},
+-	{0x77, check_texture_addr2},
+-	{0x78, no_check},
+-	{0x79, no_check},
+-	{0x7A, no_check},
+-	{0x7B, check_texture_addr_mode},
+-	{0x7C, no_check},
+-	{0x7D, no_check},
+-	{0x7E, no_check},
+-	{0x7F, no_check},
+-	{0x80, no_check},
+-	{0x81, no_check},
+-	{0x82, no_check},
+-	{0x83, no_check},
+-	{0x85, no_check},
+-	{0x86, no_check},
+-	{0x87, no_check},
+-	{0x88, no_check},
+-	{0x89, no_check},
+-	{0x8A, no_check},
+-	{0x90, no_check},
+-	{0x91, no_check},
+-	{0x92, no_check},
+-	{0x93, no_check}
+-};
+-
+-static hz_init_t init_table3[] = {
+-	{0xf2, check_for_header2_err},
+-	{0xf0, check_for_header1_err},
+-	{0xcc, check_for_dummy},
+-	{0x00, check_number_texunits}
+-};
+-
+-static hazard_t table1[256];
+-static hazard_t table2[256];
+-static hazard_t table3[256];
+-
+-static __inline__ int
+-eat_words(const uint32_t **buf, const uint32_t *buf_end, unsigned num_words)
+-{
+-	if ((buf_end - *buf) >= num_words) {
+-		*buf += num_words;
+-		return 0;
+-	}
+-	DRM_ERROR("Illegal termination of DMA command buffer\n");
+-	return 1;
+-}
+-
+-/*
+- * Partially stolen from drm_memory.h
+- */
+-
+-static __inline__ drm_local_map_t *via_drm_lookup_agp_map(drm_via_state_t *seq,
+-						    unsigned long offset,
+-						    unsigned long size,
+-						    struct drm_device *dev)
+-{
+-	struct drm_map_list *r_list;
+-	drm_local_map_t *map = seq->map_cache;
+-
+-	if (map && map->offset <= offset
+-	    && (offset + size) <= (map->offset + map->size)) {
+-		return map;
+-	}
+-
+-	list_for_each_entry(r_list, &dev->maplist, head) {
+-		map = r_list->map;
+-		if (!map)
+-			continue;
+-		if (map->offset <= offset
+-		    && (offset + size) <= (map->offset + map->size)
+-		    && !(map->flags & _DRM_RESTRICTED)
+-		    && (map->type == _DRM_AGP)) {
+-			seq->map_cache = map;
+-			return map;
+-		}
+-	}
+-	return NULL;
+-}
+-
+-/*
+- * Require that all AGP texture levels reside in the same AGP map which should
+- * be mappable by the client. This is not a big restriction.
+- * FIXME: To actually enforce this security policy strictly, drm_rmmap
+- * would have to wait for dma quiescent before removing an AGP map.
+- * The via_drm_lookup_agp_map call in reality seems to take
+- * very little CPU time.
+- */
+-
+-static __inline__ int finish_current_sequence(drm_via_state_t * cur_seq)
+-{
+-	switch (cur_seq->unfinished) {
+-	case z_address:
+-		DRM_DEBUG("Z Buffer start address is 0x%x\n", cur_seq->z_addr);
+-		break;
+-	case dest_address:
+-		DRM_DEBUG("Destination start address is 0x%x\n",
+-			  cur_seq->d_addr);
+-		break;
+-	case tex_address:
+-		if (cur_seq->agp_texture) {
+-			unsigned start =
+-			    cur_seq->tex_level_lo[cur_seq->texture];
+-			unsigned end = cur_seq->tex_level_hi[cur_seq->texture];
+-			unsigned long lo = ~0, hi = 0, tmp;
+-			uint32_t *addr, *pitch, *height, tex;
+-			unsigned i;
+-			int npot;
+-
+-			if (end > 9)
+-				end = 9;
+-			if (start > 9)
+-				start = 9;
+-
+-			addr =
+-			    &(cur_seq->t_addr[tex = cur_seq->texture][start]);
+-			pitch = &(cur_seq->pitch[tex][start]);
+-			height = &(cur_seq->height[tex][start]);
+-			npot = cur_seq->tex_npot[tex];
+-			for (i = start; i <= end; ++i) {
+-				tmp = *addr++;
+-				if (tmp < lo)
+-					lo = tmp;
+-				if (i == 0 && npot)
+-					tmp += (*height++ * *pitch++);
+-				else
+-					tmp += (*height++ << *pitch++);
+-				if (tmp > hi)
+-					hi = tmp;
+-			}
+-
+-			if (!via_drm_lookup_agp_map
+-			    (cur_seq, lo, hi - lo, cur_seq->dev)) {
+-				DRM_ERROR
+-				    ("AGP texture is not in allowed map\n");
+-				return 2;
+-			}
+-		}
+-		break;
+-	default:
+-		break;
+-	}
+-	cur_seq->unfinished = no_sequence;
+-	return 0;
+-}
+-
+-static __inline__ int
+-investigate_hazard(uint32_t cmd, hazard_t hz, drm_via_state_t *cur_seq)
+-{
+-	register uint32_t tmp, *tmp_addr;
+-
+-	if (cur_seq->unfinished && (cur_seq->unfinished != seqs[hz])) {
+-		int ret;
+-		if ((ret = finish_current_sequence(cur_seq)))
+-			return ret;
+-	}
+-
+-	switch (hz) {
+-	case check_for_header2:
+-		if (cmd == HALCYON_HEADER2)
+-			return 1;
+-		return 0;
+-	case check_for_header1:
+-		if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+-			return 1;
+-		return 0;
+-	case check_for_header2_err:
+-		if (cmd == HALCYON_HEADER2)
+-			return 1;
+-		DRM_ERROR("Illegal DMA HALCYON_HEADER2 command\n");
+-		break;
+-	case check_for_header1_err:
+-		if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+-			return 1;
+-		DRM_ERROR("Illegal DMA HALCYON_HEADER1 command\n");
+-		break;
+-	case check_for_fire:
+-		if ((cmd & HALCYON_FIREMASK) == HALCYON_FIRECMD)
+-			return 1;
+-		DRM_ERROR("Illegal DMA HALCYON_FIRECMD command\n");
+-		break;
+-	case check_for_dummy:
+-		if (HC_DUMMY == cmd)
+-			return 0;
+-		DRM_ERROR("Illegal DMA HC_DUMMY command\n");
+-		break;
+-	case check_for_dd:
+-		if (0xdddddddd == cmd)
+-			return 0;
+-		DRM_ERROR("Illegal DMA 0xdddddddd command\n");
+-		break;
+-	case check_z_buffer_addr0:
+-		cur_seq->unfinished = z_address;
+-		cur_seq->z_addr = (cur_seq->z_addr & 0xFF000000) |
+-		    (cmd & 0x00FFFFFF);
+-		return 0;
+-	case check_z_buffer_addr1:
+-		cur_seq->unfinished = z_address;
+-		cur_seq->z_addr = (cur_seq->z_addr & 0x00FFFFFF) |
+-		    ((cmd & 0xFF) << 24);
+-		return 0;
+-	case check_z_buffer_addr_mode:
+-		cur_seq->unfinished = z_address;
+-		if ((cmd & 0x0000C000) == 0)
+-			return 0;
+-		DRM_ERROR("Attempt to place Z buffer in system memory\n");
+-		return 2;
+-	case check_destination_addr0:
+-		cur_seq->unfinished = dest_address;
+-		cur_seq->d_addr = (cur_seq->d_addr & 0xFF000000) |
+-		    (cmd & 0x00FFFFFF);
+-		return 0;
+-	case check_destination_addr1:
+-		cur_seq->unfinished = dest_address;
+-		cur_seq->d_addr = (cur_seq->d_addr & 0x00FFFFFF) |
+-		    ((cmd & 0xFF) << 24);
+-		return 0;
+-	case check_destination_addr_mode:
+-		cur_seq->unfinished = dest_address;
+-		if ((cmd & 0x0000C000) == 0)
+-			return 0;
+-		DRM_ERROR
+-		    ("Attempt to place 3D drawing buffer in system memory\n");
+-		return 2;
+-	case check_texture_addr0:
+-		cur_seq->unfinished = tex_address;
+-		tmp = (cmd >> 24);
+-		tmp_addr = &cur_seq->t_addr[cur_seq->texture][tmp];
+-		*tmp_addr = (*tmp_addr & 0xFF000000) | (cmd & 0x00FFFFFF);
+-		return 0;
+-	case check_texture_addr1:
+-		cur_seq->unfinished = tex_address;
+-		tmp = ((cmd >> 24) - 0x20);
+-		tmp += tmp << 1;
+-		tmp_addr = &cur_seq->t_addr[cur_seq->texture][tmp];
+-		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF) << 24);
+-		tmp_addr++;
+-		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF00) << 16);
+-		tmp_addr++;
+-		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF0000) << 8);
+-		return 0;
+-	case check_texture_addr2:
+-		cur_seq->unfinished = tex_address;
+-		cur_seq->tex_level_lo[tmp = cur_seq->texture] = cmd & 0x3F;
+-		cur_seq->tex_level_hi[tmp] = (cmd & 0xFC0) >> 6;
+-		return 0;
+-	case check_texture_addr3:
+-		cur_seq->unfinished = tex_address;
+-		tmp = ((cmd >> 24) - HC_SubA_HTXnL0Pit);
+-		if (tmp == 0 &&
+-		    (cmd & HC_HTXnEnPit_MASK)) {
+-			cur_seq->pitch[cur_seq->texture][tmp] =
+-				(cmd & HC_HTXnLnPit_MASK);
+-			cur_seq->tex_npot[cur_seq->texture] = 1;
+-		} else {
+-			cur_seq->pitch[cur_seq->texture][tmp] =
+-				(cmd & HC_HTXnLnPitE_MASK) >> HC_HTXnLnPitE_SHIFT;
+-			cur_seq->tex_npot[cur_seq->texture] = 0;
+-			if (cmd & 0x000FFFFF) {
+-				DRM_ERROR
+-					("Unimplemented texture level 0 pitch mode.\n");
+-				return 2;
+-			}
+-		}
+-		return 0;
+-	case check_texture_addr4:
+-		cur_seq->unfinished = tex_address;
+-		tmp_addr = &cur_seq->t_addr[cur_seq->texture][9];
+-		*tmp_addr = (*tmp_addr & 0x00FFFFFF) | ((cmd & 0xFF) << 24);
+-		return 0;
+-	case check_texture_addr5:
+-	case check_texture_addr6:
+-		cur_seq->unfinished = tex_address;
+-		/*
+-		 * Texture width. We don't care since we have the pitch.
+-		 */
+-		return 0;
+-	case check_texture_addr7:
+-		cur_seq->unfinished = tex_address;
+-		tmp_addr = &(cur_seq->height[cur_seq->texture][0]);
+-		tmp_addr[5] = 1 << ((cmd & 0x00F00000) >> 20);
+-		tmp_addr[4] = 1 << ((cmd & 0x000F0000) >> 16);
+-		tmp_addr[3] = 1 << ((cmd & 0x0000F000) >> 12);
+-		tmp_addr[2] = 1 << ((cmd & 0x00000F00) >> 8);
+-		tmp_addr[1] = 1 << ((cmd & 0x000000F0) >> 4);
+-		tmp_addr[0] = 1 << (cmd & 0x0000000F);
+-		return 0;
+-	case check_texture_addr8:
+-		cur_seq->unfinished = tex_address;
+-		tmp_addr = &(cur_seq->height[cur_seq->texture][0]);
+-		tmp_addr[9] = 1 << ((cmd & 0x0000F000) >> 12);
+-		tmp_addr[8] = 1 << ((cmd & 0x00000F00) >> 8);
+-		tmp_addr[7] = 1 << ((cmd & 0x000000F0) >> 4);
+-		tmp_addr[6] = 1 << (cmd & 0x0000000F);
+-		return 0;
+-	case check_texture_addr_mode:
+-		cur_seq->unfinished = tex_address;
+-		if (2 == (tmp = cmd & 0x00000003)) {
+-			DRM_ERROR
+-			    ("Attempt to fetch texture from system memory.\n");
+-			return 2;
+-		}
+-		cur_seq->agp_texture = (tmp == 3);
+-		cur_seq->tex_palette_size[cur_seq->texture] =
+-		    (cmd >> 16) & 0x000000007;
+-		return 0;
+-	case check_for_vertex_count:
+-		cur_seq->vertex_count = cmd & 0x0000FFFF;
+-		return 0;
+-	case check_number_texunits:
+-		cur_seq->multitex = (cmd >> 3) & 1;
+-		return 0;
+-	default:
+-		DRM_ERROR("Illegal DMA data: 0x%x\n", cmd);
+-		return 2;
+-	}
+-	return 2;
+-}
+-
+-static __inline__ int
+-via_check_prim_list(uint32_t const **buffer, const uint32_t * buf_end,
+-		    drm_via_state_t *cur_seq)
+-{
+-	drm_via_private_t *dev_priv =
+-	    (drm_via_private_t *) cur_seq->dev->dev_private;
+-	uint32_t a_fire, bcmd, dw_count;
+-	int ret = 0;
+-	int have_fire;
+-	const uint32_t *buf = *buffer;
+-
+-	while (buf < buf_end) {
+-		have_fire = 0;
+-		if ((buf_end - buf) < 2) {
+-			DRM_ERROR
+-			    ("Unexpected termination of primitive list.\n");
+-			ret = 1;
+-			break;
+-		}
+-		if ((*buf & HC_ACMD_MASK) != HC_ACMD_HCmdB)
+-			break;
+-		bcmd = *buf++;
+-		if ((*buf & HC_ACMD_MASK) != HC_ACMD_HCmdA) {
+-			DRM_ERROR("Expected Vertex List A command, got 0x%x\n",
+-				  *buf);
+-			ret = 1;
+-			break;
+-		}
+-		a_fire =
+-		    *buf++ | HC_HPLEND_MASK | HC_HPMValidN_MASK |
+-		    HC_HE3Fire_MASK;
+-
+-		/*
+-		 * How many dwords per vertex ?
+-		 */
+-
+-		if (cur_seq->agp && ((bcmd & (0xF << 11)) == 0)) {
+-			DRM_ERROR("Illegal B command vertex data for AGP.\n");
+-			ret = 1;
+-			break;
+-		}
+-
+-		dw_count = 0;
+-		if (bcmd & (1 << 7))
+-			dw_count += (cur_seq->multitex) ? 2 : 1;
+-		if (bcmd & (1 << 8))
+-			dw_count += (cur_seq->multitex) ? 2 : 1;
+-		if (bcmd & (1 << 9))
+-			dw_count++;
+-		if (bcmd & (1 << 10))
+-			dw_count++;
+-		if (bcmd & (1 << 11))
+-			dw_count++;
+-		if (bcmd & (1 << 12))
+-			dw_count++;
+-		if (bcmd & (1 << 13))
+-			dw_count++;
+-		if (bcmd & (1 << 14))
+-			dw_count++;
+-
+-		while (buf < buf_end) {
+-			if (*buf == a_fire) {
+-				if (dev_priv->num_fire_offsets >=
+-				    VIA_FIRE_BUF_SIZE) {
+-					DRM_ERROR("Fire offset buffer full.\n");
+-					ret = 1;
+-					break;
+-				}
+-				dev_priv->fire_offsets[dev_priv->
+-						       num_fire_offsets++] =
+-				    buf;
+-				have_fire = 1;
+-				buf++;
+-				if (buf < buf_end && *buf == a_fire)
+-					buf++;
+-				break;
+-			}
+-			if ((*buf == HALCYON_HEADER2) ||
+-			    ((*buf & HALCYON_FIREMASK) == HALCYON_FIRECMD)) {
+-				DRM_ERROR("Missing Vertex Fire command, "
+-					  "Stray Vertex Fire command  or verifier "
+-					  "lost sync.\n");
+-				ret = 1;
+-				break;
+-			}
+-			if ((ret = eat_words(&buf, buf_end, dw_count)))
+-				break;
+-		}
+-		if (buf >= buf_end && !have_fire) {
+-			DRM_ERROR("Missing Vertex Fire command or verifier "
+-				  "lost sync.\n");
+-			ret = 1;
+-			break;
+-		}
+-		if (cur_seq->agp && ((buf - cur_seq->buf_start) & 0x01)) {
+-			DRM_ERROR("AGP Primitive list end misaligned.\n");
+-			ret = 1;
+-			break;
+-		}
+-	}
+-	*buffer = buf;
+-	return ret;
+-}
+-
+-static __inline__ verifier_state_t
+-via_check_header2(uint32_t const **buffer, const uint32_t *buf_end,
+-		  drm_via_state_t *hc_state)
+-{
+-	uint32_t cmd;
+-	int hz_mode;
+-	hazard_t hz;
+-	const uint32_t *buf = *buffer;
+-	const hazard_t *hz_table;
+-
+-	if ((buf_end - buf) < 2) {
+-		DRM_ERROR
+-		    ("Illegal termination of DMA HALCYON_HEADER2 sequence.\n");
+-		return state_error;
+-	}
+-	buf++;
+-	cmd = (*buf++ & 0xFFFF0000) >> 16;
+-
+-	switch (cmd) {
+-	case HC_ParaType_CmdVdata:
+-		if (via_check_prim_list(&buf, buf_end, hc_state))
+-			return state_error;
+-		*buffer = buf;
+-		return state_command;
+-	case HC_ParaType_NotTex:
+-		hz_table = table1;
+-		break;
+-	case HC_ParaType_Tex:
+-		hc_state->texture = 0;
+-		hz_table = table2;
+-		break;
+-	case (HC_ParaType_Tex | (HC_SubType_Tex1 << 8)):
+-		hc_state->texture = 1;
+-		hz_table = table2;
+-		break;
+-	case (HC_ParaType_Tex | (HC_SubType_TexGeneral << 8)):
+-		hz_table = table3;
+-		break;
+-	case HC_ParaType_Auto:
+-		if (eat_words(&buf, buf_end, 2))
+-			return state_error;
+-		*buffer = buf;
+-		return state_command;
+-	case (HC_ParaType_Palette | (HC_SubType_Stipple << 8)):
+-		if (eat_words(&buf, buf_end, 32))
+-			return state_error;
+-		*buffer = buf;
+-		return state_command;
+-	case (HC_ParaType_Palette | (HC_SubType_TexPalette0 << 8)):
+-	case (HC_ParaType_Palette | (HC_SubType_TexPalette1 << 8)):
+-		DRM_ERROR("Texture palettes are rejected because of "
+-			  "lack of info how to determine their size.\n");
+-		return state_error;
+-	case (HC_ParaType_Palette | (HC_SubType_FogTable << 8)):
+-		DRM_ERROR("Fog factor palettes are rejected because of "
+-			  "lack of info how to determine their size.\n");
+-		return state_error;
+-	default:
+-
+-		/*
+-		 * There are some unimplemented HC_ParaTypes here, that
+-		 * need to be implemented if the Mesa driver is extended.
+-		 */
+-
+-		DRM_ERROR("Invalid or unimplemented HALCYON_HEADER2 "
+-			  "DMA subcommand: 0x%x. Previous dword: 0x%x\n",
+-			  cmd, *(buf - 2));
+-		*buffer = buf;
+-		return state_error;
+-	}
+-
+-	while (buf < buf_end) {
+-		cmd = *buf++;
+-		if ((hz = hz_table[cmd >> 24])) {
+-			if ((hz_mode = investigate_hazard(cmd, hz, hc_state))) {
+-				if (hz_mode == 1) {
+-					buf--;
+-					break;
+-				}
+-				return state_error;
+-			}
+-		} else if (hc_state->unfinished &&
+-			   finish_current_sequence(hc_state)) {
+-			return state_error;
+-		}
+-	}
+-	if (hc_state->unfinished && finish_current_sequence(hc_state))
+-		return state_error;
+-	*buffer = buf;
+-	return state_command;
+-}
+-
+-static __inline__ verifier_state_t
+-via_parse_header2(drm_via_private_t *dev_priv, uint32_t const **buffer,
+-		  const uint32_t *buf_end, int *fire_count)
+-{
+-	uint32_t cmd;
+-	const uint32_t *buf = *buffer;
+-	const uint32_t *next_fire;
+-	int burst = 0;
+-
+-	next_fire = dev_priv->fire_offsets[*fire_count];
+-	buf++;
+-	cmd = (*buf & 0xFFFF0000) >> 16;
+-	via_write(dev_priv, HC_REG_TRANS_SET + HC_REG_BASE, *buf++);
+-	switch (cmd) {
+-	case HC_ParaType_CmdVdata:
+-		while ((buf < buf_end) &&
+-		       (*fire_count < dev_priv->num_fire_offsets) &&
+-		       (*buf & HC_ACMD_MASK) == HC_ACMD_HCmdB) {
+-			while (buf <= next_fire) {
+-				via_write(dev_priv, HC_REG_TRANS_SPACE + HC_REG_BASE +
+-					  (burst & 63), *buf++);
+-				burst += 4;
+-			}
+-			if ((buf < buf_end)
+-			    && ((*buf & HALCYON_FIREMASK) == HALCYON_FIRECMD))
+-				buf++;
+-
+-			if (++(*fire_count) < dev_priv->num_fire_offsets)
+-				next_fire = dev_priv->fire_offsets[*fire_count];
+-		}
+-		break;
+-	default:
+-		while (buf < buf_end) {
+-
+-			if (*buf == HC_HEADER2 ||
+-			    (*buf & HALCYON_HEADER1MASK) == HALCYON_HEADER1 ||
+-			    (*buf & VIA_VIDEOMASK) == VIA_VIDEO_HEADER5 ||
+-			    (*buf & VIA_VIDEOMASK) == VIA_VIDEO_HEADER6)
+-				break;
+-
+-			via_write(dev_priv, HC_REG_TRANS_SPACE + HC_REG_BASE +
+-				  (burst & 63), *buf++);
+-			burst += 4;
+-		}
+-	}
+-	*buffer = buf;
+-	return state_command;
+-}
+-
+-static __inline__ int verify_mmio_address(uint32_t address)
+-{
+-	if ((address > 0x3FF) && (address < 0xC00)) {
+-		DRM_ERROR("Invalid VIDEO DMA command. "
+-			  "Attempt to access 3D- or command burst area.\n");
+-		return 1;
+-	} else if ((address > 0xCFF) && (address < 0x1300)) {
+-		DRM_ERROR("Invalid VIDEO DMA command. "
+-			  "Attempt to access PCI DMA area.\n");
+-		return 1;
+-	} else if (address > 0x13FF) {
+-		DRM_ERROR("Invalid VIDEO DMA command. "
+-			  "Attempt to access VGA registers.\n");
+-		return 1;
+-	}
+-	return 0;
+-}
+-
+-static __inline__ int
+-verify_video_tail(uint32_t const **buffer, const uint32_t * buf_end,
+-		  uint32_t dwords)
+-{
+-	const uint32_t *buf = *buffer;
+-
+-	if (buf_end - buf < dwords) {
+-		DRM_ERROR("Illegal termination of video command.\n");
+-		return 1;
+-	}
+-	while (dwords--) {
+-		if (*buf++) {
+-			DRM_ERROR("Illegal video command tail.\n");
+-			return 1;
+-		}
+-	}
+-	*buffer = buf;
+-	return 0;
+-}
+-
+-static __inline__ verifier_state_t
+-via_check_header1(uint32_t const **buffer, const uint32_t * buf_end)
+-{
+-	uint32_t cmd;
+-	const uint32_t *buf = *buffer;
+-	verifier_state_t ret = state_command;
+-
+-	while (buf < buf_end) {
+-		cmd = *buf;
+-		if ((cmd > ((0x3FF >> 2) | HALCYON_HEADER1)) &&
+-		    (cmd < ((0xC00 >> 2) | HALCYON_HEADER1))) {
+-			if ((cmd & HALCYON_HEADER1MASK) != HALCYON_HEADER1)
+-				break;
+-			DRM_ERROR("Invalid HALCYON_HEADER1 command. "
+-				  "Attempt to access 3D- or command burst area.\n");
+-			ret = state_error;
+-			break;
+-		} else if (cmd > ((0xCFF >> 2) | HALCYON_HEADER1)) {
+-			if ((cmd & HALCYON_HEADER1MASK) != HALCYON_HEADER1)
+-				break;
+-			DRM_ERROR("Invalid HALCYON_HEADER1 command. "
+-				  "Attempt to access VGA registers.\n");
+-			ret = state_error;
+-			break;
+-		} else {
+-			buf += 2;
+-		}
+-	}
+-	*buffer = buf;
+-	return ret;
+-}
+-
+-static __inline__ verifier_state_t
+-via_parse_header1(drm_via_private_t *dev_priv, uint32_t const **buffer,
+-		  const uint32_t *buf_end)
+-{
+-	register uint32_t cmd;
+-	const uint32_t *buf = *buffer;
+-
+-	while (buf < buf_end) {
+-		cmd = *buf;
+-		if ((cmd & HALCYON_HEADER1MASK) != HALCYON_HEADER1)
+-			break;
+-		via_write(dev_priv, (cmd & ~HALCYON_HEADER1MASK) << 2, *++buf);
+-		buf++;
+-	}
+-	*buffer = buf;
+-	return state_command;
+-}
+-
+-static __inline__ verifier_state_t
+-via_check_vheader5(uint32_t const **buffer, const uint32_t *buf_end)
+-{
+-	uint32_t data;
+-	const uint32_t *buf = *buffer;
+-
+-	if (buf_end - buf < 4) {
+-		DRM_ERROR("Illegal termination of video header5 command\n");
+-		return state_error;
+-	}
+-
+-	data = *buf++ & ~VIA_VIDEOMASK;
+-	if (verify_mmio_address(data))
+-		return state_error;
+-
+-	data = *buf++;
+-	if (*buf++ != 0x00F50000) {
+-		DRM_ERROR("Illegal header5 header data\n");
+-		return state_error;
+-	}
+-	if (*buf++ != 0x00000000) {
+-		DRM_ERROR("Illegal header5 header data\n");
+-		return state_error;
+-	}
+-	if (eat_words(&buf, buf_end, data))
+-		return state_error;
+-	if ((data & 3) && verify_video_tail(&buf, buf_end, 4 - (data & 3)))
+-		return state_error;
+-	*buffer = buf;
+-	return state_command;
+-
+-}
+-
+-static __inline__ verifier_state_t
+-via_parse_vheader5(drm_via_private_t *dev_priv, uint32_t const **buffer,
+-		   const uint32_t *buf_end)
+-{
+-	uint32_t addr, count, i;
+-	const uint32_t *buf = *buffer;
+-
+-	addr = *buf++ & ~VIA_VIDEOMASK;
+-	i = count = *buf;
+-	buf += 3;
+-	while (i--)
+-		via_write(dev_priv, addr, *buf++);
+-	if (count & 3)
+-		buf += 4 - (count & 3);
+-	*buffer = buf;
+-	return state_command;
+-}
+-
+-static __inline__ verifier_state_t
+-via_check_vheader6(uint32_t const **buffer, const uint32_t * buf_end)
+-{
+-	uint32_t data;
+-	const uint32_t *buf = *buffer;
+-	uint32_t i;
+-
+-	if (buf_end - buf < 4) {
+-		DRM_ERROR("Illegal termination of video header6 command\n");
+-		return state_error;
+-	}
+-	buf++;
+-	data = *buf++;
+-	if (*buf++ != 0x00F60000) {
+-		DRM_ERROR("Illegal header6 header data\n");
+-		return state_error;
+-	}
+-	if (*buf++ != 0x00000000) {
+-		DRM_ERROR("Illegal header6 header data\n");
+-		return state_error;
+-	}
+-	if ((buf_end - buf) < (data << 1)) {
+-		DRM_ERROR("Illegal termination of video header6 command\n");
+-		return state_error;
+-	}
+-	for (i = 0; i < data; ++i) {
+-		if (verify_mmio_address(*buf++))
+-			return state_error;
+-		buf++;
+-	}
+-	data <<= 1;
+-	if ((data & 3) && verify_video_tail(&buf, buf_end, 4 - (data & 3)))
+-		return state_error;
+-	*buffer = buf;
+-	return state_command;
+-}
+-
+-static __inline__ verifier_state_t
+-via_parse_vheader6(drm_via_private_t *dev_priv, uint32_t const **buffer,
+-		   const uint32_t *buf_end)
+-{
+-
+-	uint32_t addr, count, i;
+-	const uint32_t *buf = *buffer;
+-
+-	i = count = *++buf;
+-	buf += 3;
+-	while (i--) {
+-		addr = *buf++;
+-		via_write(dev_priv, addr, *buf++);
+-	}
+-	count <<= 1;
+-	if (count & 3)
+-		buf += 4 - (count & 3);
+-	*buffer = buf;
+-	return state_command;
+-}
+-
+-int
+-via_verify_command_stream(const uint32_t * buf, unsigned int size,
+-			  struct drm_device * dev, int agp)
+-{
+-
+-	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
+-	drm_via_state_t *hc_state = &dev_priv->hc_state;
+-	drm_via_state_t saved_state = *hc_state;
+-	uint32_t cmd;
+-	const uint32_t *buf_end = buf + (size >> 2);
+-	verifier_state_t state = state_command;
+-	int cme_video;
+-	int supported_3d;
+-
+-	cme_video = (dev_priv->chipset == VIA_PRO_GROUP_A ||
+-		     dev_priv->chipset == VIA_DX9_0);
+-
+-	supported_3d = dev_priv->chipset != VIA_DX9_0;
+-
+-	hc_state->dev = dev;
+-	hc_state->unfinished = no_sequence;
+-	hc_state->map_cache = NULL;
+-	hc_state->agp = agp;
+-	hc_state->buf_start = buf;
+-	dev_priv->num_fire_offsets = 0;
+-
+-	while (buf < buf_end) {
+-
+-		switch (state) {
+-		case state_header2:
+-			state = via_check_header2(&buf, buf_end, hc_state);
+-			break;
+-		case state_header1:
+-			state = via_check_header1(&buf, buf_end);
+-			break;
+-		case state_vheader5:
+-			state = via_check_vheader5(&buf, buf_end);
+-			break;
+-		case state_vheader6:
+-			state = via_check_vheader6(&buf, buf_end);
+-			break;
+-		case state_command:
+-			cmd = *buf;
+-			if ((cmd == HALCYON_HEADER2) && supported_3d)
+-				state = state_header2;
+-			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+-				state = state_header1;
+-			else if (cme_video
+-				 && (cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER5)
+-				state = state_vheader5;
+-			else if (cme_video
+-				 && (cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER6)
+-				state = state_vheader6;
+-			else if ((cmd == HALCYON_HEADER2) && !supported_3d) {
+-				DRM_ERROR("Accelerated 3D is not supported on this chipset yet.\n");
+-				state = state_error;
+-			} else {
+-				DRM_ERROR
+-				    ("Invalid / Unimplemented DMA HEADER command. 0x%x\n",
+-				     cmd);
+-				state = state_error;
+-			}
+-			break;
+-		case state_error:
+-		default:
+-			*hc_state = saved_state;
+-			return -EINVAL;
+-		}
+-	}
+-	if (state == state_error) {
+-		*hc_state = saved_state;
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-
+-int
+-via_parse_command_stream(struct drm_device *dev, const uint32_t *buf,
+-			 unsigned int size)
+-{
+-
+-	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
+-	uint32_t cmd;
+-	const uint32_t *buf_end = buf + (size >> 2);
+-	verifier_state_t state = state_command;
+-	int fire_count = 0;
+-
+-	while (buf < buf_end) {
+-
+-		switch (state) {
+-		case state_header2:
+-			state =
+-			    via_parse_header2(dev_priv, &buf, buf_end,
+-					      &fire_count);
+-			break;
+-		case state_header1:
+-			state = via_parse_header1(dev_priv, &buf, buf_end);
+-			break;
+-		case state_vheader5:
+-			state = via_parse_vheader5(dev_priv, &buf, buf_end);
+-			break;
+-		case state_vheader6:
+-			state = via_parse_vheader6(dev_priv, &buf, buf_end);
+-			break;
+-		case state_command:
+-			cmd = *buf;
+-			if (cmd == HALCYON_HEADER2)
+-				state = state_header2;
+-			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+-				state = state_header1;
+-			else if ((cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER5)
+-				state = state_vheader5;
+-			else if ((cmd & VIA_VIDEOMASK) == VIA_VIDEO_HEADER6)
+-				state = state_vheader6;
+-			else {
+-				DRM_ERROR
+-				    ("Invalid / Unimplemented DMA HEADER command. 0x%x\n",
+-				     cmd);
+-				state = state_error;
+-			}
+-			break;
+-		case state_error:
+-		default:
+-			return -EINVAL;
+-		}
+-	}
+-	if (state == state_error)
+-		return -EINVAL;
+-	return 0;
+-}
+-
+-static void
+-setup_hazard_table(hz_init_t init_table[], hazard_t table[], int size)
+-{
+-	int i;
+-
+-	for (i = 0; i < 256; ++i)
+-		table[i] = forbidden_command;
+-
+-	for (i = 0; i < size; ++i)
+-		table[init_table[i].code] = init_table[i].hz;
+-}
+-
+-void via_init_command_verifier(void)
+-{
+-	setup_hazard_table(init_table1, table1, ARRAY_SIZE(init_table1));
+-	setup_hazard_table(init_table2, table2, ARRAY_SIZE(init_table2));
+-	setup_hazard_table(init_table3, table3, ARRAY_SIZE(init_table3));
+-}
+diff --git a/drivers/gpu/drm/via/via_verifier.h b/drivers/gpu/drm/via/via_verifier.h
+deleted file mode 100644
+index 26b6d361ab95..000000000000
+--- a/drivers/gpu/drm/via/via_verifier.h
++++ /dev/null
+@@ -1,62 +0,0 @@
+-/*
+- * Copyright 2004 The Unichrome Project. All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE UNICHROME PROJECT, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Author: Thomas Hellström 2004.
+- */
+-
+-#ifndef _VIA_VERIFIER_H_
+-#define _VIA_VERIFIER_H_
+-
+-typedef enum {
+-	no_sequence = 0,
+-	z_address,
+-	dest_address,
+-	tex_address
+-} drm_via_sequence_t;
+-
+-typedef struct {
+-	unsigned texture;
+-	uint32_t z_addr;
+-	uint32_t d_addr;
+-	uint32_t t_addr[2][10];
+-	uint32_t pitch[2][10];
+-	uint32_t height[2][10];
+-	uint32_t tex_level_lo[2];
+-	uint32_t tex_level_hi[2];
+-	uint32_t tex_palette_size[2];
+-	uint32_t tex_npot[2];
+-	drm_via_sequence_t unfinished;
+-	int agp_texture;
+-	int multitex;
+-	struct drm_device *dev;
+-	drm_local_map_t *map_cache;
+-	uint32_t vertex_count;
+-	int agp;
+-	const uint32_t *buf_start;
+-} drm_via_state_t;
+-
+-extern int via_verify_command_stream(const uint32_t *buf, unsigned int size,
+-				     struct drm_device *dev, int agp);
+-extern int via_parse_command_stream(struct drm_device *dev, const uint32_t *buf,
+-				    unsigned int size);
+-
+-#endif
 -- 
 2.34.1
 
