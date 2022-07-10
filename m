@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF9756D11B
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 21:44:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B91A956D121
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 21:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2112F18B061;
-	Sun, 10 Jul 2022 19:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFC218B063;
+	Sun, 10 Jul 2022 19:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2A1618B063
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C224318B062
  for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 19:44:51 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 2D9A883C28;
+ by phobos.denx.de (Postfix) with ESMTPSA id 85EE983F14;
  Sun, 10 Jul 2022 21:44:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1657482289;
- bh=C3odKcQfLu38ggbqMKkZgX7EZ5rqOIHQ/PApTVgkKig=;
+ bh=+7tHRQ9L+adWPc0rSiQUp5xXZ2SpmVZ67+QXM0tlwV0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vMoa3OrNwvgVjqqYMkb8koxeky/7j+0dOKKZZtRiYIa8nkY3cL0YUykKAL6V0+oLJ
- 9pag1XuxM/uUSCKy9AS9boEg+4oUIZetQ82ejTH2enCFH8tAoAGfExd1bw9x0kD7B6
- HakZt1YO6WYBzZHHMM+X8ylMt+TWRwHHHF9wnYh3O143ySVXKBZFeXAWffNOS7ysBW
- CFaOHaaU6Y6EhxxcIWF4sCdUpzSRifKOhoNrfyMzzrQ9+O2gm7FWAkMFL6gK/uGOmr
- +NUulXrI8j1ccKIqb+dW9UEyK0IE1Yd4w6C4rgcneZICFvCefpQdX6wAS/9VtVUloM
- //eveaGcidb8A==
+ b=EbbXdM34BTcrcLQRkUg48H73Fjk7IJxGf6dhQ98XJQanmUF5te+ljvFdXuihwgCal
+ 07BZlWUec75z4+bwQZ4Vc5u9/z0GA2f5sK2DJOoi+eJOjL8A7qREpWO+t1fFIV1FVS
+ 7C0WtTpOb3ZICCeu3axG7UgvyPSWHM4f+yZDM2iUVHH/i8wtl1CHnfWRYRk0DrA93X
+ C+g2TWyORmMZ5xfWb0JRRgTlZ7lbbHwbO7nyFdn7YC+uSQtz2UvLxXmb1f+uP/XzdW
+ cK40jAfhk7auZCpJeztRtGeGHkOj8BPlFBV0pluELGJ6JZk6RwHYQJsFBTUmX6r3Jk
+ IOxqOexc0RHCw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/9] drm/panel/panel-sitronix-st7701: Enable DSI burst mode,
- LPM, non-continuous clock
-Date: Sun, 10 Jul 2022 21:44:30 +0200
-Message-Id: <20220710194437.289042-2-marex@denx.de>
+Subject: [PATCH 3/9] drm/panel/panel-sitronix-st7701: Make voltage supplies
+ common to ST7701
+Date: Sun, 10 Jul 2022 21:44:31 +0200
+Message-Id: <20220710194437.289042-3-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220710194437.289042-1-marex@denx.de>
 References: <20220710194437.289042-1-marex@denx.de>
@@ -63,15 +63,9 @@ Cc: Marek Vasut <marex@denx.de>, robert.foss@linaro.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ST7701(S) is capable of DSI burst mode, which is more energy
-efficient than the non-burst modes. Make use of it.
-
-The ST7701(S) is capable of DSI non-continuous clock, since it
-sources the TFT matrix driver clock from internal clock source.
-The DSI non-continuous clock further reduce power utilization.
-
-The ST7701(S) uses DSI LPM for command transmissions, make sure
-this is configured correctly in the DSI mode flags.
+The ST7701 and ST7701S all have two voltage supplies, one for internal
+logic and one for the TFT matrix driver. The supplies are not property
+of the TFT matrix driver, so move them to common ST7701 code.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Guido Günther <agx@sigxcpu.org>
@@ -81,23 +75,96 @@ Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 29 +++++--------------
+ 1 file changed, 7 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 90b0e90eb6e2..fe9f1d2fcf44 100644
+index fe9f1d2fcf44..48206d8acca7 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -334,7 +334,8 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
- 		return -ENOMEM;
+@@ -90,8 +90,6 @@ struct st7701_panel_desc {
+ 	const struct drm_display_mode *mode;
+ 	unsigned int lanes;
+ 	enum mipi_dsi_pixel_format format;
+-	const char *const *supply_names;
+-	unsigned int num_supplies;
+ 	unsigned int panel_sleep_delay;
+ };
  
- 	desc = of_device_get_match_data(&dsi->dev);
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
+@@ -100,7 +98,7 @@ struct st7701 {
+ 	struct mipi_dsi_device *dsi;
+ 	const struct st7701_panel_desc *desc;
+ 
+-	struct regulator_bulk_data *supplies;
++	struct regulator_bulk_data supplies[2];
+ 	struct gpio_desc *reset;
+ 	unsigned int sleep_delay;
+ };
+@@ -200,7 +198,7 @@ static int st7701_prepare(struct drm_panel *panel)
+ 
+ 	gpiod_set_value(st7701->reset, 0);
+ 
+-	ret = regulator_bulk_enable(st7701->desc->num_supplies,
++	ret = regulator_bulk_enable(ARRAY_SIZE(st7701->supplies),
+ 				    st7701->supplies);
+ 	if (ret < 0)
+ 		return ret;
+@@ -253,7 +251,7 @@ static int st7701_unprepare(struct drm_panel *panel)
+ 	 */
+ 	msleep(st7701->sleep_delay);
+ 
+-	regulator_bulk_disable(st7701->desc->num_supplies, st7701->supplies);
++	regulator_bulk_disable(ARRAY_SIZE(st7701->supplies), st7701->supplies);
+ 
+ 	return 0;
+ }
+@@ -309,17 +307,10 @@ static const struct drm_display_mode ts8550b_mode = {
+ 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+ };
+ 
+-static const char * const ts8550b_supply_names[] = {
+-	"VCC",
+-	"IOVCC",
+-};
+-
+ static const struct st7701_panel_desc ts8550b_desc = {
+ 	.mode = &ts8550b_mode,
+ 	.lanes = 2,
+ 	.format = MIPI_DSI_FMT_RGB888,
+-	.supply_names = ts8550b_supply_names,
+-	.num_supplies = ARRAY_SIZE(ts8550b_supply_names),
+ 	.panel_sleep_delay = 80, /* panel need extra 80ms for sleep out cmd */
+ };
+ 
+@@ -327,7 +318,7 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
+ {
+ 	const struct st7701_panel_desc *desc;
+ 	struct st7701 *st7701;
+-	int ret, i;
++	int ret;
+ 
+ 	st7701 = devm_kzalloc(&dsi->dev, sizeof(*st7701), GFP_KERNEL);
+ 	if (!st7701)
+@@ -339,16 +330,10 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
  	dsi->format = desc->format;
  	dsi->lanes = desc->lanes;
  
+-	st7701->supplies = devm_kcalloc(&dsi->dev, desc->num_supplies,
+-					sizeof(*st7701->supplies),
+-					GFP_KERNEL);
+-	if (!st7701->supplies)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < desc->num_supplies; i++)
+-		st7701->supplies[i].supply = desc->supply_names[i];
++	st7701->supplies[0].supply = "VCC";
++	st7701->supplies[1].supply = "IOVCC";
+ 
+-	ret = devm_regulator_bulk_get(&dsi->dev, desc->num_supplies,
++	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(st7701->supplies),
+ 				      st7701->supplies);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.35.1
 
