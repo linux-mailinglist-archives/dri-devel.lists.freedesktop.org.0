@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8E756CE00
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:42:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A79456CE0F
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 10:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 473B312AB44;
-	Sun, 10 Jul 2022 08:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA3610F1DE;
+	Sun, 10 Jul 2022 08:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 570E411BFE6
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:41:45 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id f39so4254474lfv.3
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 01:41:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=N4gY91CPZ/PGGuxbinA0CxZ2MaeVa3+8PjzZmiOKRO8=;
- b=jYr6pCfUPS/qJhudBzz24iWmIWajwKLSIUSXcwgZoSAgfH3r89LPoQ3BwV4cMMyBYj
- 3rh2nBvU7quqA+uvde8cqW54OV9G3ZjbXeVkwGoPCsAN80wX7DwZcE5XCb5oR08KJhxx
- wEI6TLGhZr+VghQ4UzcTizoOH4JIdRLq69gJm52Mqbxlz36nwklgM32iDeWHsElcYEqR
- 17ceEjhAPVcwlMMyvluN6OqWx8ga7An6zrYNsgQb6SrX5LyMpwjWJTu5dtpXKprRwZi0
- Ne0iYsKkitKHCaMf7nyjC8h8/iyDLCE1hYKLfmOPoZyLnffxrinIzPB8X147915GZ5dE
- 93HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=N4gY91CPZ/PGGuxbinA0CxZ2MaeVa3+8PjzZmiOKRO8=;
- b=GOMiXLo/qXzU2CtDub4SIgbzXR0PlX+hl4mbkq3D3fUcjUwX11mzYrg66hFnKVOey+
- thmfAC2yFBgDKHpO+IGDEcUcQuiNXA0pE4BA+BrN4qYz98qF28hNRGCc2b+80hJ4BqbM
- yic4doSHV0yYlDlw0ZQ81S01NFmzgGsq/35QS9YTcplhIaaMGdl5/GAYE94aQL7CtESl
- AfltqnCjXcO3onNXpoL2ifyhAdaL+UpuCJaG5A5ezqZZnApADDXAYiU70D9WxCZSWQUN
- rO+eFJHk9ZgvrxbUCcOd8KhroPj+9Wry5ewsQI7AiHQnY8h/aIlebWRNKNgYwUvVc7Ed
- KHwQ==
-X-Gm-Message-State: AJIora/hDsnvLnIsLZ1nBfG4v6gqgJyRf9Dsr6NW4Y2dS6wwcjzOZclH
- jy11C3a5SqwdtfZ33a/dFxxvMA==
-X-Google-Smtp-Source: AGRyM1vKaySEQME7bXBJfZqWkklO83eim1cErMgSEEh2MVcu134scwwIFDyR7zNIYHpefhUh8tmmnQ==
-X-Received: by 2002:a05:6512:398b:b0:489:d94b:f56 with SMTP id
- j11-20020a056512398b00b00489d94b0f56mr1468043lfu.199.1657442504882; 
- Sun, 10 Jul 2022 01:41:44 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- i21-20020a2ea235000000b0025d4addbad4sm912536ljm.91.2022.07.10.01.41.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 01:41:44 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 9/9] dt-bindings: msm/dp: handle DP vs eDP difference
-Date: Sun, 10 Jul 2022 11:41:33 +0300
-Message-Id: <20220710084133.30976-10-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
-References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50EC610F1DE
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 08:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=HDY6iMRFEec+vJg1LjxuOFIShIIv9JbD3rmY2GYQGCY=;
+ b=bU89xEAEcf3fIpi4jCbDMRmlZhgld0+fj4VRvHMoYbORbqnnlTCv7wdPLpYlQSCDaZRWnYU8J4+7s
+ rPByGRt983iYVO7Vhj+ZY4vxMV7f9N5FzoIdwpzyrNr4fjYCbX8X1WWJKr/M73LR6NBzbxllcDwqT9
+ VtxRVM4z20fTiy6g8Z0oBAJ+UykfCmIr0HtaRXADCZKX0/w/9XuYH9HV7oAIhKPjm3SUAdGOWC3HmN
+ z5scK4HX8v7Pek/U60Yx268bwX7Smg2wDTBQM0dMVSAD0ZO0PNQhBwkNi8R7Sjoh+HOyYLdNdrgD+5
+ KB5Pu/I5LexXwRU+VGfowooc2ni++iQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=HDY6iMRFEec+vJg1LjxuOFIShIIv9JbD3rmY2GYQGCY=;
+ b=NQSWfcB4aHyli0HntG8c9YJIyEeHP7nZFozi8cGnkcfMKnKzpyYSkjnPoVBHoiWODzyMK9GSKxisV
+ Vv/XJxFCQ==
+X-HalOne-Cookie: 60b8b56f6eb0318fb02299530f16c00627f33c26
+X-HalOne-ID: 0664486d-002e-11ed-a6c6-d0431ea8a283
+Received: from mailproxy4.cst.dirpod4-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 0664486d-002e-11ed-a6c6-d0431ea8a283;
+ Sun, 10 Jul 2022 08:55:20 +0000 (UTC)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v1 0/11] drm/via: Make via a single file driver
+Date: Sun, 10 Jul 2022 10:54:55 +0200
+Message-Id: <20220710085506.1384056-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,72 +54,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- freedreno@lists.freedesktop.org
+Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The #sound-dai-cells property should be used only for DP controllers. It
-doesn't make sense for eDP, there is no support for audio output. The
-aux-bus should not be used for DP controllers. Also p1 MMIO region
-should be used only for DP controllers.
+We have an upcoming openchrome driver for VIA where some
+of the files conflicts with the existing via driver.
 
-Take care of these differences.
+It is not acceptable to just delete the existing DRI1
+based driver as there are most likely users out there,
+so a different approach was required.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../bindings/display/msm/dp-controller.yaml   | 26 ++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+It was disccussed what to do and the least invasive
+solution was to keep the DRI1 driver in the current
+directory as a single file.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index 52cbf00df0ba..f2515af8256f 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -24,6 +24,7 @@ properties:
-       - qcom,sm8350-dp
- 
-   reg:
-+    minItems: 4
-     items:
-       - description: ahb register block
-       - description: aux register block
-@@ -112,10 +113,33 @@ required:
-   - clock-names
-   - phys
-   - phy-names
--  - "#sound-dai-cells"
-   - power-domains
-   - ports
- 
-+allOf:
-+  # AUX BUS does not exist on DP controllers
-+  # Audio output also is present only on DP output
-+  # p1 regions is present on DP, but not on eDP
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,sc7280-edp
-+              - qcom,sc8180x-edp
-+    then:
-+      properties:
-+        "#sound-dai-cells": false
-+        reg:
-+          maxItems: 4
-+    else:
-+      properties:
-+        aux-bus: false
-+        reg:
-+          minItems: 5
-+      required:
-+        - "#sound-dai-cells"
-+
- additionalProperties: false
- 
- examples:
--- 
-2.35.1
+Thomas Zimmermann already posted a patch to do the
+same but it attemped to have a single driver
+for the DRI1 and the upcoming new driver.
+
+This patchset embeds the files one by one to make the
+diffs remotely readable and end up with an independent
+DRI1 driver.
+
+The driver was built tested for each step.
+
+The driver is in the end renamed to via_dri1.
+Some feedback on this would be good as I do not know
+what impact it will have on users.
+
+The very last patch synchronize the via_3d_reg header
+file with the one used in the openchrome driver.
+This was added to verify that the new header would not
+break the DRI1 driver.
+
+	Sam
+
+Sam Ravnborg (11):
+      drm/via: Rename via_drv to via_dri1
+      drm/via: Embed via_dma in via_dri1
+      drm/via: Embed via_map in via_dri1
+      drm/via: Embed via_mm in via_dri1
+      drm/via: Embed via_video in via_dri1
+      drm/via: Embed via_irq in via_dri1
+      drm/via: Embed via_dmablit in via_dri1
+      drm/via: Embed via_verifier in via_dri1
+      drm/via: Embed via_drv.h in via_dri1
+      drm/via: Rename the via driver to via_dri1
+      drm/via: Update to the latest via_3d_reg file
+
+ drivers/gpu/drm/via/Makefile       |    4 +-
+ drivers/gpu/drm/via/via_3d_reg.h   |  395 +++-
+ drivers/gpu/drm/via/via_dma.c      |  744 --------
+ drivers/gpu/drm/via/via_dmablit.c  |  807 --------
+ drivers/gpu/drm/via/via_dmablit.h  |  140 --
+ drivers/gpu/drm/via/via_dri1.c     | 3630 ++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/via/via_drv.c      |  124 --
+ drivers/gpu/drm/via/via_drv.h      |  229 ---
+ drivers/gpu/drm/via/via_irq.c      |  388 ----
+ drivers/gpu/drm/via/via_map.c      |  132 --
+ drivers/gpu/drm/via/via_mm.c       |  241 ---
+ drivers/gpu/drm/via/via_verifier.c | 1110 -----------
+ drivers/gpu/drm/via/via_verifier.h |   62 -
+ drivers/gpu/drm/via/via_video.c    |   94 -
+ 14 files changed, 3935 insertions(+), 4165 deletions(-)
+
 
