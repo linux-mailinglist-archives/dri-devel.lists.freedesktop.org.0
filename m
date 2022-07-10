@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A32856CE33
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 11:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90AC56CE43
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 11:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1EE10F841;
-	Sun, 10 Jul 2022 09:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C161121CB;
+	Sun, 10 Jul 2022 09:00:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A07A110F1DA
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 09:00:43 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id a10so1223795ljj.5
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 02:00:43 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7984A10F4CE
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 09:00:44 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id o7so4254138lfq.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 02:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bs8QcdQy1djDK+VwdSiBURhhZ88rl9ZJFN4yb8iwpTk=;
- b=Z5xFyCHBCVYLY1mZfAZfsU5c6pkVZ6MlPczZS71RWrQtF7VcFHZWX+qWZQOndLG8gU
- /QDhAD750LzOVIsSMGx4baiRCUGNJ+eg/BNDKDTmrVbr6LbavUuG0Mw7pl/sF4IS5K5s
- WINEfm+3j8naAu1BDaM2uc1fGxE4hPH+85YzKm9Vl0HvcR+9H0/UrjOz9q18mH0f196y
- Ti+/Nn4PikZKK3HJF3xBiRd6pODr3wESjRBH/sN8LNTbFDZE5t1Xza31PouWU5HT4z+A
- BCFTzxgiuG6mhXVT0km2NOm58Z+WVrmhgiZMGy2bddifwdDYpIC92W95TnPXLGZy+w7m
- xggA==
+ bh=VZs4kXHK9xbLHkrqMGuJyZ5VoLx/pQiEUX4aKEkcY5A=;
+ b=NE0ahQ1LMEzRiDmam57ajPEX+MCfHm20NEAFqzHi/YYk76pgWNaUlBynt1fjo/qMqo
+ A5T7sD6O3yrfZ+QlLQMO8PtLQxQMwVmJafXTbs7ZuetGUdqlXQh5HTNaVbSAN2wVKGUc
+ cMNEjYgeVeYSPiXtMLgVYI5kF7Bqlmycx42OBbb7lYvSGfrmKY5t+YOkZlpsRZIG4I7y
+ B4e2VMR639gQv28cRqt+G/I0+5/d+5fFNL/Owvr2JlPJ/Bo+OZH6Thpd/pvl4DgEK5Q1
+ vetJToJjxA0y29kuoXjHpUQO9ixHE8maBjjvBA1B52WYok3uv8CkCQY3Z8HTAEaMAp0R
+ CO1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bs8QcdQy1djDK+VwdSiBURhhZ88rl9ZJFN4yb8iwpTk=;
- b=wbttcrIyFT0CZWo5F2z1QJTt2PwwFOa/5wjF/0CQvfj8VcjhWzRFJVyT0sdL/uxhuk
- 3uLPt5qZY/dn78cDK9yq38LBV3Lr4va0opTcxYeLPcyIu5IA1WL1LY5KlSbCFcRgawJH
- T7oZ2OFn6lB5+b7ha5lZPnIwf/5A+RfGuzGv75KmW8xCW4L+rqntSYB6fjsdi/SLIUG8
- z0arf5ByMr04MefC2riXdp74fBeynhhSceXx/Hrk0wuVoyIbpDtEFaIXYkNQR4ZxNkxq
- 9Tz2QnrW4iv2dEClPmOhrdv1jSV8bJofA3k+6bR9SkV4MT3sAGk3EdOcOG2bMFkd7Y/X
- 7y4Q==
-X-Gm-Message-State: AJIora8s7d32nuVZPSPDPjhKxiWv928+0UdY4AI+zXOOYWfZTsW8bIFU
- LQqmRLZjqj/vTErubrjRsSOJIQ==
-X-Google-Smtp-Source: AGRyM1vAAXRUW/u9eNMC5CQ2DdLm7LWjiipCc6GIG3Ei2jlPeO67YClCuNTtwAwSpvGfp3/lv9hZ7A==
-X-Received: by 2002:a2e:bf20:0:b0:25a:45a6:7587 with SMTP id
- c32-20020a2ebf20000000b0025a45a67587mr6997088ljr.377.1657443641951; 
- Sun, 10 Jul 2022 02:00:41 -0700 (PDT)
+ bh=VZs4kXHK9xbLHkrqMGuJyZ5VoLx/pQiEUX4aKEkcY5A=;
+ b=PtfkVbPG7i6sHycGNSsBhDMZFwKpuQivVIIo39ft3jVXULI/FMLQ3GR1JjZCXAmIUQ
+ EY72MUOUD1TZ6qZMLqC02uUN3CFcqiZyeQRAYMSNbcy+JxizKda6VY5r5alY5IjeJ64B
+ nWyxH0AonVCEkI4aC2lLYyCarvEbqpO+Gef3PdQ6EgJpfVkAnS7pK5zx1tMob9SBCkya
+ 6ZgZ+rQvRmlB/g8Xk5RMGbvXH9FuA2i/aTxcKWlZW4V2mJ3hExO4dZGVOFiUgucQJ04s
+ VZdIDjIwngoNPiUGAqUUI4PJVinmFnHnprTSI2qZOdqUuF5Ghzhh1DauQ+z96hPxieZv
+ wSyA==
+X-Gm-Message-State: AJIora8MOqA/EeMKhd5gcZnt9dA+WczwOUjxDdvaKuShYJyhrsKoY15A
+ 1GGdkBQ7js0sOAleTky9C8iErQ==
+X-Google-Smtp-Source: AGRyM1vJ2bvlLB+NlRwTwtW/ZZXgTuVBInd2vfmXy7JJPK9tbJTYw/ZGF0qL4Nv+Gv+WtrPPjOt2CA==
+X-Received: by 2002:ac2:4e08:0:b0:47f:7b73:c9b9 with SMTP id
+ e8-20020ac24e08000000b0047f7b73c9b9mr8006082lfr.5.1657443642786; 
+ Sun, 10 Jul 2022 02:00:42 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- u16-20020a056512095000b004896b58f2fasm822881lft.270.2022.07.10.02.00.41
+ u16-20020a056512095000b004896b58f2fasm822881lft.270.2022.07.10.02.00.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 02:00:41 -0700 (PDT)
+ Sun, 10 Jul 2022 02:00:42 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -54,9 +54,9 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 01/11] arm64: dts: qcom: sdm845: rename DPU device node
-Date: Sun, 10 Jul 2022 12:00:30 +0300
-Message-Id: <20220710090040.35193-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 02/11] arm64: dts: qcom: sc7180: rename DPU device node
+Date: Sun, 10 Jul 2022 12:00:31 +0300
+Message-Id: <20220710090040.35193-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220710090040.35193-1-dmitry.baryshkov@linaro.org>
 References: <20220710090040.35193-1-dmitry.baryshkov@linaro.org>
@@ -85,20 +85,20 @@ DPU schema.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 32ad5972a642..7c66f490e822 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -4265,7 +4265,7 @@ mdss: mdss@ae00000 {
- 			#size-cells = <2>;
- 			ranges;
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index 72994f599825..e63b4515453f 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -2911,7 +2911,7 @@ mdss: mdss@ae00000 {
  
--			mdss_mdp: mdp@ae01000 {
-+			mdss_mdp: display-controller@ae01000 {
- 				compatible = "qcom,sdm845-dpu";
+ 			status = "disabled";
+ 
+-			mdp: mdp@ae01000 {
++			mdp: display-controller@ae01000 {
+ 				compatible = "qcom,sc7180-dpu";
  				reg = <0 0x0ae01000 0 0x8f000>,
  				      <0 0x0aeb0000 0 0x2008>;
 -- 
