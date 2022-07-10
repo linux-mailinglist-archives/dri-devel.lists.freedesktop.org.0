@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0AE56D11E
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 21:45:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF9756D11B
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jul 2022 21:44:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A1618B064;
-	Sun, 10 Jul 2022 19:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2112F18B061;
+	Sun, 10 Jul 2022 19:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C077F18B061
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A1618B063
  for <dri-devel@lists.freedesktop.org>; Sun, 10 Jul 2022 19:44:51 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id A522D83A2F;
- Sun, 10 Jul 2022 21:44:48 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 2D9A883C28;
+ Sun, 10 Jul 2022 21:44:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1657482289;
- bh=moI3XvzBLj8CsQdy/exx+jLXzWo5+7u+5AySo68g08Y=;
- h=From:To:Cc:Subject:Date:From;
- b=zg8a/ag5wVn/moL19UOHQoBlbPHJgjfHn2vuQXtV9tzai2Tht9BOLAMcEz420PeDa
- 8yKG1668Ybx1Y5PxrDl66U54qGuHj8ZWcHDH5NXDL1lPtkIFDPOLaPFufdyNov1cvn
- UhinNJbt0X1goRwrQI7DTgb6CaIWxhyIU1AOd0m+eTJwQxJdzyu6zVqA3oVAkv2zSM
- D6vTgrwKWJpVj53QUrmMui5GctOXocnrH2n8KQgOMJvEE5VBfxp4p0enFDmbQ5MAsD
- 1jPQHRa4kEwQ0H7cJXz2tBbwPPWu7gqS4FLPCWMoRofY+Nfxv9p3nZiMCG/Gq59ZSr
- hR6v5Op6EF0aQ==
+ bh=C3odKcQfLu38ggbqMKkZgX7EZ5rqOIHQ/PApTVgkKig=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=vMoa3OrNwvgVjqqYMkb8koxeky/7j+0dOKKZZtRiYIa8nkY3cL0YUykKAL6V0+oLJ
+ 9pag1XuxM/uUSCKy9AS9boEg+4oUIZetQ82ejTH2enCFH8tAoAGfExd1bw9x0kD7B6
+ HakZt1YO6WYBzZHHMM+X8ylMt+TWRwHHHF9wnYh3O143ySVXKBZFeXAWffNOS7ysBW
+ CFaOHaaU6Y6EhxxcIWF4sCdUpzSRifKOhoNrfyMzzrQ9+O2gm7FWAkMFL6gK/uGOmr
+ +NUulXrI8j1ccKIqb+dW9UEyK0IE1Yd4w6C4rgcneZICFvCefpQdX6wAS/9VtVUloM
+ //eveaGcidb8A==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/9] drm/panel/panel-sitronix-st7701: Make DSI mode flags
- common to ST7701
-Date: Sun, 10 Jul 2022 21:44:29 +0200
-Message-Id: <20220710194437.289042-1-marex@denx.de>
+Subject: [PATCH 2/9] drm/panel/panel-sitronix-st7701: Enable DSI burst mode,
+ LPM, non-continuous clock
+Date: Sun, 10 Jul 2022 21:44:30 +0200
+Message-Id: <20220710194437.289042-2-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220710194437.289042-1-marex@denx.de>
+References: <20220710194437.289042-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,16 +63,15 @@ Cc: Marek Vasut <marex@denx.de>, robert.foss@linaro.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ST7701 and ST7701S are TFT matrix drivers with integrated multi
-protocol decoder capable of DSI/DPI/SPI input and 480x360...864 line
-TFT matrix output. Currently the only supported input is DSI.
+The ST7701(S) is capable of DSI burst mode, which is more energy
+efficient than the non-burst modes. Make use of it.
 
-The protocol decoder is separate from the TFT matrix driver and is
-always capable of handling all of DSI non-burst mode with sync pulses
-or sync events as well as DSI burst mode.
+The ST7701(S) is capable of DSI non-continuous clock, since it
+sources the TFT matrix driver clock from internal clock source.
+The DSI non-continuous clock further reduce power utilization.
 
-Move the DSI mode configuration from TFT matrix driver properties to
-common ST7701 code, because this is common to all TFT matrices.
+The ST7701(S) uses DSI LPM for command transmissions, make sure
+this is configured correctly in the DSI mode flags.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Guido Günther <agx@sigxcpu.org>
@@ -80,35 +81,20 @@ Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 320a2a8fd459..90b0e90eb6e2 100644
+index 90b0e90eb6e2..fe9f1d2fcf44 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -89,7 +89,6 @@
- struct st7701_panel_desc {
- 	const struct drm_display_mode *mode;
- 	unsigned int lanes;
--	unsigned long flags;
- 	enum mipi_dsi_pixel_format format;
- 	const char *const *supply_names;
- 	unsigned int num_supplies;
-@@ -318,7 +317,6 @@ static const char * const ts8550b_supply_names[] = {
- static const struct st7701_panel_desc ts8550b_desc = {
- 	.mode = &ts8550b_mode,
- 	.lanes = 2,
--	.flags = MIPI_DSI_MODE_VIDEO,
- 	.format = MIPI_DSI_FMT_RGB888,
- 	.supply_names = ts8550b_supply_names,
- 	.num_supplies = ARRAY_SIZE(ts8550b_supply_names),
-@@ -336,7 +334,7 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
+@@ -334,7 +334,8 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
  		return -ENOMEM;
  
  	desc = of_device_get_match_data(&dsi->dev);
--	dsi->mode_flags = desc->flags;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
++			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
  	dsi->format = desc->format;
  	dsi->lanes = desc->lanes;
  
