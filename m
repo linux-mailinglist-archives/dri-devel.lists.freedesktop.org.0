@@ -1,65 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F7056FD9B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:58:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC7856FD98
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAEF212B16C;
-	Mon, 11 Jul 2022 09:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAD689230;
+	Mon, 11 Jul 2022 09:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0BC12B16C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:57:47 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id r6so1568268plg.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 02:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/dH5AuNv3/3xu+UZsaeD0vwZDTjCSjjCkh8LEd+YI1o=;
- b=psYo5QDqDg0MR1r4CavqDmkceWxQGNJNibEvsvR5kJpqNj7b1teQL6n+IdxX3DBD6l
- Zx9nIf22sHdpSiVjzCPW1IFm4M726NzNpzqFFdlKpIbP0aKOGZDpjv/DunvAJflSCoSr
- YIgh0k8bCSYIVSLmTFds8IhI0cuzFqyu70I38=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/dH5AuNv3/3xu+UZsaeD0vwZDTjCSjjCkh8LEd+YI1o=;
- b=l5g6TOokORzV3iaNEEHDEF9H+Sz7w0UNxbzrYujAifqTZr+kL3453LvZRoeP9iTwE/
- Fmocb3+23PAsyeV3AmSSZ8bbCzHJJo44w+L9f7PRA2zxSomh83aPs5yTQtp6aQKpG3KM
- vQZiImIp4Kbrb6xd4rMlqvyxVzWBPhLBc82uDaZvo//f05Mf+oPzW/CMztVv51fOXQIi
- h6xPqVw8GTFb+AaWw9AvQBaJTjJ1HaLYTMyUXHj6sVfzva69MLtltBIX1m2vScKM2rMl
- AWt9fdWlshWZfi6ZauqznG/MkvH2H2tsF/4SMQ0wCVcmtrF4tpcY3mKnwJDkmPG3ZMPK
- p9Rg==
-X-Gm-Message-State: AJIora8wePk45a4d8ZOJ29oJU2+DXVd89RmFbGeg7f1xG8F0q4M7gOey
- viKh3+K397oj+hdDOpO2XNyH7Q==
-X-Google-Smtp-Source: AGRyM1u71WxKsvtMvsMoeCRY1aLWWAcnNsU10Js1zwhm6QaCtzgBnurLthcyu6WuASW8T98+0p74Gw==
-X-Received: by 2002:a17:902:cf03:b0:16b:a91d:aff4 with SMTP id
- i3-20020a170902cf0300b0016ba91daff4mr17868029plg.66.1657533466584; 
- Mon, 11 Jul 2022 02:57:46 -0700 (PDT)
-Received: from localhost.localdomain ([183.83.136.224])
- by smtp.gmail.com with ESMTPSA id
- y3-20020a17090a390300b001ef81bac701sm6560814pjb.42.2022.07.11.02.57.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 02:57:45 -0700 (PDT)
-From: Suniel Mahesh <sunil@amarulasolutions.com>
-To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <maxime.ripard@free-electrons.com>,
- Christopher Vollo <chris@renewoutreach.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Subject: [PATCH v3 2/2] ARM: dts: sun8i: Add R16 Vista E board from
- RenewWorldOutreach
-Date: Mon, 11 Jul 2022 15:27:21 +0530
-Message-Id: <20220711095721.1935377-3-sunil@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220711095721.1935377-1-sunil@amarulasolutions.com>
-References: <20220711095721.1935377-1-sunil@amarulasolutions.com>
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 339AA8D51A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:57:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T5ZVs3UiLZBBLECwYlllWQWTHAnHuQtAbDsAawcdoCe4Av8hcgX9mvcWXfNaLD8twsntmUaqy3q7zNoBblgK9UmEUgTihZDGz1+thYtcq7W6gKMLg+ku7nUm/TCQsz3ytYx6QNO/Ig4UxnD1lxKwJjwQw5HY0nzxs1YMRsEkubBBqp/JLE6fnFI8NH9MCUOOc3pKFVIJj86WTEMkby23ZMWhe0lYbhUuMCCVrEtM0uk92VYf/v6t4F0hq0BeBi5K8JHOC6psE4hSQvUk31bJhDfafPFvnew9/nSrDhQcKyXZUvhFwhM8ZZ0wiR9KXLPjw+Y995Ty4SiOzOHRxo1o/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8HzPb9jLZgm6sgjgq3xC/p2rHa1k86Fkd3q0LpfM6uE=;
+ b=Q9KfHvHVMefdYMDVAHg/vYxeKW0wUQaoQaK1LdcnNXmY2C/oHz2xcDLOE9AuR8mI8iGwj2BcBk6pdgxNRjp3csFe8DqZCLSZnW32e2CF7efAtzwuB65epryv+AJYXceCMW+/d3Bd0dPpWtYk9Imm1/Y+bA/SaDKyxmfmc8YcMVJgVcGUrSsQLPU5pr8k22gyvt27uYxTIhBE5UlWhgX097skZ78ETKOFOk+AzTr3rIL9j73igI7PlF8pqurTT1rYmXQhoJvUq9FXCmk9Zc4E39zebeABhPlbwVzs0W0NPj0deI9niABU5XGfITE6jmjau2B73D++OC9Gmkn2xiQ2yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8HzPb9jLZgm6sgjgq3xC/p2rHa1k86Fkd3q0LpfM6uE=;
+ b=5OX+uwjKw9MjbmO1BL5jAve6aIQaEyWdj/UGs1lsD2O/v5GneXEU2Vg0t9XP2BajiZ/cGuFs1qP8lcAS14eUdUXf1fzMHzqGkMdEQpFWbVRb5K6lvt6R2XK3GDZqYy9BIumucQjmLKxw/eyXpL98AaPDcyEaxdIaUJH0RJQTtjk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM6PR12MB3900.namprd12.prod.outlook.com (2603:10b6:5:1c9::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Mon, 11 Jul
+ 2022 09:57:37 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5417.025; Mon, 11 Jul 2022
+ 09:57:37 +0000
+Message-ID: <4c9598f0-4ba7-c18e-2ccd-f508769a72e9@amd.com>
+Date: Mon, 11 Jul 2022 11:57:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 3/5] dma-buf: return only unsignaled fences in
+ dma_fence_unwrap_for_each v3
+Content-Language: en-US
+To: Karolina Drobnik <karolina.drobnik@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20220506141009.18047-1-christian.koenig@amd.com>
+ <20220506141009.18047-3-christian.koenig@amd.com>
+ <f67d23e2-3953-7717-9c41-65075929525c@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <f67d23e2-3953-7717-9c41-65075929525c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0141.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aede7385-5df9-4d94-760e-08da6323c8c9
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3900:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GAOT+uUnDMY6E1anmM88imCW3bMJqvibp3tddXnbZILkKRl1MjU0Yw2PHyhfUSTS7l6qpg8nh2e69gKVQfdQOiISyuxlbF4r1Bq4827akXgmSDogvmqsZkiIhmpL2QI8Z+/O67Rhs6uZ3hCKNkmQx6DGJLhxF1KLgEzWwdNVGZ7A+lgiFgdfLCosUFlak9JEMTsRQaDxY48VgFIZAAVt7T9t9yRkrNc4l86g5AlxB9Qp3dFXphsbMSBbiXrF6fxRiRB0V8qw1VqT35HHld4t/uWNOHcJaSHm7zgbvxUS/CUoVVYDZ3Enrl5yitnsZc8xeatwur3EuZCjeBqD5yKK/x4RTVzuZ3gOeX7+aoAqVoxtrbBx0M+CuOMLMjgRpDcaRhLXRX1nNNhPDKG7uJuBfKHtvl2dbW7VSgLitVkU5jbfkmhIdLByRCABHg5D/jLBNTzMv4w5ZcnYAYii+oLWztp2QK397JyZhpvfnYoshDPeGGeTeZlUB2vImkdLDsGAP8PDAZp8jdVZD60m/8/qGQ4SshLRCxBNoeBHnR2FrVjsCQYm9mJQozo7jNoUQNYf9B40RxrpXnY5V6czYzbvFERTzVy4O3c+7/eZnCjcpeDAfQgduMtH6GbiFsfvs2fyRz/5j6JUxILl2ybutOz5elGN6eDaPnvzxI06qEIL5n2k2KCh0gWjvbXZN0jha6CSB28MEWEqW2rq9FA/YOxLbcfR1JEx8iR9+d8XOXnV4HKkmAtiu35xlXiWODSpyGD4uw3zB6dI3t4DZ7Y2Xl13b5ZsHpVVqXwtnZ8DAMO+anKmDAgd5B6IZAl+QmMD94dbwIdYzsGc4Se3itaA8LyZKwG/IxdAHGeXNdXshD3wvIz6OfuhtduQdSS0Ngxb1S5B
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(376002)(39860400002)(366004)(396003)(346002)(36756003)(86362001)(31686004)(38100700002)(2616005)(186003)(83380400001)(66574015)(6512007)(31696002)(26005)(2906002)(6666004)(478600001)(6486002)(966005)(316002)(110136005)(41300700001)(45080400002)(53546011)(6506007)(8936002)(5660300002)(4326008)(8676002)(66476007)(66946007)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajB1WmVsRjNxeThQdlBiSVFCRndzemszMjNKZHYza3lncStZRGxaaDQydWZn?=
+ =?utf-8?B?UTg4OUZLNjJrZ3kreElKUEg5Q3pvb09hdnRiYzlSc005Z0FnV2xiRERENkV5?=
+ =?utf-8?B?ak9pMkp6YlZIUWl2d2tveHc4ZE0wYTNOclBpUCtCZks4UURSQWFUSVB1WE9T?=
+ =?utf-8?B?bnJzcDBKN3ByajdabnZubWR0M280R1VFclI4eVNZYmtIdlNKVXlQVEM5dTdQ?=
+ =?utf-8?B?QnRqM3BZVGZneHNuN0g3TFJDOVdyRjl2UzFra2lYeWQ4UDhVRXN5RXZrMVA0?=
+ =?utf-8?B?UFZtaUtvUkZoN2JGbWdlcnpNMWdXVTJ1SExUMER2UGlOc3U5YzlVTWhsajZr?=
+ =?utf-8?B?OFJ1SGtETUxZa3lVQ05UOXRaVVdMS2lDa3dQS1Z5eGdGVlMyYzlRcEI0U2JD?=
+ =?utf-8?B?OVpjVmVNNFQwNFlPZUFHN2xjUG5rVDFieG96RGtoSDJmb1J5WENQZFI2c2wx?=
+ =?utf-8?B?ZjRGTWhZb1BtNG5qZnFsQ2hUQk9NR3V1SjBLdEtEelZ3eGZSeWl6WHBkNGlt?=
+ =?utf-8?B?VFhBV3JFWU41VklOYnMwNW1sZEdFWmxpWlliODVBK2tnM3YxbmtMTmJ5Z3Bl?=
+ =?utf-8?B?cW55OXAxbUhyNm1EblB6cDZEeE9wMkVoZnE3ckVDQ3c3QUlSQUxpUmtIdmJm?=
+ =?utf-8?B?elJTdHpDWHh5ckFUdGJiRlBwMHZLTG15NmxQUG85SC85STZUbmdtcUgvcDVi?=
+ =?utf-8?B?UGdCRTZQMk9DNU5XVkVQNHhnbHFVaUpPY2JtNXVPbEQvQU9xdmhocnljd2NV?=
+ =?utf-8?B?Z3kxa2FwaGxBenAxOEFCYXpsYVhyY1ZJenRnSTJUUCtTQTVTbUdUek1Fa2h2?=
+ =?utf-8?B?Nkw4U2dhOTF4bEQ0N3dSQThMTFRqSWJYd0pVRnJIN25KdVNxNFJjdnFWaWY5?=
+ =?utf-8?B?QTZBUEkraWI2OEZHU1ZiZGtxeHk3RDFCZDV1clNyUlY3KzB3WjcyZzlJT2Z2?=
+ =?utf-8?B?dUJDN2xSNGVNSWxjY09YeGRiMi9RZnhpV1k3djMva2pUZXN3Q3BqTnQ1bzFP?=
+ =?utf-8?B?SHdNYk93bGxDMExVQkowaXAxbkJVbkwybTZRRVYzMkdhSDN3Yy9qYjNkalNN?=
+ =?utf-8?B?eXVlRlc5aCs3TkNGOWlQVEw5YmNPMGxCbTEzNmI2M3lJTUt6NmhMVUh3RUVv?=
+ =?utf-8?B?ZjZqcW4wY0NjQVczdnZvVXNhRk13UW90cXhJelNGRHp5bTFMaTkxOVp3VG9H?=
+ =?utf-8?B?K3Y3L1NacGxwTUYxTHpISHZlWW81aTl2UEJoOUVObzFUM3lkSkZCdDBXYUow?=
+ =?utf-8?B?YWY5Y1FFb3FhTjdzQzNnbEk0anFROWwwdkhkYjhQNEk0aWdPN1RxNlBUUGVB?=
+ =?utf-8?B?dC9tQ2wxUzFuQlAvZmdLWUxjZFh1TDEyMVBBaHBrUENiY3R4K2x3d2VONktC?=
+ =?utf-8?B?dlNxdUR0c3FhTk9jOE1sVis3Z2dwM3hXc2h0SFhYbGdyRVRjVnJYdmdDb1Yz?=
+ =?utf-8?B?N0Eyakg3bTJrRDlsYk52TXM0UFQ5b3JlNEdDRndQcU5FK25BVklKQ1EzeWov?=
+ =?utf-8?B?amswUy9sNzFPc2ltVWtYcTREKzFOZ1crengzWHdET3IrbzNKMjNqdkEvWkFV?=
+ =?utf-8?B?c1VRamZ6MWs5azJIOHBKSDB1dWU0TStYSUFvOFpKVkN5S3lhQm5OaEsrK0lD?=
+ =?utf-8?B?SXZLU0drTStOelJaRVJ0UXlTOWFjcjk2eGRPSDVrM0ZXbkR1cVlWSERmYkE4?=
+ =?utf-8?B?QVQ5SEFENjFkWGtyZ0ZtaHY4eTVMUGJWOWV5Q1kyQ3dyTnQ3cGhpdlpsTmlh?=
+ =?utf-8?B?dWJkU0JWTklEZGQrNjFGMEtDQWpaSU5qeU1wU1JDbU9ESTdLNFZ6VmllSDk0?=
+ =?utf-8?B?VFg1Qi9SbDhIaGpHdUEwYTk1aVFZNTJhNFV2Y0IwVk1hOW5iWjd2UHI1Rm5Z?=
+ =?utf-8?B?MzluMnF6WS8xYmRUNHVjWWhjY3g3L2k5dmNETTgzSEFFVnU4VGRJL0ovbTVh?=
+ =?utf-8?B?TVhIcDJKYXdLMVVFeG0zTlZHL3h5M1BOQTJ1YW1LQU1nejRGRDNuQ3ZqbGxF?=
+ =?utf-8?B?MU9kYUk1T21iVzZNOWdxa1RQekJEUDA2WXJtUjdDdWZCcWNyNkJ1YXNUZWtQ?=
+ =?utf-8?B?NmJGWEsxV09LMW9iUUg0bkJoNnJ0UVo5QTVtVnZ2Z2t4Y0lrak16YnEyeG12?=
+ =?utf-8?Q?yL1dCL/UKb9FInd2WmP8b7KzH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aede7385-5df9-4d94-760e-08da6323c8c9
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 09:57:37.2341 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8mD7rwyH8O5Eop7Wo6OoTeWzkq+OoX4PGwBpip0kpZt9d9JvOixNJk38n+zJREkn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3900
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,430 +128,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, linux-amarula@amarulasolutions.com,
- Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The R16-Vista-E board from RenewWorldOutreach based on allwinner
-R16(A33).
+Hi Karolina,
 
-General features:
-- 1GB RAM
-- microSD slot
-- Realtek Wifi
-- 1 x USB 2.0
-- HDMI IN
-- HDMI OUT
-- Audio out
-- MIPI DSI
-- TI DLPC3433
+Am 11.07.22 um 11:44 schrieb Karolina Drobnik:
+> Hi Christian,
+>
+> I'm sorry for digging this one out so late.
+>
+> On 06.05.2022 16:10, Christian König wrote:
+>> dma_fence_chain containers cleanup signaled fences automatically, so
+>> filter those out from arrays as well.
+>>
+>> v2: fix missing walk over the array
+>> v3: massively simplify the patch and actually update the description.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   include/linux/dma-fence-unwrap.h | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/dma-fence-unwrap.h 
+>> b/include/linux/dma-fence-unwrap.h
+>> index e7c219da4ed7..a4d342fef8e0 100644
+>> --- a/include/linux/dma-fence-unwrap.h
+>> +++ b/include/linux/dma-fence-unwrap.h
+>> @@ -43,9 +43,13 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+>> dma_fence_unwrap *cursor);
+>>    * Unwrap dma_fence_chain and dma_fence_array containers and deep 
+>> dive into all
+>>    * potential fences in them. If @head is just a normal fence only 
+>> that one is
+>>    * returned.
+>> + *
+>> + * Note that signalled fences are opportunistically filtered out, which
+>> + * means the iteration is potentially over no fence at all.
+>>    */
+>>   #define dma_fence_unwrap_for_each(fence, cursor, head)            \
+>>       for (fence = dma_fence_unwrap_first(head, cursor); fence;    \
+>> -         fence = dma_fence_unwrap_next(cursor))
+>> +         fence = dma_fence_unwrap_next(cursor))            \
+>> +        if (!dma_fence_is_signaled(fence))
+>>     #endif
+>
+> It looks like this particular patch affects merging Sync Fences, which 
+> is reflected by failing IGT test (igt@sw_sync)[1]. The failing 
+> subtests are:
+>   - sync_merge - merging different fences on the same timeline, neither
+>          single nor merged fences are signaled
+>
+>   - sync_merge_same - merging the fence with itself on the same
+>          timeline, the fence didn't signal at all
+>
+>   - sync_multi_timeline_wait - merging different fences on different
+>          timelines; the subtest checks if counting fences of
+>          various states works. Currently, it can only see 2
+>          active fences, 0 signaling (should be 2 active,
+>          1 signaling)
+>
+> Reverting this commit on the top of drm-tip fixes the issue, but I'm 
+> not sure if it wouldn't impact other places in the code. Please let me 
+> know if I can be of any help.
 
-It has also connectors to connect an external mini keypad.
 
-Signed-off-by: Suniel Mahesh <sunil@amarulasolutions.com>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-Signed-off-by: Christopher Vollo <chris@renewoutreach.org>
- ---
-    Changes for v3:
-    - As suggested by Samuel Holland:
-    - changed binding to gpio-fan
-    - changed widgets to DACL and DACR to describe audio routing
-    - fixed indentation
-    - primary author of the commit should be the first signer
+Thanks for letting me know. Not sure what's going on here, but I can 
+take a look today if time permits.
 
-    Changes for v2:
-    - Add missing compatible string
-    - insert missing signatures of contributors
----
- arch/arm/boot/dts/Makefile                    |   1 +
- arch/arm/boot/dts/sun8i-r16-renew-vista-e.dts | 362 ++++++++++++++++++
- 2 files changed, 363 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun8i-r16-renew-vista-e.dts
+Do you have a description how to easy reproduce this? E.g. how to run 
+just those specific igts?
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 184899808ee7..b5966c0742e1 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1353,6 +1353,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-r16-nintendo-nes-classic.dtb \
- 	sun8i-r16-nintendo-super-nes-classic.dtb \
- 	sun8i-r16-parrot.dtb \
-+	sun8i-r16-renew-vista-e.dtb \
- 	sun8i-r40-bananapi-m2-ultra.dtb \
- 	sun8i-r40-oka40i-c.dtb \
- 	sun8i-s3-elimo-initium.dtb \
-diff --git a/arch/arm/boot/dts/sun8i-r16-renew-vista-e.dts b/arch/arm/boot/dts/sun8i-r16-renew-vista-e.dts
-new file mode 100644
-index 000000000000..ff72914eb110
---- /dev/null
-+++ b/arch/arm/boot/dts/sun8i-r16-renew-vista-e.dts
-@@ -0,0 +1,362 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2022 RenewWorldOutreach
-+ * Copyright (C) 2022 Amarula Solutions(India)
-+ */
-+
-+/dts-v1/;
-+#include "sun8i-a33.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "RenewWorldOutreach R16-Vista-E";
-+	compatible = "renewworldoutreach,r16-vista-e", "allwinner,sun8i-r16", "allwinner,sun8i-a33";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	gpio-keys-polled {
-+		compatible = "gpio-keys-polled";
-+		poll-interval = <100>;
-+
-+		ok {
-+			label = "ok";
-+			linux,code = <KEY_ENTER>;
-+			gpios = <&pio 4 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		left {
-+			label = "left";
-+			linux,code = <KEY_LEFT>;
-+			gpios = <&pio 4 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		right {
-+			label = "right";
-+			linux,code = <KEY_RIGHT>;
-+			gpios = <&pio 4 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		up {
-+			label = "up";
-+			linux,code = <KEY_UP>;
-+			gpios = <&pio 4 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		down {
-+			label = "down";
-+			linux,code = <KEY_DOWN>;
-+			gpios = <&pio 4 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		back {
-+			label = "back";
-+			linux,code = <KEY_BACK>;
-+			gpios = <&pio 4 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		power {
-+			label = "power";
-+			linux,code = <KEY_POWER>;
-+			gpios = <&pio 4 6 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		vol-down {
-+			label = "vol-down";
-+			linux,code = <KEY_VOLUMEDOWN>;
-+			gpios = <&pio 7 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		vol-up {
-+			label = "vol-up";
-+			linux,code = <KEY_VOLUMEUP>;
-+			gpios = <&pio 7 9 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		battery-led0 {
-+			label = "renew-e:battery-led0";
-+			gpios = <&r_pio 0 2 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		battery-led1 {
-+			label = "renew-e:battery-led1";
-+			gpios = <&r_pio 0 3 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		battery-led2 {
-+			label = "renew-e:battery-led2";
-+			gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		battery-led3 {
-+			label = "renew-e:battery-led3";
-+			gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		battery-led4 {
-+			label = "renew-e:battery-led4";
-+			gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		volume-led0 {
-+			label = "renew-e:volume-led0";
-+			gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		volume-led1 {
-+			label = "renew-e:volume-led1";
-+			gpios = <&pio 6 13 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		volume-led2 {
-+			label = "renew-e:volume-led2";
-+			gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		volume-led3 {
-+			label = "renew-e:volume-led3";
-+			gpios = <&pio 6 11 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		volume-led4 {
-+			label = "renew-e:volume-led4";
-+			gpios = <&pio 6 10 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led-pad-intz {
-+			label = "renew-e:led-pad-intz";
-+			gpios = <&pio 4 16 GPIO_ACTIVE_HIGH>;
-+			default-state = "on";
-+		};
-+	};
-+
-+	gpio-fan {
-+		compatible = "gpio-fan";
-+		gpios = <&pio 4 14 GPIO_ACTIVE_HIGH>; /* FAN_ON/OFF: PE14 */
-+		gpio-fan,speed-map = <0 0 6000 1>;
-+	};
-+
-+	reg_vcc5v0: vcc5v0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc5v0";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+	};
-+};
-+
-+&codec {
-+	status = "okay";
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc3>;
-+};
-+
-+&cpu0_opp_table {
-+	opp-1104000000 {
-+		opp-hz = /bits/ 64 <1104000000>;
-+		opp-microvolt = <1320000>;
-+		clock-latency-ns = <244144>; /* 8 32k periods */
-+	};
-+
-+	opp-1200000000 {
-+		opp-hz = /bits/ 64 <1200000000>;
-+		opp-microvolt = <1320000>;
-+		clock-latency-ns = <244144>; /* 8 32k periods */
-+	};
-+};
-+
-+&dai {
-+	status = "okay";
-+};
-+
-+&de {
-+	status = "okay";
-+};
-+
-+&dphy {
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dcdc1>;
-+	bus-width = <4>;
-+	non-removable;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc1_pg_pins>;
-+	vmmc-supply = <&reg_dcdc1>;
-+	bus-width = <4>;
-+	broken-cd;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&r_rsb {
-+	status = "okay";
-+
-+	axp22x: pmic@3a3 {
-+		compatible = "x-powers,axp223";
-+		reg = <0x3a3>;
-+		interrupt-parent = <&r_intc>;
-+		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
-+		eldoin-supply = <&reg_dcdc1>;
-+		x-powers,drive-vbus-en;
-+	};
-+};
-+
-+#include "axp223.dtsi"
-+
-+&ac_power_supply {
-+	status = "okay";
-+};
-+
-+&reg_aldo1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-max-microvolt = <3000000>;
-+	regulator-name = "vcc-io";
-+};
-+
-+&reg_aldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <2500000>;
-+	regulator-max-microvolt = <2500000>;
-+	regulator-name = "vdd-dll";
-+};
-+
-+&reg_aldo3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-max-microvolt = <3000000>;
-+	regulator-name = "avcc";
-+};
-+
-+&reg_dc1sw {
-+	regulator-name = "vcc-lcd";
-+};
-+
-+&reg_dc5ldo {
-+	regulator-always-on;
-+	regulator-min-microvolt = <900000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-cpus";
-+};
-+
-+&reg_dcdc1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-max-microvolt = <3000000>;
-+	regulator-name = "vcc-3v0";
-+};
-+
-+&reg_dcdc2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <900000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-sys";
-+};
-+
-+&reg_dcdc3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <900000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-cpu";
-+};
-+
-+&reg_dcdc5 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1500000>;
-+	regulator-max-microvolt = <1500000>;
-+	regulator-name = "vcc-dram";
-+};
-+
-+&reg_dldo1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-3v3-main1";
-+};
-+
-+&reg_dldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-3v3-main2";
-+};
-+
-+&reg_dldo3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-3v3-main3";
-+};
-+
-+&reg_dldo4 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-3v3-main4";
-+};
-+
-+&reg_eldo1 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1200000>;
-+	regulator-max-microvolt = <1200000>;
-+	regulator-name = "vcc-1v2-hdmi";
-+};
-+
-+&reg_drivevbus {
-+	regulator-name = "usb0-vbus";
-+	status = "okay";
-+};
-+
-+&reg_rtc_ldo {
-+	regulator-name = "vcc-rtc";
-+};
-+
-+&sound {
-+	status = "okay";
-+	simple-audio-card,routing =
-+		"Left DAC", "DACL",
-+		"Right DAC", "DACR";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pb_pins>;
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	/* VBUS is always on because it is wired to the power supply */
-+	usb0_vbus-supply = <&reg_vcc5v0>;
-+	status = "okay";
-+};
--- 
-2.25.1
+Thanks,
+Christian.
+
+>
+> All the best,
+> Karolina
+>
+> ---------------------
+> [1] - reproducible locally, but can be also seen in the CI:
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fintel-gfx-ci.01.org%2Ftree%2Fdrm-tip%2Findex.html%3Ftestfilter%3Digt%40sw_sync&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C2af59c808f664f0cf04908da6321e708%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637931294507736831%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=NTI04OpP7kMsCu%2BDWsJ0%2FRIVJGJbxy36tJBImD2MQDU%3D&amp;reserved=0 
+>
 
