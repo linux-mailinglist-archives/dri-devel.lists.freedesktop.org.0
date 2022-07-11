@@ -1,77 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F03570949
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 19:42:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D72157094D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 19:42:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC5190395;
-	Mon, 11 Jul 2022 17:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2539039F;
+	Mon, 11 Jul 2022 17:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F14F9032F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 17:41:41 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DD46D5C006F;
- Mon, 11 Jul 2022 13:41:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 11 Jul 2022 13:41:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657561300; x=1657647700; bh=QH
- om9BUGqjHVBhElvC9X+JqBwtmWJEf573Bn6c7tmls=; b=QTM6+ZpBnVAuKVEK5t
- wLxUT+27Pxsd17wGQycDzZWUVxxbIRJ2tNsPhXlnY3dmlcf5oISMvqnWZQwUFHIl
- cGKoyViABBZfFnQ0Wms45GLAwcEzvoMUibsnROfzu7BJ210EyOt7vaNPoyA5Rk+t
- Qpm2JtvNn2dJnB7c4ETkjno/swLuhLrmfFkhKjtXC+ewdW9FDj1oYQABa9EerTFF
- fC2IVQ4y+/QVHoHmnjxux/OEtLyTPH8WztQ9PwKMuEqOx9abQZGV8NOQlWkLclUB
- SRVt2ZJim8o+x9fhnLnY22taMppBEu89tOQz+9afaVFSg5urFc6sNIK8VqS40XDk
- 3mXg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657561300; x=1657647700; bh=QHom9BUGqjHVB
- hElvC9X+JqBwtmWJEf573Bn6c7tmls=; b=BUFObpgLEKxB8m3BzeEFN/0Wg0tYL
- ws3VoUBI9onbslWLHJnK2rZvWH11bVNTGqAnHHtag7NPdYEe+1lOoA52IVgQRckw
- XPvOFTDFkOIu+mE3rO3NyIihRCcUP4IPRoueLg6e16hV7pccfGYptF1WOYuGtCeM
- DF2fu1tNVd6WKI+jwBaJzDNH7Cplw4WwJw+igwPkxvv/ab1Ted72s9w9R+4Zp453
- Vq/+gjz8Ow1KprUNAxJUT6uImg4LI2iIH6LrEBqu2zVEIBLC1aWUt3aFfsz3PnBw
- svvz9vfpKOy0eAX/E4KwwAQn69C7PuSO6HreE3W6DV2IF4sHmW++3Dokg==
-X-ME-Sender: <xms:1GDMYn-A7h5ymu56kjfp8JSalSmR_kxi9TEytG2U-yaNo1hAcs_pCg>
- <xme:1GDMYjvsCFIlAgGfI_MmbejDhlO1NfkTFXxsCixipvxIkKUYncmxV77q5FrD9QjMZ
- OY-msHF6cSEKVQpO2A>
-X-ME-Received: <xmr:1GDMYlDvzdmMmtiG5QzBvHK01elZ6w5UHRDTibAuhvqe7-ZLLG-vNOmo6BPGIR1OogjZdnc2Lj-O3oaysn_LwyyQUN6c6clVWHSYzmo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudduhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepleekfeetudfhkeejiefhtedugfeuvdevkeekteetkefhkefhtdelgfef
- uddvjefhnecuvehluhhsthgvrhfuihiivgepjeenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:1GDMYjcxVATP1KByL8L5xXIBozuvlmn_7hva1FPOwzl6zpyWbYTNew>
- <xmx:1GDMYsMiCMnuz4J5pHkuM8W4FRsHktAuzAvBDjl-YhLRZLzyreYa2Q>
- <xmx:1GDMYlmbXI7bLuVlt1QYyc4xO5OzA0hD0mxuwRoujb5vBxuKSDAilg>
- <xmx:1GDMYpo9XrQqu_XLOhKvAPh7TMg9f4RIK5IamVsV2jY4JFn-zlG9Bw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 13:41:40 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v5 69/69] drm/vc4: v3d: Switch to devm_pm_runtime_enable
-Date: Mon, 11 Jul 2022 19:39:39 +0200
-Message-Id: <20220711173939.1132294-70-maxime@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220711173939.1132294-1-maxime@cerno.tech>
-References: <20220711173939.1132294-1-maxime@cerno.tech>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBD690358;
+ Mon, 11 Jul 2022 17:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1657561296; x=1689097296;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DyoA2eblJxwdVzFlegoGgd92UZ1QkjDQHz2zspQgff4=;
+ b=JHpcTvuEKZnwZ/Gy+Ea24DLbffQj9NCBOPAj38UV9hAfALJSwndV330R
+ U9NOts+RU1c9JFMn/ewgWoDynuFWNkw6xkF44kAlZT5sacCPTUx4JKwIo
+ sj1+oEaRVkhny3ZtQQogZ2QvyagBDg8reLlqsopG848YsT7bcOe4i3eN5 Y=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 11 Jul 2022 10:41:35 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2022 10:41:35 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 11 Jul 2022 10:41:34 -0700
+Received: from [10.38.245.206] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 11 Jul
+ 2022 10:41:31 -0700
+Message-ID: <05880166-7ca2-4438-4511-4fb86d45f0d9@quicinc.com>
+Date: Mon, 11 Jul 2022 10:41:29 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 1/4] drm/mipi-dsi: pass DSC data through the struct
+ mipi_dsi_device
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220711094320.368062-1-dmitry.baryshkov@linaro.org>
+ <20220711094320.368062-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220711094320.368062-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,58 +71,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_pm_runtime_enable() simplifies the driver a bit since it will call
-pm_runtime_disable() automatically through a device-managed action.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_v3d.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index d82c86865079..40f04157ea39 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -468,11 +468,13 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	vc4->irq = ret;
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
- 
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret)
--		goto err_disable_runtime_pm;
-+		return ret;
- 
- 	if (V3D_READ(V3D_IDENT0) != V3D_EXPECTED_IDENT0) {
- 		DRM_ERROR("V3D_IDENT0 read 0x%08x instead of 0x%08x\n",
-@@ -501,9 +503,6 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- err_put_runtime_pm:
- 	pm_runtime_put(dev);
- 
--err_disable_runtime_pm:
--	pm_runtime_disable(dev);
--
- 	return ret;
- }
- 
-@@ -513,8 +512,6 @@ static void vc4_v3d_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 
--	pm_runtime_disable(dev);
--
- 	vc4_irq_uninstall(drm);
- 
- 	/* Disable the binner's overflow memory address, so the next
--- 
-2.36.1
+On 7/11/2022 2:43 AM, Dmitry Baryshkov wrote:
+> The commit 0f40ba48de3b ("drm/msm/dsi: Pass DSC params to drm_panel")
+> added a pointer to the DSC data to the struct drm_panel. However DSC
+> support is not limited to the DSI panels. MIPI DSI bridges can also
+> consume DSC command streams. Thus add struct drm_dsc_config pointer to
+> the struct mipi_dsi_device.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+Agreed, DSC params are not limited to a drm_panel. From that standpoint, 
+this change seems logical to me, hence
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+> ---
+>   include/drm/drm_mipi_dsi.h | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 91a164bdd8f3..bb20bc27ce87 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -179,6 +179,7 @@ struct mipi_dsi_device_info {
+>    * @lp_rate: maximum lane frequency for low power mode in hertz, this should
+>    * be set to the real limits of the hardware, zero is only accepted for
+>    * legacy drivers
+> + * @dsc: panel/bridge DSC pps payload to be sent
+>    */
+>   struct mipi_dsi_device {
+>   	struct mipi_dsi_host *host;
+> @@ -191,6 +192,7 @@ struct mipi_dsi_device {
+>   	unsigned long mode_flags;
+>   	unsigned long hs_rate;
+>   	unsigned long lp_rate;
+> +	struct drm_dsc_config *dsc;
+>   };
+>   
+>   #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
