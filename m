@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2076E5703A9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 14:58:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1677C57040F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 15:18:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB0F8DEE8;
-	Mon, 11 Jul 2022 12:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D26F48DD50;
+	Mon, 11 Jul 2022 13:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B468E53B;
- Mon, 11 Jul 2022 12:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657544256; x=1689080256;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=eluVtVV6YxZiX9IA4reDOwHLCow6fgP8gJauEX5eTDs=;
- b=L7+FrCymkOUYpIWzsfBAN9ESVWciJ69U+ZiTzzq5MZbcDvtw16ZocO2U
- 0bUmHjRSNYdHA47xOZsaObG6h/hjlb7eaw6ZJic+KMf/WFM7OT72JPIWv
- YTsDMX94R5XfLjPHHmsohqKcXcBDeFanlcCyyEqtpTXQapCJ2NAmm71RA Y=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 11 Jul 2022 05:57:36 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 11 Jul 2022 05:57:34 -0700
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg02-blr.qualcomm.com with ESMTP; 11 Jul 2022 18:27:11 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 8E15A3E51; Mon, 11 Jul 2022 18:27:07 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v6 10/10] drm/msm/disp/dpu: check for crtc enable rather than
- crtc active to release shared resources
-Date: Mon, 11 Jul 2022 18:27:04 +0530
-Message-Id: <1657544224-10680-11-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1657544224-10680-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1657544224-10680-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from m15112.mail.126.com (m15112.mail.126.com [220.181.15.112])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A77A14A415
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 13:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=83SF3
+ SCI6ro5rywd/05deoKsdsUdEXy2kfWFExIymC8=; b=oXfry2dlk+jMmDaqPUfKT
+ p090r1VkcseAJWhBhCSOf451z3CdL55VuDBOFFx3DsZGXtw8TKNSjA9qWdnCUGEI
+ XYxwPTkdRCDzyR0rZXOf8PWRnX6DP1qvOvNQzloGs7jWfGgpq+cdRviPrGtM/QyN
+ 6KuGler9Uo2Goi7TR1/pzc=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+ by smtp2 (Coremail) with SMTP id DMmowAA3QwaGIsxi8ea7Eg--.45865S2;
+ Mon, 11 Jul 2022 21:15:51 +0800 (CST)
+From: Liang He <windhl@126.com>
+To: emma@anholt.net, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, windhl@126.com
+Subject: [PATCH] drm:pl111: Add of_node_put() when breaking out of
+ for_each_available_child_of_node()
+Date: Mon, 11 Jul 2022 21:15:50 +0800
+Message-Id: <20220711131550.361350-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DMmowAA3QwaGIsxi8ea7Eg--.45865S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tr13trWkAw17tF4UXw48Xrb_yoW8JFyfpF
+ 43urWS9F48Gw129w4jyw18ZF93K3WYyFWrWryfGF98Ca43ZF95AryUtrW7C398Xa4fAw1Y
+ grWqgw17XFWxZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UY_MfUUUUU=
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbizgg7F18RPeT+XQAAse
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,37 +50,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com, quic_khsieh@quicinc.com,
- dianders@chromium.org, linux-kernel@vger.kernel.org,
- bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to KMS documentation, The driver must not release any shared
-resources if active is set to false but enable still true.
+The reference 'child' in the iteration of for_each_available_child_of_node()
+is only escaped out into a local variable which is only used to check
+its value. So we still need to the of_node_put() when breaking of the
+for_each_available_child_of_node() which will automatically increase
+and decrease the refcount.
 
-Fixes: ccc862b957c6 ("drm/msm/dpu: Fix reservation failures in modeset")
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Fixes: ca454bd42dc2 ("drm/pl111: Support the Versatile Express")
+Signed-off-by: Liang He <windhl@126.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 5dfb56a..02a71d1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -592,7 +592,7 @@ static int dpu_encoder_virt_atomic_check(
- 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
- 			dpu_rm_release(global_state, drm_enc);
- 
--			if (!crtc_state->active_changed || crtc_state->active)
-+			if (!crtc_state->active_changed || crtc_state->enable)
- 				ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
- 						drm_enc, crtc_state, topology);
+As 'Check-after-Put' has been widely accepted in kernel source, we just
+use it. If the maintainer thinks it is harmful, I'd like also to use
+'Check-and-Put' coding style but with a bit more work.
+
+ drivers/gpu/drm/pl111/pl111_versatile.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
+index bdd883f4f0da..963a5d5e6987 100644
+--- a/drivers/gpu/drm/pl111/pl111_versatile.c
++++ b/drivers/gpu/drm/pl111/pl111_versatile.c
+@@ -402,6 +402,7 @@ static int pl111_vexpress_clcd_init(struct device *dev, struct device_node *np,
+ 		if (of_device_is_compatible(child, "arm,pl111")) {
+ 			has_coretile_clcd = true;
+ 			ct_clcd = child;
++			of_node_put(child);
+ 			break;
  		}
+ 		if (of_device_is_compatible(child, "arm,hdlcd")) {
 -- 
-2.7.4
+2.25.1
 
