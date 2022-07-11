@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E1B570226
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 14:35:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 306AA57027F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 14:36:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D70A8DDF6;
-	Mon, 11 Jul 2022 12:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4148DF5D;
+	Mon, 11 Jul 2022 12:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
- [209.85.219.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6678DD55
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 12:35:02 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id cw12so239839qvb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 05:35:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5VqL1W9VAVW8xaiCdtpCVVefxdXG1w2RSuVScr0QEks=;
- b=hVxYSubquB75HzZ3N8d9ehl3Le3l9xSyruCw5xoM9aOhbYcqCQ1BGYTjZkeUhVircr
- UZQUpohZWMHQ9bgQiiVnSJau0W1/UC7dpdwWhSua1+l5IMWtliNNPM0+L8dQkbz97WxT
- eE+Z1takUKqLiiVmMfqvXBWVQegCsyrwk5aAAJFvvgYduJdXwcgRBXXwZ7AhGTf84R4r
- JPm89So4QdiUPknwZJgIhntrQN6cJMr8LOSlm6q59K51XT/UmNkLyZysGVhBx0udxrBz
- t1eeeqW2H0mh0TrfOicq35ctAl7U1YaxgyQ2erED6HcZOSIpDMI/dhJFyJK6dSbG7/k1
- MdLw==
-X-Gm-Message-State: AJIora9+HB2VSs/Rwe3I2dDzRFNu7mfaouR/VjJ3ZzKZzDQk3wB8ZNo0
- TWTFGnmBg72VlilKa9JReqRUPMvxUvegtg==
-X-Google-Smtp-Source: AGRyM1vbhgpa+Mp8O03vDAP5SZwOb7BHiyQduk1BLKASD+0D954K6dACAI60aLavJCt924VACyV7TA==
-X-Received: by 2002:ad4:5d6d:0:b0:472:ba6c:130f with SMTP id
- fn13-20020ad45d6d000000b00472ba6c130fmr13204007qvb.127.1657542901109; 
- Mon, 11 Jul 2022 05:35:01 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
- [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
- l21-20020a05620a28d500b006b593c21168sm945678qkp.46.2022.07.11.05.35.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 05:35:01 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-31caffa4a45so47268717b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 05:35:00 -0700 (PDT)
-X-Received: by 2002:a81:9209:0:b0:31c:b1b7:b063 with SMTP id
- j9-20020a819209000000b0031cb1b7b063mr19315460ywg.383.1657542900636; Mon, 11
- Jul 2022 05:35:00 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE3F78DF48
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 12:36:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5A14440;
+ Mon, 11 Jul 2022 14:36:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1657543004;
+ bh=forFlPOHJK+lDA/Nl5ns+ktQ4jTPK54ZgHq6gk1LUG4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M7LkBASzLNFybG8KVk82No9fDsPOplD9+I6LW/gzZafs3SYUw5Bo3oQaOTA9AU9jI
+ GFEOczINZ8HoTsEHpgZHYPBZ3ISCM2Avxis1U8QAjBYlboLbsv/DzCiCZgTO6eFNcJ
+ /oUSxALXQWrZEDt4m5+WhN29e4dIn1ads7hl/ejw=
+Date: Mon, 11 Jul 2022 15:36:17 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH v3 0/4] drm: rename CMA helpers to DMA helpers
+Message-ID: <YswZQZ4MSL/ZlJF0@pendragon.ideasonboard.com>
+References: <20220707174003.1390017-1-dakr@redhat.com>
+ <c4f4700a-acaf-2ae1-6ccb-4d388a512a5d@redhat.com>
 MIME-Version: 1.0
-References: <cover.1657302103.git.geert@linux-m68k.org>
- <a89f148bf61bc20a7bb9c0e8ba030b0b770f9fe2.1657302103.git.geert@linux-m68k.org>
- <YswUwWO8GZfBZhsj@intel.com>
-In-Reply-To: <YswUwWO8GZfBZhsj@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 Jul 2022 14:34:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVar28SbFvoS0oizNySOpwVYi42mchrvBQqtVm7S3SFww@mail.gmail.com>
-Message-ID: <CAMuHMdVar28SbFvoS0oizNySOpwVYi42mchrvBQqtVm7S3SFww@mail.gmail.com>
-Subject: Re: [PATCH libdrm v2 04/10] util: Add missing big-endian RGB16 frame
- buffer formats
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c4f4700a-acaf-2ae1-6ccb-4d388a512a5d@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +47,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
+Hi Danilo,
 
-On Mon, Jul 11, 2022 at 2:17 PM Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
-> On Fri, Jul 08, 2022 at 08:21:43PM +0200, Geert Uytterhoeven wrote:
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > ---
-> > Any better suggestion than appending "be"?
-> >
-> > v2:
-> >   - New.
+On Mon, Jul 11, 2022 at 02:32:53PM +0200, Danilo Krummrich wrote:
+> On 7/7/22 19:39, Danilo Krummrich wrote:
+> > This patch series renames all CMA helpers to DMA helpers - considering the
+> > hierarchy of APIs (mm/cma -> dma -> gem/fb dma helpers) calling them DMA
+> > helpers seems to be more applicable.
+> > 
+> > Additionally, commit e57924d4ae80 ("drm/doc: Task to rename CMA helpers")
+> > requests to rename the CMA helpers and implies that people seem to be confused
+> > about the naming.
+> > 
+> > The patches are compile-time tested building a x86_64 kernel with
+> > `make allyesconfig && make drivers/gpu/drm`.
+> > 
+> > Changes in v2:
+> >    - Fixed up comments for consistent memory/address classification
+> >      (DMA-contiguous)
+> >    - Added a patch to rename struct drm_gem_dma_object.{paddr => dma_addr}
+> > 
+> > Changes in v3:
+> >    - Use a ccoccinelle script for
+> >      "drm/gem: rename struct drm_gem_dma_object.{paddr => dma_addr}" for fixing
+> >      up missing drivers and compile-test on x86_64, arm and arm64.
+> > 
+> > Danilo Krummrich (4):
+> >    drm/fb: rename FB CMA helpers to FB DMA helpers
+> >    drm/gem: rename GEM CMA helpers to GEM DMA helpers
+> >    drm/gem: rename struct drm_gem_dma_object.{paddr => dma_addr}
+> >    drm/todo: remove task to rename CMA helpers
+> 
+> Since those patches are based on Linus' tree they (unsurprisingly) don't 
+> apply on drm-next cleanly.
+> 
+> Please let me know if you want me to send a rebased version for drm-next.
 
-> > --- a/tests/util/format.c
-> > +++ b/tests/util/format.c
-> > @@ -76,6 +76,9 @@ static const struct util_format_info format_info[] =
-=3D {
-> >       { DRM_FORMAT_BGRX5551, "BX15", MAKE_RGB_INFO(5, 1, 5, 6, 5, 11, 0=
-, 0) },
-> >       { DRM_FORMAT_RGB565, "RG16", MAKE_RGB_INFO(5, 11, 6, 5, 5, 0, 0, =
-0) },
-> >       { DRM_FORMAT_BGR565, "BG16", MAKE_RGB_INFO(5, 0, 6, 5, 5, 11, 0, =
-0) },
-> > +     /* Big-endian RGB16 */
-> > +     { DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN, "XR15be", MAKE_RGB=
-_INFO(5, 10, 5, 5, 5, 0, 0, 0) },
-> > +     { DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN, "RG16be", MAKE_RGB_I=
-NFO(5, 11, 6, 5, 5, 0, 0, 0) },
->
-> How about just stripping the BE bit in util_format_info_find()
-> so we don't have to duplicate the entries in the table?
+I would assume they will go through drm-misc, so rebasing on
+drm-misc-next would be best.
 
-There is no need to support big-endian variants of all formats.
-E.g. big-endian [AX]RGB8888 just map to little-endian BGR[AX]8888.
+> > 
+> >   Documentation/gpu/drm-kms-helpers.rst         |   8 +-
+> >   Documentation/gpu/drm-mm.rst                  |  16 +-
+> >   Documentation/gpu/todo.rst                    |  13 -
+> >   drivers/gpu/drm/Kconfig                       |   4 +-
+> >   drivers/gpu/drm/Makefile                      |   6 +-
+> >   drivers/gpu/drm/arm/Kconfig                   |   4 +-
+> >   drivers/gpu/drm/arm/display/Kconfig           |   2 +-
+> >   .../arm/display/komeda/komeda_framebuffer.c   |  12 +-
+> >   .../gpu/drm/arm/display/komeda/komeda_kms.c   |  10 +-
+> >   drivers/gpu/drm/arm/hdlcd_crtc.c              |   6 +-
+> >   drivers/gpu/drm/arm/hdlcd_drv.c               |   8 +-
+> >   drivers/gpu/drm/arm/malidp_drv.c              |  10 +-
+> >   drivers/gpu/drm/arm/malidp_mw.c               |   8 +-
+> >   drivers/gpu/drm/arm/malidp_planes.c           |  34 +-
+> >   drivers/gpu/drm/armada/armada_gem.c           |   6 +-
+> >   drivers/gpu/drm/aspeed/Kconfig                |   2 +-
+> >   drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |  10 +-
+> >   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |   8 +-
+> >   drivers/gpu/drm/atmel-hlcdc/Kconfig           |   2 +-
+> >   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |   6 +-
+> >   .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |   8 +-
+> >   ...rm_fb_cma_helper.c => drm_fb_dma_helper.c} |  67 ++--
+> >   drivers/gpu/drm/drm_file.c                    |   2 +-
+> >   drivers/gpu/drm/drm_format_helper.c           |   4 +-
+> >   ..._gem_cma_helper.c => drm_gem_dma_helper.c} | 314 +++++++++---------
+> >   drivers/gpu/drm/drm_mipi_dbi.c                |   2 +-
+> >   drivers/gpu/drm/fsl-dcu/Kconfig               |   2 +-
+> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |   8 +-
+> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c     |   2 +-
+> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c   |  10 +-
+> >   drivers/gpu/drm/hisilicon/kirin/Kconfig       |   2 +-
+> >   .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  14 +-
+> >   .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |   4 +-
+> >   drivers/gpu/drm/imx/Kconfig                   |   2 +-
+> >   drivers/gpu/drm/imx/dcss/Kconfig              |   2 +-
+> >   drivers/gpu/drm/imx/dcss/dcss-kms.c           |   6 +-
+> >   drivers/gpu/drm/imx/dcss/dcss-plane.c         |  18 +-
+> >   drivers/gpu/drm/imx/imx-drm-core.c            |  10 +-
+> >   drivers/gpu/drm/imx/imx-drm.h                 |   2 +-
+> >   drivers/gpu/drm/imx/ipuv3-crtc.c              |   4 +-
+> >   drivers/gpu/drm/imx/ipuv3-plane.c             |  28 +-
+> >   drivers/gpu/drm/ingenic/Kconfig               |   2 +-
+> >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  14 +-
+> >   drivers/gpu/drm/ingenic/ingenic-ipu.c         |  12 +-
+> >   drivers/gpu/drm/kmb/Kconfig                   |   2 +-
+> >   drivers/gpu/drm/kmb/kmb_drv.c                 |   6 +-
+> >   drivers/gpu/drm/kmb/kmb_plane.c               |  10 +-
+> >   drivers/gpu/drm/mcde/Kconfig                  |   2 +-
+> >   drivers/gpu/drm/mcde/mcde_display.c           |   8 +-
+> >   drivers/gpu/drm/mcde/mcde_drv.c               |  10 +-
+> >   drivers/gpu/drm/mediatek/Kconfig              |   2 +-
+> >   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   2 +-
+> >   drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   4 +-
+> >   drivers/gpu/drm/meson/Kconfig                 |   2 +-
+> >   drivers/gpu/drm/meson/meson_drv.c             |  10 +-
+> >   drivers/gpu/drm/meson/meson_overlay.c         |  18 +-
+> >   drivers/gpu/drm/meson/meson_plane.c           |  10 +-
+> >   drivers/gpu/drm/msm/msm_drv.c                 |   2 +-
+> >   drivers/gpu/drm/mxsfb/Kconfig                 |   2 +-
+> >   drivers/gpu/drm/mxsfb/mxsfb_drv.c             |   6 +-
+> >   drivers/gpu/drm/mxsfb/mxsfb_kms.c             |  34 +-
+> >   drivers/gpu/drm/panel/Kconfig                 |   2 +-
+> >   drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   6 +-
+> >   drivers/gpu/drm/pl111/Kconfig                 |   2 +-
+> >   drivers/gpu/drm/pl111/pl111_display.c         |   8 +-
+> >   drivers/gpu/drm/pl111/pl111_drv.c             |  10 +-
+> >   drivers/gpu/drm/rcar-du/Kconfig               |   2 +-
+> >   drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   4 +-
+> >   drivers/gpu/drm/rcar-du/rcar_du_drv.c         |   6 +-
+> >   drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  38 +--
+> >   drivers/gpu/drm/rcar-du/rcar_du_plane.c       |  10 +-
+> >   drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |   8 +-
+> >   drivers/gpu/drm/rockchip/Kconfig              |   2 +-
+> >   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +-
+> >   drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   4 +-
+> >   drivers/gpu/drm/shmobile/Kconfig              |   2 +-
+> >   drivers/gpu/drm/shmobile/shmob_drm_crtc.c     |  14 +-
+> >   drivers/gpu/drm/shmobile/shmob_drm_drv.c      |   6 +-
+> >   drivers/gpu/drm/shmobile/shmob_drm_kms.c      |   4 +-
+> >   drivers/gpu/drm/shmobile/shmob_drm_kms.h      |   2 +-
+> >   drivers/gpu/drm/shmobile/shmob_drm_plane.c    |  14 +-
+> >   drivers/gpu/drm/solomon/ssd130x.c             |   2 +-
+> >   drivers/gpu/drm/sprd/Kconfig                  |   2 +-
+> >   drivers/gpu/drm/sprd/sprd_dpu.c               |  10 +-
+> >   drivers/gpu/drm/sprd/sprd_drm.c               |   6 +-
+> >   drivers/gpu/drm/sti/Kconfig                   |   2 +-
+> >   drivers/gpu/drm/sti/sti_cursor.c              |  14 +-
+> >   drivers/gpu/drm/sti/sti_drv.c                 |   8 +-
+> >   drivers/gpu/drm/sti/sti_gdp.c                 |  18 +-
+> >   drivers/gpu/drm/sti/sti_hqvdp.c               |  18 +-
+> >   drivers/gpu/drm/sti/sti_plane.c               |   4 +-
+> >   drivers/gpu/drm/stm/Kconfig                   |   2 +-
+> >   drivers/gpu/drm/stm/drv.c                     |  12 +-
+> >   drivers/gpu/drm/stm/ltdc.c                    |  16 +-
+> >   drivers/gpu/drm/sun4i/Kconfig                 |   2 +-
+> >   drivers/gpu/drm/sun4i/sun4i_backend.c         |  16 +-
+> >   drivers/gpu/drm/sun4i/sun4i_drv.c             |  10 +-
+> >   drivers/gpu/drm/sun4i/sun4i_frontend.c        |  26 +-
+> >   drivers/gpu/drm/sun4i/sun8i_mixer.c           |   4 +-
+> >   drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  22 +-
+> >   drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  22 +-
+> >   drivers/gpu/drm/tegra/fb.c                    |   2 +-
+> >   drivers/gpu/drm/tidss/Kconfig                 |   2 +-
+> >   drivers/gpu/drm/tidss/tidss_crtc.c            |   4 +-
+> >   drivers/gpu/drm/tidss/tidss_dispc.c           |  28 +-
+> >   drivers/gpu/drm/tidss/tidss_drv.c             |   6 +-
+> >   drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
+> >   drivers/gpu/drm/tidss/tidss_plane.c           |   2 +-
+> >   drivers/gpu/drm/tilcdc/Kconfig                |   2 +-
+> >   drivers/gpu/drm/tilcdc/tilcdc_crtc.c          |  10 +-
+> >   drivers/gpu/drm/tilcdc/tilcdc_drv.c           |   6 +-
+> >   drivers/gpu/drm/tiny/Kconfig                  |  22 +-
+> >   drivers/gpu/drm/tiny/arcpgu.c                 |  14 +-
+> >   drivers/gpu/drm/tiny/hx8357d.c                |   6 +-
+> >   drivers/gpu/drm/tiny/ili9163.c                |   6 +-
+> >   drivers/gpu/drm/tiny/ili9225.c                |  12 +-
+> >   drivers/gpu/drm/tiny/ili9341.c                |   6 +-
+> >   drivers/gpu/drm/tiny/ili9486.c                |   6 +-
+> >   drivers/gpu/drm/tiny/mi0283qt.c               |   6 +-
+> >   drivers/gpu/drm/tiny/panel-mipi-dbi.c         |   6 +-
+> >   drivers/gpu/drm/tiny/repaper.c                |  12 +-
+> >   drivers/gpu/drm/tiny/st7586.c                 |  12 +-
+> >   drivers/gpu/drm/tiny/st7735r.c                |   6 +-
+> >   drivers/gpu/drm/tve200/Kconfig                |   2 +-
+> >   drivers/gpu/drm/tve200/tve200_display.c       |  12 +-
+> >   drivers/gpu/drm/tve200/tve200_drv.c           |   8 +-
+> >   drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+> >   drivers/gpu/drm/v3d/v3d_gem.c                 |   4 +-
+> >   drivers/gpu/drm/vc4/Kconfig                   |   2 +-
+> >   drivers/gpu/drm/vc4/vc4_bo.c                  |  46 +--
+> >   drivers/gpu/drm/vc4/vc4_crtc.c                |  10 +-
+> >   drivers/gpu/drm/vc4/vc4_drv.c                 |   8 +-
+> >   drivers/gpu/drm/vc4/vc4_drv.h                 |  18 +-
+> >   drivers/gpu/drm/vc4/vc4_gem.c                 |  12 +-
+> >   drivers/gpu/drm/vc4/vc4_irq.c                 |   2 +-
+> >   drivers/gpu/drm/vc4/vc4_plane.c               |  14 +-
+> >   drivers/gpu/drm/vc4/vc4_render_cl.c           |  40 +--
+> >   drivers/gpu/drm/vc4/vc4_txp.c                 |   8 +-
+> >   drivers/gpu/drm/vc4/vc4_v3d.c                 |   8 +-
+> >   drivers/gpu/drm/vc4/vc4_validate.c            |  28 +-
+> >   drivers/gpu/drm/vc4/vc4_validate_shaders.c    |   2 +-
+> >   drivers/gpu/drm/xlnx/Kconfig                  |   2 +-
+> >   drivers/gpu/drm/xlnx/zynqmp_disp.c            |   8 +-
+> >   drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |   8 +-
+> >   ...rm_fb_cma_helper.h => drm_fb_dma_helper.h} |  10 +-
+> >   include/drm/drm_gem.h                         |   2 +-
+> >   ..._gem_cma_helper.h => drm_gem_dma_helper.h} | 158 ++++-----
+> >   147 files changed, 899 insertions(+), 899 deletions(-)
+> >   rename drivers/gpu/drm/{drm_fb_cma_helper.c => drm_fb_dma_helper.c} (60%)
+> >   rename drivers/gpu/drm/{drm_gem_cma_helper.c => drm_gem_dma_helper.c} (56%)
+> >   rename include/drm/{drm_fb_cma_helper.h => drm_fb_dma_helper.h} (56%)
+> >   rename include/drm/{drm_gem_cma_helper.h => drm_gem_dma_helper.h} (53%)
 
-XRGB1555 and RGB565 are probably the only RGB formats we care about.
-Or perhaps some of the *30 formats?
+-- 
+Regards,
 
-> I guess util_format_fourcc() would end up being more a bit
-> complicated since you'd have to massage the string.
-
-True.
-
-> But I'm not sure why we even store the fourcc as a string in
-> the table anyway. Could just add some kind of string_to_fourcc()
-> thingy instead AFAICS.
-
-I guess that can be done.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
