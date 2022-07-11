@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0B0570BB4
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 22:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EE7570B63
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 22:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2264F90FD0;
-	Mon, 11 Jul 2022 20:26:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64A218A591;
+	Mon, 11 Jul 2022 20:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9358D097;
- Mon, 11 Jul 2022 20:25:32 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA45E14A0BF;
+ Mon, 11 Jul 2022 20:25:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E814761605;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 040C3B8120C;
  Mon, 11 Jul 2022 20:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B23DC385A2;
- Mon, 11 Jul 2022 20:25:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B213C341CE;
+ Mon, 11 Jul 2022 20:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657571125;
- bh=Z/zKaJ2/Qaqra32Q4gdJ+PEw3L+fBQUgI3q77b7zbTM=;
+ s=k20201202; t=1657571123;
+ bh=iPo5yEgWndhfMQR64zKLfth2omME0GYPHNfw6ZASCpQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HTXP7vylzS9lKArjpe/PThnePwNYD3qp5T590vuzELwa+euMFYSQEQeeaONTuh5w3
- 7Ti+n8m4Tw9ovl8+k/EsIh21cUYQuydc3EFu4rj/bWtQ0ct5WYrxN12rNofo/qdAGk
- 5tMUyfachxWlI2yAWkzNIHcQJ++zl79lB9smMUh4+Ax6WOPAN8VW6pGjKJT2EPe5TP
- ukNWHyQ7EL3tfEZ4JxMflB8dvSMj9vzh+iOC5N4bRHqbf1gPmqdA0m2g1R4F6KeifH
- CpNSzdpoknmpgDjke3zXFZVYOsZHDU6fhQPCoffZ1MeiG/vt0Uyxcu/EUwT/co036A
- YhlfsZU1/EzCA==
+ b=C4whE9rwW4KXNlMHWzbc7yx6XzNTYs9ra7km0iqGCLFDSLSmTni+LfhcvLghZeXyo
+ cfLGuGuLp8khxdX4eYIE/2X/pDzsup0ditp5lTcwMkCfKbSm5LV6bawjEYAvHr34ui
+ /jVq5+jx2ky7bEWrHOCnVtcX7zF8l4om6DPr7iH0bvI5oFiTEDympLGL/aAtjaY1jY
+ sWOkkCmowZ8nVUVlsmsg0BKU6Wp+hkQE2zzBlKtFz1Eci8I0QJ45ucMzN8WLseNgZw
+ aWTIf+VCcDacRzHJZnWbCP9C6T3JEYLudQ7VbBG9OVbKyE0JCnf5Jga06VDVK5i5PU
+ WqGCMrIJ2kJeg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oAzy3-004e8g-Oe;
+ (envelope-from <mchehab@kernel.org>) id 1oAzy3-004e8k-PG;
  Mon, 11 Jul 2022 21:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH 21/32] drm/i915: dvo_sil164.c: use SPDX header
-Date: Mon, 11 Jul 2022 21:25:06 +0100
-Message-Id: <33cc97fd489fdfbae420e907f7c1ceb79b633190.1657565224.git.mchehab@kernel.org>
+Subject: [PATCH 22/32] drm/i915: i915_vma_resource.c: fix some kernel-doc
+ markups
+Date: Mon, 11 Jul 2022 21:25:07 +0100
+Message-Id: <7d31d5221e03c875f3b366e320355faaf98a10a4.1657565224.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657565224.git.mchehab@kernel.org>
 References: <cover.1657565224.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,8 +63,14 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This file is licensed with MIT license.	Change its license text
-to use SPDX.
+Building docs currently produces two warnings:
+
+    Documentation/foo/i915:71: ./drivers/gpu/drm/i915/i915_vma_resource.c:286: WARNING: Inline strong start-string without end-string.
+    Documentation/foo/i915:71: ./drivers/gpu/drm/i915/i915_vma_resource.c:370: WARNING: Inline strong start-string without end-string.
+
+That's because @foo evaluates into **foo**, and placing anything
+after it without spaces cause Sphinx to warn and do the wrong
+thing.. So, replace them by a different Sphinx-compatible tag.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -73,50 +78,31 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/32] at: https://lore.kernel.org/all/cover.1657565224.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/display/dvo_sil164.c | 32 +++++------------------
- 1 file changed, 6 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/i915/i915_vma_resource.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/dvo_sil164.c b/drivers/gpu/drm/i915/display/dvo_sil164.c
-index 0dfa0a0209ff..12974f7c9dc1 100644
---- a/drivers/gpu/drm/i915/display/dvo_sil164.c
-+++ b/drivers/gpu/drm/i915/display/dvo_sil164.c
-@@ -1,30 +1,10 @@
--/**************************************************************************
-+// SPDX-License-Identifier: MIT
- 
--Copyright © 2006 Dave Airlie
--
--All Rights Reserved.
--
--Permission is hereby granted, free of charge, to any person obtaining a
--copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sub license, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial portions
--of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
--OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
--IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
--ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
--TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
--SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--
--**************************************************************************/
-+/*
-+ * Copyright © 2006 Dave Airlie
-+ *
-+ * All Rights Reserved.
-+ */
- 
- #include "intel_display_types.h"
- #include "intel_dvo_dev.h"
+diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
+index 27c55027387a..fa5a678018d9 100644
+--- a/drivers/gpu/drm/i915/i915_vma_resource.c
++++ b/drivers/gpu/drm/i915/i915_vma_resource.c
+@@ -283,7 +283,7 @@ i915_vma_resource_color_adjust_range(struct i915_address_space *vm,
+  *
+  * The function needs to be called with the vm lock held.
+  *
+- * Return: Zero on success, -ERESTARTSYS if interrupted and @intr==true
++ * Return: Zero on success, -ERESTARTSYS if interrupted and ``intr==true``
+  */
+ int i915_vma_resource_bind_dep_sync(struct i915_address_space *vm,
+ 				    u64 offset,
+@@ -367,7 +367,7 @@ void i915_vma_resource_bind_dep_sync_all(struct i915_address_space *vm)
+  * this means that during heavy memory pressure, we will sync in this
+  * function.
+  *
+- * Return: Zero on success, -ERESTARTSYS if interrupted and @intr==true
++ * Return: Zero on success, -ERESTARTSYS if interrupted and ``intr==true``
+  */
+ int i915_vma_resource_bind_dep_await(struct i915_address_space *vm,
+ 				     struct i915_sw_fence *sw_fence,
 -- 
 2.36.1
 
