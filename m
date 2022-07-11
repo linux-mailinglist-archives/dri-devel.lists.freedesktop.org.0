@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C109570C9E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 23:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDAA570D30
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 00:10:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F139166A;
-	Mon, 11 Jul 2022 21:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899A091E44;
+	Mon, 11 Jul 2022 22:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4645291669
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 21:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1657574465;
- bh=pulbl6ZVMF89zqi4FCDK9+iI1hZBrDJ8HumaDHMz+4s=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=AxTWPobAALVtt6qz0PnEwWDJhaQKiIIYYtayCZo8Ee+NdMHNcKnVmSKaACz3nugzy
- HetiOTydYhFfpK20CqdQJhDexwMD9UQ5ul4bMyCi3g3RqW3id/cifYXpo2UW3PA1XC
- BvQUZBgMyDa8KnWSuHA0T0aQZhJ8MfK7rMxnHgkc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.184.221]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVN6t-1o22Xn3SKt-00SKrM; Mon, 11
- Jul 2022 23:21:04 +0200
-Message-ID: <681e1739-d251-661a-a46f-9412f3b6e165@gmx.de>
-Date: Mon, 11 Jul 2022 23:20:27 +0200
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB46C91E40
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 22:10:07 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id o133so8338688oig.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 15:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=V4mk1W3OniljS8YPM11si/jZlWMggyziuS1oj31jQVM=;
+ b=FQHRTU7ZvcqILN4Ud1+1ls+ML6DsKpf6hZvdi1PXkWJxoOm8WI58KO8JpBFOntcWco
+ KLkuGGR19dZS2kAOzW8KECrJln5Ib/RMK4b+IS4VKtpM3oOHodOKTrFj/OFnFSRX36cv
+ utAZO5uiRv/VMsJIRRr14CiAOUVBGa/lwUIJtXezQGrJsKeTy7Nc+wjc5ljEWPbBhtWj
+ dng3N9KslipjBaJZi0jZzETTaa+dDsfiBguuFno6paGnM6Lm42CWxuJupiHzYShn8j7b
+ uQ9LPFgCT6yLC3gtZCNHnhwHfCGvC2T4+bl1YjTnZ78KdKayAL2/JWVWk3jgzttIIrv+
+ Fr+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=V4mk1W3OniljS8YPM11si/jZlWMggyziuS1oj31jQVM=;
+ b=Pw5RMxCxihDICCComXlnzm02Fsr7wgalICGDU1bxSA6BrtiBB0PstzOp7Q3WDmjxqb
+ PZZvAVWH5s5eV0O3Hd5bSw1cE8jo7bn7sJquUttRZAXnPK/B5gO9q8wph3NkDT2qTR6Y
+ tThtf+LYCXeO/JmJFyElntsJvd7DgKp29j7PsowGwM7tTtuvt5/SVmxBahN9+cHcz8Bf
+ GYMu1/0OgR+u3rVEpM3rAZMBep/gNP+zRh2F0eizsS5msuL+6d9ZbW6f5evTcIaPYU3J
+ OILQrc4aGMfxvuoAu1K0cKrQMZ74wEB1JAoMaY9QA3rAfBjJ6cplXR9myohQF3e7aCSK
+ F82g==
+X-Gm-Message-State: AJIora9qGlkR/Ef7s0WDuACvfgireZrO49M6W9yK/6gQW0e39vQVWf3o
+ OtAAlicFSoY7aLTqnoUjmFev9Q==
+X-Google-Smtp-Source: AGRyM1t140/a/OrsmWjfzbQXpBvjuOvtdzQsGzuy57X3fj66JnFKdgeE/F13jZWfyePITILiTg0Umw==
+X-Received: by 2002:a05:6808:f89:b0:339:ce78:1ad8 with SMTP id
+ o9-20020a0568080f8900b00339ce781ad8mr315866oiw.207.1657577406972; 
+ Mon, 11 Jul 2022 15:10:06 -0700 (PDT)
+Received: from [192.168.11.16] (cpe-173-173-107-246.satx.res.rr.com.
+ [173.173.107.246]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a056870170400b000f5ccbb7d75sm3848978oae.1.2022.07.11.15.10.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jul 2022 15:10:06 -0700 (PDT)
+Message-ID: <958cb551-52da-615d-64e3-cf0c2da61789@kali.org>
+Date: Mon, 11 Jul 2022 17:10:03 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] video: fbdev: amiga: Simplify amifb_pan_display()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [RFC PATCH v3 1/2] drm/bridge: ti-sn65dsi86: fetch bpc using
+ drm_atomic_state
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <b803f10a2b3b85386b25a2e25b98fb4e59413ea9.1657553681.git.geert@linux-m68k.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <b803f10a2b3b85386b25a2e25b98fb4e59413ea9.1657553681.git.geert@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:nVTr6BBwsWtnZx2aandyv+fUBwA/rXHQ6laYCVuq5K6BMshiorz
- oSUQh06r/DOmXqzDdd5MVI7jLmIlTNgzFGwmwDnAR2OzyUN2qCk2pjlhQH6V4Wl+skQ/cq2
- 1poDea8TEluhigguiyqt+Ash7248Rhgqdb6x25clkWzCQUlwIr/oUuE5umGLWMaz82xDURS
- 50wroyX+c1Zo0C2Dtrf9A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NZ4kLPOUqWI=:ddtZJMwIk26PDP1AFeNs1I
- CK9cdRIKjSuTZTp1SQ8KYb/TLEpyJQfas9W/uqwufPJgcZyDeOmyK0QOFEOxd/BngpwArrQIE
- c6Ru/c4/rDTsanux1uA/krsBHHCkXGL9QJVw6MuAhlP1sisi/iN/AF4MGwEGmyDGsS1PfVwuZ
- GhC9iwzbxs12fzBjG6++qyDiFJHMwHSLfAJ+ZPwQJkbRiCpLQbRfMxNhyIYDi2iPkpnbsKfKk
- zFj41bGRf+TwVjpwhaSsN3ChpuNgxUEHRxxgTEK2ZIvbaEZ5jFQdngNVJQ4AN79eou+GuUL53
- vjQnWxknd/UpgIGIgQ7Y/1kl/wiiTKAd43W32IcdiZDO95JVKp8oD595IFgHmwl/lcKLXDfld
- qdX//ZJBrqBwL7d9dsCtQ1aQs8A50MYWtJT9AcrAZVXAup4eJO9p2hc27L9ijE7rl43XWFQ5n
- UdN2okVmidi/HEWbBqlyg8Fg5b63I+sf0Bj7e0Pav4/heM0Gk83OL2axdVJdmB3wuX4tPoD87
- zuFAMP7S0U2IetH8GckowCnU5qmgxQMDxbqbF97T+zduYczc6p+dHbPv83HSBgO9OY9bK4Pef
- oJnfIH1FgdySEhD1QuZ7LvMpX16RodLvbXuj2u/NlU7N72DEgXGmc2ZsL/ClFJKGUmGGAVLtw
- v6c7YepDyAIxLnIKxsRU37MWT+yGaTf2NqNiPxXuuuHaZJ3NfyWysn2lko9ThNXkuHJ0WvcZn
- g63SJB+apu0mgvrEIUXQiD+70i8roxHz2gZGzWow8doisq945ActjgeVRyWLRztPlEG7UWuZC
- st9LRE+wGnEp5S7TYMAaM4eaQYMwdfI0EoQyFZSu04mo0F6l/uYV056R6uR/dZUHeFFf/eT0c
- VofMUn0GKy2BcAuJDYBnyKJOi0nSaNFwwM6wFGI1mmvBluksLL1lM51qMC5U4EwxvYk5w/jy+
- pweCuDF4U9xow9b+XF2M7LOmKLCuiH00wfSoeVp5+PJFTFl5SNWnG4uGKHRetPXFzi0vW+tUJ
- 1yq2HC+N3Nbw9+7fqknLNIJLssDMPxGsdcT7/G/EPRIWNunhLGMyfjzJH4G5KzilESJUDrhJH
- r5+1ci5/NfJFG26RzRLFY6F1qGN/DLMsPbyHSfacItYZnZ/bFdkIsTTmA==
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>
+References: <20220711092117.360797-1-dmitry.baryshkov@linaro.org>
+ <20220711092117.360797-2-dmitry.baryshkov@linaro.org>
+From: Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <20220711092117.360797-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +82,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/11/22 17:35, Geert Uytterhoeven wrote:
-> The fb_pan_display() function in the core already takes care of
-> validating most panning parameters before calling the driver's
-> .fb_pan_display() callback, and of updating the panning state
-> afterwards, so there is no need to repeat that in the driver.
+
+On 7/11/22 4:21 AM, Dmitry Baryshkov wrote:
+> Rather than reading the pdata->connector directly, fetch the connector
+> using drm_atomic_state. This allows us to make pdata->connector optional
+> (and thus supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR).
 >
-> Remove the duplicate code.
->
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-I've applied this and the other 3 patches to the fbdev git tree.
-
-Thanks!
-Helge
-
-
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/video/fbdev/amifb.c | 15 ++-------------
->  1 file changed, 2 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 ++++++++++++++++------
+>   1 file changed, 16 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/video/fbdev/amifb.c b/drivers/video/fbdev/amifb.c
-> index 6e07a97bbd31a1dd..d88265dbebf4cb19 100644
-> --- a/drivers/video/fbdev/amifb.c
-> +++ b/drivers/video/fbdev/amifb.c
-> @@ -2540,27 +2540,16 @@ static int amifb_blank(int blank, struct fb_info=
- *info)
->  static int amifb_pan_display(struct fb_var_screeninfo *var,
->  			     struct fb_info *info)
->  {
-> -	if (var->vmode & FB_VMODE_YWRAP) {
-> -		if (var->yoffset < 0 ||
-> -			var->yoffset >=3D info->var.yres_virtual || var->xoffset)
-> -				return -EINVAL;
-> -	} else {
-> +	if (!(var->vmode & FB_VMODE_YWRAP)) {
->  		/*
->  		 * TODO: There will be problems when xpan!=3D1, so some columns
->  		 * on the right side will never be seen
->  		 */
->  		if (var->xoffset + info->var.xres >
-> -		    upx(16 << maxfmode, info->var.xres_virtual) ||
-> -		    var->yoffset + info->var.yres > info->var.yres_virtual)
-> +		    upx(16 << maxfmode, info->var.xres_virtual))
->  			return -EINVAL;
->  	}
->  	ami_pan_var(var, info);
-> -	info->var.xoffset =3D var->xoffset;
-> -	info->var.yoffset =3D var->yoffset;
-> -	if (var->vmode & FB_VMODE_YWRAP)
-> -		info->var.vmode |=3D FB_VMODE_YWRAP;
-> -	else
-> -		info->var.vmode &=3D ~FB_VMODE_YWRAP;
->  	return 0;
->  }
->
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index d6dd4d99a229..b362a7bf4d97 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -779,9 +779,9 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+>   	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
+>   }
+>   
+> -static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
+> +static unsigned int ti_sn_bridge_get_bpp(struct drm_connector *connector)
+>   {
+> -	if (pdata->connector->display_info.bpc <= 6)
+> +	if (connector->display_info.bpc <= 6)
+>   		return 18;
+>   	else
+>   		return 24;
+> @@ -796,7 +796,7 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
+>   	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
+>   };
+>   
+> -static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
+> +static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata, unsigned int bpp)
+>   {
+>   	unsigned int bit_rate_khz, dp_rate_mhz;
+>   	unsigned int i;
+> @@ -804,7 +804,7 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
+>   		&pdata->bridge.encoder->crtc->state->adjusted_mode;
+>   
+>   	/* Calculate minimum bit rate based on our pixel clock. */
+> -	bit_rate_khz = mode->clock * ti_sn_bridge_get_bpp(pdata);
+> +	bit_rate_khz = mode->clock * bpp;
+>   
+>   	/* Calculate minimum DP data rate, taking 80% as per DP spec */
+>   	dp_rate_mhz = DIV_ROUND_UP(bit_rate_khz * DP_CLK_FUDGE_NUM,
+> @@ -1016,12 +1016,21 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+>   				       struct drm_bridge_state *old_bridge_state)
+>   {
+>   	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+> +	struct drm_connector *connector;
+>   	const char *last_err_str = "No supported DP rate";
+>   	unsigned int valid_rates;
+>   	int dp_rate_idx;
+>   	unsigned int val;
+>   	int ret = -EINVAL;
+>   	int max_dp_lanes;
+> +	unsigned int bpp;
+> +
+> +	connector = drm_atomic_get_new_connector_for_encoder(old_bridge_state->base.state,
+> +							     bridge->encoder);
+> +	if (!connector) {
+> +		dev_err_ratelimited(pdata->dev, "Could not get the connector\n");
+> +		return;
+> +	}
+>   
+>   	max_dp_lanes = ti_sn_get_max_lanes(pdata);
+>   	pdata->dp_lanes = min(pdata->dp_lanes, max_dp_lanes);
+> @@ -1047,8 +1056,9 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+>   	drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+>   			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+>   
+> +	bpp = ti_sn_bridge_get_bpp(connector);
+>   	/* Set the DP output format (18 bpp or 24 bpp) */
+> -	val = (ti_sn_bridge_get_bpp(pdata) == 18) ? BPP_18_RGB : 0;
+> +	val = bpp == 18 ? BPP_18_RGB : 0;
+>   	regmap_update_bits(pdata->regmap, SN_DATA_FORMAT_REG, BPP_18_RGB, val);
+>   
+>   	/* DP lane config */
+> @@ -1059,7 +1069,7 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+>   	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
+>   
+>   	/* Train until we run out of rates */
+> -	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
+> +	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bpp);
+>   	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
+>   	     dp_rate_idx++) {
+>   		if (!(valid_rates & BIT(dp_rate_idx)))
+
+Tested on the Lenovo Yoga C630.  bpc is found to be 6, which I believe 
+is correct.
+
+Tested-by: Steev Klimaszewski <steev@kali.org>
 
