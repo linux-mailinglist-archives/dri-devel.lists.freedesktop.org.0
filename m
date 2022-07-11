@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B1C3570B7D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 22:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D4E570BB7
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 22:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E4F8EF53;
-	Mon, 11 Jul 2022 20:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 391699100B;
+	Mon, 11 Jul 2022 20:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D09DC14B9AC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9020A14AB79;
  Mon, 11 Jul 2022 20:25:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1DC0061631;
- Mon, 11 Jul 2022 20:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2894FC341D2;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B200061625;
+ Mon, 11 Jul 2022 20:25:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC33C341CB;
  Mon, 11 Jul 2022 20:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657571123;
- bh=Ftp7lyR/xctlUKTKexMaEpblz+zHMJN2h1fCC828awA=;
+ bh=Gd361/6Iy89J1I+kq8IHDZHpMguUpginYh8pUHsNUNQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cHboK/qq3Zbah34KTnXsP4mFCBxUJIqBnt8GOWo4kiBBJBbNzeMeU5Lq6bgtPoSqD
- kC33Nm512lO7AsGMbT0H+mK1bsQfiudf+xgeKuHC3FMFlODIpRw6P1L9ESJNOq4Go0
- LoDxcWe7QkxmgYXat6GQoGKPGhfZC168Vh5UfyXN/5/d5S/MGF6sNmDBK9Mzpdgs/J
- YMNA9rMdElGuOsOM04QZ2NhTMgtZ3G0dVyq2888kFuETxXvlNLW0J9M0Te8JVK51x2
- 0nm8FJvdrNT+AhmJ+pwT7YOkp7dASgmqQ7CJIdmvuB697F/r4jYXtTC77zrZHrSN4S
- u6Detn8y4HJwQ==
+ b=ibxTJ0kJYOfuWWYKi8e3pfOCqPZgmdeqimYHPhpewSyuid0ox50YSEy6ZYTs3z1Wx
+ RJ6pusHPLs+8P21PhfaeIa74ZL6T6pnoQDbCmiHoeajFAmVkfJKTUrx8Z1KeFCyRdG
+ YwvwLfcXPX4pjhu4RXAGs9NXUFx8oOgn/+8j2P6mXK/dB5sHTGZby220uNRX0GkBuA
+ xUuqC/JNwtQpjZsM0QfXq5mnbDJYTUefJTz5tsmeaMHRskI5OcpZBz49V9iWuTUHZH
+ ZcPh+7+t8s0btqIxl+dOXIlNtKWVfKoPstonbaxM7r0mHHnmIiBGDXOror4vNExmQZ
+ Al5nC2K0LtB0A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oAzy3-004e7X-AU;
+ (envelope-from <mchehab@kernel.org>) id 1oAzy3-004e7a-BO;
  Mon, 11 Jul 2022 21:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH 02/32] drm/i915: display: fix kernel-doc markup warnings
-Date: Mon, 11 Jul 2022 21:24:47 +0100
-Message-Id: <2f9a9a9b0e1eced6e628b92add45fb4fae43ff78.1657565224.git.mchehab@kernel.org>
+Subject: [PATCH 03/32] drm/i915: gt: fix some Kernel-doc issues
+Date: Mon, 11 Jul 2022 21:24:48 +0100
+Message-Id: <de16d097a9675e8e4ac61f966411c897edda8660.1657565224.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657565224.git.mchehab@kernel.org>
 References: <cover.1657565224.git.mchehab@kernel.org>
@@ -55,28 +55,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Patnana Venkata Sai <venkata.sai.patnana@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Sean Paul <seanpaul@chromium.org>,
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Michael Cheng <michael.cheng@intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Casey Bowman <casey.g.bowman@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Fernando Ramos <greenfoo@u92.eu>
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ linux-kernel@vger.kernel.org, Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a couple of issues at i915 display kernel-doc markups:
+There are several trivial warnings there, due to trivial things:
+	- lack of function name at the kerneldoc markup;
+	- undocumented structs with kernel-doc markups;
+	- wrong parameter syntax.
 
-	drivers/gpu/drm/i915/display/intel_display_debugfs.c:2238: warning: Function parameter or member 'intel_connector' not described in 'intel_connector_debugfs_add'
-	drivers/gpu/drm/i915/display/intel_display_debugfs.c:2238: warning: Excess function parameter 'connector' description in 'intel_connector_debugfs_add'
-	drivers/gpu/drm/i915/display/intel_display_power.c:700: warning: expecting prototype for intel_display_power_put_async(). Prototype was for __intel_display_power_put_async() instead
-	drivers/gpu/drm/i915/display/intel_tc.c:807: warning: Function parameter or member 'work' not described in 'intel_tc_port_disconnect_phy_work'
-	drivers/gpu/drm/i915/display/intel_tc.c:807: warning: Excess function parameter 'dig_port' description in 'intel_tc_port_disconnect_phy_work'
+    Fix such warnings:
 
-Those are due to wrong parameter of function name. Address them.
+	drivers/gpu/drm/i915/gt/intel_context.h:107: warning: Function parameter or member 'ce' not described in 'intel_context_lock_pinned'
+	drivers/gpu/drm/i915/gt/intel_context.h:122: warning: Function parameter or member 'ce' not described in 'intel_context_is_pinned'
+	drivers/gpu/drm/i915/gt/intel_context.h:141: warning: Function parameter or member 'ce' not described in 'intel_context_unlock_pinned'
+	drivers/gpu/drm/i915/gt/intel_gtt.h:510: warning: Function parameter or member 'vm' not described in 'i915_vm_resv_put'
+	drivers/gpu/drm/i915/gt/intel_gtt.h:510: warning: Excess function parameter 'resv' description in 'i915_vm_resv_put'
+	drivers/gpu/drm/i915/gt/intel_gtt.h:615: warning: Function parameter or member 'i915' not described in 'i915_ggtt_mark_pte_lost'
+	drivers/gpu/drm/i915/gt/intel_gtt.h:615: warning: Function parameter or member 'val' not described in 'i915_ggtt_mark_pte_lost'
+	drivers/gpu/drm/i915/gt/intel_rps.c:2343: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	 * Tells the intel_ips driver that the i915 driver is now loaded, if
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:28: warning: Function parameter or member 'size' not described in '__guc_capture_bufstate'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:28: warning: Function parameter or member 'data' not described in '__guc_capture_bufstate'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:28: warning: Function parameter or member 'rd' not described in '__guc_capture_bufstate'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:28: warning: Function parameter or member 'wr' not described in '__guc_capture_bufstate'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'link' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'is_partial' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'eng_class' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'eng_inst' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'guc_id' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'lrca' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:60: warning: Function parameter or member 'reginfo' not described in '__guc_capture_parsed_output'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:63: warning: wrong kernel-doc identifier on line:
+	 * struct guc_debug_capture_list_header / struct guc_debug_capture_list
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:81: warning: wrong kernel-doc identifier on line:
+	 * struct __guc_mmio_reg_descr / struct __guc_mmio_reg_descr_group
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:106: warning: wrong kernel-doc identifier on line:
+	 * struct guc_state_capture_header_t / struct guc_state_capture_t /
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:164: warning: Function parameter or member 'is_valid' not described in '__guc_capture_ads_cache'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:164: warning: Function parameter or member 'ptr' not described in '__guc_capture_ads_cache'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:164: warning: Function parameter or member 'size' not described in '__guc_capture_ads_cache'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:164: warning: Function parameter or member 'status' not described in '__guc_capture_ads_cache'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:217: warning: Function parameter or member 'ads_null_cache' not described in 'intel_guc_state_capture'
+	drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:217: warning: Function parameter or member 'max_mmio_per_node' not described in 'intel_guc_state_capture'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'marker' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'read_ptr' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'write_ptr' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'size' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'sampled_write_ptr' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'wrap_offset' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'flush_to_file' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'buffer_full_cnt' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'reserved' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'flags' not described in 'guc_log_buffer_state'
+	drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h:401: warning: Function parameter or member 'version' not described in 'guc_log_buffer_state'
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -84,50 +134,186 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/32] at: https://lore.kernel.org/all/cover.1657565224.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/display/intel_display_debugfs.c | 2 +-
- drivers/gpu/drm/i915/display/intel_display_power.c   | 2 +-
- drivers/gpu/drm/i915/display/intel_tc.c              | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context.h       |  6 +++---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  6 +++---
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  4 ++--
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h | 14 +++++++-------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  2 +-
+ 6 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index 6c3954479047..1e35eb01742b 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -2229,7 +2229,7 @@ DEFINE_SHOW_ATTRIBUTE(i915_current_bpc);
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+index 8e2d70630c49..91c092d5deae 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.h
++++ b/drivers/gpu/drm/i915/gt/intel_context.h
+@@ -96,7 +96,7 @@ void intel_context_bind_parent_child(struct intel_context *parent,
  
  /**
-  * intel_connector_debugfs_add - add i915 specific connector debugfs files
-- * @connector: pointer to a registered drm_connector
-+ * @intel_connector: pointer to a registered drm_connector
+  * intel_context_lock_pinned - Stablises the 'pinned' status of the HW context
+- * @ce - the context
++ * @ce: the context
   *
-  * Cleanup will be done by drm_connector_unregister() through a call to
-  * drm_debugfs_connector_remove().
-diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-index 589af257edeb..fd6b71160a06 100644
---- a/drivers/gpu/drm/i915/display/intel_display_power.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-@@ -685,7 +685,7 @@ intel_display_power_put_async_work(struct work_struct *work)
+  * Acquire a lock on the pinned status of the HW context, such that the context
+  * can neither be bound to the GPU or unbound whilst the lock is held, i.e.
+@@ -110,7 +110,7 @@ static inline int intel_context_lock_pinned(struct intel_context *ce)
+ 
+ /**
+  * intel_context_is_pinned - Reports the 'pinned' status
+- * @ce - the context
++ * @ce: the context
+  *
+  * While in use by the GPU, the context, along with its ring and page
+  * tables is pinned into memory and the GTT.
+@@ -132,7 +132,7 @@ static inline void intel_context_cancel_request(struct intel_context *ce,
+ 
+ /**
+  * intel_context_unlock_pinned - Releases the earlier locking of 'pinned' status
+- * @ce - the context
++ * @ce: the context
+  *
+  * Releases the lock earlier acquired by intel_context_unlock_pinned().
+  */
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 37fa813af766..da225f5db2a4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1197,7 +1197,7 @@ create_kernel_context(struct intel_engine_cs *engine)
  }
  
  /**
-- * intel_display_power_put_async - release a power domain reference asynchronously
-+ * __intel_display_power_put_async - release a power domain reference asynchronously
-  * @i915: i915 device instance
-  * @domain: power domain to reference
-  * @wakeref: wakeref acquired for the reference that is being released
-diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
-index 6773840f6cc7..7ce0cbe0de05 100644
---- a/drivers/gpu/drm/i915/display/intel_tc.c
-+++ b/drivers/gpu/drm/i915/display/intel_tc.c
-@@ -797,7 +797,7 @@ void intel_tc_port_lock(struct intel_digital_port *dig_port)
+- * intel_engines_init_common - initialize cengine state which might require hw access
++ * engine_init_common - initialize cengine state which might require hw access
+  * @engine: Engine to initialize.
+  *
+  * Initializes @engine@ structure members shared between legacy and execlists
+@@ -1278,7 +1278,7 @@ int intel_engines_init(struct intel_gt *gt)
+ }
  
  /**
-  * intel_tc_port_disconnect_phy_work: disconnect TypeC PHY from display port
-- * @dig_port: digital port
-+ * @work: workqueue struct
+- * intel_engines_cleanup_common - cleans up the engine state created by
++ * intel_engine_cleanup_common - cleans up the engine state created by
+  *                                the common initiailizers.
+  * @engine: Engine to cleanup.
   *
-  * Disconnect the given digital port from its TypeC PHY (handing back the
-  * control of the PHY to the TypeC subsystem). This will happen in a delayed
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+index e639434e97fd..fca8eedee1d8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+@@ -503,7 +503,7 @@ static inline void i915_vm_put(struct i915_address_space *vm)
+ 
+ /**
+  * i915_vm_resv_put - Release a reference on the vm's reservation lock
+- * @resv: Pointer to a reservation lock obtained from i915_vm_resv_get()
++ * @vm: The vm whose reservation lock was obtained from i915_vm_resv_get()
+  */
+ static inline void i915_vm_resv_put(struct i915_address_space *vm)
+ {
+@@ -604,8 +604,8 @@ void i915_ggtt_resume(struct i915_ggtt *ggtt);
+ 
+ /**
+  * i915_ggtt_mark_pte_lost - Mark ggtt ptes as lost or clear such a marking
+- * @i915 The device private.
+- * @val whether the ptes should be marked as lost.
++ * @i915: The device private.
++ * @val: whether the ptes should be marked as lost.
+  *
+  * In some cases pte content is retained across suspend, but typically lost
+  * across hibernate. Typically they should be marked as lost on
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index fb3f57ee450b..8aefc427e06e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -2339,8 +2339,8 @@ bool rps_read_mask_mmio(struct intel_rps *rps,
+ static struct drm_i915_private __rcu *ips_mchdev;
+ 
+ /**
+- * Tells the intel_ips driver that the i915 driver is now loaded, if
+- * IPS got loaded first.
++ * ips_ping_for_i915_load - Tells the intel_ips driver that the i915 driver
++ *	 is now loaded, if IPS got loaded first.
+  *
+  * This awkward dance is so that neither module has to depend on the
+  * other in order for IPS to do the appropriate communication of
+diff --git a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+index 3624abfd22d1..58f93226b1c1 100644
+--- a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+@@ -12,7 +12,7 @@
+ struct intel_guc;
+ struct file;
+ 
+-/**
++/*
+  * struct __guc_capture_bufstate
+  *
+  * Book-keeping structure used to track read and write pointers
+@@ -26,7 +26,7 @@ struct __guc_capture_bufstate {
+ 	u32 wr;
+ };
+ 
+-/**
++/*
+  * struct __guc_capture_parsed_output - extracted error capture node
+  *
+  * A single unit of extracted error-capture output data grouped together
+@@ -58,7 +58,7 @@ struct __guc_capture_parsed_output {
+ #define GCAP_PARSED_REGLIST_INDEX_ENGINST  BIT(GUC_CAPTURE_LIST_TYPE_ENGINE_INSTANCE)
+ };
+ 
+-/**
++/*
+  * struct guc_debug_capture_list_header / struct guc_debug_capture_list
+  *
+  * As part of ADS registration, these header structures (followed by
+@@ -76,7 +76,7 @@ struct guc_debug_capture_list {
+ 	struct guc_mmio_reg regs[0];
+ } __packed;
+ 
+-/**
++/*
+  * struct __guc_mmio_reg_descr / struct __guc_mmio_reg_descr_group
+  *
+  * intel_guc_capture module uses these structures to maintain static
+@@ -101,7 +101,7 @@ struct __guc_mmio_reg_descr_group {
+ 	struct __guc_mmio_reg_descr *extlist; /* only used for steered registers */
+ };
+ 
+-/**
++/*
+  * struct guc_state_capture_header_t / struct guc_state_capture_t /
+  * guc_state_capture_group_header_t / guc_state_capture_group_t
+  *
+@@ -148,7 +148,7 @@ struct guc_state_capture_group_t {
+ 	struct guc_state_capture_t capture_entries[0];
+ } __packed;
+ 
+-/**
++/*
+  * struct __guc_capture_ads_cache
+  *
+  * A structure to cache register lists that were populated and registered
+@@ -162,7 +162,7 @@ struct __guc_capture_ads_cache {
+ 	int status;
+ };
+ 
+-/**
++/*
+  * struct intel_guc_state_capture
+  *
+  * Internal context of the intel_guc_capture module.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index b3c9a9327f76..237019e98ede 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -360,7 +360,7 @@ enum guc_log_buffer_type {
+ 	GUC_MAX_LOG_BUFFER
+ };
+ 
+-/**
++/*
+  * struct guc_log_buffer_state - GuC log buffer state
+  *
+  * Below state structure is used for coordination of retrieval of GuC firmware
 -- 
 2.36.1
 
