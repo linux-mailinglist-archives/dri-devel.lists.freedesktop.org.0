@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD76B56FCE1
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E6656FCD2
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C60B18AF9A;
-	Mon, 11 Jul 2022 09:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9BF214A3F1;
+	Mon, 11 Jul 2022 09:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01CA114B6F9;
- Mon, 11 Jul 2022 09:48:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D0F113042;
+ Mon, 11 Jul 2022 09:48:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657532913; x=1689068913;
+ t=1657532909; x=1689068909;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=WIE4k16B546+GOIEF5LuLlvzz9jj7GXmSz9efENWnag=;
- b=XAY3isyW+DmIjeACO/tOwv6xaSM5X4UAxDVkyVuPUZn7nhbtcvX0cGjp
- T0ViM6GFlDLbx9mT3MJgMl60EhzuhXZa998f5rNpmnjIp7pIWKzh9Ph2t
- 8XD5Cyy2WI78SYFi2HJW2W62OTuvfHIQJpY7s95l3Pl394msp2YXjouIt 0=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 11 Jul 2022 02:48:32 -0700
+ bh=dE6VCcA7bpDe38linFR8abZm5l18F67CS6O9Zlj6+Wg=;
+ b=Y9JZ+7ZHjxtIjuMCNeYLEQWU/mV8xpzkLaeGx2C+gUceq6x3kMZFWswE
+ JvVZASrfpltj675Xte4JMpbIG82Ws4mQorSfngCNn+lBXnwbEGttNw52Q
+ jAlqwpT1lsJLi/rqEB6wxxfHMiD2/Uojt4AbUEMeRYe0zpu5BzJ+sBGuH Q=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 11 Jul 2022 02:48:29 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 11 Jul 2022 02:48:31 -0700
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 11 Jul 2022 02:48:28 -0700
 X-QCInternal: smtphost
 Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg02-blr.qualcomm.com with ESMTP; 11 Jul 2022 15:18:05 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 11 Jul 2022 15:18:08 +0530
 Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 7046F3E49; Mon, 11 Jul 2022 15:18:04 +0530 (IST)
+ id 8C3FB3E4A; Mon, 11 Jul 2022 15:18:04 +0530 (IST)
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v5 04/10] drm/msm/dp: add basic PSR support for eDP
-Date: Mon, 11 Jul 2022 15:17:53 +0530
-Message-Id: <1657532880-12897-5-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v5 04/10] drm/msm/dp: Add basic PSR support for eDP
+Date: Mon, 11 Jul 2022 15:17:54 +0530
+Message-Id: <1657532880-12897-6-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1657532880-12897-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1657532880-12897-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -71,17 +71,17 @@ Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 ---
  drivers/gpu/drm/msm/dp/dp_catalog.c |  81 +++++++++++++++++++++
  drivers/gpu/drm/msm/dp/dp_catalog.h |   4 ++
- drivers/gpu/drm/msm/dp/dp_ctrl.c    |  78 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  73 +++++++++++++++++++
  drivers/gpu/drm/msm/dp/dp_ctrl.h    |   3 +
  drivers/gpu/drm/msm/dp/dp_display.c |  14 ++++
  drivers/gpu/drm/msm/dp/dp_display.h |   2 +
- drivers/gpu/drm/msm/dp/dp_drm.c     | 136 +++++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_drm.c     | 137 +++++++++++++++++++++++++++++++++++-
  drivers/gpu/drm/msm/dp/dp_drm.h     |   9 ++-
  drivers/gpu/drm/msm/dp/dp_link.c    |  36 ++++++++++
  drivers/gpu/drm/msm/dp/dp_panel.c   |  22 ++++++
  drivers/gpu/drm/msm/dp/dp_panel.h   |   6 ++
  drivers/gpu/drm/msm/dp/dp_reg.h     |  27 +++++++
- 12 files changed, 411 insertions(+), 7 deletions(-)
+ 12 files changed, 410 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
 index 7257515..b9021ed 100644
@@ -225,7 +225,7 @@ index 1f717f4..6454845 100644
  				u32 dp_tu, u32 valid_boundary,
  				u32 valid_boundary2);
 diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index d21971b..b292bbc 100644
+index d21971b..0007920 100644
 --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
 +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
 @@ -22,6 +22,7 @@
@@ -254,19 +254,7 @@ index d21971b..b292bbc 100644
  	dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
  }
  
-@@ -1384,9 +1389,8 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
- 
- void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
- {
--	struct dp_ctrl_private *ctrl;
--
--	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+	struct dp_ctrl_private *ctrl = container_of(dp_ctrl,
-+			struct dp_ctrl_private, dp_ctrl);
- 
- 	dp_catalog_ctrl_reset(ctrl->catalog);
- 
-@@ -1394,6 +1398,60 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
+@@ -1394,6 +1399,60 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
  		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
  }
  
@@ -327,7 +315,7 @@ index d21971b..b292bbc 100644
  void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
  {
  	struct dp_ctrl_private *ctrl;
-@@ -1997,6 +2055,19 @@ void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
+@@ -1997,6 +2056,19 @@ void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
  
  	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
  
@@ -347,7 +335,7 @@ index d21971b..b292bbc 100644
  	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
  
  	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
-@@ -2043,6 +2114,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+@@ -2043,6 +2115,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
  		dev_err(dev, "failed to add DP OPP table\n");
  
  	init_completion(&ctrl->idle_comp);
@@ -426,10 +414,10 @@ index 4f9fe4d..1feaada 100644
  
  #endif /* _DP_DISPLAY_H_ */
 diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 9d0fc74..313db5b 100644
+index 9d0fc74..8e2cb35 100644
 --- a/drivers/gpu/drm/msm/dp/dp_drm.c
 +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -60,6 +60,140 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
+@@ -60,6 +60,141 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
  	return rc;
  }
  
@@ -471,7 +459,8 @@ index 9d0fc74..313db5b 100644
 +	 * If the panel is in psr, just exit psr state and skip the full
 +	 * bridge enable sequence.
 +	 */
-+	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state, dp->encoder);
++	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state,
++						   drm_bridge->encoder);
 +	if (!crtc)
 +		return;
 +
@@ -494,7 +483,8 @@ index 9d0fc74..313db5b 100644
 +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
 +	struct msm_dp *dp = dp_bridge->dp_display;
 +
-+	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, dp->encoder);
++	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state,
++						   drm_bridge->encoder);
 +	if (!crtc)
 +		goto out;
 +
@@ -535,10 +525,9 @@ index 9d0fc74..313db5b 100644
 +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
 +	struct drm_crtc *crtc;
 +	struct drm_crtc_state *new_crtc_state = NULL;
-+	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
-+	struct msm_dp *dp = dp_bridge->dp_display;
 +
-+	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state, dp->encoder);
++	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state,
++						   drm_bridge->encoder);
 +	if (!crtc)
 +		return;
 +
@@ -570,7 +559,7 @@ index 9d0fc74..313db5b 100644
  static const struct drm_bridge_funcs dp_bridge_ops = {
  	.atomic_enable = dp_bridge_atomic_enable,
  	.atomic_disable = dp_bridge_atomic_disable,
-@@ -88,7 +222,7 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
+@@ -88,7 +223,7 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
  	dp_bridge->dp_display = dp_display;
  
  	bridge = &dp_bridge->bridge;
