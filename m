@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57B8570A93
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 21:20:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C678570A96
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 21:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A87B2B82F;
-	Mon, 11 Jul 2022 19:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E48908A32E;
+	Mon, 11 Jul 2022 19:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12592B82F;
- Mon, 11 Jul 2022 19:20:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 348FD8A32E;
+ Mon, 11 Jul 2022 19:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=7c7d6rskMkCYDjy6DAbXKPIeXjrUo9HRt6h1La1UYjI=; b=VBYzb6hel8xiSj8r/JdTvu51Y3
- qp6SbCXo4XhSmXzSD4QZKZBX4a1I8+C8Ib5WdkOkNxTW/10jRpyaR0qR8U8PvS4GDI3xAeyCL35sn
- LmpsSoEvEHZMI6LgWHATqPPmBo8T4IO5pO2Fpv5dR+NMu8wtjIwhKVhegoBx/wlwITEnE7Z1SoCdg
- lgfWRquRIRNNI6ieUfP9XPNWtudaF0GZcGAAG9u30noGZEa5mYAV34qcnfdG0N5wtb8C7+xZ/Oy0v
- gwkpfY6ZdYzTHx9fozoIHALFM26C38FYdiadGkEmQfsNNlONL3W1SBT0mrYMpJNA2RSiT+Ish/3EV
- Fz7k+7Dw==;
+ bh=yeatAA7c4woASlu6p943MCUP6aWF68CFbJiBR8Awayc=; b=QScllVEELXl/YZKDOJRngNzOdT
+ Ujzm65/KqIljrVyVD09HcG2/19c/Nw4cmeYOelWDLJ80UoN1cPcl40pvHQT+CJTY6LYMrc/Ll6TTT
+ zeDhS0R9+FVU3HU+YJbT1Ta4+Ibf6HicD+tlgH55FMEv4/YKB+v92xJjlwfT+L4vLT+8KhAy/F+h3
+ fOGP2Ce2dD70tSWeZWuJPVKrRZpy6YTZerO8tg/uufS9tjL7tAWEpuT7skd3uYla67jGcOc2fNonU
+ bNHr/YZWPpYGoWj/fszONb8hrQUoD6VUkMPsYcRucYe+UFV+5Y+JAcOH49VVAoWpBm0dwydAB9Yyk
+ GdV1BB5g==;
 Received: from [177.45.248.119] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oAyx5-00CJom-TS; Mon, 11 Jul 2022 21:20:16 +0200
+ id 1oAyxC-00CJom-VR; Mon, 11 Jul 2022 21:20:23 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
@@ -37,10 +37,12 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  Tao Zhou <tao.zhou1@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
  Jack Xiao <Jack.Xiao@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] drm/amd/pm: Add GFXOFF status for vangogh
-Date: Mon, 11 Jul 2022 16:19:51 -0300
-Message-Id: <20220711191953.145518-1-andrealmeid@igalia.com>
+Subject: [PATCH 1/2] drm/amd/pm: Add GFXOFF registers for vangogh
+Date: Mon, 11 Jul 2022 16:19:52 -0300
+Message-Id: <20220711191953.145518-2-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220711191953.145518-1-andrealmeid@igalia.com>
+References: <20220711191953.145518-1-andrealmeid@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,21 +63,34 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset adds support to get current status of GFXOFF in vangogh.
-Given that the rest of the interface is already implemented, we just
-need to plug one function.
+Add register values to access GFXOFF data for vangogh GPU.
 
-This is implemented just for vangogh and not for all smu11 devices given
-that this is specific for this device, and not to all the generation.
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ .../pm/swsmu/inc/pmfw_if/smu11_driver_if_vangogh.h   | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-André Almeida (2):
-  drm/amd/pm: Add GFXOFF registers for vangogh
-  drm/amd/pm: Implement get GFXOFF status for vangogh
-
- .../inc/pmfw_if/smu11_driver_if_vangogh.h     | 12 +++++++++
- .../gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c  | 26 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
-
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_vangogh.h b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_vangogh.h
+index 8361ebd8d876..9c7b0004d842 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_vangogh.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu11_driver_if_vangogh.h
+@@ -279,4 +279,16 @@ typedef enum {
+ #define TILE_ISPPRE_MASK    ((1<<6) | (1<<7))
+ #define TILE_ISPPOST_MASK   ((1<<8) | (1<<9))
+ 
++// Registers related to GFXOFF
++// addressBlock: smuio_smuio_SmuSmuioDec
++// base address: 0x5a000
++#define mmSMUIO_GFX_MISC_CNTL			0x00c5
++#define mmSMUIO_GFX_MISC_CNTL_BASE_IDX		0
++
++//SMUIO_GFX_MISC_CNTL
++#define SMUIO_GFX_MISC_CNTL__SMU_GFX_cold_vs_gfxoff__SHIFT	0x0
++#define SMUIO_GFX_MISC_CNTL__PWR_GFXOFF_STATUS__SHIFT		0x1
++#define SMUIO_GFX_MISC_CNTL__SMU_GFX_cold_vs_gfxoff_MASK	0x00000001L
++#define SMUIO_GFX_MISC_CNTL__PWR_GFXOFF_STATUS_MASK		0x00000006L
++
+ #endif
 -- 
 2.37.0
 
