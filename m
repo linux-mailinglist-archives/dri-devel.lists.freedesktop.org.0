@@ -1,52 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCAD56F981
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:01:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B8E56F98A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:03:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE79718A111;
-	Mon, 11 Jul 2022 09:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43FC411BD70;
+	Mon, 11 Jul 2022 09:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 062E618A543
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=8uxtxIzC7VTJjVlLLYF19CxFJDykhNDLW09VLlCVguY=;
- b=ed+wgJWhustK21yKITJ+Sh/cvhwnyyq0EBvJ9ZObYYV9OrmM+i/QY4Sw43aHpFn2k4TvXzVhrAVe/
- +0KJfZsBOuh0Vi0+ccOGe35umRHtd8LfPjHNrGSMME+GtwmsKYiZ5gNM68LLmpL7AUgBl6bbZaXY00
- jIHy5trfYjVmZcmZ5uq2Fw50D3OBr8vEpWJEY6ZQSlb0xHGTzwLXCT1A5t6HUpo8QAg/K1sufvVDl4
- NGCbRMnrimn1B9Typ9j0LQ9F796GeKYE8L3dsS2ov0vyUp9ZeSYAziEd0g1tJ+WN444JAiNq7658Ae
- MJDPZBLvcNXt8qU4xrZALgzo14mbvHA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=8uxtxIzC7VTJjVlLLYF19CxFJDykhNDLW09VLlCVguY=;
- b=+jD1US786lwsjc7zNQUHfZvSNMuJvnj7mgQo7lE6q375GxKFlagQHPaK5Ph23Vqfxabdi57vbFfEy
- +8bJbGECg==
-X-HalOne-Cookie: cc644e34e1800161ac3a3722d9320e2783edacd0
-X-HalOne-ID: 00789a1e-00f8-11ed-a917-d0431ea8a290
-Received: from mailproxy3.cst.dirpod4-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 00789a1e-00f8-11ed-a917-d0431ea8a290;
- Mon, 11 Jul 2022 09:01:08 +0000 (UTC)
-Date: Mon, 11 Jul 2022 11:01:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v1 0/11] drm/via: Make via a single file driver
-Message-ID: <Ysvm0tdtSsMdI7TC@ravnborg.org>
-References: <20220710085506.1384056-1-sam@ravnborg.org>
- <f7f2e4ce-fced-78d7-258f-a4e723b1bbbf@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571B311B808
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:03:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 03FBB226B2;
+ Mon, 11 Jul 2022 09:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1657530219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YHFvpJ9HZGIrPeQPuzym79G8/kyQVIfu90WIp/40lrI=;
+ b=r//wUZgrU9F6EXZ67R6ut5+bIdVZD/pOqxHq//7tgykvfDP5E2fL+fHSCGc0vRSGW037FD
+ 27Q0Ytov5xgQic1WjcJGyVGjmfNAlFlrCJN+XIN3/U1NSzFURJYDukaMHKne3MeM5utNNq
+ YIwNALqqS4+CpqoDbeG040384kLHToU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1657530219;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YHFvpJ9HZGIrPeQPuzym79G8/kyQVIfu90WIp/40lrI=;
+ b=8+nc45zwLuD3FGlEN42gW8xKvgVizWg0IaZuN3qR5/w0fyUEokB+d1JcFri1kqlZ/8l2IP
+ ohLa3YzDe5Cf3qCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B717A13322;
+ Mon, 11 Jul 2022 09:03:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +6aoK2rny2I+NQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 11 Jul 2022 09:03:38 +0000
+Message-ID: <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
+Date: Mon, 11 Jul 2022 11:03:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f7f2e4ce-fced-78d7-258f-a4e723b1bbbf@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/5] drm/modes: Add support for driver-specific named modes
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>
+References: <cover.1657301107.git.geert@linux-m68k.org>
+ <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------i9HZ5JhPjq6YARR0Q2xTKKbe"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,89 +73,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------i9HZ5JhPjq6YARR0Q2xTKKbe
+Content-Type: multipart/mixed; boundary="------------0dPtI0BWIf6KarQZJXsRZvt7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
+Subject: Re: [PATCH 4/5] drm/modes: Add support for driver-specific named
+ modes
+References: <cover.1657301107.git.geert@linux-m68k.org>
+ <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
+In-Reply-To: <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
 
-On Mon, Jul 11, 2022 at 09:01:50AM +0200, Thomas Zimmermann wrote:
-> Hi Sam,
-> 
-> this looks like a good solution to me. I'd give you a detailed review, but
-> dri-devel decided to only send me the color letter. I had to use patchwork
-> get the patches.
-> 
-> For the series
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Thanks!
+--------------0dPtI0BWIf6KarQZJXsRZvt7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> with suggestions below.
-> 
-> Am 10.07.22 um 10:54 schrieb Sam Ravnborg:
-> > We have an upcoming openchrome driver for VIA where some
-> > of the files conflicts with the existing via driver.
-> > 
-> > It is not acceptable to just delete the existing DRI1
-> > based driver as there are most likely users out there,
-> > so a different approach was required.
-> > 
-> > It was disccussed what to do and the least invasive
-> > solution was to keep the DRI1 driver in the current
-> > directory as a single file.
-> > 
-> > Thomas Zimmermann already posted a patch to do the
-> > same but it attemped to have a single driver
-> > for the DRI1 and the upcoming new driver.
-> 
-> After the openchrome patches land, there will be an option in Kconfig to
-> build the old driver instead of of the new one?
-> 
-> > 
-> > This patchset embeds the files one by one to make the
-> > diffs remotely readable and end up with an independent
-> > DRI1 driver.
-> > 
-> > The driver was built tested for each step.
-> > 
-> > The driver is in the end renamed to via_dri1.
-> > Some feedback on this would be good as I do not know
-> > what impact it will have on users.
-> 
-> I don't know how Mesa decides about which userspace driver to load, but It
-> seems related to the name of the kernel driver. Renaming the module might
-> interfere somehow.  But if the old and new driver are mutually exclusive at
-> build time, it should not be a problem to use the same name for both
-> modules.
+SGkgR2VlcnQNCg0KQW0gMDguMDcuMjIgdW0gMjA6MjEgc2NocmllYiBHZWVydCBVeXR0ZXJo
+b2V2ZW46DQo+IFRoZSBtb2RlIHBhcnNpbmcgY29kZSByZWNvZ25pemVzIG5hbWVkIG1vZGVz
+IG9ubHkgaWYgdGhleSBhcmUgZXhwbGljaXRseQ0KPiBsaXN0ZWQgaW4gdGhlIGludGVybmFs
+IHdoaXRlbGlzdCwgd2hpY2ggaXMgY3VycmVudGx5IGxpbWl0ZWQgdG8gIk5UU0MiDQo+IGFu
+ZCAiUEFMIi4NCj4gDQo+IFByb3ZpZGUgYSBtZWNoYW5pc20gZm9yIGRyaXZlcnMgdG8gb3Zl
+cnJpZGUgdGhpcyBsaXN0IHRvIHN1cHBvcnQgY3VzdG9tDQo+IG1vZGUgbmFtZXMuDQo+IA0K
+PiBJZGVhbGx5LCB0aGlzIGxpc3Qgc2hvdWxkIGp1c3QgY29tZSBmcm9tIHRoZSBkcml2ZXIn
+cyBhY3R1YWwgbGlzdCBvZg0KPiBtb2RlcywgYnV0IGNvbm5lY3Rvci0+cHJvYmVkX21vZGVz
+IGlzIG5vdCB5ZXQgcG9wdWxhdGVkIGF0IHRoZSB0aW1lIG9mDQo+IHBhcnNpbmcuDQoNCkkn
+dmUgbG9va2VkIGZvciBjb2RlIHRoYXQgdXNlcyB0aGVzZSBuYW1lcywgY291bGRuJ3QgZmlu
+ZCBhbnkuIEhvdyBpcyANCnRoaXMgYmVpbmcgdXNlZCBpbiBwcmFjdGljZT8gRm9yIGV4YW1w
+bGUsIGlmIEkgc2F5ICJQQUwiIG9uIHRoZSBjb21tYW5kIA0KbGluZSwgaXMgdGhlcmUgRFJN
+IGNvZGUgdGhhdCBmaWxscyBpbiB0aGUgUEFMIG1vZGUgcGFyYW1ldGVycz8NCg0KQW5kIGFu
+b3RoZXIgcXVlc3Rpb24gSSBoYXZlIGlzIHdoZXRoZXIgdGhpcyB3aGl0ZWxpc3QgYmVsb25n
+cyBpbnRvIHRoZSANCmRyaXZlciBhdCBhbGwuIFN0YW5kYXJkIG1vZGVzIGV4aXN0IGluZGVw
+ZW5kZW50IGZyb20gZHJpdmVycyBvciANCmhhcmR3YXJlLiBTaG91bGRuJ3QgdGhlcmUgc2lt
+cGx5IGJlIGEgZ2xvYmFsIGxpc3Qgb2YgYWxsIHBvc3NpYmxlIG1vZGUgDQpuYW1lcz8gRHJp
+dmVycyB3b3VsZCBmaWx0ZXIgb3V0IHRoZSB1bnN1cHBvcnRlZCBtb2RlcyBhbnl3YXkuDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5
+dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+DQo+IC0tLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9kcm1fbW9kZXMuYyB8IDE1ICsrKysrKysrKysrLS0tLQ0KPiAgIGluY2x1ZGUv
+ZHJtL2RybV9jb25uZWN0b3IuaCB8IDEwICsrKysrKysrKysNCj4gICAyIGZpbGVzIGNoYW5n
+ZWQsIDIxIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9tb2Rlcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9t
+b2Rlcy5jDQo+IGluZGV4IDljZTI3NWZiZGE1NjZiN2MuLjdhMDBlYjZkZjUwMmU5OTEgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYw0KPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX21vZGVzLmMNCj4gQEAgLTE3NDgsMjUgKzE3NDgsMzEgQEAgc3Rh
+dGljIGludCBkcm1fbW9kZV9wYXJzZV9jbWRsaW5lX29wdGlvbnMoY29uc3QgY2hhciAqc3Ry
+LA0KPiAgIHN0YXRpYyBjb25zdCBjaGFyICogY29uc3QgZHJtX25hbWVkX21vZGVzX3doaXRl
+bGlzdFtdID0gew0KPiAgIAkiTlRTQyIsDQo+ICAgCSJQQUwiLA0KPiArCU5VTEwNCj4gICB9
+Ow0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgZHJtX21vZGVfcGFyc2VfY21kbGluZV9uYW1lZF9t
+b2RlKGNvbnN0IGNoYXIgKm5hbWUsDQo+ICAgCQkJCQkgICAgIHVuc2lnbmVkIGludCBsZW5n
+dGgsDQo+ICAgCQkJCQkgICAgIGJvb2wgcmVmcmVzaCwNCj4gKwkJCQkJICAgICBjb25zdCBz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLA0KPiAgIAkJCQkJICAgICBzdHJ1Y3Qg
+ZHJtX2NtZGxpbmVfbW9kZSAqbW9kZSkNCj4gICB7DQo+ICsJY29uc3QgY2hhciAqIGNvbnN0
+ICpuYW1lZF9tb2Rlc193aGl0ZWxpc3Q7DQo+ICAgCXVuc2lnbmVkIGludCBpOw0KPiAgIAlp
+bnQgcmV0Ow0KPiAgIA0KPiAtCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGRybV9uYW1l
+ZF9tb2Rlc193aGl0ZWxpc3QpOyBpKyspIHsNCj4gLQkJcmV0ID0gc3RyX2hhc19wcmVmaXgo
+bmFtZSwgZHJtX25hbWVkX21vZGVzX3doaXRlbGlzdFtpXSk7DQo+ICsJbmFtZWRfbW9kZXNf
+d2hpdGVsaXN0ID0gY29ubmVjdG9yLT5uYW1lZF9tb2Rlc193aGl0ZWxpc3QgPyA6DQo+ICsJ
+CQkJZHJtX25hbWVkX21vZGVzX3doaXRlbGlzdDsNCj4gKw0KPiArCWZvciAoaSA9IDA7IG5h
+bWVkX21vZGVzX3doaXRlbGlzdFtpXTsgaSsrKSB7DQo+ICsJCXJldCA9IHN0cl9oYXNfcHJl
+Zml4KG5hbWUsIG5hbWVkX21vZGVzX3doaXRlbGlzdFtpXSk7DQo+ICAgCQlpZiAoIXJldCkN
+Cj4gICAJCQljb250aW51ZTsNCj4gICANCj4gICAJCWlmIChyZWZyZXNoKQ0KPiAgIAkJCXJl
+dHVybiAtRUlOVkFMOyAvKiBuYW1lZCArIHJlZnJlc2ggaXMgaW52YWxpZCAqLw0KPiAgIA0K
+PiAtCQlzdHJjcHkobW9kZS0+bmFtZSwgZHJtX25hbWVkX21vZGVzX3doaXRlbGlzdFtpXSk7
+DQo+ICsJCXN0cmNweShtb2RlLT5uYW1lLCBuYW1lZF9tb2Rlc193aGl0ZWxpc3RbaV0pOw0K
+PiAgIAkJbW9kZS0+c3BlY2lmaWVkID0gdHJ1ZTsNCj4gICAJCXJldHVybiAwOw0KPiAgIAl9
+DQo+IEBAIC0xODUwLDcgKzE4NTYsOCBAQCBib29sIGRybV9tb2RlX3BhcnNlX2NvbW1hbmRf
+bGluZV9mb3JfY29ubmVjdG9yKGNvbnN0IGNoYXIgKm1vZGVfb3B0aW9uLA0KPiAgIAkvKiBG
+aXJzdCBjaGVjayBmb3IgYSBuYW1lZCBtb2RlICovDQo+ICAgCWlmIChtb2RlX2VuZCkgew0K
+PiAgIAkJcmV0ID0gZHJtX21vZGVfcGFyc2VfY21kbGluZV9uYW1lZF9tb2RlKG5hbWUsIG1v
+ZGVfZW5kLA0KPiAtCQkJCQkJCXJlZnJlc2hfcHRyLCBtb2RlKTsNCj4gKwkJCQkJCQlyZWZy
+ZXNoX3B0ciwgY29ubmVjdG9yLA0KPiArCQkJCQkJCW1vZGUpOw0KPiAgIAkJaWYgKHJldCkN
+Cj4gICAJCQlyZXR1cm4gZmFsc2U7DQo+ICAgCX0NCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUv
+ZHJtL2RybV9jb25uZWN0b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaA0KPiBp
+bmRleCAzYWM0YmY4N2YyNTcxYzRjLi42MzYxZjhhNTk2YzAxMTA3IDEwMDY0NA0KPiAtLS0g
+YS9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJt
+X2Nvbm5lY3Rvci5oDQo+IEBAIC0xNjU5LDYgKzE2NTksMTYgQEAgc3RydWN0IGRybV9jb25u
+ZWN0b3Igew0KPiAgIA0KPiAgIAkvKiogQGhkcl9zaW5rX21ldGFkYXRhOiBIRFIgTWV0YWRh
+dGEgSW5mb3JtYXRpb24gcmVhZCBmcm9tIHNpbmsgKi8NCj4gICAJc3RydWN0IGhkcl9zaW5r
+X21ldGFkYXRhIGhkcl9zaW5rX21ldGFkYXRhOw0KPiArDQo+ICsJLyoqDQo+ICsJICogQG5h
+bWVkX21vZGVzX3doaXRlbGlzdDoNCj4gKwkgKg0KPiArCSAqIE9wdGlvbmFsIE5VTEwtdGVy
+bWluYXRlZCBhcnJheSBvZiBuYW1lcyB0byBiZSBjb25zaWRlcmVkIHZhbGlkIG1vZGUNCj4g
+KwkgKiBuYW1lcy4gIFRoaXMgbGV0cyB0aGUgY29tbWFuZCBsaW5lIG9wdGlvbiBwYXJzZXIg
+ZGlzdGluZ3Vpc2ggYmV0d2Vlbg0KPiArCSAqIG1vZGUgbmFtZXMgYW5kIGZyZWVzdGFuZGlu
+ZyBleHRyYXMgYW5kL29yIG9wdGlvbnMuDQo+ICsJICogSWYgbm90IHNldCwgYSBzZXQgb2Yg
+ZGVmYXVsdHMgd2lsbCBiZSB1c2VkLg0KPiArCSAqLw0KPiArCWNvbnN0IGNoYXIgKiBjb25z
+dCAqbmFtZWRfbW9kZXNfd2hpdGVsaXN0Ow0KPiAgIH07DQo+ICAgDQo+ICAgI2RlZmluZSBv
+YmpfdG9fY29ubmVjdG9yKHgpIGNvbnRhaW5lcl9vZih4LCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+ciwgYmFzZSkNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxk
+c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJu
+YmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Another option could be to keep the "via.ko" name and come up with a
-new name for the openchrome variant (via_drm?).
-I think we need to allow both drivers to be built as a user may want to
-try out the old and the new driver without to much hassle.
+--------------0dPtI0BWIf6KarQZJXsRZvt7--
 
-In the next iteration I will drop the rename of the driver - it is easy
-to do later as it is a simple one-liner.
+--------------i9HZ5JhPjq6YARR0Q2xTKKbe
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> > 
-> > The very last patch synchronize the via_3d_reg header
-> > file with the one used in the openchrome driver.
-> > This was added to verify that the new header would not
-> > break the DRI1 driver.
-> 
-> Some of the macros introduce line wraps. I don't know if you did that
-> intentionally, but it shouldn't be necessary. We have a 100-character limit
-> per line.
-The via_3d_reg file was copied verbatim from the openchrome repo.
-I will fix up relevant checkpatch warnings in a follow-up patch so it is
-obvious what is changed from the original source.
+-----BEGIN PGP SIGNATURE-----
 
-> Maybe you can also add an extra patch that adds SPDX license tags at the top
-> of the files.
-Yep, will do.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLL52oFAwAAAAAACgkQlh/E3EQov+AL
+yQ//T1sdtC7YTRKogLLqelJAozXBm8YVBGwx46Tx0OM3fS4AJRH5a7VxaAu4VY/koVsNhXomDocb
+PfWfy+mixDOSpxyBv4j6b9rn/nuG2wrHvBFvqzJTA8WthwGQtKImAG1b+QUdG7DAQQs5ILRtQZRi
+TO0dK1pzJ5DLsclz9wgMxBiaZ0ikzNdHx05ok9CIRbqpWb+dzM7RncMVM+i+kPY/J+DFKOzFdnUr
+imDnX5Y/XM4K/arrJGSeSTQiWCvlqO5SysRAfKYQcv9e7JN388N3qyDZQEMpqUbjSmvK0/zh5NO/
+CMXzSIoOC9ClBCjsrqM9JzsFJFJ87o6ExIP3qzxdtc8Jq+gR8YKt710e83kaDJDSGIl6ssjYFI/8
+4/PZkAjYbrZVqc45/gJgRIwcegw6MXoGl1gAQX45jQj4OSCECnbSwxAdQ9cD0bc2FSC4yz+Q861W
+4bQkXLctnKFsOE1rDfTF1QKLZm3hh8jzFhmL5LE0f0OYXl5P12Tcmx/0gw3Xg54GvacB4ctCFzbZ
+hd103iaGPvPaqIJkkuIRcmAeOcSG4vIM8OBIUMPrO2mVCxq7c6cferG8UTkVx6m2OlCoGHWftB4v
+pdGujCckewx7fo90JDfC4+97UejVfwLHMGrjv79HrVgod1wM01kJHXa2i1XWuHo+cuL1d/aKGA1J
+A/k=
+=YsXd
+-----END PGP SIGNATURE-----
 
-Thanks for the feedback!
-
-	Sam
+--------------i9HZ5JhPjq6YARR0Q2xTKKbe--
