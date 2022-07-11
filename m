@@ -1,68 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BFE56FABC
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:21:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C2156FBAF
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:34:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F518D244;
-	Mon, 11 Jul 2022 09:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3CB68D377;
+	Mon, 11 Jul 2022 09:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF868D240
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:21:22 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id u13so7685188lfn.5
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 02:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nRAGEf8g4Cp1qxDJWr3cJJxLbQRvNOY2paQIn9JUATY=;
- b=wdkXQ3io2K4JvD3tDkBGEHr985JNhIDp70T5BxUdNK9RFoNqTZ7j4vYo9TyR2ueP6s
- cOgdiJ2HGjlSE50jUxHpypdAltHngm0LtyE48emYft4l9QniwCTg4cA3uYD9uFljmK2Q
- qur75rxcB8kiHBd0nQ6Hd2+DB4uP8jthW+2hsWomnVsVqSsZ2DKPl70+L5LLXycQlJsN
- P6oF6FnGveWtkA1uI5kUO2uF8EsnTWuJ4JnhMXjz5JvGoucOtWJUZiZXzttftaaxKMlq
- rde6fgM8CUNmX4Trj2ShJbFY6wVQH1To7w3ps04nvohkcQQDq9M4RZ0tweC6h5oafbgp
- N4oA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029768D377
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:34:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657532052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ajj+vcHD2SjgR91KloH7EXcA6NIzzKWwkXRERtZQ3vQ=;
+ b=eli8Jfc7eqFj+rVrVTP7KcGZGdwVvAX96+AnaaXq/bXp/vdv9q+ndilkAMRAI/Q5b+tyLa
+ kEnCvgv6atDYrqpl3xf+PliYS9uWj6jIUmsKLypoWcvXqFU42b3q2mQKvdMdk1eeUBkpgT
+ B9MiexuunVlcPui8/T6aQn6Eow2WKbw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-6DHB8C8RPKmJuaIzEZ7L9w-1; Mon, 11 Jul 2022 05:34:00 -0400
+X-MC-Unique: 6DHB8C8RPKmJuaIzEZ7L9w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n18-20020a05600c501200b003a050cc39a0so2437431wmr.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 02:33:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nRAGEf8g4Cp1qxDJWr3cJJxLbQRvNOY2paQIn9JUATY=;
- b=3XApQA3ApMItnigtRcJEPWrXlIiExsNiUA5vcl8+Z7SyjwUNuoyb1n/ZAY3Q+DtGKd
- a2/6GQwBSlyCxopAdwk47u0wbooSFidC5WTEGtqQgxAuk8GeODz1b1xPX0N5MdmUDxKm
- MsGd7kD8JkobFuGbJTtV7wqiCJsF/MovBqRjFLG904cL/chuFuewcrqDslRzzizVRGKz
- EB+lweYOeXu0GwD5MkSw/6r6cNrN6ZrP7Kw7e/anH+ZKMNhwwSqjQhJHjCBvng3NAsAk
- PIxnPUUKMaeN7twJqzn/pzj37NQiVGmo89Aqf0YcHqu0wVZeJKoO+MISd7mTK4sKspZ2
- V8Lw==
-X-Gm-Message-State: AJIora94YtoRgv4Fp4quxmjtyowQqUUwOTLNr3n5E5NIsGEI9CEbB5Uk
- v6Od4dLYk1FpQdfR3IwN+TF0ZQ==
-X-Google-Smtp-Source: AGRyM1sKgnyIT3SuBfPwfGfXobeOpQtlPLenOngZ+ibe0Lkc7eUOAU014BuLedWTWT6TpP7AulsUpg==
-X-Received: by 2002:a05:6512:6d4:b0:47f:74b4:4ec4 with SMTP id
- u20-20020a05651206d400b0047f74b44ec4mr10674049lff.654.1657531280183; 
- Mon, 11 Jul 2022 02:21:20 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- c30-20020a05651200de00b00473c87152bcsm1434195lfp.127.2022.07.11.02.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 02:21:19 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Stephen Boyd <swboyd@chromium.org>
-Subject: [RFC PATCH v3 2/2] drm/bridge: ti-sn65dsi86: support
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Mon, 11 Jul 2022 12:21:17 +0300
-Message-Id: <20220711092117.360797-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220711092117.360797-1-dmitry.baryshkov@linaro.org>
-References: <20220711092117.360797-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Ajj+vcHD2SjgR91KloH7EXcA6NIzzKWwkXRERtZQ3vQ=;
+ b=Z1s6OHd4TYO4k0XhOEqHAZOkRZmUQApqbsriZR/5Q87ZYSLkd2R/+bFwmaEfvpotHl
+ DYip6DmmmbtoVXiLD4qq8PbVuECT5s2xe/hmVML6UjvAJK3u3rCDebFZaqNNHUWJ6YPt
+ 02eqnitS/el9lUadKRtgTTRdbtl9Z77Y2EwJRxYXS90hQSNHnb3mBVz0gL1KPiQn7hyL
+ c9HXljN6SepedVcLCvOwkgt36rbu56guqCLT5WmbBGe2PzRL6WgyLt5C+4w3P2I1Gvu3
+ JqbrEO3LSOm+0s7vw5UKkwBUaRPKPu0S/uh73pZrV3UhBuM+Rd6bZKGQTVxZ0SNWluxu
+ z3/g==
+X-Gm-Message-State: AJIora/QBttcRkocNlhSLD/ay7ArCwCIkjXzV086xd8FWqc7356wuF+j
+ Xuy92ZmOsdBLvTzMTppgZ9Lx2sxtVCLiY3ORLFo+iAzyMlm2JTZ06hzGdi0AAqsCwX2AtUlKU/U
+ 5MAiGa3FPj4JOOAAxjtnSG9uCsjYh
+X-Received: by 2002:a7b:c314:0:b0:3a0:5750:1b4a with SMTP id
+ k20-20020a7bc314000000b003a057501b4amr14754180wmj.20.1657532038621; 
+ Mon, 11 Jul 2022 02:33:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sGs79u/exA+X2gTLtgwTNdc+xM89fmwlJKvwsIIjmZKRrBloPItUuzzJRsS1in3ZlPSOi7fg==
+X-Received: by 2002:a7b:c314:0:b0:3a0:5750:1b4a with SMTP id
+ k20-20020a7bc314000000b003a057501b4amr14754158wmj.20.1657532038369; 
+ Mon, 11 Jul 2022 02:33:58 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id
+ n35-20020a05600c502300b003a2d0f0ccaesm10049919wmr.34.2022.07.11.02.33.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jul 2022 02:33:58 -0700 (PDT)
+Message-ID: <b34a6aa0-bfa9-ad68-c181-9649f276a561@redhat.com>
+Date: Mon, 11 Jul 2022 11:33:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/mgag200: Don't read-back PCI option register before
+ writing
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20220708072114.13960-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20220708072114.13960-1-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,65 +90,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now as the driver does not depend on pdata->connector, add support for
-attaching the bridge with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+On 08/07/2022 09:21, Thomas Zimmermann wrote:
+> Remove the read operation from mgag200_init_pci_options(). It was
+> incorrectly added while refactoring the code. Reading the PCI option
+> register clears the register's new value and subsequently leads to
+> re-writing the old value.
+> 
 
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+Looks good to me.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index b362a7bf4d97..369bf72717f6 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -698,11 +698,6 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
- 	int ret;
- 
--	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
--		return -EINVAL;
--	}
--
- 	pdata->aux.drm_dev = bridge->dev;
- 	ret = drm_dp_aux_register(&pdata->aux);
- 	if (ret < 0) {
-@@ -710,15 +705,18 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 		return ret;
- 	}
- 
--	/* We never want the next bridge to *also* create a connector: */
--	flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
--
--	/* Attach the next bridge */
-+	/*
-+	 * Attach the next bridge.
-+	 * We never want the next bridge to *also* create a connector.
-+	 */
- 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
--				&pdata->bridge, flags);
-+				&pdata->bridge, flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret < 0)
- 		goto err_initted_aux;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-+		return 0;
-+
- 	pdata->connector = drm_bridge_connector_init(pdata->bridge.dev,
- 						     pdata->bridge.encoder);
- 	if (IS_ERR(pdata->connector)) {
--- 
-2.35.1
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: ce19021fd99a ("drm/mgag200: Move PCI-option setup into model-specific code")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_drv.c | 6 ------
+>   1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index 73e8e4e9e54b..251a1bb648cc 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -28,12 +28,6 @@ int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2)
+>   	struct device *dev = &pdev->dev;
+>   	int err;
+>   
+> -	err = pci_read_config_dword(pdev, PCI_MGA_OPTION, &option);
+> -	if (err != PCIBIOS_SUCCESSFUL) {
+> -		dev_err(dev, "pci_read_config_dword(PCI_MGA_OPTION) failed: %d\n", err);
+> -		return pcibios_err_to_errno(err);
+> -	}
+> -
+>   	err = pci_write_config_dword(pdev, PCI_MGA_OPTION, option);
+>   	if (err != PCIBIOS_SUCCESSFUL) {
+>   		dev_err(dev, "pci_write_config_dword(PCI_MGA_OPTION) failed: %d\n", err);
 
