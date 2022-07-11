@@ -2,76 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE245704B4
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 15:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4675704C5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 15:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA06410E7CB;
-	Mon, 11 Jul 2022 13:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492648E93C;
+	Mon, 11 Jul 2022 13:56:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A8A12BBB3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 13:53:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09108E933
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 13:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657547582;
+ s=mimecast20190719; t=1657547768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TiDFw+H9wQAOoFgenmknWW5ulkS2E0Ovm/60i012Tps=;
- b=bty9a/+z0po9y951Q9OaFfA4QOPqe//PWk8MD1gR4J0tKzF3NylJ2ikslSpTq9YG4OvP7i
- xooGpKzVJfRxbNJ5eZrWgD2cqsH9lt06u43E8EC7+ZAaRx9+vN2625MUD/SQzsAHzOiWUI
- wCo6BpOdZR4E9TR57FWW76ri8KkSSUc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aE4NfC1H6uTSXnC9kdw86YADNW6bGnH63De3NmdMle8=;
+ b=iwGnZJ5muhnMIngn+p2ClEYU5Y0mKylf0YCvwe1jhIpOOxbDtKy6HkHJWYYiuOimT7XWea
+ /ZHoiiYqvOkeJKqU2+jTDL72SneMK6QsmF1y2COf8F+nF38J148WUxznXz6RzDrKIwbiCu
+ XUU612GH+kVvhvDkD87iboRYFPgasyM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-307-PFpX_dOwOz-545Nmn4-4RA-1; Mon, 11 Jul 2022 09:53:01 -0400
-X-MC-Unique: PFpX_dOwOz-545Nmn4-4RA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i132-20020a1c3b8a000000b003a2e8a77dd1so274889wma.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 06:53:00 -0700 (PDT)
+ us-mta-523-VvewC7WoP3Gv1B3DzxIQ_w-1; Mon, 11 Jul 2022 09:56:06 -0400
+X-MC-Unique: VvewC7WoP3Gv1B3DzxIQ_w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ az38-20020a05600c602600b003a2dff426aeso3915109wmb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 06:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=TiDFw+H9wQAOoFgenmknWW5ulkS2E0Ovm/60i012Tps=;
- b=tiHmh1S+8wXF/ZymLOWAuaQm7o6Oo86wsbHaR3mpXr02riPI+E2m3V90TvM622tzEQ
- XOnE7qMHOU0AB4Qy6kCoK9xRfxa6f16HiJouUv8jGEAEmPMP1JmTHOHkcvun/Ehqc0ke
- dQrWhTjA3Qrah3pQgooG9zGcy5RPmrCrk+MXJTZJNvD4B+CXsSay17tyNgWPiLJdvwPk
- QSrsjQSHqsyTjIsDrpCiabAuils8kV9EPKEdpb7vchB5KPlrwuSzAJg8H8yNgET1KFSH
- Xp/F+bxeRMWf0BXm39CtN8BISMVSU3rlWHRgvTA80xBD8563QvdVTDVymDFsp758uoiy
- 9SqA==
-X-Gm-Message-State: AJIora+kJy+pPRMPrDjI2pKJbiaPiQBFh5vey1LYF0xff8JUKhFJLWMF
- mHVUyEyc5MDSJvSTaYupmYGeTRlNV+pu9vrp4H1emj7E7NOoCxoNQF/2wtKi1Jm7oVdmCJBRW2w
- Sln9Oae7fGQ+NToY5MQd5k6zufDQb
-X-Received: by 2002:adf:f151:0:b0:21d:76a7:76d3 with SMTP id
- y17-20020adff151000000b0021d76a776d3mr16557681wro.702.1657547579796; 
- Mon, 11 Jul 2022 06:52:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tVRhLI1q2NxvdCqXB46XQEdcekPaWp69NFcGLqv0djixdSMTe1BzXGsV30YFN4gPC0osccbA==
-X-Received: by 2002:adf:f151:0:b0:21d:76a7:76d3 with SMTP id
- y17-20020adff151000000b0021d76a776d3mr16557660wro.702.1657547579573; 
- Mon, 11 Jul 2022 06:52:59 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=aE4NfC1H6uTSXnC9kdw86YADNW6bGnH63De3NmdMle8=;
+ b=m26HFhx/w0ad7O2Mk1L9MMjxlChqtyFR6DyMvZswrhezYT9qQiqDKg3qqaWjrrm4XK
+ 87nZ9aTVuIDBmw8MWo1uc5EtD6G5m9a0r8XHSqroSVEBYWMUohao8Qz5IhlVYFO2gltZ
+ tEYy/2h83wAoYHM78a8VuGo3CswBSMYkCJ13y3ZrvXi4O2tr2NVjjAyfu4HWT5zbiBa4
+ yu2a+9kY5JTsus7vZZKWPh93O4mmPrz2DrJIZicM4wI6W/J5vF80vtyWnKkX5f/+Xq9e
+ s3S0p32f2/AdgyRjPiok/EekqfqI+hnEmVV7cSm/g5Yd7yD6c73dBtGjoeUyOtPqaxkA
+ 5ZRg==
+X-Gm-Message-State: AJIora/5z9B1nU2HeeVTFX/A/1Lf9UEu0BrgB6QStUTXbgS3QyIr+23y
+ +wtZmNGcAgVH9Gqtx8fOHVouRSWronJbMJgIqltD66dnFYvCaUKw8K+/MAhJg0oyy1omYKhO6/V
+ Dv369qnlGf4taVe3HRvQi7063NnBF
+X-Received: by 2002:a5d:6e85:0:b0:21d:65ec:22d with SMTP id
+ k5-20020a5d6e85000000b0021d65ec022dmr17110878wrz.435.1657547765483; 
+ Mon, 11 Jul 2022 06:56:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1twv2L3ZevD/RVvtfPY4LjhC4WGJFMlZ2FQQkXXNrSvlcGGqG7Pzzjip3VPLrNidVEXGx3eVw==
+X-Received: by 2002:a5d:6e85:0:b0:21d:65ec:22d with SMTP id
+ k5-20020a5d6e85000000b0021d65ec022dmr17110860wrz.435.1657547765208; 
+ Mon, 11 Jul 2022 06:56:05 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c702:1400:c3:4ae0:6d5c:1ab2?
  (p200300cbc702140000c34ae06d5c1ab2.dip0.t-ipconnect.de.
  [2003:cb:c702:1400:c3:4ae0:6d5c:1ab2])
  by smtp.gmail.com with ESMTPSA id
- z15-20020a056000110f00b0021d6c7a9f50sm6200486wrw.41.2022.07.11.06.52.58
+ p18-20020a05600c359200b003a2e2ba94ecsm5925143wmq.40.2022.07.11.06.56.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 06:52:58 -0700 (PDT)
-Message-ID: <7a772ca0-0c82-2251-dd54-8ad466774e99@redhat.com>
-Date: Mon, 11 Jul 2022 15:52:58 +0200
+ Mon, 11 Jul 2022 06:56:04 -0700 (PDT)
+Message-ID: <2ff85751-b0b6-eaa6-8338-2bf03ba6e973@redhat.com>
+Date: Mon, 11 Jul 2022 15:56:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-To: Alex Sierra <alex.sierra@amd.com>, jgg@nvidia.com
+Subject: Re: [PATCH v8 02/15] mm: move page zone helpers into new
+ header-specific file
+To: Felix Kuehling <felix.kuehling@amd.com>, Alex Sierra
+ <alex.sierra@amd.com>, jgg@nvidia.com
 References: <20220707190349.9778-1-alex.sierra@amd.com>
- <20220707190349.9778-7-alex.sierra@amd.com>
+ <20220707190349.9778-3-alex.sierra@amd.com>
+ <97816c26-d2dd-1102-4a13-fafb0b1a4bc3@redhat.com>
+ <715fc1ae-7bd3-5b96-175c-e1cc74920739@amd.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH v8 06/15] mm: remove the vma check in migrate_vma_setup()
-In-Reply-To: <20220707190349.9778-7-alex.sierra@amd.com>
+In-Reply-To: <715fc1ae-7bd3-5b96-175c-e1cc74920739@amd.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,65 +95,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, Felix.Kuehling@amd.com,
- apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
- linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
- akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
+Cc: rcampbell@nvidia.com, willy@infradead.org, apopple@nvidia.com,
+ dri-devel@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07.07.22 21:03, Alex Sierra wrote:
-> From: Alistair Popple <apopple@nvidia.com>
-> 
-> migrate_vma_setup() checks that a valid vma is passed so that the page
-> tables can be walked to find the pfns associated with a given address
-> range. However in some cases the pfns are already known, such as when
-> migrating device coherent pages during pin_user_pages() meaning a valid
-> vma isn't required.
+On 08.07.22 23:25, Felix Kuehling wrote:
+> On 2022-07-08 07:28, David Hildenbrand wrote:
+>> On 07.07.22 21:03, Alex Sierra wrote:
+>>> [WHY]
+>>> Have a cleaner way to expose all page zone helpers in one header
+>> What exactly is a "page zone"? Do you mean a buddy zone as in
+>> include/linux/mmzone.h ?
+>>
+> Zone as in ZONE_DEVICE. Maybe we could extend mmzone.h instead of 
 
-As raised in my other reply, without a VMA ... it feels odd to use a
-"migrate_vma" API. For an internal (mm/migrate_device.c) use case it is
-ok I guess, but it certainly adds a bit of confusion. For example,
-because migrate_vma_setup() will undo ref+lock not obtained by it.
+Yes, I think so. And try moving as little as possible in this patch.
 
-I guess the interesting point is that
+> creating page_zone.h? That should work as long as it's OK to include 
+> mmzone.h in memremap.h.
 
-a) Besides migrate_vma_pages() and migrate_vma_setup(), the ->vma is unused.
+I think so.
 
-b) migrate_vma_setup() does collect+unmap+cleanup if unmap failed.
-
-c) With our source page in our hands, we cannot be processing a hole in
-a VMA.
-
-
-
-Not sure if it's better. but I would
-
-a) Enforce in migrate_vma_setup() that there is a VMA. Code outside of
-mm/migrate_device.c shouldn't be doing some hacks like this.
-
-b) Don't call migrate_vma_setup() from migrate_device_page(), but
-directly migrate_vma_unmap() and add a comment.
-
-
-That will leave a single change to this patch (migrate_vma_pages()). But
-is that even required? Because ....
-
-> @@ -685,7 +685,7 @@ void migrate_vma_pages(struct migrate_vma *migrate)
->  			continue;
->  		}
->  
-> -		if (!page) {
-> +		if (!page && migrate->vma) {
-
-How could we ever have !page in case of migrate_device_page()?
-
-Instead, I think a VM_BUG_ON(migrate->vma); should hold and you can just
-simplify.
-
->  			if (!(migrate->src[i] & MIGRATE_PFN_MIGRATE))
->  				continue;
->  			if (!notified) {
 -- 
 Thanks,
 
