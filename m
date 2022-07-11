@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A93156FCD0
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:48:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9873A56FCE8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90BB511BD14;
-	Mon, 11 Jul 2022 09:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAC08D49C;
+	Mon, 11 Jul 2022 09:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9700113042;
- Mon, 11 Jul 2022 09:48:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8AAE18A639;
+ Mon, 11 Jul 2022 09:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657532908; x=1689068908;
+ t=1657532915; x=1689068915;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=0htVv4KZTE8nIfkHs54QWXHZC0r2fa942k4F0+nA+jQ=;
- b=OOLvRyEotWCROE20EV6uXc2ox3+6DzKXShabPKHcmeCvwFaE/9NXHHYO
- crfxcqwK7sj4Sb2mvOtnAz6hUv/fPKrGdmMFNfQC6YfpQbSGQ+BOdbJT4
- 5pqbYHn+N5xYtGON3NngrohbZ7XhP0NRzLOIxL9h/6c03cfcRegYhNGUh 8=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 11 Jul 2022 02:48:28 -0700
+ bh=KsFiQHyjx5NlgP+E+RS1mYW0ZKxPau0DGLSLb95PgII=;
+ b=d5vOTArYawz3kcE3lbT1RLPoO047WRWmbLC81yGj+uk2bY7hIfEatuA2
+ dPP5guGfGVkkzF63RKSO/120GBNwtc0gbJaJOiUBf/6RJDOda3z6a0Dil
+ gAuQzeouw47CUVa1OxZfqUBuB1ThE8ll2bjUGGZFzKKcfAsyGmVsm3rea U=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 11 Jul 2022 02:48:34 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 11 Jul 2022 02:48:26 -0700
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 11 Jul 2022 02:48:33 -0700
 X-QCInternal: smtphost
 Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
  by ironmsg02-blr.qualcomm.com with ESMTP; 11 Jul 2022 15:18:08 +0530
 Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 9D3B23E4C; Mon, 11 Jul 2022 15:18:04 +0530 (IST)
+ id B2B483E4D; Mon, 11 Jul 2022 15:18:04 +0530 (IST)
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v5 05/10] drm/msm/dp: use the eDP bridge ops to validate eDP
- modes
-Date: Mon, 11 Jul 2022 15:17:55 +0530
-Message-Id: <1657532880-12897-7-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v5 06/10] drm/bridge: use atomic enable/disable callbacks for
+ panel bridge
+Date: Mon, 11 Jul 2022 15:17:56 +0530
+Message-Id: <1657532880-12897-8-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1657532880-12897-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1657532880-12897-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -62,89 +62,73 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The eDP and DP interfaces shared the bridge operations and
-the eDP specific changes were implemented under is_edp check.
-To add psr support for eDP, we started using a new set of eDP
-bridge ops. We are moving the eDP specific code in the
-dp_bridge_mode_valid function to a new eDP function,
-edp_bridge_mode_valid under the eDP bridge ops.
+Use atomic variants for panel bridge callback functions such that
+certain states like self-refresh can be accessed as part of
+enable/disable sequence.
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c |  8 --------
- drivers/gpu/drm/msm/dp/dp_drm.c     | 34 +++++++++++++++++++++++++++++++++-
- 2 files changed, 33 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/panel.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 64a6254..2b3ec6b 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -986,14 +986,6 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
- 
--	/*
--	 * The eDP controller currently does not have a reliable way of
--	 * enabling panel power to read sink capabilities. So, we rely
--	 * on the panel driver to populate only supported modes for now.
--	 */
--	if (dp->is_edp)
--		return MODE_OK;
--
- 	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
- 		return MODE_BAD;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 8e2cb35..eb08ee8 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -183,12 +183,44 @@ static void edp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
- 	dp_bridge_atomic_post_disable(drm_bridge, old_bridge_state);
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 0ee563e..eeb9546 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -108,28 +108,32 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
+ 		drm_connector_cleanup(connector);
  }
  
-+/**
-+ * edp_bridge_mode_valid - callback to determine if specified mode is valid
-+ * @bridge: Pointer to drm bridge structure
-+ * @info: display info
-+ * @mode: Pointer to drm mode structure
-+ * Returns: Validity status for specified mode
-+ */
-+static enum drm_mode_status edp_bridge_mode_valid(struct drm_bridge *bridge,
-+					  const struct drm_display_info *info,
-+					  const struct drm_display_mode *mode)
-+{
-+	struct msm_dp *dp;
-+	int mode_pclk_khz = mode->clock;
-+
-+	dp = to_dp_bridge(bridge)->dp_display;
-+
-+	if (!dp || !mode_pclk_khz || !dp->connector) {
-+		DRM_ERROR("invalid params\n");
-+		return -EINVAL;
-+	}
-+
-+	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
-+		return MODE_CLOCK_HIGH;
-+
-+	/*
-+	 * The eDP controller currently does not have a reliable way of
-+	 * enabling panel power to read sink capabilities. So, we rely
-+	 * on the panel driver to populate only supported modes for now.
-+	 */
-+	return MODE_OK;
-+}
-+
- static const struct drm_bridge_funcs edp_bridge_ops = {
- 	.atomic_enable = edp_bridge_atomic_enable,
- 	.atomic_disable = edp_bridge_atomic_disable,
- 	.atomic_post_disable = edp_bridge_atomic_post_disable,
- 	.mode_set = dp_bridge_mode_set,
--	.mode_valid = dp_bridge_mode_valid,
-+	.mode_valid = edp_bridge_mode_valid,
+-static void panel_bridge_pre_enable(struct drm_bridge *bridge)
++static void panel_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++				struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 
+ 	drm_panel_prepare(panel_bridge->panel);
+ }
+ 
+-static void panel_bridge_enable(struct drm_bridge *bridge)
++static void panel_bridge_atomic_enable(struct drm_bridge *bridge,
++				struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 
+ 	drm_panel_enable(panel_bridge->panel);
+ }
+ 
+-static void panel_bridge_disable(struct drm_bridge *bridge)
++static void panel_bridge_atomic_disable(struct drm_bridge *bridge,
++				struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 
+ 	drm_panel_disable(panel_bridge->panel);
+ }
+ 
+-static void panel_bridge_post_disable(struct drm_bridge *bridge)
++static void panel_bridge_atomic_post_disable(struct drm_bridge *bridge,
++				struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 
+@@ -158,10 +162,10 @@ static void panel_bridge_debugfs_init(struct drm_bridge *bridge,
+ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+ 	.attach = panel_bridge_attach,
+ 	.detach = panel_bridge_detach,
+-	.pre_enable = panel_bridge_pre_enable,
+-	.enable = panel_bridge_enable,
+-	.disable = panel_bridge_disable,
+-	.post_disable = panel_bridge_post_disable,
++	.atomic_pre_enable = panel_bridge_atomic_pre_enable,
++	.atomic_enable = panel_bridge_atomic_enable,
++	.atomic_disable = panel_bridge_atomic_disable,
++	.atomic_post_disable = panel_bridge_atomic_post_disable,
+ 	.get_modes = panel_bridge_get_modes,
  	.atomic_reset = drm_atomic_helper_bridge_reset,
  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
 -- 
 2.7.4
 
