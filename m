@@ -2,39 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555BD570799
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 17:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3AA5707B3
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 17:54:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FFD48F45E;
-	Mon, 11 Jul 2022 15:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F1C18F3EF;
+	Mon, 11 Jul 2022 15:54:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 732F58F456
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 15:50:40 +0000 (UTC)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11DB8F3F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 15:54:50 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
- by andre.telenet-ops.be with bizsmtp
- id trqe2700J4C55Sk01rqe5Y; Mon, 11 Jul 2022 17:50:38 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id trup2700B4C55Sk01rupBw; Mon, 11 Jul 2022 17:54:49 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1oAvgD-0036xI-Rt; Mon, 11 Jul 2022 17:50:37 +0200
+ id 1oAvkG-00371G-Tw; Mon, 11 Jul 2022 17:54:48 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1oAvgD-006siC-6A; Mon, 11 Jul 2022 17:50:37 +0200
+ id 1oAvkG-006sqv-GJ; Mon, 11 Jul 2022 17:54:48 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 10/10] [RFC] video: fbdev: atari: Remove backward
- bug-compatibility
-Date: Mon, 11 Jul 2022 17:50:34 +0200
-Message-Id: <52d52566a80bfd00acdcfc28a24799d3fbf638f6.1657554353.git.geert@linux-m68k.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm] util: Fix grey in YUV SMPTE patterns
+Date: Mon, 11 Jul 2022 17:54:46 +0200
+Message-Id: <d6baedf436195f6cfd6d3e81ddea5219e09d861d.1657554831.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
-References: <cover.1657554353.git.geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,51 +44,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As of v2.1.0, falcon_decode_var() contains a quirk to fix a rounding
-error, as explained by Günther Kelleter on Fri, 30 Aug 1996:
+The YUV SMPTE patterns use RGB 191/192/192 instead of 192/192/192 for
+the grey color in the top color bar.
 
-    This diff removes the now obsolete Falcon video option "pwrsave", and
-    fixes a rounding error that is triggered by the resolution switching X
-    server (those who use the pixel clock value 39722 in their /etc/fb.modes
-    should change it to 39721).
+Change it to 192/192/192, to match the RGB SMPTE patterns.
 
-However, this causes the modified video mode returned by
-falcon_decode_var() to not match the video mode returned by
-falcon_encode_var().  Fix this by dropping the quirk.
-
-Unfortunately /etc/fb.modes in fbset was never updated, so the
-"640x480-60" mode still contains the wrong pixclock.
-Hence this change may introduce a regression.
-
+Fixes: a94ee624292bff96 ("modetest: Add SMPTE test pattern")
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
-Any comments?
----
- drivers/video/fbdev/atafb.c | 4 ----
- 1 file changed, 4 deletions(-)
+ tests/util/pattern.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
-index e8b178e732e2c785..2bc4089865e60ac2 100644
---- a/drivers/video/fbdev/atafb.c
-+++ b/drivers/video/fbdev/atafb.c
-@@ -1008,10 +1008,6 @@ static int falcon_decode_var(struct fb_var_screeninfo *var,
- 	else if (yres_virtual < yres)
- 		yres_virtual = yres;
- 
--	/* backward bug-compatibility */
--	if (var->pixclock > 1)
--		var->pixclock -= 1;
--
- 	par->hw.falcon.line_width = bpp * xres / 16;
- 	par->hw.falcon.line_offset = bpp * (xres_virtual - xres) / 16;
- 
+diff --git a/tests/util/pattern.c b/tests/util/pattern.c
+index 158c0b160a2ee870..f28fad311ec3de11 100644
+--- a/tests/util/pattern.c
++++ b/tests/util/pattern.c
+@@ -162,7 +162,7 @@ static void fill_smpte_yuv_planar(const struct util_yuv_info *yuv,
+ 				  unsigned int height, unsigned int stride)
+ {
+ 	const struct color_yuv colors_top[] = {
+-		MAKE_YUV_601(191, 192, 192),	/* grey */
++		MAKE_YUV_601(192, 192, 192),	/* grey */
+ 		MAKE_YUV_601(192, 192, 0),	/* yellow */
+ 		MAKE_YUV_601(0, 192, 192),	/* cyan */
+ 		MAKE_YUV_601(0, 192, 0),	/* green */
+@@ -265,7 +265,7 @@ static void fill_smpte_yuv_packed(const struct util_yuv_info *yuv, void *mem,
+ 				  unsigned int stride)
+ {
+ 	const struct color_yuv colors_top[] = {
+-		MAKE_YUV_601(191, 192, 192),	/* grey */
++		MAKE_YUV_601(192, 192, 192),	/* grey */
+ 		MAKE_YUV_601(192, 192, 0),	/* yellow */
+ 		MAKE_YUV_601(0, 192, 192),	/* cyan */
+ 		MAKE_YUV_601(0, 192, 0),	/* green */
 -- 
 2.25.1
 
