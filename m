@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3B756F9F0
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A2456FA17
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4200E8D196;
-	Mon, 11 Jul 2022 09:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AFD10F740;
+	Mon, 11 Jul 2022 09:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED7C8D196
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:10:57 +0000 (UTC)
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E27E10FB2A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=fEJBpRwk3k2E3zD9UZiHC1tC4h7mhdL6EpUzmbEV2+8=;
- b=u02u+fYFOA3G02gQMewoiqU38kPlPvj8YUoD8n6t3Oh6mO7h25GbugddsbmFjw8VVtDlQEISxciA0
- zNL3o9Q7z5omZH9n7RPxvdlv5kkZs9Bk/8KRdCUqNgaJ8DGicd4H2iKz++pAehPEMPfsB285+6DKIg
- fd+6IAy7KWjTCrwDpa9QJ3HSTCRaV7tZVSpt7e/eNrBCCeiUWUJ2wu0k+p8G/n2ihTvCbFYt/OQ1Wd
- 1rd1uXKbNv5a9Zgen5onshrDwZ1i9/juf1zOEBGGwe4iMbYc8DjUgerzrI2HjV4MqvZXZwEWbYJOZS
- yHXOdefX7bTZm6K+q8WCTpoddmwLvkw==
+ bh=f6AwxXcU7KZ2ZFztEJq0GqcoNxoKfO83tkLfZGsyscY=;
+ b=L3OH2tT6bYzKyTGPRe/w4pndW/HB8la94SNlC5QOyO3fY/bu+2Py+tLWfxsrEh3m9XV+fvX08AVsU
+ pMHjuUmZRcQNnTcjx8Wnm5ogIYRFb+QMJtiyrGoXPUhuUtP4pQ4ieSuI1YFqeWmWRWiPkVIsBzpLPu
+ cxBYJsb59MgFyjXLqcyKIP+lWzN2GhFY3qK25YvFJldwNQdwcafAPjnoFg1QMGzA+6t726HsF5G2fP
+ Dxeia/AZYWxVfXfYBuwi/j95I0bi33u79FOacbp1hXFvMmdbV7xbatSjV7r6L7D3dDbUO2okjdQBN7
+ sm2rz5uGuQLO26qa7rHhEnW8hxT03DQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=fEJBpRwk3k2E3zD9UZiHC1tC4h7mhdL6EpUzmbEV2+8=;
- b=k7w7t2ViXl/5hXMyH71zmHywqkuKkrOch5wU3+IwIlQUFD/f4e7o7YVXZ+RCAU0nV20ph6K0YWJTZ
- bIsKgcTBQ==
-X-HalOne-Cookie: 16942583f6b7f7346b8d33f64030369eef09c474
-X-HalOne-ID: 5e0cbc9a-00f9-11ed-be7e-d0431ea8bb03
-Received: from mailproxy3.cst.dirpod3-cph3.one.com
+ bh=f6AwxXcU7KZ2ZFztEJq0GqcoNxoKfO83tkLfZGsyscY=;
+ b=xlst8vfqPMpyAQ0qQK3asUPcpYaLxYW2L70+BUhavZpWrLJ93dqJmv52ChMd0RCpRn/u5usymCLtH
+ OGrgKb8BQ==
+X-HalOne-Cookie: 591724b09f00c8e44a00df13aa95246b0d36be5d
+X-HalOne-ID: a4b26c09-00f9-11ed-823e-d0431ea8bb10
+Received: from mailproxy1.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 5e0cbc9a-00f9-11ed-be7e-d0431ea8bb03;
- Mon, 11 Jul 2022 09:10:54 +0000 (UTC)
-Date: Mon, 11 Jul 2022 11:10:52 +0200
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id a4b26c09-00f9-11ed-823e-d0431ea8bb10;
+ Mon, 11 Jul 2022 09:12:53 +0000 (UTC)
+Date: Mon, 11 Jul 2022 11:12:51 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RFC PATCH v2 1/2] drm/bridge: ti-sn65dsi86: fetch bpc using
- drm_atomic_state
-Message-ID: <YsvpHFeQpjQbQa4Q@ravnborg.org>
-References: <20220711073733.312266-1-dmitry.baryshkov@linaro.org>
- <20220711073733.312266-2-dmitry.baryshkov@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 00/10] drm: Add support for low-color frame buffer
+ formats
+Message-ID: <Ysvpk4fzef6caO5y@ravnborg.org>
+References: <cover.1657294931.git.geert@linux-m68k.org>
+ <YsmE1D8lGp4XKs99@ravnborg.org>
+ <d6e5204e-5bbb-fe51-fd29-5452198bf368@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220711073733.312266-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <d6e5204e-5bbb-fe51-fd29-5452198bf368@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,117 +61,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Thomas,
 
-On Mon, Jul 11, 2022 at 10:37:32AM +0300, Dmitry Baryshkov wrote:
-> Rather than reading the pdata->connector directly, fetch the connector
-> using drm_atomic_state. This allows us to make pdata->connector optional
-> (and thus supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR).
+On Mon, Jul 11, 2022 at 10:50:00AM +0200, Thomas Zimmermann wrote:
+> Hi
 > 
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
+> Am 09.07.22 um 15:38 schrieb Sam Ravnborg:
+> > Hi Geert,
+> > 
+> > On Fri, Jul 08, 2022 at 08:20:45PM +0200, Geert Uytterhoeven wrote:
+> > > 	Hi all,
+> > > 
+> > > A long outstanding issue with the DRM subsystem has been the lack of
+> > > support for low-color displays, as used typically on older desktop
+> > > systems, and on small embedded displays.
 > 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index d6dd4d99a229..b1b6ed3a8acc 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -779,9 +779,9 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
->  	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
->  }
->  
-> -static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
-> +static unsigned int ti_sn_bridge_get_bpp(struct drm_connector *connector)
->  {
-> -	if (pdata->connector->display_info.bpc <= 6)
-> +	if (connector->display_info.bpc <= 6)
->  		return 18;
->  	else
->  		return 24;
-> @@ -796,7 +796,7 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
->  	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
->  };
->  
-> -static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
-> +static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata, unsigned int bpp)
->  {
->  	unsigned int bit_rate_khz, dp_rate_mhz;
->  	unsigned int i;
-> @@ -804,7 +804,7 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
->  		&pdata->bridge.encoder->crtc->state->adjusted_mode;
->  
->  	/* Calculate minimum bit rate based on our pixel clock. */
-> -	bit_rate_khz = mode->clock * ti_sn_bridge_get_bpp(pdata);
-> +	bit_rate_khz = mode->clock * bpp;
->  
->  	/* Calculate minimum DP data rate, taking 80% as per DP spec */
->  	dp_rate_mhz = DIV_ROUND_UP(bit_rate_khz * DP_CLK_FUDGE_NUM,
-> @@ -1016,12 +1016,21 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
->  				       struct drm_bridge_state *old_bridge_state)
->  {
->  	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +	struct drm_connector *connector;
->  	const char *last_err_str = "No supported DP rate";
->  	unsigned int valid_rates;
->  	int dp_rate_idx;
->  	unsigned int val;
->  	int ret = -EINVAL;
->  	int max_dp_lanes;
-> +	unsigned int bpp;
-> +
-> +	connector = drm_atomic_get_new_connector_for_encoder(old_bridge_state->base.state,
-> +							     bridge->encoder);
-> +	if (!connector) {
-> +		DRM_DEV_ERROR_RATELIMITED(pdata->dev, "Could not get the connector\n");
+> For the patchset
+> 
+> Acked-by: Thomas Zimemrmann <tzimmermann@suse.de>
+> 
+> > 
+> > IT is super to have this addressed - thanks!
+> > 
+> > > 
+> > > This patch series adds support for color-indexed frame buffer formats
+> > > with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+> > > work-in-progress Atari DRM driver supporting 2, 4, 16, 256, and 65536
+> > > colors, with text console operation, fbtest, and modetest.
+> > > 
+> > > Overview:
+> > >    - Patch 1 introduces a helper, to be used by later patches in the
+> > >      series,
+> > >    - Patch 2 introduces a flag to indicate color-indexed formats,
+> > >    - Patches 3 and 4 correct calculations of bits per pixel for sub-byte
+> > >      pixel formats,
+> > >    - Patches 5 and 6 introduce the new C[124] formats,
+> > >    - Patch 7 fixes an untested code path,
+> > >    - Patch 8 documents the use of "red" for light-on-dark displays,
+> > >    - Patches 9 and 10 add more fourcc codes for light-on-dark and
+> > >      dark-on-light frame buffer formats, which may be useful for e.g. the
+> > >      ssd130x and repaper drivers.
+> > 
+> > Applied all patches to drm-misc (drm-misc-next), including the last two
+> > RFC patches as we then have the formats ready when a user pops up.
+> 
+> I know it's v3 already, but give people at least a workday for reviewing
+> before merging patches of this size and impact. Friday-evening patches are
+> not supposed to be merged on Saturday afternoons.
 
-From the documentation of DRM_DEV_ERROR_RATELIMITED:
- * NOTE: this is deprecated in favor of drm_err_ratelimited() or
- * dev_err_ratelimited().
-
-Can you fix this, so we do not introduce deprecated functions/macros.
+Sorry for being too enthusiastic on this one.
+Will wait a bit more in the future for these kind of patches.
 
 	Sam
-
-
-> +		return;
-> +	}
->  
->  	max_dp_lanes = ti_sn_get_max_lanes(pdata);
->  	pdata->dp_lanes = min(pdata->dp_lanes, max_dp_lanes);
-> @@ -1047,8 +1056,9 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
->  	drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
->  			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
->  
-> +	bpp = ti_sn_bridge_get_bpp(connector);
->  	/* Set the DP output format (18 bpp or 24 bpp) */
-> -	val = (ti_sn_bridge_get_bpp(pdata) == 18) ? BPP_18_RGB : 0;
-> +	val = bpp == 18 ? BPP_18_RGB : 0;
->  	regmap_update_bits(pdata->regmap, SN_DATA_FORMAT_REG, BPP_18_RGB, val);
->  
->  	/* DP lane config */
-> @@ -1059,7 +1069,7 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
->  	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
->  
->  	/* Train until we run out of rates */
-> -	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
-> +	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bpp);
->  	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
->  	     dp_rate_idx++) {
->  		if (!(valid_rates & BIT(dp_rate_idx)))
-> -- 
-> 2.35.1
