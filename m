@@ -2,68 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2DA570565
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 16:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D03E57057E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 16:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C388E88C;
-	Mon, 11 Jul 2022 14:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6E68E9E7;
+	Mon, 11 Jul 2022 14:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CBC8E870
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 14:21:10 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id r9so942994lfp.10
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 07:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/9u/mS9LodcH7Z1KQHEwZxUuYG20Aob+YzUUg/yIS/A=;
- b=a33K/XL5Fy4sxrjQormTSC3jZ4T4eMutmc/3Naiqz1KBjNEt2vD/+ZoyBi1jbR6zP0
- 0jsVq/H0iFU39D/g+JpnfqNrj0/FkUiYwvp6oScWac+M+sJAywAxoQZkkKzjCm1lhv+N
- KKfK2GXnHJUoa8eqDDF5mVvhnW08WnvNd0UFVgVILJcw9uXjdGPDQrscHXYit2JjEsO7
- WLJ3876g8ROJSTO6fzj2HlVHecv63ziCV1ud0xBls9ZSc7HeuGb35sRz87f8C89yLmCr
- Tux1y8dQ95lntq7mI0CmydHI0/YjdFPNkGsYkG6+twwSzlHmkFtMn+7v/BYgCV4n+5p/
- gfEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/9u/mS9LodcH7Z1KQHEwZxUuYG20Aob+YzUUg/yIS/A=;
- b=rhxr5w445L7QskIVsrSrVv/dmyV3euybm9hlmtT/OYSvgkXC0IBK2g2booQhbD/OMO
- QBOS1GVU1hqFxTdkYxdZbQiWAKSOKewVje1oTvQUqhoOJIgpMTrKnuo6L+Z9RZY6jhXL
- /RIyHf4e/JWVLhRRRt8ZxDswqFIcufyt8ZRYUvHWwJKhv6/8NMeQwdVuoSeyG+MNtmZC
- U1IoUn/icxkCJweZ2mLCGAnb5qCHeTZjDhzT8Z4nw+fz0qCeoC+nGbqiYhjfj/YX5i+f
- gVVnIhyWJCoJhZ7ZgRpiBC1B5c30EjYs+tLaWCLJ1vp7asTEI9VncUeKSFG0fMHPeSvW
- 3lFA==
-X-Gm-Message-State: AJIora9b5p64EhEnjJVlD4Mt81O8F7BwXfx/h1N4ZURXtHk3H9riopx3
- N2Y/fqdkh5rQQHnhtPmaiv8UAw==
-X-Google-Smtp-Source: AGRyM1sArosF0Wg6eSpyNU7O/pkmJJSr7mGFbjafMOqyQoHjFUKOLvwy6z5SRB+ibdgvqUXUmqrBYQ==
-X-Received: by 2002:a05:6512:4019:b0:489:3345:c450 with SMTP id
- br25-20020a056512401900b004893345c450mr11422873lfb.363.1657549268300; 
- Mon, 11 Jul 2022 07:21:08 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- k14-20020ac2456e000000b0047f59336d6asm1562347lfm.179.2022.07.11.07.21.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 07:21:07 -0700 (PDT)
-Message-ID: <0da9f04d-c12a-8e6c-5ae9-94c3aa0589b2@linaro.org>
-Date: Mon, 11 Jul 2022 17:21:07 +0300
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C006E8E9CA;
+ Mon, 11 Jul 2022 14:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657549459; x=1689085459;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LkLJBRXU8CTqGSS1F9inx2PVVQ5ScUgpfznIVYvHZtw=;
+ b=U3AbLXLeD7/DTkuMoUVSzG9ST0v13emhU4eA/hoBZcxRCE8roqaUu2Mu
+ DcFZTHbM7W+7z3m2wq3gBFyHNFzTLdBywOQKLFyvwoEJX9HgvPCsCslYe
+ ReO9/5G5UhD8Wk9iDsX7k6j2U6Fmtw9c99mBSuxcp+bQeFN5wTYvGGLRZ
+ UEYJAGfALlc8quCxgOqV7HQbvAPOXSzCtZRQHe7EnPrqBJXeu9rzXXWiU
+ XFnjjQ2WufstVmHOysTTsCwtBk2Jj4s9hFgahSyj9DbZGw+ffjSU8Q73g
+ aUTf6U7nxoeITwxlHaAZgP+I/W9X1MjTL3PKDd8PtdLj2Mz3bkiY4DHRK w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10404"; a="283425292"
+X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; d="scan'208";a="283425292"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2022 07:24:07 -0700
+X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; d="scan'208";a="652477977"
+Received: from lramir2-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.209.67])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2022 07:24:05 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/doc/rfc: VM_BIND fix a few grammatical slip-ups and typos
+Date: Mon, 11 Jul 2022 16:23:52 +0200
+Message-Id: <20220711142352.10188-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 04/10] drm/msm/dp: Add basic PSR support for eDP
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1657544224-10680-1-git-send-email-quic_vpolimer@quicinc.com>
- <1657544224-10680-5-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1657544224-10680-5-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,693 +55,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com,
- linux-kernel@vger.kernel.org, quic_khsieh@quicinc.com,
- bjorn.andersson@linaro.org, quic_aravindh@quicinc.com, swboyd@chromium.org
+Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Andi Shyti <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/07/2022 15:56, Vinod Polimera wrote:
-> Add support for basic panel self refresh (PSR) feature for eDP.
-> Add a new interface to set PSR state in the sink from DPU.
-> Program the eDP controller to issue PSR enter and exit SDP to
-> the sink.
-> 
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Just a trivial review of an the vm bind document that is still
+an rfc document.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+Hi,
 
-> ---
->   drivers/gpu/drm/msm/dp/dp_catalog.c |  81 ++++++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_catalog.h |   4 ++
->   drivers/gpu/drm/msm/dp/dp_ctrl.c    |  73 +++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_ctrl.h    |   3 +
->   drivers/gpu/drm/msm/dp/dp_display.c |  14 ++++
->   drivers/gpu/drm/msm/dp/dp_display.h |   2 +
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 135 +++++++++++++++++++++++++++++++++++-
->   drivers/gpu/drm/msm/dp/dp_link.c    |  36 ++++++++++
->   drivers/gpu/drm/msm/dp/dp_panel.c   |  22 ++++++
->   drivers/gpu/drm/msm/dp/dp_panel.h   |   6 ++
->   drivers/gpu/drm/msm/dp/dp_reg.h     |  27 ++++++++
->   11 files changed, 402 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 7257515..b9021ed 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -47,6 +47,14 @@
->   #define DP_INTERRUPT_STATUS2_MASK \
->   	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
->   
-> +#define DP_INTERRUPT_STATUS4 \
-> +	(PSR_UPDATE_INT | PSR_CAPTURE_INT | PSR_EXIT_INT | \
-> +	PSR_UPDATE_ERROR_INT | PSR_WAKE_ERROR_INT)
-> +
-> +#define DP_INTERRUPT_MASK4 \
-> +	(PSR_UPDATE_MASK | PSR_CAPTURE_MASK | PSR_EXIT_MASK | \
-> +	PSR_UPDATE_ERROR_MASK | PSR_WAKE_ERROR_MASK)
-> +
->   struct dp_catalog_private {
->   	struct device *dev;
->   	struct drm_device *drm_dev;
-> @@ -359,6 +367,24 @@ void dp_catalog_ctrl_lane_mapping(struct dp_catalog *dp_catalog)
->   			ln_mapping);
->   }
->   
-> +void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog,
-> +						bool enable)
-> +{
-> +	u32 val;
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +
-> +	val = dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +	val &= ~DP_MAINLINK_CTRL_ENABLE;
-> +
-> +	if (enable)
-> +		val |= DP_MAINLINK_CTRL_ENABLE;
-> +	else
-> +		val &= ~DP_MAINLINK_CTRL_ENABLE;
-> +
-> +	dp_write_link(catalog, REG_DP_MAINLINK_CTRL, val);
-> +}
-> +
->   void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog,
->   						bool enable)
->   {
-> @@ -610,6 +636,47 @@ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
->   	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
->   }
->   
-> +static void dp_catalog_enable_sdp(struct dp_catalog_private *catalog)
-> +{
-> +	/* trigger sdp */
-> +	dp_write_link(catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
-> +	dp_write_link(catalog, MMSS_DP_SDP_CFG3, !UPDATE_SDP);
-> +}
-> +
-> +void dp_catalog_ctrl_config_psr(struct dp_catalog *dp_catalog)
-> +{
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +	u32 config;
-> +
-> +	/* enable PSR1 function */
-> +	config = dp_read_link(catalog, REG_PSR_CONFIG);
-> +	config |= PSR1_SUPPORTED;
-> +	dp_write_link(catalog, REG_PSR_CONFIG, config);
-> +
-> +	dp_write_ahb(catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-> +	dp_catalog_enable_sdp(catalog);
-> +}
-> +
-> +void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter)
-> +{
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +			struct dp_catalog_private, dp_catalog);
-> +	u32 cmd;
-> +
-> +	cmd = dp_read_link(catalog, REG_PSR_CMD);
-> +
-> +	cmd &= ~(PSR_ENTER | PSR_EXIT);
-> +
-> +	if (enter)
-> +		cmd |= PSR_ENTER;
-> +	else
-> +		cmd |= PSR_EXIT;
-> +
-> +	dp_catalog_enable_sdp(catalog);
-> +	dp_write_link(catalog, REG_PSR_CMD, cmd);
-> +}
-> +
->   u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog)
->   {
->   	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> @@ -645,6 +712,20 @@ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
->   	return isr & (mask | ~DP_DP_HPD_INT_MASK);
->   }
->   
-> +int dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog)
-> +{
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +	u32 intr, intr_ack;
-> +
-> +	intr = dp_read_ahb(catalog, REG_DP_INTR_STATUS4);
-> +	intr_ack = (intr & DP_INTERRUPT_STATUS4)
-> +			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-> +	dp_write_ahb(catalog, REG_DP_INTR_STATUS4, intr_ack);
-> +
-> +	return intr;
-> +}
-> +
->   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
->   {
->   	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 1f717f4..6454845 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -93,6 +93,7 @@ void dp_catalog_ctrl_state_ctrl(struct dp_catalog *dp_catalog, u32 state);
->   void dp_catalog_ctrl_config_ctrl(struct dp_catalog *dp_catalog, u32 config);
->   void dp_catalog_ctrl_lane_mapping(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog, bool enable);
-> +void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog, bool enable);
->   void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
->   void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
->   				u32 stream_rate_khz, bool fixed_nvid);
-> @@ -104,12 +105,15 @@ void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
->   void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
->   			u32 intr_mask, bool en);
->   void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
-> +void dp_catalog_ctrl_config_psr(struct dp_catalog *dp_catalog);
-> +void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
->   u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
->   u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
->   int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog, u8 v_level,
->   				u8 p_level);
->   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog);
-> +int dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_update_transfer_unit(struct dp_catalog *dp_catalog,
->   				u32 dp_tu, u32 valid_boundary,
->   				u32 valid_boundary2);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index d21971b..0007920 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -22,6 +22,7 @@
->   
->   #define DP_KHZ_TO_HZ 1000
->   #define IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES	(30 * HZ / 1000) /* 30 ms */
-> +#define PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES       (300 * HZ / 1000) /* 300 ms */
->   #define WAIT_FOR_VIDEO_READY_TIMEOUT_JIFFIES (HZ / 2)
->   
->   #define DP_CTRL_INTR_READY_FOR_VIDEO     BIT(0)
-> @@ -80,6 +81,7 @@ struct dp_ctrl_private {
->   	struct dp_catalog *catalog;
->   
->   	struct completion idle_comp;
-> +	struct completion psr_op_comp;
->   	struct completion video_comp;
->   };
->   
-> @@ -153,6 +155,9 @@ static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
->   	config |= DP_CONFIGURATION_CTRL_STATIC_DYNAMIC_CN;
->   	config |= DP_CONFIGURATION_CTRL_SYNC_ASYNC_CLK;
->   
-> +	if (ctrl->panel->psr_cap.version)
-> +		config |= DP_CONFIGURATION_CTRL_SEND_VSC;
-> +
->   	dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
->   }
->   
-> @@ -1394,6 +1399,60 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
->   		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
->   }
->   
-> +void dp_ctrl_config_psr(struct dp_ctrl *dp_ctrl)
-> +{
-> +	u8 cfg;
-> +	struct dp_ctrl_private *ctrl = container_of(dp_ctrl,
-> +			struct dp_ctrl_private, dp_ctrl);
-> +
-> +	if (!ctrl->panel->psr_cap.version)
-> +		return;
-> +
-> +	dp_catalog_ctrl_config_psr(ctrl->catalog);
-> +
-> +	cfg = DP_PSR_ENABLE;
-> +	drm_dp_dpcd_write(ctrl->aux, DP_PSR_EN_CFG, &cfg, 1);
-> +}
-> +
-> +void dp_ctrl_set_psr(struct dp_ctrl *dp_ctrl, bool enter)
-> +{
-> +	struct dp_ctrl_private *ctrl = container_of(dp_ctrl,
-> +			struct dp_ctrl_private, dp_ctrl);
-> +
-> +	if (!ctrl->panel->psr_cap.version)
-> +		return;
-> +
-> +	/*
-> +	 * When entering PSR,
-> +	 * 1. Send PSR enter SDP and wait for the PSR_UPDATE_INT
-> +	 * 2. Turn off video
-> +	 * 3. Disable the mainlink
-> +	 *
-> +	 * When exiting PSR,
-> +	 * 1. Enable the mainlink
-> +	 * 2. Send the PSR exit SDP
-> +	 */
-> +	if (enter) {
-> +		reinit_completion(&ctrl->psr_op_comp);
-> +		dp_catalog_ctrl_set_psr(ctrl->catalog, true);
-> +
-> +		if (!wait_for_completion_timeout(&ctrl->psr_op_comp,
-> +			PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES)) {
-> +			DRM_ERROR("PSR_ENTRY timedout\n");
-> +			dp_catalog_ctrl_set_psr(ctrl->catalog, false);
-> +			return;
-> +		}
-> +
-> +		dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-> +
-> +		dp_catalog_ctrl_psr_mainlink_enable(ctrl->catalog, false);
-> +	} else {
-> +		dp_catalog_ctrl_psr_mainlink_enable(ctrl->catalog, true);
-> +
-> +		dp_catalog_ctrl_set_psr(ctrl->catalog, false);
-> +	}
-> +}
-> +
->   void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
->   {
->   	struct dp_ctrl_private *ctrl;
-> @@ -1997,6 +2056,19 @@ void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
->   
->   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->   
-> +	if (ctrl->panel->psr_cap.version) {
-> +		isr = dp_catalog_ctrl_read_psr_interrupt_status(ctrl->catalog);
-> +
-> +		if (isr)
-> +			complete(&ctrl->psr_op_comp);
-> +
-> +		if (isr & PSR_EXIT_INT)
-> +			drm_dbg_dp(ctrl->drm_dev, "PSR exit done\n");
-> +
-> +		if (isr & PSR_UPDATE_INT)
-> +			drm_dbg_dp(ctrl->drm_dev, "PSR frame update done\n");
-> +	}
-> +
->   	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
->   
->   	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
-> @@ -2043,6 +2115,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->   		dev_err(dev, "failed to add DP OPP table\n");
->   
->   	init_completion(&ctrl->idle_comp);
-> +	init_completion(&ctrl->psr_op_comp);
->   	init_completion(&ctrl->video_comp);
->   
->   	/* in parameters */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index 0745fde..be074ae 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -38,4 +38,7 @@ void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
->   void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
->   void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
->   
-> +void dp_ctrl_set_psr(struct dp_ctrl *dp_ctrl, bool enable);
-> +void dp_ctrl_config_psr(struct dp_ctrl *dp_ctrl);
-> +
->   #endif /* _DP_CTRL_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 5bd6677..64a6254 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -388,6 +388,8 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
->   
->   	edid = dp->panel->edid;
->   
-> +	dp->dp_display.psr_supported = !!dp->panel->psr_cap.version;
-> +
->   	dp->audio_supported = drm_detect_monitor_audio(edid);
->   	dp_panel_handle_sink_request(dp->panel);
->   
-> @@ -895,6 +897,10 @@ static int dp_display_post_enable(struct msm_dp *dp_display)
->   
->   	/* signal the connect event late to synchronize video and display */
->   	dp_display_handle_plugged_change(dp_display, true);
-> +
-> +	if (dp_display->psr_supported)
-> +		dp_ctrl_config_psr(dp->ctrl);
-> +
->   	return 0;
->   }
->   
-> @@ -1094,6 +1100,14 @@ static void dp_display_config_hpd(struct dp_display_private *dp)
->   	enable_irq(dp->irq);
->   }
->   
-> +void dp_display_set_psr(struct msm_dp *dp_display, bool enter)
-> +{
-> +	struct dp_display_private *dp;
-> +
-> +	dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +	dp_ctrl_set_psr(dp->ctrl, enter);
-> +}
-> +
->   static int hpd_event_thread(void *data)
->   {
->   	struct dp_display_private *dp_priv;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 4f9fe4d..1feaada 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -29,6 +29,7 @@ struct msm_dp {
->   
->   	u32 max_dp_lanes;
->   	struct dp_audio *dp_audio;
-> +	bool psr_supported;
->   };
->   
->   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
-> @@ -39,5 +40,6 @@ bool dp_display_check_video_test(struct msm_dp *dp_display);
->   int dp_display_get_test_bpp(struct msm_dp *dp_display);
->   void dp_display_signal_audio_start(struct msm_dp *dp_display);
->   void dp_display_signal_audio_complete(struct msm_dp *dp_display);
-> +void dp_display_set_psr(struct msm_dp *dp, bool enter);
->   
->   #endif /* _DP_DISPLAY_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 294c28a..8ca0b37 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -60,6 +60,139 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
->   	return rc;
->   }
->   
-> +static int edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
-> +				   struct drm_bridge_state *bridge_state,
-> +				   struct drm_crtc_state *crtc_state,
-> +				   struct drm_connector_state *conn_state)
-> +{
-> +	struct msm_dp *dp = to_dp_bridge(drm_bridge)->dp_display;
-> +
-> +	if (WARN_ON(!conn_state))
-> +		return -ENODEV;
-> +
-> +	conn_state->self_refresh_aware = dp->psr_supported;
-> +
-> +	if (!conn_state->crtc || !crtc_state)
-> +		return 0;
-> +
-> +	if (crtc_state->self_refresh_active && !dp->psr_supported)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static void edp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
-> +				     struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *old_crtc_state;
-> +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
-> +	struct msm_dp *dp = dp_bridge->dp_display;
-> +
-> +	/*
-> +	 * Check the old state of the crtc to determine if the panel
-> +	 * was put into psr state previously by the edp_bridge_atomic_disable.
-> +	 * If the panel is in psr, just exit psr state and skip the full
-> +	 * bridge enable sequence.
-> +	 */
-> +	crtc = drm_atomic_get_new_crtc_for_encoder(atomic_state,
-> +						   drm_bridge->encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
-> +
-> +	if (old_crtc_state && old_crtc_state->self_refresh_active) {
-> +		dp_display_set_psr(dp, false);
-> +		return;
-> +	}
-> +
-> +	dp_bridge_atomic_enable(drm_bridge, old_bridge_state);
-> +}
-> +
-> +static void edp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
-> +				      struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state = NULL, *old_crtc_state = NULL;
-> +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
-> +	struct msm_dp *dp = dp_bridge->dp_display;
-> +
-> +	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state,
-> +						   drm_bridge->encoder);
-> +	if (!crtc)
-> +		goto out;
-> +
-> +	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
-> +	if (!new_crtc_state)
-> +		goto out;
-> +
-> +	old_crtc_state = drm_atomic_get_old_crtc_state(atomic_state, crtc);
-> +	if (!old_crtc_state)
-> +		goto out;
-> +
-> +	/*
-> +	 * Set self refresh mode if current crtc state is active.
-> +	 *
-> +	 * If old crtc state is active, then this is a display disable
-> +	 * call while the sink is in psr state. So, exit psr here.
-> +	 * The eDP controller will be disabled in the
-> +	 * edp_bridge_atomic_post_disable function.
-> +	 *
-> +	 * We observed sink is stuck in self refresh if psr exit is skipped
-> +	 * when display disable occurs while the sink is in psr state.
-> +	 */
-> +	if (new_crtc_state->self_refresh_active) {
-> +		dp_display_set_psr(dp, true);
-> +		return;
-> +	} else if (old_crtc_state->self_refresh_active) {
-> +		dp_display_set_psr(dp, false);
-> +		return;
-> +	}
-> +
-> +out:
-> +	dp_bridge_atomic_disable(drm_bridge, old_bridge_state);
-> +}
-> +
-> +static void edp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> +				struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *atomic_state = old_bridge_state->base.state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state = NULL;
-> +
-> +	crtc = drm_atomic_get_old_crtc_for_encoder(atomic_state,
-> +						   drm_bridge->encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	new_crtc_state = drm_atomic_get_new_crtc_state(atomic_state, crtc);
-> +	if (!new_crtc_state)
-> +		return;
-> +
-> +	/*
-> +	 * Self refresh mode is already set in edp_bridge_atomic_disable.
-> +	 */
-> +	if (new_crtc_state->self_refresh_active)
-> +		return;
-> +
-> +	dp_bridge_atomic_post_disable(drm_bridge, old_bridge_state);
-> +}
-> +
-> +static const struct drm_bridge_funcs edp_bridge_ops = {
-> +	.atomic_enable = edp_bridge_atomic_enable,
-> +	.atomic_disable = edp_bridge_atomic_disable,
-> +	.atomic_post_disable = edp_bridge_atomic_post_disable,
-> +	.mode_set = dp_bridge_mode_set,
-> +	.mode_valid = dp_bridge_mode_valid,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_check = edp_bridge_atomic_check,
-> +};
-> +
->   static const struct drm_bridge_funcs dp_bridge_ops = {
->   	.atomic_enable = dp_bridge_atomic_enable,
->   	.atomic_disable = dp_bridge_atomic_disable,
-> @@ -87,7 +220,7 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
->   	dp_bridge->dp_display = dp_display;
->   
->   	bridge = &dp_bridge->bridge;
-> -	bridge->funcs = &dp_bridge_ops;
-> +	bridge->funcs = dp_display->is_edp ? &edp_bridge_ops : &dp_bridge_ops;
->   	bridge->type = dp_display->connector_type;
->   
->   	/*
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index 36f0af0..84af70a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -934,6 +934,38 @@ static int dp_link_process_phy_test_pattern_request(
->   	return 0;
->   }
->   
-> +static bool dp_link_read_psr_error_status(struct dp_link_private *link)
-> +{
-> +	u8 status;
-> +
-> +	drm_dp_dpcd_read(link->aux, DP_PSR_ERROR_STATUS, &status, 1);
-> +
-> +	if (status & DP_PSR_LINK_CRC_ERROR)
-> +		DRM_ERROR("PSR LINK CRC ERROR\n");
-> +	else if (status & DP_PSR_RFB_STORAGE_ERROR)
-> +		DRM_ERROR("PSR RFB STORAGE ERROR\n");
-> +	else if (status & DP_PSR_VSC_SDP_UNCORRECTABLE_ERROR)
-> +		DRM_ERROR("PSR VSC SDP UNCORRECTABLE ERROR\n");
-> +	else
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static bool dp_link_psr_capability_changed(struct dp_link_private *link)
-> +{
-> +	u8 status;
-> +
-> +	drm_dp_dpcd_read(link->aux, DP_PSR_ESI, &status, 1);
-> +
-> +	if (status & DP_PSR_CAPS_CHANGE) {
-> +		drm_dbg_dp(link->drm_dev, "PSR Capability Change\n");
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   static u8 get_link_status(const u8 link_status[DP_LINK_STATUS_SIZE], int r)
->   {
->   	return link_status[r - DP_LANE0_1_STATUS];
-> @@ -1053,6 +1085,10 @@ int dp_link_process_request(struct dp_link *dp_link)
->   		dp_link->sink_request |= DP_TEST_LINK_TRAINING;
->   	} else if (!dp_link_process_phy_test_pattern_request(link)) {
->   		dp_link->sink_request |= DP_TEST_LINK_PHY_TEST_PATTERN;
-> +	} else if (dp_link_read_psr_error_status(link)) {
-> +		DRM_ERROR("PSR IRQ_HPD received\n");
-> +	} else if (dp_link_psr_capability_changed(link)) {
-> +		drm_dbg_dp(link->drm_dev, "PSR Capabiity changed");
->   	} else {
->   		ret = dp_link_process_link_status_update(link);
->   		if (!ret) {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 5149ceb..8bf8ab4 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -20,6 +20,27 @@ struct dp_panel_private {
->   	bool aux_cfg_update_done;
->   };
->   
-> +static void dp_panel_read_psr_cap(struct dp_panel_private *panel)
-> +{
-> +	ssize_t rlen;
-> +	struct dp_panel *dp_panel;
-> +
-> +	dp_panel = &panel->dp_panel;
-> +
-> +	/* edp sink */
-> +	if (dp_panel->dpcd[DP_EDP_CONFIGURATION_CAP]) {
-> +		rlen = drm_dp_dpcd_read(panel->aux, DP_PSR_SUPPORT,
-> +				&dp_panel->psr_cap, sizeof(dp_panel->psr_cap));
-> +		if (rlen == sizeof(dp_panel->psr_cap)) {
-> +			drm_dbg_dp(panel->drm_dev,
-> +				"psr version: 0x%x, psr_cap: 0x%x\n",
-> +				dp_panel->psr_cap.version,
-> +				dp_panel->psr_cap.capabilities);
-> +		} else
-> +			DRM_ERROR("failed to read psr info, rlen=%zd\n", rlen);
-> +	}
-> +}
-> +
->   static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->   {
->   	int rc = 0;
-> @@ -106,6 +127,7 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
->   		}
->   	}
->   
-> +	dp_panel_read_psr_cap(panel);
->   end:
->   	return rc;
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> index d861197a..2d0826a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> @@ -34,6 +34,11 @@ struct dp_panel_in {
->   	struct dp_catalog *catalog;
->   };
->   
-> +struct dp_panel_psr {
-> +	u8 version;
-> +	u8 capabilities;
-> +};
-> +
->   struct dp_panel {
->   	/* dpcd raw data */
->   	u8 dpcd[DP_RECEIVER_CAP_SIZE + 1];
-> @@ -46,6 +51,7 @@ struct dp_panel {
->   	struct edid *edid;
->   	struct drm_connector *connector;
->   	struct dp_display_mode dp_mode;
-> +	struct dp_panel_psr psr_cap;
->   	bool video_test;
->   
->   	u32 vic;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-> index 2686028..ea85a69 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-> @@ -22,6 +22,20 @@
->   #define REG_DP_INTR_STATUS2			(0x00000024)
->   #define REG_DP_INTR_STATUS3			(0x00000028)
->   
-> +#define REG_DP_INTR_STATUS4			(0x0000002C)
-> +#define PSR_UPDATE_INT				(0x00000001)
-> +#define PSR_CAPTURE_INT				(0x00000004)
-> +#define PSR_EXIT_INT				(0x00000010)
-> +#define PSR_UPDATE_ERROR_INT			(0x00000040)
-> +#define PSR_WAKE_ERROR_INT			(0x00000100)
-> +
-> +#define REG_DP_INTR_MASK4			(0x00000030)
-> +#define PSR_UPDATE_MASK				(0x00000001)
-> +#define PSR_CAPTURE_MASK			(0x00000002)
-> +#define PSR_EXIT_MASK				(0x00000004)
-> +#define PSR_UPDATE_ERROR_MASK			(0x00000008)
-> +#define PSR_WAKE_ERROR_MASK			(0x00000010)
-> +
->   #define REG_DP_DP_HPD_CTRL			(0x00000000)
->   #define DP_DP_HPD_CTRL_HPD_EN			(0x00000001)
->   
-> @@ -164,6 +178,16 @@
->   #define MMSS_DP_AUDIO_TIMING_RBR_48		(0x00000094)
->   #define MMSS_DP_AUDIO_TIMING_HBR_48		(0x00000098)
->   
-> +#define REG_PSR_CONFIG				(0x00000100)
-> +#define DISABLE_PSR				(0x00000000)
-> +#define PSR1_SUPPORTED				(0x00000001)
-> +#define PSR2_WITHOUT_FRAMESYNC			(0x00000002)
-> +#define PSR2_WITH_FRAMESYNC			(0x00000003)
-> +
-> +#define REG_PSR_CMD				(0x00000110)
-> +#define PSR_ENTER				(0x00000001)
-> +#define PSR_EXIT				(0x00000002)
-> +
->   #define MMSS_DP_PSR_CRC_RG			(0x00000154)
->   #define MMSS_DP_PSR_CRC_B			(0x00000158)
->   
-> @@ -184,6 +208,9 @@
->   #define MMSS_DP_AUDIO_STREAM_0			(0x00000240)
->   #define MMSS_DP_AUDIO_STREAM_1			(0x00000244)
->   
-> +#define MMSS_DP_SDP_CFG3			(0x0000024c)
-> +#define UPDATE_SDP				(0x00000001)
-> +
->   #define MMSS_DP_EXTENSION_0			(0x00000250)
->   #define MMSS_DP_EXTENSION_1			(0x00000254)
->   #define MMSS_DP_EXTENSION_2			(0x00000258)
+I'm not a big fan of this kind of patches, but while reading and
+reviewing this document I spotted few potential grammatical fixes.
 
+Andi
 
+ Documentation/gpu/rfc/i915_vm_bind.rst | 52 +++++++++++++-------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/Documentation/gpu/rfc/i915_vm_bind.rst b/Documentation/gpu/rfc/i915_vm_bind.rst
+index 9a1dcdf2799ef..78c17f345d82c 100644
+--- a/Documentation/gpu/rfc/i915_vm_bind.rst
++++ b/Documentation/gpu/rfc/i915_vm_bind.rst
+@@ -4,17 +4,17 @@ I915 VM_BIND feature design and use cases
+ 
+ VM_BIND feature
+ ================
+-DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
++DRM_I915_GEM_VM_BIND/UNBIND ioctls allow UMD to bind/unbind GEM buffer
+ objects (BOs) or sections of a BOs at specified GPU virtual addresses on a
+ specified address space (VM). These mappings (also referred to as persistent
+ mappings) will be persistent across multiple GPU submissions (execbuf calls)
+-issued by the UMD, without user having to provide a list of all required
++issued by the UMD, without the user having to provide a list of all required
+ mappings during each submission (as required by older execbuf mode).
+ 
+ The VM_BIND/UNBIND calls allow UMDs to request a timeline out fence for
+ signaling the completion of bind/unbind operation.
+ 
+-VM_BIND feature is advertised to user via I915_PARAM_VM_BIND_VERSION.
++VM_BIND feature is advertised to the user via I915_PARAM_VM_BIND_VERSION.
+ User has to opt-in for VM_BIND mode of binding for an address space (VM)
+ during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
+ 
+@@ -33,8 +33,8 @@ VM_BIND features include:
+ TLB flush consideration
+ ------------------------
+ The i915 driver flushes the TLB for each submission and when an object's
+-pages are released. The VM_BIND/UNBIND operation will not do any additional
+-TLB flush. Any VM_BIND mapping added will be in the working set for subsequent
++page is released. The VM_BIND/UNBIND operation will not do any additional TLB
++flush. Any VM_BIND mapping added will be in the working set for subsequent
+ submissions on that VM and will not be in the working set for currently running
+ batches (which would require additional TLB flushes, which is not supported).
+ 
+@@ -57,13 +57,13 @@ works with execbuf3 ioctl for submission. All BOs mapped on that VM (through
+ VM_BIND call) at the time of execbuf3 call are deemed required for that
+ submission.
+ 
+-The execbuf3 ioctl directly specifies the batch addresses instead of as
+-object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
++The execbuf3 ioctl directly specifies the batch addresses instead of an
++object handle as in execbuf2 ioctl. The execbuf3 ioctl will also not
+ support many of the older features like in/out/submit fences, fence array,
+ default gem context and many more (See struct drm_i915_gem_execbuffer3).
+ 
+ In VM_BIND mode, VA allocation is completely managed by the user instead of
+-the i915 driver. Hence all VA assignment, eviction are not applicable in
++the i915 driver. Hence all VA assignments and eviction are not applicable in
+ VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
+ be using the i915_vma active reference tracking. It will instead use dma-resv
+ object for that (See `VM_BIND dma_resv usage`_).
+@@ -81,7 +81,7 @@ exported. Hence these BOs are referred to as Shared BOs.
+ During each execbuf submission, the request fence must be added to the
+ dma-resv fence list of all shared BOs mapped on the VM.
+ 
+-VM_BIND feature introduces an optimization where user can create BO which
++VM_BIND feature introduces an optimization where the user can create a BO which
+ is private to a specified VM via I915_GEM_CREATE_EXT_VM_PRIVATE flag during
+ BO creation. Unlike Shared BOs, these VM private BOs can only be mapped on
+ the VM they are private to and can't be dma-buf exported.
+@@ -95,7 +95,7 @@ VM_BIND locking hirarchy
+ The locking design here supports the older (execlist based) execbuf mode, the
+ newer VM_BIND mode, the VM_BIND mode with GPU page faults and possible future
+ system allocator support (See `Shared Virtual Memory (SVM) support`_).
+-The older execbuf mode and the newer VM_BIND mode without page faults manages
++The older execbuf mode and the newer VM_BIND mode without page faults manage
+ residency of backing storage using dma_fence. The VM_BIND mode with page faults
+ and the system allocator support do not use any dma_fence at all.
+ 
+@@ -105,10 +105,10 @@ VM_BIND locking order is as below.
+    vm_bind/vm_unbind ioctl calls, in the execbuf path and while releasing the
+    mapping.
+ 
+-   In future, when GPU page faults are supported, we can potentially use a
++   In future, when GPU page faults will be supported, we will potentially use a
+    rwsem instead, so that multiple page fault handlers can take the read side
+    lock to lookup the mapping and hence can run in parallel.
+-   The older execbuf mode of binding do not need this lock.
++   The older execbuf mode of binding does not need this lock.
+ 
+ 2) Lock-B: The object's dma-resv lock will protect i915_vma state and needs to
+    be held while binding/unbinding a vma in the async worker and while updating
+@@ -121,9 +121,9 @@ VM_BIND locking order is as below.
+ 3) Lock-C: Spinlock/s to protect some of the VM's lists like the list of
+    invalidated vmas (due to eviction and userptr invalidation) etc.
+ 
+-When GPU page faults are supported, the execbuf path do not take any of these
++When GPU page faults are supported, the execbuf path does not take any of these
+ locks. There we will simply smash the new batch buffer address into the ring and
+-then tell the scheduler run that. The lock taking only happens from the page
++then tell the scheduler to run that. The locking only happens from the page
+ fault handler, where we take lock-A in read mode, whichever lock-B we need to
+ find the backing storage (dma_resv lock for gem objects, and hmm/core mm for
+ system allocator) and some additional locks (lock-D) for taking care of page
+@@ -137,13 +137,13 @@ performance degradation. We will also need support for bulk LRU movement of
+ VM_BIND objects to avoid additional latencies in execbuf path.
+ 
+ The page table pages are similar to VM_BIND mapped objects (See
+-`Evictable page table allocations`_) and are maintained per VM and needs to
++`Evictable page table allocations`_) and are maintained per VM and need to
+ be pinned in memory when VM is made active (ie., upon an execbuf call with
+ that VM). So, bulk LRU movement of page table pages is also needed.
+ 
+ VM_BIND dma_resv usage
+ -----------------------
+-Fences needs to be added to all VM_BIND mapped objects. During each execbuf
++Fences need to be added to all VM_BIND mapped objects. During each execbuf
+ submission, they are added with DMA_RESV_USAGE_BOOKKEEP usage to prevent
+ over sync (See enum dma_resv_usage). One can override it with either
+ DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE usage during explicit object
+@@ -188,7 +188,7 @@ User/Memory Fence
+ User/Memory fence is a <address, value> pair. To signal the user fence, the
+ specified value will be written at the specified virtual address and wakeup the
+ waiting process. User fence can be signaled either by the GPU or kernel async
+-worker (like upon bind completion). User can wait on a user fence with a new
++worker (like upon bind completion). The user can wait on a user fence with a new
+ user fence wait ioctl.
+ 
+ Here is some prior work on this:
+@@ -196,22 +196,22 @@ https://patchwork.freedesktop.org/patch/349417/
+ 
+ Low Latency Submission
+ ~~~~~~~~~~~~~~~~~~~~~~~
+-Allows compute UMD to directly submit GPU jobs instead of through execbuf
+-ioctl. This is made possible by VM_BIND is not being synchronized against
++Allows compute UMD to directly submit GPU jobs instead of using execbuf
++ioctl. This is made possible by VM_BIND and it's not being synchronized against
+ execbuf. VM_BIND allows bind/unbind of mappings required for the directly
+ submitted jobs.
+ 
+ Debugger
+ ---------
+-With debug event interface user space process (debugger) is able to keep track
+-of and act upon resources created by another process (debugged) and attached
+-to GPU via vm_bind interface.
++With debug event interface the user space process (debugger) is able to keep
++track of and act upon resources created by another process (debugged) and
++attached to GPU via vm_bind interface.
+ 
+ GPU page faults
+ ----------------
+ GPU page faults when supported (in future), will only be supported in the
+ VM_BIND mode. While both the older execbuf mode and the newer VM_BIND mode of
+-binding will require using dma-fence to ensure residency, the GPU page faults
++binding will require using dma-fence to ensure residency, the GPU page fault
+ mode when supported, will not use any dma-fence as residency is purely managed
+ by installing and removing/invalidating page table entries.
+ 
+@@ -229,15 +229,15 @@ Evictable page table allocations
+ ---------------------------------
+ Make pagetable allocations evictable and manage them similar to VM_BIND
+ mapped objects. Page table pages are similar to persistent mappings of a
+-VM (difference here are that the page table pages will not have an i915_vma
+-structure and after swapping pages back in, parent page link needs to be
++VM (the difference here is that the page table pages will not have an i915_vma
++structure and after swapping pages back in, the parent page link needs to be
+ updated).
+ 
+ Shared Virtual Memory (SVM) support
+ ------------------------------------
+ VM_BIND interface can be used to map system memory directly (without gem BO
+ abstraction) using the HMM interface. SVM is only supported with GPU page
+-faults enabled.
++fault enabled.
+ 
+ VM_BIND UAPI
+ =============
 -- 
-With best wishes
-Dmitry
+2.36.1
+
