@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2C2570786
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 17:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BAC57079A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 17:51:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEE68F452;
-	Mon, 11 Jul 2022 15:50:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 884C18F45C;
+	Mon, 11 Jul 2022 15:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
  [IPv6:2a02:1800:120:4::f00:14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959498F450
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E94F8F44D
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 15:50:39 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
  by xavier.telenet-ops.be with bizsmtp
- id trqd2700e4C55Sk01rqd4B; Mon, 11 Jul 2022 17:50:38 +0200
+ id trqe2700d4C55Sk01rqe4f; Mon, 11 Jul 2022 17:50:38 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1oAvgD-0036wz-AP; Mon, 11 Jul 2022 17:50:37 +0200
+ id 1oAvgD-0036x0-N6; Mon, 11 Jul 2022 17:50:37 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1oAvgC-006shN-T7; Mon, 11 Jul 2022 17:50:36 +0200
+ id 1oAvgC-006shU-Tl; Mon, 11 Jul 2022 17:50:36 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 03/10] video: fbdev: atari: Fix inverse handling
-Date: Mon, 11 Jul 2022 17:50:27 +0200
-Message-Id: <b24ff02cb947e5b3a00ca74268db1b504d7346ba.1657554353.git.geert@linux-m68k.org>
+Subject: [PATCH 04/10] video: fbdev: atari: Fix ext_setcolreg()
+Date: Mon, 11 Jul 2022 17:50:28 +0200
+Message-Id: <f807e1c6deedb2b819a309347295b0fd2f89c2c2.1657554353.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
 References: <cover.1657554353.git.geert@linux-m68k.org>
@@ -53,56 +53,32 @@ Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the "inverse" option does not do anything, as it just sets a
-flag, which is further unused.
-
-Fix this by calling fb_invert_cmaps() instead, like other drivers do.
-As this only affects the console colormap, this does not affect X.
-Update the documentation to match the actual behavior.
+The red, green, and blue color values are 16-bit, while the external
+graphics hardware registers are 8-bit.
+Add the missing conversion from 16-bit to 8-bit.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- Documentation/m68k/kernel-options.rst | 4 ++--
- drivers/video/fbdev/atafb.c           | 4 +---
- 2 files changed, 3 insertions(+), 5 deletions(-)
+Untested due to lack of hardware.
+---
+ drivers/video/fbdev/atafb.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/m68k/kernel-options.rst b/Documentation/m68k/kernel-options.rst
-index cabd9419740d5ada..2008a20b43295bd5 100644
---- a/Documentation/m68k/kernel-options.rst
-+++ b/Documentation/m68k/kernel-options.rst
-@@ -367,8 +367,8 @@ activated by a "external:" sub-option.
- 4.1.2) inverse
- --------------
- 
--Invert the display. This affects both, text (consoles) and graphics
--(X) display. Usually, the background is chosen to be black. With this
-+Invert the display. This affects only text consoles.
-+Usually, the background is chosen to be black. With this
- option, you can make the background white.
- 
- 4.1.3) font
 diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
-index 172ef547ff6f4883..39c3b860a797d4bc 100644
+index 39c3b860a797d4bc..a36cd8f1f4200dd5 100644
 --- a/drivers/video/fbdev/atafb.c
 +++ b/drivers/video/fbdev/atafb.c
-@@ -236,8 +236,6 @@ static int *MV300_reg = MV300_reg_8bit;
- #endif /* ATAFB_EXT */
+@@ -2206,6 +2206,10 @@ static int ext_setcolreg(unsigned int regno, unsigned int red,
+ 	if (regno > 255)
+ 		return 1;
  
- 
--static int inverse;
--
- /*
-  * struct fb_ops {
-  *	* open/release and usage marking
-@@ -2971,7 +2969,7 @@ static int __init atafb_setup(char *options)
- 			default_par = temp;
- 			mode_option = this_opt;
- 		} else if (!strcmp(this_opt, "inverse"))
--			inverse = 1;
-+			fb_invert_cmaps();
- 		else if (!strncmp(this_opt, "hwscroll_", 9)) {
- 			hwscroll = simple_strtoul(this_opt + 9, NULL, 10);
- 			if (hwscroll < 0)
++	red >>= 8;
++	green >>= 8;
++	blue >>= 8;
++
+ 	switch (external_card_type) {
+ 	case IS_VGA:
+ 		OUTB(0x3c8, regno);
 -- 
 2.25.1
 
