@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C452B5708FE
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 19:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8757570900
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 19:39:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80CF38F68F;
-	Mon, 11 Jul 2022 17:39:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94E468FD0A;
+	Mon, 11 Jul 2022 17:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194168F5DA
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 17:39:46 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 7A7145C0156;
- Mon, 11 Jul 2022 13:39:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 11 Jul 2022 13:39:45 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D61578FA0A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 17:39:47 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 351E55C0163;
+ Mon, 11 Jul 2022 13:39:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 11 Jul 2022 13:39:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657561185; x=1657647585; bh=Dq
- aG14qLXqHdK4Y6h2JUk2d3R8FO9EygivlfP2JCqrA=; b=s903tdF3Z7I6DqbqLp
- XvK3Rfn14t2QdX2UPX8XCPnnefbMs1nAvZcfY8WK9NJOo4zxr/Cu04+MlGKK4iq0
- wZLf9Aq/R2E6Ligf2ffZh/Sjp0SREl31ttt7U0HfizPMEX8yzko0XHqz4WSwnAiX
- N5awyowype3rvVgggEavN8P0BNZ5Ixwfij0RUUld6kAFBYQMnipWT+S/PNhuJbwl
- Dc359MfWH/Ba2SFHnkbUIVtmrmp0ej9QhDWP6Y5HGscuo4pBSSOsVkDCZesNwHvm
- TQaGXvTqm7q8bqmADat7DVxXTsx05eL2cqDzj+veRlEvlb+9BC6x9pjL7nX6cYOt
- 4USQ==
+ :subject:subject:to:to; s=fm2; t=1657561187; x=1657647587; bh=LY
+ Pn7Nf0hxXCG/hxwn7RzjCz0KCx3xU3Y1RWV+t5RTs=; b=ffSUf/LtsOA93Wrvty
+ 7WI9909ukV6DZ2ySLjVBeD1G9Z2EBqpvOLBua0fbRUrR821NFZYqCPPzdSzX5r8A
+ It5m3oJF9ScFIVFf+UzvedftuVemG5RPg3JkSgdfX+j1NN0gHIwPX7BUTRSJkV+a
+ u3J+masz3N4LUpMcw54/4GLbyvwTghWuVcwGgGRFsoO6tqcIMY9HRPaMgm4H6Mwd
+ I+BrJhUb0WtdR5burTnOxxjpiJsANyK2K0HUupUXedb/JpnvlqlAH1YEvekHI3dv
+ swSDhgXRt1sAron3aHnNoGmlYnKWy8ZEG89P8we6Z2MbGuBxvZrt5MfyRYQghpUE
+ cWyQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657561185; x=1657647585; bh=DqaG14qLXqHdK
- 4Y6h2JUk2d3R8FO9EygivlfP2JCqrA=; b=ZakGkWnUh20zw+lo7sJKI3JljKdH4
- awUplkRrD7DsxLVNisY8GxNnLS7qqH0vBbHEgVRGhSAzTwhdgKba1gbNuhL71fpL
- CJDZv4162v+jW3Q5IiQt97VApPvcQF4YSwdbpsCvEZPH36ZfVvNakMLtKfGnrGXG
- sRN3WLM5+6JulCxLunvtmBHoiUgf67/VeAYbpHOKG46QiRBvv6/2PjKonv4ELVtF
- VcFcNZMT10zGUgrfxsNHGWDv28qpfgzJPGow3OeeR4GL9/uRIxVklYAe9gUMQ5nW
- M5OrIabpvGj87XLGSy/q//YD+MK3Xo6rk3AVpLZcnF9eynzHrq9b+uLIQ==
-X-ME-Sender: <xms:YWDMYvSBAB4NXiCsuJcayW15XMjNCib3lylaJVKYFouLk7dO-69BEg>
- <xme:YWDMYgyp3ueJE6Vmy1miidkRe2sp2PTRop6hZBMekm0VTp1lmsPde3DmHE9ADzqhf
- w34pryKvC3Z88mxvTM>
-X-ME-Received: <xmr:YWDMYk0aH_zBqKByeqT6K3T8Ss3yW3ghW97P7zn5hF9Ods2wkTweTgdLhJzF0-YX-lf6ESXB47WkqeNjCSjXIjgGG4wqJq2X-f4AcDQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedguddugecutefuodetggdotefrod
+ :x-sasl-enc; s=fm3; t=1657561187; x=1657647587; bh=LYPn7Nf0hxXCG
+ /hxwn7RzjCz0KCx3xU3Y1RWV+t5RTs=; b=t3uGnTlBVamXr6dSWcXJtTMlDePx5
+ PkU52JRc+/CZSmpuKCARUIsjgx6q16NP/YMviYCGm2oLEXlQzt12Tr9I4YPHJBBV
+ 8rjkH8Fg9mUixjCZZdP+762wYhAuD5UIvlBsN4xq1I3lyyHxYVhLI68QemqJZZbB
+ 94MLJJPBC6ulw9Rwz90D61rqI5/Lqr0h9KVPeKGviXO6FEpQNQKas+pougRkVLgp
+ xPwEj5JTcM17iHCkWDbhvxVZefvpenmsRFAyaR4yt4vVXqU4e1BJ3EeS24lBTM1R
+ 0+klWZJ9Fv37wsvRirhxDctZs2VuElmvDb4YSgZ+GW4pqbA+IXmg8YxIw==
+X-ME-Sender: <xms:Y2DMYhEn19DkI99Ckg-EBxvh6NpyC2yQ99d-sr4nRtRY88CgY3VBjg>
+ <xme:Y2DMYmUEV0JISU-9hlYKBCdKoUZika5M1EGsb4rZxfgxF1ShmdcouCtWTcVvXvQ0m
+ hoEuKR2YgUEQWCRiYk>
+X-ME-Received: <xmr:Y2DMYjL1ewfghx3EVAswTAP5FEokpgo87AvoBfLqfcDQAavRykOVzlDt06pjBkp9TGchPZb9Klk-j9ev8MGEE8kjOmL-eBiW9OsrFfc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudduhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgig
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedguddugecutefuodetgg
  grthhtvghrnhepleekfeetudfhkeejiefhtedugfeuvdevkeekteetkefhkefhtdelgfef
  uddvjefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:YWDMYvDMvpQipGDskHxXBEzfF7Vg7Yh_h7rO77zeLG3mR-OzGcccSA>
- <xmx:YWDMYoim4AqJln82Av3jueQ4jebh8UPQRMFNOv35-rJXsIG_fDTKzA>
- <xmx:YWDMYjq0i23SbYjR0Rq-EIrRWzat096ivXT91FP70-H4ijHKXzyXlA>
- <xmx:YWDMYgcILfg89HGDXW7B1C0J6F1GjKPZrH9MAvIlTz3y63J-nyle3A>
+X-ME-Proxy: <xmx:Y2DMYnG-DTlk6_-cyxA7d8BihJ3Sx7QhjwOhSgUbeoGTurGl8EEXpw>
+ <xmx:Y2DMYnVgY270Vj2EwLY216jiVIS2wZEP7r0TYsh7uy1M3E646roVkg>
+ <xmx:Y2DMYiPMuyv1DugvZHebROqQwrRst7p1ktKwERZNysCe_WeU4XFq-w>
+ <xmx:Y2DMYtz95JCftFQNBfumn3z6LLbkYhOkHvA1033BuXR1wwRYZcJvWQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 13:39:44 -0400 (EDT)
+ 11 Jul 2022 13:39:46 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v5 01/69] drm/mipi-dsi: Detach devices when removing the host
-Date: Mon, 11 Jul 2022 19:38:31 +0200
-Message-Id: <20220711173939.1132294-2-maxime@cerno.tech>
+Subject: [PATCH v5 02/69] drm/crtc: Introduce drmm_crtc_init_with_planes
+Date: Mon, 11 Jul 2022 19:38:32 +0200
+Message-Id: <20220711173939.1132294-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220711173939.1132294-1-maxime@cerno.tech>
 References: <20220711173939.1132294-1-maxime@cerno.tech>
@@ -88,33 +88,173 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever the MIPI-DSI host is unregistered, the code of
-mipi_dsi_host_unregister() loops over every device currently found on that
-bus and will unregister it.
+The DRM-managed function to register a CRTC is
+drmm_crtc_alloc_with_planes(), which will allocate the underlying
+structure and initialisation the CRTC.
 
-However, it doesn't detach it from the bus first, which leads to all kind
-of resource leaks if the host wants to perform some clean up whenever a
-device is detached.
+However, we might want to separate the structure creation and the CRTC
+initialisation, for example if the structure is shared across multiple
+DRM entities, for example an encoder and a connector.
 
-Fixes: 068a00233969 ("drm: Add MIPI DSI bus support")
+Let's create an helper to only initialise a CRTC that would be passed as
+an argument.
+
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_crtc.c | 94 +++++++++++++++++++++++++++++++++-----
+ include/drm/drm_crtc.h     |  9 ++++
+ 2 files changed, 91 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 2e25804d6ffa..3ec02748d56f 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -346,6 +346,7 @@ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index cad2a7e5166f..df9bf3c9206e 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -343,9 +343,10 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
+  * The @primary and @cursor planes are only relevant for legacy uAPI, see
+  * &drm_crtc.primary and &drm_crtc.cursor.
+  *
+- * Note: consider using drmm_crtc_alloc_with_planes() instead of
+- * drm_crtc_init_with_planes() to let the DRM managed resource infrastructure
+- * take care of cleanup and deallocation.
++ * Note: consider using drmm_crtc_alloc_with_planes() or
++ * drmm_crtc_init_with_planes() instead of drm_crtc_init_with_planes()
++ * to let the DRM managed resource infrastructure take care of cleanup
++ * and deallocation.
+  *
+  * Returns:
+  * Zero on success, error code on failure.
+@@ -370,14 +371,88 @@ int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+ }
+ EXPORT_SYMBOL(drm_crtc_init_with_planes);
+ 
+-static void drmm_crtc_alloc_with_planes_cleanup(struct drm_device *dev,
+-						void *ptr)
++static void drmm_crtc_init_with_planes_cleanup(struct drm_device *dev,
++					       void *ptr)
  {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
+ 	struct drm_crtc *crtc = ptr;
  
-+	mipi_dsi_detach(dsi);
- 	mipi_dsi_device_unregister(dsi);
+ 	drm_crtc_cleanup(crtc);
+ }
  
- 	return 0;
++__printf(6, 0)
++static int __drmm_crtc_init_with_planes(struct drm_device *dev,
++					struct drm_crtc *crtc,
++					struct drm_plane *primary,
++					struct drm_plane *cursor,
++					const struct drm_crtc_funcs *funcs,
++					const char *name,
++					va_list args)
++{
++	int ret;
++
++	drm_WARN_ON(dev, funcs && funcs->destroy);
++
++	ret = __drm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
++					  name, args);
++	if (ret)
++		return ret;
++
++	ret = drmm_add_action_or_reset(dev, drmm_crtc_init_with_planes_cleanup,
++				       crtc);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++/**
++ * drmm_crtc_init_with_planes - Initialise a new CRTC object with
++ *    specified primary and cursor planes.
++ * @dev: DRM device
++ * @crtc: CRTC object to init
++ * @primary: Primary plane for CRTC
++ * @cursor: Cursor plane for CRTC
++ * @funcs: callbacks for the new CRTC
++ * @name: printf style format string for the CRTC name, or NULL for default name
++ *
++ * Inits a new object created as base part of a driver crtc object. Drivers
++ * should use this function instead of drm_crtc_init(), which is only provided
++ * for backwards compatibility with drivers which do not yet support universal
++ * planes). For really simple hardware which has only 1 plane look at
++ * drm_simple_display_pipe_init() instead.
++ *
++ * Cleanup is automatically handled through registering
++ * drmm_crtc_cleanup() with drmm_add_action(). The crtc structure should
++ * be allocated with drmm_kzalloc().
++ *
++ * The @drm_crtc_funcs.destroy hook must be NULL.
++ *
++ * The @primary and @cursor planes are only relevant for legacy uAPI, see
++ * &drm_crtc.primary and &drm_crtc.cursor.
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ */
++int drmm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
++			       struct drm_plane *primary,
++			       struct drm_plane *cursor,
++			       const struct drm_crtc_funcs *funcs,
++			       const char *name, ...)
++{
++	va_list ap;
++	int ret;
++
++	va_start(ap, name);
++	ret = __drmm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
++					   name, ap);
++	va_end(ap);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL(drmm_crtc_init_with_planes);
++
+ void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
+ 				    size_t size, size_t offset,
+ 				    struct drm_plane *primary,
+@@ -400,17 +475,12 @@ void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
+ 	crtc = container + offset;
+ 
+ 	va_start(ap, name);
+-	ret = __drm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
+-					  name, ap);
++	ret = __drmm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
++					   name, ap);
+ 	va_end(ap);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+-	ret = drmm_add_action_or_reset(dev, drmm_crtc_alloc_with_planes_cleanup,
+-				       crtc);
+-	if (ret)
+-		return ERR_PTR(ret);
+-
+ 	return container;
+ }
+ EXPORT_SYMBOL(__drmm_crtc_alloc_with_planes);
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index ffc1cde331d3..8e1cbc75143e 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -1216,6 +1216,15 @@ int drm_crtc_init_with_planes(struct drm_device *dev,
+ 			      struct drm_plane *cursor,
+ 			      const struct drm_crtc_funcs *funcs,
+ 			      const char *name, ...);
++
++__printf(6, 7)
++int drmm_crtc_init_with_planes(struct drm_device *dev,
++			       struct drm_crtc *crtc,
++			       struct drm_plane *primary,
++			       struct drm_plane *cursor,
++			       const struct drm_crtc_funcs *funcs,
++			       const char *name, ...);
++
+ void drm_crtc_cleanup(struct drm_crtc *crtc);
+ 
+ __printf(7, 8)
 -- 
 2.36.1
 
