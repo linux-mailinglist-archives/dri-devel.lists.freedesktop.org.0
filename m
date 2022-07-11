@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0206B57093F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 19:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFE657093E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 19:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 827279036F;
-	Mon, 11 Jul 2022 17:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BABB90357;
+	Mon, 11 Jul 2022 17:41:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 286469034A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 17:41:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B183890353
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 17:41:34 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 6E75F5C0102;
- Mon, 11 Jul 2022 13:41:32 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 11 Jul 2022 13:41:32 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id 1A5BF5C0102;
+ Mon, 11 Jul 2022 13:41:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 11 Jul 2022 13:41:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657561292; x=1657647692; bh=Sx
- L0h2P1U76Ql23fAEJgao0QY6CoTY8k99Xg1thBOfI=; b=BVFhfrS/C/oO6Zvsur
- r2KuQ4jbV5m1W5baOxlJRqh/r4gBVOP1MOM2t8+4Q6VmRAo591tFdPs4hNXuq8xU
- gkEfIimKfKYHcPBDH0yg7NmMttrQoZxzB/eV9GRhr+Rh/a39xCG+4drYX/C4Hrx+
- B0Rf7EVF2QwYClDtByDBtOaNDYa1QRoQJPAs0W9W6nRIR5zdUP79VFElyvpdvI5j
- uPYK4OJ9eFVzh0X2CaTr4NTxCiS8bNdTBRXiADdEFb07Z8ls0yvtaQQosqA7Owwe
- /k/VFpQ+rIrgyTt/yiAIqQ4+oI/lnEKvj9hzCMqovkrt0/bOIQEgGDHeFxB1cvUH
- xaMw==
+ :subject:subject:to:to; s=fm2; t=1657561294; x=1657647694; bh=Bg
+ 0r1H7FEdBHbJZ0awHukcSE6PQ0pmsX8wGU7txgMGw=; b=U4i/wMooOn2hJ3ASXj
+ LRwSXuE+B/L+VKiAftpsoGH7N3IwiSgHVjU18iIoa7yCoaQIzsqWFIF9NVdxOman
+ NYgfbttbWTaLXtnrOM0btIoYbyP5n55z9sCYoln8D1XH4LRfu6RioeWC5QxGeXFN
+ jyIOiIsSU7JuOqS/qAtYAK09FkTkSm7apwmnE5HPnux/gE55GMftHtM5VyH/3q+0
+ c40DSQHBHtFFXu20loxeyNRzfGKWlN9ierfxm+OsEg39PehCwk9pgW7hVeChkgUj
+ f9pxpKve6kW75QC5o50mVOgmLXE5vn3rjlA3162x3D3Z+Yf9h1CGYzrCY3RA/qmj
+ o1Ug==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657561292; x=1657647692; bh=SxL0h2P1U76Ql
- 23fAEJgao0QY6CoTY8k99Xg1thBOfI=; b=P3W8p7k3geqow1NsHq/7BX03xmYmX
- Nc6fgvqyAJTF79gX4DMAgo4ObXbi/F9EfooZYyAv24yB5oBcm2ULLj5x3O+mcjQY
- M8cNQjTOgMrEsQ0UVMwAQiPtRN1A1o7T0f22v+mvXmtX9pbjJjtKZeBjkSK3bxJN
- rtQn+mj6rlrbOigm2RAlxJT4LhJM+/GWsBWTgjFLFbIB+WYzHFxtnWshK6hQI4HK
- dBvfjab/z2aAPsA+aHIuEaCL1xx5Emxy1zn6yX1cx2rJLNbej4GeFZdIIXVtjkFq
- KTXBaUEWgHTldhxKdB3ZfQkrIVT6e7tzMOqE9WzvPliEEeEgxFPbb04oA==
-X-ME-Sender: <xms:zGDMYlLmFU-U9QN4g_5TQ5d5bj7-HcwDqMEd2m9us4IekJ5vrPMfkQ>
- <xme:zGDMYhLZzhBwjDD-da5k3gL_WcTjOvVoEA2UaBvpIkgC7wVtIQPQMhnYSbCGCGndW
- zgy6VTqXAjZGJjexuA>
-X-ME-Received: <xmr:zGDMYtvwEK9l4tCuUpNUu6G83Q86KG8iZ8h59pPchiUnywOr5auZZkxocwby6FgenJA3r6uAAolTibCJ2ss4SxHiUTqhFSZQ4e_FqHM>
+ :x-sasl-enc; s=fm3; t=1657561294; x=1657647694; bh=Bg0r1H7FEdBHb
+ JZ0awHukcSE6PQ0pmsX8wGU7txgMGw=; b=3CB7YRnF2aFvsZp0Po1byYW5Y9XUr
+ XqyOPVGB79SH6h2YmHmoqJLiT13osoznHWiEIhOWMGiUUkdGD/lSJkCI3C+u9FAZ
+ k7NELMdFkYh1VxMo3//PAoOEXL+ZmMQK7ezRyof8GKkjSftyAKt5CUJcHY2FIolT
+ Xi/9SS49p3biug7NB8n3XAY3RnCPERLupqgKyPUm9/wqaJ/9qqb3rGZ278VZ6lRH
+ kAj7F3bZQkXdL+JgEC0/K8mUP/fv4I72hNWASsDodj7OaX2cPlPQ8aZkH+u1ps0T
+ 26ZLAsG9xOj7lOMLmo8rMdnEP6PMPhh/mEyEt7aERF1A3Ly8N9Ld4CYww==
+X-ME-Sender: <xms:zWDMYjA7aDXoK19dwDbSua1XhpbcaeEpao1XLvlp4WIEJ3OEbJ3ymA>
+ <xme:zWDMYphvxNo_F_kedbY6ZJTd7HJkkexFh33Wf-Vfx_xfxhXXlevBzrzHWw53KYqG-
+ rjyL2s_MDDDBQHwqnc>
+X-ME-Received: <xmr:zWDMYulrZknML_Y1GC4DWD1m_YdWbd-WKvErt_N5vFpRXQSYU08mfQxHaWrgFsGAApqUX_8C7K3YVO8QLQcIr8RCQ0gZ6wdCnxLOwN8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudduhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepleekfeetudfhkeejiefhtedugfeuvdevkeekteetkefhkefhtdelgfef
- uddvjefhnecuvehluhhsthgvrhfuihiivgepudelnecurfgrrhgrmhepmhgrihhlfhhroh
+ uddvjefhnecuvehluhhsthgvrhfuihiivgepvddtnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zGDMYma7YvvyJTXC4NKxFLH2mM7f0qzS26OTxDjKQUof4C2UFOkCoQ>
- <xmx:zGDMYsYysy-i5w79NUM2kR1YaZWPWMyAl4ngjFO8kpstMTJVEScgeA>
- <xmx:zGDMYqAeWVJV78zln8XbyxpKUZB8woz5CCGhcTyTLMuzpkCleIyhdA>
- <xmx:zGDMYjV52rWUajSE_S_DZs7LF3S27XP99d1CRpE1OXixM_doF6ctbw>
+X-ME-Proxy: <xmx:zWDMYly0PhO__wAs0XXLpZwMf3PhUYPYdMgSeZdm-lDaLwFSy5FG4Q>
+ <xmx:zWDMYoQ30dDQXRAhiPMuMl1OEvqmf6bHKnYYO0XHPX4SaKBbFI-Dpg>
+ <xmx:zWDMYobXiwfB9UUeqFRNMeE8RkdNC431G3OtyLcTWRF5Qtuv49Z4gQ>
+ <xmx:zmDMYuNmQq-LT_PTXqnFgVTH9tNHxhvI4Bdavo96KRcK-MeApvoolw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 13:41:31 -0400 (EDT)
+ 11 Jul 2022 13:41:33 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v5 64/69] drm/vc4: debugfs: Simplify debugfs registration
-Date: Mon, 11 Jul 2022 19:39:34 +0200
-Message-Id: <20220711173939.1132294-65-maxime@cerno.tech>
+Subject: [PATCH v5 65/69] drm/vc4: Switch to drmm_mutex_init
+Date: Mon, 11 Jul 2022 19:39:35 +0200
+Message-Id: <20220711173939.1132294-66-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220711173939.1132294-1-maxime@cerno.tech>
 References: <20220711173939.1132294-1-maxime@cerno.tech>
@@ -88,580 +88,128 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vc4 has a custom API to allow components to register a debugfs file
-before the DRM driver has been registered and the debugfs_init hook has
-been called.
+mutex_init is supposed to be balanced by a call to mutex_destroy that we
+were never doing in the vc4 driver.
 
-However, the .late_register hook allows to have the debugfs file creation
-deferred after that time already.
-
-Let's remove our custom code to only register later our debugfs entries as
-part of either debugfs_init or after it.
+Since a DRM-managed mutex_init variant has been introduced, let's just
+switch to it.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c      | 20 ++++++++++--
- drivers/gpu/drm/vc4/vc4_crtc.c    | 19 ++++++++++--
- drivers/gpu/drm/vc4/vc4_debugfs.c | 51 +++++++++++--------------------
- drivers/gpu/drm/vc4/vc4_dpi.c     | 21 +++++++++++--
- drivers/gpu/drm/vc4/vc4_drv.h     | 12 +++++---
- drivers/gpu/drm/vc4/vc4_dsi.c     | 22 +++++++++++--
- drivers/gpu/drm/vc4/vc4_hdmi.c    | 26 +++++++++++++---
- drivers/gpu/drm/vc4/vc4_hvs.c     | 39 +++++++++++++++++++----
- drivers/gpu/drm/vc4/vc4_txp.c     |  3 +-
- drivers/gpu/drm/vc4/vc4_v3d.c     | 25 +++++++++++++--
- drivers/gpu/drm/vc4/vc4_vec.c     | 22 +++++++++++--
- 11 files changed, 191 insertions(+), 69 deletions(-)
+ drivers/gpu/drm/vc4/vc4_bo.c   | 15 +++++++++++++--
+ drivers/gpu/drm/vc4/vc4_drv.c  |  4 +++-
+ drivers/gpu/drm/vc4/vc4_gem.c  | 10 ++++++++--
+ drivers/gpu/drm/vc4/vc4_hdmi.c |  5 ++++-
+ 4 files changed, 28 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 0846d56f74f2..9706fec47bcd 100644
+index 9706fec47bcd..2ccf96b764db 100644
 --- a/drivers/gpu/drm/vc4/vc4_bo.c
 +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -984,6 +984,23 @@ int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
- 	return 0;
- }
- 
-+int vc4_bo_debugfs_init(struct drm_minor *minor)
-+{
-+	struct drm_device *drm = minor->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(drm);
+@@ -394,6 +394,7 @@ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_bo *bo;
 +	int ret;
+ 
+ 	if (WARN_ON_ONCE(vc4->is_vc5))
+ 		return ERR_PTR(-ENODEV);
+@@ -404,7 +405,11 @@ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
+ 
+ 	bo->madv = VC4_MADV_WILLNEED;
+ 	refcount_set(&bo->usecnt, 0);
+-	mutex_init(&bo->madv_lock);
 +
-+	if (!vc4->v3d)
-+		return -ENODEV;
-+
-+	ret = vc4_debugfs_add_file(minor, "bo_stats",
-+				   vc4_bo_stats_debugfs, NULL);
++	ret = drmm_mutex_init(dev, &bo->madv_lock);
 +	if (ret)
-+		return ret;
++		return ERR_PTR(ret);
 +
-+	return 0;
-+}
-+
- static void vc4_bo_cache_destroy(struct drm_device *dev, void *unused);
+ 	mutex_lock(&vc4->bo_lock);
+ 	bo->label = VC4_BO_TYPE_KERNEL;
+ 	vc4->bo_labels[VC4_BO_TYPE_KERNEL].num_allocated++;
+@@ -1005,6 +1010,7 @@ static void vc4_bo_cache_destroy(struct drm_device *dev, void *unused);
  int vc4_bo_cache_init(struct drm_device *dev)
  {
-@@ -1008,9 +1025,6 @@ int vc4_bo_cache_init(struct drm_device *dev)
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
++	int ret;
+ 	int i;
+ 
+ 	if (WARN_ON_ONCE(vc4->is_vc5))
+@@ -1024,7 +1030,12 @@ int vc4_bo_cache_init(struct drm_device *dev)
+ 	for (i = 0; i < VC4_BO_TYPE_COUNT; i++)
  		vc4->bo_labels[i].name = bo_type_names[i];
  
- 	mutex_init(&vc4->bo_lock);
--
--	vc4_debugfs_add_file(dev, "bo_stats", vc4_bo_stats_debugfs, NULL);
--
+-	mutex_init(&vc4->bo_lock);
++	ret = drmm_mutex_init(dev, &vc4->bo_lock);
++	if (ret) {
++		kfree(vc4->bo_labels);
++		return ret;
++	}
++
  	INIT_LIST_HEAD(&vc4->bo_cache.time_list);
  
  	INIT_WORK(&vc4->bo_cache.time_work, vc4_bo_cache_time_work);
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 3768a2a57ca9..d3efa7e5b5ed 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1052,6 +1052,21 @@ void vc4_crtc_reset(struct drm_crtc *crtc)
- 	__drm_atomic_helper_crtc_reset(crtc, &vc4_crtc_state->base);
- }
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 79a37d18aeb1..89975bdd607e 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -324,7 +324,9 @@ static int vc4_drm_bind(struct device *dev)
+ 	INIT_LIST_HEAD(&vc4->debugfs_list);
  
-+int vc4_crtc_late_register(struct drm_crtc *crtc)
-+{
-+	struct drm_device *drm = crtc->dev;
-+	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-+	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
+ 	if (!is_vc5) {
+-		mutex_init(&vc4->bin_bo_lock);
++		ret = drmm_mutex_init(drm, &vc4->bin_bo_lock);
++		if (ret)
++			return ret;
+ 
+ 		ret = vc4_bo_cache_init(drm);
+ 		if (ret)
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index fe10d9c3fff8..7acb43972e69 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -1308,6 +1308,7 @@ static void vc4_gem_destroy(struct drm_device *dev, void *unused);
+ int vc4_gem_init(struct drm_device *dev)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
 +	int ret;
-+
-+	ret = vc4_debugfs_add_regset32(drm->primary, crtc_data->debugfs_name,
-+				       &vc4_crtc->regset);
+ 
+ 	if (WARN_ON_ONCE(vc4->is_vc5))
+ 		return -ENODEV;
+@@ -1325,10 +1326,15 @@ int vc4_gem_init(struct drm_device *dev)
+ 
+ 	INIT_WORK(&vc4->job_done_work, vc4_job_done_work);
+ 
+-	mutex_init(&vc4->power_lock);
++	ret = drmm_mutex_init(dev, &vc4->power_lock);
 +	if (ret)
 +		return ret;
+ 
+ 	INIT_LIST_HEAD(&vc4->purgeable.list);
+-	mutex_init(&vc4->purgeable.lock);
 +
-+	return 0;
-+}
-+
- static const struct drm_crtc_funcs vc4_crtc_funcs = {
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = vc4_page_flip,
-@@ -1064,6 +1079,7 @@ static const struct drm_crtc_funcs vc4_crtc_funcs = {
- 	.enable_vblank = vc4_enable_vblank,
- 	.disable_vblank = vc4_disable_vblank,
- 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.late_register = vc4_crtc_late_register,
- };
- 
- static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
-@@ -1318,9 +1334,6 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
- 
- 	platform_set_drvdata(pdev, vc4_crtc);
- 
--	vc4_debugfs_add_regset32(drm, pv_data->base.debugfs_name,
--				 &vc4_crtc->regset);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
-index b857fb9c94bc..19cda4f91a82 100644
---- a/drivers/gpu/drm/vc4/vc4_debugfs.c
-+++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
-@@ -14,11 +14,6 @@
- #include "vc4_drv.h"
- #include "vc4_regs.h"
- 
--struct vc4_debugfs_info_entry {
--	struct list_head link;
--	struct drm_info_list info;
--};
--
- /*
-  * Called at drm_dev_register() time on each of the minors registered
-  * by the DRM device, to attach the debugfs files.
-@@ -27,16 +22,13 @@ void
- vc4_debugfs_init(struct drm_minor *minor)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(minor->dev);
--	struct vc4_debugfs_info_entry *entry;
-+	struct drm_device *drm = &vc4->base;
- 
--	if (!of_device_is_compatible(vc4->hvs->pdev->dev.of_node,
--				     "brcm,bcm2711-vc5"))
--		debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
--				    minor->debugfs_root, &vc4->load_tracker_enabled);
-+	drm_WARN_ON(drm, vc4_hvs_debugfs_init(minor));
- 
--	list_for_each_entry(entry, &vc4->debugfs_list, link) {
--		drm_debugfs_create_files(&entry->info, 1,
--					 minor->debugfs_root, minor);
-+	if (vc4->v3d) {
-+		drm_WARN_ON(drm, vc4_bo_debugfs_init(minor));
-+		drm_WARN_ON(drm, vc4_v3d_debugfs_init(minor));
- 	}
- }
- 
-@@ -58,40 +50,31 @@ static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
- 	return 0;
- }
- 
--/*
-- * Registers a debugfs file with a callback function for a vc4 component.
-- *
-- * This is like drm_debugfs_create_files(), but that can only be
-- * called a given DRM minor, while the various VC4 components want to
-- * register their debugfs files during the component bind process.  We
-- * track the request and delay it to be called on each minor during
-- * vc4_debugfs_init().
-- */
--int vc4_debugfs_add_file(struct drm_device *dev,
-+int vc4_debugfs_add_file(struct drm_minor *minor,
- 			 const char *name,
- 			 int (*show)(struct seq_file*, void*),
- 			 void *data)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct drm_device *dev = minor->dev;
-+	struct dentry *root = minor->debugfs_root;
-+	struct drm_info_list *file;
- 
--	struct vc4_debugfs_info_entry *entry =
--		devm_kzalloc(dev->dev, sizeof(*entry), GFP_KERNEL);
--
--	if (!entry)
-+	file = drmm_kzalloc(dev, sizeof(*file), GFP_KERNEL);
-+	if (!file)
- 		return -ENOMEM;
- 
--	entry->info.name = name;
--	entry->info.show = show;
--	entry->info.data = data;
-+	file->name = name;
-+	file->show = show;
-+	file->data = data;
- 
--	list_add(&entry->link, &vc4->debugfs_list);
-+	drm_debugfs_create_files(file, 1, root, minor);
- 
- 	return 0;
- }
- 
--int vc4_debugfs_add_regset32(struct drm_device *drm,
-+int vc4_debugfs_add_regset32(struct drm_minor *minor,
- 			     const char *name,
- 			     struct debugfs_regset32 *regset)
- {
--	return vc4_debugfs_add_file(drm, name, vc4_debugfs_regset32, regset);
-+	return vc4_debugfs_add_file(minor, name, vc4_debugfs_regset32, regset);
- }
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index 7286a3333538..1f8f44b7b5a5 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -244,6 +244,23 @@ static const struct drm_encoder_helper_funcs vc4_dpi_encoder_helper_funcs = {
- 	.mode_valid = vc4_dpi_encoder_mode_valid,
- };
- 
-+static int vc4_dpi_late_register(struct drm_encoder *encoder)
-+{
-+	struct drm_device *drm = encoder->dev;
-+	struct vc4_dpi *dpi = to_vc4_dpi(encoder);
-+	int ret;
-+
-+	ret = vc4_debugfs_add_regset32(drm->primary, "dpi_regs", &dpi->regset);
++	ret = drmm_mutex_init(dev, &vc4->purgeable.lock);
 +	if (ret)
 +		return ret;
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_funcs vc4_dpi_encoder_funcs = {
-+	.late_register = vc4_dpi_late_register,
-+};
-+
- static const struct of_device_id vc4_dpi_dt_match[] = {
- 	{ .compatible = "brcm,bcm2835-dpi", .data = NULL },
- 	{}
-@@ -332,7 +349,7 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
  
- 	ret = drmm_encoder_init(drm, &dpi->encoder.base,
--				NULL,
-+				&vc4_dpi_encoder_funcs,
- 				DRM_MODE_ENCODER_DPI,
- 				NULL);
- 	if (ret)
-@@ -346,8 +363,6 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
- 
- 	dev_set_drvdata(dev, dpi);
- 
--	vc4_debugfs_add_regset32(drm, "dpi_regs", &dpi->regset);
--
- 	return 0;
+ 	return drmm_add_action_or_reset(dev, vc4_gem_destroy, NULL);
  }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 5d857816426b..1649350b9efd 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -841,6 +841,7 @@ int vc4_bo_inc_usecnt(struct vc4_bo *bo);
- void vc4_bo_dec_usecnt(struct vc4_bo *bo);
- void vc4_bo_add_to_purgeable_pool(struct vc4_bo *bo);
- void vc4_bo_remove_from_purgeable_pool(struct vc4_bo *bo);
-+int vc4_bo_debugfs_init(struct drm_minor *minor);
- 
- /* vc4_crtc.c */
- extern struct platform_driver vc4_crtc_driver;
-@@ -859,6 +860,7 @@ void vc4_crtc_destroy_state(struct drm_crtc *crtc,
- void vc4_crtc_reset(struct drm_crtc *crtc);
- void vc4_crtc_handle_vblank(struct vc4_crtc *crtc);
- void vc4_crtc_send_vblank(struct drm_crtc *crtc);
-+int vc4_crtc_late_register(struct drm_crtc *crtc);
- void vc4_crtc_get_margins(struct drm_crtc_state *state,
- 			  unsigned int *left, unsigned int *right,
- 			  unsigned int *top, unsigned int *bottom);
-@@ -866,15 +868,15 @@ void vc4_crtc_get_margins(struct drm_crtc_state *state,
- /* vc4_debugfs.c */
- void vc4_debugfs_init(struct drm_minor *minor);
- #ifdef CONFIG_DEBUG_FS
--int vc4_debugfs_add_file(struct drm_device *drm,
-+int vc4_debugfs_add_file(struct drm_minor *minor,
- 			 const char *filename,
- 			 int (*show)(struct seq_file*, void*),
- 			 void *data);
--int vc4_debugfs_add_regset32(struct drm_device *drm,
-+int vc4_debugfs_add_regset32(struct drm_minor *minor,
- 			     const char *filename,
- 			     struct debugfs_regset32 *regset);
- #else
--static inline int vc4_debugfs_add_file(struct drm_device *drm,
-+static inline int vc4_debugfs_add_file(struct drm_minor *minor,
- 				       const char *filename,
- 				       int (*show)(struct seq_file*, void*),
- 				       void *data)
-@@ -882,7 +884,7 @@ static inline int vc4_debugfs_add_file(struct drm_device *drm,
- 	return 0;
- }
- 
--static inline int vc4_debugfs_add_regset32(struct drm_device *drm,
-+static inline int vc4_debugfs_add_regset32(struct drm_minor *minor,
- 					   const char *filename,
- 					   struct debugfs_regset32 *regset)
- {
-@@ -952,6 +954,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *state)
- void vc4_hvs_dump_state(struct vc4_hvs *hvs);
- void vc4_hvs_unmask_underrun(struct vc4_hvs *hvs, int channel);
- void vc4_hvs_mask_underrun(struct vc4_hvs *hvs, int channel);
-+int vc4_hvs_debugfs_init(struct drm_minor *minor);
- 
- /* vc4_kms.c */
- int vc4_kms_load(struct drm_device *dev);
-@@ -974,6 +977,7 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *used);
- void vc4_v3d_bin_bo_put(struct vc4_dev *vc4);
- int vc4_v3d_pm_get(struct vc4_dev *vc4);
- void vc4_v3d_pm_put(struct vc4_dev *vc4);
-+int vc4_v3d_debugfs_init(struct drm_minor *minor);
- 
- /* vc4_validate.c */
- int
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 52c3215fef49..878e05d79e81 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -1372,6 +1372,24 @@ static const struct drm_encoder_helper_funcs vc4_dsi_encoder_helper_funcs = {
- 	.mode_fixup = vc4_dsi_encoder_mode_fixup,
- };
- 
-+static int vc4_dsi_late_register(struct drm_encoder *encoder)
-+{
-+	struct drm_device *drm = encoder->dev;
-+	struct vc4_dsi *dsi = to_vc4_dsi(encoder);
-+	int ret;
-+
-+	ret = vc4_debugfs_add_regset32(drm->primary, dsi->variant->debugfs_name,
-+				       &dsi->regset);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_funcs vc4_dsi_encoder_funcs = {
-+	.late_register = vc4_dsi_late_register,
-+};
-+
- static const struct vc4_dsi_variant bcm2711_dsi1_variant = {
- 	.port			= 1,
- 	.debugfs_name		= "dsi1_regs",
-@@ -1721,7 +1739,7 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 
- 	ret = drmm_encoder_init(drm, encoder,
--				NULL,
-+				&vc4_dsi_encoder_funcs,
- 				DRM_MODE_ENCODER_DSI,
- 				NULL);
- 	if (ret)
-@@ -1743,8 +1761,6 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
- 	 */
- 	list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
- 
--	vc4_debugfs_add_regset32(drm, dsi->variant->debugfs_name, &dsi->regset);
--
- 	return 0;
- }
- 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 52106ad54efc..ac9e0dd00321 100644
+index ac9e0dd00321..719a3c3b4ef6 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1839,6 +1839,26 @@ static const struct drm_encoder_helper_funcs vc4_hdmi_encoder_helper_funcs = {
- 	.mode_valid = vc4_hdmi_encoder_mode_valid,
- };
+@@ -3271,7 +3271,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	if (!vc4_hdmi)
+ 		return -ENOMEM;
  
-+static int vc4_hdmi_late_register(struct drm_encoder *encoder)
-+{
-+	struct drm_device *drm = encoder->dev;
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	const struct vc4_hdmi_variant *variant = vc4_hdmi->variant;
-+	int ret;
-+
-+	ret = vc4_debugfs_add_file(drm->primary, variant->debugfs_name,
-+				   vc4_hdmi_debugfs_regs,
-+				   vc4_hdmi);
+-	mutex_init(&vc4_hdmi->mutex);
++	ret = drmm_mutex_init(drm, &vc4_hdmi->mutex);
 +	if (ret)
 +		return ret;
 +
-+	return 0;
-+}
-+
-+static const struct drm_encoder_funcs vc4_hdmi_encoder_funcs = {
-+	.late_register = vc4_hdmi_late_register,
-+};
-+
- static u32 vc4_hdmi_channel_map(struct vc4_hdmi *vc4_hdmi, u32 channel_mask)
- {
- 	int i;
-@@ -3336,7 +3356,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	}
- 
- 	ret = drmm_encoder_init(drm, encoder,
--				NULL,
-+				&vc4_hdmi_encoder_funcs,
- 				DRM_MODE_ENCODER_TMDS,
- 				NULL);
- 	if (ret)
-@@ -3360,10 +3380,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		goto err_put_runtime_pm;
- 
--	vc4_debugfs_add_file(drm, variant->debugfs_name,
--			     vc4_hdmi_debugfs_regs,
--			     vc4_hdmi);
--
- 	pm_runtime_put_sync(dev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index a62f222255ce..9e823e0de197 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -733,6 +733,39 @@ static irqreturn_t vc4_hvs_irq_handler(int irq, void *data)
- 	return irqret;
- }
- 
-+int vc4_hvs_debugfs_init(struct drm_minor *minor)
-+{
-+	struct drm_device *drm = minor->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(drm);
-+	struct vc4_hvs *hvs = vc4->hvs;
-+	int ret;
-+
-+	if (!vc4->hvs)
-+		return -ENODEV;
-+
-+	if (!vc4->is_vc5)
-+		debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
-+				    minor->debugfs_root,
-+				    &vc4->load_tracker_enabled);
-+
-+	ret = vc4_debugfs_add_file(minor, "hvs_dlists",
-+				   vc4_hvs_debugfs_dlist, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = vc4_debugfs_add_file(minor, "hvs_underrun",
-+				   vc4_hvs_debugfs_underrun, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = vc4_debugfs_add_regset32(minor, "hvs_regs",
-+				       &hvs->regset);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -858,12 +891,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	vc4_debugfs_add_regset32(drm, "hvs_regs", &hvs->regset);
--	vc4_debugfs_add_file(drm, "hvs_underrun", vc4_hvs_debugfs_underrun,
--			     NULL);
--	vc4_debugfs_add_file(drm, "hvs_dlists", vc4_hvs_debugfs_dlist,
--			     NULL);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index f6f61cf5f3f7..913e26dd62d4 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -398,6 +398,7 @@ static const struct drm_crtc_funcs vc4_txp_crtc_funcs = {
- 	.atomic_destroy_state	= vc4_crtc_destroy_state,
- 	.enable_vblank		= vc4_txp_enable_vblank,
- 	.disable_vblank		= vc4_txp_disable_vblank,
-+	.late_register		= vc4_crtc_late_register,
- };
- 
- static int vc4_txp_atomic_check(struct drm_crtc *crtc,
-@@ -541,8 +542,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 
- 	dev_set_drvdata(dev, txp);
- 
--	vc4_debugfs_add_regset32(drm, "txp_regs", &vc4_crtc->regset);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index cc714dcfe1f2..e7990bed0a96 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -401,6 +401,28 @@ static int vc4_v3d_runtime_resume(struct device *dev)
- }
- #endif
- 
-+int vc4_v3d_debugfs_init(struct drm_minor *minor)
-+{
-+	struct drm_device *drm = minor->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(drm);
-+	struct vc4_v3d *v3d = vc4->v3d;
-+	int ret;
-+
-+	if (!vc4->v3d)
-+		return -ENODEV;
-+
-+	ret = vc4_debugfs_add_file(minor, "v3d_ident",
-+				   vc4_v3d_debugfs_ident, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = vc4_debugfs_add_regset32(minor, "v3d_regs", &v3d->regset);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -477,9 +499,6 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- 	pm_runtime_set_autosuspend_delay(dev, 40); /* a little over 2 frames. */
- 	pm_runtime_enable(dev);
- 
--	vc4_debugfs_add_file(drm, "v3d_ident", vc4_v3d_debugfs_ident, NULL);
--	vc4_debugfs_add_regset32(drm, "v3d_regs", &v3d->regset);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index d356ffa52866..4a788c1c9058 100644
---- a/drivers/gpu/drm/vc4/vc4_vec.c
-+++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -523,6 +523,24 @@ static const struct drm_encoder_helper_funcs vc4_vec_encoder_helper_funcs = {
- 	.atomic_mode_set = vc4_vec_encoder_atomic_mode_set,
- };
- 
-+static int vc4_vec_late_register(struct drm_encoder *encoder)
-+{
-+	struct drm_device *drm = encoder->dev;
-+	struct vc4_vec *vec = encoder_to_vc4_vec(encoder);
-+	int ret;
-+
-+	ret = vc4_debugfs_add_regset32(drm->primary, "vec_regs",
-+				       &vec->regset);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_funcs vc4_vec_encoder_funcs = {
-+	.late_register = vc4_vec_late_register,
-+};
-+
- static const struct vc4_vec_variant bcm2835_vec_variant = {
- 	.dac_config = VEC_DAC_CONFIG_DAC_CTRL(0xc) |
- 		      VEC_DAC_CONFIG_DRIVER_CTRL(0xc) |
-@@ -588,7 +606,7 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 
- 	ret = drmm_encoder_init(drm, &vec->encoder.base,
--				NULL,
-+				&vc4_vec_encoder_funcs,
- 				DRM_MODE_ENCODER_TVDAC,
- 				NULL);
- 	if (ret)
-@@ -602,8 +620,6 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
- 
- 	dev_set_drvdata(dev, vec);
- 
--	vc4_debugfs_add_regset32(drm, "vec_regs", &vec->regset);
--
- 	return 0;
- }
+ 	spin_lock_init(&vc4_hdmi->hw_lock);
+ 	INIT_DELAYED_WORK(&vc4_hdmi->scrambling_work, vc4_hdmi_scrambling_wq);
  
 -- 
 2.36.1
