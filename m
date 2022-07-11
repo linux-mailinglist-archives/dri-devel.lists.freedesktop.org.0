@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B0C570B69
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 22:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD01570BAC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 22:27:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D0F14B9AC;
-	Mon, 11 Jul 2022 20:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 279E690FE0;
+	Mon, 11 Jul 2022 20:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C934714A0A1;
- Mon, 11 Jul 2022 20:25:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43BBF11BE36;
+ Mon, 11 Jul 2022 20:25:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6B373B81205;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C83AC6165C;
+ Mon, 11 Jul 2022 20:25:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA016C341C8;
  Mon, 11 Jul 2022 20:25:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085C9C34115;
- Mon, 11 Jul 2022 20:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657571123;
- bh=gmUsOXoQJn4VasGdRabTn//YULN5ONt5Qo/z2YXpkw4=;
+ s=k20201202; t=1657571124;
+ bh=o2iriqr9yGWd6meVOtOwBCMeiBhrD3lI1NVS6cm0Kmc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=beVau9XqV6z2ujjPu0EBBrK1UT5fo0ZgcW+NtaZx5kIjL6ceFS2Ug1ZYg9OX0lcqt
- cBS4CgmZP+BQuezzkYcbT5jqvHnGFpKJwVmRuepSeWlG0OaakiJlmKd0wl7Ye8+uF5
- cXS/bbWtT5UmPYnxKbmH8vmyM2JchrKLjaexbtWKTGCQhovq7WqumRLsTI5A1UkXCY
- 7rBLEeq+6TrLDeM7b4clTV4r+9AunCxQKKewspd+8wRqnPme+m/atqf9vQTtI9J2v0
- f3fYeETnnL29zuJNXaxM9M7HTyUzcaqQohuhBg39YKV0gvNL9Bspf6M65DXUuP7bIp
- biCUbjo4odRvw==
+ b=YLT6S5V3wpeb0ALSjTIoMWeqhQ6ejsrrlvZ8WVJT5r4tJ5Rl9d+N9pV1TnMFigJ4B
+ vt9x8lHKg4dzcpkz4jc/moK8YEp4XfBi6eN0VtE31STGN92PCC6j2rlCBnhnmVuk83
+ hrpRdNe8fuKgDpfBL5YmNOW1+IXpACRU6BZju0rYBAvQXrp8u3+JSyjMfSE0sX7MtU
+ dvru0K5hMWY1dHb6LaZrjg1YYYSbIsdW1kn7lFIUvxky1XWgQDZOa8aHCqn0zmW3JQ
+ gfnXqGPII7fIyACS/9x5VFyVFU1YZ+kin5r4tiJ/tbkL1Mpnk4m6NK99C7AHo6NVzE
+ 8f+CMKKIiANWQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oAzy3-004e8A-Jz;
+ (envelope-from <mchehab@kernel.org>) id 1oAzy3-004e8F-Kg;
  Mon, 11 Jul 2022 21:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH 15/32] drm/i915: intel_pm.c: fix some ascii artwork at
- kernel-doc
-Date: Mon, 11 Jul 2022 21:25:00 +0100
-Message-Id: <eb7522b15921a505e88572b128e0caabf9574b2b.1657565224.git.mchehab@kernel.org>
+Subject: [PATCH 16/32] drm/i915: i915_gem_region.h: fix
+ i915_gem_apply_to_region_ops doc
+Date: Mon, 11 Jul 2022 21:25:01 +0100
+Message-Id: <d422b77a1d40e815e6e84dcb0f7be9097efffe36.1657565224.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657565224.git.mchehab@kernel.org>
 References: <cover.1657565224.git.mchehab@kernel.org>
@@ -55,32 +56,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
  Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+ Nirmoy Das <nirmoy.das@linux.intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Preserving ascii artwork on kernel-docs is tricky, as it needs
-to respect both the Sphinx rules and be properly parsed by
-kernel-doc script.
+The kernel-doc markup for i915_gem_apply_to_region_ops() has some
+issues:
 
-The Sphinx syntax require code-blocks, which is:
+1. The field should be marked as @process_obj;
+2. The callback parameters aren't document properly, as sphinx
+   will consider them to be placed at the wrong place.
 
-	::
-
-followed by a blank line and indended lines.
-
-But kernel-doc only works fine if the first and the last line
-are indented with the same amount of spaces.
-
-Also, a "\" at the end means that the next line should be merged
-with the first one.
-
-Change the ascii artwork to be on code-blocks, starting all
-lines at the same characters and not ending with a backslash.
+Fix (1) and change the way the parameters are described, using
+a list, in order for it to be properly parsed during documentation
+build time.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -88,64 +83,28 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/32] at: https://lore.kernel.org/all/cover.1657565224.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/intel_pm.c | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_region.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index f06babdb3a8c..d3393752b04b 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -684,18 +684,20 @@ static const struct intel_watermark_params i845_wm_info = {
-  * FIFO is relatively small compared to the amount of data
-  * fetched.
-  *
-- * The FIFO level vs. time graph might look something like:
-+ * The FIFO level vs. time graph might look something like::
-  *
-- *   |\   |\
-- *   | \  | \
-- * __---__---__ (- plane active, _ blanking)
-- * -> time
-+ *   ^
-+ *   |   |\   |\      (                          )
-+ *   |   | \  | \     (                          )
-+ *   |   __---__---__ (- plane active, _ blanking)
-+ *   +-------------------> time
-  *
-- * or perhaps like this:
-+ * or perhaps like this::
-  *
-- *   |\|\  |\|\
-- * __----__----__ (- plane active, _ blanking)
-- * -> time
-+ *   ^
-+ *   |     |\|\  |\|\   (                          )
-+ *   |   __----__----__ (- plane active, _ blanking)
-+ *   +-------------------> time
-  *
-  * Returns:
-  * The watermark in bytes
-@@ -731,13 +733,14 @@ static unsigned int intel_wm_method1(unsigned int pixel_rate,
-  * FIFO is relatively large compared to the amount of data
-  * fetched.
-  *
-- * The FIFO level vs. time graph might look something like:
-+ * The FIFO level vs. time graph might look something like::
-  *
-- *    |\___       |\___
-- *    |    \___   |    \___
-- *    |        \  |        \
-- * __ --__--__--__--__--__--__ (- plane active, _ blanking)
-- * -> time
-+ *   ^
-+ *   |     |\___       |\___        (                          )
-+ *   |     |    \___   |    \___    (                          )
-+ *   |     |        \  |        \   (                          )
-+ *   |  __ --__--__--__--__--__--__ (- plane active, _ blanking)
-+ *   +---------------------------------> time
-  *
-  * Returns:
-  * The watermark in bytes
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+index 2dfcc41c0170..b0134bf4b1b7 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+@@ -22,9 +22,11 @@ struct i915_gem_apply_to_region;
+  */
+ struct i915_gem_apply_to_region_ops {
+ 	/**
+-	 * process_obj - Process the current object
+-	 * @apply: Embed this for private data.
+-	 * @obj: The current object.
++	 * @process_obj: Callback function to process the current object
++	 * it requires two arguments:
++	 *
++	 * - @apply: Embed this for private data.
++	 * - @obj: The current object.
+ 	 *
+ 	 * Note that if this function is part of a ww transaction, and
+ 	 * if returns -EDEADLK for one of the objects, it may be
 -- 
 2.36.1
 
