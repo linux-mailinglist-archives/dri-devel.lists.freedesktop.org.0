@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1677C57040F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 15:18:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B276557040E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 15:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D26F48DD50;
-	Mon, 11 Jul 2022 13:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47DF210FAF5;
+	Mon, 11 Jul 2022 13:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15112.mail.126.com (m15112.mail.126.com [220.181.15.112])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5A77A14A415
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 13:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=83SF3
- SCI6ro5rywd/05deoKsdsUdEXy2kfWFExIymC8=; b=oXfry2dlk+jMmDaqPUfKT
- p090r1VkcseAJWhBhCSOf451z3CdL55VuDBOFFx3DsZGXtw8TKNSjA9qWdnCUGEI
- XYxwPTkdRCDzyR0rZXOf8PWRnX6DP1qvOvNQzloGs7jWfGgpq+cdRviPrGtM/QyN
- 6KuGler9Uo2Goi7TR1/pzc=
-Received: from localhost.localdomain (unknown [124.16.139.61])
- by smtp2 (Coremail) with SMTP id DMmowAA3QwaGIsxi8ea7Eg--.45865S2;
- Mon, 11 Jul 2022 21:15:51 +0800 (CST)
-From: Liang He <windhl@126.com>
-To: emma@anholt.net, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, windhl@126.com
-Subject: [PATCH] drm:pl111: Add of_node_put() when breaking out of
- for_each_available_child_of_node()
-Date: Mon, 11 Jul 2022 21:15:50 +0800
-Message-Id: <20220711131550.361350-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA0B12BB3D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 13:17:46 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-31c86fe1dddso48570597b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 06:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=XwawR7vnKd7UkKrDwGQGs4p2XShfnA+f6bCP/Id3gGM=;
+ b=Ge3IlBffpWeWq1wJ3M06BByewAKr262qUoy5vtnOh3Nu3cYgN4e/ePUqCHaf8eexS2
+ U7deUaVJopWPke4YIWTlJbFXXQ6JNKfmD8aVXZV2d8my3h6mzl/M0XDt9W8lPL+/0i51
+ /oYi0K14cBIQp7QohrJ6UCFp3KALbaKwEs3q1PdnawuQ0xXOLAyF1SqqQStpcuUOQgno
+ 1mpL3TpXlSn5/fkdszJ3xWgGUj7mqIfo9pYZKiJWDKX7lU1kCpQ4eP+JxxAHfBeNZzgA
+ 491ZCm00wjzabM//9o5Vy+nI5NKuTaZeHR276e46s6XDFCQHeW6KAzJVPBaHs54aAErX
+ rbXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XwawR7vnKd7UkKrDwGQGs4p2XShfnA+f6bCP/Id3gGM=;
+ b=YuulPZcppTyogvvk6LhVAIqPqzJ4RCUDH98VU/KbEUiZWPFwFN+QXdsYv8fIn++WNt
+ 7etjvWXxms/Q42yQgpDp+K/BC9X6GXySAsX9EyDm8x2OLN9YkxgvoAogC0AQTA5RL/yJ
+ 3XdV1YA1IUvxpjA7kDnKBWPXhFaPwjAZEKvxyGBRlS7t7rNv7veP57EpvZ+rM6W5zFww
+ iG2VmRGzX2gn5y2JnSc6M1dnhHa6tuvGEamy3O3SIdiFI2Kg+dCGS7kM6GPpXmI31hvk
+ Vhpc3bjqLuwM9ydI+ySjrxym75WRsKy7I7OpvfFixJ3pNWGOnWSUdShIWV/rmTOFsMgp
+ xoYQ==
+X-Gm-Message-State: AJIora+9ZsG4uVP5bNLIHk8QU3mOedzIuwSxYSex+ZziUNkyNOjdnMFB
+ kRzKB76seQPAB0ky5GIh7gzLcznnnljBauOodxdpRA==
+X-Google-Smtp-Source: AGRyM1t0EgQcxq9nPFR3w/MN+QWQJL4ZKk1Ex6YdSFtHAgHKbwP1bIP45ww8O8aOr0vXvWLOnQbwmPmDoRn1zZ2ILuc=
+X-Received: by 2002:a0d:f801:0:b0:31d:851:96b8 with SMTP id
+ i1-20020a0df801000000b0031d085196b8mr19516358ywf.448.1657545465732; Mon, 11
+ Jul 2022 06:17:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMmowAA3QwaGIsxi8ea7Eg--.45865S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tr13trWkAw17tF4UXw48Xrb_yoW8JFyfpF
- 43urWS9F48Gw129w4jyw18ZF93K3WYyFWrWryfGF98Ca43ZF95AryUtrW7C398Xa4fAw1Y
- grWqgw17XFWxZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UY_MfUUUUU=
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbizgg7F18RPeT+XQAAse
+References: <20220710194437.289042-1-marex@denx.de>
+In-Reply-To: <20220710194437.289042-1-marex@denx.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 11 Jul 2022 15:17:34 +0200
+Message-ID: <CACRpkdaQuvvgNNrTM6pcsoW=fKRwWRMGdSiOk2isFT6v-E-Ugw@mail.gmail.com>
+Subject: Re: [PATCH 1/9] drm/panel/panel-sitronix-st7701: Make DSI mode flags
+ common to ST7701
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,38 +66,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, robert.foss@linaro.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The reference 'child' in the iteration of for_each_available_child_of_node()
-is only escaped out into a local variable which is only used to check
-its value. So we still need to the of_node_put() when breaking of the
-for_each_available_child_of_node() which will automatically increase
-and decrease the refcount.
+On Sun, Jul 10, 2022 at 9:44 PM Marek Vasut <marex@denx.de> wrote:
 
-Fixes: ca454bd42dc2 ("drm/pl111: Support the Versatile Express")
-Signed-off-by: Liang He <windhl@126.com>
----
+> The ST7701 and ST7701S are TFT matrix drivers with integrated multi
+> protocol decoder capable of DSI/DPI/SPI input and 480x360...864 line
+> TFT matrix output. Currently the only supported input is DSI.
+>
+> The protocol decoder is separate from the TFT matrix driver and is
+> always capable of handling all of DSI non-burst mode with sync pulses
+> or sync events as well as DSI burst mode.
+>
+> Move the DSI mode configuration from TFT matrix driver properties to
+> common ST7701 code, because this is common to all TFT matrices.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
 
-As 'Check-after-Put' has been widely accepted in kernel source, we just
-use it. If the maintainer thinks it is harmful, I'd like also to use
-'Check-and-Put' coding style but with a bit more work.
+All very nice patches
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
- drivers/gpu/drm/pl111/pl111_versatile.c | 1 +
- 1 file changed, 1 insertion(+)
+Tell me if you need me to apply them to drm-misc as well.
 
-diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
-index bdd883f4f0da..963a5d5e6987 100644
---- a/drivers/gpu/drm/pl111/pl111_versatile.c
-+++ b/drivers/gpu/drm/pl111/pl111_versatile.c
-@@ -402,6 +402,7 @@ static int pl111_vexpress_clcd_init(struct device *dev, struct device_node *np,
- 		if (of_device_is_compatible(child, "arm,pl111")) {
- 			has_coretile_clcd = true;
- 			ct_clcd = child;
-+			of_node_put(child);
- 			break;
- 		}
- 		if (of_device_is_compatible(child, "arm,hdlcd")) {
--- 
-2.25.1
-
+Yours,
+Linus Walleij
