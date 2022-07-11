@@ -2,82 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C2156FBAF
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A55D56FBC8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3CB68D377;
-	Mon, 11 Jul 2022 09:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA94F8D399;
+	Mon, 11 Jul 2022 09:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 029768D377
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657532052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ajj+vcHD2SjgR91KloH7EXcA6NIzzKWwkXRERtZQ3vQ=;
- b=eli8Jfc7eqFj+rVrVTP7KcGZGdwVvAX96+AnaaXq/bXp/vdv9q+ndilkAMRAI/Q5b+tyLa
- kEnCvgv6atDYrqpl3xf+PliYS9uWj6jIUmsKLypoWcvXqFU42b3q2mQKvdMdk1eeUBkpgT
- B9MiexuunVlcPui8/T6aQn6Eow2WKbw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-6DHB8C8RPKmJuaIzEZ7L9w-1; Mon, 11 Jul 2022 05:34:00 -0400
-X-MC-Unique: 6DHB8C8RPKmJuaIzEZ7L9w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n18-20020a05600c501200b003a050cc39a0so2437431wmr.7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 02:33:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ajj+vcHD2SjgR91KloH7EXcA6NIzzKWwkXRERtZQ3vQ=;
- b=Z1s6OHd4TYO4k0XhOEqHAZOkRZmUQApqbsriZR/5Q87ZYSLkd2R/+bFwmaEfvpotHl
- DYip6DmmmbtoVXiLD4qq8PbVuECT5s2xe/hmVML6UjvAJK3u3rCDebFZaqNNHUWJ6YPt
- 02eqnitS/el9lUadKRtgTTRdbtl9Z77Y2EwJRxYXS90hQSNHnb3mBVz0gL1KPiQn7hyL
- c9HXljN6SepedVcLCvOwkgt36rbu56guqCLT5WmbBGe2PzRL6WgyLt5C+4w3P2I1Gvu3
- JqbrEO3LSOm+0s7vw5UKkwBUaRPKPu0S/uh73pZrV3UhBuM+Rd6bZKGQTVxZ0SNWluxu
- z3/g==
-X-Gm-Message-State: AJIora/QBttcRkocNlhSLD/ay7ArCwCIkjXzV086xd8FWqc7356wuF+j
- Xuy92ZmOsdBLvTzMTppgZ9Lx2sxtVCLiY3ORLFo+iAzyMlm2JTZ06hzGdi0AAqsCwX2AtUlKU/U
- 5MAiGa3FPj4JOOAAxjtnSG9uCsjYh
-X-Received: by 2002:a7b:c314:0:b0:3a0:5750:1b4a with SMTP id
- k20-20020a7bc314000000b003a057501b4amr14754180wmj.20.1657532038621; 
- Mon, 11 Jul 2022 02:33:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sGs79u/exA+X2gTLtgwTNdc+xM89fmwlJKvwsIIjmZKRrBloPItUuzzJRsS1in3ZlPSOi7fg==
-X-Received: by 2002:a7b:c314:0:b0:3a0:5750:1b4a with SMTP id
- k20-20020a7bc314000000b003a057501b4amr14754158wmj.20.1657532038369; 
- Mon, 11 Jul 2022 02:33:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- n35-20020a05600c502300b003a2d0f0ccaesm10049919wmr.34.2022.07.11.02.33.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 02:33:58 -0700 (PDT)
-Message-ID: <b34a6aa0-bfa9-ad68-c181-9649f276a561@redhat.com>
-Date: Mon, 11 Jul 2022 11:33:57 +0200
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B438D39C
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:35:21 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id C91F35C013F;
+ Mon, 11 Jul 2022 05:35:17 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 11 Jul 2022 05:35:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1657532117; x=1657618517; bh=XbWPLMD2Em
+ uATKpk1FD3KGRJwxeaul3Brd4v6K9DrL4=; b=OTp3vytlqDJB+2vPD994rtzUSQ
+ jOws1ocqG9aslbnxMmio9bk1vaHERJXD7S921jfGSwXU7mfjCLmOJsp6N4kPa1nS
+ WV+bhI42L3Q1gasRfbu21/LfY0yp4ykbp2LLnIpmwPlgl5kS7zo7bJ4wOXab1QmX
+ nyqjD3zURMq1PW+SdxxfC3ISp70/EUiHicvVmCyCQV/8aMYfjd4PkHbR7IdFHaw1
+ l3sQN0VEICD8f2wFihwiBH0UnLrKFGcIj2U33+YPCUoYu7jxye3iHB5GmE+3o3q4
+ xjqnlZ7ZKympcszm3AzbT4jgpbqHFAbRu622d4YeNYOFHoQdsc4ArFJPEIww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657532117; x=1657618517; bh=XbWPLMD2EmuATKpk1FD3KGRJwxea
+ ul3Brd4v6K9DrL4=; b=wzqDE7Xj1fV2ovXBsdHnlLejf5Lp0LnnASBzLWnrAtd6
+ I1mRZmLfKZaPTBJA36z0FJdpWVDlOTxgEBXWk337UKwjnJS/CELoL+exFpjxhnny
+ Bn/mYvq8yOSUTmsz5RCnSp/pWCXhiEuhvq84r6RvnzBlaz4CLB04jvetRtl7dzEV
+ Ff02JrIeEvpdBOGVR7rKxmTK8YbouQ8NWTDCS3c5CnCD3t4JJA5+PbWS8Bwp75MC
+ Qbo69Cm0TQrkaGTODiop7u90HKRB8S4dF//8t2U/V4ZDitxKL673K+6czR9mfhri
+ OI0O1tctbPEc19fxRRFH1rEH2YKJdYe8RtxptgNqdw==
+X-ME-Sender: <xms:1O7LYrfWPlt6trX7NfKre5g97Ec1Lir6hi7AzCPXbF6OVCPh-e_wZw>
+ <xme:1O7LYhPyUzlv_7yTNqd4bNdxmw1nRf7BUYcdtSYMXVw3QzlSjoZlbghGnZGEmLltC
+ un91fSE4jGKyC0N5Bs>
+X-ME-Received: <xmr:1O7LYkh8H29Od_9Gxz0JVXp1ZTtb8ZJtMBOYwg8oNrw69Ysq1gs5pJPF4RAnjYKWUbPPHECySNl4efJJreLXlKjT7iTGCZ-P5A37jPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpefgueeutdefgfevveehjeefgeehvdejjeefheekffduteeutdfgieeiieff
+ uedtffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+ tghh
+X-ME-Proxy: <xmx:1O7LYs8GVOEWlnc9qwTWEM4C4DNev4fE0gKiRfbG7ccgZA3AWxxQyg>
+ <xmx:1O7LYnuk_HPXsKzJcilSyrY81HXlOyG7v8QtpLZFzj6WyDiUwcFZsw>
+ <xmx:1O7LYrEmoyqlinUjKkWxXmWL3baAchrY7RW6VP4y4b2TxxwQhX9SVw>
+ <xmx:1e7LYtAGRv69zomwAPy7p8ZXZ4MtM33m0b2hE1I6qKPxFx8ARLW5LA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Jul 2022 05:35:16 -0400 (EDT)
+Date: Mon, 11 Jul 2022 11:35:13 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 4/5] drm/modes: Add support for driver-specific named modes
+Message-ID: <20220711093513.wilv6e6aqcuyg52w@houat>
+References: <cover.1657301107.git.geert@linux-m68k.org>
+ <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
+ <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/mgag200: Don't read-back PCI option register before
- writing
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20220708072114.13960-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20220708072114.13960-1-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="x625msex36qfkynz"
+Content-Disposition: inline
+In-Reply-To: <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,45 +85,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/07/2022 09:21, Thomas Zimmermann wrote:
-> Remove the read operation from mgag200_init_pci_options(). It was
-> incorrectly added while refactoring the code. Reading the PCI option
-> register clears the register's new value and subsequently leads to
-> re-writing the old value.
-> 
 
-Looks good to me.
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+--x625msex36qfkynz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: ce19021fd99a ("drm/mgag200: Move PCI-option setup into model-specific code")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/mgag200/mgag200_drv.c | 6 ------
->   1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 73e8e4e9e54b..251a1bb648cc 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -28,12 +28,6 @@ int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2)
->   	struct device *dev = &pdev->dev;
->   	int err;
->   
-> -	err = pci_read_config_dword(pdev, PCI_MGA_OPTION, &option);
-> -	if (err != PCIBIOS_SUCCESSFUL) {
-> -		dev_err(dev, "pci_read_config_dword(PCI_MGA_OPTION) failed: %d\n", err);
-> -		return pcibios_err_to_errno(err);
-> -	}
-> -
->   	err = pci_write_config_dword(pdev, PCI_MGA_OPTION, option);
->   	if (err != PCIBIOS_SUCCESSFUL) {
->   		dev_err(dev, "pci_write_config_dword(PCI_MGA_OPTION) failed: %d\n", err);
+Hi Thomas,
 
+On Mon, Jul 11, 2022 at 11:03:38AM +0200, Thomas Zimmermann wrote:
+> Am 08.07.22 um 20:21 schrieb Geert Uytterhoeven:
+> > The mode parsing code recognizes named modes only if they are explicitly
+> > listed in the internal whitelist, which is currently limited to "NTSC"
+> > and "PAL".
+> >=20
+> > Provide a mechanism for drivers to override this list to support custom
+> > mode names.
+> >=20
+> > Ideally, this list should just come from the driver's actual list of
+> > modes, but connector->probed_modes is not yet populated at the time of
+> > parsing.
+>=20
+> I've looked for code that uses these names, couldn't find any. How is this
+> being used in practice? For example, if I say "PAL" on the command line, =
+is
+> there DRM code that fills in the PAL mode parameters?
+
+We have some code to deal with this in sun4i:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/sun4i_=
+tv.c#L292
+
+It's a bit off topic, but for TV standards, I'm still not sure what the
+best course of action is. There's several interactions that make this a
+bit troublesome:
+
+  * Some TV standards differ by their mode (ie, PAL vs NSTC), but some
+    other differ by parameters that are not part of drm_display_mode
+    (NTSC vs NSTC-J where the only difference is the black and blanking
+    signal levels for example).
+
+  * The mode names allow to provide a fairly convenient way to add that
+    extra information, but the userspace is free to create its own mode
+    and might omit the mode name entirely.
+
+So in the code above, if the name has been preserved we match by name,
+but we fall back to matching by mode if it hasn't been, which in this
+case means that we have no way to differentiate between NTSC, NTSC-J,
+PAL-M in this case.
+
+We have some patches downstream for the RaspberryPi that has the TV
+standard as a property. There's a few extra logic required for the
+userspace (like setting the PAL property, with the NTSC mode) so I'm not
+sure it's preferable.
+
+Or we could do something like a property to try that standard, and
+another that reports the one we actually chose.
+
+> And another question I have is whether this whitelist belongs into the
+> driver at all. Standard modes exist independent from drivers or hardware.
+> Shouldn't there simply be a global list of all possible mode names? Drive=
+rs
+> would filter out the unsupported modes anyway.
+
+We should totally do something like that, yeah
+
+Maxime
+
+--x625msex36qfkynz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYsvu0QAKCRDj7w1vZxhR
+xYfLAQCE7tFL3DFGFWWg7d+mu+PlmSZLGOBUYGT1QXAXIgy1PAEAszxH3TfwGPT4
+YhVwpShCkoqgvPRPCUVP/woGKYyuWAM=
+=5GMd
+-----END PGP SIGNATURE-----
+
+--x625msex36qfkynz--
