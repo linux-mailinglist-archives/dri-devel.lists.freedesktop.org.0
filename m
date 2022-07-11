@@ -2,66 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C457C56FF48
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 12:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CF856FF53
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 12:44:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF838D993;
-	Mon, 11 Jul 2022 10:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3529B8D6FD;
+	Mon, 11 Jul 2022 10:44:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 280BF8D992
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 10:42:31 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id CA6402282D;
- Mon, 11 Jul 2022 10:42:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657536149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2bDwa0u0rGlUl0/dnv5t720FB+v7SYszA5Qm6d7pJP0=;
- b=Pfr4IIFoR+MyKQub1SJwe6rrWC7z/8o0/fu9pfjGZk/NeNMsOrD0TvJXJ1wa5H+gry59z7
- XkLgagGjhbbVJahjc1+K+ZTRDilcV2wt47u/Xs42d5atZ/Ul32RKaHeT6Urxa+o8H8Ae9j
- /flppW5NUdvNvAFeIsSvpEfsoeVLwNg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657536149;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2bDwa0u0rGlUl0/dnv5t720FB+v7SYszA5Qm6d7pJP0=;
- b=OYG2xIfLDPWbe0WUIPaQq4gSY3gyIpQ8m4bDNyr8p5Nq2zzenlGTLBmIZdsJk0fkdDD8eB
- HcxX4k8rr3SBHbCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 996EC13322;
- Mon, 11 Jul 2022 10:42:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2OlzJJX+y2IxXwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 11 Jul 2022 10:42:29 +0000
-Message-ID: <fafde6fb-17ee-1c18-9e5f-96e60a08d98e@suse.de>
-Date: Mon, 11 Jul 2022 12:42:29 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB108D5CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 10:44:03 +0000 (UTC)
+X-UUID: 67f7b038040a49bf87d29f042be0b52e-20220711
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:4187df05-70a7-42dd-8377-18c39126efc6, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:0f94e32, CLOUDID:9cfb28d7-5d6d-4eaf-a635-828a3ee48b7c,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: 67f7b038040a49bf87d29f042be0b52e-20220711
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 707082554; Mon, 11 Jul 2022 18:43:56 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 11 Jul 2022 18:43:55 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Mon, 11 Jul 2022 18:43:55 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
+ Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v24 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Mon, 11 Jul 2022 18:43:47 +0800
+Message-ID: <20220711104354.14181-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 02/11] fbdev/vga16fb: Create EGA/VGA devices in sysfb code
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
-References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-3-tzimmermann@suse.de>
- <fec8dcc1-c490-3bb6-2d2f-805d690d3f95@redhat.com>
- <95302954-76bc-3da6-70ad-25a8a22a37f0@suse.de>
- <253d0bea-f197-4208-b5e6-39c22ab91833@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <253d0bea-f197-4208-b5e6-39c22ab91833@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------4kNrhVXJZiCScVRQUOL09XO0"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,192 +58,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------4kNrhVXJZiCScVRQUOL09XO0
-Content-Type: multipart/mixed; boundary="------------PJ4Jg0LWXXCZmoP3EtrAdcrW";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-Message-ID: <fafde6fb-17ee-1c18-9e5f-96e60a08d98e@suse.de>
-Subject: Re: [PATCH 02/11] fbdev/vga16fb: Create EGA/VGA devices in sysfb code
-References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-3-tzimmermann@suse.de>
- <fec8dcc1-c490-3bb6-2d2f-805d690d3f95@redhat.com>
- <95302954-76bc-3da6-70ad-25a8a22a37f0@suse.de>
- <253d0bea-f197-4208-b5e6-39c22ab91833@redhat.com>
-In-Reply-To: <253d0bea-f197-4208-b5e6-39c22ab91833@redhat.com>
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
---------------PJ4Jg0LWXXCZmoP3EtrAdcrW
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Add DRM and these modules support by the patches below:
 
-SGkgSmF2aWVyDQoNCkFtIDExLjA3LjIyIHVtIDExOjU0IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBIZWxsbyBUaG9tYXMsDQo+IA0KPiBPbiA3LzExLzIyIDA5OjU4
-LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpIEphdmllciwNCj4+DQo+PiBJJ2xs
-IHRyeSB0byBnaXZlIHRoZSBtb3RpdmF0aW9uIG9mIHRoaXMgcGF0Y2ggYmVsb3cuIEkga25v
-d24gaXQncyByYXRoZXINCj4+IGh5cG90aGV0aWNhbCBhcyB0aGUgVkdBIGRyaXZlciBpcyBw
-cm9iYWJseSBub3QgdXNlZCBtdWNoLg0KPj4NCj4+IEFtIDA4LjA3LjIyIHVtIDE1OjA5IHNj
-aHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzOg0KPj4+IEhlbGxvIFRob21hcywNCj4+
-Pg0KPj4+IE9uIDcvNy8yMiAxNzozOSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+
-IE1vdmUgdGhlIGRldmljZS1jcmVhdGlvbiBmcm9tIHZnYTE2ZmIgdG8gc3lzZmIgY29kZS4g
-TW92ZSB0aGUgZmV3DQo+Pj4+IGV4dHJhIHZpZGVvbW9kZSBjaGVja3MgaW50byB2Z2ExNmZi
-J3MgcHJvYmUgZnVuY3Rpb24uDQo+Pj4+DQo+Pj4+IFRoZSB2Z2ExNmZiIGRyaXZlciByZXF1
-aXJlcyBhIHNjcmVlbl9pbmZvIGZvciB0eXBlIFZJREVPX1RZUEVfVkdBQw0KPj4+PiBvciBW
-SURFT19UWVBFX0VHQUMuIFN1Y2ggY29kZSBpcyBub3doZXJlIHByZXNlbnQgaW4gdGhlIGtl
-cm5lbCwgZXhjZXB0DQo+Pj4+IGZvciBzb21lIE1JUFMgc3lzdGVtcy4gSXQncyBub3QgY2xl
-YXIgaWYgdGhlIHZnYTE2ZmIgZHJpdmVyIGFjdHVhbGx5DQo+Pj4+IHdvcmtzIGluIHByYWN0
-aWNlLg0KPj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4NCj4+Pj4gLS0tDQo+Pj4+ICAgIGRyaXZlcnMvZmlybXdhcmUv
-c3lzZmIuYyAgICAgIHwgIDQgKysrDQo+Pj4+ICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvdmdh
-MTZmYi5jIHwgNTkgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0NCj4+Pj4g
-ICAgMiBmaWxlcyBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCspLCAzMSBkZWxldGlvbnMoLSkN
-Cj4+Pj4NCj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZmlybXdhcmUvc3lzZmIuYyBiL2Ry
-aXZlcnMvZmlybXdhcmUvc3lzZmIuYw0KPj4+PiBpbmRleCAxZjI3NmYxMDhjYzkuLjNmZDM1
-NjNkOTYyYiAxMDA2NDQNCj4+Pj4gLS0tIGEvZHJpdmVycy9maXJtd2FyZS9zeXNmYi5jDQo+
-Pj4+ICsrKyBiL2RyaXZlcnMvZmlybXdhcmUvc3lzZmIuYw0KPj4+PiBAQCAtOTQsNiArOTQs
-MTAgQEAgc3RhdGljIF9faW5pdCBpbnQgc3lzZmJfaW5pdCh2b2lkKQ0KPj4+PiAgICAJCW5h
-bWUgPSAiZWZpLWZyYW1lYnVmZmVyIjsNCj4+Pj4gICAgCWVsc2UgaWYgKHNpLT5vcmlnX3Zp
-ZGVvX2lzVkdBID09IFZJREVPX1RZUEVfVkxGQikNCj4+Pj4gICAgCQluYW1lID0gInZlc2Et
-ZnJhbWVidWZmZXIiOw0KPj4+PiArCWVsc2UgaWYgKHNpLT5vcmlnX3ZpZGVvX2lzVkdBID09
-IFZJREVPX1RZUEVfVkdBQykNCj4+Pj4gKwkJbmFtZSA9ICJ2Z2EtZnJhbWVidWZmZXIiOw0K
-Pj4+PiArCWVsc2UgaWYgKHNpLT5vcmlnX3ZpZGVvX2lzVkdBID09IFZJREVPX1RZUEVfRUdB
-QykNCj4+Pj4gKw0KPj4+DQo+Pj4gSSB3b25kZXIgaWYgd2UgcmVhbGx5IG5lZWQgdG8gZG8g
-dGhpcyBkaXN0aW5jdGlvbiBvciBjb3VsZCBqdXN0IGhhdmUgYSBzaW5nbGUNCj4+PiBwbGF0
-Zm9ybSBkZXZpY2UgZm9yIGJvdGggVklERU9fVFlQRV9WR0FDIGFuZCBWSURFT19UWVBFX0VH
-QUMuIEFmdGVyIGFsbCwgdGhlDQo+Pj4gc2FtZSBmYmRldiBkcml2ZXIgaXMgYm91bmQgYWdh
-aW5zdCBib3RoIHBsYXRmb3JtIGRldmljZXMuDQo+Pg0KPj4gV2l0aCB0aGUgY3VycmVudCBk
-cml2ZXIsIHdlIGRvbid0IHN0cmljdGx5IG5lZWQgdG8gZGlzdGluZ3Vpc2guIEJ1dCB0aGUN
-Cj4+IHN5c2ZiIGNvZGUgaXMgdGhlIG9uZSB3ZSBjYXJlIGFib3V0LiBTbyBJIHdhbnRlZCBp
-dCB0byBiZSBjbGVhciBhbmQNCj4+IG5pY2VseSBsb29raW5nLiBBbGwgdGhlIG1vZGUgdGVz
-dHMsIGV0YyBkZXBlbmQgb24gdGhlIGRyaXZlciAod2hpY2ggbm8NCj4+IG9uZSBjYXJlcyBh
-Ym91dCkuDQo+Pg0KPiANCj4gUmlnaHQuIFRoYXQgaXMgYSBnb29kIHBvaW50LiBXZSBkb24n
-dCB3YW50IHRvIGxlYWsgYSBkcml2ZXIgaW1wbGVtZW50YXRpb24NCj4gZGV0YWlsIGluIHRo
-ZSBzeXNmYiBjb2RlLiBBbmQgaW4gdGhlb3J5IHRoZXJlIGNvdWxkIGJlIGZvciBleGFtcGxl
-IGEgRFJNDQo+IGRyaXZlciBmb3IgRUdBIGFuZCBvbmUgZm9yIFZHQS4NCj4gICANCj4+IFRo
-ZXJlJ3MgYWxzbyBhIGRpZmZlcmVuY2UgaW4gaGFyZHdhcmUgZmVhdHVyZXMgYmV0d2VlbiBF
-R0EgYW5kIFZHQS4gTW9zdA0KPj4gbm90YWJseSwgVkdBIGhhcyBtdWNoIGJldHRlciBjb2xv
-ciBzdXBwb3J0Lg0KPj4NCj4gDQo+IFllcywgSSBrbm93IHRoZSBkaWZmZXJlbmNlcy4gTXkg
-cG9pbnQgd2FzIHRoYXQgdGhlIG9yaWdfdmlkZW9faXNWR0Egd2FzDQo+IHVzZWQgdG8gbWFr
-ZSB0aGUgZGlzdGluY3Rpb24gYW5kIHRoYXQgdGhlIHNhbWUgZHJpdmVyIHN1cHBvcnRlZCBi
-b3RoLCBidXQNCj4gYXMgeW91IHNhaWQgdGhhdCBtYXkgbm90IGJlIHRoZSBjYXNlIGFuZCBz
-ZXBhcmF0ZSBkcml2ZXJzIGNvdWxkIGJlIHVzZWQuDQo+IA0KPj4+DQo+Pj4gWy4uLl0NCj4+
-Pg0KPj4+PiAgICBzdGF0aWMgaW50IHZnYTE2ZmJfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rl
-dmljZSAqZGV2KQ0KPj4+PiAgICB7DQo+Pj4+ICsJc3RydWN0IHNjcmVlbl9pbmZvICpzaTsN
-Cj4+Pj4gICAgCXN0cnVjdCBmYl9pbmZvICppbmZvOw0KPj4+PiAgICAJc3RydWN0IHZnYTE2
-ZmJfcGFyICpwYXI7DQo+Pj4+ICAgIAlpbnQgaTsNCj4+Pj4gICAgCWludCByZXQgPSAwOw0K
-Pj4+PiAgICANCj4+Pj4gKwlzaSA9IGRldl9nZXRfcGxhdGRhdGEoJmRldi0+ZGV2KTsNCj4+
-Pj4gKwlpZiAoIXNpKQ0KPj4+PiArCQlyZXR1cm4gLUVOT0RFVjsNCj4+Pj4gKw0KPj4+PiAr
-CXJldCA9IGNoZWNrX21vZGVfc3VwcG9ydGVkKHNpKTsNCj4+Pj4gKwlpZiAocmV0KQ0KPj4+
-PiArCQlyZXR1cm4gcmV0Ow0KPj4+PiArDQo+Pj4NCj4+PiBXaGF0IGRvIHlvdSBzZWUgYXMg
-dGhlIGFkdmFudGFnZSBvZiBtb3ZpbmcgdGhlIGNoZWNrIHRvIHRoZSBkcml2ZXIncyBwcm9i
-ZT8NCj4+Pg0KPj4+IEJlY2F1c2UgYWZ0ZXIgdGhpcyBjaGFuZ2UgdGhlIHBsYXRmb3JtIGRy
-aXZlciB3aWxsIGJlIHJlZ2lzdGVyZWQgYnV0IGZvciBubw0KPj4+IHJlYXNvbiwgc2luY2Ug
-Y2FuJ3QgZXZlbiBwcm9iZSBpZiBvcmlnX3ZpZGVvX2lzVkdBIGlzIG5laXRoZXIgVkdBQyBu
-b3IgRUdBQy4NCj4+DQo+PiBUaGUgZHJpdmVyIG9ubHkgc3VwcG9ydHMgdmVyeSBzcGVjaWZp
-YyBtb2Rlcywgd2hpY2ggbWF5IG5vdCBiZSB3aGF0DQo+PiBzY3JlZW5faW5mbyBkZXRlY3Rl
-ZC4gTm90ZSB0aGF0IFZHQUMvRUdBQyBjYW4gYWxzbyByZWZlciB0byB0ZXh0LW1vZGUNCj4+
-IGJ1ZmZlcnMuIFRoZSBjdXJyZW50IHZnYWNvbiBjb3VsZCBiZSB0dXJuZWQgaW50byBhIHBs
-YXRmb3JtIGRyaXZlciB0aGF0DQo+PiBhZG9wdHMgc3VjaCBhIHRleHQgYnVmZmVyIGFuZCBp
-bnRlZ3JhdGVzIGl0IHdpdGggYXBlcnR1cmUgaGVscGVycy4NCj4+DQo+IA0KPiBZZXMsIGFu
-ZCBhbHNvIHRoZXJlJ3MgYWxzbyB0aGUgbW9ub2Nocm9tZSB2YXJpYW50IG9mIFZHQSBhbmQg
-RUdBIChWR0FNL0VHQU0pLg0KPiANCj4gU2hvdWxkIHdlIGFsc28gbWFrZSB0aGF0IGRpc3Rp
-bmN0aW9uIG9yIGZvciBleGFtcGxlICJ2Z2EtZnJhbWVidWZmZXIiIHNob3VsZA0KPiBoYW5k
-bGUgYm90aCBjb2xvciBhbmQgbW9ub2Nocm9tZSB2YXJpYW50cyBpZiBhdCBzb21lIHBvaW50
-IHZnYWNvbiBpcyB0dXJuZWQNCj4gaW50byBhIGZiZGV2IG9yIERSTSBkcml2ZXIgPw0KPiAN
-Cj4+Pg0KPj4+IFsuLi5dDQo+Pj4NCj4+Pj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlX2lkIHZnYTE2ZmJfZHJpdmVyX2lkX3RhYmxlW10gPSB7DQo+Pj4+ICsJeyJl
-Z2EtZnJhbWVidWZmZXIiLCAwfSwNCj4+Pj4gKwl7InZnYS1mcmFtZWJ1ZmZlciIsIDB9LA0K
-Pj4+PiArCXsgfQ0KPj4+PiArfTsNCj4+Pj4gKw0KPj4+DQo+Pj4gVGhlIGZhY3QgdGhhdCB0
-aGUgdHdvIGVudHJpZXMgZG9uJ3QgaGF2ZSBhIHBsYXRmb3JtIGRhdGEgaXMgYW4gaW5kaWNh
-dGlvbiBmb3INCj4+DQo+PiBUaGUgbmFtZSBpcyB0aGUgaW5kaWNhdGlvbi4gSSBrbm93IHRo
-YXQgdmdhMTYgZG9lc24ndCB0cmVhdCB0aGVtDQo+PiBkaWZmZXJlbnRseS4NCj4+DQo+IA0K
-PiBZZXMsIG15IHBvaW50IHdhcyB0aGF0IHRoZSBwbGF0Zm9ybSBkZXZpY2UgbmFtZSB1c2Vk
-IHRvIGJpbmQgaXMgYW4gaW50ZXJuYWwNCj4gTGludXggaW50ZXJmYWNlIHRoYXQgY291bGQg
-YmUgY2hhbmdlZCBsYXRlciBpZiBuZWVkZWQuIEJ1dCBJIHVuZGVyc3RhbmQgeW91cg0KPiBw
-b2ludCBhbmQgc2luY2UgdGhlIHBsYXRmb3JtIGRldmljZSBuYW1lcyBhcmUgZXhwb3NlZCB0
-byB1c2VyLXNwYWNlLCBtYWtlcw0KPiBtb3JlIHNlbnNlIGZvciB0aGVtIHRvIHJlZmxlY3Qg
-d2hhdCBkZXZpY2VzIGFyZSBib3VuZCBldmVuIHdoZW4gdGhlIGV4aXN0aW5nDQo+IGRyaXZl
-ciBkb2Vzbid0IHRyZWF0IHRoZW0gZGlmZmVyZW50bHkuDQo+ICAgDQo+Pj4gbWUgdGhhdCB3
-ZSBjb3VsZCBqdXN0IGNvbnNvbGlkYXRlIGluIGEgc2luZ2xlICJ2Z2ExNi1mcmFtZWJ1ZmZl
-ciIgb3Igc210LiBJDQo+Pj4ga25vdyB0aGF0IHRoaXMgd29uJ3QgYmUgY29uc2lzdGVudCB3
-aXRoIGVmaSwgdmVzYSwgZXRjIGJ1dCBJIGRvbid0IHRoaW5rIGlzDQo+Pj4gdGhhdCBpbXBv
-cnRhbnQgYW5kIGFsc28gcXVpdGUgbGlrZWx5IHdlIHdpbGwgZ2V0IHJpZCBvZiB0aGlzIGRy
-aXZlciBhbmQgdGhlDQo+Pj4gcGxhdGZvcm0gZGV2aWNlIHJlZ2lzdHJhdGlvbiBzb29uLiBT
-aW5jZSBhcyB5b3Ugc2FpZCwgaXQncyB1bmNsZWFyIHRoYXQgaXMNCj4+PiBldmVuIHVzZWQu
-DQo+Pg0KPj4gVGhlcmUncyBtaXBzIGNvZGUgaW4gdGhlIGFyY2gvIGRpcmVjdG9yeSB0aGF0
-IGFwcGVhcnMgdG8gc2V0dXANCj4+IHNjcmVlbl9pbmZvIGluIHRoZSBjb3JyZWN0IHdheS4g
-SSBjYW4ndCBzYXkgd2hldGhlciB0aGF0J3Mgc3RpbGwgdXNlZnVsDQo+PiB0byBhbnlvbmUu
-IE9uIHg4NiwgSSBjb3VsZCBzZXQgYSBWR0EgbW9kZSBvbiB0aGUga2VybmVsIGNvbW1hbmQg
-bGluZSwNCj4+IGJ1dCBzY3JlZW5faW5mbydzIGlzVkdBIG9ubHkgY29udGFpbmVkICcxJy4g
-SXQgbWlnaHQgYmUgcG9zc2libGUgdG8gZml4DQo+PiB0aGlzIGVhc2lseSBieSBzZXR0aW5n
-IHRoZSByaWdodCB2YWx1ZXMgaW4gdmdhX3Byb2JlKCkuIFsxXSBJIHNpbXBseQ0KPj4gZG9u
-J3QgaGF2ZSB0aGUgdGltZSB0byBwcm92aWRlIGEgcGF0Y2ggYW5kIGRlYWwgd2l0aCB0aGUg
-cG90ZW50aWFsDQo+PiBmYWxsb3V0IG9mIHN1Y2ggYSBjaGFuZ2UuDQo+Pg0KPiANCj4gSW5k
-ZWVkLiBUaGlzIHNlZW1zIHRvIGJlIGEgcmVtbmFudCBmcm9tIHRoZSB0aW1lIHdoZW4gaXNW
-R0Egd2FzIGp1c3QgYSBib29sDQo+IGFuZCB0aGVuIGF0IHNvbWUgcG9pbnQgdGhlIGZpZWxk
-IHNlbWFudGljcyB3YXMgZXh0ZW5kZWQgdG8gZGVub3RlIHRoZSBtb2RlDQo+IGJ1dCB0aGUg
-ZXhpc3RpbmcgdXNlcnMgd2VyZW4ndCBmaXhlZCAobm9yIHRoZSBmaWVsZCBuYW1lZCB0byBy
-ZWZsZWN0IHRoaXMpLg0KPiANCj4gUHJvYmFibHkgc2hvdWxkIGJlIGNsZWFuZWQgdXAgYXQg
-c29tZSBwb2ludCBidXQgdW5zdXJlIGlmIHRoZSBjaHVybiB3b3VsZA0KPiBiZSB3b3J0aCBp
-dC4NCj4gICANCj4+Pg0KPj4+PiAgICBzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciB2
-Z2ExNmZiX2RyaXZlciA9IHsNCj4+Pj4gICAgCS5wcm9iZSA9IHZnYTE2ZmJfcHJvYmUsDQo+
-Pj4+ICAgIAkucmVtb3ZlID0gdmdhMTZmYl9yZW1vdmUsDQo+Pj4+ICAgIAkuZHJpdmVyID0g
-ew0KPj4+PiAtCQkubmFtZSA9ICJ2Z2ExNmZiIiwNCj4+Pj4gKwkJLm5hbWUgPSAidmdhLWZy
-YW1lYnVmZmVyIiwNCj4+Pj4gICAgCX0sDQo+Pj4NCj4+PiBNYXliZSAidmdhMTYtZnJhbWVi
-dWZmZXIiIGluc3RlYWQ/IFNpbmNlIGZvciBleGFtcGxlIFZFU0EgaXMgYWxzbyBWR0EgQUZB
-SUsuDQo+Pg0KPj4gVkVTQSBpcyBzb21ldGhpbmcgZWxzZSB0aGFuIFZHQS4gU2V0dGluZyBh
-IFZFU0EgbW9kZSAoZG9uZSB2aWEgSU5UIDEwaA0KPj4gSUlSQykgYW5kIHRoZW4gZmlkZGxp
-bmcgd2l0aCBWR0Egc3RhdGUgd2lsbCBsaWtlbHkgcHJvZHVjZSBicm9rZW4gb3V0cHV0DQo+
-PiBvbiB0aGUgc2NyZWVuLg0KPj4NCj4gDQo+IFRlY2huaWNhbGx5IGl0IGlzIHNvbWV0aGlu
-ZyBlbHNlIGJ1dCBMaW51eCBjb25mbGF0ZXMgdGhlbSBpbiBtYW55IHBsYWNlcy4gRm9yDQo+
-IGV4YW1wbGUsIGFzIHlvdSBtZW50aW9uZWQgb25lIGNhbiBjaGFuZ2UgdGhlIFZFU0EgbW9k
-ZXMgdXNpbmcgdGhlICJ2Z2EiIHBhcmFtDQo+ICh3aGljaCBjb25mdXNpbmdseSBsZWFkcyB0
-byB0aGUgdXNlIG9mIHZlc2FmYitmYmNvbiBkcml2ZXIgaW5zdGVhZCBvZiB2Z2Fjb24pLg0K
-PiANCj4gVGhhdCdzIHdoeSBJIHRoaW5rIHRoYXQgInZnYS1mcmFtZWJ1ZmZlciIgYXMgZHJp
-dmVyIG5hbWUgd291bGQgYmUgbWlzbGVhZGluZy4NCj4gU3BlY2lhbGx5IHNpbmNlIGl0IHdv
-dWxkIGFsc28gYmluZCB0byB0aGUgImVnYS1mcmFtZWJ1ZmZlciIgcGxhdGZvcm0gZGV2aWNl
-Lg0KDQpJIG1lc3NlZCB1cCBkZXZpY2UgYW5kIGRyaXZlciBuYW1lLCBzdWNoIHRoYXQgbWlz
-dW5kZXJzdG9vZCB5b3VyIHJlbWFyay4NCg0KQXMgd2UgdXNlIHRoZSBpZF90YWJsZSBmaWVs
-ZCBmb3IgbWF0Y2hpbmcgZGV2aWNlcywgdGhlIGRyaXZlciBuYW1lIA0KZG9lc24ndCBtYXR0
-ZXIuIFsxXSBTbyBsZXQncyBrZWVwIHRoZSBkcml2ZXIgbmFtZSBhcyB2Z2ExNmZiLiBUaGUg
-Y2hhbmdlIA0KYWJvdmUgbXVzdCBoYXZlIGJlZW4gbGVmdCBvdmVyIGZyb20gYW4gZWFybGll
-ciBwcm90b3R5cGUgcGF0Y2gsIEkgZ3Vlc3MuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
-ClsxXSANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjE4LjEwL3NvdXJj
-ZS9kcml2ZXJzL2Jhc2UvcGxhdGZvcm0uYyNMMTM2NQ0KDQo+IA0KDQotLSANClRob21hcyBa
-aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
-R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
-IEl2byBUb3Rldg0K
+Changes in v24:
+- fix ovl_adaptor binding issue (mtk_disp_ovl_adaptor.c)
+  - Since ovl_adaptor is an aggregated component, it should be bounded after
+    all its child components are bounded.
+- rebase to next-20220708
 
---------------PJ4Jg0LWXXCZmoP3EtrAdcrW--
+Changes in v23:
+- separate[7] mmsys/mutex and drm patches into two series
 
---------------4kNrhVXJZiCScVRQUOL09XO0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Changes in v22:
+- rebase to next-20220525
+- rebase to vdosys0 series v22
+- separate dts to a new patch
 
------BEGIN PGP SIGNATURE-----
+Changes in v21:
+- fix reviewer comment
+  - fix rdma and ethdr binding doc and dts
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLL/pUFAwAAAAAACgkQlh/E3EQov+A3
-wg//YWO2NM7yP2DGR46QfmCHdrUO36X/fX8BzJqb70Usyvzleai65hB3FBuhPfANJa463mkcc+GQ
-sUfn7X8V27UmQveY4HbYiiKM6cXpWS4bFT1CWEhXmaX6NzGoVVIpx4AVX0ZlC44JV74qZPtVgDVO
-IRzgs48mQq4lFCAuY2Q+kO2jxmzIBJEjMIOUT/GA6zLsiuo6klw/epi9zoRtCbSzqVsRd9tQJsCR
-feV1a5HNQr1t+r9gizSc7cCE2t/LzCXMsXQmarTgjaeue+ykG1lw9S+mSpvcbzyOjshYCixbUsYG
-AKALTDHy1L60VrXIoZVUtzeFZ2Td83Xe2MQmw/OJkkeg7Tz0O9PTcBTNAaaK2vWU5hkf+NpPhFUC
-MWmrvVao2x1WD/EjDqu14A2AxuhQgCkag6oW7cYHxu4HGDNv6NjEohfDQYgJ8appe3BChc6cTz9p
-8rc7KBb9LJ6BI/620dFpDG0EmxAYEWh4SOUUVjpEb0hxkD8BU9N0Smqem0sUTwVXxyKSeHIfTvAM
-z5B+AvmEpIUXeRnatqHaSG7x7lm1OSWXvD0Tj2R6o/d9NnLAYOse9z6btlVMZe80a5zC1PJyKWvu
-AJF4tY05cpaAZKCjRhtJC6gCnAXIbl9OkJe/lmHk8EXY3Iotl/MEgRWsI3N8FNl91FpgZ2rDMeJ7
-7aU=
-=1l+i
------END PGP SIGNATURE-----
+Changes in v20:
+- fix reviewer comment
+  - update mmsys update bit api name
+  - add mtk_mmsys_update_bits error message if lose gce property
+  - list all mt8195 vdosys1 reset bits
 
---------------4kNrhVXJZiCScVRQUOL09XO0--
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
+
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
+
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
+
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
+
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] arm64: dts: mt8195: add gce node
+    20220126090109.32143-1-jason-jh.lin@mediatek.com
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
+    20220526102126.19756-1-jason-jh.lin@mediatek.com
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+[7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+    20220526110233.20080-1-nancy.lin@mediatek.com
+
+Nancy.Lin (7):
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+
+ .../display/mediatek/mediatek,ethdr.yaml      | 188 +++++++
+ drivers/gpu/drm/mediatek/Makefile             |   2 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  26 +
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 528 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 125 +++--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 359 ++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  24 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 370 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
+ 12 files changed, 1613 insertions(+), 195 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+
+-- 
+2.18.0
+
