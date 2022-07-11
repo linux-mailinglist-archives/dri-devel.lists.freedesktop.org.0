@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B8556D422
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 06:53:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9349856D469
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 07:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B8510F2D5;
-	Mon, 11 Jul 2022 04:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A20C10EC97;
+	Mon, 11 Jul 2022 05:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAEA10E534;
- Mon, 11 Jul 2022 04:53:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657515200; x=1689051200;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=d6/ngeTVNk998Ig8RGaNDRrOoPTixlzEU/yTANqW8Fk=;
- b=QKRGT5NpMMN610l1tHDxmDPfIox5B/wQ2eS+zZNXI623cPcRr04YlGeW
- T9XFoDwdD90dyqJxiYlJCH+x6XSGxFdpr3AUUeE1TFaXjwi8ZsaZ8a8Zj
- W9sAZx7R5RBlJ37fzHZLf0AZTStOU9AxCs9sAuFHWXkuQicwgHjwQ4/Ag
- B4GW89UEib46HKSJCBnliVdYt5UWJBXuoTVyWMDbe9K6AVc8X+6xo49ue
- zsBg3JLDpwHiuOmmfpmybwQzDlE9BFg+h7A8+psSVmD0H2MpJ64RX73lH
- VxzmXm+AhV1mtF2ncf93/EIMemWUXgldqCOGhg68uOm9Tff7DZDvTlrrH w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10404"; a="348556369"
-X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
- d="asc'?scan'208";a="348556369"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2022 21:53:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,262,1650956400"; 
- d="asc'?scan'208";a="598911385"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.159.108])
- by fmsmga007.fm.intel.com with ESMTP; 10 Jul 2022 21:53:16 -0700
-Date: Mon, 11 Jul 2022 12:29:51 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: Re: [PATCH] drm/i915/gvt: Fix kernel-doc
-Message-ID: <20220711042951.GU1089@zhen-hp.sh.intel.com>
-References: <20220602073519.22363-1-jiapeng.chong@linux.alibaba.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9500811A352
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 05:53:00 +0000 (UTC)
+X-UUID: e3c1c3db69ba4d1699447d7170d07ee2-20220711
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:dc5af464-2796-4d8f-a62d-f35428f31708, OB:0,
+ LO
+ B:10,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:50
+X-CID-INFO: VERSION:1.1.8, REQID:dc5af464-2796-4d8f-a62d-f35428f31708, OB:0,
+ LOB:
+ 10,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:50
+X-CID-META: VersionHash:0f94e32, CLOUDID:3e381187-57f0-47ca-ba27-fe8c57fbf305,
+ C
+ OID:e85d7af3f061,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: e3c1c3db69ba4d1699447d7170d07ee2-20220711
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 312251192; Mon, 11 Jul 2022 13:52:53 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 11 Jul 2022 13:52:51 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 11 Jul 2022 13:52:51 +0800
+Message-ID: <632d03e8773520faf0eba3bb7c716435b54b6794.camel@mediatek.com>
+Subject: Re: [PATCH v24 04/10] soc: mediatek: add mtk_mmsys_update_bits API
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
+ Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Mon, 11 Jul 2022 13:52:49 +0800
+In-Reply-To: <d1a93418-587b-a03d-ed9b-01646345deeb@gmail.com>
+References: <20220622130824.29143-1-nancy.lin@mediatek.com>
+ <20220622130824.29143-5-nancy.lin@mediatek.com>
+ <d1a93418-587b-a03d-ed9b-01646345deeb@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="NqXz6hVRMdSFrLFa"
-Content-Disposition: inline
-In-Reply-To: <20220602073519.22363-1-jiapeng.chong@linux.alibaba.com>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,78 +67,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- intel-gfx@lists.freedesktop.org, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- zhi.a.wang@intel.com
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matthias,
 
---NqXz6hVRMdSFrLFa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the review.
 
-On 2022.06.02 15:35:19 +0800, Jiapeng Chong wrote:
-> Fix the following W=3D1 kernel warnings:
->=20
-> drivers/gpu/drm/i915/gvt/aperture_gm.c:308: warning: expecting prototype
-> for inte_gvt_free_vgpu_resource(). Prototype was for
-> intel_vgpu_free_resource() instead.
->=20
-> drivers/gpu/drm/i915/gvt/aperture_gm.c:344: warning: expecting prototype
-> for intel_alloc_vgpu_resource(). Prototype was for
-> intel_vgpu_alloc_resource() instead.
->=20
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/i915/gvt/aperture_gm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/aperture_gm.c b/drivers/gpu/drm/i91=
-5/gvt/aperture_gm.c
-> index 557f3314291a..3b81a6d35a7b 100644
-> --- a/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> +++ b/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> @@ -298,7 +298,7 @@ static int alloc_resource(struct intel_vgpu *vgpu,
->  }
-> =20
->  /**
-> - * inte_gvt_free_vgpu_resource - free HW resource owned by a vGPU
-> + * intel_vgpu_free_resource() - free HW resource owned by a vGPU
->   * @vgpu: a vGPU
->   *
->   * This function is used to free the HW resource owned by a vGPU.
-> @@ -328,7 +328,7 @@ void intel_vgpu_reset_resource(struct intel_vgpu *vgp=
-u)
->  }
-> =20
->  /**
-> - * intel_alloc_vgpu_resource - allocate HW resource for a vGPU
-> + * intel_vgpu_alloc_resource() - allocate HW resource for a vGPU
->   * @vgpu: vGPU
->   * @param: vGPU creation params
->   *
-> --=20
-> 2.20.1.7.g153144c
->=20
+On Fri, 2022-07-08 at 17:34 +0200, Matthias Brugger wrote:
+> 
+> On 22/06/2022 15:08, Nancy.Lin wrote:
+> > Add mtk_mmsys_update_bits API. Simplify code for update  mmsys reg.
+> > It is a preparation for adding support for mmsys config API.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> > Tested-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >   drivers/soc/mediatek/mtk-mmsys.c | 37 +++++++++++++------------
+> > -------
+> >   1 file changed, 15 insertions(+), 22 deletions(-)
+> > 
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > b/drivers/soc/mediatek/mtk-mmsys.c
+> > index a74c86197d6a..ca5bf07114fa 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -192,22 +192,27 @@ static int
+> > mtk_mmsys_find_match_drvdata(struct mtk_mmsys *mmsys,
+> >   	return -EINVAL;
+> >   }
+> >   
+> > +static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32
+> > offset, u32 mask, u32 val)
+> > +{
+> > +	u32 tmp;
+> > +
+> > +	tmp = readl_relaxed(mmsys->regs + offset);
+> > +	tmp = (tmp & ~mask) | val;
+> > +	writel_relaxed(tmp, mmsys->regs + offset);
+> > +}
+> > +
+> >   void mtk_mmsys_ddp_connect(struct device *dev,
+> >   			   enum mtk_ddp_comp_id cur,
+> >   			   enum mtk_ddp_comp_id next)
+> >   {
+> >   	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> >   	const struct mtk_mmsys_routes *routes = mmsys->data->routes;
+> > -	u32 reg;
+> >   	int i;
+> >   
+> >   	for (i = 0; i < mmsys->data->num_routes; i++)
+> > -		if (cur == routes[i].from_comp && next ==
+> > routes[i].to_comp) {
+> > -			reg = readl_relaxed(mmsys->regs +
+> > routes[i].addr);
+> > -			reg &= ~routes[i].mask;
+> > -			reg |= routes[i].val;
+> > -			writel_relaxed(reg, mmsys->regs +
+> > routes[i].addr);
+> > -		}
+> > +		if (cur == routes[i].from_comp && next ==
+> > routes[i].to_comp)
+> > +			mtk_mmsys_update_bits(mmsys, routes[i].addr,
+> > routes[i].mask,
+> > +					      routes[i].val);
+> >   }
+> >   EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
+> >   
+> > @@ -217,15 +222,11 @@ void mtk_mmsys_ddp_disconnect(struct device
+> > *dev,
+> >   {
+> >   	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> >   	const struct mtk_mmsys_routes *routes = mmsys->data->routes;
+> > -	u32 reg;
+> >   	int i;
+> >   
+> >   	for (i = 0; i < mmsys->data->num_routes; i++)
+> > -		if (cur == routes[i].from_comp && next ==
+> > routes[i].to_comp) {
+> > -			reg = readl_relaxed(mmsys->regs +
+> > routes[i].addr);
+> > -			reg &= ~routes[i].mask;
+> > -			writel_relaxed(reg, mmsys->regs +
+> > routes[i].addr);
+> > -		}
+> > +		if (cur == routes[i].from_comp && next ==
+> > routes[i].to_comp)
+> > +			mtk_mmsys_update_bits(mmsys, routes[i].addr,
+> > routes[i].mask, 0);
+> >   }
+> >   EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_disconnect);
+> >   
+> > @@ -234,18 +235,10 @@ static int mtk_mmsys_reset_update(struct
+> > reset_controller_dev *rcdev, unsigned l
+> >   {
+> >   	struct mtk_mmsys *mmsys = container_of(rcdev, struct mtk_mmsys,
+> > rcdev);
+> >   	unsigned long flags;
+> > -	u32 reg;
+> >   
+> >   	spin_lock_irqsave(&mmsys->lock, flags);
+> >   
+> > -	reg = readl_relaxed(mmsys->regs + mmsys->data->sw0_rst_offset);
+> > -
+> > -	if (assert)
+> > -		reg &= ~BIT(id);
+> > -	else
+> > -		reg |= BIT(id);
+> > -
+> > -	writel_relaxed(reg, mmsys->regs + mmsys->data->sw0_rst_offset);
+> > +	mtk_mmsys_update_bits(mmsys, mmsys->data->sw0_rst_offset,
+> > BIT(id), assert ? 0 : BIT(id));
+> 
+> Let's be this a normal if (assert) else but calling
+> mtk_mmsys_update_bits().
+> 
+> Other then that patch looks good.
+> 
+> Matthias
+> 
+OK, I will change to
 
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+if (asssert)
+    mtk_mmsys_update_bits(mmsys, mmsys->data->sw0_rst_offset, BIT(id),
+0);
+else
+    mtk_mmsys_update_bits(mmsys, mmsys->data->sw0_rst_offset, BIT(id),
+BIT(id));
 
-Thanks!
+BRs,
+Nancy
 
---NqXz6hVRMdSFrLFa
-Content-Type: application/pgp-signature; name="signature.asc"
+> >   
+> >   	spin_unlock_irqrestore(&mmsys->lock, flags);
+> >   
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYsunPwAKCRCxBBozTXgY
-JxhDAJ4k/6vczxEcG5rUQ4LYbrk0JcAieQCbBmYAN+bZ+WtisN1xVouxnZnQ4RY=
-=Fs2v
------END PGP SIGNATURE-----
-
---NqXz6hVRMdSFrLFa--
