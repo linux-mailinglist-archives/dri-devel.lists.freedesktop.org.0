@@ -2,69 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9CC56FE59
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 12:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF5756FE85
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 12:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3A18D620;
-	Mon, 11 Jul 2022 10:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDAA112132;
+	Mon, 11 Jul 2022 10:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0ADB8D61F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 10:10:43 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id n18so6162831lfq.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 03:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=SHiA2zoxhmxH5O4HA7IkJ4SShTmEKVvUYuQnX9sbxgQ=;
- b=UVpseBylGa0hITXDZB040rsiqxom8ASeH+ECgCf7mpMwjK4WsVJB8+gDiLY/4x+J0V
- MjFezs6PbKJtCVQYVRYPQglt4ixfAjGLp+8x2Hdos5M6BwyYyVy5tRbKfOan0KcYi9kf
- 0VlqRfko1lKwYEGI+XIhAT2uTuKDEpllWiU/vSsdWV9wecGgEMFxCsaJwtk4mTGsQN4M
- RWTCjYoEy/WLsY8/aYPb1uWmFBDtS2EFYnCU6Bwicao1H4vlae8gucD5V22dDGY/FFfc
- dx6kXHN4COn3HA488pJSsQyvZjsXk4rHfIknupVl2Q7+3aXeqyZW5E9YEwwLQAjv4fct
- ttvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SHiA2zoxhmxH5O4HA7IkJ4SShTmEKVvUYuQnX9sbxgQ=;
- b=SBEVQ79RaaqAJWBABM1icPaMwSlMA9hL45BTxh0CD8rFycBYmlepyADlr3NrMfsLZf
- fGT1O8qt+LjyLKmJPsB+gkxcPXnFX3z7N4I7sYMt8HKIwOxr+jn5RA1F9Z42xVjgyA+j
- xtHW+2tqd0i7bxjpae6YayDxicl1DINZNixu0S35WLB+Llg2+/qTb/1b0hTIasdVNCSs
- Hn1TbMRy5s2pOWRhSB4RGNF7yffumgO55Z1NDfzfpOT+vIIDUeIqR0YKaErrY0QKt/Xp
- XlD7hMIgjLEKUDgCylIau2y4cbUe5BuBR6ekwtpTqQLekYyoRtc/hWqbaXq4NYqgyqgr
- 5QdQ==
-X-Gm-Message-State: AJIora8KUHwdXtKV4Ik0pARgEkzzbuQXrXNqf7owKLidd3XhV+cZGLn/
- Yp7Yqieugv39wq2NI6mxUytUdQ==
-X-Google-Smtp-Source: AGRyM1sMIZrBCfuR2GgVaiokY29EPmxjq8AEeJPvueXNdz57OF52ijRyoaPnnaz4w4NoN30xVsg4PA==
-X-Received: by 2002:ac2:4c50:0:b0:489:da2c:ba2c with SMTP id
- o16-20020ac24c50000000b00489da2cba2cmr4084907lfk.505.1657534242274; 
- Mon, 11 Jul 2022 03:10:42 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- l26-20020a2e909a000000b0025d4d4b4edbsm1650138ljg.34.2022.07.11.03.10.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 03:10:41 -0700 (PDT)
-Message-ID: <f5025278-884a-273b-15fd-624e571026bb@linaro.org>
-Date: Mon, 11 Jul 2022 13:10:40 +0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 26EB1112132
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 10:13:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED7C016A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 03:13:19 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 502163F73D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 03:13:19 -0700 (PDT)
+Date: Mon, 11 Jul 2022 11:13:17 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Subject: Re: [PATCH 3/3] drm/komeda - Fix handling of pending crtc state
+ commit to avoid lock-up
+Message-ID: <Ysv3vS2oosEgFJcN@e110455-lin.cambridge.arm.com>
+References: <20220606114714.175499-1-carsten.haitzler@foss.arm.com>
+ <20220606114714.175499-3-carsten.haitzler@foss.arm.com>
+ <YshVFKbiz/7FrkKT@e110455-lin.cambridge.arm.com>
+ <af1d56b5-a999-6806-1aa6-593eb0e9380a@foss.arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 03/10] drm/msm/dp: use atomic callbacks for DP bridge
- ops
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1657532880-12897-1-git-send-email-quic_vpolimer@quicinc.com>
- <1657532880-12897-4-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1657532880-12897-4-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <af1d56b5-a999-6806-1aa6-593eb0e9380a@foss.arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,95 +46,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com,
- linux-kernel@vger.kernel.org, quic_khsieh@quicinc.com,
- bjorn.andersson@linaro.org, quic_aravindh@quicinc.com, swboyd@chromium.org
+Cc: dri-devel@lists.freedesktop.org, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/07/2022 12:47, Vinod Polimera wrote:
-> Use atomic variants for DP bridge callback functions so that
-> the atomic state can be accessed in the interface drivers.
-> The atomic state will help the driver find out if the display
-> is in self refresh state.
+On Fri, Jul 08, 2022 at 07:03:37PM +0100, Carsten Haitzler wrote:
 > 
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c |  9 ++++++---
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 18 +++++++++++-------
->   2 files changed, 17 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index bce7793..5bd6677 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1652,7 +1652,8 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   	return 0;
->   }
->   
-> -void dp_bridge_enable(struct drm_bridge *drm_bridge)
-> +void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
-> +			     struct drm_bridge_state *old_bridge_state)
->   {
->   	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
->   	struct msm_dp *dp = dp_bridge->dp_display;
-> @@ -1716,7 +1717,8 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
->   	mutex_unlock(&dp_display->event_mutex);
->   }
->   
-> -void dp_bridge_disable(struct drm_bridge *drm_bridge)
-> +void dp_bridge_atomic_disable(struct drm_bridge *drm_bridge,
-> +			      struct drm_bridge_state *old_bridge_state)
->   {
->   	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
->   	struct msm_dp *dp = dp_bridge->dp_display;
-> @@ -1727,7 +1729,8 @@ void dp_bridge_disable(struct drm_bridge *drm_bridge)
->   	dp_ctrl_push_idle(dp_display->ctrl);
->   }
->   
-> -void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
-> +void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> +				   struct drm_bridge_state *old_bridge_state)
->   {
->   	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
->   	struct msm_dp *dp = dp_bridge->dp_display;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 62d58b9..9d0fc74 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -61,13 +61,17 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
->   }
->   
->   static const struct drm_bridge_funcs dp_bridge_ops = {
-> -	.enable       = dp_bridge_enable,
-> -	.disable      = dp_bridge_disable,
-> -	.post_disable = dp_bridge_post_disable,
-> -	.mode_set     = dp_bridge_mode_set,
-> -	.mode_valid   = dp_bridge_mode_valid,
-> -	.get_modes    = dp_bridge_get_modes,
-> -	.detect       = dp_bridge_detect,
-> +	.atomic_enable = dp_bridge_atomic_enable,
-> +	.atomic_disable = dp_bridge_atomic_disable,
-> +	.atomic_post_disable = dp_bridge_atomic_post_disable,
-> +	.mode_set = dp_bridge_mode_set,
-> +	.mode_valid = dp_bridge_mode_valid,
-> +	.get_modes = dp_bridge_get_modes,
-> +	.detect = dp_bridge_detect,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_check = edp_bridge_atomic_check,
+> On 7/8/22 17:02, Liviu Dudau wrote:
+> > On Mon, Jun 06, 2022 at 12:47:14PM +0100, carsten.haitzler@foss.arm.com wrote:
+> > > From: Carsten Haitzler <carsten.haitzler@arm.com>
+> > 
+> > Hi Carsten,
+> > 
+> > > 
+> > > Sometimes there is an extra dcm crtc state in the pipeline whose
+> > > penting vblank event has not been handled yet. We would previously
+> > > throw this out and the vblank event never triggers leading to hard
+> > > lockups higher up the stack where an expected vlank event never comes
+> > > back (screen freezes).
+> > > 
+> > > This fixes that by tracking a pending crtc state that needs handling
+> > > and handle it producing a vlank event next vblank if it had not
+> > > laready been handled before. This fixes the hangs and ensures our
+> > > display keeps updating seamlessly and is certainly a much better state
+> > > to be in than after some time ending up with a mysteriously frozen
+> > > screen and a lot of kernle messages complaining about this too.
+> > 
+> > Sorry it took me so long to review and reply to this patch, but I had this nagging
+> 
+> No worries. :)
+> 
+> > feeling that the patch is not actually correct so I've tried to track the actual
+> > issue. It turns out that the problem is easy to reproduce in a different setup with
+> > Mali D71 and it comes from the fact that Komeda doesn't properly wait for the
+> > hardware to signal acceptance of config valid on setting new commits. I have created
+> > a new patch that I would be happy if you can test to try to fix the actual issue.
+> 
+> This works (tested).
 
-This function does not exist (yet). Please move this line to the 
-corresponding patch.
+Thank you very much for testing this! Can I add your Tested-by?
 
->   };
->   
->   struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+>  One errant "flip without commit":
+> 
+> [    9.402559] fbcon: Taking over console
+> [    9.525373] [drm:komeda_print_events [komeda]] *ERROR* err detect: gcu:
+> MERR, pipes[0]: FLIP, pipes[1]: None
+> [    9.525455] [drm] CRTC[0]: FLIP happened but no pending commit.
+> [    9.542215] Console: switching to colour frame buffer device 240x67
+> 
 
+Is this with your 2/3 patch applied and coming out from the firmware having already
+initialised the hardware? If so, the handover probably doesn't quiescence the
+interrupts correctly so an interrupt is pending when the kernel driver is
+initialised. That's another area worth looking at for the handover purposes.
+
+
+> But nothing worrying. It does work, though doesn't compile due to:
+> 
+> drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function
+> ‘komeda_kms_atomic_commit_hw_done’:
+> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: error: ‘for’ loop
+> initial declarations are only allowed in C99 or C11 mode
+>    77 |         for (int i = 0; i < kms->n_crtcs; i++) {
+>       |         ^~~
+> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: note: use option
+> ‘-std=c9
+> ’, ‘-std=gnu99’, ‘-std=c11’ or ‘-std=gnu11’ to compile your code
+> 
+> but that was a trivial fixup.
+
+Interesting that I'm not seeing that, probably due to using GCC12? Anyway, I'll fix
+that and send a proper patch.
+
+> 
+> Your commit handler does sit and wait. I guess I avoided that and had it
+> still deferred and handled next time the vblank interrupt fires. Yours is a
+> bit shorter and less complex so it wins. :)
+
+Yes, that's the essence of my issue with your patch. Delaying the handling of the
+event until the next vblank means older software that doesn't use the timestamping
+from the vblank event will get wrong framerates (playing video might be affected).
+
+Waiting here when we're also calling drm_atomic_helper_wait_for_flip_done() after
+drm_atomic_helper_commit_hw_done() feels wrong, but then the later is checking if we
+have consumed the event so we have to. Maybe the introduction of the
+drm_atomic_helper_fake_vblank() is needed in komeda as well like the generic
+commit_tail helper function does? I need to investigate more the next time I get some
+spare cycles on komeda.
+
+I will send a new email with the updated patch and your Tested-by if that's OK.
+
+Best regards,
+Liviu
+
+> 
+> > --8<---------------------------------------------------------------------------
+> > 
+> >  From 76f9e5fed216a815e9eb56152f85454521079f10 Mon Sep 17 00:00:00 2001
+> > From: Liviu Dudau <liviu.dudau@arm.com>
+> > Date: Fri, 8 Jul 2022 16:39:21 +0100
+> > Subject: [PATCH] drm/komeda: Fix handling of atomic commits in the
+> >   atomic_commit_tail hook
+> > 
+> > Komeda driver relies on the generic DRM atomic helper functions to handle
+> > commits. It only implements an atomic_commit_tail hook for the
+> > mode_config_helper_funcs and even that one is pretty close to the generic
+> > implementation with the exception of additional dma_fence signalling.
+> > 
+> > What the generic helper framework doesn't do is waiting for the actual
+> > hardware to signal that the commit parameters have been written into the
+> > appropriate registers. As we signal CRTC events only on the irq handlers,
+> > we need to flush the configuration and wait for the hardware to respond.
+> > 
+> > Add the Komeda specific implementation for atomic_commit_hw_done() that
+> > flushes and waits for flip done before calling drm_atomic_helper_commit_hw_done().
+> > 
+> > The fix was prompted by a patch from Carsten Haitzler where he was trying to
+> > solve the same issue but in a different way that I think can lead to wrong
+> > event signaling to userspace.
+> > 
+> > Reported-by: Carsten Haitzler <carsten.haitzler@arm.com>
+> > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+> > ---
+> >   .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  4 ++--
+> >   .../gpu/drm/arm/display/komeda/komeda_kms.c   | 20 ++++++++++++++++++-
+> >   .../gpu/drm/arm/display/komeda/komeda_kms.h   |  2 ++
+> >   3 files changed, 23 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > index 59172acb973803d..292f533d8cf0de6 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > @@ -235,7 +235,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+> >   			crtc->state->event = NULL;
+> >   			drm_crtc_send_vblank_event(crtc, event);
+> >   		} else {
+> > -			DRM_WARN("CRTC[%d]: FLIP happen but no pending commit.\n",
+> > +			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
+> >   				 drm_crtc_index(&kcrtc->base));
+> >   		}
+> >   		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+> > @@ -286,7 +286,7 @@ komeda_crtc_atomic_enable(struct drm_crtc *crtc,
+> >   	komeda_crtc_do_flush(crtc, old);
+> >   }
+> > -static void
+> > +void
+> >   komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+> >   					 struct completion *input_flip_done)
+> >   {
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > index 93b7f09b96ca950..1a53bd87e81d8ad 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > @@ -69,6 +69,24 @@ static const struct drm_driver komeda_kms_driver = {
+> >   	.minor = 1,
+> >   };
+> > +static void komeda_kms_atomic_commit_hw_done(struct drm_atomic_state *state)
+> > +{
+> > +	struct drm_device *dev = state->dev;
+> > +	struct komeda_kms_dev *kms = to_kdev(dev);
+> > +
+> > +	for (int i = 0; i < kms->n_crtcs; i++) {
+> > +		struct komeda_crtc *kcrtc = &kms->crtcs[i];
+> > +
+> > +		if (kcrtc->base.state->active) {
+> > +			struct completion *flip_done = NULL;
+> > +			if (kcrtc->base.state->event)
+> > +				flip_done = kcrtc->base.state->event->base.completion;
+> > +			komeda_crtc_flush_and_wait_for_flip_done(kcrtc, flip_done);
+> > +		}
+> > +	}
+> > +	drm_atomic_helper_commit_hw_done(state);
+> > +}
+> > +
+> >   static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
+> >   {
+> >   	struct drm_device *dev = old_state->dev;
+> > @@ -81,7 +99,7 @@ static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
+> >   	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> > -	drm_atomic_helper_commit_hw_done(old_state);
+> > +	komeda_kms_atomic_commit_hw_done(old_state);
+> >   	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> > index 456f3c435719317..bf6e8fba5061335 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> > @@ -182,6 +182,8 @@ void komeda_kms_cleanup_private_objs(struct komeda_kms_dev *kms);
+> >   void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+> >   			      struct komeda_events *evts);
+> > +void komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+> > +					      struct completion *input_flip_done);
+> >   struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev);
+> >   void komeda_kms_detach(struct komeda_kms_dev *kms);
 
 -- 
-With best wishes
-Dmitry
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
