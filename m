@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59E256D4F3
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 08:50:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1EF56D513
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 09:01:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68FCE8BF59;
-	Mon, 11 Jul 2022 06:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51B368BFFF;
+	Mon, 11 Jul 2022 07:01:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE658BF56;
- Mon, 11 Jul 2022 06:50:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86AF28BFFB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 07:01:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 11E96B80DBD;
- Mon, 11 Jul 2022 06:50:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C313CC34115;
- Mon, 11 Jul 2022 06:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657522241;
- bh=v728tOul6+PGvXrlWjEPs+tZZnXRsqYiqEgFBvOFrZI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DoMmBTYW8sPb35KHgtw0eHES3TzliwEXBMid+Er6yW7PN6LffQGW0I2rK4eT0+J6S
- bElViG2seshFAVqYqC7o2IWawrRk8hGlRXjUO/EKy5kacJMhZodBBaBzjq4SUErPA7
- gfQRINGyMZ9eFmoATYvosmEWRKAOtxLLmeZ4UH3P/r1LmLk1vxqB6SZf2emCLpLuIp
- hdVTqKBK9HyNp5buRj+Gmx+snS1l9P7X39ZDplz9VGihU44AWX2ASllVW/bhaT/W0q
- oBDhH6P2i7GHi5Q/wKtforE4YWOdkI8wwc6xqNCK43s6FnMcoxqX8nvNJvG27nHOSP
- VzVvvz/OVt+Cg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oAnFe-004a3P-HD;
- Mon, 11 Jul 2022 07:50:38 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: 
-Subject: [PATCH v4 2/2] drm/i915/gt: Serialize TLB invalidates with GT resets
-Date: Mon, 11 Jul 2022 07:50:37 +0100
-Message-Id: <0a5f5bca4a9f538a8529a1496c3dd3453268a69a.1657522157.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1657522157.git.mchehab@kernel.org>
-References: <cover.1657522157.git.mchehab@kernel.org>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DF8E422798;
+ Mon, 11 Jul 2022 07:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1657522910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j61ev+swPLVDVmD7yLL1EUhJFw4QRbCvk5PO/axVV2A=;
+ b=b2rSW+frVXcOFsMsxKJJtCR1g6EDRB9JPP3ytoiRxD/9WpcIjOfirHyX91psXRh+WkceRS
+ pDzNiSJQSVyllAfLrDyWJvfLJZB2mTpkQmPNV447WQSyVkOv7L2ON9ZxGtk+baKqfDx0Qm
+ Skec6JeLOS3mSauOxEKXLEXwvf10V+E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1657522910;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j61ev+swPLVDVmD7yLL1EUhJFw4QRbCvk5PO/axVV2A=;
+ b=gIJ3aR96t2kUCnxPKERovhbYBp/t+dmCIaOlqq8oeRbN5Q7OtQH99+T+ECbmgyxQcdDbOh
+ JHs24cPNS9TnLSDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C19EC13524;
+ Mon, 11 Jul 2022 07:01:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lO1VLt7Ky2IufgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 11 Jul 2022 07:01:50 +0000
+Message-ID: <f7f2e4ce-fced-78d7-258f-a4e723b1bbbf@suse.de>
+Date: Mon, 11 Jul 2022 09:01:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 0/11] drm/via: Make via a single file driver
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+References: <20220710085506.1384056-1-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220710085506.1384056-1-sam@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ghMPMo5tMpxHkpx0ZbjC2eew"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,79 +69,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- Chris Wilson <chris.p.wilson@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
- stable@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@Intel.com>
+Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris.p.wilson@intel.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ghMPMo5tMpxHkpx0ZbjC2eew
+Content-Type: multipart/mixed; boundary="------------kiZXt3z5bqiRRowMBbhizPs1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <f7f2e4ce-fced-78d7-258f-a4e723b1bbbf@suse.de>
+Subject: Re: [PATCH v1 0/11] drm/via: Make via a single file driver
+References: <20220710085506.1384056-1-sam@ravnborg.org>
+In-Reply-To: <20220710085506.1384056-1-sam@ravnborg.org>
 
-Avoid trying to invalidate the TLB in the middle of performing an
-engine reset, as this may result in the reset timing out. Currently,
-the TLB invalidate is only serialised by its own mutex, forgoing the
-uncore lock, but we can take the uncore->lock as well to serialise
-the mmio access, thereby serialising with the GDRST.
+--------------kiZXt3z5bqiRRowMBbhizPs1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Tested on a NUC5i7RYB, BIOS RYBDWi35.86A.0380.2019.0517.1530 with
-i915 selftest/hangcheck.
+SGkgU2FtLA0KDQp0aGlzIGxvb2tzIGxpa2UgYSBnb29kIHNvbHV0aW9uIHRvIG1lLiBJJ2Qg
+Z2l2ZSB5b3UgYSBkZXRhaWxlZCByZXZpZXcsIA0KYnV0IGRyaS1kZXZlbCBkZWNpZGVkIHRv
+IG9ubHkgc2VuZCBtZSB0aGUgY29sb3IgbGV0dGVyLiBJIGhhZCB0byB1c2UgDQpwYXRjaHdv
+cmsgZ2V0IHRoZSBwYXRjaGVzLg0KDQpGb3IgdGhlIHNlcmllcw0KDQpBY2tlZC1ieTogVGhv
+bWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCndpdGggc3VnZ2VzdGlv
+bnMgYmVsb3cuDQoNCkFtIDEwLjA3LjIyIHVtIDEwOjU0IHNjaHJpZWIgU2FtIFJhdm5ib3Jn
+Og0KPiBXZSBoYXZlIGFuIHVwY29taW5nIG9wZW5jaHJvbWUgZHJpdmVyIGZvciBWSUEgd2hl
+cmUgc29tZQ0KPiBvZiB0aGUgZmlsZXMgY29uZmxpY3RzIHdpdGggdGhlIGV4aXN0aW5nIHZp
+YSBkcml2ZXIuDQo+IA0KPiBJdCBpcyBub3QgYWNjZXB0YWJsZSB0byBqdXN0IGRlbGV0ZSB0
+aGUgZXhpc3RpbmcgRFJJMQ0KPiBiYXNlZCBkcml2ZXIgYXMgdGhlcmUgYXJlIG1vc3QgbGlr
+ZWx5IHVzZXJzIG91dCB0aGVyZSwNCj4gc28gYSBkaWZmZXJlbnQgYXBwcm9hY2ggd2FzIHJl
+cXVpcmVkLg0KPiANCj4gSXQgd2FzIGRpc2NjdXNzZWQgd2hhdCB0byBkbyBhbmQgdGhlIGxl
+YXN0IGludmFzaXZlDQo+IHNvbHV0aW9uIHdhcyB0byBrZWVwIHRoZSBEUkkxIGRyaXZlciBp
+biB0aGUgY3VycmVudA0KPiBkaXJlY3RvcnkgYXMgYSBzaW5nbGUgZmlsZS4NCj4gDQo+IFRo
+b21hcyBaaW1tZXJtYW5uIGFscmVhZHkgcG9zdGVkIGEgcGF0Y2ggdG8gZG8gdGhlDQo+IHNh
+bWUgYnV0IGl0IGF0dGVtcGVkIHRvIGhhdmUgYSBzaW5nbGUgZHJpdmVyDQo+IGZvciB0aGUg
+RFJJMSBhbmQgdGhlIHVwY29taW5nIG5ldyBkcml2ZXIuDQoNCkFmdGVyIHRoZSBvcGVuY2hy
+b21lIHBhdGNoZXMgbGFuZCwgdGhlcmUgd2lsbCBiZSBhbiBvcHRpb24gaW4gS2NvbmZpZyB0
+byANCmJ1aWxkIHRoZSBvbGQgZHJpdmVyIGluc3RlYWQgb2Ygb2YgdGhlIG5ldyBvbmU/DQoN
+Cj4gDQo+IFRoaXMgcGF0Y2hzZXQgZW1iZWRzIHRoZSBmaWxlcyBvbmUgYnkgb25lIHRvIG1h
+a2UgdGhlDQo+IGRpZmZzIHJlbW90ZWx5IHJlYWRhYmxlIGFuZCBlbmQgdXAgd2l0aCBhbiBp
+bmRlcGVuZGVudA0KPiBEUkkxIGRyaXZlci4NCj4gDQo+IFRoZSBkcml2ZXIgd2FzIGJ1aWx0
+IHRlc3RlZCBmb3IgZWFjaCBzdGVwLg0KPiANCj4gVGhlIGRyaXZlciBpcyBpbiB0aGUgZW5k
+IHJlbmFtZWQgdG8gdmlhX2RyaTEuDQo+IFNvbWUgZmVlZGJhY2sgb24gdGhpcyB3b3VsZCBi
+ZSBnb29kIGFzIEkgZG8gbm90IGtub3cNCj4gd2hhdCBpbXBhY3QgaXQgd2lsbCBoYXZlIG9u
+IHVzZXJzLg0KDQpJIGRvbid0IGtub3cgaG93IE1lc2EgZGVjaWRlcyBhYm91dCB3aGljaCB1
+c2Vyc3BhY2UgZHJpdmVyIHRvIGxvYWQsIGJ1dCANCkl0IHNlZW1zIHJlbGF0ZWQgdG8gdGhl
+IG5hbWUgb2YgdGhlIGtlcm5lbCBkcml2ZXIuIFJlbmFtaW5nIHRoZSBtb2R1bGUgDQptaWdo
+dCBpbnRlcmZlcmUgc29tZWhvdy4gIEJ1dCBpZiB0aGUgb2xkIGFuZCBuZXcgZHJpdmVyIGFy
+ZSBtdXR1YWxseSANCmV4Y2x1c2l2ZSBhdCBidWlsZCB0aW1lLCBpdCBzaG91bGQgbm90IGJl
+IGEgcHJvYmxlbSB0byB1c2UgdGhlIHNhbWUgbmFtZSANCmZvciBib3RoIG1vZHVsZXMuDQoN
+Cj4gDQo+IFRoZSB2ZXJ5IGxhc3QgcGF0Y2ggc3luY2hyb25pemUgdGhlIHZpYV8zZF9yZWcg
+aGVhZGVyDQo+IGZpbGUgd2l0aCB0aGUgb25lIHVzZWQgaW4gdGhlIG9wZW5jaHJvbWUgZHJp
+dmVyLg0KPiBUaGlzIHdhcyBhZGRlZCB0byB2ZXJpZnkgdGhhdCB0aGUgbmV3IGhlYWRlciB3
+b3VsZCBub3QNCj4gYnJlYWsgdGhlIERSSTEgZHJpdmVyLg0KDQpTb21lIG9mIHRoZSBtYWNy
+b3MgaW50cm9kdWNlIGxpbmUgd3JhcHMuIEkgZG9uJ3Qga25vdyBpZiB5b3UgZGlkIHRoYXQg
+DQppbnRlbnRpb25hbGx5LCBidXQgaXQgc2hvdWxkbid0IGJlIG5lY2Vzc2FyeS4gV2UgaGF2
+ZSBhIDEwMC1jaGFyYWN0ZXIgDQpsaW1pdCBwZXIgbGluZS4NCg0KTWF5YmUgeW91IGNhbiBh
+bHNvIGFkZCBhbiBleHRyYSBwYXRjaCB0aGF0IGFkZHMgU1BEWCBsaWNlbnNlIHRhZ3MgYXQg
+dGhlIA0KdG9wIG9mIHRoZSBmaWxlcy4NCg0KQmVzdCByZWdhcmQNClRob21hcw0KDQo+IA0K
+PiAJU2FtDQo+IA0KPiBTYW0gUmF2bmJvcmcgKDExKToNCj4gICAgICAgIGRybS92aWE6IFJl
+bmFtZSB2aWFfZHJ2IHRvIHZpYV9kcmkxDQo+ICAgICAgICBkcm0vdmlhOiBFbWJlZCB2aWFf
+ZG1hIGluIHZpYV9kcmkxDQo+ICAgICAgICBkcm0vdmlhOiBFbWJlZCB2aWFfbWFwIGluIHZp
+YV9kcmkxDQo+ICAgICAgICBkcm0vdmlhOiBFbWJlZCB2aWFfbW0gaW4gdmlhX2RyaTENCj4g
+ICAgICAgIGRybS92aWE6IEVtYmVkIHZpYV92aWRlbyBpbiB2aWFfZHJpMQ0KPiAgICAgICAg
+ZHJtL3ZpYTogRW1iZWQgdmlhX2lycSBpbiB2aWFfZHJpMQ0KPiAgICAgICAgZHJtL3ZpYTog
+RW1iZWQgdmlhX2RtYWJsaXQgaW4gdmlhX2RyaTENCj4gICAgICAgIGRybS92aWE6IEVtYmVk
+IHZpYV92ZXJpZmllciBpbiB2aWFfZHJpMQ0KPiAgICAgICAgZHJtL3ZpYTogRW1iZWQgdmlh
+X2Rydi5oIGluIHZpYV9kcmkxDQo+ICAgICAgICBkcm0vdmlhOiBSZW5hbWUgdGhlIHZpYSBk
+cml2ZXIgdG8gdmlhX2RyaTENCj4gICAgICAgIGRybS92aWE6IFVwZGF0ZSB0byB0aGUgbGF0
+ZXN0IHZpYV8zZF9yZWcgZmlsZQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vdmlhL01ha2Vm
+aWxlICAgICAgIHwgICAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92aWEvdmlhXzNkX3Jl
+Zy5oICAgfCAgMzk1ICsrKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kbWEuYyAg
+ICAgIHwgIDc0NCAtLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92aWEvdmlhX2RtYWJs
+aXQuYyAgfCAgODA3IC0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfZG1h
+YmxpdC5oICB8ICAxNDAgLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kcmkxLmMg
+ICAgIHwgMzYzMCArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gICBk
+cml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kcnYuYyAgICAgIHwgIDEyNCAtLQ0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS92aWEvdmlhX2Rydi5oICAgICAgfCAgMjI5IC0tLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS92aWEvdmlhX2lycS5jICAgICAgfCAgMzg4IC0tLS0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vdmlhL3ZpYV9tYXAuYyAgICAgIHwgIDEzMiAtLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS92aWEvdmlhX21tLmMgICAgICAgfCAgMjQxIC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92
+aWEvdmlhX3ZlcmlmaWVyLmMgfCAxMTEwIC0tLS0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL3ZpYS92aWFfdmVyaWZpZXIuaCB8ICAgNjIgLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92
+aWEvdmlhX3ZpZGVvLmMgICAgfCAgIDk0IC0NCj4gICAxNCBmaWxlcyBjaGFuZ2VkLCAzOTM1
+IGluc2VydGlvbnMoKyksIDQxNjUgZGVsZXRpb25zKC0pDQo+IA0KPiANCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
+cmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xo
+cmVyOiBJdm8gVG90ZXYNCg==
 
-Cc: stable@vger.kernel.org  # v4.4 and upper
-Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
-Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+--------------kiZXt3z5bqiRRowMBbhizPs1--
 
-See [PATCH v4 0/2] at: https://lore.kernel.org/all/cover.1657522157.git.mchehab@kernel.org/
+--------------ghMPMo5tMpxHkpx0ZbjC2eew
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
- drivers/gpu/drm/i915/gt/intel_gt.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 8da3314bb6bf..68c2b0d8f187 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -952,6 +952,20 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
- 	mutex_lock(&gt->tlb_invalidate_lock);
- 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
- 
-+	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset */
-+
-+	for_each_engine(engine, gt, id) {
-+		struct reg_and_bit rb;
-+
-+		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
-+		if (!i915_mmio_reg_offset(rb.reg))
-+			continue;
-+
-+		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
-+	}
-+
-+	spin_unlock_irq(&uncore->lock);
-+
- 	for_each_engine(engine, gt, id) {
- 		/*
- 		 * HW architecture suggest typical invalidation time at 40us,
-@@ -966,7 +980,6 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
- 		if (!i915_mmio_reg_offset(rb.reg))
- 			continue;
- 
--		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
- 		if (__intel_wait_for_register_fw(uncore,
- 						 rb.reg, rb.bit, 0,
- 						 timeout_us, timeout_ms,
--- 
-2.36.1
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLLyt4FAwAAAAAACgkQlh/E3EQov+A1
++g//UyQiuM4y0rIPY5u7PbOy/geIhp+VjwKP9D0DRqRGFvjmtmbXdks7LciVl5Z8X9yMMjKsz/xa
+Zukcx8PlDzfmuum1QTIhPuBAbhrMufTKB4aoPDGJxxECfrsUgh99qw6H16zOtXTX3eYyDJIv6gBm
+WnIDdBlLrvYSk/Ric+eLIRW588r5yYOJtOd+6kEEufp89OZcWifv27mFi3n/NAm6xgkYcQHQEq7f
+iqBE+eG/yEQkrzEIfTGliKfHFuUe+QQa75QcuO11hMIodhUU3zxJ345SFWjyyhQRRARALMNx76V8
+Voi7OiEXrPlEcLPirkaohe91t5J6tF9U5EfjehsDdjYBhlz4rMdyf4kClamml0FJFiPNpRkpCA+n
+8U5WgA7XsA1Uy0XlmvFEjGGlJ0R73mnuL3dOHlGznepgLqBrmhXI57Y/B2P9VBFZ6YUZ5tM+y4Nz
+xwIbvGBzWlzX4pldxKCPrd9thltQf5AhemkJRPU+HoO9IOEd5F8sZ7fWY+ptd+Oz8/xPikyy6AIu
+kEq/ppPifRljt+GFVb1wOLNv/hRdwND0JzbBYdP3sCnYABwcFgKb37ZNt87ot9qD43TvrZsWavoz
+UHnF49GDjIWztuQpWk/iTfj2NvP88HL7OHSUwtS82+49MkeNLl6atI8v92fBaEhFkhSW5zcZAx/L
++i8=
+=YtSF
+-----END PGP SIGNATURE-----
 
+--------------ghMPMo5tMpxHkpx0ZbjC2eew--
