@@ -1,53 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E745700BA
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 13:34:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE485700C8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 13:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271A18D99D;
-	Mon, 11 Jul 2022 11:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F78DBCE;
+	Mon, 11 Jul 2022 11:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C1E8F8D982
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 11:34:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A92252B;
- Mon, 11 Jul 2022 04:34:50 -0700 (PDT)
-Received: from [10.57.85.194] (unknown [10.57.85.194])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21B843F792;
- Mon, 11 Jul 2022 04:34:47 -0700 (PDT)
-Message-ID: <9645c413-af05-c47f-dfb5-5b0e7f511d9c@arm.com>
-Date: Mon, 11 Jul 2022 12:34:43 +0100
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 291F68DBCC
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 11:37:18 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id r9so179808lfp.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 04:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=dRCit7PDdPHjZBOwp4u9jORbpMarXZ1yRwqNnSgrgDo=;
+ b=ZMw7KZQ3z67YtPsjQBn2Ndo6Quz211hdWH+61kRV6pTN8Jb1Wjr0yQuQkRDk4S8Tsa
+ y6gkScoDmAu0WaLA6/lxe1dKYtywgB4mxbh5oDwYWASvma5bsJpi2pg7LIFco+Ek2tbM
+ 9yXtNRhGeIVPsCE/WuiqPyCjWlvXxciMaX4f5FzFIUJ+a7qV5oc3h9pK9EppSLVQPtD1
+ gQHrJRis95eq0DYSilPMkb3/K0xM3FWU1+Lv5Hl6co6uxDD8E5okWczRwpwzYYDEPbzn
+ /21+P6KDY5OAQvFK0N4escrzif6ZMIs1gNXpLw889qpP6YtQXvUT1OdLvuBhv3to4V/I
+ 7uzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dRCit7PDdPHjZBOwp4u9jORbpMarXZ1yRwqNnSgrgDo=;
+ b=7A6HQTf7Zb5SPi7qnhlHZhBNRz4Y22y5nTD/DL91FWm/LvmsOD5b78EzkO4SUTS4wq
+ rxdemSKhLsNgZMPIPgwKG9HSwUvHYHpyQGnhKmPhkcLPOK3rvl/I8edo0MoZqcfHX/jp
+ go+RFrU44lpTY7Y8gEgZY6PPuxRel/L8Fq9w+RzUaNnBqOdd38u+KDCKo3tEGrFNtg7r
+ lf1ycAHBTHnlxPYmTdL2MiXQVFLZEP2ai/1pgjWUtCjRgHIp9EuRyv9hz7jUap4mSzBR
+ ZFJVA+5ftra1SPSSHxaBRJLT3nOTWoRQrlPS7F7L6ykoQE+9LhR0Mv/8ZI1SockyubMp
+ /3vQ==
+X-Gm-Message-State: AJIora/JLd0K6tzTvnGsFU/GiZ9zAeO7qap+q1GXiblpJhr7Alpm+++S
+ wcagG6hEZIyee0Ks93zZzBg1bA==
+X-Google-Smtp-Source: AGRyM1u/zuOZEHQSioAp2lToRg2hUW+1+7Vg4tCi+2Nk5KkWA+Awxx0SdA1o6LpLrslnO04WuATicg==
+X-Received: by 2002:a05:6512:1111:b0:481:22b1:8db9 with SMTP id
+ l17-20020a056512111100b0048122b18db9mr11247160lfg.333.1657539436440; 
+ Mon, 11 Jul 2022 04:37:16 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5cab-55.bb.online.no. [88.92.171.55])
+ by smtp.gmail.com with ESMTPSA id
+ e10-20020a05651236ca00b00489d7fec4f5sm937284lfs.122.2022.07.11.04.37.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jul 2022 04:37:15 -0700 (PDT)
+Message-ID: <677d6387-6225-29c2-3190-8f443222019f@linaro.org>
+Date: Mon, 11 Jul 2022 13:37:08 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
- on rock-3a
-Content-Language: en-GB
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
- <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
- <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
- <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
- <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
- <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
- <9567EECF-A154-4FE1-A03C-5ED080409030@gmail.com>
- <190C3FD3-0185-4A99-B10E-A5790047D993@gmail.com>
- <CAMdYzYqGGfWDr11iyyfzigxsL7_N2szuag9P6TUZGuzGF4oB+A@mail.gmail.com>
- <AF6176F5-995E-473B-B494-844ECC26BC03@gmail.com>
- <CAMdYzYocZw1SNtgbfqn1VuvKTCiuMNTYRn2MydiGnL-UxtnYuA@mail.gmail.com>
- <0D8B18A1-82FD-4902-A443-AD774DE43DAD@gmail.com>
- <CAMdYzYpdo6Hb30y1oEya5GT1eXHJVTETq--HcmMjF40gvCUZ9A@mail.gmail.com>
- <E9DC63DF-46A6-438E-A7F1-5F7A65F56DFC@gmail.com>
- <15846ffa-f68a-2f88-55a3-40a633132c28@arm.com>
- <27F4BA6C-9C56-446D-AB82-A691E7C54772@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <27F4BA6C-9C56-446D-AB82-A691E7C54772@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 04/11] dt-bindings: display/msm: split qcom, mdss
+ bindings
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220710090040.35193-1-dmitry.baryshkov@linaro.org>
+ <20220710090040.35193-5-dmitry.baryshkov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220710090040.35193-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,56 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, kernel test robot <lkp@intel.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-07-11 12:04, Piotr Oniszczuk wrote:
-> 
-> 
->> Wiadomość napisana przez Robin Murphy <robin.murphy@arm.com> w dniu 11.07.2022, o godz. 12:41:
->>
->> On 2022-06-25 16:31, Piotr Oniszczuk wrote:
->>>> Wiadomość napisana przez Peter Geis <pgwipeout@gmail.com> w dniu 25.06.2022, o godz. 16:00:
->>>>
->>>>
->>>> The first issue you have is the TV isn't responding until the absolute
->>>> end.
->>> I suspect this is because lack on idle gaps between cec commands sent from board to tv.
->>> Maybe TV sw. can't deal with consecutive commands without any idle between them?
->>> It is interesting that disconnecting TV - so CEC line is driven only by board - rock3a still don't have any idle gaps while rock3b (and radxa 4.19 bsp) has them (very similar between 5.18mailine and 4.19 bsp).
->>> How this is possible that change I/O from m0->m1 impacts _timings_ on free hanging CEC line?
->>
->> Check all the pinctrl settings beyond just the function mux - pulls, drive strength, output type, etc. - the defaults tend to be all over the place, and rarely what you want.
->>
->> Robin.
-> 
-> Robin,
-> 
-> I'm not sure do I looked in right place...
-> 
-> but:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/arm64/boot/dts/rockchip/rk3568-pinctrl.dtsi?h=v5.18.10#n788
-> 
-> vs.
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/arm64/boot/dts/rockchip/rk3568-pinctrl.dtsi?h=v5.18.10#n795
-> 
-> are looking ok?
+On 10/07/2022 11:00, Dmitry Baryshkov wrote:
 
-I meant more in terms of dumping out the actual hardware state to 
-compare across both axes of cec_m0 vs. cec_m1 and mainline vs. BSP. 
-However from a quick skim of the Rock3 schematic there doesn't appear to 
-be an external pull-up, so the internal pull-up also being disabled is a 
-clear suspect to start with.
+Thank you for your patch. There is something to discuss/improve.
 
-Robin.
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - interrupt-controller
+> +  - "#interrupt-cells"
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +patternProperties:
+> +  "^mdp@(0|[1-9a-f][0-9a-f]*)$":
+
+You used some unusual pattern. It's just "[0-9a-f]+" - the device
+schema's job is not to validate patterns in unit addresses.
+
+Another question - why do you allow "@0" alone?
+
+> +    type: object
+> +    # TODO: add reference once the mdp5 is converted
+> +
+> +  "^dsi@(0|[1-9a-f][0-9a-f]*)$":
+> +    $ref: dsi-controller-main.yaml#
+
+
+Best regards,
+Krzysztof
