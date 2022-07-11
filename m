@@ -2,77 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A55D56FBC8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB7356FBDC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 11:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA94F8D399;
-	Mon, 11 Jul 2022 09:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4838D3B7;
+	Mon, 11 Jul 2022 09:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55B438D39C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:35:21 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id C91F35C013F;
- Mon, 11 Jul 2022 05:35:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 11 Jul 2022 05:35:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1657532117; x=1657618517; bh=XbWPLMD2Em
- uATKpk1FD3KGRJwxeaul3Brd4v6K9DrL4=; b=OTp3vytlqDJB+2vPD994rtzUSQ
- jOws1ocqG9aslbnxMmio9bk1vaHERJXD7S921jfGSwXU7mfjCLmOJsp6N4kPa1nS
- WV+bhI42L3Q1gasRfbu21/LfY0yp4ykbp2LLnIpmwPlgl5kS7zo7bJ4wOXab1QmX
- nyqjD3zURMq1PW+SdxxfC3ISp70/EUiHicvVmCyCQV/8aMYfjd4PkHbR7IdFHaw1
- l3sQN0VEICD8f2wFihwiBH0UnLrKFGcIj2U33+YPCUoYu7jxye3iHB5GmE+3o3q4
- xjqnlZ7ZKympcszm3AzbT4jgpbqHFAbRu622d4YeNYOFHoQdsc4ArFJPEIww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657532117; x=1657618517; bh=XbWPLMD2EmuATKpk1FD3KGRJwxea
- ul3Brd4v6K9DrL4=; b=wzqDE7Xj1fV2ovXBsdHnlLejf5Lp0LnnASBzLWnrAtd6
- I1mRZmLfKZaPTBJA36z0FJdpWVDlOTxgEBXWk337UKwjnJS/CELoL+exFpjxhnny
- Bn/mYvq8yOSUTmsz5RCnSp/pWCXhiEuhvq84r6RvnzBlaz4CLB04jvetRtl7dzEV
- Ff02JrIeEvpdBOGVR7rKxmTK8YbouQ8NWTDCS3c5CnCD3t4JJA5+PbWS8Bwp75MC
- Qbo69Cm0TQrkaGTODiop7u90HKRB8S4dF//8t2U/V4ZDitxKL673K+6czR9mfhri
- OI0O1tctbPEc19fxRRFH1rEH2YKJdYe8RtxptgNqdw==
-X-ME-Sender: <xms:1O7LYrfWPlt6trX7NfKre5g97Ec1Lir6hi7AzCPXbF6OVCPh-e_wZw>
- <xme:1O7LYhPyUzlv_7yTNqd4bNdxmw1nRf7BUYcdtSYMXVw3QzlSjoZlbghGnZGEmLltC
- un91fSE4jGKyC0N5Bs>
-X-ME-Received: <xmr:1O7LYkh8H29Od_9Gxz0JVXp1ZTtb8ZJtMBOYwg8oNrw69Ysq1gs5pJPF4RAnjYKWUbPPHECySNl4efJJreLXlKjT7iTGCZ-P5A37jPQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpefgueeutdefgfevveehjeefgeehvdejjeefheekffduteeutdfgieeiieff
- uedtffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
- tghh
-X-ME-Proxy: <xmx:1O7LYs8GVOEWlnc9qwTWEM4C4DNev4fE0gKiRfbG7ccgZA3AWxxQyg>
- <xmx:1O7LYnuk_HPXsKzJcilSyrY81HXlOyG7v8QtpLZFzj6WyDiUwcFZsw>
- <xmx:1O7LYrEmoyqlinUjKkWxXmWL3baAchrY7RW6VP4y4b2TxxwQhX9SVw>
- <xmx:1e7LYtAGRv69zomwAPy7p8ZXZ4MtM33m0b2hE1I6qKPxFx8ARLW5LA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 05:35:16 -0400 (EDT)
-Date: Mon, 11 Jul 2022 11:35:13 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/5] drm/modes: Add support for driver-specific named modes
-Message-ID: <20220711093513.wilv6e6aqcuyg52w@houat>
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 237FB8D3B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 09:36:05 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id d18so5494353qtw.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 02:36:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DVJUGFx3bR67+/E6+DBeYAU8MgftXdOcu6+8ewnr6LE=;
+ b=XbRs5rOGxjpfVNaL1Q7T6XW8/ZVIxdO9TOxcIYdIeFFPjvhfEmANy2FQrISlS3Inbw
+ HJohond6LzsHzOL3Blw7+13DaxYYH3ljwXT54whXb80NkWSn2colqSw/A6NdncGm9Dqv
+ OLtwnNp9KOhyFpHzb8QfQj8in4+YYxXdpDIqyalrtM7SVxxb4ytkeqXMGnLZHgR38Sin
+ wsS7QOMj/0FZlDXdCVYAMU09aWV2UJE64/oB+lETUOGjY2d4aZiY/Jzu2XPlTAVi38BC
+ JRYS6TEbMhdFf/1DjYM2pTIBUmnBNr49gb352T6nK0fDYQfEE0VOYTBrMfRLawLuXMHd
+ kpog==
+X-Gm-Message-State: AJIora+WnUdPOeF4bWz9qKfxCiX75jXx7/CKc6fh9FZ481PgbEcoZ5zo
+ b8l/h1u8MSX/CMhbkz+oFWLGhS7XNLF6Bw==
+X-Google-Smtp-Source: AGRyM1uLbyntb3RkYqq86k8pmwgNkiPoiqv+ICVUuHOCvGJ5nn+n3LUCtYL+Jzpw1MoQMalDsWtJfg==
+X-Received: by 2002:ac8:5852:0:b0:31d:2660:7c57 with SMTP id
+ h18-20020ac85852000000b0031d26607c57mr13089356qth.65.1657532163954; 
+ Mon, 11 Jul 2022 02:36:03 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ z11-20020ac87f8b000000b0031ea864d3b2sm5277750qtj.30.2022.07.11.02.36.03
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jul 2022 02:36:03 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-31c89111f23so43358747b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 02:36:03 -0700 (PDT)
+X-Received: by 2002:a81:9209:0:b0:31c:b1b7:b063 with SMTP id
+ j9-20020a819209000000b0031cb1b7b063mr18545635ywg.383.1657532162961; Mon, 11
+ Jul 2022 02:36:02 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1657301107.git.geert@linux-m68k.org>
  <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
  <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="x625msex36qfkynz"
-Content-Disposition: inline
 In-Reply-To: <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 Jul 2022 11:35:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUqo-_5tyhmx_QqPJhqQdoRDE6_Q7b1AJWeBZc67RsBSA@mail.gmail.com>
+Message-ID: <CAMuHMdUqo-_5tyhmx_QqPJhqQdoRDE6_Q7b1AJWeBZc67RsBSA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] drm/modes: Add support for driver-specific named modes
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,88 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---x625msex36qfkynz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
 Hi Thomas,
 
-On Mon, Jul 11, 2022 at 11:03:38AM +0200, Thomas Zimmermann wrote:
+On Mon, Jul 11, 2022 at 11:03 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 > Am 08.07.22 um 20:21 schrieb Geert Uytterhoeven:
 > > The mode parsing code recognizes named modes only if they are explicitly
 > > listed in the internal whitelist, which is currently limited to "NTSC"
 > > and "PAL".
-> >=20
+> >
 > > Provide a mechanism for drivers to override this list to support custom
 > > mode names.
-> >=20
+> >
 > > Ideally, this list should just come from the driver's actual list of
 > > modes, but connector->probed_modes is not yet populated at the time of
 > > parsing.
->=20
-> I've looked for code that uses these names, couldn't find any. How is this
-> being used in practice? For example, if I say "PAL" on the command line, =
-is
-> there DRM code that fills in the PAL mode parameters?
+>
+> I've looked for code that uses these names, couldn't find any. How is
+> this being used in practice? For example, if I say "PAL" on the command
+> line, is there DRM code that fills in the PAL mode parameters?
 
-We have some code to deal with this in sun4i:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/sun4i_=
-tv.c#L292
+I guess Maxime knows, as he added the whitelist?
+Reading the description of commit 3764137906a5acec ("drm/modes:
+Introduce a whitelist for the named modes"), it looks like this is
+more about preventing the parser from taking any string as a random
+mode, than about adding support for "PAL" or "NTSC"?
 
-It's a bit off topic, but for TV standards, I'm still not sure what the
-best course of action is. There's several interactions that make this a
-bit troublesome:
-
-  * Some TV standards differ by their mode (ie, PAL vs NSTC), but some
-    other differ by parameters that are not part of drm_display_mode
-    (NTSC vs NSTC-J where the only difference is the black and blanking
-    signal levels for example).
-
-  * The mode names allow to provide a fairly convenient way to add that
-    extra information, but the userspace is free to create its own mode
-    and might omit the mode name entirely.
-
-So in the code above, if the name has been preserved we match by name,
-but we fall back to matching by mode if it hasn't been, which in this
-case means that we have no way to differentiate between NTSC, NTSC-J,
-PAL-M in this case.
-
-We have some patches downstream for the RaspberryPi that has the TV
-standard as a property. There's a few extra logic required for the
-userspace (like setting the PAL property, with the NTSC mode) so I'm not
-sure it's preferable.
-
-Or we could do something like a property to try that standard, and
-another that reports the one we actually chose.
+Note that drivers/gpu/drm/i915/display/intel_tv.c defines an array of
+tv_modes[], including "PAL", so perhaps these end up as named modes?
 
 > And another question I have is whether this whitelist belongs into the
-> driver at all. Standard modes exist independent from drivers or hardware.
-> Shouldn't there simply be a global list of all possible mode names? Drive=
-rs
-> would filter out the unsupported modes anyway.
+> driver at all. Standard modes exist independent from drivers or
+> hardware. Shouldn't there simply be a global list of all possible mode
+> names? Drivers would filter out the unsupported modes anyway.
 
-We should totally do something like that, yeah
+For standard modes, I agree.  And these are usually specified by
+resolution and refresh rate (e.g. "640x480@60", instead of "480p").
 
-Maxime
+But legacy hardware may have very limited support for programmable
+pixel clocks (e.g. Amiga is limited to pixel clocks of 7, 14, or 28
+MHz), so the standard modes are a bad match, or may not work at all.
+Hence drivers may need to provide their own modes, but it seems wrong
+to me to make these non-standard modes global, and possibly pollute
+the experience for everyone.
 
---x625msex36qfkynz
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYsvu0QAKCRDj7w1vZxhR
-xYfLAQCE7tFL3DFGFWWg7d+mu+PlmSZLGOBUYGT1QXAXIgy1PAEAszxH3TfwGPT4
-YhVwpShCkoqgvPRPCUVP/woGKYyuWAM=
-=5GMd
------END PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---x625msex36qfkynz--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
