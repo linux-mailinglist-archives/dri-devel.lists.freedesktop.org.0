@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86114570793
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 17:50:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6C3570795
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jul 2022 17:50:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D1F8F455;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51ECF8F459;
 	Mon, 11 Jul 2022 15:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 660C88F454
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 380D08F453
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 15:50:40 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.186.194])
- by andre.telenet-ops.be with bizsmtp
- id trqe2700R4C55Sk01rqe5a; Mon, 11 Jul 2022 17:50:38 +0200
+ by xavier.telenet-ops.be with bizsmtp
+ id trqe270124C55Sk01rqe4s; Mon, 11 Jul 2022 17:50:38 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1oAvgE-0036x3-2b; Mon, 11 Jul 2022 17:50:38 +0200
+ id 1oAvgD-0036xD-Vl; Mon, 11 Jul 2022 17:50:37 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1oAvgD-006shq-13; Mon, 11 Jul 2022 17:50:37 +0200
+ id 1oAvgD-006shx-2d; Mon, 11 Jul 2022 17:50:37 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 07/10] video: fbdev: atari: Fix TT High video mode vertical
- refresh
-Date: Mon, 11 Jul 2022 17:50:31 +0200
-Message-Id: <b31294522c994453a99ab57ced7346c0cef9c32d.1657554353.git.geert@linux-m68k.org>
+Subject: [PATCH 08/10] video: fbdev: atari: Fix VGA modes
+Date: Mon, 11 Jul 2022 17:50:32 +0200
+Message-Id: <d4366ec393e7b69a579d9aaf972d2d36734f1422.1657554353.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
 References: <cover.1657554353.git.geert@linux-m68k.org>
@@ -54,25 +53,34 @@ Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vertical refresh rate for the TT High video mode (1280x960) is
-wrong.  Fortunately this field is not really used.
+The pixclock values in the vga and vga70 modes are wrong, as they should
+use the 25.175 MHz clock instead of the 32 MHz clock.
+Swap the left and right margins to match f25.{right,left} (struct
+pixel_clock declares them in a different order), and update the hsync
+lengths to match what the driver programs by default.
+Correct the (wrong) floating-point vrefresh value for the vga mode.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- drivers/video/fbdev/atafb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/atafb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
-index fbc333d5615df5d5..528478f6f30857ef 100644
+index 528478f6f30857ef..46a00e0ad5e785ac 100644
 --- a/drivers/video/fbdev/atafb.c
 +++ b/drivers/video/fbdev/atafb.c
-@@ -484,7 +484,7 @@ static struct fb_videomode atafb_modedb[] __initdata = {
+@@ -494,11 +494,11 @@ static struct fb_videomode atafb_modedb[] __initdata = {
+ 
+ 	{
+ 		/* 640x480, 31 kHz, 60 Hz (VGA) */
+-		"vga", 63.5, 640, 480, 32000, 18, 42, 31, 11, 96, 3,
++		"vga", 60, 640, 480, 39721, 42, 18, 31, 11, 100, 3,
  		0, FB_VMODE_NONINTERLACED
  	}, {
- 		/* 1280x960, 72 kHz, 72 Hz (TT high) */
--		"tt-high", 57, 1280, 960, 7760, 260, 60, 36, 4, 192, 4,
-+		"tt-high", 72, 1280, 960, 7760, 260, 60, 36, 4, 192, 4,
- 		0, FB_VMODE_NONINTERLACED
+ 		/* 640x400, 31 kHz, 70 Hz (VGA) */
+-		"vga70", 70, 640, 400, 32000, 18, 42, 31, 11, 96, 3,
++		"vga70", 70, 640, 400, 39721, 42, 18, 31, 11, 100, 3,
+ 		FB_SYNC_VERT_HIGH_ACT | FB_SYNC_COMP_HIGH_ACT, FB_VMODE_NONINTERLACED
  	},
  
 -- 
