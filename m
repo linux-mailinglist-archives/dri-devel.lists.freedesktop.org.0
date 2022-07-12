@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5913D5725C2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 21:39:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 290DB5725C5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 21:40:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C81E396222;
-	Tue, 12 Jul 2022 19:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE27B96375;
+	Tue, 12 Jul 2022 19:39:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD74996447
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 19:39:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D699440F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 19:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657654782;
+ s=mimecast20190719; t=1657654792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Lud1HlolljEFf8OswEvN2nWLecmIejLDjs4JxUru5Q=;
- b=JuNxz9ZbfpyqSBBia+Xp4u/UGC1aglNMiTPNgaYAu36a7Aj0BB/I+lSiwNVRRZqTFTG86Q
- Z7EpS4twRAqCqeXlPGkzeCtlYjHKHuLqhEJu6EZYjUD/f5fkfZmiBXQmHvhVSS+Th8AtYX
- iWQvlttGt+amd9SFEGfHJngDUCu6fts=
+ bh=EOdZWfJ0s00LfG3ihwHm2AlZ5TsRZCM/ycawztBlr3E=;
+ b=EgRNYyMl64tcACZRby+PPvRUrxdYus4/oaRR3d7Bqw26Bo+8mzVjAM6ljhObD9aMbC4Oz0
+ XzDh66kwOWqk95x/cHKTcy9bLPBJcfXjoTMazzS6GJCgewgDZNjvkw/2ISAxelMCCgDQCn
+ eIwPpbmR+GBzeOQuSd0WS+7ugPG+17o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-j83_L5OkN5i1Zz4bHE6VEQ-1; Tue, 12 Jul 2022 15:39:38 -0400
-X-MC-Unique: j83_L5OkN5i1Zz4bHE6VEQ-1
+ us-mta-310-rzdjylmQOoOwRSXtRbcvfA-1; Tue, 12 Jul 2022 15:39:42 -0400
+X-MC-Unique: rzdjylmQOoOwRSXtRbcvfA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFD9D101A58E;
- Tue, 12 Jul 2022 19:39:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8D9C805AF5;
+ Tue, 12 Jul 2022 19:39:41 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E125F40E80E0;
- Tue, 12 Jul 2022 19:39:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA23D40E80E1;
+ Tue, 12 Jul 2022 19:39:36 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Ben Skeggs <bskeggs@redhat.com>,
 	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
@@ -55,10 +55,10 @@ To: Ben Skeggs <bskeggs@redhat.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v2 04/29] drm/radeon: Don't register backlight when another
+Subject: [PATCH v2 05/29] drm/nouveau: Don't register backlight when another
  backlight should be used
-Date: Tue, 12 Jul 2022 21:38:45 +0200
-Message-Id: <20220712193910.439171-5-hdegoede@redhat.com>
+Date: Tue, 12 Jul 2022 21:38:46 +0200
+Message-Id: <20220712193910.439171-6-hdegoede@redhat.com>
 In-Reply-To: <20220712193910.439171-1-hdegoede@redhat.com>
 References: <20220712193910.439171-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -93,86 +93,37 @@ Registering 2 backlight devices for a single display really is
 undesirable, don't register the GPU's native backlight device when
 another backlight device should be used.
 
-Changes in v2:
-- To avoid linker errors when radeon is builtin and video_detect.c is in
-  a module, select ACPI_VIDEO and its deps if ACPI && X86 are enabled.
-  When these are not set, ACPI_VIDEO is disabled, ensuring the stubs
-  from acpi/video.h will be used.
-
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/Kconfig                         | 6 ++++++
- drivers/gpu/drm/radeon/atombios_encoders.c      | 7 +++++++
- drivers/gpu/drm/radeon/radeon_legacy_encoders.c | 7 +++++++
- 3 files changed, 20 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_backlight.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index d65119860760..a07b76e06f84 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -234,6 +234,12 @@ config DRM_RADEON
- 	select HWMON
- 	select BACKLIGHT_CLASS_DEVICE
- 	select INTERVAL_TREE
-+	# radeon depends on ACPI_VIDEO when X86 and ACPI are both enabled
-+	# for select to work, ACPI_VIDEO's dependencies must also be selected
-+	select INPUT if ACPI && X86
-+	select X86_PLATFORM_DEVICES if ACPI && X86
-+	select ACPI_WMI if ACPI && X86
-+	select ACPI_VIDEO if ACPI && X86
- 	help
- 	  Choose this option if you have an ATI Radeon graphics card.  There
- 	  are both PCI and AGP versions.  You don't need to choose this to
-diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
-index c93040e60d04..958920230d6f 100644
---- a/drivers/gpu/drm/radeon/atombios_encoders.c
-+++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-@@ -32,6 +32,8 @@
- #include <drm/drm_file.h>
- #include <drm/radeon_drm.h>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+index a2141d3d9b1d..91c504c7b82c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
++++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+@@ -34,6 +34,8 @@
+ #include <linux/backlight.h>
+ #include <linux/idr.h>
  
 +#include <acpi/video.h>
 +
- #include "atom.h"
- #include "radeon_atombios.h"
- #include "radeon.h"
-@@ -209,6 +211,11 @@ void radeon_atom_backlight_init(struct radeon_encoder *radeon_encoder,
- 	if (!(rdev->mode_info.firmware_flags & ATOM_BIOS_INFO_BL_CONTROLLED_BY_GPU))
- 		return;
+ #include "nouveau_drv.h"
+ #include "nouveau_reg.h"
+ #include "nouveau_encoder.h"
+@@ -405,6 +407,11 @@ nouveau_backlight_init(struct drm_connector *connector)
+ 		goto fail_alloc;
+ 	}
  
 +	if (!acpi_video_backlight_use_native()) {
-+		DRM_INFO("Skipping radeon atom DIG backlight registration\n");
-+		return;
++		NV_INFO(drm, "Skipping nv_backlight registration\n");
++		goto fail_alloc;
 +	}
 +
- 	pdata = kmalloc(sizeof(struct radeon_backlight_privdata), GFP_KERNEL);
- 	if (!pdata) {
- 		DRM_ERROR("Memory allocation failed\n");
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-index 1a66fb969ee7..d24cedf20c47 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-@@ -33,6 +33,8 @@
- #include <drm/drm_util.h>
- #include <drm/radeon_drm.h>
- 
-+#include <acpi/video.h>
-+
- #include "radeon.h"
- #include "radeon_asic.h"
- #include "radeon_legacy_encoders.h"
-@@ -387,6 +389,11 @@ void radeon_legacy_backlight_init(struct radeon_encoder *radeon_encoder,
- 		return;
- #endif
- 
-+	if (!acpi_video_backlight_use_native()) {
-+		DRM_INFO("Skipping radeon legacy LVDS backlight registration\n");
-+		return;
-+	}
-+
- 	pdata = kmalloc(sizeof(struct radeon_backlight_privdata), GFP_KERNEL);
- 	if (!pdata) {
- 		DRM_ERROR("Memory allocation failed\n");
+ 	if (!nouveau_get_backlight_name(backlight_name, bl)) {
+ 		NV_ERROR(drm, "Failed to retrieve a unique name for the backlight interface\n");
+ 		goto fail_alloc;
 -- 
 2.36.0
 
