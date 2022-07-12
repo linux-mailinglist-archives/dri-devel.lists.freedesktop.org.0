@@ -1,52 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5252A57172C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 12:21:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB06D571735
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 12:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11DC894286;
-	Tue, 12 Jul 2022 10:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C7B112324;
+	Tue, 12 Jul 2022 10:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 983C29427E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 10:21:29 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 12 Jul 2022 18:21:28 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 26CALNsx077982;
- Tue, 12 Jul 2022 18:21:23 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from CSBMAIL1.internal.ite.com.tw (192.168.65.58) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Tue, 12 Jul 2022 18:21:24 +0800
-Received: from CSBMAIL1.internal.ite.com.tw ([fe80::dd22:b444:859b:61c7]) by
- CSBMAIL1.internal.ite.com.tw ([fe80::dd22:b444:859b:61c7%18]) with mapi id
- 15.01.2176.014; Tue, 12 Jul 2022 18:21:24 +0800
-From: <allen.chen@ite.com.tw>
-To: <angelogioacchino.delregno@collabora.com>
-Subject: RE: [PATCH] drm/bridge: add it6505 driver read config from dt property
-Thread-Topic: [PATCH] drm/bridge: add it6505 driver read config from dt
- property
-Thread-Index: AQHYiiU2sEhaoVt2QkuGqiQ1tO5jFa16nKiw
-Date: Tue, 12 Jul 2022 10:21:24 +0000
-Message-ID: <3adce6f63a41434ea0b127bb9e793446@ite.com.tw>
-References: <20220623093154.52701-1-allen.chen@ite.com.tw>
- <7f565036-df78-a4e7-db5e-259115daaf79@collabora.com>
-In-Reply-To: <7f565036-df78-a4e7-db5e-259115daaf79@collabora.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.70.46]
-x-tm-snts-smtp: 267CFC6B8D3D45475EDCB01AC192F3F5A0981F48C11BA41AE24501DA5024DE4C2002:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DECA1139EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 10:22:53 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ v10-20020a05600c15ca00b003a2db8aa2c4so4516561wmf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 03:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rYt9mJQXaGbahl8QZrYNjHB9pJ9eAjTgp/ns4Eb/t8M=;
+ b=C5cPOGc9EqUsoFUWmrc7jVCibS5iN0UUoBC/PfD22KAgo7wUifuge6eKtWgdHhTmhK
+ fvpH/mXMm0hRgT9dWl3DZZDJL93EODM9jrUcKm7gjTFh/xMon7EdLXhbB2YK122pbx73
+ rwuP0BAxkambkdp1i6kemqXPccg0rBuRv2ni0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rYt9mJQXaGbahl8QZrYNjHB9pJ9eAjTgp/ns4Eb/t8M=;
+ b=SOZJjX2NhN74osYLCFmR5ETGqW4SM8SWUNyZJEASNlUepY4uITT1q+nu66bBvYf/q7
+ jHPS8OQOvgHqySREISUefRUAcCaH9rbXtWpBbLZqVr0Lio3SCrau17aXMkA01RqEAD4L
+ H0Ic9if1Kfczb1YZhbLeHYrSa8pNIMEEHDmf4oTvT8pOsp5mFvlj4G66Sw8pX48Fx9DK
+ iZHvAzqTaAQzZ30w5bNHiBPOLPolOnDFuOEYuyF1GPCukHQ0m+qq5ghnHw2QA1rczwRQ
+ 0LveyJIp69MOZFej9pQWeHGI4Kjy9BWZWK7atuVNXepgSTTOOVg7oR+8zKWG9dBNvAPd
+ 0z3g==
+X-Gm-Message-State: AJIora/b0i/c5GHUuvBSWF6J2JQyOuv9EzFY9c4n2D6xzsqt0dELiz8x
+ m/XzDZ4fud3nom8qArPIisUH8XhLxGa6HLl+byM5HA==
+X-Google-Smtp-Source: AGRyM1svSmDLIfSSDkmMhxcC2NCCDtQdNFo2Jmf8Eb2S0Zy+X9IE/1D5IMRYMtZUefJka9rOnNuo/87dPKq7cEDP4jA=
+X-Received: by 2002:a05:600c:3d13:b0:3a2:cb5f:87e7 with SMTP id
+ bh19-20020a05600c3d1300b003a2cb5f87e7mr3008291wmb.178.1657621371850; Tue, 12
+ Jul 2022 03:22:51 -0700 (PDT)
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 26CALNsx077982
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-6-pmalani@chromium.org>
+ <CAE-0n517BB8YbN5AZG6M3ZrZGOJDV=+t0R9d8wD+gVqO1aD1Xg@mail.gmail.com>
+ <CACeCKafR8hFke_tc2=1VGDNF-CFrZoAG1aUKuxGJG-6pd37hbg@mail.gmail.com>
+ <CAE-0n50XbO5Wu4-429Ao05A4QrbSXoi1wBjTpGFjKm3pZj1Ybg@mail.gmail.com>
+ <CACeCKafzB0wW_B2TOEWywLMyB+UhYCpXYDVBV=UbyxBiGnv1Rw@mail.gmail.com>
+ <CAE-0n50Akd8QikGhaAQgxLkJBhE-7KQf5aJ_P2ajOmCjLk555g@mail.gmail.com>
+ <CACeCKafQT_RBrkHJNE2ezahSsHLPrbnS69QbfnjxBoUhi6hjwQ@mail.gmail.com>
+ <CACeCKafya_XA+C3eJUvT4vjQSgsjdewVkCb+Jr2tA1605jjfjg@mail.gmail.com>
+ <CAE-0n53kujMrzFG++5kaS4QKj2YrzLJEu5R76W887rCW_S592g@mail.gmail.com>
+In-Reply-To: <CAE-0n53kujMrzFG++5kaS4QKj2YrzLJEu5R76W887rCW_S592g@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Tue, 12 Jul 2022 18:22:40 +0800
+Message-ID: <CAEXTbpdVr07Ur2L1NQjk8Vn=yUK=70K0sgbfTxsMJEvGd7CD2A@mail.gmail.com>
+Subject: Re: [PATCH v5 5/9] drm/bridge: anx7625: Add typec_mux_set callback
+ function
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,110 +70,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Kenneth.Hung@ite.com.tw,
- jernej.skrabec@gmail.com, Jau-Chih.Tseng@ite.com.tw, airlied@linux.ie,
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  dri-devel@lists.freedesktop.org,
- allen-kh.cheng@mediatek.corp-partner.google.com, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, narmstrong@baylibre.com, treapking@chromium.org,
- Hermes.Wu@ite.com.tw, linux-mediatek@lists.infradead.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- matthias.bgg@gmail.com, jonas@kwiboo.se, treapking@google.com
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5nZWxvR2lvYWNjaGlubw0KDQpBY2NvcmRpbmcgdG8gdmlkZW8taW50ZXJmYWNlcy55YW1s
-LCBwcm9wZXJ0eSBkYXRhLWxhbmVzIHNob3VsZCBpbiB0aGUgZW5kcG9pbnQuIEl0NjUwNSBoYXMg
-ZHBpIGlucHV0IGFuZCBubyBkYXRhLWxhbmVzIHBhcmFtZXRlcnMuIEl0NjUwNSBoYXMgZHAgb3V0
-cHV0IGFuZCBoYXMgZGF0YS1sYW5lcyBwYXJhbWV0ZXJzLiBXZSB3YW50IHRvIHVzZSBkYXRhLWxh
-bmVzIGluIHRoZSBvdXRwdXQsIGJ1dCBvdXRwdXQgcG9pbnQgdXNlIGV4dGNvbiBpbnN0ZWFkIG9m
-IGVuZHBvaW50LiBEbyBub3QgaGF2ZSBvdXRwdXQgZW5kcG9pbnQuDQpXaGljaCBsaW5lIGluIGR0
-cyBzaG91bGQgZGF0YS1sYW5lcyBiZSBpbj8NCkJlbG93IGlzIGl0NjUwNSBkdHMgDQoNClRoYW5r
-cyBmb3IgeW91ciBzdWdnZXN0aW9uIQ0KDQpkcC1icmlkZ2VANWMgew0KICAgICAgICAgICAgY29t
-cGF0aWJsZSA9ICJpdGUsaXQ2NTA1IjsNCiAgICAgICAgICAgIGludGVycnVwdHMgPSA8MTUyIElS
-UV9UWVBFX0VER0VfRkFMTElORyAxNTIgMD47DQogICAgICAgICAgICByZWcgPSA8MHg1Yz47DQog
-ICAgICAgICAgICBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KICAgICAgICAgICAgcGluY3Ry
-bC0wID0gPCZpdDY1MDVfcGlucz47DQogICAgICAgICAgICBvdmRkLXN1cHBseSA9IDwmbXQ2MzU4
-X3ZzaW0xX3JlZz47DQogICAgICAgICAgICBwd3IxOC1zdXBwbHkgPSA8Jml0NjUwNV9wcDE4X3Jl
-Zz47DQogICAgICAgICAgICByZXNldC1ncGlvcyA9IDwmcGlvIDE3OSAxPjsNCiAgICAgICAgICAg
-IGV4dGNvbiA9IDwmdXNiY19leHRjb24+Ow0KDQogICAgICAgICAgICBwb3J0IHsNCiAgICAgICAg
-ICAgICAgICBpdDY1MDVfaW46IGVuZHBvaW50IHsNCiAgICAgICAgICAgICAgICAgICAgcmVtb3Rl
-LWVuZHBvaW50ID0gPCZkcGlfb3V0PjsNCiAgICAgICAgICAgICAgICB9Ow0KICAgICAgICAgICAg
-fTsNCiAgICAgICAgfTsNCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQW5n
-ZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFi
-b3JhLmNvbT4gDQpTZW50OiBNb25kYXksIEp1bmUgMjcsIDIwMjIgODo1NSBQTQ0KVG86IEFsbGVu
-IENoZW4gKOmZs+afj+WuhykgPGFsbGVuLmNoZW5AaXRlLmNvbS50dz4NCkNjOiBQaW4teWVuIExp
-biA8dHJlYXBraW5nQGdvb2dsZS5jb20+OyBKYXUtQ2hpaCBUc2VuZyAo5pu+5pit5pm6KSA8SmF1
-LUNoaWguVHNlbmdAaXRlLmNvbS50dz47IEhlcm1lcyBXdSAo5ZCz5L2z5a6PKSA8SGVybWVzLld1
-QGl0ZS5jb20udHc+OyBLZW5uZXRoIEh1bmcgKOa0quWutuWAqykgPEtlbm5ldGguSHVuZ0BpdGUu
-Y29tLnR3PjsgQWxsZW4ta2ggQ2hlbmcgPGFsbGVuLWtoLmNoZW5nQG1lZGlhdGVrLmNvcnAtcGFy
-dG5lci5nb29nbGUuY29tPjsgUGluLXllbiBMaW4gPHRyZWFwa2luZ0BjaHJvbWl1bS5vcmc+OyBB
-bmRyemVqIEhhamRhIDxhbmRyemVqLmhhamRhQGludGVsLmNvbT47IE5laWwgQXJtc3Ryb25nIDxu
-YXJtc3Ryb25nQGJheWxpYnJlLmNvbT47IFJvYmVydCBGb3NzIDxyb2JlcnQuZm9zc0BsaW5hcm8u
-b3JnPjsgTGF1cmVudCBQaW5jaGFydCA8TGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29t
-PjsgSm9uYXMgS2FybG1hbiA8am9uYXNAa3dpYm9vLnNlPjsgSmVybmVqIFNrcmFiZWMgPGplcm5l
-ai5za3JhYmVjQGdtYWlsLmNvbT47IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT47IERh
-bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD47IE1hdHRoaWFzIEJydWdnZXIgPG1hdHRoaWFz
-LmJnZ0BnbWFpbC5jb20+OyBvcGVuIGxpc3Q6RFJNIERSSVZFUlMgPGRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmc+OyBvcGVuIGxpc3QgPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc+
-OyBtb2RlcmF0ZWQgbGlzdDpBUk0vTWVkaWF0ZWsgU29DIHN1cHBvcnQgPGxpbnV4LWFybS1rZXJu
-ZWxAbGlzdHMuaW5mcmFkZWFkLm9yZz47IG1vZGVyYXRlZCBsaXN0OkFSTS9NZWRpYXRlayBTb0Mg
-c3VwcG9ydCA8bGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZz4NClN1YmplY3Q6IFJl
-OiBbUEFUQ0hdIGRybS9icmlkZ2U6IGFkZCBpdDY1MDUgZHJpdmVyIHJlYWQgY29uZmlnIGZyb20g
-ZHQgcHJvcGVydHkNCg0KSWwgMjMvMDYvMjIgMTE6MzEsIGFsbGVuIGhhIHNjcml0dG86DQo+IEZy
-b206IGFsbGVuIGNoZW4gPGFsbGVuLmNoZW5AaXRlLmNvbS50dz4NCj4gDQo+IGFkZCByZWFkIG1h
-eC1sYW5lIGFuZCBtYXgtcGl4ZWwtY2xvY2sgZnJvbSBkdCBwcm9wZXJ0eQ0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogQWxsZW4ta2ggQ2hlbmcgDQo+IDxhbGxlbi1raC5jaGVuZ0BtZWRpYXRlay5jb3Jw
-LXBhcnRuZXIuZ29vZ2xlLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogUGluLXllbiBMaW4gPHRyZWFw
-a2luZ0BjaHJvbWl1bS5vcmc+DQoNCkhlbGxvIEFsbGVuLA0KDQphcyBTYW0gYWxzbyBwb2ludGVk
-IG91dCwgcGxlYXNlIGZpeCB5b3VyIFMtby1iIGVtYWlsOiBpdCBoYXMgdG8gbWF0Y2ggd2l0aCB0
-aGUgYXV0aG9yIG9uZS4NCg0KQW55d2F5LCB5b3UncmUgYWRkaW5nIGRldmljZXRyZWUgcHJvcGVy
-dGllcywgc28gdGhpcyBpbXBsaWVzIHRoYXQgeW91IHNob3VsZCBhbHNvIGNoYW5nZSB0aGUgZHQt
-YmluZGluZ3MgZG9jdW1lbnRhdGlvbiBmb3IgdGhpcyBkcml2ZXIuLi4gYW5kIGFsc28sIEkgaGF2
-ZSBzb21lIG1vcmUgY29tbWVudHMsIGNoZWNrIGJlbG93Og0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS9icmlkZ2UvaXRlLWl0NjUwNS5jIHwgMzUgKysrKysrKysrKysrKysrKysrKysrKysr
-KystLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMo
-LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY1MDUu
-YyANCj4gYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY1MDUuYw0KPiBpbmRleCA0YjY3
-M2M0NzkyZDc3Li5jOTEyMWQ0NjM1YTUyIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL2l0ZS1pdDY1MDUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1p
-dDY1MDUuYw0KPiBAQCAtNDM2LDYgKzQzNiw4IEBAIHN0cnVjdCBpdDY1MDUgew0KPiAgIAlib29s
-IHBvd2VyZWQ7DQo+ICAgCWJvb2wgaHBkX3N0YXRlOw0KPiAgIAl1MzIgYWZlX3NldHRpbmc7DQo+
-ICsJdTMyIG1heF9kcGlfcGl4ZWxfY2xvY2s7DQo+ICsJdTMyIG1heF9sYW5lX2NvdW50Ow0KPiAg
-IAllbnVtIGhkY3Bfc3RhdGUgaGRjcF9zdGF0dXM7DQo+ICAgCXN0cnVjdCBkZWxheWVkX3dvcmsg
-aGRjcF93b3JrOw0KPiAgIAlzdHJ1Y3Qgd29ya19zdHJ1Y3QgaGRjcF93YWl0X2tzdl9saXN0OyBA
-QCAtMTQ2Niw3ICsxNDY4LDggQEAgc3RhdGljIA0KPiB2b2lkIGl0NjUwNV9wYXJzZV9saW5rX2Nh
-cGFiaWxpdGllcyhzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUpDQo+ICAgCWl0NjUwNS0+bGFuZV9jb3Vu
-dCA9IGxpbmstPm51bV9sYW5lczsNCj4gICAJRFJNX0RFVl9ERUJVR19EUklWRVIoZGV2LCAiU2lu
-ayBzdXBwb3J0ICVkIGxhbmVzIHRyYWluaW5nIiwNCj4gICAJCQkgICAgIGl0NjUwNS0+bGFuZV9j
-b3VudCk7DQo+IC0JaXQ2NTA1LT5sYW5lX2NvdW50ID0gbWluX3QoaW50LCBpdDY1MDUtPmxhbmVf
-Y291bnQsIE1BWF9MQU5FX0NPVU5UKTsNCj4gKwlpdDY1MDUtPmxhbmVfY291bnQgPSBtaW5fdChp
-bnQsIGl0NjUwNS0+bGFuZV9jb3VudCwNCj4gKwkJCQkgICBpdDY1MDUtPm1heF9sYW5lX2NvdW50
-KTsNCj4gICANCj4gICAJaXQ2NTA1LT5icmFuY2hfZGV2aWNlID0gZHJtX2RwX2lzX2JyYW5jaChp
-dDY1MDUtPmRwY2QpOw0KPiAgIAlEUk1fREVWX0RFQlVHX0RSSVZFUihkZXYsICJTaW5rICVzYnJh
-bmNoIGRldmljZSIsIEBAIC0yODk1LDcgDQo+ICsyODk4LDcgQEAgaXQ2NTA1X2JyaWRnZV9tb2Rl
-X3ZhbGlkKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsDQo+ICAgCWlmIChtb2RlLT5mbGFncyAm
-IERSTV9NT0RFX0ZMQUdfSU5URVJMQUNFKQ0KPiAgIAkJcmV0dXJuIE1PREVfTk9fSU5URVJMQUNF
-Ow0KPiAgIA0KPiAtCWlmIChtb2RlLT5jbG9jayA+IERQSV9QSVhFTF9DTEtfTUFYKQ0KPiArCWlm
-IChtb2RlLT5jbG9jayA+IGl0NjUwNS0+bWF4X2RwaV9waXhlbF9jbG9jaykNCj4gICAJCXJldHVy
-biBNT0RFX0NMT0NLX0hJR0g7DQo+ICAgDQo+ICAgCWl0NjUwNS0+dmlkZW9faW5mby5jbG9jayA9
-IG1vZGUtPmNsb2NrOyBAQCAtMzA1Nyw2ICszMDYwLDggQEAgDQo+IHN0YXRpYyB2b2lkIGl0NjUw
-NV9wYXJzZV9kdChzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZGV2
-aWNlICpkZXYgPSAmaXQ2NTA1LT5jbGllbnQtPmRldjsNCj4gICAJdTMyICphZmVfc2V0dGluZyA9
-ICZpdDY1MDUtPmFmZV9zZXR0aW5nOw0KPiArCXUzMiAqbWF4X2xhbmVfY291bnQgPSAmaXQ2NTA1
-LT5tYXhfbGFuZV9jb3VudDsNCj4gKwl1MzIgKm1heF9kcGlfcGl4ZWxfY2xvY2sgPSAmaXQ2NTA1
-LT5tYXhfZHBpX3BpeGVsX2Nsb2NrOw0KPiAgIA0KPiAgIAlpdDY1MDUtPmxhbmVfc3dhcF9kaXNh
-YmxlZCA9DQo+ICAgCQlkZXZpY2VfcHJvcGVydHlfcmVhZF9ib29sKGRldiwgIm5vLWxhbmVzd2Fw
-Iik7IEBAIC0zMDcyLDcgKzMwNzcsMzEgDQo+IEBAIHN0YXRpYyB2b2lkIGl0NjUwNV9wYXJzZV9k
-dChzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUpDQo+ICAgCX0gZWxzZSB7DQo+ICAgCQkqYWZlX3NldHRp
-bmcgPSAwOw0KPiAgIAl9DQo+IC0JRFJNX0RFVl9ERUJVR19EUklWRVIoZGV2LCAidXNpbmcgYWZl
-X3NldHRpbmc6ICVkIiwgKmFmZV9zZXR0aW5nKTsNCj4gKw0KPiArCWlmIChkZXZpY2VfcHJvcGVy
-dHlfcmVhZF91MzIoZGV2LCAibWF4LWxhbmUtY291bnQiLA0KDQpQbGVhc2UgdXNlIHRoZSBzdGFu
-ZGFyZCBwcm9wZXJ0eSAiZGF0YS1sYW5lcyIgZnJvbSB2aWRlby1pbnRlcmZhY2VzLnlhbWwuDQoN
-Cj4gKwkJCQkgICAgIG1heF9sYW5lX2NvdW50KSA9PSAwKSB7DQo+ICsJCWlmICgqbWF4X2xhbmVf
-Y291bnQgPiA0IHx8ICptYXhfbGFuZV9jb3VudCA9PSAzKSB7DQo+ICsJCQlkZXZfZXJyKGRldiwg
-Im1heCBsYW5lIGNvdW50IGVycm9yLCB1c2UgZGVmYXVsdCIpOw0KPiArCQkJKm1heF9sYW5lX2Nv
-dW50ID0gTUFYX0xBTkVfQ09VTlQ7DQo+ICsJCX0NCj4gKwl9IGVsc2Ugew0KPiArCQkqbWF4X2xh
-bmVfY291bnQgPSBNQVhfTEFORV9DT1VOVDsNCj4gKwl9DQo+ICsNCj4gKwlpZiAoZGV2aWNlX3By
-b3BlcnR5X3JlYWRfdTMyKGRldiwgIm1heC1kcGktcGl4ZWwtY2xvY2siLA0KPiArCQkJCSAgICAg
-bWF4X2RwaV9waXhlbF9jbG9jaykgPT0gMCkgew0KDQpXaGF0IGFib3V0ICJtYXgtcGl4ZWwtY2xv
-Y2sta2h6IiBvciAibWF4LXBpeGVsLWNsb2NrLWh6Ij8NCg0KDQpSZWdhcmRzLA0KQW5nZWxvDQo=
+On Thu, Jul 7, 2022 at 8:17 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Prashant Malani (2022-07-06 11:26:19)
+> >
+> > Stephen, any pending concerns?
+>
+> No more pending concerns.
+>
+> > If not,I will post a v6 series with the suggested changes:
+> > - Drop typec-switch binding; instead add a new top-level port with
+> > end-points for each Type-C connector's switch.
+> > - Drop it6505 patches.
+> > - Squash anx7625 driver patches into one patch.
+> > - Add a comment mentioning that we aren't registering the orientation-switch.
+
+We've been working on these changes, and the new DT node looks like this:
+
+```
+    anx_bridge_dp: anx7625-dp@58 {
+        [...]
+        mode-switch;
+        ports {
+            [...]
+            typec_switches: port@2 {
+                #adderss-cells = <1>;
+                #size-cells = <0>;
+                reg = <2>;
+
+                anx_typec0: endpoint@0 {
+                    reg = <0>;
+                    remote-endpoint = <&typec_port0>;
+                };
+                anx_typec1: endpoint@1 {
+                    reg = <1>;
+                    remote-endpoint = <&typec_port1>;
+                };
+            };
+        };
+```
+
+However we found some issues with that approach:
+1. The current typec mux API does not allow us to put muxes into
+`ports` directly.
+`fwnode_typec_mux_get` searches for the parent node behind the port(s)
+nodes, so we cannot register the muxes with the port nodes unless we
+change the interface.
+2. We need a compatible string between the `endpoint` nodes and the
+parent node (anx7625-dp@58).
+This is because when the driver core builds the device links, they
+only add links on nodes with a compatible string for `remote-endpoint`
+properties[1].
+Without a compatible string, the parent node of `typec_port0`
+(cros-ec-typec in our case) has to be probed before anx7625, but this
+leads to a deadlock because cros-ec-typec requires anx7625 to register
+the typec_mux drivers first. I'm not sure if this is cros-ec-typec
+specific, though.
+*Any* compatible string fixes this issue, and it doesn't have to be
+"typec-switch".
+
+--
+
+Alternatively, can we split the two muxes into two sub-nodes, like the
+following snippet?
+
+```
+    anx_bridge_dp: anx7625-dp@58 {
+        [...]
+        mode-switch;
+
+        anx_mux0 {
+            compatible = "typec-switch";
+            reg = <0>;
+
+            port {
+                anx_typec0: endpoint {
+                    remote-endpoint = <&typec_port0>;
+                };
+            };
+        };
+
+        anx_mux1 {
+            compatible = "typec-switch";
+            reg = <1>;
+
+            port {
+                anx_typec1: endpoint {
+                    remote-endpoint = <&typec_port1>;
+                };
+            };
+        };
+```
+
+This eliminates the additional "switches" node in the devicetree. The
+sub-nodes also describe our hardware design, which split the DP lanes
+of anx7625 to two type-c ports.
+
+[1]: The `node_not_dev` property searches for a node with a compatible
+string: https://elixir.bootlin.com/linux/latest/source/drivers/of/property.c#L1390
+
+
+
+>
+> Ok. I'll take a look on v6.
