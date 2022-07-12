@@ -1,154 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8008571754
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 12:30:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6B9571791
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 12:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6820E18A348;
-	Tue, 12 Jul 2022 10:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 574538B329;
+	Tue, 12 Jul 2022 10:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC6F14AE45;
- Tue, 12 Jul 2022 10:30:09 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73D2718A103;
+ Tue, 12 Jul 2022 10:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657621809; x=1689157809;
+ t=1657623034; x=1689159034;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=4ROeytxKRHG2k9gywO6y2tjBwn6FphgM/Elu6X7hYsU=;
- b=OwtG6H7BJeBsbpf8eCkl/MkKs86wrpMKvmd6V6zKmV2R3X3tFF6RiAAm
- 8Xif8b8L/nICo0VdaQm3Zvufm0qFgIpbtICzHTDVqSdh1oOhtrC5uFzVj
- lBAVbRgnWBUBtAhWt36Iah6hc0kh6GFqReMKEZ3WGs7Itb8S/Q28pPBWa
- EFpcZp8AYf/zKwHjuK0pVvQIPHs/4c2JkYXM1Kt+VDQoL2q63H2nqQ7/5
- MWjRvEZFsDkTHd3neOVrXN+aU0gW7462aGf9VdzQkE7dKLkiKvDXtreIO
- n9sSZz8i1xgio9qBkHpouKTVKIfKl4f7ipCnlL5IIQCS/OJSXRrHlsSy/ g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="348872717"
-X-IronPort-AV: E=Sophos;i="5.92,265,1650956400"; d="scan'208";a="348872717"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2022 03:30:08 -0700
+ bh=pvIs5gsRKjJwwL1a6D7bCLQa9VihmFyZizYNC3XwrQI=;
+ b=UmJefyHbbCqXDEZVDsrMLCGSn+e2c2FuqKkxrtlunbksDg7MygyreGa1
+ iWSh0r/GnZcAsBO+uMCyDjwemmR2UXPVbECe2fpdT/xFVxC3eS1HV9sNG
+ 5Xdq4nptTFjgtoYCyAIgdG5oIsUXCEpa6vR1uoOykQbUFkap4Byhoin4y
+ AKOvT1KP9nIzHoDfS/E6ICOv+s6xykf4m/pG+jSciiToCHzZkzRdLrcU8
+ hJyxMk5eIT/fdDjOrJ33dijdtMYmwEmT/+BapCUqfFsnOE9ePUT15/3fh
+ PU94nqKLsmlA0dU0usU5Omm8vE2iz72yKpOLJ2yXHenMypbM43yjEQgXD Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="267937722"
+X-IronPort-AV: E=Sophos;i="5.92,265,1650956400"; d="scan'208";a="267937722"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2022 03:50:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,265,1650956400"; d="scan'208";a="627844113"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by orsmga001.jf.intel.com with ESMTP; 12 Jul 2022 03:30:08 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.92,265,1650956400"; d="scan'208";a="570144985"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by orsmga006.jf.intel.com with ESMTP; 12 Jul 2022 03:50:31 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 12 Jul 2022 03:30:08 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 12 Jul 2022 03:50:31 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 12 Jul 2022 03:30:07 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 12 Jul 2022 03:50:28 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 12 Jul 2022 03:30:07 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.102)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2308.27 via Frontend Transport; Tue, 12 Jul 2022 03:50:28 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 12 Jul 2022 03:30:07 -0700
+ 15.1.2308.27; Tue, 12 Jul 2022 03:50:28 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SQEdlObcM7cRK0ZrfWmb5zHfmVirFDhyOAVWlkGHeH+w/Llz7VMaeIb9sEM0b7pvs04VZuk/HpIZ24fMR+B+cGrtqv4+r7tvgbsyv0/fF5Vp42ws8Thk8RdoC23GKy5rzLI0xuL8DrNzy5nHVpbr2NIDoYT9N21R6PH0ZJ/gN6kpBtobo19+0nB9aRfcuOZ4s9I8TDz2pTb81Yi6UN2RhevcRpBPAX7lfHndkQCzaoaxfVye657D/tqiIdcRxR4TNN2njXuVPR9cL5J1j2CHEVEi6W19unNQIRtitFu8UYcgjs73WakK+mgouRGK57FDzxyDGRkR/z260Lh7NtBVPw==
+ b=PexfJT1XjTCS1io51pApJAIkheidwfIonkhICr6TzA3QvcGxtrG6/gyRMYMCJNRPaq28w1uTLNA1ytB+aQ0OHR0KT5sWES4/XJdC8f0Kius0CiUnWX7Eqpvw8M4SS3ONY0FRnyvK+FUQJ8nQfP2hs5EgKe0QLabj2BZREhBeywHREaYmOBbcWIoQUrlDirT2ZV+5vKNOZeIFwXmPtJLKwzYFh0omWfsppsVJX7OOOHuIc5pHJg9jGeUbqny3wF5vScayCYUUQIV155YVdSOjrz8I24kmngjTNqzvQbO7wYDU+kKkPUnfEIY7vEJP6bOp9FOTF+xONYzGPgbyNvubng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5yLMsIOJcnT9/Ud4BFjVSrNmEIndOZDVMArEj8fu970=;
- b=oCWzqwPmjXA/3j3aW6yviAEdV5ZstpThCIC/MT1BbPHlG0yw+Suad7qKwDX2GEmU00WD3+hNXwrq5hhnYzSAjXZz7x8Yeuq06Vs63F+AJCctQvSTAsxHOPzkX4zNlMu2NDE2UhpLr635K4YZAzzeq5BOhDXdj62p6oie+EMKrczu4vulOca/1icrd5dIL5tM0ZEiNFZS/7Ji9O+1J+ihbNwGgIaqunxST7Q6bZNIhDy6k9FwqvZtWd177vBKaqHA92c8yjJjwRHNstTOO7vl1WI50E0o6YacwDL8JQHF5SQ1DBWGdHmZGnagAlDFi53VXq4dEkr6RqAFcB6OqK83dw==
+ bh=KfWXryo6kH61KEhYYkCcdP5Cee01/g6H2Kb9E1JLN/k=;
+ b=eQ8nohO1WhHucTCwHYitMc/NlILxpvdHkImxONgW7vQ2NNdSPNPmnSPDSnZqmzTOez4E517Kid5KA+3/Sy6XHNQFXOvsj6Jwx6mIwsGX4eaObPX3oTH5X1MEvfTltt21Tl4yjNzT4S2PFI5So2ZTD8C5WwCml5wtZ92j3yD8Z97zWTMjhDY9RMa0+h0BuW7+Nzs02lFbIcejIeuOAuNtS7DweKkQVYIyrPp6Y3LRCLgtBtrkefEWZ3qKhe0h7WIk+QcA1oHQDQtGZnJT1lTxF27AIePOv/mGDNLlWtjPFPQY25KUC2G6A47socV+WTMo/tCOzak27xiKhAZnxcgzCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CH0PR11MB5409.namprd11.prod.outlook.com (2603:10b6:610:d0::7)
- by BN7PR11MB2530.namprd11.prod.outlook.com (2603:10b6:406:ac::31) with
+ by CY4PR1101MB2311.namprd11.prod.outlook.com (2603:10b6:910:23::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Tue, 12 Jul
- 2022 10:29:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Tue, 12 Jul
+ 2022 10:50:26 +0000
 Received: from CH0PR11MB5409.namprd11.prod.outlook.com
  ([fe80::49da:18ae:2975:c398]) by CH0PR11MB5409.namprd11.prod.outlook.com
  ([fe80::49da:18ae:2975:c398%8]) with mapi id 15.20.5417.026; Tue, 12 Jul 2022
- 10:29:59 +0000
-Message-ID: <107f35de-1b72-b3ae-3939-b53df5cd95c6@intel.com>
-Date: Tue, 12 Jul 2022 13:29:55 +0300
+ 10:50:26 +0000
+Message-ID: <6930263d-e803-771f-c4cc-42c478a7d5dd@intel.com>
+Date: Tue, 12 Jul 2022 13:50:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.2
-Subject: Re: [PATCH v2 2/7] drm/i915/gem: Typecheck page lookups
+Subject: Re: [PATCH v2 1/7] drm: Move and add a few utility macros into drm
+ util header
 Content-Language: en-US
 To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
 References: <20220705122455.3866745-1-gwan-gyeong.mun@intel.com>
- <20220705122455.3866745-3-gwan-gyeong.mun@intel.com>
- <20220705163508.4dc35087@maurocar-mobl2>
- <f2f2dd4e-c6b5-8d69-3ddc-e1e1bfdd02f3@intel.com>
- <20220706191016.5108f063@maurocar-mobl2>
+ <20220705122455.3866745-2-gwan-gyeong.mun@intel.com>
+ <20220705162320.3f64e203@maurocar-mobl2>
+ <2da2f40a-cf5e-ed3d-fee7-877910f377bb@intel.com>
+ <20220706190513.38bf0be0@maurocar-mobl2>
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-In-Reply-To: <20220706191016.5108f063@maurocar-mobl2>
+In-Reply-To: <20220706190513.38bf0be0@maurocar-mobl2>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P191CA0005.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:209:8b::18) To CH0PR11MB5409.namprd11.prod.outlook.com
+X-ClientProxiedBy: FR0P281CA0003.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::8) To CH0PR11MB5409.namprd11.prod.outlook.com
  (2603:10b6:610:d0::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2426fe2d-d444-4e6b-0102-08da63f178c6
-X-MS-TrafficTypeDiagnostic: BN7PR11MB2530:EE_
+X-MS-Office365-Filtering-Correlation-Id: df50caf6-0ac5-4715-4594-08da63f453f5
+X-MS-TrafficTypeDiagnostic: CY4PR1101MB2311:EE_
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Qqhh7kXqUogtBOVl2A2RWPi3daVnhQi+QXKsC6nyRCy1pCUtJ+2CTayBWj8xJk+jzut0c6pnXnUA2g88PQdmzvWjmtXR57Xn5XAdb8+rl1WfNhjF4QIzUk3UiIeE+n4QPSNb1FIyxTCiTjIlGD+FAOjJLXO97vDH+/oSZVuXGiw5rEB2bKD8Df7q40wIYuFaxSjhsqIlQO8227fNXfZy8rCOd+XTK9EUvxVvpvykXHQ2lmjwZfkk+EYqYqCuWUpob8WKONehD84RMnmTUBlffe5yt+rXDm9UGGqPP9mbk5q5R3yXJXlN7kRcsTFA6VpFQkhKf4klRoTXJUJYaC1MPr7/D3A5pMwSak3Tdg/dSc9BWHRVtZl/Pk2R7QVz3bseTJrlymBp9v+Jme2elLABv5rdRa0tXlNgAJ0nzLoUdPA8Bu+iqfRZ08Biq28boAY3pis2i9ufGND7MZWHXSGo92ZXZyqaNrvM7IrJPegTdC505FnjpKfhWPVHxhh0cHhuaTONhfzucfJcC/6IXY61/2E/Zmysul/7xNi/0Sy8QDLwT5DrtmxqltXMQZZGBgUZt/xhz4F7J9JeXLI63tUzgPVWoCm2QtiamHTM0PdzsiaiEo2dzWifoea/6rGVUdhYMgxIAJP70fSIT6rOyKAnu0AeMhyMMgfLHPxzPcO2fsIJdWHkkcbdfqsSMbyLn8nIbsnUoYgYmHWc10zxkc6raAq1BFg/2ZgSymR0bXw5DYvyCV7087wPZg3KJPlj5LQUp7rieXowMEiAJT324cMzPty2QSY3NHYlrPtlQo2zlCubioQkms40pvYcp3/NxE0Wou+IdCPtE0r1HofQQdro7w==
+X-Microsoft-Antispam-Message-Info: OkMkNiEOOuHjkJz1EbE10+pG+eWLfOCrfrAzmuULAS3q6ToN+1YMuQD+0djhkXOmO7+DFvbduxoZg/UIg+0V6JktnaM7jNUg2XjnKYifAUR6EWKv7uNCG8c/F83cKMSkOWdr0wrI6Mz9+eqR1jzeS5HCNStZ9MAhvfaEU+2yhvbwIObikJgXxbQjJl+7YB0ooiVh2Amou0rbjM4XGA9NhULuaBFFVCaofYhkyCisqZroh5cV7nWI36C7wqlF0S4xmCn/2+uD12JA767kvBAzCn/jMC5+4943g3AA4ZP+AGH7eBe/DSMGzDrFOspl8f7bfoYQASe/Nt7F77eGZ/98+fQOdlxlxQAgvEu0zT6wvj+l67KhNl8qtPIdFWI67xMV+r937qLyPmJMDW+rvLUBWMhoPayEcOIgDGuwsG5mJJCPlXHdvoZfdRh8SKbUdD56gjYN4ngVj43FKsZ1nVW2v/AH9l/yw54OLISH1xwbaqFC1rlyEhIXAMok4dhMdSwj8r1kvmDRiuMh4cjOMfDbgMjSxb7RL1n7oJl1PXNOaOafm4925utT4I2N9dvl2GqihAOuTc9xeYdS3IMsN1bbOYpq30h9xiqoCphPaVXernleZVczv0i3XB5uwV7trzVBvlY0whLnxhiVsyr3WtnawVSpuzjt3smrn6+sfnlaojgq7BKKm4zGk1X9jRrMppVtbznaHmJFI9Cy0Ddd1dKtQWDGH3e9mtcz+NiLGBbFZHF8dWgerGjcEbm8d/NcZFoMidIwi69O/g1xY2UD/EB0omV6cFd0/+1BOk+OFK7d6uFlzOkzBqYhIerrIaP9zveMJC8UuALfFZ7080Rbdw8yhbyjRj8Ha6LlrUkM6nL/f0g=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH0PR11MB5409.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(39860400002)(136003)(396003)(346002)(366004)(8676002)(26005)(66476007)(2616005)(66946007)(6486002)(186003)(5660300002)(4326008)(86362001)(66556008)(6916009)(316002)(66574015)(6512007)(478600001)(6666004)(31696002)(36756003)(6506007)(41300700001)(30864003)(38100700002)(8936002)(2906002)(83380400001)(82960400001)(53546011)(31686004)(45980500001)(43740500002);
+ SFS:(13230016)(346002)(366004)(396003)(39860400002)(376002)(136003)(83380400001)(66574015)(38100700002)(4326008)(8676002)(66476007)(31696002)(2616005)(66946007)(66556008)(86362001)(186003)(82960400001)(8936002)(36756003)(2906002)(5660300002)(6506007)(6916009)(316002)(6486002)(53546011)(6512007)(26005)(6666004)(41300700001)(31686004)(478600001)(30864003)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VS9sR0NEdE9jN1dydEFJdGx0MytQTGwzMG9CcEo3WGlYdnF0Q2NOc0tkMVM5?=
- =?utf-8?B?M2dGS1gzb01WT1NQTjVjYjRYU20wUDN1d3puV2haR00yWWJNalN5QS95cVZV?=
- =?utf-8?B?R1pZSXJMTWt6SjBSZ3NpUUd0WjNtM2t1RlM2eE94WVA0bWV5alpDTzdkYVM5?=
- =?utf-8?B?QktUREhHcXI1NTkvMlMyTERzOVBLZnB0c3R1Q1R2M25pZEdESGdNMFNBc0lo?=
- =?utf-8?B?dUlwclZ3bTdSUjNGSHJuaEpVN1BCNGRsb1RaWjdXbmJvMC9mUGdkcXdQR0NC?=
- =?utf-8?B?Z29ZdlF0aVBCV3NHK1FoSHpWM2hlcUZlYUU0V3BLTzZoNDJZeG5UNXFPMmZG?=
- =?utf-8?B?ditaeXl3bFNKeExRZEd1ekhuRnM3RWFQbDNYQWxLb0JpQjNpSHh5amwyRTQ4?=
- =?utf-8?B?cStkMkJ3OU5mTjhhK0t2TU1mZnVuMjVBaFJpQ2FIWFJRM0dSazV6d0hPWXNX?=
- =?utf-8?B?OUZCNWdOUk1PRmJXNHd2U0pIMzhPdDMrZWZYaXZzSy96MWxSd2pSbTFqRUh1?=
- =?utf-8?B?NkZ2enZrMC9vY0hDNTNYaTRQZDBBVGpaaHg3SkJXb1ExRm1SRzFmVlVuaUJF?=
- =?utf-8?B?UUNCK09wNmZoSlAxelFYUjRVTTYyZ3VFTkk5T3hlNVpycjJ1RUlKL0gxYzFt?=
- =?utf-8?B?YVdxMStvYzRtT0ZxV2daa2xrYnhxUHlJTmtuWDlYK1J3ZStOKy8rVDhLUnA3?=
- =?utf-8?B?QjNkZkZ6SDU5OUZNWnl2Yis2RUFZV0liTERiTlJ1czFZMHhldTloQWZXNnFm?=
- =?utf-8?B?YVFqZlRZSTVHbnArb0h0eXpDZ0w1V3IwVVk0QjlobWxYOUsycWwrTkRoZldL?=
- =?utf-8?B?QUhGZzFUTnVLbXlzNXI5SU5CMU1YTEpvR3ltcmdQNVBjSUJRd1gweHNnK2J0?=
- =?utf-8?B?R1hDZEtYdkwxbHJGOGlhVFZZNnRjSnJ3V0gwaUlqNTE2UnhrVDB5dWVDUjhE?=
- =?utf-8?B?Yzd6ZGhWTUF3MFlwcjZiWVM1MEUzYVZvOVdjNTZYcklhK2pHNXVSTG5sUEti?=
- =?utf-8?B?VTJxdDExTDZLcXo1R1N3OHNJZVg3WTU3OGxYaTRqdW9pMTJzNGZobkZrSXhI?=
- =?utf-8?B?NUtVdnlmWmlCRkIxTFBTU3hwYXFtbjBnTlpCT0k2U0JpM1NZWFNCQ0dEQ0I0?=
- =?utf-8?B?aThNbnRDSkdLbFkvNFdsVElhY0I1NHBpMTVEWnVXSjJQclA5ajRmMnhpRnB1?=
- =?utf-8?B?N0hXWTdjSU45d1p4Z0p2ZDlVOU4xTVBKSHA3L01mbVFyWDdQOGZEVE5uRXVK?=
- =?utf-8?B?TXpZTU0yK1NXcHZJZmQ4VGxSSDVWKzVsTWk5MitHSWJ5c2NpaHczb2NRV2ln?=
- =?utf-8?B?bTZ5dGw3UmlGb0psRU5kTHFDS0l0UzFDYmtQQ0t5c1BOUDlTdFBHV1JQUXpE?=
- =?utf-8?B?blNJa1FKMVJFYnB0Y0hyOW8yeDk1UGpMdkxMcFpvendRcXdNMGpoc1ZBNVNR?=
- =?utf-8?B?L1ZFaXlreVpnSWRCdldTdXVXc3hvVU1rOXpjWStQaDRNRFp3anR0RDR2NmRT?=
- =?utf-8?B?V3NhUlRiUEE2SWRCeVBhaDM5NndCR2ZZNmZ0Yk5wNjR5MmNMT0FEcS9vdStS?=
- =?utf-8?B?YWxWRWQxUGlOeWhRenMxSXRzSE4rT2ZGdnJUTlk4bk42QzE0WXI2bkRpMGJa?=
- =?utf-8?B?dUlQNXcwakIwVjNwS25LMkRJTktLNUJUcGVlVkFkVUk3STd5SXZwM2x1MU02?=
- =?utf-8?B?eTM3enhYdE43SWxnbTZqZC9jR0xFZSttd3F4cElLZ09hVkx3cE51S1lEK2VK?=
- =?utf-8?B?NldFWlhzYjU5QXVwQkE1MXFPc0lhNzVad0J3WkptUG1OS21RcEJyNzlTM1Q3?=
- =?utf-8?B?NjdST0x6UjVEdTg5akFrbzh1MEw4VkdhSCthMHN5REQvaHJUbmExU3FMM0Z1?=
- =?utf-8?B?UUx4UFBBU0pzQkZOZ3hwUWx5UDVQTlNsNjJoSCthQUNHSXVOYUcyQmNrdkFX?=
- =?utf-8?B?L0FzZFlDdXhVZDBnUXBrM3QvSlhVN3BQQ2RIb3NjN0hjSXQ3bmtUUTVXekNX?=
- =?utf-8?B?Q0h5eDd6T0s5eWZBZkd2dURBUzU4NlphUU90OXZtQm9CZkFCd2g5eXR3bWtF?=
- =?utf-8?B?VkVpUzJxWFNXTkZBdmZMTXBnbEkxalpLOTdLWVNnYVZvMlZqaEE0OEFzU1Nv?=
- =?utf-8?B?ZlVUZ1luUjhkQ2xCd0pidzZDSzdTcHFiSFNhLzJrRjMyRi85K3lhNlE4c2Vq?=
- =?utf-8?B?aHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2426fe2d-d444-4e6b-0102-08da63f178c6
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkFLRHJEK1BmWFo4dDdyMGdsbDd3bDR5L21tYWJ6MWUyYlJOTTd6cUZmU2hy?=
+ =?utf-8?B?bFFpSDFzRkxpR05TTm5QMXVLMm5uM2xuUGlVTnRZU1gzbkJyT2NFcUtZRndx?=
+ =?utf-8?B?UkpQMllpaHZSL05KbzJTMllRN1dRWUg4Nm01YWJBRDFnR2lhR2lmL1Rrand2?=
+ =?utf-8?B?cXRKc3lVZ3N3M0dhZkQrVnFzRE9ESWw4eTRFU0ZSK1V4ajg0SlJDUFNXOWV0?=
+ =?utf-8?B?VWEvMHdOVlJWYThjTEN1bEQwbVhMc2dsdHhsSCtXQ1FuanIvZUJMajAwNFVw?=
+ =?utf-8?B?SUJkTGQrS2d6NXUrcm5yd3ZzcndjUnB5ZEZRMHY1d2pydHJGZUdhQmpneWtK?=
+ =?utf-8?B?d1NCUmJEQ2ZOWGxPM0Izb2xLMWZYSmNtM1RNSTVJcllvZS9QRVRKNmVPTzlt?=
+ =?utf-8?B?T0JpQWp0TW1YbU9RM3lRWGx2dDJ0ODE0dmNBdU40a1g1VHp4NHVhbG9rVHRl?=
+ =?utf-8?B?RS9qN3lITVp6QkdaM2JqeFJqQmVkeFlod3VwbUhGQlNjU3pYTjd6dXY4NjFr?=
+ =?utf-8?B?RFpoTDdJVmxoa2FKbVdmUVdBdzZZaTJFcUhJWkU2dUp1K2k4Um5IS1dFMHdk?=
+ =?utf-8?B?RXhsc2F6UFBTWGxidTEyUm5LWk00NmJqRm1xNUU1R3pKYlFKVm1MT0NmSzFa?=
+ =?utf-8?B?eXRFbTBHUHNKRkdxWW96emlJb1NpWHgraWxDSnp6UUhleTYyRkZVVG1nazdl?=
+ =?utf-8?B?RVYwYUdsMjdTNmp0UjI3V3FlZVV4alVwbmJsWUlwdm1wekplZ0FEVElmUitj?=
+ =?utf-8?B?RE5JN0JqbCtXQTJjMGdpR004SzBvb2VsOHdGdnlZR1lTTHZtcUJodGRuUE1B?=
+ =?utf-8?B?c2Rja05Va25YL1ZDM1h0NGVsajQycy84YnYyQ2xLOHBqNTNxaVA3VUdFTEQz?=
+ =?utf-8?B?V08xam5rdEVsK3N2aVZUMEkwaitpY2tzb2FxSmdHQk85UHZxdldTS2JWeU83?=
+ =?utf-8?B?TWRIYStXaW9wVnhDSUZ3WkZ1ai9EN3ZWUktpT1ZZUXVLa1BnbFprSmIrQWdY?=
+ =?utf-8?B?dWQ0bHBpMHAvWGp3TTZqcHNybDJ3alRRK3AvUHBUM1VBM1B6NHBQNGplbDhV?=
+ =?utf-8?B?N0Z2dExQM1ZSeXNOWGZvQjZRblNiVFhKN2tjM2hoMmNpL0N3K1Y3SVRKMHp2?=
+ =?utf-8?B?OUsvVmNpcXhIenhHZGgzczc3MjhUczZBbVo1V0JRNkM1cWtwT1hTTzJTRG5Z?=
+ =?utf-8?B?S2MvZkNMVnZVdjdlNEZEL3N5QXF2Zm96VjNCTUQ0YXdnd1dNWFJsK2tlSFMz?=
+ =?utf-8?B?SWtjbXR3RWN0V1NmMHFsc1NoVER0QndrWnBadFl6anBTR25oSTB2SDRWYmFv?=
+ =?utf-8?B?Vk9uUXRjR3doMVJFL3dzaVQycmVWN3B0WE1BZ3piRmpDWStJK1owVmRjNERN?=
+ =?utf-8?B?MTZzLzY0QnIrYi9WZTJsQXdQbDZNWTJ5a1p6bjcrcWs0Szdwb0dSQ1JGK0tW?=
+ =?utf-8?B?UllNMnR2WkRkdVZ3WFZmaEhNaEo4T29xZjM4ZHQ0WndyRmRER2JzbUpCWWtn?=
+ =?utf-8?B?Q1RTVlJZa2dkdWduMUFFekx5aEg5SlFDbThGb25ZSE02cEZHUEVUenJzOXEr?=
+ =?utf-8?B?ZTRXdGhoaFkxbnhKMVFJRG50ZmFiNktWNmhKbU02YmIxR2o2VEdEdUpjNWI4?=
+ =?utf-8?B?Q0RFRkU3VU1QZjFiSDk3QXRoK29YbzJ6ODliZER5YytGblhOSFBGSEZ0T0Iy?=
+ =?utf-8?B?dExrVkN6T1U0ZGZjZURTNkdSeXdtZ1JEMFJSOXdBa3RGdFlHWmVnTkhoRFJj?=
+ =?utf-8?B?R1VCNlladXhKTk9WMWtrN1krNGtkRlFUUVZySjd4dk5aMXFSTmRYRng3RFhI?=
+ =?utf-8?B?K1lFdng2Nk95U0F6M1F1K2RBeFFqcGFHVGkwRTNJcndvbXNLdjd4cWhtd0lE?=
+ =?utf-8?B?L1oyMUhKS2NSUEdhaGVhUFVnR0JNeDYzTkljajNUQXB0WHZZOEh6TEhNdlZl?=
+ =?utf-8?B?M2Fxc0szeThTTEpuMjBLSHlXa0I0NTY0a3UwQ2s0RThja1JpbUhxOFZOSzUx?=
+ =?utf-8?B?cEppeXhHV1B2dG8vb1l3ekFkVGNoTVFTN1d2Sm1HQjlkRWhNcW5DV1ZTV3FR?=
+ =?utf-8?B?bE9BSlZLZTNWYkdTZUF0R080ZUkxNnRKS21ta0ZFdkVTd3JrNUdOY3Frclcz?=
+ =?utf-8?B?R0JJWklmcHFNeThLUlN1bEhTU2c3R21POFRtdFhFSkJBUzBQbHN1VE5qNFlu?=
+ =?utf-8?B?NVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: df50caf6-0ac5-4715-4594-08da63f453f5
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5409.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 10:29:59.2731 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 10:50:26.0442 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0oS+sZw89IgEN+I3EcOySlLDwFCLCOK0tPnqvrBZDEb+LkeKSeagU+L7fqzHwEioCpM6c+n8e09QGe7g0WPV+TV2pBjxrEAYZAffFt3Cdgo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2530
+X-MS-Exchange-CrossTenant-UserPrincipalName: wA9fJoHLY++Lt/3vaBj4YDEs7dUF+QT9xwYqmRO+UroWggE1MJCyb0dbl6MK3qRp0lpz5z3/LVV6U9ah7DfJ97+7ZSXT9s9SORhrCdd/Svk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2311
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -171,277 +172,490 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/6/22 8:10 PM, Mauro Carvalho Chehab wrote:
-> On Wed, 6 Jul 2022 19:33:22 +0300
+On 7/6/22 8:05 PM, Mauro Carvalho Chehab wrote:
+> On Wed, 6 Jul 2022 18:04:20 +0300
 > Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
 > 
->> On 7/5/22 5:35 PM, Mauro Carvalho Chehab wrote:
->>> On Tue,  5 Jul 2022 15:24:50 +0300
+>> On 7/5/22 5:23 PM, Mauro Carvalho Chehab wrote:
+>>> On Tue,  5 Jul 2022 15:24:49 +0300
 >>> Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
 >>>    
->>>> From: Chris Wilson <chris@chris-wilson.co.uk>
+>>>> It moves overflows_type utility macro into drm util header from i915_utils
+>>>> header. The overflows_type can be used to catch the truncation between data
+>>>> types. And it adds safe_conversion() macro which performs a type conversion
+>>>> (cast) of an source value into a new variable, checking that the
+>>>> destination is large enough to hold the source value.
+>>>> And it adds exact_type and exactly_pgoff_t macro to catch type mis-match
+>>>> while compiling.
 >>>>
->>>> We need to check that we avoid integer overflows when looking up a page,
->>>> and so fix all the instances where we have mistakenly used a plain
->>>> integer instead of a more suitable long. Be pedantic and add integer
->>>> typechecking to the lookup so that we can be sure that we are safe.
->>>> And it also uses pgoff_t as our page lookups must remain compatible with
->>>> the page cache, pgoff_t is currently exactly unsigned long.
->>>>
->>>> v2: Move added i915_utils's macro into drm_util header (Jani N)
->>>>
->>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 >>>> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>> Cc: Matthew Auld <matthew.auld@intel.com>
 >>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+>>>> Cc: Matthew Auld <matthew.auld@intel.com>
+>>>> Cc: Nirmoy Das <nirmoy.das@intel.com>
+>>>> Cc: Jani Nikula <jani.nikula@intel.com>
 >>>> ---
->>>>    drivers/gpu/drm/i915/gem/i915_gem_object.c    |  7 +-
->>>>    drivers/gpu/drm/i915/gem/i915_gem_object.h    | 67 ++++++++++++++-----
->>>>    drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 25 ++++---
->>>>    drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  2 +-
->>>>    .../drm/i915/gem/selftests/i915_gem_context.c | 12 ++--
->>>>    .../drm/i915/gem/selftests/i915_gem_mman.c    |  8 +--
->>>>    .../drm/i915/gem/selftests/i915_gem_object.c  |  8 +--
->>>>    drivers/gpu/drm/i915/i915_gem.c               | 18 +++--
->>>>    drivers/gpu/drm/i915/i915_vma.c               |  8 +--
->>>>    9 files changed, 100 insertions(+), 55 deletions(-)
+>>>>    drivers/gpu/drm/i915/i915_utils.h |  5 +--
+>>>>    include/drm/drm_util.h            | 54 +++++++++++++++++++++++++++++++
+>>>>    2 files changed, 55 insertions(+), 4 deletions(-)
 >>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> index ccec4055fde3..90996fe8ad45 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> @@ -421,10 +421,11 @@ void __i915_gem_object_invalidate_frontbuffer(struct drm_i915_gem_object *obj,
->>>>    static void
->>>>    i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
->>>>    {
->>>> +	pgoff_t idx = offset >> PAGE_SHIFT;
->>>>    	void *src_map;
->>>>    	void *src_ptr;
+>>>> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+>>>> index c10d68cdc3ca..345e5b2dc1cd 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_utils.h
+>>>> +++ b/drivers/gpu/drm/i915/i915_utils.h
+>>>> @@ -32,6 +32,7 @@
+>>>>    #include <linux/types.h>
+>>>>    #include <linux/workqueue.h>
+>>>>    #include <linux/sched/clock.h>
+>>>> +#include <drm/drm_util.h>
 >>>>    
->>>> -	src_map = kmap_atomic(i915_gem_object_get_page(obj, offset >> PAGE_SHIFT));
->>>> +	src_map = kmap_atomic(i915_gem_object_get_page(obj, idx));
+>>>>    #ifdef CONFIG_X86
+>>>>    #include <asm/hypervisor.h>
+>>>> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
+>>>>    #define range_overflows_end_t(type, start, size, max) \
+>>>>    	range_overflows_end((type)(start), (type)(size), (type)(max))
 >>>>    
->>>>    	src_ptr = src_map + offset_in_page(offset);
->>>>    	if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
->>>> @@ -437,9 +438,10 @@ i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj, u64 offset,
->>>>    static void
->>>>    i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
->>>>    {
->>>> +	pgoff_t idx = offset >> PAGE_SHIFT;
->>>> +	dma_addr_t dma = i915_gem_object_get_dma_address(obj, idx);
->>>>    	void __iomem *src_map;
->>>>    	void __iomem *src_ptr;
->>>> -	dma_addr_t dma = i915_gem_object_get_dma_address(obj, offset >> PAGE_SHIFT);
->>>>    
->>>>    	src_map = io_mapping_map_wc(&obj->mm.region->iomap,
->>>>    				    dma - obj->mm.region->region.start,
->>>> @@ -468,6 +470,7 @@ i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset
+>>>> -/* Note we don't consider signbits :| */
+>>>> -#define overflows_type(x, T) \
+>>>> -	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
+>>>> -
+>>>>    #define ptr_mask_bits(ptr, n) ({					\
+>>>>    	unsigned long __v = (unsigned long)(ptr);			\
+>>>>    	(typeof(ptr))(__v & -BIT(n));					\
+>>>> diff --git a/include/drm/drm_util.h b/include/drm/drm_util.h
+>>>> index 79952d8c4bba..c56230e39e37 100644
+>>>> --- a/include/drm/drm_util.h
+>>>> +++ b/include/drm/drm_util.h
+>>>> @@ -62,6 +62,60 @@
 >>>>     */
->>>>    int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
->>>>    {
->>>> +	GEM_BUG_ON(overflows_type(offset >> PAGE_SHIFT, pgoff_t));
->>>>    	GEM_BUG_ON(offset >= obj->base.size);
->>>>    	GEM_BUG_ON(offset_in_page(offset) > PAGE_SIZE - size);
->>>>    	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>> index 6f0a3ce35567..a60c6f4517d5 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>> @@ -27,8 +27,10 @@ enum intel_region_id;
->>>>     * spot such a local variable, please consider fixing!
->>>>     *
->>>>     * Aside from our own locals (for which we have no excuse!):
->>>> - * - sg_table embeds unsigned int for num_pages
->>>> - * - get_user_pages*() mixed ints with longs
->>>> + * - sg_table embeds unsigned int for nents
+>>>>    #define for_each_if(condition) if (!(condition)) {} else
+>>>>    
+>>>> +/**
+>>>> + * overflows_type - helper for checking the truncation between data types
+>>>> + * @x: Source for overflow type comparison
+>>>> + * @T: Destination for overflow type comparison
 >>>> + *
->>>> + * We can check for invalidly typed locals with typecheck(), see for example
->>>> + * i915_gem_object_get_sg().
->>>>     */
->>>>    #define GEM_CHECK_SIZE_OVERFLOW(sz) \
->>>>    	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
->>>> @@ -366,41 +368,70 @@ int i915_gem_object_set_tiling(struct drm_i915_gem_object *obj,
->>>>    struct scatterlist *
->>>>    __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
->>>>    			 struct i915_gem_object_page_iter *iter,
->>>> -			 unsigned int n,
->>>> -			 unsigned int *offset, bool dma);
->>>> +			 pgoff_t  n,
->>>> +			 unsigned int *offset);
->>>> +
->>>> +#define __i915_gem_object_get_sg(obj, it, n, offset) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(__i915_gem_object_get_sg)(obj, it, n, offset); \
->>>> +})
->>>>    
->>>>    static inline struct scatterlist *
->>>> -i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
->>>> -		       unsigned int n,
->>>> +i915_gem_object_get_sg(struct drm_i915_gem_object *obj, pgoff_t n,
->>>>    		       unsigned int *offset)
->>>>    {
->>>> -	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset, false);
->>>> +	return __i915_gem_object_get_sg(obj, &obj->mm.get_page, n, offset);
->>>>    }
->>>>    
->>>> +#define i915_gem_object_get_sg(obj, n, offset) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(i915_gem_object_get_sg)(obj, n, offset); \
->>>> +})
->>>> +
->>>>    static inline struct scatterlist *
->>>> -i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj,
->>>> -			   unsigned int n,
->>>> +i915_gem_object_get_sg_dma(struct drm_i915_gem_object *obj, pgoff_t n,
->>>>    			   unsigned int *offset)
->>>>    {
->>>> -	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset, true);
->>>> +	return __i915_gem_object_get_sg(obj, &obj->mm.get_dma_page, n, offset);
->>>>    }
->>>>    
->>>> +#define i915_gem_object_get_sg_dma(obj, n, offset) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(i915_gem_object_get_sg_dma)(obj, n, offset); \
->>>> +})
->>>> +
->>>>    struct page *
->>>> -i915_gem_object_get_page(struct drm_i915_gem_object *obj,
->>>> -			 unsigned int n);
->>>> +i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n);
->>>> +
->>>> +#define i915_gem_object_get_page(obj, n) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(i915_gem_object_get_page)(obj, n); \
->>>> +})
->>>>    
->>>>    struct page *
->>>> -i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj,
->>>> -			       unsigned int n);
->>>> +i915_gem_object_get_dirty_page(struct drm_i915_gem_object *obj, pgoff_t n);
->>>> +
->>>> +#define i915_gem_object_get_dirty_page(obj, n) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(i915_gem_object_get_dirty_page)(obj, n); \
->>>> +})
->>>>    
->>>>    dma_addr_t
->>>> -i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj,
->>>> -				    unsigned long n,
->>>> +i915_gem_object_get_dma_address_len(struct drm_i915_gem_object *obj, pgoff_t n,
->>>>    				    unsigned int *len);
->>>>    
->>>> +#define i915_gem_object_get_dma_address_len(obj, n, len) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(i915_gem_object_get_dma_address_len)(obj, n, len); \
->>>> +})
->>>> +
->>>>    dma_addr_t
->>>> -i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj,
->>>> -				unsigned long n);
->>>> +i915_gem_object_get_dma_address(struct drm_i915_gem_object *obj, pgoff_t n);
->>>> +
->>>> +#define i915_gem_object_get_dma_address(obj, n) ({ \
->>>> +	exactly_pgoff_t(n); \
->>>> +	(i915_gem_object_get_dma_address)(obj, n); \
->>>> +})
->>>>    
->>>>    void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
->>>>    				 struct sg_table *pages,
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>> index 97c820eee115..1d1edcb3514b 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>> @@ -503,14 +503,16 @@ void __i915_gem_object_release_map(struct drm_i915_gem_object *obj)
->>>>    }
->>>>    
->>>>    struct scatterlist *
->>>> -__i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
->>>> +(__i915_gem_object_get_sg)(struct drm_i915_gem_object *obj,
->>>>    			 struct i915_gem_object_page_iter *iter,
->>>> -			 unsigned int n,
->>>> -			 unsigned int *offset,
->>>> -			 bool dma)
->>>> +			 pgoff_t n,
->>>> +			 unsigned int *offset)
->>>> +
+>>>> + * It compares the values and size of each data type between the first and
+>>>> + * second argument to check whether truncation can occur when assigning the
+>>>> + * first argument to the variable of the second argument.
+>>>> + * It does't consider signbits.
+>>>> + *
+>>>> + * Returns:
+>>>> + * True if truncation can occur, false otherwise.
+>>>> + */
+>>>> +#define overflows_type(x, T) \
+>>>> +	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
 >>>
->>> Nitpick: no need to place the function name in parenthesis.
+>>> As pointed on its description, this macro only works if both types
+>>> are either signed or unsigned. However, the macro itself doesn't check
+>>> it.
+>>>
+>>> It probably worth adding something there to ensure that both types are
+>>> either signed or unsigned. I would add this ancillary macro probably on
+>>> on a generic kernel header - as this can be useful outside drm:
+>>>
+>>> 	#define sign_matches(x, y) \
+>>> 	        (!((typeof(x))-1 >= 0) ^ ((typeof(y))-1 >= 0))
+>>>
+>>> And then include use it at overflows_type:
+>>>
+>>> 	BUILD_BUG_ON(!sign_matches(x, T))
 >>>    
->>>>    {
->>>> -	struct scatterlist *sg;
->>>> +	const bool dma = iter == &obj->mm.get_dma_page ||
->>>> +			 iter == &obj->ttm.get_io_page;
->>>>    	unsigned int idx, count;
->>>> +	struct scatterlist *sg;
->>>>    
->>>>    	might_sleep();
->>>>    	GEM_BUG_ON(n >= obj->base.size >> PAGE_SHIFT);
->>>> @@ -618,7 +620,7 @@ __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
->>>>    }
->>>>    
->>>>    struct page *
->>>> -i915_gem_object_get_page(struct drm_i915_gem_object *obj, unsigned int n)
->>>> +(i915_gem_object_get_page)(struct drm_i915_gem_object *obj, pgoff_t n)
->>>
->>> Same as above: why are you placing parenthesis at the function name here?
->>> Just use:
->>> 	
->>> 	struct page *
->>> 	i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n)
->>>   
->> In this case, the macro and function have the same name. If parenthesis
->> is not used, the following compile error occurs as the macro is applied
->> to the c code.
+>> Hi Mauro, thanks for checking it.
 >>
->> ./drivers/gpu/drm/i915/gem/i915_gem_object.h:356:55: error: expected
->> identifier or ‘(’ before ‘{’ token
->>     356 | #define __i915_gem_object_get_sg(obj, it, n, offset) ({ \
->>         |                                                       ^
->> drivers/gpu/drm/i915/gem/i915_gem_pages.c:506:1: note: in expansion of
->> macro ‘__i915_gem_object_get_sg’
->>     506 | __i915_gem_object_get_sg(struct drm_i915_gem_object *obj,
->>         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> What you commented here (sign_matches macro) is to check whether the
+>> sign bits of two types are the same,  but the purpose of the
+>> overflows_type() macro checks overflows while assigning a variable with
+>> a large data size (BITS_PER_TYPE is large) to a variable with a small
+>> data size (BITS_PER_TYPE is small).
+> 
+> True, but the problem is that such macro just assumes that either both
+> are signed or unsigned without actually checking it.
+> 
+> Basically, if one tries to store for instance a s32 value on an u64 var,
+> the value won't be stored correctly, due to an underflow. As the hole
+> idea of this macro is to exactly detect if the "container" variable
+> is big enough to properly represent the measure, it sounds incomplete
+> to not handle the integer signal.
+> 
+> Btw, after reviewing all patches, using BUILD_BUG_ON() is not needed
+> here, as such macro (or similar) is already used at the callers code.
+> 
+> So, I would just return false if the signals are incompatible, e. g.
+> if the type of the source value is signed and the type of the
+> destination value is unsigned.
+> 
+> So:
+> 
+> #define overflows_type(x, T) \
+> 	(!signal_matches(x,T) || (sizeof(x) > sizeof(T)))
+> 
+> Should do the trick[1].
+> 
+> [1] using BITS_PER_TYPE() macro is not really needed, as this is
+>      defined as:
+> 
+> 	#define BITS_PER_BYTE              8
+> 	#define BITS_PER_TYPE(type)      (sizeof(type) * BITS_PER_BYTE)
+> 
+>      So, checking if sizeof(x) > sizeof(T) is enough. Btw, the check
+>      there seems to be inverted, making the macro to always return zero!
+> 
+> Yet, strictly speaking, it is possible to store an unsigned value on a
+> signed type, if the signed type is bigger than the size of unsigned
+> (so, a s64 int can store u32, but a s32 can't store u32).
+> 
+> Adding a check that would consider this should be like:
+> 
+> 	#define is_type_unsigned(x) ((typeof(x))-1 >= 0)
+> 	#define is_type_signed(x) (!is_type_unsigned(x))
+> 	#define overflows_type(x, T)							 \
+> 	(										 \
+> 		(is_type_signed(x) && is_type_unsigned(T)) ||				 \
+> 		(is_type_unsigned(x) && is_type_signed(T) && (sizeof(x) == sizeof(T))) ||\
+> 		(sizeof(x) > sizeof(T))							 \
+> 	) 	
+> 
+> This should be generic enough to be used anywhere.
+> 
+>> we can check the additional sign bit by adding sign_matches() to the
+>> overflows_type() macro, but in the current scenario, it is used only
+>> when the sign bit is the same.
+> 
+> Yeah, but "current scenarios" can easily be extended to something
+> else, quickly going sideways specially on a subsystem-wide macro.
+> Also, getting this right is particularly tricky when comparing typedef
+> integers. So, I would be more comfortable if the logic will also
+> check the signal at the destination variable.
+> 
+>> Should the macro be extended even for cases where the sign bit is
+>> different in the current state? (If yes, I'll updated it as v3)
 >>
->> And all of the parts you leave comments below are cases where the names
->> of macros and functions are the same.
+>> In addition, the place where this macro is currently used is only in the
+>> i915 driver, so it has been moved to the header of the drm subsystem.
+>> IMHO, moving the macro location so that it can be used by multiple
+>> subsystems of linux would be a good idea when there is a use case for
+>> this macro. What do you think?
 > 
-> Don't use the same macro name on a function. This is very confusing
-> and will prevent ever adding documentation for it, as, for kernel-doc,
-> macros and functions are handled at the same namespace. So, no
-> duplication is allowed.
+> Good point. Yeah, it can stay there while not needed outside drm.
 > 
-> Probably the best here would be to replace the macros by inlined
-> functions.
+> Btw, in order to get it right, I suggest double-checking in userspace
+> how each macros are evaluated, like using the code below.
 > 
-When using an inline function, the function can check the types after 
-typecasting its arguments.
-It is more efficient to use the above macro style to check input 
-argument's type in the compilation stage.
-This way is also used in the macro below among the existing i915 codes.
+> It helps to check if the logic is doing what's expected or not.
+> 
+Thanks for sharing your nice comments and ideas.
+The currently used oveflows_type() macro has a requirement to check not 
+only the overflow check using the size of the container, but also the 
+overflow that may occur when an actual variable is assigned.
+In relation to this, I wrote a macro based on the logic below and tested 
+all scenarios that can be used in c code.
 
-#define sg_alloc_table(sgt, nents, gfp) \
-	overflows_type(nents, __sg_size_t) ? -E2BIG : (sg_alloc_table)(sgt, 
-(__sg_size_t)(nents), gfp)
+#define BITS_PER_BYTE           8
+#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
 
-#define sg_alloc_table_from_pages_segment(sgt, pages, npages, offset, 
-size, max_segment, gfp) \
-	overflows_type(npages, __sg_size_t) ? -E2BIG : 
-(sg_alloc_table_from_pages_segment)(sgt, pages, (__sg_size_t)(npages), 
-offset, size, max_segment, gfp)
+#define is_type_unsigned(x) ((typeof(x))-1 >= 0)
+
+bool overflows = false;
+if (is_type_unsigned(x)) {
+   if (is_type_unsigned(T)) { // x: unsigned, T: unsigned
+     if (sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
+       overflows = true;
+   } else { // x: unsigned, T: signed
+     if (sizeof(x) >= sizeof(T) && (x) >> BITS_PER_TYPE(T) - 1)
+       overflows = true;
+   }
+} else {
+   if (is_type_unsigned(T)) {  // x: signed, T: unsigned
+     if ((x) < 0)  // sign bit is negative, negative value
+       overflows = true;
+     else { // sign bit is positive, positive value
+       if (sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
+         overflows = true;
+     }
+   } else {  // x: signed, T: signed
+     if (sizeof(x) > sizeof(T)) {
+       if ((x) < 0) { // sign bit is negative, negative value
+         if (((x) * -1) >> BITS_PER_TYPE(T)) {
+             /* Since signed numbers treat negative numbers as
+                2's complement, convert them to positive numbers,
+                perform bitshift operations, and perform overflow checking.
+             */
+           overflows = true;
+         }
+       }
+       else { // positive value.
+         if ((x) >> BITS_PER_TYPE(T))
+           overflows = true;
+       }
+     }
+   }
+}
 
 
-This method has the advantage of being able to check the type of a 
-variable passed as a function argument before it is typecast.
+Here is the code that was actually tested:
+The patch applied with is_type_unsigned() / oveflows_type() used in the 
+code below will be sent back as a new version.
 
-However, the kernel-doc's issues is something I didn't think consider 
-before. To fix the naming problem in the documentation, I will change 
-the macro name and the function name differently and send it as a new 
-version.
+#include <stdio.h>
+#include <limits.h>
+#include <assert.h>
 
-Br,
-G.G.
-> Regards,
-> Mauro
+#define BITS_PER_BYTE           8
+#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
+
+#define is_type_unsigned(x) ((typeof(x))-1 >= (typeof(x))0)
+
+#define overflows_type(x, T) \
+	(is_type_unsigned(x) ? \
+		is_type_unsigned(T) ? \
+			(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
+			: (sizeof(x) >= sizeof(T) && (x) >> (BITS_PER_TYPE(T) - 1)) ? 1 : 0 \
+	: is_type_unsigned(T) ? \
+		((x) < 0) ? 1 : (sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T)) ? 1 
+: 0 \
+		: (sizeof(x) > sizeof(T)) ? \
+			((x) < 0) ? (((x) * -1) >> BITS_PER_TYPE(T)) ? 1 : 0\
+				: ((x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
+			: 0)
+
+typedef char s8;
+typedef unsigned char u8;
+typedef short s16;
+typedef unsigned short u16;
+typedef int s32;
+typedef unsigned int u32;
+typedef long long s64;
+typedef unsigned long long u64;
+
+int main(void) {
+	/* test variable, test type */
+	/* 1.  overflows_type(x, T) x: unsigned, T: unsigned */
+	{
+		u32 x = UINT_MAX;
+		u16 T;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, u16));
+
+		x = USHRT_MAX;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, u16));
+	}
+	{
+		u64 x = ULLONG_MAX;
+		u8 T;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, u8));
+
+		x = UCHAR_MAX;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, u8));
+	}
+	{
+		u8 x = UCHAR_MAX;
+		u64 T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, u64));
+	}
+
+	/* 2.  overflows_type(x, T) x: unsigned, T: signed */
+	{
+		u32 x = UINT_MAX;
+		s16 T;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, s16));
+
+		x = SHRT_MAX;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s16));
+
+		x = SHRT_MAX + 1;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, s16));
+	}
+	{
+		u64 x = ULLONG_MAX;
+		s8 T;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, s8));
+
+		x = SCHAR_MAX;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s8));
+	}
+	{
+		u8 x = UCHAR_MAX;
+		s32 T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s32));
+	}
+
+	/* 3.  overflows_type(x, T) x: signed, T: unsigned */
+	{
+		s32 x = INT_MAX;
+		u16 T;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, u16));
+
+		x = INT_MIN;
+		/* expected underflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, u16));
+
+		x = USHRT_MAX;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, u16));
+	}
+	{
+		s16 x = SHRT_MAX;
+		u32 T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, u32));
+
+		x = SHRT_MIN;
+		/* expected underflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, u32));
+	}
+	{
+		s32 x = INT_MAX;
+		u32 T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, u32));
+
+		x = INT_MIN;
+		/* expected underflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, u32));
+	}
+
+	/* 4.  overflows_type(x, T) x: signed, T: signed */
+	{
+		s32 x = INT_MAX;
+		s16 T;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, s16));
+
+		x = INT_MIN;
+		/* expected overflow */
+		assert(overflows_type(x, T));
+		assert(overflows_type(x, s16));
+
+
+		x = SHRT_MAX;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s16));
+
+		x = SHRT_MIN;
+		/* expected not underflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s16));
+	}
+	{
+		s16 x = SHRT_MAX;
+		s32 T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s32));
+
+		x = SHRT_MIN;
+		/* expected not underflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s32));
+	}
+	{
+		s64 x = LLONG_MAX;
+		s64 T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s64));
+
+		x = LLONG_MIN;
+		/* expected not underflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, s64));
+	}
+
+	{
+		u64 x = 123456;
+		int *T;
+		/* expected not overflow */
+		assert(!overflows_type(x, T));
+		assert(!overflows_type(x, int *));
+	}
+	return 0;
+}
+
+
+
+> ----
+> 
+> #include <stdio.h>
+> #include <stdint.h>
+> 
+> // Kernel definitions from bits.h and bitops.h
+> #define BITS_PER_BYTE              8
+> #define BITS_PER_TYPE(type)      (sizeof(type) * BITS_PER_BYTE)
+> 
+> #define sign_matches(x, y) \
+> 	(!((typeof(x))-1 >= 0) ^ ((typeof(y))-1 >= 0))
+> 
+> #define is_type_unsigned(x) ((typeof(x))-1 >= 0)
+> #define is_type_signed(x) (!is_type_unsigned(x))
+> 
+> #define overflows_type(x, T)								 \
+> 	(										 \
+> 		(is_type_signed(x) && is_type_unsigned(T)) ||				 \
+> 		(is_type_unsigned(x) && is_type_signed(T) && (sizeof(x) == sizeof(T))) ||\
+> 		(sizeof(x) > sizeof(T))							 \
+> 	) ? "OVERFLOW" : "don't overflow"
+> 
+> int main(void)
+> {
+> 	uint32_t	u32_1 = 0, u32_2 = 0;
+> 	int32_t		s32_1 = 0, s32_2 = 0;
+> 	uint64_t	u64_1 = 0, u64_2 = 0;
+> 	int64_t		s64_1 = 0, s64_2 = 0;
+> 
+> 	printf("u32 stored into u32: %s\n", overflows_type(u32_1, u32_2));
+> 	printf("u64 stored into u32: %s\n", overflows_type(u64_1, u32_2));
+> 	printf("s32 stored into u32: %s\n", overflows_type(s32_1, u32_2));
+> 	printf("s64 stored into u32: %s\n", overflows_type(s64_1, u32_2));
+> 
+> 	printf("u32 stored into s32: %s\n", overflows_type(u32_1, s32_2));
+> 	printf("u64 stored into s32: %s\n", overflows_type(u64_1, s32_2));
+> 	printf("s32 stored into s32: %s\n", overflows_type(s32_1, s32_2));
+> 	printf("s64 stored into s32: %s\n", overflows_type(s64_1, s32_2));
+> 
+> 	printf("u32 stored into u64: %s\n", overflows_type(u32_1, u64_2));
+> 	printf("u64 stored into u64: %s\n", overflows_type(u64_1, u64_2));
+> 	printf("s32 stored into u64: %s\n", overflows_type(s32_1, u64_2));
+> 	printf("s64 stored into u64: %s\n", overflows_type(s64_1, u64_2));
+> 
+> 	printf("u32 stored into s64: %s\n", overflows_type(u32_1, s64_2));
+> 	printf("u64 stored into s64: %s\n", overflows_type(u64_1, s64_2));
+> 	printf("s32 stored into u64: %s\n", overflows_type(s32_1, u64_2));
+> 	printf("s64 stored into u64: %s\n", overflows_type(s64_1, u64_2));
+> 
+> 	// Shutup warnings
+> 	s64_1 = u32_1 + u32_2 + s64_2 + s32_1 + s32_2 + u64_1 + u64_2;
+> 
+> 	return 0;
+> }
 > 
