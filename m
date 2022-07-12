@@ -1,56 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6B3570F89
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 03:33:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B688A5710E1
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 05:33:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06EC693014;
-	Tue, 12 Jul 2022 01:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D2810F541;
+	Tue, 12 Jul 2022 03:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086F193014
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 01:32:45 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id b11so11726352eju.10
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 18:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=sKmlJNbOCxxGu2qoEpBgoFbduYBXC63XtKF5C6TRjl4=;
- b=NyKa32/ZEaCGrRikTeghU9YrYFt7yToYrMdISiP/VYrKCVmwHMdSqH7HuqAuI/2dz/
- 2K7XfDGwwVnOMR/zv8TwExlwddpTDupWPw10vDpmRJiSMtdISF0hDpvW3385pgEBj2vQ
- 7Awb7iPaIkXg5ct35tLHRcL6NeB5sD75obZyHdi3ilAYxZA09wtt0NSgkuJX33TnIemH
- Y8bufO5ezLAYzTaFNFGmIO3XrxZGTifDUNLX27QtuY7/qWbgfTdMr5TGFb5ZdsrhB0Rn
- T6KjJzg0BnuLTU60j0IW8xF0vLqjW/PBGwnxx9yAjDyhqypOc3IB6+2hYAoGtbNKsal3
- ambg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=sKmlJNbOCxxGu2qoEpBgoFbduYBXC63XtKF5C6TRjl4=;
- b=L51bbCJ80Hs8hfJ8pA+UpvxXvPnYGJnTEs+S6aLyt540P+PaHsgagwkQkfYgpzi/oo
- I+QrJc8K4M9nz3OeAczIhHDPcevZWNjoQzJ+sPFbnj4o0Tal7/deNcb8M6OHaFtyBmeX
- t92kcL4YpbSPSycQKzKmPHM0jhRtukngPgdZ286tDdEJrg/vOH52UiHLq0KmB1HZhMNE
- LZtwQaJiYxcdGxjDfmnn3NRTBgGejPcLF/9T9XdWplhPco9mc1A7h/oE6IikwgZAMJsu
- f0BdFJ/lF1Yonoafx3Cd7OydBf8dq6QRUpcHGXnAwEfpKC+/+R3CpDk+C+6cXGmObYkS
- q1zg==
-X-Gm-Message-State: AJIora/ytmyAjCBIbF96qnt//bsjp7cdPThgRMXVyEKutYJU3yXJS8K+
- 4YCY+dBRc1KuzurvEe4RAQ7jjT5H95rWBv4BidzgdMcTet4=
-X-Google-Smtp-Source: AGRyM1vzvH3Y7oBxzCV9ARzK4CnIUVERGfxjpQPtCysIILmYPTc7fbrhvhWhCj73MmPCtxSeHf//ydZySTDY1JSCsjE=
-X-Received: by 2002:a17:906:149:b0:712:502:bc62 with SMTP id
- 9-20020a170906014900b007120502bc62mr21783814ejh.720.1657589562490; Mon, 11
- Jul 2022 18:32:42 -0700 (PDT)
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B7410F4DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 03:33:02 +0000 (UTC)
+Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 59309321F3B;
+ Tue, 12 Jul 2022 04:32:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1657596780; bh=WKi+c7N11EophNOizOQVxyveEKOIAEoQMBqHM50Yr64=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eqIeH//v31qF6zmffAR3mMvnAATT7Vu6G2w1F7KtAct/mj4AxTN7qe2At/ysgu04v
+ 4FDD+FZuF09az6CqWRPTtVLQKMGO2c0zq3IZ+8rh39bncEz6IvuD/5uadvs5zt4MAg
+ JLT4DJXZdiC0cryPLaTra7SmRELNh/VAHGNAu0tzyVtPS/BfO2Kaj5K2Rlj7jqkgGz
+ K08+mdoo3cC+PjIKVyeThzQUhiMokaj9ZBv1+th+MGUvpOrJSFYmKG75SL0rU9m+IS
+ CpSiT9IzfKsGiWF8KI288zMzyuAOwCl5p8FXE6KbAQwMypOybFdB9cibr6aiqYOQZf
+ vlPIHDhDTwyBg==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/8] Fix cursor planes with virtualized drivers
+Date: Mon, 11 Jul 2022 23:32:38 -0400
+Message-Id: <20220712033246.1148476-1-zack@kde.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 12 Jul 2022 11:32:31 +1000
-Message-ID: <CAPM=9tyJzO0bwtopJsfkZ6FRjkk9EghPzhBOQ-_9qQAALvOq+A@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.19-rc7 (late rc6)
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,168 +45,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, ppaalanen@gmail.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+From: Zack Rusin <zackr@vmware.com>
 
-back from holidays, delayed by a day due to airline craziness, I see
-you picked up one of the fbdev fixes, this is the other stuff that was
-queued up last week.
+Virtualized drivers have had a lot of issues with cursor support on top
+of atomic modesetting. This set both fixes the long standing problems
+with atomic kms and virtualized drivers and adds code to let userspace
+use atomic kms on virtualized drivers while preserving functioning
+seamless cursors between the host and guest.
 
-I just noticed I got the rc? in the signed tag wrong, I've fixed them
-in this email, but not sure if you care.
+The first change in the set is one that should be backported as far as
+possible, likely 5.4 stable, because earlier stable kernels do not have
+virtualbox driver. The change makes virtualized drivers stop exposing
+a cursor plane for atomic clients, this fixes mouse cursor on all well
+formed compositors which will automatically fallback to software cursor.
 
-A bit of a scattering of fixes, 3 for i915, one amdgpu, and a couple
-of panfrost, rockchip, panel and bridge ones.
+The rest of the changes until the last one ports the legacy hotspot code
+to atomic plane properties.
 
-If I have anything else at the end of the week I'll send a regular pull req=
-.
+Finally the last change introduces userspace API to let userspace
+clients advertise the fact that they are aware of additional restrictions
+placed upon the cursor plane by virtualized drivers and lets them use
+atomic kms with virtualized drivers (the clients are expected to set
+hotspots correctly when advertising support for virtual cursor plane).
 
-Dave.
+Zack Rusin (8):
+  drm: Disable the cursor plane on atomic contexts with virtualized
+    drivers
+  drm/atomic: Add support for mouse hotspots
+  drm/vmwgfx: Use the hotspot properties from cursor planes
+  drm/qxl: Use the hotspot properties from cursor planes
+  drm/vboxvideo: Use the hotspot properties from cursor planes
+  drm/virtio: Use the hotspot properties from cursor planes
+  drm: Remove legacy cursor hotspot code
+  drm: Introduce DRM_CLIENT_CAP_SUPPORTS_VIRTUAL_CURSOR_PLANE
 
+ drivers/gpu/drm/drm_atomic_state_helper.c | 14 ++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         | 20 ++++++++
+ drivers/gpu/drm/drm_ioctl.c               |  9 ++++
+ drivers/gpu/drm/drm_plane.c               | 59 ++++++++++++++++++++++-
+ drivers/gpu/drm/qxl/qxl_display.c         | 14 +++---
+ drivers/gpu/drm/qxl/qxl_drv.c             |  2 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c      |  2 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c     |  4 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c      |  3 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c    |  8 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c       |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c       |  9 +---
+ include/drm/drm_drv.h                     | 10 ++++
+ include/drm/drm_file.h                    | 12 +++++
+ include/drm/drm_framebuffer.h             | 12 -----
+ include/drm/drm_plane.h                   | 15 ++++++
+ include/uapi/drm/drm.h                    | 17 +++++++
+ 17 files changed, 173 insertions(+), 39 deletions(-)
 
-drm-fixes-2022-07-12:
-drm fixes for 5.19-rc7 (well rc6 but late).
+-- 
+2.34.1
 
-amdgpu:
-- Hibernation fix
-
-dma-buf:
-- fix use after free of fence
-
-i915:
-- Fix a possible refcount leak in DP MST connector (Hangyu)
-- Fix on loading guc on ADL-N (Daniele)
-- Fix vm use-after-free in vma destruction (Thomas)
-
-bridge:
-- fsl-ldb : 3 LVDS modesetting fixes
-
-rockchip:
-- iommu domain fix
-
-panfrost:
-- fix memory corruption
-- error path fix
-
-panel:
-- orientation quirk fix for Yoga tablet 2
-
-ssd130x:
-- fix pre-charge period setting
-The following changes since commit 32346491ddf24599decca06190ebca03ff9de7f8=
-:
-
-  Linux 5.19-rc6 (2022-07-10 14:40:51 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-07-12
-
-for you to fetch changes up to 3590b44b9434af1b9c81c3f40189087ed4fe3635:
-
-  Merge tag 'drm-misc-fixes-2022-07-07-1' of
-ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes (2022-07-12
-10:44:40 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.19-rc7 (well rc6 but late).
-
-amdgpu:
-- Hibernation fix
-
-dma-buf:
-- fix use after free of fence
-
-i915:
-- Fix a possible refcount leak in DP MST connector (Hangyu)
-- Fix on loading guc on ADL-N (Daniele)
-- Fix vm use-after-free in vma destruction (Thomas)
-
-bridge:
-- fsl-ldb : 3 LVDS modesetting fixes
-
-rockchip:
-- iommu domain fix
-
-panfrost:
-- fix memory corruption
-- error path fix
-
-panel:
-- orientation quirk fix for Yoga tablet 2
-
-ssd130x:
-- fix pre-charge period setting
-
-----------------------------------------------------------------
-Alex Deucher (2):
-      drm/amdgpu: keep fbdev buffers pinned during suspend
-      drm/amdgpu/display: disable prefer_shadow for generic fb helpers
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: ADL-N should use the same GuC FW as ADL-S
-
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-5.19-2022-07-06' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2022-07-07' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-07-07-1' of
-ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes
-
-Dmitry Osipenko (2):
-      drm/panfrost: Put mapping instead of shmem obj on
-panfrost_mmu_map_fault_addr() error
-      drm/panfrost: Fix shrinker list corruption by madvise IOCTL
-
-Ezequiel Garcia (1):
-      drm/ssd130x: Fix pre-charge period setting
-
-Hangyu Hua (1):
-      drm/i915: fix a possible refcount leak in intel_dp_add_mst_connector(=
-)
-
-Hans de Goede (1):
-      drm: panel-orientation-quirks: Add quirk for the Lenovo Yoga Tablet 2=
- 830
-
-Liu Ying (3):
-      drm/bridge: fsl-ldb: Fix mode clock rate validation
-      drm/bridge: fsl-ldb: Enable split mode for LVDS dual link
-      drm/bridge: fsl-ldb: Drop DE signal polarity inversion
-
-Steven Price (1):
-      drm/rockchip: Detach from ARM DMA domain in attach_device
-
-Thomas Hellstr=C3=B6m (1):
-      drm/i915: Fix vm use-after-free in vma destruction
-
-Thomas Zimmermann (1):
-      drm/aperture: Run fbdev removal before internal helpers
-
-xinhui pan (1):
-      dma-buf: Fix one use-after-free of fence
-
- drivers/dma-buf/dma-resv.c                        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 25 +++++++++++++++++++=
-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c          |  3 ++-
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c            |  3 ++-
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c            |  3 ++-
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c             |  3 ++-
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c             |  3 ++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 ++-
- drivers/gpu/drm/bridge/fsl-ldb.c                  | 21 ++-----------------
- drivers/gpu/drm/drm_panel_orientation_quirks.c    | 15 ++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp_mst.c       |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c          |  9 ++++++++
- drivers/gpu/drm/i915/i915_vma.c                   | 12 +++++++----
- drivers/gpu/drm/panfrost/panfrost_drv.c           |  4 ++--
- drivers/gpu/drm/panfrost/panfrost_mmu.c           |  2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c       | 17 +++++++++++++++
- drivers/gpu/drm/solomon/ssd130x.c                 |  2 +-
- 17 files changed, 90 insertions(+), 38 deletions(-)
