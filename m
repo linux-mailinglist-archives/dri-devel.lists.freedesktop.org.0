@@ -1,56 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81095713F3
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 10:08:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 719F0571405
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 10:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E4E12AAC0;
-	Tue, 12 Jul 2022 08:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03F18F2F8;
+	Tue, 12 Jul 2022 08:10:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5AF12AA52
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 08:07:54 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id ez10so12882678ejc.13
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 01:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ITVhnqo1Cv9/rj2IS2OAC3zsa28ryV/5jfshq0IqbrM=;
- b=HH5x+ipYuSILhjaCqwXRHRGdn8R2iE9it0Raabx0zG7RiLVbQD6paOyfsCyl0WDrLF
- R5XoZ7aTaJTnZF2x2seTAP7qb0LiLkKUyC2nOuXmKzTmbCJKcHdw/ptEKclRERYOF59E
- KkgJPwoxfu4c024UgrISFxVoaiqk4HGG+APntuIOEfWfWK0uJ0Fe04lJ7YsuHkyG28Gt
- vjqKag19IHw0lh3qsOIFh0pPk0Ebm7SZFO8ZG7+2xbLVN3FtyxP3znjVJjuWLOR1dUQ6
- SrMUgw6oy2EcLYRYJYR8M0smp2b9tKiy0ctybyRv/i9Rd+x1x8vRuZzkT/BNsSvGu0fg
- iJNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ITVhnqo1Cv9/rj2IS2OAC3zsa28ryV/5jfshq0IqbrM=;
- b=5t0S2ZmQQmZMvwSamocz8XcSxv4jQXu3KrB7intkmBdbxXoZbQsTNQr+PTzQIoJmlh
- FASTFxleHl1jYVpEQC+LD9n8cF59sVnh3BfY4Y0RyNLQwtPcpNlGFPvUyiieKGpP5JDS
- NRTcKeq5OtSVzulSAK1hUwhrHDfmjeeMHV2naZnIwdkTqY4i5tasS7Xs48od/MHu0iWT
- /Yv8WM0N4u7UC4D+qlcBeSAix+CfyiOXBSjbcgrWpoj08cEJbAYigzx2BIGKMfqH5Qdz
- Jx2rLSL+bhXIr3NBVNylKBu8XyfzLuWZ9zItLwu0VyK1a6Sergn2en9HgQKGwk48aGVn
- xgHg==
-X-Gm-Message-State: AJIora9JigGsr4LjB2mEYn3YxmzBZyIraNWz19P1fBx2pP+0Oo4vk9W3
- EqhUXmaQyuch+qlL0WDLWOPF5k6iP247CRxlMxiSMw==
-X-Google-Smtp-Source: AGRyM1tPaVDQ4QKhpXmcSUkc8kF1eeRMrVHZYwDUL9byPNuSCRXq7stKql2iScJzi/bvVrwBvpPq0VXb013QRxtlSks=
-X-Received: by 2002:a17:906:b6c7:b0:726:60aa:1b81 with SMTP id
- ec7-20020a170906b6c700b0072660aa1b81mr22449356ejb.383.1657613273439; Tue, 12
- Jul 2022 01:07:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220707080600.49041-1-allen.chen@ite.com.tw>
- <20220707080600.49041-2-allen.chen@ite.com.tw>
-In-Reply-To: <20220707080600.49041-2-allen.chen@ite.com.tw>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 12 Jul 2022 10:07:41 +0200
-Message-ID: <CAG3jFystTA3sD2nWJHPYq39WxRwjVt4qj2DMDk2Khh1kR=8ntg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/bridge: it6505: Modified power sequence
-To: allen <allen.chen@ite.com.tw>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEEB8F331
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 08:10:15 +0000 (UTC)
+X-UUID: cfffe12f99f9400e8664b26b50cd4cf4-20220712
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:bb70b979-a0bc-4ec1-8984-3e71cd97a885, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:0f94e32, CLOUDID:0328be32-b9e4-42b8-b28a-6364427c76bb,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: cfffe12f99f9400e8664b26b50cd4cf4-20220712
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 562334713; Tue, 12 Jul 2022 16:10:09 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 12 Jul 2022 16:10:07 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 12 Jul 2022 16:10:07 +0800
+Message-ID: <aa0b332468145634d6a9ef538da5c3eb26033de3.camel@mediatek.com>
+Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Tue, 12 Jul 2022 16:10:07 +0800
+In-Reply-To: <fde545ed10e3baa1a375eead29dd2d12d95b7cb2.camel@mediatek.com>
+References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
+ <20220701062808.18596-6-rex-bc.chen@mediatek.com>
+ <fde545ed10e3baa1a375eead29dd2d12d95b7cb2.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +68,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Pin-yen Lin <treapking@google.com>, open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Pin-Yen Lin <treapking@chromium.org>,
- Hermes Wu <Hermes.Wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>, Jitao Shi
+ =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>,
+ LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Allen,
+On Thu, 2022-07-07 at 10:21 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
+> 
+> On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > 
+> > This patch adds a embedded displayport driver for the MediaTek
+> > mt8195
+> > SoC.
+> > 
+> > It supports the MT8195, the embedded DisplayPort units. It offers
+> > DisplayPort 1.4 with up to 4 lanes.
+> > 
+> > The driver creates a child device for the phy. The child device
+> > will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so
+> > that
+> > both can work with the same register range. The phy driver sets
+> > device
+> > data that is read by the parent to get the phy device that can be
+> > used
+> > to control the phy properties.
+> > 
+> > This driver is based on an initial version by
+> > Jitao shi <jitao.shi@mediatek.com>
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> > +
+> > +static void mtk_dp_power_disable(struct mtk_dp *mtk_dp)
+> > +{
+> > +	mtk_dp_write(mtk_dp, MTK_DP_TOP_PWR_STATE, 0);
+> > +
+> > +	mtk_dp_write(mtk_dp, MTK_DP_0034,
+> > +		     DA_CKM_CKTX0_EN_FORCE_EN |
+> > +		     DA_CKM_BIAS_LPF_EN_FORCE_VAL |
+> > +		     DA_CKM_BIAS_EN_FORCE_VAL |
+> > +		     DA_XTP_GLB_LDO_EN_FORCE_VAL |
+> > +		     DA_XTP_GLB_AVD10_ON_FORCE_VAL);
+> 
+> clk-mt8195-vdo0 driver [1] is part of mtk-mmsys driver [2] and it is
+> still separated out to ccf driver. In addition, you does not manage
+> the
+> parent clock. If the parent clock is not enable, these leaf clock
+> would
+> not work.
+> 
+> [1] 
+> 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clk/mediatek/clk-mt8195-vdo0.c?h=v5.19-rc5#n138
+> 
+> [2] 
+> 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/soc/mediatek/mtk-mmsys.c?h=v5.19-rc5#n140
+> 
+> Regards,
+> CK
+> 
 
-On Thu, 7 Jul 2022 at 10:06, allen <allen.chen@ite.com.tw> wrote:
->
-> From: allen chen <allen.chen@ite.com.tw>
->
-> Change power sequence to meet it6505 data sheet requirement when boot on.
->
-> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
->
-> ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 2d119e3016b3..aa5e0aa1af85 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -3029,7 +3029,7 @@ static int it6505_init_pdata(struct it6505 *it6505)
->                 return PTR_ERR(pdata->ovdd);
->         }
->
-> -       pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +       pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+Hello CK,
 
-Making this change is problematic since it requires a corresponding
-change in all of the device trees that use this device. It's against
-policy to change this interface after it has been introduced.
+MTK_DP_0034 is just a enable control for dp hardware, so I think we
+don't need to move it to ccf driver. it's not related to ccf.
 
-Unless anyone thinks otherwise, I would like to see this patch dropped.
+After checking with Jitao, we only need to update
+DA_CKM_CKTX0_EN_FORCE_E. I will set this bit as 1 in
+mtk_dp_power_disable and 0 in mtk_dp_power_enable
 
->         if (IS_ERR(pdata->gpiod_reset)) {
->                 dev_err(dev, "gpiod_reset gpio not found");
->                 return PTR_ERR(pdata->gpiod_reset);
-> --
-> 2.25.1
->
+BRs,
+Bo-Chen
+
+> > +
+> > +	/* Disable RX */
+> > +	mtk_dp_write(mtk_dp, MTK_DP_1040, 0);
+> > +	mtk_dp_write(mtk_dp, MTK_DP_TOP_MEM_PD,
+> > +		     0x550 | BIT(FUSE_SEL_SHIFT) |
+> > BIT(MEM_ISO_EN_SHIFT));
+> > +}
+> > +
+> 
+> 
+
