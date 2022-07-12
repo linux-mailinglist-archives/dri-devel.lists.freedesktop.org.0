@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC74A572532
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 21:15:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 649285725B2
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 21:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6215996172;
-	Tue, 12 Jul 2022 19:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8A29398C;
+	Tue, 12 Jul 2022 19:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3279616D;
- Tue, 12 Jul 2022 19:15:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657653348; x=1689189348;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+b+lgaK3YASEo+tcVLtUlg/6iXgxr/IhFSh7iGYLsSs=;
- b=t+ZnR/KdesiWFwT1n6nWoRctGCuG1X1AfgB6+7lVdsx3hhPX3y0XvHPl
- MzFPRMBCaHD32q/SZIdd3DNjVH7q3geD4yTMu39rW7xV3gAKy61CH/E1m
- QpSOBW9rXJCrVDVsf89AMkVKtgs5KU3mf7CsomuZ2lFAHPW3v4z/8/y2t o=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 12 Jul 2022 12:15:46 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2022 12:15:45 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Jul 2022 12:15:45 -0700
-Received: from [10.216.25.243] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 12 Jul
- 2022 12:15:38 -0700
-Message-ID: <3c150bc9-68a0-7a35-6511-f80a42e8945b@quicinc.com>
-Date: Wed, 13 Jul 2022 00:45:33 +0530
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 503D095746
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 19:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657654765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J9wQ1q71bbTP6uLkRIf7psNkO9KtlJrVhSB2pJwwcaY=;
+ b=aCpIoLj7I71fu2m/eflN39XzkjGU2KtO/EBu+bmU3TzyLrNpLPCKDXGRnx6SPFTPSSb6ls
+ OKOi7FVQafinIPrxJ8OdTrTmnInZnEfFS/Y0lHHPnU+vhO33KL4xaTLCTjgSZXgPCRV4RB
+ cLhzuXaiEv3TMet2Co4jZBlfKHDs1Zs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-557-dEWDIJCYMsawgN-XyNmXkA-1; Tue, 12 Jul 2022 15:39:22 -0400
+X-MC-Unique: dEWDIJCYMsawgN-XyNmXkA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA80818E5282;
+ Tue, 12 Jul 2022 19:39:20 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFF1340E80E0;
+ Tue, 12 Jul 2022 19:39:15 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Ben Skeggs <bskeggs@redhat.com>,
+	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+	Daniel Dadap <ddadap@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v2 00/29] drm/kms: Stop registering multiple
+ /sys/class/backlight devs for a single display
+Date: Tue, 12 Jul 2022 21:38:41 +0200
+Message-Id: <20220712193910.439171-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [Freedreno] [PATCH v2 3/7] drm/msm: Fix cx collapse issue during
- recovery
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220709112837.v2.3.I4ac27a0b34ea796ce0f938bb509e257516bc6f57@changeid>
- <CAD=FV=U=J+yf6Qu0VgJ8A5Lhs_s8Fszw=Oa0XUny5XT-5z56xQ@mail.gmail.com>
- <1299312f-e614-e4e2-72cb-fd7fb99922ce@quicinc.com>
- <CAF6AEGvjD3LRm40mPr4n+jzx71WmwYpVWizUDLct9cgafjFRyw@mail.gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <CAF6AEGvjD3LRm40mPr4n+jzx71WmwYpVWizUDLct9cgafjFRyw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,107 +73,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, Jordan Crouse <jordan@cosmicpenguin.net>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Matthias Kaehlcke <mka@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/12/2022 10:14 PM, Rob Clark wrote:
-> On Mon, Jul 11, 2022 at 10:05 PM Akhil P Oommen
-> <quic_akhilpo@quicinc.com> wrote:
->> On 7/12/2022 4:52 AM, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Fri, Jul 8, 2022 at 11:00 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>> There are some hardware logic under CX domain. For a successful
->>>> recovery, we should ensure cx headswitch collapses to ensure all the
->>>> stale states are cleard out. This is especially true to for a6xx family
->>>> where we can GMU co-processor.
->>>>
->>>> Currently, cx doesn't collapse due to a devlink between gpu and its
->>>> smmu. So the *struct gpu device* needs to be runtime suspended to ensure
->>>> that the iommu driver removes its vote on cx gdsc.
->>>>
->>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>> ---
->>>>
->>>> (no changes since v1)
->>>>
->>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 16 ++++++++++++++--
->>>>    drivers/gpu/drm/msm/msm_gpu.c         |  2 --
->>>>    2 files changed, 14 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>> index 4d50110..7ed347c 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>> @@ -1278,8 +1278,20 @@ static void a6xx_recover(struct msm_gpu *gpu)
->>>>            */
->>>>           gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
->>>>
->>>> -       gpu->funcs->pm_suspend(gpu);
->>>> -       gpu->funcs->pm_resume(gpu);
->>>> +       /*
->>>> +        * Now drop all the pm_runtime usage count to allow cx gdsc to collapse.
->>>> +        * First drop the usage count from all active submits
->>>> +        */
->>>> +       for (i = gpu->active_submits; i > 0; i--)
->>>> +               pm_runtime_put(&gpu->pdev->dev);
->>>> +
->>>> +       /* And the final one from recover worker */
->>>> +       pm_runtime_put_sync(&gpu->pdev->dev);
->>>> +
->>>> +       for (i = gpu->active_submits; i > 0; i--)
->>>> +               pm_runtime_get(&gpu->pdev->dev);
->>>> +
->>>> +       pm_runtime_get_sync(&gpu->pdev->dev);
->>> In response to v1, Rob suggested pm_runtime_force_suspend/resume().
->>> Those seem like they would work to me, too. Why not use them?
->> Quoting my previous response which I seem to have sent only to Freedreno
->> list:
->>
->> "I believe it is supposed to be used only during system sleep state
->> transitions. Btw, we don't want pm_runtime_get() calls from elsewhere to
->> fail by disabling RPM here."
-> The comment about not wanting other runpm calls to fail is valid.. but
-> that is also solveable, ie. by holding a lock around runpm calls.
-> Which I think we need to do anyways, otherwise looping over
-> gpu->active_submits is racey..
->
-> I think pm_runtime_force_suspend/resume() is the least-bad option.. or
-> at least I'm not seeing any obvious alternative that is better
->
-> BR,
-> -R
-We are holding gpu->lock here which will block further submissions from 
-scheduler. Will active_submits still race?
+Hi All,
 
-It is possible that there is another thread which successfully completed 
-pm_runtime_get() and while it access the hardware, we pulled the plug on 
-regulator/clock here. That will result in obvious device crash. So I can 
-think of 2 solutions:
+As mentioned in my RFC titled "drm/kms: control display brightness through
+drm_connector properties":
+https://lore.kernel.org/dri-devel/0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com/
 
-1. wrap *every* pm_runtime_get/put with a mutex. Something like:
-             mutex_lock();
-             pm_runtime_get();
-             < ... access hardware here >>
-             pm_runtime_put();
-             mutex_unlock();
+The first step towards this is to deal with some existing technical debt
+in backlight handling on x86/ACPI boards, specifically we need to stop
+registering multiple /sys/class/backlight devs for a single display.
 
-2. Drop runtime votes from every submit in recover worker and wait/poll 
-for regulator to collapse in case there are transient votes on 
-regulator  from other threads/subsystems.
+This series implements my RFC describing my plan for these cleanups:
+https://lore.kernel.org/dri-devel/98519ba0-7f18-201a-ea34-652f50343158@redhat.com/
 
-Option (2) seems simpler to me.  What do you think?
+This new version addresses the few small remarks made on version 1 (mainly
+changing patch 1/29) and more importantly this finishes the refactoring by
+else addressing all the bits from the "Other issues" section of
+the refactor RFC (resulting in patches 15-29 which are new in v2).
 
--Akhil.
+Please review and test! I hope to be able to make an immutable branch
+based on 5.20-rc1 + this series available for merging into the various
+touched subsystems once 5.20-rc2 is out.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (29):
+  ACPI: video: Add acpi_video_backlight_use_native() helper
+  drm/i915: Don't register backlight when another backlight should be
+    used
+  drm/amdgpu: Don't register backlight when another backlight should be
+    used
+  drm/radeon: Don't register backlight when another backlight should be
+    used
+  drm/nouveau: Don't register backlight when another backlight should be
+    used
+  ACPI: video: Drop backlight_device_get_by_type() call from
+    acpi_video_get_backlight_type()
+  ACPI: video: Remove acpi_video_bus from list before tearing it down
+  ACPI: video: Simplify acpi_video_unregister_backlight()
+  ACPI: video: Make backlight class device registration a separate step
+  ACPI: video: Remove code to unregister acpi_video backlight when a
+    native backlight registers
+  drm/i915: Call acpi_video_register_backlight() (v2)
+  drm/nouveau: Register ACPI video backlight when nv_backlight
+    registration fails
+  drm/amdgpu: Register ACPI video backlight when skipping amdgpu
+    backlight registration
+  drm/radeon: Register ACPI video backlight when skipping radeon
+    backlight registration
+  ACPI: video: Refactor acpi_video_get_backlight_type() a bit
+  ACPI: video: Add Nvidia WMI EC brightness control detection
+  ACPI: video: Add Apple GMUX brightness control detection
+  platform/x86: apple-gmux: Stop calling acpi/video.h functions
+  platform/x86: toshiba_acpi: Stop using
+    acpi_video_set_dmi_backlight_type()
+  platform/x86: acer-wmi: Move backlight DMI quirks to
+    acpi/video_detect.c
+  platform/x86: asus-wmi: Drop DMI chassis-type check from backlight
+    handling
+  platform/x86: asus-wmi: Move acpi_backlight=vendor quirks to ACPI
+    video_detect.c
+  platform/x86: asus-wmi: Move acpi_backlight=native quirks to ACPI
+    video_detect.c
+  platform/x86: samsung-laptop: Move acpi_backlight=[vendor|native]
+    quirks to ACPI video_detect.c
+  ACPI: video: Remove acpi_video_set_dmi_backlight_type()
+  ACPI: video: Drop "Samsung X360" acpi_backlight=native quirk
+  ACPI: video: Drop Clevo/TUXEDO NL5xRU and NL5xNU acpi_backlight=native
+    quirks
+  ACPI: video: Fix indentation of video_detect_dmi_table[] entries
+  drm/todo: Add entry about dealing with brightness control on devices
+    with > 1 panel
+
+ Documentation/gpu/todo.rst                    |  68 +++
+ drivers/acpi/Kconfig                          |   1 +
+ drivers/acpi/acpi_video.c                     |  59 ++-
+ drivers/acpi/video_detect.c                   | 415 +++++++++++-------
+ drivers/gpu/drm/Kconfig                       |  12 +
+ .../gpu/drm/amd/amdgpu/atombios_encoders.c    |  14 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   9 +
+ drivers/gpu/drm/gma500/Kconfig                |   2 +
+ drivers/gpu/drm/i915/Kconfig                  |   2 +
+ .../gpu/drm/i915/display/intel_backlight.c    |   7 +
+ drivers/gpu/drm/i915/display/intel_display.c  |   8 +
+ drivers/gpu/drm/i915/display/intel_panel.c    |   3 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/nouveau/nouveau_backlight.c   |  14 +
+ drivers/gpu/drm/radeon/atombios_encoders.c    |   7 +
+ drivers/gpu/drm/radeon/radeon_encoders.c      |  11 +-
+ .../gpu/drm/radeon/radeon_legacy_encoders.c   |   7 +
+ drivers/platform/x86/acer-wmi.c               |  66 ---
+ drivers/platform/x86/apple-gmux.c             |   3 -
+ drivers/platform/x86/asus-nb-wmi.c            |  21 -
+ drivers/platform/x86/asus-wmi.c               |  13 -
+ drivers/platform/x86/asus-wmi.h               |   2 -
+ drivers/platform/x86/eeepc-wmi.c              |  25 +-
+ drivers/platform/x86/samsung-laptop.c         |  87 ----
+ drivers/platform/x86/toshiba_acpi.c           |  16 -
+ include/acpi/video.h                          |   9 +-
+ 26 files changed, 468 insertions(+), 415 deletions(-)
+
+-- 
+2.36.0
 
