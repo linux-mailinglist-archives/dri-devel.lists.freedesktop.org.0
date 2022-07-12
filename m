@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B563E571555
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 11:08:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E50571561
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 11:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8710411AFBF;
-	Tue, 12 Jul 2022 09:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A96393A74;
+	Tue, 12 Jul 2022 09:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E776914A429
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 09:08:15 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id r10so4084725wrv.4
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 02:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=64H1Kxgm8ncmGDcNtttCQA5XuXOfCcJqu3peaSGQwt0=;
- b=LNz3i4o2jAUEcKiMvsU1dfaggfgUlmGi8O0gCZsYDtksi3Ay6mT+0QO1Ws/AQ0xRf7
- OxiV1c5uRao+KCfHGIwCbH8P2LGz5roJlvYguREHYMFQXtL5jgUTD55IOkgc/jvTEcPO
- GSgZA5VVRaX3K9fFfaktQ2ZRV1FCXoL/jQxSk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=64H1Kxgm8ncmGDcNtttCQA5XuXOfCcJqu3peaSGQwt0=;
- b=qxsxFiR4mGURYmZIt+LkjzvMB908ngSVlJkoz9lQCm9755GOXazqir2B4+DEc85i5a
- jFBL1tkHENqxo3dG7bN8w6FsX3B8H/ijeJIxVIlpcNtvjOMhIDRQOeF0SFWKkO/Bz5PC
- efZb2T1mHrhlidOESToiXgsBHuwfN2C0SF3iG+oKaSOVaFNiWVfUOp3qfHoabqUn3+Hq
- pYhTYbauQhvvA5Cw3ha794qqahK7XVRFR16Qw/phjNMClKJIccs0tLrZmK6gT37UuwvH
- AZEpXoOkZIBEjihuaVRjY286zt/ZZmfiV515ik12hxsPTAQ5IY3ry9xZOxxN103Dw+yR
- aogQ==
-X-Gm-Message-State: AJIora+TwQ5MI8NIXrzhMnGhT0SzLFPHY7l/afMI4vXrAagNteA9me1u
- L14trR7xFZ3YpBfqImhNY0ktem8ZsnJY7XMGnT0eCA==
-X-Google-Smtp-Source: AGRyM1veFTFmz28R79lM12n/O8GNXkrvz8w+ExQZWk8HwJqmd7Y+ArzgKwSYKQFbeBymgAOO/6GwPX3fMphTlpVQQzU=
-X-Received: by 2002:a5d:64cc:0:b0:21d:a4bd:fdbe with SMTP id
- f12-20020a5d64cc000000b0021da4bdfdbemr9984122wri.580.1657616894391; Tue, 12
- Jul 2022 02:08:14 -0700 (PDT)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org
+ [IPv6:2001:67c:2050:0:465::202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B38FB93A74
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 09:09:30 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Lhw1M0SN3z9sWv;
+ Tue, 12 Jul 2022 11:09:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1657616967;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7pHn6da070NlLkNZyZhpM0wryZYoHPMUzmHUsDvJrHQ=;
+ b=ghsPRor69eTJP+6phIDt2wvIhwsbI8k+gAvUSsPResTnnCv3++NheO6kAXVnwf1L9XqzD0
+ jx5wXwS5XWpxtQPwTQ8jRpzb4hLxe28Y7E0qWzu6PPrSoPJ6jC47qLDVRc7bMfam6rvKjL
+ hLUSNY/MAWepi3kpcD66XN0/8EwwBnS4dwzaWBeS4XJQNKn4BsZgFhz3Xn2Ga7ApaIgIn3
+ BCLMsEzbHPvE87AsUQrmwf5hbrZAYtKzlIlNoxtv6lTqhr7vl/MtYtu0V36uAmr9opMVUv
+ SgEr5IobDwRyqMLIA7ShmmaaT5j9PIg+tiJriGG3b7JM0e/AST2gGX6lI+j+kQ==
+Message-ID: <69a6aac7-0d48-7361-9750-8f242d374d60@mailbox.org>
+Date: Tue, 12 Jul 2022 11:09:25 +0200
 MIME-Version: 1.0
-References: <20220707080600.49041-1-allen.chen@ite.com.tw>
- <20220707080600.49041-2-allen.chen@ite.com.tw>
- <CAG3jFystTA3sD2nWJHPYq39WxRwjVt4qj2DMDk2Khh1kR=8ntg@mail.gmail.com>
-In-Reply-To: <CAG3jFystTA3sD2nWJHPYq39WxRwjVt4qj2DMDk2Khh1kR=8ntg@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Tue, 12 Jul 2022 17:08:03 +0800
-Message-ID: <CAEXTbpc4PpvoOdu0OSsgvZFsc9AeJwvz7AmnabYO8-wGS56N5w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/bridge: it6505: Modified power sequence
-To: Robert Foss <robert.foss@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 1/3] drm/fourcc: Add missing big-endian XRGB1555 and
+ RGB565 formats
+Content-Language: en-CA
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <cover.1657300532.git.geert@linux-m68k.org>
+ <0744671ac096a12f0d538906bd324efa71b11400.1657300532.git.geert@linux-m68k.org>
+ <96a87833-d878-dde9-e335-9ea51a4ba406@mailbox.org>
+ <CAMuHMdUgdbZeoFLFL8+Hm-6fG9cg5Wzq++JED3KR5P9YZtRQ4A@mail.gmail.com>
+ <20220712074715.kopstlvz4q6npaye@sirius.home.kraxel.org>
+ <CAMuHMdVrf7fgzumcSnZJ3OMGqA34YExXcF3O15YXYpA1ykgKyQ@mail.gmail.com>
+ <20220712083907.3ic7bltstaskz72n@sirius.home.kraxel.org>
+ <CAMuHMdVhxE9aayG8qRMwUuBryiR_ng08m63_+GY8htFCSmUiWg@mail.gmail.com>
+ <20220712090305.44jq3olwhwypisoc@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <20220712090305.44jq3olwhwypisoc@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 9d87deff0c8c81f488c
+X-MBO-RS-META: 6fgaontf1ee3mo7o7bdra4eb1ym4h8t3
+X-Rspamd-Queue-Id: 4Lhw1M0SN3z9sWv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,66 +68,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- allen <allen.chen@ite.com.tw>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Pin-yen Lin <treapking@google.com>, open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Hermes Wu <Hermes.Wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robert,
+On 2022-07-12 11:03, Gerd Hoffmann wrote:
+>>> As described above DRM_FORMAT_HOST_RGB565 means bigendian on bigendian
+>>> hosts and little endian on little endian hosts.  Which is not correct
+>>> when your hardware does big endian no matter what.
+>>
+>> But (a) drm_driver_legacy_fb_format() uses DRM_FORMAT_HOST_RGB565
+>> if quirk_addfb_prefer_host_byte_order is set,
+> 
+> Ah, right.  Missed that in 'git grep' output.  Given that traditional
+> fbdev behavior is to expect native byte order using
+> DRM_FORMAT_HOST_RGB565 there makes sense indeed.
+> 
+> Scratch my comment about it being unused then ;)
 
-On Tue, Jul 12, 2022 at 4:07 PM Robert Foss <robert.foss@linaro.org> wrote:
->
-> Hi Allen,
->
-> On Thu, 7 Jul 2022 at 10:06, allen <allen.chen@ite.com.tw> wrote:
-> >
-> > From: allen chen <allen.chen@ite.com.tw>
-> >
-> > Change power sequence to meet it6505 data sheet requirement when boot on.
-> >
-> > Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> > Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> >
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> > index 2d119e3016b3..aa5e0aa1af85 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> > @@ -3029,7 +3029,7 @@ static int it6505_init_pdata(struct it6505 *it6505)
-> >                 return PTR_ERR(pdata->ovdd);
-> >         }
-> >
-> > -       pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> > +       pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->
-> Making this change is problematic since it requires a corresponding
-> change in all of the device trees that use this device. It's against
-> policy to change this interface after it has been introduced.
->
-> Unless anyone thinks otherwise, I would like to see this patch dropped.
+DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN is still what the driver should use conceptually, and should match DRM_FORMAT_HOST_RGB565 in drm_driver_legacy_fb_format on a big endian host (which is presumably always the case for the atari driver).
 
-I don't really understand why this would require corresponding change
-in device trees.
 
-Currently there's no real it6505 user on upstream. Also, the GPIO
-value will be changed
-in it6505_poweron, so this change only affects the power on sequence of it6505.
-
->
-> >         if (IS_ERR(pdata->gpiod_reset)) {
-> >                 dev_err(dev, "gpiod_reset gpio not found");
-> >                 return PTR_ERR(pdata->gpiod_reset);
-> > --
-> > 2.25.1
-> >
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
