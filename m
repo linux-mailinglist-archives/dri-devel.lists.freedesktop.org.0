@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F835715ED
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 11:41:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 528F35715F8
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 11:43:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A10D93E03;
-	Tue, 12 Jul 2022 09:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58B811B0F1;
+	Tue, 12 Jul 2022 09:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51A893E09
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 09:41:11 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id r3so12998157ybr.6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 02:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C81410FA3F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 09:43:00 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id g9so2173607qvq.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 02:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ap4l5XvEX4U5y4HXdhNjnDCI2p/ybo07t52ucHAEl58=;
- b=nF5jk4IbkWMGbIvw6tuAwseMZKQOb4ZuSAzGDcOJ6hXjhVuy5eJJvBwMgRRJKyQTok
- R88q4K0mceZid2iijl+74nhtOqj+jdMd/PaLJmi1NaA24/LA6+6TXm9v7UxfZofiD0CW
- XaP6nyYSFoHb5NPejvOBbiHaG1D3SuT886+Pg=
+ :cc; bh=YoZBYZy41JFnQOGO3Hk17+jt5jdA+Ko/TmjpBwiSidA=;
+ b=Mp56ho49ONCB9YdoaKjrcHN9VWBBj/JQHylIy8Y66ZDWzu6613aEVMlt4rXLr4xbnT
+ /EAd5UzTDUYiryhZdDscI62gJ5lqGH6tOEoClYAJwYKjdWHqTtnEzRM7gY5AfpO6KvfJ
+ IdcWdko+YQZQjfCIa7XmsgynjbgkayMyaVnVEybhLgR0nwoUN9uHpzAa61o2YvQAROu9
+ 9XKte3wpeBCxjHFQ+HRDKFbY2VKQMtC6xLwMlqGrDUVx79hrhUrjEhCjDMhlgFb5d3EE
+ hPb+EZyqgDTxqoG8689V7XSNtZ2AbdDG+swssRacz8vsQ3qM+byfPSmjl+zwRPTsES5T
+ C5BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ap4l5XvEX4U5y4HXdhNjnDCI2p/ybo07t52ucHAEl58=;
- b=bKOphKyLExKsVcHSMgGMLcF1AVFnuGB+hvC9AkwNjEpZzJtosiwINwAmeCHVmLfsWK
- 3egy9KqE/uRy87IZBndNnsRvyWCdbHtJHNTk4mzl2ARScg/U8S7Sq8u69fZp8zPvtgyV
- 4QBIrr1Ea5zu7J4i+PWB7/TkK8LjfD9TYjZUy3XcXEIHx2zO27Db/axThNn34L4TUuBz
- 36sfyBj9p6ordyOXnBVobKoXmrp6ZwTI/1vFBiHHQb7rXK0qXjtTzJxgTpkQ7il5fBxO
- VCb9j7dOAveNo+MvUoKe7ymIBZBqOxpsrH0HCdc1ghzz4diI28hmNZFM27cC37KpgiCm
- Cw0g==
-X-Gm-Message-State: AJIora9k51x8r4eb/aKhLKB6XoovBhXRKaT6GMPGnI/nruWtohgORARV
- zHvVxPrlia4L+86JKzhQM6EavLnYngrdh//k3R3x8w==
-X-Google-Smtp-Source: AGRyM1ueFTwJTwmZe47+iw7VZHKOxIEWEBZvmpXenIjQL5R+ILXsO8/oHHqMY6GdJ5+VnIf5wvoGvPY5MBQuREGAMf8=
-X-Received: by 2002:a05:6902:728:b0:66e:8f7b:a252 with SMTP id
- l8-20020a056902072800b0066e8f7ba252mr20510340ybt.584.1657618871004; Tue, 12
- Jul 2022 02:41:11 -0700 (PDT)
+ bh=YoZBYZy41JFnQOGO3Hk17+jt5jdA+Ko/TmjpBwiSidA=;
+ b=A7fMcdqQQ3BFOOTHj4tOS8K9es2u8HiPwfiRDoXeAp1NOym50vc7l8RCSKEtm9b6en
+ u9sVKfiGz2OVzQ7DBxN9/VGzBkRKdcPBEYwr2MGH1OxU06A77gCugGgnS2pWRI2wn0Ek
+ ROYPWhmdkwV/yjhR/i2EtzqK4h9WPg3aWRuzFB6wx2JHWBOhKwsCMB5KD4Do7PmaieNu
+ N3bP/cE6tzImEQBL1ud2r+tJyqF8x4MBvAOKUCAvmwhtPOQ+QPSZi4R9xKGEAewAZt+J
+ pnDenbxh8naK1fBB38TMRcUaQxZha1ohoj42o8/q7MmiGw/niknzqqO4ZM1vJLgv53Rx
+ I6kA==
+X-Gm-Message-State: AJIora9Zo9tJ6xpsHxTehiLyauHIHSRDCQ0OyOI+yYzI9dXm6y9SjzVf
+ s9+tpraZ+z11Nh6JLHwJpAk5FOhw1b+jn8qsCu6dSA==
+X-Google-Smtp-Source: AGRyM1tHoH02JA0eu1BvlGmolAYocWBMRLvOM+ZDeFF0Ju9sWVnKd2I++G5vKn9D8D1RhgOguQYeeGDqDOcrYk768oM=
+X-Received: by 2002:a0c:8ecc:0:b0:473:2fa4:df7c with SMTP id
+ y12-20020a0c8ecc000000b004732fa4df7cmr16692462qvb.55.1657618979170; Tue, 12
+ Jul 2022 02:42:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220707080600.49041-1-allen.chen@ite.com.tw>
- <20220707080600.49041-2-allen.chen@ite.com.tw>
- <CAG3jFystTA3sD2nWJHPYq39WxRwjVt4qj2DMDk2Khh1kR=8ntg@mail.gmail.com>
-In-Reply-To: <CAG3jFystTA3sD2nWJHPYq39WxRwjVt4qj2DMDk2Khh1kR=8ntg@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 12 Jul 2022 17:41:00 +0800
-Message-ID: <CAGXv+5HcU6paJJzm4nLe6mmSYUaR-pp5LBsy9aev0RRX+FKmcg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/bridge: it6505: Modified power sequence
-To: Robert Foss <robert.foss@linaro.org>
+References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
+ <20220710084133.30976-9-dmitry.baryshkov@linaro.org>
+ <20220711231638.GA449827-robh@kernel.org>
+In-Reply-To: <20220711231638.GA449827-robh@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 12 Jul 2022 12:42:48 +0300
+Message-ID: <CAA8EJpoHKewcM3upa9GvNhUyKNC3sjqYa2rA-zQk5m1TpZmAtg@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] dt-bindings: msm/dp: add missing properties
+To: Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,65 +64,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>, Pin-yen Lin <treapking@google.com>,
- David Airlie <airlied@linux.ie>, allen <allen.chen@ite.com.tw>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Pin-Yen Lin <treapking@chromium.org>,
- Hermes Wu <Hermes.Wu@ite.com.tw>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 12, 2022 at 4:08 PM Robert Foss <robert.foss@linaro.org> wrote:
+On Tue, 12 Jul 2022 at 02:16, Rob Herring <robh@kernel.org> wrote:
 >
-> Hi Allen,
->
-> On Thu, 7 Jul 2022 at 10:06, allen <allen.chen@ite.com.tw> wrote:
+> On Sun, Jul 10, 2022 at 11:41:32AM +0300, Dmitry Baryshkov wrote:
+> > Document missing definitions for opp-table (DP controller OPPs), aux-bus
+> > (DP AUX BUS) and data-lanes (DP/eDP lanes mapping) properties.
 > >
-> > From: allen chen <allen.chen@ite.com.tw>
-> >
-> > Change power sequence to meet it6505 data sheet requirement when boot on.
-> >
-> > Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> > Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> >
+> > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >  drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  .../bindings/display/msm/dp-controller.yaml          | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
 > >
-> > diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> > index 2d119e3016b3..aa5e0aa1af85 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> > @@ -3029,7 +3029,7 @@ static int it6505_init_pdata(struct it6505 *it6505)
-> >                 return PTR_ERR(pdata->ovdd);
-> >         }
+> > diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> > index 391910d91e43..52cbf00df0ba 100644
+> > --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> > +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> > @@ -70,9 +70,21 @@ properties:
+> >    operating-points-v2:
+> >      maxItems: 1
 > >
-> > -       pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> > +       pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> > +  opp-table: true
+> > +
+> >    power-domains:
+> >      maxItems: 1
+> >
+> > +  aux-bus:
+> > +    $ref: /schemas/display/dp-aux-bus.yaml#
+> > +
+> > +  data-lanes:
 >
-> Making this change is problematic since it requires a corresponding
-> change in all of the device trees that use this device. It's against
-> policy to change this interface after it has been introduced.
+> But this is the wrong location for 'data-lanes'. It belongs in an
+> endpoint node.
+
+Ack. Then I'll drop this for v3.
+
 >
-> Unless anyone thinks otherwise, I would like to see this patch dropped.
-
-I think you're confusing GPIO_ACTIVE_{LOW,HIGH} flags in the device tree
-vs GPIOD_OUT_{LOW,HIGH}, which just sets the "default" state the GPIO
-should be in when it is requested.
-
-This change doesn't impact the device tree.
-
-
-Regards
-ChenYu
-
-> >         if (IS_ERR(pdata->gpiod_reset)) {
-> >                 dev_err(dev, "gpiod_reset gpio not found");
-> >                 return PTR_ERR(pdata->gpiod_reset);
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    minItems: 1
+> > +    maxItems: 4
+> > +    items:
+> > +      maximum: 3
+> > +
+> >    "#sound-dai-cells":
+> >      const: 0
+> >
 > > --
-> > 2.25.1
+> > 2.35.1
 > >
+> >
+
+
+
+-- 
+With best wishes
+Dmitry
