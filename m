@@ -1,155 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A76572726
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 22:24:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C19F05727A3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 22:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4499466E;
-	Tue, 12 Jul 2022 20:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B79514AED9;
+	Tue, 12 Jul 2022 20:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 177E193D8A;
- Tue, 12 Jul 2022 20:24:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VEBtQEwm5RCEadI17DJgw+VVBd5eeGDfnazsmU5wlbz/F7l4POV141nqALyatD46fBbZLHfRwvQCeiSN3sWLdBYhO6Ux5il6NwwL8W+e+hBKpEndqTcsRANrNPRDu9wi8HD3raZp9b9Ql+MQpkEbkhhEjMejfhe6lhAoYY0Ojw+/bl6Q3LmffCHjx7+Q5rZSGGFbDBtAiXeOZQ9S4E37X7gC47tJdp0+EneikMD5OUs8EHjSYkLJ5oV5QsBnJ2Fkr2PeYMI0Hd5FteZeOmJaWE6vZQc8FaLHvvs40fPCA1xnMdYeYhtOKleLrMruYwtia/VtCV2L9Xcuut18eqHU9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2vdUJKSNSf8FHUMQKqLFkfrpOBRDPRSv/p88knp60HQ=;
- b=Huq5BgeYbjez9RrluiCgszrBMMPnV7g89UgUshpusNmf5UFnn7hD+CIpTtVByny6ci9hhG30XkqI9dNVdjdwfN4oLahVJVFv1DbrH1MvnpYtar+iV1AfXSOIVasMo/l6aA3OqJUUL7vkl+wP0aAB5cLwFHgNomaKPGmUx0e/YjTZvpgsSapjfKjk42MAodG0X546cmfciVY16xOY8sKWlEMLh66uxd8Y7EfDm8Xmhc7oyT3tZ3R/4bqCJHmoBFJHvpL62SNjjBQKzjxvLd97kIwlo2OgR5GOEehOuyK2JwD9P2/vDUylqd/FiGVmVD8O0Vv/LzTzKdGev1jfBVh31A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2vdUJKSNSf8FHUMQKqLFkfrpOBRDPRSv/p88knp60HQ=;
- b=gf4n4/458AmG0EZAsNLCkMCh0pGmguCa+IN0iwpuDNijzvi7SxckszblivWnQYMIMp0wRQVioBy+Iwh/5ooiJrn94dr7ofXUoi8xUc4BQQEn6ZW7kZH+w4vBKtMt/JGircpqe1Rm9XOG+1SwHKeuRg1jzCzL/+vPlOfVgKb7yY2hPjEjyEVMb2iuM3TnLTtquNMUc1viRZk4sSlg4M6kEck47D0eNWss7aee86Vu5P9nzW3GMzyHGe+LRGhqRzAHREI6p5OeqxSq54WAzBBDiJkI0z2Z2/3XUSg/BexmrtJuVyBRdB3qg1DWaML9x9ZX/eEmH9bpGEt3rQcme981bA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB2763.namprd12.prod.outlook.com (2603:10b6:5:48::16) by
- DM6PR12MB3305.namprd12.prod.outlook.com (2603:10b6:5:189::29) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5395.18; Tue, 12 Jul 2022 20:24:21 +0000
-Received: from DM6PR12MB2763.namprd12.prod.outlook.com
- ([fe80::d043:c95a:cf42:cff4]) by DM6PR12MB2763.namprd12.prod.outlook.com
- ([fe80::d043:c95a:cf42:cff4%7]) with mapi id 15.20.5417.026; Tue, 12 Jul 2022
- 20:24:21 +0000
-Message-ID: <2c4fafb0-e47f-d640-0fc9-4530a8d462e0@nvidia.com>
-Date: Tue, 12 Jul 2022 15:24:14 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEAEB14AED9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 20:48:02 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id c15so11321428ljr.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 13:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=T3rJsbQfsC4pWsZ0OeZCZ/yUBmCsy051ZUHKGlMrphY=;
+ b=gpV3sjqDMu2bTNevWRp7/qYwFKCnI4WatOzRkblLbcMX8pl0rrbzSwmGVw6Wm65cFm
+ 8LMvu9ZJleVcrmp1GK2glONYa8z0rJc1n+HG808Kv1derUqS4QQ2mWpqoBhNUVmFrk34
+ HT8x2S/i8oJpuVsjvmY3eSOJ1pIaXw/UtO+HK+XjASq6scIQq1pvI4v7jb0H11+QQb3B
+ gghLBYITq4QyZCMhRA7LHmWbw+nVDV3nQjyL1x1iJQNtsa8Y45UvDsCJXr/LH3VfYuTX
+ KETPUuj+miGHLk0UhAKpuCuh5kG5KAnpyQxeosj6M9E6gLsYaDszPwVeta6ObBLSiw9H
+ U9Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=T3rJsbQfsC4pWsZ0OeZCZ/yUBmCsy051ZUHKGlMrphY=;
+ b=inNNrPXeWJKZboIPkgXps55Zz9gmIzPHia7njd5Zw4ZSDlMnpNjkhc2YHvL1TEROe8
+ 4TAXklnl4OGHGd6XpAOrd9vLgp9OLNHbkrLYyyaG1eKrg5DPaBhl6knfuS9EAY/qQWLl
+ ElZ9slws6dyQV2S9LnelUnVEMvL43Dor5hjXY9xYsZKWwF6u4hbN6E3BT57j0B1Av4HH
+ IwyWUXnaGtoWhVSGOApK+24+QJ7lv+eSYD7or2ya44LiH3Xlyld3i+d8D0HecEU+T5vK
+ m3E8tSgKTmRSo8ebM0CQdQpJCwGv3MQgHDXxmKHWDdHHsI+G9SZMJcrKaBli01OFpfJ6
+ 6DhA==
+X-Gm-Message-State: AJIora9WQ2vpTS2NBatTqcHsmMOLkwiYvaI5RDvDMFvwRfwN3LkjXRHV
+ y70LgjDP38V+MGsVq8UbqB3Xyg==
+X-Google-Smtp-Source: AGRyM1t5qMhpWpDxR+S01a3b5CFaHgIqWdr5TGwOhHmkVou4JLhSQxAM26Z1QE1BqKfH6t8kbBkK/w==
+X-Received: by 2002:a2e:a264:0:b0:25d:63ce:29ed with SMTP id
+ k4-20020a2ea264000000b0025d63ce29edmr9891262ljm.32.1657658881171; 
+ Tue, 12 Jul 2022 13:48:01 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+ by smtp.gmail.com with ESMTPSA id
+ o23-20020a2e90d7000000b0025bf4eddbb6sm2673014ljg.133.2022.07.12.13.47.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 13:48:00 -0700 (PDT)
+Message-ID: <68b8da6a-03e2-9da7-795d-f028bc0ed05b@linaro.org>
+Date: Tue, 12 Jul 2022 22:47:57 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 20/29] platform/x86: acer-wmi: Move backlight DMI
- quirks to acpi/video_detect.c
+Subject: Re: [PATCH 1/2] dt-bindings: display/panel: Add Sony Tama TD4353 JDI
+ display panel
 Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
- Andy Shevchenko <andy@kernel.org>
-References: <20220712193910.439171-1-hdegoede@redhat.com>
- <20220712193910.439171-21-hdegoede@redhat.com>
-From: Daniel Dadap <ddadap@nvidia.com>
-In-Reply-To: <20220712193910.439171-21-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht
+References: <20220712200244.960018-1-konrad.dybcio@somainline.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220712200244.960018-1-konrad.dybcio@somainline.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0161.namprd04.prod.outlook.com
- (2603:10b6:806:125::16) To DM6PR12MB2763.namprd12.prod.outlook.com
- (2603:10b6:5:48::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 787066bf-850a-4114-8480-08da644480de
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3305:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Yk1HMnVTam9icVkrZUFkYlZTeEcrYjZDVHJpelJrRFdYR2ZwZnNpRVBNd1lM?=
- =?utf-8?B?VjdrRExyYkErU3hCYS84R2FnMC9laThRVWdQcjZkRmJ0ZklMaUhKMTFTa0I0?=
- =?utf-8?B?QUg0VlFmR2tZemlkdVB3QUZISUNwOXBqcGJ2K0NkVFhIRFlLU0N6SUpBd0Y3?=
- =?utf-8?B?VE92elptVlNTcjU4aE5tTEFVMzRNMUN3QnRmRy8zRjZ6MDU2Qlkya3hBMnU5?=
- =?utf-8?B?dkF1N0V1Ny9vQmtJSHI4Mi8xUS9DMTBoM0VndDRLTTNLYVhtWEtNbStJWVpR?=
- =?utf-8?B?clJvZUMrdnVNREQ4Um13ZWRoc0JIaDNoVHQ1UnJXc0FBYTFmWUt2RHREZUgy?=
- =?utf-8?B?bWdFMHlUTENtVU5jaDR6OEJoMEgydTM1R0RCblRabHZ2QjgrRER5SXlYZ2FG?=
- =?utf-8?B?UDRtSEp5cm0rUWFkSmQxWk13Z1FxNGFxeUx1QndnOWlxZUVlbi9FZXdRUkp3?=
- =?utf-8?B?YUVkYnNncnl3aUlBK0UyMXFudXJjR0oxeWhaMHR5bGdTOGNUU0FpUkNFS1dq?=
- =?utf-8?B?c1BXYlFtemlQSGFaQmw4Z09lTGs5U0pKSGM3SWNPMmc4WFpZV2tHTithTXMx?=
- =?utf-8?B?c21xL3pJYmh2K3NkblE5dmJaNEtac0pTdzQrRnZFZ1ZPcGxyQzB5Vi9zbUQr?=
- =?utf-8?B?WGxNNE5tZ0kybzliMnJ6QzBFaFBMb2UzWmkxbm03dTliSWtKbkRZclh2OEM2?=
- =?utf-8?B?eXp5d1d1YXFhQ3VhOWhUN1g0Mnh2RDdMZHBQbDMrbDZxNGs5MVlmVEFxZEY2?=
- =?utf-8?B?L2lXaWxSSFhHZ2g4bXpuTk11UXFMZ0FRVGIxUnZyR0x6Sy9FaWlEVDQzUzFk?=
- =?utf-8?B?ZlU4N1gvOTg5Y2JkUVRsTlUwLzFCUEdBZ3BpVTg1aUVjdGRDelFjWktrb1lL?=
- =?utf-8?B?MzhDNmZUUDlNN21YY05TT0lJYnYyUlRNcTNZUmQxbXA5T0ZXMytmUWFSS2xi?=
- =?utf-8?B?SFF6Qk4wbnpuY1VmbmlYMTB2SzNYV1J0cTNRQWlNUmFwYWthS3luUU9xVlh6?=
- =?utf-8?B?Z3lvbkpnemJZUmJ6MWc2aHNkL1laOXEycTZ6dVBpdmExRzJuOU56VHB5aEVz?=
- =?utf-8?B?cEVYV25SWU9XYkU3TVpWc1AyNXlwQ3RZQ2l1Rk1kVXhXZWE5NHpBd25DNktx?=
- =?utf-8?B?MTdRemZhNG96Y2ZZdjVpUUxUbUx4NHVKRUhMb1plUUdjMW40b3FHUEdjOFRx?=
- =?utf-8?B?M1kzTG0xSzJUMVFoQlRjNEdNejc3VlpTc3hiejBJLzN3WXIzL2NPVkFYejlE?=
- =?utf-8?B?Zm9oZzhsSXVnNStGcFB3TE83dnhuQ2tzQVRFWE5XR3pRdXJZcTBkM2NVSk1m?=
- =?utf-8?Q?hdr1ghOu1SdIk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2763.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(376002)(39860400002)(346002)(366004)(136003)(6486002)(186003)(6666004)(54906003)(316002)(2616005)(6506007)(4326008)(6512007)(66556008)(966005)(478600001)(26005)(38100700002)(36756003)(66476007)(2906002)(53546011)(66946007)(8936002)(41300700001)(5660300002)(31696002)(921005)(83380400001)(7416002)(86362001)(110136005)(8676002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djlNN1JFamJhT3l5L3ZwV294ZmhzNkVoc3hrSEZTM3FaT0NleWhVOFFHWFpj?=
- =?utf-8?B?c2w4YnJqd2lBenRMZ016QUlIWUNra1hjQXBzVVplWGREY0t2RlNDSVNGeG4x?=
- =?utf-8?B?ZnRCSUk3bEtLK2QyR2JuLzZmRHZMdjJTVXpQT1hvcnlOL0tnODNxRzJsMFVK?=
- =?utf-8?B?NHZ1STBEM0JzUVJsbFRhZ2FrbmtDb3l6VFoxMmxCUlVEVDREQUN6V2pVTXVs?=
- =?utf-8?B?N3lBeGpyU1UxQ051NkxDdUNNLy95aWJLSzdnQ2JVL3FQb1FoNVk0WExJUmRK?=
- =?utf-8?B?aUk1VnFPWjdMQkQ0RmVpWGJrMFc5WjdoSUlxaUg4YjB6UFlNQkQ1OENENHNn?=
- =?utf-8?B?VWwwdEhzL0x3d3VqVkEwQTFzd3lWeTQzQlFLZVkyaURrdGlrOXpnYTBSK3dz?=
- =?utf-8?B?Q2J2dERPbWZrWnpUWEZFWWQ0OEdWSEphVU5zVXdFYVdZdUNuZit6T2U5SHhJ?=
- =?utf-8?B?OFhEOUJDZmxXZWVOZTBJWHlHMW83bm1jM1VVRElpcUpGV2dWRlFScGR0QlFC?=
- =?utf-8?B?WktOVXFQcm9ON1VyM0FPK3Y2TThtR0RnUkh2UXNjOU9neDRBZ3ZIRzV0NW10?=
- =?utf-8?B?NmY3OW54Mm4rRmJUUmwxODlCaFpja29ROTFiS2ZUYlp2bG1wbGU4ZWYvL2hL?=
- =?utf-8?B?NjFkdzF0anptaW9vK3B0QXoxamdpV0RZZks2UEhkdUNZelVLcWhMaUlSMFA0?=
- =?utf-8?B?RWVVSEs4SjNmRmNHOE5HOXZTbFNiUmdGSldDMHRUTVVzcW9Id2xBcDVaMjZa?=
- =?utf-8?B?ZklRbW5yVjZHNTROTlRWS25Pdis0RVdXVFlyWEF3SjZHYVZrdXNQVHQwNDZV?=
- =?utf-8?B?dHMyc3BTWVlmam5PWW5NUnZvMk5XbmpKcVFIdHBJaGJHKytmUm9RTFhNbHhY?=
- =?utf-8?B?NTh3dGpXRDBVT1JWajZXenZ2ZFR1REQrZ0FUczR6K2l2MThxcTZPS2tDa0p2?=
- =?utf-8?B?enU2dTFtRDJuRWMvd2pXcGgxbDBjZzZaL3JBVjZ3MDVHdWFsNnZwZWwrYU9V?=
- =?utf-8?B?d1YxTnB4a3IwUlQ4aHF4WXR5OFF5dUwwK1BqNnJNT2JtMGRna1dUR1NaNy91?=
- =?utf-8?B?VmRaTUp5Y1c1TGY4R3FaMU51bTl0aVhJeUdFSlNlQnFYQW5RRHFxUnpPN0RQ?=
- =?utf-8?B?NjlHSUtMbW1VRDVVRkl6bmI5TXUzaUxRek9oSnM5Q3kzRm1KZFBjTjUrWndE?=
- =?utf-8?B?bWM2OTg5eVVqcVR3WFI0dGxGUmtRVGV0MkZBNm1hMlM5c1psNk5IVGZ6NXEv?=
- =?utf-8?B?cjNlNW1vUHN4eURxV3RtdGc1ZHp1SnNvN05tRDNZL2ZWeDlrTVlwc2QyUWRT?=
- =?utf-8?B?Z0N2Qjk5WlN2bnhTdXk3dVBPMkkzMGJMT1ZXekswMXVibE1FNWZmbWNyTjJV?=
- =?utf-8?B?MkNzd0RsNzNzTGx6UUxEOEE5MUxXTGM1QXhSQnJ3UVpjSHQ4bGg4ZGJSK1Zw?=
- =?utf-8?B?MElnMEFtZW9ObEpyQUowTjNpNnp0YXUyR1RYRTFPVTFGQzBQL1cyNWkxbjNh?=
- =?utf-8?B?a0NQVER4eXJ5SW9URnpYWE8rdFZKVmRIYnlxcStUMmk1aE5yMmtZUC9yd3BC?=
- =?utf-8?B?UnhOZExVTFZUV3QyV3pBR0RYRkdTQ3d5amtpcDhVc3lRYmk4OUtFQ29hL3Vx?=
- =?utf-8?B?SXFNUjZuSDdnWkJsQXNibWdBL2xHMytLejYzVjNUNUh2REZuYXQwTmYySjlJ?=
- =?utf-8?B?QUNHSEVhdTFXT2JJOWdoL0JMNEVVc0QxRjRTZTRZaDc3V3EydklhMDFEZzdO?=
- =?utf-8?B?Tm5tdWtQc1BsUWd6TXZFYTB1dCtsM1hacHFCcHZGcmJISkdqUjZ4QjNsYVNV?=
- =?utf-8?B?empNZ3hQTzZpYlNqbFhBS0pIMXV1SG5ROHd2aUVRRkpYWStMQ0svbWduS08x?=
- =?utf-8?B?cis2cmlRTk9MbGpWa3BEZjA5ZHhFZ2ZlS3pLdm1DVGZFTm5zYWVYNHBvRlBn?=
- =?utf-8?B?MzBqOGcwUTc2WnRZTGo3REJmV2JOaGZ2RlRkWHRxODdVQllQNWcwN2U1WmFW?=
- =?utf-8?B?YXYxcjcway9aRTN4VWlhVU9TN21RNmYySFlZS25EcjlhbnBxZW0xWmZMTVVz?=
- =?utf-8?B?bTR2UnNhTFdJTVRHQVRrV1dxQU14VHdUNERTUFBEYzdxdkU1M2d6T0Q4cUhx?=
- =?utf-8?Q?sJheI5/KJaOkjKeH+g5vIgPAh?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 787066bf-850a-4114-8480-08da644480de
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2763.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 20:24:21.0529 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JqK6C/WqZvg2hjKICm4c8lZ5J6Y0IqNBoMqz0zPhePs6Lsr1olxDb0dxzXLDO00LpSLhQxPaeg5SJHQT7SnEFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3305
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,224 +75,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ jamipkettunen@somainline.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, martin.botka@somainline.org,
+ dri-devel@lists.freedesktop.org, angelogioacchino.delregno@somainline.org,
+ marijn.suijten@somainline.org, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'll ask around to see if there's some DMI property we can match in 
-order to detect whether a system is expected to use the EC backlight 
-driver: if so, maybe we can avoid the WMI interactions in patch 16/29 of 
-this series. Although I suppose even if there were a DMI property, we'd 
-still need to call the WMI-wrapped ACPI method to check whether the 
-system is currently configured to drive the backlight through the EC, 
-unless the system somehow exports a different DMI table depending on the 
-current backlight control configuration, which I imagine to be unlikely.
-
-This change looks fine to me, although I suppose somebody who maintains 
-the acer-wmi driver should comment. The bugzilla links are a nice touch.
-
-On 7/12/22 14:39, Hans de Goede wrote:
-> Move the backlight DMI quirks to acpi/video_detect.c, so that
-> the driver no longer needs to call acpi_video_set_dmi_backlight_type().
->
-> acpi_video_set_dmi_backlight_type() is troublesome because it may end up
-> getting called after other backlight drivers have already called
-> acpi_video_get_backlight_type() resulting in the other drivers
-> already being registered even though they should not.
->
-> Note that even though the DMI quirk table name was video_vendor_dmi_table,
-> 5/6 quirks were actually quirks to use the GPU native backlight.
->
-> These 5 quirks also had a callback in their dmi_system_id entry which
-> disabled the acer-wmi vendor driver; and any DMI match resulted in:
->
-> 	acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
->
-> which disabled the acpi_video driver, so only the native driver was left.
-> The new entries for these 5/6 devices correctly marks these as needing
-> the native backlight driver.
->
-> Also note that other changes in this series change the native backlight
-> drivers to no longer unconditionally register their backlight. Instead
-> these drivers now do this check:
->
-> 	if (acpi_video_get_backlight_type(false) != acpi_backlight_native)
-> 		return 0; /* bail */
->
-> which without this patch would have broken these 5/6 "special" quirks.
->
-> Since I had to look at all the commits adding the quirks anyways, to make
-> sure that I understood the code correctly, I've also added links to
-> the various original bugzillas for these quirks to the new entries.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On 12/07/2022 22:02, Konrad Dybcio wrote:
+> Add bindings for the display panel used on some Sony Xperia XZ2 and XZ2
+> Compact smartphones.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
 > ---
->   drivers/acpi/video_detect.c     | 53 ++++++++++++++++++++++++++
->   drivers/platform/x86/acer-wmi.c | 66 ---------------------------------
->   2 files changed, 53 insertions(+), 66 deletions(-)
->
-> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-> index a514adaec14d..cd51cb0d7821 100644
-> --- a/drivers/acpi/video_detect.c
-> +++ b/drivers/acpi/video_detect.c
-> @@ -147,6 +147,15 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->   		DMI_MATCH(DMI_BOARD_NAME, "X360"),
->   		},
->   	},
-> +	{
-> +	 /* https://bugzilla.redhat.com/show_bug.cgi?id=1128309 */
-> +	 .callback = video_detect_force_vendor,
-> +	 /* Acer KAV80 */
-> +	 .matches = {
-> +		DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-> +		DMI_MATCH(DMI_PRODUCT_NAME, "KAV80"),
-> +		},
-> +	},
->   	{
->   	.callback = video_detect_force_vendor,
->   	/* Asus UL30VT */
-> @@ -427,6 +436,41 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->   		DMI_MATCH(DMI_BOARD_NAME, "JV50"),
->   		},
->   	},
-> +	{
-> +	 /* https://bugzilla.redhat.com/show_bug.cgi?id=1012674 */
-> +	 .callback = video_detect_force_native,
-> +	 /* Acer Aspire 5741 */
-> +	 .matches = {
-> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> +		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5741"),
-> +		},
-> +	},
-> +	{
-> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=42993 */
-> +	 .callback = video_detect_force_native,
-> +	 /* Acer Aspire 5750 */
-> +	 .matches = {
-> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> +		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5750"),
-> +		},
-> +	},
-> +	{
-> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=42833 */
-> +	 .callback = video_detect_force_native,
-> +	 /* Acer Extensa 5235 */
-> +	 .matches = {
-> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> +		DMI_MATCH(DMI_PRODUCT_NAME, "Extensa 5235"),
-> +		},
-> +	},
-> +	{
-> +	 .callback = video_detect_force_native,
-> +	 /* Acer TravelMate 4750 */
-> +	 .matches = {
-> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> +		DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 4750"),
-> +		},
-> +	},
->   	{
->   	 /* https://bugzilla.kernel.org/show_bug.cgi?id=207835 */
->   	 .callback = video_detect_force_native,
-> @@ -437,6 +481,15 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->   		DMI_MATCH(DMI_BOARD_NAME, "BA51_MV"),
->   		},
->   	},
-> +	{
-> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=36322 */
-> +	 .callback = video_detect_force_native,
-> +	 /* Acer TravelMate 5760 */
-> +	 .matches = {
-> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> +		DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 5760"),
-> +		},
-> +	},
->   	{
->   	.callback = video_detect_force_native,
->   	/* ASUSTeK COMPUTER INC. GA401 */
-> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-> index 9c6943e401a6..c08eeb1e0e05 100644
-> --- a/drivers/platform/x86/acer-wmi.c
-> +++ b/drivers/platform/x86/acer-wmi.c
-> @@ -643,69 +643,6 @@ static const struct dmi_system_id non_acer_quirks[] __initconst = {
->   	{}
->   };
->   
-> -static int __init
-> -video_set_backlight_video_vendor(const struct dmi_system_id *d)
-> -{
-> -	interface->capability &= ~ACER_CAP_BRIGHTNESS;
-> -	pr_info("Brightness must be controlled by generic video driver\n");
-> -	return 0;
-> -}
-> -
-> -static const struct dmi_system_id video_vendor_dmi_table[] __initconst = {
-> -	{
-> -		.callback = video_set_backlight_video_vendor,
-> -		.ident = "Acer TravelMate 4750",
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 4750"),
-> -		},
-> -	},
-> -	{
-> -		.callback = video_set_backlight_video_vendor,
-> -		.ident = "Acer Extensa 5235",
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "Extensa 5235"),
-> -		},
-> -	},
-> -	{
-> -		.callback = video_set_backlight_video_vendor,
-> -		.ident = "Acer TravelMate 5760",
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 5760"),
-> -		},
-> -	},
-> -	{
-> -		.callback = video_set_backlight_video_vendor,
-> -		.ident = "Acer Aspire 5750",
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5750"),
-> -		},
-> -	},
-> -	{
-> -		.callback = video_set_backlight_video_vendor,
-> -		.ident = "Acer Aspire 5741",
-> -		.matches = {
-> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5741"),
-> -		},
-> -	},
-> -	{
-> -		/*
-> -		 * Note no video_set_backlight_video_vendor, we must use the
-> -		 * acer interface, as there is no native backlight interface.
-> -		 */
-> -		.ident = "Acer KAV80",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "KAV80"),
-> -		},
-> -	},
-> -	{}
-> -};
-> -
->   /* Find which quirks are needed for a particular vendor/ model pair */
->   static void __init find_quirks(void)
->   {
-> @@ -2482,9 +2419,6 @@ static int __init acer_wmi_init(void)
->   
->   	set_quirks();
->   
-> -	if (dmi_check_system(video_vendor_dmi_table))
-> -		acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
-> -
->   	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
->   		interface->capability &= ~ACER_CAP_BRIGHTNESS;
->   
+>  .../display/panel/sony,td4353-jdi.yaml        | 84 +++++++++++++++++++
+>  1 file changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+> new file mode 100644
+> index 000000000000..d75abc72ad1b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/sony,td4353-jdi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony TD4353 JDI 5 / 5.7" 2160x1080 MIPI-DSI Panel
+> +
+> +maintainers:
+> +  - Konrad Dybcio <konrad.dybcio@somainline.org>
+> +
+> +description: |
+> +  The Sony TD4353 JDI is a 5 (XZ2c) / 5.7 (XZ2) inch 2160x1080
+> +  MIPI-DSI panel, used in Xperia XZ2 and XZ2 Compact smartphones.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - sony,td4353-jdi-akari
+> +      - sony,td4353-jdi-apollo
+
+Shouldn't the properties of panel like width and height be specified by
+dedicated properties, instead of customizing compatible? The device is
+"td4353-jdi", the same in both cases, isn't it?
+
+> +
+> +  reg: true
+> +
+> +  backlight: true
+> +
+> +  vddio-supply:
+> +    description: VDDIO 1.8V supply
+> +
+> +  vsp-supply:
+> +    description: Positive 5.5V supply
+> +
+> +  vsn-supply:
+> +    description: Negative 5.5V supply
+> +
+> +  preset-gpios:
+> +    description: Display panel reset pin
+> +
+> +  treset-gpios:
+> +    description: Touch panel reset pin
+> +
+> +  port: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vddio-supply
+> +  - vsp-supply
+> +  - vsn-supply
+> +  - preset-gpios
+> +  - treset-gpios
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        panel: panel@0 {
+> +            compatible = "sony,td4353-jdi-akari";
+> +            reg = <0>;
+> +
+> +            backlight = <&pmi8998_wled>;
+> +            vddio-supply = <&vreg_l14a_1p8>;
+> +            vsp-supply = <&lab>;
+> +            vsn-supply = <&ibb>;
+> +            preset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+> +            treset-gpios = <&tlmm 99 GPIO_ACTIVE_HIGH>;
+> +
+> +            port {
+> +                    panel_in: endpoint {
+
+Inconsistent indentation.
+
+> +                            remote-endpoint = <&dsi0_out>;
+> +                    };
+> +            };
+> +        };
+> +    };
+> +...
+
+
+Best regards,
+Krzysztof
