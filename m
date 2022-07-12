@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1D3572711
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 22:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A76572726
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 22:24:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE88295570;
-	Tue, 12 Jul 2022 20:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4499466E;
+	Tue, 12 Jul 2022 20:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com
  (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBF394E81;
- Tue, 12 Jul 2022 20:14:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177E193D8A;
+ Tue, 12 Jul 2022 20:24:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=djJYiBje8ale8yy5tWadSoH0r0VpJcQGYjUaHaCiVt/F0ccOIAWA6TCG+MoHJU6FIZ03oVyh7cPGVu7GVExS4tWNwLxUWHyKfv9wgenZT0aVmc8aTUgVui47hEjxW54ViEZvPvwL/01Cc9sW795vqSsGWrmierw/V6iXdIuDjBqq/cYpHhRRbtsUNSBVn5QqVNpxd9gB+ZsP6gwW7xPJLnBmLFjeX7lHZ51Lcc8SmpaSQ37/1O/x5xdPnMoG1NSyw+YVDfgsqn5HKjbuNBNbCOSP4k+yuib/lU/K99lSa8Up9sO2K98fnOd5c1rbRiQYCe88ZwM0MwIOYe+y+0hC+A==
+ b=VEBtQEwm5RCEadI17DJgw+VVBd5eeGDfnazsmU5wlbz/F7l4POV141nqALyatD46fBbZLHfRwvQCeiSN3sWLdBYhO6Ux5il6NwwL8W+e+hBKpEndqTcsRANrNPRDu9wi8HD3raZp9b9Ql+MQpkEbkhhEjMejfhe6lhAoYY0Ojw+/bl6Q3LmffCHjx7+Q5rZSGGFbDBtAiXeOZQ9S4E37X7gC47tJdp0+EneikMD5OUs8EHjSYkLJ5oV5QsBnJ2Fkr2PeYMI0Hd5FteZeOmJaWE6vZQc8FaLHvvs40fPCA1xnMdYeYhtOKleLrMruYwtia/VtCV2L9Xcuut18eqHU9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xUDjrfG8m/9DlZQhKotjmrDcoV/CJjHJ/z/Mf0NhsDY=;
- b=Uw519/8sKBODYG/evx2gxD4dYo/zYkIWGB1tk150Y+jzTLoMWsvfnKjlH/6y1O0kNZY6Lxbe8mAhq8VxeZtDmJUoZ01ovlX72balfdalKeMjYwQJB/86m5QvJVzuqg+Dsc1MRvcv+gn5hCib3cPv1Ds3TM4l/a5Dh8jCIDc2fKZCrB+i65gY08n1wTrJeZSZKQaNV4tKamkQV7fjQ5qsvJ2u8Cn+ycRFUUFTi9npXCTip9DC2+ei8Y94TMXdQo6HmnxvyLrQFMCBOCAUKgmFC8BIFBg/gNeudRYHI9/C1oamyJzk0HGSav3dpph8+/t+vRxjKAJbjYTuvYt5+er6+w==
+ bh=2vdUJKSNSf8FHUMQKqLFkfrpOBRDPRSv/p88knp60HQ=;
+ b=Huq5BgeYbjez9RrluiCgszrBMMPnV7g89UgUshpusNmf5UFnn7hD+CIpTtVByny6ci9hhG30XkqI9dNVdjdwfN4oLahVJVFv1DbrH1MvnpYtar+iV1AfXSOIVasMo/l6aA3OqJUUL7vkl+wP0aAB5cLwFHgNomaKPGmUx0e/YjTZvpgsSapjfKjk42MAodG0X546cmfciVY16xOY8sKWlEMLh66uxd8Y7EfDm8Xmhc7oyT3tZ3R/4bqCJHmoBFJHvpL62SNjjBQKzjxvLd97kIwlo2OgR5GOEehOuyK2JwD9P2/vDUylqd/FiGVmVD8O0Vv/LzTzKdGev1jfBVh31A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xUDjrfG8m/9DlZQhKotjmrDcoV/CJjHJ/z/Mf0NhsDY=;
- b=Sh9jGnIZ2vuZJoKTVxKtE7DvZvWXpKMLlRidutPAl7+4i9Pm54NDjSipr5+AEkBKOJ06v+UbSRqsi+r+pAzrlcBwY+ubJQieR5bRmcMW87kvL/dklnCeuUVeTWsUP/JJwQNHUGtwINl4AmUVgwZFtgKH8kEes6a6j0duekWmBs4cSzMEq8/hVT3DUMQNV25N6IIAcyDOG06KIhZY860wSfZlGvEOsFyCB7kgyHPNPdtWi5J3WJyfgNX1R+LRgA9nThGbz4A7m26B5cXBNX4mkiznnUkaX33EtrRVhLWM4pSVoei8QG0o8zzYxoEMN55GIQbsYNqguY9PQC4xJN8ndg==
+ bh=2vdUJKSNSf8FHUMQKqLFkfrpOBRDPRSv/p88knp60HQ=;
+ b=gf4n4/458AmG0EZAsNLCkMCh0pGmguCa+IN0iwpuDNijzvi7SxckszblivWnQYMIMp0wRQVioBy+Iwh/5ooiJrn94dr7ofXUoi8xUc4BQQEn6ZW7kZH+w4vBKtMt/JGircpqe1Rm9XOG+1SwHKeuRg1jzCzL/+vPlOfVgKb7yY2hPjEjyEVMb2iuM3TnLTtquNMUc1viRZk4sSlg4M6kEck47D0eNWss7aee86Vu5P9nzW3GMzyHGe+LRGhqRzAHREI6p5OeqxSq54WAzBBDiJkI0z2Z2/3XUSg/BexmrtJuVyBRdB3qg1DWaML9x9ZX/eEmH9bpGEt3rQcme981bA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB2763.namprd12.prod.outlook.com (2603:10b6:5:48::16) by
- BL0PR12MB5523.namprd12.prod.outlook.com (2603:10b6:208:1ce::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Tue, 12 Jul
- 2022 20:13:55 +0000
+ DM6PR12MB3305.namprd12.prod.outlook.com (2603:10b6:5:189::29) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5395.18; Tue, 12 Jul 2022 20:24:21 +0000
 Received: from DM6PR12MB2763.namprd12.prod.outlook.com
  ([fe80::d043:c95a:cf42:cff4]) by DM6PR12MB2763.namprd12.prod.outlook.com
  ([fe80::d043:c95a:cf42:cff4%7]) with mapi id 15.20.5417.026; Tue, 12 Jul 2022
- 20:13:55 +0000
-Message-ID: <8cde70e6-1115-9b7f-d550-52b9e3623c85@nvidia.com>
-Date: Tue, 12 Jul 2022 15:13:49 -0500
+ 20:24:21 +0000
+Message-ID: <2c4fafb0-e47f-d640-0fc9-4530a8d462e0@nvidia.com>
+Date: Tue, 12 Jul 2022 15:24:14 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 16/29] ACPI: video: Add Nvidia WMI EC brightness
- control detection
+Subject: Re: [PATCH v2 20/29] platform/x86: acer-wmi: Move backlight DMI
+ quirks to acpi/video_detect.c
 Content-Language: en-US
 To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
  Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
@@ -61,73 +61,95 @@ To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
  Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
  Andy Shevchenko <andy@kernel.org>
 References: <20220712193910.439171-1-hdegoede@redhat.com>
- <20220712193910.439171-17-hdegoede@redhat.com>
+ <20220712193910.439171-21-hdegoede@redhat.com>
 From: Daniel Dadap <ddadap@nvidia.com>
-In-Reply-To: <20220712193910.439171-17-hdegoede@redhat.com>
+In-Reply-To: <20220712193910.439171-21-hdegoede@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7PR03CA0185.namprd03.prod.outlook.com
- (2603:10b6:5:3b6::10) To DM6PR12MB2763.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN7PR04CA0161.namprd04.prod.outlook.com
+ (2603:10b6:806:125::16) To DM6PR12MB2763.namprd12.prod.outlook.com
  (2603:10b6:5:48::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0952113e-10c3-4459-ee9c-08da64430bdc
-X-MS-TrafficTypeDiagnostic: BL0PR12MB5523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 787066bf-850a-4114-8480-08da644480de
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3305:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x4VDpPNz5v73jh359mrHfY4tY7pcZ4F6xOiV8EZ2O8qFT30nHvJ8bzZUyc2bWKJJLVGy2xiJXivSAbdLilxzFFbNAPf3LfOw+Et2WXuurLOomnzDfwe6t1TmRQQ35iei1tIQcvFjUEfVO7ElntA136upsfdzBiopKUoXRs6rtKnC4FpD71D8Huog6oB7kU27perrl3oqtE9MLYZAWXjfz99+U0jF0PL8kaMzMhnJkkBHMfUWOohIRhIi2WC3miFRveiqRH5yc4nIGk6cUcBwnHi15Y6jP/yZheRoBYn72rFgsRX2Fou1iRB09qSaMgW3NTsnomkuwBfnYhlrZ2lysB7dovn9uy+JsT0ChkEs7bjfw0xTwEnF0MZjc0aOx3oFZ5FL6XmbC2z3qMX7hPxu115hl1m6Vka5rGBp5B7MZgEwKeKRmGLcDT9WF7kC0uMB6JlODSe+GIpEAB85I2aUgBPWYvp4SDYfmyoN3YsRKaaurmKKhu5gBtvBGuN8bF4sNKW2HNXi44Wb959Drqm3lNuT9nD49BFGiGktyfCWLSmoe6T6hUOR5jDfQ/BHI5gCFkeD2BXhJft44gsWSJyEhani02ZWbIr82NoQYbjI8VBEyfeHP3LCp+0hXqqvNqTtn9eMfJ4mJ0D991YZOAeafnjia4mXta1NFCLtC8uKPBjCF79e7CtcUsHafoV4igHFPuMBn8I7Cgd2qD7pkLzfjjOfZojQFWc1SD6kCe1c8G+gd4BorXcU3k6lUF7db7zKV+tFiv4J7Wsmxk9fmmDP7ZKKlT2sBW2aNVxFsMYKoW8I9AJW4mWRzsJ3/wxHbbJZ06EWrNuuguXPqkmpon9BOxbSCTXoy0l9p8/8vHsh+2w=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Yk1HMnVTam9icVkrZUFkYlZTeEcrYjZDVHJpelJrRFdYR2ZwZnNpRVBNd1lM?=
+ =?utf-8?B?VjdrRExyYkErU3hCYS84R2FnMC9laThRVWdQcjZkRmJ0ZklMaUhKMTFTa0I0?=
+ =?utf-8?B?QUg0VlFmR2tZemlkdVB3QUZISUNwOXBqcGJ2K0NkVFhIRFlLU0N6SUpBd0Y3?=
+ =?utf-8?B?VE92elptVlNTcjU4aE5tTEFVMzRNMUN3QnRmRy8zRjZ6MDU2Qlkya3hBMnU5?=
+ =?utf-8?B?dkF1N0V1Ny9vQmtJSHI4Mi8xUS9DMTBoM0VndDRLTTNLYVhtWEtNbStJWVpR?=
+ =?utf-8?B?clJvZUMrdnVNREQ4Um13ZWRoc0JIaDNoVHQ1UnJXc0FBYTFmWUt2RHREZUgy?=
+ =?utf-8?B?bWdFMHlUTENtVU5jaDR6OEJoMEgydTM1R0RCblRabHZ2QjgrRER5SXlYZ2FG?=
+ =?utf-8?B?UDRtSEp5cm0rUWFkSmQxWk13Z1FxNGFxeUx1QndnOWlxZUVlbi9FZXdRUkp3?=
+ =?utf-8?B?YUVkYnNncnl3aUlBK0UyMXFudXJjR0oxeWhaMHR5bGdTOGNUU0FpUkNFS1dq?=
+ =?utf-8?B?c1BXYlFtemlQSGFaQmw4Z09lTGs5U0pKSGM3SWNPMmc4WFpZV2tHTithTXMx?=
+ =?utf-8?B?c21xL3pJYmh2K3NkblE5dmJaNEtac0pTdzQrRnZFZ1ZPcGxyQzB5Vi9zbUQr?=
+ =?utf-8?B?WGxNNE5tZ0kybzliMnJ6QzBFaFBMb2UzWmkxbm03dTliSWtKbkRZclh2OEM2?=
+ =?utf-8?B?eXp5d1d1YXFhQ3VhOWhUN1g0Mnh2RDdMZHBQbDMrbDZxNGs5MVlmVEFxZEY2?=
+ =?utf-8?B?L2lXaWxSSFhHZ2g4bXpuTk11UXFMZ0FRVGIxUnZyR0x6Sy9FaWlEVDQzUzFk?=
+ =?utf-8?B?ZlU4N1gvOTg5Y2JkUVRsTlUwLzFCUEdBZ3BpVTg1aUVjdGRDelFjWktrb1lL?=
+ =?utf-8?B?MzhDNmZUUDlNN21YY05TT0lJYnYyUlRNcTNZUmQxbXA5T0ZXMytmUWFSS2xi?=
+ =?utf-8?B?SFF6Qk4wbnpuY1VmbmlYMTB2SzNYV1J0cTNRQWlNUmFwYWthS3luUU9xVlh6?=
+ =?utf-8?B?Z3lvbkpnemJZUmJ6MWc2aHNkL1laOXEycTZ6dVBpdmExRzJuOU56VHB5aEVz?=
+ =?utf-8?B?cEVYV25SWU9XYkU3TVpWc1AyNXlwQ3RZQ2l1Rk1kVXhXZWE5NHpBd25DNktx?=
+ =?utf-8?B?MTdRemZhNG96Y2ZZdjVpUUxUbUx4NHVKRUhMb1plUUdjMW40b3FHUEdjOFRx?=
+ =?utf-8?B?M1kzTG0xSzJUMVFoQlRjNEdNejc3VlpTc3hiejBJLzN3WXIzL2NPVkFYejlE?=
+ =?utf-8?B?Zm9oZzhsSXVnNStGcFB3TE83dnhuQ2tzQVRFWE5XR3pRdXJZcTBkM2NVSk1m?=
+ =?utf-8?Q?hdr1ghOu1SdIk=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB2763.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(396003)(366004)(39860400002)(376002)(136003)(186003)(54906003)(31696002)(4326008)(66476007)(86362001)(2616005)(66946007)(110136005)(316002)(6506007)(5660300002)(6666004)(7416002)(53546011)(66556008)(8676002)(8936002)(41300700001)(6512007)(38100700002)(26005)(83380400001)(2906002)(921005)(478600001)(6486002)(31686004)(36756003)(43740500002)(45980500001);
+ SFS:(13230016)(4636009)(396003)(376002)(39860400002)(346002)(366004)(136003)(6486002)(186003)(6666004)(54906003)(316002)(2616005)(6506007)(4326008)(6512007)(66556008)(966005)(478600001)(26005)(38100700002)(36756003)(66476007)(2906002)(53546011)(66946007)(8936002)(41300700001)(5660300002)(31696002)(921005)(83380400001)(7416002)(86362001)(110136005)(8676002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVBpVlNnZVRhcDgvVXVBRm12QXFKcEU3d2cyR0FNTmNSbDdXRlFWZUNiSXh6?=
- =?utf-8?B?V05qMHprWjZMMFUvWFdFWkhiWkZCeXNubTRLYXBadk42RERsd1dkNFh4ckVT?=
- =?utf-8?B?ditlc1dJNGhmb24vODdPQjluUndIbHBuYW5oSVBGcTlmNmFKWUFYNzRTNGQw?=
- =?utf-8?B?dEJVTll0YWZ4YXNKNXhicUhoWjM2dCtyam5zczR0dWRFNDBGSmhuMlZLVzZQ?=
- =?utf-8?B?Uyt2aTVNS0IwQmMvRG12M29qS3c5WEtveHd4OXJtalpteHVINDFIdENXUHls?=
- =?utf-8?B?K05TbE9hOHY4Uk9iQmhPeEhsd3RrSjdLYlo2QmtKMmp6WTZ3cGxOejZ5cWxF?=
- =?utf-8?B?T2lwYzlaQXRJbVh2ZTdlOStSWGhoOEhIb2dlc1NvV2RvR0Z6NXE3UjRMTjFJ?=
- =?utf-8?B?ZHliL3hDMTgvYit3c1NKWFdKZnNKQ1kyNGh1ZzA5RVBLSnUzVUQxTnFMZTNX?=
- =?utf-8?B?NitnYnBHZk1zZkMrdk9maktHYkg1MnU1aE5wUHdOSzg2elo0MTZPK1lXRGZ6?=
- =?utf-8?B?NFBIdXFUanh2eXlxUm5wSVlMZGhCODhWbWNZN0VzaS9EU0sxMXlJZENnc3dN?=
- =?utf-8?B?NDQ0VFphQ0ZKSEczNzdWamFRaU90TDJKZ0gxb2JTWjRyb3ZUZVArZ1N4WVVC?=
- =?utf-8?B?bWZrbGcyTlAxVjF3ckhIQ1ZRR0FIYUUrWDNjTVNUd3BUMStTU0k1dGhOa3ds?=
- =?utf-8?B?bzYvOU9RdnhDa0pSc3pCMU1nSUFMd3pibVQ3L2pVSTBwN3dZTHBFYkhyMTBR?=
- =?utf-8?B?TG1XQmdQa21uMlhSY3BtQkEwR2J1MCtMRlIwQUNyS0p4RXFmemdUazJWMzhX?=
- =?utf-8?B?WE5Cd1k1N3F1YUpRcks1TWx0WXdabTB4a1lSQTJhS3Q0TU5yb09JNDlmZW5h?=
- =?utf-8?B?VVUvQXlOKzljd0lMY3FEeS9VbC9saTlqMUVsem9mbElyTjFjNG95ZDkwcmtk?=
- =?utf-8?B?bU1QTzV4NytzdExwd1dSaURHcXpncCt5Q3hTaXdWMDZadEdTL1BHRDhiemxz?=
- =?utf-8?B?dzFaaHJvUEF2c0djWEtZVzd5ZmltODBhOVh3c1NvOU42NkpYTHZsbGgrektY?=
- =?utf-8?B?N3hYQ1BTNzR6ckRMKytPR1VRamIwR3NpTzVwemp0cjB5eE9xeVYzSVFycjBh?=
- =?utf-8?B?bUZZWHhlczdySmp3MUNBWDR5emVQK0Q4b0FKUFJvelM5NjJSSFdnKy9FZHRM?=
- =?utf-8?B?cmR2TzRaWGxiL0dUSkczSXhyMGdub1hLYm9SZDh0UDNYYUoyM1ZoZkxNWjN3?=
- =?utf-8?B?Z3VSckppSGd2V0xBZHNPV3dFZll3YU1KQ0preGUyT1FBWGI5OUZDU1IxV0lM?=
- =?utf-8?B?RzRXMUh4MHZtanBvR2doamFNNllQcGwvaHovNkVmbmZQWkwra0w5cWF0eUpy?=
- =?utf-8?B?clZRQzNrMEsyNmxMWWllUm9nV2xsMXBvSEpLT0VWeGd0T3ZVdStFN0pOVVNn?=
- =?utf-8?B?U2d5MC9teGZybk9ieVdzWFFJQm1BRnRUaWs4V0RXYjdNc0dZQWFNNG11VUFq?=
- =?utf-8?B?T2RSMmVQQUhvV2RGaHFwVm5PQ24yNU1STDB6VDN5azNyS1lGbStSK3p0UHBY?=
- =?utf-8?B?aVI2dExha3kvazlDTC9uV09yS2VDYlFkWXZpWlJETm9rUmJrNm5Zb3NwWmJo?=
- =?utf-8?B?akR2VFQwM3ZCRVJPMzN1MUcxdFg3ZS9YQmJtcmllbjJreGxaRzFLV0pqQUMw?=
- =?utf-8?B?alZIbjZNS0M0bnlIUkJBY3dRNWFOdk0vaFlMY1loRlZON285QU14QkNIdXRS?=
- =?utf-8?B?V01Hd2RYYVlpNVJwczQxZEpLNi9JbUF1Szc4d3RyeGZuQWV3Z0JNbXJ0cTRk?=
- =?utf-8?B?UnpJOGtGSHMxOTlONVFlZDlOUThENCswb3cxSCt3clVIbmp4RUxxeFZjSEt3?=
- =?utf-8?B?aXN5a1Jjc3haRXlYOGNtQnFEdHE2MTNtcXdyRHRTUUsxWlZSNmdBNFNUaGgz?=
- =?utf-8?B?dmk5RFBGZE9QR1pVK0NGQ1RBRVZXdWNaM3RPQVdBSGIwNFpCdnNjNFhXR09O?=
- =?utf-8?B?SXBWYTNQSFZFeUl0Y3dKU2RQbmliZkhZMlFVVmFkMVRtRnBaaCtLTFBQNmpn?=
- =?utf-8?B?Rnk5R3NNQUJSRk5mNDlWOS92RkdNU1Bxbmx1RXNzSytvSG9udlFkVTdwQnhB?=
- =?utf-8?Q?EGREzZ/6Qzr2qadRSbAZGRKbH?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djlNN1JFamJhT3l5L3ZwV294ZmhzNkVoc3hrSEZTM3FaT0NleWhVOFFHWFpj?=
+ =?utf-8?B?c2w4YnJqd2lBenRMZ016QUlIWUNra1hjQXBzVVplWGREY0t2RlNDSVNGeG4x?=
+ =?utf-8?B?ZnRCSUk3bEtLK2QyR2JuLzZmRHZMdjJTVXpQT1hvcnlOL0tnODNxRzJsMFVK?=
+ =?utf-8?B?NHZ1STBEM0JzUVJsbFRhZ2FrbmtDb3l6VFoxMmxCUlVEVDREQUN6V2pVTXVs?=
+ =?utf-8?B?N3lBeGpyU1UxQ051NkxDdUNNLy95aWJLSzdnQ2JVL3FQb1FoNVk0WExJUmRK?=
+ =?utf-8?B?aUk1VnFPWjdMQkQ0RmVpWGJrMFc5WjdoSUlxaUg4YjB6UFlNQkQ1OENENHNn?=
+ =?utf-8?B?VWwwdEhzL0x3d3VqVkEwQTFzd3lWeTQzQlFLZVkyaURrdGlrOXpnYTBSK3dz?=
+ =?utf-8?B?Q2J2dERPbWZrWnpUWEZFWWQ0OEdWSEphVU5zVXdFYVdZdUNuZit6T2U5SHhJ?=
+ =?utf-8?B?OFhEOUJDZmxXZWVOZTBJWHlHMW83bm1jM1VVRElpcUpGV2dWRlFScGR0QlFC?=
+ =?utf-8?B?WktOVXFQcm9ON1VyM0FPK3Y2TThtR0RnUkh2UXNjOU9neDRBZ3ZIRzV0NW10?=
+ =?utf-8?B?NmY3OW54Mm4rRmJUUmwxODlCaFpja29ROTFiS2ZUYlp2bG1wbGU4ZWYvL2hL?=
+ =?utf-8?B?NjFkdzF0anptaW9vK3B0QXoxamdpV0RZZks2UEhkdUNZelVLcWhMaUlSMFA0?=
+ =?utf-8?B?RWVVSEs4SjNmRmNHOE5HOXZTbFNiUmdGSldDMHRUTVVzcW9Id2xBcDVaMjZa?=
+ =?utf-8?B?ZklRbW5yVjZHNTROTlRWS25Pdis0RVdXVFlyWEF3SjZHYVZrdXNQVHQwNDZV?=
+ =?utf-8?B?dHMyc3BTWVlmam5PWW5NUnZvMk5XbmpKcVFIdHBJaGJHKytmUm9RTFhNbHhY?=
+ =?utf-8?B?NTh3dGpXRDBVT1JWajZXenZ2ZFR1REQrZ0FUczR6K2l2MThxcTZPS2tDa0p2?=
+ =?utf-8?B?enU2dTFtRDJuRWMvd2pXcGgxbDBjZzZaL3JBVjZ3MDVHdWFsNnZwZWwrYU9V?=
+ =?utf-8?B?d1YxTnB4a3IwUlQ4aHF4WXR5OFF5dUwwK1BqNnJNT2JtMGRna1dUR1NaNy91?=
+ =?utf-8?B?VmRaTUp5Y1c1TGY4R3FaMU51bTl0aVhJeUdFSlNlQnFYQW5RRHFxUnpPN0RQ?=
+ =?utf-8?B?NjlHSUtMbW1VRDVVRkl6bmI5TXUzaUxRek9oSnM5Q3kzRm1KZFBjTjUrWndE?=
+ =?utf-8?B?bWM2OTg5eVVqcVR3WFI0dGxGUmtRVGV0MkZBNm1hMlM5c1psNk5IVGZ6NXEv?=
+ =?utf-8?B?cjNlNW1vUHN4eURxV3RtdGc1ZHp1SnNvN05tRDNZL2ZWeDlrTVlwc2QyUWRT?=
+ =?utf-8?B?Z0N2Qjk5WlN2bnhTdXk3dVBPMkkzMGJMT1ZXekswMXVibE1FNWZmbWNyTjJV?=
+ =?utf-8?B?MkNzd0RsNzNzTGx6UUxEOEE5MUxXTGM1QXhSQnJ3UVpjSHQ4bGg4ZGJSK1Zw?=
+ =?utf-8?B?MElnMEFtZW9ObEpyQUowTjNpNnp0YXUyR1RYRTFPVTFGQzBQL1cyNWkxbjNh?=
+ =?utf-8?B?a0NQVER4eXJ5SW9URnpYWE8rdFZKVmRIYnlxcStUMmk1aE5yMmtZUC9yd3BC?=
+ =?utf-8?B?UnhOZExVTFZUV3QyV3pBR0RYRkdTQ3d5amtpcDhVc3lRYmk4OUtFQ29hL3Vx?=
+ =?utf-8?B?SXFNUjZuSDdnWkJsQXNibWdBL2xHMytLejYzVjNUNUh2REZuYXQwTmYySjlJ?=
+ =?utf-8?B?QUNHSEVhdTFXT2JJOWdoL0JMNEVVc0QxRjRTZTRZaDc3V3EydklhMDFEZzdO?=
+ =?utf-8?B?Tm5tdWtQc1BsUWd6TXZFYTB1dCtsM1hacHFCcHZGcmJISkdqUjZ4QjNsYVNV?=
+ =?utf-8?B?empNZ3hQTzZpYlNqbFhBS0pIMXV1SG5ROHd2aUVRRkpYWStMQ0svbWduS08x?=
+ =?utf-8?B?cis2cmlRTk9MbGpWa3BEZjA5ZHhFZ2ZlS3pLdm1DVGZFTm5zYWVYNHBvRlBn?=
+ =?utf-8?B?MzBqOGcwUTc2WnRZTGo3REJmV2JOaGZ2RlRkWHRxODdVQllQNWcwN2U1WmFW?=
+ =?utf-8?B?YXYxcjcway9aRTN4VWlhVU9TN21RNmYySFlZS25EcjlhbnBxZW0xWmZMTVVz?=
+ =?utf-8?B?bTR2UnNhTFdJTVRHQVRrV1dxQU14VHdUNERTUFBEYzdxdkU1M2d6T0Q4cUhx?=
+ =?utf-8?Q?sJheI5/KJaOkjKeH+g5vIgPAh?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0952113e-10c3-4459-ee9c-08da64430bdc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 787066bf-850a-4114-8480-08da644480de
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2763.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 20:13:55.2367 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 20:24:21.0529 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SBkpxTyqrvN6ACR07yLBVRZFRYp4Oe5Qsj2aOrDJ2tmaSkdFzh6qOGEq8kjjDgrpEoCW30HNabsjKYsOjIaWfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5523
+X-MS-Exchange-CrossTenant-UserPrincipalName: JqK6C/WqZvg2hjKICm4c8lZ5J6Y0IqNBoMqz0zPhePs6Lsr1olxDb0dxzXLDO00LpSLhQxPaeg5SJHQT7SnEFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3305
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,182 +169,217 @@ Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks, Hans:
+I'll ask around to see if there's some DMI property we can match in 
+order to detect whether a system is expected to use the EC backlight 
+driver: if so, maybe we can avoid the WMI interactions in patch 16/29 of 
+this series. Although I suppose even if there were a DMI property, we'd 
+still need to call the WMI-wrapped ACPI method to check whether the 
+system is currently configured to drive the backlight through the EC, 
+unless the system somehow exports a different DMI table depending on the 
+current backlight control configuration, which I imagine to be unlikely.
 
-On 7/12/22 14:38, Hans de Goede wrote:
-> On some new laptop designs a new Nvidia specific WMI interface is present
-> which gives info about panel brightness control and may allow controlling
-> the brightness through this interface when the embedded controller is used
-> for brightness control.
+This change looks fine to me, although I suppose somebody who maintains 
+the acer-wmi driver should comment. The bugzilla links are a nice touch.
+
+On 7/12/22 14:39, Hans de Goede wrote:
+> Move the backlight DMI quirks to acpi/video_detect.c, so that
+> the driver no longer needs to call acpi_video_set_dmi_backlight_type().
 >
-> When this WMI interface is present and indicates that the EC is used,
-> then this interface should be used for brightness control.
+> acpi_video_set_dmi_backlight_type() is troublesome because it may end up
+> getting called after other backlight drivers have already called
+> acpi_video_get_backlight_type() resulting in the other drivers
+> already being registered even though they should not.
+>
+> Note that even though the DMI quirk table name was video_vendor_dmi_table,
+> 5/6 quirks were actually quirks to use the GPU native backlight.
+>
+> These 5 quirks also had a callback in their dmi_system_id entry which
+> disabled the acer-wmi vendor driver; and any DMI match resulted in:
+>
+> 	acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
+>
+> which disabled the acpi_video driver, so only the native driver was left.
+> The new entries for these 5/6 devices correctly marks these as needing
+> the native backlight driver.
+>
+> Also note that other changes in this series change the native backlight
+> drivers to no longer unconditionally register their backlight. Instead
+> these drivers now do this check:
+>
+> 	if (acpi_video_get_backlight_type(false) != acpi_backlight_native)
+> 		return 0; /* bail */
+>
+> which without this patch would have broken these 5/6 "special" quirks.
+>
+> Since I had to look at all the commits adding the quirks anyways, to make
+> sure that I understood the code correctly, I've also added links to
+> the various original bugzillas for these quirks to the new entries.
 >
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->   drivers/acpi/Kconfig           |  1 +
->   drivers/acpi/video_detect.c    | 35 ++++++++++++++++++++++++++++++++++
->   drivers/gpu/drm/gma500/Kconfig |  2 ++
->   drivers/gpu/drm/i915/Kconfig   |  2 ++
->   include/acpi/video.h           |  1 +
->   5 files changed, 41 insertions(+)
+>   drivers/acpi/video_detect.c     | 53 ++++++++++++++++++++++++++
+>   drivers/platform/x86/acer-wmi.c | 66 ---------------------------------
+>   2 files changed, 53 insertions(+), 66 deletions(-)
 >
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index 1e34f846508f..c372385cfc3f 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -212,6 +212,7 @@ config ACPI_VIDEO
->   	tristate "Video"
->   	depends on X86 && BACKLIGHT_CLASS_DEVICE
->   	depends on INPUT
-> +	depends on ACPI_WMI
->   	select THERMAL
->   	help
->   	  This driver implements the ACPI Extensions For Display Adapters
 > diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-> index 8c2863403040..7b89dc9a04a2 100644
+> index a514adaec14d..cd51cb0d7821 100644
 > --- a/drivers/acpi/video_detect.c
 > +++ b/drivers/acpi/video_detect.c
-> @@ -75,6 +75,35 @@ find_video(acpi_handle handle, u32 lvl, void *context, void **rv)
->   	return AE_OK;
->   }
->   
-> +#define WMI_BRIGHTNESS_METHOD_SOURCE			2
-> +#define WMI_BRIGHTNESS_MODE_GET				0
-> +#define WMI_BRIGHTNESS_SOURCE_EC			2
-> +
-> +struct wmi_brightness_args {
-> +	u32 mode;
-> +	u32 val;
-> +	u32 ret;
-> +	u32 ignored[3];
-> +};
-> +
-> +static bool nvidia_wmi_ec_supported(void)
-> +{
-> +	struct wmi_brightness_args args = {
-> +		.mode = WMI_BRIGHTNESS_MODE_GET,
-> +		.val = 0,
-> +		.ret = 0,
-> +	};
-> +	struct acpi_buffer buf = { (acpi_size)sizeof(args), &args };
-> +	acpi_status status;
-> +
-> +	status = wmi_evaluate_method("603E9613-EF25-4338-A3D0-C46177516DB7", 0,
-> +				     WMI_BRIGHTNESS_METHOD_SOURCE, &buf, &buf);
-> +	if (ACPI_FAILURE(status))
-> +		return false;
-> +
-> +	return args.ret == WMI_BRIGHTNESS_SOURCE_EC;
-> +}
-> +
-
-
-The code duplication here with nvidia-wmi-ec-backlight.c is a little 
-unfortunate. Can we move the constants, struct definition, and WMI GUID 
-from that file to a header file that's used both by the EC backlight 
-driver and the ACPI video driver?
-
-I was thinking it might be nice to add a wrapper around 
-wmi_brightness_notify() in nvidia-wmi-ec-backlight.c that does this 
-source == WMI_BRIGHTNESS_SOURCE_EC test, and then export it so that it 
-can be called both here and in the EC backlight driver's probe routine, 
-but then I guess that would make video.ko depend on 
-nvidia-wmi-ec-backlight.ko, which seems wrong. It also seems wrong to 
-implement the WMI plumbing in the ACPI video driver, and export it so 
-that the EC backlight driver can use it, so I guess I can live with the 
-duplication of the relatively simple WMI stuff here, it would just be 
-nice to not have to define all of the API constants, structure, and GUID 
-twice.
-
-
->   /* Force to use vendor driver when the ACPI device is known to be
->    * buggy */
->   static int video_detect_force_vendor(const struct dmi_system_id *d)
-> @@ -518,6 +547,7 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
->   static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->   {
->   	static DEFINE_MUTEX(init_mutex);
-> +	static bool nvidia_wmi_ec_present;
->   	static bool native_available;
->   	static bool init_done;
->   	static long video_caps;
-> @@ -530,6 +560,7 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->   		acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
->   				    ACPI_UINT32_MAX, find_video, NULL,
->   				    &video_caps, NULL);
-> +		nvidia_wmi_ec_present = nvidia_wmi_ec_supported();
->   		init_done = true;
->   	}
->   	if (native)
-> @@ -547,6 +578,10 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->   	if (acpi_backlight_dmi != acpi_backlight_undef)
->   		return acpi_backlight_dmi;
->   
-> +	/* Special cases such as nvidia_wmi_ec and apple gmux. */
-> +	if (nvidia_wmi_ec_present)
-> +		return acpi_backlight_nvidia_wmi_ec;
-
-
-Should there also be a change to the EC backlight driver to call 
-acpi_video_get_backlight_type() and make sure we get 
-acpi_backlight_nvidia_wmi_ec? I don't see such a change in this patch 
-series; I could implement it (and test it) against your patch if there's 
-some reason you didn't do so with the current patchset.
-
-
-> +
->   	/* On systems with ACPI video use either native or ACPI video. */
->   	if (video_caps & ACPI_VIDEO_BACKLIGHT) {
->   		/*
-> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-> index 0cff20265f97..807b989e3c77 100644
-> --- a/drivers/gpu/drm/gma500/Kconfig
-> +++ b/drivers/gpu/drm/gma500/Kconfig
-> @@ -7,6 +7,8 @@ config DRM_GMA500
->   	select ACPI_VIDEO if ACPI
->   	select BACKLIGHT_CLASS_DEVICE if ACPI
->   	select INPUT if ACPI
-> +	select X86_PLATFORM_DEVICES if ACPI
-> +	select ACPI_WMI if ACPI
-
-
-I'm not sure I understand why the Intel DRM drivers pick up the 
-additional platform/x86 and WMI dependencies here. ACPI_VIDEO already 
-depends on these, doesn't it? If Kconfig doesn't otherwise automatically 
-pull in an option's dependencies when selecting that option, then 
-shouldn't Nouveau's Kconfig get updated as well? It selects ACPI_VIDEO 
-in some configuration cases. (It looks like amdgpu doesn't currently 
-select ACPI_VIDEO, maybe because it doesn't depend on it the way the 
-Intel drivers do: there are several AMD+NVIDIA iGPU/dGPU designs out 
-there which use this backlight interface.)
-
-
->   	help
->   	  Say yes for an experimental 2D KMS framebuffer driver for the
->   	  Intel GMA500 (Poulsbo), Intel GMA600 (Moorestown/Oak Trail) and
-> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> index 7ae3b7d67fcf..3efce05d7b57 100644
-> --- a/drivers/gpu/drm/i915/Kconfig
-> +++ b/drivers/gpu/drm/i915/Kconfig
-> @@ -23,6 +23,8 @@ config DRM_I915
->   	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
->   	select BACKLIGHT_CLASS_DEVICE if ACPI
->   	select INPUT if ACPI
-> +	select X86_PLATFORM_DEVICES if ACPI
-> +	select ACPI_WMI if ACPI
->   	select ACPI_VIDEO if ACPI
->   	select ACPI_BUTTON if ACPI
->   	select SYNC_FILE
-> diff --git a/include/acpi/video.h b/include/acpi/video.h
-> index 0625806d3bbd..91578e77ac4e 100644
-> --- a/include/acpi/video.h
-> +++ b/include/acpi/video.h
-> @@ -48,6 +48,7 @@ enum acpi_backlight_type {
->   	acpi_backlight_video,
->   	acpi_backlight_vendor,
->   	acpi_backlight_native,
-> +	acpi_backlight_nvidia_wmi_ec,
+> @@ -147,6 +147,15 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>   		DMI_MATCH(DMI_BOARD_NAME, "X360"),
+>   		},
+>   	},
+> +	{
+> +	 /* https://bugzilla.redhat.com/show_bug.cgi?id=1128309 */
+> +	 .callback = video_detect_force_vendor,
+> +	 /* Acer KAV80 */
+> +	 .matches = {
+> +		DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
+> +		DMI_MATCH(DMI_PRODUCT_NAME, "KAV80"),
+> +		},
+> +	},
+>   	{
+>   	.callback = video_detect_force_vendor,
+>   	/* Asus UL30VT */
+> @@ -427,6 +436,41 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>   		DMI_MATCH(DMI_BOARD_NAME, "JV50"),
+>   		},
+>   	},
+> +	{
+> +	 /* https://bugzilla.redhat.com/show_bug.cgi?id=1012674 */
+> +	 .callback = video_detect_force_native,
+> +	 /* Acer Aspire 5741 */
+> +	 .matches = {
+> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> +		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5741"),
+> +		},
+> +	},
+> +	{
+> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=42993 */
+> +	 .callback = video_detect_force_native,
+> +	 /* Acer Aspire 5750 */
+> +	 .matches = {
+> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> +		DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5750"),
+> +		},
+> +	},
+> +	{
+> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=42833 */
+> +	 .callback = video_detect_force_native,
+> +	 /* Acer Extensa 5235 */
+> +	 .matches = {
+> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> +		DMI_MATCH(DMI_PRODUCT_NAME, "Extensa 5235"),
+> +		},
+> +	},
+> +	{
+> +	 .callback = video_detect_force_native,
+> +	 /* Acer TravelMate 4750 */
+> +	 .matches = {
+> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> +		DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 4750"),
+> +		},
+> +	},
+>   	{
+>   	 /* https://bugzilla.kernel.org/show_bug.cgi?id=207835 */
+>   	 .callback = video_detect_force_native,
+> @@ -437,6 +481,15 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>   		DMI_MATCH(DMI_BOARD_NAME, "BA51_MV"),
+>   		},
+>   	},
+> +	{
+> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=36322 */
+> +	 .callback = video_detect_force_native,
+> +	 /* Acer TravelMate 5760 */
+> +	 .matches = {
+> +		DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> +		DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 5760"),
+> +		},
+> +	},
+>   	{
+>   	.callback = video_detect_force_native,
+>   	/* ASUSTeK COMPUTER INC. GA401 */
+> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+> index 9c6943e401a6..c08eeb1e0e05 100644
+> --- a/drivers/platform/x86/acer-wmi.c
+> +++ b/drivers/platform/x86/acer-wmi.c
+> @@ -643,69 +643,6 @@ static const struct dmi_system_id non_acer_quirks[] __initconst = {
+>   	{}
 >   };
 >   
->   #if IS_ENABLED(CONFIG_ACPI_VIDEO)
+> -static int __init
+> -video_set_backlight_video_vendor(const struct dmi_system_id *d)
+> -{
+> -	interface->capability &= ~ACER_CAP_BRIGHTNESS;
+> -	pr_info("Brightness must be controlled by generic video driver\n");
+> -	return 0;
+> -}
+> -
+> -static const struct dmi_system_id video_vendor_dmi_table[] __initconst = {
+> -	{
+> -		.callback = video_set_backlight_video_vendor,
+> -		.ident = "Acer TravelMate 4750",
+> -		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 4750"),
+> -		},
+> -	},
+> -	{
+> -		.callback = video_set_backlight_video_vendor,
+> -		.ident = "Acer Extensa 5235",
+> -		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "Extensa 5235"),
+> -		},
+> -	},
+> -	{
+> -		.callback = video_set_backlight_video_vendor,
+> -		.ident = "Acer TravelMate 5760",
+> -		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 5760"),
+> -		},
+> -	},
+> -	{
+> -		.callback = video_set_backlight_video_vendor,
+> -		.ident = "Acer Aspire 5750",
+> -		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5750"),
+> -		},
+> -	},
+> -	{
+> -		.callback = video_set_backlight_video_vendor,
+> -		.ident = "Acer Aspire 5741",
+> -		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Acer"),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5741"),
+> -		},
+> -	},
+> -	{
+> -		/*
+> -		 * Note no video_set_backlight_video_vendor, we must use the
+> -		 * acer interface, as there is no native backlight interface.
+> -		 */
+> -		.ident = "Acer KAV80",
+> -		.matches = {
+> -			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
+> -			DMI_MATCH(DMI_PRODUCT_NAME, "KAV80"),
+> -		},
+> -	},
+> -	{}
+> -};
+> -
+>   /* Find which quirks are needed for a particular vendor/ model pair */
+>   static void __init find_quirks(void)
+>   {
+> @@ -2482,9 +2419,6 @@ static int __init acer_wmi_init(void)
+>   
+>   	set_quirks();
+>   
+> -	if (dmi_check_system(video_vendor_dmi_table))
+> -		acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
+> -
+>   	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+>   		interface->capability &= ~ACER_CAP_BRIGHTNESS;
+>   
