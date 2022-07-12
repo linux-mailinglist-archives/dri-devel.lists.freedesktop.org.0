@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E855710E6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 05:33:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5565C5710E5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 05:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC69910F647;
-	Tue, 12 Jul 2022 03:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B75010F62D;
+	Tue, 12 Jul 2022 03:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F2CA10F573
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 03:33:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A365D10F52B;
+ Tue, 12 Jul 2022 03:33:06 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id ACC9E321F3B;
- Tue, 12 Jul 2022 04:33:03 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 80779321FD7;
+ Tue, 12 Jul 2022 04:33:04 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1657596784; bh=8v3+/m9nKknnUh/YmqEA8Iex1ViMM/DfqQFrSlU9Bn4=;
+ t=1657596785; bh=/aAxHLW9l8QQXIo2Y4YhE+1Z7jJRQc8YK1YXuuq1ILs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nh682j+A93BoMqyn01/HzUriZIcvEg43nhOjOJ5AQh/0er7o7yOumP6QgT3e9MRux
- KnCLcXj96DVAxd8AKkppE+a4dEPtQTlN10qN6V7p1G1bXh+Bj6+RtfEMiohDTpuMu8
- A93+/quF4L6xPPVWMDG7KNkhi5WRY5i6yMWPcssEeMsO6byg2ypk1+AoCDFylU7mI2
- 8D8eXtJnAaGNd4oYLKXsD1/RB8BEXPqoK7EtLWa9X+NdJJXhLMFrtLH4eKarQwFNzw
- iAidJh2q8SAtrdVNorAOP2lTeUBz4oGv8ItV5pGfnTDOVr8xtjf/BmXDmmwWDkF2gM
- 1i+khgso+lUjA==
+ b=AwVNHx8rnjnba8T6aVPshg/y3MBbmUzWg4cl0sAKUgX+l49uZ3nNwQ8jYKdqNdxH2
+ +Ygo71e8i2D4t8683f5pGQ+vOtbuaYlJomV+ECiyJlM921DeUMBlOWyKw15nVsRzKd
+ hGDY+hdxMq88NsgeP1cntf3uxQuy6tI/cyOwq3b7nWTG1ufZffHbZGteEX8sOFtBRo
+ LBrRWb2U+Vnq4Sp/hyLaP7zUz674GHs/iJTG272ilCJ1JneANHn1LHrfx1ynNR3tl+
+ xY/TQAnwdZkjxwdKl3CrT+Yyv7Px+Rm3BupVwOq/v2HQoQudzqlOwatyxeJfrTCoqq
+ TCWf83e6jg5sQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/8] drm/vmwgfx: Use the hotspot properties from cursor
- planes
-Date: Mon, 11 Jul 2022 23:32:41 -0400
-Message-Id: <20220712033246.1148476-4-zack@kde.org>
+Subject: [PATCH v2 4/8] drm/qxl: Use the hotspot properties from cursor planes
+Date: Mon, 11 Jul 2022 23:32:42 -0400
+Message-Id: <20220712033246.1148476-5-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220712033246.1148476-1-zack@kde.org>
 References: <20220712033246.1148476-1-zack@kde.org>
@@ -49,7 +48,10 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, ppaalanen@gmail.com, mombasawalam@vmware.com
+Cc: virtualization@lists.linux-foundation.org, krastevm@vmware.com,
+ ppaalanen@gmail.com, mombasawalam@vmware.com,
+ spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -60,32 +62,68 @@ properties. Port the legacy kms hotspot handling to the new properties
 on cursor planes.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Cc: Martin Krastev <krastevm@vmware.com>
-Cc: Maaz Mombasawala <mombasawalam@vmware.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: virtualization@lists.linux-foundation.org
+Cc: spice-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/qxl/qxl_display.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index ff2f735bbe7a..3d3f73109199 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -652,13 +652,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
- 	s32 hotspot_x, hotspot_y;
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 2e8949863d6b..f5a90be84e93 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -485,7 +485,6 @@ static int qxl_primary_atomic_check(struct drm_plane *plane,
+ static int qxl_primary_apply_cursor(struct qxl_device *qdev,
+ 				    struct drm_plane_state *plane_state)
+ {
+-	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct qxl_crtc *qcrtc = to_qxl_crtc(plane_state->crtc);
+ 	struct qxl_cursor_cmd *cmd;
+ 	struct qxl_release *release;
+@@ -510,8 +509,8 @@ static int qxl_primary_apply_cursor(struct qxl_device *qdev,
  
--	hotspot_x = du->hotspot_x;
--	hotspot_y = du->hotspot_y;
--
--	if (new_state->fb) {
--		hotspot_x += new_state->fb->hot_x;
--		hotspot_y += new_state->fb->hot_y;
--	}
-+	hotspot_x = du->hotspot_x + new_state->hotspot_x;
-+	hotspot_y = du->hotspot_y + new_state->hotspot_y;
+ 	cmd = (struct qxl_cursor_cmd *)qxl_release_map(qdev, release);
+ 	cmd->type = QXL_CURSOR_SET;
+-	cmd->u.set.position.x = plane_state->crtc_x + fb->hot_x;
+-	cmd->u.set.position.y = plane_state->crtc_y + fb->hot_y;
++	cmd->u.set.position.x = plane_state->crtc_x + plane_state->hotspot_x;
++	cmd->u.set.position.y = plane_state->crtc_y + plane_state->hotspot_y;
  
- 	du->cursor_surface = vps->surf;
- 	du->cursor_bo = vps->bo;
+ 	cmd->u.set.shape = qxl_bo_physical_address(qdev, qcrtc->cursor_bo, 0);
+ 
+@@ -531,7 +530,6 @@ static int qxl_primary_apply_cursor(struct qxl_device *qdev,
+ static int qxl_primary_move_cursor(struct qxl_device *qdev,
+ 				   struct drm_plane_state *plane_state)
+ {
+-	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct qxl_crtc *qcrtc = to_qxl_crtc(plane_state->crtc);
+ 	struct qxl_cursor_cmd *cmd;
+ 	struct qxl_release *release;
+@@ -554,8 +552,8 @@ static int qxl_primary_move_cursor(struct qxl_device *qdev,
+ 
+ 	cmd = (struct qxl_cursor_cmd *)qxl_release_map(qdev, release);
+ 	cmd->type = QXL_CURSOR_MOVE;
+-	cmd->u.position.x = plane_state->crtc_x + fb->hot_x;
+-	cmd->u.position.y = plane_state->crtc_y + fb->hot_y;
++	cmd->u.position.x = plane_state->crtc_x + plane_state->hotspot_x;
++	cmd->u.position.y = plane_state->crtc_y + plane_state->hotspot_y;
+ 	qxl_release_unmap(qdev, release, &cmd->release_info);
+ 
+ 	qxl_release_fence_buffer_objects(release);
+@@ -851,8 +849,8 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
+ 		struct qxl_bo *old_cursor_bo = qcrtc->cursor_bo;
+ 
+ 		qcrtc->cursor_bo = qxl_create_cursor(qdev, user_bo,
+-						     new_state->fb->hot_x,
+-						     new_state->fb->hot_y);
++						     new_state->hotspot_x,
++						     new_state->hotspot_y);
+ 		qxl_free_cursor(old_cursor_bo);
+ 	}
+ 
 -- 
 2.34.1
 
