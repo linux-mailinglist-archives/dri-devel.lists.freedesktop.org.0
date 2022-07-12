@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F188571125
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 06:16:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03317571132
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 06:23:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6212F10F77D;
-	Tue, 12 Jul 2022 04:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F5A113CE9;
+	Tue, 12 Jul 2022 04:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE45510E074
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 04:16:37 +0000 (UTC)
-X-UUID: e3ae4dfafe8e413e81d3d4da97a65d5a-20220712
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:47b0542e-b3ab-4d3b-808f-efa5539b97ca, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:51
-X-CID-INFO: VERSION:1.1.8, REQID:47b0542e-b3ab-4d3b-808f-efa5539b97ca, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:51
-X-CID-META: VersionHash:0f94e32, CLOUDID:e8f20764-0b3f-4b2c-b3a6-ed5c044366a0,
- C
- OID:fa3c282ba099,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: e3ae4dfafe8e413e81d3d4da97a65d5a-20220712
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2142321456; Tue, 12 Jul 2022 12:16:31 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 12 Jul 2022 12:16:30 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 12 Jul 2022 12:16:29 +0800
-Message-ID: <a31e232115019f6ec670c4955ae8bde7696918ac.camel@mediatek.com>
-Subject: Re: [PATCH 1/2] soc: mediatek: Add mmsys func to adapt to dpi
- output for MT8186
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <yongqiang.niu@mediatek.com>, <enric.balletbo@collabora.com>
-Date: Tue, 12 Jul 2022 12:17:00 +0800
-In-Reply-To: <65d390ab-7f80-8bd4-66f5-442c46da4f00@gmail.com>
-References: <1656645344-12062-1-git-send-email-xinlei.lee@mediatek.com>
- <1656645344-12062-2-git-send-email-xinlei.lee@mediatek.com>
- <65d390ab-7f80-8bd4-66f5-442c46da4f00@gmail.com>
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com
+ [IPv6:2607:f8b0:4864:20::64a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D56FD10E074
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 04:23:08 +0000 (UTC)
+Received: by mail-pl1-x64a.google.com with SMTP id
+ b10-20020a170902d50a00b0016c56d1f90fso1210534plg.21
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 21:23:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=VlO5TFuuspvYhdi2DpaxD3h20t2f4OEaq2DrHe4AmmQ=;
+ b=DyQYKlDD/IcOA4P9vRQKupo+DLs43KFlBZqdk7RIEWnyIoKW37RMSah45C6eYEV0Pm
+ g5nMaKhzXoAXgpIRbOs8Hvpwhql49X/a5gts8RYFTlQS8kHBr/jlT4CwXOkM7fWuC1Do
+ IEN7vOiitvjjkShkA3h3tDyqbl9aQbQ+Inv4lILFKGh8aSpXTjAToRD1J6Z8JQzh+Uax
+ 3p6oOnn6FW98eCFH1+r4bBQKI1IXw0aPOdKVDqrlbp0FbuToLO9O8T807GajNjxIjR5p
+ lE4dXi0YR8Qnit7OyH1aLsKgZnO6jRRqB4XbBqcQmu6jOAFslutRoNCSZxWWb8o/GInk
+ ZhHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=VlO5TFuuspvYhdi2DpaxD3h20t2f4OEaq2DrHe4AmmQ=;
+ b=cxPauy5GTKbSsNA1L7eKHwm/A5t+pCbEmSC01GSUVW8YRwbQl0ZWLKYCGWa2YoJmcu
+ 9tUC0XuirS/LvOfK9z18dXENKgTe97XXmIeMlE48E5STBNfCrIB3sbarsd0heeZIqFv6
+ gDR0AlNrpMy9fSs5rtjNN5MyE040Y4PyHlnGt1lJzNPWf4qeSeWxtONJ/H2HNpiGNcJb
+ IGoeQxHJOjiJqHNI4KnCZxs3BNbDNRW0JFBjwgFI5xbpHm5UnWLudoxXWru2ipThOLDn
+ PviitOHgYJe8qfghjYJw4gOThrwSKoaVUA0YcwWcx/nKq1sCM6i+l4N2x6bVD0PHVDWo
+ x/kA==
+X-Gm-Message-State: AJIora92LMbCDhH74wnVoGmf8w+VbglUDydtsxUMuVbNHe6NIGqx8MdE
+ Dteveh2Kn1X1gl/bW6Bcp3v0K8Fr3W4=
+X-Google-Smtp-Source: AGRyM1u5ruiHHM3S6bje5uDXHiDhsX9GPjl/iquz7U8+/miDVMM2oXhlDLLmW1rox8AgppVRKHsmFfeak9oU
+X-Received: from jstultz-noogler2.c.googlers.com
+ ([fda3:e722:ac3:cc00:24:72f4:c0a8:600])
+ (user=jstultz job=sendgmr) by 2002:a05:6a00:16ca:b0:525:a5d5:d16f with SMTP
+ id l10-20020a056a0016ca00b00525a5d5d16fmr22040610pfc.9.1657599788310; Mon, 11
+ Jul 2022 21:23:08 -0700 (PDT)
+Date: Tue, 12 Jul 2022 04:22:56 +0000
+Message-Id: <20220712042258.293010-1-jstultz@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
+Subject: [RFC][PATCH 1/3] drm: drm_syncobj: Add note in DOC about absolute
+ timeout values
+From: John Stultz <jstultz@google.com>
+To: LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,96 +67,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Chunming Zhou <david1.zhou@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-07-06 at 16:20 +0200, Matthias Brugger wrote:
-> 
-> On 01/07/2022 05:15, xinlei.lee@mediatek.com wrote:
-> > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > 
-> > Add mmsys func to manipulate dpi output format config for MT8186.
-> > 
-> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > ---
-> >   drivers/soc/mediatek/mt8186-mmsys.h    | 1 +
-> >   drivers/soc/mediatek/mtk-mmsys.c       | 8 ++++++++
-> >   include/linux/soc/mediatek/mtk-mmsys.h | 2 ++
-> >   3 files changed, 11 insertions(+)
-> > 
-> > diff --git a/drivers/soc/mediatek/mt8186-mmsys.h
-> > b/drivers/soc/mediatek/mt8186-mmsys.h
-> > index eb1ad9c37a9c..0b450b00b829 100644
-> > --- a/drivers/soc/mediatek/mt8186-mmsys.h
-> > +++ b/drivers/soc/mediatek/mt8186-mmsys.h
-> > @@ -3,6 +3,7 @@
-> >   #ifndef __SOC_MEDIATEK_MT8186_MMSYS_H
-> >   #define __SOC_MEDIATEK_MT8186_MMSYS_H
-> >   
-> > +#define MT8186_MMSYS_DUMMY0			0X400
-> 
-> I don't have access to the datasheet, but I really wonder if it's
-> really called 
-> dummy0. If so, you would need to explain in more detail in the commit
-> message.
-> 
-> Regards,
-> Matthias
-> 
-> >   #define MT8186_MMSYS_OVL_CON			0xF04
-> >   #define MT8186_MMSYS_OVL0_CON_MASK			0x3
-> >   #define MT8186_MMSYS_OVL0_2L_CON_MASK			0xC
-> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
-> > b/drivers/soc/mediatek/mtk-mmsys.c
-> > index 2b0b805c65dd..de3f11cb931f 100644
-> > --- a/drivers/soc/mediatek/mtk-mmsys.c
-> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> > @@ -252,6 +252,14 @@ void mtk_mmsys_ddp_disconnect(struct device
-> > *dev,
-> >   }
-> >   EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_disconnect);
-> >   
-> > +void mtk_mmsys_ddp_dpi_confing(struct device *dev, u32 mask, u32
-> > val,
-> > +			       struct cmdq_pkt *cmdq_pkt)
-> > +{
-> > +	mtk_mmsys_update_bits(dev_get_drvdata(dev),
-> > MT8186_MMSYS_DUMMY0, mask,
-> > +			      val, cmdq_pkt);
-> > +}
-> > +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_dpi_confing);
-> > +
-> >   void mtk_mmsys_merge_async_config(struct device *dev, int idx,
-> > int width, int height,
-> >   				  struct cmdq_pkt *cmdq_pkt)
-> >   {
-> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
-> > b/include/linux/soc/mediatek/mtk-mmsys.h
-> > index 343e093f0fc3..40c538c0664b 100644
-> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> > @@ -90,4 +90,6 @@ void mtk_mmsys_mixer_in_config(struct device
-> > *dev, int idx, bool alpha_sel, u16
-> >   void mtk_mmsys_mixer_in_channel_swap(struct device *dev, int idx,
-> > bool channel_swap,
-> >   				     struct cmdq_pkt *cmdq_pkt);
-> >   
-> > +void mtk_mmsys_ddp_dpi_confing(struct device *dev, u32 mask, u32
-> > val,
-> > +			       struct cmdq_pkt *cmdq_pkt);
-> >   #endif /* __MTK_MMSYS_H */
+After having to debug down through the kernel to figure out
+why my _WAIT calls were always timing out, I realized its
+an absolute timeout value instead of the more common relative
+timeouts.
 
-Hi Matthias
+This detail should be called out in the documentation, as while
+the absolute value makes sense here, its not as common for timeout
+values.
 
-Thank you for your suggestion.
-I'm sorry for not explaining what this register does in detail, I'll
-explain it in the next commit message.
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Chunming Zhou <david1.zhou@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <jstultz@google.com>
+---
+ drivers/gpu/drm/drm_syncobj.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Best Regards!
-xinlei
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 7e48dcd1bee4..b84d842a1c21 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -136,6 +136,10 @@
+  * requirement is inherited from the wait-before-signal behavior required =
+by
+  * the Vulkan timeline semaphore API.
+  *
++ * It should be noted, that both &DRM_IOCTL_SYNCOBJ_WAIT and
++ * &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT takes an *absolute* CLOCK_MONOT=
+ONIC
++ * nanosecond value for the timeout value. Accidentally passing relative t=
+ime
++ * values will likely result in an immediate -ETIME return.
+  *
+  * Import/export of syncobjs
+  * -------------------------
+--=20
+2.37.0.144.g8ac04bfd2-goog
 
