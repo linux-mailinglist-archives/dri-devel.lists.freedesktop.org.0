@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DEF572602
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 21:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE00D57260A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 21:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC8B964A0;
-	Tue, 12 Jul 2022 19:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA84964E5;
+	Tue, 12 Jul 2022 19:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F924964CC
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 19:41:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB499648D
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 19:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657654865;
+ s=mimecast20190719; t=1657654872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tm6jMPVycKydgq3WZrq/Jda/tvRxwWE3Xj77RCx9x/Q=;
- b=hMouY0du6bW6yeMwghOSjFh2E7Zd/C/59LspwwZYSd4CRRASUZQeHrkFpckUEhbhGj9mv8
- yLi7UwjdECaZ2FpBFxNaHszH3ba3tf86mADRryIM6Fu9rRnQoZG2BYGx0ydCTnsiXUHEhZ
- HtrUIEFgbMKxpLLCikn2Jxakm6DrOKY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2WK3kAcxEEkkbv9pOh1xIkmngcweoSFUQNmrVAb4yRo=;
+ b=bSoHjqXXppFDZQ2coM8dLKGob4BQJ/XbTyZReuhGRR5acT44ufl/4ENI3qvMyIgplS3fsv
+ YlU0XhYTg64ZJq/Q7CjQkeABny1OQgvWUl2lS11/eScY9mT6hDaEdsDSNBcNQor3WARw5m
+ o6fWdpqK1Wr9vpeckZ3fSEDg7x26r3o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-Snu9z6XIP-O3BJUxI2K8Ng-1; Tue, 12 Jul 2022 15:41:00 -0400
-X-MC-Unique: Snu9z6XIP-O3BJUxI2K8Ng-1
+ us-mta-147-aKYw3J9FNyiVVAeTYZ7eDw-1; Tue, 12 Jul 2022 15:41:05 -0400
+X-MC-Unique: aKYw3J9FNyiVVAeTYZ7eDw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8F6B101A586;
- Tue, 12 Jul 2022 19:40:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9C56299E764;
+ Tue, 12 Jul 2022 19:41:03 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E815B40E80E0;
- Tue, 12 Jul 2022 19:40:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEC5840E80E0;
+ Tue, 12 Jul 2022 19:40:59 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Ben Skeggs <bskeggs@redhat.com>,
 	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
@@ -55,10 +55,10 @@ To: Ben Skeggs <bskeggs@redhat.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v2 24/29] platform/x86: samsung-laptop: Move
- acpi_backlight=[vendor|native] quirks to ACPI video_detect.c
-Date: Tue, 12 Jul 2022 21:39:05 +0200
-Message-Id: <20220712193910.439171-25-hdegoede@redhat.com>
+Subject: [PATCH v2 25/29] ACPI: video: Remove
+ acpi_video_set_dmi_backlight_type()
+Date: Tue, 12 Jul 2022 21:39:06 +0200
+Message-Id: <20220712193910.439171-26-hdegoede@redhat.com>
 In-Reply-To: <20220712193910.439171-1-hdegoede@redhat.com>
 References: <20220712193910.439171-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -84,216 +84,105 @@ Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-acpi_video_set_dmi_backlight_type() is troublesome because it may end up
-getting called after other backlight drivers have already called
+acpi_video_set_dmi_backlight_type() is troublesome because it may end
+up getting called after other backlight drivers have already called
 acpi_video_get_backlight_type() resulting in the other drivers
 already being registered even though they should not.
 
-Move all the acpi_backlight=[vendor|native] quirks from samsung-laptop to
-drivers/acpi/video_detect.c .
+In case of the acpi_video backlight, acpi_video_set_dmi_backlight_type()
+actually calls acpi_video_unregister_backlight() since that is often
+probed earlier, leading to userspace seeing the acpi_video0 class
+device being briefly available, leading to races in userspace where
+udev probe-rules try to access the device and it is already gone.
 
-Note the X360 -> acpi_backlight=native quirk is not moved because that
-already was present in drivers/acpi/video_detect.c .
+All callers have been fixed to no longer call it, so remove
+acpi_video_set_dmi_backlight_type() now.
+
+This means we now also no longer need acpi_video_unregister_backlight()
+for the remove acpi_video backlight after it was wrongly registered hack,
+so remove that too.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/acpi/video_detect.c           | 54 +++++++++++++++++
- drivers/platform/x86/samsung-laptop.c | 87 ---------------------------
- 2 files changed, 54 insertions(+), 87 deletions(-)
+ drivers/acpi/acpi_video.c   | 10 ----------
+ drivers/acpi/video_detect.c | 16 ----------------
+ include/acpi/video.h        |  4 ----
+ 3 files changed, 30 deletions(-)
 
+diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
+index 4fc2a8100865..dc3c037d6313 100644
+--- a/drivers/acpi/acpi_video.c
++++ b/drivers/acpi/acpi_video.c
+@@ -2297,16 +2297,6 @@ void acpi_video_register_backlight(void)
+ }
+ EXPORT_SYMBOL(acpi_video_register_backlight);
+ 
+-void acpi_video_unregister_backlight(void)
+-{
+-	struct acpi_video_bus *video;
+-
+-	mutex_lock(&video_list_lock);
+-	list_for_each_entry(video, &video_bus_head, entry)
+-		acpi_video_bus_unregister_backlight(video);
+-	mutex_unlock(&video_list_lock);
+-}
+-
+ bool acpi_video_handles_brightness_key_presses(void)
+ {
+ 	return has_backlight &&
 diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-index a92322f4caff..84dce2c113ef 100644
+index 84dce2c113ef..351bd6335d7a 100644
 --- a/drivers/acpi/video_detect.c
 +++ b/drivers/acpi/video_detect.c
-@@ -220,6 +220,33 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
- 		DMI_MATCH(DMI_PRODUCT_NAME, "GB-BXBT-2807"),
- 		},
- 	},
-+	{
-+	 .callback = video_detect_force_vendor,
-+	 /* Samsung N150/N210/N220 */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "N150/N210/N220"),
-+		DMI_MATCH(DMI_BOARD_NAME, "N150/N210/N220"),
-+		},
-+	},
-+	{
-+	 .callback = video_detect_force_vendor,
-+	 /* Samsung NF110/NF210/NF310 */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "NF110/NF210/NF310"),
-+		DMI_MATCH(DMI_BOARD_NAME, "NF110/NF210/NF310"),
-+		},
-+	},
-+	{
-+	 .callback = video_detect_force_vendor,
-+	 /* Samsung NC210 */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "NC210/NC110"),
-+		DMI_MATCH(DMI_BOARD_NAME, "NC210/NC110"),
-+		},
-+	},
- 	{
- 	.callback = video_detect_force_vendor,
- 	/* Sony VPCEH3U1E */
-@@ -562,6 +589,33 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
- 		DMI_MATCH(DMI_PRODUCT_NAME, "UX303UB"),
- 		},
- 	},
-+	{
-+	 .callback = video_detect_force_native,
-+	 /* Samsung N150P */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "N150P"),
-+		DMI_MATCH(DMI_BOARD_NAME, "N150P"),
-+		},
-+	},
-+	{
-+	 .callback = video_detect_force_native,
-+	 /* Samsung N145P/N250P/N260P */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "N145P/N250P/N260P"),
-+		DMI_MATCH(DMI_BOARD_NAME, "N145P/N250P/N260P"),
-+		},
-+	},
-+	{
-+	 .callback = video_detect_force_native,
-+	 /* Samsung N250P */
-+	 .matches = {
-+		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-+		DMI_MATCH(DMI_PRODUCT_NAME, "N250P"),
-+		DMI_MATCH(DMI_BOARD_NAME, "N250P"),
-+		},
-+	},
- 	/*
- 	 * Clevo NL5xRU and NL5xNU/TUXEDO Aura 15 Gen1 and Gen2 have both a
- 	 * working native and video interface. However the default detection
-diff --git a/drivers/platform/x86/samsung-laptop.c b/drivers/platform/x86/samsung-laptop.c
-index c187dcdf82f0..cc30cf08f32d 100644
---- a/drivers/platform/x86/samsung-laptop.c
-+++ b/drivers/platform/x86/samsung-laptop.c
-@@ -356,23 +356,13 @@ struct samsung_laptop {
- };
+@@ -37,8 +37,6 @@
+ #include <linux/workqueue.h>
+ #include <acpi/video.h>
  
- struct samsung_quirks {
--	bool broken_acpi_video;
- 	bool four_kbd_backlight_levels;
- 	bool enable_kbd_backlight;
--	bool use_native_backlight;
- 	bool lid_handling;
- };
- 
- static struct samsung_quirks samsung_unknown = {};
- 
--static struct samsung_quirks samsung_broken_acpi_video = {
--	.broken_acpi_video = true,
--};
+-void acpi_video_unregister_backlight(void);
 -
--static struct samsung_quirks samsung_use_native_backlight = {
--	.use_native_backlight = true,
--};
--
- static struct samsung_quirks samsung_np740u3e = {
- 	.four_kbd_backlight_levels = true,
- 	.enable_kbd_backlight = true,
-@@ -1540,76 +1530,6 @@ static const struct dmi_system_id samsung_dmi_table[] __initconst = {
- 		},
- 	},
- 	/* Specific DMI ids for laptop with quirks */
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "N150P",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "N150P"),
--		DMI_MATCH(DMI_BOARD_NAME, "N150P"),
--		},
--	 .driver_data = &samsung_use_native_backlight,
--	},
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "N145P/N250P/N260P",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "N145P/N250P/N260P"),
--		DMI_MATCH(DMI_BOARD_NAME, "N145P/N250P/N260P"),
--		},
--	 .driver_data = &samsung_use_native_backlight,
--	},
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "N150/N210/N220",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "N150/N210/N220"),
--		DMI_MATCH(DMI_BOARD_NAME, "N150/N210/N220"),
--		},
--	 .driver_data = &samsung_broken_acpi_video,
--	},
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "NF110/NF210/NF310",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "NF110/NF210/NF310"),
--		DMI_MATCH(DMI_BOARD_NAME, "NF110/NF210/NF310"),
--		},
--	 .driver_data = &samsung_broken_acpi_video,
--	},
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "X360",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "X360"),
--		DMI_MATCH(DMI_BOARD_NAME, "X360"),
--		},
--	 .driver_data = &samsung_broken_acpi_video,
--	},
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "N250P",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "N250P"),
--		DMI_MATCH(DMI_BOARD_NAME, "N250P"),
--		},
--	 .driver_data = &samsung_use_native_backlight,
--	},
--	{
--	 .callback = samsung_dmi_matched,
--	 .ident = "NC210",
--	 .matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
--		DMI_MATCH(DMI_PRODUCT_NAME, "NC210/NC110"),
--		DMI_MATCH(DMI_BOARD_NAME, "NC210/NC110"),
--		},
--	 .driver_data = &samsung_broken_acpi_video,
--	},
- 	{
- 	 .callback = samsung_dmi_matched,
- 	 .ident = "730U3E/740U3E",
-@@ -1654,15 +1574,8 @@ static int __init samsung_init(void)
- 	samsung->handle_backlight = true;
- 	samsung->quirks = quirks;
+ static enum acpi_backlight_type acpi_backlight_cmdline = acpi_backlight_undef;
+ static enum acpi_backlight_type acpi_backlight_dmi = acpi_backlight_undef;
  
--#ifdef CONFIG_ACPI
--	if (samsung->quirks->broken_acpi_video)
--		acpi_video_set_dmi_backlight_type(acpi_backlight_vendor);
--	if (samsung->quirks->use_native_backlight)
--		acpi_video_set_dmi_backlight_type(acpi_backlight_native);
+@@ -792,17 +790,3 @@ bool acpi_video_backlight_use_native(void)
+ 	return __acpi_video_get_backlight_type(true) == acpi_backlight_native;
+ }
+ EXPORT_SYMBOL(acpi_video_backlight_use_native);
 -
- 	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
- 		samsung->handle_backlight = false;
--#endif
- 
- 	ret = samsung_platform_init(samsung);
- 	if (ret)
+-/*
+- * Set the preferred backlight interface type based on DMI info.
+- * This function allows DMI blacklists to be implemented by external
+- * platform drivers instead of putting a big blacklist in video_detect.c
+- */
+-void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type)
+-{
+-	acpi_backlight_dmi = type;
+-	/* Remove acpi-video backlight interface if it is no longer desired */
+-	if (acpi_video_get_backlight_type() != acpi_backlight_video)
+-		acpi_video_unregister_backlight();
+-}
+-EXPORT_SYMBOL(acpi_video_set_dmi_backlight_type);
+diff --git a/include/acpi/video.h b/include/acpi/video.h
+index dbd48cb8bd23..a275c35e5249 100644
+--- a/include/acpi/video.h
++++ b/include/acpi/video.h
+@@ -60,7 +60,6 @@ extern int acpi_video_get_edid(struct acpi_device *device, int type,
+ 			       int device_id, void **edid);
+ extern enum acpi_backlight_type acpi_video_get_backlight_type(void);
+ extern bool acpi_video_backlight_use_native(void);
+-extern void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type);
+ /*
+  * Note: The value returned by acpi_video_handles_brightness_key_presses()
+  * may change over time and should not be cached.
+@@ -86,9 +85,6 @@ static inline bool acpi_video_backlight_use_native(void)
+ {
+ 	return true;
+ }
+-static inline void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type)
+-{
+-}
+ static inline bool acpi_video_handles_brightness_key_presses(void)
+ {
+ 	return false;
 -- 
 2.36.0
 
