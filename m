@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A945057189C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 13:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FAD5718D0
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 13:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 243EE14B882;
-	Tue, 12 Jul 2022 11:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8922B891;
+	Tue, 12 Jul 2022 11:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D471124F8;
- Tue, 12 Jul 2022 11:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=wEU2lTn9Et2NuCEAD/mh5qm1lTrzHU1EEy9+K85JA9Q=; b=NjkuiZBoiv7GYDCOZcqDj1LzSW
- 4uXGSLWVxvl/PhM4mAGxyB+nznXEVFWK9noxhnajgWwCVxtRbzqAx6Z+Uuk14nY06ehEs9J6zSsHI
- /d9XZLwp6OtLe8ohk35iiVu3WjimV9GBWAJmzIkeW1ycOtb/paeIZ6Z7n6m5nSzFF/rUmCAzu4mhZ
- YfFMTTAbqOeqwt51vOn9XwlZr71YQ+rj6hPicpwDjb/zrVPIuDDA1PhmdW+zN5Zyc8HxaTOgDwVSu
- 5IXOY6fwCvwgIUOoahZ30E4lNNnKqMzRtunRuUYPoTfctoDC50VfkRtrf0+Ahwh46Sn1fdTCztl1c
- t5+gCvJQ==;
-Received: from [165.90.126.25] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oBE8U-00DMlP-Kb; Tue, 12 Jul 2022 13:33:02 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/amd/display: correct check of coverage blend mode
-Date: Tue, 12 Jul 2022 10:32:39 -0100
-Message-Id: <20220712113239.132905-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C94F2B891;
+ Tue, 12 Jul 2022 11:46:08 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id sz17so13808492ejc.9;
+ Tue, 12 Jul 2022 04:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6yXgt6F3apBhQ9ExwIi1N6Ag6ML0IpJudVsjkA/ZOG8=;
+ b=F8UpU6+stuqa7hlN5K0YIi72RAySc4fS61qdG5MaMcqtIAwKkzAg4CKfvqrCfIzYRL
+ yD0TeVbPNzypbiLG9nyqqdres6WLheDTiTdt6TGQAOxwU8ySNUqHN36rEvMpgk417k7q
+ wGIU9qUZIqrgxCZzaD8gaB+bqQ/BY63eLvyzKRluUQYYAUe0uqleCtLzchWMURfpQ3RF
+ HMA0u7z4R8K+rXEJYD2Wh5g/0TbgXtBuj1aKrCedyjlryJnzilJVQmnLwAhF8J/sylFV
+ /rncZQihhCWSH9fAXNnWBkQv/NPTL41IBXPELRw3ODTe9buwPQ6dNr1sov+NSmZ3joQi
+ L33w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6yXgt6F3apBhQ9ExwIi1N6Ag6ML0IpJudVsjkA/ZOG8=;
+ b=hSOhwNygx3xCAqbc9Or11qChYmYIcKygKiSDbsbuVmvG3umnZF4WSw+y+vCmxDSHWf
+ 9QHNs+u+BBgFKRJExhJjxQ6ztSfhBdPcKWqU4uT/uw6BN79av7uTojU9xcMXfR8Y8bYF
+ Jp/poTOo/OCKXdmagBwct0KV3EoenzA3ayHEpOkXSFYK72gBoTPsRM7qj6CcPibQXuFr
+ ROSLYjOw72aHBjDDM8ym4vFkcm5CPHWQgCLZ6iaprJiQjB4AE/8czu4PoqkvMizltfxj
+ b3VM8iE7u0AsNYuwHA1vJ3JZdBKOZSelo6P97dGLMt7vi4l+nla8TcmLSbMNkwGcvdaY
+ wwtg==
+X-Gm-Message-State: AJIora/rBnVSNxlisgaq3BFi/5MlDBH3641fEzIumeLaizsdDvkv8h75
+ WcOOoecAN3gBOX9KuNcLK601+FR/TZM=
+X-Google-Smtp-Source: AGRyM1vg6Vv7fRReUS0cYlZg8aEPYftvKuD8B1jAJEfMGoYHQM3Y8e6d+aC4iniEq31Y/AANgb5kWw==
+X-Received: by 2002:a17:907:2722:b0:72b:735a:d3b4 with SMTP id
+ d2-20020a170907272200b0072b735ad3b4mr5083978ejl.363.1657626367169; 
+ Tue, 12 Jul 2022 04:46:07 -0700 (PDT)
+Received: from able.fritz.box (p57b0bd9f.dip0.t-ipconnect.de. [87.176.189.159])
+ by smtp.gmail.com with ESMTPSA id
+ f10-20020a170906494a00b006fe9f9d0938sm3767200ejt.175.2022.07.12.04.46.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jul 2022 04:46:06 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/i915: audit bo->resource usage
+Date: Tue, 12 Jul 2022 13:46:03 +0200
+Message-Id: <20220712114605.52369-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,37 +71,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Dan Carpenter <dan.carpenter@oracle.com>, Sungjoon.Kim@amd.com
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check the value of per_pixel_alpha to decide whether the Coverage pixel
-blend mode is applicable or not.
+Make sure we can at least move and alloc TT objects without backing store.
 
-Fixes: 76818cdd11a2 ("drm/amd/display: add Coverage blend mode for overlay plane")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 6 ++----
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 2 +-
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index de1c139ae279..25cb833b267c 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5486,7 +5486,7 @@ fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
- 			}
- 		}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 70e2ed4e99df..5449738c262f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -289,8 +289,6 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ {
+ 	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
+ 						     bdev);
+-	struct ttm_resource_manager *man =
+-		ttm_manager_type(bo->bdev, bo->resource->mem_type);
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 	unsigned long ccs_pages = 0;
+ 	enum ttm_caching caching;
+@@ -304,8 +302,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ 	if (!i915_tt)
+ 		return NULL;
  
--		if (per_pixel_alpha && plane_state->pixel_blend_mode == DRM_MODE_BLEND_COVERAGE)
-+		if (*per_pixel_alpha && plane_state->pixel_blend_mode == DRM_MODE_BLEND_COVERAGE)
- 			*pre_multiplied_alpha = false;
+-	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR &&
+-	    man->use_tt)
++	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR && bo->resource &&
++	    ttm_manager_type(bo->bdev, bo->resource->mem_type)->use_tt)
+ 		page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
+ 
+ 	caching = i915_ttm_select_tt_caching(obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+index a10716f4e717..dcb838dffd7b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+@@ -490,7 +490,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 	bool clear;
+ 	int ret;
+ 
+-	if (GEM_WARN_ON(!obj)) {
++	if (!bo->resource || GEM_WARN_ON(!obj)) {
+ 		ttm_bo_move_null(bo, dst_mem);
+ 		return 0;
  	}
- 
 -- 
-2.35.1
+2.25.1
 
