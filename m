@@ -2,103 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3E7571224
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 08:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D032571275
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 08:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1E3113B60;
-	Tue, 12 Jul 2022 06:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6EA2B5B0;
+	Tue, 12 Jul 2022 06:49:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3095F10FA87
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 06:10:16 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220712061014epoutp02de00699f250585f42c6cce6fa63022b9~BABG_yF8x0971209712epoutp02r
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 06:10:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220712061014epoutp02de00699f250585f42c6cce6fa63022b9~BABG_yF8x0971209712epoutp02r
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1657606214;
- bh=N8GYedKNDSPz7Lc7caJu8nhqgbUnmR/8OXe/iACBxQk=;
- h=From:To:Cc:Subject:Date:References:From;
- b=o5744k0uDB+DN94Y0iZk4RXPhBWUaZbWQ0tVW5N0opThg2mkxdYci9lnFs8utpSR2
- uetMs9I2atLRTRluRzpLJ3HV9C17esZVSaM9gB3RD79PRDLD2f55+I/874LUeIfMNr
- lIUGkrWkEzn2KCEQHT8kZnQB22OA09vvt9irpOHY=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20220712061013epcas1p4595bdb33e2fbf147c3b284ad694f9676~BABGqgFD-1418514185epcas1p40;
- Tue, 12 Jul 2022 06:10:13 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.38.236]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4Lhr2X0VdVz4x9Pv; Tue, 12 Jul
- 2022 06:10:12 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 93.E9.09657.1401DC26; Tue, 12 Jul 2022 15:10:09 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220712061009epcas1p2a58002c639023a32375700be9ee9dea5~BABCXZJJd0276502765epcas1p2w;
- Tue, 12 Jul 2022 06:10:09 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220712061009epsmtrp1d0fe57ad6e37c89811b93a3a6b6564d4~BABCWpwG80547905479epsmtrp1Q;
- Tue, 12 Jul 2022 06:10:09 +0000 (GMT)
-X-AuditID: b6c32a35-733ff700000025b9-f2-62cd10414bc1
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- E6.6D.08905.0401DC26; Tue, 12 Jul 2022 15:10:09 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220712061008epsmtip2e4f9eac3c99db6a30f65bd82372efc82~BABCORCfj0846308463epsmtip2N;
- Tue, 12 Jul 2022 06:10:08 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie, daniel@ffwll.ch
-Subject: [GIT PULL] exynos-drm-next
-Date: Tue, 12 Jul 2022 15:10:08 +0900
-Message-Id: <20220712061008.199961-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BAF62B5B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 06:49:41 +0000 (UTC)
+X-UUID: 2c5deefdde4d4c63a28299ad0b6e2f3a-20220712
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:88eb9b1a-e6b5-4e14-9a7a-0762369b27a7, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8, REQID:88eb9b1a-e6b5-4e14-9a7a-0762369b27a7, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:0f94e32, CLOUDID:27f90b64-0b3f-4b2c-b3a6-ed5c044366a0,
+ C
+ OID:9a67550cb39b,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 2c5deefdde4d4c63a28299ad0b6e2f3a-20220712
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1513253721; Tue, 12 Jul 2022 14:49:37 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 12 Jul 2022 14:49:36 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 12 Jul 2022 14:49:35 +0800
+Message-ID: <e8c2a181926fcbd72ac7b625e2289d91132c37be.camel@mediatek.com>
+Subject: Re: [PATCH v13 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Tue, 12 Jul 2022 14:49:35 +0800
+In-Reply-To: <7af5710c5a9c0c30e38ca81a72fe30c1c7749bbb.camel@mediatek.com>
+References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
+ <20220701062808.18596-6-rex-bc.chen@mediatek.com>
+ <7af5710c5a9c0c30e38ca81a72fe30c1c7749bbb.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7bCmvq6jwNkkg65jYha9504yWfzfNpHZ
- 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
- yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
- I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITuj7eR55oLZghVTJv9ibGA8z9vF
- yMEhIWAisXKPWRcjJ4eQwA5GiZ4v6l2MXED2J0aJN7u/sEE43xglZs9oZYRp2N6nDRHfyyhx
- pPMxK4TzhVHi07l1rCCj2ARUJSauuM8GYosA2W8nPWYGsZkF3CT+LD3LAmILCyhL7L6+D6ye
- Bahm+sf3YAt4Bawkdm4XAAlLCMhLzLz0nR3E5hUQlDg58wkLxBh5ieats5lB9koIbGOX2LCq
- gw2iwUXi0Pf7LBC2sMSr41vYIWwpiZf9bewQDZMZJe5cX8EC4cxglDj88zojRJWxxP6lk5lA
- rmAW0JRYv0sfIqwosfP3XEaIzXwS7772sEJCgleio00IokRJ4tjFG1BTJCQuLJkIdY+HxK2V
- x9kgwRsr8XTVUdYJjPKzkPwzC8k/sxAWL2BkXsUollpQnJueWmxYYAiP0+T83E2M4ESnZbqD
- ceLbD3qHGJk4GA8xSnAwK4nw/jl7KkmINyWxsiq1KD++qDQntfgQoykwgCcyS4km5wNTbV5J
- vKGJpYGJmZGxiYWhmaGSOO+qaacThQTSE0tSs1NTC1KLYPqYODilGpia3QKznxmxJfYKbJ08
- JeDB1jsfnb7+5lW8NmfPoorGnv0O+t8ZJmqse+2++2dOwoQdTZaqSWGP1i0WqBVpjLLvKfj3
- +9Dh7/c/zmZLrWM2DeSy8S6r55kXvp59x8e9cfmh1+offdidcJ9jUlJ/sLzUgVt3tPOTc/4v
- 1F25+NlXvj6GoLzfPvW6aaZyW22cheKyFVt8M7/oL0i+49aZt6Ay13V9yTyV4oVcc09c2jjN
- 6Mfsu2bPFKUnrXVj6vEV1pq5YPf3Ilfr0Hv5VoITrhld7luXfpFjcuZLZqklbpcvlOtOLjj2
- KSG98dLtRuUL/7aH2ilWP7qncudtQ0aEd2yc7IXZO481HHhiX8ezmFmJpTgj0VCLuag4EQAP
- Paay/QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOLMWRmVeSWpSXmKPExsWy7bCSvK6jwNkkg58rmC16z51ksvi/bSKz
- xZWv79ksZpzfx+TA4rH32wIWj+3fHrB63O8+zuTxeZNcAEsUl01Kak5mWWqRvl0CV0bbyfPM
- BbMFK6ZM/sXYwHiet4uRg0NCwERie592FyMXh5DAbkaJg2vvsUHEJSS2bOWAMIUlDh8uhij5
- xCjx//g/li5GTg42AVWJiSvus4HYIgLqEg8uL2QEsZkFPCTe71nNDmILCyhL7L6+jxXEZgGq
- n/7xPSPITF4BK4md2wVAwhIC8hIzL30HK+cVEJQ4OfMJC8QYeYnmrbOZJzDyzUKSmoUktYCR
- aRWjZGpBcW56brFhgWFearlecWJucWleul5yfu4mRnDYaWnuYNy+6oPeIUYmDsZDjBIczEoi
- vH/OnkoS4k1JrKxKLcqPLyrNSS0+xCjNwaIkznuh62S8kEB6YklqdmpqQWoRTJaJg1OqgUnX
- oyY18qHHyXk+Hm0ahyVMOLV11XhvxS54f/ymweabnIKM52bVvIpjn++g/WGH612B9yaOf723
- h7jNm/Jax7hGSPbDx1ZbbeZnUm8MLv9M3fvrvkDB6hLOk8s4jZZ1yzzpc1JfprQm9eG/f893
- eV9ZsFTi3izxNfO5o4/NFs5La3d/ULvrV5F9QneOy82+A/V/lz5kn/TYQOznj00vNsu+NhWu
- mXvORup32/Yrma5/GLiUHr8oYVq53Lzk/7X9+7gfHJl9VunlVt5HZzOaL6Z0mZ99X7H7WMoW
- 7yt8J+/O987k+RpTuU3TSvDJr31r818eq23YKHBwHovY4eTIXZdtl7ScWlGu9mX9k6kdpSFW
- SizFGYmGWsxFxYkA8dmylaoCAAA=
-X-CMS-MailID: 20220712061009epcas1p2a58002c639023a32375700be9ee9dea5
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220712061009epcas1p2a58002c639023a32375700be9ee9dea5
-References: <CGME20220712061009epcas1p2a58002c639023a32375700be9ee9dea5@epcas1p2.samsung.com>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,58 +72,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>,
+ Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
+ <jitao.shi@mediatek.com>,
+ LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Thu, 2022-07-07 at 16:00 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
+> 
+> On Fri, 2022-07-01 at 14:28 +0800, Bo-Chen Chen wrote:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > 
+> > This patch adds a embedded displayport driver for the MediaTek
+> > mt8195
+> > SoC.
+> > 
+> > It supports the MT8195, the embedded DisplayPort units. It offers
+> > DisplayPort 1.4 with up to 4 lanes.
+> > 
+> > The driver creates a child device for the phy. The child device
+> > will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so
+> > that
+> > both can work with the same register range. The phy driver sets
+> > device
+> > data that is read by the parent to get the phy device that can be
+> > used
+> > to control the phy properties.
+> > 
+> > This driver is based on an initial version by
+> > Jitao shi <jitao.shi@mediatek.com>
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> 
+> [snip]
+> 
+> > +
+> > +static int mtk_dp_set_color_format(struct mtk_dp *mtk_dp,
+> > +				   enum dp_pixelformat color_format)
+> > +{
+> > +	u32 val;
+> > +
+> > +	/* update MISC0 */
+> > +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
+> > +			   color_format << DP_TEST_COLOR_FORMAT_SHIFT,
+> > +			   DP_TEST_COLOR_FORMAT_MASK);
+> > +
+> > +	switch (color_format) {
+> > +	case DP_PIXELFORMAT_YUV422:
+> > +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_YCBCR422;
+> > +		break;
+> > +	case DP_PIXELFORMAT_RGB:
+> > +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_RGB;
+> > +		break;
+> > +	default:
+> 
+> The default case would never happen, remove it.
+> 
+> Regards,
+> CK
+> 
 
-   Just two cleanups which remove invalid maintainer info and one fixup
-   for releasing resouce.
+Hello CK,
 
-Please kindly let me know if there is any problem.
+after removing default, it will build error because we do not handle
+other 5 enum in enum dp_pixelformat.
 
-Thanks,
-Inki Dae
+"error: 5 enumeration values not handled in switch"
 
-The following changes since commit c6a3d73592ae20f2f6306f823aa5121c83c88223:
+Therefore, I will keep this.
 
-  Merge tag 'drm-intel-gt-next-2022-06-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-07-01 14:14:52 +1000)
+BRs,
+Bo-Chen
 
-are available in the Git repository at:
+> > +		drm_warn(mtk_dp->drm_dev, "Unsupported color format:
+> > %d\n",
+> > +			 color_format);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C,
+> > +			   val, PIXEL_ENCODE_FORMAT_DP_ENC0_P0_MASK);
+> > +	return 0;
+> > +}
+> > +
+> 
+> 
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v5.20
-
-for you to fetch changes up to 48b927770f8ad3f8cf4a024a552abf272af9f592:
-
-  drm/exynos/exynos7_drm_decon: free resources when clk_set_parent() failed. (2022-07-12 13:56:54 +0900)
-
-----------------------------------------------------------------
-Two cleanups
-- Remove Joonyoung Shim from MAINTAINERS and relevant yaml files.
-  He left from Samsung so his email address isn't valid anymore.
-
-Fixup
-- Fix resume function issue of exynos decon driver by calling
-  clk_disable_unprepare() properly if clk_prepare_enable() failed.
-
-----------------------------------------------------------------
-Jian Zhang (1):
-      drm/exynos/exynos7_drm_decon: free resources when clk_set_parent() failed.
-
-Krzysztof Kozlowski (2):
-      drm/exynos: MAINTAINERS: move Joonyoung Shim to credits
-      dt-bindings: remove Joonyoung Shim from maintainers
-
- CREDITS                                                 |  4 ++++
- .../display/samsung/samsung,exynos-hdmi-ddc.yaml        |  1 -
- .../bindings/display/samsung/samsung,exynos-hdmi.yaml   |  1 -
- .../bindings/display/samsung/samsung,exynos-mixer.yaml  |  1 -
- .../display/samsung/samsung,exynos5433-decon.yaml       |  1 -
- .../display/samsung/samsung,exynos5433-mic.yaml         |  1 -
- .../bindings/display/samsung/samsung,exynos7-decon.yaml |  1 -
- .../bindings/display/samsung/samsung,fimd.yaml          |  1 -
- .../bindings/phy/samsung,exynos-hdmi-phy.yaml           |  1 -
- MAINTAINERS                                             |  1 -
- drivers/gpu/drm/exynos/exynos7_drm_decon.c              | 17 +++++++++++++----
- 11 files changed, 17 insertions(+), 13 deletions(-)
