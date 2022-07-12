@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03317571132
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 06:23:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1326F571134
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 06:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F5A113CE9;
-	Tue, 12 Jul 2022 04:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D2D611B3FF;
+	Tue, 12 Jul 2022 04:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com
- [IPv6:2607:f8b0:4864:20::64a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D56FD10E074
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 04:23:08 +0000 (UTC)
-Received: by mail-pl1-x64a.google.com with SMTP id
- b10-20020a170902d50a00b0016c56d1f90fso1210534plg.21
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 21:23:08 -0700 (PDT)
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com
+ [IPv6:2607:f8b0:4864:20::449])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D0D10E074
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 04:23:10 +0000 (UTC)
+Received: by mail-pf1-x449.google.com with SMTP id
+ h5-20020a62b405000000b00528c76085e4so1740416pfn.15
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jul 2022 21:23:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=VlO5TFuuspvYhdi2DpaxD3h20t2f4OEaq2DrHe4AmmQ=;
- b=DyQYKlDD/IcOA4P9vRQKupo+DLs43KFlBZqdk7RIEWnyIoKW37RMSah45C6eYEV0Pm
- g5nMaKhzXoAXgpIRbOs8Hvpwhql49X/a5gts8RYFTlQS8kHBr/jlT4CwXOkM7fWuC1Do
- IEN7vOiitvjjkShkA3h3tDyqbl9aQbQ+Inv4lILFKGh8aSpXTjAToRD1J6Z8JQzh+Uax
- 3p6oOnn6FW98eCFH1+r4bBQKI1IXw0aPOdKVDqrlbp0FbuToLO9O8T807GajNjxIjR5p
- lE4dXi0YR8Qnit7OyH1aLsKgZnO6jRRqB4XbBqcQmu6jOAFslutRoNCSZxWWb8o/GInk
- ZhHA==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc:content-transfer-encoding;
+ bh=l0wfKFp1ChJwLpur4LprhadUuGsHQU0cjcxPkM3pYu4=;
+ b=eydKoO5rr2LXznt/oww6+I4+oHMBcV+Dwp7kSgxo9xRjUefqx0WxWfSdeO3AxvGYYj
+ hsbSG89K48k1wHNBwKqVXwB4ofsdmPYEfk7Tk86cLkHc+Ms3I405DLnGYDvAKbkNi4ex
+ U3I3Einb3hgUR0L5bGLbAMK4OpK9znX82Cr5WUWNPlHXK4iGpg+y13GfASX6npa6IDRg
+ v1YUro0KQNVjiENneup57QrtMLdxPCJZgx1WkoMYa61nJIGISoxF/UKZs4uBzEyuMdVV
+ 26/EMVsIfmf4m7JWn+Sc1AXe79CcmcNQPyvFhD4NgRUzPgcH4DmNRUZCmfcZ3zCGOQa8
+ +mIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=VlO5TFuuspvYhdi2DpaxD3h20t2f4OEaq2DrHe4AmmQ=;
- b=cxPauy5GTKbSsNA1L7eKHwm/A5t+pCbEmSC01GSUVW8YRwbQl0ZWLKYCGWa2YoJmcu
- 9tUC0XuirS/LvOfK9z18dXENKgTe97XXmIeMlE48E5STBNfCrIB3sbarsd0heeZIqFv6
- gDR0AlNrpMy9fSs5rtjNN5MyE040Y4PyHlnGt1lJzNPWf4qeSeWxtONJ/H2HNpiGNcJb
- IGoeQxHJOjiJqHNI4KnCZxs3BNbDNRW0JFBjwgFI5xbpHm5UnWLudoxXWru2ipThOLDn
- PviitOHgYJe8qfghjYJw4gOThrwSKoaVUA0YcwWcx/nKq1sCM6i+l4N2x6bVD0PHVDWo
- x/kA==
-X-Gm-Message-State: AJIora92LMbCDhH74wnVoGmf8w+VbglUDydtsxUMuVbNHe6NIGqx8MdE
- Dteveh2Kn1X1gl/bW6Bcp3v0K8Fr3W4=
-X-Google-Smtp-Source: AGRyM1u5ruiHHM3S6bje5uDXHiDhsX9GPjl/iquz7U8+/miDVMM2oXhlDLLmW1rox8AgppVRKHsmFfeak9oU
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=l0wfKFp1ChJwLpur4LprhadUuGsHQU0cjcxPkM3pYu4=;
+ b=jVAx0kdmSDjkTWxdC9eTOAX1h6yHFDAOk1azIYKsx2FD0bt2CDye8AFIabRnDjhuxc
+ m1wqRI+d5gP8bACcoLyAJuE4gFlvileVnLZoUd1jb84NdrSCnE3lS1vjStzBMvwEnNO2
+ JjK0g6xanTeTVIMWLxE+4XoKlYKQ2TGfgN29y2Wb7SCZum2fQq781UA6dfxysOanJxTL
+ WlUuqzLNHuTwYQUDW4meS6yEnnC5J7BI6aF0ckKqlregI45MV35Wu5nVcAOMb2xDIGoN
+ qMqtY4uqOX+bJ5fKYqZqNmZRoGL5/hr7y09CigPlyGPOOEVo0lDdk48302L78P7uVzUF
+ 7XGQ==
+X-Gm-Message-State: AJIora9ESQp9kL32JC2pRfMdSeEtZ5UnI8Jv3C80GoietzPThHemumtx
+ PW2yc1cKMqau7sDPhtaiYoo5j0y/kSo=
+X-Google-Smtp-Source: AGRyM1uSdSVTczuhdh9+VldYWcIPNC0HCxNLlu3dXeAxplL3jRHHA4OEjhvR03xbY4z9GwTDsOqdoWRnLtF/
 X-Received: from jstultz-noogler2.c.googlers.com
  ([fda3:e722:ac3:cc00:24:72f4:c0a8:600])
- (user=jstultz job=sendgmr) by 2002:a05:6a00:16ca:b0:525:a5d5:d16f with SMTP
- id l10-20020a056a0016ca00b00525a5d5d16fmr22040610pfc.9.1657599788310; Mon, 11
- Jul 2022 21:23:08 -0700 (PDT)
-Date: Tue, 12 Jul 2022 04:22:56 +0000
-Message-Id: <20220712042258.293010-1-jstultz@google.com>
+ (user=jstultz job=sendgmr) by 2002:a17:90a:de12:b0:1ef:ae83:d225 with SMTP id
+ m18-20020a17090ade1200b001efae83d225mr2026908pjv.207.1657599790067; Mon, 11
+ Jul 2022 21:23:10 -0700 (PDT)
+Date: Tue, 12 Jul 2022 04:22:57 +0000
+In-Reply-To: <20220712042258.293010-1-jstultz@google.com>
+Message-Id: <20220712042258.293010-2-jstultz@google.com>
 Mime-Version: 1.0
+References: <20220712042258.293010-1-jstultz@google.com>
 X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
-Subject: [RFC][PATCH 1/3] drm: drm_syncobj: Add note in DOC about absolute
- timeout values
+Subject: [RFC][PATCH 2/3] drm: vgem: Enable SYNCOBJ and SYNCOBJ_TIMELINE on
+ vgem driver
 From: John Stultz <jstultz@google.com>
 To: LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,14 +78,8 @@ Cc: Chunming Zhou <david1.zhou@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After having to debug down through the kernel to figure out
-why my _WAIT calls were always timing out, I realized its
-an absolute timeout value instead of the more common relative
-timeouts.
-
-This detail should be called out in the documentation, as while
-the absolute value makes sense here, its not as common for timeout
-values.
+Allows for basic SYNCOBJ api testing, in environments
+like VMs where there may not be a supported drm driver.
 
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
@@ -97,27 +93,25 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: John Stultz <jstultz@google.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/vgem/vgem_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 7e48dcd1bee4..b84d842a1c21 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -136,6 +136,10 @@
-  * requirement is inherited from the wait-before-signal behavior required =
-by
-  * the Vulkan timeline semaphore API.
-  *
-+ * It should be noted, that both &DRM_IOCTL_SYNCOBJ_WAIT and
-+ * &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT takes an *absolute* CLOCK_MONOT=
-ONIC
-+ * nanosecond value for the timeout value. Accidentally passing relative t=
-ime
-+ * values will likely result in an immediate -ETIME return.
-  *
-  * Import/export of syncobjs
-  * -------------------------
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_dr=
+v.c
+index c5e3e5457737..e5427d7399da 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -109,7 +109,8 @@ static struct drm_gem_object *vgem_gem_create_object(st=
+ruct drm_device *dev, siz
+ }
+=20
+ static const struct drm_driver vgem_driver =3D {
+-	.driver_features		=3D DRIVER_GEM | DRIVER_RENDER,
++	.driver_features		=3D DRIVER_GEM | DRIVER_RENDER |
++					  DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE,
+ 	.open				=3D vgem_open,
+ 	.postclose			=3D vgem_postclose,
+ 	.ioctls				=3D vgem_ioctls,
 --=20
 2.37.0.144.g8ac04bfd2-goog
 
