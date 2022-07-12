@@ -1,59 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60FF5726FB
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 22:10:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1D3572711
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 22:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B984996682;
-	Tue, 12 Jul 2022 20:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE88295570;
+	Tue, 12 Jul 2022 20:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3B7B96680
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 20:10:31 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id y22so6059791qki.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 13:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FjcM3Sxk9xhFh2f0iBnq9pJRlXHvfJN5Wf3x08Y0Ny0=;
- b=vFZ5ALVdFAL/ujjemt4/79lPi7ZtE4XG86Jd/0N+l7vViYGr7Nu1lHjx6wuV579Gm4
- /x9ltkab9wDDUm2WWiZdAlWut3dNq8Sk/kymeNCnyTYwjWxadHSqrX4ds3eSKdq/o823
- 1OlFft+j7l56gxAZQwK/7fXE0Am9g3ZMtwEThBR7qu1gP/nxHRe485xU71cqKpt2jom6
- NKT92ISp8GORXXIs+qwU8W/pKUdy54+hfIsApngUDsjcJEVSAbbB4NLKZZ0biZay3I9W
- yE6c7ie9L8LGzH5KL+inVElPeyWqrFoKW4qsVsHnVla9AF1/Lqlys2gy94DbVhMzUNUq
- oaTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FjcM3Sxk9xhFh2f0iBnq9pJRlXHvfJN5Wf3x08Y0Ny0=;
- b=h+DX2dTU3exiwtjJGVe7pO3bU2VdSQ8uJaBHZOKO2EeTwXdDHa10HZq0OculHi36UH
- 1AwWmQFSeThc+wZNtjDkBu1f2bnRmJh9Bqy3UlrY8pEQoVuruFx4NwHP0Jn+j/gHPmr7
- UhJNgJSI0CUYT87ltbV8VsT8hDKGa895UZTW/K7ogZ86qcLc9rKI3OcyBHzKvFNz5BeR
- hQo/q/AKW8zxrv/PFNLrgS254taxfOQNu9l6PMVJWIS0LDVCh7fM26LVpjTRBRG0gkMX
- MSytFXYzpNYf5Na3mY+BQEFlpmCJY/SpXGGKuCUqQR4s4l+fpN5zFmxBQlTfRtZEiWph
- Pm7w==
-X-Gm-Message-State: AJIora8mk4c24t+tWiLmzy8G/XxTCIwKjnHtKNopEwFefZjqPkN6rsE3
- cpRcsTM62kQTK164NncB5BR3w6uFXh1AIfkZOJueCQ==
-X-Google-Smtp-Source: AGRyM1uDXBNVLH8/B7lXINXifx4seTxNqhYIIjfS1bVqmmczkgTJ/prq15Mka4jK594bMnC/nNBm7vWmZVZtXtV9+cU=
-X-Received: by 2002:a05:620a:d5b:b0:6b5:660b:2939 with SMTP id
- o27-20020a05620a0d5b00b006b5660b2939mr1412qkl.30.1657656628457; Tue, 12 Jul
- 2022 13:10:28 -0700 (PDT)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBF394E81;
+ Tue, 12 Jul 2022 20:14:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=djJYiBje8ale8yy5tWadSoH0r0VpJcQGYjUaHaCiVt/F0ccOIAWA6TCG+MoHJU6FIZ03oVyh7cPGVu7GVExS4tWNwLxUWHyKfv9wgenZT0aVmc8aTUgVui47hEjxW54ViEZvPvwL/01Cc9sW795vqSsGWrmierw/V6iXdIuDjBqq/cYpHhRRbtsUNSBVn5QqVNpxd9gB+ZsP6gwW7xPJLnBmLFjeX7lHZ51Lcc8SmpaSQ37/1O/x5xdPnMoG1NSyw+YVDfgsqn5HKjbuNBNbCOSP4k+yuib/lU/K99lSa8Up9sO2K98fnOd5c1rbRiQYCe88ZwM0MwIOYe+y+0hC+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xUDjrfG8m/9DlZQhKotjmrDcoV/CJjHJ/z/Mf0NhsDY=;
+ b=Uw519/8sKBODYG/evx2gxD4dYo/zYkIWGB1tk150Y+jzTLoMWsvfnKjlH/6y1O0kNZY6Lxbe8mAhq8VxeZtDmJUoZ01ovlX72balfdalKeMjYwQJB/86m5QvJVzuqg+Dsc1MRvcv+gn5hCib3cPv1Ds3TM4l/a5Dh8jCIDc2fKZCrB+i65gY08n1wTrJeZSZKQaNV4tKamkQV7fjQ5qsvJ2u8Cn+ycRFUUFTi9npXCTip9DC2+ei8Y94TMXdQo6HmnxvyLrQFMCBOCAUKgmFC8BIFBg/gNeudRYHI9/C1oamyJzk0HGSav3dpph8+/t+vRxjKAJbjYTuvYt5+er6+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xUDjrfG8m/9DlZQhKotjmrDcoV/CJjHJ/z/Mf0NhsDY=;
+ b=Sh9jGnIZ2vuZJoKTVxKtE7DvZvWXpKMLlRidutPAl7+4i9Pm54NDjSipr5+AEkBKOJ06v+UbSRqsi+r+pAzrlcBwY+ubJQieR5bRmcMW87kvL/dklnCeuUVeTWsUP/JJwQNHUGtwINl4AmUVgwZFtgKH8kEes6a6j0duekWmBs4cSzMEq8/hVT3DUMQNV25N6IIAcyDOG06KIhZY860wSfZlGvEOsFyCB7kgyHPNPdtWi5J3WJyfgNX1R+LRgA9nThGbz4A7m26B5cXBNX4mkiznnUkaX33EtrRVhLWM4pSVoei8QG0o8zzYxoEMN55GIQbsYNqguY9PQC4xJN8ndg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB2763.namprd12.prod.outlook.com (2603:10b6:5:48::16) by
+ BL0PR12MB5523.namprd12.prod.outlook.com (2603:10b6:208:1ce::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Tue, 12 Jul
+ 2022 20:13:55 +0000
+Received: from DM6PR12MB2763.namprd12.prod.outlook.com
+ ([fe80::d043:c95a:cf42:cff4]) by DM6PR12MB2763.namprd12.prod.outlook.com
+ ([fe80::d043:c95a:cf42:cff4%7]) with mapi id 15.20.5417.026; Tue, 12 Jul 2022
+ 20:13:55 +0000
+Message-ID: <8cde70e6-1115-9b7f-d550-52b9e3623c85@nvidia.com>
+Date: Tue, 12 Jul 2022 15:13:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 16/29] ACPI: video: Add Nvidia WMI EC brightness
+ control detection
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>
+References: <20220712193910.439171-1-hdegoede@redhat.com>
+ <20220712193910.439171-17-hdegoede@redhat.com>
+From: Daniel Dadap <ddadap@nvidia.com>
+In-Reply-To: <20220712193910.439171-17-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR03CA0185.namprd03.prod.outlook.com
+ (2603:10b6:5:3b6::10) To DM6PR12MB2763.namprd12.prod.outlook.com
+ (2603:10b6:5:48::16)
 MIME-Version: 1.0
-References: <20220711094320.368062-1-dmitry.baryshkov@linaro.org>
- <20220711094320.368062-5-dmitry.baryshkov@linaro.org>
- <0abf1924-485b-8f1c-c8c8-d14dcccc3a27@quicinc.com>
- <CAA8EJpoMk809zFUTg52qXQf+RpZdCWamx42GKxJ=3MqTt5b9zQ@mail.gmail.com>
- <198b7ed9-2058-05b5-7845-74dd7f1b2ed0@quicinc.com>
-In-Reply-To: <198b7ed9-2058-05b5-7845-74dd7f1b2ed0@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 12 Jul 2022 23:10:16 +0300
-Message-ID: <CAA8EJpraSWA4+w1JVNqShCtxZm9Ni+v_hKARrtoao2Y0ET3cVw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v2 4/4] drm/msm/dsi: switch to DRM_PANEL_BRIDGE
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0952113e-10c3-4459-ee9c-08da64430bdc
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5523:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: x4VDpPNz5v73jh359mrHfY4tY7pcZ4F6xOiV8EZ2O8qFT30nHvJ8bzZUyc2bWKJJLVGy2xiJXivSAbdLilxzFFbNAPf3LfOw+Et2WXuurLOomnzDfwe6t1TmRQQ35iei1tIQcvFjUEfVO7ElntA136upsfdzBiopKUoXRs6rtKnC4FpD71D8Huog6oB7kU27perrl3oqtE9MLYZAWXjfz99+U0jF0PL8kaMzMhnJkkBHMfUWOohIRhIi2WC3miFRveiqRH5yc4nIGk6cUcBwnHi15Y6jP/yZheRoBYn72rFgsRX2Fou1iRB09qSaMgW3NTsnomkuwBfnYhlrZ2lysB7dovn9uy+JsT0ChkEs7bjfw0xTwEnF0MZjc0aOx3oFZ5FL6XmbC2z3qMX7hPxu115hl1m6Vka5rGBp5B7MZgEwKeKRmGLcDT9WF7kC0uMB6JlODSe+GIpEAB85I2aUgBPWYvp4SDYfmyoN3YsRKaaurmKKhu5gBtvBGuN8bF4sNKW2HNXi44Wb959Drqm3lNuT9nD49BFGiGktyfCWLSmoe6T6hUOR5jDfQ/BHI5gCFkeD2BXhJft44gsWSJyEhani02ZWbIr82NoQYbjI8VBEyfeHP3LCp+0hXqqvNqTtn9eMfJ4mJ0D991YZOAeafnjia4mXta1NFCLtC8uKPBjCF79e7CtcUsHafoV4igHFPuMBn8I7Cgd2qD7pkLzfjjOfZojQFWc1SD6kCe1c8G+gd4BorXcU3k6lUF7db7zKV+tFiv4J7Wsmxk9fmmDP7ZKKlT2sBW2aNVxFsMYKoW8I9AJW4mWRzsJ3/wxHbbJZ06EWrNuuguXPqkmpon9BOxbSCTXoy0l9p8/8vHsh+2w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB2763.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(396003)(366004)(39860400002)(376002)(136003)(186003)(54906003)(31696002)(4326008)(66476007)(86362001)(2616005)(66946007)(110136005)(316002)(6506007)(5660300002)(6666004)(7416002)(53546011)(66556008)(8676002)(8936002)(41300700001)(6512007)(38100700002)(26005)(83380400001)(2906002)(921005)(478600001)(6486002)(31686004)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVBpVlNnZVRhcDgvVXVBRm12QXFKcEU3d2cyR0FNTmNSbDdXRlFWZUNiSXh6?=
+ =?utf-8?B?V05qMHprWjZMMFUvWFdFWkhiWkZCeXNubTRLYXBadk42RERsd1dkNFh4ckVT?=
+ =?utf-8?B?ditlc1dJNGhmb24vODdPQjluUndIbHBuYW5oSVBGcTlmNmFKWUFYNzRTNGQw?=
+ =?utf-8?B?dEJVTll0YWZ4YXNKNXhicUhoWjM2dCtyam5zczR0dWRFNDBGSmhuMlZLVzZQ?=
+ =?utf-8?B?Uyt2aTVNS0IwQmMvRG12M29qS3c5WEtveHd4OXJtalpteHVINDFIdENXUHls?=
+ =?utf-8?B?K05TbE9hOHY4Uk9iQmhPeEhsd3RrSjdLYlo2QmtKMmp6WTZ3cGxOejZ5cWxF?=
+ =?utf-8?B?T2lwYzlaQXRJbVh2ZTdlOStSWGhoOEhIb2dlc1NvV2RvR0Z6NXE3UjRMTjFJ?=
+ =?utf-8?B?ZHliL3hDMTgvYit3c1NKWFdKZnNKQ1kyNGh1ZzA5RVBLSnUzVUQxTnFMZTNX?=
+ =?utf-8?B?NitnYnBHZk1zZkMrdk9maktHYkg1MnU1aE5wUHdOSzg2elo0MTZPK1lXRGZ6?=
+ =?utf-8?B?NFBIdXFUanh2eXlxUm5wSVlMZGhCODhWbWNZN0VzaS9EU0sxMXlJZENnc3dN?=
+ =?utf-8?B?NDQ0VFphQ0ZKSEczNzdWamFRaU90TDJKZ0gxb2JTWjRyb3ZUZVArZ1N4WVVC?=
+ =?utf-8?B?bWZrbGcyTlAxVjF3ckhIQ1ZRR0FIYUUrWDNjTVNUd3BUMStTU0k1dGhOa3ds?=
+ =?utf-8?B?bzYvOU9RdnhDa0pSc3pCMU1nSUFMd3pibVQ3L2pVSTBwN3dZTHBFYkhyMTBR?=
+ =?utf-8?B?TG1XQmdQa21uMlhSY3BtQkEwR2J1MCtMRlIwQUNyS0p4RXFmemdUazJWMzhX?=
+ =?utf-8?B?WE5Cd1k1N3F1YUpRcks1TWx0WXdabTB4a1lSQTJhS3Q0TU5yb09JNDlmZW5h?=
+ =?utf-8?B?VVUvQXlOKzljd0lMY3FEeS9VbC9saTlqMUVsem9mbElyTjFjNG95ZDkwcmtk?=
+ =?utf-8?B?bU1QTzV4NytzdExwd1dSaURHcXpncCt5Q3hTaXdWMDZadEdTL1BHRDhiemxz?=
+ =?utf-8?B?dzFaaHJvUEF2c0djWEtZVzd5ZmltODBhOVh3c1NvOU42NkpYTHZsbGgrektY?=
+ =?utf-8?B?N3hYQ1BTNzR6ckRMKytPR1VRamIwR3NpTzVwemp0cjB5eE9xeVYzSVFycjBh?=
+ =?utf-8?B?bUZZWHhlczdySmp3MUNBWDR5emVQK0Q4b0FKUFJvelM5NjJSSFdnKy9FZHRM?=
+ =?utf-8?B?cmR2TzRaWGxiL0dUSkczSXhyMGdub1hLYm9SZDh0UDNYYUoyM1ZoZkxNWjN3?=
+ =?utf-8?B?Z3VSckppSGd2V0xBZHNPV3dFZll3YU1KQ0preGUyT1FBWGI5OUZDU1IxV0lM?=
+ =?utf-8?B?RzRXMUh4MHZtanBvR2doamFNNllQcGwvaHovNkVmbmZQWkwra0w5cWF0eUpy?=
+ =?utf-8?B?clZRQzNrMEsyNmxMWWllUm9nV2xsMXBvSEpLT0VWeGd0T3ZVdStFN0pOVVNn?=
+ =?utf-8?B?U2d5MC9teGZybk9ieVdzWFFJQm1BRnRUaWs4V0RXYjdNc0dZQWFNNG11VUFq?=
+ =?utf-8?B?T2RSMmVQQUhvV2RGaHFwVm5PQ24yNU1STDB6VDN5azNyS1lGbStSK3p0UHBY?=
+ =?utf-8?B?aVI2dExha3kvazlDTC9uV09yS2VDYlFkWXZpWlJETm9rUmJrNm5Zb3NwWmJo?=
+ =?utf-8?B?akR2VFQwM3ZCRVJPMzN1MUcxdFg3ZS9YQmJtcmllbjJreGxaRzFLV0pqQUMw?=
+ =?utf-8?B?alZIbjZNS0M0bnlIUkJBY3dRNWFOdk0vaFlMY1loRlZON285QU14QkNIdXRS?=
+ =?utf-8?B?V01Hd2RYYVlpNVJwczQxZEpLNi9JbUF1Szc4d3RyeGZuQWV3Z0JNbXJ0cTRk?=
+ =?utf-8?B?UnpJOGtGSHMxOTlONVFlZDlOUThENCswb3cxSCt3clVIbmp4RUxxeFZjSEt3?=
+ =?utf-8?B?aXN5a1Jjc3haRXlYOGNtQnFEdHE2MTNtcXdyRHRTUUsxWlZSNmdBNFNUaGgz?=
+ =?utf-8?B?dmk5RFBGZE9QR1pVK0NGQ1RBRVZXdWNaM3RPQVdBSGIwNFpCdnNjNFhXR09O?=
+ =?utf-8?B?SXBWYTNQSFZFeUl0Y3dKU2RQbmliZkhZMlFVVmFkMVRtRnBaaCtLTFBQNmpn?=
+ =?utf-8?B?Rnk5R3NNQUJSRk5mNDlWOS92RkdNU1Bxbmx1RXNzSytvSG9udlFkVTdwQnhB?=
+ =?utf-8?Q?EGREzZ/6Qzr2qadRSbAZGRKbH?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0952113e-10c3-4459-ee9c-08da64430bdc
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2763.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 20:13:55.2367 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SBkpxTyqrvN6ACR07yLBVRZFRYp4Oe5Qsj2aOrDJ2tmaSkdFzh6qOGEq8kjjDgrpEoCW30HNabsjKYsOjIaWfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5523
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,705 +140,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Jul 2022 at 22:15, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 7/12/2022 3:00 AM, Dmitry Baryshkov wrote:
-> > On Tue, 12 Jul 2022 at 01:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 7/11/2022 2:43 AM, Dmitry Baryshkov wrote:
-> >>> Currently the DSI driver has two separate paths: one if the next device
-> >>> in a chain is a bridge and another one if the panel is connected
-> >>> directly to the DSI host. Simplify the code path by using panel-bridge
-> >>> driver (already selected in Kconfig) and dropping support for
-> >>> handling the panel directly.
-> >>>
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>    drivers/gpu/drm/msm/dsi/dsi.c         |  38 +---
-> >>>    drivers/gpu/drm/msm/dsi/dsi.h         |  14 +-
-> >>>    drivers/gpu/drm/msm/dsi/dsi_host.c    |  25 ---
-> >>>    drivers/gpu/drm/msm/dsi/dsi_manager.c | 264 ++------------------------
-> >>>    4 files changed, 26 insertions(+), 315 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> >>> index 1625328fa430..3c53e28092db 100644
-> >>> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> >>> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> >>> @@ -6,14 +6,6 @@
-> >>>    #include "dsi.h"
-> >>>    #include "dsi_cfg.h"
-> >>>
-> >>> -struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi)
-> >>> -{
-> >>> -     if (!msm_dsi || !msm_dsi_device_connected(msm_dsi))
-> >>> -             return NULL;
-> >>> -
-> >>> -     return msm_dsi->encoder;
-> >>> -}
-> >>
-> >> panel_bridge doesnt have the best_encoder method today.
-> >> Today, this does not break anything for us.
-> >> But, for future if we do need it, panel_bridge needs to be expanded to
-> >> add that method?
-> >
-> > We have a 1:1 between encoder and connector, so
-> > drm_connector_get_single_encoder() works well in our case.
-> >
-> like I said before, today this should be fine.
-> If we do come up with a use-case in future to have the best_encoder()
-> panel_bridge will need to be expanded. So this is more of a comment to
-> keep in mind but no change needed for this.
+Thanks, Hans:
 
-Do you think we can end up with a DSI encoder being handled by
-multiple connectors?
-
+On 7/12/22 14:38, Hans de Goede wrote:
+> On some new laptop designs a new Nvidia specific WMI interface is present
+> which gives info about panel brightness control and may allow controlling
+> the brightness through this interface when the embedded controller is used
+> for brightness control.
 >
-> >>
-> >>> -
-> >>>    bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
-> >>>    {
-> >>>        unsigned long host_flags = msm_dsi_host_get_mode_flags(msm_dsi->host);
-> >>> @@ -220,7 +212,7 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
-> >>>                         struct drm_encoder *encoder)
-> >>>    {
-> >>>        struct msm_drm_private *priv;
-> >>> -     struct drm_bridge *ext_bridge;
-> >>> +     struct drm_connector *connector;
-> >>>        int ret;
-> >>>
-> >>>        if (WARN_ON(!encoder) || WARN_ON(!msm_dsi) || WARN_ON(!dev))
-> >>> @@ -254,26 +246,12 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
-> >>>                goto fail;
-> >>>        }
-> >>>
-> >>> -     /*
-> >>> -      * check if the dsi encoder output is connected to a panel or an
-> >>> -      * external bridge. We create a connector only if we're connected to a
-> >>> -      * drm_panel device. When we're connected to an external bridge, we
-> >>> -      * assume that the drm_bridge driver will create the connector itself.
-> >>> -      */
-> >>> -     ext_bridge = msm_dsi_host_get_bridge(msm_dsi->host);
-> >>> -
-> >>> -     if (ext_bridge)
-> >>> -             msm_dsi->connector =
-> >>> -                     msm_dsi_manager_ext_bridge_init(msm_dsi->id);
-> >>> -     else
-> >>> -             msm_dsi->connector =
-> >>> -                     msm_dsi_manager_connector_init(msm_dsi->id);
-> >>> -
-> >>> -     if (IS_ERR(msm_dsi->connector)) {
-> >>> -             ret = PTR_ERR(msm_dsi->connector);
-> >>> +     connector = msm_dsi_manager_ext_bridge_init(msm_dsi->id);
-> >>> +
-> >>> +     if (IS_ERR(connector)) {
-> >>> +             ret = PTR_ERR(connector);
-> >>>                DRM_DEV_ERROR(dev->dev,
-> >>>                        "failed to create dsi connector: %d\n", ret);
-> >>> -             msm_dsi->connector = NULL;
-> >>>                goto fail;
-> >>>        }
-> >>>
-> >>> @@ -287,12 +265,6 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
-> >>>                msm_dsi->bridge = NULL;
-> >>>        }
-> >>>
-> >>> -     /* don't destroy connector if we didn't make it */
-> >>> -     if (msm_dsi->connector && !msm_dsi->external_bridge)
-> >>> -             msm_dsi->connector->funcs->destroy(msm_dsi->connector);
-> >>> -
-> >>> -     msm_dsi->connector = NULL;
-> >>> -
-> >>>        return ret;
-> >>>    }
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> >>> index 580a1e6358bf..41630b8f5358 100644
-> >>> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> >>> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> >>> @@ -12,7 +12,6 @@
-> >>>    #include <drm/drm_bridge.h>
-> >>>    #include <drm/drm_crtc.h>
-> >>>    #include <drm/drm_mipi_dsi.h>
-> >>> -#include <drm/drm_panel.h>
-> >>>
-> >>>    #include "msm_drv.h"
-> >>>    #include "disp/msm_disp_snapshot.h"
-> >>> @@ -49,8 +48,6 @@ struct msm_dsi {
-> >>>        struct drm_device *dev;
-> >>>        struct platform_device *pdev;
-> >>>
-> >>> -     /* connector managed by us when we're connected to a drm_panel */
-> >>> -     struct drm_connector *connector;
-> >>>        /* internal dsi bridge attached to MDP interface */
-> >>>        struct drm_bridge *bridge;
-> >>>
-> >>> @@ -58,10 +55,8 @@ struct msm_dsi {
-> >>>        struct msm_dsi_phy *phy;
-> >>>
-> >>>        /*
-> >>> -      * panel/external_bridge connected to dsi bridge output, only one of the
-> >>> -      * two can be valid at a time
-> >>> +      * external_bridge connected to dsi bridge output
-> >>>         */
-> >>> -     struct drm_panel *panel;
-> >>>        struct drm_bridge *external_bridge;
-> >>>
-> >>>        struct device *phy_dev;
-> >>> @@ -76,7 +71,6 @@ struct msm_dsi {
-> >>>    /* dsi manager */
-> >>>    struct drm_bridge *msm_dsi_manager_bridge_init(u8 id);
-> >>>    void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge);
-> >>> -struct drm_connector *msm_dsi_manager_connector_init(u8 id);
-> >>>    struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id);
-> >>>    int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
-> >>>    bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
-> >>> @@ -87,11 +81,9 @@ void msm_dsi_manager_tpg_enable(void);
-> >>>    /* msm dsi */
-> >>>    static inline bool msm_dsi_device_connected(struct msm_dsi *msm_dsi)
-> >>>    {
-> >>> -     return msm_dsi->panel || msm_dsi->external_bridge;
-> >>> +     return msm_dsi->external_bridge;
-> >>>    }
-> >>>
-> >>> -struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi);
-> >>> -
-> >>>    /* dsi host */
-> >>>    struct msm_dsi_host;
-> >>>    int msm_dsi_host_xfer_prepare(struct mipi_dsi_host *host,
-> >>> @@ -116,9 +108,7 @@ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
-> >>>                                  const struct drm_display_mode *mode);
-> >>>    enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-> >>>                                            const struct drm_display_mode *mode);
-> >>> -struct drm_panel *msm_dsi_host_get_panel(struct mipi_dsi_host *host);
-> >>>    unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host);
-> >>> -struct drm_bridge *msm_dsi_host_get_bridge(struct mipi_dsi_host *host);
-> >>>    int msm_dsi_host_register(struct mipi_dsi_host *host);
-> >>>    void msm_dsi_host_unregister(struct mipi_dsi_host *host);
-> >>>    void msm_dsi_host_set_phy_mode(struct mipi_dsi_host *host,
-> >>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>> index fb5ab6c718c8..5a18aa710d00 100644
-> >>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>> @@ -164,7 +164,6 @@ struct msm_dsi_host {
-> >>>        struct msm_display_dsc_config *dsc;
-> >>>
-> >>>        /* connected device info */
-> >>> -     struct device_node *device_node;
-> >>>        unsigned int channel;
-> >>>        unsigned int lanes;
-> >>>        enum mipi_dsi_pixel_format format;
-> >>> @@ -1721,8 +1720,6 @@ static int dsi_host_detach(struct mipi_dsi_host *host,
-> >>>
-> >>>        dsi_dev_detach(msm_host->pdev);
-> >>>
-> >>> -     msm_host->device_node = NULL;
-> >>> -
-> >>>        DBG("id=%d", msm_host->id);
-> >>>        if (msm_host->dev)
-> >>>                queue_work(msm_host->workqueue, &msm_host->hpd_work);
-> >>> @@ -1988,16 +1985,6 @@ static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
-> >>>                goto err;
-> >>>        }
-> >>>
-> >>> -     /* Get panel node from the output port's endpoint data */
-> >>> -     device_node = of_graph_get_remote_node(np, 1, 0);
-> >>> -     if (!device_node) {
-> >>> -             DRM_DEV_DEBUG(dev, "%s: no valid device\n", __func__);
-> >>> -             ret = -ENODEV;
-> >>> -             goto err;
-> >>> -     }
-> >>> -
-> >>> -     msm_host->device_node = device_node;
-> >>> -
-> >>>        if (of_property_read_bool(np, "syscon-sfpb")) {
-> >>>                msm_host->sfpb = syscon_regmap_lookup_by_phandle(np,
-> >>>                                        "syscon-sfpb");
-> >>> @@ -2678,23 +2665,11 @@ enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-> >>>        return MODE_OK;
-> >>>    }
-> >>>
-> >>> -struct drm_panel *msm_dsi_host_get_panel(struct mipi_dsi_host *host)
-> >>> -{
-> >>> -     return of_drm_find_panel(to_msm_dsi_host(host)->device_node);
-> >>> -}
-> >>> -
-> >>>    unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host)
-> >>>    {
-> >>>        return to_msm_dsi_host(host)->mode_flags;
-> >>>    }
-> >>>
-> >>> -struct drm_bridge *msm_dsi_host_get_bridge(struct mipi_dsi_host *host)
-> >>> -{
-> >>> -     struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> >>> -
-> >>> -     return of_drm_find_bridge(msm_host->device_node);
-> >>> -}
-> >>> -
-> >>>    void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host)
-> >>>    {
-> >>>        struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> >>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> >>> index cb84d185d73a..3970368e07d5 100644
-> >>> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> >>> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> >>> @@ -214,39 +214,26 @@ static void dsi_mgr_phy_disable(int id)
-> >>>        }
-> >>>    }
-> >>>
-> >>> -struct dsi_connector {
-> >>> -     struct drm_connector base;
-> >>> -     int id;
-> >>> -};
-> >>> -
-> >>>    struct dsi_bridge {
-> >>>        struct drm_bridge base;
-> >>>        int id;
-> >>>    };
-> >>>
-> >>> -#define to_dsi_connector(x) container_of(x, struct dsi_connector, base)
-> >>>    #define to_dsi_bridge(x) container_of(x, struct dsi_bridge, base)
-> >>>
-> >>> -static inline int dsi_mgr_connector_get_id(struct drm_connector *connector)
-> >>> -{
-> >>> -     struct dsi_connector *dsi_connector = to_dsi_connector(connector);
-> >>> -     return dsi_connector->id;
-> >>> -}
-> >>> -
-> >>>    static int dsi_mgr_bridge_get_id(struct drm_bridge *bridge)
-> >>>    {
-> >>>        struct dsi_bridge *dsi_bridge = to_dsi_bridge(bridge);
-> >>>        return dsi_bridge->id;
-> >>>    }
-> >>>
-> >>> -static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
-> >>> +static void msm_dsi_manager_set_split_display(u8 id)
-> >>>    {
-> >>> -     struct msm_drm_private *priv = conn->dev->dev_private;
-> >>> -     struct msm_kms *kms = priv->kms;
-> >>>        struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>>        struct msm_dsi *other_dsi = dsi_mgr_get_other_dsi(id);
-> >>> +     struct msm_drm_private *priv = msm_dsi->dev->dev_private;
-> >>> +     struct msm_kms *kms = priv->kms;
-> >>>        struct msm_dsi *master_dsi, *slave_dsi;
-> >>> -     struct drm_panel *panel;
-> >>>
-> >>>        if (IS_BONDED_DSI() && !IS_MASTER_DSI_LINK(id)) {
-> >>>                master_dsi = other_dsi;
-> >>> @@ -256,89 +243,18 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
-> >>>                slave_dsi = other_dsi;
-> >>>        }
-> >>>
-> >>> -     /*
-> >>> -      * There is only 1 panel in the global panel list for bonded DSI mode.
-> >>> -      * Therefore slave dsi should get the drm_panel instance from master
-> >>> -      * dsi.
-> >>> -      */
-> >>> -     panel = msm_dsi_host_get_panel(master_dsi->host);
-> >>> -     if (IS_ERR(panel)) {
-> >>> -             DRM_ERROR("Could not find panel for %u (%ld)\n", msm_dsi->id,
-> >>> -                       PTR_ERR(panel));
-> >>> -             return PTR_ERR(panel);
-> >>> -     }
-> >>> -
-> >>> -     if (!panel || !IS_BONDED_DSI())
-> >>> -             goto out;
-> >>> -
-> >>> -     drm_object_attach_property(&conn->base,
-> >>> -                                conn->dev->mode_config.tile_property, 0);
-> >>> +     if (!msm_dsi->external_bridge || !IS_BONDED_DSI())
-> >>> +             return;
-> >>>
-> >>>        /*
-> >>>         * Set split display info to kms once bonded DSI panel is connected to
-> >>>         * both hosts.
-> >>>         */
-> >>> -     if (other_dsi && other_dsi->panel && kms->funcs->set_split_display) {
-> >>> +     if (other_dsi && other_dsi->external_bridge && kms->funcs->set_split_display) {
-> >>>                kms->funcs->set_split_display(kms, master_dsi->encoder,
-> >>>                                              slave_dsi->encoder,
-> >>>                                              msm_dsi_is_cmd_mode(msm_dsi));
-> >>>        }
-> >>> -
-> >>> -out:
-> >>> -     msm_dsi->panel = panel;
-> >>> -     return 0;
-> >>> -}
-> >>> -
-> >>> -static enum drm_connector_status dsi_mgr_connector_detect(
-> >>> -             struct drm_connector *connector, bool force)
-> >>> -{
-> >>> -     int id = dsi_mgr_connector_get_id(connector);
-> >>> -     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>> -
-> >>> -     return msm_dsi->panel ? connector_status_connected :
-> >>> -             connector_status_disconnected;
-> >>> -}
-> >>> -
-> >>> -static void dsi_mgr_connector_destroy(struct drm_connector *connector)
-> >>> -{
-> >>> -     struct dsi_connector *dsi_connector = to_dsi_connector(connector);
-> >>> -
-> >>> -     DBG("");
-> >>> -
-> >>> -     drm_connector_cleanup(connector);
-> >>> -
-> >>> -     kfree(dsi_connector);
-> >>> -}
-> >>> -
-> >>> -static int dsi_mgr_connector_get_modes(struct drm_connector *connector)
-> >>> -{
-> >>> -     int id = dsi_mgr_connector_get_id(connector);
-> >>> -     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>> -     struct drm_panel *panel = msm_dsi->panel;
-> >>> -     int num;
-> >>> -
-> >>> -     if (!panel)
-> >>> -             return 0;
-> >>> -
-> >>> -     /*
-> >>> -      * In bonded DSI mode, we have one connector that can be
-> >>> -      * attached to the drm_panel.
-> >>> -      */
-> >>> -     num = drm_panel_get_modes(panel, connector);
-> >>> -     if (!num)
-> >>> -             return 0;
-> >>> -
-> >>> -     return num;
-> >>> -}
-> >>> -
-> >>> -static struct drm_encoder *
-> >>> -dsi_mgr_connector_best_encoder(struct drm_connector *connector)
-> >>> -{
-> >>> -     int id = dsi_mgr_connector_get_id(connector);
-> >>> -     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>> -
-> >>> -     DBG("");
-> >>> -     return msm_dsi_get_encoder(msm_dsi);
-> >>>    }
-> >>>
-> >>>    static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
-> >>> @@ -403,7 +319,6 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
-> >>>        struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>>        struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
-> >>>        struct mipi_dsi_host *host = msm_dsi->host;
-> >>> -     struct drm_panel *panel = msm_dsi->panel;
-> >>>        bool is_bonded_dsi = IS_BONDED_DSI();
-> >>>        int ret;
-> >>>
-> >>> @@ -418,18 +333,6 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
-> >>>        if (!dsi_mgr_power_on_early(bridge))
-> >>>                dsi_mgr_bridge_power_on(bridge);
-> >>>
-> >>> -     /* Always call panel functions once, because even for dual panels,
-> >>> -      * there is only one drm_panel instance.
-> >>> -      */
-> >>> -     if (panel) {
-> >>> -             ret = drm_panel_prepare(panel);
-> >>> -             if (ret) {
-> >>> -                     pr_err("%s: prepare panel %d failed, %d\n", __func__,
-> >>> -                                                             id, ret);
-> >>> -                     goto panel_prep_fail;
-> >>> -             }
-> >>> -     }
-> >>> -
-> >>>        ret = msm_dsi_host_enable(host);
-> >>>        if (ret) {
-> >>>                pr_err("%s: enable host %d failed, %d\n", __func__, id, ret);
-> >>> @@ -449,9 +352,6 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
-> >>>    host1_en_fail:
-> >>>        msm_dsi_host_disable(host);
-> >>>    host_en_fail:
-> >>> -     if (panel)
-> >>> -             drm_panel_unprepare(panel);
-> >>> -panel_prep_fail:
-> >>>
-> >>>        return;
-> >>>    }
-> >>> @@ -469,62 +369,12 @@ void msm_dsi_manager_tpg_enable(void)
-> >>>        }
-> >>>    }
-> >>>
-> >>> -static void dsi_mgr_bridge_enable(struct drm_bridge *bridge)
-> >>> -{
-> >>> -     int id = dsi_mgr_bridge_get_id(bridge);
-> >>> -     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>> -     struct drm_panel *panel = msm_dsi->panel;
-> >>> -     bool is_bonded_dsi = IS_BONDED_DSI();
-> >>> -     int ret;
-> >>> -
-> >>> -     DBG("id=%d", id);
-> >>> -     if (!msm_dsi_device_connected(msm_dsi))
-> >>> -             return;
-> >>> -
-> >>> -     /* Do nothing with the host if it is slave-DSI in case of bonded DSI */
-> >>> -     if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
-> >>> -             return;
-> >>> -
-> >>> -     if (panel) {
-> >>> -             ret = drm_panel_enable(panel);
-> >>> -             if (ret) {
-> >>> -                     pr_err("%s: enable panel %d failed, %d\n", __func__, id,
-> >>> -                                                                     ret);
-> >>> -             }
-> >>> -     }
-> >>> -}
-> >>> -
-> >>> -static void dsi_mgr_bridge_disable(struct drm_bridge *bridge)
-> >>> -{
-> >>> -     int id = dsi_mgr_bridge_get_id(bridge);
-> >>> -     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>> -     struct drm_panel *panel = msm_dsi->panel;
-> >>> -     bool is_bonded_dsi = IS_BONDED_DSI();
-> >>> -     int ret;
-> >>> -
-> >>> -     DBG("id=%d", id);
-> >>> -     if (!msm_dsi_device_connected(msm_dsi))
-> >>> -             return;
-> >>> -
-> >>> -     /* Do nothing with the host if it is slave-DSI in case of bonded DSI */
-> >>> -     if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
-> >>> -             return;
-> >>> -
-> >>> -     if (panel) {
-> >>> -             ret = drm_panel_disable(panel);
-> >>> -             if (ret)
-> >>> -                     pr_err("%s: Panel %d OFF failed, %d\n", __func__, id,
-> >>> -                                                                     ret);
-> >>> -     }
-> >>> -}
-> >>> -
-> >>>    static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
-> >>>    {
-> >>>        int id = dsi_mgr_bridge_get_id(bridge);
-> >>>        struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>>        struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
-> >>>        struct mipi_dsi_host *host = msm_dsi->host;
-> >>> -     struct drm_panel *panel = msm_dsi->panel;
-> >>>        bool is_bonded_dsi = IS_BONDED_DSI();
-> >>>        int ret;
-> >>>
-> >>> @@ -551,13 +401,6 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
-> >>>                        pr_err("%s: host1 disable failed, %d\n", __func__, ret);
-> >>>        }
-> >>>
-> >>> -     if (panel) {
-> >>> -             ret = drm_panel_unprepare(panel);
-> >>> -             if (ret)
-> >>> -                     pr_err("%s: Panel %d unprepare failed,%d\n", __func__,
-> >>> -                                                             id, ret);
-> >>> -     }
-> >>> -
-> >>>        msm_dsi_host_disable_irq(host);
-> >>>        if (is_bonded_dsi && msm_dsi1)
-> >>>                msm_dsi_host_disable_irq(msm_dsi1->host);
-> >>> @@ -614,76 +457,13 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
-> >>>        return msm_dsi_host_check_dsc(host, mode);
-> >>>    }
-> >>>
-> >>> -static const struct drm_connector_funcs dsi_mgr_connector_funcs = {
-> >>> -     .detect = dsi_mgr_connector_detect,
-> >>> -     .fill_modes = drm_helper_probe_single_connector_modes,
-> >>> -     .destroy = dsi_mgr_connector_destroy,
-> >>> -     .reset = drm_atomic_helper_connector_reset,
-> >>> -     .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> >>> -     .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> >>> -};
-> >>> -
-> >>> -static const struct drm_connector_helper_funcs dsi_mgr_conn_helper_funcs = {
-> >>> -     .get_modes = dsi_mgr_connector_get_modes,
-> >>> -     .best_encoder = dsi_mgr_connector_best_encoder,
-> >>> -};
-> >>> -
-> >>>    static const struct drm_bridge_funcs dsi_mgr_bridge_funcs = {
-> >>>        .pre_enable = dsi_mgr_bridge_pre_enable,
-> >>> -     .enable = dsi_mgr_bridge_enable,
-> >>> -     .disable = dsi_mgr_bridge_disable,
-> >>>        .post_disable = dsi_mgr_bridge_post_disable,
-> >>>        .mode_set = dsi_mgr_bridge_mode_set,
-> >>>        .mode_valid = dsi_mgr_bridge_mode_valid,
-> >>>    };
-> >>>
-> >>> -/* initialize connector when we're connected to a drm_panel */
-> >>> -struct drm_connector *msm_dsi_manager_connector_init(u8 id)
-> >>> -{
-> >>> -     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> >>> -     struct drm_connector *connector = NULL;
-> >>> -     struct dsi_connector *dsi_connector;
-> >>> -     int ret;
-> >>> -
-> >>> -     dsi_connector = kzalloc(sizeof(*dsi_connector), GFP_KERNEL);
-> >>> -     if (!dsi_connector)
-> >>> -             return ERR_PTR(-ENOMEM);
-> >>> -
-> >>> -     dsi_connector->id = id;
-> >>> -
-> >>> -     connector = &dsi_connector->base;
-> >>> -
-> >>> -     ret = drm_connector_init(msm_dsi->dev, connector,
-> >>> -                     &dsi_mgr_connector_funcs, DRM_MODE_CONNECTOR_DSI);
-> >>> -     if (ret)
-> >>> -             return ERR_PTR(ret);
-> >>> -
-> >>> -     drm_connector_helper_add(connector, &dsi_mgr_conn_helper_funcs);
-> >>> -
-> >>> -     /* Enable HPD to let hpd event is handled
-> >>> -      * when panel is attached to the host.
-> >>> -      */
-> >>> -     connector->polled = DRM_CONNECTOR_POLL_HPD;
-> >>
-> >> I see that this part gets removed with this migration.
-> >>
-> >> For fixed/built-in displays, it should not matter i think but i am not
-> >> sure if some usermodes might expect this even for DSI?
-> >>
-> >> So, once again does panel_bridge needs to account for this?
-> >
-> > Panel bridge sets only DRM_BRIDGE_OP_MODES. If you check the existing
-> > code, the dsi_mgr_connector also does not provide HPD support. It only
-> > can return panel status depending on whether the drm_panel was fetched
-> > or not. No events are generated ever.
-> > Thus said I think we should stop hijacking the usual mechanisms. If we
-> > do not do the HPD, let's not declare it. If there is a case of panel
-> > being hotplugged or switched, it will be handled by the next bridge in
-> > the chain, not by the MSM DSI code.
-> >
-> hot plug events are sent today.
+> When this WMI interface is present and indicates that the EC is used,
+> then this interface should be used for brightness control.
 >
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>   drivers/acpi/Kconfig           |  1 +
+>   drivers/acpi/video_detect.c    | 35 ++++++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/gma500/Kconfig |  2 ++
+>   drivers/gpu/drm/i915/Kconfig   |  2 ++
+>   include/acpi/video.h           |  1 +
+>   5 files changed, 41 insertions(+)
 >
-> static void dsi_hpd_worker(struct work_struct *work)
-> {
->      struct msm_dsi_host *msm_host =
->          container_of(work, struct msm_dsi_host, hpd_work);
->
->      drm_helper_hpd_irq_event(msm_host->dev);
-> }
->
-> If you are planning to drop DRM_CONNECTOR_POLL_HPD, then you should
-> remove all this code as well because its just dead code otherwise.
-
-This is scheduled at dsi_host_attach() / dsi_host_detach(), so it's
-not a dead code.
-
-We can probably inline the dsi_hpd_worker, but it's a separate change.
-
-> I agree, the hot plug handling can be done by the next bridge in the chain.
->
-> Then lets cleanup this code too.
->
-> >>
-> >>
-> >>> -
-> >>> -     /* Display driver doesn't support interlace now. */
-> >>> -     connector->interlace_allowed = 0;
-> >>> -     connector->doublescan_allowed = 0;
-> >>> -
-> >>> -     drm_connector_attach_encoder(connector, msm_dsi->encoder);
-> >>> -
-> >>> -     ret = msm_dsi_manager_panel_init(connector, id);
-> >>> -     if (ret) {
-> >>> -             DRM_DEV_ERROR(msm_dsi->dev->dev, "init panel failed %d\n", ret);
-> >>> -             goto fail;
-> >>> -     }
-> >>> -
-> >>> -     return connector;
-> >>> -
-> >>> -fail:
-> >>> -     connector->funcs->destroy(connector);
-> >>> -     return ERR_PTR(ret);
-> >>> -}
-> >>> -
-> >>>    /* initialize bridge */
-> >>>    struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
-> >>>    {
-> >>> @@ -732,8 +512,11 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
-> >>>        int ret;
-> >>>
-> >>>        int_bridge = msm_dsi->bridge;
-> >>> -     ext_bridge = msm_dsi->external_bridge =
-> >>> -                     msm_dsi_host_get_bridge(msm_dsi->host);
-> >>> +     ext_bridge = devm_drm_of_get_bridge(&msm_dsi->pdev->dev, msm_dsi->pdev->dev.of_node, 1, 0);
-> >>> +     if (IS_ERR(ext_bridge))
-> >>> +             return ERR_CAST(ext_bridge);
-> >>> +
-> >>> +     msm_dsi->external_bridge = ext_bridge;
-> >>>
-> >>>        encoder = msm_dsi->encoder;
-> >>>
-> >>> @@ -745,25 +528,12 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
-> >>>        ret = drm_bridge_attach(encoder, ext_bridge, int_bridge,
-> >>>                        DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> >>>        if (ret == -EINVAL) {
-> >>> -             struct drm_connector *connector;
-> >>> -             struct list_head *connector_list;
-> >>> -
-> >>>                /* link the internal dsi bridge to the external bridge */
-> >>> -             drm_bridge_attach(encoder, ext_bridge, int_bridge, 0);
-> >>> +             ret = drm_bridge_attach(encoder, ext_bridge, int_bridge, 0);
-> >>> +             if (ret < 0)
-> >>> +                     return ERR_PTR(ret);
-> >>>
-> >>> -             /*
-> >>> -              * we need the drm_connector created by the external bridge
-> >>> -              * driver (or someone else) to feed it to our driver's
-> >>> -              * priv->connector[] list, mainly for msm_fbdev_init()
-> >>> -              */
-> >>> -             connector_list = &dev->mode_config.connector_list;
-> >>> -
-> >>> -             list_for_each_entry(connector, connector_list, head) {
-> >>> -                     if (drm_connector_has_possible_encoder(connector, encoder))
-> >>> -                             return connector;
-> >>> -             }
-> >>> -
-> >>> -             return ERR_PTR(-ENODEV);
-> >>> +             goto out;
-> >>>        }
-> >>>
-> >>>        connector = drm_bridge_connector_init(dev, encoder);
-> >>> @@ -774,6 +544,10 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
-> >>>
-> >>>        drm_connector_attach_encoder(connector, encoder);
-> >>>
-> >>> +out:
-> >>> +     /* The pipeline is ready, ping encoders if necessary */
-> >>> +     msm_dsi_manager_set_split_display(id);
-> >> Do you still want to execute msm_dsi_manager_set_split_display even for
-> >> the error case? Like in the above lines you have replaced the return
-> >> ERR_PTR() with the goto out. But do you want to then move the
-> >> set_split_display() call above the out label?
-> >
-> > You see, the return ERR_PTR was the error case, where we could not
-> > find the connector corresponding to the encoder.
-> > We just don't need it anymore. Let's change the function to return int
-> > rather than the unused connector.
-> >
-> >>
-> >> Also, now for the cases where there was an error where the connector was
-> >> not found, we will return a NULL ptr instead of the ERR_PTR(-ENODEV).
-> >> Is that expected?
-> >
-> > Yes. We just do not care anymore about this connector.
-> >
->
-> My question was do you want to skip even
-> msm_dsi_manager_set_split_display(id) by moving it above the out label.
-
-No. The 'out' was a path around creating our own DSI connector. I've
-refactored this piece of code in v2.5. Maybe it would be more obvious
-now.
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+> index 1e34f846508f..c372385cfc3f 100644
+> --- a/drivers/acpi/Kconfig
+> +++ b/drivers/acpi/Kconfig
+> @@ -212,6 +212,7 @@ config ACPI_VIDEO
+>   	tristate "Video"
+>   	depends on X86 && BACKLIGHT_CLASS_DEVICE
+>   	depends on INPUT
+> +	depends on ACPI_WMI
+>   	select THERMAL
+>   	help
+>   	  This driver implements the ACPI Extensions For Display Adapters
+> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+> index 8c2863403040..7b89dc9a04a2 100644
+> --- a/drivers/acpi/video_detect.c
+> +++ b/drivers/acpi/video_detect.c
+> @@ -75,6 +75,35 @@ find_video(acpi_handle handle, u32 lvl, void *context, void **rv)
+>   	return AE_OK;
+>   }
+>   
+> +#define WMI_BRIGHTNESS_METHOD_SOURCE			2
+> +#define WMI_BRIGHTNESS_MODE_GET				0
+> +#define WMI_BRIGHTNESS_SOURCE_EC			2
+> +
+> +struct wmi_brightness_args {
+> +	u32 mode;
+> +	u32 val;
+> +	u32 ret;
+> +	u32 ignored[3];
+> +};
+> +
+> +static bool nvidia_wmi_ec_supported(void)
+> +{
+> +	struct wmi_brightness_args args = {
+> +		.mode = WMI_BRIGHTNESS_MODE_GET,
+> +		.val = 0,
+> +		.ret = 0,
+> +	};
+> +	struct acpi_buffer buf = { (acpi_size)sizeof(args), &args };
+> +	acpi_status status;
+> +
+> +	status = wmi_evaluate_method("603E9613-EF25-4338-A3D0-C46177516DB7", 0,
+> +				     WMI_BRIGHTNESS_METHOD_SOURCE, &buf, &buf);
+> +	if (ACPI_FAILURE(status))
+> +		return false;
+> +
+> +	return args.ret == WMI_BRIGHTNESS_SOURCE_EC;
+> +}
+> +
 
 
--- 
-With best wishes
-Dmitry
+The code duplication here with nvidia-wmi-ec-backlight.c is a little 
+unfortunate. Can we move the constants, struct definition, and WMI GUID 
+from that file to a header file that's used both by the EC backlight 
+driver and the ACPI video driver?
+
+I was thinking it might be nice to add a wrapper around 
+wmi_brightness_notify() in nvidia-wmi-ec-backlight.c that does this 
+source == WMI_BRIGHTNESS_SOURCE_EC test, and then export it so that it 
+can be called both here and in the EC backlight driver's probe routine, 
+but then I guess that would make video.ko depend on 
+nvidia-wmi-ec-backlight.ko, which seems wrong. It also seems wrong to 
+implement the WMI plumbing in the ACPI video driver, and export it so 
+that the EC backlight driver can use it, so I guess I can live with the 
+duplication of the relatively simple WMI stuff here, it would just be 
+nice to not have to define all of the API constants, structure, and GUID 
+twice.
+
+
+>   /* Force to use vendor driver when the ACPI device is known to be
+>    * buggy */
+>   static int video_detect_force_vendor(const struct dmi_system_id *d)
+> @@ -518,6 +547,7 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>   static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>   {
+>   	static DEFINE_MUTEX(init_mutex);
+> +	static bool nvidia_wmi_ec_present;
+>   	static bool native_available;
+>   	static bool init_done;
+>   	static long video_caps;
+> @@ -530,6 +560,7 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>   		acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
+>   				    ACPI_UINT32_MAX, find_video, NULL,
+>   				    &video_caps, NULL);
+> +		nvidia_wmi_ec_present = nvidia_wmi_ec_supported();
+>   		init_done = true;
+>   	}
+>   	if (native)
+> @@ -547,6 +578,10 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>   	if (acpi_backlight_dmi != acpi_backlight_undef)
+>   		return acpi_backlight_dmi;
+>   
+> +	/* Special cases such as nvidia_wmi_ec and apple gmux. */
+> +	if (nvidia_wmi_ec_present)
+> +		return acpi_backlight_nvidia_wmi_ec;
+
+
+Should there also be a change to the EC backlight driver to call 
+acpi_video_get_backlight_type() and make sure we get 
+acpi_backlight_nvidia_wmi_ec? I don't see such a change in this patch 
+series; I could implement it (and test it) against your patch if there's 
+some reason you didn't do so with the current patchset.
+
+
+> +
+>   	/* On systems with ACPI video use either native or ACPI video. */
+>   	if (video_caps & ACPI_VIDEO_BACKLIGHT) {
+>   		/*
+> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
+> index 0cff20265f97..807b989e3c77 100644
+> --- a/drivers/gpu/drm/gma500/Kconfig
+> +++ b/drivers/gpu/drm/gma500/Kconfig
+> @@ -7,6 +7,8 @@ config DRM_GMA500
+>   	select ACPI_VIDEO if ACPI
+>   	select BACKLIGHT_CLASS_DEVICE if ACPI
+>   	select INPUT if ACPI
+> +	select X86_PLATFORM_DEVICES if ACPI
+> +	select ACPI_WMI if ACPI
+
+
+I'm not sure I understand why the Intel DRM drivers pick up the 
+additional platform/x86 and WMI dependencies here. ACPI_VIDEO already 
+depends on these, doesn't it? If Kconfig doesn't otherwise automatically 
+pull in an option's dependencies when selecting that option, then 
+shouldn't Nouveau's Kconfig get updated as well? It selects ACPI_VIDEO 
+in some configuration cases. (It looks like amdgpu doesn't currently 
+select ACPI_VIDEO, maybe because it doesn't depend on it the way the 
+Intel drivers do: there are several AMD+NVIDIA iGPU/dGPU designs out 
+there which use this backlight interface.)
+
+
+>   	help
+>   	  Say yes for an experimental 2D KMS framebuffer driver for the
+>   	  Intel GMA500 (Poulsbo), Intel GMA600 (Moorestown/Oak Trail) and
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 7ae3b7d67fcf..3efce05d7b57 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -23,6 +23,8 @@ config DRM_I915
+>   	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
+>   	select BACKLIGHT_CLASS_DEVICE if ACPI
+>   	select INPUT if ACPI
+> +	select X86_PLATFORM_DEVICES if ACPI
+> +	select ACPI_WMI if ACPI
+>   	select ACPI_VIDEO if ACPI
+>   	select ACPI_BUTTON if ACPI
+>   	select SYNC_FILE
+> diff --git a/include/acpi/video.h b/include/acpi/video.h
+> index 0625806d3bbd..91578e77ac4e 100644
+> --- a/include/acpi/video.h
+> +++ b/include/acpi/video.h
+> @@ -48,6 +48,7 @@ enum acpi_backlight_type {
+>   	acpi_backlight_video,
+>   	acpi_backlight_vendor,
+>   	acpi_backlight_native,
+> +	acpi_backlight_nvidia_wmi_ec,
+>   };
+>   
+>   #if IS_ENABLED(CONFIG_ACPI_VIDEO)
