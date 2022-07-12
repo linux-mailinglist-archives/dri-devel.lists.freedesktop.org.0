@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B1A572A04
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 01:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05825729F1
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 01:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C808E976D1;
-	Tue, 12 Jul 2022 23:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F05E7976C5;
+	Tue, 12 Jul 2022 23:31:38 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDAA976B9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF1C9976BD;
  Tue, 12 Jul 2022 23:31:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1657668697; x=1689204697;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dT+uNgZXsC1HYSIFLrHz/ls3gdspPj2YRZC3shcCVcE=;
- b=GCxsQ/idXITZGLt7a3BG4atNPZ/MZbTXZOwsR1czHG81yS9Lh3h6i1R9
- ZyNh8r/4ejLb8LbhA7+z1Vf6Rr2jkaOpb3jFyMY19wRKeQShrqrTRNCli
- F1W1fIrGyAm+u0v6giT9AfLtqnVYYt4vErv90kCKcJaHtZlashe6f0EF4
- JjSwysd/h323zuFwSzsviiXH91/KcnGinB4s5oMN380kaqWEwLwY89+3x
- 0g4KMTOlcKCyTgtIbC+2Liq5WPN4TZmdonqdbKvtpolUUuFohqoSiSOWA
- 17Yh6H5OeTuO/Yk9pFiN6/489pZ/db8PGtWuARQ7g2hIRMcLqh4B6WQXq Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="285812562"
-X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="285812562"
+ bh=koQtewMmMuXnhh3PufImj24iKBtfjhu5HFVVsTn04ao=;
+ b=VnwHwh5en+O9nyJO++ky41837UitDEUUshCxjC8lOt5k+iRkNp90TRsz
+ 0xTdrDCloCgiqJzBev8Km/l1xKX2CIVEC7pKqqb1b2cOXrRt9j7b7JMVr
+ Ai78hFZnmTpVrpmuWzMWq0y2vj5yfH3QUsqZA/ZzXKxzuj0cZ1J7xkBf2
+ s9Piqktimcyv01qRHCvHckMejt5vV8Bx+Mbpz7ElhQ/SGnXsyMeypy7L+
+ IawLKVxOxfWii6iFn5zJOaF2bklwD5DK4JRMF+AWUv0OGZalRJSLaEbGf
+ hqXpSYGykkLxT91c09HIy4ghfCJdUQtS1BUa1xXSkI2+8o6uh14YOic8G g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="285812563"
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="285812563"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Jul 2022 16:31:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="722137758"
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="722137762"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by orsmga004.jf.intel.com with ESMTP; 12 Jul 2022 16:31:36 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 02/12] drm/i915/guc: Don't call ring_is_idle in GuC submission
-Date: Tue, 12 Jul 2022 16:31:26 -0700
-Message-Id: <20220712233136.1044951-3-John.C.Harrison@Intel.com>
+Subject: [PATCH 03/12] drm/i915/guc: Fix issues with live_preempt_cancel
+Date: Tue, 12 Jul 2022 16:31:27 -0700
+Message-Id: <20220712233136.1044951-4-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
 References: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
@@ -63,87 +63,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Matthew Brost <matthew.brost@intel.com>
 
-The engine registers really shouldn't be touched during GuC submission
-as the GuC owns the registers. Don't call ring_is_idle and tie
-intel_engine_is_idle strictly to the engine pm.
+Having semaphores results in different behavior when a dependent request
+is cancelled. In the case of semaphores the request could be on the HW
+and complete successfully while without the request is held in the
+driver and the error from the dependent request is propagated. Fix
+live_preempt_cancel to take this behavior into account.
 
-Because intel_engine_is_idle tied to the engine pm, retire requests
-before checking intel_engines_are_idle in gt_drop_caches, and lastly
-increase the timeout in gt_drop_caches for the intel_engines_are_idle
-check.
+Also update live_preempt_cancel to use new function intel_context_ban
+rather than intel_context_set_banned.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 13 +++++++++++++
- drivers/gpu/drm/i915/i915_debugfs.c       |  6 +++---
- drivers/gpu/drm/i915/i915_drv.h           |  2 +-
- 3 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/selftest_execlists.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 283870c659911..959a7c92e8f4d 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -1602,6 +1602,9 @@ static bool ring_is_idle(struct intel_engine_cs *engine)
- {
- 	bool idle = true;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 02fc97a0ab502..015f8cd3463e2 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -2087,7 +2087,7 @@ static int __cancel_active0(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
  
-+	/* GuC submission shouldn't access HEAD & TAIL via MMIO */
-+	GEM_BUG_ON(intel_engine_uses_guc(engine));
-+
- 	if (I915_SELFTEST_ONLY(!engine->mmio_base))
- 		return true;
+-	intel_context_set_banned(rq->context);
++	intel_context_ban(rq->context, rq);
+ 	err = intel_engine_pulse(arg->engine);
+ 	if (err)
+ 		goto out;
+@@ -2146,7 +2146,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
+ 	if (err)
+ 		goto out;
  
-@@ -1668,6 +1671,16 @@ bool intel_engine_is_idle(struct intel_engine_cs *engine)
- 	if (!i915_sched_engine_is_empty(engine->sched_engine))
- 		return false;
+-	intel_context_set_banned(rq[1]->context);
++	intel_context_ban(rq[1]->context, rq[1]);
+ 	err = intel_engine_pulse(arg->engine);
+ 	if (err)
+ 		goto out;
+@@ -2229,7 +2229,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+ 	if (err)
+ 		goto out;
  
+-	intel_context_set_banned(rq[2]->context);
++	intel_context_ban(rq[2]->context, rq[2]);
+ 	err = intel_engine_pulse(arg->engine);
+ 	if (err)
+ 		goto out;
+@@ -2244,7 +2244,13 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
+ 
+-	if (rq[1]->fence.error != 0) {
 +	/*
-+	 * We shouldn't touch engine registers with GuC submission as the GuC
-+	 * owns the registers. Let's tie the idle to engine pm, at worst this
-+	 * function sometimes will falsely report non-idle when idle during the
-+	 * delay to retire requests or with virtual engines and a request
-+	 * running on another instance within the same class / submit mask.
++	 * The behavior between having semaphores and not is different. With
++	 * semaphores the subsequent request is on the hardware and not cancelled
++	 * while without the request is held in the driver and cancelled.
 +	 */
-+	if (intel_engine_uses_guc(engine))
-+		return false;
-+
- 	/* Ring stopped? */
- 	return ring_is_idle(engine);
- }
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 94e5c29d2ee3a..ee5334840e9cb 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -654,13 +654,13 @@ gt_drop_caches(struct intel_gt *gt, u64 val)
- {
- 	int ret;
++	if (intel_engine_has_semaphores(rq[1]->engine) &&
++	    rq[1]->fence.error != 0) {
+ 		pr_err("Normal inflight1 request did not complete\n");
+ 		err = -EINVAL;
+ 		goto out;
+@@ -2292,7 +2298,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
  
-+	if (val & DROP_RETIRE || val & DROP_RESET_ACTIVE)
-+		intel_gt_retire_requests(gt);
-+
- 	if (val & DROP_RESET_ACTIVE &&
- 	    wait_for(intel_engines_are_idle(gt), I915_IDLE_ENGINES_TIMEOUT))
- 		intel_gt_set_wedged(gt);
- 
--	if (val & DROP_RETIRE)
--		intel_gt_retire_requests(gt);
--
- 	if (val & (DROP_IDLE | DROP_ACTIVE)) {
- 		ret = intel_gt_wait_for_idle(gt, MAX_SCHEDULE_TIMEOUT);
- 		if (ret)
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index c22f29c3faa0e..53c7474dde495 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -278,7 +278,7 @@ struct i915_gem_mm {
- 	u32 shrink_count;
- };
- 
--#define I915_IDLE_ENGINES_TIMEOUT (200) /* in ms */
-+#define I915_IDLE_ENGINES_TIMEOUT (500) /* in ms */
- 
- unsigned long i915_fence_context_timeout(const struct drm_i915_private *i915,
- 					 u64 context);
+-	intel_context_set_banned(rq->context);
++	intel_context_ban(rq->context, rq);
+ 	err = intel_engine_pulse(arg->engine); /* force reset */
+ 	if (err)
+ 		goto out;
 -- 
 2.36.0
 
