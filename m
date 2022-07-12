@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1057C57187B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 13:27:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A945057189C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jul 2022 13:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548E093831;
-	Tue, 12 Jul 2022 11:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 243EE14B882;
+	Tue, 12 Jul 2022 11:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 009289384A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jul 2022 11:27:33 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Lhz4Z0gwsz4xZD;
- Tue, 12 Jul 2022 21:27:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1657625249;
- bh=+YGTCzQRzac0AtHW8tlQEqC1DOb+T9EcWqte1XHzozs=;
- h=Date:From:To:Cc:Subject:From;
- b=jDif5u4TW8UUqTQDtFTlN5EBR9Uk8zU/PVpZ/qrydjYztw+Itiokp/2q+p8gj2M9g
- VWHqWzbPuK/TnY3QePg/RE+5RJGlG8CNn8mfhIAzIUB5056hSxOYrume9taDKl460p
- cEivKUS4PQfOLSPWEu3hRcjTxlgXrsgSO5i530YigPBL88lHt5aarFIRt1oH9wuTNW
- +BtRy3X4bCEvY0Uo0d7PWG5pFqXK58z2bH5KxkVoXiind1Hi2GfcU43pU942Dn4MVQ
- eRuWUBmmUGAIMGI0/zzVkuvlZ5TJCORL78jseRDY43xGrY/01KcztgyiDkpxCfdvGX
- +fYfjSUTPJ2EQ==
-Date: Tue, 12 Jul 2022 21:27:24 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: Fixes tag needs some work in the drm tree
-Message-ID: <20220712212724.7424de74@canb.auug.org.au>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D471124F8;
+ Tue, 12 Jul 2022 11:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=wEU2lTn9Et2NuCEAD/mh5qm1lTrzHU1EEy9+K85JA9Q=; b=NjkuiZBoiv7GYDCOZcqDj1LzSW
+ 4uXGSLWVxvl/PhM4mAGxyB+nznXEVFWK9noxhnajgWwCVxtRbzqAx6Z+Uuk14nY06ehEs9J6zSsHI
+ /d9XZLwp6OtLe8ohk35iiVu3WjimV9GBWAJmzIkeW1ycOtb/paeIZ6Z7n6m5nSzFF/rUmCAzu4mhZ
+ YfFMTTAbqOeqwt51vOn9XwlZr71YQ+rj6hPicpwDjb/zrVPIuDDA1PhmdW+zN5Zyc8HxaTOgDwVSu
+ 5IXOY6fwCvwgIUOoahZ30E4lNNnKqMzRtunRuUYPoTfctoDC50VfkRtrf0+Ahwh46Sn1fdTCztl1c
+ t5+gCvJQ==;
+Received: from [165.90.126.25] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oBE8U-00DMlP-Kb; Tue, 12 Jul 2022 13:33:02 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: correct check of coverage blend mode
+Date: Tue, 12 Jul 2022 10:32:39 -0100
+Message-Id: <20220712113239.132905-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/5R9Dchy+ES7s1AIf/0jJGhQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,54 +51,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Dan Carpenter <dan.carpenter@oracle.com>, Sungjoon.Kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/5R9Dchy+ES7s1AIf/0jJGhQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Check the value of per_pixel_alpha to decide whether the Coverage pixel
+blend mode is applicable or not.
 
-Hi all,
+Fixes: 76818cdd11a2 ("drm/amd/display: add Coverage blend mode for overlay plane")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In commit
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index de1c139ae279..25cb833b267c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5486,7 +5486,7 @@ fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+ 			}
+ 		}
+ 
+-		if (per_pixel_alpha && plane_state->pixel_blend_mode == DRM_MODE_BLEND_COVERAGE)
++		if (*per_pixel_alpha && plane_state->pixel_blend_mode == DRM_MODE_BLEND_COVERAGE)
+ 			*pre_multiplied_alpha = false;
+ 	}
+ 
+-- 
+2.35.1
 
-  d8e4fb9112e8 ("drm/amdgpu/display: Protect some functions with CONFIG_DRM=
-_AMD_DC_DCN")
-
-Fixes tag
-
-  Fixes: 9b0e0d433f74 ("drm/amd/display: Add dependant changes for DCN32/32=
-1")
-
-has these problem(s):
-
-  - Target SHA1 does not exist
-
-Maybe you meant:
-
-Fixes: d3dfceb58de5 ("drm/amd/display: Add dependant changes for DCN32/321")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/5R9Dchy+ES7s1AIf/0jJGhQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmLNWpwACgkQAVBC80lX
-0GzZXAf7BRXo0+e9LJK1gmuB1r1hnfC7jbh4AkkZ76oMj0YM96hn4VJ15pfegzBQ
-EqhF3pj0jmVuzB5WitY4SIqRQjmqQzFb+tInTwEM8bGTkEo13xKbgpLHxT6zarFD
-iri8Qkpb5GA3+KW2LpA9Qx22HLnCVLedaY3Um7Lk0gdO8jnrNx4AtFvjt4vQPtzb
-GLoRqoaaVj+h4tNujqnTreWKhvbaSiS3iUJ2cJQfFI3XhRSYRjFcEWRbUb0Oz2fE
-U+2zjWpMVQbQS9mGTcLFAmBYRHKhmBY2U0ZfXiGKsxoivMRS4R64ssCj4c8Pqa0D
-MUw7YfihgM2gxoGWs0TXzjuUVvIimQ==
-=aZGl
------END PGP SIGNATURE-----
-
---Sig_/5R9Dchy+ES7s1AIf/0jJGhQ--
