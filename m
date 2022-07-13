@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80842573075
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 10:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9972C57304C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 10:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8D1953C2;
-	Wed, 13 Jul 2022 08:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2834E95285;
+	Wed, 13 Jul 2022 08:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEFE195285;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 731A895177;
  Wed, 13 Jul 2022 08:12:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5FA2CB81D58;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CC31C61A4E;
  Wed, 13 Jul 2022 08:12:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE501C3411E;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 203E7C385A5;
  Wed, 13 Jul 2022 08:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657699952;
- bh=jsZox1/hS+Rp3roCl4CQZXK0GfImJ8rOe0DamxNA7YA=;
+ bh=pMNi1ayauvZyE2hTTFtqz2aomeuBB+Si8/98xbKOU7g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BqpZ6D1y4nYBKKFKDkDRktPZB0oi7scya5HlbvCHEM6NrHTIrFwgtrhmohbaUIASf
- E0srcJoOLQO43CMmQu/KtHr69R7lprThRt8aCU/Iam08rQKEYl8OZuMFFJH/i2Q/OW
- guM/xLpHMoD2Zc4RYGeY/KjNYH3KqCVi6Wm8nHtf/hOVC6ax2M5YbRZ6CZWhyY14an
- vDSy/BBXQgPXYBWRetWN0EJh6rCJeu+bp99OfzkGT7w+uYV63HYvFkMjKpIhV19H7v
- dthp5V8oCzAC5bpiTmhUemfoHZ0IEzl2sswqix5YadwAGEBxmwFKeSHXGynZ5hygey
- UotWi6sQAK3VA==
+ b=JA+OgdF31PhwaS1YOCRdIVQLb2X8X482C5ZsYll0jnQo2MgvsEotWh9vyg4ZRzZhs
+ QlIXZ5MMmKT9OJ0NSxhFT4fJS1lu7ZSg7tSa4u3acRI6ZuP1AKgFh0/WCA+91U4Wbn
+ yv8xGamrvTeF+88ib22sX5IFggoU04sVgKYJK2+d9PvalOiN1Ms5f+PNpUER21bvjr
+ nSVKgP4W13+tj9dZrrX1ibKIIIHn6WZSMId+UZ0Pi4avLRsgGtCW+zHMGgTF4FFC+j
+ ZuwJelLuQwjJtU4S8AsV4mXuzwVaoL4N//Myx7WeNXNGXzVtjd7NSyNzuGZhEZBvR+
+ RjVaO9fLZVDog==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oBXTx-004ztO-Kf;
+ (envelope-from <mchehab@kernel.org>) id 1oBXTx-004ztR-LH;
  Wed, 13 Jul 2022 09:12:29 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH v2 16/39] drm/i915: intel_fb: fix a kernel-doc issue with
- Sphinx
-Date: Wed, 13 Jul 2022 09:12:04 +0100
-Message-Id: <5647d7b6ffe47f53b90342e4ad881d4d4e6b005b.1657699522.git.mchehab@kernel.org>
+Subject: [PATCH v2 17/39] drm/i915: skl_scaler: fix return value kernel-doc
+ markup
+Date: Wed, 13 Jul 2022 09:12:05 +0100
+Message-Id: <58fa90350ac1fc4f2b37a50179bdb38613d5fa5d.1657699522.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657699522.git.mchehab@kernel.org>
 References: <cover.1657699522.git.mchehab@kernel.org>
@@ -55,22 +56,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
+Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
  Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- =?UTF-8?q?Juha-Pekka=20Heikkil=C3=A4?= <juha-pekka.heikkila@intel.com>,
+ David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, dri-devel@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can't use %foo[<something>] as this produces a bad markup.
-Use instead, the emphasis markup directly.
+The way it is, it produces this warning:
 
-Fix this issue:
-	Documentation/gpu/i915:136: ./drivers/gpu/drm/i915/display/intel_fb.c:280: WARNING: Inline strong start-string without end-string.
+	Documentation/gpu/i915:150: ./drivers/gpu/drm/i915/display/skl_scaler.c:213: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+Use list markups to suppress the warning.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -78,22 +78,26 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/display/intel_fb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/skl_scaler.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index b191915ab351..fe72c75a9c79 100644
---- a/drivers/gpu/drm/i915/display/intel_fb.c
-+++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -276,7 +276,7 @@ lookup_format_info(const struct drm_format_info formats[],
-  * @cmd: FB add command structure
+diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
+index 4092679be21e..59099f793d3e 100644
+--- a/drivers/gpu/drm/i915/display/skl_scaler.c
++++ b/drivers/gpu/drm/i915/display/skl_scaler.c
+@@ -208,9 +208,9 @@ int skl_update_scaler_crtc(struct intel_crtc_state *crtc_state)
+  * @crtc_state: crtc's scaler state
+  * @plane_state: atomic plane state to update
   *
-  * Returns:
-- * Returns the format information for @cmd->pixel_format specific to @cmd->modifier[0],
-+ * Returns the format information for @cmd->pixel_format specific to **cmd->modifier[0]**,
-  * or %NULL if the modifier doesn't override the format.
+- * Return
+- *     0 - scaler_usage updated successfully
+- *    error - requested scaling cannot be supported or other error condition
++ * Return:
++ * * 0 - scaler_usage updated successfully
++ * * error - requested scaling cannot be supported or other error condition
   */
- const struct drm_format_info *
+ int skl_update_scaler_plane(struct intel_crtc_state *crtc_state,
+ 			    struct intel_plane_state *plane_state)
 -- 
 2.36.1
 
