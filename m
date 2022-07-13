@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799D157306E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 10:14:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8627E5730A6
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 10:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8FF295C0B;
-	Wed, 13 Jul 2022 08:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A7296424;
+	Wed, 13 Jul 2022 08:13:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E18079528F;
- Wed, 13 Jul 2022 08:12:34 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF01095939;
+ Wed, 13 Jul 2022 08:12:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2351061A87;
- Wed, 13 Jul 2022 08:12:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A8BC341D8;
- Wed, 13 Jul 2022 08:12:32 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id A0185CE1F19;
+ Wed, 13 Jul 2022 08:12:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12E5FC341CF;
+ Wed, 13 Jul 2022 08:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657699952;
- bh=bSkbpAx11+TmEHvxW7ggJPLe705G0MX6L55HD9C2rwk=;
+ bh=YRrJxG4+DsFBM/K98faVKM0V4OiqixGgBU7BOkvKa/4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rjOdtS7V4UCOa61lYWAyi5Mn+vyfIAjajlI8OZ5BtbuOLmNIUqHxX6HD/WL9mqHbe
- Eo2bS6Z6QMfZNVptdvWXhxHU9qiEGrkIzWYREMF5p4K50eh84OHpPER9dzj+TyR0xt
- 5dDzFtslvDmDnu/uNdmfStv0lC7sAC+CG+8RzqZoID4oiSQ1JWTGgFtbFZNtXsh6e/
- +ZqjRww0p+q6PWg95mHanQbh9glaA2x2ysFsd4SQR/efLcq7CR4SkFS3ENCT2RxFEd
- 9WqNresukybehqKoZq4+Rsf1oxRUOsGoAbHns/z1ZaYCcFH9+yY8iIcIWHvhthGzl9
- faa+sIePWLqcA==
+ b=TjKjuAuUGqW0rsf/C69V3R908RyvYT0TdPLC9wNkvhAqhAM8HM9V0h4EyP6Hhx8CJ
+ WtQaTNrskGDRrdaUhqtOqyTqrEYU3E1ZvmSaH30umxkgOecoF80TYmG2+lJ1gbcvNh
+ 2dYTDe5k9Lj4UcF2uJq4wsuBdbyEZ4598C8grE8CbiHNMvGkjbELkO/vfn1hZ2axsL
+ uSZGK7AcW4MfB3hbhuJLUNOvPH72TVbtUY82q+L4u37jkggtjpsIyE+SUduscydiYJ
+ MFm+DvrpeakXhZ+iNjTP3Qb9IA8EUYd7ObhwPeNmeKcDFIWr7iv2Q0zcPLHiJv9jwX
+ dasXW4wCzo/ug==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oBXTx-004zsq-Ee;
+ (envelope-from <mchehab@kernel.org>) id 1oBXTx-004zst-FW;
  Wed, 13 Jul 2022 09:12:29 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH v2 07/39] drm/i915: gvt: fix kernel-doc trivial warnings
-Date: Wed, 13 Jul 2022 09:11:55 +0100
-Message-Id: <375c0c0ca2ef414f25e14f274457f77373a9268d.1657699522.git.mchehab@kernel.org>
+Subject: [PATCH v2 08/39] drm/i915: gem: fix some Kernel-doc issues
+Date: Wed, 13 Jul 2022 09:11:56 +0100
+Message-Id: <bcca63114510fb7d3ae177aba70b170fc539aa20.1657699522.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657699522.git.mchehab@kernel.org>
 References: <cover.1657699522.git.mchehab@kernel.org>
@@ -54,35 +54,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Zhi Wang <zhi.a.wang@intel.com>
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some functions seem to have been renamed without updating the kernel-doc
-markup causing warnings. Also, struct intel_vgpu_dmabuf_obj is not
-properly documented, but has a kerneld-doc markup.
+There are several trivial issueson kernel-doc markups at gem:
 
-Fix those warnings:
-	drivers/gpu/drm/i915/gvt/aperture_gm.c:308: warning: expecting prototype for inte_gvt_free_vgpu_resource(). Prototype was for intel_vgpu_free_resource() instead
-	drivers/gpu/drm/i915/gvt/aperture_gm.c:344: warning: expecting prototype for intel_alloc_vgpu_resource(). Prototype was for intel_vgpu_alloc_resource() instead
-	drivers/gpu/drm/i915/gvt/cfg_space.c:257: warning: expecting prototype for intel_vgpu_emulate_cfg_read(). Prototype was for intel_vgpu_emulate_cfg_write() instead
-	drivers/gpu/drm/i915/gvt/dmabuf.h:61: warning: Function parameter or member 'vgpu' not described in 'intel_vgpu_dmabuf_obj'
-	drivers/gpu/drm/i915/gvt/dmabuf.h:61: warning: Function parameter or member 'info' not described in 'intel_vgpu_dmabuf_obj'
-	drivers/gpu/drm/i915/gvt/dmabuf.h:61: warning: Function parameter or member 'dmabuf_id' not described in 'intel_vgpu_dmabuf_obj'
-	drivers/gpu/drm/i915/gvt/dmabuf.h:61: warning: Function parameter or member 'kref' not described in 'intel_vgpu_dmabuf_obj'
-	drivers/gpu/drm/i915/gvt/dmabuf.h:61: warning: Function parameter or member 'initref' not described in 'intel_vgpu_dmabuf_obj'
-	drivers/gpu/drm/i915/gvt/dmabuf.h:61: warning: Function parameter or member 'list' not described in 'intel_vgpu_dmabuf_obj'
-	drivers/gpu/drm/i915/gvt/handlers.c:3066: warning: expecting prototype for intel_t_default_mmio_write(). Prototype was for intel_vgpu_default_mmio_write() instead
-	drivers/gpu/drm/i915/gvt/mmio_context.c:560: warning: expecting prototype for intel_gvt_switch_render_mmio(). Prototype was for intel_gvt_switch_mmio() instead
-	drivers/gpu/drm/i915/gvt/page_track.c:131: warning: expecting prototype for intel_vgpu_enable_page_track(). Prototype was for intel_vgpu_disable_page_track() instead
-	drivers/gpu/drm/i915/gvt/vgpu.c:215: warning: expecting prototype for intel_gvt_active_vgpu(). Prototype was for intel_gvt_activate_vgpu() instead
-	drivers/gpu/drm/i915/gvt/vgpu.c:230: warning: expecting prototype for intel_gvt_deactive_vgpu(). Prototype was for intel_gvt_deactivate_vgpu() instead
-	drivers/gpu/drm/i915/gvt/vgpu.c:358: warning: expecting prototype for intel_gvt_destroy_vgpu(). Prototype was for intel_gvt_destroy_idle_vgpu() instead
+	drivers/gpu/drm/i915/gem/i915_gem_create.c:146: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_create.c:217: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_create.c:401: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_domain.c:116: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_domain.c:177: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_domain.c:262: warning: expecting prototype for Changes the cache(). Prototype was for i915_gem_object_set_cache_level() instead
+	drivers/gpu/drm/i915/gem/i915_gem_domain.c:456: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_domain.c:500: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+	drivers/gpu/drm/i915/gem/i915_gem_object.h:110: warning: Function parameter or member 'file' not described in 'i915_gem_object_lookup_rcu'
+	drivers/gpu/drm/i915/gem/i915_gem_object.h:110: warning: Excess function parameter 'filp' description in 'i915_gem_object_lookup_rcu'
+	drivers/gpu/drm/i915/gem/i915_gem_region.h:35: warning: Function parameter or member 'process_obj' not described in 'i915_gem_apply_to_region_ops'
+	drivers/gpu/drm/i915/gem/i915_gem_wait.c:130: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+
+Caused by:
+	- lack of function name at the kernel-doc markup;
+	- renamed parameters.
+
+Address them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -90,82 +97,127 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/gvt/cfg_space.c  | 2 +-
- drivers/gpu/drm/i915/gvt/dmabuf.h     | 2 +-
- drivers/gpu/drm/i915/gvt/page_track.c | 2 +-
- drivers/gpu/drm/i915/gvt/vgpu.c       | 6 +++---
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_create.c |  8 +++++---
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c | 17 +++++++++++------
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c   |  2 +-
+ 4 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gvt/cfg_space.c b/drivers/gpu/drm/i915/gvt/cfg_space.c
-index dad3a6054335..a0fc6d356588 100644
---- a/drivers/gpu/drm/i915/gvt/cfg_space.c
-+++ b/drivers/gpu/drm/i915/gvt/cfg_space.c
-@@ -243,7 +243,7 @@ static void emulate_pci_bar_write(struct intel_vgpu *vgpu, unsigned int offset,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 33673fe7ee0a..8cb2eb092031 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -143,7 +143,8 @@ __i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
  }
  
  /**
-- * intel_vgpu_emulate_cfg_read - emulate vGPU configuration space write
-+ * intel_vgpu_emulate_cfg_write - emulate vGPU configuration space write
-  * @vgpu: target vgpu
-  * @offset: offset
-  * @p_data: write data ptr
-diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.h b/drivers/gpu/drm/i915/gvt/dmabuf.h
-index 5f8f03fb1d1b..3dcdb6570eda 100644
---- a/drivers/gpu/drm/i915/gvt/dmabuf.h
-+++ b/drivers/gpu/drm/i915/gvt/dmabuf.h
-@@ -48,7 +48,7 @@ struct intel_vgpu_fb_info {
- 	struct intel_vgpu_dmabuf_obj *obj;
+- * Creates a new object using the same path as DRM_I915_GEM_CREATE_EXT
++ * __i915_gem_object_create_user - Creates a new object using the same path
++ *	as DRM_I915_GEM_CREATE_EXT
+  * @i915: i915 private
+  * @size: size of the buffer, in bytes
+  * @placements: possible placement regions, in priority order
+@@ -214,7 +215,7 @@ i915_gem_dumb_create(struct drm_file *file,
+ }
+ 
+ /**
+- * Creates a new mm object and returns a handle to it.
++ * i915_gem_create_ioctl - Creates a new mm object and returns a handle to it.
+  * @dev: drm device pointer
+  * @data: ioctl data blob
+  * @file: drm file pointer
+@@ -398,7 +399,8 @@ static const i915_user_extension_fn create_extensions[] = {
  };
  
--/**
-+/*
-  * struct intel_vgpu_dmabuf_obj- Intel vGPU device buffer object
-  */
- struct intel_vgpu_dmabuf_obj {
-diff --git a/drivers/gpu/drm/i915/gvt/page_track.c b/drivers/gpu/drm/i915/gvt/page_track.c
-index 3375b51c75f1..df34e73cba41 100644
---- a/drivers/gpu/drm/i915/gvt/page_track.c
-+++ b/drivers/gpu/drm/i915/gvt/page_track.c
-@@ -120,7 +120,7 @@ int intel_vgpu_enable_page_track(struct intel_vgpu *vgpu, unsigned long gfn)
+ /**
+- * Creates a new mm object and returns a handle to it.
++ * i915_gem_create_ext_ioctl - Creates a new mm object and returns a handle
++ *	to it.
+  * @dev: drm device pointer
+  * @data: ioctl data blob
+  * @file: drm file pointer
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index 1674b0c5802b..49d7841ba979 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -113,7 +113,8 @@ void i915_gem_object_flush_if_display_locked(struct drm_i915_gem_object *obj)
  }
  
  /**
-- * intel_vgpu_enable_page_track - cancel write-protection on guest page
-+ * intel_vgpu_disable_page_track - cancel write-protection on guest page
-  * @vgpu: a vGPU
-  * @gfn: the gfn of guest page
+- * Moves a single object to the WC read, and possibly write domain.
++ * i915_gem_object_set_to_wc_domain - Moves a single object to the WC read,
++ *	and possibly write domain.
+  * @obj: object to act on
+  * @write: ask for write access or read only
   *
-diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
-index 46da19b3225d..8e71cda19995 100644
---- a/drivers/gpu/drm/i915/gvt/vgpu.c
-+++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-@@ -205,7 +205,7 @@ static void intel_gvt_update_vgpu_types(struct intel_gvt *gvt)
+@@ -174,7 +175,8 @@ i915_gem_object_set_to_wc_domain(struct drm_i915_gem_object *obj, bool write)
  }
  
  /**
-- * intel_gvt_active_vgpu - activate a virtual GPU
-+ * intel_gvt_activate_vgpu - activate a virtual GPU
-  * @vgpu: virtual GPU
+- * Moves a single object to the GTT read, and possibly write domain.
++ * i915_gem_object_set_to_gtt_domain - Moves a single object to the GTT read,
++ *	and possibly write domain.
+  * @obj: object to act on
+  * @write: ask for write access or read only
   *
-  * This function is called when user wants to activate a virtual GPU.
-@@ -219,7 +219,7 @@ void intel_gvt_activate_vgpu(struct intel_vgpu *vgpu)
+@@ -243,7 +245,8 @@ i915_gem_object_set_to_gtt_domain(struct drm_i915_gem_object *obj, bool write)
  }
  
  /**
-- * intel_gvt_deactive_vgpu - deactivate a virtual GPU
-+ * intel_gvt_deactivate_vgpu - deactivate a virtual GPU
-  * @vgpu: virtual GPU
+- * Changes the cache-level of an object across all VMA.
++ * i915_gem_object_set_cache_level - Changes the cache-level of an object
++ *	across all VMA.
+  * @obj: object to act on
+  * @cache_level: new cache level to set for the object
   *
-  * This function is called when user wants to deactivate a virtual GPU.
-@@ -348,7 +348,7 @@ struct intel_vgpu *intel_gvt_create_idle_vgpu(struct intel_gvt *gvt)
+@@ -453,7 +456,8 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
  }
  
  /**
-- * intel_gvt_destroy_vgpu - destroy an idle virtual GPU
-+ * intel_gvt_destroy_idle_vgpu - destroy an idle virtual GPU
-  * @vgpu: virtual GPU
+- * Moves a single object to the CPU read, and possibly write domain.
++ * i915_gem_object_set_to_cpu_domain - Moves a single object to the CPU read,
++ *	and possibly write domain.
+  * @obj: object to act on
+  * @write: requesting write or read-only access
   *
-  * This function is called when user wants to destroy an idle virtual GPU.
+@@ -497,8 +501,9 @@ i915_gem_object_set_to_cpu_domain(struct drm_i915_gem_object *obj, bool write)
+ }
+ 
+ /**
+- * Called when user space prepares to use an object with the CPU, either
+- * through the mmap ioctl's mapping or a GTT mapping.
++ * i915_gem_set_domain_ioctl - Called when user space prepares to use an
++ *	object with the CPU, either through the mmap ioctl's mapping or a
++ *	GTT mapping.
+  * @dev: drm device
+  * @data: ioctl data blob
+  * @file: drm file
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 6f0a3ce35567..222608df66df 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -96,7 +96,7 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj);
+ 
+ /**
+  * i915_gem_object_lookup_rcu - look up a temporary GEM object from its handle
+- * @filp: DRM file private date
++ * @file: DRM file private date
+  * @handle: userspace handle
+  *
+  * Returns:
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+index e6e01c2a74a6..4a33ad2d122b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+@@ -161,7 +161,7 @@ i915_gem_object_wait_priority(struct drm_i915_gem_object *obj,
+ }
+ 
+ /**
+- * Waits for rendering to the object to be completed
++ * i915_gem_object_wait - Waits for rendering to the object to be completed
+  * @obj: i915 gem object
+  * @flags: how to wait (under a lock, for all rendering or just for writes etc)
+  * @timeout: how long to wait
 -- 
 2.36.1
 
