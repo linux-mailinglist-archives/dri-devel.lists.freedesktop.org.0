@@ -2,117 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003B6573D81
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 22:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1FC573E5E
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 22:57:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F42E10F347;
-	Wed, 13 Jul 2022 20:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB6A99EDC;
+	Wed, 13 Jul 2022 20:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2083.outbound.protection.outlook.com [40.107.95.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B29112B6D;
- Wed, 13 Jul 2022 20:03:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=etLpH3sx8niAH9Auu0OZDVbR/IRjimzi/o/P11faicXML2o0zyq2e4/GJg2m12DbiN4WYIw2YyhSyTMc6mADoQDK1wa7xgdfKEcIp2eOrlimZj1MWMHzQARSu2Gr5okwK1zxg7pqWnqQUV4nlMBzlYN5Jsvt/lbCO8unyYc4HLaM+abWMKbNLMMR9qg5WfyLiSjFLgXUCDo0BJWg2GWdjK6iokW1C2UOQ5TMbAKyOT+h0N1itynpjb1S9T/r3jAIkEQ8SWFXetaFYxb70d3EHOqSAVo0MPHhxTq4RZ0HGPk0dSgLGh37H9kViyR1tpQN80lNEYo4N9nmTZm70kpLGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pGKdj5WqX/vv793WgL1YPtCssJLp7KCkZGs+UxCyMQs=;
- b=lKQTdj+8unwAwLlD+NjR7b+G/RPCqSxQolA6RFOugbBUAT1xffkby19MLPMRpxHk4YOcoJzsBrfS7zrevvPfKdyMA0NzQpK7ieiH8umTPXV/cDfd7S5jvTlkcLwQ4YwZe4MXr/bADMNgzKRHoNVlJL2djTAvcmWVrF5HQ/nmohWQlFBPqk3npPeVhTzINH7pj4m96PO78JhOGyohjpcruvplSZTR1OYIoa/Xx4RjN9AELGsi+QUVL37xukddeiXrgTMSSItMPcmwoKCkbu4rVU3I8/sWhRn3UnnLvZwfDaTWME1ggoy0UNR0iqK01LFGPWorLbA3penEIehU2yXsBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pGKdj5WqX/vv793WgL1YPtCssJLp7KCkZGs+UxCyMQs=;
- b=ZpcUEJtc5RA0wdDo0V0EFZtMGtLW8aHqG9fIKZMS8s5NzLWIrwei81Urnm/m939micOdRr2A9nliaw6ZgcZWut7M7BWqqW7gdsEP9hRSiZ/B2WGSvrZf9N7NiriFx4vkHBl4tMPXs3PXskQ3Y455xdSTLUYMwZbmhajDRZr1QnI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM6PR12MB3306.namprd12.prod.outlook.com (2603:10b6:5:186::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.18; Wed, 13 Jul
- 2022 20:03:01 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::6999:13c9:d124:418a]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::6999:13c9:d124:418a%7]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
- 20:03:01 +0000
-Message-ID: <98b656f3-e506-90be-ebcc-898813051e74@amd.com>
-Date: Wed, 13 Jul 2022 16:02:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/amd/display: Enable building new display engine with
- KCOV enabled
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>
-References: <20220712224247.1950273-1-linux@roeck-us.net>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20220712224247.1950273-1-linux@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0084.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::8) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E13A99E9C;
+ Wed, 13 Jul 2022 20:57:21 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id l23so21974476ejr.5;
+ Wed, 13 Jul 2022 13:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HZ0I7rnRXF+zKo0Waz+59mR5IWLr5zhMjzNRsbDc0Ws=;
+ b=kbNLt4GGJ0sc1EmhUvJ/nBDhM7MzpppeLTEiVqt1Mi8RStPTVFb7yar8xhsEm7N2ar
+ 16n8lgc0/OFEDLkstvqYUHdsacAqFDKMt1lpHbs3SELgH70FmMmtn3h1aiAkU2nxkkGz
+ MlQ3zM2K+C2761yoiOt/pxnaT9Ii7THH8RKQNczpF4KXcD4inezFwm97AfLCS1GYixEv
+ dxLcv86wRnYaQYaunEL+C/boLRFZsYDrC1snpyCW6uVJH+Yb/4f4mcMiJ7Vl3rY0J/3c
+ znK1kKRdiQ0tYR3oqMShaiL4zx2Qzp9vbRhHMi2kQ3KUm/+0ExteICtQrCghfPX8G5V4
+ zFZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HZ0I7rnRXF+zKo0Waz+59mR5IWLr5zhMjzNRsbDc0Ws=;
+ b=x3aAVS6rgl71KWkXp+LoJNxLo2o3erLtVH2S7zAXoAJjBRL8RPksQAzAIiy7n+r8+O
+ FSA41hpjRFD6p6U2rSLyzUjYecCqj8E5uxtyG7wooUESemxikuC42yrKKheKA5aV2nX/
+ MIwu9x39T5oT2SjeYpzIdzifjcv2zlsVMyhOleD+z8Br5b7Ho20qMVh0AK8VoLMNtWko
+ ZNcCjB5GN4aIPAH06x1JiLBROQha1l8ARhcyKPd4FvjXZuB6C62eyb/awJyFY30IQe/o
+ wIuUHPratmEkTa381AAYkjP0hjYHOK1P1oibcsBo8EmRtt8CbscXuU1Z+ME08ciUeOkV
+ qfUA==
+X-Gm-Message-State: AJIora+irkR7hYProEYv0wqQJH/2+8swacksq8R9BK3XYNd+s8KCbnA8
+ 1B/SJ8r6LzUa/dUFMolZGgwfjJSni7HUwiyZPkQ=
+X-Google-Smtp-Source: AGRyM1uPyc6+oUjj8sxdsfwRjpKkRBg+PEmXlXc4IkoxS0NXVrY2lloMcRZqBmqBBO/sNEK20eTJvLXeCNhIaSa3NOM=
+X-Received: by 2002:a17:907:2702:b0:72b:307b:98e6 with SMTP id
+ w2-20020a170907270200b0072b307b98e6mr5315152ejk.658.1657745839832; Wed, 13
+ Jul 2022 13:57:19 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e7276f5-d6cb-41c9-0f9a-08da650ab0a4
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3306:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dyTaU4ovP2kgA5xgJEaKyM92DQ37HBU6ULX59V29gOyeueD60C05VpGOoqt0d1kqIfufA+xtxNK3Edce9Y0jJjiHCseha5MWRHsihr8iWOGJkIQwxnzsAcLiZ7ee4afYbfyu0BX1AN+AlkW7em2zf8m58r9jYCin1E45KjQiGFHr2xSXO4iGkFGp1ymGoPiT/TLUKzX0uVhAvHHuMVEThy6Tbb4MVJXHzZvwnG69DJBqojxfSd3y2B955bKfre3sXZuPEJJluoSMEdXjwGw6WqPceyEqBLCW38OWa54JeRTsakQ13wrCsaTPYiusQGFJPNjW8tTMUOhwiPiCGJkPWXnJhlLIUBf5pLTyRTO4tqCgEjExUa2gxweEsEGUlYn2egGm78yRmXH+NVgo8BlKZtpqHjJNe4sczxUy6m1sqREmFQmCtNUTEnUS2FMEF8NqX5PVuTeLxrHPxfC9TGCtaW9VPr2p7Oz5l86WCG+6Y1jeFrdlKqN7vU/0DjZ/FH6spr26Ph2xYi5Kft8FqdMH9Dp28uXs+CTgYLtAUnKSBcPmpVEYx+lBmww8HexWmf7OP/kuYsSaDrROug+8Uf9ju1Ei0hS3oEBBbklWVU6UUadaflokWPUu02eNsqBKAwuPZIXTVaSYvlgxwv524HAIOyr/+gCzA3x+OiKkrGgTsFsfgMFUmzwd8T4R8c7RlyEnHdk/O4DZnSzdIn43GTodTNXZNVCOeGC2tLV/qc4D4O9LNjlfP8UX3R3oAUCEpoO/DtaGhFrGVJpxPFOwg0jZaa/FBIcSqjwwImbKMv8pU+UzLjIjPskc6r2cOtTwNWVs3x6MpflQmqGHIqTwXngf6lh/Vt5238AgFUZ3pIIO8UE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(39860400002)(346002)(366004)(376002)(136003)(4326008)(6666004)(66556008)(66946007)(36756003)(54906003)(316002)(2616005)(83380400001)(26005)(38100700002)(6916009)(8676002)(66476007)(186003)(6486002)(44832011)(478600001)(6512007)(86362001)(5660300002)(8936002)(31696002)(2906002)(6506007)(53546011)(41300700001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RzNiaERud21jOGhXaXJpU1h2Y1N6dzk3QlZzQ2NEWTRUQ2ZtTGx3NjR5cmta?=
- =?utf-8?B?QlN2cE94cnNVN0ZITTUzWkF4SVo0UWZHWmVJWG9sVDkyWDUvMEY1YnVtelFJ?=
- =?utf-8?B?OXBPY0lhdjBWaEpIY1pzUlhITmJnbVl5bjhxRDczUkxLaTZiZ25kbjNHbFpj?=
- =?utf-8?B?NDFUbTQ3YnhqdEcwcUQxOXg1RWNJOTdPakpQdnpHbHpyM0NGQ3VGMUVkTi84?=
- =?utf-8?B?L1N0NHBkWUMxeVhYS2JaNTVyOUNlYlh2TGNjZ0d3STZIbkFTRWFnR2JEVTNt?=
- =?utf-8?B?ajhocDNIWnN1TWtjcUZGNVZzWE1WYi9XZ3YwYkxUTVFNSDQ4WlAwL256NjhB?=
- =?utf-8?B?TWdQS2F6c28rRDJUaEJzMVlVb2tLQUljY21kZ1Z4Y2VLaTJqbjVlejMrTUJY?=
- =?utf-8?B?MU5kRzZVVWx4eTBPUVNTd251RjNoNWNRYWdQRWJRK3ByVGxCVlpTUG9sY29P?=
- =?utf-8?B?WlllNXJnSEwvL1k3MHh4WEFPRzJjN2hNL0JuTElsM0dhMXJaTzNoR3ZaYzcz?=
- =?utf-8?B?SXZIU2xkaFhpdWJNbzV3MXNTMTRqRDZLZzZtTTEvQmdWaGN0M1oyN1FyUy90?=
- =?utf-8?B?UHZpZ3htZEZuQVdoVjFmY1BwR2ZSUkhzZlVrS3NZTlBJaHdBa1RIY25idXMz?=
- =?utf-8?B?MlFjYWlGRTVBZVoxdjBVQllkb0FWemxGSXJ2RDVtdDNLTXdUS2tpMTUxQmZu?=
- =?utf-8?B?ZjlnM2JIQ015bFpLOWlJRjh3QitjZU81Q2tiZmlFUkRKVFFUc2M1TDdOQi9K?=
- =?utf-8?B?Qm1XbktCdVQ5YWxVZ3V0RkNVT3B0UkVrSnZWL3NLWmx3OHE1T3liMG42WXBz?=
- =?utf-8?B?aE9PN3JOY0xrTUd2WmNQelFaQ21IWERKS3ZhNHUxRWNmVWMvQU1hWUt4MHdi?=
- =?utf-8?B?ZjJyTDFmTk1aMEZKeUVjUytwcGs1cjc3cVdvN1BPOEZqNnZlTVNuUmc3R1lt?=
- =?utf-8?B?ODJvdG82QmUvMWRiNVJ1aElPK1J5VUU2UkhEYlpwYWZTaHNSNnNmbDRwaHpy?=
- =?utf-8?B?Zmg1R0NLSXNzMWhxdHhhOXlEWkl5b21PeHcxSHlEUFF4SVh3bFNoTHR5cW1q?=
- =?utf-8?B?OXpjWHhVNTJob2ZUVzJQa1hJT2dVdDRzYlZYVWNsZzlqTEt4SmxUS1d0WW8x?=
- =?utf-8?B?dlFONlN2dForTEJKNEh1aTBXUjFoa0p0NSt2dTNiaEhJSVA2NzVaMzU2YnVz?=
- =?utf-8?B?S00rdkhEbzVBNFVoS1pKWDI4T3hyVTZLT2t2ajdkMURWMmQ1YThDV25SMGk0?=
- =?utf-8?B?ckM0dGdTemM5NVNMSXc1SWZzV0xGdmlVYjhjMXJCZk52VTQ3aEN6S3pCNmZo?=
- =?utf-8?B?eGZ6c0pETU5oQlRiMDVld3hoOFE0RnZGSkFwSVp3anVoUHJLeHZvazhXTjNi?=
- =?utf-8?B?eEIwdTlmSUwxZzd1eEZNQ1J2R1c2ZHQzaWFRUDdjTHRwNU1wZ3ljamNTMFlT?=
- =?utf-8?B?MFJHSFFCRi9paGVNK25SUElSRUpmQ1paY05SVjhOYytIU0ZIMSsxMndIZ0xq?=
- =?utf-8?B?cHlZbTVpRjl6U2xjaEUwQjE5VkM0N3pNVVEwV2tlcERIamVxK3BQTlZ2RUtt?=
- =?utf-8?B?Zy83TnBFNkFobk85UXNZamwwLzIxaFFWeFpXckhiUUwyZ3V6bk9qY1JxNENn?=
- =?utf-8?B?Uk5jNE9McW1LcXI4Mko5cmZ2eUZWOWF6VGp2RC9IdzR1RmtKSFFOS0o2TlNw?=
- =?utf-8?B?ODNxUkd0dTd4Vk5LVmlYbUdtZzg5SnordmloY1NjdjMxU2hzYWdOOWFHQmE1?=
- =?utf-8?B?SEwxeCtzUTY3OG80Q2xvQzBKQVFvY254KzgzWG9CWFIxVmxneFZURnRPL0xj?=
- =?utf-8?B?K3dBQlZmUlp0STFsdzZ2dWlhaXpUb2hnQTdDR1JpY0dZQ1JJbXZ4WHlrUFM4?=
- =?utf-8?B?ams4Wkh2Z0g1UWJwME51RVBwU1lyYmtrV0xUU2RzZFBkNVcwWCtuRHU1aWI5?=
- =?utf-8?B?am5kYVBKL3VPZndYMHpwWjZXTDdqRnVUbHBvN0xLZXR1SmxoaVRmcHVDZmZn?=
- =?utf-8?B?SFRjNGtqRkpqVWExQTRRNVNZREJWL05DNDQrVWNkWEZGbkpLdHBCV1FFVUV2?=
- =?utf-8?B?cXVxVEJ0c3lVR3lEbTczNHBEQVFPZWlPVmV0T3FMZThzcXg2bDdxTEN1c0Ja?=
- =?utf-8?Q?C543csJXqlG3JG6LGobHFi7D3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e7276f5-d6cb-41c9-0f9a-08da650ab0a4
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 20:03:01.5841 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r792zghTtKXpYy5LV7akKAPQF3VaSVn9ejp7zfgBNMlZcat4w6LZjHI77Z/bomL8KPYyV9tzywlpKOoHSBzq6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3306
+References: <20220618232737.2036722-1-linux@roeck-us.net>
+ <584fc348-7a60-26a2-af61-9edc4f4830e4@amd.com>
+In-Reply-To: <584fc348-7a60-26a2-af61-9edc4f4830e4@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 13 Jul 2022 16:57:07 -0400
+Message-ID: <CADnq5_NkVWqcxwLMBeskqpcSEYCEjUAK0hqvA_PAo7ACHKL2cA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Add missing hard-float compile flags for
+ PPC64 builds
+To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,61 +64,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Guenter Roeck <linux@roeck-us.net>, Daniel Axtens <dja@axtens.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-07-12 18:42, Guenter Roeck wrote:
-> The new display engine uses floating point math, which is not supported
-> by KCOV. Commit 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov
-> is enabled") tried to work around the problem by disabling
-> CONFIG_DRM_AMD_DC_DCN if KCOV_INSTRUMENT_ALL and KCOV_ENABLE_COMPARISONS
-> are enabled. The result is that KCOV can not be enabled on systems which
-> require this display engine. A much simpler and less invasive solution is
-> to disable KCOV selectively when compiling the display enagine while
-> keeping it enabled for the rest of the kernel.
-> 
-> Fixes: 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov is enabled")
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+On Thu, Jun 30, 2022 at 5:01 PM Rodrigo Siqueira Jordao
+<Rodrigo.Siqueira@amd.com> wrote:
+>
+>
+>
+> On 2022-06-18 19:27, Guenter Roeck wrote:
+> > ppc:allmodconfig builds fail with the following error.
+> >
+> > powerpc64-linux-ld:
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.o
+> >               uses hard float,
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_resource.o
+> >               uses soft float
+> > powerpc64-linux-ld:
+> >       failed to merge target specific data of file
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_resource.o
+> > powerpc64-linux-ld:
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.o
+> >               uses hard float,
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dcn315/dcn315_resource.o
+> >               uses soft float
+> > powerpc64-linux-ld:
+> >       failed to merge target specific data of
+> >       file drivers/gpu/drm/amd/amdgpu/../display/dc/dcn315/dcn315_resource.o
+> > powerpc64-linux-ld:
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.o
+> >               uses hard float,
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dcn316/dcn316_resource.o
+> >               uses soft float
+> > powerpc64-linux-ld:
+> >       failed to merge target specific data of file
+> >       drivers/gpu/drm/amd/amdgpu/../display/dc/dcn316/dcn316_resource.o
+> >
+> > The problem was introduced with commit 41b7a347bf14 ("powerpc: Book3S
+> > 64-bit outline-only KASAN support") which adds support for KASAN. This
+> > commit in turn enables DRM_AMD_DC_DCN because KCOV_INSTRUMENT_ALL and
+> > KCOV_ENABLE_COMPARISONS are no longer enabled. As result, new files are
+> > compiled which lack the selection of hard-float.
+> >
+> > Fixes: 41b7a347bf14 ("powerpc: Book3S 64-bit outline-only KASAN support")
+> > Cc: Michael Ellerman <mpe@ellerman.id.au>
+> > Cc: Daniel Axtens <dja@axtens.net>
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > ---
+> >   drivers/gpu/drm/amd/display/dc/dcn31/Makefile  | 4 ++++
+> >   drivers/gpu/drm/amd/display/dc/dcn315/Makefile | 4 ++++
+> >   drivers/gpu/drm/amd/display/dc/dcn316/Makefile | 4 ++++
+> >   3 files changed, 12 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
+> > index ec041e3cda30..74be02114ae4 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
+> > @@ -15,6 +15,10 @@ DCN31 = dcn31_resource.o dcn31_hubbub.o dcn31_hwseq.o dcn31_init.o dcn31_hubp.o
+> >       dcn31_apg.o dcn31_hpo_dp_stream_encoder.o dcn31_hpo_dp_link_encoder.o \
+> >       dcn31_afmt.o dcn31_vpg.o
+> >
+> > +ifdef CONFIG_PPC64
+> > +CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o := -mhard-float -maltivec
+> > +endif
+> > +
+> >   AMD_DAL_DCN31 = $(addprefix $(AMDDALPATH)/dc/dcn31/,$(DCN31))
+> >
+> >   AMD_DISPLAY_FILES += $(AMD_DAL_DCN31)
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/Makefile b/drivers/gpu/drm/amd/display/dc/dcn315/Makefile
+> > index 59381d24800b..1395c1ced8c5 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn315/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn315/Makefile
+> > @@ -25,6 +25,10 @@
+> >
+> >   DCN315 = dcn315_resource.o
+> >
+> > +ifdef CONFIG_PPC64
+> > +CFLAGS_$(AMDDALPATH)/dc/dcn315/dcn315_resource.o := -mhard-float -maltivec
+> > +endif
+> > +
+> >   AMD_DAL_DCN315 = $(addprefix $(AMDDALPATH)/dc/dcn315/,$(DCN315))
+> >
+> >   AMD_DISPLAY_FILES += $(AMD_DAL_DCN315)
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn316/Makefile b/drivers/gpu/drm/amd/display/dc/dcn316/Makefile
+> > index 819d44a9439b..c3d2dd78f1e2 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dcn316/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/dc/dcn316/Makefile
+> > @@ -25,6 +25,10 @@
+> >
+> >   DCN316 = dcn316_resource.o
+> >
+> > +ifdef CONFIG_PPC64
+> > +CFLAGS_$(AMDDALPATH)/dc/dcn316/dcn316_resource.o := -mhard-float -maltivec
+> > +endif
+> > +
+> >   AMD_DAL_DCN316 = $(addprefix $(AMDDALPATH)/dc/dcn316/,$(DCN316))
+> >
+> >   AMD_DISPLAY_FILES += $(AMD_DAL_DCN316)
+>
+> Hi,
+>
+> I don't want to re-introduce those FPU flags for DCN31/DCN314/DCN316
+> since we fully isolate FPU operations for those ASICs inside the DML
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+I don't understand why we don't need to add the hard-float flags back
+on the other DCN blocks.  Did we miss something in the DML cleanup for
+DCN 3.1.x?  Anyway, at this point, the patch is:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+We can sort the rest out for 5.20.
 
-Harry
+Alex
 
-> ---
->  drivers/gpu/drm/amd/display/Kconfig     | 2 +-
->  drivers/gpu/drm/amd/display/dc/Makefile | 3 +++
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-> index b4029c0d5d8c..96cbc87f7b6b 100644
-> --- a/drivers/gpu/drm/amd/display/Kconfig
-> +++ b/drivers/gpu/drm/amd/display/Kconfig
-> @@ -6,7 +6,7 @@ config DRM_AMD_DC
->  	bool "AMD DC - Enable new display engine"
->  	default y
->  	select SND_HDA_COMPONENT if SND_HDA_CORE
-> -	select DRM_AMD_DC_DCN if (X86 || PPC64) && !(KCOV_INSTRUMENT_ALL && KCOV_ENABLE_COMPARISONS)
-> +	select DRM_AMD_DC_DCN if (X86 || PPC64)
->  	help
->  	  Choose this option if you want to use the new display engine
->  	  support for AMDGPU. This adds required support for Vega and
-> diff --git a/drivers/gpu/drm/amd/display/dc/Makefile b/drivers/gpu/drm/amd/display/dc/Makefile
-> index b4eca0236435..b801973749d2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/Makefile
-> @@ -26,6 +26,9 @@
->  DC_LIBS = basics bios dml clk_mgr dce gpio irq link virtual
->  
->  ifdef CONFIG_DRM_AMD_DC_DCN
-> +
-> +KCOV_INSTRUMENT := n
-> +
->  DC_LIBS += dcn20
->  DC_LIBS += dsc
->  DC_LIBS += dcn10
-
+> folder. Notice that we have the PPC64 in the DML Makefile:
+>
+> https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/display/dc/dml/Makefile
+>
+> Could you share what you see without your patch in the
+> amd-staging-drm-next? Also:
+> * Are you using cross-compilation? If so, could you share your setup?
+> * Which GCC/Clang version are you using?
+>
+> Thanks
+> Siqueira
+>
