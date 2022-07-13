@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B386A573BBB
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 19:02:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C7C573BBD
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 19:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8CE94E09;
-	Wed, 13 Jul 2022 17:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D3E95392;
+	Wed, 13 Jul 2022 17:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
  (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF1A992DC0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jul 2022 17:02:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BE6C92DC0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jul 2022 17:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=YG7JwTQElXGxlQE+F+Gk/KbyU9583rJi4AhWrT4sipU=;
- b=B+IbUQECfkNVcTINZiDdxJb+529YFfBQ/Nf0Nv9DpLMt6p9nUBum3irFC+sUI1GUqe49iwi3OQy+J
- aLaV1z0x8SXWpvRXWPiF7dWiMk2GB8i3RwaJD9sdEsWsi4USxqC+BPdla9yVDA+YdcOhes0nV5+MpH
- fQQzqLZZKuNTyiw2KMaxvm2joWBkkYF4Wgxj/yqnBbTisIVkUGM8UgjRBfaGQgeRRENuNJBE1cu1xg
- EL8xv7VdLdTrJB+I2nktyEzHc3x/pyF+3MR/v/yg3TENK/LS4wLSq8AX6Z1Uik4UGY34+9pkJKqK6T
- eb6i+AyjyuZ3Rk0ftqq6PAQ0BqQ+vKw==
+ bh=Qynaikdtb1ctt+pEGzFCC1/fED6Jpuzk1VhIB7z8Xtk=;
+ b=kxmrfky8eNW3c+rLdSHyQC5F53TmUs0jG8+4CjWhKzKSbW9QHVzrRyeNZmjeEbYhr6T50nqzD3jC7
+ khLcfHyiKKIdIZ8o5z2U2rKZ5y0TyAGKmeHjVVtH5/Y+xRsG49rduNinTEmwuBFh/F4q+lZKOVm4eD
+ BEWPetRO36r77PbzJy4p290RfvdEEWq1Tkh1tUz24fkL5KeMKWDI50UkhUuyNkXEBaTEDkHdvg8G48
+ +5eK4UkS2CSlkGjU6w860GN77WVy5tz8ja+r3v3kpgShedvaFgeINlnXOpApwiSrPYCahhDGPBste2
+ vRvJAGE8qwVZxiXCmTDlP9QV03NBUCg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=YG7JwTQElXGxlQE+F+Gk/KbyU9583rJi4AhWrT4sipU=;
- b=VwRxx24a/DvNBf4qVhD+2RvqE5B7Qiw8RDH1HwGL/PsNY8Flb77kvXEeiUjOYR2qhd+G0TcCR2xQD
- Su0+K/rCg==
-X-HalOne-Cookie: 011f563263a420a77234ee4a5fc5bf64b3679131
-X-HalOne-ID: 91c5c72b-02cd-11ed-be7e-d0431ea8bb03
+ bh=Qynaikdtb1ctt+pEGzFCC1/fED6Jpuzk1VhIB7z8Xtk=;
+ b=ZvC8MT7oqI4jV16yf/kbohgvgzaPgF4pTUrKVkf1GBLy+fynw+I4ul/JMAfg0XwkBmHPPBvx1Aq5t
+ R5wOMe2Bw==
+X-HalOne-Cookie: 3902332e1fb68f6af97e09341684e51e07e7b22b
+X-HalOne-ID: 929bf946-02cd-11ed-be7e-d0431ea8bb03
 Received: from mailproxy3.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 91c5c72b-02cd-11ed-be7e-d0431ea8bb03;
- Wed, 13 Jul 2022 17:02:25 +0000 (UTC)
+ id 929bf946-02cd-11ed-be7e-d0431ea8bb03;
+ Wed, 13 Jul 2022 17:02:27 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 09/13] drm/via: Embed via_drv.h in via_dri1
-Date: Wed, 13 Jul 2022 19:01:58 +0200
-Message-Id: <20220713170202.1798216-10-sam@ravnborg.org>
+Subject: [PATCH v2 10/13] drm/via: Update to the latest via_3d_reg header
+Date: Wed, 13 Jul 2022 19:01:59 +0200
+Message-Id: <20220713170202.1798216-11-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220713170202.1798216-1-sam@ravnborg.org>
 References: <20220713170202.1798216-1-sam@ravnborg.org>
@@ -64,536 +64,529 @@ Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With this change the driver is now a signle file driver.
-The only remaning heder file describes the HW and can be shared with the
-new openchrome driver.
+Updated the 3d_reg header file to match what is used by the openchrome
+driver.
+This verifies that the two drivers can use the same header file.
+
+The file is a verbatim copy from the openchrome repo - a few style
+issues will be fixed in following commits.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>
 ---
- drivers/gpu/drm/via/via_dri1.c | 229 +++++++++++++++++++++++++++-
- drivers/gpu/drm/via/via_drv.h  | 265 ---------------------------------
- 2 files changed, 228 insertions(+), 266 deletions(-)
- delete mode 100644 drivers/gpu/drm/via/via_drv.h
+ drivers/gpu/drm/via/via_3d_reg.h | 395 ++++++++++++++++++++++++-------
+ 1 file changed, 304 insertions(+), 91 deletions(-)
 
-diff --git a/drivers/gpu/drm/via/via_dri1.c b/drivers/gpu/drm/via/via_dri1.c
-index f9285cc3e1c7..d695d9291ece 100644
---- a/drivers/gpu/drm/via/via_dri1.c
-+++ b/drivers/gpu/drm/via/via_dri1.c
-@@ -36,13 +36,240 @@
- 
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_ioctl.h>
-+#include <drm/drm_legacy.h>
-+#include <drm/drm_mm.h>
- #include <drm/drm_pciids.h>
-+#include <drm/drm_print.h>
- #include <drm/drm_vblank.h>
- #include <drm/via_drm.h>
- 
--#include "via_drv.h"
- #include "via_3d_reg.h"
- 
-+#define DRIVER_AUTHOR	"Various"
-+
-+#define DRIVER_NAME		"via"
-+#define DRIVER_DESC		"VIA Unichrome / Pro"
-+#define DRIVER_DATE		"20070202"
-+
-+#define DRIVER_MAJOR		2
-+#define DRIVER_MINOR		11
-+#define DRIVER_PATCHLEVEL	1
-+
-+typedef enum {
-+	no_sequence = 0,
-+	z_address,
-+	dest_address,
-+	tex_address
-+} drm_via_sequence_t;
-+
-+typedef struct {
-+	unsigned texture;
-+	uint32_t z_addr;
-+	uint32_t d_addr;
-+	uint32_t t_addr[2][10];
-+	uint32_t pitch[2][10];
-+	uint32_t height[2][10];
-+	uint32_t tex_level_lo[2];
-+	uint32_t tex_level_hi[2];
-+	uint32_t tex_palette_size[2];
-+	uint32_t tex_npot[2];
-+	drm_via_sequence_t unfinished;
-+	int agp_texture;
-+	int multitex;
-+	struct drm_device *dev;
-+	drm_local_map_t *map_cache;
-+	uint32_t vertex_count;
-+	int agp;
-+	const uint32_t *buf_start;
-+} drm_via_state_t;
-+
-+#define VIA_PCI_BUF_SIZE 60000
-+#define VIA_FIRE_BUF_SIZE  1024
-+#define VIA_NUM_IRQS 4
-+
-+
-+#define VIA_NUM_BLIT_ENGINES 2
-+#define VIA_NUM_BLIT_SLOTS 8
-+
-+struct _drm_via_descriptor;
-+
-+typedef struct _drm_via_sg_info {
-+	struct page **pages;
-+	unsigned long num_pages;
-+	struct _drm_via_descriptor **desc_pages;
-+	int num_desc_pages;
-+	int num_desc;
-+	enum dma_data_direction direction;
-+	unsigned char *bounce_buffer;
-+	dma_addr_t chain_start;
-+	uint32_t free_on_sequence;
-+	unsigned int descriptors_per_page;
-+	int aborted;
-+	enum {
-+		dr_via_device_mapped,
-+		dr_via_desc_pages_alloc,
-+		dr_via_pages_locked,
-+		dr_via_pages_alloc,
-+		dr_via_sg_init
-+	} state;
-+} drm_via_sg_info_t;
-+
-+typedef struct _drm_via_blitq {
-+	struct drm_device *dev;
-+	uint32_t cur_blit_handle;
-+	uint32_t done_blit_handle;
-+	unsigned serviced;
-+	unsigned head;
-+	unsigned cur;
-+	unsigned num_free;
-+	unsigned num_outstanding;
-+	unsigned long end;
-+	int aborting;
-+	int is_active;
-+	drm_via_sg_info_t *blits[VIA_NUM_BLIT_SLOTS];
-+	spinlock_t blit_lock;
-+	wait_queue_head_t blit_queue[VIA_NUM_BLIT_SLOTS];
-+	wait_queue_head_t busy_queue;
-+	struct work_struct wq;
-+	struct timer_list poll_timer;
-+} drm_via_blitq_t;
-+
-+typedef struct drm_via_ring_buffer {
-+	drm_local_map_t map;
-+	char *virtual_start;
-+} drm_via_ring_buffer_t;
-+
-+typedef uint32_t maskarray_t[5];
-+
-+typedef struct drm_via_irq {
-+	atomic_t irq_received;
-+	uint32_t pending_mask;
-+	uint32_t enable_mask;
-+	wait_queue_head_t irq_queue;
-+} drm_via_irq_t;
-+
-+typedef struct drm_via_private {
-+	drm_via_sarea_t *sarea_priv;
-+	drm_local_map_t *sarea;
-+	drm_local_map_t *fb;
-+	drm_local_map_t *mmio;
-+	unsigned long agpAddr;
-+	wait_queue_head_t decoder_queue[VIA_NR_XVMC_LOCKS];
-+	char *dma_ptr;
-+	unsigned int dma_low;
-+	unsigned int dma_high;
-+	unsigned int dma_offset;
-+	uint32_t dma_wrap;
-+	volatile uint32_t *last_pause_ptr;
-+	volatile uint32_t *hw_addr_ptr;
-+	drm_via_ring_buffer_t ring;
-+	ktime_t last_vblank;
-+	int last_vblank_valid;
-+	ktime_t nsec_per_vblank;
-+	atomic_t vbl_received;
-+	drm_via_state_t hc_state;
-+	char pci_buf[VIA_PCI_BUF_SIZE];
-+	const uint32_t *fire_offsets[VIA_FIRE_BUF_SIZE];
-+	uint32_t num_fire_offsets;
-+	int chipset;
-+	drm_via_irq_t via_irqs[VIA_NUM_IRQS];
-+	unsigned num_irqs;
-+	maskarray_t *irq_masks;
-+	uint32_t irq_enable_mask;
-+	uint32_t irq_pending_mask;
-+	int *irq_map;
-+	unsigned int idle_fault;
-+	int vram_initialized;
-+	struct drm_mm vram_mm;
-+	int agp_initialized;
-+	struct drm_mm agp_mm;
-+	/** Mapping of userspace keys to mm objects */
-+	struct idr object_idr;
-+	unsigned long vram_offset;
-+	unsigned long agp_offset;
-+	drm_via_blitq_t blit_queues[VIA_NUM_BLIT_ENGINES];
-+	uint32_t dma_diff;
-+} drm_via_private_t;
-+
-+struct via_file_private {
-+	struct list_head obj_list;
-+};
-+
-+enum via_family {
-+  VIA_OTHER = 0,     /* Baseline */
-+  VIA_PRO_GROUP_A,   /* Another video engine and DMA commands */
-+  VIA_DX9_0          /* Same video as pro_group_a, but 3D is unsupported */
-+};
-+
-+/* VIA MMIO register access */
-+static inline u32 via_read(struct drm_via_private *dev_priv, u32 reg)
-+{
-+	return readl((void __iomem *)(dev_priv->mmio->handle + reg));
-+}
-+
-+static inline void via_write(struct drm_via_private *dev_priv, u32 reg,
-+			     u32 val)
-+{
-+	writel(val, (void __iomem *)(dev_priv->mmio->handle + reg));
-+}
-+
-+static inline void via_write8(struct drm_via_private *dev_priv, u32 reg,
-+			      u32 val)
-+{
-+	writeb(val, (void __iomem *)(dev_priv->mmio->handle + reg));
-+}
-+
-+static inline void via_write8_mask(struct drm_via_private *dev_priv,
-+				   u32 reg, u32 mask, u32 val)
-+{
-+	u32 tmp;
-+
-+	tmp = readb((void __iomem *)(dev_priv->mmio->handle + reg));
-+	tmp = (tmp & ~mask) | (val & mask);
-+	writeb(tmp, (void __iomem *)(dev_priv->mmio->handle + reg));
-+}
-+
-+/*
-+ * Poll in a loop waiting for 'contidition' to be true.
-+ * Note: A direct replacement with wait_event_interruptible_timeout()
-+ *       will not work unless driver is updated to emit wake_up()
-+ *       in relevant places that can impact the 'condition'
-+ *
-+ * Returns:
-+ *   ret keeps current value if 'condition' becomes true
-+ *   ret = -BUSY if timeout happens
-+ *   ret = -EINTR if a signal interrupted the waiting period
-+ */
-+#define VIA_WAIT_ON( ret, queue, timeout, condition )		\
-+do {								\
-+	DECLARE_WAITQUEUE(entry, current);			\
-+	unsigned long end = jiffies + (timeout);		\
-+	add_wait_queue(&(queue), &entry);			\
-+								\
-+	for (;;) {						\
-+		__set_current_state(TASK_INTERRUPTIBLE);	\
-+		if (condition)					\
-+			break;					\
-+		if (time_after_eq(jiffies, end)) {		\
-+			ret = -EBUSY;				\
-+			break;					\
-+		}						\
-+		schedule_timeout((HZ/100 > 1) ? HZ/100 : 1);	\
-+		if (signal_pending(current)) {			\
-+			ret = -EINTR;				\
-+			break;					\
-+		}						\
-+	}							\
-+	__set_current_state(TASK_RUNNING);			\
-+	remove_wait_queue(&(queue), &entry);			\
-+} while (0)
-+
-+int via_do_cleanup_map(struct drm_device *dev);
-+
-+int via_dma_cleanup(struct drm_device *dev);
-+int via_driver_dma_quiescent(struct drm_device *dev);
-+
- #define CMDBUF_ALIGNMENT_SIZE   (0x100)
- #define CMDBUF_ALIGNMENT_MASK   (0x0ff)
- 
-diff --git a/drivers/gpu/drm/via/via_drv.h b/drivers/gpu/drm/via/via_drv.h
-deleted file mode 100644
-index 640a7701f606..000000000000
---- a/drivers/gpu/drm/via/via_drv.h
-+++ /dev/null
-@@ -1,265 +0,0 @@
--/*
+diff --git a/drivers/gpu/drm/via/via_3d_reg.h b/drivers/gpu/drm/via/via_3d_reg.h
+index 462375d543b9..fc74647f512a 100644
+--- a/drivers/gpu/drm/via/via_3d_reg.h
++++ b/drivers/gpu/drm/via/via_3d_reg.h
+@@ -1,6 +1,6 @@
+ /*
 - * Copyright 1998-2003 VIA Technologies, Inc. All Rights Reserved.
 - * Copyright 2001-2003 S3 Graphics, Inc. All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sub license,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * Copyright 1998-2011 VIA Technologies, Inc. All Rights Reserved.
++ * Copyright 2001-2011 S3 Graphics, Inc. All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -16,7 +16,7 @@
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
 - * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- */
--#ifndef _VIA_DRV_H_
--#define _VIA_DRV_H_
--
--#include <linux/dma-mapping.h>
--#include <linux/irqreturn.h>
--#include <linux/jiffies.h>
--#include <linux/sched.h>
--#include <linux/sched/signal.h>
--#include <linux/wait.h>
--
--#include <drm/drm_ioctl.h>
--#include <drm/drm_legacy.h>
--#include <drm/drm_mm.h>
--#include <drm/via_drm.h>
--
--#define DRIVER_AUTHOR	"Various"
--
--#define DRIVER_NAME		"via"
--#define DRIVER_DESC		"VIA Unichrome / Pro"
--#define DRIVER_DATE		"20070202"
--
--#define DRIVER_MAJOR		2
--#define DRIVER_MINOR		11
--#define DRIVER_PATCHLEVEL	1
--
--typedef enum {
--	no_sequence = 0,
--	z_address,
--	dest_address,
--	tex_address
--} drm_via_sequence_t;
--
--typedef struct {
--	unsigned texture;
--	uint32_t z_addr;
--	uint32_t d_addr;
--	uint32_t t_addr[2][10];
--	uint32_t pitch[2][10];
--	uint32_t height[2][10];
--	uint32_t tex_level_lo[2];
--	uint32_t tex_level_hi[2];
--	uint32_t tex_palette_size[2];
--	uint32_t tex_npot[2];
--	drm_via_sequence_t unfinished;
--	int agp_texture;
--	int multitex;
--	struct drm_device *dev;
--	drm_local_map_t *map_cache;
--	uint32_t vertex_count;
--	int agp;
--	const uint32_t *buf_start;
--} drm_via_state_t;
--
--#define VIA_PCI_BUF_SIZE 60000
--#define VIA_FIRE_BUF_SIZE  1024
--#define VIA_NUM_IRQS 4
--
--
--#define VIA_NUM_BLIT_ENGINES 2
--#define VIA_NUM_BLIT_SLOTS 8
--
--struct _drm_via_descriptor;
--
--typedef struct _drm_via_sg_info {
--	struct page **pages;
--	unsigned long num_pages;
--	struct _drm_via_descriptor **desc_pages;
--	int num_desc_pages;
--	int num_desc;
--	enum dma_data_direction direction;
--	unsigned char *bounce_buffer;
--	dma_addr_t chain_start;
--	uint32_t free_on_sequence;
--	unsigned int descriptors_per_page;
--	int aborted;
--	enum {
--		dr_via_device_mapped,
--		dr_via_desc_pages_alloc,
--		dr_via_pages_locked,
--		dr_via_pages_alloc,
--		dr_via_sg_init
--	} state;
--} drm_via_sg_info_t;
--
--typedef struct _drm_via_blitq {
--	struct drm_device *dev;
--	uint32_t cur_blit_handle;
--	uint32_t done_blit_handle;
--	unsigned serviced;
--	unsigned head;
--	unsigned cur;
--	unsigned num_free;
--	unsigned num_outstanding;
--	unsigned long end;
--	int aborting;
--	int is_active;
--	drm_via_sg_info_t *blits[VIA_NUM_BLIT_SLOTS];
--	spinlock_t blit_lock;
--	wait_queue_head_t blit_queue[VIA_NUM_BLIT_SLOTS];
--	wait_queue_head_t busy_queue;
--	struct work_struct wq;
--	struct timer_list poll_timer;
--} drm_via_blitq_t;
--
--typedef struct drm_via_ring_buffer {
--	drm_local_map_t map;
--	char *virtual_start;
--} drm_via_ring_buffer_t;
--
--typedef uint32_t maskarray_t[5];
--
--typedef struct drm_via_irq {
--	atomic_t irq_received;
--	uint32_t pending_mask;
--	uint32_t enable_mask;
--	wait_queue_head_t irq_queue;
--} drm_via_irq_t;
--
--typedef struct drm_via_private {
--	drm_via_sarea_t *sarea_priv;
--	drm_local_map_t *sarea;
--	drm_local_map_t *fb;
--	drm_local_map_t *mmio;
--	unsigned long agpAddr;
--	wait_queue_head_t decoder_queue[VIA_NR_XVMC_LOCKS];
--	char *dma_ptr;
--	unsigned int dma_low;
--	unsigned int dma_high;
--	unsigned int dma_offset;
--	uint32_t dma_wrap;
--	volatile uint32_t *last_pause_ptr;
--	volatile uint32_t *hw_addr_ptr;
--	drm_via_ring_buffer_t ring;
--	ktime_t last_vblank;
--	int last_vblank_valid;
--	ktime_t nsec_per_vblank;
--	atomic_t vbl_received;
--	drm_via_state_t hc_state;
--	char pci_buf[VIA_PCI_BUF_SIZE];
--	const uint32_t *fire_offsets[VIA_FIRE_BUF_SIZE];
--	uint32_t num_fire_offsets;
--	int chipset;
--	drm_via_irq_t via_irqs[VIA_NUM_IRQS];
--	unsigned num_irqs;
--	maskarray_t *irq_masks;
--	uint32_t irq_enable_mask;
--	uint32_t irq_pending_mask;
--	int *irq_map;
--	unsigned int idle_fault;
--	int vram_initialized;
--	struct drm_mm vram_mm;
--	int agp_initialized;
--	struct drm_mm agp_mm;
--	/** Mapping of userspace keys to mm objects */
--	struct idr object_idr;
--	unsigned long vram_offset;
--	unsigned long agp_offset;
--	drm_via_blitq_t blit_queues[VIA_NUM_BLIT_ENGINES];
--	uint32_t dma_diff;
--} drm_via_private_t;
--
--struct via_file_private {
--	struct list_head obj_list;
--};
--
--enum via_family {
--  VIA_OTHER = 0,     /* Baseline */
--  VIA_PRO_GROUP_A,   /* Another video engine and DMA commands */
--  VIA_DX9_0          /* Same video as pro_group_a, but 3D is unsupported */
--};
--
--/* VIA MMIO register access */
--static inline u32 via_read(struct drm_via_private *dev_priv, u32 reg)
--{
--	return readl((void __iomem *)(dev_priv->mmio->handle + reg));
--}
--
--static inline void via_write(struct drm_via_private *dev_priv, u32 reg,
--			     u32 val)
--{
--	writel(val, (void __iomem *)(dev_priv->mmio->handle + reg));
--}
--
--static inline void via_write8(struct drm_via_private *dev_priv, u32 reg,
--			      u32 val)
--{
--	writeb(val, (void __iomem *)(dev_priv->mmio->handle + reg));
--}
--
--static inline void via_write8_mask(struct drm_via_private *dev_priv,
--				   u32 reg, u32 mask, u32 val)
--{
--	u32 tmp;
--
--	tmp = readb((void __iomem *)(dev_priv->mmio->handle + reg));
--	tmp = (tmp & ~mask) | (val & mask);
--	writeb(tmp, (void __iomem *)(dev_priv->mmio->handle + reg));
--}
--
--/*
-- * Poll in a loop waiting for 'contidition' to be true.
-- * Note: A direct replacement with wait_event_interruptible_timeout()
-- *       will not work unless driver is updated to emit wake_up()
-- *       in relevant places that can impact the 'condition'
-- *
-- * Returns:
-- *   ret keeps current value if 'condition' becomes true
-- *   ret = -BUSY if timeout happens
-- *   ret = -EINTR if a signal interrupted the waiting period
-- */
--#define VIA_WAIT_ON( ret, queue, timeout, condition )		\
--do {								\
--	DECLARE_WAITQUEUE(entry, current);			\
--	unsigned long end = jiffies + (timeout);		\
--	add_wait_queue(&(queue), &entry);			\
--								\
--	for (;;) {						\
--		__set_current_state(TASK_INTERRUPTIBLE);	\
--		if (condition)					\
--			break;					\
--		if (time_after_eq(jiffies, end)) {		\
--			ret = -EBUSY;				\
--			break;					\
--		}						\
--		schedule_timeout((HZ/100 > 1) ? HZ/100 : 1);	\
--		if (signal_pending(current)) {			\
--			ret = -EINTR;				\
--			break;					\
--		}						\
--	}							\
--	__set_current_state(TASK_RUNNING);			\
--	remove_wait_queue(&(queue), &entry);			\
--} while (0)
--
--extern int via_init_context(struct drm_device *dev, int context);
--
--extern int via_do_cleanup_map(struct drm_device *dev);
--
--extern int via_dma_cleanup(struct drm_device *dev);
--extern int via_driver_dma_quiescent(struct drm_device *dev);
--
--#endif
++ * THE AUTHOR(S) OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+  * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  * DEALINGS IN THE SOFTWARE.
+@@ -50,6 +50,7 @@
+ #define HC_ParaType_Palette     0x0003
+ #define HC_ParaType_PreCR       0x0010
+ #define HC_ParaType_Auto        0x00fe
++#define INV_ParaType_Dummy          0x00300000
+ 
+ /* Transmission Space
+  */
+@@ -176,7 +177,7 @@
+ /* Command
+  * Command A
+  */
+-#define HC_HCmdHeader_MASK      0xfe000000	/*0xffe00000 */
++#define HC_HCmdHeader_MASK      0xfe000000  /*0xffe00000 */
+ #define HC_HE3Fire_MASK         0x00100000
+ #define HC_HPMType_MASK         0x000f0000
+ #define HC_HEFlag_MASK          0x0000e000
+@@ -236,6 +237,8 @@
+ /* Enable Setting
+  */
+ #define HC_SubA_HEnable         0x0000
++#define HC_HenForce1P_MASK      0x00800000  /* [Force 1 Pipe] */
++#define HC_HenZDCheck_MASK      0x00400000  /* [Z dirty bit settings] */
+ #define HC_HenTXEnvMap_MASK     0x00200000
+ #define HC_HenVertexCNT_MASK    0x00100000
+ #define HC_HenCPUDAZ_MASK       0x00080000
+@@ -682,6 +685,12 @@
+ #define HC_FogDenst_MASK        0x001fff00
+ #define HC_FogEndL_MASK         0x000000ff
+ 
++/* Texture subtype definitions
++ */
++#define HC_SubType_Samp0        0x00000020
++#define HC_SubType_Samp1        0x00000021
++
++
+ /* Texture subtype definitions
+  */
+ #define HC_SubType_Tex0         0x00000000
+@@ -762,7 +771,13 @@
+ #define HC_SubA_HTXnBumpM10     0x0092
+ #define HC_SubA_HTXnBumpM11     0x0093
+ #define HC_SubA_HTXnLScale      0x0094
+-#define HC_SubA_HTXSMD          0x0000
++
++#define HC_SubA_HTXSMD             0x0000
++#define HC_SubA_HTXYUV2RGB1        0x0001
++#define HC_SubA_HTXYUV2RGB2        0x0002
++#define HC_SubA_HTXYUV2RGB3        0x0003
++#define HTXYUV2RGB4BT601           (1<<23)
++#define HTXYUV2RGB4BT709           (1<<22)
+ /* HC_SubA_HTXnL012BasH    0x0020
+  */
+ #define HC_HTXnL0BasH_MASK      0x000000ff
+@@ -965,6 +980,7 @@
+ #define HC_HTXnFM_Lum           0x00100000
+ #define HC_HTXnFM_Alpha         0x00180000
+ #define HC_HTXnFM_DX            0x00280000
++#define HC_HTXnFM_YUV           0x00300000
+ #define HC_HTXnFM_ARGB16        0x00880000
+ #define HC_HTXnFM_ARGB32        0x00980000
+ #define HC_HTXnFM_ABGR16        0x00a80000
+@@ -995,6 +1011,12 @@
+ #define HC_HTXnFM_DX1           (HC_HTXnFM_DX        | 0x00010000)
+ #define HC_HTXnFM_DX23          (HC_HTXnFM_DX        | 0x00020000)
+ #define HC_HTXnFM_DX45          (HC_HTXnFM_DX        | 0x00030000)
++/* YUV package mode */
++#define HC_HTXnFM_YUY2          (HC_HTXnFM_YUV           | 0x00000000)
++/* YUV planner mode */
++#define HC_HTXnFM_YV12          (HC_HTXnFM_YUV           | 0x00040000)
++/* YUV planner mode */
++#define HC_HTXnFM_IYUV          (HC_HTXnFM_YUV           | 0x00040000)
+ #define HC_HTXnFM_RGB555        (HC_HTXnFM_ARGB16    | 0x00000000)
+ #define HC_HTXnFM_RGB565        (HC_HTXnFM_ARGB16    | 0x00010000)
+ #define HC_HTXnFM_ARGB1555      (HC_HTXnFM_ARGB16    | 0x00020000)
+@@ -1023,6 +1045,13 @@
+ #define HC_HTXnLoc_Local        0x00000000
+ #define HC_HTXnLoc_Sys          0x00000002
+ #define HC_HTXnLoc_AGP          0x00000003
++
++/* Video Texture */
++#define HC_HTXnYUV2RGBMode_RGB          0x00000000
++#define HC_HTXnYUV2RGBMode_SDTV         0x00000001
++#define HC_HTXnYUV2RGBMode_HDTV         0x00000002
++#define HC_HTXnYUV2RGBMode_TABLE        0x00000003
++
+ /* HC_SubA_HTXnTRAH        0x007f
+  */
+ #define HC_HTXnTRAH_MASK        0x00ff0000
+@@ -1330,9 +1359,9 @@
+  */
+ #define HC_HFthRTXA_MASK        0x000000ff
+ 
+-/******************************************************************************
++/****************************************************************************
+ ** Define the Halcyon Internal register access constants. For simulator only.
+-******************************************************************************/
++****************************************************************************/
+ #define HC_SIMA_HAGPBstL        0x0000
+ #define HC_SIMA_HAGPBendL       0x0001
+ #define HC_SIMA_HAGPCMNT        0x0002
+@@ -1477,80 +1506,154 @@
+ #define HC_SIMA_TX0TX1_OFF      0x0050
+ /*---- start of texture 1 setting ----
+  */
+-#define HC_SIMA_HTX1L0BasL      (HC_SIMA_HTX0L0BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L1BasL      (HC_SIMA_HTX0L1BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L2BasL      (HC_SIMA_HTX0L2BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L3BasL      (HC_SIMA_HTX0L3BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L4BasL      (HC_SIMA_HTX0L4BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L5BasL      (HC_SIMA_HTX0L5BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6BasL      (HC_SIMA_HTX0L6BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L7BasL      (HC_SIMA_HTX0L7BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L8BasL      (HC_SIMA_HTX0L8BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L9BasL      (HC_SIMA_HTX0L9BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LaBasL      (HC_SIMA_HTX0LaBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LbBasL      (HC_SIMA_HTX0LbBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LcBasL      (HC_SIMA_HTX0LcBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LdBasL      (HC_SIMA_HTX0LdBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LeBasL      (HC_SIMA_HTX0LeBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LfBasL      (HC_SIMA_HTX0LfBasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L10BasL     (HC_SIMA_HTX0L10BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L11BasL     (HC_SIMA_HTX0L11BasL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L012BasH    (HC_SIMA_HTX0L012BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L345BasH    (HC_SIMA_HTX0L345BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L678BasH    (HC_SIMA_HTX0L678BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L9abBasH    (HC_SIMA_HTX0L9abBasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LcdeBasH    (HC_SIMA_HTX0LcdeBasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1Lf1011BasH  (HC_SIMA_HTX0Lf1011BasH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0Pit       (HC_SIMA_HTX0L0Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L1Pit       (HC_SIMA_HTX0L1Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L2Pit       (HC_SIMA_HTX0L2Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L3Pit       (HC_SIMA_HTX0L3Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L4Pit       (HC_SIMA_HTX0L4Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L5Pit       (HC_SIMA_HTX0L5Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6Pit       (HC_SIMA_HTX0L6Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L7Pit       (HC_SIMA_HTX0L7Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L8Pit       (HC_SIMA_HTX0L8Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L9Pit       (HC_SIMA_HTX0L9Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LaPit       (HC_SIMA_HTX0LaPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LbPit       (HC_SIMA_HTX0LbPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LcPit       (HC_SIMA_HTX0LcPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LdPit       (HC_SIMA_HTX0LdPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LePit       (HC_SIMA_HTX0LePit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LfPit       (HC_SIMA_HTX0LfPit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L10Pit      (HC_SIMA_HTX0L10Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L11Pit      (HC_SIMA_HTX0L11Pit + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0_5WE      (HC_SIMA_HTX0L0_5WE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6_bWE      (HC_SIMA_HTX0L6_bWE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1Lc_11WE     (HC_SIMA_HTX0Lc_11WE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0_5HE      (HC_SIMA_HTX0L0_5HE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L6_bHE      (HC_SIMA_HTX0L6_bHE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1Lc_11HE      (HC_SIMA_HTX0Lc_11HE + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1L0OS        (HC_SIMA_HTX0L0OS + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TB          (HC_SIMA_HTX0TB + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1MPMD        (HC_SIMA_HTX0MPMD + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1CLODu       (HC_SIMA_HTX0CLODu + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1FM          (HC_SIMA_HTX0FM + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TRCH        (HC_SIMA_HTX0TRCH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TRCL        (HC_SIMA_HTX0TRCL + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBC         (HC_SIMA_HTX0TBC + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TRAH        (HC_SIMA_HTX0TRAH + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LTC         (HC_SIMA_HTX0LTC + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LTA         (HC_SIMA_HTX0LTA + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLCsat     (HC_SIMA_HTX0TBLCsat + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLCop      (HC_SIMA_HTX0TBLCop + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLMPfog    (HC_SIMA_HTX0TBLMPfog + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLAsat     (HC_SIMA_HTX0TBLAsat + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCa      (HC_SIMA_HTX0TBLRCa + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCb      (HC_SIMA_HTX0TBLRCb + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCc      (HC_SIMA_HTX0TBLRCc + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRCbias   (HC_SIMA_HTX0TBLRCbias + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRAa      (HC_SIMA_HTX0TBLRAa + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1TBLRFog     (HC_SIMA_HTX0TBLRFog + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM00     (HC_SIMA_HTX0BumpM00 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM01     (HC_SIMA_HTX0BumpM01 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM10     (HC_SIMA_HTX0BumpM10 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1BumpM11     (HC_SIMA_HTX0BumpM11 + HC_SIMA_TX0TX1_OFF)
+-#define HC_SIMA_HTX1LScale      (HC_SIMA_HTX0LScale + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0BasL      \
++    (HC_SIMA_HTX0L0BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L1BasL      \
++    (HC_SIMA_HTX0L1BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L2BasL      \
++    (HC_SIMA_HTX0L2BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L3BasL      \
++    (HC_SIMA_HTX0L3BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L4BasL      (\
++    HC_SIMA_HTX0L4BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L5BasL      \
++    (HC_SIMA_HTX0L5BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6BasL      \
++    (HC_SIMA_HTX0L6BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L7BasL      \
++    (HC_SIMA_HTX0L7BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L8BasL      \
++    (HC_SIMA_HTX0L8BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L9BasL      \
++    (HC_SIMA_HTX0L9BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LaBasL      \
++    (HC_SIMA_HTX0LaBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LbBasL      \
++    (HC_SIMA_HTX0LbBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LcBasL      \
++    (HC_SIMA_HTX0LcBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LdBasL      \
++    (HC_SIMA_HTX0LdBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LeBasL      \
++    (HC_SIMA_HTX0LeBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LfBasL      \
++    (HC_SIMA_HTX0LfBasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L10BasL     \
++    (HC_SIMA_HTX0L10BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L11BasL     \
++    (HC_SIMA_HTX0L11BasL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L012BasH    \
++    (HC_SIMA_HTX0L012BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L345BasH    \
++    (HC_SIMA_HTX0L345BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L678BasH    \
++    (HC_SIMA_HTX0L678BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L9abBasH    \
++    (HC_SIMA_HTX0L9abBasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LcdeBasH    \
++    (HC_SIMA_HTX0LcdeBasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1Lf1011BasH  \
++    (HC_SIMA_HTX0Lf1011BasH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0Pit       \
++    (HC_SIMA_HTX0L0Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L1Pit       \
++    (HC_SIMA_HTX0L1Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L2Pit       \
++    (HC_SIMA_HTX0L2Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L3Pit       \
++    (HC_SIMA_HTX0L3Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L4Pit       \
++    (HC_SIMA_HTX0L4Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L5Pit       \
++    (HC_SIMA_HTX0L5Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6Pit       \
++    (HC_SIMA_HTX0L6Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L7Pit       \
++    (HC_SIMA_HTX0L7Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L8Pit       \
++    (HC_SIMA_HTX0L8Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L9Pit       \
++    (HC_SIMA_HTX0L9Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LaPit       \
++    (HC_SIMA_HTX0LaPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LbPit       \
++    (HC_SIMA_HTX0LbPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LcPit       \
++    (HC_SIMA_HTX0LcPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LdPit       \
++    (HC_SIMA_HTX0LdPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LePit       \
++    (HC_SIMA_HTX0LePit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LfPit       \
++    (HC_SIMA_HTX0LfPit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L10Pit      \
++    (HC_SIMA_HTX0L10Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L11Pit      \
++    (HC_SIMA_HTX0L11Pit + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0_5WE      \
++    (HC_SIMA_HTX0L0_5WE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6_bWE      \
++    (HC_SIMA_HTX0L6_bWE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1Lc_11WE     \
++    (HC_SIMA_HTX0Lc_11WE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0_5HE      \
++    (HC_SIMA_HTX0L0_5HE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L6_bHE      \
++    (HC_SIMA_HTX0L6_bHE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1Lc_11HE      \
++    (HC_SIMA_HTX0Lc_11HE + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1L0OS        \
++    (HC_SIMA_HTX0L0OS + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TB          \
++    (HC_SIMA_HTX0TB + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1MPMD        \
++    (HC_SIMA_HTX0MPMD + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1CLODu       \
++    (HC_SIMA_HTX0CLODu + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1FM          \
++    (HC_SIMA_HTX0FM + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TRCH        \
++    (HC_SIMA_HTX0TRCH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TRCL        \
++    (HC_SIMA_HTX0TRCL + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBC         \
++    (HC_SIMA_HTX0TBC + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TRAH        \
++    (HC_SIMA_HTX0TRAH + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LTC         \
++    (HC_SIMA_HTX0LTC + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LTA         \
++    (HC_SIMA_HTX0LTA + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLCsat     \
++    (HC_SIMA_HTX0TBLCsat + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLCop      \
++    (HC_SIMA_HTX0TBLCop + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLMPfog    \
++    (HC_SIMA_HTX0TBLMPfog + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLAsat     \
++    (HC_SIMA_HTX0TBLAsat + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCa      \
++    (HC_SIMA_HTX0TBLRCa + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCb      \
++    (HC_SIMA_HTX0TBLRCb + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCc      \
++    (HC_SIMA_HTX0TBLRCc + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRCbias   \
++    (HC_SIMA_HTX0TBLRCbias + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRAa      \
++    (HC_SIMA_HTX0TBLRAa + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1TBLRFog     \
++    (HC_SIMA_HTX0TBLRFog + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM00     \
++    (HC_SIMA_HTX0BumpM00 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM01     \
++    (HC_SIMA_HTX0BumpM01 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM10     \
++    (HC_SIMA_HTX0BumpM10 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1BumpM11     \
++    (HC_SIMA_HTX0BumpM11 + HC_SIMA_TX0TX1_OFF)
++#define HC_SIMA_HTX1LScale      \
++    (HC_SIMA_HTX0LScale + HC_SIMA_TX0TX1_OFF)
+ /*---- end of texture 1 setting ---- 0xaf
+  */
+ #define HC_SIMA_HTXSMD          0x00b0
+@@ -1580,9 +1683,9 @@
+ #define HC_SIMA_HRErr           0x0445
+ #define HC_SIMA_FIFOstatus      0x0446
+ 
+-/******************************************************************************
++/****************************************************************************
+ ** Define the AGP command header.
+-******************************************************************************/
++****************************************************************************/
+ #define HC_ACMD_MASK            0xfe000000
+ #define HC_ACMD_SUB_MASK        0x0c000000
+ #define HC_ACMD_HCmdA           0xee000000
+@@ -1605,18 +1708,18 @@
+ #define HC_ACMD_H4COUNT_MASK    0x01fffe00
+ #define HC_ACMD_H4COUNT_SHIFT   9
+ 
+-/********************************************************************************
++/*****************************************************************************
+ ** Define Header
+-********************************************************************************/
+-#define HC_HEADER2		0xF210F110
++*****************************************************************************/
++#define HC_HEADER2        0xF210F110
+ 
+-/********************************************************************************
++/*****************************************************************************
+ ** Define Dummy Value
+-********************************************************************************/
+-#define HC_DUMMY		0xCCCCCCCC
+-/********************************************************************************
++*****************************************************************************/
++#define HC_DUMMY        0xCCCCCCCC
++/*****************************************************************************
+ ** Define for DMA use
+-********************************************************************************/
++*****************************************************************************/
+ #define HALCYON_HEADER2     0XF210F110
+ #define HALCYON_FIRECMD     0XEE100000
+ #define HALCYON_FIREMASK    0XFFF00000
+@@ -1643,8 +1746,118 @@
+ #define HC_HAGPBpID_STOP        0x00000002
+ #define HC_HAGPBpH_MASK         0x00ffffff
+ 
++
+ #define VIA_VIDEO_HEADER5       0xFE040000
+ #define VIA_VIDEO_HEADER6       0xFE050000
+ #define VIA_VIDEO_HEADER7       0xFE060000
+ #define VIA_VIDEOMASK           0xFFFF0000
++
++/*****************************************************************************
++** Define for H5 DMA use
++*****************************************************************************/
++#define H5_HC_DUMMY                    0xCC000000
++
++/* Command Header Type */
++#define INV_DUMMY_MASK		0xFF000000
++#define INV_AGPHeader0              0xFE000000
++#define INV_AGPHeader1              0xFE010000
++#define INV_AGPHeader2              0xFE020000
++#define INV_AGPHeader3              0xFE030000
++#define INV_AGPHeader4              0xFE040000
++#define INV_AGPHeader5              0xFE050000
++#define INV_AGPHeader6              0xFE060000
++#define INV_AGPHeader7              0xFE070000
++#define INV_AGPHeader9              0xFE090000
++#define INV_AGPHeaderA              0xFE0A0000
++#define INV_AGPHeader40             0xFE400000
++#define INV_AGPHeader41             0xFE410000
++#define INV_AGPHeader43             0xFE430000
++#define INV_AGPHeader45             0xFE450000
++#define INV_AGPHeader47             0xFE470000
++#define INV_AGPHeader4A             0xFE4A0000
++#define INV_AGPHeader82             0xFE820000
++#define INV_AGPHeader83             0xFE830000
++#define INV_AGPHeader_MASK          0xFFFF0000
++#define INV_AGPHeader2A             0xFE2A0000
++#define INV_AGPHeader25             0xFE250000
++#define INV_AGPHeader20             0xFE200000
++#define INV_AGPHeader23             0xFE230000
++#define INV_AGPHeaderE2             0xFEE20000
++#define INV_AGPHeaderE3             0xFEE30000
++
++/*Transmission IO Space*/
++#define INV_REG_CR_TRANS            0x041C
++#define INV_REG_CR_BEGIN            0x0420
++#define INV_REG_CR_END              0x0438
++
++#define INV_REG_3D_TRANS            0x043C
++#define INV_REG_3D_BEGIN            0x0440
++#define INV_REG_3D_END              0x06FC
++
++#define INV_ParaType_CmdVdata        0x0000
++
++/* H5 Enable Setting
++ */
++#define INV_HC_SubA_HEnable1        0x00
++
++#define INV_HC_HenAT4ALLRT_MASK     0x00100000
++#define INV_HC_HenATMRT3_MASK       0x00080000
++#define INV_HC_HenATMRT2_MASK       0x00040000
++#define INV_HC_HenATMRT1_MASK       0x00020000
++#define INV_HC_HenATMRT0_MASK        0x00010000
++#define INV_HC_HenSCMRT3_MASK        0x00008000
++#define INV_HC_HenSCMRT2_MASK        0x00004000
++#define INV_HC_HenSCMRT1_MASK        0x00002000
++#define INV_HC_HenSCMRT0_MASK        0x00001000
++#define INV_HC_HenFOGMRT3_MASK        0x00000800
++#define INV_HC_HenFOGMRT2_MASK        0x00000400
++#define INV_HC_HenFOGMRT1_MASK        0x00000200
++#define INV_HC_HenFOGMRT0_MASK        0x00000100
++#define INV_HC_HenABLMRT3_MASK        0x00000080
++#define INV_HC_HenABLMRT2_MASK        0x00000040
++#define INV_HC_HenABLMRT1_MASK        0x00000020
++#define INV_HC_HenABLMRT0_MASK        0x00000010
++#define INV_HC_HenDTMRT3_MASK        0x00000008
++#define INV_HC_HenDTMRT2_MASK        0x00000004
++#define INV_HC_HenDTMRT1_MASK        0x00000002
++#define INV_HC_HenDTMRT0_MASK        0x00000001
++
++#define INV_HC_SubA_HEnable2        0x01
++
++#define INV_HC_HenLUL2DR_MASK         0x00800000
++#define INV_HC_HenLDIAMOND_MASK     0x00400000
++#define INV_HC_HenPSPRITE_MASK         0x00200000
++#define INV_HC_HenC2S_MASK             0x00100000
++#define INV_HC_HenFOGPP_MASK           0x00080000
++#define INV_HC_HenSCPP_MASK           0x00040000
++#define INV_HC_HenCPP_MASK           0x00020000
++#define INV_HC_HenCZ_MASK            0x00002000
++#define INV_HC_HenVC_MASK            0x00001000
++#define INV_HC_HenCL_MASK            0x00000800
++#define INV_HC_HenPS_MASK            0x00000400
++#define INV_HC_HenWCZ_MASK            0x00000200
++#define INV_HC_HenTXCH_MASK            0x00000100
++#define INV_HC_HenBFCULL_MASK        0x00000080
++#define INV_HC_HenCW_MASK            0x00000040
++#define INV_HC_HenAA_MASK            0x00000020
++#define INV_HC_HenST_MASK            0x00000010
++#define INV_HC_HenZT_MASK            0x00000008
++#define INV_HC_HenZW_MASK            0x00000004
++#define INV_HC_HenSP_MASK            0x00000002
++#define INV_HC_HenLP_MASK            0x00000001
++
++/* H5 Miscellaneous Settings
++ */
++#define INV_HC_SubA_HCClipTL           0x0080
++#define INV_HC_SubA_HCClipBL           0x0081
++#define INV_HC_SubA_HSClipTL           0x0082
++#define INV_HC_SubA_HSClipBL           0x0083
++#define INV_HC_SubA_HSolidCL        0x0086
++#define INV_HC_SubA_HSolidCH        0x0087
++#define INV_HC_SubA_HGBClipGL       0x0088
++#define INV_HC_SubA_HGBClipGR       0x0089
++
++
++#define INV_HC_ParaType_Vetex        0x00040000
++
+ #endif
 -- 
 2.34.1
 
