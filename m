@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7AF4573949
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 16:53:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5204F5739D4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 17:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776789B2E8;
-	Wed, 13 Jul 2022 14:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03C2E9B648;
+	Wed, 13 Jul 2022 15:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 394CA10FC5F;
- Wed, 13 Jul 2022 14:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657723989; x=1689259989;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=nzRRfc3c0jBW0Fh+LDvco00HZBv4dFG+ZpSe2+pdCBk=;
- b=lwStXAywn2X4p8pPFQkrNVRS0+A6P9BmY7vtfSxt+F4GFCEYmV9hQnZZ
- /0mJngArcMV8R96zk1el8vtbuNDrTprWSQkq2kwqZCcdRptyi9Ck/53M+
- gCUw21K2ddvH5/9xoep3MARG2JjZgutuuXblgG69uLgpMNwxFPxm2Lz8p
- QsrCB7sLgssH8QeE+laixwDDiimNMiyeVxs8c3lR1pXSHt30q37QRtJQC
- FFA/M7RpUdUlBVHkAam8NZdDNpYk1JbEIJ0bV9RlFk+WrpB1A4DGNPtla
- CgfR9CTxfj78s8jFpHFv7VYDH7IJVN/xiDwRrSBpsY4tUlDmbPRv3jPvS g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="285256783"
-X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; d="scan'208";a="285256783"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2022 07:53:05 -0700
-X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; d="scan'208";a="772267664"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.18.234])
- ([10.252.18.234])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2022 07:53:04 -0700
-Message-ID: <b93ea0d4-77f6-0ba9-670d-9aa8dac819cb@linux.intel.com>
-Date: Wed, 13 Jul 2022 16:53:01 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D664D9B647;
+ Wed, 13 Jul 2022 15:15:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=tjY9pgjQiJS2RAtlwL9+FP13c9f0g+5EtDvq+MRR/TM=; b=TF4UmVPdpY6wYbtFKLm667lcxu
+ dVGbgrkZ+wjJP/9qFW8UAmZjLKHs43VV4bmgB82HgQoYVhBEBm8Fg22t/xXoGRNu7soLU11/2pQ1X
+ UuDJfya76fcpml9/5uXwSapmOVJNwOpXdGGqb0OUKhQ/nOCcGM7B1I8OBcbyI8m2ndkVgsZfP6UzG
+ zHsUlawzXhrMh9gSR1NTf29F0hDQc36M9gWOh65IDtEcA04cykpJC5eD8oUkQwF5YTpphODCkaEXD
+ uT4amKPwX+hUHXQ6IghqRtqkOOuhO4KC3UeL5P5xOOKMmMN88id4fdQfzuv3hwe3DspABFNHmJuig
+ 7bPerr5A==;
+Received: from [177.139.47.106] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oBe5H-00F8zV-18; Wed, 13 Jul 2022 17:15:27 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
+ 'Pan Xinhui' <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Tao Zhou <tao.zhou1@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Jack Xiao <Jack.Xiao@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tom St Denis <tom.stdenis@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/amd/debugfs: Expose GFXOFF state to userspace
+Date: Wed, 13 Jul 2022 12:15:04 -0300
+Message-Id: <20220713151504.7521-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/i915/ttm: fix 32b build
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220712174050.592550-1-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220712174050.592550-1-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,157 +58,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+GFXOFF has two different "state" values: one to define if the GPU is
+allowed/disallowed to enter GFXOFF, usually called state; and another
+one to define if currently GFXOFF is being used, usually called status.
+Even when GFXOFF is allowed, GPU firmware can decide to not used it
+accordingly to the GPU load.
 
-On 7/12/2022 7:40 PM, Matthew Auld wrote:
-> Since segment_pages is no longer a compile time constant, it looks the
-> DIV_ROUND_UP(node->size, segment_pages) breaks the 32b build. Simplest
-> is just to use the ULL variant, but really we should need not need more
-> than u32 for the page alignment (also we are limited by that due to the
-> sg->length type), so also make it all u32.
->
-> Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Fixes: bc99f1209f19 ("drm/i915/ttm: fix sg_table construction")
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_region.c |  2 ++
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  2 +-
->   drivers/gpu/drm/i915/i915_scatterlist.c    | 16 ++++++++--------
->   drivers/gpu/drm/i915/i915_scatterlist.h    |  4 ++--
->   drivers/gpu/drm/i915/intel_region_ttm.c    |  2 +-
->   drivers/gpu/drm/i915/intel_region_ttm.h    |  2 +-
->   6 files changed, 15 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-> index f46ee16a323a..a4fb577eceb4 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-> @@ -60,6 +60,8 @@ __i915_gem_object_create_region(struct intel_memory_region *mem,
->   	if (page_size)
->   		default_page_size = page_size;
->   
-> +	/* We should be able to fit a page within an sg entry */
-> +	GEM_BUG_ON(overflows_type(default_page_size, u32));
->   	GEM_BUG_ON(!is_power_of_2_u64(default_page_size));
->   	GEM_BUG_ON(default_page_size < PAGE_SIZE);
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 053b0022ddd0..5a5cf332d8a5 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -602,7 +602,7 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
->   			 struct ttm_resource *res)
->   {
->   	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-> -	u64 page_alignment;
-> +	u32 page_alignment;
->   
->   	if (!i915_ttm_gtt_binds_lmem(res))
->   		return i915_ttm_tt_get_st(bo->ttm);
-> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
-> index f63b50b71e10..dcc081874ec8 100644
-> --- a/drivers/gpu/drm/i915/i915_scatterlist.c
-> +++ b/drivers/gpu/drm/i915/i915_scatterlist.c
-> @@ -79,10 +79,10 @@ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
->    */
->   struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
->   					      u64 region_start,
-> -					      u64 page_alignment)
-> +					      u32 page_alignment)
->   {
-> -	const u64 max_segment = round_down(UINT_MAX, page_alignment);
-> -	u64 segment_pages = max_segment >> PAGE_SHIFT;
-> +	const u32 max_segment = round_down(UINT_MAX, page_alignment);
-> +	const u32 segment_pages = max_segment >> PAGE_SHIFT;
->   	u64 block_size, offset, prev_end;
->   	struct i915_refct_sgt *rsgt;
->   	struct sg_table *st;
-> @@ -96,7 +96,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
->   
->   	i915_refct_sgt_init(rsgt, node->size << PAGE_SHIFT);
->   	st = &rsgt->table;
-> -	if (sg_alloc_table(st, DIV_ROUND_UP(node->size, segment_pages),
-> +	if (sg_alloc_table(st, DIV_ROUND_UP_ULL(node->size, segment_pages),
->   			   GFP_KERNEL)) {
->   		i915_refct_sgt_put(rsgt);
->   		return ERR_PTR(-ENOMEM);
-> @@ -123,7 +123,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
->   			st->nents++;
->   		}
->   
-> -		len = min(block_size, max_segment - sg->length);
-> +		len = min_t(u64, block_size, max_segment - sg->length);
->   		sg->length += len;
->   		sg_dma_len(sg) += len;
->   
-> @@ -155,11 +155,11 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
->    */
->   struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
->   						     u64 region_start,
-> -						     u64 page_alignment)
-> +						     u32 page_alignment)
->   {
->   	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
->   	const u64 size = res->num_pages << PAGE_SHIFT;
-> -	const u64 max_segment = round_down(UINT_MAX, page_alignment);
-> +	const u32 max_segment = round_down(UINT_MAX, page_alignment);
->   	struct drm_buddy *mm = bman_res->mm;
->   	struct list_head *blocks = &bman_res->blocks;
->   	struct drm_buddy_block *block;
-> @@ -207,7 +207,7 @@ struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
->   				st->nents++;
->   			}
->   
-> -			len = min(block_size, max_segment - sg->length);
-> +			len = min_t(u64, block_size, max_segment - sg->length);
->   			sg->length += len;
->   			sg_dma_len(sg) += len;
->   
-> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
-> index b13e4cdea923..9ddb3e743a3e 100644
-> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
-> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-> @@ -214,10 +214,10 @@ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size);
->   
->   struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
->   					      u64 region_start,
-> -					      u64 page_alignment);
-> +					      u32 page_alignment);
->   
->   struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
->   						     u64 region_start,
-> -						     u64 page_alignment);
-> +						     u32 page_alignment);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-> index 6873808a7015..575d67bc6ffe 100644
-> --- a/drivers/gpu/drm/i915/intel_region_ttm.c
-> +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-> @@ -163,7 +163,7 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
->   struct i915_refct_sgt *
->   intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
->   				  struct ttm_resource *res,
-> -				  u64 page_alignment)
-> +				  u32 page_alignment)
->   {
->   	if (mem->is_range_manager) {
->   		struct ttm_range_mgr_node *range_node =
-> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
-> index 98fba5155619..5bb8d8b582ae 100644
-> --- a/drivers/gpu/drm/i915/intel_region_ttm.h
-> +++ b/drivers/gpu/drm/i915/intel_region_ttm.h
-> @@ -25,7 +25,7 @@ int intel_region_ttm_fini(struct intel_memory_region *mem);
->   struct i915_refct_sgt *
->   intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
->   				  struct ttm_resource *res,
-> -				  u64 page_alignment);
-> +				  u32 page_alignment);
->   
->   void intel_region_ttm_resource_free(struct intel_memory_region *mem,
->   				    struct ttm_resource *res);
+Userspace can allow/disallow GPUs to enter into GFXOFF via debugfs. The
+kernel maintains a counter of requests for GFXOFF (gfx_off_req_count)
+that should be decreased to allow GFXOFF and increased to disallow.
+
+The issue with this interface is that userspace can't be sure if GFXOFF
+is currently allowed. Even by checking amdgpu_gfxoff file, one might get
+an ambiguous 2, that means that GPU is currently out of GFXOFF, but that
+can be either because it's currently disallowed or because it's allowed
+but given the current GPU load it's enabled. Then, userspace needs to
+rely on the fact that GFXOFF is enabled by default on boot and to track
+this information.
+
+To make userspace life easier and GFXOFF more reliable, return the
+current state of GFXOFF to userspace when reading amdgpu_gfxoff with the
+same semantics of writing: 0 means not allowed, not 0 means allowed.
+
+Expose the current status of GFXOFF through a new file,
+amdgpu_gfxoff_status.
+
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 49 ++++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+index f3b3c688e4e7..e2eec985adb3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+@@ -1117,13 +1117,50 @@ static ssize_t amdgpu_debugfs_gfxoff_read(struct file *f, char __user *buf,
+ 	}
+ 
+ 	while (size) {
+-		uint32_t value;
++		u32 value = adev->gfx.gfx_off_state;
++
++		r = put_user(value, (u32 *)buf);
++		if (r)
++			goto out;
++
++		result += 4;
++		buf += 4;
++		*pos += 4;
++		size -= 4;
++	}
++
++	r = result;
++out:
++	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
++	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
++
++	return r;
++}
++
++static ssize_t amdgpu_debugfs_gfxoff_status_read(struct file *f, char __user *buf,
++						 size_t size, loff_t *pos)
++{
++	struct amdgpu_device *adev = file_inode(f)->i_private;
++	ssize_t result = 0;
++	int r;
++
++	if (size & 0x3 || *pos & 0x3)
++		return -EINVAL;
++
++	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
++	if (r < 0) {
++		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
++		return r;
++	}
++
++	while (size) {
++		u32 value;
+ 
+ 		r = amdgpu_get_gfx_off_status(adev, &value);
+ 		if (r)
+ 			goto out;
+ 
+-		r = put_user(value, (uint32_t *)buf);
++		r = put_user(value, (u32 *)buf);
+ 		if (r)
+ 			goto out;
+ 
+@@ -1206,6 +1243,12 @@ static const struct file_operations amdgpu_debugfs_gfxoff_fops = {
+ 	.llseek = default_llseek
+ };
+ 
++static const struct file_operations amdgpu_debugfs_gfxoff_status_fops = {
++	.owner = THIS_MODULE,
++	.read = amdgpu_debugfs_gfxoff_status_read,
++	.llseek = default_llseek
++};
++
+ static const struct file_operations *debugfs_regs[] = {
+ 	&amdgpu_debugfs_regs_fops,
+ 	&amdgpu_debugfs_regs2_fops,
+@@ -1217,6 +1260,7 @@ static const struct file_operations *debugfs_regs[] = {
+ 	&amdgpu_debugfs_wave_fops,
+ 	&amdgpu_debugfs_gpr_fops,
+ 	&amdgpu_debugfs_gfxoff_fops,
++	&amdgpu_debugfs_gfxoff_status_fops,
+ };
+ 
+ static const char *debugfs_regs_names[] = {
+@@ -1230,6 +1274,7 @@ static const char *debugfs_regs_names[] = {
+ 	"amdgpu_wave",
+ 	"amdgpu_gpr",
+ 	"amdgpu_gfxoff",
++	"amdgpu_gfxoff_status",
+ };
+ 
+ /**
+-- 
+2.37.0
+
