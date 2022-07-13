@@ -1,42 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF1F573795
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 15:38:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D66E9573794
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 15:38:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDEE10EDC7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A8E10E39F;
 	Wed, 13 Jul 2022 13:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD2B10E39F;
- Wed, 13 Jul 2022 13:38:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9463410E418;
+ Wed, 13 Jul 2022 13:38:40 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 576D666019B6;
- Wed, 13 Jul 2022 14:38:38 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1F38C66019BF;
+ Wed, 13 Jul 2022 14:38:39 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1657719518;
- bh=s+i54G2qFMY7k4hZiW6XrnLWSTCsbPrc1QYLZP1Vpqk=;
- h=From:To:Cc:Subject:Date:From;
- b=VhnZQq1tK/0oM/jV0oh3yvhbcDKYFbLCkh1hbuh1GxunyjZ1NKwkIVpMBDeqfrD3c
- ZkhAn8Q7nGgZbVaAKcXjzsfumXQfZRcj6QJ9LHcJ6ft5SMxQ2PFS5ioFy+FxKu6GPU
- cNBfTs+er73jsOkx3TtY1gy5+hoiQ235jMa8kkfQjU87ISXCT+ZqsvDTBvfcYB7quw
- 9LS6WccB3TzZ8RXvU5gUjTPoXtQ7HEu/iKVQeSUhFLTy4AEqP7jVOhjJMT7iv9JFcI
- /M42clRdfDQqTQB+r3VWe1rzrC6TQpSLwvar4GyfiAz+ZOayV9sYnA8IHzacyPLQkC
- L2bf1jRp4tBDw==
+ s=mail; t=1657719519;
+ bh=CsNQhhmN7tfVGf4HN1uv8HbRGJrZrAmt/638xemnBMo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=U3jpirrge5r19VPek6bsVlH82O/2qiPOBpGuh5J5wPQSiX+nV2d21Kt2IjKo9YV7f
+ I1YkmjtkibkRJ1gv+B/bPfZUtShl8LuZJabDchWDrpK7kz84knef5yqEGpfVxl9uZg
+ W+PfOr6V/GyyUwswgKHaLt3wRRobcJP2DUAXbQVTkxPvc0HNOP8gykzFgctAF9GAQ1
+ YIkihsVeJEZZxd+RtvTL++EycJd99mdtwrEqVDJFdTt01f+36EK81K/nbHSJDZoxQ2
+ IH+sXcN+CZeWOFcCFsW49w8buzH0zGf0pOGUzhICd+PSAzn6qdSmZZJezvxLG5Fn0x
+ 6j03uVjDL1wIA==
 From: Robert Beckett <bob.beckett@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 0/8] drm/i915: ttm for internal
-Date: Wed, 13 Jul 2022 14:38:10 +0100
-Message-Id: <20220713133818.3699604-1-bob.beckett@collabora.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v4 1/8] drm/i915/ttm: dont trample cache_level overrides
+ during ttm move
+Date: Wed, 13 Jul 2022 14:38:11 +0100
+Message-Id: <20220713133818.3699604-2-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220713133818.3699604-1-bob.beckett@collabora.com>
+References: <20220713133818.3699604-1-bob.beckett@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -54,58 +61,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Robert Beckett <bob.beckett@collabora.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- kernel@collabora.com, Matthew Auld <matthew.auld@intel.com>
+ kernel@collabora.com, Matthew Auld <matthew.auld@intel.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series refactors i915's internal buffer backend to use ttm.
-It uses ttm's pool allocator to allocate volatile pages in place of the
-old code which rolled its own via alloc_pages.
-This is continuing progress to align all backends on using ttm.
+Various places within the driver override the default chosen cache_level.
+Before ttm, these overrides were permanent until explicitly changed again
+or for the lifetime of the buffer.
 
-v2:	- commit message improvements to add detail
-	- fix i915_ttm_shrink to purge !is_shmem volatile buffers
-	- limit ttm pool allocator to using dma32 on i965G[M]
-	- fix mman selftest to always use smem buffers
-	- create new internal memory region
-	- make internal backend allocate from internal region
-	- Fixed various issues with tests and i915 ttm usage as a result
-	  of supporting regions other than lmem via ttm.
+TTM movement code came along and decided that it could make that
+decision at that time, which is usually well after object creation, so
+overrode the cache_level decision and reverted it back to its default
+decision.
 
-v3:	- limit i915 ttm default cache_level selection to only trust
-	  HAS_SNOOP on DGFX.
+Add logic to indicate whether the caching mode has been set by anything
+other than the move logic. If so, assume that the code that overrode the
+defaults knows best and keep it.
 
-v4:	- rebase to drm-tip and handle conflicts
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_object.c       | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c          | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c     | 9 ++++++---
+ 4 files changed, 9 insertions(+), 3 deletions(-)
 
-Robert Beckett (8):
-  drm/i915/ttm: dont trample cache_level overrides during ttm move
-  drm/i915: limit ttm to dma32 for i965G[M]
-  drm/i915/ttm: only trust snooping for dgfx when deciding default
-    cache_level
-  drm/i915: add gen6 ppgtt dummy creation function
-  drm/i915: setup ggtt scratch page after memory regions
-  drm/i915: allow volatile buffers to use ttm pool allocator
-  drm/i915/gem: further fix mman selftest
-  drm/i915: internal buffers use ttm backend
-
- drivers/gpu/drm/i915/gem/i915_gem_internal.c  | 187 +-----------------
- drivers/gpu/drm/i915/gem/i915_gem_internal.h  |   5 -
- drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   8 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  13 +-
- .../drm/i915/gem/selftests/i915_gem_mman.c    |  17 +-
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  43 +++-
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |  20 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h           |   1 +
- drivers/gpu/drm/i915/i915_driver.c            |  16 +-
- drivers/gpu/drm/i915/i915_pci.c               |   4 +-
- drivers/gpu/drm/i915/intel_memory_region.c    |   8 +-
- drivers/gpu/drm/i915/intel_memory_region.h    |   2 +
- drivers/gpu/drm/i915/intel_region_ttm.c       |   7 +-
- .../gpu/drm/i915/selftests/mock_gem_device.c  |   2 +-
- 16 files changed, 114 insertions(+), 221 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index ccec4055fde3..966ac2d778d5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -125,6 +125,7 @@ void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 
+ 	obj->cache_level = cache_level;
++	obj->ttm.cache_level_override = true;
+ 
+ 	if (cache_level != I915_CACHE_NONE)
+ 		obj->cache_coherent = (I915_BO_CACHE_COHERENT_FOR_READ |
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 5cf36a130061..14937cf1daaa 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -623,6 +623,7 @@ struct drm_i915_gem_object {
+ 		struct i915_gem_object_page_iter get_io_page;
+ 		struct drm_i915_gem_object *backup;
+ 		bool created:1;
++		bool cache_level_override:1;
+ 	} ttm;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 053b0022ddd0..b6c3fc25d9d1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1253,6 +1253,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	i915_gem_object_init_memory_region(obj, mem);
+ 	i915_ttm_adjust_domains_after_move(obj);
+ 	i915_ttm_adjust_gem_after_move(obj);
++	obj->ttm.cache_level_override = false;
+ 	i915_gem_object_unlock(obj);
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+index 9a7e50534b84..042c2237e287 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+@@ -129,9 +129,12 @@ void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
+ 	obj->mem_flags |= i915_ttm_cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
+ 		I915_BO_FLAG_STRUCT_PAGE;
+ 
+-	cache_level = i915_ttm_cache_level(to_i915(bo->base.dev), bo->resource,
+-					   bo->ttm);
+-	i915_gem_object_set_cache_coherency(obj, cache_level);
++	if (!obj->ttm.cache_level_override) {
++		cache_level = i915_ttm_cache_level(to_i915(bo->base.dev),
++						   bo->resource, bo->ttm);
++		i915_gem_object_set_cache_coherency(obj, cache_level);
++		obj->ttm.cache_level_override = false;
++	}
+ }
+ 
+ /**
 -- 
 2.25.1
 
