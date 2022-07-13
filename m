@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A3957307D
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 10:14:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE0F57304B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 10:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0C2953AA;
-	Wed, 13 Jul 2022 08:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C221495633;
+	Wed, 13 Jul 2022 08:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F342D952FE;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C535F9527C;
  Wed, 13 Jul 2022 08:12:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2220961A91;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 939DE61AE3;
  Wed, 13 Jul 2022 08:12:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E4FC341E0;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BE29C36AEA;
  Wed, 13 Jul 2022 08:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657699952;
- bh=Tv5jQlDqrwIrCFjuoyn+Q4EwW8kYBb3Q/k/uwwca1JQ=;
+ bh=D2LxZ78g6KDBC/CMbWumQNrCFMx8aT2KZzd7m3ganoE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FhynwmEnJDJqibd0IOdr7s1DgM+3m2wdHag4758oDgJssK6B6IbRMB0hcc883R2XY
- I1TPsHMIeisqf7v4sYxJ2EbQ28J4Q6Sk98WarzPbkVFJyO/AznoZ7WKbm9IvaScKO6
- yERxxKHwJHaBFvFtSvvafFAosr8YlHlTJUTgkIeLbndeWNcqu/ZRkKTuaH+Bl388D+
- k4rNR0tGVX5UEqJdEGw9e0SfAR6BVKza2g6LuZv0D0bKm8aEeIhGQpbZqHVbLOfMC7
- tIGS2dPjv+lEopmZ8YEAl5MdpOLnCNY2e0pAqr6HfUL5eOTz/eod69dZKkwq8n5yh4
- uc+3nU4qLKA6g==
+ b=JFmyheZZzvR/p6NXxErVn4aN09V0ju3UJzqi1N0oOHCB4AyRh4XDggRsCGtrkvJIi
+ 9iG/XJ/uEC0KDoGZjheq/86bH3+LaCidlbLn1U/foMz32pc0qJqGe7dHdMdzbzHIyZ
+ 0hwJu5epQ/GF2dvrgMPwqGV/urrXj1DoaenWKdVnAefnDmZzioetL1tza91Dekm+Z6
+ LUfxfk5OuAMk61zLbBovigzRYLHFjoCHlV749eTbVGhKWCx0qsH4MFzYimOZ8YvF8K
+ lTweu9y+3I/TGLwvH5zfqRHUJzd3Ft5hDVivFo8NXQjCduBW+XCBqBW4yJp4gYkJXJ
+ HlR0LPX/5fuhg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oBXTx-004zuK-Ui;
+ (envelope-from <mchehab@kernel.org>) id 1oBXTx-004zuN-VO;
  Wed, 13 Jul 2022 09:12:29 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH v2 31/39] docs: gpu: i915.rst: GuC: add more kernel-doc markups
-Date: Wed, 13 Jul 2022 09:12:19 +0100
-Message-Id: <f8f1475a468bd4c426df62decb45eb8c22a53642.1657699522.git.mchehab@kernel.org>
+Subject: [PATCH v2 32/39] docs: gpu: i915.rst: GVT: add more kernel-doc markups
+Date: Wed, 13 Jul 2022 09:12:20 +0100
+Message-Id: <7711d6d694def4129e9c2d2c8d507e62d8cc1519.1657699522.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657699522.git.mchehab@kernel.org>
 References: <cover.1657699522.git.mchehab@kernel.org>
@@ -64,7 +63,7 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are several documented GuC kAPI that aren't currently part
+There are several documented GVT kAPI that aren't currently part
 of the docs. Add them, as this allows identifying issues with
 badly-formatted tags.
 
@@ -74,41 +73,60 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522.git.mchehab@kernel.org/
 
- Documentation/gpu/i915.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ Documentation/gpu/i915.rst | 41 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index afd8c0e3c689..70f2f4826eba 100644
+index 70f2f4826eba..3ee121a0ea62 100644
 --- a/Documentation/gpu/i915.rst
 +++ b/Documentation/gpu/i915.rst
-@@ -596,6 +596,28 @@ GuC
+@@ -58,6 +58,47 @@ Intel GVT-g Host Support(vGPU device model)
+ .. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
+    :internal:
  
- .. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc.h
- 
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
++Other Intel GVT-g interfaces
++----------------------------
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/gvt.h
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/aperture_gm.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/cfg_space.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/debugfs.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/display.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/edid.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/fb_decoder.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/firmware.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/gtt.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/handlers.c
 +
- GuC Firmware Layout
- ~~~~~~~~~~~~~~~~~~~
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/interrupt.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/kvmgt.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/intel_gvt_mmio_table.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/mmio.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/mmio_context.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/opregion.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/page_track.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/scheduler.c
++
++.. kernel-doc:: drivers/gpu/drm/i915/gvt/vgpu.c
++
+ Workarounds
+ -----------
  
 -- 
 2.36.1
