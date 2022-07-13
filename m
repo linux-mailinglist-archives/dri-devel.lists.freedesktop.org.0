@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D5D5737E5
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 15:50:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A425737ED
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 15:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A389AC6C;
-	Wed, 13 Jul 2022 13:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B109AC81;
+	Wed, 13 Jul 2022 13:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506D29AC69;
- Wed, 13 Jul 2022 13:50:42 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB689AC62;
+ Wed, 13 Jul 2022 13:50:43 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D1AC566019D2;
- Wed, 13 Jul 2022 14:50:40 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7469D6601A38;
+ Wed, 13 Jul 2022 14:50:41 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1657720241;
- bh=ha13NipozoxIlhmnqDQLSM1i3fj+EPxYLmpfjPykhKo=;
+ bh=MULA0VYW5/ZsE36/5dPbAjqG53dPkqcAhW75h7Y1TfQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GmAErg7ZrmbT8xTEpD5AJY3dWyhynhp9jaGPFElE6nQu8tdSYPp3xAdbBsS2Rn4Le
- DVpLfpzq1evvQxCe8sqDPiuavrEew5JnE2JVWqF9eXk5KjqaPK7KUCYnl1fBosDHD9
- TwzyuwKa8UxZdSfxdK1WF/VdZ+UG2aOwHFmFw1CTKK1O/Jt84e+VzQ5VjRwDYJT+Nk
- 1Uan9+xtEofI1l1PfRh1cXY4NBgqEJhdbQ2dN/lJZHBnR7tpBPFmO9AWEczl+Hf3Pk
- otchp4v8RsVLTDSdF/VJVjL/SSHztOePp8mMVgQmPZV6IjOWqK32MgCzpMs8PKJ7QQ
- rnwbI0FRAqp+A==
+ b=JTFfNaDU7FfT14/gIP2iieKeArmXXf47HWVJQQJMYtPtRV478blFtL0Sj7aKfOZ8n
+ cPSpr1c2/V/8gjQEpZSvW4R1DErWfyMRZuf+eF67I5OVPTxQMOctPhNxLN5Lq2Cdye
+ 3eJC9A4y2wb65TG7I9yvmd7uV6RAC+DIjBS2FymWMce9TYiJjIHzUy9K1Mg7YS7NXf
+ yvBkLeDXccpfcmq/u6UK5wNIeJQXekul42lYYr1753J+Wb2W0z0TggRThJUrkPcGE3
+ d/4zLDszgrXLvClgIKFxKGiMBnW/0UWh3aAWkq60lAXywAoNbOPLaYB9sP4ozOalAK
+ b09pXqKNfYKbw==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -37,9 +36,10 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v11 02/10] drm/i915: limit ttm to dma32 for i965G[M]
-Date: Wed, 13 Jul 2022 14:50:14 +0100
-Message-Id: <20220713135022.3710682-3-bob.beckett@collabora.com>
+Subject: [PATCH v11 03/10] drm/i915/ttm: only trust snooping for dgfx when
+ deciding default cache_level
+Date: Wed, 13 Jul 2022 14:50:15 +0100
+Message-Id: <20220713135022.3710682-4-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220713135022.3710682-1-bob.beckett@collabora.com>
 References: <20220713135022.3710682-1-bob.beckett@collabora.com>
@@ -65,36 +65,33 @@ Cc: Robert Beckett <bob.beckett@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i965G[M] cannot relocate objects above 4GiB.
-Ensure ttm uses dma32 on these systems.
+By default i915_ttm_cache_level() decides I915_CACHE_LLC if HAS_SNOOP.
+This is divergent from existing backends code which only considers
+HAS_LLC.
+Testing shows that trusting snooping on gen5- is unreliable and bsw via
+ggtt mappings, so limit DGFX for now and maintain previous behaviour.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/intel_region_ttm.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 6873808a7015..642cd1587976 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -32,10 +32,15 @@
- int intel_region_ttm_device_init(struct drm_i915_private *dev_priv)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+index 042c2237e287..a949594237d9 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+@@ -52,7 +52,9 @@ static enum i915_cache_level
+ i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
+ 		     struct ttm_tt *ttm)
  {
- 	struct drm_device *drm = &dev_priv->drm;
-+	bool use_dma32 = false;
+-	return ((HAS_LLC(i915) || HAS_SNOOP(i915)) &&
++	bool can_snoop = HAS_SNOOP(i915) && IS_DGFX(i915);
 +
-+	/* i965g[m] cannot relocate objects above 4GiB. */
-+	if (IS_I965GM(dev_priv) || IS_I965G(dev_priv))
-+		use_dma32 = true;
- 
- 	return ttm_device_init(&dev_priv->bdev, i915_ttm_driver(),
- 			       drm->dev, drm->anon_inode->i_mapping,
--			       drm->vma_offset_manager, false, false);
-+			       drm->vma_offset_manager, false, use_dma32);
- }
- 
- /**
++	return ((HAS_LLC(i915) || can_snoop) &&
+ 		!i915_ttm_gtt_binds_lmem(res) &&
+ 		ttm->caching == ttm_cached) ? I915_CACHE_LLC :
+ 		I915_CACHE_NONE;
 -- 
 2.25.1
 
