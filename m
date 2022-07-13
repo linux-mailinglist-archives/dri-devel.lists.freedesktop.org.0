@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BA4572F4B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 09:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1782572F4C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 09:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80B1814A651;
-	Wed, 13 Jul 2022 07:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 124C314A68A;
+	Wed, 13 Jul 2022 07:35:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
  [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1FD214B7D0;
- Wed, 13 Jul 2022 06:16:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AFF711A25B;
+ Wed, 13 Jul 2022 06:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657693005; x=1689229005;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=GpgJm2w11HDT9HLV7pwaUKNml2YdL/gwGxII+D3gRSU=;
- b=bQKhLzj6B8Quk/XUWWNnvaN1SRHTEQ0cf4x9v827t35eHvSehIv18e6V
- Vct25jVf5IKtdlO4FVmqMWUtglfFsOYZq8lR10zn7rRomrjEiIDJRTkJN
- 1E/TqhtqUFQp5OpiV2oZh70aC0WMnz7iF4302IWm5TWSaerVYmdlv9ioJ A=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Jul 2022 23:16:44 -0700
+ t=1657693463; x=1689229463;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=l3O8bpPbmlCj5ClVjdMOYaBIcJZfMAtXaOax1aoCalM=;
+ b=PxB6KoBBzAuGkcrzOSYOrcXFcDUlsP1lNxAKtMiW71PA5Z1vVp7nAdX4
+ KvnvIJK7JhOxa3bWL+/Jmkl1a/XOZfrmuloJEk/drBboiRqOWesCsCyYt
+ 7LZmASaVptzN42ihCXlURfy8ar3+SPPSaAK9jsn6ms1PpU2EWo4C56ePF Y=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Jul 2022 23:24:22 -0700
 X-QCInternal: smtphost
 Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2022 23:16:44 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2022 23:24:22 -0700
 Received: from hu-ddhamara-hyd.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Jul 2022 23:16:41 -0700
+ 15.2.986.22; Tue, 12 Jul 2022 23:24:20 -0700
 From: <quic_ddhamara@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH 1/1] drm/msm/a6xx: Fix null pointer access in
+Subject: [PATCH 0/1] drm/msm/a6xx: Fix null pointer access in
  a6xx_get_indexed_registers
-Date: Wed, 13 Jul 2022 11:45:28 +0530
-Message-ID: <20220713061528.32256-2-quic_ddhamara@quicinc.com>
+Date: Wed, 13 Jul 2022 11:53:54 +0530
+Message-ID: <20220713062355.6846-1-quic_ddhamara@quicinc.com>
 X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220713061528.32256-1-quic_ddhamara@quicinc.com>
-References: <20220713061528.32256-1-quic_ddhamara@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -66,34 +64,17 @@ Cc: quic_akhilpo@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+From: ddhamara <ddhamara@quicinc.com>
 
 Fix a null pointer access when memory allocation fails in
 a6xx_get_indexed_registers().
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Signed-off-by: ddhamara <ddhamara@quicinc.com>
----
+Akhil P Oommen (1):
+  drm/msm/a6xx: Fix null pointer access in a6xx_get_indexed_registers
+
  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index 55f443328d8e..507074f6222c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -952,6 +952,12 @@ static void a6xx_get_indexed_registers(struct msm_gpu *gpu,
- 	a6xx_get_indexed_regs(gpu, a6xx_state, &a6xx_cp_mempool_indexed,
- 		&a6xx_state->indexed_regs[i]);
- 
-+	if (!a6xx_state->indexed_regs[i].data) {
-+		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, mempool_size);
-+		a6xx_state->nr_indexed_regs = count - 1;
-+		return;
-+	}
-+
- 	/*
- 	 * Offset 0x2000 in the mempool is the size - copy the saved size over
- 	 * so the data is consistent
 -- 
 2.37.0
 
