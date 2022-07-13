@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D475732A1
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 11:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E0557328C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 11:31:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5CD198A81;
-	Wed, 13 Jul 2022 09:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAC998A76;
+	Wed, 13 Jul 2022 09:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9A098A74;
- Wed, 13 Jul 2022 09:30:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABFB98A72;
+ Wed, 13 Jul 2022 09:30:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BC4F0B81D73;
- Wed, 13 Jul 2022 09:30:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57719C385A5;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B804B61C63;
+ Wed, 13 Jul 2022 09:30:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04FEEC341CD;
  Wed, 13 Jul 2022 09:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657704622;
- bh=KEI5HMlpCOrMUecDm6ehTcV2JBjxp5VNyS4qBhBdw24=;
- h=From:To:Cc:Subject:Date:From;
- b=bBIJjsCGdafvwdRqD7Ea6g4x6iQyquNNjsn/HU14xKgcfVBdbtzmt3ttMITOCWE4k
- kuyGNFByCAJ2IuVrolN9ECMO8KxNbvOaXOh5nO4Mqv/7bqyvPC3pykJeqi38LzkaTP
- 3pM5IwwwCBGOHUaAgiXIO5bDu5pIDE1nduCs9VYO3l8IYKdbru1VxvSOF1rmqQS1kl
- 9paq/s89MRM8P5LbDtFhAnEPRIdstpfDBPb6/zJBrSMyLDAOsxAV9bpmxu46xSdpmN
- GFOVs5gL99v0ASPLRxzcTvZfV+pbRXrK7pkmQUZqsbWycTsutJ8/7znxbqp90QIOE+
- vFhV8xixrMc3w==
+ bh=RUqK2XBsYMsaByMESrmgiO1BREUfe12Q9IJMe+D1jIc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=OyAbLBwe/llXAtYI2X1GUJnLeHKM507rJ95TKh5vxj+oRbJqrrJI9crVxoRJ9q2lK
+ yWaPsUg/CpUad1/VkG1b6MjC3wb1hIVOKpv8Uu3mDfHQy2AMtyvJsdYQbMjFLrfJYl
+ IkHbFSOPsdJtJyWnjtU0oiJdHi51fp+gLR87sjwjhIobLMNCh1NjYS4uCciPX2cOQc
+ jCOEObXlwF4wKUKrIcOCs0nMWYa77M5JJolKsMedMGL6pcIHPkCBig/jqaC+7P4k35
+ KTSh+5EzoCVqJKTK0U6xPfLYq27Xd7XhLzx1IlN0C21u74Gmz+5rr7joUN5YpXqqG0
+ zjQAq66cdR+cA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oBYhH-0050L9-Fb;
+ (envelope-from <mchehab@kernel.org>) id 1oBYhH-0050LC-HV;
  Wed, 13 Jul 2022 10:30:19 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH 00/21] Fix performance regressions with TLB and add GuC support
-Date: Wed, 13 Jul 2022 10:29:57 +0100
-Message-Id: <cover.1657703926.git.mchehab@kernel.org>
+Subject: [PATCH 01/21] drm/i915/gt: Ignore TLB invalidations on idle engines
+Date: Wed, 13 Jul 2022 10:29:58 +0100
+Message-Id: <63074d74d0d3df9f3ebce2c9e78868205c9ae61d.1657703926.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1657703926.git.mchehab@kernel.org>
+References: <cover.1657703926.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -53,143 +55,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>, David Airlie <airlied@linux.ie>,
- Casey Bowman <casey.g.bowman@intel.com>, dri-devel@lists.freedesktop.org,
+Cc: Fei Yang <fei.yang@intel.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- Ayaz A Siddiqui <ayaz.siddiqui@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Matthew Brost <matthew.brost@intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, Matthew Auld <matthew.auld@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Dave Airlie <airlied@redhat.com>,
- Tomas Winkler <tomas.winkler@intel.com>, Borislav Petkov <bp@suse.de>,
- Matthew Auld <matthew.auld@intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- John Harrison <John.C.Harrison@Intel.com>
+ stable@vger.kernel.org, John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TLB invalidation is a slow operation. It should not be doing lightly, as it
-causes performance regressions, like this:
+From: Chris Wilson <chris.p.wilson@intel.com>
 
-[178.821002] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
+Check if the device is powered down prior to any engine activity,
+as, on such cases, all the TLBs were already invalidated, so an
+explicit TLB invalidation is not needed, thus reducing the
+performance regression impact due to it.
 
-This series contain 
+This becomes more significant with GuC, as it can only do so when
+the connection to the GuC is awake.
 
-1) some patches that makes TLB invalidation to happen only on
-active, non-wedged engines, doing cache invalidation in batch 
-and only when GT objects are exposed to userspace:
-
-  drm/i915/gt: Ignore TLB invalidations on idle engines
-  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
-  drm/i915/gt: Skip TLB invalidations once wedged
-  drm/i915/gt: Batch TLB invalidations
-  drm/i915/gt: Move TLB invalidation to its own file
-
-2) It fixes two bugs, being the first a workaround:
-
-  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
-  drm/i915: Invalidate the TLBs on each GT
-
-  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
-
-3) It adds GuC support. Besides providing TLB invalidation on some
-additional hardware, this should also help serializing GuC operations
-with TLB invalidation:
-
-  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
-  drm/i915/guc: Define CTB based TLB invalidation routines
-  drm/i915: Add platform macro for selective tlb flush
-  drm/i915: Define GuC Based TLB invalidation routines
-  drm/i915: Add generic interface for tlb invalidation for XeHP
-  drm/i915: Use selective tlb invalidations where supported
-
-4) It adds the corresponding kernel-doc markups for the kAPI
-used for TLB invalidation.
-
-While I could have split this into smaller pieces, I'm opting to send
-them altogether, in order for CI trybot to better verify what issues
-will be closed with this series.
-
+Cc: stable@vger.kernel.org
+Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
+Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
-Chris Wilson (7):
-  drm/i915/gt: Ignore TLB invalidations on idle engines
-  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
-  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
-  drm/i915/gt: Skip TLB invalidations once wedged
-  drm/i915/gt: Batch TLB invalidations
-  drm/i915/gt: Move TLB invalidation to its own file
-  drm/i915: Invalidate the TLBs on each GT
+See [PATCH 00/21] at: https://lore.kernel.org/all/cover.1657703926.git.mchehab@kernel.org/
 
-Mauro Carvalho Chehab (8):
-  drm/i915/gt: document with_intel_gt_pm_if_awake()
-  drm/i915/gt: describe the new tlb parameter at i915_vma_resource
-  drm/i915/guc: use kernel-doc for enum intel_guc_tlb_inval_mode
-  drm/i915/guc: document the TLB invalidation struct members
-  drm/i915: document tlb field at struct drm_i915_gem_object
-  drm/i915/gt: document TLB cache invalidation functions
-  drm/i915/guc: describe enum intel_guc_tlb_invalidation_type
-  drm/i915/guc: document TLB cache invalidation functions
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c | 10 ++++++----
+ drivers/gpu/drm/i915/gt/intel_gt.c        | 17 ++++++++++-------
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  3 +++
+ 3 files changed, 19 insertions(+), 11 deletions(-)
 
-Piotr Piórkowski (1):
-  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
-
-Prathap Kumar Valsan (5):
-  drm/i915/guc: Define CTB based TLB invalidation routines
-  drm/i915: Add platform macro for selective tlb flush
-  drm/i915: Define GuC Based TLB invalidation routines
-  drm/i915: Add generic interface for tlb invalidation for XeHP
-  drm/i915: Use selective tlb invalidations where supported
-
- drivers/gpu/drm/i915/Makefile                 |   1 +
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  28 +-
- drivers/gpu/drm/i915/gt/intel_engine.h        |   1 +
- drivers/gpu/drm/i915/gt/intel_gt.c            | 125 +-------
- drivers/gpu/drm/i915/gt/intel_gt.h            |   2 -
- .../gpu/drm/i915/gt/intel_gt_buffer_pool.h    |   3 +-
- drivers/gpu/drm/i915/gt/intel_gt_defines.h    |  11 +
- drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  10 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h      |  22 +-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   8 +-
- drivers/gpu/drm/i915/gt/intel_tlb.c           | 295 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_tlb.h           |  30 ++
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  54 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 232 ++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  36 +++
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  24 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   9 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  91 +++++-
- drivers/gpu/drm/i915/i915_drv.h               |   4 +-
- drivers/gpu/drm/i915/i915_pci.c               |   1 +
- drivers/gpu/drm/i915/i915_vma.c               |  46 ++-
- drivers/gpu/drm/i915/i915_vma.h               |   2 +
- drivers/gpu/drm/i915/i915_vma_resource.c      |   9 +-
- drivers/gpu/drm/i915/i915_vma_resource.h      |   6 +-
- drivers/gpu/drm/i915/intel_device_info.h      |   1 +
- 27 files changed, 910 insertions(+), 155 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_defines.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 97c820eee115..6835279943df 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -6,14 +6,15 @@
+ 
+ #include <drm/drm_cache.h>
+ 
++#include "gt/intel_gt.h"
++#include "gt/intel_gt_pm.h"
++
+ #include "i915_drv.h"
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
+ #include "i915_gem_lmem.h"
+ #include "i915_gem_mman.h"
+ 
+-#include "gt/intel_gt.h"
+-
+ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+ 				 struct sg_table *pages,
+ 				 unsigned int sg_page_sizes)
+@@ -217,10 +218,11 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj)
+ 
+ 	if (test_and_clear_bit(I915_BO_WAS_BOUND_BIT, &obj->flags)) {
+ 		struct drm_i915_private *i915 = to_i915(obj->base.dev);
++		struct intel_gt *gt = to_gt(i915);
+ 		intel_wakeref_t wakeref;
+ 
+-		with_intel_runtime_pm_if_active(&i915->runtime_pm, wakeref)
+-			intel_gt_invalidate_tlbs(to_gt(i915));
++		with_intel_gt_pm_if_awake(gt, wakeref)
++			intel_gt_invalidate_tlbs(gt);
+ 	}
+ 
+ 	return pages;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 68c2b0d8f187..c4d43da84d8e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -12,6 +12,7 @@
+ 
+ #include "i915_drv.h"
+ #include "intel_context.h"
++#include "intel_engine_pm.h"
+ #include "intel_engine_regs.h"
+ #include "intel_ggtt_gmch.h"
+ #include "intel_gt.h"
+@@ -924,6 +925,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	struct intel_uncore *uncore = gt->uncore;
+ 	struct intel_engine_cs *engine;
++	intel_engine_mask_t awake, tmp;
+ 	enum intel_engine_id id;
+ 	const i915_reg_t *regs;
+ 	unsigned int num = 0;
+@@ -947,26 +949,31 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+ 
+ 	GEM_TRACE("\n");
+ 
+-	assert_rpm_wakelock_held(&i915->runtime_pm);
+-
+ 	mutex_lock(&gt->tlb_invalidate_lock);
+ 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+ 
+ 	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset */
+ 
++	awake = 0;
+ 	for_each_engine(engine, gt, id) {
+ 		struct reg_and_bit rb;
+ 
++		if (!intel_engine_pm_is_awake(engine))
++			continue;
++
+ 		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+ 		if (!i915_mmio_reg_offset(rb.reg))
+ 			continue;
+ 
+ 		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
++		awake |= engine->mask;
+ 	}
+ 
+ 	spin_unlock_irq(&uncore->lock);
+ 
+-	for_each_engine(engine, gt, id) {
++	for_each_engine_masked(engine, gt, awake, tmp) {
++		struct reg_and_bit rb;
++
+ 		/*
+ 		 * HW architecture suggest typical invalidation time at 40us,
+ 		 * with pessimistic cases up to 100us and a recommendation to
+@@ -974,12 +981,8 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+ 		 */
+ 		const unsigned int timeout_us = 100;
+ 		const unsigned int timeout_ms = 4;
+-		struct reg_and_bit rb;
+ 
+ 		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+-		if (!i915_mmio_reg_offset(rb.reg))
+-			continue;
+-
+ 		if (__intel_wait_for_register_fw(uncore,
+ 						 rb.reg, rb.bit, 0,
+ 						 timeout_us, timeout_ms,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+index bc898df7a48c..a334787a4939 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+@@ -55,6 +55,9 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+ 	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+ 	     intel_gt_pm_put(gt), tmp = 0)
+ 
++#define with_intel_gt_pm_if_awake(gt, wf) \
++	for (wf = intel_gt_pm_get_if_awake(gt); wf; intel_gt_pm_put_async(gt), wf = 0)
++
+ static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+ {
+ 	return intel_wakeref_wait_for_idle(&gt->wakeref);
 -- 
 2.36.1
-
 
