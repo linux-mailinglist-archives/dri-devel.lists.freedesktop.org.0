@@ -2,44 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A93573BAF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 19:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7796573BB0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 19:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7581D8E841;
-	Wed, 13 Jul 2022 17:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051A7908BA;
+	Wed, 13 Jul 2022 17:02:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
  (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69C818FFC9
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jul 2022 17:02:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 996D78F62B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jul 2022 17:02:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
- from; bh=gvXokCdEh4GHQb3GFyaTb4n/3n36WKAwVpTqm7iccIo=;
- b=BXAmKehi6y3mpm4DVB2VCyTloVxjvkC5tqoel7b1+LI2zQbg7LTEMr29gfWimsf98TP3u4IMUmXPr
- ztOmcWSvWJaEYiIVvFRNlIkL7jyau9zOracB9FhO92DBIuGIdN1yw5IpAbuMIcJRUgbSls6aMiJNl/
- RWVf+G3/GkOyd9PDFYr0v5Ig6jFLRKYm+87W64o90dLolzxeHSdMZ9DravQ4uyDZY4EXumI8W3gzCN
- 5oXgpfPVPWU+DS1HDNIrehV+P3SOGTXrmMjECItg3h+fhgMIaUiK1cDCODSFQho9PgmUz3ALbrpHXt
- J5DjPHZ8WjzowiexLbnBtSvUXZksNJg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+ subject:cc:to:from:from;
+ bh=k5QiiCYW1jdXFKhS0hdQ3BOEf7yvGky4yfkgOaDuqkg=;
+ b=ltiE1+q2GPMq6RLU+cWE6lhbml6WIAsyLjWo+FabKHP36DRK+QUdIVuWL0hx6j5NAc5xKU92qkbRv
+ /RALZz/J3iOuuOD7w8MjZQ+wvPgaMGcdXYFBIFOHtNd/X1RYE+LfEueG2Cckh7Ha0GWZrfYSJFtK5t
+ Aa9Y7zk/16RXw4KHeyfeeYRZdE/HPiQzf0gKH25wQTZkuOhxqVMKrBlNWS8L1r5TzO8l4Q3M1hxF2O
+ 7LBK8FmLSl7eDHI0HIiB1ql1nrlnfl92iJcfrHTO4/0AoEkpKOYN+LRgJSJZNsX/XB7gUQSLl0SqzC
+ u7z8bSFgK2p06Qt2dv7uYqggqchXgwQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
- from; bh=gvXokCdEh4GHQb3GFyaTb4n/3n36WKAwVpTqm7iccIo=;
- b=bLdoAZxXPq/RxrD6FAKdEoqnpqtKY7OpHEAdXBpkQoLrhfhJSREK0I0fLZELlOeAGbOh3+1ITn1u2
- T2TUYbCDQ==
-X-HalOne-Cookie: d5c43ae498786818b73444e506a04f8e467bfd63
-X-HalOne-ID: 85d189a7-02cd-11ed-be7e-d0431ea8bb03
+ h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+ subject:cc:to:from:from;
+ bh=k5QiiCYW1jdXFKhS0hdQ3BOEf7yvGky4yfkgOaDuqkg=;
+ b=05q70pPdkWQ8NPqueFWwnLNPpap9gKr9e1fzgw+m/i6dmYa7S9DxpVXLvoYvE9hRhTZ2Br6cUGVxK
+ nEeC/XOBQ==
+X-HalOne-Cookie: 0b83547bd51ca0e7f62e55d56b403f8dc5c64ace
+X-HalOne-ID: 879b59fd-02cd-11ed-be7e-d0431ea8bb03
 Received: from mailproxy3.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 85d189a7-02cd-11ed-be7e-d0431ea8bb03;
- Wed, 13 Jul 2022 17:02:06 +0000 (UTC)
+ id 879b59fd-02cd-11ed-be7e-d0431ea8bb03;
+ Wed, 13 Jul 2022 17:02:08 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/11] drm/via: Make via a single file driver
-Date: Wed, 13 Jul 2022 19:01:49 +0200
-Message-Id: <20220713170202.1798216-1-sam@ravnborg.org>
+Subject: [PATCH v2 01/13] drm/via: Rename via_drv to via_dri1
+Date: Wed, 13 Jul 2022 19:01:50 +0200
+Message-Id: <20220713170202.1798216-2-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220713170202.1798216-1-sam@ravnborg.org>
+References: <20220713170202.1798216-1-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,75 +64,39 @@ Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have an upcoming openchrome driver for VIA where some
-of the files conflicts with the existing via driver.
+The via driver implements the DRI1 interface, and we have a new
+implementation of the via driver coming that supports atomic
+modesetting.
 
-It is not acceptable to just delete the existing DRI1
-based driver as there are most likely users out there,
-so a different approach was required.
+It is not acceptable just to replace the existing driver so
+this is first step to make it a single-file implementation allowing
+it to stay without interfering with the new driver.
 
-It was disccussed what to do and the least invasive
-solution was to keep the DRI1 driver in the current
-directory as a single file.
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>
+---
+ drivers/gpu/drm/via/Makefile                  | 2 +-
+ drivers/gpu/drm/via/{via_drv.c => via_dri1.c} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename drivers/gpu/drm/via/{via_drv.c => via_dri1.c} (100%)
 
-Thomas Zimmermann already posted a patch to do the
-same but it attemped to have a single driver
-for the DRI1 and the upcoming new driver.
-
-This patchset embeds the files one by one to make the
-diffs remotely readable and end up with an independent
-DRI1 driver.
-
-The driver was built tested for each step.
-
-v2:
-  - Drop the rename of the driver - keep the name via.
-    We can name the new driver viakms or openchrome so
-    there is no confusion in userspace if the old or
-    the new driver is used.
-  - Add a few patches to make via_3d_reg more readable,
-    which has the nice side-effect that it is now checkpatch
-    clean.
-  - Added Kevin as cc: on all patches
-
-This set of patches should make it simpler to add the new
-openchrome driver, and I am happy to assist if there are
-open questions how to do it.
-
-Note: The patches has seen zero run-time testing - I only
-know they builds in my setup (for several archs).
-
-	Sam
-
-Sam Ravnborg (13):
-      drm/via: Rename via_drv to via_dri1
-      drm/via: Embed via_dma in via_dri1
-      drm/via: Embed via_map in via_dri1
-      drm/via: Embed via_mm in via_dri1
-      drm/via: Embed via_video in via_dri1
-      drm/via: Embed via_irq in via_dri1
-      drm/via: Embed via_dmablit in via_dri1
-      drm/via: Embed via_verifier in via_dri1
-      drm/via: Embed via_drv.h in via_dri1
-      drm/via: Update to the latest via_3d_reg header
-      drm/via: Use SPDX tag for MIT license in via_3d_reg header
-      drm/via: Make macros readable in the via_3d_reg header
-      drm/via: Fix style issues in via_3d_reg header
-
- drivers/gpu/drm/via/Makefile       |    2 +-
- drivers/gpu/drm/via/via_3d_reg.h   |  349 ++--
- drivers/gpu/drm/via/via_dma.c      |  744 --------
- drivers/gpu/drm/via/via_dmablit.c  |  807 --------
- drivers/gpu/drm/via/via_dmablit.h  |  140 --
- drivers/gpu/drm/via/via_dri1.c     | 3630 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/via/via_drv.c      |  124 --
- drivers/gpu/drm/via/via_drv.h      |  229 ---
- drivers/gpu/drm/via/via_irq.c      |  388 ----
- drivers/gpu/drm/via/via_map.c      |  132 --
- drivers/gpu/drm/via/via_mm.c       |  241 ---
- drivers/gpu/drm/via/via_verifier.c | 1110 -----------
- drivers/gpu/drm/via/via_verifier.h |   62 -
- drivers/gpu/drm/via/via_video.c    |   94 -
- 14 files changed, 3866 insertions(+), 4186 deletions(-)
-
+diff --git a/drivers/gpu/drm/via/Makefile b/drivers/gpu/drm/via/Makefile
+index 84db4eee7828..acfd916541ea 100644
+--- a/drivers/gpu/drm/via/Makefile
++++ b/drivers/gpu/drm/via/Makefile
+@@ -3,6 +3,6 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+ 
+-via-y    := via_irq.o via_drv.o via_map.o via_mm.o via_dma.o via_verifier.o via_video.o via_dmablit.o
++via-y    := via_irq.o via_dri1.o via_map.o via_mm.o via_dma.o via_verifier.o via_video.o via_dmablit.o
+ 
+ obj-$(CONFIG_DRM_VIA)	+=via.o
+diff --git a/drivers/gpu/drm/via/via_drv.c b/drivers/gpu/drm/via/via_dri1.c
+similarity index 100%
+rename from drivers/gpu/drm/via/via_drv.c
+rename to drivers/gpu/drm/via/via_dri1.c
+-- 
+2.34.1
 
