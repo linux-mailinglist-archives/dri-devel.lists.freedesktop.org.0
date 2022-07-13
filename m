@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7967D5733D0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 12:09:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95DF5734A5
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 12:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEEE98F4C;
-	Wed, 13 Jul 2022 10:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA6FD8DCD7;
+	Wed, 13 Jul 2022 10:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCACD98F4B;
- Wed, 13 Jul 2022 10:08:58 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id bn33so12876891ljb.13;
- Wed, 13 Jul 2022 03:08:58 -0700 (PDT)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16D7E8ECBF
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jul 2022 10:53:39 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id i21so10215554qtw.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jul 2022 03:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Byd4/jahjyoyw0K/iMAz20kd4FdeP/AViHSjhRTyo1o=;
- b=hvXkweVLrF81HDyll6b+YOUORVhujNOXY357RUs2UlHOVR3BAuVzU5d8N6za3hjFNf
- zfcm6CRPC+T8DjUJfOb6wm8bIXgOiCbF3ppE4fVGCMNv0ZNl5qBRNOb+VTKGaeoQd/DZ
- q4iUpzy40dPt9JvJrQOElKG+PncHEKB6xYD3eYWY5oUfKoCGfqp9SYUVLDtebkCiHa13
- AhY67e+0px7Ckkwg2+PnV2LJKEIxpsifmyklpYmQOHWY+OaBYBaCVsvKbJx0bD+qh1Gl
- 8nzv6d6ePgazegjsMcIXnmiXr94L4kXTZZJGBshblPBDyCJdknYfI2/3Gw+xjH8H6r88
- 0mCA==
+ bh=DtbNdnUc44YIlF6TRQBufQhc3QEyoL5MrmX0wLT8k54=;
+ b=Gyo9ib/QcIdb16MTJkh9cbA18WvicHplsE0W3sU861LHrnSg07BYqH7gJMgBhngnKz
+ HcevAv8xN2yoj76j2VtRiK2gtKJVtYu4yl5/zly8b+NniYgUqKX802rsbScX12+DWFC4
+ f0KpI6KMxAijdVif10K4Yr7TL49g59ksBWPF+FSCOp555hmLxPKqliprXs0MwfV8RcVf
+ ETobhf/JgYbtx1rqJ3zRweW6zFE9EFO0mg+t95Av28GUjrByGd6Dv732KM7J1jq47j2b
+ 8+Q496cjjPl2IE4bcmCDO+D9bk6yPPzE9JlJzEBLhQ3fyJGOnWiUMtJcmMXwpI3pw5T7
+ noUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Byd4/jahjyoyw0K/iMAz20kd4FdeP/AViHSjhRTyo1o=;
- b=5TN2OM5XwsRoZesNnjNye8J6Abyy7HMxe2Nra9+2ourz2PAbEIx2JLQ8mpFIFxZlbo
- eYrz/tRvi1Joj+GiQc576qGMb1n539phiacy8HGcaQ5b3FbbKQdLndE9a9Ar7SX3cRTH
- G3zUjaQLhGkT+2HHWOBw9AEP1sC4/1sEm2yEqNytwzVz0vX2ewl/CCvjVZpW+ukB+zBJ
- aC9ACVjsfEJTvX/NVaK7xXFAwAQWL1WEA+82vbdSAAq7H2kj/vaKDOeSlPNtVJrLyWyO
- 77TVXqcO/6priaAyNLlVIEl+LyJ+XHsFAJ+xZhQc7f6FawsdKU84tvQuk2eL6oMpwNSB
- skMQ==
-X-Gm-Message-State: AJIora9i23vRP/HNzpREiA5TYqs2iv1STi+5c5agkWUyylMDeEPKoHF2
- zD3ojRjmYwJXnSGqEZMYUG+/LCZMMxsUU2pYkC8=
-X-Google-Smtp-Source: AGRyM1tAZnzXtYYuYfWjBkbdDqiHPbR6CZzD48vTvXTahZWN6qSsFdEVuIZaHvEiMZY/6/uQFqUET+Sa/o1ORNjRVfk=
-X-Received: by 2002:a05:651c:981:b0:253:b87e:ba6c with SMTP id
- b1-20020a05651c098100b00253b87eba6cmr1291651ljq.530.1657706936921; Wed, 13
- Jul 2022 03:08:56 -0700 (PDT)
+ bh=DtbNdnUc44YIlF6TRQBufQhc3QEyoL5MrmX0wLT8k54=;
+ b=D6oI6rSBDUcPUfw5jskx05vGC23Qp0t3+J+9QPHBG+PmQQOOde/U9uvzamd15XfIb2
+ gNUjq1YQAHfsSDIOVpVnlnQ4Ub1bNeOdUEBIU2XkLN83v49EfCBNckjDOgnwrqhWvDex
+ M0NnWps2XLleIhMWxg/j3u3UG1vNaLsWxycLCNRNlbRsZ/on/gSRR/pKI04pogrF3a13
+ IX6cZtcmlSZwZeHIuQFk4r+3WWwPiLPaeBV+C2bDWbdTbJR+/Hrqh0p6L36MRH17i6iQ
+ 2fegMKwjTc6YAxVwIwHLABxnle/s4WWchMeuc0IVy50DYsL5c0ay8zQNlQf1kyUQbM7S
+ 3ObQ==
+X-Gm-Message-State: AJIora/lHJynJazLC7qCyrANLCUmI9tnRJzmZ7DJ2N+B+8Gd+1yzwuv0
+ 8AMZzTFkGyO6tEweeLdz01IozAi6uiUieYibdiU=
+X-Google-Smtp-Source: AGRyM1tW+7suTTjQXEmy3r5fN1iawLpKRhb3LKUTHZNBYRUSHZBiLtacjGwqLvPQVKDWfDQQGVrgegFbKhRRnQe+Kts=
+X-Received: by 2002:a05:622a:1755:b0:31e:cbdf:2e32 with SMTP id
+ l21-20020a05622a175500b0031ecbdf2e32mr1387023qtk.548.1657709618139; Wed, 13
+ Jul 2022 03:53:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220712114605.52369-1-christian.koenig@amd.com>
-In-Reply-To: <20220712114605.52369-1-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 13 Jul 2022 11:08:29 +0100
-Message-ID: <CAM0jSHOiFRZaU=NC9d0U8wD-1OWx_c+K0xfKz5unAxggU6WFtQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/i915: audit bo->resource usage
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20220704053901.728-1-peterwu.pub@gmail.com>
+ <20220704053901.728-14-peterwu.pub@gmail.com>
+ <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
+In-Reply-To: <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Wed, 13 Jul 2022 18:53:26 +0800
+Message-ID: <CABtFH5K-2+2hbpvpq2nPE5AsznkQxZF2r3MVC64Q39DJhVuUtA@mail.gmail.com>
+Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370
+ support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,84 +67,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Jul 2022 at 12:46, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Make sure we can at least move and alloc TT objects without backing store=
-.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 6 ++----
->  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 2 +-
->  2 files changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
-15/gem/i915_gem_ttm.c
-> index 70e2ed4e99df..5449738c262f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -289,8 +289,6 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_b=
-uffer_object *bo,
->  {
->         struct drm_i915_private *i915 =3D container_of(bo->bdev, typeof(*=
-i915),
->                                                      bdev);
-> -       struct ttm_resource_manager *man =3D
-> -               ttm_manager_type(bo->bdev, bo->resource->mem_type);
->         struct drm_i915_gem_object *obj =3D i915_ttm_to_gem(bo);
->         unsigned long ccs_pages =3D 0;
->         enum ttm_caching caching;
-> @@ -304,8 +302,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_b=
-uffer_object *bo,
->         if (!i915_tt)
->                 return NULL;
->
-> -       if (obj->flags & I915_BO_ALLOC_CPU_CLEAR &&
-> -           man->use_tt)
-> +       if (obj->flags & I915_BO_ALLOC_CPU_CLEAR && bo->resource &&
-> +           ttm_manager_type(bo->bdev, bo->resource->mem_type)->use_tt)
->                 page_flags |=3D TTM_TT_FLAG_ZERO_ALLOC;
+Hi Andy,
+Thanks for your reply! I have some questions want to ask you below.
 
-AFAICT it should be safe to make this:
+Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=
+=885=E6=97=A5 =E9=80=B1=E4=BA=8C =E6=B8=85=E6=99=A85:14=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+> >
+> > From: ChiaEn Wu <chiaen_wu@richtek.com>
+> >
+> > Add Mediatek MT6370 Backlight support.
+>
+> ...
+>
+> > +         This driver can also be built as a module. If so the module
+>
+> If so,
+>
+> > +         will be called "mt6370-backlight.ko".
+>
+> No ".ko" part.
+>
+> ...
+>
+> > +#include <linux/gpio/driver.h>
+>
+> Can you elaborate on this?
+>
+> > +#include <linux/kernel.h>
+> > +#include <linux/log2.h>
+> > +#include <linux/minmax.h>
+> > +#include <linux/module.h>
+>
+> > +#include <linux/of.h>
+>
+> Can you elaborate on this?
+>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/regmap.h>
+>
+> Missed mod_devicetable.h.
+>
+> ...
+>
+> > +               brightness_val[0] =3D (brightness - 1) & MT6370_BL_DIM2=
+_MASK;
+> > +               brightness_val[1] =3D (brightness - 1)
+> > +                                   >> fls(MT6370_BL_DIM2_MASK);
+>
+> Bad indentation. One line?
 
-if (obj->flags & I915_BO_ALLOC_CPU_CLEAR)
-        page_flags |=3D TTM_TT_FLAG_ZERO_ALLOC;
-
-Hopefully that fixes the igt_lmem_create_cleared_cpu subtest?
+Well... if indent to one line, it will be over 80 characters(or called colu=
+mns?)
+From my understanding, it is not allowed, right??
 
 >
->         caching =3D i915_ttm_select_tt_caching(obj);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/d=
-rm/i915/gem/i915_gem_ttm_move.c
-> index a10716f4e717..dcb838dffd7b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> @@ -490,7 +490,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool =
-evict,
->         bool clear;
->         int ret;
+> ...
 >
-> -       if (GEM_WARN_ON(!obj)) {
-> +       if (!bo->resource || GEM_WARN_ON(!obj)) {
+> > +       if (priv->enable_gpio)
+>
+> Dup check.
+>
+> > +               gpiod_set_value(priv->enable_gpio, brightness ? 1 : 0);
+>
+> ...
+>
+> > +       brightness =3D brightness_val[1] << fls(MT6370_BL_DIM2_MASK);
+> > +       brightness +=3D (brightness_val[0] & MT6370_BL_DIM2_MASK);
+>
+> Too many parentheses.
+>
+> ...
+>
+> > +               /*
+> > +                * prop_val =3D  1      -->  1 steps --> 0x00
+> > +                * prop_val =3D  2 ~  4 -->  4 steps --> 0x01
+> > +                * prop_val =3D  5 ~ 16 --> 16 steps --> 0x10
+> > +                * prop_val =3D 17 ~ 64 --> 64 steps --> 0x11
+> > +                */
+> > +               prop_val =3D (ilog2(roundup_pow_of_two(prop_val)) + 1) =
+>> 1;
+>
+> Isn't something closer to get_order() or fls()?
 
-IIUC in patch 3 we now nuke the bo->resource when doing the "pipeline
-gutting" thing, but I think i915 is (ab)using that when swapping out
-shmem objects (see i915_ttm_shrink), so I think here we need to
-somehow inspect the tt to see if something needs to be swapped in? We
-might also need to move it back to lmem after. Or maybe this is
-already handled somehow? CI should hopefully be able to confirm
-(gem_lmem_swapping).
+I will revise it to "(get_order(prop_va * PAGE_SIZE) + 1) / 2" and
+this change is meet your expectations??
 
->                 ttm_bo_move_null(bo, dst_mem);
->                 return 0;
->         }
+>
+> ...
+>
+> > +       props->max_brightness =3D min_t(u32, brightness,
+> > +                                     MT6370_BL_MAX_BRIGHTNESS);
+>
+> One line?
+
+ Ditto, it will be over 80 characters...
+
+>
+> ...
+>
+> > +       val =3D 0;
+>
+> Do you need this here?
+>
+> > +       prop_val =3D 0;
+>
+> Useless.
+>
+> > +       ret =3D device_property_read_u8(dev, "mediatek,bled-channel-use=
+",
+> > +                                     &prop_val);
+> > +       if (ret) {
+> > +               dev_err(dev, "mediatek,bled-channel-use DT property mis=
+sing\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       if (!prop_val || prop_val > MT6370_BL_MAX_CH) {
+> > +               dev_err(dev,
+> > +                       "No channel specified or over than upper bound =
+(%d)\n",
+> > +                       prop_val);
+> > +               return -EINVAL;
+> > +       }
+>
+> ...
+>
+> > +static int mt6370_bl_probe(struct platform_device *pdev)
+> > +{
+> > +       struct mt6370_priv *priv;
+> > +       struct backlight_properties props =3D {
+> > +               .type =3D BACKLIGHT_RAW,
+> > +               .scale =3D BACKLIGHT_SCALE_LINEAR,
+> > +       };
+> > +       int ret;
+>
+>   struct device *dev =3D &pdev->dev;
+>
+> will save you a few LoCs.
+>
 > --
-> 2.25.1
->
+> With Best Regards,
+> Andy Shevchenko
+
+Best regards,
+ChiaEn Wu
