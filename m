@@ -1,52 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E02F572A88
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 02:58:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB709572AB7
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 03:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E78BD11BC96;
-	Wed, 13 Jul 2022 00:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291F095160;
+	Wed, 13 Jul 2022 01:19:36 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 901FD12BEB3;
- Wed, 13 Jul 2022 00:58:06 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0131012A9F9;
+ Wed, 13 Jul 2022 01:19:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657673886; x=1689209886;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=K8UeEVqKQvclST9LdQ8qbdqwu5NPAVeofP5l7KtRuTI=;
- b=mAXrKx21/3vLbMXvrD1FOwdnlzhwXaZjrEcFzYl1GPu7KEyzN6MJtdEB
- RUHUK2VfsAas7nzR3j9i8YmyHX8AInDTG2gXUIEQw3BdOjJxXrLsWUJPo
- e/UbJ0PlUy6ND7J8lBdygfPnan6cAYVUOdcVu2rf16Xust2h56zvliecD
- R/uQWT2Cs9jaMhcfQaoM0i4M0grEySNInDXwruTPXiNzSUQ6IBOokNAib
- LKSpWYEbLT+Ba+hJPOftkHe1uY6cepivfTo0NDcHqz14kyq56i+wTOva+
- hKgkLmg3UZ+idHFveNVUeMwJnYHwmx5dVDBN5oYu3I1N4mQk+/fP8vXfu Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="285103207"
-X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="285103207"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2022 17:58:05 -0700
-X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="592815233"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2022 17:58:05 -0700
-Date: Tue, 12 Jul 2022 17:51:39 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John.C.Harrison@Intel.com
-Subject: Re: [PATCH 07/12] drm/i915/guc: Route semaphores to GuC for Gen12+
-Message-ID: <20220713005139.GA3027@jons-linux-dev-box>
-References: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
- <20220712233136.1044951-8-John.C.Harrison@Intel.com>
+ t=1657675174; x=1689211174;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=T7pf7y94+3H5UQWPlEOZVzL4or85c0uyvauwKSD2CZg=;
+ b=PayLxQDPCH/jCnn51bnD8JVLd2vY7MBPOzVJr5KtqF6aL1cDteIfOn+r
+ dvcerfVvGs8WD9d2+BX4igJuJnbERCnvjGXNBxNqzDGy/CoAeU7M9PhiG
+ EnBjlpqu/snBdGj9tgKwz9fEilb1LVtG5Yv0k8krALvxH2igkcT4NsFIE
+ GNgaR/qajU9C4WIKSAcoDP2eWOMl3xiZKS4yRCgBnBkTtNvjRf+H6eYWm
+ X6bjW6ZOp/203OGcYsxDB8SYgz2Diyez6GbmXgB+cZmHVrmSJsn7uCB+s
+ vcCnwz1Z4fThOXrBmYk3VjqUjVKEW3Zw+0H+7SMlP6p6DHp5hx1RB+Z3V A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="268117392"
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="268117392"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2022 18:19:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; d="scan'208";a="570412462"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga006.jf.intel.com with ESMTP; 12 Jul 2022 18:19:33 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/guc: Don't use pr_err when not necessary
+Date: Tue, 12 Jul 2022 18:19:33 -0700
+Message-Id: <20220713011933.1243676-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220712233136.1044951-8-John.C.Harrison@Intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,82 +55,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-GFX@Lists.FreeDesktop.Org,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 12, 2022 at 04:31:31PM -0700, John.C.Harrison@Intel.com wrote:
-> From: Michał Winiarski <michal.winiarski@intel.com>
-> 
-> Since we're going to use semaphores in selftests (and eventually in
-> regular GuC submission), let's route semaphores to GuC.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-I don't think this comment isn't correct, we have no plans to use
-semaphores in GuC submission. Still if we want semaphores to work with
-GuC submission they should be routed to the GuC.
+A bunch of code was copy/pasted using pr_err as the default way to
+report errors. However, drm_err is significantly more useful in
+identifying where the error came from. So update the code to use that
+instead.
 
-> 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++---
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 37 +++++++++----------
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   | 10 ++---
+ 3 files changed, 28 insertions(+), 29 deletions(-)
 
-Again John, add a SoB for any patch you post.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+index 27363091e1afa..19fde6bda8f9c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+@@ -195,11 +195,11 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+ 			    fw_blobs[i].rev < fw_blobs[i - 1].rev)
+ 				continue;
+ 
+-			pr_err("invalid FW blob order: %s r%u comes before %s r%u\n",
+-			       intel_platform_name(fw_blobs[i - 1].p),
+-			       fw_blobs[i - 1].rev,
+-			       intel_platform_name(fw_blobs[i].p),
+-			       fw_blobs[i].rev);
++			drm_err(&i915->drm, "Invalid FW blob order: %s r%u comes before %s r%u\n",
++				intel_platform_name(fw_blobs[i - 1].p),
++				fw_blobs[i - 1].rev,
++				intel_platform_name(fw_blobs[i].p),
++				fw_blobs[i].rev);
+ 
+ 			uc_fw->path = NULL;
+ 		}
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+index 1df71d0796aec..20e0c39259fba 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+@@ -62,7 +62,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 		ce = intel_context_create(engine);
+ 		if (IS_ERR(ce)) {
+ 			ret = PTR_ERR(ce);
+-			pr_err("Failed to create context, %d: %d\n", i, ret);
++			drm_err(&gt->i915->drm, "Failed to create context, %d: %d\n", i, ret);
+ 			goto err;
+ 		}
+ 
+@@ -83,7 +83,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 
+ 		if (IS_ERR(rq)) {
+ 			ret = PTR_ERR(rq);
+-			pr_err("Failed to create request, %d: %d\n", i, ret);
++			drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n", i, ret);
+ 			goto err;
+ 		}
+ 
+@@ -93,7 +93,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 	for (i = 0; i < 3; ++i) {
+ 		ret = i915_request_wait(last[i], 0, HZ);
+ 		if (ret < 0) {
+-			pr_err("Last request failed to complete: %d\n", ret);
++			drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
+ 			goto err;
+ 		}
+ 		i915_request_put(last[i]);
+@@ -110,7 +110,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 	/* GT will not idle if G2H are lost */
+ 	ret = intel_gt_wait_for_idle(gt, HZ);
+ 	if (ret < 0) {
+-		pr_err("GT failed to idle: %d\n", ret);
++		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
+ 		goto err;
+ 	}
+ 
+@@ -150,7 +150,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 
+ 	ce = kcalloc(GUC_MAX_CONTEXT_ID, sizeof(*ce), GFP_KERNEL);
+ 	if (!ce) {
+-		pr_err("Context array allocation failed\n");
++		drm_err(&gt->i915->drm, "Context array allocation failed\n");
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -164,24 +164,24 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	if (IS_ERR(ce[context_index])) {
+ 		ret = PTR_ERR(ce[context_index]);
+ 		ce[context_index] = NULL;
+-		pr_err("Failed to create context: %d\n", ret);
++		drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
+ 		goto err_wakeref;
+ 	}
+ 	ret = igt_spinner_init(&spin, engine->gt);
+ 	if (ret) {
+-		pr_err("Failed to create spinner: %d\n", ret);
++		drm_err(&gt->i915->drm, "Failed to create spinner: %d\n", ret);
+ 		goto err_contexts;
+ 	}
+ 	spin_rq = igt_spinner_create_request(&spin, ce[context_index],
+ 					     MI_ARB_CHECK);
+ 	if (IS_ERR(spin_rq)) {
+ 		ret = PTR_ERR(spin_rq);
+-		pr_err("Failed to create spinner request: %d\n", ret);
++		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
+ 		goto err_contexts;
+ 	}
+ 	ret = request_add_spin(spin_rq, &spin);
+ 	if (ret) {
+-		pr_err("Failed to add Spinner request: %d\n", ret);
++		drm_err(&gt->i915->drm, "Failed to add Spinner request: %d\n", ret);
+ 		goto err_spin_rq;
+ 	}
+ 
+@@ -191,7 +191,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 		if (IS_ERR(ce[context_index])) {
+ 			ret = PTR_ERR(ce[context_index--]);
+ 			ce[context_index] = NULL;
+-			pr_err("Failed to create context: %d\n", ret);
++			drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
+ 			goto err_spin_rq;
+ 		}
+ 
+@@ -200,8 +200,8 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 			ret = PTR_ERR(rq);
+ 			rq = NULL;
+ 			if (ret != -EAGAIN) {
+-				pr_err("Failed to create request, %d: %d\n",
+-				       context_index, ret);
++				drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n",
++					context_index, ret);
+ 				goto err_spin_rq;
+ 			}
+ 		} else {
+@@ -215,7 +215,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	igt_spinner_end(&spin);
+ 	ret = intel_selftest_wait_for_rq(spin_rq);
+ 	if (ret) {
+-		pr_err("Spin request failed to complete: %d\n", ret);
++		drm_err(&gt->i915->drm, "Spin request failed to complete: %d\n", ret);
+ 		i915_request_put(last);
+ 		goto err_spin_rq;
+ 	}
+@@ -227,7 +227,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	ret = i915_request_wait(last, 0, HZ * 30);
+ 	i915_request_put(last);
+ 	if (ret < 0) {
+-		pr_err("Last request failed to complete: %d\n", ret);
++		drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
+ 		goto err_spin_rq;
+ 	}
+ 
+@@ -235,7 +235,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	rq = nop_user_request(ce[context_index], NULL);
+ 	if (IS_ERR(rq)) {
+ 		ret = PTR_ERR(rq);
+-		pr_err("Failed to steal guc_id, %d: %d\n", context_index, ret);
++		drm_err(&gt->i915->drm, "Failed to steal guc_id, %d: %d\n", context_index, ret);
+ 		goto err_spin_rq;
+ 	}
+ 
+@@ -243,21 +243,20 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	ret = i915_request_wait(rq, 0, HZ);
+ 	i915_request_put(rq);
+ 	if (ret < 0) {
+-		pr_err("Request with stolen guc_id failed to complete: %d\n",
+-		       ret);
++		drm_err(&gt->i915->drm, "Request with stolen guc_id failed to complete: %d\n", ret);
+ 		goto err_spin_rq;
+ 	}
+ 
+ 	/* Wait for idle */
+ 	ret = intel_gt_wait_for_idle(gt, HZ * 30);
+ 	if (ret < 0) {
+-		pr_err("GT failed to idle: %d\n", ret);
++		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
+ 		goto err_spin_rq;
+ 	}
+ 
+ 	/* Verify a guc_id was stolen */
+ 	if (guc->number_guc_id_stolen == number_guc_id_stolen) {
+-		pr_err("No guc_id was stolen");
++		drm_err(&gt->i915->drm, "No guc_id was stolen");
+ 		ret = -EINVAL;
+ 	} else {
+ 		ret = 0;
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+index 812220a43df81..d17982c36d256 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+@@ -115,30 +115,30 @@ static int __intel_guc_multi_lrc_basic(struct intel_gt *gt, unsigned int class)
+ 
+ 	parent = multi_lrc_create_parent(gt, class, 0);
+ 	if (IS_ERR(parent)) {
+-		pr_err("Failed creating contexts: %ld", PTR_ERR(parent));
++		drm_err(&gt->i915->drm, "Failed creating contexts: %ld", PTR_ERR(parent));
+ 		return PTR_ERR(parent);
+ 	} else if (!parent) {
+-		pr_debug("Not enough engines in class: %d", class);
++		drm_dbg(&gt->i915->drm, "Not enough engines in class: %d", class);
+ 		return 0;
+ 	}
+ 
+ 	rq = multi_lrc_nop_request(parent);
+ 	if (IS_ERR(rq)) {
+ 		ret = PTR_ERR(rq);
+-		pr_err("Failed creating requests: %d", ret);
++		drm_err(&gt->i915->drm, "Failed creating requests: %d", ret);
+ 		goto out;
+ 	}
+ 
+ 	ret = intel_selftest_wait_for_rq(rq);
+ 	if (ret)
+-		pr_err("Failed waiting on request: %d", ret);
++		drm_err(&gt->i915->drm, "Failed waiting on request: %d", ret);
+ 
+ 	i915_request_put(rq);
+ 
+ 	if (ret >= 0) {
+ 		ret = intel_gt_wait_for_idle(gt, HZ * 5);
+ 		if (ret < 0)
+-			pr_err("GT failed to idle: %d\n", ret);
++			drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
+ 	}
+ 
+ out:
+-- 
+2.36.0
 
-With a better commit message and SoB update:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h        |  4 ++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 ++++++++++++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-> index 8dc063f087eb1..a7092f711e9cd 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-> @@ -102,6 +102,10 @@
->  #define   GUC_SEND_TRIGGER		  (1<<0)
->  #define GEN11_GUC_HOST_INTERRUPT	_MMIO(0x1901f0)
->  
-> +#define GEN12_GUC_SEM_INTR_ENABLES	_MMIO(0xc71c)
-> +#define   GUC_SEM_INTR_ROUTE_TO_GUC	BIT(31)
-> +#define   GUC_SEM_INTR_ENABLE_ALL	(0xff)
-> +
->  #define GUC_NUM_DOORBELLS		256
->  
->  /* format of the HW-monitored doorbell cacheline */
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 40f726c61e951..7537459080278 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -3953,13 +3953,27 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
->  
->  void intel_guc_submission_enable(struct intel_guc *guc)
->  {
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +
-> +	/* Enable and route to GuC */
-> +	if (GRAPHICS_VER(gt->i915) >= 12)
-> +		intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES,
-> +				   GUC_SEM_INTR_ROUTE_TO_GUC |
-> +				   GUC_SEM_INTR_ENABLE_ALL);
-> +
->  	guc_init_lrc_mapping(guc);
->  	guc_init_engine_stats(guc);
->  }
->  
->  void intel_guc_submission_disable(struct intel_guc *guc)
->  {
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +
->  	/* Note: By the time we're here, GuC may have already been reset */
-> +
-> +	/* Disable and route to host */
-> +	if (GRAPHICS_VER(gt->i915) >= 12)
-> +		intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES, 0x0);
->  }
->  
->  static bool __guc_submission_supported(struct intel_guc *guc)
-> -- 
-> 2.36.0
-> 
