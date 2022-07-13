@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212F6573298
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 11:31:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E6E57328E
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jul 2022 11:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B7B98A8E;
-	Wed, 13 Jul 2022 09:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D29EB98A86;
+	Wed, 13 Jul 2022 09:30:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8497E98A75;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 343D798A70;
  Wed, 13 Jul 2022 09:30:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DC4E761CBF;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8880B61CB6;
  Wed, 13 Jul 2022 09:30:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BCBCC341CA;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A05C341D3;
  Wed, 13 Jul 2022 09:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1657704622;
- bh=gq1c2dnJ31eBwAsmdC8JxTbRoY8LDtkL7UuzgIkibDk=;
+ bh=d7Ye7f/yZMeD0fzLWJnDFqz2oIBKUGw1N39MIHO+bsk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cA2NBftAeUC1eYlwzo/9T8vdUOsjh023WYuR14qau0WsbUh7GpuL44NcNhlO0NTVV
- IeXq9o91B2mS4Q/9yyDit4DMjlX1JTLT1k7wSD7rE4rcc1exQuxHri5knL+cva9SoX
- MNMJ89Ul+un/KEsJcfDWbN1p9vLknnxqsTky9VwO0FKAHle+rIkTa79wHkjlDuvGgv
- 5DyfHKd8aPwNGJ4UqR71bk71xMTXLbaF3bdJPp6aZgva6sPrFmAan0UlJEZfIYz9nj
- cWECJJBttuAtiju1XCZqlmaEk7IVwvoFqDFocMRas8txwQzK8C/0hV4ds/zngekuBZ
- 4hejkK2f98dDA==
+ b=Yp/pZSEkoUvsGlC4rq7mlKo7cz2NpoAbkOwvGR8oKgWgtsy9Y0PYmJlYtjLh1w3iL
+ Mh1wKOxxtP+OtWLAcjPRrPFjDKJDFr69KeSIN9wh+XG0JFNv66PSzS3wOZCNLYa2di
+ hJ1AhfNhbgm2tMw5M4tBNjhTlL0b4LqziQhCSLpKcj68m9fshW+z26XHaSX0NWlr1z
+ JY7+6wDu1u9TBhJwhEcBY+4W3w/BjiThWWS1FxilJIYUXJmyhNUr3T/hL3hZEuqCNr
+ 8jZvfKp22fAha3A/Q8/IXLsURheYzJs/LvP4XE6dpAMFOq7h3mUtmLUgzthQAii3a7
+ e8v6uoFpP5ddA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oBYhH-0050Ls-Rm;
+ (envelope-from <mchehab@kernel.org>) id 1oBYhH-0050Lx-ST;
  Wed, 13 Jul 2022 10:30:19 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH 14/21] drm/i915: document tlb field at struct
- drm_i915_gem_object
-Date: Wed, 13 Jul 2022 10:30:11 +0100
-Message-Id: <d00fb3358a63a39e976818b700b59bf1928b5686.1657703926.git.mchehab@kernel.org>
+Subject: [PATCH 15/21] drm/i915: Add platform macro for selective tlb flush
+Date: Wed, 13 Jul 2022 10:30:12 +0100
+Message-Id: <62c27558f7add68cc60fcf765e591f8886a195f9.1657703926.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1657703926.git.mchehab@kernel.org>
 References: <cover.1657703926.git.mchehab@kernel.org>
@@ -56,39 +55,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chris Wilson <chris.p.wilson@intel.com>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, intel-gfx@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation to the TLB field inside
-struct drm_i915_gem_object.
+From: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 
+Add support for selective TLB invalidation, which is a platform
+feature supported on XeHP.
+
+Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 See [PATCH 00/21] at: https://lore.kernel.org/all/cover.1657703926.git.mchehab@kernel.org/
 
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/i915_drv.h          | 3 +++
+ drivers/gpu/drm/i915/i915_pci.c          | 1 +
+ drivers/gpu/drm/i915/intel_device_info.h | 1 +
+ 3 files changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 3c1d0b750a67..6f5b9e34a4d7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -618,6 +618,7 @@ struct drm_i915_gem_object {
- 		 */
- 		bool dirty:1;
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index f1f70257dbe0..73494960a3a8 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1312,6 +1312,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
  
-+		/** @mm.tlb: array with TLB invalidate IDs */
- 		u32 tlb[I915_MAX_GT];
- 	} mm;
+ #define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
  
++#define HAS_SELECTIVE_TLB_INVALIDATION(dev_priv) \
++	(INTEL_INFO(dev_priv)->has_selective_tlb_invalidation)
++
+ #define HAS_POOLED_EU(dev_priv)	(INTEL_INFO(dev_priv)->has_pooled_eu)
+ 
+ #define HAS_GLOBAL_MOCS_REGISTERS(dev_priv)	(INTEL_INFO(dev_priv)->has_global_mocs)
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index aacc10f2e73f..30d945fe384b 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -1022,6 +1022,7 @@ static const struct intel_device_info adl_p_info = {
+ 	.has_reset_engine = 1, \
+ 	.has_rps = 1, \
+ 	.has_runtime_pm = 1, \
++	.has_selective_tlb_invalidation = 1, \
+ 	.ppgtt_size = 48, \
+ 	.ppgtt_type = INTEL_PPGTT_FULL
+ 
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index 23bf230aa104..92a38b8f7c47 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -170,6 +170,7 @@ enum intel_ppgtt_type {
+ 	func(has_rc6p); \
+ 	func(has_rps); \
+ 	func(has_runtime_pm); \
++	func(has_selective_tlb_invalidation); \
+ 	func(has_snoop); \
+ 	func(has_coherent_ggtt); \
+ 	func(unfenced_needs_alignment); \
 -- 
 2.36.1
 
