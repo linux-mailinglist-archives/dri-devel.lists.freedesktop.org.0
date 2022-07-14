@@ -2,72 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1B4574935
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 11:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5653B574939
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 11:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD2B710F4EE;
-	Thu, 14 Jul 2022 09:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E34C7A2D84;
+	Thu, 14 Jul 2022 09:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34302112D65
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 09:38:32 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id e28so1880959lfj.4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 02:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=TLtLAzqKjh0PR2hCiXTpWedWr6UZ/eh69O/Av6dFIUQ=;
- b=OrBeTbStBItEd8xp+RbyOHCOHfiOQOJrv5ANEz6qxRGixDOxMAJ5IzUuiOQejXwRyZ
- GMkAV6A+Rweq3b6Zxv0mjMm0eoJjr5PRDAQoZco1jCPPb6IAeQSgEB2x3wySZxwH92CG
- v7eIrrSCr/lzKx0racL0bqV858CJVvFs+RCUV9Iz1I0MBxltwBK4evG6S/Rrl/H7V2lq
- Ly6NpupvlRiBmGyepoRqeTavRvkISkRMGu8PAVRfuuZ3Oo+jFfV9oe/nSZlU3EbSClps
- DnYZKmYZJgdiBMW09JWHhs4cqCCLdFQrr5ck858Ixns9msDblNZPtZkKYbuhOiwYqNSY
- /OsA==
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9726DA2D79
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 09:39:28 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id p9so2322830pjd.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 02:39:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=035aCrOz5ERcq1QdmAwfHzCWjFJoscBLHwbpgcL7qwM=;
+ b=IPcwiRAPfXZGdabealGssIj3UFwxYY+gjXA8gU2bN98caeRupARqxJi5HvEaCHj8LU
+ l369ixh3UstTtFS1BnorG0XXEhuP5h0hAgJ+FtMmjNUfmrUgC24cb61vTCAsdX+wL7HZ
+ 5NBJwOaPmwCW3P9eKO3GGTpFex7BdN5odvivw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=TLtLAzqKjh0PR2hCiXTpWedWr6UZ/eh69O/Av6dFIUQ=;
- b=7zlBqRClVkaoTBxFVZXwNSeyrzfas1hCUWIEnKN3ETI01NX9yo2VKT/K2Yk4Ae7zPG
- g1dtt4/yvGcONnCpWPM7rNPyIk2iC3TOLcdQDmOFWbB1YkM94N5v2MYLRIYPGU2FPYbU
- BqyNYRZ64Z61CzswvFGo3DvVBPLtPBEkAu7wdsSvQr0ELKdq5sF5aEvOQes2FekP/wBx
- HDpaRhkn1R+SR/3nYFhUAjBRFeG/c2vSRBhrn9UZc02kC1frdfAKRnpprZfdA74Bwyq7
- c+oCHi07rJFZx1jH1ZXdwkGatWcKdTKri2t7ez0svaD9yLAj7jX7PGEvX2evSExQO2R/
- LuNg==
-X-Gm-Message-State: AJIora8tdvI9oZi3YKMUFvBGwfwTONSZs/628pJV1dLb3URULVH0BqRx
- IwVB7sl7R95cjlF3QnVay26GNIQmnuQYRw==
-X-Google-Smtp-Source: AGRyM1tc/J/ECeZYTPp1hWc06zGMIdJAwt8bxeNi6BFWllabpCBNba0Lt2QRG5hj0HKnx9MN0GD8zQ==
-X-Received: by 2002:a05:6512:2308:b0:48a:f9d:7389 with SMTP id
- o8-20020a056512230800b0048a0f9d7389mr3812939lfu.235.1657791510561; 
- Thu, 14 Jul 2022 02:38:30 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+ bh=035aCrOz5ERcq1QdmAwfHzCWjFJoscBLHwbpgcL7qwM=;
+ b=ML4aBRJvmZg9jikq/sRJnqaWaHWutnONAbfb/Spu6P2NVsq4+ymb3c5uFqk6KS7Et1
+ 5mto5l6xWsFlD/ANrfhzMatuQZ3njW/Fqk0YpFBFnW6x+MRGgNbhKiE8g8MVyeHZwRwQ
+ JX77X9CEtCKrHCEWirc9GUtc59Wx6ABXwH2IKb4KsVITGv41OOn3Ttlpnrk+mhxL2bG4
+ uDjy6FHVtp+fWZdTEB+2B8v6BD9RZ9YptrLhLExnoUt3STz+59RWeEhtOvgpaDjVhjHk
+ O89zy/1DWMm7XykUegeuOTj19mpYngD3FtJbP5MxzqHuYoNJ6Sl77MjecIuYvt2kAVbn
+ LUXA==
+X-Gm-Message-State: AJIora8LMsFlrz+t7HU+vF3eeUqviTcgKfLsw5kQKvkaoIR/Neq2zSl+
+ Ap9iqWeDmnOdsXKfSGhug5bfTg==
+X-Google-Smtp-Source: AGRyM1uHl6xzZtJP+2RbMoBawnwUDbMd+wrFhj4n0h0m6qDMV3KEhp79mOW1zYnnkrHA80MGqTCS2w==
+X-Received: by 2002:a17:90b:1643:b0:1f0:2094:57db with SMTP id
+ il3-20020a17090b164300b001f0209457dbmr8738186pjb.140.1657791568146; 
+ Thu, 14 Jul 2022 02:39:28 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:e954:82dc:af20:e6e1])
  by smtp.gmail.com with ESMTPSA id
- s2-20020a056512214200b0047960b50c26sm262242lfr.78.2022.07.14.02.38.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 02:38:30 -0700 (PDT)
-Message-ID: <bd84ef20-e6e1-74e5-5681-7aa273d5255c@linaro.org>
-Date: Thu, 14 Jul 2022 11:38:27 +0200
+ n19-20020a056a00213300b00528c34f514dsm1180743pfj.121.2022.07.14.02.39.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jul 2022 02:39:27 -0700 (PDT)
+From: Pin-Yen Lin <treapking@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/bridge: it6505: Power on downstream device in
+ .atomic_enable
+Date: Thu, 14 Jul 2022 17:39:20 +0800
+Message-Id: <20220714173715.v2.1.I85af54e9ceda74ec69f661852825845f983fc343@changeid>
+X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 7/9] dt-bindings: msm/dp: mark vdda supplies as
- deprecated
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
- <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,27 +71,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- freedreno@lists.freedesktop.org
+Cc: Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pin-Yen Lin <treapking@chromium.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2022 10:41, Dmitry Baryshkov wrote:
-> The commit fa384dd8b9b8 ("drm/msm/dp: delete vdda regulator related
-> functions from eDP/DP controller") removed support for VDDA supplies
+Send DPCD DP_SET_POWER_D0 command to the monitor in .atomic_enable
+callback. Without this command, some monitors won't show up again after
+changing the resolution.
 
-No such commit exists in next. Do not reference unpublished commits. If
-this is your tree, be sure that it is in next.
+Fixes: 46ca7da7f1e8 ("drm/bridge: it6505: Send DPCD SET_POWER to downstream")
 
-> from the DP controller driver. These supplies are now handled by the eDP
-> or QMP PHYs. Mark these properties as deprecated and drop them from the
-> example.
+Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+---
 
-Right now I cannot judge whether this is correct or not. I don't know
-what's in that commit, but in general driver implementation changes do
-not warrant changes in the binding.
+Changes in v2:
+- Update the typo in the summary (power on --> power off)
+- Re-write the commit message to make it clearer.
 
-Best regards,
-Krzysztof
+ drivers/gpu/drm/bridge/ite-it6505.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 4b673c4792d7..e5626035f311 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2945,6 +2945,9 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	if (ret)
+ 		dev_err(dev, "Failed to setup AVI infoframe: %d", ret);
+ 
++	it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
++				     DP_SET_POWER_D0);
++
+ 	it6505_update_video_parameter(it6505, mode);
+ 
+ 	ret = it6505_send_video_infoframe(it6505, &frame);
+-- 
+2.37.0.144.g8ac04bfd2-goog
+
