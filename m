@@ -1,69 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBD15752AE
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 18:23:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66895752B9
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 18:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0D81125B6;
-	Thu, 14 Jul 2022 16:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C28D113FFB;
+	Thu, 14 Jul 2022 16:26:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BB210F612
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 16:23:11 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id va17so4418550ejb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 09:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=C9JWDT2rInqljNrrv1A4QkeX//3wZrC9s/rrqP8RPI4=;
- b=biRrvXxpwxJsg3+tNigbVdTNTspvK5SFmAxHPGxSaHTa56J24DZO/02Fdvq0s+34QI
- 6N2sOrpDkSdvEQ01xBHmR+jUu1oL6W2vDJwndF09RJVo8qCC61Eh1XAkDuY6cqcin0OT
- ERa+ird+RYIO+pgxmXAOERclc0TpWhsxC24VjahPXHvmTSHGmfRC5X5mCuZrL8PB6PmQ
- 6bGm0Q4+mWMXl137FgwEguf4tjEqJqUXooX11nZoEtzsHHdkZDcyEjf7x1XGm6hL9XLc
- 3PHsiJQWFhHaYOirXMCDiagXqzDCCG7hA0zp4x95QF2ulknZ/F+yH6ewuTVFj2kqcSYI
- qsYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=C9JWDT2rInqljNrrv1A4QkeX//3wZrC9s/rrqP8RPI4=;
- b=zrAzETiA50vFYB4bWk3G8gM8Uo5XNJASejLBKSmzUSDe62GNXR1b4Le54djQUdI2Kb
- fbYGLAbQncVOFQ5+4R8DUVCRlnoUQMzWuemaPUiYSf6Lax0rpu58RLgh48oxuSMwUdeO
- /kNLv6WnCaLSHE3Z/aUJk+XGBsbkJNYTLAtQS0DcYgjDThCwLiy022BRVymV0py7gQEk
- zSA1Fv7LLoDGh5sJvlLkYfC4KmQVgyt1KFPSOsCwX/bigABOPz2NhsJFpi1jRXqXCo8w
- dQBK9mJaHmWX6LIbUuMi1fa/28M3I6U157RSwXQ5q+oAw7dIwLwxjFpJCBLfLURNSKtN
- oaeA==
-X-Gm-Message-State: AJIora/3GV3EMPYYGv8z4jmj6/t0j/G13+yWFkGG6ftnnF6zUFga1z10
- 1R4XknESsA9b2/2BLaOXKhHedpA9YU0LSYFtCN8=
-X-Google-Smtp-Source: AGRyM1t74GFLvvlY6Ne1/+x525lGyIMtfiNeayrb0wUJl46pK3cNyFCQ2Dzx/PoE8UZlfBqmTxDLZxCUykhrGkPU+OY=
-X-Received: by 2002:a17:907:1623:b0:72b:64e3:878a with SMTP id
- hb35-20020a170907162300b0072b64e3878amr9617982ejc.185.1657815789930; Thu, 14
- Jul 2022 09:23:09 -0700 (PDT)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2045.outbound.protection.outlook.com [40.107.96.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B57F113FF7;
+ Thu, 14 Jul 2022 16:26:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=crLBLNYQy21aTPlOx76CFzmEHbH6WgsexMSuV6/1UZVdh0cY2RVbuE9quew/MLVFJpcakGSDHl8o+5Xl7O9hJs5/BmD8dffrXa1s+8P8/VhSgKg8CXfzxfGne3U2HLdu1+ulfk69vEGsssddDMb2Sz8D2jK2Lus9A0npUjZzv9vK1PEXVA1696NOaSSeq1VqM8NLcq9nIdzW4j80dUj1ZEz/h33ybi5Ulnyxp71oB5X5Swkh0pHNU4HIFYAn+7PL9++qtpBJku7K96wEqleA7yUGx8JuArto/xtizBHk7TUTQndWN4a4LnsKvLL+mr3YemTkXemKmstTaX7W/f3Mvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1gkwYHucvb9/dyFFQOAbXLUpImO/iDZchLyBM7tNKJw=;
+ b=kpLhmGL8KI1GQ2eCkud4cbFmSovts0cyvG+nczAKc1N2Ebd/G0RRe1Q0VGQDNUQKbYe8YKk4iZQd2p3Wetn39hfzn+pCKM4vQJz8UYR1wHhNtLovpuYoDDlPullwOzGa+/Gp57dVxwWmh7BDP+2ZwYQSZ7PqitsMRnCLSNx2H/ZQ7xeg17Ya7lGufSGS/RomzSMCDYlH6PoqcGsRG+zo9TA2HsTK4Sww5kZG5OmgBSerLYVW7VggfcW3GL//9MGOHCqCx0o/Y76KcmsXBhN9POAKuBUyog33fPFCpAKRg40yiKQz7YU92eY+7Tq/ccFqi7t+FtHqjN8agzGf0BM1Yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1gkwYHucvb9/dyFFQOAbXLUpImO/iDZchLyBM7tNKJw=;
+ b=z6KUHhMqFLgy0+DULtIcoaqAKup4G+xR+aGMciD8T3aRadjKc6ql6txZ3+dC0sQrYq/8lvW1mQRGmoe263yv10/CqJczAOB4NWg6+hAzKRuVBLUa4Y9abnGkHWVgJpjTJQiFJ+hK3AFq9qCBGxZPsukb3ZAsVrBSOCjckZSt510=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB3725.namprd12.prod.outlook.com (2603:10b6:208:162::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Thu, 14 Jul
+ 2022 16:26:51 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5438.013; Thu, 14 Jul 2022
+ 16:26:51 +0000
+Message-ID: <49b28cb0-ecc5-836e-aa57-1ea133f8d2a8@amd.com>
+Date: Thu, 14 Jul 2022 18:26:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 01/10] drm/sched: move calling drm_sched_entity_select_rq
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx@lists.freedesktop.org, Marek.Olsak@amd.com, timur.kristof@gmail.com,
+ Yogesh.Mohanmarimuthu@amd.com
+References: <20220714103902.7084-1-christian.koenig@amd.com>
+ <20220714103902.7084-2-christian.koenig@amd.com>
+ <9bfa0ac5-b3da-8682-25d7-b818faf9a1ec@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <9bfa0ac5-b3da-8682-25d7-b818faf9a1ec@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6PR08CA0005.eurprd08.prod.outlook.com
+ (2603:10a6:20b:b2::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
- <a78343c8-2a6d-b223-4219-6b6b0a4fcb1f@arm.com>
- <CAK4VdL2hCEoshWZbCh5mkHuS6wYMiPFR3v4MWTnrEKM9zyv6Mw@mail.gmail.com>
- <ef88ec2c-77b5-fa0d-49d1-fdd2451713b7@collabora.com>
- <573fae0d-c9ab-98b0-c6f1-5b0d4e52dd01@amd.com>
- <a33ab7b9-738f-db91-f6ba-78a9641365e8@amd.com>
- <b05f9861-1966-72f5-132b-aebb4b6e0c6b@collabora.com>
- <107fe968-8311-0511-cc31-22feb994a6d7@collabora.com>
- <3e07a8d0-2cbc-8f3e-8f9f-5b73fb82028b@amd.com>
- <CADnq5_MMmeWkiMxjYfrG7pip8BEkbkRc8ADUDLEi++kRF76sqg@mail.gmail.com>
- <bff42c98-045d-2e5a-2cf9-eb563425375e@collabora.com>
- <6e0c7590-6ffb-162b-a98d-0a39333453f6@collabora.com>
- <4ca27cee-eda0-0a65-f972-c69cc3b3e53e@amd.com>
-In-Reply-To: <4ca27cee-eda0-0a65-f972-c69cc3b3e53e@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Jul 2022 12:22:58 -0400
-Message-ID: <CADnq5_Mms=UbPc7D0-Z-HNUHfCHVWMO82NO+jh5Yg8DmkKwH3A@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/scheduler: Don't kill jobs in interrupt context
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f9e8653e-bb79-455a-4c64-08da65b5a87a
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3725:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Sob+PhjkhZOrtfXUy3c+zGKY1SyZaZ6ozEuimDrACjvQsB4+UPJaoLTwMcTJ8ME5SI+sL3V7bld2ytx00Fz8yzPMpWPiqmTZ8ncWvgb4XhmOl+s3df9bEHCycUUM5y7ZkwCnuJc9gUVREL4JyOVmL9HficgALQFPgQYyAD6CvDDWu93xrxj+NMFXNiG16+E8Gg2g/WQrz6ZWTVwHor+In8CXvTt9M8hrwOnJEPqPu8xh+Ljvofa76PDskR98c6YyLArzMG+48r6X+lTP2of56Ntf9aPi28EdAf20JZVIjtHvPK53fBiF69C0w02daPpAzNbTyhhZ4Wok7lh0gTZqke9Mr7FtdrY0KrNhoeun4U9MUmsb8GR9Xzx8ivCZWtMyqYv37IFu+0P4CJ6R4kRR0qhKECbzkAwxEji0cGUxxwPa1ZQ4CgCUn+ajyLILskXEEY+WOQs5lRIsw9zHPQxVfzaV954Qqj73iJ9DYQLkEPd5YwZFBvAiaoPXvC9DEVBucGPgFhEn/J8vsqT051XhMeCdpMnNn/cZuhRM0uqlyy/qLi/LlKQGH0J9+eEcM5cti5eX5UkfHSKqiFqFCBFTVUAzNwJ8+j8ltlFqgOuVmIPkbhwfgrAOGLxkfUk1t5d+UgrE+ZhLLeD6RKfEjp3/QmoFZxlXzEc/F37oTxHlf3Xn1kHRssII/jiZZDEI6HcmNIiZa4WGVRNZv2czFB79b2yp6hfxtm4GWHX7AWrJpndB7PC5ZEsTXzWGVfC0RZuDXtUcm/iWshpOrc7/CZlgWB2jkCaBOjQRyKF1eFtX1kp7PKCQYAIpOJ0CxhJ8GEOegLZATceBchwzpqBF8NuIlsfCwiEZmSdCa0YqGe82fko=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(39860400002)(396003)(136003)(366004)(346002)(6512007)(6666004)(53546011)(41300700001)(6486002)(186003)(478600001)(6506007)(36756003)(31686004)(110136005)(38100700002)(6636002)(316002)(66476007)(5660300002)(8936002)(8676002)(2616005)(4326008)(2906002)(83380400001)(66556008)(66946007)(31696002)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0ZGT3k4RjlocE9wWTlaL1htQVYyWTBobHkrYWp6Z0xwRjRPWUVZL1BLNGcr?=
+ =?utf-8?B?STNuM0JWSWdaTE1mb24vejUrY2RPR3U3cFdRWThmczAwV284b292M3UwaVlx?=
+ =?utf-8?B?NUd3V3BMd2FYNndYOFlybTk4RExHbGFIZFZ5QzlkaGJBbkxWRGZXRmZaVkc4?=
+ =?utf-8?B?ZytJNE1uWGNxOXFDUzRhRWR5YURHQmRGZmFSMW5RallqOVJXMVg1Ni9pU3ht?=
+ =?utf-8?B?bUlPdzNqUUR6STBXb1ppWHEraUQvWnphVmk0cnNNZm15bit6TnBjYmxueS9Y?=
+ =?utf-8?B?S0oyS0UyOGkwVS84dTlONSsrNkpOcWpKSDBEMjUzOUlpcWZES2Y3SjBiTWtn?=
+ =?utf-8?B?Q2psV2ZYMnZMNS9aL3hobzRyWVM0dm5Cb2laTTM3QThSaElkYnhIZ3d4a2tT?=
+ =?utf-8?B?bzM0SHNFaUtSWi8zNDhJT3QxRVFTTzQzUzdtS3B3WSsvOUhWMVJReWg1RnJp?=
+ =?utf-8?B?cWJnQVQ5T1NlUHhCaUVFWktFRW5TdGVXMnpwcy9tanpZZ0FJR2taeDk0ejU1?=
+ =?utf-8?B?YU4yT3l0SytYMVBIUytZa2UrMmZVUFhnQkJiWGtyNit2aXI2L2hLWU5LWk9m?=
+ =?utf-8?B?OURncVUwcWFreWZtSGRVWm5IbUNpa09qVDRMVkkwY05QbksydkJmM3ZiaWp4?=
+ =?utf-8?B?eGU5UFlvZExFT25pckx2SzhUMHhPVUh6STIydTNGcHhpbW9WcU9XL3hEd2tQ?=
+ =?utf-8?B?djFyRmU0K2pNRDJwZC9Cb29kS21hYnNSTzgrVytsa2FudjlpSUpqMmZ2VWJQ?=
+ =?utf-8?B?TEdKemcxb21Pc3ZpYWtMQU9qZjhvU21KajdyMk1BbnFpL0JsNGg1Zmtpc3hL?=
+ =?utf-8?B?enYyUDBJcW9IeEppNDJMVVJzWEsvUnp2L2tlZ2hHcGI4NEE3U2VuL0E1ckVD?=
+ =?utf-8?B?M0kwa2NyUHFIdVplVHlYQlgrRzdWTjN3cFU5NnZoMnZZditJWTJQMWpvOHZI?=
+ =?utf-8?B?bWFyNjBvUEdTVlZ6OGRCelpWdGVsNWpremNIcThuZFM1Q0FtcnlMc0pndDNr?=
+ =?utf-8?B?d09YRHB5QkRXK3RnVExrWjVNeU5zbVZBZWNsQ25EdElRVlMzSGFoRWhhQ2p4?=
+ =?utf-8?B?QStIWFExS2tENHhiRDNYN3pXZ1JxS1NNVUdyTHpmZSt4bXpmd1VOOUE1VWJn?=
+ =?utf-8?B?T3paa09ZNC9penZnUHd3czJNK2UvZThTN0l3MTZkYmJGUXdmTVUwam5oM0E3?=
+ =?utf-8?B?bkV1c2dPcXV0SlRuY1Rrd3pjeDJmQVJadDhBcFBadUxXSEFmbHZGSStYUGU2?=
+ =?utf-8?B?TWduOUgwTHhZYklnc296Y0pnT29OUGFQT3lYUW5GcW16QzVCeC9vV3VMbW4v?=
+ =?utf-8?B?NkJyeTc2eGZmTkcyWENWSVZXeklHM3pZL2JuZjBTaDYzM0x3NDNpSFpxdHZG?=
+ =?utf-8?B?UWZFamtGUndpa2t6VlZScVZKSENxeEpSWHF2clhKc3UvMUQ3bEVVK3BrWmd0?=
+ =?utf-8?B?ZkNRRFdYcThHNURkQkM2N3BWZGNJRDlHMXprVkJ5ZTlxK3FVc0FUbm85a0ZI?=
+ =?utf-8?B?UXhVblRwMlB4OThYY3gzUDhFUHk0OHYyaUhwalVOMzR3czQ3bWw2WktCTVdU?=
+ =?utf-8?B?eWdNV1dTYUR0SEdFdHZFRTlJd1JESnJUbWFrbkxweUhWWk5Pa2JJNkN2NEdr?=
+ =?utf-8?B?d2xtT2VPWkpqQzFBc2JGcjR2WEkwK3g3YVE0RnlsOUdzWFpzMjBLWVA0R3Mz?=
+ =?utf-8?B?U2tBa3VzNTFiQzBRV3ZkTXNLOGplMFNoN2QvdC9ieHp4Z1V6eXlRUk9GYlRR?=
+ =?utf-8?B?amhaQWdPMlhDUW9IWHhnTzdUT2NZcmZXMThkQlY0R3lVYjV0L1dBekVHeW1h?=
+ =?utf-8?B?T3doUHFVN2FyQlVXTUZmQ1NHbDl5MDhVTlB4TnpTeTdWT3gvSkxLbUVqZ1ZO?=
+ =?utf-8?B?R0srMkcveFp0MVFpZ3NwaDJnRmpENWtURHNleXE3bW9xUVZ5MTQ1TmNRTElP?=
+ =?utf-8?B?V1ZPZ0NnQlh0SVNiS1ZMVVRvSmpGVlFCd2NDL3dNTEFUUHBlSjg4Ymo0amUw?=
+ =?utf-8?B?Ry9va0pPWHgzT1BHVDR2NG4xcTJGTE1BbkRSbmR3bEhWVzBhUlFJeldwLzJE?=
+ =?utf-8?B?dy9EZXRTNWdrSWl6QzdpUUZ1WU9vQm83WnJpV0xWYUgvWkMwdzJPZjVnNW5q?=
+ =?utf-8?B?ZTlwU2dBWGozL0RTNnNBb0VORC9kbmtEc2t3RXVIY2NMUklMSEk1Qy83NnVj?=
+ =?utf-8?Q?AXq1FV2Jm6V7trDBy8P9PdbtmYdyh/FXambYQnvhPMgx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9e8653e-bb79-455a-4c64-08da65b5a87a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 16:26:51.7982 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9TEWm/Z5k1iHPlXikKpbMJ2B9Co6shp9BIMKsiWQAHGHb93g7NmpjnSr3h+o0Fa0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3725
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,87 +130,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 14, 2022 at 10:14 AM Andrey Grodzovsky
-<andrey.grodzovsky@amd.com> wrote:
->
->
-> On 2022-07-14 05:57, Dmitry Osipenko wrote:
-> > On 7/12/22 11:56, Dmitry Osipenko wrote:
-> >> On 7/6/22 18:46, Alex Deucher wrote:
-> >>> On Wed, Jul 6, 2022 at 9:49 AM Andrey Grodzovsky
-> >>> <andrey.grodzovsky@amd.com> wrote:
-> >>>> On 2022-07-06 03:07, Dmitry Osipenko wrote:
-> >>>>
-> >>>>> Hello Andrey,
-> >>>>>
-> >>>>> On 5/17/22 17:48, Dmitry Osipenko wrote:
-> >>>>>> On 5/17/22 17:13, Andrey Grodzovsky wrote:
-> >>>>>>> Done.
-> >>>>>>>
-> >>>>>>> Andrey
-> >>>>>> Awesome, thank you!
-> >>>>>>
-> >>>>> Given that this drm-scheduler issue needs to be fixed in the 5.19-R=
-C and
-> >>>>> earlier, shouldn't it be in the drm-fixes and not in drm-next?
-> >>>>
-> >>>> I pushed it into drm-misc from where it got into drm-next. I don't h=
-ave
-> >>>> permission for drm-fixes.
-> >>> The -fixes branch of drm-misc.
-> >> Now I don't see the scheduler bugfix neither in the -fixes branch nor =
-in
-> >> the -next and today Dave sent out 5.19-rc7 pull request without the
-> >> scheduler fix. Could anyone please check what is going on with the DRM
-> >> patches? Thanks!
-> >>
-> >> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi=
-thub.com%2Ffreedesktop%2Fdrm-misc%2Fcommits%2Fdrm-misc-fixes&amp;data=3D05%=
-7C01%7Candrey.grodzovsky%40amd.com%7C68b627b8482a4fd28a5608da657f4375%7C3dd=
-8961fe4884e608e11a82d994e183d%7C0%7C0%7C637933894551324163%7CUnknown%7CTWFp=
-bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%=
-7C3000%7C%7C%7C&amp;sdata=3DCDdLG%2F7SqCudEnjhBSsXqq15mfhlHlS3xAdAfB%2Bh%2F=
-1s%3D&amp;reserved=3D0
-> >> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fcg=
-it.freedesktop.org%2Fdrm%2Fdrm-misc%2Flog%2F%3Fh%3Ddrm-misc-fixes&amp;data=
-=3D05%7C01%7Candrey.grodzovsky%40amd.com%7C68b627b8482a4fd28a5608da657f4375=
-%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637933894551324163%7CUnknown%=
-7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6M=
-n0%3D%7C3000%7C%7C%7C&amp;sdata=3D4Vz40j6F%2FzHYckXEyPEunj9DRSoTXikhNxZDXeo=
-cTss%3D&amp;reserved=3D0
-> > The patch is in the drm-misc-next-fixes, so it wasn't moved to the
-> > drm-misc-fixes.
-> >
-> > Andrey, don't you have access to drm-misc-fixes? Or you meant
-> > drm-fixes=3Ddrm-misc-fixes?
->
->
-> I have only accesses to drm-misc-next to which I pushed this patch.
+We need this for limiting codecs like AV1 to the first instance for VCN3.
 
-anyone with drm-misc rights can commit to any of the branches in the
-drm-misc tree.  You just need to check out and push the appropriate
-branch.  then push the changes.  E.g.,
-dim push-branch drm-misc-next
-vs
-dim push-branch drm-misc-next-fixes
-etc.
+Essentially the idea is that we first initialize the job with entity, id 
+etc... and before we submit it we select a new rq for the entity. In the 
+meantime the VCN3 inline parse will have modified the available rqs for 
+the entity.
 
-Alex
+See the patch "revert "fix limiting AV1 to the first instance on VCN3"" 
+as well.
 
+Christian.
 
+Am 14.07.22 um 17:43 schrieb Andrey Grodzovsky:
+> Can you please remind me of the use case that requires this ? I 
+> browsed through
+> related mails in the past but haven't found when is that needed. For 
+> amdgpu
+> drm_sched_job_init and drm_sched_job_arm are called together and amdgpu
+> is the only one who supports modifying entity priority on the fly as 
+> far as i see.
 >
 > Andrey
 >
->
-> >
+> On 2022-07-14 06:38, Christian König wrote:
+>> We already discussed that the call to drm_sched_entity_select_rq() needs
+>> to move to drm_sched_job_arm() to be able to set a new scheduler list
+>> between _init() and _arm(). This was just not applied for some reason.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> CC: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>> CC: dri-devel@lists.freedesktop.org
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 68317d3a7a27..e0ab14e0fb6b 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -592,7 +592,6 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>                  struct drm_sched_entity *entity,
+>>                  void *owner)
+>>   {
+>> -    drm_sched_entity_select_rq(entity);
+>>       if (!entity->rq)
+>>           return -ENOENT;
+>>   @@ -628,7 +627,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>>       struct drm_sched_entity *entity = job->entity;
+>>         BUG_ON(!entity);
+>> -
+>> +    drm_sched_entity_select_rq(entity);
+>>       sched = entity->rq->sched;
+>>         job->sched = sched;
+
