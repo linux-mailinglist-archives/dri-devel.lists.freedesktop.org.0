@@ -2,47 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0E7574CE0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 14:07:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D7B574D1D
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 14:10:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D297112947;
-	Thu, 14 Jul 2022 12:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA21889DA7;
+	Thu, 14 Jul 2022 12:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7172E1128ED;
- Thu, 14 Jul 2022 12:06:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C9CDA61E93;
- Thu, 14 Jul 2022 12:06:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D899DC36AEA;
- Thu, 14 Jul 2022 12:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657800390;
- bh=l/GB5qX/2omcZ+N/TSC07fnT3MCn1CCDsBQ+wUVwIL0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cGp39QqOVzRiFAmlrAlssMmW8PTqmnFiYCO3uw/XVWmBkJkqewpPVSvzNhlboXLal
- DqhMIk9OIoe8IL2SyjTZLO9O+u595OgVpSj4vlTRHWcI0NzzagdN3l7mgAlO5BY3jH
- jFx/ThDJMhOMOZsJTHlj22tQdSYHIfAcH2b7L5BlC22l0p4iLg4c1raTeAdNnsFIBz
- 4SWQEwtvL5anWwme5rVeXpMBgZnIUMhFR3Iuz4ygdjSUM/g9MdTWPkdiwWpyQPgIk2
- jtHe6YlAFqvq6Rs/4AziV5x7vP7CmJswP8spy6qsFqKN5+T7Sm4rM+lER3D3cE1qLZ
- hAtqKRyF8ve7A==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1oBxbw-0059tY-89;
- Thu, 14 Jul 2022 13:06:28 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: 
-Subject: [PATCH v2 21/21] drm/i915/guc: document TLB cache invalidation
- functions
-Date: Thu, 14 Jul 2022 13:06:26 +0100
-Message-Id: <e64285be6cfed36da59864bb25dad9d9b29d30d2.1657800199.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1657800199.git.mchehab@kernel.org>
-References: <cover.1657800199.git.mchehab@kernel.org>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 511B589DA7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 12:10:05 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id B1B9D5C006E;
+ Thu, 14 Jul 2022 08:10:04 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 14 Jul 2022 08:10:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1657800604; x=1657887004; bh=D7XHW2lpBa
+ 3ZTgH/W4t9embYc3/p5pA/+qwtSxzA0qc=; b=gT2vjyMISNAlVpK6KBb58APCFo
+ 2SHGPrqnY/8Gg1KxoJ+ljIDa7Wj7Q9HPLyP//Sz0fzzRu+loj9qrvTLJE6UU1CGW
+ WQN/3MXHSdjyyqnTGgmQFmJJegZ8+xm7cORiDTKp4ZX81ENOn6T5Sw/BreCuFmJD
+ fKY9SwxueiwrHkn3A0V3wmArA5ZNybEt3WbwzCGdMTgnfpFGgzKPQQFXDhKQ0utp
+ TpIW/joHCLyaJ2uW/ryhigvBpNCLZzyVIYPkinEAXgCgCcOo3YY3lnfFBezWZpUv
+ Zi4sgXdYqm4pSD08eDGSZFH4leuogQxjQBq80mZGGtoIo+DWoqE823iaG0pQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657800604; x=1657887004; bh=D7XHW2lpBa3ZTgH/W4t9embYc3/p
+ 5pA/+qwtSxzA0qc=; b=DygIqKVDSB3rTAsVCxidxoQLxEsTRV/j0metHeFG3zGZ
+ WgkxwyGnb4n3y/qUi9NMOLC2KMcaR8dgqbHyO8WVeGGdrvA/5aqqcBrzRbX5oMCz
+ Ie+DuzWCMFuiI7m1LvjFuBqWXRl2IQqvkBSGAxzWOy4DNUJZNFBNfvuufySRM+z1
+ ZCqzzKeR6NSrN89jO1Sy6KkSclmG9DBhACaOS3UMACL9lIHt+lekRzonDbEoJyQk
+ qLuXCliFfITIdH/RqxHpfVrur6yYN2rUy0Ivz78ovzvePuH1Lu3wjD3n/EFXKirc
+ ro8X49UuUULW5HtBArJC+YZdYpjso67S80UAcpE2CA==
+X-ME-Sender: <xms:nAfQYtaL3DEJ9QwEdcbl-ApNga9iUFmopPr1HmwfrIuist6aDbQk-w>
+ <xme:nAfQYkbqxyVAzMHy13T5Al7O2y112aTEMC3GZdk4hxWXi4dVigdh37YFO6Km6UMMX
+ lG4pgUYyzPFWDMVc-U>
+X-ME-Received: <xmr:nAfQYv_7gVZaWHQj_puWp_KNvsMymAfCKCnN_yA7siEtQUVRp-7CTJkOrTWdNKQIVKWUy6IyLF_SlaUVWcvLtbMrxtF91kudHMYesrg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejledggeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:nAfQYrrRtlMu83HLa5kqd7j1q0fwGNlTg4vHtvC99ANfcO0JEC38Mw>
+ <xmx:nAfQYoosAMXLaGNMSLwo9AqMoETt9CGiXvqR0PPoGoTarWumLHm5kQ>
+ <xmx:nAfQYhSPNUUY-mS3WGVwbLj59RWRyiqwSC3xh1Aqgc-ciWTh3qtyKg>
+ <xmx:nAfQYkfiMwI4tSrMAHZ__A9EcHFaNaQd7Pd8MpC3sGl3ONsB9vZygg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Jul 2022 08:10:04 -0400 (EDT)
+Date: Thu, 14 Jul 2022 14:10:02 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 4/5] drm/modes: Add support for driver-specific named
+ modes
+Message-ID: <20220714121002.wm6byk6puajnzvmo@houat>
+References: <cover.1657788997.git.geert@linux-m68k.org>
+ <528b126b3d932bff055ff085e598b91e2e690a4e.1657788997.git.geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="itqpfuzowi2osqrt"
+Content-Disposition: inline
+In-Reply-To: <528b126b3d932bff055ff085e598b91e2e690a4e.1657788997.git.geert@linux-m68k.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,124 +84,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@Intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the kAPI functions that do TLB cache
-invalidation via GuC.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+--itqpfuzowi2osqrt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v2 00/21] at: https://lore.kernel.org/all/cover.1657800199.git.mchehab@kernel.org/
+On Thu, Jul 14, 2022 at 11:04:09AM +0200, Geert Uytterhoeven wrote:
+> The mode parsing code recognizes named modes only if they are explicitly
+> listed in the internal whitelist, which is currently limited to "NTSC"
+> and "PAL".
+>=20
+> Provide a mechanism for drivers to override this list to support custom
+> mode names.
+>=20
+> Ideally, this list should just come from the driver's actual list of
+> modes, but connector->probed_modes is not yet populated at the time of
+> parsing.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
- drivers/gpu/drm/i915/gt/uc/intel_guc.c | 52 ++++++++++++++++++++++----
- 1 file changed, 45 insertions(+), 7 deletions(-)
+Like we discussed on IRC, I'm not sure allowing drivers to handle named
+modes is the right thing to do.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 98260a7bc90b..173833bc3a62 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -923,7 +923,14 @@ static int guc_send_invalidate_tlb(struct intel_guc *guc, u32 *action, u32 size)
- 	return err;
- }
- 
-- /* Full TLB invalidation */
-+/**
-+ * intel_guc_invalidate_tlb_full - GuC full TLB invalidation
-+ *
-+ * @guc: the guc
-+ * @mode: mode of TLB cache invalidation (heavy or lite)
-+ *
-+ * Use GuC to do a full TLB cache invalidation if supported.
-+ */
- int intel_guc_invalidate_tlb_full(struct intel_guc *guc,
- 				  enum intel_guc_tlb_inval_mode mode)
- {
-@@ -943,8 +950,17 @@ int intel_guc_invalidate_tlb_full(struct intel_guc *guc,
- 	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
- }
- 
--/*
-- * Selective TLB Invalidation for Address Range:
-+/**
-+ * intel_guc_invalidate_tlb_page_selective - GuC selective TLB invalidation
-+ *	for an address range
-+ *
-+ * @guc: the guc
-+ * @mode: mode of TLB cache invalidation (heavy or lite)
-+ * @start: range start
-+ * @length: range length
-+ *
-+ * Use GuC to do a selective TLB invalidation if supported.
-+ *
-  * TLB's in the Address Range is Invalidated across all engines.
-  */
- int intel_guc_invalidate_tlb_page_selective(struct intel_guc *guc,
-@@ -978,8 +994,18 @@ int intel_guc_invalidate_tlb_page_selective(struct intel_guc *guc,
- 	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
- }
- 
--/*
-- * Selective TLB Invalidation for Context:
-+/**
-+ * intel_guc_invalidate_tlb_page_selective_ctx - GuC selective TLB
-+ *	invalidation for a context
-+ *
-+ * @guc: the guc
-+ * @mode: mode of TLB cache invalidation (heavy or lite)
-+ * @start: range start
-+ * @length: range length
-+ * @ctxid: context ID
-+ *
-+ * Use GuC to do a selective TLB invalidation on a context if supported.
-+ *
-  * Invalidates all TLB's for a specific context across all engines.
-  */
- int intel_guc_invalidate_tlb_page_selective_ctx(struct intel_guc *guc,
-@@ -1013,8 +1039,13 @@ int intel_guc_invalidate_tlb_page_selective_ctx(struct intel_guc *guc,
- 	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
- }
- 
--/*
-- * Guc TLB Invalidation: Invalidate the TLB's of GuC itself.
-+/**
-+ * intel_guc_invalidate_tlb_guc - GuC self TLB invalidation
-+ *
-+ * @guc: the guc
-+ * @mode: mode of TLB cache invalidation (heavy or lite)
-+ *
-+ * Use GuC to invalidate the TLB's of GuC itself.
-  */
- int intel_guc_invalidate_tlb_guc(struct intel_guc *guc,
- 				 enum intel_guc_tlb_inval_mode mode)
-@@ -1035,6 +1066,13 @@ int intel_guc_invalidate_tlb_guc(struct intel_guc *guc,
- 	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
- }
- 
-+/**
-+ * intel_guc_invalidate_tlb_all - GuC global TLB invalidation
-+ *
-+ * @guc: the guc
-+ *
-+ * Use GuC to do a complete TLB invalidation on all tables
-+ */
- int intel_guc_invalidate_tlb_all(struct intel_guc *guc)
- {
- 	u32 action[] = {
--- 
-2.36.1
+Named modes in general were a workaround the fact that we were missing
+infos in drm_display_mode to describe all the modes.
 
+I think we really should focus on addressing that first, and then
+creating some kind of backward compat layer to create an initial DRM
+state from a named mode provided on the command line.
+
+Maxime
+
+--itqpfuzowi2osqrt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYtAHmgAKCRDj7w1vZxhR
+xQ/aAP9oTKyhWWihhvc4XgJIvP101uSmuw+L0FQuNx3PzZgp4QEAhPIBgTwIgcqj
+nYi/57nHkDeCEA5xHbJydUz8v0AyoA4=
+=tRFA
+-----END PGP SIGNATURE-----
+
+--itqpfuzowi2osqrt--
