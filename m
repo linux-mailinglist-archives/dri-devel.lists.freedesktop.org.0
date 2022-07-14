@@ -2,76 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3688574CC7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 14:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150BB574CEB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 14:07:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E4A11275A;
-	Thu, 14 Jul 2022 12:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A91E1129D6;
+	Thu, 14 Jul 2022 12:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 210B410FC45
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 12:05:44 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 80DF65C010C;
- Thu, 14 Jul 2022 08:05:43 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 14 Jul 2022 08:05:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1657800343; x=1657886743; bh=ByZfPRJBbk
- rVwwMD7jhiSx78ihc3R//dZAXdFGDSPi0=; b=NiNA4zuAhOprHEJDMsUbvxr9iA
- xY7+8+NbdC+5CGgreN5rKAVfg+rNUxCl4Ob8gsp807FeegUGIRv+aEwJXEqPXLuL
- GlYlwO7v3ZKEPu9fog/KeaxvVmZY5PxopvguP89AfdvLupzq5G31Mt93DOteYPvC
- YE+2h7B5Ftfm2COF0wl5f2mjm8q8oPIBO2QoILVEK87Ber/GfwSI9I/RLWrYaG0S
- 9CDqcOSjudEJWCgbiaIQbgE5s2jT6pSETeRJ8dS5ICM9mcomTYtnfW2JmzOJITMz
- LwJdo84E9HI1sf7FL0pJMTNE5ubApDcEw+5htUW/EA1QU/6xNhC/HX2XrvNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657800343; x=1657886743; bh=ByZfPRJBbkrVwwMD7jhiSx78ihc3
- R//dZAXdFGDSPi0=; b=UZ9Lr+u79FHOmT5vHSfEpddfVavWK/JWWJZCh+8P0/DS
- bHm77HRqOxcbxWlf9xKAOQso/J0PN0i8+7Kjsx7JzbrZhksMKYUBVAKoYqpAzXFC
- TStDAYr+w/jKdXLRuXbt5mkhHa0Q1R6IVANTCmj5aZbP9T+ZcYi7NInBve5GWa7p
- ucn+jAfSEZRcLZyIiPSFRLROu+60Bq4vqHPM98UX9bUX8zKy844O9VjZYnorbM57
- GpunVFQM4mULRtWzVuIFL3T+wMSVsu7I4EwszF/9U8+aXAZfU6CTNMp/KCasMv25
- s3EUUKZArR4FVAAdvmyNL56tTfZIcIy8oKZk4y1+bA==
-X-ME-Sender: <xms:lgbQYgR3xdzYw1hv_bssT9VKzZkMkqBcxfx_nvzDu52uxo1hO6FAgg>
- <xme:lgbQYtxgp-BZTgyuIIZ-bCFYKVLTjoWU8c8e4jeQoGxZDUqYihLCLehZyEJjhBKSu
- _A8R0_rXz25X9pKKlI>
-X-ME-Received: <xmr:lgbQYt09ehIFOOMpZfa2ZJw8Wir9tFjZF-TDepluxKzCZxkrq9h-0BlB1GqwfGIJvuhZ5wbjsFSlB0rRMJshBBMfTjnVmYpEc1Wdl9o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejledggeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:lgbQYkBRQKRQ5lluVeBJQUN8DLiiK7wFgtFyldPIheJ2VLlr6fqOKA>
- <xmx:lgbQYpjcpVu_Q81EiXZt1oerIdxkQvqg-btWB9olwsR9QtCDHfGA_A>
- <xmx:lgbQYgoZ1rYr_rcW7lY6Q72ELe1fYgyBiS7yXw225LxJfTGaMexKKQ>
- <xmx:lwbQYqVXWMVlAtN_N2pJfICBysstitKA2vIT7gZqo2iF98MQu2uL0g>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Jul 2022 08:05:42 -0400 (EDT)
-Date: Thu, 14 Jul 2022 14:05:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 3/5] drm/modes: parse_cmdline: Make mode->*specified
- handling more uniform
-Message-ID: <20220714120541.dpjl3dxptqvcit6b@houat>
-References: <cover.1657788997.git.geert@linux-m68k.org>
- <3696bcbf95fa1ae98f452c7ea32072642b46caa7.1657788997.git.geert@linux-m68k.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785171128FC;
+ Thu, 14 Jul 2022 12:06:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id DBABAB824D6;
+ Thu, 14 Jul 2022 12:06:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC46C3411C;
+ Thu, 14 Jul 2022 12:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657800390;
+ bh=ioPt7kFKeifnjLXg/GVO5rsw0/XP4QklnHiUNXNykLo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Z7ro75iW1UoM7wHwaMx+qUHZI6vArOYbghmPbHedqR5hF+6JUW3pQMHJzbKJIjfeN
+ rDZ8bY/IlvHm53HAUe67A8TPgkjjMFbp+d8q00Wxd4hV+FZRuiKwbhGDZCJY4EsT5j
+ hsxaEQvBoeRs5G+JTdVUFRrRYRQFGTI4abDDjb6yUKdGQ4VMkW+IX4a1Y10yNtFj0D
+ nsI88zyDDDGmEMEAI2dzJe+hmO724/ZjwBdKnutsxKwLSPCF7kL5X6E/nBfBTq+ukc
+ BKaZC+FZP5Jk/riC30i7E6Qb1DvX8/AKB8HlO8luQXnvkFlY5WP6MIQ5Kh3fdU7kTA
+ Z4iCW7eROb5JQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+ (envelope-from <mchehab@kernel.org>) id 1oBxbv-0059sS-OX;
+ Thu, 14 Jul 2022 13:06:27 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: 
+Subject: [PATCH v2 00/21] Fix performance regressions with TLB and add GuC
+ support
+Date: Thu, 14 Jul 2022 13:06:05 +0100
+Message-Id: <cover.1657800199.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zqphagzjfcqkdkrb"
-Content-Disposition: inline
-In-Reply-To: <3696bcbf95fa1ae98f452c7ea32072642b46caa7.1657788997.git.geert@linux-m68k.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,48 +55,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+TLB invalidation is a slow operation. It should not be doing lightly, as it
+causes performance regressions, like this:
 
---zqphagzjfcqkdkrb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[178.821002] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
 
-On Thu, Jul 14, 2022 at 11:04:08AM +0200, Geert Uytterhoeven wrote:
-> The various mode->*specified flags are not handled in an uniform way:
-> some flags are set by the corresponding drm_mode_parse_cmdline_*()
-> function, some flags by the caller of the function, and some flags by
-> both.
->=20
-> Make this uniform by making this the responsibility of the various
-> parsing helpers, i.e.
->   - Move the setting of mode->specified from caller to callee,
->   - Drop the duplicate setting of mode->bpp_specified and
->     mode->refresh_specified from callers.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+This series contain 
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+1) some patches that makes TLB invalidation to happen only on
+active, non-wedged engines, doing cache invalidation in batch 
+and only when GT objects are exposed to userspace:
 
-Maxime
+  drm/i915/gt: Ignore TLB invalidations on idle engines
+  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
+  drm/i915/gt: Skip TLB invalidations once wedged
+  drm/i915/gt: Batch TLB invalidations
+  drm/i915/gt: Move TLB invalidation to its own file
 
---zqphagzjfcqkdkrb
-Content-Type: application/pgp-signature; name="signature.asc"
+2) It fixes two bugs, being the first a workaround:
 
------BEGIN PGP SIGNATURE-----
+  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+  drm/i915: Invalidate the TLBs on each GT
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYtAGlQAKCRDj7w1vZxhR
-xbYSAP4n8byE76xnaz+zJlmcuONil87f7RhgXKvX6yMYqCt6uwEA2sWGngLBw1vm
-nCeY8s9hiGX9FigyClThmd0pVfQYxQc=
-=uRN9
------END PGP SIGNATURE-----
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
 
---zqphagzjfcqkdkrb--
+3) It adds GuC support. Besides providing TLB invalidation on some
+additional hardware, this should also help serializing GuC operations
+with TLB invalidation:
+
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+  drm/i915/guc: Define CTB based TLB invalidation routines
+  drm/i915: Add platform macro for selective tlb flush
+  drm/i915: Define GuC Based TLB invalidation routines
+  drm/i915: Add generic interface for tlb invalidation for XeHP
+  drm/i915: Use selective tlb invalidations where supported
+
+4) It adds the corresponding kernel-doc markups for the kAPI
+used for TLB invalidation.
+
+While I could have split this into smaller pieces, I'm opting to send
+them altogether, in order for CI trybot to better verify what issues
+will be closed with this series.
+
+---
+
+v2:
+  - no changes. Just rebased on the top of drm-tip: 2022y-07m-14d-08h-35m-36s,
+   as CI trybot was having troubles applying it. Hopefully, it will now work.
+
+Chris Wilson (7):
+  drm/i915/gt: Ignore TLB invalidations on idle engines
+  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
+  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
+  drm/i915/gt: Skip TLB invalidations once wedged
+  drm/i915/gt: Batch TLB invalidations
+  drm/i915/gt: Move TLB invalidation to its own file
+  drm/i915: Invalidate the TLBs on each GT
+
+Mauro Carvalho Chehab (8):
+  drm/i915/gt: document with_intel_gt_pm_if_awake()
+  drm/i915/gt: describe the new tlb parameter at i915_vma_resource
+  drm/i915/guc: use kernel-doc for enum intel_guc_tlb_inval_mode
+  drm/i915/guc: document the TLB invalidation struct members
+  drm/i915: document tlb field at struct drm_i915_gem_object
+  drm/i915/gt: document TLB cache invalidation functions
+  drm/i915/guc: describe enum intel_guc_tlb_invalidation_type
+  drm/i915/guc: document TLB cache invalidation functions
+
+Piotr Piórkowski (1):
+  drm/i915/guc: Introduce TLB_INVALIDATION_ALL action
+
+Prathap Kumar Valsan (5):
+  drm/i915/guc: Define CTB based TLB invalidation routines
+  drm/i915: Add platform macro for selective tlb flush
+  drm/i915: Define GuC Based TLB invalidation routines
+  drm/i915: Add generic interface for tlb invalidation for XeHP
+  drm/i915: Use selective tlb invalidations where supported
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  28 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 125 +-------
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   2 -
+ .../gpu/drm/i915/gt/intel_gt_buffer_pool.h    |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gt_defines.h    |  11 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  10 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |   8 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |  22 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   8 +-
+ drivers/gpu/drm/i915/gt/intel_tlb.c           | 295 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_tlb.h           |  30 ++
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  54 ++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 232 ++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  36 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  24 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   9 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  91 +++++-
+ drivers/gpu/drm/i915/i915_drv.h               |   4 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |  46 ++-
+ drivers/gpu/drm/i915/i915_vma.h               |   2 +
+ drivers/gpu/drm/i915/i915_vma_resource.c      |   9 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h      |   6 +-
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ 27 files changed, 910 insertions(+), 155 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_defines.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+
+-- 
+2.36.1
+
+
