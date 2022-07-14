@@ -2,63 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95235748D9
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 11:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1B4574935
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 11:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B4DA3C14;
-	Thu, 14 Jul 2022 09:27:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2B710F4EE;
+	Thu, 14 Jul 2022 09:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
- [IPv6:2607:f8b0:4864:20::1129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44004A3C14
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 09:27:45 +0000 (UTC)
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-3137316bb69so10787947b3.10
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 02:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eoEUqCQ0HzWcRS/EEisE9qpbq5xcTJ7+l4FqGraIDiM=;
- b=Ld+ADuIcLOILCqHSVmutQbx0yNCzFYK+d1CfgjosNRjzv4la0za1LrNxPVbXKyGrBU
- plEeNvs9LuKtBpdK2m8TdIf5+YpouBnaZ9Vsy9DWCZQPgh7oBlkDpas1TKNSR2vAuZ/m
- ORq+hpDzjNbMh57lvUku8daA4iIIz1ZvXj/KjuJUO8f4GYx3HxMDS3SJKg0sxPO5bA1n
- KdTdyIG7yt7UXNPxNXnsFgVEMla/Hw7WsDWj9pGpxJIEBu4dM2YsIkBZZHbP1tv7Iw1s
- /UceXFWGcqnbfJelCGnMi9F2w99ZJ8EasltdyIOX+aD94fVjhuHVUAYCDxWNBrPm1xlZ
- NyrA==
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34302112D65
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 09:38:32 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id e28so1880959lfj.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 02:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=TLtLAzqKjh0PR2hCiXTpWedWr6UZ/eh69O/Av6dFIUQ=;
+ b=OrBeTbStBItEd8xp+RbyOHCOHfiOQOJrv5ANEz6qxRGixDOxMAJ5IzUuiOQejXwRyZ
+ GMkAV6A+Rweq3b6Zxv0mjMm0eoJjr5PRDAQoZco1jCPPb6IAeQSgEB2x3wySZxwH92CG
+ v7eIrrSCr/lzKx0racL0bqV858CJVvFs+RCUV9Iz1I0MBxltwBK4evG6S/Rrl/H7V2lq
+ Ly6NpupvlRiBmGyepoRqeTavRvkISkRMGu8PAVRfuuZ3Oo+jFfV9oe/nSZlU3EbSClps
+ DnYZKmYZJgdiBMW09JWHhs4cqCCLdFQrr5ck858Ixns9msDblNZPtZkKYbuhOiwYqNSY
+ /OsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eoEUqCQ0HzWcRS/EEisE9qpbq5xcTJ7+l4FqGraIDiM=;
- b=QbRYl1aci/wjaMb81DAI9aXPBVoEcEkwa4wvqVYccdss5AnPPMFKSOD9FmlRDqgi8S
- y3iXhgSxdwyptzXFCe2jn/VpHZy83UFei/TU3zudF7AUIpvlMsDvE6WINh264Rvd1zeN
- 9CS+H3BNL1ARtHbZyQe44mAXkCemGActj1hRJuUJMITLBshslX/QGPIwKI397BE4kCCx
- 5PcIM5utePtxMR7GQpcB7uOupi4GQktOA1Jqx8xjZXSOmNJ22nPKhTl7PJKIHZhd8jw7
- /Bw5LOaR3NZiaFpIjn3ePkg0kc07YgucMsRJ2HiUBJdndVT/0XRj6s595qBby1nT+792
- zlng==
-X-Gm-Message-State: AJIora97azYssCRK71SZup6zuoAMUIvBL5Edwt4om7ec1vDrxw71sB+6
- 8fMHHS3F1COyn3XdHaags/zLfnXuVl48UjdxfSk=
-X-Google-Smtp-Source: AGRyM1vfgn4gESJkQheSbCNETjn+vwZk7ww5qzlDRalqVBynMRD8SYo6G8iLMHpByXaVRHoDkU+ZiCki5RU9ApOFE6k=
-X-Received: by 2002:a81:72c4:0:b0:31c:b309:c4e8 with SMTP id
- n187-20020a8172c4000000b0031cb309c4e8mr8841348ywc.520.1657790864413; Thu, 14
- Jul 2022 02:27:44 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TLtLAzqKjh0PR2hCiXTpWedWr6UZ/eh69O/Av6dFIUQ=;
+ b=7zlBqRClVkaoTBxFVZXwNSeyrzfas1hCUWIEnKN3ETI01NX9yo2VKT/K2Yk4Ae7zPG
+ g1dtt4/yvGcONnCpWPM7rNPyIk2iC3TOLcdQDmOFWbB1YkM94N5v2MYLRIYPGU2FPYbU
+ BqyNYRZ64Z61CzswvFGo3DvVBPLtPBEkAu7wdsSvQr0ELKdq5sF5aEvOQes2FekP/wBx
+ HDpaRhkn1R+SR/3nYFhUAjBRFeG/c2vSRBhrn9UZc02kC1frdfAKRnpprZfdA74Bwyq7
+ c+oCHi07rJFZx1jH1ZXdwkGatWcKdTKri2t7ez0svaD9yLAj7jX7PGEvX2evSExQO2R/
+ LuNg==
+X-Gm-Message-State: AJIora8tdvI9oZi3YKMUFvBGwfwTONSZs/628pJV1dLb3URULVH0BqRx
+ IwVB7sl7R95cjlF3QnVay26GNIQmnuQYRw==
+X-Google-Smtp-Source: AGRyM1tc/J/ECeZYTPp1hWc06zGMIdJAwt8bxeNi6BFWllabpCBNba0Lt2QRG5hj0HKnx9MN0GD8zQ==
+X-Received: by 2002:a05:6512:2308:b0:48a:f9d:7389 with SMTP id
+ o8-20020a056512230800b0048a0f9d7389mr3812939lfu.235.1657791510561; 
+ Thu, 14 Jul 2022 02:38:30 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+ by smtp.gmail.com with ESMTPSA id
+ s2-20020a056512214200b0047960b50c26sm262242lfr.78.2022.07.14.02.38.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 02:38:30 -0700 (PDT)
+Message-ID: <bd84ef20-e6e1-74e5-5681-7aa273d5255c@linaro.org>
+Date: Thu, 14 Jul 2022 11:38:27 +0200
 MIME-Version: 1.0
-References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-14-peterwu.pub@gmail.com>
- <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
- <CABtFH5K-2+2hbpvpq2nPE5AsznkQxZF2r3MVC64Q39DJhVuUtA@mail.gmail.com>
- <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
- <CABtFH5LT1Ct_9-B_XRrGwYFmL5kGS6KHR7dNVyUO5z4sTy_6oA@mail.gmail.com>
-In-Reply-To: <CABtFH5LT1Ct_9-B_XRrGwYFmL5kGS6KHR7dNVyUO5z4sTy_6oA@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 14 Jul 2022 11:27:07 +0200
-Message-ID: <CAHp75VcU_9Ao2CoqiUDZHqhVOjEMZor+hctPp3YYP4HOjYLDUg@mail.gmail.com>
-Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370
- support
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 7/9] dt-bindings: msm/dp: mark vdda supplies as
+ deprecated
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
+ <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,93 +80,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 14, 2022 at 9:13 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=
-=9C=8813=E6=97=A5 =E9=80=B1=E4=B8=89 =E6=99=9A=E4=B8=8A8:07=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > On Wed, Jul 13, 2022 at 12:53 PM ChiaEn Wu <peterwu.pub@gmail.com> wrot=
-e:
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=
-=E6=9C=885=E6=97=A5 =E9=80=B1=E4=BA=8C =E6=B8=85=E6=99=A85:14=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > > > On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wr=
-ote:
+On 10/07/2022 10:41, Dmitry Baryshkov wrote:
+> The commit fa384dd8b9b8 ("drm/msm/dp: delete vdda regulator related
+> functions from eDP/DP controller") removed support for VDDA supplies
 
-Please, once again, remove unneeded context when replying!
-^^^^^^^
+No such commit exists in next. Do not reference unpublished commits. If
+this is your tree, be sure that it is in next.
 
-...
+> from the DP controller driver. These supplies are now handled by the eDP
+> or QMP PHYs. Mark these properties as deprecated and drop them from the
+> example.
 
-> > > > > +               prop_val =3D (ilog2(roundup_pow_of_two(prop_val))=
- + 1) >> 1;
-> > > >
-> > > > Isn't something closer to get_order() or fls()?
-> > >
-> > > I will revise it to "(get_order(prop_va * PAGE_SIZE) + 1) / 2" and
-> > > this change is meet your expectations??
-> >
-> > Nope. Try again. What about fls()?
->
-> I have tried two methods so far, as follows
-> -------------------------------------------------------------
-> /*
->  * prop_val =3D  1      -->  1 steps --> b'00
->  * prop_val =3D  2 ~  4 -->  4 steps --> b'01
->  * prop_val =3D  5 ~ 16 --> 16 steps --> b'10
->  * prop_val =3D 17 ~ 64 --> 64 steps --> b'11
-> */
+Right now I cannot judge whether this is correct or not. I don't know
+what's in that commit, but in general driver implementation changes do
+not warrant changes in the binding.
 
-So, for 1 --> 0, for 2 --> 1, for 5 --> 2, and for 17 --> 3.
-Now, consider x - 1:
-0  ( 0 ) --> 0
-1  (2^0) --> 1
-4  (2^2) --> 2
-16 (2^4) --> 3
-64 (2^6) --> ? (but let's consider that the range has been checked already)
-
-Since we take the lower limit, it means ffs():
-
-  y =3D (ffs(x - 1) + 1) / 2;
-
-Does it work for you?
-
-> // 1. use fls() and ffs() combination
-> prop_val =3D ffs(prop_val) =3D=3D fls(prop_val) ? fls(prop_val) >> 1 :
-> (fls(prop_val) + 1) >> 1;
->
-> // 2. use one line for-loop, but without fls()
-> for (i =3D --prop_val, prop_val =3D 0; i >> 2 * prop_val !=3D 0; prop_val=
-++);
-> -------------------------------------------------------------
-> Do these changes meet your expectations??
-
-No, this is ugly. Yes, I understand that a bit arithmetics is hard...
-
---=20
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Krzysztof
