@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E7C574AB0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 12:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9CA574AB9
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 12:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08C509760C;
-	Thu, 14 Jul 2022 10:34:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A65FA159D;
+	Thu, 14 Jul 2022 10:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FBE9760C;
- Thu, 14 Jul 2022 10:34:30 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id o8so763275wms.2;
- Thu, 14 Jul 2022 03:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pC66SMISxswpCgrA0kH+9OIYYeRJxezyms4h+DmQEVU=;
- b=WYO169N6L97QHmWqgss2/YWVR6YdUUzTbwOhAJSVFU1PEQ8kMqZBDicC68o07P9q28
- EEmuC/mKE53/poe+vlYtxqMaZ+PGZyrZbq2eRvdu5aRT6bArMjBK06GnSwCI1PkYV8x7
- UVCaVzMlf3W+ycBWFVoF9L83DY5tT97R24OrEMBDW5VZsJeqwuye8oTIOqHSGq714blI
- Wk/JILDt14y+ugO98wHXHVOtXlAw+wfAhbECEKwfxHSbKek2VkQuyXmSWmHG/m0aETRg
- pYgtSHJavQ5/qFeqk+bzDe5Q5xU4RXUi4MDpWF2WSdlG1KEgTcQheOshDYdeDck/jLyt
- lK6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pC66SMISxswpCgrA0kH+9OIYYeRJxezyms4h+DmQEVU=;
- b=532QQLnLgY3DF4ltcaaaQq5CguIvp1QBkyjb/UvT5gfKCRjMMGT9UTLONf1nhooso+
- wWO0ytpTSEM+j38RM16mjqdpn9if8Pb6sSycMiR7xFT8D0EV0rPB9SAnh2N4Opgk8rAY
- p8eeYQ45g7OqByq5DfEef7PkQyROiAclRF1cV32W+17EVDfCoDy4VX5pxywyy3FdXkWS
- RSVMQDgyBwfYWEebJTxOE+wa7aMIn0VV5oRcBKv/Pt/8bss28ieXqr45d1wA4Nyobo84
- a5myt104JAgfir12kRCbGFDDiXl2ZxjlzXkXexYAxVHXfNKPpovsoWsGi7OnaAidKDL8
- QleQ==
-X-Gm-Message-State: AJIora/lE4GtWiDPdseisfcaAgvqq4QlYnHwFUYdLj0ECQicYGfhCQfK
- ZrnkQzfekLO4N+nxB9blpDk=
-X-Google-Smtp-Source: AGRyM1tzgGbSFb97riqzZ4HULy1PRelNWUuo0QfgWlU5yTDw80hM5eCb4WBNauTxsQxuKHokkxRFQA==
-X-Received: by 2002:a05:600c:3506:b0:3a2:feb0:9f8e with SMTP id
- h6-20020a05600c350600b003a2feb09f8emr5482096wmq.42.1657794868604; 
- Thu, 14 Jul 2022 03:34:28 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- d16-20020a05600c049000b0039c96b97359sm1386358wme.37.2022.07.14.03.34.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 03:34:28 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/amd/display: Fix spelling mistake "supporing" ->
- "supporting"
-Date: Thu, 14 Jul 2022 11:34:27 +0100
-Message-Id: <20220714103427.23255-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.3
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5260A159D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 10:34:47 +0000 (UTC)
+X-UUID: c013a5dc163c45d0a257b8428da23a83-20220714
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:b3b081c3-be57-49b0-935c-67e6ab94d8c1, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:0f94e32, CLOUDID:3e64fb32-b9e4-42b8-b28a-6364427c76bb,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: c013a5dc163c45d0a257b8428da23a83-20220714
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2014864201; Thu, 14 Jul 2022 18:34:43 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 14 Jul 2022 18:34:42 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 14 Jul 2022 18:34:42 +0800
+Message-ID: <c5b54815c3667d38473a48d365af8d7520d1acdf.camel@mediatek.com>
+Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Thu, 14 Jul 2022 18:34:41 +0800
+In-Reply-To: <1f698bb3d5d50a6e508cd48e905c8c69415c2fd9.camel@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+ <24726b8a5994961b966cf90b1f56c71a844d274a.camel@mediatek.com>
+ <1f698bb3d5d50a6e508cd48e905c8c69415c2fd9.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +69,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>,
+ Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
+ <jitao.shi@mediatek.com>,
+ LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in a dml_print message. Fix it.
+Hi, Bo-Chen:
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- .../gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 2022-07-14 at 17:09 +0800, Rex-BC Chen wrote:
+> On Thu, 2022-07-14 at 14:51 +0800, CK Hu wrote:
+> > Hi, Bo-Chen:
+> > 
+> > On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> > > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > 
+> > > This patch adds a embedded displayport driver for the MediaTek
+> > > mt8195
+> > > SoC.
+> > > 
+> > > It supports the MT8195, the embedded DisplayPort units. It offers
+> > > DisplayPort 1.4 with up to 4 lanes.
+> > > 
+> > > The driver creates a child device for the phy. The child device
+> > > will
+> > > never exist without the parent being active. As they are sharing
+> > > a
+> > > register range, the parent passes a regmap pointer to the child
+> > > so
+> > > that
+> > > both can work with the same register range. The phy driver sets
+> > > device
+> > > data that is read by the parent to get the phy device that can be
+> > > used
+> > > to control the phy properties.
+> > > 
+> > > This driver is based on an initial version by
+> > > Jitao shi <jitao.shi@mediatek.com>
+> > > 
+> > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > > ---
+> > 
+> > [snip]
+> > 
+> > > +static int mtk_dp_train_tps_2_3(struct mtk_dp *mtk_dp, u8
+> > > target_linkrate,
+> > > +				u8 target_lane_count, int
+> > > *iteration_count,
+> > > +				u8 *lane_adjust,  int *status_control,
+> > > +				u8 *prev_lane_adjust)
+> > > +{
+> > > +	u8 val;
+> > > +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
+> > > +
+> > > +	if (*status_control == 1) {
+> > > +		if (mtk_dp->train_info.tps4) {
+> > > +			mtk_dp_train_set_pattern(mtk_dp, 4);
+> > > +			val = DP_TRAINING_PATTERN_4;
+> > > +		} else if (mtk_dp->train_info.tps3) {
+> > > +			mtk_dp_train_set_pattern(mtk_dp, 3);
+> > > +			val = DP_LINK_SCRAMBLING_DISABLE |
+> > > +				DP_TRAINING_PATTERN_3;
+> > > +		} else {
+> > > +			mtk_dp_train_set_pattern(mtk_dp, 2);
+> > > +			val = DP_LINK_SCRAMBLING_DISABLE |
+> > > +				DP_TRAINING_PATTERN_2;
+> > > +		}
+> > > +		drm_dp_dpcd_writeb(&mtk_dp->aux,
+> > > +				   DP_TRAINING_PATTERN_SET, val);
+> > > +		drm_dp_dpcd_read(&mtk_dp->aux,
+> > > +				 DP_ADJUST_REQUEST_LANE0_1,
+> > > lane_adjust,
+> > > +				 sizeof(*lane_adjust) * 2);
+> > > +
+> > > +		mtk_dp_train_update_swing_pre(mtk_dp,
+> > > +					      target_lane_count,
+> > > lane_adjust);
+> > > +		*status_control = 2;
+> > > +		(*iteration_count)++;
+> > > +	}
+> > > +
+> > > +	drm_dp_link_train_channel_eq_delay(&mtk_dp->aux, mtk_dp-
+> > > > rx_cap);
+> > > 
+> > > +
+> > > +	drm_dp_dpcd_read_link_status(&mtk_dp->aux, link_status);
+> > > +
+> > > +	if (!drm_dp_clock_recovery_ok(link_status, target_lane_count)) 
+> > 
+> > I think this checking is redundant. I think we could just keep
+> > drm_dp_channel_eq_ok() and drop drm_dp_clock_recovery_ok() here
+> > because
+> > if drm_dp_clock_recovery_ok() fail, it imply that
+> > drm_dp_channel_eq_ok() would fail. So just check
+> > drm_dp_channel_eq_ok()
+> > is enough.
+> > 
+> > Regards,
+> > CK
+> > 
+> > > {
+> > > +		mtk_dp->train_info.cr_done = false;
+> > > +		mtk_dp->train_info.eq_done = false;
+> > > +		dev_dbg(mtk_dp->dev, "Link train EQ fail\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	if (drm_dp_channel_eq_ok(link_status, target_lane_count)) {
+> > > +		mtk_dp->train_info.eq_done = true;
+> > > +		dev_dbg(mtk_dp->dev, "Link train EQ pass\n");
+> > > +		return 0;
+> > > +	}
+> > > +
+> 
+> Hello CK,
+> 
+> do you mean like this?
+> if (drm_dp_channel_eq_ok(link_status, target_lane_count)) {
+>   mtk_dp-
+> > train_info.eq_done = true;
+> 
+>   dev_dbg(mtk_dp->dev, "Link train EQ pass\n");
+>   return 0;
+> } else {
+>   mtk_dp->train_info.cr_done = false;
+>   mtk_dp->train_info.eq_done = false;
+>   dev_dbg(mtk_dp->dev, "Link train EQ fail\n");
+>   return -EINVAL;
+> }
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-index 6101c962ab0a..fc4d7474c111 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-@@ -2994,7 +2994,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
- 			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
- 				if (v->ImmediateFlipSupportedForPipe[k] == false) {
- #ifdef __DML_VBA_DEBUG__
--					dml_print("DML::%s: Pipe %0d not supporing iflip\n", __func__, k);
-+					dml_print("DML::%s: Pipe %0d not supporting iflip\n", __func__, k);
- #endif
- 					v->ImmediateFlipSupported = false;
- 				}
--- 
-2.35.3
+No, I mean just remove drm_dp_clock_recovery_ok() checking. When
+drm_dp_channel_eq_ok() fail, it should keep retry. If clock recovery
+has some problem, drm_dp_channel_eq_ok() would be finally out of retry
+count.
+
+Regards,
+CK
+
+> 
+> BRs,
+> Bo-Chen
+> 
+> > > +	if (*prev_lane_adjust == link_status[4])
+> > > +		(*iteration_count)++;
+> > > +	else
+> > > +		*prev_lane_adjust = link_status[4];
+> > > +
+> > > +	return -EAGAIN;
+> > > +}
+> > > +
+> > 
+> > 
+> 
+> 
 
