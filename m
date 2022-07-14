@@ -1,75 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00E1574ACA
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 12:37:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF17C574AD9
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 12:39:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C484A4636;
-	Thu, 14 Jul 2022 10:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81B8FA4513;
+	Thu, 14 Jul 2022 10:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE5CA4634
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 10:37:22 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id t25so2085822lfg.7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 03:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uaEFO5hsaLFOuZUt6jv+BOAU4jn79YFWKdkb/288PyQ=;
- b=R2ZI+qVyNbDDND0je3vBpsX+whHW04w068WNIxvhb21zT9Yl6mNklU1yX6mnEzRuQe
- D9rZ0fWwMQut75SIEgZK31MGeW1Gnn5WW71LRvZd1a6sJXpOIEMvX3j8T9u4ZZGcJ0rD
- XP5QV366XN1eMvJwp1NdjgUmeE6l0tizHxphnC6ZkaHzcolt19mdkvqoNL70EF3zXIxR
- kgUWNfgzv4A+AjVhScdW7KjxCvDeu/bg/V0DTTCQlY1dx7kd8EAvxT2BrqQGoB9TUzvO
- 4oyWa2EpxzY93k/um3j6qRzPCCnRTBctTNBmFj3wOHKV+8w+ziaPxRxJ+TkPvHIZ2EMT
- cUjQ==
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48C7AA44F0;
+ Thu, 14 Jul 2022 10:39:07 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id fd6so1845365edb.5;
+ Thu, 14 Jul 2022 03:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=D0VUGuB7I+46QM9Co1vKV9PV2n4nlmM9Nx3vJwbLP0o=;
+ b=ItNhV432/64GNp2RIRXd9yEoug9FQvsHB1HArozYYj51heQSBOkw79CHXZyjgA4qfY
+ qT6bnSdZn6LYi3nUyee57g7UytOefF1eVCLwIV/RM14vSeVdnxsGfYJ/BQSzLp5WHU9f
+ 93DphTU845qBBbmSTlYvlvxzAdVlmZAiRRt8BR4AqJeLB6FlNzIHoI/k+K6pEJalaSDr
+ jYGXAim/t7AsH0lTJYM9Cr/01Z7gy9q2wj75SZ7bkzarufobrx9fZQlvMOxXK4cfNP+D
+ K5+hIFbKjpW/I5OmBLIuHmj0SvP00xkR9B+HKFn8pkbnkobe212mcoZsyHWY0g1/79pu
+ nOVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uaEFO5hsaLFOuZUt6jv+BOAU4jn79YFWKdkb/288PyQ=;
- b=0VdFE8Iy30zA2rrg3BxSxdxNr0xmgy94vju93DMI8mcXSwuqryQ81LiZqOjEo11A4n
- W6mh7fy/TQy0jnFMH4FdEY/BjJjYDaGdiByo4SfwtRssKBbKyA36WJjKQQEkcomYEA0k
- I4V00pOtrGftFegC5FOhhxFVB9xnNE8CdB68+4FNdMN2MU7L8llpCjNaXpEBH2D6IcNz
- eirJIwnfe3ft559+RXYWtWMn35st8dD71gZ00uwS8NhTvmKSjOY4I15oAP+5kD51lAO6
- SMVZq79EM5v13WR/7WIA/aOkjjwsx11gs9IC4KNs8KwoIlCv4XLkvvRB1pIdDGv12Jwe
- XwDg==
-X-Gm-Message-State: AJIora9OdMoeby6FlGjL8Bm59FlehNDM0LpGY2Y1yrCVylCQd0MZiwIB
- QLHha0V5mm5+INg4J4r9A6y0Sw==
-X-Google-Smtp-Source: AGRyM1utxf3jocJYTmp4lOuPbooaWLQuu8+R22i2G4eb4lV2hNEFPxG8ZtPUZxVm2Iolc9dcifvbbw==
-X-Received: by 2002:a05:6512:3503:b0:481:4470:4134 with SMTP id
- h3-20020a056512350300b0048144704134mr4704424lfs.42.1657795040467; 
- Thu, 14 Jul 2022 03:37:20 -0700 (PDT)
-Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=D0VUGuB7I+46QM9Co1vKV9PV2n4nlmM9Nx3vJwbLP0o=;
+ b=4GifhSI9ESKpy7E/doZATMRl2kUEzVQQNjWnDR00wPpbBbncTREABEcZwnnB1kV5IJ
+ 1eP2NYTtwDqLVyXApxMVkNXGvxwYBYVYvLgIsb62wHpMvlfB0jNGrx/bx+7TU1jFJhXQ
+ RAqVGyWmS7uXu4XWpMPW+cTlJsXkLlu0DPefZn/FLbmtDxadqNgjsGrlruu2+KobiitZ
+ VoKAaXbo6DavyFmiqkVw1zgLCDWe9EjTUHyEpW6FkjNQIOI8I+dgu04apjq/QfadLlrM
+ 5GV+uKpSafocJBg3C0jIIMDFt/un+4hpc4Zwt6pPu0K5VIVYUKGvRNJQvPJUkvbivyCi
+ kzIw==
+X-Gm-Message-State: AJIora8ImEppRI2Kpnb/HWI/EhXyWoS31ReDIjq3BsEVq49z9RXenX1E
+ VMCaipEnzx3zVMPc1uWhbWz9HZpyZ78=
+X-Google-Smtp-Source: AGRyM1s6ibfPe2I0iR7x/yxxJ3v4wrUITyioynktDOlgXRck236LSmxEQfgdo/JLN5DVDH3cuL32dA==
+X-Received: by 2002:a05:6402:4245:b0:43a:961a:583f with SMTP id
+ g5-20020a056402424500b0043a961a583fmr11462328edb.374.1657795145862; 
+ Thu, 14 Jul 2022 03:39:05 -0700 (PDT)
+Received: from able.fritz.box (p57b0bd9f.dip0.t-ipconnect.de. [87.176.189.159])
  by smtp.gmail.com with ESMTPSA id
- be6-20020a056512250600b00478f174c598sm288201lfb.95.2022.07.14.03.37.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 03:37:20 -0700 (PDT)
-Message-ID: <8d31e36d-5cdb-fd5b-b807-a31e65e57d8f@linaro.org>
-Date: Thu, 14 Jul 2022 12:37:17 +0200
+ z13-20020aa7d40d000000b0043adc6552d6sm799487edq.20.2022.07.14.03.39.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jul 2022 03:39:05 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: amd-gfx@lists.freedesktop.org, Marek.Olsak@amd.com,
+ timur.kristof@gmail.com, andrey.grodzovsky@amd.com,
+ Yogesh.Mohanmarimuthu@amd.com
+Subject: [PATCH 01/10] drm/sched: move calling drm_sched_entity_select_rq
+Date: Thu, 14 Jul 2022 12:38:53 +0200
+Message-Id: <20220714103902.7084-2-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220714103902.7084-1-christian.koenig@amd.com>
+References: <20220714103902.7084-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 7/9] dt-bindings: msm/dp: mark vdda supplies as
- deprecated
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
- <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
- <bd84ef20-e6e1-74e5-5681-7aa273d5255c@linaro.org>
- <35cbf2d1-f851-fb6b-309a-8d7499b4abb3@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <35cbf2d1-f851-fb6b-309a-8d7499b4abb3@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,43 +74,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- freedreno@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/07/2022 12:15, Dmitry Baryshkov wrote:
-> On 14/07/2022 12:38, Krzysztof Kozlowski wrote:
->> On 10/07/2022 10:41, Dmitry Baryshkov wrote:
->>> The commit fa384dd8b9b8 ("drm/msm/dp: delete vdda regulator related
->>> functions from eDP/DP controller") removed support for VDDA supplies
->>
->> No such commit exists in next. Do not reference unpublished commits. If
->> this is your tree, be sure that it is in next.
-> 
-> Excuse me. It might have changed at some point. I will update the patch 
-> description in the next revision. The commit in question is 7516351bebc1 
-> ("drm/msm/dp: delete vdda regulator related functions from eDP/DP 
-> controller")
-> 
->>
->>> from the DP controller driver. These supplies are now handled by the eDP
->>> or QMP PHYs. Mark these properties as deprecated and drop them from the
->>> example.
->>
->> Right now I cannot judge whether this is correct or not. I don't know
->> what's in that commit, but in general driver implementation changes do
->> not warrant changes in the binding.
-> 
-> The vdda supplies were initially made a part of DP controller binding, 
-> however lately they were moved to be a part of eDP/DP PHY binding (as 
-> this better reflects the hardware). DP driver dropped support for these 
-> supplies too. Thus I wanted to mark these supplies as deprecated to 
-> discourage using them in the DTS files.
+We already discussed that the call to drm_sched_entity_select_rq() needs
+to move to drm_sched_job_arm() to be able to set a new scheduler list
+between _init() and _arm(). This was just not applied for some reason.
 
-OK. Just better to reference the commit which adds them to PHY binding.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+CC: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+CC: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 68317d3a7a27..e0ab14e0fb6b 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -592,7 +592,6 @@ int drm_sched_job_init(struct drm_sched_job *job,
+ 		       struct drm_sched_entity *entity,
+ 		       void *owner)
+ {
+-	drm_sched_entity_select_rq(entity);
+ 	if (!entity->rq)
+ 		return -ENOENT;
+ 
+@@ -628,7 +627,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+ 	struct drm_sched_entity *entity = job->entity;
+ 
+ 	BUG_ON(!entity);
+-
++	drm_sched_entity_select_rq(entity);
+ 	sched = entity->rq->sched;
+ 
+ 	job->sched = sched;
+-- 
+2.25.1
+
