@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54539574791
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:50:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC27574797
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:52:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC10A38CC;
-	Thu, 14 Jul 2022 08:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF14889B27;
+	Thu, 14 Jul 2022 08:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFFA3A38C4;
- Thu, 14 Jul 2022 08:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657788640; x=1689324640;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=+nkwAyhBBbTdcIq1r+Hu2NumNZeEfZRU9U/lzgfMfTI=;
- b=XovSQXpOZcj7uwp0B48ic02wrAcmoV7KTZIOdiw7ZDkok/Gzt4tvdo4n
- e+4BtzD3V9oqFJ/Ak76Gn4fUWXJT+Z5y2wGtlO/wKElr6PJlAH07HSj1J
- hlRsgm+7ghtUvigO+ByLOyuEfTqf3Z0YmeqJKZjaazVMR2WrnmNeq2s3+
- KKu6Rp8xayHaB5Ly8kyiRPOhqMRD6fGtQ7jvOx2qa77AwPZzyN29FVr2Q
- iaVpVoRCTeQbt1BDR+CvQbCmPZ8sZsE91GqK8ql6gqDC4WO2j8k557kbF
- jmB4IASaXlRefKPVgPRFK6Fhb1LcWE/5VmhILzMdxsdvbZNkPe+H6O8c/ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="371768512"
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="371768512"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2022 01:50:40 -0700
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="653784267"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
- ([10.252.36.101])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2022 01:50:37 -0700
-Date: Thu, 14 Jul 2022 10:50:34 +0200
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 01/39] drm/i915/gvt: Fix kernel-doc for
- intel_gvt_switch_mmio()
-Message-ID: <20220714105034.0b370a6a@maurocar-mobl2>
-In-Reply-To: <Ys9Am6jkPiVnA+uW@intel.com>
-References: <cover.1657699522.git.mchehab@kernel.org>
- <72db6b58c1f223e326f84978267ba064eaf67ff0.1657699522.git.mchehab@kernel.org>
- <Ys8/JP3ITMKF1aHp@intel.com> <Ys9Am6jkPiVnA+uW@intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785DAA392A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:52:40 +0000 (UTC)
+X-UUID: 340751b7aa9543e89745301b34b2863d-20220714
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:8d278bf5-35ae-451a-a9a0-cc1cff9d1f6b, OB:10,
+ L
+ OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:51
+X-CID-INFO: VERSION:1.1.8, REQID:8d278bf5-35ae-451a-a9a0-cc1cff9d1f6b, OB:10,
+ LOB
+ :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:51
+X-CID-META: VersionHash:0f94e32, CLOUDID:60164964-0b3f-4b2c-b3a6-ed5c044366a0,
+ C
+ OID:e043d49c5493,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 340751b7aa9543e89745301b34b2863d-20220714
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1643507264; Thu, 14 Jul 2022 16:52:32 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 14 Jul 2022 16:52:30 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 14 Jul 2022 16:52:30 +0800
+Message-ID: <a8cf1b4465bb0599d0688ace020d896c1ce54b24.camel@mediatek.com>
+Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Thu, 14 Jul 2022 16:52:29 +0800
+In-Reply-To: <9eceb5412bfed5f408153fe05bc2f8a4e3570b77.camel@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+ <9eceb5412bfed5f408153fe05bc2f8a4e3570b77.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +72,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- intel-gvt-dev@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>,
+ Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
+ <jitao.shi@mediatek.com>,
+ LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Jul 2022 18:00:59 -0400
-Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-
-> On Wed, Jul 13, 2022 at 05:54:44PM -0400, Rodrigo Vivi wrote:
-> > On Wed, Jul 13, 2022 at 09:11:49AM +0100, Mauro Carvalho Chehab wrote:  
-> > > From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> > > 
-> > > Fix the following W=1 kernel warnings:
-> > > 
-> > > drivers/gpu/drm/i915/gvt/mmio_context.c:560: warning: expecting
-> > > prototype for intel_gvt_switch_render_mmio(). Prototype was for
-> > > intel_gvt_switch_mmio() instead.
-> > > 
-> > > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> > > Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>  
-> > 
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>  
+On Wed, 2022-07-13 at 17:31 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
 > 
-> I actually changed my mind after seeing that in most cases you use "()"
-> for the functions and you didn't use for this case...
+> On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > 
+> > This patch adds a embedded displayport driver for the MediaTek
+> > mt8195
+> > SoC.
+> > 
+> > It supports the MT8195, the embedded DisplayPort units. It offers
+> > DisplayPort 1.4 with up to 4 lanes.
+> > 
+> > The driver creates a child device for the phy. The child device
+> > will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so
+> > that
+> > both can work with the same register range. The phy driver sets
+> > device
+> > data that is read by the parent to get the phy device that can be
+> > used
+> > to control the phy properties.
+> > 
+> > This driver is based on an initial version by
+> > Jitao shi <jitao.shi@mediatek.com>
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> 
+> [snip]
+> 
+> > +
+> > +static void mtk_dp_bulk_16bit_write(struct mtk_dp *mtk_dp, u32
+> > offset, u8 *buf,
+> > +				    size_t length)
+> 
+> The offset would always be MTK_DP_AUX_P0_3708, so drop offset and use
+> MTK_DP_AUX_P0_3708 directly.
+> 
 
-The documentation build system handles both ways equally, and there's
-no consensus kernel-wide about what would be the preferred way[1].
+Hello CK,
 
-Also, at the html (or pdf) output, they'll all look the same. So, no
-difference in practice at the produced documentation.
+I don't think it's a good idea. this function is a fucntion of writing
+registers. I want to keep the offset variable.
 
-[1] The current count (using drm-tip 2022y-07m-12d-21h-47m-27s) as basis,
-    is:
+> > +{
+> > +	int i;
+> > +	int num_regs = (length + 1) / 2;
+> > +
+> > +	/* 2 bytes per register */
+> > +	for (i = 0; i < num_regs; i++) {
+> > +		u32 val = buf[i * 2] |
+> > +			  (i * 2 + 1 < length ? buf[i * 2 + 1] << 8 :
+> > 0);
+> > +
+> > +		if (mtk_dp_write(mtk_dp, offset + i * 4, val))
+> > +			return;
+> > +	}
+> 
+> for (i = 0; i < length; i += 2) {
+> 	val = buf[i] | (i + 1 < length ? buf[i + 1] << 8 : 0);
+> 	if (mtk_dp_write(mtk_dp, MTK_DP_AUX_P0_3708 + i * 2, val))
+> 		return;
+> }
+> 
 
-	$ git ls-files|xargs grep -Pzo "\/\*\*\n \* [_a-zA-Z0-9]+ -" |wc -l
-	36680
-	$ git ls-files|xargs grep -Pzo "\/\*\*\n \* [_a-zA-Z0-9]+\s*\(\) -" |wc -l
-	12068
+ok.
 
-    So, 48748 documented functions, being ~25% with parenthesis, 
-    and ~75% without it.
+BRs,
+Bo-Chen
 
-    Under drivers/gpu, the numbers are:
+> Regards,
+> CK
+> 
+> > +}
+> > +
+> 
+> 
 
-	$ git ls-files|grep drivers/gpu/|xargs grep -Pzo "\/\*\*\n \* [_a-zA-Z0-9]+\s*\(\) -" |wc -l
-	480
-	mchehab@sal /new_devel/v4l/tmp $ git ls-files|grep drivers/gpu/|xargs grep -Pzo "\/\*\*\n \* [_a-zA-Z0-9]+ -" |wc -l
-	4046
-
-> which one should we pick for consistency?
-
-Yeah, it is nicer to use the same way everywhere. Btw, on media, I was
-enforcing one way at the beginning, but I ended giving up doing that
-as it was too many efforts for too little. Nowadays, half of media
-function declarations have parenthesis, half doesn't.
-
-Anyway, this is what we have at i915 driver, before this series:
-
-	$ grep -Pzo "\/\*\*\n \* [_a-zA-Z0-9]+\s*\(\) -" $(find drivers/gpu/drm/i915 -type f)|wc -l
-	53
-	$ grep -Pzo "\/\*\*\n \* [_a-zA-Z0-9]+ -" $(find drivers/gpu/drm/i915 -type f)|wc -l
-	542
-
-This series include 3 functions with "()" (on patches 1 and 3, both
-authored by Jiapeng, and 11 functions without it on my own patches.
-
-I'll change those two patches to remove the "()" for consistency.
-
-I guess I'll add a patch at the end changing the other 53 functions
-to drop "()".
-
-Regards,
-Mauro
