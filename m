@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023CE5752C7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 18:30:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9425752CF
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 18:31:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C22FB11A0B1;
-	Thu, 14 Jul 2022 16:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8271511A10B;
+	Thu, 14 Jul 2022 16:31:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 470C311A0AD;
- Thu, 14 Jul 2022 16:29:58 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id e15so3126484edj.2;
- Thu, 14 Jul 2022 09:29:58 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3A111A10B;
+ Thu, 14 Jul 2022 16:31:35 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id x91so3138884ede.1;
+ Thu, 14 Jul 2022 09:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZI0YHVo/gtkOB8tgyDWcbFNn6KxRA45rOQ9nm1YXK/Q=;
- b=qDcqaSAhw+hlOV5MLaMQb3gYMlJSXY1JVhNzIBNLgXH/Azc2KW0WxR+hxUZcNtDxm6
- InWFK4mBuPj0hpBt3PvwutZW5wUJKMYCh0SPUqO4ZXY8DZB7dVBAr/e2/bq6FEbr7j8a
- igiR4rkthJIEYAAJHPMok4ww9tD869WwPg8aAOKwa0/tachtsAIUBYQNJu2lL7dSTuFm
- bFNhX6QVDJRJBWkwMrW/0pxO6DFhcWycipykiOhv48CW/jjT0SmOfSn2DaggW8swX/WL
- s/UNX/NjcUc71qQNPXWtJfbQPctemAAkIZMZhE6w1fxcaNdrj5q5UAAKsh+KhhdrYB29
- 25Ig==
+ :cc; bh=yhoWI4qXoHsRxXejZ4bDxx8rPwc5PrEne0xLbfw7b3c=;
+ b=TMtVpRdxuzY+GFOrJzgXJjS7PgzhBL4YjbaEAWduBAB5qc6UjWHULm5HpSJXOScbnh
+ qWEGguzru0OxloGviNMBCEMELWtL87lhZPUrXd+lwmq5MeGAhuz8/wSDdWnagZVMSXO6
+ Iwaz2MgUYZWYEk9HwPUn238XUQEyvW4/F89ZSvxYnsnQYfyRDpqB+PlRlQAGkT1Gdv/S
+ 7UGkeO2D281Yu7wnsy3YzxsgczEQJjmqgHVCwX+fKFpQGejBv1EsHLWb4EyJYtlmOQbW
+ H6nYg2W1YS7Rf0gA3nIdJo6HQTUivxtXB2m4D73Sd4ofi6gJ6i/aJNKJz3lQyySfJioN
+ fbKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZI0YHVo/gtkOB8tgyDWcbFNn6KxRA45rOQ9nm1YXK/Q=;
- b=XXg0RRr6mNqM8hZDwrR4cLnUgKiC1h1WTQwqK7ryrqlqFywEabodhgyk0ScoNmNznD
- Lq+oUzd7hjo/9BTwJiKM58pjMVCCtpMmzM/oQKoSDy0ROZeWaqAJ1/1bW8FMv0ezrQn9
- aYGP2F4uJ0dtfRWnKAqdQ/YZf6dV2kbI7wNCn+wNYljxB2xAgnK56ISwEzuXA0v9Fnny
- eHmZPIC7KbnliBKmyHyOSgnK46E0GBIcJp84DUvVtEMQOb2bWweuB0Q2upi9abmV94q9
- tsQG7mVsX8uczoJFsvrTWctSMmCC3v03oTnSWbvCG0rBdKkXJe5sPxBHjYkTE1FQACTQ
- g1Ow==
-X-Gm-Message-State: AJIora9kpCGT2q+4QMdSGYzT8Fr8NzWwizBjKZ2n1Zz8JVsKG3Q92qzI
- IJxGKJVa9Aa8GPiXJzOQd1/VlufPANSw24nebM4=
-X-Google-Smtp-Source: AGRyM1v1rUkvs34Q+Hk692TjKXzRoe56b59xLKpN80MV6b/Wor2PR/mwxiLwKJwHkkS8wmVStWlwlpJkBoau4i75WJc=
-X-Received: by 2002:a05:6402:13:b0:439:ffe8:bec9 with SMTP id
- d19-20020a056402001300b00439ffe8bec9mr13648034edu.297.1657816196801; Thu, 14
- Jul 2022 09:29:56 -0700 (PDT)
+ bh=yhoWI4qXoHsRxXejZ4bDxx8rPwc5PrEne0xLbfw7b3c=;
+ b=MlME1zskpSYiQVqRyaYSDUpvlpxA2cbP19yJfIahZ44D0DYsDzqtcw2zht6XK6RVzG
+ b3gsv/VhGU32+G7UBgqYgeySF6yXdUCz4ciYrG9EzpFefmpLFOnPyEmhV0gashOu8ulP
+ BWaq+q9kjT5XqteW0CJJ4S2YeT/pO+wf/Z5pVobXRU4+lR8fK/MEdJG3cjHoOTLoMoEL
+ jgQ1yAlTazhA91c3ZJGT/qXoAhrssfei1x0GkYwJMDr8RAzj1dLCUcf/S86qnhqFiw29
+ ljjJBa7Hm9DDC4dbgH16rKnFf7NrLtATMGQeZJmAMKtUKxldUwX4n3gWwbbP65uGhJG4
+ ZcMA==
+X-Gm-Message-State: AJIora8LgGtS2NAZv36jInaw+SG+45Tq4sLwvxB3pildBfAyUiVz4Ekw
+ 4XzbOpHnUvCxM8MQ66jouy+u8NC47qPrrgQc/GPCgPsn
+X-Google-Smtp-Source: AGRyM1vlBR6f4juYCV/yCZg3RjA87tp7VDETKIK9iYx5gzzUL4ZdyFIJbjjXw8MVnaPdQX+oNlbMl0PPVfnIXBNwT48=
+X-Received: by 2002:a05:6402:2895:b0:43b:1e47:c132 with SMTP id
+ eg21-20020a056402289500b0043b1e47c132mr7007574edb.425.1657816293374; Thu, 14
+ Jul 2022 09:31:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220712224247.1950273-1-linux@roeck-us.net>
- <98b656f3-e506-90be-ebcc-898813051e74@amd.com>
-In-Reply-To: <98b656f3-e506-90be-ebcc-898813051e74@amd.com>
+References: <20220714103427.23255-1-colin.i.king@gmail.com>
+In-Reply-To: <20220714103427.23255-1-colin.i.king@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Jul 2022 12:29:45 -0400
-Message-ID: <CADnq5_OMayFN52hr7ZWFqMHPaV5_q7Hi+4LEbNMgfTPqo3__=w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Enable building new display engine with
- KCOV enabled
-To: Harry Wentland <harry.wentland@amd.com>
+Date: Thu, 14 Jul 2022 12:31:21 -0400
+Message-ID: <CADnq5_PO79-dzPy0VVG2fuyQ0wX0GcWHbcvyyy_bUrF2JwQSOQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: Fix spelling mistake "supporing"
+ -> "supporting"
+To: Colin Ian King <colin.i.king@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,67 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Leo Li <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Guenter Roeck <linux@roeck-us.net>
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Jul 13, 2022 at 4:03 PM Harry Wentland <harry.wentland@amd.com> wrote:
+Alex
+
+On Thu, Jul 14, 2022 at 6:34 AM Colin Ian King <colin.i.king@gmail.com> wrote:
 >
-> On 2022-07-12 18:42, Guenter Roeck wrote:
-> > The new display engine uses floating point math, which is not supported
-> > by KCOV. Commit 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov
-> > is enabled") tried to work around the problem by disabling
-> > CONFIG_DRM_AMD_DC_DCN if KCOV_INSTRUMENT_ALL and KCOV_ENABLE_COMPARISONS
-> > are enabled. The result is that KCOV can not be enabled on systems which
-> > require this display engine. A much simpler and less invasive solution is
-> > to disable KCOV selectively when compiling the display enagine while
-> > keeping it enabled for the rest of the kernel.
-> >
-> > Fixes: 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov is enabled")
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> There is a spelling mistake in a dml_print message. Fix it.
 >
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  .../gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/display/Kconfig     | 2 +-
-> >  drivers/gpu/drm/amd/display/dc/Makefile | 3 +++
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-> > index b4029c0d5d8c..96cbc87f7b6b 100644
-> > --- a/drivers/gpu/drm/amd/display/Kconfig
-> > +++ b/drivers/gpu/drm/amd/display/Kconfig
-> > @@ -6,7 +6,7 @@ config DRM_AMD_DC
-> >       bool "AMD DC - Enable new display engine"
-> >       default y
-> >       select SND_HDA_COMPONENT if SND_HDA_CORE
-> > -     select DRM_AMD_DC_DCN if (X86 || PPC64) && !(KCOV_INSTRUMENT_ALL && KCOV_ENABLE_COMPARISONS)
-> > +     select DRM_AMD_DC_DCN if (X86 || PPC64)
-> >       help
-> >         Choose this option if you want to use the new display engine
-> >         support for AMDGPU. This adds required support for Vega and
-> > diff --git a/drivers/gpu/drm/amd/display/dc/Makefile b/drivers/gpu/drm/amd/display/dc/Makefile
-> > index b4eca0236435..b801973749d2 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/Makefile
-> > +++ b/drivers/gpu/drm/amd/display/dc/Makefile
-> > @@ -26,6 +26,9 @@
-> >  DC_LIBS = basics bios dml clk_mgr dce gpio irq link virtual
-> >
-> >  ifdef CONFIG_DRM_AMD_DC_DCN
-> > +
-> > +KCOV_INSTRUMENT := n
-> > +
-> >  DC_LIBS += dcn20
-> >  DC_LIBS += dsc
-> >  DC_LIBS += dcn10
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
+> index 6101c962ab0a..fc4d7474c111 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
+> @@ -2994,7 +2994,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+>                         for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+>                                 if (v->ImmediateFlipSupportedForPipe[k] == false) {
+>  #ifdef __DML_VBA_DEBUG__
+> -                                       dml_print("DML::%s: Pipe %0d not supporing iflip\n", __func__, k);
+> +                                       dml_print("DML::%s: Pipe %0d not supporting iflip\n", __func__, k);
+>  #endif
+>                                         v->ImmediateFlipSupported = false;
+>                                 }
+> --
+> 2.35.3
 >
