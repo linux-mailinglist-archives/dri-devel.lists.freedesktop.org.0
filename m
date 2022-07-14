@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A835746A9
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:24:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEB2574741
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A90A35EA;
-	Thu, 14 Jul 2022 08:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45F5512B456;
+	Thu, 14 Jul 2022 08:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A447CA35D4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:24:37 +0000 (UTC)
-X-UUID: fb79233c50374ef9906d04a084b2510a-20220714
-X-CID-UNFAMILIAR: 1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:be979295-5b6b-48f0-bea5-673219d4f0ee, OB:10,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:54,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:54
-X-CID-INFO: VERSION:1.1.8, REQID:be979295-5b6b-48f0-bea5-673219d4f0ee, OB:10,
- LOB
- :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:54,FILE:0,RULE:Release_HamU,ACT
- ION:release,TS:54
-X-CID-META: VersionHash:0f94e32, CLOUDID:8e02f832-b9e4-42b8-b28a-6364427c76bb,
- C
- OID:d8d06ba71f39,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: fb79233c50374ef9906d04a084b2510a-20220714
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1261772095; Thu, 14 Jul 2022 16:24:31 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 14 Jul 2022 16:24:29 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 14 Jul 2022 16:24:29 +0800
-Message-ID: <b04f4a68e012157db43f8f7b0887d611f790a9c5.camel@mediatek.com>
-Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
- <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Thu, 14 Jul 2022 16:24:24 +0800
-In-Reply-To: <8fad0421bb7a61ae5e2ecabfc93790f1e2f30b63.camel@mediatek.com>
-References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
- <20220712111223.13080-6-rex-bc.chen@mediatek.com>
- <8fad0421bb7a61ae5e2ecabfc93790f1e2f30b63.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7500C12B406
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:38:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 071F53439E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1657787886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=tyGy2WLgCrHflzjnfgNrlc9MV6G/Z8xkoZ3L6dv6+Y8=;
+ b=Akh98HmClP523c+pqFTHjNekwhqdrT1LYEVY9wib71c7SjWsVzedUWnjdm0AEWwID/A32A
+ khV8g+wEZDiBe5PEOwXal9h9WfVO5GngtFMm4PIfyJM9ADUyS97MLbJ7eGkfAc1k5659P5
+ p7h592jIEwzV0qnmlZDZKBnIYdrEVGA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1657787886;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=tyGy2WLgCrHflzjnfgNrlc9MV6G/Z8xkoZ3L6dv6+Y8=;
+ b=II/o/DFJiRZKZZHRYSx/fw+5VntpV2d9FO9EoCDtG4GV7rmCjbr5mFeqkNHJATdBzSh/9g
+ pgOSoO6cT0iafZBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EDFF413A61
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:38:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id wPA+Oe3Vz2LtEwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>)
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:38:05 +0000
+Message-ID: <53acad40-6bf2-33de-3a28-bf5021eef726@suse.de>
+Date: Thu, 14 Jul 2022 10:38:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: PSA: drm-misc-next-fixes is open
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------J6M5yxBGjqPYYxkUQcR2dN9W"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,118 +66,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "granquet@baylibre.com" <granquet@baylibre.com>,
- Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
- <jitao.shi@mediatek.com>,
- LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-07-13 at 16:10 +0800, CK Hu wrote:
-> Hi, Bo-Chen:
-> 
-> On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a embedded displayport driver for the MediaTek
-> > mt8195
-> > SoC.
-> > 
-> > It supports the MT8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jitao shi <jitao.shi@mediatek.com>
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > ---
-> 
-> [snip]
-> 
-> > +
-> > +struct mtk_dp_timings {
-> > +	struct videomode vm;
-> > +};
-> > +
-> > +struct mtk_dp_irq_sta {
-> > +	bool hpd_inerrupt;
-> > +};
-> > +
-> > +struct mtk_dp_train_info {
-> > +	bool tps3;
-> > +	bool tps4;
-> > +	bool sink_ssc;
-> > +	bool cable_plugged_in;
-> > +	bool cable_state_change;
-> > +	bool cr_done;
-> > +	bool eq_done;
-> > +	/* link_rate is in multiple of 0.27Gbps */
-> > +	int link_rate;
-> > +	int lane_count;
-> > +	struct mtk_dp_irq_sta irq_sta;
-> 
-> There is only one member in struct mtk_dp_irq_sta, so drop struct
-> mtk_dp_irq_sta and use bool hpd_inerrupt directly here.
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------J6M5yxBGjqPYYxkUQcR2dN9W
+Content-Type: multipart/mixed; boundary="------------cnfRCXUJ4roxDy3PYgAM6HyM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <53acad40-6bf2-33de-3a28-bf5021eef726@suse.de>
+Subject: PSA: drm-misc-next-fixes is open
 
-Hello CK,
+--------------cnfRCXUJ4roxDy3PYgAM6HyM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-ok, I will drop this.
+SGksDQoNCnRoZSBlbWFpbCBnb2VzIG91dCBhIGJpdCBsYXRlLCBhcyAtcmM2IGhhcyBhbHJl
+YWR5IGJlZW4gdGFnZ2VkIGZvciBhIGZldyANCmRheXMuIFRoaXMgbWVhbnMgdGhhdCBkcm0t
+bWlzYy1uZXh0LWZpeGVzIGlzIG5vdyBvcGVuIGZvciBidWcgZml4ZXMsIGFzIA0KZHJtLW5l
+eHQgaXMgaW4gZmVhdHVyZSBmcmVlemUgdW50aWwgdGhlIG5leHQgLXJjMSBjb21lcyBvdXQu
+DQoNClNvbWUgcnVsZXMgb2YgdGh1bWI6DQoNCiAgICogaWYgeW91ciBwYXRjaCBmaXhlcyBh
+IGJ1ZyBpbiB1cHN0cmVhbSwgcGxlYXNlIHB1dCBpdCBpbnRvIA0KZHJtLW1pc2MtZml4ZXMs
+DQoNCiAgICogaWYgeW91ciBwYXRjaCBmaXhlcyBhIGJ1ZyBpbiBkcm0tbmV4dCwgcGxlYXNl
+IHB1dCBpdCBpbnRvIA0KZHJtLW1pc2MtbmV4dC1maXhlcywNCg0KICAgKiBhbnl0aGluZyBl
+bHNlIHNob3VsZCBnbyBpbnRvIGRybS1taXNjLW5leHQuDQoNClRoZSBmbG93IGNoYXJ0IGlz
+IGF0IFsxXS4NCg0KVGhlIHRyYW5zaXRpb24gZnJvbS90byBkcm0tbWlzYy1maXhlcy1uZXh0
+IHNvbWV0aW1lcyByZXN1bHRzIGluIHBhdGNoZXMgDQp0aGF0IGFyZSBhcHBsaWVkIHRvIHRo
+ZSB3cm9uZyB0cmVlIGFuZCBnZXQgc3R1Y2sgdGhlcmUgZm9yIGEgbG9uZyB0aW1lLiANCklm
+IHlvdSBoYXZlIGZpeGVzIGluIGRybS1taXNjLW5leHQgdGhhdCBtdXN0IGdvIGludG8gZHJt
+LW5leHQgc29vbiwgDQpwbGVhc2UgY2hlcnJ5LXBpY2sgdGhlbSBpbnRvIGRybS1taXNjLW5l
+eHQtZml4ZXMuIFdlIGhhdmUNCg0KICAgZGltIGNoZXJyeS1waWNrDQoNCnRvIGhlbHAgeW91
+IHdpdGggdGhhdC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0cHM6Ly9k
+cm0ucGFnZXMuZnJlZWRlc2t0b3Aub3JnL21haW50YWluZXItdG9vbHMvY29tbWl0dGVyLWRy
+bS1taXNjLmh0bWwjd2hlcmUtZG8taS1hcHBseS1teS1wYXRjaA0KDQotLSANClRob21hcyBa
+aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
+IEl2byBUb3Rldg0K
 
-> > +};
-> > +
-> > +struct mtk_dp_info {
-> > +	u32 depth;
-> > +	enum dp_pixelformat format;
-> > +	struct mtk_dp_timings timings;
-> 
-> There is only one member in struct mtk_dp_timings, so drop struct
-> mtk_dp_timings and use struct videomode vm directly here.
-> 
+--------------cnfRCXUJ4roxDy3PYgAM6HyM--
 
-This structure will add more variable in following patch.
-whole struct is like,
-struct mtk_dp_timings {
-	struct videomode vm;
-	u8 frame_rate;
-	u32 pix_rate_khz;
-};
+--------------J6M5yxBGjqPYYxkUQcR2dN9W
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I want to keep this.
+-----BEGIN PGP SIGNATURE-----
 
-BRs,
-Bo-Chen
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLP1e0FAwAAAAAACgkQlh/E3EQov+A8
+ZBAAnRhQKxRYYkuLjgIpSGCvgu4wBLSzo95DD0El3pxdYK9UBudlxqdVgQgk+WPHCycldKSRE23Y
+USTRbweZI7JeZ0t5lEnvmJibI2xFQo1Fp0DsUIdNIb6cMmNlZ5nCtm9B9Mit7Xytju0SQXoQSgHk
+CRgnAPtCkbK6vYaD7r5EO6XB62cIy63cJQ8NycmcU0Y6NT0kinKxuDwA41fAwG+POV7lzUJRvKaQ
+W5wazfyaFPE5jqus5IpbsVUUuuBEjA+ZarYvyvuhWd2rGDPKgNg0EUI5OGYCCyTjYsQYqGoAe81F
+1GtT3wpwBi/xqKCLP++RTWNddzBb2V4xZ7vL3KtaJNI2VjzGNcalvfV4BRLMBqmrwROG+MsxqhXy
+ht4MCpqopEnwMJfbnMcVjJo//5Fjpm80Bg66Rqr0jrU2PeraCTDRvvhebnKxRCiruU6AGabGUEiu
+DpIBYL+hx2Jg0xKL0iCXpU2EovoeSZU87iDMwxFqvSgwgJxEfCtdubd+5lFP9dNPvpX/iUsoxI18
+MprKmBACE+XGUQvhu3lVWJ+IqDSjYu24aOLmYK5sziZBvHgq0cr5irSLh02UwM698j8/GUvbVRqF
+isgclW6VFiuUC/tvnPBIgbbchT1DzCkF166X7zvqetRwE1VhntK574VGDl9s8E0QWzJwAsVZeRZM
+CpU=
+=Rkto
+-----END PGP SIGNATURE-----
 
-
-> Regards,
-> CK
-> 
-> > +};
-> > +
-> 
-> 
-
+--------------J6M5yxBGjqPYYxkUQcR2dN9W--
