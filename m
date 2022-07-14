@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55411574BED
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 13:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC01574BF0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 13:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B98A1127F8;
-	Thu, 14 Jul 2022 11:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8A3112809;
+	Thu, 14 Jul 2022 11:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8C91127DC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 11:26:27 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 656336601A3B;
- Thu, 14 Jul 2022 12:26:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1657797985;
- bh=S3uu1fiJqnW9GfhBdNOm5ox+Kfz/PBBejcQCNxtJG7Q=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nmnLgvsJ7wUdm7PX1mVlONbq1I4u5c8cliefOUgywi8O7eQNZ9V+UIqkndktdgbcP
- I0dEshLOWiiUfvkV/+4U8lS3BJfHmZgWj3KVrMa/ccUIYo9Dnpb4HTLgtic2FTgNh7
- g5d+02tP+6EPQhfdPAcWyW0jpcfH2kHqBjomZ+ZuOvzEhVWZ2vJ9XBqB3laT4PSV/x
- wE27WhtoF+NNzOHG02pv3MTUxMxOvBeOAV4Al3aYiSSPgVfkd9x19nYDLM9Qlt0zBW
- OPk0gbvq517iOXDN2+v2c/sA8s86kGLxsltZPJRKhmMDcmNkBKg0OPz6pPN2wKSIEw
- tSgJZPher7yKQ==
-Message-ID: <8bc57373-70e4-8ab6-659f-0917dbf14c38@collabora.com>
-Date: Thu, 14 Jul 2022 13:26:21 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 876A7112809;
+ Thu, 14 Jul 2022 11:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657798000; x=1689334000;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=VtKndIGNUa8ynKlVsG0vSAkkilZp/qX+TWGoTdlMnw0=;
+ b=iIJDCAN+bEBRKvrqwNK1r1NRTxH6Fdx3L7c09DImxxYmvX168LlMXsGk
+ 5ZCxTNzrZNicahEDjF4005OeqH5Z6abkEDEDocqio3XQMt2mAy4G/b2FI
+ O4CXPAnPPOeqz32MMcNdySBWlkAYl5oVU6ADa3sQqc7Jw7jFOUPzLrTIp
+ bcbJPwO4ByA7Xg5W8VSpDBOO1l5hEweeGOlW9Ecw9icY9jYRwe3MqH81W
+ A5erndrQlBreTHgVOK7dmUdHUPh5tO7/aPCj+nj+m2GUpY6GPbOOCOk8N
+ Uo0zjIDVIwWXlX3TgyNpIvXbJt4vjOJaICXLAWiHiW+5NY015Z00ts6QR g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="284243546"
+X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; d="scan'208";a="284243546"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 04:26:34 -0700
+X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; d="scan'208";a="653837435"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
+ ([10.252.37.128])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 04:26:31 -0700
+Date: Thu, 14 Jul 2022 13:26:28 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH v3 4/7] drm/i915: Check for integer truncation on the
+ configuration of ttm place
+Message-ID: <20220714132628.4dda3b64@maurocar-mobl2>
+In-Reply-To: <20220714090807.2340818-5-gwan-gyeong.mun@intel.com>
+References: <20220714090807.2340818-1-gwan-gyeong.mun@intel.com>
+ <20220714090807.2340818-5-gwan-gyeong.mun@intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v14 04/10] video/hdmi: Add audio_infoframe packing for DP
-Content-Language: en-US
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org, tzimmermann@suse.de,
- matthias.bgg@gmail.com, deller@gmx.de, airlied@linux.ie
-References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
- <20220712111223.13080-5-rex-bc.chen@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220712111223.13080-5-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,219 +59,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org
+Cc: thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, airlied@linux.ie, matthew.auld@intel.com,
+ mchehab@kernel.org, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/07/22 13:12, Bo-Chen Chen ha scritto:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> Similar to HDMI, DP uses audio infoframes as well which are structured
-> very similar to the HDMI ones.
-> 
-> This patch adds a helper function to pack the HDMI audio infoframe for
-> DP, called hdmi_audio_infoframe_pack_for_dp().
-> hdmi_audio_infoframe_pack_only() is split into two parts. One of them
-> packs the payload only and can be used for HDMI and DP.
-> 
-> Also constify the frame parameter in hdmi_audio_infoframe_check() as
-> it is passed to hdmi_audio_infoframe_check_only() which expects a const.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+On Thu, 14 Jul 2022 12:08:04 +0300
+Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
+
+> There is an impedance mismatch between the first/last valid page
+> frame number of ttm place in unsigned and our memory/page accounting in
+> unsigned long.
+> As the object size is under the control of userspace, we have to be prude=
+nt
+> and catch the conversion errors.
+> To catch the implicit truncation as we switch from unsigned long to
+> unsigned, we use overflows_type check and report E2BIG or overflow_type
+> prior to the operation.
+>=20
+> v3: Not to change execution inside a macro. (Mauro)
+>     Add safe_conversion_gem_bug_on() macro and remove temporal
+>     SAFE_CONVERSION() macro.
+>=20
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+
+LGTM.
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
 > ---
->   drivers/video/hdmi.c         | 82 +++++++++++++++++++++++++++---------
->   include/drm/display/drm_dp.h |  2 +
->   include/linux/hdmi.h         |  7 ++-
->   3 files changed, 71 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-> index 947be761dfa4..86805d77cc86 100644
-> --- a/drivers/video/hdmi.c
-> +++ b/drivers/video/hdmi.c
-> @@ -21,6 +21,7 @@
->    * DEALINGS IN THE SOFTWARE.
->    */
->   
-> +#include <drm/display/drm_dp.h>
->   #include <linux/bitops.h>
->   #include <linux/bug.h>
->   #include <linux/errno.h>
-> @@ -381,12 +382,34 @@ static int hdmi_audio_infoframe_check_only(const struct hdmi_audio_infoframe *fr
->    *
->    * Returns 0 on success or a negative error code on failure.
->    */
-> -int hdmi_audio_infoframe_check(struct hdmi_audio_infoframe *frame)
-> +int hdmi_audio_infoframe_check(const struct hdmi_audio_infoframe *frame)
->   {
->   	return hdmi_audio_infoframe_check_only(frame);
->   }
->   EXPORT_SYMBOL(hdmi_audio_infoframe_check);
->   
-> +static void
-> +hdmi_audio_infoframe_pack_payload(const struct hdmi_audio_infoframe *frame,
-> +				  u8 *buffer)
-> +{
-> +	u8 channels;
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  6 +++---
+>  drivers/gpu/drm/i915/i915_gem.h         |  4 ++++
+>  drivers/gpu/drm/i915/intel_region_ttm.c | 20 +++++++++++++++++---
+>  3 files changed, 24 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
+15/gem/i915_gem_ttm.c
+> index 9f2be1892b6c..88f2887627dc 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -140,14 +140,14 @@ i915_ttm_place_from_region(const struct intel_memor=
+y_region *mr,
+>  	if (flags & I915_BO_ALLOC_CONTIGUOUS)
+>  		place->flags |=3D TTM_PL_FLAG_CONTIGUOUS;
+>  	if (offset !=3D I915_BO_INVALID_OFFSET) {
+> -		place->fpfn =3D offset >> PAGE_SHIFT;
+> -		place->lpfn =3D place->fpfn + (size >> PAGE_SHIFT);
+> +		safe_conversion_gem_bug_on(&place->fpfn, offset >> PAGE_SHIFT);
+> +		safe_conversion_gem_bug_on(&place->lpfn, place->fpfn + (size >> PAGE_S=
+HIFT));
+>  	} else if (mr->io_size && mr->io_size < mr->total) {
+>  		if (flags & I915_BO_ALLOC_GPU_ONLY) {
+>  			place->flags |=3D TTM_PL_FLAG_TOPDOWN;
+>  		} else {
+>  			place->fpfn =3D 0;
+> -			place->lpfn =3D mr->io_size >> PAGE_SHIFT;
+> +			safe_conversion_gem_bug_on(&place->lpfn, mr->io_size >> PAGE_SHIFT);
+>  		}
+>  	}
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_gem.h b/drivers/gpu/drm/i915/i915_=
+gem.h
+> index 68d8d52bd541..6b673607abee 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.h
+> +++ b/drivers/gpu/drm/i915/i915_gem.h
+> @@ -83,5 +83,9 @@ struct drm_i915_private;
+>  #endif
+> =20
+>  #define I915_GEM_IDLE_TIMEOUT (HZ / 5)
+> +#define safe_conversion_gem_bug_on(ptr, value) ({ \
+> +	safe_conversion(ptr, value) ? 1 \
+> +		: (({ GEM_BUG_ON(overflows_type(value, *ptr)); }), 0); \
+> +})
+> =20
+>  #endif /* __I915_GEM_H__ */
+> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i9=
+15/intel_region_ttm.c
+> index 575d67bc6ffe..f0d143948725 100644
+> --- a/drivers/gpu/drm/i915/intel_region_ttm.c
+> +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+> @@ -209,14 +209,26 @@ intel_region_ttm_resource_alloc(struct intel_memory=
+_region *mem,
+>  	if (flags & I915_BO_ALLOC_CONTIGUOUS)
+>  		place.flags |=3D TTM_PL_FLAG_CONTIGUOUS;
+>  	if (offset !=3D I915_BO_INVALID_OFFSET) {
+> -		place.fpfn =3D offset >> PAGE_SHIFT;
+> -		place.lpfn =3D place.fpfn + (size >> PAGE_SHIFT);
+> +		if (!safe_conversion_gem_bug_on(&place.fpfn,
+> +						offset >> PAGE_SHIFT)) {
+> +			ret =3D -E2BIG;
+> +			goto out;
+> +		}
+> +		if (!safe_conversion_gem_bug_on(&place.lpfn,
+> +						place.fpfn + (size >> PAGE_SHIFT))) {
+> +			ret =3D -E2BIG;
+> +			goto out;
+> +		}
+>  	} else if (mem->io_size && mem->io_size < mem->total) {
+>  		if (flags & I915_BO_ALLOC_GPU_ONLY) {
+>  			place.flags |=3D TTM_PL_FLAG_TOPDOWN;
+>  		} else {
+>  			place.fpfn =3D 0;
+> -			place.lpfn =3D mem->io_size >> PAGE_SHIFT;
+> +			if (!safe_conversion_gem_bug_on(&place.lpfn,
+> +							mem->io_size >> PAGE_SHIFT)) {
+> +				ret =3D -E2BIG;
+> +				goto out;
+> +			}
+>  		}
+>  	}
+> =20
+> @@ -224,6 +236,8 @@ intel_region_ttm_resource_alloc(struct intel_memory_r=
+egion *mem,
+>  	mock_bo.bdev =3D &mem->i915->bdev;
+> =20
+>  	ret =3D man->func->alloc(man, &mock_bo, &place, &res);
 > +
-> +	if (frame->channels >= 2)
-> +		channels = frame->channels - 1;
-> +	else
-> +		channels = 0;
-> +
-> +	buffer[0] = ((frame->coding_type & 0xf) << 4) | (channels & 0x7);
-> +	buffer[1] = ((frame->sample_frequency & 0x7) << 2) |
-> +		 (frame->sample_size & 0x3);
-> +	buffer[2] = frame->coding_type_ext & 0x1f;
-> +	buffer[3] = frame->channel_allocation;
-> +	buffer[4] = (frame->level_shift_value & 0xf) << 3;
-> +
-> +	if (frame->downmix_inhibit)
-> +		buffer[4] |= BIT(7);
-> +}
-> +
->   /**
->    * hdmi_audio_infoframe_pack_only() - write HDMI audio infoframe to binary buffer
->    * @frame: HDMI audio infoframe
-> @@ -404,7 +427,6 @@ EXPORT_SYMBOL(hdmi_audio_infoframe_check);
->   ssize_t hdmi_audio_infoframe_pack_only(const struct hdmi_audio_infoframe *frame,
->   				       void *buffer, size_t size)
->   {
-> -	unsigned char channels;
->   	u8 *ptr = buffer;
->   	size_t length;
->   	int ret;
-> @@ -420,28 +442,13 @@ ssize_t hdmi_audio_infoframe_pack_only(const struct hdmi_audio_infoframe *frame,
->   
->   	memset(buffer, 0, size);
->   
-> -	if (frame->channels >= 2)
-> -		channels = frame->channels - 1;
-> -	else
-> -		channels = 0;
-> -
->   	ptr[0] = frame->type;
->   	ptr[1] = frame->version;
->   	ptr[2] = frame->length;
->   	ptr[3] = 0; /* checksum */
->   
-> -	/* start infoframe payload */
-> -	ptr += HDMI_INFOFRAME_HEADER_SIZE;
-> -
-> -	ptr[0] = ((frame->coding_type & 0xf) << 4) | (channels & 0x7);
-> -	ptr[1] = ((frame->sample_frequency & 0x7) << 2) |
-> -		 (frame->sample_size & 0x3);
-> -	ptr[2] = frame->coding_type_ext & 0x1f;
-> -	ptr[3] = frame->channel_allocation;
-> -	ptr[4] = (frame->level_shift_value & 0xf) << 3;
-> -
-> -	if (frame->downmix_inhibit)
-> -		ptr[4] |= BIT(7);
-> +	hdmi_audio_infoframe_pack_payload(frame,
-> +					  ptr + HDMI_INFOFRAME_HEADER_SIZE);
->   
->   	hdmi_infoframe_set_checksum(buffer, length);
->   
-> @@ -479,6 +486,43 @@ ssize_t hdmi_audio_infoframe_pack(struct hdmi_audio_infoframe *frame,
->   }
->   EXPORT_SYMBOL(hdmi_audio_infoframe_pack);
->   
-> +/**
-> + * hdmi_audio_infoframe_pack_for_dp - Pack a HDMI Audio infoframe for DisplayPort
-> + *
-> + * @frame:      HDMI Audio infoframe
-> + * @sdp:        secondary data packet for display port. This is filled with the
-> + * appropriate: data
-
-"This is filled with the appropriate data"
-
-... well, that's pretty obvious, isn't it?
-You're describing that this function is filling sdp in the description, so you
-can just remove that part.
-
-Also, "Secondary data packet for DisplayPort", please.
-
-
-> + * @dp_version: Display Port version to be encoded in the header
-
-We're not meaning "a display port", but really "DisplayPort": please remove
-the space between "Display" and "Port" :-)
-
-(here and in the description below)
-
-> + *
-> + * Packs a HDMI Audio Infoframe to be sent over Display Port. This function
-> + * fills the secondary data packet to be used for Display Port.
-> + *
-> + * Return: Number of total written bytes or a negative errno on failure.
-> + */
-> +ssize_t
-> +hdmi_audio_infoframe_pack_for_dp(const struct hdmi_audio_infoframe *frame,
-> +				 struct dp_sdp *sdp, u8 dp_version)
-> +{
-> +	int ret;
-> +
-> +	ret = hdmi_audio_infoframe_check(frame);
-> +	if (ret)
-> +		return ret;
-> +
-> +	memset(sdp->db, 0, sizeof(sdp->db));
-> +
-> +	/* Secondary-data packet header */
-> +	sdp->sdp_header.HB0 = 0;
-> +	sdp->sdp_header.HB1 = frame->type;
-> +	sdp->sdp_header.HB2 = DP_SDP_AUDIO_INFOFRAME_HB2;
-> +	sdp->sdp_header.HB3 = (dp_version & 0x3f) << 2;
-> +
-> +	hdmi_audio_infoframe_pack_payload(frame, sdp->db);
-> +
-> +	return frame->length + 4;
-
-What's this magic number 4 about?
-
-Please use a definition for that.
-
-> +}
-> +EXPORT_SYMBOL(hdmi_audio_infoframe_pack_for_dp);
-> +
->   /**
->    * hdmi_vendor_infoframe_init() - initialize an HDMI vendor infoframe
->    * @frame: HDMI vendor infoframe
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index 9e3aff7e68bb..6c0871164771 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -1536,6 +1536,8 @@ enum drm_dp_phy {
->   #define DP_SDP_VSC_EXT_CEA		0x21 /* DP 1.4 */
->   /* 0x80+ CEA-861 infoframe types */
->   
-> +#define DP_SDP_AUDIO_INFOFRAME_HB2	0x1b
-> +
->   /**
->    * struct dp_sdp_header - DP secondary data packet header
->    * @HB0: Secondary Data Packet ID
-> diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
-> index c8ec982ff498..2f4dcc8d060e 100644
-> --- a/include/linux/hdmi.h
-> +++ b/include/linux/hdmi.h
-> @@ -336,7 +336,12 @@ ssize_t hdmi_audio_infoframe_pack(struct hdmi_audio_infoframe *frame,
->   				  void *buffer, size_t size);
->   ssize_t hdmi_audio_infoframe_pack_only(const struct hdmi_audio_infoframe *frame,
->   				       void *buffer, size_t size);
-> -int hdmi_audio_infoframe_check(struct hdmi_audio_infoframe *frame);
-> +int hdmi_audio_infoframe_check(const struct hdmi_audio_infoframe *frame);
-> +
-> +struct dp_sdp;
-> +ssize_t
-> +hdmi_audio_infoframe_pack_for_dp(const struct hdmi_audio_infoframe *frame,
-> +				 struct dp_sdp *sdp, u8 dp_version);
->   
->   enum hdmi_3d_structure {
->   	HDMI_3D_STRUCTURE_INVALID = -1,
-
+> +out:
+>  	if (ret =3D=3D -ENOSPC)
+>  		ret =3D -ENXIO;
+>  	if (!ret)
