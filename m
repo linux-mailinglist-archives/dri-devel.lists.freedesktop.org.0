@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028C3574751
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B14E574770
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C721A378F;
-	Thu, 14 Jul 2022 08:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81F4A376C;
+	Thu, 14 Jul 2022 08:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1388 seconds by postgrey-1.36 at gabe;
- Thu, 14 Jul 2022 08:40:25 UTC
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A49A378F
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:40:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D762C1F90D;
- Thu, 14 Jul 2022 08:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657788023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XMT+SlB8Ut70ivi8XSup3U4g2ZN+9QVsgWqieVMmRKw=;
- b=vHwFgVXXs/DvDsQFutHA5eSi6GXcYt5Y0Fg3WB5rN544RsGVN2+PJzXTFERAGJ1nVnSrgN
- AlIvjjBPG7kmzoPUFhVmZr9SeBzSJw/bICBgN5D0KtPZMev0HgSzeDdQc4dQGM5F0hXwAv
- HQXurHKUX/CL/AUzlyC47iZo/29knSA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657788023;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XMT+SlB8Ut70ivi8XSup3U4g2ZN+9QVsgWqieVMmRKw=;
- b=95a5ze+3dt9rqbkn1dPNHxPxHYS6qdVd6g4VyMAB0jUk/+dja9sDh5b1U6OwZBO5mpRNrf
- 47A4xQpslmvopHCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AF7FD13A61;
- Thu, 14 Jul 2022 08:40:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id N9K1KXfWz2IrFQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 14 Jul 2022 08:40:23 +0000
-Message-ID: <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
-Date: Thu, 14 Jul 2022 10:40:23 +0200
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E0B97035
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:43:09 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id o1so729506qkg.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 01:43:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AxN0KXqSzVzIHaBApKEyHk1NU3/+nmlgLRu8+vYeWQg=;
+ b=pVZvdz+j3Xy5NtE9kgz4wBAkAtwF4St8AAr/Gie72GZcLfJmEe5gWlfUMdEk9MUg/u
+ Y0lzU311/gqn87eN7SJfLWcGXaCGeDrkZaO3YyblXjPWp1zo4RQ2qMq9rbjtdgWncq2g
+ gfFBtTA0pm1+C0+DUoA3PG8YeJsKmZUgh7/z9jtMvtRCaBCW2JT6sHXSW/DudjZs3yh3
+ rZYsMgj5CoElPPDwb8LmBtVad4R5fXc/pwnOGs7Az/jnohZsp6pAWazNQ+sTcZ9qBQ9Q
+ RnATDqIkQKlq141Tj8OZZlTL6pOz7FclXW7+5S0jyvBt+uqbNq9iVkuRm82fqOfJ4jTS
+ aMiQ==
+X-Gm-Message-State: AJIora/hlg6WIo4mHosFZEp6V4qSJG8cctY5ScHZWLE0zY8gsl4Dh3Qf
+ 3HfIEPrvWHNXYlC/XBOQMRjDRegwW/D12A==
+X-Google-Smtp-Source: AGRyM1tFJRBz5KCjsj4YX4gHHoWuObQlVLl0pKS7l6tne7Kv5nMp/r4hW3O2Wcicj2Ugwq8KQpkayw==
+X-Received: by 2002:a05:620a:756:b0:6b5:9635:3957 with SMTP id
+ i22-20020a05620a075600b006b596353957mr5270514qki.233.1657788188821; 
+ Thu, 14 Jul 2022 01:43:08 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
+ x3-20020ac86b43000000b003196e8eda26sm923752qts.69.2022.07.14.01.43.08
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 01:43:08 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id p129so2043935yba.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 01:43:08 -0700 (PDT)
+X-Received: by 2002:a05:6902:154f:b0:66e:e2d3:ce1 with SMTP id
+ r15-20020a056902154f00b0066ee2d30ce1mr6988768ybu.365.1657788187837; Thu, 14
+ Jul 2022 01:43:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-References: <20220712102849.1562-1-christian.koenig@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220712102849.1562-1-christian.koenig@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------D0ERVH3qnEPM40ls2zPMt6NI"
+References: <cover.1657301107.git.geert@linux-m68k.org>
+ <68923c8a129b6c2a70b570103679a1cf7876bbc2.1657301107.git.geert@linux-m68k.org>
+ <ef2aada2-96e4-c2e4-645f-39bc9094e93a@suse.de>
+ <20220711093513.wilv6e6aqcuyg52w@houat>
+ <43d75dce-988a-0a95-cb0a-0d0a7c81ca63@suse.de>
+ <20220711114206.sawqdl54ibuxsxp4@houat>
+ <CAMuHMdXbFHWWQoryXihVsSrC5ZzHEV-YYR_eLvNmSAw8Y61TQg@mail.gmail.com>
+ <20220711120243.v6lwoynqigle2aot@houat>
+ <CAMuHMdXhmf5TudQ6a1PUVV8KXff6JjgMmZOmOWVb2qW6eXF7Ow@mail.gmail.com>
+ <20220713093708.jaa3og2fablqr723@houat>
+In-Reply-To: <20220713093708.jaa3og2fablqr723@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 14 Jul 2022 10:42:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWGmxo6B2EWbygi1ncKe9SBTDvyzPSw1f32P_+TMot36Q@mail.gmail.com>
+Message-ID: <CAMuHMdWGmxo6B2EWbygi1ncKe9SBTDvyzPSw1f32P_+TMot36Q@mail.gmail.com>
+Subject: Re: [PATCH 4/5] drm/modes: Add support for driver-specific named modes
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,99 +74,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------D0ERVH3qnEPM40ls2zPMt6NI
-Content-Type: multipart/mixed; boundary="------------IP0LwrCgTyVa30mK2W6n4pF1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5b8aa549-c2f1-19b2-d0f4-26d4ea1a7ade@suse.de>
-Subject: Re: [PATCH] dma-buf: revert "return only unsignaled fences in
- dma_fence_unwrap_for_each v3"
-References: <20220712102849.1562-1-christian.koenig@amd.com>
-In-Reply-To: <20220712102849.1562-1-christian.koenig@amd.com>
+Hi Maxime,
 
---------------IP0LwrCgTyVa30mK2W6n4pF1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Wed, Jul 13, 2022 at 11:37 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Mon, Jul 11, 2022 at 02:08:06PM +0200, Geert Uytterhoeven wrote:
+> > On Mon, Jul 11, 2022 at 2:02 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > On Mon, Jul 11, 2022 at 01:59:28PM +0200, Geert Uytterhoeven wrote:
+> > > > On Mon, Jul 11, 2022 at 1:42 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > On Mon, Jul 11, 2022 at 01:11:14PM +0200, Thomas Zimmermann wrote:
+> > > > > > Am 11.07.22 um 11:35 schrieb Maxime Ripard:
+> > > > > > > On Mon, Jul 11, 2022 at 11:03:38AM +0200, Thomas Zimmermann wrote:
+> > > > > > > > Am 08.07.22 um 20:21 schrieb Geert Uytterhoeven:
+> > > > > > > > > The mode parsing code recognizes named modes only if they are explicitly
+> > > > > > > > > listed in the internal whitelist, which is currently limited to "NTSC"
+> > > > > > > > > and "PAL".
+> > > > > > > > >
+> > > > > > > > > Provide a mechanism for drivers to override this list to support custom
+> > > > > > > > > mode names.
+> > > > > > > > >
+> > > > > > > > > Ideally, this list should just come from the driver's actual list of
+> > > > > > > > > modes, but connector->probed_modes is not yet populated at the time of
+> > > > > > > > > parsing.
+> > > > > > > >
+> > > > > > > > I've looked for code that uses these names, couldn't find any. How is this
+> > > > > > > > being used in practice? For example, if I say "PAL" on the command line, is
+> > > > > > > > there DRM code that fills in the PAL mode parameters?
+> > > > > > >
+> > > > > > > We have some code to deal with this in sun4i:
+> > > > > > > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/sun4i_tv.c#L292
+> > > > > > >
+> > > > > > > It's a bit off topic, but for TV standards, I'm still not sure what the
+> > > > > > > best course of action is. There's several interactions that make this a
+> > > > > > > bit troublesome:
+> > > > > > >
+> > > > > > >    * Some TV standards differ by their mode (ie, PAL vs NSTC), but some
+> > > > > > >      other differ by parameters that are not part of drm_display_mode
+> > > > > > >      (NTSC vs NSTC-J where the only difference is the black and blanking
+> > > > > > >      signal levels for example).
+> > > > > > >
+> > > > > > >    * The mode names allow to provide a fairly convenient way to add that
+> > > > > > >      extra information, but the userspace is free to create its own mode
+> > > > > > >      and might omit the mode name entirely.
+> > > > > > >
+> > > > > > > So in the code above, if the name has been preserved we match by name,
+> > > > > > > but we fall back to matching by mode if it hasn't been, which in this
+> > > > > > > case means that we have no way to differentiate between NTSC, NTSC-J,
+> > > > > > > PAL-M in this case.
+> > > > > > >
+> > > > > > > We have some patches downstream for the RaspberryPi that has the TV
+> > > > > > > standard as a property. There's a few extra logic required for the
+> > > > > > > userspace (like setting the PAL property, with the NTSC mode) so I'm not
+> > > > > > > sure it's preferable.
+> > > > > > >
+> > > > > > > Or we could do something like a property to try that standard, and
+> > > > > > > another that reports the one we actually chose.
+> > > > > > >
+> > > > > > > > And another question I have is whether this whitelist belongs into the
+> > > > > > > > driver at all. Standard modes exist independent from drivers or hardware.
+> > > > > > > > Shouldn't there simply be a global list of all possible mode names? Drivers
+> > > > > > > > would filter out the unsupported modes anyway.
+> > > > > > >
+> > > > > > > We should totally do something like that, yeah
+> > > > > >
+> > > > > > That sun code already looks like sometihng the DRM core/helpers should be
+> > > > > > doing. And if we want to support named modes well, there's a long list of
+> > > > > > modes in Wikipedia.
+> > > > > >
+> > > > > > https://en.wikipedia.org/wiki/Video_Graphics_Array#/media/File:Vector_Video_Standards2.svg
+> > > > >
+> > > > > Yeah, and NTSC is missing :)
+> > > >
+> > > > And that diagram is about the "digital" variant of PAL.
+> > > > If you go the analog route, the only fixed parts are vfreq/hfreq,
+> > > > number of lines, and synchronization. Other parameters like overscan
+> > > > can vary.  The actual dot clock can vary wildly: while there is an
+> > > > upper limit due to bandwidth limitations, you can come up with an
+> > > > almost infinite number of video modes that can be called PAL, which
+> > > > is one of the reasons why I don't want hardware-specific variants to
+> > > > end up in a global video mode database.
+> > >
+> > > Do you have an example of what that would look like?
+> >
+> > You mean a PAL mode that does not use 768x576?
+>
+> I meant what the almost infinite number of video modes that can be
+> called PAL and would have to be defined in drivers
+>
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/video/fbdev/amifb.c#n834
+>
+> But that works :)
+>
+> I don't see what really is troublesome if we go with the mode + property
+> setup here.
+>
+> We can deal easily with the interlaced vs non-interlaced variants
+> already with DRM_MODE_FLAG_INTERLACE, and the ff variants can be dealt
+> with DRM_MODE_FLAG_DBLCLK.
 
-SGkgQ2hyaXN0aWFuDQoNCkFtIDEyLjA3LjIyIHVtIDEyOjI4IHNjaHJpZWIgQ2hyaXN0aWFu
-IEvDtm5pZzoNCj4gVGhpcyByZXZlcnRzIGNvbW1pdCA4ZjYxOTczNzE4NDg1ZjNlODliYzRm
-NDA4ZjkyOTA0OGI3YjQ3YzgzLg0KDQpJIG9ubHkgZm91bmQgdGhpcyBjb21taXQgaW4gZHJt
-LW1pc2MtbmV4dC4gU2hvdWxkIHRoZSByZXZlcnQgYmUgDQpjaGVycnktcGlja2VkIGludG8g
-ZHJtLW1pc2MtbmV4dC1maXhlcz8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
-SXQgdHVybmVkIG91dCB0aGF0IHRoaXMgaXMgbm90IGNvcnJlY3QuIEVzcGVjaWFsbHkgdGhl
-IHN5bmNfZmlsZSBpbmZvDQo+IElPQ1RMIG5lZWRzIHRvIHNlZSBldmVuIHNpZ25hbGVkIGZl
-bmNlcyB0byBjb3JyZWN0bHkgcmVwb3J0IGJhY2sgdGhlaXINCj4gc3RhdHVzIHRvIHVzZXJz
-cGFjZS4NCj4gDQo+IEluc3RlYWQgYWRkIHRoZSBmaWx0ZXIgaW4gdGhlIG1lcmdlIGZ1bmN0
-aW9uIGFnYWluIHdoZXJlIGl0IG1ha2VzIHNlbnNlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiAtLS0NCj4g
-ICBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5jIHwgMyArKy0NCj4gICBpbmNs
-dWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaCAgIHwgNiArLS0tLS0NCj4gICAyIGZpbGVz
-IGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5jIGIvZHJpdmVycy9k
-bWEtYnVmL2RtYS1mZW5jZS11bndyYXAuYw0KPiBpbmRleCA1MDJhNjVlYTZkNDQuLjcwMDJi
-Y2E3OTJmZiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS11bndy
-YXAuYw0KPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLXVud3JhcC5jDQo+IEBA
-IC03Miw3ICs3Miw4IEBAIHN0cnVjdCBkbWFfZmVuY2UgKl9fZG1hX2ZlbmNlX3Vud3JhcF9t
-ZXJnZSh1bnNpZ25lZCBpbnQgbnVtX2ZlbmNlcywNCj4gICAJY291bnQgPSAwOw0KPiAgIAlm
-b3IgKGkgPSAwOyBpIDwgbnVtX2ZlbmNlczsgKytpKSB7DQo+ICAgCQlkbWFfZmVuY2VfdW53
-cmFwX2Zvcl9lYWNoKHRtcCwgJml0ZXJbaV0sIGZlbmNlc1tpXSkNCj4gLQkJCSsrY291bnQ7
-DQo+ICsJCQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZCh0bXApKQ0KPiArCQkJCSsrY291
-bnQ7DQo+ICAgCX0NCj4gICANCj4gICAJaWYgKGNvdW50ID09IDApDQo+IGRpZmYgLS1naXQg
-YS9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaCBiL2luY2x1ZGUvbGludXgvZG1h
-LWZlbmNlLXVud3JhcC5oDQo+IGluZGV4IDM5MGRlMWVlOWQzNS4uNjZiMWU1NmZiYjgxIDEw
-MDY0NA0KPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaA0KPiArKysg
-Yi9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS11bndyYXAuaA0KPiBAQCAtNDMsMTQgKzQzLDEw
-IEBAIHN0cnVjdCBkbWFfZmVuY2UgKmRtYV9mZW5jZV91bndyYXBfbmV4dChzdHJ1Y3QgZG1h
-X2ZlbmNlX3Vud3JhcCAqY3Vyc29yKTsNCj4gICAgKiBVbndyYXAgZG1hX2ZlbmNlX2NoYWlu
-IGFuZCBkbWFfZmVuY2VfYXJyYXkgY29udGFpbmVycyBhbmQgZGVlcCBkaXZlIGludG8gYWxs
-DQo+ICAgICogcG90ZW50aWFsIGZlbmNlcyBpbiB0aGVtLiBJZiBAaGVhZCBpcyBqdXN0IGEg
-bm9ybWFsIGZlbmNlIG9ubHkgdGhhdCBvbmUgaXMNCj4gICAgKiByZXR1cm5lZC4NCj4gLSAq
-DQo+IC0gKiBOb3RlIHRoYXQgc2lnbmFsbGVkIGZlbmNlcyBhcmUgb3Bwb3J0dW5pc3RpY2Fs
-bHkgZmlsdGVyZWQgb3V0LCB3aGljaA0KPiAtICogbWVhbnMgdGhlIGl0ZXJhdGlvbiBpcyBw
-b3RlbnRpYWxseSBvdmVyIG5vIGZlbmNlIGF0IGFsbC4NCj4gICAgKi8NCj4gICAjZGVmaW5l
-IGRtYV9mZW5jZV91bndyYXBfZm9yX2VhY2goZmVuY2UsIGN1cnNvciwgaGVhZCkJCQlcDQo+
-ICAgCWZvciAoZmVuY2UgPSBkbWFfZmVuY2VfdW53cmFwX2ZpcnN0KGhlYWQsIGN1cnNvcik7
-IGZlbmNlOwlcDQo+IC0JICAgICBmZW5jZSA9IGRtYV9mZW5jZV91bndyYXBfbmV4dChjdXJz
-b3IpKQkJCVwNCj4gLQkJaWYgKCFkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2UpKQ0KPiAr
-CSAgICAgZmVuY2UgPSBkbWFfZmVuY2VfdW53cmFwX25leHQoY3Vyc29yKSkNCj4gICANCj4g
-ICBzdHJ1Y3QgZG1hX2ZlbmNlICpfX2RtYV9mZW5jZV91bndyYXBfbWVyZ2UodW5zaWduZWQg
-aW50IG51bV9mZW5jZXMsDQo+ICAgCQkJCQkgICBzdHJ1Y3QgZG1hX2ZlbmNlICoqZmVuY2Vz
-LA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
-R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Sure. Interlace and doublescan are the easy parts.
+(actually "ff" is not PAL, but a 31 kHz mode with the same resolution of
+ the corresponding PAL mode).
 
---------------IP0LwrCgTyVa30mK2W6n4pF1--
 
---------------D0ERVH3qnEPM40ls2zPMt6NI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> We still need something to differentiate between, say, PAL-M and NTSC-J
+> where the differences are between things not exposed by the mode itself
+> (black and blanking levels differ from NSTC for NTSC-J, and the color
+> carrier frequency is PAL's for PAL-M)
+>
+> Am I missing something?
+>
+> > (TAG_HIRES is replaced by the actual dot clock at runtime, as it
+> >  depends on the crystal present on the mainboard).
+>
+> If we have the crystal frequency in the kernel somehow, we could filter
+> them out from the driver (or fill them in) depending on that frequency.
+>
+> I still think the mode + property is the way to go, possibly with some
+> generic component that would take the mode name from the command line
+> and create that initial state depending on the value for backward
+> compatibility.
+>
+> What do you think?
 
------BEGIN PGP SIGNATURE-----
+The difficulty is the wild variety of resolutions supported by devices
+that can be connected to a standard (legacy) analog PAL TV or monitor,
+and thus are all called "PAL".  These range from 160x228 (Atari 2600)
+over 176x184 (VIC-20), 256x192 (e.g. ZX Spectrum), 320x200 (Atari ST),
+640x256/512i (Amiga) (I'm not saying we should support old 8-bit
+machines, though ;-)
+A longer list can be found at [1].  Most of the resolutions lower
+than 0.3 Mpixels can be shown on a TV.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLP1ncFAwAAAAAACgkQlh/E3EQov+CU
-DQ/+Pzf5WiJKT0aKmC6Z1BTwyhfQ2x5FfBH6DmKEJ06AUK5qNonl2WPUJYsafmagXxDEFyH/qxQ4
-4k94QFImtj5wN1+sOjTn/PqNvxHKaN/yyR4zilgdAt0G5ayUPgzUz3arkWaa0V6C3AyRQ0Bl3lyt
-hizplf4YbbnyMwQHrMhcEDtY8D3rVQeyx4vn2+CJBoupVxqrtNLjjEIvMP85dbFgADJjsZlSEmv7
-5nyt09nLsKd4SCNNXRWOSuqEYh/E682wsf8oU8VYZq3aYD/ksM58cOgOCeGveszlLYTIXP0lC4K7
-EEggqX6ZKIUM4LhQoYHhmaFQFuReXx6Fquaq6OppWEDfq9IXQPtER/RxUEfppmQYysxUiZdkCK3M
-ZOyyGEpn/AEB+lyFIxgW0LJXC4J5aLHYitjGvqhSCP+msBsmIhkRv1fdDjg3TpXr6g6irj0l2KRr
-NlEVm+xENHKqvQXypaSrd1JOSou18u2wsPjBjbF0YF30pnoFMOIqdqtGyeG8/alWj+i9JQzccFqh
-I90hJGTQAghTw7ry+yhtxdINXf08dY5dHr1k/jRzKAgTWQm5FBQfT5OAt3bMza+BCj9Eoicenit0
-X36FIaa8MF2D3AJsABP9WK4z4bDEQPylGSo6GAljf7mZvATYdRnC7nl+PsYDS8FBedZ+0SVw8eKa
-STc=
-=lvcz
------END PGP SIGNATURE-----
+IMHO, only the modes backed by digital standards of PAL (and NTSC [2])
+should be in a common mode database.  The rest is to be detained
+to the individual drivers, as they are highly driver-specific, and
+unlikely to be used with more than one driver or hardware platform.
 
---------------D0ERVH3qnEPM40ls2zPMt6NI--
+[1] https://en.wikipedia.org/wiki/List_of_common_resolutions
+[2] https://en.wikipedia.org/wiki/List_of_common_resolutions#Digital_Standards
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
