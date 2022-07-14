@@ -1,59 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3503A575350
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 18:47:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3885753E0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 19:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F2011A302;
-	Thu, 14 Jul 2022 16:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD8810E2F1;
+	Thu, 14 Jul 2022 17:20:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B88811A2F2;
- Thu, 14 Jul 2022 16:47:27 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id l23so4461183ejr.5;
- Thu, 14 Jul 2022 09:47:27 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E12310E2F1;
+ Thu, 14 Jul 2022 17:20:31 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id k19so993310pll.5;
+ Thu, 14 Jul 2022 10:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qWSHX3eXBHfFTsd7QfRtWGODgvWsqs9hDqIclZtgzZE=;
- b=kjEHD1wJu+C+dldPQZx7ojIPKTrL1FNbzLNfUuC50054eSlcyxxkG9FtYASBd1JhFZ
- zPTfx9Z6roTSmWlEEC1shAmP34PHEd8Np54N9LlbrRS5kx1RwrstchC9T6RHtueoT9Qg
- mQEenWDdd4hMWQrV+I0P1VxYakhlVC5nmSeblmcvp9u5qDQjVIxDfiZz8IfU+K/I28Pw
- oHUfpYiv+hExma5ou4B/RyJYycbufZV5ncTbrAA5E5Blxc6v5kgYJdD5EIFkzRjibz9o
- mpQHBChxTagUmB+uJjFTkeixM8RvNI8/L92O0jAouKwsOamLjoJI7DtourgxPdzuWDDE
- C7Ow==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aiimYL4bGGP4Obd7S4r8NfKIKgNtZtb7QnLuS/XBbGM=;
+ b=h10XwfkbRdiTDooUNnPb6LXyfdxthOG17pIb6QhROE2ENj8ZLnLAVIneYyMxI/Vsni
+ EP/wwbppFhJ3tF5S76D99EqVhGqY0A/bWfRhEd2XlwEgssDD55cOxQwUCYYq+uaroqsM
+ Zz4rJUqQ2p+mg3pNTdwZfINQEbnlDUFEm6ForSg8tpjYjf6PUcmZL4GTmioTO47bkLMc
+ xNySOAengQHQGoQMYaJsDCOIUS0p/jR3kF/VLXz1D4WOuX8E3Smr6LzUWho5z+EhC8Vs
+ NrTSZ5jbpnRCaUXYO6jbRRaQ+iZo8ee4VFo2jsMXpsNEB9x8eqhAvHDkcNBulO1ad0nJ
+ gt4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qWSHX3eXBHfFTsd7QfRtWGODgvWsqs9hDqIclZtgzZE=;
- b=vrfNvkulAR9hPWaa+BZ7ThD+thztN8B7EjgkqVw1zc2W611FADEjCxpnWnJfIDaRxC
- UfYFlegWa6g+6jHTZaFUTc8i8CmEGmVonJdDjL8SB0+7SP5SPt+80mA5Gp9T2m8M91pV
- UefibPTTvGx5XMB/16yHZPtWmSPVSggYpzG4EibH7SCGc2VLKCi5GTqWh2/J+FaL7J1Q
- UkoE9J5FrukwxFItqqgNnND/5BYukCOmztkQsUKcxJV3ugHO/R/hRJGlvtgaP61avGpk
- IpDMJzskBtolJiQ2i5OebusG2Oi9668+pqnXI7QbPF9h62Tbj3seg9iWQ1M4KmvFTENY
- gsRQ==
-X-Gm-Message-State: AJIora8VV7++GvuPtdwL9o9vLsB34ldu/ZmJe8Wd+BGHJoq8EhiDIxMK
- ZQkF10RQg9RbldnngCRTuh1lzYcaZG/VHZ1WqpQ=
-X-Google-Smtp-Source: AGRyM1urhg4LBIyWLSK1JsFexKVLuDaj0dQddpMeJxSn4QJM5YHaFyYHHkUUymXpIPLdQwAAdD1dPgMK7rKlzKj2n60=
-X-Received: by 2002:a17:907:94cf:b0:726:c81a:f30e with SMTP id
- dn15-20020a17090794cf00b00726c81af30emr9572150ejc.451.1657817246137; Thu, 14
- Jul 2022 09:47:26 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aiimYL4bGGP4Obd7S4r8NfKIKgNtZtb7QnLuS/XBbGM=;
+ b=JENA8gDO3+lj4Dvq9aCIRErJjAsgRL8L7oS0uSVPy1rw62kQji3On0awEj4dJBoSc8
+ cthumbQPzreKF3hWEakhu6ZdYljpUtO+fndJ40JsszGw+KU1Ptc6VKf4ooFO4hKjzTSU
+ RyFbPjI19bmnFp1QHso8kElCrOyuwc+mZ02BO8DIcTBdA5KFHmV+BbW0YiS5sAE1O8KO
+ pEGvEhNaYseUliBviFmtog3He1iuOv0+0Kyc0fQEcpjEvOVTM27ZqqO6w4uY5XJVE2VE
+ G/o2FMFM7jfgD1eCFYRa9/7f1tJ19tdNppXStb01b2X9ZIX/Y8ReYEeUAiyNrz6JU4Bh
+ hFEw==
+X-Gm-Message-State: AJIora/PZWPy/n7+eqUhYhFrfOHlZOtzKDhAsAUplseXg7Gud6nGwV1i
+ x/Vl+gIiYS8TxEfC/CZtpDk=
+X-Google-Smtp-Source: AGRyM1vM+4sA+x5IyNACx13FZKKy3VVeFA6buU+LX+i72+lqssb7wr0KfDVhzrwUHfklHa2xFydZTA==
+X-Received: by 2002:a17:903:234c:b0:16c:3dba:37fa with SMTP id
+ c12-20020a170903234c00b0016c3dba37famr9325277plh.89.1657819230890; 
+ Thu, 14 Jul 2022 10:20:30 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ w125-20020a636283000000b00419b1671c54sm1672819pgb.4.2022.07.14.10.20.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 10:20:29 -0700 (PDT)
+Message-ID: <00a2cb3c-e358-b8f1-5e65-bc1c0694f54d@roeck-us.net>
+Date: Thu, 14 Jul 2022 10:20:28 -0700
 MIME-Version: 1.0
-References: <20220713151504.7521-1-andrealmeid@igalia.com>
- <CADnq5_NASpkVUpPa=CPad39AYvzueGx9vsNbUcSgqzQhh+0Lzg@mail.gmail.com>
- <a63e287b-39c0-1433-d62b-bcb9d45ad1df@igalia.com>
-In-Reply-To: <a63e287b-39c0-1433-d62b-bcb9d45ad1df@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Jul 2022 12:47:14 -0400
-Message-ID: <CADnq5_NPF6REg63Td0GWimgVAywjFQ1MWwEEKW99F10cC-VaDg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/debugfs: Expose GFXOFF state to userspace
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/amd/display: Enable building new display engine with
+ KCOV enabled
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Harry Wentland <harry.wentland@amd.com>
+References: <20220712224247.1950273-1-linux@roeck-us.net>
+ <98b656f3-e506-90be-ebcc-898813051e74@amd.com>
+ <CADnq5_OMayFN52hr7ZWFqMHPaV5_q7Hi+4LEbNMgfTPqo3__=w@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CADnq5_OMayFN52hr7ZWFqMHPaV5_q7Hi+4LEbNMgfTPqo3__=w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,176 +79,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Jack Xiao <Jack.Xiao@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, kernel-dev@igalia.com,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 14, 2022 at 12:45 PM Andr=C3=A9 Almeida <andrealmeid@igalia.com=
-> wrote:
->
->
->
-> =C3=80s 13:42 de 14/07/22, Alex Deucher escreveu:
-> > On Wed, Jul 13, 2022 at 11:15 AM Andr=C3=A9 Almeida <andrealmeid@igalia=
-.com> wrote:
-> >>
-> >> GFXOFF has two different "state" values: one to define if the GPU is
-> >> allowed/disallowed to enter GFXOFF, usually called state; and another
-> >> one to define if currently GFXOFF is being used, usually called status=
-.
-> >> Even when GFXOFF is allowed, GPU firmware can decide to not used it
-> >> accordingly to the GPU load.
-> >>
-> >> Userspace can allow/disallow GPUs to enter into GFXOFF via debugfs. Th=
-e
-> >> kernel maintains a counter of requests for GFXOFF (gfx_off_req_count)
-> >> that should be decreased to allow GFXOFF and increased to disallow.
-> >>
-> >> The issue with this interface is that userspace can't be sure if GFXOF=
-F
-> >> is currently allowed. Even by checking amdgpu_gfxoff file, one might g=
-et
-> >> an ambiguous 2, that means that GPU is currently out of GFXOFF, but th=
-at
-> >> can be either because it's currently disallowed or because it's allowe=
-d
-> >> but given the current GPU load it's enabled. Then, userspace needs to
-> >> rely on the fact that GFXOFF is enabled by default on boot and to trac=
-k
-> >> this information.
-> >>
-> >> To make userspace life easier and GFXOFF more reliable, return the
-> >> current state of GFXOFF to userspace when reading amdgpu_gfxoff with t=
-he
-> >> same semantics of writing: 0 means not allowed, not 0 means allowed.
-> >>
-> >
-> > This looks good. Can you document this in the amdgpu kerneldoc?
-> >
->
-> Sure, let me send a v2 with that
+On 7/14/22 09:29, Alex Deucher wrote:
+> Applied.  Thanks!
+> 
+> On Wed, Jul 13, 2022 at 4:03 PM Harry Wentland <harry.wentland@amd.com> wrote:
+>>
+>> On 2022-07-12 18:42, Guenter Roeck wrote:
+>>> The new display engine uses floating point math, which is not supported
+>>> by KCOV. Commit 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov
+>>> is enabled") tried to work around the problem by disabling
+>>> CONFIG_DRM_AMD_DC_DCN if KCOV_INSTRUMENT_ALL and KCOV_ENABLE_COMPARISONS
+>>> are enabled. The result is that KCOV can not be enabled on systems which
+>>> require this display engine. A much simpler and less invasive solution is
+>>> to disable KCOV selectively when compiling the display enagine while
 
-While you are at it, if we are missing docs for the other gfxoff file
-can you add that as well?
+"enagine". Outch.
 
-Thanks!
+Anyway, thanks for applying.
 
-Alex
+Guenter
 
->
-> > Alex
-> >
-> >> Expose the current status of GFXOFF through a new file,
-> >> amdgpu_gfxoff_status.
-> >>
-> >> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> >> ---
-> >>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 49 ++++++++++++++++++++=
--
-> >>  1 file changed, 47 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_debugfs.c
-> >> index f3b3c688e4e7..e2eec985adb3 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> >> @@ -1117,13 +1117,50 @@ static ssize_t amdgpu_debugfs_gfxoff_read(stru=
-ct file *f, char __user *buf,
-> >>         }
-> >>
-> >>         while (size) {
-> >> -               uint32_t value;
-> >> +               u32 value =3D adev->gfx.gfx_off_state;
-> >> +
-> >> +               r =3D put_user(value, (u32 *)buf);
-> >> +               if (r)
-> >> +                       goto out;
-> >> +
-> >> +               result +=3D 4;
-> >> +               buf +=3D 4;
-> >> +               *pos +=3D 4;
-> >> +               size -=3D 4;
-> >> +       }
-> >> +
-> >> +       r =3D result;
-> >> +out:
-> >> +       pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >> +       pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> >> +
-> >> +       return r;
-> >> +}
-> >> +
-> >> +static ssize_t amdgpu_debugfs_gfxoff_status_read(struct file *f, char=
- __user *buf,
-> >> +                                                size_t size, loff_t *=
-pos)
-> >> +{
-> >> +       struct amdgpu_device *adev =3D file_inode(f)->i_private;
-> >> +       ssize_t result =3D 0;
-> >> +       int r;
-> >> +
-> >> +       if (size & 0x3 || *pos & 0x3)
-> >> +               return -EINVAL;
-> >> +
-> >> +       r =3D pm_runtime_get_sync(adev_to_drm(adev)->dev);
-> >> +       if (r < 0) {
-> >> +               pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> >> +               return r;
-> >> +       }
-> >> +
-> >> +       while (size) {
-> >> +               u32 value;
-> >>
-> >>                 r =3D amdgpu_get_gfx_off_status(adev, &value);
-> >>                 if (r)
-> >>                         goto out;
-> >>
-> >> -               r =3D put_user(value, (uint32_t *)buf);
-> >> +               r =3D put_user(value, (u32 *)buf);
-> >>                 if (r)
-> >>                         goto out;
-> >>
-> >> @@ -1206,6 +1243,12 @@ static const struct file_operations amdgpu_debu=
-gfs_gfxoff_fops =3D {
-> >>         .llseek =3D default_llseek
-> >>  };
-> >>
-> >> +static const struct file_operations amdgpu_debugfs_gfxoff_status_fops=
- =3D {
-> >> +       .owner =3D THIS_MODULE,
-> >> +       .read =3D amdgpu_debugfs_gfxoff_status_read,
-> >> +       .llseek =3D default_llseek
-> >> +};
-> >> +
-> >>  static const struct file_operations *debugfs_regs[] =3D {
-> >>         &amdgpu_debugfs_regs_fops,
-> >>         &amdgpu_debugfs_regs2_fops,
-> >> @@ -1217,6 +1260,7 @@ static const struct file_operations *debugfs_reg=
-s[] =3D {
-> >>         &amdgpu_debugfs_wave_fops,
-> >>         &amdgpu_debugfs_gpr_fops,
-> >>         &amdgpu_debugfs_gfxoff_fops,
-> >> +       &amdgpu_debugfs_gfxoff_status_fops,
-> >>  };
-> >>
-> >>  static const char *debugfs_regs_names[] =3D {
-> >> @@ -1230,6 +1274,7 @@ static const char *debugfs_regs_names[] =3D {
-> >>         "amdgpu_wave",
-> >>         "amdgpu_gpr",
-> >>         "amdgpu_gfxoff",
-> >> +       "amdgpu_gfxoff_status",
-> >>  };
-> >>
-> >>  /**
-> >> --
-> >> 2.37.0
-> >>
+>>> keeping it enabled for the rest of the kernel.
+>>>
+>>> Fixes: 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov is enabled")
+>>> Cc: Arnd Bergmann <arnd@arndb.de>
+>>> Cc: Leo Li <sunpeng.li@amd.com>
+>>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>>
+>> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>>
+>> Harry
+>>
+>>> ---
+>>>   drivers/gpu/drm/amd/display/Kconfig     | 2 +-
+>>>   drivers/gpu/drm/amd/display/dc/Makefile | 3 +++
+>>>   2 files changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+>>> index b4029c0d5d8c..96cbc87f7b6b 100644
+>>> --- a/drivers/gpu/drm/amd/display/Kconfig
+>>> +++ b/drivers/gpu/drm/amd/display/Kconfig
+>>> @@ -6,7 +6,7 @@ config DRM_AMD_DC
+>>>        bool "AMD DC - Enable new display engine"
+>>>        default y
+>>>        select SND_HDA_COMPONENT if SND_HDA_CORE
+>>> -     select DRM_AMD_DC_DCN if (X86 || PPC64) && !(KCOV_INSTRUMENT_ALL && KCOV_ENABLE_COMPARISONS)
+>>> +     select DRM_AMD_DC_DCN if (X86 || PPC64)
+>>>        help
+>>>          Choose this option if you want to use the new display engine
+>>>          support for AMDGPU. This adds required support for Vega and
+>>> diff --git a/drivers/gpu/drm/amd/display/dc/Makefile b/drivers/gpu/drm/amd/display/dc/Makefile
+>>> index b4eca0236435..b801973749d2 100644
+>>> --- a/drivers/gpu/drm/amd/display/dc/Makefile
+>>> +++ b/drivers/gpu/drm/amd/display/dc/Makefile
+>>> @@ -26,6 +26,9 @@
+>>>   DC_LIBS = basics bios dml clk_mgr dce gpio irq link virtual
+>>>
+>>>   ifdef CONFIG_DRM_AMD_DC_DCN
+>>> +
+>>> +KCOV_INSTRUMENT := n
+>>> +
+>>>   DC_LIBS += dcn20
+>>>   DC_LIBS += dsc
+>>>   DC_LIBS += dcn10
+>>
+
