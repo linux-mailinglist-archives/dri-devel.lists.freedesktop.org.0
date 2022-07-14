@@ -1,91 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41C5574A34
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 12:13:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D77B2574A57
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 12:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A10EAA3FC6;
-	Thu, 14 Jul 2022 10:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93CB5A3F37;
+	Thu, 14 Jul 2022 10:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2086.outbound.protection.outlook.com [40.107.95.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C103FA36C2;
- Thu, 14 Jul 2022 10:12:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DwdQFtAnEA2FEYFv0hsUd/oV3FNg8gWL/Y/an9MlwU6OMP4PrDf1RpHATuVld49tiyERsXiOZL9b/yQ+kHX02Hs3Z8PsMSAMjZCqRYS1LHZ6OlOt7MEDmj2KfnsKLFqxNyBi2mg2kEZGq1mGjcYzHox3WU3ryTqMCgnzrbRZ+iYCLfTZGaliFRUtLNMrxxEV8tufzdb34lSnIK7DUHd9TkO2l9NP7ZyPuFBPhEz5b6K5PTM7Nvdc1yobCe8Ehma2h8lW3NUEjuddI2RM3jUYNznyvHNIhncKcvIKVuR8hzWd/ixEAGfh9z24s+aH7Fq0imRJrQzTMkGos41ukEG4QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lZKMp4PTEJftDYBEJbtJExHIrmSB0xob1gl+TQaz2XY=;
- b=BLKeqcAsAjz1CUPJeucL/0+7pmh9snaMF6TwoN3d7pNjYaujxRcXNU2pbfp38pVWqGG7S/UsnAvgqDpI+kOB/Vk+H3F7zN/tGO4bQ/S0H/YPgcWyPWBc9RhhUK2G5GUEhSlZPO5y7pCvVJn4JfKCtVny3BmwBXk9MvAbUdXiURtcoS5P1m6QSqYm6xuvNbB4yLXtMXN9Usayo5WPd7b3HrRHB4jyxz6YgdRRSl+zW0I9VChD4ogATVyYNxU5AjaLhRUgw2OR/HDpQPRoIq8ENa0U7a3G8XSU15cI59SUDjVuT79qY1ERIIPamaLq5uCwY75SGts8TuIY3jYVn3ujwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lZKMp4PTEJftDYBEJbtJExHIrmSB0xob1gl+TQaz2XY=;
- b=fHcA16ts+kzJzOt0lfNxaOnOZT6C8mLKifmSUTX0ulZ4t1q5RUThkOBcHIL2wSvGbH94LS0XkxzFhvtiK5Sby+wACnVJ8JO/hnOTVSy/SoXc5SM3K3/GREjCpFxj7GPR9UWKS7pN456oZ7kdKZREJEjM1/q13U+bhF8kMlhEvIs=
-Received: from MW4PR04CA0087.namprd04.prod.outlook.com (2603:10b6:303:6b::32)
- by CY4PR12MB1480.namprd12.prod.outlook.com (2603:10b6:910:f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.19; Thu, 14 Jul
- 2022 10:12:47 +0000
-Received: from CO1NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:6b:cafe::17) by MW4PR04CA0087.outlook.office365.com
- (2603:10b6:303:6b::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12 via Frontend
- Transport; Thu, 14 Jul 2022 10:12:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT014.mail.protection.outlook.com (10.13.175.99) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5438.12 via Frontend Transport; Thu, 14 Jul 2022 10:12:46 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 14 Jul 2022 05:12:35 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/amdgpu: Fix for drm buddy memory corruption
-Date: Thu, 14 Jul 2022 03:12:14 -0700
-Message-ID: <20220714101214.7620-1-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB520A3F35
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 10:15:32 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id t25so2003070lfg.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 03:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=kZy7eak2tgSmF/ML1yqzjltWCPwtqthXqM78zNDO+OI=;
+ b=eMSSra1OPQfu7qXpz6L3saU1JxVj07p/HHh/qXvdSMrvPrpI9qzcyriFOtEcrm9xsq
+ hetCcxkb3c2U8abIkPdW++76prqun/Vd24FxpWfWpCdXT3DP1bPcplIo2B3ULIAFXyN0
+ RJBbYXxuWRYFJej6+xS6qXa9hkMoclJM97KGsgSY6KXBlG2c6tiB3t23uDbTCEfQeGJt
+ 2bj5bT6Xs4/8eGC5UjkA2K5J6iOIYjIA1PW/4r1LCIRP3fxMmFj1HOkDxOoyKib9R6ot
+ tLm8NLit0aZHhCsBUusz9vadcvFZJBDpI6Fdc2ijF4xNhGgYBpjQ84xeYuUXehixkcx+
+ IXRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kZy7eak2tgSmF/ML1yqzjltWCPwtqthXqM78zNDO+OI=;
+ b=olWH17JhBYGxtqLe90ypXpukaxEzbsIaImY8b5RzVpSe2g9xY0SY+76IB2U7Pw+INk
+ 4Sf3TKTtu1sc0Hjweu18JhQzPC23H1mEsufByyDuzDloDAe+VnZs5PeXQe0kYZIq1xUD
+ uhzHLd38jSQmqYsSK5VFgXO6Q9GHdbDv9pRZ3kxCC1d2tc3QUF6x/YjKdZJNwnvgt3ET
+ XjjxXAwHGwFdMZqcoETDkTZpZvudI4grMXUG1G7WZfR69TV1WUaIGhVAS1nGw2uPoff2
+ X2atuPLBhj2pV/Resu+Ldm9ZkdXiP1uVTaxEVQ24atdzqz8lH7DD0l+gF3QtTglOSy6x
+ 0u1g==
+X-Gm-Message-State: AJIora+DcKs9bwnk2qKGM9hzJutm7iwrvhL0nnzYVAH7Q4UUmzthNZCp
+ kEd44lDDOrJl/EPvCvjt9kFYzg==
+X-Google-Smtp-Source: AGRyM1v1V9ZiyZF7bonIiq2DwpF3Map16xUjhG7MRlmoFvEpyTCgjb4sm6OM4dfGd+xpxCSIJBPwUA==
+X-Received: by 2002:a05:6512:1399:b0:486:2ae5:be71 with SMTP id
+ p25-20020a056512139900b004862ae5be71mr4640937lfa.246.1657793731321; 
+ Thu, 14 Jul 2022 03:15:31 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ i15-20020a2e808f000000b0025a968f4ffesm205854ljg.19.2022.07.14.03.15.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 03:15:30 -0700 (PDT)
+Message-ID: <35cbf2d1-f851-fb6b-309a-8d7499b4abb3@linaro.org>
+Date: Thu, 14 Jul 2022 13:15:30 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 461db88e-b3fc-4810-1417-08da6581666b
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1480:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VGesFKhtpWNjlxlSAGDNN08GvDjqcOQ2ikk5SgP00b33IFg6q5MtNaOHlYJFlwKXPYqImJk1hR0j2/vmU4kM81OEiEQt4Uff+qFUm8rWaauuDqBnoPeAldHIzfumZgArdj0Cl9QkUFGzHMe5e/bzRNR6VxpyNVt9qxMLRhSzg4iHiADGzKSvZLFzZMe5sVss5nfjKq3hub9Cdb13eTD7pydbFMBpJeS5vu4NieE2o9KdZsLFwz7m28X9t2lcE2OcqGm8WWesPVuKkhUMB0oJNib8D9Nak2Pwh1l3+Y1nQ0IzExFSDiFk6vgl62CRaAALVxY7qtea7CVYnpMIfViLKXi+B0HmPSObgTDdV2DrVi117APdcAs0DCQAXxAAfd97dQlVT2pB5fPVAzVqCpyJXjMAM20A/yFbuBsDO1fVWg58tS56i9L6Xc+WdftLjpg6TwN18BfN4PZb+60GktP5qcv1u7uRrE2gY8gzvMduG3hio7RjxqmhGEfboab8uCPcrMBikmFuDl3mGs3QE3FzZuETlQKYPJl3ZIgRlBVQn83KbMH+pygAnzmDSjNO0qfKi0nPf0hxRSO3Md1KL4o4deYyGOadtWYMRy1BI1DgK+qEq/y5rWeFH9bLRbPubRlB+Tyt1Kdgq2vxY2keMjWSBc3Vp6aiRGL/CGN0FIJL4hULjuzHKRjjbzcGfoddRZmxz6TTfz8cN67M/80qpwq4NfRBMf1UGEyC3saswr/eyrrvUVOa1nSArPQgfqVIbbFsT3uSSHGc7LkpRE29uMv3yDNkmil5oo06wJvmnuixv3TjsIkc7uloxbHidbFoZU4N/vgyUkwi4gsFUJGhK1wSB5Zf4UUL6FfNvk5iGvfUqQM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(346002)(376002)(136003)(39860400002)(40470700004)(46966006)(36840700001)(110136005)(86362001)(26005)(7696005)(82310400005)(478600001)(2906002)(81166007)(8936002)(356005)(82740400003)(54906003)(16526019)(70586007)(316002)(6666004)(2616005)(70206006)(426003)(47076005)(36860700001)(8676002)(40460700003)(4326008)(336012)(5660300002)(1076003)(186003)(83380400001)(40480700001)(41300700001)(36756003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 10:12:46.7951 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 461db88e-b3fc-4810-1417-08da6581666b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT014.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1480
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 7/9] dt-bindings: msm/dp: mark vdda supplies as
+ deprecated
+Content-Language: en-GB
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220710084133.30976-1-dmitry.baryshkov@linaro.org>
+ <20220710084133.30976-8-dmitry.baryshkov@linaro.org>
+ <bd84ef20-e6e1-74e5-5681-7aa273d5255c@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <bd84ef20-e6e1-74e5-5681-7aa273d5255c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,98 +81,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-User reported gpu page fault when running graphics applications
-and in some cases garbaged graphics are observed as soon as X
-starts. This patch fixes all the issues.
+On 14/07/2022 12:38, Krzysztof Kozlowski wrote:
+> On 10/07/2022 10:41, Dmitry Baryshkov wrote:
+>> The commit fa384dd8b9b8 ("drm/msm/dp: delete vdda regulator related
+>> functions from eDP/DP controller") removed support for VDDA supplies
+> 
+> No such commit exists in next. Do not reference unpublished commits. If
+> this is your tree, be sure that it is in next.
 
-Fixed the typecast issue for fpfn and lpfn variables, thus
-preventing the overflow problem which resolves the memory
-corruption.
+Excuse me. It might have changed at some point. I will update the patch 
+description in the next revision. The commit in question is 7516351bebc1 
+("drm/msm/dp: delete vdda regulator related functions from eDP/DP 
+controller")
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Reported-by: Mike Lothian <mike@fireburn.co.uk>
-Tested-by: Mike Lothian <mike@fireburn.co.uk>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 16 ++++++++--------
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+> 
+>> from the DP controller driver. These supplies are now handled by the eDP
+>> or QMP PHYs. Mark these properties as deprecated and drop them from the
+>> example.
+> 
+> Right now I cannot judge whether this is correct or not. I don't know
+> what's in that commit, but in general driver implementation changes do
+> not warrant changes in the binding.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 49e4092f447f..34d789054ec8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -366,11 +366,11 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- 	unsigned long pages_per_block;
- 	int r;
- 
--	lpfn = place->lpfn << PAGE_SHIFT;
-+	lpfn = (u64)place->lpfn << PAGE_SHIFT;
- 	if (!lpfn)
- 		lpfn = man->size;
- 
--	fpfn = place->fpfn << PAGE_SHIFT;
-+	fpfn = (u64)place->fpfn << PAGE_SHIFT;
- 
- 	max_bytes = adev->gmc.mc_vram_size;
- 	if (tbo->type != ttm_bo_type_kernel)
-@@ -410,12 +410,12 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- 		/* Allocate blocks in desired range */
- 		vres->flags |= DRM_BUDDY_RANGE_ALLOCATION;
- 
--	remaining_size = vres->base.num_pages << PAGE_SHIFT;
-+	remaining_size = (u64)vres->base.num_pages << PAGE_SHIFT;
- 
- 	mutex_lock(&mgr->lock);
- 	while (remaining_size) {
- 		if (tbo->page_alignment)
--			min_block_size = tbo->page_alignment << PAGE_SHIFT;
-+			min_block_size = (u64)tbo->page_alignment << PAGE_SHIFT;
- 		else
- 			min_block_size = mgr->default_page_size;
- 
-@@ -424,12 +424,12 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- 		/* Limit maximum size to 2GiB due to SG table limitations */
- 		size = min(remaining_size, 2ULL << 30);
- 
--		if (size >= pages_per_block << PAGE_SHIFT)
--			min_block_size = pages_per_block << PAGE_SHIFT;
-+		if (size >= (u64)pages_per_block << PAGE_SHIFT)
-+			min_block_size = (u64)pages_per_block << PAGE_SHIFT;
- 
- 		cur_size = size;
- 
--		if (fpfn + size != place->lpfn << PAGE_SHIFT) {
-+		if (fpfn + size != (u64)place->lpfn << PAGE_SHIFT) {
- 			/*
- 			 * Except for actual range allocation, modify the size and
- 			 * min_block_size conforming to continuous flag enablement
-@@ -469,7 +469,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- 		LIST_HEAD(temp);
- 
- 		trim_list = &vres->blocks;
--		original_size = vres->base.num_pages << PAGE_SHIFT;
-+		original_size = (u64)vres->base.num_pages << PAGE_SHIFT;
- 
- 		/*
- 		 * If size value is rounded up to min_block_size, trim the last
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
-index 9a2db87186c7..bef0f561ba60 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
-@@ -50,7 +50,7 @@ static inline u64 amdgpu_vram_mgr_block_start(struct drm_buddy_block *block)
- 
- static inline u64 amdgpu_vram_mgr_block_size(struct drm_buddy_block *block)
- {
--	return PAGE_SIZE << drm_buddy_block_order(block);
-+	return (u64)PAGE_SIZE << drm_buddy_block_order(block);
- }
- 
- static inline struct drm_buddy_block *
+The vdda supplies were initially made a part of DP controller binding, 
+however lately they were moved to be a part of eDP/DP PHY binding (as 
+this better reflects the hardware). DP driver dropped support for these 
+supplies too. Thus I wanted to mark these supplies as deprecated to 
+discourage using them in the DTS files.
+
+
 -- 
-2.25.1
-
+With best wishes
+Dmitry
