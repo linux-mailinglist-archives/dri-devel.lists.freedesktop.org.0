@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1E1575165
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 17:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CF3575197
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 17:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2942113413;
-	Thu, 14 Jul 2022 15:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CEC811347A;
+	Thu, 14 Jul 2022 15:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449E711340B;
- Thu, 14 Jul 2022 15:06:19 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id j3so2099596pfb.6;
- Thu, 14 Jul 2022 08:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=j0LSdE+fCOqdRkGMsmtCcuEfKXl1MqEyCdK/8aiiq/8=;
- b=ICzAq/cvRjKkDHYKDFwX4rSKYPiRBAWLdocQ4gnWwMRaGL31Q3WgE7qqR97dNriVN0
- UImV1+I8wo/y47Ca98xjWXBdZVX0HNF5yU6NsnVeSdiKfRG8xqtRp79xcysNMBcwFOJM
- oVVfuIpawjxgSXKW3vqnNSqWlsdzMvMIQ5rnY9LJglRZXc8G3f9l4gBCkYJ3yzbTICZs
- QtnMZCR15A511u/cmJCJ5eRRxbeW4A/PBf6KJVuCKMQSEUHBvevBJG0bx+iNE/tWO935
- 6kKubKZnzIPLR2IqhQZHGxNuQaHKQbBNyq+IeKbUcG0gtXgJElKi0PuazliKk0FRyoBp
- HPjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=j0LSdE+fCOqdRkGMsmtCcuEfKXl1MqEyCdK/8aiiq/8=;
- b=AFWk1mrjWCpcL7HQef9Dw4h9MsBkqaBKa5Y6fBhKAaC50ltRU5CMPg8cVYej8IXlh0
- YQQCuWehn9NVa4cFQvdlcM7C/TdQD5kCVhSrkjQ6rSEBCRg/+SHpNiVW2mt92m00JJsu
- R2xBW+mVa45ImhZAyjjOeLb7kyG1vxsWFq5cGCHWSVRJ0ZsTU/8KdTNQ0UwfB0Q0GrLz
- T7Fi4LPDGJwB48pNOBQTaqd8n9HmYR3p+YW5mKcf+XZGE18AJ1GxinwGai1+ARNBnWs4
- AF9zPWYKsMQNXSe3TfJFcq8JaqnkIIm4PSCxDU7GjfccNmbOwXNfv1k9pYYpGkggGcoG
- 9p7A==
-X-Gm-Message-State: AJIora98TsAlh5REsKu9B9rzio6vhnsIng/CoFAot4fiixcQySSLolYn
- HpCQLPQe1BDYMmmxa9C7STI=
-X-Google-Smtp-Source: AGRyM1t/OAY/Y7yVsM5mAXCJjJ9lZPQkb8VPf9zKdWGCxC4CTtSobb/vFxjbZMH7HQxewBrcQHHkbg==
-X-Received: by 2002:a05:6a00:1a:b0:52a:dec1:308c with SMTP id
- h26-20020a056a00001a00b0052adec1308cmr9030811pfk.52.1657811178593; 
- Thu, 14 Jul 2022 08:06:18 -0700 (PDT)
-Received: from sebin-inspiron ([103.160.233.83])
- by smtp.gmail.com with ESMTPSA id
- f67-20020a62db46000000b00525161431f5sm1815704pfg.36.2022.07.14.08.06.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 08:06:17 -0700 (PDT)
-Date: Thu, 14 Jul 2022 20:36:09 +0530
-From: Sebin Sebastian <mailmesebin00@gmail.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH -next] drm/amdgpu: double free error and freeing
- uninitialized null pointer
-Message-ID: <YtAw4dra+g1rcAXd@sebin-inspiron>
-References: <20220710132911.399325-1-mailmesebin00@gmail.com>
- <21df71a6-44d4-48a6-17d2-d463174a10c7@igalia.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C18811346D;
+ Thu, 14 Jul 2022 15:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657812022; x=1689348022;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=sbZhaT5tdicd4HOKbtLgjSP8ggs3tLu6dffAfZ7Zzk0=;
+ b=LyPChm5BH+ib5lg/4gVRjJX4ZThdLQOtnIatkYXN76peOuQhCEyl5CKL
+ AxSMy+a6/AK5uZzxYhxWA8a3Bkm90sw3XPzqIjTaY3dICBHpdG5wmbS1+
+ S0OKZdr5qYa9o1hZHhA37kqquEXBjqo2ojiYW894uol7V6KlId9wG8tOH
+ Y7gmwJO8hQ7I9pxY5vaFhoPTTPvtXvclp5CC2IdIkgQovWzFrFYNV8AM+
+ DiWnttUoRgpVJk+TuBFPULM4/BCTAQCX2WXyXMcJtiByT1Lb6SFjWWHjs
+ afTK7poU5CzMi0Qooo2PiavDSIFPFVIfeOmPtHqGmRZxx7K/axBuLw6Nx w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="265329313"
+X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; d="scan'208";a="265329313"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 08:20:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; d="scan'208";a="923107992"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2022 08:20:18 -0700
+Received: from [10.249.147.144] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.147.144])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 26EFKGKA026921; Thu, 14 Jul 2022 16:20:16 +0100
+Message-ID: <a85f4b50-aba7-3a43-b8c3-5fed4217b0d9@intel.com>
+Date: Thu, 14 Jul 2022 17:20:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <21df71a6-44d4-48a6-17d2-d463174a10c7@igalia.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v2 16/21] drm/i915: Define GuC Based TLB invalidation
+ routines
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1657800199.git.mchehab@kernel.org>
+ <335645ebfde73421a506d6df72e78d370805aa9c.1657800199.git.mchehab@kernel.org>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <335645ebfde73421a506d6df72e78d370805aa9c.1657800199.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +64,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ dri-devel@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>, Borislav Petkov <bp@suse.de>,
+ intel-gfx@lists.freedesktop.org,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 12, 2022 at 12:14:27PM -0300, André Almeida wrote:
-> Hi Sebin,
-> 
-> Às 10:29 de 10/07/22, Sebin Sebastian escreveu:
-> > Fix two coverity warning's double free and and an uninitialized pointer
-> > read. Both tmp and new are pointing at same address and both are freed
-> > which leads to double free. Freeing tmp in the condition after new is
-> > assigned with new address fixes the double free issue. new is not
-> > initialized to null which also leads to a free on an uninitialized
-> > pointer.
-> > Coverity issue: 1518665 (uninitialized pointer read)
-> > 		1518679 (double free)
-> 
-> What are those numbers?
->
-These numbers are the issue ID's for the errors that are being reported
-by the coverity static analyzer tool.
 
-> > 
-> > Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 8 +++++---
-> >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > index f3b3c688e4e7..d82fe0e1b06b 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > @@ -1660,7 +1660,7 @@ static ssize_t amdgpu_reset_dump_register_list_write(struct file *f,
-> >  {
-> >  	struct amdgpu_device *adev = (struct amdgpu_device *)file_inode(f)->i_private;
-> >  	char reg_offset[11];
-> > -	uint32_t *new, *tmp = NULL;
-> > +	uint32_t *new = NULL, *tmp = NULL;
-> >  	int ret, i = 0, len = 0;
-> >  
-> >  	do {
-> > @@ -1692,17 +1692,19 @@ static ssize_t amdgpu_reset_dump_register_list_write(struct file *f,
-> >  		goto error_free;
-> >  	}
-> 
-> If the `if (!new) {` above this line is true, will be tmp freed?
-> 
-Yes, It doesn't seem to free tmp here. Should I free tmp immediately
-after the do while loop and remove `kfree(tmp)` from the `if (ret)`
-block? Thanks for pointing out the errors.
 
-> >  	ret = down_write_killable(&adev->reset_domain->sem);
-> > -	if (ret)
-> > +	if (ret) {
-> > +		kfree(tmp);
-> >  		goto error_free;
-> > +	}
-> >  
-> >  	swap(adev->reset_dump_reg_list, tmp);
-> >  	swap(adev->reset_dump_reg_value, new);
-> >  	adev->num_regs = i;
-> >  	up_write(&adev->reset_domain->sem);
-> > +	kfree(tmp);
-> >  	ret = size;
-> >  
-> >  error_free:
-> > -	kfree(tmp);
-> >  	kfree(new);
-> >  	return ret;
-> >  }
+On 14.07.2022 14:06, Mauro Carvalho Chehab wrote:
+> From: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> 
+> Add routines to interface with GuC firmware for selective TLB invalidation
+> supported on XeHP.
+> 
+> Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v2 00/21] at: https://lore.kernel.org/all/cover.1657800199.git.mchehab@kernel.org/
+> 
+>  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  3 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 90 +++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        | 10 +++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  3 +
+>  4 files changed, 106 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> index fb0af33e43cc..5c019856a269 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> @@ -188,6 +188,9 @@ enum intel_guc_state_capture_event_status {
+>  #define INTEL_GUC_TLB_INVAL_FLUSH_CACHE (1 << 31)
+>  
+>  enum intel_guc_tlb_invalidation_type {
+> +	INTEL_GUC_TLB_INVAL_FULL = 0x0,
+> +	INTEL_GUC_TLB_INVAL_PAGE_SELECTIVE = 0x1,
+> +	INTEL_GUC_TLB_INVAL_PAGE_SELECTIVE_CTX = 0x2,
+>  	INTEL_GUC_TLB_INVAL_GUC = 0x3,
+>  };
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 8a104a292598..98260a7bc90b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -923,6 +923,96 @@ static int guc_send_invalidate_tlb(struct intel_guc *guc, u32 *action, u32 size)
+>  	return err;
+>  }
+>  
+> + /* Full TLB invalidation */
+> +int intel_guc_invalidate_tlb_full(struct intel_guc *guc,
+> +				  enum intel_guc_tlb_inval_mode mode)
+> +{
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_TLB_INVALIDATION,
+> +		0,
+> +		INTEL_GUC_TLB_INVAL_FULL << INTEL_GUC_TLB_INVAL_TYPE_SHIFT |
+> +			mode << INTEL_GUC_TLB_INVAL_MODE_SHIFT |
+> +			INTEL_GUC_TLB_INVAL_FLUSH_CACHE,
+> +	};
+> +
+> +	if (!INTEL_GUC_SUPPORTS_TLB_INVALIDATION(guc)) {
+> +		DRM_ERROR("Tlb invalidation: Operation not supported in this platform!\n");
+
+s/Tlb/TLB
+
+and use drm_err() or even consider GEM_BUG_ON() as this looks more like
+a coding mistake if we will be here, no ?
+
+> +		return 0;
+> +	}
+> +
+> +	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
+> +}
+> +
+> +/*
+> + * Selective TLB Invalidation for Address Range:
+> + * TLB's in the Address Range is Invalidated across all engines.
+> + */
+> +int intel_guc_invalidate_tlb_page_selective(struct intel_guc *guc,
+> +					    enum intel_guc_tlb_inval_mode mode,
+> +					    u64 start, u64 length)
+> +{
+> +	u64 vm_total = BIT_ULL(INTEL_INFO(guc_to_gt(guc)->i915)->ppgtt_size);
+> +	u32 address_mask = (ilog2(length) - ilog2(I915_GTT_PAGE_SIZE_4K));
+
+drop extra ( )
+
+> +	u32 full_range = vm_total == length;
+
+bool ?
+
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_TLB_INVALIDATION,
+> +		0,
+> +		INTEL_GUC_TLB_INVAL_PAGE_SELECTIVE << INTEL_GUC_TLB_INVAL_TYPE_SHIFT |
+> +			mode << INTEL_GUC_TLB_INVAL_MODE_SHIFT |
+> +			INTEL_GUC_TLB_INVAL_FLUSH_CACHE,
+> +		0,
+> +		full_range ? full_range : lower_32_bits(start),
+> +		full_range ? 0 : upper_32_bits(start),
+> +		full_range ? 0 : address_mask,
+> +	};
+> +
+> +	if (!INTEL_GUC_SUPPORTS_TLB_INVALIDATION_SELECTIVE(guc)) {
+> +		DRM_ERROR("Tlb invalidation: Operation not supported in this platform!\n");
+
+as above
+
+> +		return 0;
+> +	}
+> +
+> +	GEM_BUG_ON(!IS_ALIGNED(start, I915_GTT_PAGE_SIZE_4K));
+> +	GEM_BUG_ON(!IS_ALIGNED(length, I915_GTT_PAGE_SIZE_4K));
+> +	GEM_BUG_ON(range_overflows(start, length, vm_total));
+> +
+> +	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
+> +}
+> +
+> +/*
+> + * Selective TLB Invalidation for Context:
+> + * Invalidates all TLB's for a specific context across all engines.
+> + */
+> +int intel_guc_invalidate_tlb_page_selective_ctx(struct intel_guc *guc,
+> +						enum intel_guc_tlb_inval_mode mode,
+> +						u64 start, u64 length, u32 ctxid)
+> +{
+> +	u64 vm_total = BIT_ULL(INTEL_INFO(guc_to_gt(guc)->i915)->ppgtt_size);
+> +	u32 address_mask = (ilog2(length) - ilog2(I915_GTT_PAGE_SIZE_4K));
+
+drop ( )
+
+> +	u32 full_range = vm_total == length;
+
+bool
+
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_TLB_INVALIDATION,
+> +		0,
+> +		INTEL_GUC_TLB_INVAL_PAGE_SELECTIVE_CTX << INTEL_GUC_TLB_INVAL_TYPE_SHIFT |
+> +			mode << INTEL_GUC_TLB_INVAL_MODE_SHIFT |
+> +			INTEL_GUC_TLB_INVAL_FLUSH_CACHE,
+> +		ctxid,
+> +		full_range ? full_range : lower_32_bits(start),
+> +		full_range ? 0 : upper_32_bits(start),
+> +		full_range ? 0 : address_mask,
+> +	};
+> +
+> +	if (!INTEL_GUC_SUPPORTS_TLB_INVALIDATION_SELECTIVE(guc)) {
+> +		DRM_ERROR("Tlb invalidation: Operation not supported in this platform!\n");
+
+as above
+
+> +		return 0;
+> +	}
+> +
+> +	GEM_BUG_ON(!IS_ALIGNED(start, I915_GTT_PAGE_SIZE_4K));
+> +	GEM_BUG_ON(!IS_ALIGNED(length, I915_GTT_PAGE_SIZE_4K));
+> +	GEM_BUG_ON(range_overflows(start, length, vm_total));
+> +
+> +	return guc_send_invalidate_tlb(guc, action, ARRAY_SIZE(action));
+> +}
+> +
+>  /*
+>   * Guc TLB Invalidation: Invalidate the TLB's of GuC itself.
+>   */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> index 01c6478451cc..df6ba1c32808 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> @@ -384,6 +384,16 @@ int intel_guc_allocate_and_map_vma(struct intel_guc *guc, u32 size,
+>  int intel_guc_self_cfg32(struct intel_guc *guc, u16 key, u32 value);
+>  int intel_guc_self_cfg64(struct intel_guc *guc, u16 key, u64 value);
+>  
+> +int intel_guc_g2g_register(struct intel_guc *guc);
+
+drop this, not part of this series
+
+> +
+> +int intel_guc_invalidate_tlb_full(struct intel_guc *guc,
+> +				  enum intel_guc_tlb_inval_mode mode);
+> +int intel_guc_invalidate_tlb_page_selective(struct intel_guc *guc,
+> +					    enum intel_guc_tlb_inval_mode mode,
+> +					    u64 start, u64 length);
+> +int intel_guc_invalidate_tlb_page_selective_ctx(struct intel_guc *guc,
+> +						  enum intel_guc_tlb_inval_mode mode,
+> +						  u64 start, u64 length, u32 ctxid);
+>  int intel_guc_invalidate_tlb_guc(struct intel_guc *guc,
+>  				 enum intel_guc_tlb_inval_mode mode);
+>  int intel_guc_invalidate_tlb_all(struct intel_guc *guc);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index 3edf567b3f65..29e402f70a94 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -436,5 +436,8 @@ enum intel_guc_recv_message {
+>  	((intel_guc_ct_enabled(&(guc)->ct)) && \
+>  	 (intel_guc_submission_is_used(guc)) && \
+>  	 (GRAPHICS_VER(guc_to_gt((guc))->i915) >= 12))
+> +#define INTEL_GUC_SUPPORTS_TLB_INVALIDATION_SELECTIVE(guc) \
+> +	(INTEL_GUC_SUPPORTS_TLB_INVALIDATION(guc) && \
+> +	HAS_SELECTIVE_TLB_INVALIDATION(guc_to_gt(guc)->i915))
+>  
+>  #endif
+
+,Michal
