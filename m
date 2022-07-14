@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C9A5757DC
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 01:09:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD60D57582E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 01:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D46110FFF2;
-	Thu, 14 Jul 2022 23:09:06 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDED710FF25;
- Thu, 14 Jul 2022 23:09:04 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id y4so4272766edc.4;
- Thu, 14 Jul 2022 16:09:04 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E609410FA7E;
+	Thu, 14 Jul 2022 23:51:42 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0456210FA7E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 23:51:40 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id v21so1794181plo.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 16:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=usiaDZ3+mcCOdGF0hiI8uf9gPAbOUG80jqOg1kR3mEw=;
- b=p7d2V2uQhBGsRRWHuwlCWx+fK13U3Kazk626LDZZUGxSW0NRD7ZQ0Qr/Ne+8GDR3JX
- jZgkHCZaH7dcr637RaQgA0ccBqIKDJGLqZJ2lLszox/oSW15Ppy5XEtL/MxAGPZE+n7k
- X8sF+uYvYWua/GEJA7yOQ/9us8em0dZhj2aoOpGuOXPeRWr3YrNshYyiO+7TGFJNc+gA
- inSn3m6XgpoXQGbwZvHS/AQoqaWBcmrzt0CrcW/1037FtKEBozaVs3bsX/+suBrYCiwQ
- YawrONGQQ8MUij5J63c4YIf59AXUW0XeFpA+8DQxM1ZCr7kjwvq0Q70iP5R26T8JAQrB
- KTQA==
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=WQOJ87cxhZVY+IyP6bEM7D5o/BRipLCrV6YOLHFhk1w=;
+ b=IIMJ1246IIPKa4Fs/STJlOe4IyjgfiAckNmuhbjPtUIO1nj4eRzEmX0f/jDfkBJXM5
+ r7E6CEGq5UqqbXoicOFChB8yFFa9MNdXKs7zON/jTEW7lvcVeAw4lQh/X1oRNTLeQzSW
+ Wsf7d0XV+lcxH2oeQGXCXj4bOx+fHApevwf7BSbDKrVPLASQSRFeINMBHfI6T7lo1gwD
+ tn8dxzX14KsS14Mo97QiTwIdJLrPCkzw1VC745ROPwvcond6xyH40n5ReE4NADUTbAse
+ vAxo+f7u3jJ1gmPb2xJ/fw+RBT9GxVsEaPE/2hDyyg1iH/EhZ9g2L/pG4qg7HtaVF1gd
+ 0CqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=usiaDZ3+mcCOdGF0hiI8uf9gPAbOUG80jqOg1kR3mEw=;
- b=blSIFcz6qR8zzUvIZPeZj2Kx8Jv2yvSZflGvFXmNtQEUQnPnz8XMQX4+nHgEcY9Qlv
- Btjui3oExINFm4B3lzu6Y70GYkp0nosb2HjJCMjJj41D5qdwAZfXUnfYBzhtaaAi+Y+Z
- t5CDTBlNM1SKju3YKcx00db5KCxjomV53sTaBiX6DfE8Umht3PoNJFh6pmM7lj1KuHpD
- ZLuos8vxpprIkMQ97ZueNN0u2Ucm7ZNeYstG6zn2bzHDuDoeriGyxkxn/6ZFANIQ4X7F
- yaVftSRLGvfeyPr18Bz5nUg3SeZNUMIpjG2bE5lnIxljieCa1VqAwE4YHQIg59Ws1nOJ
- qDWg==
-X-Gm-Message-State: AJIora/zNeW4LaV8kd8WOf3LmyKYh/mS0Ij4BRiGmWuTXcj8Dc6VOzjg
- kx9QnryLidlyIi0NAqgCSG2ElYN1aRlH01BP6g2T8XFV
-X-Google-Smtp-Source: AGRyM1uXlpXAN2IicBnnzFfzBcflF8VFT6ZA4YYUCPWYJaD2Tmxc9WAttOCWml6ZHj8EMsyYzWvVXrAcBrfxLdnTcEg=
-X-Received: by 2002:a05:6402:414c:b0:435:1e2a:2c7f with SMTP id
- x12-20020a056402414c00b004351e2a2c7fmr15404449eda.132.1657840143181; Thu, 14
- Jul 2022 16:09:03 -0700 (PDT)
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=WQOJ87cxhZVY+IyP6bEM7D5o/BRipLCrV6YOLHFhk1w=;
+ b=i16ZsVhRdBAp37S1FRJQIVfXAVoQC0TahvH4FULxlkF3I7RljmJB+S92FNKjfIAl7J
+ YlyuzsT86E07OMdfEqvXzr+TNzyo1slKL036uMJW6pXBLGtQ5Znp7jPp/fkccR6I7B7e
+ ja3ExFoz6pa1vfyqc2Lv+l814kcMzjk4JbhPt1yJp5WySBTZt6mnFSt4iUYfEuJ3jS07
+ T7UOPpYgpakKHz8fSFloOfDRe+ZvQ/5zCSMKsvFLWoOSRq+Zw5+2hjrcwzlIQfxJ4CmL
+ CpZlVUMrfpXO+By6XyGEQEMjzGg0hXGTqNZ0n25XS2+5t/HUXyH+eeBf3RGp0vULileK
+ P05w==
+X-Gm-Message-State: AJIora8rj3um1wYEWT8H2C1nYTGCwgKCKeqrqXT3aVyILaTbeRwnt16P
+ RLjtjBJS1ti3x5o1sMe5/zE=
+X-Google-Smtp-Source: AGRyM1teLs417YHFJ/t2owHCD+vGs4Qr7DfmKbJT20i1kDWBwhWfbe5Bg5RlLbs0eGYr/5Q7QmTJjA==
+X-Received: by 2002:a17:90b:19d3:b0:1f0:addf:8ff4 with SMTP id
+ nm19-20020a17090b19d300b001f0addf8ff4mr8732227pjb.191.1657842700547; 
+ Thu, 14 Jul 2022 16:51:40 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a6549c3000000b00411acdb1625sm1857442pgs.92.2022.07.14.16.51.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jul 2022 16:51:38 -0700 (PDT)
+Date: Thu, 14 Jul 2022 16:51:37 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
+Subject: Re: [PATCH v5 4/9] drm: selftest: convert drm_format selftest to KUnit
+Message-ID: <20220714235137.GA485839@roeck-us.net>
+References: <20220708203052.236290-1-maira.canal@usp.br>
+ <20220708203052.236290-5-maira.canal@usp.br>
 MIME-Version: 1.0
-References: <20220412225955.1802543-1-John.C.Harrison@Intel.com>
- <20220412225955.1802543-2-John.C.Harrison@Intel.com>
- <Yli4/8OIbjyRaQAK@mdroper-desk1.amr.corp.intel.com>
-In-Reply-To: <Yli4/8OIbjyRaQAK@mdroper-desk1.amr.corp.intel.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 15 Jul 2022 09:08:51 +1000
-Message-ID: <CAPM=9txdca1VnRpp-oNLXpBc2UWq3=ceeim5+Gw4N9tAriRY6A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/guc: Update to GuC version 70.1.1
-To: Matt Roper <matthew.d.roper@intel.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220708203052.236290-5-maira.canal@usp.br>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,65 +72,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <Intel-GFX@lists.freedesktop.org>,
- dri-devel <DRI-Devel@lists.freedesktop.org>, John.C.Harrison@intel.com
+Cc: siqueirajordao@riseup.net, David Airlie <airlied@linux.ie>,
+ Daniel Latypov <dlatypov@google.com>, brendanhiggins@google.com,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ n@nfraprado.net, Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ magalilemes00@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
+ mwen@igalia.com, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
+ michal.winiarski@intel.com, tales.aparecida@gmail.com,
+ linux-kernel@vger.kernel.org, leandro.ribeiro@collabora.com,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Apr 2022 at 10:15, Matt Roper <matthew.d.roper@intel.com> wrote:
->
-> On Tue, Apr 12, 2022 at 03:59:55PM -0700, John.C.Harrison@Intel.com wrote:
-> > From: John Harrison <John.C.Harrison@Intel.com>
-> >
-> > The latest GuC firmware drops the context descriptor pool in favour of
-> > passing all creation data in the create H2G. It also greatly simplifies
-> > the work queue and removes the process descriptor used for multi-LRC
-> > submission. So, remove all mention of LRC and process descriptors and
-> > update the registration code accordingly.
-> >
-> > Unfortunately, the new API also removes the ability to set default
-> > values for the scheduling policies at context registration time.
-> > Instead, a follow up H2G must be sent. The individual scheduling
-> > policy update H2G commands are also dropped in favour of a single KLV
-> > based H2G. So, change the update wrappers accordingly and call this
-> > during context registration..
-> >
-> > Of course, this second H2G per registration might fail due to being
-> > backed up. The registration code has a complicated state machine to
-> > cope with the actual registration call failing. However, if that works
-> > then there is no support for unwinding if a further call should fail.
-> > Unwinding would require sending a H2G to de-register - but that can't
-> > be done because the CTB is already backed up.
-> >
-> > So instead, add a new flag to say whether the context has a pending
-> > policy update. This is set if the policy H2G fails at registration
-> > time. The submission code checks for this flag and retries the policy
-> > update if set. If that call fails, the submission path early exists
-> > with a retry error. This is something that is already supported for
-> > other reasons.
-> >
-> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->
-> Applied to drm-intel-gt-next.  Thanks for the patch and review.
->
+On Fri, Jul 08, 2022 at 05:30:47PM -0300, Maíra Canal wrote:
+> Considering the current adoption of the KUnit framework, convert the
+> DRM format selftest to the KUnit API.
+> 
+> Tested-by: David Gow <davidgow@google.com>
+> Acked-by: Daniel Latypov <dlatypov@google.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Maíra Canal <maira.canal@usp.br>
 
-(cc'ing Linus and danvet, as a headsup, there is also a phoronix
-article where this was discovered).
+This patch results in:
 
-Okay WTF.
+Building powerpc:allmodconfig ... failed
+--------------
+Error log:
+drivers/gpu/drm/tests/drm_format_test.c: In function 'igt_check_drm_format_min_pitch':
+drivers/gpu/drm/tests/drm_format_test.c:271:1: error: the frame size of 3712 bytes is larger than 2048 bytes
 
-This is in no way acceptable. This needs to be fixed in 5.19-rc ASAP.
+presumably due to function nesting.
 
-Once hardware is released and we remove the gate flag by default, you
-cannot just bump firmware versions blindly.
-
-The kernel needs to retain compatibility with all released firmwares
-since a device was declared supported.
-
-This needs to be reverted, and then 70 should be introduced with a
-fallback to 69 versions.
-
-Very disappointing, I expect this to get dealt with v.quickly.
-
-Dave.
+Guenter
