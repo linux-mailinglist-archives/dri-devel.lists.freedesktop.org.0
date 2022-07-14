@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0655575423
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 19:38:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B22575435
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 19:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C0110F2A8;
-	Thu, 14 Jul 2022 17:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EEAA10F726;
+	Thu, 14 Jul 2022 17:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A72B110F2A8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:38:39 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF5710FBD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657820582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kkoL+N0anXvIfREutcAdVwnSsLavnD7q+RdRvz8h3vc=;
+ b=HNSJ0AoCn3hbHRgat5we0plfqeUr1beDdQaE6ukE8AmCsVY0K8cuvqbbTZV8J9Tb9KiuDL
+ 2a+kUJiSzhdD9aBMJkgYd36X8GWBxN7gjm3wCAH7TuLYBLL3W+DiI2R3e8jaNDeNO3UEsT
+ qoH/W9Xg6BM71nvon9I9+ftb8pSorW0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-148-lFPaophEPDibys_LAzmnqw-1; Thu, 14 Jul 2022 13:42:52 -0400
+X-MC-Unique: lFPaophEPDibys_LAzmnqw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A5B12B827A0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:38:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3836AC34114
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657820313;
- bh=kz3Frk+pFqiyM9fMR7CEwN8PUiGG2wzGkWUqrbQH2xM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nGNQVApUPsxkcEoxzBRrm61T20Gnwv075xCs3r7VhmyYJhkY9lqRah+0DP47OhG8d
- euwHj3kcLBjRx9ZeOw/IrqKrk3S911fDFNHSzWRwksP1yir2Y22RpIpstjgRe93Pvg
- 56f8fLmlibXypOnWDVbwFcUzgER/LNIMKq5pz71iIicL7fOZkRaxVJDrkOMdKXwzHQ
- EhtKQ7utIWNPtbhRc3AYZywMcvEHNAGVnufMd/+Q6Lo6d5bQiNiO8y5a30X8S3KVjD
- JudoXk4DUaii0SYsf2dzmNKmbCNcIu9u13EQheIx49yCkXEvrP1UMjvvHX41bS7I1c
- MaGTUVYOC9SSQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 26A62CC13B0; Thu, 14 Jul 2022 17:38:33 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216120] [BISECTED][REGRESSION] drm/amdgpu:  add drm buddy
- support to amdgpu
-Date: Thu, 14 Jul 2022 17:38:32 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mat200300h@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216120-2300-SdiG8GYsdh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216120-2300@https.bugzilla.kernel.org/>
-References: <bug-216120-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCD8C804184;
+ Thu, 14 Jul 2022 17:42:51 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.10.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FDAC400EAB2;
+ Thu, 14 Jul 2022 17:42:51 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH v2 0/2] Miscellaneous runtime PM fixes for Nouveau
+Date: Thu, 14 Jul 2022 13:42:32 -0400
+Message-Id: <20220714174234.949259-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216120
+Noticed these minor issues while trying to investigate
 
---- Comment #5 from mat200300h@gmail.com ---
-Created attachment 301427
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301427&action=3Dedit
-journal 2022-07-14
+https://bugzilla.redhat.com/show_bug.cgi?id=2086470
 
---=20
-You may reply to this email to add a comment.
+While unfortunately I've been unable to confirm whether these patches
+fix the specific problem in question, they're likely fixes we want to
+pull in regardless.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Lyude Paul (2):
+  drm/nouveau/acpi: Don't print error when we get -EINPROGRESS from
+    pm_runtime
+  drm/nouveau: Don't pm_runtime_put_sync(), only
+    pm_runtime_put_autosuspend()
+
+ drivers/gpu/drm/nouveau/nouveau_display.c | 4 ++--
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+2.35.3
+
