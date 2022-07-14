@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C16574440
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 07:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FA5574444
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 07:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C11FA1E47;
-	Thu, 14 Jul 2022 05:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB6FBA1F68;
+	Thu, 14 Jul 2022 05:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC918A19EE;
- Thu, 14 Jul 2022 05:08:57 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26E41RCC018805;
- Thu, 14 Jul 2022 05:08:55 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18A81A1F68;
+ Thu, 14 Jul 2022 05:09:34 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26E4Qe80003328;
+ Thu, 14 Jul 2022 05:09:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qti.qualcomm.com;
  h=from : to : cc
  : subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=ugKIBKQ8tmh0X7AszTrHAZrqo1QaTPUBfKoSbofQBpo=;
- b=UukwVS+VO7Qrz/9W8SXDX9ZjwdQDVUABc/lMIBNqbgi8WZxHSwzrUgmJEY9vgVxOMXrm
- uZYfiXgXSKw9CMZji5pHSEXXADzL3u9v1zCBqzWDsFsUwR3bzgxaetu99DrcmXCc/Odo
- kbedKgRzBquF4KhUnjTS2IIZdDPEHA2k34AOplhyw4wSkqHkDW+nAE+A1cVEwum2Y4/L
- 9NAWoIpyucZ6DPyMR2onx3M63xu/rEWOuY9wSRJfggdj6mgcykvPUN7+zVx/uDwMgfkG
- mG9oM/InRt5VBtc/O8M9Tr9UbKamfHkpvZhyUTTB6bnEyZfwTSbjqc2AIklb+MYk2Idt Ow== 
+ bh=rOMZ8LoGeQgBhQiosX7CdpNk60/LriiMGP4E2u5hFIU=;
+ b=SP71L09Vn4tFPO0GeDhHqPKPPDpCHEDHaKNFT6GJvfbA/3A6UeiCVIEZGefohy4d/cx7
+ cI+saZXvKm+e080Or5ww1bzuLonvHi4Ezc1Hp6PE03dRoq4VD/pMOY8o2Y8PIi4av9I9
+ R04FYt15aooQSaNlMecTVcZpmGH7VHyrAInGHJKm67Im+eFARtSeEkYmoMckpyXfVKh9
+ Uo/L1kFs7eY1Ge+i67xIUzNREZt8fnD9PoPXTmSDjTlkU4kMi7uSMxTxrjpEMZgjUpkv
+ MIGzZZHvdlgoyZgiDl6Wln4em8kBtPUfFsenYDTM1m7tx1QImHLHC89KjFihb+bzaNwv Aw== 
 Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1anam02lp2047.outbound.protection.outlook.com [104.47.57.47])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3haaba8931-2
+ (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3h9u14agfb-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 05:08:54 +0000
+ Thu, 14 Jul 2022 05:09:31 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ws4ApJwKdfn04vAMcMInbWZnlfh0PyfrvcMZg+3Zm1a01uWbAo7XmcnhVKkjxiEtCBVnCWIxofqz7B7za/H0IgYHnbCwzsYlnpwWwTZCMl2MoOD2BojllZ1wJnPbVyvEcDKIWCQyj8+nWFMjMgKPH58h17OtrmXI3bicBAn5GHmoE6t6l73Yt5kZmNa3KMR+VBFG1/GSrGtVvzLi36mv5YXisjRQlvJXWL2WHaWfeP7/a5HvwwmesZKICk2yKtrzEFh6pCQDDffW/betJE7lpusXEwghQIpmrsJq5UWdIMGpIq7x+ARwz+Uy4udndWeXxK4prbdP6/z1GhXcdNAg2w==
+ b=iSyMnKYLhbwDfbw1QG8w4ZHAK91TsI8pMjR0iLh39GH86rvjrZewv3rorm0QbP5ZAoL6+UW0UnlXsQQ7QxScv8TQn+cgILvlgZjScgd2hh9UrUjN/Qy9tXF7NjSBqYvGzoxtGr8TMENpj63FVLJ+0WlGPtU13IzfqCCAOee1vavRL/qfPntqwN3l19Cl9RfC8A2e7rUOmeuEDasw5HBp/ZjZG2VNDGrPLwK5MGo0ZY8ucIkB7gbLPvrvmINB3fNkJAA0wRxW0XB7oNibdGvg1mELzZfM2EkBsc/N7Dw9tC0D4Nq7j9TcPZjMwI4B3dS0XW+ijvkIxtUsNeBmjNw0lw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ugKIBKQ8tmh0X7AszTrHAZrqo1QaTPUBfKoSbofQBpo=;
- b=k5XkOR5Sy8ck7r1UCHL6RvMMn7gN7AAcLZI+L0KeNtd9CSBDgM1Vm9L0329cMN4FAsf507tN4zbsyQTIcyT4py1wEVW0Euku+OnJf84NPWyO+GYd3oAK8wEfP1MbgstTzUO3o+DA2h3BL4HmICtI6hpTtooMLI3xhBtOZ7jZO391xOg/Opj1Gl6MW4W7WvBC1z9Gpn1H88GDV2T7EEz7wGUJOR6rLNcFgRwn6pC6/1zkSE26OAjeX4IT86IfoQCLyn4zitfWHh/aYZ1dR8mYs8I8lE5eRUYQJ1JyHAHIVqEf9FyX49KNPHsc1BlsP8fGG4kicfQ7DUMOLYTAtxcVag==
+ bh=rOMZ8LoGeQgBhQiosX7CdpNk60/LriiMGP4E2u5hFIU=;
+ b=GQdE6ec42gdLePTxoamxtukylwmj7YYlfUPIi/bFprwwQEGIQC2yd1wubfGjGy1nmI8YCa/06Z5B6izEDj3/qXSnQmnrc/nYIKxT62BwVFSMHZKwKHCEmRLsoYxR+V9AZnhGCEwqPf9dATMrEXTqkkLt+zvGLkysbOsEaxtYtCkoFihKdyZXDXX7KRLoSLwSjwV/5dwe4Oyvelto9+AttLrItxqTu+nhEGOQZQEP8WYgLEWRVYsY9K9oh2xOxRvTj2CgSRm8G8dTt7PxwcDDkeOyfRQ4hqL3bEQlr8rvuJvGjJWveFWNKJa6a7zy7RDJocbxHhk50gNbKIrRtLqvWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
  header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
@@ -45,95 +45,95 @@ Received: from BN0PR02MB8173.namprd02.prod.outlook.com (2603:10b6:408:166::9)
  by CY5PR02MB9013.namprd02.prod.outlook.com (2603:10b6:930:37::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Thu, 14 Jul
- 2022 05:08:51 +0000
+ 2022 05:09:28 +0000
 Received: from BN0PR02MB8173.namprd02.prod.outlook.com
  ([fe80::e1dd:9b38:7042:ea7]) by BN0PR02MB8173.namprd02.prod.outlook.com
  ([fe80::e1dd:9b38:7042:ea7%6]) with mapi id 15.20.5417.026; Thu, 14 Jul 2022
- 05:08:51 +0000
+ 05:09:27 +0000
 From: Vinod Polimera <vpolimer@qti.qualcomm.com>
 To: "Vinod Polimera (QUIC)" <quic_vpolimer@quicinc.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
  "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v6 01/10] drm/msm/disp/dpu: clear dpu_assign_crtc and get
- crtc from connector state instead of dpu_enc
-Thread-Topic: [PATCH v6 01/10] drm/msm/disp/dpu: clear dpu_assign_crtc and get
- crtc from connector state instead of dpu_enc
-Thread-Index: AQHYlSXRWmdFe8sHw06OlQE5JVBCS619VUtw
-Date: Thu, 14 Jul 2022 05:08:51 +0000
-Message-ID: <BN0PR02MB8173546D79BEC3714073201AE4889@BN0PR02MB8173.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v6 07/10] drm/bridge: add psr support for panel bridge
+ callbacks
+Thread-Topic: [PATCH v6 07/10] drm/bridge: add psr support for panel bridge
+ callbacks
+Thread-Index: AQHYlSXWx1x+JZs89kaa8tVbyhISza19VXaw
+Date: Thu, 14 Jul 2022 05:09:27 +0000
+Message-ID: <BN0PR02MB8173764A946F6400ADC64AFDE4889@BN0PR02MB8173.namprd02.prod.outlook.com>
 References: <1657544224-10680-1-git-send-email-quic_vpolimer@quicinc.com>
- <1657544224-10680-2-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1657544224-10680-2-git-send-email-quic_vpolimer@quicinc.com>
+ <1657544224-10680-8-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1657544224-10680-8-git-send-email-quic_vpolimer@quicinc.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 01c9d8d9-0bd8-4a51-a1d7-08da6556f153
+x-ms-office365-filtering-correlation-id: ed9b78dc-74ec-4d20-1d63-08da655706e4
 x-ms-traffictypediagnostic: CY5PR02MB9013:EE_
 x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +NZEShuWGE2zOVjePmLQnvykCrBmjtcyDH44Q4p8yQnmOFXz2IEXqcohTI3Eq/J5p0m1Gh8ODmcKS0WwY/asQTio62PDBAQ/CO5cpeQWzlgjCx+yL9N99b3DQenoiKUY2FPFXTkkuVta2Dj5IyPZk0dQJJQ+uzc0dlHaf1c/pLov0P8j0qCj4Mg/4t0QMqwc+DYlFMAwv6HMdJX77+4ZDDH/QV3zaqUo2yVRxx9ifTyyM7wPqedyCZ7N/REn8FbqGlmEsqPiiCOyK4Grh1/xTzqefZaY40XvV0n6u6n0G4QGEC37bYnpDnUDbgaEEMCtuUqCI7FkY0AAeKe2JdgF3CeRYLckpKvIhZWcOX2hwc9PIzLcDHEWojE8tb1/dbSnRMKyHBLtATo60MFWxmVTfOnWrDywLmyaNDNupcNUCZzw9KnX793busPr0XCUsxaKN+BEBJ+yabui7NizVGT/G8NX8Ng01aaUPRWCd4wKwvTtLHM/aXL+lfxfwd5lAcDL+IyJyKtKV+zczeFkgeOaAAwsgm2d+C1cSf1X6DI6X0qlD+lBKo3SwnK200rdGwv0kACorKrNRr8z0HchT4eHYjCDqqbLnbRUwuIbX1LvheapkwqZQidzC8JsEveIsFX/GM3FSF7sF9Grj+ztRKB6B3mqmojUhejtnxwL+BPK79FEbDkLEb08osTsHzfBiXOqwgKQ+fTESPPqkPoXw/MOsHK2O8IqzcQEfoD+QtwYBi1cfEAg1lbPK/e5m3AoWGyxqcPoe1M5bJpFvpkYYKMBUUrr6uR1kYQk3doPYqTROaB0YooW0JRomd+oQF5gib/U
+x-microsoft-antispam-message-info: N/0dAl9Qry93TOg7TEckZFstBiGVIYvkC1tMYsX97Uy/SJ1oJzkef13Ic0ZnP2Z/nnT9gHxiSL45Hvf0fCc+tsSCZ0z220gLGmrhXG6SmXVv4AxBvw0OLcaCV2+Rmf2xn33kbzTvbdoZBCgWttJo/D5iUE0kveptiK2HnJtmzNGrKP8vvt4H1vMkaSM+obrS19MR3z4cnz3yLX8IMJv2dbvZbhHscpg9Sp1EVBoQrbic1aW2Qrp9BhT1dqhUJlSIC9LxOnnsL/V57GzW40dqoQqdZgQ6cnFwjIR4FU6/unlHZPwWJfevTKPqOvlmmhD/puiX9DJL1ihlv5PDZBC/Ah5bplolfMaf2nQJfD0jBuVpKok5e9PJtxQccOPLEyY6bxdbNbiZ7dW+BoMZ0mw7c2MyxNvYv94xiwHt1TGjnXRP/mcnmKu7FjUhIz9vNo/5Doah/RoMSMsUohNjS1U00p5iGRNx9+yE17x2A6hROoMvj1CldOrB31nm2LokwbiXiDnCRXU+KhNtOEhtiPdQFJrOWstOKURmEVz+PLoXR/80vy9oZROmBGoYwTEDqKXtrp7fv32kegdrXCDu5x5anb8TXWHZO5wxhwisGaGpEMKXYIfV2aVED/b/Ur/v/yOqNX92ENqSJL5LpdqjqupHCJXR1uDDu3J3DK0YO8P4ixv6LXYgGgxEeJXwOEkMerC4OEHQXoVUGFNyAzOVvzosu+FZI5663dGmX35XdkMId4D4Kf/17lfoS8UxYgRhoAT2QGzjjmUMKXfWiOQUn7SZW6RbRG950CfbVji+HpWMjFFCLu2SLzL03SBqAdZfgWfv
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN0PR02MB8173.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(38100700002)(122000001)(54906003)(38070700005)(316002)(110136005)(83380400001)(55016003)(107886003)(186003)(41300700001)(8936002)(52536014)(5660300002)(9686003)(33656002)(7416002)(478600001)(6506007)(7696005)(53546011)(8676002)(64756008)(66446008)(26005)(76116006)(66556008)(66476007)(66946007)(86362001)(4326008)(2906002)(71200400001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?mgBZh5tzk1tWpexpsAxJ9ehUqFL1JDmhBYRGjU6+uBmtyMDwhRM7xUDztDHX?=
- =?us-ascii?Q?80FBJ3kEhd5hoRMyyVkNhTsVH6Ce84Y9W/qHoDXGEJKcszHHghdJ2gp6iPsL?=
- =?us-ascii?Q?G7HR6E8pADxL56Bws6RQdZm4i4fNtnn/Z8jbdUhpA9/yNxdiIqQksdlIEkaM?=
- =?us-ascii?Q?95t6R3sZawNdRmWnx7XjIs1Uv4LXW3JZwK44JUpxmgrJmGygAhOQ7P5UHQ/x?=
- =?us-ascii?Q?ba3GifEQhXwAvf8MsVpu91z8lyd1b64jVOsNobOvpOXtnpBqgJ3OwZVp5v0E?=
- =?us-ascii?Q?vouHUJqJAyO8+P8g582T4734dJMMDFa1A+QKCccT9oz6+pYGYBpVQSirFF+f?=
- =?us-ascii?Q?fkk9yWMeSzJVIAeQfcqT9xez0uJ7bU4wntBDXZ+UFeiSE1kWJOmM6R/OJgZN?=
- =?us-ascii?Q?uxhmm9vaSwerrVLuu57TfNUbdyQiD1QWCGRGlbFkJvspeGyqZhLbdxPBcZrf?=
- =?us-ascii?Q?k0+H+GKyJgDIWB5hZ0N+kOB9vW3MDsYe06Aqizu8M21X0sk8PwpfzFfs0rgC?=
- =?us-ascii?Q?uEAZQ6zo3khenTY1PgW9k63pb3Qp/LDcsD0ddCGipgXU/AiL93Zn6RfF4WJY?=
- =?us-ascii?Q?Ie2wBPRn3tIKWtEySmGwc6Siar8j/veJuqx0n4gdJ00F/fT1hbq680uspA8P?=
- =?us-ascii?Q?mit+27eJBemeaO0mnXUQHObTPbseth55T3/zTYK2JH1UoZEwnLMzWHe85lTD?=
- =?us-ascii?Q?VdjSlUn4mgLqIEJPAjj0rowdZwTdWdsYHZ+B0UjRpa8Hk/C8BSnF6SBO6BeK?=
- =?us-ascii?Q?GfwUt/fC4rItq+OyZm8k4Dk6ROn3lH+w6bnISVqegnLi5TBUXGyGswaxUApg?=
- =?us-ascii?Q?e6SDTbJpjElgS8KYC2w1aSNJOjrOy9J66ikFZomc0UtbatKcxzQq8JcDfaYv?=
- =?us-ascii?Q?V/aDIWFWNh/JbvzJO4KFOmwBuyVdkvcs+wTXfDi2NfCQ2tLGMvxWeR7S5q4b?=
- =?us-ascii?Q?wPHc/qyEoumWYdAN/9MTsPfZhBTDF3vUQxzqg1XeDtZcCJ0u/uRqJMk50UP1?=
- =?us-ascii?Q?JPdJtlg5L871QmfqxTmpyxO5JjvC2E8jakY+U5zg6mk3i9lckV3//z4UR5sK?=
- =?us-ascii?Q?Ct1Ti6d5V0aNaJKy40tjpZEeFeP5oS2NIibZ8XoaSHvGt54Vx7/ych3z6cuM?=
- =?us-ascii?Q?r4RDuL4EBMHPo5nLw/+WqG7WwrSk2X3ctQmE3Ve9o7MGY0Kcvc9CVs6Jx0Vy?=
- =?us-ascii?Q?saSfRqWZKl6t3DtJIEICEA+SYhRME5rwZnoCCV4NFXdM+AR4W8NJe9qrbDGA?=
- =?us-ascii?Q?8pvkhHZfnyvQkiVK7bWbPLi9FzHEcfdnEbi4BpyLKt+j0cP+cwBdoe2+A5ME?=
- =?us-ascii?Q?heEnkrOQD8CfAF5yNnH/+uSEqBRc8yZUuRQQqYr1c4Q5NyDnzh2vODhhoeii?=
- =?us-ascii?Q?rYUv9+Zt0o5mYRco4YISdIstYOUNZtBfL0oG/6f6PgX9G/qfKzTiFNTUzb9o?=
- =?us-ascii?Q?2bwwPxaPwOT63UjIIZugboU7XoKoirS3GVfKHh+QBKoCuhpK3iOdqexckYt5?=
- =?us-ascii?Q?Sf84LRbHESL5xMeBNZZtefAG3t1iLk3UCpBMlXAxQTG8DbzKQdj5iXd0by95?=
- =?us-ascii?Q?dDDGpWkdaRpXlPv3GjUEVFq0BoYlr3utVRxIjMkc9Qnm8LuKJuhdW9RWDmCV?=
- =?us-ascii?Q?rw=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gdKaecnIiAH1BvO+RDqGFO847AuevN4lqXOBrGlhxcmilB2JoZE3QBHccRKk?=
+ =?us-ascii?Q?bUFBUfgTRrmXJvZ75A6lt8XidRSjPdHopzELtRycO5DzFsvgFdtSM+q/HVco?=
+ =?us-ascii?Q?Nb0s34F1KQmKG8Snu2Xjv8CVDbCSRwsGk0iWg0Fx6zt01ZLiMqelx66oHRuB?=
+ =?us-ascii?Q?E6GU3PoYbszUO+LcWFG3quf9HsdZz7eg4zlj9L87Zdc2KhhI/YqOSu2VlCbs?=
+ =?us-ascii?Q?TXVsPO5D2BV8gVb8RB4acWOkZoqfnFrH6LwCQUb4xD4qu4hEUnY36mRVTgD+?=
+ =?us-ascii?Q?jcAPTgPzvQqouMIYlmM6s5eKEp6ryaxCXLkUH1BT6QHAb21rgrq9CneHNHST?=
+ =?us-ascii?Q?NN7Vn4LZR3si1msRs5sDR4tkWd4Jk+iWOkI6Wbs8mN87+qavY059VrmkpTjA?=
+ =?us-ascii?Q?3DArxKUeRIfmkD8bc17bPFaESgQv720SJGLld21YSeJLSjF2oxYeIxl+mhUI?=
+ =?us-ascii?Q?J22PsgTJ8AWq8rBm2DOuYEDHoEJgCfBnhTY5vFnpAnVJBXax1CyIQcR1eKIi?=
+ =?us-ascii?Q?jUnN+C1M9hmfiuMMYFfopNlIssGWGfP/O79skkzuPGjtHGaubpwtbMPovSCh?=
+ =?us-ascii?Q?xOGxsOjISfUKKQsSj/v56lXLuXW9ZLuKO3Mrbwx/HyyJuSH2UzYjXi+B17sE?=
+ =?us-ascii?Q?QbDpFs5iF1r9Lwfndq+kQ0amlwgU0kJaqqFj8cCyOFn1UXM9CjwEMXMmiRa2?=
+ =?us-ascii?Q?V4znRBGkTNdZ6mw6D51ZInR8oF8+GtNah15JhMo+0XOkC4eKpKZsedQEMwpF?=
+ =?us-ascii?Q?/rBrE8QYdEXv1sbn7FuTwFnyp0F1JJfnL10wsc/0TgpB05khInD4vPR4pKJI?=
+ =?us-ascii?Q?okLwvxTkxqUqEI/aMbBDSgMtuHoC+FG6MVsp9TkbjkmXUNBXDhhOvjHi+hoG?=
+ =?us-ascii?Q?gnbNqBOEuF7vtFPB4PgcwYJKM159kxeENtuspCdlGWLoAtGQj6Ce4mo+3GED?=
+ =?us-ascii?Q?HMKuJ3xDPTcxY7cYUK1HugfGsxuZGZgJ2D7tapd3eqT0yl5k+4d4KQ7AVCrJ?=
+ =?us-ascii?Q?Q5unm3UZqKwFMh61or9QE7tEVM2gntftxil0CMGPVjO8Din3ImJ1bExUVzDf?=
+ =?us-ascii?Q?LHfrzhcsFqEsZSw3cHKTBnY6uEXAHzKykC7FEGrDxpoLquyhZJo3RpuqQWAd?=
+ =?us-ascii?Q?8uyUOjGN1xGEcXl54xFmC+W1aQqLwRypqOK+R6tWtku4LmOvp8TKam4xE4j9?=
+ =?us-ascii?Q?yUc6rzXGGCvkmj2wPm9wsEmRdrKDY+8HjSwJLnJUsnuXt8GKdnfJqSXfI8ga?=
+ =?us-ascii?Q?C/OHCMQOhhvLVV7z+a/wc3MOWswLj7ML8pVnjWTFYT+XaCJvtiPN7dVGAqLH?=
+ =?us-ascii?Q?xzwH3HrFgmZ6jRyXu5u7dwftw5ElcyYgvTLaW9AfykcG8AX40nChe3+E2aic?=
+ =?us-ascii?Q?YyFiRqI9lFsskBmC4T7Rkv1Jlp9bhsBNG3U4MuOfbaq+RIDfrtYb1w1E/vz5?=
+ =?us-ascii?Q?T+cyAog59t0HalCBlXRVPT2dpwuk+JCB+I0/Wn5kCEZjrMkGsfUBYpbbO3Ex?=
+ =?us-ascii?Q?IhVJuP3YXKmwA2WBmXUyMNjOwAFeF6b1IAzGD/H8645mXw8v0ZhVpEVxqoA0?=
+ =?us-ascii?Q?4Xojpy/Xv1dHB09o/SsrcKVksc5TI7aCGV4NUI4bnUvreeJt3K7feUtmPJXE?=
+ =?us-ascii?Q?aw=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: qti.qualcomm.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BN0PR02MB8173.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01c9d8d9-0bd8-4a51-a1d7-08da6556f153
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2022 05:08:51.6104 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed9b78dc-74ec-4d20-1d63-08da655706e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2022 05:09:27.8207 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3mbyOHuSOu8SFu4z4RJqi5hdVf9+fOrJrx0hHD4HeOrYDMT45MqdaWHP13P5jkO/bhWAda+ushIAbFz79r4/CpQ3cFeDLJ5SN6jRLE9gRZA=
+X-MS-Exchange-CrossTenant-userprincipalname: QSmf7bCr09beVgvVjpL3THRo8iKFpp1lJ2ykJx+hp58L91yOqgoPZzHicy1RnntYGzFdKbxhW+d7rN4r1piqyi4BTBz0CSS5XoUq6TOfspE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR02MB9013
-X-Proofpoint-GUID: HpWQ7q69dL7S8HUFB5NdsQYdpP63w9ca
-X-Proofpoint-ORIG-GUID: HpWQ7q69dL7S8HUFB5NdsQYdpP63w9ca
+X-Proofpoint-GUID: 0-8sm8xjraeovRZ_AbFzfztbTBYQyhF8
+X-Proofpoint-ORIG-GUID: 0-8sm8xjraeovRZ_AbFzfztbTBYQyhF8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-14_03,2022-07-13_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=870
- priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=930 adultscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207140022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -181,151 +181,121 @@ Vinod P.
 > Venkateswaran (QUIC) <quic_aravindh@quicinc.com>; Abhinav Kumar
 > (QUIC) <quic_abhinavk@quicinc.com>; Sankeerth Billakanti (QUIC)
 > <quic_sbillaka@quicinc.com>
-> Subject: [PATCH v6 01/10] drm/msm/disp/dpu: clear dpu_assign_crtc and get
-> crtc from connector state instead of dpu_enc
+> Subject: [PATCH v6 07/10] drm/bridge: add psr support for panel bridge
+> callbacks
 >=20
-> Update crtc retrieval from dpu_enc to dpu_enc connector state,
-> since new links get set as part of the dpu enc virt mode set.
-> The dpu_enc->crtc cache is no more needed, hence cleaning it as
-> part of this change.
+> This change will handle the psr entry exit cases in the panel
+> bridge atomic callback functions. For example, the panel power
+> should not turn off if the panel is entering psr.
 >=20
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 > Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 30 ++++++++++++++----
-> -----------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  8 --------
->  3 files changed, 14 insertions(+), 28 deletions(-)
+>  drivers/gpu/drm/bridge/panel.c | 48
+> ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index b56f777..f91e3d1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -972,7 +972,6 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->  		 */
->  		if (dpu_encoder_get_intf_mode(encoder) =3D=3D
-> INTF_MODE_VIDEO)
->  			release_bandwidth =3D true;
-> -		dpu_encoder_assign_crtc(encoder, NULL);
->  	}
->=20
->  	/* wait for frame_event_done completion */
-> @@ -1042,9 +1041,6 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
->  	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
->  	dpu_crtc->enabled =3D true;
->=20
-> -	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state-
-> >encoder_mask)
-> -		dpu_encoder_assign_crtc(encoder, crtc);
-> -
->  	/* Enable/restore vblank irq handling */
->  	drm_crtc_vblank_on(crtc);
->  }
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 52516eb..0fddc9d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -181,7 +181,6 @@ struct dpu_encoder_virt {
->=20
->  	bool intfs_swapped;
->=20
-> -	struct drm_crtc *crtc;
->  	struct drm_connector *connector;
->=20
->  	struct dentry *debugfs_root;
-> @@ -1245,6 +1244,7 @@ static void dpu_encoder_vblank_callback(struct
-> drm_encoder *drm_enc,
->  		struct dpu_encoder_phys *phy_enc)
+> diff --git a/drivers/gpu/drm/bridge/panel.c
+> b/drivers/gpu/drm/bridge/panel.c
+> index eeb9546..9770b8c 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -112,6 +112,18 @@ static void panel_bridge_atomic_pre_enable(struct
+> drm_bridge *bridge,
+>  				struct drm_bridge_state *old_bridge_state)
 >  {
->  	struct dpu_encoder_virt *dpu_enc =3D NULL;
+>  	struct panel_bridge *panel_bridge =3D
+> drm_bridge_to_panel_bridge(bridge);
+> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
+> >base.state;
+> +	struct drm_encoder *encoder =3D bridge->encoder;
 > +	struct drm_crtc *crtc;
->  	unsigned long lock_flags;
->=20
->  	if (!drm_enc || !phy_enc)
-> @@ -1253,9 +1253,14 @@ static void dpu_encoder_vblank_callback(struct
-> drm_encoder *drm_enc,
->  	DPU_ATRACE_BEGIN("encoder_vblank_callback");
->  	dpu_enc =3D to_dpu_encoder_virt(drm_enc);
->=20
-> +	if (!dpu_enc->connector || !dpu_enc->connector->state)
+> +	struct drm_crtc_state *old_crtc_state;
+> +
+> +	crtc =3D drm_atomic_get_new_crtc_for_encoder(atomic_state,
+> encoder);
+> +	if (!crtc)
 > +		return;
 > +
-> +	crtc =3D dpu_enc->connector->state->crtc;
-> +
->  	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
-> -	if (dpu_enc->crtc)
-> -		dpu_crtc_vblank_callback(dpu_enc->crtc);
-> +	if (crtc)
-> +		dpu_crtc_vblank_callback(crtc);
->  	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
+> +	old_crtc_state =3D drm_atomic_get_old_crtc_state(atomic_state,
+> crtc);
+> +	if (old_crtc_state && old_crtc_state->self_refresh_active)
+> +		return;
 >=20
->  	atomic_inc(&phy_enc->vsync_cnt);
-> @@ -1280,29 +1285,22 @@ static void
-> dpu_encoder_underrun_callback(struct drm_encoder *drm_enc,
->  	DPU_ATRACE_END("encoder_underrun_callback");
+>  	drm_panel_prepare(panel_bridge->panel);
 >  }
->=20
-> -void dpu_encoder_assign_crtc(struct drm_encoder *drm_enc, struct
-> drm_crtc *crtc)
-> -{
-> -	struct dpu_encoder_virt *dpu_enc =3D
-> to_dpu_encoder_virt(drm_enc);
-> -	unsigned long lock_flags;
-> -
-> -	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
-> -	/* crtc should always be cleared before re-assigning */
-> -	WARN_ON(crtc && dpu_enc->crtc);
-> -	dpu_enc->crtc =3D crtc;
-> -	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
-> -}
-> -
->  void dpu_encoder_toggle_vblank_for_crtc(struct drm_encoder *drm_enc,
->  					struct drm_crtc *crtc, bool enable)
+> @@ -120,6 +132,18 @@ static void panel_bridge_atomic_enable(struct
+> drm_bridge *bridge,
+>  				struct drm_bridge_state *old_bridge_state)
 >  {
->  	struct dpu_encoder_virt *dpu_enc =3D
-> to_dpu_encoder_virt(drm_enc);
-> +	struct drm_crtc *new_crtc;
->  	unsigned long lock_flags;
->  	int i;
->=20
->  	trace_dpu_enc_vblank_cb(DRMID(drm_enc), enable);
->=20
-> +	if (!dpu_enc->connector || !dpu_enc->connector->state)
+>  	struct panel_bridge *panel_bridge =3D
+> drm_bridge_to_panel_bridge(bridge);
+> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
+> >base.state;
+> +	struct drm_encoder *encoder =3D bridge->encoder;
+> +	struct drm_crtc *crtc;
+> +	struct drm_crtc_state *old_crtc_state;
+> +
+> +	crtc =3D drm_atomic_get_new_crtc_for_encoder(atomic_state,
+> encoder);
+> +	if (!crtc)
 > +		return;
 > +
-> +	new_crtc =3D dpu_enc->connector->state->crtc;
->  	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
-> -	if (dpu_enc->crtc !=3D crtc) {
-> +	if (!new_crtc || new_crtc !=3D crtc) {
->  		spin_unlock_irqrestore(&dpu_enc->enc_spinlock,
-> lock_flags);
->  		return;
->  	}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 781d41c..edba815 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -39,14 +39,6 @@ struct msm_display_info {
->  };
+> +	old_crtc_state =3D drm_atomic_get_old_crtc_state(atomic_state,
+> crtc);
+> +	if (old_crtc_state && old_crtc_state->self_refresh_active)
+> +		return;
 >=20
->  /**
-> - * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned =
-to
-> - * @encoder:	encoder pointer
-> - * @crtc:	crtc pointer
-> - */
-> -void dpu_encoder_assign_crtc(struct drm_encoder *encoder,
-> -			     struct drm_crtc *crtc);
-> -
-> -/**
->   * dpu_encoder_toggle_vblank_for_crtc - Toggles vblank interrupts on or =
-off
-> if
->   *	the encoder is assigned to the given crtc
->   * @encoder:	encoder pointer
+>  	drm_panel_enable(panel_bridge->panel);
+>  }
+> @@ -128,6 +152,18 @@ static void panel_bridge_atomic_disable(struct
+> drm_bridge *bridge,
+>  				struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct panel_bridge *panel_bridge =3D
+> drm_bridge_to_panel_bridge(bridge);
+> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
+> >base.state;
+> +	struct drm_encoder *encoder =3D bridge->encoder;
+> +	struct drm_crtc *crtc;
+> +	struct drm_crtc_state *new_crtc_state;
+> +
+> +	crtc =3D drm_atomic_get_old_crtc_for_encoder(atomic_state,
+> encoder);
+> +	if (!crtc)
+> +		return;
+> +
+> +	new_crtc_state =3D drm_atomic_get_new_crtc_state(atomic_state,
+> crtc);
+> +	if (new_crtc_state && new_crtc_state->self_refresh_active)
+> +		return;
+>=20
+>  	drm_panel_disable(panel_bridge->panel);
+>  }
+> @@ -136,6 +172,18 @@ static void panel_bridge_atomic_post_disable(struct
+> drm_bridge *bridge,
+>  				struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct panel_bridge *panel_bridge =3D
+> drm_bridge_to_panel_bridge(bridge);
+> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
+> >base.state;
+> +	struct drm_encoder *encoder =3D bridge->encoder;
+> +	struct drm_crtc *crtc;
+> +	struct drm_crtc_state *new_crtc_state;
+> +
+> +	crtc =3D drm_atomic_get_old_crtc_for_encoder(atomic_state,
+> encoder);
+> +	if (!crtc)
+> +		return;
+> +
+> +	new_crtc_state =3D drm_atomic_get_new_crtc_state(atomic_state,
+> crtc);
+> +	if (new_crtc_state && new_crtc_state->self_refresh_active)
+> +		return;
+>=20
+>  	drm_panel_unprepare(panel_bridge->panel);
+>  }
 > --
 > 2.7.4
 
