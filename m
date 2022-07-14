@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD04574635
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 09:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1E4574661
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 10:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7127D93A10;
-	Thu, 14 Jul 2022 07:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B209A0969;
+	Thu, 14 Jul 2022 08:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m1524.mail.126.com (m1524.mail.126.com [220.181.15.24])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7CE1E93A10
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 07:53:59 +0000 (UTC)
+Received: from m15113.mail.126.com (m15113.mail.126.com [220.181.15.113])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2AA7B91A3A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 08:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=9GCiJ
- KLq0xmBC3eQPvccV913YhLoSk13xrBhmRni0O4=; b=FkkS/oTbZ+uRU125YhcqO
- o/zR66vbwxEZEYEwThAcONSLHMl4crdFZjwRH4B8FGIjBOVQ85I2WeSGvGvfLovK
- K1uUuaPT+FJ0nTNu76paR18ZwR9hWxT2yvmUjGv/vE8NOZm3lvPeGaGZyeo448t4
- HRDW3ISn0svsCv+cXJykyg=
-Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr24
- (Coremail) ; Thu, 14 Jul 2022 15:53:35 +0800 (CST)
-X-Originating-IP: [124.16.139.61]
-Date: Thu, 14 Jul 2022 15:53:35 +0800 (CST)
-From: "Liang He" <windhl@126.com>
-To: "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>
-Subject: Re:Re: [PATCH] drm/imx/dcss: Add missing of_node_put() in fail path
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <20220714073741.raufdst77ezkyw2u@fsr-ub1664-121.ea.freescale.net>
-References: <20220707023214.307451-1-windhl@126.com>
- <20220714073741.raufdst77ezkyw2u@fsr-ub1664-121.ea.freescale.net>
-Content-Type: multipart/alternative; 
- boundary="----=_Part_73274_1372756763.1657785215985"
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=d/ft+
+ 121k92WgLMShtqaPnkVxzwjV0fkaQQbXECoFJk=; b=XC39oh0oNiS98iN6bzYfu
+ M4XyPRg1A/p4kyFer/U2iLf0tpQ+P5Ep1odSOmGTTR3B8VWb9gQnhhbNLSOvVJnM
+ 7IAW6oP43aFun/CLlZ6cUu0nWjef6njJ+ezbkkKqJGGz6AnxFFTKnfFpmwGOZUrv
+ 4assqF7LLztNwoNAcCAJ2A=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+ by smtp3 (Coremail) with SMTP id DcmowADX6Zox0M9i_4TSEw--.5446S2;
+ Thu, 14 Jul 2022 16:13:39 +0800 (CST)
+From: Liang He <windhl@126.com>
+To: laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, airlied@linux.ie,
+ daniel@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, dri-devel@lists.freedesktop.org,
+ windhl@126.com
+Subject: [PATCH v2] drm/imx/dcss: Add missing of_node_put() in fail path
+Date: Thu, 14 Jul 2022 16:13:37 +0800
+Message-Id: <20220714081337.374761-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-ID: <4969c4df.4de3.181fbb2ebf2.Coremail.windhl@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: GMqowABHViaBy89iNjRIAA--.41000W
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/xtbBGhI+F1-HZfxhcAABsw
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DcmowADX6Zox0M9i_4TSEw--.5446S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw1xtF1DAFWUAw1xCr4kWFg_yoW8Jw18pr
+ 43GFyUtry5Ja1IgrZ8A3W8urW8ta1UWay8CFy7C3s3u3ykAa4jqr1ktry5t3WDJFZ7Jrya
+ yFnY9FW7ZF1Yyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRgVy3UUUUU=
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbi3BM+F1pED60VdQAAs6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,68 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, shawnguo@kernel.org, s.hauer@pengutronix.de,
- dri-devel@lists.freedesktop.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-------=_Part_73274_1372756763.1657785215985
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+In dcss_dev_create() and dcss_dev_destroy(), we should call of_node_put()
+in fail path or before the dcss's destroy as of_graph_get_port_by_id() has
+increased the refcount.
+ 
+Fixes: 9021c317b770 ("drm/imx: Add initial support for DCSS on iMX8MQ")
+Signed-off-by: Liang He <windhl@126.com>
+---
+ changelog:
 
-CgoKCkF0IDIwMjItMDctMTQgMTU6Mzc6NDEsICJMYXVyZW50aXUgUGFsY3UiIDxsYXVyZW50aXUu
-cGFsY3VAb3NzLm54cC5jb20+IHdyb3RlOgo+SGkgTGlhbmcsCj4KPlRoYW5rcyBmb3IgdGhlIHBh
-dGNoLgo+Cj5UaGUgcGF0Y2ggaXMgb2sgYnV0LCBzaW5jZSB5b3UncmUgYXQgaXQsIG1heWJlIGFk
-ZCBvZl9ub2RlX3B1dCgpIGluIHRoZQo+ZGNzc19kZXZfZGVzdHJveSgpIHRvbz8KCj4KVGhhbmtz
-LCBsYXVyZW50aXUsCkkgbWlzcyBpdCBhbmQgSSB3aWxsIGFkZCBpdCBzb29uLgoKCj5UaGFua3Ms
-Cj5sYXVyZW50aXUKPgo+T24gVGh1LCBKdWwgMDcsIDIwMjIgYXQgMTA6MzI6MTRBTSArMDgwMCwg
-TGlhbmcgSGUgd3JvdGU6Cj4+IEluIGRjc3NfZGV2X2NyZWF0ZSgpLCB3ZSBzaG91bGQgY2FsbCBv
-Zl9ub2RlX3B1dCgpIGluIGZhaWwgcGF0aCBmb3IKPj4gb2ZfZ3JhcGhfZ2V0X3BvcnRfYnlfaWQo
-KSB3aGljaCB3aWxsIGluY3JlYXNlIHRoZSByZWZjb3VudC4KPj4gCj4+IEZpeGVzOiA5MDIxYzMx
-N2I3NzAgKCJkcm0vaW14OiBBZGQgaW5pdGlhbCBzdXBwb3J0IGZvciBEQ1NTIG9uIGlNWDhNUSIp
-Cj4+IFNpZ25lZC1vZmYtYnk6IExpYW5nIEhlIDx3aW5kaGxAMTI2LmNvbT4KPj4gLS0tCj4+ICBk
-cml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYyB8IDEgKwo+PiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2lt
-eC9kY3NzL2Rjc3MtZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYwo+
-PiBpbmRleCBjODQ5NTMzY2E4M2UuLmE5OTE0MTUzODYyMSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtZGV2LmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2lt
-eC9kY3NzL2Rjc3MtZGV2LmMKPj4gQEAgLTIwNyw2ICsyMDcsNyBAQCBzdHJ1Y3QgZGNzc19kZXYg
-KmRjc3NfZGV2X2NyZWF0ZShzdHJ1Y3QgZGV2aWNlICpkZXYsIGJvb2wgaGRtaV9vdXRwdXQpCj4+
-ICAKPj4gIAlyZXQgPSBkY3NzX3N1Ym1vZHVsZXNfaW5pdChkY3NzKTsKPj4gIAlpZiAocmV0KSB7
-Cj4+ICsJCW9mX25vZGVfcHV0KGRjc3MtPm9mX3BvcnQpOwo+PiAgCQlkZXZfZXJyKGRldiwgInN1
-Ym1vZHVsZXMgaW5pdGlhbGl6YXRpb24gZmFpbGVkXG4iKTsKPj4gIAkJZ290byBjbGtzX2VycjsK
-Pj4gIAl9Cj4+IC0tIAo+PiAyLjI1LjEKPj4gCg==
-------=_Part_73274_1372756763.1657785215985
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+ v2: add of_node_put() in dcss_dev_destroy() advised by Laurentiu
+ v1: only fix bug in dcss_dev_create().
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwcmU+PGJy
-PkF0IDIwMjItMDctMTQgMTU6Mzc6NDEsICJMYXVyZW50aXUgUGFsY3UiICZsdDtsYXVyZW50aXUu
-cGFsY3VAb3NzLm54cC5jb20mZ3Q7IHdyb3RlOgomZ3Q7SGkgTGlhbmcsCiZndDsKJmd0O1RoYW5r
-cyBmb3IgdGhlIHBhdGNoLgomZ3Q7CiZndDtUaGUgcGF0Y2ggaXMgb2sgYnV0LCBzaW5jZSB5b3Un
-cmUgYXQgaXQsIG1heWJlIGFkZCBvZl9ub2RlX3B1dCgpIGluIHRoZQomZ3Q7ZGNzc19kZXZfZGVz
-dHJveSgpIHRvbz8KPGRpdj4mZ3Q7PC9kaXY+PGRpdj5UaGFua3MsIGxhdXJlbnRpdSw8L2Rpdj48
-ZGl2PkkgbWlzcyBpdCBhbmQgSSB3aWxsIGFkZCBpdCBzb29uLjwvZGl2PjxkaXY+PGJyPjwvZGl2
-PiZndDtUaGFua3MsCiZndDtsYXVyZW50aXUKJmd0OwomZ3Q7T24gVGh1LCBKdWwgMDcsIDIwMjIg
-YXQgMTA6MzI6MTRBTSArMDgwMCwgTGlhbmcgSGUgd3JvdGU6CiZndDsmZ3Q7IEluIGRjc3NfZGV2
-X2NyZWF0ZSgpLCB3ZSBzaG91bGQgY2FsbCBvZl9ub2RlX3B1dCgpIGluIGZhaWwgcGF0aCBmb3IK
-Jmd0OyZndDsgb2ZfZ3JhcGhfZ2V0X3BvcnRfYnlfaWQoKSB3aGljaCB3aWxsIGluY3JlYXNlIHRo
-ZSByZWZjb3VudC4KJmd0OyZndDsgCiZndDsmZ3Q7IEZpeGVzOiA5MDIxYzMxN2I3NzAgKCJkcm0v
-aW14OiBBZGQgaW5pdGlhbCBzdXBwb3J0IGZvciBEQ1NTIG9uIGlNWDhNUSIpCiZndDsmZ3Q7IFNp
-Z25lZC1vZmYtYnk6IExpYW5nIEhlICZsdDt3aW5kaGxAMTI2LmNvbSZndDsKJmd0OyZndDsgLS0t
-CiZndDsmZ3Q7ICBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYyB8IDEgKwomZ3Q7
-Jmd0OyAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCiZndDsmZ3Q7IAomZ3Q7Jmd0OyBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtZGV2LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYwomZ3Q7Jmd0OyBpbmRleCBjODQ5NTMzY2E4M2Uu
-LmE5OTE0MTUzODYyMSAxMDA2NDQKJmd0OyZndDsgLS0tIGEvZHJpdmVycy9ncHUvZHJtL2lteC9k
-Y3NzL2Rjc3MtZGV2LmMKJmd0OyZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rj
-c3MtZGV2LmMKJmd0OyZndDsgQEAgLTIwNyw2ICsyMDcsNyBAQCBzdHJ1Y3QgZGNzc19kZXYgKmRj
-c3NfZGV2X2NyZWF0ZShzdHJ1Y3QgZGV2aWNlICpkZXYsIGJvb2wgaGRtaV9vdXRwdXQpCiZndDsm
-Z3Q7ICAKJmd0OyZndDsgIAlyZXQgPSBkY3NzX3N1Ym1vZHVsZXNfaW5pdChkY3NzKTsKJmd0OyZn
-dDsgIAlpZiAocmV0KSB7CiZndDsmZ3Q7ICsJCW9mX25vZGVfcHV0KGRjc3MtJmd0O29mX3BvcnQp
-OwomZ3Q7Jmd0OyAgCQlkZXZfZXJyKGRldiwgInN1Ym1vZHVsZXMgaW5pdGlhbGl6YXRpb24gZmFp
-bGVkXG4iKTsKJmd0OyZndDsgIAkJZ290byBjbGtzX2VycjsKJmd0OyZndDsgIAl9CiZndDsmZ3Q7
-IC0tIAomZ3Q7Jmd0OyAyLjI1LjEKJmd0OyZndDsgCjwvcHJlPjwvZGl2Pg==
-------=_Part_73274_1372756763.1657785215985--
+ v1 link: https://lore.kernel.org/all/20220707023214.307451-1-windhl@126.com/
+
+
+ drivers/gpu/drm/imx/dcss/dcss-dev.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-dev.c b/drivers/gpu/drm/imx/dcss/dcss-dev.c
+index c849533ca83e..3f5750cc2673 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-dev.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-dev.c
+@@ -207,6 +207,7 @@ struct dcss_dev *dcss_dev_create(struct device *dev, bool hdmi_output)
+ 
+ 	ret = dcss_submodules_init(dcss);
+ 	if (ret) {
++		of_node_put(dcss->of_port);
+ 		dev_err(dev, "submodules initialization failed\n");
+ 		goto clks_err;
+ 	}
+@@ -237,6 +238,8 @@ void dcss_dev_destroy(struct dcss_dev *dcss)
+ 		dcss_clocks_disable(dcss);
+ 	}
+ 
++	of_node_put(dcss->of_port);
++
+ 	pm_runtime_disable(dcss->dev);
+ 
+ 	dcss_submodules_stop(dcss);
+-- 
+2.25.1
 
