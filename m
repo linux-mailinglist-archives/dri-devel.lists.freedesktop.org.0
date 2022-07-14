@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06250574F39
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 15:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDD9574F83
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 15:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC22B10ED86;
-	Thu, 14 Jul 2022 13:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DF5112BA3;
+	Thu, 14 Jul 2022 13:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0220610EAF9;
- Thu, 14 Jul 2022 13:33:36 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id b11so3414011eju.10;
- Thu, 14 Jul 2022 06:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aLHp7oDxrrB9rQKAYpcrxrhbxQDbu5XGHp78prNaksY=;
- b=asyzhuK6TdEf0UeOMMdhkOD46UtIa5TbyhwSj7eQp6kL8OG5HobmRG5HsOvAg6S8JI
- Kg3U2oEnGuOflKWFJKgDL8McRcIntqEzNWc4AE/E/zXi59NtUtUT8Bu/H3K8PiNKKyFb
- BIJcaF2uhdhh5HIMTmvuhdWAYK5qa9QyU8Egv5CxNn9cDfEaR8PZqkXRrMM6n8EO53r+
- df5x48xRQlnl+ld7Lbnhh6rF2lHOzRUcb1S6tGDa99S93G1tEn8hLIO9UIJ78NhSNRXu
- FhbzEZrm535OKRxpVbreBORzvTFlRHMvkg1RXurKlzh2O3IzFxEHdneZNJTWajqFJgDU
- +a6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aLHp7oDxrrB9rQKAYpcrxrhbxQDbu5XGHp78prNaksY=;
- b=q0Er0MCz+hLf4Gp+Y5NWibFmHE2jBjR0b7JGT1PSXqfiN4GIwAgXo5fnR0paqWpYnI
- eDXzX0LIN14+Q13VQ7xBZr2mdyRb8nvC7NgbbIMwONNUMZJGfBBf7vZOKE+y+ULi4y/B
- m5gLNLeOhYOfRRD/mut1F3KyDVLUsWnfOyQyiy2eMAojQAQ+v1/5GSpjtAJZ2gdneDc8
- rCteStSZNt2JT16mA7XPcJZvdVFEwrf/LkNFxBxcoB0UL1Bnx0lcPgyldsMxxko485de
- 94NYpwBIu67PxUc1SqFa/FVYiynxQIfz1RiA/8MSzL9ZFiSZ428JWFvTA+cZyQ2F+4Af
- yLQw==
-X-Gm-Message-State: AJIora8QDpLSDfNiaOwbaoH2ILxKnkKsC20Jqg9saVAbt/Ij6gR8HFaM
- 7dcptcnEHjFltkKO9Q8SS5pKZWF6R0bHdhv07QM=
-X-Google-Smtp-Source: AGRyM1ta3yn9jnut127QQpI1a1HRB6Uu+tbO2g34t/OcGmcX9M+fkdXQdvuXd9GJE8MYlORSfKkeQrZuQmkkdt0XFkA=
-X-Received: by 2002:a17:907:1623:b0:72b:64e3:878a with SMTP id
- hb35-20020a170907162300b0072b64e3878amr8922403ejc.185.1657805615160; Thu, 14
- Jul 2022 06:33:35 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6702611294E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 13:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657806391; x=1689342391;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=a8t6jcgaeS5+TBBKksOjMpoTEzx+ZxUag/6ZeJZJPGM=;
+ b=hPPRm7QHmk9Q1ICr+0aTmvIqd8/fvogahVaISZTvcq42lF2kJoDMpocU
+ mOzIJYgssWs/WlI3VI4MxbVRAcXyg1NwiyRnwmJ8dCuix27lVnXa/fhui
+ hUEW/fpTBm0OHLI9Ld6ze4i85phwMTl6M0qyP31wDqznRJ75R1ioKrHPO
+ jThi7gNN4l7jcEIJWb0eAdRXrFkZ2YfbV84LnD8kgK6WVOLPxwYooA8JP
+ +2yswcXLK9qlXDP6jJqKB+EsVO3FR4DzcZ/EleoHTakFnAKkI+oRGDbjS
+ vfk9m6+V0vTk9zMfMH1VSys/Wz0kWBT3lq3pwmv+gueHMxi4WHZPl6inP g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="349482275"
+X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; d="scan'208";a="349482275"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 06:46:29 -0700
+X-IronPort-AV: E=Sophos;i="5.92,271,1650956400"; d="scan'208";a="653879044"
+Received: from rli9-dbox.sh.intel.com (HELO rli9-dbox) ([10.239.159.142])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 06:46:24 -0700
+Date: Thu, 14 Jul 2022 21:45:08 +0800
+From: Philip Li <philip.li@intel.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 4662b7adea50bb62e993a67f611f3be625d3df0d
+Message-ID: <YtAd5ApndzCoK2LH@rli9-dbox>
+References: <62cf77c3.3T/sxYUjJq0ImGp4%lkp@intel.com>
+ <YtANl3Y5YRhOM0zH@shell.armlinux.org.uk>
 MIME-Version: 1.0
-References: <20220708102124.493372-1-Arunpravin.PaneerSelvam@amd.com>
- <20220714145423.721e1c3b@maurocar-mobl2>
- <83d9f973-abdd-3d8b-5955-84cfc3f49eea@amd.com>
-In-Reply-To: <83d9f973-abdd-3d8b-5955-84cfc3f49eea@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Jul 2022 09:33:23 -0400
-Message-ID: <CADnq5_MNkeG4E9ZXRLpgFQxrDN9jDhk7KYYHbjvtY-cUt5Kk8A@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/amdgpu: add drm buddy support to amdgpu"
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YtANl3Y5YRhOM0zH@shell.armlinux.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,879 +57,368 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org,
+ linux-doc@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-can@vger.kernel.org, linux-mm@kvack.org, kvm@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ ntfs3@lists.linux.dev, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 14, 2022 at 9:09 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Hi Mauro,
->
-> well the last time I checked drm-tip was clean.
->
-> The revert is necessary because we had some problems with the commit
-> which we couldn't fix in the 5.19 cycle.
+On Thu, Jul 14, 2022 at 01:35:35PM +0100, Russell King (Oracle) wrote:
+> Hi,
+> 
+> I don't mean to discourge test systems, but looking at this, I just go
+> "meh" and delete it - it doesn't seem to contain obviously useful
+> information. One has to read every damn line to see if there's something
+> of relevence, which I for one am not going to do.
+> 
+> Is there some kind of improvement that could be done to this to make it
+> more useful - such as only sending the warnings/errors to the
+> appropriate mailing lists for those - rather than grouping everything
+> together into one email. At least that should make the stuff (a) more
+> relevant and (b) easier to parse.
 
-Would it be worth reverting the revert and applying the actual fix[1]?
- It's a huge revert unfortunately while the actual fix is like 10
-lines of code.  I'm concerned there will be subtle fallout from the
-revert due to how extensive it is.
+Thanks for the feedback Russell, we will further consider how to make this
+summary report more helpful, and reduce unnecessary distribution to many
+mailing list.
 
-[1] - https://gitlab.freedesktop.org/drm/amd/uploads/564b2cc2b5ea87357f39e4=
-5c3a1a44e2/0001-drm-amdgpu-Fix-for-drm-buddy-memory-corruption.patch
+Typically, 0day ci sends 2 kinds of reports, one is bisected report, which
+has specific warning/error as you mentioned to related receivers. Such as
+https://lore.kernel.org/all/202207130344.AUqExE4E-lkp@intel.com/
 
-Alex
+The other is this summary, we want to give an overview to the owner for the
+head status. And we will re-consider the appropriate audiences for the mail
+and the contents to make it clear.
 
-
->
-> I will double check drm-tip once more.
->
-> Regards,
-> Christian.
->
-> Am 14.07.22 um 14:54 schrieb Mauro Carvalho Chehab:
-> > On Fri, 8 Jul 2022 03:21:24 -0700
-> > Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com> wrote:
-> >
-> >> This reverts the following commits:
-> >> commit 708d19d9f362 ("drm/amdgpu: move internal vram_mgr function into=
- the C file")
-> >> commit 5e3f1e7729ec ("drm/amdgpu: fix start calculation in amdgpu_vram=
-_mgr_new")
-> >> commit c9cad937c0c5 ("drm/amdgpu: add drm buddy support to amdgpu")
-> >>
-> >> [WHY]
-> >> Few users reported garbaged graphics as soon as x starts,
-> >> reverting until this can be resolved.
-> >>
-> >> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.c=
-om>
-> > This revert is currently breaking drm-tip. Please revert it ASAP, as it
-> > is preventing CI bots to properly test new patches on the top of curren=
-t
-> > drm-tip:
-> >
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_new=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:459:13: error: =E2=80=98cu=
-r_size=E2=80=99 undeclared (first use in this function)
-> >    459 |         if (cur_size !=3D size) {
-> >        |             ^~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:459:13: note: each undecla=
-red identifier is reported only once for each function it appears in
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:459:25: error: =E2=80=98si=
-ze=E2=80=99 undeclared (first use in this function); did you mean =E2=80=98=
-ksize=E2=80=99?
-> >    459 |         if (cur_size !=3D size) {
-> >        |                         ^~~~
-> >        |                         ksize
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:465:30: error: =E2=80=98vr=
-es=E2=80=99 undeclared (first use in this function); did you mean =E2=80=98=
-res=E2=80=99?
-> >    465 |                 trim_list =3D &vres->blocks;
-> >        |                              ^~~~
-> >        |                              res
-> > In file included from ./include/linux/bits.h:22,
-> >                   from ./include/linux/ratelimit_types.h:5,
-> >                   from ./include/linux/ratelimit.h:5,
-> >                   from ./include/linux/dev_printk.h:16,
-> >                   from ./include/linux/device.h:15,
-> >                   from ./include/linux/dma-mapping.h:7,
-> >                   from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-> > ./include/linux/container_of.h:19:54: error: invalid use of undefined t=
-ype =E2=80=98struct drm_buddy_block=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                                                      ^~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:542:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    542 |         list_entry((ptr)->prev, type, member)
-> >        |         ^~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:473:33: note: in expansion=
- of macro =E2=80=98list_last_entry=E2=80=99
-> >    473 |                         block =3D list_last_entry(&vres->block=
-s, typeof(*block), link);
-> >        |                                 ^~~~~~~~~~~~~~~
-> > ././include/linux/compiler_types.h:295:27: error: expression in static =
-assertion is not an integer
-> >    295 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(=
-a), typeof(b))
-> >        |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:542:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    542 |         list_entry((ptr)->prev, type, member)
-> >        |         ^~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:473:33: note: in expansion=
- of macro =E2=80=98list_last_entry=E2=80=99
-> >    473 |                         block =3D list_last_entry(&vres->block=
-s, typeof(*block), link);
-> >        |                                 ^~~~~~~~~~~~~~~
-> > In file included from ./include/uapi/linux/posix_types.h:5,
-> >                   from ./include/uapi/linux/types.h:14,
-> >                   from ./include/linux/types.h:6,
-> >                   from ./include/linux/kasan-checks.h:5,
-> >                   from ./include/asm-generic/rwonce.h:26,
-> >                   from ./arch/x86/include/generated/asm/rwonce.h:1,
-> >                   from ./include/linux/compiler.h:248,
-> >                   from ./include/linux/string.h:5,
-> >                   from ./include/linux/dma-mapping.h:6:
-> > ./include/linux/stddef.h:16:33: error: invalid use of undefined type =
-=E2=80=98struct drm_buddy_block=E2=80=99
-> >     16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBE=
-R)
-> >        |                                 ^~~~~~~~~~~~~~~~~~
-> > ./include/linux/container_of.h:22:28: note: in expansion of macro =E2=
-=80=98offsetof=E2=80=99
-> >     22 |         ((type *)(__mptr - offsetof(type, member))); })
-> >        |                            ^~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:542:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    542 |         list_entry((ptr)->prev, type, member)
-> >        |         ^~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:473:33: note: in expansion=
- of macro =E2=80=98list_last_entry=E2=80=99
-> >    473 |                         block =3D list_last_entry(&vres->block=
-s, typeof(*block), link);
-> >        |                                 ^~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:474:46: error: invalid use=
- of undefined type =E2=80=98struct drm_buddy_block=E2=80=99
-> >    474 |                         list_move_tail(&block->link, &temp);
-> >        |                                              ^~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:480:41: error: implicit de=
-claration of function =E2=80=98amdgpu_vram_mgr_block_size=E2=80=99; did you=
- mean =E2=80=98amdgpu_vram_mgr_vis_size=E2=80=99? [-Werror=3Dimplicit-funct=
-ion-declaration]
-> >    480 |                         original_size =3D amdgpu_vram_mgr_bloc=
-k_size(block) - (size - cur_size);
-> >        |                                         ^~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-> >        |                                         amdgpu_vram_mgr_vis_si=
-ze
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:483:28: error: passing arg=
-ument 1 of =E2=80=98mutex_lock=E2=80=99 from incompatible pointer type [-We=
-rror=3Dincompatible-pointer-types]
-> >    483 |                 mutex_lock(&mgr->lock);
-> >        |                            ^~~~~~~~~~
-> >        |                            |
-> >        |                            spinlock_t * {aka struct spinlock *=
-}
-> > In file included from ./include/linux/rhashtable-types.h:14,
-> >                   from ./include/linux/ipc.h:7,
-> >                   from ./include/uapi/linux/sem.h:5,
-> >                   from ./include/linux/sem.h:5,
-> >                   from ./include/linux/sched.h:15,
-> >                   from ./include/linux/ratelimit.h:6:
-> > ./include/linux/mutex.h:199:38: note: expected =E2=80=98struct mutex *=
-=E2=80=99 but argument is of type =E2=80=98spinlock_t *=E2=80=99 {aka =E2=
-=80=98struct spinlock *=E2=80=99}
-> >    199 | extern void mutex_lock(struct mutex *lock);
-> >        |                        ~~~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:484:17: error: implicit de=
-claration of function =E2=80=98drm_buddy_block_trim=E2=80=99 [-Werror=3Dimp=
-licit-function-declaration]
-> >    484 |                 drm_buddy_block_trim(mm,
-> >        |                 ^~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:487:30: error: passing arg=
-ument 1 of =E2=80=98mutex_unlock=E2=80=99 from incompatible pointer type [-=
-Werror=3Dincompatible-pointer-types]
-> >    487 |                 mutex_unlock(&mgr->lock);
-> >        |                              ^~~~~~~~~~
-> >        |                              |
-> >        |                              spinlock_t * {aka struct spinlock=
- *}
-> > ./include/linux/mutex.h:218:40: note: expected =E2=80=98struct mutex *=
-=E2=80=99 but argument is of type =E2=80=98spinlock_t *=E2=80=99 {aka =E2=
-=80=98struct spinlock *=E2=80=99}
-> >    218 | extern void mutex_unlock(struct mutex *lock);
-> >        |                          ~~~~~~~~~~~~~~^~~~
-> > In file included from ./include/linux/rculist.h:10,
-> >                   from ./include/linux/pid.h:5,
-> >                   from ./include/linux/sched.h:14:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:493:29: error: =E2=80=98bl=
-ock=E2=80=99 undeclared (first use in this function); did you mean =E2=80=
-=98flock=E2=80=99?
-> >    493 |         list_for_each_entry(block, &vres->blocks, link)
-> >        |                             ^~~~~
-> > ./include/linux/list.h:674:14: note: in definition of macro =E2=80=98li=
-st_for_each_entry=E2=80=99
-> >    674 |         for (pos =3D list_first_entry(head, typeof(*pos), memb=
-er);        \
-> >        |              ^~~
-> > ././include/linux/compiler_types.h:295:27: error: expression in static =
-assertion is not an integer
-> >    295 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(=
-a), typeof(b))
-> >        |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:531:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    531 |         list_entry((ptr)->next, type, member)
-> >        |         ^~~~~~~~~~
-> > ./include/linux/list.h:674:20: note: in expansion of macro =E2=80=98lis=
-t_first_entry=E2=80=99
-> >    674 |         for (pos =3D list_first_entry(head, typeof(*pos), memb=
-er);        \
-> >        |                    ^~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:493:9: note: in expansion =
-of macro =E2=80=98list_for_each_entry=E2=80=99
-> >    493 |         list_for_each_entry(block, &vres->blocks, link)
-> >        |         ^~~~~~~~~~~~~~~~~~~
-> > ././include/linux/compiler_types.h:295:27: error: expression in static =
-assertion is not an integer
-> >    295 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(=
-a), typeof(b))
-> >        |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:564:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-> >        |         ^~~~~~~~~~
-> > ./include/linux/list.h:676:20: note: in expansion of macro =E2=80=98lis=
-t_next_entry=E2=80=99
-> >    676 |              pos =3D list_next_entry(pos, member))
-> >        |                    ^~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:493:9: note: in expansion =
-of macro =E2=80=98list_for_each_entry=E2=80=99
-> >    493 |         list_for_each_entry(block, &vres->blocks, link)
-> >        |         ^~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:496:17: error: implicit de=
-claration of function =E2=80=98amdgpu_vram_mgr_first_block=E2=80=99; did yo=
-u mean =E2=80=98amdgpu_vram_mgr_virt_start=E2=80=99? [-Werror=3Dimplicit-fu=
-nction-declaration]
-> >    496 |         block =3D amdgpu_vram_mgr_first_block(&vres->blocks);
-> >        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >        |                 amdgpu_vram_mgr_virt_start
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:502:28: error: implicit de=
-claration of function =E2=80=98amdgpu_vram_mgr_block_start=E2=80=99; did yo=
-u mean =E2=80=98amdgpu_vram_mgr_virt_start=E2=80=99? [-Werror=3Dimplicit-fu=
-nction-declaration]
-> >    502 |         vres->base.start =3D amdgpu_vram_mgr_block_start(block=
-) >> PAGE_SHIFT;
-> >        |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >        |                            amdgpu_vram_mgr_virt_start
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:504:13: error: implicit de=
-claration of function =E2=80=98amdgpu_is_vram_mgr_blocks_contiguous=E2=80=
-=99 [-Werror=3Dimplicit-function-declaration]
-> >    504 |         if (amdgpu_is_vram_mgr_blocks_contiguous(&vres->blocks=
-))
-> >        |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > cc1: all warnings being treated as errors
-> > make[4]: *** [scripts/Makefile.build:249: drivers/gpu/drm/amd/amdgpu/am=
-dgpu_vram_mgr.o] Error 1
-> > make[4]: *** Waiting for unfinished jobs....
-> > make[3]: *** [scripts/Makefile.build:466: drivers/gpu/drm/amd/amdgpu] E=
-rror 2
-> > make[2]: *** [scripts/Makefile.build:466: drivers/gpu/drm] Error 2
-> > make[1]: *** [scripts/Makefile.build:466: drivers/gpu] Error 2
-> > make: *** [Makefile:1843: drivers] Error 2
-> > mchehab@sal /new_devel/v4l/tmp $ nano drivers/gpu/drm/amd/amdgpu/amdgpu=
-_vram_mgr.c
-> > mchehab@sal /new_devel/v4l/tmp $ make drivers/gpu/drm/amd/amdgpu/
-> >    DESCEND objtool
-> >    CALL    scripts/atomic/check-atomics.sh
-> >    CALL    scripts/checksyscalls.sh
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_csa.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_nbio.o
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/amdgpu_umc.o
-> > In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:30:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:29:8: error: redefinition =
-of =E2=80=98struct amdgpu_vram_mgr=E2=80=99
-> >     29 | struct amdgpu_vram_mgr {
-> >        |        ^~~~~~~~~~~~~~~
-> > In file included from drivers/gpu/drm/amd/amdgpu/amdgpu.h:73,
-> >                   from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:28:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:41:8: note: originally defined =
-here
-> >     41 | struct amdgpu_vram_mgr {
-> >        |        ^~~~~~~~~~~~~~~
-> > In file included from ./include/linux/bits.h:22,
-> >                   from ./include/linux/ratelimit_types.h:5,
-> >                   from ./include/linux/ratelimit.h:5,
-> >                   from ./include/linux/dev_printk.h:16,
-> >                   from ./include/linux/device.h:15,
-> >                   from ./include/linux/dma-mapping.h:7,
-> >                   from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98to_a=
-mdgpu_device=E2=80=99:
-> > ./include/linux/build_bug.h:78:41: error: static assertion failed: "poi=
-nter type mismatch in container_of()"
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                         ^~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:77:34: note: in expansion of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_=
-ARGS__, #expr)
-> >        |                                  ^~~~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:49:16: note: in expansion =
-of macro =E2=80=98container_of=E2=80=99
-> >     49 |         return container_of(mgr, struct amdgpu_device, mman.vr=
-am_mgr);
-> >        |                ^~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_do_reserve=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:244:29: error: initializat=
-ion of =E2=80=98struct drm_mm *=E2=80=99 from incompatible pointer type =E2=
-=80=98struct drm_buddy *=E2=80=99 [-Werror=3Dincompatible-pointer-types]
-> >    244 |         struct drm_mm *mm =3D &mgr->mm;
-> >        |                             ^
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: At top level:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:273:5: error: conflicting =
-types for =E2=80=98amdgpu_vram_mgr_reserve_range=E2=80=99; have =E2=80=98in=
-t(struct amdgpu_vram_mgr *, uint64_t,  uint64_t)=E2=80=99 {aka =E2=80=98int=
-(struct amdgpu_vram_mgr *, long long unsigned int,  long long unsigned int)=
-=E2=80=99}
-> >    273 | int amdgpu_vram_mgr_reserve_range(struct amdgpu_vram_mgr *mgr,
-> >        |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:129:5: note: previous declarati=
-on of =E2=80=98amdgpu_vram_mgr_reserve_range=E2=80=99 with type =E2=80=98in=
-t(struct amdgpu_vram_mgr *, uint64_t,  uint64_t)=E2=80=99 {aka =E2=80=98int=
-(struct amdgpu_vram_mgr *, long long unsigned int,  long long unsigned int)=
-=E2=80=99}
-> >    129 | int amdgpu_vram_mgr_reserve_range(struct amdgpu_vram_mgr *mgr,
-> >        |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_reserve_range=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:286:19: error: passing arg=
-ument 1 of =E2=80=98spin_lock=E2=80=99 from incompatible pointer type [-Wer=
-ror=3Dincompatible-pointer-types]
-> >    286 |         spin_lock(&mgr->lock);
-> >        |                   ^~~~~~~~~~
-> >        |                   |
-> >        |                   struct mutex *
-> > In file included from ./include/linux/wait.h:9,
-> >                   from ./include/linux/pid.h:6,
-> >                   from ./include/linux/sched.h:14,
-> >                   from ./include/linux/ratelimit.h:6:
-> > ./include/linux/spinlock.h:347:51: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    347 | static __always_inline void spin_lock(spinlock_t *lock)
-> >        |                                       ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:289:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    289 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: At top level:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:305:5: error: conflicting =
-types for =E2=80=98amdgpu_vram_mgr_query_page_status=E2=80=99; have =E2=80=
-=98int(struct amdgpu_vram_mgr *, uint64_t)=E2=80=99 {aka =E2=80=98int(struc=
-t amdgpu_vram_mgr *, long long unsigned int)=E2=80=99}
-> >    305 | int amdgpu_vram_mgr_query_page_status(struct amdgpu_vram_mgr *=
-mgr,
-> >        |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:131:5: note: previous declarati=
-on of =E2=80=98amdgpu_vram_mgr_query_page_status=E2=80=99 with type =E2=80=
-=98int(struct amdgpu_vram_mgr *, uint64_t)=E2=80=99 {aka =E2=80=98int(struc=
-t amdgpu_vram_mgr *, long long unsigned int)=E2=80=99}
-> >    131 | int amdgpu_vram_mgr_query_page_status(struct amdgpu_vram_mgr *=
-mgr,
-> >        |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_query_page_status=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:311:19: error: passing arg=
-ument 1 of =E2=80=98spin_lock=E2=80=99 from incompatible pointer type [-Wer=
-ror=3Dincompatible-pointer-types]
-> >    311 |         spin_lock(&mgr->lock);
-> >        |                   ^~~~~~~~~~
-> >        |                   |
-> >        |                   struct mutex *
-> > ./include/linux/spinlock.h:347:51: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    347 | static __always_inline void spin_lock(spinlock_t *lock)
-> >        |                                       ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:331:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    331 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_new=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:377:29: error: initializat=
-ion of =E2=80=98struct drm_mm *=E2=80=99 from incompatible pointer type =E2=
-=80=98struct drm_buddy *=E2=80=99 [-Werror=3Dincompatible-pointer-types]
-> >    377 |         struct drm_mm *mm =3D &mgr->mm;
-> >        |                             ^
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:429:19: error: passing arg=
-ument 1 of =E2=80=98spin_lock=E2=80=99 from incompatible pointer type [-Wer=
-ror=3Dincompatible-pointer-types]
-> >    429 |         spin_lock(&mgr->lock);
-> >        |                   ^~~~~~~~~~
-> >        |                   |
-> >        |                   struct mutex *
-> > ./include/linux/spinlock.h:347:51: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    347 | static __always_inline void spin_lock(spinlock_t *lock)
-> >        |                                       ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:458:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    458 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:460:13: error: =E2=80=98cu=
-r_size=E2=80=99 undeclared (first use in this function)
-> >    460 |         if (cur_size !=3D size) {
-> >        |             ^~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:460:13: note: each undecla=
-red identifier is reported only once for each function it appears in
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:460:25: error: =E2=80=98si=
-ze=E2=80=99 undeclared (first use in this function); did you mean =E2=80=98=
-ksize=E2=80=99?
-> >    460 |         if (cur_size !=3D size) {
-> >        |                         ^~~~
-> >        |                         ksize
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:466:30: error: =E2=80=98vr=
-es=E2=80=99 undeclared (first use in this function); did you mean =E2=80=98=
-res=E2=80=99?
-> >    466 |                 trim_list =3D &vres->blocks;
-> >        |                              ^~~~
-> >        |                              res
-> > ././include/linux/compiler_types.h:295:27: error: expression in static =
-assertion is not an integer
-> >    295 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(=
-a), typeof(b))
-> >        |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:542:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    542 |         list_entry((ptr)->prev, type, member)
-> >        |         ^~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:474:33: note: in expansion=
- of macro =E2=80=98list_last_entry=E2=80=99
-> >    474 |                         block =3D list_last_entry(&vres->block=
-s, typeof(*block), link);
-> >        |                                 ^~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:485:38: error: passing arg=
-ument 1 of =E2=80=98drm_buddy_block_trim=E2=80=99 from incompatible pointer=
- type [-Werror=3Dincompatible-pointer-types]
-> >    485 |                 drm_buddy_block_trim(mm,
-> >        |                                      ^~
-> >        |                                      |
-> >        |                                      struct drm_mm *
-> > In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:27:
-> > ./include/drm/drm_buddy.h:146:44: note: expected =E2=80=98struct drm_bu=
-ddy *=E2=80=99 but argument is of type =E2=80=98struct drm_mm *=E2=80=99
-> >    146 | int drm_buddy_block_trim(struct drm_buddy *mm,
-> >        |                          ~~~~~~~~~~~~~~~~~~^~
-> > In file included from ./include/linux/rculist.h:10,
-> >                   from ./include/linux/pid.h:5:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:494:29: error: =E2=80=98bl=
-ock=E2=80=99 undeclared (first use in this function); did you mean =E2=80=
-=98flock=E2=80=99?
-> >    494 |         list_for_each_entry(block, &vres->blocks, link)
-> >        |                             ^~~~~
-> > ./include/linux/list.h:674:14: note: in definition of macro =E2=80=98li=
-st_for_each_entry=E2=80=99
-> >    674 |         for (pos =3D list_first_entry(head, typeof(*pos), memb=
-er);        \
-> >        |              ^~~
-> > ././include/linux/compiler_types.h:295:27: error: expression in static =
-assertion is not an integer
-> >    295 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(=
-a), typeof(b))
-> >        |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:531:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    531 |         list_entry((ptr)->next, type, member)
-> >        |         ^~~~~~~~~~
-> > ./include/linux/list.h:674:20: note: in expansion of macro =E2=80=98lis=
-t_first_entry=E2=80=99
-> >    674 |         for (pos =3D list_first_entry(head, typeof(*pos), memb=
-er);        \
-> >        |                    ^~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:494:9: note: in expansion =
-of macro =E2=80=98list_for_each_entry=E2=80=99
-> >    494 |         list_for_each_entry(block, &vres->blocks, link)
-> >        |         ^~~~~~~~~~~~~~~~~~~
-> > ././include/linux/compiler_types.h:295:27: error: expression in static =
-assertion is not an integer
-> >    295 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(=
-a), typeof(b))
-> >        |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/build_bug.h:78:56: note: in definition of macro =E2=80=
-=98__static_assert=E2=80=99
-> >     78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, m=
-sg)
-> >        |                                                        ^~~~
-> > ./include/linux/container_of.h:19:9: note: in expansion of macro =E2=80=
-=98static_assert=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |         ^~~~~~~~~~~~~
-> > ./include/linux/container_of.h:19:23: note: in expansion of macro =E2=
-=80=98__same_type=E2=80=99
-> >     19 |         static_assert(__same_type(*(ptr), ((type *)0)->member)=
- ||       \
-> >        |                       ^~~~~~~~~~~
-> > ./include/linux/list.h:520:9: note: in expansion of macro =E2=80=98cont=
-ainer_of=E2=80=99
-> >    520 |         container_of(ptr, type, member)
-> >        |         ^~~~~~~~~~~~
-> > ./include/linux/list.h:564:9: note: in expansion of macro =E2=80=98list=
-_entry=E2=80=99
-> >    564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-> >        |         ^~~~~~~~~~
-> > ./include/linux/list.h:676:20: note: in expansion of macro =E2=80=98lis=
-t_next_entry=E2=80=99
-> >    676 |              pos =3D list_next_entry(pos, member))
-> >        |                    ^~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:494:9: note: in expansion =
-of macro =E2=80=98list_for_each_entry=E2=80=99
-> >    494 |         list_for_each_entry(block, &vres->blocks, link)
-> >        |         ^~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:520:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    520 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_del=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:545:19: error: passing arg=
-ument 1 of =E2=80=98spin_lock=E2=80=99 from incompatible pointer type [-Wer=
-ror=3Dincompatible-pointer-types]
-> >    545 |         spin_lock(&mgr->lock);
-> >        |                   ^~~~~~~~~~
-> >        |                   |
-> >        |                   struct mutex *
-> > ./include/linux/spinlock.h:347:51: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    347 | static __always_inline void spin_lock(spinlock_t *lock)
-> >        |                                       ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:554:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    554 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: At top level:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:680:10: error: conflicting=
- types for =E2=80=98amdgpu_vram_mgr_vis_usage=E2=80=99; have =E2=80=98uint6=
-4_t(struct amdgpu_vram_mgr *)=E2=80=99 {aka =E2=80=98long long unsigned int=
-(struct amdgpu_vram_mgr *)=E2=80=99}
-> >    680 | uint64_t amdgpu_vram_mgr_vis_usage(struct amdgpu_vram_mgr *mgr=
-)
-> >        |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:128:10: note: previous declarat=
-ion of =E2=80=98amdgpu_vram_mgr_vis_usage=E2=80=99 with type =E2=80=98uint6=
-4_t(struct amdgpu_vram_mgr *)=E2=80=99 {aka =E2=80=98long long unsigned int=
-(struct amdgpu_vram_mgr *)=E2=80=99}
-> >    128 | uint64_t amdgpu_vram_mgr_vis_usage(struct amdgpu_vram_mgr *mgr=
-);
-> >        |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_debug=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:701:19: error: passing arg=
-ument 1 of =E2=80=98spin_lock=E2=80=99 from incompatible pointer type [-Wer=
-ror=3Dincompatible-pointer-types]
-> >    701 |         spin_lock(&mgr->lock);
-> >        |                   ^~~~~~~~~~
-> >        |                   |
-> >        |                   struct mutex *
-> > ./include/linux/spinlock.h:347:51: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    347 | static __always_inline void spin_lock(spinlock_t *lock)
-> >        |                                       ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:702:22: error: passing arg=
-ument 1 of =E2=80=98drm_mm_print=E2=80=99 from incompatible pointer type [-=
-Werror=3Dincompatible-pointer-types]
-> >    702 |         drm_mm_print(&mgr->mm, printer);
-> >        |                      ^~~~~~~~
-> >        |                      |
-> >        |                      struct drm_buddy *
-> > In file included from ./include/drm/ttm/ttm_range_manager.h:8,
-> >                   from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:26:
-> > ./include/drm/drm_mm.h:551:40: note: expected =E2=80=98const struct drm=
-_mm *=E2=80=99 but argument is of type =E2=80=98struct drm_buddy *=E2=80=99
-> >    551 | void drm_mm_print(const struct drm_mm *mm, struct drm_printer =
-*p);
-> >        |                   ~~~~~~~~~~~~~~~~~~~~~^~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:703:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    703 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_init=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:721:39: error: initializat=
-ion of =E2=80=98struct amdgpu_vram_mgr *=E2=80=99 from incompatible pointer=
- type =E2=80=98struct amdgpu_vram_mgr *=E2=80=99 [-Werror=3Dincompatible-po=
-inter-types]
-> >    721 |         struct amdgpu_vram_mgr *mgr =3D &adev->mman.vram_mgr;
-> >        |                                       ^
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:729:21: error: passing arg=
-ument 1 of =E2=80=98drm_mm_init=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    729 |         drm_mm_init(&mgr->mm, 0, man->size >> PAGE_SHIFT);
-> >        |                     ^~~~~~~~
-> >        |                     |
-> >        |                     struct drm_buddy *
-> > ./include/drm/drm_mm.h:467:33: note: expected =E2=80=98struct drm_mm *=
-=E2=80=99 but argument is of type =E2=80=98struct drm_buddy *=E2=80=99
-> >    467 | void drm_mm_init(struct drm_mm *mm, u64 start, u64 size);
-> >        |                  ~~~~~~~~~~~~~~~^~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:730:24: error: passing arg=
-ument 1 of =E2=80=98spinlock_check=E2=80=99 from incompatible pointer type =
-[-Werror=3Dincompatible-pointer-types]
-> >    730 |         spin_lock_init(&mgr->lock);
-> >        |                        ^~~~~~~~~~
-> >        |                        |
-> >        |                        struct mutex *
-> > ./include/linux/spinlock.h:341:24: note: in definition of macro =E2=80=
-=98spin_lock_init=E2=80=99
-> >    341 |         spinlock_check(_lock);                  \
-> >        |                        ^~~~~
-> > ./include/linux/spinlock.h:322:67: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    322 | static __always_inline raw_spinlock_t *spinlock_check(spinlock=
-_t *lock)
-> >        |                                                       ~~~~~~~~=
-~~~~^~~~
-> > In file included from ./include/linux/spinlock.h:87:
-> > ./include/linux/spinlock_types.h:41:9: error: incompatible types when a=
-ssigning to type =E2=80=98struct mutex=E2=80=99 from type =E2=80=98spinlock=
-_t=E2=80=99 {aka =E2=80=98struct spinlock=E2=80=99}
-> >     41 |         (spinlock_t) __SPIN_LOCK_INITIALIZER(lockname)
-> >        |         ^
-> > ./include/linux/spinlock.h:342:20: note: in expansion of macro =E2=80=
-=98__SPIN_LOCK_UNLOCKED=E2=80=99
-> >    342 |         *(_lock) =3D __SPIN_LOCK_UNLOCKED(_lock); \
-> >        |                    ^~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:730:9: note: in expansion =
-of macro =E2=80=98spin_lock_init=E2=80=99
-> >    730 |         spin_lock_init(&mgr->lock);
-> >        |         ^~~~~~~~~~~~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function =E2=80=98amdg=
-pu_vram_mgr_fini=E2=80=99:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:749:39: error: initializat=
-ion of =E2=80=98struct amdgpu_vram_mgr *=E2=80=99 from incompatible pointer=
- type =E2=80=98struct amdgpu_vram_mgr *=E2=80=99 [-Werror=3Dincompatible-po=
-inter-types]
-> >    749 |         struct amdgpu_vram_mgr *mgr =3D &adev->mman.vram_mgr;
-> >        |                                       ^
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:760:19: error: passing arg=
-ument 1 of =E2=80=98spin_lock=E2=80=99 from incompatible pointer type [-Wer=
-ror=3Dincompatible-pointer-types]
-> >    760 |         spin_lock(&mgr->lock);
-> >        |                   ^~~~~~~~~~
-> >        |                   |
-> >        |                   struct mutex *
-> > ./include/linux/spinlock.h:347:51: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    347 | static __always_inline void spin_lock(spinlock_t *lock)
-> >        |                                       ~~~~~~~~~~~~^~~~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:768:25: error: passing arg=
-ument 1 of =E2=80=98drm_mm_takedown=E2=80=99 from incompatible pointer type=
- [-Werror=3Dincompatible-pointer-types]
-> >    768 |         drm_mm_takedown(&mgr->mm);
-> >        |                         ^~~~~~~~
-> >        |                         |
-> >        |                         struct drm_buddy *
-> > ./include/drm/drm_mm.h:468:37: note: expected =E2=80=98struct drm_mm *=
-=E2=80=99 but argument is of type =E2=80=98struct drm_buddy *=E2=80=99
-> >    468 | void drm_mm_takedown(struct drm_mm *mm);
-> >        |                      ~~~~~~~~~~~~~~~^~
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:769:21: error: passing arg=
-ument 1 of =E2=80=98spin_unlock=E2=80=99 from incompatible pointer type [-W=
-error=3Dincompatible-pointer-types]
-> >    769 |         spin_unlock(&mgr->lock);
-> >        |                     ^~~~~~~~~~
-> >        |                     |
-> >        |                     struct mutex *
-> > ./include/linux/spinlock.h:387:53: note: expected =E2=80=98spinlock_t *=
-=E2=80=99 {aka =E2=80=98struct spinlock *=E2=80=99} but argument is of type=
- =E2=80=98struct mutex *=E2=80=99
-> >    387 | static __always_inline void spin_unlock(spinlock_t *lock)
-> >        |                                         ~~~~~~~~~~~~^~~~
-> > cc1: all warnings being treated as errors
-> > make[4]: *** [scripts/Makefile.build:249: drivers/gpu/drm/amd/amdgpu/am=
-dgpu_vram_mgr.o] Error 1
-> > make[4]: *** Waiting for unfinished jobs....
-> >    CC [M]  drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.o
-> > make[3]: *** [scripts/Makefile.build:466: drivers/gpu/drm/amd/amdgpu] E=
-rror 2
-> > make[2]: *** [scripts/Makefile.build:466: drivers/gpu/drm] Error 2
-> > make[1]: *** [scripts/Makefile.build:466: drivers/gpu] Error 2
-> > make: *** [Makefile:1843: drivers] Error 2
-> >
-> > Regards,
-> > Mauro
->
+> 
+> Russell.
+> 
+> On Thu, Jul 14, 2022 at 09:56:19AM +0800, kernel test robot wrote:
+> > tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > branch HEAD: 4662b7adea50bb62e993a67f611f3be625d3df0d  Add linux-next specific files for 20220713
+> > 
+> > Error/Warning reports:
+> > 
+> > https://lore.kernel.org/linux-doc/202207021352.PpKTUY8V-lkp@intel.com
+> > https://lore.kernel.org/linux-doc/202207031437.qIh6LFcx-lkp@intel.com
+> > https://lore.kernel.org/linux-doc/202207051821.3f0eRIsL-lkp@intel.com
+> > https://lore.kernel.org/linux-doc/202207140742.GTPk4U8i-lkp@intel.com
+> > https://lore.kernel.org/linux-mm/202206292052.LsFui3zO-lkp@intel.com
+> > https://lore.kernel.org/linux-mm/202207140042.cK3tlk6j-lkp@intel.com
+> > https://lore.kernel.org/llvm/202207090100.acXdJ79H-lkp@intel.com
+> > 
+> > Error/Warning: (recently discovered and may have been fixed)
+> > 
+> > Documentation/PCI/endpoint/pci-vntb-function.rst:82: WARNING: Unexpected indentation.
+> > Documentation/PCI/endpoint/pci-vntb-howto.rst:131: WARNING: Title underline too short.
+> > Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
+> > Documentation/filesystems/netfs_library:609: fs/netfs/buffered_read.c:318: WARNING: Inline emphasis start-string without end-string.
+> > Documentation/virt/kvm/api.rst:8256: WARNING: Title underline too short.
+> > Documentation/virt/kvm/api.rst:8263: WARNING: Unexpected indentation.
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2837:6: warning: no previous prototype for function 'dc_reset_state' [-Wmissing-prototypes]
+> > drivers/mmc/host/sdhci-of-aspeed-test.c:10: undefined reference to `kunit_binary_assert_format'
+> > drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
+> > drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
+> > drivers/vfio/vfio_iommu_type1.c:2141:35: warning: cast to smaller integer type 'enum iommu_cap' from 'void *' [-Wvoid-pointer-to-enum-cast]
+> > fs/ntfs/attrib.c:705:18: warning: Either the condition '!al' is redundant or there is pointer arithmetic with NULL pointer. [nullPointerArithmeticRedundantCheck]
+> > fs/ntfs/layout.h:126:43: warning: Parameter 'p' can be declared with const [constParameter]
+> > fs/ntfs/ntfs.h:144:3: warning: Assignment of function parameter has no effect outside the function. [uselessAssignmentArg]
+> > fs/super.c:1310:57: warning: Parameter 'data' can be declared with const [constParameter]
+> > fs/super.c:750:52: warning: Parameter 'bdev' can be declared with const [constParameter]
+> > ipc/shm.c:158:0: warning: failed to expand 'ipc_init_proc_interface', it is invalid to use a preprocessor directive as macro parameter [preprocessorErrorDirective]
+> > kernel/bpf/task_iter.c:152:11: warning: Redundant initialization for 'curr_fd'. The initialized value is overwritten before it is read. [redundantInitialization]
+> > kernel/bpf/task_iter.c:498:59: warning: Parameter 'v' can be declared with const [constParameter]
+> > kernel/fork.c:3256:42: warning: Parameter 'table' can be declared with const [constParameter]
+> > kernel/fork.c:942:33: warning: Parameter 'src' can be declared with const [constParameter]
+> > kernel/sched/fair.c:5081:25: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip [uninitvar]
+> > kernel/sched/fair.c:6967:7: warning: Local variable 'min_vruntime' shadows outer function [shadowFunction]
+> > lib/maple_tree.c:1522:52: warning: Parameter 'gaps' can be declared with const [constParameter]
+> > lib/maple_tree.c:1871:21: warning: Array index 'split' is used before limits check. [arrayIndexThenCheck]
+> > lib/maple_tree.c:2033:55: warning: Parameter 'mas' can be declared with const [constParameter]
+> > lib/maple_tree.c:2426:8: warning: Redundant initialization for 'r_tmp'. The initialized value is overwritten before it is read. [redundantInitialization]
+> > lib/maple_tree.c:2427:8: warning: Redundant initialization for 'l_tmp'. The initialized value is overwritten before it is read. [redundantInitialization]
+> > lib/maple_tree.c:3160:22: warning: Found suspicious operator ',' [constStatement]
+> > lib/maple_tree.c:3208:11: warning: Size of pointer 'pivs' used instead of size of its data. [pointerSize]
+> > lib/maple_tree.c:326:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+> > lib/maple_tree.c:4266:15: warning: The if condition is the same as the previous if condition [duplicateCondition]
+> > lib/maple_tree.c:4302:23: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
+> > lib/maple_tree.c:694:59: warning: Parameter 'pivots' can be declared with const [constParameter]
+> > lib/test_printf.c:415:11: warning: Local variable 'addr' shadows outer function [shadowFunction]
+> > mm/highmem.c:737:13: warning: Uninitialized variable: pam->page [uninitvar]
+> > mm/migrate.c:355:53: warning: Parameter 'mapping' can be declared with const [constParameter]
+> > mm/migrate.c:875:7: warning: Redundant initialization for 'rc'. The initialized value is overwritten before it is read. [redundantInitialization]
+> > mm/mlock.c:230:20: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
+> > mm/slab.c:1635:24: warning: Uninitialized variables: slab.__page_flags, slab.__unused_1, slab.freelist, slab.units, slab.__unused_2, slab.__page_refcount [uninitvar]
+> > mm/slab.c:3289:7: warning: Redundant assignment of 'objp' to itself. [selfAssignment]
+> > mm/slab.c:3509:8: warning: Redundant assignment of 'p[i]' to itself. [selfAssignment]
+> > mm/slab.c:405:9: warning: Local variable 'slab_size' shadows outer function [shadowFunction]
+> > mm/vmstat.c:1409:53: warning: Parameter 'pos' can be declared with const [constParameter]
+> > mm/vmstat.c:1650:68: warning: Parameter 'zone' can be declared with const [constParameter]
+> > mm/zsmalloc.c:2019:15: warning: Uninitialized variables: zspage.huge, zspage.fullness, zspage.class, zspage.isolated, zspage.magic, zspage.inuse, zspage.freeobj, zspage.first_page, zspage.lock [uninitvar]
+> > mm/zsmalloc.c:2060:16: warning: Local variable 'obj_allocated' shadows outer function [shadowFunction]
+> > or1k-linux-ld: drivers/mmc/host/sdhci-of-aspeed-test.c:10: undefined reference to `kunit_binary_assert_format'
+> > or1k-linux-ld: drivers/mmc/host/sdhci-of-aspeed-test.c:10: undefined reference to `kunit_do_failed_assertion'
+> > 
+> > Unverified Error/Warning (likely false positive, please contact us if interested):
+> > 
+> > arch/x86/kernel/cpu/rdrand.c:36 x86_init_rdrand() error: uninitialized symbol 'prev'.
+> > drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid reference to the index variable of the iterator on line 152
+> > drivers/infiniband/hw/irdma/hw.c:1484:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/md/dm-mpath.c:1681:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/media/dvb-frontends/mxl692.c:49:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/media/i2c/ov5647.c:636:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/media/i2c/st-mipid02.c:295:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/media/platform/qcom/venus/vdec.c:1505:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/media/platform/st/sti/delta/delta-v4l2.c:719:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/media/tuners/msi001.c:81:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/mfd/sec-core.c:429:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/mmc/host/sh_mmcif.c:1318:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/bonding/bond_main.c:4647:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/can/slcan/slcan-core.c:601:14: sparse:    void *
+> > drivers/net/can/slcan/slcan-core.c:601:14: sparse:    void [noderef] __rcu *
+> > drivers/net/can/slcan/slcan-core.c:601:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> > drivers/net/dsa/microchip/ksz9477.c:501:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c:1388:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/faraday/ftgmac100.c:854:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/hisilicon/hns/hnae.c:436:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/intel/i40e/i40e_main.c:9347:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/intel/ice/ice_base.c:1003:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/intel/ice/ice_dcb_lib.c:520:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/intel/ice/ice_vlan_mode.c:379:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/intel/igb/e1000_phy.c:1185:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/microchip/encx24j600.c:827:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/microchip/lan743x_main.c:1238:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/smsc/smsc9420.c:451:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/ethernet/vertexcom/mse102x.c:422:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/phy/dp83640.c:890:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/usb/cdc_ncm.c:195:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/net/usb/rtl8150.c:176:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/parport/ieee1284_ops.c:615:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/scsi/elx/efct/efct_unsol.c:297:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/scsi/elx/libefc/efc_domain.c:692:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/scsi/megaraid/megaraid_sas_fp.c:297:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/soc/mediatek/mtk-mutex.c:793:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/staging/media/zoran/zr36016.c:430:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/staging/media/zoran/zr36050.c:829:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/staging/media/zoran/zr36060.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/target/iscsi/iscsi_target.c:2348:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/target/target_core_device.c:1013:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/thunderbolt/tmu.c:758:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/thunderbolt/tunnel.c:1264:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/tty/serial/atmel_serial.c:1442:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/usb/host/uhci-q.c:1367:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/usb/serial/digi_acceleport.c:1167:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > drivers/video/backlight/qcom-wled.c:871:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > fs/ext4/mballoc.c:3618:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > fs/kernel_read_file.c:61 kernel_read_file() warn: impossible condition '(i_size > (((~0) >> 1))) => (s64min-s64max > s64max)'
+> > fs/ubifs/recovery.c:1062:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > include/linux/bits.h:9:41: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]
+> > mm/filemap.c:1354:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > mm/khugepaged.c:2410 madvise_collapse() warn: possible memory leak of 'cc'
+> > mm/madvise.c:1174:66: warning: Parameter 'task' can be declared with const [constParameter]
+> > mm/page_alloc.c:1181:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > mm/page_alloc.c:7744:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > mm/slub.c:5434:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > net/bluetooth/hci_event.c:5926:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > net/qrtr/mhi.c:102:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > net/wireless/reg.c:205:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > sound/pci/lola/lola.c:178:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > sound/pci/pcxhr/pcxhr_core.c:134:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > sound/pci/rme9652/hdsp.c:666:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > sound/soc/fsl/fsl_spdif.c:1508:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > sound/soc/sh/rcar/core.c:1602:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > sound/soc/sof/intel/mtl.c:553:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+> > {standard input}:2311: Error: expecting )
+> > 
+> > Error/Warning ids grouped by kconfigs:
+> > 
+> > gcc_recent_errors
+> > |-- alpha-allyesconfig
+> > |   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+> > |   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+> > |-- alpha-randconfig-r004-20220712
+> > |   |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_read
+> > |   `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-pci_write
+> > |-- arc-allyesconfig
+> > |   |-- block-partitions-efi.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- block-sed-opal.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- crypto-asymmetric_keys-pkcs7_verify.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-ata-libata-core.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-ata-libata-eh.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-ata-sata_dwc_460ex.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-base-power-runtime.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-block-rbd.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-bluetooth-hci_ll.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-bluetooth-hci_qca.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-cdrom-cdrom.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-char-ipmi-ipmi_ssif.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-char-pcmcia-cm4000_cs.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-char-random.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-char-tpm-tpm_tis_core.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-clk-bcm-clk-iproc-armpll.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-clk-clk-bd718x7.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-clk-clk-lochnagar.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-crypto-ccree-cc_request_mgr.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-crypto-qce-sha.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-crypto-qce-skcipher.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-cxl-core-hdm.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-cxl-core-pci.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-dma-buf-dma-buf.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-firmware-arm_scmi-bus.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-firmware-arm_scmi-clock.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-firmware-arm_scmi-powercap.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-firmware-arm_scmi-sensors.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-firmware-arm_scmi-voltage.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-fpga-dfl-fme-mgr.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gnss-usb.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_debug.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce110-dce110_resource.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce112-dce112_resource.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-pm-powerplay-hwmgr-smu7_hwmgr.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-pm-powerplay-hwmgr-smu8_hwmgr.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-pm-powerplay-hwmgr-vega10_powertune.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-pm-powerplay-smumgr-smu7_smumgr.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-..-pm-swsmu-smu13-smu_v13_0.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ttm.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-bridge-cadence-cdns-mhdp8546-hdcp.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > |   |-- drivers-gpu-drm-bridge-ite-it66121.c:internal-compiler-error:in-arc_ifcvt-at-config-arc-arc.c
+> > clang_recent_errors
+> > |-- arm-randconfig-r024-20220712
+> > |   `-- drivers-gpu-drm-tests-drm_mm_test.c:warning:stack-frame-size-()-exceeds-limit-()-in-__igt_reserve
+> > |-- s390-randconfig-r044-20220713
+> > |   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:no-previous-prototype-for-function-dc_reset_state
+> > |-- x86_64-randconfig-a001
+> > |   `-- drivers-vfio-vfio_iommu_type1.c:warning:cast-to-smaller-integer-type-enum-iommu_cap-from-void
+> > |-- x86_64-randconfig-a005
+> > |   `-- drivers-vfio-vfio_iommu_type1.c:warning:cast-to-smaller-integer-type-enum-iommu_cap-from-void
+> > |-- x86_64-randconfig-a012
+> > |   `-- drivers-vfio-vfio_iommu_type1.c:warning:cast-to-smaller-integer-type-enum-iommu_cap-from-void
+> > `-- x86_64-randconfig-k001
+> >     `-- drivers-vfio-vfio_iommu_type1.c:warning:cast-to-smaller-integer-type-enum-iommu_cap-from-void
+> > 
+> > elapsed time: 723m
+> > 
+> > configs tested: 95
+> > configs skipped: 2
+> > 
+> > gcc tested configs:
+> > arm                                 defconfig
+> > arm                              allyesconfig
+> > arm64                            allyesconfig
+> > i386                          randconfig-c001
+> > nios2                         3c120_defconfig
+> > arm64                            alldefconfig
+> > powerpc                      makalu_defconfig
+> > sh                          r7785rp_defconfig
+> > arm                      footbridge_defconfig
+> > arm                            lart_defconfig
+> > arm                            hisi_defconfig
+> > sh                          urquell_defconfig
+> > microblaze                      mmu_defconfig
+> > sparc                               defconfig
+> > sh                          r7780mp_defconfig
+> > m68k                           virt_defconfig
+> > arc                              alldefconfig
+> > sh                           se7721_defconfig
+> > mips                            gpr_defconfig
+> > arc                 nsimosci_hs_smp_defconfig
+> > sparc                       sparc32_defconfig
+> > csky                                defconfig
+> > x86_64                                  kexec
+> > sparc                            allyesconfig
+> > xtensa                           allyesconfig
+> > riscv                             allnoconfig
+> > riscv                    nommu_k210_defconfig
+> > i386                   debian-10.3-kselftests
+> > riscv                          rv32_defconfig
+> > riscv                    nommu_virt_defconfig
+> > i386                              debian-10.3
+> > arm                  randconfig-c002-20220712
+> > x86_64                        randconfig-c001
+> > ia64                             allmodconfig
+> > alpha                            allyesconfig
+> > m68k                             allmodconfig
+> > arc                              allyesconfig
+> > m68k                             allyesconfig
+> > powerpc                           allnoconfig
+> > mips                             allyesconfig
+> > powerpc                          allmodconfig
+> > sh                               allmodconfig
+> > i386                                defconfig
+> > i386                             allyesconfig
+> > x86_64                        randconfig-a006
+> > i386                          randconfig-a001
+> > i386                          randconfig-a003
+> > i386                          randconfig-a005
+> > x86_64                        randconfig-a013
+> > x86_64                        randconfig-a011
+> > x86_64                        randconfig-a015
+> > i386                          randconfig-a012
+> > i386                          randconfig-a016
+> > i386                          randconfig-a014
+> > arc                  randconfig-r043-20220712
+> > riscv                randconfig-r042-20220712
+> > s390                 randconfig-r044-20220712
+> > arc                  randconfig-r043-20220713
+> > x86_64                        randconfig-a002
+> > x86_64                        randconfig-a004
+> > um                             i386_defconfig
+> > um                           x86_64_defconfig
+> > x86_64                              defconfig
+> > x86_64                               rhel-8.3
+> > x86_64                           allyesconfig
+> > x86_64                          rhel-8.3-func
+> > x86_64                         rhel-8.3-kunit
+> > x86_64                    rhel-8.3-kselftests
+> > x86_64                           rhel-8.3-syz
+> > 
+> > clang tested configs:
+> > powerpc                     akebono_defconfig
+> > mips                           ip27_defconfig
+> > riscv                            alldefconfig
+> > arm                       imx_v4_v5_defconfig
+> > arm                        mvebu_v5_defconfig
+> > mips                          ath79_defconfig
+> > arm                        magician_defconfig
+> > x86_64                        randconfig-k001
+> > x86_64                        randconfig-a005
+> > i386                          randconfig-a002
+> > i386                          randconfig-a006
+> > i386                          randconfig-a004
+> > x86_64                        randconfig-a012
+> > x86_64                        randconfig-a014
+> > x86_64                        randconfig-a016
+> > i386                          randconfig-a013
+> > i386                          randconfig-a011
+> > i386                          randconfig-a015
+> > hexagon              randconfig-r041-20220712
+> > hexagon              randconfig-r045-20220712
+> > hexagon              randconfig-r045-20220713
+> > riscv                randconfig-r042-20220713
+> > hexagon              randconfig-r041-20220713
+> > s390                 randconfig-r044-20220713
+> > x86_64                        randconfig-a001
+> > x86_64                        randconfig-a003
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://01.org/lkp
+> > 
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> > 
+> 
+> -- 
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> 
