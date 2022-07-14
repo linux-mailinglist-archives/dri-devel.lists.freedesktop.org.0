@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D473575433
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 19:43:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D76457543C
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 19:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796B510FBD7;
-	Thu, 14 Jul 2022 17:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37FED10F6F9;
+	Thu, 14 Jul 2022 17:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A58210F9B1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657820579;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R9AEOUmtX+lVZi2/EB6jnvVw/5MhFema8XEZWIvnJww=;
- b=UenCpB3/QjtA2nI1j/uTAlPGGpzevcpRZcqLF8BXKRMBVMDaWUVjd1urwzPSW26Rnvo6yS
- MnxF4HIKMALp+bixOn1ksDjl3/CIDkV3pQW+UJ6DAcgX7OIFR2+bqgDFBBMr5zhTU6ncVc
- wHf2kCW0TNeCzdZ/bmNlqJ1lIUY5SHg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-379-BccJ-5lMNxCZ0y_RxTr4yQ-1; Thu, 14 Jul 2022 13:42:54 -0400
-X-MC-Unique: BccJ-5lMNxCZ0y_RxTr4yQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6604810FA6A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:47:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C85418E5383;
- Thu, 14 Jul 2022 17:42:53 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.10.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E5DB400EAB2;
- Thu, 14 Jul 2022 17:42:53 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/nouveau: Don't pm_runtime_put_sync(),
- only pm_runtime_put_autosuspend()
-Date: Thu, 14 Jul 2022 13:42:34 -0400
-Message-Id: <20220714174234.949259-3-lyude@redhat.com>
-In-Reply-To: <20220714174234.949259-1-lyude@redhat.com>
-References: <20220714174234.949259-1-lyude@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5A5C4620FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:47:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ADF45C34114
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 17:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657820831;
+ bh=RGvYB0sC+dGQSXipWWEJqz0Y72NGy1B/hgCZsTSSdNU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=SS2FStvGpbb/j15hkGdCoJ1LUKXnSHLwf7zj7zj4BgGKkDVkxxfU7/yLKaqHDX6vg
+ 9Y7SXU1J31Xgc3ewYSQ6p2AXUulmpE6/QhJYPIZYi8Jpa+hAoTFE8myeDNll5LN1/p
+ YSzQsoaVDhJjoD6Uev2LLT3w7IPTTwJqHbMlq1IHTS5IoXKHuGpz/ALVBIH3KZveLw
+ l7ZiTVBcyhSrYNLxdHoO/9rNoXpYw0I15vaOAPKHCv8p4vc2dd69oXJsjUGUOp3GOL
+ bWzdzgMW+xBK36rrB0ikUQv+EcRVzKD2R4Q5LydOr7WH1sINnwcL+DStF+vB/6BhH3
+ tfmj+IkYPV37g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 99535CC13B5; Thu, 14 Jul 2022 17:47:11 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216120] [BISECTED][REGRESSION] drm/amdgpu:  add drm buddy
+ support to amdgpu
+Date: Thu, 14 Jul 2022 17:47:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mat200300h@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216120-2300-Ez9BqkId2O@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216120-2300@https.bugzilla.kernel.org/>
+References: <bug-216120-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,55 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While trying to fix another issue, it occurred to me that I don't actually
-think there is any situation where we want pm_runtime_put() in nouveau to
-be synchronous. In fact, this kind of just seems like it would cause
-issues where we may unexpectedly block a thread we don't expect to be
-blocked.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216120
 
-So, let's only use pm_runtime_put_autosuspend().
+--- Comment #6 from mat200300h@gmail.com ---
+not quite there yet, after some hours of working with latest
+linus+0001-drm-amdgpu-Fix-for-drm-buddy-memory-corruption.patch (latest com=
+mit
+"vf/remap: return the amount of bytes actually deduplicated") display stopp=
+ed
+working, keyboard was working so I could reboot blindly. Part of journal
+attached in comment 5. Maybe different bug.
 
-Changes since v1:
-* Use pm_runtime_put_autosuspend(), not pm_runtime_put()
+I could perhaps bisect adding the patch to relevant steps but now I have had
+too many gin&tonics and seem to be talking to myself anyway.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_display.c | 2 +-
- drivers/gpu/drm/nouveau/nouveau_fbcon.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+--=20
+You may reply to this email to add a comment.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 9f5a45f24e5be..a2f5df568ca54 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -515,7 +515,7 @@ nouveau_display_hpd_work(struct work_struct *work)
- 
- 	pm_runtime_mark_last_busy(drm->dev->dev);
- noop:
--	pm_runtime_put_sync(drm->dev->dev);
-+	pm_runtime_put_autosuspend(dev->dev);
- }
- 
- #ifdef CONFIG_ACPI
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index 5226323e55d34..3c7e0c9d6baf1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -467,7 +467,7 @@ nouveau_fbcon_set_suspend_work(struct work_struct *work)
- 	if (state == FBINFO_STATE_RUNNING) {
- 		nouveau_fbcon_hotplug_resume(drm->fbcon);
- 		pm_runtime_mark_last_busy(drm->dev->dev);
--		pm_runtime_put_sync(drm->dev->dev);
-+		pm_runtime_put_autosuspend(drm->dev->dev);
- 	}
- }
- 
--- 
-2.35.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
