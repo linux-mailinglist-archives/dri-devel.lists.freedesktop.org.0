@@ -1,62 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1AE574598
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 09:13:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82A55745CB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 09:18:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3FD197775;
-	Thu, 14 Jul 2022 07:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFD112B8A4;
+	Thu, 14 Jul 2022 07:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367EA933D4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 07:13:32 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id mi10so858316qvb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 00:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q5UuNt5TPK0IuG39xN+NMro5LKgIqNbr9Zx7mA/mPiM=;
- b=b0E3JTU5pYWhoLa3ap7YFqzgEMsmY9DzPinFwRbVIUxY93YXyUx7ZCDKj7KmfhQ21C
- rbLfBjhA9+2Iw8+wRoHdzOZmhqnsY+50XpmOdqNkHbt1cSMSHEnAu5vgSo2cTU4Vp00E
- OzftT9WeV+jRXDaaNmeyjhArEApdAVnDvnAaK0sb17BX1/wJ+erATO6cVT2LmSg5zo1C
- AkB0gsToiInDLayKBxHHJLxYpaxBz2afFFQmHItaY08Jtmauimz5lnfp+bStbZf1nc6w
- aPm7pRJ9mU/zUvlfPRnxcyejhyXF2kYZj0eimP7+p17pN8EvNWU5/v59Wtwmk5hE8TwL
- aWyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q5UuNt5TPK0IuG39xN+NMro5LKgIqNbr9Zx7mA/mPiM=;
- b=qNqRNckgA2OQNXFG0/JXVHCC9VuLEiyIRno2ZOBvsYxLCvSktC18nQgE++FzF7FzV0
- OmKvmIjsvUXY0KFk4eBvNKvfVdhXetm7sEm83eOZ7FEU9nDVTc4LjjadizTkbB9RENU1
- zSD74TuH3s0UxKdJOp9HpVn1QNf+YF22RgYR+rsy7rOfIqFi9NVkZbQlo5qoLoWM4/Ko
- C2Xdagp6mlHTo664a2V0bz8YP2ytfRAYmC4SpWwhLqO7DmZ+FAt5yeqiSC6azLsHscys
- OKGDn6UBR878o7MfnCk0d02+90xn+XhCC/o/BV38PPPx6OWUGh76D2pzsavkJr8R2POA
- XsMA==
-X-Gm-Message-State: AJIora+ZGOhanKcQn+1CA04LX7l1SoYQ4kd0N7+8+NtRSdUV/VAzHgDN
- l0smXORIBV85JfnFKB8ifqXJNc33nlnfpO3sLlE=
-X-Google-Smtp-Source: AGRyM1vJRbWeeJQDQ5VsDhXvc8TWmApQquCsp5U/iybMpcD3LNzACs5RVUGTHl5IJiCF7b4f25ZlvyBfRyQDbXD00iQ=
-X-Received: by 2002:a0c:9a0c:0:b0:470:54d7:cfd5 with SMTP id
- p12-20020a0c9a0c000000b0047054d7cfd5mr6903769qvd.46.1657782811193; Thu, 14
- Jul 2022 00:13:31 -0700 (PDT)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41DA893918;
+ Thu, 14 Jul 2022 07:18:29 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 84AE93200930;
+ Thu, 14 Jul 2022 03:18:25 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 14 Jul 2022 03:18:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1657783105; x=1657869505; bh=ikFanWY917QenhU0fjIRw6VS1WxJeoWN02r
+ Zk0hNVt0=; b=k+cfsxEqvHet9gs10Q3rjcxKm4uE6bbtErcqJfl1x5GxglSIdwn
+ TPl0h7PI24yV5RFBn5d3S0q/sh326xPiuChXSpfB4ml/ZkcBb8huXJYnMfNvPUHg
+ acnNBeEYdZf7L5PA1YHbz+fQwf0fJl1R/iOXJY0LcTfasbANeHyM83ww/zAi0bwq
+ bIG8Ir5jpgnTDo0BFhViNH/uuYPiA/a1jmSGGHHqebc4DJ6rYoUOyG8HTDUotxCe
+ lPSPjYDm8lEKCBOvz/WJDuFcKjeD6DNgg4CXJU8pPSasU80wD793ei96u0W2uxx5
+ t/arxpGGvOkeO/JC5+I52De1ooigSE3RArQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657783105; x=
+ 1657869505; bh=ikFanWY917QenhU0fjIRw6VS1WxJeoWN02rZk0hNVt0=; b=T
+ HSvMPX8NkeOsS/ySL/WNjMIHUQSc0HPookQgkUFnpuH4fy+JTAPuPncKY+kcPyEY
+ XoWOReFm5Z+BH0doN6GZbCvgPPZD/z/xJTjAe2m550m+fzxfPjX6HpY1YTHsgabr
+ /Tt3s/8FkL/DvlHEn5YyKpJX5Rde6e0f86KWC2bW4b+ucJTWG3QhQKu4QJrxfJzG
+ Wrgx3HcwPlHHx9qWp1Yk/61nN5cqkUx2fcRc16S5bP84DUrXZqCRaS9XnKCeqtBD
+ 3rgKwwUAZgwidIoGmH58ODe6IfmNKUPMzhMVSJ9Sdqe3NcuHgkiB4Ri+6tLOSvFY
+ QFru4NoLxBzit6PSaKsUA==
+X-ME-Sender: <xms:QMPPYvob09zaPIPOkG1f_S2qqZAa50dKfSIo90uGcS49KxDUNJ1uvw>
+ <xme:QMPPYpqhc4-c-r9e69GCxpA0jY4pkwgmNVDfaJgqNtbYZH1MUH6LO7DK3CWwEf9ft
+ _9bCAu9Vsik1Jbf2hA>
+X-ME-Received: <xmr:QMPPYsOCxHSN-8szE2jlZYXVtOA8GYkhFCn84YxHiy2x-5jDGwp7iKxC-puPgvYy3EvDGI0XLUz43Ruy1eV73c1RChh6D49pO23kZgM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejkedguddukecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepueeiheejhfeivedtheduffdttefgtdeuvddvueegtefgveegvedugeffudev
+ jeeinecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
+ rdhtvggthh
+X-ME-Proxy: <xmx:QMPPYi5Lzi_LpV5XSV7bifyRim1VNQ6TeZmCcuVX0nHlj59_427Gqg>
+ <xmx:QMPPYu4aDSHfMlC7wEd0f4UvZ2SAE7zlEtBjZ18ecEJRnXUd9LlS0Q>
+ <xmx:QMPPYqjnFJEjEKubQIoY_n9Ry8wC_MCDe1QDUNb9Y1aZuTxqKGTt7g>
+ <xmx:QcPPYrxEyIJrryXiMe5R_DQnFAu1HA8e2ZONPDUfV77bpIfFA5roUg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Jul 2022 03:18:23 -0400 (EDT)
+Date: Thu, 14 Jul 2022 09:18:21 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20220714071821.hsejxpsgkbbzlec2@houat>
 MIME-Version: 1.0
-References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-14-peterwu.pub@gmail.com>
- <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
- <CABtFH5K-2+2hbpvpq2nPE5AsznkQxZF2r3MVC64Q39DJhVuUtA@mail.gmail.com>
- <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
-In-Reply-To: <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Thu, 14 Jul 2022 15:13:19 +0800
-Message-ID: <CABtFH5LT1Ct_9-B_XRrGwYFmL5kGS6KHR7dNVyUO5z4sTy_6oA@mail.gmail.com>
-Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370
- support
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="oqqptlvw3xhy4ojq"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,103 +81,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=
-=8813=E6=97=A5 =E9=80=B1=E4=B8=89 =E6=99=9A=E4=B8=8A8:07=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> On Wed, Jul 13, 2022 at 12:53 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=
-=9C=885=E6=97=A5 =E9=80=B1=E4=BA=8C =E6=B8=85=E6=99=A85:14=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > > On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrot=
-e:
->
-> Please, remove unneeded context when replying!
->
-> ...
->
-> > > > +               brightness_val[0] =3D (brightness - 1) & MT6370_BL_=
-DIM2_MASK;
-> > > > +               brightness_val[1] =3D (brightness - 1)
-> > > > +                                   >> fls(MT6370_BL_DIM2_MASK);
-> > >
-> > > Bad indentation. One line?
-> >
-> > Well... if indent to one line, it will be over 80 characters(or called =
-columns?)
-> > From my understanding, it is not allowed, right??
->
-> It's allowed to some extent.Use your common sense.
-> Here it's obviously broken indentation.
->
-> ...
->
-> > > > +               prop_val =3D (ilog2(roundup_pow_of_two(prop_val)) +=
- 1) >> 1;
-> > >
-> > > Isn't something closer to get_order() or fls()?
-> >
-> > I will revise it to "(get_order(prop_va * PAGE_SIZE) + 1) / 2" and
-> > this change is meet your expectations??
->
-> Nope. Try again. What about fls()?
 
-I have tried two methods so far, as follows
--------------------------------------------------------------
-/*
- * prop_val =3D  1      -->  1 steps --> b'00
- * prop_val =3D  2 ~  4 -->  4 steps --> b'01
- * prop_val =3D  5 ~ 16 --> 16 steps --> b'10
- * prop_val =3D 17 ~ 64 --> 64 steps --> b'11
-*/
+--oqqptlvw3xhy4ojq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-// 1. use fls() and ffs() combination
-prop_val =3D ffs(prop_val) =3D=3D fls(prop_val) ? fls(prop_val) >> 1 :
-(fls(prop_val) + 1) >> 1;
+Hi Dave, Daniel,
 
-// 2. use one line for-loop, but without fls()
-for (i =3D --prop_val, prop_val =3D 0; i >> 2 * prop_val !=3D 0; prop_val++=
-);
--------------------------------------------------------------
-Do these changes meet your expectations??
+Here's this week drm-misc-fixes PR
 
->
-> ...
->
-> > > > +       props->max_brightness =3D min_t(u32, brightness,
-> > > > +                                     MT6370_BL_MAX_BRIGHTNESS);
-> > >
-> > > One line?
-> >
-> >  Ditto, it will be over 80 characters...
->
-> As per above.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+Maxime
+
+drm-misc-fixes-2022-07-14:
+Only a revert for amdgpu reverting the switch to the drm buddy
+allocator.
+The following changes since commit b68277f19e31a25312c4acccadb5cf1502e52e84:
+
+  drm/ssd130x: Fix pre-charge period setting (2022-07-07 10:52:03 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-07-14
+
+for you to fetch changes up to 925b6e59138cefa47275c67891c65d48d3266d57:
+
+  Revert "drm/amdgpu: add drm buddy support to amdgpu" (2022-07-08 14:24:30 +0200)
+
+----------------------------------------------------------------
+Only a revert for amdgpu reverting the switch to the drm buddy
+allocator.
+
+----------------------------------------------------------------
+Arunpravin Paneer Selvam (1):
+      Revert "drm/amdgpu: add drm buddy support to amdgpu"
+
+ drivers/gpu/drm/Kconfig                        |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h |  97 ++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h        |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c   | 359 ++++++++++---------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h   |  89 ------
+ 5 files changed, 176 insertions(+), 380 deletions(-)
+ delete mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+
+--oqqptlvw3xhy4ojq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYs/DPQAKCRDj7w1vZxhR
+xSk1AP0X+n7TWE1X7th+B7pSBBaHTMPpMeeB3xbHcy/d43MWxQD8CiIHmie63tMN
+//wQvIVJkXJpfDNbSDcb2W47cCiLYgE=
+=7gBP
+-----END PGP SIGNATURE-----
+
+--oqqptlvw3xhy4ojq--
