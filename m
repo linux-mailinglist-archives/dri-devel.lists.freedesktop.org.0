@@ -1,140 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FA5574444
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 07:09:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2537C574496
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 07:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6FBA1F68;
-	Thu, 14 Jul 2022 05:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D671A1DF0;
+	Thu, 14 Jul 2022 05:38:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18A81A1F68;
- Thu, 14 Jul 2022 05:09:34 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26E4Qe80003328;
- Thu, 14 Jul 2022 05:09:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qti.qualcomm.com;
- h=from : to : cc
- : subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=rOMZ8LoGeQgBhQiosX7CdpNk60/LriiMGP4E2u5hFIU=;
- b=SP71L09Vn4tFPO0GeDhHqPKPPDpCHEDHaKNFT6GJvfbA/3A6UeiCVIEZGefohy4d/cx7
- cI+saZXvKm+e080Or5ww1bzuLonvHi4Ezc1Hp6PE03dRoq4VD/pMOY8o2Y8PIi4av9I9
- R04FYt15aooQSaNlMecTVcZpmGH7VHyrAInGHJKm67Im+eFARtSeEkYmoMckpyXfVKh9
- Uo/L1kFs7eY1Ge+i67xIUzNREZt8fnD9PoPXTmSDjTlkU4kMi7uSMxTxrjpEMZgjUpkv
- MIGzZZHvdlgoyZgiDl6Wln4em8kBtPUfFsenYDTM1m7tx1QImHLHC89KjFihb+bzaNwv Aw== 
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3h9u14agfb-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 05:09:31 +0000
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C64CA095D;
+ Thu, 14 Jul 2022 05:38:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iSyMnKYLhbwDfbw1QG8w4ZHAK91TsI8pMjR0iLh39GH86rvjrZewv3rorm0QbP5ZAoL6+UW0UnlXsQQ7QxScv8TQn+cgILvlgZjScgd2hh9UrUjN/Qy9tXF7NjSBqYvGzoxtGr8TMENpj63FVLJ+0WlGPtU13IzfqCCAOee1vavRL/qfPntqwN3l19Cl9RfC8A2e7rUOmeuEDasw5HBp/ZjZG2VNDGrPLwK5MGo0ZY8ucIkB7gbLPvrvmINB3fNkJAA0wRxW0XB7oNibdGvg1mELzZfM2EkBsc/N7Dw9tC0D4Nq7j9TcPZjMwI4B3dS0XW+ijvkIxtUsNeBmjNw0lw==
+ b=hCnJWXnEQ4cc/DBLGB3IZteTV+NqCU5UpZxg16BJHyQDHHiO5m51VNj2XNtruPHhIkvQTaHmP/yF4eVsXS+rjq1r/9SxesDLxcoo8NCIzhdhBJEbY5IK/3jCd35b0MEl9ssB5dqy5GJPY03akXdnpMeYiwr9AvchxOSWtbNosaXiatL4Sg6mNGCRUbhipJ+laiSx9/mfS61XxTw8uJe3/C8xFs1gK/uFoJRZNl1z6xU/5mYDzgfIPPxuFYuJriOOKiC7ZAhKofRP5fdhcwwQcMjL68OxyfetEDuTb5e+f/aipQPcoWQKRbfeAdYtZ0U6bB8iW6BuxYYqxNSwAqGxhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rOMZ8LoGeQgBhQiosX7CdpNk60/LriiMGP4E2u5hFIU=;
- b=GQdE6ec42gdLePTxoamxtukylwmj7YYlfUPIi/bFprwwQEGIQC2yd1wubfGjGy1nmI8YCa/06Z5B6izEDj3/qXSnQmnrc/nYIKxT62BwVFSMHZKwKHCEmRLsoYxR+V9AZnhGCEwqPf9dATMrEXTqkkLt+zvGLkysbOsEaxtYtCkoFihKdyZXDXX7KRLoSLwSjwV/5dwe4Oyvelto9+AttLrItxqTu+nhEGOQZQEP8WYgLEWRVYsY9K9oh2xOxRvTj2CgSRm8G8dTt7PxwcDDkeOyfRQ4hqL3bEQlr8rvuJvGjJWveFWNKJa6a7zy7RDJocbxHhk50gNbKIrRtLqvWg==
+ bh=1ec5/Ogb2I/KRT6Jv0dLuFteAMn2pcAG9ZHXIx4QFrE=;
+ b=a5rutk3J4sHCc8fnnH3KoD6x2Q1S0gPzCNlSf8WUZSnOrDE2bMRWtm71KzJ6E/t9iWgYTRgzxLfzLchB10tKMTpn+mBchXNTorgC+IvTHB/eaC/w0G6K1580BOTeOdPdWD6/imttjLVCnL+tODVEWjBTKathhmR394+1orUbmtNsYCyxlPEJK4JcmlxHfucFY/uO/8HApxSM3aQqNP85fpDzttwuLKojSs/M1oXH+0sinXEzM7xqPRi70itbHcOdTBnySubwybYjoXkPOHiVXlzSOtWdvMTu7tAjHIvGnEt8V95zjmb5/X/pHTT+acm1ACLCHUUdrfi2+c5pGQy1KQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from BN0PR02MB8173.namprd02.prod.outlook.com (2603:10b6:408:166::9)
- by CY5PR02MB9013.namprd02.prod.outlook.com (2603:10b6:930:37::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Thu, 14 Jul
- 2022 05:09:28 +0000
-Received: from BN0PR02MB8173.namprd02.prod.outlook.com
- ([fe80::e1dd:9b38:7042:ea7]) by BN0PR02MB8173.namprd02.prod.outlook.com
- ([fe80::e1dd:9b38:7042:ea7%6]) with mapi id 15.20.5417.026; Thu, 14 Jul 2022
- 05:09:27 +0000
-From: Vinod Polimera <vpolimer@qti.qualcomm.com>
-To: "Vinod Polimera (QUIC)" <quic_vpolimer@quicinc.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v6 07/10] drm/bridge: add psr support for panel bridge
- callbacks
-Thread-Topic: [PATCH v6 07/10] drm/bridge: add psr support for panel bridge
- callbacks
-Thread-Index: AQHYlSXWx1x+JZs89kaa8tVbyhISza19VXaw
-Date: Thu, 14 Jul 2022 05:09:27 +0000
-Message-ID: <BN0PR02MB8173764A946F6400ADC64AFDE4889@BN0PR02MB8173.namprd02.prod.outlook.com>
-References: <1657544224-10680-1-git-send-email-quic_vpolimer@quicinc.com>
- <1657544224-10680-8-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1657544224-10680-8-git-send-email-quic_vpolimer@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ed9b78dc-74ec-4d20-1d63-08da655706e4
-x-ms-traffictypediagnostic: CY5PR02MB9013:EE_
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: N/0dAl9Qry93TOg7TEckZFstBiGVIYvkC1tMYsX97Uy/SJ1oJzkef13Ic0ZnP2Z/nnT9gHxiSL45Hvf0fCc+tsSCZ0z220gLGmrhXG6SmXVv4AxBvw0OLcaCV2+Rmf2xn33kbzTvbdoZBCgWttJo/D5iUE0kveptiK2HnJtmzNGrKP8vvt4H1vMkaSM+obrS19MR3z4cnz3yLX8IMJv2dbvZbhHscpg9Sp1EVBoQrbic1aW2Qrp9BhT1dqhUJlSIC9LxOnnsL/V57GzW40dqoQqdZgQ6cnFwjIR4FU6/unlHZPwWJfevTKPqOvlmmhD/puiX9DJL1ihlv5PDZBC/Ah5bplolfMaf2nQJfD0jBuVpKok5e9PJtxQccOPLEyY6bxdbNbiZ7dW+BoMZ0mw7c2MyxNvYv94xiwHt1TGjnXRP/mcnmKu7FjUhIz9vNo/5Doah/RoMSMsUohNjS1U00p5iGRNx9+yE17x2A6hROoMvj1CldOrB31nm2LokwbiXiDnCRXU+KhNtOEhtiPdQFJrOWstOKURmEVz+PLoXR/80vy9oZROmBGoYwTEDqKXtrp7fv32kegdrXCDu5x5anb8TXWHZO5wxhwisGaGpEMKXYIfV2aVED/b/Ur/v/yOqNX92ENqSJL5LpdqjqupHCJXR1uDDu3J3DK0YO8P4ixv6LXYgGgxEeJXwOEkMerC4OEHQXoVUGFNyAzOVvzosu+FZI5663dGmX35XdkMId4D4Kf/17lfoS8UxYgRhoAT2QGzjjmUMKXfWiOQUn7SZW6RbRG950CfbVji+HpWMjFFCLu2SLzL03SBqAdZfgWfv
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN0PR02MB8173.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(38100700002)(122000001)(54906003)(38070700005)(316002)(110136005)(83380400001)(55016003)(107886003)(186003)(41300700001)(8936002)(52536014)(5660300002)(9686003)(33656002)(7416002)(478600001)(6506007)(7696005)(53546011)(8676002)(64756008)(66446008)(26005)(76116006)(66556008)(66476007)(66946007)(86362001)(4326008)(2906002)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gdKaecnIiAH1BvO+RDqGFO847AuevN4lqXOBrGlhxcmilB2JoZE3QBHccRKk?=
- =?us-ascii?Q?bUFBUfgTRrmXJvZ75A6lt8XidRSjPdHopzELtRycO5DzFsvgFdtSM+q/HVco?=
- =?us-ascii?Q?Nb0s34F1KQmKG8Snu2Xjv8CVDbCSRwsGk0iWg0Fx6zt01ZLiMqelx66oHRuB?=
- =?us-ascii?Q?E6GU3PoYbszUO+LcWFG3quf9HsdZz7eg4zlj9L87Zdc2KhhI/YqOSu2VlCbs?=
- =?us-ascii?Q?TXVsPO5D2BV8gVb8RB4acWOkZoqfnFrH6LwCQUb4xD4qu4hEUnY36mRVTgD+?=
- =?us-ascii?Q?jcAPTgPzvQqouMIYlmM6s5eKEp6ryaxCXLkUH1BT6QHAb21rgrq9CneHNHST?=
- =?us-ascii?Q?NN7Vn4LZR3si1msRs5sDR4tkWd4Jk+iWOkI6Wbs8mN87+qavY059VrmkpTjA?=
- =?us-ascii?Q?3DArxKUeRIfmkD8bc17bPFaESgQv720SJGLld21YSeJLSjF2oxYeIxl+mhUI?=
- =?us-ascii?Q?J22PsgTJ8AWq8rBm2DOuYEDHoEJgCfBnhTY5vFnpAnVJBXax1CyIQcR1eKIi?=
- =?us-ascii?Q?jUnN+C1M9hmfiuMMYFfopNlIssGWGfP/O79skkzuPGjtHGaubpwtbMPovSCh?=
- =?us-ascii?Q?xOGxsOjISfUKKQsSj/v56lXLuXW9ZLuKO3Mrbwx/HyyJuSH2UzYjXi+B17sE?=
- =?us-ascii?Q?QbDpFs5iF1r9Lwfndq+kQ0amlwgU0kJaqqFj8cCyOFn1UXM9CjwEMXMmiRa2?=
- =?us-ascii?Q?V4znRBGkTNdZ6mw6D51ZInR8oF8+GtNah15JhMo+0XOkC4eKpKZsedQEMwpF?=
- =?us-ascii?Q?/rBrE8QYdEXv1sbn7FuTwFnyp0F1JJfnL10wsc/0TgpB05khInD4vPR4pKJI?=
- =?us-ascii?Q?okLwvxTkxqUqEI/aMbBDSgMtuHoC+FG6MVsp9TkbjkmXUNBXDhhOvjHi+hoG?=
- =?us-ascii?Q?gnbNqBOEuF7vtFPB4PgcwYJKM159kxeENtuspCdlGWLoAtGQj6Ce4mo+3GED?=
- =?us-ascii?Q?HMKuJ3xDPTcxY7cYUK1HugfGsxuZGZgJ2D7tapd3eqT0yl5k+4d4KQ7AVCrJ?=
- =?us-ascii?Q?Q5unm3UZqKwFMh61or9QE7tEVM2gntftxil0CMGPVjO8Din3ImJ1bExUVzDf?=
- =?us-ascii?Q?LHfrzhcsFqEsZSw3cHKTBnY6uEXAHzKykC7FEGrDxpoLquyhZJo3RpuqQWAd?=
- =?us-ascii?Q?8uyUOjGN1xGEcXl54xFmC+W1aQqLwRypqOK+R6tWtku4LmOvp8TKam4xE4j9?=
- =?us-ascii?Q?yUc6rzXGGCvkmj2wPm9wsEmRdrKDY+8HjSwJLnJUsnuXt8GKdnfJqSXfI8ga?=
- =?us-ascii?Q?C/OHCMQOhhvLVV7z+a/wc3MOWswLj7ML8pVnjWTFYT+XaCJvtiPN7dVGAqLH?=
- =?us-ascii?Q?xzwH3HrFgmZ6jRyXu5u7dwftw5ElcyYgvTLaW9AfykcG8AX40nChe3+E2aic?=
- =?us-ascii?Q?YyFiRqI9lFsskBmC4T7Rkv1Jlp9bhsBNG3U4MuOfbaq+RIDfrtYb1w1E/vz5?=
- =?us-ascii?Q?T+cyAog59t0HalCBlXRVPT2dpwuk+JCB+I0/Wn5kCEZjrMkGsfUBYpbbO3Ex?=
- =?us-ascii?Q?IhVJuP3YXKmwA2WBmXUyMNjOwAFeF6b1IAzGD/H8645mXw8v0ZhVpEVxqoA0?=
- =?us-ascii?Q?4Xojpy/Xv1dHB09o/SsrcKVksc5TI7aCGV4NUI4bnUvreeJt3K7feUtmPJXE?=
- =?us-ascii?Q?aw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ec5/Ogb2I/KRT6Jv0dLuFteAMn2pcAG9ZHXIx4QFrE=;
+ b=CdWvNXMasfoQTCohO8uOq6LIiXkeNxl86A4YntbwPWDYPgnnoQcL7i2EdgXqkXq5JGzKBkElzhKOh93nQt4wi+v4neJC8fCzw1apdHf0xSkrkhcZIE3Mrd98F9Q07rMMb/IgNKwEWt5cRdCqDtDuNZ8RZLl0QGqj3xTvTKtIUw/sMVSa8D1hnW8SQFzWrRxZoN/rtoGbMq5dSAthqw6KFkDfTM0Wx2lTmj/kJk6vkdy75DkA/zlyG6pjkYWnPcbMU2JckbpDuBvQqgCTNUvduJEqcAHh0EcIBbH8/+9z7P2b3LArrnoQYoGWEvRqlIpB4pPQvU0VOgF3PyramHrqWg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by DM4PR12MB5796.namprd12.prod.outlook.com (2603:10b6:8:63::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Thu, 14 Jul
+ 2022 05:38:44 +0000
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::eca6:a4a7:e2b2:27e7]) by BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::eca6:a4a7:e2b2:27e7%5]) with mapi id 15.20.5417.020; Thu, 14 Jul 2022
+ 05:38:44 +0000
+References: <20220707190349.9778-1-alex.sierra@amd.com>
+ <20220707190349.9778-7-alex.sierra@amd.com>
+ <7a772ca0-0c82-2251-dd54-8ad466774e99@redhat.com>
+User-agent: mu4e 1.6.9; emacs 27.1
+From: Alistair Popple <apopple@nvidia.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v8 06/15] mm: remove the vma check in migrate_vma_setup()
+Date: Thu, 14 Jul 2022 15:31:32 +1000
+In-reply-to: <7a772ca0-0c82-2251-dd54-8ad466774e99@redhat.com>
+Message-ID: <87wncgckym.fsf@nvdebian.thelocal>
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0197.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::22) To BYAPR12MB3176.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::26)
 MIME-Version: 1.0
-X-OriginatorOrg: qti.qualcomm.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 64580125-9d39-41de-9fd1-08da655b1dad
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5796:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0VXzYQh3OSBOm87f7t6Fw9yweXKSZsbpBIeqRM3KTW9/pAui1VmwhCUKuEm5/tJMXh5Ppf64ZOByOlYF5UrkWs2nI3fUDJVIYIFtu5Vb8KdLkqocZU2Tc9ZhXhnGKoBLhHonPPg2K171lVdmNhIUK8frKY2hRPUY7yuFgOdpC5Tg4eIqwOTc8GJ35MgB5ZmAiSICvEGDuIL/RTI55xf6iHnp6ivKFvEDU7A7GOdvJ2eljlt6OuIo8xUyzYDh5P3EQG2bv7hoGWua4QfcencaQrDb/ST6vd8qDxvQeLdVMH4tZQ6EwBVOSybdgo4b2yqiZtLsCICfFjpf/sGuVkApKbRymN28zHqbCngyUZjIRyV7vbl8NiBxxo1ViZ7O0anwHCiF6vxz6BE0tPYAkuadnfqfRajKxD0oU5mKrg0Q59tPBWYgM2J6QTHKmIflxCFHVS3Ihogncjq4URl6FSoHPhbjCg0HId7LplvDSOFqoo8rxEQj3LcoBmua4TGCK8fAr8uzLt9tAzg5Zq6P/8ZBzaBYPQajY8xU7urcQvoeDV09keCceZ9pBdHrFgVO82yRJNY8rz/ThFAVXkWkJncPvA1qrzK3WW9yY00yZjSB+P/439Y3dg942PRqsvdRxT6ii5CUIbxIJ2QmvEnPbTMFwTfvLlqFuKwZIcDYYhPnd4siZ6Z19A2wtbBdgDO7n3qNK+7+MhEYxaeb+iSuiehs+Bm0iBXs3OwrvBXNsr07XBjG1CBx8UuvQnoegIW422ys
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(376002)(136003)(396003)(366004)(39860400002)(26005)(316002)(478600001)(66556008)(66946007)(6512007)(6486002)(186003)(4326008)(8936002)(83380400001)(8676002)(7416002)(9686003)(5660300002)(66476007)(41300700001)(38100700002)(6506007)(6666004)(53546011)(2906002)(6916009)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N4nPbdohYLsaESKqeXjU5HuQYobdQeB7rWRSUoE75eK+K50jXd9aYDwPcWPT?=
+ =?us-ascii?Q?w/d9sSRBIwGcRTafSgKQxknmNIJjTCRsLJbl3sXiK0cF8SYZJW+NLPHKCt54?=
+ =?us-ascii?Q?C9DAf2BaPBA+AGaNVo0qRYy4OCcQinRIC31KD+1Zph58AoId17eleprXdO15?=
+ =?us-ascii?Q?z8cSSDNLfZt+Bf74XK5yd8ulzbBHMa+SV74c0vJcw5tUkG3OuRlyx4M4QJ9n?=
+ =?us-ascii?Q?l+5ZGihaXzKj1RVUFgkI79H+jtWyyZfpoq/qcLifIghCUJv3I6oGYFNHBfPp?=
+ =?us-ascii?Q?kbgyCeV5KQaIEC9YjP7+v+6zyuwd6XJ13jhs1bPSS76FvLpqeCqeG2oXA8yQ?=
+ =?us-ascii?Q?A9ljAvcTYv46cHXmE0WbS/jOHnz0Skhmrh6ITxtAszmPhJieMdC3h1Me2PJS?=
+ =?us-ascii?Q?RA51CJb2YMCJxr4SmIDdPcpOQkIMRU5J7mjzodeWM0IOdvRE4Yda0eG3V52C?=
+ =?us-ascii?Q?Z6PXnVXj9jxgRLT8C+Q31simd3V7Fo9Oz7yI7Q6zbOIsfM1whmMfbkfZOkI8?=
+ =?us-ascii?Q?o/9+kVR6wkM0oi7HPqpvY2S5ScyaRj6FLqXC2vlZjLD373xWzoJ8C23EoxvK?=
+ =?us-ascii?Q?I2EN5ahab4NLucGqWK8fMaFQnba2geTgX3F+FrOJzpOECw8UKfIIXu1ctZ04?=
+ =?us-ascii?Q?xlJjqT2pc07qCuRsVPypjaGrU+AKFPTyXHWln7/BLaWVLkAjSxu+NFoQMd88?=
+ =?us-ascii?Q?l3JLHxc0CRjuw7mklupx/9ebjtGgjuIifsLUs7poGkcYRIQAYhh/M6KCtSk+?=
+ =?us-ascii?Q?FWxHZAd4ZfLbTfZkis8oPol+fKiLShj/Y8HaKTGIWogVh+Kx3LwpA2bQfLGI?=
+ =?us-ascii?Q?wCUy+pxg9l2jXQhCxfoTMv17o8cKqVc90wLVm2cKvpk+bPMpUYeT25uuyuVM?=
+ =?us-ascii?Q?TjrXYjqCKnr9C7qyVJZb9APEN/lr6JEr6nPbourwsxSRkj9n9UUx0+/t/JH2?=
+ =?us-ascii?Q?oBWoqpKvXS7aSkK4bGIqoAjPd1Zi4NXjN8jd3Qx2tOgL01xdZ7p7enB73uU4?=
+ =?us-ascii?Q?P0zqYexbccKOejGFKUiO2lx9qCeusDqEI4uXPbH5Fdqw2AeXQC7Z3WAmN2wm?=
+ =?us-ascii?Q?xtz2zR4zU9bflMaY4VOOx6AP9f6Tgcl/HsQH5DfJKyBXde/sDseCCm0HUegp?=
+ =?us-ascii?Q?aql+HGG3GYB2hzuZW7hot83W778V7LcBPuvrO1NADnsncHZiRv43I+q0MwuA?=
+ =?us-ascii?Q?Qqa9UKAjuaJpE1QUrXYzo3RqMdstvbSC4Hx/dF0ilPdCMHHGhPZCYEiY5Ckb?=
+ =?us-ascii?Q?RRfjaeEOnbKtFQZI+Yh11CkXPqwaaYcFW7IYMc15DIP+ySlLKpsxynDLbv4H?=
+ =?us-ascii?Q?cWLOjwfG239f5TQR3r/7BHEZlW1/k1U+l2Dt4WciHnPdYs167ZhEWmBzpnL+?=
+ =?us-ascii?Q?1n1RRPrca42+Ys9VKYuMQMs68Q7SvUYaIJ8NchBV7kyJ3vXAvnELy9iNu170?=
+ =?us-ascii?Q?DC2dxg/yGvTAHFLncjxvgmrbfPba5rs7F74aVYx6XiUPxDkVwcPg26VvS5Xg?=
+ =?us-ascii?Q?IwbXFH/Rb7bWHmoWBtobl5tJdI5nQ8djEHTTQI+CyhqZAJKh3Jd3SV1+tAqS?=
+ =?us-ascii?Q?mIeGx85e7lywFhV1NGdOKZWjzGH+piijjWB6Zjv5?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64580125-9d39-41de-9fd1-08da655b1dad
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR02MB8173.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed9b78dc-74ec-4d20-1d63-08da655706e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2022 05:09:27.8207 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QSmf7bCr09beVgvVjpL3THRo8iKFpp1lJ2ykJx+hp58L91yOqgoPZzHicy1RnntYGzFdKbxhW+d7rN4r1piqyi4BTBz0CSS5XoUq6TOfspE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR02MB9013
-X-Proofpoint-GUID: 0-8sm8xjraeovRZ_AbFzfztbTBYQyhF8
-X-Proofpoint-ORIG-GUID: 0-8sm8xjraeovRZ_AbFzfztbTBYQyhF8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-14_03,2022-07-13_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- phishscore=0 malwarescore=0 mlxlogscore=930 adultscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207140022
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 05:38:44.4287 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6/41Zbg7ptvL+3LpLX59Qh/52PacdqDss0LIiCwgS0LkUOstRV7R1mDDvk2++z87IEXFlA1rXEz7ZmfMjKhxuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5796
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,155 +115,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- "dianders@chromium.org" <dianders@chromium.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "swboyd@chromium.org" <swboyd@chromium.org>,
- "Vinod Polimera \(QUIC\)" <quic_vpolimer@quicinc.com>
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, jgg@nvidia.com, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gentle reminder to review this patch.
 
-Thanks,
-Vinod P.
+David Hildenbrand <david@redhat.com> writes:
 
-> -----Original Message-----
-> From: Vinod Polimera <quic_vpolimer@quicinc.com>
-> Sent: Monday, July 11, 2022 6:27 PM
-> To: dri-devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org;
-> freedreno@lists.freedesktop.org; devicetree@vger.kernel.org
-> Cc: Vinod Polimera (QUIC) <quic_vpolimer@quicinc.com>; linux-
-> kernel@vger.kernel.org; robdclark@gmail.com; dianders@chromium.org;
-> swboyd@chromium.org; Kalyan Thota (QUIC) <quic_kalyant@quicinc.com>;
-> dmitry.baryshkov@linaro.org; Kuogee Hsieh (QUIC)
-> <quic_khsieh@quicinc.com>; Vishnuvardhan Prodduturi (QUIC)
-> <quic_vproddut@quicinc.com>; bjorn.andersson@linaro.org; Aravind
-> Venkateswaran (QUIC) <quic_aravindh@quicinc.com>; Abhinav Kumar
-> (QUIC) <quic_abhinavk@quicinc.com>; Sankeerth Billakanti (QUIC)
-> <quic_sbillaka@quicinc.com>
-> Subject: [PATCH v6 07/10] drm/bridge: add psr support for panel bridge
-> callbacks
->=20
-> This change will handle the psr entry exit cases in the panel
-> bridge atomic callback functions. For example, the panel power
-> should not turn off if the panel is entering psr.
->=20
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> ---
->  drivers/gpu/drm/bridge/panel.c | 48
-> ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/panel.c
-> b/drivers/gpu/drm/bridge/panel.c
-> index eeb9546..9770b8c 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -112,6 +112,18 @@ static void panel_bridge_atomic_pre_enable(struct
-> drm_bridge *bridge,
->  				struct drm_bridge_state *old_bridge_state)
->  {
->  	struct panel_bridge *panel_bridge =3D
-> drm_bridge_to_panel_bridge(bridge);
-> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
-> >base.state;
-> +	struct drm_encoder *encoder =3D bridge->encoder;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *old_crtc_state;
-> +
-> +	crtc =3D drm_atomic_get_new_crtc_for_encoder(atomic_state,
-> encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	old_crtc_state =3D drm_atomic_get_old_crtc_state(atomic_state,
-> crtc);
-> +	if (old_crtc_state && old_crtc_state->self_refresh_active)
-> +		return;
->=20
->  	drm_panel_prepare(panel_bridge->panel);
->  }
-> @@ -120,6 +132,18 @@ static void panel_bridge_atomic_enable(struct
-> drm_bridge *bridge,
->  				struct drm_bridge_state *old_bridge_state)
->  {
->  	struct panel_bridge *panel_bridge =3D
-> drm_bridge_to_panel_bridge(bridge);
-> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
-> >base.state;
-> +	struct drm_encoder *encoder =3D bridge->encoder;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *old_crtc_state;
-> +
-> +	crtc =3D drm_atomic_get_new_crtc_for_encoder(atomic_state,
-> encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	old_crtc_state =3D drm_atomic_get_old_crtc_state(atomic_state,
-> crtc);
-> +	if (old_crtc_state && old_crtc_state->self_refresh_active)
-> +		return;
->=20
->  	drm_panel_enable(panel_bridge->panel);
->  }
-> @@ -128,6 +152,18 @@ static void panel_bridge_atomic_disable(struct
-> drm_bridge *bridge,
->  				struct drm_bridge_state *old_bridge_state)
->  {
->  	struct panel_bridge *panel_bridge =3D
-> drm_bridge_to_panel_bridge(bridge);
-> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
-> >base.state;
-> +	struct drm_encoder *encoder =3D bridge->encoder;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state;
-> +
-> +	crtc =3D drm_atomic_get_old_crtc_for_encoder(atomic_state,
-> encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	new_crtc_state =3D drm_atomic_get_new_crtc_state(atomic_state,
-> crtc);
-> +	if (new_crtc_state && new_crtc_state->self_refresh_active)
-> +		return;
->=20
->  	drm_panel_disable(panel_bridge->panel);
->  }
-> @@ -136,6 +172,18 @@ static void panel_bridge_atomic_post_disable(struct
-> drm_bridge *bridge,
->  				struct drm_bridge_state *old_bridge_state)
->  {
->  	struct panel_bridge *panel_bridge =3D
-> drm_bridge_to_panel_bridge(bridge);
-> +	struct drm_atomic_state *atomic_state =3D old_bridge_state-
-> >base.state;
-> +	struct drm_encoder *encoder =3D bridge->encoder;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state;
-> +
-> +	crtc =3D drm_atomic_get_old_crtc_for_encoder(atomic_state,
-> encoder);
-> +	if (!crtc)
-> +		return;
-> +
-> +	new_crtc_state =3D drm_atomic_get_new_crtc_state(atomic_state,
-> crtc);
-> +	if (new_crtc_state && new_crtc_state->self_refresh_active)
-> +		return;
->=20
->  	drm_panel_unprepare(panel_bridge->panel);
->  }
-> --
-> 2.7.4
+> On 07.07.22 21:03, Alex Sierra wrote:
+>> From: Alistair Popple <apopple@nvidia.com>
+>>
+>> migrate_vma_setup() checks that a valid vma is passed so that the page
+>> tables can be walked to find the pfns associated with a given address
+>> range. However in some cases the pfns are already known, such as when
+>> migrating device coherent pages during pin_user_pages() meaning a valid
+>> vma isn't required.
+>
+> As raised in my other reply, without a VMA ... it feels odd to use a
+> "migrate_vma" API. For an internal (mm/migrate_device.c) use case it is
+> ok I guess, but it certainly adds a bit of confusion. For example,
+> because migrate_vma_setup() will undo ref+lock not obtained by it.
+>
+> I guess the interesting point is that
+>
+> a) Besides migrate_vma_pages() and migrate_vma_setup(), the ->vma is unused.
+>
+> b) migrate_vma_setup() does collect+unmap+cleanup if unmap failed.
+>
+> c) With our source page in our hands, we cannot be processing a hole in
+> a VMA.
+>
+>
+>
+> Not sure if it's better. but I would
+>
+> a) Enforce in migrate_vma_setup() that there is a VMA. Code outside of
+> mm/migrate_device.c shouldn't be doing some hacks like this.
+>
+> b) Don't call migrate_vma_setup() from migrate_device_page(), but
+> directly migrate_vma_unmap() and add a comment.
+>
+>
+> That will leave a single change to this patch (migrate_vma_pages()). But
+> is that even required? Because ....
+>
+>> @@ -685,7 +685,7 @@ void migrate_vma_pages(struct migrate_vma *migrate)
+>>  			continue;
+>>  		}
+>>
+>> -		if (!page) {
+>> +		if (!page && migrate->vma) {
+>
+> How could we ever have !page in case of migrate_device_page()?
 
+Oh good point. This patch was originally part of a larger series I was
+working on at the time but you're right - for migrate_device_page() we
+should never hit this case. I will respin the next patch (number 7 in
+this series) to include this.
+
+> Instead, I think a VM_BUG_ON(migrate->vma); should hold and you can just
+> simplify.
+>
+>>  			if (!(migrate->src[i] & MIGRATE_PFN_MIGRATE))
+>>  				continue;
+>>  			if (!notified) {
