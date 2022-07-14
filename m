@@ -1,77 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D7B574D1D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 14:10:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2395574D52
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jul 2022 14:20:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA21889DA7;
-	Thu, 14 Jul 2022 12:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB48E112A76;
+	Thu, 14 Jul 2022 12:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511B589DA7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 12:10:05 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B1B9D5C006E;
- Thu, 14 Jul 2022 08:10:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 14 Jul 2022 08:10:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1657800604; x=1657887004; bh=D7XHW2lpBa
- 3ZTgH/W4t9embYc3/p5pA/+qwtSxzA0qc=; b=gT2vjyMISNAlVpK6KBb58APCFo
- 2SHGPrqnY/8Gg1KxoJ+ljIDa7Wj7Q9HPLyP//Sz0fzzRu+loj9qrvTLJE6UU1CGW
- WQN/3MXHSdjyyqnTGgmQFmJJegZ8+xm7cORiDTKp4ZX81ENOn6T5Sw/BreCuFmJD
- fKY9SwxueiwrHkn3A0V3wmArA5ZNybEt3WbwzCGdMTgnfpFGgzKPQQFXDhKQ0utp
- TpIW/joHCLyaJ2uW/ryhigvBpNCLZzyVIYPkinEAXgCgCcOo3YY3lnfFBezWZpUv
- Zi4sgXdYqm4pSD08eDGSZFH4leuogQxjQBq80mZGGtoIo+DWoqE823iaG0pQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657800604; x=1657887004; bh=D7XHW2lpBa3ZTgH/W4t9embYc3/p
- 5pA/+qwtSxzA0qc=; b=DygIqKVDSB3rTAsVCxidxoQLxEsTRV/j0metHeFG3zGZ
- WgkxwyGnb4n3y/qUi9NMOLC2KMcaR8dgqbHyO8WVeGGdrvA/5aqqcBrzRbX5oMCz
- Ie+DuzWCMFuiI7m1LvjFuBqWXRl2IQqvkBSGAxzWOy4DNUJZNFBNfvuufySRM+z1
- ZCqzzKeR6NSrN89jO1Sy6KkSclmG9DBhACaOS3UMACL9lIHt+lekRzonDbEoJyQk
- qLuXCliFfITIdH/RqxHpfVrur6yYN2rUy0Ivz78ovzvePuH1Lu3wjD3n/EFXKirc
- ro8X49UuUULW5HtBArJC+YZdYpjso67S80UAcpE2CA==
-X-ME-Sender: <xms:nAfQYtaL3DEJ9QwEdcbl-ApNga9iUFmopPr1HmwfrIuist6aDbQk-w>
- <xme:nAfQYkbqxyVAzMHy13T5Al7O2y112aTEMC3GZdk4hxWXi4dVigdh37YFO6Km6UMMX
- lG4pgUYyzPFWDMVc-U>
-X-ME-Received: <xmr:nAfQYv_7gVZaWHQj_puWp_KNvsMymAfCKCnN_yA7siEtQUVRp-7CTJkOrTWdNKQIVKWUy6IyLF_SlaUVWcvLtbMrxtF91kudHMYesrg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejledggeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:nAfQYrrRtlMu83HLa5kqd7j1q0fwGNlTg4vHtvC99ANfcO0JEC38Mw>
- <xmx:nAfQYoosAMXLaGNMSLwo9AqMoETt9CGiXvqR0PPoGoTarWumLHm5kQ>
- <xmx:nAfQYhSPNUUY-mS3WGVwbLj59RWRyiqwSC3xh1Aqgc-ciWTh3qtyKg>
- <xmx:nAfQYkfiMwI4tSrMAHZ__A9EcHFaNaQd7Pd8MpC3sGl3ONsB9vZygg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Jul 2022 08:10:04 -0400 (EDT)
-Date: Thu, 14 Jul 2022 14:10:02 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 4/5] drm/modes: Add support for driver-specific named
- modes
-Message-ID: <20220714121002.wm6byk6puajnzvmo@houat>
-References: <cover.1657788997.git.geert@linux-m68k.org>
- <528b126b3d932bff055ff085e598b91e2e690a4e.1657788997.git.geert@linux-m68k.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 44785112A76
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 12:20:43 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E93213D5;
+ Thu, 14 Jul 2022 05:20:43 -0700 (PDT)
+Received: from [10.57.86.49] (unknown [10.57.86.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 176203F792;
+ Thu, 14 Jul 2022 05:20:41 -0700 (PDT)
+Message-ID: <9ea171ca-8515-4088-9ea4-e6e35d9c8db8@arm.com>
+Date: Thu, 14 Jul 2022 13:20:40 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="itqpfuzowi2osqrt"
-Content-Disposition: inline
-In-Reply-To: <528b126b3d932bff055ff085e598b91e2e690a4e.1657788997.git.geert@linux-m68k.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 3/3] drm/komeda - Fix handling of pending crtc state
+ commit to avoid lock-up
+Content-Language: en-GB
+To: Liviu Dudau <liviu.dudau@arm.com>,
+ Carsten Haitzler <carsten.haitzler@foss.arm.com>
+References: <20220606114714.175499-1-carsten.haitzler@foss.arm.com>
+ <20220606114714.175499-3-carsten.haitzler@foss.arm.com>
+ <YshVFKbiz/7FrkKT@e110455-lin.cambridge.arm.com>
+ <af1d56b5-a999-6806-1aa6-593eb0e9380a@foss.arm.com>
+ <Ysv3vS2oosEgFJcN@e110455-lin.cambridge.arm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <Ysv3vS2oosEgFJcN@e110455-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,55 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2022-07-11 11:13, Liviu Dudau wrote:
+[...]
+>> But nothing worrying. It does work, though doesn't compile due to:
+>>
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function
+>> ‘komeda_kms_atomic_commit_hw_done’:
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: error: ‘for’ loop
+>> initial declarations are only allowed in C99 or C11 mode
+>>     77 |         for (int i = 0; i < kms->n_crtcs; i++) {
+>>        |         ^~~
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: note: use option
+>> ‘-std=c9
+>> ’, ‘-std=gnu99’, ‘-std=c11’ or ‘-std=gnu11’ to compile your code
+>>
+>> but that was a trivial fixup.
+> 
+> Interesting that I'm not seeing that, probably due to using GCC12? Anyway, I'll fix
+> that and send a proper patch.
 
---itqpfuzowi2osqrt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+FWIW we do use -std=gnu11 since 5.18 (see e8c07082a810), but I'm not 
+entirely sure what the status quo is for using the new features in fixes 
+which might also warrant backporting to stable. I believe Carsten's 
+stuck on an older kernel thanks to constraints of the rest of that 
+project ;)
 
-On Thu, Jul 14, 2022 at 11:04:09AM +0200, Geert Uytterhoeven wrote:
-> The mode parsing code recognizes named modes only if they are explicitly
-> listed in the internal whitelist, which is currently limited to "NTSC"
-> and "PAL".
->=20
-> Provide a mechanism for drivers to override this list to support custom
-> mode names.
->=20
-> Ideally, this list should just come from the driver's actual list of
-> modes, but connector->probed_modes is not yet populated at the time of
-> parsing.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Like we discussed on IRC, I'm not sure allowing drivers to handle named
-modes is the right thing to do.
-
-Named modes in general were a workaround the fact that we were missing
-infos in drm_display_mode to describe all the modes.
-
-I think we really should focus on addressing that first, and then
-creating some kind of backward compat layer to create an initial DRM
-state from a named mode provided on the command line.
-
-Maxime
-
---itqpfuzowi2osqrt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYtAHmgAKCRDj7w1vZxhR
-xQ/aAP9oTKyhWWihhvc4XgJIvP101uSmuw+L0FQuNx3PzZgp4QEAhPIBgTwIgcqj
-nYi/57nHkDeCEA5xHbJydUz8v0AyoA4=
-=tRFA
------END PGP SIGNATURE-----
-
---itqpfuzowi2osqrt--
+Cheers,
+Robin.
