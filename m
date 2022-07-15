@@ -1,74 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F770575ED3
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:52:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CE3575F2B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 12:11:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E3B10F456;
-	Fri, 15 Jul 2022 09:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368D014A202;
+	Fri, 15 Jul 2022 10:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A10B10F456
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:52:00 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id B7BC2320095B;
- Fri, 15 Jul 2022 05:51:57 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 15 Jul 2022 05:51:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1657878717; x=1657965117; bh=S2rwDfHC9o
- XpuuEOYHUag4B2VepokxV6WAqDHEuCkQY=; b=RUVLo8zxTB3GaHDGvdi3G36FLy
- V9Ue0iINxZ4EBDX2+X1ZW/VZJm/cesOjV1FNqv+odH/uAtd2AVBZ722wY0Hw6tnI
- apqb4ZvqYRcbt48XJCAwR40NblTWAy3fzXUg3bHBzbpE3MN1Ris6mF5cVu31VwJg
- sC9TxUacbQO5gdbQMQSnDzIkPjE8trUxwIrESG4Ty0pg350sB/BGaM2bCWHTqGLq
- b7b1/9xksPc2oqIoLxVrbuysPtAavhFcZTShjVJMo7ZhR5LpsaPrXy/gYaowqOIR
- sL1DxYcTKnlSU86liMBgZWAzGLEYe2h+QzFkR1zgCo8n+Nz0OncK6tdDmw9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657878717; x=1657965117; bh=S2rwDfHC9oXpuuEOYHUag4B2Vepo
- kxV6WAqDHEuCkQY=; b=wj8F5lumZDkRoFPxeGM/cQZt8N97B3qD2tUSSFQ1utN/
- 48q1dzkfMEHZ1v+gszu+iptNfXizGmWFW8zbSTefck9A94PMz8GeH6Nl+MKqTTAW
- Xgz3QN22lBMlpDStjB7JalfkbDviwoB3vXlGeoRuv0T2yfb3IbNc9rx/xpztkl7k
- GgydNCGEv8yOK4s7Kn42aKsoCRR7ilIR/55o0Duf/izaaIPSi0oDYWdDdBPZ1IW1
- bGUU6w+bx9fbejB2LqR1Dr4PkL2TZbHYMRJkaGZO5bTAwctikJSfKTBqPbw5DGr7
- ILiHPWC+A1e2j1FhN2TiS2fqyl2dmHSm1SD3l+0k6g==
-X-ME-Sender: <xms:vDjRYis0qjadoVxsuu0wAgjMvcN55_KXMGn1PST5xd3A1qh33pdL1g>
- <xme:vDjRYnf08NqLy9CgQrRv1pi4orQM02zhOj832d4Kv9ZsjuIgjMEwhhkMH6tdE-M6Y
- EFiUqoiXR4SY18FwZo>
-X-ME-Received: <xmr:vDjRYtxYTzsiWfii3QZfZrX7s6ztLzR59EjGXOHR1c2jfwSWkQrStstlPe8aSXKQGNPqd4RuYNjhH1v4lMVPmzR5idr67J95v7cid4Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekuddgvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeftdeuveetgefgiedvffejjeelvdevudduteetkedvieeuhedvgeekvdel
- teffkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:vDjRYtPpUYL-hUa6oJ0obUpUes1JN9atK0wI1WozU4HNfK-B0GdVyg>
- <xmx:vDjRYi_lu9mYDPFnqt3jBQIIfRMnq9-QvEmFx6BW8NedAHDtUG5pMA>
- <xmx:vDjRYlVrIw9I-HyB-5D4ElgXisy-1ZPtgpLMQPLSMvQy8hqsbb6cKA>
- <xmx:vTjRYpmiaMdVWciStL3BH34NueJXzbK9ESKiNcYEBfdKq0yuJS5IwQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Jul 2022 05:51:55 -0400 (EDT)
-Date: Fri, 15 Jul 2022 11:51:53 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Liu Zixian <liuzixian4@huawei.com>
-Subject: Re: [PATCH] drm: correct comments
-Message-ID: <20220715095153.nyjb3pendkubmdrq@houat>
-References: <20220715092256.982-1-liuzixian4@huawei.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7977214A201;
+ Fri, 15 Jul 2022 10:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657879870; x=1689415870;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=F53xOVXD6SXnMEhauy9BZi5+b7oTcShiZ3/x0q9GEec=;
+ b=P5EtBl4blk1H28AmF7H3K71PQVjhw50V1jVxqnErd4P/qpdldBc1XPTK
+ h/PdDxdgceufqravf8VxG3DahHPRpj8kXQqwxSQLwhrYZ/7evEU7/4gov
+ loQKpmybaJ8mY0JpClNhpewAd9g+6ROKHtos/WuBnYv/R+jBf8Wn4fyYh
+ aJVn5ro7fAUkCpynMxbZI9Gxu0Cji44pY13K1AunArY7Vx75leu6H/uRL
+ g4IOjvUIlhEW8Ix5szAkuzZ0b2oZfTxQIuLjV9EHE2WkcJPUwAopisiAA
+ WUzlm2c3vCs6aqJSFIv+mxPUxpeEgmO2k9HWcd5NmcAnh9nJ6cwtpopKu Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="372071705"
+X-IronPort-AV: E=Sophos;i="5.92,273,1650956400"; d="scan'208";a="372071705"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2022 03:11:09 -0700
+X-IronPort-AV: E=Sophos;i="5.92,273,1650956400"; d="scan'208";a="664136850"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.9.242])
+ ([10.213.9.242])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2022 03:11:07 -0700
+Message-ID: <04263a0c-6ba0-ba70-a3e7-3865df5adca8@intel.com>
+Date: Fri, 15 Jul 2022 12:11:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220715092256.982-1-liuzixian4@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [Intel-gfx] [PATCH RFC] drm/i915/gt: Retry RING_HEAD reset until
+ it sticks
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <2378da383d043de17172d928e59da0ec423cae76.1657873550.git.mchehab@kernel.org>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <2378da383d043de17172d928e59da0ec423cae76.1657873550.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,16 +62,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linfeilong@huawei.com
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 15.07.2022 10:26, Mauro Carvalho Chehab wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> On Haswell, in particular, we see an issue where resets fails because
+> the engine resumes from an incorrect RING_HEAD. Since the RING_HEAD
+> doesn't point to the remaining requests to re-run, but may instead point
+> into the uninitialised portion of the ring, the GPU may be then fed
+> invalid instructions from a privileged context, oft pushing the GPU into
+> an unrecoverable hang.
+> 
+> If at first the write doesn't succeed, try, try again.
+> 
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/5432
+> Testcase: igt/i915_selftest/hangcheck
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Fri, Jul 15, 2022 at 05:22:56PM +0800, Liu Zixian wrote:
-> On failure, these functions return errno, not NULL.
 
-They don't return an errno but an error pointer
+That is pity hw does not provide reliable way of reset.
 
-Maxime
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
+
+> ---
+>   .../gpu/drm/i915/gt/intel_ring_submission.c   | 44 +++++++++++++------
+>   drivers/gpu/drm/i915/i915_utils.h             | 10 +++++
+>   2 files changed, 40 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index d5d6f1fadcae..cc53feb1f8ed 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -190,6 +190,7 @@ static bool stop_ring(struct intel_engine_cs *engine)
+>   static int xcs_resume(struct intel_engine_cs *engine)
+>   {
+>   	struct intel_ring *ring = engine->legacy.ring;
+> +	ktime_t kt;
+>   
+>   	ENGINE_TRACE(engine, "ring:{HEAD:%04x, TAIL:%04x}\n",
+>   		     ring->head, ring->tail);
+> @@ -228,9 +229,20 @@ static int xcs_resume(struct intel_engine_cs *engine)
+>   	set_pp_dir(engine);
+>   
+>   	/* First wake the ring up to an empty/idle ring */
+> -	ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
+> +	until_timeout_ns(kt, 2 * NSEC_PER_MSEC) {
+> +		ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
+> +		if (ENGINE_READ_FW(engine, RING_HEAD) == ring->head)
+> +			break;
+> +	}
+> +
+>   	ENGINE_WRITE_FW(engine, RING_TAIL, ring->head);
+> -	ENGINE_POSTING_READ(engine, RING_TAIL);
+> +	if (ENGINE_READ_FW(engine, RING_HEAD) != ENGINE_READ_FW(engine, RING_TAIL)) {
+> +		ENGINE_TRACE(engine, "failed to reset empty ring: [%x, %x]: %x\n",
+> +			     ENGINE_READ_FW(engine, RING_HEAD),
+> +			     ENGINE_READ_FW(engine, RING_TAIL),
+> +			     ring->head);
+> +		goto err;
+> +	}
+>   
+>   	ENGINE_WRITE_FW(engine, RING_CTL,
+>   			RING_CTL_SIZE(ring->size) | RING_VALID);
+> @@ -239,12 +251,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
+>   	if (__intel_wait_for_register_fw(engine->uncore,
+>   					 RING_CTL(engine->mmio_base),
+>   					 RING_VALID, RING_VALID,
+> -					 5000, 0, NULL))
+> +					 5000, 0, NULL)) {
+> +		ENGINE_TRACE(engine, "failed to restart\n");
+>   		goto err;
+> +	}
+>   
+> -	if (GRAPHICS_VER(engine->i915) > 2)
+> +	if (GRAPHICS_VER(engine->i915) > 2) {
+>   		ENGINE_WRITE_FW(engine,
+>   				RING_MI_MODE, _MASKED_BIT_DISABLE(STOP_RING));
+> +		ENGINE_POSTING_READ(engine, RING_MI_MODE);
+> +	}
+>   
+>   	/* Now awake, let it get started */
+>   	if (ring->tail != ring->head) {
+> @@ -257,16 +273,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
+>   	return 0;
+>   
+>   err:
+> -	drm_err(&engine->i915->drm,
+> -		"%s initialization failed; "
+> -		"ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
+> -		engine->name,
+> -		ENGINE_READ(engine, RING_CTL),
+> -		ENGINE_READ(engine, RING_CTL) & RING_VALID,
+> -		ENGINE_READ(engine, RING_HEAD), ring->head,
+> -		ENGINE_READ(engine, RING_TAIL), ring->tail,
+> -		ENGINE_READ(engine, RING_START),
+> -		i915_ggtt_offset(ring->vma));
+> +	ENGINE_TRACE(engine,
+> +		     "initialization failed; "
+> +		     "ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
+> +		     ENGINE_READ(engine, RING_CTL),
+> +		     ENGINE_READ(engine, RING_CTL) & RING_VALID,
+> +		     ENGINE_READ(engine, RING_HEAD), ring->head,
+> +		     ENGINE_READ(engine, RING_TAIL), ring->tail,
+> +		     ENGINE_READ(engine, RING_START),
+> +		     i915_ggtt_offset(ring->vma));
+> +	GEM_TRACE_DUMP();
+>   	return -EIO;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+> index c10d68cdc3ca..717fb6b9cc15 100644
+> --- a/drivers/gpu/drm/i915/i915_utils.h
+> +++ b/drivers/gpu/drm/i915/i915_utils.h
+> @@ -256,6 +256,16 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
+>   	}
+>   }
+>   
+> +/**
+> + * until_timeout_ns - Keep retrying (busy spin) until the duration has passed
+> + * @end: temporary var to be used to track the spent time
+> + * @timeout_ns: Maximum timeout, in nanosseconds
+> + */
+> +#define until_timeout_ns(end, timeout_ns) \
+> +	for ((end) = ktime_get() + (timeout_ns); \
+> +	     ktime_before(ktime_get(), (end)); \
+> +	     cpu_relax())
+> +
+>   /**
+>    * __wait_for - magic wait macro
+>    *
+
