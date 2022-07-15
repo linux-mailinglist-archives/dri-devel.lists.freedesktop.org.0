@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD61576F14
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA555576EEA
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:39:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92CD610FD2C;
-	Sat, 16 Jul 2022 14:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6786E10F8CB;
+	Sat, 16 Jul 2022 14:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 414E710E461
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 16:29:18 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id b26so7433000wrc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=g4utnIEpgUH8SrFacOeGCRYGCTX0362lTOZoYsGdnLU=;
- b=OzC/9QXaaDqxoCP/B7s3PFEoW1r/3BL4QbU0Itu4yM/SSqwTf9zl3vnXpqm6D9/wLg
- u9IULLjrR/XGDkdPfCpFCJs5/QboFpLuQOffp2IKLY+TcH8l8BzzHthtTM5hML+jlRHO
- FG6Cxp7CivJKWEJLvCIuG26LkXP6sxJbO1IKctA1ERVcnJsmcMUdeLVDCwMA4onz9+H1
- 1MNjc+56N5uGO0uP7FpLmEqEBd9LvV4yyBSj2q2kCVBKFG5yQDPjhzHOHdM+unWA77AD
- SzvLrlWu0scXmQGI3iWJ+50TPqZt4sVHUFRyHKBkMNQSgWZ1mUzUSIa7VQPGG7NvSDCO
- TFOQ==
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D80810E028
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 16:52:04 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-31c8a1e9e33so52552727b3.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y3fEn7k6DEbC0BSZl5T1cKqr6t4t3jgvkJEo6o2VWJg=;
+ b=MXGzp2L91pEJL+AcTAycFNXQ1RlDsP6v+gpGIgwODuesPa+p9Vkg4kB7S9nocynJGw
+ Z6eSLqvXs18KQxUaf2JoIzf80wNgEBx5lb8hmQls/pYl5cmqKU6ZV2U293CPRD7pHPxN
+ oVoCyNl0NZggmwruE29B+fIK5bXDrw9tjgIG3C8Nq+6m6OWBSRplWoiH96JI+OT2GKU0
+ e+tCPQwL8IYMCW95SAqKMM4ZmBlz4myO2waTWwKa21CY9s4W7s12O0mKU6NbZpFIBwjv
+ WQndJpk7ul+2kIlNcx4SEPMyoKdY46YyQ2MP3qjPVvRdKZ8R3yH3WQfj2xLINnsHUnDO
+ ZohA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=g4utnIEpgUH8SrFacOeGCRYGCTX0362lTOZoYsGdnLU=;
- b=KK4lhrkzMg1tmdA5F5lVo52QGjYxpQjlUCyRVxlDixRm6mdxMugkLEcqn4RYbExv8E
- rEHuJhsNWKVk/FCCNYwG03QPrChPyJiDnkTW44eBpyNpkN4UH7tviWFq4PJlSlPlDhpR
- grv8D1ObZCQEd1NZlL+I1cJyhC57kWaL2NHhL8GMaOFN9y0BD6Vcd/xTs34Fjf60wbBA
- oRSi4hgK/FooQRWPimicQxsqsrmMEWYcN3Xh3M67b4BnucGu+lqDvQjPrQ1C5d1vfnmG
- U2aTxW0+QU1i/gVYr6K5L/F6hlowW3rD4QJ6NScNKBoxO+T25H56bx7GNmj7AYLErlF1
- 0yKQ==
-X-Gm-Message-State: AJIora9VJWTkHzDhHEFsjIkx6FANKynCuZ5QRP2kFHdjzo3G2nAHPXfJ
- oiS8aVK6W4kwF50KOobdWWtGCw==
-X-Google-Smtp-Source: AGRyM1tSF48yUDKFkMabG1ZK0Ufn2HDShLc1rfkqldFR9s050thAUB7FUGwV6hpIfcU96gErNHiZ9Q==
-X-Received: by 2002:a05:6000:16cb:b0:21d:7b9e:d0af with SMTP id
- h11-20020a05600016cb00b0021d7b9ed0afmr13306509wrf.139.1657902556488; 
- Fri, 15 Jul 2022 09:29:16 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- h7-20020adffd47000000b0021d650e4df4sm4283198wrs.87.2022.07.15.09.29.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jul 2022 09:29:16 -0700 (PDT)
-Date: Fri, 15 Jul 2022 17:29:13 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v5 13/13] video: backlight: mt6370: Add MediaTek MT6370
- support
-Message-ID: <20220715162913.5ewxwhv6jtdgt3c2@maple.lan>
-References: <20220715112607.591-1-peterwu.pub@gmail.com>
- <20220715112607.591-14-peterwu.pub@gmail.com>
- <ec3bdfb8-0e42-a772-28b1-165811872afa@collabora.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y3fEn7k6DEbC0BSZl5T1cKqr6t4t3jgvkJEo6o2VWJg=;
+ b=UC0fZiraObbdEI4sghO8Ljr1Rp62rdUCY61/P0fQ6hwJ+IskUMMtqtmuzx8OQHeH+O
+ qZEiFK0+GAoGnmTwJuayfqG2GuiQ49jaoC0U/x1l63I9ZyZNsz9p1j3Nzpx+w8G5Tbmq
+ QCSwZgjj2xcIxVmFzskqFHz6ycx7l8qaMYtXRwBp5eRc2KFZ9ki0zViMqhBp46u16ftr
+ u+u9dxMZi/L3gocx9xa2Bn8Na1321lv5PeppRj0fLl7SuZwwPqdG913TpxoiG1yak3ET
+ ot9dUT1/JP5CdzGPYQTI/eC8XvlAsc2bMU0qsu0X0of48nshPmBTFkfxWqHaczQCcoP/
+ cDCw==
+X-Gm-Message-State: AJIora++sCrmrPGDovZtuNfI2qm4o33V2MXwsRQzAZSyXoOt5k4mZv29
+ jTB6Lio7m9nFT8h0OScaXsCwts96iU92vWAqShs=
+X-Google-Smtp-Source: AGRyM1sCY24F2pEPhG1uDrQQmbeNKcxn2P0g2UtmOwj7faRUDuEi5O71VSZCHL0+DLUg4GOwi/Ey7mykcBwsz36AuRU=
+X-Received: by 2002:a81:54c1:0:b0:31d:ec18:fd5d with SMTP id
+ i184-20020a8154c1000000b0031dec18fd5dmr7130568ywb.277.1657903923745; Fri, 15
+ Jul 2022 09:52:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec3bdfb8-0e42-a772-28b1-165811872afa@collabora.com>
+References: <20220715112607.591-1-peterwu.pub@gmail.com>
+ <20220715112607.591-11-peterwu.pub@gmail.com>
+In-Reply-To: <20220715112607.591-11-peterwu.pub@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 15 Jul 2022 18:51:27 +0200
+Message-ID: <CAHp75Ve_WRAUyy=h9_F-tC1dDkb_=-F1uf7_h7R0p7xZgBAd-w@mail.gmail.com>
+Subject: Re: [PATCH v5 10/13] power: supply: mt6370: Add MediaTek MT6370
+ charger driver
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,82 +65,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
- krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
- linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, deller@gmx.de, robh+dt@kernel.org,
- chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, szunichen@gmail.com, broonie@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- ChiaEn Wu <peterwu.pub@gmail.com>, linux-arm-kernel@lists.infradead.org,
- jingoohan1@gmail.com, linux-usb@vger.kernel.org, sre@kernel.org,
- linux-kernel@vger.kernel.org, chiaen_wu@richtek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 15, 2022 at 02:38:45PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 15/07/22 13:26, ChiaEn Wu ha scritto:
-> > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> >
-> > MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> > with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> > driver, display bias voltage supply, one general purpose LDO, and the
-> > USB Type-C & PD controller complies with the latest USB Type-C and PD
-> > standards.
-> >
-> > This adds support for MediaTek MT6370 Backlight driver. It's commonly used
-> > to drive the display WLED. There are 4 channels inside, and each channel
-> > supports up to 30mA of current capability with 2048 current steps in
-> > exponential or linear mapping curves.
-> >
-> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+On Fri, Jul 15, 2022 at 1:29 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 >
-> Hello ChiaEn,
+> From: ChiaEn Wu <chiaen_wu@richtek.com>
 >
-> I propose to move this one to drivers/leds (or drivers/pwm) and, instead of
-> registering a backlight device, register a PWM device.
+> MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
+> with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
+> driver, display bias voltage supply, one general purpose LDO, and the
+> USB Type-C & PD controller complies with the latest USB Type-C and PD
+> standards.
 >
-> This way you will be able to reuse the generic backlight-pwm driver, as you'd
-> be feeding the PWM device exposed by this driver to the generic one: this will
-> most importantly make it easy to chain it with MTK_DISP_PWM (mtk-pwm-disp)
-> with a devicetree that looks like...
+> This adds MediaTek MT6370 Charger driver support. The charger module
+> of MT6370 supports High-Accuracy Voltage/Current Regulation,
+> Average Input Current Regulation, Battery Temperature Sensing,
+> Over-Temperature Protection, DPDM Detection for BC1.2.
 
-Out of interest, does MT6370 have the same structure for backlights as the prior
-systems using mtk-pwm-disp or was mtk-pwm-disp simply a normal(-ish) PWM
-that relied on something on the board for all the constant current
-driver hardware?
+...
+
+> +static int mt6370_chg_probe(struct platform_device *pdev)
+> +{
+> +       int ret;
+> +       struct mt6370_priv *priv;
+> +
+> +       priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->dev = &pdev->dev;
+> +
+> +       priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +       if (!priv->regmap)
+> +               return dev_err_probe(&pdev->dev, -ENODEV,
+> +                                    "Failed to get regmap\n");
+> +
+> +       ret = mt6370_chg_init_rmap_fields(priv);
+> +       if (ret)
+> +               return dev_err_probe(&pdev->dev, ret,
+> +                                    "Failed to init regmap fields\n");
+> +
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       priv->iio_adcs = devm_iio_channel_get_all(priv->dev);
+> +       if (IS_ERR(priv->iio_adcs))
+> +               return dev_err_probe(&pdev->dev, PTR_ERR(priv->iio_adcs),
+> +                                    "Failed to get iio adc\n");
+> +
+> +       ret = mt6370_chg_init_otg_regulator(priv);
+> +       if (ret)
+> +               return dev_err_probe(&pdev->dev, ret,
+> +                                    "Failed to init otg regulator\n");
+> +
+> +       ret = mt6370_chg_init_psy(priv);
+> +       if (ret)
+> +               return dev_err_probe(&pdev->dev, ret, "Failed to init psy\n");
+> +
+> +       mutex_init(&priv->attach_lock);
+> +       priv->attach = MT6370_ATTACH_STAT_DETACH;
+> +
+> +       priv->wq = create_singlethread_workqueue(dev_name(priv->dev));
+> +       if (IS_ERR(priv->wq))
+
+> +               return dev_err_probe(priv->dev, PTR_ERR(priv->wq),
+> +                                    "Failed to create workqueue\n");
+
+You need either wrap mutex to be deallocated by devm or don't use
+dev_err_probe() here.
+
+> +       INIT_WORK(&priv->bc12_work, mt6370_chg_bc12_work_func);
+> +       INIT_DELAYED_WORK(&priv->mivr_dwork, mt6370_chg_mivr_dwork_func);
+> +
+> +       ret = mt6370_chg_init_setting(priv);
+> +       if (ret) {
+> +               dev_err(&pdev->dev, "Failed to init mt6370 charger setting\n");
+> +               goto probe_out;
+> +       }
+> +
+> +       ret = mt6370_chg_init_irq(priv);
+> +       if (ret)
+> +               goto probe_out;
+> +
+> +       mt6370_chg_pwr_rdy_check(priv);
+> +
+> +       return 0;
+> +
+> +probe_out:
+> +       cancel_delayed_work_sync(&priv->mivr_dwork);
+> +       flush_workqueue(priv->wq);
+> +       destroy_workqueue(priv->wq);
+> +       mutex_destroy(&priv->attach_lock);
+> +
+> +       return ret;
+> +}
+> +
+> +static int mt6370_chg_remove(struct platform_device *pdev)
+> +{
+> +       struct mt6370_priv *priv = platform_get_drvdata(pdev);
+> +
+> +       cancel_delayed_work_sync(&priv->mivr_dwork);
+> +       flush_workqueue(priv->wq);
+> +       destroy_workqueue(priv->wq);
+> +       mutex_destroy(&priv->attach_lock);
+> +
+> +       return 0;
+> +}
 
 
->
-> 	pwmleds-disp {
-> 		compatible = "pwm-leds";
->
-> 		disp_led: disp-pwm {
-> 			label = "backlight-pwm";
-> 			pwms = <&pwm0 0 500000>;
-> 			max-brightness = <1024>;
-> 		};
-> 	};
->
-> 	backlight_lcd0: backlight {
-> 		compatible = "led-backlight";
-> 		leds = <&disp_led>, <&pmic_bl_led>;
-> 		default-brightness-level = <300>;
-> 	};
-
-I think this proposal has to start with the devicetree bindings rather
-than the driver. Instead I think the question is: does this proposal
-result in DT bindings that better describe the underlying hardware?
-
-This device has lots of backlight centric features (OCP, OVP, single
-control with multiple outputs, exponential curves, etc) and its not
-clear where they would fit into the "PWM" bindings.
-
-Come to think of it I'm also a little worried also about the whole linear
-versus exponential curve thing since I thought LED drivers were required
-to use exponential curves.
-
-
-Daniel.
+-- 
+With Best Regards,
+Andy Shevchenko
