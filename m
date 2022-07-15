@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33635575E2E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFE2575E41
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF83A10F13A;
-	Fri, 15 Jul 2022 09:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F8C10F8B9;
+	Fri, 15 Jul 2022 09:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9754110F13A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:03:32 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id q9so5855203wrd.8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 02:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:subject:to:cc:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HBnANm3Q5A2PJY9aeSUc7ohmvMH+myjaxt+W7/dm5Xg=;
- b=A3EIJdWC+rs1GD+oMHlvaDHnlloFu2pxTrMInfDEm2SmomsWLOXswFlzOUFn06jYQm
- zInzhuki4SyfxHOv4+GDkhBWkX3eEz9jQuobWcrQ8N1+StmqvouMfheHLjipKEM3q4Nk
- 2CPNUOoQbC9XiiKxHI6l2pUMu5lgzsj024BgOonGpZ9iXrayFRSZbqgx1whl6u2tshGb
- GXTyb0WrKGKNZZogtFVe8nn8ZCHvyniI3iZ7fqOVZW97iNJv1VyUHoagKQdQEZ+Up0s+
- iX+GbhJg++bcEP/zpXYIOoS8q7BxTCSreUUd1sWG2y2tStyNRna4lSHFgMpR13UzJEvG
- EUPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:subject:to:cc:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HBnANm3Q5A2PJY9aeSUc7ohmvMH+myjaxt+W7/dm5Xg=;
- b=LhwOIAeV2DaqGoQsPkE7AdEfo9Nckvdo5ciLmFRWkCpZ6ujprzS3RgOqgd3v9Vuu+9
- leSJkQhb5+60pDCEtQBcCR2jtCKWMfrvmZHYShM8coljpuVXagEKPYFt3Q+yzrhO/az4
- x4vYSFI0z99UvlVExi7vw69tEECNL1vhq13YfyYs4q9Nj5T7GBhHsgLbYZY1cEhxC/79
- vjPBPmCFp0NK/bnfEGHkwJnTpukWlbtpwxCpV/KFooEd8/sXqQ8lRlU2CSimIK1G9hSc
- XbLLOiskjIIKVjWkrQyNLs0u5fT4b5LLGweBmDRM0EVmSGIM7XFoOJEB0zABgn2f4OZv
- PIuQ==
-X-Gm-Message-State: AJIora90bxZk0Z9PGwTCI+Pkr+L7ko6s0a1hZ8qyK1gqmuCc6+6k2JbZ
- 81Mz8ykXkzTY+ksLd/IEah0=
-X-Google-Smtp-Source: AGRyM1vXdCEdArP+QaQdNEY6f2R87CoZt3nA6uoWQy+wb3N7Q4yvWxRhVv7rpzO5yYN3RA5l97tp0w==
-X-Received: by 2002:adf:9ccf:0:b0:21d:6df9:cb28 with SMTP id
- h15-20020adf9ccf000000b0021d6df9cb28mr12003871wre.499.1657875810984; 
- Fri, 15 Jul 2022 02:03:30 -0700 (PDT)
-Received: from fedora ([2a01:e0a:1d2:1f90:be95:f3a2:4d99:a3b3])
- by smtp.gmail.com with ESMTPSA id
- j9-20020a05600c190900b003a2fde6ef62sm4979101wmq.7.2022.07.15.02.03.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jul 2022 02:03:30 -0700 (PDT)
-Date: Fri, 15 Jul 2022 11:03:23 +0200
-From: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
-To: =?iso-8859-1?b?QW5kcuk=?= Almeida <andrealmeid@igalia.com>
-Message-Id: <N512FR.B1R49X9JM9FW2@gmail.com>
-In-Reply-To: <120a8dc1-7e5c-85da-e087-10d21fedbf20@igalia.com>
-References: <WKTLER.NFH5CX2O259Q@gmail.com>
- <120a8dc1-7e5c-85da-e087-10d21fedbf20@igalia.com>
-X-Mailer: geary/40.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA2910F8B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:13:09 +0000 (UTC)
+X-UUID: 1d41d199e36a4cd49238f9f5cc354333-20220715
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:b02bc9aa-c130-4672-95a5-f92fc34312b7, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:0f94e32, CLOUDID:071f6464-0b3f-4b2c-b3a6-ed5c044366a0,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: 1d41d199e36a4cd49238f9f5cc354333-20220715
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 901452969; Fri, 15 Jul 2022 17:13:03 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 15 Jul 2022 17:13:03 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 15 Jul 2022 17:13:03 +0800
+Message-ID: <ba34c4aafcb667eba778cbb0ec7cd12f6fac6400.camel@mediatek.com>
+Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Fri, 15 Jul 2022 17:13:03 +0800
+In-Reply-To: <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,97 +64,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi, Bo-Chen:
 
-Sorry, my email client removed every tab. I will send the v2 in a new=20
-thread.
+On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
+> 
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
 
-Thanks.
+[snip]
 
-Matthieu
+> +
+> +static int mtk_dp_set_color_depth(struct mtk_dp *mtk_dp)
 
-On Thu, Jul 14 2022 at 11:23:10 AM -0300, Andr=E9 Almeida=20
-<andrealmeid@igalia.com> wrote:
-> Hi Matthieu,
->=20
-> Thanks for your patch.
->=20
-> =C0s 11:58 de 06/07/22, Matthieu CHARETTE escreveu:
->>  Loading an EDID using drm.edid_firmware parameter makes resume to=20
->> fail
->>  after firmware cache is being cleaned. This is because edid_load()=20
->> use a
->>  temporary device to request the firmware. This cause the EDID=20
->> firmware
->>  not to be cached from suspend. And, requesting the EDID firmware=20
->> return
->>  an error during resume.
->>  So the request_firmware() call should use a permanent device for=20
->> each
->>  connector. Also, we should cache the EDID even if no monitor is
->>  connected, in case it's plugged while suspended.
->>=20
->>  Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
->>  ---
->>  drivers/gpu/drm/drm_connector.c | 9 ++++
->>  drivers/gpu/drm/drm_edid_load.c | 81=20
->> ++++++++++++++++++++++++++++-----
->>  include/drm/drm_connector.h | 12 +++++
->>  include/drm/drm_edid.h | 3 ++
->>  4 files changed, 94 insertions(+), 11 deletions(-)
->>=20
->>  diff --git a/drivers/gpu/drm/drm_connector.c
->>  b/drivers/gpu/drm/drm_connector.c
->>  index 1c48d162c77e..e8819ebf1c4b 100644
->>  --- a/drivers/gpu/drm/drm_connector.c
->>  +++ b/drivers/gpu/drm/drm_connector.c
->>  @@ -31,6 +31,7 @@
->>  #include <drm/drm_privacy_screen_consumer.h>
->>  #include <drm/drm_sysfs.h>
->>=20
->>  +#include <linux/platform_device.h>
->>  #include <linux/uaccess.h>
->>=20
->>  #include "drm_crtc_internal.h"
->>  @@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
->>=20
->>   drm_connector_get_cmdline_mode(connector);
->>=20
->>  + connector->edid_load_pdev =3D NULL;
->>  + drm_cache_edid_firmware(connector);
->>  +
->>   /* We should add connectors at the end to avoid upsetting the=20
->> connector
->>    * index too much.
->>    */
->>  @@ -473,6 +477,11 @@ void drm_connector_cleanup(struct drm_connector
->>  *connector)
->>    connector->tile_group =3D NULL;
->>   }
->>=20
->>  + if (connector->edid_load_pdev) {
->>  + platform_device_unregister(connector->edid_load_pdev);
->>  + connector->edid_load_pdev =3D NULL;
->>  + }
->>  +
->=20
-> The indentation of your patch is wrong in different places, like in=20
-> this
-> if here. It should be like
->=20
-> + if (connector->edid_load_pdev) {
-> + 	platform_device_unregister(connector->edid_load_pdev);
-> + 	connector->edid_load_pdev =3D NULL;
-> + }
->=20
-> ./scripts/checkpatch.pl can help you detect those issues for your v2
->=20
-> Thanks,
-> 	Andr=E9
+This function just return 0, so let this function to be void.
 
+Regards,
+CK
+
+> +{
+> +	/* Only support 8 bits currently */
+> +	mtk_dp->info.depth = DP_MSA_MISC_8_BPC;
+> +
+> +	/* Update MISC0 */
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
+> +			   DP_MSA_MISC_8_BPC, DP_TEST_BIT_DEPTH_MASK);
+> +
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C,
+> +			   VIDEO_COLOR_DEPTH_DP_ENC0_P0_8BIT,
+> +			   VIDEO_COLOR_DEPTH_DP_ENC0_P0_MASK);
+> +	return 0;
+> +}
+> +
 
