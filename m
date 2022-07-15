@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A7C577145
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 21:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7A157715B
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 22:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 424BA10E259;
-	Sat, 16 Jul 2022 19:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5B4C10E6B6;
+	Sat, 16 Jul 2022 20:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9CC410E0E0;
- Sat, 16 Jul 2022 19:52:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=6ppoxgdipskmmbW5jBQLibvHxWKVt7t/b+tu2ackF68=; b=JojGInDTU8Kz2yjwVlXOw9Vk/v
- Yig/L9s04sffB8MI0oyjtD+QmyeKUehMumRKeAg4P1zYD3kEbBCQdB7IPKCpsB5FYnhmwkvYb3YbQ
- 0d9lnytUjUC8FxlpjQlDRs5wr9Ny1g459ncScbi9pCa5L/CNnxGRWFlAeuy/ACqr3vVZbPM6+tGAm
- KiXJglgq75FjYuvSTx0DtZj9zAwSvOydUKlRSOsIinvGr5kU1PObtkapIjeqmm83TvheIVMBHV+SA
- YRusFDvkAhP8lZ6A8l2x6Vlq6Oog22J4dBqqTRV+eDsVLAMsND73XjxF7lgml2MEL0QxNfAGt16pI
- dFDfnBjg==;
-Received: from [165.90.126.25] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oCnpt-001zN4-32; Sat, 16 Jul 2022 21:52:21 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/amd/display: move dcn31_update_soc_for_wm_a func to dml
- fpu folder
-Date: Sat, 16 Jul 2022 18:51:44 -0100
-Message-Id: <20220716195144.342960-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.35.1
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC0211BCF9
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:23:15 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Lkm5Y0Mg6zVfq5;
+ Fri, 15 Jul 2022 17:19:29 +0800 (CST)
+Received: from kwepemm600010.china.huawei.com (7.193.23.86) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 15 Jul 2022 17:22:58 +0800
+Received: from huawei.com (10.174.179.164) by kwepemm600010.china.huawei.com
+ (7.193.23.86) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 15 Jul
+ 2022 17:22:57 +0800
+From: Liu Zixian <liuzixian4@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: correct comments
+Date: Fri, 15 Jul 2022 17:22:56 +0800
+Message-ID: <20220715092256.982-1-liuzixian4@huawei.com>
+X-Mailer: git-send-email 2.29.2.windows.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.164]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600010.china.huawei.com (7.193.23.86)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Sat, 16 Jul 2022 20:16:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,90 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- linux-kernel@vger.kernel.org
+Cc: linfeilong@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although dcn31_update_soc_for_wm_a() is only called in dml/dcn31/dcn31_fpu by
-dc->res_pool->funcs->update_soc_for_wm_a(dc, context), it's declared in
-dcn31_resource that is not FPU protected. Move this function to dcn31_fpu
-file as part of the work to isolate FPU code.
+On failure, these functions return errno, not NULL.
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Liu Zixian <liuzixian4@huawei.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c | 9 ---------
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h | 1 -
- drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c  | 9 +++++++++
- drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h  | 2 ++
- 4 files changed, 11 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
+ include/drm/drm_gem_shmem_helper.h     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
-index 16bbccc69fdc..17c776e88514 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
-@@ -1716,15 +1716,6 @@ int dcn31_populate_dml_pipes_from_context(
- 	return pipe_cnt;
- }
- 
--void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context)
--{
--	if (dc->clk_mgr->bw_params->wm_table.entries[WM_A].valid) {
--		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].pstate_latency_us;
--		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_enter_plus_exit_time_us;
--		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_exit_time_us;
--	}
--}
--
- void dcn31_calculate_wm_and_dlg(
- 		struct dc *dc, struct dc_state *context,
- 		display_e2e_pipe_params_st *pipes,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-index 393458015d6a..41f8ec99da6b 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-@@ -59,7 +59,6 @@ dcn31_set_mcif_arb_params(struct dc *dc,
- 			  struct dc_state *context,
- 			  display_e2e_pipe_params_st *pipes,
- 			  int pipe_cnt);
--void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context);
- 
- struct resource_pool *dcn31_create_resource_pool(
- 		const struct dc_init_data *init_data,
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-index 7be3476989ce..facac3daeaca 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-@@ -435,6 +435,15 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc = {
- 	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
- };
- 
-+void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context)
-+{
-+	if (dc->clk_mgr->bw_params->wm_table.entries[WM_A].valid) {
-+		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].pstate_latency_us;
-+		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_enter_plus_exit_time_us;
-+		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_exit_time_us;
-+	}
-+}
-+
- void dcn31_calculate_wm_and_dlg_fp(
- 		struct dc *dc, struct dc_state *context,
- 		display_e2e_pipe_params_st *pipes,
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
-index 24ac19c83687..0a10de80c1a4 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
-@@ -31,6 +31,8 @@
- #define DCN3_15_MIN_COMPBUF_SIZE_KB 128
- #define DCN3_16_DEFAULT_DET_SIZE 192
- 
-+void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context);
-+
- void dcn31_calculate_wm_and_dlg_fp(
- 		struct dc *dc, struct dc_state *context,
- 		display_e2e_pipe_params_st *pipes,
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 8ad0e0299..37009418c 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -662,7 +662,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+  * drm_gem_shmem_get_pages_sgt() instead.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or NULL on failure.
++ * A pointer to the scatter/gather table of pinned pages or errno on failure.
+  */
+ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
+ {
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index d0a57853c..0122e4075 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -210,7 +210,7 @@ static inline void drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
+  * use it as their &drm_gem_object_funcs.get_sg_table handler.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or NULL on failure.
++ * A pointer to the scatter/gather table of pinned pages or errno on failure.
+  */
+ static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_object *obj)
+ {
 -- 
-2.35.1
+2.33.0
 
