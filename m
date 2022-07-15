@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53FF576E9F
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736ED576EBB
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C41B10E9E3;
-	Sat, 16 Jul 2022 14:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE85910F2BB;
+	Sat, 16 Jul 2022 14:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2665C10E067;
- Fri, 15 Jul 2022 14:28:07 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12D9E10E06A;
+ Fri, 15 Jul 2022 15:05:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kLY4yiT8Kb+P1m6RDtYAdkTMyzQelvhz24/z1b3eMWcr86deT0xdGt/VSH35S3i3TWdzcraO61OyElcpOMjOBTxmgk5efhH6Boyeer0uVkjtGQVspc3ulZ8AFUfdpdtL7/bvg95Qj/21r8X6QIAVf5aIGJJnk2lSWC9VR8yNyx4rRZyCqoHerg+Yo7hFq8gui4KvVuqxKsEYWUCQarQORqqbKuTb/4zaexLYaksy4a/37YrLdbG1ToN43uvAV7zO+ls4w4XnLs0hUfft6U5ZvaS4lXW0rEnqMjzw9v3xpjYfEAH2zUaZfdGdZyed6yWvearSaeaIPnxebu0KzncayA==
+ b=gCriNHKb0Ev7qw7YhMqFHN/boqlEBf15HpCzZvD41n7Kjcg+yo1QcjzKc/8GV0YtcyYDrRoROL1Cpdz8egD3F9W/YNv4InlR9bHr816rug7UZZ4AehI8b7RuxdZw41BIudIkSJoyP8k/klgsVddrSCm2gZcwKQNYu+1ZcMRv0N3INSiW2Ikf+go0m8mfYK9ZEy7yl/F56t3BN9WVcKYDZ+PEMkT0K7TJjs06LAocNUoiXn75yl8Iq8a5aCyZvIdddsS8ZKDv8hNEUsTGGP9j3dZUiH/4ufyNpZ+r2ngQXBvRbws6otO8PCljsm0ZoAj1Rmq16kWd1rpyitlTlL3MfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JLYg60dhi1yNyK/UAT6c4gR+PoegdAlZfXqal7bw+sg=;
- b=hqacaV5dPW8oDMVGe2+nEoTws6OBWMAIfWT2q3MJwmD5RyIqRSWFIuVzcys5KNs/J6d6I6OxO7nC4L7LiOJ3pa4NaxdzIW2jYwdrCi0GCEC9nm4+VcW/KNocyQOr9Rm9Zv9f33iKEuil7Kpp71+WP62OieeON3JyPJaJHDqtKYPADeOWQkyz4gF3vahQjEmlRupmb2sH5RXOYF/qROCZjDKQYYNoS3GmXzeAox8bPqUSQAD8MClwl/lBz7zMyK+0rwzgPBSbf4ykIJCqtrXvKjX2WWvpCkdhbMU4Xt0z62zc2V3k/8ge15zB7k5G0qUD7mdcfnHica3nmr272GK+/g==
+ bh=DZGhdkmfhVbbMbtYqiY0o7FTOj+0MzOTvzmjDbLDeEM=;
+ b=obQfPenpb4qO21ZkPpmyY6jNnB8K8h2Y0WYOlby5M/BNqDbBUWmWzq8JC583+mxoMKqvBR+rsJb9FcCromRC9QKxac+MWLPp7J0oT7EXVziNQ7wH02ep/NNRywTK6jPRestL4cJmafAl3z3fBy03L8Jx1LPyDg7Ivogjdz7Tz/WjpnBuZOmvWsrQVhXFV1Ac4VsqazN5IoTVfQ5UOjma2GDfh+BG8GyPZnpBSxh5bwKsea5xeTz5ApBFSRpUa5FylltfDFgyL05/zKWYlrbhoRySufhn64wwLWIhNtl8NApZk+cHkf4ijyVL1LaUbMmVjZvh2waxw+nlQzT7PNYEUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
+ 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JLYg60dhi1yNyK/UAT6c4gR+PoegdAlZfXqal7bw+sg=;
- b=bFb+a7w/UaKHLnfqDLBjveUsp8ogBvuySB/hI5RBmRM7KuzXvLFgIuchTYMYaH9ud5GeTHSyDdiNyBNcZiV48YCvKUkioNDJ1EpPrPG5ZdkoSoCYNMpaozXwlhS2P3zm9nd+PrUWrbyXbh++dvCtjQQgXF6J5ByKiJqhaxYHfyE=
-Received: from BN8PR07CA0009.namprd07.prod.outlook.com (2603:10b6:408:ac::22)
- by DM6PR12MB4730.namprd12.prod.outlook.com (2603:10b6:5:30::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Fri, 15 Jul
- 2022 14:13:51 +0000
-Received: from BN8NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ac:cafe::87) by BN8PR07CA0009.outlook.office365.com
- (2603:10b6:408:ac::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.17 via Frontend
- Transport; Fri, 15 Jul 2022 14:13:51 +0000
+ bh=DZGhdkmfhVbbMbtYqiY0o7FTOj+0MzOTvzmjDbLDeEM=;
+ b=2U9LAXmGGWPbhzo/lXQQYM3vWdxQ1LHG5DZeqHgEIDzdS6iBeEsIDbdNHeTfWQC6wSPjdyMkNfYEXARPmngOtgv9lqzLvXV4vIYJyxA2y9OcWuTJzoYQLjE3LYfdmoqJB4mKDUER+MACOsNRhWzvTb0jQZ1CaSF69QtiuF/Vc40=
+Received: from DM6PR06CA0061.namprd06.prod.outlook.com (2603:10b6:5:54::38) by
+ DS0PR12MB6605.namprd12.prod.outlook.com (2603:10b6:8:d3::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5438.18; Fri, 15 Jul 2022 15:05:35 +0000
+Received: from DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:54:cafe::8c) by DM6PR06CA0061.outlook.office365.com
+ (2603:10b6:5:54::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.19 via Frontend
+ Transport; Fri, 15 Jul 2022 15:05:35 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,48 +45,48 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT059.mail.protection.outlook.com (10.13.177.120) with Microsoft SMTP
+ DM6NAM11FT057.mail.protection.outlook.com (10.13.172.252) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5438.12 via Frontend Transport; Fri, 15 Jul 2022 14:13:50 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ 15.20.5438.12 via Frontend Transport; Fri, 15 Jul 2022 15:05:35 +0000
+Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 15 Jul
- 2022 09:13:49 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-5.19
-Date: Fri, 15 Jul 2022 10:13:34 -0400
-Message-ID: <20220715141334.543801-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.35.3
+ 2022 10:05:33 -0500
+From: Alex Sierra <alex.sierra@amd.com>
+To: <jgg@nvidia.com>
+Subject: [PATCH v9 00/14] Add MEMORY_DEVICE_COHERENT for coherent device
+ memory mapping
+Date: Fri, 15 Jul 2022 10:05:07 -0500
+Message-ID: <20220715150521.18165-1-alex.sierra@amd.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2f617717-d250-49e2-3173-08da666c3e06
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4730:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02b35874-da18-4570-0730-08da66737849
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6605:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YSjPT/OoNUYso2hTv7QeUv49wyy6A+Rq6xUWNTo7cezjE73iJ6gQ/knDODS85nH4Im2VyYmt8Sg2DCcXS7kmU8hnxIsrte1VcdVt6EmUGW9f8sQorj2CLUQd9Tj4OdMhwjUP2S1FEqtIYjTajUEz1NZ8UvGCMTz+bJ1mHS4wHzVlNExW/XWYAHcXWLFGLNPsp4oDdeHDWnI+JPfXwowHDIAMtZxUt0wv0Gf3oUW2j6zIryUvLExIskNuROxEHAnKH6gpXxnXEW5Pz3gjehdrVkEwrIcopCInbmY2kimZM4NIMFQro2NIG23o+3IdU72SLBPT9X6bF3mB1+8i63PCnA7TIi74QpUUd+0lb81XRCEILIz44MIKlgcUMj3kMoynqI6takXifZetDC59Yi7JxRa5/8iVLzf+Km8DfyucpzPe3krq6AckeE6ZzgdkrfD2/Oo/roF7o0AY+9MZG/F44XVeBhozzAOFjgOEDe3LC0nbzRrqKEupCoohompc69ACMihFtmfOtvHOr9PZlEOyHtPJh0871CbfHnwGSfj6sW2tKdHWKMhxtDyWdDJ+6LNjWPwQQeinyUBLYNY+ffNnL6e89tqNxpeCZrW+60THWLAUBeFJeyYwRmiv8CxdugUVJHkpeeSp70PEZuthmYUAL5xUZLpjB/BK2VlX70Uan84LnxXVsxMu8YnpZuhwQ1tjhwY3dAYgmuMuuZnQsFHzDp6kl3fxJeidrMFxMVz8r1lrbkoIPQDlaMmjNLjiA4cY6Y28cN9hulMpACqj8chVJPFHhRLTBitY1OXQE0Cx13M=
+X-Microsoft-Antispam-Message-Info: SQhmq3pjwDWXYY35Jk+B+VtJAV1DzO7h6fcbYBxhLN4IGOlTSRv6FVa8kPsCYAuk/wKWms2wyfdFaSNNWOJXysFtFK0+eVsJbY6nyaJjPegRv62U1sIZxTIq3yaPQsJ/TidW9N2egTNjonqsaQ+ISZMqVYIRyUz0Sa7i4YyBMmV4kg6w7ACTUV6bmeLgVNcrDVH05GbkDbdkdT8EVGnDueg/jCSfge7xdWce0JTl730VcPjRJPim4Hhx649vv827OkCtr/BsL73ecN7NOYkXyVI9xijaQ9qM8LU7wueznEJjVV6Iib6nskUcI8Pah2jb2uZVMHhRSSttsCnQnD1dlUattrXIyz5VMZQvhfKA69BR4c6RToyjTZU78b3Qr2fIrt4DvvYKQfWewcRUQrGVHzmy7Ns8485pTUWZvSc2tI+f6rTHPwMUTQS8LxGi9Pn7ktXgbwrYdgvaCUDupjsYjVps1PJ4LJKCXIEWy8Q18pNqSxihoS4YDJLOYA4LbWJgcaTaj+teoW6DDKh2pXpNoveBA9o+5Di50HRTLZNmrRWOdlsQulOfl1hiMKieYzgZraaq8bHcjC0JzzaSsj50GvhurHsIPngqna8of5ypdCnPqMNIpaiwLdW2xEEHlKTTp53+fNwfXxJeK4+6a6VFgV+F0UobE+NruS49+5Se+ix4xv+KGwrlZY34W9ZFfEXKSt/f6a3xe0/D0pCOJxj7DDWTMvzSXrmO5oiXTI4TKHwnGxdxN6v/F+65Ir7svmC3fRWRW5knKL6AMrOod5Cl8iv/ds6sAU6e8qVODEuOpe6C7LANzGz/2HEZtLD5EtkKURi7U4qJeTAW6GRqoUZ5xk3QzUlqPB2iHgzxjJf0/9w=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(39860400002)(136003)(396003)(346002)(36840700001)(40470700004)(46966006)(966005)(186003)(478600001)(41300700001)(2616005)(7696005)(336012)(426003)(47076005)(16526019)(26005)(6666004)(82740400003)(81166007)(356005)(1076003)(36860700001)(83380400001)(4744005)(2906002)(8936002)(82310400005)(40480700001)(36756003)(5660300002)(316002)(110136005)(40460700003)(86362001)(70206006)(70586007)(4326008)(8676002)(36900700001);
+ SFS:(13230016)(4636009)(346002)(396003)(39860400002)(136003)(376002)(40470700004)(36840700001)(46966006)(70586007)(426003)(70206006)(83380400001)(40480700001)(47076005)(44832011)(4326008)(2616005)(8676002)(336012)(186003)(8936002)(16526019)(82740400003)(86362001)(1076003)(7416002)(5660300002)(356005)(2906002)(36756003)(40460700003)(36860700001)(81166007)(6916009)(7696005)(54906003)(316002)(82310400005)(41300700001)(478600001)(6666004)(26005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2022 14:13:50.8815 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f617717-d250-49e2-3173-08da666c3e06
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2022 15:05:35.0733 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02b35874-da18-4570-0730-08da66737849
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4730
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6605
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,35 +99,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
+ Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+This is our MEMORY_DEVICE_COHERENT patch series rebased and updated
+for current 5.19.0-rc6
 
-One more stable fix for 5.19.
+Changes since the last version:
+- Fixed problems with migration during long-term pinning in
+get_user_pages
+- Open coded vm_normal_lru_pages as suggested in previous code review
+- Update hmm_gup_test with more get_user_pages calls, include
+hmm_cow_in_device in hmm-test.
 
-The following changes since commit 3283c83eb6fcfbda8ea03d7149d8e42e71c5d45e:
+This patch series introduces MEMORY_DEVICE_COHERENT, a type of memory
+owned by a device that can be mapped into CPU page tables like
+MEMORY_DEVICE_GENERIC and can also be migrated like
+MEMORY_DEVICE_PRIVATE.
 
-  drm/amd/display: Ensure valid event timestamp for cursor-only commits (2022-07-13 12:20:37 -0400)
+This patch series is mostly self-contained except for a few places where
+it needs to update other subsystems to handle the new memory type.
 
-are available in the Git repository at:
+System stability and performance are not affected according to our
+ongoing testing, including xfstests.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.19-2022-07-15
+How it works: The system BIOS advertises the GPU device memory
+(aka VRAM) as SPM (special purpose memory) in the UEFI system address
+map.
 
-for you to fetch changes up to 2d4bd81fea1ad6ebba543bd6da3ef5179d130e6a:
+The amdgpu driver registers the memory with devmap as
+MEMORY_DEVICE_COHERENT using devm_memremap_pages. The initial user for
+this hardware page migration capability is the Frontier supercomputer
+project. This functionality is not AMD-specific. We expect other GPU
+vendors to find this functionality useful, and possibly other hardware
+types in the future.
 
-  drm/amd/display: Fix new dmub notification enabling in DM (2022-07-15 10:04:59 -0400)
+Our test nodes in the lab are similar to the Frontier configuration,
+with .5 TB of system memory plus 256 GB of device memory split across
+4 GPUs, all in a single coherent address space. Page migration is
+expected to improve application efficiency significantly. We will
+report empirical results as they become available.
 
-----------------------------------------------------------------
-amd-drm-fixes-5.19-2022-07-15:
+Coherent device type pages at gup are now migrated back to system
+memory if they are being pinned long-term (FOLL_LONGTERM). The reason
+is, that long-term pinning would interfere with the device memory
+manager owning the device-coherent pages (e.g. evictions in TTM).
+These series incorporate Alistair Popple patches to do this
+migration from pin_user_pages() calls. hmm_gup_test has been added to
+hmm-test to test different get user pages calls.
 
-amdgpu:
-- DMUB display fix
+This series includes handling of device-managed anonymous pages
+returned by vm_normal_pages. Although they behave like normal pages
+for purposes of mapping in CPU page tables and for COW, they do not
+support LRU lists, NUMA migration or THP.
 
-----------------------------------------------------------------
-Stylon Wang (1):
-      drm/amd/display: Fix new dmub notification enabling in DM
+We also introduced a FOLL_LRU flag that adds the same behaviour to
+follow_page and related APIs, to allow callers to specify that they
+expect to put pages on an LRU list.
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 27 ++++++++++++++++-------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+v2:
+- Rebase to latest 5.18-rc7.
+- Drop patch "mm: add device coherent checker to remove migration pte"
+and modify try_to_migrate_one, to let DEVICE_COHERENT pages fall
+through to normal page path. Based on Alistair Popple's comment.
+- Fix comment formatting.
+- Reword comment in vm_normal_page about pte_devmap().
+- Merge "drm/amdkfd: coherent type as sys mem on migration to ram" to
+"drm/amdkfd: add SPM support for SVM".
+
+v3:
+- Rebase to latest 5.18.0.
+- Patch "mm: handling Non-LRU pages returned by vm_normal_pages"
+reordered.
+- Add WARN_ON_ONCE for thp device coherent case.
+
+v4:
+- Rebase to latest 5.18.0
+- Fix consitency between pages with FOLL_LRU flag set and pte_devmap
+at follow_page_pte.
+
+v5:
+- Remove unused zone_device_type from lib/test_hmm and
+selftest/vm/hmm-test.c.
+
+v6:
+- Rebase to 5.19.0-rc4
+- Rename is_pinnable_page to is_longterm_pinnable_page and add a
+coherent device checker.
+- Add a new gup test to hmm-test to cover fast pinnable case with
+FOLL_LONGTERM.
+
+v7:
+- Reorder patch series.
+- Remove FOLL_LRU and check on each caller for LRU pages handling
+instead.
+
+v8:
+- Add "mm: move page zone helpers into new header-specific file"
+patch. The intention is to centralize all page zone helpers and keep
+them independent from mm.h and memremap.h.
+
+v9:
+- Rebase to 5.19.0-rc6
+- Include latest Alistair's patch
+"mm/gup: migrate device coherent pages when pinning instead of failing"
+with changes based on David Hildenbrand comments.
+- Replace moving page zone helpers into new header-specific file.
+Instead, those were moved to mmzone.h.
+Patch "mm: move page zone helpers from mm.h to mmzone.h"
+
+Alex Sierra (13):
+  mm: rename is_pinnable_pages to is_longterm_pinnable_pages
+  mm: move page zone helpers from mm.h to mmzone.h
+  mm: add zone device coherent type memory support
+  mm: handling Non-LRU pages returned by vm_normal_pages
+  mm: add device coherent vma selection for memory migration
+  drm/amdkfd: add SPM support for SVM
+  lib: test_hmm add ioctl to get zone device type
+  lib: test_hmm add module param for zone device type
+  lib: add support for device coherent type in test_hmm
+  tools: update hmm-test to support device coherent type
+  tools: update test_hmm script to support SP config
+  tools: add hmm gup tests for device coherent type
+  tools: add selftests to hmm for COW in device memory
+
+Alistair Popple (1):
+  mm/gup: migrate device coherent pages when pinning instead of failing
+
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  34 ++-
+ fs/proc/task_mmu.c                       |   2 +-
+ include/linux/memremap.h                 |  21 +-
+ include/linux/migrate.h                  |   1 +
+ include/linux/mm.h                       |  91 +-----
+ include/linux/mmzone.h                   |  80 ++++++
+ lib/test_hmm.c                           | 337 +++++++++++++++++------
+ lib/test_hmm_uapi.h                      |  19 +-
+ mm/gup.c                                 |  52 +++-
+ mm/gup_test.c                            |   2 +-
+ mm/huge_memory.c                         |   2 +-
+ mm/hugetlb.c                             |   2 +-
+ mm/internal.h                            |   1 +
+ mm/khugepaged.c                          |   9 +-
+ mm/ksm.c                                 |   6 +-
+ mm/madvise.c                             |   4 +-
+ mm/memcontrol.c                          |   7 +-
+ mm/memory-failure.c                      |   8 +-
+ mm/memory.c                              |  10 +-
+ mm/mempolicy.c                           |   2 +-
+ mm/memremap.c                            |  10 +
+ mm/migrate.c                             |   4 +-
+ mm/migrate_device.c                      |  80 +++++-
+ mm/mlock.c                               |   2 +-
+ mm/mprotect.c                            |   2 +-
+ mm/rmap.c                                |   5 +-
+ tools/testing/selftests/vm/hmm-tests.c   | 311 +++++++++++++++++++--
+ tools/testing/selftests/vm/test_hmm.sh   |  24 +-
+ 28 files changed, 874 insertions(+), 254 deletions(-)
+
+-- 
+2.32.0
+
