@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CE3575F2B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 12:11:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7720D575F5A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 12:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 368D014A202;
-	Fri, 15 Jul 2022 10:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F76E14AA3E;
+	Fri, 15 Jul 2022 10:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7977214A201;
- Fri, 15 Jul 2022 10:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657879870; x=1689415870;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=F53xOVXD6SXnMEhauy9BZi5+b7oTcShiZ3/x0q9GEec=;
- b=P5EtBl4blk1H28AmF7H3K71PQVjhw50V1jVxqnErd4P/qpdldBc1XPTK
- h/PdDxdgceufqravf8VxG3DahHPRpj8kXQqwxSQLwhrYZ/7evEU7/4gov
- loQKpmybaJ8mY0JpClNhpewAd9g+6ROKHtos/WuBnYv/R+jBf8Wn4fyYh
- aJVn5ro7fAUkCpynMxbZI9Gxu0Cji44pY13K1AunArY7Vx75leu6H/uRL
- g4IOjvUIlhEW8Ix5szAkuzZ0b2oZfTxQIuLjV9EHE2WkcJPUwAopisiAA
- WUzlm2c3vCs6aqJSFIv+mxPUxpeEgmO2k9HWcd5NmcAnh9nJ6cwtpopKu Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="372071705"
-X-IronPort-AV: E=Sophos;i="5.92,273,1650956400"; d="scan'208";a="372071705"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2022 03:11:09 -0700
-X-IronPort-AV: E=Sophos;i="5.92,273,1650956400"; d="scan'208";a="664136850"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.9.242])
- ([10.213.9.242])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2022 03:11:07 -0700
-Message-ID: <04263a0c-6ba0-ba70-a3e7-3865df5adca8@intel.com>
-Date: Fri, 15 Jul 2022 12:11:04 +0200
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8759714AA2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 10:29:41 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LknfQ3Tg5z4xMW;
+ Fri, 15 Jul 2022 20:29:34 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1657880976;
+ bh=bqpck9qXiLgGXy3pehpjRmLSLJxC7X3rsD323WSFrwE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=iPwlFZL0q5mfku7CxJ6pIAjh7bFVShunhPkIdjJmfIIcrOkV60NDkQ0Q8zFlNh84i
+ mfkxazMyVXNAI/0ndvLf3NDBprpIg6XqtN2GqVVOaG79rrIRbNBpn+IQbdkkf5n5u8
+ 08bQFc4cmQ6g4uvixTWoDOKVwzE7mBcs9dsMAsHl/29tolTQUnTTr61UPUyCQJLscc
+ 2t9ZshcOGotXGIcgR046WAQTm4KCWSAxWTfdJWqdWH1MlQm8a22ZdkW+ZkJ6oIKMLr
+ yu/lOC15DFrR2TiM/lZ2f0jLMU+Wo4X+Lv9leBT893GKy+DdRlFlVSZfSI6nLX6UNc
+ nTfRNemNTUeow==
+Date: Fri, 15 Jul 2022 20:29:33 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Yury Norov <yury.norov@gmail.com>, Dave Airlie <airlied@linux.ie>, David
+ Miller <davem@davemloft.net>
+Subject: linux-next: build failure after merge of the bitmap tree
+Message-ID: <20220715202933.661a3c79@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [Intel-gfx] [PATCH RFC] drm/i915/gt: Retry RING_HEAD reset until
- it sticks
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <2378da383d043de17172d928e59da0ec423cae76.1657873550.git.mchehab@kernel.org>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <2378da383d043de17172d928e59da0ec423cae76.1657873550.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/TL/efpjyde5+J69K0R.hLrs";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,146 +49,301 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Ratheesh Kannoth <rkannoth@marvell.com>,
+ Networking <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.07.2022 10:26, Mauro Carvalho Chehab wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> On Haswell, in particular, we see an issue where resets fails because
-> the engine resumes from an incorrect RING_HEAD. Since the RING_HEAD
-> doesn't point to the remaining requests to re-run, but may instead point
-> into the uninitialised portion of the ring, the GPU may be then fed
-> invalid instructions from a privileged context, oft pushing the GPU into
-> an unrecoverable hang.
-> 
-> If at first the write doesn't succeed, try, try again.
-> 
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/5432
-> Testcase: igt/i915_selftest/hangcheck
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+--Sig_/TL/efpjyde5+J69K0R.hLrs
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-That is pity hw does not provide reliable way of reset.
+After merging the bitmap tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+drivers/gpu/drm/i915/gt/intel_sseu.c: In function 'intel_sseu_print_ss_info=
+':
+drivers/gpu/drm/i915/gt/intel_sseu.c:868:52: error: format '%u' expects arg=
+ument of type 'unsigned int', but argument 4 has type 'long unsigned int' [=
+-Werror=3Dformat=3D]
+  868 |                 seq_printf(m, "  %s Geometry DSS: %u\n", type,
+      |                                                   ~^
+      |                                                    |
+      |                                                    unsigned int
+      |                                                   %lu
+  869 |                            bitmap_weight(sseu->geometry_subslice_ma=
+sk.xehp,
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+      |                            |
+      |                            long unsigned int
+  870 |                                          XEHP_BITMAP_BITS(sseu->geo=
+metry_subslice_mask)));
+      |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/gt/intel_sseu.c:871:51: error: format '%u' expects arg=
+ument of type 'unsigned int', but argument 4 has type 'long unsigned int' [=
+-Werror=3Dformat=3D]
+  871 |                 seq_printf(m, "  %s Compute DSS: %u\n", type,
+      |                                                  ~^
+      |                                                   |
+      |                                                   unsigned int
+      |                                                  %lu
+  872 |                            bitmap_weight(sseu->compute_subslice_mas=
+k.xehp,
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+      |                            |
+      |                            long unsigned int
+  873 |                                          XEHP_BITMAP_BITS(sseu->com=
+pute_subslice_mask)));
+      |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+In file included from include/linux/printk.h:573,
+                 from include/linux/kernel.h:29,
+                 from arch/x86/include/asm/percpu.h:27,
+                 from arch/x86/include/asm/nospec-branch.h:14,
+                 from arch/x86/include/asm/paravirt_types.h:40,
+                 from arch/x86/include/asm/ptrace.h:97,
+                 from arch/x86/include/asm/math_emu.h:5,
+                 from arch/x86/include/asm/processor.h:13,
+                 from arch/x86/include/asm/timex.h:5,
+                 from include/linux/timex.h:67,
+                 from include/linux/time32.h:13,
+                 from include/linux/time.h:60,
+                 from include/linux/stat.h:19,
+                 from include/linux/module.h:13,
+                 from drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_has=
+h.c:9:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c: In function 'rvu_=
+npc_exact_alloc_mem_table_entry':
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:454:27: error: for=
+mat '%u' expects argument of type 'unsigned int', but argument 5 has type '=
+long unsigned int' [-Werror=3Dformat=3D]
+  454 |         dev_dbg(rvu->dev, "%s: No space in 4 way exact way, weight=
+=3D%u\n", __func__,
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+include/linux/dynamic_debug.h:134:29: note: in definition of macro '__dynam=
+ic_func_call'
+  134 |                 func(&id, ##__VA_ARGS__);               \
+      |                             ^~~~~~~~~~~
+include/linux/dynamic_debug.h:166:9: note: in expansion of macro '_dynamic_=
+func_call'
+  166 |         _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+      |         ^~~~~~~~~~~~~~~~~~
+include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_=
+dbg'
+  155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+      |         ^~~~~~~~~~~~~~~
+include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+  155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+      |                              ^~~~~~~
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:454:9: note: in ex=
+pansion of macro 'dev_dbg'
+  454 |         dev_dbg(rvu->dev, "%s: No space in 4 way exact way, weight=
+=3D%u\n", __func__,
+      |         ^~~~~~~
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:454:69: note: form=
+at string is defined here
+  454 |         dev_dbg(rvu->dev, "%s: No space in 4 way exact way, weight=
+=3D%u\n", __func__,
+      |                                                                    =
+~^
+      |                                                                    =
+ |
+      |                                                                    =
+ unsigned int
+      |                                                                    =
+%lu
+In file included from include/linux/device.h:15,
+                 from include/linux/pci.h:37,
+                 from drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_has=
+h.c:10:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c: In function 'rvu_=
+npc_exact_alloc_id':
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:492:35: error: for=
+mat '%d' expects argument of type 'int', but argument 4 has type 'long unsi=
+gned int' [-Werror=3Dformat=3D]
+  492 |                 dev_err(rvu->dev, "%s: No space in id bitmap (%d)\n=
+",
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk=
+_index_wrap'
+  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
+     \
+      |                              ^~~
+include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+  144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt)=
+, ##__VA_ARGS__)
+      |                                                        ^~~~~~~
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:492:17: note: in e=
+xpansion of macro 'dev_err'
+  492 |                 dev_err(rvu->dev, "%s: No space in id bitmap (%d)\n=
+",
+      |                 ^~~~~~~
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:492:64: note: form=
+at string is defined here
+  492 |                 dev_err(rvu->dev, "%s: No space in id bitmap (%d)\n=
+",
+      |                                                               ~^
+      |                                                                |
+      |                                                                int
+      |                                                               %ld
+In file included from include/linux/device.h:15,
+                 from include/linux/pci.h:37,
+                 from drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_has=
+h.c:10:
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c: In function 'rvu_=
+npc_exact_alloc_cam_table_entry':
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:525:36: error: for=
+mat '%u' expects argument of type 'unsigned int', but argument 4 has type '=
+long unsigned int' [-Werror=3Dformat=3D]
+  525 |                 dev_info(rvu->dev, "%s: No space in exact cam table=
+, weight=3D%u\n", __func__,
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk=
+_index_wrap'
+  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
+     \
+      |                              ^~~
+include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+  150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fm=
+t), ##__VA_ARGS__)
+      |                                                          ^~~~~~~
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:525:17: note: in e=
+xpansion of macro 'dev_info'
+  525 |                 dev_info(rvu->dev, "%s: No space in exact cam table=
+, weight=3D%u\n", __func__,
+      |                 ^~~~~~~~
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c:525:78: note: form=
+at string is defined here
+  525 |                 dev_info(rvu->dev, "%s: No space in exact cam table=
+, weight=3D%u\n", __func__,
+      |                                                                    =
+         ~^
+      |                                                                    =
+          |
+      |                                                                    =
+          unsigned int
+      |                                                                    =
+         %lu
+cc1: all warnings being treated as errors
 
-Regards
-Andrzej
+Caused by commit
 
+  31563fb891aa ("lib/bitmap: change type of bitmap_weight to unsigned long")
 
-> ---
->   .../gpu/drm/i915/gt/intel_ring_submission.c   | 44 +++++++++++++------
->   drivers/gpu/drm/i915/i915_utils.h             | 10 +++++
->   2 files changed, 40 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> index d5d6f1fadcae..cc53feb1f8ed 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> @@ -190,6 +190,7 @@ static bool stop_ring(struct intel_engine_cs *engine)
->   static int xcs_resume(struct intel_engine_cs *engine)
->   {
->   	struct intel_ring *ring = engine->legacy.ring;
-> +	ktime_t kt;
->   
->   	ENGINE_TRACE(engine, "ring:{HEAD:%04x, TAIL:%04x}\n",
->   		     ring->head, ring->tail);
-> @@ -228,9 +229,20 @@ static int xcs_resume(struct intel_engine_cs *engine)
->   	set_pp_dir(engine);
->   
->   	/* First wake the ring up to an empty/idle ring */
-> -	ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
-> +	until_timeout_ns(kt, 2 * NSEC_PER_MSEC) {
-> +		ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
-> +		if (ENGINE_READ_FW(engine, RING_HEAD) == ring->head)
-> +			break;
-> +	}
-> +
->   	ENGINE_WRITE_FW(engine, RING_TAIL, ring->head);
-> -	ENGINE_POSTING_READ(engine, RING_TAIL);
-> +	if (ENGINE_READ_FW(engine, RING_HEAD) != ENGINE_READ_FW(engine, RING_TAIL)) {
-> +		ENGINE_TRACE(engine, "failed to reset empty ring: [%x, %x]: %x\n",
-> +			     ENGINE_READ_FW(engine, RING_HEAD),
-> +			     ENGINE_READ_FW(engine, RING_TAIL),
-> +			     ring->head);
-> +		goto err;
-> +	}
->   
->   	ENGINE_WRITE_FW(engine, RING_CTL,
->   			RING_CTL_SIZE(ring->size) | RING_VALID);
-> @@ -239,12 +251,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
->   	if (__intel_wait_for_register_fw(engine->uncore,
->   					 RING_CTL(engine->mmio_base),
->   					 RING_VALID, RING_VALID,
-> -					 5000, 0, NULL))
-> +					 5000, 0, NULL)) {
-> +		ENGINE_TRACE(engine, "failed to restart\n");
->   		goto err;
-> +	}
->   
-> -	if (GRAPHICS_VER(engine->i915) > 2)
-> +	if (GRAPHICS_VER(engine->i915) > 2) {
->   		ENGINE_WRITE_FW(engine,
->   				RING_MI_MODE, _MASKED_BIT_DISABLE(STOP_RING));
-> +		ENGINE_POSTING_READ(engine, RING_MI_MODE);
-> +	}
->   
->   	/* Now awake, let it get started */
->   	if (ring->tail != ring->head) {
-> @@ -257,16 +273,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
->   	return 0;
->   
->   err:
-> -	drm_err(&engine->i915->drm,
-> -		"%s initialization failed; "
-> -		"ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
-> -		engine->name,
-> -		ENGINE_READ(engine, RING_CTL),
-> -		ENGINE_READ(engine, RING_CTL) & RING_VALID,
-> -		ENGINE_READ(engine, RING_HEAD), ring->head,
-> -		ENGINE_READ(engine, RING_TAIL), ring->tail,
-> -		ENGINE_READ(engine, RING_START),
-> -		i915_ggtt_offset(ring->vma));
-> +	ENGINE_TRACE(engine,
-> +		     "initialization failed; "
-> +		     "ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
-> +		     ENGINE_READ(engine, RING_CTL),
-> +		     ENGINE_READ(engine, RING_CTL) & RING_VALID,
-> +		     ENGINE_READ(engine, RING_HEAD), ring->head,
-> +		     ENGINE_READ(engine, RING_TAIL), ring->tail,
-> +		     ENGINE_READ(engine, RING_START),
-> +		     i915_ggtt_offset(ring->vma));
-> +	GEM_TRACE_DUMP();
->   	return -EIO;
->   }
->   
-> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-> index c10d68cdc3ca..717fb6b9cc15 100644
-> --- a/drivers/gpu/drm/i915/i915_utils.h
-> +++ b/drivers/gpu/drm/i915/i915_utils.h
-> @@ -256,6 +256,16 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
->   	}
->   }
->   
-> +/**
-> + * until_timeout_ns - Keep retrying (busy spin) until the duration has passed
-> + * @end: temporary var to be used to track the spent time
-> + * @timeout_ns: Maximum timeout, in nanosseconds
-> + */
-> +#define until_timeout_ns(end, timeout_ns) \
-> +	for ((end) = ktime_get() + (timeout_ns); \
-> +	     ktime_before(ktime_get(), (end)); \
-> +	     cpu_relax())
-> +
->   /**
->    * __wait_for - magic wait macro
->    *
+interacting with commits
 
+  b87d39019651 ("drm/i915/sseu: Disassociate internal subslice mask represe=
+ntation from uapi")
+
+from the drm tree and
+
+  b747923afff8 ("octeontx2-af: Exact match support")
+
+from the net-next tree.
+
+I have applied the following merge resolution patch.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Fri, 15 Jul 2022 20:20:15 +1000
+Subject: [PATCH] fix up for bitmap_weight return value changing
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/i915/gt/intel_sseu.c                     | 4 ++--
+ drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt=
+/intel_sseu.c
+index c6d3050604c8..79fa564785b6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.c
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
+@@ -865,10 +865,10 @@ void intel_sseu_print_ss_info(const char *type,
+ 	int s;
+=20
+ 	if (sseu->has_xehp_dss) {
+-		seq_printf(m, "  %s Geometry DSS: %u\n", type,
++		seq_printf(m, "  %s Geometry DSS: %lu\n", type,
+ 			   bitmap_weight(sseu->geometry_subslice_mask.xehp,
+ 					 XEHP_BITMAP_BITS(sseu->geometry_subslice_mask)));
+-		seq_printf(m, "  %s Compute DSS: %u\n", type,
++		seq_printf(m, "  %s Compute DSS: %lu\n", type,
+ 			   bitmap_weight(sseu->compute_subslice_mask.xehp,
+ 					 XEHP_BITMAP_BITS(sseu->compute_subslice_mask)));
+ 	} else {
+diff --git a/drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c b/dri=
+vers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c
+index 1195b690f483..2f4ce41df83c 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c
++++ b/drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c
+@@ -451,7 +451,7 @@ static int rvu_npc_exact_alloc_mem_table_entry(struct r=
+vu *rvu, u8 *way,
+ 	}
+ 	mutex_unlock(&table->lock);
+=20
+-	dev_dbg(rvu->dev, "%s: No space in 4 way exact way, weight=3D%u\n", __fun=
+c__,
++	dev_dbg(rvu->dev, "%s: No space in 4 way exact way, weight=3D%lu\n", __fu=
+nc__,
+ 		bitmap_weight(table->mem_table.bmap, table->mem_table.depth));
+ 	return -ENOSPC;
+ }
+@@ -489,7 +489,7 @@ static bool rvu_npc_exact_alloc_id(struct rvu *rvu, u32=
+ *seq_id)
+ 	idx =3D find_first_zero_bit(table->id_bmap, table->tot_ids);
+ 	if (idx =3D=3D table->tot_ids) {
+ 		mutex_unlock(&table->lock);
+-		dev_err(rvu->dev, "%s: No space in id bitmap (%d)\n",
++		dev_err(rvu->dev, "%s: No space in id bitmap (%lu)\n",
+ 			__func__, bitmap_weight(table->id_bmap, table->tot_ids));
+=20
+ 		return false;
+@@ -522,7 +522,7 @@ static int rvu_npc_exact_alloc_cam_table_entry(struct r=
+vu *rvu, int *index)
+ 	idx =3D find_first_zero_bit(table->cam_table.bmap, table->cam_table.depth=
+);
+ 	if (idx =3D=3D table->cam_table.depth) {
+ 		mutex_unlock(&table->lock);
+-		dev_info(rvu->dev, "%s: No space in exact cam table, weight=3D%u\n", __f=
+unc__,
++		dev_info(rvu->dev, "%s: No space in exact cam table, weight=3D%lu\n", __=
+func__,
+ 			 bitmap_weight(table->cam_table.bmap, table->cam_table.depth));
+ 		return -ENOSPC;
+ 	}
+--=20
+2.35.1
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/TL/efpjyde5+J69K0R.hLrs
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmLRQY0ACgkQAVBC80lX
+0Gz8rgf9FGiVCloB9lKWlqt7t7b2Bw3zJC/vKBO+96jf6deD8tRNWVULtpXhYIWy
+XwBOF3sNSpsTRUPjeP8S2txf9w7tysyUS7estRayi36YZZl6ExgId9luDMygO2Fp
+slK/aa85/f3wd9V/UvSdPxifSc9tAmCnjOG26/F1LzG23UUbIM9DPeIBFnXa8Em9
+4jgNRMbodGFgpfBV1Jw6EZ2ksCa5V9BkqJCO9IWb4CBSNpUPmdMYdcS74r0fDv6L
+qdcn++AgpByRuZqfkcM9h/nXrcFrwtHneAibF4tcP22mh7aGsf5JFnzCGveSTTjG
+jgIglAqjTjHVUUttbaqttddlgqzjUw==
+=2+Wp
+-----END PGP SIGNATURE-----
+
+--Sig_/TL/efpjyde5+J69K0R.hLrs--
