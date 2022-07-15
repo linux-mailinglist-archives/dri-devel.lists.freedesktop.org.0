@@ -1,65 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB935760EE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 13:53:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3F25760F3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 13:56:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2328C18A740;
-	Fri, 15 Jul 2022 11:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C12B518A851;
+	Fri, 15 Jul 2022 11:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18C218A73B
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 11:52:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5B3F91FD6E;
- Fri, 15 Jul 2022 11:52:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657885976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B43818A851
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 11:56:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657886207;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GsSgQ4OwCbcOJF3WTCcwE3C+x9/o52jYDxy5qSN5wps=;
- b=I0sIVvEWUNbYxB64HEJQYVXPAA1VqMGQeDHwlDxQ6bm0RsDmWEShyC9LWfNgdWXAFFntmF
- fhi+FXxAP++qfeMC5lLpJEPPsCCHTl6PxkVaHmov8fkeGrvFJ33DhkT3BU9Xymm6pH67Qw
- N4UDrn8F7ojFjzD4tldC8mGFdTnAn5Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657885976;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GsSgQ4OwCbcOJF3WTCcwE3C+x9/o52jYDxy5qSN5wps=;
- b=9mAVh6TzrBrv49A+YSBOuCV6EQ7g0f1Xhc9BoGMe46pIev/a0hs3LlkswTEapwurzUEXhr
- lPQurcKPULEhshBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C42413754;
- Fri, 15 Jul 2022 11:52:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id RcMIChhV0WJZfgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 15 Jul 2022 11:52:56 +0000
-Message-ID: <d11b2c82-d81e-d466-740d-f1699062a3b9@suse.de>
-Date: Fri, 15 Jul 2022 13:52:55 +0200
+ bh=ZGkIOwyvFmzhbCUYm5+8xL8ziiXjaFbbfd3qqafzd8M=;
+ b=X8l2m5+jRG8YRt9nn/ZsgWTSC/14kA7xx5hlxT3Yn1VxuO4JeCBtiDHeTvfIy+9TX/TUjv
+ aF0KtQyJtqfYUBp7g7wsDxvX/THJF/cdPRxh4ZDtZHq/m3HiqkkqzbHzi39/d+h9tTrAvx
+ 9LWKyhZCZ+2khqsvDRZrbNAM3Z6hgb4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-524-JbVqWTD0NHKegFVSpcbXpw-1; Fri, 15 Jul 2022 07:56:40 -0400
+X-MC-Unique: JbVqWTD0NHKegFVSpcbXpw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k27-20020a05600c1c9b00b003a2fee19a80so3156485wms.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 04:56:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZGkIOwyvFmzhbCUYm5+8xL8ziiXjaFbbfd3qqafzd8M=;
+ b=yR1xctkyobcfqIJpn7bbsPdARnKc4ZqcrbA6qMMIfuPBSn7d5vQ0jnvQdqjm/soePB
+ Tf6wGXjPJUsmuHBBZ5MOVOcKlu8ZlmukJg3Gk9DCRsVaJ6t5PxQY8UFSTaxYZOP5yHQo
+ TB+WG12ZgKrcZqcVObWlZSr1u2h0rMItp91cVcPnAlpQ4M8ETno/a2nnRuOeTCoN4YJy
+ eLrD+qwn4S47tJyZkUKjxAacbEqguYHq5p/q/EE4Bl/weAJjC3/BOu+M/XV9+KxCiZ8d
+ ijtb2Ck6ZqO/wUHIbXfetFECdZRSCMbCcLVxHTvzYWh061YuYcvijpjeFWjTOCjYvp+U
+ oYwg==
+X-Gm-Message-State: AJIora98v01kRwEU9u0OCEVSBdfJpq4FQwwLAwLOq7dzJf4Sl33ytWpd
+ av0SKJu+7BWjUn7zefoDSpkb3V7qA/NRoixB7OcFjNWoywg+2qXhtQg8iH5MwMelzAmYdv0/Fyy
+ JwxXSdK0BUGJiyPWLCPJ27O0vMXOb
+X-Received: by 2002:a5d:56d1:0:b0:21d:78ad:c8bf with SMTP id
+ m17-20020a5d56d1000000b0021d78adc8bfmr12518030wrw.175.1657886199154; 
+ Fri, 15 Jul 2022 04:56:39 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1smSq19q7Fkw60FMFkswIMOeyBLouoE4txw/9cp+WjMYOqudNHfchdpbzC3yv2/xNNoXTjqGA==
+X-Received: by 2002:a5d:56d1:0:b0:21d:78ad:c8bf with SMTP id
+ m17-20020a5d56d1000000b0021d78adc8bfmr12518016wrw.175.1657886198959; 
+ Fri, 15 Jul 2022 04:56:38 -0700 (PDT)
+Received: from [172.20.10.7] ([84.78.249.231])
+ by smtp.gmail.com with ESMTPSA id
+ e39-20020a5d5967000000b0021badf3cb26sm4476823wri.63.2022.07.15.04.56.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jul 2022 04:56:38 -0700 (PDT)
+Message-ID: <3b707e5f-ce33-b08d-371b-701b3a84f549@redhat.com>
+Date: Fri, 15 Jul 2022 13:56:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 06/11] fbdev: Remove conflicting devices on PCI bus
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
+Subject: Re: [PATCH 05/11] fbdev: Convert drivers to aperture helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
+ sam@ravnborg.org, maxime@cerno.tech
 References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-7-tzimmermann@suse.de>
- <210b1ae1-f663-dfe2-d9b5-2cd827d15f2b@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <210b1ae1-f663-dfe2-d9b5-2cd827d15f2b@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------cOb9csh301BIz1B7vtXxJTOO"
+ <20220707153952.32264-6-tzimmermann@suse.de>
+ <8ebc1f33-f654-6b93-8a41-1aa66ab1901c@redhat.com>
+ <558097f5-95bc-fa3c-d08e-1ca0a4d6eec2@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <558097f5-95bc-fa3c-d08e-1ca0a4d6eec2@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,83 +96,36 @@ Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------cOb9csh301BIz1B7vtXxJTOO
-Content-Type: multipart/mixed; boundary="------------mqWh7NhfYhvIYWjr2u0ZvlXT";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-Message-ID: <d11b2c82-d81e-d466-740d-f1699062a3b9@suse.de>
-Subject: Re: [PATCH 06/11] fbdev: Remove conflicting devices on PCI bus
-References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-7-tzimmermann@suse.de>
- <210b1ae1-f663-dfe2-d9b5-2cd827d15f2b@redhat.com>
-In-Reply-To: <210b1ae1-f663-dfe2-d9b5-2cd827d15f2b@redhat.com>
+Hello Thomas,
 
---------------mqWh7NhfYhvIYWjr2u0ZvlXT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 7/15/22 13:48, Thomas Zimmermann wrote:
 
-SGkNCg0KQW0gMTEuMDcuMjIgdW0gMTM6MTMgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IE9uIDcvNy8yMiAxNzozOSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+
-PiBSZW1vdmUgZmlybXdhcmUgZGV2aWNlcyBvbiB0aGUgUENJIGJ1cywgYnkgY2FsbGluZw0K
-Pj4gYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzKCkgaW4gdGhlIHBy
-b2JlIGZ1bmN0aW9uIG9mDQo+PiBlYWNoIHJlbGF0ZWQgZmJkZXYgZHJpdmVyLiBpU28gZmFy
-LCBtb3N0IG9mIHRoZXNlIGRyaXZlcnMgZGlkIG5vdA0KPj4gcmVtb3ZlIGNvbmZsaWN0aW5n
-IFZFU0Egb3IgRUZJIGRldmljZXMsIG9yIG91dHJpZGUgZmFpbGVkIGZvcg0KPj4gcmVzb3Vy
-Y2UgY29uZmxpY3RzIChpLmUuLCBtYXRyb3hmYi4pIFRoaXMgbXVzdCBoYXZlIGJlZW4gYnJv
-a2VuDQo+PiBmb3IgcXVpdGUgc29tZSB0aW1lLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRo
-b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+IA0KPiBb
-Li4uXQ0KPiANCj4+IEBAIC05NDksNiArOTUwLDEwIEBAIHN0YXRpYyBpbnQgYXJrX3BjaV9w
-cm9iZShzdHJ1Y3QgcGNpX2RldiAqZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAq
-aWQpDQo+PiAgIAlpbnQgcmM7DQo+PiAgIAl1OCByZWd2YWw7DQo+PiAgIA0KPj4gKwlyYyA9
-IGFwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZGV2aWNlcyhkZXYsICJhcmtmYiIp
-Ow0KPj4gKwlpZiAocmMgPCAwKQ0KPj4gKwkJcmV0dXJuIHJjOw0KPj4gKw0KPiANCj4gSSB3
-b25kZXIgaWYgd2UgY291bGQgdGhpbmsgb2YgYSB0cmljayB0byBhdm9pZCBvcGVuIGNvZGlu
-ZyB0aGUgc2FtZSBjaGVjayBpbg0KPiBhbGwgZHJpdmVycy4gTWF5YmUgYSBjb21iaW5hdGlv
-biBvZiB1c2luZyBLQlVJTERfTU9ETkFNRSBmb3IgdGhlIG5hbWUgYW5kDQo+IGEgcHJvYmUg
-Y2FsbGJhY2sgd3JhcHBlciBvciBzb21ldGhpbmcgPw0KDQpPcmlnaW5hbGx5LCBJIHRyaWVk
-IHRvIGhhY2sgdGhpcyBpbnRvIHJlZ2lzdGVyX2ZyYW1lYnVmZmVyKCksIHdoZXJlIHRoZSAN
-CnJlbW92YWwgd2FzIG9yaWdpbmFsbHkgbG9jYXRlZC4gQnV0IHRoYXQncyB0b28gbGF0ZSBh
-cyB0aGVyZSBpcyANCmNvbmZsaWN0aW5nIHJlc291cmNlIGFjY2VzcyBpbiBtb3N0IGRyaXZl
-cidzIHByb2JlIGZ1bmN0aW9uLiBUaGUgdG9wIG9mIA0KdGhlIHByb2JlIGZ1bmN0aW9uIGlz
-IHRoZSBvbmx5IHBsYWNlIHdoZXJlIHRoaXMgY2FsbCBjYW4gcmVhbGlzdGljYWxseSANCmJl
-IGxvY2F0ZWQuIEl0J3MgdGhlIHNhbWUgcnVsZSBhcyB3aXRoIERSTSBkcml2ZXJzOiB0aGUg
-ZmlybXdhcmUgZHJpdmVyIA0KbmVlZHMgdG8gYmUgZ29uZSBiZWZvcmUgdGhlIG5hdGl2ZSBk
-cml2ZXIgdG91Y2hlcyBoYXJkd2FyZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
-Cj4gQnV0IHByb2JhYmx5IG5vdCB3b3J0aCB0byBpbnZlc3QgbW9yZSBpbiB0aGUgZmJkZXYg
-ZHJpdmVycyBhbmQgY291bGQgYmUgZG9uZQ0KPiBhcyBhIGZvbGxvdy11cCBhbnl3YXlzIGlm
-IHNvbWVvbmUgZmVlbHMgbGlrZSBpdC4NCj4gDQo+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFy
-dGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gDQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
-LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
-cjogSXZvIFRvdGV2DQo=
+[...]
 
---------------mqWh7NhfYhvIYWjr2u0ZvlXT--
+>>> +
+>>> +	return aperture_remove_conflicting_devices(base, size, primary, "sm750_fb1");
+>>
+>> Do you know why this can't just use aperture_remove_conflicting_pci_devices() ?
+> 
+> I simply don't want change too much at once, because there was this 
+> problem with the PCI helper on ast.
+>
 
---------------cOb9csh301BIz1B7vtXxJTOO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Makes sense. Feel free to add:
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLRVRcFAwAAAAAACgkQlh/E3EQov+Am
-ow//XuOvuLtnhgX1VLxXqX8N04Ouy79PrqQrfVYF5UueOlSk8Ytp9U72LqziGsdxKSQUeQJ10aT9
-bmfYsBpy8ddUljJaYZVUmBH3hBIk2S3GXqMg3OH7ONa4X+axJH/ITc4MHHdHbDDfDFjqhoW2a7fR
-fdYFVOb5Fb5uFs/XX44JqE0zT0A9MypJe7AGVV0WuL6GNtfc3gsJxmRuihc3jJASD5W+HlBI/hHr
-2qFp330dE4P+4fxQjG4KP+e2oHnuj3zNNBuzODr5tK0DF59VLbaajOd/C3pGPqi5C5ScvEbEwqkc
-liT2wVEI6flZzU3vHW21wD64iaGba+FsKO9IvvSi5Lp7vLcybpcacDmUQE4ZbDPC/uPYjffk7Tlh
-njFTLYVJFz9Y74dFO//PrcedUeCqObpsY0G8tFMbZ14Ol/hiN6rIbombm8LGAY4t16VBQDVnZUH+
-XFP2ckPketjxun8kU6y/xRbrfWchx3Y/SeJDD/xbhliyT1aBgkTcOPMrYtp+ZCvJ3nD/wIMeM3Y1
-FKxMyotBSsXR86II8cARCfbrBi+2hH15Pun/bZTDOGcnZ1eJRPu0yRV31FfJL92lFpcD3IVwcmFH
-cLGj+ul42FST8Q1jwZWghWTw3nk6STF9xgJs7MiKOYA/J3FBrwNFekRwmzUdGpKUjCaXFfS5D8gQ
-Oi0=
-=XCGR
------END PGP SIGNATURE-----
+> At some point we can make a push to really fix this throughout the code 
+> base. And that would include an update to fb_is_primary_device(), [1] 
+> which doesn't fill well into the new interfaces.
+>
 
---------------cOb9csh301BIz1B7vtXxJTOO--
+Agreed.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
