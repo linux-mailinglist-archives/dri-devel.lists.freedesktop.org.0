@@ -2,62 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E729F576F17
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46368576ECF
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:38:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39E6110FDBD;
-	Sat, 16 Jul 2022 14:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD0610F6D0;
+	Sat, 16 Jul 2022 14:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78EA110E11A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 15:36:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4F50B34E6B;
- Fri, 15 Jul 2022 15:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657899393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v9qnekPg9nBwwL9bgfq6OxuUEbyEXfAsl+2UsAfBrNo=;
- b=I8jT2IPrdFRH8sT4sQz7HM0JL7cp/jdJfxAyj9GiWE5dLmscc7kTlhTKbq9z+YGz3fPi2e
- bbHcFHbesfPxaEEIZjKI3xK8ddy3m8dUuVLZlQZ4fHN6GfgPIdW+0rGrAmGrQnnXK+yt8h
- 7KsAdpJ50pmTHbm9wcus+MKxGJUWhFg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657899393;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v9qnekPg9nBwwL9bgfq6OxuUEbyEXfAsl+2UsAfBrNo=;
- b=7hOGo42TR/75CZSH5o7Ka671Pr7n/jJDup276ImS9Xb720vq178axJgseuWFMCX3QGVcGN
- ICCBlSz/5F8ZqKDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 35DB913AC3;
- Fri, 15 Jul 2022 15:36:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id i0FaDIGJ0WJLXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 15 Jul 2022 15:36:33 +0000
-Message-ID: <e71431ef-bcb9-012a-ff0d-4ef350cd232e@suse.de>
-Date: Fri, 15 Jul 2022 17:36:32 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8CAD610E06A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 15:50:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43AA412FC;
+ Fri, 15 Jul 2022 08:50:54 -0700 (PDT)
+Received: from [192.168.99.12] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 377BF3F792;
+ Fri, 15 Jul 2022 08:50:53 -0700 (PDT)
+Message-ID: <8d1fedde-6cf4-1e68-90e0-9f34d776437e@foss.arm.com>
+Date: Fri, 15 Jul 2022 16:50:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 3/3] drm/komeda - Fix handling of pending crtc state
+ commit to avoid lock-up
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20220715111533.467012-1-christian.koenig@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220715111533.467012-1-christian.koenig@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------gYtKRIHtrESCeC3B9EduffjW"
+To: Robin Murphy <robin.murphy@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+References: <20220606114714.175499-1-carsten.haitzler@foss.arm.com>
+ <20220606114714.175499-3-carsten.haitzler@foss.arm.com>
+ <YshVFKbiz/7FrkKT@e110455-lin.cambridge.arm.com>
+ <af1d56b5-a999-6806-1aa6-593eb0e9380a@foss.arm.com>
+ <Ysv3vS2oosEgFJcN@e110455-lin.cambridge.arm.com>
+ <9ea171ca-8515-4088-9ea4-e6e35d9c8db8@arm.com>
+From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Organization: Arm Ltd.
+In-Reply-To: <9ea171ca-8515-4088-9ea4-e6e35d9c8db8@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,89 +50,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dmitry.osipenko@collabora.com
+Cc: dri-devel@lists.freedesktop.org, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------gYtKRIHtrESCeC3B9EduffjW
-Content-Type: multipart/mixed; boundary="------------CAY7m4dgPUupGE3pu9e5Fzl6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-Cc: dmitry.osipenko@collabora.com, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-Message-ID: <e71431ef-bcb9-012a-ff0d-4ef350cd232e@suse.de>
-Subject: Re: [PATCH 1/2] drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
-References: <20220715111533.467012-1-christian.koenig@amd.com>
-In-Reply-To: <20220715111533.467012-1-christian.koenig@amd.com>
 
---------------CAY7m4dgPUupGE3pu9e5Fzl6
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
 
-SGkNCg0KQW0gMTUuMDcuMjIgdW0gMTM6MTUgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBJJ3ZlIHN0dW1ibGVkIG92ZXIgdGhpcyB3aGlsZSByZXZpZXdpbmcgcGF0Y2hlcyBmb3Ig
-RE1BLWJ1ZiBhbmQgaXQgbG9va3MNCj4gbGlrZSB3ZSBjb21wbGV0ZWx5IG1lc3NlZCB0aGUg
-bG9ja2luZyB1cCBoZXJlLg0KPiANCj4gSW4gZ2VuZXJhbCBtb3N0IFRUTSBmdW5jdGlvbiBz
-aG91bGQgb25seSBiZSBjYWxsZWQgd2hpbGUgaG9sZGluZyB0aGUNCj4gYXBwcm9wcmlhdGUg
-Qk8gcmVzdiBsb2NrLiBXaXRob3V0IHRoaXMgd2UgY291bGQgYnJlYWsgdGhlIGludGVybmFs
-DQo+IGJ1ZmZlciBvYmplY3Qgc3RhdGUgaGVyZS4NCg0KSSByZW1lbWJlciB0aGF0IEkgdHJp
-ZWQgdG8gZml4IHRoaXMgYmVmb3JlIGFuZCB5b3UgbWVudGlvbmVkIHRoYXQgaXQncyANCm5v
-dCBhbGxvd2VkIHRvIGhvbGQgdGhpcyBsb2NrIGhlcmUuIEl0IHdvdWxkIHBvc3NpYmx5IGRl
-YWRsb2NrIHdpdGggDQpleHBvcnRlZCBidWZmZXJzLiBEaWQgdGhpcyBjaGFuZ2Ugd2l0aCBE
-bWl0cnkncyByZXdvcmsgb2YgdGhlIGxvY2tpbmcgDQpzZW1hbnRpY3M/DQoNCkJlc3QgcmVn
-YXJkcw0KVGhvbWFzDQoNCj4gDQo+IE9ubHkgY29tcGlsZSB0ZXN0ZWQhDQo+IA0KPiBTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-DQo+IEZpeGVzOiA0MzY3NjYwNWY4OTAgZHJtL3R0bTogQWRkIHZtYXAvdnVubWFwIHRvIFRU
-TSBhbmQgVFRNIEdFTSBoZWxwZXJzDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
-Z2VtX3R0bV9oZWxwZXIuYyB8IDkgKysrKysrKystDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDgg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZ2VtX3R0bV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-Z2VtX3R0bV9oZWxwZXIuYw0KPiBpbmRleCBkNTk2MmEzNGMwMWQuLmU1ZmM4NzU5OTBjNCAx
-MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdHRtX2hlbHBlci5jDQo+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3R0bV9oZWxwZXIuYw0KPiBAQCAtNjQs
-OCArNjQsMTMgQEAgaW50IGRybV9nZW1fdHRtX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0
-ICpnZW0sDQo+ICAgCQkgICAgIHN0cnVjdCBpb3N5c19tYXAgKm1hcCkNCj4gICB7DQo+ICAg
-CXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8gPSBkcm1fZ2VtX3R0bV9vZl9nZW0oZ2Vt
-KTsNCj4gKwlpbnQgcmV0Ow0KPiArDQo+ICsJZG1hX3Jlc3ZfbG9jayhnZW0tPnJlc3YsIE5V
-TEwpOw0KPiArCXJldCA9IHR0bV9ib192bWFwKGJvLCBtYXApOw0KPiArCWRtYV9yZXN2X3Vu
-bG9jayhnZW0tPnJlc3YpOw0KPiAgIA0KPiAtCXJldHVybiB0dG1fYm9fdm1hcChibywgbWFw
-KTsNCj4gKwlyZXR1cm4gcmV0Ow0KPiAgIH0NCj4gICBFWFBPUlRfU1lNQk9MKGRybV9nZW1f
-dHRtX3ZtYXApOw0KPiAgIA0KPiBAQCAtODIsNyArODcsOSBAQCB2b2lkIGRybV9nZW1fdHRt
-X3Z1bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmdlbSwNCj4gICB7DQo+ICAgCXN0cnVj
-dCB0dG1fYnVmZmVyX29iamVjdCAqYm8gPSBkcm1fZ2VtX3R0bV9vZl9nZW0oZ2VtKTsNCj4g
-ICANCj4gKwlkbWFfcmVzdl9sb2NrKGdlbS0+cmVzdiwgTlVMTCk7DQo+ICAgCXR0bV9ib192
-dW5tYXAoYm8sIG1hcCk7DQo+ICsJZG1hX3Jlc3ZfdW5sb2NrKGdlbS0+cmVzdik7DQo+ICAg
-fQ0KPiAgIEVYUE9SVF9TWU1CT0woZHJtX2dlbV90dG1fdnVubWFwKTsNCj4gICANCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+On 7/14/22 13:20, Robin Murphy wrote:
+> On 2022-07-11 11:13, Liviu Dudau wrote:
+> [...]
+>>> But nothing worrying. It does work, though doesn't compile due to:
+>>>
+>>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function
+>>> ‘komeda_kms_atomic_commit_hw_done’:
+>>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: error: ‘for’ loop
+>>> initial declarations are only allowed in C99 or C11 mode
+>>>     77 |         for (int i = 0; i < kms->n_crtcs; i++) {
+>>>        |         ^~~
+>>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: note: use option
+>>> ‘-std=c9
+>>> ’, ‘-std=gnu99’, ‘-std=c11’ or ‘-std=gnu11’ to compile your code
+>>>
+>>> but that was a trivial fixup.
+>>
+>> Interesting that I'm not seeing that, probably due to using GCC12? 
+>> Anyway, I'll fix
+>> that and send a proper patch.
+> 
+> FWIW we do use -std=gnu11 since 5.18 (see e8c07082a810), but I'm not 
+> entirely sure what the status quo is for using the new features in fixes 
+> which might also warrant backporting to stable. I believe Carsten's 
+> stuck on an older kernel thanks to constraints of the rest of that 
+> project ;)
 
---------------CAY7m4dgPUupGE3pu9e5Fzl6--
-
---------------gYtKRIHtrESCeC3B9EduffjW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLRiYAFAwAAAAAACgkQlh/E3EQov+Db
-IhAAwYd9Hog35GB9ksGKkVtn44Z3XQLQAPTmYRjtSFb5JHCFI0ztC6XxFkRHOGjgbcjbZHCLr7Tq
-3ZxEZFWIsN6I5ZRzAj9ZzCLHzWt6OrPNJQZFSe54o+3d0CzVSYmvl42Vy5UAaV1mSYC23jHwplpj
-D6gHwxtFb7iYuYdOEtAk7b9McoEj8t/fOBCA0QEyN/H+f3BcfGR2vFUAzPE1t4rDLyqsY+DWJ9uo
-uVif5BKC6Xao25/X3ArssBVLiyPYy27V5Q1tFmuwIIO07Y3zgDefMLK2nrPOr8nwu5FQSDtcwUTT
-nh0r06fFH5J0vmjLU7pSXRE8N+6US/VL/5xUxaIsne/upuHjkmkf5250Jsy4k3qtso98K/u+lfMa
-MuQWh6XvrLBxqMLTLQGttMeW9KpnSaxqkXZvPrgtaqHexjekCCCHDut0WYCeKXC9neTWpiFfi06r
-USyBDOIN2u3qkuqr52tH9T2zFSkU3n5PKVgpVY822fSqp+8+JHVB9rWzukE/kEYYuTcRaehdqnZg
-xoWlLgx4QurjIBP63nSghNgTyE8TXbpuSKT7MpeV1t1RELvrYffZRf/67XupqcoXXKA7cZHmxjUD
-JCYwwJW9GaZDeEtElsA5NcYDjkbjv3Hi0nkaGckB0Cjh/VflFCoQUmG1zNl/ZQFSGSV2VM4tXQrN
-bH4=
-=uOnL
------END PGP SIGNATURE-----
-
---------------gYtKRIHtrESCeC3B9EduffjW--
+Not that old - my last sync was like end of April, but i was basing my 
+commits off a stable kernel release tree (5.17.4), I have multiple 
+kernels for different purposes and for this stuck to something released 
+vaguely recently (i synced my tree to latest release before sending off 
+the patch set). I'm not sure on the kernel policy for the above for (int 
+i = 0;...) etc. usage. I tend to still be more conservative and keep my 
+vars at top of the block anyway out of decades of habit.
