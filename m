@@ -1,56 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1E5575A03
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 05:36:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13ECE575A07
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 05:39:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60BFD10E1B3;
-	Fri, 15 Jul 2022 03:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC67E10E361;
+	Fri, 15 Jul 2022 03:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D12D10E1B3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 03:36:30 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id m16so4716014edb.11
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jul 2022 20:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=qP8f6247sdl8IXvIgvciCTK7T0HXiroFjPJjqECReAg=;
- b=k0vTLxPmB+4YiqxkXEvJGYwf/lgxMbzf3dhE8KZ26QxC12reamHAMhO9OGiLtWkj3i
- +5ogQOMkHtBJVswDs+Iee4/52zxRqUwCdX6ZUibSY83oJ9FF6KV1YkwN4C/WaJE+o1tr
- 6btnniZgbh/Ih9KIX28vmarj80zF/mnyDBr1keBaLM9G9D2j+Q4fAdhMNbD7VJdjt2Wa
- 2T/VSRbbEjXNvJn6Z3thqZNQDEoN0CsnTVNENi7jPAurvfZgt1tKxneP4zwJfrSJYwAa
- lVTnpgykoON/a7x1WxQNcAr9ulLeHrj5t9Zon/ygHU7IOsMDVpMkQg5w2GdJW9vZ0oHE
- HviQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=qP8f6247sdl8IXvIgvciCTK7T0HXiroFjPJjqECReAg=;
- b=BhTH79VSyvqWY6b/4r67+dSZnGijg9RP+YmH4SYmbtQmXgdWsiybWvKYqm4ssVuJse
- 6IRT0lwiWa9JkYtZ33zIkssUB+lHkpE5jD5U37HH9thhX2voRk0xEczVlMz22PmX0AjR
- sK1EUjUHPalWw7j9QDqATnjTUD/k6NDthbsiq29tg3wEQAJSDjosT3Tui7HqlISdQ2Ge
- Hh6HyWc+flBtDpMmGgLZdXOxHPaquWD1Ajr8L6Xu93+2x4xuvBhbkWa5Aau++5+viDq0
- mu9oglTkaUvwBpQsFe7ZSd/1In15lqR9WweVWwPnxRf4jPQ+rTvsLxBueF3y69/LsaTG
- +aQw==
-X-Gm-Message-State: AJIora9w3rc6Oahli1xPkdvQMQ5/7WtJEPCJeiYju2uRvno2ydG/06+c
- 2FkATp8lc1MYDijc1WLd5B8CHx7/6KJ5z4IHPto=
-X-Google-Smtp-Source: AGRyM1uGGyKIK1ThoU+6t2E4XvmoiZXfhKjUc2zJ9oyryrdZupndkjYQg6LohQ0vPz7uEygs029X2hsIdj6O4AtmZOU=
-X-Received: by 2002:a05:6402:d05:b0:435:b2a6:94eb with SMTP id
- eb5-20020a0564020d0500b00435b2a694ebmr15872324edb.87.1657856188998; Thu, 14
- Jul 2022 20:36:28 -0700 (PDT)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99C1C10E361
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 03:39:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657856347; x=1689392347;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HwTOzRZgpchjVAnzo1ayeKj1m6sUUSaoUdc2ecYTIgc=;
+ b=eEXIDnOFLPxRzzX5gM/P8WNytCmw35B4sv+YD+c6v3ZY+SPYLY4AL6er
+ 2e8YZZQYli3rbEj3b2ITYsunqWUhmK+LEPkBNtVgUXjATyqPtJ6DsxJhX
+ HAM/+Dtb5qjw7IAJQ6Ht3PE0pCJ7vxcOyQg4PCT04+/qTw9V3n5/APT+9
+ qAYU+6FN3EygD9Qj08oEdmfO1feuKF654kijCNLbwtMcX5hleqXE263/7
+ f2XWsz+lZeE+e6CIqlcaMvrWIB9l32mFJBXoOkQ3mow7xYbqzxAYg256S
+ dhz/xHoOENKOydDegi8zS0Y9G9mpf1NWZkt8WqZBSRWFfJ9ndGDX1TNDp g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="347370605"
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; d="scan'208";a="347370605"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 20:39:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; d="scan'208";a="664035241"
+Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 14 Jul 2022 20:39:00 -0700
+Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1oCCAN-0001UL-FC;
+ Fri, 15 Jul 2022 03:38:59 +0000
+Date: Fri, 15 Jul 2022 11:38:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robdclark@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>
+Subject: Re: [PATCH v1 4/6] dma-buf: Acquire wait-wound context on attachment
+Message-ID: <202207151112.Yi2gyyRX-lkp@intel.com>
+References: <20220715005244.42198-5-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 15 Jul 2022 13:36:17 +1000
-Message-ID: <CAPM=9twM75GDM9t+9-CSCPDZG3QdcEpQ-X+FzQ4CLUCM7cKLkw@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.19-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220715005244.42198-5-dmitry.osipenko@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,165 +82,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Dmitry,
 
-This is the regular fixes pull for this week. This has a bunch of
-amdgpu fixes, major one reverts the buddy allocator until it can be
-tested more, otherwise just small ones, then i915 has a bunch of
-fixes.
+I love your patch! Yet something to improve:
 
-The outstanding firmware regressions reported by phoronix will
-hopefully be dealt with ASAP.
+[auto build test ERROR on next-20220714]
+[also build test ERROR on v5.19-rc6]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next media-tree/master linus/master v5.19-rc6 v5.19-rc5 v5.19-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
-Dave.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Move-all-drivers-to-a-common-dma-buf-locking-convention/20220715-085556
+base:    37b355fdaf31ee18bda9a93c2a438dc1cbf57ec9
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220715/202207151112.Yi2gyyRX-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/ed55f535b8492ef30d7e94aae5811c772403ab4f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Move-all-drivers-to-a-common-dma-buf-locking-convention/20220715-085556
+        git checkout ed55f535b8492ef30d7e94aae5811c772403ab4f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-drm-fixes-2022-07-15:
-drm fixes for 5.19-rc7
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-amdgpu:
-- revert buddy allocator support for now
-- DP MST blank screen fix for specific platforms
-- MEC firmware check fix for GC 10.3.7
-- Deep color fix for DCE
-- Fix possible divide by 0
-- Coverage blend mode fix
-- Fix cursor only commit timestamps
+All errors (new ones prefixed by >>):
 
-i915:
-- Selftest fix
-- TTM fix sg_table construction
-- Error return fixes
-- Fix a performance regression related to waitboost
-- Fix GT resets
-The following changes since commit 3590b44b9434af1b9c81c3f40189087ed4fe3635=
-:
+>> drivers/gpu/drm/i915/i915_gem_ww.c:52:6: error: no previous prototype for 'i915_gem_ww_ctx_fini2' [-Werror=missing-prototypes]
+      52 | void i915_gem_ww_ctx_fini2(struct i915_gem_ww_ctx *ww)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-  Merge tag 'drm-misc-fixes-2022-07-07-1' of
-ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes (2022-07-12
-10:44:40 +1000)
 
-are available in the Git repository at:
+vim +/i915_gem_ww_ctx_fini2 +52 drivers/gpu/drm/i915/i915_gem_ww.c
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-07-15
+    51	
+  > 52	void i915_gem_ww_ctx_fini2(struct i915_gem_ww_ctx *ww)
+    53	{
+    54		i915_gem_ww_ctx_unlock_all(ww);
+    55		WARN_ON(ww->contended);
+    56	}
+    57	
 
-for you to fetch changes up to 093f8d8f10aa22935bc8bf7100700f714ebaba9c:
-
-  Merge tag 'amd-drm-fixes-5.19-2022-07-13' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2022-07-15
-11:26:20 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.19-rc7
-
-amdgpu:
-- revert buddy allocator support for now
-- DP MST blank screen fix for specific platforms
-- MEC firmware check fix for GC 10.3.7
-- Deep color fix for DCE
-- Fix possible divide by 0
-- Coverage blend mode fix
-- Fix cursor only commit timestamps
-
-i915:
-- Selftest fix
-- TTM fix sg_table construction
-- Error return fixes
-- Fix a performance regression related to waitboost
-- Fix GT resets
-
-----------------------------------------------------------------
-Andrzej Hajda (1):
-      drm/i915/selftests: fix subtraction overflow bug
-
-Arunpravin Paneer Selvam (1):
-      Revert "drm/amdgpu: add drm buddy support to amdgpu"
-
-Chris Wilson (3):
-      drm/i915/gt: Serialize GRDOM access between multiple engine resets
-      drm/i915/gt: Serialize TLB invalidates with GT resets
-      drm/i915/gem: Look for waitboosting across the whole object
-prior to individual waits
-
-Dan Carpenter (2):
-      drm/i915/gvt: IS_ERR() vs NULL bug in intel_gvt_update_reg_whitelist(=
-)
-      drm/i915/selftests: fix a couple IS_ERR() vs NULL tests
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: ADL-N should use the same GuC FW as ADL-S
-
-Dave Airlie (3):
-      Merge tag 'drm-misc-fixes-2022-07-14' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2022-07-13' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-5.19-2022-07-13' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Fangzhi Zuo (1):
-      drm/amd/display: Ignore First MST Sideband Message Return Error
-
-Hangyu Hua (1):
-      drm/i915: fix a possible refcount leak in intel_dp_add_mst_connector(=
-)
-
-Mario Kleiner (1):
-      drm/amd/display: Only use depth 36 bpp linebuffers on DCN display eng=
-ines.
-
-Matthew Auld (1):
-      drm/i915/ttm: fix sg_table construction
-
-Melissa Wen (1):
-      drm/amd/display: correct check of coverage blend mode
-
-Michel D=C3=A4nzer (1):
-      drm/amd/display: Ensure valid event timestamp for cursor-only commits
-
-Prike Liang (1):
-      drm/amdkfd: correct the MEC atomic support firmware checking for GC 1=
-0.3.7
-
-Rodrigo Vivi (1):
-      Merge tag 'gvt-fixes-2022-07-11' of
-https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Thomas Hellstr=C3=B6m (1):
-      drm/i915: Fix vm use-after-free in vma destruction
-
-Yefim Barashkin (1):
-      drm/amd/pm: Prevent divide by zero
-
- drivers/gpu/drm/Kconfig                            |   1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h     |  97 ++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       | 359 +++++++++--------=
-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h       |  89 -----
- drivers/gpu/drm/amd/amdkfd/kfd_device.c            |   2 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  84 ++++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   8 +
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  17 +
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  11 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |   2 +
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |  11 +-
- drivers/gpu/drm/i915/gem/i915_gem_wait.c           |  34 ++
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  15 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |  37 ++-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |   8 +-
- drivers/gpu/drm/i915/gvt/cmd_parser.c              |   6 +-
- drivers/gpu/drm/i915/i915_scatterlist.c            |  19 +-
- drivers/gpu/drm/i915/i915_scatterlist.h            |   6 +-
- drivers/gpu/drm/i915/intel_region_ttm.c            |  10 +-
- drivers/gpu/drm/i915/intel_region_ttm.h            |   3 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   2 +-
- .../gpu/drm/i915/selftests/intel_memory_region.c   |  21 +-
- drivers/gpu/drm/i915/selftests/mock_region.c       |   3 +-
- 24 files changed, 433 insertions(+), 422 deletions(-)
- delete mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
