@@ -1,121 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A310F576EF7
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:39:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96395576EF6
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:39:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E45CC10FA40;
-	Sat, 16 Jul 2022 14:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7947C10FB39;
+	Sat, 16 Jul 2022 14:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E63DD10E11C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 15:58:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jjrqiF1gupETfb23z8FH0vYOK9u2CD/9ahZ5McPSt2nPPsMoojbANL/qQFZ2hjDdPIqCD+sKleB0c4/I2pnftNalsfPsu2OxdcNrzKgb7CmQ3/va8LrVHF+wopnGaPyarYawV4Ngg0i6uRqx8zpK2K9DO6fX6ihVsUwCsWgwhW21JM8hsDe+zRKLpsu6yfsCsXrVMJQmS+hg/LqKHB6h+m4C33qezXYgUiQN4Lx6MtKjOBSQvz7T2WXliuAnBikxLWfR30J0H9hiDhXWsr4TeoaI7DFbR625jsMfiCAr+26UYMLcOH46NIR+ePd/lWV7QkiRCvc1DlLuGf8YpoD/vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eWoDDn+doWC/pKgs4LW4RDpHnpVA0pZ31/sxpgS4Y4Q=;
- b=ZahVlBXrxdLUeKJv26sgteHMJ9X5/RQpX9A/aYyR8OeZMei4r22Q4ciQ/WK05aZ8Yr2U4uDxFsdgNw4jtrCKuV/KeQ5Page0sIfNHGfSF+GxyIKjHHF0z+9DtlWGPVV/XDI95Rwxgmii7cCfcva+oeDdUQmcC8Zs1TU/iF9whrPgU4e4ScFUlTRTgzJLf2Ti3nsAnWTbIwqj9SnFOg9JiqVuow7ZHhO3bTyvrPtUZwf5+Y3xPfjIMsvdQA3x3iy1HM9xVXFURazxkVypp51+Ln3dQWocWoNrbkP8ni+Xa/B45UTBjGfuso4IVHTkSv09ZXH7FQ8sIh1lS0o0UXwLKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eWoDDn+doWC/pKgs4LW4RDpHnpVA0pZ31/sxpgS4Y4Q=;
- b=o1dt+W7y+Mx/FQBPCIzVWTWHb0iSurAarGUUtge2ucYSIkVrFnNXV3ktc+ojtNzRqsvnZ3fZ7Wa0DxRIaVYH8WWw9zr5IvMw2FGg76KBhX8RhKr4/igu2bN0UjgRGzEZ2ZkfYoJL9RISD+riwesv2yxB9GsSJYDTH4wsrz96onI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB5904.namprd12.prod.outlook.com (2603:10b6:510:1d8::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Fri, 15 Jul
- 2022 15:58:39 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5438.013; Fri, 15 Jul 2022
- 15:58:39 +0000
-Message-ID: <5bdedd05-3620-5082-1e6f-c3f6bbae9cc5@amd.com>
-Date: Fri, 15 Jul 2022 17:58:34 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BB19010E1D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 16:00:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB3EF12FC;
+ Fri, 15 Jul 2022 09:00:27 -0700 (PDT)
+Received: from [192.168.99.12] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB3553F792;
+ Fri, 15 Jul 2022 09:00:26 -0700 (PDT)
+Message-ID: <b542d740-ef2c-3747-6012-fe4ebdb263f5@foss.arm.com>
+Date: Fri, 15 Jul 2022 16:59:56 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/2] drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
+ Thunderbird/91.9.0
+From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Subject: Re: [PATCH 3/3] drm/komeda - Fix handling of pending crtc state
+ commit to avoid lock-up
+To: Liviu Dudau <liviu.dudau@arm.com>
+References: <20220606114714.175499-1-carsten.haitzler@foss.arm.com>
+ <20220606114714.175499-3-carsten.haitzler@foss.arm.com>
+ <YshVFKbiz/7FrkKT@e110455-lin.cambridge.arm.com>
+ <af1d56b5-a999-6806-1aa6-593eb0e9380a@foss.arm.com>
+ <Ysv3vS2oosEgFJcN@e110455-lin.cambridge.arm.com>
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20220715111533.467012-1-christian.koenig@amd.com>
- <e71431ef-bcb9-012a-ff0d-4ef350cd232e@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <e71431ef-bcb9-012a-ff0d-4ef350cd232e@suse.de>
+Organization: Arm Ltd.
+In-Reply-To: <Ysv3vS2oosEgFJcN@e110455-lin.cambridge.arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0159.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a2::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7097b38b-6f12-4804-8545-08da667ae230
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5904:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: T1li0DE6MlrwRMhCUPbu3s1Ti/ulUpS5VRi/Yi9KTqxjz3tV4Q+ipFuAvpYocJnYpGEXgBbxPLFSZ7sEZkeeOmvLxBPUBHiH7vnm4kIhFHCJKBi2qWbRjyugtaCV2bGRNZ1RRvj6dfzTbb0F6gqThLC+md3Aj3KkMunIdFWxZA1T4D7+zjtQEONGjPDqOojsZ4gmfVWj1JZBPiiU2FhXpB1msqIjiznNKEUEbvJjF/UWFzFjOhTUI4iL2p1ySyxkpLe0Zew14AKbsGuebTPp2XT+ZCKjxct4L8Vyr9jpdIc4hcdaogVPR9kWuvWq4BxQnfa9lVLp/TmtkUjfGx4o0v9cxuE4z/cMYKwtmkVbR0374k43uyOtu5nGpb1BCJfcbhXMYBZ67HjNqn8Y1S9gYlvrScbxFMjDOW8k4dTrnLEzgOkCnGRIdjHYpxGwkgy2YSFuyg69Fqtd8nrT4TISHPwTVsd7BfeMMFzET+jHLn/an4nHRpl4SZXh4csFQK1DUW2DRFP5bQAZP80SjX22LykQg+rlTKFHVU7WbW//CWZ/afW00nli8OV6dFfWVDTUHTlafU2u1aXhzKMt9b5ydyrY7S11+u57lHA2irlrrv/qzR8s7slVHpqmXA2zHcRWcjoM7/nImjdFhON+DttJI5A/rTJo15+C6WnUfQSftztvqYJxXOz4D27nL7VKPvL4EjE4MXBLrDjVasCOiUa6AX6f6LpKOJlwN8Ujwlu3yrigPUOw8GiaaSoA/HnshzH5ezoTl8/s8XHNZQHms+uXYdTfGBetBvksTIY8TlxN8dnLMLdw82n3h7/U2dhbz75k7/XyLkg6yakJCTbmjEvyb0du7r8aKryMsdfz0Z1yvWE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(376002)(346002)(136003)(39860400002)(396003)(110136005)(86362001)(316002)(83380400001)(6486002)(186003)(66574015)(2616005)(41300700001)(478600001)(6666004)(31696002)(6512007)(6506007)(2906002)(8936002)(38100700002)(36756003)(31686004)(66946007)(66556008)(66476007)(8676002)(4326008)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3lFdUxRZWRZc054S3hPSjRCcS9TYVJJSVpjNURGbEpoc0ZZemtiU09wTWQr?=
- =?utf-8?B?eklwSWp6T1U5L1A3N1kxRTN6enN1K1VoOEw4UUI4L3BUK0tVZjRYK1BWMWZx?=
- =?utf-8?B?M0swb2JQbldha2FRZGJZbmI5cytTVFRRS2ZFZEZsb2srcUJRZUFGT0xQVWhC?=
- =?utf-8?B?QmFzK1B4WG93VHUzQko3RHZqL3JIOThad3R1alppbmUxaEJuY0FqUmlJR0h4?=
- =?utf-8?B?VFh6YjF1UWlJcjVtUWpOMC9YbEVybVgydUVlclNEMzdBRW5kcUxrZEpGbFFB?=
- =?utf-8?B?eTdiaUM0N2gyUUh6YWVRVkZwSm5PLzhRbGc3NlRaVEpiRzZlZWFuZmJ2T3pM?=
- =?utf-8?B?cW8zanozS2hjQTNPUWhzQ0xsZmFTeFM4VlFGNW1jVVIxUlBlVytkN1h5U3d4?=
- =?utf-8?B?RGc0eGd2bFVNOE1YMnE1ZjFLcC8rT0plNXIzS1FEQ1RkS29uOWozTEdMVlIr?=
- =?utf-8?B?eDhuc0dYZS95azJaYzZNOXlhY2NDdzJMZEZFblRmZlN2QWF2Tzg4SS91cWF4?=
- =?utf-8?B?TjVtSFArMSt6SExFaDloSlZRZGQyekw4bGVVbEVRaFQzZnZsY0FhcHhWc05o?=
- =?utf-8?B?UmVHRlg5bGQ0Z0cwV241V1N4dDlVTVUyZk01MTJtUWxoTC8yZEFIOW1keHRN?=
- =?utf-8?B?Mmkxdk44ekYzQXNBN2dUQXpDaDFlM2l4WEl3REFtQXhRREpKRDA3Tkw0TU9o?=
- =?utf-8?B?QWxnS0x5aU55NXVZYVovWFJPMzZTQ1l0a2IxN2hTWng1QWNDbHJ0N2dPVlVl?=
- =?utf-8?B?cU5KcWh2V0NmdTJ4cW9xMEF2Q3JYbFNHNitKdnp2aktSNXc5Sk03WG9IWHEy?=
- =?utf-8?B?ZmE3LzFSRytqUDllL2xjdHVMV09Mdk1Ua1VSenRTMDkrNC9hQlJtclJlR3lq?=
- =?utf-8?B?S2pBeVBpY20wZVBEN2xzS01rODZjaG5oZnpYZFhvUXZLcmpralBHeU5vd3Nr?=
- =?utf-8?B?amVoSThMVjg5Yi9YWk5SK1cvSGlqSkcyMnBJdHQ2dEdUSU9ScmEzN0M4UEtt?=
- =?utf-8?B?VWhJUEN6a1dHbHlEZXc4UmRTMlFUZy9iK29SbFc4MThTQWxtc0JxYjNMdFFO?=
- =?utf-8?B?c3RqamxEYWlGWDZvUDhWK1FJR2dSZk1UZWk4U0ZZSVFTN29YRlNCeWVNZ1RB?=
- =?utf-8?B?ZzhvVE5HNUZrQy9YTlM4WlM4ZEJxN3FWaVJia1BGZkY4SloydXlDU2pERTNh?=
- =?utf-8?B?Q0drNEt2VFZsTFBmazlHL2FoUnlWTnIzeUxsNlBXMkliR2owZ01kZUVkbXI2?=
- =?utf-8?B?dkNMZk9wSnQ5RTJhcmZjckErRVVua3NRMm0rUE5BcW8zMHlMcWV4ZjJRdWIy?=
- =?utf-8?B?cnBqRjdPdU8rWEhORUQ0cmUwOTFlT0MrMzBlOVJ4V0pKMkdaZ0s3U2Z1NytL?=
- =?utf-8?B?N3gyaE9VbUt3REkyeDdnaWw1L2hzdm5yYnEraFYwdVA1bWlNTDcrWEF6YktP?=
- =?utf-8?B?a0N5ZnUrWmV3NEdyNWxKRVBEMHNqRC9kbm1KNHk5aC8zWkwzNVgzc1J1WU5v?=
- =?utf-8?B?NnpNYzk2clFLdTZEbU8vcFFDQjNtTGVjblBFUWhIalBrT3F5QkpTdERNQWFw?=
- =?utf-8?B?dGVOTS9LWUprNEF3M3ZPVjRVQlFxRXU4dGlONWhXT1NpTlVoZjFJWnpncXlV?=
- =?utf-8?B?aW5QM1ZtUE9XcmFRak5KZE1lL3hrZG1ZR3M5d3NoMks3eXNUbGE3UVdLME0y?=
- =?utf-8?B?VmU2SEs4T0U3ZnhmWXpnKzZhcFZFbnlnT0Vick5WMXIrSktyUGQyNEZCRDBY?=
- =?utf-8?B?amxoZ0JQdUJKYStOMEdnRFBjWmlyRUxDblpqckMyblNtL0laM2Z3K0xrbjNp?=
- =?utf-8?B?aUxGT0JOU3FYNEsybDhHQXhUeDFDWjd4dkFyY2pXM2dBNXVYeTJSOGFralE2?=
- =?utf-8?B?clVrK25UekRSYWFDbktKQnVISitRRlA1MVFkREJDQU1NNVZ1SStXYUwrMGky?=
- =?utf-8?B?NjJPaXF0NHpMU3BUZVZUeEVBa2M4Zi9PNUJlTDZlSGVkYURWR1l4UVFZaW9G?=
- =?utf-8?B?RUtSUjZFdW9qbFJRcWlRUHFTblRmZjdicjZaSG8ybENsTXZqYUY2T3BvczZw?=
- =?utf-8?B?K0thR3FvUVl0ZCtGRnV3aVNWZWxLMXVzQU4yNmR2ck9Qa3BNek5RdWpadCt0?=
- =?utf-8?B?bHkzaiszMlh4R3ptcHN0M2dBWmNFYzNpamNOVUZBOUdjZE85Zklrck5yRWQ2?=
- =?utf-8?Q?i4SLIuO3kEyWlzv5IiiOVKDYeu+e+nK9kHsPXL42lc/M?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7097b38b-6f12-4804-8545-08da667ae230
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2022 15:58:39.5251 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IRvZNgW1yGJbo9q53Un2hNSDXQPIXsb3MY6bT+S0jh50Qzr8jruHF6oykI1HQYe0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5904
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,75 +49,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmitry.osipenko@collabora.com
+Cc: dri-devel@lists.freedesktop.org, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.07.22 um 17:36 schrieb Thomas Zimmermann:
-> Hi
->
-> Am 15.07.22 um 13:15 schrieb Christian König:
->> I've stumbled over this while reviewing patches for DMA-buf and it looks
->> like we completely messed the locking up here.
+
+
+On 7/11/22 11:13, Liviu Dudau wrote:
+> On Fri, Jul 08, 2022 at 07:03:37PM +0100, Carsten Haitzler wrote:
 >>
->> In general most TTM function should only be called while holding the
->> appropriate BO resv lock. Without this we could break the internal
->> buffer object state here.
->
-> I remember that I tried to fix this before and you mentioned that it's 
-> not allowed to hold this lock here. It would possibly deadlock with 
-> exported buffers. Did this change with Dmitry's rework of the locking 
-> semantics?
-
-No, can you point me to that?
-
-My assumption was that drm_gem_vmap()/vunmap() is always called with the 
-lock held, but Dmitry's work is now suggesting otherwise.
-
-We certainly need to hold the lock when we call ttm_bo_vmap()/vunmap() 
-because it needs to access the bo->resource.
-
-Thanks,
-Christian.
-
->
-> Best regards
-> Thomas
->
 >>
->> Only compile tested!
+>> On 7/8/22 17:02, Liviu Dudau wrote:
+>>> On Mon, Jun 06, 2022 at 12:47:14PM +0100, carsten.haitzler@foss.arm.com wrote:
+>>>> From: Carsten Haitzler <carsten.haitzler@arm.com>
+>>>
+>>> Hi Carsten,
+>>>
+>>>>
+>>>> Sometimes there is an extra dcm crtc state in the pipeline whose
+>>>> penting vblank event has not been handled yet. We would previously
+>>>> throw this out and the vblank event never triggers leading to hard
+>>>> lockups higher up the stack where an expected vlank event never comes
+>>>> back (screen freezes).
+>>>>
+>>>> This fixes that by tracking a pending crtc state that needs handling
+>>>> and handle it producing a vlank event next vblank if it had not
+>>>> laready been handled before. This fixes the hangs and ensures our
+>>>> display keeps updating seamlessly and is certainly a much better state
+>>>> to be in than after some time ending up with a mysteriously frozen
+>>>> screen and a lot of kernle messages complaining about this too.
+>>>
+>>> Sorry it took me so long to review and reply to this patch, but I had this nagging
 >>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Fixes: 43676605f890 drm/ttm: Add vmap/vunmap to TTM and TTM GEM helpers
->> ---
->>   drivers/gpu/drm/drm_gem_ttm_helper.c | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
+>> No worries. :)
 >>
->> diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c 
->> b/drivers/gpu/drm/drm_gem_ttm_helper.c
->> index d5962a34c01d..e5fc875990c4 100644
->> --- a/drivers/gpu/drm/drm_gem_ttm_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
->> @@ -64,8 +64,13 @@ int drm_gem_ttm_vmap(struct drm_gem_object *gem,
->>                struct iosys_map *map)
->>   {
->>       struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gem);
->> +    int ret;
->> +
->> +    dma_resv_lock(gem->resv, NULL);
->> +    ret = ttm_bo_vmap(bo, map);
->> +    dma_resv_unlock(gem->resv);
->>   -    return ttm_bo_vmap(bo, map);
->> +    return ret;
->>   }
->>   EXPORT_SYMBOL(drm_gem_ttm_vmap);
->>   @@ -82,7 +87,9 @@ void drm_gem_ttm_vunmap(struct drm_gem_object *gem,
->>   {
->>       struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gem);
->>   +    dma_resv_lock(gem->resv, NULL);
->>       ttm_bo_vunmap(bo, map);
->> +    dma_resv_unlock(gem->resv);
->>   }
->>   EXPORT_SYMBOL(drm_gem_ttm_vunmap);
->
+>>> feeling that the patch is not actually correct so I've tried to track the actual
+>>> issue. It turns out that the problem is easy to reproduce in a different setup with
+>>> Mali D71 and it comes from the fact that Komeda doesn't properly wait for the
+>>> hardware to signal acceptance of config valid on setting new commits. I have created
+>>> a new patch that I would be happy if you can test to try to fix the actual issue.
+>>
+>> This works (tested).
+> 
+> Thank you very much for testing this! Can I add your Tested-by?
 
+Indeed. Go for it.
+
+>>   One errant "flip without commit":
+>>
+>> [    9.402559] fbcon: Taking over console
+>> [    9.525373] [drm:komeda_print_events [komeda]] *ERROR* err detect: gcu:
+>> MERR, pipes[0]: FLIP, pipes[1]: None
+>> [    9.525455] [drm] CRTC[0]: FLIP happened but no pending commit.
+>> [    9.542215] Console: switching to colour frame buffer device 240x67
+>>
+> 
+> Is this with your 2/3 patch applied and coming out from the firmware having already
+> initialised the hardware? If so, the handover probably doesn't quiescence the
+> interrupts correctly so an interrupt is pending when the kernel driver is
+> initialised. That's another area worth looking at for the handover purposes.
+
+Yeah. the firmware is not doing a very clean handover - it's leaving the 
+hardware in whatever state it has. it probably could shut down 
+interrupts on handover, but not something to worry about in the kernel 
+driver at this point.
+
+>> But nothing worrying. It does work, though doesn't compile due to:
+>>
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function
+>> ‘komeda_kms_atomic_commit_hw_done’:
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: error: ‘for’ loop
+>> initial declarations are only allowed in C99 or C11 mode
+>>     77 |         for (int i = 0; i < kms->n_crtcs; i++) {
+>>        |         ^~~
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:77:9: note: use option
+>> ‘-std=c9
+>> ’, ‘-std=gnu99’, ‘-std=c11’ or ‘-std=gnu11’ to compile your code
+>>
+>> but that was a trivial fixup.
+> 
+> Interesting that I'm not seeing that, probably due to using GCC12? Anyway, I'll fix
+> that and send a proper patch.
+
+I tend to use newer gcc's indeed, but I am using gcc11 in this case.
+
+>> Your commit handler does sit and wait. I guess I avoided that and had it
+>> still deferred and handled next time the vblank interrupt fires. Yours is a
+>> bit shorter and less complex so it wins. :)
+> 
+> Yes, that's the essence of my issue with your patch. Delaying the handling of the
+> event until the next vblank means older software that doesn't use the timestamping
+> from the vblank event will get wrong framerates (playing video might be affected).
+
+But this is a rare situation. I certainly was very happy going from "my 
+entire display locks up and only a reboot really fixes it" to "look ma - 
+it works and I didn't even see a stuttered frame!" :) But your fix is 
+better in that regard.
+
+> Waiting here when we're also calling drm_atomic_helper_wait_for_flip_done() after
+> drm_atomic_helper_commit_hw_done() feels wrong, but then the later is checking if we
+> have consumed the event so we have to. Maybe the introduction of the
+> drm_atomic_helper_fake_vblank() is needed in komeda as well like the generic
+> commit_tail helper function does? I need to investigate more the next time I get some
+> spare cycles on komeda.
+> 
+> I will send a new email with the updated patch and your Tested-by if that's OK.
+
+All happy and fine with that.
+
+> Best regards,
+> Liviu
+> 
+>>
+>>> --8<---------------------------------------------------------------------------
+>>>
+>>>   From 76f9e5fed216a815e9eb56152f85454521079f10 Mon Sep 17 00:00:00 2001
+>>> From: Liviu Dudau <liviu.dudau@arm.com>
+>>> Date: Fri, 8 Jul 2022 16:39:21 +0100
+>>> Subject: [PATCH] drm/komeda: Fix handling of atomic commits in the
+>>>    atomic_commit_tail hook
+>>>
+>>> Komeda driver relies on the generic DRM atomic helper functions to handle
+>>> commits. It only implements an atomic_commit_tail hook for the
+>>> mode_config_helper_funcs and even that one is pretty close to the generic
+>>> implementation with the exception of additional dma_fence signalling.
+>>>
+>>> What the generic helper framework doesn't do is waiting for the actual
+>>> hardware to signal that the commit parameters have been written into the
+>>> appropriate registers. As we signal CRTC events only on the irq handlers,
+>>> we need to flush the configuration and wait for the hardware to respond.
+>>>
+>>> Add the Komeda specific implementation for atomic_commit_hw_done() that
+>>> flushes and waits for flip done before calling drm_atomic_helper_commit_hw_done().
+>>>
+>>> The fix was prompted by a patch from Carsten Haitzler where he was trying to
+>>> solve the same issue but in a different way that I think can lead to wrong
+>>> event signaling to userspace.
+>>>
+>>> Reported-by: Carsten Haitzler <carsten.haitzler@arm.com>
+>>> Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+>>> ---
+>>>    .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  4 ++--
+>>>    .../gpu/drm/arm/display/komeda/komeda_kms.c   | 20 ++++++++++++++++++-
+>>>    .../gpu/drm/arm/display/komeda/komeda_kms.h   |  2 ++
+>>>    3 files changed, 23 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+>>> index 59172acb973803d..292f533d8cf0de6 100644
+>>> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+>>> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+>>> @@ -235,7 +235,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>>>    			crtc->state->event = NULL;
+>>>    			drm_crtc_send_vblank_event(crtc, event);
+>>>    		} else {
+>>> -			DRM_WARN("CRTC[%d]: FLIP happen but no pending commit.\n",
+>>> +			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
+>>>    				 drm_crtc_index(&kcrtc->base));
+>>>    		}
+>>>    		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+>>> @@ -286,7 +286,7 @@ komeda_crtc_atomic_enable(struct drm_crtc *crtc,
+>>>    	komeda_crtc_do_flush(crtc, old);
+>>>    }
+>>> -static void
+>>> +void
+>>>    komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+>>>    					 struct completion *input_flip_done)
+>>>    {
+>>> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+>>> index 93b7f09b96ca950..1a53bd87e81d8ad 100644
+>>> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+>>> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+>>> @@ -69,6 +69,24 @@ static const struct drm_driver komeda_kms_driver = {
+>>>    	.minor = 1,
+>>>    };
+>>> +static void komeda_kms_atomic_commit_hw_done(struct drm_atomic_state *state)
+>>> +{
+>>> +	struct drm_device *dev = state->dev;
+>>> +	struct komeda_kms_dev *kms = to_kdev(dev);
+>>> +
+>>> +	for (int i = 0; i < kms->n_crtcs; i++) {
+>>> +		struct komeda_crtc *kcrtc = &kms->crtcs[i];
+>>> +
+>>> +		if (kcrtc->base.state->active) {
+>>> +			struct completion *flip_done = NULL;
+>>> +			if (kcrtc->base.state->event)
+>>> +				flip_done = kcrtc->base.state->event->base.completion;
+>>> +			komeda_crtc_flush_and_wait_for_flip_done(kcrtc, flip_done);
+>>> +		}
+>>> +	}
+>>> +	drm_atomic_helper_commit_hw_done(state);
+>>> +}
+>>> +
+>>>    static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
+>>>    {
+>>>    	struct drm_device *dev = old_state->dev;
+>>> @@ -81,7 +99,7 @@ static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
+>>>    	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+>>> -	drm_atomic_helper_commit_hw_done(old_state);
+>>> +	komeda_kms_atomic_commit_hw_done(old_state);
+>>>    	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+>>> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+>>> index 456f3c435719317..bf6e8fba5061335 100644
+>>> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+>>> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+>>> @@ -182,6 +182,8 @@ void komeda_kms_cleanup_private_objs(struct komeda_kms_dev *kms);
+>>>    void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>>>    			      struct komeda_events *evts);
+>>> +void komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+>>> +					      struct completion *input_flip_done);
+>>>    struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev);
+>>>    void komeda_kms_detach(struct komeda_kms_dev *kms);
+> 
