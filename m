@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90E7575E96
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAEF575EB4
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1FE11B564;
-	Fri, 15 Jul 2022 09:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0925011BD7F;
+	Fri, 15 Jul 2022 09:37:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7000111B564;
- Fri, 15 Jul 2022 09:31:44 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
- [109.252.119.232])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5E29866019A8;
- Fri, 15 Jul 2022 10:31:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1657877502;
- bh=TWozmotf+sQwVdZNmn/06hy3nh6q5FZqNEZs2dkO0Xk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ook7FofVSeFu98kzfOW85/NvaqQGYfMlcoQwPYYEf1uM53lI6XEH5r2IfZA5D39YG
- One7B2e3W/fD6MOKVR32mTsfa0F578/RBAeOo8/NotqqijY2/uTpe7t/xwykgVmrPt
- +yavsYIuw7Eo6wCEeOig0kwF08jXCpcKDfKm5bf62mOtUtod68wxkNTfoOrBO2Vigr
- jGGe7rNPzl9ucoy/rbaMWflBdm9lL83CRfG8Nh3DuvKmTusiGl7vlEzXHo8BAnin4h
- VmXp2fNABeQZzflx/SPBJ4BlHwecx5t82vj5mWQ6sz+HwjJh2hV8TUmAiQ8RvCIpsC
- jI9dt2CUipsuA==
-Message-ID: <5c98385b-f154-0128-6f4b-5fac89529201@collabora.com>
-Date: Fri, 15 Jul 2022 12:31:37 +0300
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9925511BD7E
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:37:47 +0000 (UTC)
+X-UUID: f3ab035118674bbeb578d2d49e5fa4d9-20220715
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:11a9fd0f-07cd-4713-a49d-0eb610ebc6bd, OB:0,
+ LO
+ B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:51
+X-CID-INFO: VERSION:1.1.8, REQID:11a9fd0f-07cd-4713-a49d-0eb610ebc6bd, OB:0,
+ LOB:
+ 10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:51
+X-CID-META: VersionHash:0f94e32, CLOUDID:fba91433-b9e4-42b8-b28a-6364427c76bb,
+ C
+ OID:0c5cc15b0205,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: f3ab035118674bbeb578d2d49e5fa4d9-20220715
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 2019365385; Fri, 15 Jul 2022 17:37:43 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Fri, 15 Jul 2022 17:37:42 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Fri, 15 Jul 2022 17:37:42 +0800
+Message-ID: <f53b38e9a2cf36aee83aa5877134447e4613a7c2.camel@mediatek.com>
+Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Fri, 15 Jul 2022 17:37:42 +0800
+In-Reply-To: <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1 1/6] dma-buf: Add _unlocked postfix to function names
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
- <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>
-References: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
- <20220715005244.42198-2-dmitry.osipenko@collabora.com>
- <43c06f53-bad8-af99-0b57-781dbf716768@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <43c06f53-bad8-af99-0b57-781dbf716768@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,37 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/15/22 10:19, Christian König wrote:
->> -struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment
->> *attach,
->> -                    enum dma_data_direction direction)
->> +struct sg_table *
->> +dma_buf_map_attachment_unlocked(struct dma_buf_attachment *attach,
->> +                enum dma_data_direction direction)
+Hi, Bo-Chen:
+
+On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
-> The locking state of mapping and unmapping operations depend on if the
-> attachment is dynamic or not.
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
 > 
-> So this here is not a good idea at all since it suggests that the
-> function is always called without holding the lock.
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
 
-I had the same thought while was working on this patch and initially was
-thinking about adding an "unlocked" alias to dma_buf_map_attachment().
-In the end I decided that it will create even more confusion and it's
-simpler just to rename this func here since there are only two drivers
-using the dynamic mapping.
+[snip]
 
-Do you have suggestions how to improve it?
+> +
+> +static enum drm_mode_status
+> +mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
+> +			 const struct drm_display_info *info,
+> +			 const struct drm_display_mode *mode)
+> +{
+> +	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+> +	u32 rx_linkrate = (u32)mtk_dp->train_info.link_rate * 27000;
+> +	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16
+> : 24;
+> +
+> +	if (rx_linkrate * mtk_dp->train_info.lane_count < mode->clock *
+> bpp / 8)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if (mode->clock > 600000)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if ((mode->clock * 1000) / (mode->htotal * mode->vtotal) >
+> +	    MTK_VDOSYS1_MAX_FRAMERATE)
 
--- 
-Best regards,
-Dmitry
+Why limit frame rate to 60fps? If the resolution is small enough, why
+not support higher fps?
+
+Regards,
+CK
+
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+
