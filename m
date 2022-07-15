@@ -2,149 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B14575913
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 03:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE00357597E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 04:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A71C10F877;
-	Fri, 15 Jul 2022 01:19:53 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABDDA10F877;
- Fri, 15 Jul 2022 01:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657847991; x=1689383991;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zK4gNb1V45Yeiirq0drE5mTP+ZLCPFFAgYOkIApuLas=;
- b=D8AjravpyoIdYHIPjUMrAgzcOLhavNW45qiA8AHnPK9Hav3mAd9nOOyg
- XU/5b/sIONUxwmm5C8KCjxstw24g3tfu9dmLNg7RXjKs7wiDMlGrhQHjY
- UCRSaL2wF0wBVTOQbGZ/iU6tyYxn6CsDWNyHxu8qqnkqitrNEh3y3JJEf
- 2T4y/UWmvpjsJXs1MNSyki02NYtxVMuZrz3sHQ/VtUbvEhf+bybSmKsAh
- A3DvlmXxMn9ZamBKQKzwco0pLxTZg3cFrt9LqhnJVjQUqhNmJEZKOQT+V
- llpqVnshdfBikKnSCPLsVZTtocJgyRECqAENaoIZqq776UGcZxuwE+t+R A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="286413491"
-X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; d="scan'208";a="286413491"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2022 18:19:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; d="scan'208";a="600327360"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga007.fm.intel.com with ESMTP; 14 Jul 2022 18:19:40 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 14 Jul 2022 18:19:40 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 14 Jul 2022 18:19:39 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 14 Jul 2022 18:19:39 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.170)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 14 Jul 2022 18:19:38 -0700
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5FC10E1D1;
+	Fri, 15 Jul 2022 02:11:22 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F0110E1D1;
+ Fri, 15 Jul 2022 02:11:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BUm5Q6MhIuU3F2OUrC0P089+UipgXw8X6g6CrzOokE9GpDKqNupRzyFmbUO8/LqRhxWuU9FDqwLWyULxbeg7iT7qceqMoEFZQZDXeTVT7xM9hyIWLiTJ6CWuNDtAsTI5RCWRrW+MDFlEQ/td1QjEy4NdjsuRDC+ImjdVkJmkVc8Q1XkxnOWARGk+uvdYpzPsMwllpPyGgGiVymfnoRgm0nXy6kYFa2pXnOYKRX6X4F3roZEuhkHaGL0vXRhWFbVQDd2aHSJOW0QktvM0Ot2+FbvmM4xT/8MuDVooq9ao7X92IanJEFf6JcI7oo2bCB7FF7kZuiQm2+Tlfzpm353itg==
+ b=ALOWZ6E9MZecGGTl6DkVfNENGX8aLQ0FsrvTvs2zOgmVgCh2/fwtt9xMzw6X/tugb+zcfN5UslgOnXMW0PnEh5/R4h8VK4Ls2xw2qU8kLdqTxPclW3Hp34Ie2xXOR/vgmfkNmRbQDZhp61lm89kjjsKN37cC/dttA3QsZoPjKtD/Rh9SlWRxYH/PllV9LGTSJgZ8eplLjiUjhvsEg7IWspm4sziooS1NrJsNp/oPjx1rs4MzvE52Hn8MCvXSEYeBnkX2L5YAZgYmlL7ZxgBT2psuicRNbGyv9XlqBSQOA0wue8d6bPLoUZW/TLO+KQ1LZeRjUHtf11IKFUC0LFxUuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qh104ryI4gwY3aN9ZowAco7jX7d/keUuL+Z9S0paSZo=;
- b=MTRIvVwyWi5MbKw14KV4WpZxAhxlZperhum3ufJCLO8WsMQZ0iyE3A3AkTPIZKwYiRQD5ot41ZTyZuWBpfMlBQ4EFyl9soIJAdB6SfY8BQ2IWX2ktA6TMGhO/zBWGm18ohOq2pRUJeJXbgq5ffQixmQVXViWXyNK6m1OZq4itCQJC6bR+m3o276j2gM4ASxF3jsKZ9N9VoEfC/Wx2anc6ObAIWsmCv7JlwORfv712F+UB4F6iX7/utlDpIVcA3RJ1WRr84nXoYxemU/QE2Xk49bAjRJSoC1ctv0xAPZwYwxk5b0ua0bfGrEtFqoDbBy+H/bSW2GMsb3Rpd3lPnjUEw==
+ bh=NHVDkFGU/1iCEavcNoOsyIBjDg/tjdhLr3cQyUbdW9g=;
+ b=mlQy+8FxkyPMwDT8L0o8MFqat5+juX2yT79hJnz/dy3AEv4JvpnhDKO4wUhcgUy5ioHt+fa7VemK44A+LLYoGW3XvBwHsi2JfBquxz8X9XzCg6m7gSqmIUoctnlNdAvXcV0a2rW3VAir4JiZO+cQdH2XGYgNyvYR8PiINdGifyWXt4z8RGYvoVIHSVcvsJVzrFhReqX0udcwRDiJWsKMTKixjOSKmG9RL1/YOfisuurrm047AJiYsZPjjKszFlZzShoPnGLIFzkXlA1SgzNICqhf3mmksiHspcc+cow3geXZPeRE/ULzXKeDX+IZWrae8nUPQ/Rxlb0eSFUYOXgYAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NHVDkFGU/1iCEavcNoOsyIBjDg/tjdhLr3cQyUbdW9g=;
+ b=mWTfC1JQlSDtZnVaLc/SjdxqP0IItHA+NR3G4OjY3MG2f2543Tdgpc7DSzqLWSrC4kdlupmXsDYDIOYaJuVsQALG6tSfws362QsCBTHtfzM4FXqwHMglukUMp8juIeF8/uSICEkXvaKZkgc8ySL/7m4OdNPcaTMPgUg7hVZUaFWOw5whS/BNHjz5BvtPPceFJd9bUPCvNFJVidfsMkR+TWQ/iTL9AufnNPdqzvUSumAihjDRTU49Jk5BXUj5Lnhvp5/IC7eq482/tW4eAKhnC+CeEKtH0/NVuo7+oKo2OuZwY1AJgehKPLZJsXE61MET6bjv9VXkYFn3o9Ncp0OqSA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by CH2PR11MB4245.namprd11.prod.outlook.com (2603:10b6:610:44::11)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by SN7PR12MB6713.namprd12.prod.outlook.com (2603:10b6:806:273::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Fri, 15 Jul
- 2022 01:19:36 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::516d:4bc0:8e7b:9a12]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::516d:4bc0:8e7b:9a12%6]) with mapi id 15.20.5417.026; Fri, 15 Jul 2022
- 01:19:35 +0000
-Message-ID: <2c1543d4-f358-e695-6cc6-6eccfc06af39@intel.com>
-Date: Thu, 14 Jul 2022 18:19:33 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/i915/guc: Don't use pr_err when not necessary
-Content-Language: en-GB
-To: <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20220715004028.2126239-1-John.C.Harrison@Intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <20220715004028.2126239-1-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0128.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::13) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.25; Fri, 15 Jul
+ 2022 02:11:19 +0000
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::eca6:a4a7:e2b2:27e7]) by BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::eca6:a4a7:e2b2:27e7%5]) with mapi id 15.20.5417.020; Fri, 15 Jul 2022
+ 02:11:19 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: Alex Sierra <alex.sierra@amd.com>
+Subject: [PATCH] mm/gup: migrate device coherent pages when pinning instead of
+ failing
+Date: Fri, 15 Jul 2022 12:11:09 +1000
+Message-Id: <20220715021109.2225886-1-apopple@nvidia.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <4b2f9a61-ca67-6a34-41c9-c191cac756b3@redhat.com>
+References: <4b2f9a61-ca67-6a34-41c9-c191cac756b3@redhat.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR07CA0101.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::42) To BYAPR12MB3176.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::26)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa1639b7-ea5d-48fe-9e5e-08da66001472
-X-MS-TrafficTypeDiagnostic: CH2PR11MB4245:EE_
+X-MS-Office365-Filtering-Correlation-Id: 502c5fc0-8641-4698-9ed3-08da66074e5e
+X-MS-TrafficTypeDiagnostic: SN7PR12MB6713:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wmpp+fzlvKSyNEjx71qkL7I9yQF0ptp2BzEfofoIxFSZpNf++mVLKyqokr69L0B5bjC5Z8DHoI7uetulwGIsRI9T/w3SZ0d9xzxSXLKikC4L89gl0ioQKcAkNyQ5bFMer6lu08JT944I2S6/Ibv1e+Ae/Np8TMBuKTz/kbbh56weN9GbirbGQftGoftwDvRxrTi9h1V5Qu3+yWtBKc/iwMOA4mB0eBGPKRezhn5UvjD6KqLRaR9nKvoobOwm3GCUGjvp96TrAZk6HvWw4vQc/oW43goEk2X5MbdqVFkYgp2UcVzHEruFGwnobtBfprjQv6Pu3yS87zfGMRuWnnwG6O6AuqxvG9B8it+4sc6SK/9Om5rXwUsr6Xu4CzUNqaBpQTLuOnTJc+gundXpHXSICMg4QU20oZltn56VjoS3Y2Qr3hiAVdhtzCmrs7DpodJ/R899InEfAi8HQhqmwLBQhP8YdKzs+a/xh3BHpswT9klZcNFxjVX2QY6EFNHVSVX15KVWciU2/5A3RNHjU/27zDDe1g7Gs3jk/4zq1mnE81oRAaLKDNf+ph5sootn+20CNXOHRkFD/ELzhUF3JCFT+YusSSLirgCGlo33PwlQOtiK1tsWTtOL2TH+tgfAzwI1va5d9rsNX513FdeRVfaBPcrhvCJLIHMD2uY/D19+qgdy982a8TyBMLPO2SeSbPOCMMz2oe0vV67a68ju+FADcnqGrV9MKkZMXov4g+nGA6RfpUSWXPWfOARAn72dJfYBz9Xsfiemp/jZrn9ofv12h41OpksE6eYUe9WivXf5pwBQ78bQw8vp35BV1zO02FrkLxIJE1iykOwMODPOCTaEY0qDFQ4XZJOfwGKsj2OhljK3aEY9oS5ajwuyLrbakdEXQIeRg5svQX3fJcoWqFmDVA==
+X-Microsoft-Antispam-Message-Info: swSXb2xi6beWEb1/7R071vtcQ75Sqp8C98IFL1fIJi1oadZjpPE+jbA2SBYK3xPhtiKAWnOSOthPpuO2MwdtgApN5wAfP5OWERUGFmYu9vl9BOTjWT1AFms9dOAaETnIvbgXNkKmT0Ee5GfmU2LxUziBHdmFWT9rORXQZ1on5L/NrucO/wLy7jB0EkxEbfZ0feZyJiPyExrnlwQYRGfgCt0qw/heHHHUEUtDLbO02SPaKuGxeSzvmtZMyabW+PqVYNT4Y7KA1Cfq9z/aSr/csuWqStrZeuE5tdy8/OPG+2TtqobJsQXTsFO4VzI7t56SFRdtvo7VM2Ye31oWu/fJjWn7D+SimwGMAz+v8m5h+AFrXej0esxHtQzdailEJU3/dMNzwHONNXaOo1i4W7qXGPHUUJkej0M79AoGaBQBhaAE72w67GhI58WelDYhpV8SfgkzjMXFGjexfUAKX3Xh69qw/LqtJXenyB6ePrOp/jWQdnG9xKIVAG21dmfpvTl44C4Tuo3ObINJI8luYaZSwDwYa7IuqXJ9iyk+41+A9qgGCJm8q+JpeFSX6re7HkpjsArEc9ZCyFlmfuBArdD7Q+fvDP8csKKh0YjvPeWeAb5loIuWA0Ppz6CjWa2gh/rWgNU+BQY4ToT3OZO1M7G00uMA46ZhDCAe9HVJN66EnU5LRrz2o7f+L3u5LO2md27kWx3ViTrgWiwz/1DTY1F+kzFRAgFEg6PJyHQMlwYq3fZF0omjTuNePiXTjGUS/D26
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(396003)(136003)(376002)(39860400002)(366004)(31696002)(31686004)(83380400001)(5660300002)(86362001)(36756003)(6512007)(38100700002)(26005)(82960400001)(450100002)(53546011)(66556008)(66476007)(6506007)(4326008)(6916009)(6486002)(41300700001)(8676002)(2616005)(2906002)(316002)(186003)(478600001)(66946007)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(136003)(396003)(366004)(376002)(346002)(2616005)(186003)(86362001)(478600001)(1076003)(107886003)(41300700001)(6486002)(6506007)(26005)(6666004)(7416002)(2906002)(8936002)(6512007)(36756003)(38100700002)(5660300002)(6916009)(54906003)(316002)(83380400001)(66556008)(4326008)(66476007)(8676002)(66946007);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RldaUkVpREdpTUxGQnhxZ3cvQXA2YkI4K214R09UTGtSNU9GSlMvWTczT293?=
- =?utf-8?B?R2s1L2hsLzNBMytZdFZ3RjlKSW92NG5sZzlWWDc3MzNRTHFrSmNqRVc1cXA0?=
- =?utf-8?B?RnRxdWJCZTZMVWFRb1JyN25jRUpWSEpSMk0yckxaMy9Jbk9wazk2dDJlaVBW?=
- =?utf-8?B?TjNtL0tjVFhTYkhDR3RyK1U1c0NITytneFo3MEJPS3BCUm55M1BpdWkxaWJF?=
- =?utf-8?B?R1VDaWprNzVyR2xHbXlnbXRkS3RZSEc5THlrTEMrMi9nUTNvYWMzNnVQdE14?=
- =?utf-8?B?Q1YxN1J6VWZieFFrdzVNY3VIVEFuOHAveFo1RXgyZjFTYVNKLzNvMklvemx5?=
- =?utf-8?B?UlFHWGU3cm01aUhtZGF0U2hpUWxnK1BJSW1lcHloVDhTcE5IelpSeGtwMTN3?=
- =?utf-8?B?Z0E1M0V6NkZ2VFFKYnFtOGJJemhJMTVsNXRxUnVqNEJYUDdCMWJxSytMS0lj?=
- =?utf-8?B?WFVzMURZQlZsaVh2YmQ4SkhIdVFDb2VMZE42KzhjL3FQenNxSGRtZmx6M1Ns?=
- =?utf-8?B?MHFadzZrQ3pMdmZJQlZQeG0wQnJnbENMTzZkd3h3N25YelkvajYraVpqdkZW?=
- =?utf-8?B?L1hSYkJuOTRHeWtGc201ZllCRHowNGd4K0dLU3JDNmsxRGVyd295Ym9FSkRV?=
- =?utf-8?B?eGt1ZjU4ZDVCMkl5WVhBeDVjV0VUSXNjNUF3OUpQNmV5dXIzVDRseFM2UzVW?=
- =?utf-8?B?WkdtTERTcjhDNE9vSkZSMHZCT1BuNXdITlBZb3lTSUlpQXBJYXhIR1pIazdN?=
- =?utf-8?B?V0hwV2twV2pmOXQ3VkEyYTFYY1g4K1g5Z0JwaGs0dm0xQXcxNFJlSEJiVTBm?=
- =?utf-8?B?Z0F0eHdFelhxTGg0VVJ5MDVyV2pDYUdmekx5KzFBODZHVy9SZEllZGZ0UWU1?=
- =?utf-8?B?R1c3bzlLTGcyMWt6Szh6SzlhNU15R1VQcGxzeGJGRUJVL0F4eVFEQStmYnBU?=
- =?utf-8?B?cTRmckt5d01NWnZZMzNOUDRPSEJNUURZNEpNY2ZQWVBDMVliellsc09TNmRE?=
- =?utf-8?B?WEtmWjljTUZsa0RQQnNXb1ZQNkRPbWxjTHovL0c4c2IvaXM3S3JpTnBwYStI?=
- =?utf-8?B?bW5lVmtjSmlkV05IRFovYWNhVUk3SkY2ZkFkV3JwTU5oclZuOHRWV04wTTVC?=
- =?utf-8?B?Rm1SUHJ1aWtRWUpNbVlMcmNwNzl0WCtFaEplZDRmU0Z3LzNTaXh3dmYzVWpJ?=
- =?utf-8?B?cWNTNHA2WWMvcWZTZmQvS1FYRi9KYW9pZ3pIUWVKRFoxMzZnYmp0ZjZpSEtB?=
- =?utf-8?B?a25WUnJsWFV2aGJHK2IzeG5zNUhkUXNabUZlU2NJT2NZMHJYQU13akwwZzlQ?=
- =?utf-8?B?MlhzcHZoYlM4OWhNbmsraHY4L3E4dzR2U25mQlBnbzRmRitUMy9GY1hmSkhV?=
- =?utf-8?B?Snk3ZXdWQzk5K0lPYXNUSFVRYllBSjhhaEFFOWx5b3MxTTh4dlQ3NXpEYmNW?=
- =?utf-8?B?SkNDdzRyM2ZydTJ2R2VnUVMwNDR0VEtwQ0hJNlFkRnFIeFpVYXR1WWtNZ2Fw?=
- =?utf-8?B?Q2lXT1JaWTc5VjdJUnBZa3k2aU81V3BTT3Y1ZXgvR0RyM0ppSUF5L1g5TnRY?=
- =?utf-8?B?REVTU3RNbGFhdnE1VzJsUHAzK21uU1BabjVJL3RFR1JxMDA3U3ZZcktRbGRv?=
- =?utf-8?B?NDB5OCtNSGF1N3ZRcVROd2gzeDZvU1ZuV3UzNjFaZ2svYnRxbXZEN0R6MU1m?=
- =?utf-8?B?RVRQNkc4TzFTblhmaElWNHIvd3BycWx4VFYvUWJpeEQyZVdnWUViaVhYVHJ2?=
- =?utf-8?B?c0RBdGl0M2JuY1lxb21NeElTalFMUmM2S3E1K0dUMjNiUllBUjF1UWRZTkwv?=
- =?utf-8?B?QkZSQ1Z2U2FuTE4xcWNGcytkbCtmbytoYldkOHZEL3IxODNuNFR3RzNTbWRW?=
- =?utf-8?B?NW8vOWZvNHV4QVRoRWZvN0c2SUxVYWJRY3N5VithdzMxa1MxMDBSSm83Skg5?=
- =?utf-8?B?alJQZzJHVVRqOFVGd00yTExiekZrczI5ejJHTDJJRTNRRnUxWXlZeUYrd2po?=
- =?utf-8?B?ckdKaUZWd1lDVGMvbUVZN1d4R0pWWENodFZweGxzN1ZKQzlOQU5aOUw3SXBM?=
- =?utf-8?B?Mi8xRHA1RHBBcTFOeHNNdmcxSEtrMFBmWXEvWklNUHA5VldVUDRUd01DZVFJ?=
- =?utf-8?B?cmI5Sk1DbVV4YXJKWkZxNXRRNHY5MzdHcnFSdmhxRUdrVW5mZnVucWoyV1Q1?=
- =?utf-8?B?RGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa1639b7-ea5d-48fe-9e5e-08da66001472
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iBhQqZsOOjiTrewLReeC6gLXWIdLbuLaqimZoyZLJd+HsSaFoRkSV3p7SvRP?=
+ =?us-ascii?Q?cd0NkeTmPdUZsryp9AqUt1589jstVylek7bDwq3l7KM/IV3je3iQkqdIPtik?=
+ =?us-ascii?Q?HkJbgSHc5R/bAbLI5IEW37vGhp27RwxbDQu1L/DUb3HgUtg/bFzJuDa6TIQh?=
+ =?us-ascii?Q?tvxWY6YOvtIksprpc+Usnk9iC04U3Bq7PwOeSloXinh203rOwUR0EerZ/cKx?=
+ =?us-ascii?Q?We2QECXybZmEtR5xAt72wUcNW+gVGn6WGlLsBLDydlYcF4LRCR52k25ORPfu?=
+ =?us-ascii?Q?JNslK7PsTXI4VbbHgYwHEky3I4MaPRAcNkxpkaNdJSFAjh563rOL7ZvSo8Ft?=
+ =?us-ascii?Q?tyZYKE9Kewq1Ge+9cK62DLQHz+wRyPIJ72/ZMTJ0n6P2DqCSM9Q/HUgAZb0S?=
+ =?us-ascii?Q?ehmS9CigD/ZX8zztX8W2/gJsjQ+woMPJG1yr2UPQ1ARU9G7HurE+M7EMaYUO?=
+ =?us-ascii?Q?pCSrhPz3XK6bTf7krPhozgoLU/CJQcRcxHyuUl3INguX7I9cnCxhS9++V5Ne?=
+ =?us-ascii?Q?fVQ9GB1/II/ZSZz52yNlU6Ap3EMThQZpl6a8W6Rhl1KQe3dusVsCpxkqtyTh?=
+ =?us-ascii?Q?WC5oCUeFlk4F1A4pt/E8qT0Rqsep4EffZbYOjKLhMYj7DIPrwwdJ+3LU+iMq?=
+ =?us-ascii?Q?PwvxRngR0M0K/VrpQym8/ik5jhwxpQXqFS9egXPTCIQSY/UMCI7Km2DAsOD9?=
+ =?us-ascii?Q?PTAraTb6J2ZRYCAln0xnq5zFJcs71zNPHtcT1J4u77wsMyDs8p7IZcOZQDT7?=
+ =?us-ascii?Q?DhSvYMsQ5xnWbvpdx1erhv4TBshfA9OmZYD6njbY7xC12AqGL/jZ4TvRAMct?=
+ =?us-ascii?Q?S2XO9012sqT/fe0LCCbnqThIuFpZLP/krTvJEFCFYP1uL8CiCWY/YK/KECVB?=
+ =?us-ascii?Q?gCu5nt1A8neW8icGqw72NF64BUMBU8xdvodPW9+kYgP2SqymrwdgQWH6+6ud?=
+ =?us-ascii?Q?+jdHdtoadZRDFQTgZW/R0P6CCjVeMlYvVOseWbqTcDu8eoBgFwOPo2k8LCuC?=
+ =?us-ascii?Q?zH7O1v6/o3xcV5vA88gZDRCmPgNkSzPzlk2juxDBGzwRzGQGQft7Vftgx/iD?=
+ =?us-ascii?Q?v+2XxPVKXfYJYRn2kOY1f6f7bgRQ98aq+rKoZ5JDMzFADsi7LbhbpFDSk/Df?=
+ =?us-ascii?Q?AJNc5hYWZpy9LrymjsXjVDYySEp0/O2RG4t9dV7cIwe2AZusxBlwRSDqTu6P?=
+ =?us-ascii?Q?xl36tHFF8zZvQ3FULOcA55QWiE5ZvNTHbzVtzj3cp+GXw6gqQQDWB4lOSwdg?=
+ =?us-ascii?Q?DTMpRy6UZcITLexgrhhvwGcfJM2iCp9wEa2JkEXimUBFJoO/84WYbM7wdZwp?=
+ =?us-ascii?Q?GfoWWP5Jd75Ef4tB4PewA/Ap6qsn1Zb/9FCj9SsH40C7natpHEnNqxToOgfu?=
+ =?us-ascii?Q?56Z/aEMbi5W9ABwLHc+r0LxOd8rInjUUH4aF3llLobvpd5gursYBK0t7nwfA?=
+ =?us-ascii?Q?Ws448UwSUEhgibhI3KOjwPhzVc1Q/reNQhETBLLhYsJb2McvCJqjErV8aOMJ?=
+ =?us-ascii?Q?cDmaCo/N7E4us9tV5/q4Q+DxsZW0xgt+yHge3AcLrUdAR6GYEII/Za91l3NR?=
+ =?us-ascii?Q?pin0/ui7/SAH3sZA4JJdU5jK7SWUuqNmy5vkgnuH?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 502c5fc0-8641-4698-9ed3-08da66074e5e
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2022 01:19:35.8716 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2022 02:11:19.3380 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 85h4AUx2dgR102DriFLPB6Sbo7FdaETvhRt3rqvj9YKfebB1EZLpI8XGGG9DkcHOiMqWki+8I7mG1jw4rzuxhT/omzqVn+1Odq0e5yJHipc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4245
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: S0NQT8/Qj7uT4XEhklgm2elFJ9pE05n0Dxfx2qiwXmbHvUxHdexZ5jEIIS6ue5EOQX1hW84B7nvpb8x9bp5KaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6713
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,262 +115,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: rcampbell@nvidia.com, dri-devel@lists.freedesktop.org,
+ Felix.Kuehling@amd.com, Alistair Popple <apopple@nvidia.com>,
+ Matthew Wilcox <willy@infradead.org>, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, jglisse@redhat.com, amd-gfx@lists.freedesktop.org,
+ jgg@nvidia.com, akpm@linux-foundation.org, linux-ext4@vger.kernel.org,
+ hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/14/2022 17:40, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
->
-> A bunch of code was copy/pasted using pr_err as the default way to
-> report errors. However, drm_err is significantly more useful in
-> identifying where the error came from. So update the code to use that
-> instead.
->
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-PS: Forgot to include the r-b tag from the previous post of this patch. 
-Only change to this one is fix the last minute drm_debug to be drm_dbg 
-and word the the commit message a bit better.
+Currently any attempts to pin a device coherent page will fail. This is
+because device coherent pages need to be managed by a device driver, and
+pinning them would prevent a driver from migrating them off the device.
 
+However this is no reason to fail pinning of these pages. These are
+coherent and accessible from the CPU so can be migrated just like
+pinning ZONE_MOVABLE pages. So instead of failing all attempts to pin
+them first try migrating them out of ZONE_DEVICE.
 
+[hch: rebased to the split device memory checks,
+      moved migrate_device_page to migrate_device.c]
 
-On 6/7/2022 15:25, Dixit, Ashutosh wrote:
-> On Tue, 07 Jun 2022 15:23:17 -0700, John Harrison wrote:
->> On 6/7/2022 15:07, Dixit, Ashutosh wrote:
->>> On Tue, 07 Jun 2022 14:51:03 -0700, John.C.Harrison@Intel.com wrote:
->>>> From: John Harrison <John.C.Harrison@Intel.com>
->>>>
->>>> Don't use pr_err in places where we have access to a struct_drm.
->>> Seem to be many more pr_err's in selftests. Is there a reason why drm_err's
->>> cannot be used in selftests (especially those using an i915 device)?
->>> Thanks.
->> I figured I'd start small and just do the gt/uc ones to being with as those
->> are the ones that affect me.
->>
->> It sounds like the only reason to use pr_err is in the mock selftests where
->> there is no easy access to a DRM structure. For everything else, there is
->> no reason that I am aware of.
-> Fair enough:
->
-> Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: Alistair Popple <apopple@nvidia.com>
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
 
+This patch hopefully addresses all of David's comments. It replaces both my "mm:
+remove the vma check in migrate_vma_setup()" and "mm/gup: migrate device
+coherent pages when pinning instead of failing" patches. I'm not sure what the
+best way of including this is, perhaps Alex can respin the series with this
+patch instead?
 
+ - Alistair
 
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++---
->   drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 37 +++++++++----------
->   .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   | 10 ++---
->   3 files changed, 28 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> index 27363091e1afa..19fde6bda8f9c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> @@ -195,11 +195,11 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
->   			    fw_blobs[i].rev < fw_blobs[i - 1].rev)
->   				continue;
->   
-> -			pr_err("invalid FW blob order: %s r%u comes before %s r%u\n",
-> -			       intel_platform_name(fw_blobs[i - 1].p),
-> -			       fw_blobs[i - 1].rev,
-> -			       intel_platform_name(fw_blobs[i].p),
-> -			       fw_blobs[i].rev);
-> +			drm_err(&i915->drm, "Invalid FW blob order: %s r%u comes before %s r%u\n",
-> +				intel_platform_name(fw_blobs[i - 1].p),
-> +				fw_blobs[i - 1].rev,
-> +				intel_platform_name(fw_blobs[i].p),
-> +				fw_blobs[i].rev);
->   
->   			uc_fw->path = NULL;
->   		}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-> index 1df71d0796aec..20e0c39259fba 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-> @@ -62,7 +62,7 @@ static int intel_guc_scrub_ctbs(void *arg)
->   		ce = intel_context_create(engine);
->   		if (IS_ERR(ce)) {
->   			ret = PTR_ERR(ce);
-> -			pr_err("Failed to create context, %d: %d\n", i, ret);
-> +			drm_err(&gt->i915->drm, "Failed to create context, %d: %d\n", i, ret);
->   			goto err;
->   		}
->   
-> @@ -83,7 +83,7 @@ static int intel_guc_scrub_ctbs(void *arg)
->   
->   		if (IS_ERR(rq)) {
->   			ret = PTR_ERR(rq);
-> -			pr_err("Failed to create request, %d: %d\n", i, ret);
-> +			drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n", i, ret);
->   			goto err;
->   		}
->   
-> @@ -93,7 +93,7 @@ static int intel_guc_scrub_ctbs(void *arg)
->   	for (i = 0; i < 3; ++i) {
->   		ret = i915_request_wait(last[i], 0, HZ);
->   		if (ret < 0) {
-> -			pr_err("Last request failed to complete: %d\n", ret);
-> +			drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
->   			goto err;
->   		}
->   		i915_request_put(last[i]);
-> @@ -110,7 +110,7 @@ static int intel_guc_scrub_ctbs(void *arg)
->   	/* GT will not idle if G2H are lost */
->   	ret = intel_gt_wait_for_idle(gt, HZ);
->   	if (ret < 0) {
-> -		pr_err("GT failed to idle: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
->   		goto err;
->   	}
->   
-> @@ -150,7 +150,7 @@ static int intel_guc_steal_guc_ids(void *arg)
->   
->   	ce = kcalloc(GUC_MAX_CONTEXT_ID, sizeof(*ce), GFP_KERNEL);
->   	if (!ce) {
-> -		pr_err("Context array allocation failed\n");
-> +		drm_err(&gt->i915->drm, "Context array allocation failed\n");
->   		return -ENOMEM;
->   	}
->   
-> @@ -164,24 +164,24 @@ static int intel_guc_steal_guc_ids(void *arg)
->   	if (IS_ERR(ce[context_index])) {
->   		ret = PTR_ERR(ce[context_index]);
->   		ce[context_index] = NULL;
-> -		pr_err("Failed to create context: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
->   		goto err_wakeref;
->   	}
->   	ret = igt_spinner_init(&spin, engine->gt);
->   	if (ret) {
-> -		pr_err("Failed to create spinner: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "Failed to create spinner: %d\n", ret);
->   		goto err_contexts;
->   	}
->   	spin_rq = igt_spinner_create_request(&spin, ce[context_index],
->   					     MI_ARB_CHECK);
->   	if (IS_ERR(spin_rq)) {
->   		ret = PTR_ERR(spin_rq);
-> -		pr_err("Failed to create spinner request: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
->   		goto err_contexts;
->   	}
->   	ret = request_add_spin(spin_rq, &spin);
->   	if (ret) {
-> -		pr_err("Failed to add Spinner request: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "Failed to add Spinner request: %d\n", ret);
->   		goto err_spin_rq;
->   	}
->   
-> @@ -191,7 +191,7 @@ static int intel_guc_steal_guc_ids(void *arg)
->   		if (IS_ERR(ce[context_index])) {
->   			ret = PTR_ERR(ce[context_index--]);
->   			ce[context_index] = NULL;
-> -			pr_err("Failed to create context: %d\n", ret);
-> +			drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
->   			goto err_spin_rq;
->   		}
->   
-> @@ -200,8 +200,8 @@ static int intel_guc_steal_guc_ids(void *arg)
->   			ret = PTR_ERR(rq);
->   			rq = NULL;
->   			if (ret != -EAGAIN) {
-> -				pr_err("Failed to create request, %d: %d\n",
-> -				       context_index, ret);
-> +				drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n",
-> +					context_index, ret);
->   				goto err_spin_rq;
->   			}
->   		} else {
-> @@ -215,7 +215,7 @@ static int intel_guc_steal_guc_ids(void *arg)
->   	igt_spinner_end(&spin);
->   	ret = intel_selftest_wait_for_rq(spin_rq);
->   	if (ret) {
-> -		pr_err("Spin request failed to complete: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "Spin request failed to complete: %d\n", ret);
->   		i915_request_put(last);
->   		goto err_spin_rq;
->   	}
-> @@ -227,7 +227,7 @@ static int intel_guc_steal_guc_ids(void *arg)
->   	ret = i915_request_wait(last, 0, HZ * 30);
->   	i915_request_put(last);
->   	if (ret < 0) {
-> -		pr_err("Last request failed to complete: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
->   		goto err_spin_rq;
->   	}
->   
-> @@ -235,7 +235,7 @@ static int intel_guc_steal_guc_ids(void *arg)
->   	rq = nop_user_request(ce[context_index], NULL);
->   	if (IS_ERR(rq)) {
->   		ret = PTR_ERR(rq);
-> -		pr_err("Failed to steal guc_id, %d: %d\n", context_index, ret);
-> +		drm_err(&gt->i915->drm, "Failed to steal guc_id, %d: %d\n", context_index, ret);
->   		goto err_spin_rq;
->   	}
->   
-> @@ -243,21 +243,20 @@ static int intel_guc_steal_guc_ids(void *arg)
->   	ret = i915_request_wait(rq, 0, HZ);
->   	i915_request_put(rq);
->   	if (ret < 0) {
-> -		pr_err("Request with stolen guc_id failed to complete: %d\n",
-> -		       ret);
-> +		drm_err(&gt->i915->drm, "Request with stolen guc_id failed to complete: %d\n", ret);
->   		goto err_spin_rq;
->   	}
->   
->   	/* Wait for idle */
->   	ret = intel_gt_wait_for_idle(gt, HZ * 30);
->   	if (ret < 0) {
-> -		pr_err("GT failed to idle: %d\n", ret);
-> +		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
->   		goto err_spin_rq;
->   	}
->   
->   	/* Verify a guc_id was stolen */
->   	if (guc->number_guc_id_stolen == number_guc_id_stolen) {
-> -		pr_err("No guc_id was stolen");
-> +		drm_err(&gt->i915->drm, "No guc_id was stolen");
->   		ret = -EINVAL;
->   	} else {
->   		ret = 0;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
-> index 812220a43df81..d17982c36d256 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
-> @@ -115,30 +115,30 @@ static int __intel_guc_multi_lrc_basic(struct intel_gt *gt, unsigned int class)
->   
->   	parent = multi_lrc_create_parent(gt, class, 0);
->   	if (IS_ERR(parent)) {
-> -		pr_err("Failed creating contexts: %ld", PTR_ERR(parent));
-> +		drm_err(&gt->i915->drm, "Failed creating contexts: %ld", PTR_ERR(parent));
->   		return PTR_ERR(parent);
->   	} else if (!parent) {
-> -		pr_debug("Not enough engines in class: %d", class);
-> +		drm_dbg(&gt->i915->drm, "Not enough engines in class: %d", class);
->   		return 0;
->   	}
->   
->   	rq = multi_lrc_nop_request(parent);
->   	if (IS_ERR(rq)) {
->   		ret = PTR_ERR(rq);
-> -		pr_err("Failed creating requests: %d", ret);
-> +		drm_err(&gt->i915->drm, "Failed creating requests: %d", ret);
->   		goto out;
->   	}
->   
->   	ret = intel_selftest_wait_for_rq(rq);
->   	if (ret)
-> -		pr_err("Failed waiting on request: %d", ret);
-> +		drm_err(&gt->i915->drm, "Failed waiting on request: %d", ret);
->   
->   	i915_request_put(rq);
->   
->   	if (ret >= 0) {
->   		ret = intel_gt_wait_for_idle(gt, HZ * 5);
->   		if (ret < 0)
-> -			pr_err("GT failed to idle: %d\n", ret);
-> +			drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
->   	}
->   
->   out:
+ mm/gup.c            | 50 +++++++++++++++++++++++++++++++++++++------
+ mm/internal.h       |  1 +
+ mm/migrate_device.c | 52 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+), 7 deletions(-)
+
+diff --git a/mm/gup.c b/mm/gup.c
+index b65fe8bf5af4..22b97ab61cd9 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1881,7 +1881,7 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
+ 	unsigned long isolation_error_count = 0, i;
+ 	struct folio *prev_folio = NULL;
+ 	LIST_HEAD(movable_page_list);
+-	bool drain_allow = true;
++	bool drain_allow = true, coherent_pages = false;
+ 	int ret = 0;
+ 
+ 	for (i = 0; i < nr_pages; i++) {
+@@ -1891,9 +1891,38 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
+ 			continue;
+ 		prev_folio = folio;
+ 
+-		if (folio_is_longterm_pinnable(folio))
++		/*
++		 * Device coherent pages are managed by a driver and should not
++		 * be pinned indefinitely as it prevents the driver moving the
++		 * page. So when trying to pin with FOLL_LONGTERM instead try
++		 * to migrate the page out of device memory.
++		 */
++		if (folio_is_device_coherent(folio)) {
++			/*
++			 * We always want a new GUP lookup with device coherent
++			 * pages.
++			 */
++			pages[i] = 0;
++			coherent_pages = true;
++
++			/*
++			 * Migration will fail if the page is pinned, so convert
++			 * the pin on the source page to a normal reference.
++			 */
++			if (gup_flags & FOLL_PIN) {
++				get_page(&folio->page);
++				unpin_user_page(&folio->page);
++			}
++
++			ret = migrate_device_coherent_page(&folio->page);
++			if (ret)
++				goto unpin_pages;
++
+ 			continue;
++		}
+ 
++		if (folio_is_longterm_pinnable(folio))
++			continue;
+ 		/*
+ 		 * Try to move out any movable page before pinning the range.
+ 		 */
+@@ -1919,7 +1948,8 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
+ 				    folio_nr_pages(folio));
+ 	}
+ 
+-	if (!list_empty(&movable_page_list) || isolation_error_count)
++	if (!list_empty(&movable_page_list) || isolation_error_count
++		|| coherent_pages)
+ 		goto unpin_pages;
+ 
+ 	/*
+@@ -1929,10 +1959,16 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
+ 	return nr_pages;
+ 
+ unpin_pages:
+-	if (gup_flags & FOLL_PIN) {
+-		unpin_user_pages(pages, nr_pages);
+-	} else {
+-		for (i = 0; i < nr_pages; i++)
++	/*
++	 * pages[i] might be NULL if any device coherent pages were found.
++	 */
++	for (i = 0; i < nr_pages; i++) {
++		if (!pages[i])
++			continue;
++
++		if (gup_flags & FOLL_PIN)
++			unpin_user_page(pages[i]);
++		else
+ 			put_page(pages[i]);
+ 	}
+ 
+diff --git a/mm/internal.h b/mm/internal.h
+index c0f8fbe0445b..899dab512c5a 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -853,6 +853,7 @@ int numa_migrate_prep(struct page *page, struct vm_area_struct *vma,
+ 		      unsigned long addr, int page_nid, int *flags);
+ 
+ void free_zone_device_page(struct page *page);
++int migrate_device_coherent_page(struct page *page);
+ 
+ /*
+  * mm/gup.c
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index 18bc6483f63a..7feeb447e3b9 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -686,6 +686,12 @@ void migrate_vma_pages(struct migrate_vma *migrate)
+ 		}
+ 
+ 		if (!page) {
++			/*
++			 * The only time there is no vma is when called from
++			 * migrate_device_coherent_page(). However this isn't
++			 * called if the page could not be unmapped.
++			 */
++			VM_BUG_ON(!migrate->vma);
+ 			if (!(migrate->src[i] & MIGRATE_PFN_MIGRATE))
+ 				continue;
+ 			if (!notified) {
+@@ -794,3 +800,49 @@ void migrate_vma_finalize(struct migrate_vma *migrate)
+ 	}
+ }
+ EXPORT_SYMBOL(migrate_vma_finalize);
++
++/*
++ * Migrate a device coherent page back to normal memory. The caller should have
++ * a reference on page which will be copied to the new page if migration is
++ * successful or dropped on failure.
++ */
++int migrate_device_coherent_page(struct page *page)
++{
++	unsigned long src_pfn, dst_pfn = 0;
++	struct migrate_vma args;
++	struct page *dpage;
++
++	WARN_ON_ONCE(PageCompound(page));
++
++	lock_page(page);
++	src_pfn = migrate_pfn(page_to_pfn(page)) | MIGRATE_PFN_MIGRATE;
++	args.src = &src_pfn;
++	args.dst = &dst_pfn;
++	args.cpages = 1;
++	args.npages = 1;
++	args.vma = NULL;
++
++	/*
++	 * We don't have a VMA and don't need to walk the page tables to find
++	 * the source page. So call migrate_vma_unmap() directly to unmap the
++	 * page as migrate_vma_setup() will fail if args.vma == NULL.
++	 */
++	migrate_vma_unmap(&args);
++	if (!(src_pfn & MIGRATE_PFN_MIGRATE))
++		return -EBUSY;
++
++	dpage = alloc_page(GFP_USER | __GFP_NOWARN);
++	if (dpage) {
++		lock_page(dpage);
++		dst_pfn = migrate_pfn(page_to_pfn(dpage));
++	}
++
++	migrate_vma_pages(&args);
++	if (src_pfn & MIGRATE_PFN_MIGRATE)
++		copy_highpage(dpage, page);
++	migrate_vma_finalize(&args);
++
++	if (src_pfn & MIGRATE_PFN_MIGRATE)
++		return 0;
++	return -EBUSY;
++}
+-- 
+2.35.1
 
