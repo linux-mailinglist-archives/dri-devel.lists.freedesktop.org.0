@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5CF576E97
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F139B576EC0
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB07810E746;
-	Sat, 16 Jul 2022 14:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 967CC10F2B9;
+	Sat, 16 Jul 2022 14:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E79410F9E0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 13:32:46 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id y9so4653084pff.12
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 06:32:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YNVoyk6kiyretWQCyGpRkYDTZtsDnNVuxvv1fAqYuPs=;
- b=PH9Z8js+1KWPw9blh6biuBKaZU4U9c/q7QE6pD/DuC7HiDYxb0cDNl5J9kcU7Mi/NN
- bO848GLeit613u8Z1HDGybzA+nrLeI1Creo85O/hHYzXHcSSdOV0w9fOcTJgeI5kLGtF
- xEdYH+zonmkjUveEg488iTt5p/mefF2yVarVPesCdc660dFfHXugpe2F7xdfLJQRhVoX
- aj4XcN2KP/ZMFJUuRsc6K8mVStKRjvK4gCZbhunLQ7cHe5SfWnPZVLQZGQUaYIuktt5z
- I9rXXxX0+fcQ7hTseXzSOhPM2n+PsVYnEknHOzkHUKARjIP0WEw1hoAYiLGeN5o6pZFD
- h9vA==
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 522D610E06A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 14:48:39 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id y9so537787qtv.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 07:48:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YNVoyk6kiyretWQCyGpRkYDTZtsDnNVuxvv1fAqYuPs=;
- b=RAN1wY+EQLFu1+R73L3dxTj101Q9qMV/6+RNLFTdvMmAXz9YQrQP6yuaekALDanJ7Q
- xm0fmr+yCPREZzPgy2V3gMz5sEzfyjeQBOOmXAlN06lmq+Lv5mVyxCykJiSAaVje4ddn
- Fog3CZ4JE2mH8hA+nTB+JFc54qykcqsDSnD6BB8TKLXY6xBMVamJA2dQMwERj0lNHTeQ
- P9bTMQN7nGuFkTptX51mg39UzG9LsOq4oPXVcdGVk6EKzMxhT3GRN3urkQIBNfRs8Y+3
- Y9/6+eREpvFzzpq+cB3zrV72upvX+hMvlStGUrJmy0QaaZuG/z4Z0VgojFXfF1Zq4KRH
- QCyQ==
-X-Gm-Message-State: AJIora+E0SntZtljwDbz9FtpbDibPiVKrDQbafjyXKDIicfYyB09+Gez
- L6CT0Va78NnyqohswuAN8M+IH3JZ5OmWZUBM7wk=
-X-Google-Smtp-Source: AGRyM1t9GTp9rdO7SEllee28oAWWLFw6P4+BYyJCJP58heeVXuIAmRpquzkujzH6yilSD1SIVVILhokIZS7uJNMV9hg=
-X-Received: by 2002:a62:6d05:0:b0:528:99a2:b10 with SMTP id
- i5-20020a626d05000000b0052899a20b10mr13829247pfc.72.1657891961187; Fri, 15
- Jul 2022 06:32:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220715132816.592657-1-f.suligoi@asem.it>
-In-Reply-To: <20220715132816.592657-1-f.suligoi@asem.it>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 15 Jul 2022 10:32:28 -0300
-Message-ID: <CAOMZO5CkiULcUonY5=ry0B1iDP6mv+gnjny8GpbEPeFmsd=qog@mail.gmail.com>
-Subject: Re: [PATCH v1] 2c: imx: fix typo in comment
-To: Flavio Suligoi <f.suligoi@asem.it>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=03wcnwqW6SswNVSW3NYFh+nPKkFyDcywCPMc3nrTTzo=;
+ b=6ewBe4WdcUfQZ6E2CICRlwLi95tJstZXZF/EnN+oe3nPEpLOzs36bTyT60xr6CiofM
+ npRdmSeQJAWMwxYpZn0Ry+PXuVPSBu5cDnGYbSvmWxlfaV6IMSula6cODnPJyEe03YtD
+ VeWtQ7EOcz2U9NR2tZKlkqofAd5T9Lu+6oHlYBDfm36TccLCyyB5kz+QVc8Svo05tKmZ
+ jJ7r/+gK22X6wW1Unuq6OnO2AE3/dXzi6Mz+BOyaFswuEgz8vbk8vqLZ+83fQp1X4SHc
+ nEowGo5p2Ai54WF5lJtpAeZd0MZknSi9c6HofIH/9yR+WD2JLEO85Uewo+4CsTQcOUhd
+ 3AmA==
+X-Gm-Message-State: AJIora81UHypuYmOBJPtoSgWV1TYylzs12UQyVBdAj5lyPtgnrwxI7wG
+ D/Ig5tpR3EfCsBx3Adq9tn3IlS7rlg==
+X-Google-Smtp-Source: AGRyM1uzHWN8yj4iBWno2bNl4tSBHdD45HjKJL19BAJUQTQyoHWpBthV9k3/tF7H+HVOqQ0U4hzPtA==
+X-Received: by 2002:a02:ac0a:0:b0:33f:713a:9589 with SMTP id
+ a10-20020a02ac0a000000b0033f713a9589mr7633647jao.289.1657892580691; 
+ Fri, 15 Jul 2022 06:43:00 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ g7-20020a92dd87000000b002dc789a3dddsm1703976iln.5.2022.07.15.06.42.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jul 2022 06:43:00 -0700 (PDT)
+Received: (nullmailer pid 520291 invoked by uid 1000);
+ Fri, 15 Jul 2022 13:42:55 -0000
+From: Rob Herring <robh@kernel.org>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+In-Reply-To: <20220715112607.591-7-peterwu.pub@gmail.com>
+References: <20220715112607.591-1-peterwu.pub@gmail.com>
+ <20220715112607.591-7-peterwu.pub@gmail.com>
+Subject: Re: [PATCH v5 06/13] dt-bindings: mfd: Add MediaTek MT6370
+Date: Fri, 15 Jul 2022 07:42:55 -0600
+Message-Id: <1657892575.865405.520290.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +59,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Oleksij Rempel <linux@rempel-privat.de>,
- linaro-mm-sig@lists.linaro.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, linux-media@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
+ chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, szunichen@gmail.com, chiaen_wu@richtek.com,
+ broonie@kernel.org, linux-mediatek@lists.infradead.org, sre@kernel.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ jingoohan1@gmail.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
+ gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Flavio,
+On Fri, 15 Jul 2022 19:26:00 +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add MediaTek MT6370 binding documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
+>  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
+>  2 files changed, 298 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+>  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+> 
 
-On Fri, Jul 15, 2022 at 10:28 AM Flavio Suligoi <f.suligoi@asem.it> wrote:
->
-> to provid --> to provide
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-There is also a typo in the Subject line: 2c ---> i2c :-)
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@0: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@1: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@2: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@0: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@1: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@2: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
