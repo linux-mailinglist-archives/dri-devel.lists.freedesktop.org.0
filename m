@@ -1,44 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596D0575DEC
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 10:54:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEBD575DC2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 10:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 707F811AFF5;
-	Fri, 15 Jul 2022 08:54:45 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-X-Greylist: delayed 1181 seconds by postgrey-1.36 at gabe;
- Fri, 15 Jul 2022 08:54:43 UTC
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9CD1125A5;
- Fri, 15 Jul 2022 08:54:43 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1oCGmq-0007yL-4o; Fri, 15 Jul 2022 10:35:00 +0200
-Message-ID: <40101a14-ea44-1fd9-36ab-2048df2cb0e6@leemhuis.info>
-Date: Fri, 15 Jul 2022 10:34:59 +0200
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B38F11BB62;
+	Fri, 15 Jul 2022 08:47:08 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3FD411BB62
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 08:47:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657874825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PusCGOKcWdo5ysW1y6Id3FPNycuQJ4uUKA4l/F4Og4w=;
+ b=jPdEePkwmp7SGUF+8j8dQ87Srl9t9CxE2HFGBPdh7XqigG6tMff8xGIXyQKQhUDZ+DvBWP
+ RiD16qwrOr4fldAJAVGU1CSiDDDtc21XlpTKsU7PWGvi1iVICllmY95+Ln+QvcHCjrrHCG
+ Vdq29YNqt47T2biMsmUYFbm1fSekkTo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-IDjFBfJbPPaWmZ55tcj2sg-1; Fri, 15 Jul 2022 04:47:04 -0400
+X-MC-Unique: IDjFBfJbPPaWmZ55tcj2sg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c126-20020a1c3584000000b003a02fa133ceso1717456wma.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 01:47:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PusCGOKcWdo5ysW1y6Id3FPNycuQJ4uUKA4l/F4Og4w=;
+ b=3F3D4uuR8AOxlsljUss6iPvLPbXMSDtBdR7DZkrxHejtIUpL8nPHtge2x8Cnlw25VH
+ DCusEBU8LFY29pfjHCBBhLh9LjD02uREiFFTXSdNULiXWDTG73H6aSykQqQzI8kYQjnp
+ slSP5ZVycruXtz+ba6VVWIRCC9tbEwyp8HleyPW2J3XBuK0W3OdMO3B+z598g6LE1Snh
+ 72flojDt6ECNVLZkzoA+7WdQj4pux9SXW9CYoGm/ouzcUAihHkA7Vpr3z5164Z8PQr+W
+ 1UuSYUsQN7WrQ0oy39l7Hzp5ZcyIyfgecB4P9WuG/HLsu5Z0T0T+awJc277fbGzkbq3k
+ EXNw==
+X-Gm-Message-State: AJIora8mfgPZsOU6A9kfuxb3YHc4GAwAfilnonafrSjkVJSNAZ029NPq
+ kls7Oxcv/7LcE0Wra3F81svI5hp1isOEZv+OZCaRDgHxvRQYBhRCqu8hOUVwD6AsaP3P3rh37gT
+ qfWs2bLrifOdS2Gi9zBzHlphbTfWi
+X-Received: by 2002:a05:600c:1d9e:b0:3a2:f365:29ee with SMTP id
+ p30-20020a05600c1d9e00b003a2f36529eemr14470308wms.24.1657874818986; 
+ Fri, 15 Jul 2022 01:46:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u7++4SW6ly5MZwBHSzTFCbQBJprcLXnGmZOlB79EP8gr8D1zrAOKBJLquWSPVKOhGHhq4heg==
+X-Received: by 2002:a05:600c:1d9e:b0:3a2:f365:29ee with SMTP id
+ p30-20020a05600c1d9e00b003a2f36529eemr14470297wms.24.1657874818791; 
+ Fri, 15 Jul 2022 01:46:58 -0700 (PDT)
+Received: from [172.20.10.7] ([90.167.94.22]) by smtp.gmail.com with ESMTPSA id
+ l2-20020adff482000000b0021b9585276dsm3368152wro.101.2022.07.15.01.46.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jul 2022 01:46:58 -0700 (PDT)
+Message-ID: <612025e7-106d-683a-8ea4-5edc019ceeb0@redhat.com>
+Date: Fri, 15 Jul 2022 10:46:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/guc: Update to GuC version
- 70.1.1 #forregzbot
+Subject: Re: [PATCH v2 0/2] drm: A couple of fixes for drm_copy_field() helper
+ function
+To: linux-kernel@vger.kernel.org
+References: <20220705100215.572498-1-javierm@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220705100215.572498-1-javierm@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <20220412225955.1802543-1-John.C.Harrison@Intel.com>
- <20220412225955.1802543-2-John.C.Harrison@Intel.com>
- <Yli4/8OIbjyRaQAK@mdroper-desk1.amr.corp.intel.com>
- <CAPM=9txdca1VnRpp-oNLXpBc2UWq3=ceeim5+Gw4N9tAriRY6A@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <CAPM=9txdca1VnRpp-oNLXpBc2UWq3=ceeim5+Gw4N9tAriRY6A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1657875283;
- 6d4fc315; 
-X-HE-SMSGID: 1oCGmq-0007yL-4o
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,96 +87,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <Intel-GFX@lists.freedesktop.org>,
- dri-devel <DRI-Devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[TLDR: I'm adding this regression report to the list of tracked
-regressions; all text from me you find below is based on a few templates
-paragraphs you might have encountered already already in similar form.]
-
-Hi, this is your Linux kernel regression tracker.
-
-On 15.07.22 01:08, Dave Airlie wrote:
-> On Fri, 15 Apr 2022 at 10:15, Matt Roper <matthew.d.roper@intel.com> wrote:
->>
->> On Tue, Apr 12, 2022 at 03:59:55PM -0700, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> The latest GuC firmware drops the context descriptor pool in favour of
->>> passing all creation data in the create H2G. It also greatly simplifies
->>> the work queue and removes the process descriptor used for multi-LRC
->>> submission. So, remove all mention of LRC and process descriptors and
->>> update the registration code accordingly.
->>>
->>> Unfortunately, the new API also removes the ability to set default
->>> values for the scheduling policies at context registration time.
->>> Instead, a follow up H2G must be sent. The individual scheduling
->>> policy update H2G commands are also dropped in favour of a single KLV
->>> based H2G. So, change the update wrappers accordingly and call this
->>> during context registration..
->>>
->>> Of course, this second H2G per registration might fail due to being
->>> backed up. The registration code has a complicated state machine to
->>> cope with the actual registration call failing. However, if that works
->>> then there is no support for unwinding if a further call should fail.
->>> Unwinding would require sending a H2G to de-register - but that can't
->>> be done because the CTB is already backed up.
->>>
->>> So instead, add a new flag to say whether the context has a pending
->>> policy update. This is set if the policy H2G fails at registration
->>> time. The submission code checks for this flag and retries the policy
->>> update if set. If that call fails, the submission path early exists
->>> with a retry error. This is something that is already supported for
->>> other reasons.
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->>
->> Applied to drm-intel-gt-next.  Thanks for the patch and review.
->>
+On 7/5/22 12:02, Javier Martinez Canillas wrote:
+> Hello,
 > 
-> (cc'ing Linus and danvet, as a headsup, there is also a phoronix
-> article where this was discovered).
+> Peter Robinson reported me a kernel bug in one of his aarch64 test boards
+> and even though I was not able to reproduce it, I think that figured out
+> what the problem was. It seems the cause is that a DRM driver doesn't set
+> some of the struct drm fields copied to userspace via DRM_IOCTL_VERSION.
 > 
-> Okay WTF.
+> Even though this is a driver bug, we can make drm_copy_field() more robust
+> and warn about it instead of leading to an attempt to copy a NULL pointer.
 > 
-> This is in no way acceptable. This needs to be fixed in 5.19-rc ASAP.
+> While looking at this, I also found that a variable in drm_copy_field() is
+> not using the correct type. So I included that change in the patch-set too.
 > 
-> Once hardware is released and we remove the gate flag by default, you
-> cannot just bump firmware versions blindly.
-> 
-> The kernel needs to retain compatibility with all released firmwares
-> since a device was declared supported.
-> 
-> This needs to be reverted, and then 70 should be introduced with a
-> fallback to 69 versions.
-> 
-> Very disappointing, I expect this to get dealt with v.quickly.
 
-To be sure below issue doesn't fall through the cracks unnoticed, I'm
-adding it to regzbot, my Linux kernel regression tracking bot:
+Pushed these to drm-misc (drm-misc-next). Thanks!
 
-#regzbot ^introduced 2584b3549f4c4081
-#regzbot title
-#regzbot ignore-activity
+-- 
+Best regards,
 
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply -- ideally with also
-telling regzbot about it, as explained here:
-https://linux-regtracking.leemhuis.info/tracked-regression/
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-Reminder for developers: When fixing the issue, add 'Link:' tags
-pointing to the report (the mail this one replies to), as explained for
-in the Linux kernel's documentation; above webpage explains why this is
-important for tracked regressions.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I deal with a lot of
-reports and sometimes miss something important when writing mails like
-this. If that's the case here, don't hesitate to tell me in a public
-reply, it's in everyone's interest to set the public record straight.
