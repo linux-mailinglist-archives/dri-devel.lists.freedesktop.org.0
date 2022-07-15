@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAAF576F0B
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:40:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C79A1576F0A
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11CB510FB2B;
-	Sat, 16 Jul 2022 14:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7911E10FC4A;
+	Sat, 16 Jul 2022 14:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDF410E19E
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 18:14:27 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-31d85f82f0bso54465787b3.7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 11:14:27 -0700 (PDT)
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
+ [IPv6:2607:f8b0:4864:20::1136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0523010E05A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 18:30:19 +0000 (UTC)
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-31cf1adbf92so55042657b3.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 11:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wYQx40/iCC7JCsgHdkd0E1jOgqV54xGVWGfgqFpzTxo=;
- b=CCNqrZ6xxLNILlnpWQJZURCM7WccDYI4HArJBKyxVZQ4tUE7wHsb8C+1xQrCcy/ctP
- hgNxqF3L/l+JVN/sIioIK7hlY2E24EgjBaYcjObgBZ96Go1MFnvrauI9olx68o+tAec5
- 0zqXIns8v8XdElhZwR+ilBWSFm2BAz09sy+iAz5QQOYZmnuuIUuyYZ7ilSKeAOMj7Dr0
- nmKdVBdXufKKDMVxiWrXIc+cIpZBo8ghQfSQgHJj69Av/M38jJkwWwu38WYhZktwk2Sr
- Ktcv4iMX1VtKF6apNGtKuW2hT3Gz86OVl/1giJmpSuReSlovrn8AP0YP6RZk9atjVy9y
- /pvQ==
+ :cc; bh=nt4bJMHyhYZZNJmsHG+jvKocDnQ/uRBuL8blfA1ku0E=;
+ b=JugXTEP6dHNPhtEvF7a+5JHtnQB0Wezxj3mXkDrGYozqfRojDQsyF1yaMm4ScB7/Jm
+ WsEkXJ0SEUGVVrZkC8BCoP0SfwdVW7GCvaD3VfdXQIsQWYFdR6LU4jAozR5eLknvx1TA
+ ImyChQqdYXJ0emEU0f1Dn5cGjmGGfK8hvylIv7olh1kv26+7rkg/ROqYp55f4+j0shBF
+ rb8dsgfz2gABDl/R7/RQA/+frn3Nz/VTzWGjxNJ696EP7aWkPhW2AZ98uCXxLlWzju6y
+ gW9J1WwQmK2wGdyYn3ZQfH/AHS1DVivoCmAvm5pg5MqTybZj012lhFCUjYCBV37kdAdW
+ bB7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wYQx40/iCC7JCsgHdkd0E1jOgqV54xGVWGfgqFpzTxo=;
- b=cy73WM/x0fooOsqfXkLDxegawi9i8cC17+9Efhp+unQ/0hmOug42b/d3oPxcBw2IMt
- 5fgOwqcaDPoFJX+x1EfPu0kITs55tkbvxdtImWucJkJcfAKmwpLSI12NlGmknZPXePWt
- MWMWxcZh65DKEr9CQVLQp7SOW5T075UGiI6JPeE0Ski+tC8M2330zLaeUkrvVVsKchR3
- LINllkLBp0hfNBmdnP5AU1Yl173RXeU6LjgFJGGxPOipYKzi416WF9jSY6YWyNPAIUwQ
- 34kMo2jAjvVlUVtug/7BeWgYJh6DU+8QX7xolDdHaKL+lfGakOiBenrKvSvCsB+IZs/C
- c09w==
-X-Gm-Message-State: AJIora93+BzMjEiL9Femv8xTH5Ak+9KwF0o5MEmlMsxdmxnbdlFTesyk
- n6JBYRNdIngAdXJCJ3OpWk4JV20/bDy9DhcuRu4=
-X-Google-Smtp-Source: AGRyM1uDhQ/IPsk1j9mwzTNaBs0PF9Af75W/5SyN9tcIUEjc7IVgAe4YsQYGo3tn1MHf1/3mBdT0R30hiBZKjAGSBRA=
-X-Received: by 2002:a81:4bd7:0:b0:31c:91da:5a20 with SMTP id
- y206-20020a814bd7000000b0031c91da5a20mr18833575ywa.131.1657908866682; Fri, 15
- Jul 2022 11:14:26 -0700 (PDT)
+ bh=nt4bJMHyhYZZNJmsHG+jvKocDnQ/uRBuL8blfA1ku0E=;
+ b=jLbE3zmWgkKdtAiu4Mwattd62s3A86QSZanmS3hhJgIZGa5fSjiGZ2kbCQt+NOu0t/
+ 1/WFOYwxzodDrXeX5HdH4K+84+SMqkhKdy4wH4ipVsR6c5BwxuapzqzkB0627CmZ5Y3w
+ JBoXFwCHSGYJ8Gh5KU0sILGSGQKljc9PHcT8UjoF4zGc+z7DHdq6IGmYKCdT2NVIsETk
+ 7pyfHBoRYMCgrAjrEhTMm+xJfawXknrxanQ1wdd2+0WnhtaVglS1nDyUuEAiAU6B1hxP
+ xgvOXATc5OGw0hJMexJZ+UQpFXoG8pPSLBdrm0PHSvvDXggvpjfIWZRJnW8eswDBq52X
+ YEDg==
+X-Gm-Message-State: AJIora/JONLfFKHPs78CXFOanOcKSGLofqWxU/Orrg3Q64+b0ngCEjmP
+ xAdpP5tkowR+BkkRu1kylmhW4I+324sGSaTlKRc=
+X-Google-Smtp-Source: AGRyM1vzP7L4rkzgqFevRJH1d667ZKPy7GjYyztLTPXytxkGqbpO4dyGE5UlcSEsEn68hi2rmxg67+K7y1Uib8FAXL0=
+X-Received: by 2002:a81:54c1:0:b0:31d:ec18:fd5d with SMTP id
+ i184-20020a8154c1000000b0031dec18fd5dmr7586417ywb.277.1657909819017; Fri, 15
+ Jul 2022 11:30:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220715112607.591-1-peterwu.pub@gmail.com>
- <20220715112607.591-13-peterwu.pub@gmail.com>
-In-Reply-To: <20220715112607.591-13-peterwu.pub@gmail.com>
+ <20220715112607.591-12-peterwu.pub@gmail.com>
+In-Reply-To: <20220715112607.591-12-peterwu.pub@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 15 Jul 2022 20:13:49 +0200
-Message-ID: <CAHp75Vc7wNkhG2dL=0vVZq5paDQy_8+WJ25Jk4E8SG2TW6EZdw@mail.gmail.com>
-Subject: Re: [PATCH v5 12/13] leds: flashlight: mt6370: Add MediaTek MT6370
- flashlight support
+Date: Fri, 15 Jul 2022 20:29:42 +0200
+Message-ID: <CAHp75VfyVufzf7CK38BVu_j0B4ax_d1gLAGYDE3H1zaKkuUB=A@mail.gmail.com>
+Subject: Re: [PATCH v5 11/13] leds: mt6370: Add MediaTek MT6370 current sink
+ type LED Indicator support
 To: ChiaEn Wu <peterwu.pub@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,120 +91,82 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Jul 15, 2022 at 1:29 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
 > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> whichincludes a single cell Li-Ion/Li-Polymer switching battery
-
-which includes
-
-> charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> LED current sources, a RGB LED driver, a backlight WLED driver,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
 > a display bias driver and a general LDO for portable devices.
 >
-> The Flash LED in MT6370 has 2 channel and support torch/strobe mode.
-
-channels
-
-> The commit add the support of MT6370 FLASH LED.
-
-Add the
+> In MediaTek MT6370, there are four channel current-sink RGB LEDs that
+> support hardware pattern for constant current, PWM, and breath mode.
+> Isink4 channel can also be used as a CHG_VIN power good indicator.
 
 ...
 
-> +#define MT6370_FLCSEN_MASK_ALL         (BIT(0) | BIT(1))
+> +         This driver can also be built as a module. If so the module
 
-GENMASK()
+so, the
 
-...
+> +         will be called "leds-mt6370.ko".
 
-> +               for (i = 0; i < MT6370_MAX_LEDS; i++) {
-> +                       ret = regmap_update_bits(priv->regmap,
-> +                                               MT6370_REG_FLEDISTRB(i),
-> +                                               MT6370_ISTROBE_MASK, flevel[i]);
-> +                       if (ret)
-> +                               return ret;
-> +               }
-> +       } else {
+No ".ko".
 
-> +               ret = regmap_update_bits(priv->regmap,
-> +                                        MT6370_REG_FLEDISTRB(led->led_no),
-> +                                        MT6370_ISTROBE_MASK, val);
-> +       }
-> +       return ret;
-
-    return regmap_update_bits(...);
-  }
-
-  return 0;
+Why did you ignore these comments? Please go and fix _everywhere_ in
+your series.
+It's basically the rule of thumb, if the reviewer gives a comment
+against an occurrence of something, go through entire series and check
+if there are other places like commented one and address them all.
 
 ...
 
-> +       /*
-> +        * If the flash need to be on,
+> + * Author: Alice Chen <alice_chen@richtek.com>
 
-needs
-
-> +        * config the flash current ramping up to the setting value.
-> +        * Else, always recover back to the minimum one.
-> +        */
+Strange, the commit message doesn't have a corresponding SoB, why?
 
 ...
 
-> +       /* For the flash turn on/off, need to wait HW ramping up/down time
+> +#define MT6370_PWM_DUTY                                31
+> +#define MT6372_PMW_DUTY                                255
 
-to turn
-
-> +        * 5ms/500us to prevent the unexpected problem.
-> +        */
-
-Wrong multi-line comment style.
-
-> +
-
-No need for a blank line.
-
-> +       if (!prev && curr)
-> +               usleep_range(5000, 6000);
-> +       else if (prev && !curr)
-> +               udelay(500);
+Looks like these are limits by hardware?
+Check with the datasheet if (BIT(x) - 1) makes more sense here.
 
 ...
 
-> +static int mt6370_led_register(struct device *parent, struct mt6370_led *led,
-> +                               struct led_init_data *init_data)
-> +{
-> +       struct v4l2_flash_config v4l2_config = {0};
-> +       int ret;
-> +
-> +       ret = devm_led_classdev_flash_register_ext(parent, &led->flash,
-> +                                                  init_data);
-> +       if (ret) {
-> +               dev_err(parent, "Couldn't register flash %d\n", led->led_no);
-> +               return ret;
+> +       switch (led_no) {
+> +       case MT6370_LED_ISNK1:
+> +               sel_field = F_LED1_DUTY;
+> +               break;
+> +       case MT6370_LED_ISNK2:
+> +               sel_field = F_LED2_DUTY;
+> +               break;
+> +       case MT6370_LED_ISNK3:
+> +               sel_field = F_LED3_DUTY;
+> +               break;
+> +       default:
+> +               sel_field = F_LED4_DUTY;
 
-return dev_err_probe() here and everywhere where it is about probe stage.
+Missed break;
 
 > +       }
-> +
-> +       mt6370_init_v4l2_flash_config(led, &v4l2_config);
-> +       led->v4l2_flash = v4l2_flash_init(parent, init_data->fwnode,
-> +                                         &led->flash, &v4l2_flash_ops,
-> +                                         &v4l2_config);
-> +       if (IS_ERR(led->v4l2_flash)) {
-> +               dev_err(parent, "Failed to register %d v4l2 sd\n", led->led_no);
-> +               return PTR_ERR(led->v4l2_flash);
-> +       }
-> +
-> +       return 0;
-> +}
 
 ...
 
-> +       num = fwnode_property_count_u32(init_data->fwnode, "led-sources");
-> +       if (num < 1 || num > MT6370_MAX_LEDS) {
-> +               dev_err(priv->dev,
-> +                       "Not specified or wrong number of led-sources\n");
-> +               return -EINVAL;
+> +       switch (led_no) {
+> +       case MT6370_LED_ISNK1:
+> +               sel_field = F_LED1_FREQ;
+> +               break;
+> +       case MT6370_LED_ISNK2:
+> +               sel_field = F_LED2_FREQ;
+> +               break;
+> +       case MT6370_LED_ISNK3:
+> +               sel_field = F_LED3_FREQ;
+> +               break;
+> +       default:
+> +               sel_field = F_LED4_FREQ;
 
 Ditto.
 
@@ -212,18 +174,107 @@ Ditto.
 
 ...
 
-> +       ret = fwnode_property_read_u32(init_data->fwnode, "led-max-microamp",
-> +                                      &val);
+> +       switch (led_no) {
+> +       case MT6370_LED_ISNK1:
+> +       case MT6370_LED_ISNK2:
+> +       case MT6370_LED_ISNK3:
+> +               *base = MT6370_REG_RGB1_TR + led_no * 3;
+> +               break;
+> +       default:
+> +               *base = MT6370_REG_RGB_CHRIND_TR;
 
-One line?
+Ditto.
+It seems you dropped them for all switch-cases. It's not goot, please
+restore them back.
+
+> +       }
 
 ...
 
-> +               val = clamp_align(val, MT6370_STRBTO_MIN_US, MT6370_STRBTO_MAX_US,
-> +                                 MT6370_STRBTO_STEP_US);
+> +       u8 val[P_MAX_PATTERNS / 2] = {0};
 
-I would name it mt6370_clamp() to avoid potential collision in the
-global namespace in the future.
+{ } should suffice
+
+
+> +       /*
+> +        * Pattern list
+> +        * tr1: byte 0, b'[7: 4]
+> +        * tr2: byte 0, b'[3: 0]
+> +        * tf1: byte 1, b'[7: 4]
+> +        * tf2: byte 1, b'[3: 0]
+> +        * ton: byte 2, b'[7: 4]
+> +        * toff: byte 2, b'[3: 0]
+> +        */
+> +       for (i = 0; i < P_MAX_PATTERNS; i++) {
+> +               curr = pattern + i;
+> +
+> +               sel_range = i == P_LED_TOFF ? R_LED_TOFF : R_LED_TRFON;
+> +
+> +               linear_range_get_selector_within(priv->ranges + sel_range,
+> +                                                curr->delta_t, &sel);
+> +
+> +               val[i / 2] |= sel << (4 * ((i + 1) % 2));
+> +       }
+> +
+> +       memcpy(pattern_val, val, 3);
+> +       return 0;
+> +}
+
+...
+
+> +out:
+
+out_unlock:
+
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return ret;
+
+...
+
+> +out:
+
+Ditto. And so on.
+
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return ret;
+
+...
+
+> +               sub_led = devm_kzalloc(priv->dev,
+> +                                      sizeof(*sub_led) * MC_CHANNEL_NUM,
+> +                                      GFP_KERNEL);
+
+NIH devm_kcalloc(). Also check if you really need zeroed data.
+
+> +               if (!sub_led)
+> +                       return -ENOMEM;
+
+...
+
+> +                       ret = fwnode_property_read_u32(child, "color", &color);
+> +                       if (ret) {
+> +                               dev_err(priv->dev,
+> +                                       "led %d, no color specified\n",
+> +                                       led->index);
+> +                               return ret;
+
+return dev_err_probe(...) ; ?
+
+Ditto for many places in your entire series.
+
+> +                       }
+
+...
+
+> +       priv = devm_kzalloc(&pdev->dev,
+> +                           struct_size(priv, leds, count), GFP_KERNEL);
+
+At least one parameter can be placed on the previous line.
+
+> +       if (!priv)
+> +               return -ENOMEM;
 
 -- 
 With Best Regards,
