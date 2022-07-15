@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFE2575E41
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39426575E46
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F8C10F8B9;
-	Fri, 15 Jul 2022 09:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31CE411BBF5;
+	Fri, 15 Jul 2022 09:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA2910F8B9
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:13:09 +0000 (UTC)
-X-UUID: 1d41d199e36a4cd49238f9f5cc354333-20220715
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 172A511BBF5
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:14:54 +0000 (UTC)
+X-UUID: 26969080ee0f404db657e1e83d323bc2-20220715
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:b02bc9aa-c130-4672-95a5-f92fc34312b7, OB:0,
+X-CID-O-INFO: VERSION:1.1.8, REQID:926e97c4-8bf7-4c7c-ba16-971080154b6e, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:071f6464-0b3f-4b2c-b3a6-ed5c044366a0,
+X-CID-META: VersionHash:0f94e32, CLOUDID:3b2c6464-0b3f-4b2c-b3a6-ed5c044366a0,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 1d41d199e36a4cd49238f9f5cc354333-20220715
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 901452969; Fri, 15 Jul 2022 17:13:03 +0800
+X-UUID: 26969080ee0f404db657e1e83d323bc2-20220715
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 956115903; Fri, 15 Jul 2022 17:14:51 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 15 Jul 2022 17:13:03 +0800
+ Fri, 15 Jul 2022 17:14:49 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 15 Jul 2022 17:13:03 +0800
-Message-ID: <ba34c4aafcb667eba778cbb0ec7cd12f6fac6400.camel@mediatek.com>
+ Transport; Fri, 15 Jul 2022 17:14:49 +0800
+Message-ID: <a469edb4ddd0e5025dd0d83fb2b5d962a5be6740.camel@mediatek.com>
 Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -43,7 +43,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Fri, 15 Jul 2022 17:13:03 +0800
+Date: Fri, 15 Jul 2022 17:14:49 +0800
 In-Reply-To: <20220712111223.13080-6-rex-bc.chen@mediatek.com>
 References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
  <20220712111223.13080-6-rex-bc.chen@mediatek.com>
@@ -105,25 +105,17 @@ On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +static int mtk_dp_set_color_depth(struct mtk_dp *mtk_dp)
+> +static void mtk_dp_mn_overwrite_disable(struct mtk_dp *mtk_dp)
+> +{
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
+> +			   0, VIDEO_M_CODE_SEL_DP_ENC0_P0_MASK);
+> +}
 
-This function just return 0, so let this function to be void.
+Why has mtk_dp_mn_overwrite_disable() but no
+mtk_dp_mn_overwrite_enable()?
 
 Regards,
 CK
 
-> +{
-> +	/* Only support 8 bits currently */
-> +	mtk_dp->info.depth = DP_MSA_MISC_8_BPC;
-> +
-> +	/* Update MISC0 */
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
-> +			   DP_MSA_MISC_8_BPC, DP_TEST_BIT_DEPTH_MASK);
-> +
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C,
-> +			   VIDEO_COLOR_DEPTH_DP_ENC0_P0_8BIT,
-> +			   VIDEO_COLOR_DEPTH_DP_ENC0_P0_MASK);
-> +	return 0;
-> +}
 > +
 
