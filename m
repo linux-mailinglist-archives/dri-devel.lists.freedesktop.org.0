@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39426575E46
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:14:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB7C575E6F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jul 2022 11:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31CE411BBF5;
-	Fri, 15 Jul 2022 09:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE3B11BCFD;
+	Fri, 15 Jul 2022 09:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 172A511BBF5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:14:54 +0000 (UTC)
-X-UUID: 26969080ee0f404db657e1e83d323bc2-20220715
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:926e97c4-8bf7-4c7c-ba16-971080154b6e, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:3b2c6464-0b3f-4b2c-b3a6-ed5c044366a0,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 26969080ee0f404db657e1e83d323bc2-20220715
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 956115903; Fri, 15 Jul 2022 17:14:51 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 15 Jul 2022 17:14:49 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 15 Jul 2022 17:14:49 +0800
-Message-ID: <a469edb4ddd0e5025dd0d83fb2b5d962a5be6740.camel@mediatek.com>
-Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Fri, 15 Jul 2022 17:14:49 +0800
-In-Reply-To: <20220712111223.13080-6-rex-bc.chen@mediatek.com>
-References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
- <20220712111223.13080-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 036F111BCFD
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 09:25:08 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ r127-20020a1c4485000000b003a2fb7c1274so371495wma.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jul 2022 02:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=O0y+RYDzrC7BoLfR/XRnKx9SMXds+VC3HVCJ6LoOl6Y=;
+ b=Qm4XwUJUENq9vRCXlo8fO9Wyue/h3z9hatK/IzT/eH3jIY3TKZ1vnLFbkov9QREoi7
+ G6hnyQrVVoHZubaFLmKyPFDNQSv8f1RmnlxOpXkr4m/oNTl4xDl2fcDeD3pK993cNfHs
+ 3L65CD7oY/WWo3PbltE/ToUCx6fYPa+KxExKAyUSeo4thChgS+T5o8aP1S7Tp18upCyg
+ jJLwSfL7RqkLFhQD3n1Q4CzqTsS4bMohLzM+ICrb8DhEfyhJaAUqpqjLQf48UeTIWYd5
+ MTp35PfJ7jagsSCZQxraqTALda8PIc7b4c1s7Ke/TV96dJpLe3FfUykgfbANECZCYt41
+ yLSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=O0y+RYDzrC7BoLfR/XRnKx9SMXds+VC3HVCJ6LoOl6Y=;
+ b=ereMv5ztfJEaAMVxLE1mpo2yC8XeXsUQrE1ksyVkicqU2xGcHrEF3iR98YIj9FQno0
+ o/+Dc1D/PmceLTQMznr08QKOvJw/0KAx881kSdw4OBSYqAOAvpqCoT70pmkRLKT3wiR/
+ XTKXeFVWouplMOIXAL83FnCbJipP4jvujOC2mYfQ8FFbWDOEaO8pEI8c5f0Eo+8MPAue
+ CQ0+YXvoWpLO3bhPNVaoeJhB4RRgQR/S21udlkclbR9J8+ySIH/ikyvBb2pvSoTT+3+T
+ 6GApRQcJrMhkCVKFIbKegNY+xsfNprPQwfEYqfNC840J1rGuWLmCCdiqZNUogQS26+QS
+ 4uIQ==
+X-Gm-Message-State: AJIora/Zyh9zJMzM7VCxcoxTB0y89+xAlRpOKAyKlMetAwYiTA8H7gTj
+ 3Zkt7zBirOCZSfb3xEY+SXo=
+X-Google-Smtp-Source: AGRyM1tes+4w88G0BzlLtB6RS28Z4FOHt4PbZRq3K7Ra0+XzDP21YSiVSPzBnt6xJw9no1S+g0LhSA==
+X-Received: by 2002:a05:600c:4e07:b0:3a1:8548:4dd7 with SMTP id
+ b7-20020a05600c4e0700b003a185484dd7mr19742072wmq.170.1657877106323; 
+ Fri, 15 Jul 2022 02:25:06 -0700 (PDT)
+Received: from fedora.. ([2a01:e0a:1d2:1f90:be95:f3a2:4d99:a3b3])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a1c2104000000b00397402ae674sm8233102wmh.11.2022.07.15.02.25.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jul 2022 02:25:05 -0700 (PDT)
+From: Matthieu CHARETTE <matthieu.charette@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, andrealmeid@igalia.com
+Subject: [PATCH] drm: Fix EDID firmware load on resume
+Date: Fri, 15 Jul 2022 11:22:53 +0200
+Message-Id: <20220715092253.17529-1-matthieu.charette@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <N512FR.B1R49X9JM9FW2@gmail.com>
+References: <N512FR.B1R49X9JM9FW2@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +71,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+Loading an EDID using drm.edid_firmware parameter makes resume to fail
+after firmware cache is being cleaned. This is because edid_load() use a
+temporary device to request the firmware. This cause the EDID firmware
+not to be cached from suspend. And, requesting the EDID firmware return
+an error during resume.
+So the request_firmware() call should use a permanent device for each
+connector. Also, we should cache the EDID even if no monitor is
+connected, in case it's plugged while suspended.
 
-On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2061
+Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
+---
+ drivers/gpu/drm/drm_connector.c |  9 ++++
+ drivers/gpu/drm/drm_edid_load.c | 81 ++++++++++++++++++++++++++++-----
+ include/drm/drm_connector.h     | 12 +++++
+ include/drm/drm_edid.h          |  3 ++
+ 4 files changed, 94 insertions(+), 11 deletions(-)
 
-[snip]
-
-> +
-> +static void mtk_dp_mn_overwrite_disable(struct mtk_dp *mtk_dp)
-> +{
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-> +			   0, VIDEO_M_CODE_SEL_DP_ENC0_P0_MASK);
-> +}
-
-Why has mtk_dp_mn_overwrite_disable() but no
-mtk_dp_mn_overwrite_enable()?
-
-Regards,
-CK
-
-> +
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 1c48d162c77e..e8819ebf1c4b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_privacy_screen_consumer.h>
+ #include <drm/drm_sysfs.h>
+ 
++#include <linux/platform_device.h>
+ #include <linux/uaccess.h>
+ 
+ #include "drm_crtc_internal.h"
+@@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
+ 
+ 	drm_connector_get_cmdline_mode(connector);
+ 
++	connector->edid_load_pdev = NULL;
++	drm_cache_edid_firmware(connector);
++
+ 	/* We should add connectors at the end to avoid upsetting the connector
+ 	 * index too much.
+ 	 */
+@@ -473,6 +477,11 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 		connector->tile_group = NULL;
+ 	}
+ 
++	if (connector->edid_load_pdev) {
++		platform_device_unregister(connector->edid_load_pdev);
++		connector->edid_load_pdev = NULL;
++	}
++
+ 	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
+ 		drm_mode_remove(connector, mode);
+ 
+diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+index 37d8ba3ddb46..5a82be9917ec 100644
+--- a/drivers/gpu/drm/drm_edid_load.c
++++ b/drivers/gpu/drm/drm_edid_load.c
+@@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int data_size)
+ 	return (edid[0x7e] + 1) * EDID_LENGTH;
+ }
+ 
++static struct platform_device *edid_pdev(const char *connector_name)
++{
++	struct platform_device *pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
++
++	if (IS_ERR(pdev)) {
++		DRM_ERROR("Failed to register EDID firmware platform device "
++			"for connector \"%s\"\n", connector_name);
++		return ERR_CAST(pdev);
++	}
++
++	return pdev;
++}
++
+ static void *edid_load(struct drm_connector *connector, const char *name,
+ 			const char *connector_name)
+ {
+@@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+ 		fwdata = generic_edid[builtin];
+ 		fwsize = sizeof(generic_edid[builtin]);
+ 	} else {
+-		struct platform_device *pdev;
++		struct platform_device *pdev = connector->edid_load_pdev;
+ 		int err;
+ 
+-		pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
+-		if (IS_ERR(pdev)) {
+-			DRM_ERROR("Failed to register EDID firmware platform device "
+-				  "for connector \"%s\"\n", connector_name);
+-			return ERR_CAST(pdev);
++		if (WARN_ON(!pdev)) {
++			pdev = edid_pdev(connector_name);
++			if (IS_ERR(pdev))
++				return ERR_CAST(pdev);
++			connector->edid_load_pdev = pdev;
+ 		}
+ 
+ 		err = request_firmware(&fw, name, &pdev->dev);
+-		platform_device_unregister(pdev);
+ 		if (err) {
+ 			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+ 				  name, err);
+@@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+ 	return edid;
+ }
+ 
+-struct edid *drm_load_edid_firmware(struct drm_connector *connector)
++static char *edid_name(const char *connector_name)
+ {
+-	const char *connector_name = connector->name;
+ 	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+-	struct edid *edid;
+ 
+ 	if (edid_firmware[0] == '\0')
+ 		return ERR_PTR(-ENOENT);
+@@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
+ 	if (*last == '\n')
+ 		*last = '\0';
+ 
+-	edid = edid_load(connector, edidname, connector_name);
++	edidname = kstrdup(edidname, GFP_KERNEL);
++	if (!edidname) {
++		kfree(fwstr);
++		return ERR_PTR(-ENOMEM);
++	}
++
+ 	kfree(fwstr);
++	return edidname;
++}
++
++void drm_cache_edid_firmware(struct drm_connector *connector)
++{
++	const char *connector_name = connector->name;
++	const char *edidname = edid_name(connector_name);
++	struct platform_device *pdev;
++	int err;
++
++	if (IS_ERR(edidname))
++		return;
++
++	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 0) {
++		kfree(edidname);
++		return;
++	}
++
++	pdev = edid_pdev(connector_name);
++	if (IS_ERR(pdev)) {
++		kfree(edidname);
++		return;
++	}
++	connector->edid_load_pdev = pdev;
++
++	err = firmware_request_cache(&pdev->dev, edidname);
++	if (err)
++		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed (err=%d)\n",
++			edidname, err);
++
++	kfree(edidname);
++}
++
++struct edid *drm_load_edid_firmware(struct drm_connector *connector)
++{
++	const char *connector_name = connector->name;
++	const char *edidname = edid_name(connector_name);
++	struct edid *edid;
++
++	if (IS_ERR(edidname))
++		return ERR_CAST(edidname);
++
++	edid = edid_load(connector, edidname, connector_name);
++	kfree(edidname);
+ 
+ 	return edid;
+ }
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f257..47c84741517e 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1573,6 +1573,18 @@ struct drm_connector {
+ 	 */
+ 	struct i2c_adapter *ddc;
+ 
++	/**
++	 * @edid_load_pdev: Platform device for loading EDID via firmware.
++	 *
++	 * The platform device is registered in drm_connector_init() in case a
++	 * custom EDID firmware is used with `edid_firmware` parameter. Otherwise,
++	 * it is set to NULL.
++	 *
++	 * Platform device is unregistered in drm_connector_cleanup() if it
++	 * is not NULL.
++	 */
++	struct platform_device *edid_load_pdev;
++
+ 	/**
+ 	 * @null_edid_counter: track sinks that give us all zeros for the EDID.
+ 	 * Needed to workaround some HW bugs where we get all 0s
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index b2756753370b..b54cea3f1107 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector *connector,
+ 		      const struct drm_display_mode *mode);
+ 
+ #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
++void drm_cache_edid_firmware(struct drm_connector *connector);
+ struct edid *drm_load_edid_firmware(struct drm_connector *connector);
+ int __drm_set_edid_firmware_path(const char *path);
+ int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+ #else
++static inline void
++drm_cache_edid_firmware(struct drm_connector *connector);
+ static inline struct edid *
+ drm_load_edid_firmware(struct drm_connector *connector)
+ {
+-- 
+2.36.1
 
