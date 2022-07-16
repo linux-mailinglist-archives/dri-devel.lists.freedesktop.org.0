@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E2357B070
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 07:42:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B1C57B16E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 09:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5CEC11B030;
-	Wed, 20 Jul 2022 05:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCCC7112BCC;
+	Wed, 20 Jul 2022 07:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC1A11B030
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 05:42:17 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-10d7170b2fcso6159071fac.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KVoUKQlwm/yv6Z3L0/jFWLZaGDmNOYrSPKQKqKpKuIU=;
- b=XPaCyj9Wh5VKhFBmtKwkuoU7O3F4OFPLSQcDzS5lWZY4a0jZ6Q6CyV7SvIXilpZ/y/
- mMnDdjxELgbZlCOoHKky9Uj0Wc8+A/FF7BAuOUsuzzCsBDuAcNLPDsk3ZcS1kNXZjER2
- B8+cSZa52oZee6UDPkGPO+rcR+HklIFH0s1NbPGCEccGGH4hZCesZgZridWVX59jqpHN
- Ug/DT73FLr4jqJMs5i2eZNGyC8yXUrAHWl6IXj9riBev6Of710kDwY/540pqn/xqisvc
- /Za32VKeVdBPZ3cH23NgB3gCNkPM+HGmS2u1S8HC68jySxCc0U2HWWuYDKdTyDlks6K6
- C+GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KVoUKQlwm/yv6Z3L0/jFWLZaGDmNOYrSPKQKqKpKuIU=;
- b=S/CcmOOGJMrJ1tAJpG7iQyrtCdz+BT1CcW/8wk5lpYm6wLK+pD35cbjU5aOglJAHte
- RwzpH7kiXilYxDdZdzCx/k8rYjqcH32fbiih6UJAbu26TwH9d7Wsw7aztQRsMbaJ6zhk
- EhCDq4KyKDO0+IPTtXBE5OkcjI9LCxitsfDRZKswWsI35b/Rob0C2CJhRujlDYES/tdC
- nRpLB7aGMCDULS+PgxGvM87U9Je/Dv01+OvBmc2ehtxgZG8VI9C7CcBbi17pvLRHhHNQ
- mgK5I33riuHhPj4KICNTVdGoa9Dc3mBnnceA/dxRvHCgAvxYlCNwaLSMzNoTSQUf6/YT
- RGPw==
-X-Gm-Message-State: AJIora8/dhd8cuFB3bMcQFqkzGEBVK6aVfvjYFarVfjdMwUkJk/U7ZTh
- nVDGCkH1P1dxmw1WgE/JmCdHciglu/DwygcP0Kg=
-X-Google-Smtp-Source: AGRyM1tMDZuqnSAaDTRab2kmBYi2PvBr+UpWYHJAfRGE/yEVPs7ppPRY/TqvXBZpXnUYH/6Cuqhlwg==
-X-Received: by 2002:a05:6870:e74d:b0:10c:759f:a079 with SMTP id
- t13-20020a056870e74d00b0010c759fa079mr1589514oak.184.1658295736484; 
- Tue, 19 Jul 2022 22:42:16 -0700 (PDT)
-Received: from localhost (cpe-173-173-107-246.satx.res.rr.com.
- [173.173.107.246]) by smtp.gmail.com with ESMTPSA id
- bm51-20020a0568081ab300b003358e034f72sm6179069oib.7.2022.07.19.22.42.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 22:42:15 -0700 (PDT)
-From: Steev Klimaszewski <steev@kali.org>
-To: steev@kali.org
-Subject: [PATCH v2] drm/panel-edp: add IVO M133NW4J-R3 panel entry
-Date: Wed, 20 Jul 2022 00:41:52 -0500
-Message-Id: <20220720054152.2450-1-steev@kali.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220720052841.1630-1-steev@kali.org>
-References: <20220720052841.1630-1-steev@kali.org>
+Received: from smtpbg.qq.com (biz-43-154-221-58.mail.qq.com [43.154.221.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBCC818AA3A;
+ Tue, 19 Jul 2022 11:59:49 +0000 (UTC)
+X-QQ-mid: bizesmtp84t1658231978t4u9l6dy
+Received: from localhost.localdomain ( [171.223.96.21])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 19 Jul 2022 19:59:36 +0800 (CST)
+X-QQ-SSF: 01000000002000F0U000B00A0000020
+X-QQ-FEAT: 3uhoZqdeMHMkGTYpkkjDgOhxGAR++wlBx2LmCDenBU68zf3/NsGKrawlk8a1s
+ 3GQwHzKIHhUpq7Vu+NnGP8opGQyr2IOdnZl4QEr4ZnffrQzsOtA5tEIu5VtWrr5Rr6nZWth
+ DVpxdk96/GLl1wgNxcXRsGDK8r0iIgh8XYuTEbPY8wfMDnaGvH1r/tzbSSVawuNaqL81awY
+ ctlUKbRpH0G+drjgv+GDGXQJ9uQNVinQtZrDe5Xe+mpHq7lRvDeGgdR+UFuf5WNoyPSDNL7
+ 3m++iuZYOAm1S/vXw0mj0PYzFxWxnYKuTFtA/YBZa/6juNsubDupYkhSUC56oBtoXH7BdRw
+ XPBh/SripEEQzVeC6jDZLqNXIUb2C9k8gNDGXOm9strZoQEVCV72qy1+f5oZw==
+X-QQ-GoodBg: 0
+From: Jason Wang <wangborong@cdjrlc.com>
+To: daniel@ffwll.ch
+Subject: [PATCH] drm/radeon: Fix comment typo
+Date: Sat, 16 Jul 2022 11:57:32 +0800
+Message-Id: <20220716035732.30449-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
+X-Mailman-Approved-At: Wed, 20 Jul 2022 07:11:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +47,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Jason Wang <wangborong@cdjrlc.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an eDP panel entry for IVO M133NW4J-R3.
+The double `have' is duplicated in line 696, remove one.
 
-Due to lack of documentation, use the delay_200_500_e50 timings for now.
-
-Signed-off-by: Steev Klimaszewski <steev@kali.org>
-
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 ---
-v2 - actually mark it as R3 in the change, not R2...
+ drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm basing my information gathering off what I could find for the IVO
-M133NW4J panels on panelook.com.  R0 is glossy, and mine is not.  R2
-says it is discontinued, and I am just guessing that I have the R3 as
-the Thinkpad X13s just came out, roughly a month ago.
-
-Signed-off-by: Steev Klimaszewski <steev@kali.org>
----
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 5024ba690abf..870b98041c60 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1883,6 +1883,7 @@ static const struct edp_panel_entry edp_panels[] = {
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 84843b3b3aef..261fcbae88d7 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -693,7 +693,7 @@ int radeon_gem_va_ioctl(struct drm_device *dev, void *data,
+ 	}
  
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
- 
-+	EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "M133NW4J-R3"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv_a010.delay, "116N21-30NV-A010"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "116N29-30NK-C007"),
- 
+ 	/* !! DONT REMOVE !!
+-	 * We don't support vm_id yet, to be sure we don't have have broken
++	 * We don't support vm_id yet, to be sure we don't have broken
+ 	 * userspace, reject anyone trying to use non 0 value thus moving
+ 	 * forward we can use those fields without breaking existant userspace
+ 	 */
 -- 
-2.30.2
+2.35.1
 
