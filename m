@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E123A576F59
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:43:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B88576F54
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F681127F6;
-	Sat, 16 Jul 2022 14:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0B9110F360;
+	Sat, 16 Jul 2022 14:36:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91AE510E0F4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 09:32:55 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id q9so9793022wrd.8
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 02:32:55 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4AF010E0F4
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 09:33:03 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id o8so4130786wms.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 02:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NpyRhxVOAw0+FBiBmSlfqruGt8tDAvWc+k0qaDvUyw8=;
- b=U376b61VnGMrJvaYihP8YnKXeNPhSSlgCqQ/P2vFr/eoFMO5D2GtRXdQD3QW6ZomtD
- lwLGl6o2nn3jTSBKmk4IMNBAYH1uR1RgHwwelmq4gJ5HvX9tTHi06gS3ixVh9eqmK4Z1
- Gk8gMiirpVSGg4fH2hUK0OM35gN4O3LCVW+EVJ5RlQffqE/d6mwScyH6O2UAJPp5V9Ah
- bryK3zneJS+YdEMBkJwTWoOlJeFDhhCX/xowqhngaEmqh4BcmFUCFcxponXiwaWLcRWh
- s8z0fixInBMhNL60fgH0WxK6CckOg3AKs7DnfDc0PkZIcLLHax/p1AcEM9x0IfdMvCeI
- OdMw==
+ :cc; bh=lSRrYTHTOCPW6A8KnGxPdoyyI8rFFZEqU5rgpIUGJ2M=;
+ b=iWdkMblvITx6Ax14UV8fuK60dnztv5v5LZ4JH6ZKNDlP5vdzfytdrUohVufQ2vwiRp
+ 2pJe6dKrai6049IPNthid9zt0x07Kdaf9gAKurTYB687KCLQhf1T/0IYcHV+bu5IqOTy
+ MYDEXiVBAuRiPrPLG7bDoWXsMTiW5ewKM/PquX4pI0v21mUZ7ChG3/6W0W05p9TGiH8o
+ HyFwC3a513f0BjBkUBB22+InklA4zXiXO+A23/u/SB08lX7EnorwqN04ZpDXio/o9H5g
+ lcmfDO44pGkBxm1vt7ws8PQaVNA+kKx2vNjU6DSYHrPGF617iF+kdeumfEXtPYk+k2EA
+ y+hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NpyRhxVOAw0+FBiBmSlfqruGt8tDAvWc+k0qaDvUyw8=;
- b=kLw6UEcVIYxHIZRMPDLc3NPlj2BpCPqMMtSug2WvWJX/uJ9cCVRZHBJQx5IKqvzSW8
- jGgPxihJrIwWds4aKWz1Rm2FBd/pHE+NoModdtUWDC/gBLy7mN15bILhqnglKdtz4ub8
- CjLvbU5WFvON16fEbS0HVm9G+NtIZ02Q67PzypQB3lzHp396zmhHzgadwWxw/yhNUub4
- 0b5UrGNQPyYGGWR87jul07tFdnPJ8BFqCA021byyW5oVoMTUUAQ2Ptab97xmdYVJtfZO
- TC1wOPhl+5JbJhnTyu8mAhJY7/EHbDsiUJZnT6ASKA1jYya6W85Lz2JN5V6czBKn2LzE
- kPsA==
-X-Gm-Message-State: AJIora9W/sfAPd23GrAAx04AwKIeCvjQtkNF1mI+KIbk2Bf0L+wp5UBP
- eQgzr6eRld/rEp3fDAKif55DtO2PCq3BClVVBJW/yA==
-X-Google-Smtp-Source: AGRyM1summfnIu3TqgbWBvwhtJvPBKZY/jnw9uchFStXcGhPyhZ3+MaioTu6ksYWJp6mCpMwDZFODsBhVnPeQNmpEbE=
-X-Received: by 2002:a05:6000:2ab:b0:21d:b410:5999 with SMTP id
- l11-20020a05600002ab00b0021db4105999mr15633161wry.517.1657963974012; Sat, 16
- Jul 2022 02:32:54 -0700 (PDT)
+ bh=lSRrYTHTOCPW6A8KnGxPdoyyI8rFFZEqU5rgpIUGJ2M=;
+ b=Kvnt8Okr30qx8h5hd20vDXEX41izJ//TlxvM1q5Qnsp/eg+o3ZIrJe9Htju02VbJHV
+ Wy4XKUPT8bhB8tw7GkLqwcHeN/HR8bU1uvRK/H9YPM51dZ6+1LZGQ2UFtKk97jInRbku
+ 0n4WdgCSDHfcyASBjpSRaHjU69zwyJuBm7UyBNiugIIc/khEyu9Q2GLcyjGdYADMZSbk
+ hS411SkAjrZbuUqbiwmnwUbSYGZplaY0d4bzZumfdfY6ZzMPN58BiTIJAOm9ZBI6ML/b
+ KD4jArwY+Yv4Vb8k2t636CCZ9WP+hs4jQE53eV6+vziV0UJ2P1bnrKeQ8tGzPT+dm0i5
+ XTuQ==
+X-Gm-Message-State: AJIora+f8TQW7rsU9D3SlA3jeY14D/K/p73Q4yBqewdNFks1Kmz+RKL2
+ kfM3FjTTXPxHlwgZ+7oele0a51GTOU+UPHoxkby0Hg==
+X-Google-Smtp-Source: AGRyM1tNeS5k/SDblsJe4hiov0HrdwLQDGA8Kuhys141gwIsundY9b1Ah87XFPfSwvLN/LopcdrCcvba9Tl8KCzQRsk=
+X-Received: by 2002:a7b:ce06:0:b0:3a0:39e0:b322 with SMTP id
+ m6-20020a7bce06000000b003a039e0b322mr24737064wmc.55.1657963982253; Sat, 16
+ Jul 2022 02:33:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220709115837.560877-1-jose.exposito89@gmail.com>
- <20220709115837.560877-3-jose.exposito89@gmail.com>
-In-Reply-To: <20220709115837.560877-3-jose.exposito89@gmail.com>
+ <20220709115837.560877-5-jose.exposito89@gmail.com>
+In-Reply-To: <20220709115837.560877-5-jose.exposito89@gmail.com>
 From: David Gow <davidgow@google.com>
-Date: Sat, 16 Jul 2022 17:32:42 +0800
-Message-ID: <CABVgOSmNroVNyLMdaU3b77G=HRgS9J6hvx9UWAyA28P_kZuONw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/format-helper: Rename test cases to make them
- more generic
+Date: Sat, 16 Jul 2022 17:32:51 +0800
+Message-ID: <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb565()
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000bcda1005e3e8d1a3"
+ micalg=sha-256; boundary="0000000000003b514e05e3e8d2b8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,94 +76,189 @@ Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bcda1005e3e8d1a3
+--0000000000003b514e05e3e8d2b8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Sat, Jul 9, 2022 at 7:58 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
 il.com> wrote:
 >
-> The tests available at the moment only check the conversion from
-> XRGB8888 to RGB332. However, more conversions will be tested in the
-> future.
+> Extend the existing test cases to test the conversion from XRGB8888 to
+> RGB565.
 >
-> In order to make the struct and functions present in the tests more
-> generic, rename xrgb8888_to_rgb332_* to convert_xrgb8888_*.
+> The documentation and the color picker available on [1] are useful
+> resources to understand this patch and validate the values returned by
+> the conversion function.
 >
 > Tested-by: Tales L. Aparecida <tales.aparecida@gmail.com>
 > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+> Link: http://www.barth-dev.de/online/rgb565-color-picker/ # [1]
 > ---
 
-Looks good to me from the KUnit point of view.
+Looks good and passes here.
 
 Reviewed-by: David Gow <davidgow@google.com>
 
-Cheers,
+Thanks,
 -- David
 
 
->  drivers/gpu/drm/tests/drm_format_helper_test.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
+>  .../gpu/drm/tests/drm_format_helper_test.c    | 76 ++++++++++++++++++-
+>  1 file changed, 75 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu=
 /drm/tests/drm_format_helper_test.c
-> index 4d074c2e48bf..f66aaa0e52c9 100644
+> index 0a490ad4fd32..c0592c1235cf 100644
 > --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 > +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -16,7 +16,7 @@
->
->  #define TEST_BUF_SIZE 50
->
-> -struct xrgb8888_to_rgb332_case {
-> +struct convert_xrgb8888_case {
->         const char *name;
->         unsigned int pitch;
->         unsigned int dst_pitch;
-> @@ -25,7 +25,7 @@ struct xrgb8888_to_rgb332_case {
->         const u8 expected[4 * TEST_BUF_SIZE];
+> @@ -21,12 +21,19 @@ struct convert_to_rgb332_result {
+>         const u8 expected[TEST_BUF_SIZE];
 >  };
 >
-> -static struct xrgb8888_to_rgb332_case xrgb8888_to_rgb332_cases[] =3D {
-> +static struct convert_xrgb8888_case convert_xrgb8888_cases[] =3D {
+> +struct convert_to_rgb565_result {
+> +       unsigned int dst_pitch;
+> +       const u16 expected[TEST_BUF_SIZE];
+> +       const u16 expected_swab[TEST_BUF_SIZE];
+> +};
+> +
+>  struct convert_xrgb8888_case {
+>         const char *name;
+>         unsigned int pitch;
+>         struct drm_rect clip;
+>         const u32 xrgb8888[TEST_BUF_SIZE];
+>         struct convert_to_rgb332_result rgb332_result;
+> +       struct convert_to_rgb565_result rgb565_result;
+>  };
+>
+>  static struct convert_xrgb8888_case convert_xrgb8888_cases[] =3D {
+> @@ -39,6 +46,11 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+>                         .dst_pitch =3D 0,
+>                         .expected =3D { 0xE0 },
+>                 },
+> +               .rgb565_result =3D {
+> +                       .dst_pitch =3D 0,
+> +                       .expected =3D { 0xF800 },
+> +                       .expected_swab =3D { 0x00F8 },
+> +               },
+>         },
 >         {
->                 .name =3D "single_pixel_source_buffer",
->                 .pitch =3D 1 * 4,
-> @@ -126,18 +126,18 @@ static u32 *le32buf_to_cpu(struct kunit *test, cons=
-t u32 *buf, size_t buf_size)
->         return dst;
+>                 .name =3D "single_pixel_clip_rectangle",
+> @@ -52,6 +64,11 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+>                         .dst_pitch =3D 0,
+>                         .expected =3D { 0xE0 },
+>                 },
+> +               .rgb565_result =3D {
+> +                       .dst_pitch =3D 0,
+> +                       .expected =3D { 0xF800 },
+> +                       .expected_swab =3D { 0x00F8 },
+> +               },
+>         },
+>         {
+>                 /* Well known colors: White, black, red, green, blue, mag=
+enta,
+> @@ -77,6 +94,21 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+>                                 0xFC, 0x1F,
+>                         },
+>                 },
+> +               .rgb565_result =3D {
+> +                       .dst_pitch =3D 0,
+> +                       .expected =3D {
+> +                               0xFFFF, 0x0000,
+> +                               0xF800, 0x07E0,
+> +                               0x001F, 0xF81F,
+> +                               0xFFE0, 0x07FF,
+> +                       },
+> +                       .expected_swab =3D {
+> +                               0xFFFF, 0x0000,
+> +                               0x00F8, 0xE007,
+> +                               0x1F00, 0x1FF8,
+> +                               0xE0FF, 0xFF07,
+> +                       },
+> +               },
+>         },
+>         {
+>                 /* Randomly picked colors. Full buffer within the clip ar=
+ea. */
+> @@ -96,6 +128,19 @@ static struct convert_xrgb8888_case convert_xrgb8888_=
+cases[] =3D {
+>                                 0xA0, 0x6D, 0x0A, 0x00, 0x00,
+>                         },
+>                 },
+> +               .rgb565_result =3D {
+> +                       .dst_pitch =3D 10,
+> +                       .expected =3D {
+> +                               0x0A33, 0x1260, 0xA800, 0x0000, 0x0000,
+> +                               0x6B8E, 0x0A33, 0x1260, 0x0000, 0x0000,
+> +                               0xA800, 0x6B8E, 0x0A33, 0x0000, 0x0000,
+> +                       },
+> +                       .expected_swab =3D {
+> +                               0x330A, 0x6012, 0x00A8, 0x0000, 0x0000,
+> +                               0x8E6B, 0x330A, 0x6012, 0x0000, 0x0000,
+> +                               0x00A8, 0x8E6B, 0x330A, 0x0000, 0x0000,
+> +                       },
+> +               },
+>         },
+>  };
+>
+> @@ -120,7 +165,7 @@ static size_t conversion_buf_size(u32 dst_format, uns=
+igned int dst_pitch,
+>         if (!dst_pitch)
+>                 dst_pitch =3D drm_rect_width(clip) * dst_fi->cpp[0];
+>
+> -       return dst_pitch * drm_rect_height(clip);
+> +       return (dst_pitch * drm_rect_height(clip)) / (dst_fi->depth / 8);
 >  }
 >
-> -static void xrgb8888_to_rgb332_case_desc(struct xrgb8888_to_rgb332_case =
-*t,
-> -                                        char *desc)
-> +static void convert_xrgb8888_case_desc(struct convert_xrgb8888_case *t,
-> +                                      char *desc)
->  {
->         strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
+>  static u32 *le32buf_to_cpu(struct kunit *test, const u32 *buf, size_t bu=
+f_size)
+> @@ -175,8 +220,37 @@ static void xrgb8888_to_rgb332_test(struct kunit *te=
+st)
+>         KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected, dst_size), 0)=
+;
 >  }
 >
-> -KUNIT_ARRAY_PARAM(xrgb8888_to_rgb332, xrgb8888_to_rgb332_cases,
-> -                 xrgb8888_to_rgb332_case_desc);
-> +KUNIT_ARRAY_PARAM(convert_xrgb8888, convert_xrgb8888_cases,
-> +                 convert_xrgb8888_case_desc);
->
->  static void xrgb8888_to_rgb332_test(struct kunit *test)
->  {
-> -       const struct xrgb8888_to_rgb332_case *params =3D test->param_valu=
-e;
+> +static void xrgb8888_to_rgb565_test(struct kunit *test)
+> +{
 > +       const struct convert_xrgb8888_case *params =3D test->param_value;
->         size_t dst_size;
->         __u8 *dst =3D NULL;
->         __u32 *src =3D NULL;
-> @@ -163,8 +163,7 @@ static void xrgb8888_to_rgb332_test(struct kunit *tes=
-t)
->  }
->
+> +       const struct convert_to_rgb565_result *result =3D &params->rgb565=
+_result;
+> +       size_t dst_size;
+> +       __u16 *dst =3D NULL;
+> +
+> +       struct drm_framebuffer fb =3D {
+> +               .format =3D drm_format_info(DRM_FORMAT_XRGB8888),
+> +               .pitches =3D { params->pitch, 0, 0 },
+> +       };
+> +
+> +       dst_size =3D conversion_buf_size(DRM_FORMAT_RGB565, result->dst_p=
+itch,
+> +                                      &params->clip);
+> +       KUNIT_ASSERT_GT(test, dst_size, 0);
+> +
+> +       dst =3D kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
+> +
+> +       drm_fb_xrgb8888_to_rgb565(dst, result->dst_pitch, params->xrgb888=
+8, &fb,
+> +                                 &params->clip, false);
+> +       KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected, dst_size), 0)=
+;
+> +
+> +       drm_fb_xrgb8888_to_rgb565(dst, result->dst_pitch, params->xrgb888=
+8, &fb,
+> +                                 &params->clip, true);
+> +       KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected_swab, dst_size=
+), 0);
+> +}
+> +
 >  static struct kunit_case drm_format_helper_test_cases[] =3D {
-> -       KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test,
-> -                        xrgb8888_to_rgb332_gen_params),
-> +       KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test, convert_xrgb8888_gen_pa=
+>         KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test, convert_xrgb8888_gen_pa=
+rams),
+> +       KUNIT_CASE_PARAM(xrgb8888_to_rgb565_test, convert_xrgb8888_gen_pa=
 rams),
 >         {}
 >  };
@@ -172,7 +267,7 @@ rams),
 > 2.25.1
 >
 
---000000000000bcda1005e3e8d1a3
+--0000000000003b514e05e3e8d2b8
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -239,14 +334,14 @@ OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
 3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
 lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCA/
-cdEVOC4AO37QkqFFEQwGQoAqRnZsYlJjRUOaTcMU+zAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA3MTYwOTMyNTRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBs
+nigxcoMNZjhWoKRJ6Fblw2M4ge9J/wZ0W9G9hUORazAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA3MTYwOTMzMDJaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAjQVwTM+UWzAUs/HQKUaF
-pcQg+HX8oXyqSkY7jw6PdZh6oAcyxneKeU9Ze9FzjaEvB5j4ueruQQSOuXje/CKJRKORuFNPc57d
-q0/Ch5+sIwczcLCSy5AQa0jrvoRb/IAZSQaoGMkq38Dp3t32iyh/aVZB7MVvuAOWtMRD4yQMVDNu
-8N4tg8osXQI5RisDeWyXS+aMkBn1Ee0FfrdZdl8yH4I8kvxgrreK9UAgD9TABs/KnUaFmR40tSR/
-wnNJ92G5HXX+hzi+ZQoU92nKB2e1K6gEddlbnL3wUZji+8tWZOuC9kfLJorTZM53CnTj3M4PYebj
-16blfiE8Mb0xNIlGMA==
---000000000000bcda1005e3e8d1a3--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAeiLZClxOliAyKAy9DPoS
+9i1rIAz3jZN1t83Cyl15PC3AO9/uS+b2Yea2yCVvqDVruU4Qal90QvxMu6f+ltyIad2IM2DNL6mi
+Itz9EMrYDbXHkfxoKCig0iskNA1BedVfCnHbu1A4oKd1fsroSiC1vLWN46hU2+9ebhgezJ9qqP+w
+0a0zmG6ntzpCBHjxFp9jg9//UHIY0DMkw4q5DoFdDur8TP3DT7v40mUQEuCykJI9Kvnt6iGnHtoa
+lLk7Hd+xvAg75BVntd+JmklSikvCh/C9Qeogvafl4TRJC1nsRXNsn34/k9hYthSg/KTEFSbFRQwL
+Qb4kdxcIbbA8R/K7Aw==
+--0000000000003b514e05e3e8d2b8--
