@@ -2,66 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE62577159
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 22:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88DD57715D
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 22:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4093410E300;
-	Sat, 16 Jul 2022 20:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B3B10E5A0;
+	Sat, 16 Jul 2022 20:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5FCA10E0F4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 09:28:49 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu
- (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi
- [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: sailus)
- by meesny.iki.fi (Postfix) with ESMTPSA id C6B68202B9;
- Sat, 16 Jul 2022 12:28:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
- t=1657963726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p05g2JQKkBK9/C2od8mJWwhH6CARhop8sa56RkQcfW8=;
- b=xJzqQ59ggOobD05ybTWofxUjSPteY0XaFMBRL0WZ3NdAUtFkG5xZmt/UH0cY2lV60qj1Lw
- C25fGruCEEmehrsy70VPDVc+LbXxLFfBsjEtSChqp033zLAo4VIIOyLw4wY5JV0waoxCm3
- 1V0jdG6O4Y8P+ViYu4SIoszp0tqCkxo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1D7E1634D5E;
- Sat, 16 Jul 2022 12:28:46 +0300 (EEST)
-Date: Sat, 16 Jul 2022 12:28:45 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 2/6] dt-bindings: Use new video interface bus type
- macros in examples
-Message-ID: <YtKEzS6j0/45E7tP@valkosipuli.retiisi.eu>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-3-laurent.pinchart@ideasonboard.com>
+X-Greylist: delayed 495 seconds by postgrey-1.36 at gabe;
+ Sat, 16 Jul 2022 13:10:28 UTC
+Received: from smtpbg.qq.com (biz-43-154-221-58.mail.qq.com [43.154.221.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AF110E00D;
+ Sat, 16 Jul 2022 13:10:28 +0000 (UTC)
+X-QQ-mid: bizesmtp85t1657976518tiba5dfa
+Received: from localhost.localdomain ( [182.132.179.58])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Sat, 16 Jul 2022 21:01:54 +0800 (CST)
+X-QQ-SSF: 01000000002000E0U000B00A0000000
+X-QQ-FEAT: ALw5QuVtm4W6g00JOOK8BZrhQ8/YnIxpxoxTCkyqD1twqMvTwDXPkyk/LihOZ
+ 75YbWFndLq03UAzR2Gt4RP5uSMGPhMjZh0jrRoQ/4Itq6WBv3Wk8ia6H7M36vsWZy4Sprps
+ ejmd09KZeNc7USdZubNra1M3WhrHjMB69R0VF/vv5PZC+JUwPFYYo63zg5v4+kPYLzHtHdB
+ bWNmKxuNfRmxFezRGvYDIAQI+9KU3Vh8cAYyIZCzkGaVkIvqF9knjMH9EeYpTf2B62rdesx
+ lM0fMtEcNt3nIuvgAiKn3jWoIh4OVAKBvpuBStAmp3IYj/Wcbg0kiSQKJjtJWEPn4lNkgAS
+ 7pQ5Q7ERRICE8xVbnv6L5NtsGFlP3UAQWBxiM+tU0zuJQEAZ69WMAj5yiwYOw==
+X-QQ-GoodBg: 0
+From: Jason Wang <wangborong@cdjrlc.com>
+To: daniel@ffwll.ch
+Subject: [PATCH] drm/i915/gt: Remove unneeded semicolon
+Date: Sun, 17 Jul 2022 02:44:39 +0800
+Message-Id: <20220716184439.72056-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615221410.27459-3-laurent.pinchart@ideasonboard.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
- s=meesny; t=1657963726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p05g2JQKkBK9/C2od8mJWwhH6CARhop8sa56RkQcfW8=;
- b=HE2Vvi2HOVel765S3EHbm8gjv26CEl6v6LhtN1LqPoojWFtL3khNN7hIwFscrDadz1NCTN
- znTHxDtE+qgxfUOR09rfl7QPjOz1QcfLwwqHOLCmKfD1wYoKkt5hxo0lrk9TvjM4q4goZn
- Qsr85Oc9WwuE4V2BRO9foSasb5JGEHk=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1657963726; a=rsa-sha256; cv=none;
- b=EV15RjFtJPTEV21NGwQ8m+XyGp6cjFUKUutDeVdMfmai9HbdEuD/VZsshexAehlRDGsaHr
- G+zxRDggpqZbfPCbNWt9wiovlGFI1jrApV6XXd836m5qwql0sYyeZkuX0KvxOLXeZX9uDI
- FK6K7+A8yQsmL4i5rd/AarioYXJwSVM=
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
 X-Mailman-Approved-At: Sat, 16 Jul 2022 20:16:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,63 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: tvrtko.ursulin@linux.intel.com, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@linux.intel.com, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ matthew.auld@intel.com, Jason Wang <wangborong@cdjrlc.com>,
+ rodrigo.vivi@intel.com, dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+The semicolon after the `}' in line 648 is unneeded.
 
-On Thu, Jun 16, 2022 at 01:14:06AM +0300, Laurent Pinchart wrote:
-> Now that a header exists with macros for the media interface bus-type
-> values, replace hardcoding numerical constants with the corresponding
-> macros in the DT binding examples.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v2:
-> 
-> - Go back to PARALLEL
-> 
-> Changes since v1:
-> 
-> - Rename PARALLEL to BT601
-> ---
->  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml  | 1 +
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ++-
->  Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml  | 3 ++-
->  .../devicetree/bindings/media/marvell,mmp2-ccic.yaml          | 3 ++-
->  Documentation/devicetree/bindings/media/microchip,xisc.yaml   | 3 ++-
->  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml    | 4 +++-
->  6 files changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index 35a48515836e..b0e5585f93e2 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -118,6 +118,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
->  
->      i2c0 {
->          #address-cells = <1>;
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+---
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The definition doesn't seem to be used here. Is there a need to include
-this?
-
-I could drop this chunk while applying. There's just one trivial change
-elsewhere in this patch to make.
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 2c35324b5f68..a69b244f14d0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -645,7 +645,7 @@ static int scatter_list_length(struct scatterlist *sg)
+ 	while (sg && sg_dma_len(sg)) {
+ 		len += sg_dma_len(sg);
+ 		sg = sg_next(sg);
+-	};
++	}
+ 
+ 	return len;
+ }
 -- 
-Kind regards,
+2.35.1
 
-Sakari Ailus
