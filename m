@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D949E5771F9
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 00:40:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6634F5771FF
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 00:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E298112D6F;
-	Sat, 16 Jul 2022 22:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8059C112948;
+	Sat, 16 Jul 2022 22:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E28112C5C
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:39:56 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1572D112E17
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:41:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7551461325
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:39:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D6BA1C341CD
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:39:51 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2D987B80D04
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:41:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9FDBC341C8
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1658011191;
- bh=wSGExP8TriGg8/nb6ZcVNW72Uc062Fis1orZjojJk2M=;
+ s=k20201202; t=1658011263;
+ bh=aUo/lx4Q7P6e8cUINVXg8qhspz8Lan7GX8OtUAiQN/o=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FWV9WqXa+/+Kgt2UzJBdFD9Kc0kKXoTesmSy7kkIc23COxqUHnNPGfgmIYcwkUUgS
- H7ozmEzxTyabOFOrPLb5E9nBG6SyuEOS4jU4lar5SPMe5GkPw+wqxlUwjjlV9YqSRK
- zFnXlvoclhexR2ukoDxQEzf3+65arf4YHSBTHusmipinDJJjh7Rx7XaNpHAnq+M4gH
- rrzjjRrS/FMTsccLZJxwahi33aLJXO/dMTh6PwmW5z9ZicwGMjVxoNDpwXIoKJXQk2
- e9M8TDl5DW/XBV72MZCkGIanoeKZjv6zpNOTGXQqxJ5SrKSVm693AdyVcDC+AnLE7s
- yPAVirDLVF0Ow==
+ b=tPTXyhStecOy7XSPS2yVnz99BvTw7K0c6GnC0O3ds2bNtv3D1WM1ntblGMLOgSORt
+ 2gi8esNOSUH7DEb8ulB4s4Q9YxqHkkJlz3bDdqGsylhILJJskOUIgVS6GDziF1cds8
+ UFAVoZxD4uLhsYTX+p9PH+84DerHZrAXsQ2XhEd3XUphmn2w5u2cYdMQknt0gcYv55
+ Kaq804OlHQbTH3put7He8bbJ1oED/ECaQaU4AXDEVdy4WL05OPMEo7mht8R0wB1OeQ
+ YImg/WKdfCMDrQksGVIixLT5LHZi0ooGz97WMDwqDNpwyC4wM+MStdNRFrPH1jrRg3
+ rO3xuAZ1G8gAQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C136ACAC6E2; Sat, 16 Jul 2022 22:39:51 +0000 (UTC)
+ from userid 48) id D2ED5CAC6E2; Sat, 16 Jul 2022 22:41:02 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
  390
-Date: Sat, 16 Jul 2022 22:39:51 +0000
+Date: Sat, 16 Jul 2022 22:41:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-bU6zZVLvlJ@https.bugzilla.kernel.org/>
+Message-ID: <bug-216119-2300-PELXspWRj7@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
 References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,30 +76,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
---- Comment #32 from Harald Judt (h.judt@gmx.at) ---
-There still seem to be issues with the shared fb implementation and
-hibernation. After resume, chvt to another vt causes the following errors in
-dmesg:
-
-[  975.920944] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
-recovered
-[  986.160803] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
-recovered
-[  996.400610] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
-recovered
-[ 1006.640916] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
-recovered
-[ 1016.880923] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
-recovered
-[ 1027.120907] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
-recovered
-
-And the machine gets stuck/freezes, except one can ssh in and reboot it. So
-only the graphical display will not restore properly. Also, if I reboot the
-machine and the error above does not occur, then the console (not X display=
-) is
-somehow misaligned, that is the messages are not printed on the most-left
-column, but a bit more in the middle of the screen.
+--- Comment #33 from Harald Judt (h.judt@gmx.at) ---
+With "if I reboot the machine" I mean, if I shutdown/reboot it later after
+resume, then the shutdown messages get printed that strange way.
 
 --=20
 You may reply to this email to add a comment.
