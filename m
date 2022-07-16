@@ -2,53 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CA55770F7
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 21:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A7C577145
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 21:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACB710E23F;
-	Sat, 16 Jul 2022 19:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 424BA10E259;
+	Sat, 16 Jul 2022 19:52:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D30AB10E23F
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 19:04:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657998275; x=1689534275;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8frvfJ6bz/9hCYcXkLFOuympGu4Rfw7p/JbRkZZZy0Y=;
- b=kblaL21MN9p/3fNJfNsZQ1EcF9HfekTV8mxR+ZfiUbGGo7yUehtrE8Ud
- /BgLK0lHvCBqLHQo84Fx5tfGk5Tb1KU+zKcLWJHDgnZtTtEfy32L3cg0m
- 6tzTMkN4ULf7+bBKJBT2VfcQ9/+h2jTtqhnmW68GUEXnn3CJC9mtahwUQ
- o9WMVs4tkrOXX34c2IpDHcRmqKu333W/cAOD/AfyF0NQOpxlLJkDBDW/r
- uZYw4enDZYV0/iIr2taHhDighNYXA7fqGja0zgZYoRz6OJ7BdrgyyypCG
- UOucIgBMZjVgIQMpu04Mm2dcZdrtsXkC6JiiS3lBi5wL6bPO8ZfYOkEDa g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="372312117"
-X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; d="scan'208";a="372312117"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2022 12:04:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; d="scan'208";a="686305192"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2022 12:04:33 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1oCn5c-00021a-Hm;
- Sat, 16 Jul 2022 19:04:32 +0000
-Date: Sun, 17 Jul 2022 03:04:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthieu CHARETTE <matthieu.charette@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- andrealmeid@igalia.com
-Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
-Message-ID: <202207170211.AaMpUwPs-lkp@intel.com>
-References: <20220715092253.17529-1-matthieu.charette@gmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9CC410E0E0;
+ Sat, 16 Jul 2022 19:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=6ppoxgdipskmmbW5jBQLibvHxWKVt7t/b+tu2ackF68=; b=JojGInDTU8Kz2yjwVlXOw9Vk/v
+ Yig/L9s04sffB8MI0oyjtD+QmyeKUehMumRKeAg4P1zYD3kEbBCQdB7IPKCpsB5FYnhmwkvYb3YbQ
+ 0d9lnytUjUC8FxlpjQlDRs5wr9Ny1g459ncScbi9pCa5L/CNnxGRWFlAeuy/ACqr3vVZbPM6+tGAm
+ KiXJglgq75FjYuvSTx0DtZj9zAwSvOydUKlRSOsIinvGr5kU1PObtkapIjeqmm83TvheIVMBHV+SA
+ YRusFDvkAhP8lZ6A8l2x6Vlq6Oog22J4dBqqTRV+eDsVLAMsND73XjxF7lgml2MEL0QxNfAGt16pI
+ dFDfnBjg==;
+Received: from [165.90.126.25] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oCnpt-001zN4-32; Sat, 16 Jul 2022 21:52:21 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: move dcn31_update_soc_for_wm_a func to dml
+ fpu folder
+Date: Sat, 16 Jul 2022 18:51:44 -0100
+Message-Id: <20220716195144.342960-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220715092253.17529-1-matthieu.charette@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>, kbuild-all@lists.01.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthieu,
+Although dcn31_update_soc_for_wm_a() is only called in dml/dcn31/dcn31_fpu by
+dc->res_pool->funcs->update_soc_for_wm_a(dc, context), it's declared in
+dcn31_resource that is not FPU protected. Move this function to dcn31_fpu
+file as part of the work to isolate FPU code.
 
-Thank you for the patch! Perhaps something to improve:
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c | 9 ---------
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h | 1 -
+ drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c  | 9 +++++++++
+ drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h  | 2 ++
+ 4 files changed, 11 insertions(+), 10 deletions(-)
 
-[auto build test WARNING on v5.19-rc6]
-[also build test WARNING on linus/master]
-[cannot apply to drm-misc/drm-misc-next next-20220715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthieu-CHARETTE/drm-Fix-EDID-firmware-load-on-resume/20220716-214028
-base:    32346491ddf24599decca06190ebca03ff9de7f8
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220717/202207170211.AaMpUwPs-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e583aaf4f6464add35f2350c728d80a3fe790638
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matthieu-CHARETTE/drm-Fix-EDID-firmware-load-on-resume/20220716-214028
-        git checkout e583aaf4f6464add35f2350c728d80a3fe790638
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_connector.c:25:
->> include/drm/drm_edid.h:387:1: warning: 'drm_cache_edid_firmware' used but never defined
-     387 | drm_cache_edid_firmware(struct drm_connector *connector);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/drm_cache_edid_firmware +387 include/drm/drm_edid.h
-
-   374	
-   375	int drm_edid_to_sad(const struct edid *edid, struct cea_sad **sads);
-   376	int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
-   377	int drm_av_sync_delay(struct drm_connector *connector,
-   378			      const struct drm_display_mode *mode);
-   379	
-   380	#ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
-   381	void drm_cache_edid_firmware(struct drm_connector *connector);
-   382	struct edid *drm_load_edid_firmware(struct drm_connector *connector);
-   383	int __drm_set_edid_firmware_path(const char *path);
-   384	int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
-   385	#else
-   386	static inline void
- > 387	drm_cache_edid_firmware(struct drm_connector *connector);
-   388	static inline struct edid *
-   389	drm_load_edid_firmware(struct drm_connector *connector)
-   390	{
-   391		return ERR_PTR(-ENOENT);
-   392	}
-   393	#endif
-   394	
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+index 16bbccc69fdc..17c776e88514 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+@@ -1716,15 +1716,6 @@ int dcn31_populate_dml_pipes_from_context(
+ 	return pipe_cnt;
+ }
+ 
+-void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context)
+-{
+-	if (dc->clk_mgr->bw_params->wm_table.entries[WM_A].valid) {
+-		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].pstate_latency_us;
+-		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_enter_plus_exit_time_us;
+-		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_exit_time_us;
+-	}
+-}
+-
+ void dcn31_calculate_wm_and_dlg(
+ 		struct dc *dc, struct dc_state *context,
+ 		display_e2e_pipe_params_st *pipes,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
+index 393458015d6a..41f8ec99da6b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
+@@ -59,7 +59,6 @@ dcn31_set_mcif_arb_params(struct dc *dc,
+ 			  struct dc_state *context,
+ 			  display_e2e_pipe_params_st *pipes,
+ 			  int pipe_cnt);
+-void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context);
+ 
+ struct resource_pool *dcn31_create_resource_pool(
+ 		const struct dc_init_data *init_data,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+index 7be3476989ce..facac3daeaca 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+@@ -435,6 +435,15 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc = {
+ 	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
+ };
+ 
++void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context)
++{
++	if (dc->clk_mgr->bw_params->wm_table.entries[WM_A].valid) {
++		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].pstate_latency_us;
++		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_enter_plus_exit_time_us;
++		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.entries[WM_A].sr_exit_time_us;
++	}
++}
++
+ void dcn31_calculate_wm_and_dlg_fp(
+ 		struct dc *dc, struct dc_state *context,
+ 		display_e2e_pipe_params_st *pipes,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
+index 24ac19c83687..0a10de80c1a4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
+@@ -31,6 +31,8 @@
+ #define DCN3_15_MIN_COMPBUF_SIZE_KB 128
+ #define DCN3_16_DEFAULT_DET_SIZE 192
+ 
++void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context);
++
+ void dcn31_calculate_wm_and_dlg_fp(
+ 		struct dc *dc, struct dc_state *context,
+ 		display_e2e_pipe_params_st *pipes,
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
