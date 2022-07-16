@@ -2,41 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA72576FA5
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 17:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722B9576FB1
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 17:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEC6113A94;
-	Sat, 16 Jul 2022 15:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63E5916CE;
+	Sat, 16 Jul 2022 15:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEEB8EB3F
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 15:12:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 363A06E0;
- Sat, 16 Jul 2022 17:12:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1657984357;
- bh=SqADCWXFXONCpdgY4hl/8v2eC4vqPseH2e03h4BzIGc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kc1Z777CWxCl6R7vhj65BdU7ssL5ud6tNDIZ5QTwIvI/XPyaTvJKzKSq0M5OCEnef
- 67METLL9IEJdIgQpHpeJvl6OYObQVF2gOi1VeS2Ef6g6X9WllHJgmmwoYffDnJ8ZTj
- z8NuPL4uxZQG//WHKN5PM28iWDIZ1Nkp6YDphcnA=
-Date: Sat, 16 Jul 2022 18:12:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v3 2/6] dt-bindings: Use new video interface bus type
- macros in examples
-Message-ID: <YtLVRclLA4Jkk5i2@pendragon.ideasonboard.com>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-3-laurent.pinchart@ideasonboard.com>
- <YtKEzS6j0/45E7tP@valkosipuli.retiisi.eu>
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 292BF915E7
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 15:19:13 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-fe023ab520so12803560fac.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 08:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oGpMze8Cu0x5aw2jz/djjciZugDe/TnizDWYWXMdwrw=;
+ b=hvh+ZXn27ZYbuIcHm+5baX0viLyxD9zAwNRcRcHRZhgmbBWaMgcnxPOR2Sc4IMCibZ
+ C0ha3b32m5PMps1kCfPEoAI6+v6U+iEduO3Mc7NBcfwoUbtpfPtHETxcqKAyGxUd7Yif
+ koRm+tpW/YDraYTfGXw2wyInOYdTKqQkLsXnJ5VEBDC6rTHwV/B7nCMhowFnzOHilHGM
+ X0T++/P76k7eGh6OJxi4npjOiqHiF5Cjd6wNxSsaLzFRPVgFXIebxEi8zho7C0jZGV6n
+ H6Av2TtX5t/FqmJXNKb/2GreIHtzbkD77k9YCusY7owoX9607IgUnBksp1Bbqr0q8IZ2
+ 4COw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=oGpMze8Cu0x5aw2jz/djjciZugDe/TnizDWYWXMdwrw=;
+ b=VifRwKQ+80azK6ZP3ApZgDAGf4UA+jTB7+sEsKwp0L1d9UdSV7HPLgObl+Ysu0aH9v
+ nhe48B9lENKo1KXCKg9/fUN8rkkGuswP1YSpKKiVROYPBqvt4FGLNjI1GNsd3YkgC2a0
+ vd4z2jc7K/76ul1VHaHULP2JeKWAToXQhDSy6GzKtlHAt0aUDIiCDKzFKbc0S/nBIaqZ
+ aR2mDcHRaAIY9rD1myH2wsniWpvQq3DURgPBA4l//XahSeXJdu17qAUihzr0h2crUXQz
+ xg637gN539ih/0/5fqo4HjGz8ZvQSJbBh0IEZiNCjQp2q4VCkFlu/JgrdldI3TeGKv6V
+ ynKg==
+X-Gm-Message-State: AJIora/EyDyhdo69XdfnOISzkTvRZQd8Jc9S+kRrWPPrAT1v/ROhpitN
+ lF4NPgaE2cAIgeXK2JD+Bcx/Qg==
+X-Google-Smtp-Source: AGRyM1vGN296YAzt/BeCYxhczcXUWMLFb+GMEusEzYT6LCFpTZKDhdqpfPXaxfKZZTkGU2MgUWYtzw==
+X-Received: by 2002:a05:6808:10d4:b0:339:f690:1ac4 with SMTP id
+ s20-20020a05680810d400b00339f6901ac4mr9650262ois.210.1657984752392; 
+ Sat, 16 Jul 2022 08:19:12 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186]) by smtp.gmail.com with ESMTPSA id
+ m21-20020a4ad515000000b00425beedad70sm3035254oos.32.2022.07.16.08.19.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Jul 2022 08:19:11 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: (subset) [PATCH v2 00/11] dt-bindings: display/msm: rework MDSS
+ and DPU bindings
+Date: Sat, 16 Jul 2022 10:18:55 -0500
+Message-Id: <165798474063.1679948.9453224348232992822.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220710090040.35193-1-dmitry.baryshkov@linaro.org>
+References: <20220710090040.35193-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YtKEzS6j0/45E7tP@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,70 +78,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sakari,
-
-On Sat, Jul 16, 2022 at 12:28:45PM +0300, Sakari Ailus wrote:
-> On Thu, Jun 16, 2022 at 01:14:06AM +0300, Laurent Pinchart wrote:
-> > Now that a header exists with macros for the media interface bus-type
-> > values, replace hardcoding numerical constants with the corresponding
-> > macros in the DT binding examples.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v2:
-> > 
-> > - Go back to PARALLEL
-> > 
-> > Changes since v1:
-> > 
-> > - Rename PARALLEL to BT601
-> > ---
-> >  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml  | 1 +
-> >  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ++-
-> >  Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml  | 3 ++-
-> >  .../devicetree/bindings/media/marvell,mmp2-ccic.yaml          | 3 ++-
-> >  Documentation/devicetree/bindings/media/microchip,xisc.yaml   | 3 ++-
-> >  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml    | 4 +++-
-> >  6 files changed, 12 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > index 35a48515836e..b0e5585f93e2 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > @@ -118,6 +118,7 @@ additionalProperties: false
-> >  examples:
-> >    - |
-> >      #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/media/video-interfaces.h>
-> >  
-> >      i2c0 {
-> >          #address-cells = <1>;
+On Sun, 10 Jul 2022 12:00:29 +0300, Dmitry Baryshkov wrote:
+> Create separate YAML schema for MDSS devicesd$ (both for MDP5 and DPU
+> devices). Cleanup DPU schema files, so that they do not contain schema
+> for both MDSS and DPU nodes. Apply misc small fixes to the DPU schema
+> afterwards.
 > 
-> The definition doesn't seem to be used here. Is there a need to include
-> this?
+> Changes since v1:
+>  - Renamed DPU device nodes from mdp@ to display-controller@
+>  - Described removal of mistakenly mentioned "lut" clock
+>  - Switched mdss.yaml to use $ref instead of fixing compatible strings
+>  - Dropped mdp-opp-table description (renamed by Krzysztof in his
+>    patchset)
+>  - Reworked DPU's ports definitions. Dropped description of individual
+>    ports, left only /ports $ref and description in dpu-common.yaml.
+> 
+> [...]
 
-There was, but the change that added bus-type to this binding got
-reverted in commit 979452fbc430 ("dt-bindings: drm/bridge: anx7625:
-Revert DPI support") and I forgot to drop the header when rebasing.
+Applied, thanks!
 
-> I could drop this chunk while applying. There's just one trivial change
-> elsewhere in this patch to make.
+[01/11] arm64: dts: qcom: sdm845: rename DPU device node
+        commit: 1d52eb6cc827d0f166c728a7577609de75b6b8b1
+[02/11] arm64: dts: qcom: sc7180: rename DPU device node
+        commit: 37e3558b79392ab864fe887b4593c5f737e063a5
+[03/11] arm64: dts: qcom: sm8250: rename DPU device node
+        commit: ce5cf986cdab1973df0042ac5b743d5df008c338
 
-Please do :-)
-
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Bjorn Andersson <bjorn.andersson@linaro.org>
