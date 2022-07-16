@@ -1,58 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B88576F54
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:43:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 244B1576F4D
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 16:43:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B9110F360;
-	Sat, 16 Jul 2022 14:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5DC112434;
+	Sat, 16 Jul 2022 14:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4AF010E0F4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 09:33:03 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id o8so4130786wms.2
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 02:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lSRrYTHTOCPW6A8KnGxPdoyyI8rFFZEqU5rgpIUGJ2M=;
- b=iWdkMblvITx6Ax14UV8fuK60dnztv5v5LZ4JH6ZKNDlP5vdzfytdrUohVufQ2vwiRp
- 2pJe6dKrai6049IPNthid9zt0x07Kdaf9gAKurTYB687KCLQhf1T/0IYcHV+bu5IqOTy
- MYDEXiVBAuRiPrPLG7bDoWXsMTiW5ewKM/PquX4pI0v21mUZ7ChG3/6W0W05p9TGiH8o
- HyFwC3a513f0BjBkUBB22+InklA4zXiXO+A23/u/SB08lX7EnorwqN04ZpDXio/o9H5g
- lcmfDO44pGkBxm1vt7ws8PQaVNA+kKx2vNjU6DSYHrPGF617iF+kdeumfEXtPYk+k2EA
- y+hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lSRrYTHTOCPW6A8KnGxPdoyyI8rFFZEqU5rgpIUGJ2M=;
- b=Kvnt8Okr30qx8h5hd20vDXEX41izJ//TlxvM1q5Qnsp/eg+o3ZIrJe9Htju02VbJHV
- Wy4XKUPT8bhB8tw7GkLqwcHeN/HR8bU1uvRK/H9YPM51dZ6+1LZGQ2UFtKk97jInRbku
- 0n4WdgCSDHfcyASBjpSRaHjU69zwyJuBm7UyBNiugIIc/khEyu9Q2GLcyjGdYADMZSbk
- hS411SkAjrZbuUqbiwmnwUbSYGZplaY0d4bzZumfdfY6ZzMPN58BiTIJAOm9ZBI6ML/b
- KD4jArwY+Yv4Vb8k2t636CCZ9WP+hs4jQE53eV6+vziV0UJ2P1bnrKeQ8tGzPT+dm0i5
- XTuQ==
-X-Gm-Message-State: AJIora+f8TQW7rsU9D3SlA3jeY14D/K/p73Q4yBqewdNFks1Kmz+RKL2
- kfM3FjTTXPxHlwgZ+7oele0a51GTOU+UPHoxkby0Hg==
-X-Google-Smtp-Source: AGRyM1tNeS5k/SDblsJe4hiov0HrdwLQDGA8Kuhys141gwIsundY9b1Ah87XFPfSwvLN/LopcdrCcvba9Tl8KCzQRsk=
-X-Received: by 2002:a7b:ce06:0:b0:3a0:39e0:b322 with SMTP id
- m6-20020a7bce06000000b003a039e0b322mr24737064wmc.55.1657963982253; Sat, 16
- Jul 2022 02:33:02 -0700 (PDT)
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B184E10E111
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 10:30:36 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 824253F778;
+ Sat, 16 Jul 2022 12:30:33 +0200 (CEST)
+Date: Sat, 16 Jul 2022 12:30:31 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/2] drm/msm/dpu: use drm_dsc_config instead of
+ msm_display_dsc_config
+Message-ID: <20220716103031.qdmoywixofu3xzb6@SoMainline.org>
+References: <20220711100432.455268-1-dmitry.baryshkov@linaro.org>
+ <20220711100432.455268-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-References: <20220709115837.560877-1-jose.exposito89@gmail.com>
- <20220709115837.560877-5-jose.exposito89@gmail.com>
-In-Reply-To: <20220709115837.560877-5-jose.exposito89@gmail.com>
-From: David Gow <davidgow@google.com>
-Date: Sat, 16 Jul 2022 17:32:51 +0800
-Message-ID: <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb565()
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="0000000000003b514e05e3e8d2b8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711100432.455268-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,283 +44,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
- Daniel Latypov <dlatypov@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- tales.aparecida@gmail.com, Isabella Basso <isabbasso@riseup.net>,
- KUnit Development <kunit-dev@googlegroups.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000003b514e05e3e8d2b8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2022-07-11 13:04:31, Dmitry Baryshkov wrote:
+> There is no need to use the struct msm_display_dsc_config wrapper inside
+> the dpu driver, use the struct drm_dsc_config directly to pass pps data.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Sat, Jul 9, 2022 at 7:58 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gma=
-il.com> wrote:
->
-> Extend the existing test cases to test the conversion from XRGB8888 to
-> RGB565.
->
-> The documentation and the color picker available on [1] are useful
-> resources to understand this patch and validate the values returned by
-> the conversion function.
->
-> Tested-by: Tales L. Aparecida <tales.aparecida@gmail.com>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
-> Link: http://www.barth-dev.de/online/rgb565-color-picker/ # [1]
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+
 > ---
-
-Looks good and passes here.
-
-Reviewed-by: David Gow <davidgow@google.com>
-
-Thanks,
--- David
-
-
->  .../gpu/drm/tests/drm_format_helper_test.c    | 76 ++++++++++++++++++-
->  1 file changed, 75 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu=
-/drm/tests/drm_format_helper_test.c
-> index 0a490ad4fd32..c0592c1235cf 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -21,12 +21,19 @@ struct convert_to_rgb332_result {
->         const u8 expected[TEST_BUF_SIZE];
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 +++----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c  | 74 ++++++++++-----------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h  |  4 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
+>  5 files changed, 54 insertions(+), 53 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index c682d4e02d1b..07b22b7df2e9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -162,7 +162,7 @@ enum dpu_enc_rc_states {
+>   * @vsync_event_work:		worker to handle vsync event for autorefresh
+>   * @topology:                   topology of the display
+>   * @idle_timeout:		idle timeout duration in milliseconds
+> - * @dsc:			msm_display_dsc_config pointer, for DSC-enabled encoders
+> + * @dsc:			drm_dsc_config pointer, for DSC-enabled encoders
+>   */
+>  struct dpu_encoder_virt {
+>  	struct drm_encoder base;
+> @@ -208,7 +208,7 @@ struct dpu_encoder_virt {
+>  	bool wide_bus_en;
+>  
+>  	/* DSC configuration */
+> -	struct msm_display_dsc_config *dsc;
+> +	struct drm_dsc_config *dsc;
 >  };
->
-> +struct convert_to_rgb565_result {
-> +       unsigned int dst_pitch;
-> +       const u16 expected[TEST_BUF_SIZE];
-> +       const u16 expected_swab[TEST_BUF_SIZE];
-> +};
-> +
->  struct convert_xrgb8888_case {
->         const char *name;
->         unsigned int pitch;
->         struct drm_rect clip;
->         const u32 xrgb8888[TEST_BUF_SIZE];
->         struct convert_to_rgb332_result rgb332_result;
-> +       struct convert_to_rgb565_result rgb565_result;
->  };
->
->  static struct convert_xrgb8888_case convert_xrgb8888_cases[] =3D {
-> @@ -39,6 +46,11 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
-ases[] =3D {
->                         .dst_pitch =3D 0,
->                         .expected =3D { 0xE0 },
->                 },
-> +               .rgb565_result =3D {
-> +                       .dst_pitch =3D 0,
-> +                       .expected =3D { 0xF800 },
-> +                       .expected_swab =3D { 0x00F8 },
-> +               },
->         },
->         {
->                 .name =3D "single_pixel_clip_rectangle",
-> @@ -52,6 +64,11 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
-ases[] =3D {
->                         .dst_pitch =3D 0,
->                         .expected =3D { 0xE0 },
->                 },
-> +               .rgb565_result =3D {
-> +                       .dst_pitch =3D 0,
-> +                       .expected =3D { 0xF800 },
-> +                       .expected_swab =3D { 0x00F8 },
-> +               },
->         },
->         {
->                 /* Well known colors: White, black, red, green, blue, mag=
-enta,
-> @@ -77,6 +94,21 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
-ases[] =3D {
->                                 0xFC, 0x1F,
->                         },
->                 },
-> +               .rgb565_result =3D {
-> +                       .dst_pitch =3D 0,
-> +                       .expected =3D {
-> +                               0xFFFF, 0x0000,
-> +                               0xF800, 0x07E0,
-> +                               0x001F, 0xF81F,
-> +                               0xFFE0, 0x07FF,
-> +                       },
-> +                       .expected_swab =3D {
-> +                               0xFFFF, 0x0000,
-> +                               0x00F8, 0xE007,
-> +                               0x1F00, 0x1FF8,
-> +                               0xE0FF, 0xFF07,
-> +                       },
-> +               },
->         },
->         {
->                 /* Randomly picked colors. Full buffer within the clip ar=
-ea. */
-> @@ -96,6 +128,19 @@ static struct convert_xrgb8888_case convert_xrgb8888_=
-cases[] =3D {
->                                 0xA0, 0x6D, 0x0A, 0x00, 0x00,
->                         },
->                 },
-> +               .rgb565_result =3D {
-> +                       .dst_pitch =3D 10,
-> +                       .expected =3D {
-> +                               0x0A33, 0x1260, 0xA800, 0x0000, 0x0000,
-> +                               0x6B8E, 0x0A33, 0x1260, 0x0000, 0x0000,
-> +                               0xA800, 0x6B8E, 0x0A33, 0x0000, 0x0000,
-> +                       },
-> +                       .expected_swab =3D {
-> +                               0x330A, 0x6012, 0x00A8, 0x0000, 0x0000,
-> +                               0x8E6B, 0x330A, 0x6012, 0x0000, 0x0000,
-> +                               0x00A8, 0x8E6B, 0x330A, 0x0000, 0x0000,
-> +                       },
-> +               },
->         },
->  };
->
-> @@ -120,7 +165,7 @@ static size_t conversion_buf_size(u32 dst_format, uns=
-igned int dst_pitch,
->         if (!dst_pitch)
->                 dst_pitch =3D drm_rect_width(clip) * dst_fi->cpp[0];
->
-> -       return dst_pitch * drm_rect_height(clip);
-> +       return (dst_pitch * drm_rect_height(clip)) / (dst_fi->depth / 8);
+>  
+>  #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
+> @@ -1791,12 +1791,12 @@ static void dpu_encoder_vsync_event_work_handler(struct kthread_work *work)
 >  }
->
->  static u32 *le32buf_to_cpu(struct kunit *test, const u32 *buf, size_t bu=
-f_size)
-> @@ -175,8 +220,37 @@ static void xrgb8888_to_rgb332_test(struct kunit *te=
-st)
->         KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected, dst_size), 0)=
-;
+>  
+>  static u32
+> -dpu_encoder_dsc_initial_line_calc(struct msm_display_dsc_config *dsc,
+> +dpu_encoder_dsc_initial_line_calc(struct drm_dsc_config *dsc,
+>  				  u32 enc_ip_width)
+>  {
+>  	int ssm_delay, total_pixels, soft_slice_per_enc;
+>  
+> -	soft_slice_per_enc = enc_ip_width / dsc->drm->slice_width;
+> +	soft_slice_per_enc = enc_ip_width / dsc->slice_width;
+>  
+>  	/*
+>  	 * minimum number of initial line pixels is a sum of:
+> @@ -1808,16 +1808,16 @@ dpu_encoder_dsc_initial_line_calc(struct msm_display_dsc_config *dsc,
+>  	 * 5. 6 additional pixels as the output of the rate buffer is
+>  	 *    48 bits wide
+>  	 */
+> -	ssm_delay = ((dsc->drm->bits_per_component < 10) ? 84 : 92);
+> -	total_pixels = ssm_delay * 3 + dsc->drm->initial_xmit_delay + 47;
+> +	ssm_delay = ((dsc->bits_per_component < 10) ? 84 : 92);
+> +	total_pixels = ssm_delay * 3 + dsc->initial_xmit_delay + 47;
+>  	if (soft_slice_per_enc > 1)
+>  		total_pixels += (ssm_delay * 3);
+> -	return DIV_ROUND_UP(total_pixels, dsc->drm->slice_width);
+> +	return DIV_ROUND_UP(total_pixels, dsc->slice_width);
 >  }
->
-> +static void xrgb8888_to_rgb565_test(struct kunit *test)
-> +{
-> +       const struct convert_xrgb8888_case *params =3D test->param_value;
-> +       const struct convert_to_rgb565_result *result =3D &params->rgb565=
-_result;
-> +       size_t dst_size;
-> +       __u16 *dst =3D NULL;
-> +
-> +       struct drm_framebuffer fb =3D {
-> +               .format =3D drm_format_info(DRM_FORMAT_XRGB8888),
-> +               .pitches =3D { params->pitch, 0, 0 },
-> +       };
-> +
-> +       dst_size =3D conversion_buf_size(DRM_FORMAT_RGB565, result->dst_p=
-itch,
-> +                                      &params->clip);
-> +       KUNIT_ASSERT_GT(test, dst_size, 0);
-> +
-> +       dst =3D kunit_kzalloc(test, dst_size, GFP_KERNEL);
-> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
-> +
-> +       drm_fb_xrgb8888_to_rgb565(dst, result->dst_pitch, params->xrgb888=
-8, &fb,
-> +                                 &params->clip, false);
-> +       KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected, dst_size), 0)=
-;
-> +
-> +       drm_fb_xrgb8888_to_rgb565(dst, result->dst_pitch, params->xrgb888=
-8, &fb,
-> +                                 &params->clip, true);
-> +       KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected_swab, dst_size=
-), 0);
-> +}
-> +
->  static struct kunit_case drm_format_helper_test_cases[] =3D {
->         KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test, convert_xrgb8888_gen_pa=
-rams),
-> +       KUNIT_CASE_PARAM(xrgb8888_to_rgb565_test, convert_xrgb8888_gen_pa=
-rams),
->         {}
+>  
+>  static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+>  				     struct dpu_hw_pingpong *hw_pp,
+> -				     struct msm_display_dsc_config *dsc,
+> +				     struct drm_dsc_config *dsc,
+>  				     u32 common_mode,
+>  				     u32 initial_lines)
+>  {
+> @@ -1835,7 +1835,7 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+>  }
+>  
+>  static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+> -				 struct msm_display_dsc_config *dsc)
+> +				 struct drm_dsc_config *dsc)
+>  {
+>  	/* coding only for 2LM, 2enc, 1 dsc config */
+>  	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
+> @@ -1858,14 +1858,15 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+>  		}
+>  	}
+>  
+> -	pic_width = dsc->drm->pic_width;
+> +	dsc_common_mode = 0;
+> +	pic_width = dsc->pic_width;
+>  
+>  	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
+>  	if (enc_master->intf_mode == INTF_MODE_VIDEO)
+>  		dsc_common_mode |= DSC_MODE_VIDEO;
+>  
+> -	this_frame_slices = pic_width / dsc->drm->slice_width;
+> -	intf_ip_w = this_frame_slices * dsc->drm->slice_width;
+> +	this_frame_slices = pic_width / dsc->slice_width;
+> +	intf_ip_w = this_frame_slices * dsc->slice_width;
+>  
+>  	/*
+>  	 * dsc merge case: when using 2 encoders for the same stream,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index d4d1ecd416e3..9e7236ef34e6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -36,7 +36,7 @@ struct msm_display_info {
+>  	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+>  	bool is_cmd_mode;
+>  	bool is_te_using_watchdog_timer;
+> -	struct msm_display_dsc_config *dsc;
+> +	struct drm_dsc_config *dsc;
 >  };
->
-> --
-> 2.25.1
->
-
---0000000000003b514e05e3e8d2b8
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBs
-nigxcoMNZjhWoKRJ6Fblw2M4ge9J/wZ0W9G9hUORazAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA3MTYwOTMzMDJaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAeiLZClxOliAyKAy9DPoS
-9i1rIAz3jZN1t83Cyl15PC3AO9/uS+b2Yea2yCVvqDVruU4Qal90QvxMu6f+ltyIad2IM2DNL6mi
-Itz9EMrYDbXHkfxoKCig0iskNA1BedVfCnHbu1A4oKd1fsroSiC1vLWN46hU2+9ebhgezJ9qqP+w
-0a0zmG6ntzpCBHjxFp9jg9//UHIY0DMkw4q5DoFdDur8TP3DT7v40mUQEuCykJI9Kvnt6iGnHtoa
-lLk7Hd+xvAg75BVntd+JmklSikvCh/C9Qeogvafl4TRJC1nsRXNsn34/k9hYthSg/KTEFSbFRQwL
-Qb4kdxcIbbA8R/K7Aw==
---0000000000003b514e05e3e8d2b8--
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> index 184a1b27b13d..20a033cd323d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> @@ -37,7 +37,7 @@ static void dpu_hw_dsc_disable(struct dpu_hw_dsc *dsc)
+>  }
+>  
+>  static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+> -			      struct msm_display_dsc_config *dsc,
+> +			      struct drm_dsc_config *dsc,
+>  			      u32 mode,
+>  			      u32 initial_lines)
+>  {
+> @@ -52,89 +52,89 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+>  	if (is_cmd_mode)
+>  		initial_lines += 1;
+>  
+> -	slice_last_group_size = 3 - (dsc->drm->slice_width % 3);
+> +	slice_last_group_size = 3 - (dsc->slice_width % 3);
+>  	data = (initial_lines << 20);
+>  	data |= ((slice_last_group_size - 1) << 18);
+>  	/* bpp is 6.4 format, 4 LSBs bits are for fractional part */
+> -	data |= dsc->drm->bits_per_pixel << 12;
+> -	lsb = dsc->drm->bits_per_pixel % 4;
+> -	bpp = dsc->drm->bits_per_pixel / 4;
+> +	data |= dsc->bits_per_pixel << 12;
+> +	lsb = dsc->bits_per_pixel % 4;
+> +	bpp = dsc->bits_per_pixel / 4;
+>  	bpp *= 4;
+>  	bpp <<= 4;
+>  	bpp |= lsb;
+>  
+>  	data |= bpp << 8;
+> -	data |= (dsc->drm->block_pred_enable << 7);
+> -	data |= (dsc->drm->line_buf_depth << 3);
+> -	data |= (dsc->drm->simple_422 << 2);
+> -	data |= (dsc->drm->convert_rgb << 1);
+> -	data |= dsc->drm->bits_per_component;
+> +	data |= (dsc->block_pred_enable << 7);
+> +	data |= (dsc->line_buf_depth << 3);
+> +	data |= (dsc->simple_422 << 2);
+> +	data |= (dsc->convert_rgb << 1);
+> +	data |= dsc->bits_per_component;
+>  
+>  	DPU_REG_WRITE(c, DSC_ENC, data);
+>  
+> -	data = dsc->drm->pic_width << 16;
+> -	data |= dsc->drm->pic_height;
+> +	data = dsc->pic_width << 16;
+> +	data |= dsc->pic_height;
+>  	DPU_REG_WRITE(c, DSC_PICTURE, data);
+>  
+> -	data = dsc->drm->slice_width << 16;
+> -	data |= dsc->drm->slice_height;
+> +	data = dsc->slice_width << 16;
+> +	data |= dsc->slice_height;
+>  	DPU_REG_WRITE(c, DSC_SLICE, data);
+>  
+> -	data = dsc->drm->slice_chunk_size << 16;
+> +	data = dsc->slice_chunk_size << 16;
+>  	DPU_REG_WRITE(c, DSC_CHUNK_SIZE, data);
+>  
+> -	data = dsc->drm->initial_dec_delay << 16;
+> -	data |= dsc->drm->initial_xmit_delay;
+> +	data = dsc->initial_dec_delay << 16;
+> +	data |= dsc->initial_xmit_delay;
+>  	DPU_REG_WRITE(c, DSC_DELAY, data);
+>  
+> -	data = dsc->drm->initial_scale_value;
+> +	data = dsc->initial_scale_value;
+>  	DPU_REG_WRITE(c, DSC_SCALE_INITIAL, data);
+>  
+> -	data = dsc->drm->scale_decrement_interval;
+> +	data = dsc->scale_decrement_interval;
+>  	DPU_REG_WRITE(c, DSC_SCALE_DEC_INTERVAL, data);
+>  
+> -	data = dsc->drm->scale_increment_interval;
+> +	data = dsc->scale_increment_interval;
+>  	DPU_REG_WRITE(c, DSC_SCALE_INC_INTERVAL, data);
+>  
+> -	data = dsc->drm->first_line_bpg_offset;
+> +	data = dsc->first_line_bpg_offset;
+>  	DPU_REG_WRITE(c, DSC_FIRST_LINE_BPG_OFFSET, data);
+>  
+> -	data = dsc->drm->nfl_bpg_offset << 16;
+> -	data |= dsc->drm->slice_bpg_offset;
+> +	data = dsc->nfl_bpg_offset << 16;
+> +	data |= dsc->slice_bpg_offset;
+>  	DPU_REG_WRITE(c, DSC_BPG_OFFSET, data);
+>  
+> -	data = dsc->drm->initial_offset << 16;
+> -	data |= dsc->drm->final_offset;
+> +	data = dsc->initial_offset << 16;
+> +	data |= dsc->final_offset;
+>  	DPU_REG_WRITE(c, DSC_DSC_OFFSET, data);
+>  
+> -	det_thresh_flatness = 7 + 2 * (dsc->drm->bits_per_component - 8);
+> +	det_thresh_flatness = 7 + 2 * (dsc->bits_per_component - 8);
+>  	data = det_thresh_flatness << 10;
+> -	data |= dsc->drm->flatness_max_qp << 5;
+> -	data |= dsc->drm->flatness_min_qp;
+> +	data |= dsc->flatness_max_qp << 5;
+> +	data |= dsc->flatness_min_qp;
+>  	DPU_REG_WRITE(c, DSC_FLATNESS, data);
+>  
+> -	data = dsc->drm->rc_model_size;
+> +	data = dsc->rc_model_size;
+>  	DPU_REG_WRITE(c, DSC_RC_MODEL_SIZE, data);
+>  
+> -	data = dsc->drm->rc_tgt_offset_low << 18;
+> -	data |= dsc->drm->rc_tgt_offset_high << 14;
+> -	data |= dsc->drm->rc_quant_incr_limit1 << 9;
+> -	data |= dsc->drm->rc_quant_incr_limit0 << 4;
+> -	data |= dsc->drm->rc_edge_factor;
+> +	data = dsc->rc_tgt_offset_low << 18;
+> +	data |= dsc->rc_tgt_offset_high << 14;
+> +	data |= dsc->rc_quant_incr_limit1 << 9;
+> +	data |= dsc->rc_quant_incr_limit0 << 4;
+> +	data |= dsc->rc_edge_factor;
+>  	DPU_REG_WRITE(c, DSC_RC, data);
+>  }
+>  
+>  static void dpu_hw_dsc_config_thresh(struct dpu_hw_dsc *hw_dsc,
+> -				     struct msm_display_dsc_config *dsc)
+> +				     struct drm_dsc_config *dsc)
+>  {
+> -	struct drm_dsc_rc_range_parameters *rc = dsc->drm->rc_range_params;
+> +	struct drm_dsc_rc_range_parameters *rc = dsc->rc_range_params;
+>  	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
+>  	u32 off;
+>  	int i;
+>  
+>  	off = DSC_RC_BUF_THRESH;
+>  	for (i = 0; i < DSC_NUM_BUF_RANGES - 1 ; i++) {
+> -		DPU_REG_WRITE(c, off, dsc->drm->rc_buf_thresh[i]);
+> +		DPU_REG_WRITE(c, off, dsc->rc_buf_thresh[i]);
+>  		off += 4;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> index 45e4118f1fa2..c0b77fe1a696 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> @@ -31,7 +31,7 @@ struct dpu_hw_dsc_ops {
+>  	 * @initial_lines: amount of initial lines to be used
+>  	 */
+>  	void (*dsc_config)(struct dpu_hw_dsc *hw_dsc,
+> -			   struct msm_display_dsc_config *dsc,
+> +			   struct drm_dsc_config *dsc,
+>  			   u32 mode,
+>  			   u32 initial_lines);
+>  
+> @@ -41,7 +41,7 @@ struct dpu_hw_dsc_ops {
+>  	 * @dsc: panel dsc parameters
+>  	 */
+>  	void (*dsc_config_thresh)(struct dpu_hw_dsc *hw_dsc,
+> -				  struct msm_display_dsc_config *dsc);
+> +				  struct drm_dsc_config *dsc);
+>  };
+>  
+>  struct dpu_hw_dsc {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 75ed2b36e1b3..8016d0a3aade 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -585,7 +585,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+>  		info.h_tile_instance[info.num_of_h_tiles++] = i;
+>  		info.is_cmd_mode = msm_dsi_is_cmd_mode(priv->dsi[i]);
+>  
+> -		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i]);
+> +		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i])->drm;
+>  
+>  		if (msm_dsi_is_bonded_dsi(priv->dsi[i]) && priv->dsi[other]) {
+>  			rc = msm_dsi_modeset_init(priv->dsi[other], dev, encoder);
+> -- 
+> 2.35.1
+> 
+> 
+> 
