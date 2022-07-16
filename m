@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EB25771FA
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 00:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D949E5771F9
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 00:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E82E11389F;
-	Sat, 16 Jul 2022 22:40:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E298112D6F;
+	Sat, 16 Jul 2022 22:39:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4062B112FA4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658011206; x=1689547206;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2YQkD4BjvM1cGTkcL0PNufQPGS4qHR99g7AC9E6LZjc=;
- b=JHJcQox60pe7AGSf4fKlOTAhoIsy2fuYgSYM/KaAwwIeiLmjGbiECyxI
- xYEw24KPNKRv1mN80Smb6Izj8UGxTQjQ4RQlEJ3d7TsNizUGJp7RYoPab
- +74FvTjejxIUZ8U2GZ1MDDiEuZfPyi0FcIYoTrayOYSEsVTQvkqzu2ToS
- a5ovCni3l1s8pgpoZl/oFVvxMfLWeeQHv2xm6xC5iORUgbJp/KZveZZLd
- nUoy8uM9XxvyT1yzes5PLHvJKB6frMIDin/RizegyI4zdZeJ0PtuNGjCG
- UILUzIKv8Qk+nCvjV2/kJMLdyBtgNN0DAgMaetLiDqTZ864HgnFqHTiu6 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="286032881"
-X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; d="scan'208";a="286032881"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2022 15:40:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; d="scan'208";a="773338284"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 16 Jul 2022 15:40:02 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1oCqS4-0002Ft-Um;
- Sat, 16 Jul 2022 22:39:56 +0000
-Date: Sun, 17 Jul 2022 06:39:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthieu CHARETTE <matthieu.charette@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- andrealmeid@igalia.com
-Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
-Message-ID: <202207170636.Yv3aXya1-lkp@intel.com>
-References: <20220715092253.17529-1-matthieu.charette@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1E28112C5C
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:39:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7551461325
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:39:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6BA1C341CD
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1658011191;
+ bh=wSGExP8TriGg8/nb6ZcVNW72Uc062Fis1orZjojJk2M=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=FWV9WqXa+/+Kgt2UzJBdFD9Kc0kKXoTesmSy7kkIc23COxqUHnNPGfgmIYcwkUUgS
+ H7ozmEzxTyabOFOrPLb5E9nBG6SyuEOS4jU4lar5SPMe5GkPw+wqxlUwjjlV9YqSRK
+ zFnXlvoclhexR2ukoDxQEzf3+65arf4YHSBTHusmipinDJJjh7Rx7XaNpHAnq+M4gH
+ rrzjjRrS/FMTsccLZJxwahi33aLJXO/dMTh6PwmW5z9ZicwGMjVxoNDpwXIoKJXQk2
+ e9M8TDl5DW/XBV72MZCkGIanoeKZjv6zpNOTGXQqxJ5SrKSVm693AdyVcDC+AnLE7s
+ yPAVirDLVF0Ow==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id C136ACAC6E2; Sat, 16 Jul 2022 22:39:51 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
+ 390
+Date: Sat, 16 Jul 2022 22:39:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: h.judt@gmx.at
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216119-2300-bU6zZVLvlJ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
+References: <bug-216119-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220715092253.17529-1-matthieu.charette@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +71,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>, kbuild-all@lists.01.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthieu,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
-Thank you for the patch! Yet something to improve:
+--- Comment #32 from Harald Judt (h.judt@gmx.at) ---
+There still seem to be issues with the shared fb implementation and
+hibernation. After resume, chvt to another vt causes the following errors in
+dmesg:
 
-[auto build test ERROR on v5.19-rc6]
-[also build test ERROR on linus/master]
-[cannot apply to drm-misc/drm-misc-next next-20220715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[  975.920944] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
+recovered
+[  986.160803] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
+recovered
+[  996.400610] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
+recovered
+[ 1006.640916] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
+recovered
+[ 1016.880923] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
+recovered
+[ 1027.120907] [drm:amdgpu_job_timedout] *ERROR* ring gfx timeout, but soft
+recovered
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthieu-CHARETTE/drm-Fix-EDID-firmware-load-on-resume/20220716-214028
-base:    32346491ddf24599decca06190ebca03ff9de7f8
-config: parisc-randconfig-r023-20220717 (https://download.01.org/0day-ci/archive/20220717/202207170636.Yv3aXya1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e583aaf4f6464add35f2350c728d80a3fe790638
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matthieu-CHARETTE/drm-Fix-EDID-firmware-load-on-resume/20220716-214028
-        git checkout e583aaf4f6464add35f2350c728d80a3fe790638
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
+And the machine gets stuck/freezes, except one can ssh in and reboot it. So
+only the graphical display will not restore properly. Also, if I reboot the
+machine and the error above does not occur, then the console (not X display=
+) is
+somehow misaligned, that is the messages are not printed on the most-left
+column, but a bit more in the middle of the screen.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+--=20
+You may reply to this email to add a comment.
 
-All errors (new ones prefixed by >>):
-
-   hppa-linux-ld: drivers/gpu/drm/drm_connector.o: in function `.LC507':
->> drm_connector.c:(.rodata.cst4+0x1f8): undefined reference to `drm_cache_edid_firmware'
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+You are receiving this mail because:
+You are watching the assignee of the bug.=
