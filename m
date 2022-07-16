@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7CA57B16F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 09:12:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1C557B169
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 09:11:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2BA1137BC;
-	Wed, 20 Jul 2022 07:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2AA210E356;
+	Wed, 20 Jul 2022 07:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpbg.qq.com (biz-43-154-221-58.mail.qq.com [43.154.221.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7716B1120AB;
- Tue, 19 Jul 2022 12:07:42 +0000 (UTC)
-X-QQ-mid: bizesmtp65t1658232442ts1nmbp7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F32BF10F49E;
+ Tue, 19 Jul 2022 12:11:03 +0000 (UTC)
+X-QQ-mid: bizesmtp71t1658232648tu95v5nq
 Received: from localhost.localdomain ( [171.223.96.21])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 19 Jul 2022 20:07:20 +0800 (CST)
+ id ; Tue, 19 Jul 2022 20:10:46 +0800 (CST)
 X-QQ-SSF: 01000000002000F0U000B00A0000000
-X-QQ-FEAT: 3auutXC5AV+cOmKb/kyVFRYpEkBj9pk0YN38xAWBRX2vjduB3o0pX5BXL9f11
- iio/MpUwcAHR4nVFKa6lCgXdpC0GQzr6oCENhz/8zFiVEUDtO6xiHb92QdWnWjTrrgPoxBq
- 44WwVHrvoasWDuB5uVCcLdZizf88muRTpgM2ZUVrS05HfV5KcRS72DdlCtEyG/+MUV23CBY
- /43Z9gwgmTHDGT6TacYkq7x7mdAvIW6RwYsiyljEqQIotnQOJBzs13RP2/6fmPVM96fV5hZ
- DHiw1d2pOtOs8HWLman7e4HjANUPJyk8GRpgGy0jyn13NIHrm95pzWfEfs/aVIzkimxuQLG
- jfXztTDBkec51/GzuAg6Xc1fwSZYTrxqaWU9561ZHNEOHfj66byjgNKYBJ2RCuKOgSJtoIH
- Ev8G9mlWhfo=
+X-QQ-FEAT: WKaXkSLX6oOMxAmviYlNwWMv0TGdduPbzjHTO13LpUEcMocSaLByA3yu89Ts0
+ n+ccWHkn7zegKCtYtTWm5WfhHBFSmYdhZc7sgYjIHla9C5H17pGbCG7xu0sW12+8M/JGNy2
+ gCQvXAjwbl+GEXJWWF9AWXe75EwPDyEFq2C8IZSAoZkbCpiwMbFkwryekJndBs7vs6iCEgr
+ L02r5aiDNchyx/HpFMJx4Ks8Xsc/7qo7IJsw8k6qjAQr5xrZoCDpaouqH65tPn75su0Wg1u
+ 5FeeDWlURjKll6ONUT+pbywPeT3mrdTjcxnF5BJKop6vvUqRyO9kRs6jkb3BL962brhPto3
+ bsCZZaBE+44mwQWPY20ItApVIWfY3vR/HvmRTtMXL8r1+OcRMIQA7EFCcoWJ32uKHBk8efh
+ TfmRjq4Y++Q=
 X-QQ-GoodBg: 0
 From: Jason Wang <wangborong@cdjrlc.com>
 To: daniel@ffwll.ch
-Subject: [PATCH] drm/i915/selftests: Fix comment typo
-Date: Sat, 16 Jul 2022 12:05:20 +0800
-Message-Id: <20220716040520.31676-1-wangborong@cdjrlc.com>
+Subject: [PATCH] drm/i915/gt: Remove unneeded semicolon
+Date: Sat, 16 Jul 2022 12:08:45 +0800
+Message-Id: <20220716040845.32045-1-wangborong@cdjrlc.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,35 +48,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, tvrtko.ursulin@linux.intel.com,
- Jason Wang <wangborong@cdjrlc.com>, michal.winiarski@intel.com,
- airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andi.shyti@linux.intel.com, rodrigo.vivi@intel.com, zhou1615@umn.edu,
- John.C.Harrison@Intel.com
+Cc: tvrtko.ursulin@linux.intel.com, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@linux.intel.com, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ matthew.auld@intel.com, Jason Wang <wangborong@cdjrlc.com>,
+ rodrigo.vivi@intel.com, dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the double `wait' typo in comment.
+The semicolon after a code block end symbol `}' is unneeded, remove
+it.
 
 Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 ---
- drivers/gpu/drm/i915/selftests/i915_request.c | 2 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-index c56a0c2cd2f7..ec05f578a698 100644
---- a/drivers/gpu/drm/i915/selftests/i915_request.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-@@ -971,7 +971,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
- 	if (err)
- 		goto err;
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 2c35324b5f68..a69b244f14d0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -645,7 +645,7 @@ static int scatter_list_length(struct scatterlist *sg)
+ 	while (sg && sg_dma_len(sg)) {
+ 		len += sg_dma_len(sg);
+ 		sg = sg_next(sg);
+-	};
++	}
  
--	/* Force the wait wait now to avoid including it in the benchmark */
-+	/* Force the wait now to avoid including it in the benchmark */
- 	err = i915_vma_sync(vma);
- 	if (err)
- 		goto err_pin;
+ 	return len;
+ }
 -- 
 2.35.1
 
