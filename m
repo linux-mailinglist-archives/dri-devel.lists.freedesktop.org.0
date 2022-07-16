@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4192E5770A7
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 20:18:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E3A5770AC
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jul 2022 20:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABB5910E710;
-	Sat, 16 Jul 2022 18:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4875D11B722;
+	Sat, 16 Jul 2022 18:18:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
  (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 867AC1137EF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02CB910E710
  for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 18:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=5NJM7fz2FGxexzXwoCO/wKqC9c3x7sQGSr/Z1Sccvtc=;
- b=FvAo3HAXx6Yxi3v0Y6tnEWc93EZsoEaPQItDkMvvFSYQToX3oSJYGA2HVMaK8zAGZqOxvWGbxcpwA
- tOMBLwJVlwl+510laPUdU2bDDoS/3P2CUyAkw7vmAeIsGLW8Ynb8t2mgRAY7+bTxAQ/bQQyZC9nAAa
- 93CMSwYjg7U38AyS6rLYy212Hfxj22CXh3OyiE4/mCZYf/LNpRJyRyk/JGJjTgmo7nMSCjaqIdnvCy
- u7V00V0An242+VyU0l+LQJ6CNWOQtuzn7A0Xu+JIhXbkptYJbsYCrsmQaBAS5ccXRgRKHAh/G4HfJi
- qQmN2w+y9W5Dlzd0zUcPLxUtHSs4y5Q==
+ bh=NNt1Kw96OrpHMORBjGtZQu5ATXnDc/FkkYhDy9P2fH4=;
+ b=jjwlaJhWSqmUw4pjDWCXrwDW+V3SQmX6wwBVuTiqayTl0Joy5L1Z/1VxVb9ftJPKcFhHzO1kwILvq
+ aoQVhV1PaVo8dIsSNP5wFgd2Ar50ltZSCCGkj1wSx4PPC5DYyPQq3W6pzKymDZ1njBlYSuDMZiMJbg
+ XNSGBD/kQV0nRMjVEg/2faXAL/J9drWkGGbD+pqx1Nxm1ntR9CM4mf8YMRRUiREZbzh1KOdTvH/Efh
+ 9aD5U/exCIer/fJZAhqTN/rEjFxm9z9nIWuslOTo2PojlpTiNqD8fxlt9UtpvKqXTl9+SCOGScveiK
+ yXx4lhPjyVZ1LulmUdM95vkrXTEmPag==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=5NJM7fz2FGxexzXwoCO/wKqC9c3x7sQGSr/Z1Sccvtc=;
- b=U2RWaaurND4gp2AM5Z1KeOkUrsDdlnCbVuwW1aewFbQgWvCLkqH6eSGUKASW+HNUSSil5H+8ppLF+
- JlFDf2KDg==
-X-HalOne-Cookie: e5398646f7218ce47fb20540379e7ed9b6f06203
-X-HalOne-ID: a72d56e5-0533-11ed-a917-d0431ea8a290
+ bh=NNt1Kw96OrpHMORBjGtZQu5ATXnDc/FkkYhDy9P2fH4=;
+ b=eO96aoDv1VZOmuvibB73eCJceizAmYu2kvTkJlBdoTJI7G8CMXgkIo5NgrmXa4vI/SCStYXISAz6v
+ kXZYRJgBA==
+X-HalOne-Cookie: 6e889f98c26160eda7a71683b9db1b924c3bb7f8
+X-HalOne-ID: a770038b-0533-11ed-a917-d0431ea8a290
 Received: from mailproxy1.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id a72d56e5-0533-11ed-a917-d0431ea8a290;
+ id a770038b-0533-11ed-a917-d0431ea8a290;
  Sat, 16 Jul 2022 18:18:12 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 08/11] drm/via: Move the via driver to drm/dri1/
-Date: Sat, 16 Jul 2022 20:17:47 +0200
-Message-Id: <20220716181750.3874838-9-sam@ravnborg.org>
+Subject: [PATCH v1 09/11] drm/savage: Move the savage driver to drm/dri1/
+Date: Sat, 16 Jul 2022 20:17:48 +0200
+Message-Id: <20220716181750.3874838-10-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220716181750.3874838-1-sam@ravnborg.org>
 References: <20220716181750.3874838-1-sam@ravnborg.org>
@@ -65,72 +65,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 drm/dri1 is the new home for all the legacy DRI1 drivers.
-Used the opportunity to rename the file to via.c to match the
-name of the driver.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/Makefile                           | 1 -
- drivers/gpu/drm/dri1/Makefile                      | 1 +
- drivers/gpu/drm/{ => dri1}/via/Makefile            | 4 +---
- drivers/gpu/drm/{via/via_dri1.c => dri1/via/via.c} | 2 +-
- 4 files changed, 3 insertions(+), 5 deletions(-)
- rename drivers/gpu/drm/{ => dri1}/via/Makefile (77%)
- rename drivers/gpu/drm/{via/via_dri1.c => dri1/via/via.c} (99%)
+ drivers/gpu/drm/Makefile                         | 1 -
+ drivers/gpu/drm/dri1/Makefile                    | 1 +
+ drivers/gpu/drm/{ => dri1}/savage/Makefile       | 0
+ drivers/gpu/drm/{ => dri1}/savage/savage_bci.c   | 0
+ drivers/gpu/drm/{ => dri1}/savage/savage_drv.c   | 0
+ drivers/gpu/drm/{ => dri1}/savage/savage_drv.h   | 0
+ drivers/gpu/drm/{ => dri1}/savage/savage_state.c | 0
+ 7 files changed, 1 insertion(+), 1 deletion(-)
+ rename drivers/gpu/drm/{ => dri1}/savage/Makefile (100%)
+ rename drivers/gpu/drm/{ => dri1}/savage/savage_bci.c (100%)
+ rename drivers/gpu/drm/{ => dri1}/savage/savage_drv.c (100%)
+ rename drivers/gpu/drm/{ => dri1}/savage/savage_drv.h (100%)
+ rename drivers/gpu/drm/{ => dri1}/savage/savage_state.c (100%)
 
 diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 7de784da6345..bb3d8ffb9dd6 100644
+index bb3d8ffb9dd6..a3bd337bcab4 100644
 --- a/drivers/gpu/drm/Makefile
 +++ b/drivers/gpu/drm/Makefile
-@@ -93,7 +93,6 @@ obj-$(CONFIG_DRM_V3D)  += v3d/
+@@ -91,7 +91,6 @@ obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
+ obj-$(CONFIG_DRM_MGAG200) += mgag200/
+ obj-$(CONFIG_DRM_V3D)  += v3d/
  obj-$(CONFIG_DRM_VC4)  += vc4/
- obj-$(CONFIG_DRM_SAVAGE)+= savage/
+-obj-$(CONFIG_DRM_SAVAGE)+= savage/
  obj-$(CONFIG_DRM_VMWGFX)+= vmwgfx/
--obj-$(CONFIG_DRM_VIA)	+=via/
  obj-$(CONFIG_DRM_VGEM)	+= vgem/
  obj-$(CONFIG_DRM_VKMS)	+= vkms/
- obj-$(CONFIG_DRM_NOUVEAU) +=nouveau/
 diff --git a/drivers/gpu/drm/dri1/Makefile b/drivers/gpu/drm/dri1/Makefile
-index 23e33398fdf5..73c0aa1c7b94 100644
+index 73c0aa1c7b94..f639d5e0ae2e 100644
 --- a/drivers/gpu/drm/dri1/Makefile
 +++ b/drivers/gpu/drm/dri1/Makefile
-@@ -7,3 +7,4 @@ obj-$(CONFIG_DRM_MGA)		+= mga/
+@@ -5,6 +5,7 @@
+ obj-$(CONFIG_DRM_I810)		+= i810/
+ obj-$(CONFIG_DRM_MGA)		+= mga/
  obj-$(CONFIG_DRM_R128)		+= r128/
++obj-$(CONFIG_DRM_SAVAGE)	+= savage/
  obj-$(CONFIG_DRM_SIS)		+= sis/
  obj-$(CONFIG_DRM_TDFX)		+= tdfx/
-+obj-$(CONFIG_DRM_VIA)		+= via/
-diff --git a/drivers/gpu/drm/via/Makefile b/drivers/gpu/drm/dri1/via/Makefile
-similarity index 77%
-rename from drivers/gpu/drm/via/Makefile
-rename to drivers/gpu/drm/dri1/via/Makefile
-index 8b978dd51a25..b7cd59c2e226 100644
---- a/drivers/gpu/drm/via/Makefile
-+++ b/drivers/gpu/drm/dri1/via/Makefile
-@@ -3,6 +3,4 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
- 
--via-y    := via_dri1.o
--
--obj-$(CONFIG_DRM_VIA)	+=via.o
-+obj-$(CONFIG_DRM_VIA)	+= via.o
-diff --git a/drivers/gpu/drm/via/via_dri1.c b/drivers/gpu/drm/dri1/via/via.c
-similarity index 99%
-rename from drivers/gpu/drm/via/via_dri1.c
-rename to drivers/gpu/drm/dri1/via/via.c
-index c5708a3f4530..24bc3ebe66e1 100644
---- a/drivers/gpu/drm/via/via_dri1.c
-+++ b/drivers/gpu/drm/dri1/via/via.c
-@@ -44,7 +44,7 @@
- #include <drm/drm_vblank.h>
- #include <drm/via_drm.h>
- 
--#include "via_3d_reg.h"
-+#include "../../via/via_3d_reg.h"
- 
- #define DRIVER_AUTHOR	"Various"
- 
+ obj-$(CONFIG_DRM_VIA)		+= via/
+diff --git a/drivers/gpu/drm/savage/Makefile b/drivers/gpu/drm/dri1/savage/Makefile
+similarity index 100%
+rename from drivers/gpu/drm/savage/Makefile
+rename to drivers/gpu/drm/dri1/savage/Makefile
+diff --git a/drivers/gpu/drm/savage/savage_bci.c b/drivers/gpu/drm/dri1/savage/savage_bci.c
+similarity index 100%
+rename from drivers/gpu/drm/savage/savage_bci.c
+rename to drivers/gpu/drm/dri1/savage/savage_bci.c
+diff --git a/drivers/gpu/drm/savage/savage_drv.c b/drivers/gpu/drm/dri1/savage/savage_drv.c
+similarity index 100%
+rename from drivers/gpu/drm/savage/savage_drv.c
+rename to drivers/gpu/drm/dri1/savage/savage_drv.c
+diff --git a/drivers/gpu/drm/savage/savage_drv.h b/drivers/gpu/drm/dri1/savage/savage_drv.h
+similarity index 100%
+rename from drivers/gpu/drm/savage/savage_drv.h
+rename to drivers/gpu/drm/dri1/savage/savage_drv.h
+diff --git a/drivers/gpu/drm/savage/savage_state.c b/drivers/gpu/drm/dri1/savage/savage_state.c
+similarity index 100%
+rename from drivers/gpu/drm/savage/savage_state.c
+rename to drivers/gpu/drm/dri1/savage/savage_state.c
 -- 
 2.34.1
 
