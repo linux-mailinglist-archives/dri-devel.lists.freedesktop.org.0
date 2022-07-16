@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AFD5771D5
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 00:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EB25771FA
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 00:40:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05CD610E4F4;
-	Sat, 16 Jul 2022 22:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E82E11389F;
+	Sat, 16 Jul 2022 22:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F33310FAEC;
- Sat, 16 Jul 2022 22:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=d9L0t1GQ/PalyCvJDtszikGLI2QPAuU9jb5qOqXhiPE=; b=DjqJnViYeTGtBta50cPlIes4xC
- 7fa2J7UvDz8fHo0ggL4IKOmN+XejecgvN2Pb9b5qp0sViIrgh+fHtKoNYLsyHh9pNJMQ+1X3S+lgN
- mZsPz8ZNFj/tKPBiC+jGttzzoj0tPLHLD34NmQ44uU8Hob/vdpcShWqjiq/e6NvUw2jZtQqnzI2xI
- t4tU6cR0F9w38n8p2MVlMGN59RXul5TGNrxQGSOn5ZTm9Jea+0F2W5diNZceodz4W04HIGLK+wWrz
- BIo9wtSK0YgFvTtqpPIwBA8RYMUNfxX9F0UTWRipTrtng2npgSqdEvHyJXhIkZrPVCIDUARSSVV7E
- CEM2JCRw==;
-Received: from [165.90.126.25] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oCqEX-00274N-0c; Sun, 17 Jul 2022 00:25:57 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com
-Subject: [PATCH 4/4] Documentation/gpu/amdgpu/amdgpu_dm: add DM docs for pixel
- blend mode
-Date: Sat, 16 Jul 2022 21:25:29 -0100
-Message-Id: <20220716222529.421115-5-mwen@igalia.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220716222529.421115-1-mwen@igalia.com>
-References: <20220716222529.421115-1-mwen@igalia.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4062B112FA4
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 22:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658011206; x=1689547206;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2YQkD4BjvM1cGTkcL0PNufQPGS4qHR99g7AC9E6LZjc=;
+ b=JHJcQox60pe7AGSf4fKlOTAhoIsy2fuYgSYM/KaAwwIeiLmjGbiECyxI
+ xYEw24KPNKRv1mN80Smb6Izj8UGxTQjQ4RQlEJ3d7TsNizUGJp7RYoPab
+ +74FvTjejxIUZ8U2GZ1MDDiEuZfPyi0FcIYoTrayOYSEsVTQvkqzu2ToS
+ a5ovCni3l1s8pgpoZl/oFVvxMfLWeeQHv2xm6xC5iORUgbJp/KZveZZLd
+ nUoy8uM9XxvyT1yzes5PLHvJKB6frMIDin/RizegyI4zdZeJ0PtuNGjCG
+ UILUzIKv8Qk+nCvjV2/kJMLdyBtgNN0DAgMaetLiDqTZ864HgnFqHTiu6 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="286032881"
+X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; d="scan'208";a="286032881"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2022 15:40:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; d="scan'208";a="773338284"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+ by orsmga005.jf.intel.com with ESMTP; 16 Jul 2022 15:40:02 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1oCqS4-0002Ft-Um;
+ Sat, 16 Jul 2022 22:39:56 +0000
+Date: Sun, 17 Jul 2022 06:39:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthieu CHARETTE <matthieu.charette@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ andrealmeid@igalia.com
+Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
+Message-ID: <202207170636.Yv3aXya1-lkp@intel.com>
+References: <20220715092253.17529-1-matthieu.charette@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220715092253.17529-1-matthieu.charette@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,142 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- nicholas.kazlauskas@amd.com, amd-gfx@lists.freedesktop.org,
- sungjoon.kim@amd.com
+Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>, kbuild-all@lists.01.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AMD GPU display manager (DM) maps DRM pixel blend modes (None,
-Pre-multiplied, Coverage) to MPC hw blocks through blend configuration
-options. Describe relevant elements and how to set and test them to get
-the expected DRM blend mode on DCN hw.
+Hi Matthieu,
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../gpu/amdgpu/display/display-manager.rst    | 98 +++++++++++++++++++
- Documentation/gpu/drm-kms.rst                 |  2 +
- 2 files changed, 100 insertions(+)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
-index 8960a5f1fa66..7a495ed1f69e 100644
---- a/Documentation/gpu/amdgpu/display/display-manager.rst
-+++ b/Documentation/gpu/amdgpu/display/display-manager.rst
-@@ -84,3 +84,101 @@ families below.
- **DCN 3.0 family color caps and mapping**
- 
- .. kernel-figure:: dcn3_cm_drm_current.svg
-+
-+Blend Mode Properties
-+=====================
-+
-+Pixel blend mode is a DRM plane composition property of :c:type:`drm_plane` used to
-+describes how pixels from a foreground plane (fg) are composited with the
-+background plane (bg). Here, we present main concepts of DRM blend mode to help
-+to understand how this property is mapped to AMD DC interface. See more about
-+this DRM property and the alpha blending equations in :ref:`DRM Plane
-+Composition Properties <plane_composition_properties>`.
-+
-+Basically, a blend mode sets the alpha blending equation for plane
-+composition that fits the mode in which the alpha channel affects the state of
-+pixel color values and, therefore, the resulted pixel color. For
-+example, consider the following elements of the alpha blending equation:
-+
-+- *fg.rgb*: Each of the RGB component values from the foreground's pixel.
-+- *fg.alpha*: Alpha component value from the foreground's pixel.
-+- *bg.rgb*: Each of the RGB component values from the background.
-+- *plane_alpha*: Plane alpha value set by the **plane "alpha" property**, see
-+  more in `DRM Plane Composition Properties <plane_composition_properties>`.
-+
-+in the basic alpha blending equation::
-+
-+   out.rgb = alpha * fg.rgb + (1 - alpha) * bg.rgb
-+
-+the alpha channel value of each pixel in a plane is ignored and only the plane
-+alpha affects the resulted pixel color values.
-+
-+DRM has three blend mode to define the blend formula in the plane composition:
-+
-+* **None**: Blend formula that ignores the pixel alpha.
-+
-+* **Pre-multiplied**: Blend formula that assumes the pixel color values in a
-+  plane was already pre-multiplied by its own alpha channel before storage.
-+
-+* **Coverage**: Blend formula that assumes the pixel color values were not
-+  pre-multiplied with the alpha channel values.
-+
-+and pre-multiplied is the default pixel blend mode, that means, when no blend
-+mode property is created or defined, DRM considers the plane's pixels has
-+pre-multiplied color values. On IGT GPU tools, the kms_plane_alpha_blend test
-+provides a set of subtests to verify plane alpha and blend mode properties.
-+
-+The DRM blend mode and its elements are then mapped by AMDGPU display manager
-+(DM) to program the blending configuration of the Multiple Pipe/Plane Combined
-+(MPC), as follows:
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-+   :doc: mpc-overview
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-+   :functions: mpcc_blnd_cfg
-+
-+Therefore, the blending configuration for a single MPCC instance on the MPC
-+tree is defined by :c:type:`mpcc_blnd_cfg`, where
-+:c:type:`pre_multiplied_alpha` is the alpha pre-multiplied mode flag used to
-+set :c:type:`MPCC_ALPHA_MULTIPLIED_MODE`. It controls whether alpha is
-+multiplied (true/false), being only true for DRM pre-multiplied blend mode.
-+:c:type:`mpcc_alpha_blend_mode` defines the alpha blend mode regarding pixel
-+alpha and plane alpha values. It sets one of the three modes for
-+:c:type:`MPCC_ALPHA_BLND_MODE`, as described below.
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-+   :functions: mpcc_alpha_blend_mode
-+
-+DM then maps the elements of `enum mpcc_alpha_blend_mode` to those in the DRM
-+blend formula, as follows:
-+
-+* *MPC pixel alpha* matches *DRM fg.alpha* as the alpha component value
-+  from the plane's pixel
-+* *MPC global alpha* matches *DRM plane_alpha* when the pixel alpha should
-+  be ignored and, therefore, pixel values are not pre-multiplied
-+* *MPC global gain* assumes *MPC global alpha* value when both *DRM
-+  fg.alpha* and *DRM plane_alpha* participate in the blend equation
-+
-+In short, *fg.alpha* is ignored by selecting
-+:c:type:`MPCC_ALPHA_BLEND_MODE_GLOBAL_ALPHA`. On the other hand, (plane_alpha *
-+fg.alpha) component becomes available by selecting
-+:c:type:`MPCC_ALPHA_BLEND_MODE_PER_PIXEL_ALPHA_COMBINED_GLOBAL_GAIN`. And the
-+:c:type:`MPCC_ALPHA_MULTIPLIED_MODE` defines if the pixel color values are
-+pre-multiplied by alpha or not.
-+
-+Blend configuration flow
-+------------------------
-+
-+The alpha blending equation is configured from DRM to DC interface by the
-+following path:
-+
-+1. When updating a :c:type:`drm_plane_state <drm_plane_state>`, DM calls
-+   :c:type:`fill_blending_from_plane_state()` that maps
-+   :c:type:`drm_plane_state <drm_plane_state>` attributes to
-+   :c:type:`dc_plane_info <dc_plane_info>` struct to be handled in the
-+   OS-agnostic component (DC).
-+
-+2. On DC interface, :c:type:`struct mpcc_blnd_cfg <mpcc_blnd_cfg>` programs the
-+   MPCC blend configuration considering the :c:type:`dc_plane_info
-+   <dc_plane_info>` input from DPP.
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index d14bf1c35d7e..7ec9dbe18b65 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -532,6 +532,8 @@ Standard Plane Properties
- .. kernel-doc:: drivers/gpu/drm/drm_plane.c
-    :doc: standard plane properties
- 
-+.. _plane_composition_properties:
-+
- Plane Composition Properties
- ----------------------------
- 
+[auto build test ERROR on v5.19-rc6]
+[also build test ERROR on linus/master]
+[cannot apply to drm-misc/drm-misc-next next-20220715]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthieu-CHARETTE/drm-Fix-EDID-firmware-load-on-resume/20220716-214028
+base:    32346491ddf24599decca06190ebca03ff9de7f8
+config: parisc-randconfig-r023-20220717 (https://download.01.org/0day-ci/archive/20220717/202207170636.Yv3aXya1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e583aaf4f6464add35f2350c728d80a3fe790638
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthieu-CHARETTE/drm-Fix-EDID-firmware-load-on-resume/20220716-214028
+        git checkout e583aaf4f6464add35f2350c728d80a3fe790638
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   hppa-linux-ld: drivers/gpu/drm/drm_connector.o: in function `.LC507':
+>> drm_connector.c:(.rodata.cst4+0x1f8): undefined reference to `drm_cache_edid_firmware'
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
