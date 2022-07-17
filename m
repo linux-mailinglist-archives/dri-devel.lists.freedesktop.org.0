@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439E65774D2
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 08:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6685577524
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 10:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39A28E6A9;
-	Sun, 17 Jul 2022 06:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5665B10EAAB;
+	Sun, 17 Jul 2022 08:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16FF58E6A9
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 06:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658040848; x=1689576848;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=g+ejKtr9Hy0i4+xqsZ6Lrtqy/FCD/1bvZELCN6HO28s=;
- b=M5SVRABBUSEq/FI+62210LckfMgd7PI4YLsglRREa+GXNUVv3hcfaYCh
- KPOODl5iKtVwWZ5bkeEizGYQDYS0PxxvYnIuvZH5jz2RV8ZVFKmFPK/ip
- 5JvxwrpF/gXpYXEC+iMzpOsdlHWX1Ty7IlSlB01Tq9wu4f/wC5/oT3dCG
- x19ZWNW1EEYveq/83TYJOFKPWyYcHAoUidyL12qxtxQVv2JCDif2QU0J6
- OF2QV2TuHdEHYOnHHkOoirCBGNELqfWC74hQMFa6rSqpeZN4Q22ZUcCyh
- Ssto8PfQab0SVfCTIDUEieSgPDTAwhytLYMsv1lzWDbuHHk0pXanSY4Or A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="286056921"
-X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; d="scan'208";a="286056921"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2022 23:54:06 -0700
-X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; d="scan'208";a="572027121"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com)
- ([10.237.72.43])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2022 23:54:03 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
- by paasikivi.fi.intel.com (Postfix) with SMTP id EA91F20497;
- Sun, 17 Jul 2022 09:54:00 +0300 (EEST)
-Date: Sun, 17 Jul 2022 06:54:00 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 0/6] dt-bindings: Add macros for video interface bus
- types
-Message-ID: <YtOyCBOqCR71uG1i@paasikivi.fi.intel.com>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
+ Sun, 17 Jul 2022 08:53:05 UTC
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7412610EADF
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 08:53:05 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id A19441C0003; Sun, 17 Jul 2022 10:46:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1658047603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4f64FZhtfQR2a3FCAYRr0ogYWj/q8DKyVYT+VvicBeQ=;
+ b=X/BFAsMq23/Z925NfDrqcBTa1+NMdOyKTvWC/jcKDAR6LqTUqqHZoUtcXNlv78JOtxgGnV
+ KEEYsSPoUk1QuhIMUdjyfj3xzKKwVS0zAwbCUcypphXNu5ux3xhohdBfmM7V0g4XNKdvZk
+ vtsZgzTGRnv3Kh57WLG7g5U2h7I81C8=
+Date: Sun, 17 Jul 2022 10:46:43 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [PATCH v5 11/13] leds: mt6370: Add MediaTek MT6370 current sink
+ type LED Indicator support
+Message-ID: <20220717084643.GA14285@duo.ucw.cz>
+References: <20220715112607.591-1-peterwu.pub@gmail.com>
+ <20220715112607.591-12-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
 Content-Disposition: inline
-In-Reply-To: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220715112607.591-12-peterwu.pub@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +51,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ alice_chen@richtek.com, linux-iio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, cy_huang@richtek.com,
+ krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
+ robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org, szunichen@gmail.com,
+ broonie@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
+ linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
+ chiaen_wu@richtek.com, gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Folks,
 
-> Laurent Pinchart (6):
->   dt-bindings: media: Add macros for video interface bus types
->   dt-bindings: Use new video interface bus type macros in examples
->   ARM: dts: freescale: Use new media bus type macros
->   ARM: dts: omap: Use new media bus type macros
->   ARM: dts: renesas: Use new media bus type macros
->   ARM: dts: stm32: Use new media bus type macros
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What's the preference on the tree through which these would be merged?
+Hi!
 
-The two first should probably go through the media tree but what about the
-DTS? There's a dependency to the first patch. I can take these all if
-people are fine with that.
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+>=20
+> In MediaTek MT6370, there are four channel current-sink RGB LEDs that
+> support hardware pattern for constant current, PWM, and breath mode.
+> Isink4 channel can also be used as a CHG_VIN power good indicator.
+>=20
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 
--- 
-Kind regards,
+> index a49979f..71bacb5 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -244,6 +244,20 @@ config LEDS_MT6323
+>  	  This option enables support for on-chip LED drivers found on
+>  	  Mediatek MT6323 PMIC.
+> =20
+> +config LEDS_MT6370_RGB
+> +	tristate "LED Support for MediaTek MT6370 PMIC"
+> +	depends on LEDS_CLASS
+> +	depends on MFD_MT6370
+> +	select LINEAR_RANGE
+> +	help
+> +	  Say Y here to enable support for MT6370_RGB LED device.
+> +	  In MT6370, there are four channel current-sink LED drivers that
+> +	  support hardware pattern for constant current, PWM, and breath mode.
+> +	  Isink4 channel can also be used as a CHG_VIN power good
 
-Sakari Ailus
+Should this go to leds/rgb directory, and should it depend on
+multicolor framework?
+
+Best regards,
+							Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYtPMcwAKCRAw5/Bqldv6
+8kpOAJ9ibEmS72bgf9dapQwzhfeNWkBoRACdEEQFY+HUneM6yUqd3lRjlWgYdx0=
+=17QR
+-----END PGP SIGNATURE-----
+
+--M9NhX3UHpAaciwkO--
