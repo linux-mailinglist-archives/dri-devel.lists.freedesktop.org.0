@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6375C5777A6
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:58:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC6D5777D0
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 20:43:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0682814A7DD;
-	Sun, 17 Jul 2022 17:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5108992AA9;
+	Sun, 17 Jul 2022 18:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECBCF11B871
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
- subject:cc:to:from:from;
- bh=k798q7ML9R4Plrb6TqpakxyUbx1g5KWRA3qhCOyn4ek=;
- b=e4C90Y5+4w0vcw6rF3D2f2kPP3t7AKAHZcUH+DI7+w2S/TiSCVHlJIIDo1BTHWu8uXzcUjI1wRu52
- 2zJtbAOys8Wv+uhj3pGNnfUOZEh/aY+NUpDDduf4CZ7mHj8+XoRYw2DYuVYiaWYk9eM9m1vqSFoJnJ
- MbGBsjKP3B+RERK182PCh3q8+RcvUgJ2bgxltXrqQAZZPOkqIRdhdzcDHFLQf+dsy8+Zf0WFmDf5vT
- suoUhkWliBi2VSyuOrwsDNYnBd4E0tI3lJ345y1HAwNMjxKe9UvyirlmZxYr5+qmnk20MXk8HcEv4Z
- VVKzfw1WQwbfXSE32Q1WGB1w08q0cLQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
- subject:cc:to:from:from;
- bh=k798q7ML9R4Plrb6TqpakxyUbx1g5KWRA3qhCOyn4ek=;
- b=atAGNS4/GuLbsXt6VCubT00JfzK8dji6XUbvCGx+kiMBvBk+yhcp7ECF/qD3gslmtsoc7xgAbAlme
- hMikQjUAw==
-X-HalOne-Cookie: e93fb8437fd3034790c1dedaf93d71e57f69d988
-X-HalOne-ID: 0dd61fc2-05fa-11ed-be7f-d0431ea8bb03
-Received: from mailproxy1.cst.dirpod4-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 0dd61fc2-05fa-11ed-be7f-d0431ea8bb03;
- Sun, 17 Jul 2022 17:58:25 +0000 (UTC)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v1 12/12] drm/todo: Add bridge related todo items
-Date: Sun, 17 Jul 2022 19:58:01 +0200
-Message-Id: <20220717175801.78668-5-sam@ravnborg.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220717175801.78668-1-sam@ravnborg.org>
-References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717175801.78668-1-sam@ravnborg.org>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7290F92ABC
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 18:43:50 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4LmDWn3s8mzDr5C;
+ Sun, 17 Jul 2022 18:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1658083429; bh=KfVesRIHTSH9TyqXuw4ZgjoMcp7Ex8wySKfXnS9bb5U=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WcOUNsf925qO4bxBPyuPfK7l3t6e9vBhFCiyAHB4HZnf2AszgysmEyyWeiblkj+uJ
+ +pHh4Mu2iANn4/8K8sdraAklhJnmcuvthHLDhpovAdBEo2WoRKhDBUW4ilUTLWXUU3
+ 8dBX073fc/6d5bXc4/oM94fVr4KHq/2VWzaxHJbc=
+X-Riseup-User-ID: B8955547438B93442ECC227E5620CD495D1C9D259D4944337C5BF7181AAFA3E3
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4LmDWf4sVBz1yWZ;
+ Sun, 17 Jul 2022 18:43:42 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
+ siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
+ brendanhiggins@google.com, Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] drm/tests: Split up test cases in
+ igt_check_drm_format_min_pitch
+Date: Sun, 17 Jul 2022 15:43:36 -0300
+Message-Id: <20220717184336.1197723-1-mairacanal@riseup.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,70 +57,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- David Airlie <airlied@linux.ie>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Guenter Roeck <groeck@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- chrome-platform@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Philip Chen <philipchen@chromium.org>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Cai Huoqing <cai.huoqing@linux.dev>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add todo in the hope someone will help updating the bridge drivers.
+The igt_check_drm_format_min_pitch() function had a lot of
+KUNIT_EXPECT_* calls, all of which ended up allocating and initializing
+various test assertion structures on the stack.
 
-v2:
-  - Updated descriptions in todo.rst
+This behavior was producing -Wframe-larger-than warnings on PowerPC, i386,
+and MIPS architectures, such as:
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+drivers/gpu/drm/tests/drm_format_test.c: In function 'igt_check_drm_format_min_pitch':
+drivers/gpu/drm/tests/drm_format_test.c:271:1: error: the frame size of
+3712 bytes is larger than 2048 bytes
+
+So, the igt_check_drm_format_min_pitch() test case was split into three
+smaller functions: one testing single plane formats, one testing multiple
+planes formats, and the other testing tiled formats.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 ---
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/tests/drm_format_test.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 10bfb50908d1..fbcc232e0bc1 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/tests/drm_format_test.c
+index 056cb8599d6d..28f2b8f88818 100644
+--- a/drivers/gpu/drm/tests/drm_format_test.c
++++ b/drivers/gpu/drm/tests/drm_format_test.c
+@@ -91,7 +91,7 @@ static void igt_check_drm_format_block_height(struct kunit *test)
+ 	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
+ }
  
- Level: Starter
+-static void igt_check_drm_format_min_pitch(struct kunit *test)
++static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
+ {
+ 	const struct drm_format_info *info = NULL;
  
-+Drop use of deprecated operations in bridge drivers
-+--------------------------------------------------
+@@ -175,6 +175,11 @@ static void igt_check_drm_format_min_pitch(struct kunit *test)
+ 			(uint64_t)UINT_MAX * 4);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
+ 			(uint64_t)(UINT_MAX - 1) * 4);
++}
 +
-+&struct drm_bridge_funcs contains a number of deprecated operations
-+which can be replaced by the atomic variants.
-+
-+The following is more or less 1:1 replacements with the arguments
-+and names adjusted:
-+* pre_enable => atomic_pre_enable
-+* enable => atomic_enable
-+* disable => atomic_disable
-+* post_disable => atomic_post_disable
-+
-+* mode_set is no longer required and the implementation shall be merged
-+  with atomic_enable.
-+
-+Contact: bridge maintainers, Sam Ravnborg <sam@ravnborg.org>,
-+         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+
-+Level: Beginner or intermediate (depending on the driver)
++static void igt_check_drm_format_min_pitch_for_multiple_planes(struct kunit *test)
++{
++	const struct drm_format_info *info = NULL;
  
- Core refactorings
- =================
+ 	/* Test 2 planes format */
+ 	info = drm_format_info(DRM_FORMAT_NV12);
+@@ -249,6 +254,11 @@ static void igt_check_drm_format_min_pitch(struct kunit *test)
+ 			(uint64_t)(UINT_MAX - 1) / 2);
+ 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, (UINT_MAX - 1) / 2),
+ 			(uint64_t)(UINT_MAX - 1) / 2);
++}
++
++static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
++{
++	const struct drm_format_info *info = NULL;
+ 
+ 	/* Test tiled format */
+ 	info = drm_format_info(DRM_FORMAT_X0L2);
+@@ -273,7 +283,9 @@ static void igt_check_drm_format_min_pitch(struct kunit *test)
+ static struct kunit_case drm_format_tests[] = {
+ 	KUNIT_CASE(igt_check_drm_format_block_width),
+ 	KUNIT_CASE(igt_check_drm_format_block_height),
+-	KUNIT_CASE(igt_check_drm_format_min_pitch),
++	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
++	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multiple_planes),
++	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
+ 	{ }
+ };
+ 
 -- 
-2.34.1
+2.36.1
 
