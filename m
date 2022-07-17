@@ -1,74 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B005776D0
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 16:53:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A11D5776F0
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 17:10:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2582490BCC;
-	Sun, 17 Jul 2022 14:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2BA8F1EF;
+	Sun, 17 Jul 2022 15:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C32A90BC8
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 14:53:44 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 355AD90BF4
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 15:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658069623;
+ s=mimecast20190719; t=1658070622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ViZS1Fqh4LrJmyEsY4LLYqY8ttoOfOBKJpZyPXIMcac=;
- b=VjwGicqsBCVQAAPw0uhV7T1gHlbz+H2IqbwbHHoHmQAuw6fR57cTilfM4G+ylBZ6VWZfSb
- 4qLgu3+CP21G9M4c/9cvT0pAEwHeD1QO0IyVNu/6F9JemvWVArSkUIA3+cSOB1gNHFPpmQ
- l2VLaA0F6WJyrvPh5nSgvxbGqwoOHDA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wU80W9mDke9J2L90OUEZdJ3keN1isK782ZcW+QlgehE=;
+ b=cBjMwvK9s8mMZSsd4p9fmHdDvam67UbrzfV98byp+iOw29HrcyEbyOaMEWTSkGlKSbefME
+ FL+Bhgho8jG1qsmznAyLuiOci75lHKR3duElywlgry2RvS99WR2YeQ3lG3kjMwd78yo0My
+ wp3USVrnNOGHKvOzD1TVClhfsnWAg1A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-5rVRMh-XOfuTJEzKnR_dHA-1; Sun, 17 Jul 2022 10:53:41 -0400
-X-MC-Unique: 5rVRMh-XOfuTJEzKnR_dHA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n19-20020a05600c3b9300b003a314062cf4so1264615wms.0
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 07:53:41 -0700 (PDT)
+ us-mta-122-RZapTsaxPAKo6IJ88bOWhA-1; Sun, 17 Jul 2022 11:10:20 -0400
+X-MC-Unique: RZapTsaxPAKo6IJ88bOWhA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n18-20020a05600c501200b003a050cc39a0so4418052wmr.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 08:10:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ViZS1Fqh4LrJmyEsY4LLYqY8ttoOfOBKJpZyPXIMcac=;
- b=q9vT1vVWumiTZQAVD0IHIYDky0iKtcIyqufHBt8akSldrSwj64XAWPvmW7HIpjNXsn
- Ja7uBS9gaoq64GaJwuM6U3FrBXwLl3R6lGQwn99cZR14Vrw+sjJD1iVZEvebYJ4X4sGX
- 4VtAT74fcuq68y+InlAZ3HgiIaBb7zOG8a+htPmzmAfal5TuGvd7rURrOelqgKEywbyU
- PserihJkxcReCh5Uri5wOMXXHDYLkEj2+6tCWSvMYNFl7pVV4l+qT7nwkigiJXnLWoWy
- /h9lPB8a7rqQfKB2SzYLVQX02r0bVb5IPYlbk5JvVeKUXVk8z2ZH/snIgXTJCTBIZ4O8
- AVoA==
-X-Gm-Message-State: AJIora+BMAlNgQis+HHFQzYYdriusVHYuwxDORxA1kSv5Avn6Ik7xCYR
- gW+3RceljAoGlMaFR++3NkPxaWb6ZdPtB4iHC2fhAK0iGkV7DBjY62vQUlmRAUPu9OeKDXjorCr
- Wtv+1CYyvQNR9fYD/GZxJPfIN9TWS
-X-Received: by 2002:a1c:2b86:0:b0:3a3:7fb:52d9 with SMTP id
- r128-20020a1c2b86000000b003a307fb52d9mr14125500wmr.86.1658069620411; 
- Sun, 17 Jul 2022 07:53:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ue6hM9U7kXR7dCCLwoXIgnmw8QwRG01Ht3GdFZQ/sSKNvbaVowvn30MHLA3+XW3GHFNzkFUA==
-X-Received: by 2002:a1c:2b86:0:b0:3a3:7fb:52d9 with SMTP id
- r128-20020a1c2b86000000b003a307fb52d9mr14125486wmr.86.1658069620132; 
- Sun, 17 Jul 2022 07:53:40 -0700 (PDT)
+ bh=wU80W9mDke9J2L90OUEZdJ3keN1isK782ZcW+QlgehE=;
+ b=0bm3V0ntmQ8QiF8bRtyazLC96xbZDya0ZGnqLELqPPpXWvswzxkPNOrJgBVBVOxuEv
+ B2hwLu+ZvGFLhFTXQ5RJdNl/BR9UGFbldYhDO073HVy9qW/OhLkDD16KzfoUGpwPEx/N
+ jXEc1Cql8EPYOmcwXzfRxowUzdK0EkCFyTF9kZCgMtUI88jDUks1hIZ7EPCP+IPsw67D
+ p8Iv8cIGwVY7x2S8+RD49KzpgzDaPkIj5Zwgqin319KXfKRabJ51thDk8O3N9bwfvoEJ
+ OZlnlWSzlpwyE88DHWm3aU0U8lhn1SNHKihSqV2ZcfWTaNMAFYLW+bv3/cVz++9J3azx
+ fvoQ==
+X-Gm-Message-State: AJIora+xNFvG3R9gmAowvLq/zEz+QaJkRb1l3NhAIHdvG6EtfpZ2gNfK
+ 8h92hp8u5psRvWtNnAAYqsdh+6BIMKuOvD8Hpat/t7Ryym6/gHPJcB9ei8Ak+ezy90vDSs2RTur
+ 02V5jVa59KqtWZzQ5f++WoKwKlssQ
+X-Received: by 2002:a1c:545c:0:b0:3a2:e395:21fc with SMTP id
+ p28-20020a1c545c000000b003a2e39521fcmr27962751wmi.125.1658070619733; 
+ Sun, 17 Jul 2022 08:10:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1twRXDHw4kKpyeYKj5HIqEUXchWv+j1awli8D4wivgVZehZGorfx3btEiASa9uffai69CaDIA==
+X-Received: by 2002:a1c:545c:0:b0:3a2:e395:21fc with SMTP id
+ p28-20020a1c545c000000b003a2e39521fcmr27962736wmi.125.1658070619509; 
+ Sun, 17 Jul 2022 08:10:19 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n7-20020a5d6607000000b0021b9504cc83sm8499918wru.31.2022.07.17.07.53.39
+ m23-20020a05600c3b1700b003a2e278510csm16661838wms.15.2022.07.17.08.10.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Jul 2022 07:53:39 -0700 (PDT)
-Message-ID: <c14adad9-7597-f16e-6f77-531f3c4852d3@redhat.com>
-Date: Sun, 17 Jul 2022 16:53:38 +0200
+ Sun, 17 Jul 2022 08:10:19 -0700 (PDT)
+Message-ID: <ca88a4ce-2293-44ef-834c-a4f4c3b536ca@redhat.com>
+Date: Sun, 17 Jul 2022 17:10:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v1 01/11] drm: rename DRIVER_LEGACY to DRIVER_DRI1
+Subject: Re: [PATCH v1 02/11] drm: Rename CONFIG_DRM_LEGACY to CONFIG_DRM_DRI1
 To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 References: <20220716181750.3874838-1-sam@ravnborg.org>
- <20220716181750.3874838-2-sam@ravnborg.org>
+ <20220716181750.3874838-3-sam@ravnborg.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220716181750.3874838-2-sam@ravnborg.org>
+In-Reply-To: <20220716181750.3874838-3-sam@ravnborg.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,37 +92,16 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
-
-Thanks a lot for working on this patch-set.
-
 On 7/16/22 20:17, Sam Ravnborg wrote:
-> "legacy" is a general term - be specific and use the term dri1.
-> The first step is to rename DRIVER_LEGACY to DRIVER_DRI1.
+> The rename is done to make it more obvious what is DRI1 drivers
+> and what is other type of legacy.
 > 
-> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-
-IIRC it was Thomas who suggested the s/DRIVER_LEGACY/DRIVER_DRI1
-rename, while I suggested the move to a separate dri1 directory.
-
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-[...]
-
->  	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-
-Not for this series but I wonder when this could be dropped since is
-only used by nouveau and only when CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT
-is enabled.
-
-AFAIK this is only needed for an old nouveau DDX so I wonder whether
-someone even still uses that in practice. For example, we don't even
-set CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT in the Fedora kernel configs.
-
---
+-- 
 Best regards,
 
 Javier Martinez Canillas
