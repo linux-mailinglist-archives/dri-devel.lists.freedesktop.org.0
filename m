@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD41577791
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:45:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED371577792
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:45:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E32B913EE;
-	Sun, 17 Jul 2022 17:45:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6A0913E2;
+	Sun, 17 Jul 2022 17:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
  (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 691578B8C9
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:45:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BABFB913C5
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=khsqBXRM54QJ2q7TOizpyWUV+ilhMIlPa9CBnk0oMYM=;
- b=JqMVyi++sVW9vegkEzG1P8/bWVglvBFotUUJ7xMMP1WjvBA/fdg1s7FRHhRrGG4k7nbk0/eCVB1Ts
- xm84rftCcNrZusJ5wtb3S/mhScM3y7tF8aGomk8cqAPor/rRsEzUKR8TPilTBKW+nr6Wg1xYS0/Ksw
- XOhZupgkIVKYoYxQFoEOc2Pn7A1Hr2A+oOdv1EGDX09/Beb1da9H5vlfXIBYGQe+9730nxblEztuv5
- xnzigYW5Wm77uoCTqA7CYzD0FxuNoB+yhuniEYPNpiURqPS5f40OYNwvSmqmxDEMwpHYpx+nveDW4q
- XpNd11d0hlPcKRc6nI8CVP7gGnctDUw==
+ bh=tUNzKCt4Zms15cwedQlM5lolVcnjoxkbNdM9xZbtnXY=;
+ b=HdFn1ETyit4OaCqBQQGlXtNovIrF5rsy8lLAHWcEcybftrSgiT5SCEwEt72LJrOHNE2arLyDhwwam
+ PR28Mf/SOxeBE/mtbQmHDcINjP8Gb038jncvvFlMp/FwdDn8Vyg/pYBfUBM9651pUIxN3qB0Ijw1fz
+ LUgVEmwfBhU/sgSVPfRFJmwTnbKEGmOFX7ocgIJGLqNdaUloXEgjWnfaoYCSaoew7QYNfklTOBOm5c
+ Vw1b5xHu5hmm+1R7u1EZVZGYWd8JXe+FbmhMnUYstOJSSxINZFiBZBjDh+HFuv9+yI6eP2HbA85Ys4
+ vL6jXWNWdDL8gTcY60TOIXPESd1Z3hw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
  subject:cc:to:from:from;
- bh=khsqBXRM54QJ2q7TOizpyWUV+ilhMIlPa9CBnk0oMYM=;
- b=8nI+HJ6COK6NBXeBpaMj21RW9LZPgXsN1/LCu8lKQCSM5tDQ2G3jIbOgOwmV8AI/vIjVrukxxeD/G
- AfOclUnCg==
-X-HalOne-Cookie: 170ca66534e4be9ddd0a7847aca552fa493452f1
-X-HalOne-ID: 34560b44-05f8-11ed-823f-d0431ea8bb10
+ bh=tUNzKCt4Zms15cwedQlM5lolVcnjoxkbNdM9xZbtnXY=;
+ b=KEmxVha5B+qyEWKB+Yxxo71t4ryP28oUobas/F9bGwH0PvgiUzrAUENXT4o5Oa9vcpdEQUPfW15dr
+ H17Zrc5Ag==
+X-HalOne-Cookie: c5eba13afd76c8abb22d288d6bb6ff2fa5436d67
+X-HalOne-ID: 3503b0f2-05f8-11ed-823f-d0431ea8bb10
 Received: from mailproxy1.cst.dirpod4-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 34560b44-05f8-11ed-823f-d0431ea8bb10;
- Sun, 17 Jul 2022 17:45:11 +0000 (UTC)
+ id 3503b0f2-05f8-11ed-823f-d0431ea8bb10;
+ Sun, 17 Jul 2022 17:45:12 +0000 (UTC)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v1 03/12] drm/mediatek: Drop chain_mode_fixup call in
- mode_valid()
-Date: Sun, 17 Jul 2022 19:44:45 +0200
-Message-Id: <20220717174454.46616-4-sam@ravnborg.org>
+Subject: [PATCH v1 04/12] drm/bridge: Drop drm_bridge_chain_mode_fixup
+Date: Sun, 17 Jul 2022 19:44:46 +0200
+Message-Id: <20220717174454.46616-5-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220717174454.46616-1-sam@ravnborg.org>
 References: <20220717174454.46616-1-sam@ravnborg.org>
@@ -79,57 +78,84 @@ Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mode_valid implementation had a call to
-drm_bridge_chain_mode_fixup() which would be wrong as the mode_valid is
-not allowed to change anything - only to validate the mode.
-
-As the next bridge is often/always a connector the call had no effect
-anyway. So drop it.
-
-From the git history I could see this call was included in the original
-version of the driver so there was no help there to find out why it was
-added in the first place. But a lot has changed since the initial driver
-were added and is seems safe to remove the call now.
+There are no users left of drm_bridge_chain_mode_fixup() and we
+do not want to have this function available, so drop it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 37 ------------------------------------
+ include/drm/drm_bridge.h     |  3 ---
+ 2 files changed, 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 3196189429bc..a63b76055f81 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1208,22 +1208,11 @@ static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
- 				      const struct drm_display_mode *mode)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
--	struct drm_bridge *next_bridge;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index bb7fc09267af..b6f56d8f3547 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -430,43 +430,6 @@ void drm_bridge_detach(struct drm_bridge *bridge)
+  *   needed, in order to gradually transition to the new model.
+  */
  
- 	dev_dbg(hdmi->dev, "xres=%d, yres=%d, refresh=%d, intl=%d clock=%d\n",
- 		mode->hdisplay, mode->vdisplay, drm_mode_vrefresh(mode),
- 		!!(mode->flags & DRM_MODE_FLAG_INTERLACE), mode->clock * 1000);
- 
--	next_bridge = drm_bridge_get_next_bridge(&hdmi->bridge);
--	if (next_bridge) {
--		struct drm_display_mode adjusted_mode;
+-/**
+- * drm_bridge_chain_mode_fixup - fixup proposed mode for all bridges in the
+- *				 encoder chain
+- * @bridge: bridge control structure
+- * @mode: desired mode to be set for the bridge
+- * @adjusted_mode: updated mode that works for this bridge
+- *
+- * Calls &drm_bridge_funcs.mode_fixup for all the bridges in the
+- * encoder chain, starting from the first bridge to the last.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- *
+- * RETURNS:
+- * true on success, false on failure
+- */
+-bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
+-				 const struct drm_display_mode *mode,
+-				 struct drm_display_mode *adjusted_mode)
+-{
+-	struct drm_encoder *encoder;
 -
--		drm_mode_copy(&adjusted_mode, mode);
--		if (!drm_bridge_chain_mode_fixup(next_bridge, mode,
--						 &adjusted_mode))
--			return MODE_BAD;
+-	if (!bridge)
+-		return true;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (!bridge->funcs->mode_fixup)
+-			continue;
+-
+-		if (!bridge->funcs->mode_fixup(bridge, mode, adjusted_mode))
+-			return false;
 -	}
 -
- 	if (hdmi->conf) {
- 		if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mode))
- 			return MODE_BAD;
+-	return true;
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_mode_fixup);
+-
+ /**
+  * drm_bridge_chain_mode_valid - validate the mode against all bridges in the
+  *				 encoder chain.
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 1eca9c4c3346..7496f41535b1 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -845,9 +845,6 @@ drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
+ #define drm_for_each_bridge_in_chain(encoder, bridge)			\
+ 	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
+ 
+-bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
+-				 const struct drm_display_mode *mode,
+-				 struct drm_display_mode *adjusted_mode);
+ enum drm_mode_status
+ drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
+ 			    const struct drm_display_info *info,
 -- 
 2.34.1
 
