@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6943D5773D9
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 05:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439E65774D2
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 08:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC8C8F159;
-	Sun, 17 Jul 2022 03:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C39A28E6A9;
+	Sun, 17 Jul 2022 06:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A20998F152
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 03:48:07 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id r186so7836322pgr.2
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jul 2022 20:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=Z0QE6TqiTLpNVLq0d6Tn+LJm8jdHQlIKPBhpl1b1IvI=;
- b=Hm/XZDORe8w/23YWh1ILjh5kveofdNCqQ0V7yu07TXBiadO710B4sQcFi584OFzxTg
- MbAbTUZxhED4dxph0IUuYzrgaFeGgk+qs59KYL9dU6a4gT/Amg2JYMnVB+1qPNu3XDlL
- R1CV6eXisR3zOqmF9wvS27nea+FsemZ6R9CtRQEC1ZE1UZ5Oq9V1E8Rb387rHvGuzrRw
- 9f/WdSbAJJzOIdI8t7bcdfwGoHSSV3KG0XUyDKKLroc6HTzX7n2UnG5JsSj8jenqMBhN
- jVjVpUyZ5psvEY4DhPxJ1H2wqVxDINPWNUkibUyXCa1/AgSOx41fMuH/SKmrwwavgqDu
- u9Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=Z0QE6TqiTLpNVLq0d6Tn+LJm8jdHQlIKPBhpl1b1IvI=;
- b=kQzvv6kVlB52IWGMGeuUpwHBApcRQK4CIdEVDRJubLzZ7hmd+S/3V6gtssS7CqIxTw
- gnmoRkJNAnRtqZr6Pq+FUxDN8Bx78o8l9tI6fIO7iiZ+YPuE35nMH8b7kNUsYodWph7P
- O1nDLvsRNpR/6MyjQkkHBHcOCjuRdDRaOqzHgklWWFw5jbK1ZH/gILI/VtPqEb5KQ8b2
- QR3CK0E+iFnYl8fePC0kHOI2RzGQq2ce/y1zcC8WDsv26GbwPlone6kKngxC++zqsMw5
- MAGvLGjNC5a1Z6LabIw6nch9sCaqPocNIc9E9gUYcl9gW3jNqN9umtXxEXCm+QR4hRRz
- hJYw==
-X-Gm-Message-State: AJIora9DSZ7iibM1m6aNAQK9jOYREQd0weslyIoASt2eFErsPDfaKzlX
- 3XneRqLBE3C15OjHbjPPD5Kf6SOXsQbOPc9vkg==
-X-Google-Smtp-Source: AGRyM1ts9KqXoDY4UHuc4G3SVfNilEGzmKzpCb1uTJFtaEWLMKAvCulqjjlSB/KMEm3RW8jR0HClTPzAZCj2jB06jKU=
-X-Received: by 2002:a05:6a02:113:b0:412:a7c0:da8e with SMTP id
- bg19-20020a056a02011300b00412a7c0da8emr19808019pgb.113.1658029687199; Sat, 16
- Jul 2022 20:48:07 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16FF58E6A9
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 06:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658040848; x=1689576848;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=g+ejKtr9Hy0i4+xqsZ6Lrtqy/FCD/1bvZELCN6HO28s=;
+ b=M5SVRABBUSEq/FI+62210LckfMgd7PI4YLsglRREa+GXNUVv3hcfaYCh
+ KPOODl5iKtVwWZ5bkeEizGYQDYS0PxxvYnIuvZH5jz2RV8ZVFKmFPK/ip
+ 5JvxwrpF/gXpYXEC+iMzpOsdlHWX1Ty7IlSlB01Tq9wu4f/wC5/oT3dCG
+ x19ZWNW1EEYveq/83TYJOFKPWyYcHAoUidyL12qxtxQVv2JCDif2QU0J6
+ OF2QV2TuHdEHYOnHHkOoirCBGNELqfWC74hQMFa6rSqpeZN4Q22ZUcCyh
+ Ssto8PfQab0SVfCTIDUEieSgPDTAwhytLYMsv1lzWDbuHHk0pXanSY4Or A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="286056921"
+X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; d="scan'208";a="286056921"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2022 23:54:06 -0700
+X-IronPort-AV: E=Sophos;i="5.92,278,1650956400"; d="scan'208";a="572027121"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com)
+ ([10.237.72.43])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2022 23:54:03 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+ by paasikivi.fi.intel.com (Postfix) with SMTP id EA91F20497;
+ Sun, 17 Jul 2022 09:54:00 +0300 (EEST)
+Date: Sun, 17 Jul 2022 06:54:00 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 0/6] dt-bindings: Add macros for video interface bus
+ types
+Message-ID: <YtOyCBOqCR71uG1i@paasikivi.fi.intel.com>
+References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-From: Zheyu Ma <zheyuma97@gmail.com>
-Date: Sun, 17 Jul 2022 11:47:56 +0800
-Message-ID: <CAMhUBjn=k-4DV0-u_30_rNQc9n__ZkwVFaLwfP1CP-uk1LjMpg@mail.gmail.com>
-Subject: [BUG] most: usb: Found a bug at the probe time
-To: sumit.semwal@linaro.org, christian.koenig@amd.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,39 +60,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-media <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Folks,
 
-I found a bug in the most usb driver.
+> Laurent Pinchart (6):
+>   dt-bindings: media: Add macros for video interface bus types
+>   dt-bindings: Use new video interface bus type macros in examples
+>   ARM: dts: freescale: Use new media bus type macros
+>   ARM: dts: omap: Use new media bus type macros
+>   ARM: dts: renesas: Use new media bus type macros
+>   ARM: dts: stm32: Use new media bus type macros
 
-When the driver fails at
+What's the preference on the tree through which these would be merged?
 
-    mdev->conf = kcalloc(num_endpoints, sizeof(*mdev->conf), GFP_KERNEL);
+The two first should probably go through the media tree but what about the
+DTS? There's a dependency to the first patch. I can take these all if
+people are fine with that.
 
-I got the following warning message:
+-- 
+Kind regards,
 
-
-[   15.406256] kobject: '(null)' (ffff8881068f8000): is not
-initialized, yet kobject_put() is being called.
-[   15.406986] WARNING: CPU: 3 PID: 396 at lib/kobject.c:720
-kobject_put+0x6e/0x1c0
-[   15.410120] RIP: 0010:kobject_put+0x6e/0x1c0
-[   15.410470] Code: 01 75 29 4c 89 f8 48 c1 e8 03 80 3c 28 00 74 08
-4c 89 ff e8 14 2e 73 ff 49 8b 37 48 c7 c7 c0 fc de 85 4c 89 fa e8 e2
-61 21 ff <0f> 0b 49 8d 5f 38 48 89 df be 04 00 00 00 e8 df 2e 73 ff b8
-ff ff
-[   15.416529] Call Trace:
-[   15.416896]  hdm_probe+0xf3d/0x1090 [most_usb]
-
-Since I'm not familiar with the driver, I ask for your help to solve
-the warning.
-
-regards,
-
-Zheyu Ma
+Sakari Ailus
