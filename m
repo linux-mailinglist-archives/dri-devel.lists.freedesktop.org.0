@@ -1,66 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D931577769
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:01:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38636577784
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89AE912BA7A;
-	Sun, 17 Jul 2022 17:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC0C913B6;
+	Sun, 17 Jul 2022 17:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6EA12B4E2
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:01:01 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id d16so13890850wrv.10
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 10:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=JvphByM1MAOXz82yC0EIJ626FOimB1Or0Bxt+vFezqM=;
- b=m5gwVxLrqgtTyZGq0uOPVFKCxV+A8iJB7uHVBYwSh7LwxhNXaV0UwRO3+pxiPB42WT
- WHd7nQuttN2COBFIcibf2ylp6AqjbZXk1U37vKYVWFPOTVE2qQSCnlRgqjZexfBrdAK/
- AivydN/zND2hHwxExjG44HsaQruFPVNp/npy5Ajcia9rS+T2pejihyxiuPAyjh3ERqF/
- Eg84sugu0/6bKyN9ch6g/Oo5YqvHHaE42KYO1DHGw4Gqd0vs4lRF75+LKIvwIOxXY7XD
- C2AohsAbspO/PkHwyNWvVS8B/Rmse9qtp3l4ZxP5+CZSyd9y04iyBsRdsj6tXstDDKzm
- /92A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=JvphByM1MAOXz82yC0EIJ626FOimB1Or0Bxt+vFezqM=;
- b=cKZPIsQLUE74up94HKgkkVP6XF1evgwRUKIwcEtG6lydJlmnElIrAh4nVfiiloMHkv
- DctJwNCyXC2UKYKtXqB5yXkSXpWlb4FmHAr0Ec823fY8MAmjd8OnSFLnwlDayMU6URBD
- kMKV3flY0j1coRX0Ul3MXMQRMhQVY/K0Naj6TPLa1dFWrrczoq8yyrH61g0GzdOLKuu2
- rzDN8UBn7wnPVWwn/YBB66sShzJAxdqD3Kls08OG0o//kiyOTFnLvxvZzWSoSd/Ag16d
- z2pIipbAdE6Sz2LRgRz87KWN80PTIBrPHSmwPJrn6cxvIOUQxNy10DTQ+m6/8hpj33Qg
- 9PUw==
-X-Gm-Message-State: AJIora9sPvkt+l3WgQ4PI8Sr6pThkhUL4Y9ovcrY+sfCd7gZ/Vpcoe3+
- fHvRkDGBYKdeNwCoqypgji8=
-X-Google-Smtp-Source: AGRyM1sMJ8cShWVKVwOYfqlYaaIQlHVPbcZr10SqOdTxkgHj2aL4Sk/XNhjomZLJNWKtQsqk8e4y4Q==
-X-Received: by 2002:a05:6000:986:b0:21d:a497:c35f with SMTP id
- by6-20020a056000098600b0021da497c35fmr19960283wrb.24.1658077259497; 
- Sun, 17 Jul 2022 10:00:59 -0700 (PDT)
-Received: from elementary ([94.73.36.185]) by smtp.gmail.com with ESMTPSA id
- r129-20020a1c2b87000000b003a2eacc8179sm12509264wmr.27.2022.07.17.10.00.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 10:00:59 -0700 (PDT)
-Date: Sun, 17 Jul 2022 19:00:54 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: David Gow <davidgow@google.com>
-Subject: Re: [PATCH v2 4/4] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb565()
-Message-ID: <20220717170054.GA1028249@elementary>
-References: <20220709115837.560877-1-jose.exposito89@gmail.com>
- <20220709115837.560877-5-jose.exposito89@gmail.com>
- <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB6608F8A8
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=2vLgyicetFZ8VksYnfIhJHbo2JtPKcWdixiwNKw+SGE=;
+ b=TwYWbTiUI9ca6WbppfWDbYpUHgEeRlvSoRO4L/8TJ6sjwZUHNaPhBA5wg1DG8pKit8gptQIt8BGGT
+ UQEt9UMGduWyReDA8MQzJH08hfwzY4MVy3clFON8D58EzjqNdVy6RKihmATeWy3ERl+csW/SVMcFlB
+ UkGnHaKhDo5v19t0b5Fna2aSebtLAYh0C2dPzTODeXigGmxIZ+T6CMc4v9cEDVsTV73xJ/Lbjq4sL6
+ romSc6y4AJ8AAaNcUNL4/cT5x7B7f4WcQ7ZGLLSa7THtFWpDJDL54u+Uw4zGBuVznGrLrcVmy1P/g8
+ 6EJB1QnjdMltJS8summScIzVZpwDE/Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=2vLgyicetFZ8VksYnfIhJHbo2JtPKcWdixiwNKw+SGE=;
+ b=inFA86pcq7TWYlZW7Unv1A6XMtZ8tyI7aEwLihkz9RlipuETRMnWpDlNhyhEdp1MbRinHOqfGj9m+
+ CjeZxLwDg==
+X-HalOne-Cookie: c0c0f26bac3daaf8910f2641e6402cdea6b98545
+X-HalOne-ID: 2de56c81-05f8-11ed-823f-d0431ea8bb10
+Received: from mailproxy1.cst.dirpod4-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 2de56c81-05f8-11ed-823f-d0431ea8bb10;
+ Sun, 17 Jul 2022 17:45:01 +0000 (UTC)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v1 0/12] drm bridge updates
+Date: Sun, 17 Jul 2022 19:44:42 +0200
+Message-Id: <20220717174454.46616-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,25 +58,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
- Daniel Latypov <dlatypov@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- tales.aparecida@gmail.com, Isabella Basso <isabbasso@riseup.net>,
- KUnit Development <kunit-dev@googlegroups.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Guenter Roeck <groeck@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ chrome-platform@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Philip Chen <philipchen@chromium.org>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-José Expósito <jose.exposito89@gmail.com> wrote:
-> I already fixed the warning and added the reviewed by tags, however, I
-> noticed that rebasing the series on the latest drm-misc-next show this
-> error:
-> [...]
+This is a collection of bridge patches that I had left unfinished
+more than a year ago. Now where I have some spare time I dusted them
+off for review and testing.
 
-Sorry for the extra email. I forgot to mention that the error is only
-present in UML. Running in other architectures works as expected.
-Tested on x86_64 and PowerPC.
+The patches builds, but has seen no run-time testing.
 
-Jose
+The patches are grouped like this:
+
+1+2:
+  - Updates parade-ps8640 for atomic operation thus allowing
+    the use of the atomic variants of drm_bridge_chain_pre_enable/
+    post_disable.
+    There is thus no users left of the non-atomic variants of
+    drm_bridge_chain* so drop them all.
+    If other drivers needs this functionality they are supposed
+    to use the atomic API.
+    This is a DSI to eDP converter, and I did not see a need for
+    format negotiation - but I may be wrong?
+
+3+4:
+  - Drop chain_mode_fixup in mediatek, and as there are no more
+    users, drop the implementation of drm_bridge_chain_mode_fixup.
+    The crucial part to review is the updated documentation for
+    drm_bridge_funcs.atomic_check().
+
+5-11:
+  - Convert all bridge drivers from mode_fixup to atomic_check.
+    To do so add the necessary hooks to have an atomic state.
+    I think the drivers will work using the atomic API,
+    but it has seen no testing!
+    I did not see any need for format negotiation, but if needed
+    let me know so we can fix it.
+    The last patch removes the mode_fixup support in drm_bridge.
+
+12:
+  - Add a few todo items, in the hope others will jump in and
+    convert some of the bridge drivers to the atomic API.
+
+The patch groups are more or less independent, and I may land them out
+of order if one group is reviewed before the rest.
+A few of the patches has already seen a review, but they need a
+bit more exposure as last review was more than a year ago.
+
+	Sam
+
+
+Sam Ravnborg (12):
+      drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs
+      drm/bridge: Drop unused drm_bridge_chain functions
+      drm/mediatek: Drop chain_mode_fixup call in mode_valid()
+      drm/bridge: Drop drm_bridge_chain_mode_fixup
+      drm/bridge: sii8620: Use drm_bridge_funcs.atomic_check
+      drm/bridge: cros-ec-anx7688: Use drm_bridge_funcs.atomic_check
+      drm/bridge: tc358767: Use drm_bridge_funcs.atomic_check
+      drm/mediatek: Drop mtk_hdmi_bridge_mode_fixup
+      drm/rcar-du: lvds: Use drm_bridge_funcs.atomic_check
+      drm/omapdrm: Use drm_bridge_funcs.atomic_check
+      drm/bridge: Drop drm_bridge_funcs.mode_fixup
+      drm/todo: Add bridge related todo items
+
+ Documentation/gpu/todo.rst               |  20 ++++
+ drivers/gpu/drm/bridge/cros-ec-anx7688.c |  28 ++++--
+ drivers/gpu/drm/bridge/parade-ps8640.c   |  18 ++--
+ drivers/gpu/drm/bridge/sil-sii8620.c     |  17 ++--
+ drivers/gpu/drm/bridge/tc358767.c        |  21 ++---
+ drivers/gpu/drm/drm_bridge.c             | 154 +------------------------------
+ drivers/gpu/drm/mediatek/mtk_hdmi.c      |  19 ----
+ drivers/gpu/drm/omapdrm/dss/dpi.c        |  31 ++++---
+ drivers/gpu/drm/omapdrm/dss/sdi.c        |  31 ++++---
+ drivers/gpu/drm/omapdrm/dss/venc.c       |  28 ++++--
+ drivers/gpu/drm/rcar-du/rcar_lvds.c      |  12 ++-
+ include/drm/drm_bridge.h                 |  91 ++++--------------
+ 12 files changed, 147 insertions(+), 323 deletions(-)
+
+
