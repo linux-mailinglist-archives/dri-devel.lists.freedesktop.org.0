@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1529A577796
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE8F57779D
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Jul 2022 19:58:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66BB69148D;
-	Sun, 17 Jul 2022 17:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 109D28B95E;
+	Sun, 17 Jul 2022 17:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3912F91489
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:48:16 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-10bec750eedso18645528fac.8
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 10:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wWo5nfiIszKM/pVy4I94cp8djYzE87GUS1z1+3Dj3X8=;
- b=saLG7Jfv/cpv45n+vut19GSIYCg0J4XcllVl0Aam+FMQb5sH5WDf/oZLHiJNqHixjZ
- ZZnTfYb2Hd5kBPab1/jtADZ9c+D5U9MuLSLVEc2VvkbWMsQ1wpldAj0rgGiLfKbsIfuI
- ilvDi6vtACVJ52c+rXIEEkQ7lJAKn/GP/oXoaxMU5wgT9ys2j3Y8FZ52sB+3db2fHGR0
- ssQ5PK1WKyH1pjuczTuP0UDSIp4/8LpF/bnWiAjuYhIAhGEoQKTknIFKukoY/OrSweo/
- ilSHXU4ccKOKQA0+tkx3/kVrglt2HndWhkm12mrJvsb/CBD5FIJeysiM651RUk/K+YPn
- SHjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wWo5nfiIszKM/pVy4I94cp8djYzE87GUS1z1+3Dj3X8=;
- b=kX96TlsUVGTyPymRoH0mKWHPW5Dz9Jwk/Zo8PshsXDrF7QhTSoJNOrhWahOusagkSU
- SlLbAwrrXkYQVkK2WkxPqQsTK9Wo3gxYLnRNjekuDnOqNcRAeW1TwfJ0/SoT8o1Jf4eH
- t0aq083OBF7z0Yae72hKIBiOoBufpciEqE871TA3Du2UIV1CQCutSACIxSksKPMxpCBB
- WXTfOL8fPnHynV15+iQDXCoyH0O+Ivip9xnH0gqY/W2Dvdrkuh2/KTNHBol4J6eUXBvv
- 4Zla2YQHDYmklQVGsgQPgGYC+oGbqWB9Pz70hhbDA0olBGigD4CnAuS27OUJNMmYc3DO
- EEjg==
-X-Gm-Message-State: AJIora+XcM0CHO3T3LELeH9OlU1mSHgJhO8kwtBUDy2ArlSjPKNxo05c
- DGkT80JPuz3QDUJo6Y9YLEeEpQ==
-X-Google-Smtp-Source: AGRyM1sQBNoOS0lLk6GPha7ctC/wcB/G6Pai9TruWEuZD5rTUvN3LQo6MebMZgKUkaJTNbl4nz6TvQ==
-X-Received: by 2002:a05:6871:b0d:b0:10c:10bf:1276 with SMTP id
- fq13-20020a0568710b0d00b0010c10bf1276mr12608104oab.185.1658080095178; 
- Sun, 17 Jul 2022 10:48:15 -0700 (PDT)
-Received: from [192.168.1.195] ([187.36.234.139])
- by smtp.gmail.com with ESMTPSA id
- x27-20020a9d459b000000b0061c68a35fdfsm2470857ote.9.2022.07.17.10.48.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Jul 2022 10:48:14 -0700 (PDT)
-Message-ID: <99aedd6c-0254-9712-a7d7-d94c0be31086@usp.br>
-Date: Sun, 17 Jul 2022 14:48:04 -0300
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBA6512A80C
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jul 2022 17:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+ subject:cc:to:from:from;
+ bh=Ie8mdCntK7qyM1ThoHTn0tAb6FNFfAz8fYfoPn1nKpM=;
+ b=Owd4TR+EIAcR/w4IS9ir8ZcJOxNC7zfMKnLLOvEYaWyNhBD6xHyXdMeyWVSlHv8yuBoUu6GTdlV0M
+ +N5PjTde+3Ugkzo3EnTrBclAEoZabbMu5LbWyaFQ2Xqq1dsx+GvCku2SfiQseFlvC9y1szOx/UjCz7
+ sVDLt2A+KV6QCO4bTytrBcXafvcny+Bw9DonGSumNPJmvm9J4HlydnWkQO0E87ZmJfQsSsjO69Tpe4
+ X3QqfpcIY1s30KdBaNVnCsaxv1IxTL7VGjS9nDe3aC9eTCv8FRR3uMzBT3QSRCcVccCY4NtCo1BXuQ
+ 0nJuEkYd8XyKOt8aZfKhOB6lxCuNSgg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+ subject:cc:to:from:from;
+ bh=Ie8mdCntK7qyM1ThoHTn0tAb6FNFfAz8fYfoPn1nKpM=;
+ b=SJAzZOPeRrw1zNoIoWtZEdkJbmL6Ihhfv4xQ6otdBCl2YYmEUOZQyubn0ANmkK9oD5aYtc7xczVbI
+ J81A1uACg==
+X-HalOne-Cookie: 1e041dfdbe31dc4e91bc574cc7fddbd785b1642b
+X-HalOne-ID: 05046757-05fa-11ed-be7f-d0431ea8bb03
+Received: from mailproxy1.cst.dirpod4-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 05046757-05fa-11ed-be7f-d0431ea8bb03;
+ Sun, 17 Jul 2022 17:58:11 +0000 (UTC)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v1 08/12] drm/mediatek: Drop mtk_hdmi_bridge_mode_fixup
+Date: Sun, 17 Jul 2022 19:57:57 +0200
+Message-Id: <20220717175801.78668-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220717174454.46616-1-sam@ravnborg.org>
+References: <20220717174454.46616-1-sam@ravnborg.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v5 4/9] drm: selftest: convert drm_format selftest to KUnit
-Content-Language: en-US
-To: Daniel Latypov <dlatypov@google.com>, Guenter Roeck <linux@roeck-us.net>
-References: <20220708203052.236290-1-maira.canal@usp.br>
- <20220708203052.236290-5-maira.canal@usp.br>
- <20220714235137.GA485839@roeck-us.net>
- <CAGS_qxrhy3=pST9f85fvxubKQShOq1XF6ZHALzMhXDOf5gnaUg@mail.gmail.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>
-In-Reply-To: <CAGS_qxrhy3=pST9f85fvxubKQShOq1XF6ZHALzMhXDOf5gnaUg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,65 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: siqueirajordao@riseup.net, David Airlie <airlied@linux.ie>,
- brendanhiggins@google.com, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, n@nfraprado.net,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
- magalilemes00@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
- mwen@igalia.com, David Gow <davidgow@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
- michal.winiarski@intel.com, tales.aparecida@gmail.com,
- linux-kernel@vger.kernel.org, leandro.ribeiro@collabora.com,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Guenter Roeck <groeck@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ chrome-platform@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Philip Chen <philipchen@chromium.org>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/14/22 21:03, Daniel Latypov wrote:
-> On Thu, Jul 14, 2022 at 4:51 PM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> On Fri, Jul 08, 2022 at 05:30:47PM -0300, Maíra Canal wrote:
->>> Considering the current adoption of the KUnit framework, convert the
->>> DRM format selftest to the KUnit API.
->>>
->>> Tested-by: David Gow <davidgow@google.com>
->>> Acked-by: Daniel Latypov <dlatypov@google.com>
->>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>> Signed-off-by: Maíra Canal <maira.canal@usp.br>
->>
->> This patch results in:
->>
->> Building powerpc:allmodconfig ... failed
->> --------------
->> Error log:
->> drivers/gpu/drm/tests/drm_format_test.c: In function 'igt_check_drm_format_min_pitch':
->> drivers/gpu/drm/tests/drm_format_test.c:271:1: error: the frame size of 3712 bytes is larger than 2048 bytes
->>
->> presumably due to function nesting.
-> 
-> This can happen when there's a lot of KUNIT_EXPECT_* calls in a single function.
-> See [1] for some related context.
-> There were a number of patches that went into 5.18 ([2] and others) to
-> try and mitigate this, but it's not always enough.
-> 
-> Ideally the compiler would see that the stack-local variables used in
-> these macros don't need to stick around, but it doesn't always
-> happen...
+The implementation of drm_bridge_funcs.mode_fixup is optional
+so there is no need to provide an empty implementation.
+Drop mtk_hdmi_bridge_mode_fixup() so the driver no longer uses the
+deprecated drm_bridge_funcs.mode_fixup() operation.
 
-As a matter of fact, for GCC 12, the warning -Wframe-larger-than=
-doesn't show up due to compiler improvement, but for GCC 11.3, it does.
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+---
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-As I have GCC 12 on my machine, I didn't even get the warning.
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index a63b76055f81..7321aa1ee6f0 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1293,13 +1293,6 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
+ 	return 0;
+ }
+ 
+-static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
+-				       const struct drm_display_mode *mode,
+-				       struct drm_display_mode *adjusted_mode)
+-{
+-	return true;
+-}
+-
+ static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+ 					   struct drm_bridge_state *old_bridge_state)
+ {
+@@ -1399,7 +1392,6 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.attach = mtk_hdmi_bridge_attach,
+-	.mode_fixup = mtk_hdmi_bridge_mode_fixup,
+ 	.atomic_disable = mtk_hdmi_bridge_atomic_disable,
+ 	.atomic_post_disable = mtk_hdmi_bridge_atomic_post_disable,
+ 	.mode_set = mtk_hdmi_bridge_mode_set,
+-- 
+2.34.1
 
-Anyway, I'll separate the test into multiple functions to avoid any
-problems related to stack size.
-
-Best Regards,
-- Maíra Canal
-
-> One workaround would be to split up the test case functions into smaller chunks.
-> 
-> [1] https://lore.kernel.org/linux-kselftest/20210929212713.1213476-1-brendanhiggins@google.com/
-> [2] https://lore.kernel.org/linux-kselftest/20220113165931.451305-1-dlatypov@google.com/
-> 
-> Daniel
