@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27C3578846
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 19:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB29B5788C8
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 19:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E6618A83A;
-	Mon, 18 Jul 2022 17:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCA60942BF;
+	Mon, 18 Jul 2022 17:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79B0618A0E5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 17:24:27 +0000 (UTC)
-Received: from sobremesa.fritz.box (82-69-11-11.dsl.in-addr.zen.co.uk
- [82.69.11.11])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 148F26601A78;
- Mon, 18 Jul 2022 18:24:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658165066;
- bh=3ai7oM2mUUZr9JH9WfFCODlGxj15wDZtw/GT9rfVEvM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eJc77hQttT5Y+2V8Fr54xHcFZ1f8OtzxBO5snoS4JP2n3lIWckbWgolNg2Hdd+pJd
- pSPGhu4cfjQc1y+bFnFNGiDikJgHT9jAOli+oB99zEvebiVNA3WS/kU/vW/2rmLqAY
- nrrbZgmIAoRqX2Ns0cPIXBUl6M30uNeSppKXGierOpTp0l81f+WvY+fdBfv3ByAOzs
- Rs5mVH1G0ZQcEC/Slr/btxqPBS1IK9AXfLac0WrtCTv2Qgt/Roo+USBjlMQpaAOlE2
- PdUtUQ54Yodq1Wezlr2SQT7IXaAaQBEDOhG7m7lTf+veS860cIN5myfzTALkIKAKLV
- cM6A0FGapEyzw==
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 2/2] drm/panfrost: Add support for devcoredump
-Date: Mon, 18 Jul 2022 18:24:18 +0100
-Message-Id: <20220718172418.584231-3-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220718172418.584231-1-adrian.larumbe@collabora.com>
-References: <20220718172418.584231-1-adrian.larumbe@collabora.com>
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
+ [209.85.166.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45ED2942A8;
+ Mon, 18 Jul 2022 17:50:26 +0000 (UTC)
+Received: by mail-il1-f182.google.com with SMTP id r4so2226563ilb.10;
+ Mon, 18 Jul 2022 10:50:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Qo+O3LtYsVt3ukwggOHDQf2oi2D8i1x0+YuYG/drp00=;
+ b=Hb03a4SO9hraq/Md56gVG0MRyMuVp9QW3r/RW6Nvr+xKZp+W3qcALGT5R+hE6u+pkA
+ kCrnV7f6F1Dkzl4ulkC9CdODOkpD7l++gIMm96sgTVTowetVtw8khkYfa/x2SzqXxuYY
+ zedqFGRBc34N3vK2nC44Kb3RFEzq/HxDldykADQAcrQ1Y3rvGw6P5k5DIBv09CydkkrY
+ 9yTcsloRKrUJFrdXwxRcxytE8wHTO5ytJYEAcD/NLaDzQrmNUuh5E+SttNX+NmE/S1Pt
+ 40xeQhs1I6rp6jzam+nOqOqUKUPJafX5GyjK/YMev/qg8zsewI208bBM07JdFsllCKZV
+ UwVw==
+X-Gm-Message-State: AJIora+4DcOZEi+cEs9Ouamq2NFiIghZG3rEyUy3ClzvltH+MYtugNEy
+ w7eJ18Ee+3hBraqACTLFaQ==
+X-Google-Smtp-Source: AGRyM1vW0jj+2K/+MnMJmlvpDJ+vIEj6eMNRycI2GUzxrkQTlF3EGll5aFibyTPPNbtPr1MMDnGyzA==
+X-Received: by 2002:a92:dd82:0:b0:2d9:126:5bed with SMTP id
+ g2-20020a92dd82000000b002d901265bedmr14367423iln.97.1658166625399; 
+ Mon, 18 Jul 2022 10:50:25 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ y27-20020a02731b000000b0033f51b3b0d9sm5764589jab.138.2022.07.18.10.50.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 10:50:24 -0700 (PDT)
+Received: (nullmailer pid 3238778 invoked by uid 1000);
+ Mon, 18 Jul 2022 17:50:23 -0000
+Date: Mon, 18 Jul 2022 11:50:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 11/11] dt-bindings: display/msm: move common DPU
+ properties to dpu-common.yaml
+Message-ID: <20220718175023.GA3216365-robh@kernel.org>
+References: <20220710090040.35193-1-dmitry.baryshkov@linaro.org>
+ <20220710090040.35193-12-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220710090040.35193-12-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,404 +63,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adrian.larumbe@collabora.com
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the event of a job timeout, debug dump information will be written into
-/sys/class/devcoredump.
+On Sun, Jul 10, 2022 at 12:00:40PM +0300, Dmitry Baryshkov wrote:
+> Move properties common to all DPU DT nodes to the dpu-common.yaml.
+> 
+> Note, this removes description of individual DPU port@ nodes. However
+> such definitions add no additional value. The reg values do not
+> correspond to hardware INTF indices. The driver discovers and binds
+> these ports not paying any care for the order of these items. Thus just
+> leave the reference to graph.yaml#/properties/ports and the description.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../bindings/display/msm/dpu-common.yaml      | 42 ++++++++++++++++++
+>  .../bindings/display/msm/dpu-msm8998.yaml     | 43 ++-----------------
+>  .../bindings/display/msm/dpu-qcm2290.yaml     | 39 ++---------------
+>  .../bindings/display/msm/dpu-sc7180.yaml      | 43 ++-----------------
+>  .../bindings/display/msm/dpu-sc7280.yaml      | 43 ++-----------------
+>  .../bindings/display/msm/dpu-sdm845.yaml      | 43 ++-----------------
+>  6 files changed, 62 insertions(+), 191 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+> new file mode 100644
+> index 000000000000..14eda883e149
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+> @@ -0,0 +1,42 @@
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/dpu-common.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Display DPU dt properties (common properties)
+> +
+> +maintainers:
+> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> +  - Krishna Manikandan <quic_mkrishn@quicinc.com>
+> +  - Rob Clark <robdclark@gmail.com>
+> +
+> +description: |
+> +  Common properties for QCom DPU display controller.
+> +
+> +properties:
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  operating-points-v2: true
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: |
+> +      Contains the list of output ports from DPU device. These ports
+> +      connect to interfaces that are external to the DPU hardware,
+> +      such as DSI, DP etc.
 
-Inspired by etnaviv's similar feature.
+From the last version:
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/Kconfig         |   1 +
- drivers/gpu/drm/panfrost/Makefile        |   3 +-
- drivers/gpu/drm/panfrost/panfrost_dump.c | 249 +++++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_dump.h |  12 ++
- drivers/gpu/drm/panfrost/panfrost_job.c  |   3 +
- include/uapi/drm/panfrost_drm.h          |  47 +++++
- 6 files changed, 314 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
+> In case of MDSS all ports are output, they are connected to the external
+> interfaces (DSI, DP, HDMI, etc). The driver uses them to bind available
+> interfaces (using components framework). The reg property of the port is
+> completely ignored.
 
-diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
-index 86cdc0ce79e6..079600328be1 100644
---- a/drivers/gpu/drm/panfrost/Kconfig
-+++ b/drivers/gpu/drm/panfrost/Kconfig
-@@ -11,6 +11,7 @@ config DRM_PANFROST
- 	select DRM_GEM_SHMEM_HELPER
- 	select PM_DEVFREQ
- 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-+	select WANT_DEV_COREDUMP
- 	help
- 	  DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
- 	  Bifrost (G3x, G5x, G7x) GPUs.
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index b71935862417..7da2b3f02ed9 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -9,6 +9,7 @@ panfrost-y := \
- 	panfrost_gpu.o \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
--	panfrost_perfcnt.o
-+	panfrost_perfcnt.o \
-+	panfrost_dump.o
- 
- obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-new file mode 100644
-index 000000000000..72458a6cc197
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-@@ -0,0 +1,249 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright 2021 Collabora ltd. */
-+
-+#include <linux/err.h>
-+#include <linux/device.h>
-+#include <linux/devcoredump.h>
-+#include <linux/moduleparam.h>
-+#include <linux/iosys-map.h>
-+#include <drm/panfrost_drm.h>
-+#include <drm/drm_device.h>
-+
-+#include "panfrost_job.h"
-+#include "panfrost_gem.h"
-+#include "panfrost_regs.h"
-+#include "panfrost_dump.h"
-+#include "panfrost_device.h"
-+
-+static bool panfrost_dump_core = true;
-+module_param_named(dump_core, panfrost_dump_core, bool, 0600);
-+
-+struct panfrost_dump_iterator {
-+	void *start;
-+	struct panfrost_dump_object_header *hdr;
-+	void *data;
-+};
-+
-+static const unsigned short panfrost_dump_registers[] = {
-+	SHADER_READY_LO,
-+	SHADER_READY_HI,
-+	TILER_READY_LO,
-+	TILER_READY_HI,
-+	L2_READY_LO,
-+	L2_READY_HI,
-+	JOB_INT_MASK,
-+	JOB_INT_STAT,
-+	JS_HEAD_LO(0),
-+	JS_HEAD_HI(0),
-+	JS_TAIL_LO(0),
-+	JS_TAIL_HI(0),
-+	JS_AFFINITY_LO(0),
-+	JS_AFFINITY_HI(0),
-+	JS_CONFIG(0),
-+	JS_STATUS(0),
-+	JS_HEAD_NEXT_LO(0),
-+	JS_HEAD_NEXT_HI(0),
-+	JS_AFFINITY_NEXT_LO(0),
-+	JS_AFFINITY_NEXT_HI(0),
-+	JS_CONFIG_NEXT(0),
-+	MMU_INT_MASK,
-+	MMU_INT_STAT,
-+	AS_TRANSTAB_LO(0),
-+	AS_TRANSTAB_HI(0),
-+	AS_MEMATTR_LO(0),
-+	AS_MEMATTR_HI(0),
-+	AS_FAULTSTATUS(0),
-+	AS_FAULTADDRESS_LO(0),
-+	AS_FAULTADDRESS_HI(0),
-+	AS_STATUS(0),
-+};
-+
-+static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
-+	u32 type, void *data_end)
-+{
-+	struct panfrost_dump_object_header *hdr = iter->hdr;
-+
-+	hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
-+	hdr->type = cpu_to_le32(type);
-+	hdr->file_offset = cpu_to_le32(iter->data - iter->start);
-+	hdr->file_size = cpu_to_le32(data_end - iter->data);
-+
-+	iter->hdr++;
-+	iter->data += le32_to_cpu(hdr->file_size);
-+}
-+
-+static void
-+panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
-+			     struct panfrost_device *pfdev,
-+			     u32 as_nr, int slot)
-+{
-+	struct panfrost_dump_registers *dumpreg = iter->data;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, dumpreg++) {
-+		unsigned int js_as_offset = 0;
-+		unsigned int reg;
-+
-+		if (panfrost_dump_registers[i] >= JS_BASE &&
-+		    panfrost_dump_registers[i] <= JS_BASE + JS_SLOT_STRIDE)
-+			js_as_offset = slot * JS_SLOT_STRIDE;
-+		else if (panfrost_dump_registers[i] >= MMU_BASE &&
-+			 panfrost_dump_registers[i] <= MMU_BASE + MMU_AS_STRIDE)
-+			js_as_offset = (as_nr << MMU_AS_SHIFT);
-+
-+		reg = panfrost_dump_registers[i] + js_as_offset;
-+
-+		dumpreg->reg = cpu_to_le32(reg);
-+		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
-+	}
-+
-+	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
-+}
-+
-+void panfrost_core_dump(struct panfrost_job *job)
-+{
-+	struct panfrost_device *pfdev = job->pfdev;
-+	struct panfrost_dump_iterator iter;
-+	struct drm_gem_object *dbo;
-+	unsigned int n_obj, n_bomap_pages;
-+	__le64 *bomap, *bomap_start;
-+	size_t file_size;
-+	u32 as_nr;
-+	int slot;
-+	int ret, i;
-+
-+	as_nr = job->mmu->as;
-+	slot = panfrost_job_get_slot(job);
-+
-+	/* Only catch the first event, or when manually re-armed */
-+	if (!panfrost_dump_core)
-+		return;
-+	panfrost_dump_core = false;
-+
-+	/* At least, we dump registers and end marker */
-+	n_obj = 2;
-+	n_bomap_pages = 0;
-+	file_size = ARRAY_SIZE(panfrost_dump_registers) *
-+			sizeof(struct panfrost_dump_registers);
-+
-+	/* Add in the active buffer objects */
-+	for (i = 0; i < job->bo_count; i++) {
-+		/*
-+		 * Even though the CPU could be configured to use 16K or 64K pages, this
-+		 * is a very unusual situation for most kernel setups on SoCs that have
-+		 * a Panfrost device. Also many places across the driver make the somewhat
-+		 * arbitrary assumption that Panfrost's MMU page size is the same as the CPU's,
-+		 * so let's have a sanity check to ensure that's always the case
-+		 */
-+		dbo = job->bos[i];
-+		WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
-+
-+		file_size += dbo->size;
-+		n_bomap_pages += dbo->size >> PAGE_SHIFT;
-+		n_obj++;
-+	}
-+
-+	/* If we have any buffer objects, add a bomap object */
-+	if (n_bomap_pages) {
-+		file_size += n_bomap_pages * sizeof(*bomap);
-+		n_obj++;
-+	}
-+
-+	/* Add the size of the headers */
-+	file_size += sizeof(*iter.hdr) * n_obj;
-+
-+	/*
-+	 * Allocate the file in vmalloc memory, it's likely to be big.
-+	 * The reason behind these GFP flags is that we don't want to trigger the
-+	 * OOM killer in the event that not enough memory could be found for our
-+	 * dump file. We also don't want the allocator to do any error reporting,
-+	 * as the right behaviour is failing gracefully if a big enough buffer
-+	 * could not be allocated.
-+	 */
-+	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-+			__GFP_NORETRY);
-+	if (!iter.start) {
-+		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
-+		return;
-+	}
-+
-+	/* Point the data member after the headers */
-+	iter.hdr = iter.start;
-+	iter.data = &iter.hdr[n_obj];
-+
-+	memset(iter.hdr, 0, iter.data - iter.start);
-+
-+	/*
-+	 * For now, we write the job identifier in the register dump header,
-+	 * so that we can decode the entire dump later with pandecode
-+	 */
-+	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
-+	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
-+	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
-+	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
-+	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
-+
-+	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
-+
-+	/* Reserve space for the bomap */
-+	if (job->bo_count) {
-+		bomap_start = bomap = iter.data;
-+		memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
-+		panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
-+					  bomap + n_bomap_pages);
-+	}
-+
-+	for (i = 0; i < job->bo_count; i++) {
-+		struct iosys_map map;
-+		struct panfrost_gem_mapping *mapping;
-+		struct panfrost_gem_object *bo;
-+		struct sg_page_iter page_iter;
-+		void *vaddr;
-+
-+		bo = to_panfrost_bo(job->bos[i]);
-+		mapping = job->mappings[i];
-+
-+		if (!bo->base.sgt) {
-+			dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
-+			iter.hdr->bomap.valid = 0;
-+			goto dump_header;
-+		}
-+
-+		ret = drm_gem_shmem_vmap(&bo->base, &map);
-+		if (ret) {
-+			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
-+			iter.hdr->bomap.valid = 0;
-+			goto dump_header;
-+		}
-+
-+		WARN_ON(!mapping->active);
-+
-+		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
-+
-+		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
-+			struct page *page = sg_page_iter_page(&page_iter);
-+
-+			if (!IS_ERR(page)) {
-+				*bomap++ = cpu_to_le64(page_to_phys(page));
-+			} else {
-+				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
-+				*bomap++ = ~cpu_to_le64(0);
-+			}
-+		}
-+
-+		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
-+
-+		vaddr = map.vaddr;
-+		memcpy(iter.data, vaddr, bo->base.base.size);
-+
-+		drm_gem_shmem_vunmap(&bo->base, &map);
-+
-+		iter.hdr->bomap.valid = cpu_to_le32(1);
-+
-+dump_header:	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
-+					  bo->base.base.size);
-+	}
-+	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_TRAILER, iter.data);
-+
-+	dev_coredumpv(pfdev->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.h b/drivers/gpu/drm/panfrost/panfrost_dump.h
-new file mode 100644
-index 000000000000..7d9bcefa5346
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2021 Collabora ltd.
-+ */
-+
-+#ifndef PANFROST_DUMP_H
-+#define PANFROST_DUMP_H
-+
-+struct panfrost_job;
-+void panfrost_core_dump(struct panfrost_job *job);
-+
-+#endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 7c4208476fbd..dbc597ab46fb 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -20,6 +20,7 @@
- #include "panfrost_regs.h"
- #include "panfrost_gpu.h"
- #include "panfrost_mmu.h"
-+#include "panfrost_dump.h"
- 
- #define JOB_TIMEOUT_MS 500
- 
-@@ -727,6 +728,8 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 		job_read(pfdev, JS_TAIL_LO(js)),
- 		sched_job);
- 
-+	panfrost_core_dump(job);
-+
- 	atomic_set(&pfdev->reset.pending, 1);
- 	panfrost_reset(pfdev, sched_job);
- 
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 9e40277d8185..eac87310b348 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -224,6 +224,53 @@ struct drm_panfrost_madvise {
- 	__u32 retained;       /* out, whether backing store still exists */
- };
- 
-+/* Definitions for coredump decoding in user space */
-+#define PANFROSTDUMP_MAJOR 1
-+#define PANFROSTDUMP_MINOR 0
-+
-+#define PANFROSTDUMP_MAGIC 0x464E4150 /* PANF */
-+
-+#define PANFROSTDUMP_BUF_REG 0
-+#define PANFROSTDUMP_BUF_BOMAP (PANFROSTDUMP_BUF_REG + 1)
-+#define PANFROSTDUMP_BUF_BO (PANFROSTDUMP_BUF_BOMAP + 1)
-+#define PANFROSTDUMP_BUF_TRAILER (PANFROSTDUMP_BUF_BO + 1)
-+
-+struct panfrost_dump_object_header {
-+	__le32 magic;
-+	__le32 type;
-+	__le32 file_size;
-+	__le32 file_offset;
-+
-+	union {
-+		struct pan_reg_hdr {
-+			__le64 jc;
-+			__le32 gpu_id;
-+			__le32 major;
-+			__le32 minor;
-+			__le64 nbos;
-+		} reghdr;
-+
-+		struct pan_bomap_hdr {
-+			__le32 valid;
-+			__le64 iova;
-+			__le32 data[2];
-+		} bomap;
-+
-+		/*
-+		 * Force same size in case we want to expand the header
-+		 * with new fields and also keep it 512-byte aligned
-+		 */
-+
-+		__le32 sizer[496];
-+	};
-+};
-+
-+/* Registers object, an array of these */
-+struct panfrost_dump_registers {
-+	__le32 reg;
-+	__le32 value;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
--- 
-2.37.0
+It doesn't matter what the driver does or doesn't do. Without 
+describing port nodes at all, you are not validating what port nodes 
+can contain. Just try adding any property under a port node. You need at 
+least:
 
+'^port@[0-N]$':
+  $ref: graph.yaml#/properties/port
+
+where N is the max number of ports.
+
+Rob
