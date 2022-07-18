@@ -1,107 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4C6577D94
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:35:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 735AA577D28
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:08:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13CACA5A7D;
-	Mon, 18 Jul 2022 08:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DCDAC660;
+	Mon, 18 Jul 2022 08:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lists.sourceforge.net (lists.sourceforge.net [216.105.38.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3448A5869;
- Mon, 18 Jul 2022 08:35:40 +0000 (UTC)
-Received: from [127.0.0.1] (helo=sfs-ml-3.v29.lw.sourceforge.com)
- by sfs-ml-3.v29.lw.sourceforge.com with esmtp (Exim 4.94.2)
- (envelope-from <dri-devel-bounces@lists.sourceforge.net>)
- id 1oDME6-0000Z5-Bc; Mon, 18 Jul 2022 08:35:37 +0000
-Received: from [172.30.20.202] (helo=mx.sourceforge.net)
- by sfs-ml-4.v29.lw.sourceforge.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <airlied@gmail.com>) id 1oDLKf-00073o-96
- for dri-devel@lists.sourceforge.net; Mon, 18 Jul 2022 07:38:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sourceforge.net; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=a5hZOAAUWc2PoIMWjCrKIcjEuKInTNDbrdy1CIkcc5U=; b=G0VY4h98FkgRAjXwX6+ib46Gt3
- 3xERRPHXPHJGdjjEpnoMA5gvx1i+v2hkYYag5Bg1Ov6PNZ4qRjbe9OtL4MpBvsjOW2p3syb09xvE5
- S6RfrqyodaxzHxjSSo6ZjuyGIFqmOcrGOGP9JFFVV+Jbo7tg6O52zcgLOsdAUT5q4sh0=;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sf.net; s=x
- ;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From
- :Sender:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
- References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
- List-Owner:List-Archive; bh=a5hZOAAUWc2PoIMWjCrKIcjEuKInTNDbrdy1CIkcc5U=; b=i
- eRObj/ksg3y8r3SDfsbBj5avvFo8NMLFN5w/MhsRb6dxCVuippCwrYhKpaVRF6R4PujHuiJGV7hOf
- hd5/ggjzubBYyTwhfb3GQRFICyIvdluOra47spiyqoLKZTIG3DctCmNPfDoKFsw3+osg+E23uW/a5
- CuWZFVjiIXTUwBtQ=;
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44])
- by sfi-mx-1.v28.lw.sourceforge.com with esmtps
- (TLS1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.94.2)
- id 1oDLKZ-002SDe-II
- for dri-devel@lists.sourceforge.net; Mon, 18 Jul 2022 07:38:19 +0000
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-AgST6BwiNTG9NjgWcQgQBg-1; Mon, 18 Jul 2022 03:21:54 -0400
-X-MC-Unique: AgST6BwiNTG9NjgWcQgQBg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F8D7811E80;
- Mon, 18 Jul 2022 07:21:53 +0000 (UTC)
-Received: from dreadlord.bne.redhat.com (fdacunha.bne.redhat.com [10.64.0.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69304141511A;
- Mon, 18 Jul 2022 07:21:49 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: torvalds@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
- Daniel Vetter <daniel@ffwll.ch>, mcgrof@kernel.org
-Subject: [PATCH] docs: driver-api: firmware: add driver firmware guidelines.
-Date: Mon, 18 Jul 2022 17:21:44 +1000
-Message-Id: <20220718072144.2699487-1-airlied@gmail.com>
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05DBAC658
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 08:08:49 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id s21so11010657pjq.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 01:08:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=CUvUySPFulLpJMe6eEU3YtP+k2lXPFdi238dz02/TnA=;
+ b=pHUAhFihwGq4x+L9IFz64byctPKxMey+1jJrxWMXoIp6tYfspwIQNIMzp7YBTH00xn
+ MRzfhJj8RY4NA4mFvpX/dCVWMpW27h/Njmzv7MmAtFUvpbbul8t5EAe192JoL/OYQ6/s
+ zYjE+CbBzxnhn/cgTyA0Bs/GtDn+R9lbkor0iXsp+EmPI2KlVUjcMQTUQrIikQ8NHDMp
+ I2FQM1xubPFVtXGRB4dZts8UYYxW5QU7vg2DfZS27wC41UjIJhTXDckFd8tPgOzwbvc4
+ 1cKXpRAi5A/FWLrXPzcBSgixvnKv1XZEewB7e2CcmvZHXmuVo8UORFDuotPcS3/M7CCo
+ WblQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=CUvUySPFulLpJMe6eEU3YtP+k2lXPFdi238dz02/TnA=;
+ b=guXP5I54oHqF0KqNUHm0d3QqWVHFwEvQ3sfhsG2hVFCc6bsmBdbDEf/74f1Lj5x4Gm
+ pezhmr3gswaj55KdtXYSgZfM8ZZmy9fUFmWNuWrd1yDnteAJE4rdXFhWJmdA1lspBn7T
+ fGW9XYjyL11dlLihM1kafI6bnyZTOjryM0NucIg/6RwO3T7OdtWZ/YbcTaWBpMRrmhzi
+ jOZBV2k/XTonZOQKgp41nS21D8EjKim/IsZLTQuRes3j09cUapC/WYR0RUKJtOLEr1C5
+ /BKG+JEkjrM9BD/GnL8R8+2GQIPiHe9l52j/NHidDj0Gv/1ahgGcBZkBdW/lEBR3fDzr
+ gjbg==
+X-Gm-Message-State: AJIora+oQQGJZpTMk7bY6jqHs1V0KIj3uJVvWg5/8HI/BctLDzF2Y/oX
+ KdxOSbMcB+fYTmgktT/Irfk9ur//PNnomg==
+X-Google-Smtp-Source: AGRyM1vhEQ3YQzNXVMn83J82E/AUt4UjMd+K2amzhrVvPs1pmkb06EqRlQYBGCtIVLv6eW+mUn8kbQ==
+X-Received: by 2002:a17:902:e888:b0:16c:33f7:89cb with SMTP id
+ w8-20020a170902e88800b0016c33f789cbmr27448255plg.2.1658131729130; 
+ Mon, 18 Jul 2022 01:08:49 -0700 (PDT)
+Received: from cyhuang-hp-elitebook-840-g3.rt
+ ([2402:7500:587:e7ad:4982:5f13:5219:614d])
+ by smtp.gmail.com with ESMTPSA id
+ u9-20020a170903124900b0016cabb9d77dsm8895028plh.169.2022.07.18.01.08.39
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 18 Jul 2022 01:08:48 -0700 (PDT)
+Date: Mon, 18 Jul 2022 16:08:35 +0800
+From: ChiYuan Huang <u0084500@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v5 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
+ tcpci driver
+Message-ID: <20220718080831.GA31509@cyhuang-hp-elitebook-840-g3.rt>
+References: <20220715112607.591-1-peterwu.pub@gmail.com>
+ <20220715112607.591-9-peterwu.pub@gmail.com>
+ <CAHp75VdCgdTOu-CdNo9XGY+PrhPh93v_CkAHJC6hkArsKeiXbA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-X-Spam-Score: 3.9 (+++)
-X-Spam-Report: Spam detection software,
- running on the system "util-spamd-2.v13.lw.sourceforge.com", 
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview: From: Dave Airlie A recent snafu where Intel ignored upstream
- feedback on a firmware change, led to a late rc6 fix being required. In order
- to avoid this in the future we should document some expectations around linux-
- [...] Content analysis details:   (3.9 points, 6.0 required)
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.7 RCVD_IN_DNSWL_LOW      RBL: Sender listed at https://www.dnswl.org/,
- low trust [207.211.30.44 listed in list.dnswl.org]
- 1.0 FORGED_GMAIL_RCVD      'From' gmail.com does not match 'Received'
- headers
- 0.0 DKIM_ADSP_CUSTOM_MED   No valid author signature, adsp_override is
- CUSTOM_MED
- 0.0 FREEMAIL_FROM          Sender email is commonly abused enduser mail
- provider [airlied[at]gmail.com]
- 1.0 SPF_SOFTFAIL           SPF: sender does not match SPF record (softfail)
- 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
- 1.2 NML_ADSP_CUSTOM_MED    ADSP custom_med hit, and not from a mailing
- list 1.4 SPOOFED_FREEMAIL       No description available.
- 0.0 SPOOF_GMAIL_MID        From Gmail but it doesn't seem to be...
-X-Headers-End: 1oDLKZ-002SDe-II
-X-Mailman-Approved-At: Mon, 18 Jul 2022 08:35:14 +0000
-X-BeenThere: dri-devel@lists.sourceforge.net
-X-Mailman-Version: 2.1.21
-Precedence: list
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdCgdTOu-CdNo9XGY+PrhPh93v_CkAHJC6hkArsKeiXbA@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -111,89 +74,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, dri-devel@lists.sf.net,
- Dave Airlie <airlied@redhat.com>, linux-media@vger.kernel.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ ChiYuan Huang <u0084500@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree <devicetree@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ szuni chen <szunichen@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On Fri, Jul 15, 2022 at 03:10:42PM +0200, Andy Shevchenko wrote:
+> On Fri, Jul 15, 2022 at 1:28 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+> 
+> > The MT6370 is a highly-integrated smart power management IC, which
+> > includes a single cell Li-Ion/Li-Polymer switching battery charger,
+> > a USB Type-C & Power Delivery (PD) controller, dual Flash LED current
+> > sources, a RGB LED driver, a backlight WLED driver, a display bias
+> > driver and a general LDO for portable devices.
+> >
+> > This commit add support for the Type-C & Power Delivery controller in
+> 
+> This commit add -> Add
+> 
+Upper case? Or rewrite it as 'This commit is to add .....'?
+> 
+> > MediaTek MT6370 IC.
+> 
+> 
+> > +static int mt6370_tcpc_probe(struct platform_device *pdev)
+> > +{
+> > +       struct mt6370_priv *priv;
+> > +       struct device *dev = &pdev->dev;
+> > +       int ret;
+> > +
+> > +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > +       if (!priv)
+> > +               return -ENOMEM;
+> > +
+> > +       priv->dev = dev;
+> > +       platform_set_drvdata(pdev, priv);
+> > +
+> > +       priv->tcpci_data.regmap = dev_get_regmap(dev->parent, NULL);
+> > +       if (!priv->tcpci_data.regmap)
+> > +               return dev_err_probe(dev, -ENODEV, "Failed to init regmap\n");
+> > +
+> > +       ret = mt6370_check_vendor_info(priv);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       priv->irq = platform_get_irq(pdev, 0);
+> > +       if (priv->irq < 0)
+> > +               return priv->irq;
+> > +
+> > +       /* Assign TCPCI feature and ops */
+> > +       priv->tcpci_data.auto_discharge_disconnect = 1;
+> > +       priv->tcpci_data.init = mt6370_tcpc_init;
+> > +       priv->tcpci_data.set_vconn = mt6370_tcpc_set_vconn;
+> > +
+> > +       priv->vbus = devm_regulator_get_optional(dev, "vbus");
+> > +       if (!IS_ERR(priv->vbus))
+> > +               priv->tcpci_data.set_vbus = mt6370_tcpc_set_vbus;
+> > +
+> > +       priv->tcpci = tcpci_register_port(dev, &priv->tcpci_data);
+> > +       if (IS_ERR(priv->tcpci))
+> > +               return dev_err_probe(dev, PTR_ERR(priv->tcpci),
+> > +                                    "Failed to register tcpci port\n");
+> > +
+> > +       ret = devm_request_threaded_irq(dev, priv->irq, NULL,
+> > +                                       mt6370_irq_handler, IRQF_ONESHOT,
+> > +                                       dev_name(dev), priv);
+> > +       if (ret) {
+> 
+> > +               tcpci_unregister_port(priv->tcpci);
+> 
+> This is wrong.
+> You mixed devm_ with non-devm. Either drop devm_ *after* the first
+> non-devm_ call, or convert everything to be managed.
+> 
+How about to add 'devm_add_action_or_reset' for tcpci_unregister_port?
+This will convert all as 'devm_' version.
+> > +               return dev_err_probe(dev, ret, "Failed to allocate irq\n");
+> > +       }
+> > +
+> > +       device_init_wakeup(dev, true);
+> > +       dev_pm_set_wake_irq(dev, priv->irq);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int mt6370_tcpc_remove(struct platform_device *pdev)
+> > +{
+> > +       struct mt6370_priv *priv = platform_get_drvdata(pdev);
+> 
+> > +       disable_irq(priv->irq);
+> 
+> Why?
+> An ugly workaround due to ordering issues in ->probe()?
+>
+Yes, due to the ordering in probe.
+'bus remove' will be called before device resource releases.
 
-A recent snafu where Intel ignored upstream feedback on a firmware
-change, led to a late rc6 fix being required. In order to avoid this
-in the future we should document some expectations around
-linux-firmware.
+Like as you said, another way is to convert all as non-devm
+version after 'tcpci_unregister_port'.
 
-I was originally going to write this for drm, but it seems quite generic
-advice.
+If to keep the original order, 'disable_irq' before
+'tcpci_unregister_port' can make the flow more safe.
 
-I'm cc'ing this quite widely to reach subsystems which use fw a lot.
+Or you can think one case if irq triggers after
+'tcpci_unregister_port'. Null pointer occurs.
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- Documentation/driver-api/firmware/core.rst    |  1 +
- .../firmware/firmware-usage-guidelines.rst    | 34 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+Anyway, in next revision, I'll convert all to be 'devm_' version.
+For this remove callback, only 'dev_pm_clear_wake_irq' and
+'device_init_wakeup' will be kept.
 
-diff --git a/Documentation/driver-api/firmware/core.rst b/Documentation/driver-api/firmware/core.rst
-index 1d1688cbc078..803cd574bbd7 100644
---- a/Documentation/driver-api/firmware/core.rst
-+++ b/Documentation/driver-api/firmware/core.rst
-@@ -13,4 +13,5 @@ documents these features.
-    direct-fs-lookup
-    fallback-mechanisms
-    lookup-order
-+   firmware-usage-guidelines
- 
-diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-new file mode 100644
-index 000000000000..34d2412e78c6
---- /dev/null
-+++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-@@ -0,0 +1,34 @@
-+===================
-+Firmware Guidelines
-+===================
-+
-+Drivers that use firmware from linux-firmware should attempt to follow
-+the rules in this guide.
-+
-+* Firmware should be versioned with at least a major/minor version. It
-+  is suggested that the firmware files in linux-firmware be named with
-+  some device specific name, and just the major version. The
-+  major/minor/patch versions should be stored in a header in the
-+  firmware file for the driver to detect any non-ABI fixes/issues. The
-+  firmware files in linux-firmware should be overwritten with the newest
-+  compatible major version. Newer major version firmware should remain
-+  compatible with all kernels that load that major number.
-+
-+* Users should *not* have to install newer firmware to use existing
-+  hardware when they install a newer kernel.  If the hardware isn't
-+  enabled by default or under development, this can be ignored, until
-+  the first kernel release that enables that hardware.  This means no
-+  major version bumps without the kernel retaining backwards
-+  compatibility for the older major versions.  Minor version bumps
-+  should not introduce new features that newer kernels depend on
-+  non-optionally.
-+
-+* If a security fix needs lockstep firmware and kernel fixes in order to
-+  be successful, then all supported major versions in the linux-firmware
-+  repo should be updated with the security fix, and the kernel patches
-+  should detect if the firmware is new enough to declare if the security
-+  issue is fixed.  All communications around security fixes should point
-+  at both the firmware and kernel fixes. If a security fix requires
-+  deprecating old major versions, then this should only be done as a
-+  last option, and be stated clearly in all communications.
-+
--- 
-2.36.1
+Is this better?
 
-
-
---
-_______________________________________________
-Dri-devel mailing list
-Dri-devel@lists.sourceforge.net
-https://lists.sourceforge.net/lists/listinfo/dri-devel
+> > +       tcpci_unregister_port(priv->tcpci);
+> > +       dev_pm_clear_wake_irq(&pdev->dev);
+> > +       device_init_wakeup(&pdev->dev, false);
+> > +
+> > +       return 0;
+> > +}
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
