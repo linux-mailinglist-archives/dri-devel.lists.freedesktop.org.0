@@ -1,118 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9655785B6
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 16:44:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CEC5785DB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 16:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 964718D722;
-	Mon, 18 Jul 2022 14:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA2808D8A7;
+	Mon, 18 Jul 2022 14:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2047.outbound.protection.outlook.com [40.107.95.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC9E8D713;
- Mon, 18 Jul 2022 14:44:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FW1gfqoBI7dLexJtKFfOwbqmqnzeBQKmDz4vD4TtswOxe1Ys541ymcW2C2fKRj/zMxW6JIblJ4yxGA3TN9DFLJnUHB+xn0wj8xxuovKw/gyD2tDHyKVEvTirCjCLrNZhUDQRwHYv8xDJeGSL/8byM+5dtG7yazo8VqK+mHpqQE26sn9lSpNDIGWTnte7ZDoUwSckxJ9gm7w5HIzS8u0QrMRKSs2Arf3NdS1vPCmqR0EibsHkPs3ApwxXxkF049IFTJ3ZoqQJT5RhGx+Sv4t82ow2YzrUn3ZUxKYEKdUvXef/R8QkEFVWUCq/J17K11As0tAhKMsNRQFTjws+FrKLfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WowxVs+RZN0fr4hgO5gs5LKYu6e34RGDMochP6f+uWg=;
- b=WkAqdIwUYBeiP+d3bHRB4/FEfkfrV8XnT4RuvnRc7ZFiYsTUCCZ/3pzNgF1jad0iEDup/spu1acs73yv6kHyBE/2GHMeNN8RKt63frryLjHK+DYR8gZZTm2aIUpdqnlvkdXI6y7PwcKq3bvv4GsfESO4RpYOk1QGWZ+iLZMoJpMwoZu3nexErMbu1TdcuhINt+rW/bJ5Ai5Pg304pF2OlAhRR040c+/YbQn23iYSMtZ942k2dqUwZr7oSyS+8QJ9SLb1TGvIB4lt76/Qac4bCE5nQMJ/COfnGSGq1I/P+m+hK5mh7QXuE0Q4gjlAcmwVQlMALUr/zgXbuY1UbCQYfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WowxVs+RZN0fr4hgO5gs5LKYu6e34RGDMochP6f+uWg=;
- b=PIEHCVUR3YbsZZoIea+Eh3KZSwgOKR/yE0zqLEj7P3Kwa0fzyyqxpsSUynZCKo9cJh75BYmlRuW+8gJmms2iPsX9JWiuJzupd2eyys7Mp4dNQ8mTFGmSqU/miwwkKvJtO6ZN/UGaa3iJ4rIWvkV9+lXSaKN4zxWVMk9mQeH6Nfs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN8PR12MB3602.namprd12.prod.outlook.com (2603:10b6:408:49::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Mon, 18 Jul
- 2022 14:44:42 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 14:44:42 +0000
-Message-ID: <a9ca8493-5fe6-4271-d551-284b99549664@amd.com>
-Date: Mon, 18 Jul 2022 16:44:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] dma-buf: Fix comment typo
-Content-Language: en-US
-To: Jason Wang <wangborong@cdjrlc.com>, daniel@ffwll.ch
-References: <20220715052017.31633-1-wangborong@cdjrlc.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220715052017.31633-1-wangborong@cdjrlc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR06CA0138.eurprd06.prod.outlook.com
- (2603:10a6:20b:467::24) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBD38D8A7;
+ Mon, 18 Jul 2022 14:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658156029; x=1689692029;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=78xemzPCUI/4kxWFtP0k04XS3LWuQwD6Qr+VBmkqHuQ=;
+ b=XViFgAt0GMyONuh4VyA9YpDm5BjAn3jpogbJ9EDX1SYowpGTBDXDrUl8
+ oRkZVjRxLtFoJ3QdthN5RzWgeFtfeGth15GlPB+yI7z/dIstqGiGWJq++
+ VrBtsOJ/P2Nxe8gcUtPFB9gAD7bQT6Fj7KGjOPChAB8bBv5rl/aA8tEsk
+ QFTzsyv/PZ8SEpuHmMfdm829xE98t+pq3BijS/mFIuY6E7whA9GGIe6JE
+ DbGJNOjb6Yff+Us3igEwYYlhsFSP6pqyCiH6nw22763Xb+hBCFUIsBpJl
+ LRvIXrWQkx6/NtmTZQEZt1vue1ihOpBP5W+keUZkNmy3lbSJbubXclqx1 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="266645802"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="266645802"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 07:53:48 -0700
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="624758442"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
+ ([10.249.35.85])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 07:53:44 -0700
+Date: Mon, 18 Jul 2022 16:53:41 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 01/21] drm/i915/gt: Ignore TLB
+ invalidations on idle engines
+Message-ID: <20220718165341.30ee6e31@maurocar-mobl2>
+In-Reply-To: <76318fe1-37dc-8a1e-317e-76333995b8ca@linux.intel.com>
+References: <cover.1657800199.git.mchehab@kernel.org>
+ <c014a1d743fa46a6b57f02bffb7badf438136442.1657800199.git.mchehab@kernel.org>
+ <76318fe1-37dc-8a1e-317e-76333995b8ca@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ec33401f-ceb9-4c04-15ca-08da68cc0cd0
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3602:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I5Xrjwt0m3p0r1hEQ+MyMsd2WRi1/O4dU2uc8rtlmtuy0dQuKHmLH92lBVVXVCpEhIIRYVizhiwy2VFkjI8lfQZbAUi334yBhhZjRgWI2pUdPqn7LnQvSMJOU+CF+to1eUFw0fRjC+J0z4Jmier/bs0+qEKSvTUbCrg0aZfI79GLaKm5TfyJDXfYq2b9RrOV3TMIK/T1dcQ3x8PlsysM5l2ljuj30EJkaI2kqyTbJG7WpmJ2CpnFcR//7KATGsnzJXidcjoK9njdjPO1UHlqRhuVie3HCa8r8NA0VJLrfNkdvID8oyhVu3gG83n9Rwi2jLAOOEDUWMeym8kLsmcHPWQMcHQjIt+xJhNWwifdI3Lk0R7Voj+5NDJBj3inYZGM0GWCOJ8rh7nuzQahhptgP++Wyllvvs8rgLLsv+dSrwyffU05qhLzz32dD7UinTQRBffyWLE3Y79kkzWmNG6tEflDjHq6PbpJY/KzqlsZErer7fUfwdFTVHce9YE/Eugqu8G3GutF9loyM53aBZefT0TTIhammpTnXgQvvmCH6QdoQAmO2YfU9pEpTQeQhUaA8WfVIINrR3FKPSeTd7MXXQO0gpkBzyNjRAnGMeqrPLSCQI89OoTLBm4y0IaXKfs4BDrJkJNe22yRvV5x83Q1tq4KASA6kUXMgdkzlcFGFtBlVJhytUjoYjk4KW3Y4iRGR/n63pjhN3KZkI2zIw32rwIVTK8Ti5GNcH5zeCAEEIZ1AmwZeXewgk7Q8XN49Let6/+ukqa02F53LbQMkTwNom8ca8a3/G/qcdow0wppf3sf+bksDEMCCV9fKIp/NJN6ZmYETcWA3hFXrMt56l08wTXK+vg7NaU5xwUAAp9e+7c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(396003)(366004)(376002)(39860400002)(346002)(8936002)(5660300002)(31686004)(8676002)(2906002)(86362001)(66556008)(31696002)(4326008)(316002)(36756003)(38100700002)(6512007)(6506007)(6486002)(41300700001)(6666004)(2616005)(186003)(478600001)(83380400001)(66946007)(66476007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1ArSGZxNW85MCtlNUhLdnNEQ29pMFZKRFRCc2NZQ2pRYzJVSWI5TkNkemF2?=
- =?utf-8?B?bnJ6TkdaamtqSDJpS25JOHZjakV3dUtaTDh1RHR3N1NxQy9aekJzZSswd01P?=
- =?utf-8?B?WmFtWmdSUzYzc0lyVGRnbU1JbG01czMwUHNHdDBMekE2czRNWkl6RkRENlhC?=
- =?utf-8?B?Ui9XZzhlQXRqVytMRlBYSTQ3ZFpETGxhSHQ4V2VvUmcyN09xRi91V0RZaVBI?=
- =?utf-8?B?ZlpDLzdvRTIydmtkK2xlZHlCVDZ5ME5jcFRCUVFwSmljME5IWjFvWHBGM3NE?=
- =?utf-8?B?WkRzWVpjdDZqSFVzeTFFN1AzbDhocWJuSFM2MnhoSVczVjVuaGdmYUhPRisr?=
- =?utf-8?B?N0o0OU1vc0VEVEhyMEZjOXNOemYxOW9VYm9hNmtBTlV2dnRxWUZ6amszNDRU?=
- =?utf-8?B?OW11cG0zQTFBV1UzMmI1K1dMZ2taQUN4cy9oT3RwQklQUFBqT1pFcW1pWWta?=
- =?utf-8?B?bzIxR3ZxbU0rTVREbGsyeER0L3I1RXBKcXNtRTluVU9yTmo3d0lRMUZFZTZl?=
- =?utf-8?B?am1UZ2wrUVBrVll1ZW1hcWpuQkZPOVNHcDc4TExzS3d4dlI5NFhSbjhwZ2tQ?=
- =?utf-8?B?cTIyQ05wZmt6Z01XZlhUMENXbXpnUmpOUDdyd055WkFza1RvYkpVM0tpNitS?=
- =?utf-8?B?cDM0WG94WjRMVVkyMFFRekVsRnZpbG9qcVh5ZmdHOTcwOEhaMFdibzIvNW1X?=
- =?utf-8?B?bU5vNFJXMTB2Z0JnZXEzZ09HZHpZQ2txYmU2RVZGbDdEUHBadXpZSU9HRHRO?=
- =?utf-8?B?Q1FkdGZPd3hBSy9NcElMOGs0c0crZVFDZS80c2dNamw4RjZ5QjdSdTZJcmhr?=
- =?utf-8?B?bEZURDBlK05nUmFuNTFyNWJ6c0k4aXFFVTNwRUV3cWxkMTR0T1psaVpVRWNS?=
- =?utf-8?B?TmUxeUxqVkJQRnAvKzZ1QmhubkNwa1VSN3NBL3FLV296dDNwZ0pySGpUVEdZ?=
- =?utf-8?B?eE0zVURrRHFlTUhVRGNrckxlY2gwUzFCNXBoTnVxSjJuKzNpakx4cnEvbEtI?=
- =?utf-8?B?V0x5S3lyOU5PcloyTFJHL0hMSVIrTkdEeW02Kzh2aldmOXVZS2NlV2UyUnhT?=
- =?utf-8?B?WXhzS2llZXNjTnJONkxmVlhNbTJUOFJQQmNieWFGVWh0aTl1QWx0R01kSTd5?=
- =?utf-8?B?bWF3aFpZYzRzbDV4dmtGNHg2UklTQVlRc09aNXQ2b3U0QnFuSjZRMjFmMTJU?=
- =?utf-8?B?V3lVMDEvOXpFa2FNUmN6a1daY3hiTVliUmZ5a0FZN2NKY3JZY2xCOTVJMHll?=
- =?utf-8?B?dFVKeklhckxtTnBWczQ5L3pCN1g5ZlZxUXhGTDZoSTJyTlZ6MWNjb2FIU3dU?=
- =?utf-8?B?enRmOHdoU3VjT1VXNVc0RXdwYU11ZTUveER6cWk5aUlJTXJlajdUSjJ2aUNq?=
- =?utf-8?B?ZnNZSTFmb2djYm5KMUh0NDBxY0tsdVV2M2VCQk1MbGNMQngzeGFxaC91eDBS?=
- =?utf-8?B?d3g3cnNlSXJRbWl5QnVQVDZYNkltRnd3UnNoYndhUG8zZitDb25RdTBQdUFN?=
- =?utf-8?B?M1FVWHFQMjRTWUw5L2NPUWo3ckxrTUZ5OHdtYU5haitBVWMwbmxiQ3ovVlhL?=
- =?utf-8?B?R0h4aWtPUXY3SHpnc3REREJSVHNlVXJJSDNBRU9LdExyektBZGNRM1A0V0kz?=
- =?utf-8?B?eU0yLzR3V0lvKzU5SGkydjRPWmFJUTJQY3VJOHpCYkhoWi9MenpoQWNCRmNh?=
- =?utf-8?B?UHFSUGhLeXRwVzVCS0xzc25POXNwVlVVT2daWGZJVm9VQmVXNndEZS9XSC80?=
- =?utf-8?B?VG9HWGtkdGF4aG1aRnVOVTZZbTFMdklvMHRDTW5QR09pSWxKcVV5RjB1TnVo?=
- =?utf-8?B?eU9ib0owT0hzSUlleWR6TmJyWVpCYWp1b0tkVGIzaDI4NG8vU3g4b2twS1VJ?=
- =?utf-8?B?b0RYNm1xdnNYTVpzdjhWTkxyUGdFNXU1WVFoQktZbEJBdVYwdzVNYXBXVS9B?=
- =?utf-8?B?V3ZFajZvRFQ5RHhEVTU5bVhRYlNoVEJXaWtkY0Jjckg0TjBiL3p0WU9CQmgy?=
- =?utf-8?B?WFJrSC9lWStPTjUwQWFlRDB1ZDhDbVBJR0xOVFVKYjZNTG53TlhuM3dtL3Zy?=
- =?utf-8?B?VzU1UFJXaVhnNVlHYVRtNGRiNjQxODF5VVMrWXJmcDBvN0FCaXdYNVp6ZUhU?=
- =?utf-8?B?Z3oxSllLMDlFWlhla2ZNQnRjRzJlSWNEQkFBSE81K0ZIV2RWekE3SXhncEZR?=
- =?utf-8?Q?Oj9hXyJOYqhClgl9y6movFxJnTQmNJZV6OMZ+V+08UHe?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec33401f-ceb9-4c04-15ca-08da68cc0cd0
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 14:44:42.6427 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dCNZvjTiojOj6S4FRSJt5U2gS6h+CWx3DzalXTynAprC8X98YVgkcM8acGMFaO3v
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3602
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,40 +60,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
+ stable@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.07.22 um 07:20 schrieb Jason Wang:
-> The double `have' is duplicated in line 696, remove one.
+On Mon, 18 Jul 2022 14:16:10 +0100
+Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
 
-The subject line is rather confusing since this isn't related to DMA-buf 
-at all.
+> On 14/07/2022 13:06, Mauro Carvalho Chehab wrote:
+> > From: Chris Wilson <chris.p.wilson@intel.com>
+> >=20
+> > Check if the device is powered down prior to any engine activity,
+> > as, on such cases, all the TLBs were already invalidated, so an
+> > explicit TLB invalidation is not needed, thus reducing the
+> > performance regression impact due to it.
+> >=20
+> > This becomes more significant with GuC, as it can only do so when
+> > the connection to the GuC is awake.
+> >=20
+> > Cc: stable@vger.kernel.org
+> > Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing sto=
+re") =20
+>=20
+> Patch itself looks fine but I don't think we closed on the issue of=20
+> stable/fixes on this patch?
 
-Please change that to "drm/radeon:", apart from that the patch looks 
-good to me.
+No, because TLB cache invalidation takes time and causes time outs, which
+in turn affects applications and produce Kernel warnings.
 
-Christian.
+There's even open bugs due to TLB timeouts, like this one:
 
->
-> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-> index 84843b3b3aef..261fcbae88d7 100644
-> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> @@ -693,7 +693,7 @@ int radeon_gem_va_ioctl(struct drm_device *dev, void *data,
->   	}
->   
->   	/* !! DONT REMOVE !!
-> -	 * We don't support vm_id yet, to be sure we don't have have broken
-> +	 * We don't support vm_id yet, to be sure we don't have broken
->   	 * userspace, reject anyone trying to use non 0 value thus moving
->   	 * forward we can use those fields without breaking existant userspace
->   	 */
+	[424.370996] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did no=
+t complete in 4ms!
 
+See:
+	https://gitlab.freedesktop.org/drm/intel/-/issues/6424
+
+So, while this is a performance regression, it ends causing a
+functional regression.
+
+The first part of this series (patches 1-7) are meant to reduce the
+risk of such timeouts by doing TLB invalidation in batch and only=20
+when really needed (userspace-exposed TLBs for GTs that are powered-on
+and non-edged).
+
+As they're fixing such regressions, it makes sense c/c stable and having
+a fixes tag.
+
+> My position here is that, if the functional issue is only with GuC=20
+> invalidations, then the tags shouldn't be there (and the huge CC list).
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> > Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> > Cc: Fei Yang <fei.yang@intel.com>
+> > Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > ---
+> >=20
+> > To avoid mailbombing on a large number of people, only mailing lists we=
+re C/C on the cover.
+> > See [PATCH v2 00/21] at: https://lore.kernel.org/all/cover.1657800199.g=
+it.mchehab@kernel.org/
+> >=20
+> >   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 10 ++++++----
+> >   drivers/gpu/drm/i915/gt/intel_gt.c        | 17 ++++++++++-------
+> >   drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  3 +++
+> >   3 files changed, 19 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_pages.c
+> > index 97c820eee115..6835279943df 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> > @@ -6,14 +6,15 @@
+> >  =20
+> >   #include <drm/drm_cache.h>
+> >  =20
+> > +#include "gt/intel_gt.h"
+> > +#include "gt/intel_gt_pm.h"
+> > +
+> >   #include "i915_drv.h"
+> >   #include "i915_gem_object.h"
+> >   #include "i915_scatterlist.h"
+> >   #include "i915_gem_lmem.h"
+> >   #include "i915_gem_mman.h"
+> >  =20
+> > -#include "gt/intel_gt.h"
+> > -
+> >   void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+> >   				 struct sg_table *pages,
+> >   				 unsigned int sg_page_sizes)
+> > @@ -217,10 +218,11 @@ __i915_gem_object_unset_pages(struct drm_i915_gem=
+_object *obj)
+> >  =20
+> >   	if (test_and_clear_bit(I915_BO_WAS_BOUND_BIT, &obj->flags)) {
+> >   		struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+> > +		struct intel_gt *gt =3D to_gt(i915);
+> >   		intel_wakeref_t wakeref;
+> >  =20
+> > -		with_intel_runtime_pm_if_active(&i915->runtime_pm, wakeref)
+> > -			intel_gt_invalidate_tlbs(to_gt(i915));
+> > +		with_intel_gt_pm_if_awake(gt, wakeref)
+> > +			intel_gt_invalidate_tlbs(gt);
+> >   	}
+> >  =20
+> >   	return pages;
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/=
+gt/intel_gt.c
+> > index 68c2b0d8f187..c4d43da84d8e 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > @@ -12,6 +12,7 @@
+> >  =20
+> >   #include "i915_drv.h"
+> >   #include "intel_context.h"
+> > +#include "intel_engine_pm.h"
+> >   #include "intel_engine_regs.h"
+> >   #include "intel_ggtt_gmch.h"
+> >   #include "intel_gt.h"
+> > @@ -924,6 +925,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+> >   	struct drm_i915_private *i915 =3D gt->i915;
+> >   	struct intel_uncore *uncore =3D gt->uncore;
+> >   	struct intel_engine_cs *engine;
+> > +	intel_engine_mask_t awake, tmp;
+> >   	enum intel_engine_id id;
+> >   	const i915_reg_t *regs;
+> >   	unsigned int num =3D 0;
+> > @@ -947,26 +949,31 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+> >  =20
+> >   	GEM_TRACE("\n");
+> >  =20
+> > -	assert_rpm_wakelock_held(&i915->runtime_pm);
+> > -
+> >   	mutex_lock(&gt->tlb_invalidate_lock);
+> >   	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+> >  =20
+> >   	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset =
+*/
+> >  =20
+> > +	awake =3D 0;
+> >   	for_each_engine(engine, gt, id) {
+> >   		struct reg_and_bit rb;
+> >  =20
+> > +		if (!intel_engine_pm_is_awake(engine))
+> > +			continue;
+> > +
+> >   		rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs, regs, num);
+> >   		if (!i915_mmio_reg_offset(rb.reg))
+> >   			continue;
+> >  =20
+> >   		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+> > +		awake |=3D engine->mask;
+> >   	}
+> >  =20
+> >   	spin_unlock_irq(&uncore->lock);
+> >  =20
+> > -	for_each_engine(engine, gt, id) {
+> > +	for_each_engine_masked(engine, gt, awake, tmp) {
+> > +		struct reg_and_bit rb;
+> > +
+> >   		/*
+> >   		 * HW architecture suggest typical invalidation time at 40us,
+> >   		 * with pessimistic cases up to 100us and a recommendation to
+> > @@ -974,12 +981,8 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+> >   		 */
+> >   		const unsigned int timeout_us =3D 100;
+> >   		const unsigned int timeout_ms =3D 4;
+> > -		struct reg_and_bit rb;
+> >  =20
+> >   		rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs, regs, num);
+> > -		if (!i915_mmio_reg_offset(rb.reg))
+> > -			continue;
+> > -
+> >   		if (__intel_wait_for_register_fw(uncore,
+> >   						 rb.reg, rb.bit, 0,
+> >   						 timeout_us, timeout_ms,
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i9=
+15/gt/intel_gt_pm.h
+> > index bc898df7a48c..a334787a4939 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > @@ -55,6 +55,9 @@ static inline void intel_gt_pm_might_put(struct intel=
+_gt *gt)
+> >   	for (tmp =3D 1, intel_gt_pm_get(gt); tmp; \
+> >   	     intel_gt_pm_put(gt), tmp =3D 0)
+> >  =20
+> > +#define with_intel_gt_pm_if_awake(gt, wf) \
+> > +	for (wf =3D intel_gt_pm_get_if_awake(gt); wf; intel_gt_pm_put_async(g=
+t), wf =3D 0)
+> > +
+> >   static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+> >   {
+> >   	return intel_wakeref_wait_for_idle(&gt->wakeref); =20
