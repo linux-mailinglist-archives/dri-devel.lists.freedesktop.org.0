@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9325780E9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 13:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FF55780F5
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 13:39:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF4999377;
-	Mon, 18 Jul 2022 11:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A481299529;
+	Mon, 18 Jul 2022 11:38:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF10699377;
- Mon, 18 Jul 2022 11:37:03 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 460DB99527;
+ Mon, 18 Jul 2022 11:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658144223; x=1689680223;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/TOoxU+a0Q0WlWXmx9lahsQlI3SkWPXIx7AujtPA5uk=;
- b=drJr3vnjdhSg9LmEgXDlb/i2Ho/thhu5JkRp6u/F7mIgSJbZ2mh10hnV
- VJSNMF4mCzvbwRMk6EswUjN/CJBUUpIDeeFf9ez5AGZh9L7cziCIiR8ag
- KvigVce3KDD3CQw6iiTy38J57+PYu3Nd0AoSh9fNDxgPf2kAVBfIu8hZI
- lk5kf8C36qQFIhamYX2s8rgB4PdDEviyDYntr4dqhZWSXwb7guxMxNP+K
- Sg6Je9Snlge2zhd58A7HaGPAqp1prTwCicR1aJzpIOAb9EG4rL+TRAbMd
- a7dbJzLmD2YYao2QvpWIbmbj10KqPjFVqWv7l/o+JG8NxgMuOXPuneadm g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="350159513"
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="350159513"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 04:37:03 -0700
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="723828947"
-Received: from smyint-mobl1.amr.corp.intel.com (HELO [10.212.107.15])
- ([10.212.107.15])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 04:37:00 -0700
-Message-ID: <46938a7a-0b89-0bd3-d137-851a037b644f@linux.intel.com>
-Date: Mon, 18 Jul 2022 12:36:59 +0100
+ t=1658144336; x=1689680336;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=n2Q3FcltGHz6CGZ/4h4aB90IlF1pQJ49RqYDZmZ2zhU=;
+ b=OOKvpabpkUhQJOTvFMSl47q7JUukmB3QAfnLYdRA7vywQIgy0eSHYsVr
+ mON5LKlpvt06fZZWY6pKKuAfxCMQwit1pl60wWPb8MA3QDvnrbsc2uN2w
+ OttiWDyDWDZygUMfgHe+VzYL+MwJi8D39+lfg4qgHlXX840KsqCP2Qc9i
+ VUYE6TVWZayOi9YU0kOposiKJP+uSuCEkVOXV/JQCI1AS6suiPdSDlqhs
+ TRaVWXwnKV7QjiEIUfn72A4yN1U8bC1/CqLMK+DAQhJboBqiKDg1EjNcS
+ SPB82IOJQb8NwcaJIjifAGFHzRMhpV+uJhTzSIJSEO0ttQ5kwe39ULlPJ A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="265981171"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="265981171"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:38:34 -0700
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="624692261"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
+ ([10.249.35.85])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:38:31 -0700
+Date: Mon, 18 Jul 2022 13:38:28 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [Intel-gfx] [PATCH v2 24/39] drm/i915: dvo_sil164.c: use SPDX
+ header
+Message-ID: <20220718133817.058b8b43@maurocar-mobl2>
+In-Reply-To: <f6ab40860cd4f8079e6e169c7d6465f211b8dbd3.camel@perches.com>
+References: <cover.1657699522.git.mchehab@kernel.org>
+ <002a8d51244a70572744de86cacbdae293e7d503.1657699522.git.mchehab@kernel.org>
+ <YtHdp6ju3IfjF8Bq@intel.com>
+ <f6ab40860cd4f8079e6e169c7d6465f211b8dbd3.camel@perches.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: susetting the remaining swioltb couplin in DRM
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20220711082614.GA29487@lst.de> <YsyItfiuccW7iQln@intel.com>
- <20220712050055.GA4727@lst.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220712050055.GA4727@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +61,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>, dri-devel@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Matthew Auld <matthew.auld@intel.com>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 15 Jul 2022 15:16:05 -0700
+Joe Perches <joe@perches.com> wrote:
 
-Hi,
+> On Fri, 2022-07-15 at 17:35 -0400, Rodrigo Vivi wrote:
+> > On Wed, Jul 13, 2022 at 09:12:12AM +0100, Mauro Carvalho Chehab wrote: =
+=20
+> > > This file is licensed with MIT license.	Change its license text
+> > > to use SPDX.
+> > >=20
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org> =20
+> >=20
+> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> =20
+>=20
+> Not exactly the MIT license as it's missing "or copyright holders"
 
-On 12/07/2022 06:00, Christoph Hellwig wrote:
-> On Mon, Jul 11, 2022 at 04:31:49PM -0400, Rodrigo Vivi wrote:
->> On Mon, Jul 11, 2022 at 10:26:14AM +0200, Christoph Hellwig wrote:
->>> Hi i915 and nouveau maintainers,
->>>
->>> any chance I could get some help to remove the remaining direct
->>> driver calls into swiotlb, namely swiotlb_max_segment and
->>> is_swiotlb_active.  Either should not matter to a driver as they
->>> should be written to the DMA API.
->>
->> Hi Christoph,
->>
->> while we take a look here, could you please share the reasons
->> behind sunsetting this calls?
-> 
-> Because they are a completely broken layering violation.  A driver has
-> absolutely no business knowing the dma-mapping violation.  The DMA
-> API reports what we think is all useful constraints (e.g.
-> dma_max_mapping_size()), and provides useful APIs to (e.g.
-> dma_alloc_noncoherent or dma_alloc_noncontiguous) to allocate pages
-> that can be mapped without bounce buffering and drivers should use
-> the proper API instead of poking into one particular implementation
-> and restrict it from changing.
-> 
-> swiotlb_max_segment in particular returns a value that isn't actually
-> correct (a driver can't just use all of swiotlb) AND actually doesn't
-> work as is in various scenarious that are becoming more common,
-> most notably host with memory encryption schemes that always require
-> bounce buffering.
+Text is not identical, but the license is... see below:
 
-All these are either in the internal backend or in the old shmem 
-backend. I understand both are soon to be retired or deprecated. I think.
+> >  =20
+> > > ---
+> > >=20
+> > > To avoid mailbombing on a large number of people, only mailing lists =
+were C/C on the cover.
+> > > See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522=
+.git.mchehab@kernel.org/
+> > >=20
+> > >  drivers/gpu/drm/i915/display/dvo_sil164.c | 32 +++++----------------=
+--
+> > >  1 file changed, 6 insertions(+), 26 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/i915/display/dvo_sil164.c b/drivers/gpu/=
+drm/i915/display/dvo_sil164.c
+> > > index 0dfa0a0209ff..12974f7c9dc1 100644
+> > > --- a/drivers/gpu/drm/i915/display/dvo_sil164.c
+> > > +++ b/drivers/gpu/drm/i915/display/dvo_sil164.c
+> > > @@ -1,30 +1,10 @@
+> > > -/*******************************************************************=
+*******
+> > > +// SPDX-License-Identifier: MIT
+> > > =20
+> > > -Copyright =C2=A9 2006 Dave Airlie
+> > > -
+> > > -All Rights Reserved.
+> > > -
+> > > -Permission is hereby granted, free of charge, to any person obtainin=
+g a
+> > > -copy of this software and associated documentation files (the
+> > > -"Software"), to deal in the Software without restriction, including
+> > > -without limitation the rights to use, copy, modify, merge, publish,
+> > > -distribute, sub license, and/or sell copies of the Software, and to
+> > > -permit persons to whom the Software is furnished to do so, subject to
+> > > -the following conditions:
+> > > -
+> > > -The above copyright notice and this permission notice (including the
+> > > -next paragraph) shall be included in all copies or substantial porti=
+ons
+> > > -of the Software.
 
-+ Matt & Thomas, and Bob actually as well, as I think authorities in the 
-shmem, TTM and internal backend at the moment. Could you guys please 
-have look if and how the TTM backend needs to handle this and what is 
-the timeline of retirement if relevant?
+The license itself is here. It is standard MIT license. The original
+text for the above paragraph is clearer about that:
+
+	"The above copyright notice and this permission notice shall be included in
+	 all copies or substantial portions of the Software."
+
+The "next paragraph", mentioned on this variant:
+
+> > > -
+> > > -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPR=
+ESS
+> > > -OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> > > -MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEME=
+NT.
+> > > -IN NO EVENT SHALL THE AUTHOR =20
+>=20
+> Missing "Authors or copyright holders"
+
+Is actually a disclaimer's note, and not the license itself, informing that
+there's no warranties provide by author(s).=20
+
+With SPDX, this will point to LICENSES/preferred/MIT with has a paragraph
+that fits to the same purpose: it excludes any express or implied
+warranties.
+
+Btw, the Kernel itself had this at COPYING by the time this was added
+and before SPDX, which was there when this code was added. This is
+part of the GPL text:
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+So, I can't see any changes here: with or without this patch, there's
+no warranties from the ones that wrote the code - nor for any
+copyright holders - as the Kernel as a hole is released under GPL.
+
+Also, LICENSES/preferred/MIT define that MIT license text is:
+
+	MIT License
+=09
+	Copyright (c) <year> <copyright holders>
+
+In this specific case, "Copyright =C2=A9 2006 Dave Airlie", which is both
+the author and the copyright holder that is part of MIT, so the text=20
+meaning is identical with either "AUTHOR" or "AUTHORS OR COPYRIGHT=20
+HOLDERS" is used.
+
+So, I can't see any difference from legal standpoint.
 
 Regards,
-
-Tvrtko
+Mauro
