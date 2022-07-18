@@ -1,53 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB245786F3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 18:06:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1FF578769
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 18:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD50810ED78;
-	Mon, 18 Jul 2022 16:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B59D08FD78;
+	Mon, 18 Jul 2022 16:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3513A112E06;
- Mon, 18 Jul 2022 16:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658160397; x=1689696397;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=BGMaJTElQp6haGmkH8rT8RsSQevkIPle8322hFlFuJg=;
- b=OEPZJgO5+2GDbJQGXu5mqlZ4TRhmozuZGuDTWxDvbw4y9RNtJQCFQAfn
- 5JGq50EjDaVqGaiq2GMSVx362YcCfFT8fuyXBmwdUdMN2RYn8W0KodrJW
- 9hn8CRN0TEKvN1ETRVy/5BQNMNSRoorU4oHdYLlU0+zmDBRS7h/eXYHDl
- Sxy2xBRTKhP4dPwXQtMTniwgbpWXf1L+ofPSVEQCaj4Bak+ExHzhqMVXE
- RvbjdqL7YQ3byeHLM5Kj6D7h5cOk20EJEYiRgK++uDkgy7CybxZaZ0i4A
- vxpGCkKrN9FOWEFyZLKbES6YJiYkSWwEDGLzuV604E+OqERIA63q4ld+t g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="266664159"
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="266664159"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 09:06:36 -0700
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="655347466"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
- ([10.249.35.85])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 09:06:33 -0700
-Date: Mon, 18 Jul 2022 18:06:30 +0200
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 05/21] drm/i915/gt: Skip TLB
- invalidations once wedged
-Message-ID: <20220718180630.7bef2fd9@maurocar-mobl2>
-In-Reply-To: <d51882e0-6864-7a49-ae16-f7213dc716c4@linux.intel.com>
-References: <cover.1657800199.git.mchehab@kernel.org>
- <f20bd21c94610dae59824b8040e5a9400de6f963.1657800199.git.mchehab@kernel.org>
- <d51882e0-6864-7a49-ae16-f7213dc716c4@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7A48FD78
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 16:30:23 +0000 (UTC)
+Received: from localhost (82-69-11-11.dsl.in-addr.zen.co.uk [82.69.11.11])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B4D2666015BA;
+ Mon, 18 Jul 2022 17:30:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1658161821;
+ bh=67k621VcvZBfls02rcFrFRrfCnedQu+qfsSdKYfJYrM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Xd700j+UoYb3J5rRcgU6Af8iQwyBjQujE0PgtnhYsiBFWw1z0PoiH7bJSAGOurkuW
+ fWikD1enWeG2djQQI3HGpJ5g7dR25f0eGHMtQN6kdew866RqdbXHq710u+jHX8I0PF
+ A4HevZkONax7hkMJhfK6OsY/Q1z+2xRXK7PzV3O/iDnpt85YBa/tEsShDdBOad6S94
+ 1/SMni6mQ1xc4Jle6p1k5jsXIVZyNmXHXT3pdXlb60FGvt0k/BtB3F7YhBAuUMhPSv
+ RONw790o3odHrxnO4nxJGRW1cYbAgSIxIVqmAmhhQG+umeiMS3Ksskj1xw2Pk8CNfq
+ NnUHS1CkaFIsA==
+Date: Mon, 18 Jul 2022 17:30:19 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v4 2/2] drm/panfrost: Add support for devcoredump
+Message-ID: <20220718163019.pms7ujrzhx2nyiki@sobremesa>
+References: <20220622143616.1265405-1-adrian.larumbe@collabora.com>
+ <20220622143616.1265405-3-adrian.larumbe@collabora.com>
+ <4bbca7ec-4b0b-a1c4-983a-5093bcf45e09@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4bbca7ec-4b0b-a1c4-983a-5093bcf45e09@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +55,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?UTF-8?B?SGVsbHN0?= =?UTF-8?B?csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ tomeu.vizoso@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Jul 2022 14:45:22 +0100
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+Hi Steven, once again thanks for the feedback. I was off for some time and then
+busy with other stuff, but I can finally work on a new revision for the patch
 
-> On 14/07/2022 13:06, Mauro Carvalho Chehab wrote:
-> > From: Chris Wilson <chris.p.wilson@intel.com>
+On 23.06.2022 13:23, Steven Price wrote:
+> On 22/06/2022 15:36, Adrián Larumbe wrote:
+> > In the event of a job timeout, debug dump information will be written into
+> > /sys/class/devcoredump.
 > > 
-> > Skip all further TLB invalidations once the device is wedged and
-> > had been reset, as, on such cases, it can no longer process instructions
-> > on the GPU and the user no longer has access to the TLB's in each engine.
+> > Inspired by etnaviv's similar feature.
 > > 
-> > That helps to reduce the performance regression introduced by TLB
-> > invalidate logic.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")  
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > 
-> Is the claim of a performance regression this solved based on a wedged 
-> GPU which does not work any more to the extend where mmio tlb 
-> invalidation requests keep timing out? If so please clarify in the 
-> commit text and then it looks good to me. Even if it is IMO a very 
-> borderline situation to declare something a fix.
+> Looks pretty good, a few comments below.
 
-Indeed this helps on a borderline situation: if GT is wedged, TLB 
-invalidation will timeout, so it makes sense to keep the patch with a
-comment like:
+> > +static void
+> > +panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
+> > +			     struct panfrost_device *pfdev,
+> > +			     u32 as_nr, int slot)
+> > +{
+> > +	struct panfrost_dump_registers *dumpreg = iter->data;
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, dumpreg++) {
+> > +		unsigned int js_as_offset = 0;
+> > +		unsigned int reg;
+> > +
+> > +		if (panfrost_dump_registers[i] >= JS_HEAD_LO(0) &&
+> > +		    panfrost_dump_registers[i] <= JS_CONFIG_NEXT(0))
+> 
+> It would be good to use something more generic than specific registers
+> in case the list of registers is ever changed. We have JS_BASE already
+> which would work for the lower end. We seem to be missing the equivalent
+> MMU_BASE #define currently. The upper end is base+stride, so for JS we have:
 
-    drm/i915/gt: Skip TLB invalidations once wedged
-    
-    Skip all further TLB invalidations once the device is wedged and
-    had been reset, as, on such cases, it can no longer process instructions
-    on the GPU and the user no longer has access to the TLB's in each engine.
-    
-    So, an attempt to do a TLB cache invalidation will produce a timeout.
-    
-    That helps to reduce the performance regression introduced by TLB
-    invalidate logic.
+I defined a MMU_AS_STRIDE in the same file, but I feel a bit weird about this
+naming because, unlike for the job slot registers, the stride isn't linear.
+However for the sake of clarity I think it should be alright.
 
-Regards,
-Mauro
+> > 	if (panfrost_dump_registers[i] >= JS_BASE &&
+> > 	    panfrost_dump_registers[i] < JS_BASE + JS_SLOT_STRIDE)
+> > +			js_as_offset = slot * JS_SLOT_STRIDE;
+> > +		else if (panfrost_dump_registers[i] >= AS_TRANSTAB_LO(0) &&
+> > +			 panfrost_dump_registers[i] <= AS_STATUS(0))
+> > +			js_as_offset = (as_nr << MMU_AS_SHIFT);
+> > +
+> > +		reg = panfrost_dump_registers[i] + js_as_offset;
+> > +
+> > +		dumpreg->reg = cpu_to_le32(reg);
+> > +		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
+> > +	}
+> > +
+> > +	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
+> > +}
+> > +
+> > +void panfrost_core_dump(struct panfrost_job *job)
+> > +{
+> > +	struct panfrost_device *pfdev = job->pfdev;
+> > +	struct panfrost_dump_iterator iter;
+> > +	struct drm_gem_object *dbo;
+> > +	unsigned int n_obj, n_bomap_pages;
+> > +	__le64 *bomap, *bomap_start;
+> > +	size_t file_size;
+> > +	u32 as_nr;
+> > +	int slot;
+> > +	int ret, i;
+> > +
+> > +	as_nr = job->mmu->as;
+> > +	slot = panfrost_job_get_slot(job);
+> > +
+> > +	/* Only catch the first event, or when manually re-armed */
+> > +	if (!panfrost_dump_core)
+> > +		return;
+> > +	panfrost_dump_core = false;
+> > +
+> > +	/* At least, we dump registers and end marker */
+> > +	n_obj = 2;
+> > +	n_bomap_pages = 0;
+> > +	file_size = ARRAY_SIZE(panfrost_dump_registers) *
+> > +			sizeof(struct panfrost_dump_registers);
+> > +
+> > +	/* Add in the active buffer objects */
+> > +	for (i = 0; i < job->bo_count; i++) {
+> > +		/*
+> > +		 * Even though the CPU could be configured to use 16K or 64K pages, this
+> > +		 * is a very unusual situation for most kernel setups on SoCs that have
+> > +		 * a Panfrost device. Also many places across the driver make the somewhat
+> > +		 * arbitrary assumption that Panfrost's MMU page size is the same as the CPU's,
+> > +		 * so let's have a sanity check to ensure that's always the case
+> > +		 */
+> > +		WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
+> 
+> This warn needs to go after the assignment below - I just spent a few
+> minutes tracking down why I was getting a NULL pointer dereference.
+> Sadly my GCC doesn't seem to be able to warn about this uninitialised use :(
+
+I just triggered the warning because of an unitialised garbage value. I suppose
+last time I tried to rush the latest iteration of the patch without all the due
+testing beforehand (won't happen again).
+
+> > +
+> > +		dbo = job->bos[i];
+> > +		file_size += dbo->size;
+> > +		n_bomap_pages += dbo->size >> PAGE_SHIFT;
+> > +		n_obj++;
+> > +	}
+
+> > +	/* If we have any buffer objects, add a bomap object */
+> > +	if (n_bomap_pages) {
+> > +		file_size += n_bomap_pages * sizeof(*bomap);
+> > +		n_obj++;
+> > +	}
+> > +
+> > +	/* Add the size of the headers */
+> > +	file_size += sizeof(*iter.hdr) * n_obj;
+> > +
+> > +	/*
+> > +	 * Allocate the file in vmalloc memory, it's likely to be big.
+> > +	 * The reason behind these GFP flags is that we don't want to trigger the
+> > +	 * OOM killer in the event that not enough memory could be found for our
+> > +	 * dump file. We also don't want the allocator to do any error reporting,
+> > +	 * as the right behaviour is failing gracefully if a big enough buffer
+> > +	 * could not be allocated.
+> > +	 */
+> > +	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+> > +			__GFP_NORETRY);
+> > +	if (!iter.start) {
+> > +		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
+> > +		return;
+> > +	}
+> > +
+> > +	/* Point the data member after the headers */
+> > +	iter.hdr = iter.start;
+> > +	iter.data = &iter.hdr[n_obj];
+> > +
+> > +	memset(iter.hdr, 0, iter.data - iter.start);
+> > +
+> > +	/*
+> > +	 * For now, we write the job identifier in the register dump header,
+> > +	 * so that we can decode the entire dump later with pandecode
+> > +	 */
+> > +	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
+> > +	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
+> > +	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
+> > +	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
+> > +	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
+> > +
+> > +	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
+> > +
+> > +	/* Reserve space for the bomap */
+> > +	if (job->bo_count) {
+> > +		bomap_start = bomap = iter.data;
+> > +		memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
+> > +		panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
+> > +					  bomap + n_bomap_pages);
+> > +	}
+> > +
+> > +	for (i = 0; i < job->bo_count; i++) {
+> > +		struct iosys_map map;
+> > +		struct panfrost_gem_mapping *mapping;
+> > +		struct panfrost_gem_object *bo;
+> > +		struct sg_page_iter page_iter;
+> > +		void *vaddr;
+> > +
+> > +		bo = to_panfrost_bo(job->bos[i]);
+> > +		mapping = job->mappings[i];
+> > +
+> > +		if (!bo->base.sgt) {
+> > +			dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
+> > +			iter.hdr->bomap.valid = 0;
+> > +			goto dump_header;
+> > +		}
+> > +
+> > +		ret = drm_gem_shmem_vmap(&bo->base, &map);
+> > +		if (ret) {
+> > +			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
+> > +			iter.hdr->bomap.valid = 0;
+> > +			goto dump_header;
+> > +		}
+> > +
+> > +		WARN_ON(!mapping->active);
+> > +
+> > +		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
+> > +
+> > +		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
+> > +			struct page *page = sg_page_iter_page(&page_iter);
+> > +
+> > +			if (!IS_ERR(page)) {
+> > +				*bomap++ = cpu_to_le64(page_to_phys(page));
+> > +			} else {
+> > +				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
+> > +				*bomap++ = ~cpu_to_le64(0);
+> > +			}
+> > +		}
+> > +
+> > +		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
+> > +
+> > +		vaddr = map.vaddr;
+> > +		memcpy(iter.data, vaddr, bo->base.base.size);
+> > +
+> > +		drm_gem_shmem_vunmap(&bo->base, &map);
+> > +
+> > +		iter.hdr->bomap.valid = cpu_to_le64(1);
+> 
+> 'valid' is only 32 bit so this should be cpu_to_le32(1).
+
+  Fixed.
+
+> Steve
+
+Adrian
