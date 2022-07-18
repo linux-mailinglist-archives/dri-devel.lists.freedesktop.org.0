@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AD7577B3E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBE2577B41
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40596A9CA5;
-	Mon, 18 Jul 2022 06:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44CCA9C83;
+	Mon, 18 Jul 2022 06:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 609CBA9C82;
- Mon, 18 Jul 2022 06:38:25 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id p81so8561647iod.2;
- Sun, 17 Jul 2022 23:38:25 -0700 (PDT)
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
+ [IPv6:2607:f8b0:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB3C8A9C82;
+ Mon, 18 Jul 2022 06:38:26 +0000 (UTC)
+Received: by mail-il1-x131.google.com with SMTP id w16so5094110ilh.0;
+ Sun, 17 Jul 2022 23:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FoeJSfQYjtngvo4HHZBab6bwAds3V3lbp5eX2URtnSI=;
- b=X2f6sCQ2JRSk+fUJO7Nra8A1HMfSqGlt50uTDYJIxRDm3NOLuOYBhNjeieRDWfJ8kT
- lmgtv7TqzyfD9s4Ddw3sx33rx084kmxt0Y54swOyyxqw4xht1DCXTZbH8aN8On/WnmK+
- pHoZ5MqA5fveqY6EuMEwvTPEUEMzGBSEXrPfJYqa1gZlOgNnUxb06More6ouP3sMmQU5
- XI0NcPaQr42/zf9mWH9L72JSvwHqe6AZqISlLDT0ZwfSnv2rFGqUbgiVIBKgkmT4DSya
- PrfLMPhza9CzdxoCX9/behOKPV83ig3WKFvW+VSK1/oLsW8K0nrKPCBWNk3QRvFFk7n6
- ZIeQ==
+ bh=iVb/au/SvTssHWT9OAzWdqi8anWACH4yAl5fHyJFr8E=;
+ b=odFV1KcHIa92FUviFrg1pb5xAqUC0vGJRXQCYdlE/S3cAGUzMz8nZFeoB0WirjfHwP
+ IibMx2aMyniEf4YC6IWOV8quTSgSMia2LVyQpcyy4XV0x0ZMsV9ok6oB1CALFVaHEXaP
+ fAlssEGO2uWJFIbL/r3AIyjAgEFFU62vV/+RcWTBtZuHnjD/0oz1x72CUHXzPJF1Zefc
+ MuluAgooQ1AMTfASOxTPsSixQGNC5q2f2B4JInK8o7KFOaZvTVsOsOMrc+9FtyBDwaPx
+ 7zIik0uVkVWSCZU32I+6tEBGVrUgrUiAEYj4OH/Uww7B9lYlpHHgs809KfYjGGd5HZEV
+ VEiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FoeJSfQYjtngvo4HHZBab6bwAds3V3lbp5eX2URtnSI=;
- b=63AgF6sQ/4PEa9AuXXaljoj8/dPT890mLw8e3OzJ6Kt6Oohfy4j6uW9Yif0PGT/wvM
- 5URHLROOvbo3NjDXALOSennF7txZWZclOPJvPk3sH+MM+L9tzk0wZSqCGZqBa6+uMitf
- Hk/hSEwZT3ZO9LguaiUy4u+EhX3Kg21IsCN9TuoYIKmmYD6cLjwg1sEMxXpTeQkYf4Xt
- IuK7fcoRFu8TB6FxVrZJGBnEw80Q5t+OyOjh3FIKFUz4OsyGAWM3vSIn7p6Ht+q04coO
- W2Ry0865/O3G1mzegAn6D3IKPFqYdRG1pDgZ2OLI/wcIsLWo77Sg68sW/v8lI6jWkLzE
- lvBA==
-X-Gm-Message-State: AJIora+IucsiSSIozjrgFS0bJRjh02rIqx9DhNlLda+XNdTJ3OArmydv
- v8+qd9MBvPLHfSc2VCo0Bcr06zvtvpk=
-X-Google-Smtp-Source: AGRyM1sJWv/v1SiTswsiqDJid+8tng0kQ4djmligdCecd3CMIBbROr2frroe0rHfQVMtf45Ph7MMSQ==
-X-Received: by 2002:a02:9384:0:b0:33f:4f23:f268 with SMTP id
- z4-20020a029384000000b0033f4f23f268mr13052051jah.213.1658126304656; 
- Sun, 17 Jul 2022 23:38:24 -0700 (PDT)
+ bh=iVb/au/SvTssHWT9OAzWdqi8anWACH4yAl5fHyJFr8E=;
+ b=F4zQidS2K5bCl1B4w6sbdQXEeHHqfMblU+Mg2M7WPoODejFxnSUEDdphFxDczcTFKe
+ 2XXLqVWYeqo7k/YoE9dFE9/smjMVG4B1T9SWgcX8nyg5yuvdyNLIwMgRMBDP5v8JGZN6
+ 186r7SU5zVrGs+/XxnxGyN49N6YrvzasD0TuiV/SbLrWo/8GyhcNEgZIiGrPO/K+avXJ
+ ctpg1JT5XsYCL1KiE4UvTw1BwO0Nqjn/rsaqMVi4/r984Qv7l8HYaUkFXXkHQwH+gDFY
+ fwhXsza/JLDbLa04noPZw7q5Bbxg1s72U5fbh1rdxx35/zAiful4/6UGDGe9ecPmObBd
+ DgOQ==
+X-Gm-Message-State: AJIora/e+ULSQxm1/W6DTK+YCpjy0HpblxDAcsIKHYwPnGQKPpmV6ixB
+ fH6qbtcsM2nNMwYko0zrC4yYo5kudfM=
+X-Google-Smtp-Source: AGRyM1udFF+I1ZCmbRreqg3ZQsGf9j0m1SBO5qbgs6yeGBHvwuWO+MAr4D6M/8zrOmB6kf9YbZDftg==
+X-Received: by 2002:a92:ca0e:0:b0:2dc:5fe0:59e0 with SMTP id
+ j14-20020a92ca0e000000b002dc5fe059e0mr12767063ils.251.1658126306087; 
+ Sun, 17 Jul 2022 23:38:26 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.23
+ o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:38:24 -0700 (PDT)
+ Sun, 17 Jul 2022 23:38:25 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com
-Subject: [PATCH v3 07/41] dyndbg: let query-modname override actual module name
-Date: Mon, 18 Jul 2022 00:35:51 -0600
-Message-Id: <20220718063641.9179-8-jim.cromie@gmail.com>
+Subject: [PATCH v3 08/41] dyndbg: add test_dynamic_debug module
+Date: Mon, 18 Jul 2022 00:35:52 -0600
+Message-Id: <20220718063641.9179-9-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
 References: <20220718063641.9179-1-jim.cromie@gmail.com>
@@ -74,69 +74,149 @@ Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dyndbg's control-parser: ddebug_parse_query(), requires that search
-terms: module, func, file, lineno, are used only once in a query; a
-thing cannot be named both foo and bar.
+Provide a simple module to allow testing DYNAMIC_DEBUG behavior.  It
+calls do_prints() from module-init, and with a sysfs-node.
 
-The cited commit added an overriding module modname, taken from the
-module loader, which is authoritative.  So it set query.module 1st,
-which disallowed its use in the query-string.
+  dmesg -C
+  dmesg -w &
+  modprobe test_dynamic_debug dyndbg=+p
+  echo 1 > /sys/module/dynamic_debug/parameters/verbose
 
-But now, its useful to allow a module-load to enable classes across a
-whole (or part of) a subsystem at once.
+  cat /sys/module/test_dynamic_debug/parameters/do_prints
+  echo module test_dynamic_debug +mftl > /proc/dynamic_debug/control
+  echo junk > /sys/module/test_dynamic_debug/parameters/do_prints
 
-  # enable (dynamic-debug in) drm only
-  modprobe drm dyndbg="class DRM_UT_CORE +p"
-
-  # get drm_helper too
-  modprobe drm dyndbg="class DRM_UT_CORE module drm* +p"
-
-  # get everything that knows DRM_UT_CORE
-  modprobe drm dyndbg="class DRM_UT_CORE module * +p"
-
-  # also for boot-args:
-  drm.dyndbg="class DRM_UT_CORE module * +p"
-
-So convert the override into a default, by filling it only when/after
-the query-string omitted the module.
-
-NB: the query class FOO handling is forthcoming.
-
-Fixes: 8e59b5cfb9a6 dynamic_debug: add modname arg to exec_query callchain
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ MAINTAINERS              |  2 ++
+ lib/Kconfig.debug        | 10 ++++++
+ lib/Makefile             |  1 +
+ lib/test_dynamic_debug.c | 70 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 83 insertions(+)
+ create mode 100644 lib/test_dynamic_debug.c
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index e5cbe603000c..5a849716220a 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -385,10 +385,6 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		return -EINVAL;
- 	}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f679152bdbad..663307268285 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7094,6 +7094,8 @@ M:	Jason Baron <jbaron@akamai.com>
+ S:	Maintained
+ F:	include/linux/dynamic_debug.h
+ F:	lib/dynamic_debug.c
++M:	Jim Cromie <jim.cromie@gmail.com>
++F:	lib/test_dynamic_debug.c
  
--	if (modname)
--		/* support $modname.dyndbg=<multiple queries> */
--		query->module = modname;
--
- 	for (i = 0; i < nwords; i += 2) {
- 		char *keyword = words[i];
- 		char *arg = words[i+1];
-@@ -429,6 +425,13 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		if (rc)
- 			return rc;
- 	}
-+	if (!query->module && modname)
-+		/*
-+		 * support $modname.dyndbg=<multiple queries>, when
-+		 * not given in the query itself
-+		 */
-+		query->module = modname;
+ DYNAMIC INTERRUPT MODERATION
+ M:	Tal Gilboa <talgi@nvidia.com>
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 2e24db4bff19..ca5978e1d18a 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2529,6 +2529,16 @@ config TEST_STATIC_KEYS
+ 
+ 	  If unsure, say N.
+ 
++config TEST_DYNAMIC_DEBUG
++	tristate "Test DYNAMIC_DEBUG"
++	depends on DYNAMIC_DEBUG
++	help
++	  This module registers a tracer callback to count enabled
++	  pr_debugs in a 'do_debugging' function, then alters their
++	  enablements, calls the function, and compares counts.
 +
- 	vpr_info_dq(query, "parsed");
- 	return 0;
- }
++	  If unsure, say N.
++
+ config TEST_KMOD
+ 	tristate "kmod stress tester"
+ 	depends on m
+diff --git a/lib/Makefile b/lib/Makefile
+index f99bf61f8bbc..9c316df868de 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -82,6 +82,7 @@ obj-$(CONFIG_TEST_SORT) += test_sort.o
+ obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
++obj-$(CONFIG_TEST_DYNAMIC_DEBUG) += test_dynamic_debug.o
+ obj-$(CONFIG_TEST_PRINTF) += test_printf.o
+ obj-$(CONFIG_TEST_SCANF) += test_scanf.o
+ obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
+diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
+new file mode 100644
+index 000000000000..ba3882ca3e48
+--- /dev/null
++++ b/lib/test_dynamic_debug.c
+@@ -0,0 +1,70 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Kernel module for testing dynamic_debug
++ *
++ * Authors:
++ *      Jim Cromie	<jim.cromie@gmail.com>
++ */
++
++#define pr_fmt(fmt) "test_dd: " fmt
++
++#include <linux/module.h>
++
++static void do_prints(void); /* device under test */
++
++/* run tests by reading or writing sysfs node */
++
++static int param_set_do_prints(const char *instr, const struct kernel_param *kp)
++{
++	do_prints();
++	return 0;
++}
++
++static int param_get_do_prints(char *buffer, const struct kernel_param *kp)
++{
++	do_prints();
++	return scnprintf(buffer, PAGE_SIZE, "did do_prints\n");
++}
++
++static const struct kernel_param_ops param_ops_do_prints = {
++	.set = param_set_do_prints,
++	.get = param_get_do_prints,
++};
++
++module_param_cb(do_prints, &param_ops_do_prints, NULL, 0600);
++
++static void do_alpha(void)
++{
++	pr_debug("do alpha\n");
++}
++static void do_beta(void)
++{
++	pr_debug("do beta\n");
++}
++
++static void do_prints(void)
++{
++	do_alpha();
++	do_beta();
++}
++
++static int __init test_dynamic_debug_init(void)
++{
++	pr_debug("init start\n");
++
++	do_prints();
++
++	pr_debug("init done\n");
++	return 0;
++}
++
++static void __exit test_dynamic_debug_exit(void)
++{
++	pr_debug("exiting\n");
++}
++
++module_init(test_dynamic_debug_init);
++module_exit(test_dynamic_debug_exit);
++
++MODULE_AUTHOR("Jim Cromie <jim.cromie@gmail.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.36.1
 
