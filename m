@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8404B577B75
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB34577B76
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6185AA9D44;
-	Mon, 18 Jul 2022 06:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8758FA9D4E;
+	Mon, 18 Jul 2022 06:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92992A9CE8;
- Mon, 18 Jul 2022 06:38:48 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id y2so8523927ior.12;
- Sun, 17 Jul 2022 23:38:48 -0700 (PDT)
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
+ [IPv6:2607:f8b0:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71E71A9CE2;
+ Mon, 18 Jul 2022 06:38:50 +0000 (UTC)
+Received: by mail-il1-x136.google.com with SMTP id d4so5549846ilc.8;
+ Sun, 17 Jul 2022 23:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2hIofP2/7RnzwmpB4+2uKZhOwCVDBUsWlubLiM5FRUQ=;
- b=BptF5SO8TMeLvQP9nIR9RVXdw4qv8na8Vw7ejbab15/7BwGx+J5DC24eMPbyXxj2tC
- rt4S+7JIQ/Yx1hHaNFzjARNzG6SwS4RWQTor4tsNS+NZ7iPPc62YEtenlLY5spAthuqE
- r6rK753qyWwNSP+lOhTaU5JPLCztfI6n51t+fEtcDO/EwwJEthun8k9aLfjifuoXbzsz
- 11dd9GGtZZsrtKU+GwTsNn82LcTf9+cRxL/4Cx1k3zZLz+a3o5iDenlc9/i8v/zZmFI1
- x16WAAhhIO79sB2tZh6/f2RCiSgiWLrRyGRMCpjfVwB6h8SQBX3FdUHgv9uE1KsbphjV
- gejA==
+ bh=pbfKjW8s+yNblg/2VqulB1BrQZpCCy3wi5VbG9v1p9Y=;
+ b=QOj/ip4QduY99K5+0N6BwKZcMk9msE0SGoTjqXARq+LWFxr6/0bzuaAq/fTXPcfgsL
+ lyDmaEtB0JuvmvlQ3zr01MXAbeKDsfjogGM9KZI6FamF7thaIZAYEUJ8thxtpO5U6mKB
+ Hn1n9T1ePbUiRFzYiPZpfDlMf5f72C33mzCA3VTNFNvUrrtBaaQwJxxfLQTIOQufNwWd
+ 1vMtXfkwa/RpyAdQKoAyRA0MowG7dKJOknG7QcDzyeUVspW7z2Oocueq9rGspg0LM9re
+ ntR/GnRpxzezcqXVod9+iEacWBm9bZZA+eiwQBQ6xoWAsSTxEOdmupmzEjlj1ZEGVtjO
+ hxeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2hIofP2/7RnzwmpB4+2uKZhOwCVDBUsWlubLiM5FRUQ=;
- b=Ptm0ax0JuRu/5XV5PVQBUYmpjXeUlvlGkX/f0+2eFqJjwt3m/cVRtiUxWCoxCsgshg
- LVNv7bdROVwmcbc1h+ietqpgtC4GTuGPkep1n79HXufee/ARoGxIFjVdvhaBUiyA42NX
- St26+psxny5JTegsuOUs4fD3lVswoKbDoRlUUR345TtJR7eMcqnpHbW/XpcfMqxbVD6H
- izfP916IdzK7dKzN3aZamtlkmyTbu2uy8mtEjnzTgYS6uidgrQ78rCQjssAnAjRCvxv5
- lfQXrta8dm1CfvDCd2GAzUArjtUcTFpMAwBfRIA8NmRAU2dOWa3H1ncuR3S0s4eqZ+5c
- ckQw==
-X-Gm-Message-State: AJIora8SjaX+ZBke8n6MXzZAy/4N2asL7vbAtS2NYzRtlkLSY9jcIwMq
- Q6axfAiy0dHatQfN5wSi86CJztQtfCY=
-X-Google-Smtp-Source: AGRyM1uOGHqHtEyIbe2ocfQMqbQb/S+AT6j18yc09C7xpuA8r22WTJcVIZMtR4hYU8rRvg724c3Ogw==
-X-Received: by 2002:a05:6638:3801:b0:341:68f6:932 with SMTP id
- i1-20020a056638380100b0034168f60932mr2386338jav.71.1658126328294; 
- Sun, 17 Jul 2022 23:38:48 -0700 (PDT)
+ bh=pbfKjW8s+yNblg/2VqulB1BrQZpCCy3wi5VbG9v1p9Y=;
+ b=7wtro2Ujvf76zalirYr4KzIezQA9/xN17rRtiEi9OKJIAq8qjwW6dE6OC21X+sCgwU
+ +nKU8f+QyK/sgYD808TRlVZe0Gn2Krhffu5Ar/xVq+8Woy4xucR/U5ivMuMtBq3gp4Im
+ k749gcQcPBQH0mq2soLO8QPp58Tqa1bD2DTeJAW5HUsMpNv/UUwvxVUtla5jnn0qAYcq
+ 17CfxZvt0m7r8CCCwGUf8mToMp5bmQ6sfbWMftjHuXRFXWglzLb8/mOx5zRkCJcYjUq2
+ Cs/+kSG7xPP0TdxeGgmgiLvzhKsTPC/wF4+C7RL6p4KEWXjMTC4bUehHHHt117GozX5H
+ wWYg==
+X-Gm-Message-State: AJIora9q9czGR1xIiR5E8dmRv7uOGzcC/2B8Ic06FWEpNgcLW/qdVmWX
+ NfAm7Ftp/DBmWpZXPWvPA6s=
+X-Google-Smtp-Source: AGRyM1tx0yp4KSHzPyYHxnLdlzPSkyd1rVu+bV6AGVvQK9o2oS6/so1HEdIv1j9Y0schHyfmZruDjw==
+X-Received: by 2002:a05:6e02:b21:b0:2dc:6d2d:5a61 with SMTP id
+ e1-20020a056e020b2100b002dc6d2d5a61mr13218223ilu.273.1658126329652; 
+ Sun, 17 Jul 2022 23:38:49 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.47
+ o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:38:47 -0700 (PDT)
+ Sun, 17 Jul 2022 23:38:49 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com
-Subject: [PATCH v3 24/39] drm-print: include dyndbg header indirectly
-Date: Mon, 18 Jul 2022 00:36:09 -0600
-Message-Id: <20220718063641.9179-26-jim.cromie@gmail.com>
+Subject: [PATCH v3 25/41] drm-print: include dyndbg header indirectly
+Date: Mon, 18 Jul 2022 00:36:10 -0600
+Message-Id: <20220718063641.9179-27-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
 References: <20220718063641.9179-1-jim.cromie@gmail.com>
@@ -96,7 +96,7 @@ Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 2d2cef76b5c1..f8bb3e7158c6 100644
+index 3aa5e9ea26f4..dfdd81c3287c 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
 @@ -31,6 +31,7 @@
