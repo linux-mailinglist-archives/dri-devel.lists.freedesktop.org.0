@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D979577BFB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:56:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C8C577C6D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 09:23:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F2390559;
-	Mon, 18 Jul 2022 06:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF0D0AB7B6;
+	Mon, 18 Jul 2022 07:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9728D90E
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 06:56:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E9EAB7AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 07:23:25 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 75BE3339FF;
- Mon, 18 Jul 2022 06:56:17 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 154813392C;
+ Mon, 18 Jul 2022 07:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658127377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hHnFOEalU4AjaN8AVO/6i0fRIGVwPGXhYGh1i+AF9M4=;
- b=aP+wEr/m02dPvSEipBkJQb8Zg3wSu7NQxTmusFdkPQ626WMBnFvhuDJwTiuWYP+xVZ3Bmv
- +VnA4B/807nOEdSvXH58jzY0eDB2ME4N30YXvb7Dp/IkG3TbhJNI23TJ2BlogWQw0uaQ9x
- FrK6N+Fy1SZZfngFQV0V9s8hDAiVH0I=
+ t=1658129004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=GZxo82O0GSD21ZK5W2Hm0LcGlwweorBc4NPn450GI2g=;
+ b=zYROj88s6MFXXnPX4fcs295nrX+rd+QK7uPWxWXr40NlJ15H0hD9NfCmAqwd+47nbQYp3M
+ HuBRouZobCZM9AUBg8k5NgXS3ZcTzMnhA4ACYXE+sMH5zhhRYysc3aUgPOidZkREekN5jY
+ JKYoUpSeJBrSssKlv14QYOfprVuicQo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658127377;
+ s=susede2_ed25519; t=1658129004;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hHnFOEalU4AjaN8AVO/6i0fRIGVwPGXhYGh1i+AF9M4=;
- b=n1vkfJ3bRqHMQVxGsSatLRkZGuXCcY2qdZf4W4/4YcIfJSUzGn0l38erJl2GmzQQxSac7T
- MgmDnk36BpHhwQBA==
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=GZxo82O0GSD21ZK5W2Hm0LcGlwweorBc4NPn450GI2g=;
+ b=L2sdneqZw2OaJFF3hynxuKpTZs7BwlN84Kfck8BYgo+X3OzC4/YZMPOFzU6NwOyWC91NbB
+ I/MbDmKAVWXJZRDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F3C513754;
- Mon, 18 Jul 2022 06:56:17 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB68713A37;
+ Mon, 18 Jul 2022 07:23:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FWdxFhEE1WLFZAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 06:56:17 +0000
-Message-ID: <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
-Date: Mon, 18 Jul 2022 08:56:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-References: <20220716181750.3874838-1-sam@ravnborg.org>
+ by imap2.suse-dmz.suse.de with ESMTPSA id YD+pNGsK1WKjcAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 07:23:23 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220716181750.3874838-1-sam@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VLdC0LMXUZAr0OgSstqAnx66"
+To: javierm@redhat.com, deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
+ maxime@cerno.tech
+Subject: [PATCH v2 00/11] fbdev: Maintain device ownership with aperture
+ helpers
+Date: Mon, 18 Jul 2022 09:23:11 +0200
+Message-Id: <20220718072322.8927-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,175 +63,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VLdC0LMXUZAr0OgSstqAnx66
-Content-Type: multipart/mixed; boundary="------------tCxddzM5zWkns2DHguwEgUwW";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
-Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
-References: <20220716181750.3874838-1-sam@ravnborg.org>
-In-Reply-To: <20220716181750.3874838-1-sam@ravnborg.org>
+Fbdev firmware drivers acquire ownership of framebuffer I/O ranges and
+hand them over to native drivers during the boot process. Re-implement
+this mechanism with aperture helpers and remove the respective fbdev
+code.
 
---------------tCxddzM5zWkns2DHguwEgUwW
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This change allows to perform hand-over from DRM firmware drivers. In a
+later patchset, device ownership can be moved from DRM and fbdev entirely
+into aperture helpers.
 
-SGkNCg0KQW0gMTYuMDcuMjIgdW0gMjA6MTcgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IFdo
-aWxlIGRpc2N1c3NpbmcgdGhlIHdheSBmb3J3YXJkIGZvciB0aGUgdmlhIGRyaXZlcg0KPiBK
-YXZpZXIgY2FtZSB1cCB3aXRoIHRoZSBwcm9wb3NhbCB0byBtb3ZlIGFsbCBEUkkxIGRyaXZl
-cnMNCj4gdG8gdGhlaXIgb3duIGZvbGRlci4NCj4gDQo+IFRoZSBpZGVhIGlzIHRvIG1vdmUg
-dGhlIG9sZCBEUkkxIGRyaXZlcnMgc28gb25lIGRvIG5vdA0KPiBhY2NpZGVudGFsbHkgY29u
-c2lkZXIgdGhlbSBtb2Rlcm4gZHJpdmVycy4NCj4gDQo+IFRoaXMgc2V0IG9mIHBhdGNoZXMg
-aW1wbGVtZW50cyB0aGlzIGlkZWEuDQo+IA0KPiBUbyBwcmVwYXJlIHRoZSBtb3ZlLCBEUklW
-RVJfTEVHQUNZIGFuZCBDT05GSUdfRFJNX0xFR0FDWQ0KPiBhcmUgYm90aCByZW5hbWVkIHRv
-ICpfRFJJMS4gVGhpcyBtYWtlcyBpdCBtb3JlIG9idmlvdXMNCj4gdGhhdCB3ZSBhcmUgZGVh
-bGluZyB3aXRoIERSSTEgZHJpdmVycywgYXMgd2UgaGF2ZQ0KPiBhIGxvdCBvZiBvdGhlciBs
-ZWdhY3kgc3VwcG9ydC4NCj4gDQo+IFRoZSBkcml2ZXJzIGNvbnRpbnVlIHRvIGhhdmUgdGhl
-aXIgb3duIHN1Yi1kaXJlY3RvcnkNCj4gc28gdGhlIGRyaXZlciBmaWxlcyBhcmUgbm90IG1p
-eGVkIHdpdGggdGhlIGNvcmUgZmlsZXMNCj4gd2hpY2ggYXJlIGNvcGllZCBpbiB0aGUgbGFz
-dCBjb21taXQuDQo+IA0KPiBUaGUgRFJJMSBzcGVjaWZpYyBwYXJ0IG9mIGRybS9LY29uZmln
-IGlzIGxpa2V3aXNlIHB1bGxlZA0KPiBvdXQgYW5kIGxvY2F0ZWQgaW4gdGhlIGRyaTEvIGZv
-bGRlci4NCj4gDQo+IEZlZWRiYWNrIHdlbGNvbWUhDQoNClRvIGJlIGhvbmVzdCwgSSBzdGls
-bCBkb24ndCBsaWtlIHRoaXMgcmVuYW1lLiBFc3BlY2lhbGx5IGluIHRoZSBjYXNlIG9mIA0K
-dmlhLCB3aGljaCBoYXMgYSBLTVMgZHJpdmVyIGNvbWluZyB1cC4gSXQgd2lsbCBub3cgaGF2
-ZSBhbiBpbmNsdWRlIA0Kc3RhdGVtZW50IHRoYXQgY3Jvc3NlcyBzZXZlcmFsIGxldmVscyBp
-biB0aGUgZGlyZWN0b3J5IGhpZXJhcmNoeS4gQW5kIA0Kd2hhdCBhYm91dCB0aGUgb3RoZXIg
-RFJJMSBkcml2ZXJzPyBJZiB3ZSBldmVyIGdldCBLTVMgZHJpdmVycyBmb3IgdGhvc2UsIA0K
-ZG8gd2Ugd2FudCB0byBtb3ZlIHNvbWUgaGVhZGVyIGZpbGVzIGJhY2sgaW50byB0aGVpciBv
-cmlnaW5hbCBsb2NhdGlvbnM/IA0KUGF0Y2hlcyAxIGFuZCAyIGxvb2sgcmVhc29uYWJsZSB0
-byBtZS4gVGhlIG90aGVyIGRyaXZlciBwYXRjaGVzIGhhdmUgDQpiYXNpY2FsbHkgemVybyB1
-cHNpZGUgSU1ITy4NCg0KSW4gdGhlIGNhc2Ugb2YgbW92aW5nIHRoZSBjb3JlIGZpbGVzIGlu
-dG8gZHJpMS8sIHRoZSByZXN1bHRpbmcgTWFrZWZpbGUgDQpydWxlIGxvb2tzIHJlYWxseSB1
-Z2x5LiBJJ2Qgc3VnZ2VzdCB0byBtb3ZlIGFsbCBjb2RlIGludG8gYSBzZXBhcmF0ZSANCmZp
-bGUgZHJtX2RyaTEuYyBhbmQgYmUgZG9uZSB3aXRoIGl0LiAgRm9yIHNvbWV0aGluZyBtb3Jl
-IGVsYWJvcmF0ZSwgDQp0aGVyZSBjb3VsZCBieSBkcm1fZHJpMS5jIGFuZCBkcm1fZHJpMV9o
-ZWxwZXIuYywgd2hlcmUgdGhlIGxhdHRlciANCmNvbnRhaW5zIGFsbCBEUkkxIGNvZGUgdGhh
-dCBpcyBvbmx5IHVzZWQgYnkgdGhlIGRyaXZlcnMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbXNh
-DQoNCj4gDQo+IAlTYW0NCj4gDQo+IFNhbSBSYXZuYm9yZyAoMTEpOg0KPiAgICAgICAgZHJt
-OiByZW5hbWUgRFJJVkVSX0xFR0FDWSB0byBEUklWRVJfRFJJMQ0KPiAgICAgICAgZHJtOiBS
-ZW5hbWUgQ09ORklHX0RSTV9MRUdBQ1kgdG8gQ09ORklHX0RSTV9EUkkxDQo+ICAgICAgICBk
-cm0vdGRmeDogTW92ZSB0aGUgdGRmeCBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBk
-cm0vcjEyODogTW92ZSB0aGUgcjEyOCBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBk
-cm0vaTgxMDogTW92ZSB0aGUgaTgxMCBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBk
-cm0vbWdhOiBNb3ZlIHRoZSBtZ2EgZHJpdmVyIHRvIGRybS9kcmkxLw0KPiAgICAgICAgZHJt
-L3NpczogTW92ZSB0aGUgc2lzIGRyaXZlciB0byBkcm0vZHJpMS8NCj4gICAgICAgIGRybS92
-aWE6IE1vdmUgdGhlIHZpYSBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBkcm0vc2F2
-YWdlOiBNb3ZlIHRoZSBzYXZhZ2UgZHJpdmVyIHRvIGRybS9kcmkxLw0KPiAgICAgICAgZHJt
-L2RyaTE6IE1vdmUgS2NvbmZpZyBsb2dpYyB0byBkcm0vZHJpMQ0KPiAgICAgICAgZHJtOiBN
-b3ZlIGRyaTEgY29yZSBmaWxlcyB0byBkcm0vZHJpMQ0KPiANCj4gICBhcmNoL3Bvd2VycGMv
-Y29uZmlncy9wbWFjMzJfZGVmY29uZmlnICAgICAgICAgICAgICB8ICAyICstDQo+ICAgYXJj
-aC9wb3dlcnBjL2NvbmZpZ3MvcHBjNnh4X2RlZmNvbmZpZyAgICAgICAgICAgICAgfCAgMiAr
-LQ0KPiAgIGRyaXZlcnMvY2hhci9hZ3AvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2NoYXIvYWdwL2FncC5oICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL0tjb25maWcgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCA3OSArLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAg
-fCAxOCArKystLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcmkxL0tjb25maWcgICAgICAgICAg
-ICAgICAgICAgICAgIHwgNzkgKysrKysrKysrKysrKysrKysrKysrKw0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS9kcmkxL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgIHwgMTEgKysrDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vZHJtX2FncHN1cHBvcnQuYyAgICAgICAg
-fCAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV9idWZzLmMgICAg
-ICAgICAgICAgIHwgMjIgKysrLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0v
-ZHJtX2NvbnRleHQuYyAgICAgICAgICAgfCAyNCArKystLS0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL3sgPT4gZHJpMX0vZHJtX2RtYS5jICAgICAgICAgICAgICAgfCAgNCArLQ0KPiAgIGRy
-aXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV9oYXNodGFiLmMgICAgICAgICAgIHwgIDAN
-Cj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9kcm1faXJxLmMgICAgICAgICAgICAg
-ICB8ICA2ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vZHJtX2xlZ2FjeV9t
-aXNjLmMgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2Ry
-bV9sb2NrLmMgICAgICAgICAgICAgIHwgIDYgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9
-PiBkcmkxfS9kcm1fbWVtb3J5LmMgICAgICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL3sgPT4gZHJpMX0vZHJtX3NjYXR0ZXIuYyAgICAgICAgICAgfCAgNiArLQ0KPiAgIGRy
-aXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV92bS5jICAgICAgICAgICAgICAgIHwgIDIg
-Ky0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9pODEwL01ha2VmaWxlICAgICAg
-ICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vaTgxMC9pODEwX2Rt
-YS5jICAgICAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2k4MTAv
-aTgxMF9kcnYuYyAgICAgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBk
-cmkxfS9pODEwL2k4MTBfZHJ2LmggICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3sgPT4gZHJpMX0vbWdhL01ha2VmaWxlICAgICAgICAgICAgfCAgMA0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS97ID0+IGRyaTF9L21nYS9tZ2FfZG1hLmMgICAgICAgICAgIHwgIDANCj4gICBk
-cml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9tZ2EvbWdhX2Rydi5jICAgICAgICAgICB8ICAy
-ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vbWdhL21nYV9kcnYuaCAgICAg
-ICAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L21nYS9tZ2FfaW9j
-MzIuYyAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9tZ2Ev
-bWdhX2lycS5jICAgICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJp
-MX0vbWdhL21nYV9zdGF0ZS5jICAgICAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97
-ID0+IGRyaTF9L21nYS9tZ2Ffd2FycC5jICAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dw
-dS9kcm0veyA9PiBkcmkxfS9yMTI4L01ha2VmaWxlICAgICAgICAgICB8ICAwDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vcjEyOC9hdGlfcGNpZ2FydC5jICAgICAgfCAgMA0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3IxMjgvYXRpX3BjaWdhcnQuaCAgICAg
-IHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9yMTI4L3IxMjhfY2NlLmMg
-ICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vcjEyOC9yMTI4
-X2Rydi5jICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9
-L3IxMjgvcjEyOF9kcnYuaCAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9
-PiBkcmkxfS9yMTI4L3IxMjhfaW9jMzIuYyAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL3sgPT4gZHJpMX0vcjEyOC9yMTI4X2lycS5jICAgICAgICAgfCAgMA0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS97ID0+IGRyaTF9L3IxMjgvcjEyOF9zdGF0ZS5jICAgICAgIHwgIDANCj4g
-ICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9zYXZhZ2UvTWFrZWZpbGUgICAgICAgICB8
-ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vc2F2YWdlL3NhdmFnZV9iY2ku
-YyAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3NhdmFnZS9zYXZh
-Z2VfZHJ2LmMgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9z
-YXZhZ2Uvc2F2YWdlX2Rydi5oICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4g
-ZHJpMX0vc2F2YWdlL3NhdmFnZV9zdGF0ZS5jICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS97ID0+IGRyaTF9L3Npcy9NYWtlZmlsZSAgICAgICAgICAgIHwgIDANCj4gICBkcml2ZXJz
-L2dwdS9kcm0veyA9PiBkcmkxfS9zaXMvc2lzX2Rydi5jICAgICAgICAgICB8ICAyICstDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vc2lzL3Npc19kcnYuaCAgICAgICAgICAg
-fCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3Npcy9zaXNfbW0uYyAgICAg
-ICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS90ZGZ4L01ha2Vm
-aWxlICAgICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vdGRm
-eC90ZGZ4X2Rydi5jICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+
-IGRyaTF9L3RkZngvdGRmeF9kcnYuaCAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9k
-cm0veyA9PiBkcmkxfS92aWEvTWFrZWZpbGUgICAgICAgICAgICB8ICA0ICstDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL3t2aWEvdmlhX2RyaTEuYyA9PiBkcmkxL3ZpYS92aWEuY30gfCAgNCAr
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYyAgICAgICAgICAg
-ICAgICAgICAgICAgICB8IDEyICsrLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVy
-bmFsLmggICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L2RybV9pb2MzMi5jICAgICAgICAgICAgICAgICAgICAgICAgfCAxMiArKy0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2RybV9pb2N0bC5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgNCAr
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fbGVnYWN5LmggICAgICAgICAgICAgICAgICAg
-ICAgIHwgMzIgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgfCAxMiArKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
-bV92YmxhbmsuYyAgICAgICAgICAgICAgICAgICAgICAgfCAxMiArKy0tDQo+ICAgaW5jbHVk
-ZS9kcm0vZHJtX2F1dGguaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQ0K
-PiAgIGluY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgIDQgKy0NCj4gICBpbmNsdWRlL2RybS9kcm1fZHJ2LmggICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8IDEwICstLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9maWxlLmggICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0NCj4gICBpbmNsdWRlL2RybS9kcm1fbGVn
-YWN5LmggICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+ICAgNjcgZmlsZXMg
-Y2hhbmdlZCwgMjA1IGluc2VydGlvbnMoKyksIDE5NCBkZWxldGlvbnMoLSkNCj4gDQo+IA0K
-DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
-VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
-NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
-Y2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Patches 1 and 4 are cleanups.
 
---------------tCxddzM5zWkns2DHguwEgUwW--
+Patches 2 and 3 integrate EGA/VGA support into sysfb, although it's not
+clear if the x86 architecture code actually still supports VGA graphics
+mode.
 
---------------VLdC0LMXUZAr0OgSstqAnx66
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Patches 5 to 10 replace fbdev's ownership management with aperture
+helpers. This includes removal of conflicting framebuffer drivers,
+removal of conflicting VGA drivers and registration of fbdev firmware
+devices. Notably, many PCI-based fbdev drivers failed to remove firmware
+devices until now; and therefore probably haven't worked correctly for
+some time.
 
------BEGIN PGP SIGNATURE-----
+Patch 11 removes the implementation of fbdev ownership management.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLVBBAFAwAAAAAACgkQlh/E3EQov+DA
-lA//b3y8EgdLu39XDF4bFUl+BFzXLiqUm9QyxTwbFGlewlWkDHIpB69xebfpTmNk9yV6CkhPpgbN
-AHpp3S7UdpLJ1HTLqXxHa/MPStLB+tDbjMAk3jBBdp0SICLYVx8eVmBuAznMemVfk4bOKFTF8iCx
-g1iD4jEdbDSKo3lkZRaP6/kbQimzFd4udWsbZJvPmWGkLmGsqI+Pl1IIhgweEo5+GO65RmAWRA95
-AYmWjB0FcRbnbLOtoDYeu8OAWWosrem1zJHk/EdSJm0hoa9nCFUwRUvaIVLJTLRJFJkAOZlonO1h
-dUurvVBO/yj7EtmMKw9dBqaJJ/YU7cmL7jz28hnsYlWSRPP2sHuxIfjw1tmjhzEBBRBJpkqPdsx2
-v16BOINqBdF/WJSrIj5gy9MaRTEnv50ja8jYGMKTty8N69rMNpJ3YfuoALLwGwCV0PTYz6QLkfSo
-mYOem9N9KUebhqhiERsQ8MdAieNDu6fOzbmq3/Sq5m3uDul9496WsqlirfY+YAqbFXgfrwOZuzAP
-pxIU0iSE/ED0DFcBdG82/SHrlnovbh3r/L9SQRMTEQwyQeHYnyK8UvgoCfuNJWV9pC8oTS7KxF/v
-5pi7YiYT0ha0D3WK3b184mXiZa2dPXtnQ39eBiWse20leIF4SMgaB8jnk2Nl+MalzM/4sibs6STX
-87M=
-=HEC0
------END PGP SIGNATURE-----
+The patchset has been tested by handing over device ownership between
+firmware and native drivers of DRM and fbdev in various combinations.
 
---------------VLdC0LMXUZAr0OgSstqAnx66--
+v2:
+	* remove unused options handling from vga16fb (Javier)
+	* more elaborate commit messages (Javier)
+	* remove unused internal functions in fbmem.c
+
+Thomas Zimmermann (11):
+  fbdev: Remove trailing whitespaces
+  fbdev/vga16fb: Create EGA/VGA devices in sysfb code
+  fbdev/vga16fb: Auto-generate module init/exit code
+  fbdev/core: Remove remove_conflicting_pci_framebuffers()
+  fbdev: Convert drivers to aperture helpers
+  fbdev: Remove conflicting devices on PCI bus
+  video/aperture: Disable and unregister sysfb devices via aperture
+    helpers
+  video: Provide constants for VGA I/O range
+  video/aperture: Remove conflicting VGA devices, if any
+  fbdev: Acquire framebuffer apertures for firmware devices
+  fbdev: Remove conflict-handling code
+
+ drivers/firmware/sysfb.c                     |   4 +
+ drivers/staging/sm750fb/sm750.c              |  15 +-
+ drivers/video/aperture.c                     |  69 ++--
+ drivers/video/fbdev/arkfb.c                  |   5 +
+ drivers/video/fbdev/asiliantfb.c             |   5 +
+ drivers/video/fbdev/aty/aty128fb.c           |  57 ++--
+ drivers/video/fbdev/aty/atyfb_base.c         |   7 +-
+ drivers/video/fbdev/aty/radeon_base.c        |  83 +++--
+ drivers/video/fbdev/carminefb.c              |   5 +
+ drivers/video/fbdev/chipsfb.c                |  13 +-
+ drivers/video/fbdev/cirrusfb.c               |   5 +
+ drivers/video/fbdev/core/fbmem.c             | 213 ++-----------
+ drivers/video/fbdev/cyber2000fb.c            |   5 +
+ drivers/video/fbdev/geode/gx1fb_core.c       |   5 +
+ drivers/video/fbdev/geode/gxfb_core.c        |   5 +
+ drivers/video/fbdev/geode/lxfb_core.c        |   5 +
+ drivers/video/fbdev/gxt4500.c                |   5 +
+ drivers/video/fbdev/hyperv_fb.c              |   6 +-
+ drivers/video/fbdev/i740fb.c                 |   5 +
+ drivers/video/fbdev/i810/i810_main.c         | 315 ++++++++++---------
+ drivers/video/fbdev/imsttfb.c                |  36 ++-
+ drivers/video/fbdev/intelfb/intelfbdrv.c     |   5 +
+ drivers/video/fbdev/kyro/fbdev.c             |   5 +
+ drivers/video/fbdev/matrox/matroxfb_base.c   |   5 +
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   5 +
+ drivers/video/fbdev/neofb.c                  |  41 +--
+ drivers/video/fbdev/nvidia/nvidia.c          |   7 +-
+ drivers/video/fbdev/pm2fb.c                  |   5 +
+ drivers/video/fbdev/pm3fb.c                  |   5 +
+ drivers/video/fbdev/pvr2fb.c                 |   5 +
+ drivers/video/fbdev/riva/fbdev.c             |  67 ++--
+ drivers/video/fbdev/s3fb.c                   |   5 +
+ drivers/video/fbdev/savage/savagefb_driver.c |   5 +
+ drivers/video/fbdev/sis/sis_main.c           |   5 +
+ drivers/video/fbdev/skeletonfb.c             | 210 +++++++------
+ drivers/video/fbdev/sm712fb.c                |   5 +
+ drivers/video/fbdev/sstfb.c                  |  43 +--
+ drivers/video/fbdev/sunxvr2500.c             |   5 +
+ drivers/video/fbdev/sunxvr500.c              |   5 +
+ drivers/video/fbdev/tdfxfb.c                 |   5 +
+ drivers/video/fbdev/tgafb.c                  |  17 +-
+ drivers/video/fbdev/tridentfb.c              |   5 +
+ drivers/video/fbdev/vermilion/vermilion.c    |   7 +-
+ drivers/video/fbdev/vga16fb.c                | 191 +++++------
+ drivers/video/fbdev/via/via-core.c           |   5 +
+ drivers/video/fbdev/vt8623fb.c               |   5 +
+ include/linux/fb.h                           |   4 -
+ include/video/vga.h                          |  20 +-
+ 48 files changed, 776 insertions(+), 784 deletions(-)
+
+
+base-commit: ebea934e2651857c9b56cc80bf99460ee18a3592
+-- 
+2.36.1
+
