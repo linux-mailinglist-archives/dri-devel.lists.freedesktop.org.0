@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE21577B79
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DD7577B4C
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E341BA9D56;
-	Mon, 18 Jul 2022 06:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B55A9CEC;
+	Mon, 18 Jul 2022 06:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 489D2A9CAE;
- Mon, 18 Jul 2022 06:38:36 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id w9so2043460ilg.1;
- Sun, 17 Jul 2022 23:38:36 -0700 (PDT)
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E651A9CA7;
+ Mon, 18 Jul 2022 06:38:37 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id y2so8523711ior.12;
+ Sun, 17 Jul 2022 23:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bh0/DFoYhEptZ3Qmb/gPoAkKxPWthqE3Rxq7bl/8jnk=;
- b=K/N03qVc1QzIwf6M5NDJI4ORkODBkAgXm+R6M0pzFztLSNH2lxdUOr3Bdk22ZYFZv5
- sDl5rIy6kNaoz2BNwD/pzj57EVUtLhkipWZJqnfrV/L0VBnN0eh/2z8foMXlEJ0+Qgkl
- Sql2bmyd+cmxfwkWeGIDAhfrgSUq7RlNh5cM+tWoSkVtR3fjxGJy2KEUi/xwbmFB5nJn
- xleOLiyXScTiZkgKeoSnP25A5sprhtifuHlsIYnGA6EZOIrfNonifb+marff6kLexoQ6
- gEnt5ASK9MkJZhzQOxhFH/hjRmPOdX9JVRk/Knt/ZznS5ee9pO/KsQTiF0Y6/3RQrG6J
- Bh3A==
+ bh=SGsxNGoyeS6i6viq97Hpi9t+LziL3Bicz8xpppAaUyQ=;
+ b=CTklXbUHN/RqwJtsTXWNf8kER4L41lqgco4x1FbZplXaOxaWcMWYmcC/OiCS8hRlRi
+ XromEI9R7iJaei8N7bAEH6uft4snrGJ73FYiJ4btA4o5/UfJ6+xQ45KtxYT0lQja3ykC
+ wqVCvplLyP79ViD2DY10baxQoJD8WzptnFZV5JrdrNw/wZVuTXp6MyDFfXiJ7/N6R0qn
+ 5CIxhsbNlmoQ4v2tON+O89Z7IwfPVAr4tKmXM42E20K1lTifgeE1QZ8TKS/saOM/QTbQ
+ ANgKEyAubDF+STrKkQY3Pq2rFPD8PiUJS7e7LDMPBS+XRuMSTIgOXWUh8QBGbbtVlC9H
+ wRPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bh0/DFoYhEptZ3Qmb/gPoAkKxPWthqE3Rxq7bl/8jnk=;
- b=qDu/sPhKORgF5xWS38h71ExrWoQyK+rX2uSPIcSqxWKtI/imUrrAPvFYKBxoC16BQi
- k7klOjBMwjUVkwPr0O2EIpGYEMnjnL5oGkta+w/qH+jHBoIbQ/0EvDE2sZKJHg56ZR0r
- SnLYO9O/OWwUwVCNhcD5al/9uIbseoPtJzYNn7tvs9Q+H0M1UMLMtqQZNQi2AzoiSv1Q
- xyniuxjr8DPHNXhiIXJxgJRItfl4uJ+VtLK+QBca0CCjqYINgethuzhgMEaTIZoO7WTB
- jHQuo6DVk0DXGlB9sNoUEfePeZZfx6YWdczLx9QpypD6MmlnOmVRXngRuzxYiCL+jeha
- JQDQ==
-X-Gm-Message-State: AJIora+ckO5Kkw0qeEYGT347yL/+lh/JJq4l//BpR+VYgFFLKUF07xHt
- QSOZthnifq1ibxS+NTul81oMSCd6+GY=
-X-Google-Smtp-Source: AGRyM1v2fbTo5fmEy4gFJ9UlFaZlXXEOOpfE4jwoyvAkD4TJOBnHASiczSSjOBILUXqmUAzKJBWjFQ==
-X-Received: by 2002:a05:6e02:1bcb:b0:2dc:ec0e:9e7 with SMTP id
- x11-20020a056e021bcb00b002dcec0e09e7mr1749649ilv.213.1658126315309; 
- Sun, 17 Jul 2022 23:38:35 -0700 (PDT)
+ bh=SGsxNGoyeS6i6viq97Hpi9t+LziL3Bicz8xpppAaUyQ=;
+ b=sziuNTUhgCAzGypN1S/sXIw2BD4fqrF6D8FZ/wIbLXsSeG3fnrYJqN+3u+IlC2CBYa
+ xG22+PRpRI0ASlWqGQH3l95KKoJ84NB9pGdbuLj/IKBpuG7+grQeKdvpiWfrYK1KUFFN
+ T21tDgqaROP07M24Xbe1BJFZ4iHYZH69cPEVc3OjdNIVciYLpB/omJL2P8QswnmST9ve
+ 2Mxmb4AUO0g8czYc5fHzUL+E6L9/IUTr3nbNDjHizQ4ludYvcrv/GTHFwx6r5ftTT06L
+ b43c3drZjxSMxBqgg67l8zxYZTZvEImKV66jMBv6vHLV1EsIVBvvp6vWFY+CDTB1dPCV
+ tNMA==
+X-Gm-Message-State: AJIora+KenxLi18JZkNNlDpwYga1pKLzb0sNpedyNwQwvrkuILRY7RRC
+ sN+ia2o7YpitSBbECa0OyfQ=
+X-Google-Smtp-Source: AGRyM1uza3edZ9sVrrdHQT1pY7JVdKYWz1SqRx7/VRjkWV5CWONYdnSRzN/CqICxCw89oPeEx2f42Q==
+X-Received: by 2002:a05:6638:d52:b0:341:40ca:b21f with SMTP id
+ d18-20020a0566380d5200b0034140cab21fmr10374091jak.35.1658126316349; 
+ Sun, 17 Jul 2022 23:38:36 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.34
+ o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:38:34 -0700 (PDT)
+ Sun, 17 Jul 2022 23:38:35 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com
-Subject: [PATCH v3 15/41] dyndbg: validate class FOO by checking with module
-Date: Mon, 18 Jul 2022 00:35:59 -0600
-Message-Id: <20220718063641.9179-16-jim.cromie@gmail.com>
+Subject: [PATCH v3 16/41] dyndbg: add drm.debug style bitmap support
+Date: Mon, 18 Jul 2022 00:36:00 -0600
+Message-Id: <20220718063641.9179-17-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
 References: <20220718063641.9179-1-jim.cromie@gmail.com>
@@ -74,183 +74,331 @@ Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add module-to-class validation:
+Add kernel_param_ops and callbacks to apply a class-map to a
+sysfs-node, which then can control classes defined in that class-map.
+This supports uses like:
 
-  #> echo class DRM_UT_KMS +p > /proc/dynamic_debug/control
+  echo 0x3 > /sys/module/drm/parameters/debug
 
-If a query has "class FOO", then ddebug_find_valid_class(), called
-from ddebug_change(), requires that FOO is known to module X,
-otherwize the query is skipped entirely for X.  This protects each
-module's class-space, other than the default:31.
+IE add these:
 
-The authors' choice of FOO is highly selective, giving isolation
-and/or coordinated sharing of FOOs.  For example, only DRM modules
-should know and respond to DRM_UT_KMS.
+ - int param_set_dyndbg_classes()
+ - int param_get_dyndbg_classes()
+ - struct kernel_param_ops param_ops_dyndbg_classes
 
-So this, combined with module's opt-in declaration of known classes,
-effectively privatizes the .class_id space for each module (or
-coordinated set of modules).
+Following the model of kernel/params.c STANDARD_PARAM_DEFS, these are
+non-static and exported.  This might be unnecessary here.
 
-Notes:
+get/set use an augmented kernel_param; the arg refs a new struct
+ddebug_classes_bitmap_param, initialized by DYNAMIC_DEBUG_CLASSBITS
+macro, which contains:
 
-For all "class FOO" queries, ddebug_find_valid_class() is called, it
-returns the map matching the query, and sets valid_class via an
-*outvar).
+BITS: a pointer to the user module's ulong holding the bits/state.  By
+ref'g the client's bit-state _var, we coordinate with existing code
+(such as drm_debug_enabled) which uses the _var, so it works
+unchanged, even as the foundation is switched out underneath it..
+Using a ulong allows use of BIT() etc.
 
-If no "class FOO" is supplied, valid_class = _CLASS_DFLT.  This
-insures that legacy queries do not trample on new class'd callsites,
-as they get added.
+FLAGS: dyndbg.flags toggled by changes to bitmap. Usually just "p".
 
-Also add a new column to control-file output, displaying non-default
-class-name (when found) or the "unknown _id:", if it has not been
-(correctly) declared with one of the declarator macros.
+MAP: a pointer to struct ddebug_classes_map, which maps those
+class-names to .class_ids 0..N that the module is using.  This
+class-map is declared & initialized by DEFINE_DYNDBG_CLASSMAP.
+
+map-type: add support here for DD_CLASS_DISJOINT, DD_CLASS_VERBOSE.
+
+These 2 class-types both expect an integer; _DISJOINT treats input
+like a bit-vector (ala drm.debug), and sets each bit accordingly.
+
+_VERBOSE treats input like a bit-pos:N, then sets bits(0..N)=1, and
+bits(N+1..max)=0.  This applies (bit<N) semantics on top of disjoint
+bits.
+
+cases DD_CLASS_SYMBOLIC, DD_CLASS_LEVELS are included for the complete
+picture, with commented out call to a following commit.
+
+NOTES:
+
+this now includes SYMBOLIC/LEVELS support, too tedious to keep
+separate thru all the tweaking.
+
+get-param undoes the bit-pos -> bitmap transform that set-param does
+on VERBOSE inputs, this gives the read-what-was-written property.
+
+_VERBOSE is overlay on _DISJOINT:
+
+verbose-maps still need class-names, even though theyre not usable at
+the sysfs interface (unlike with _SYMBOLIC/_LEVELS).
+
+ - It must have a "V0" name,
+   something below "V1" to turn "V1" off.
+   __pr_debug_cls(V0,..) is printk, don't do that.
+
+ - "class names" is required at the >control interface.
+ - relative levels are not enforced at >control
+
+IOW this is possible, and maybe confusing:
+
+  echo class V3 +p > control
+  echo class V1 -p > control
+
+IMO thats ok, relative verbosity is an interface property.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 76 ++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 68 insertions(+), 8 deletions(-)
+. drop kp->mod->name as unneeded (build-dependent) <lkp>
+---
+ include/linux/dynamic_debug.h |  18 ++++
+ lib/dynamic_debug.c           | 193 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 211 insertions(+)
 
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index f57076e02767..b50bdd5c8184 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -113,6 +113,12 @@ struct ddebug_class_map {
+ #define NUM_TYPE_ARGS(eltype, ...)				\
+ 	(sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
+ 
++struct ddebug_classes_bitmap_param {
++	unsigned long *bits;
++	char flags[8];
++	const struct ddebug_class_map *map;
++};
++
+ #if defined(CONFIG_DYNAMIC_DEBUG_CORE)
+ 
+ int ddebug_add_module(struct _ddebug *tab, unsigned int num_debugs,
+@@ -274,6 +280,10 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ 				   KERN_DEBUG, prefix_str, prefix_type,	\
+ 				   rowsize, groupsize, buf, len, ascii)
+ 
++struct kernel_param;
++int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp);
++int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp);
++
+ /* for test only, generally expect drm.debug style macro wrappers */
+ #define __pr_debug_cls(cls, fmt, ...) do {			\
+ 	BUILD_BUG_ON_MSG(!__builtin_constant_p(cls),		\
+@@ -322,6 +332,14 @@ static inline int ddebug_dyndbg_module_param_cb(char *param, char *val,
+ 				rowsize, groupsize, buf, len, ascii);	\
+ 	} while (0)
+ 
++struct kernel_param;
++static inline int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
++{ return 0; }
++static inline int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
++{ return 0; }
++
+ #endif /* !CONFIG_DYNAMIC_DEBUG_CORE */
+ 
++extern const struct kernel_param_ops param_ops_dyndbg_classes;
++
+ #endif
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index e29730686cfb..4c27bbe5187e 100644
+index 4c27bbe5187e..dd27dc514aa3 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -56,6 +56,7 @@ struct ddebug_query {
- 	const char *module;
- 	const char *function;
- 	const char *format;
-+	const char *class_string;
- 	unsigned int first_lineno, last_lineno;
- };
- 
-@@ -136,15 +137,33 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
- 			fmtlen--;
- 	}
- 
--	v3pr_info("%s: func=\"%s\" file=\"%s\" module=\"%s\" format=\"%.*s\" lineno=%u-%u\n",
--		 msg,
--		 query->function ?: "",
--		 query->filename ?: "",
--		 query->module ?: "",
--		 fmtlen, query->format ?: "",
--		 query->first_lineno, query->last_lineno);
-+	v3pr_info("%s: func=\"%s\" file=\"%s\" module=\"%s\" format=\"%.*s\" lineno=%u-%u class=%s\n",
-+		  msg,
-+		  query->function ?: "",
-+		  query->filename ?: "",
-+		  query->module ?: "",
-+		  fmtlen, query->format ?: "",
-+		  query->first_lineno, query->last_lineno, query->class_string);
+@@ -596,6 +596,199 @@ static int ddebug_exec_queries(char *query, const char *modname)
+ 	return nfound;
  }
  
-+static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
-+							  const char *class_string, int *class_id)
++static int ddebug_apply_class_bitmap(const struct ddebug_classes_bitmap_param *dcp,
++				     unsigned long inbits)
 +{
-+	struct ddebug_class_map *map;
-+	int idx;
++#define QUERY_SIZE 128
++	char query[QUERY_SIZE];
++	const struct ddebug_class_map *map = dcp->map;
++	int matches = 0;
++	int bi, ct;
 +
-+	list_for_each_entry(map, &dt->maps, link) {
-+		idx = match_string(map->class_names, map->length, class_string);
-+		if (idx >= 0) {
-+			*class_id = idx + map->base;
-+			return map;
-+		}
++	v2pr_info("in: 0x%lx on: 0x%lx\n", inbits, *dcp->bits);
++
++	for (bi = 0; bi < map->length; bi++) {
++		if (test_bit(bi, &inbits) == test_bit(bi, dcp->bits))
++			continue;
++
++		snprintf(query, QUERY_SIZE, "class %s %c%s", map->class_names[bi],
++			 test_bit(bi, &inbits) ? '+' : '-', dcp->flags);
++
++		ct = ddebug_exec_queries(query, NULL);
++		matches += ct;
++
++		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
++			  ct, map->class_names[bi], inbits);
 +	}
-+	*class_id = -ENOENT;
-+	return NULL;
++	return matches;
 +}
 +
-+#define __outvar /* filled by callee */
- /*
-  * Search the tables for _ddebug's which match the given `query' and
-  * apply the `flags' and `mask' to them.  Returns number of matching
-@@ -159,6 +178,8 @@ static int ddebug_change(const struct ddebug_query *query,
- 	unsigned int newflags;
- 	unsigned int nfound = 0;
- 	struct flagsbuf fbuf, nbuf;
-+	struct ddebug_class_map *map = NULL;
-+	int __outvar valid_class;
- 
- 	/* search for matching ddebugs */
- 	mutex_lock(&ddebug_lock);
-@@ -169,9 +190,22 @@ static int ddebug_change(const struct ddebug_query *query,
- 		    !match_wildcard(query->module, dt->mod_name))
- 			continue;
- 
-+		if (query->class_string) {
-+			map = ddebug_find_valid_class(dt, query->class_string, &valid_class);
-+			if (!map)
-+				continue;
++/* support for [+-] symbolic-name boolean list */
++static int param_set_dyndbg_class_strings(const char *instr, const struct kernel_param *kp)
++{
++	const struct ddebug_classes_bitmap_param *dcp = kp->arg;
++	const struct ddebug_class_map *map = dcp->map;
++	unsigned long inbits;
++	int idx, totct = 0;
++	bool wanted;
++	char *cls, *p;
++
++	cls = kstrdup(instr, GFP_KERNEL);
++	p = strchr(cls, '\n');
++	if (p)
++		*p = '\0';
++
++	vpr_info("\"%s\" > %s\n", cls, kp->name);
++	inbits = *dcp->bits;
++
++	for (; cls; cls = p) {
++		p = strchr(cls, ',');
++		if (p)
++			*p++ = '\0';
++
++		if (*cls == '-') {
++			wanted = false;
++			cls++;
 +		} else {
-+			/* constrain query, do not touch class'd callsites */
-+			valid_class = _DPRINTK_CLASS_DFLT;
++			wanted = true;
++			if (*cls == '+')
++				cls++;
++		}
++		idx = match_string(map->class_names, map->length, cls);
++		if (idx < 0) {
++			pr_err("%s unknown to %s\n", cls, kp->name);
++			continue;
 +		}
 +
- 		for (i = 0; i < dt->num_ddebugs; i++) {
- 			struct _ddebug *dp = &dt->ddebugs[i];
- 
-+			/* match site against query-class */
-+			if (dp->class_id != valid_class)
++		switch (map->map_type) {
++		case DD_CLASS_TYPE_SYMBOLIC:
++			if (test_bit(idx, &inbits) == wanted) {
++				v3pr_info("no change on %s\n", cls);
 +				continue;
-+
- 			/* match against the source filename */
- 			if (query->filename &&
- 			    !match_wildcard(query->filename, dp->filename) &&
-@@ -420,6 +454,8 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		} else if (!strcmp(keyword, "line")) {
- 			if (parse_linerange(query, arg))
- 				return -EINVAL;
-+		} else if (!strcmp(keyword, "class")) {
-+			rc = check_set(&query->class_string, arg, "class");
- 		} else {
- 			pr_err("unknown keyword \"%s\"\n", keyword);
- 			return -EINVAL;
-@@ -854,6 +890,20 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
- 	return dp;
- }
- 
-+#define class_in_range(class_id, map)					\
-+	(class_id >= map->base && class_id < map->base + map->length)
-+
-+static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
-+{
-+	struct ddebug_class_map *map;
-+
-+	list_for_each_entry(map, &iter->table->maps, link)
-+		if (class_in_range(dp->class_id, map))
-+			return map->class_names[dp->class_id - map->base];
-+
-+	return NULL;
++			}
++			inbits ^= BIT(idx);
++			break;
++		case DD_CLASS_TYPE_LEVELS:
++			/* bitmask must respect classmap ranges, this does not */
++			inbits = (1 << (idx + wanted));
++			break;
++		default:
++			pr_err("illegal map-type value %d\n", map->map_type);
++		}
++		v2pr_info("%s: bit %d: %s\n", kp->name, idx, map->class_names[idx]);
++		totct += ddebug_apply_class_bitmap(dcp, inbits);
++	}
++	kfree(cls);
++	*dcp->bits = inbits;
++	vpr_info("total matches: %d\n", totct);
++	return 0;
 +}
 +
- /*
-  * Seq_ops show method.  Called several times within a read()
-  * call from userspace, with ddebug_lock held.  Formats the
-@@ -865,6 +915,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
- 	struct ddebug_iter *iter = m->private;
- 	struct _ddebug *dp = p;
- 	struct flagsbuf flags;
-+	char const *class;
- 
- 	if (p == SEQ_START_TOKEN) {
- 		seq_puts(m,
-@@ -877,7 +928,16 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
- 		   iter->table->mod_name, dp->function,
- 		   ddebug_describe_flags(dp->flags, &flags));
- 	seq_escape_str(m, dp->format, ESCAPE_SPACE, "\t\r\n\"");
--	seq_puts(m, "\"\n");
-+	seq_puts(m, "\"");
++#define CLASSMAP_BITMASK(width) ((1UL << (width)) - 1)
 +
-+	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
-+		class = ddebug_class_name(iter, dp);
-+		if (class)
-+			seq_printf(m, " class:%s", class);
-+		else
-+			seq_printf(m, " class unknown, _id:%d", dp->class_id);
++/**
++ * param_set_dyndbg_classes - bits => categories >control setter
++ * @instr: string echo>d to sysfs
++ * @kp:    kp->arg has state: bits, map
++ *
++ * Enable/disable prdbgs by their "category", as given in the
++ * arguments to DYNAMIC_DEBUG_CLASSES.
++ *
++ * Returns: 0 or <0 if error.
++ */
++int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
++{
++	const struct ddebug_classes_bitmap_param *dcp = kp->arg;
++	const struct ddebug_class_map *map = dcp->map;
++	unsigned long inrep;
++	int rc, totct = 0;
++
++	switch (map->map_type) {
++
++	case DD_CLASS_TYPE_SYMBOLIC:
++	case DD_CLASS_TYPE_LEVELS:
++		/* CSV list of [+-]classnames */
++		return param_set_dyndbg_class_strings(instr, kp);
++
++	case DD_CLASS_TYPE_DISJOINT:
++	case DD_CLASS_TYPE_VERBOSE:
++		/* numeric input */
++		rc = kstrtoul(instr, 0, &inrep);
++		if (rc) {
++			pr_err("expecting numeric input: %s > %s\n", instr, kp->name);
++			return -EINVAL;
++		}
++		break;
++	default:
++		pr_err("%s: bad map type: %d\n", kp->name, map->map_type);
++		return -EINVAL;
 +	}
-+	seq_puts(m, "\n");
++
++	switch (map->map_type) {
++	case DD_CLASS_TYPE_DISJOINT:
++		/* expect bits. mask and warn if too many */
++		if (inrep & ~CLASSMAP_BITMASK(map->length)) {
++			pr_warn("%s: input: 0x%lx exceeds mask: 0x%lx, masking\n",
++				kp->name, inrep, CLASSMAP_BITMASK(map->length));
++			inrep &= CLASSMAP_BITMASK(map->length);
++		}
++		break;
++	case DD_CLASS_TYPE_VERBOSE:
++		/* input is bitpos, of highest verbosity enabled */
++		if (inrep > map->length) {
++			pr_warn("%s: verbosity:%ld exceeds range:%d, clamping\n",
++				kp->name, inrep, map->length);
++			inrep = map->length;
++		}
++		v2pr_info("VERBOSE: %ld > %s\n", inrep, kp->name);
++		inrep = CLASSMAP_BITMASK(inrep + 1);
++		break;
++	default:
++		pr_warn("%s: bad map type: %d\n", kp->name, map->map_type);
++	}
++	totct += ddebug_apply_class_bitmap(dcp, inrep);
++	*dcp->bits = inrep;
++
++	vpr_info("%s: total matches: %d\n", kp->name, totct);
++	return 0;
++}
++EXPORT_SYMBOL(param_set_dyndbg_classes);
++
++/**
++ * param_get_dyndbg_classes - classes reader
++ * @buffer: string description of controlled bits -> classes
++ * @kp:     kp->arg has state: bits, map
++ *
++ * Reads last written bits, underlying prdbg state may have changed since.
++ * Returns: #chars written or <0 on error
++ */
++int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
++{
++	const struct ddebug_classes_bitmap_param *dcp = kp->arg;
++	const struct ddebug_class_map *map = dcp->map;
++	unsigned long val = *dcp->bits;
++
++	switch (map->map_type) {
++	case DD_CLASS_TYPE_SYMBOLIC:
++	case DD_CLASS_TYPE_DISJOINT:
++	case DD_CLASS_TYPE_LEVELS:
++		return scnprintf(buffer, PAGE_SIZE, "0x%lx\n", val);
++	case DD_CLASS_TYPE_VERBOSE:
++		/* convert internal bits to a level */
++		return scnprintf(buffer, PAGE_SIZE, "%lu\n",
++				 find_first_zero_bit(&val, map->length) - 1);
++	default:
++		return -1;
++	}
++}
++EXPORT_SYMBOL(param_get_dyndbg_classes);
++
++const struct kernel_param_ops param_ops_dyndbg_classes = {
++	.set = param_set_dyndbg_classes,
++	.get = param_get_dyndbg_classes,
++};
++EXPORT_SYMBOL(param_ops_dyndbg_classes);
++
+ #define PREFIX_SIZE 64
  
- 	return 0;
- }
+ static int remaining(int wrote)
 -- 
 2.36.1
 
