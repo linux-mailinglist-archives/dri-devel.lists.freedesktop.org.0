@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85A4577B70
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 799C0577B74
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9DCA9CFD;
-	Mon, 18 Jul 2022 06:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEBE8A9D47;
+	Mon, 18 Jul 2022 06:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89A19A9CC6;
- Mon, 18 Jul 2022 06:38:44 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id l24so8517031ion.13;
- Sun, 17 Jul 2022 23:38:44 -0700 (PDT)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58D00A9CD9;
+ Mon, 18 Jul 2022 06:38:46 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id c16so4317225ils.7;
+ Sun, 17 Jul 2022 23:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HZbYvD7pJXDxjfsN+JYVR2+qF0bIhodb6pVaemEpRTA=;
- b=DVfDSAp6lTbMSFPvkbjehOZ6LZJElB5FrtozBMZPeYQaehZ0jMu2pGyXPkCXBiYr/l
- KTYn1PWEufvvtIAWygJEiuei4vNm7urPTkmMdcjUeO1Dd3/bwKSp6Z5YBbjOaIcXIic4
- X6Gdt2D8zhap98SR9eWnyV3tLXRVCvoosICwDcykgTaPlTul5RaxJxm1yU2Izp+g8g0V
- ldLoHvqT8gYeUktw8FZ0XNjqCcGxDZGsSoVg9m71J8xUqfmaQDxMuebD+ssLyDKtRMN0
- YTjJLEhVPXaKfasM9eNxN88qzHy1iYuXoHKFyukkyq0ZQOj90Vbv/fSnb4aV8AYXE1qA
- Yp5w==
+ bh=iJtOb8MGNrfDuJNUjp5ciUTwfOiM98w6evAABfdr9NA=;
+ b=WYIhANiX/rnwdl1wGs8g9tolshMpjMJENKvfZ4nu+8Df+KAtVWK+gOVeMtkqVNFuxM
+ xgGLFN5Nt6Vbh0bT92b0sDnEb4w6AnzbAXmZmxUX0ar1Non8iFaVUPE+pnw72UAgOhwp
+ XZAs5mni6rl0mxXF2AK411mi9tegBInJ2ldLYdtmC4FC3QuSiWT/5JBm7gEbptZJtUBf
+ rNCDKqZeRrS9ZAzfabRqyV0riSczrmrZG+LgrikZQTyHe0jhB4yX/MulB9yfWbq/DzUe
+ QupWyJANJo3U3zrND0KlN/sOUNYNijRrJJaqUnCZmJQvluQg6FkUp68UQMMVl59WDRTR
+ dv5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HZbYvD7pJXDxjfsN+JYVR2+qF0bIhodb6pVaemEpRTA=;
- b=yiyIa1H4dPMcJGyu/e4/SBmo32MN3UD/Y+J3347ERoN6AeIrS7LALd/3JKnHjSEPYR
- CLrRZwOmCdNHLonNMt7f1+bjhpg5PdK4YU1FBRMqe8c3HyvatQM/87j5iYU6mjIR5k8t
- 3Bt4ZXudcC3I3LHqEcBQxbvp8e20tFbdtgZ51tZorDCs54G5iNPwqkjqLb0hf8bOrrXd
- ekWl/olBPW6Ou6XOTahDLskyuhj8c7UZbV65REkF90XXqqWI5KOn6f5NK8ZLkRZGf1Rg
- +SKr8by8gky+fVVewGWO33Khm/RrEnDouaH+rwVwQAGqZqSqIi0Uq+zibf6L4Zz9y0fD
- +lYQ==
-X-Gm-Message-State: AJIora9aInreA3a3102xwL2+bS7j65u0CEDXM/RUjp+R57hCi0WrncYd
- BnsmW6CXLUl/apLEtbiZ4vx5FNPMDd4=
-X-Google-Smtp-Source: AGRyM1ve3HEn0xSuO4XS/cO+T0gvt9rKJGOiZa15RwoYtQgDmzTVvFd1e2yJmy5rBcYAtyRJAWNfDA==
-X-Received: by 2002:a05:6638:304a:b0:335:ba01:8be9 with SMTP id
- u10-20020a056638304a00b00335ba018be9mr13944818jak.273.1658126324219; 
- Sun, 17 Jul 2022 23:38:44 -0700 (PDT)
+ bh=iJtOb8MGNrfDuJNUjp5ciUTwfOiM98w6evAABfdr9NA=;
+ b=RnhAiXwWR87Hi1iHpTZGfy0rf+aCNEC+yvGGE1zuXnw6MDuVx/Ayd9B9NcVfGFq3wl
+ 3taqyVhwTd18yeJ1i9AOVZawPs7GSedtuvWhGPh6+hcnYAEymzKsDbftsPux5Za/QEkb
+ v0o9+tq/UUx9y+lx1wmzR5rTSrguJfT73Y+wWJ8kVJXyJyiixjuMfMw/PsNTJh0cY68w
+ WguSb9vBAWyy8dTbLC4D0MGdChCXWhVUAMYR+jjKrSN+FtFTSrpWjB05C5AB+/RyBZn5
+ /PdQWuKGPukUul0UlCT/ATU+TFaQAMtJkmbPsSoXGS1mLvBhXCPXgEOtauQEoVpgDJ9q
+ JdLQ==
+X-Gm-Message-State: AJIora8Itb5XaANMwZNDxZEKAQiHzpA4PQii23Ap7JbIKpckRVMjFM1G
+ aEPNNALfV+d0Ryd2PV0viNij/3XcMSE=
+X-Google-Smtp-Source: AGRyM1vgNV0Aih9Ut/mUoy7UDugZ2ZlpeWghK1hcW1/ieZ1xjM0F8ouC8yLzdpCK5zNz55sG34Vk2A==
+X-Received: by 2002:a05:6e02:20e2:b0:2dc:88c6:f03d with SMTP id
+ q2-20020a056e0220e200b002dc88c6f03dmr13341989ilv.35.1658126325991; 
+ Sun, 17 Jul 2022 23:38:45 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.43
+ o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:38:43 -0700 (PDT)
+ Sun, 17 Jul 2022 23:38:45 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com
-Subject: [PATCH v3 22/41] drm_print: interpose drm_*dbg with forwarding macros
-Date: Mon, 18 Jul 2022 00:36:06 -0600
-Message-Id: <20220718063641.9179-23-jim.cromie@gmail.com>
+Subject: [PATCH v3 23/41] drm_print: wrap drm_*_dbg in dyndbg descriptor
+ factory macro
+Date: Mon, 18 Jul 2022 00:36:07 -0600
+Message-Id: <20220718063641.9179-24-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
 References: <20220718063641.9179-1-jim.cromie@gmail.com>
@@ -74,111 +75,95 @@ Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-change drm_dev_dbg & drm_dbg to macros, which forward to the renamed
-functions (with __ prefix added).
+For CONFIG_DRM_USE_DYNAMIC_DEBUG=y, wrap __drm_dbg() & __drm_dev_dbg()
+in one of dyndbg's Factory macros: _dynamic_func_call_no_desc().
 
-Those functions sit below the categorized layer of macros implementing
-the DRM debug.category API, and implement most of it.  These are good
-places to insert dynamic-debug jump-label mechanics, which will allow
-DRM to avoid the runtime cost of drm_debug_enabled().
+This adds the callsite descriptor into the code, and an entry for each
+into /proc/dynamic_debug/control.
 
-no functional changes.
+  #> echo class DRM_UT_ATOMIC +p > /proc/dynamic_debug/control
 
-memory cost baseline: (unchanged)
-bash-5.1# drms_load
-[    9.220389] dyndbg:   1 debug prints in module drm
-[    9.224426] ACPI: bus type drm_connector registered
-[    9.302192] dyndbg:   2 debug prints in module ttm
-[    9.305033] dyndbg:   8 debug prints in module video
-[    9.627563] dyndbg: 127 debug prints in module i915
-[    9.721505] AMD-Vi: AMD IOMMUv2 functionality not available on this system - This is not a bug.
-[   10.091345] dyndbg: 2196 debug prints in module amdgpu
-[   10.106589] [drm] amdgpu kernel modesetting enabled.
-[   10.107270] amdgpu: CRAT table not found
-[   10.107926] amdgpu: Virtual CRAT table created for CPU
-[   10.108398] amdgpu: Topology: Add CPU node
-[   10.168507] dyndbg:   3 debug prints in module wmi
-[   10.329587] dyndbg:   3 debug prints in module nouveau
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y/n is configurable because of the .data
+footprint cost of per-callsite control; 56 bytes/site * ~2k for i915,
+~4k callsites for amdgpu.  This is large enough that a kernel builder
+might not want it.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c | 10 +++++-----
- include/drm/drm_print.h     |  9 +++++++--
- 2 files changed, 12 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/Kconfig  | 12 ++++++++++++
+ drivers/gpu/drm/Makefile |  2 ++
+ include/drm/drm_print.h  | 12 ++++++++++++
+ 3 files changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 44be95fac164..21b416af0be2 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -279,8 +279,8 @@ void drm_dev_printk(const struct device *dev, const char *level,
- }
- EXPORT_SYMBOL(drm_dev_printk);
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index e88c497fa010..bb1fa20a8eb2 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -50,6 +50,18 @@ config DRM_DEBUG_MM
  
--void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
--		 const char *format, ...)
-+void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-+		   const char *format, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-@@ -301,9 +301,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	  If in doubt, say "N".
  
- 	va_end(args);
- }
--EXPORT_SYMBOL(drm_dev_dbg);
-+EXPORT_SYMBOL(__drm_dev_dbg);
++config DRM_USE_DYNAMIC_DEBUG
++	bool "use dynamic debug to implement drm.debug"
++	default y
++	depends on DRM
++	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
++	depends on JUMP_LABEL
++	help
++	  Use dynamic-debug to avoid drm_debug_enabled() runtime overheads.
++	  Due to callsite counts in DRM drivers (~4k in amdgpu) and 56
++	  bytes per callsite, the .data costs can be substantial, and
++	  are therefore configurable.
++
+ config DRM_DEBUG_SELFTEST
+ 	tristate "kselftests for DRM"
+ 	depends on DRM
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 15fe3163f822..272de137d207 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,6 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--void __drm_dbg(enum drm_debug_category category, const char *format, ...)
-+void ___drm_dbg(enum drm_debug_category category, const char *format, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-@@ -320,7 +320,7 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
- 
- 	va_end(args);
- }
--EXPORT_SYMBOL(__drm_dbg);
-+EXPORT_SYMBOL(___drm_dbg);
- 
- void __drm_err(const char *format, ...)
- {
++CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
++
+ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
+ 		drm_file.o drm_gem.o drm_ioctl.o \
+ 		drm_drv.o \
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 668273e36c2c..c429c258c957 100644
+index c429c258c957..2d2cef76b5c1 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
-@@ -335,7 +335,7 @@ __printf(3, 4)
- void drm_dev_printk(const struct device *dev, const char *level,
- 		    const char *format, ...);
- __printf(3, 4)
--void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-+void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 		 const char *format, ...);
- 
- /**
-@@ -384,6 +384,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+@@ -384,8 +384,14 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
  	}								\
  })
  
++#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+ #define drm_dev_dbg(dev, cat, fmt, ...)				\
+ 	__drm_dev_dbg(dev, cat, fmt, ##__VA_ARGS__)
++#else
 +#define drm_dev_dbg(dev, cat, fmt, ...)				\
-+	__drm_dev_dbg(dev, cat, fmt, ##__VA_ARGS__)
-+
++	_dynamic_func_call_no_desc(fmt, __drm_dev_dbg,			\
++				   dev, cat, fmt, ##__VA_ARGS__)
++#endif
+ 
  /**
   * DRM_DEV_DEBUG() - Debug output for generic drm code
-  *
-@@ -485,10 +488,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-  */
- 
- __printf(2, 3)
--void __drm_dbg(enum drm_debug_category category, const char *format, ...);
-+void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
+@@ -492,7 +498,13 @@ void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
  __printf(1, 2)
  void __drm_err(const char *format, ...);
  
-+#define __drm_dbg(fmt, ...)		___drm_dbg(fmt, ##__VA_ARGS__)
-+
++#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+ #define __drm_dbg(fmt, ...)		___drm_dbg(fmt, ##__VA_ARGS__)
++#else
++#define __drm_dbg(cat, fmt, ...)					\
++	_dynamic_func_call_no_desc(fmt, ___drm_dbg,			\
++				   cat, fmt, ##__VA_ARGS__)
++#endif
+ 
  /* Macros to make printk easier */
  
- #define _DRM_PRINTK(once, level, fmt, ...)				\
 -- 
 2.36.1
 
