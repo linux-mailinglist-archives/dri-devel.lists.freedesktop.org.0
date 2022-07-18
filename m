@@ -1,78 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAE2577D02
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:01:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 167D4577D05
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:02:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2DF4AC399;
-	Mon, 18 Jul 2022 08:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D111CAC3AA;
+	Mon, 18 Jul 2022 08:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252C5AC396
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 08:01:55 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id D7C2C32006F5;
- Mon, 18 Jul 2022 04:01:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 18 Jul 2022 04:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1658131312; x=
- 1658217712; bh=nwowOzEwwSHAOeivVs+Wt3cPeoVpox6uPbedn30TqoE=; b=v
- Yb5VEGEeilso+r238ifMbKKRP8DlfdryBtGOWPNAf+/bYr9ckw3g6iklClKdFjoE
- 8QTgEH0LFCP8Ylmwxz7vUAYDMMNGefzTO3J5HRFsUFuGUtI6u02Wjy+zk2YNoP9N
- jJByGFfmXlGAOuMKj2+fI6SepIz31m4pV9ke2T6+wCE0M67laBjbu27hUqUmWXHA
- NTH2WSbkBWBeVU2K913B7fbmtSryqhUvb1Aqiib9+UNXzaqGBp1st9QGpMS+Z37Y
- zbBzszwswqeGxJV5z5BUjtkvldcvV3+N5a3dQULv8+PqvUWJX+ZhvdctVS3v8ZNV
- 6999ytZSvxRjMJJ3BZUnA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658131312; x=
- 1658217712; bh=nwowOzEwwSHAOeivVs+Wt3cPeoVpox6uPbedn30TqoE=; b=Y
- 611Nn3oIhlQfDek27k0k4b8waVgfXQQQNtVuoBH8MrFiSkAvXt7EHrZmtZwIlCPG
- x2Qje2mmYOvfWwyfE/5kKNOLI0wGLK+XEs/4WnTce5LqM2gKOdVgGCXlLB0DGuKL
- 1ytOxOgnucdyrS4c/HPPLVEILzGJiQnR/gT3ZbqYr4J6ZU89mm3DZ0eCmxG82jvK
- s0FAs91l2hYq4z3xVZhLlZZs39V2VuVp64FARQvGRK8VxtYGul+cnHSt+5+pK5rO
- qGndnxc6gD2NXXbyGhH1TQWfgxckAgDL9D4JfJkIB463lnkH5W4A9RZL3Sg0Obe8
- 6nRJHeqQSUXSG+Z8Zqr4Q==
-X-ME-Sender: <xms:bxPVYm5IsNv_o-AwePLsh2PewcjuH5AeYkXq1vwSIm_f8Mnam6VS3A>
- <xme:bxPVYv7Gf1yIu1f4UQezx_QzdwuAh25KIbu0WfDljb_Tg27XSHDD5bUHyoXqixlnQ
- c2fV-M1oxmwZK2KOYw>
-X-ME-Received: <xmr:bxPVYldGuNzzq7ocMApBt61UwTrdWJ3p7OMRSDv35slZZfEMxSKXb7IwsVM3fWTnxipPb22WLhWvC4eSpJgg1PasTlYKxEUObsl6O-o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekjedguddvjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgse
- htkeertdertdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgv
- segtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepueeigefghfffffeifeehud
- eiuedvteegueefffevgfetvdffheehkeffvedufeeinecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:bxPVYjKJvxiaDXW7lVl0No7rJz2uAO5GidIB0IaYhjbM0vDDtkXYdw>
- <xmx:bxPVYqIaLLEro4qdXpsAGsJYk_WqllGAomJlw_DE7_V0Ek6iXh8MvA>
- <xmx:bxPVYkx_85koRju-vje9gPC8TQHsRL8lyFjPFB-KBWH0hWIcQU_4hw>
- <xmx:cBPVYhUab2_WoWlP4c4ZlbMjC43wYWslQNUOovBzg-eD629pITWizw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 Jul 2022 04:01:51 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH] drm/fourcc: Add formats for packed YUV 4:4:4 AVUY and
- XVUY permutations
-Date: Mon, 18 Jul 2022 10:01:48 +0200
-Message-Id: <165813130653.292326.2960913361041359479.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220616185210.22018-1-laurent.pinchart@ideasonboard.com>
-References: <20220616185210.22018-1-laurent.pinchart@ideasonboard.com>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB9F3AC39D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 08:01:58 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id a5so15810151wrx.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 01:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=EK/PyrCNkBnlX66xu/A86VOtZLOGQOnQ3EAsI4jwwLs=;
+ b=E/xeUuNs05KUVADZyJyNFUpKuJxRdu9NEFLMOZCBcuN952j/Owkme851aSvCKNGbTI
+ J82pNKaUZXW3MsXfgYQkmqYPtSSJRpnlnIKW1x6ZXbsHb0QgX/4a7Y/Nl8QEG8JfdyrX
+ NxF2jaTlYAQL/ftGR2uVIoyjx7hIbhS2IBdKUkYSWpMZlvIjyuXBK4LF3T3WAeD/37Di
+ qR6hhfA2QZgCGfuRR5PK5Nb9girdvMVAY2f8Z29sfAvoAzz1jjp/Z6FRUDdtqW4xjJcu
+ UZo6H8KySzH/MzRnoxUadpkyPBoUZ6hBepSGg/z4fIxR8vY2An1ILVTGNJvk3B+haKIJ
+ YJMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=EK/PyrCNkBnlX66xu/A86VOtZLOGQOnQ3EAsI4jwwLs=;
+ b=1oEeaClLKsADP+9gk+6tyrAy3pggmoiEtTtJC4juchRrBO4QyBu2RXwicoi4HrabIV
+ B8Ibq3oMzaUTH5jnxy/iyxkikVZ1McyszKRzReJFaDFm6E1Q6vZXAl/TsRC4wqrC71/g
+ j9m9v2qBbKt6Dzm7tKL4RcEvYYJycXUE0Q5rrtRYXY4l0QD8lzdliJcNgki/rYYdESWC
+ SXge5sY5xfLIZVoWsec+PWrcLnUQ35xSWaLmBVlDIPWZScEv0laCFY/Bf0Ya8WCmi3tm
+ hxclgGFpHFmpDUrAHX2ESzqXokbvek/79H6X5k7tN4+nnLd7DHOD0AlD2A25j2x/MgWr
+ 1+lA==
+X-Gm-Message-State: AJIora/rP+WWTz80WZYYPsTLjrlsBgA70KVzB/ypov5cLTT8/XAyWs5b
+ mwqJRp/juoDdpUzdE+/Z3Ul7OYuuuY+lkQ==
+X-Google-Smtp-Source: AGRyM1unlywfMyuuEeydp83qp+LPcuTnNl9wvgjw97RxHNFjcTn8eB3huN0ScUhpFPsixl9pOgD0Yg==
+X-Received: by 2002:a05:6000:2a7:b0:21d:bbda:4fcd with SMTP id
+ l7-20020a05600002a700b0021dbbda4fcdmr21765520wry.316.1658131317400; 
+ Mon, 18 Jul 2022 01:01:57 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
+ [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
+ z24-20020a05600c221800b003a310fe1d75sm8681894wml.38.2022.07.18.01.01.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 01:01:57 -0700 (PDT)
+Date: Mon, 18 Jul 2022 09:01:55 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH 6/8] dt-bindings: backlight: Update Lee Jones' email
+ address
+Message-ID: <YtUTc4rUQLb6dYrM@google.com>
+References: <20220714112533.539910-1-lee@kernel.org>
+ <20220714112533.539910-7-lee@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220714112533.539910-7-lee@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,22 +73,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, tzimmermann@suse.de
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jun 2022 21:52:10 +0300, Laurent Pinchart wrote:
-> Add FourCCs for two missing permutations of the packed YUV 4:4:4 color
-> components, namely AVUY and XVUY.
-> 
-> These formats are needed by the NXP i.MX8 ISI. While the ISI is
-> supported by a V4L2 device (corresponding formats have been submitted to
-> V4L2), it is handled in userspace by libcamera, which uses DRM FourCCs
-> for pixel formats.
-> 
-> [...]
+On Thu, 14 Jul 2022, Lee Jones wrote:
 
-Applied to drm/drm-misc (drm-misc-next).
+> Going forward, I'll be using my kernel.org for upstream work.
+> 
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/leds/backlight/common.yaml    | 2 +-
+>  .../devicetree/bindings/leds/backlight/gpio-backlight.yaml      | 2 +-
+>  .../devicetree/bindings/leds/backlight/led-backlight.yaml       | 2 +-
+>  .../devicetree/bindings/leds/backlight/lm3630a-backlight.yaml   | 2 +-
+>  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml       | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
 
-Thanks!
-Maxime
+Applied, thanks.
+
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
