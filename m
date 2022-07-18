@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B808577D76
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39DF577D81
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24D5FACF8A;
-	Mon, 18 Jul 2022 08:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54925AD09E;
+	Mon, 18 Jul 2022 08:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 539F5ACF87
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 08:27:30 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 78F986601A08;
- Mon, 18 Jul 2022 09:27:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658132848;
- bh=3wSuhWp2P2ZyIQrwtaWVzGC8uMFmX+0xQ1Qp+Gq760s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MEYN6sSMnl1b1jGZam3vGPUhszK6Kka5I6EgC7NQr3Q36fJmBTBNdXMzktsez5qIj
- y+s+XdM0YgKFkp9EXPOn+L1Cz+Oxd1XhKLcE2IBo0ISLE3PVkCNEzlzehYjysaiuWG
- Zo51GGkWRKk8PczsWqR8TmMapo+ER+hjgV4sjVLPFHsPVY4Qf/tMhapXsuArRIxERi
- 5Mf2Iqmq2tvvOG65/uZIKGF7a1cWG0Qn+VqDzTx0mD+1qYHnorumujxfSLaFnON56Z
- IAxKex2js5tEg95LQVFjSdehcwbr2FzRLtQrHYbNSh7clnBnGfAggQdU5fxiHr3DM+
- lRudS6QdbjYdQ==
-Message-ID: <ee88aec0-f6f8-c554-6752-447cb0f34e16@collabora.com>
-Date: Mon, 18 Jul 2022 10:27:23 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3975AD08C
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 08:28:50 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 560D2372E2;
+ Mon, 18 Jul 2022 08:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658132929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nYUqMlXSc0+HtpcGgLgIKPUjhjivEczKuqL8hsSnIbk=;
+ b=Zc2Fu+370hqiJqQ0lJm/B09zK+kSE5EpSm+ncaE48KR9VZklrAdQEiOZzy+Z8WzKCKfyQ5
+ GgcaUzeHmkDpyLJns88UqizAgnV3MsUiNEXEHZYetPW0XGKiATNZZXA9WwDu5+qoUP2fx+
+ qL2UR5OOGJsBRpwb81q5KDicVQgB6zQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658132929;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nYUqMlXSc0+HtpcGgLgIKPUjhjivEczKuqL8hsSnIbk=;
+ b=QsVC1z4pT0wKH/StjFDvdvIxaYBgi/4qPJaX/RcuowkdzvqXD0xGDbCuzY39C7UaHnhO+y
+ upQNLED+Y7J76LBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3D3B113754;
+ Mon, 18 Jul 2022 08:28:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4dViDcEZ1WIhEgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 08:28:49 +0000
+Message-ID: <1784aeb3-d4da-9208-97c1-6ced2b678fbd@suse.de>
+Date: Mon, 18 Jul 2022 10:28:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v5 13/13] video: backlight: mt6370: Add MediaTek MT6370
- support
+Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
 Content-Language: en-US
-To: Daniel Thompson <daniel.thompson@linaro.org>
-References: <20220715112607.591-1-peterwu.pub@gmail.com>
- <20220715112607.591-14-peterwu.pub@gmail.com>
- <ec3bdfb8-0e42-a772-28b1-165811872afa@collabora.com>
- <20220715162913.5ewxwhv6jtdgt3c2@maple.lan>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220715162913.5ewxwhv6jtdgt3c2@maple.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220716181750.3874838-1-sam@ravnborg.org>
+ <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+ <YtUSNzVOvaQZ1+uS@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YtUSNzVOvaQZ1+uS@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------nW4vNDWtpMLvqZqCWUiWdtZy"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,119 +71,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
- krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
- linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, deller@gmx.de, robh+dt@kernel.org,
- chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, szunichen@gmail.com, broonie@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- ChiaEn Wu <peterwu.pub@gmail.com>, linux-arm-kernel@lists.infradead.org,
- jingoohan1@gmail.com, linux-usb@vger.kernel.org, sre@kernel.org,
- linux-kernel@vger.kernel.org, chiaen_wu@richtek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 15/07/22 18:29, Daniel Thompson ha scritto:
-> On Fri, Jul 15, 2022 at 02:38:45PM +0200, AngeloGioacchino Del Regno wrote:
->> Il 15/07/22 13:26, ChiaEn Wu ha scritto:
->>> From: ChiaEn Wu <chiaen_wu@richtek.com>
->>>
->>> MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
->>> with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
->>> driver, display bias voltage supply, one general purpose LDO, and the
->>> USB Type-C & PD controller complies with the latest USB Type-C and PD
->>> standards.
->>>
->>> This adds support for MediaTek MT6370 Backlight driver. It's commonly used
->>> to drive the display WLED. There are 4 channels inside, and each channel
->>> supports up to 30mA of current capability with 2048 current steps in
->>> exponential or linear mapping curves.
->>>
->>> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
->>
->> Hello ChiaEn,
->>
->> I propose to move this one to drivers/leds (or drivers/pwm) and, instead of
->> registering a backlight device, register a PWM device.
->>
->> This way you will be able to reuse the generic backlight-pwm driver, as you'd
->> be feeding the PWM device exposed by this driver to the generic one: this will
->> most importantly make it easy to chain it with MTK_DISP_PWM (mtk-pwm-disp)
->> with a devicetree that looks like...
-> 
-> Out of interest, does MT6370 have the same structure for backlights as the prior
-> systems using mtk-pwm-disp or was mtk-pwm-disp simply a normal(-ish) PWM
-> that relied on something on the board for all the constant current
-> driver hardware?
-> 
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------nW4vNDWtpMLvqZqCWUiWdtZy
+Content-Type: multipart/mixed; boundary="------------QrSD8kIdQB6oi1vqhs6LU3fc";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <1784aeb3-d4da-9208-97c1-6ced2b678fbd@suse.de>
+Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
+References: <20220716181750.3874838-1-sam@ravnborg.org>
+ <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+ <YtUSNzVOvaQZ1+uS@ravnborg.org>
+In-Reply-To: <YtUSNzVOvaQZ1+uS@ravnborg.org>
 
-As per my understanding, mtk-pwm-disp is chained to other multimedia features of
-the display block of MediaTek SoCs, such as the AAL (adaptive ambient light),
-CABC (content adaptive backlight control) etc, other than being a normal(ish)
-PWM... that's the reason of my request.
+--------------QrSD8kIdQB6oi1vqhs6LU3fc
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Moreover, in the end, this PMIC's backlight controller is just a "fancy" PWM
-controller, with OCP/OVP.
+SGkgU2FtDQoNCkFtIDE4LjA3LjIyIHVtIDA5OjU2IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0K
+PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBNb24sIEp1bCAxOCwgMjAyMiBhdCAwODo1NjoxNkFN
+ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMTYu
+MDcuMjIgdW0gMjA6MTcgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+Pj4gV2hpbGUgZGlzY3Vz
+c2luZyB0aGUgd2F5IGZvcndhcmQgZm9yIHRoZSB2aWEgZHJpdmVyDQo+Pj4gSmF2aWVyIGNh
+bWUgdXAgd2l0aCB0aGUgcHJvcG9zYWwgdG8gbW92ZSBhbGwgRFJJMSBkcml2ZXJzDQo+Pj4g
+dG8gdGhlaXIgb3duIGZvbGRlci4NCj4+Pg0KPj4+IFRoZSBpZGVhIGlzIHRvIG1vdmUgdGhl
+IG9sZCBEUkkxIGRyaXZlcnMgc28gb25lIGRvIG5vdA0KPj4+IGFjY2lkZW50YWxseSBjb25z
+aWRlciB0aGVtIG1vZGVybiBkcml2ZXJzLg0KPj4+DQo+Pj4gVGhpcyBzZXQgb2YgcGF0Y2hl
+cyBpbXBsZW1lbnRzIHRoaXMgaWRlYS4NCj4+Pg0KPj4+IFRvIHByZXBhcmUgdGhlIG1vdmUs
+IERSSVZFUl9MRUdBQ1kgYW5kIENPTkZJR19EUk1fTEVHQUNZDQo+Pj4gYXJlIGJvdGggcmVu
+YW1lZCB0byAqX0RSSTEuIFRoaXMgbWFrZXMgaXQgbW9yZSBvYnZpb3VzDQo+Pj4gdGhhdCB3
+ZSBhcmUgZGVhbGluZyB3aXRoIERSSTEgZHJpdmVycywgYXMgd2UgaGF2ZQ0KPj4+IGEgbG90
+IG9mIG90aGVyIGxlZ2FjeSBzdXBwb3J0Lg0KPj4+DQo+Pj4gVGhlIGRyaXZlcnMgY29udGlu
+dWUgdG8gaGF2ZSB0aGVpciBvd24gc3ViLWRpcmVjdG9yeQ0KPj4+IHNvIHRoZSBkcml2ZXIg
+ZmlsZXMgYXJlIG5vdCBtaXhlZCB3aXRoIHRoZSBjb3JlIGZpbGVzDQo+Pj4gd2hpY2ggYXJl
+IGNvcGllZCBpbiB0aGUgbGFzdCBjb21taXQuDQo+Pj4NCj4+PiBUaGUgRFJJMSBzcGVjaWZp
+YyBwYXJ0IG9mIGRybS9LY29uZmlnIGlzIGxpa2V3aXNlIHB1bGxlZA0KPj4+IG91dCBhbmQg
+bG9jYXRlZCBpbiB0aGUgZHJpMS8gZm9sZGVyLg0KPj4+DQo+Pj4gRmVlZGJhY2sgd2VsY29t
+ZSENCj4+DQo+PiBUbyBiZSBob25lc3QsIEkgc3RpbGwgZG9uJ3QgbGlrZSB0aGlzIHJlbmFt
+ZS4gRXNwZWNpYWxseSBpbiB0aGUgY2FzZSBvZiB2aWEsDQo+PiB3aGljaCBoYXMgYSBLTVMg
+ZHJpdmVyIGNvbWluZyB1cC4gSXQgd2lsbCBub3cgaGF2ZSBhbiBpbmNsdWRlIHN0YXRlbWVu
+dCB0aGF0DQo+PiBjcm9zc2VzIHNldmVyYWwgbGV2ZWxzIGluIHRoZSBkaXJlY3RvcnkgaGll
+cmFyY2h5LiBBbmQgd2hhdCBhYm91dCB0aGUgb3RoZXINCj4+IERSSTEgZHJpdmVycz8gSWYg
+d2UgZXZlciBnZXQgS01TIGRyaXZlcnMgZm9yIHRob3NlLCBkbyB3ZSB3YW50IHRvIG1vdmUg
+c29tZQ0KPj4gaGVhZGVyIGZpbGVzIGJhY2sgaW50byB0aGVpciBvcmlnaW5hbCBsb2NhdGlv
+bnM/IFBhdGNoZXMgMSBhbmQgMiBsb29rDQo+PiByZWFzb25hYmxlIHRvIG1lLiBUaGUgb3Ro
+ZXIgZHJpdmVyIHBhdGNoZXMgaGF2ZSBiYXNpY2FsbHkgemVybyB1cHNpZGUgSU1ITy4NCj4g
+VW50aWwgdGhlcmUgYXJlIGNvbnNlbnN1cywgaWYgZXZlciwgSSB3aWxsIGRyb3AgdGhlIHBh
+dGNoZXMgbW92aW5nIHRoZSBkcml2ZXJzLg0KPiBUaGVyZSBpcyBhIGZldyBEUklWRVJfTEVH
+QUNZIGluIERvY3VtZW50YXRpb24vIHRoYXQgSSBtaXNzZWQsIHNvIHdpbGwNCj4gc2VuZCBh
+IHYyIHdpdGggdGhlc2UuDQo+IA0KPj4gSW4gdGhlIGNhc2Ugb2YgbW92aW5nIHRoZSBjb3Jl
+IGZpbGVzIGludG8gZHJpMS8sIHRoZSByZXN1bHRpbmcgTWFrZWZpbGUgcnVsZQ0KPj4gbG9v
+a3MgcmVhbGx5IHVnbHkuIEknZCBzdWdnZXN0IHRvIG1vdmUgYWxsIGNvZGUgaW50byBhIHNl
+cGFyYXRlIGZpbGUNCj4+IGRybV9kcmkxLmMgYW5kIGJlIGRvbmUgd2l0aCBpdC4gIEZvciBz
+b21ldGhpbmcgbW9yZSBlbGFib3JhdGUsIHRoZXJlIGNvdWxkDQo+PiBieSBkcm1fZHJpMS5j
+IGFuZCBkcm1fZHJpMV9oZWxwZXIuYywgd2hlcmUgdGhlIGxhdHRlciBjb250YWlucyBhbGwg
+RFJJMSBjb2RlDQo+PiB0aGF0IGlzIG9ubHkgdXNlZCBieSB0aGUgZHJpdmVycy4NCj4gSWYg
+d2UgZG8gbm90IG1vdmUgdGhlIGNvcmUgY29kZSwgdGhlbiB0aGlzIGlzIGEgZ29vZCB3YXkg
+dG8gdGVsbCB0aGlzIGlzIGRyaTENCj4gc3BlY2lmaWMuIEkgbWF5IHRyeSB0byBnaXZlIGl0
+IGEgc3BpbiAtIGJ1dCBqdXN0IGFzIGEgc2luZ2xlIGZpbGUgSSB0aGluay4NCg0KVGhhbmtz
+IGEgbG90Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiAJU2FtDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
+cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
+ZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
->>
->> 	pwmleds-disp {
->> 		compatible = "pwm-leds";
->>
->> 		disp_led: disp-pwm {
->> 			label = "backlight-pwm";
->> 			pwms = <&pwm0 0 500000>;
->> 			max-brightness = <1024>;
->> 		};
->> 	};
->>
->> 	backlight_lcd0: backlight {
->> 		compatible = "led-backlight";
->> 		leds = <&disp_led>, <&pmic_bl_led>;
->> 		default-brightness-level = <300>;
->> 	};
-> 
-> I think this proposal has to start with the devicetree bindings rather
-> than the driver. Instead I think the question is: does this proposal
-> result in DT bindings that better describe the underlying hardware?
-> 
+--------------QrSD8kIdQB6oi1vqhs6LU3fc--
 
- From how I understand it - yes: we have a fancy PWM (&pwm0) that we use
-to control display backlight (backlight-pwm)...
+--------------nW4vNDWtpMLvqZqCWUiWdtZy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Obviously, here we're not talking about OLEDs, but LCDs, where the backlight
-is made of multiple strings of WhiteLED (effectively, a "pwm-leds" controlled
-"led-backlight").
+-----BEGIN PGP SIGNATURE-----
 
-Using PWM will also allow for a little more fine-grained board specific
-configuration, as I think that this PMIC (and/or variants of it) will be
-used in completely different form factors: I think that's going to be both
-smartphones and tablets/laptops... and I want to avoid vendor properties
-to configure the PWM part in a somehow different way.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLVGcAFAwAAAAAACgkQlh/E3EQov+Da
+oQ//V12dZlPRquTNrkB2jyWsEIl4Yv+pmt6aiRagxlmbsZ7c4dEolIX5zDvOehX2IgRp6aoZ7SP6
+hC1x//T9hfXrnlBZvWB5eu60fphznH4k7uV4ZAY6hhJHAiXJTuAjXZ/lEVQSCGTqiAiS7QBLdOyI
+Knovfjyibl/VlP5EniF8L4s5gNRB6iHc3GzKlUNdJJgPMmP2zzzW5o2ztUiHDnVVU+USVYs8ke/S
+BCISuWKleR4y19hUinNx7vsNBxr+pQ5gGJhqHQQuFw4bpFSKrpDniHPDVsw9RqQIQHcjnf7azU2e
+2Nhnpsjh8FUNf1OKtQonDGPXZNhtOxJ9RAhiJ0wSMOGiUEe1XKOq2IjkREboOAu4Yy/BuZAGzjuO
+Y33ziMJnMje6x1BHArAMz8gUsIQ904Mf3XONKvvsfAI+bAySzN0r7a5C4dJ70k/hg1CXaGAlnfrO
+mzIdkPMhCb2iHNdjX6FQLQJTqmjhVQY5w+1jY12L5vYI+ASmG5IgksAdWFVzD4O6OUabfkJiU18v
+SSPpMQH6tcM/RVoqUSdLfML0n0g3EaUZIp30Jnf1jKE//+ZIqkfSboWzZBMYvl9EGGmQ0BaJZvVo
+CZAlDV8lx2nIFDR3mv6oHjbFZgfacSYRB28HCZF5Fjfl2js+xeB064PxObZaAcSN+4mwP4+0Vdlq
+pe0=
+=6ugQ
+-----END PGP SIGNATURE-----
 
-> This device has lots of backlight centric features (OCP, OVP, single
-> control with multiple outputs, exponential curves, etc) and its not
-> clear where they would fit into the "PWM" bindings.
-> 
-
-For OCP and OVP, the only bindings that fit would be regulators, but that's
-not a regulator... and that's about it - I don't really have arguments for
-that.
-
-What I really want to see here is usage of "generic" drivers like led_bl
-and/or pwm_bl as to get some "standardization" around with all the benefits
-that this carries.
-
-> Come to think of it I'm also a little worried also about the whole linear
-> versus exponential curve thing since I thought LED drivers were required
-> to use exponential curves.
-> 
-
-That probably depends on how the controller interprets the data, I guess,
-but I agree with you on this thought.
-
-Regards,
-Angelo
+--------------nW4vNDWtpMLvqZqCWUiWdtZy--
