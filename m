@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C8A577BD1
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:41:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D979577BFB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A845A9DF5;
-	Mon, 18 Jul 2022 06:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F2390559;
+	Mon, 18 Jul 2022 06:56:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE709A9DA4;
- Mon, 18 Jul 2022 06:39:31 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id c16so4317778ils.7;
- Sun, 17 Jul 2022 23:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UI797gthTzsKQz4UC9U2UIsi1BTd/WhNl6933XAQbZ4=;
- b=f43LFaj608ze6ozZk4VKeO33ZLWMOOojxLUmJ7LEeiD+4x56rjGnPebHrfk3Cho/OK
- hofvFaByKVFqNznKwkziLToWE6HdxehJVMLzhmThEvwEK2CPTsyDOZR+oEoig7yqF1Ho
- hk4FtIIZvizYVvkdbEzeMfj5Cejy86Y1fctUrGdt62G2e/+GwanKeTXqIAJoL/hJL84y
- ERtq/dRQUQGw76Q3Cn1FsT2D73SfSOaKukhDpdzq7Bi9nuUmlzvXcGm10V6WuX3y8bJ0
- D3vsv4HDU4cY/fFSa9Pq4MioSvTiKky264nmif2VFFf3Etl3Zn1x1GRgnoBQ6n14v6hA
- xdrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UI797gthTzsKQz4UC9U2UIsi1BTd/WhNl6933XAQbZ4=;
- b=Vq++sLqoSCWanLjQqFcLnsObzWHIpY0UV+4QXmVoHpbWOKSXzfWin8TtSlmXStB3cL
- yIZov/WsgRFOxIeQ+jjo7unGZ0qSzcIJCcAAtw9rcCdhLEcggH6+PTsaE9YZb0CC6ooF
- twFJmvvUPl90GYXTvcQwRA0kBsWA8DHQwv4K3qWxAiRvo0Ub/UMlUWT1z6k7ySntYL4u
- cw7eiMAOYEXCsBWFpqScxHmtSPd96xUWMa62yxQtvTqd1y8T1vFaRxqfcJSI7ao2gJ93
- j0g5Y+EyPgS/4krckqUjx3vaWkoPr7dAWnCjHkmeoC5PYbIljXs30IYYC190uCksbrMF
- HDGQ==
-X-Gm-Message-State: AJIora8w50K7OCEPWpx79lwLd2v9OT5dWIec7hXOv0irtvIGnDyq76WH
- q+k9VyzTd2dHqK/n0apJvvU=
-X-Google-Smtp-Source: AGRyM1uU/W7sVgBywmdq4f7AYm2RGP2Prq92TcUVVy64b1LhMl2lBnCzJZwu6YempPq+3WxxY1KE7g==
-X-Received: by 2002:a05:6e02:1583:b0:2d7:a75d:888f with SMTP id
- m3-20020a056e02158300b002d7a75d888fmr12678536ilu.13.1658126371511; 
- Sun, 17 Jul 2022 23:39:31 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
- by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.39.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:39:30 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: jbaron@akamai.com
-Subject: [PATCH v3 41/41] nouveau-dyndbg: wip subdev refine, breaks on use
-Date: Mon, 18 Jul 2022 00:36:41 -0600
-Message-Id: <20220718063641.9179-58-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
-References: <20220718063641.9179-1-jim.cromie@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE9728D90E
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 06:56:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 75BE3339FF;
+ Mon, 18 Jul 2022 06:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658127377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hHnFOEalU4AjaN8AVO/6i0fRIGVwPGXhYGh1i+AF9M4=;
+ b=aP+wEr/m02dPvSEipBkJQb8Zg3wSu7NQxTmusFdkPQ626WMBnFvhuDJwTiuWYP+xVZ3Bmv
+ +VnA4B/807nOEdSvXH58jzY0eDB2ME4N30YXvb7Dp/IkG3TbhJNI23TJ2BlogWQw0uaQ9x
+ FrK6N+Fy1SZZfngFQV0V9s8hDAiVH0I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658127377;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hHnFOEalU4AjaN8AVO/6i0fRIGVwPGXhYGh1i+AF9M4=;
+ b=n1vkfJ3bRqHMQVxGsSatLRkZGuXCcY2qdZf4W4/4YcIfJSUzGn0l38erJl2GmzQQxSac7T
+ MgmDnk36BpHhwQBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F3C513754;
+ Mon, 18 Jul 2022 06:56:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id FWdxFhEE1WLFZAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 06:56:17 +0000
+Message-ID: <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+Date: Mon, 18 Jul 2022 08:56:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+References: <20220716181750.3874838-1-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220716181750.3874838-1-sam@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VLdC0LMXUZAr0OgSstqAnx66"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,102 +69,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change nvkm_subdev.debug to a ulong, so dyndbg can maybe use it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VLdC0LMXUZAr0OgSstqAnx66
+Content-Type: multipart/mixed; boundary="------------tCxddzM5zWkns2DHguwEgUwW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
+References: <20220716181750.3874838-1-sam@ravnborg.org>
+In-Reply-To: <20220716181750.3874838-1-sam@ravnborg.org>
 
-Move macro decl from nv-drm.c to subdev.c, and add a struct
-ddebug_classes_bitmap_param and a module_param_cb() that creates the
-sysfs-knob.
+--------------tCxddzM5zWkns2DHguwEgUwW
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Finally, in nvkm_subdev_ctor(), *attempt* to set dyndbg's pointer to
-the debug address, so that dyndbg can observe the underlying debug
-value, and make enable/disable decisions based upon it.
+SGkNCg0KQW0gMTYuMDcuMjIgdW0gMjA6MTcgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IFdo
+aWxlIGRpc2N1c3NpbmcgdGhlIHdheSBmb3J3YXJkIGZvciB0aGUgdmlhIGRyaXZlcg0KPiBK
+YXZpZXIgY2FtZSB1cCB3aXRoIHRoZSBwcm9wb3NhbCB0byBtb3ZlIGFsbCBEUkkxIGRyaXZl
+cnMNCj4gdG8gdGhlaXIgb3duIGZvbGRlci4NCj4gDQo+IFRoZSBpZGVhIGlzIHRvIG1vdmUg
+dGhlIG9sZCBEUkkxIGRyaXZlcnMgc28gb25lIGRvIG5vdA0KPiBhY2NpZGVudGFsbHkgY29u
+c2lkZXIgdGhlbSBtb2Rlcm4gZHJpdmVycy4NCj4gDQo+IFRoaXMgc2V0IG9mIHBhdGNoZXMg
+aW1wbGVtZW50cyB0aGlzIGlkZWEuDQo+IA0KPiBUbyBwcmVwYXJlIHRoZSBtb3ZlLCBEUklW
+RVJfTEVHQUNZIGFuZCBDT05GSUdfRFJNX0xFR0FDWQ0KPiBhcmUgYm90aCByZW5hbWVkIHRv
+ICpfRFJJMS4gVGhpcyBtYWtlcyBpdCBtb3JlIG9idmlvdXMNCj4gdGhhdCB3ZSBhcmUgZGVh
+bGluZyB3aXRoIERSSTEgZHJpdmVycywgYXMgd2UgaGF2ZQ0KPiBhIGxvdCBvZiBvdGhlciBs
+ZWdhY3kgc3VwcG9ydC4NCj4gDQo+IFRoZSBkcml2ZXJzIGNvbnRpbnVlIHRvIGhhdmUgdGhl
+aXIgb3duIHN1Yi1kaXJlY3RvcnkNCj4gc28gdGhlIGRyaXZlciBmaWxlcyBhcmUgbm90IG1p
+eGVkIHdpdGggdGhlIGNvcmUgZmlsZXMNCj4gd2hpY2ggYXJlIGNvcGllZCBpbiB0aGUgbGFz
+dCBjb21taXQuDQo+IA0KPiBUaGUgRFJJMSBzcGVjaWZpYyBwYXJ0IG9mIGRybS9LY29uZmln
+IGlzIGxpa2V3aXNlIHB1bGxlZA0KPiBvdXQgYW5kIGxvY2F0ZWQgaW4gdGhlIGRyaTEvIGZv
+bGRlci4NCj4gDQo+IEZlZWRiYWNrIHdlbGNvbWUhDQoNClRvIGJlIGhvbmVzdCwgSSBzdGls
+bCBkb24ndCBsaWtlIHRoaXMgcmVuYW1lLiBFc3BlY2lhbGx5IGluIHRoZSBjYXNlIG9mIA0K
+dmlhLCB3aGljaCBoYXMgYSBLTVMgZHJpdmVyIGNvbWluZyB1cC4gSXQgd2lsbCBub3cgaGF2
+ZSBhbiBpbmNsdWRlIA0Kc3RhdGVtZW50IHRoYXQgY3Jvc3NlcyBzZXZlcmFsIGxldmVscyBp
+biB0aGUgZGlyZWN0b3J5IGhpZXJhcmNoeS4gQW5kIA0Kd2hhdCBhYm91dCB0aGUgb3RoZXIg
+RFJJMSBkcml2ZXJzPyBJZiB3ZSBldmVyIGdldCBLTVMgZHJpdmVycyBmb3IgdGhvc2UsIA0K
+ZG8gd2Ugd2FudCB0byBtb3ZlIHNvbWUgaGVhZGVyIGZpbGVzIGJhY2sgaW50byB0aGVpciBv
+cmlnaW5hbCBsb2NhdGlvbnM/IA0KUGF0Y2hlcyAxIGFuZCAyIGxvb2sgcmVhc29uYWJsZSB0
+byBtZS4gVGhlIG90aGVyIGRyaXZlciBwYXRjaGVzIGhhdmUgDQpiYXNpY2FsbHkgemVybyB1
+cHNpZGUgSU1ITy4NCg0KSW4gdGhlIGNhc2Ugb2YgbW92aW5nIHRoZSBjb3JlIGZpbGVzIGlu
+dG8gZHJpMS8sIHRoZSByZXN1bHRpbmcgTWFrZWZpbGUgDQpydWxlIGxvb2tzIHJlYWxseSB1
+Z2x5LiBJJ2Qgc3VnZ2VzdCB0byBtb3ZlIGFsbCBjb2RlIGludG8gYSBzZXBhcmF0ZSANCmZp
+bGUgZHJtX2RyaTEuYyBhbmQgYmUgZG9uZSB3aXRoIGl0LiAgRm9yIHNvbWV0aGluZyBtb3Jl
+IGVsYWJvcmF0ZSwgDQp0aGVyZSBjb3VsZCBieSBkcm1fZHJpMS5jIGFuZCBkcm1fZHJpMV9o
+ZWxwZXIuYywgd2hlcmUgdGhlIGxhdHRlciANCmNvbnRhaW5zIGFsbCBEUkkxIGNvZGUgdGhh
+dCBpcyBvbmx5IHVzZWQgYnkgdGhlIGRyaXZlcnMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbXNh
+DQoNCj4gDQo+IAlTYW0NCj4gDQo+IFNhbSBSYXZuYm9yZyAoMTEpOg0KPiAgICAgICAgZHJt
+OiByZW5hbWUgRFJJVkVSX0xFR0FDWSB0byBEUklWRVJfRFJJMQ0KPiAgICAgICAgZHJtOiBS
+ZW5hbWUgQ09ORklHX0RSTV9MRUdBQ1kgdG8gQ09ORklHX0RSTV9EUkkxDQo+ICAgICAgICBk
+cm0vdGRmeDogTW92ZSB0aGUgdGRmeCBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBk
+cm0vcjEyODogTW92ZSB0aGUgcjEyOCBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBk
+cm0vaTgxMDogTW92ZSB0aGUgaTgxMCBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBk
+cm0vbWdhOiBNb3ZlIHRoZSBtZ2EgZHJpdmVyIHRvIGRybS9kcmkxLw0KPiAgICAgICAgZHJt
+L3NpczogTW92ZSB0aGUgc2lzIGRyaXZlciB0byBkcm0vZHJpMS8NCj4gICAgICAgIGRybS92
+aWE6IE1vdmUgdGhlIHZpYSBkcml2ZXIgdG8gZHJtL2RyaTEvDQo+ICAgICAgICBkcm0vc2F2
+YWdlOiBNb3ZlIHRoZSBzYXZhZ2UgZHJpdmVyIHRvIGRybS9kcmkxLw0KPiAgICAgICAgZHJt
+L2RyaTE6IE1vdmUgS2NvbmZpZyBsb2dpYyB0byBkcm0vZHJpMQ0KPiAgICAgICAgZHJtOiBN
+b3ZlIGRyaTEgY29yZSBmaWxlcyB0byBkcm0vZHJpMQ0KPiANCj4gICBhcmNoL3Bvd2VycGMv
+Y29uZmlncy9wbWFjMzJfZGVmY29uZmlnICAgICAgICAgICAgICB8ICAyICstDQo+ICAgYXJj
+aC9wb3dlcnBjL2NvbmZpZ3MvcHBjNnh4X2RlZmNvbmZpZyAgICAgICAgICAgICAgfCAgMiAr
+LQ0KPiAgIGRyaXZlcnMvY2hhci9hZ3AvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2NoYXIvYWdwL2FncC5oICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL0tjb25maWcgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCA3OSArLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAxOCArKystLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcmkxL0tjb25maWcgICAgICAgICAg
+ICAgICAgICAgICAgIHwgNzkgKysrKysrKysrKysrKysrKysrKysrKw0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9kcmkxL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgIHwgMTEgKysrDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vZHJtX2FncHN1cHBvcnQuYyAgICAgICAg
+fCAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV9idWZzLmMgICAg
+ICAgICAgICAgIHwgMjIgKysrLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0v
+ZHJtX2NvbnRleHQuYyAgICAgICAgICAgfCAyNCArKystLS0tDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL3sgPT4gZHJpMX0vZHJtX2RtYS5jICAgICAgICAgICAgICAgfCAgNCArLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV9oYXNodGFiLmMgICAgICAgICAgIHwgIDAN
+Cj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9kcm1faXJxLmMgICAgICAgICAgICAg
+ICB8ICA2ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vZHJtX2xlZ2FjeV9t
+aXNjLmMgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2Ry
+bV9sb2NrLmMgICAgICAgICAgICAgIHwgIDYgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9
+PiBkcmkxfS9kcm1fbWVtb3J5LmMgICAgICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL3sgPT4gZHJpMX0vZHJtX3NjYXR0ZXIuYyAgICAgICAgICAgfCAgNiArLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV92bS5jICAgICAgICAgICAgICAgIHwgIDIg
+Ky0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9pODEwL01ha2VmaWxlICAgICAg
+ICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vaTgxMC9pODEwX2Rt
+YS5jICAgICAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2k4MTAv
+aTgxMF9kcnYuYyAgICAgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBk
+cmkxfS9pODEwL2k4MTBfZHJ2LmggICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJt
+L3sgPT4gZHJpMX0vbWdhL01ha2VmaWxlICAgICAgICAgICAgfCAgMA0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS97ID0+IGRyaTF9L21nYS9tZ2FfZG1hLmMgICAgICAgICAgIHwgIDANCj4gICBk
+cml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9tZ2EvbWdhX2Rydi5jICAgICAgICAgICB8ICAy
+ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vbWdhL21nYV9kcnYuaCAgICAg
+ICAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L21nYS9tZ2FfaW9j
+MzIuYyAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9tZ2Ev
+bWdhX2lycS5jICAgICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJp
+MX0vbWdhL21nYV9zdGF0ZS5jICAgICAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97
+ID0+IGRyaTF9L21nYS9tZ2Ffd2FycC5jICAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dw
+dS9kcm0veyA9PiBkcmkxfS9yMTI4L01ha2VmaWxlICAgICAgICAgICB8ICAwDQo+ICAgZHJp
+dmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vcjEyOC9hdGlfcGNpZ2FydC5jICAgICAgfCAgMA0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3IxMjgvYXRpX3BjaWdhcnQuaCAgICAg
+IHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9yMTI4L3IxMjhfY2NlLmMg
+ICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vcjEyOC9yMTI4
+X2Rydi5jICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9
+L3IxMjgvcjEyOF9kcnYuaCAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9
+PiBkcmkxfS9yMTI4L3IxMjhfaW9jMzIuYyAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL3sgPT4gZHJpMX0vcjEyOC9yMTI4X2lycS5jICAgICAgICAgfCAgMA0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS97ID0+IGRyaTF9L3IxMjgvcjEyOF9zdGF0ZS5jICAgICAgIHwgIDANCj4g
+ICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9zYXZhZ2UvTWFrZWZpbGUgICAgICAgICB8
+ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vc2F2YWdlL3NhdmFnZV9iY2ku
+YyAgICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3NhdmFnZS9zYXZh
+Z2VfZHJ2LmMgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9z
+YXZhZ2Uvc2F2YWdlX2Rydi5oICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4g
+ZHJpMX0vc2F2YWdlL3NhdmFnZV9zdGF0ZS5jICAgfCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS97ID0+IGRyaTF9L3Npcy9NYWtlZmlsZSAgICAgICAgICAgIHwgIDANCj4gICBkcml2ZXJz
+L2dwdS9kcm0veyA9PiBkcmkxfS9zaXMvc2lzX2Rydi5jICAgICAgICAgICB8ICAyICstDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vc2lzL3Npc19kcnYuaCAgICAgICAgICAg
+fCAgMA0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3Npcy9zaXNfbW0uYyAgICAg
+ICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS90ZGZ4L01ha2Vm
+aWxlICAgICAgICAgICB8ICAwDQo+ICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vdGRm
+eC90ZGZ4X2Rydi5jICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS97ID0+
+IGRyaTF9L3RkZngvdGRmeF9kcnYuaCAgICAgICAgIHwgIDANCj4gICBkcml2ZXJzL2dwdS9k
+cm0veyA9PiBkcmkxfS92aWEvTWFrZWZpbGUgICAgICAgICAgICB8ICA0ICstDQo+ICAgZHJp
+dmVycy9ncHUvZHJtL3t2aWEvdmlhX2RyaTEuYyA9PiBkcmkxL3ZpYS92aWEuY30gfCAgNCAr
+LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYyAgICAgICAgICAg
+ICAgICAgICAgICAgICB8IDEyICsrLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVy
+bmFsLmggICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJt
+L2RybV9pb2MzMi5jICAgICAgICAgICAgICAgICAgICAgICAgfCAxMiArKy0tDQo+ICAgZHJp
+dmVycy9ncHUvZHJtL2RybV9pb2N0bC5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgNCAr
+LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fbGVnYWN5LmggICAgICAgICAgICAgICAgICAg
+ICAgIHwgMzIgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAxMiArKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
+bV92YmxhbmsuYyAgICAgICAgICAgICAgICAgICAgICAgfCAxMiArKy0tDQo+ICAgaW5jbHVk
+ZS9kcm0vZHJtX2F1dGguaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQ0K
+PiAgIGluY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgIDQgKy0NCj4gICBpbmNsdWRlL2RybS9kcm1fZHJ2LmggICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8IDEwICstLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9maWxlLmggICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0NCj4gICBpbmNsdWRlL2RybS9kcm1fbGVn
+YWN5LmggICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+ICAgNjcgZmlsZXMg
+Y2hhbmdlZCwgMjA1IGluc2VydGlvbnMoKyksIDE5NCBkZWxldGlvbnMoLSkNCj4gDQo+IA0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
+NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
+Y2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-But Im not getting the ctor called, so the ptr is NULL when refd.
+--------------tCxddzM5zWkns2DHguwEgUwW--
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../drm/nouveau/include/nvkm/core/subdev.h    |  2 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  7 ------
- drivers/gpu/drm/nouveau/nvkm/core/subdev.c    | 23 +++++++++++++++++++
- 3 files changed, 24 insertions(+), 8 deletions(-)
+--------------VLdC0LMXUZAr0OgSstqAnx66
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-index d5f6ca05d5fa..05807403fdd6 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-@@ -19,7 +19,7 @@ struct nvkm_subdev {
- 	enum nvkm_subdev_type type;
- 	int inst;
- 	char name[16];
--	u32 debug;
-+	unsigned long debug;
- 	struct list_head head;
- 
- 	void **pself;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 85b63b527877..d45c71ffc09e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -90,13 +90,6 @@ DECLARE_DYNDBG_CLASSMAP(nv_cli_debug_verbose, DD_CLASS_TYPE_VERBOSE, 10,
- 			"NV_CLI_DBG_TRACE",
- 			"NV_CLI_DBG_SPAM");
- 
--DECLARE_DYNDBG_CLASSMAP(nv_subdev_debug_verbose, DD_CLASS_TYPE_VERBOSE, 15,
--			"NV_SUBDEV_DBG_OFF",
--			"NV_SUBDEV_DBG_INFO",
--			"NV_SUBDEV_DBG_DEBUG",
--			"NV_SUBDEV_DBG_TRACE",
--			"NV_SUBDEV_DBG_SPAM");
--
- MODULE_PARM_DESC(config, "option string to pass to driver core");
- static char *nouveau_config;
- module_param_named(config, nouveau_config, charp, 0400);
-diff --git a/drivers/gpu/drm/nouveau/nvkm/core/subdev.c b/drivers/gpu/drm/nouveau/nvkm/core/subdev.c
-index a74b7acb6832..227871c3a749 100644
---- a/drivers/gpu/drm/nouveau/nvkm/core/subdev.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/core/subdev.c
-@@ -26,6 +26,27 @@
- #include <core/option.h>
- #include <subdev/mc.h>
- 
-+#include <linux/dynamic_debug.h>
-+#include <linux/module.h>
-+
-+#define DEBUG
-+
-+DECLARE_DYNDBG_CLASSMAP(nv_subdev_debug_verbose, DD_CLASS_TYPE_VERBOSE, 15,
-+			"NV_SUBDEV_DBG_OFF",
-+			"NV_SUBDEV_DBG_INFO",
-+			"NV_SUBDEV_DBG_DEBUG",
-+			"NV_SUBDEV_DBG_TRACE",
-+			"NV_SUBDEV_DBG_SPAM");
-+
-+static struct ddebug_classes_bitmap_param nv_subdev_verbose = {
-+	.bits = NULL, // wants &_subdev->debug
-+	.flags = "p",
-+	.map = &nv_subdev_debug_verbose,
-+};
-+module_param_cb(debug_subdev, &param_ops_dyndbg_classes, &nv_subdev_verbose, 0600);
-+
-+
-+
- const char *
- nvkm_subdev_type[NVKM_SUBDEV_NR] = {
- #define NVKM_LAYOUT_ONCE(type,data,ptr,...) [type] = #ptr,
-@@ -180,6 +201,8 @@ nvkm_subdev_ctor(const struct nvkm_subdev_func *func, struct nvkm_device *device
- 	else
- 		strscpy(subdev->name, nvkm_subdev_type[type], sizeof(subdev->name));
- 	subdev->debug = nvkm_dbgopt(device->dbgopt, subdev->name);
-+	nv_subdev_verbose.bits = &subdev->debug;
-+	pr_debug("updated bitmap: %px\n", &nv_subdev_verbose.bits);
- 	list_add_tail(&subdev->head, &device->subdev);
- }
- 
--- 
-2.36.1
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLVBBAFAwAAAAAACgkQlh/E3EQov+DA
+lA//b3y8EgdLu39XDF4bFUl+BFzXLiqUm9QyxTwbFGlewlWkDHIpB69xebfpTmNk9yV6CkhPpgbN
+AHpp3S7UdpLJ1HTLqXxHa/MPStLB+tDbjMAk3jBBdp0SICLYVx8eVmBuAznMemVfk4bOKFTF8iCx
+g1iD4jEdbDSKo3lkZRaP6/kbQimzFd4udWsbZJvPmWGkLmGsqI+Pl1IIhgweEo5+GO65RmAWRA95
+AYmWjB0FcRbnbLOtoDYeu8OAWWosrem1zJHk/EdSJm0hoa9nCFUwRUvaIVLJTLRJFJkAOZlonO1h
+dUurvVBO/yj7EtmMKw9dBqaJJ/YU7cmL7jz28hnsYlWSRPP2sHuxIfjw1tmjhzEBBRBJpkqPdsx2
+v16BOINqBdF/WJSrIj5gy9MaRTEnv50ja8jYGMKTty8N69rMNpJ3YfuoALLwGwCV0PTYz6QLkfSo
+mYOem9N9KUebhqhiERsQ8MdAieNDu6fOzbmq3/Sq5m3uDul9496WsqlirfY+YAqbFXgfrwOZuzAP
+pxIU0iSE/ED0DFcBdG82/SHrlnovbh3r/L9SQRMTEQwyQeHYnyK8UvgoCfuNJWV9pC8oTS7KxF/v
+5pi7YiYT0ha0D3WK3b184mXiZa2dPXtnQ39eBiWse20leIF4SMgaB8jnk2Nl+MalzM/4sibs6STX
+87M=
+=HEC0
+-----END PGP SIGNATURE-----
+
+--------------VLdC0LMXUZAr0OgSstqAnx66--
