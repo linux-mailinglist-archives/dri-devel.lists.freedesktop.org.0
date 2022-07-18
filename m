@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8B5578081
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 13:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24135780B1
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 13:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D16CB0830;
-	Mon, 18 Jul 2022 11:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC7D12B72D;
+	Mon, 18 Jul 2022 11:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF978B0823
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 11:18:17 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id r24so1822263qtx.6
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 04:18:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wSoYENXBgH2mwK4hdRwcr5ZngBoL0AeSrBZrHAlbPeQ=;
- b=qFnFWPwvGVggO9eAAgTTMi5N3kU74UfugZ/F1ND8Dh1XwEYNQq9hleridz+UuErbjp
- kKXke5m5utIeYESJxdI+Imw1dN7Ky712JivV5EepwVudgfHjmTqzT/4Csy8a5PRWaYcW
- WT7WNRwPzbR88elpVuCiYFy314nf03iGRthvnSl47bKymr5iw2ISiSCilphKmc3sjDBm
- wiODnzpQ5ZhUPmt72MGydEbUEk8Tl3V01TfyuGjdP3zZ6dMAa1QHvvhfxlrb1Fhq/iC3
- p3s1kljCg7uX6D1BpJ/6XC9U0bCN4LfKIpfi4lFkm26bo4VkK/Gcyeu4o/iFLsYdoMKG
- BZIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wSoYENXBgH2mwK4hdRwcr5ZngBoL0AeSrBZrHAlbPeQ=;
- b=ygshENGCqXYI4Ho5wVg4qFPuitFcK4s4GAzyTtAGwivBF2EmpMJIa6LRRW2goUJiip
- dO0WA/2MfBiYHSrOrZtZYi7N+5LnKU0+aVlOD4PliJPzXWSm1pl3Tg4hoIlkDzXhp/Jm
- wui16Kge0ZrXSlr8QunY6fwlj2PUdssEvvBbzXeX0OyBk/dpxgz/aZMF/ujtNYTbFLMB
- TwtngvAt78qkio43b3jO3gUXs+oO3vdGQejdHgtEcQX5aFFEpky5i9+/Ai1UjLP+MWZN
- 7oem84M4+RWbyDg38r+WPmsBQD32IzsszcjXK5D78ya3BP/somm7y4IEIfkUTclEzz1G
- /wCQ==
-X-Gm-Message-State: AJIora/IaSkVo8KtUVt3m92UH8nlCOB6nE6JEABE2NcpXyYtQsKyvCcs
- 2O9G+OSNsw4qgZuLlp1f+18gRWiEotG6Siv8v9k=
-X-Google-Smtp-Source: AGRyM1sDQntCUf7aWlvIzBrAp3ngAMq6sCK0MNxJ0IaoTAwyexPRWMVJcAdASNSTm/k1fe6tXf81WYvadsLxzbGsFLI=
-X-Received: by 2002:ac8:5a8c:0:b0:31d:2826:d14f with SMTP id
- c12-20020ac85a8c000000b0031d2826d14fmr20168056qtc.198.1658143096830; Mon, 18
- Jul 2022 04:18:16 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DABE1128B6;
+ Mon, 18 Jul 2022 11:26:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658143607; x=1689679607;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=V/TUcTnPpCvjQ71UA9JLCO2/D347EpcTV1HTFU4c2E4=;
+ b=oBfYvoOn7bFV0ve7greMHY8l3T3N5y2QmU7H6hiWQTgI+SrOyY3311/Q
+ 3fDGZcZQQEFtsycmp1FX3ONt99AVOGXvZk8FwA4UMB2s15fV9JmTfdWWs
+ RJSyy3J3NzIYC8VDvgDgor4eYW8LGJu5Flo9rnctelwKLetAlZvf4JVbA
+ Ilg/3hvBHqwpwz3OUpVhJV4Nn5MUcKaACZ/nemGZSEY1KGmiQd5d6UlaR
+ eEitwjJ+7gEsKys52lpbMXdNDYhB8NvTvlxG59NO3AyHglHsDBlsYoWD8
+ MjkN1Qulivd9Td6FVRxHsr0XGX0FgDzvJ0cJfE6z6175apX+ITOu2gcLG g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="266602110"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="266602110"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:26:46 -0700
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="723826990"
+Received: from smyint-mobl1.amr.corp.intel.com (HELO [10.212.107.15])
+ ([10.212.107.15])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:26:44 -0700
+Message-ID: <cfdf9bd6-c921-1c48-b615-95346ac14999@linux.intel.com>
+Date: Mon, 18 Jul 2022 12:26:43 +0100
 MIME-Version: 1.0
-References: <20220715112607.591-1-peterwu.pub@gmail.com>
- <20220715112607.591-14-peterwu.pub@gmail.com>
- <ec3bdfb8-0e42-a772-28b1-165811872afa@collabora.com>
- <20220715162913.5ewxwhv6jtdgt3c2@maple.lan>
- <ee88aec0-f6f8-c554-6752-447cb0f34e16@collabora.com>
-In-Reply-To: <ee88aec0-f6f8-c554-6752-447cb0f34e16@collabora.com>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Mon, 18 Jul 2022 19:17:40 +0800
-Message-ID: <CABtFH5J3tjx6mLfXkx_MySXdYg3qms09gX0wxpuFQxWpz3gowQ@mail.gmail.com>
-Subject: Re: [PATCH v5 13/13] video: backlight: mt6370: Add MediaTek MT6370
- support
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC] drm/i915/huc: better define HuC status getparam possible
+ return values.
+Content-Language: en-US
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220708234841.941229-1-daniele.ceraolospurio@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220708234841.941229-1-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,133 +62,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: Tony Ye <tony.ye@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 18, 2022 at 4:27 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
 
-<snip>
+On 09/07/2022 00:48, Daniele Ceraolo Spurio wrote:
+> The current HuC status getparam return values are a bit confusing in
+> regards to what happens in some scenarios. In particular, most of the
+> error cases cause the ioctl to return an error, but a couple of them,
+> INIT_FAIL and LOAD_FAIL, are not explicitly handled and neither is
+> their expected return value documented; these 2 error cases therefore
+> end up into the catch-all umbrella of the "HuC not loaded" case, with
+> this case therefore including both some error scenarios and the load
+> in progress one.
+> 
+> The updates included in this patch change the handling so that all
+> error cases behave the same way, i.e. return an errno code, and so
+> that the HuC load in progress case is unambiguous.
+> 
+> The patch also includes a small change to the FW init path to make sure
+> we always transition to an error state if something goes wrong.
+> 
+> This is an RFC because this is a minor change in behavior for an ioctl.
+> I'm arguing that this is not an API breakage because the expected return
+> for the cases I've changed was not well defined, but I want to make sure
+> no one is in opposition to this. From comments from media driver devs
+> on a different patch [1], it sounds like the media driver already
+> expected an errno value for all errors cases and is therefore already
+> compatible with the proposed changes.
 
-> >>
-> >> Hello ChiaEn,
-> >>
-> >> I propose to move this one to drivers/leds (or drivers/pwm) and, instead of
-> >> registering a backlight device, register a PWM device.
-> >>
-> >> This way you will be able to reuse the generic backlight-pwm driver, as you'd
-> >> be feeding the PWM device exposed by this driver to the generic one: this will
-> >> most importantly make it easy to chain it with MTK_DISP_PWM (mtk-pwm-disp)
-> >> with a devicetree that looks like...
-> >
-> > Out of interest, does MT6370 have the same structure for backlights as the prior
-> > systems using mtk-pwm-disp or was mtk-pwm-disp simply a normal(-ish) PWM
-> > that relied on something on the board for all the constant current
-> > driver hardware?
-> >
-> >
->
-> As per my understanding, mtk-pwm-disp is chained to other multimedia features of
-> the display block of MediaTek SoCs, such as the AAL (adaptive ambient light),
-> CABC (content adaptive backlight control) etc, other than being a normal(ish)
-> PWM... that's the reason of my request.
->
-> Moreover, in the end, this PMIC's backlight controller is just a "fancy" PWM
-> controller, with OCP/OVP.
->
-> >>
-> >>      pwmleds-disp {
-> >>              compatible = "pwm-leds";
-> >>
-> >>              disp_led: disp-pwm {
-> >>                      label = "backlight-pwm";
-> >>                      pwms = <&pwm0 0 500000>;
-> >>                      max-brightness = <1024>;
-> >>              };
-> >>      };
-> >>
-> >>      backlight_lcd0: backlight {
-> >>              compatible = "led-backlight";
-> >>              leds = <&disp_led>, <&pmic_bl_led>;
-> >>              default-brightness-level = <300>;
-> >>      };
-> >
-> > I think this proposal has to start with the devicetree bindings rather
-> > than the driver. Instead I think the question is: does this proposal
-> > result in DT bindings that better describe the underlying hardware?
-> >
->
->  From how I understand it - yes: we have a fancy PWM (&pwm0) that we use
-> to control display backlight (backlight-pwm)...
->
-> Obviously, here we're not talking about OLEDs, but LCDs, where the backlight
-> is made of multiple strings of WhiteLED (effectively, a "pwm-leds" controlled
-> "led-backlight").
->
-> Using PWM will also allow for a little more fine-grained board specific
-> configuration, as I think that this PMIC (and/or variants of it) will be
-> used in completely different form factors: I think that's going to be both
-> smartphones and tablets/laptops... and I want to avoid vendor properties
-> to configure the PWM part in a somehow different way.
->
-> > This device has lots of backlight centric features (OCP, OVP, single
-> > control with multiple outputs, exponential curves, etc) and its not
-> > clear where they would fit into the "PWM" bindings.
-> >
->
-> For OCP and OVP, the only bindings that fit would be regulators, but that's
-> not a regulator... and that's about it - I don't really have arguments for
-> that.
->
-> What I really want to see here is usage of "generic" drivers like led_bl
-> and/or pwm_bl as to get some "standardization" around with all the benefits
-> that this carries.
->
-> > Come to think of it I'm also a little worried also about the whole linear
-> > versus exponential curve thing since I thought LED drivers were required
-> > to use exponential curves.
-> >
->
-> That probably depends on how the controller interprets the data, I guess,
-> but I agree with you on this thought.
+I also think this is fine - just more error cases. And I don't see that 
+it could break something. So from me:
 
-Hi Angelo,
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-MT6370 is just a SubPMIC, not an SoC, and is applied in cellular
-telephones, tablet PCs, and portable instruments.
-And the PWM mode of the MT6370 backlight driver is optional, and not
-must be enabled.
-From our perspective, this MT6370 backlight driver is not the same as
-mtk-pwm-disp related driver.
-Thanks!
+And most importantly, with this change are you able to omit the patch I 
+did not like, the one which was returning a fake status while the load 
+was in progress? I can't remember if it was faking running while loading 
+or what exactly.
 
->
-> Regards,
-> Angelo
+Regards,
 
--- 
-Best Regards,
-ChiaEn Wu
+Tvrtko
+
+> 
+> [1] https://lists.freedesktop.org/archives/intel-gfx/2022-July/300990.html
+> 
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Tony Ye <tony.ye@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.c   |  1 +
+>   drivers/gpu/drm/i915/gt/uc/intel_huc.c   | 14 +++++++-------
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c |  1 -
+>   include/uapi/drm/i915_drm.h              | 16 ++++++++++++++++
+>   4 files changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 2706a8c65090..42cb244587f1 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -455,6 +455,7 @@ int intel_guc_init(struct intel_guc *guc)
+>   err_fw:
+>   	intel_uc_fw_fini(&guc->fw);
+>   out:
+> +	intel_uc_fw_change_status(&guc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+>   	i915_probe_error(gt->i915, "failed with %d\n", ret);
+>   	return ret;
+>   }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> index 3bb8838e325a..bddcd3242ad0 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> @@ -113,6 +113,7 @@ int intel_huc_init(struct intel_huc *huc)
+>   	return 0;
+>   
+>   out:
+> +	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+>   	drm_info(&i915->drm, "HuC init failed with %d\n", err);
+>   	return err;
+>   }
+> @@ -200,13 +201,8 @@ static bool huc_is_authenticated(struct intel_huc *huc)
+>    * This function reads status register to verify if HuC
+>    * firmware was successfully loaded.
+>    *
+> - * Returns:
+> - *  * -ENODEV if HuC is not present on this platform,
+> - *  * -EOPNOTSUPP if HuC firmware is disabled,
+> - *  * -ENOPKG if HuC firmware was not installed,
+> - *  * -ENOEXEC if HuC firmware is invalid or mismatched,
+> - *  * 0 if HuC firmware is not running,
+> - *  * 1 if HuC firmware is authenticated and running.
+> + * The return values match what is expected for the I915_PARAM_HUC_STATUS
+> + * getparam.
+>    */
+>   int intel_huc_check_status(struct intel_huc *huc)
+>   {
+> @@ -219,6 +215,10 @@ int intel_huc_check_status(struct intel_huc *huc)
+>   		return -ENOPKG;
+>   	case INTEL_UC_FIRMWARE_ERROR:
+>   		return -ENOEXEC;
+> +	case INTEL_UC_FIRMWARE_INIT_FAIL:
+> +		return -ENOMEM;
+> +	case INTEL_UC_FIRMWARE_LOAD_FAIL:
+> +		return -EIO;
+>   	default:
+>   		break;
+>   	}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index 27363091e1af..007401397935 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -707,7 +707,6 @@ int intel_uc_fw_init(struct intel_uc_fw *uc_fw)
+>   out_unpin:
+>   	i915_gem_object_unpin_pages(uc_fw->obj);
+>   out:
+> -	intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+>   	return err;
+>   }
+>   
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 094f6e377793..0950ef0d598c 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -645,6 +645,22 @@ typedef struct drm_i915_irq_wait {
+>    */
+>   #define   I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP	(1ul << 5)
+>   
+> +/*
+> + * Query the status of HuC load.
+> + *
+> + * The query can fail in the following scenarios with the listed error codes:
+> + *  -ENODEV if HuC is not present on this platform,
+> + *  -EOPNOTSUPP if HuC firmware usage is disabled,
+> + *  -ENOPKG if HuC firmware fetch failed,
+> + *  -ENOEXEC if HuC firmware is invalid or mismatched,
+> + *  -ENOMEM if i915 failed to prepare the FW objects for transfer to the uC,
+> + *  -EIO if the FW transfer or the FW authentication failed.
+> + *
+> + * If the IOCTL is successful, the returned parameter will be set to one of the
+> + * following values:
+> + *  * 0 if HuC firmware load is not complete,
+> + *  * 1 if HuC firmware is authenticated and running.
+> + */
+>   #define I915_PARAM_HUC_STATUS		 42
+>   
+>   /* Query whether DRM_I915_GEM_EXECBUFFER2 supports the ability to opt-out of
