@@ -2,51 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054A5577CEB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 09:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0350A577CFF
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 10:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA5512B0AC;
-	Mon, 18 Jul 2022 07:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD290AB6D9;
+	Mon, 18 Jul 2022 08:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABD712B0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 07:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=19yok7hoQt4hNJn0aBxcWBSkPS9MkYzkDNamgK4iPxU=;
- b=H7lnzG4AgPU40aLlp06tKxdHS8XmJnR4WS3ULjhd2fvYyhf9LI2ltHvkGLTtfSN782JDnXdFZd/sN
- EC8Pf2oTOJmGvJVmsSBay5RnskDsoeyEppq19JNfH6LOhkM4qaPHs6CtjZYh44BSSahjrfzuMzvR7z
- w+DZvOjoExDwa2HVoT5zL+i+LQmjlgzuKWtkYyAgGiATn9aRSH8EEe31oiIXraLJq+Q1p/IbdnuZiH
- G00WjPyH6ysqSs8kYmi02htBYRji3wsDZQ0cYJFss1nQCjJ3GNORNEH3v2PFb39Yzt9uiPOOcPAybi
- US9yEVdV7eEhIICGyfus4FvCiUEWiSg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=19yok7hoQt4hNJn0aBxcWBSkPS9MkYzkDNamgK4iPxU=;
- b=wulcQTwRKaDXue7f8hXp+uEMMtiOCfE7EkYcKvIwPzjmCYGhecTfT9A8bJu883pkGW27oshkJ8Uhq
- 0X8W3ygCw==
-X-HalOne-Cookie: 52dee1c0afa6c78f3641024dad2293c56c09fec0
-X-HalOne-ID: 2865fd0d-066f-11ed-be7f-d0431ea8bb03
-Received: from mailproxy2.cst.dirpod4-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 2865fd0d-066f-11ed-be7f-d0431ea8bb03;
- Mon, 18 Jul 2022 07:56:40 +0000 (UTC)
-Date: Mon, 18 Jul 2022 09:56:39 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
-Message-ID: <YtUSNzVOvaQZ1+uS@ravnborg.org>
-References: <20220716181750.3874838-1-sam@ravnborg.org>
- <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D774BABFED
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 08:01:17 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id j1so11375832wrs.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 01:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=DQJCi6GGtAfAwwXw6aqusUs0n430hwn1M0qOXfspNqY=;
+ b=M5OdmIoyOIU1D0O97StWOStYb1EJeDC+RtSxdqtDnAYx24LnFRw6GsKDgGX6sUUbCG
+ B3b8Wm0ZBqgk8255QD0faXq55+h1GRNtv5VXyLLDJ8dp2/iyOJ0CrCdC1d8B2ZTfFcI1
+ vwQ6LlYitb9US9tTdfCtq+zVgv9k5T8/Ajq2nRpRnNwe0trbSUxVLr2xPnsII4qZ1CEa
+ e7I1oY41Ss7EhaerAZSy43WvH106NdvsCSoRnwo07Wi3a8zLjlKQVeII+kNbcn8EUK+q
+ QxO9mKTe19iyIZ9wmUk1ua3dCxL36n3OkdErV3QUg91Qwme9hICIjRlEGvT9RY1/mInZ
+ vImQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=DQJCi6GGtAfAwwXw6aqusUs0n430hwn1M0qOXfspNqY=;
+ b=ehtBXt6VLg2nVZqYMI6BWA2h+Lol+a8DOi+2mnEDzhGFLiUTj+WqFSwElhRZtSYgR4
+ d3PdEv1YNhvrpH0DTHrMPRAg4QnvgIJBwKZ7lkIojGMj8NRAk8xJng5EaMFb2kEoGBWp
+ Qv74pTQurjGdLiZxp/bY62bvlCOrQfSbWIsUwBIr3Q0yhaP+CeFttHQw8j9orDLZ1Arl
+ ixmad+ThJla21gbZjH5i06qOXwftgtDtM12OJiwnIFuaadaWirg3V6dibsiCsNisrpxt
+ M1EJ/DiV2LXVjZVIkKLuNA5vPctz67u9FhK+EqkKzmdbBvocaVg6ce/0xNHhbfMptf19
+ f73A==
+X-Gm-Message-State: AJIora8cBf5Jl7Bv4q2nP2fxyjZ7FsZUovjri5CZBqLMQVnSQQIvffUp
+ j9o5m4vaYdPuR94uXbCHqf3a7OH929HANw==
+X-Google-Smtp-Source: AGRyM1uaavJhfPAV54zr6M0dI+YIzgZ0jDjMjCseRBJu0DDLlPWS/c+iqZjKrQVmb2bZyGnqFYxXVw==
+X-Received: by 2002:adf:f14d:0:b0:21d:ad67:c2e0 with SMTP id
+ y13-20020adff14d000000b0021dad67c2e0mr21953746wro.247.1658131276363; 
+ Mon, 18 Jul 2022 01:01:16 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
+ [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
+ d13-20020adfe84d000000b0020fcaba73bcsm10029105wrn.104.2022.07.18.01.01.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 01:01:15 -0700 (PDT)
+Date: Mon, 18 Jul 2022 09:01:13 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 6/8] dt-bindings: backlight: Update Lee Jones' email
+ address
+Message-ID: <YtUTSY8+idP1UgxZ@google.com>
+References: <20220714112533.539910-1-lee@kernel.org>
+ <20220714112533.539910-7-lee@kernel.org>
+ <20220717102406.GC14285@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220717102406.GC14285@duo.ucw.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +74,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Sun, 17 Jul 2022, Pavel Machek wrote:
 
-On Mon, Jul 18, 2022 at 08:56:16AM +0200, Thomas Zimmermann wrote:
-> Hi
+> Hi!
 > 
-> Am 16.07.22 um 20:17 schrieb Sam Ravnborg:
-> > While discussing the way forward for the via driver
-> > Javier came up with the proposal to move all DRI1 drivers
-> > to their own folder.
-> > 
-> > The idea is to move the old DRI1 drivers so one do not
-> > accidentally consider them modern drivers.
-> > 
-> > This set of patches implements this idea.
-> > 
-> > To prepare the move, DRIVER_LEGACY and CONFIG_DRM_LEGACY
-> > are both renamed to *_DRI1. This makes it more obvious
-> > that we are dealing with DRI1 drivers, as we have
-> > a lot of other legacy support.
-> > 
-> > The drivers continue to have their own sub-directory
-> > so the driver files are not mixed with the core files
-> > which are copied in the last commit.
-> > 
-> > The DRI1 specific part of drm/Kconfig is likewise pulled
-> > out and located in the dri1/ folder.
-> > 
-> > Feedback welcome!
+> > Going forward, I'll be using my kernel.org for upstream work.
+> >
 > 
-> To be honest, I still don't like this rename. Especially in the case of via,
-> which has a KMS driver coming up. It will now have an include statement that
-> crosses several levels in the directory hierarchy. And what about the other
-> DRI1 drivers? If we ever get KMS drivers for those, do we want to move some
-> header files back into their original locations? Patches 1 and 2 look
-> reasonable to me. The other driver patches have basically zero upside IMHO.
-Until there are consensus, if ever, I will drop the patches moving the drivers.
-There is a few DRIVER_LEGACY in Documentation/ that I missed, so will
-send a v2 with these.
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> 
+> Let me know if you want to take it through the LED tree.
 
-> In the case of moving the core files into dri1/, the resulting Makefile rule
-> looks really ugly. I'd suggest to move all code into a separate file
-> drm_dri1.c and be done with it.  For something more elaborate, there could
-> by drm_dri1.c and drm_dri1_helper.c, where the latter contains all DRI1 code
-> that is only used by the drivers.
-If we do not move the core code, then this is a good way to tell this is dri1
-specific. I may try to give it a spin - but just as a single file I think.
+Thanks for the offer.
 
-	Sam
+The plan is to take it via Backlight tree.
+
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
