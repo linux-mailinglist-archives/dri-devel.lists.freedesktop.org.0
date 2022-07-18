@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05455781BA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 14:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108515781FA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 14:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AACCAFAE7;
-	Mon, 18 Jul 2022 12:11:06 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F55A7BA1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 12:11:04 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id tk8so9457768ejc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 05:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lsQO/Tw3Gh2Hr6DWnMzaSIS4emgYI0NAma/4NvXt1ac=;
- b=OjdyHa871+3F8Qk6i9mAEYAfjNBfT2nc6XwWa3L18CCAD2kTxtsV7qwt2Gp3dkjSIy
- o0x7MvpYhQzXT0TS6TFXyDKvVzQHOowv2JqHad1ZR6RRzeOYmLJtvxzitb25UgcuYkO8
- H66CEN0ZCYnTGDX76wtQMa/dGD2MLGT+OV5KB9o1BKdZDLlYAQ8JpiFJRbLpyadoMThY
- sWSp/eRZ1pL0P3LWLfGvgkoflxtzbDze9pferdrjjMYb1GteFQcBSJiURVABIG0HAEiq
- ymn5meeG7YndGE5EWaJ4qayJPVb5vnjXTxDA6V9CsDIfZ36P9VyNolSbRUKDlJcw7l3O
- yvkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lsQO/Tw3Gh2Hr6DWnMzaSIS4emgYI0NAma/4NvXt1ac=;
- b=bxWHUVgXvdnu3R7RD4FYU+ZUAJhmxvWWW20PSAxvoXNFV1se7Ruh/ZaXpyWE8SU9PS
- wHSWcPkN57xNnrgc88b+W1MZ4nS51K3pMKEo+PU+cmk4uYDFWhdBhMfUgwqD9V/Po2Xe
- F1YTV4gVtZLZiOKVqEjjDqozo6vj98V/nrp91lhw+kebY/uSOZneGttEcYGmvx5G4JI7
- Dd/1qFPqDVTyf33bpDLenjji4Q39lGTX6PtfViCotsh1lABItJtmfI3nPo7nPStUTZec
- uZp9hgvJTQx0qt1/CFcs41xKNRlaZ83UQS+eVqS7pZM/cFF6TS24lpnOF5fvDY2mbSP/
- IOwg==
-X-Gm-Message-State: AJIora+udkNE4Y4xEk89k6TJy9Jo+DaLugA8GQteYSlzK8NU2v/0Wewr
- 1x3tYX/Ptl6C4oMsf+8YEnop94wosvlUuLffz6vNPw==
-X-Google-Smtp-Source: AGRyM1ursz8J1IZJUj1pCpQAmiHhHe66RTZ11OOW/dowBMB/UBnZ9mVv5CK8Hj5CDMi85kK7sm7vuZHD93sxeV50uKA=
-X-Received: by 2002:a17:907:2d93:b0:72b:60a0:6b2e with SMTP id
- gt19-20020a1709072d9300b0072b60a06b2emr25466778ejc.487.1658146263412; Mon, 18
- Jul 2022 05:11:03 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 321C518B11F;
+	Mon, 18 Jul 2022 12:15:56 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A092318AF54;
+ Mon, 18 Jul 2022 12:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658146554; x=1689682554;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1owmYBRo5gdx05iMYsHTim4Nr/X4OnG/OARed9RqP94=;
+ b=jbujzVGf0POSKf6RIyf2p1fa7idf27xH2xprWwq3HXoJjQXfd6Owp5lh
+ oowLoeXVCp03QOwRn+Vd9TS+GVd/CAvEci7nAURyFwHBruOyWphzwZ5cx
+ K3dOD5CujYyDaU/RORlt7LLX+oWlqvik4CA8T6jI0Rk23Lssw90O4w9HW
+ VkmbV5xI7QTkhqQp6yAGVEdSfs0ZBDr7Ap+uYIqS41APRt4XxdQqEobKv
+ /Kfgxt433qsr0JKAh6xhTVP/t1ms+Gw7ib4+cCclBt2h0Xqj2+oL6FGmm
+ V98luxxjwlblureYbD+g2muORinimmr55IQ37urSKm4s3CWQ0tHUaMN3c A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="286946053"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="286946053"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 05:15:54 -0700
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="723839142"
+Received: from smyint-mobl1.amr.corp.intel.com (HELO [10.212.107.15])
+ ([10.212.107.15])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 05:15:53 -0700
+Message-ID: <d1cfac14-4c01-ce53-586f-01f8998bbab4@linux.intel.com>
+Date: Mon, 18 Jul 2022 13:15:51 +0100
 MIME-Version: 1.0
-References: <20220707021143.306926-1-windhl@126.com>
-In-Reply-To: <20220707021143.306926-1-windhl@126.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 18 Jul 2022 14:10:52 +0200
-Message-ID: <CAG3jFyvSXuamEg-8aZ7DhEGW1a0soQp53p-3jbVxXN30QdJDRg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge:tc358767: Add of_node_put() when breaking out
- of loop
-To: Liang He <windhl@126.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH 01/12] drm/i915: Remove bogus GEM_BUG_ON in
+ unpark
+Content-Language: en-US
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
+ <20220712233136.1044951-2-John.C.Harrison@Intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220712233136.1044951-2-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Can you use the norma commitl title prefix "drm/bridge: tc358767: "
 
-On Thu, 7 Jul 2022 at 04:45, Liang He <windhl@126.com> wrote:
->
-> In tc_probe_bridge_endpoint(), we should call of_node_put() when
-> breaking out of the for_each_endpoint_of_node() which will automatically
-> increase and decrease the refcount.
->
-> Fixes: 71f7d9c03118 ("drm/bridge: tc358767: Detect bridge mode from connected endpoints in DT")
-> Signed-off-by: Liang He <windhl@126.com>
+On 13/07/2022 00:31, John.C.Harrison@Intel.com wrote:
+> From: Matthew Brost <matthew.brost@intel.com>
+> 
+> Remove bogus GEM_BUG_ON which compared kernel context timeline seqno to
+> seqno in memory on engine PM unpark. If a GT reset occurred these values
+> might not match as a kernel context could be skipped. This bug was
+> hidden by always switching to a kernel context on park (execlists
+> requirement).
+
+Reset of the kernel context? Under which circumstances does that happen?
+
+It is unclear if the claim is this to be a general problem or the assert 
+is only invalid with the GuC. Lack of a CI reported issue suggests it is 
+not a generic problem?
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->  drivers/gpu/drm/bridge/tc358767.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index 485717c8f0b4..7362a1a7a7df 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -1986,8 +1986,10 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
->
->         for_each_endpoint_of_node(dev->of_node, node) {
->                 of_graph_parse_endpoint(node, &endpoint);
-> -               if (endpoint.port > 2)
-> +               if (endpoint.port > 2) {
-> +                       of_node_put(node);
->                         return -EINVAL;
-> +               }
->
->                 mode |= BIT(endpoint.port);
->         }
-> --
-> 2.25.1
->
-
-Please resend a v2 with the above change.
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+>   drivers/gpu/drm/i915/gt/intel_engine_pm.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> index b0a4a2dbe3ee9..fb3e1599d04ec 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> @@ -68,8 +68,6 @@ static int __engine_unpark(struct intel_wakeref *wf)
+>   			 ce->timeline->seqno,
+>   			 READ_ONCE(*ce->timeline->hwsp_seqno),
+>   			 ce->ring->emit);
+> -		GEM_BUG_ON(ce->timeline->seqno !=
+> -			   READ_ONCE(*ce->timeline->hwsp_seqno));
+>   	}
+>   
+>   	if (engine->unpark)
