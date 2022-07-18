@@ -1,147 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA7657879E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 18:41:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 735B85787BA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 18:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B247C14BB73;
-	Mon, 18 Jul 2022 16:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB8F790F99;
+	Mon, 18 Jul 2022 16:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD3611A187;
- Mon, 18 Jul 2022 16:41:15 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E1590E1D;
+ Mon, 18 Jul 2022 16:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658162476; x=1689698476;
+ t=1658162943; x=1689698943;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=3j1zF0ShHGwu81r8g4PTpfxcTth1f6u5LJ/0EYy/n5c=;
- b=FrouJZZQVMCu6/A6uB8dS1ZoNxt1vwF5iZ5sI2lspeSEynpiVOBV90Vv
- +1ZRK2Wd8Z6zoOh1mLCWDzJ8zsvT5UbltKWZ8CjHnE+2+SwlGeY5VD4qu
- a8Yra+VfaaMYOfhpH8YWqBeIwR0gSu88V2iLaizdGbdR8rxVueqYqesXs
- H2BGZjju6eEepsuljulQ0O8bU5eimkkVA5/vrM1Kq6GqtjOMJViwIzqHI
- wg0Wi6qrNZeyuEci/Xcaccbk4g+8/h9bXsTYZtpqi++IEYEIQjP7qPBtF
- Ur2ZK4u2EjZgx/3XlxpQDFYsrzQ/XHoEGdOkgKHh4qkcLHbuTDxfXAI9r w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="347955775"
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="347955775"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 09:41:15 -0700
+ bh=L7At2UdoklSX77f5Lpm1GPMREvY9X+j/n7FQMmyf2nU=;
+ b=S3xgU1tIR5r5cnP7u0Hh3gsMR2zxH8LfFI+v76QEC1PNAuNXl1wAo9kC
+ AgDA3NmE4rNr3u45tbSoOB5QY2fd0DuBy6Yfem0fUwV5MIgxyWN6egyIM
+ tYRVEOPIR/BElEohJfYRhw4uH2K40otdc/a0D/4ptvTY+xFwXt/rYMrSe
+ RdZNbYAL5I4WivJNo7OT6MYPSfSXd/dXg3H8TSlV5WXXSBZr+5Hpj2cnx
+ zdmDSPrp7J6a9vgHQJm5UuiHkoxCHaLqQd4ZrCndqosIIKoE5Qwmu8Kl/
+ kbu3ZxHwEHMOcrfoVwiERpLD5bcng2Iycst+qhINH2Hxig0Tsh1s9yKi5 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="287416908"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="287416908"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 09:48:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="624800176"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga008.jf.intel.com with ESMTP; 18 Jul 2022 09:41:14 -0700
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="686804368"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+ by FMSMGA003.fm.intel.com with ESMTP; 18 Jul 2022 09:48:44 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 18 Jul 2022 09:41:14 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ 15.1.2308.27; Mon, 18 Jul 2022 09:48:44 -0700
+Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 18 Jul 2022 09:41:14 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.44) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2308.27; Mon, 18 Jul 2022 09:48:43 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 18 Jul 2022 09:48:43 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.105)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 18 Jul 2022 09:41:14 -0700
+ 15.1.2308.27; Mon, 18 Jul 2022 09:48:43 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HlCEswlAtJ3y6vAZc9M1JiTVtqBDy8U0WRmEkUx7c+QZMaqdYvcT5kSGyADHsUMiE1I+sLJJ8ul/QNM4VH6ah1/hf0bwcZL6t9aMt9yLUo21riC8EDF9PV/3VwI4vAvS81HvyQ48Xzu8KyULAGaH0TW3j6LEQeCeAFjYnvoMNcnr4hANRA+0zkFDlZd6a+2dmUD1N2a/rcQfuSG/pwnweJ3TWHsd43rCx99EAmoQ3AhNpooIIYO/Z7QhN6LFwesjKqT4h2Zrz8I6pbuPFVVwEkhgFVV2ue4PaVuO3AlPdVf0h0tXd3zM2MVl6i5wibdiz64PLI/GTDrFX+yefpmqQg==
+ b=Zy/qv2i+WD+exH4sCHNqDXamgeyv+O9MQrB+SB4Z8DbqDC4ma3AMU8tKOqrqPQ+7vdI82MVnyPZiCXeBtOiUftG/n9Bda7FPKbx5jwaXjt9hpH+E+ZW7dhluyL1EQXXNT1uQIe8SUsaWD/chsQiDfND4Ca0zJ8RyvfxcEuHKveVEJP+fDJffNzuZlrCjkx8kU7hLMIUR+A9a1WkDmsogvsGtHhi3fhQbV8Yp9lDglpFcX0K4oH3ud05RUQ1Dcy6deP3HWMBFcofz7S6HcS7Ficxbm0XQKKneTpOyrl/vBXI17Ojtp089bYxerIeZ26+arsybtBlmm8eugWL0NRnzxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W7yEZ60aEMqpOOHLPuSHbWP6Rog63SxbVeqGYemjbX8=;
- b=apsWguTw6u15hXyCDduC6ZWnRn4N+1X7fENUx5cBP7GZZB2j2FfdmKagSgPOM5kyN9o+Ppdb+TJE1glrlQPX6SZtyZXRGnoiPgxDVFnt6fVewEGjDZlr1abehhYu6W7onUonwoE8hVzz6AFi9uI8vdHenUHx5NqOzSpLdEPT1+kyHMEy/mYf4hDWnURlbRADqZjtEhjdpEwBEpUkb5uS7TaVyby8n/J2UhF844WJ/vGINmwVmhq4029J3uSAXkb4dj6f5oN9mRtdK1/5F60xMffSvGx4+eCUz1Sj1b6iEN7gaV8CCS4Gc5sAAXo9ivSEOKY8iLZZN3PFYFtknuN0cw==
+ bh=raHMmVjNQU6yR/vNq4b+5/jd2siU1ojBtt5G8uYM91w=;
+ b=cZP8smHejml/KC3VxJFbm4PGqMcw/exhsImpkkYZougt1TiW0TdVvcqIlzVWod0Dpav52pRNOwdEk5IIJoYVH1Wn6zUHThinfcGoeAdeOOA6Zgm727odZFnzzuRNiBPn6n3gC8132KHvbGkbusG2U+3gFXBr2G5fhUEu0VYNUnIR/0ZK2fJo+jFdtYkfBEPqYLdZrdpO7yy6jWdLAETUFqldpgFHINVbZGoc0T6tST0x+jjHHFPaGXKh+FPio4XQBYg797SCenaRs6ieJLYTOKy84L6eguIWs12gqgxUsHwNvRrQouY6wpKq2/SAtY//wBhBM0085hhCmUNiebmo5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5438.23; Mon, 18 Jul 2022 16:41:12 +0000
+ SJ0PR11MB4880.namprd11.prod.outlook.com (2603:10b6:a03:2af::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Mon, 18 Jul
+ 2022 16:48:42 +0000
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::e8a1:cb8a:5124:2848]) by DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::e8a1:cb8a:5124:2848%6]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 16:41:12 +0000
-Message-ID: <1651bac8-f88f-7166-3037-40889537e166@intel.com>
-Date: Mon, 18 Jul 2022 09:41:10 -0700
+ 16:48:42 +0000
+Message-ID: <ad9d42a8-a41f-3543-519d-6695ac4fffe3@intel.com>
+Date: Mon, 18 Jul 2022 09:48:39 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: support v69 in parallel to v70
+Subject: Re: [RFC] drm/i915/huc: better define HuC status getparam possible
+ return values.
 Content-Language: en-US
 To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  <intel-gfx@lists.freedesktop.org>
-References: <20220715225451.1294354-1-daniele.ceraolospurio@intel.com>
- <8b782ef1-89ca-b66f-c8ee-1466b26ce6b9@linux.intel.com>
+References: <20220708234841.941229-1-daniele.ceraolospurio@intel.com>
+ <cfdf9bd6-c921-1c48-b615-95346ac14999@linux.intel.com>
 From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <8b782ef1-89ca-b66f-c8ee-1466b26ce6b9@linux.intel.com>
+In-Reply-To: <cfdf9bd6-c921-1c48-b615-95346ac14999@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0198.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::23) To DM4PR11MB5488.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0033.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::8) To DM4PR11MB5488.namprd11.prod.outlook.com
  (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11244418-77b8-424e-225b-08da68dc5326
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ed729cc-6689-44a3-bf56-08da68dd5f42
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4880:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BD61KL6Gc/3b0r45aV+aTaQ8V+5dHjSTc3K8PocGnsonAnS5aEh6PxFErJ//tEs1dLbKgbVkm1F0LUKLcvl7HtnUaQ0Sxz5hvkVsxK70x/z1/z221KiZia8DF4Q76Wnx/jvPg7bo+R3E5f7sPAHaqOA6kLv4MB/+a6si8EYcBW71+4Hh+kIyQRhEBx3r4Q4tB/5uW1wumxR8XhYtmCrsrUy6sBUh+QiiwulBcMB/wuIkd0z3P99W+OMewztElrPxCfZ0LR0K+Mk/QB9RR31q1ruKxFkcG1tlwd71mfBN8mhTtng0WvgxM4kQvBWKawD366KpTqhnkuLn4abd3f/LUSW2IJmQ1g+DfzVyHyQxZpVzlGwyWSnw4e7zVOQo3y+PU9T7VO8xOwkW3Q8EDYTFBcb3hsbKmV418ScMIKbOox+THpFfPGyLWRyEAQnXHqaVeXFFsmSo5WYassDrH9mmywBZYpBZLZbktVuZcdnnusRC5b2gT3QvI2yMZEQDIW7Vv3nD+MXERO1gCEocMtzEySgHGj2UqjhzfB2ZueksNYZ5LHrXLDyCJPNIqVZQf5m5kl9+W4XMO2YCTSVsb+pm0b7j77xbQbSm9/+ayODd3rcw+dGlPT9fcysN51r3v23JFPv+tLfCoXQ2LUYd/sPjNskIFSpBgndt1qy2pBWUxN1H9g4ITTn/TMtflL4pultq79Igc5mGVja+GHYa525EA/02TuckvzypjCkEtVYECtCJNy5diOxCRd/nOPnQNeZ9Ffg2YW/yLNJ7nTIOLyMSQbHyvB/9U5WPcRKNV4utlUjZJj02lNgIpHZiYW7aN9Ia
+X-Microsoft-Antispam-Message-Info: aUo0DSLUHSK2n+v4ymEFs1inn+aNOlMr0onrT1nEX5z1omQE1ygW15OdMx/f6i2N9sil0KE99+SJDhcd+NtOepzNmLC84eOMImLl8CZ2nS3WV2s1q42qIBidIUoEIwjssqAYi6LIIKGw42SZpqwRFbL4bGwWFlXhgER9orgb5EDNXRoJuKtYao3Jh42fi9a5dbPaE1IJoMfnLbH93OZqONu9+MlThL4BHF9BOP0OY/ZygNa3dWeiZP6lhKHVRpQaCuu47dgDMnehxrSiR2iNInrnAZKtEll2LROH7nhtNFihbjaWS2Tn+m3Fb4Z15Tw8QVl+w5f56//YubEkfFdY7IpicBjZf2sfDa4XvTg0NbzvTlnTTTBtGGDVclaISGBJBjic2gS6bhsDkKUihcNkuMB+hqsh8vMP0OS/LmKNtv5ztrLvtpVcBsnI7f/DomaIQnUars/725nm5x+5xZnvccF59+x87Mlqgk90N329ZId2UWvdMY8i7jJFur33piMFuGZ5UpB/08kOj8ng5KjPtOvfL4DG0Ts8ZK35V9CuNPqqJs5biBBaN3FaH4/bcOtMTRe7y+49xXsD75Zc3qUv6jxVERspGQew8mgROUOmrPP/Aq96o6l25NT1e5bYo4T11ySi/CUoe39c1ZtxtrHt9ulFoDh26OIAzr2RxsudpBTZssJyOQnYArvBY3YjADYjuvyJdAtDgTpxIC87lov+KKqyHLG8qh3nA556+LcLAbLCAq21AT4nmkysCH0+wYzWr3vQJs03FR5m+KIp8v7U0Wm3QsUuM4HQAxeyDmqxCb8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(366004)(39860400002)(376002)(396003)(136003)(38100700002)(86362001)(31696002)(36756003)(82960400001)(31686004)(2616005)(478600001)(53546011)(6506007)(6512007)(41300700001)(6486002)(966005)(26005)(186003)(30864003)(8676002)(316002)(66946007)(66476007)(8936002)(5660300002)(4326008)(66556008)(83380400001)(2906002)(334744004)(43740500002)(45980500001)(579004);
+ SFS:(13230016)(136003)(366004)(39860400002)(396003)(376002)(346002)(5660300002)(8936002)(36756003)(31686004)(2906002)(31696002)(316002)(4326008)(86362001)(66556008)(8676002)(66476007)(966005)(478600001)(6512007)(26005)(6506007)(83380400001)(38100700002)(6486002)(2616005)(186003)(53546011)(82960400001)(66946007)(41300700001)(6666004)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amxlRjV5WmNIV0wzV0dLOC9pUStPb2JZMGtHVHNDdXJubEd4VHErbHR0ZWdo?=
- =?utf-8?B?bHFzcVYvcDV2VHkxNEQrZE9idVQxemgxSXZ4cU41eVVGU2FqWE1vMlR6a3hX?=
- =?utf-8?B?SDRZSlgvMEFKaXZqVVYyMEZDeUNwWWQ0cmtSaTRaMXZmbUZUZjIxU3d6c0lI?=
- =?utf-8?B?elhRMml4UjZKb3prSXlrVUZ1bFVwWWVzTnlXeUhndU1NZS9ydW5tdTAzdjkw?=
- =?utf-8?B?UHB4WG5MNnNsQVEwdVM1bkljTGxkZkphSVYvUEJqbW9TWjlLZDdlWVVjeTBj?=
- =?utf-8?B?NEJuVTdQZ0pyRGFKdFdodkVoeFQrSFRuTW1Na3FOejd1c0diUFpKZXhmZ293?=
- =?utf-8?B?M1hpZzZBSlROOW5mdXNNaE1RRUpxRWY1eER4YnFxN2l1MXUvWitoWlcwa3RJ?=
- =?utf-8?B?dDFwZE9vazJIL0txSmZXY2hKQURRbFhhT0owbTJBTEVrTndxOXhMY3JJNFNJ?=
- =?utf-8?B?SkhXY1FCMW83VG5tT0pqaVRCNXVWSGRabHF2MGk1TzFtSnZ0ODF5U3cyNWlu?=
- =?utf-8?B?a3lQWkQvSlA0SDRQRlhrSVMyc1h3MUlzTVBmcVlPZHlrN24wM29LQUxvRnFM?=
- =?utf-8?B?SUhKMTZ6SWxUMk1SNHZOdVpmVElTYkZuL2hPM2lwOWtsQ2VEaGQrSHI0US9H?=
- =?utf-8?B?dWlucWxHRzNJczIxTC92UDdOMHlyenNqbmZnNGo2TktiWTNwTVgxWDEvOGh2?=
- =?utf-8?B?K2F6NkliYmRKRmFUYkhreE1JT3o3RTZZWEo2R0U5YStlWDAvU1B4bG1QNllt?=
- =?utf-8?B?c2RMd3daZUJ5bDRISTV6cDlrRTA4azBlTlVzNlRDRCs3M2hRVVg4ZnROdy9T?=
- =?utf-8?B?Ritpazl6U0ttUDlTeWFvd25SeUh5Q0VYK0pwbHNteVp1ZzhJRTM0Z0dWSjRw?=
- =?utf-8?B?RlFGSHo4R1dJdGVPUnBZWnVBZ1lmUk1QZklIdGF2OGx4UEJSekJJRUxjenRJ?=
- =?utf-8?B?ZzEySFMzZmpibUxCakFyR2Z4WlJJUXVxL2cyU2l3OVpMY3IxancwY0psbXVn?=
- =?utf-8?B?L1NMc2tUMkNiRmcrUEdCVmI0N2Q1d2VSbStQNjZERldyK001WThWeHVTdDg1?=
- =?utf-8?B?ZUxMYTB3bFhSeE0xNGlpVFg4bDBqOTZCUkNBTmlETjZvNEFadWZyZEVhZ2lM?=
- =?utf-8?B?OE5pUW8zVmEvbXpVN3lwUS9PWkFONlFsM0pNQkZHR0VMLzRtMG40eHE2bmtn?=
- =?utf-8?B?ODRyaUErR3p3WWpsNWhzUnJpb0lVUUxaV1NaMG54RHJXQ2NTSitYWitWbmo1?=
- =?utf-8?B?OWFGeGxYK1NxU3lmdlNmVWYvRk1JdGxmZnFtT1p1ZFFTY2NPcDR0cno5RmNu?=
- =?utf-8?B?S204SjV6V3l0L3g1Ym1oYWxvZ210bFNjdzVGeWxnR3VpSmsxVUZKZTJ3SU04?=
- =?utf-8?B?MVZCSHQ3a2l4UHpEVFFzY0UyZnBjNEwvWFg0TE14VEZYbFhPdjhFaXp0L3I2?=
- =?utf-8?B?em9EakhYak41RVFXRjR6dVBKYXJra1dJdEhxQ3RZK0F1NUsra09HVUtiR2lV?=
- =?utf-8?B?QjFubUhmWGVtQkxMWndSOFA3N3BTVHBDZnVEanJGTWlqMDg5RTJINkg5TlBm?=
- =?utf-8?B?SlpWUzhnS1RyaXRicDFqYmdOTDYybFlKMEFhYlgxYmlRcERvZnNCZ3Z5R1dC?=
- =?utf-8?B?Z2dkd2c5RVVEOFB3NG4xUFJyU0M1bEhhU0VPaTVIV1BjVWdnK0wzY083RVFa?=
- =?utf-8?B?SWtrMFlwQ2RMUmdYcExpOHRYRkRFOERrTUlTc2JqS2FkMitwZkZOb1hvYWJF?=
- =?utf-8?B?RHNNUlZMek1kT3dEcklMR09wNFZycExXdkhNSUFvRldsZ0V6MGpOVFdPc2VE?=
- =?utf-8?B?UDdKdXkycVhyZEdNRFQzZHhtTm1hMW1tZzQxb2pzYmRHSndmakRhV2p6Nmds?=
- =?utf-8?B?VUhtQ01kZ1RCdkU2RlNLOGh2SVZzWU54eUZkS2lDY3JQOXhWZWRMWituaERW?=
- =?utf-8?B?OXhCd0lJUkcyeUpFU1RzMS9XeWtoOWFtUkROd3FzbkMySDZLZDB5djdaaHYv?=
- =?utf-8?B?ODhaVjRmd243TFhUZnZhNjFlWkVvd1NRNkFORDNhQVRnbmJhaHNRRzNGUnNk?=
- =?utf-8?B?c3ZCd0ZxY3QrWDRsMkViMis4SmFaeEpqWXhuVlpFMUZoMTFQQXl2QXNMUWta?=
- =?utf-8?B?UzVoMis1eGNIaXhQOVhiV1J6cU9KU1VPNC9MUHNlQlRtc2tpazJTR2poRGlG?=
- =?utf-8?B?M0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11244418-77b8-424e-225b-08da68dc5326
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1dkeS9xcGs1citxZVV6K2kzNWliYnBFMkNmWHIrcytqQnY2TTZyVFNPWUo4?=
+ =?utf-8?B?KzA0ejErK1lTbWlJY0c0aGxzVzlndHU5VHZKZ0UwL1k3UWlSTnRjTkFBdWR1?=
+ =?utf-8?B?dlgrNmlWd0kwQ1ZGL294N2NTV1NLYVF6NUh6cGdmWWVzY0RnTEsrZVAzaFdx?=
+ =?utf-8?B?b3Z4K3RVYXJTVXlBMCtBQ0JteWIrd0t2YWg5aGJvUnBvMW1BdSttZEdsMEZP?=
+ =?utf-8?B?LzdOZGg5REQreThnUE1qdEp4WGdCYlI4NE9oWFJMRHRaVU9uQ2pPZ0lFbzd1?=
+ =?utf-8?B?cG91bURqTElFekFCdGU3UjVjci93QkJpZDIvUWVxckxraFhHWThESUR6NWhh?=
+ =?utf-8?B?TTRXNWY3YmVGMC9ZcTNBbnlIUlE1MEc1K2ZZNDZBYUlVWE1IOWNTbjhrNVU1?=
+ =?utf-8?B?YlQramRDL2RlYkNxcDZvVDlyZnVQWXltMHRaNlRlcmhmOHc3NXVnNHAwMG9C?=
+ =?utf-8?B?bVlTYVdTUy9QWWJwZmlzOStPZlVpVU9NOWVXd216MjdzZUt6MlZWN2ZFZEN6?=
+ =?utf-8?B?c1N6NTdNSURmVENpVUFlSmVuNld4bGdxd0U4dUpkLzdvSFdVNWFiMnRIOHZr?=
+ =?utf-8?B?QWZDSHcrc0U1S2x1MlNJWi9SZmxLbXJQcnRaeGRzM2RVSUZiaXBpdE9OQTJR?=
+ =?utf-8?B?S25nMmdHMXNORXEranF5SkYwMkZQL2dGbi9ybmhiSnIvTUZuWGRMeDYzTUxM?=
+ =?utf-8?B?dFlseXVzVkZWRUxyenJvNWpNaUJHcDYydGpsOWVEc0ZrWlFiM1Z1Tm4rRXBw?=
+ =?utf-8?B?VkQ2ajZpRlc4Q0ZMMVl3K2JaNmpESnM4YmhkK0tBRHViVXkwenF2RXdidVVm?=
+ =?utf-8?B?aUtHU0RGSG1sN3Q1b0hlaFZKYkhibWlCMWFqQWZxb1doTDlzYlpxOFR0dXlR?=
+ =?utf-8?B?Kzh6YjJwb0VJUTBxdVVzd05EK21aSkVGU1RsZUJ0WnRjaGprVzIrVzNwd0lw?=
+ =?utf-8?B?dUp5VkVlWnRkaFpzcGxuVWdKT09HL3dIZUlheWJLVGg3YXQzTFlsZzg1Y1VV?=
+ =?utf-8?B?SUtXeVQvUXFwRGJMZ2lkWFFrN1lkSXlVWnN6WDUvRnpCL3Yyd0ZxcExKem5F?=
+ =?utf-8?B?YnNSZFlPdlB2MXB1YWR0bEJVeFBzUisrdlk5UlJYSDdWZklNVFc1aFJra25J?=
+ =?utf-8?B?SlZ1VHBNclFmbERjbGVlVjQzRlRKOXYwMlEveVUwSndLU2JYMUh5VjlOakJ0?=
+ =?utf-8?B?aFpobDVsV0d6TVZWdWl5NGdNSnFBdWl5bEZDMmN6cGs5REhKSUlJNVlXN3h3?=
+ =?utf-8?B?Zy9hczJSUEE2YlNoQ1pGd0xQaFI2ekZ0My9Dd0RiandUNlV4YWxFei9SVmha?=
+ =?utf-8?B?Y0I4RTBleGFJOFdBWUlpSG5kdnYyYmdhdU8zWENtSmd3aWhaVHBEUmJiRXEr?=
+ =?utf-8?B?NjNTSTAzaWx5R1Y3UVpRVXZ4WnNoZXFFaDNWaVQyalFERWxSOE1ndG9kMzJn?=
+ =?utf-8?B?SlNaYmRYbjJEdGhsWmFpN1hTWkF5bE9Bb0dUZWxwQytmVmxsdGUxRDIxTkd5?=
+ =?utf-8?B?SmVqV2JPUXZzZ0dJaEJuK3RIOWl2Rk5wakl4ODdxSVg3Q1M1Y3NmTktLK21o?=
+ =?utf-8?B?ejQ2VmpMMzFxUHRmSmVRQldQUHNBQ2dlRExobUlPQm5GelplWm5paDVwRU5j?=
+ =?utf-8?B?eGM5WVRlMFAraHBMdDNpSFJVTXI4RTNNSUJ6QUpqdUwyVVdrdGZCNUQ4cXEv?=
+ =?utf-8?B?c2FDK09CZEdvUkppaVFQWXRzMFZmZ0x0N040K2VxSkNrTmdXSWtaekdGS21O?=
+ =?utf-8?B?N0pEMTZBZG1rc1ZrN3lRWFQxZy9MUElaQVo0SFRHM1Y5S1dRbnNhK2xyYzF6?=
+ =?utf-8?B?Z2pSUEhRQXlvdEx5NUFKUm5XQXNFeHYrYTY0dW11Skt5WkpTVmdUQ1N0d0d3?=
+ =?utf-8?B?a2pMMmlIQ3RUeWEreUtyL285dGR4cjdnU0JwSmJLZ3NFRUFUTGZFNzY0TzA3?=
+ =?utf-8?B?cXJaa3pCVTJFM1VXSHBVQ0pxcWNtYjdsVWNQOTdOc0h3QmNTUnBQZXlidlVx?=
+ =?utf-8?B?OS9Fb2Q4eDJBRDNabEhtZEo3bG9XM1R4Smx4K01VSDlNM1ZvRXlZYmhpZ25H?=
+ =?utf-8?B?YXFDajYzcDFDTFRMM2x2ekszMlluV2RBYStFQVFoTU9zdzNoWmpLekp1TXVS?=
+ =?utf-8?B?NVk0M2xveGFLNXlwYjRDci8zQTNSZGpxQXJYb1JMeExCRWJwTENaRWZoMXk5?=
+ =?utf-8?Q?2IUILLhqIUIxUXK/m3MGv2U=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ed729cc-6689-44a3-bf56-08da68dd5f42
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 16:41:12.4698 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 16:48:42.2867 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y5mud9Es6HFGFEuj7OS8Cvbos2A4LMF/nU8GViZgiaDmmO4Hes06cRzzZ4ATLTGrS1kmWYVz93KeSk5S7jrUp7C8C4Tu1MH1IO1U7as7yGM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6139
+X-MS-Exchange-CrossTenant-UserPrincipalName: JYZBTqxjNn0loujEtdyejsMiUKwFDG7J7LiMc4gWw0uFO4v3hO0QRRJ7WuUn6DmrK7MBT+9vbTEzCHCzFYw56wd89x8Sj6yyIMH/+QO6Vi0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4880
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -155,91 +160,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Tony Ye <tony.ye@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/18/2022 3:02 AM, Tvrtko Ursulin wrote:
+On 7/18/2022 4:26 AM, Tvrtko Ursulin wrote:
 >
-> Hi,
->
-> On 15/07/2022 23:54, Daniele Ceraolo Spurio wrote:
->> This patch re-introduces support for GuC v69 in parallel to v70. As this
->> is a quick fix, v69 has been re-introduced as the single "fallback" guc
->> version in case v70 is not available on disk. All v69 specific code has
->> been labeled as such for easy identification, and the same was done for
->> all v70 functions for which there is a separate v69 version, to avoid
->> accidentally calling the wrong version via the unlabeled name.
+> On 09/07/2022 00:48, Daniele Ceraolo Spurio wrote:
+>> The current HuC status getparam return values are a bit confusing in
+>> regards to what happens in some scenarios. In particular, most of the
+>> error cases cause the ioctl to return an error, but a couple of them,
+>> INIT_FAIL and LOAD_FAIL, are not explicitly handled and neither is
+>> their expected return value documented; these 2 error cases therefore
+>> end up into the catch-all umbrella of the "HuC not loaded" case, with
+>> this case therefore including both some error scenarios and the load
+>> in progress one.
 >>
->> When the fallback mode kicks in, a drm_warn message is printed in dmesg
->> to warn the user of the required update.
+>> The updates included in this patch change the handling so that all
+>> error cases behave the same way, i.e. return an errno code, and so
+>> that the HuC load in progress case is unambiguous.
 >>
->> The plan is to follow this up with a more complex rework to allow for
->> multiple different GuC versions to be supported at the same time.
+>> The patch also includes a small change to the FW init path to make sure
+>> we always transition to an error state if something goes wrong.
 >>
->> Fixes: 2584b3549f4c ("drm/i915/guc: Update to GuC version 70.1.1")
+>> This is an RFC because this is a minor change in behavior for an ioctl.
+>> I'm arguing that this is not an API breakage because the expected return
+>> for the cases I've changed was not well defined, but I want to make sure
+>> no one is in opposition to this. From comments from media driver devs
+>> on a different patch [1], it sounds like the media driver already
+>> expected an errno value for all errors cases and is therefore already
+>> compatible with the proposed changes.
 >
-> Please check if I got this right:
+> I also think this is fine - just more error cases. And I don't see 
+> that it could break something. So from me:
 >
->  * ADL-P was out of "force probe" starting from 5.17.
->  * GuC fw got bumped from v62 to v69 in 5.18.
+> Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 >
-> Does this mean you would also need to handle v62 to avoid regressing 
-> ADL-P from 5.17 to 5.18? I couldn't figure out when ADL-P switched 
-> from execlists to GuC due a bit convoluted supported/wanted/needed 
-> macros etc, so not entirely sure.
->
+> And most importantly, with this change are you able to omit the patch 
+> I did not like, the one which was returning a fake status while the 
+> load was in progress? I can't remember if it was faking running while 
+> loading or what exactly.
 
-I haven't checked about previous GuC versions because the report from 
-Dave was on the 69->70 transition and about re-introducing v69 support, 
-so I just focused on that. Let me dig on the versions and on what would 
-be needed to support all 3 revs (if it is required).
-
-> Secondly, my concern with the approach like in this patch is that it 
-> would grow the i915 code base *if* there is no incentive to keep the 
-> compatiblity breaking firware updates in check.
->
-
-The grow of the i915 code is inevitable. Even without changes to 
-existing platforms, new features for new platforms will require new GuC 
-interfaces. Sometimes the GuC team also refactors an existing interface 
-so that it can include a new aspect of an existing feature. We'll have 
-to discuss with them how to minimize breakages in such scenarios.
-
-> To think about in tandem with this is the question of whether many 
-> more fallback versions need to be handled, even for platforms which 
-> only use GuC to load HuC? Those would also regress in the media 
-> encoding side of things, even if they don't use GuC submission, right?
->
-
-The only HuC-only platform is ADL-S and that went out of force probe 
-when we were on GuC 62, so definitely nothing older than that will be 
-needed.
-
-> If this is so, the approach from this patch would feel rushed in my view.
-
-It totally is, no argument there. As mentioned in the commit message, 
-the plan is to replace the whole thing with a more flexible and cleaner 
-mechanism, but we do need something for the upcoming 5.19 release so 
-there is no time to do this properly from the get-go.
-
->
-> There is also the question of being able to automatically load the 
-> latest _compatible_ (same major version) GuC fw found on disk. Aka 
-> allowing a bugfix firmware update which does not require a kernel 
-> update. In theory should be possible but we don't have that 
-> implemented either, right?
-
-We do not. Something like this was actually shot down when GuC first 
-came around. We used to have simlinks for the GuC binary to be able to 
-drop in a replacement like you said, but there were concerns about how 
-to validate all the possible kernel:fw combinations this could cause, 
-hence why in the end we went with the exact match model. Note that at 
-the time we didn't have a patch number for bugfix tracking in GuC, so 
-the decision made more sense back then than it does now. We've already 
-restarted the discussion internally.
+Yes, I'll replace the one you didn't like (returning 1 when load is in 
+progress) with this one.
 
 Daniele
 
@@ -248,869 +213,113 @@ Daniele
 >
 > Tvrtko
 >
->> Link: 
->> https://lists.freedesktop.org/archives/intel-gfx/2022-July/301640.html
->> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Cc: John Harrison <John.C.Harrison@Intel.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Matt Roper <matthew.d.roper@intel.com>
->> Cc: Dave Airlie <airlied@redhat.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_context_types.h |  11 +-
->>   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   3 +
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   5 +
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  45 +++
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 348 +++++++++++++++---
->>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  57 ++-
->>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h      |   7 +
->>   7 files changed, 419 insertions(+), 57 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
->> b/drivers/gpu/drm/i915/gt/intel_context_types.h
->> index d2d75d9c0c8d..04eacae1aca5 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
->> @@ -275,10 +275,17 @@ struct intel_context {
->>           u8 child_index;
->>           /** @guc: GuC specific members for parallel submission */
->>           struct {
->> -            /** @wqi_head: head pointer in work queue */
->> +            /** @wqi_head: cached head pointer in work queue */
->>               u16 wqi_head;
->> -            /** @wqi_tail: tail pointer in work queue */
->> +            /** @wqi_tail: cached tail pointer in work queue */
->>               u16 wqi_tail;
->> +            /** @wq_head: pointer to the actual head in work queue */
->> +            u32 *wq_head;
->> +            /** @wq_tail: pointer to the actual head in work queue */
->> +            u32 *wq_tail;
->> +            /** @wq_status: pointer to the status in work queue */
->> +            u32 *wq_status;
->> +
->>               /**
->>                * @parent_page: page in context state (ce->state) used
->>                * by parent for work queue, process descriptor
->> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h 
->> b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> index 4ef9990ed7f8..29ef8afc8c2e 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> @@ -122,6 +122,9 @@ enum intel_guc_action {
->>       INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_DONE = 0x1002,
->>       INTEL_GUC_ACTION_SCHED_ENGINE_MODE_SET = 0x1003,
->>       INTEL_GUC_ACTION_SCHED_ENGINE_MODE_DONE = 0x1004,
->> +    INTEL_GUC_ACTION_V69_SET_CONTEXT_PRIORITY = 0x1005,
->> +    INTEL_GUC_ACTION_V69_SET_CONTEXT_EXECUTION_QUANTUM = 0x1006,
->> +    INTEL_GUC_ACTION_V69_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
->>       INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
->>       INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
->>       INTEL_GUC_ACTION_HOST2GUC_UPDATE_CONTEXT_POLICIES = 0x100B,
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> index d0d99f178f2d..a7acffbf15d1 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> @@ -170,6 +170,11 @@ struct intel_guc {
->>       /** @ads_engine_usage_size: size of engine usage in the ADS */
->>       u32 ads_engine_usage_size;
->>   +    /** @lrc_desc_pool_v69: object allocated to hold the GuC LRC 
->> descriptor pool */
->> +    struct i915_vma *lrc_desc_pool_v69;
->> +    /** @lrc_desc_pool_vaddr_v69: contents of the GuC LRC descriptor 
->> pool */
->> +    void *lrc_desc_pool_vaddr_v69;
->> +
->>       /**
->>        * @context_lookup: used to resolve intel_context from guc_id, 
->> if a
->>        * context is present in this structure it is registered with 
->> the GuC
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->> index b3c9a9327f76..323b055e5db9 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->> @@ -204,6 +204,20 @@ struct guc_wq_item {
->>       u32 fence_id;
->>   } __packed;
->>   +struct guc_process_desc_v69 {
->> +    u32 stage_id;
->> +    u64 db_base_addr;
->> +    u32 head;
->> +    u32 tail;
->> +    u32 error_offset;
->> +    u64 wq_base_addr;
->> +    u32 wq_size_bytes;
->> +    u32 wq_status;
->> +    u32 engine_presence;
->> +    u32 priority;
->> +    u32 reserved[36];
->> +} __packed;
->> +
->>   struct guc_sched_wq_desc {
->>       u32 head;
->>       u32 tail;
->> @@ -228,6 +242,37 @@ struct guc_ctxt_registration_info {
->>   };
->>   #define CONTEXT_REGISTRATION_FLAG_KMD    BIT(0)
->>   +/* Preempt to idle on quantum expiry */
->> +#define CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE_V69    BIT(0)
->> +
->> +/*
->> + * GuC Context registration descriptor.
->> + * FIXME: This is only required to exist during context registration.
->> + * The current 1:1 between guc_lrc_desc and LRCs for the lifetime of 
->> the LRC
->> + * is not required.
->> + */
->> +struct guc_lrc_desc_v69 {
->> +    u32 hw_context_desc;
->> +    u32 slpm_perf_mode_hint;    /* SPLC v1 only */
->> +    u32 slpm_freq_hint;
->> +    u32 engine_submit_mask;        /* In logical space */
->> +    u8 engine_class;
->> +    u8 reserved0[3];
->> +    u32 priority;
->> +    u32 process_desc;
->> +    u32 wq_addr;
->> +    u32 wq_size;
->> +    u32 context_flags;        /* CONTEXT_REGISTRATION_* */
->> +    /* Time for one workload to execute. (in micro seconds) */
->> +    u32 execution_quantum;
->> +    /* Time to wait for a preemption request to complete before 
->> issuing a
->> +     * reset. (in micro seconds).
->> +     */
->> +    u32 preemption_timeout;
->> +    u32 policy_flags;        /* CONTEXT_POLICY_* */
->> +    u32 reserved1[19];
->> +} __packed;
->> +
->>   /* 32-bit KLV structure as used by policy updates and others */
->>   struct guc_klv_generic_dw_t {
->>       u32 kl;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> index 40f726c61e95..aa10db25cc06 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> @@ -414,12 +414,15 @@ struct sync_semaphore {
->>   };
->>     struct parent_scratch {
->> -    struct guc_sched_wq_desc wq_desc;
->> +    union guc_descs {
->> +        struct guc_sched_wq_desc wq_desc;
->> +        struct guc_process_desc_v69 pdesc;
->> +    } descs;
->>         struct sync_semaphore go;
->>       struct sync_semaphore join[MAX_ENGINE_INSTANCE + 1];
->>   -    u8 unused[WQ_OFFSET - sizeof(struct guc_sched_wq_desc) -
->> +    u8 unused[WQ_OFFSET - sizeof(union guc_descs) -
->>           sizeof(struct sync_semaphore) * (MAX_ENGINE_INSTANCE + 2)];
->>         u32 wq[WQ_SIZE / sizeof(u32)];
->> @@ -456,17 +459,23 @@ __get_parent_scratch(struct intel_context *ce)
->>              LRC_STATE_OFFSET) / sizeof(u32)));
->>   }
->>   +static struct guc_process_desc_v69 *
->> +__get_process_desc_v69(struct intel_context *ce)
->> +{
->> +    struct parent_scratch *ps = __get_parent_scratch(ce);
->> +
->> +    return &ps->descs.pdesc;
->> +}
->> +
->>   static struct guc_sched_wq_desc *
->> -__get_wq_desc(struct intel_context *ce)
->> +__get_wq_desc_v70(struct intel_context *ce)
->>   {
->>       struct parent_scratch *ps = __get_parent_scratch(ce);
->>   -    return &ps->wq_desc;
->> +    return &ps->descs.wq_desc;
->>   }
->>   -static u32 *get_wq_pointer(struct guc_sched_wq_desc *wq_desc,
->> -               struct intel_context *ce,
->> -               u32 wqi_size)
->> +static u32 *get_wq_pointer(struct intel_context *ce, u32 wqi_size)
->>   {
->>       /*
->>        * Check for space in work queue. Caching a value of head 
->> pointer in
->> @@ -476,7 +485,7 @@ static u32 *get_wq_pointer(struct 
->> guc_sched_wq_desc *wq_desc,
->>   #define AVAILABLE_SPACE    \
->>       CIRC_SPACE(ce->parallel.guc.wqi_tail, 
->> ce->parallel.guc.wqi_head, WQ_SIZE)
->>       if (wqi_size > AVAILABLE_SPACE) {
->> -        ce->parallel.guc.wqi_head = READ_ONCE(wq_desc->head);
->> +        ce->parallel.guc.wqi_head = 
->> READ_ONCE(*ce->parallel.guc.wq_head);
->>             if (wqi_size > AVAILABLE_SPACE)
->>               return NULL;
->> @@ -495,11 +504,55 @@ static inline struct intel_context 
->> *__get_context(struct intel_guc *guc, u32 id)
->>       return ce;
->>   }
->>   +static struct guc_lrc_desc_v69 *__get_lrc_desc_v69(struct 
->> intel_guc *guc, u32 index)
->> +{
->> +    struct guc_lrc_desc_v69 *base = guc->lrc_desc_pool_vaddr_v69;
->> +
->> +    if (!base)
->> +        return NULL;
->> +
->> +    GEM_BUG_ON(index >= GUC_MAX_CONTEXT_ID);
->> +
->> +    return &base[index];
->> +}
->> +
->> +static int guc_lrc_desc_pool_create_v69(struct intel_guc *guc)
->> +{
->> +    u32 size;
->> +    int ret;
->> +
->> +    size = PAGE_ALIGN(sizeof(struct guc_lrc_desc_v69) *
->> +              GUC_MAX_CONTEXT_ID);
->> +    ret = intel_guc_allocate_and_map_vma(guc, size, 
->> &guc->lrc_desc_pool_v69,
->> +                         (void **)&guc->lrc_desc_pool_vaddr_v69);
->> +    if (ret)
->> +        return ret;
->> +
->> +    return 0;
->> +}
->> +
->> +static void guc_lrc_desc_pool_destroy_v69(struct intel_guc *guc)
->> +{
->> +    if (!guc->lrc_desc_pool_vaddr_v69)
->> +        return;
->> +
->> +    guc->lrc_desc_pool_vaddr_v69 = NULL;
->> +    i915_vma_unpin_and_release(&guc->lrc_desc_pool_v69, 
->> I915_VMA_RELEASE_MAP);
->> +}
->> +
->>   static inline bool guc_submission_initialized(struct intel_guc *guc)
->>   {
->>       return guc->submission_initialized;
->>   }
->>   +static inline void _reset_lrc_desc_v69(struct intel_guc *guc, u32 id)
->> +{
->> +    struct guc_lrc_desc_v69 *desc = __get_lrc_desc_v69(guc, id);
->> +
->> +    if (desc)
->> +        memset(desc, 0, sizeof(*desc));
->> +}
->> +
->>   static inline bool ctx_id_mapped(struct intel_guc *guc, u32 id)
->>   {
->>       return __get_context(guc, id);
->> @@ -526,6 +579,8 @@ static inline void clr_ctx_id_mapping(struct 
->> intel_guc *guc, u32 id)
->>       if (unlikely(!guc_submission_initialized(guc)))
->>           return;
->>   +    _reset_lrc_desc_v69(guc, id);
->> +
->>       /*
->>        * xarray API doesn't have xa_erase_irqsave wrapper, so calling
->>        * the lower level functions directly.
->> @@ -611,7 +666,7 @@ int intel_guc_wait_for_idle(struct intel_guc 
->> *guc, long timeout)
->>                             true, timeout);
->>   }
->>   -static int guc_context_policy_init(struct intel_context *ce, bool 
->> loop);
->> +static int guc_context_policy_init_v70(struct intel_context *ce, 
->> bool loop);
->>   static int try_context_registration(struct intel_context *ce, bool 
->> loop);
->>     static int __guc_add_request(struct intel_guc *guc, struct 
->> i915_request *rq)
->> @@ -639,7 +694,7 @@ static int __guc_add_request(struct intel_guc 
->> *guc, struct i915_request *rq)
->>       GEM_BUG_ON(context_guc_id_invalid(ce));
->>         if (context_policy_required(ce)) {
->> -        err = guc_context_policy_init(ce, false);
->> +        err = guc_context_policy_init_v70(ce, false);
->>           if (err)
->>               return err;
->>       }
->> @@ -737,9 +792,7 @@ static u32 wq_space_until_wrap(struct 
->> intel_context *ce)
->>       return (WQ_SIZE - ce->parallel.guc.wqi_tail);
->>   }
->>   -static void write_wqi(struct guc_sched_wq_desc *wq_desc,
->> -              struct intel_context *ce,
->> -              u32 wqi_size)
->> +static void write_wqi(struct intel_context *ce, u32 wqi_size)
->>   {
->>       BUILD_BUG_ON(!is_power_of_2(WQ_SIZE));
->>   @@ -750,13 +803,12 @@ static void write_wqi(struct 
->> guc_sched_wq_desc *wq_desc,
->>         ce->parallel.guc.wqi_tail = (ce->parallel.guc.wqi_tail + 
->> wqi_size) &
->>           (WQ_SIZE - 1);
->> -    WRITE_ONCE(wq_desc->tail, ce->parallel.guc.wqi_tail);
->> +    WRITE_ONCE(*ce->parallel.guc.wq_tail, ce->parallel.guc.wqi_tail);
->>   }
->>     static int guc_wq_noop_append(struct intel_context *ce)
->>   {
->> -    struct guc_sched_wq_desc *wq_desc = __get_wq_desc(ce);
->> -    u32 *wqi = get_wq_pointer(wq_desc, ce, wq_space_until_wrap(ce));
->> +    u32 *wqi = get_wq_pointer(ce, wq_space_until_wrap(ce));
->>       u32 len_dw = wq_space_until_wrap(ce) / sizeof(u32) - 1;
->>         if (!wqi)
->> @@ -775,7 +827,6 @@ static int __guc_wq_item_append(struct 
->> i915_request *rq)
->>   {
->>       struct intel_context *ce = request_to_scheduling_context(rq);
->>       struct intel_context *child;
->> -    struct guc_sched_wq_desc *wq_desc = __get_wq_desc(ce);
->>       unsigned int wqi_size = (ce->parallel.number_children + 4) *
->>           sizeof(u32);
->>       u32 *wqi;
->> @@ -795,7 +846,7 @@ static int __guc_wq_item_append(struct 
->> i915_request *rq)
->>               return ret;
->>       }
->>   -    wqi = get_wq_pointer(wq_desc, ce, wqi_size);
->> +    wqi = get_wq_pointer(ce, wqi_size);
->>       if (!wqi)
->>           return -EBUSY;
->>   @@ -810,7 +861,7 @@ static int __guc_wq_item_append(struct 
->> i915_request *rq)
->>       for_each_child(ce, child)
->>           *wqi++ = child->ring->tail / sizeof(u64);
->>   -    write_wqi(wq_desc, ce, wqi_size);
->> +    write_wqi(ce, wqi_size);
->>         return 0;
->>   }
->> @@ -1812,20 +1863,34 @@ static void reset_fail_worker_func(struct 
->> work_struct *w);
->>   int intel_guc_submission_init(struct intel_guc *guc)
->>   {
->>       struct intel_gt *gt = guc_to_gt(guc);
->> +    int ret;
->>         if (guc->submission_initialized)
->>           return 0;
->>   +    if (guc->fw.major_ver_found < 70) {
->> +        ret = guc_lrc_desc_pool_create_v69(guc);
->> +        if (ret)
->> +            return ret;
->> +    }
->> +
->>       guc->submission_state.guc_ids_bitmap =
->>           bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
->> -    if (!guc->submission_state.guc_ids_bitmap)
->> -        return -ENOMEM;
->> +    if (!guc->submission_state.guc_ids_bitmap) {
->> +        ret = -ENOMEM;
->> +        goto destroy_pool;
->> +    }
->>         guc->timestamp.ping_delay = (POLL_TIME_CLKS / 
->> gt->clock_frequency + 1) * HZ;
->>       guc->timestamp.shift = gpm_timestamp_shift(gt);
->>       guc->submission_initialized = true;
->>         return 0;
->> +
->> +destroy_pool:
->> +    guc_lrc_desc_pool_destroy_v69(guc);
->> +
->> +    return ret;
->>   }
->>     void intel_guc_submission_fini(struct intel_guc *guc)
->> @@ -1834,6 +1899,7 @@ void intel_guc_submission_fini(struct intel_guc 
->> *guc)
->>           return;
->>         guc_flush_destroyed_contexts(guc);
->> +    guc_lrc_desc_pool_destroy_v69(guc);
->>       i915_sched_engine_put(guc->sched_engine);
->>       bitmap_free(guc->submission_state.guc_ids_bitmap);
->>       guc->submission_initialized = false;
->> @@ -2091,10 +2157,34 @@ static void unpin_guc_id(struct intel_guc 
->> *guc, struct intel_context *ce)
->>       spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>   }
->>   -static int __guc_action_register_multi_lrc(struct intel_guc *guc,
->> +static int __guc_action_register_multi_lrc_v69(struct intel_guc *guc,
->>                          struct intel_context *ce,
->> -                       struct guc_ctxt_registration_info *info,
->> +                       u32 guc_id,
->> +                       u32 offset,
->>                          bool loop)
->> +{
->> +    struct intel_context *child;
->> +    u32 action[4 + MAX_ENGINE_INSTANCE];
->> +    int len = 0;
->> +
->> +    GEM_BUG_ON(ce->parallel.number_children > MAX_ENGINE_INSTANCE);
->> +
->> +    action[len++] = INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC;
->> +    action[len++] = guc_id;
->> +    action[len++] = ce->parallel.number_children + 1;
->> +    action[len++] = offset;
->> +    for_each_child(ce, child) {
->> +        offset += sizeof(struct guc_lrc_desc_v69);
->> +        action[len++] = offset;
->> +    }
->> +
->> +    return guc_submission_send_busy_loop(guc, action, len, 0, loop);
->> +}
->> +
->> +static int __guc_action_register_multi_lrc_v70(struct intel_guc *guc,
->> +                           struct intel_context *ce,
->> +                           struct guc_ctxt_registration_info *info,
->> +                           bool loop)
->>   {
->>       struct intel_context *child;
->>       u32 action[13 + (MAX_ENGINE_INSTANCE * 2)];
->> @@ -2134,9 +2224,24 @@ static int 
->> __guc_action_register_multi_lrc(struct intel_guc *guc,
->>       return guc_submission_send_busy_loop(guc, action, len, 0, loop);
->>   }
->>   -static int __guc_action_register_context(struct intel_guc *guc,
->> -                     struct guc_ctxt_registration_info *info,
->> -                     bool loop)
->> +static int __guc_action_register_context_v69(struct intel_guc *guc,
->> +                         u32 guc_id,
->> +                         u32 offset,
->> +                         bool loop)
->> +{
->> +    u32 action[] = {
->> +        INTEL_GUC_ACTION_REGISTER_CONTEXT,
->> +        guc_id,
->> +        offset,
->> +    };
->> +
->> +    return guc_submission_send_busy_loop(guc, action, 
->> ARRAY_SIZE(action),
->> +                         0, loop);
->> +}
->> +
->> +static int __guc_action_register_context_v70(struct intel_guc *guc,
->> +                         struct guc_ctxt_registration_info *info,
->> +                         bool loop)
->>   {
->>       u32 action[] = {
->>           INTEL_GUC_ACTION_REGISTER_CONTEXT,
->> @@ -2157,24 +2262,52 @@ static int 
->> __guc_action_register_context(struct intel_guc *guc,
->>                            0, loop);
->>   }
->>   -static void prepare_context_registration_info(struct intel_context 
->> *ce,
->> -                          struct guc_ctxt_registration_info *info);
->> +static void prepare_context_registration_info_v69(struct 
->> intel_context *ce);
->> +static void prepare_context_registration_info_v70(struct 
->> intel_context *ce,
->> +                          struct guc_ctxt_registration_info *info);
->>   -static int register_context(struct intel_context *ce, bool loop)
->> +static int
->> +register_context_v69(struct intel_guc *guc, struct intel_context 
->> *ce, bool loop)
->> +{
->> +    u32 offset = intel_guc_ggtt_offset(guc, guc->lrc_desc_pool_v69) +
->> +        ce->guc_id.id * sizeof(struct guc_lrc_desc_v69);
->> +
->> +    prepare_context_registration_info_v69(ce);
->> +
->> +    if (intel_context_is_parent(ce))
->> +        return __guc_action_register_multi_lrc_v69(guc, ce, 
->> ce->guc_id.id,
->> +                               offset, loop);
->> +    else
->> +        return __guc_action_register_context_v69(guc, ce->guc_id.id,
->> +                             offset, loop);
->> +}
->> +
->> +static int
->> +register_context_v70(struct intel_guc *guc, struct intel_context 
->> *ce, bool loop)
->>   {
->>       struct guc_ctxt_registration_info info;
->> +
->> +    prepare_context_registration_info_v70(ce, &info);
->> +
->> +    if (intel_context_is_parent(ce))
->> +        return __guc_action_register_multi_lrc_v70(guc, ce, &info, 
->> loop);
->> +    else
->> +        return __guc_action_register_context_v70(guc, &info, loop);
->> +}
->> +
->> +static int register_context(struct intel_context *ce, bool loop)
->> +{
->>       struct intel_guc *guc = ce_to_guc(ce);
->>       int ret;
->>         GEM_BUG_ON(intel_context_is_child(ce));
->>       trace_intel_context_register(ce);
->>   -    prepare_context_registration_info(ce, &info);
->> -
->> -    if (intel_context_is_parent(ce))
->> -        ret = __guc_action_register_multi_lrc(guc, ce, &info, loop);
->> +    if (guc->fw.major_ver_found >= 70)
->> +        ret = register_context_v70(guc, ce, loop);
->>       else
->> -        ret = __guc_action_register_context(guc, &info, loop);
->> +        ret = register_context_v69(guc, ce, loop);
->> +
->>       if (likely(!ret)) {
->>           unsigned long flags;
->>   @@ -2182,7 +2315,8 @@ static int register_context(struct 
->> intel_context *ce, bool loop)
->>           set_context_registered(ce);
->>           spin_unlock_irqrestore(&ce->guc_state.lock, flags);
->>   -        guc_context_policy_init(ce, loop);
->> +        if (guc->fw.major_ver_found >= 70)
->> +            guc_context_policy_init_v70(ce, loop);
->>       }
->>         return ret;
->> @@ -2279,7 +2413,7 @@ static int 
->> __guc_context_set_context_policies(struct intel_guc *guc,
->>                       0, loop);
->>   }
->>   -static int guc_context_policy_init(struct intel_context *ce, bool 
->> loop)
->> +static int guc_context_policy_init_v70(struct intel_context *ce, 
->> bool loop)
->>   {
->>       struct intel_engine_cs *engine = ce->engine;
->>       struct intel_guc *guc = &engine->gt->uc.guc;
->> @@ -2338,6 +2472,19 @@ static int guc_context_policy_init(struct 
->> intel_context *ce, bool loop)
+>> [1] 
+>> https://lists.freedesktop.org/archives/intel-gfx/2022-July/300990.html
+>>
+>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Cc: Tony Ye <tony.ye@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc.c   |  1 +
+>>   drivers/gpu/drm/i915/gt/uc/intel_huc.c   | 14 +++++++-------
+>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c |  1 -
+>>   include/uapi/drm/i915_drm.h              | 16 ++++++++++++++++
+>>   4 files changed, 24 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> index 2706a8c65090..42cb244587f1 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> @@ -455,6 +455,7 @@ int intel_guc_init(struct intel_guc *guc)
+>>   err_fw:
+>>       intel_uc_fw_fini(&guc->fw);
+>>   out:
+>> +    intel_uc_fw_change_status(&guc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+>>       i915_probe_error(gt->i915, "failed with %d\n", ret);
 >>       return ret;
 >>   }
->>   +static void guc_context_policy_init_v69(struct intel_engine_cs 
->> *engine,
->> +                    struct guc_lrc_desc_v69 *desc)
->> +{
->> +    desc->policy_flags = 0;
->> +
->> +    if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
->> +        desc->policy_flags |= CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE_V69;
->> +
->> +    /* NB: For both of these, zero means disabled. */
->> +    desc->execution_quantum = engine->props.timeslice_duration_ms * 
->> 1000;
->> +    desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
->> +}
->> +
->>   static u32 map_guc_prio_to_lrc_desc_prio(u8 prio)
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> index 3bb8838e325a..bddcd3242ad0 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> @@ -113,6 +113,7 @@ int intel_huc_init(struct intel_huc *huc)
+>>       return 0;
+>>     out:
+>> +    intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+>>       drm_info(&i915->drm, "HuC init failed with %d\n", err);
+>>       return err;
+>>   }
+>> @@ -200,13 +201,8 @@ static bool huc_is_authenticated(struct 
+>> intel_huc *huc)
+>>    * This function reads status register to verify if HuC
+>>    * firmware was successfully loaded.
+>>    *
+>> - * Returns:
+>> - *  * -ENODEV if HuC is not present on this platform,
+>> - *  * -EOPNOTSUPP if HuC firmware is disabled,
+>> - *  * -ENOPKG if HuC firmware was not installed,
+>> - *  * -ENOEXEC if HuC firmware is invalid or mismatched,
+>> - *  * 0 if HuC firmware is not running,
+>> - *  * 1 if HuC firmware is authenticated and running.
+>> + * The return values match what is expected for the 
+>> I915_PARAM_HUC_STATUS
+>> + * getparam.
+>>    */
+>>   int intel_huc_check_status(struct intel_huc *huc)
 >>   {
->>       /*
->> @@ -2358,8 +2505,75 @@ static u32 map_guc_prio_to_lrc_desc_prio(u8 prio)
+>> @@ -219,6 +215,10 @@ int intel_huc_check_status(struct intel_huc *huc)
+>>           return -ENOPKG;
+>>       case INTEL_UC_FIRMWARE_ERROR:
+>>           return -ENOEXEC;
+>> +    case INTEL_UC_FIRMWARE_INIT_FAIL:
+>> +        return -ENOMEM;
+>> +    case INTEL_UC_FIRMWARE_LOAD_FAIL:
+>> +        return -EIO;
+>>       default:
+>>           break;
 >>       }
->>   }
->>   -static void prepare_context_registration_info(struct intel_context 
->> *ce,
->> -                          struct guc_ctxt_registration_info *info)
->> +static void prepare_context_registration_info_v69(struct 
->> intel_context *ce)
->> +{
->> +    struct intel_engine_cs *engine = ce->engine;
->> +    struct intel_guc *guc = &engine->gt->uc.guc;
->> +    u32 ctx_id = ce->guc_id.id;
->> +    struct guc_lrc_desc_v69 *desc;
->> +    struct intel_context *child;
->> +
->> +    GEM_BUG_ON(!engine->mask);
->> +
->> +    /*
->> +     * Ensure LRC + CT vmas are is same region as write barrier is done
->> +     * based on CT vma region.
->> +     */
->> +    GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
->> + i915_gem_object_is_lmem(ce->ring->vma->obj));
->> +
->> +    desc = __get_lrc_desc_v69(guc, ctx_id);
->> +    desc->engine_class = engine_class_to_guc_class(engine->class);
->> +    desc->engine_submit_mask = engine->logical_mask;
->> +    desc->hw_context_desc = ce->lrc.lrca;
->> +    desc->priority = ce->guc_state.prio;
->> +    desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
->> +    guc_context_policy_init_v69(engine, desc);
->> +
->> +    /*
->> +     * If context is a parent, we need to register a process descriptor
->> +     * describing a work queue and register all child contexts.
->> +     */
->> +    if (intel_context_is_parent(ce)) {
->> +        struct guc_process_desc_v69 *pdesc;
->> +
->> +        ce->parallel.guc.wqi_tail = 0;
->> +        ce->parallel.guc.wqi_head = 0;
->> +
->> +        desc->process_desc = i915_ggtt_offset(ce->state) +
->> +            __get_parent_scratch_offset(ce);
->> +        desc->wq_addr = i915_ggtt_offset(ce->state) +
->> +            __get_wq_offset(ce);
->> +        desc->wq_size = WQ_SIZE;
->> +
->> +        pdesc = __get_process_desc_v69(ce);
->> +        memset(pdesc, 0, sizeof(*(pdesc)));
->> +        pdesc->stage_id = ce->guc_id.id;
->> +        pdesc->wq_base_addr = desc->wq_addr;
->> +        pdesc->wq_size_bytes = desc->wq_size;
->> +        pdesc->wq_status = WQ_STATUS_ACTIVE;
->> +
->> +        ce->parallel.guc.wq_head = &pdesc->head;
->> +        ce->parallel.guc.wq_tail = &pdesc->tail;
->> +        ce->parallel.guc.wq_status = &pdesc->wq_status;
->> +
->> +        for_each_child(ce, child) {
->> +            desc = __get_lrc_desc_v69(guc, child->guc_id.id);
->> +
->> +            desc->engine_class =
->> +                engine_class_to_guc_class(engine->class);
->> +            desc->hw_context_desc = child->lrc.lrca;
->> +            desc->priority = ce->guc_state.prio;
->> +            desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
->> +            guc_context_policy_init_v69(engine, desc);
->> +        }
->> +
->> +        clear_children_join_go_memory(ce);
->> +    }
->> +}
->> +
->> +static void prepare_context_registration_info_v70(struct 
->> intel_context *ce,
->> +                          struct guc_ctxt_registration_info *info)
->>   {
->>       struct intel_engine_cs *engine = ce->engine;
->>       struct intel_guc *guc = &engine->gt->uc.guc;
->> @@ -2409,10 +2623,14 @@ static void 
->> prepare_context_registration_info(struct intel_context *ce,
->>           info->wq_base_hi = upper_32_bits(wq_base_offset);
->>           info->wq_size = WQ_SIZE;
->>   -        wq_desc = __get_wq_desc(ce);
->> +        wq_desc = __get_wq_desc_v70(ce);
->>           memset(wq_desc, 0, sizeof(*wq_desc));
->>           wq_desc->wq_status = WQ_STATUS_ACTIVE;
->>   +        ce->parallel.guc.wq_head = &wq_desc->head;
->> +        ce->parallel.guc.wq_tail = &wq_desc->tail;
->> +        ce->parallel.guc.wq_status = &wq_desc->wq_status;
->> +
->>           clear_children_join_go_memory(ce);
->>       }
->>   }
->> @@ -2727,11 +2945,21 @@ static void 
->> __guc_context_set_preemption_timeout(struct intel_guc *guc,
->>                            u16 guc_id,
->>                            u32 preemption_timeout)
->>   {
->> -    struct context_policy policy;
->> +    if (guc->fw.major_ver_found >= 70) {
->> +        struct context_policy policy;
->>   -    __guc_context_policy_start_klv(&policy, guc_id);
->> -    __guc_context_policy_add_preemption_timeout(&policy, 
->> preemption_timeout);
->> -    __guc_context_set_context_policies(guc, &policy, true);
->> +        __guc_context_policy_start_klv(&policy, guc_id);
->> + __guc_context_policy_add_preemption_timeout(&policy, 
->> preemption_timeout);
->> +        __guc_context_set_context_policies(guc, &policy, true);
->> +    } else {
->> +        u32 action[] = {
->> + INTEL_GUC_ACTION_V69_SET_CONTEXT_PREEMPTION_TIMEOUT,
->> +            guc_id,
->> +            preemption_timeout
->> +        };
->> +
->> +        intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, 
->> true);
->> +    }
->>   }
->>     static void
->> @@ -2982,11 +3210,21 @@ static int guc_context_alloc(struct 
->> intel_context *ce)
->>   static void __guc_context_set_prio(struct intel_guc *guc,
->>                      struct intel_context *ce)
->>   {
->> -    struct context_policy policy;
->> +    if (guc->fw.major_ver_found >= 70) {
->> +        struct context_policy policy;
->>   -    __guc_context_policy_start_klv(&policy, ce->guc_id.id);
->> -    __guc_context_policy_add_priority(&policy, ce->guc_state.prio);
->> -    __guc_context_set_context_policies(guc, &policy, true);
->> +        __guc_context_policy_start_klv(&policy, ce->guc_id.id);
->> +        __guc_context_policy_add_priority(&policy, ce->guc_state.prio);
->> +        __guc_context_set_context_policies(guc, &policy, true);
->> +    } else {
->> +        u32 action[] = {
->> +            INTEL_GUC_ACTION_V69_SET_CONTEXT_PRIORITY,
->> +            ce->guc_id.id,
->> +            ce->guc_state.prio,
->> +        };
->> +
->> +        guc_submission_send_busy_loop(guc, action, 
->> ARRAY_SIZE(action), 0, true);
->> +    }
->>   }
->>     static void guc_context_set_prio(struct intel_guc *guc,
->> @@ -4496,17 +4734,19 @@ void 
->> intel_guc_submission_print_context_info(struct intel_guc *guc,
->>           guc_log_context_priority(p, ce);
->>             if (intel_context_is_parent(ce)) {
->> -            struct guc_sched_wq_desc *wq_desc = __get_wq_desc(ce);
->>               struct intel_context *child;
->>                 drm_printf(p, "\t\tNumber children: %u\n",
->>                      ce->parallel.number_children);
->> -            drm_printf(p, "\t\tWQI Head: %u\n",
->> -                   READ_ONCE(wq_desc->head));
->> -            drm_printf(p, "\t\tWQI Tail: %u\n",
->> -                   READ_ONCE(wq_desc->tail));
->> -            drm_printf(p, "\t\tWQI Status: %u\n\n",
->> -                   READ_ONCE(wq_desc->wq_status));
->> +
->> +            if (ce->parallel.guc.wq_status) {
->> +                drm_printf(p, "\t\tWQI Head: %u\n",
->> + READ_ONCE(*ce->parallel.guc.wq_head));
->> +                drm_printf(p, "\t\tWQI Tail: %u\n",
->> + READ_ONCE(*ce->parallel.guc.wq_tail));
->> +                drm_printf(p, "\t\tWQI Status: %u\n\n",
->> + READ_ONCE(*ce->parallel.guc.wq_status));
->> +            }
->>                 if (ce->engine->emit_bb_start ==
->>                   emit_bb_start_parent_no_preempt_mid_batch) {
 >> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
 >> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> index 27363091e1af..210c84411406 100644
+>> index 27363091e1af..007401397935 100644
 >> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
 >> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->> @@ -70,6 +70,23 @@ void intel_uc_fw_change_status(struct intel_uc_fw 
->> *uc_fw,
->>       fw_def(BROXTON,      0, guc_def(bxt,  70, 1, 1)) \
->>       fw_def(SKYLAKE,      0, guc_def(skl,  70, 1, 1))
->>   +#define INTEL_GUC_FIRMWARE_DEFS_FALLBACK(fw_def, guc_def) \
->> +    fw_def(ALDERLAKE_P,  0, guc_def(adlp, 69, 0, 3)) \
->> +    fw_def(ALDERLAKE_S,  0, guc_def(tgl,  69, 0, 3)) \
->> +    fw_def(DG1,          0, guc_def(dg1,  69, 0, 3)) \
->> +    fw_def(ROCKETLAKE,   0, guc_def(tgl,  69, 0, 3)) \
->> +    fw_def(TIGERLAKE,    0, guc_def(tgl,  69, 0, 3)) \
->> +    fw_def(JASPERLAKE,   0, guc_def(ehl,  69, 0, 3)) \
->> +    fw_def(ELKHARTLAKE,  0, guc_def(ehl,  69, 0, 3)) \
->> +    fw_def(ICELAKE,      0, guc_def(icl,  69, 0, 3)) \
->> +    fw_def(COMETLAKE,    5, guc_def(cml,  69, 0, 3)) \
->> +    fw_def(COMETLAKE,    0, guc_def(kbl,  69, 0, 3)) \
->> +    fw_def(COFFEELAKE,   0, guc_def(kbl,  69, 0, 3)) \
->> +    fw_def(GEMINILAKE,   0, guc_def(glk,  69, 0, 3)) \
->> +    fw_def(KABYLAKE,     0, guc_def(kbl,  69, 0, 3)) \
->> +    fw_def(BROXTON,      0, guc_def(bxt,  69, 0, 3)) \
->> +    fw_def(SKYLAKE,      0, guc_def(skl,  69, 0, 3))
->> +
->>   #define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_def) \
->>       fw_def(ALDERLAKE_P,  0, huc_def(tgl,  7, 9, 3)) \
->>       fw_def(ALDERLAKE_S,  0, huc_def(tgl,  7, 9, 3)) \
->> @@ -105,6 +122,7 @@ void intel_uc_fw_change_status(struct intel_uc_fw 
->> *uc_fw,
->>       MODULE_FIRMWARE(uc_);
->>     INTEL_GUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH)
->> +INTEL_GUC_FIRMWARE_DEFS_FALLBACK(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH)
->>   INTEL_HUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_HUC_FW_PATH)
->>     /* The below structs and macros are used to iterate across the 
->> list of blobs */
->> @@ -149,6 +167,9 @@ __uc_fw_auto_select(struct drm_i915_private 
->> *i915, struct intel_uc_fw *uc_fw)
->>       static const struct uc_fw_platform_requirement blobs_guc[] = {
->>           INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB)
->>       };
->> +    static const struct uc_fw_platform_requirement 
->> blobs_guc_fallback[] = {
->> +        INTEL_GUC_FIRMWARE_DEFS_FALLBACK(MAKE_FW_LIST, GUC_FW_BLOB)
->> +    };
->>       static const struct uc_fw_platform_requirement blobs_huc[] = {
->>           INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB)
->>       };
->> @@ -179,12 +200,28 @@ __uc_fw_auto_select(struct drm_i915_private 
->> *i915, struct intel_uc_fw *uc_fw)
->>           if (p == fw_blobs[i].p && rev >= fw_blobs[i].rev) {
->>               const struct uc_fw_blob *blob = &fw_blobs[i].blob;
->>               uc_fw->path = blob->path;
->> +            uc_fw->wanted_path = blob->path;
->>               uc_fw->major_ver_wanted = blob->major;
->>               uc_fw->minor_ver_wanted = blob->minor;
->>               break;
->>           }
->>       }
->>   +    if (uc_fw->type == INTEL_UC_FW_TYPE_GUC) {
->> +        const struct uc_fw_platform_requirement *blobs = 
->> blobs_guc_fallback;
->> +        u32 count = ARRAY_SIZE(blobs_guc_fallback);
->> +
->> +        for (i = 0; i < count && p <= blobs[i].p; i++) {
->> +            if (p == blobs[i].p && rev >= blobs[i].rev) {
->> +                const struct uc_fw_blob *blob = &blobs[i].blob;
->> +                uc_fw->fallback.path = blob->path;
->> +                uc_fw->fallback.major_ver = blob->major;
->> +                uc_fw->fallback.minor_ver = blob->minor;
->> +                break;
->> +            }
->> +        }
->> +    }
->> +
->>       /* make sure the list is ordered as expected */
->>       if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST)) {
->>           for (i = 1; i < fw_count; i++) {
->> @@ -413,6 +450,18 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
->>       __force_fw_fetch_failures(uc_fw, -ESTALE);
->>         err = request_firmware(&fw, uc_fw->path, dev);
->> +    if (err && !intel_uc_fw_is_overridden(uc_fw) && 
->> uc_fw->fallback.path) {
->> +        err = request_firmware(&fw, uc_fw->fallback.path, dev);
->> +        if (!err) {
->> +            drm_warn(&i915->drm, "%s firmware %s not found, falling 
->> back to %s\n",
->> +                         intel_uc_fw_type_repr(uc_fw->type),
->> +                         uc_fw->wanted_path,
->> +                         uc_fw->fallback.path);
->> +            uc_fw->path = uc_fw->fallback.path;
->> +            uc_fw->major_ver_wanted = uc_fw->fallback.major_ver;
->> +            uc_fw->minor_ver_wanted = uc_fw->fallback.minor_ver;
->> +        }
->> +    }
->>       if (err)
->>           goto fail;
->>   @@ -822,7 +871,13 @@ size_t intel_uc_fw_copy_rsa(struct intel_uc_fw 
->> *uc_fw, void *dst, u32 max_len)
->>   void intel_uc_fw_dump(const struct intel_uc_fw *uc_fw, struct 
->> drm_printer *p)
->>   {
->>       drm_printf(p, "%s firmware: %s\n",
->> -           intel_uc_fw_type_repr(uc_fw->type), uc_fw->path);
->> +           intel_uc_fw_type_repr(uc_fw->type), uc_fw->wanted_path);
->> +    if (uc_fw->fallback.path) {
->> +        drm_printf(p, "%s firmware fallback: %s\n",
->> +               intel_uc_fw_type_repr(uc_fw->type), 
->> uc_fw->fallback.path);
->> +        drm_printf(p, "fallback selected: %s\n",
->> +               str_yes_no(uc_fw->path == uc_fw->fallback.path));
->> +    }
->>       drm_printf(p, "\tstatus: %s\n",
->>              intel_uc_fw_status_repr(uc_fw->status));
->>       drm_printf(p, "\tversion: wanted %u.%u, found %u.%u\n",
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h 
->> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
->> index 4f169035f504..7aa2644400b9 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
->> @@ -74,6 +74,7 @@ struct intel_uc_fw {
->>           const enum intel_uc_fw_status status;
->>           enum intel_uc_fw_status __status; /* no accidental 
->> overwrites */
->>       };
->> +    const char *wanted_path;
->>       const char *path;
->>       bool user_overridden;
->>       size_t size;
->> @@ -98,6 +99,12 @@ struct intel_uc_fw {
->>       u16 major_ver_found;
->>       u16 minor_ver_found;
->>   +    struct {
->> +        const char *path;
->> +        u16 major_ver;
->> +        u16 minor_ver;
->> +    } fallback;
->> +
->>       u32 rsa_size;
->>       u32 ucode_size;
+>> @@ -707,7 +707,6 @@ int intel_uc_fw_init(struct intel_uc_fw *uc_fw)
+>>   out_unpin:
+>>       i915_gem_object_unpin_pages(uc_fw->obj);
+>>   out:
+>> -    intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+>>       return err;
+>>   }
+>>   diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 094f6e377793..0950ef0d598c 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -645,6 +645,22 @@ typedef struct drm_i915_irq_wait {
+>>    */
+>>   #define   I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP    (1ul << 5)
+>>   +/*
+>> + * Query the status of HuC load.
+>> + *
+>> + * The query can fail in the following scenarios with the listed 
+>> error codes:
+>> + *  -ENODEV if HuC is not present on this platform,
+>> + *  -EOPNOTSUPP if HuC firmware usage is disabled,
+>> + *  -ENOPKG if HuC firmware fetch failed,
+>> + *  -ENOEXEC if HuC firmware is invalid or mismatched,
+>> + *  -ENOMEM if i915 failed to prepare the FW objects for transfer to 
+>> the uC,
+>> + *  -EIO if the FW transfer or the FW authentication failed.
+>> + *
+>> + * If the IOCTL is successful, the returned parameter will be set to 
+>> one of the
+>> + * following values:
+>> + *  * 0 if HuC firmware load is not complete,
+>> + *  * 1 if HuC firmware is authenticated and running.
+>> + */
+>>   #define I915_PARAM_HUC_STATUS         42
+>>     /* Query whether DRM_I915_GEM_EXECBUFFER2 supports the ability to 
+>> opt-out of
 
