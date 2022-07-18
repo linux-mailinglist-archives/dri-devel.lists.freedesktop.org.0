@@ -1,57 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D225785F9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 17:02:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA8A578630
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 17:23:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37F218A22F;
-	Mon, 18 Jul 2022 15:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C172A286;
+	Mon, 18 Jul 2022 15:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E11AC18A259;
- Mon, 18 Jul 2022 15:02:00 +0000 (UTC)
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E0714B612
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 15:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658156520; x=1689692520;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=dOad1nR/yXKty+tVe0LpjOM4v857tHTn09mRRzWe0Wg=;
- b=MpNpFEFC/ivn40UN1w99vEBIVPrlFBBiSLlfs2Jy67yTQSrkfgNBKHAs
- RzQVd23eFdeiA4rG6O3S8ZnmWhjHZ79oQhGMNUvBPcku0y+BfkAiFQpqT
- gDu/JOljnSrX05XWgY+1owW6JEXaSd9TacKdNSynNXeoYA2C5Nzg4dysl
- 0H6kgpT+CcnP8ZeRZj79J88Fe4h2T/jPq77toFhMKttEs7FndTAlN4RKl
- iB/zEaco+JmnzXaaHCa7dSG1doX59gNLfggVHsCoGwS08nDHgy2H5GLRp
- 8QsA4TF/3eLzwxS4DWaHRQY8JV0lhlXTfp0e9Z99NjoH+wua1gl7aeNk7 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="286260654"
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="286260654"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 08:02:00 -0700
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="686769046"
-Received: from smyint-mobl1.amr.corp.intel.com (HELO [10.212.107.15])
- ([10.212.107.15])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 08:01:57 -0700
-Message-ID: <aea19e9c-0e68-a0ce-5716-8b1f023086fb@linux.intel.com>
-Date: Mon, 18 Jul 2022 16:01:56 +0100
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1658157791; x=1689693791;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=2g2QNAs8w8OlfjQpYPFTJ1IzR1Zh+TBtq8eRfcG5AnI=;
+ b=P3Rj8nzG5RAtUTWmMWZYdhyLYSY+pLTxpY7guKQxm2jKyXYMYuKh0Ga8
+ 5EGnqIsJlOZTPKEja8z9nyLr15Vipgeidk6js/ohYcIDkxmFwMtYVO0/R
+ z3XZpZN7Dh0VXbg6+f9LfGFRxy3Qz+d+8tp6AInpkRdRloRpO/tj3GZek
+ F6eVN1IRUz7JtYUllwWT8McWI20FKbzyiZ8lin5kUEDfD8TiHhk5kiEei
+ Nx0Nuo0lJqAXhUgTS/PVTMM7R1Eji02VyVP13kfAhvnkavZQZRNxvysUR
+ SboTjmgnEYksbrZfO/cLf32cuzeBL6yoiZ/GHM/TyRnV/mPLy4etRJFLc g==;
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="172782814"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 18 Jul 2022 08:23:10 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Mon, 18 Jul 2022 08:23:07 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17 via Frontend
+ Transport; Mon, 18 Jul 2022 08:23:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=An682sNlJOx1j1A6rit/XT2k2GJq/4XmFjUfKadSzf40Q1FjUaKnblVFYn3sxiHS85r6Rmy91nUyhsOr5LQM4YlrOdmxvq68cItomSRVqdYS7Uy81CQUxliOqsH2eVG6XSECWNYZmiEUw1abAIy21DeTKonFwWz94PCLPqTwySVZJ2hCZAUhARs75JAUKYSSwoSdDGZd+yHyteXfvY+OnhmI3ASN2pv77d5+Ag2xGIoZNDC8NS66sVEPzDlJIMIo405stPGpzxbdnQ3a8denGWkFf1QMJ2bxa2BkcaAgZbudV80s09Z35gzFEb4NrUKpvEwArjuxA5uyKR7QyMVmRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2g2QNAs8w8OlfjQpYPFTJ1IzR1Zh+TBtq8eRfcG5AnI=;
+ b=moQfCuAYioG3Z/fYCJMqOOE9s0rVv99H6PJ0cnyiOI6B9kra/jA/s/EgEstUaZzMaDPwWSARNmXznXqdKsCrnbI+B738Lz0oqEiwrYVrYRX5p/Myt23hGJuRyiX7yvjLKBQnDx51utplesPzrfg3UQ6ehSElicqTL4NbkAi7wB4g3PJY6jHKfRiEYhhxCwrardXx2tUxXIcVq8GVN/eqwegDyWaFEtcRIUP33VmrdnsASm0bhfLAfoD0N04Ya29MZX9YlUIUfoTsAOqsSxWxR4hYq9zBGYe3WlkReKYme4S7Rtf+iUFBf6DWyHk+G9uqosSIWwRcV/9ECH4MPn1+aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2g2QNAs8w8OlfjQpYPFTJ1IzR1Zh+TBtq8eRfcG5AnI=;
+ b=qSfKEJjo5MThjCxuE2jN1o/LH33PLE7/EFQAkakfJHlijHU8iiXIEbucnV0ORveZaWWIr4mXfHDgrBjlMrth54iTN4VFQnJStsg88r2NGTDgXxX/fdapgenU+5IGQ1D61zaDWs6VST6q34J14NflxLctAqPWvSLxzFxJ1W8u/Rc=
+Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
+ by SN6PR11MB2720.namprd11.prod.outlook.com (2603:10b6:805:56::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Mon, 18 Jul
+ 2022 15:23:05 +0000
+Received: from CO1PR11MB5154.namprd11.prod.outlook.com
+ ([fe80::357a:acc9:829e:bf7b]) by CO1PR11MB5154.namprd11.prod.outlook.com
+ ([fe80::357a:acc9:829e:bf7b%7]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 15:23:05 +0000
+From: <Conor.Dooley@microchip.com>
+To: <ben.dooks@codethink.co.uk>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <thierry.reding@gmail.com>, <sam@ravnborg.org>,
+ <Eugeniy.Paltsev@synopsys.com>, <vkoul@kernel.org>,
+ <fancer.lancer@gmail.com>, <daniel.lezcano@linaro.org>, <palmer@dabbelt.com>, 
+ <palmer@rivosinc.com>
+Subject: Re: [PATCH v5 03/13] dt-bindings: dma: dw-axi-dmac: extend the number
+ of interrupts
+Thread-Topic: [PATCH v5 03/13] dt-bindings: dma: dw-axi-dmac: extend the
+ number of interrupts
+Thread-Index: AQHYkLmyRPgGIJz/pUi7jnydjimwPK2EUCIAgAAC9wA=
+Date: Mon, 18 Jul 2022 15:23:05 +0000
+Message-ID: <035d238c-7530-f14c-123b-f00f789da5f6@microchip.com>
+References: <20220705215213.1802496-1-mail@conchuod.ie>
+ <20220705215213.1802496-4-mail@conchuod.ie>
+ <7c68e645-efd7-c48c-77aa-9aa607c77033@codethink.co.uk>
+In-Reply-To: <7c68e645-efd7-c48c-77aa-9aa607c77033@codethink.co.uk>
+Accept-Language: en-IE, en-US
+Content-Language: en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2834593e-acdc-4ecc-62c4-08da68d16987
+x-ms-traffictypediagnostic: SN6PR11MB2720:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jkIbLHj9p3HhbgJ4C4IqdNqYFbnkuzCZgVh35BIWXIL0LtYUNJdSEqPw1Xb8Y1Lnun82JT0xYikL4iVUcyi2nzvvna8jegfKqO8IPDrVSdk2CMyqAZ0Enjul3KIcUvmEWf6Fh5yyE0m7bJ48U1pW7/sGxYnks6xJd2WUSWOLfx3tmeWPw9bAiem/9pIRcUTnlJq0wM3LHTKGWZ4cIhiLWhYfXM3z9a6jOC+PLHeum2EXjz9hbXb4wgeDMbqoArFgCyaMDkuIBqTd96qqiOC3ZtqGsEl3vmRWaoyOYETAuI8RzDUpPXuXgVMomriybmIlCYbF7rb/a99zKZPYMo/RuZzSU6tkrS+Ib6CPQQSPnuccTURvVflxCuSeNanqbK4AkbySAl6yEUrFfr8UG0CLipfxSEybFIlW8JbzVJm7hZ5qVuJc00sATj5/yh0wbOtNk53NvwH/AZCBdrqCC1dV5Vf83mpwqxvcHXzOi9+6QiZwMJrz2EGT1LAjTfU9ENNu8OfLOrlvJAzxJAhyvdWvKCU6B4VUz+RJbgsGMbqydIRvLzcLH06qGYR3X3Ce+vnX4vKG7Ah8FGw8DBLOOaUeOI1J9cSF9LVMxtUJHoqpKyGeQApBFtQzG5suxYQCvYzTmg9Ff7uLBmru4Y+PMZ4ZkiaMHgpK5wFRVMXAwXSkSACOCK3CPPRx+E2qsNieQ9k2MPTCgsxxj0OYmi2fDHuICi6Y5HBiSSRphtg6TQUjj4RV0Y4kV/MMMRgNuhPUNnZOPiHn8YNO1kXx8F0tD7v4xS36VHRdDNVxdvs7h1YHMwcBTi/fmrBf9jxRtOUdKYDyK2Q5eDqaOrjw+yeiFUa9QTu7c9+ftHJfQkP7JiT1V3yz3AQzSNMsqVtA8Be6djPPKrfrbMcwuyWc/W8MnSEbNA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5154.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(136003)(376002)(39860400002)(396003)(366004)(346002)(86362001)(2616005)(6512007)(5660300002)(6486002)(41300700001)(31696002)(8936002)(6506007)(2906002)(53546011)(26005)(478600001)(122000001)(71200400001)(7416002)(921005)(38070700005)(4744005)(83380400001)(110136005)(186003)(4326008)(66446008)(66556008)(36756003)(31686004)(76116006)(66476007)(54906003)(64756008)(66946007)(8676002)(316002)(38100700002)(91956017)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VTNGNHlhRGxhZXJ4NzE0ajh0bWFLcFp3N0JpcS9kVitSdmZpcUZ6N1huTFR1?=
+ =?utf-8?B?YzNGaWNFRzNOejVMOTNwZ0ZKc0NDaTZCZFVvV244TWlZOUFKS2hPODA1ZTRM?=
+ =?utf-8?B?MGlHRDhYTUZUckpGYlo5OUNydFduU3oxQzhRVllIOXM3cFdnYWZQSjM1RnRK?=
+ =?utf-8?B?VEx0UUk3VVp3Zk1UK3lRVEdwZ201YUdYSjBkdGd3NkJ2bktWOVJQdm14U0tD?=
+ =?utf-8?B?eTRFMzZ0bnEwTEJvQVdxK1RKUEtCVHNXQk82VEhEd0REOXVJK2xyK3QwOE81?=
+ =?utf-8?B?VEVQL1M0TDZsRmE1dTF3cDFENlpLNTZRRFZ0Zjl5RWN2SzROV0E2cDJRS2FE?=
+ =?utf-8?B?U0lOaE9ockM2cjZoQ2lCd0NhSkhSdUJEU3F2Q09CQlMyZlpHT1R4UDdnbUlF?=
+ =?utf-8?B?bHIvUFFtY2J1RFhjajgxaDc3OW4vZDFlOFNzeTBielVSSmRCNm9Ldys2YVRx?=
+ =?utf-8?B?R0poTE9ZYnkwYS9TcjgxaWJGbm1BK1Z4YndMci9WdUlkT1RBSUc1YnlCcjZw?=
+ =?utf-8?B?M3U2ZHg4NDlTZktrUEJZVGIxRFMvUTA4NGhmYmZTR3RPNFFtcHBRN1ZFRHBz?=
+ =?utf-8?B?Wmplb09zSXJQaG55Y0p5d1pzN0N2bithMVEvT1B6WkxCZGhJSnVrNlVCajZL?=
+ =?utf-8?B?YzVMRnNIZjJFUFVLcmFvbUNaSzZKTmpaTHhhTDJHY2xaWnVPK1Y0MnU5M1Qw?=
+ =?utf-8?B?MWR3NnljcmswZ29PaUpyVEFrVTJaYnVXMDRtTVZGVkRBWC9TTnBxM0JPWHk5?=
+ =?utf-8?B?UzZKd2hUSmpISXF1WU02UXNLM2pHcmoxQmptSURvSlZFckNZNkxOSXltaGlH?=
+ =?utf-8?B?N3UzUWlmaml5cjluVnQrS1pnanpBZWQ4V3o2RlhhYmhlRVo1QlN5WEsrVUxl?=
+ =?utf-8?B?RXpEQnM3V0F5NDJKa0IxNW9pblVMT1hGU3FwT1VoUWZkMXhYc0lKVDlkWDcw?=
+ =?utf-8?B?aU1GMkM1MU96ZGFNaEtjMWFVeFNLMk1aL1RFeEU2QlFHZjZWbkpubUE4RVRN?=
+ =?utf-8?B?NmttVnpWcFJtcGFUdkxwWFQwOFo4aDRYK0c4Q1MrYXRPL295c0svY1I3V0dY?=
+ =?utf-8?B?TmliNVF4b1JJOGpiZnlpcUwzY0k2SnRwb29od21IQTNxaHYrS01XVkFMQndS?=
+ =?utf-8?B?Rm5HNVZ2RWR5M1p4Nk5DdGZaZUp1WmhnRlhWNCtJZ2F4azNBeXBxck5yUEZr?=
+ =?utf-8?B?V1dMbkRXK05LdkdMYmE0K3BmdnR2RGNUVVFXWVRDR2pPT0R4dEM3RDNhUytp?=
+ =?utf-8?B?U3I4Q3VZVmh6aENKWmY5SHppUlhZa3Ayc0VORGM1d2czUWo3SE1wMEk0U1By?=
+ =?utf-8?B?SHJPZzZjKzJzUWpRVnNVVnh3VDBnUFBoUFN6N2E1RmI1UUJWUWNiMDVwZExj?=
+ =?utf-8?B?VmMzR3lxUFB0YWpnM0l3VGFGMFdySGEvanBlUEtxMHdZblMwbjJhY2xpb01j?=
+ =?utf-8?B?ZjBTdzVDT1FjcFQzOUZCQmh6YXJOSXJ2em1XQWRwTlQyRUc1cVJyWVFNZDBV?=
+ =?utf-8?B?NnNmeFlvWmNwNWppQmdZZUlaWHl6WlUvaEVENkc5aGJtZTY1OVhMalVMYXVz?=
+ =?utf-8?B?cVZaK1AzajZTVlJlTS9YaTEyYUVMSkxYNzNGT3BRK3JLM2M3dzM5bUluUGg5?=
+ =?utf-8?B?aGhRUGhlSEZpbHkzVjBCbis0NkNpTUdUN01MUDl4UUVuNDE2TUxVWVRiaHNF?=
+ =?utf-8?B?QTlrdGhEVy83bVcxbml1aXI3TVV3NitmMmJyQWIwSkZ2Mkc5UjhqclpWRWxC?=
+ =?utf-8?B?MWJydWlRQlNiTkl3UUZwWHpLWFUxdnp4U0NaYUE1KzlNZFo2YjJ1ZzlFWHFa?=
+ =?utf-8?B?ektBV2ZlbTB0OEx4QjZSbXcyV1p0aEdlcTJuQmxYWmhDRFZQSFl5b1BySXdY?=
+ =?utf-8?B?OWlsaVFFYTVMalF3K09jSGtKTmlOWGhlNGVWTTJ1SFlzbS9QNjh3SFdmTExa?=
+ =?utf-8?B?QUN1YWw4c1E1aEJPMXBhMDUwSTNCbUg3alBsS1RKeGtsVUhtRXRSWU5lZGdZ?=
+ =?utf-8?B?bFA5MWt0SEVWUXFwQVd3b2pkRDZRSlVBU2pPWUxGUkZuaS9sa05ZMndOUG9D?=
+ =?utf-8?B?VmQrV1VyNndVcEQvS3dtSVFBQ3lNZ2U5WU1yT2E5Zk9wS0xFdTRMVDM0bWNp?=
+ =?utf-8?Q?XnByRqvrj97aB9Zj+exsSKJOM?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <219EB6D99275B349AA9C12221539C02A@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH v2 01/21] drm/i915/gt: Ignore TLB
- invalidations on idle engines
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-References: <cover.1657800199.git.mchehab@kernel.org>
- <c014a1d743fa46a6b57f02bffb7badf438136442.1657800199.git.mchehab@kernel.org>
- <76318fe1-37dc-8a1e-317e-76333995b8ca@linux.intel.com>
- <20220718165341.30ee6e31@maurocar-mobl2>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220718165341.30ee6e31@maurocar-mobl2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2834593e-acdc-4ecc-62c4-08da68d16987
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 15:23:05.4124 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9HbIE3xZXCGLm7Btrmqj+sc0c7hX45TSS1UIzwvX9A1im7uAJURkQmShASLc5T9Zki0ws9c4elSQZC/OIr+JjQuXPm7BsaoNkaAIvur7XXE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2720
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,208 +162,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
- stable@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: niklas.cassel@wdc.com, aou@eecs.berkeley.edu, devicetree@vger.kernel.org,
+ damien.lemoal@opensource.wdc.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Conor.Dooley@microchip.com,
+ geert@linux-m68k.org, paul.walmsley@sifive.com, dmaengine@vger.kernel.org,
+ linux-riscv@lists.infradead.org, dillon.minfei@gmail.com, masahiroy@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 18/07/2022 15:53, Mauro Carvalho Chehab wrote:
-> On Mon, 18 Jul 2022 14:16:10 +0100
-> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> 
->> On 14/07/2022 13:06, Mauro Carvalho Chehab wrote:
->>> From: Chris Wilson <chris.p.wilson@intel.com>
->>>
->>> Check if the device is powered down prior to any engine activity,
->>> as, on such cases, all the TLBs were already invalidated, so an
->>> explicit TLB invalidation is not needed, thus reducing the
->>> performance regression impact due to it.
->>>
->>> This becomes more significant with GuC, as it can only do so when
->>> the connection to the GuC is awake.
->>>
->>> Cc: stable@vger.kernel.org
->>> Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
->>
->> Patch itself looks fine but I don't think we closed on the issue of
->> stable/fixes on this patch?
-> 
-> No, because TLB cache invalidation takes time and causes time outs, which
-> in turn affects applications and produce Kernel warnings.
-> 
-> There's even open bugs due to TLB timeouts, like this one:
-> 
-> 	[424.370996] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
-> 
-> See:
-> 	https://gitlab.freedesktop.org/drm/intel/-/issues/6424
-> 
-> So, while this is a performance regression, it ends causing a
-> functional regression.
-
-This test is not even particularly stressful. Fair enough - thanks for 
-the information.
-
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Is skipping of the ggtt only bound flush the fix for this particular test?
-
-Regards,
-
-Tvrtko
-
-> 
-> The first part of this series (patches 1-7) are meant to reduce the
-> risk of such timeouts by doing TLB invalidation in batch and only
-> when really needed (userspace-exposed TLBs for GTs that are powered-on
-> and non-edged).
-> 
-> As they're fixing such regressions, it makes sense c/c stable and having
-> a fixes tag.
-> 
->> My position here is that, if the functional issue is only with GuC
->> invalidations, then the tags shouldn't be there (and the huge CC list).
->>
->> Regards,
->>
->> Tvrtko
->>
->>> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
->>> Cc: Fei Yang <fei.yang@intel.com>
->>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->>> ---
->>>
->>> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
->>> See [PATCH v2 00/21] at: https://lore.kernel.org/all/cover.1657800199.git.mchehab@kernel.org/
->>>
->>>    drivers/gpu/drm/i915/gem/i915_gem_pages.c | 10 ++++++----
->>>    drivers/gpu/drm/i915/gt/intel_gt.c        | 17 ++++++++++-------
->>>    drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  3 +++
->>>    3 files changed, 19 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>> index 97c820eee115..6835279943df 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>> @@ -6,14 +6,15 @@
->>>    
->>>    #include <drm/drm_cache.h>
->>>    
->>> +#include "gt/intel_gt.h"
->>> +#include "gt/intel_gt_pm.h"
->>> +
->>>    #include "i915_drv.h"
->>>    #include "i915_gem_object.h"
->>>    #include "i915_scatterlist.h"
->>>    #include "i915_gem_lmem.h"
->>>    #include "i915_gem_mman.h"
->>>    
->>> -#include "gt/intel_gt.h"
->>> -
->>>    void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
->>>    				 struct sg_table *pages,
->>>    				 unsigned int sg_page_sizes)
->>> @@ -217,10 +218,11 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj)
->>>    
->>>    	if (test_and_clear_bit(I915_BO_WAS_BOUND_BIT, &obj->flags)) {
->>>    		struct drm_i915_private *i915 = to_i915(obj->base.dev);
->>> +		struct intel_gt *gt = to_gt(i915);
->>>    		intel_wakeref_t wakeref;
->>>    
->>> -		with_intel_runtime_pm_if_active(&i915->runtime_pm, wakeref)
->>> -			intel_gt_invalidate_tlbs(to_gt(i915));
->>> +		with_intel_gt_pm_if_awake(gt, wakeref)
->>> +			intel_gt_invalidate_tlbs(gt);
->>>    	}
->>>    
->>>    	return pages;
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
->>> index 68c2b0d8f187..c4d43da84d8e 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
->>> @@ -12,6 +12,7 @@
->>>    
->>>    #include "i915_drv.h"
->>>    #include "intel_context.h"
->>> +#include "intel_engine_pm.h"
->>>    #include "intel_engine_regs.h"
->>>    #include "intel_ggtt_gmch.h"
->>>    #include "intel_gt.h"
->>> @@ -924,6 +925,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
->>>    	struct drm_i915_private *i915 = gt->i915;
->>>    	struct intel_uncore *uncore = gt->uncore;
->>>    	struct intel_engine_cs *engine;
->>> +	intel_engine_mask_t awake, tmp;
->>>    	enum intel_engine_id id;
->>>    	const i915_reg_t *regs;
->>>    	unsigned int num = 0;
->>> @@ -947,26 +949,31 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
->>>    
->>>    	GEM_TRACE("\n");
->>>    
->>> -	assert_rpm_wakelock_held(&i915->runtime_pm);
->>> -
->>>    	mutex_lock(&gt->tlb_invalidate_lock);
->>>    	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
->>>    
->>>    	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset */
->>>    
->>> +	awake = 0;
->>>    	for_each_engine(engine, gt, id) {
->>>    		struct reg_and_bit rb;
->>>    
->>> +		if (!intel_engine_pm_is_awake(engine))
->>> +			continue;
->>> +
->>>    		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
->>>    		if (!i915_mmio_reg_offset(rb.reg))
->>>    			continue;
->>>    
->>>    		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
->>> +		awake |= engine->mask;
->>>    	}
->>>    
->>>    	spin_unlock_irq(&uncore->lock);
->>>    
->>> -	for_each_engine(engine, gt, id) {
->>> +	for_each_engine_masked(engine, gt, awake, tmp) {
->>> +		struct reg_and_bit rb;
->>> +
->>>    		/*
->>>    		 * HW architecture suggest typical invalidation time at 40us,
->>>    		 * with pessimistic cases up to 100us and a recommendation to
->>> @@ -974,12 +981,8 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
->>>    		 */
->>>    		const unsigned int timeout_us = 100;
->>>    		const unsigned int timeout_ms = 4;
->>> -		struct reg_and_bit rb;
->>>    
->>>    		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
->>> -		if (!i915_mmio_reg_offset(rb.reg))
->>> -			continue;
->>> -
->>>    		if (__intel_wait_for_register_fw(uncore,
->>>    						 rb.reg, rb.bit, 0,
->>>    						 timeout_us, timeout_ms,
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
->>> index bc898df7a48c..a334787a4939 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
->>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
->>> @@ -55,6 +55,9 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
->>>    	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
->>>    	     intel_gt_pm_put(gt), tmp = 0)
->>>    
->>> +#define with_intel_gt_pm_if_awake(gt, wf) \
->>> +	for (wf = intel_gt_pm_get_if_awake(gt); wf; intel_gt_pm_put_async(gt), wf = 0)
->>> +
->>>    static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
->>>    {
->>>    	return intel_wakeref_wait_for_idle(&gt->wakeref);
+T24gMTgvMDcvMjAyMiAxNjoxMiwgQmVuIERvb2tzIHdyb3RlOg0KPiBPbiAwNS8wNy8yMDIyIDIy
+OjUyLCBDb25vciBEb29sZXkgd3JvdGU6DQo+PiBGcm9tOiBDb25vciBEb29sZXkgPGNvbm9yLmRv
+b2xleUBtaWNyb2NoaXAuY29tPg0KPj4NCj4+IFRoZSBDYW5hYW4gazIxMCBhcHBhcmVudGx5IGhh
+cyBhIFN5c25vcHN5cyBEZXNpZ253YXJlIEFYSSBETUENCj4+IGNvbnRyb2xsZXIsIGJ1dCBhY2Nv
+cmRpbmcgdG8gdGhlIGRvY3VtZW50YXRpb24gJiBkZXZpY2V0cmVlIGl0IGhhcyA2DQo+PiBpbnRl
+cnJ1cHRzIHJhdGhlciB0aGFuIHRoZSBzdGFuZGFyZCBvbmUuIFN1cHBvcnQgdGhlIDYgaW50ZXJy
+dXB0DQo+PiBjb25maWd1cmF0aW9uIGJ5IHVuY29uZGl0aW9uYWxseSBleHRlbmRpbmcgdGhlIGJp
+bmRpbmcgdG8gYSBtYXhpbXVtIG9mDQo+PiA4IHBlci1jaGFubmVsIGludGVycnVwdHMgdGhlcmVi
+eSBtYXRjaGluZyB0aGUgbnVtYmVyIG9mIHBvc3NpYmxlDQo+PiBjaGFubmVscy4NCj4gDQo+IEkg
+dGhpbmsgeW91IGNhbiBzdGlsbCBjb25maWd1cmUgaXQgdG8gcHJvZHVjZSBhIHNpbmdsZSBpbnRl
+cnJ1cHQNCj4gZXZlbiBpZiB0aGVyZSBhcmUgcGVyLWNoYW5uZWwgaW50ZXJydXB0cyBhdmFpbGFi
+bGUuIFRoaXMgaXMgZnJvbQ0KPiBteSByZWFkaW5nIG9mIHRoZSBkcml2ZXIgYSBsaXR0bGUgd2hp
+bGUgYWdvIHNvIG1heSBub3QgYmUgdG90YWxseQ0KPiBjb3JyZWN0IG5vdy4NCj4gDQo+IEhhdmlu
+ZyBwZXItY2hhbm5lbCBpcnFzIG1pZ2h0IGJlIHVzZWZ1bCBpbiB0aGUgZnV0dXJlLCBidXQgYXMg
+YWJvdmUNCj4gSSB0aGluayBpdCdsbCByZXF1aXJlIHRoZSBkcml2ZXIgdG8gYmUgdXBkYXRlZCB0
+byBkbyBpdCAoYW5kIHBvc3NpYmx5DQo+IHNvbWUgc29ydCBvZiBkZXRlY3Rpb24pDQo+IA0KDQpZ
+YWgsIGRyaXZlciB3b3VsZCBuZWVkIGFuIHVwZGF0ZS4gQnV0IGhhcHBpbHkgdGhhdCBkb2VzIG5v
+dCBtYXR0ZXIgZm9yDQp0aGUgdmFsaWRpdHkgb2YgdGhlIGJpbmRpbmcuDQoNCg==
