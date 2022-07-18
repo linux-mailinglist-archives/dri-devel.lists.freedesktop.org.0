@@ -2,84 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0861F57804F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 12:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8B5578081
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 13:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D08A6CAB;
-	Mon, 18 Jul 2022 10:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D16CB0830;
+	Mon, 18 Jul 2022 11:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52C6D90105
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 10:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658141813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wznRRcQ1E1EPLsgI7kgVwWWa1K3DaSgJ1EEclGC9ESw=;
- b=V24PrUZ6nYrljWk/PoWTU2YFghlOk1B4RNwMfuK8rSclRboXpQV/ro/Vd/oSLgmtnvJOdI
- 6fPO8YzUwXfvkVwEwWIjrrh7OuQboqE1Cgn+nZKh6k9n1FvVuRzhU1KQXcodgFYKjFnTYv
- gz4lJFudWdX3BLz5ZYhVKNpSQJTG4Ig=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-e29ryvEgPyKwyUNbyLEtVg-1; Mon, 18 Jul 2022 06:56:32 -0400
-X-MC-Unique: e29ryvEgPyKwyUNbyLEtVg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z11-20020a05600c0a0b00b003a043991610so4090883wmp.8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 03:56:32 -0700 (PDT)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF978B0823
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 11:18:17 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id r24so1822263qtx.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 04:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wSoYENXBgH2mwK4hdRwcr5ZngBoL0AeSrBZrHAlbPeQ=;
+ b=qFnFWPwvGVggO9eAAgTTMi5N3kU74UfugZ/F1ND8Dh1XwEYNQq9hleridz+UuErbjp
+ kKXke5m5utIeYESJxdI+Imw1dN7Ky712JivV5EepwVudgfHjmTqzT/4Csy8a5PRWaYcW
+ WT7WNRwPzbR88elpVuCiYFy314nf03iGRthvnSl47bKymr5iw2ISiSCilphKmc3sjDBm
+ wiODnzpQ5ZhUPmt72MGydEbUEk8Tl3V01TfyuGjdP3zZ6dMAa1QHvvhfxlrb1Fhq/iC3
+ p3s1kljCg7uX6D1BpJ/6XC9U0bCN4LfKIpfi4lFkm26bo4VkK/Gcyeu4o/iFLsYdoMKG
+ BZIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=wznRRcQ1E1EPLsgI7kgVwWWa1K3DaSgJ1EEclGC9ESw=;
- b=olNrRRSIM3UHbngM/ASht5jmNI5liWm1gCi06Spu54tXHdW8YBjVugoeARBWg6S0+H
- ll5W4rKEn5kUaPcAdD1yaeDYrv/w/sDl+dno595l1TlDVqToxRSYGeQpNRcbx8aH/rwq
- NxHx7PYMin5cIQKP8WnGYrm7LQzMu20rf+K7RdODRkFKxjSTRKhp3qRfdzHZ/E7+Ja9d
- 0t5RaBsWM5B0RHWPx0b08IvAzKAHXhyaZeIMR9sfadhUYYbKTE/8oOsik++V8562a1++
- Bf8pCyOzsSfF0dcNMzeXon1KdyA2imdMaWz1sb7wXBhDNEYv+gS1VQ82Oo0Q+vQ0TYls
- 35uA==
-X-Gm-Message-State: AJIora9Ljn+cmD4BKnXn39OjbuoiviV0NMjHdqNUfQoPYt7lKy2YNz/b
- fyzB3/5U4DRCbvD/wMSUnfpAZ3jHDdcGbmcqtVw8DIurABh5BNf8NIK53n2rE4BQop50r3G1+2j
- COYUiMmgrV5Mk/K/l+rdQjO7amxBU
-X-Received: by 2002:a05:600c:3b8d:b0:3a2:ea2b:d0f9 with SMTP id
- n13-20020a05600c3b8d00b003a2ea2bd0f9mr25454658wms.120.1658141791259; 
- Mon, 18 Jul 2022 03:56:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1semjCkDwGjEQMzpCRvMdqQ/nTLWiXGmEKcwwSpdKliRLXOgrdG+Rkplh3ByVOTYHpbct/E2A==
-X-Received: by 2002:a05:600c:3b8d:b0:3a2:ea2b:d0f9 with SMTP id
- n13-20020a05600c3b8d00b003a2ea2bd0f9mr25454634wms.120.1658141790977; 
- Mon, 18 Jul 2022 03:56:30 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:7400:6b3a:a74a:bd53:a018?
- (p200300cbc70574006b3aa74abd53a018.dip0.t-ipconnect.de.
- [2003:cb:c705:7400:6b3a:a74a:bd53:a018])
- by smtp.gmail.com with ESMTPSA id
- g1-20020a5d5541000000b0021d728d687asm12298516wrw.36.2022.07.18.03.56.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 03:56:30 -0700 (PDT)
-Message-ID: <225554c2-9174-555e-ddc0-df95c39211bc@redhat.com>
-Date: Mon, 18 Jul 2022 12:56:29 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wSoYENXBgH2mwK4hdRwcr5ZngBoL0AeSrBZrHAlbPeQ=;
+ b=ygshENGCqXYI4Ho5wVg4qFPuitFcK4s4GAzyTtAGwivBF2EmpMJIa6LRRW2goUJiip
+ dO0WA/2MfBiYHSrOrZtZYi7N+5LnKU0+aVlOD4PliJPzXWSm1pl3Tg4hoIlkDzXhp/Jm
+ wui16Kge0ZrXSlr8QunY6fwlj2PUdssEvvBbzXeX0OyBk/dpxgz/aZMF/ujtNYTbFLMB
+ TwtngvAt78qkio43b3jO3gUXs+oO3vdGQejdHgtEcQX5aFFEpky5i9+/Ai1UjLP+MWZN
+ 7oem84M4+RWbyDg38r+WPmsBQD32IzsszcjXK5D78ya3BP/somm7y4IEIfkUTclEzz1G
+ /wCQ==
+X-Gm-Message-State: AJIora/IaSkVo8KtUVt3m92UH8nlCOB6nE6JEABE2NcpXyYtQsKyvCcs
+ 2O9G+OSNsw4qgZuLlp1f+18gRWiEotG6Siv8v9k=
+X-Google-Smtp-Source: AGRyM1sDQntCUf7aWlvIzBrAp3ngAMq6sCK0MNxJ0IaoTAwyexPRWMVJcAdASNSTm/k1fe6tXf81WYvadsLxzbGsFLI=
+X-Received: by 2002:ac8:5a8c:0:b0:31d:2826:d14f with SMTP id
+ c12-20020ac85a8c000000b0031d2826d14fmr20168056qtc.198.1658143096830; Mon, 18
+ Jul 2022 04:18:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v9 06/14] mm/gup: migrate device coherent pages when
- pinning instead of failing
-To: Alex Sierra <alex.sierra@amd.com>, jgg@nvidia.com
-References: <20220715150521.18165-1-alex.sierra@amd.com>
- <20220715150521.18165-7-alex.sierra@amd.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220715150521.18165-7-alex.sierra@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220715112607.591-1-peterwu.pub@gmail.com>
+ <20220715112607.591-14-peterwu.pub@gmail.com>
+ <ec3bdfb8-0e42-a772-28b1-165811872afa@collabora.com>
+ <20220715162913.5ewxwhv6jtdgt3c2@maple.lan>
+ <ee88aec0-f6f8-c554-6752-447cb0f34e16@collabora.com>
+In-Reply-To: <ee88aec0-f6f8-c554-6752-447cb0f34e16@collabora.com>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Mon, 18 Jul 2022 19:17:40 +0800
+Message-ID: <CABtFH5J3tjx6mLfXkx_MySXdYg3qms09gX0wxpuFQxWpz3gowQ@mail.gmail.com>
+Subject: Re: [PATCH v5 13/13] video: backlight: mt6370: Add MediaTek MT6370
+ support
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,60 +67,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, Felix.Kuehling@amd.com,
- apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
- linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
- akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.07.22 17:05, Alex Sierra wrote:
-> From: Alistair Popple <apopple@nvidia.com>
-> 
-> Currently any attempts to pin a device coherent page will fail. This is
-> because device coherent pages need to be managed by a device driver, and
-> pinning them would prevent a driver from migrating them off the device.
-> 
-> However this is no reason to fail pinning of these pages. These are
-> coherent and accessible from the CPU so can be migrated just like
-> pinning ZONE_MOVABLE pages. So instead of failing all attempts to pin
-> them first try migrating them out of ZONE_DEVICE.
-> 
-> [hch: rebased to the split device memory checks,
->       moved migrate_device_page to migrate_device.c]
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Mon, Jul 18, 2022 at 4:27 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
 
-[...]
+<snip>
 
->  		/*
->  		 * Try to move out any movable page before pinning the range.
->  		 */
-> @@ -1919,7 +1948,8 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
->  				    folio_nr_pages(folio));
->  	}
->  
-> -	if (!list_empty(&movable_page_list) || isolation_error_count)
-> +	if (!list_empty(&movable_page_list) || isolation_error_count
-> +		|| coherent_pages)
+> >>
+> >> Hello ChiaEn,
+> >>
+> >> I propose to move this one to drivers/leds (or drivers/pwm) and, instead of
+> >> registering a backlight device, register a PWM device.
+> >>
+> >> This way you will be able to reuse the generic backlight-pwm driver, as you'd
+> >> be feeding the PWM device exposed by this driver to the generic one: this will
+> >> most importantly make it easy to chain it with MTK_DISP_PWM (mtk-pwm-disp)
+> >> with a devicetree that looks like...
+> >
+> > Out of interest, does MT6370 have the same structure for backlights as the prior
+> > systems using mtk-pwm-disp or was mtk-pwm-disp simply a normal(-ish) PWM
+> > that relied on something on the board for all the constant current
+> > driver hardware?
+> >
+> >
+>
+> As per my understanding, mtk-pwm-disp is chained to other multimedia features of
+> the display block of MediaTek SoCs, such as the AAL (adaptive ambient light),
+> CABC (content adaptive backlight control) etc, other than being a normal(ish)
+> PWM... that's the reason of my request.
+>
+> Moreover, in the end, this PMIC's backlight controller is just a "fancy" PWM
+> controller, with OCP/OVP.
+>
+> >>
+> >>      pwmleds-disp {
+> >>              compatible = "pwm-leds";
+> >>
+> >>              disp_led: disp-pwm {
+> >>                      label = "backlight-pwm";
+> >>                      pwms = <&pwm0 0 500000>;
+> >>                      max-brightness = <1024>;
+> >>              };
+> >>      };
+> >>
+> >>      backlight_lcd0: backlight {
+> >>              compatible = "led-backlight";
+> >>              leds = <&disp_led>, <&pmic_bl_led>;
+> >>              default-brightness-level = <300>;
+> >>      };
+> >
+> > I think this proposal has to start with the devicetree bindings rather
+> > than the driver. Instead I think the question is: does this proposal
+> > result in DT bindings that better describe the underlying hardware?
+> >
+>
+>  From how I understand it - yes: we have a fancy PWM (&pwm0) that we use
+> to control display backlight (backlight-pwm)...
+>
+> Obviously, here we're not talking about OLEDs, but LCDs, where the backlight
+> is made of multiple strings of WhiteLED (effectively, a "pwm-leds" controlled
+> "led-backlight").
+>
+> Using PWM will also allow for a little more fine-grained board specific
+> configuration, as I think that this PMIC (and/or variants of it) will be
+> used in completely different form factors: I think that's going to be both
+> smartphones and tablets/laptops... and I want to avoid vendor properties
+> to configure the PWM part in a somehow different way.
+>
+> > This device has lots of backlight centric features (OCP, OVP, single
+> > control with multiple outputs, exponential curves, etc) and its not
+> > clear where they would fit into the "PWM" bindings.
+> >
+>
+> For OCP and OVP, the only bindings that fit would be regulators, but that's
+> not a regulator... and that's about it - I don't really have arguments for
+> that.
+>
+> What I really want to see here is usage of "generic" drivers like led_bl
+> and/or pwm_bl as to get some "standardization" around with all the benefits
+> that this carries.
+>
+> > Come to think of it I'm also a little worried also about the whole linear
+> > versus exponential curve thing since I thought LED drivers were required
+> > to use exponential curves.
+> >
+>
+> That probably depends on how the controller interprets the data, I guess,
+> but I agree with you on this thought.
 
-The common style is to
+Hi Angelo,
 
-a) add the || to the end of the previous line
-b) indent such the we have a nice-to-read alignment
+MT6370 is just a SubPMIC, not an SoC, and is applied in cellular
+telephones, tablet PCs, and portable instruments.
+And the PWM mode of the MT6370 backlight driver is optional, and not
+must be enabled.
+From our perspective, this MT6370 backlight driver is not the same as
+mtk-pwm-disp related driver.
+Thanks!
 
-if (!list_empty(&movable_page_list) || isolation_error_count ||
-    coherent_pages)
-
-
-Apart from that lgtm.
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
+>
+> Regards,
+> Angelo
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Best Regards,
+ChiaEn Wu
