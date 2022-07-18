@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799C0577B74
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 878AC577B6E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEBE8A9D47;
-	Mon, 18 Jul 2022 06:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47DD1A9D35;
+	Mon, 18 Jul 2022 06:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58D00A9CD9;
- Mon, 18 Jul 2022 06:38:46 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id c16so4317225ils.7;
- Sun, 17 Jul 2022 23:38:46 -0700 (PDT)
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A77A9CCA;
+ Mon, 18 Jul 2022 06:38:47 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id h16so5562324ila.2;
+ Sun, 17 Jul 2022 23:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iJtOb8MGNrfDuJNUjp5ciUTwfOiM98w6evAABfdr9NA=;
- b=WYIhANiX/rnwdl1wGs8g9tolshMpjMJENKvfZ4nu+8Df+KAtVWK+gOVeMtkqVNFuxM
- xgGLFN5Nt6Vbh0bT92b0sDnEb4w6AnzbAXmZmxUX0ar1Non8iFaVUPE+pnw72UAgOhwp
- XZAs5mni6rl0mxXF2AK411mi9tegBInJ2ldLYdtmC4FC3QuSiWT/5JBm7gEbptZJtUBf
- rNCDKqZeRrS9ZAzfabRqyV0riSczrmrZG+LgrikZQTyHe0jhB4yX/MulB9yfWbq/DzUe
- QupWyJANJo3U3zrND0KlN/sOUNYNijRrJJaqUnCZmJQvluQg6FkUp68UQMMVl59WDRTR
- dv5Q==
+ bh=smzB/k68xh/FUqryWbOBUBLDbn4KcKzhEOP/Gwd4FZo=;
+ b=ah2TZz5keynCDPjyhkGgnYVjD/qc6MmYD6vhncSoTTncxjPnxFCvzY7KxwxmtivoLW
+ pCnnvOsNmSyY8Ol9371D6otdo2TgPokbFHQ2WATaOb6NEsR+SiFbk6y2Pk6vrJwQj4id
+ Bt1g3bIyiCI39owjXvN7O1AcruFaTtWkW0IY5/5FeNyM1UEb4Se0d7OKjOsMeP7gEz/7
+ NOs0KhETf9lINi69BUTouUt5STjab4J6mxcqANq6c1FSpu0gO3vD6IuySuVhEbF/n68H
+ hAhkizEZocCkq3FCVtYAia7dUZLjg7b2WmKlrqlYHGfxH6b/njsJEoqWcQVv4rRX0KEI
+ CV6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iJtOb8MGNrfDuJNUjp5ciUTwfOiM98w6evAABfdr9NA=;
- b=RnhAiXwWR87Hi1iHpTZGfy0rf+aCNEC+yvGGE1zuXnw6MDuVx/Ayd9B9NcVfGFq3wl
- 3taqyVhwTd18yeJ1i9AOVZawPs7GSedtuvWhGPh6+hcnYAEymzKsDbftsPux5Za/QEkb
- v0o9+tq/UUx9y+lx1wmzR5rTSrguJfT73Y+wWJ8kVJXyJyiixjuMfMw/PsNTJh0cY68w
- WguSb9vBAWyy8dTbLC4D0MGdChCXWhVUAMYR+jjKrSN+FtFTSrpWjB05C5AB+/RyBZn5
- /PdQWuKGPukUul0UlCT/ATU+TFaQAMtJkmbPsSoXGS1mLvBhXCPXgEOtauQEoVpgDJ9q
- JdLQ==
-X-Gm-Message-State: AJIora8Itb5XaANMwZNDxZEKAQiHzpA4PQii23Ap7JbIKpckRVMjFM1G
- aEPNNALfV+d0Ryd2PV0viNij/3XcMSE=
-X-Google-Smtp-Source: AGRyM1vgNV0Aih9Ut/mUoy7UDugZ2ZlpeWghK1hcW1/ieZ1xjM0F8ouC8yLzdpCK5zNz55sG34Vk2A==
-X-Received: by 2002:a05:6e02:20e2:b0:2dc:88c6:f03d with SMTP id
- q2-20020a056e0220e200b002dc88c6f03dmr13341989ilv.35.1658126325991; 
- Sun, 17 Jul 2022 23:38:45 -0700 (PDT)
+ bh=smzB/k68xh/FUqryWbOBUBLDbn4KcKzhEOP/Gwd4FZo=;
+ b=KE7J4nbD4Rl2NFjHu+Q/YSO2h6ShGUp15CYKwG29gewcO/YT1GIfC6niVnNsNjnfsD
+ lY/qghHx24lmxyIX+KSn9BH3qOOuix41Jw6+7mADiqk+KQ+bfHbUp16awBRe835TvJ2D
+ oFFhbj2IWMPjsZEfDUSzvBLdAAFBmabtI/wGrothLWTKQqm2TFeY4kTNpisQhRQYi5LH
+ hpq5etEIXGrta3lbMDrTEpZ3YiRiykVVPfaIH5VD9QQRGGBJdfN2RmIRqQiQXowDoQ8C
+ jQ37Qd4ia292kTPLerFuokFIYGhWDqNR4p6oa0E4XLvJO5f+MjEj+6Fu/PaRdUJ7aqDZ
+ Grcw==
+X-Gm-Message-State: AJIora9fuaXlDUDC38Y+bLItdg0V2iDBp+hVs+qQ4DUuZUsYjuglBPrs
+ H5jTMo8VpzE9MzmXbdeTWLg=
+X-Google-Smtp-Source: AGRyM1sqMK5bl/L6uxE9zzl1H/ELATJwPDh1PJA+wiVwCUtsbWTUDfw6n+PWmZQ5IGlrzydsR+cCpw==
+X-Received: by 2002:a05:6e02:1c07:b0:2dc:e707:e49d with SMTP id
+ l7-20020a056e021c0700b002dce707e49dmr2168383ilh.190.1658126327071; 
+ Sun, 17 Jul 2022 23:38:47 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.44
+ o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:38:45 -0700 (PDT)
+ Sun, 17 Jul 2022 23:38:46 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com
-Subject: [PATCH v3 23/41] drm_print: wrap drm_*_dbg in dyndbg descriptor
- factory macro
-Date: Mon, 18 Jul 2022 00:36:07 -0600
-Message-Id: <20220718063641.9179-24-jim.cromie@gmail.com>
+Subject: [PATCH v3 24/41] drm-print: add drm_dbg_driver to improve namespace
+ symmetry
+Date: Mon, 18 Jul 2022 00:36:08 -0600
+Message-Id: <20220718063641.9179-25-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
 References: <20220718063641.9179-1-jim.cromie@gmail.com>
@@ -75,95 +75,44 @@ Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For CONFIG_DRM_USE_DYNAMIC_DEBUG=y, wrap __drm_dbg() & __drm_dev_dbg()
-in one of dyndbg's Factory macros: _dynamic_func_call_no_desc().
+drm_print defines all of these:
+    drm_dbg_{core,kms,prime,atomic,vbl,lease,_dp,_drmres}
 
-This adds the callsite descriptor into the code, and an entry for each
-into /proc/dynamic_debug/control.
+but not drm_dbg_driver itself, since it was the original drm_dbg.
 
-  #> echo class DRM_UT_ATOMIC +p > /proc/dynamic_debug/control
+To improve namespace symmetry, change the drm_dbg defn to
+drm_dbg_driver, and redef grandfathered name to symmetric one.
 
-CONFIG_DRM_USE_DYNAMIC_DEBUG=y/n is configurable because of the .data
-footprint cost of per-callsite control; 56 bytes/site * ~2k for i915,
-~4k callsites for amdgpu.  This is large enough that a kernel builder
-might not want it.
+This will help with nouveau, which uses its own stack of macros to
+construct calls to dev_info, dev_dbg, etc, for which adaptation means
+drm_dbg_##driver constructs.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/Kconfig  | 12 ++++++++++++
- drivers/gpu/drm/Makefile |  2 ++
- include/drm/drm_print.h  | 12 ++++++++++++
- 3 files changed, 26 insertions(+)
+ include/drm/drm_print.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index e88c497fa010..bb1fa20a8eb2 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -50,6 +50,18 @@ config DRM_DEBUG_MM
- 
- 	  If in doubt, say "N".
- 
-+config DRM_USE_DYNAMIC_DEBUG
-+	bool "use dynamic debug to implement drm.debug"
-+	default y
-+	depends on DRM
-+	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
-+	depends on JUMP_LABEL
-+	help
-+	  Use dynamic-debug to avoid drm_debug_enabled() runtime overheads.
-+	  Due to callsite counts in DRM drivers (~4k in amdgpu) and 56
-+	  bytes per callsite, the .data costs can be substantial, and
-+	  are therefore configurable.
-+
- config DRM_DEBUG_SELFTEST
- 	tristate "kselftests for DRM"
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 15fe3163f822..272de137d207 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -3,6 +3,8 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
- 
-+CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
-+
- drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
- 		drm_file.o drm_gem.o drm_ioctl.o \
- 		drm_drv.o \
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index c429c258c957..2d2cef76b5c1 100644
+index 2d2cef76b5c1..3aa5e9ea26f4 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
-@@ -384,8 +384,14 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 	}								\
- })
+@@ -467,7 +467,7 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
  
-+#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
- #define drm_dev_dbg(dev, cat, fmt, ...)				\
- 	__drm_dev_dbg(dev, cat, fmt, ##__VA_ARGS__)
-+#else
-+#define drm_dev_dbg(dev, cat, fmt, ...)				\
-+	_dynamic_func_call_no_desc(fmt, __drm_dev_dbg,			\
-+				   dev, cat, fmt, ##__VA_ARGS__)
-+#endif
+ #define drm_dbg_core(drm, fmt, ...)					\
+ 	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+-#define drm_dbg(drm, fmt, ...)						\
++#define drm_dbg_driver(drm, fmt, ...)						\
+ 	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+ #define drm_dbg_kms(drm, fmt, ...)					\
+ 	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+@@ -486,6 +486,7 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ #define drm_dbg_drmres(drm, fmt, ...)					\
+ 	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
  
- /**
-  * DRM_DEV_DEBUG() - Debug output for generic drm code
-@@ -492,7 +498,13 @@ void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
- __printf(1, 2)
- void __drm_err(const char *format, ...);
++#define drm_dbg(drm, fmt, ...)	drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
  
-+#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
- #define __drm_dbg(fmt, ...)		___drm_dbg(fmt, ##__VA_ARGS__)
-+#else
-+#define __drm_dbg(cat, fmt, ...)					\
-+	_dynamic_func_call_no_desc(fmt, ___drm_dbg,			\
-+				   cat, fmt, ##__VA_ARGS__)
-+#endif
- 
- /* Macros to make printk easier */
- 
+ /*
+  * printk based logging
 -- 
 2.36.1
 
