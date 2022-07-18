@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34835577B77
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE21577B79
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jul 2022 08:40:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5F80A9D2F;
-	Mon, 18 Jul 2022 06:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E341BA9D56;
+	Mon, 18 Jul 2022 06:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C86F9A9C7E;
- Mon, 18 Jul 2022 06:38:34 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id l24so8516815ion.13;
- Sun, 17 Jul 2022 23:38:34 -0700 (PDT)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489D2A9CAE;
+ Mon, 18 Jul 2022 06:38:36 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id w9so2043460ilg.1;
+ Sun, 17 Jul 2022 23:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0keNK2iWc5vvIPQtHEufP+pJ7nMjLLdNpxSJECvJiok=;
- b=FxC846ClQVIi+f6PMtM9tRIoxL3e5paGcXhJwJWz/sjH6UiqFgNZ6DhU/PxJJacxqx
- oU8iwKjYgieiVTqtM856BZ+6MM7e4Ed1F04bSOTM+mxMGrKLFu3melGweyMyyOlS6IHS
- ABAjwrdrOV1BKjkLVt7T/mXqHF9FqY/3pfxFXHLc+1iQfRQAc6tmfaKGHOZATyrQBA8R
- ohxIBPzm3Iix72eObA6EqHH6bXAIsQcUjHe0thBhtJTIHkEUcYDqAI/IOSlXNd8C+LkF
- dbFjWYJ7h+uk6N+EJnlkFMJyCCpJGvTOGYoLSEalz9C73MdI9BuSU5BcnVX8qQP6M9eT
- rKoQ==
+ bh=Bh0/DFoYhEptZ3Qmb/gPoAkKxPWthqE3Rxq7bl/8jnk=;
+ b=K/N03qVc1QzIwf6M5NDJI4ORkODBkAgXm+R6M0pzFztLSNH2lxdUOr3Bdk22ZYFZv5
+ sDl5rIy6kNaoz2BNwD/pzj57EVUtLhkipWZJqnfrV/L0VBnN0eh/2z8foMXlEJ0+Qgkl
+ Sql2bmyd+cmxfwkWeGIDAhfrgSUq7RlNh5cM+tWoSkVtR3fjxGJy2KEUi/xwbmFB5nJn
+ xleOLiyXScTiZkgKeoSnP25A5sprhtifuHlsIYnGA6EZOIrfNonifb+marff6kLexoQ6
+ gEnt5ASK9MkJZhzQOxhFH/hjRmPOdX9JVRk/Knt/ZznS5ee9pO/KsQTiF0Y6/3RQrG6J
+ Bh3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0keNK2iWc5vvIPQtHEufP+pJ7nMjLLdNpxSJECvJiok=;
- b=00FAAdFKpZ0KAsvAXM2m3kZidjSlroqKIMwHB0+Pd1Zx0JTCijqq0i8nvYTOcuLLmo
- G9mwWzvy6U/X+AsFPIdkLeJa38UwlG/7mh2Uwcolk5YuzoSnoXfuD3EimiGh8VEooLaL
- PcfqermpnWHCBW93Pc1sQLVJh+CVPQUQMb4wwmzsOZKcupjbnes78ftVTVTkB+3BfpTj
- GlIcyE52nVbh5oIW2/CeA54a8j2Rdv1qAQLEtN35xeWxyELlkSagyVj2Njd1i1Og2UqE
- GFxhPp7cXETZKNB2cxzBxcQA93jD3YWXcc6nejdIuE8vC4hpQIp2sfNtXjG3kWRF5et3
- E4TQ==
-X-Gm-Message-State: AJIora8EwmHk9/0REJWAJZUvIZuyERc/u3UbFgsNpwAJeMXgvWz0hIV0
- 3ilzJ+PWK7cK7tVHL1Hmrds=
-X-Google-Smtp-Source: AGRyM1sja1SHJIrCETpqnn0UQIv8wyl5xm/spjHbsIPj6nJIEkLF/62jjUUyRgNuCfdmCdhRCzdtlw==
-X-Received: by 2002:a05:6638:1616:b0:341:6400:cccb with SMTP id
- x22-20020a056638161600b003416400cccbmr3871449jas.299.1658126314053; 
- Sun, 17 Jul 2022 23:38:34 -0700 (PDT)
+ bh=Bh0/DFoYhEptZ3Qmb/gPoAkKxPWthqE3Rxq7bl/8jnk=;
+ b=qDu/sPhKORgF5xWS38h71ExrWoQyK+rX2uSPIcSqxWKtI/imUrrAPvFYKBxoC16BQi
+ k7klOjBMwjUVkwPr0O2EIpGYEMnjnL5oGkta+w/qH+jHBoIbQ/0EvDE2sZKJHg56ZR0r
+ SnLYO9O/OWwUwVCNhcD5al/9uIbseoPtJzYNn7tvs9Q+H0M1UMLMtqQZNQi2AzoiSv1Q
+ xyniuxjr8DPHNXhiIXJxgJRItfl4uJ+VtLK+QBca0CCjqYINgethuzhgMEaTIZoO7WTB
+ jHQuo6DVk0DXGlB9sNoUEfePeZZfx6YWdczLx9QpypD6MmlnOmVRXngRuzxYiCL+jeha
+ JQDQ==
+X-Gm-Message-State: AJIora+ckO5Kkw0qeEYGT347yL/+lh/JJq4l//BpR+VYgFFLKUF07xHt
+ QSOZthnifq1ibxS+NTul81oMSCd6+GY=
+X-Google-Smtp-Source: AGRyM1v2fbTo5fmEy4gFJ9UlFaZlXXEOOpfE4jwoyvAkD4TJOBnHASiczSSjOBILUXqmUAzKJBWjFQ==
+X-Received: by 2002:a05:6e02:1bcb:b0:2dc:ec0e:9e7 with SMTP id
+ x11-20020a056e021bcb00b002dcec0e09e7mr1749649ilv.213.1658126315309; 
+ Sun, 17 Jul 2022 23:38:35 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.32
+ o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jul 2022 23:38:33 -0700 (PDT)
+ Sun, 17 Jul 2022 23:38:34 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com
-Subject: [PATCH v3 14/41] dyndbg: add ddebug_attach_module_classes
-Date: Mon, 18 Jul 2022 00:35:58 -0600
-Message-Id: <20220718063641.9179-15-jim.cromie@gmail.com>
+Subject: [PATCH v3 15/41] dyndbg: validate class FOO by checking with module
+Date: Mon, 18 Jul 2022 00:35:59 -0600
+Message-Id: <20220718063641.9179-16-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
 References: <20220718063641.9179-1-jim.cromie@gmail.com>
@@ -74,99 +74,183 @@ Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add ddebug_attach_module_classes(), call it from ddebug_add_module().
-It scans the classes/section its given, finds records where the
-module-name matches the module being added, and adds them to the
-module's maps list.  No locking here, since the record
-isn't yet linked into the ddebug_tables list.
+Add module-to-class validation:
 
-It is called indirectly from 2 sources:
+  #> echo class DRM_UT_KMS +p > /proc/dynamic_debug/control
 
- - from load_module(), where it scans the module's __dyndbg_classes
-   section, which contains DYNAMIC_DEBUG_CLASSES definitions from just
-   the module.
+If a query has "class FOO", then ddebug_find_valid_class(), called
+from ddebug_change(), requires that FOO is known to module X,
+otherwize the query is skipped entirely for X.  This protects each
+module's class-space, other than the default:31.
 
- - from dynamic_debug_init(), where all DYNAMIC_DEBUG_CLASSES
-   definitions of each builtin module have been packed together.
-   This is why ddebug_attach_module_classes() checks module-name.
+The authors' choice of FOO is highly selective, giving isolation
+and/or coordinated sharing of FOOs.  For example, only DRM modules
+should know and respond to DRM_UT_KMS.
 
-RFC:
+So this, combined with module's opt-in declaration of known classes,
+effectively privatizes the .class_id space for each module (or
+coordinated set of modules).
 
-Its (highly) likely that builtin classes will be ordered by module
-name (just like prdbg descriptors are in the __dyndbg section).  So
-the list can be replaced by a vector (ptr + length), which will work
-for loaded modules too.  This would imitate whats currently done for
-the _ddebug descriptors.
+Notes:
 
-That said, converting to vector,len is close to pointless; a small
-minority of modules will ever define a class-map, and almost all of
-them will have only 1 or 2 class-maps, so theres only a couple dozen
-pointers to save.
+For all "class FOO" queries, ddebug_find_valid_class() is called, it
+returns the map matching the query, and sets valid_class via an
+*outvar).
+
+If no "class FOO" is supplied, valid_class = _CLASS_DFLT.  This
+insures that legacy queries do not trample on new class'd callsites,
+as they get added.
+
+Also add a new column to control-file output, displaying non-default
+class-name (when found) or the "unknown _id:", if it has not been
+(correctly) declared with one of the declarator macros.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ lib/dynamic_debug.c | 76 ++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 68 insertions(+), 8 deletions(-)
 
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index b6d80ba25bf5..e29730686cfb 100644
+index e29730686cfb..4c27bbe5187e 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -45,7 +45,7 @@ extern struct ddebug_class_map __start___dyndbg_classes[];
- extern struct ddebug_class_map __stop___dyndbg_classes[];
- 
- struct ddebug_table {
--	struct list_head link;
-+	struct list_head link, maps;
- 	const char *mod_name;
- 	unsigned int num_ddebugs;
- 	struct _ddebug *ddebugs;
-@@ -921,6 +921,32 @@ static const struct proc_ops proc_fops = {
- 	.proc_write = ddebug_proc_write
+@@ -56,6 +56,7 @@ struct ddebug_query {
+ 	const char *module;
+ 	const char *function;
+ 	const char *format;
++	const char *class_string;
+ 	unsigned int first_lineno, last_lineno;
  };
  
-+static void ddebug_attach_module_classes(struct ddebug_table *dt,
-+					 struct ddebug_class_map *classes,
-+					 int num_classes)
+@@ -136,15 +137,33 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
+ 			fmtlen--;
+ 	}
+ 
+-	v3pr_info("%s: func=\"%s\" file=\"%s\" module=\"%s\" format=\"%.*s\" lineno=%u-%u\n",
+-		 msg,
+-		 query->function ?: "",
+-		 query->filename ?: "",
+-		 query->module ?: "",
+-		 fmtlen, query->format ?: "",
+-		 query->first_lineno, query->last_lineno);
++	v3pr_info("%s: func=\"%s\" file=\"%s\" module=\"%s\" format=\"%.*s\" lineno=%u-%u class=%s\n",
++		  msg,
++		  query->function ?: "",
++		  query->filename ?: "",
++		  query->module ?: "",
++		  fmtlen, query->format ?: "",
++		  query->first_lineno, query->last_lineno, query->class_string);
+ }
+ 
++static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
++							  const char *class_string, int *class_id)
 +{
-+	struct ddebug_class_map *cm;
-+	int i, j, ct = 0;
++	struct ddebug_class_map *map;
++	int idx;
 +
-+	for (cm = classes, i = 0; i < num_classes; i++, cm++) {
-+
-+		if (!strcmp(cm->mod_name, dt->mod_name)) {
-+
-+			v2pr_info("class[%d]: module:%s base:%d len:%d ty:%d\n", i,
-+				  cm->mod_name, cm->base, cm->length, cm->map_type);
-+
-+			for (j = 0; j < cm->length; j++)
-+				v3pr_info(" %d: %d %s\n", j + cm->base, j,
-+					  cm->class_names[j]);
-+
-+			list_add(&cm->link, &dt->maps);
-+			ct++;
++	list_for_each_entry(map, &dt->maps, link) {
++		idx = match_string(map->class_names, map->length, class_string);
++		if (idx >= 0) {
++			*class_id = idx + map->base;
++			return map;
 +		}
 +	}
-+	if (ct)
-+		vpr_info("module:%s attached %d classes\n", dt->mod_name, ct);
++	*class_id = -ENOENT;
++	return NULL;
++}
++
++#define __outvar /* filled by callee */
+ /*
+  * Search the tables for _ddebug's which match the given `query' and
+  * apply the `flags' and `mask' to them.  Returns number of matching
+@@ -159,6 +178,8 @@ static int ddebug_change(const struct ddebug_query *query,
+ 	unsigned int newflags;
+ 	unsigned int nfound = 0;
+ 	struct flagsbuf fbuf, nbuf;
++	struct ddebug_class_map *map = NULL;
++	int __outvar valid_class;
+ 
+ 	/* search for matching ddebugs */
+ 	mutex_lock(&ddebug_lock);
+@@ -169,9 +190,22 @@ static int ddebug_change(const struct ddebug_query *query,
+ 		    !match_wildcard(query->module, dt->mod_name))
+ 			continue;
+ 
++		if (query->class_string) {
++			map = ddebug_find_valid_class(dt, query->class_string, &valid_class);
++			if (!map)
++				continue;
++		} else {
++			/* constrain query, do not touch class'd callsites */
++			valid_class = _DPRINTK_CLASS_DFLT;
++		}
++
+ 		for (i = 0; i < dt->num_ddebugs; i++) {
+ 			struct _ddebug *dp = &dt->ddebugs[i];
+ 
++			/* match site against query-class */
++			if (dp->class_id != valid_class)
++				continue;
++
+ 			/* match against the source filename */
+ 			if (query->filename &&
+ 			    !match_wildcard(query->filename, dp->filename) &&
+@@ -420,6 +454,8 @@ static int ddebug_parse_query(char *words[], int nwords,
+ 		} else if (!strcmp(keyword, "line")) {
+ 			if (parse_linerange(query, arg))
+ 				return -EINVAL;
++		} else if (!strcmp(keyword, "class")) {
++			rc = check_set(&query->class_string, arg, "class");
+ 		} else {
+ 			pr_err("unknown keyword \"%s\"\n", keyword);
+ 			return -EINVAL;
+@@ -854,6 +890,20 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+ 	return dp;
+ }
+ 
++#define class_in_range(class_id, map)					\
++	(class_id >= map->base && class_id < map->base + map->length)
++
++static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
++{
++	struct ddebug_class_map *map;
++
++	list_for_each_entry(map, &iter->table->maps, link)
++		if (class_in_range(dp->class_id, map))
++			return map->class_names[dp->class_id - map->base];
++
++	return NULL;
 +}
 +
  /*
-  * Allocate a new ddebug_table for the given module
-  * and add it to the global list.
-@@ -946,6 +972,12 @@ int ddebug_add_module(struct _ddebug *tab, unsigned int num_debugs,
- 	dt->num_ddebugs = num_debugs;
- 	dt->ddebugs = tab;
+  * Seq_ops show method.  Called several times within a read()
+  * call from userspace, with ddebug_lock held.  Formats the
+@@ -865,6 +915,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 	struct ddebug_iter *iter = m->private;
+ 	struct _ddebug *dp = p;
+ 	struct flagsbuf flags;
++	char const *class;
  
-+	INIT_LIST_HEAD(&dt->link);
-+	INIT_LIST_HEAD(&dt->maps);
+ 	if (p == SEQ_START_TOKEN) {
+ 		seq_puts(m,
+@@ -877,7 +928,16 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 		   iter->table->mod_name, dp->function,
+ 		   ddebug_describe_flags(dp->flags, &flags));
+ 	seq_escape_str(m, dp->format, ESCAPE_SPACE, "\t\r\n\"");
+-	seq_puts(m, "\"\n");
++	seq_puts(m, "\"");
 +
-+	if (classes && num_classes)
-+		ddebug_attach_module_classes(dt, classes, num_classes);
-+
- 	mutex_lock(&ddebug_lock);
- 	list_add_tail(&dt->link, &ddebug_tables);
- 	mutex_unlock(&ddebug_lock);
++	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
++		class = ddebug_class_name(iter, dp);
++		if (class)
++			seq_printf(m, " class:%s", class);
++		else
++			seq_printf(m, " class unknown, _id:%d", dp->class_id);
++	}
++	seq_puts(m, "\n");
+ 
+ 	return 0;
+ }
 -- 
 2.36.1
 
