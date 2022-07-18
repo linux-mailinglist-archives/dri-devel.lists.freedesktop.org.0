@@ -1,40 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AEC579439
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:33:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D8857943B
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A98BE10E6AA;
-	Tue, 19 Jul 2022 07:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB77910EAB8;
+	Tue, 19 Jul 2022 07:33:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbg.qq.com (biz-43-154-221-58.mail.qq.com [43.154.221.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 212B2AF903
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 13:22:27 +0000 (UTC)
-X-QQ-mid: bizesmtp63t1658150536tprhb7o4
-Received: from localhost.localdomain ( [171.223.96.21])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 18 Jul 2022 21:22:14 +0800 (CST)
-X-QQ-SSF: 01000000002000E0U000C00A0000020
-X-QQ-FEAT: 83ShfzFP0oDpLP1Dvu6XTjFDq/dXibZuCtQI2VYFTjiZeRQGYV7RLf9qspcim
- qq/C1MNIzlQ0jHPIGxH0ZfVG4OuI1CBlXF9PyaMDO30BDtDNE4h/YCKmhqpnjoQGK9hMKx+
- 5MNuDFqrdXP0ZdWvFnDPhQkO2Y1YaXX8WOOAEFc0V903RuYyp0aNwKOHsR2ZzeaDECVgB4I
- xZtPAG6EBYM1UgW0dKytOsfUroYOlPN+CD0MQ/k+yMMAiOsHBw3owqxqTUdY28t/zJleycA
- UEOOgAEUOePbiFwnQaLMVbvmJi79Ci5LbNN9KTEDOglGXrOoy3Qr1MVnNRILM5o6+fQ2O9V
- ydMOSD/nBdTxSFT8GkFafiBr5+NemBN39NinVMaS6RRoolGODmMIzDmZssHcKpZVi4OHkbk
- GIZhlTZosDI=
-X-QQ-GoodBg: 0
-From: Jason Wang <wangborong@cdjrlc.com>
-To: daniel@ffwll.ch
-Subject: [PATCH] dma-buf: Fix comment typo
-Date: Fri, 15 Jul 2022 13:20:17 +0800
-Message-Id: <20220715052017.31633-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4E4926E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 12:44:02 +0000 (UTC)
+Received: from rustam-GF63-Thin-9RCX.intra.ispras.ru (unknown [83.149.199.65])
+ by mail.ispras.ru (Postfix) with ESMTPS id 8751E40D4004;
+ Mon, 18 Jul 2022 12:43:57 +0000 (UTC)
+From: Rustam Subkhankulov <subkhankulov@ispras.ru>
+To: Thomas Winischhofer <thomas@winischhofer.net>
+Subject: [PATCH] video/fbdev/sis: fix typos in SiS_GetModeID()
+Date: Mon, 18 Jul 2022 15:43:43 +0300
+Message-Id: <20220718124344.46338-1-subkhankulov@ispras.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
 X-Mailman-Approved-At: Tue, 19 Jul 2022 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,33 +36,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Jason Wang <wangborong@cdjrlc.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: ldv-project@linuxtesting.org, linux-fbdev@vger.kernel.org,
+ Rustam Subkhankulov <subkhankulov@ispras.ru>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alexey Khoroshilov <khoroshilov@ispras.ru>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The double `have' is duplicated in line 696, remove one.
+The second operand of a '&&' operator has no impact on expression
+result for cases 400 and 512 in SiS_GetModeID().
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+Judging by the logic and the names of the variables, in both cases a
+typo was made.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Signed-off-by: Rustam Subkhankulov <subkhankulov@ispras.ru>
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 ---
- drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/sis/init.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 84843b3b3aef..261fcbae88d7 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -693,7 +693,7 @@ int radeon_gem_va_ioctl(struct drm_device *dev, void *data,
- 	}
- 
- 	/* !! DONT REMOVE !!
--	 * We don't support vm_id yet, to be sure we don't have have broken
-+	 * We don't support vm_id yet, to be sure we don't have broken
- 	 * userspace, reject anyone trying to use non 0 value thus moving
- 	 * forward we can use those fields without breaking existant userspace
- 	 */
+diff --git a/drivers/video/fbdev/sis/init.c b/drivers/video/fbdev/sis/init.c
+index b568c646a76c..2ba91d62af92 100644
+--- a/drivers/video/fbdev/sis/init.c
++++ b/drivers/video/fbdev/sis/init.c
+@@ -355,12 +355,12 @@ SiS_GetModeID(int VGAEngine, unsigned int VBFlags, int HDisplay, int VDisplay,
+ 		}
+ 		break;
+ 	case 400:
+-		if((!(VBFlags & CRT1_LCDA)) || ((LCDwidth >= 800) && (LCDwidth >= 600))) {
++		if((!(VBFlags & CRT1_LCDA)) || ((LCDwidth >= 800) && (LCDheight >= 600))) {
+ 			if(VDisplay == 300) ModeIndex = ModeIndex_400x300[Depth];
+ 		}
+ 		break;
+ 	case 512:
+-		if((!(VBFlags & CRT1_LCDA)) || ((LCDwidth >= 1024) && (LCDwidth >= 768))) {
++		if((!(VBFlags & CRT1_LCDA)) || ((LCDwidth >= 1024) && (LCDheight >= 768))) {
+ 			if(VDisplay == 384) ModeIndex = ModeIndex_512x384[Depth];
+ 		}
+ 		break;
 -- 
-2.35.1
+2.25.1
 
