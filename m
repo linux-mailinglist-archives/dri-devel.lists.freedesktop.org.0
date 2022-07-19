@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE788579437
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3834C579438
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:33:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E336810E34C;
-	Tue, 19 Jul 2022 07:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C76010E55D;
+	Tue, 19 Jul 2022 07:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2641 seconds by postgrey-1.36 at gabe;
- Mon, 18 Jul 2022 15:56:47 UTC
-Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk
- [188.40.203.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC978B98B
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jul 2022 15:56:47 +0000 (UTC)
-Received: from [167.98.27.226] (helo=[10.35.4.171])
- by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1oDSQ9-002C9w-8q; Mon, 18 Jul 2022 16:12:29 +0100
-Message-ID: <7c68e645-efd7-c48c-77aa-9aa607c77033@codethink.co.uk>
-Date: Mon, 18 Jul 2022 16:12:28 +0100
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A927911B26B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 02:35:03 +0000 (UTC)
+X-UUID: 0ffd32be15984aac9ca7584fee2400a4-20220719
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:3b02963d-af1e-42b0-be2d-f8c19bb72bbc, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8, REQID:3b02963d-af1e-42b0-be2d-f8c19bb72bbc, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:0f94e32, CLOUDID:f8ead6d7-5d6d-4eaf-a635-828a3ee48b7c,
+ C
+ OID:4264e2e65220,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 0ffd32be15984aac9ca7584fee2400a4-20220719
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <allen-kh.cheng@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 357985203; Tue, 19 Jul 2022 10:34:58 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Tue, 19 Jul 2022 10:34:58 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Tue, 19 Jul 2022 10:34:58 +0800
+Message-ID: <21830ca88914215c5e98aba49e2e879dcbfde1ab.camel@mediatek.com>
+Subject: Re: [PATCH] dt-bindings: display: mediatek: dpi: add power-domains
+ property
+From: allen-kh.cheng <allen-kh.cheng@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob
+ Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, CK Hu
+ <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>
+Date: Tue, 19 Jul 2022 10:34:56 +0800
+In-Reply-To: <b2439e75-88a3-5f04-5fe6-b53e8d5232a7@collabora.com>
+References: <20220718052217.29729-1-allen-kh.cheng@mediatek.com>
+ <b2439e75-88a3-5f04-5fe6-b53e8d5232a7@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 03/13] dt-bindings: dma: dw-axi-dmac: extend the number
- of interrupts
-Content-Language: en-GB
-To: Conor Dooley <mail@conchuod.ie>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Vinod Koul
- <vkoul@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-References: <20220705215213.1802496-1-mail@conchuod.ie>
- <20220705215213.1802496-4-mail@conchuod.ie>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <20220705215213.1802496-4-mail@conchuod.ie>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-Mailman-Approved-At: Tue, 19 Jul 2022 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,67 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, Albert Ou <aou@eecs.berkeley.edu>,
- devicetree@vger.kernel.org, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, dmaengine@vger.kernel.org,
- linux-riscv@lists.infradead.org, Dillon Min <dillon.minfei@gmail.com>,
- Masahiro Yamada <masahiroy@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/07/2022 22:52, Conor Dooley wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
+Hi Angelo,
+
+On Mon, 2022-07-18 at 15:59 +0200, AngeloGioacchino Del Regno wrote:
+> Il 18/07/22 07:22, Allen-KH Cheng ha scritto:
+> > DPI is part of the display / multimedia block in MediaTek SoCs
+> > and is managed using power controller in some platforms. We add
+> > the power-domains property to the binding documentation.
+> > 
+> > Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 > 
-> The Canaan k210 apparently has a Sysnopsys Designware AXI DMA
-> controller, but according to the documentation & devicetree it has 6
-> interrupts rather than the standard one. Support the 6 interrupt
-> configuration by unconditionally extending the binding to a maximum of
-> 8 per-channel interrupts thereby matching the number of possible
-> channels.
-
-I think you can still configure it to produce a single interrupt
-even if there are per-channel interrupts available. This is from
-my reading of the driver a little while ago so may not be totally
-correct now.
-
-Having per-channel irqs might be useful in the future, but as above
-I think it'll require the driver to be updated to do it (and possibly
-some sort of detection)
-
-
-> Link: https://canaan-creative.com/wp-content/uploads/2020/03/kendryte_standalone_programming_guide_20190311144158_en.pdf #Page 51
-> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->   .../devicetree/bindings/dma/snps,dw-axi-dmac.yaml          | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+> For the contents of this commit:
 > 
-> diff --git a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> index 4324a94b26b2..67aa7bb6d36a 100644
-> --- a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> @@ -34,7 +34,12 @@ properties:
->         - const: axidma_apb_regs
->   
->     interrupts:
-> -    maxItems: 1
-> +    description:
-> +      If the IP-core synthesis parameter DMAX_INTR_IO_TYPE is set to 1, this
-> +      will be per-channel interrupts. Otherwise, this is a single combined IRQ
-> +      for all channels.
-> +    minItems: 1
-> +    maxItems: 8
->   
->     clocks:
->       items:
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> 
+> 
+> ...but I'm not sure whether this one requires a Fixes tag (because,
+> effectively,
+> the DPI hardware *requires* that power domain to get up) - and if it
+> does,
+> which commit to reference: the first commit for this file is a TXT-
+> >schema
+> conversion, but the TXT didn't have power-domains as well.
+> 
+> 
+> 
+> Regards,
+> Angelo
+
+For commit 9273cf7d3 "convert the dpi bindings to yaml"
+
+We add mt8173-dpi compatible but there is no power-domains property in
+binding doc.
+
+Yes, I think it should be added Fixes tag.
+
+Thanks for your suggestion.
 
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+Best Regards,
+Allen
 
-https://www.codethink.co.uk/privacy.html
+
