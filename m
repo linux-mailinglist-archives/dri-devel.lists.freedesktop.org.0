@@ -1,78 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DF0579550
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 10:36:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2474557955B
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 10:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C35B113A03;
-	Tue, 19 Jul 2022 08:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B9114A40F;
+	Tue, 19 Jul 2022 08:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A9011B8CC
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:36:08 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id w17so16546977ljh.6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 01:36:08 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 375D814A425
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:39:55 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id x91so18634176ede.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 01:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=Ih2Fy5cmAbEG8aUeZ5+zEsRAma5SiCd0h+PRnEnInBQ=;
- b=x98MUCTYJFJ9Z26jtehRzVhXFT+bVTlVx7ka32+gC4lXF/vFCQFBbQqSJ1cvCpCcR6
- dnTj87s1W25Bl/RSlTWhxMAFk/DWZMDUPJHGEgRozZwWQa1Gzxay7b5NeYjnbvHCQiC6
- f/hmvGA6c0feZCV4UeLRoLeNZ0YdsA72rOR4DiKYbVK+CJG3llNXhfqI9FjwKH+ci33Q
- OvDMcRDL41Y8/ZZBB97qbHz2wReWnGpxo+15X+3IhTHfj4K4J+Z7bC3k0M2GthbRMe2Y
- /iZLhgmG/xGrDMamO41V85rE2pRJrUAe9lt9EVsNXc/gydePXGVZQnkaHhci5HOxvPtO
- RAZw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=K0OAbKerRqgyFjt7G7NUv6wQqaETTVMhms061EthEbg=;
+ b=RV1NBT+Rdgn9TM3jYga9F4pG/9t+9xf+/NZ9WpzQ5XRqoA9+bJCcwPV1Z5wQ3tuP3e
+ WQZb1VT1hsTDDMDVIo6Y/N8muMJwlLokxWIiIC6tTkCLmgmIMaY7fyQN9RRiPSqZ3kve
+ tmgiOjHOqVrjOObN4klln1gN24SGvnF7SDG4NeoCfhj+KV3KhBquMv2hjeLF1+PdZmIq
+ MNbHVv0usaSuQpNS1+2rGHaLA3EqU892EHTHQ3544pWAGIohFvp8TZVQguskqSSM3uko
+ r1O2GU3paiPbIKtn6i39mcjgtrQVJdDe30w6DHqVWV86MVUL/omBAkYK6M+Z7xQdZynT
+ alyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ih2Fy5cmAbEG8aUeZ5+zEsRAma5SiCd0h+PRnEnInBQ=;
- b=ZxTIX1+bGMRJ8m6eGhPnp+s2Yiha+cPyExBjuFVitCNwzErPJWL6Y89DSUNQkDlDhS
- ncn6rVsE8d4lwyUFpzrIB7hwV7oN2DdYt/JITq5USPMzbDoJ7H1zIj9gH5k2ouM/VDd6
- mdc5e0mCqMMqz8oWd2JQLOmtEpTSSxTRnGlBJ/o+M/KzO7DjKngYiCbJ3ZS5m98CRcxj
- t5E8yAX8XcJwYy9dp+oJ9NyZCMjf28AYbQIGVRaKsM9cl0PU1SZwKBAmPfM+PkhN7I67
- Ri2reWZFuXw+q3EF2R1SKIHuSj+JxpuHxN5QrcBX0tmnKphzDzjIvX82DpBVgqfBB4Cx
- Aogw==
-X-Gm-Message-State: AJIora96UR9qiSaYPRS9klkzt3mScoQfvsB72cDZx2uA4ALe54JWlqDy
- vC/Qk1baARlMxi4DCZjMrx/1ag==
-X-Google-Smtp-Source: AGRyM1vV+5j0ZPlFEmdIh9COqsj7+E+TRr0bBKPc2QSCAnmyySjYW/ahXyifHPU75ZwOUj6O4xi1og==
-X-Received: by 2002:a2e:8004:0:b0:25d:80c0:1e93 with SMTP id
- j4-20020a2e8004000000b0025d80c01e93mr14006416ljg.210.1658219767106; 
- Tue, 19 Jul 2022 01:36:07 -0700 (PDT)
-Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no.
- [89.162.31.138]) by smtp.gmail.com with ESMTPSA id
- i28-20020a2ea37c000000b002557c48cc4csm2534638ljn.95.2022.07.19.01.36.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 01:36:06 -0700 (PDT)
-Message-ID: <472e5d12-9faf-4a8f-1cfe-49f5d0449560@linaro.org>
-Date: Tue, 19 Jul 2022 10:36:05 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=K0OAbKerRqgyFjt7G7NUv6wQqaETTVMhms061EthEbg=;
+ b=wTQCGRlwfLiusQDcQHEVavbRN7I4GHHxmZnoLBOXvTOyrDtFCATgtTQev0mbVQcx++
+ 8FCpyqyvYV8SJf+04Y3trCo0ztbKdax5jqYsbG3DXpSRnIV5s8D5lNHTVY7avN0Audwk
+ nFrsiLwr1ElOpazXSofsNh7Shog6zejhU1BQbi10hSKvIVts/wi6VorptGiK0byVY2l+
+ +4YOsl48olVMZ/w8VQrR+ua4kO/y+gt6f5lmpX9iQty17I+jDdeRwMxAZ/ADGeveCJNN
+ XH3Sm1J4dYz33ytbaaP3b2bGwg27wdpTkqjbsA3V1BLFrQmMkerCdL0vIi2R3L+iIC8M
+ kJYQ==
+X-Gm-Message-State: AJIora8Q8xxyg7Yt2gQpSCiNsV2NVN3b9UY4RzNA6P3vELN+PcAXOu+N
+ 5U6f5ZPb632xmWyUXLpbXPea8WgNusX7mcrgOCoSww==
+X-Google-Smtp-Source: AGRyM1s8ciK9bfGNqx9miZK6LJkKg+khEsHxfyjlPKq25NSXeSeJ7o62oB0bvAnEYF4XPVKSudsKEiG9cjSxu37YNQs=
+X-Received: by 2002:a05:6402:5384:b0:431:6d84:b451 with SMTP id
+ ew4-20020a056402538400b004316d84b451mr41000793edb.46.1658219993771; Tue, 19
+ Jul 2022 01:39:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/4] Documentation: dt-bindings: arm: qcom: add
- google,blueline
-Content-Language: en-US
-To: Caleb Connolly <caleb@connolly.tech>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht
-References: <20220718213051.1475108-1-caleb@connolly.tech>
- <20220718213051.1475108-2-caleb@connolly.tech>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220718213051.1475108-2-caleb@connolly.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220710194437.289042-1-marex@denx.de>
+In-Reply-To: <20220710194437.289042-1-marex@denx.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 19 Jul 2022 10:39:42 +0200
+Message-ID: <CACRpkdYSh21KbT+egW-0ePP7v8x2tOG6rH2ayCJx1SXNpA46DA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] drm/panel/panel-sitronix-st7701: Make DSI mode flags
+ common to ST7701
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,23 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, robert.foss@linaro.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/07/2022 23:30, Caleb Connolly wrote:
-> Document the bindings for the Pixel 3
-> 
-> Based on https://lore.kernel.org/all/20220521164550.91115-7-krzysztof.kozlowski@linaro.org/
+On Sun, Jul 10, 2022 at 9:44 PM Marek Vasut <marex@denx.de> wrote:
 
-Thanks for mention dependency. However this should not go to the final
-commit, thus please put such references after '---' marker.
+> The ST7701 and ST7701S are TFT matrix drivers with integrated multi
+> protocol decoder capable of DSI/DPI/SPI input and 480x360...864 line
+> TFT matrix output. Currently the only supported input is DSI.
+>
+> The protocol decoder is separate from the TFT matrix driver and is
+> always capable of handling all of DSI non-burst mode with sync pulses
+> or sync events as well as DSI burst mode.
+>
+> Move the DSI mode configuration from TFT matrix driver properties to
+> common ST7701 code, because this is common to all TFT matrices.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
 
-With that change:
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+All 9 patches applied and pushed for drm-misc-next.
 
-> 
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> ---
-
-Best regards,
-Krzysztof
+Yours,
+Linus Walleij
