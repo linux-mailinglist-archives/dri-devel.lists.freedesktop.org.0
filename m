@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF94B579454
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:35:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C33BD579473
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:45:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C599F10FF10;
-	Tue, 19 Jul 2022 07:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87093112AA0;
+	Tue, 19 Jul 2022 07:45:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E2210FF36;
- Tue, 19 Jul 2022 07:35:47 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id g1so9781795qki.7;
- Tue, 19 Jul 2022 00:35:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ri9Wtdrs9zsrpeBy+vnSCFNuGKAMpG2mmAMCu25LqXs=;
- b=AWW2U6Xitzx/M3SDaHULenGbqBcdtOVnqcAA1A8NHUduJJ07hIKUKRyFvVd/fhdj+P
- BA/XYdRhp3K+o/eWOtXfuKeXqSjUhkBBa2YDNDnRTx1v9HyOv5HFcv46fwhAjMoflBbs
- AFyUTy3piLZvs2XgoCFwBvFJ9lPj6hMZATkKjy+IuB9h5CRqRKu8SS7PE6G3TSqB/Pm9
- wFeuVxXK2MNDxzpaUG6UUkkvOv6/fREUFCIN32EINWT0Kp8jDs+NaNUlPfjAmPwE87I1
- R0EelbbA8EMf4hJoGnbji0bitx+9wPW++l8WMlRj32HVACgjTHhPrt77+NN+aWDeXjDZ
- /ekQ==
-X-Gm-Message-State: AJIora84iCZdkE8WuFPa1npKmVPJsQM0LR+RiEOzj9OCwS6eLQ4nj9VS
- ffFP/SaW/vAcNNsAhcHNtXdi6C3NWfAmpQ==
-X-Google-Smtp-Source: AGRyM1vwOHrbcd9RUrYpXpsoyamQIH4Fx6cbmEz+YcoDwQy9XgtbgiWtvLZpUkVf2rVOT/TskO53pQ==
-X-Received: by 2002:a37:44b:0:b0:6b5:d3ee:c244 with SMTP id
- 72-20020a37044b000000b006b5d3eec244mr11264416qke.239.1658216146605; 
- Tue, 19 Jul 2022 00:35:46 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
- [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
- g19-20020ac870d3000000b0031edab8ae91sm7828349qtp.49.2022.07.19.00.35.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 00:35:46 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-31dfe25bd49so94536227b3.2; 
- Tue, 19 Jul 2022 00:35:46 -0700 (PDT)
-X-Received: by 2002:a81:84c1:0:b0:31e:4e05:e4f4 with SMTP id
- u184-20020a8184c1000000b0031e4e05e4f4mr5036327ywf.384.1658216145796; Tue, 19
- Jul 2022 00:35:45 -0700 (PDT)
+X-Greylist: delayed 57302 seconds by postgrey-1.36 at gabe;
+ Tue, 19 Jul 2022 07:45:14 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A94112AA0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:45:13 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-195-w4wS7Z9kPLWuciSaR4LFhw-1; Tue, 19 Jul 2022 08:45:10 +0100
+X-MC-Unique: w4wS7Z9kPLWuciSaR4LFhw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Tue, 19 Jul 2022 08:45:08 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Tue, 19 Jul 2022 08:45:08 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Tvrtko Ursulin' <tvrtko.ursulin@linux.intel.com>, 'Mauro Carvalho Chehab'
+ <mauro.chehab@linux.intel.com>
+Subject: RE: [Intel-gfx] [PATCH v2 01/21] drm/i915/gt: Ignore TLB
+ invalidations on idle engines
+Thread-Topic: [Intel-gfx] [PATCH v2 01/21] drm/i915/gt: Ignore TLB
+ invalidations on idle engines
+Thread-Index: AQHYmrY8zdEzbxnvNkSYe57Mev6je62ERXnQgAD1jgCAABUfUA==
+Date: Tue, 19 Jul 2022 07:45:08 +0000
+Message-ID: <0259b5ae72c44d9b8dd12c3431c0c36f@AcuMS.aculab.com>
+References: <cover.1657800199.git.mchehab@kernel.org>
+ <c014a1d743fa46a6b57f02bffb7badf438136442.1657800199.git.mchehab@kernel.org>
+ <76318fe1-37dc-8a1e-317e-76333995b8ca@linux.intel.com>
+ <20220718165341.30ee6e31@maurocar-mobl2>
+ <b244f88e85a44485be9038c622fa13b1@AcuMS.aculab.com>
+ <7ed6b275-e0d3-12b7-cdbe-c43994e92b47@linux.intel.com>
+In-Reply-To: <7ed6b275-e0d3-12b7-cdbe-c43994e92b47@linux.intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-References: <20220711124742.3b151992@canb.auug.org.au>
- <6e60d396-2a52-d1fa-f125-3c585605b531@amd.com>
- <20220718094453.2f1a1f09@canb.auug.org.au>
-In-Reply-To: <20220718094453.2f1a1f09@canb.auug.org.au>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 Jul 2022 09:35:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWzBy0O0kQTZxC52oL7At2EcFpL0C3nY4YAsBPzaEGW=w@mail.gmail.com>
-Message-ID: <CAMuHMdWzBy0O0kQTZxC52oL7At2EcFpL0C3nY4YAsBPzaEGW=w@mail.gmail.com>
-Subject: Re: linux-next: manual merge of the drm tree with the drm-misc-fixes
- tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,74 +68,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+RnJvbTogVHZydGtvIFVyc3VsaW4NCj4gU2VudDogMTkgSnVseSAyMDIyIDA4OjI1DQouLi4NCj4g
+PiBJdCdzIG5vdCBvbmx5IHRoZSBUTEIgZmx1c2hlcyB0aGF0IGNhdXNlIGdyaWVmLg0KPiA+DQo+
+ID4gVGhlcmUgaXMgYSBsb29wIHRoYXQgZm9yY2VzIGEgd3JpdGUtYmFjayBvZiBhbGwgdGhlIGZy
+YW1lIGJ1ZmZlciBwYWdlcy4NCj4gPiBXaXRoIGEgbGFyZ2UgZGlzcGxheSBhbmQgc29tZSBjcHUg
+KGxpa2UgbXkgSXZ5IGJyaWRnZSBvbmUpIHRoYXQNCj4gPiB0YWtlcyBsb25nIGVub3VnaCB3aXRo
+IHByZS1lbXB0aW9uIGRpc2FibGVkIHRoYXQgd2FrZXVwIG9mIFJUIHByb2Nlc3Nlcw0KPiA+IChh
+bmQgYW55IHBpbm5lZCB0byB0aGUgY3B1KSB0YWtlcyBmYXIgbG9uZ2VyIHRoYW4gb25lIG1pZ2h0
+IGhhdmUNCj4gPiB3aXNoZWQgZm9yLg0KPiA+DQo+ID4gU2luY2Ugc29tZSBYIHNlcnZlcnMgcmVx
+dWVzdCBhIGZsdXNoIGV2ZXJ5IGZldyBzZWNvbmRzIHRoaXMgbWFrZXMNCj4gPiB0aGUgc3lzdGVt
+IHVudXNhYmxlIGZvciBzb21lIHdvcmtsb2Fkcy4NCj4gDQo+IE9rIFRMQiBpbnZhbGlkYXRpb25z
+IGFzIGRpc2N1c3NlZCBpbiB0aGlzIHBhdGNoIGRvZXMgbm90IGFwcGx5IHRvDQo+IEl2eWJyaWRn
+ZS4gQnV0IHdoYXQgaXMgdGhlIHdyaXRlIGJhY2sgbG9vcCB5b3UgbWVudGlvbiB3aGljaCBpcyBj
+YXVzaW5nDQo+IHlvdSBncmllZj8gV2hhdCBzaXplIGZyYW1lIGJ1ZmZlcnMgYXJlIHdlIHRhbGtp
+bmcgYWJvdXQgaGVyZT8gSWYgdGhleQ0KPiBkb24ndCBmaXQgaW4gdGhlIG1hcHBhYmxlIGFyZWEg
+cmVjZW50bHkgd2UgbWVyZ2VkIGEgcGF0Y2gqIHdoaWNoDQo+IGltcHJvdmVzIHRoaW5ncyBpbiB0
+aGF0IHNpdHVhdGlvbiBidXQgbm90IHN1cmUgeW91IGFyZSBoaXR0aW5nIGV4YWN0bHkgdGhhdC4N
+Cg0KSSBmb3VuZCB0aGUgb2xkIGVtYWlsOg0KDQpXaGF0IEkndmUgZm91bmQgaXMgdGhhdCB0aGUg
+SW50ZWwgaTkxNSBncmFwaGljcyBkcml2ZXIgdXNlcyB0aGUgJ2V2ZW50c191bmJvdW5kJw0Ka2Vy
+bmVsIHdvcmtlciB0aHJlYWQgdG8gcGVyaW9kaWNhbGx5IGV4ZWN1dGUgZHJtX2NmbHVzaF9zZygp
+Lg0KKHNlZSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvZHJp
+dmVycy9ncHUvZHJtL2RybV9jYWNoZS5jKQ0KDQpJJ20gZ3Vlc3NpbmcgdGhpcyBpcyB0byBlbnN1
+cmUgdGhhdCBhbnkgd3JpdGVzIHRvIGdyYXBoaWNzIG1lbW9yeSBiZWNvbWUNCnZpc2libGUgaXMg
+YSBzZW1pLXRpbWVseSBtYW5uZXIuDQoNClRoaXMgbG9vcCB0YWtlcyBhYm91dCAxdXMgcGVyIGl0
+ZXJhdGlvbiBzcGxpdCBmYWlybHkgZXZlbmx5IGJldHdlZW4gd2hhdGV2ZXIgaXMgaW4NCmZvcl9l
+YWNoX3NnX3BhZ2UoKSBhbmQgZHJtX2NmbHVzaF9wYWdlKCkuDQpXaXRoIGEgMjU2MHgxNDQwIGRp
+c3BsYXkgdGhlIGxvb3AgY291bnQgaXMgMzYwMCAoNCBieXRlcy9waXhlbCkgYW5kIHRoZSB3aG9s
+ZQ0KZnVuY3Rpb24gdGFrZXMgYXJvdW5kIDMuM21zLg0KDQpJSVJDIHRoZSBmaXJzdCBmZXcgcGFn
+ZSBmbHVzaGVzIGFyZSBxdWljayAoSSBiZXQgdGhleSBnbyBpbnRvIGEgZmlmbykNCmFuZCB0aGVu
+IHRoZXkgYWxsIGdldCBzbG93Lg0KVGhlIGZsdXNoZXMgYXJlIGFjdHVhbGx5IHJlcXVlc3RlZCBm
+cm9tIHVzZXJzcGFjZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lk
+ZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0K
+UmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-On Mon, Jul 18, 2022 at 1:49 AM Stephen Rothwell <sfr@canb.auug.org.au> wro=
-te:
-> On Mon, 11 Jul 2022 10:05:45 +0200 Christian K=C3=B6nig <christian.koenig=
-@amd.com> wrote:
-> > Am 11.07.22 um 04:47 schrieb Stephen Rothwell:
-> > >
-> > > Today's linux-next merge of the drm tree got a conflict in:
-> > >
-> > >    drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > >
-> > > between commit:
-> > >
-> > >    925b6e59138c ("Revert "drm/amdgpu: add drm buddy support to amdgpu=
-"")
-> > >
-> > > from the drm-misc-fixes tree and commit:
-> > >
-> > >    5e3f1e7729ec ("drm/amdgpu: fix start calculation in amdgpu_vram_mg=
-r_new")
-> > >
-> > > from the drm tree.
-> > >
-> > > This is a mess :-(  I have just reverted the above revert before merg=
-in
-> > > the drm tree for today, please fix it up.
-> >
-> > Sorry for the noise, the patch "5e3f1e7729ec ("drm/amdgpu: fix start
-> > calculation in amdgpu_vram_mgr_new")" and another one is going to be
-> > reverted from the drm tree as well.
-> >
-> > It's just that -fixes patches where faster than -next patches.
->
-> Here we are a week later, -rc7 has been released and as far as I can
-> tell (though I may have missed it), this is still a problem :-(
->
-> I am still reverting 925b6e59138c (which is now in Linus' tree).
-
-Thanks for the hint! After reverting that commit, drm-next (sort of[1])
-merges cleanly into upstream again.
-
-[1] There's still a small conflict due to the removal of
-    force_dpms_off, cfr. the difference between commits
-    3283c83eb6fcfbda and cc79950bf0904f58 ("drm/amd/display:
-    Ensure valid event timestamp for cursor-only commits") in
-    v5.19-rc7 resp. drm-next.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
