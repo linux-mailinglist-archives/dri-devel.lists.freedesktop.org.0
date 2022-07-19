@@ -1,56 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B629B5796D7
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 11:57:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD9D5796DD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 11:57:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A3E11AFB5;
-	Tue, 19 Jul 2022 09:57:00 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFBB11B92A;
- Tue, 19 Jul 2022 09:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C8314B24F;
+	Tue, 19 Jul 2022 09:57:23 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED7CD14B248;
+ Tue, 19 Jul 2022 09:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658224619; x=1689760619;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ug1RSPJP3dXyVvhWyJLd8eK1kcXS/u3k8TcWfFrWyV4=;
- b=Yzahm3jgCVAhGd70uWiXgQnWKzdhnDQMRy9lq4Uhccnw/4cfZv58/2Bg
- /oFO7oezEslqGBH+AW4dmDF59GOkFvBxEOmZoiGHdi3i3cRgpRYQTSwJK
- FZ0vqZYUVi3qsZS0Mil1TTDLE5vanZ/y1lLa0b/fsq0RuC2LBN8cLVeF5
- zroghzcNG/QTbejEUffho3MktUgC9vxBe4nqm7f7rgaOLWz/CgDaGzdeR
- gsnqpzyjgjRl59XaxtK6eNjCFJ29qgLMn/PsS6poeFbdk024mCbXS1ROq
- YyUEGUvl4X0zsfsMa0XAVVyByjm+6/UqdCErUTrt/hmggiuXUoJC8nDk0 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="269474832"
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="269474832"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 02:56:58 -0700
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="601535797"
-Received: from ssherida-mobl.ger.corp.intel.com (HELO [10.213.201.170])
- ([10.213.201.170])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 02:56:56 -0700
-Message-ID: <1f306c55-8443-72b3-a419-40f3cb85b76c@linux.intel.com>
-Date: Tue, 19 Jul 2022 10:56:55 +0100
+ t=1658224642; x=1689760642;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=haEhQVc5xp0PnhHW61L6L96s4XE497aPMoljPuiPq7U=;
+ b=aHeBuy8bCtRCAXTGwRb586OLM1flHqoSNrPedHJA5w+un810FPBWY1cr
+ GYBpLaUwgnwOt2RwfrPTd2gHD5TiFXGH2A8sqVnIVNsalTet9DSqUAMFe
+ TliEgiucEGwNR2/YR1gOkR6saadSa8hbTqS9NrdoR5vx0Ikfw3uSplp4j
+ gFNtA7ZutzCOyoacLIT6qLiPB6zMF5thLOuFbQPXS5Eh2dLyrPRN/wJFd
+ XSsyHn04FgFRlSgSWambpt7DxJBDdThp9kjUnG4F4xxvW3XIf7hS76WE9
+ R4JZUgHBNXYoYx0juM7wiUFKpO0gSlMCe6cCshkQH5wxwOJFDYtf19S50 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="287194292"
+X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="287194292"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2022 02:57:21 -0700
+X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="594776422"
+Received: from slinke-mobl1.ger.corp.intel.com (HELO
+ jhogande-mobl1.ger.corp.intel.com) ([10.251.210.1])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2022 02:57:16 -0700
+From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/3] HDR aux backlight range calculation
+Date: Tue, 19 Jul 2022 12:56:57 +0300
+Message-Id: <20220719095700.14923-1-jouni.hogander@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH 10/12] drm/i915/guc: Support larger contexts
- on newer hardware
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
- <20220712233136.1044951-11-John.C.Harrison@Intel.com>
- <3c8e8b71-1c74-c50d-7b29-29430a11eb10@linux.intel.com>
- <e7673834-a795-8364-96d9-7075bd407ee6@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <e7673834-a795-8364-96d9-7075bd407ee6@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,91 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Mika Kahola <mika.kahola@intel.com>,
+ =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch set splits out static hdr metadata backlight range parsing
+from gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c into gpu/drm/drm-edid.c
+as a new function. This new function is then used during edid parsing
+when HDR static metadata block parsing.
 
-On 19/07/2022 01:13, John Harrison wrote:
-> On 7/18/2022 05:35, Tvrtko Ursulin wrote:
->>
->> On 13/07/2022 00:31, John.C.Harrison@Intel.com wrote:
->>> From: Matthew Brost <matthew.brost@intel.com>
->>>
->>> The GuC needs a copy of a golden context for implementing watchdog
->>> resets (aka media resets). This context is larger on newer platforms.
->>> So adjust the size being allocated/copied accordingly.
->>
->> What were the consequences of this being too small? Media watchdog 
->> reset broken impacting userspace? Platforms? Do we have an IGT 
->> testcase? Do we need a Fixes: tag? Copy stable?
-> Yes. Not sure if we have an IGT for the media watchdog. I recall writing 
-> something a long time back but I don't think it ever got merged due to 
-> push back that I don't recall right now. And no because it only affects 
-> DG2 onwards which is still forceprobed.
+Calculated values are stored in a new struct drm_luminance_range
+introduced into display_info. Amdgpu_dm.c and intel_dp_aux_backlight.c
+are using this new data.
 
-Right, hm, I don't know if the MBD SKU promise for DG2 relies on force 
-probe removal or not. My impression certainly was that a bunch of uapi 
-we recently merged made people happy in that respect - that we satisfied 
-the commit to deliver that support with 5.19. Maybe I am wrong, or 
-perhaps to err on the side of safety you could add the right Fixes: tag 
-regardless? Pick some patch which enables GuC for DG2 if there isn't 
-anything better I guess. Or you could check with James.
+v3: Some clean-ups suggested by Jani Nikula
+v2: Calculate the range during edid parsing and store into display_info
 
-Regards,
+Cc: Roman Li <roman.li@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Mika Kahola <mika.kahola@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
 
-Tvrtko
+Jouni Högander (3):
+  drm: New function to get luminance range based on static hdr metadata
+  drm/amdgpu_dm: Rely on split out luminance calculation function
+  drm/i915: Use luminance range calculated during edid parsing
 
-> John.
-> 
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 10 +++++++---
->>>   1 file changed, 7 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->>> index ba7541f3ca610..74cbe8eaf5318 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->>> @@ -464,7 +464,11 @@ static void fill_engine_enable_masks(struct 
->>> intel_gt *gt,
->>>   }
->>>     #define LR_HW_CONTEXT_SIZE (80 * sizeof(u32))
->>> -#define LRC_SKIP_SIZE (LRC_PPHWSP_SZ * PAGE_SIZE + LR_HW_CONTEXT_SIZE)
->>> +#define XEHP_LR_HW_CONTEXT_SIZE (96 * sizeof(u32))
->>> +#define LR_HW_CONTEXT_SZ(i915) (GRAPHICS_VER_FULL(i915) >= 
->>> IP_VER(12, 50) ? \
->>> +                    XEHP_LR_HW_CONTEXT_SIZE : \
->>> +                    LR_HW_CONTEXT_SIZE)
->>> +#define LRC_SKIP_SIZE(i915) (LRC_PPHWSP_SZ * PAGE_SIZE + 
->>> LR_HW_CONTEXT_SZ(i915))
->>>   static int guc_prep_golden_context(struct intel_guc *guc)
->>>   {
->>>       struct intel_gt *gt = guc_to_gt(guc);
->>> @@ -525,7 +529,7 @@ static int guc_prep_golden_context(struct 
->>> intel_guc *guc)
->>>            * on all engines).
->>>            */
->>>           ads_blob_write(guc, ads.eng_state_size[guc_class],
->>> -                   real_size - LRC_SKIP_SIZE);
->>> +                   real_size - LRC_SKIP_SIZE(gt->i915));
->>>           ads_blob_write(guc, ads.golden_context_lrca[guc_class],
->>>                      addr_ggtt);
->>>   @@ -599,7 +603,7 @@ static void guc_init_golden_context(struct 
->>> intel_guc *guc)
->>>           }
->>>             GEM_BUG_ON(ads_blob_read(guc, 
->>> ads.eng_state_size[guc_class]) !=
->>> -               real_size - LRC_SKIP_SIZE);
->>> +               real_size - LRC_SKIP_SIZE(gt->i915));
->>>           GEM_BUG_ON(ads_blob_read(guc, 
->>> ads.golden_context_lrca[guc_class]) != addr_ggtt);
->>>             addr_ggtt += alloc_size;
-> 
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 35 ++-----------
+ drivers/gpu/drm/drm_edid.c                    | 52 ++++++++++++++++++-
+ .../drm/i915/display/intel_dp_aux_backlight.c | 15 +++++-
+ include/drm/drm_connector.h                   | 21 ++++++++
+ 4 files changed, 89 insertions(+), 34 deletions(-)
+
+-- 
+2.25.1
+
