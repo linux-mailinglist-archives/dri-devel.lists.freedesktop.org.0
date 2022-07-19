@@ -2,83 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1456757950F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 10:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DF0579550
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 10:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EA611A663;
-	Tue, 19 Jul 2022 08:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C35B113A03;
+	Tue, 19 Jul 2022 08:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0285311A663
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658218439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Vk/qh1lraPzWeoR8YLdDUU7h+SZ7xDsOZa0DCPNH6U=;
- b=Cw5RXO1A/9X7zbNpgmAz4r6b5V4vaeABWlIU/Ui6cbESmg7bDJXbZSKCpWQkpScbuj5laB
- zdRhrJshJHFhkpEOhSrpDSycQuFbBxHQ8zL82A9z6ByQgwDm4mTOtGBHvm1afl0Nrd/7ce
- AecT+rSZ5jKO86OCZn2NsAvh4ad5pb8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-yYttTYOvP-CKCulHL3G1iA-1; Tue, 19 Jul 2022 04:13:58 -0400
-X-MC-Unique: yYttTYOvP-CKCulHL3G1iA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k27-20020a05600c1c9b00b003a2fee19a80so8925456wms.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 01:13:57 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A9011B8CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:36:08 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id w17so16546977ljh.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 01:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=Ih2Fy5cmAbEG8aUeZ5+zEsRAma5SiCd0h+PRnEnInBQ=;
+ b=x98MUCTYJFJ9Z26jtehRzVhXFT+bVTlVx7ka32+gC4lXF/vFCQFBbQqSJ1cvCpCcR6
+ dnTj87s1W25Bl/RSlTWhxMAFk/DWZMDUPJHGEgRozZwWQa1Gzxay7b5NeYjnbvHCQiC6
+ f/hmvGA6c0feZCV4UeLRoLeNZ0YdsA72rOR4DiKYbVK+CJG3llNXhfqI9FjwKH+ci33Q
+ OvDMcRDL41Y8/ZZBB97qbHz2wReWnGpxo+15X+3IhTHfj4K4J+Z7bC3k0M2GthbRMe2Y
+ /iZLhgmG/xGrDMamO41V85rE2pRJrUAe9lt9EVsNXc/gydePXGVZQnkaHhci5HOxvPtO
+ RAZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2Vk/qh1lraPzWeoR8YLdDUU7h+SZ7xDsOZa0DCPNH6U=;
- b=PQn1mJmArGXAW2lVU8x13oLGTnHgS/+V/7CH52P8zw7Or+BHi5zzdCfEEjhqr1aZgN
- SFIs03KcxCbBx0jE7nxxVEZYWiBYE+uEvhIObJguOhH5cmZjgTFQvqKkc49wI+kB1jc4
- WTMr2OCgzoAY63ck+DMc9Yy9WTqmrV90aqcFuDWQLeKMps52Ws6LYZDGs5gATC+8MW1H
- 2MJDzZTIspPSLRxLiOy/iD3I8se6YMUiq1KNIPDu3FnEYTu3JzV+EgoSn+eyd8JQ58Yh
- aA93zlvNjTFwvJ2ThfD3c+h1LTpat4Z+x6z0aot3vX9Ay9XhdijDsiUbV3VQ53ZY7oSJ
- GCSw==
-X-Gm-Message-State: AJIora8iFhAjDpthjJ1T3qpvUGQBt2jfak8AXCZmpSCL/RWj+Rz7URK6
- k9EGgERYOrT5W2h34HdKNUWxEdxq2UbyrGDvIF3xT6ge0zD7Si/SF6rpfzhuhadwc0WPobePPRp
- Q1dtbRAGZDMzvuI9T1alrJGt2Nr+u
-X-Received: by 2002:a05:6000:2c6:b0:21d:be55:d311 with SMTP id
- o6-20020a05600002c600b0021dbe55d311mr24260390wry.154.1658218437062; 
- Tue, 19 Jul 2022 01:13:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tF83xb0qJHS+irRdry2gGPyed91OxX9RQANgySymd+7uXy6257n61a5ZISvIpYLFB0SnCn7Q==
-X-Received: by 2002:a05:6000:2c6:b0:21d:be55:d311 with SMTP id
- o6-20020a05600002c600b0021dbe55d311mr24260375wry.154.1658218436876; 
- Tue, 19 Jul 2022 01:13:56 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k6-20020adfd846000000b0021d8b1656dfsm12639819wrl.93.2022.07.19.01.13.56
+ bh=Ih2Fy5cmAbEG8aUeZ5+zEsRAma5SiCd0h+PRnEnInBQ=;
+ b=ZxTIX1+bGMRJ8m6eGhPnp+s2Yiha+cPyExBjuFVitCNwzErPJWL6Y89DSUNQkDlDhS
+ ncn6rVsE8d4lwyUFpzrIB7hwV7oN2DdYt/JITq5USPMzbDoJ7H1zIj9gH5k2ouM/VDd6
+ mdc5e0mCqMMqz8oWd2JQLOmtEpTSSxTRnGlBJ/o+M/KzO7DjKngYiCbJ3ZS5m98CRcxj
+ t5E8yAX8XcJwYy9dp+oJ9NyZCMjf28AYbQIGVRaKsM9cl0PU1SZwKBAmPfM+PkhN7I67
+ Ri2reWZFuXw+q3EF2R1SKIHuSj+JxpuHxN5QrcBX0tmnKphzDzjIvX82DpBVgqfBB4Cx
+ Aogw==
+X-Gm-Message-State: AJIora96UR9qiSaYPRS9klkzt3mScoQfvsB72cDZx2uA4ALe54JWlqDy
+ vC/Qk1baARlMxi4DCZjMrx/1ag==
+X-Google-Smtp-Source: AGRyM1vV+5j0ZPlFEmdIh9COqsj7+E+TRr0bBKPc2QSCAnmyySjYW/ahXyifHPU75ZwOUj6O4xi1og==
+X-Received: by 2002:a2e:8004:0:b0:25d:80c0:1e93 with SMTP id
+ j4-20020a2e8004000000b0025d80c01e93mr14006416ljg.210.1658219767106; 
+ Tue, 19 Jul 2022 01:36:07 -0700 (PDT)
+Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no.
+ [89.162.31.138]) by smtp.gmail.com with ESMTPSA id
+ i28-20020a2ea37c000000b002557c48cc4csm2534638ljn.95.2022.07.19.01.36.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 01:13:56 -0700 (PDT)
-Message-ID: <37162e6d-1056-cc4c-da4f-95d1b124d907@redhat.com>
-Date: Tue, 19 Jul 2022 10:13:55 +0200
+ Tue, 19 Jul 2022 01:36:06 -0700 (PDT)
+Message-ID: <472e5d12-9faf-4a8f-1cfe-49f5d0449560@linaro.org>
+Date: Tue, 19 Jul 2022 10:36:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
-References: <20220716181750.3874838-1-sam@ravnborg.org>
- <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
- <88df6527-7ff0-c69a-69ca-dbd1e4322bea@redhat.com>
- <0cb7b85a-d629-b5e9-4ab7-fcf7ce0e018f@suse.de>
- <b7bd3635-56c7-a1af-4d9e-70ad2c91f388@redhat.com>
- <YtZjhaFVHJJi5OSo@ravnborg.org>
- <9ac4096e-454a-59c7-d0c1-e377b4dd2ec8@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <9ac4096e-454a-59c7-d0c1-e377b4dd2ec8@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 1/4] Documentation: dt-bindings: arm: qcom: add
+ google,blueline
 Content-Language: en-US
+To: Caleb Connolly <caleb@connolly.tech>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht
+References: <20220718213051.1475108-1-caleb@connolly.tech>
+ <20220718213051.1475108-2-caleb@connolly.tech>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220718213051.1475108-2-caleb@connolly.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,38 +85,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/19/22 10:05, Thomas Zimmermann wrote:
-
->>> [...]
->>
->> I will update the series with the following:
->> - Drop drm/dri1/
->> - Keep the CONFIG_DRM_* change and keep the DRIVER_DRI1 change
->> - All config options for DRI1 drivers will get a CONFIG_DRM_DRI1_*
->>    prefix
->> - Convert at least some of the drivers to single file drivers named
->>    foo_dri1.
->> - I may add SPDX for licenses when I am touching the files
->> - I may try to concatenate all dri1 specific drm core files to drm_dri1.
->>    It is easy to do but I will take a look at the result before posting
->>    anything.
->>
->> When I have posted the above let's see what we all agree on.
->> May take a couple of days before I get back to it.
+On 18/07/2022 23:30, Caleb Connolly wrote:
+> Document the bindings for the Pixel 3
 > 
-> Sounds like a plan to me.
+> Based on https://lore.kernel.org/all/20220521164550.91115-7-krzysztof.kozlowski@linaro.org/
+
+Thanks for mention dependency. However this should not go to the final
+commit, thus please put such references after '---' marker.
+
+With that change:
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 > 
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> ---
 
-Sounds good to me as well.
-
--- 
 Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Krzysztof
