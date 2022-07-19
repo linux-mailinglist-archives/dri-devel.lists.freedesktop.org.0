@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD3157A9EE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 00:41:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB9857A9F0
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 00:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 919381135EC;
-	Tue, 19 Jul 2022 22:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C018F14B92A;
+	Tue, 19 Jul 2022 22:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75AEE11B9FF
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:40:48 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id mf4so29926638ejc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:40:48 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88CC61136B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:41:58 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id v12so21562297edc.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=36+j+A/1DWKJeG29CSuGqRzbVrNZKvXAm48SwcsWC9Q=;
- b=T5hPpPBFqoMWgNsSaumUPSHTwyol2HuOWiJK643KpafdASmbF8lXU4ViBJzhahA7yA
- +bpMp5/lj+8od+3UcpqCoBRr4kzdcYgUFfUKAdGieFFRzzn1Huh5bMalP5kCjpWNDbYS
- 7bxfHHy9eCswbXZushJVIzlE9DpUXplbVqMzU=
+ bh=1v88GEiD0LQIbnFj2jGBP7QMVI4Ye70Um7rX2tcudFs=;
+ b=DSV9XrUjnSb4DLR1xhP0mrXjZVDOmdJuwxvFM2IOkqN4GRaSRkynMCnsWBMdrITuMn
+ iukDW9Rs/o4k+BPgEmjKYDO2oQagJqq9y4IBe5Smpi+ZlBxF+PBdpFBhhl5KNA/kgnrt
+ 34gkoMp7ZkYhXP1emnQ2sphjIIu6H7msQ0iSQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=36+j+A/1DWKJeG29CSuGqRzbVrNZKvXAm48SwcsWC9Q=;
- b=hpCZ6jI2js7iNKbDWX+50xgzNVKX8oLY3uxwyigZyaBvwih6rFb0AX2GSDh3kRcXLC
- mrAIqcti/G9NURsxmK8sZsF+E5sYypXiQ02uNzuDEApucSNAAgN1dFb9TMhdrwNkyefI
- 7bEsqFFhutaS9Di1b+RueFysWA/f5gOWxPQlwVPN481IePi0qtTab48JbC5IomoMHNnj
- Zt+qrzm+YClVWF70nruWgJB1VMF56N8eu4sYgKBGMrbe++3g5RUtqkefVIwZfwEnXGkF
- 5nvfEJidVpQyiU4xaujmVFr3lJ3g/6cZ6XGw+FVHjC6QsUMLu+ZNTRDTsmYh3eiZhNcO
- 7j3g==
-X-Gm-Message-State: AJIora9R5Bg1LE/VqvDCGkdS8MlYaEhmwKowcA6YDmKfgWaVplBv6/LN
- +EhJioOTLGHD6ToavDD367JPhXjSC+EUk78TYzE=
-X-Google-Smtp-Source: AGRyM1vuVZ6nUywLrEvxrWSl5pMeUGiL+Tgr3W0DCPbNE+ASBA25SVcfNb63wNiDqqCBsDK6T+xz7A==
-X-Received: by 2002:a17:907:2718:b0:72b:6b65:37dc with SMTP id
- w24-20020a170907271800b0072b6b6537dcmr32581815ejk.425.1658270446534; 
- Tue, 19 Jul 2022 15:40:46 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
- [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
- lc13-20020a170906dfed00b00703671ebe65sm7060089ejc.198.2022.07.19.15.40.45
+ bh=1v88GEiD0LQIbnFj2jGBP7QMVI4Ye70Um7rX2tcudFs=;
+ b=hH77mjxgI/04JzFKJZ9yXHbiakybxKV3I4sUTc0ZtYx9uyOVxyF+7gkhqJnwz5cWLT
+ 91zlTbW6trGX9NJGZvT5Mj4Re1JChdxR+0H1uS35oiNvAJi2G5ZcwpTjZwmExZqaaNBU
+ Ymk0LPLVs9L/cIqqF0fpZSgzK5NAlvqOCGso/ghiErGVAj3ktyOOfnILUDoExmgnTbGo
+ OxlzStl3lLRqhGeZjegSI6Ilhu2D6nhwDqc/+EFOJkJkQnRuRaDxX52kvbcH8+h/bbn8
+ dwRN5i6nqM6YTX/TRW5oLWtvko047+R4OtLVCaAvV4K3AnmQB/9JAfbifBB3gkiTL2+6
+ BGUg==
+X-Gm-Message-State: AJIora+YuO374hTa1BXDRPA8+/U59c2YcIr7r5j5eJnzEG+sUyXPGe2G
+ F+X0/u9IxCU98QzOxbjqckxIgNTr2r/0gCvBwaA=
+X-Google-Smtp-Source: AGRyM1v9Sb88pmyPKMFSjaeVQ7/uZ1sq3kAQ9mwLqQ0arwr0V84pTVYV2z5H9f385X9J9jxEOT6rzA==
+X-Received: by 2002:a05:6402:274c:b0:43a:9204:95fb with SMTP id
+ z12-20020a056402274c00b0043a920495fbmr47887972edd.259.1658270516933; 
+ Tue, 19 Jul 2022 15:41:56 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
+ [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
+ w5-20020aa7dcc5000000b00438a13508c4sm11184134edu.51.2022.07.19.15.41.56
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 15:40:45 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id h17so23745856wrx.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:40:45 -0700 (PDT)
-X-Received: by 2002:a5d:5889:0:b0:21d:bccd:38e3 with SMTP id
- n9-20020a5d5889000000b0021dbccd38e3mr27718830wrf.659.1658270445458; Tue, 19
- Jul 2022 15:40:45 -0700 (PDT)
+ Tue, 19 Jul 2022 15:41:56 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id n12so10830545wrc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:41:56 -0700 (PDT)
+X-Received: by 2002:a05:6000:2c9:b0:21d:bd7d:3af6 with SMTP id
+ o9-20020a05600002c900b0021dbd7d3af6mr27860158wry.405.1658270516096; Tue, 19
+ Jul 2022 15:41:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220719203857.1488831-1-nfraprado@collabora.com>
- <20220719203857.1488831-2-nfraprado@collabora.com>
-In-Reply-To: <20220719203857.1488831-2-nfraprado@collabora.com>
+ <20220719203857.1488831-3-nfraprado@collabora.com>
+In-Reply-To: <20220719203857.1488831-3-nfraprado@collabora.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 19 Jul 2022 15:40:32 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XgWAMXGAfBw9dBoKB6Y6_AAT6ccAtLg=jy3qLa2HOxBA@mail.gmail.com>
-Message-ID: <CAD=FV=XgWAMXGAfBw9dBoKB6Y6_AAT6ccAtLg=jy3qLa2HOxBA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/panel-edp: Add panel entry for R140NWF5 RH
+Date: Tue, 19 Jul 2022 15:41:43 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=URVf6kDm9A8OsFqmy7tdsNsoDTBvfUy8aT=kfzofyDtA@mail.gmail.com>
+Message-ID: <CAD=FV=URVf6kDm9A8OsFqmy7tdsNsoDTBvfUy8aT=kfzofyDtA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/panel-edp: Add panel entry for B120XAN01.0
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -87,104 +87,33 @@ Hi,
 On Tue, Jul 19, 2022 at 1:39 PM N=C3=ADcolas F. R. A. Prado
 <nfraprado@collabora.com> wrote:
 >
-> Add panel identification entry for the IVO R140NWF5 RH (product ID:
-> 0x057d) panel.
+> Add panel identification entry for the AUO B120XAN01.0 (product ID:
+> 0x1062) panel.
 >
 > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
->
 > ---
-> The comments on the driver indicate that the T3 timing should be set on
-> hpd_absent, while hpd_reliable would have a shorter time just while the
-> HPD line stabilizes on low after power is supplied.
-
-Right. Ideally hpd_reliable is 0 unless you've got a badly-designed panel.
-
-
-> But can we really assume that the HPD line will be reliable at all
-> before the DDIC is done booting up, at which point the HPD line is
-> brought up? IOW, shouldn't we always delay T3 (by setting hpd_reliable =
-=3D
-> T3), since only then we're really sure that the DDIC is done setting up
-> and the HPD line is reliable?
-
-If the panel is hooked up properly, then the HPD pin should be pulled
-low at the start and then should only go high after the panel is ready
-for us to talk to it, right? So it's not like the DDIC has to boot up
-and actively init the state. I would assume that the initial state of
-the "HPD output" from the panel's IC would be one of the following:
-* A floating input.
-* A pulled down input.
-* An output driven low.
-
-In any of those cases just adding a pull down on the line would be
-enough to ensure that the HPD line is reliable until the panel comes
-around and actively drives the line high.
-
-Remember, this is eDP and it's not something that's hot-plugged, so
-there's no debouncing involved and in a properly designed system there
-should be no time needed for the signal to stabilize. I would also
-point out that on the oficial eDP docs the eDP timing diagram doesn't
-show the initial state of "HPD" as "unknown". It shows it as low.
-
-Now, that all being said, I have seen at least one panel that glitched
-itself at bootup. After you powered it on it would blip its HPD line
-high before it had actually finished booting. Then the HPD would go
-low again before finally going high after the panel finished booting.
-This is the reason for "hpd_reliable".
-
-If you've got a board with a well-designed panel but the hookup
-between the panel and the board is wrong (maybe the board is missing a
-pulldown on the HPD line?) then you can just set the "no-hpd" property
-for your board. That will tell the kernel to just always delay the
-"hpd-absent" delay.
-
-> I've set the T3 delay to hpd_absent in this series, following what's
-> instructed in the comments, but I'd like to discuss whether we shouldn't
-> be setting T3 on hpd_reliable instead, for all panels, to be on the
-> safer side.
-
-The way it's specified right now is more flexible, though, isn't it?
-This way if you're on a board where the HPD truly _isn't_ stable then
-you can just set the "no-hpd" and it will automatically use the
-"hpd_absent" delay, right?
-
-
->  drivers/gpu/drm/panel/panel-edp.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
 > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
 nel-edp.c
-> index 3626469c4cc2..675d793d925e 100644
+> index 675d793d925e..152e00eb846f 100644
 > --- a/drivers/gpu/drm/panel/panel-edp.c
 > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -1854,6 +1854,12 @@ static const struct panel_delay delay_100_500_e200=
- =3D {
->         .enable =3D 200,
->  };
->
-> +static const struct panel_delay delay_200_500_e200 =3D {
-> +       .hpd_absent =3D 200,
-> +       .unprepare =3D 500,
-> +       .enable =3D 200,
-> +};
-> +
->  #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, =
-_delay, _name) \
->  { \
->         .name =3D _name, \
-> @@ -1882,6 +1888,8 @@ static const struct edp_panel_entry edp_panels[] =
+> @@ -1879,6 +1879,7 @@ static const struct edp_panel_entry edp_panels[] =
 =3D {
->
->         EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay=
-, "N116BCA-EA1"),
->
-> +       EDP_PANEL_ENTRY('I', 'V', 'O', 0x057d, &delay_200_500_e200, "R140=
-NWF5 RH"),
-> +
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B11=
+6XAK01"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116X=
+AN06.1"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133U=
+AN01.0"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120X=
+AN01.0"),
 
-This looks fine to me:
+ * Sort first by vendor, then by product ID.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+0x1062 sorts at the top of the AUO panels, not at the bottom.
 
-I'm happy to apply this in a day or two assuming you're OK with my
-explanation above.
+-Doug
