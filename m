@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3028957A0B3
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 16:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FBA57A0C6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 16:10:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2BE18BF4F;
-	Tue, 19 Jul 2022 14:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC772A3DB;
+	Tue, 19 Jul 2022 14:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
  [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6691418BF8E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 14:09:16 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id j22so27429800ejs.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:09:16 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88E522A57F
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 14:09:56 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id sz17so27384889ejc.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u8sLlbZKcYVwqChBzOR8a7SbN4VOIEkVLaJpmGxf1u8=;
- b=S4sSw4dPG9SoIscVCdBbw23gLQXegfD1TkIApRxUyVaz4Lk+4tqsgVjhX7TOzjd6Is
- /5DnmmmSvRPYTOQnlVzVSdPc/EEPWSixLP80fWE5TRy0sVDHHSidsaUXEDv3dmwvt19n
- wDF6u4wZBZskt7/AQ8kG+73zWr1KFlEQDV/t6r2v/SU5fpBxDgQzRwbhLqatihkNuoQ5
- TreVDvedfrbpmBjJNp8iihxBQWHqaqEFPuBJvNjcZAw/gisZ5vXx5VZESnFkLl2GOCNL
- T8QFk5vB1DXMLTK3C2tSP8Lfs+f5/nSrsh+72N8UWxmFfb4/FrAr/QrEi6e+kV9vpiB6
- mHjQ==
+ :cc; bh=vJMDPQ6JxZqQ5e3bQhZhMXmqqZrhAcVL6XK53qf+yZo=;
+ b=dF2CF31GTyulq3yHsXUA1vHe2kfxBlnZD2GJKEsvd21wdJODJxisNWK5q2qqnE8jRu
+ dVdbJZgJTdqzovcJwW3t3CbaOdfS7JC++7wFa1cueWGgZqoHtEShGi3yiRc+wcJrYe4R
+ 1LFTz0mj3OE37GgsKHiR2JRreETgNkWJL5b224HFw8FerDiKE6dZ30/Pr4BcZoTpNWO6
+ LjMlrr9ctQA+eOUZrwmG9DpU0IgSFYaJsGs4ivXnZeU0dsPshkBt2jV5QpyyshaVtwXy
+ CjnkN3P/7C7EvzeYPIrklHPAh3suJ7JUpSe25X3FMsfE1SytE7IEz7Itd2ae7s+4mmvN
+ HKNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=u8sLlbZKcYVwqChBzOR8a7SbN4VOIEkVLaJpmGxf1u8=;
- b=bRH7jwUK6FBbsFtrBCiikmg7GT0NREyRtUC2DXuLwHHVGZEbFj5rR988Zbqz7OMD0S
- PZlkqMMFKkf7EqYbkSRDDCjk656BfYfD3hn782z0W+36Ub4aVWOpTEy4WWMcN6hnkR8e
- WlkHRIykphAQsFFGrj7I9mFjHQwsEl+3GXOCDDTVWC4IEZXqoQ9RBNTV8JT7IFLMrLcB
- H6wd9KGh0Y5nFvL6WSt0JC6tTHTYZGZeF7bOWl6U+VFIjEoJ78Orp3XsK1PGtdCenqjf
- ccVbxW8aiYpiRQ639BeKBWKXGQ5ZYS16rlUsIaaL6aPiU2xNb1/cp7qZeYIl+LtYvBIR
- KN2w==
-X-Gm-Message-State: AJIora89nItQD/wK9wZIdW3dmP55uRtf5t7mjWczyjLYK5LgYUt3VXFk
- I7BOxz83Cv6l8WetMDyujqBWWpt9nWoU1bsIwB1KtA==
-X-Google-Smtp-Source: AGRyM1udjkXGNICxc5l46Ad38az3eGQyrcMk/c2xHDg4URlYogp6zX3h1ScYex5vj2vhyr7QFOwl7+d/nHFljbt8Hdw=
-X-Received: by 2002:a17:906:5a67:b0:72b:610d:4aa4 with SMTP id
- my39-20020a1709065a6700b0072b610d4aa4mr31450934ejc.294.1658239754935; Tue, 19
- Jul 2022 07:09:14 -0700 (PDT)
+ bh=vJMDPQ6JxZqQ5e3bQhZhMXmqqZrhAcVL6XK53qf+yZo=;
+ b=Wx+D4XSgZkwpKQG22jFrjXLPqN0ChSGvhmoCr2ijceSjy1BrypHpvZoNHhxLdhyVcO
+ OAsw90M4uXQc6gnA/SyE05mwTUOSblkTfajcuIR3GzBxDLbnIZsmnbFHKvgg40M3sP+P
+ 2MyME2Z4wrvWbpo/aK79Eijn5s6TXnv8McYC1MxRNpnUbeI5+SNEMR26BvIN2muHRItr
+ 7Msch2odzzcGS+aa7Wc4NmKz6/Og7D27qQ0ACID3NQPGB6+A1Xp4D7KzPhd7jNM+T1Rz
+ LgrpifYwuCA2toTj0Ntt7+xSTt+wViSyPdjJzp2GfJJywrIpG+kNdGjcfaC2DNMSX5RU
+ oUIQ==
+X-Gm-Message-State: AJIora+qqAo+AkOJ6JOiMzZfA/mtHg1iix7m0HS4DI6s0BSvt25rUJ/B
+ avHOKiNGX/CRgoSxGFKFBIXMjdUwEI/PPe+VVzqPXQ==
+X-Google-Smtp-Source: AGRyM1vIvrL+ynTCXW9jozSCwBKEDF7zOHgYSDXBTQzuGSuKy/E6HIdmsx6PziOBLoPRrbpWd3BC/TOOutSHeTbYer0=
+X-Received: by 2002:a17:907:97c2:b0:72b:9ec4:9a60 with SMTP id
+ js2-20020a17090797c200b0072b9ec49a60mr29861218ejc.154.1658239795128; Tue, 19
+ Jul 2022 07:09:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717174454.46616-8-sam@ravnborg.org>
-In-Reply-To: <20220717174454.46616-8-sam@ravnborg.org>
+ <20220717175801.78668-1-sam@ravnborg.org>
+In-Reply-To: <20220717175801.78668-1-sam@ravnborg.org>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 19 Jul 2022 15:08:58 +0100
-Message-ID: <CAPY8ntCk=q1n+bCwJdv5MXbAc8PeRUUrwZ352BW_Ax6d550GKg@mail.gmail.com>
-Subject: Re: [PATCH v1 07/12] drm/bridge: tc358767: Use
- drm_bridge_funcs.atomic_check
+Date: Tue, 19 Jul 2022 15:09:38 +0100
+Message-ID: <CAPY8ntBVhdixytMMMxAZcnCYf=zCB14RGucgD+hsTrD5RFP_fw@mail.gmail.com>
+Subject: Re: [PATCH v1 08/12] drm/mediatek: Drop mtk_hdmi_bridge_mode_fixup
 To: Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,74 +83,52 @@ Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 17 Jul 2022 at 18:45, Sam Ravnborg <sam@ravnborg.org> wrote:
+On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> When atomic_check() is defined, then mode_fixup() is ignored,
-> so it had no effect that drm_bridge_funcs.mode_fixup was assigned.
-> Embed the original implementation in the caller and drop the function.
+> The implementation of drm_bridge_funcs.mode_fixup is optional
+> so there is no need to provide an empty implementation.
+> Drop mtk_hdmi_bridge_mode_fixup() so the driver no longer uses the
+> deprecated drm_bridge_funcs.mode_fixup() operation.
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-(There was a point when drm_bridge_chain_mode_fixup still existed, but
-that's gone/going now).
-
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
 > ---
->  drivers/gpu/drm/bridge/tc358767.c | 21 ++++++---------------
->  1 file changed, 6 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
+>  1 file changed, 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index 02bd757a8987..b2ab967504af 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -1496,26 +1496,18 @@ tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
->                 dev_err(tc->dev, "main link disable error: %d\n", ret);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> index a63b76055f81..7321aa1ee6f0 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -1293,13 +1293,6 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
+>         return 0;
 >  }
 >
-> -static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
-> -                                const struct drm_display_mode *mode,
-> -                                struct drm_display_mode *adj)
+> -static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
+> -                                      const struct drm_display_mode *mode,
+> -                                      struct drm_display_mode *adjusted_mode)
 > -{
-> -       /* Fixup sync polarities, both hsync and vsync are active low */
-> -       adj->flags = mode->flags;
-> -       adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-> -       adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-> -
 > -       return true;
 > -}
 > -
->  static int tc_common_atomic_check(struct drm_bridge *bridge,
->                                   struct drm_bridge_state *bridge_state,
->                                   struct drm_crtc_state *crtc_state,
->                                   struct drm_connector_state *conn_state,
->                                   const unsigned int max_khz)
+>  static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+>                                            struct drm_bridge_state *old_bridge_state)
 >  {
-> -       tc_bridge_mode_fixup(bridge, &crtc_state->mode,
-> -                            &crtc_state->adjusted_mode);
-> +       struct drm_display_mode *adj = &crtc_state->adjusted_mode;
-> +
-> +       /* Fixup sync polarities, both hsync and vsync are active low */
-> +       adj->flags = crtc_state->mode.flags;
-> +       adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-> +       adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
->
->         if (crtc_state->adjusted_mode.clock > max_khz)
->                 return -EINVAL;
-> @@ -1783,7 +1775,6 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
->         .atomic_check = tc_edp_atomic_check,
->         .atomic_enable = tc_edp_bridge_atomic_enable,
->         .atomic_disable = tc_edp_bridge_atomic_disable,
-> -       .mode_fixup = tc_bridge_mode_fixup,
->         .detect = tc_bridge_detect,
->         .get_edid = tc_get_edid,
->         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> @@ -1399,7 +1392,6 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
+>         .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>         .atomic_reset = drm_atomic_helper_bridge_reset,
+>         .attach = mtk_hdmi_bridge_attach,
+> -       .mode_fixup = mtk_hdmi_bridge_mode_fixup,
+>         .atomic_disable = mtk_hdmi_bridge_atomic_disable,
+>         .atomic_post_disable = mtk_hdmi_bridge_atomic_post_disable,
+>         .mode_set = mtk_hdmi_bridge_mode_set,
 > --
 > 2.34.1
 >
