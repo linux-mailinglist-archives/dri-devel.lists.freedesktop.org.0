@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4283F5793F8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:19:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4420E5793FF
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 09:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB71C10E2D8;
-	Tue, 19 Jul 2022 07:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2428310E6DA;
+	Tue, 19 Jul 2022 07:19:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C99F210E2D8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:19:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 74D7B1F8D0;
- Tue, 19 Jul 2022 07:19:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658215141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Pnhkd/04C+oRqNWt4f3v5cEyQFjRdcVmPA8R+h+BFDo=;
- b=rpo8msC7/WkuCVUqEZDrc9OQplKwRzJX97WLsuiNNlZ4r6tssKowMv47pBwdFZFNgqxyNz
- iV6b7X6DSJYYNmcdKfJfvwCErfX7HmBmpgK3MsXyuu9yeb51Oqs6FoY910QssJVMiry9m/
- rcPY9TvNbv2l9P1SsVvXnvJahbvdi9U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658215141;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Pnhkd/04C+oRqNWt4f3v5cEyQFjRdcVmPA8R+h+BFDo=;
- b=SNHW/ACUoMNZQHgHiiCAFyZCbBUY+HbLQbSjyxyfS8QJ0w+XtFH0VSqmcu97FLXL7U+Id+
- 0Oo1JyVtfhXaYMAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56A1C13A72;
- Tue, 19 Jul 2022 07:19:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OsEyFOVa1mJaKgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 19 Jul 2022 07:19:01 +0000
-Message-ID: <55a2564c-d4fa-dbcc-a33a-3148a7de386c@suse.de>
-Date: Tue, 19 Jul 2022 09:19:00 +0200
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A52610E6BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:19:49 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-10bd4812c29so29880788fac.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 00:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=sbnnlm1/PjMSPmudPPg+00uf3vfTognMn8oMjSHYKvA=;
+ b=YvreDaoClCfLMVh0kuegRr5Tb20TtMuxjFsoBfeQ/aKfhGhBmftcSgjY4V2Eg+zSgl
+ FfyMhei9a9x1UwCOdq2HcUOaccXm4XzQ0NnNDXOcLgmYZL+zL3GQAn7DDfRiicse28f1
+ RN5kaIQCf4Z4fi199iVfV3TpzhhwXflVj8guQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=sbnnlm1/PjMSPmudPPg+00uf3vfTognMn8oMjSHYKvA=;
+ b=ROjt1nxxx+MpA0zW+y1CktCHHhGftd6qFGL+X9hhjQAcQ9gvH5LjBrBDYw0yPWIynz
+ xMM2olTRjjOEmTjFlfDEhqcyktNt5Go48yCfogZFAMExlTlSUtgXWNJfMyw7qaUEuwT3
+ EUjavj+UZuVUSkJdotfbMb7R783MyxiC/IYkj9OQjo1EZF+Pa6MRh2Ef5x5mcuH42eow
+ sA4CzVh6tFUAKwOxstvMHfPsBDvTRrRGecW8jEWS2kMdY0UdNTubuvrLDw2TIUc5PfkJ
+ gmCRspq3TiFkrOJHX5gtXI1GDYuMw3HMlUSEga4T1kMLmQkN+naK806UiFLcq0KCZDmX
+ guWg==
+X-Gm-Message-State: AJIora/VX7aLxhX2M0GsrxR00yEajoon0FIP+WtZeGrnbbpCFVIu5NX1
+ g1sep06rz+vBGfhoutxpK7eT5gIUI42nHRnXBu4PbQ==
+X-Google-Smtp-Source: AGRyM1tdmvnEmkKpCicr8GGagWVe2Y/bXDhFisbQ7fpg4AqrDBUi60mDeIFUloIr9xJ8nhMLsB/zEqXvdphhfCcaqo4=
+X-Received: by 2002:aca:db56:0:b0:33a:3dd5:86ed with SMTP id
+ s83-20020acadb56000000b0033a3dd586edmr11336531oig.0.1658215188633; Tue, 19
+ Jul 2022 00:19:48 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 19 Jul 2022 03:19:48 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20220715111533.467012-1-christian.koenig@amd.com>
- <e71431ef-bcb9-012a-ff0d-4ef350cd232e@suse.de>
- <5bdedd05-3620-5082-1e6f-c3f6bbae9cc5@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <5bdedd05-3620-5082-1e6f-c3f6bbae9cc5@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------opsnTRMI3XNOlr1DpK1liQpc"
+In-Reply-To: <0c050434-27ca-1099-d93d-8ad6ace3396e@quicinc.com>
+References: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220709112837.v2.5.I7291c830ace04fce07e6bd95a11de4ba91410f7b@changeid>
+ <CAD=FV=XzvcjS51q78BZ=FPCEVUDMD+VKJ70ksCm5V4qwHN_wRg@mail.gmail.com>
+ <c022538d-c616-8f1a-e1c2-c11b5f0de670@quicinc.com>
+ <e4dcdd8d-18a9-8da3-7ac3-6cc792139f70@quicinc.com>
+ <CAE-0n52TG3hsytN5nRU7W=S6PffSj8yQDmuicN0-qxoW-jxiZQ@mail.gmail.com>
+ <0c050434-27ca-1099-d93d-8ad6ace3396e@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 19 Jul 2022 03:19:48 -0400
+Message-ID: <CAE-0n53J=dADDTrydVuNZzw38dW_-+Baf8cfn0Q6DSVX_6cLNg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 5/7] arm64: dts: qcom: sc7280: Update gpu
+ register list
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Doug Anderson <dianders@chromium.org>, 
+ Taniya Das <quic_tdas@quicinc.com>, quic_rjendra@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,108 +73,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmitry.osipenko@collabora.com
+Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------opsnTRMI3XNOlr1DpK1liQpc
-Content-Type: multipart/mixed; boundary="------------c4j04I06LHEyXdX1Bzrbv0Dk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-Cc: dmitry.osipenko@collabora.com
-Message-ID: <55a2564c-d4fa-dbcc-a33a-3148a7de386c@suse.de>
-Subject: Re: [PATCH 1/2] drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
-References: <20220715111533.467012-1-christian.koenig@amd.com>
- <e71431ef-bcb9-012a-ff0d-4ef350cd232e@suse.de>
- <5bdedd05-3620-5082-1e6f-c3f6bbae9cc5@amd.com>
-In-Reply-To: <5bdedd05-3620-5082-1e6f-c3f6bbae9cc5@amd.com>
+Quoting Akhil P Oommen (2022-07-18 23:37:16)
+> On 7/19/2022 11:19 AM, Stephen Boyd wrote:
+> > Quoting Akhil P Oommen (2022-07-18 21:07:05)
+> >> On 7/14/2022 11:10 AM, Akhil P Oommen wrote:
+> >>> IIUC, qcom gdsc driver doesn't ensure hardware is collapsed since they
+> >>> are vote-able switches. Ideally, we should ensure that the hw has
+> >>> collapsed for gpu recovery because there could be transient votes from
+> >>> other subsystems like hypervisor using their vote register.
+> >>>
+> >>> I am not sure how complex the plumbing to gpucc driver would be to allow
+> >>> gpu driver to check hw status. OTOH, with this patch, gpu driver does a
+> >>> read operation on a gpucc register which is in always-on domain. That
+> >>> means we don't need to vote any resource to access this register.
 
---------------c4j04I06LHEyXdX1Bzrbv0Dk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Reading between the lines here, you're saying that you have to read the
+gdsc register to make sure that the gdsc is in some state? Can you
+clarify exactly what you're doing? And how do you know that something
+else in the kernel can't cause the register to change after it is read?
+It certainly seems like we can't be certain because there is voting
+involved.
 
-SGkNCg0KQW0gMTUuMDcuMjIgdW0gMTc6NTggc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAxNS4wNy4yMiB1bSAxNzozNiBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
-SGkNCj4+DQo+PiBBbSAxNS4wNy4yMiB1bSAxMzoxNSBzY2hyaWViIENocmlzdGlhbiBLw7Zu
-aWc6DQo+Pj4gSSd2ZSBzdHVtYmxlZCBvdmVyIHRoaXMgd2hpbGUgcmV2aWV3aW5nIHBhdGNo
-ZXMgZm9yIERNQS1idWYgYW5kIGl0IGxvb2tzDQo+Pj4gbGlrZSB3ZSBjb21wbGV0ZWx5IG1l
-c3NlZCB0aGUgbG9ja2luZyB1cCBoZXJlLg0KPj4+DQo+Pj4gSW4gZ2VuZXJhbCBtb3N0IFRU
-TSBmdW5jdGlvbiBzaG91bGQgb25seSBiZSBjYWxsZWQgd2hpbGUgaG9sZGluZyB0aGUNCj4+
-PiBhcHByb3ByaWF0ZSBCTyByZXN2IGxvY2suIFdpdGhvdXQgdGhpcyB3ZSBjb3VsZCBicmVh
-ayB0aGUgaW50ZXJuYWwNCj4+PiBidWZmZXIgb2JqZWN0IHN0YXRlIGhlcmUuDQo+Pg0KPj4g
-SSByZW1lbWJlciB0aGF0IEkgdHJpZWQgdG8gZml4IHRoaXMgYmVmb3JlIGFuZCB5b3UgbWVu
-dGlvbmVkIHRoYXQgaXQncyANCj4+IG5vdCBhbGxvd2VkIHRvIGhvbGQgdGhpcyBsb2NrIGhl
-cmUuIEl0IHdvdWxkIHBvc3NpYmx5IGRlYWRsb2NrIHdpdGggDQo+PiBleHBvcnRlZCBidWZm
-ZXJzLiBEaWQgdGhpcyBjaGFuZ2Ugd2l0aCBEbWl0cnkncyByZXdvcmsgb2YgdGhlIGxvY2tp
-bmcgDQo+PiBzZW1hbnRpY3M/DQo+IA0KPiBObywgY2FuIHlvdSBwb2ludCBtZSB0byB0aGF0
-Pw0KDQpJIHRob3VnaHQgaXQgd2FzIHNvbWV3aGVyZSBpbiB0aGUgbGVuZ3RoeSBkaXNjdXNz
-aW9uIGF0DQoNCiANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIwMTEx
-MjEzMjExNy4yNzIyOC0xLXR6aW1tZXJtYW5uQHN1c2UuZGUvDQoNCmJ1dCBub3cgSSBjYW5u
-b3QgZmluZCBpdCBhbnkgbG9uZ2VyLiA6Lw0KDQo+IA0KPiBNeSBhc3N1bXB0aW9uIHdhcyB0
-aGF0IGRybV9nZW1fdm1hcCgpL3Z1bm1hcCgpIGlzIGFsd2F5cyBjYWxsZWQgd2l0aCB0aGUg
-DQo+IGxvY2sgaGVsZCwgYnV0IERtaXRyeSdzIHdvcmsgaXMgbm93IHN1Z2dlc3Rpbmcgb3Ro
-ZXJ3aXNlLg0KDQpJSVJDIHRoZSBsb2NrIHdhcyBzdXBwb3NlZCB0byBiZSBoZWxkLCBidXQg
-ZXZlcnkgZHJpdmVycyBkb2VzIGl0IA0KZGlmZmVyZW50bHkuIEFuZCBkbWEtYnVmIGxvY2tp
-bmcgZXNzZW50aWFsbHkgd29ya2VkIGJ5IGNoYW5jZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9t
-YXMNCg0KPiANCj4gV2UgY2VydGFpbmx5IG5lZWQgdG8gaG9sZCB0aGUgbG9jayB3aGVuIHdl
-IGNhbGwgdHRtX2JvX3ZtYXAoKS92dW5tYXAoKSANCj4gYmVjYXVzZSBpdCBuZWVkcyB0byBh
-Y2Nlc3MgdGhlIGJvLT5yZXNvdXJjZS4NCj4gDQo+IFRoYW5rcywNCj4gQ2hyaXN0aWFuLg0K
-PiANCj4+DQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4+Pg0KPj4+IE9ubHkg
-Y29tcGlsZSB0ZXN0ZWQhDQo+Pj4NCj4+PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+Pj4gRml4ZXM6IDQzNjc2NjA1Zjg5
-MCBkcm0vdHRtOiBBZGQgdm1hcC92dW5tYXAgdG8gVFRNIGFuZCBUVE0gR0VNIGhlbHBlcnMN
-Cj4+PiAtLS0NCj4+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV90dG1faGVscGVyLmMg
-fCA5ICsrKysrKysrLQ0KPj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyks
-IDEgZGVsZXRpb24oLSkNCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbV90dG1faGVscGVyLmMgDQo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV90
-dG1faGVscGVyLmMNCj4+PiBpbmRleCBkNTk2MmEzNGMwMWQuLmU1ZmM4NzU5OTBjNCAxMDA2
-NDQNCj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV90dG1faGVscGVyLmMNCj4+
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV90dG1faGVscGVyLmMNCj4+PiBAQCAt
-NjQsOCArNjQsMTMgQEAgaW50IGRybV9nZW1fdHRtX3ZtYXAoc3RydWN0IGRybV9nZW1fb2Jq
-ZWN0ICpnZW0sDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgaW9z
-eXNfbWFwICptYXApDQo+Pj4gwqAgew0KPj4+IMKgwqDCoMKgwqAgc3RydWN0IHR0bV9idWZm
-ZXJfb2JqZWN0ICpibyA9IGRybV9nZW1fdHRtX29mX2dlbShnZW0pOw0KPj4+ICvCoMKgwqAg
-aW50IHJldDsNCj4+PiArDQo+Pj4gK8KgwqDCoCBkbWFfcmVzdl9sb2NrKGdlbS0+cmVzdiwg
-TlVMTCk7DQo+Pj4gK8KgwqDCoCByZXQgPSB0dG1fYm9fdm1hcChibywgbWFwKTsNCj4+PiAr
-wqDCoMKgIGRtYV9yZXN2X3VubG9jayhnZW0tPnJlc3YpOw0KPj4+IMKgIC3CoMKgwqAgcmV0
-dXJuIHR0bV9ib192bWFwKGJvLCBtYXApOw0KPj4+ICvCoMKgwqAgcmV0dXJuIHJldDsNCj4+
-PiDCoCB9DQo+Pj4gwqAgRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3R0bV92bWFwKTsNCj4+PiDC
-oCBAQCAtODIsNyArODcsOSBAQCB2b2lkIGRybV9nZW1fdHRtX3Z1bm1hcChzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKmdlbSwNCj4+PiDCoCB7DQo+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3QgdHRt
-X2J1ZmZlcl9vYmplY3QgKmJvID0gZHJtX2dlbV90dG1fb2ZfZ2VtKGdlbSk7DQo+Pj4gwqAg
-K8KgwqDCoCBkbWFfcmVzdl9sb2NrKGdlbS0+cmVzdiwgTlVMTCk7DQo+Pj4gwqDCoMKgwqDC
-oCB0dG1fYm9fdnVubWFwKGJvLCBtYXApOw0KPj4+ICvCoMKgwqAgZG1hX3Jlc3ZfdW5sb2Nr
-KGdlbS0+cmVzdik7DQo+Pj4gwqAgfQ0KPj4+IMKgIEVYUE9SVF9TWU1CT0woZHJtX2dlbV90
-dG1fdnVubWFwKTsNCj4+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
-OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+> >>>
+> >>> Stephen/Rajendra/Taniya, any suggestion?
+> > Why can't you assert a gpu reset signal with the reset APIs? This series
+> > seems to jump through a bunch of hoops to get the gdsc and power domain
+> > to "reset" when I don't know why any of that is necessary. Can't we
+> > simply assert a reset to the hardware after recovery completes so the
+> > device is back into a good known POR (power on reset) state?
+> That is because there is no register interface to reset GPU CX domain.
+> The recommended sequence from HW design folks is to collapse both cx and
+> gx gdsc to properly reset gpu/gmu.
+>
 
---------------c4j04I06LHEyXdX1Bzrbv0Dk--
-
---------------opsnTRMI3XNOlr1DpK1liQpc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLWWuQFAwAAAAAACgkQlh/E3EQov+AL
-BhAArjJ8DiYgbVILDkD/Hksg+4E3545ybt7Fxi7DliORenipCr4TmsAGgT0+FnpaN8J6Ff5rzH4R
-IWUywGUWZuf5+SD9XR2oPmwvLZvknEak9on6AEfgmOyR93Xlgign2rG9ja33CqdDSHoHFQ+CmZSw
-ED/UD0bAN85wBzG8tBMXoGdgrVmAKzW2GfirD8ZapyREMVwf7Fw7pm7YqYVxSN7zjqFcpVCvfDp4
-0xdFjZiIMv7B6WopFqBU20LMlQv1UyHS6B1Hgv1eKoys+XXrrpGUAKQlzzc0sEIL4N9fSDvAwgf/
-ej5CCUOMa3IbT3+rPs/vXCGP4nBeM3xj9qkxRblzXi+5WHOc+5O7EwZnJqOpQwLol9aSvulcIGZ7
-Sm/uPWtaJiPxCInb6qa2eSJvAv/LXZFy1T3NK+mQAn/o147gcgMvoQl5Zyg5pwdsUuvzvARr3Al+
-iJcxO4rvVMC5WxQyXZWgVJcrH779w13kMAnnk/MQICU5n++TzDETX63xxjxYQ928D9v/apxYl3w+
-muQUoAwzx2+XTUM871HXCbmMsjMTwML4nD7WLtW9Me8cG3hA5jWfhaFmR1UyTkeqnGb09gClbQhk
-SZpkFJt41jTtSebYYBqFD8a2wBAWPXvx1N8g6sZPD+JEDkX2yLD9bFbkhMi51ZUsbj6o1JADNS//
-bcQ=
-=4mVS
------END PGP SIGNATURE-----
-
---------------opsnTRMI3XNOlr1DpK1liQpc--
+Ok. One knee jerk reaction is to treat the gdsc as a reset then and
+possibly mux that request along with any power domain on/off so that if
+the reset is requested and the power domain is off nothing happens.
+Otherwise if the power domain is on then it manually sequences and
+controls the two gdscs so that the GPU is reset and then restores the
+enable state of the power domain.
