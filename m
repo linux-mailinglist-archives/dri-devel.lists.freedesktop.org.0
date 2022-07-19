@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11929579765
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 12:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EB2579768
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 12:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C60B14B562;
-	Tue, 19 Jul 2022 10:14:56 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A0514B561;
- Tue, 19 Jul 2022 10:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658225694; x=1689761694;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=PqNA9KGA4dVNcnGDxzGgW/sKK+3gZ+Gh2ITt3VzXteE=;
- b=OsxeJqaIk3/7kGIlcc7Hw3+hpiGBhKDwbnfmmnUiIEok1nJHO9sCpLir
- kzn6q2JwYHsI1ThjXNUxMJOo9lWEwQTjWhm9hNtU80SRMU/+sJCq9I9S4
- v09Pkr85m6aVkW0+7HbQSNevDSvUNBYqn/HE0aqjj+y3yAxx6DWQoOPDH
- aM/ikhnwb++aMbCCoCIbUjUDU1MuZL1hvuRiQActp5FS0ZJ8gg+QbxVoM
- elY7Dfjnsd8XyR3fQWTy4aVDJYNlVIEr6+GZ5dp6Xk0rUXyfl2bqeTIg4
- Oh7E+lstblhUrl88Q1M4UME42dBfLSUf3iHXausqqutPct46uNsMuMIOh Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="287603843"
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="287603843"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 03:14:54 -0700
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="601541838"
-Received: from ssherida-mobl.ger.corp.intel.com (HELO [10.213.201.170])
- ([10.213.201.170])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 03:14:52 -0700
-Message-ID: <db41993e-6479-e618-1ce9-5abc51c4b72c@linux.intel.com>
-Date: Tue, 19 Jul 2022 11:14:51 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB2F14B577;
+	Tue, 19 Jul 2022 10:15:28 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DE714B577
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 10:15:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2F0621F9F2;
+ Tue, 19 Jul 2022 10:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658225726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uq9mib+Csrm7sCutZpOr48V49OPok/hx9FI++KJQ4Ng=;
+ b=EV43vMeLX3OqmrKaufP5PDOM8/0koJmMmwY2q6EMUkjyUnocDBxsMNtnj/AWmquhmnreaG
+ XIVyESEGcQF/J5kuEf3Sop4OYGByXp3tYlHq8g+Vux8oJjTf8Kk9hIE3t7kXVzynxzf8/q
+ zH4/YAsyPOUbNr9cM1D/M+k89vIhbE0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658225726;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uq9mib+Csrm7sCutZpOr48V49OPok/hx9FI++KJQ4Ng=;
+ b=R+P8s+uQtrh4e8A4K0/szryBh7sxPwGtkhq2Zl4MHaDjs40Aea0wibmV3iiA2GCz7gjm7v
+ 2lowI6bYUJey8jDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1199C13488;
+ Tue, 19 Jul 2022 10:15:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id UDdWAz6E1mLYfAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 19 Jul 2022 10:15:26 +0000
+Message-ID: <b1ae76d0-2a91-f8e5-ca29-717690ad3e19@suse.de>
+Date: Tue, 19 Jul 2022 12:15:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH 02/12] drm/i915/guc: Don't call ring_is_idle
- in GuC submission
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
 Content-Language: en-US
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: John Harrison <john.c.harrison@intel.com>,
- Intel-GFX@Lists.FreeDesktop.Org, Matthew Brost <matthew.brost@intel.com>
-References: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
- <20220712233136.1044951-3-John.C.Harrison@Intel.com>
- <2f9959ae-40fe-f14d-8e70-e94f03237769@linux.intel.com>
- <4f14835e-300e-a1b7-bebb-8ecbb07ab682@intel.com>
- <0107930e-bb8b-c7ee-c03c-7e7abf564498@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <0107930e-bb8b-c7ee-c03c-7e7abf564498@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220716181750.3874838-1-sam@ravnborg.org>
+ <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+ <CAKMK7uHZSpVDBkZVMoNvWt-RLjd3Lsdj+hMQf9_xskGdGsdZjw@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAKMK7uHZSpVDBkZVMoNvWt-RLjd3Lsdj+hMQf9_xskGdGsdZjw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------FqwhbJtbZ56pAHpNWg9FrspJ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,168 +71,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------FqwhbJtbZ56pAHpNWg9FrspJ
+Content-Type: multipart/mixed; boundary="------------5PRrU8suO9CLjDKHj707FrKJ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <b1ae76d0-2a91-f8e5-ca29-717690ad3e19@suse.de>
+Subject: Re: [PATCH v1 0/11] drm: move dri1 drivers to drm/dri1/
+References: <20220716181750.3874838-1-sam@ravnborg.org>
+ <9ded7088-cb15-fe5d-5a4d-001d3d9bb195@suse.de>
+ <CAKMK7uHZSpVDBkZVMoNvWt-RLjd3Lsdj+hMQf9_xskGdGsdZjw@mail.gmail.com>
+In-Reply-To: <CAKMK7uHZSpVDBkZVMoNvWt-RLjd3Lsdj+hMQf9_xskGdGsdZjw@mail.gmail.com>
 
-On 19/07/2022 10:49, Tvrtko Ursulin wrote:
-> 
-> On 19/07/2022 01:09, John Harrison wrote:
->> On 7/18/2022 05:26, Tvrtko Ursulin wrote:
->>>
->>> On 13/07/2022 00:31, John.C.Harrison@Intel.com wrote:
->>>> From: Matthew Brost <matthew.brost@intel.com>
->>>>
->>>> The engine registers really shouldn't be touched during GuC submission
->>>> as the GuC owns the registers. Don't call ring_is_idle and tie
->>>
->>> Touch being just read and it is somehow harmful?
->> The registers are meaningless when GuC is controlling the submission. 
->> The i915 driver has no knowledge of what context is or is not 
->> executing on any given engine at any given time. So reading reading 
->> the ring registers is incorrect - it can lead to bad assumptions about 
->> what state the hardware is in.
-> 
-> Same is actually true with the execlists backend. The code in 
-> ring_is_idle is not concerning itself with which context is running or 
-> not. Just that the head/tail/ctl appear idle.
-> 
-> Problem/motivation appears to be on a higher than simply ring registers.
-> 
-> I am not claiming it makes sense with Guc and that it has to remain but 
-> just suggesting for as a minimum clearer commit message.
-> 
->>>> intel_engine_is_idle strictly to the engine pm.
->>>
->>> Strictly seems wrong - it is just ring_is_idle check that is replaced 
->>> and not the whole implementation of intel_engine_is_idle.
->>>
->>>> Because intel_engine_is_idle tied to the engine pm, retire requests
->>>> before checking intel_engines_are_idle in gt_drop_caches, and lastly
->>> Why is re-ordering important? I at least can't understand it. I hope 
->>> it's not working around IGT failures.
->> If requests are physically completed but not retired then they will be 
->> holding unnecessary PM references. So we need to flush those out 
->> before checking for idle.
-> 
-> And if they are not as someone passes in DROP_RESET_ACTIVE? They will 
-> not retire and code still enters intel_engines_are_idle so that has to 
-> work, no? Something does not align for me still.
+--------------5PRrU8suO9CLjDKHj707FrKJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-With "not retire" I meant potentially not retire within 
-I915_IDLE_ENGINES_TIMEOUT. I guess hack happens to work for some or all 
-IGTs which use DROP_RESET_ACTIVE.
+SGkNCg0KQW0gMTkuMDcuMjIgdW0gMTE6NTIgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBNb24sIDE4IEp1bCAyMDIyIGF0IDA4OjU2LCBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pg0KPj4gSGkNCj4+DQo+PiBBbSAxNi4wNy4yMiB1
+bSAyMDoxNyBzY2hyaWViIFNhbSBSYXZuYm9yZzoNCj4+PiBXaGlsZSBkaXNjdXNzaW5nIHRo
+ZSB3YXkgZm9yd2FyZCBmb3IgdGhlIHZpYSBkcml2ZXINCj4+PiBKYXZpZXIgY2FtZSB1cCB3
+aXRoIHRoZSBwcm9wb3NhbCB0byBtb3ZlIGFsbCBEUkkxIGRyaXZlcnMNCj4+PiB0byB0aGVp
+ciBvd24gZm9sZGVyLg0KPj4+DQo+Pj4gVGhlIGlkZWEgaXMgdG8gbW92ZSB0aGUgb2xkIERS
+STEgZHJpdmVycyBzbyBvbmUgZG8gbm90DQo+Pj4gYWNjaWRlbnRhbGx5IGNvbnNpZGVyIHRo
+ZW0gbW9kZXJuIGRyaXZlcnMuDQo+Pj4NCj4+PiBUaGlzIHNldCBvZiBwYXRjaGVzIGltcGxl
+bWVudHMgdGhpcyBpZGVhLg0KPj4+DQo+Pj4gVG8gcHJlcGFyZSB0aGUgbW92ZSwgRFJJVkVS
+X0xFR0FDWSBhbmQgQ09ORklHX0RSTV9MRUdBQ1kNCj4+PiBhcmUgYm90aCByZW5hbWVkIHRv
+ICpfRFJJMS4gVGhpcyBtYWtlcyBpdCBtb3JlIG9idmlvdXMNCj4+PiB0aGF0IHdlIGFyZSBk
+ZWFsaW5nIHdpdGggRFJJMSBkcml2ZXJzLCBhcyB3ZSBoYXZlDQo+Pj4gYSBsb3Qgb2Ygb3Ro
+ZXIgbGVnYWN5IHN1cHBvcnQuDQo+Pj4NCj4+PiBUaGUgZHJpdmVycyBjb250aW51ZSB0byBo
+YXZlIHRoZWlyIG93biBzdWItZGlyZWN0b3J5DQo+Pj4gc28gdGhlIGRyaXZlciBmaWxlcyBh
+cmUgbm90IG1peGVkIHdpdGggdGhlIGNvcmUgZmlsZXMNCj4+PiB3aGljaCBhcmUgY29waWVk
+IGluIHRoZSBsYXN0IGNvbW1pdC4NCj4+Pg0KPj4+IFRoZSBEUkkxIHNwZWNpZmljIHBhcnQg
+b2YgZHJtL0tjb25maWcgaXMgbGlrZXdpc2UgcHVsbGVkDQo+Pj4gb3V0IGFuZCBsb2NhdGVk
+IGluIHRoZSBkcmkxLyBmb2xkZXIuDQo+Pj4NCj4+PiBGZWVkYmFjayB3ZWxjb21lIQ0KPj4N
+Cj4+IFRvIGJlIGhvbmVzdCwgSSBzdGlsbCBkb24ndCBsaWtlIHRoaXMgcmVuYW1lLiBFc3Bl
+Y2lhbGx5IGluIHRoZSBjYXNlIG9mDQo+PiB2aWEsIHdoaWNoIGhhcyBhIEtNUyBkcml2ZXIg
+Y29taW5nIHVwLiBJdCB3aWxsIG5vdyBoYXZlIGFuIGluY2x1ZGUNCj4+IHN0YXRlbWVudCB0
+aGF0IGNyb3NzZXMgc2V2ZXJhbCBsZXZlbHMgaW4gdGhlIGRpcmVjdG9yeSBoaWVyYXJjaHku
+IEFuZA0KPj4gd2hhdCBhYm91dCB0aGUgb3RoZXIgRFJJMSBkcml2ZXJzPyBJZiB3ZSBldmVy
+IGdldCBLTVMgZHJpdmVycyBmb3IgdGhvc2UsDQo+PiBkbyB3ZSB3YW50IHRvIG1vdmUgc29t
+ZSBoZWFkZXIgZmlsZXMgYmFjayBpbnRvIHRoZWlyIG9yaWdpbmFsIGxvY2F0aW9ucz8NCj4+
+IFBhdGNoZXMgMSBhbmQgMiBsb29rIHJlYXNvbmFibGUgdG8gbWUuIFRoZSBvdGhlciBkcml2
+ZXIgcGF0Y2hlcyBoYXZlDQo+PiBiYXNpY2FsbHkgemVybyB1cHNpZGUgSU1ITy4NCj4gDQo+
+IEltbyB0cmFuc2l0aW9uYWwgZHJpdmVycyB3aXRoIGJvdGggbGVnYWN5IGRyaTEgYW5kIGtt
+cytnZW0gc3VwcG9ydA0KPiBtYWRlIHNvbWUgc2Vuc2UgMTArIHllYXJzIGFnbyB3aGVuIGFs
+bCB0aGlzIGluZnJhc3RydWN0dXJlIHdhcyBzdGlsbA0KPiBiZWluZyBidWlsdC4gTm93IEkg
+cmVhbGx5IGRvbid0IHNlZSBtdWNoIHBvaW50Lg0KPiANCj4gRm9yIHZpYSBpbW8gbWFrZSBp
+dCBhIGNsZWFuIG5ldyBkcml2ZXIsIGFuZCBjb3B5cGFzdGUgYW55dGhpbmcgZnJvbQ0KPiB0
+aGUgb2xkIG9uZSAobGlrZSByZWdpc3RlciBoZWFkZXJzKSBpdCBuZWVkcy4gVGhhdCB3aWxs
+IGFsc28gbWFrZQ0KPiByZXZpZXcgYSB0b24gZWFzaWVyIEkgdGhpbmsuIFRoZXJlIGhhcyBu
+b3QgYmVlbiBhbnkgYWN0dWFsIHZpYSB3b3JrLA0KPiBqdXN0IGdlbmVyYWwgcmVmYWN0b3Jp
+bmcsIGluIHRoYXQgZHJpdmVyIGZvciAxMCsgeWVhcnMsIHNvICJidWdmaXgNCj4gc2hhcmlu
+ZyIgaXMgcmVhbGx5IG5vdCBhbiBhcmd1bWVudC4NCg0KQXQgc29tZSBwb2ludCwgSSBzdWdn
+ZXN0ZWQgdG8gdHVybiB0aGUgVklBIEtNUyBkcml2ZXIgaW50byBhIG5ldyANCid1bmljaHJv
+bWUnIGRyaXZlciwgYnV0IGV2ZXJ5b25lIHdhbnRzIHRvIGtlZXAgJ3ZpYScgaW5zdGVhZC4N
+Cg0KPiANCj4+IEluIHRoZSBjYXNlIG9mIG1vdmluZyB0aGUgY29yZSBmaWxlcyBpbnRvIGRy
+aTEvLCB0aGUgcmVzdWx0aW5nIE1ha2VmaWxlDQo+PiBydWxlIGxvb2tzIHJlYWxseSB1Z2x5
+LiBJJ2Qgc3VnZ2VzdCB0byBtb3ZlIGFsbCBjb2RlIGludG8gYSBzZXBhcmF0ZQ0KPj4gZmls
+ZSBkcm1fZHJpMS5jIGFuZCBiZSBkb25lIHdpdGggaXQuICBGb3Igc29tZXRoaW5nIG1vcmUg
+ZWxhYm9yYXRlLA0KPj4gdGhlcmUgY291bGQgYnkgZHJtX2RyaTEuYyBhbmQgZHJtX2RyaTFf
+aGVscGVyLmMsIHdoZXJlIHRoZSBsYXR0ZXINCj4+IGNvbnRhaW5zIGFsbCBEUkkxIGNvZGUg
+dGhhdCBpcyBvbmx5IHVzZWQgYnkgdGhlIGRyaXZlcnMuDQo+IA0KPiBVZ2x5IE1ha2VmaWxl
+IGZvciBkcmkxIG1pZ2h0IGJlIGEgZmVhdHVyZSA6LSkgQnV0IHBlcnNvbmFsbHkgbm8gc3Rh
+a2UNCj4gb24gdGhpcyBiaWtlc2hlZC4NCg0KSXQncyB0aGUgY29yZSBEUk0gbWFrZWZpbGUg
+dGhhdCB3b3VsZCBsb29rIHVnbHkuIDovDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
+LURhbmllbA0KPiANCj4+DQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21zYQ0KPj4NCj4+Pg0K
+Pj4+ICAgICAgICBTYW0NCj4+Pg0KPj4+IFNhbSBSYXZuYm9yZyAoMTEpOg0KPj4+ICAgICAg
+ICAgZHJtOiByZW5hbWUgRFJJVkVSX0xFR0FDWSB0byBEUklWRVJfRFJJMQ0KPj4+ICAgICAg
+ICAgZHJtOiBSZW5hbWUgQ09ORklHX0RSTV9MRUdBQ1kgdG8gQ09ORklHX0RSTV9EUkkxDQo+
+Pj4gICAgICAgICBkcm0vdGRmeDogTW92ZSB0aGUgdGRmeCBkcml2ZXIgdG8gZHJtL2RyaTEv
+DQo+Pj4gICAgICAgICBkcm0vcjEyODogTW92ZSB0aGUgcjEyOCBkcml2ZXIgdG8gZHJtL2Ry
+aTEvDQo+Pj4gICAgICAgICBkcm0vaTgxMDogTW92ZSB0aGUgaTgxMCBkcml2ZXIgdG8gZHJt
+L2RyaTEvDQo+Pj4gICAgICAgICBkcm0vbWdhOiBNb3ZlIHRoZSBtZ2EgZHJpdmVyIHRvIGRy
+bS9kcmkxLw0KPj4+ICAgICAgICAgZHJtL3NpczogTW92ZSB0aGUgc2lzIGRyaXZlciB0byBk
+cm0vZHJpMS8NCj4+PiAgICAgICAgIGRybS92aWE6IE1vdmUgdGhlIHZpYSBkcml2ZXIgdG8g
+ZHJtL2RyaTEvDQo+Pj4gICAgICAgICBkcm0vc2F2YWdlOiBNb3ZlIHRoZSBzYXZhZ2UgZHJp
+dmVyIHRvIGRybS9kcmkxLw0KPj4+ICAgICAgICAgZHJtL2RyaTE6IE1vdmUgS2NvbmZpZyBs
+b2dpYyB0byBkcm0vZHJpMQ0KPj4+ICAgICAgICAgZHJtOiBNb3ZlIGRyaTEgY29yZSBmaWxl
+cyB0byBkcm0vZHJpMQ0KPj4+DQo+Pj4gICAgYXJjaC9wb3dlcnBjL2NvbmZpZ3MvcG1hYzMy
+X2RlZmNvbmZpZyAgICAgICAgICAgICAgfCAgMiArLQ0KPj4+ICAgIGFyY2gvcG93ZXJwYy9j
+b25maWdzL3BwYzZ4eF9kZWZjb25maWcgICAgICAgICAgICAgIHwgIDIgKy0NCj4+PiAgICBk
+cml2ZXJzL2NoYXIvYWdwL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAy
+ICstDQo+Pj4gICAgZHJpdmVycy9jaGFyL2FncC9hZ3AuaCAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgNzkgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4+
+ICAgIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgMTggKysrLS0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vZHJpMS9LY29uZmlnICAgICAg
+ICAgICAgICAgICAgICAgICB8IDc5ICsrKysrKysrKysrKysrKysrKysrKysNCj4+PiAgICBk
+cml2ZXJzL2dwdS9kcm0vZHJpMS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICB8IDEx
+ICsrKw0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV9hZ3BzdXBwb3J0
+LmMgICAgICAgIHwgIDQgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9k
+cm1fYnVmcy5jICAgICAgICAgICAgICB8IDIyICsrKy0tLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
+L2RybS97ID0+IGRyaTF9L2RybV9jb250ZXh0LmMgICAgICAgICAgIHwgMjQgKysrLS0tLQ0K
+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2RybV9kbWEuYyAgICAgICAgICAg
+ICAgIHwgIDQgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9kcm1faGFz
+aHRhYi5jICAgICAgICAgICB8ICAwDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJp
+MX0vZHJtX2lycS5jICAgICAgICAgICAgICAgfCAgNiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
+L2RybS97ID0+IGRyaTF9L2RybV9sZWdhY3lfbWlzYy5jICAgICAgIHwgIDIgKy0NCj4+PiAg
+ICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9kcm1fbG9jay5jICAgICAgICAgICAgICB8
+ICA2ICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vZHJtX21lbW9yeS5j
+ICAgICAgICAgICAgfCAgMA0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2Ry
+bV9zY2F0dGVyLmMgICAgICAgICAgIHwgIDYgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0v
+eyA9PiBkcmkxfS9kcm1fdm0uYyAgICAgICAgICAgICAgICB8ICAyICstDQo+Pj4gICAgZHJp
+dmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vaTgxMC9NYWtlZmlsZSAgICAgICAgICAgfCAgMA0K
+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L2k4MTAvaTgxMF9kbWEuYyAgICAg
+ICAgIHwgIDANCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9pODEwL2k4MTBf
+ZHJ2LmMgICAgICAgICB8ICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJp
+MX0vaTgxMC9pODEwX2Rydi5oICAgICAgICAgfCAgMA0KPj4+ICAgIGRyaXZlcnMvZ3B1L2Ry
+bS97ID0+IGRyaTF9L21nYS9NYWtlZmlsZSAgICAgICAgICAgIHwgIDANCj4+PiAgICBkcml2
+ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9tZ2EvbWdhX2RtYS5jICAgICAgICAgICB8ICAwDQo+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vbWdhL21nYV9kcnYuYyAgICAgICAg
+ICAgfCAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L21nYS9tZ2Ff
+ZHJ2LmggICAgICAgICAgIHwgIDANCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkx
+fS9tZ2EvbWdhX2lvYzMyLmMgICAgICAgICB8ICAwDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJt
+L3sgPT4gZHJpMX0vbWdhL21nYV9pcnEuYyAgICAgICAgICAgfCAgMA0KPj4+ICAgIGRyaXZl
+cnMvZ3B1L2RybS97ID0+IGRyaTF9L21nYS9tZ2Ffc3RhdGUuYyAgICAgICAgIHwgIDANCj4+
+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9tZ2EvbWdhX3dhcnAuYyAgICAgICAg
+ICB8ICAwDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vcjEyOC9NYWtlZmls
+ZSAgICAgICAgICAgfCAgMA0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3Ix
+MjgvYXRpX3BjaWdhcnQuYyAgICAgIHwgIDANCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9
+PiBkcmkxfS9yMTI4L2F0aV9wY2lnYXJ0LmggICAgICB8ICAwDQo+Pj4gICAgZHJpdmVycy9n
+cHUvZHJtL3sgPT4gZHJpMX0vcjEyOC9yMTI4X2NjZS5jICAgICAgICAgfCAgMA0KPj4+ICAg
+IGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3IxMjgvcjEyOF9kcnYuYyAgICAgICAgIHwg
+IDIgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9yMTI4L3IxMjhfZHJ2
+LmggICAgICAgICB8ICAwDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vcjEy
+OC9yMTI4X2lvYzMyLmMgICAgICAgfCAgMA0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+
+IGRyaTF9L3IxMjgvcjEyOF9pcnEuYyAgICAgICAgIHwgIDANCj4+PiAgICBkcml2ZXJzL2dw
+dS9kcm0veyA9PiBkcmkxfS9yMTI4L3IxMjhfc3RhdGUuYyAgICAgICB8ICAwDQo+Pj4gICAg
+ZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vc2F2YWdlL01ha2VmaWxlICAgICAgICAgfCAg
+MA0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3NhdmFnZS9zYXZhZ2VfYmNp
+LmMgICAgIHwgIDANCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9zYXZhZ2Uv
+c2F2YWdlX2Rydi5jICAgICB8ICAyICstDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4g
+ZHJpMX0vc2F2YWdlL3NhdmFnZV9kcnYuaCAgICAgfCAgMA0KPj4+ICAgIGRyaXZlcnMvZ3B1
+L2RybS97ID0+IGRyaTF9L3NhdmFnZS9zYXZhZ2Vfc3RhdGUuYyAgIHwgIDANCj4+PiAgICBk
+cml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS9zaXMvTWFrZWZpbGUgICAgICAgICAgICB8ICAw
+DQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vc2lzL3Npc19kcnYuYyAgICAg
+ICAgICAgfCAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3Npcy9z
+aXNfZHJ2LmggICAgICAgICAgIHwgIDANCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBk
+cmkxfS9zaXMvc2lzX21tLmMgICAgICAgICAgICB8ICAwDQo+Pj4gICAgZHJpdmVycy9ncHUv
+ZHJtL3sgPT4gZHJpMX0vdGRmeC9NYWtlZmlsZSAgICAgICAgICAgfCAgMA0KPj4+ICAgIGRy
+aXZlcnMvZ3B1L2RybS97ID0+IGRyaTF9L3RkZngvdGRmeF9kcnYuYyAgICAgICAgIHwgIDIg
+Ky0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0veyA9PiBkcmkxfS90ZGZ4L3RkZnhfZHJ2Lmgg
+ICAgICAgICB8ICAwDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3sgPT4gZHJpMX0vdmlhL01h
+a2VmaWxlICAgICAgICAgICAgfCAgNCArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS97dmlh
+L3ZpYV9kcmkxLmMgPT4gZHJpMS92aWEvdmlhLmN9IHwgIDQgKy0NCj4+PiAgICBkcml2ZXJz
+L2dwdS9kcm0vZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9maWxlLmMgICAgICAgICAgICAgICAgICAgICAg
+ICAgfCAxMiArKy0tDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9pbnRlcm5hbC5oICAg
+ICAgICAgICAgICAgICAgICAgfCAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+aW9jMzIuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgMTIgKystLQ0KPj4+ICAgIGRyaXZl
+cnMvZ3B1L2RybS9kcm1faW9jdGwuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgIDQgKy0N
+Cj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vZHJtX2xlZ2FjeS5oICAgICAgICAgICAgICAgICAg
+ICAgICB8IDMyICsrKystLS0tLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGNpLmMg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgMTIgKystLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fdmJsYW5rLmMgICAgICAgICAgICAgICAgICAgICAgIHwgMTIgKystLQ0KPj4+
+ICAgIGluY2x1ZGUvZHJtL2RybV9hdXRoLmggICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgIDIgKy0NCj4+PiAgICBpbmNsdWRlL2RybS9kcm1fZGV2aWNlLmggICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICA0ICstDQo+Pj4gICAgaW5jbHVkZS9kcm0vZHJtX2Rydi5oICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxMCArLS0NCj4+PiAgICBpbmNsdWRlL2Ry
+bS9kcm1fZmlsZS5oICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+Pj4g
+ICAgaW5jbHVkZS9kcm0vZHJtX2xlZ2FjeS5oICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgMiArLQ0KPj4+ICAgIDY3IGZpbGVzIGNoYW5nZWQsIDIwNSBpbnNlcnRpb25zKCspLCAx
+OTQgZGVsZXRpb25zKC0pDQo+Pj4NCj4+Pg0KPj4NCj4+IC0tDQo+PiBUaG9tYXMgWmltbWVy
+bWFubg0KPj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KPj4gU1VTRSBTb2Z0d2FyZSBT
+b2x1dGlvbnMgR2VybWFueSBHbWJIDQo+PiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
+cmcsIEdlcm1hbnkNCj4+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCj4+IEdlc2Now6Rm
+dHNmw7xocmVyOiBJdm8gVG90ZXYNCj4gDQo+IA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVy
+bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
+bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
+VG90ZXYNCg==
 
-Does it also mean patch would fix that problem without touching 
-intel_engine_is_idle/ring_is_idle - with just the re-ordering in 
-gt_drop_caches?
+--------------5PRrU8suO9CLjDKHj707FrKJ--
 
-Regards,
+--------------FqwhbJtbZ56pAHpNWg9FrspJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Tvrtko
+-----BEGIN PGP SIGNATURE-----
 
-> 
->>>> increase the timeout in gt_drop_caches for the intel_engines_are_idle
->>>> check.
->>>
->>> Same here - why?
->> @Matthew Brost - do you recall which particular tests were hitting an 
->> issue? I'm guessing gem_ctx_create? I believe that's the one that 
->> creates and destroys thousands of contexts. That is much slower with 
->> GuC (GuC communication required) than with execlists (i915 internal 
->> state change only).
-> 
-> And if that is a logically separate change please split the patch up.
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->> John.
->>
->>
->>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 13 +++++++++++++
->>>>   drivers/gpu/drm/i915/i915_debugfs.c       |  6 +++---
->>>>   drivers/gpu/drm/i915/i915_drv.h           |  2 +-
->>>>   3 files changed, 17 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
->>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>> index 283870c659911..959a7c92e8f4d 100644
->>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>> @@ -1602,6 +1602,9 @@ static bool ring_is_idle(struct 
->>>> intel_engine_cs *engine)
->>>>   {
->>>>       bool idle = true;
->>>>   +    /* GuC submission shouldn't access HEAD & TAIL via MMIO */
->>>> +    GEM_BUG_ON(intel_engine_uses_guc(engine));
->>>> +
->>>>       if (I915_SELFTEST_ONLY(!engine->mmio_base))
->>>>           return true;
->>>>   @@ -1668,6 +1671,16 @@ bool intel_engine_is_idle(struct 
->>>> intel_engine_cs *engine)
->>>>       if (!i915_sched_engine_is_empty(engine->sched_engine))
->>>>           return false;
->>>>   +    /*
->>>> +     * We shouldn't touch engine registers with GuC submission as 
->>>> the GuC
->>>> +     * owns the registers. Let's tie the idle to engine pm, at 
->>>> worst this
->>>> +     * function sometimes will falsely report non-idle when idle 
->>>> during the
->>>> +     * delay to retire requests or with virtual engines and a request
->>>> +     * running on another instance within the same class / submit 
->>>> mask.
->>>> +     */
->>>> +    if (intel_engine_uses_guc(engine))
->>>> +        return false;
->>>> +
->>>>       /* Ring stopped? */
->>>>       return ring_is_idle(engine);
->>>>   }
->>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c 
->>>> b/drivers/gpu/drm/i915/i915_debugfs.c
->>>> index 94e5c29d2ee3a..ee5334840e9cb 100644
->>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
->>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
->>>> @@ -654,13 +654,13 @@ gt_drop_caches(struct intel_gt *gt, u64 val)
->>>>   {
->>>>       int ret;
->>>>   +    if (val & DROP_RETIRE || val & DROP_RESET_ACTIVE)
->>>> +        intel_gt_retire_requests(gt);
->>>> +
->>>>       if (val & DROP_RESET_ACTIVE &&
->>>>           wait_for(intel_engines_are_idle(gt), 
->>>> I915_IDLE_ENGINES_TIMEOUT))
->>>>           intel_gt_set_wedged(gt);
->>>>   -    if (val & DROP_RETIRE)
->>>> -        intel_gt_retire_requests(gt);
->>>> -
->>>>       if (val & (DROP_IDLE | DROP_ACTIVE)) {
->>>>           ret = intel_gt_wait_for_idle(gt, MAX_SCHEDULE_TIMEOUT);
->>>>           if (ret)
->>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
->>>> b/drivers/gpu/drm/i915/i915_drv.h
->>>> index c22f29c3faa0e..53c7474dde495 100644
->>>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>>> @@ -278,7 +278,7 @@ struct i915_gem_mm {
->>>>       u32 shrink_count;
->>>>   };
->>>>   -#define I915_IDLE_ENGINES_TIMEOUT (200) /* in ms */
->>>> +#define I915_IDLE_ENGINES_TIMEOUT (500) /* in ms */
->>>>     unsigned long i915_fence_context_timeout(const struct 
->>>> drm_i915_private *i915,
->>>>                        u64 context);
->>
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLWhD0FAwAAAAAACgkQlh/E3EQov+Dw
+ThAAx8FLSdPgjuuAHWovBTM+3smPeBD8jlUEGUYFLvl6n3p1/+jvU5dEPWzhWr1ZzqT4ez3Yzean
+Eni8kuk8fLiJR96/ZjltPnoTSuk5sJfOjV69wsxG8RT7wTc9DE/+qCU4zv+qg0wsfYoEiL0wh/KY
+U/zia3oGrEqsBlUunqMDaGM/yWatURV332MnSYXYjxNuq6sAfGNCAkE35FY5KoEBhVvHoJQPtJtf
+Hw/uYt+OYpOETWDZqDrKvYtPuBGIPtdXmWbiuT3uLCT/m3K/yVNrZVZ8yH0HQaaPx71aM1rXwWml
+pt4H2Xmw37Wc6sz//CUdNLZOS6UTQqBWaz6+6u/7STJmFaJ+dBh29d2Ujg3gN6fYEcAzTuQmRDrg
+K+yvaNOhNuhw8+Cie9w7Hs3K6NQwzNsoo0vVgeEdn42Izv1axe6HF4wZa1ipx1ORdsa6rRHVhgkU
+mDR0SMAt6+8alhxCPyJKtGp4rRhHedDxcM5F6PEbbufNtbdptg5vV/F0xKYE+naFuw7q4w0AqeAe
+FQi5OYLTmYpAmYWwWwi/+PrXKRz3YmL7OiLIxQZYTqMeWCjtYEHr4HZMQ5B0wuHtyGkdFCvLHf3t
+iPrvMxO2Dfd/MOdGrD2JBIKwpx0yNBJ7jcguU3ys+BHlzZKb/S2MtvFUm9GjBC2Weazob0ab/OJP
+1Cg=
+=Douy
+-----END PGP SIGNATURE-----
+
+--------------FqwhbJtbZ56pAHpNWg9FrspJ--
