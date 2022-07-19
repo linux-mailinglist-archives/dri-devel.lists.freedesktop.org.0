@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E98557A507
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 19:20:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 183B957A4BC
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 19:13:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73757910C9;
-	Tue, 19 Jul 2022 17:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E1590D32;
+	Tue, 19 Jul 2022 17:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72995910CE
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 17:20:16 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id bp15so28495112ejb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 10:20:16 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E38E90CCC
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 17:13:04 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id l23so28435142ejr.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 10:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IH9J1HkJUDinkHiBrN0EE6fhsRqqhDII0J61LnPPg94=;
- b=ZQAX4R3A2RP5ePI8X1wnZBz/yY9Fp4N+5ElluUKxbZOSaqGLZi45cpgYwxewdTyBjy
- AtH3jrlwrayMjKxZMhtnAc4zgKV0KMlAX86PQ6qAz0sCIUIfKuP0ghevIzpbzJB2z2+g
- MeKjSieefdGX983+e3xeaMqLcqpDFdtvWZJvc=
+ :cc; bh=5MNb0V6j3qPMABdJqAwbj58qIBpWCdI7aPTD3FNarXk=;
+ b=BuVirQTZTwxHB7H87FJWiywTqDnGatrkPQzw5UHbCPG2g8CTgDMoTYPzdXmc1KYSZA
+ zTy3rNxK9hcEWlZ37iUIdgAYI3gp5P0kewuDync6JAXMK25mV3f/+c+smo9PEExXg/f5
+ x+Il1343dGqjFsDeOlWvHyG+n+V8E0fgXrD8A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IH9J1HkJUDinkHiBrN0EE6fhsRqqhDII0J61LnPPg94=;
- b=6BI9kbUM6IQjkdWD2NeQh1hPm9YDu4jK7k8NpZ5khkwLd+j/ao1HN4N4nr2VUed4dg
- Re1gzh+AqMlnZONKtAUG4afnIGk/+xOThZbdWT0LBsshE2xX10nK1FpQqmRpQn/F0SWV
- 5sS/hp+0z9vDrTnh3/I1cs8Vn77g8avCfbBLCIzEdKRs2lNS5pW8QXc0hhAlrD9gvREs
- iJKowBuHM16LyMMqV1L8rq74QNvdek8DKmnKoZYFiaFKYBG53WWb61mDFWSnxdzdYpfs
- mfuRcYwzvVeRVfkS9qa+e4Ttf/2JeiEiZMiV6OtV3b+dWbtxd5G0AUwpsxD6ymJqRWTT
- eWBg==
-X-Gm-Message-State: AJIora8qycKmQxnON/N1IfK9f3jWchFsSXdfyNWUclDHA+sJ5w8zz0S5
- vfeyyg2wHFmfal5/dzoYmZOvMmJtCQcjMHB6FXY=
-X-Google-Smtp-Source: AGRyM1vA0pJ5bn01wucJWn/GDkrC3zqtnSD85xHl7ZxegRyh/VcraH1mQ+6JTKJsMkx7mmKRfj4qAQ==
-X-Received: by 2002:a17:906:8478:b0:72b:4f81:29d8 with SMTP id
- hx24-20020a170906847800b0072b4f8129d8mr31682666ejc.179.1658251214864; 
- Tue, 19 Jul 2022 10:20:14 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
- [209.85.128.44]) by smtp.gmail.com with ESMTPSA id
- r1-20020a17090609c100b0072a881b21d8sm6851737eje.119.2022.07.19.10.20.14
+ bh=5MNb0V6j3qPMABdJqAwbj58qIBpWCdI7aPTD3FNarXk=;
+ b=KRWjAkdxNZk51NcBVTcMcVx7BUwxqq0h/rzbAFsQoMHiw3MTPAP2Lxp71HAkZoM+Oo
+ 4gWIC8sUe3apj5I9lHy07Mw450WG+QoyyJ9+ChQCyxSfHJgmQEH/8OIHho6VNqxfYFtl
+ YEzgw2OSNiNQ9j3DjdTP2hQ0vLfBrOZylchFSKcsOcVeHyXWLYH4sdGnCtaZK18tm/uQ
+ rZ7TLFkA9dTFIQi40Lg31cmZWdEJpMlD37vGeWmatKauq+LpkwHLWQ/TcFpRjt+5FVxZ
+ Gy4hkuekBMctwBw0fGYlLbw7Q+egeK2lltJy8StgHSJRvSKyMVxCUtyvruKP1nUsYncR
+ Xnzg==
+X-Gm-Message-State: AJIora+RrmEi7sNFxsIQsWLZ4HNmX/Oa04E1j5QfBkfIsFooqkobXmIV
+ U9SyqfSbM4F3Gh2HlgDNEiZ0Fsa1QyqoTucY
+X-Google-Smtp-Source: AGRyM1uRhyk5Z0b+r8og917pNUl+hXKFxQcfOmUYeJarkLx/Figl2TptgrtUmm8bOCwY5GoPxo4Ddg==
+X-Received: by 2002:a17:907:3f9d:b0:72f:4645:1718 with SMTP id
+ hr29-20020a1709073f9d00b0072f46451718mr6653958ejc.317.1658250782450; 
+ Tue, 19 Jul 2022 10:13:02 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
+ [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
+ 15-20020a170906318f00b0072f2ed809casm2965381ejy.49.2022.07.19.10.12.55
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 10:20:14 -0700 (PDT)
-Received: by mail-wm1-f44.google.com with SMTP id
- ay11-20020a05600c1e0b00b003a3013da120so10453816wmb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 10:20:14 -0700 (PDT)
-X-Received: by 2002:a05:600c:3ace:b0:3a0:4ea4:5f77 with SMTP id
- d14-20020a05600c3ace00b003a04ea45f77mr277678wms.57.1658250734635; Tue, 19 Jul
- 2022 10:12:14 -0700 (PDT)
+ Tue, 19 Jul 2022 10:12:56 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id j1so18124154wrs.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 10:12:55 -0700 (PDT)
+X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
+ b13-20020adff90d000000b0020cde324d35mr27615443wrr.583.1658250775011; Tue, 19
+ Jul 2022 10:12:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220711092117.360797-1-dmitry.baryshkov@linaro.org>
- <20220711092117.360797-2-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220711092117.360797-2-dmitry.baryshkov@linaro.org>
+ <20220711092117.360797-3-dmitry.baryshkov@linaro.org>
+ <CAD=FV=XQbP2OSf6vtPOQtuXajUOuQ9Vz7t7pmcSraSzcBJD2ig@mail.gmail.com>
+In-Reply-To: <CAD=FV=XQbP2OSf6vtPOQtuXajUOuQ9Vz7t7pmcSraSzcBJD2ig@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 19 Jul 2022 10:12:01 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WmGDS8sBq-3snuukFOUY+HKq_veoL2tgWf1-TbdUHzLg@mail.gmail.com>
-Message-ID: <CAD=FV=WmGDS8sBq-3snuukFOUY+HKq_veoL2tgWf1-TbdUHzLg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/2] drm/bridge: ti-sn65dsi86: fetch bpc using
- drm_atomic_state
+Date: Tue, 19 Jul 2022 10:12:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UZN6SrybRt3_DRHsRYg=-yi9w++NPAtjtGHvzuyW6y7A@mail.gmail.com>
+Message-ID: <CAD=FV=UZN6SrybRt3_DRHsRYg=-yi9w++NPAtjtGHvzuyW6y7A@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/2] drm/bridge: ti-sn65dsi86: support
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,20 +90,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Jul 11, 2022 at 2:21 AM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Mon, Jul 11, 2022 at 10:23 AM Doug Anderson <dianders@chromium.org> wrote:
 >
-> Rather than reading the pdata->connector directly, fetch the connector
-> using drm_atomic_state. This allows us to make pdata->connector optional
-> (and thus supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR).
+> Hi,
 >
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
+> On Mon, Jul 11, 2022 at 2:21 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > Now as the driver does not depend on pdata->connector, add support for
+> > attaching the bridge with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+> >
+> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 18 ++++++++----------
+> >  1 file changed, 8 insertions(+), 10 deletions(-)
+>
+>  This has been on my list of annoyances for quite some time now. Most
+> excellent to have it fixed, thanks!
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> Tested together with patch #1.
+>
+> Tested-by: Douglas Anderson <dianders@chromium.org>
+>
+>
+> Unless someone yells that there's a problem or someone beats me to it,
+> I'll plan to land in drm-misc-next sometime next week.
 
 Landed on drm-misc-next:
 
-2dbeef82d14f drm/bridge: ti-sn65dsi86: fetch bpc using drm_atomic_state
+6e2dc7ac7141 drm/bridge: ti-sn65dsi86: support DRM_BRIDGE_ATTACH_NO_CONNECTOR
