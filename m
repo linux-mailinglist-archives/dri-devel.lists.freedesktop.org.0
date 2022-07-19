@@ -1,49 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43BE57A087
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 16:07:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3028957A0B3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 16:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5DA12AEE4;
-	Tue, 19 Jul 2022 14:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2BE18BF4F;
+	Tue, 19 Jul 2022 14:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A22E18B9F4;
- Tue, 19 Jul 2022 14:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658239561; x=1689775561;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fV70aCNko5pjg1YfxZTno57Ja6YfWWbTwwqYkQ8AOc0=;
- b=mceJUH+tTcQOdTUCMX7qGT/oe1E0oSBJ05qd75nBP9CElwJEur+8Q9B2
- D/fWE/tPhpbJmsu3M5KBvSVkHWfp3pzBHAihlRDtPnREOHyc9GXQ63XxL
- mU7U3VXrqTX7EL90tFGoJOzjKn/uE9U2xyV6rhT3+IiRXEtFgb1JZ4ftB
- GQCDtEuOpRtlgBwDYP2JlVEnGA7Q9hcwYeH9z9VYCUPPRXec8FIZP59Kj
- SqVUahJ0aT5vtKs+vF+S+fKzqHaWDv+/gis0+1f+VIeuzxuL5YTN5ZQ4K
- Oq+P8AsErsyBvFYVLOVBlaiSqoWk9vfFQK45ZKg6JZufLJNUhH8lPEFk5 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="269523429"
-X-IronPort-AV: E=Sophos;i="5.92,284,1650956400"; d="scan'208";a="269523429"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 07:05:47 -0700
-X-IronPort-AV: E=Sophos;i="5.92,284,1650956400"; d="scan'208";a="655773838"
-Received: from unknown (HELO hades.ger.corp.intel.com) ([10.252.55.53])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 07:05:45 -0700
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 7/7] drm/i915: Remove truncation warning for large objects
-Date: Tue, 19 Jul 2022 17:04:24 +0300
-Message-Id: <20220719140424.430572-8-gwan-gyeong.mun@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220719140424.430572-1-gwan-gyeong.mun@intel.com>
-References: <20220719140424.430572-1-gwan-gyeong.mun@intel.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6691418BF8E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 14:09:16 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id j22so27429800ejs.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u8sLlbZKcYVwqChBzOR8a7SbN4VOIEkVLaJpmGxf1u8=;
+ b=S4sSw4dPG9SoIscVCdBbw23gLQXegfD1TkIApRxUyVaz4Lk+4tqsgVjhX7TOzjd6Is
+ /5DnmmmSvRPYTOQnlVzVSdPc/EEPWSixLP80fWE5TRy0sVDHHSidsaUXEDv3dmwvt19n
+ wDF6u4wZBZskt7/AQ8kG+73zWr1KFlEQDV/t6r2v/SU5fpBxDgQzRwbhLqatihkNuoQ5
+ TreVDvedfrbpmBjJNp8iihxBQWHqaqEFPuBJvNjcZAw/gisZ5vXx5VZESnFkLl2GOCNL
+ T8QFk5vB1DXMLTK3C2tSP8Lfs+f5/nSrsh+72N8UWxmFfb4/FrAr/QrEi6e+kV9vpiB6
+ mHjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u8sLlbZKcYVwqChBzOR8a7SbN4VOIEkVLaJpmGxf1u8=;
+ b=bRH7jwUK6FBbsFtrBCiikmg7GT0NREyRtUC2DXuLwHHVGZEbFj5rR988Zbqz7OMD0S
+ PZlkqMMFKkf7EqYbkSRDDCjk656BfYfD3hn782z0W+36Ub4aVWOpTEy4WWMcN6hnkR8e
+ WlkHRIykphAQsFFGrj7I9mFjHQwsEl+3GXOCDDTVWC4IEZXqoQ9RBNTV8JT7IFLMrLcB
+ H6wd9KGh0Y5nFvL6WSt0JC6tTHTYZGZeF7bOWl6U+VFIjEoJ78Orp3XsK1PGtdCenqjf
+ ccVbxW8aiYpiRQ639BeKBWKXGQ5ZYS16rlUsIaaL6aPiU2xNb1/cp7qZeYIl+LtYvBIR
+ KN2w==
+X-Gm-Message-State: AJIora89nItQD/wK9wZIdW3dmP55uRtf5t7mjWczyjLYK5LgYUt3VXFk
+ I7BOxz83Cv6l8WetMDyujqBWWpt9nWoU1bsIwB1KtA==
+X-Google-Smtp-Source: AGRyM1udjkXGNICxc5l46Ad38az3eGQyrcMk/c2xHDg4URlYogp6zX3h1ScYex5vj2vhyr7QFOwl7+d/nHFljbt8Hdw=
+X-Received: by 2002:a17:906:5a67:b0:72b:610d:4aa4 with SMTP id
+ my39-20020a1709065a6700b0072b610d4aa4mr31450934ejc.294.1658239754935; Tue, 19
+ Jul 2022 07:09:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220717174454.46616-1-sam@ravnborg.org>
+ <20220717174454.46616-8-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-8-sam@ravnborg.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 19 Jul 2022 15:08:58 +0100
+Message-ID: <CAPY8ntCk=q1n+bCwJdv5MXbAc8PeRUUrwZ352BW_Ax6d550GKg@mail.gmail.com>
+Subject: Re: [PATCH v1 07/12] drm/bridge: tc358767: Use
+ drm_bridge_funcs.atomic_check
+To: Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,64 +65,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, airlied@linux.ie,
- matthew.auld@intel.com, mchehab@kernel.org, nirmoy.das@intel.com
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Philip Chen <philipchen@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+On Sun, 17 Jul 2022 at 18:45, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> When atomic_check() is defined, then mode_fixup() is ignored,
+> so it had no effect that drm_bridge_funcs.mode_fixup was assigned.
+> Embed the original implementation in the caller and drop the function.
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 
-Having addressed the issues surrounding incorrect types for local
-variables and potential integer truncation in using the scatterlist API,
-we have closed all the loop holes we had previously identified with
-dangerously large object creation. As such, we can eliminate the warning
-put in place to remind us to complete the review.
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Brian Welty <brian.welty@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Testcase: igt@gem_create@create-massive
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4991
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 15 ---------------
- 1 file changed, 15 deletions(-)
+(There was a point when drm_bridge_chain_mode_fixup still existed, but
+that's gone/going now).
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index d5f823cc1c2e..ae97811e8ff9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -20,25 +20,10 @@
- 
- enum intel_region_id;
- 
--/*
-- * XXX: There is a prevalence of the assumption that we fit the
-- * object's page count inside a 32bit _signed_ variable. Let's document
-- * this and catch if we ever need to fix it. In the meantime, if you do
-- * spot such a local variable, please consider fixing!
-- *
-- * We can check for invalidly typed locals with typecheck(), see for example
-- * i915_gem_object_get_sg().
-- */
--#define GEM_CHECK_SIZE_OVERFLOW(sz) \
--	GEM_WARN_ON((sz) >> PAGE_SHIFT > INT_MAX)
--
- static inline bool i915_gem_object_size_2big(u64 size)
- {
- 	struct drm_i915_gem_object *obj;
- 
--	if (GEM_CHECK_SIZE_OVERFLOW(size))
--		return true;
--
- 	if (overflows_type(size, obj->base.size))
- 		return true;
- 
--- 
-2.34.1
-
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 21 ++++++---------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 02bd757a8987..b2ab967504af 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1496,26 +1496,18 @@ tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
+>                 dev_err(tc->dev, "main link disable error: %d\n", ret);
+>  }
+>
+> -static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+> -                                const struct drm_display_mode *mode,
+> -                                struct drm_display_mode *adj)
+> -{
+> -       /* Fixup sync polarities, both hsync and vsync are active low */
+> -       adj->flags = mode->flags;
+> -       adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> -       adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> -
+> -       return true;
+> -}
+> -
+>  static int tc_common_atomic_check(struct drm_bridge *bridge,
+>                                   struct drm_bridge_state *bridge_state,
+>                                   struct drm_crtc_state *crtc_state,
+>                                   struct drm_connector_state *conn_state,
+>                                   const unsigned int max_khz)
+>  {
+> -       tc_bridge_mode_fixup(bridge, &crtc_state->mode,
+> -                            &crtc_state->adjusted_mode);
+> +       struct drm_display_mode *adj = &crtc_state->adjusted_mode;
+> +
+> +       /* Fixup sync polarities, both hsync and vsync are active low */
+> +       adj->flags = crtc_state->mode.flags;
+> +       adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> +       adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+>
+>         if (crtc_state->adjusted_mode.clock > max_khz)
+>                 return -EINVAL;
+> @@ -1783,7 +1775,6 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+>         .atomic_check = tc_edp_atomic_check,
+>         .atomic_enable = tc_edp_bridge_atomic_enable,
+>         .atomic_disable = tc_edp_bridge_atomic_disable,
+> -       .mode_fixup = tc_bridge_mode_fixup,
+>         .detect = tc_bridge_detect,
+>         .get_edid = tc_get_edid,
+>         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> --
+> 2.34.1
+>
