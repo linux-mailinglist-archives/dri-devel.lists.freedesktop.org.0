@@ -2,57 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2474557955B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 10:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803E557955D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 10:41:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B9114A40F;
-	Tue, 19 Jul 2022 08:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD2F12BC45;
+	Tue, 19 Jul 2022 08:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 375D814A425
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:39:55 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id x91so18634176ede.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 01:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K0OAbKerRqgyFjt7G7NUv6wQqaETTVMhms061EthEbg=;
- b=RV1NBT+Rdgn9TM3jYga9F4pG/9t+9xf+/NZ9WpzQ5XRqoA9+bJCcwPV1Z5wQ3tuP3e
- WQZb1VT1hsTDDMDVIo6Y/N8muMJwlLokxWIiIC6tTkCLmgmIMaY7fyQN9RRiPSqZ3kve
- tmgiOjHOqVrjOObN4klln1gN24SGvnF7SDG4NeoCfhj+KV3KhBquMv2hjeLF1+PdZmIq
- MNbHVv0usaSuQpNS1+2rGHaLA3EqU892EHTHQ3544pWAGIohFvp8TZVQguskqSSM3uko
- r1O2GU3paiPbIKtn6i39mcjgtrQVJdDe30w6DHqVWV86MVUL/omBAkYK6M+Z7xQdZynT
- alyA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC2E111AE26
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658220061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aCQLJQOHcJOJ8JmCqZRzHzMUpESxVjd3NNjhzKxLWQs=;
+ b=e0ZdUbtf5HXBjlwwlpxQdWLny8rutNykCgR3POPuWtcBB5+L8fjIfVzuYeuCb18phWQGbK
+ yQlnr4m4BKW8ec6TAzzNOIwZfSJQbOzsQamI1g3JbHAZvZuxTt7Vxlc0hePZ8QGqcjxwGd
+ L1ybTnFY1ZTZKxeUKHXUVnEyGBK8dzQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-RHMff1VFNxKN8496Y0iyrg-1; Tue, 19 Jul 2022 04:40:58 -0400
+X-MC-Unique: RHMff1VFNxKN8496Y0iyrg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j23-20020adfb317000000b0021d7986c07eso2346671wrd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 01:40:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K0OAbKerRqgyFjt7G7NUv6wQqaETTVMhms061EthEbg=;
- b=wTQCGRlwfLiusQDcQHEVavbRN7I4GHHxmZnoLBOXvTOyrDtFCATgtTQev0mbVQcx++
- 8FCpyqyvYV8SJf+04Y3trCo0ztbKdax5jqYsbG3DXpSRnIV5s8D5lNHTVY7avN0Audwk
- nFrsiLwr1ElOpazXSofsNh7Shog6zejhU1BQbi10hSKvIVts/wi6VorptGiK0byVY2l+
- +4YOsl48olVMZ/w8VQrR+ua4kO/y+gt6f5lmpX9iQty17I+jDdeRwMxAZ/ADGeveCJNN
- XH3Sm1J4dYz33ytbaaP3b2bGwg27wdpTkqjbsA3V1BLFrQmMkerCdL0vIi2R3L+iIC8M
- kJYQ==
-X-Gm-Message-State: AJIora8Q8xxyg7Yt2gQpSCiNsV2NVN3b9UY4RzNA6P3vELN+PcAXOu+N
- 5U6f5ZPb632xmWyUXLpbXPea8WgNusX7mcrgOCoSww==
-X-Google-Smtp-Source: AGRyM1s8ciK9bfGNqx9miZK6LJkKg+khEsHxfyjlPKq25NSXeSeJ7o62oB0bvAnEYF4XPVKSudsKEiG9cjSxu37YNQs=
-X-Received: by 2002:a05:6402:5384:b0:431:6d84:b451 with SMTP id
- ew4-20020a056402538400b004316d84b451mr41000793edb.46.1658219993771; Tue, 19
- Jul 2022 01:39:53 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=aCQLJQOHcJOJ8JmCqZRzHzMUpESxVjd3NNjhzKxLWQs=;
+ b=SpoqOCzgY9dnOXVAYkEcbO6j77V79ciGVPh1SuctUvdlsEJ6dJ1S2svg3MyMEiZivy
+ uVQog2z2CK+qJWGWhhaJm8QiR9B+JDDSdhdiqZT3+n1R1U+uUdPDl8NM1ux8BZYAyem4
+ 7pqQHpIfl1L9YugCwGFOvtdMM9HaDV2Bz5IkT6b2O5MGNO8RCGKhzKgWRh08QecNiyie
+ F26rTtNrGYveaImrwnhwUTqC0UnwgCNzhAG95wFXt6J0u4ypPOqNv6ZyVMnPBbbHRWMn
+ AcIedU+4NvGyezkzvNP/zuEa065eGX16i7+ptcL2G8Muu9o+0Lawegw+i+/zSQ1H4LgN
+ wLOA==
+X-Gm-Message-State: AJIora+1rKAt+0jaAYD+yZ1P7cVLGtMIfbhZb7ZmF9CH/be5ddctsu6B
+ 3lv9PEcDe8VyeeK0BCOccx/iNbnm00arSQrEVxnJwFdY24ukRwFpLq+7due/nWqMFTHGOD6byTJ
+ vzCWkDmlmvTULCpSm5taz3n47YuxJ
+X-Received: by 2002:a7b:c381:0:b0:3a2:aef9:8df4 with SMTP id
+ s1-20020a7bc381000000b003a2aef98df4mr37053751wmj.7.1658220057356; 
+ Tue, 19 Jul 2022 01:40:57 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1toW+ZoFXTJPEFs8reXmrBMtF0NaGli8q7vJKFZ+PCo4DXMfNrAYpetGiTuQdFEWq6RXg/h9w==
+X-Received: by 2002:a7b:c381:0:b0:3a2:aef9:8df4 with SMTP id
+ s1-20020a7bc381000000b003a2aef98df4mr37053722wmj.7.1658220057065; 
+ Tue, 19 Jul 2022 01:40:57 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c709:600:7807:c947:bc5a:1aea?
+ (p200300cbc70906007807c947bc5a1aea.dip0.t-ipconnect.de.
+ [2003:cb:c709:600:7807:c947:bc5a:1aea])
+ by smtp.gmail.com with ESMTPSA id
+ j23-20020a05600c1c1700b003a32251c3f9sm1833646wms.5.2022.07.19.01.40.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jul 2022 01:40:56 -0700 (PDT)
+Message-ID: <d0e631e1-c7ef-4e03-6c34-189042b84005@redhat.com>
+Date: Tue, 19 Jul 2022 10:40:55 +0200
 MIME-Version: 1.0
-References: <20220710194437.289042-1-marex@denx.de>
-In-Reply-To: <20220710194437.289042-1-marex@denx.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 19 Jul 2022 10:39:42 +0200
-Message-ID: <CACRpkdYSh21KbT+egW-0ePP7v8x2tOG6rH2ayCJx1SXNpA46DA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/panel/panel-sitronix-st7701: Make DSI mode flags
- common to ST7701
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v9 06/14] mm/gup: migrate device coherent pages when
+ pinning instead of failing
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20220715150521.18165-1-alex.sierra@amd.com>
+ <20220715150521.18165-7-alex.sierra@amd.com>
+ <225554c2-9174-555e-ddc0-df95c39211bc@redhat.com>
+ <20220718133235.4fdbd6ec303219e5a3ba49cf@linux-foundation.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220718133235.4fdbd6ec303219e5a3ba49cf@linux-foundation.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +94,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, robert.foss@linaro.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, Felix.Kuehling@amd.com, apopple@nvidia.com,
+ amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
+ jglisse@redhat.com, dri-devel@lists.freedesktop.org, jgg@nvidia.com,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 10, 2022 at 9:44 PM Marek Vasut <marex@denx.de> wrote:
+On 18.07.22 22:32, Andrew Morton wrote:
+> On Mon, 18 Jul 2022 12:56:29 +0200 David Hildenbrand <david@redhat.com> wrote:
+> 
+>>>  		/*
+>>>  		 * Try to move out any movable page before pinning the range.
+>>>  		 */
+>>> @@ -1919,7 +1948,8 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
+>>>  				    folio_nr_pages(folio));
+>>>  	}
+>>>  
+>>> -	if (!list_empty(&movable_page_list) || isolation_error_count)
+>>> +	if (!list_empty(&movable_page_list) || isolation_error_count
+>>> +		|| coherent_pages)
+>>
+>> The common style is to
+>>
+>> a) add the || to the end of the previous line
+>> b) indent such the we have a nice-to-read alignment
+>>
+>> if (!list_empty(&movable_page_list) || isolation_error_count ||
+>>     coherent_pages)
+>>
+> 
+> I missed that.  This series is now in mm-stable so any fix will need to
+> be a standalone followup patch, please.
+> 
+>> Apart from that lgtm.
+>>
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+> 
+> And your reviewed-by's will be lost.  Stupid git.
 
-> The ST7701 and ST7701S are TFT matrix drivers with integrated multi
-> protocol decoder capable of DSI/DPI/SPI input and 480x360...864 line
-> TFT matrix output. Currently the only supported input is DSI.
->
-> The protocol decoder is separate from the TFT matrix driver and is
-> always capable of handling all of DSI non-burst mode with sync pulses
-> or sync events as well as DSI burst mode.
->
-> Move the DSI mode configuration from TFT matrix driver properties to
-> common ST7701 code, because this is common to all TFT matrices.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
+I know, I already raised my concerns regarding the new workflow, so I
+won't repeat that. I can understand (too some degree) that we don't want
+code to change just before the new merge window opens.
 
-All 9 patches applied and pushed for drm-misc-next.
+But I do wonder if we really don't even want to do subject+description
+updates. Sure, the commit IDs will change. Who cares?
 
-Yours,
-Linus Walleij
+Anyhow, it is what it is.
+
+-- 
+Thanks,
+
+David / dhildenb
+
