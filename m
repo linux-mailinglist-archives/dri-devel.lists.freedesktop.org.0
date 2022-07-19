@@ -1,51 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1CE57B16B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 09:11:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B404857B16A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 09:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C48810F4A1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 760C110F8BB;
 	Wed, 20 Jul 2022 07:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7032514A2E8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:38:21 +0000 (UTC)
-Received: from [IPv6:2a00:23c6:c30a:1501:8302:3eab:dcff:989c] (unknown
- [IPv6:2a00:23c6:c30a:1501:8302:3eab:dcff:989c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: martyn)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 830A566019EC;
- Tue, 19 Jul 2022 09:38:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.co.uk;
- s=mail; t=1658219899;
- bh=pT9LsgDPXQ0N4ZUhydSJXzlbrrIU5pdJxpX8OgBtKKo=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=ZAM2U4AliGF0UNCwIZdgWYgG1mlKiLMsrfpv5iI8xik1utJb6T2n3DYMDooKyGdii
- UyWldvFNAg0/J1orEkFTg/P7M1qwUbLupaEh8xIUuZwqUsE6yrKPII8o4NhouLdsE7
- jzf2IfHDBSYRMKl5bMZ5QH1Id9d2Fph58g2WEaAp3UiqQUFYOhf12OXgWJSihkncZY
- uOxJsKudggnNoyJ5DTodeHcrFrhRb/StTMuvFMFH7T29SjMeTg6Eojk9nCbcBGCRy3
- 6lp9Ib0YSu/6E8x5UGiXqm1jnze3N7mN5qhqxQbYZyP57yYcEuGeHxGNUAucthTckc
- gA1I1JhXry0kg==
-Message-ID: <946c008942f4ef4ca642818b23e9941c162383e3.camel@collabora.co.uk>
-Subject: Re: [PATCH] drm/bridge: megachips: Fix a null pointer dereference bug
-From: Martyn Welch <martyn.welch@collabora.co.uk>
-To: Zheyu Ma <zheyuma97@gmail.com>, peter.senna@gmail.com, 
- martin.donnelly@ge.com, andrzej.hajda@intel.com, narmstrong@baylibre.com, 
- robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch
-Date: Tue, 19 Jul 2022 09:38:16 +0100
-In-Reply-To: <20220716081304.2762135-1-zheyuma97@gmail.com>
-References: <20220716081304.2762135-1-zheyuma97@gmail.com>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2-1 
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 259BA11363E;
+ Tue, 19 Jul 2022 09:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1658224596; x=1689760596;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=kHrTHvQAepMAlMIEvJiZV9+AbwMmX43o50lpDv2fUtA=;
+ b=TkaoOkvNKduQi1dIkU4cbqAx3NsL8R3D+xyMl8ijClVRBODw+8Krq67e
+ 9zEj8Tn98s/jvtYVZvuAW+uOtkkNn5K3ggjzuwdH0ISX6fb07drjwlpbe
+ /B9ZK17lNTTw9cLWeg7GWWlI6X72o5tD7rMIEkNyf25sRXJ/zOOthZ9+R 0=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Jul 2022 02:56:34 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2022 02:56:34 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 19 Jul 2022 02:56:33 -0700
+Received: from [10.216.50.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 19 Jul
+ 2022 02:56:27 -0700
+Message-ID: <b6ab023b-601d-1df2-b04b-af5961b73bea@quicinc.com>
+Date: Tue, 19 Jul 2022 15:26:15 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [Freedreno] [PATCH v2 5/7] arm64: dts: qcom: sc7280: Update gpu
+ register list
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Akhil P Oommen
+ <quic_akhilpo@quicinc.com>, Doug Anderson <dianders@chromium.org>, Taniya Das
+ <quic_tdas@quicinc.com>
+References: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220709112837.v2.5.I7291c830ace04fce07e6bd95a11de4ba91410f7b@changeid>
+ <CAD=FV=XzvcjS51q78BZ=FPCEVUDMD+VKJ70ksCm5V4qwHN_wRg@mail.gmail.com>
+ <c022538d-c616-8f1a-e1c2-c11b5f0de670@quicinc.com>
+ <e4dcdd8d-18a9-8da3-7ac3-6cc792139f70@quicinc.com>
+ <CAE-0n52TG3hsytN5nRU7W=S6PffSj8yQDmuicN0-qxoW-jxiZQ@mail.gmail.com>
+ <0c050434-27ca-1099-d93d-8ad6ace3396e@quicinc.com>
+ <CAE-0n53J=dADDTrydVuNZzw38dW_-+Baf8cfn0Q6DSVX_6cLNg@mail.gmail.com>
+From: Rajendra Nayak <quic_rjendra@quicinc.com>
+In-Reply-To: <CAE-0n53J=dADDTrydVuNZzw38dW_-+Baf8cfn0Q6DSVX_6cLNg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-Mailman-Approved-At: Wed, 20 Jul 2022 07:11:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,70 +75,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2022-07-16 at 16:13 +0800, Zheyu Ma wrote:
-> When removing the module we will get the following warning:
->=20
-> [=C2=A0=C2=A0 31.911505] i2c-core: driver [stdp2690-ge-b850v3-fw] unregis=
-tered
-> [=C2=A0=C2=A0 31.912484] general protection fault, probably for non-canon=
-ical
-> address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
-> [=C2=A0=C2=A0 31.913338] KASAN: null-ptr-deref in range [0x00000000000000=
-08-
-> 0x000000000000000f]
-> [=C2=A0=C2=A0 31.915280] RIP: 0010:drm_bridge_remove+0x97/0x130
-> [=C2=A0=C2=A0 31.921825] Call Trace:
-> [=C2=A0=C2=A0 31.922533]=C2=A0 stdp4028_ge_b850v3_fw_remove+0x34/0x60
-> [megachips_stdpxxxx_ge_b850v3_fw]
-> [=C2=A0=C2=A0 31.923139]=C2=A0 i2c_device_remove+0x181/0x1f0
->=20
-> The two bridges (stdp2690, stdp4028) do not probe at the same time,
-> so
-> the driver does not call ge_b850v3_resgiter() when probing, causing
-> the
-> driver to try to remove the object that has not been initialized.
->=20
-> Fix this by checking whether both the bridges are probed.
->=20
-> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 
-Good catch!
 
-Acked-by: Martyn Welch <martyn.welch@collabora.com>
+On 7/19/2022 12:49 PM, Stephen Boyd wrote:
+> Quoting Akhil P Oommen (2022-07-18 23:37:16)
+>> On 7/19/2022 11:19 AM, Stephen Boyd wrote:
+>>> Quoting Akhil P Oommen (2022-07-18 21:07:05)
+>>>> On 7/14/2022 11:10 AM, Akhil P Oommen wrote:
+>>>>> IIUC, qcom gdsc driver doesn't ensure hardware is collapsed since they
+>>>>> are vote-able switches. Ideally, we should ensure that the hw has
+>>>>> collapsed for gpu recovery because there could be transient votes from
+>>>>> other subsystems like hypervisor using their vote register.
+>>>>>
+>>>>> I am not sure how complex the plumbing to gpucc driver would be to allow
+>>>>> gpu driver to check hw status. OTOH, with this patch, gpu driver does a
+>>>>> read operation on a gpucc register which is in always-on domain. That
+>>>>> means we don't need to vote any resource to access this register.
+> 
+> Reading between the lines here, you're saying that you have to read the
+> gdsc register to make sure that the gdsc is in some state? Can you
+> clarify exactly what you're doing? And how do you know that something
+> else in the kernel can't cause the register to change after it is read?
+> It certainly seems like we can't be certain because there is voting
+> involved.
 
-Would be worth adding:
+yes, this looks like the best case effort to get the gpu to recover, but
+the kernel driver really has no control to make sure this condition can
+always be met (because it depends on other entities like hyp, trustzone etc right?)
+Why not just put a worst case polling delay?
 
-Fixes: 11632d4aa2b3 ("drm/bridge: megachips: Ensure both bridges are
-probed before registration")
-
-> ---
-> =C2=A0drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 4 +++-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> index cce98bf2a4e7..c68a4cdf4625 100644
-> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> @@ -296,7 +296,9 @@ static void ge_b850v3_lvds_remove(void)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This check is to avoid=
- both the drivers
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * removing the bridge in=
- their remove() function
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ge_b850v3_lvds_ptr)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ge_b850v3_lvds_ptr ||
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0!ge_b850v3_lvds_ptr->stdp2690_i2c ||
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0!ge_b850v3_lvds_ptr->stdp4028_i2c)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0goto out;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_bridge_remove(&ge_b85=
-0v3_lvds_ptr->bridge);
-
+> 
+>>>>>
+>>>>> Stephen/Rajendra/Taniya, any suggestion?
+>>> Why can't you assert a gpu reset signal with the reset APIs? This series
+>>> seems to jump through a bunch of hoops to get the gdsc and power domain
+>>> to "reset" when I don't know why any of that is necessary. Can't we
+>>> simply assert a reset to the hardware after recovery completes so the
+>>> device is back into a good known POR (power on reset) state?
+>> That is because there is no register interface to reset GPU CX domain.
+>> The recommended sequence from HW design folks is to collapse both cx and
+>> gx gdsc to properly reset gpu/gmu.
+>>
+> 
+> Ok. One knee jerk reaction is to treat the gdsc as a reset then and
+> possibly mux that request along with any power domain on/off so that if
+> the reset is requested and the power domain is off nothing happens.
+> Otherwise if the power domain is on then it manually sequences and
+> controls the two gdscs so that the GPU is reset and then restores the
+> enable state of the power domain.
