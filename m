@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C1D5797DA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 12:48:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7810579882
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 13:30:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B862B12B6B5;
-	Tue, 19 Jul 2022 10:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6994118A5A1;
+	Tue, 19 Jul 2022 11:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D21712B7DF
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 10:48:16 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id y8so19037086eda.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 03:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jAJckkD4UuuHl70O8qDgCKBp28ZgCMKEQEQG2B3UfE0=;
- b=Q/Szb78YeaaPFs6XH9/IQHBVYt7poFICWO1a+McjynpiY6pG9I1QRhvcjCyZW6vxnT
- PxrDVy8fqimCTQDCY5vw60fGcwvARB/d+GrfnEURIYrjlYUAu+g4KEelBSEVAkLTon1i
- BraWKs6Eih7MiBHZXskxv4ylpEKf9Zme+IDLlu/1kv4oyrljN1MqwRfNIWViVXUNrct2
- u7AiHcXjfoR3SpMsm7PwS6mcOZXhMToPiIVophvCrx4VBf1kYpn4hXZYAEWApydD4tre
- eQIVXISQIy7ixmTDgFI3pw5O25NGhwF2bp3seoOr71PWiE9pToJ9D/iKflX4V3b20TqG
- hV0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jAJckkD4UuuHl70O8qDgCKBp28ZgCMKEQEQG2B3UfE0=;
- b=iYzjzn20/MeRkQAJ9ptrKMUvAOaCustgEfmM6nru9ItfLyXk0YOv6AKGqMx0wdlZ2g
- qlPoyj5YrQpDKXH9Kw1aq5oWU+rDOvL0/FADmc25FwauyOqnEENcJO/ZLHJVSBcqaMBp
- uc0ncTHaEDZJit6yyr/FfkXqLWXLcVaMvct/Yhg/4FEY+OwdfMwXaNaeEp0lJhoLv1zG
- VypQI8AMYm5U4rT1ICk9InARHshzBGzJj5c7/Z1n1gXGGYvrQbkkWORf+1h+L5cZNkv5
- qxxUJZ+b+u8xBfUpx0r7T5Hl7R80fxRTTqcsrzUODcETNhKAAHu/69urDBocrh7Yx83m
- LFKw==
-X-Gm-Message-State: AJIora8QOwifIsI+LaTfXgZEjoSEwUKjJngqrzJN/F/c0tY/W9rrCqG3
- SRxieeki9Z8ap4YQDfeW0FErVZNxOmAyNoyUX6doOw==
-X-Google-Smtp-Source: AGRyM1ua9YfZzMzY+4okMS9alFUwqOoJ7z9AWWeCobrYmvatBAnyqrolqInpc2mJusYtBC/LbNwM0xE6plFTLrpI0iA=
-X-Received: by 2002:a05:6402:4490:b0:43a:8f5a:d273 with SMTP id
- er16-20020a056402449000b0043a8f5ad273mr42301746edb.6.1658227695061; Tue, 19
- Jul 2022 03:48:15 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E819618A59C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 11:30:16 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
+ [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 26F1E6601A84;
+ Tue, 19 Jul 2022 12:30:14 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1658230215;
+ bh=rpzY+Hd9YfT45BgcKVJ7OOuh8FXmtUnkCtfOS2g4cH8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QY4weZnoEpTNCE+75cy9Q/HJl98aGY9Zv/JSVZHs0E0CtgRq75NDF5KuQBzU5/D+H
+ sJeG185T0kStxcAfzXU4gcWEiNinbxubFJnE7aONh+hIHd3uynT7rfcGBpBDOLEfAl
+ hj14oE8wBkOeVrnfYSDqslFkU+A+AOkzEcsrbwUcbl9NK0/79nC4p3gQeGCouYevGq
+ Pnq/TpE8dnfDsYqRmQN4yEtfhNpiXysp8BG1usKYlTm5d0yhIOS+3NOh+yE7CLuxBF
+ C2233Yf7sX/a18TWz3s8ttH4nmqkKa9kdeueq/S2J4jUgoBS/K3vVKMcFY9uXNeaLS
+ SHWWg8Su6nv5g==
+Message-ID: <aa3cf379-c191-bcdd-4cb9-ab7a37f30e5a@collabora.com>
+Date: Tue, 19 Jul 2022 14:30:11 +0300
 MIME-Version: 1.0
-References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717175801.78668-1-sam@ravnborg.org>
- <20220717175801.78668-5-sam@ravnborg.org>
- <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
- <YtWftDRPYcP5p+i1@ravnborg.org>
-In-Reply-To: <YtWftDRPYcP5p+i1@ravnborg.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 19 Jul 2022 11:47:58 +0100
-Message-ID: <CAPY8ntCGVoNt9AsWb=3ou6x3XUDQ=S-=5-Yrd4HzAOLc+2XvKw@mail.gmail.com>
-Subject: Re: [PATCH v1 12/12] drm/todo: Add bridge related todo items
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 7/9] drm/virtio: Improve DMA API usage for shmem BOs
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20220630200726.1884320-1-dmitry.osipenko@collabora.com>
+ <20220630200726.1884320-8-dmitry.osipenko@collabora.com>
+ <20220705135323.emr4gdbcxoisdcxe@sirius.home.kraxel.org>
+ <d2c64d09-c4bb-9aed-069d-a9b4d07a1f66@collabora.com>
+ <20220705154507.67ovlun4m26xzppn@sirius.home.kraxel.org>
+ <1380526d-17fb-6eb2-0fd5-5cddbdf0a92e@collabora.com>
+ <20220706071301.43fvbioka4iksqup@sirius.home.kraxel.org>
+ <05a5608b-899d-71de-a7d7-406334c5604b@collabora.com>
+ <20220719103106.gttro4tjjbis6pgg@sirius.home.kraxel.org>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220719103106.gttro4tjjbis6pgg@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,114 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Philip Chen <philipchen@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Cai Huoqing <cai.huoqing@linux.dev>
+Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam
+On 7/19/22 13:31, Gerd Hoffmann wrote:
+> On Wed, Jul 06, 2022 at 10:22:52AM +0300, Dmitry Osipenko wrote:
+>> On 7/6/22 10:13, Gerd Hoffmann wrote:
+>>>   Hi,
+>>>
+>>>> Gerd, thank you very much! It's was indeed unclear to me how to test the
+>>>> MMIO GPU, but yours variant with microvm works! I was looking for trying
+>>>> aarch64 in the past, but it also was unclear how to do it since there is
+>>>> no DT support for the VirtIO-GPU, AFAICS.
+>>>
+>>> aarch64 uses acpi by default (can be disabled via 'qemu -no-acpi').
+>>> Not fully sure about arm(v7).
+>>>
+>>> Even with DT it should work because DT only describes the virtio-mmio
+>>> 'slots', not the actual virtio devices.
+>>>
+>>>> There is no virgl support because it's a virtio-gpu-device and not
+>>>> virtio-gpu-device-gl that is PCI-only in Qemu. Hence everything seems good.
+>>>
+>>> It's named 'virtio-gpu-gl-device'
+>>
+>> Ah, thanks again! Just quickly tested virtio-gpu-gl-device and
+>> everything works too for MMIO GPU on microvm, including virgl and Xorg
+>> (glamor).
+>>
+>> [drm] features: +virgl +edid -resource_blob -host_visible
+>> [drm] features: -context_init
+>> [drm] number of scanouts: 1
+>> [drm] number of cap sets: 2
+>> [drm] cap set 0: id 1, max-version 1, max-size 308
+>> [drm] cap set 1: id 2, max-version 2, max-size 696
+>> [drm] Initialized virtio_gpu 0.1.0 0 for LNRO0005:01 on minor 0
+>> virtio-mmio LNRO0005:01: [drm] drm_plane_enable_fb_damage_clips() not called
+> 
+> Cool.  Havn't found the time to try s390x, so I'm taking that as good
+> enough test that we don't have any unnoticed dependencies on pci.
+> 
+> Queued up.  I'll go over a few more pending patches, and assuming no
+> issues show up in testing this should land in drm-misc-next in a few
+> hours.
 
-On Mon, 18 Jul 2022 at 19:00, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Dave,
->
-> On Mon, Jul 18, 2022 at 11:27:37AM +0100, Dave Stevenson wrote:
-> > Hi Sam
-> >
-> > On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
-> > >
-> > > Add todo in the hope someone will help updating the bridge drivers.
-> > >
-> > > v2:
-> > >   - Updated descriptions in todo.rst
-> > >
-> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > ---
-> > >  Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
-> > >  1 file changed, 20 insertions(+)
-> > >
-> > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > > index 10bfb50908d1..fbcc232e0bc1 100644
-> > > --- a/Documentation/gpu/todo.rst
-> > > +++ b/Documentation/gpu/todo.rst
-> > > @@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
-> > >
-> > >  Level: Starter
-> > >
-> > > +Drop use of deprecated operations in bridge drivers
-> > > +--------------------------------------------------
-> > > +
-> > > +&struct drm_bridge_funcs contains a number of deprecated operations
-> > > +which can be replaced by the atomic variants.
-> > > +
-> > > +The following is more or less 1:1 replacements with the arguments
-> > > +and names adjusted:
-> > > +* pre_enable => atomic_pre_enable
-> > > +* enable => atomic_enable
-> > > +* disable => atomic_disable
-> > > +* post_disable => atomic_post_disable
-> > > +
-> > > +* mode_set is no longer required and the implementation shall be merged
-> > > +  with atomic_enable.
-> >
-> > The dw-mipi-dsi and msm DSI host controller bridge drivers are
-> > currently relying on mode_set as a convenient hook to power up the DSI
-> > host prior to pre_enable of the bridge chain. Removing it is therefore
-> > going to break those.
-> >
-> > There is a proposed mechanism to allow for the removal of this hack
-> > [1], but it's still waiting on R-B tags and/or discussion from bridge
-> > maintainers (gentle nudge as you are one of those maintainers).
->
-> I have over time gained some knowledge of how bridges works and have
-> applied a few patches - but the maintainer role belongs to others.
-> I just try to help a bit.
+Great, thank you.
 
-Apologies, I'd misread the text in this patch
-+Contact: bridge maintainers, Sam Ravnborg <sam@ravnborg.org>,
-+         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-as being that you and Laurent were the bridge maintainers. Colon
-instead of comma :-/
-
-> I will review the referenced series - could you then in return
-> review this series?
-
-Sure, these look to be within my levels of knowledge.
-
-> >
-> > And do you mean merge with atomic_enable, or merge with
-> > atomic_pre_enable? atomic_pre_enable would be more applicable for
-> > almost all the bridges I'm aware of as they want to be configured
-> > before video starts.
-> Thanks, yes you are right. I will update the text to refer to
-> pre_enable as this is often the right choice. Looking at how many
-> bridges who implements mode_set, or are not yet atomic, this will
-> take a while before we can drop it.
-
-Thanks. That makes more logical sense to me for the majority of cases.
-As to timescales, it always takes longer than ideal to migrate older drivers.
-
-Thanks
-  Dave
+-- 
+Best regards,
+Dmitry
