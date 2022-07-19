@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABED57A21F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 16:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5ADC57A2F0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 17:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACE012BA12;
-	Tue, 19 Jul 2022 14:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FDB1133D7;
+	Tue, 19 Jul 2022 15:26:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 369 seconds by postgrey-1.36 at gabe;
- Tue, 19 Jul 2022 14:46:02 UTC
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D7D12B902
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 14:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=2ud6nsluqSsKTO9Z0i1MLYe01IcSu66ta8TyQvTI8QI=; b=FDYK2qx4o9VfiSKX4kjtfYaK5d
- CuD34rsqF62M3zMoNqL8juQGVRzEcrLAIraI4aeB1HMVVtlyYKga86QnXJOREm7oSq+j0WLFtD5Zs
- L5HyL2l1RuRLjJbrhHNW3oUF8ytDTnYjhBi9Rc0DN5VoIAugUh0iSrq2O/crqeBL2OmO2s6ELWB1h
- N9V3Gtd5kfj8uZT9etsQ6MMoAAsvk5S9KgTe3dJIFW9Mn4Aib7nsPrlfA5kzNA99tTpoiCuWOkxAm
- afxAmnw+oCgm/4cViLsIstPfylUadQt6qYCFWW4woG80X02NwBHp15NZRPIaA/hSwMPugvNka1r+L
- OVQXiPnA==;
-Received: from [2a01:799:961:d200:4408:c06b:bee8:b0a3] (port=52255)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oDoO6-0003Mu-Dz; Tue, 19 Jul 2022 16:39:50 +0200
-Message-ID: <59b18586-f53f-9ad3-02a7-d629e4c19b81@tronnes.org>
-Date: Tue, 19 Jul 2022 16:39:46 +0200
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57DC01133D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:26:43 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id tk8so16489170ejc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 08:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pY2CMxbe7mYFu8lMmKdq8QyweRoqymfe+8LQesF8uYE=;
+ b=fECi+8lG3d2QZQyelZpEsteMq5/Ly7PqyvAXApZORRN6U6VHI/Xd+RT65kVSQlhDfs
+ RIifDvE6urMrudmyO/TXET1KzXJlRNUevdgDbV4Gy8PkxHRcCI9979O3Pwkm1ooW1IZl
+ 9k/2wyz4Y8r9wO9qqWZu5nBeC6mOWJ7ljwgzEKOPo3COpIzVJCP0oPj3c9atpX7OPNZW
+ B14tRFln6rYqvb17WBktV6HEXlgQX97UT3VJNDoFJE2QmKONgjh22rmFbr9Ou2oQNlUf
+ Q4trtaDSh5fGHLmUMI5/YAHF+CaUk6pM8Ghcb3JO/WsEeYAI131CpfPk9hn8m/fwMvfL
+ lesQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pY2CMxbe7mYFu8lMmKdq8QyweRoqymfe+8LQesF8uYE=;
+ b=NGtcUFiextApjWDcefBnKj1xdZKwH6pHTyUYWUcvkWm1N80cQkkG0F5OAFhKT1zjCB
+ zHWHjWF64LhuuVRJ/tKzvpjQPX4q6a79wZ4CP8L9IHQPiZKAjTh/t8eklEw4+55Sp4pi
+ qA/67fewaHBkSIFs7u6hj9iecm16ZF1qElwa9njM1JbbeB0BjVZEu82qKlyPJBpGBXjr
+ NP71lpocomQsYDTp3hCy/lXrS94wgz+JsBbevUv52z6m662mbbQO7RS0+47vhY5Y54QM
+ urigo3PiKjU1/35n3IC0gCAulr4d6kNi6Zlf+mH8ZnnVs+p40iUAreOwfuqmeKvRTgLQ
+ lukQ==
+X-Gm-Message-State: AJIora/rx7FC/hGSERWbt5+Xe+6ityr9gQ27nESxh2PEQeL4U86LqiXs
+ WXHnomLW0NxP4XxoaHLXLb28XffHofVqMzhFyTb7Ug==
+X-Google-Smtp-Source: AGRyM1s6y2msksPTZYolBnXWbfyuEFWIjNOwAkx3R6nBSLm9wzLQ6VqBIZlWJeeQ4oXvE+CAxIYjBR203JAhhI/UfDE=
+X-Received: by 2002:a17:907:7f9e:b0:72e:d375:431 with SMTP id
+ qk30-20020a1709077f9e00b0072ed3750431mr27276672ejc.580.1658244401767; Tue, 19
+ Jul 2022 08:26:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/3] drm/gud: Fix endianness in gud_xrgb8888_to_color()
- helper
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <cover.1657300532.git.geert@linux-m68k.org>
- <b47589ed5d8ca44e0956684412e3f16f3227f887.1657300532.git.geert@linux-m68k.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <b47589ed5d8ca44e0956684412e3f16f3227f887.1657300532.git.geert@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220713031547.11641-1-allen.chen@ite.com.tw>
+In-Reply-To: <20220713031547.11641-1-allen.chen@ite.com.tw>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 19 Jul 2022 17:26:30 +0200
+Message-ID: <CAG3jFyvDWXZsSKaztKgbAUOY8DNFb81KvSpG5fQC=t1dUZp8oA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: it6505: Add i2c api power on check
+To: allen <allen.chen@ite.com.tw>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,82 +62,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>, Pin-yen Lin <treapking@google.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Pin-Yen Lin <treapking@chromium.org>,
+ Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Den 08.07.2022 20.21, skrev Geert Uytterhoeven:
-> DRM formats are defined to be little-endian, unless the
-> DRM_FORMAT_BIG_ENDIAN flag is set.  Hence when converting from one
-> format to another, multi-byte pixel values loaded from memory must be
-> converted from little-endian to host-endian.  Conversely, multi-byte
-> pixel values written to memory must be converted from host-endian to
-> little-endian.  Currently only drm_fb_xrgb8888_to_rgb332_line() includes
-> endianness handling.
-> 
-> Fix gud_xrgb8888_to_color() on big-endian platforms by adding the
-> missing endianness handling.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+On Wed, 13 Jul 2022 at 05:16, allen <allen.chen@ite.com.tw> wrote:
+>
+> From: allen chen <allen.chen@ite.com.tw>
+>
+> Use i2c bus to read/write when it6505 power off will occur i2c error.
+> Add this check will prevent i2c error when it6505 power off.
+>
+> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 > ---
-> Compile-tested only.
-> 
-> Interestingly, drm_fb_xrgb8888_to_rgb332() was introduced for GUD,
-> and always had correct endiannes handling...
+>  drivers/gpu/drm/bridge/ite-it6505.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+> index aa5e0aa1af85..cfd2c3275dc5 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -518,6 +518,9 @@ static int it6505_read(struct it6505 *it6505, unsigned int reg_addr)
+>         int err;
+>         struct device *dev = &it6505->client->dev;
+>
+> +       if (!it6505->powered)
+> +               return -ENODEV;
+> +
+>         err = regmap_read(it6505->regmap, reg_addr, &value);
+>         if (err < 0) {
+>                 dev_err(dev, "read failed reg[0x%x] err: %d", reg_addr, err);
+> @@ -533,6 +536,9 @@ static int it6505_write(struct it6505 *it6505, unsigned int reg_addr,
+>         int err;
+>         struct device *dev = &it6505->client->dev;
+>
+> +       if (!it6505->powered)
+> +               return -ENODEV;
+> +
+>         err = regmap_write(it6505->regmap, reg_addr, reg_val);
+>
+>         if (err < 0) {
+> @@ -550,6 +556,9 @@ static int it6505_set_bits(struct it6505 *it6505, unsigned int reg,
+>         int err;
+>         struct device *dev = &it6505->client->dev;
+>
+> +       if (!it6505->powered)
+> +               return -ENODEV;
+> +
+>         err = regmap_update_bits(it6505->regmap, reg, mask, value);
+>         if (err < 0) {
+>                 dev_err(dev, "write reg[0x%x] = 0x%x mask = 0x%x failed err %d",
+> @@ -2553,13 +2562,12 @@ static int it6505_poweron(struct it6505 *it6505)
+>                 usleep_range(10000, 20000);
+>         }
+>
+> +       it6505->powered = true;
+>         it6505_reset_logic(it6505);
+>         it6505_int_mask_enable(it6505);
+>         it6505_init(it6505);
+>         it6505_lane_off(it6505);
+>
+> -       it6505->powered = true;
+> -
+>         return 0;
+>  }
+>
+> --
+> 2.25.1
+>
 
-RGB332 support was added later and by that time I had understood that
-the framebuffer was little endian and not host endian as I first assumed
-(there's a fixme comment in gud_pipe.c that BE is probably broken but I
-haven't got any hw to test on so I haven't tried to fix it).
-
-Thanks for fixing this, pathces 2 and 3 tested on drm/gud and applied to
-drm-misc-next.
-
-Noralf.
-
-> ---
->  drivers/gpu/drm/gud/gud_pipe.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-> index 4873f9799f412e04..d42592f6daab8b2a 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -105,7 +105,8 @@ static size_t gud_xrgb8888_to_color(u8 *dst, const struct drm_format_info *forma
->  	unsigned int bits_per_pixel = 8 / block_width;
->  	u8 r, g, b, pix, *block = dst; /* Assign to silence compiler warning */
->  	unsigned int x, y, width;
-> -	u32 *pix32;
-> +	__le32 *sbuf32;
-> +	u32 pix32;
->  	size_t len;
->  
->  	/* Start on a byte boundary */
-> @@ -114,8 +115,8 @@ static size_t gud_xrgb8888_to_color(u8 *dst, const struct drm_format_info *forma
->  	len = drm_format_info_min_pitch(format, 0, width) * drm_rect_height(rect);
->  
->  	for (y = rect->y1; y < rect->y2; y++) {
-> -		pix32 = src + (y * fb->pitches[0]);
-> -		pix32 += rect->x1;
-> +		sbuf32 = src + (y * fb->pitches[0]);
-> +		sbuf32 += rect->x1;
->  
->  		for (x = 0; x < width; x++) {
->  			unsigned int pixpos = x % block_width; /* within byte from the left */
-> @@ -126,9 +127,10 @@ static size_t gud_xrgb8888_to_color(u8 *dst, const struct drm_format_info *forma
->  				*block = 0;
->  			}
->  
-> -			r = *pix32 >> 16;
-> -			g = *pix32 >> 8;
-> -			b = *pix32++;
-> +			pix32 = le32_to_cpu(*sbuf32++);
-> +			r = pix32 >> 16;
-> +			g = pix32 >> 8;
-> +			b = pix32;
->  
->  			switch (format->format) {
->  			case GUD_DRM_FORMAT_XRGB1111:
+This patch no longer applies to the drm-misc-next tree, could you
+rebase it and send out a v3?
