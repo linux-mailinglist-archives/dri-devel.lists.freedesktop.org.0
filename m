@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B00857A85B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 22:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A827757A977
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 23:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9662814BB3A;
-	Tue, 19 Jul 2022 20:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E367112882;
+	Tue, 19 Jul 2022 21:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA19A14BADB
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 20:39:06 +0000 (UTC)
-Received: from notapiano.myfiosgateway.com
- (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8FAFB66019F4;
- Tue, 19 Jul 2022 21:39:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658263145;
- bh=Aq5S2gkpJATVIFJkGq8D34wf45tOEaY6CNq3MR0BK0w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gZuUFo9Vy6cZQoonAOzTsCRvxxn2F+ic4Ay7DsNSAm1Q0HLQxF9C/s/43Fa1TRkyJ
- C0mSmFFyYBNtnVYvPQFvZgzF9Hs2RrbtIXE0TKmiX0RHIRK+EI1t8jPUoCvuGE6LcY
- 8TrGVP7AwDkOCUNu/bWwEgZBVN8DcqG39jzg2VkKLBdvX1JQbMH+3U+8jdq7atksab
- m6A07wpR1XcEsCxYYb5StPXHEdyR9mKlKCAoUlSzE2jFJ4qwN68sFPjGh1lSMFRWa6
- p58epxBKKype+4S9oBmnK+F8/kO/GsUPzUwIITECtf+yyIGkwoNzTRzvh1flalhJxH
- +4nHrVfukDZbQ==
-From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH 3/3] drm/panel-edp: Fix variable typo when saving hpd absent
- delay from DT
-Date: Tue, 19 Jul 2022 16:38:56 -0400
-Message-Id: <20220719203857.1488831-4-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220719203857.1488831-1-nfraprado@collabora.com>
-References: <20220719203857.1488831-1-nfraprado@collabora.com>
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B4611253C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 21:52:08 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id 125so12957808iou.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 14:52:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mroLFifN0SuvCBf9OxTLXerBEW1pjfpPjFqUEPZmNrg=;
+ b=FdWHOuzrRd3H0BM7NBLLbTk41we8ylTl0yozWWzXZrSjNp77NHTggrPbBzFUuZrui9
+ O7Td3KNkiM7N94T1ZujU4mpzXPqzpk68/PgeIIJcZqAUno7pDqwUIDzGuIuPQSFXpesW
+ qCgPzK1Bxfpe25fZWQE59SivCWUUCGu4oYwjiYX1IAvUG2P2ihmNkI/qE2r/EWeyej0O
+ M+5F1VC9UDPf4aJ1Hys5csQwBTqllo08FdpzDeIlrjb0aP26g1ElNgK0od/8xXOSJ5cu
+ er2Z7eGQKYFmVbUnIDx9tyLR59BFH57seUe+xRmkMCVmu4yfTpUh9NdlM/4a35eao9gi
+ FXYw==
+X-Gm-Message-State: AJIora+DE4XtA2Qb1JNpgEemCJFbHF0cscJb2Hywgf8U4jzE5fuNq9D6
+ o6y9zoIYRisDu1H09//RlQ==
+X-Google-Smtp-Source: AGRyM1svemBsZn7xTQKlMXN78k/BH2idVDolBBdErL1IzE+EV4rpEff56gul9pMR648c2f8r4nQESQ==
+X-Received: by 2002:a05:6638:22c9:b0:341:56cf:c447 with SMTP id
+ j9-20020a05663822c900b0034156cfc447mr9866603jat.244.1658267527990; 
+ Tue, 19 Jul 2022 14:52:07 -0700 (PDT)
+Received: from xps15.herring.priv ([64.188.179.248])
+ by smtp.googlemail.com with ESMTPSA id
+ w7-20020a92d2c7000000b002dd0b0adee1sm95770ilg.24.2022.07.19.14.52.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jul 2022 14:52:07 -0700 (PDT)
+From: Rob Herring <robh@kernel.org>
+To: Robert Chiras <robert.chiras@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH] dt-bindings: panel: raydium,
+ rm67191: Add missing type to 'video-mode'
+Date: Tue, 19 Jul 2022 15:52:01 -0600
+Message-Id: <20220719215201.1877997-1-robh@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,39 +61,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The value read from the "hpd-absent-delay-ms" property in DT was being
-saved to the wrong variable, overriding the hpd_reliable delay. Fix the
-typo.
+'video-mode' is missing a type definition and is not a common property. The
+type is 'uint32'.
 
-Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s probed by EDID")
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
+ .../devicetree/bindings/display/panel/raydium,rm67191.yaml       | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/panel/panel-edp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 152e00eb846f..b3536d8600f4 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -738,7 +738,7 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 	of_property_read_u32(dev->of_node, "hpd-reliable-delay-ms", &reliable_ms);
- 	desc->delay.hpd_reliable = reliable_ms;
- 	of_property_read_u32(dev->of_node, "hpd-absent-delay-ms", &absent_ms);
--	desc->delay.hpd_reliable = absent_ms;
-+	desc->delay.hpd_absent = absent_ms;
+diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+index 617aa8c8c03a..d62fd692bf10 100644
+--- a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
++++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+@@ -38,6 +38,7 @@ properties:
+       0 - burst-mode
+       1 - non-burst with sync event
+       2 - non-burst with sync pulse
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1, 2]
  
- 	/* Power the panel on so we can read the EDID */
- 	ret = pm_runtime_get_sync(dev);
+ required:
 -- 
-2.37.0
+2.34.1
 
