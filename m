@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5061579353
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 08:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22FA579390
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 08:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3CF10E4E0;
-	Tue, 19 Jul 2022 06:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B8610E1AA;
+	Tue, 19 Jul 2022 06:55:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 450EE10E4E0;
- Tue, 19 Jul 2022 06:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1658212649; x=1689748649;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/qUg5Su1dYRVu4jI8q26NvXYMR+SGZtUx1lHXfQyIMc=;
- b=etpa3Us3Dw23W+CPNuU+muF1Td3Djm7r3G6udZlVa2ykgo9K5jIVOZGY
- PfNNrrHMNlDRGpdD4vGXY+kTcVlB30J5sgxTfem+mnQJ1YpPKCmvbgKgS
- tMUYW/0ME8PG9Qo/Oz5uNzu9lMD/H6FWwysz2rcR1661ewDmwYjnKU+49 A=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 18 Jul 2022 23:37:28 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 23:37:27 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 23:37:27 -0700
-Received: from [10.216.51.115] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 18 Jul
- 2022 23:37:21 -0700
-Message-ID: <0c050434-27ca-1099-d93d-8ad6ace3396e@quicinc.com>
-Date: Tue, 19 Jul 2022 12:07:16 +0530
+Received: from m15114.mail.126.com (m15114.mail.126.com [220.181.15.114])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6191B10E246
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 06:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=5DaOm
+ de4N3ejBv+8dR4AXHyMMEfC0atPFYgb9TxzQoE=; b=KdP25PZyYrEA2M8JlkIzk
+ vauw8MDfQTM8P81GsHiC+b0f5ogI+k3pLlKu4znmUPOLVWnhn7pHfMrzuGCn70Lh
+ zfafnshyc9vQX9zM+LVssLZLhuEWENXC7zYiPHMCIdluReckS9HSwqWdyym5EKhH
+ dO8P39+SDesol6BabdPVb0=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+ by smtp7 (Coremail) with SMTP id DsmowABnEvw4VdZib+YbFQ--.30596S2;
+ Tue, 19 Jul 2022 14:54:49 +0800 (CST)
+From: Liang He <windhl@126.com>
+To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ windhl@126.com, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/bridge: anx7625: Fix refcount bug in
+ anx7625_parse_dt()
+Date: Tue, 19 Jul 2022 14:54:46 +0800
+Message-Id: <20220719065447.1080817-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [Freedreno] [PATCH v2 5/7] arm64: dts: qcom: sc7280: Update gpu
- register list
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Doug Anderson <dianders@chromium.org>, 
- Taniya Das <quic_tdas@quicinc.com>, <quic_rjendra@quicinc.com>
-References: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220709112837.v2.5.I7291c830ace04fce07e6bd95a11de4ba91410f7b@changeid>
- <CAD=FV=XzvcjS51q78BZ=FPCEVUDMD+VKJ70ksCm5V4qwHN_wRg@mail.gmail.com>
- <c022538d-c616-8f1a-e1c2-c11b5f0de670@quicinc.com>
- <e4dcdd8d-18a9-8da3-7ac3-6cc792139f70@quicinc.com>
- <CAE-0n52TG3hsytN5nRU7W=S6PffSj8yQDmuicN0-qxoW-jxiZQ@mail.gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <CAE-0n52TG3hsytN5nRU7W=S6PffSj8yQDmuicN0-qxoW-jxiZQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-CM-TRANSID: DsmowABnEvw4VdZib+YbFQ--.30596S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw1fuFy8CFWUGr4kGr4kWFg_yoW8GrW8pF
+ 47KFW5Zrn7Ga1xK397ZayrCryqvaykWFWrCrWUA3ZxZwn7AF17ArZF9FyfXas8GFW8JFyr
+ G3WUtF90vFyjqr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zirWrtUUUUU=
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/xtbBGgFDF1-HZhn5ngAAsP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Bjorn
- Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- freedreno <freedreno@lists.freedesktop.org>,
- Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/19/2022 11:19 AM, Stephen Boyd wrote:
-> Quoting Akhil P Oommen (2022-07-18 21:07:05)
->> On 7/14/2022 11:10 AM, Akhil P Oommen wrote:
->>> On 7/12/2022 4:57 AM, Doug Anderson wrote:
->>>> Hi,
->>>>
->>>> On Fri, Jul 8, 2022 at 11:00 PM Akhil P Oommen
->>>> <quic_akhilpo@quicinc.com> wrote:
->>>>> Update gpu register array with gpucc memory region.
->>>>>
->>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>> ---
->>>>>
->>>>> (no changes since v1)
->>>>>
->>>>>    arch/arm64/boot/dts/qcom/sc7280.dtsi | 6 ++++--
->>>>>    1 file changed, 4 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>> b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>> index e66fc67..defdb25 100644
->>>>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>> @@ -2228,10 +2228,12 @@
->>>>>                           compatible = "qcom,adreno-635.0",
->>>>> "qcom,adreno";
->>>>>                           reg = <0 0x03d00000 0 0x40000>,
->>>>>                                 <0 0x03d9e000 0 0x1000>,
->>>>> -                             <0 0x03d61000 0 0x800>;
->>>>> +                             <0 0x03d61000 0 0x800>,
->>>>> +                             <0 0x03d90000 0 0x2000>;
->>>>>                           reg-names = "kgsl_3d0_reg_memory",
->>>>>                                       "cx_mem",
->>>>> -                                   "cx_dbgc";
->>>>> +                                   "cx_dbgc",
->>>>> +                                   "gpucc";
->>>> This doesn't seem right. Shouldn't you be coordinating with the
->>>> existing gpucc instead of reaching into its registers?
->>>>
->>> IIUC, qcom gdsc driver doesn't ensure hardware is collapsed since they
->>> are vote-able switches. Ideally, we should ensure that the hw has
->>> collapsed for gpu recovery because there could be transient votes from
->>> other subsystems like hypervisor using their vote register.
->>>
->>> I am not sure how complex the plumbing to gpucc driver would be to allow
->>> gpu driver to check hw status. OTOH, with this patch, gpu driver does a
->>> read operation on a gpucc register which is in always-on domain. That
->>> means we don't need to vote any resource to access this register.
->>>
->>> Stephen/Rajendra/Taniya, any suggestion?
-> Why can't you assert a gpu reset signal with the reset APIs? This series
-> seems to jump through a bunch of hoops to get the gdsc and power domain
-> to "reset" when I don't know why any of that is necessary. Can't we
-> simply assert a reset to the hardware after recovery completes so the
-> device is back into a good known POR (power on reset) state?
-That is because there is no register interface to reset GPU CX domain. 
-The recommended sequence from HW design folks is to collapse both cx and 
-gx gdsc to properly reset gpu/gmu.
+In anx7625_parse_dt(), 'pdata->mipi_host_node' will be assigned a
+new reference with of_graph_get_remote_node() which will increase
+the refcount of the object, correspondingly, we should call
+of_node_put() for the old reference stored in the 'pdata->mipi_host_node'.
 
--Akhil.
+Fixes: 8bdfc5dae4e3 ("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP")
+Signed-off-by: Liang He <windhl@126.com>
+---
+ changelog:
+
+ v2: (1) rebase with drm-misc-next advised by Robert Foss
+     (2) use proper title
+     (3) remove the v1's second bug ('ep0'), fixed recently
+ v1: https://lore.kernel.org/all/20220707012330.305646-1-windhl@126.com/ 
+
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index d1f1d525aeb6..79fc7a50b497 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1642,6 +1642,7 @@ static int anx7625_parse_dt(struct device *dev,
+ 	anx7625_get_swing_setting(dev, pdata);
+ 
+ 	pdata->is_dpi = 0; /* default dsi mode */
++	of_node_put(pdata->mipi_host_node);
+ 	pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
+ 	if (!pdata->mipi_host_node) {
+ 		DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
+-- 
+2.25.1
+
