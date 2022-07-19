@@ -1,69 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9B05795DF
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 11:14:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F2D57967E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 11:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094E514AB63;
-	Tue, 19 Jul 2022 09:14:03 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDB7311BF24
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 09:14:01 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so30444732fac.9
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 02:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=USiHEWO3jenD+4D67wgYkGKlAcIRmi0lfoN5PdFyKzQ=;
- b=dFYdzZzeGTwRc0FPEgBG5fRwMWNVjXZzxLxwtIHOW4IyAUtC1iJhL8ze0h/ntk8Iq4
- lKlrAFaVxT4/pV4802tsmPOfXqrd/5krNwAeme2Ty0hfRzSXMQ2O+C/Kf1izAeM/mOcz
- 8LysLHAdaCtPPppxeQNBi2EL1ZGV/VNGij1I4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=USiHEWO3jenD+4D67wgYkGKlAcIRmi0lfoN5PdFyKzQ=;
- b=iA8ZbNMC+cq0pbZMX/MJ+2kEntpV3B0Sda4To5stF7V8TlAtTar3KAEZfW/Kl5IsPs
- HIDRR65bdnwO3r2TAYCxMGZd3QD4u6lz/H0H9wUOf8CDPDjYFMV0+cVpgaAQxLn9oEYn
- G/o+3CmRfNPOjKKFF/g5n11EzwvlHAYPWRu8TN++0TEqDhCjJ5SdUsDzxwdZnS1MYbB0
- A7vED/ewfiaitMHrK4FruXMyfkJPWbJqPmkDxeX4Semm252POytNY7eAORs7xoV+YJRw
- bSeqy1j/U7Llxj7W4/Qte/bF1l+bimCpwX5Lr94mLyWXzTZwCnSLFz3bHGZyyPZwcxCr
- qLOQ==
-X-Gm-Message-State: AJIora9GfBLIx9HgAn0fxeaw3WKn+IiMjZpqmYpMK+u2Lkg77uX/NX/+
- wDpct4BKo5DcyKdVoVdt0q4z+u+wJkD0ww==
-X-Google-Smtp-Source: AGRyM1utTc5fZ92nEEMZK3VZzAfsnZsKZF/RdSlIP9RrbUfPXejWMhSCjkwH4b/PXy5ddKDwv4Xy3g==
-X-Received: by 2002:a05:6871:79d:b0:10d:6d35:6fae with SMTP id
- o29-20020a056871079d00b0010d6d356faemr1037924oap.113.1658222040808; 
- Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com.
- [209.85.161.42]) by smtp.gmail.com with ESMTPSA id
- 4-20020a4a0604000000b00435a68593ebsm1249681ooj.27.2022.07.19.02.14.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
-Received: by mail-oo1-f42.google.com with SMTP id
- u7-20020a4a8c07000000b00435ac1584a6so347740ooj.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 02:14:00 -0700 (PDT)
-X-Received: by 2002:a81:6ccd:0:b0:31d:c77:73e5 with SMTP id
- h196-20020a816ccd000000b0031d0c7773e5mr33706265ywc.314.1658222030025; Tue, 19
- Jul 2022 02:13:50 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA74D12BE98;
+	Tue, 19 Jul 2022 09:42:06 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC9912BEB4;
+ Tue, 19 Jul 2022 09:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658223725; x=1689759725;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=OarTs8EUcTh1i0l8yZjkfehzkHqJVaej9X/AGltyPFE=;
+ b=R1F2X0PjD5jDKMTE80xfQ8vrUF6aYo3jxw3h8mNrh7QlKFDuRL1T+tWB
+ Y/UGio0Mtl4Y7UC9+yrwhHhXVg34sMzLRVXL6U+ElNEcU8MUypdXGyK/X
+ dnQxJZ5ZVTdiOTviT+dQFeGeJAeIVXh91+I8es2Bmv1obxIbJaLvNdt5y
+ 9Mc+eVSCo0L2Pi+HlDLH8pw0m7dM4jQtyIj1z3o+yCrlyqp5N0kkgl8Ih
+ XSeGdNg7S2timsIv+f8yfae55GPEIX/RCrelj+cVJFhC2UfvVtACcONP9
+ fjWIJQY4jtjApO4WLJVWSVDn0bmU7qKdlmyiWbI8xgiLOsR835kNcd00P w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="350411256"
+X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="350411256"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2022 02:42:04 -0700
+X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; d="scan'208";a="601531469"
+Received: from ssherida-mobl.ger.corp.intel.com (HELO [10.213.201.170])
+ ([10.213.201.170])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2022 02:42:03 -0700
+Message-ID: <0337c3d4-811e-1f5a-fe26-f0e8068497b8@linux.intel.com>
+Date: Tue, 19 Jul 2022 10:42:01 +0100
 MIME-Version: 1.0
-References: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20220715005244.42198-1-dmitry.osipenko@collabora.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 19 Jul 2022 18:13:39 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C0dx5X=VEqXDyj22fbxs1jhOQLLid3vSNfAc9vataPhg@mail.gmail.com>
-Message-ID: <CAAFQd5C0dx5X=VEqXDyj22fbxs1jhOQLLid3vSNfAc9vataPhg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] Move all drivers to a common dma-buf locking
- convention
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH 01/12] drm/i915: Remove bogus GEM_BUG_ON in
+ unpark
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220712233136.1044951-1-John.C.Harrison@Intel.com>
+ <20220712233136.1044951-2-John.C.Harrison@Intel.com>
+ <d1cfac14-4c01-ce53-586f-01f8998bbab4@linux.intel.com>
+ <c86064c9-cbcc-cdc5-0654-0493c8d3d444@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <c86064c9-cbcc-cdc5-0654-0493c8d3d444@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,91 +64,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-rdma@vger.kernel.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 15, 2022 at 9:53 AM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> Hello,
->
-> This series moves all drivers to a dynamic dma-buf locking specification.
-> From now on all dma-buf importers are made responsible for holding
-> dma-buf's reservation lock around all operations performed over dma-bufs.
-> This common locking convention allows us to utilize reservation lock more
-> broadly around kernel without fearing of potential dead locks.
->
-> This patchset passes all i915 selftests. It was also tested using VirtIO,
-> Panfrost, Lima and Tegra drivers. I tested cases of display+GPU,
-> display+V4L and GPU+V4L dma-buf sharing, which covers majority of kernel
-> drivers since rest of the drivers share same or similar code paths.
->
-> This is a continuation of [1] where Christian K=C3=B6nig asked to factor =
-out
-> the dma-buf locking changes into separate series.
->
-> [1] https://lore.kernel.org/dri-devel/20220526235040.678984-1-dmitry.osip=
-enko@collabora.com/
->
-> Dmitry Osipenko (6):
->   dma-buf: Add _unlocked postfix to function names
->   drm/gem: Take reservation lock for vmap/vunmap operations
->   dma-buf: Move all dma-bufs to dynamic locking specification
->   dma-buf: Acquire wait-wound context on attachment
->   media: videobuf2: Stop using internal dma-buf lock
->   dma-buf: Remove internal lock
->
->  drivers/dma-buf/dma-buf.c                     | 198 +++++++++++-------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |   4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   4 +-
->  drivers/gpu/drm/armada/armada_gem.c           |  14 +-
->  drivers/gpu/drm/drm_client.c                  |   4 +-
->  drivers/gpu/drm/drm_gem.c                     |  28 +++
->  drivers/gpu/drm/drm_gem_cma_helper.c          |   6 +-
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |   6 +-
->  drivers/gpu/drm/drm_prime.c                   |  12 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   6 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.c       |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  20 +-
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +-
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  20 +-
->  drivers/gpu/drm/i915/i915_gem_evict.c         |   2 +-
->  drivers/gpu/drm/i915/i915_gem_ww.c            |  26 ++-
->  drivers/gpu/drm/i915/i915_gem_ww.h            |  15 +-
->  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   8 +-
->  drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
->  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->  drivers/gpu/drm/tegra/gem.c                   |  27 +--
->  drivers/infiniband/core/umem_dmabuf.c         |  11 +-
->  .../common/videobuf2/videobuf2-dma-contig.c   |  26 +--
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  23 +-
->  .../common/videobuf2/videobuf2-vmalloc.c      |  17 +-
 
-For the videobuf2 changes:
+On 19/07/2022 01:05, John Harrison wrote:
+> On 7/18/2022 05:15, Tvrtko Ursulin wrote:
+>>
+>> On 13/07/2022 00:31, John.C.Harrison@Intel.com wrote:
+>>> From: Matthew Brost <matthew.brost@intel.com>
+>>>
+>>> Remove bogus GEM_BUG_ON which compared kernel context timeline seqno to
+>>> seqno in memory on engine PM unpark. If a GT reset occurred these values
+>>> might not match as a kernel context could be skipped. This bug was
+>>> hidden by always switching to a kernel context on park (execlists
+>>> requirement).
+>>
+>> Reset of the kernel context? Under which circumstances does that happen?
+> As per description, the issue is with full GT reset.
+> 
+>>
+>> It is unclear if the claim is this to be a general problem or the 
+>> assert is only invalid with the GuC. Lack of a CI reported issue 
+>> suggests it is not a generic problem?
+> Currently it is not an issue because we always switch to the kernel 
+> context because that's how execlists works and the entire driver is 
+> fundamentally based on execlist operation. When we stop using the kernel 
+> context as a (non-functional) barrier when using GuC submission, then 
+> you would see an issue without this fix.
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+Issue is with GuC, GuC and full reset, or with full reset regardless of 
+the backend?
 
-Best regards,
-Tomasz
+If issue is only with GuC patch should have drm/i915/guc prefix as 
+minimum. But if it actually only becomes a problem when GuC backend 
+stops parking with the kernel context when I think the whole unpark code 
+should be refactored in a cleaner way than just removing the one assert. 
+Otherwise what is the point of leaving everything else in there?
+
+Or if the issue is backend agnostic, *if* full reset happens to hit 
+during parking, then it is different. Wouldn't that be a race with 
+parking and reset which probably shouldn't happen to start with.
+
+Regards,
+
+Tvrtko
+
+> 
+> John.
+> 
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/intel_engine_pm.c | 2 --
+>>>   1 file changed, 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+>>> index b0a4a2dbe3ee9..fb3e1599d04ec 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+>>> @@ -68,8 +68,6 @@ static int __engine_unpark(struct intel_wakeref *wf)
+>>>                ce->timeline->seqno,
+>>>                READ_ONCE(*ce->timeline->hwsp_seqno),
+>>>                ce->ring->emit);
+>>> -        GEM_BUG_ON(ce->timeline->seqno !=
+>>> -               READ_ONCE(*ce->timeline->hwsp_seqno));
+>>>       }
+>>>         if (engine->unpark)
+> 
