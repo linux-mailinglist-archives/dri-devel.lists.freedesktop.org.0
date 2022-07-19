@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A85579FEC
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 15:46:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC5057A03F
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jul 2022 16:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 534D110FBC7;
-	Tue, 19 Jul 2022 13:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED0018B685;
+	Tue, 19 Jul 2022 14:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA4910F624
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 13:46:02 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id mf4so27289027ejc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 06:46:01 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0018418B66E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 14:00:05 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id sz17so27326512ejc.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 07:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n/fONPX+6aYrYpHaErN2a6d0U17SNseybDGx+QMO+6k=;
- b=o5XCgjWtgai8HwvJ0H4vs1RRX+aPKoRCeVKfelI5PCpIc/1skjvN4e4RHMRitVKI4c
- ssDXspMW42jewnQosnlfgc/8YWHjeyH5qrEqUqaWeH6RmG65lSZFMkWjMejqLn1bJmwZ
- Ew91QeRd6Zw/cYcQTy2V0/avAdA550cnBF3PQV7HIf2qJNKWaNH5G3SkKUlxC9+krlQu
- uKbIgD/aunWflkqcs8iYww43J9J2c3u1GbXeF6uPztqORJQ+yLmgLXpfpgYiSTTY33iq
- SxaTzIvLGH9tAKxZfpBMyK+f0+dijQ7ppa5srgkY3s6TSwCkpCpWkViTmcvv0PyKQ0Aw
- T2JA==
+ :cc; bh=OD3NNQx/dnqD+0Cs+fXr4LXV6Ye4MYxeJ4nPZD4GszE=;
+ b=KRbPahA4lFzwgk1dPu0dYjc5HI3Y+D0dxd62DcPU4ogSQZ64caMPwZVzbpx73J5Kc1
+ eaEMkOYtMeTIYH6d3tYbTI31Zpk6YPeEHme+XqB6TB9vweuaBCzadZE54jjqEcIAS/Jf
+ pzYTNENzXg+3E79ccZwG+0AO9oqg2VDxVgFkHvRNiXy7aIvjIH3seHu/ncpcbTZ7PS82
+ gV4Uc4P8NeQN5INx5ZzZSJl5OpV/PcFLmN2hPWUojY2geEaue3bSrIyK7NibMwK9pdcK
+ O1jLIZnNHFsb8ssyIcISmoy2tFgywNjOo7bd37jOZ8uS76xPibNCxglV/JSG62NQzbUF
+ B9ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=n/fONPX+6aYrYpHaErN2a6d0U17SNseybDGx+QMO+6k=;
- b=QcFIUvJWL6GVJlBDeMYzJ2+A4R0LqcC1o7oZ66AOX5VDT8f2fMXQGHv+Q4loQKnRrj
- 4qprMRi2W1nKeN65ci6kDT2zF6zJDkbSILniyqevfWWZYmjEcF/V0dF1JuTUvsxRi6m/
- 638dxiX6jC5yJ5ImyJ6Y/xODfp9n2iWV7eJb48Qw6KBoywlgI0XOj5DZUfxal6R1Aaod
- VAQ22Qfm3kGoUDVTKqTv5iYOTaYrjnK+x59i6UiyEHFco1qMWZmGmfmj071xzAbVsj27
- CVw6xlEMZeEnlUvWk/76be6vLVFGEY9Zed0QoXldbINFlKzVvQ+w8X+5XGbTAu4sO5IF
- ErLg==
-X-Gm-Message-State: AJIora9w7cB28Bptc4bjqU0dFrdhqNGd7fSLNlDmJOIKrplMADZ0e43j
- lZ53mD1Z5VvBjMwx8cdqLM0sfSJZ+eSJV8YrZ0tOwQ==
-X-Google-Smtp-Source: AGRyM1szBcaG7dV9LVbx3Awr0LzEDxYalQAkkAUMkmoiPz3oNZtlh8MEe6QPEMh5rX6ryz+ctV1mdCGPdgyUuXtmkWY=
-X-Received: by 2002:a17:907:2718:b0:72b:6b65:37dc with SMTP id
- w24-20020a170907271800b0072b6b6537dcmr30477332ejk.425.1658238360362; Tue, 19
- Jul 2022 06:46:00 -0700 (PDT)
+ bh=OD3NNQx/dnqD+0Cs+fXr4LXV6Ye4MYxeJ4nPZD4GszE=;
+ b=Tn4t1qMhfDI55116NefFCHeIpNvhbftHe7PgP0mRUHYbGw06QAbuGiqZb6R8TVsQ8l
+ 3Qc61MOhBAFcr5Ozb5+r5sn/ZgNiGXgA2/HyNNlOtJ8uphFjUN1HOI79mg51+NiRJCv7
+ FdhZxmamp2kXrM6taD0rld6dhlJ5AlC7Mwq6TP+5Ds4IkwRUoepBzKKZiH1zYxv1vs9I
+ b8TbqHeVcjhCjnr96IeJScVn1E9fmD6aPmnj8nBlSWly/IEYPb9JtUU1vuZZuz6ixJO+
+ 6nAX2FSC2NatRRNxlAGo+EDOlnvdW+n/A+LqljBg4ah3rgNFsBmzSEKLlvVF6fSPGJX2
+ D2mA==
+X-Gm-Message-State: AJIora95PBBHxUBl209PVAisdkzj/4PlOfFp53Ewj0PMXjd2qjLui4QK
+ 6Ccs1KFUy2h/VB4E4bZIIGmkIfAfdPuG16tSB+jcPg==
+X-Google-Smtp-Source: AGRyM1tWkD5ndkU51YMn3Zy/3SBBUnKXW/elXPy0MwiGbgYk7yLn606w46OmkL1nPHs9nxQiSkrrhnOhpxFcOHfz/3U=
+X-Received: by 2002:a17:907:d92:b0:72e:e94d:b675 with SMTP id
+ go18-20020a1709070d9200b0072ee94db675mr21493011ejc.742.1658239204549; Tue, 19
+ Jul 2022 07:00:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1646406653.git.dave.stevenson@raspberrypi.com>
- <YtXIEg0rRZLLYS75@ravnborg.org>
-In-Reply-To: <YtXIEg0rRZLLYS75@ravnborg.org>
+References: <20220717174454.46616-1-sam@ravnborg.org>
+ <20220717174454.46616-6-sam@ravnborg.org>
+In-Reply-To: <20220717174454.46616-6-sam@ravnborg.org>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 19 Jul 2022 14:45:43 +0100
-Message-ID: <CAPY8ntCfXuZ6nPcJ77FLP5bgdcbXOeh-7rieb5PS-7oPFg7xnQ@mail.gmail.com>
-Subject: Re: [PATCH V2 0/3] DSI host and peripheral initialisation ordering
+Date: Tue, 19 Jul 2022 14:59:48 +0100
+Message-ID: <CAPY8ntAALp=vtofLjKjEjH89k_fGtLWv9b4L=7fmFZr9+Dd6jg@mail.gmail.com>
+Subject: Re: [PATCH v1 05/12] drm/bridge: sii8620: Use
+ drm_bridge_funcs.atomic_check
 To: Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,150 +65,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, andrzej.hajda@gmail.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Philip Chen <philipchen@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam
-
-On Mon, 18 Jul 2022 at 21:52, Sam Ravnborg <sam@ravnborg.org> wrote:
+On Sun, 17 Jul 2022 at 18:45, Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> Hi Dave,
+> Replace the deprecated drm_bridge_funcs.mode_fixup() with
+> drm_bridge_funcs.atomic_check().
 >
-> a long overdue reply on this series.
+> drm_bridge_funcs.atomic_check() requires the atomic state operations,
+> update these to the default implementations.
 >
-> On Fri, Mar 04, 2022 at 03:17:55PM +0000, Dave Stevenson wrote:
-> > Hi All
-> >
-> > Changes from v1:
-> > - New patch to refactor drm_bridge_chain_post_disable and drm_bridge_chain_pre_enable
-> >   to reuse drm_atomic_bridge_chain_post_disable / drm_atomic_bridge_chain_pre_enable
-> >   but with a NULL state.
-> > - New patch that adds a pre_enable_upstream_first to drm_panel.
-> > - changed from an OPS flag to a bool "pre_enable_upstream_first" in drm_bridge.
-> > - Followed Andrzej's suggestion of using continue in the main loop to avoid
-> >   needing 2 additional loops (one forward to find the last bridge wanting
-> >   upstream first, and the second backwards again).
-> > - Actioned Laurent's review comments on docs patch.
-> >
-> > Original cover letter:
-> >
-> > Hopefully I've cc'ed all those that have bashed this problem around previously,
-> > or are otherwise linked to DRM bridges.
-> >
-> > There have been numerous discussions around how DSI support is currently broken
-> > as it doesn't support initialising the PHY to LP-11 and potentially the clock
-> > lane to HS prior to configuring the DSI peripheral. There is no op where the
-> > interface is initialised but HS video isn't also being sent.
-> > Currently you have:
-> > - peripheral pre_enable (host not initialised yet)
-> > - host pre_enable
-> > - encoder enable
-> > - host enable
-> > - peripheral enable (video already running)
-> >
-> > vc4 and exynos currently implement the DSI host as an encoder, and split the
-> > bridge_chain. This fails if you want to switch to being a bridge and/or use
-> > atomic calls as the state of all the elements split off are not added by
-> > drm_atomic_add_encoder_bridges.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/sil-sii8620.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
 >
-> A typically chain looks like this:
+> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+> index ab0bce4a988c..b6e5c285c8ea 100644
+> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
+> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+> @@ -8,6 +8,7 @@
 >
-> CRTC => Encoder => Bridge A => Bridge B
+>  #include <asm/unaligned.h>
 >
-> We have in DRM bridges established what is the "next" bridge - indicated
-> with the direction of the arrows in the drawing.
+> +#include <drm/drm_atomic_state_helper.h>
+>  #include <drm/bridge/mhl.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> @@ -2262,26 +2263,30 @@ static enum drm_mode_status sii8620_mode_valid(struct drm_bridge *bridge,
+>         }
+>  }
 >
-> This set of patches introduces the concept of "upstream" bridges.
+> -static bool sii8620_mode_fixup(struct drm_bridge *bridge,
+> -                              const struct drm_display_mode *mode,
+> -                              struct drm_display_mode *adjusted_mode)
+> +static int sii8620_atomic_check(struct drm_bridge *bridge,
+> +                               struct drm_bridge_state *bridge_state,
+> +                               struct drm_crtc_state *crtc_state,
+> +                               struct drm_connector_state *conn_state)
+>  {
+>         struct sii8620 *ctx = bridge_to_sii8620(bridge);
 >
-> pre_enable_prev_bridge_first would be easier to understand as it uses
-> the current terminology.
-> I get that "upstream" is used in the DSI specification - but we are
-> dealing with bridges that happens to support DSI and more, and mixing
-> the two terminologies is not good.
+>         mutex_lock(&ctx->lock);
 >
-> Note: Upstream is also used in a bridge doc section - here it should
->       most likely be updated too.
-
-Sure, I have no issues with switching to prev/next from upstream/downstream.
-To the outsider it can be confusing - in pre_enable and disable, the
-next bridge to be called is the previous one. At least it is
-documented.
-
-> The current approach set a flag that magically makes the core do something
-> else. Have you considered a much more explicit approach?
+> -       ctx->use_packed_pixel = sii8620_is_packing_required(ctx, adjusted_mode);
+> +       ctx->use_packed_pixel = sii8620_is_packing_required(ctx, &crtc_state->adjusted_mode);
 >
-> A few helpers like:
+>         mutex_unlock(&ctx->lock);
 >
->         drm_bridge_pre_enable_prev_bridge()
->         drm_bridge_enable_prev_bridge()
->         drm_bridge_disable_prev_bridge()
->         drm_bridge_post_disable_prev_bridge()
-
-No point in drm_bridge_enable_prev_bridge() and
-drm_bridge_post_disable_prev_bridge() as the call order down the chain
-will mean that they have already been called.
-drm_bridge_enable_next_bridge() and
-drm_bridge_post_disable_next_bridge() possibly.
-
-> And then update the core so the relevant function is only called once
-> for a bridge.
-> Then the need for DSI lanes in LP-11 can be archived by a call to
+> -       return true;
+> +       return 0;
+>  }
 >
->         drm_bridge_pre_enable_prev_bridge()
-
-Unfortunately it gets ugly with post_disable.
-The DSI host controller post_disable will have been called before the
-DSI peripheral's post_disable, and there are conditions where the
-peripheral needs to send DSI commands in post_disable (eg
-panel-asus-z00t-tm5p5-n35596 [1]). Changing all DSI hosts to call
-drm_bridge_post_disable_next_bridge feels like the wrong thing to do.
-There are currently hacks in dw-mipi-dsi that do call the next
-panel/bridge post_disable [2] and it would be nice to get rid of them.
-Currently the calls aren't tracked for state, so you end up with
-post_disable being called twice, and panels having to track state (eg
-jdi_lt070me050000 [3]).
-
-[1] tm5p5_nt35596_unprepare() calls tm5p5_nt35596_off()
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c#L107
-[2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L889
-[3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c#L44
-
-> This is more explicit than a flag that triggers some magic behaviour.
-> It may even see uses we have not realised yet.
-
-Personally it feels like more boilerplate in almost all DSI drivers,
-and generally I see a push to remove boilerplate.
-
-> It is late here - so maybe the above is not a good idea tomorrow - but
-> right now I like the simplicity of it.
+>  static const struct drm_bridge_funcs sii8620_bridge_funcs = {
+>         .attach = sii8620_attach,
+>         .detach = sii8620_detach,
+> -       .mode_fixup = sii8620_mode_fixup,
+> +       .atomic_check = sii8620_atomic_check,
+>         .mode_valid = sii8620_mode_valid,
+> +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +       .atomic_reset = drm_atomic_helper_bridge_reset,
+>  };
 >
-> Other than the above I read that a mipi_dsi_host_init() is planned,
-> which is also explicit and simple - good.
-
-It's been raised, but the justification for most use cases hasn't been
-made. The Exynos conversion looks to be doing the wrong thing in
-checking state, and that's why it is currently needing it.
-Again it's also more boilerplate.
-
-TC358767 is an odd one as it wants the DSI interface enabled very
-early in order to have a clock for the DP aux channel well before
-video is running. I had a thought on that, but It looks like I haven't
-hit send on a reply to Lucas on that one - too many distractions.
-
-> Have we seen a new revision of some of these?
-> Chances are high that I have missed it then.
-
-No, still on V2. Other than Dmitry's comment over updating
-parade-ps8640 and dropping drm_bridge_chain_*, no real comments had
-been made.
-
-  Dave
+>  static int sii8620_probe(struct i2c_client *client,
+> --
+> 2.34.1
+>
