@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB21357A9FE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 00:46:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 377C757AA07
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 00:49:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B18B711B6DD;
-	Tue, 19 Jul 2022 22:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F1A18BE7D;
+	Tue, 19 Jul 2022 22:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C0312A3B7
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:45:57 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id t3so21607298edd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:45:57 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606B818BE2E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:49:44 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id e15so21589432edj.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=fv+GNXlN9UxF9XBdT2UlE6jI8/2x/dbHCuQ1tk+iXUs=;
- b=ZmE6QeSILOLriTuD+A60orcSHG5MM5lDq068GNLBGBf0gp2j+kgRdIcg4p5EzEAsg0
- NJc57UwpNJmUS20kWorgRWJzqgWdOVzT47jIrMIccxokQbbxJNZv0Dl0Xjh8tkuEieKa
- 9fG5elw4bKwSsGETu04l7LiBnxio5sYPavxD4=
+ bh=7PK6D+h+8OxcoWXpNYlUYth9TT/PlFLZBalPC3jKAK8=;
+ b=EHnKpW8uMagKdXxRMch4+SfbCXYeOqLlfUQ+anvZ2PvnHM8fiRWUFq5iPyxi9IJKiD
+ 77b7i9+MJjJ7vLhXCmbjGaD98rqpdTmcS2w6p0mubl9uVAc2ifyn2SPc5z1cEP0D5S75
+ pUqCQLKhrJ3SeMLUWYEPqxUKjsMtBBkPB6494=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=fv+GNXlN9UxF9XBdT2UlE6jI8/2x/dbHCuQ1tk+iXUs=;
- b=tjd+14GSoBHoVpbv3AIrmeOiEoxKdqwhJWCSO2+Td4406EnkqdmQLA+MJ11Rp3b+37
- 5RgLSBEzjhatLk+caCMJKdt4dmKTjX2jGGUC1uKD8KakUuLcjd5uFahTttl4pK7CM+kO
- 7hYQRmbagvE7kYBxo+okQA4gYpr0r0ALudFDjsw9qDDrKU3vRqgO3rBnEsGFeN/6Y7cL
- YN9UE1MZe6B5/Zcz3rhal258cYzvMZ4iEbAyVOE13vaZcJ8UcgH/ldeeS2pCn2PUXh38
- 7MlWHUGu8UUHnUIDBHcAwReAoMam7mqxEDB9c1y6BICO+h48g9zW79LbvP4OY14ZdLxZ
- 8MOw==
-X-Gm-Message-State: AJIora+W78zec69Owz3DJaoNWEpbWmtyWzVuPub6JB4+674U/houYCp3
- sHpuue7na8dsLCIwKCqgUPPKqHB9doAn7yzn6rA=
-X-Google-Smtp-Source: AGRyM1vfqAB4ilLDJ+YSHg5WQ7tjglvV0MXCl9DsjnbvdqkMrgWY8gWMSEyu7qhm1dK6XwsdxcnTqg==
-X-Received: by 2002:a05:6402:2552:b0:43a:d133:b282 with SMTP id
- l18-20020a056402255200b0043ad133b282mr46392329edb.89.1658270756367; 
- Tue, 19 Jul 2022 15:45:56 -0700 (PDT)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com.
- [209.85.221.43]) by smtp.gmail.com with ESMTPSA id
- k16-20020aa7c050000000b0043af8007e7fsm11323654edo.3.2022.07.19.15.45.53
+ bh=7PK6D+h+8OxcoWXpNYlUYth9TT/PlFLZBalPC3jKAK8=;
+ b=bru7lcg4ThSbQE0hiTaGHLffv5eR9xTJY6tgNsaoSNQmAtCoAzKcGwoFWa8GurBUpK
+ 6suT9bgngKd0K72DDuQEvkIDy81Qc5dDFZk7ABnj/aCGAwNAxLrSJuwuQvgkw5Pf7iwf
+ PzURE94K3YJn5kxErpAo/M1LY++r3xvhMvQ1KS5+BFO+CPaaqUA6q4kn4qcCrqsZUL+f
+ l/4tmEl8Tux6MtXPTZ1MI9mERK7fXfy9slD+ROGi3TLajwRb75Lv0fmBKyoGC/cQ+Onp
+ SJODcNvuQddcEiOTBJkeTOtqGXNkgDsNnErGyu2xSCcnZlFWItyxuZngsP37FWAN4bZC
+ lq8Q==
+X-Gm-Message-State: AJIora8ec0YQf29ygq/xTJhlNUh8gcbJdYkojgwiyLlVr+ObeQpBIeUO
+ PI1BT0y4G2dBxxNACCxyY/Yqw7UegE7wnimgcTc=
+X-Google-Smtp-Source: AGRyM1tIDe4+3ANuGFBJtHKC9pnIbJctjAfSbFw7086XaJRcpC8mWsNgTTcaN/bDbfn9rch3wMqzFQ==
+X-Received: by 2002:a05:6402:4490:b0:43a:8f5a:d273 with SMTP id
+ er16-20020a056402449000b0043a8f5ad273mr46191213edb.6.1658270982732; 
+ Tue, 19 Jul 2022 15:49:42 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com.
+ [209.85.128.50]) by smtp.gmail.com with ESMTPSA id
+ d25-20020aa7c1d9000000b0043a75f62155sm11271798edp.86.2022.07.19.15.49.39
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 15:45:53 -0700 (PDT)
-Received: by mail-wr1-f43.google.com with SMTP id n12so10840888wrc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:45:53 -0700 (PDT)
-X-Received: by 2002:adf:fb12:0:b0:20c:79b2:a200 with SMTP id
- c18-20020adffb12000000b0020c79b2a200mr28616133wrr.617.1658270752900; Tue, 19
- Jul 2022 15:45:52 -0700 (PDT)
+ Tue, 19 Jul 2022 15:49:39 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id a11so3672469wmq.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:49:39 -0700 (PDT)
+X-Received: by 2002:a05:600c:4e8d:b0:3a1:2e4d:1dd2 with SMTP id
+ f13-20020a05600c4e8d00b003a12e4d1dd2mr1180998wmq.85.1658270978565; Tue, 19
+ Jul 2022 15:49:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220719203857.1488831-1-nfraprado@collabora.com>
  <20220719203857.1488831-4-nfraprado@collabora.com>
-In-Reply-To: <20220719203857.1488831-4-nfraprado@collabora.com>
+ <CAD=FV=X0End8u3nNNXSMVhuJo0KWmJYRNg3yeC9yQ+5bLKTmYg@mail.gmail.com>
+In-Reply-To: <CAD=FV=X0End8u3nNNXSMVhuJo0KWmJYRNg3yeC9yQ+5bLKTmYg@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 19 Jul 2022 15:45:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X0End8u3nNNXSMVhuJo0KWmJYRNg3yeC9yQ+5bLKTmYg@mail.gmail.com>
-Message-ID: <CAD=FV=X0End8u3nNNXSMVhuJo0KWmJYRNg3yeC9yQ+5bLKTmYg@mail.gmail.com>
+Date: Tue, 19 Jul 2022 15:49:26 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VtfnrqUOACfnVfkZE20O4diPQpHYYC5p1iX3vt9ESPYg@mail.gmail.com>
+Message-ID: <CAD=FV=VtfnrqUOACfnVfkZE20O4diPQpHYYC5p1iX3vt9ESPYg@mail.gmail.com>
 Subject: Re: [PATCH 3/3] drm/panel-edp: Fix variable typo when saving hpd
  absent delay from DT
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
@@ -85,41 +86,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Jul 19, 2022 at 1:39 PM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
+On Tue, Jul 19, 2022 at 3:45 PM Doug Anderson <dianders@chromium.org> wrote=
+:
 >
-> The value read from the "hpd-absent-delay-ms" property in DT was being
-> saved to the wrong variable, overriding the hpd_reliable delay. Fix the
-> typo.
+> Hi,
 >
-> Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s probe=
-d by EDID")
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
+> On Tue, Jul 19, 2022 at 1:39 PM N=C3=ADcolas F. R. A. Prado
+> <nfraprado@collabora.com> wrote:
+> >
+> > The value read from the "hpd-absent-delay-ms" property in DT was being
+> > saved to the wrong variable, overriding the hpd_reliable delay. Fix the
+> > typo.
+> >
+> > Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s pro=
+bed by EDID")
+> > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> >
+> >  drivers/gpu/drm/panel/panel-edp.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/=
+panel-edp.c
+> > index 152e00eb846f..b3536d8600f4 100644
+> > --- a/drivers/gpu/drm/panel/panel-edp.c
+> > +++ b/drivers/gpu/drm/panel/panel-edp.c
+> > @@ -738,7 +738,7 @@ static int generic_edp_panel_probe(struct device *d=
+ev, struct panel_edp *panel)
+> >         of_property_read_u32(dev->of_node, "hpd-reliable-delay-ms", &re=
+liable_ms);
+> >         desc->delay.hpd_reliable =3D reliable_ms;
+> >         of_property_read_u32(dev->of_node, "hpd-absent-delay-ms", &abse=
+nt_ms);
+> > -       desc->delay.hpd_reliable =3D absent_ms;
+> > +       desc->delay.hpd_absent =3D absent_ms;
 >
->  drivers/gpu/drm/panel/panel-edp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Well that's embarrassing. In the end I never used any of these
+> properties for anything shipping since HPD was always hooked up on
+> later boards and the only board that needed "hpd_reliable" never ended
+> up switching to the generic "edp-panel".
 >
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
-nel-edp.c
-> index 152e00eb846f..b3536d8600f4 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -738,7 +738,7 @@ static int generic_edp_panel_probe(struct device *dev=
-, struct panel_edp *panel)
->         of_property_read_u32(dev->of_node, "hpd-reliable-delay-ms", &reli=
-able_ms);
->         desc->delay.hpd_reliable =3D reliable_ms;
->         of_property_read_u32(dev->of_node, "hpd-absent-delay-ms", &absent=
-_ms);
-> -       desc->delay.hpd_reliable =3D absent_ms;
-> +       desc->delay.hpd_absent =3D absent_ms;
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I'll apply this right away to drm-misc-fixes.
 
-Well that's embarrassing. In the end I never used any of these
-properties for anything shipping since HPD was always hooked up on
-later boards and the only board that needed "hpd_reliable" never ended
-up switching to the generic "edp-panel".
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-I'll apply this right away to drm-misc-fixes.
+ef2084a8388b drm/panel-edp: Fix variable typo when saving hpd absent
+delay from DT
