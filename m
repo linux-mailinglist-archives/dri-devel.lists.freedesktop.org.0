@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB9857A9F0
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 00:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB21357A9FE
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 00:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C018F14B92A;
-	Tue, 19 Jul 2022 22:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B18B711B6DD;
+	Tue, 19 Jul 2022 22:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88CC61136B9
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:41:58 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id v12so21562297edc.10
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:41:58 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3C0312A3B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 22:45:57 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id t3so21607298edd.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=1v88GEiD0LQIbnFj2jGBP7QMVI4Ye70Um7rX2tcudFs=;
- b=DSV9XrUjnSb4DLR1xhP0mrXjZVDOmdJuwxvFM2IOkqN4GRaSRkynMCnsWBMdrITuMn
- iukDW9Rs/o4k+BPgEmjKYDO2oQagJqq9y4IBe5Smpi+ZlBxF+PBdpFBhhl5KNA/kgnrt
- 34gkoMp7ZkYhXP1emnQ2sphjIIu6H7msQ0iSQ=
+ bh=fv+GNXlN9UxF9XBdT2UlE6jI8/2x/dbHCuQ1tk+iXUs=;
+ b=ZmE6QeSILOLriTuD+A60orcSHG5MM5lDq068GNLBGBf0gp2j+kgRdIcg4p5EzEAsg0
+ NJc57UwpNJmUS20kWorgRWJzqgWdOVzT47jIrMIccxokQbbxJNZv0Dl0Xjh8tkuEieKa
+ 9fG5elw4bKwSsGETu04l7LiBnxio5sYPavxD4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=1v88GEiD0LQIbnFj2jGBP7QMVI4Ye70Um7rX2tcudFs=;
- b=hH77mjxgI/04JzFKJZ9yXHbiakybxKV3I4sUTc0ZtYx9uyOVxyF+7gkhqJnwz5cWLT
- 91zlTbW6trGX9NJGZvT5Mj4Re1JChdxR+0H1uS35oiNvAJi2G5ZcwpTjZwmExZqaaNBU
- Ymk0LPLVs9L/cIqqF0fpZSgzK5NAlvqOCGso/ghiErGVAj3ktyOOfnILUDoExmgnTbGo
- OxlzStl3lLRqhGeZjegSI6Ilhu2D6nhwDqc/+EFOJkJkQnRuRaDxX52kvbcH8+h/bbn8
- dwRN5i6nqM6YTX/TRW5oLWtvko047+R4OtLVCaAvV4K3AnmQB/9JAfbifBB3gkiTL2+6
- BGUg==
-X-Gm-Message-State: AJIora+YuO374hTa1BXDRPA8+/U59c2YcIr7r5j5eJnzEG+sUyXPGe2G
- F+X0/u9IxCU98QzOxbjqckxIgNTr2r/0gCvBwaA=
-X-Google-Smtp-Source: AGRyM1v9Sb88pmyPKMFSjaeVQ7/uZ1sq3kAQ9mwLqQ0arwr0V84pTVYV2z5H9f385X9J9jxEOT6rzA==
-X-Received: by 2002:a05:6402:274c:b0:43a:9204:95fb with SMTP id
- z12-20020a056402274c00b0043a920495fbmr47887972edd.259.1658270516933; 
- Tue, 19 Jul 2022 15:41:56 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
- [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
- w5-20020aa7dcc5000000b00438a13508c4sm11184134edu.51.2022.07.19.15.41.56
+ bh=fv+GNXlN9UxF9XBdT2UlE6jI8/2x/dbHCuQ1tk+iXUs=;
+ b=tjd+14GSoBHoVpbv3AIrmeOiEoxKdqwhJWCSO2+Td4406EnkqdmQLA+MJ11Rp3b+37
+ 5RgLSBEzjhatLk+caCMJKdt4dmKTjX2jGGUC1uKD8KakUuLcjd5uFahTttl4pK7CM+kO
+ 7hYQRmbagvE7kYBxo+okQA4gYpr0r0ALudFDjsw9qDDrKU3vRqgO3rBnEsGFeN/6Y7cL
+ YN9UE1MZe6B5/Zcz3rhal258cYzvMZ4iEbAyVOE13vaZcJ8UcgH/ldeeS2pCn2PUXh38
+ 7MlWHUGu8UUHnUIDBHcAwReAoMam7mqxEDB9c1y6BICO+h48g9zW79LbvP4OY14ZdLxZ
+ 8MOw==
+X-Gm-Message-State: AJIora+W78zec69Owz3DJaoNWEpbWmtyWzVuPub6JB4+674U/houYCp3
+ sHpuue7na8dsLCIwKCqgUPPKqHB9doAn7yzn6rA=
+X-Google-Smtp-Source: AGRyM1vfqAB4ilLDJ+YSHg5WQ7tjglvV0MXCl9DsjnbvdqkMrgWY8gWMSEyu7qhm1dK6XwsdxcnTqg==
+X-Received: by 2002:a05:6402:2552:b0:43a:d133:b282 with SMTP id
+ l18-20020a056402255200b0043ad133b282mr46392329edb.89.1658270756367; 
+ Tue, 19 Jul 2022 15:45:56 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com.
+ [209.85.221.43]) by smtp.gmail.com with ESMTPSA id
+ k16-20020aa7c050000000b0043af8007e7fsm11323654edo.3.2022.07.19.15.45.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 15:41:56 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id n12so10830545wrc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:41:56 -0700 (PDT)
-X-Received: by 2002:a05:6000:2c9:b0:21d:bd7d:3af6 with SMTP id
- o9-20020a05600002c900b0021dbd7d3af6mr27860158wry.405.1658270516096; Tue, 19
- Jul 2022 15:41:56 -0700 (PDT)
+ Tue, 19 Jul 2022 15:45:53 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id n12so10840888wrc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jul 2022 15:45:53 -0700 (PDT)
+X-Received: by 2002:adf:fb12:0:b0:20c:79b2:a200 with SMTP id
+ c18-20020adffb12000000b0020c79b2a200mr28616133wrr.617.1658270752900; Tue, 19
+ Jul 2022 15:45:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220719203857.1488831-1-nfraprado@collabora.com>
- <20220719203857.1488831-3-nfraprado@collabora.com>
-In-Reply-To: <20220719203857.1488831-3-nfraprado@collabora.com>
+ <20220719203857.1488831-4-nfraprado@collabora.com>
+In-Reply-To: <20220719203857.1488831-4-nfraprado@collabora.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 19 Jul 2022 15:41:43 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=URVf6kDm9A8OsFqmy7tdsNsoDTBvfUy8aT=kfzofyDtA@mail.gmail.com>
-Message-ID: <CAD=FV=URVf6kDm9A8OsFqmy7tdsNsoDTBvfUy8aT=kfzofyDtA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/panel-edp: Add panel entry for B120XAN01.0
+Date: Tue, 19 Jul 2022 15:45:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X0End8u3nNNXSMVhuJo0KWmJYRNg3yeC9yQ+5bLKTmYg@mail.gmail.com>
+Message-ID: <CAD=FV=X0End8u3nNNXSMVhuJo0KWmJYRNg3yeC9yQ+5bLKTmYg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/panel-edp: Fix variable typo when saving hpd
+ absent delay from DT
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -87,33 +88,38 @@ Hi,
 On Tue, Jul 19, 2022 at 1:39 PM N=C3=ADcolas F. R. A. Prado
 <nfraprado@collabora.com> wrote:
 >
-> Add panel identification entry for the AUO B120XAN01.0 (product ID:
-> 0x1062) panel.
+> The value read from the "hpd-absent-delay-ms" property in DT was being
+> saved to the wrong variable, overriding the hpd_reliable delay. Fix the
+> typo.
 >
+> Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s probe=
+d by EDID")
 > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
 > ---
 >
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/panel/panel-edp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
 nel-edp.c
-> index 675d793d925e..152e00eb846f 100644
+> index 152e00eb846f..b3536d8600f4 100644
 > --- a/drivers/gpu/drm/panel/panel-edp.c
 > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -1879,6 +1879,7 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
->         EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B11=
-6XAK01"),
->         EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116X=
-AN06.1"),
->         EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133U=
-AN01.0"),
-> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120X=
-AN01.0"),
+> @@ -738,7 +738,7 @@ static int generic_edp_panel_probe(struct device *dev=
+, struct panel_edp *panel)
+>         of_property_read_u32(dev->of_node, "hpd-reliable-delay-ms", &reli=
+able_ms);
+>         desc->delay.hpd_reliable =3D reliable_ms;
+>         of_property_read_u32(dev->of_node, "hpd-absent-delay-ms", &absent=
+_ms);
+> -       desc->delay.hpd_reliable =3D absent_ms;
+> +       desc->delay.hpd_absent =3D absent_ms;
 
- * Sort first by vendor, then by product ID.
+Well that's embarrassing. In the end I never used any of these
+properties for anything shipping since HPD was always hooked up on
+later boards and the only board that needed "hpd_reliable" never ended
+up switching to the generic "edp-panel".
 
-0x1062 sorts at the top of the AUO panels, not at the bottom.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
--Doug
+I'll apply this right away to drm-misc-fixes.
