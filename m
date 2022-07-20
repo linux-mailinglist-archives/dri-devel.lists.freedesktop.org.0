@@ -1,65 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F2A57B30D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 10:36:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A89B557B329
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 10:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503B510E7F9;
-	Wed, 20 Jul 2022 08:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C24C112A3F;
+	Wed, 20 Jul 2022 08:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC6BF10E7F9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 08:36:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 64C4D1FA24;
- Wed, 20 Jul 2022 08:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658306188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q19UdPEPZrq5lzg7yoJMNV2lBywbeQKmqr3AfI+OIFA=;
- b=rRKufIpqkiwoXZN8HPJjNg/odrS21AWBNxO1hB8ouGS51MV3W1o3GW26z0JKVd+wRnS+ne
- OVjwVtfKN4UWaHSCUKP+uK9CXmretqspOADbHCxXNI6VXkh6ek/B1OjKTPYooNpWG3kQYI
- tbRze4tTwpua6MOSaB113Cx5wvzwe3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658306188;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q19UdPEPZrq5lzg7yoJMNV2lBywbeQKmqr3AfI+OIFA=;
- b=sKq+n9CAZAVS3CR5kP5858sae8oYyi84dAeR2nZAZEV42jSjV2VIujpBASf3GzmK/pghHY
- zCLOMprHxOviokDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43DB113ABB;
- Wed, 20 Jul 2022 08:36:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UEubD4y+12J8dgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 20 Jul 2022 08:36:28 +0000
-Message-ID: <c7964f0e-27c5-c629-4d43-5fb27ea5c99e@suse.de>
-Date: Wed, 20 Jul 2022 10:36:27 +0200
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03D710FA68;
+ Wed, 20 Jul 2022 08:41:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I5BJJCQy5exxjngj2eCxLuGeboJF4K9CoOl5HIZQND6rNaUKTL+IBddrdZZOpdvTltWKM/GuWufQz60u1g05dzsoqnIkLOP5CwTDuz2Qx5Vb0quHtU4f4IGlb17gqv2lxf4+p2xZCERePLfDEvgYNkzTlipWYu3J+cy1Mfq/TcvL89J2cQjQrRy8MgEJAAG1MPljm6Oc+q5mrh7FUfipTaxOCHQH70h1+EJS8X1F6ny8kGs8GnetM8WW29Xf+uxVcfTdZwOV1R6HC7GN/+nBtvsRYzB3ebFnRoKljL+LPChdXPDm3umou3LCZ6kehhx57ttD8BmPM1rQPFLudeua+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v502glMGbAy54A9VcSi4SzEjUpU0UHVEl8Kl/6PwF9Y=;
+ b=MHPxpz514y+dPtze/d/1Rxfmct1DIl8lAGe+LUj4eQFS8bwEizphHSu01Dc8ZSVbCE7oA0SpVPBvDg+r9pORYfv3EOXXUR0w+7D+45Axg44kH00T2ygcnABQUvsIQzDpEWKGCcSvDTBT0RWawVoEZtJp8joiTak0REU4WlgOhfv0fiFlM5m42V6p5UCoTC+2G7cHTMs6zQ3ZvWzF2xAqXlMl+9Y5hRDroxWJKrah4DrXr2jyIQA2/1gLkL9IoTe4gyt95IaVmD05y4KtaOFqPI3gNGm8jDoKi/ZgRWrPj8gY9yx/dEPtv+2kskDqeLSeyINnVZCXf27u0ylf1yHhJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v502glMGbAy54A9VcSi4SzEjUpU0UHVEl8Kl/6PwF9Y=;
+ b=fjWOxL47vDJxs4YgYOXvbmHIZoCrrD1h/ejUAO7xTMOkjDK6RTCiwjHvygUhm5QTvDfWhMxrOFLayakk3dKaL6xjzmnDjHefZMXppZ3s7zcQfxDfhWMc806Ku7j5fExXkNt22rJ+Q2qAU+lfayIATg0c9h17jm6+yEzceXCaFus=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB3470.namprd12.prod.outlook.com (2603:10b6:208:d0::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.25; Wed, 20 Jul
+ 2022 08:41:14 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5458.018; Wed, 20 Jul 2022
+ 08:41:14 +0000
+Message-ID: <7b80e48d-8670-6007-d6d3-aa3587e26d60@amd.com>
+Date: Wed, 20 Jul 2022 10:41:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 08/14] drm/mgag200: Set SCROFF in primary-plane code
+Subject: Re: [PATCH 1/4] drm/ttm: add new intersect callback to res mgr
 Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, sam@ravnborg.org,
- airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20220718092753.9598-1-tzimmermann@suse.de>
- <20220718092753.9598-9-tzimmermann@suse.de>
- <ff31024f-72c7-633a-feec-d8c74d99557e@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <ff31024f-72c7-633a-feec-d8c74d99557e@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------QGFetsOzQfBP62qdwrj2o85C"
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20220720073606.3885-1-Arunpravin.PaneerSelvam@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220720073606.3885-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0635.eurprd06.prod.outlook.com
+ (2603:10a6:20b:46f::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 18382fab-1e6e-4854-6efa-08da6a2b9afe
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3470:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lkGvKm/ezlvBeFLg+lc8irl5chQAXREJvgHLJZeJ0KH89K2GZ3pvrnxy2JZvE8JkUpFABfVHgwg593VpMzF4VFTvuKeVRqx89qmtLQEHp4OH/gkhIIcktrVgD7RV7kkKj1JCYsfRX8wclRVURdHBb70IC7Q3BJjbavJDR35fKwZa/4533vg/p8pTw1F5GghcnAJ/c3XIp3lz6ocVaWnaf3wNh/hrnfTowg73ws9jWmtdVHLDgyuunjYkgNXOv7ZRJdD4gGlgCEsKJYaCDxV2M9vGKTjVFe5xDBXXy0JI7tEMF0dT8IU3/zCOcLmjIGk1i+Tsizo7i1Ewnsde89m9KRud6ljSK438RJLZbgAnzHgzBPduRAOLkQE0rSoyTQpo6RGsjmKq4lsWCmYg2JouP2mHZbbXky4lgRLqi24wB/lDceRne5BLU5+Ooa8sjNgJjNrUagds19BLoFxxiNW6mnv+JGygiyJve1NSh6yP9pO3BQnVazgDrSvXr7tNKPyVELIK+OxVcm1NQm28qm1Dw4QBQtDPRYV7Jmd2zKLt9zWX3boeKHy/Qo1/Bg5saW0Ei4JWSSXGmyJWru3lvXc+l2LQp0bq42POkBMCwOxq2tLwIl0YPGHcE0LLmsnNQ+k1bo+btp8AYtbnDgCc5eCXPTH148kqZJX96CNFs8pMtbZpw9Bw2T4A82ueQsuu09FESKPWPRikAPvF0lxqQWOk9wLklQvCHAAXOMBwT4TC35+GvWCw5HxjgIsLc6/TgjJTxM04iHn547ia2g7Zmli+EhB2mOif3/qMUTwvvFITNxrHH0jeoghLcHe8HDiF1HSQ8wEjQFPlgUH5oj7cfqwDrA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(396003)(346002)(39860400002)(366004)(376002)(83380400001)(6512007)(6486002)(2616005)(5660300002)(8936002)(186003)(6666004)(36756003)(31686004)(41300700001)(478600001)(6506007)(66946007)(38100700002)(4326008)(66556008)(8676002)(86362001)(31696002)(2906002)(316002)(66476007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHdVVjM0aDVWQ0lnL05MUVo5QTNtWU9HUnJBK0tVUjBLNllGdFlMWmtaaW1n?=
+ =?utf-8?B?dHJIR2E1KytmUDY4dGk1cHdrUWVCZVNZbzl1SFJNUkMwUWcxbG5CZUJxZU1s?=
+ =?utf-8?B?ZXphdWlvVFhtZDBDNndEbkZXZkVuRExTQmNDd1pCMDlyVUhPRmNUaU1xRTB5?=
+ =?utf-8?B?K3EzbTU0Tkg3eURXWXptK0RTUzNnam0zTXYya0FwcDNScGVMei81N2FNb1JE?=
+ =?utf-8?B?Qm0zU2NDblVjMVZ3eldzcjBqUWl2THFtQ0hkNGhnbENtcW40MWd1N0xwVkRE?=
+ =?utf-8?B?elQvMk9QZmdteTRlcE9XaW0wY1JqZG44Tmlnb05LektnNFE1ejF0Ym1BbFBK?=
+ =?utf-8?B?bEN3aG4zcTZ4Znd4NkptSmRUZXA2dWVsei8yRHpENVpPT2hvRXVwekp1cCtD?=
+ =?utf-8?B?ZVJFZzFocWR5eDJEQnlqcERIWFBjUDVubHAvYXdEU0xRSU45YW1lWWVWRG1z?=
+ =?utf-8?B?NG96eVluK05UU3llbGhIT3E2NWk4dnQ1Y281MGpmSnBhWks1S3NwYUdnOVpN?=
+ =?utf-8?B?Wi90VjlRTFlpakEzWWIrMllNb2gzakZWMkJEMkJnYzl5WUNReWZiOG1UZzc5?=
+ =?utf-8?B?MXdGTEVSNzgrS0JyTENYdzArSjNQY0JHY2V3U0hCKzdPRjVXWEJTY28rbXhF?=
+ =?utf-8?B?YTViZDN1dFAvSERsQXprem9WZkhXOW9WUGtnUTBtT29oZ0NhNGZZTCtvczlB?=
+ =?utf-8?B?TmY2MmlIdUFGWU1pVGEvNzBFS3V1b1hIZDNIR2Q1WXdWZVRGam1yemtNNmEx?=
+ =?utf-8?B?amE0REJtR1VLQXk5eDRFWWUyY1ZMUU5FQ2hVNjZHcDJpMERDK3d6RmkvNVZ5?=
+ =?utf-8?B?NSs3MThJMjBLTnY3Qk4yaDhWQVZObHlPdnpWaXdOVGw1N016OEJJRHRieE1j?=
+ =?utf-8?B?emlYNFo4RlJOd0dISVZJTC9HOW1MMUtKNk0zL2h4aEtybTZzMkl1aUtxVkJH?=
+ =?utf-8?B?TStzc2lqKzU3eUtITTU2ZWx2YWFGTnJzaTlINE1ESnFOTDJhL1NKdGdYWmc0?=
+ =?utf-8?B?QW1FSWJNVytCVlpNRzBuV3Z1QXl2N3NIWG5Sdm1jVEo1VFBPSVpFempjTDBK?=
+ =?utf-8?B?WWdZVHFOQzljenpZbWZzaDFDTjVGRmw3M0lsNm10NXd2UW10MzEzbWhDMHAw?=
+ =?utf-8?B?U1hHUlRkcWNMcnE4aVN2OEt2NklucEtDRkJqL2x6QzlkRy92eUY3Wlk0WlF0?=
+ =?utf-8?B?bmMrbWwwb3J5WnZSUk1uL2U5aFVsdk9BNDFFVWw1dEs4UWxaZm1JeGJMN1Y2?=
+ =?utf-8?B?ckRvVEJpRTV1VXJhV1BQbzVzcjBGRkZVVGIxeUN4TEwxSXByWHZIaE5Xb0Rn?=
+ =?utf-8?B?Z2hLQ2N3WUVOQkRqSHlGbGxKVEprMFFZWlA2ak8zcnI1MjEwL1FKRTN2TEg0?=
+ =?utf-8?B?NzF3aHFHTUtLOCs1NDY0ajV6a0IrV2Rqd1dUNFlQSXRDWFUraGR0VGhhZXNZ?=
+ =?utf-8?B?THVFT1dFZEViL1FHM3ZWUFNmU3ZUMmM4VXZoOWtrclpONWhaKzlHMzJGUnY3?=
+ =?utf-8?B?TG8rSDd3SHNqcDdrWWxlWGRzMG9RcFRPR0Y0NStjZzhqckNKNHhrYnl0dU1u?=
+ =?utf-8?B?TlJhd0x4Qnl4UHNxSUhvbi9sZERYd2s1bllIOW1KN3pIUG9wT05tcWpPZHZE?=
+ =?utf-8?B?M3F3b2Y3cGY3YUtUWmp1ZUt4MXNSZk4vR1JXeEhkbEZGRmNCWldkcnlxR1RB?=
+ =?utf-8?B?dHNaMm1SUE9XWWsvbm9HVE5PS0Rzak1paEZWSm95ZEY0SVpLb0xZemNWMjU0?=
+ =?utf-8?B?dy9vTEtFSTdZclcwVCs4aHF5aUU4SlpmOHFlL1VqeFRjenJCN0UwVGZxaEJF?=
+ =?utf-8?B?d1lrZUk5NVdWSDNBSk50U0hXYjErUCtRdEh4Y2tIZFBlWXpFMkg2RSsyRjlp?=
+ =?utf-8?B?V0MydzhsQWZRVUtFbXZJSmUwK0dLUUg4VzhtcFZBb1BHK2tLUlliMGZpRm9w?=
+ =?utf-8?B?Zi9hQVE4cVVua0JoRHl4RVpreit0R2VoOG80UTV4aW1aVHp1alU0MUo0Z1Q3?=
+ =?utf-8?B?NmtYM1BLQlh3eHhEeDk1UFlIazJlc1pnaEZtbHZvdXRTNE1Sb2NmeGpsZTU3?=
+ =?utf-8?B?ZGlrRGlxalNFZW4zSWRGZVhMQThHVXZJVmRJMFJxWERIMXJLT3g5V3p2TStm?=
+ =?utf-8?B?M2VFWEVESlV0RkhHQUVYbDM4NE5FRllsVUpacXJjUW15NGNTdENQbzJsUTBM?=
+ =?utf-8?Q?HRanJXj+MY3BakaSpMif26VR9wzS7OvJdb/L/hyrh5+7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18382fab-1e6e-4854-6efa-08da6a2b9afe
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2022 08:41:14.4256 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FMxjAW7qnMfxTLqiuB4xx27EgvqP4Ru8uWAxKKGTMkQ5GaA0S2uo4WSEWwP2fX3p
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3470
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,136 +127,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------QGFetsOzQfBP62qdwrj2o85C
-Content-Type: multipart/mixed; boundary="------------Mh2YonvkktMzjkZBo6s09jBK";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, sam@ravnborg.org,
- airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <c7964f0e-27c5-c629-4d43-5fb27ea5c99e@suse.de>
-Subject: Re: [PATCH v2 08/14] drm/mgag200: Set SCROFF in primary-plane code
-References: <20220718092753.9598-1-tzimmermann@suse.de>
- <20220718092753.9598-9-tzimmermann@suse.de>
- <ff31024f-72c7-633a-feec-d8c74d99557e@redhat.com>
-In-Reply-To: <ff31024f-72c7-633a-feec-d8c74d99557e@redhat.com>
+Am 20.07.22 um 09:36 schrieb Arunpravin Paneer Selvam:
+> - This allows the resource manager to handle intersection
+>    of placement and resources.
+>
+> - Add callback function to amdgpu driver module fetching
+>    start offset from buddy allocator.
 
---------------Mh2YonvkktMzjkZBo6s09jBK
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Probably better to only add the callback and ttm_resource_intersect() 
+wrapper function in this patch and then move the amdgpu and 
+ttm_range_manager changes to separate patches.
 
-SGkNCg0KQW0gMjAuMDcuMjIgdW0gMTA6MTcgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IE9uIDE4LzA3LzIwMjIgMTE6MjcsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gVGhl
-IFNDUk9GRiBiaXQgY29udHJvbHMgcmVhZGluZyB0aGUgcHJpbWFyeSBwbGFuZSdzIHNjYW5v
-dXQgYnVmZmVyDQo+PiBmcm9tIHZpZGVvIG1lbW9yeS4gU2V0IGl0IGZyb20gcHJpbWFyeS1w
-bGFuZSBjb2RlLCBpbnN0ZWFkIG9mIENSVEMNCj4+IGNvZGUuDQo+IA0KPiBJJ20gYSBiaXQg
-Y29uY2VybmVkIGFib3V0IHRoZSBwZXJmb3JtYW5jZSBpbXBhY3Qgb2YgdGhpcyBwYXRjaC4N
-Cj4gDQo+IFByZXZpb3VzbHksIHRoZSBTQ1JPRkYgYml0IGFuZCBtc2xlZXAoMjApIHdhcyBk
-b25lIG9ubHkgd2hlbiANCj4gZW5hYmxpbmcvZGlzYWJsaW5nIGRpc3BsYXkuDQo+IFdpdGgg
-dGhpcyBwYXRjaCwgaXQgd2lsbCBiZSBkb25lIGZvciBlYWNoIGZyYW1lLCB3aGljaCB3aWxs
-IG5lZ2F0aXZlbHkgDQo+IGltcGFjdCBwZXJmb3JtYW5jZXMuDQoNCkdvb2QgcG9pbnQuIEkn
-bGwgbWFrZSB0aGlzIGNvbmRpdGlvbmFsLg0KDQpTb21laG93IHBsYW5lcyBhcmUgbWlzc2lu
-ZyBhIGNhbGxiYWNrIHRoYXQgb25seSBnZXRzIGV4ZWN1dGVkIHdoZW4gYSANCnBsYW5lIGdl
-dHMgZW5hYmxlZC4gdGhlcmUncyBhdG9taWNfZGlzYWJsZSBmb3IgZGlzYWJsaW5nIGFuZCBh
-dG9taWMgDQp1cGRhdGUgaXMgc3VwcG9zZWQgdG8gdXBkYXRlIGFuZCBlbmFibGUgYW5kIHRo
-ZSBwbGFuZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gLS0gDQo+IA0KPiBK
-b2NlbHluDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+DQo+PiBSZXZpZXdlZC1ieTogSm9jZWx5biBGYWxlbXBlIDxqZmFs
-ZW1wZUByZWRoYXQuY29tPg0KPj4gVGVzdGVkLWJ5OiBKb2NlbHluIEZhbGVtcGUgPGpmYWxl
-bXBlQHJlZGhhdC5jb20+DQo+PiBBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
-cmcub3JnPg0KPj4gLS0tDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAw
-X21vZGUuYyB8IDMzICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0tDQo+PiDCoCAxIGZpbGUg
-Y2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMTUgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIA0KPj4g
-Yi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPj4gaW5kZXggMzk1
-MDlkZDg0YjIzLi43ODllMDJiODYxNWYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21n
-YWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4+IEBAIC01NTAsNyArNTUwLDcgQEAgc3RhdGljIHZv
-aWQgbWdhZzIwMF9nMjAwZXZfc2V0X2hpcHJpbHZsKHN0cnVjdCANCj4+IG1nYV9kZXZpY2Ug
-Km1kZXYpDQo+PiDCoCBzdGF0aWMgdm9pZCBtZ2FnMjAwX2VuYWJsZV9kaXNwbGF5KHN0cnVj
-dCBtZ2FfZGV2aWNlICptZGV2KQ0KPj4gwqAgew0KPj4gLcKgwqDCoCB1OCBzZXEwLCBzZXEx
-LCBjcnRjZXh0MTsNCj4+ICvCoMKgwqAgdTggc2VxMCwgY3J0Y2V4dDE7DQo+PiDCoMKgwqDC
-oMKgIFJSRUdfU0VRKDB4MDAsIHNlcTApOw0KPj4gwqDCoMKgwqDCoCBzZXEwIHw9IE1HQVJF
-R19TRVEwX1NZTkNSU1QgfA0KPj4gQEAgLTU2NCwxMiArNTY0LDYgQEAgc3RhdGljIHZvaWQg
-bWdhZzIwMF9lbmFibGVfZGlzcGxheShzdHJ1Y3QgDQo+PiBtZ2FfZGV2aWNlICptZGV2KQ0K
-Pj4gwqDCoMKgwqDCoCBtZ2Ffd2FpdF92c3luYyhtZGV2KTsNCj4+IMKgwqDCoMKgwqAgbWdh
-X3dhaXRfYnVzeShtZGV2KTsNCj4+IC3CoMKgwqAgUlJFR19TRVEoMHgwMSwgc2VxMSk7DQo+
-PiAtwqDCoMKgIHNlcTEgJj0gfk1HQVJFR19TRVExX1NDUk9GRjsNCj4+IC3CoMKgwqAgV1JF
-R19TRVEoMHgwMSwgc2VxMSk7DQo+PiAtDQo+PiAtwqDCoMKgIG1zbGVlcCgyMCk7DQo+PiAt
-DQo+PiDCoMKgwqDCoMKgIFJSRUdfRUNSVCgweDAxLCBjcnRjZXh0MSk7DQo+PiDCoMKgwqDC
-oMKgIGNydGNleHQxICY9IH5NR0FSRUdfQ1JUQ0VYVDFfVlNZTkNPRkY7DQo+PiDCoMKgwqDC
-oMKgIGNydGNleHQxICY9IH5NR0FSRUdfQ1JUQ0VYVDFfSFNZTkNPRkY7DQo+PiBAQCAtNTc4
-LDcgKzU3Miw3IEBAIHN0YXRpYyB2b2lkIG1nYWcyMDBfZW5hYmxlX2Rpc3BsYXkoc3RydWN0
-IA0KPj4gbWdhX2RldmljZSAqbWRldikNCj4+IMKgIHN0YXRpYyB2b2lkIG1nYWcyMDBfZGlz
-YWJsZV9kaXNwbGF5KHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2KQ0KPj4gwqAgew0KPj4gLcKg
-wqDCoCB1OCBzZXEwLCBzZXExLCBjcnRjZXh0MTsNCj4+ICvCoMKgwqAgdTggc2VxMCwgY3J0
-Y2V4dDE7DQo+PiDCoMKgwqDCoMKgIFJSRUdfU0VRKDB4MDAsIHNlcTApOw0KPj4gwqDCoMKg
-wqDCoCBzZXEwICY9IH5NR0FSRUdfU0VRMF9TWU5DUlNUOw0KPj4gQEAgLTU5MSwxMiArNTg1
-LDYgQEAgc3RhdGljIHZvaWQgbWdhZzIwMF9kaXNhYmxlX2Rpc3BsYXkoc3RydWN0IA0KPj4g
-bWdhX2RldmljZSAqbWRldikNCj4+IMKgwqDCoMKgwqAgbWdhX3dhaXRfdnN5bmMobWRldik7
-DQo+PiDCoMKgwqDCoMKgIG1nYV93YWl0X2J1c3kobWRldik7DQo+PiAtwqDCoMKgIFJSRUdf
-U0VRKDB4MDEsIHNlcTEpOw0KPj4gLcKgwqDCoCBzZXExIHw9IE1HQVJFR19TRVExX1NDUk9G
-RjsNCj4+IC3CoMKgwqAgV1JFR19TRVEoMHgwMSwgc2VxMSk7DQo+PiAtDQo+PiAtwqDCoMKg
-IG1zbGVlcCgyMCk7DQo+PiAtDQo+PiDCoMKgwqDCoMKgIFJSRUdfRUNSVCgweDAxLCBjcnRj
-ZXh0MSk7DQo+PiDCoMKgwqDCoMKgIGNydGNleHQxIHw9IE1HQVJFR19DUlRDRVhUMV9WU1lO
-Q09GRiB8DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBNR0FSRUdfQ1JUQ0VYVDFf
-SFNZTkNPRkY7DQo+PiBAQCAtNjc2LDYgKzY2NCw3IEBAIHN0YXRpYyB2b2lkIA0KPj4gbWdh
-ZzIwMF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxh
-bmUgKnBsYW5lLA0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9
-IHBsYW5lX3N0YXRlLT5mYjsNCj4+IMKgwqDCoMKgwqAgc3RydWN0IGRybV9hdG9taWNfaGVs
-cGVyX2RhbWFnZV9pdGVyIGl0ZXI7DQo+PiDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fcmVjdCBk
-YW1hZ2U7DQo+PiArwqDCoMKgIHU4IHNlcTE7DQo+PiDCoMKgwqDCoMKgIGlmICghZmIpDQo+
-PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOw0KPj4gQEAgLTY4OCwxMSArNjc3LDI1IEBA
-IHN0YXRpYyB2b2lkIA0KPj4gbWdhZzIwMF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNf
-dXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPj4gwqDCoMKgwqDCoCAvKiBBbHdh
-eXMgc2Nhbm91dCBpbWFnZSBhdCBWUkFNIG9mZnNldCAwICovDQo+PiDCoMKgwqDCoMKgIG1n
-YWcyMDBfc2V0X3N0YXJ0YWRkKG1kZXYsICh1MzIpMCk7DQo+PiDCoMKgwqDCoMKgIG1nYWcy
-MDBfc2V0X29mZnNldChtZGV2LCBmYik7DQo+PiArDQo+PiArwqDCoMKgIFJSRUdfU0VRKDB4
-MDEsIHNlcTEpOw0KPj4gK8KgwqDCoCBzZXExICY9IH5NR0FSRUdfU0VRMV9TQ1JPRkY7DQo+
-PiArwqDCoMKgIFdSRUdfU0VRKDB4MDEsIHNlcTEpOw0KPj4gK8KgwqDCoCBtc2xlZXAoMjAp
-Ow0KPj4gwqAgfQ0KPj4gwqAgc3RhdGljIHZvaWQgbWdhZzIwMF9wcmltYXJ5X3BsYW5lX2hl
-bHBlcl9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgDQo+PiBkcm1fcGxhbmUgKnBsYW5lLA0KPj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqb2xkX3N0YXRlKQ0KPj4gLXsgfQ0KPj4g
-K3sNCj4+ICvCoMKgwqAgc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IHBsYW5lLT5kZXY7DQo+
-PiArwqDCoMKgIHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2ID0gdG9fbWdhX2RldmljZShkZXYp
-Ow0KPj4gK8KgwqDCoCB1OCBzZXExOw0KPj4gKw0KPj4gK8KgwqDCoCBSUkVHX1NFUSgweDAx
-LCBzZXExKTsNCj4+ICvCoMKgwqAgc2VxMSB8PSBNR0FSRUdfU0VRMV9TQ1JPRkY7DQo+PiAr
-wqDCoMKgIFdSRUdfU0VRKDB4MDEsIHNlcTEpOw0KPj4gK8KgwqDCoCBtc2xlZXAoMjApOw0K
-Pj4gK30NCj4+IMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2hlbHBlcl9mdW5j
-cyANCj4+IG1nYWcyMDBfcHJpbWFyeV9wbGFuZV9oZWxwZXJfZnVuY3MgPSB7DQo+PiDCoMKg
-wqDCoMKgIERSTV9HRU1fU0hBRE9XX1BMQU5FX0hFTFBFUl9GVU5DUywNCj4gDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Apart from that looks good to me.
 
---------------Mh2YonvkktMzjkZBo6s09jBK--
+Regards,
+Christian.
 
---------------QGFetsOzQfBP62qdwrj2o85C
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 19 +++++++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 33 ++++++++++++++++++++
+>   drivers/gpu/drm/ttm/ttm_range_manager.c      | 17 ++++++++++
+>   drivers/gpu/drm/ttm/ttm_resource.c           | 28 +++++++++++++++++
+>   include/drm/ttm/ttm_resource.h               | 20 ++++++++++++
+>   5 files changed, 117 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index 8c6b2284cf56..727c80134aa6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -204,6 +204,24 @@ void amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
+>   	amdgpu_gart_invalidate_tlb(adev);
+>   }
+>   
+> +/**
+> + * amdgpu_gtt_mgr_intersect - test for intersection
+> + *
+> + * @man: Our manager object
+> + * @res: The resource to test
+> + * @place: The place for the new allocation
+> + * @size: The size of the new allocation
+> + *
+> + * Simplified intersection test, only interesting if we need GART or not.
+> + */
+> +static bool amdgpu_gtt_mgr_intersect(struct ttm_resource_manager *man,
+> +				     struct ttm_resource *res,
+> +				     const struct ttm_place *place,
+> +				     size_t size)
+> +{
+> +	return !place->lpfn || amdgpu_gtt_mgr_has_gart_addr(res);
+> +}
+> +
+>   /**
+>    * amdgpu_gtt_mgr_debug - dump VRAM table
+>    *
+> @@ -225,6 +243,7 @@ static void amdgpu_gtt_mgr_debug(struct ttm_resource_manager *man,
+>   static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func = {
+>   	.alloc = amdgpu_gtt_mgr_new,
+>   	.free = amdgpu_gtt_mgr_del,
+> +	.intersect = amdgpu_gtt_mgr_intersect,
+>   	.debug = amdgpu_gtt_mgr_debug
+>   };
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index 28ec5f8ac1c1..ed0d10fe0b88 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -720,6 +720,38 @@ uint64_t amdgpu_vram_mgr_vis_usage(struct amdgpu_vram_mgr *mgr)
+>   	return atomic64_read(&mgr->vis_usage);
+>   }
+>   
+> +/**
+> + * amdgpu_vram_mgr_intersect - test each drm buddy block for intersection
+> + *
+> + * @man: TTM memory type manager
+> + * @res: The resource to test
+> + * @place: The place to test against
+> + * @size: Size of the new allocation
+> + *
+> + * Test each drm buddy block for intersection for eviction decision.
+> + */
+> +static bool amdgpu_vram_mgr_intersect(struct ttm_resource_manager *man,
+> +				      struct ttm_resource *res,
+> +				      const struct ttm_place *place,
+> +				      size_t size)
+> +{
+> +	struct amdgpu_vram_mgr_resource *mgr = to_amdgpu_vram_mgr_resource(res);
+> +	struct list_head *list = &mgr->blocks;
+> +	struct drm_buddy_block *block;
+> +	u32 num_pages = PFN_UP(size);
+> +	u32 start;
+> +
+> +	/* Check each drm buddy block individually */
+> +	list_for_each_entry(block, list, link) {
+> +		start = amdgpu_vram_mgr_block_start(block) >> PAGE_SHIFT;
+> +		if (start < place->fpfn ||
+> +		    (place->lpfn && (start + num_pages) > place->lpfn))
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>   /**
+>    * amdgpu_vram_mgr_debug - dump VRAM table
+>    *
+> @@ -753,6 +785,7 @@ static void amdgpu_vram_mgr_debug(struct ttm_resource_manager *man,
+>   static const struct ttm_resource_manager_func amdgpu_vram_mgr_func = {
+>   	.alloc	= amdgpu_vram_mgr_new,
+>   	.free	= amdgpu_vram_mgr_del,
+> +	.intersect = amdgpu_vram_mgr_intersect,
+>   	.debug	= amdgpu_vram_mgr_debug
+>   };
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+> index d91666721dc6..bf5de1978ead 100644
+> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+> @@ -113,6 +113,22 @@ static void ttm_range_man_free(struct ttm_resource_manager *man,
+>   	kfree(node);
+>   }
+>   
+> +static bool ttm_range_man_intersect(struct ttm_resource_manager *man,
+> +				    struct ttm_resource *res,
+> +				    const struct ttm_place *place,
+> +				    size_t size)
+> +{
+> +	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+> +	u32 num_pages = PFN_UP(size);
+> +
+> +	/* Don't evict BOs outside of the requested placement range */
+> +	if (place->fpfn >= (node->start + num_pages) ||
+> +	    (place->lpfn && place->lpfn <= node->start))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>   static void ttm_range_man_debug(struct ttm_resource_manager *man,
+>   				struct drm_printer *printer)
+>   {
+> @@ -126,6 +142,7 @@ static void ttm_range_man_debug(struct ttm_resource_manager *man,
+>   static const struct ttm_resource_manager_func ttm_range_manager_func = {
+>   	.alloc = ttm_range_man_alloc,
+>   	.free = ttm_range_man_free,
+> +	.intersect = ttm_range_man_intersect,
+>   	.debug = ttm_range_man_debug
+>   };
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index 20f9adcc3235..84c21f92b422 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -253,6 +253,34 @@ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
+>   }
+>   EXPORT_SYMBOL(ttm_resource_free);
+>   
+> +/**
+> + * ttm_resource_intersect - test for intersection
+> + *
+> + * @bdev: TTM device structure
+> + * @res: The resource to test
+> + * @place: The placement to test
+> + * @size: How many bytes the new allocation needs.
+> + *
+> + * Test if @res intersects with @place and @size. Used for testing if evictions
+> + * are valueable or not.
+> + */
+> +bool ttm_resource_intersect(struct ttm_device *bdev,
+> +			    struct ttm_resource *res,
+> +			    const struct ttm_place *place,
+> +			    size_t size)
+> +{
+> +	struct ttm_resource_manager *man;
+> +
+> +	if (!res)
+> +		return false;
+> +
+> +	man = ttm_manager_type(bdev, res->mem_type);
+> +	if (!place || !man->func->intersect)
+> +		return true;
+> +
+> +	return man->func->intersect(man, res, place, size);
+> +}
+> +
+>   static bool ttm_resource_places_compat(struct ttm_resource *res,
+>   				       const struct ttm_place *places,
+>   				       unsigned num_placement)
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index ca89a48c2460..3f3ab2a8a69e 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -88,6 +88,22 @@ struct ttm_resource_manager_func {
+>   	void (*free)(struct ttm_resource_manager *man,
+>   		     struct ttm_resource *res);
+>   
+> +	/**
+> +	 * struct ttm_resource_manager_func member intersect
+> +	 *
+> +	 * @man: Pointer to a memory type manager.
+> +	 * @res: Pointer to a struct ttm_resource to be checked.
+> +	 * @place: Placement to check against.
+> +	 * @size: Size of the check.
+> +	 *
+> +	 * Test if @res intersects with @place + @size. Used to judge if
+> +	 * evictions are valueable or not.
+> +	 */
+> +	bool (*intersect)(struct ttm_resource_manager *man,
+> +			  struct ttm_resource *res,
+> +			  const struct ttm_place *place,
+> +			  size_t size);
+> +
+>   	/**
+>   	 * struct ttm_resource_manager_func member debug
+>   	 *
+> @@ -329,6 +345,10 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+>   		       const struct ttm_place *place,
+>   		       struct ttm_resource **res);
+>   void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
+> +bool ttm_resource_intersect(struct ttm_device *bdev,
+> +			    struct ttm_resource *res,
+> +			    const struct ttm_place *place,
+> +			    size_t size);
+>   bool ttm_resource_compat(struct ttm_resource *res,
+>   			 struct ttm_placement *placement);
+>   void ttm_resource_set_bo(struct ttm_resource *res,
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLXvosFAwAAAAAACgkQlh/E3EQov+Aw
-+hAA0R7ZCbfEjrbK5Yv1DNkeH7ecUtZD+bv/z2eguZybWnR0eWON108HV1xU34F8qNG8OjNffqrq
-WR6KSU+/Y3fdeNrwVZDWwLwYKUrPF/yPmNgYYOgWuK0u19qRartiXqmi0M9n6Hg1a3fbGFX5FGJ5
-I4GgG+VCRBY5Y8E8mYdGSQuuQuNaRUjIoztLYeEnm1DDx5ZE5jkOJOtA4fFuHKf975qDMrWdapzc
-tOhjPUVdKAcyOTKb2wvRTOs5HnKI09o3U8R8z63zBMDRWPvAX452VBDcRKtLMoynpVc/ewUU1cB4
-yMZt6JcECsc8F8ixVruJMIWWl3Osg5NgvuFMQFWmsVdKlTDkh5IhWeIC7kxrGC0S9x9QuiYuWJRu
-udC19TJBHhuy03RveJYJHNowGLIIvqXQnwHNtTKnx0h8ePxPtz9moEZ29S0m066aDb8GZYDMg5jf
-5m9yTU8P0v6EtB0o9VHjLu8n9pgjYQKa9k81UpPKtMSCNtTq4Kge0oxILDVuCew2onbxbJUWi9i1
-OEgkOXvH7BU5+IJ4nS/Cgzt6gcpE3onpnR4y9JjX6yV30JNGd/M53Z1SoLEtqu7mGxFKinCCSN0C
-LjeHyHhzKv43P5BvT2VPS8Kwsdr0sKomWWD1Ll3Uov0f9iYJxPbGlY2CYu703gta3AZRNdq9Ue+Y
-JQ4=
-=TBeK
------END PGP SIGNATURE-----
-
---------------QGFetsOzQfBP62qdwrj2o85C--
