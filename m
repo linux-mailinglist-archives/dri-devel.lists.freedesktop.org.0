@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAAC57BA78
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:36:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4726157BA4E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:35:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C50CD8F5D4;
-	Wed, 20 Jul 2022 15:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 302998F51A;
+	Wed, 20 Jul 2022 15:33:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890FC8F2D2;
- Wed, 20 Jul 2022 15:33:28 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id n138so13301874iod.4;
- Wed, 20 Jul 2022 08:33:28 -0700 (PDT)
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
+ [IPv6:2607:f8b0:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E21E8F42E;
+ Wed, 20 Jul 2022 15:33:29 +0000 (UTC)
+Received: by mail-il1-x12c.google.com with SMTP id v1so5831781ilg.4;
+ Wed, 20 Jul 2022 08:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nos6Fle5iQJrLSEDWrE/GX8T005NKGNifJ3oR077PWk=;
- b=bA0Dbkwwm6GXdt41rcZK8o1ovMfhCFIsQ3K0VZbmDAYvk6kkRy6aLyCNhOLAe6eluR
- +feNwKTl0dE5UvNOzYFMlCbYPLYCQhqTWNppwAEx+3XTW1BIvoW5hmhoKEv2DZb4cOpy
- Bzm7pzo24izfMYVOjj9WY0qMYWThNzz9tYQ9x33f4l3Cq1HXJ5nUoPFZ6RbmI3MIIVGF
- yNKqSfe2fP+b3m6x1s65WSyo32cTFVxuRn8+nPoxn3DOcyi2wBQeiSYKg1uHaLv9TQ6r
- uyziJ2VK8MP8jJ7VkfGTqWmF356HxFDUrce7zGSgKP2Dwq+AAX3H93I3Ss5wtIx+r/FD
- EE4w==
+ bh=jNKkCgLqEI2boDLpZwejJXZn34G9kSTsspfFnsYp3v8=;
+ b=fPXmbKLVj6sd3Rl6v/FP9ACdjwbbyyM5C58a4BuD6kJfihZgU8a0/6TUAi+purgcyW
+ aXo+zsOzhQu/FqRwKDB7ekBxd8efYNKIwHBXOL2WVviT2zRrz+YRtl38Jno3GVz0/Gj4
+ KQJTu1J0wwMB+7+bAQUZXCGE0lM8PjgzaXcJkE0I6LLQm3aEiHrZzDQIZIB8XtXk6/G5
+ R3SEXdmZtcEie/RBVinlb+StrNyobbDDBIqi9GUY6NaTBmTcWvNmLtLQNGcr10CK3OVY
+ Q4USP8xJHEGqEstuHwQTfDXdZ2rONMNtF+1xc5LzxtH7mFL00ApjQyocE0yMc7MWzZzp
+ ftCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nos6Fle5iQJrLSEDWrE/GX8T005NKGNifJ3oR077PWk=;
- b=wYQUVLDHgi6BbOzYnMb5wWlBO+HcJee30yVMKKrpVZbSiEOkiaGisQL5Ld/y77O9fl
- WQrFqM4p1H4OTBj7bgrf2XT6r+WeAqGn2OoNMgLXh5jjCvaP4cDN7tLxaC5NOwlhQEnI
- grZ1NuoNfPMYhVcYIuzHZzPs3gNs55aQOYnkGcmcXoColvvkglYY2yBy2k6k6NZtE+Nt
- jqzwLZ63tpK6FHPKn2eOCco4wRFwVEONCrwBc77Z4AgMitDlduLTcGEt7VryZATd0LKf
- rXkuGKb0G2ylJxa/9JNkhLYCXvuWqC8LVNtKyvr/4AbgsWFdlBlr2ji+flwiQqWwamLl
- ZOEw==
-X-Gm-Message-State: AJIora+BhWNNmGNC1M1w68snpkj+tKQ0QKxeJD7RABssDj6dke+eM2M7
- jSBegrZVCCeUopzv+GyMhrosAqiVTBeoDw==
-X-Google-Smtp-Source: AGRyM1sMTq+YBtxd1R1rG/2WOm1XbXXe4p2crHFyc4o/klnlFbq65TjJ5wGNPY5QI7YtTB6ahj0QlQ==
-X-Received: by 2002:a05:6638:d0f:b0:341:4852:216 with SMTP id
- q15-20020a0566380d0f00b0034148520216mr15153611jaj.106.1658331207329; 
- Wed, 20 Jul 2022 08:33:27 -0700 (PDT)
+ bh=jNKkCgLqEI2boDLpZwejJXZn34G9kSTsspfFnsYp3v8=;
+ b=vn7eExtkTNRk/TuDdD44hOhNOgFyoNf4KJ9wdkEI4wiER7nMx0lDVg96RVGm6ElL5T
+ 9tzKIs9V+c0XVYmTHMPxOCOWXkGy3W9jhr7SQmnMUHfH+U5PvUAJ/22IpOcNCDW8w2+5
+ swUAnR4oZdwOmFdDGtkzPdVG5sYR/Q9gEYKAmPZ2xkACasGvqQ2Yqakmxmv4Cwao7d4f
+ VWa6rqb0zBkfMgQ5HIxw2CKQN0A/2OW5n7T+P/EUAxMlwHPlIry4YnEuB3E8AwjN4O1v
+ ZP6l9ldcS+lMH2DaqyTLtNY1Dj+q4Ago4jLGOR2HSQ3miHpwa1lj95yd1or2p3u+ZQTl
+ JHkA==
+X-Gm-Message-State: AJIora8w1Pdgnm+UxthKHkC9m2yWSW63OwkiKVkwDQ/arqKOKReHxzqG
+ azUmuvMEhtWFgNxuH69QM0T//Q1dMHEncw==
+X-Google-Smtp-Source: AGRyM1uc5RIU6uMLg1JdTORETHn7tJ5LThV8xarABZP+cochEvseCKBW8m9RSsexUeky5GDYsIVjyQ==
+X-Received: by 2002:a92:d14f:0:b0:2dd:12a:f93c with SMTP id
+ t15-20020a92d14f000000b002dd012af93cmr4000142ilg.121.1658331208155; 
+ Wed, 20 Jul 2022 08:33:28 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.26
+ q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 Jul 2022 08:33:27 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
@@ -52,10 +52,9 @@ To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com
-Subject: [PATCH v4 28/41] drm_print: add _ddebug descriptor to drm_*dbg
- prototypes
-Date: Wed, 20 Jul 2022 09:32:20 -0600
-Message-Id: <20220720153233.144129-29-jim.cromie@gmail.com>
+Subject: [PATCH v4 29/41] nouveau: change nvkm_debug/trace to use dev_dbg POC
+Date: Wed, 20 Jul 2022 09:32:21 -0600
+Message-Id: <20220720153233.144129-30-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720153233.144129-1-jim.cromie@gmail.com>
 References: <20220720153233.144129-1-jim.cromie@gmail.com>
@@ -76,127 +75,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-upgrade the callchain to drm_dbg() and drm_dev_dbg(); add a struct
-_ddebug ptr parameter to them, and supply that additional param by
-replacing the '_no_desc' flavor of dyndbg Factory macro currently used
-with the flavor that supplies the descriptor.
+These 2 macros formerly used dev_info, and they still check
+subdev->debug to gate the printing.  So dyndbg control is redundant
+ATM (and possibly confusing, since its off by default).
 
-NOTES:
+prdbg count is up from 3, or from 65 (with VMM_DEBUG here)
 
-The descriptor gives these fns access to the decorator flags, but does
-none of the dynamic-prefixing done by __dynamic_emit_prefix().
+[    7.765379] dyndbg: 516 debug prints in module nouveau
 
-DRM already has conventions for logging/messaging; just tossing
-optional decorations on top may not help.  Instead, existing flags (or
-new ones) can be used to make current conventions optional.
+Its possible to control error, warn, info callsites too, but they're
+usually on, and the .data overheads on ~450 more callsites (56 bytes
+each) would just be wasted.
 
-For CONFIG_DRM_USE_DYNAMIC_DEBUG=N, just pass null.
+$ for l in fatal error warn info debug trace spam; do
+      echo $l; ack nvkm_$l drivers/gpu |wc; done
+fatal
+      3      19     335
+error
+    289    1956   30651
+warn
+     84     513    8860
+info
+     14      88    1502
+debug
+    387    2339   40844
+trace
+     31     219    3368
+spam
+      1       7     123
 
-Note: desc->class_id is redundant with category parameter, but its
-availability is dependent on desc.
+bash-5.1# echo $(( 516-65-387-31-1 ))
+32
+
+Thats approximate; not accounting #defines and doc/comment mentions.
+
+NOTE: this patch changes the log-level of the macro-issued messages
+from KERN_INFO to KERN_DEBUG.  Adding a .kern_lvl field to struct
+_ddebug could fix that.
+
+RFC: dyndbg & subdev->debug
+
+Separate class-maps for each subdev are possible; except for the
+coordinated use of _base, each is independent, including choice of
+DISJOINT or LEVELS, as long as class-names don't conflict.
+So theres some flexibility.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c |  8 +++++---
- include/drm/drm_print.h     | 23 ++++++++++++-----------
- 2 files changed, 17 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index e0de79a22255..92f3f45e410c 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -29,6 +29,7 @@
- #include <linux/moduleparam.h>
- #include <linux/seq_file.h>
- #include <linux/slab.h>
-+#include <linux/dynamic_debug.h>
+diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
+index 96113c8bee8c..065d07ccea87 100644
+--- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
++++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
+@@ -59,8 +59,8 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
+ #define nvkm_error(s,f,a...) nvkm_printk((s), ERROR,    err, f, ##a)
+ #define nvkm_warn(s,f,a...)  nvkm_printk((s),  WARN, notice, f, ##a)
+ #define nvkm_info(s,f,a...)  nvkm_printk((s),  INFO,   info, f, ##a)
+-#define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,   info, f, ##a)
+-#define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,   info, f, ##a)
++#define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,    dbg, f, ##a)
++#define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,    dbg, f, ##a)
+ #define nvkm_spam(s,f,a...)  nvkm_printk((s),  SPAM,    dbg, f, ##a)
  
- #include <drm/drm.h>
- #include <drm/drm_drv.h>
-@@ -278,8 +279,8 @@ void drm_dev_printk(const struct device *dev, const char *level,
- }
- EXPORT_SYMBOL(drm_dev_printk);
- 
--void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
--		   const char *format, ...)
-+void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-+		   enum drm_debug_category category, const char *format, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-@@ -287,6 +288,7 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 	if (!__drm_debug_enabled(category))
- 		return;
- 
-+	/* we know we are printing for either syslog, tracefs, or both */
- 	va_start(args, format);
- 	vaf.fmt = format;
- 	vaf.va = &args;
-@@ -302,7 +304,7 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- }
- EXPORT_SYMBOL(__drm_dev_dbg);
- 
--void ___drm_dbg(enum drm_debug_category category, const char *format, ...)
-+void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 7631b5fb669e..46f14cfb401e 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -363,9 +363,10 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
- __printf(3, 4)
- void drm_dev_printk(const struct device *dev, const char *level,
- 		    const char *format, ...);
--__printf(3, 4)
--void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
--		 const char *format, ...);
-+struct _ddebug;
-+__printf(4, 5)
-+void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-+		   enum drm_debug_category category, const char *format, ...);
- 
- /**
-  * DRM_DEV_ERROR() - Error output.
-@@ -415,11 +416,11 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 
- #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
- #define drm_dev_dbg(dev, cat, fmt, ...)				\
--	__drm_dev_dbg(dev, cat, fmt, ##__VA_ARGS__)
-+	__drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
- #else
- #define drm_dev_dbg(dev, cat, fmt, ...)				\
--	_dynamic_func_call_no_desc(fmt, __drm_dev_dbg,			\
--				   dev, cat, fmt, ##__VA_ARGS__)
-+	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,		\
-+			       dev, cat, fmt, ##__VA_ARGS__)
- #endif
- 
- /**
-@@ -523,17 +524,17 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-  * Prefer drm_device based logging over device or prink based logging.
-  */
- 
--__printf(2, 3)
--void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
-+__printf(3, 4)
-+void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...);
- __printf(1, 2)
- void __drm_err(const char *format, ...);
- 
- #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
--#define __drm_dbg(fmt, ...)		___drm_dbg(fmt, ##__VA_ARGS__)
-+#define __drm_dbg(fmt, ...)		___drm_dbg(NULL, fmt, ##__VA_ARGS__)
- #else
- #define __drm_dbg(cat, fmt, ...)					\
--	_dynamic_func_call_no_desc(fmt, ___drm_dbg,			\
--				   cat, fmt, ##__VA_ARGS__)
-+	_dynamic_func_call_cls(cat, fmt, ___drm_dbg,			\
-+			       cat, fmt, ##__VA_ARGS__)
- #endif
- 
- /* Macros to make printk easier */
+ #define nvkm_error_ratelimited(s,f,a...) nvkm_printk((s), ERROR, err_ratelimited, f, ##a)
 -- 
 2.36.1
 
