@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625C557B427
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 11:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CDC57B459
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 12:17:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56EF911B8E3;
-	Wed, 20 Jul 2022 09:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73D611A831;
+	Wed, 20 Jul 2022 10:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA6311B8E3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 09:48:48 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id n12so12491225wrc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 02:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=c+pvmwXxIE3jKXaJBEBBqNcZCeI+2ftzet1Ejv5LXxE=;
- b=Bl/Uxa8xKm77kppS+zbyPUqMX6ThytrscVsgl1YNbRNeKe8x3wNYy9xN2LJQgC4b+m
- CVtxDHN3+NlCmmeGfSPK3c/2bgbcIaqjyJ8UOOrc7fgYnHXVJpL9/jlthv7pWdx9kOH1
- LZ8Ke+TTociEGnkw6Kb2NrqYVzWsyeo9vazoQxsfc7PDfRMUmtJMmZ2JjxhubAt8pfFH
- oIQiGQ/fJdWsK3BswigHb/+Qw2e86Dg2TDS2EAHuCLGkXQC7NROzCqqyLHBKgPM7Xxl8
- znyAJjdKjHqrO6ONRWcA3n3b8veOJmnjbOX7I+MBtOPTMpYlt0dx+flde0eKnhS9oZA+
- 5LkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=c+pvmwXxIE3jKXaJBEBBqNcZCeI+2ftzet1Ejv5LXxE=;
- b=b96HBKgIDQQbPKRyZm6pMa4bYBznt7OinZDtyIHq8MhNlmyU4BECLgRSz8z2xREDZN
- ML8ZL2d2OFjTj8s71NvF5T6g2Nnr4PAREvOXJubdJwCGCl6r6OHmLhoNqcpdAHbAcAdV
- Cyrf570VI1lUg8ITAvdIKxRZSU6/TgNh2AMcI2b7sPsqWBZiyE+ahzJNY9ISvVbMcaWV
- dmJn+l9mWGt8FVJJLG+ixW4hgRc30S8yK8+9zb9POSNtlTMLftRai+aQ2VsJxu9fxVqe
- I6jRkRiQq9zDP66vrjAj+4xLPuBY+ERepAJUqPGQ/IUjePwfWa6r/4cZUWrLAXigjVVW
- +ocg==
-X-Gm-Message-State: AJIora9Vjx4s7AgppsZdv7HGiZlqWLrLuw1Z/g+2qN7U3WscabhkD9Pp
- vfKaNC9xNAnB+l5cE92UtmlIfri3KgfFNC4GmDImSbB45ME=
-X-Google-Smtp-Source: AGRyM1s8IpIYDGuU/DLqKsFdsmyV+rKVmTfi/oduAoH5rNHnTn85/TiMyb4eENWpu+Y5Z15JoqFBASYG/TlH/hH8hGo=
-X-Received: by 2002:a05:6000:98b:b0:21d:b70f:2726 with SMTP id
- by11-20020a056000098b00b0021db70f2726mr29986145wrb.237.1658310526656; Wed, 20
- Jul 2022 02:48:46 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982B311A831;
+ Wed, 20 Jul 2022 10:17:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658312239; x=1689848239;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kbIA9F2nesf8cCzHMeeWiZJ3SXBcx+oFl6bHtEenIGE=;
+ b=P3LSwuF7n1LCcCqertIGfhrD6dTEkiyazcj9wIsmuwZ0zrxb0QhyOks1
+ /xLvd0hubCIovSeB7VDJqoozCjKKqMU0Bjo4hd1RCz7oKnd5uk/ySp8r6
+ 8kHLL1spQafGQG/dGUf3AJ6frCYIV1rWRfzjJu+sxOfJyjWpJOGo0rmSm
+ 4GPWNROlBaec9HNU5UJjcorVNrvvndfhSm+jXl8j1y6Zr82Lc0WlaGqOr
+ Wz6DfqrA8QlECqDhY2x8LhjSMq0EM0DOn+PVc1jaJirjp8VkPs2cTxBJ0
+ TLTsOqgNLzo/TOxIL1wYOZVqIZOOgaGWdriQHo9O1s/ji0pig7ertWBTH g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10413"; a="269764425"
+X-IronPort-AV: E=Sophos;i="5.92,286,1650956400"; d="scan'208";a="269764425"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2022 03:17:19 -0700
+X-IronPort-AV: E=Sophos;i="5.92,286,1650956400"; d="scan'208";a="625604475"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.21.190])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2022 03:17:14 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915/gem: Avoid taking runtime-pm under the shrinker
+Date: Wed, 20 Jul 2022 12:16:51 +0200
+Message-Id: <20220720101652.93293-1-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220715112607.591-1-peterwu.pub@gmail.com>
- <20220715112607.591-12-peterwu.pub@gmail.com>
- <CAHp75VfyVufzf7CK38BVu_j0B4ax_d1gLAGYDE3H1zaKkuUB=A@mail.gmail.com>
- <20220720094510.GA29755@cyhuang-hp-elitebook-840-g3.rt>
-In-Reply-To: <20220720094510.GA29755@cyhuang-hp-elitebook-840-g3.rt>
-From: ChiYuan Huang <u0084500@gmail.com>
-Date: Wed, 20 Jul 2022 17:48:34 +0800
-Message-ID: <CADiBU3_rtVXFX3qdSoc=F-zs9CYiNRmNPOa3RffRJD1Qc5N-bA@mail.gmail.com>
-Subject: Re: [PATCH v5 11/13] leds: mt6370: Add MediaTek MT6370 current sink
- type LED Indicator support
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,238 +53,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=8820=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Fri, Jul 15, 2022 at 08:29:42PM +0200, Andy Shevchenko wrote:
-> > On Fri, Jul 15, 2022 at 1:29 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote=
-:
-> > >
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > >
-> > > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > > charger, a USB Type-C & Power Delivery (PD) controller, dual
-> > > Flash LED current sources, a RGB LED driver, a backlight WLED driver,
-> > > a display bias driver and a general LDO for portable devices.
-> > >
-> > > In MediaTek MT6370, there are four channel current-sink RGB LEDs that
-> > > support hardware pattern for constant current, PWM, and breath mode.
-> > > Isink4 channel can also be used as a CHG_VIN power good indicator.
-> >
-> > ...
-> >
-> > > +         This driver can also be built as a module. If so the module
-> >
-> > so, the
-> >
-> > > +         will be called "leds-mt6370.ko".
-> >
-> > No ".ko".
-> >
-> > Why did you ignore these comments? Please go and fix _everywhere_ in
-> > your series.
-> > It's basically the rule of thumb, if the reviewer gives a comment
-> > against an occurrence of something, go through entire series and check
-> > if there are other places like commented one and address them all.
-> >
-> > ...
-> >
-> > > + * Author: Alice Chen <alice_chen@richtek.com>
-> >
-> > Strange, the commit message doesn't have a corresponding SoB, why?
-> >
-> Yes, there're two authors Alice and me.
-> I'll correct it in next.
-> > ...
-> >
-> > > +#define MT6370_PWM_DUTY                                31
-> > > +#define MT6372_PMW_DUTY                                255
-> >
-> > Looks like these are limits by hardware?
-> > Check with the datasheet if (BIT(x) - 1) makes more sense here.
-> >
-> > ...
-> >
-> > > +       switch (led_no) {
-> > > +       case MT6370_LED_ISNK1:
-> > > +               sel_field =3D F_LED1_DUTY;
-> > > +               break;
-> > > +       case MT6370_LED_ISNK2:
-> > > +               sel_field =3D F_LED2_DUTY;
-> > > +               break;
-> > > +       case MT6370_LED_ISNK3:
-> > > +               sel_field =3D F_LED3_DUTY;
-> > > +               break;
-> > > +       default:
-> > > +               sel_field =3D F_LED4_DUTY;
-> >
-> > Missed break;
-> >
-> > > +       }
-> >
-> > ...
-> >
-> > > +       switch (led_no) {
-> > > +       case MT6370_LED_ISNK1:
-> > > +               sel_field =3D F_LED1_FREQ;
-> > > +               break;
-> > > +       case MT6370_LED_ISNK2:
-> > > +               sel_field =3D F_LED2_FREQ;
-> > > +               break;
-> > > +       case MT6370_LED_ISNK3:
-> > > +               sel_field =3D F_LED3_FREQ;
-> > > +               break;
-> > > +       default:
-> > > +               sel_field =3D F_LED4_FREQ;
-> >
-> > Ditto.
-> >
-> > > +       }
-> >
-> > ...
-> >
-> > > +       switch (led_no) {
-> > > +       case MT6370_LED_ISNK1:
-> > > +       case MT6370_LED_ISNK2:
-> > > +       case MT6370_LED_ISNK3:
-> > > +               *base =3D MT6370_REG_RGB1_TR + led_no * 3;
-> > > +               break;
-> > > +       default:
-> > > +               *base =3D MT6370_REG_RGB_CHRIND_TR;
-> >
-> > Ditto.
-> > It seems you dropped them for all switch-cases. It's not goot, please
-> > restore them back.
-> >
-> > > +       }
-> >
-> > ...
-> >
-> > > +       u8 val[P_MAX_PATTERNS / 2] =3D {0};
-> >
-> > { } should suffice
-> >
-> >
-> In the above range selector, we use the 'logic or' to generate the
-typo, it's 'below'.
-> pattern values.
->
-> If to change it from '{0} to '{ }', is it correct?
-> > > +       /*
-> > > +        * Pattern list
-> > > +        * tr1: byte 0, b'[7: 4]
-> > > +        * tr2: byte 0, b'[3: 0]
-> > > +        * tf1: byte 1, b'[7: 4]
-> > > +        * tf2: byte 1, b'[3: 0]
-> > > +        * ton: byte 2, b'[7: 4]
-> > > +        * toff: byte 2, b'[3: 0]
-> > > +        */
-> > > +       for (i =3D 0; i < P_MAX_PATTERNS; i++) {
-> > > +               curr =3D pattern + i;
-> > > +
-> > > +               sel_range =3D i =3D=3D P_LED_TOFF ? R_LED_TOFF : R_LE=
-D_TRFON;
-> > > +
-> > > +               linear_range_get_selector_within(priv->ranges + sel_r=
-ange,
-> > > +                                                curr->delta_t, &sel)=
-;
-> > > +
-> > > +               val[i / 2] |=3D sel << (4 * ((i + 1) % 2));
-> > > +       }
-> > > +
-> > > +       memcpy(pattern_val, val, 3);
-> > > +       return 0;
-> > > +}
-> >
-> > ...
-> >
-> > > +out:
-> >
-> > out_unlock:
-> >
-> > > +       mutex_unlock(&priv->lock);
-> > > +
-> > > +       return ret;
-> >
-> > ...
-> >
-> > > +out:
-> >
-> > Ditto. And so on.
-> >
-> > > +       mutex_unlock(&priv->lock);
-> > > +
-> > > +       return ret;
-> >
-> > ...
-> >
-> > > +               sub_led =3D devm_kzalloc(priv->dev,
-> > > +                                      sizeof(*sub_led) * MC_CHANNEL_=
-NUM,
-> > > +                                      GFP_KERNEL);
-> >
-> > NIH devm_kcalloc(). Also check if you really need zeroed data.
-> >
-> Ok, and after the check, I also need to add one line to set the intensity=
- to 0.
-> > > +               if (!sub_led)
-> > > +                       return -ENOMEM;
-> >
-> > ...
-> >
-> > > +                       ret =3D fwnode_property_read_u32(child, "colo=
-r", &color);
-> > > +                       if (ret) {
-> > > +                               dev_err(priv->dev,
-> > > +                                       "led %d, no color specified\n=
-",
-> > > +                                       led->index);
-> > > +                               return ret;
-> >
-> > return dev_err_probe(...) ; ?
-> >
-> > Ditto for many places in your entire series.
-> >
-> > > +                       }
-> >
-> > ...
-> >
-> > > +       priv =3D devm_kzalloc(&pdev->dev,
-> > > +                           struct_size(priv, leds, count), GFP_KERNE=
-L);
-> >
-> > At least one parameter can be placed on the previous line.
-> >
-> > > +       if (!priv)
-> > > +               return -ENOMEM;
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
+From: Chris Wilson <chris@chris-wilson.co.uk>
+
+Inside the shrinker, we cannot wake the device as that may cause
+recursion into fs-reclaim, so instead we only unbind vma if the device
+is currently awake. (In order to provide reclaim while asleep, we do
+wake the device up during kswapd -- we probably want to limit that wake
+up if we have anything to shrink though!)
+
+To avoid the same fs_reclaim recursion potential during
+i915_gem_object_unbind, we acquire a wakeref there, see commit
+3e817471a34c ("drm/i915/gem: Take runtime-pm wakeref prior to unbinding").
+However, we use i915_gem_object_unbind from the shrinker path to make the
+object available for shrinking and so we must make the wakeref acquisition
+here conditional.
+
+<4> [437.542172] ======================================================
+<4> [437.542174] WARNING: possible circular locking dependency detected
+<4> [437.542176] 5.19.0-rc6-CI_DRM_11876-g2305e0d00665+ #1 Tainted: G     U
+<4> [437.542179] ------------------------------------------------------
+<4> [437.542181] kswapd0/93 is trying to acquire lock:
+<4> [437.542183] ffffffff827a7608 (acpi_wakeup_lock){+.+.}-{3:3}, at: acpi_device_wakeup_disable+0x12/0x50
+<4> [437.542191]
+but task is already holding lock:
+<4> [437.542194] ffffffff8275d360 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x91/0x5c0
+<4> [437.542199]
+which lock already depends on the new lock.
+<4> [437.542202]
+the existing dependency chain (in reverse order) is:
+<4> [437.542204]
+-> #2 (fs_reclaim){+.+.}-{0:0}:
+<4> [437.542207]        fs_reclaim_acquire+0x9d/0xd0
+<4> [437.542211]        kmem_cache_alloc_trace+0x2a/0x250
+<4> [437.542214]        __acpi_device_add+0x263/0x3a0
+<4> [437.542217]        acpi_add_single_object+0x3ea/0x710
+<4> [437.542220]        acpi_bus_check_add+0xf7/0x240
+<4> [437.542222]        acpi_bus_scan+0x34/0xf0
+<4> [437.542224]        acpi_scan_init+0xf5/0x241
+<4> [437.542228]        acpi_init+0x449/0x4aa
+<4> [437.542230]        do_one_initcall+0x53/0x2e0
+<4> [437.542233]        kernel_init_freeable+0x18f/0x1dd
+<4> [437.542236]        kernel_init+0x11/0x110
+<4> [437.542239]        ret_from_fork+0x1f/0x30
+<4> [437.542241]
+-> #1 (acpi_device_lock){+.+.}-{3:3}:
+<4> [437.542245]        __mutex_lock+0x97/0xf20
+<4> [437.542246]        acpi_enable_wakeup_device_power+0x30/0xf0
+<4> [437.542249]        __acpi_device_wakeup_enable+0x31/0x110
+<4> [437.542252]        acpi_pm_set_device_wakeup+0x55/0x100
+<4> [437.542254]        __pci_enable_wake+0x5e/0xa0
+<4> [437.542257]        pci_finish_runtime_suspend+0x32/0x70
+<4> [437.542259]        pci_pm_runtime_suspend+0xa3/0x160
+<4> [437.542262]        __rpm_callback+0x3d/0x110
+<4> [437.542265]        rpm_callback+0x54/0x60
+<4> [437.542268]        rpm_suspend.part.10+0x105/0x5a0
+<4> [437.542270]        pm_runtime_work+0x7d/0x1e0
+<4> [437.542273]        process_one_work+0x272/0x5c0
+<4> [437.542276]        worker_thread+0x37/0x370
+<4> [437.542278]        kthread+0xed/0x120
+<4> [437.542280]        ret_from_fork+0x1f/0x30
+<4> [437.542282]
+-> #0 (acpi_wakeup_lock){+.+.}-{3:3}:
+<4> [437.542285]        __lock_acquire+0x15ad/0x2940
+<4> [437.542288]        lock_acquire+0xd3/0x310
+<4> [437.542291]        __mutex_lock+0x97/0xf20
+<4> [437.542293]        acpi_device_wakeup_disable+0x12/0x50
+<4> [437.542295]        acpi_pm_set_device_wakeup+0x6e/0x100
+<4> [437.542297]        __pci_enable_wake+0x73/0xa0
+<4> [437.542300]        pci_pm_runtime_resume+0x45/0x90
+<4> [437.542302]        __rpm_callback+0x3d/0x110
+<4> [437.542304]        rpm_callback+0x54/0x60
+<4> [437.542307]        rpm_resume+0x54f/0x750
+<4> [437.542309]        __pm_runtime_resume+0x42/0x80
+<4> [437.542311]        __intel_runtime_pm_get+0x19/0x80 [i915]
+<4> [437.542386]        i915_gem_object_unbind+0x8f/0x3b0 [i915]
+<4> [437.542487]        i915_gem_shrink+0x634/0x850 [i915]
+<4> [437.542584]        i915_gem_shrinker_scan+0x3a/0xc0 [i915]
+<4> [437.542679]        shrink_slab.constprop.97+0x1a4/0x4f0
+<4> [437.542684]        shrink_node+0x21e/0x420
+<4> [437.542687]        balance_pgdat+0x241/0x5c0
+<4> [437.542690]        kswapd+0x229/0x4f0
+<4> [437.542694]        kthread+0xed/0x120
+<4> [437.542697]        ret_from_fork+0x1f/0x30
+<4> [437.542701]
+other info that might help us debug this:
+<4> [437.542705] Chain exists of:
+  acpi_wakeup_lock --> acpi_device_lock --> fs_reclaim
+<4> [437.542713]  Possible unsafe locking scenario:
+<4> [437.542716]        CPU0                    CPU1
+<4> [437.542719]        ----                    ----
+<4> [437.542721]   lock(fs_reclaim);
+<4> [437.542725]                                lock(acpi_device_lock);
+<4> [437.542728]                                lock(fs_reclaim);
+<4> [437.542732]   lock(acpi_wakeup_lock);
+<4> [437.542736]
+ *** DEADLOCK ***
+
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/6449
+Fixes: 3e817471a34c ("drm/i915/gem: Take runtime-pm wakeref prior to unbinding")
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: <stable@vger.kernel.org> # v5.6+
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_gem.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 702e5b89be22..910a6fde5726 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -119,8 +119,8 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+ {
+ 	struct intel_runtime_pm *rpm = &to_i915(obj->base.dev)->runtime_pm;
+ 	bool vm_trylock = !!(flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
++	intel_wakeref_t wakeref = 0;
+ 	LIST_HEAD(still_in_list);
+-	intel_wakeref_t wakeref;
+ 	struct i915_vma *vma;
+ 	int ret;
+ 
+@@ -135,7 +135,8 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+ 	 * as they are required by the shrinker. Ergo, we wake the device up
+ 	 * first just in case.
+ 	 */
+-	wakeref = intel_runtime_pm_get(rpm);
++	if (!(flags & I915_GEM_OBJECT_UNBIND_TEST))
++		wakeref = intel_runtime_pm_get(rpm);
+ 
+ try_again:
+ 	ret = 0;
+@@ -200,7 +201,8 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+ 		goto try_again;
+ 	}
+ 
+-	intel_runtime_pm_put(rpm, wakeref);
++	if (wakeref)
++		intel_runtime_pm_put(rpm, wakeref);
+ 
+ 	return ret;
+ }
+-- 
+2.25.1
+
