@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC3E57B807
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 16:02:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F35A57B808
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 16:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 953CC1131B2;
-	Wed, 20 Jul 2022 14:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC928113EB9;
+	Wed, 20 Jul 2022 14:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A65B711B1A5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 14:02:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F37113CC7
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 14:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658325743;
+ s=mimecast20190719; t=1658325753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f5+OHAHK2VLcrnL1KSJdq9/Govt0hy/raOewuyTrtrI=;
- b=M+BkDi2AkhucMsTCJNOUc6eJSR2ucx8e9N7Z0ZecyPeXe/Fwt23fHfavyF5PjSVaQVg+I1
- 4Ncr8+xtC1xRJbvVf8hyYdN5TAF/dQ4rYwF0gDfZ4wNEfATbD6KlCYQRN52v6SvYGEHcMs
- cGJPIGgKg5MVCAEEoBYbTByu90rhms4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=X16iBV7KhZ9Ln6lEGuQir3iZX0VSxdQjWbZR3Ippd7s=;
+ b=O0uQyRE0kUQJVnw87K/BD1/r9XCn/B9ExsLWjTGp84+jltmIdci5Js4H/rOcxST/CwK1g5
+ ebpA+rGo21z2Omvhn7EsSkutZlUXSQ+bh+0aOyvWyDJVdrk+iwexZGoyM/IJ7bgMGf7Og/
+ kQGtzxxJSYDGN3Twge5FebSZlSBXWZc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-UFqqHj0wM1Og0l3FWvLtyg-1; Wed, 20 Jul 2022 10:02:22 -0400
-X-MC-Unique: UFqqHj0wM1Og0l3FWvLtyg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- t5-20020a056402524500b0043a923324b2so12304029edd.22
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 07:02:22 -0700 (PDT)
+ us-mta-437-XiBiyIZFOoWtHeoJ2Pm64g-1; Wed, 20 Jul 2022 10:02:24 -0400
+X-MC-Unique: XiBiyIZFOoWtHeoJ2Pm64g-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ji2-20020a170907980200b0072b5b6d60c2so4150023ejc.22
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 07:02:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f5+OHAHK2VLcrnL1KSJdq9/Govt0hy/raOewuyTrtrI=;
- b=OkX7f9shLlCRL4Z3oDSRYsaDT8zZmWdywJOhxchX3naoE1UTmMqX/kyWOkjCDa0SXn
- AaO2IactKwuBZ6PU0dEF0H6ZxQ5zOYSxBYeRqkpvINW8rNc9NefAT2VhND1ExtWGxutc
- 2JQWtFJvqdWLSy+MOpBbSLOe5Od1X50/P+tW8YlXjsHINhuKEuBgpv3dgKH+v/yq5Qal
- 4OQotycpS+ni7lvM+WoMyf1khundR524LtMaKmhRSyFn/PaGA/mrFXxHiCQD9QbJY6jj
- VpgqqsqrovKzlsi/EMD9CZcqs3Va+JMoG5mmGlQItqcsos/WP89XxJc89fNHGZlNEuou
- qVtg==
-X-Gm-Message-State: AJIora/m4Alfd6S5xD2Nme8B7mFNlGmi4twyOWfs0p5DuLUj3pX+7fh1
- ys8GM686dl0waY/PwzBQx5YVLUpKtuOia/Vv1QCDWWZRYJeDe8uMUByXMZPstxSF4PgpEg/40fK
- oDZUf2CXgdSZ7YHnfKXbM0ENgi9gr
-X-Received: by 2002:a17:907:2e02:b0:72b:7f58:34a7 with SMTP id
- ig2-20020a1709072e0200b0072b7f5834a7mr35386132ejc.525.1658325740934; 
- Wed, 20 Jul 2022 07:02:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vq2IV3yyjMp7raLEq7mPapfKG0of5mKXfvebNU8xf13qtjH+eOAFM2FVlEqO4W2e6ym12V8w==
-X-Received: by 2002:a17:907:2e02:b0:72b:7f58:34a7 with SMTP id
- ig2-20020a1709072e0200b0072b7f5834a7mr35386116ejc.525.1658325740745; 
- Wed, 20 Jul 2022 07:02:20 -0700 (PDT)
+ bh=X16iBV7KhZ9Ln6lEGuQir3iZX0VSxdQjWbZR3Ippd7s=;
+ b=rdiP19Jd90IJ8kXpqrRDe73VdY7OBuOEWBz+QjW31mK1AjU599gvrDdvkpmxXbBLYz
+ M0wqeAmm03w+0TutRreI2n+VgH9NssssMLhk/R+6OrsqCQ9yqlLesubfaXHNZpM3PUiT
+ H4DhMZ1BCFxiBeZcJ6rTJXgekaOmxJSEBTa50t3+nKYEb2oFsJKgyP7w/P2m0cQSRqxL
+ Mt/Rf05Ii3Qxz0jrfTbG2mUmuJLzf6W7DEGIefRgA5Wg31rZq0A0k5Ld0GpCpZJH35GD
+ YkSDJ436sGRVZyORk/rOcOFupjNAVpjCk1b5QB4ihki9Fc8PDxGnGfhW/0h0jwybUV83
+ oeSQ==
+X-Gm-Message-State: AJIora863GyTURfdxlK6nnWzj+Tat1lvNIR8RkGa22cQNJFS8bzXyy2C
+ 2sY6U/2/LTogz1EtMHaK2eAE0xwXRSOcVF/IFWkRDzMWIFXv03yqbLjacC3G82C+FaWdhKI8+eD
+ lbEa/1ES3hbXhdee0gqUjI6jUVyZT
+X-Received: by 2002:a17:906:1315:b0:72c:5348:a153 with SMTP id
+ w21-20020a170906131500b0072c5348a153mr34052686ejb.446.1658325742151; 
+ Wed, 20 Jul 2022 07:02:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sTF7B8ym8e4HRk24BL/G1Q9N7qi8twp5++akqwci39QfFH+fylqNPAfnonNrtNAQKhrRQdUQ==
+X-Received: by 2002:a17:906:1315:b0:72c:5348:a153 with SMTP id
+ w21-20020a170906131500b0072c5348a153mr34052675ejb.446.1658325741955; 
+ Wed, 20 Jul 2022 07:02:21 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- f13-20020a170906560d00b006fee98045cdsm8053040ejq.10.2022.07.20.07.02.19
+ f13-20020a170906560d00b006fee98045cdsm8053040ejq.10.2022.07.20.07.02.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 07:02:20 -0700 (PDT)
+ Wed, 20 Jul 2022 07:02:21 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@linux.ie,
 	daniel@ffwll.ch,
 	kraxel@redhat.com
-Subject: [PATCH RESEND 1/2] drm/virtio: plane: use drm managed resources
-Date: Wed, 20 Jul 2022 16:02:13 +0200
-Message-Id: <20220720140214.199492-2-dakr@redhat.com>
+Subject: [PATCH RESEND 2/2] drm/virtio: kms: use drm managed resources
+Date: Wed, 20 Jul 2022 16:02:14 +0200
+Message-Id: <20220720140214.199492-3-dakr@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720140214.199492-1-dakr@redhat.com>
 References: <20220720140214.199492-1-dakr@redhat.com>
@@ -91,73 +91,77 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm managed resource allocation (drmm_universal_plane_alloc()) in
-order to cleanup/simplify drm plane .destroy callback.
+Allocate driver structures with drm managed resource allocators in order
+to cleanup/simplify the drm driver .release callback.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_plane.c | 30 +++++++-------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 6d3cc9e238a4..3008551d6a05 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -67,16 +67,10 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
- 	return format;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 3313b92db531..63ebe63ef409 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -28,6 +28,7 @@
+ #include <linux/virtio_ring.h>
+ 
+ #include <drm/drm_file.h>
++#include <drm/drm_managed.h>
+ 
+ #include "virtgpu_drv.h"
+ 
+@@ -66,10 +67,11 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
+ {
+ 	int i, ret;
+ 	bool invalid_capset_id = false;
++	struct drm_device *drm = vgdev->ddev;
+ 
+-	vgdev->capsets = kcalloc(num_capsets,
+-				 sizeof(struct virtio_gpu_drv_capset),
+-				 GFP_KERNEL);
++	vgdev->capsets = drmm_kcalloc(drm, num_capsets,
++				      sizeof(struct virtio_gpu_drv_capset),
++				      GFP_KERNEL);
+ 	if (!vgdev->capsets) {
+ 		DRM_ERROR("failed to allocate cap sets\n");
+ 		return;
+@@ -94,7 +96,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
+ 
+ 		if (ret == 0 || invalid_capset_id) {
+ 			spin_lock(&vgdev->display_info_lock);
+-			kfree(vgdev->capsets);
++			drmm_kfree(drm, vgdev->capsets);
+ 			vgdev->capsets = NULL;
+ 			spin_unlock(&vgdev->display_info_lock);
+ 			return;
+@@ -126,7 +128,7 @@ int virtio_gpu_init(struct drm_device *dev)
+ 	if (!virtio_has_feature(dev_to_virtio(dev->dev), VIRTIO_F_VERSION_1))
+ 		return -ENODEV;
+ 
+-	vgdev = kzalloc(sizeof(struct virtio_gpu_device), GFP_KERNEL);
++	vgdev = drmm_kzalloc(dev, sizeof(struct virtio_gpu_device), GFP_KERNEL);
+ 	if (!vgdev)
+ 		return -ENOMEM;
+ 
+@@ -257,7 +259,6 @@ int virtio_gpu_init(struct drm_device *dev)
+ 	vgdev->vdev->config->del_vqs(vgdev->vdev);
+ err_vqs:
+ 	dev->dev_private = NULL;
+-	kfree(vgdev);
+ 	return ret;
  }
  
--static void virtio_gpu_plane_destroy(struct drm_plane *plane)
--{
--	drm_plane_cleanup(plane);
--	kfree(plane);
--}
--
- static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
--	.destroy		= virtio_gpu_plane_destroy,
-+	.destroy		= drm_plane_cleanup,
- 	.reset			= drm_atomic_helper_plane_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-@@ -379,11 +373,7 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
- 	const struct drm_plane_helper_funcs *funcs;
- 	struct drm_plane *plane;
- 	const uint32_t *formats;
--	int ret, nformats;
--
--	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
--	if (!plane)
--		return ERR_PTR(-ENOMEM);
-+	int nformats;
+@@ -296,9 +297,6 @@ void virtio_gpu_release(struct drm_device *dev)
  
- 	if (type == DRM_PLANE_TYPE_CURSOR) {
- 		formats = virtio_gpu_cursor_formats;
-@@ -394,17 +384,13 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
- 		nformats = ARRAY_SIZE(virtio_gpu_formats);
- 		funcs = &virtio_gpu_primary_helper_funcs;
- 	}
--	ret = drm_universal_plane_init(dev, plane, 1 << index,
--				       &virtio_gpu_plane_funcs,
--				       formats, nformats,
--				       NULL, type, NULL);
--	if (ret)
--		goto err_plane_init;
-+
-+	plane = drmm_universal_plane_alloc(dev, struct drm_plane, dev,
-+					   1 << index, &virtio_gpu_plane_funcs,
-+					   formats, nformats, NULL, type, NULL);
-+	if (IS_ERR(plane))
-+		return plane;
- 
- 	drm_plane_helper_add(plane, funcs);
- 	return plane;
+ 	if (vgdev->has_host_visible)
+ 		drm_mm_takedown(&vgdev->host_visible_mm);
 -
--err_plane_init:
--	kfree(plane);
--	return ERR_PTR(ret);
+-	kfree(vgdev->capsets);
+-	kfree(vgdev);
  }
+ 
+ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
 -- 
 2.36.1
 
