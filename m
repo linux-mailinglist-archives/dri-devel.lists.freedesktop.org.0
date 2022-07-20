@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9EB57ABCC
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 03:17:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3104357ABD0
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 03:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DDD014B25B;
-	Wed, 20 Jul 2022 01:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFB114B2C0;
+	Wed, 20 Jul 2022 01:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B52214AC01
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 01:17:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 697E414B2C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 01:17:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BFFBF6176F;
- Wed, 20 Jul 2022 01:17:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10FE5C341CF;
- Wed, 20 Jul 2022 01:17:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A99AD61730;
+ Wed, 20 Jul 2022 01:17:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2AC9C341CE;
+ Wed, 20 Jul 2022 01:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1658279824;
+ s=k20201202; t=1658279876;
  bh=A5NFtvWb2evrSfDZEiMFR1HpaxU2coNuc1Yos5cA4Jk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AAxxzGSwbZix1oLHY+a5Zf/9p5ppL2bSMHGIe/FHY+E+QGgYjM9WqYT/JhnLffn5j
- efd4vVcVnu1PMqoSDgBG/YUfs1VHMBCkk7uMVxwF7PZ+PrCIg4/EiMcut82Kdo2Z8E
- rcxhjGrTz/fL8UJ9wLAmsbdp5aaPPI4EhVgTlj1L5Yu+c6bIp4NYNG9YyKsATBcLcC
- zmocIMey00tlG58vRjEnEHLdFNNx+XPxoGGmb9UhXaoOTHLpqFtpSE9f9A5bKS6wQx
- rXAm+MtT3e9eOAJekPsVLUheCLPR2KXMPJ2ZNhZZu0zno4YiLtlr4fcNuFM6J7MbQD
- umV3dchY0Mt0A==
+ b=DM3l7y5hNwIjmKOtopdSLX2RFqL0/Gms75P0HvYBDcOYaDHg/z8hcsicCbwNZy0PL
+ UIyy5ZiWkw+l+/svfeAKNl5+0Kdl+gBGd6eT2VlrTQCiZiWF5VZvBD7U4xu1Qe8+/9
+ zAUiw1tPZGeWTnTIyTS7K4zNB/9b+sMo4mFAAOSiP0gSHzqEQ2inz4xvbvoA6ZIekG
+ VLRFvPUtAoHPy595SqQ1NoWt8ROggNAj0i4t4d7i8YnNZHQqWpJB6B1TwRCXvHeTzZ
+ yK/a/SxOXoXCC/UywdgfFLSeTCp0VqgRky7ADaERTW7zB4XDOuD4dXon74N6dBsr1d
+ tS8KU0BTZXzNg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/25] drm: panel-orientation-quirks: Add quirk
+Subject: [PATCH AUTOSEL 5.4 08/16] drm: panel-orientation-quirks: Add quirk
  for the Lenovo Yoga Tablet 2 830
-Date: Tue, 19 Jul 2022 21:16:04 -0400
-Message-Id: <20220720011616.1024753-13-sashal@kernel.org>
+Date: Tue, 19 Jul 2022 21:17:22 -0400
+Message-Id: <20220720011730.1025099-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220720011616.1024753-1-sashal@kernel.org>
-References: <20220720011616.1024753-1-sashal@kernel.org>
+In-Reply-To: <20220720011730.1025099-1-sashal@kernel.org>
+References: <20220720011730.1025099-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
