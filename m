@@ -1,79 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F35A57B808
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 16:02:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD04657B87F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 16:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC928113EB9;
-	Wed, 20 Jul 2022 14:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDA348BB43;
+	Wed, 20 Jul 2022 14:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F37113CC7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 14:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658325753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X16iBV7KhZ9Ln6lEGuQir3iZX0VSxdQjWbZR3Ippd7s=;
- b=O0uQyRE0kUQJVnw87K/BD1/r9XCn/B9ExsLWjTGp84+jltmIdci5Js4H/rOcxST/CwK1g5
- ebpA+rGo21z2Omvhn7EsSkutZlUXSQ+bh+0aOyvWyDJVdrk+iwexZGoyM/IJ7bgMGf7Og/
- kQGtzxxJSYDGN3Twge5FebSZlSBXWZc=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-437-XiBiyIZFOoWtHeoJ2Pm64g-1; Wed, 20 Jul 2022 10:02:24 -0400
-X-MC-Unique: XiBiyIZFOoWtHeoJ2Pm64g-1
-Received: by mail-ej1-f72.google.com with SMTP id
- ji2-20020a170907980200b0072b5b6d60c2so4150023ejc.22
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 07:02:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=X16iBV7KhZ9Ln6lEGuQir3iZX0VSxdQjWbZR3Ippd7s=;
- b=rdiP19Jd90IJ8kXpqrRDe73VdY7OBuOEWBz+QjW31mK1AjU599gvrDdvkpmxXbBLYz
- M0wqeAmm03w+0TutRreI2n+VgH9NssssMLhk/R+6OrsqCQ9yqlLesubfaXHNZpM3PUiT
- H4DhMZ1BCFxiBeZcJ6rTJXgekaOmxJSEBTa50t3+nKYEb2oFsJKgyP7w/P2m0cQSRqxL
- Mt/Rf05Ii3Qxz0jrfTbG2mUmuJLzf6W7DEGIefRgA5Wg31rZq0A0k5Ld0GpCpZJH35GD
- YkSDJ436sGRVZyORk/rOcOFupjNAVpjCk1b5QB4ihki9Fc8PDxGnGfhW/0h0jwybUV83
- oeSQ==
-X-Gm-Message-State: AJIora863GyTURfdxlK6nnWzj+Tat1lvNIR8RkGa22cQNJFS8bzXyy2C
- 2sY6U/2/LTogz1EtMHaK2eAE0xwXRSOcVF/IFWkRDzMWIFXv03yqbLjacC3G82C+FaWdhKI8+eD
- lbEa/1ES3hbXhdee0gqUjI6jUVyZT
-X-Received: by 2002:a17:906:1315:b0:72c:5348:a153 with SMTP id
- w21-20020a170906131500b0072c5348a153mr34052686ejb.446.1658325742151; 
- Wed, 20 Jul 2022 07:02:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sTF7B8ym8e4HRk24BL/G1Q9N7qi8twp5++akqwci39QfFH+fylqNPAfnonNrtNAQKhrRQdUQ==
-X-Received: by 2002:a17:906:1315:b0:72c:5348:a153 with SMTP id
- w21-20020a170906131500b0072c5348a153mr34052675ejb.446.1658325741955; 
- Wed, 20 Jul 2022 07:02:21 -0700 (PDT)
-Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- f13-20020a170906560d00b006fee98045cdsm8053040ejq.10.2022.07.20.07.02.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 07:02:21 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch,
-	kraxel@redhat.com
-Subject: [PATCH RESEND 2/2] drm/virtio: kms: use drm managed resources
-Date: Wed, 20 Jul 2022 16:02:14 +0200
-Message-Id: <20220720140214.199492-3-dakr@redhat.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 580178B03A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 14:27:38 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2C9DC34851;
+ Wed, 20 Jul 2022 14:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658327254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=ndyTqgDHrwAnRGiKTFcM0pUlQ6zCKyLMtSPcv3dUEvI=;
+ b=foVbmkvsWdvUGChCCXU0jXpKoN76BNS/M252S4BtEOB1pY19WzLPmvlFbJOXL1sSHiPyWZ
+ L9e1sqdkz/rLs5qOCErxAUzERLr/F7uq/xe13EwhmJ4L8TJchu+iJ4Pi/dNHO8jKc98wIe
+ DTEoLyxLyAqusSbMDN0zt65CwhuCDWg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658327254;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=ndyTqgDHrwAnRGiKTFcM0pUlQ6zCKyLMtSPcv3dUEvI=;
+ b=pZY0KCwwddwZRf0uPX+Z3MZHcVpvAbibSGhx3s4tDi0jFFZfclFKR8NaYAA8TxWpTBKQyn
+ mF2LoWhv56JVVECg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D75A713AAD;
+ Wed, 20 Jul 2022 14:27:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id mvSsM9UQ2GLfHgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Jul 2022 14:27:33 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de,
+ maxime@cerno.tech, sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au,
+ benh@kernel.crashing.org, paulus@samba.org, geert@linux-m68k.org,
+ mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v2 00/10] drm: Add driver for PowerPC OF displays
+Date: Wed, 20 Jul 2022 16:27:22 +0200
+Message-Id: <20220720142732.32041-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220720140214.199492-1-dakr@redhat.com>
-References: <20220720140214.199492-1-dakr@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dakr@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,82 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allocate driver structures with drm managed resource allocators in order
-to cleanup/simplify the drm driver .release callback.
+(was: drm: Add driverof PowerPC OF displays)
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/virtio/virtgpu_kms.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+PowerPC's Open Firmware offers a simple display buffer for graphics
+output. Add ofdrm, a DRM driver for the device. As with the existing
+simpledrm driver, the graphics hardware is pre-initialized by the
+firmware. The driver only provides blitting, no actual DRM modesetting
+is possible.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 3313b92db531..63ebe63ef409 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -28,6 +28,7 @@
- #include <linux/virtio_ring.h>
- 
- #include <drm/drm_file.h>
-+#include <drm/drm_managed.h>
- 
- #include "virtgpu_drv.h"
- 
-@@ -66,10 +67,11 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- {
- 	int i, ret;
- 	bool invalid_capset_id = false;
-+	struct drm_device *drm = vgdev->ddev;
- 
--	vgdev->capsets = kcalloc(num_capsets,
--				 sizeof(struct virtio_gpu_drv_capset),
--				 GFP_KERNEL);
-+	vgdev->capsets = drmm_kcalloc(drm, num_capsets,
-+				      sizeof(struct virtio_gpu_drv_capset),
-+				      GFP_KERNEL);
- 	if (!vgdev->capsets) {
- 		DRM_ERROR("failed to allocate cap sets\n");
- 		return;
-@@ -94,7 +96,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 
- 		if (ret == 0 || invalid_capset_id) {
- 			spin_lock(&vgdev->display_info_lock);
--			kfree(vgdev->capsets);
-+			drmm_kfree(drm, vgdev->capsets);
- 			vgdev->capsets = NULL;
- 			spin_unlock(&vgdev->display_info_lock);
- 			return;
-@@ -126,7 +128,7 @@ int virtio_gpu_init(struct drm_device *dev)
- 	if (!virtio_has_feature(dev_to_virtio(dev->dev), VIRTIO_F_VERSION_1))
- 		return -ENODEV;
- 
--	vgdev = kzalloc(sizeof(struct virtio_gpu_device), GFP_KERNEL);
-+	vgdev = drmm_kzalloc(dev, sizeof(struct virtio_gpu_device), GFP_KERNEL);
- 	if (!vgdev)
- 		return -ENOMEM;
- 
-@@ -257,7 +259,6 @@ int virtio_gpu_init(struct drm_device *dev)
- 	vgdev->vdev->config->del_vqs(vgdev->vdev);
- err_vqs:
- 	dev->dev_private = NULL;
--	kfree(vgdev);
- 	return ret;
- }
- 
-@@ -296,9 +297,6 @@ void virtio_gpu_release(struct drm_device *dev)
- 
- 	if (vgdev->has_host_visible)
- 		drm_mm_takedown(&vgdev->host_visible_mm);
--
--	kfree(vgdev->capsets);
--	kfree(vgdev);
- }
- 
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
+Version 2 of this patchset starts by cleaning up and refactoring
+simpledrm, and moving some of the code in a helper library. These
+functions are useful for ofdrm as well.
+
+Patch 7 adds ofdrm, which has been significantly reworked since v1.
+PCI is now optional and COMPILE_TEST is supported.
+
+Patches 8 to 10 add support for color management. The code has been
+taken from fbdev's offb. I have no hardware available for testing the
+functionality. Qemu's stdvga apparently does not support gamma tables
+in RGB modes. I verified that the color management code is executed
+by running Gnome's night-mode settings, but the display's color tone
+does not change.
+
+Thomas Zimmermann (10):
+  drm/simpledrm: Remove mem field from device structure
+  drm/simpledrm: Inline device-init helpers
+  drm/simpledrm: Remove pdev field from device structure
+  drm/simpledrm: Compute framebuffer stride if not set
+  drm/simpledrm: Convert to atomic helpers
+  drm/simpledrm: Move some functionality into fwfb helper library
+  drm/ofdrm: Add ofdrm for Open Firmware framebuffers
+  drm/ofdrm: Add CRTC state
+  drm/ofdrm: Add per-model device function
+  drm/ofdrm: Support color management
+
+ Documentation/gpu/drm-kms-helpers.rst |   12 +
+ MAINTAINERS                           |    3 +
+ drivers/gpu/drm/Kconfig               |    6 +
+ drivers/gpu/drm/Makefile              |    3 +-
+ drivers/gpu/drm/drm_fwfb_helper.c     |  301 ++++++
+ drivers/gpu/drm/tiny/Kconfig          |   15 +
+ drivers/gpu/drm/tiny/Makefile         |    1 +
+ drivers/gpu/drm/tiny/ofdrm.c          | 1301 +++++++++++++++++++++++++
+ drivers/gpu/drm/tiny/simpledrm.c      |  588 +++++------
+ drivers/video/fbdev/Kconfig           |    1 +
+ include/drm/drm_fwfb_helper.h         |   51 +
+ 11 files changed, 1949 insertions(+), 333 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fwfb_helper.c
+ create mode 100644 drivers/gpu/drm/tiny/ofdrm.c
+ create mode 100644 include/drm/drm_fwfb_helper.h
+
 -- 
 2.36.1
 
