@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4726157BA4E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:35:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF6857BA57
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:35:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 302998F51A;
-	Wed, 20 Jul 2022 15:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8118F462;
+	Wed, 20 Jul 2022 15:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
- [IPv6:2607:f8b0:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E21E8F42E;
- Wed, 20 Jul 2022 15:33:29 +0000 (UTC)
-Received: by mail-il1-x12c.google.com with SMTP id v1so5831781ilg.4;
- Wed, 20 Jul 2022 08:33:29 -0700 (PDT)
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749598F458;
+ Wed, 20 Jul 2022 15:33:30 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id n7so14537987ioo.7;
+ Wed, 20 Jul 2022 08:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jNKkCgLqEI2boDLpZwejJXZn34G9kSTsspfFnsYp3v8=;
- b=fPXmbKLVj6sd3Rl6v/FP9ACdjwbbyyM5C58a4BuD6kJfihZgU8a0/6TUAi+purgcyW
- aXo+zsOzhQu/FqRwKDB7ekBxd8efYNKIwHBXOL2WVviT2zRrz+YRtl38Jno3GVz0/Gj4
- KQJTu1J0wwMB+7+bAQUZXCGE0lM8PjgzaXcJkE0I6LLQm3aEiHrZzDQIZIB8XtXk6/G5
- R3SEXdmZtcEie/RBVinlb+StrNyobbDDBIqi9GUY6NaTBmTcWvNmLtLQNGcr10CK3OVY
- Q4USP8xJHEGqEstuHwQTfDXdZ2rONMNtF+1xc5LzxtH7mFL00ApjQyocE0yMc7MWzZzp
- ftCQ==
+ bh=8gGCI0m8r004HoJxLqXDC1X1/A0StWSdDwFBgrxhMVw=;
+ b=pP2Ch0j9cYaoD7HNPrfmuREfrAWXaQ/J4R0E4D2FCLxzhANm3RSYZMrCA2VL0lwqZ1
+ 6YUt2PtWF++HKEmQiGU4jG8EXsPHNS/MZyoTrr96/Z60Tuw8iP6r+vakdLkWa2iOruFx
+ eGhhveZWTc0Ij4Uih1yDjplRus4eHzl6CVxeLQopygGNbP7ItPiZMix4ipZ1oH+PGsZd
+ ZQrMgFjhVOb5L12b+wX4vS1PFG8yiDKtPOWdVfxWmrrISDxdTUKwd4yxwhyviNzxtv/j
+ 1MYu+58fSB+/+rSHdYXCwpa9zav6gmoh+DEdfUfHJNRo1SZoB+ipyuToDUlY5g3nSbvh
+ pnyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jNKkCgLqEI2boDLpZwejJXZn34G9kSTsspfFnsYp3v8=;
- b=vn7eExtkTNRk/TuDdD44hOhNOgFyoNf4KJ9wdkEI4wiER7nMx0lDVg96RVGm6ElL5T
- 9tzKIs9V+c0XVYmTHMPxOCOWXkGy3W9jhr7SQmnMUHfH+U5PvUAJ/22IpOcNCDW8w2+5
- swUAnR4oZdwOmFdDGtkzPdVG5sYR/Q9gEYKAmPZ2xkACasGvqQ2Yqakmxmv4Cwao7d4f
- VWa6rqb0zBkfMgQ5HIxw2CKQN0A/2OW5n7T+P/EUAxMlwHPlIry4YnEuB3E8AwjN4O1v
- ZP6l9ldcS+lMH2DaqyTLtNY1Dj+q4Ago4jLGOR2HSQ3miHpwa1lj95yd1or2p3u+ZQTl
- JHkA==
-X-Gm-Message-State: AJIora8w1Pdgnm+UxthKHkC9m2yWSW63OwkiKVkwDQ/arqKOKReHxzqG
- azUmuvMEhtWFgNxuH69QM0T//Q1dMHEncw==
-X-Google-Smtp-Source: AGRyM1uc5RIU6uMLg1JdTORETHn7tJ5LThV8xarABZP+cochEvseCKBW8m9RSsexUeky5GDYsIVjyQ==
-X-Received: by 2002:a92:d14f:0:b0:2dd:12a:f93c with SMTP id
- t15-20020a92d14f000000b002dd012af93cmr4000142ilg.121.1658331208155; 
- Wed, 20 Jul 2022 08:33:28 -0700 (PDT)
+ bh=8gGCI0m8r004HoJxLqXDC1X1/A0StWSdDwFBgrxhMVw=;
+ b=u90hGnkCnaVaDhpHjjnKhGmvQBRE/ek+gVPVaydiRCtn+4IWk2FokVp1/hzT5wM/e4
+ 11pWLdzWzVN02zwO663n7QYwAXhrTQZ3wOIjtfLRgpkLLqxF143Oqo8yOxD9xdJJoDNf
+ QsEnJBj1X7TfUJQmBE6VyZ1Xrx8sii55BHfb53uBeXOA5VIOhtOHCRIBaX1XBTHRCZhy
+ JdgMNKzja3ySUKpK6LRMLV7edhmEsViVbT5g+fNYCbFBEyopAoiK0KL6voNxdWmNQoy2
+ 8ZhIY7XkG0eqzMRHHV96auXtGIvhkZZO3eZFEh3nRg42+XpyKF8oWHmuBQnkDye2AXc/
+ 0JEg==
+X-Gm-Message-State: AJIora+Pt9NGJFCILfkpXDq7VEo11klK0Kb4XSUVBcvt19mtrFLKQAQA
+ gJAMO8QHlfN3XEgVeo+vmAmQLJzoW3yeTg==
+X-Google-Smtp-Source: AGRyM1sVONqIhEQFG3E677QRE/pGcJTLkuoZ3upVkJXGOH7vhJhdlmGLzNOMSl3UlnRvMRjl0NGIqw==
+X-Received: by 2002:a05:6602:180c:b0:67c:296:2561 with SMTP id
+ t12-20020a056602180c00b0067c02962561mr8284436ioh.173.1658331209529; 
+ Wed, 20 Jul 2022 08:33:29 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.27
+ q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:33:27 -0700 (PDT)
+ Wed, 20 Jul 2022 08:33:29 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com
-Subject: [PATCH v4 29/41] nouveau: change nvkm_debug/trace to use dev_dbg POC
-Date: Wed, 20 Jul 2022 09:32:21 -0600
-Message-Id: <20220720153233.144129-30-jim.cromie@gmail.com>
+Subject: [PATCH v4 30/41] tracing/events: Add __vstring() and __assign_vstr()
+ helper macros
+Date: Wed, 20 Jul 2022 09:32:22 -0600
+Message-Id: <20220720153233.144129-31-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720153233.144129-1-jim.cromie@gmail.com>
 References: <20220720153233.144129-1-jim.cromie@gmail.com>
@@ -72,74 +73,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Lindner <mareklindner@neomailbox.ch>,
+ Antonio Quartulli <a@unstable.cc>, Eric Dumazet <edumazet@google.com>,
+ Gregory Greenman <gregory.greenman@intel.com>, Ingo Molnar <mingo@kernel.org>,
+ Sven Eckelmann <sven@narfation.org>, Leon Romanovsky <leon@kernel.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Mathias Nyman <mathias.nyman@intel.com>, Kalle Valo <kvalo@kernel.org>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>, Bin Liu <b-liu@ti.com>,
+ Franky Lin <franky.lin@broadcom.com>, Arend van Spriel <aspriel@gmail.com>,
+ Simon Wunderlich <sw@simonwunderlich.de>, Peter Chen <peter.chen@kernel.org>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These 2 macros formerly used dev_info, and they still check
-subdev->debug to gate the printing.  So dyndbg control is redundant
-ATM (and possibly confusing, since its off by default).
+From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-prdbg count is up from 3, or from 65 (with VMM_DEBUG here)
+Steve's patch, carried til upstream.
 
-[    7.765379] dyndbg: 516 debug prints in module nouveau
+There's several places that open code the following logic:
 
-Its possible to control error, warn, info callsites too, but they're
-usually on, and the .data overheads on ~450 more callsites (56 bytes
-each) would just be wasted.
+  TP_STRUCT__entry(__dynamic_array(char, msg, MSG_MAX)),
+  TP_fast_assign(vsnprintf(__get_str(msg), MSG_MAX, vaf->fmt, *vaf->va);)
 
-$ for l in fatal error warn info debug trace spam; do
-      echo $l; ack nvkm_$l drivers/gpu |wc; done
-fatal
-      3      19     335
-error
-    289    1956   30651
-warn
-     84     513    8860
-info
-     14      88    1502
-debug
-    387    2339   40844
-trace
-     31     219    3368
-spam
-      1       7     123
+To load a string created by variable array va_list.
 
-bash-5.1# echo $(( 516-65-387-31-1 ))
-32
+The main issue with this approach is that "MSG_MAX" usage in the
+__dynamic_array() portion. That actually just reserves the MSG_MAX in the
+event, and even wastes space because there's dynamic meta data also saved
+in the event to denote the offset and size of the dynamic array. It would
+have been better to just use a static __array() field.
 
-Thats approximate; not accounting #defines and doc/comment mentions.
+Instead, create __vstring() and __assign_vstr() that work like __string
+and __assign_str() but instead of taking a destination string to copy,
+take a format string and a va_list pointer and fill in the values.
 
-NOTE: this patch changes the log-level of the macro-issued messages
-from KERN_INFO to KERN_DEBUG.  Adding a .kern_lvl field to struct
-_ddebug could fix that.
+It uses the helper:
 
-RFC: dyndbg & subdev->debug
+ #define __trace_event_vstr_len(fmt, va)	\
+ ({						\
+	va_list __ap;				\
+	int __ret;				\
+						\
+	va_copy(__ap, *(va));			\
+	__ret = vsnprintf(NULL, 0, fmt, __ap);	\
+	va_end(__ap);				\
+						\
+	min(__ret, TRACE_EVENT_STR_MAX);	\
+ })
 
-Separate class-maps for each subdev are possible; except for the
-coordinated use of _base, each is independent, including choice of
-DISJOINT or LEVELS, as long as class-names don't conflict.
-So theres some flexibility.
+To figure out the length to store the string. It may be slightly slower as
+it needs to run the vsnprintf() twice, but it now saves space on the ring
+buffer.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Link: https://lkml.kernel.org/r/20220705224749.053570613@goodmis.org
+
+Cc: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Kalle Valo <kvalo@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Arend van Spriel <aspriel@gmail.com>
+Cc: Franky Lin <franky.lin@broadcom.com>
+Cc: Hante Meuleman <hante.meuleman@broadcom.com>
+Cc: Gregory Greenman <gregory.greenman@intel.com>
+Cc: Peter Chen <peter.chen@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Bin Liu <b-liu@ti.com>
+Cc: Marek Lindner <mareklindner@neomailbox.ch>
+Cc: Simon Wunderlich <sw@simonwunderlich.de>
+Cc: Antonio Quartulli <a@unstable.cc>
+Cc: Sven Eckelmann <sven@narfation.org>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Jim Cromie <jim.cromie@gmail.com>
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 ---
- drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/trace_events.h                 | 18 ++++++++++++++++++
+ include/trace/stages/stage1_struct_define.h  |  3 +++
+ include/trace/stages/stage2_data_offsets.h   |  3 +++
+ include/trace/stages/stage4_event_fields.h   |  3 +++
+ include/trace/stages/stage5_get_offsets.h    |  4 ++++
+ include/trace/stages/stage6_event_callback.h |  7 +++++++
+ 6 files changed, 38 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-index 96113c8bee8c..065d07ccea87 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-@@ -59,8 +59,8 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
- #define nvkm_error(s,f,a...) nvkm_printk((s), ERROR,    err, f, ##a)
- #define nvkm_warn(s,f,a...)  nvkm_printk((s),  WARN, notice, f, ##a)
- #define nvkm_info(s,f,a...)  nvkm_printk((s),  INFO,   info, f, ##a)
--#define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,   info, f, ##a)
--#define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,   info, f, ##a)
-+#define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,    dbg, f, ##a)
-+#define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,    dbg, f, ##a)
- #define nvkm_spam(s,f,a...)  nvkm_printk((s),  SPAM,    dbg, f, ##a)
+diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
+index e6e95a9f07a5..b18759a673c6 100644
+--- a/include/linux/trace_events.h
++++ b/include/linux/trace_events.h
+@@ -916,6 +916,24 @@ perf_trace_buf_submit(void *raw_data, int size, int rctx, u16 type,
  
- #define nvkm_error_ratelimited(s,f,a...) nvkm_printk((s), ERROR, err_ratelimited, f, ##a)
+ #endif
+ 
++#define TRACE_EVENT_STR_MAX	512
++
++/*
++ * gcc warns that you can not use a va_list in an inlined
++ * function. But lets me make it into a macro :-/
++ */
++#define __trace_event_vstr_len(fmt, va)			\
++({							\
++	va_list __ap;					\
++	int __ret;					\
++							\
++	va_copy(__ap, *(va));				\
++	__ret = vsnprintf(NULL, 0, fmt, __ap) + 1;	\
++	va_end(__ap);					\
++							\
++	min(__ret, TRACE_EVENT_STR_MAX);		\
++})
++
+ #endif /* _LINUX_TRACE_EVENT_H */
+ 
+ /*
+diff --git a/include/trace/stages/stage1_struct_define.h b/include/trace/stages/stage1_struct_define.h
+index a16783419687..1b7bab60434c 100644
+--- a/include/trace/stages/stage1_struct_define.h
++++ b/include/trace/stages/stage1_struct_define.h
+@@ -26,6 +26,9 @@
+ #undef __string_len
+ #define __string_len(item, src, len) __dynamic_array(char, item, -1)
+ 
++#undef __vstring
++#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
++
+ #undef __bitmask
+ #define __bitmask(item, nr_bits) __dynamic_array(char, item, -1)
+ 
+diff --git a/include/trace/stages/stage2_data_offsets.h b/include/trace/stages/stage2_data_offsets.h
+index 42fd1e8813ec..1b7a8f764fdd 100644
+--- a/include/trace/stages/stage2_data_offsets.h
++++ b/include/trace/stages/stage2_data_offsets.h
+@@ -32,6 +32,9 @@
+ #undef __string_len
+ #define __string_len(item, src, len) __dynamic_array(char, item, -1)
+ 
++#undef __vstring
++#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
++
+ #undef __bitmask
+ #define __bitmask(item, nr_bits) __dynamic_array(unsigned long, item, -1)
+ 
+diff --git a/include/trace/stages/stage4_event_fields.h b/include/trace/stages/stage4_event_fields.h
+index e80cdc397a43..c3790ec7a453 100644
+--- a/include/trace/stages/stage4_event_fields.h
++++ b/include/trace/stages/stage4_event_fields.h
+@@ -38,6 +38,9 @@
+ #undef __string_len
+ #define __string_len(item, src, len) __dynamic_array(char, item, -1)
+ 
++#undef __vstring
++#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
++
+ #undef __bitmask
+ #define __bitmask(item, nr_bits) __dynamic_array(unsigned long, item, -1)
+ 
+diff --git a/include/trace/stages/stage5_get_offsets.h b/include/trace/stages/stage5_get_offsets.h
+index 7ee5931300e6..fba4c24ed9e6 100644
+--- a/include/trace/stages/stage5_get_offsets.h
++++ b/include/trace/stages/stage5_get_offsets.h
+@@ -39,6 +39,10 @@
+ #undef __string_len
+ #define __string_len(item, src, len) __dynamic_array(char, item, (len) + 1)
+ 
++#undef __vstring
++#define __vstring(item, fmt, ap) __dynamic_array(char, item,		\
++		      __trace_event_vstr_len(fmt, ap))
++
+ #undef __rel_dynamic_array
+ #define __rel_dynamic_array(type, item, len)				\
+ 	__item_length = (len) * sizeof(type);				\
+diff --git a/include/trace/stages/stage6_event_callback.h b/include/trace/stages/stage6_event_callback.h
+index e1724f73594b..0f51f6b3ab70 100644
+--- a/include/trace/stages/stage6_event_callback.h
++++ b/include/trace/stages/stage6_event_callback.h
+@@ -24,6 +24,9 @@
+ #undef __string_len
+ #define __string_len(item, src, len) __dynamic_array(char, item, -1)
+ 
++#undef __vstring
++#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
++
+ #undef __assign_str
+ #define __assign_str(dst, src)						\
+ 	strcpy(__get_str(dst), (src) ? (const char *)(src) : "(null)");
+@@ -35,6 +38,10 @@
+ 		__get_str(dst)[len] = '\0';				\
+ 	} while(0)
+ 
++#undef __assign_vstr
++#define __assign_vstr(dst, fmt, va)					\
++	vsnprintf(__get_str(dst), TRACE_EVENT_STR_MAX, fmt, *(va))
++
+ #undef __bitmask
+ #define __bitmask(item, nr_bits) __dynamic_array(unsigned long, item, -1)
+ 
 -- 
 2.36.1
 
