@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B166257BE2D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 21:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C364757BE4A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 21:12:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC87D10FDF3;
-	Wed, 20 Jul 2022 19:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A4010EA16;
+	Wed, 20 Jul 2022 19:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAAF310F56D;
- Wed, 20 Jul 2022 19:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1658343698; x=1689879698;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=TOzvRVPqNoT1OqYi1zjIrLa3zYswQtJ3Ow/4dkchUlE=;
- b=cbs4O9cqiJim+uZARetsga6whMAoOTypdkwDfvBe85STvIMJidMZtNlU
- LF3yyoZb2SaIj3n2cu1Ee8JSM9OVtWIHM6HjOXLxeNlAka1eETlj5m9wY
- Z+ELY56vyDmd6hOHOrJpSNC6JcfzPU4/fw8a8KjIHzJ7kS/nTxCOhzTJE s=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Jul 2022 12:01:36 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2022 12:01:36 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Jul 2022 12:01:36 -0700
-Received: from [10.38.240.17] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 20 Jul
- 2022 12:01:32 -0700
-Message-ID: <2a33f6a4-2b23-5709-4b8a-6e4699989b85@quicinc.com>
-Date: Wed, 20 Jul 2022 12:01:30 -0700
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 156D310F40D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 19:12:04 +0000 (UTC)
+Received: from notapiano.myfiosgateway.com
+ (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D68B6601A9E;
+ Wed, 20 Jul 2022 20:12:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1658344322;
+ bh=kkQwd3wxUQX7bdNBjpHuQW+YDbc3LB9yz4gjn7bhhVI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ji34Swd4CqeHPVvpm1X+yU2XBin6/Wr7YMAsscJLyzrD4WwUqGdMf1XV26jPuByh+
+ Tcnczy7G5BKdVDKontExvx5FngniqAusjeZr5bhwURoGfO1ji4DrLhWZ14C0BiOrPp
+ QRIgfQzQS6yA+ZdxSGtZ04FqK/EIfPy4KYS26QFLQp+d5HxdcIfPybHskLF/yuOBU5
+ aEdxKe+OcaIGwBitla8qIacojqOOOHxRZS8XNuVg564A4UFlLRjcpKCuM7Qtvoa6Xu
+ y4bIKjYVHmTGyerM/ZkaotZlL/FS/fpOhZENWN5dPBu4+ex0dHyb2BheP+ylu6G586
+ tOwsHL9OOWJ8w==
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v2] drm/panel-edp: Add panel entry for B120XAN01.0
+Date: Wed, 20 Jul 2022 15:11:58 -0400
+Message-Id: <20220720191158.1590833-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v4] drm/msm/dp: make eDP panel as the first connected
- connector
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-References: <1657135928-31195-1-git-send-email-quic_khsieh@quicinc.com>
- <22d4abbf-db93-82e1-ecf1-e7804e72c21b@quicinc.com>
-In-Reply-To: <22d4abbf-db93-82e1-ecf1-e7804e72c21b@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+ Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add panel identification entry for the AUO B120XAN01.0 (product ID:
+0x1062) panel.
 
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-On 7/20/2022 11:47 AM, Abhinav Kumar wrote:
-> 
-> 
-> On 7/6/2022 12:32 PM, Kuogee Hsieh wrote:
->> Some userspace presumes that the first connected connector is the main
->> display, where it's supposed to display e.g. the login screen. For
->> laptops, this should be the main panel.
->>
->> This patch call drm_helper_move_panel_connectors_to_head() after
->> drm_bridge_connector_init() to make sure eDP stay at head of
->> connected connector list. This fixes unexpected corruption happen
->> at eDP panel if eDP is not placed at head of connected connector
->> list.
->>
->> Changes in v2:
->> -- move drm_helper_move_panel_connectors_to_head() to
->>         dpu_kms_drm_obj_init()
->>
->> Changes in v4:
->> -- move drm_helper_move_panel_connectors_to_head() to msm_drm_init()
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
+---
+v1: https://lore.kernel.org/all/20220719203857.1488831-3-nfraprado@collabora.com
 
-Lets drop the previous fixes tag and use this one as its more recent and 
-appropriate as it added eDP support for sc7280.
+Changes in v2:
+- Move entry to the top so it respects the sorting
 
-Fixes: ef7837ff091c ("drm/msm/dp: Add DP controllers for sc7280")
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->> ---
->>   drivers/gpu/drm/msm/msm_drv.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/msm_drv.c 
->> b/drivers/gpu/drm/msm/msm_drv.c
->> index 4a3dda2..4d518c2 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.c
->> +++ b/drivers/gpu/drm/msm/msm_drv.c
->> @@ -419,6 +419,8 @@ static int msm_drm_init(struct device *dev, const 
->> struct drm_driver *drv)
->>           }
->>       }
->> +    drm_helper_move_panel_connectors_to_head(ddev);
->> +
->>       ddev->mode_config.funcs = &mode_config_funcs;
->>       ddev->mode_config.helper_private = &mode_config_helper_funcs;
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index b3536d8600f4..e85d0c56f4a5 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1876,6 +1876,7 @@ static const struct panel_delay delay_200_500_e200 = {
+  * Sort first by vendor, then by product ID.
+  */
+ static const struct edp_panel_entry edp_panels[] = {
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120XAN01.0"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
+-- 
+2.37.0
+
