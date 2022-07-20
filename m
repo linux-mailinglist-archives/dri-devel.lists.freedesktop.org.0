@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3431C57B775
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 15:29:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D257B779
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 15:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5388B41E;
-	Wed, 20 Jul 2022 13:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4338B42F;
+	Wed, 20 Jul 2022 13:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532448B3A4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BACC58B3BA
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 13:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1658323723;
@@ -19,51 +19,51 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9VV2A0xt4iWoClogWKWNXWu4TrFupjD6pG6MWFdRlyI=;
- b=FnAnwwwzxQ8UhK8XKpBB0Gwvlqbm4M5jNT0XZC9TGi287Pw72gQ+pxg/Jv0o8DkAdglP0T
- icSJtE0S3j6a0SKUH0yDRfXURuDAuwoug06kyGOGYVdWhg/YWVDJPZyB0rZWLgSs3YBhBT
- ne+gi4WfKZpWHwbngbai9rmZdJaunGE=
+ bh=Rk9AhtZmor412ab1pdm8kQawl+ZyAY1dgO0bYINvs54=;
+ b=Q7RAPYOLrf8ZAVEjqHTOSb+kqfoWHpomEYS5MPOusV6JyjVz36TFHp5U0m8eAz9KHczu4q
+ b35pRjn79r2TSeW+bjy8cf8Xtrv5zPhti1Od2XRbQGxn71c+qVLxzSWbD6RZ7sr1B7T2E3
+ g9AAcXTTbDnRlre65VKZxxmLAUoQfqE=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-82HkAMhqPoOQeIZfEADKYw-1; Wed, 20 Jul 2022 09:28:42 -0400
-X-MC-Unique: 82HkAMhqPoOQeIZfEADKYw-1
+ us-mta-564-tIRCQOFNN827Ou-xI_DrSQ-1; Wed, 20 Jul 2022 09:28:42 -0400
+X-MC-Unique: tIRCQOFNN827Ou-xI_DrSQ-1
 Received: by mail-ed1-f69.google.com with SMTP id
- t5-20020a056402524500b0043a923324b2so12242750edd.22
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 06:28:41 -0700 (PDT)
+ b15-20020a056402278f00b0043acaf76f8dso12235405ede.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 06:28:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9VV2A0xt4iWoClogWKWNXWu4TrFupjD6pG6MWFdRlyI=;
- b=bdB2szIoEcOGqV0C3Sfcl31SjrzYhzt4e6xx6nuxqAOisPB1H1FLMhibFnxVy0G4Gb
- /xzdYumxBNjiPORQ1Dyk2eW4jIpTCoCk67vBmnWa8VBFUEAUhZs67dy1RrJ28aE3cGAK
- 8sKy4nOrB3BKX858gUt9MLGBDUVlOepB4O2TNJ5l1l0Fr/Au9Vsv9IvckrU/GJsU0wI4
- 9KXaTjeosEIhzS7YEWlVte39cXIzBXr4L/7k0bnbSkypVEfRZGCWOTv/fBNishgp2STW
- QelTDG/8Y79HecRlcn3iBsR6degDsXGy+XIQaxgIslZ8XdOSNZeDeVEob/+sUk3o9X4F
- Du+Q==
-X-Gm-Message-State: AJIora/EynAxWW2bo+/4FcvgAC/NYX8byv7kRpf94AsazoZI3eQ8djBf
- zXKs0uy7NDSJ03bMYUPjFi0zg//InItHbhZCLsMiOhuBK7Wsd9XRd4ryBuotQakOXEPDSkHJXtN
- STDY3+YOTKVtFIh8ucTPabrRcWaRM
-X-Received: by 2002:a17:907:3f07:b0:72b:54b2:f57f with SMTP id
- hq7-20020a1709073f0700b0072b54b2f57fmr34761345ejc.502.1658323720507; 
- Wed, 20 Jul 2022 06:28:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uo8j6q388d7B1LrZ24MTAZEsBiw/LrA6Unb/g8/2liHXECnlfsKgcPxbProCFsFD4KKLtndQ==
-X-Received: by 2002:a17:907:3f07:b0:72b:54b2:f57f with SMTP id
- hq7-20020a1709073f0700b0072b54b2f57fmr34761333ejc.502.1658323720343; 
- Wed, 20 Jul 2022 06:28:40 -0700 (PDT)
+ bh=Rk9AhtZmor412ab1pdm8kQawl+ZyAY1dgO0bYINvs54=;
+ b=h80r5rU/kdNsmtY8SpkBM+JiK9A62ZtpGyTH8rWXuZ/XKVHGnYGyyzpRCK8PZ8U3iM
+ zqBetIwffiC3fx/inF+3VJrXmnuUYN1JWQbkYwmerP2J0JNtefN486Kzykc0eIKkFro0
+ UAF0RfAGIWTo5vF+IfjedL3UYswl5KCWsLnQV+HAyIdNlrSLyp6IfYTo6rCIdWaVVuai
+ +cIxTeghiz0WUkTOfnjUGNicEJwcZBHdO4NVFJa2O8sC9eg/cmkluZzd0+mheZFeuQBf
+ UY4SKIEh7FF67hbF3bh8N/6zF0WDReQhDMypo5Bt4WdmIIvYYYxynRcVf9h5b1wH3l2i
+ qwJg==
+X-Gm-Message-State: AJIora9/Y0+7hGpoST/kZ2AIMw+jmTqkvkBd2/Us0i6yBkygpuJXWnW8
+ FKf4Zd+udsBIstQFo78jUji3TwKw/21fDcLOeHrjxkXL0UK6P9IaHnhTOicvwLG8QDjhBdmtjiw
+ jgjGp9guSiDTeEKtvft27BArrWHpK
+X-Received: by 2002:a17:907:72d2:b0:72b:d238:4e81 with SMTP id
+ du18-20020a17090772d200b0072bd2384e81mr34316147ejc.104.1658323721573; 
+ Wed, 20 Jul 2022 06:28:41 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1thris3Hs7kI1+V5PiU8wpgCAuZjyMTOSv7gtwkI3GRkFHOAUXOMZoByN9Z0aScoROqDsYNwA==
+X-Received: by 2002:a17:907:72d2:b0:72b:d238:4e81 with SMTP id
+ du18-20020a17090772d200b0072bd2384e81mr34316128ejc.104.1658323721356; 
+ Wed, 20 Jul 2022 06:28:41 -0700 (PDT)
 Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- x7-20020a05640225c700b0043ac761db43sm12220687edb.55.2022.07.20.06.28.39
+ x7-20020a05640225c700b0043ac761db43sm12220687edb.55.2022.07.20.06.28.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 06:28:40 -0700 (PDT)
+ Wed, 20 Jul 2022 06:28:41 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@linux.ie, daniel@ffwll.ch, mripard@kernel.org,
  christian.koenig@amd.com, emma@anholt.net
-Subject: [PATCH RESEND 06/10] drm: use idr_init_base() to initialize
- mode_config.tile_idr
-Date: Wed, 20 Jul 2022 15:28:26 +0200
-Message-Id: <20220720132830.193747-7-dakr@redhat.com>
+Subject: [PATCH RESEND 07/10] drm/sis: use idr_init_base() to initialize
+ dev_priv->object_idr
+Date: Wed, 20 Jul 2022 15:28:27 +0200
+Message-Id: <20220720132830.193747-8-dakr@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720132830.193747-1-dakr@redhat.com>
 References: <20220720132830.193747-1-dakr@redhat.com>
@@ -101,21 +101,21 @@ idr_init_base(&idr, 1) avoids unnecessary tree walks.
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 Acked-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_mode_config.c | 2 +-
+ drivers/gpu/drm/sis/sis_drv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index e2a295a4ee0b..3d1c1ade5a25 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -412,7 +412,7 @@ int drmm_mode_config_init(struct drm_device *dev)
- 	INIT_LIST_HEAD(&dev->mode_config.plane_list);
- 	INIT_LIST_HEAD(&dev->mode_config.privobj_list);
- 	idr_init_base(&dev->mode_config.object_idr, 1);
--	idr_init(&dev->mode_config.tile_idr);
-+	idr_init_base(&dev->mode_config.tile_idr, 1);
- 	ida_init(&dev->mode_config.connector_ida);
- 	spin_lock_init(&dev->mode_config.connector_list_lock);
+diff --git a/drivers/gpu/drm/sis/sis_drv.c b/drivers/gpu/drm/sis/sis_drv.c
+index e35e719cf315..6173020a9bf5 100644
+--- a/drivers/gpu/drm/sis/sis_drv.c
++++ b/drivers/gpu/drm/sis/sis_drv.c
+@@ -50,7 +50,7 @@ static int sis_driver_load(struct drm_device *dev, unsigned long chipset)
+ 	if (dev_priv == NULL)
+ 		return -ENOMEM;
+ 
+-	idr_init(&dev_priv->object_idr);
++	idr_init_base(&dev_priv->object_idr, 1);
+ 	dev->dev_private = (void *)dev_priv;
+ 	dev_priv->chipset = chipset;
  
 -- 
 2.36.1
