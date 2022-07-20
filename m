@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A9157AB73
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 03:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C45357AB76
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 03:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 657BD14BF6E;
-	Wed, 20 Jul 2022 01:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B4D18B28E;
+	Wed, 20 Jul 2022 01:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 810B114BF6E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 01:12:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21D418B28E
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 01:12:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 27029B81DE3;
- Wed, 20 Jul 2022 01:12:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E35C36AE7;
- Wed, 20 Jul 2022 01:12:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EACEF61769;
+ Wed, 20 Jul 2022 01:12:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038B7C341CA;
+ Wed, 20 Jul 2022 01:12:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1658279560;
- bh=+Q8ERorwvNpbU/zdkryZYdXT511N8tzLxqdDBrSnMWw=;
+ s=k20201202; t=1658279570;
+ bh=1EQpcFTZlk54ZdjOp1LnLv7GXGgLmqXYhR43h8huLFE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YDEZV8iVix8fRcufT+22mQWaPBWTVfhRQJIWyYKJyxG80xsgCBtG3/qqA+5Iep1+w
- KAiGkNgDDbAUWSbfWau6hMTCYduJkSvOIx+rgvQi0A6NpiB9HzL+ms5ospIUyyTJ6u
- GBaGOtszCoBxE+AB6OGKfItOzJdiGjYxZgNPKIf/0ixqpiId5G1c+qLsfxVaFLL8Sd
- 3jTMRDgd5GXUyfeOYssqKGK49NVqgC7X7710URxZScVxdqOGjgygWBbG3vviCOw0+N
- 10jr0LvFmzPMmc/SxI7Kv8vOVFMeeZLBy906AKSwEe8pt1eG68r0vRlcW9IIyaHYbF
- BmZJienKoAM6Q==
+ b=nAJcd4mAz0WxgC2Rzr4O/vRuhzhaI5r7Fcfl1ecU7pmu1jYsUWNWGDVrjhP2xr4BL
+ J/MbhrfvbzYKWRReEfyysUomibjuLfXvvThOEWRNxgpApciALoKviZ9ba+58yCXQOe
+ afEspmhm7cEaXlU6HeVI2czN/4AWazxBh4gWuGoZfqVcrl45pGG3GB5Am+XTZkgX1R
+ kfevfv7N9TccosOtpJVcvLB1vJkaWhHHeOmAyjGHtsIY21nnZXKLpSF9ENEDqLZUwf
+ rktcIhT9UuPmYep3E3HSbuGFSibIDgaom0ZzLCRKKSuotNgZ6CQ+MTkPQ7N803lS14
+ HTg3V9qvp3VqQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 32/54] drm: panel-orientation-quirks: Add quirk
- for the Lenovo Yoga Tablet 2 830
-Date: Tue, 19 Jul 2022 21:10:09 -0400
-Message-Id: <20220720011031.1023305-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 35/54] drm/ssd130x: Fix pre-charge period setting
+Date: Tue, 19 Jul 2022 21:10:12 -0400
+Message-Id: <20220720011031.1023305-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220720011031.1023305-1-sashal@kernel.org>
 References: <20220720011031.1023305-1-sashal@kernel.org>
@@ -57,53 +56,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-[ Upstream commit 144248515246e52a3706de1ee928af29a63794b8 ]
+[ Upstream commit b68277f19e31a25312c4acccadb5cf1502e52e84 ]
 
-The Lenovo Yoga Tablet 2 830F / 830L use a panel which has been mounted
-90 degrees rotated. Add a quirk for this.
+Fix small typo which causes the mask for the 'precharge1' setting
+to be used with the 'precharge2' value.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220623112710.15693-1-hdegoede@redhat.com
+Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220706184133.210888-1-ezequiel@vanguardiasur.com.ar
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 4e853acfd1e8..cc8556ac673b 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -280,6 +280,21 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X9"),
- 		},
- 		.driver_data = (void *)&lcd1200x1920_rightside_up,
-+	}, {	/* Lenovo Yoga Tablet 2 830F / 830L */
-+		.matches = {
-+		 /*
-+		  * Note this also matches the Lenovo Yoga Tablet 2 1050F/L
-+		  * since that uses the same mainboard. The resolution match
-+		  * will limit this to only matching on the 830F/L. Neither has
-+		  * any external video outputs so those are not a concern.
-+		  */
-+		 DMI_MATCH(DMI_SYS_VENDOR, "Intel Corp."),
-+		 DMI_MATCH(DMI_PRODUCT_NAME, "VALLEYVIEW C0 PLATFORM"),
-+		 DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
-+		 /* Partial match on beginning of BIOS version */
-+		 DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_rightside_up,
- 	}, {	/* OneGX1 Pro */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SYSTEM_MANUFACTURER"),
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index 38b6c2c14f53..9a8a8f5606fd 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -293,7 +293,7 @@ static int ssd130x_init(struct ssd130x_device *ssd130x)
+ 
+ 	/* Set precharge period in number of ticks from the internal clock */
+ 	precharge = (SSD130X_SET_PRECHARGE_PERIOD1_SET(ssd130x->prechargep1) |
+-		     SSD130X_SET_PRECHARGE_PERIOD1_SET(ssd130x->prechargep2));
++		     SSD130X_SET_PRECHARGE_PERIOD2_SET(ssd130x->prechargep2));
+ 	ret = ssd130x_write_cmd(ssd130x, 2, SSD130X_SET_PRECHARGE_PERIOD, precharge);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.35.1
 
