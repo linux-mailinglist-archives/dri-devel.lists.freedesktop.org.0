@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C108657BAE3
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:53:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5573857BAE6
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C5B8F778;
-	Wed, 20 Jul 2022 15:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DABF8F503;
+	Wed, 20 Jul 2022 15:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16C138F737
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 15:53:49 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- t3-20020a17090a3b4300b001f21eb7e8b0so1882381pjf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 08:53:49 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE46B8F768
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 15:53:56 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id p8so5563223plq.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 08:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iKqKSpIoemqVJvmONKd6Y8SQyJA7cnV4uKHmCv+ADCk=;
- b=GNSCNaKrUm3d1bXMtufqIxjwG9UhsmbJebE7kan/OLYK+D+KUuhqNVXOPPWdVpeBvm
- u5nzalIBEHN3pVVamLt9am2vDsJYqjAY1COv7McbFc0cO+wVmwG1r8UVXhCrxcEaaLKk
- Dt9uzTm08dHiXIJdY021DoMsL0F+WBbqNMnPc=
+ bh=29Y+8hwR4konYhfmXPU+qexag3jBd2Tn97JAZO5M2Ak=;
+ b=dQ92/5IXXxk4bGaiAO61oilRuglzhWOFhjtlMIH7VQ91G3dJwQwxk4DOfOJ/764Zq2
+ zvnS158Pk13Fap0vnq+MeKnVCsfS+LxU5RoODRAwGqS9Q7rotRf5kv3IdK2JOTMWQkpq
+ 4UQK/hyCTkkKS5nJvehnZSPy/5ItpIGqar+6w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iKqKSpIoemqVJvmONKd6Y8SQyJA7cnV4uKHmCv+ADCk=;
- b=jWLWpZvqcXKubH0e2Bd/2t9Ijj42Ape8kNUyZ0vR9pU49NnGuRvgL49j4h4lZy3Eaa
- AfAOTbIe7h1WhyO7144sbL7ZzaUNN9VZTQ/VOt+pMjoBz0LsUhC/plezkCMiDb0HoQC5
- wggXkK7FpfHX99OOpVYq5EwsvJ3LUtrHrkZ2A0vRR4MrILXx8DoHx4TLula8QDB8IM9N
- t3bGGTrIQP9sOQhb4SZltTlswuSeuRWF9t/11edEdl/Nj1iDjzpWDgPtx0StPPhNn1W7
- eiR7FsaMOmQu0lBWcbvjze7TjZnLYeoEd8f5ZcN9t9+3ZrL5KNGTRNfXwNSPH8ZSnDWi
- bz5Q==
-X-Gm-Message-State: AJIora9IZFEP91zdMWTFazuzk9JRCZlgjmRvHsoOOxp5RPRxHFrz7bm3
- ZlUDf6iHhkpwjQoSA888Xe1xMw==
-X-Google-Smtp-Source: AGRyM1vY/tznd8lVbexlB1d1i7cBqZktheP7oQh5b3RuBKJuBql8fuwFbjXLEnhH4o+uHauW25wcnA==
-X-Received: by 2002:a17:90b:3890:b0:1f0:2abb:e7d1 with SMTP id
- mu16-20020a17090b389000b001f02abbe7d1mr6276345pjb.158.1658332428629; 
- Wed, 20 Jul 2022 08:53:48 -0700 (PDT)
+ bh=29Y+8hwR4konYhfmXPU+qexag3jBd2Tn97JAZO5M2Ak=;
+ b=M1fMwF1XyzVp9h+rWTxucTwhuM+Or8aG0iiG3pGWuC2Jw4KldZ3oNMaddg3Sct2hnC
+ nmYkdZFd81yItCeu0EC2kboVA0MDtCR7Ub9DZFnKVMTDew33nuJZDnwQkQzd4hc/d2Lc
+ vG3nfKM7LTuTV5Yd9DnyD2+ssGivg1+VO1OX4HBHfqkyWrZdRlxpq5gn6NyLf+eKYKY1
+ tLv15SHJHzux8gxY/WWMrHdGgDKZZOzFjdt4WE1jSejQvIGSr8Y0OpuMQgnLzZadU7cI
+ Z4TiBSZATrAX4sDVjmRFgJx9kKIjj16SH7DSxzDM4JLZov480YkRoWCqJpsX8wH03VAA
+ oTPg==
+X-Gm-Message-State: AJIora+4XOlUdzrovlnDnzlYfC0Oul7KKWl3q8sFet+9P0MoIdgsmhZs
+ dkGA2pHjxLK1oH6+9WxcCh4s1w==
+X-Google-Smtp-Source: AGRyM1vrAlxx3/zwHGViMnrhr0TP9FpHJZqqzma7SRLbfGYluod3AbepmehsQLewJJiAhdJeagZJDA==
+X-Received: by 2002:a17:90a:7e84:b0:1f0:f3de:ffb3 with SMTP id
+ j4-20020a17090a7e8400b001f0f3deffb3mr6243259pjl.75.1658332436196; 
+ Wed, 20 Jul 2022 08:53:56 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a073:d177:d5:aee:4f03])
  by smtp.gmail.com with ESMTPSA id
- a8-20020a170902710800b0015e8d4eb1d7sm13919198pll.33.2022.07.20.08.53.41
+ a8-20020a170902710800b0015e8d4eb1d7sm13919198pll.33.2022.07.20.08.53.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:53:48 -0700 (PDT)
+ Wed, 20 Jul 2022 08:53:55 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -60,9 +59,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v3 11/13] drm: bridge: samsung-dsim: Add input_bus_flags
-Date: Wed, 20 Jul 2022 21:22:08 +0530
-Message-Id: <20220720155210.365977-12-jagan@amarulasolutions.com>
+Subject: [PATCH v3 12/13] dt-bindings: display: exynos: dsim: Add NXP i.MX8MM
+ support
+Date: Wed, 20 Jul 2022 21:22:09 +0530
+Message-Id: <20220720155210.365977-13-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220720155210.365977-1-jagan@amarulasolutions.com>
 References: <20220720155210.365977-1-jagan@amarulasolutions.com>
@@ -87,45 +87,37 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-eLCDIF is expecting to have input_bus_flags as DE_LOW in order to
-set active low during valid data transfer on each horizontal line.
+Samsung MIPI DSIM bridge can also be found in i.MX8MM SoC.
 
-Add DE_LOW flag via drm bridge timings.
+Add dt-bingings for it.
 
-v3, v2:
-* none
+v3:
+* collect Rob Acked-by
+
+v2:
+* updated comments
 
 v1:
-* none
+* new patch
 
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 2584343b767a..ef439b49f2b8 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1591,6 +1591,10 @@ __weak void samsung_dsim_plat_remove(struct samsung_dsim *priv)
- {
- }
- 
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
-+};
-+
- static int samsung_dsim_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1670,6 +1674,7 @@ static int samsung_dsim_probe(struct platform_device *pdev)
- 
- 	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
- 	dsi->bridge.of_node = dev->of_node;
-+	dsi->bridge.timings = &samsung_dsim_bridge_timings;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
- 	if (dsi->driver_data->quirks & DSIM_QUIRK_PLAT_DATA)
+diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+index be377786e8cd..8efcf4728e0b 100644
+--- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
++++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+@@ -7,6 +7,7 @@ Required properties:
+ 		"samsung,exynos5410-mipi-dsi" /* for Exynos5410/5420/5440 SoCs */
+ 		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
+ 		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
++		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini SoCs */
+   - reg: physical base address and length of the registers set for the device
+   - interrupts: should contain DSI interrupt
+   - clocks: list of clock specifiers, must contain an entry for each required
 -- 
 2.25.1
 
