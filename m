@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214E557BA71
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A1C57BA64
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:35:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3828F49E;
-	Wed, 20 Jul 2022 15:34:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239DC8F42E;
+	Wed, 20 Jul 2022 15:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE0A8F4EC;
- Wed, 20 Jul 2022 15:33:40 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id u20so14552361iob.8;
- Wed, 20 Jul 2022 08:33:40 -0700 (PDT)
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
+ [IPv6:2607:f8b0:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A75508F515;
+ Wed, 20 Jul 2022 15:33:41 +0000 (UTC)
+Received: by mail-il1-x12f.google.com with SMTP id l11so7322724ilf.11;
+ Wed, 20 Jul 2022 08:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H1xuCGeY8Sir917dDYr7SPlwJzEye6l0obwn9tK3MZ8=;
- b=AphFbxHA/POkgQ/in/xVsl+sXruxFE+iod39lwrIO07RGuyMNj4FcUirExOcEsPU2D
- O2B6KKqqeXMOcR1N8YHPXBodnxKs048fx+bKS26JilfqpGSIuMcZqcXAHLOoYOnasSMR
- 4vOveuqhDuM8mneUJbQft+CSGSmVV+Q5HPHnY6Azo3uMLAuYn3BuqBCMMjw7jbZlSmJD
- zdbOTEcCEGBLOfDbfZjwwV780ixbuKJ4YezOMQ8wT72IqYZqtEDpPU7SDTxHm2LNecfO
- 0eLFoYFwAeluhFRPD8mq+nyqiDAHCaygzhOxZcPbRHD6A2dgbcx7n9Kif3Ri07rwdsNj
- Fe7Q==
+ bh=UI797gthTzsKQz4UC9U2UIsi1BTd/WhNl6933XAQbZ4=;
+ b=Poas9gejc/b0A8dAg0bmZULf8ICEokfcNYpJEm09owl4HGVqEUefiujLlAhXL+LupH
+ Ete2bN5SFEI+aVfScM6EXw89Cssp4j3sjXV78gQh/592OEgFrHFEKFDsGnrGUeIEJUK+
+ EygsDXs3ZN7AZHWYZoWmtcfJe3nRw0wTAxk13HpS5a8Qe6qPQA1PXLlVhngW5TbdLkX3
+ YuA9hTFyyiCXC7dd/ZRc7UZgc33hwYgOjSFqt5ZG07ePvP4o/7Tbk5gbajCuOSlUNEEF
+ zHnZxfQHWkUvbwenvdI4SSckIZb44yjFweu6AtjqTQ6qaJ+t9Zrbo7Z5M8MNeHE84B3z
+ Y6bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H1xuCGeY8Sir917dDYr7SPlwJzEye6l0obwn9tK3MZ8=;
- b=d+39LZbRghuzSH4znkPzt2+/s3D7CBAVHJe28VDRk4ElyFQB7plccyd02t7qJkhbod
- Mxqsi9wY5z81KW2YJ8tx646aeSk6PPmih350+eXdb2i7PY9uSkQy4BZvM8kRE721owwh
- pCHyvPIck3LxT6YtGNYJqTqYNbj6OIyHNIq3FErUL+TP2FSbhJQxJ+Q9h54W/PmoMaWS
- aBHTf0Y5D0wQoROtHAi1G7XDB8nuBQeWIJeRRW34MzyEqhFwX1kXrHXdDaFgJC+ak+dd
- qNeUqwABQ1+eKjWeG+5mvxJAKS08fGKLfmOnI+Z+hhzEKn2b5HrSH5Mo61kFEnIg7JXM
- KYmw==
-X-Gm-Message-State: AJIora9Wu/YEJAWf4LdavvkBsnJBb/tht49C7dNX/Ys4r7+gH2aJdnIk
- Fezh7skE171iIp6LOCv/E5KHwMMsF0EVJA==
-X-Google-Smtp-Source: AGRyM1ujekS9Z83Nco8lVrnZi3IvcyNutF9W4sRrnTZ3egKAWjGkiHZz3e9WKb6VSpcWNRHsMLqpNQ==
-X-Received: by 2002:a02:9384:0:b0:33f:4f23:f268 with SMTP id
- z4-20020a029384000000b0033f4f23f268mr19315045jah.213.1658331219656; 
- Wed, 20 Jul 2022 08:33:39 -0700 (PDT)
+ bh=UI797gthTzsKQz4UC9U2UIsi1BTd/WhNl6933XAQbZ4=;
+ b=RX0R6tY0AUZM59/6oYuBiD0sSk+NOFvHJpaLRXzlRHczuEdllvnibzYnZP9lHlO1gT
+ pbDAJUw4vWvG4vwyydGIb36q81KG5DQXlKeNOcJDg/qv1VGQ2HZ3PK1MWCF9nBRKdOJT
+ 3W/xqrO85lrFi53DI23UtH+X9HoDv4pzeGA16oTpki7fZbQaFu+X5ZcjGO6L808qzxzh
+ PtR8RucAlYgcXz5CFtdhXZa8Kxz21/MwUdDFnhtXeRKy/TvxC+8skVMp0NSuv8CIdP4D
+ 49ZB2k1xBfZd2ObwT+NGk+2N9W0X1Wc7a/DBtmdGI5h7ZX1f8kuLrMj8GbyU5Mm0WNKv
+ 4F+A==
+X-Gm-Message-State: AJIora918S2+2yTBW0wFc6aMsy14ACJ8WovVKK1q9370EhS/qYBLVURg
+ 7RFuoCBMKU6HqSavXrKJjtMO/K+0eDoobQ==
+X-Google-Smtp-Source: AGRyM1tjGaF+LBdpRzSIiB7MSLS9Q90hG9GQK5slIiSavX77twFwLzBhz09TrbQz6+FEHxmkbwWFHA==
+X-Received: by 2002:a05:6e02:1c4c:b0:2dd:bfd:f2d8 with SMTP id
+ d12-20020a056e021c4c00b002dd0bfdf2d8mr1333390ilg.106.1658331220606; 
+ Wed, 20 Jul 2022 08:33:40 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.38
+ q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:33:39 -0700 (PDT)
+ Wed, 20 Jul 2022 08:33:40 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com
-Subject: [PATCH v4 40/41] nouveau-dbg: fixup lost prdbgs
-Date: Wed, 20 Jul 2022 09:32:32 -0600
-Message-Id: <20220720153233.144129-41-jim.cromie@gmail.com>
+Subject: [PATCH v4 41/41] nouveau-dyndbg: wip subdev refine, breaks on use
+Date: Wed, 20 Jul 2022 09:32:33 -0600
+Message-Id: <20220720153233.144129-42-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720153233.144129-1-jim.cromie@gmail.com>
 References: <20220720153233.144129-1-jim.cromie@gmail.com>
@@ -75,47 +75,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Undo the 1-line change that reduced count of prdbgs from 632 to 119.
+Change nvkm_subdev.debug to a ulong, so dyndbg can maybe use it.
 
-ie: s/NV_SUBDEV_DBG_##l/NV_DBG_##l/
+Move macro decl from nv-drm.c to subdev.c, and add a struct
+ddebug_classes_bitmap_param and a module_param_cb() that creates the
+sysfs-knob.
 
-So heres what happened: new symbol is 15 (or 10), and fails this macro
-test, so gets compiled out, and the dev_dbg is excluded.
+Finally, in nvkm_subdev_ctor(), *attempt* to set dyndbg's pointer to
+the debug address, so that dyndbg can observe the underlying debug
+value, and make enable/disable decisions based upon it.
 
-        if (CONFIG_NOUVEAU_DEBUG >= (l) && _subdev->debug >= (l))       \
-                dev_dbg(_subdev->device->dev, "%s: "f, _subdev->name, ##a); \
-
-I could hack this, by hardcoding in (l + #base), but base is pretty
-distant to just toss into the macro.  At least, the base-ref should be
-a macro(&classmap) properly exposing it.
-
-OTOH, the whole CONFIG_NOUVEAU_DEBUG check could be reworked; given
-that trace is minumum recommended, theres not that many callsites
-elided (SPAM only iirc) at compile-time, and dyndbg means keeping them
-has "zero" run=cost (and 56 bytes per).  So this config item doesnt do
-much when DRM_USE_DYNAMIC_DEBUG=y.
-
-So this is a useful place to stop and take another look around, try to
-guess which trail to take..
+But Im not getting the ctor called, so the ptr is NULL when refd.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/nouveau/include/nvkm/core/subdev.h    |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  7 ------
+ drivers/gpu/drm/nouveau/nvkm/core/subdev.c    | 23 +++++++++++++++++++
+ 3 files changed, 24 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-index bf9c69f4fc3e..d5f6ca05d5fa 100644
+index d5f6ca05d5fa..05807403fdd6 100644
 --- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
 +++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-@@ -66,7 +66,7 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
- 	if (CONFIG_NOUVEAU_DEBUG >= (l) && _subdev->debug >= (l))	\
- 		dev_dbg(_subdev->device->dev, "%s: "f, _subdev->name, ##a); \
- } while(0)
--#define nvkm_drmdbg_(s,l,f,a...) nvkm_drmdbg__((s), NV_SUBDEV_DBG_##l, dbg, f, ##a)
-+#define nvkm_drmdbg_(s,l,f,a...) nvkm_drmdbg__((s), NV_DBG_##l, dbg, f, ##a)
- #define nvkm_debug(s,f,a...) nvkm_drmdbg_((s), DEBUG, f, ##a)
- #define nvkm_trace(s,f,a...) nvkm_drmdbg_((s), TRACE, f, ##a)
- #define nvkm_spam(s,f,a...)  nvkm_drmdbg_((s),  SPAM, f, ##a)
+@@ -19,7 +19,7 @@ struct nvkm_subdev {
+ 	enum nvkm_subdev_type type;
+ 	int inst;
+ 	char name[16];
+-	u32 debug;
++	unsigned long debug;
+ 	struct list_head head;
+ 
+ 	void **pself;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index 85b63b527877..d45c71ffc09e 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -90,13 +90,6 @@ DECLARE_DYNDBG_CLASSMAP(nv_cli_debug_verbose, DD_CLASS_TYPE_VERBOSE, 10,
+ 			"NV_CLI_DBG_TRACE",
+ 			"NV_CLI_DBG_SPAM");
+ 
+-DECLARE_DYNDBG_CLASSMAP(nv_subdev_debug_verbose, DD_CLASS_TYPE_VERBOSE, 15,
+-			"NV_SUBDEV_DBG_OFF",
+-			"NV_SUBDEV_DBG_INFO",
+-			"NV_SUBDEV_DBG_DEBUG",
+-			"NV_SUBDEV_DBG_TRACE",
+-			"NV_SUBDEV_DBG_SPAM");
+-
+ MODULE_PARM_DESC(config, "option string to pass to driver core");
+ static char *nouveau_config;
+ module_param_named(config, nouveau_config, charp, 0400);
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/subdev.c b/drivers/gpu/drm/nouveau/nvkm/core/subdev.c
+index a74b7acb6832..227871c3a749 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/subdev.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/subdev.c
+@@ -26,6 +26,27 @@
+ #include <core/option.h>
+ #include <subdev/mc.h>
+ 
++#include <linux/dynamic_debug.h>
++#include <linux/module.h>
++
++#define DEBUG
++
++DECLARE_DYNDBG_CLASSMAP(nv_subdev_debug_verbose, DD_CLASS_TYPE_VERBOSE, 15,
++			"NV_SUBDEV_DBG_OFF",
++			"NV_SUBDEV_DBG_INFO",
++			"NV_SUBDEV_DBG_DEBUG",
++			"NV_SUBDEV_DBG_TRACE",
++			"NV_SUBDEV_DBG_SPAM");
++
++static struct ddebug_classes_bitmap_param nv_subdev_verbose = {
++	.bits = NULL, // wants &_subdev->debug
++	.flags = "p",
++	.map = &nv_subdev_debug_verbose,
++};
++module_param_cb(debug_subdev, &param_ops_dyndbg_classes, &nv_subdev_verbose, 0600);
++
++
++
+ const char *
+ nvkm_subdev_type[NVKM_SUBDEV_NR] = {
+ #define NVKM_LAYOUT_ONCE(type,data,ptr,...) [type] = #ptr,
+@@ -180,6 +201,8 @@ nvkm_subdev_ctor(const struct nvkm_subdev_func *func, struct nvkm_device *device
+ 	else
+ 		strscpy(subdev->name, nvkm_subdev_type[type], sizeof(subdev->name));
+ 	subdev->debug = nvkm_dbgopt(device->dbgopt, subdev->name);
++	nv_subdev_verbose.bits = &subdev->debug;
++	pr_debug("updated bitmap: %px\n", &nv_subdev_verbose.bits);
+ 	list_add_tail(&subdev->head, &device->subdev);
+ }
+ 
 -- 
 2.36.1
 
