@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB5957B92F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D06057B966
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1757C8AE6C;
-	Wed, 20 Jul 2022 15:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A98C314A5D2;
+	Wed, 20 Jul 2022 15:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5ED8AE6C
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 15:08:17 +0000 (UTC)
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8B7314A5D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 15:17:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=EFA/JkuWOB1qS4kM55LEROfxdMp2a+AIgtyJYibfELM=;
- b=YTfBQ73zahuPoZtkfki4lVnoSxk7mrNLvOrHxYaGySzUgIuHEEdBk/jNfId23CuV7vHZbtFhSW0ZH
- FrU36wpSMv5G6YdZepKJP9BwK8jDR7wHmtnwZOLvBSAL1Iy03C4OsxuxQJ1K434JTOjpcWghPBwsGZ
- AFCdlPaFbhNKIaVlE38iYVoFci0WFgAIHJ5jZyotHQ1rnBMIET6pzUjIvbwRirt5GFV0ERdmZ+d4VF
- kvLYCZBspo4MST1DjlPmpIdkw7KuCx2g8RZgLtxyUUZ+bYW0HD7RuoGAQLt7LMydKD78qL88dVIdWK
- aghsZowdPnSDmMLwr2bUkMtprnuAcGA==
+ bh=zjG1XWzkA20vuBygMH18SAY8CwTCprtH16amnZE1QMw=;
+ b=FdAU8fjjjyvzd0oC80Njb6hh5j2BDDEVW/JWQjVJ6/jRv25ZU6yQ29LZL9jlkKookWqys/t+yYPUk
+ M7WqzLA6i1c5TrJ+/+TX9Jf1iAegIRRKR43uot9BwlayKq/26A4NiG912Ij6YeEpxVPy0n0bNSmtmX
+ qViZTtgObK1iXFKtiUUmB1uF2584hz7/SXiprDQKVUtcrMSQ8N1Ku4s5EUz9LAcObgb9Tau3l9Nact
+ QwgCAkfp8wCefWph4D2N87kmdkXwWN0rpYkYWtSo8aFrx0PQnrKzkaEpaSqKWDMtINE7iSW/EF7wRy
+ PX8eOZgesc3CRyFYiLqv8nB4Ejuvi+w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=EFA/JkuWOB1qS4kM55LEROfxdMp2a+AIgtyJYibfELM=;
- b=uTQiksKBDcwGeYLBTmNQlT0DMmBHRrO4I3buB4rpb4ldienglsUuaRzxNXmkLCK0KbLbtfAE+dGjq
- 60i6gSNBg==
-X-HalOne-Cookie: 461ceae8f5fbed8298ff35f9ec94319932da099f
-X-HalOne-ID: c7216ffa-083d-11ed-a918-d0431ea8a290
+ bh=zjG1XWzkA20vuBygMH18SAY8CwTCprtH16amnZE1QMw=;
+ b=3KcAmnHd48zCC/NRe+A5PZZsdlVYhhvLBT5fAIAis8MB/Po+mZ+Ncv+ge0l8ambYrhndM8+wQKUAG
+ 7VmcsGgDA==
+X-HalOne-Cookie: 092ff6973dd1dffa75fbcc92e936cabae426a920
+X-HalOne-ID: 0e33c82a-083f-11ed-a6c8-d0431ea8a283
 Received: from mailproxy4.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id c7216ffa-083d-11ed-a918-d0431ea8a290;
- Wed, 20 Jul 2022 15:08:14 +0000 (UTC)
-Date: Wed, 20 Jul 2022 17:08:13 +0200
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 0e33c82a-083f-11ed-a6c8-d0431ea8a283;
+ Wed, 20 Jul 2022 15:17:23 +0000 (UTC)
+Date: Wed, 20 Jul 2022 17:17:22 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/7] drm: Clean up plane helpers
-Message-ID: <YtgaXaN9cc/9Q98z@ravnborg.org>
-References: <20220720083058.15371-1-tzimmermann@suse.de>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH RESEND 1/2] drm/virtio: plane: use drm managed resources
+Message-ID: <YtgcgovHX6jAqbt8@ravnborg.org>
+References: <20220720140214.199492-1-dakr@redhat.com>
+ <20220720140214.199492-2-dakr@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220720083058.15371-1-tzimmermann@suse.de>
+In-Reply-To: <20220720140214.199492-2-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,29 +59,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, alison.wang@nxp.com, linux@armlinux.org.uk,
- linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Danilo,
 
-On Wed, Jul 20, 2022 at 10:30:51AM +0200, Thomas Zimmermann wrote:
-> The plane helpers are included by dozens of files without any need. Only
-> a hand full of source files need anything from drm_plane_helper.h.
+thanks for submitting this patch.
+
+On Wed, Jul 20, 2022 at 04:02:13PM +0200, Danilo Krummrich wrote:
+> Use drm managed resource allocation (drmm_universal_plane_alloc()) in
+> order to cleanup/simplify drm plane .destroy callback.
 > 
-> Untangle everything and tidy up the code a bit. The patches were built
-> on x64-64, aarch64 and arm without issues.
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_plane.c | 30 +++++++-------------------
+>  1 file changed, 8 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> index 6d3cc9e238a4..3008551d6a05 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> @@ -67,16 +67,10 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+>  	return format;
+>  }
+>  
+> -static void virtio_gpu_plane_destroy(struct drm_plane *plane)
+> -{
+> -	drm_plane_cleanup(plane);
+> -	kfree(plane);
+> -}
+> -
+>  static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
+>  	.update_plane		= drm_atomic_helper_update_plane,
+>  	.disable_plane		= drm_atomic_helper_disable_plane,
+> -	.destroy		= virtio_gpu_plane_destroy,
+> +	.destroy		= drm_plane_cleanup,
 
-Build tested the final result here on a few more archs without any issues.
-I like the removal of the include statements and the simpler header
-file.
+From the documentation of drmm_universal_plane_alloc:
 
-I did not really get what is gained by pushing out drm_plane_funcs
-to the drivers but trust this is in the end a better solution.
+    The @drm_plane_funcs.destroy hook must be NULL.
 
-Series is:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+So the above assignment looks wrong.
+
+The rest of this patch looks OK.
 
 	Sam
+
+
+>  	.reset			= drm_atomic_helper_plane_reset,
+>  	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+>  	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> @@ -379,11 +373,7 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
+>  	const struct drm_plane_helper_funcs *funcs;
+>  	struct drm_plane *plane;
+>  	const uint32_t *formats;
+> -	int ret, nformats;
+> -
+> -	plane = kzalloc(sizeof(*plane), GFP_KERNEL);
+> -	if (!plane)
+> -		return ERR_PTR(-ENOMEM);
+> +	int nformats;
+>  
+>  	if (type == DRM_PLANE_TYPE_CURSOR) {
+>  		formats = virtio_gpu_cursor_formats;
+> @@ -394,17 +384,13 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
+>  		nformats = ARRAY_SIZE(virtio_gpu_formats);
+>  		funcs = &virtio_gpu_primary_helper_funcs;
+>  	}
+> -	ret = drm_universal_plane_init(dev, plane, 1 << index,
+> -				       &virtio_gpu_plane_funcs,
+> -				       formats, nformats,
+> -				       NULL, type, NULL);
+> -	if (ret)
+> -		goto err_plane_init;
+> +
+> +	plane = drmm_universal_plane_alloc(dev, struct drm_plane, dev,
+> +					   1 << index, &virtio_gpu_plane_funcs,
+> +					   formats, nformats, NULL, type, NULL);
+> +	if (IS_ERR(plane))
+> +		return plane;
+>  
+>  	drm_plane_helper_add(plane, funcs);
+>  	return plane;
+> -
+> -err_plane_init:
+> -	kfree(plane);
+> -	return ERR_PTR(ret);
+>  }
+> -- 
+> 2.36.1
