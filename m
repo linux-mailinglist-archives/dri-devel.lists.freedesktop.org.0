@@ -2,108 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC6357BEF9
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 22:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3071C57BF2E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 22:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A849E11BA26;
-	Wed, 20 Jul 2022 20:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FE710F34B;
+	Wed, 20 Jul 2022 20:26:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2071.outbound.protection.outlook.com [40.107.243.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0BB11B4E3;
- Wed, 20 Jul 2022 20:08:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h7Vv1tHoh8XNfOkcW2qPnQ2GhdNEKsYx3Gy6duOarqMG8rE4bksOR27aELOzoKTfWZh16ypW4JnvU2PNbXadN9XarkyvaVvb1OHqmyj5Lwvauh+vPXzZZlld7fHBBOJGNzIXY7704c+GX/V/0utRMPdgWzaUO4eXCJo9xsyad1DkD5oheOZQjFcMNOYbMoe90mBe2RIn+i7iq7xpye64iNWBiaZl2RHB2pSq7zgBbCy5AEE/brmr4EgyBCTD1Crjt5HeAHXSEk3hQoQ9KqB/Pi1xW6hOLdVJbybK8yHnRANomD2uTdx+p7AnlgHpTsQCJEhJewVgcMb/Oyn6zr9yaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uFIV/uobVcUsxlqWI/QapcqAfKZu+w2VoltTiRmWEuU=;
- b=b/zNR3VeaxC/rjRF1MXukl3kHZ1v8pua346nG+LKAjqvJ3rxeJuuIh3RvcYdFG9k7tuuZT9k9osrUrWExQtiJTy8L6hIt6gxabXn/hA8W1Y+K5iEJcDpI+3nRaO3rL/vSbsuBWIjPEy3hvd+RNKi0mAsK8XnFpkOU+8CmCCqWzGtqk58s6/12XeRkSr0/Clsres67AydM6b+0WapsD/qTBc+zDgPe0OYKxzR4NltKMm5ktwA/yCvsu2mHEntVcpLkTq2zo8ZAIMJsrMcFIpnYzVUXFcXLrC+V4Z2sPAHKtjLZgdMxEq8E4nxeA4eiFtS6Xu8rN87MPpaYCEFsyhDIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uFIV/uobVcUsxlqWI/QapcqAfKZu+w2VoltTiRmWEuU=;
- b=D8WjuBh6ZGgKl1mZndxxpKc84EJIpcI4CNnoJH47MrzIVXF+85zd5vdBwioiJiZ7VKFK7IS3FmmIX84Pu872+1BW65aFY2tr9tqaWFz7P+AQtCr37wvlp32KX0wD8AHKV0yZpeTM1JVyqL8ipkMXtXajaSU9UMPquIeANRZ5XAN8Cn/FaDAZGIRrI/mCFtWmJayYlwY1ReRym8MkCT5ghiCwC/A90Og35pZV5DMhN/4ouuFXywtJOxW9meykusznPJfqUBjkId/0KkmwRhrfZtNAuNgd6lltpfVPkdvKp06nY+qh53cvNfO34qFu8R9VlypHZo+eR6pZLUJ8RP9OrA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by MN2PR12MB4783.namprd12.prod.outlook.com (2603:10b6:208:3e::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.21; Wed, 20 Jul
- 2022 20:08:31 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5458.018; Wed, 20 Jul 2022
- 20:08:31 +0000
-Date: Wed, 20 Jul 2022 17:08:29 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v4 1/2] vfio: Replace the DMA unmapping notifier with a
- callback
-Message-ID: <20220720200829.GW4609@nvidia.com>
-References: <0-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
- <1-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
- <20220720134113.4225f9d6.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220720134113.4225f9d6.alex.williamson@redhat.com>
-X-ClientProxiedBy: BL1PR13CA0265.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::30) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDAB10EFA9;
+ Wed, 20 Jul 2022 20:26:45 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id a5so27676671wrx.12;
+ Wed, 20 Jul 2022 13:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jHuW9J2qFnOFuq2DHP+vSS0Cz7nU1OQDb7da5IMfnOY=;
+ b=OP3ijZgr3m1YypUunAaAZvBcPYM6PoPO9/BwOeXOGygzE/XFCsO+3jD7VFmpwQqf1p
+ 4tT0C9QFpdHDV5Z9MaRHDV1PG6dwz4Mg5jBYHUCw+VunO41ZIxSToPnTWLuah3MPWawC
+ laZkQBRYyknDMnrk4jtqwi2U6VeZY8MLMT1JGqw8n3CF+MqnGCj8F74FRT12j0fHd8FK
+ 7gU8nXRrYgCmi51iAhjKKH3sDsYtPMcwhQbCYDgLnfe0KWoxglq37Adersj+faDel+oK
+ JRhvBRCV5wh+HfCqkCpWV8lh7HoipzqpfuYZB2up65DK5f/NcaEm9FaJqvsMDwE4mjAR
+ AQRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jHuW9J2qFnOFuq2DHP+vSS0Cz7nU1OQDb7da5IMfnOY=;
+ b=5tV4zU0V0mW5a3ymFYhPrTp7bo6lfl5FPjSSl/r5RVjSHxZnXL5DgfXz7ShrN5r+xL
+ fNoaFR0o01em18YnvYGazmb89tu0h0JLDgjgcNqf/HE+WS6Es9cXfHBMgFquhZv71QUg
+ K7daGUtRop3gaRBEec+pqayWQVzRnlVUMUBDxT5bc7d28ixjDz2w+n6aGn08I6QxKLSP
+ fOCCPgSlBj1s4yCUa0Sl1LRqbOAhjFe7YEAzrIGHWXODrK+r9xGkUd+hkFNOQI3eRkxG
+ 4F+I2KCwe62hovoR5mbZTGFr5WtZpAjczxCvwxP83ppA0gDpWSE2t/9QW/2hhVhdIrXX
+ nifg==
+X-Gm-Message-State: AJIora8Trnhyip99KNQ+NDxg8k+zkcivM4e/U8AyyfA+o5mZoOy1ZD3r
+ A7lzuDPcRU6///W33Eitkaze+9n7vR5GXPv+05I=
+X-Google-Smtp-Source: AGRyM1sdLUJP82vh50JIHwPklZ9I0/mLdHrsUJSla84fT90654SJWPhZraE+OgsdUrXsMwy/r0IjyfAE96rS9TC4SJ0=
+X-Received: by 2002:adf:e187:0:b0:21d:64c6:74f0 with SMTP id
+ az7-20020adfe187000000b0021d64c674f0mr31084766wrb.221.1658348803961; Wed, 20
+ Jul 2022 13:26:43 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 63e8c680-5a38-4349-e819-08da6a8b9e08
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4783:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vpu+Cv5x5vqm8Yu+AgAkuOYAaP+lqB2Yvn0rnogh/qQ4ARw5NbRoZ60m4/ScyfLz2i02aOgJ/utDeLeK/YCWutct4m/4eVz4F3cCNHw1wEBCuPbpupclDFYHbv1lrDdru+WhuS1caatLg/6TPpzUQyw3WL2tJRgW7msaEwEZcjpnOGa2fJc5afuhjHPir9qXlZMnDdxwDeDCvYUl3rVyrn8hnTEa5xnW8mbDxZHeqnKGb8nUJv3BOE6lP8HgREtw7qPsYsyWn70Oa9tNILgy1crZJfBV+3OcdnF4RIjsjKkIUyKDWsLxSKcaEt6CuwLUgHI7UZvTxLj8HCwya4VgInWYrGUbADDnOchvzX8iRFEs+oZts1uuFzApupnM4IYTycMJUczfhOHVr2WstlECoa/0FJem42Wj+nB4B6lrJDLxiPNN7G0N3xgIxTlj7B24Drb/oVkqzBC0Wu06TtgCvgfAI4dvo8U0UtQFa32c1zsdflQ1/m1a/g4H0xaEtimn8Ttuv21JoOFXNQPMsbcF4PqZpnLbP4WzAa3oROSBEKgJ3rxDj9jVBna2gs2JAPRuvpUIPqFYph7cJNcXJ1fhpHYTQmq+xKA0+qvH/YPTglR1VqOxCNjXUxgPyAI2De+jcYRNnsUcjVLefH4Ov/sWKjFETvb4vRTgXiqB4U3nIXdDnXMaEFR9o7NZ6b4nxi5xlgI8Ku6Beuq6z6sMEtxPJm78Zx7dTjMF9scFlz41yJI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(366004)(346002)(136003)(39860400002)(396003)(5660300002)(8936002)(7416002)(7406005)(33656002)(2906002)(478600001)(26005)(86362001)(6506007)(6512007)(6486002)(8676002)(107886003)(2616005)(1076003)(186003)(38100700002)(83380400001)(41300700001)(66556008)(6916009)(4326008)(54906003)(36756003)(66476007)(316002)(66946007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m5O4tfz8WmT8mit0zKYsuq1NArr8EDAaGnEAW75ZquZisT8K52BgYjwek6vo?=
- =?us-ascii?Q?R5vR9Q24ad4Thkc+b644rL1mlymfWiv3uGB/P9i5eddDBS+npuIH0H6K8x0p?=
- =?us-ascii?Q?Y4aBo8MbYxcytmqPkqEGtEqqDXL5li+V1a+xNXPqFgt9yYPE9EoVFYkfYcdj?=
- =?us-ascii?Q?Busv6FT12zAWSMgL3ryrWW6M9jEIp16pac68PJhuIexkTlITruPqzwlihuIG?=
- =?us-ascii?Q?94ifwlZppWwlvqMb77KEh/IoZytAaQJMBPSWSoZW2CwLZzrA2D6w6Ex98H3G?=
- =?us-ascii?Q?/7wb6O8PMcsKmBt3RV2svB6eN16FsMbFg6IHLDHY3Uxpn/m0BvgqHXcBaOB2?=
- =?us-ascii?Q?nlT0A92rijjEEoR81XRIeGSo26IDu4gDzDW7CWMwtiC5NryqFkVK/ea8Vjd7?=
- =?us-ascii?Q?MBvjGk3FELJC85Rh+vs3ccvQyk+olOetUhNnxZYV0qBtcnsn03UfazMt9mmu?=
- =?us-ascii?Q?j8Uye+7HYzwTeSjDZrn4bBN2WK7gVWO8rIfwdxHd5OVbA2i80FRrDUM0XOmF?=
- =?us-ascii?Q?84891zJs5nwVj1DzJno4El/JrluxCFUqHKZ3TiksaU9MSTNNqOkSiLhkv+ZH?=
- =?us-ascii?Q?la4i9P9ZPgIdVWgGBtJHT+pBZU8/JDs1bp+CkMuNSSQMCUyZsj1zS1I4vZYR?=
- =?us-ascii?Q?U6cuxCY+HcepkMMA556rU/3wS2LB7s/Idv0w17V9Cu1K5PectQ1j9ssVwHPj?=
- =?us-ascii?Q?cqamtNPopKkfQMmjY4LMVtd87rFhSB7rIhXIawp8k1H4W97hcIWw8SliWSbG?=
- =?us-ascii?Q?sQ8Nzu/HZfq98lpYV6t+2KfkeCtUhA8Sv4OGxXIvOR1JLpsNDa5QgthXjEMY?=
- =?us-ascii?Q?x95gleeci8S78HIDkmsRIFDbFZJXdKs24MdbwO2cxkWIQI5SNb99UcR4g0Ve?=
- =?us-ascii?Q?hubtUpMQ7+P94boHgJQxjzKeMSQgAD+POkDPWGIMmCJde77gm6l4JyqBnn9o?=
- =?us-ascii?Q?LtOTAkXLNPsQD+OGRiGll4TpFUuqEC1hFZq7wiqwcFtMYXvmE0cnD8yOSUxb?=
- =?us-ascii?Q?BPj4K/dSpEgIEyFnsYq98QddT0km3g0/MVUmzb4MCbs6xaQ5RWCdSZd0vEY3?=
- =?us-ascii?Q?rNWSVZVpt7hF/sfFZuSo8aY9a3/dhjUPYC2xYmS9gXl0mzdr+6n10lWOiLYG?=
- =?us-ascii?Q?kT/bYokelZM51R7VRQWW0sFZdbOCeUx/ONGeDEydMB+eca7mjKecPe8ofeRl?=
- =?us-ascii?Q?CX8J9vqB6xbpvdGKi3qKvOcn40/dnW+s5QQUNcsOXU5rovuq3r2drFFAnk8q?=
- =?us-ascii?Q?DlPrUZSeUPe91O3TY7QZRMOj/bwS4H6cwZbLZ7Y67Co3c2igEOzLCrcNsleA?=
- =?us-ascii?Q?s5L+XrBeNCnNuxaNB0t4uUCAYG1CxrhOPpNq8P1LlVp+yNQPj6od4hrGfKoF?=
- =?us-ascii?Q?3PVtA1BNHa1bAe4FryQK0l6jvF3qP2C1xD2KvaQ5ln5vU9M9kYSMNmtilEgb?=
- =?us-ascii?Q?ojdjr5PUhVJHK6vSxHXD0s/JkesS08/qjryWgk7IHPgkzS2qS4Y55MffYOR3?=
- =?us-ascii?Q?Iw9QlN4XkximTZuTTsS+2ZImVwQNvgXofpzQl+9tjtXMqwBOdgAkoPCyQerq?=
- =?us-ascii?Q?z2s1DjBByfthAT2on6Fm+gqEWIr7FjZyGU2ALPBL?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63e8c680-5a38-4349-e819-08da6a8b9e08
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2022 20:08:31.2135 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e9MiieropZOiHFi/DBbO/QgDICEon2BdheESMjxTfFqHvMd2zqkxDJayXqLFJ76T
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4783
+References: <1655802387-15275-1-git-send-email-quic_kalyant@quicinc.com>
+ <1655802387-15275-2-git-send-email-quic_kalyant@quicinc.com>
+ <CAA8EJponMDAXDAZ9zpkYEZvONDAztuXhjwZ6y7rgo1HtQOMtfQ@mail.gmail.com>
+ <BN0PR02MB81426CB90870085223C308A496B99@BN0PR02MB8142.namprd02.prod.outlook.com>
+In-Reply-To: <BN0PR02MB81426CB90870085223C308A496B99@BN0PR02MB8142.namprd02.prod.outlook.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 20 Jul 2022 13:26:31 -0700
+Message-ID: <CAF6AEGssKD-ZnAb05isb+h9t29AQp5fOHD4johbyMWHRQq530g@mail.gmail.com>
+Subject: Re: [v1 2/2] drm/msm/disp/dpu1: enable crtc color management based on
+ encoder topology
+To: Kalyan Thota <kalyant@qti.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,56 +66,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Kevin Tian <kevin.tian@intel.com>, dri-devel@lists.freedesktop.org,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
+Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "Vinod Polimera \(QUIC\)" <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 20, 2022 at 01:41:13PM -0600, Alex Williamson wrote:
- 
-> ie. we don't need the gfn, we only need the iova.
+On Mon, Jun 27, 2022 at 4:56 AM Kalyan Thota <kalyant@qti.qualcomm.com> wrote:
+>
+> Thanks for the comments, Dmitry. I haven't noticed mode->hdisplay being used. My idea was to run thru the topology and tie up the encoders with dspp to the CRTCs.
+> Since mode is available only in the commit, we cannot use the dpu_encoder_get_topology during initialization sequence.
+>
+> The requirement here is that when we initialize the crtc, we need to enable drm_crtc_enable_color_mgmt only for the crtcs that support it. As I understand from Rob, chrome framework will check for the enablement in order to exercise the feature.
+>
+> Do you have any ideas on how to handle this requirement ? Since we will reserve the dspp's only when a commit is issued, I guess it will be too late to enable color management by then.
+>
+> @robdclark@gmail.com
+> Is it okay, if we disable color management for all the crtcs during initialization and enable it when we have dspps available during modeset. Can we framework code query for the property before issuing a commit for the frame after modeset ?
+>
 
-Right, that makes sense
- 
-> However then I start to wonder why we're passing in 1 for the number of
-> pages because this previously notifier, now callback is called for the
-> entire vfio_dma range when we find any pinned pages.  
+So, I suppose it would work out, because the splashscreen/frecon is
+doing the first modeset before chrome even starts.  But that seems a
+bit... delicate.
 
-Well, it is doing this because it only ever pins one page.
+BR,
+-R
 
-The drivers are confused about what the contract is. vfio is calling
-the notifier with the entire IOVA range that is being unmapped and the
-drivers are expecting to receive notifications only for the IOVA they
-have actually pinned.
-
-> Should ap and ccw implementations of .dma_unmap just be replaced with a
-> BUG_ON(1)?
-
-The point of these callbacks is to halt concurrent DMA, and ccw does
-that today. It looks like AP is missing a call to ap_aqic(), so it is
-probably double wrong.
-
-What I'd suggest is adding a WARN_ON that the dma->pfn_list is not
-empty and leave these functions alone.
-
-Most likely AP should be fixed to call vfio_ap_irq_disable() and to
-check the q->saved_pfn against the IOVA.
-
-But I'm inclined to leave this as-is for this series given we are at
-rc7.
-
-Jason
+> Thanks,
+> Kalyan
+>
+> > -----Original Message-----
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Sent: Tuesday, June 21, 2022 4:43 PM
+> > To: Kalyan Thota (QUIC) <quic_kalyant@quicinc.com>
+> > Cc: y@qualcomm.com; dri-devel@lists.freedesktop.org; linux-arm-
+> > msm@vger.kernel.org; freedreno@lists.freedesktop.org;
+> > devicetree@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > robdclark@gmail.com; dianders@chromium.org; swboyd@chromium.org;
+> > Vinod Polimera (QUIC) <quic_vpolimer@quicinc.com>; Abhinav Kumar (QUIC)
+> > <quic_abhinavk@quicinc.com>
+> > Subject: Re: [v1 2/2] drm/msm/disp/dpu1: enable crtc color management based
+> > on encoder topology
+> >
+> > WARNING: This email originated from outside of Qualcomm. Please be wary of
+> > any links or attachments, and do not enable macros.
+> >
+> > Generic comment: y@qualcomm.com address bounces. Please remove it from
+> > the cc list. If you need to send a patch for the internal reasons, please use Bcc.
+> >
+> > On Tue, 21 Jun 2022 at 12:06, Kalyan Thota <quic_kalyant@quicinc.com> wrote:
+> > >
+> > > Crtc color management needs to be registered only for the crtc which
+> > > has the capability to handle it. Since topology decides which encoder
+> > > will get the dspp hw block, tie up the crtc and the encoder together
+> > > (encoder->possible_crtcs)
+> > >
+> > > Change-Id: If5a0f33547b6f527ca4b8fbb78424b141dbbd711
+> >
+> > No change-id's please. This is not the gerrit.
+> >
+> > > Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  8 ++++++--
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |  2 +-
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 20 ++++++++++++++++----
+> > > drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  5 +++++
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 22 ++++++++++++++++++----
+> > >  5 files changed, 46 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > index 7763558..2913acb 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > @@ -1511,7 +1511,7 @@ static const struct drm_crtc_helper_funcs
+> > > dpu_crtc_helper_funcs = {
+> > >
+> > >  /* initialize crtc */
+> > >  struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane
+> > *plane,
+> > > -                               struct drm_plane *cursor)
+> > > +                               struct drm_plane *cursor, unsigned int
+> > > + enc_mask)
+> > >  {
+> > >         struct drm_crtc *crtc = NULL;
+> > >         struct dpu_crtc *dpu_crtc = NULL; @@ -1544,7 +1544,11 @@
+> > > struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct
+> > > drm_plane *plane,
+> > >
+> > >         drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
+> > >
+> > > -       drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
+> > > +       /* Register crtc color management if the encoder has dspp, use the
+> > > +        * crtc to mark it as possible_crtcs for that encoder.
+> > > +        */
+> > > +       if(BIT(crtc->index) & enc_mask)
+> >
+> > So, we are checking CRTC's index against the encoder's mask? This is
+> > counterintuitive.
+> >
+> > > +               drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
+> > >
+> > >         /* save user friendly CRTC name for later */
+> > >         snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u",
+> > > crtc->base.id); diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > index b8785c3..0a6458e 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > @@ -269,7 +269,7 @@ void dpu_crtc_complete_commit(struct drm_crtc
+> > *crtc);
+> > >   * @Return: new crtc object or error
+> > >   */
+> > >  struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane
+> > *plane,
+> > > -                              struct drm_plane *cursor);
+> > > +                              struct drm_plane *cursor, unsigned int
+> > > + enc_mask);
+> > >
+> > >  /**
+> > >   * dpu_crtc_register_custom_event - api for enabling/disabling crtc
+> > > event diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > index f2cb497..893ce68 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > @@ -13,6 +13,8 @@
+> > >  #include <drm/drm_crtc.h>
+> > >  #include <drm/drm_file.h>
+> > >  #include <drm/drm_probe_helper.h>
+> > > +#include <drm/drm_bridge.h>
+> > > +#include <drm/drm_bridge_connector.h>
+> > >
+> > >  #include "msm_drv.h"
+> > >  #include "dpu_kms.h"
+> > > @@ -511,13 +513,18 @@ void dpu_encoder_helper_split_config(
+> > >         }
+> > >  }
+> > >
+> > > -static struct msm_display_topology dpu_encoder_get_topology(
+> > > -                       struct dpu_encoder_virt *dpu_enc,
+> > > +struct msm_display_topology dpu_encoder_get_topology(
+> > > +                       struct drm_encoder *drm_enc,
+> > >                         struct dpu_kms *dpu_kms,
+> > >                         struct drm_display_mode *mode)  {
+> > >         struct msm_display_topology topology = {0};
+> > > +       struct dpu_encoder_virt *dpu_enc;
+> > > +       struct drm_bridge *bridge;
+> > >         int i, intf_count = 0;
+> > > +       bool primary_display = false;
+> > > +
+> > > +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+> > >
+> > >         for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+> > >                 if (dpu_enc->phys_encs[i]) @@ -542,7 +549,12 @@ static
+> > > struct msm_display_topology dpu_encoder_get_topology(
+> > >         else
+> > >                 topology.num_lm = (mode->hdisplay >
+> > > MAX_HDISPLAY_SPLIT) ? 2 : 1;
+> > >
+> > > -       if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+> > > +       drm_for_each_bridge_in_chain(drm_enc, bridge) {
+> > > +               if (bridge->type != DRM_MODE_CONNECTOR_DisplayPort)
+> > > +                       primary_display = true;
+> > > +       }
+> >
+> > I must admit, I never actually liked the original (intf_type == DSI) check. However
+> > the new one is even worse. We are checking the whole bridge chain in an
+> > attempt to rule out the DP ports for whatever reason. What about the HDMI
+> > ports? Should they be also frowned upon?
+> > The ugly part is that we are making the decision for the user, which displays are
+> > "primary" for him. Can we let the user make this setting?
+> >
+> > > +
+> > > +       if (primary_display) {
+> > >                 if (dpu_kms->catalog->dspp &&
+> > >                         (dpu_kms->catalog->dspp_count >= topology.num_lm))
+> > >                         topology.num_dspp = topology.num_lm; @@ -601,7
+> > > +613,7 @@ static int dpu_encoder_virt_atomic_check(
+> > >                 }
+> > >         }
+> > >
+> > > -       topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
+> > > +       topology = dpu_encoder_get_topology(drm_enc, dpu_kms,
+> > > + adj_mode);
+> >
+> > extra whitespace change. Please drop.
+> >
+> > >
+> > >         /* Reserve dynamic resources now. */
+> > >         if (!ret) {
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> > > index 1f39327..c4daf7c 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> > > @@ -172,4 +172,9 @@ int dpu_encoder_get_vsync_count(struct
+> > drm_encoder
+> > > *drm_enc);
+> > >
+> > >  bool dpu_encoder_is_widebus_enabled(const struct drm_encoder
+> > > *drm_enc);
+> > >
+> > > +struct msm_display_topology dpu_encoder_get_topology(
+> > > +                       struct drm_encoder *drm_enc,
+> > > +                       struct dpu_kms *dpu_kms,
+> > > +                       struct drm_display_mode *mode);
+> > > +
+> > >  #endif /* __DPU_ENCODER_H__ */
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > index 3a4da0d..486ff9d 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > @@ -687,9 +687,12 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms
+> > *dpu_kms)
+> > >         unsigned cursor_idx = 0;
+> > >         unsigned primary_idx = 0;
+> > >         bool pin_overlays;
+> > > +       unsigned int max_dspp_count = 0;
+> > > +       unsigned int enc_mask = 0;
+> > >
+> > >         struct msm_drm_private *priv;
+> > >         struct dpu_mdss_cfg *catalog;
+> > > +       struct msm_display_topology topology = {0};
+> > >
+> > >         int primary_planes_idx = 0, cursor_planes_idx = 0, i, ret;
+> > >         int max_crtc_count;
+> > > @@ -754,10 +757,19 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms
+> > *dpu_kms)
+> > >         }
+> > >
+> > >         max_crtc_count = min(max_crtc_count, primary_planes_idx);
+> > > +       max_dspp_count = catalog->dspp_count;
+> > > +
+> > > +       drm_for_each_encoder(encoder, dev) {
+> > > +               topology = dpu_encoder_get_topology(encoder, dpu_kms,
+> > > + NULL);
+> >
+> > This can crash dpu_encoder_get_topology() because it checks mode->hdisplay.
+> > And the check anyway is futile here. We do not know if the encoder is going to
+> > use 1 or 2 LMs (since we do not know the resolution), so we do not know
+> > whether it will use 1 or 2 DSPP blocks.
+> >
+> > > +               if (topology.num_dspp > 0 && (topology.num_dspp <=
+> > max_dspp_count)) {
+> > > +                       enc_mask |= BIT(encoder->index);
+> > > +                       max_dspp_count -= topology.num_dspp;
+> > > +               }
+> > > +       }
+> > >
+> > >         /* Create one CRTC per encoder */
+> > >         for (i = 0; i < max_crtc_count; i++) {
+> > > -               crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i]);
+> > > +               crtc = dpu_crtc_init(dev, primary_planes[i],
+> > > + cursor_planes[i], enc_mask);
+> > >                 if (IS_ERR(crtc)) {
+> > >                         ret = PTR_ERR(crtc);
+> > >                         return ret;
+> > > @@ -765,9 +777,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms
+> > *dpu_kms)
+> > >                 priv->crtcs[priv->num_crtcs++] = crtc;
+> > >         }
+> > >
+> > > -       /* All CRTCs are compatible with all encoders */
+> > > -       drm_for_each_encoder(encoder, dev)
+> > > -               encoder->possible_crtcs = (1 << priv->num_crtcs) - 1;
+> > > +       /* Attach CRTC's to compatiable encoders */
+> >
+> > compatible
+> >
+> >
+> > > +       drm_for_each_encoder(encoder, dev) {
+> > > +               encoder->possible_crtcs = (enc_mask & BIT(encoder->index)) ?
+> > > +                               BIT(encoder->index) : (((1 << priv->num_crtcs) - 1) &
+> > ~enc_mask);
+> > > +       }
+> > >
+> > >         return 0;
+> > >  }
+> > > --
+> > > 2.7.4
+> > >
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
