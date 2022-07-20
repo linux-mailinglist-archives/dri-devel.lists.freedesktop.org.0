@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF6857BA57
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:35:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3FC57BA7A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8118F462;
-	Wed, 20 Jul 2022 15:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C938F5CB;
+	Wed, 20 Jul 2022 15:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
  [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749598F458;
- Wed, 20 Jul 2022 15:33:30 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id n7so14537987ioo.7;
- Wed, 20 Jul 2022 08:33:30 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91A248F49A;
+ Wed, 20 Jul 2022 15:33:32 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id h145so14543470iof.9;
+ Wed, 20 Jul 2022 08:33:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8gGCI0m8r004HoJxLqXDC1X1/A0StWSdDwFBgrxhMVw=;
- b=pP2Ch0j9cYaoD7HNPrfmuREfrAWXaQ/J4R0E4D2FCLxzhANm3RSYZMrCA2VL0lwqZ1
- 6YUt2PtWF++HKEmQiGU4jG8EXsPHNS/MZyoTrr96/Z60Tuw8iP6r+vakdLkWa2iOruFx
- eGhhveZWTc0Ij4Uih1yDjplRus4eHzl6CVxeLQopygGNbP7ItPiZMix4ipZ1oH+PGsZd
- ZQrMgFjhVOb5L12b+wX4vS1PFG8yiDKtPOWdVfxWmrrISDxdTUKwd4yxwhyviNzxtv/j
- 1MYu+58fSB+/+rSHdYXCwpa9zav6gmoh+DEdfUfHJNRo1SZoB+ipyuToDUlY5g3nSbvh
- pnyw==
+ bh=tAc5RKv+WWvf0AVXeW96W8inWeyrC9o7+W9TGpSg+s8=;
+ b=Sg4IB9kGmmBPHRzIVUlrlhfbZfKHArauwcu6AiOjsnbSCBHhDwJ0MEUH5PF1c2/o0m
+ 2RExuMVSQ3Kosf2EGRNdLyl7D5DRoRdvDMEXATj4WDBuiWnPqemVqGDLvZol/Wc33XeE
+ AB7Rh/2teOZ3UcCnzwpVWXLyj3NYn3Al4EAuB89kwN+w62KIo5QEYlt1BN6Zt+3WrdvK
+ gLKrcdeF/CLMYm3Y1KBps2atZd34BvNsfVc5nQvoecAjKnBsIWh0Qh5m9EJ2gCPENXiW
+ Wuj5b+3LlKvzbsd4t6UsSV/t5Nx0SPCXZS1WcDtvWWoy5E5+6jgrEt5FEyBSgvQVPApg
+ +mzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8gGCI0m8r004HoJxLqXDC1X1/A0StWSdDwFBgrxhMVw=;
- b=u90hGnkCnaVaDhpHjjnKhGmvQBRE/ek+gVPVaydiRCtn+4IWk2FokVp1/hzT5wM/e4
- 11pWLdzWzVN02zwO663n7QYwAXhrTQZ3wOIjtfLRgpkLLqxF143Oqo8yOxD9xdJJoDNf
- QsEnJBj1X7TfUJQmBE6VyZ1Xrx8sii55BHfb53uBeXOA5VIOhtOHCRIBaX1XBTHRCZhy
- JdgMNKzja3ySUKpK6LRMLV7edhmEsViVbT5g+fNYCbFBEyopAoiK0KL6voNxdWmNQoy2
- 8ZhIY7XkG0eqzMRHHV96auXtGIvhkZZO3eZFEh3nRg42+XpyKF8oWHmuBQnkDye2AXc/
- 0JEg==
-X-Gm-Message-State: AJIora+Pt9NGJFCILfkpXDq7VEo11klK0Kb4XSUVBcvt19mtrFLKQAQA
- gJAMO8QHlfN3XEgVeo+vmAmQLJzoW3yeTg==
-X-Google-Smtp-Source: AGRyM1sVONqIhEQFG3E677QRE/pGcJTLkuoZ3upVkJXGOH7vhJhdlmGLzNOMSl3UlnRvMRjl0NGIqw==
-X-Received: by 2002:a05:6602:180c:b0:67c:296:2561 with SMTP id
- t12-20020a056602180c00b0067c02962561mr8284436ioh.173.1658331209529; 
- Wed, 20 Jul 2022 08:33:29 -0700 (PDT)
+ bh=tAc5RKv+WWvf0AVXeW96W8inWeyrC9o7+W9TGpSg+s8=;
+ b=I5wFfwoAVJkvdkDrFThfY2nSCMm63R8pIR8oyW+m08uTj9Gzz1wqgSStNBl7zskDjI
+ c8xb4X15KmM1AL0B69FEanohdFc0lzm63U7AwJkfH3myR/zb0XOVcTmaUP03DqZEod37
+ QxtwKcew7ruTUv6PBRLx2ZcPPKCCSIm2NhjlkQ2wDXQZWSYdzwhpSD2VYCsMtNueDejl
+ d74Opykbqj6SQtU/IA5FNVERtgNQI0+huxBeODWxJVQ9kt6Lu2Rp5RnLaEWKdHOt1Hjs
+ 3iViA6YBvOUuYE5RUEHTfZz/mk4bH6BbZGmpBQC1ZkzmONgFEavIjztkxx6ij9EvtJSc
+ VAww==
+X-Gm-Message-State: AJIora/OJtTcmGrXVK6FI1JvcZUYAVpf4a3ak1KZ9E1g6UWKcA0fa/NR
+ Orh0hvso895/ESkiza6hSX0YuuvmYJ+OSQ==
+X-Google-Smtp-Source: AGRyM1s3Jwm3E0k9SmEYSdLegsEXyEWU7kImD4jLAgMmt6/vVYvMXfIYEMuIQsTjuYpVq9aQrhwHaA==
+X-Received: by 2002:a05:6602:486:b0:678:dad9:e56a with SMTP id
+ y6-20020a056602048600b00678dad9e56amr17209191iov.97.1658331210548; 
+ Wed, 20 Jul 2022 08:33:30 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.28
+ q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:33:29 -0700 (PDT)
+ Wed, 20 Jul 2022 08:33:30 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com
-Subject: [PATCH v4 30/41] tracing/events: Add __vstring() and __assign_vstr()
- helper macros
-Date: Wed, 20 Jul 2022 09:32:22 -0600
-Message-Id: <20220720153233.144129-31-jim.cromie@gmail.com>
+Subject: [PATCH v4 31/41] dyndbg: add _DPRINTK_FLAGS_ENABLED
+Date: Wed, 20 Jul 2022 09:32:23 -0600
+Message-Id: <20220720153233.144129-32-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720153233.144129-1-jim.cromie@gmail.com>
 References: <20220720153233.144129-1-jim.cromie@gmail.com>
@@ -73,211 +72,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Lindner <mareklindner@neomailbox.ch>,
- Antonio Quartulli <a@unstable.cc>, Eric Dumazet <edumazet@google.com>,
- Gregory Greenman <gregory.greenman@intel.com>, Ingo Molnar <mingo@kernel.org>,
- Sven Eckelmann <sven@narfation.org>, Leon Romanovsky <leon@kernel.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Mathias Nyman <mathias.nyman@intel.com>, Kalle Valo <kvalo@kernel.org>,
- Hante Meuleman <hante.meuleman@broadcom.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>, Bin Liu <b-liu@ti.com>,
- Franky Lin <franky.lin@broadcom.com>, Arend van Spriel <aspriel@gmail.com>,
- Simon Wunderlich <sw@simonwunderlich.de>, Peter Chen <peter.chen@kernel.org>,
- Johannes Berg <johannes@sipsolutions.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: vincent.whitchurch@axis.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+Distinguish the condition: _DPRINTK_FLAGS_ENABLED from the bit:
+_DPRINTK_FLAGS_PRINT, and re-define former in terms of latter, in
+preparation to add a 2nd bit: _DPRINTK_FLAGS_TRACE
 
-Steve's patch, carried til upstream.
+Update JUMP_LABEL code block to check _DPRINTK_FLAGS_ENABLED symbol.
+Also add a 'K' to get new symbol _DPRINTK_FLAGS_PRINTK, in order to
+break any stale uses.
 
-There's several places that open code the following logic:
-
-  TP_STRUCT__entry(__dynamic_array(char, msg, MSG_MAX)),
-  TP_fast_assign(vsnprintf(__get_str(msg), MSG_MAX, vaf->fmt, *vaf->va);)
-
-To load a string created by variable array va_list.
-
-The main issue with this approach is that "MSG_MAX" usage in the
-__dynamic_array() portion. That actually just reserves the MSG_MAX in the
-event, and even wastes space because there's dynamic meta data also saved
-in the event to denote the offset and size of the dynamic array. It would
-have been better to just use a static __array() field.
-
-Instead, create __vstring() and __assign_vstr() that work like __string
-and __assign_str() but instead of taking a destination string to copy,
-take a format string and a va_list pointer and fill in the values.
-
-It uses the helper:
-
- #define __trace_event_vstr_len(fmt, va)	\
- ({						\
-	va_list __ap;				\
-	int __ret;				\
-						\
-	va_copy(__ap, *(va));			\
-	__ret = vsnprintf(NULL, 0, fmt, __ap);	\
-	va_end(__ap);				\
-						\
-	min(__ret, TRACE_EVENT_STR_MAX);	\
- })
-
-To figure out the length to store the string. It may be slightly slower as
-it needs to run the vsnprintf() twice, but it now saves space on the ring
-buffer.
-
-Link: https://lkml.kernel.org/r/20220705224749.053570613@goodmis.org
-
-Cc: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>
-Cc: Kalle Valo <kvalo@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Arend van Spriel <aspriel@gmail.com>
-Cc: Franky Lin <franky.lin@broadcom.com>
-Cc: Hante Meuleman <hante.meuleman@broadcom.com>
-Cc: Gregory Greenman <gregory.greenman@intel.com>
-Cc: Peter Chen <peter.chen@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Bin Liu <b-liu@ti.com>
-Cc: Marek Lindner <mareklindner@neomailbox.ch>
-Cc: Simon Wunderlich <sw@simonwunderlich.de>
-Cc: Antonio Quartulli <a@unstable.cc>
-Cc: Sven Eckelmann <sven@narfation.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: Jim Cromie <jim.cromie@gmail.com>
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+CC: vincent.whitchurch@axis.com
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/trace_events.h                 | 18 ++++++++++++++++++
- include/trace/stages/stage1_struct_define.h  |  3 +++
- include/trace/stages/stage2_data_offsets.h   |  3 +++
- include/trace/stages/stage4_event_fields.h   |  3 +++
- include/trace/stages/stage5_get_offsets.h    |  4 ++++
- include/trace/stages/stage6_event_callback.h |  7 +++++++
- 6 files changed, 38 insertions(+)
+ include/linux/dynamic_debug.h | 10 ++++++----
+ lib/dynamic_debug.c           |  8 ++++----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
-index e6e95a9f07a5..b18759a673c6 100644
---- a/include/linux/trace_events.h
-+++ b/include/linux/trace_events.h
-@@ -916,6 +916,24 @@ perf_trace_buf_submit(void *raw_data, int size, int rctx, u16 type,
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index b50bdd5c8184..38cfdd5c0bdc 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -32,7 +32,7 @@ struct _ddebug {
+ 	 * writes commands to <debugfs>/dynamic_debug/control
+ 	 */
+ #define _DPRINTK_FLAGS_NONE	0
+-#define _DPRINTK_FLAGS_PRINT	(1<<0) /* printk() a message using the format */
++#define _DPRINTK_FLAGS_PRINTK	(1 << 0) /* printk() a message using the format */
+ #define _DPRINTK_FLAGS_INCL_MODNAME	(1<<1)
+ #define _DPRINTK_FLAGS_INCL_FUNCNAME	(1<<2)
+ #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
+@@ -42,8 +42,10 @@ struct _ddebug {
+ 	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |\
+ 	 _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID)
  
++#define _DPRINTK_FLAGS_ENABLED		_DPRINTK_FLAGS_PRINTK
++
+ #if defined DEBUG
+-#define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
++#define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINTK
+ #else
+ #define _DPRINTK_FLAGS_DEFAULT 0
+ #endif
+@@ -191,10 +193,10 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ 
+ #ifdef DEBUG
+ #define DYNAMIC_DEBUG_BRANCH(descriptor) \
+-	likely(descriptor.flags & _DPRINTK_FLAGS_PRINT)
++	likely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+ #else
+ #define DYNAMIC_DEBUG_BRANCH(descriptor) \
+-	unlikely(descriptor.flags & _DPRINTK_FLAGS_PRINT)
++	unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
  #endif
  
-+#define TRACE_EVENT_STR_MAX	512
-+
-+/*
-+ * gcc warns that you can not use a va_list in an inlined
-+ * function. But lets me make it into a macro :-/
-+ */
-+#define __trace_event_vstr_len(fmt, va)			\
-+({							\
-+	va_list __ap;					\
-+	int __ret;					\
-+							\
-+	va_copy(__ap, *(va));				\
-+	__ret = vsnprintf(NULL, 0, fmt, __ap) + 1;	\
-+	va_end(__ap);					\
-+							\
-+	min(__ret, TRACE_EVENT_STR_MAX);		\
-+})
-+
- #endif /* _LINUX_TRACE_EVENT_H */
+ #endif /* CONFIG_JUMP_LABEL */
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index dd27dc514aa3..2a46c642373a 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -89,7 +89,7 @@ static inline const char *trim_prefix(const char *path)
+ }
  
- /*
-diff --git a/include/trace/stages/stage1_struct_define.h b/include/trace/stages/stage1_struct_define.h
-index a16783419687..1b7bab60434c 100644
---- a/include/trace/stages/stage1_struct_define.h
-+++ b/include/trace/stages/stage1_struct_define.h
-@@ -26,6 +26,9 @@
- #undef __string_len
- #define __string_len(item, src, len) __dynamic_array(char, item, -1)
- 
-+#undef __vstring
-+#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
-+
- #undef __bitmask
- #define __bitmask(item, nr_bits) __dynamic_array(char, item, -1)
- 
-diff --git a/include/trace/stages/stage2_data_offsets.h b/include/trace/stages/stage2_data_offsets.h
-index 42fd1e8813ec..1b7a8f764fdd 100644
---- a/include/trace/stages/stage2_data_offsets.h
-+++ b/include/trace/stages/stage2_data_offsets.h
-@@ -32,6 +32,9 @@
- #undef __string_len
- #define __string_len(item, src, len) __dynamic_array(char, item, -1)
- 
-+#undef __vstring
-+#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
-+
- #undef __bitmask
- #define __bitmask(item, nr_bits) __dynamic_array(unsigned long, item, -1)
- 
-diff --git a/include/trace/stages/stage4_event_fields.h b/include/trace/stages/stage4_event_fields.h
-index e80cdc397a43..c3790ec7a453 100644
---- a/include/trace/stages/stage4_event_fields.h
-+++ b/include/trace/stages/stage4_event_fields.h
-@@ -38,6 +38,9 @@
- #undef __string_len
- #define __string_len(item, src, len) __dynamic_array(char, item, -1)
- 
-+#undef __vstring
-+#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
-+
- #undef __bitmask
- #define __bitmask(item, nr_bits) __dynamic_array(unsigned long, item, -1)
- 
-diff --git a/include/trace/stages/stage5_get_offsets.h b/include/trace/stages/stage5_get_offsets.h
-index 7ee5931300e6..fba4c24ed9e6 100644
---- a/include/trace/stages/stage5_get_offsets.h
-+++ b/include/trace/stages/stage5_get_offsets.h
-@@ -39,6 +39,10 @@
- #undef __string_len
- #define __string_len(item, src, len) __dynamic_array(char, item, (len) + 1)
- 
-+#undef __vstring
-+#define __vstring(item, fmt, ap) __dynamic_array(char, item,		\
-+		      __trace_event_vstr_len(fmt, ap))
-+
- #undef __rel_dynamic_array
- #define __rel_dynamic_array(type, item, len)				\
- 	__item_length = (len) * sizeof(type);				\
-diff --git a/include/trace/stages/stage6_event_callback.h b/include/trace/stages/stage6_event_callback.h
-index e1724f73594b..0f51f6b3ab70 100644
---- a/include/trace/stages/stage6_event_callback.h
-+++ b/include/trace/stages/stage6_event_callback.h
-@@ -24,6 +24,9 @@
- #undef __string_len
- #define __string_len(item, src, len) __dynamic_array(char, item, -1)
- 
-+#undef __vstring
-+#define __vstring(item, fmt, ap) __dynamic_array(char, item, -1)
-+
- #undef __assign_str
- #define __assign_str(dst, src)						\
- 	strcpy(__get_str(dst), (src) ? (const char *)(src) : "(null)");
-@@ -35,6 +38,10 @@
- 		__get_str(dst)[len] = '\0';				\
- 	} while(0)
- 
-+#undef __assign_vstr
-+#define __assign_vstr(dst, fmt, va)					\
-+	vsnprintf(__get_str(dst), TRACE_EVENT_STR_MAX, fmt, *(va))
-+
- #undef __bitmask
- #define __bitmask(item, nr_bits) __dynamic_array(unsigned long, item, -1)
- 
+ static struct { unsigned flag:8; char opt_char; } opt_array[] = {
+-	{ _DPRINTK_FLAGS_PRINT, 'p' },
++	{ _DPRINTK_FLAGS_PRINTK, 'p' },
+ 	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
+ 	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
+ 	{ _DPRINTK_FLAGS_INCL_LINENO, 'l' },
+@@ -246,10 +246,10 @@ static int ddebug_change(const struct ddebug_query *query,
+ 			if (newflags == dp->flags)
+ 				continue;
+ #ifdef CONFIG_JUMP_LABEL
+-			if (dp->flags & _DPRINTK_FLAGS_PRINT) {
+-				if (!(newflags & _DPRINTK_FLAGS_PRINT))
++			if (dp->flags & _DPRINTK_FLAGS_ENABLED) {
++				if (!(newflags & _DPRINTK_FLAGS_ENABLED))
+ 					static_branch_disable(&dp->key.dd_key_true);
+-			} else if (newflags & _DPRINTK_FLAGS_PRINT) {
++			} else if (newflags & _DPRINTK_FLAGS_ENABLED) {
+ 				static_branch_enable(&dp->key.dd_key_true);
+ 			}
+ #endif
 -- 
 2.36.1
 
