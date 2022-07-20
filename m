@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6D857BA83
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:36:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBEF57BA75
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 17:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E377E8F58E;
-	Wed, 20 Jul 2022 15:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90458F587;
+	Wed, 20 Jul 2022 15:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1F68F4D2;
- Wed, 20 Jul 2022 15:33:36 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id e69so7024862iof.5;
- Wed, 20 Jul 2022 08:33:36 -0700 (PDT)
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA8E8F49A;
+ Wed, 20 Jul 2022 15:33:37 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id p81so14580948iod.2;
+ Wed, 20 Jul 2022 08:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KKkb9oOdw91XqyLkF4FwBMUXpB/qcPhIT6fnMrSUSuE=;
- b=jNzQH+cIih6YKYxi0SJF9FYNIcumb+PAuinYFT5w9F7nBtrqeWdklMdzdme4aW2UQ9
- RzM+wc+U5cCsaCap+DCY0ZhItwuVJt/1W3eRewMMP/TwgLxsIIq2OT8FSZhlZPqX7UcI
- 1rKuEin88F190fVpfFEIFN6YCTCZZnIBUK5Z/YirRvq6bldI1DWDG+b6t+JDw6796KjC
- qlKISzSCOo6knC4+LhLEc2fvpUjleJo+EK6v6T4WXYJH7/LL2u7jOf4zI5CL+5oxz7oc
- Gvg0UxbXV0sMiXgdO4gX16dqoU+GCGqX0qUuhlv56W3QLpST6tryU+AfkmCfghfXtev8
- heaQ==
+ bh=HN3qot2GrUhrFIok0Aix4opho8tmQ6OyHPXteIcerns=;
+ b=Mgn450JZAE1TLgyGrg0lj5BHLXdnbdkR55Et6vt2QZmZXI3m815ZxaI7GYNCfkuuo+
+ 60DNpzJ0rBeXpVEbUWkozOzSrFptAZU9+sBxHreCg9qVA0XtruwkwcOncrllkUZMet46
+ qOeiOsDQNyAHx5mGvl0IC20lza3jcAbn2AhLNpAJPFDT+rpbuAyKqzOM4eqcG1dDmLib
+ ZVR30eSlU6GIsGNbS/FoHjoIs9Hj7IKznzNC/9XstMMWngRB3X5J6GYXIgoKpRZXLH7g
+ QogZx5bu3a2662Rw/kBMZsy641i2DcPCJNhjNrmm71Pq7QuqhQNpQdU6UJVWtcQZRC4h
+ s+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KKkb9oOdw91XqyLkF4FwBMUXpB/qcPhIT6fnMrSUSuE=;
- b=dqAaYHofXJ9B9Ml8c/ZGfaTmxgaUSuKTUohSZGUocEMCzJ/twu35l3C4cuI1SzZIT9
- dxhO8kMnzxA0c15gH8guX0XIV9Cqae4/qq488ozOn/IummTPZc2GVslRvwp1Yx+e/Emr
- kpfaVBQjhMJUhJk/NCUfrnDiuegOxpthepG6qHbVLbI79AHpCukHXyyuTOvitWfX1MED
- mNBWgv7bQPTupw68ysEUo/E9xW4hERbvneMtUaWPyBKwhD8v2u6yuFNzYxWxUSstAt2Q
- WVWljLvN64NxPsWh1sYrPs2l5zJiZhhyeuI7yPub2HRgusNRIJCmq/0ZROPtsq/p5fv0
- p+7Q==
-X-Gm-Message-State: AJIora8OVZMbyGVCDS/8Z+f7PBVblD4A41qA7b4LRXS8SG5PpAu2G8J5
- C4OsAUt4GnOaqamFQSvD8XXDBQ/pk1A9mQ==
-X-Google-Smtp-Source: AGRyM1uIfLb5rLzPPH/Aaeu1zQmKz33M0vdDNckg4O1vdNljI0Qliw0QCy3F3L1UHNY8aSe68o5DeA==
-X-Received: by 2002:a02:c8c9:0:b0:33f:3647:e751 with SMTP id
- q9-20020a02c8c9000000b0033f3647e751mr19303269jao.225.1658331215765; 
- Wed, 20 Jul 2022 08:33:35 -0700 (PDT)
+ bh=HN3qot2GrUhrFIok0Aix4opho8tmQ6OyHPXteIcerns=;
+ b=PjNRWMCGmFpXA8bcAhMRgPiuhz/6LvwxxMUmhpAY58rqnQGr0tMOvc+BSLZVpSZZMa
+ hchL9CXYtBafbCa+5+BjSrLBDlTRip9SooN+nCq3fc5lz+0F01ejc1zG24jfNCnf2GCK
+ O807E/7DV2WmIoDG0Jg3pnJAGXF3or8xjxCsCmfORoKIQg4+TsXxGeGU+ZwQOXOgfh6z
+ bk9saWpbrDYvEpCzUkRyMsGed3KQhbeykNHe03z5augUZOsNuvSvSO+PQ3hLz+UzVxir
+ QcNyJVZWOcwuE5vojmwuxjfuTE3ZYOaEpXY+GbxZ5EGQ30Q7ERCq2SuZy3xoR/DvkgUg
+ FFzQ==
+X-Gm-Message-State: AJIora+hjRk+1VzCoq6Xq+uCnncfQThC3p3P5/6hH5iYG3fUC/9HhI1o
+ bYh4Ggczt+xr11etED99OFZSYirwaxOvWw==
+X-Google-Smtp-Source: AGRyM1stV7A9LhYYFN6S9kAE9tJI/kM9QrG0d533zOjUcL9QWmgGLRV71wwwZG9rU4km1iRJ/AQsZg==
+X-Received: by 2002:a05:6638:130e:b0:341:5e5d:8b95 with SMTP id
+ r14-20020a056638130e00b003415e5d8b95mr11027048jad.141.1658331216646; 
+ Wed, 20 Jul 2022 08:33:36 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.34
+ q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:33:35 -0700 (PDT)
+ Wed, 20 Jul 2022 08:33:36 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com
-Subject: [PATCH v4 36/41] dyndbg/drm: POC add tracebits sysfs-knob
-Date: Wed, 20 Jul 2022 09:32:28 -0600
-Message-Id: <20220720153233.144129-37-jim.cromie@gmail.com>
+Subject: [PATCH v4 37/41] nouveau: adapt NV_DEBUG, NV_ATOMIC to use DRM.debug
+Date: Wed, 20 Jul 2022 09:32:29 -0600
+Message-Id: <20220720153233.144129-38-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220720153233.144129-1-jim.cromie@gmail.com>
 References: <20220720153233.144129-1-jim.cromie@gmail.com>
@@ -75,53 +75,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clone DRM.debug interface to DRM.tracebits: ie declare __drm_trace,
-map its bits to drm-debug-categories, except this interface enables
-messages to tracefs, not to syslog.
+These 2 macros used drm_debug_enabled() on DRM_UT_{DRIVER,ATOMIC}
+respectively, replace those with drm_dbg_##cat invocations.
 
-1- we reuse the drm_debug_classes class-map added previously.
-   this reflects the single source of both syslog/trace events
-   and is why structs classmap and bitmap-param are separate.
+this results in new class'd prdbg callsites:
 
-2- add a 2nd struct ddebug_classes_bitmap_param
-   refs 1, reusing it.
-   flags = "T", to enable trace-events on this callsite.
+:#> grep nouveau /proc/dynamic_debug/control | grep class | wc
+    116    1130   15584
+:#> grep nouveau /proc/dynamic_debug/control | grep class | grep DRIVER | wc
+     74     704    9709
+:#> grep nouveau /proc/dynamic_debug/control | grep class | grep ATOMIC | wc
+     31     307    4237
+:#> grep nouveau /proc/dynamic_debug/control | grep class | grep KMS | wc
+     11     119    1638
 
-3- module_param_cb([2]) - does the sysfs part
+the KMS entries are due to existing uses of drm_dbg_kms().
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 9fb0b8e40dca..47a41d96beea 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -45,6 +45,9 @@
- unsigned long __drm_debug;
- EXPORT_SYMBOL(__drm_debug);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index b2a970aa9bf4..f266cd6b0405 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -39,6 +39,7 @@
+  */
  
-+unsigned long __drm_trace;
-+EXPORT_SYMBOL(__drm_trace);
-+
- MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
- "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
- "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
-@@ -77,6 +80,13 @@ static struct ddebug_classes_bitmap_param drm_debug_bitmap = {
- 	.map = &drm_debug_classes,
- };
- module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
-+
-+static struct ddebug_classes_bitmap_param drm_trace_bitmap = {
-+	.bits = &__drm_trace,
-+	.flags = "T",
-+	.map = &drm_debug_classes,
-+};
-+module_param_cb(tracecats, &param_ops_dyndbg_classes, &drm_trace_bitmap, 0600);
- #endif
+ #include <linux/notifier.h>
++#include <linux/dynamic_debug.h>
  
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
+ #include <nvif/client.h>
+ #include <nvif/device.h>
+@@ -264,13 +265,16 @@ void nouveau_drm_device_remove(struct drm_device *dev);
+ #define NV_WARN(drm,f,a...) NV_PRINTK(warn, &(drm)->client, f, ##a)
+ #define NV_INFO(drm,f,a...) NV_PRINTK(info, &(drm)->client, f, ##a)
+ 
+-#define NV_DEBUG(drm,f,a...) do {                                              \
+-	if (drm_debug_enabled(DRM_UT_DRIVER))                                  \
+-		NV_PRINTK(info, &(drm)->client, f, ##a);                       \
++#define NV_DRMDBG(cat,c,f,a...) do {				\
++	struct nouveau_cli *_cli = (c);				\
++	drm_dbg_##cat(_cli->drm->dev, "%s: "f, _cli->name, ##a); \
+ } while(0)
+-#define NV_ATOMIC(drm,f,a...) do {                                             \
+-	if (drm_debug_enabled(DRM_UT_ATOMIC))                                  \
+-		NV_PRINTK(info, &(drm)->client, f, ##a);                       \
++
++#define NV_DEBUG(drm,f,a...) do {					\
++	NV_DRMDBG(driver, &(drm)->client, f, ##a);			\
++} while(0)
++#define NV_ATOMIC(drm,f,a...) do {					\
++	NV_DRMDBG(atomic, &(drm)->client, f, ##a);			\
+ } while(0)
+ 
+ #define NV_PRINTK_ONCE(l,c,f,a...) NV_PRINTK(l##_once,c,f, ##a)
 -- 
 2.36.1
 
