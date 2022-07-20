@@ -2,77 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6007D57BEBB
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 21:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC6357BEF9
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jul 2022 22:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D18D10E974;
-	Wed, 20 Jul 2022 19:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A849E11BA26;
+	Wed, 20 Jul 2022 20:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 220FC10E0FA
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 19:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658346080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ehh4V90wN0RJR9qCy+oaecsD0c4O/PC+hN+Ir98d0Ho=;
- b=XlT8hWmKQcazn9UC/cEMWe1bkxLkc2ENuiUDZKlvwOcdevpycZs2FcqeXkmTVrbuKB8ULh
- BNzog7A21HhqUvl2KOnO2ghNu1Z5NecnIRvCyhgMglf+IHOPs/NpTXf+8HhdJb2qcwujW/
- S0tM6/XKW7xVoqMNEZyEoE9TLBAq6e0=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-r70beCYkPA2mhd5yd94FXg-1; Wed, 20 Jul 2022 15:41:17 -0400
-X-MC-Unique: r70beCYkPA2mhd5yd94FXg-1
-Received: by mail-io1-f69.google.com with SMTP id
- j8-20020a6b7948000000b0067c2923d1b8so3438328iop.6
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 12:41:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=ehh4V90wN0RJR9qCy+oaecsD0c4O/PC+hN+Ir98d0Ho=;
- b=6giBmTrguV7RpYX5rfbdtEaTGDjVE2lA+8b3zJr0gnwcY0AyGErbWqtIaW6/kHbsZI
- 0iKzgFncV99y3S6QdR6W+UgLFQvIJ75LlAiIjjsGjUMU+Nz0oq3wPDg9Mcd7v9/+tDOy
- qrWjXAUa69BNnq9RJzpKpB8Nx8g9EqJb0ysqwtKO6UiW6IPRoDUL8I6Icc2wTmM3SttY
- Z3mzp8hI3oRdPOfMBXXXRAMEO6rItK/tMnUXRAaByyksI+jgBRD6cbjBki5t/ks4PvzY
- HhfSaHsvQNvdEbRVHUM+liAcLCSShh/gxfB+AZ3ioNMMSy1s6iFcOxpDeJKK032fjBGp
- DkKg==
-X-Gm-Message-State: AJIora+NW5ALiP7xA/fkQzYmtP/JeFnvoGFfrgnR0xGLphBrC7b65ARF
- BKAMsuu7uByJyVyd7wUxZ2/fZ3WmMUQ/+ysbmKfjPh6s5CUtvOtB6hqq/2NYCxOTqPBPrLQqIG3
- w2Ctc0tDVLRfWcg+SjQLdJThiVRdW
-X-Received: by 2002:a05:6e02:1a0c:b0:2dc:8921:a8d9 with SMTP id
- s12-20020a056e021a0c00b002dc8921a8d9mr20755582ild.145.1658346076569; 
- Wed, 20 Jul 2022 12:41:16 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vYxHlGrytgU3tCmIJ+Uhn7Hc+/RyJhZDLkKiiqtiSiv/P5YPbnk+rkd8QUKXd1S1jL+Xv4Pg==
-X-Received: by 2002:a05:6e02:1a0c:b0:2dc:8921:a8d9 with SMTP id
- s12-20020a056e021a0c00b002dc8921a8d9mr20755544ild.145.1658346076213; 
- Wed, 20 Jul 2022 12:41:16 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- g40-20020a022728000000b00339eedc7840sm8267773jaa.94.2022.07.20.12.41.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 12:41:15 -0700 (PDT)
-Date: Wed, 20 Jul 2022 13:41:13 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2071.outbound.protection.outlook.com [40.107.243.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0BB11B4E3;
+ Wed, 20 Jul 2022 20:08:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h7Vv1tHoh8XNfOkcW2qPnQ2GhdNEKsYx3Gy6duOarqMG8rE4bksOR27aELOzoKTfWZh16ypW4JnvU2PNbXadN9XarkyvaVvb1OHqmyj5Lwvauh+vPXzZZlld7fHBBOJGNzIXY7704c+GX/V/0utRMPdgWzaUO4eXCJo9xsyad1DkD5oheOZQjFcMNOYbMoe90mBe2RIn+i7iq7xpye64iNWBiaZl2RHB2pSq7zgBbCy5AEE/brmr4EgyBCTD1Crjt5HeAHXSEk3hQoQ9KqB/Pi1xW6hOLdVJbybK8yHnRANomD2uTdx+p7AnlgHpTsQCJEhJewVgcMb/Oyn6zr9yaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uFIV/uobVcUsxlqWI/QapcqAfKZu+w2VoltTiRmWEuU=;
+ b=b/zNR3VeaxC/rjRF1MXukl3kHZ1v8pua346nG+LKAjqvJ3rxeJuuIh3RvcYdFG9k7tuuZT9k9osrUrWExQtiJTy8L6hIt6gxabXn/hA8W1Y+K5iEJcDpI+3nRaO3rL/vSbsuBWIjPEy3hvd+RNKi0mAsK8XnFpkOU+8CmCCqWzGtqk58s6/12XeRkSr0/Clsres67AydM6b+0WapsD/qTBc+zDgPe0OYKxzR4NltKMm5ktwA/yCvsu2mHEntVcpLkTq2zo8ZAIMJsrMcFIpnYzVUXFcXLrC+V4Z2sPAHKtjLZgdMxEq8E4nxeA4eiFtS6Xu8rN87MPpaYCEFsyhDIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uFIV/uobVcUsxlqWI/QapcqAfKZu+w2VoltTiRmWEuU=;
+ b=D8WjuBh6ZGgKl1mZndxxpKc84EJIpcI4CNnoJH47MrzIVXF+85zd5vdBwioiJiZ7VKFK7IS3FmmIX84Pu872+1BW65aFY2tr9tqaWFz7P+AQtCr37wvlp32KX0wD8AHKV0yZpeTM1JVyqL8ipkMXtXajaSU9UMPquIeANRZ5XAN8Cn/FaDAZGIRrI/mCFtWmJayYlwY1ReRym8MkCT5ghiCwC/A90Og35pZV5DMhN/4ouuFXywtJOxW9meykusznPJfqUBjkId/0KkmwRhrfZtNAuNgd6lltpfVPkdvKp06nY+qh53cvNfO34qFu8R9VlypHZo+eR6pZLUJ8RP9OrA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MN2PR12MB4783.namprd12.prod.outlook.com (2603:10b6:208:3e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.21; Wed, 20 Jul
+ 2022 20:08:31 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5458.018; Wed, 20 Jul 2022
+ 20:08:31 +0000
+Date: Wed, 20 Jul 2022 17:08:29 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
 Subject: Re: [PATCH v4 1/2] vfio: Replace the DMA unmapping notifier with a
  callback
-Message-ID: <20220720134113.4225f9d6.alex.williamson@redhat.com>
-In-Reply-To: <1-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
+Message-ID: <20220720200829.GW4609@nvidia.com>
 References: <0-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
  <1-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
-Organization: Red Hat
+ <20220720134113.4225f9d6.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220720134113.4225f9d6.alex.williamson@redhat.com>
+X-ClientProxiedBy: BL1PR13CA0265.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::30) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 63e8c680-5a38-4349-e819-08da6a8b9e08
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4783:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vpu+Cv5x5vqm8Yu+AgAkuOYAaP+lqB2Yvn0rnogh/qQ4ARw5NbRoZ60m4/ScyfLz2i02aOgJ/utDeLeK/YCWutct4m/4eVz4F3cCNHw1wEBCuPbpupclDFYHbv1lrDdru+WhuS1caatLg/6TPpzUQyw3WL2tJRgW7msaEwEZcjpnOGa2fJc5afuhjHPir9qXlZMnDdxwDeDCvYUl3rVyrn8hnTEa5xnW8mbDxZHeqnKGb8nUJv3BOE6lP8HgREtw7qPsYsyWn70Oa9tNILgy1crZJfBV+3OcdnF4RIjsjKkIUyKDWsLxSKcaEt6CuwLUgHI7UZvTxLj8HCwya4VgInWYrGUbADDnOchvzX8iRFEs+oZts1uuFzApupnM4IYTycMJUczfhOHVr2WstlECoa/0FJem42Wj+nB4B6lrJDLxiPNN7G0N3xgIxTlj7B24Drb/oVkqzBC0Wu06TtgCvgfAI4dvo8U0UtQFa32c1zsdflQ1/m1a/g4H0xaEtimn8Ttuv21JoOFXNQPMsbcF4PqZpnLbP4WzAa3oROSBEKgJ3rxDj9jVBna2gs2JAPRuvpUIPqFYph7cJNcXJ1fhpHYTQmq+xKA0+qvH/YPTglR1VqOxCNjXUxgPyAI2De+jcYRNnsUcjVLefH4Ov/sWKjFETvb4vRTgXiqB4U3nIXdDnXMaEFR9o7NZ6b4nxi5xlgI8Ku6Beuq6z6sMEtxPJm78Zx7dTjMF9scFlz41yJI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(366004)(346002)(136003)(39860400002)(396003)(5660300002)(8936002)(7416002)(7406005)(33656002)(2906002)(478600001)(26005)(86362001)(6506007)(6512007)(6486002)(8676002)(107886003)(2616005)(1076003)(186003)(38100700002)(83380400001)(41300700001)(66556008)(6916009)(4326008)(54906003)(36756003)(66476007)(316002)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m5O4tfz8WmT8mit0zKYsuq1NArr8EDAaGnEAW75ZquZisT8K52BgYjwek6vo?=
+ =?us-ascii?Q?R5vR9Q24ad4Thkc+b644rL1mlymfWiv3uGB/P9i5eddDBS+npuIH0H6K8x0p?=
+ =?us-ascii?Q?Y4aBo8MbYxcytmqPkqEGtEqqDXL5li+V1a+xNXPqFgt9yYPE9EoVFYkfYcdj?=
+ =?us-ascii?Q?Busv6FT12zAWSMgL3ryrWW6M9jEIp16pac68PJhuIexkTlITruPqzwlihuIG?=
+ =?us-ascii?Q?94ifwlZppWwlvqMb77KEh/IoZytAaQJMBPSWSoZW2CwLZzrA2D6w6Ex98H3G?=
+ =?us-ascii?Q?/7wb6O8PMcsKmBt3RV2svB6eN16FsMbFg6IHLDHY3Uxpn/m0BvgqHXcBaOB2?=
+ =?us-ascii?Q?nlT0A92rijjEEoR81XRIeGSo26IDu4gDzDW7CWMwtiC5NryqFkVK/ea8Vjd7?=
+ =?us-ascii?Q?MBvjGk3FELJC85Rh+vs3ccvQyk+olOetUhNnxZYV0qBtcnsn03UfazMt9mmu?=
+ =?us-ascii?Q?j8Uye+7HYzwTeSjDZrn4bBN2WK7gVWO8rIfwdxHd5OVbA2i80FRrDUM0XOmF?=
+ =?us-ascii?Q?84891zJs5nwVj1DzJno4El/JrluxCFUqHKZ3TiksaU9MSTNNqOkSiLhkv+ZH?=
+ =?us-ascii?Q?la4i9P9ZPgIdVWgGBtJHT+pBZU8/JDs1bp+CkMuNSSQMCUyZsj1zS1I4vZYR?=
+ =?us-ascii?Q?U6cuxCY+HcepkMMA556rU/3wS2LB7s/Idv0w17V9Cu1K5PectQ1j9ssVwHPj?=
+ =?us-ascii?Q?cqamtNPopKkfQMmjY4LMVtd87rFhSB7rIhXIawp8k1H4W97hcIWw8SliWSbG?=
+ =?us-ascii?Q?sQ8Nzu/HZfq98lpYV6t+2KfkeCtUhA8Sv4OGxXIvOR1JLpsNDa5QgthXjEMY?=
+ =?us-ascii?Q?x95gleeci8S78HIDkmsRIFDbFZJXdKs24MdbwO2cxkWIQI5SNb99UcR4g0Ve?=
+ =?us-ascii?Q?hubtUpMQ7+P94boHgJQxjzKeMSQgAD+POkDPWGIMmCJde77gm6l4JyqBnn9o?=
+ =?us-ascii?Q?LtOTAkXLNPsQD+OGRiGll4TpFUuqEC1hFZq7wiqwcFtMYXvmE0cnD8yOSUxb?=
+ =?us-ascii?Q?BPj4K/dSpEgIEyFnsYq98QddT0km3g0/MVUmzb4MCbs6xaQ5RWCdSZd0vEY3?=
+ =?us-ascii?Q?rNWSVZVpt7hF/sfFZuSo8aY9a3/dhjUPYC2xYmS9gXl0mzdr+6n10lWOiLYG?=
+ =?us-ascii?Q?kT/bYokelZM51R7VRQWW0sFZdbOCeUx/ONGeDEydMB+eca7mjKecPe8ofeRl?=
+ =?us-ascii?Q?CX8J9vqB6xbpvdGKi3qKvOcn40/dnW+s5QQUNcsOXU5rovuq3r2drFFAnk8q?=
+ =?us-ascii?Q?DlPrUZSeUPe91O3TY7QZRMOj/bwS4H6cwZbLZ7Y67Co3c2igEOzLCrcNsleA?=
+ =?us-ascii?Q?s5L+XrBeNCnNuxaNB0t4uUCAYG1CxrhOPpNq8P1LlVp+yNQPj6od4hrGfKoF?=
+ =?us-ascii?Q?3PVtA1BNHa1bAe4FryQK0l6jvF3qP2C1xD2KvaQ5ln5vU9M9kYSMNmtilEgb?=
+ =?us-ascii?Q?ojdjr5PUhVJHK6vSxHXD0s/JkesS08/qjryWgk7IHPgkzS2qS4Y55MffYOR3?=
+ =?us-ascii?Q?Iw9QlN4XkximTZuTTsS+2ZImVwQNvgXofpzQl+9tjtXMqwBOdgAkoPCyQerq?=
+ =?us-ascii?Q?z2s1DjBByfthAT2on6Fm+gqEWIr7FjZyGU2ALPBL?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63e8c680-5a38-4349-e819-08da6a8b9e08
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2022 20:08:31.2135 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e9MiieropZOiHFi/DBbO/QgDICEon2BdheESMjxTfFqHvMd2zqkxDJayXqLFJ76T
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4783
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,152 +135,37 @@ Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 Jul 2022 21:02:48 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
-> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-> index a7d2a95796d360..bb1a1677c5c230 100644
-> --- a/drivers/s390/crypto/vfio_ap_ops.c
-> +++ b/drivers/s390/crypto/vfio_ap_ops.c
-> @@ -1226,34 +1226,14 @@ static int vfio_ap_mdev_set_kvm(struct ap_matrix_mdev *matrix_mdev,
->  	return 0;
->  }
->  
-> -/**
-> - * vfio_ap_mdev_iommu_notifier - IOMMU notifier callback
-> - *
-> - * @nb: The notifier block
-> - * @action: Action to be taken
-> - * @data: data associated with the request
-> - *
-> - * For an UNMAP request, unpin the guest IOVA (the NIB guest address we
-> - * pinned before). Other requests are ignored.
-> - *
-> - * Return: for an UNMAP request, NOFITY_OK; otherwise NOTIFY_DONE.
-> - */
-> -static int vfio_ap_mdev_iommu_notifier(struct notifier_block *nb,
-> -				       unsigned long action, void *data)
-> +static void vfio_ap_mdev_dma_unmap(struct vfio_device *vdev, u64 iova,
-> +				   u64 length)
->  {
-> -	struct ap_matrix_mdev *matrix_mdev;
-> -
-> -	matrix_mdev = container_of(nb, struct ap_matrix_mdev, iommu_notifier);
-> -
-> -	if (action == VFIO_IOMMU_NOTIFY_DMA_UNMAP) {
-> -		struct vfio_iommu_type1_dma_unmap *unmap = data;
-> -		unsigned long g_pfn = unmap->iova >> PAGE_SHIFT;
-> -
-> -		vfio_unpin_pages(&matrix_mdev->vdev, &g_pfn, 1);
-> -		return NOTIFY_OK;
-> -	}
-> +	struct ap_matrix_mdev *matrix_mdev =
-> +		container_of(vdev, struct ap_matrix_mdev, vdev);
-> +	unsigned long g_pfn = iova >> PAGE_SHIFT;
->  
-> -	return NOTIFY_DONE;
-> +	vfio_unpin_pages(&matrix_mdev->vdev, &g_pfn, 1);
->  }
->  
->  /**
-
-
-I tried to apply this on top of Nicolin's series which results in a
-conflict that can be resolved as below:
-
-diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-index e8856a7e151c..d7c38c82f694 100644
---- a/drivers/s390/crypto/vfio_ap_ops.c
-+++ b/drivers/s390/crypto/vfio_ap_ops.c
-@@ -1219,33 +1219,13 @@ static int vfio_ap_mdev_set_kvm(struct ap_matrix_mdev *matrix_mdev,
- 	return 0;
- }
+On Wed, Jul 20, 2022 at 01:41:13PM -0600, Alex Williamson wrote:
  
--/**
-- * vfio_ap_mdev_iommu_notifier - IOMMU notifier callback
-- *
-- * @nb: The notifier block
-- * @action: Action to be taken
-- * @data: data associated with the request
-- *
-- * For an UNMAP request, unpin the guest IOVA (the NIB guest address we
-- * pinned before). Other requests are ignored.
-- *
-- * Return: for an UNMAP request, NOFITY_OK; otherwise NOTIFY_DONE.
-- */
--static int vfio_ap_mdev_iommu_notifier(struct notifier_block *nb,
--				       unsigned long action, void *data)
-+static void vfio_ap_mdev_dma_unmap(struct vfio_device *vdev, u64 iova,
-+				   u64 length)
- {
--	struct ap_matrix_mdev *matrix_mdev;
--
--	matrix_mdev = container_of(nb, struct ap_matrix_mdev, iommu_notifier);
--
--	if (action == VFIO_IOMMU_NOTIFY_DMA_UNMAP) {
--		struct vfio_iommu_type1_dma_unmap *unmap = data;
--
--		vfio_unpin_pages(&matrix_mdev->vdev, unmap->iova, 1);
--		return NOTIFY_OK;
--	}
-+	struct ap_matrix_mdev *matrix_mdev =
-+		container_of(vdev, struct ap_matrix_mdev, vdev);
+> ie. we don't need the gfn, we only need the iova.
+
+Right, that makes sense
  
--	return NOTIFY_DONE;
-+	vfio_unpin_pages(&matrix_mdev->vdev, iova, 1);
- }
- 
- /**
+> However then I start to wonder why we're passing in 1 for the number of
+> pages because this previously notifier, now callback is called for the
+> entire vfio_dma range when we find any pinned pages.  
 
-ie. we don't need the gfn, we only need the iova.
+Well, it is doing this because it only ever pins one page.
 
-However then I start to wonder why we're passing in 1 for the number of
-pages because this previously notifier, now callback is called for the
-entire vfio_dma range when we find any pinned pages.  It makes no sense for
-a driver to assume that the first iova is pinned and is the only pinned
-page.
+The drivers are confused about what the contract is. vfio is calling
+the notifier with the entire IOVA range that is being unmapped and the
+drivers are expecting to receive notifications only for the IOVA they
+have actually pinned.
 
-ccw has the same issue:
+> Should ap and ccw implementations of .dma_unmap just be replaced with a
+> BUG_ON(1)?
 
-static void vfio_ccw_dma_unmap(struct vfio_device *vdev, u64 iova, u64 length)
-{
-        struct vfio_ccw_private *private =
-                container_of(vdev, struct vfio_ccw_private, vdev);
+The point of these callbacks is to halt concurrent DMA, and ccw does
+that today. It looks like AP is missing a call to ap_aqic(), so it is
+probably double wrong.
 
-        /* Drivers MUST unpin pages in response to an invalidation. */
-        if (!cp_iova_pinned(&private->cp, iova))
-                return;
+What I'd suggest is adding a WARN_ON that the dma->pfn_list is not
+empty and leave these functions alone.
 
-        vfio_ccw_mdev_reset(private);
-}
+Most likely AP should be fixed to call vfio_ap_irq_disable() and to
+check the q->saved_pfn against the IOVA.
 
-Entirely ignoring the length arg.
+But I'm inclined to leave this as-is for this series given we are at
+rc7.
 
-It seems only GVT-g has this correct to actually look through the
-extent of the range being unmapped:
-
-static void intel_vgpu_dma_unmap(struct vfio_device *vfio_dev, u64 iova,
-                                 u64 length)
-{
-        struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
-        struct gvt_dma *entry;
-        u64 iov_pfn = iova >> PAGE_SHIFT;
-        u64 end_iov_pfn = iov_pfn + length / PAGE_SIZE;
-
-        mutex_lock(&vgpu->cache_lock);
-        for (; iov_pfn < end_iov_pfn; iov_pfn++) {
-                entry = __gvt_cache_find_gfn(vgpu, iov_pfn);
-                if (!entry)
-                        continue;
-
-                gvt_dma_unmap_page(vgpu, entry->gfn, entry->dma_addr,
-                                   entry->size);
-                __gvt_cache_remove_entry(vgpu, entry);
-        }
-        mutex_unlock(&vgpu->cache_lock);
-}
-
-Should ap and ccw implementations of .dma_unmap just be replaced with a
-BUG_ON(1)?  Thanks,
-
-Alex
-
+Jason
