@@ -2,47 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4114B57C05A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 00:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861CB57C071
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 01:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5E81128D4;
-	Wed, 20 Jul 2022 22:57:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E7E418B129;
+	Wed, 20 Jul 2022 23:05:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9996112DE2;
- Wed, 20 Jul 2022 22:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XSAdUXgBEYxTOnJTbuhf0sCIRbziFUyOhLG243d2AT4=; b=fHW01bp2y5COODMQ9pH8gvqOQi
- zLXJiDKmMDhD6X+C0e3uKH9wCHiCQXI7fuK6zGqOoBjJu2sgtdepG9S7afig775rpoIzXq1nVA4iz
- ieLn7mMOriPIkIOSXTZZgTPbu7oGlxSvP/UUWpFCrP5wsTJRZSSiK819f/VBNHNglvuEIsHvTmqvQ
- nsGhpbpNhmLtdZ2mReY4EhiwliO/kqCvwheBWVvDa1OwRVMZmAzJkT/4Ml9SwZI/uwZgYckw7wSAi
- HBVIWj++b7N8K+PpAkSeJFj7Yk6kCOnAq91sUbT/eio2vgcbjf+9UZRXC/QC6Z0l2d2PlkDoyEVM1
- vNhf7qNQ==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oEIck-000piy-Gg; Thu, 21 Jul 2022 00:56:58 +0200
-Date: Wed, 20 Jul 2022 21:56:44 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-Subject: Re: [PATCH 4/4] Documentation/gpu/amdgpu/amdgpu_dm: add DM docs for
- pixel blend mode
-Message-ID: <20220720225644.p7sty6peovhrewf3@mail.igalia.com>
-References: <20220716222529.421115-1-mwen@igalia.com>
- <20220716222529.421115-5-mwen@igalia.com>
- <6078df20-348d-e690-6189-8d5c7b0b98f1@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB07218B118
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 23:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658358301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zg6tKh24AWnTu20bQJOGXj28spsKAAV7siHCBMGPsbs=;
+ b=AcYOeD8t+ZniHHUjNPOR3CSqdjTcms8uCNVY+uO7RE6ENMgyKkR6Wn9yUVP7h/ZzTp9LaR
+ 0++AnwAQAeyxVWHD9qv4NIpDXQRtd6anQqihoaV0HaN5DPbCpNj8Ksogr+TmIGT0X5rafO
+ U6MwvyLZhMsNc3QgIG3xZ8R18nyAgVw=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-JmbxtS0UO3SFALefND0Gtw-1; Wed, 20 Jul 2022 19:05:00 -0400
+X-MC-Unique: JmbxtS0UO3SFALefND0Gtw-1
+Received: by mail-il1-f199.google.com with SMTP id
+ i9-20020a056e021b0900b002dd12dfd5b6so193531ilv.16
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jul 2022 16:05:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=zg6tKh24AWnTu20bQJOGXj28spsKAAV7siHCBMGPsbs=;
+ b=Jp4p/Vn70ALiVh6dYEBZL5Mzl1JaSak9j9woS/m4vlT4Izt0UFj2lJmVLgvJUuM6Xp
+ ABXI4IXwhTiWL18q7fbukNzx7QkQZ2XQv+C5ZMuoEbiQD5HfMHKDXt5AtSinOAYLwAZU
+ +LxmXQjcsFHGO8n/P0zH8BRIDRpGBYkPPcI+yDB3R9I+fbxHmGryY1L9V4VXXGLNMd8E
+ 940N5RoEqDWeWzkZRlgVU9zlrMPNQ+kaCkzdD2NNN4nw9a9oJaW1Mc2beE76YnA3LoTP
+ cdpefTURGyK1JfzShcP3cz1YbPjoFeaKM5LBLy3kUP/14d42CffbKNnhJPh0oSackpXN
+ Djbw==
+X-Gm-Message-State: AJIora+q7ZdrcEFJucRO57IYipQjxBiRBxhRkz2VncdTmjoQN/KkBr9J
+ KxuuwrHlOyKf50jAjIjtSOfTlxV5s8AFwLp7mZ24tmoA4OIHj9YvYOs0Nf2sZAkW+gHtd/jY5Uu
+ dGfxboUfdKaAqLvGemUKpRwKLToUn
+X-Received: by 2002:a92:d64d:0:b0:2dc:e337:58ab with SMTP id
+ x13-20020a92d64d000000b002dce33758abmr8883714ilp.85.1658358300053; 
+ Wed, 20 Jul 2022 16:05:00 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sQXCea5IlpPt4z3PoQC/VJ/h3ZRlmifntgfmb+p+6Hl0NlKR1GQe1eKRx6WPGYdv4/I+TsDA==
+X-Received: by 2002:a92:d64d:0:b0:2dc:e337:58ab with SMTP id
+ x13-20020a92d64d000000b002dce33758abmr8883682ilp.85.1658358299767; 
+ Wed, 20 Jul 2022 16:04:59 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ n24-20020a056638111800b0034195de93b3sm92309jal.51.2022.07.20.16.04.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jul 2022 16:04:59 -0700 (PDT)
+Date: Wed, 20 Jul 2022 17:04:57 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v4 1/2] vfio: Replace the DMA unmapping notifier with a
+ callback
+Message-ID: <20220720170457.39cda0d0.alex.williamson@redhat.com>
+In-Reply-To: <20220720200829.GW4609@nvidia.com>
+References: <0-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
+ <1-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
+ <20220720134113.4225f9d6.alex.williamson@redhat.com>
+ <20220720200829.GW4609@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="s4wxczk3sdhofbhb"
-Content-Disposition: inline
-In-Reply-To: <6078df20-348d-e690-6189-8d5c7b0b98f1@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,224 +87,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, sungjoon.kim@amd.com
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Kevin Tian <kevin.tian@intel.com>, dri-devel@lists.freedesktop.org,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 20 Jul 2022 17:08:29 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
---s4wxczk3sdhofbhb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, Jul 20, 2022 at 01:41:13PM -0600, Alex Williamson wrote:
+>  
+> > ie. we don't need the gfn, we only need the iova.  
+> 
+> Right, that makes sense
+>  
+> > However then I start to wonder why we're passing in 1 for the number of
+> > pages because this previously notifier, now callback is called for the
+> > entire vfio_dma range when we find any pinned pages.    
+> 
+> Well, it is doing this because it only ever pins one page.
 
-On 07/17, Tales Lelo da Aparecida wrote:
-> On 16/07/2022 19:25, Melissa Wen wrote:
-> > AMD GPU display manager (DM) maps DRM pixel blend modes (None,
-> > Pre-multiplied, Coverage) to MPC hw blocks through blend configuration
-> > options. Describe relevant elements and how to set and test them to get
-> > the expected DRM blend mode on DCN hw.
-> >=20
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >   .../gpu/amdgpu/display/display-manager.rst    | 98 +++++++++++++++++++
-> >   Documentation/gpu/drm-kms.rst                 |  2 +
-> >   2 files changed, 100 insertions(+)
-> >=20
-> > diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Doc=
-umentation/gpu/amdgpu/display/display-manager.rst
-> > index 8960a5f1fa66..7a495ed1f69e 100644
-> > --- a/Documentation/gpu/amdgpu/display/display-manager.rst
-> > +++ b/Documentation/gpu/amdgpu/display/display-manager.rst
-> > @@ -84,3 +84,101 @@ families below.
-> >   **DCN 3.0 family color caps and mapping**
-> >   .. kernel-figure:: dcn3_cm_drm_current.svg
-> > +
-> > +Blend Mode Properties
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Pixel blend mode is a DRM plane composition property of :c:type:`drm_p=
-lane` used to
-> > +describes how pixels from a foreground plane (fg) are composited with =
-the
-> > +background plane (bg). Here, we present main concepts of DRM blend mod=
-e to help
-> > +to understand how this property is mapped to AMD DC interface. See mor=
-e about
-> > +this DRM property and the alpha blending equations in :ref:`DRM Plane
-> > +Composition Properties <plane_composition_properties>`.
-> > +
-> > +Basically, a blend mode sets the alpha blending equation for plane
-> > +composition that fits the mode in which the alpha channel affects the =
-state of
-> > +pixel color values and, therefore, the resulted pixel color. For
-> > +example, consider the following elements of the alpha blending equatio=
-n:
-> > +
-> > +- *fg.rgb*: Each of the RGB component values from the foreground's pix=
-el.
-> > +- *fg.alpha*: Alpha component value from the foreground's pixel.
-> > +- *bg.rgb*: Each of the RGB component values from the background.
-> > +- *plane_alpha*: Plane alpha value set by the **plane "alpha" property=
-**, see
-> > +  more in `DRM Plane Composition Properties <plane_composition_propert=
-ies>`.
->=20
-> You forgot to use :ref: in here.
->=20
-> > +
-> > +in the basic alpha blending equation::
-> > +
-> > +   out.rgb =3D alpha * fg.rgb + (1 - alpha) * bg.rgb
-> > +
-> > +the alpha channel value of each pixel in a plane is ignored and only t=
-he plane
-> > +alpha affects the resulted pixel color values.
-> > +
-> > +DRM has three blend mode to define the blend formula in the plane comp=
-osition:
-> > +
-> > +* **None**: Blend formula that ignores the pixel alpha.
-> > +
-> > +* **Pre-multiplied**: Blend formula that assumes the pixel color value=
-s in a
-> > +  plane was already pre-multiplied by its own alpha channel before sto=
-rage.
-> > +
-> > +* **Coverage**: Blend formula that assumes the pixel color values were=
- not
-> > +  pre-multiplied with the alpha channel values.
-> > +
-> > +and pre-multiplied is the default pixel blend mode, that means, when n=
-o blend
-> > +mode property is created or defined, DRM considers the plane's pixels =
-has
-> > +pre-multiplied color values. On IGT GPU tools, the kms_plane_alpha_ble=
-nd test
-> > +provides a set of subtests to verify plane alpha and blend mode proper=
-ties.
-> > +
-> > +The DRM blend mode and its elements are then mapped by AMDGPU display =
-manager
-> > +(DM) to program the blending configuration of the Multiple Pipe/Plane =
-Combined
-> > +(MPC), as follows:
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-> > +   :doc: mpc-overview
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-> > +   :functions: mpcc_blnd_cfg
-> > +
-> > +Therefore, the blending configuration for a single MPCC instance on th=
-e MPC
-> > +tree is defined by :c:type:`mpcc_blnd_cfg`, where
-> > +:c:type:`pre_multiplied_alpha` is the alpha pre-multiplied mode flag u=
-sed to
-> > +set :c:type:`MPCC_ALPHA_MULTIPLIED_MODE`. It controls whether alpha is
-> > +multiplied (true/false), being only true for DRM pre-multiplied blend =
-mode.
-> > +:c:type:`mpcc_alpha_blend_mode` defines the alpha blend mode regarding=
- pixel
-> > +alpha and plane alpha values. It sets one of the three modes for
-> > +:c:type:`MPCC_ALPHA_BLND_MODE`, as described below.
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-> > +   :functions: mpcc_alpha_blend_mode
-> > +
-> > +DM then maps the elements of `enum mpcc_alpha_blend_mode` to those in =
-the DRM
-> > +blend formula, as follows:
-> > +
-> > +* *MPC pixel alpha* matches *DRM fg.alpha* as the alpha component value
-> > +  from the plane's pixel
-> > +* *MPC global alpha* matches *DRM plane_alpha* when the pixel alpha sh=
-ould
-> > +  be ignored and, therefore, pixel values are not pre-multiplied
-> > +* *MPC global gain* assumes *MPC global alpha* value when both *DRM
-> > +  fg.alpha* and *DRM plane_alpha* participate in the blend equation
-> > +
-> > +In short, *fg.alpha* is ignored by selecting
-> > +:c:type:`MPCC_ALPHA_BLEND_MODE_GLOBAL_ALPHA`. On the other hand, (plan=
-e_alpha *
-> > +fg.alpha) component becomes available by selecting
-> > +:c:type:`MPCC_ALPHA_BLEND_MODE_PER_PIXEL_ALPHA_COMBINED_GLOBAL_GAIN`. =
-And the
-> > +:c:type:`MPCC_ALPHA_MULTIPLIED_MODE` defines if the pixel color values=
- are
-> > +pre-multiplied by alpha or not.
-> > +
-> > +Blend configuration flow
-> > +------------------------
-> > +
-> > +The alpha blending equation is configured from DRM to DC interface by =
-the
-> > +following path:
-> > +
-> > +1. When updating a :c:type:`drm_plane_state <drm_plane_state>`, DM cal=
-ls
-> > +   :c:type:`fill_blending_from_plane_state()` that maps
-> > +   :c:type:`drm_plane_state <drm_plane_state>` attributes to
-> > +   :c:type:`dc_plane_info <dc_plane_info>` struct to be handled in the
-> > +   OS-agnostic component (DC).
-> > +
-> > +2. On DC interface, :c:type:`struct mpcc_blnd_cfg <mpcc_blnd_cfg>` pro=
-grams the
-> > +   MPCC blend configuration considering the :c:type:`dc_plane_info
-> > +   <dc_plane_info>` input from DPP.
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.=
-rst
-> > index d14bf1c35d7e..7ec9dbe18b65 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -532,6 +532,8 @@ Standard Plane Properties
-> >   .. kernel-doc:: drivers/gpu/drm/drm_plane.c
-> >      :doc: standard plane properties
-> > +.. _plane_composition_properties:
-> > +
-> >   Plane Composition Properties
-> >   ----------------------------
->=20
-> From a beginner's perspective, the changes from this series are readable,
-> but I cannot tell if there are any technical mistakes. So,
-> regarding readability and rendering htmldocs, apart from the nits I've
-> raised, this whole series is
->=20
-> Reviewed-by: Tales Aparecida <tales.aparecida@gmail.com>
->=20
-> Thanks for the patch series, Melissa,
+Of course that page is not necessarily the page it unpins given the
+contract misunderstanding below.
+ 
+> The drivers are confused about what the contract is. vfio is calling
+> the notifier with the entire IOVA range that is being unmapped and the
+> drivers are expecting to receive notifications only for the IOVA they
+> have actually pinned.
+> 
+> > Should ap and ccw implementations of .dma_unmap just be replaced with a
+> > BUG_ON(1)?  
+> 
+> The point of these callbacks is to halt concurrent DMA, and ccw does
+> that today.
 
-Hi Tales,
+ccw essentially only checks whether the starting iova of the unmap is
+currently mapped.  If not it does nothing, if it is it tries to reset
+the device and unpin everything.  Chances are the first iova is not the
+one pinned, so we don't end up removing the pinned page and type1 will
+eventually BUG_ON after a few tries.
 
-Thanks for taking a look at this series and reviewing it carefully.
-Again, I'll address your comments in the next version.
+> It looks like AP is missing a call to ap_aqic(), so it is
+> probably double wrong.
 
-Best Regards,
+Thankfully the type1 unpinning path can't be tricked into unpinning
+something that wasn't pinned, so chances are the unpin call does
+nothing, with a small risk that it unpins another driver's pinned page,
+which might not yet have been notified and could still be using the
+page.  In the end, if ap did have a page pinned in the range, we'll hit
+the same BUG_ON as above.
 
-Melissa
+> What I'd suggest is adding a WARN_ON that the dma->pfn_list is not
+> empty and leave these functions alone.
 
-> Tales Aparecida
+The BUG_ON still exists in type1.
 
---s4wxczk3sdhofbhb
-Content-Type: application/pgp-signature; name="signature.asc"
+Eric, Matt, Tony, Halil, JasonH, any quick fixes here?  ccw looks like
+it would be pretty straightforward to test against a range rather than
+a single iova.
+ 
+> Most likely AP should be fixed to call vfio_ap_irq_disable() and to
+> check the q->saved_pfn against the IOVA.
 
------BEGIN PGP SIGNATURE-----
+Right, the q->saved_iova, perhaps calling vfio_ap_irq_disable() on
+finding a matching queue.
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmLYiCwACgkQwqF3j0dL
-ehwhOxAAm2cqpBsWiVG40hlYjPr/ylBGoYaEaemtsHzdNI5MtqijCYGIgf0I231b
-lkBZFTaUtHat+ePNDjyDIbuX3nq6NtmMpxUWBzsfcbh9vNxk0bAG1xouV2AHOTOw
-Q4lJiTln1kXdOeZtZY1Vrq+n+tOOYflkmDVJDCwRX3W2HbJM+7nV7ID8NFGr5Mrh
-MTxboxtHUvE3me5WiN8xFv2Y0p6Zmy5Ka447VxMmqfydewNF6SEGqEGmEsXpkkdf
-boFlyZNfp1QrgXjaOiW5F5DcmW+ejHpUslZnMfrcAGNS0lYmhEHCNi4Bw0UXkvP6
-o3okG1kdy1KbvxfpatMNsx6PeGV1NKUwfQGOUOhKthhYq6qrX5fe5Jo5voamgpHR
-BzSlYLYDYWfznQqXHMgbM+Q8GGaekwDjZy0sO5cUnWIPKUueOzIzzViVebSkuIDk
-IIVFKBHTYto0zQqR4ogXju5X24k3+AL9501D2QlJevh/Lfc7dbegaJ1q9/eIdDer
-wsMiS3PVJJPiyeT6plGHb6SvexA4YihtB4uIgJob98ECS38qcPIcN08Yz4LQgvHN
-6eO+rm7ZPQov8VvAVM5nCfKMaH4SDT54DTj4gvUsJ/vNxcucY6zhP5WmbsTPYqMk
-HSFINsfdpEH6p2T23Hy46WLSw+lPNgvAYR3eofhjgBnfDpBApSo=
-=/FrH
------END PGP SIGNATURE-----
+> But I'm inclined to leave this as-is for this series given we are at
+> rc7.
 
---s4wxczk3sdhofbhb--
+On the grounds that it's no worse, maybe, but given the changes
+around this code hopefully we can submit fixes patches to stable if the
+backport isn't obvious and the BUG_ON in type1 is reachable.  Thanks,
+
+Alex
+
