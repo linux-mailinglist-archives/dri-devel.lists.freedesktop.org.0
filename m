@@ -2,83 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A39E57C5A4
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 10:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB1557C5D5
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 10:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C71611ADEE;
-	Thu, 21 Jul 2022 08:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9DB12A57D;
+	Thu, 21 Jul 2022 08:09:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D4C911A199
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 08:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658390472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U81cy9CSvVVdYWusFPfbgXUwAXqnFtMTt2aTn1ob23Q=;
- b=ZkZUpQwEdJHfboGHpORHgxuTmGma71f1MhMqc9+yy6pf1+sf6k2kFh9iLOFIDb/IsvJ9Mf
- 87kKxB8pOyb7+Kzuld93mZKvzRXh2unO/OvGFMWJRxqjK+1/W8lGiBU7EsuIID1etMhAWY
- lk9XwBxOZHBinrcTWCELXpwo5cFhRlI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-2YiTee8TPSSvQHIlvbspTQ-1; Thu, 21 Jul 2022 04:01:11 -0400
-X-MC-Unique: 2YiTee8TPSSvQHIlvbspTQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k26-20020adfb35a000000b0021d6c3b9363so123063wrd.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 01:01:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=U81cy9CSvVVdYWusFPfbgXUwAXqnFtMTt2aTn1ob23Q=;
- b=HHR8Hr4S4BudY05GQBA1kOM7M+YoHi/LEC+ADrdpddDe1Kij6hW98I3SVhtvbouMxl
- Y1Z0tSUaxw5HAREZfDMWpqulXIN970bsGhY9JNtCwMM7LA/rjNhr3sTCNZDd7iZjT+dM
- F5sC6VJB8ZcW00t+JqyKKMjJPiPPp1WB39KELKZnWvokP14dbCutZhL+Z8MbB+8DMU5S
- KF1opIanowRdbjjpeUsvn2xpc9XUWhQkAa26nLtv4cQx6dlt4Q6MfBEHX6QhEJEILzS7
- xqKjQ/LEM3KcBTzqVuH5gZals3TmNOHUb3C7QXFaPBx0HUYjfnh6TDykjKERO0tD/jF6
- UBjQ==
-X-Gm-Message-State: AJIora8ts3rVVStmnlZBqgVEUZzS9bB2nMzuefEcy6Dj6vuhy7wN/uEQ
- DMN5kwnhmCBiM5YB1BJeXr4Vf8mdWZ++344Yed5qAnAdOX16CRs6PoXt5+l377RYX9ExFZcIFTU
- fY/C5GvSd5L6JZoFpaNRojZ7vNLLH
-X-Received: by 2002:a5d:4301:0:b0:21b:8af6:4a21 with SMTP id
- h1-20020a5d4301000000b0021b8af64a21mr34534634wrq.296.1658390470350; 
- Thu, 21 Jul 2022 01:01:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vsZMcTagC0gCtvDk0TNJLA8Jh/PA0P+4jFZJgnmhKZDdzVU3YPOvehRpLoTuyv/pkgq+5j2Q==
-X-Received: by 2002:a5d:4301:0:b0:21b:8af6:4a21 with SMTP id
- h1-20020a5d4301000000b0021b8af64a21mr34534605wrq.296.1658390469900; 
- Thu, 21 Jul 2022 01:01:09 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:e000:25d3:15fa:4c8b:7e8d?
- (p200300cbc707e00025d315fa4c8b7e8d.dip0.t-ipconnect.de.
- [2003:cb:c707:e000:25d3:15fa:4c8b:7e8d])
- by smtp.gmail.com with ESMTPSA id
- l37-20020a05600c1d2500b003a33227e49bsm678871wms.4.2022.07.21.01.01.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 01:01:09 -0700 (PDT)
-Message-ID: <e730a5bc-a5ba-7ba9-f94e-867e31e46a48@redhat.com>
-Date: Thu, 21 Jul 2022 10:01:08 +0200
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF4FF2A5E7;
+ Thu, 21 Jul 2022 08:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658390941; x=1689926941;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=UkjNhK+n9HBVy/4C7z/d06s5bZz9y8AZt8Z7AJjGcIo=;
+ b=lq2fnFv8FUPPmtBN/ibwzYcO1YIEC7ZWD/Rpotb90s9hCxAqtP7OGUr9
+ +ElblqBg7YQDSRhtlpoazXJ+kt04+99ynB2EO36olhvNX85UDibPoOOA4
+ 66I1skYQtF+O/aQvWAor9fnzj+MVxOf1nAvSzEiqmKzQ9L5b1dCPqBQye
+ 3FyXqtJWwBt4Ww84WgEytrA06szSVX6yw70cxAN871H3GF2z95BBpznFL
+ Y1PF350vIhu1QybJ3Pl2wUaIbVTjkU7B774FeZM8+OJp2tv+/joB6sAI7
+ zqtsqpQmSyDg3NEtK+EJEWS5grcNC1WuERm81nKF+6LEsGrJxFnCg5C2F w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="348677972"
+X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="348677972"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2022 01:09:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="598377264"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga002.jf.intel.com with ESMTP; 21 Jul 2022 01:09:01 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 21 Jul 2022 01:09:00 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Thu, 21 Jul 2022 01:09:00 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Thu, 21 Jul 2022 01:09:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a5IzqvUQpTzIbfQHGk53iRcz4Y361TKe1Sv3GUkPiSfPekX2rOBYej6I3Ii1aKPCCbMmZ1wGCKKmkqfVc4JpkKiY6bvEJ15VAk0cQ3lYvkThp301NVkSPw0otRnEjEs+gqMyRGcu/AJyghbmbeBxKilnzFD1G0TBnVodlXCvjsa+qgs+f7z9WZIiDqVJ65rrgKhiSE5VBPTmtpP1UfAEmuBb/42aNyp6aV4sXU2AV/PBU+qsBx1PgmaxBQCa3ngu/pPEkDK4tsp/pIp9zYlN1XjO+P/8Ihe43PBD/tjsQAVHyf5USnOlRAtSpnTiTtkCLAO26MYUpAQ3SrFxJKHj0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xkAQB47a0OZREHwZQNRVP700pB5tYnZfGr+p7ofQ0TY=;
+ b=k3KpqdXkz1hVC+zZJFqKhrhE6GFjN2DSS8G3Gl9/keOBWIdhwW5HG6A/rUE42k/6FokPUTjCx4At/QJ0w8RVQyaYEwiyHypLWk8EtcqfrD4yB0Qm36PBuFS4Tqru9lWhcLmRqwaSKpf7Q1gSRqccsd6wUAO+vNOu5251yH/LJkzrAaJlWpZ+Nmklag4w1cXk0VybEbmaak4QkI9cvHS+TpdJ03vAFxDm3y+VzXAxNCR4dLFC7qGkWVgxbTyOOf5sTMoM4pvlSnZE04SiQfMBJwFNvtyTgzE6aeW+Y/X5haT7Hfb1ShsYIKYMBQmIuzIzPUeb/Pvd/pYTLCMvJGadeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by DM6PR11MB4626.namprd11.prod.outlook.com (2603:10b6:5:2a9::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Thu, 21 Jul
+ 2022 08:08:59 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a968:40aa:6163:5c79]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a968:40aa:6163:5c79%5]) with mapi id 15.20.5458.018; Thu, 21 Jul 2022
+ 08:08:59 +0000
+Date: Thu, 21 Jul 2022 04:08:54 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/selftests: Fix comment typo
+Message-ID: <YtkJloZH8kndzKnZ@intel.com>
+References: <20220716040520.31676-1-wangborong@cdjrlc.com>
+ <d8e59a7f-5eab-3c1b-c8d0-f16e07d63f18@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <d8e59a7f-5eab-3c1b-c8d0-f16e07d63f18@intel.com>
+X-ClientProxiedBy: BYAPR05CA0016.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0::29) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] mm/gup.c: Fix formating in
- check_and_migrate_movable_page()
-To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org
-References: <20220721020552.1397598-1-apopple@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220721020552.1397598-1-apopple@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 81426009-4ce3-45f6-0c81-08da6af04418
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4626:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Uh54IfVc02MO5A7FejGS0Ur4KZUv0n0ABha6LVU+TxUffUC3KpIbgZuNq+jh2x8r5uzpoU+kbPsjHEHCqgISQpuAPRLwP/0vlwT29GCIiuS3PGCBG/l9k5vH+F3/9xDiFPqMV4jNdNm3EzYszW9G3n/wcFHcEWBwzCAMuurrHwsJzm8yliymRQSVK465ZwhJwGq66miAwR+Uli6RP8oGzCkxOFfAFUzrUOlhwx3JwShnyL5tYSWKcNAmqiqzGW1sjI8gSbzzpWLx+21y2Tf8PdQrlaFhS45PVSf8GM9DYzRsr7Bb4AOjYuTUbqy9lvRrs2KRtAzqDFMTBaOyEtYzDKur78oIYRd3H0mJ8fcwvVaQ4HwYupnnKt5wmbdQYeNTolWOnRg2MAud/xa3/bLyoz94P0H8/RNAnRDtlFvUZ72S1Ut7RDoFJ6P6ioG/9D8zjSxGgdncMQFPF3tCmHKCcFqSzOHPu9GNzjfCNW8l6tRJfSdy55cEbc/tZu+8TfdxYxOeaYRqNvsmHfXjqo6PahCCf671pcoXi7RIQ2KxZ0nVekmeB0lHRDlebrKeT08FT2Ey1M1+zI+4ChvvLDXnFpErs1e5v5VmjkE5Va5krhXHEhzNV7+xp6jQoC9DljU4W4im1XTwqfBUoP2HzyTNgnnOExAtwbRsjvU2FAxItKFQqRYyOTvwb+a4IRwKEzW9Vg2U/gfKrtc5pvVuZ6P/4Yd6289x7RUIJw0+y4QMTPtpZnc0ShjV1eGnR8Ea8pkO
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(376002)(39860400002)(396003)(136003)(366004)(346002)(83380400001)(186003)(2616005)(6666004)(36756003)(82960400001)(38100700002)(6486002)(4326008)(26005)(6512007)(8676002)(6862004)(6506007)(66476007)(53546011)(66556008)(66946007)(478600001)(316002)(41300700001)(86362001)(5660300002)(2906002)(37006003)(8936002)(6636002)(44832011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xggr3kzN1LTpRnXM0Ty3KgVqdw1wvG5+Y/dGVO6XQvBqFSk6r7z70pG2f9CH?=
+ =?us-ascii?Q?7oQ4opUD1dokOZq0KFyswMd0bXrVOZTCFe57VfVXIJ9Cp8p19YncUbcV7UGe?=
+ =?us-ascii?Q?JbDo59BLxA6mJbAbJpkBlLMp0gLkw50/xfxcyoE7gz+HIFjKDRmspe4KypCG?=
+ =?us-ascii?Q?Vjo9CmqQfOYahUMQ5yEAlP6j0gFgZUaSWSsdEWb/IAPHrt9/zOD31rk4o1Wk?=
+ =?us-ascii?Q?cLDs6ubsUx7DxyeBZJnc8MW0uIMbZHOP/8Nw2fyLLwJ0JiFv4SfWRtBxBzYE?=
+ =?us-ascii?Q?2Hb999O1RWU7TO9giROyvu4eCTWelJofjG9rG6GM9dw2t/CMFRgpcZq+UWlS?=
+ =?us-ascii?Q?237n0BC1LBYuNzcuLVzvUd67sj72SPXbhZMi3/3r5W/IV0xC/Y4PdY9rHoVl?=
+ =?us-ascii?Q?X3YjZBIQz5llQD0ghq+ArHXlHLh3TM4/d+fY/prfyMp8UoLTEEczCQe125tY?=
+ =?us-ascii?Q?ZShuQPZDW8DbfFr5q6olU4xiPX4qbr8xKXh95YR3s88lu1QmpHVF76F7OuFh?=
+ =?us-ascii?Q?qw28EOsOzBGI/kaLrEc7rG4OsDIRvXhsz4A/WlJ2u570lQdDyvrqzeAFMY0v?=
+ =?us-ascii?Q?++HKrX5EoUAzeL/ESiOpMVeSyE2k+aDYqbQFHBwX45eVEBBiu0RETQy4fYjk?=
+ =?us-ascii?Q?WyXSjkX7TdSd7KXK7smy8ch53mHmZ427I+84D5zUBCZRgiXXsot0gKJ5tTf6?=
+ =?us-ascii?Q?zj7b/IMWHfumcjUF26GFT4BY1Gt9rM2juf/RWBQvIAPmV1hC2GSBcxsND2Xw?=
+ =?us-ascii?Q?ijyvzlJzz4kKWY/l/yPYKSr6cisD5NOhxwCJTLHYKVCsmC2VFlidgVDTnBdm?=
+ =?us-ascii?Q?j7/kN4NUDMdTqCHxl+3g+Mgme5a6w026hnlDRwWDlxj3Kbd+PbW7rFLjhijq?=
+ =?us-ascii?Q?YJpJXKZ6N2bQiKvPsHwoct4BiQnV36tAiSkXh0BL/kVJ/f4+feiz2JENNg5u?=
+ =?us-ascii?Q?TwMMje8Eo/dAqb+wYwOrWm0qNLj05nXcpUYR1D4VHZ3qbf6lOTvnfGW6aVbW?=
+ =?us-ascii?Q?aHiW3qdxVKnow2sjPVWfD1bAhXKywQE2BWu9sINakOqZzS9rruyXNz2JYP7w?=
+ =?us-ascii?Q?nmjLKGimWqhyt1oYg6wXaeS1jGH8NtFjccCuLI29FDJxai0n9fz/HZfDbBIA?=
+ =?us-ascii?Q?VM3X1ManJY+Y9IMJEr1hlO+T5bmhKvRFxLkTpEtn1igsz9WsZManAqCPGPS2?=
+ =?us-ascii?Q?a60kB6MUrj4fUK1bKSwAW4UgezLhUjqxjO8N0+Fri/Ub7B3T4zx4A6euVZHs?=
+ =?us-ascii?Q?UxrGMDIN5KwPwFJnp2vNv9VLfCGxR7k+yHqh4J46S3r1HJfZvw43qKMQKSVp?=
+ =?us-ascii?Q?1P5O1906wWonwSB1eL5KY5+c2fjIaWI9Ubf5jH9KVBAcLLEHLZI54PoyX0AQ?=
+ =?us-ascii?Q?kNnJdsA8wsCCVi+eArsKJec/4Z6e6Kdqe4ZPSThT1dMHrkAKI01cy4nwrkSM?=
+ =?us-ascii?Q?GmMEJbVfWZjmpUSW1boIluCJcFme4mjsg9FC7CYPbXSWJa1JgtVhy6xvCWka?=
+ =?us-ascii?Q?EiKAmi7VoRL6MZQvCF20VC1/4APlzDJeAUaZDZh30ca9RJVx5/Um/NBOguXm?=
+ =?us-ascii?Q?WQThle93xijlH/PQ3r7hrY2NKt7ksQaHCbu3ykRQ6Ne7bZr9JaoGSa8TcnEI?=
+ =?us-ascii?Q?wg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81426009-4ce3-45f6-0c81-08da6af04418
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 08:08:59.6280 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZjtXNBdrQ9MpDD/LOWbXAQduPjgGPkL1csdoDNlBMSLxV4HcWXXLbIEu7+RIDO+M0tipSjinzBtC6TwAnJE+RQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4626
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,46 +142,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex.sierra@amd.com, linux-mm@kvack.org, Felix.Kuehling@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: michal.winiarski@intel.com, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jason Wang <wangborong@cdjrlc.com>, dri-devel@lists.freedesktop.org,
+ zhou1615@umn.edu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.07.22 04:05, Alistair Popple wrote:
-> Commit b05a79d4377f ("mm/gup: migrate device coherent pages when pinning
-> instead of failing") added a badly formatted if statement. Fix it.
+On Wed, Jul 20, 2022 at 06:56:16PM +0200, Andrzej Hajda wrote:
+> On 16.07.2022 06:05, Jason Wang wrote:
+> > Fix the double `wait' typo in comment.
+> > 
+> > Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+> > ---
+> >   drivers/gpu/drm/i915/selftests/i915_request.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+> > index c56a0c2cd2f7..ec05f578a698 100644
+> > --- a/drivers/gpu/drm/i915/selftests/i915_request.c
+> > +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+> > @@ -971,7 +971,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
+> >   	if (err)
+> >   		goto err;
+> > -	/* Force the wait wait now to avoid including it in the benchmark */
+> > +	/* Force the wait now to avoid including it in the benchmark */
+> >   	err = i915_vma_sync(vma);
+> >   	if (err)
+> >   		goto err_pin;
 > 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reported-by: David Hildenbrand <david@redhat.com>
-> ---
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Thanks for the patch and review. Pushed to drm-intel-gt-next.
+
 > 
-> Apologies Andrew for missing this. Hopefully this fixes things.
-> 
->  mm/gup.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 364b274a10c2..c6d060dee9e0 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -1980,8 +1980,8 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
->  				    folio_nr_pages(folio));
->  	}
->  
-> -	if (!list_empty(&movable_page_list) || isolation_error_count
-> -		|| coherent_pages)
-> +	if (!list_empty(&movable_page_list) || isolation_error_count ||
-> +	    coherent_pages)
->  		goto unpin_pages;
->  
->  	/*
-
-Happy to see the series go upstream soon.
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
-
+> Regards
+> Andrzej
