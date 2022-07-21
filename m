@@ -2,83 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B565257C93C
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4944757C9A6
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 13:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE5F22B624;
-	Thu, 21 Jul 2022 10:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29B0B8EFFA;
+	Thu, 21 Jul 2022 11:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA1418B8DF
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 10:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658400131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S6Oe91FRPICcN6nsmsOytc0+ZsDZ34nAjk4onRd6keo=;
- b=E5AUK0fKBdivKjR1kafnPvlSl9zWgm+SANYYNGx6nA7IQzvBjcXyNQkPtLQKrx+GuXbnOa
- vSSduDIc7PRSQwpvf4oJq8aw/7q3K1kx7WVUPttfTWRXIWwwtZt0mm54F7Nd+SbEmWsXtV
- 7KeZwVPDdMH6B0x0xw+8ubdBriaAHLY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-Jm8PL26AN4-AHkq3-pfYFw-1; Thu, 21 Jul 2022 06:42:09 -0400
-X-MC-Unique: Jm8PL26AN4-AHkq3-pfYFw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- x21-20020a05640226d500b0043abb7ac086so863196edd.14
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 03:42:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=S6Oe91FRPICcN6nsmsOytc0+ZsDZ34nAjk4onRd6keo=;
- b=1vQdCsgaGo3mY8ItX84Oeet33hnPCc6iDUrANRAJHKCVNpTuYIvTRj9tMnXX4SrA1/
- IymKfV5dSTtaL8J65VpSG0E+0O5NdShgT/faTswa0rjX6QRb0Ym7lZW8EsecL2SIiciu
- cfvC1zNwMWcCLvc8Pc1ffiP4tGL3x8OJYNeDv9QJs6KAV4DVONzE2C+xZBa0q/GunsLN
- VViOSfFTHRF7wk2WU8+IVvAV8D+vN7Wbi/LEHysvHkA3epNOeblZQ5/m26QJx+qZzx8g
- 2QAxX9raK1g7L536rz1j5P37T+XQ7i6LAm3zYEuqnzeNhIhBWbMUBiolf1qKtFfr6nEN
- rcnQ==
-X-Gm-Message-State: AJIora9lvDmYzt3MPlcn+v3U0NclAXFGY52WrRUC1ggAk6/yed+AT/mO
- MGDr+R043MNGGK+sxOqeMuXDzt+uf6B3RkqnsNjjcDBt8Sk6jcyLj9n+O0qcsfctGLktxgRpky6
- I79PBWywgVJze9w9ODdD1YMVsuckP
-X-Received: by 2002:aa7:d9ce:0:b0:43a:6758:7652 with SMTP id
- v14-20020aa7d9ce000000b0043a67587652mr56423058eds.351.1658400128456; 
- Thu, 21 Jul 2022 03:42:08 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v17EzhGOch3a86h6Zsqe2LPHMxB/daHzlg6AZ3KMDLM8+xOpfJmbSL9eUobzfldn8e8sBHvg==
-X-Received: by 2002:aa7:d9ce:0:b0:43a:6758:7652 with SMTP id
- v14-20020aa7d9ce000000b0043a67587652mr56423023eds.351.1658400128121; 
- Thu, 21 Jul 2022 03:42:08 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
- ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- v15-20020a17090606cf00b0072b810897desm680205ejb.105.2022.07.21.03.42.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 03:42:07 -0700 (PDT)
-Message-ID: <94904971-94b6-4e6f-3297-8ef4d1a04c30@redhat.com>
-Date: Thu, 21 Jul 2022 12:42:06 +0200
+X-Greylist: delayed 505 seconds by postgrey-1.36 at gabe;
+ Thu, 21 Jul 2022 11:17:36 UTC
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEC48F002
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 11:17:36 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220721110909euoutp025ac4d05f4c0e42a47241222466432e8d~D05q8RO-A2736027360euoutp02P
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 11:09:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220721110909euoutp025ac4d05f4c0e42a47241222466432e8d~D05q8RO-A2736027360euoutp02P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1658401749;
+ bh=7pOn9np6llVa3IZhHrwwXPP31b6z7IHaZ8XQBWYI8V8=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=bJq3RvutwfgDQDikXJcVoraJami3fTOGK+yqQyeZUe+GNFQJhy86ZcqSpxv6SjGvm
+ ZrILB0ALPdyOcOuH6xY9znQeJ8VB3r5CTFxB8s6H00rkCcEp19JaKQ236pGvIjtZIB
+ GWenP7iMuxKE7aWjqbk3zCzK/kI60dNrhMscw6j8=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220721110908eucas1p2e15e0d766c4c57d37a9e731c41743247~D05qn4A890191601916eucas1p2x;
+ Thu, 21 Jul 2022 11:09:08 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 7E.CE.09580.4D339D26; Thu, 21
+ Jul 2022 12:09:08 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220721110908eucas1p2244b61e0d5fd4612af900bfdad3ff2de~D05p8JV6w0195301953eucas1p2u;
+ Thu, 21 Jul 2022 11:09:08 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220721110908eusmtrp175890586794e6f4e0edf1748ed377ebe~D05p6nJZh0767307673eusmtrp16;
+ Thu, 21 Jul 2022 11:09:08 +0000 (GMT)
+X-AuditID: cbfec7f5-1bfc7a800000256c-06-62d933d4d57c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id A2.E0.09095.4D339D26; Thu, 21
+ Jul 2022 12:09:08 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220721110907eusmtip1b37088eb34c14bb2bc79248c9dd5c7bf~D05ozRGT60337503375eusmtip1V;
+ Thu, 21 Jul 2022 11:09:06 +0000 (GMT)
+Message-ID: <de9b3aa2-c1d4-6ee5-5061-27cec4bab679@samsung.com>
+Date: Thu, 21 Jul 2022 13:09:06 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH drm-misc-next v5 1/4] drm/fb: rename FB CMA helpers to FB
- DMA helpers
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220720153128.526876-1-dakr@redhat.com>
- <20220720153128.526876-2-dakr@redhat.com> <Ytg596Lk4kumqeRD@ravnborg.org>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <Ytg596Lk4kumqeRD@ravnborg.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dakr@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v3 08/13] drm: bridge: samsung-dsim: Add module init, exit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>, Joonyoung Shim
+ <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
+ Park <kyungmin.park@samsung.com>, Frieder Schrempf
+ <frieder.schrempf@kontron.de>, Fancy Fang <chen.fang@nxp.com>, Tim Harvey
+ <tharvey@gateworks.com>, Michael Nazzareno Trimarchi
+ <michael@amarulasolutions.com>, Adam Ford <aford173@gmail.com>, Neil
+ Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Tommaso Merciai
+ <tommaso.merciai@amarulasolutions.com>, Marek Vasut <marex@denx.de>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20220720155210.365977-9-jagan@amarulasolutions.com>
 Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf1CTZRzved93716ms5cN4wmLrnl0Vx4oDfO59Ay86F66uuSy/qBfDPYG
+ 5IC5QSFRiQdjLpCBhPKSojEEdsIUaS7iPFvYJoslHiLyw52CydA5cRKIZTHeLP77fD/fz+f5
+ PJ/nHgqX1JIRVFZOHqvJUahkpIiw/nLfHT0gv5y27vDwBjQ64sKRpzFAoJsjLSQamPGTqKLJ
+ LUDVHiOB7nUYSTR5pZ9AfbtvCdGeKpMQNRtPk6hjfFCADPOtODrw22kM3dIVA+S6ZsFRb3Ep
+ gex730N3uasLy31eEvU77+Jo9kEfHv8E0zbtETD+oVIhc4hzEkyNs0fAuMvHSOYHbkzI1Ovr
+ BExjtxdjei42CpjRwW6S8XztwJiTpq+YE7dtGLO30wyYQEfk1sdTRJuUrCrrU1azdnOqKNPs
+ PUioOarAaKogdwEXaQAhFKTj4HhrF24AIkpCtwBo85cI+OEegNbvODyoktABAHtb33/keGj3
+ YDzfDOCxQ5/zhmkA9ZN6IrgQ05th8REzCGKCjoK1TZdIng+F5+omFjUr6XR4ar5MEMRSeiv8
+ +2zXYhhOh8PhiQYseGgYbRFA30QNCA54MKF87uqiiqRjocFnWDw1hE6A/Vfq/3U/A0/5vl0s
+ BOlvRHB/belCBLUwvAqHK6P5ClI45egU8vgp6NpXTvCSXPjXATlPF8DBm8dwHm+Eo+55MijB
+ 6eehpWstTyfAOyUWIe9cAYd8ofwFVsBq636cp8VQr5Pw6ucg52j/L/On8xdwI5BxSx6FW1Ke
+ W1KF+z/3MCDMIJzN12ZnsFp5DvtZjFaRrc3PyYhJz83uAAtf1/XQMWMDLVPTMXaAUcAOIIXL
+ wsTXd1xKk4iVip2FrCb3I02+itXawSqKkIWL07OOKyR0hiKP3c6yalbzaItRIRG7sKTqvOu6
+ T0aKqnRSdfTrL6lftt13lEPnZNEF02NRb8zcSE2c7Xnxw7qN0qLz1JR44Pd3kq25mxSqvu62
+ M/Ha7pS5REussnGseXn8u+dEa76gzrxmPeqTvJVSeeQPUeDsz2PmCHXUZPJtZovumq9MvKp9
+ nf7XqYscdtTbW7mMXO8Mbde8/aN/robgOhue7NiTvG3nZHNK+ZsaVur4WPdle6Sy3i9KfFBY
+ o8xIPWFcFnPQtvz7/qmkhMzL4x9UlJY0GatC25RxkdZC9+60uIKTZUkNI15DoNd8Z1vPmhvi
+ V6q3x1StXlk2G71+y5+rmTDzhmGT6rjHv4N9+ll5b+RQpTweE8oIbaYi9gVco1X8Aw7i240p
+ BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHKsWRmVeSWpSXmKPExsVy+t/xu7pXjG8mGbzfwW5x5/ZpZov7iz+z
+ WLy+vYLN4srX92wWvUvPsVpMuj+BxeLLpglsFi/uXWSxONv0ht2ic+ISdovlE/axWWx6fI3V
+ ouvXSmaLGef3MVm8aWtktDj9aD2zxanGVhaLQ33RFp9mPQRKTn7JZnHxxCdmi++/zzI7iHms
+ /Xif1eP9jVZ2j3mzTrB4TDlxhNXjXM9dNo+ds+6ye8zumMnqsXjPSyaPI1cXs3rcubaHzeN+
+ 93Emj81L6j02vtvB5NG3ZRWjx+dNcgH8UXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG
+ 5rFWRqZK+nY2Kak5mWWpRfp2CXoZq17OZSmYxVExYUkvWwPjabYuRk4OCQETiX+H7jN1MXJx
+ CAksZZTYNu05O0RCRuLktAZWCFtY4s+1LjaIoveMEmuWfQBL8ArYSTQuXMUIYrMIqEpMW3qd
+ DSIuKHFy5hMWEFtUIFmi5X8fWFxYwE/izaYGsHpmAXGJW0/mg20WEdjKKvFq2zqwDcwCHxkl
+ Lk3ewg6x7jSjxKcV55hAWtgEDCW63naBjeIUcJS4eG82M8QoM4murV1QY+Ultr+dwzyBUWgW
+ kktmIdk4C0nLLCQtCxhZVjGKpJYW56bnFhvqFSfmFpfmpesl5+duYgQmnG3Hfm7ewTjv1Ue9
+ Q4xMHIyHGCU4mJVEeJ8WXk8S4k1JrKxKLcqPLyrNSS0+xGgKDI6JzFKiyfnAlJdXEm9oZmBq
+ aGJmaWBqaWasJM7rWdCRKCSQnliSmp2aWpBaBNPHxMEp1cC0ZHn06xcf/7Q1uFQlebwXffuk
+ fWKf9/VzCx6caLBU26sztVX34aWl8ezZmxZZNV7NCjv00FvrzNftV+1/W82zi44/EJn9aqsO
+ b9IcPs/zEyImyeupXDvGnLGS54ftopc89VwluyJeZt7jTgv6omC6vKz0gvaV+xsLX5a23X//
+ e9HK1DXSOoe8Tj998s5PoXRP5fIngXdWcrrzNVkf+P3vyRJRqbBsbuPg6VVZK9+lqv054DXh
+ 3RXHlqt6E9KO13g4f2pm2xIhcn5N4lmrpXE7nj7ZHOprIOVfc7LQ/9PiT24hAiWZ7fYq8y6d
+ 0XRnOTKxVfhi3oGjPLzBUtlnzVTZPdbeu7vh5Kw96mlCJsuPKLEUZyQaajEXFScCAJgrYtLB
+ AwAA
+X-CMS-MailID: 20220721110908eucas1p2244b61e0d5fd4612af900bfdad3ff2de
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220720155329eucas1p1643af66a6bc9eb3cf478fc8b064a620f
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220720155329eucas1p1643af66a6bc9eb3cf478fc8b064a620f
+References: <20220720155210.365977-1-jagan@amarulasolutions.com>
+ <CGME20220720155329eucas1p1643af66a6bc9eb3cf478fc8b064a620f@eucas1p1.samsung.com>
+ <20220720155210.365977-9-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,121 +130,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- tzimmermann@suse.de
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hi Jagan,
 
-On 7/20/22 19:23, Sam Ravnborg wrote:
-> Hi Danilo,
-> 
-> On Wed, Jul 20, 2022 at 05:31:25PM +0200, Danilo Krummrich wrote:
->> Rename "FB CMA" helpers to "FB DMA" helpers - considering the hierarchy
->> of APIs (mm/cma -> dma -> fb dma) calling them "FB DMA" seems to be
->> more applicable.
->>
->> Besides that, commit e57924d4ae80 ("drm/doc: Task to rename CMA helpers")
->> requests to rename the CMA helpers and implies that people seem to be
->> confused about the naming.
->>
->> In order to do this renaming the following script was used:
->>
->> ```
->> 	#!/bin/bash
->>
->> 	DIRS="drivers/gpu include/drm Documentation/gpu"
->>
->> 	REGEX_SYM_UPPER="[0-9A-Z_\-]"
->> 	REGEX_SYM_LOWER="[0-9a-z_\-]"
->>
->> 	REGEX_GREP_UPPER="(${REGEX_SYM_UPPER}*)(FB)_CMA_(${REGEX_SYM_UPPER}*)"
->> 	REGEX_GREP_LOWER="(${REGEX_SYM_LOWER}*)(fb)_cma_(${REGEX_SYM_LOWER}*)"
->>
->> 	REGEX_SED_UPPER="s/${REGEX_GREP_UPPER}/\1\2_DMA_\3/g"
->> 	REGEX_SED_LOWER="s/${REGEX_GREP_LOWER}/\1\2_dma_\3/g"
->>
->> 	# Find all upper case 'CMA' symbols and replace them with 'DMA'.
->> 	for ff in $(grep -REHl "${REGEX_GREP_UPPER}" $DIRS)
->> 	do
->> 	       sed -i -E "$REGEX_SED_UPPER" $ff
->> 	done
->>
->> 	# Find all lower case 'cma' symbols and replace them with 'dma'.
->> 	for ff in $(grep -REHl "${REGEX_GREP_LOWER}" $DIRS)
->> 	do
->> 	       sed -i -E "$REGEX_SED_LOWER" $ff
->> 	done
->>
->> 	# Replace all occurrences of 'CMA' / 'cma' in comments and
->> 	# documentation files with 'DMA' / 'dma'.
->> 	for ff in $(grep -RiHl " cma " $DIRS)
->> 	do
->> 		sed -i -E "s/ cma / dma /g" $ff
->> 		sed -i -E "s/ CMA / DMA /g" $ff
->> 	done
->> ```
->>
->> Only a few more manual modifications were needed, e.g. reverting the
->> following modifications in some DRM Kconfig files
->>
->>      -       select CMA if HAVE_DMA_CONTIGUOUS
->>      +       select DMA if HAVE_DMA_CONTIGUOUS
->>
->> as well as manually picking the occurrences of 'CMA'/'cma' in comments and
->> documentation which relate to "FB CMA", but not "GEM CMA".
->>
->> This patch is compile-time tested building a x86_64 kernel with
->> `make allyesconfig && make drivers/gpu/drm`.
->>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> 
-> For the most part I like the patch.
-> But there is a few cases I would like to see fixed.
-> 
-> 
->> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
->> index e89ae0ec60eb..fab18135f12b 100644
->> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
->> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
->> @@ -25,7 +25,7 @@
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_debugfs.h>
->>   #include <drm/drm_drv.h>
->> -#include <drm/drm_fb_cma_helper.h>
->> +#include <drm/drm_fb_dma_helper.h>
->>   #include <drm/drm_fb_helper.h>
->>   #include <drm/drm_gem_cma_helper.h>
->>   #include <drm/drm_gem_framebuffer_helper.h>
-> 
-> 
-> The only change in the file above is the rename of the include file.
-> This is a strong hint that the include is not needed and the correct fix
-> is to drop the include. There are more cases like the above.
+On 20.07.2022 17:52, Jagan Teki wrote:
+> Add module init and exit functions for the bridge to register
+> and unregister dsi_driver.
+>
+> Exynos drm driver stack will register the platform_driver separately
+> in the common of it's exynos_drm_drv.c including dsi_driver.
+>
+> Register again would return -EBUSY, so return 0 for such cases as
+> dsi_driver is already registered.
 
-Yep, good catch.
+I've already pointed that this is a bad style solution. It will also not 
+work in the following cases:
 
-> 
-> This is a manual process on top of what you could automate, but then I
-> suggest to identify them and remove the includes before you change the
-> file name.
-> 
-> Or if anyone applies the patches then at least do it in a follow-up at
-> the places will never be easier to spot.
-> 
-> So with this cleanup done either before or after this patch.
+1. exynos drm and samsung-dsim compiled as modules - samsung-dsim 
+module, once loaded, will register the driver and exynos_drm won't be 
+able to register the exynos_dsi.
 
-I'll add anther patch to remove the unused includes before doing the 
-renaming.
+2. multi-arch case - if one compiles a kernel (disto-style) with drivers 
+for both supported architectures (exynos and imx) - in such case it will 
+not work on imx, because exynos_drm driver will always register 
+exynos_dsi driver first (even if the kernel is booted on non-exynos board).
 
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> 	Sam
-> 
-
-- Danilo
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
