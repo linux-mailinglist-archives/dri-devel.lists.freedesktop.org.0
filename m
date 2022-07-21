@@ -2,81 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0255F57D1C2
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 18:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9554E57D26B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 19:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB87911AEB4;
-	Thu, 21 Jul 2022 16:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 963C511B909;
+	Thu, 21 Jul 2022 17:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3C711AE4D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 16:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658421723;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lpgjxHYzUdT13dg92JGLQAgwmOcrc+nlknH/en5JH44=;
- b=RI2+3b9D3uHFwxoJ7qtwOrVY8ZtBrMNDfujWVCjTtfGR4gVTTLf6HIzm2suXrfUIdw19KB
- hB4DSwItppZUmgX6oaQorCSTw4UmRUZanWgPpiekxJU/r6GnwXASViKdUJECQ9yXERdTxi
- bkB5uwrlnw6yqjV2L8cmtV0Bear4/cs=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-_auf4fqbNEyiTTCwHJTw1w-1; Thu, 21 Jul 2022 12:42:02 -0400
-X-MC-Unique: _auf4fqbNEyiTTCwHJTw1w-1
-Received: by mail-io1-f69.google.com with SMTP id
- t3-20020a5d81c3000000b0067bcd25f108so684928iol.4
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 09:42:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=lpgjxHYzUdT13dg92JGLQAgwmOcrc+nlknH/en5JH44=;
- b=v0Ao3sqM0V8JOd5U5HKzuef4avHs8zbgt8zuTQFxfuzcDqi8S2mjlLw8rK1+Ci2oUl
- FyhXwmiXxlVLQGOnutQgMHge0lb9PAEYTBlEMsuCVooCTVnupOERbLh6++4+tsMb5dix
- 4e6nCtC7IjKsMzwroOcaBSs00aVtwEQrDpdzMmsLL/S/cKPEOqoAECPxz/fXDR1VKwgf
- xOatKrco01ePzzfWQ8aQLiiHbRwL7w/VqfNU591QIQj13pMJyNp9DRY3SfV/IiE+rapQ
- MYWC12ck91cErX62jhJKMV5/YkbpghR2sg+PcPBUNK9CitwmaX8dQgMXtEjJwrhmZJIw
- k4Tg==
-X-Gm-Message-State: AJIora8pydVgqY+CNoJIdlPoDqv2GG91d14upi3c540udSgdnWtSkiHD
- eYKFMKphIp9TUR4JQ20/3PRvbCDf3jy+U3gGb4LmWO5m8ARcNqdvtI8JJXde3Bom/PrV1B38iwt
- Gp8+tFJXRwVPsm+78inqYxKc6iTOq
-X-Received: by 2002:a02:9995:0:b0:33f:1def:a856 with SMTP id
- a21-20020a029995000000b0033f1defa856mr24004778jal.140.1658421721176; 
- Thu, 21 Jul 2022 09:42:01 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uDra+sBjomhufuKVE3FoD1JmBYjfrwTVbG3vPUfrMl7qSHvCezbvx0MjlGPc8ncq7OqQjIFA==
-X-Received: by 2002:a02:9995:0:b0:33f:1def:a856 with SMTP id
- a21-20020a029995000000b0033f1defa856mr24004742jal.140.1658421720864; 
- Thu, 21 Jul 2022 09:42:00 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- d184-20020a0262c1000000b0033f0c9f4fbesm978665jac.135.2022.07.21.09.41.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 09:42:00 -0700 (PDT)
-Date: Thu, 21 Jul 2022 10:41:58 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>
-Subject: Re: [PATCH v4 1/2] vfio: Replace the DMA unmapping notifier with a
- callback
-Message-ID: <20220721104158.225a3562.alex.williamson@redhat.com>
-In-Reply-To: <d4b7abce8ef8646819d32fef57ea51e38cd53f1b.camel@linux.ibm.com>
-References: <0-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
- <1-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
- <20220720134113.4225f9d6.alex.williamson@redhat.com>
- <20220720200829.GW4609@nvidia.com>
- <20220720170457.39cda0d0.alex.williamson@redhat.com>
- <d4b7abce8ef8646819d32fef57ea51e38cd53f1b.camel@linux.ibm.com>
-Organization: Red Hat
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBA311B909;
+ Thu, 21 Jul 2022 17:27:04 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4LpfdM44yrzDr4R;
+ Thu, 21 Jul 2022 17:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1658424423; bh=tLbHRN+1HXM03PQNvYmbcQ4E87fMLPaXXEod+l2R5Dw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=XLMgp7Y4ElJ5ReFZnBd1+/TY6/l45fvnNGgdwyyp7WHGcZavpLx4YDicsa92I6yr0
+ Ot0LwvNww1nxCQLntxuuF/r8x2L6g4ZS1Jvq+g8iA9vw0F3lJjY99kWaBzQN9Jbtt4
+ eH4WgayKgQ17mCARinnc+5AbXL3XZzdZ/50/36ZU=
+X-Riseup-User-ID: 23B284C68BE6ABE9CC990460759E1236BD94AD3094C54EC02C595A1ADAFBC734
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4LpfdG44xKz214c;
+ Thu, 21 Jul 2022 17:26:57 +0000 (UTC)
+Message-ID: <158dc220-3901-26fc-2f51-ebcecc091e17@riseup.net>
+Date: Thu, 21 Jul 2022 14:26:54 -0300
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 5/5] drm/amd/display: move FPU code from dcn301 clk mgr to
+ DML folder
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <20220720193208.1131493-1-mwen@igalia.com>
+ <20220720193208.1131493-6-mwen@igalia.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220720193208.1131493-6-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,105 +57,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Jason Gunthorpe <jgg@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, Guenter Roeck <linux@roeck-us.net>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Jul 2022 12:01:47 -0400
-Eric Farman <farman@linux.ibm.com> wrote:
+Hi Melissa,
 
-> On Wed, 2022-07-20 at 17:04 -0600, Alex Williamson wrote:
-> > On Wed, 20 Jul 2022 17:08:29 -0300
-> > Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >   
-> > > On Wed, Jul 20, 2022 at 01:41:13PM -0600, Alex Williamson wrote:
-> > >    
-> > > > ie. we don't need the gfn, we only need the iova.    
-> > > 
-> > > Right, that makes sense
-> > >    
-> > > > However then I start to wonder why we're passing in 1 for the
-> > > > number of
-> > > > pages because this previously notifier, now callback is called
-> > > > for the
-> > > > entire vfio_dma range when we find any pinned pages.      
-> > > 
-> > > Well, it is doing this because it only ever pins one page.  
-> > 
-> > Of course that page is not necessarily the page it unpins given the
-> > contract misunderstanding below.
-> >    
-> > > The drivers are confused about what the contract is. vfio is
-> > > calling
-> > > the notifier with the entire IOVA range that is being unmapped and
-> > > the
-> > > drivers are expecting to receive notifications only for the IOVA
-> > > they
-> > > have actually pinned.
-> > >   
-> > > > Should ap and ccw implementations of .dma_unmap just be replaced
-> > > > with a
-> > > > BUG_ON(1)?    
-> > > 
-> > > The point of these callbacks is to halt concurrent DMA, and ccw
-> > > does
-> > > that today.  
-> > 
-> > ccw essentially only checks whether the starting iova of the unmap is
-> > currently mapped.  If not it does nothing, if it is it tries to reset
-> > the device and unpin everything.  Chances are the first iova is not
-> > the
-> > one pinned, so we don't end up removing the pinned page and type1
-> > will
-> > eventually BUG_ON after a few tries.
-> >   
-> > > It looks like AP is missing a call to ap_aqic(), so it is
-> > > probably double wrong.  
-> > 
-> > Thankfully the type1 unpinning path can't be tricked into unpinning
-> > something that wasn't pinned, so chances are the unpin call does
-> > nothing, with a small risk that it unpins another driver's pinned
-> > page,
-> > which might not yet have been notified and could still be using the
-> > page.  In the end, if ap did have a page pinned in the range, we'll
-> > hit
-> > the same BUG_ON as above.
-> >   
-> > > What I'd suggest is adding a WARN_ON that the dma->pfn_list is not
-> > > empty and leave these functions alone.  
-> > 
-> > The BUG_ON still exists in type1.
-> > 
-> > Eric, Matt, Tony, Halil, JasonH, any quick fixes here?  ccw looks
-> > like
-> > it would be pretty straightforward to test against a range rather
-> > than
-> > a single iova.  
+On 7/20/22 16:32, Melissa Wen wrote:
+> The -mno-gnu-attribute option in dcn301 clk mgr makefile hides a soft vs
+> hard fp error for powerpc. After removing this flag, we can see some FPU
+> code remains there:
 > 
-> Agreed, ccw looks pretty easy. Should I send something to go before
-> this series to make stable easier? (It's a trivial change in either
-> direction, so either is fine to me.)
+> gcc-11.3.0-nolibc/powerpc64-linux/bin/powerpc64-linux-ld:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.o uses
+> hard float,
+> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn301/vg_clk_mgr.o
+> uses soft float
+> 
+> Therefore, remove the -mno-gnu-attribute flag for dcn301/powerpc and
+> move FPU-associated code to DML folder.
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  .../gpu/drm/amd/display/dc/clk_mgr/Makefile   |  6 --
+>  .../display/dc/clk_mgr/dcn301/vg_clk_mgr.c    | 86 ++-----------------
+>  .../display/dc/clk_mgr/dcn301/vg_clk_mgr.h    |  3 +
+>  .../amd/display/dc/dml/dcn301/dcn301_fpu.c    | 74 ++++++++++++++++
+>  4 files changed, 84 insertions(+), 85 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
+> index 15b660a951a5..271d8e573181 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
+> @@ -123,12 +123,6 @@ AMD_DISPLAY_FILES += $(AMD_DAL_CLK_MGR_DCN30)
+>  ###############################################################################
+>  CLK_MGR_DCN301 = vg_clk_mgr.o dcn301_smu.o
+>  
+> -# prevent build errors regarding soft-float vs hard-float FP ABI tags
+> -# this code is currently unused on ppc64, as it applies to VanGogh APUs only
+> -ifdef CONFIG_PPC64
+> -CFLAGS_$(AMDDALPATH)/dc/clk_mgr/dcn301/vg_clk_mgr.o := $(call cc-option,-mno-gnu-attribute)
+> -endif
+> -
+>  AMD_DAL_CLK_MGR_DCN301 = $(addprefix $(AMDDALPATH)/dc/clk_mgr/dcn301/,$(CLK_MGR_DCN301))
+>  
+>  AMD_DISPLAY_FILES += $(AMD_DAL_CLK_MGR_DCN301)
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+> index f310b0d25a07..65f224af03c0 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+> @@ -32,6 +32,10 @@
+>  // For dcn20_update_clocks_update_dpp_dto
+>  #include "dcn20/dcn20_clk_mgr.h"
+>  
+> +// For DML FPU code
+> +#include "dml/dcn20/dcn20_fpu.h"
+> +#include "dml/dcn301/dcn301_fpu.h"
+> +
 
-It looks like we're expecting an rc8 for this development cycle, so the
-merge window will be pushed out a week (which works better for some
-upcoming PTO on my end), but if it's trivial either way let's plan for
-the fix to follow Nicolin's and Jason's series and we can always post a
-backport to the stable list if there's any trouble.  Thanks,
+I guess the "dml/dcn301/dcn301_fpu.h" header is not needed, as you only
+use dcn21_clk_mgr_set_bw_params_wm_table and the structs are on the
+source file.
 
-Alex
+Besides that, to the whole series:
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
+Best Regards,
+- Maíra Canal
+
+>  #include "vg_clk_mgr.h"
+>  #include "dcn301_smu.h"
+>  #include "reg_helper.h"
+> @@ -526,81 +530,6 @@ static struct clk_bw_params vg_bw_params = {
+>  
+>  };
+>  
+> -static struct wm_table ddr4_wm_table = {
+> -	.entries = {
+> -		{
+> -			.wm_inst = WM_A,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.72,
+> -			.sr_exit_time_us = 6.09,
+> -			.sr_enter_plus_exit_time_us = 7.14,
+> -			.valid = true,
+> -		},
+> -		{
+> -			.wm_inst = WM_B,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.72,
+> -			.sr_exit_time_us = 10.12,
+> -			.sr_enter_plus_exit_time_us = 11.48,
+> -			.valid = true,
+> -		},
+> -		{
+> -			.wm_inst = WM_C,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.72,
+> -			.sr_exit_time_us = 10.12,
+> -			.sr_enter_plus_exit_time_us = 11.48,
+> -			.valid = true,
+> -		},
+> -		{
+> -			.wm_inst = WM_D,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.72,
+> -			.sr_exit_time_us = 10.12,
+> -			.sr_enter_plus_exit_time_us = 11.48,
+> -			.valid = true,
+> -		},
+> -	}
+> -};
+> -
+> -static struct wm_table lpddr5_wm_table = {
+> -	.entries = {
+> -		{
+> -			.wm_inst = WM_A,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.65333,
+> -			.sr_exit_time_us = 13.5,
+> -			.sr_enter_plus_exit_time_us = 16.5,
+> -			.valid = true,
+> -		},
+> -		{
+> -			.wm_inst = WM_B,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.65333,
+> -			.sr_exit_time_us = 13.5,
+> -			.sr_enter_plus_exit_time_us = 16.5,
+> -			.valid = true,
+> -		},
+> -		{
+> -			.wm_inst = WM_C,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.65333,
+> -			.sr_exit_time_us = 13.5,
+> -			.sr_enter_plus_exit_time_us = 16.5,
+> -			.valid = true,
+> -		},
+> -		{
+> -			.wm_inst = WM_D,
+> -			.wm_type = WM_TYPE_PSTATE_CHG,
+> -			.pstate_latency_us = 11.65333,
+> -			.sr_exit_time_us = 13.5,
+> -			.sr_enter_plus_exit_time_us = 16.5,
+> -			.valid = true,
+> -		},
+> -	}
+> -};
+> -
+> -
+>  static unsigned int find_dcfclk_for_voltage(const struct vg_dpm_clocks *clock_table,
+>  		unsigned int voltage)
+>  {
+> @@ -670,10 +599,9 @@ static void vg_clk_mgr_helper_populate_bw_params(
+>  		/*
+>  		 * WM set D will be re-purposed for memory retraining
+>  		 */
+> -		bw_params->wm_table.entries[WM_D].pstate_latency_us = LPDDR_MEM_RETRAIN_LATENCY;
+> -		bw_params->wm_table.entries[WM_D].wm_inst = WM_D;
+> -		bw_params->wm_table.entries[WM_D].wm_type = WM_TYPE_RETRAINING;
+> -		bw_params->wm_table.entries[WM_D].valid = true;
+> +		DC_FP_START();
+> +		dcn21_clk_mgr_set_bw_params_wm_table(bw_params);
+> +		DC_FP_END();
+>  	}
+>  
+>  }
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.h
+> index 7255477307f1..75884f572989 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.h
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.h
+> @@ -29,6 +29,9 @@
+>  
+>  struct watermarks;
+>  
+> +extern struct wm_table ddr4_wm_table;
+> +extern struct wm_table lpddr5_wm_table;
+> +
+>  struct smu_watermark_set {
+>  	struct watermarks *wm_set;
+>  	union large_integer mc_address;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
+> index e4863f0bf0f6..7ef66e511ec8 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
+> @@ -214,6 +214,80 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_01_soc = {
+>  	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
+>  };
+>  
+> +struct wm_table ddr4_wm_table = {
+> +	.entries = {
+> +		{
+> +			.wm_inst = WM_A,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.72,
+> +			.sr_exit_time_us = 6.09,
+> +			.sr_enter_plus_exit_time_us = 7.14,
+> +			.valid = true,
+> +		},
+> +		{
+> +			.wm_inst = WM_B,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.72,
+> +			.sr_exit_time_us = 10.12,
+> +			.sr_enter_plus_exit_time_us = 11.48,
+> +			.valid = true,
+> +		},
+> +		{
+> +			.wm_inst = WM_C,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.72,
+> +			.sr_exit_time_us = 10.12,
+> +			.sr_enter_plus_exit_time_us = 11.48,
+> +			.valid = true,
+> +		},
+> +		{
+> +			.wm_inst = WM_D,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.72,
+> +			.sr_exit_time_us = 10.12,
+> +			.sr_enter_plus_exit_time_us = 11.48,
+> +			.valid = true,
+> +		},
+> +	}
+> +};
+> +
+> +struct wm_table lpddr5_wm_table = {
+> +	.entries = {
+> +		{
+> +			.wm_inst = WM_A,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.65333,
+> +			.sr_exit_time_us = 13.5,
+> +			.sr_enter_plus_exit_time_us = 16.5,
+> +			.valid = true,
+> +		},
+> +		{
+> +			.wm_inst = WM_B,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.65333,
+> +			.sr_exit_time_us = 13.5,
+> +			.sr_enter_plus_exit_time_us = 16.5,
+> +			.valid = true,
+> +		},
+> +		{
+> +			.wm_inst = WM_C,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.65333,
+> +			.sr_exit_time_us = 13.5,
+> +			.sr_enter_plus_exit_time_us = 16.5,
+> +			.valid = true,
+> +		},
+> +		{
+> +			.wm_inst = WM_D,
+> +			.wm_type = WM_TYPE_PSTATE_CHG,
+> +			.pstate_latency_us = 11.65333,
+> +			.sr_exit_time_us = 13.5,
+> +			.sr_enter_plus_exit_time_us = 16.5,
+> +			.valid = true,
+> +		},
+> +	}
+> +};
+> +
+>  static void calculate_wm_set_for_vlevel(int vlevel,
+>  		struct wm_range_table_entry *table_entry,
+>  		struct dcn_watermarks *wm_set,
