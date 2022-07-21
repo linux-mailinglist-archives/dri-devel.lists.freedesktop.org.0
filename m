@@ -2,66 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE72357C899
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7445557C8CE
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB2B58D51A;
-	Thu, 21 Jul 2022 10:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DB58D747;
+	Thu, 21 Jul 2022 10:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F80C8D50F
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 10:09:52 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id o12so1323125pfp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 03:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=JsNvQYgS7LcjVv/c6iexGN5Si+fKRd5f5BAbC7QtYk4=;
- b=eAa08a3+tl/ZofuTfcSSlCIRAq8gzsE5weAOP7UsxCGX7Y3mEwbV149NCokUNAuKe5
- EN8JAjfmhP9N9CspG2jqaZSyIaGbkZUhDaW7qofKWFu8aKMXKSZIN/OslbLhdpG3vXAe
- Ur/lyWqy91Q56Es+2f1zy2dzQ+hj8jlo3qE0YiObY2S52rcdXtLGShkNUGJiecJGeLOG
- GtukmBHV1TgkmoL4837XnIBFnmUr7cQbqEUii+cPTEyr6HZ7158GO1PQ1FREaPNHpO3p
- +zxpj8UH5CIEkJ0zMqYXxrZuHhPdN0LgPYLVzbKBbdgveUmcPeMuT3v6VXPjNd763lsV
- k55Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JsNvQYgS7LcjVv/c6iexGN5Si+fKRd5f5BAbC7QtYk4=;
- b=r91AirdwDjrBreSPSjpkNFxBaGjDUdNTgebBtqBYVR8wXxN0F0mqC2sCciePIYG5li
- AZM5/hr7F1cT6D900mUXd9BY91svqcwFIFNrWGoBk8ZXkvIDXqQPSIQ1c/250FWxQPMk
- 7y2Wq2SnxomqV7hivZsqRS9pU+V+NN9jlnA9SKs0MduD+vbv4yyrZPIIfwIqevopKc2u
- u2ywqJzgPo2nOhMoGGmYjYpE/1+eS5DXmwzICnIjx3qqyKWJuJ0tQW9JLEaAOHTuyJKg
- vb4SBoQRvCT0kzitEojXo57LFuit0I0+Rn7NBNxnSUzwEggT6EBqi0EExSBPwZQztDNO
- ggsQ==
-X-Gm-Message-State: AJIora+BOBegSlbLZhaR7BbzX2Wj2+bgBr3M0lTnxAfc41TG1GkeVkr4
- 9ffygOopNHpgv4YESHZ9ZlM=
-X-Google-Smtp-Source: AGRyM1tMdDKZ5ydOiuf36WZNOlcNoDOh7UeG2Wl5nFnV3DeSsvm2YGSyx3q8fnZshmx3L5mTpd0DGQ==
-X-Received: by 2002:a05:6a00:23c9:b0:52a:cedd:3992 with SMTP id
- g9-20020a056a0023c900b0052acedd3992mr42915651pfc.43.1658398191449; 
- Thu, 21 Jul 2022 03:09:51 -0700 (PDT)
-Received: from cyhuang-hp-elitebook-840-g3.rt
- ([2402:7500:56a:cec2:d9ce:3b52:7023:4b90])
- by smtp.gmail.com with ESMTPSA id
- x187-20020a6286c4000000b0052ac2e23295sm1351501pfd.44.2022.07.21.03.09.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 21 Jul 2022 03:09:50 -0700 (PDT)
-Date: Thu, 21 Jul 2022 18:09:37 +0800
-From: ChiYuan Huang <u0084500@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v5 11/13] leds: mt6370: Add MediaTek MT6370 current sink
- type LED Indicator support
-Message-ID: <20220721100933.GA17618@cyhuang-hp-elitebook-840-g3.rt>
-References: <20220715112607.591-1-peterwu.pub@gmail.com>
- <20220715112607.591-12-peterwu.pub@gmail.com>
- <20220717084643.GA14285@duo.ucw.cz>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84E2F8D741
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 10:18:06 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 328955C015A;
+ Thu, 21 Jul 2022 06:18:03 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 21 Jul 2022 06:18:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1658398683; x=
+ 1658485083; bh=jBXiLVgk+MQp/+/KkFRnF6nXtE8UOCN9j7zexhft9E0=; b=q
+ P6DaS40vgonigFjaliX4liAyfE8smTw//MKsSgAPj2mUNTXdTOgSv3O0JiV2YLlp
+ f2dP9bo1LmAZfxwhH/xr3BPczGJI66MwBPdideLuAtLciTbfzdi5+ySzGcxMJG7p
+ N5X8WF2JkyxkP0PVZY2wbm4FR+BwrZXp/Ak/dj3k2XoiPjy1Ud6UmuTPo4Rt/FUQ
+ ScjLlYfvQlIp99VChFa30paR4sMdtuwp4jvDUi7HRYmlcSrl1EbcWUqdy5SJxwa4
+ iqWPphM5KvEm2pKwKrr/55QtJrFAEJmyKjkjz7ElMOayG7mrSC2yMYnaXqOlJ6s2
+ jcSMlIaQhYhZvUvPE76hA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658398683; x=
+ 1658485083; bh=jBXiLVgk+MQp/+/KkFRnF6nXtE8UOCN9j7zexhft9E0=; b=x
+ z24LuBoVORoPOkRQrJkfbsmxDDxN2xFx1MFkOfYVVaYUwQyamYxWa4+Hp2Q7ApPQ
+ qSuraCkVYvPn+XRAJ4rnRWZf7elNfxWfMCaBpG1SpkOlaTtyOzTdDOoG9+zcUn4l
+ C3ljfy4pPwATu/WWDJ6jTCrGYJyxtD917ubDWs70laJjbOSu4A8DHucqX9zaBRuB
+ 6fuZLNLmxrMyTwGtT41kGQWhnhmXghNgVbVZA9DWk9I7WmUL7q6jrjx35AFeKfRX
+ 5kanFd3wRKMfmZKIMkT17wrMGXj4FTHNtqdQjLytkXT263cZ7N5if9AVcXvcuTMe
+ Jqxa3Ktw1LZ0QE9d+iUBg==
+X-ME-Sender: <xms:2SfZYngHsISrNFiCmyltRDk_qsrihitkYR2K80ipNKiI9roIwkkfqg>
+ <xme:2SfZYkAaP-AQ_m_h-spklUR6uZijXJ5HeELGagNjZnuebhvJk2fo1EeFWWR4pi08S
+ muFTghAQ8HRHg2d4CI>
+X-ME-Received: <xmr:2SfZYnEF1NZpRzcs0Jx7TbUT2quTzOULgCLBnguUtODA8pE3uqtFCPWM2fxCVXWxH_PhcafDfj1EudI4HWGlEzwCFw4_cGMY4t5IYoY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelledgvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
+ ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
+ tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
+ euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:2SfZYkRDOTx9QPtwgl3JTghlpm-nVlEZlvDHUaByne33EU2wWvJRTg>
+ <xmx:2SfZYkyAxE0lK830dWlFZZh7m_-rUUyDJ_nsrunG2iBo3oEUw3rdFQ>
+ <xmx:2SfZYq6E5Vbe6ylmEw8v3r0aQBsPGfks9oho5zjwEr1zQgSSx0L3JA>
+ <xmx:2yfZYny0o0U_yPAX8ShUKQ59kfSEnGWmrCnFdr0WXt5RNFZbFFEDAg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Jul 2022 06:18:01 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, tzimmermann@suse.de, liuzixian4@huawei.com,
+ dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH] drm: correct comments
+Date: Thu, 21 Jul 2022 12:17:57 +0200
+Message-Id: <165839867634.1851550.16192375926600499733.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220718015357.1722-1-liuzixian4@huawei.com>
+References: <20220718015357.1722-1-liuzixian4@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220717084643.GA14285@duo.ucw.cz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,62 +85,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
- alice_chen@richtek.com, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, cy_huang@richtek.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
- robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org, szunichen@gmail.com,
- broonie@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- ChiaEn Wu <peterwu.pub@gmail.com>, linux-arm-kernel@lists.infradead.org,
- jingoohan1@gmail.com, linux-usb@vger.kernel.org, sre@kernel.org,
- linux-kernel@vger.kernel.org, chiaen_wu@richtek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: linfeilong@huawei.com, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 17, 2022 at 10:46:43AM +0200, Pavel Machek wrote:
-> Hi!
+On Mon, 18 Jul 2022 09:53:57 +0800, Liu Zixian wrote:
+> On failure, these functions return error pointer, not NULL.
 > 
-> > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > charger, a USB Type-C & Power Delivery (PD) controller, dual
-> > Flash LED current sources, a RGB LED driver, a backlight WLED driver,
-> > a display bias driver and a general LDO for portable devices.
-> > 
-> > In MediaTek MT6370, there are four channel current-sink RGB LEDs that
-> > support hardware pattern for constant current, PWM, and breath mode.
-> > Isink4 channel can also be used as a CHG_VIN power good indicator.
-> > 
-> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 > 
-> > index a49979f..71bacb5 100644
-> > --- a/drivers/leds/Kconfig
-> > +++ b/drivers/leds/Kconfig
-> > @@ -244,6 +244,20 @@ config LEDS_MT6323
-> >  	  This option enables support for on-chip LED drivers found on
-> >  	  Mediatek MT6323 PMIC.
-> >  
-> > +config LEDS_MT6370_RGB
-> > +	tristate "LED Support for MediaTek MT6370 PMIC"
-> > +	depends on LEDS_CLASS
-> > +	depends on MFD_MT6370
-> > +	select LINEAR_RANGE
-> > +	help
-> > +	  Say Y here to enable support for MT6370_RGB LED device.
-> > +	  In MT6370, there are four channel current-sink LED drivers that
-> > +	  support hardware pattern for constant current, PWM, and breath mode.
-> > +	  Isink4 channel can also be used as a CHG_VIN power good
-> 
-> Should this go to leds/rgb directory, and should it depend on
-> multicolor framework?
-Yes, and I may also want to change the file name from 'leds-mt6370'
-to 'leds-mt6370-rgb'. Is it ok?
-> 
-> Best regards,
-> 							Pavel
-> -- 
-> People of Russia, stop Putin before his war on Ukraine escalates.
 
+Applied to drm/drm-misc (drm-misc-next).
 
+Thanks!
+Maxime
