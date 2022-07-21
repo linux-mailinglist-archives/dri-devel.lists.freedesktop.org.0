@@ -1,107 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB9A57C211
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 04:06:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D5C57C25F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 04:39:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C6B12A42B;
-	Thu, 21 Jul 2022 02:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6FC8B322;
+	Thu, 21 Jul 2022 02:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 267EB12A3A3;
- Thu, 21 Jul 2022 02:06:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PT37RF38uRBCVhQ0IDLXpl8/+7Y1thWFeb4P4GP+Wrcw81+d+U/XQw9VQcfvkUEi0pfSfJrNrrGRyTA0zec+NLSUW2uQaXQGuUkxc+AeT9O6bUs/W9spvfnpKHYtneaVwiLJ+dYkk8XkvAjqQyDNsgAe94tQsuXKrloAufED6wjgFDTlHK766lNlpwopnGLg8PA9asca3xSztX6t3aHYNThvC/77cMQJtYfQjpzVJgoAAHO/RjQom/ynaP/7C4KIyFmoJJZX4TV1a4oSe8WQEoPFeLdFNgfJLN/aov3o2OS8hH6XCc1VaegybFCnnF9lD2yEx9dk84QYSgf/jM5+cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aYz83FVK4RS0WmDrQO7yBE9ROV4P2MNMAmPLjozOw64=;
- b=mvcv0mk2u5UxSmODmNezPhBLz01Ab1bdCgvipeKPNU/mlS2J3T0NaAAgp0kI7LWbqcl3fUPUm4v2tK0BXEmPFiegFnLonxgwPhEWaQz12WM81fD96SNIGnBU3/iLw77CJJSWv+XjFyUJnd6F0qQWl0GcSPdgiHyaYJnZFHgVSTwCTyTq2k25I4sGvC2ZJsg6B2j2S/7lAEIqFAURdorQLU5NxKy/fVxiF+F5lKEjQfumesoQ5p7f8QXWu3zWJiyesI0/yXddLxLvRKu+8dcdn2QWE+2Su6PCDSuuIhnZO5qHero9W+zrXZgewUvi2d4yAQS4mOFtJpCy6fcD0QjxBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aYz83FVK4RS0WmDrQO7yBE9ROV4P2MNMAmPLjozOw64=;
- b=J9sVYuzqY1xa1yP4k1lQm0MNggDihnFvJLKuWpqsU08aHbT/ij11X/PFjWns1alst90n+3VlW/hu41ery7FksXemZDJyCcKF9och3q7znrusfz7Oi6g0vortuFLh/U+dmPiwDmhKePoOsMZgkk3QnvOBoAeq/+Lav3IC0iHYO9kMHJRumMuJ2cQi/IHo1mfDXLePGZ34MM3fdszgiZnsQDEFUA1tJvZjxJTJbMoxv+tjXPWUquaOm+L+tuknhp/njYLOlsPszGj8tnnVXJ0A+b734HE2EJdT0mKx/rIKZ+pTttl+hzbng1echow3aZuTXjhOzHVS37Jtvkezk6HGxg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
- by MN2PR12MB4317.namprd12.prod.outlook.com (2603:10b6:208:1d0::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Thu, 21 Jul
- 2022 02:06:00 +0000
-Received: from BYAPR12MB3176.namprd12.prod.outlook.com
- ([fe80::eca6:a4a7:e2b2:27e7]) by BYAPR12MB3176.namprd12.prod.outlook.com
- ([fe80::eca6:a4a7:e2b2:27e7%5]) with mapi id 15.20.5438.023; Thu, 21 Jul 2022
- 02:06:00 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: akpm@linux-foundation.org
-Subject: [PATCH] mm/gup.c: Fix formating in check_and_migrate_movable_page()
-Date: Thu, 21 Jul 2022 12:05:52 +1000
-Message-Id: <20220721020552.1397598-2-apopple@nvidia.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220721020552.1397598-1-apopple@nvidia.com>
-References: <20220721020552.1397598-1-apopple@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0033.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::8) To BYAPR12MB3176.namprd12.prod.outlook.com
- (2603:10b6:a03:134::26)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DE98B2AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 02:39:08 +0000 (UTC)
+X-UUID: b1465dfd8a66497991cea5904ec83538-20220721
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:37bf293c-b2fb-4f8b-99f2-afc6a53a2104, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8, REQID:37bf293c-b2fb-4f8b-99f2-afc6a53a2104, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:0f94e32, CLOUDID:2be30bd8-5d6d-4eaf-a635-828a3ee48b7c,
+ C
+ OID:56379ab99001,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: b1465dfd8a66497991cea5904ec83538-20220721
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1447169248; Thu, 21 Jul 2022 10:39:01 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 21 Jul 2022 10:38:59 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 21 Jul 2022 10:38:59 +0800
+Message-ID: <7b1a555ab62aec8c3f5717b8827c81a2076bf569.camel@mediatek.com>
+Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Thu, 21 Jul 2022 10:38:59 +0800
+In-Reply-To: <05e7ace27af21d141c1ecd79fb45f6e5e9d32582.camel@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+ <05e7ace27af21d141c1ecd79fb45f6e5e9d32582.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 01997833-3089-4b14-7d38-08da6abd8eb3
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4317:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9oeL9b38MZU3jiQTmlqlQJaddb97LG+2leIRhTG6Piz0sCwieQTp4tyKf43s8QrxE1l4YDGbugutkN/bTQQoyoUrn9jkWTiHD2cTaLSqRpH2M0t+SFzdizX0jqTz0bq4iPD8/SMBiCCqCN6h7dtcelKeuR9OiNNr/AGnzWudhe97OW/F6hpb7+vGSs8G8eNMZaD/Sg/xKJ7/JCd2QGCrx0jigq8JmBHeKIETycrsBnva2kwGk1e9JirCcC+ZHv5Jo6ObQKPanTBwRd/eMMpzS/OnDrgmENo18+1pR7SPFScIkrhH9zyvJtDO2N3QdEuN61BlHRJAMAkeFQgyyoBC0RCSngIBEYCkDDc1PqnRz/9l00XDvOfuBwZn3NWjW8kHNGKMHd5tjMkRBkCq/CiHXWJvXnJHimNhVAe6TkouKipmcz0Ioh5VsI+C6sGhnbK1bLWxprth+NKAf0z+NwAJdfJRcHINhPHw8ToIjtnz/YW4f/s1DJ76yNqOk9B5zrQhL+QiTKViJ28V3EGVXA2JmpKBKbIVCq089icOJO8SDJJ1jRBIOGq+ovLSnf40qun8FCxWoICj9sqINNSJRdKad5VCAltYwhUs0CoQ0EQuz47x0j67nhnuD9XO1Er6r4CcrloSa2qnuYKqaFzq/FmD4TwsPTYS5zUGWIJT9+gYGe/fX+6oxOYfux8kJfMUrzsbQkVHKD6kCkH7EGR5YR3zyQmBEL1UxKo1oOF9GkMPajpDwW+hpDpZhF5/rqiQ725Y
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(136003)(39860400002)(396003)(346002)(366004)(83380400001)(186003)(107886003)(2616005)(36756003)(1076003)(38100700002)(66556008)(8676002)(6486002)(4326008)(26005)(6512007)(6506007)(66476007)(66946007)(478600001)(41300700001)(316002)(5660300002)(2906002)(6916009)(86362001)(8936002)(6666004)(4744005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zt+55peuzLkbv0cJTQypCCOt9YWfwVcJRB1/V/tgCjfuxcMPHjHWTIzwkNra?=
- =?us-ascii?Q?2nR7lVMAa5ABZd/prpjHaPHl4rrpYsJ0za+W6i9+/4CzZ03W7tOuDrWb/NNt?=
- =?us-ascii?Q?TJlrGdfTvueLsuPqwci8437odCfDOhlPQNuWnYYf/qjN5MIZdqrWBEsly6Mc?=
- =?us-ascii?Q?DINU7jMBpmQyjEaeYnMkfuf3XyTWkl58fCpVa3JV0uj/Hnh4WdOznS+UEhmv?=
- =?us-ascii?Q?+TuXCqiz2egstn9r3opz49oIvzV9TqTGDfiH1x6hpg/sBBsB3BL5oNDgvFn7?=
- =?us-ascii?Q?2eapuU326wpd2jVSp+pqV+EBBDRGJOOsmFXZYG8O0Bd8lyXhyw9anUr1m1AF?=
- =?us-ascii?Q?i/OucIiSErkrCSA5KqTaTUDnZOh37jLNfCYL+GRA90cYFdr3YdFJMmZ54w72?=
- =?us-ascii?Q?UyKjzjcSAuTrUoaZYyDHQ6N2Ut7Q7F4xZFONPsWhKiJMH2aZtp+qHKP2LeI9?=
- =?us-ascii?Q?qfS6buYIVh6LSeWGZI29isdYeXQSbvHFAyS1gwoOH32WHVZmVTQ86dFHx/KQ?=
- =?us-ascii?Q?wn+GdPpHxEdUKfh2m6kqkz7kYBFdNuBvAeoc6xCuEbeylEh/UJ3k/WqM47WO?=
- =?us-ascii?Q?5WAsSOfXzHgsfJLRlWHjeuUcVoalR45aP2f17Wr1xFW47+RMrz/CvAwvxFwT?=
- =?us-ascii?Q?FxFzLT99/ttyXPg8XUSuOZfZ0ijhmOgwZMI0VVItL00mFD35KLlYOJaYVv5O?=
- =?us-ascii?Q?kE+t7A4+PV0wgz7GYxQgaQ4/iMiCat0//KHUOClDdqwloWe+T3Kni8MRooAk?=
- =?us-ascii?Q?1f3nyY58Xz+NAPZFl2rr+jkmLWbGXMqtgRcs8dbMLJ6b0mb/yzkaiWElai59?=
- =?us-ascii?Q?PsD2r7VKDsAw725BYmqRgy/iaxAaiH/Romcpiov9od48sgWtRQxfDnbNpfZJ?=
- =?us-ascii?Q?6lsP0ghzJ3I83wedU57UB3mfMv8QT0yfb1nhrpAu8reNjqC9CdlTMkAPG4k+?=
- =?us-ascii?Q?eKfGsCuWVNVp2oyJwxA6u3an2G6zcfQ3gSRy/UKFqVwDpp9xGpPIzGKyAB/j?=
- =?us-ascii?Q?YJAba2aCPrDJCKP3p7Ys36Jsw9AGUHYQAjrfmLrctiF6vuxP8nCvFEk8YWR7?=
- =?us-ascii?Q?xs9FXSPaLjMCHrG8sax0VMTrkkyou80F7OYdmgsrFvmXLZ7atZwIaiCIGCI0?=
- =?us-ascii?Q?kClNCH+nY0C8/Ovmx2zH+yDd2bFONLcHpsnzNl2/9turjb2rP8ykQxB8sxCA?=
- =?us-ascii?Q?WYJz7odQek+U32rS2anC2DCGu7xbCjWdF8SSqQRBOgNDK78C6dtPRhDJObiQ?=
- =?us-ascii?Q?YQZh7h22sUwboiXwyba4WfEYZkhxoeu2PUwyMBADA7xKxujE1jB6ONqE4UQO?=
- =?us-ascii?Q?kYZdGpIUGaGsNyNbF2vrTDqsN0o2laN0lh1iClEFhHklN816SFaNePL02YZ5?=
- =?us-ascii?Q?DvBdB0dMVtYs2IdOQkGx1a3obqAgV34o/F8neWjUAXKvYI+QEFK76ZAOz5lF?=
- =?us-ascii?Q?HpJqNikVIUO952sUQ05Ug7ZplNmZuKtuIW/XxxqLJQynfdISJkLpZaMcYiEU?=
- =?us-ascii?Q?6aWNDTSFdmQxqNrq5QqJGsGR745rzi2UHOHb7lA1C9HULrpQMesInCePVdj3?=
- =?us-ascii?Q?+RpTzv4figtCGaJNfh3IBNcP8305b3rCopteAVSn?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01997833-3089-4b14-7d38-08da6abd8eb3
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 02:06:00.4180 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NxGYAhz6yP57xVuIZ60qps3KfscXpkU0Df2WX2U/eDCKAYShyKwrVm+GOSa9t57ADh1r+5B//wcX8eGwrKLJJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4317
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,39 +72,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex.sierra@amd.com, david@redhat.com, Felix.Kuehling@amd.com,
- Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>,
+ Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
+ <jitao.shi@mediatek.com>,
+ LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b05a79d4377f ("mm/gup: migrate device coherent pages when pinning
-instead of failing") added a badly formatted if statement. Fix it.
+On Fri, 2022-07-15 at 16:51 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
+> 
+> On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > 
+> > This patch adds a embedded displayport driver for the MediaTek
+> > mt8195
+> > SoC.
+> > 
+> > It supports the MT8195, the embedded DisplayPort units. It offers
+> > DisplayPort 1.4 with up to 4 lanes.
+> > 
+> > The driver creates a child device for the phy. The child device
+> > will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so
+> > that
+> > both can work with the same register range. The phy driver sets
+> > device
+> > data that is read by the parent to get the phy device that can be
+> > used
+> > to control the phy properties.
+> > 
+> > This driver is based on an initial version by
+> > Jitao shi <jitao.shi@mediatek.com>
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> 
+> [snip]
+> 
+> > +static void mtk_dp_hpd_sink_event(struct mtk_dp *mtk_dp)
+> > +{
+> > +	ssize_t ret;
+> > +	u8 sink_count;
+> > +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
+> > +	u32 sink_count_reg = DP_SINK_COUNT_ESI;
+> > +	u32 link_status_reg = DP_LANE0_1_STATUS;
+> > +
+> > +	ret = drm_dp_dpcd_readb(&mtk_dp->aux, sink_count_reg,
+> > &sink_count);
+> 
+> According to your last reply, if drm_dp_dpcd_readb() fail, we could
+> skip below statement. So this just for error checking? If so, the
+> next
+> drm_dp_dpcd_read() would also do the error checking, so the checking
+> here is redundant.
+> 
+> Regards,
+> CK
+> 
 
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Reported-by: David Hildenbrand <david@redhat.com>
----
+Hello CK,
 
-Apologies Andrew for missing this. Hopefully this fixes things.
+sorry, I don't get your point.
+We use "drm_dp_dpcd_readb(&mtk_dp->aux, sink_count_reg, &sink_count)"
+to get sink count and use "drm_dp_dpcd_read(&mtk_dp->aux,
+link_status_reg, link_status, sizeof(link_status));" to get link
+status.
 
- mm/gup.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+If we don't get any sink count, we don't need to check the link status.
+Therefore, we just return if we are failed to get sink count.
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 364b274a10c2..c6d060dee9e0 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1980,8 +1980,8 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
- 				    folio_nr_pages(folio));
- 	}
- 
--	if (!list_empty(&movable_page_list) || isolation_error_count
--		|| coherent_pages)
-+	if (!list_empty(&movable_page_list) || isolation_error_count ||
-+	    coherent_pages)
- 		goto unpin_pages;
- 
- 	/*
--- 
-2.35.1
+BRs,
+Bo-Chen
+
+> > +	if (ret < 1) {
+> > +		drm_err(mtk_dp->drm_dev, "Read sink count failed\n");
+> > +		return;
+> > +	}
+> > +
+> > +	drm_dbg(mtk_dp->drm_dev,
+> > +		"read sink count from dpcd: %d\n", sink_count);
+> > +
+> > +	ret = drm_dp_dpcd_read(&mtk_dp->aux, link_status_reg,
+> > link_status,
+> > +			       sizeof(link_status));
+> > +	if (!ret) {
+> > +		drm_err(mtk_dp->drm_dev, "Read link status failed\n");
+> > +		return;
+> > +	}
+> > +
+> > +	if (!drm_dp_channel_eq_ok(link_status, mtk_dp-
+> > > train_info.lane_count)) {
+> > 
+> > +		drm_err(mtk_dp->drm_dev, "Channel EQ failed\n");
+> > +		return;
+> > +	}
+> > +
+> > +	if (link_status[1] & DP_REMOTE_CONTROL_COMMAND_PENDING)
+> > +		drm_dp_dpcd_writeb(&mtk_dp->aux,
+> > DP_DEVICE_SERVICE_IRQ_VECTOR,
+> > +				   DP_REMOTE_CONTROL_COMMAND_PENDING);
+> > +}
+> > +
+> 
+> 
 
