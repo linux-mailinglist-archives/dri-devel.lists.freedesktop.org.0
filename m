@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E0057D426
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 21:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE18157D430
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 21:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 014D311BF1B;
-	Thu, 21 Jul 2022 19:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 471BA8B394;
+	Thu, 21 Jul 2022 19:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9745711BFC2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 19:32:27 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id w16so1344982ilh.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 12:32:27 -0700 (PDT)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCDFE8B3D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 19:35:22 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id q14so2148093iod.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 12:35:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RW1s9d0AAPQ8Q1ggcxkOL30thDKSyaQDJk2AQocHRzI=;
- b=VG9G/Ldz5u6VJx7G/fJe3/48XIIniAH7au5iQtCgxw1W5gDDbBGdUaEsLQ9vXPNLQ0
- 7TrTlJtu13+53D2gIQdVdsaN/+20RVUiUkB0V4ge6s1BOLIyC/JcF/C0gfGNcitU6Kgf
- b1Jcx7Io/ZNdr/iqb0bRCKkrNBUg9wyqua/Vo0TjNpsH4Z9aElU8PYcD1GRHx7x3hnJL
- pyI0k0Y6vsAbSaV+urZa+6NlwAxtlzamH70bh39IwTYgvXNrpG5crtFfxspQEBOtWsKr
- 6DIT055De78WZ+4b3Sy43UfpiWOtKYK5ffYAlXayieWyDfbF1SINMI2DmWTDpGlqzU2k
- wCTg==
-X-Gm-Message-State: AJIora8QBnBDX9MADmdw7kACoumET6nUNzhVO3tlIFadcaO4V7H2zoIx
- NiO77xPO55K+UUDlxKIRugJ1qQ7/Jw==
-X-Google-Smtp-Source: AGRyM1urApMk3RmAgAk80eaJYDGIiCddCIb635mCXcyV8VHha7Y/DzXmZJzaV4JfmCjlsWC3fhIGUw==
-X-Received: by 2002:a92:b70e:0:b0:2dd:10f0:6f8d with SMTP id
- k14-20020a92b70e000000b002dd10f06f8dmr2526356ili.321.1658431946785; 
- Thu, 21 Jul 2022 12:32:26 -0700 (PDT)
+ bh=wELlNsbxx1+JCD9yf/xGA7zb/NOKO+vQi/OmtkVLBls=;
+ b=huRqEcALT7TCveTdRcQb8d8WYqf+k7X+HiyTd1BP2FKhyuOMl7/XuiNhVj104HwIhD
+ PVQb2hMzCh9snss/JXGMXwS1V79mAnXZ2XXadtnUGdpMbRt473TK+valdWxb53Ddqa2E
+ 33+rLD+IUER8vIcS917pC/MyrJJEtTulUpg1tjWU/FAyTB7J99CkoXY8w6IobJucT0Ye
+ WuBPJLlJGq8YADNzLU/bUKIF08ujJk4HnwhZ8zYYkNFGZyo+vrAkCM+eSgt04LazYvnI
+ GsSYJOCaAVK3xYhptyNcI9y3u434ovS1CaK6ljEukSB0fTg6XVVoDl7TWGnGiZLRp2tu
+ IQkw==
+X-Gm-Message-State: AJIora812WuWYrxW57x5Fhb6NqCtMrVDXPAY9Q1cdJ7Zj1slB4EXz4bY
+ 3h1qOu3tF9n7+K4p1khAfQ==
+X-Google-Smtp-Source: AGRyM1sZvXpaofV6KHrP6nEJBBOrB/+dB8AwbfGYEa2h8d3D2/C7aFPfZcwL3IFjDFf1dLcaryTpdg==
+X-Received: by 2002:a05:6638:15ca:b0:33f:594a:52ba with SMTP id
+ i10-20020a05663815ca00b0033f594a52bamr35159jat.217.1658432122023; 
+ Thu, 21 Jul 2022 12:35:22 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
  by smtp.gmail.com with ESMTPSA id
- f19-20020a056638113300b0033f3ab94271sm1126125jar.139.2022.07.21.12.32.23
+ a70-20020a021649000000b003415545d938sm1107557jaa.166.2022.07.21.12.35.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 12:32:26 -0700 (PDT)
-Received: (nullmailer pid 1794689 invoked by uid 1000);
- Thu, 21 Jul 2022 19:32:22 -0000
-Date: Thu, 21 Jul 2022 13:32:22 -0600
+ Thu, 21 Jul 2022 12:35:21 -0700 (PDT)
+Received: (nullmailer pid 1799145 invoked by uid 1000);
+ Thu, 21 Jul 2022 19:35:16 -0000
+Date: Thu, 21 Jul 2022 13:35:16 -0600
 From: Rob Herring <robh@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 3/6] dt-bindings: iio: explicitly list SPI CPHA and CPOL
-Message-ID: <20220721193222.GA1792785-robh@kernel.org>
+Subject: Re: [PATCH 5/6] dt-bindings: net: explicitly list SPI CPHA and CPOL
+Message-ID: <20220721193516.GA1798385-robh@kernel.org>
 References: <20220721153155.245336-1-krzysztof.kozlowski@linaro.org>
- <20220721153155.245336-4-krzysztof.kozlowski@linaro.org>
+ <20220721153155.245336-6-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220721153155.245336-4-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220721153155.245336-6-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,7 +94,7 @@ Cc: Tomislav Denis <tomislav.denis@avl.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 21, 2022 at 05:31:52PM +0200, Krzysztof Kozlowski wrote:
+On Thu, Jul 21, 2022 at 05:31:54PM +0200, Krzysztof Kozlowski wrote:
 > The spi-cpha and spi-cpol properties are device specific and should be
 > accepted only if device really needs them.  Explicitly list them in
 > device bindings in preparation of their removal from generic
@@ -102,33 +102,10 @@ On Thu, Jul 21, 2022 at 05:31:52PM +0200, Krzysztof Kozlowski wrote:
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  .../devicetree/bindings/iio/accel/adi,adxl345.yaml   | 10 ++++++++--
->  .../devicetree/bindings/iio/adc/adi,ad7192.yaml      | 10 ++++++++--
->  .../devicetree/bindings/iio/adc/adi,ad7292.yaml      |  5 ++++-
->  .../devicetree/bindings/iio/adc/adi,ad7606.yaml      | 10 ++++++++--
->  .../devicetree/bindings/iio/adc/adi,ad7768-1.yaml    | 10 ++++++++--
->  .../bindings/iio/adc/microchip,mcp3201.yaml          | 12 ++++++++++--
->  .../devicetree/bindings/iio/adc/ti,adc084s021.yaml   | 11 +++++++++--
->  .../devicetree/bindings/iio/adc/ti,ads124s08.yaml    |  5 ++++-
->  .../devicetree/bindings/iio/adc/ti,ads131e08.yaml    |  5 ++++-
->  .../devicetree/bindings/iio/addac/adi,ad74413r.yaml  |  5 ++++-
->  .../devicetree/bindings/iio/dac/adi,ad5592r.yaml     |  5 ++++-
->  .../devicetree/bindings/iio/dac/adi,ad5755.yaml      | 10 ++++++++--
->  .../devicetree/bindings/iio/dac/adi,ad5758.yaml      |  6 +++++-
->  .../devicetree/bindings/iio/dac/adi,ad5766.yaml      |  5 ++++-
->  .../devicetree/bindings/iio/dac/ti,dac082s085.yaml   |  9 +++++++--
->  .../bindings/iio/gyroscope/adi,adxrs290.yaml         | 10 ++++++++--
->  .../devicetree/bindings/iio/imu/adi,adis16460.yaml   | 12 +++++++++---
->  .../devicetree/bindings/iio/imu/adi,adis16475.yaml   | 10 ++++++++--
->  .../devicetree/bindings/iio/imu/adi,adis16480.yaml   | 11 +++++++++--
->  .../bindings/iio/imu/invensense,icm42600.yaml        | 12 ++++++++++--
->  .../bindings/iio/proximity/ams,as3935.yaml           |  5 ++++-
->  .../devicetree/bindings/iio/resolver/adi,ad2s90.yaml | 10 ++++++++--
->  .../bindings/iio/temperature/maxim,max31855k.yaml    |  6 +++++-
->  .../bindings/iio/temperature/maxim,max31856.yaml     |  6 +++++-
->  .../bindings/iio/temperature/maxim,max31865.yaml     |  6 +++++-
->  25 files changed, 166 insertions(+), 40 deletions(-)
+>  .../devicetree/bindings/net/nfc/marvell,nci.yaml     | 12 ++++++++++--
+>  .../devicetree/bindings/net/vertexcom-mse102x.yaml   | 12 +++++++++---
+>  2 files changed, 19 insertions(+), 5 deletions(-)
 
-This whole patch can be dropped which will make merging easier.
+This too should not be needed.
 
 Rob
