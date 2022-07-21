@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5939557D411
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 21:23:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5EC57D41D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 21:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A64A18A9F9;
-	Thu, 21 Jul 2022 19:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD72B8A8C2;
+	Thu, 21 Jul 2022 19:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
- [209.85.166.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5E818A508
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 19:23:48 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id u20so2107962iob.8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 12:23:48 -0700 (PDT)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+ [209.85.166.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBE3A2BFF3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 19:30:09 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id q2so748346ilv.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 12:30:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/TlTuh9GJgQKdQdbhy7UptGxxLX8hx6KcJUZFCAATpA=;
- b=7OEbgH18Q8M4o/LcHnRHl34dyCI8gQxejLIQJtnvJC+BYHuqp9a1UcSsr519c+AJN8
- evwx+NKQJIbEw5g/oh3Bu7MCCr5Je4VJbu2R0F8TSR9VFkABm1iUnN1FLhuEr+TtAK9w
- 2Q2RtDkr7Xnk7qM31dnPuRIyh/OKzuw6EfL5Nr+7y3wZ6tVmd3LjozlNakHORQqGWAUU
- g4tzA40hP65LdQ00gpS+AuxLu1INjwT6RHBcyQNvD+xmBhodDx5QPzontxv6DxVkbokG
- zL7k4sEG4To4fB6mdXNtq7k1VZNGjqzzdStYjPGncBgQzQSP9xnfIf7E3uF0JX2+BVsX
- yU1Q==
-X-Gm-Message-State: AJIora8S/c6wH8FF0Cm8ACskt4mB7gUQPx19C4URbGO1NfJk/FgU09mu
- DcY5FEJ+aMYPgZ8io/QXyw==
-X-Google-Smtp-Source: AGRyM1v/2SIconk1vJlvwhmeezGHMoj7yuHsypltVnitbAzNuKCf+hL+v5b0iW7vpgjNPgbcN3o95g==
-X-Received: by 2002:a05:6638:138f:b0:341:4711:4c2c with SMTP id
- w15-20020a056638138f00b0034147114c2cmr37837jad.178.1658431427322; 
- Thu, 21 Jul 2022 12:23:47 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=S5oqoZILA3qJDwFMm5veai5D2xa9Jh2FvCXN1Y4esC4=;
+ b=lu96vWbyZVGOfrKf1jbrUdNDqmUnor4BmMk77fgH11dbx6cNtiyQlHYr/+7qPMSOFQ
+ WoyMmDqjk6w2V2awdGYDHf54Jwp8wxVerR6HpYRYf/kpHuSd2y+5wuP1Hyj829G9d3T0
+ yrpOQklp3l2eWbUJGvZtsNBPZlPmtvMQCdcZLeUcl0B88+4UFFwxOHB41CpvDoyBpb5J
+ +UqWdXbYDQ4/7UGS7m3uHO9jxMuWE/SoO32TWsWCChtcbGV1oP3iXgT2pgk7ufR3Xlp8
+ MpnAkYFxZArIyautBSppb3Zv3+wQ5zZDn1Tj9ORf53OQ+9QgTTa7a56lL4H0gvAJQ0U3
+ OCZw==
+X-Gm-Message-State: AJIora/EKDadOtdoSlRKiK8mPihmIkK4u5HGiFHIapL14tK2tQj/dULf
+ cwsckjiQNpp4T9i4x2HVGg==
+X-Google-Smtp-Source: AGRyM1tXf8F5SuOd7u9OTYkcAFQnmVlNgUvsAqcBnI6RZZvikkHvaiVm4o7nZS8N3k7KCBJHQznkQQ==
+X-Received: by 2002:a05:6e02:20ca:b0:2dc:90fa:af35 with SMTP id
+ 10-20020a056e0220ca00b002dc90faaf35mr21707489ilq.302.1658431808875; 
+ Thu, 21 Jul 2022 12:30:08 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a92cb88000000b002dcff50b2b8sm1006727ilo.7.2022.07.21.12.23.46
+ y3-20020a029503000000b0033f347c26basm1149854jah.62.2022.07.21.12.30.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 12:23:46 -0700 (PDT)
-Received: (nullmailer pid 1783215 invoked by uid 1000);
- Thu, 21 Jul 2022 19:23:45 -0000
-Date: Thu, 21 Jul 2022 13:23:45 -0600
+ Thu, 21 Jul 2022 12:30:08 -0700 (PDT)
+Received: (nullmailer pid 1791625 invoked by uid 1000);
+ Thu, 21 Jul 2022 19:30:04 -0000
+Date: Thu, 21 Jul 2022 13:30:04 -0600
 From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] dt-bindings: vendor-prefixes: add Densitron
-Message-ID: <20220721192345.GA1783152-robh@kernel.org>
-References: <20220721030327.210950-1-marex@denx.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/6] dt-bindings: panel: explicitly list SPI CPHA and CPOL
+Message-ID: <20220721193004.GA1783390-robh@kernel.org>
+References: <20220721153155.245336-1-krzysztof.kozlowski@linaro.org>
+ <20220721153155.245336-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220721030327.210950-1-marex@denx.de>
+In-Reply-To: <20220721153155.245336-2-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +62,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robert.foss@linaro.org, Rob Herring <robh+dt@kernel.org>,
+Cc: Tomislav Denis <tomislav.denis@avl.com>,
+ Markuss Broks <markuss.broks@gmail.com>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Oskar Andero <oskar.andero@gmail.com>,
+ Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
+ Nuno Sa <nuno.sa@analog.com>, Eric Dumazet <edumazet@google.com>,
  Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sankar Velliangiri <navin@linumiz.com>, linux-spi@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Christian Eggers <ceggers@arri.de>,
+ Dragos Bogdan <dragos.bogdan@analog.com>,
+ Matt Ranostay <matt.ranostay@konsulko.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Stefan Popa <stefan.popa@analog.com>,
+ Sean Nyekjaer <sean@geanix.com>, Jakub Kicinski <kuba@kernel.org>,
+ Nishant Malpani <nish.malpani25@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+ Stefan Wahren <stefan.wahren@in-tech.com>,
+ Beniamin Bia <beniamin.bia@analog.com>,
+ Alexandru Tachici <alexandru.tachici@analog.com>, devicetree@vger.kernel.org,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Dan Murphy <dmurphy@ti.com>,
+ linux-fbdev@vger.kernel.org, Matheus Tavares <matheus.bernardino@usp.br>,
+ Marek Belisko <marek@goldelico.com>,
+ =?UTF-8?Q?M=C3=A5rten_Lindahl?= <martenli@axis.com>,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ Cristian Pop <cristian.pop@analog.com>, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, Pratyush Yadav <p.yadav@ti.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Mark Brown <broonie@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Jul 2022 05:03:27 +0200, Marek Vasut wrote:
-> Densitron is a manufacturer of LCD panels.
-> https://www.densitron.com
+On Thu, Jul 21, 2022 at 05:31:50PM +0200, Krzysztof Kozlowski wrote:
+> The spi-cpha and spi-cpol properties are device specific and should be
+> accepted only if device really needs them.  Explicitly list them in
+> device bindings in preparation of their removal from generic
+> spi-peripheral-props.yaml schema.
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Guido Günther <agx@sigxcpu.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../bindings/display/panel/lgphilips,lb035q02.yaml   | 10 ++++++++++
+>  .../bindings/display/panel/samsung,ld9040.yaml       | 10 ++++++++++
+>  .../bindings/display/panel/samsung,lms380kf01.yaml   | 12 +++++++++---
+>  .../bindings/display/panel/samsung,lms397kf04.yaml   | 12 +++++++++---
+>  .../bindings/display/panel/samsung,s6d27a1.yaml      | 12 +++++++++---
+>  .../bindings/display/panel/sitronix,st7789v.yaml     | 10 ++++++++++
+>  .../devicetree/bindings/display/panel/tpo,td.yaml    | 10 ++++++++++
+>  7 files changed, 67 insertions(+), 9 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+> index 5e4e0e552c2f..0bd7bbad5b94 100644
+> --- a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+> @@ -21,6 +21,16 @@ properties:
+>    enable-gpios: true
+>    port: true
+>  
+> +  spi-cpha:
+> +    type: boolean
+> +    description:
+> +      The device requires shifted clock phase (CPHA) mode.
+> +
+> +  spi-cpol:
+> +    type: boolean
+> +    description:
+> +      The device requires inverse clock polarity (CPOL) mode.
 
-Applied, thanks!
+Not great duplicating the type and description everywhere.
+
+We can move the definition back to spi-controller.yaml, so then that 
+does type checking of the property, but not presence/absence checks.
+
+Rob
