@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF9757CE0D
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 16:46:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEF257CE1D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 16:50:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 126BE10EC80;
-	Thu, 21 Jul 2022 14:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB0B114B490;
+	Thu, 21 Jul 2022 14:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4840410EC80
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 14:46:32 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id b25so1417371qka.11
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 07:46:32 -0700 (PDT)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03ADF18A2CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 14:50:15 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id z22so2466465edd.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 07:50:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pcZOB/ApWbNF0eW5n1wK25WOXQGFTiPvR0q+4tEoNh8=;
+ b=G3YMfG/1UshoRnypsy2wF1GATgIebl3pHBLTFzdgoM2X/Uoe71KwDZ1NlkC9aKIHRD
+ gssmJqeb6tLPv4PMRn5MOMSkjkFFVPDspiiT/qVNq/GgwUIgVP5mj+QOrgopShFwil+N
+ KmGbGJFviFlxnH+lFltHw5UGi4GByFZDZxLjw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uRb/kpCM2Tp3RADIUm8HgY748KiyFCtoEV6JEoibXAk=;
- b=dnjcdtGrCSQZSVe59Fr8WsiTwpHtbsDpQeFIYkrQcxHqBAbFeP11ivJKUdGsu32p8c
- urbrQrF0LvOsQyJzDWVhKTkL9bjTM8IdPeeygRu+LVxQN6OH3h5PFR9RGcfT26vJRAdW
- 43jcdLiZ12OcTl1i0Qh4GfLDI4I15xOnSEcrkynR2cfScGSdTkYpGLVDyX1j0Bl+ae/M
- yhVjH5JK5Oe6mnFUn+qj38BrqEq+GyVBUYcsOm1INYXu9/NoF50RJN4qjgkrUIop2wwf
- T1uf/mSdRekh/6jfHD70ENID+dngpp0Z6Li5Zy+wU1EJRgIq37iAUfouMTjVdYVL50D4
- SABA==
-X-Gm-Message-State: AJIora9p9kepmnPKyW8wc55ispmC+x9Udl+7KvPWpbTdf1JzC3wJYGwx
- +YHPDL8PpA70qbFI7oLXTjj/Vd6YGCX51g==
-X-Google-Smtp-Source: AGRyM1tPbExPHvGR2f88ty0LYny7aoFNX6xfmN8TtDtke7UxP0V3DOpPAjrsHmxf5qOyF8k9vaOtaw==
-X-Received: by 2002:a37:dc46:0:b0:6af:59e6:cd72 with SMTP id
- v67-20020a37dc46000000b006af59e6cd72mr28499528qki.78.1658414791091; 
- Thu, 21 Jul 2022 07:46:31 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- i67-20020a375446000000b006a6a6f148e6sm1573013qkb.17.2022.07.21.07.46.29
+ bh=pcZOB/ApWbNF0eW5n1wK25WOXQGFTiPvR0q+4tEoNh8=;
+ b=wyXzzoHK3MxEVb4i4gs4vZYw1vibZjXaKxgQ7d6lkvO3mRLDrQIrChE/+JoGHrqr/P
+ 9ZexUS9637JB1T7XRpgBkoMJVDdRQBHBUNemh+JXJFj8p0tIbROtJIlmAxZoYmCEdo9I
+ KfnBH8uOyMFa/A8vTcm5EnUE17zEIcvmWl+gxkkJbHqnLx064O9ZW1Yfua4mL7VTvH6O
+ diU1LMxey8lAHPI9wTQCI9Wf5gQRqdkPa7XMiMFtT5FzhnWVfn6WnByCsETn6Jdlm0V/
+ m4V57sk+aZznBlknbUwr1J751XpcRutBMUUg8BccAjAetkowURMfrKs7GmqAkREj7T2R
+ JBEw==
+X-Gm-Message-State: AJIora9XkJLNiAQnDwims6uGObJBC7T3N+19XnXeh+IYQ/0CPqFpv5Ig
+ 9aXYC1E/dsWJV5e0YaAeQrG5ekyuZojntwU1DvY=
+X-Google-Smtp-Source: AGRyM1t44BFeLDbbUyxsk8HUr637PTU1muZzuh5x6IZA0GS6OsLWWLERdg6BhTYovSf0NGKo8US5LA==
+X-Received: by 2002:a05:6402:1f13:b0:43b:c521:8de7 with SMTP id
+ b19-20020a0564021f1300b0043bc5218de7mr4410771edb.79.1658415013219; 
+ Thu, 21 Jul 2022 07:50:13 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
+ [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
+ w23-20020a17090649d700b0072b33e91f96sm922050ejv.190.2022.07.21.07.50.10
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 07:46:30 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 64so3097686ybt.12
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 07:46:29 -0700 (PDT)
-X-Received: by 2002:a05:6902:154f:b0:66e:e2d3:ce1 with SMTP id
- r15-20020a056902154f00b0066ee2d30ce1mr38429480ybu.365.1658414789102; Thu, 21
- Jul 2022 07:46:29 -0700 (PDT)
+ Thu, 21 Jul 2022 07:50:11 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id bk26so2607354wrb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 07:50:10 -0700 (PDT)
+X-Received: by 2002:a5d:5889:0:b0:21d:bccd:38e3 with SMTP id
+ n9-20020a5d5889000000b0021dbccd38e3mr34236872wrf.659.1658415009781; Thu, 21
+ Jul 2022 07:50:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-5-tzimmermann@suse.de>
-In-Reply-To: <20220720142732.32041-5-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 21 Jul 2022 16:46:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
-Message-ID: <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
- set
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
+ <YtkrDcjTGhpaU1e0@hovoldconsulting.com>
+ <CAA8EJprQnnWjDZJy9+zUBsVQCi3jtc0Ngtzzk9MXpwOvuAS68g@mail.gmail.com>
+In-Reply-To: <CAA8EJprQnnWjDZJy9+zUBsVQCi3jtc0Ngtzzk9MXpwOvuAS68g@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 21 Jul 2022 07:49:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W0m-x9JC=5hQ3urSNmUp8sY-u8YkNd66yrKfRNAH4rcg@mail.gmail.com>
+Message-ID: <CAD=FV=W0m-x9JC=5hQ3urSNmUp8sY-u8YkNd66yrKfRNAH4rcg@mail.gmail.com>
+Subject: Re: [PATCH v16 0/3] eDP/DP Phy vdda realted function
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,50 +73,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Paul Mackerras <paulus@samba.org>, Maxime Ripard <maxime@cerno.tech>,
- Michal Suchanek <msuchanek@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Johan Hovold <johan@kernel.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Mark Brown <broonie@kernel.org>,
+ Sean Paul <sean@poorly.run>, Vinod Koul <vkoul@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi,
 
-On Wed, Jul 20, 2022 at 4:27 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Compute the framebuffer's scanline stride length if not given by
-> the simplefb data.
+On Thu, Jul 21, 2022 at 6:25 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > This series breaks USB and PCIe for some SC8280XP and SA540P machines
+> > where the DP PHY regulators are shared with other PHYs whose drivers do
+> > not request a load.
+>
+> I'm trying to understand, why does this series cause the regression.
+> Previously it would be the DP controller voting on the regulators
+> load, now it has been moved to the DP/eDP PHYs.
 
-Thanks for your patch!
+I think in the past not many device trees actually hooked up the
+regulators to the DP/eDP but did hook up the regulators to the PHYs?
+That means they didn't used to get a regulator_set_load() on them and
+now they do?
 
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -743,6 +743,9 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->                 drm_err(dev, "no simplefb configuration found\n");
->                 return ERR_PTR(-ENODEV);
->         }
-> +       if (!stride)
-> +               stride = format->cpp[0] * width;
+It should also be noted that we're now setting the load for a bunch of
+USB PHYs that we didn't used to set a load on...
 
-DIV_ROUND_UP(drm_format_info_bpp(format) * width, 8)
 
-> +
->         sdev->mode = simpledrm_mode(width, height);
->         sdev->format = format;
->         sdev->pitch = stride;
+> > It seems quite likely that changes like this one affects other systems
+> > too, and the effects may be hard to debug. So a more general solution
+> > than playing whack-a-mole using DT would be good to have.
+>
+> I think enabling a regulator which supports set_load() and without
+> load being set should cause a warning, at least with
+> CONFIG_REGULATOR_DEBUG. WDYT?
 
-Gr{oetje,eeting}s,
+I'm not a total fan. I'd love to see evidence to the contrary, but I'm
+a believer that the amount of extra cruft involved with all these
+regulator_set_load() calls is overkill for most cases. All the extra
+code / per-SoC tables added to drivers isn't ideal.
 
-                        Geert
+Every single LDO on Qualcomm's PMICs seems to be able to be set in
+"high power mode" and "low power mode", but I think the majority of
+clients only really care about two things: on and in high power mode
+vs. off. I think the amount of stuff peripherals can do in low power
+mode is super limited, so you have to be _really_ sure that the
+peripheral won't draw too much current without you having a chance to
+reconfigure the regulator.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Of course, if the load could be easily specified in the device tree
+and we could get rid of all the cruft in the drivers then maybe that
+would be OK.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Doug
