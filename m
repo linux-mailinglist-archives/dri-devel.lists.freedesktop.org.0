@@ -1,50 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DCE57D28C
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 19:29:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C293A57D2B2
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 19:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4F5F18B1B5;
-	Thu, 21 Jul 2022 17:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6EB118B6FF;
+	Thu, 21 Jul 2022 17:43:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1D3A18B109
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 17:29:02 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29E9618AEAD;
+ Thu, 21 Jul 2022 17:43:25 +0000 (UTC)
+Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
+ [82.71.8.225])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 378316601ABB;
- Thu, 21 Jul 2022 18:29:01 +0100 (BST)
+ (No client certificate requested) (Authenticated sender: bbeckett)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 834706601ABB;
+ Thu, 21 Jul 2022 18:43:23 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658424541;
- bh=ZwBOqbXQCiDJrGaaYB3nSbHLVzztmKxAsw+KrM0BKjE=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=H4cpsF3fvmDf6Py8DbatCE8t/PKBhBzn+rpNJbPfCKhWbWJt429xCGiQroxcd/IXV
- vdBjvxCzc/7oXEcOzDFngg1PA9XuIwrWU2zFhYcuRlkYmPtcAtBDYG/1PvtdO2s7rK
- uIRCHpfMdCY7aP6HT6S9d5piuwtY71nMgB8svJokMwtel7+hnVr7knD20X85UOniuy
- TmW5SU4NAglwuyYv91c5/sYWV1nqS8ujxPjsCRGFqfNdeadrvqqvN+/chKN902CEBL
- aJmbJWkQqWgqTZFK4vZ14WrFJmDkZ0ZJhLg42CJ/eviX/atTknDZmL/WjFvIUvkykS
- TSLf0zx89wU4g==
-Message-ID: <7a5b9c8a-f074-e6ce-d458-61068452e43f@collabora.com>
-Date: Thu, 21 Jul 2022 19:28:58 +0200
+ s=mail; t=1658425403;
+ bh=06+d7Xur32YQai/5tSB7YSVZnNdKYNNMjS3CjV5r0LI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=K0oNnLG2sopoEYkbfb4VLEaiX5W+1fLJIdAc+mH5tncGds1DbD6GlzDF+l8+Pxz95
+ NeypZxGA/YrWrcla+OH/IhKnSQun0uSaDcAS+1QIFyAIO8Xa8HO0FPt+d4xg060tem
+ m0Yxc5hO9Ooxg0SFlXkzWTUJKoGFUKw+zIOhdMuzLNvEGl4JBqGu7/QI90Trrt+E26
+ WaKdVBvx8BY50HMXAtBpXe+SPW/DzAWmfjuH7XZvVAQOTXiP2p0zVpfdXJRHeQP4lv
+ hhxr+R5UFD6tS9/CzjdZhlEaHB3k0W35hXaDYmqVZfkREIptKB0Ma92tdjLSHTQYZZ
+ 8ei7/X0MgKgpQ==
+From: Robert Beckett <bob.beckett@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/i915: stop using swiotlb
+Date: Thu, 21 Jul 2022 18:43:07 +0100
+Message-Id: <20220721174307.1085741-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v7, 2/4] drm/mediatek: Separate poweron/poweroff from
- enable/disable and define new funcs
-To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com
-References: <1653012007-11854-1-git-send-email-xinlei.lee@mediatek.com>
- <1653012007-11854-3-git-send-email-xinlei.lee@mediatek.com>
-Content-Language: en-US
-In-Reply-To: <1653012007-11854-3-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,161 +53,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Robert Beckett <bob.beckett@collabora.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, kernel@collabora.com,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 20/05/22 04:00, xinlei.lee@mediatek.com ha scritto:
-> From: Jitao Shi <jitao.shi@mediatek.com>
-> 
-> In order to match the changes of "Use the drm_panel_bridge API",
-> the poweron/poweroff of dsi is extracted from enable/disable and
-> defined as new funcs (atomic_pre_enable/atomic_post_disable).
-> 
-> Since dsi_poweron is moved from dsi_enable to pre_enable function, in
-> order to avoid poweron failure, the operation of dsi register fails to
-> cause bus hang. Therefore, the protection mechanism is added to the
-> dsi_enable function.
-> 
-> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge API")
-> 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Calling swiotlb functions directly is nowadays considered harmful. See
+https://lore.kernel.org/intel-gfx/20220711082614.GA29487@lst.de/
 
-Hello Xinlei, CK, maintainers:
+Replace swiotlb_max_segment() calls with dma_max_mapping_size().
+In i915_gem_object_get_pages_internal() no longer consider max_segment
+only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
+causes of specific max segment sizes.
 
-This patch is breaking machines that are using a DSI->DisplayPort bridge (like
-the ANX7625 chip), but that's not the main issue.
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
 
-----> I have never given a Reviewed-by tag for this commit <----
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c | 20 +++++---------------
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c  |  2 +-
+ drivers/gpu/drm/i915/i915_scatterlist.h      | 16 ----------------
+ 5 files changed, 9 insertions(+), 35 deletions(-)
 
-It's true I've given my tag for an older version [1] of this one, which was *not*
-using atomic_* callbacks and that one worked fine (which is why I gave you
-my R-b tag for it).
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+index c698f95af15f..e1aca378d90f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+@@ -6,7 +6,6 @@
+ 
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+-#include <linux/swiotlb.h>
+ 
+ #include "i915_drv.h"
+ #include "i915_gem.h"
+@@ -38,22 +37,13 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
+ 	struct scatterlist *sg;
+ 	unsigned int sg_page_sizes;
+ 	unsigned int npages;
+-	int max_order;
++	int max_order = MAX_ORDER;
++	size_t max_segment;
+ 	gfp_t gfp;
+ 
+-	max_order = MAX_ORDER;
+-#ifdef CONFIG_SWIOTLB
+-	if (is_swiotlb_active(obj->base.dev->dev)) {
+-		unsigned int max_segment;
+-
+-		max_segment = swiotlb_max_segment();
+-		if (max_segment) {
+-			max_segment = max_t(unsigned int, max_segment,
+-					    PAGE_SIZE) >> PAGE_SHIFT;
+-			max_order = min(max_order, ilog2(max_segment));
+-		}
+-	}
+-#endif
++	max_segment = dma_max_mapping_size(i915->drm.dev);
++	max_segment = max_t(size_t, max_segment, PAGE_SIZE) >> PAGE_SHIFT;
++	max_order = min(max_order, ilog2(max_segment));
+ 
+ 	gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
+ 	if (IS_I965GM(i915) || IS_I965G(i915)) {
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 4eed3dd90ba8..b0ec65b7c1da 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -194,7 +194,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	struct intel_memory_region *mem = obj->mm.region;
+ 	struct address_space *mapping = obj->base.filp->f_mapping;
+ 	const unsigned long page_count = obj->base.size / PAGE_SIZE;
+-	unsigned int max_segment = i915_sg_segment_size();
++	unsigned int max_segment = dma_max_mapping_size(i915->drm.dev);
+ 	struct sg_table *st;
+ 	struct sgt_iter sgt_iter;
+ 	struct page *page;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 5a5cf332d8a5..882f046f4d18 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -189,7 +189,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+ 	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
+ 	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+ 	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+-	const unsigned int max_segment = i915_sg_segment_size();
++	const unsigned int max_segment = dma_max_mapping_size(i915->drm.dev);
+ 	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
+ 	struct file *filp = i915_tt->filp;
+ 	struct sgt_iter sgt_iter;
+@@ -568,7 +568,7 @@ static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
+ 	ret = sg_alloc_table_from_pages_segment(st,
+ 			ttm->pages, ttm->num_pages,
+ 			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
+-			i915_sg_segment_size(), GFP_KERNEL);
++			dma_max_mapping_size(i915_tt->dev), GFP_KERNEL);
+ 	if (ret) {
+ 		st->sgl = NULL;
+ 		return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 094f06b4ce33..8a62a71859e6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -129,7 +129,7 @@ static void i915_gem_object_userptr_drop_ref(struct drm_i915_gem_object *obj)
+ static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
+ {
+ 	const unsigned long num_pages = obj->base.size >> PAGE_SHIFT;
+-	unsigned int max_segment = i915_sg_segment_size();
++	unsigned int max_segment = dma_max_mapping_size(obj->base.dev->dev);
+ 	struct sg_table *st;
+ 	unsigned int sg_page_sizes;
+ 	struct page **pvec;
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+index 9ddb3e743a3e..c9a61b51e99d 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.h
++++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+@@ -9,7 +9,6 @@
+ 
+ #include <linux/pfn.h>
+ #include <linux/scatterlist.h>
+-#include <linux/swiotlb.h>
+ 
+ #include "i915_gem.h"
+ 
+@@ -127,21 +126,6 @@ static inline unsigned int i915_sg_dma_sizes(struct scatterlist *sg)
+ 	return page_sizes;
+ }
+ 
+-static inline unsigned int i915_sg_segment_size(void)
+-{
+-	unsigned int size = swiotlb_max_segment();
+-
+-	if (size == 0)
+-		size = UINT_MAX;
+-
+-	size = rounddown(size, PAGE_SIZE);
+-	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
+-	if (size < PAGE_SIZE)
+-		size = PAGE_SIZE;
+-
+-	return size;
+-}
+-
+ bool i915_sg_trim(struct sg_table *orig_st);
+ 
+ /**
+-- 
+2.25.1
 
-You have changed commits in this series to use atomic_(pre_)enable callbacks
-but kept my tag, which is seriously wrong - and even more, because it's actually
-breaking display support for a generous number of Chromebooks upstream.
-
-
-Please be careful next time and ask for a new review when you make substantial
-changes to your commits.
-
-
-Anyway, I have already sent a fix for this situation, please look at [2].
-
-Regards,
-Angelo
-
-[1]: 
-https://patchwork.kernel.org/project/linux-mediatek/patch/1649644308-8455-3-git-send-email-xinlei.lee@mediatek.com/
-
-[2]: 
-https://lore.kernel.org/lkml/20220721172727.14624-1-angelogioacchino.delregno@collabora.com/T/#u
-
-> ---
->   drivers/gpu/drm/mediatek/mtk_dsi.c | 53 +++++++++++++++++++-----------
->   1 file changed, 34 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index f880136cec09..d9a6b928dba8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -691,16 +691,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
->   	if (--dsi->refcount != 0)
->   		return;
->   
-> -	/*
-> -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> -	 * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disable(),
-> -	 * which needs irq for vblank, and mtk_dsi_stop() will disable irq.
-> -	 * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
-> -	 * after dsi is fully set.
-> -	 */
-> -	mtk_dsi_stop(dsi);
-> -
-> -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
->   	mtk_dsi_reset_engine(dsi);
->   	mtk_dsi_lane0_ulp_mode_enter(dsi);
->   	mtk_dsi_clk_ulp_mode_enter(dsi);
-> @@ -715,17 +705,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
->   
->   static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
->   {
-> -	int ret;
-> -
->   	if (dsi->enabled)
->   		return;
->   
-> -	ret = mtk_dsi_poweron(dsi);
-> -	if (ret < 0) {
-> -		DRM_ERROR("failed to power on dsi\n");
-> -		return;
-> -	}
-> -
->   	mtk_dsi_set_mode(dsi);
->   	mtk_dsi_clk_hs_mode(dsi, 1);
->   
-> @@ -739,7 +721,16 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
->   	if (!dsi->enabled)
->   		return;
->   
-> -	mtk_dsi_poweroff(dsi);
-> +	/*
-> +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> +	 * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disable(),
-> +	 * which needs irq for vblank, and mtk_dsi_stop() will disable irq.
-> +	 * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
-> +	 * after dsi is fully set.
-> +	 */
-> +	mtk_dsi_stop(dsi);
-> +
-> +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
->   
->   	dsi->enabled = false;
->   }
-> @@ -776,13 +767,37 @@ static void mtk_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
->   {
->   	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
->   
-> +	if (dsi->refcount == 0)
-> +		return;
-> +
->   	mtk_output_dsi_enable(dsi);
->   }
->   
-> +static void mtk_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> +					     struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
-> +	int ret;
-> +
-> +	ret = mtk_dsi_poweron(dsi);
-> +	if (ret < 0)
-> +		DRM_ERROR("failed to power on dsi\n");
-> +}
-> +
-> +static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-> +					       struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
-> +
-> +	mtk_dsi_poweroff(dsi);
-> +}
-> +
->   static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
->   	.attach = mtk_dsi_bridge_attach,
->   	.atomic_disable = mtk_dsi_bridge_atomic_disable,
->   	.atomic_enable = mtk_dsi_bridge_atomic_enable,
-> +	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
-> +	.atomic_post_disable = mtk_dsi_bridge_atomic_post_disable,
->   	.mode_set = mtk_dsi_bridge_mode_set,
->   };
->   
