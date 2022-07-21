@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF7257D30E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 20:13:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD52757D37F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 20:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF3411A87F;
-	Thu, 21 Jul 2022 18:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6387D113235;
+	Thu, 21 Jul 2022 18:42:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com
- [IPv6:2607:f8b0:4864:20::935])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE02B11A4B3;
- Thu, 21 Jul 2022 18:13:14 +0000 (UTC)
-Received: by mail-ua1-x935.google.com with SMTP id f3so1003038uaq.2;
- Thu, 21 Jul 2022 11:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4B2910F206
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 18:42:01 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id o21so1967722qkm.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 11:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rtGx22uyrHDomoEloAfFSZ99P8sIGqAWG3uOblTYlXI=;
- b=IWf6faJYZdghU6Xjl/DsIwUuSUQIMMvCsl6b2xfd/BIdRSacTLTdo+TenzLfq409EX
- EZ/bEgPL4d1LKZOf7UxQLBJVD4vXhLcFoPna6U7gPUZUIU00c6lopz0j0rSciamXFaqE
- rpMerjuxpehjuGH3wLrB97K5roY2Y/iHLScJl4hJm15H2sfbdXfhHbPmJQfNjAYTlzRE
- 4Ce98M0fWtjMUAn+Y5Zon8shvjlKfa3YBFPTsXVf0fX47igTBSrO5S9epIk+W5YqfVXf
- Nth4faq7aXZZ6kZ9cromLV+Ppmbdn//KQpVQMdR1wBEjLBJ9pUUh90Mtrl6b2MTcX3Nz
- oJWQ==
+ :cc; bh=+RQnuRQVAxAGI0N6/NnLGG+FggFTKyFm89xEXb36pkw=;
+ b=iyniFeKPwDu5YPSQmW8iQt+xqhxFQoPdxQjdUIgapHfOqPMwIDAiMIsP8KHWWmUUqc
+ VBlBRg7crLnY3rJMYSRDh2ATS1OW2p4cK1dEkdliPUAbxZa3mfkqy2FAjNp/eouhe0QV
+ BvDeWRn33axasZAOviZ1Vau68l6ZKppGw+WAPxwCd6aEe3VaM3Zz3Q63Gz7OCFFaSflj
+ eFsgsWbn2OLOQPDP72jbZ5ZQY168A2emerxJYUpXrhBAJuQBSaQf1ib0yGUzE3yVMJKO
+ 0fzeU7s5SEoi8OAk5sb9a1b+uvGGEuddx7cfMtcL6lsZetlLUhFLOCseY/xQJFvFLSU9
+ RCKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rtGx22uyrHDomoEloAfFSZ99P8sIGqAWG3uOblTYlXI=;
- b=nBiB23JSCfy7TtGLiAA2o+Ry4o6AlAVUJ8Pxzn11PaTGXOdkkbq4rzZtx0zsmp+mcn
- fK/agzoiuKPCATeNFB5GuUWW1WD+K4LQ6EqN7fmO6583GQNkHRwXFU/a88wBppfHCLHp
- nCf5QvWcAmotq4tyztXpdx9MJlxYH6KXbxmj0PJDNwhrQ8lSLjbaiBXjDQW+jKp3XBBc
- fdqZ4P6aZF7GoapHHhEFsKKb7CnR0BuqNG1X4Pxh9v28CsbdZ0LUv4Mi9qet/6P5LBz9
- KzFp5UoPkVcAH22RJW+D/Azc9Q82VS5FQvli2SSXiUDNjTydpKspDQkZZ0OVxuT1Yq6o
- p6Dw==
-X-Gm-Message-State: AJIora9y8kq7DYdM5Z3SVWfTnmXysarOJTnXml/KlqNnqtqclbjL5VcD
- HsIYcEXIHVjy0F2E5RQ/rws1eJpmuDRWPNG/SZw=
-X-Google-Smtp-Source: AGRyM1vJ1WPDSD63N1RZT+NDdINiSIcOdEhufXa6Kjnl8wa7D062wQU14Xkv6/QBQU6bowIfstXT9iNQMo23xTuzn6g=
-X-Received: by 2002:a05:6130:22a:b0:383:ef97:3ba9 with SMTP id
- s42-20020a056130022a00b00383ef973ba9mr10130988uac.49.1658427193683; Thu, 21
- Jul 2022 11:13:13 -0700 (PDT)
+ bh=+RQnuRQVAxAGI0N6/NnLGG+FggFTKyFm89xEXb36pkw=;
+ b=B/gnYH5h+MnSbHfT9mQifWTBz7XvBqQqQ8AVxECGTgLMPi5JAmynG8gIrnofWkz3u3
+ 7xTlpqldNzCf6w1h3Mb4kr6cQu+zvxaht5DhYXyu+B7Ca8tD5v21UDtClZ0R7vz1JguF
+ 3LFJc8vM/ezem9VnQIc5RpMRUQGIotjgeWFXmPGtVQAkxwxpvHuMm7XMz307RxZlOJqv
+ KkBT5+VA+2/jVEq5cYdQE5/hR3U3OdYXooXIX22l2dtaGJBGT12aT7lYFVHVAVwX5xrV
+ 5FBpKGB7t9qEVKTDsI8YPOswaiRr5FNa7VIhq8+x3ieTpD5p6RZF5NHKJtWThqDJV3wl
+ rCSw==
+X-Gm-Message-State: AJIora9UrKuI9EOIovo2EvAAndCI2EN3Z5MvhCsM3kVG6Y+8yUeM1C8k
+ vDtDBcTNUy69R+af35N/HumlPU0giCdmWNuGvGzpEA==
+X-Google-Smtp-Source: AGRyM1v29kSP8xawWrXzI8sSr5FM+BvUWfSZ3Fu+pP7hxXeMYCoPETKED42dCZUElsVZdMDlopzzF1/ML7pLO8dDpb0=
+X-Received: by 2002:a05:620a:2408:b0:6b6:2df3:d18b with SMTP id
+ d8-20020a05620a240800b006b62df3d18bmr55176qkn.203.1658428920842; Thu, 21 Jul
+ 2022 11:42:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <YtimUGVxhkIRhmte@xsang-OptiPlex-9020>
-In-Reply-To: <YtimUGVxhkIRhmte@xsang-OptiPlex-9020>
-From: jim.cromie@gmail.com
-Date: Thu, 21 Jul 2022 12:12:47 -0600
-Message-ID: <CAJfuBxw5QVOM6Tp6KT6OrcSaHWO_+bQsKS_W3Anb9vOOye=7OQ@mail.gmail.com>
-Subject: Re: [drm] 39dec70a06: leaking-addresses.proc._dyndbg_classes.
-To: kernel test robot <oliver.sang@intel.com>
-Content-Type: multipart/alternative; boundary="000000000000c3f38405e454abbc"
+References: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
+ <YtkrDcjTGhpaU1e0@hovoldconsulting.com>
+ <CAA8EJprQnnWjDZJy9+zUBsVQCi3jtc0Ngtzzk9MXpwOvuAS68g@mail.gmail.com>
+ <CAD=FV=W0m-x9JC=5hQ3urSNmUp8sY-u8YkNd66yrKfRNAH4rcg@mail.gmail.com>
+In-Reply-To: <CAD=FV=W0m-x9JC=5hQ3urSNmUp8sY-u8YkNd66yrKfRNAH4rcg@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 21 Jul 2022 21:41:49 +0300
+Message-ID: <CAA8EJppWeDXAMqYmw6iOs_tr2mpnxmdbSKT79SH9f8=TYaBLnQ@mail.gmail.com>
+Subject: Re: [PATCH v16 0/3] eDP/DP Phy vdda realted function
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,152 +65,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild test robot <lkp@intel.com>, nouveau@lists.freedesktop.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, lkp@lists.01.org,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Johan Hovold <johan@kernel.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Mark Brown <broonie@kernel.org>,
+ Sean Paul <sean@poorly.run>, Vinod Koul <vkoul@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c3f38405e454abbc
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 21 Jul 2022 at 17:50, Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Thu, Jul 21, 2022 at 6:25 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > > This series breaks USB and PCIe for some SC8280XP and SA540P machines
+> > > where the DP PHY regulators are shared with other PHYs whose drivers do
+> > > not request a load.
+> >
+> > I'm trying to understand, why does this series cause the regression.
+> > Previously it would be the DP controller voting on the regulators
+> > load, now it has been moved to the DP/eDP PHYs.
+>
+> I think in the past not many device trees actually hooked up the
+> regulators to the DP/eDP but did hook up the regulators to the PHYs?
+> That means they didn't used to get a regulator_set_load() on them and
+> now they do?
+>
+> It should also be noted that we're now setting the load for a bunch of
+> USB PHYs that we didn't used to set a load on...
 
-On Wed, Jul 20, 2022 at 7:05 PM kernel test robot <oliver.sang@intel.com>
-wrote:
+Might be the case, yes.
 
+> > > It seems quite likely that changes like this one affects other systems
+> > > too, and the effects may be hard to debug. So a more general solution
+> > > than playing whack-a-mole using DT would be good to have.
+> >
+> > I think enabling a regulator which supports set_load() and without
+> > load being set should cause a warning, at least with
+> > CONFIG_REGULATOR_DEBUG. WDYT?
 >
->
-> Greeting,
->
-> FYI, we noticed the following commit (built with gcc-11):
->
-> commit: 39dec70a061e581e60adb416031948ecd2dcd5d0 ("drm: POC drm on dyndbg
-> - use in core, 2 helpers, 3 drivers.")
-> https://github.com/jimc/linux.git dyn-drm-trc
->
-> in testcase: leaking-addresses
-> version: leaking-addresses-x86_64-4f19048-1_20220518
-> with following parameters:
->
->         ucode: 0x28
->
->
->
-> on test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4770 CPU @
-> 3.40GHz with 16G memory
->
-> caused below changes (please refer to attached dmesg/kmsg for entire
-> log/backtrace):
->
->
->
->
-> If you fix the issue, kindly add following tag
-> Reported-by: kernel test robot <oliver.sang@intel.com>
->
->
-> below (1) is not observed on parent tests:
->
+> I'm not a total fan. I'd love to see evidence to the contrary, but I'm
+> a believer that the amount of extra cruft involved with all these
+> regulator_set_load() calls is overkill for most cases. All the extra
+> code / per-SoC tables added to drivers isn't ideal.
 
+I'm fine with the load being specified in the DT (and that sounds like
+a good idea for me too).
+What I'd like to achieve is catching load-enabled regulators for which
+we did not set the load (via an API call or via the DT).
 
-
-
->
->
-> 2022-07-18 02:55:06 ./leaking_addresses.pl --output-raw result/scan.out
-> 2022-07-18 02:55:30 ./leaking_addresses.pl --input-raw result/scan.out
-> --squash-by-filename
->
-> Total number of results from scan (incl dmesg): 168569
->
-> dmesg output:
-> [    2.186392] mapped IOAPIC to ffffffffff5fb000 (fec00000)
->
-> Results squashed by filename (excl dmesg). Displaying [<number of results>
-> <filename>], <example result>
->
-
-new section, populated by macro invocations in this patch
-
-[3 __dyndbg_classes] 0xffffffffc08dad00        <----- (1)
-> [18 __dyndbg] 0xffffffffc01fd4e0
->
-
-So I think this is All-good.
-
-
->
-
---000000000000c3f38405e454abbc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 20, 2022 at 7:05 PM kerne=
-l test robot &lt;<a href=3D"mailto:oliver.sang@intel.com">oliver.sang@intel=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex"><br>
-<br>
-Greeting,<br>
-<br>
-FYI, we noticed the following commit (built with gcc-11):<br>
-<br>
-commit: 39dec70a061e581e60adb416031948ecd2dcd5d0 (&quot;drm: POC drm on dyn=
-dbg - use in core, 2 helpers, 3 drivers.&quot;)<br>
-<a href=3D"https://github.com/jimc/linux.git" rel=3D"noreferrer" target=3D"=
-_blank">https://github.com/jimc/linux.git</a> dyn-drm-trc<br>
-<br>
-in testcase: leaking-addresses<br>
-version: leaking-addresses-x86_64-4f19048-1_20220518<br>
-with following parameters:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ucode: 0x28<br>
-<br>
-<br>
-<br>
-on test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4770 CPU @ 3.40GH=
-z with 16G memory<br>
-<br>
-caused below changes (please refer to attached dmesg/kmsg for entire log/ba=
-cktrace):<br>
-<br>
-<br>
-<br>
-<br>
-If you fix the issue, kindly add following tag<br>
-Reported-by: kernel test robot &lt;<a href=3D"mailto:oliver.sang@intel.com"=
- target=3D"_blank">oliver.sang@intel.com</a>&gt;<br>
-<br>
-<br>
-below (1) is not observed on parent tests:<br></blockquote><div><br></div><=
-div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-<br>
-<br>
-2022-07-18 02:55:06 ./<a href=3D"http://leaking_addresses.pl" rel=3D"norefe=
-rrer" target=3D"_blank">leaking_addresses.pl</a> --output-raw result/scan.o=
-ut<br>
-2022-07-18 02:55:30 ./<a href=3D"http://leaking_addresses.pl" rel=3D"norefe=
-rrer" target=3D"_blank">leaking_addresses.pl</a> --input-raw result/scan.ou=
-t --squash-by-filename<br>
-<br>
-Total number of results from scan (incl dmesg): 168569<br>
-<br>
-dmesg output:<br>
-[=C2=A0 =C2=A0 2.186392] mapped IOAPIC to ffffffffff5fb000 (fec00000)<br>
-<br>
-Results squashed by filename (excl dmesg). Displaying [&lt;number of result=
-s&gt; &lt;filename&gt;], &lt;example result&gt;<br>
-</blockquote><div><br></div><div>new section, populated by macro invocation=
-s in this patch</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">[3 __dyndbg_classes] 0xffffffffc08dad00=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &lt;----- (1)<br>[18 __dyndbg] 0xffffffffc01fd4e0<br></blockquote><div>=
-<br></div><div>So I think this is All-good.<br></div><div><br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex"><br>
-</blockquote></div></div>
-
---000000000000c3f38405e454abbc--
+-- 
+With best wishes
+Dmitry
