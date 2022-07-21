@@ -2,78 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E0E57C8CC
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF58857C906
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:31:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12988D74C;
-	Thu, 21 Jul 2022 10:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8027611B136;
+	Thu, 21 Jul 2022 10:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861CB8D747
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 10:18:06 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 4FB0E5C004D;
- Thu, 21 Jul 2022 06:18:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 21 Jul 2022 06:18:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1658398685; x=
- 1658485085; bh=VxmrbcgCBo8VRdl/iMbbYGK+hF+N5u4RIhBlQPOzlGk=; b=u
- yqzwxKYqY0IS6wTem5NwhoqoVXxPEG0gB0hSK/JvcRpU32o4uv5TUKkMflXojwyB
- 5aIiBvF7Bx4cjFV5Giv8C1SV7+RROohvvVxJS/cWTAsv4QiaRuhuZ2tv1jg6uGPA
- szp19QbWKyCTxGBP2offWDA39eVUk96xpYoQ7F+A66Tx3CU9MkW+3UirMxA+6OmR
- hMd00/J6pYhkgKjIK/RU1MkSiqpfqMWPlUwUNDYhnQW8nYC9MTTu4Qz8xcS/0Vz1
- 9oqNviHcOiDKuGlZzLZvKdJKcRl9DLxBfHTdVDNSfxUlvqmKJ0LPOXBCsmIO9uMJ
- nMYjXZkOKXhpg/A5LejNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658398685; x=
- 1658485085; bh=VxmrbcgCBo8VRdl/iMbbYGK+hF+N5u4RIhBlQPOzlGk=; b=W
- p/1baUl7P/D+SGtff+fQgqaEYoyAIYuPRBtVsl794hjIUAhtgzstu7/x6V7AwBog
- UB1xgq2HU7QDZsoQj3goRKQxBW5BPKfqXiB2ia1TkGNFmXKjXu6OKPPGvrPddMKk
- XjOYvJD+vucVrg3skL7a2tlenVzEepQvWHbTFAR6oz8rR7hcAyPXFkaj3+ce3922
- 48h2Q5MInjI16AUSKzZoaCijc6r1fshWk/DTwldxcAIfwcA4f8f422o1/8JwjkcV
- 6vMfMtMaaZAcg9hSpHm5NEBI9gx3MnXCCZPP9wsjQZprTZ2drv6vNGk3Ls1ypwAh
- Z8W86rBW5T4pb2e1+0o9Q==
-X-ME-Sender: <xms:3CfZYotJgsFsGd5VeyJ-XDsIWM2BLqstygX7HnM_Nwg-UfmUft4aGQ>
- <xme:3CfZYldOphAjnKh9q7W1UbH3tTmDNHT_RNDyVpQTxRW9Fv-4x4QCXKd0-x1wB5W_S
- CoFfzeN3YS7lqPS7wg>
-X-ME-Received: <xmr:3CfZYjzdxSJrbAFCIXtdf3jztsXBa7dKakbGHyTLEEv55M971Pp_j1LammMkn0OyMOqQkKho5I43z3Vbr8dTImv9LHF8zQ0jwEcS-_o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelledgvdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
- ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
- tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
- euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:3CfZYrOGNtM0BZ4FWgK4y9hzYD1jDkcevdo7699GnofS-YS0ot946Q>
- <xmx:3CfZYo_wg47yyRMGYNi3aEC_sna0p_TfRVSg-xvUIKS8GbUkUU_fwg>
- <xmx:3CfZYjWDCH8a7_qrQpoGTGB2DmUmEZBSmVJWuLfV3lIOTz1D0Hkvng>
- <xmx:3SfZYja6FlTMQCcWavIjgCu3gnSZdR5sFk8UmaISbueW_pE0wj_klw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Jul 2022 06:18:04 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@linux.ie,
- dave.stevenson@raspberrypi.com, daniel@ffwll.ch, wangjingjin1@huawei.com,
- tzimmermann@suse.de
-Subject: Re: (subset) [PATCH -next] drm/vc4: Add explicit declaration of
- 'drmm_of_get_bridge'
-Date: Thu, 21 Jul 2022 12:17:58 +0200
-Message-Id: <165839867633.1851550.7144468143657941945.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220716020741.4124893-1-wangjingjin1@huawei.com>
-References: <20220716020741.4124893-1-wangjingjin1@huawei.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E0E11B136;
+ Thu, 21 Jul 2022 10:31:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 182D6B8239B;
+ Thu, 21 Jul 2022 10:31:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26C5C3411E;
+ Thu, 21 Jul 2022 10:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1658399502;
+ bh=6cLo27J62FOn04WxOUjgMwROfE1fTOAuDjpYF7NaDwc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=N3WbGRRLy3Wz7OLnE9xyJeuJ98YmI7krfBHCmOr89Wmr2NSJ51Y1NwhDSZL7do3tP
+ lDY5qvEUEDGK3ZBTiKL6N3H0ZCT07piH6XgcsUP+1DBs4MSdglmBv/lSRCP7uEwIHo
+ 4mMndlxHuavBGafCJSi0YU/mpbIMU/S7s9VfQkW5w5ZxcFERww4ElkI91OGgELqIFf
+ G5EdrwfFRy/DS54kxVu04FF7CbSzVwYK0jaycvcvAL/EaMtRLm1k6f/I0Phvlp7+5P
+ ds4flliAvV07XpVp3S/h8s82GLcwQx4i1luvClq9ETl2HPWemt3/RFm/UWrzIwcSD5
+ 4u7MTyS1qBAOQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1oETT3-00058P-6k; Thu, 21 Jul 2022 12:31:41 +0200
+Date: Thu, 21 Jul 2022 12:31:41 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v16 0/3] eDP/DP Phy vdda realted function
+Message-ID: <YtkrDcjTGhpaU1e0@hovoldconsulting.com>
+References: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,20 +57,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhengbin13@huawei.com, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, Liam Girdwood <lgirdwood@gmail.com>,
+ airlied@linux.ie, freedreno@lists.freedesktop.org,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 16 Jul 2022 10:07:41 +0800, Wang Jingjin wrote:
-> Fix the error of implicit declaration of function 'drmm_of_get_bridge':
+On Tue, Jul 05, 2022 at 09:29:13AM -0700, Kuogee Hsieh wrote:
+> 0) rebase on https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git tree
+> 1) add regulator_set_load() to eDP phy
+> 2) add regulator_set_load() to DP phy
+> 3) remove vdda related function out of eDP/DP controller
 > 
-> drivers/gpu/drm/vc4/vc4_dpi.c:278:11: error: implicit declaration of function ‘drmm_of_get_bridge’; did you mean ‘devm_drm_of_get_bridge’? [-Werror=implicit-function-declaration]
->   bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
+> Kuogee Hsieh (3):
+>   phy: qcom-edp: add regulator_set_load to edp phy
+>   phy: qcom-qmp: add regulator_set_load to dp phy
+>   drm/msm/dp: delete vdda regulator related functions from eDP/DP
+>     controller
 > 
-> 
+>  drivers/gpu/drm/msm/dp/dp_parser.c        | 14 -----
+>  drivers/gpu/drm/msm/dp/dp_parser.h        |  8 ---
+>  drivers/gpu/drm/msm/dp/dp_power.c         | 95 +------------------------------
+>  drivers/phy/qualcomm/phy-qcom-edp.c       | 12 ++++
+>  drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 41 ++++++++++---
+>  5 files changed, 46 insertions(+), 124 deletions(-)
 
-Applied to drm/drm-misc (drm-misc-next).
+This series breaks USB and PCIe for some SC8280XP and SA540P machines
+where the DP PHY regulators are shared with other PHYs whose drivers do
+not request a load.
 
-Thanks!
-Maxime
+Specifically, the hard-coded vdda-phy load of 21.8 mA added by this
+series, causes several RPMh regulators to now be put in low-power mode.
+
+I found Doug's suggestion to handle situations like this in regulator
+core:
+
+	https://lore.kernel.org/all/20180814170617.100087-1-dianders@chromium.org/
+
+but since that was rejected, how do we deal with this generally?
+
+In the above thread Doug mentioned adding support for load requests to
+further drivers and Bjorn mentioned working around it by adding
+regulator-system-load properties to DT.
+
+It seems quite likely that changes like this one affects other systems
+too, and the effects may be hard to debug. So a more general solution
+than playing whack-a-mole using DT would be good to have.
+
+Johan
