@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7445557C8CE
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:18:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E0E57C8CC
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 12:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25DB58D747;
-	Thu, 21 Jul 2022 10:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12988D74C;
+	Thu, 21 Jul 2022 10:18:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E2F8D741
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 861CB8D747
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 10:18:06 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 328955C015A;
- Thu, 21 Jul 2022 06:18:03 -0400 (EDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4FB0E5C004D;
+ Thu, 21 Jul 2022 06:18:05 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 21 Jul 2022 06:18:03 -0400
+ by compute4.internal (MEProxy); Thu, 21 Jul 2022 06:18:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1658398683; x=
- 1658485083; bh=jBXiLVgk+MQp/+/KkFRnF6nXtE8UOCN9j7zexhft9E0=; b=q
- P6DaS40vgonigFjaliX4liAyfE8smTw//MKsSgAPj2mUNTXdTOgSv3O0JiV2YLlp
- f2dP9bo1LmAZfxwhH/xr3BPczGJI66MwBPdideLuAtLciTbfzdi5+ySzGcxMJG7p
- N5X8WF2JkyxkP0PVZY2wbm4FR+BwrZXp/Ak/dj3k2XoiPjy1Ud6UmuTPo4Rt/FUQ
- ScjLlYfvQlIp99VChFa30paR4sMdtuwp4jvDUi7HRYmlcSrl1EbcWUqdy5SJxwa4
- iqWPphM5KvEm2pKwKrr/55QtJrFAEJmyKjkjz7ElMOayG7mrSC2yMYnaXqOlJ6s2
- jcSMlIaQhYhZvUvPE76hA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1658398685; x=
+ 1658485085; bh=VxmrbcgCBo8VRdl/iMbbYGK+hF+N5u4RIhBlQPOzlGk=; b=u
+ yqzwxKYqY0IS6wTem5NwhoqoVXxPEG0gB0hSK/JvcRpU32o4uv5TUKkMflXojwyB
+ 5aIiBvF7Bx4cjFV5Giv8C1SV7+RROohvvVxJS/cWTAsv4QiaRuhuZ2tv1jg6uGPA
+ szp19QbWKyCTxGBP2offWDA39eVUk96xpYoQ7F+A66Tx3CU9MkW+3UirMxA+6OmR
+ hMd00/J6pYhkgKjIK/RU1MkSiqpfqMWPlUwUNDYhnQW8nYC9MTTu4Qz8xcS/0Vz1
+ 9oqNviHcOiDKuGlZzLZvKdJKcRl9DLxBfHTdVDNSfxUlvqmKJ0LPOXBCsmIO9uMJ
+ nMYjXZkOKXhpg/A5LejNw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658398683; x=
- 1658485083; bh=jBXiLVgk+MQp/+/KkFRnF6nXtE8UOCN9j7zexhft9E0=; b=x
- z24LuBoVORoPOkRQrJkfbsmxDDxN2xFx1MFkOfYVVaYUwQyamYxWa4+Hp2Q7ApPQ
- qSuraCkVYvPn+XRAJ4rnRWZf7elNfxWfMCaBpG1SpkOlaTtyOzTdDOoG9+zcUn4l
- C3ljfy4pPwATu/WWDJ6jTCrGYJyxtD917ubDWs70laJjbOSu4A8DHucqX9zaBRuB
- 6fuZLNLmxrMyTwGtT41kGQWhnhmXghNgVbVZA9DWk9I7WmUL7q6jrjx35AFeKfRX
- 5kanFd3wRKMfmZKIMkT17wrMGXj4FTHNtqdQjLytkXT263cZ7N5if9AVcXvcuTMe
- Jqxa3Ktw1LZ0QE9d+iUBg==
-X-ME-Sender: <xms:2SfZYngHsISrNFiCmyltRDk_qsrihitkYR2K80ipNKiI9roIwkkfqg>
- <xme:2SfZYkAaP-AQ_m_h-spklUR6uZijXJ5HeELGagNjZnuebhvJk2fo1EeFWWR4pi08S
- muFTghAQ8HRHg2d4CI>
-X-ME-Received: <xmr:2SfZYnEF1NZpRzcs0Jx7TbUT2quTzOULgCLBnguUtODA8pE3uqtFCPWM2fxCVXWxH_PhcafDfj1EudI4HWGlEzwCFw4_cGMY4t5IYoY>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658398685; x=
+ 1658485085; bh=VxmrbcgCBo8VRdl/iMbbYGK+hF+N5u4RIhBlQPOzlGk=; b=W
+ p/1baUl7P/D+SGtff+fQgqaEYoyAIYuPRBtVsl794hjIUAhtgzstu7/x6V7AwBog
+ UB1xgq2HU7QDZsoQj3goRKQxBW5BPKfqXiB2ia1TkGNFmXKjXu6OKPPGvrPddMKk
+ XjOYvJD+vucVrg3skL7a2tlenVzEepQvWHbTFAR6oz8rR7hcAyPXFkaj3+ce3922
+ 48h2Q5MInjI16AUSKzZoaCijc6r1fshWk/DTwldxcAIfwcA4f8f422o1/8JwjkcV
+ 6vMfMtMaaZAcg9hSpHm5NEBI9gx3MnXCCZPP9wsjQZprTZ2drv6vNGk3Ls1ypwAh
+ Z8W86rBW5T4pb2e1+0o9Q==
+X-ME-Sender: <xms:3CfZYotJgsFsGd5VeyJ-XDsIWM2BLqstygX7HnM_Nwg-UfmUft4aGQ>
+ <xme:3CfZYldOphAjnKh9q7W1UbH3tTmDNHT_RNDyVpQTxRW9Fv-4x4QCXKd0-x1wB5W_S
+ CoFfzeN3YS7lqPS7wg>
+X-ME-Received: <xmr:3CfZYjzdxSJrbAFCIXtdf3jztsXBa7dKakbGHyTLEEv55M971Pp_j1LammMkn0OyMOqQkKho5I43z3Vbr8dTImv9LHF8zQ0jwEcS-_o>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelledgvdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
@@ -53,23 +53,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelledgvdekucetufdoteggod
  tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
  euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
  necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:2SfZYkRDOTx9QPtwgl3JTghlpm-nVlEZlvDHUaByne33EU2wWvJRTg>
- <xmx:2SfZYkyAxE0lK830dWlFZZh7m_-rUUyDJ_nsrunG2iBo3oEUw3rdFQ>
- <xmx:2SfZYq6E5Vbe6ylmEw8v3r0aQBsPGfks9oho5zjwEr1zQgSSx0L3JA>
- <xmx:2yfZYny0o0U_yPAX8ShUKQ59kfSEnGWmrCnFdr0WXt5RNFZbFFEDAg>
+X-ME-Proxy: <xmx:3CfZYrOGNtM0BZ4FWgK4y9hzYD1jDkcevdo7699GnofS-YS0ot946Q>
+ <xmx:3CfZYo_wg47yyRMGYNi3aEC_sna0p_TfRVSg-xvUIKS8GbUkUU_fwg>
+ <xmx:3CfZYjWDCH8a7_qrQpoGTGB2DmUmEZBSmVJWuLfV3lIOTz1D0Hkvng>
+ <xmx:3SfZYja6FlTMQCcWavIjgCu3gnSZdR5sFk8UmaISbueW_pE0wj_klw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Jul 2022 06:18:01 -0400 (EDT)
+ 21 Jul 2022 06:18:04 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch, tzimmermann@suse.de, liuzixian4@huawei.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH] drm: correct comments
-Date: Thu, 21 Jul 2022 12:17:57 +0200
-Message-Id: <165839867634.1851550.16192375926600499733.b4-ty@cerno.tech>
+ dave.stevenson@raspberrypi.com, daniel@ffwll.ch, wangjingjin1@huawei.com,
+ tzimmermann@suse.de
+Subject: Re: (subset) [PATCH -next] drm/vc4: Add explicit declaration of
+ 'drmm_of_get_bridge'
+Date: Thu, 21 Jul 2022 12:17:58 +0200
+Message-Id: <165839867633.1851550.7144468143657941945.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220718015357.1722-1-liuzixian4@huawei.com>
-References: <20220718015357.1722-1-liuzixian4@huawei.com>
+In-Reply-To: <20220716020741.4124893-1-wangjingjin1@huawei.com>
+References: <20220716020741.4124893-1-wangjingjin1@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -85,12 +86,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linfeilong@huawei.com, Maxime Ripard <maxime@cerno.tech>
+Cc: zhengbin13@huawei.com, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Jul 2022 09:53:57 +0800, Liu Zixian wrote:
-> On failure, these functions return error pointer, not NULL.
+On Sat, 16 Jul 2022 10:07:41 +0800, Wang Jingjin wrote:
+> Fix the error of implicit declaration of function 'drmm_of_get_bridge':
+> 
+> drivers/gpu/drm/vc4/vc4_dpi.c:278:11: error: implicit declaration of function ‘drmm_of_get_bridge’; did you mean ‘devm_drm_of_get_bridge’? [-Werror=implicit-function-declaration]
+>   bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
 > 
 > 
 
