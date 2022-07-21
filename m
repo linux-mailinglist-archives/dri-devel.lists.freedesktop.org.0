@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECC857CA63
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 14:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFB157CA96
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 14:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6DF314AFA1;
-	Thu, 21 Jul 2022 12:12:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9241890733;
+	Thu, 21 Jul 2022 12:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7C414B3B3;
- Thu, 21 Jul 2022 12:12:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F1090742
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 12:25:00 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3294261D93;
- Thu, 21 Jul 2022 12:12:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA86C3411E;
- Thu, 21 Jul 2022 12:12:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1658405544;
- bh=bjLxvlVXamAjASEle08xmCl8qBx04BWEVs5DHeMu8Mw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ns1cEqWMytm09KDRjusjlPxfR1qr267qTII21k/oxK5j4XXiA6BfiZpii70rEUBj1
- +mCEtt83eiFLaUG9g0rpuUn4GhB82MYLJ1WPpWns10eHBLSiEUrhykQuWQTR11ICGi
- 4IDZUWNrPIDgRj/Kp2gl4bmvVRzqUpaS2LTw2oZ2ze7xEpSoN59CDBixYSbfBhILJE
- q7amUFr5BW8PvrA6ixfVgHAjUgKEFt8NpCaXeBxfQHadz/DvzIGYxrvV474QB43l9E
- HjtcRtdYD78hXIbO/1lpe37h+fKRUGMGsXB9qmb2RoR2smqtcTSuu9WiSHdF0e7IMF
- Tpf64xF/JT0RQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1oEV2W-0003Na-9F; Thu, 21 Jul 2022 14:12:24 +0200
-Date: Thu, 21 Jul 2022 14:12:24 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v16 0/3] eDP/DP Phy vdda realted function
-Message-ID: <YtlCqPWUCmw01Jon@hovoldconsulting.com>
-References: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
- <YtkrDcjTGhpaU1e0@hovoldconsulting.com>
- <Ytk2dxEC2n/ffNpD@sirena.org.uk> <Ytk+9W0Ur1ibqtw8@sirena.org.uk>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 19C178410E;
+ Thu, 21 Jul 2022 14:24:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1658406298;
+ bh=kVU3LCCaFqk6ZRlu2YlBGkJm43796tQBABKUWsWvgyA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lJkhS2z7Eay4/EyRmaOHPrcAmsRzW+H24EaW0OW7JTXB5xPoHL0TGkOuNd1HkQ3iE
+ GKymbc3rQpwjYXgxpX7KAmxt7OPO8cX577qQo/ejqrfn6NVSKqLGfgxyXJb+gydH8m
+ jGkNH18g4hh2R05CZd2J9ow3ML7zUuT3n2XVWHirD8PGT1/rumVJFpT2MEL+Z7yhAG
+ Af9mEGUWTEW4xI22ijSJNwmhHsO4MtdQuxj7z7PeHhdPCH51xdmMGhS0379ZQi6BfK
+ Xf+sI9a6msiHxzrnN/S+dP5Jc0rRaLG8j9+F6fv+jNuaS1R3G7NgKzF7W8XQk8bpa7
+ upX0ONPqIgF8g==
+Message-ID: <0b4927f7-f1e4-60a8-1eaf-6d4cbc38daec@denx.de>
+Date: Thu, 21 Jul 2022 14:24:57 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CFA1nl4l5O882w62"
-Content-Disposition: inline
-In-Reply-To: <Ytk+9W0Ur1ibqtw8@sirena.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] dt-bindings: vendor-prefixes: add Densitron
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220721030327.210950-1-marex@denx.de>
+ <YtjnFxA66V6bMePa@pendragon.ideasonboard.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <YtjnFxA66V6bMePa@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +57,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- quic_aravindh@quicinc.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, swboyd@chromium.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, sean@poorly.run,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, dmitry.baryshkov@linaro.org,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, robert.foss@linaro.org,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/21/22 07:41, Laurent Pinchart wrote:
+> Hi Marek,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Jul 21, 2022 at 05:03:27AM +0200, Marek Vasut wrote:
+>> Densitron is a manufacturer of LCD panels.
+>> https://www.densitron.com
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Guido Günther <agx@sigxcpu.org>
+>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Linus Walleij <linus.walleij@linaro.org>
+>> Cc: Rob Herring <robh+dt@kernel.org>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Thierry Reding <thierry.reding@gmail.com>
+>> ---
+>>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> index 88859dd4040ee..6277240536b44 100644
+>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> @@ -312,6 +312,8 @@ patternProperties:
+>>       description: Dell Inc.
+>>     "^delta,.*":
+>>       description: Delta Electronics, Inc.
+>> +  "^densitron,.*":
+> 
+> How about "dsn", to follow the practice of using stock names as vendor
+> prefixes ?
 
---CFA1nl4l5O882w62
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 21, 2022 at 12:56:37PM +0100, Mark Brown wrote:
-> On Thu, Jul 21, 2022 at 12:20:31PM +0100, Mark Brown wrote:
->=20
-> > You could add a way to specify constant base loads in DT on either a per
-> > regulator or per consumer basis.
->=20
-> ...and also note that this is only an issue if the system gives
-> permission to change the mode in the constraints which is pretty rare.
-
-Yeah, apparently only Qualcomm is using regulator-allow-set-load at the
-moment, but it seems pretty common there.
-
-We should probably just drop that from the platforms affected by this
-particular regression and perhaps later add it back where it makes
-sense (e.g. after making sure all consumers specify a load in some way).
-
-Johan
-
---CFA1nl4l5O882w62
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCYtlCpAAKCRALxc3C7H1l
-CH3VAP0UC9lDdd/fIlxYLQa+xUSFqHJHrap+vbhZ0Co4s/SlkgD+JXqNWLFDmtEF
-29yeuk3k7WUrvkX9OIjphqSsYKFRzwo=
-=+ChT
------END PGP SIGNATURE-----
-
---CFA1nl4l5O882w62--
+Is there any benefit to that ? All I can see is that it's making DTS 
+less clear and more difficult to read. It is easy to map "densitron" to 
+"densitron" when it is spelled out like so in the DT, but it sure isn't 
+immediately obvious that "dsn" means "densitron" without extra look up. 
+And even that extra look up of "dsn" does not return densitron, but some 
+woodworking company and other totally unrelated results.
