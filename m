@@ -1,95 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1F557D087
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 18:02:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D65457D0A8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 18:04:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9167110E713;
-	Thu, 21 Jul 2022 16:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB91E10E766;
+	Thu, 21 Jul 2022 16:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E7D10E2E6;
- Thu, 21 Jul 2022 16:01:59 +0000 (UTC)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LFhinO024568;
- Thu, 21 Jul 2022 16:01:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=TaPE8p4zRacJwxm8CjbGhlNhxea5fkhzEN8EU5aQYyE=;
- b=cBmM9Eqp4ZQsP2j0tXMM8GUwxATdykM3MV9wR/h9f64IG0oaQrLqvK/SmrUNMRuqMh7H
- dWK0um6oD73AIPzzyFLZ3Y8OvWVl1U3IQbTxzb99SAGO8Fk1MN+hjgrraqjmeu7JKo2Q
- NBOtHVA9pRF4xIV89WDY1cIIIGurnoDBDH3Py/tI5eTB/QCcF/a+TLkbiwAYg3ZR+2AP
- E4oL+Z7WDVL0ayz0OdKz/TSqp/7hUej6Sr+vvuKX13WVJXBRPgYlmDlr7eWIquXPGi6y
- aN1TBqAh3FVx+ROukA0r2dpf6ZYvT+02Pjdbij0PQCvh0OJ0/YeQZc+QyAo/2llrR2BK GA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9pp8ghk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 16:01:54 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LFj2Zh029463;
- Thu, 21 Jul 2022 16:01:53 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9pp8gh8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 16:01:53 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LFpggq032003;
- Thu, 21 Jul 2022 16:01:52 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma03wdc.us.ibm.com with ESMTP id 3hbmy9gu1d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 16:01:52 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26LG1pHj42336690
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 16:01:51 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 683B26E054;
- Thu, 21 Jul 2022 16:01:51 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0E3D6E04E;
- Thu, 21 Jul 2022 16:01:48 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.211.146.30])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 16:01:48 +0000 (GMT)
-Message-ID: <d4b7abce8ef8646819d32fef57ea51e38cd53f1b.camel@linux.ibm.com>
-Subject: Re: [PATCH v4 1/2] vfio: Replace the DMA unmapping notifier with a
- callback
-From: Eric Farman <farman@linux.ibm.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe
- <jgg@nvidia.com>
-Date: Thu, 21 Jul 2022 12:01:47 -0400
-In-Reply-To: <20220720170457.39cda0d0.alex.williamson@redhat.com>
-References: <0-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
- <1-v4-681e038e30fd+78-vfio_unmap_notif_jgg@nvidia.com>
- <20220720134113.4225f9d6.alex.williamson@redhat.com>
- <20220720200829.GW4609@nvidia.com>
- <20220720170457.39cda0d0.alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8DA10E2E6;
+ Thu, 21 Jul 2022 16:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1658419488; x=1689955488;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=yb4FZU2sS2ec3vg0Ki3FrlpdsmD+gWNYDrl+E3MSovU=;
+ b=ZY3aB3P2f9yuLoBzPsOSM/gdwBrHbzoU3YApNen2ILyNBmk0DnUPjG+K
+ wO7PheNIFU9ANpdZU5oGAwZprYOlDDKQCJhymZWm3Z1TQV3jvT5+stLQu
+ fiQFQzWU6YYBTjXWjKVe6XhLw+RUT5x4t7l9yg6W+ysfPoue6HM1W3esh A=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 21 Jul 2022 09:04:47 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2022 09:04:45 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 21 Jul 2022 09:04:45 -0700
+Received: from [10.216.44.13] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 21 Jul
+ 2022 09:04:39 -0700
+Message-ID: <1e39d008-f8e5-eea5-90f4-78293bf2c580@quicinc.com>
+Date: Thu, 21 Jul 2022 21:34:35 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [Freedreno] [PATCH v2 5/7] arm64: dts: qcom: sc7280: Update gpu
+ register list
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rajendra Nayak <quic_rjendra@quicinc.com>, Stephen Boyd
+ <swboyd@chromium.org>, Doug Anderson <dianders@chromium.org>, Taniya Das
+ <quic_tdas@quicinc.com>, Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <1657346375-1461-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220709112837.v2.5.I7291c830ace04fce07e6bd95a11de4ba91410f7b@changeid>
+ <CAD=FV=XzvcjS51q78BZ=FPCEVUDMD+VKJ70ksCm5V4qwHN_wRg@mail.gmail.com>
+ <c022538d-c616-8f1a-e1c2-c11b5f0de670@quicinc.com>
+ <e4dcdd8d-18a9-8da3-7ac3-6cc792139f70@quicinc.com>
+ <CAE-0n52TG3hsytN5nRU7W=S6PffSj8yQDmuicN0-qxoW-jxiZQ@mail.gmail.com>
+ <0c050434-27ca-1099-d93d-8ad6ace3396e@quicinc.com>
+ <CAE-0n53J=dADDTrydVuNZzw38dW_-+Baf8cfn0Q6DSVX_6cLNg@mail.gmail.com>
+ <b6ab023b-601d-1df2-b04b-af5961b73bea@quicinc.com>
+ <698d3279-6a02-9b1e-a3bd-627b6afbc57e@quicinc.com>
+In-Reply-To: <698d3279-6a02-9b1e-a3bd-627b6afbc57e@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: j8vE10XrFQQgyuYkPEtpHYy1GdUqgbS6
-X-Proofpoint-ORIG-GUID: Vz-1MomDKDuiP-p2pkQwTSfVtBTRxQgG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-21_18,2022-07-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 spamscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 impostorscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207210061
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,114 +75,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
+Cc: devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Andy Gross <agross@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Matthias Kaehlcke <mka@chromium.org>, LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-07-20 at 17:04 -0600, Alex Williamson wrote:
-> On Wed, 20 Jul 2022 17:08:29 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > On Wed, Jul 20, 2022 at 01:41:13PM -0600, Alex Williamson wrote:
-> >  
-> > > ie. we don't need the gfn, we only need the iova.  
-> > 
-> > Right, that makes sense
-> >  
-> > > However then I start to wonder why we're passing in 1 for the
-> > > number of
-> > > pages because this previously notifier, now callback is called
-> > > for the
-> > > entire vfio_dma range when we find any pinned pages.    
-> > 
-> > Well, it is doing this because it only ever pins one page.
-> 
-> Of course that page is not necessarily the page it unpins given the
-> contract misunderstanding below.
->  
-> > The drivers are confused about what the contract is. vfio is
-> > calling
-> > the notifier with the entire IOVA range that is being unmapped and
-> > the
-> > drivers are expecting to receive notifications only for the IOVA
-> > they
-> > have actually pinned.
-> > 
-> > > Should ap and ccw implementations of .dma_unmap just be replaced
-> > > with a
-> > > BUG_ON(1)?  
-> > 
-> > The point of these callbacks is to halt concurrent DMA, and ccw
-> > does
-> > that today.
-> 
-> ccw essentially only checks whether the starting iova of the unmap is
-> currently mapped.  If not it does nothing, if it is it tries to reset
-> the device and unpin everything.  Chances are the first iova is not
-> the
-> one pinned, so we don't end up removing the pinned page and type1
-> will
-> eventually BUG_ON after a few tries.
-> 
-> > It looks like AP is missing a call to ap_aqic(), so it is
-> > probably double wrong.
-> 
-> Thankfully the type1 unpinning path can't be tricked into unpinning
-> something that wasn't pinned, so chances are the unpin call does
-> nothing, with a small risk that it unpins another driver's pinned
-> page,
-> which might not yet have been notified and could still be using the
-> page.  In the end, if ap did have a page pinned in the range, we'll
-> hit
-> the same BUG_ON as above.
-> 
-> > What I'd suggest is adding a WARN_ON that the dma->pfn_list is not
-> > empty and leave these functions alone.
-> 
-> The BUG_ON still exists in type1.
-> 
-> Eric, Matt, Tony, Halil, JasonH, any quick fixes here?  ccw looks
-> like
-> it would be pretty straightforward to test against a range rather
-> than
-> a single iova.
+On 7/20/2022 11:34 AM, Akhil P Oommen wrote:
+> On 7/19/2022 3:26 PM, Rajendra Nayak wrote:
+>>
+>>
+>> On 7/19/2022 12:49 PM, Stephen Boyd wrote:
+>>> Quoting Akhil P Oommen (2022-07-18 23:37:16)
+>>>> On 7/19/2022 11:19 AM, Stephen Boyd wrote:
+>>>>> Quoting Akhil P Oommen (2022-07-18 21:07:05)
+>>>>>> On 7/14/2022 11:10 AM, Akhil P Oommen wrote:
+>>>>>>> IIUC, qcom gdsc driver doesn't ensure hardware is collapsed 
+>>>>>>> since they
+>>>>>>> are vote-able switches. Ideally, we should ensure that the hw has
+>>>>>>> collapsed for gpu recovery because there could be transient 
+>>>>>>> votes from
+>>>>>>> other subsystems like hypervisor using their vote register.
+>>>>>>>
+>>>>>>> I am not sure how complex the plumbing to gpucc driver would be 
+>>>>>>> to allow
+>>>>>>> gpu driver to check hw status. OTOH, with this patch, gpu driver 
+>>>>>>> does a
+>>>>>>> read operation on a gpucc register which is in always-on domain. 
+>>>>>>> That
+>>>>>>> means we don't need to vote any resource to access this register.
+>>>
+>>> Reading between the lines here, you're saying that you have to read the
+>>> gdsc register to make sure that the gdsc is in some state? Can you
+>>> clarify exactly what you're doing? And how do you know that something
+>>> else in the kernel can't cause the register to change after it is read?
+>>> It certainly seems like we can't be certain because there is voting
+>>> involved.
+> From gpu driver, cx_gdscr.bit[31] (power off status) register can be 
+> polled to ensure that it *collapsed at least once*. We don't need to 
+> care if something turns ON gdsc after that.
+>
+>>
+>> yes, this looks like the best case effort to get the gpu to recover, but
+>> the kernel driver really has no control to make sure this condition can
+>> always be met (because it depends on other entities like hyp, 
+>> trustzone etc right?)
+>> Why not just put a worst case polling delay?
+>
+> I didn't get you entirely. Where do you mean to keep the polling delay?
+>>
+>>>
+>>>>>>>
+>>>>>>> Stephen/Rajendra/Taniya, any suggestion?
+>>>>> Why can't you assert a gpu reset signal with the reset APIs? This 
+>>>>> series
+>>>>> seems to jump through a bunch of hoops to get the gdsc and power 
+>>>>> domain
+>>>>> to "reset" when I don't know why any of that is necessary. Can't we
+>>>>> simply assert a reset to the hardware after recovery completes so the
+>>>>> device is back into a good known POR (power on reset) state?
+>>>> That is because there is no register interface to reset GPU CX domain.
+>>>> The recommended sequence from HW design folks is to collapse both 
+>>>> cx and
+>>>> gx gdsc to properly reset gpu/gmu.
+>>>>
+>>>
+>>> Ok. One knee jerk reaction is to treat the gdsc as a reset then and
+>>> possibly mux that request along with any power domain on/off so that if
+>>> the reset is requested and the power domain is off nothing happens.
+>>> Otherwise if the power domain is on then it manually sequences and
+>>> controls the two gdscs so that the GPU is reset and then restores the
+>>> enable state of the power domain.
+> It would be fatal to asynchronously pull the plug on CX gdsc 
+> forcefully because there might be another gpu/smmu driver thread 
+> accessing registers in cx domain.
+>
+> -Akhil.
+>
+But, we can move the cx collapse polling to gpucc and expose it to gpu 
+driver using 'reset' framework. I am not very familiar with clk driver, 
+but I did a rough prototype here (untested): 
+https://zerobin.net/?d34b5f958be3b9b8#NKGzdPy9fgcuOqXZ/XqjI7b8JWcivqe+oSTf4yWHSOU=
 
-Agreed, ccw looks pretty easy. Should I send something to go before
-this series to make stable easier? (It's a trivial change in either
-direction, so either is fine to me.)
+If this approach is acceptable, I will send it out as a separate series.
 
-Eric
-
->  
-> > Most likely AP should be fixed to call vfio_ap_irq_disable() and to
-> > check the q->saved_pfn against the IOVA.
-> 
-> Right, the q->saved_iova, perhaps calling vfio_ap_irq_disable() on
-> finding a matching queue.
-> 
-> > But I'm inclined to leave this as-is for this series given we are
-> > at
-> > rc7.
-> 
-> On the grounds that it's no worse, maybe, but given the changes
-> around this code hopefully we can submit fixes patches to stable if
-> the
-> backport isn't obvious and the BUG_ON in type1 is reachable.  Thanks,
-> 
-> Alex
-> 
-
+-Akhil.
