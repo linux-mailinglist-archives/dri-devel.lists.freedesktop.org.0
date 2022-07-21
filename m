@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CC157D26E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 19:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DCE57D28C
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 19:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D21218AA7D;
-	Thu, 21 Jul 2022 17:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F5F18B1B5;
+	Thu, 21 Jul 2022 17:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1623F14BD3F
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 17:27:34 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1D3A18B109
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 17:29:02 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DD84A6601ABB;
- Thu, 21 Jul 2022 18:27:31 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 378316601ABB;
+ Thu, 21 Jul 2022 18:29:01 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658424452;
- bh=Jh+MlVqOqL9qKgG98dGWwY/Of15G6iLMIOH710td1SM=;
- h=From:To:Cc:Subject:Date:From;
- b=cayjJKtQwMz2Rn6isFsbHQLUnPG5gkgRifmNaeGhfEyIqF5wkn8W9ec+CT3UKaLo3
- hti6Z2gjaW588AK2Zy3kfucW7qVMpylIcHDFviC0FJqs2IHqvZ6j88ojd0U/HLkDWy
- csRXO0pTonVcJK0lxLhuvMxtjvogs6tpEDChwxa4jg2nBfEh0N2tjR4UTYeEXRwpsU
- GnqyqK4huOn84Y6EntLAqy4hhimFYLVfrS3qXHOKWKwWlK4axoLcdrzoIAw6MN9y5s
- KRfzDXhgifHXM1okNdwOE7dZzVU0nDtjzfDuPo3mWl2PupKe6bPykK1p6xu5xsetFy
- lZkXlDXEMKo6Q==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH] drm/mediatek: dsi: Add atomic {destroy, duplicate}_state,
- reset callbacks
-Date: Thu, 21 Jul 2022 19:27:27 +0200
-Message-Id: <20220721172727.14624-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.35.1
+ s=mail; t=1658424541;
+ bh=ZwBOqbXQCiDJrGaaYB3nSbHLVzztmKxAsw+KrM0BKjE=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=H4cpsF3fvmDf6Py8DbatCE8t/PKBhBzn+rpNJbPfCKhWbWJt429xCGiQroxcd/IXV
+ vdBjvxCzc/7oXEcOzDFngg1PA9XuIwrWU2zFhYcuRlkYmPtcAtBDYG/1PvtdO2s7rK
+ uIRCHpfMdCY7aP6HT6S9d5piuwtY71nMgB8svJokMwtel7+hnVr7knD20X85UOniuy
+ TmW5SU4NAglwuyYv91c5/sYWV1nqS8ujxPjsCRGFqfNdeadrvqqvN+/chKN902CEBL
+ aJmbJWkQqWgqTZFK4vZ14WrFJmDkZ0ZJhLg42CJ/eviX/atTknDZmL/WjFvIUvkykS
+ TSLf0zx89wU4g==
+Message-ID: <7a5b9c8a-f074-e6ce-d458-61068452e43f@collabora.com>
+Date: Thu, 21 Jul 2022 19:28:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v7, 2/4] drm/mediatek: Separate poweron/poweroff from
+ enable/disable and define new funcs
+To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
+ airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com
+References: <1653012007-11854-1-git-send-email-xinlei.lee@mediatek.com>
+ <1653012007-11854-3-git-send-email-xinlei.lee@mediatek.com>
+Content-Language: en-US
+In-Reply-To: <1653012007-11854-3-git-send-email-xinlei.lee@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,51 +57,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rex-bc.chen@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org, xinlei.lee@mediatek.com
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add callbacks for atomic_destroy_state, atomic_duplicate_state and
-atomic_reset to restore functionality of the DSI driver: this solves
-vblank timeouts when another bridge is present in the chain.
+Il 20/05/22 04:00, xinlei.lee@mediatek.com ha scritto:
+> From: Jitao Shi <jitao.shi@mediatek.com>
+> 
+> In order to match the changes of "Use the drm_panel_bridge API",
+> the poweron/poweroff of dsi is extracted from enable/disable and
+> defined as new funcs (atomic_pre_enable/atomic_post_disable).
+> 
+> Since dsi_poweron is moved from dsi_enable to pre_enable function, in
+> order to avoid poweron failure, the operation of dsi register fails to
+> cause bus hang. Therefore, the protection mechanism is added to the
+> dsi_enable function.
+> 
+> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge API")
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-Tested bridge chain: DSI <=> ANX7625 => aux-bus panel
+Hello Xinlei, CK, maintainers:
 
-Fixes: 7f6335c6a258 ("drm/mediatek: Modify dsi funcs to atomic operations")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
+This patch is breaking machines that are using a DSI->DisplayPort bridge (like
+the ANX7625 chip), but that's not the main issue.
 
-Note: The commit that has been mentioned in the Fixes tag should
-      *not* have my Reviewed-by tag, as the author changed it but
-      erroneously retained the tag that I had released for an
-      earlier version of that commit (which was fine, but the new
-      version broke mtk_dsi!).
+----> I have never given a Reviewed-by tag for this commit <----
 
- drivers/gpu/drm/mediatek/mtk_dsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+It's true I've given my tag for an older version [1] of this one, which was *not*
+using atomic_* callbacks and that one worked fine (which is why I gave you
+my R-b tag for it).
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 9cc406e1eee1..5b624e0f5b0a 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -808,10 +808,13 @@ static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
- 	.attach = mtk_dsi_bridge_attach,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_disable = mtk_dsi_bridge_atomic_disable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_enable = mtk_dsi_bridge_atomic_enable,
- 	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
- 	.atomic_post_disable = mtk_dsi_bridge_atomic_post_disable,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.mode_set = mtk_dsi_bridge_mode_set,
- };
- 
--- 
-2.35.1
+You have changed commits in this series to use atomic_(pre_)enable callbacks
+but kept my tag, which is seriously wrong - and even more, because it's actually
+breaking display support for a generous number of Chromebooks upstream.
 
+
+Please be careful next time and ask for a new review when you make substantial
+changes to your commits.
+
+
+Anyway, I have already sent a fix for this situation, please look at [2].
+
+Regards,
+Angelo
+
+[1]: 
+https://patchwork.kernel.org/project/linux-mediatek/patch/1649644308-8455-3-git-send-email-xinlei.lee@mediatek.com/
+
+[2]: 
+https://lore.kernel.org/lkml/20220721172727.14624-1-angelogioacchino.delregno@collabora.com/T/#u
+
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dsi.c | 53 +++++++++++++++++++-----------
+>   1 file changed, 34 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index f880136cec09..d9a6b928dba8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -691,16 +691,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
+>   	if (--dsi->refcount != 0)
+>   		return;
+>   
+> -	/*
+> -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> -	 * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disable(),
+> -	 * which needs irq for vblank, and mtk_dsi_stop() will disable irq.
+> -	 * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
+> -	 * after dsi is fully set.
+> -	 */
+> -	mtk_dsi_stop(dsi);
+> -
+> -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+>   	mtk_dsi_reset_engine(dsi);
+>   	mtk_dsi_lane0_ulp_mode_enter(dsi);
+>   	mtk_dsi_clk_ulp_mode_enter(dsi);
+> @@ -715,17 +705,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
+>   
+>   static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+>   {
+> -	int ret;
+> -
+>   	if (dsi->enabled)
+>   		return;
+>   
+> -	ret = mtk_dsi_poweron(dsi);
+> -	if (ret < 0) {
+> -		DRM_ERROR("failed to power on dsi\n");
+> -		return;
+> -	}
+> -
+>   	mtk_dsi_set_mode(dsi);
+>   	mtk_dsi_clk_hs_mode(dsi, 1);
+>   
+> @@ -739,7 +721,16 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
+>   	if (!dsi->enabled)
+>   		return;
+>   
+> -	mtk_dsi_poweroff(dsi);
+> +	/*
+> +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> +	 * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disable(),
+> +	 * which needs irq for vblank, and mtk_dsi_stop() will disable irq.
+> +	 * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
+> +	 * after dsi is fully set.
+> +	 */
+> +	mtk_dsi_stop(dsi);
+> +
+> +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+>   
+>   	dsi->enabled = false;
+>   }
+> @@ -776,13 +767,37 @@ static void mtk_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+>   {
+>   	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+>   
+> +	if (dsi->refcount == 0)
+> +		return;
+> +
+>   	mtk_output_dsi_enable(dsi);
+>   }
+>   
+> +static void mtk_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> +					     struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> +	int ret;
+> +
+> +	ret = mtk_dsi_poweron(dsi);
+> +	if (ret < 0)
+> +		DRM_ERROR("failed to power on dsi\n");
+> +}
+> +
+> +static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+> +					       struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	mtk_dsi_poweroff(dsi);
+> +}
+> +
+>   static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+>   	.attach = mtk_dsi_bridge_attach,
+>   	.atomic_disable = mtk_dsi_bridge_atomic_disable,
+>   	.atomic_enable = mtk_dsi_bridge_atomic_enable,
+> +	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
+> +	.atomic_post_disable = mtk_dsi_bridge_atomic_post_disable,
+>   	.mode_set = mtk_dsi_bridge_mode_set,
+>   };
+>   
