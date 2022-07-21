@@ -1,81 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CDA57C689
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 10:39:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 739DD57C6F8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 10:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084682C000;
-	Thu, 21 Jul 2022 08:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61BFF10FC06;
+	Thu, 21 Jul 2022 08:56:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E47102C000
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 08:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658392771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rHQddct22+s5hmZWBuML5igjaqME1krrl4DYXrpi1tg=;
- b=X+QycSlUUIL8OGomNpQpPML0YoiB2o/nM53lfOEZRx6u+cO4wvfChieoKn0XGakXRYuhoQ
- 67HknJ9wJ9XxvDajVYhj74Wf60rU9lCr68VhLZqa0KI6CGKw8lUIl7tit/jLdbDF/gOLLj
- DZNbtmncq/nNf5D6Ufb2lUheroPipto=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-hyPphYLxO-ufAaTMgfXFeg-1; Thu, 21 Jul 2022 04:39:28 -0400
-X-MC-Unique: hyPphYLxO-ufAaTMgfXFeg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- c11-20020adfa30b000000b0021e4e471279so149506wrb.12
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 01:39:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rHQddct22+s5hmZWBuML5igjaqME1krrl4DYXrpi1tg=;
- b=5hvIjnQoQbGkW/nxaStX9lf9/Gj+QL2aAQd65qYfrHNIUH58tJYdML2PuBbq1iEA4J
- LTgy5XaXhO5/4qhtc9VGkQ/6oM4NYHbAPTXyLGrC1K7uDWR8YVWK/IUPVX6LMXzf+WyV
- zFEjSj7v4nJQrrIXaGXQxdP/YyTSSmD55IkDk2dyvJRKS9xBqUAWJIc4jHXzamSW/Qan
- b1l8W8zOPjt2MXyP3CZ5SdoQm+vowu8bEz5QQ0HItc7IKfEnQ2eUNNtVWIIritVpEIUX
- afKLOqC4aRP5l08369/WxOw+MlDzBfet+MxeYRqdD8HPAgeKJ/KZ3yLOxboCetxrap2U
- tOxQ==
-X-Gm-Message-State: AJIora/h3w24TGKm2TKL8hnfZqF2pVSWWfOPoz+Dq2r5AtiMWwetnq7V
- eCCXlRg7czy6cpgATySf555zK6PZ4jgtUwvFYhJnSjcclovM8s1Tt2sy3m8wmU3/Lr6UWJA23N0
- nllX0sN+217x7FbUgJT04sm9bSRVN
-X-Received: by 2002:a5d:59a9:0:b0:21d:7ee2:8f90 with SMTP id
- p9-20020a5d59a9000000b0021d7ee28f90mr33649034wrr.598.1658392767583; 
- Thu, 21 Jul 2022 01:39:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tgI04aD7Jw1LlQvxlJXF9GNlLvKMC9uf9PkUQtkjjLkNil8vUimbCbuG4SwLNzapNrDsFc9Q==
-X-Received: by 2002:a5d:59a9:0:b0:21d:7ee2:8f90 with SMTP id
- p9-20020a5d59a9000000b0021d7ee28f90mr33649009wrr.598.1658392767222; 
- Thu, 21 Jul 2022 01:39:27 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- j20-20020a5d6e54000000b0021d65e9d449sm1168696wrz.73.2022.07.21.01.39.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 01:39:26 -0700 (PDT)
-Message-ID: <c31541b0-ef84-6018-1ba1-cff3a33f4954@redhat.com>
-Date: Thu, 21 Jul 2022 10:39:25 +0200
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC4B8A0B4;
+ Thu, 21 Jul 2022 08:55:57 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3D9B75C00CE;
+ Thu, 21 Jul 2022 04:55:54 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 21 Jul 2022 04:55:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1658393754; x=1658480154; bh=x2QLaDW1A7LN307zRDJlQJ22UL9Q5VqHQVE
+ nUYylB2w=; b=XMRHkhtDps8QXaSamyC/FUiNoj3odfUX/3bSN/1e3LLvRErSMPS
+ YoUYVe+h8i/IYCrm3Xkd6Kp6dl802bOH2Hts76aixnyF9dUhtdDJhg/r1qIQ2ZAa
+ ygOGRJydHGYxLvnfXGQsAUI24xYq1vZ53k1xe+tg5+r7j0KDDYged9zVqF6nTaq1
+ 2rU/ggj1YXhkSwBDrkvXN6tYCXrACV1Swq4gaHqAFgwKuTYT2CfUoOFUpRew0SwH
+ T6qNNUa3pkXQ/0LXwBUz8JLyd+ZU4Jih210A4Zock+PxFe2XAl9FsBl5OlemGpEi
+ 1F8mqxuva36E4FNpOREWvnh1B7Xc/g04dXA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658393754; x=
+ 1658480154; bh=x2QLaDW1A7LN307zRDJlQJ22UL9Q5VqHQVEnUYylB2w=; b=d
+ EKiOcDnSOppvtA0xQ2i+W6WFN5sVd18+ojhtHse78rRohfQ9b1XaDp2sFfxajWjr
+ DkD3YQbBH4NNnb0beE7dcg3jaPkcmaDj3sQzkVLM+JOhtRWT/TOftAg/VAZV6/rZ
+ sJrQHsEfBSjXihGKcJslbfMwVasAKoNTfQ4h+xyG6kdMoYVHMnhEYNTiBtLX2mpJ
+ 8lfe6V+363I1eJ0JW3jVU7AVIrOGdMmMIVoEMXkXbhNDeLxRBrFXXV/0wPbFXdcX
+ VUnP7F/ChEOW/8clvpBizUQ6eTqsXgJi/+oXQrXDa896WSb0VkHi/pZwdtM1kEkN
+ HDxxOvGy77VMZVwMF51Jg==
+X-ME-Sender: <xms:mBTZYlU1ChJomYPm9vjx95sndZADNU4ygOHfrr2v5XZw_4-uBdweyw>
+ <xme:mBTZYlkvlQJB2dYr3EAShNFyB2_Gb4vRGc53DU3zeURGZJHVoQbYN8zo-2F89bxma
+ kdwMbq3wulLhbO-Kkc>
+X-ME-Received: <xmr:mBTZYhZ3e-37pDadkFair957Pr1lwjkQ-0UErexefz7koBJ_yGb1H4UHVekurMi21DYCLZLUmWNxjN6xBZpQ5oZ8OJaqkOnTM6D7OWs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelledgudduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeekheejgeeuhfethffgheekhedufeduhfejgfehffekudefgedugffhkeefhfev
+ vdenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:mBTZYoXkuivqnS6y2h2Ittu7oEoRwaG8dUtbCAy8GuLpbKJUgUdErQ>
+ <xmx:mBTZYvmOwsS0GHLw_7sKfn15fSsn4PMhzpU1akIObCKzUfxuwlxkqQ>
+ <xmx:mBTZYlcyvc_VAW5K9bz6QUq-LVWLFTiXQwbTO9n-JFdxbyYjARsYkA>
+ <xmx:mhTZYofRvjP13Q08LfLEwxiAOu9k64YB5ly4RfyhoZb5ulBCY2Jq8w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Jul 2022 04:55:52 -0400 (EDT)
+Date: Thu, 21 Jul 2022 10:55:50 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20220721085550.hrwbukj34y56rzva@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] fbdev: Fix order of arguments to
- aperture_remove_conflicting_devices()
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
-References: <20220721081655.16128-1-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220721081655.16128-1-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zrmldompvljf74bg"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,64 +81,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Stephen Hemminger <sthemmin@microsoft.com>,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wei Liu <wei.liu@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- kernel test robot <lkp@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
 
-On 7/21/22 10:16, Thomas Zimmermann wrote:
-> Reverse the order of the final two arguments when calling
-> aperture_remove_conflicting_devices(). An error report is available
-> at [1].
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 8d69d008f44c ("fbdev: Convert drivers to aperture helpers")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-> Cc: Haiyang Zhang <haiyangz@microsoft.com>
-> Cc: Stephen Hemminger <sthemmin@microsoft.com>
-> Cc: Wei Liu <wei.liu@kernel.org>
-> Cc: Dexuan Cui <decui@microsoft.com>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-hyperv@vger.kernel.org
-> Link: https://lore.kernel.org/lkml/202207202040.jS1WcTzN-lkp@intel.com/ # 1
-> ---
->  drivers/video/fbdev/aty/radeon_base.c | 2 +-
->  drivers/video/fbdev/hyperv_fb.c       | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-> index e5e362b8c9da..0a8199985d52 100644
-> --- a/drivers/video/fbdev/aty/radeon_base.c
-> +++ b/drivers/video/fbdev/aty/radeon_base.c
-> @@ -2243,7 +2243,7 @@ static int radeon_kick_out_firmware_fb(struct pci_dev *pdev)
->  	resource_size_t base = pci_resource_start(pdev, 0);
->  	resource_size_t size = pci_resource_len(pdev, 0);
->  
-> -	return aperture_remove_conflicting_devices(base, size, KBUILD_MODNAME, false);
-> +	return aperture_remove_conflicting_devices(base, size, false, KBUILD_MODNAME);
->  }
+--zrmldompvljf74bg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I also missed that the order wasn't correct when reviewing.
+Hi Daniel, Dave,
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com> 
+Here's this week drm-misc-fixes PR
 
--- 
-Best regards,
+Maxime
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+drm-misc-fixes-2022-07-21:
+A scheduling-while-atomic fix for drm/scheduler, a locking fix for TTM,
+a typo fix for panel-edp and a resource removal fix for imx/dcss
+The following changes since commit 925b6e59138cefa47275c67891c65d48d3266d57:
 
+  Revert "drm/amdgpu: add drm buddy support to amdgpu" (2022-07-08 14:24:30=
+ +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-07-21
+
+for you to fetch changes up to 02c87df2480ac855d88ee308ce3fa857d9bd55a8:
+
+  drm/imx/dcss: Add missing of_node_put() in fail path (2022-07-20 10:12:15=
+ +0300)
+
+----------------------------------------------------------------
+A scheduling-while-atomic fix for drm/scheduler, a locking fix for TTM,
+a typo fix for panel-edp and a resource removal fix for imx/dcss
+
+----------------------------------------------------------------
+Christian K=F6nig (1):
+      drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
+
+Dmitry Osipenko (1):
+      drm/scheduler: Don't kill jobs in interrupt context
+
+Liang He (1):
+      drm/imx/dcss: Add missing of_node_put() in fail path
+
+N=EDcolas F. R. A. Prado (1):
+      drm/panel-edp: Fix variable typo when saving hpd absent delay from DT
+
+ drivers/gpu/drm/drm_gem_ttm_helper.c     | 9 ++++++++-
+ drivers/gpu/drm/imx/dcss/dcss-dev.c      | 3 +++
+ drivers/gpu/drm/panel/panel-edp.c        | 2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c | 6 +++---
+ include/drm/gpu_scheduler.h              | 4 ++--
+ 5 files changed, 17 insertions(+), 7 deletions(-)
+
+--zrmldompvljf74bg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYtkUlgAKCRDj7w1vZxhR
+xXjDAP9m3ymjq8EktYQeyc7sfn5+fJ7cqjTLP7oD8YVcnclSZQD/eInD3Y5FfCHe
+YZoAJZJXwtwMP6lXHHsvYX/s1ZnrrAE=
+=LGcA
+-----END PGP SIGNATURE-----
+
+--zrmldompvljf74bg--
