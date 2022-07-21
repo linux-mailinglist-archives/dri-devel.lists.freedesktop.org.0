@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBD357CB6C
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 15:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F2457CBB3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jul 2022 15:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BE710FD00;
-	Thu, 21 Jul 2022 13:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF3618AF90;
+	Thu, 21 Jul 2022 13:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A61610FCBE;
- Thu, 21 Jul 2022 13:08:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48EA918AE38;
+ Thu, 21 Jul 2022 13:19:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658408911; x=1689944911;
+ t=1658409568; x=1689945568;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=2uKZEJQsehXBmfegRTdLkR14GGknjRcpexMkOtCqVKw=;
- b=T84lUyfWQXsSdUGWypow4aThvKTaEZHEm1txrWW3vkiliE5dZycEgJFt
- ybSOFDIL96k5Rrf0tJ+h/7U1t3EQofE+5bYFUkIhcsKzV9PgzwEbxeQAK
- mSacQ8iJhcFIitxhDQYQWElb0TVOeui89XroOo1sAfUKpR7nAMH6B1lak
- ivTjA2v1vdcy3Snth6oYtVVAWsUtdotV3kaK8ghLx97gTrp08oKUzy4rO
- P0CuMpHDH/dTTXkVDLx5SZet1cFg/eAauda4jr0mb5sbBHp4fQ9pbGdHF
- kH3Jms5A3uW3ruOI87ywSgtya/YROhEbzA96nx7DbGmnKCm1X3RKaiCmR g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="284595048"
-X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="284595048"
+ bh=1CPphQOFIKtOVzHA2NLW7txYk6ZS97cH/ky6dO4dyvA=;
+ b=G3hep9FKHKeKFk7QMo6LENcv0whb+2cBVry2QtiOhy35F/0n48q5bncH
+ 9ryBThg40lVYP5sQ92hE9ecJ1VZGUCqr65dFGVgzn0SUgXWXQjrkIH8Zk
+ MjRCgt9cHvnAvDKsyOeQ0qILrao2S5Ks3loposq+uyaqr7awSnUkNOFhx
+ 8ICxhOKzTBpCjSvdV/Fg4voeXK7kDXDh5cgbfLpSG0LnQFFHR75/o/Mk1
+ ikcJOP2EnDGFoqV2oV9I4KlcChplb01DqkmI/sHXoDSoPaKGb2QXHD0XS
+ ZjSaBtv18Z+M1y111N/kmAR4aaB1VPDLLrt/U3GasVRqSEun9xqbjkNzb g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="284598178"
+X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="284598178"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2022 06:08:30 -0700
-X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="656735336"
+ 21 Jul 2022 06:19:28 -0700
+X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="656739520"
 Received: from mstrobel-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.251.210.203])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2022 06:08:26 -0700
-Date: Thu, 21 Jul 2022 15:08:20 +0200
+ 21 Jul 2022 06:19:22 -0700
+Date: Thu, 21 Jul 2022 15:19:15 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Jason Wang <wangborong@cdjrlc.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
 Subject: Re: [PATCH] drm/i915/selftests: Fix comment typo
-Message-ID: <YtlPxPZ/BWATWL1J@alfio.lan>
+Message-ID: <YtlSU5uOoGokdKjs@alfio.lan>
 References: <20220716040520.31676-1-wangborong@cdjrlc.com>
+ <YtlPxPZ/BWATWL1J@alfio.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220716040520.31676-1-wangborong@cdjrlc.com>
+In-Reply-To: <YtlPxPZ/BWATWL1J@alfio.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,51 +58,31 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: matthew.brost@intel.com, tvrtko.ursulin@linux.intel.com,
- michal.winiarski@intel.com, andi.shyti@linux.intel.com, airlied@linux.ie,
+ michal.winiarski@intel.com, dri-devel@lists.freedesktop.org, airlied@linux.ie,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, zhou1615@umn.edu,
+ Jason Wang <wangborong@cdjrlc.com>, rodrigo.vivi@intel.com, zhou1615@umn.edu,
  John.C.Harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
-
-On Sat, Jul 16, 2022 at 12:05:20PM +0800, Jason Wang wrote:
-> Fix the double `wait' typo in comment.
+> On Sat, Jul 16, 2022 at 12:05:20PM +0800, Jason Wang wrote:
+> > Fix the double `wait' typo in comment.
+> > 
+> > Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 > 
-> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+> Few warnings for this patch:
+> 
+>  1. you missed Rodrigo's r-b tag.
+>  2. please add a counter to your patch, this would be [PATCH v2]
+>  3. please add a changelog, as this is a single patch, do it
+>     after the '---'
+> 
+> No need to resend, just keep the three notes in mind for your
+> next patches. Anyway, thanks for the fix and as I am at it:
+> 
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Few warnings for this patch:
-
- 1. you missed Rodrigo's r-b tag.
- 2. please add a counter to your patch, this would be [PATCH v2]
- 3. please add a changelog, as this is a single patch, do it
-    after the '---'
-
-No need to resend, just keep the three notes in mind for your
-next patches. Anyway, thanks for the fix and as I am at it:
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Pushed in drm-intel-next.
 
 Thanks,
 Andi
-
-> ---
->  drivers/gpu/drm/i915/selftests/i915_request.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-> index c56a0c2cd2f7..ec05f578a698 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-> @@ -971,7 +971,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
->  	if (err)
->  		goto err;
->  
-> -	/* Force the wait wait now to avoid including it in the benchmark */
-> +	/* Force the wait now to avoid including it in the benchmark */
->  	err = i915_vma_sync(vma);
->  	if (err)
->  		goto err_pin;
-> -- 
-> 2.35.1
