@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8853C57D9D3
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 07:47:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B9557DA76
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 08:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5332BDDE;
-	Fri, 22 Jul 2022 05:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C18F10EC6D;
+	Fri, 22 Jul 2022 06:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 892C72A768;
- Fri, 22 Jul 2022 05:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658468858; x=1690004858;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VtwUE2JoQhbrgtYPVYBKi1/iDx7BipcpwhpOrWi27FM=;
- b=h3pMXNcMe3z4+KIqSH8AthD6bECvHgRD3qgQWNGpBhEctbd7lnxP55vq
- zDXvu2b4T798Qf8l5iKUHBM4l2rbN6ZvfneCO2tF3r9QQ06zngT0nu179
- OkU7Aixk7u97YvVwZZtQUSwURh1yHnHdsInCQsGqb2fCQo1jRr8ab2FYa
- MC1UICCXOsLqyLqURimg50BJoRogSFxdx58UOZS2lTHrQrIwhPrmo7y8v
- vDUE9vr75sBV7Jabgup2xvDVpHnTmLofe0x2jYgu/qalj7SauPgzkaYmv
- pdZ8YYsyxIyw0PgbBG/OCQ/94hfi/n7gKjlpesfcRqtQ2qGw3j0Ub3pxg g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="284794268"
-X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; d="scan'208";a="284794268"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2022 22:47:37 -0700
-X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; d="scan'208";a="657080316"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2022 22:47:34 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/drm_edid: Refactor HFVSDB parsing for DSC1.2
-Date: Fri, 22 Jul 2022 11:16:47 +0530
-Message-Id: <20220722054647.3511645-1-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4D010EC6D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 06:43:09 +0000 (UTC)
+X-UUID: 04bcd04a01a742cdb764386f66409ece-20220722
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:a7825040-aa15-4457-9e25-becf99aa36e6, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:-5
+X-CID-META: VersionHash:0f94e32, CLOUDID:4975aa33-b9e4-42b8-b28a-6364427c76bb,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: 04bcd04a01a742cdb764386f66409ece-20220722
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <mingjia.zhang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1310787261; Fri, 22 Jul 2022 14:43:03 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Fri, 22 Jul 2022 14:43:02 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Fri, 22 Jul 2022 14:43:00 +0800
+Message-ID: <cf62ea99e74ea729a38fe7f806cbc06a0c549ddc.camel@mediatek.com>
+Subject: Re: [RESEND] media: mediatek: vcodec: Add to support VP9 inner
+ racing mode
+From: "mingjia.zhang@mediatek.com" <mingjia.zhang@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
+ Verkuil" <hverkuil-cisco@xs4all.nl>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Date: Fri, 22 Jul 2022 14:43:00 +0800
+In-Reply-To: <6d8aeee4-9732-1c62-67e0-6e8f56373aa6@collabora.com>
+References: <20220715064938.5812-1-mingjia.zhang@mediatek.com>
+ <6d8aeee4-9732-1c62-67e0-6e8f56373aa6@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,188 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: swati2.sharma@intel.com, uma.shankar@intel.com
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz
+ Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSC capabilities are given in bytes 11-13 of VSDB (i.e. bytes 8-10 of
-SCDS). Since minimum length of Data block is 7, all bytes greater than 7
-must be read only after checking the length of the data block.
+Hi Angelo,
 
-This patch adds check for data block length before reading relavant DSC
-bytes. It also corrects min DSC BPC to 8, and minor refactoring for
-better readability, and proper log messages.
+Thanks for your reply and useful comments.
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/drm_edid.c | 124 +++++++++++++++++++++++--------------
- 1 file changed, 77 insertions(+), 47 deletions(-)
+In addition to running cts/gts test, I ran the fluster test with
+GStreamer locally. The test result is "Ran 240/303 tests successfully"
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index bbc25e3b7220..f683a8d5fd31 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5703,12 +5703,58 @@ static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
- 	hdmi->y420_dc_modes = dc_mask;
- }
- 
-+static void drm_parse_dsc_slice_info(u8 dsc_max_slices,
-+				     struct drm_hdmi_dsc_cap *hdmi_dsc)
-+{
-+	switch (dsc_max_slices) {
-+	case 1:
-+		hdmi_dsc->max_slices = 1;
-+		hdmi_dsc->clk_per_slice = 340;
-+		break;
-+	case 2:
-+		hdmi_dsc->max_slices = 2;
-+		hdmi_dsc->clk_per_slice = 340;
-+		break;
-+	case 3:
-+		hdmi_dsc->max_slices = 4;
-+		hdmi_dsc->clk_per_slice = 340;
-+		break;
-+	case 4:
-+		hdmi_dsc->max_slices = 8;
-+		hdmi_dsc->clk_per_slice = 340;
-+		break;
-+	case 5:
-+		hdmi_dsc->max_slices = 8;
-+		hdmi_dsc->clk_per_slice = 400;
-+		break;
-+	case 6:
-+		hdmi_dsc->max_slices = 12;
-+		hdmi_dsc->clk_per_slice = 400;
-+		break;
-+	case 7:
-+		hdmi_dsc->max_slices = 16;
-+		hdmi_dsc->clk_per_slice = 400;
-+		break;
-+	case 0:
-+	default:
-+		hdmi_dsc->max_slices = 0;
-+		hdmi_dsc->clk_per_slice = 0;
-+	}
-+}
-+
- /* Sink Capability Data Structure */
- static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
- 				      const u8 *hf_scds)
- {
- 	struct drm_display_info *display = &connector->display_info;
- 	struct drm_hdmi_info *hdmi = &display->hdmi;
-+	u8 db_length = hf_scds[0] & 0x1F;
-+	u8 dsc_max_frl_rate;
-+	u8 dsc_max_slices;
-+	struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
-+
-+	if (db_length < 7 || db_length > 31)
-+		return;
- 
- 	display->has_hdmi_infoframe = true;
- 
-@@ -5749,17 +5795,25 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
- 
- 	if (hf_scds[7]) {
- 		u8 max_frl_rate;
--		u8 dsc_max_frl_rate;
--		u8 dsc_max_slices;
--		struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
- 
--		DRM_DEBUG_KMS("hdmi_21 sink detected. parsing edid\n");
- 		max_frl_rate = (hf_scds[7] & DRM_EDID_MAX_FRL_RATE_MASK) >> 4;
-+		if (max_frl_rate)
-+			DRM_DEBUG_KMS("HDMI2.1 FRL support detected\n");
-+
- 		drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
- 				     &hdmi->max_frl_rate_per_lane);
-+
-+		drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
-+	}
-+
-+	if (db_length < 11)
-+		return;
-+
-+	if (hf_scds[11]) {
- 		hdmi_dsc->v_1p2 = hf_scds[11] & DRM_EDID_DSC_1P2;
- 
- 		if (hdmi_dsc->v_1p2) {
-+			DRM_DEBUG_KMS("HDMI DSC1.2 support detected\n");
- 			hdmi_dsc->native_420 = hf_scds[11] & DRM_EDID_DSC_NATIVE_420;
- 			hdmi_dsc->all_bpp = hf_scds[11] & DRM_EDID_DSC_ALL_BPP;
- 
-@@ -5770,52 +5824,28 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
- 			else if (hf_scds[11] & DRM_EDID_DSC_10BPC)
- 				hdmi_dsc->bpc_supported = 10;
- 			else
--				hdmi_dsc->bpc_supported = 0;
--
--			dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
--			drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
--					     &hdmi_dsc->max_frl_rate_per_lane);
--			hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
--
--			dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
--			switch (dsc_max_slices) {
--			case 1:
--				hdmi_dsc->max_slices = 1;
--				hdmi_dsc->clk_per_slice = 340;
--				break;
--			case 2:
--				hdmi_dsc->max_slices = 2;
--				hdmi_dsc->clk_per_slice = 340;
--				break;
--			case 3:
--				hdmi_dsc->max_slices = 4;
--				hdmi_dsc->clk_per_slice = 340;
--				break;
--			case 4:
--				hdmi_dsc->max_slices = 8;
--				hdmi_dsc->clk_per_slice = 340;
--				break;
--			case 5:
--				hdmi_dsc->max_slices = 8;
--				hdmi_dsc->clk_per_slice = 400;
--				break;
--			case 6:
--				hdmi_dsc->max_slices = 12;
--				hdmi_dsc->clk_per_slice = 400;
--				break;
--			case 7:
--				hdmi_dsc->max_slices = 16;
--				hdmi_dsc->clk_per_slice = 400;
--				break;
--			case 0:
--			default:
--				hdmi_dsc->max_slices = 0;
--				hdmi_dsc->clk_per_slice = 0;
--			}
-+				/* Supports min 8 BPC if DSC1.2 is supported*/
-+				hdmi_dsc->bpc_supported = 8;
- 		}
- 	}
- 
--	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
-+	if (db_length < 12)
-+		return;
-+
-+	if (hdmi_dsc->v_1p2 && hf_scds[12]) {
-+		dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
-+		drm_parse_dsc_slice_info(dsc_max_slices, hdmi_dsc);
-+
-+		dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
-+		drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
-+				     &hdmi_dsc->max_frl_rate_per_lane);
-+	}
-+
-+	if (db_length < 13)
-+		return;
-+
-+	if (hdmi_dsc->v_1p2 && hf_scds[13])
-+		hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
- }
- 
- static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
--- 
-2.25.1
+
+Thanks,
+mingjia
+
+
+On Fri, 2022-07-15 at 10:34 +0200, AngeloGioacchino Del Regno wrote:
+> Il 15/07/22 08:49, Mingjia Zhang ha scritto:
+> > In order to reduce decoder latency, enable VP9 inner racing mode.
+> > Send lat trans buffer information to core when trigger lat to work,
+> > need not to wait until lat decode done.
+> > 
+> > Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
+> > ---
+> > CTS/GTS test pass
+> 
+> CTS/GTS passing is a good indication but, please, test with GStreamer
+> (and
+> show the output, as well!).
+> 
+> Thanks,
+> Angelo
+> 
+> > ---
+> >   .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 64 ++++++++++++
+> > -------
+> >   1 file changed, 40 insertions(+), 24 deletions(-)
+> > 
 
