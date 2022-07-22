@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A025957E5B7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 19:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBD857E6A7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 20:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 811DC11AE35;
-	Fri, 22 Jul 2022 17:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB37B8DC2F;
+	Fri, 22 Jul 2022 18:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0414911A8AB;
- Fri, 22 Jul 2022 17:36:23 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- a18-20020a05600c349200b003a30de68697so5406424wmq.0; 
- Fri, 22 Jul 2022 10:36:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yGBGk+p2EktzA+zS1mnmSkS2k1FkCaq2TcgNmtHB9w8=;
- b=AuiC7D3WaG23z3SLsy5dE+QMQxe+snbzEWYetJrnDWtIk5JkMaBzzb+1XmGz/7npeJ
- prALpI+A0WrXNqQ+ZPXUQxR2/OttVmzrZN8/rQcazbGWI2uVfqAAN2ELkjiPt5lIwNLh
- jqQoZAjQ1N5+bwAF90E/3eLtTEAb+zMDiqqv0knOHSmuH9tLjhMcuDYYcDbWKtZCZ1d2
- KjwZJOyABGNRkacHxap052MwJCkVrWYekdQz/hStIgdovBy7JMUqJEbOtvj0k+ZJeRjo
- nva1EScC/2J+fRygysf7Z1Kf8dNcietJ9qXqcBUFv0Dph+lQvORTcFYX7w66YyrWpzBk
- TL2g==
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 330148D640
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 18:37:55 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id m12so7909188lfj.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 11:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pZNADembFWMrMyIeeoU2sLzijZgUqqEN6vVBxD7cEAs=;
+ b=GsqhyOyvPqQLTvBum+zuJxJdCWumdKt28rH2mPmYbBK74XD17jt60KtD0pMHpo/hya
+ vb9wzTzbNdeHuA/5g/kHobFtb0+H7CYDfb4AvZumRqW3JnejJKFeINvR34dlTLchYXjz
+ j0UREVOivqXUfB4/IgLh/3GwMH3nmWpkN29OsnadwZiyJhvuC8Ke+A7q5rONII1LLIRN
+ ur9/WC2nNosjE3LvdRSxF0kGBq3CGOT6wxtYRhP1t3tA3RPVu4/9VS+clhFLMjMPW09o
+ 1TD97bVIN/s+O48yV/5C3XwcnVszKfIepyHe6JQqce4HYChtqdx1Ean31k2MwSuBhPl2
+ mZzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yGBGk+p2EktzA+zS1mnmSkS2k1FkCaq2TcgNmtHB9w8=;
- b=E1RRct55iafbd8WNT8tGdJeHb2eGiXxLH7RQHQB0wYnWZd/RkcsekGyt9/N9aqD28O
- Adg/XL0KqWAGNGKpfmw4InmGp/kNDwIdfL8a71RDsAE+rRlY+qxOxeFXoVtS6OFerGQD
- qjcxDbzP6dFsj9e8dpHK2EOjRz13j+DIBTuVlF55wI9id1D2lccNAFUFW4AuDWZwAt/J
- 8HCvbbdIhjAy2z21VUQwBtGlqfde8eOMleEq39oEEoqQjiU8/ZVdcLu+PELkyTSSPzfx
- 3+cERGJaVkTzPLttt75NHjcL9QW4WMhUhKaeGKLdsXVYev8X3BwI8srXSUAFtX0I73xi
- 4WKQ==
-X-Gm-Message-State: AJIora8vksff/R1TuOTZQHn/04tmn/ZZnyvhQr2+hYbAjrQBIP51Laj1
- 4aFetGqtC5XpqqurxQ8iW5d6Qxh8Lsaq61TXN1s=
-X-Google-Smtp-Source: AGRyM1u39p8LsNLN5QDBQqApbbnXq6QehY4cZtGOoda3GVQm5WQIb47ThAB08yL1BKFo1IzMvE0TGABxt/gg8mQM5u0=
-X-Received: by 2002:a05:600c:3510:b0:3a3:34e7:cfc8 with SMTP id
- h16-20020a05600c351000b003a334e7cfc8mr6773219wmq.164.1658511382374; Fri, 22
- Jul 2022 10:36:22 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pZNADembFWMrMyIeeoU2sLzijZgUqqEN6vVBxD7cEAs=;
+ b=L+IoFc54BEjF089/i8pIDv17krH1DNzpRKaNXCvScjlUUvJI4VT50XqwX28Gl09snG
+ 0XVCXGArJJu2R4uCk/weHWUUZF04uD7lviNutSQgWXH8cMqz3heVs2Qp+G3jEvyLD9q6
+ ZSnxZrDIuPbWaeplwo4rmNpPJiu3Q4Z85oE7+IEUnX0qurQ4yAZrWHDqBgJbJ7/iBdFi
+ pk6QEzKqJTf9CPngP43pSkYffVD/mh5nnVbVZ6ny97vhQjD9TgJGWvd6WkZjUg/INe9x
+ O2tg/xsxfrZzOd0iAiegqTZ7srreIojr8pkIL+RcKUKSCywLcB1o+iasCpTHG+r+1s3a
+ MgSg==
+X-Gm-Message-State: AJIora9Tt4vzQptAqrb7xNszdkcUKST9/5gXZ3O3vgKSLZVXF722Ggyp
+ CdEKiHMXFGROHg1u/EtKTfywKw==
+X-Google-Smtp-Source: AGRyM1t4tkeV7OyDpZcsS6qCtak/AfOICQG9L4dyANvy9yS4TYY7Ac7Z+0mbnuyWn6CiHaHsFou02A==
+X-Received: by 2002:a05:6512:2622:b0:481:5b17:58e7 with SMTP id
+ bt34-20020a056512262200b004815b1758e7mr478609lfb.600.1658515073264; 
+ Fri, 22 Jul 2022 11:37:53 -0700 (PDT)
+Received: from [192.168.10.173] (93.81-167-86.customer.lyse.net.
+ [81.167.86.93]) by smtp.gmail.com with ESMTPSA id
+ d15-20020a0565123d0f00b0048a7222eb8bsm1008194lfv.135.2022.07.22.11.37.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jul 2022 11:37:52 -0700 (PDT)
+Message-ID: <1a03d894-3f4c-fb57-5f05-ad7bf11f5488@linaro.org>
+Date: Fri, 22 Jul 2022 20:37:49 +0200
 MIME-Version: 1.0
-References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
- <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
- <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
-In-Reply-To: <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 22 Jul 2022 10:36:44 -0700
-Message-ID: <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
- LQ140M1JW46
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/6] dt-bindings: panel: explicitly list SPI CPHA and CPOL
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20220721153155.245336-1-krzysztof.kozlowski@linaro.org>
+ <20220721153155.245336-2-krzysztof.kozlowski@linaro.org>
+ <20220721193004.GA1783390-robh@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220721193004.GA1783390-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,92 +75,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Tomislav Denis <tomislav.denis@avl.com>,
+ Markuss Broks <markuss.broks@gmail.com>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Oskar Andero <oskar.andero@gmail.com>,
+ Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
+ Nuno Sa <nuno.sa@analog.com>, Eric Dumazet <edumazet@google.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sankar Velliangiri <navin@linumiz.com>, linux-spi@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Christian Eggers <ceggers@arri.de>,
+ Dragos Bogdan <dragos.bogdan@analog.com>,
+ Matt Ranostay <matt.ranostay@konsulko.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Stefan Popa <stefan.popa@analog.com>,
+ Sean Nyekjaer <sean@geanix.com>, Jakub Kicinski <kuba@kernel.org>,
+ Nishant Malpani <nish.malpani25@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+ Stefan Wahren <stefan.wahren@in-tech.com>,
+ Beniamin Bia <beniamin.bia@analog.com>,
+ Alexandru Tachici <alexandru.tachici@analog.com>, devicetree@vger.kernel.org,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Dan Murphy <dmurphy@ti.com>,
+ linux-fbdev@vger.kernel.org, Matheus Tavares <matheus.bernardino@usp.br>,
+ Marek Belisko <marek@goldelico.com>,
+ =?UTF-8?Q?M=c3=a5rten_Lindahl?= <martenli@axis.com>,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ Cristian Pop <cristian.pop@analog.com>, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, Pratyush Yadav <p.yadav@ti.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Mark Brown <broonie@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 22, 2022 at 9:48 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Fri, Jul 22, 2022 at 9:37 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >
-> > + sankeerth
-> >
-> > Hi Doug
-> >
-> > On 7/21/2022 3:23 PM, Douglas Anderson wrote:
-> > > The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD reference
-> > > board. This panel supports 144 Hz and 60 Hz. In the EDID, the 144 Hz
-> > > mode is listed first and thus is marked preferred. The EDID decode I
-> > > ran says:
-> > >
-> > >    First detailed timing includes the native pixel format and preferred
-> > >    refresh rate.
-> > >
-> > >    ...
-> > >
-> > >    Detailed Timing Descriptors:
-> > >      DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.500 MHz
-> > >                   Hfront   48 Hsync  32 Hback  80 Hpol N
-> > >                   Vfront    3 Vsync   5 Vback  69 Vpol N
-> > >      DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.370 MHz
-> > >                   Hfront   48 Hsync  32 Hback  80 Hpol N
-> > >                   Vfront    3 Vsync   5 Vback  69 Vpol N
-> > >
-> > > I'm proposing here that the above is actually a bug and that the 60 Hz
-> > > mode really should be considered preferred by Linux.
-> > >
-> > > The argument here is that this is a laptop panel and on a laptop we
-> > > know power will always be a concern. Presumably even if someone using
-> > > this panel wanted to use 144 Hz for some use cases they would only do
-> > > so dynamically and would still want the default to be 60 Hz.
-> > >
-> > > Let's change the default to 60 Hz using a standard quirk.
-> > >
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > Yes, we were aware that 144Hz was getting picked. We found that while
-> > debugging the screen corruption issue.
-> >
-> > Well, yes power would be less with 60Hz but so will be the performance.
->
-> What performance specifically will be less with 60 Hz? In general the
-> sc7280 CPU is a bit memory-bandwidth constrained and the LCD refresh
-> from memory is a non-trivial part of that. Reducing to 60 Hz will
-> relieve some of the memory bandwidth pressure and will actually allow
-> tasks on the CPU to run _faster_. I guess the downside is that some
-> animations might be a little less smooth...
+On 21/07/2022 21:30, Rob Herring wrote:
+> On Thu, Jul 21, 2022 at 05:31:50PM +0200, Krzysztof Kozlowski wrote:
+>> The spi-cpha and spi-cpol properties are device specific and should be
+>> accepted only if device really needs them.  Explicitly list them in
+>> device bindings in preparation of their removal from generic
+>> spi-peripheral-props.yaml schema.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>  .../bindings/display/panel/lgphilips,lb035q02.yaml   | 10 ++++++++++
+>>  .../bindings/display/panel/samsung,ld9040.yaml       | 10 ++++++++++
+>>  .../bindings/display/panel/samsung,lms380kf01.yaml   | 12 +++++++++---
+>>  .../bindings/display/panel/samsung,lms397kf04.yaml   | 12 +++++++++---
+>>  .../bindings/display/panel/samsung,s6d27a1.yaml      | 12 +++++++++---
+>>  .../bindings/display/panel/sitronix,st7789v.yaml     | 10 ++++++++++
+>>  .../devicetree/bindings/display/panel/tpo,td.yaml    | 10 ++++++++++
+>>  7 files changed, 67 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+>> index 5e4e0e552c2f..0bd7bbad5b94 100644
+>> --- a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+>> +++ b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+>> @@ -21,6 +21,16 @@ properties:
+>>    enable-gpios: true
+>>    port: true
+>>  
+>> +  spi-cpha:
+>> +    type: boolean
+>> +    description:
+>> +      The device requires shifted clock phase (CPHA) mode.
+>> +
+>> +  spi-cpol:
+>> +    type: boolean
+>> +    description:
+>> +      The device requires inverse clock polarity (CPOL) mode.
+> 
+> Not great duplicating the type and description everywhere.
+> 
+> We can move the definition back to spi-controller.yaml, so then that 
+> does type checking of the property, but not presence/absence checks.
 
-I guess he is referring to something that is vblank sync'd running
-faster than 60fps.
+If I understand correctly, all client devices (which do no reference
+spi-controller) will need to explicitly mention CPHA/CPOL. Good idea.
 
-but OTOH it is a bit of a waste for fbcon to be using 144Hz.  And
-there are enough android games that limit themselves to 30fps to save
-your "phone" battery.  So it seems a lot more sane to default to 60Hz
-and let userspace that knows it wants more pick the 144Hz rate when
-needed.
-
-BR,
--R
-
->
->
-> > The test teams have been validating with 144Hz so far so we are checking
-> > internally with the team whether its OKAY to goto 60Hz now since that
-> > kind of invalidates the testing they have been doing.
->
-> You're worried that the panel itself won't work well at 60 Hz, or
-> something else about the system won't? The whole system in general
-> needs to work well with 60 Hz displays and I expect them to be much
-> more common than 144 Hz displays. Quite honestly if switching to 60 Hz
-> uncovers a problem that would be a huge benefit of landing this patch
-> because it would mean we'd find it now rather than down the road when
-> someone hooks up a different panel.
->
-> -Doug
+Best regards,
+Krzysztof
