@@ -2,67 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257CD57E452
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 18:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367FA57E489
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 18:38:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6207E14A98D;
-	Fri, 22 Jul 2022 16:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF533903A2;
+	Fri, 22 Jul 2022 16:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE0559737D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 16:25:32 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id z22so8453280lfu.7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 09:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=hardline-pl.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=2cHLZsYSzu3vlQWq2uTFZBxgK+nHwwF/vJBUwns59Ds=;
- b=n5bJ2manL/cCWuwR0ZJd2UvjhGDXg9VMCs+OvLl8bGyfqKipgVkFHueBbViZ2lEBA1
- 6NKiKenhcTxri61yQIaTCHoiV6+sOqsgzuGab5gL8C3miq/ows4KAHWtKz6TrXJvEGmf
- j4Dffqm/p76WMCjN/vqMZ7AG/++q67fMOnnx7kbUwLmSYewy2QwjAYS4w5V8bf3xo54H
- 4wkmllD15xq9EMw/cMlQcIe4twyMyi2w2808mTnrFhPlse51W3MSJ42rC9GL+9+wc0zQ
- 88JuNMU3uUiozQmZoQhCNIpSzTJFN0MeFUMQJbKOOE6ZqdFbVJFwttBW/m5ZhwknQU6a
- 4Xag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=2cHLZsYSzu3vlQWq2uTFZBxgK+nHwwF/vJBUwns59Ds=;
- b=3WhWQHDcyabONGlZdppUBwnjb4RrrB/gQ8K+KiM/HrroZaaOeFKTpdKjlcsjdCeDHe
- aJxdzaT9CKUpCqNMzYEU2sRmUs/y6QKXZnZGS4ZmtHaaoptIYbt1pdN1elywEYAKMOGH
- 2sJ7iMA2RVvz13OJcwe6anE0iNfXPVf1FpSu69AInIBI9uoEYr7Qr33g8BJznVcJskCg
- W+76KeqUMJzUuiYk8OZUXIZXzyxFezzH1ud+wBcvtYKo+TuFwHtmRNlBmVkZuLZHDXqC
- tn+EJdoBTptj5FCtOFA/ZBAAhYhh4Ut2bb9nofyV0BVodZeiWTL7qa83f/fx1MLNhMat
- SeZQ==
-X-Gm-Message-State: AJIora+piSKt2spYB8AVHAlAJX85n4UaHRaDuTzLeTECUjIzhfkpiLv2
- or2JLWaTA33LvMMypDiHuxFOdg==
-X-Google-Smtp-Source: AGRyM1sPLTtJuvAxH41K5c4T5wV2zD6vvOVSwpXKE6dWwQy/OWWh7eYNR6Txk9u9vVFJK0Gagcmh7g==
-X-Received: by 2002:a05:6512:3092:b0:489:dece:5539 with SMTP id
- z18-20020a056512309200b00489dece5539mr276918lfd.269.1658507130797; 
- Fri, 22 Jul 2022 09:25:30 -0700 (PDT)
-Received: from localhost (89-64-117-232.dynamic.chello.pl. [89.64.117.232])
- by smtp.gmail.com with ESMTPSA id
- b1-20020a2eb901000000b0025c8c3747bbsm1209127ljb.37.2022.07.22.09.25.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 09:25:30 -0700 (PDT)
-Date: Fri, 22 Jul 2022 18:25:29 +0200
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal@hardline.pl>
-To: =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
-Subject: Re: [PATCH v5 9/9] drm: selftest: convert drm_mm selftest to KUnit
-Message-ID: <20220722162529.wy4ox7pyjhno66lz@macragge.hardline.pl>
-References: <20220708203052.236290-1-maira.canal@usp.br>
- <20220708203052.236290-10-maira.canal@usp.br>
- <CAM0jSHNG8Ozs+NpvwMK6zvbRm3Ve=Wa1_H7jS0uQ8FeAWgvyoA@mail.gmail.com>
- <b1ae4f77-4e24-24c9-fd87-abcd612a3533@usp.br>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6775890809;
+ Fri, 22 Jul 2022 16:38:04 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26MG8FJp015304;
+ Fri, 22 Jul 2022 16:37:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wPnjrGgNVhbBSH8gF2RGxnPdRwwa5gYEtG3aPqkrRNk=;
+ b=MqDDjFOedVQR7TYyFZwLPHvjAS0ApjMZCdnMnRQN64RLHxlvHcJmPSzx+UkeCbPloxIr
+ PBSdiUwLDBLcGrJHiDWPQaPlkG8HYOzote2GcEceVL5x1ycTEP/dQUmfDJCd9s1j4fY3
+ isSOQx6yqC28KGMDdJNuni4pn8F1xmFOTsRQ/LOqw6Paccgnxf8CWWQ3i0zoBK5+NVhb
+ rzOfQaE9jsjOtW/zKkOYEjHSN56KmT8l606cepLGhMrdxJRagrTiVbcKNMYG6jHeViqE
+ MARntvF5IW38Fe+6jeC+ZsZiGfY4eaC0nFWdxw/YKVFQBXVckP336z7Vs/Z4hP+ee4YB Rw== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hftv78w19-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Jul 2022 16:37:52 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.47.97.222])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 26MGbpBu008535
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Jul 2022 16:37:51 GMT
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 22 Jul 2022 09:37:51 -0700
+Received: from [10.38.243.149] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 22 Jul
+ 2022 09:37:48 -0700
+Message-ID: <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
+Date: Fri, 22 Jul 2022 09:37:46 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1ae4f77-4e24-24c9-fd87-abcd612a3533@usp.br>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
+ LQ140M1JW46
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, <dri-devel@lists.freedesktop.org>
+References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: OdVUAT7OcjVy9m3db0NZ8-DlwwxG64rn
+X-Proofpoint-GUID: OdVUAT7OcjVy9m3db0NZ8-DlwwxG64rn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-22_06,2022-07-21_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011
+ suspectscore=0 impostorscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207220070
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +87,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arthur Grillo <arthur.grillo@usp.br>, siqueirajordao@riseup.net,
- David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
- Matthew Auld <matthew.william.auld@gmail.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kselftest@vger.kernel.org, n@nfraprado.net,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
- magalilemes00@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
- brendanhiggins@google.com, mwen@igalia.com, David Gow <davidgow@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- tales.aparecida@gmail.com, kernel list <linux-kernel@vger.kernel.org>,
- leandro.ribeiro@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 22, 2022 at 08:04:51AM -0300, Maíra Canal wrote:
-> On 7/22/22 07:35, Matthew Auld wrote:
-> > On Fri, 8 Jul 2022 at 21:32, Maíra Canal <maira.canal@usp.br> wrote:
-> >>
-> >> From: Arthur Grillo <arthur.grillo@usp.br>
-> >>
-> >> Considering the current adoption of the KUnit framework, convert the
-> >> DRM mm selftest to the KUnit API.
-> > 
-> > Is there a plan to convert the corresponding selftest IGT that was
-> > responsible for running this (also drm_buddy) to somehow work with
-> > kunit? Previously these IGTs were always triggered as part of
-> > intel-gfx CI, but it looks like they are no longer run[1].
-> > 
-> > [1] https://gitlab.freedesktop.org/drm/intel/-/issues/6433
-> 
-> Hi Matthew,
-> 
-> Isabella sent a while ago a patch to IGT adding KUnit compatibility to
-> IGT [1], but there wasn't any feedback on the patch. I believe that soon
-> she will resend the series in order to make all KUnit DRM tests run on IGT.
-> 
-> Any feedback on the patch is welcomed so that we can fix this issue as
-> soon as possible.
-> 
-> [1] https://patchwork.freedesktop.org/patch/489985/
-> 
-> Best Regards,
-> - Maíra Canal
++ sankeerth
 
-Hi.
+Hi Doug
 
-Instead of going back to using IGT for *unit* tests, it would be a better idea
-to adjust the CI to just run the tests once at "build" time (just like e.g.
-checkpatch).
+On 7/21/2022 3:23 PM, Douglas Anderson wrote:
+> The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD reference
+> board. This panel supports 144 Hz and 60 Hz. In the EDID, the 144 Hz
+> mode is listed first and thus is marked preferred. The EDID decode I
+> ran says:
+> 
+>    First detailed timing includes the native pixel format and preferred
+>    refresh rate.
+> 
+>    ...
+> 
+>    Detailed Timing Descriptors:
+>      DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.500 MHz
+>                   Hfront   48 Hsync  32 Hback  80 Hpol N
+>                   Vfront    3 Vsync   5 Vback  69 Vpol N
+>      DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.370 MHz
+>                   Hfront   48 Hsync  32 Hback  80 Hpol N
+>                   Vfront    3 Vsync   5 Vback  69 Vpol N
+> 
+> I'm proposing here that the above is actually a bug and that the 60 Hz
+> mode really should be considered preferred by Linux.
+> 
+> The argument here is that this is a laptop panel and on a laptop we
+> know power will always be a concern. Presumably even if someone using
+> this panel wanted to use 144 Hz for some use cases they would only do
+> so dynamically and would still want the default to be 60 Hz.
+> 
+> Let's change the default to 60 Hz using a standard quirk.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-We would then stop executing the same test multiple times on different machines
-(note that both DRM selftests and i915 "mock" selftests are pure unit tests - in
-other words, they don't need the hardware to be present), which would save some
-(small) amount of machine-time that can be utilized to do something that
-actually needs the hardware.
+Yes, we were aware that 144Hz was getting picked. We found that while 
+debugging the screen corruption issue.
 
-Plus there's no need to maintain the kunit-runner in IGT.
-Note - we're currently going to lose "DMESG-WARN" detection if we go this route,
-but this is something that can be improved on the kunit-side.
+Well, yes power would be less with 60Hz but so will be the performance.
 
--Michał
+The test teams have been validating with 144Hz so far so we are checking 
+internally with the team whether its OKAY to goto 60Hz now since that 
+kind of invalidates the testing they have been doing.
+
+Will update this thread once we finalize.
+
+
+> ---
+> 
+>   drivers/gpu/drm/drm_edid.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index bbc25e3b7220..06ff8ba216af 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -160,6 +160,9 @@ static const struct edid_quirk {
+>   	EDID_QUIRK('S', 'A', 'M', 596, EDID_QUIRK_PREFER_LARGE_60),
+>   	EDID_QUIRK('S', 'A', 'M', 638, EDID_QUIRK_PREFER_LARGE_60),
+>   
+> +	/* 144 Hz should only be used when needed; it wastes power */
+> +	EDID_QUIRK('S', 'H', 'P', 0x1523, EDID_QUIRK_PREFER_LARGE_60),
+> +
+>   	/* Sony PVM-2541A does up to 12 bpc, but only reports max 8 bpc */
+>   	EDID_QUIRK('S', 'N', 'Y', 0x2541, EDID_QUIRK_FORCE_12BPC),
+>   
