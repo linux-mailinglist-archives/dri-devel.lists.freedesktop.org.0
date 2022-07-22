@@ -1,59 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A3A57E494
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 18:41:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 257CD57E452
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 18:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2577B112EB8;
-	Fri, 22 Jul 2022 16:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6207E14A98D;
+	Fri, 22 Jul 2022 16:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1478 seconds by postgrey-1.36 at gabe;
- Fri, 22 Jul 2022 16:41:23 UTC
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DCBB1122EE
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 16:41:23 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 26MGGL52061918;
- Fri, 22 Jul 2022 11:16:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1658506582;
- bh=08PwfHBp1fRyc02qP294VlTMgUbHFS8jzINDzdDZnxc=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=DyD146mnXS6SnL91b4jDyoEvMxap92DghfdyWRa6UQTDYylbwrmLImf1YJomfvkAn
- DDWy1vsLJy0v4AlFCzxd8lglpHv9ZQ2Rg/MENCCKDbGnlrPEaKTHBbtp3W5YOlcf3l
- IzwGK/3a90lphq6ZflVziQzQhEhTgJz1A92HuKLc=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 26MGGL7N018124
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 22 Jul 2022 11:16:21 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 22
- Jul 2022 11:16:21 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Fri, 22 Jul 2022 11:16:21 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 26MGGLwu121736;
- Fri, 22 Jul 2022 11:16:21 -0500
-Date: Fri, 22 Jul 2022 11:16:21 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/8] dt-bindings: display: ti,am65x-dss: Add port
- properties for DSS
-Message-ID: <20220722161621.p35apy5mstpgqhef@reverence>
-References: <20220719080845.22122-1-a-bhatia1@ti.com>
- <20220719080845.22122-2-a-bhatia1@ti.com>
- <20220720232845.GA4164694-robh@kernel.org>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0559737D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 16:25:32 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id z22so8453280lfu.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 09:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=hardline-pl.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=2cHLZsYSzu3vlQWq2uTFZBxgK+nHwwF/vJBUwns59Ds=;
+ b=n5bJ2manL/cCWuwR0ZJd2UvjhGDXg9VMCs+OvLl8bGyfqKipgVkFHueBbViZ2lEBA1
+ 6NKiKenhcTxri61yQIaTCHoiV6+sOqsgzuGab5gL8C3miq/ows4KAHWtKz6TrXJvEGmf
+ j4Dffqm/p76WMCjN/vqMZ7AG/++q67fMOnnx7kbUwLmSYewy2QwjAYS4w5V8bf3xo54H
+ 4wkmllD15xq9EMw/cMlQcIe4twyMyi2w2808mTnrFhPlse51W3MSJ42rC9GL+9+wc0zQ
+ 88JuNMU3uUiozQmZoQhCNIpSzTJFN0MeFUMQJbKOOE6ZqdFbVJFwttBW/m5ZhwknQU6a
+ 4Xag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=2cHLZsYSzu3vlQWq2uTFZBxgK+nHwwF/vJBUwns59Ds=;
+ b=3WhWQHDcyabONGlZdppUBwnjb4RrrB/gQ8K+KiM/HrroZaaOeFKTpdKjlcsjdCeDHe
+ aJxdzaT9CKUpCqNMzYEU2sRmUs/y6QKXZnZGS4ZmtHaaoptIYbt1pdN1elywEYAKMOGH
+ 2sJ7iMA2RVvz13OJcwe6anE0iNfXPVf1FpSu69AInIBI9uoEYr7Qr33g8BJznVcJskCg
+ W+76KeqUMJzUuiYk8OZUXIZXzyxFezzH1ud+wBcvtYKo+TuFwHtmRNlBmVkZuLZHDXqC
+ tn+EJdoBTptj5FCtOFA/ZBAAhYhh4Ut2bb9nofyV0BVodZeiWTL7qa83f/fx1MLNhMat
+ SeZQ==
+X-Gm-Message-State: AJIora+piSKt2spYB8AVHAlAJX85n4UaHRaDuTzLeTECUjIzhfkpiLv2
+ or2JLWaTA33LvMMypDiHuxFOdg==
+X-Google-Smtp-Source: AGRyM1sPLTtJuvAxH41K5c4T5wV2zD6vvOVSwpXKE6dWwQy/OWWh7eYNR6Txk9u9vVFJK0Gagcmh7g==
+X-Received: by 2002:a05:6512:3092:b0:489:dece:5539 with SMTP id
+ z18-20020a056512309200b00489dece5539mr276918lfd.269.1658507130797; 
+ Fri, 22 Jul 2022 09:25:30 -0700 (PDT)
+Received: from localhost (89-64-117-232.dynamic.chello.pl. [89.64.117.232])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020a2eb901000000b0025c8c3747bbsm1209127ljb.37.2022.07.22.09.25.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jul 2022 09:25:30 -0700 (PDT)
+Date: Fri, 22 Jul 2022 18:25:29 +0200
+From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal@hardline.pl>
+To: =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
+Subject: Re: [PATCH v5 9/9] drm: selftest: convert drm_mm selftest to KUnit
+Message-ID: <20220722162529.wy4ox7pyjhno66lz@macragge.hardline.pl>
+References: <20220708203052.236290-1-maira.canal@usp.br>
+ <20220708203052.236290-10-maira.canal@usp.br>
+ <CAM0jSHNG8Ozs+NpvwMK6zvbRm3Ve=Wa1_H7jS0uQ8FeAWgvyoA@mail.gmail.com>
+ <b1ae4f77-4e24-24c9-fd87-abcd612a3533@usp.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220720232845.GA4164694-robh@kernel.org>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b1ae4f77-4e24-24c9-fd87-abcd612a3533@usp.br>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +75,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunal Bhargav <k-bhargav@ti.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomba@kernel.org>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Darren Etheridge <detheridge@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Rahul T R <r-ravikumar@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Arthur Grillo <arthur.grillo@usp.br>, siqueirajordao@riseup.net,
+ David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
+ Matthew Auld <matthew.william.auld@gmail.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kselftest@vger.kernel.org, n@nfraprado.net,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ magalilemes00@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
+ brendanhiggins@google.com, mwen@igalia.com, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ tales.aparecida@gmail.com, kernel list <linux-kernel@vger.kernel.org>,
+ leandro.ribeiro@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17:28-20220720, Rob Herring wrote:
-> > On the bridge side R0->R2, G0->G1, B0->B2 would be tied to ground.
-> > The bridge sees 24bits of data,  but the lsb's are always zero.
+On Fri, Jul 22, 2022 at 08:04:51AM -0300, Maíra Canal wrote:
+> On 7/22/22 07:35, Matthew Auld wrote:
+> > On Fri, 8 Jul 2022 at 21:32, Maíra Canal <maira.canal@usp.br> wrote:
+> >>
+> >> From: Arthur Grillo <arthur.grillo@usp.br>
+> >>
+> >> Considering the current adoption of the KUnit framework, convert the
+> >> DRM mm selftest to the KUnit API.
+> > 
+> > Is there a plan to convert the corresponding selftest IGT that was
+> > responsible for running this (also drm_buddy) to somehow work with
+> > kunit? Previously these IGTs were always triggered as part of
+> > intel-gfx CI, but it looks like they are no longer run[1].
+> > 
+> > [1] https://gitlab.freedesktop.org/drm/intel/-/issues/6433
 > 
-> Unless the bridge ignores the LSBs, that's not the right way to do 16 to 
-> 24 bit. The LSBs should be connected to the MSB of the color component 
-> to get full color range.
+> Hi Matthew,
+> 
+> Isabella sent a while ago a patch to IGT adding KUnit compatibility to
+> IGT [1], but there wasn't any feedback on the patch. I believe that soon
+> she will resend the series in order to make all KUnit DRM tests run on IGT.
+> 
+> Any feedback on the patch is welcomed so that we can fix this issue as
+> soon as possible.
+> 
+> [1] https://patchwork.freedesktop.org/patch/489985/
+> 
+> Best Regards,
+> - Maíra Canal
 
-I unfortunately cannot point specifics without violating NDAs, so
-will just give a broad perspective.
+Hi.
 
-Correct, this is not ideal, but in certain scenarios with limited
-pins (due to iovoltage groups), we are indeed starting to see this
-kind of usage model starting to pop up. Tradeoff is in a limit on
-image quality, but that tends to be acceptable in certain lower cost
-solutions.
+Instead of going back to using IGT for *unit* tests, it would be a better idea
+to adjust the CI to just run the tests once at "build" time (just like e.g.
+checkpatch).
 
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+We would then stop executing the same test multiple times on different machines
+(note that both DRM selftests and i915 "mock" selftests are pure unit tests - in
+other words, they don't need the hardware to be present), which would save some
+(small) amount of machine-time that can be utilized to do something that
+actually needs the hardware.
+
+Plus there's no need to maintain the kunit-runner in IGT.
+Note - we're currently going to lose "DMESG-WARN" detection if we go this route,
+but this is something that can be improved on the kunit-side.
+
+-Michał
