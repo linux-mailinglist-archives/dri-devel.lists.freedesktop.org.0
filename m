@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D834B57DD68
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 11:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2613A57DED1
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 11:46:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD43291FF2;
-	Fri, 22 Jul 2022 09:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9269A12A6BF;
+	Fri, 22 Jul 2022 09:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17C4D91FEB;
- Fri, 22 Jul 2022 09:13:56 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE63A12A731;
+ Fri, 22 Jul 2022 09:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658481236; x=1690017236;
+ t=1658483160; x=1690019160;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=x0IVXe/dQxL+jMGm05hSRrfW+Ktw0b5z0uHvDMRGLwM=;
- b=JdPWdGBjNbyyXY08oQT0l+xrfp/EOuLg8VYkjRByGqBFr+kfCPsb5VP/
- 10XYdpHlXeDO7OowGbcoyr73UUUj9P7FJpCaobejvxyXeCWAO9v3pfs9c
- 9MGSxZFAXC9HYgfBXxeahdHF0osz6ARNBLFlZ/BcL651DPBH+8LBrZkoI
- NyXFufoUNwGbm0OTWZ5ffc1Jf5BR8YN+h0Hv3Yv1l94p6J8NNVjVqIJ+f
- UuNwhfnV5od7SNh5gyCCZhia02cSp+0I1+97GNNUjzxSjHPbzQYLOYG4k
- jB+m8xRpWRCJsPAu1uR/UO+mZKwqZdqRGNbftC6JmeGfaNJ3NJZYi31iE Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="267048760"
-X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="267048760"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2022 02:13:55 -0700
-X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="574099527"
+ bh=sYUmQrbm0Jo3tvS0KREIf1cEPW+JlMwcqzzX7TywFLQ=;
+ b=bcMXRbP8aDSkmWpZCv9lGZx8gQeiJoDFBATX16cw4D1bH1yXwiNM66Ir
+ +c7PAQnR36MKm42IoPoOVZsJnX1ZhkJorcljX7tJtzm3kSy1h9rioPCqI
+ lKGzucD2xNwy5KCxAW1Jaxud3fqBUsLFiRDv0LnoPV0wpFPijIuyV8Wg9
+ O8JXeskMDpcWu1KHHeHjiV1tp7d72FoTor0pmAOdwVeva8IkMTkYKwrmN
+ NFXM93TsdlO4pvnpy/59r+HO/AVUMbRKs8FiNL1NFe4JtLaaCZ3yisWbk
+ er9NzdBkclIBkJGyh+tn2QH6lM9uX/cvYP9oqjbdjTclva17JkMv7hUHp g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="348981165"
+X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="348981165"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2022 02:45:59 -0700
+X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="549116872"
 Received: from rdolan-mobl.ger.corp.intel.com (HELO [10.213.216.165])
  ([10.213.216.165])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2022 02:13:52 -0700
-Message-ID: <118ae557-a7cb-10b2-9198-2ceb92948dd7@linux.intel.com>
-Date: Fri, 22 Jul 2022 10:13:48 +0100
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2022 02:45:56 -0700
+Message-ID: <a0a7a734-d3dd-960e-f130-39f86b04b24d@linux.intel.com>
+Date: Fri, 22 Jul 2022 10:45:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
@@ -80,20 +80,7 @@ On 21/07/2022 18:43, Robert Beckett wrote:
 > In i915_gem_object_get_pages_internal() no longer consider max_segment
 > only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
 > causes of specific max segment sizes.
-
-This matches my understanding as well. And thanks for writing the patch 
-up, I actually copied you to comment on the timeline of code removal 
-only and did not expect you'd take it on fully. Thanks!
-
-Christoph - ack from you? Also, if we merge it via the normal process it 
-will hit 5.21 only. Does that work for you?
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Regards,
-
-Tvrtko
-
+> 
 > Cc: Christoph Hellwig <hch@lst.de>
 > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 > Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
@@ -218,6 +205,21 @@ Tvrtko
 > -
 > -	if (size == 0)
 > -		size = UINT_MAX;
+
+On a more detailed look, there was a CI failure which makes me think 
+this cap might need to stay. Because max sg segment is unsigned int. So 
+I wonder if sg contstruction overflows without it.
+
+If this quick analysis is right, you could leave i915_sg_segment_size 
+helper and cap the return from dma_max_mapping_size to UINT_MAX in it.
+
+Regards,
+
+Tvrtko
+
+*) 
+https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_106589v1/shard-tglb2/igt@gem_mmap_offset@clear.html
+
 > -
 > -	size = rounddown(size, PAGE_SIZE);
 > -	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
