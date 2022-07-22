@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504FE57E411
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 18:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A3A57E494
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 18:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE091137A4;
-	Fri, 22 Jul 2022 16:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2577B112EB8;
+	Fri, 22 Jul 2022 16:41:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE28A96F60
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 16:05:59 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id mf4so9382133ejc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 09:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MnftyBzRGSBEVE4hevJey01J9ByqvjlOa85l8x7VehU=;
- b=mKNq2Y6EXqL3tUFN9MNVQzfJPv64ZNkE+Cy9/5Ube3pAMJJDGM6SXDiz69odVtjmAY
- 0dV4pCR3Euzf6E2lLFTBq6Rf94J8eMhqC8hrc28hOpSbsXsx53MsQ3LgIbOyyIK/tjD7
- cE+W6wrlx5LXebQoZ4oDdUUxdCbCqIXSc5YB86LwgfzM2Pxvd/xNDwK6/SQHE6McJngb
- bikqXthWvXTV3gasdN4JN1mqJlRcHwVrd/glBa7xQ27Vyfa75SbDISrRq7Pm9m9tjUby
- JyXLBbJZqwNQbBSOVKcgnNSPYQlKoCsfyK2sJYa+39KoCtl7ZYK7Tb2uXCRcl5FW8Vfv
- w6Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MnftyBzRGSBEVE4hevJey01J9ByqvjlOa85l8x7VehU=;
- b=pC2qwGiNIn1zCUsokPdCzUlmRoIv2o3lp5IPjtVSaVVR/Xz8WsTA/GdL6QXUQY3a+r
- 79I/UL6pYVvYH3BOoujsKXt2o4MqRPSPGpJqHsbxqdJmy08QfMeUUewYk10PSkroECSq
- WlsBWBrTcwMG0WC/tcTUNDBxNi+nU87OX1qgm2F8b3UPpNmZWJsMPoocYFZausqEdI5h
- RgX4V30sRfs7VwFKURN53lcPEFake9ma+bz2opBzRLkhPJxwDlv8L9qJ1v0aFBl6VgJl
- hhQKT1/eg+9xUnU0qmeZOZZlV8fZ0ywp9nKXAcJmp0lWrU4so8qwmK3SsmR/DfKncaCP
- 1jjg==
-X-Gm-Message-State: AJIora9ABMMatXGfPkvIDQxHSchjGdxb3ctmorVswzwYG0vlWQkRd672
- suv0w74afNC/qFPHvdCU701kFP9En2nXVmy/G8AaPA==
-X-Google-Smtp-Source: AGRyM1vBFbtqVsQgghpDhvhpCCJ+MwMdJCOMMWmRAW5CyO+wXnemMWaIL1UBkzGhQ0bB0k/VzGtC8aHiEtuD1f3vW9k=
-X-Received: by 2002:a17:906:4fd5:b0:72e:ce13:2438 with SMTP id
- i21-20020a1709064fd500b0072ece132438mr469619ejw.175.1658505958265; Fri, 22
- Jul 2022 09:05:58 -0700 (PDT)
+X-Greylist: delayed 1478 seconds by postgrey-1.36 at gabe;
+ Fri, 22 Jul 2022 16:41:23 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DCBB1122EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 16:41:23 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 26MGGL52061918;
+ Fri, 22 Jul 2022 11:16:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1658506582;
+ bh=08PwfHBp1fRyc02qP294VlTMgUbHFS8jzINDzdDZnxc=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=DyD146mnXS6SnL91b4jDyoEvMxap92DghfdyWRa6UQTDYylbwrmLImf1YJomfvkAn
+ DDWy1vsLJy0v4AlFCzxd8lglpHv9ZQ2Rg/MENCCKDbGnlrPEaKTHBbtp3W5YOlcf3l
+ IzwGK/3a90lphq6ZflVziQzQhEhTgJz1A92HuKLc=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 26MGGL7N018124
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 22 Jul 2022 11:16:21 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 22
+ Jul 2022 11:16:21 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Fri, 22 Jul 2022 11:16:21 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 26MGGLwu121736;
+ Fri, 22 Jul 2022 11:16:21 -0500
+Date: Fri, 22 Jul 2022 11:16:21 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/8] dt-bindings: display: ti,am65x-dss: Add port
+ properties for DSS
+Message-ID: <20220722161621.p35apy5mstpgqhef@reverence>
+References: <20220719080845.22122-1-a-bhatia1@ti.com>
+ <20220719080845.22122-2-a-bhatia1@ti.com>
+ <20220720232845.GA4164694-robh@kernel.org>
 MIME-Version: 1.0
-References: <20220720155210.365977-1-jagan@amarulasolutions.com>
- <CGME20220720155316eucas1p2ab58c67670ef8f30f0827fdbe5c41ef2@eucas1p2.samsung.com>
- <20220720155210.365977-7-jagan@amarulasolutions.com>
- <8598bc48-ab5d-92fe-076a-c1e6ca74fccd@samsung.com>
-In-Reply-To: <8598bc48-ab5d-92fe-076a-c1e6ca74fccd@samsung.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 22 Jul 2022 17:05:42 +0100
-Message-ID: <CAPY8ntCrOqYbE7X5vCP7xa9xqJY8RwpO68hWhg1UuYusd3EQCA@mail.gmail.com>
-Subject: Re: [PATCH v3 06/13] drm: bridge: samsung-dsim: Add DSI init in
- bridge pre_enable()
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220720232845.GA4164694-robh@kernel.org>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,129 +66,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Krunal Bhargav <k-bhargav@ti.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomi Valkeinen <tomba@kernel.org>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Darren Etheridge <detheridge@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Rahul T R <r-ravikumar@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan and Marek.
+On 17:28-20220720, Rob Herring wrote:
+> > On the bridge side R0->R2, G0->G1, B0->B2 would be tied to ground.
+> > The bridge sees 24bits of data,  but the lsb's are always zero.
+> 
+> Unless the bridge ignores the LSBs, that's not the right way to do 16 to 
+> 24 bit. The LSBs should be connected to the MSB of the color component 
+> to get full color range.
 
-On Fri, 22 Jul 2022 at 16:35, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
->
-> On 20.07.2022 17:52, Jagan Teki wrote:
-> > Host transfer() in DSI master will invoke only when the DSI commands
-> > are sent from DSI devices like DSI Panel or DSI bridges and this
-> > host transfer wouldn't invoke for I2C-based-DSI bridge drivers.
-> >
-> > Handling DSI host initialization in transfer calls misses the
-> > controller setup for I2C configured DSI bridges.
-> >
-> > This patch adds the DSI initialization from transfer to bridge
-> > pre_enable as the bridge pre_enable API is invoked by core as
-> > it is common across all classes of DSI device drivers.
->
-> This is still problematic in case of Exynos. Without a workaround like this
->
-> https://github.com/mszyprow/linux/commit/11bbfc61272da9610dd5c574bb8ef838dc150961
->
-> the display on the all real DSI panels on my Exynos based boards is broken.
+I unfortunately cannot point specifics without violating NDAs, so
+will just give a broad perspective.
 
-I'd queried on the other thread trying to address DSI operation [1] as
-to whether the test for STOP_STATE (presumably LP-11) at [2] was
-actually valid, but had no response.
-There is no need to check for bus contention at that point, but should
-it happen the driver doesn't write the registers in lines 862-868
-having returned -EFAULT at line 853. The controller is therefore only
-partially initialised.
+Correct, this is not ideal, but in certain scenarios with limited
+pins (due to iovoltage groups), we are indeed starting to see this
+kind of usage model starting to pop up. Tradeoff is in a limit on
+image quality, but that tends to be acceptable in certain lower cost
+solutions.
 
-I may be misinterpreting what that code is waiting for though, or the
-hardware may require some further state before it can be initialised.
-
-  Dave
-
-[1] https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg397703.html
-[2] https://github.com/mszyprow/linux/blob/11bbfc61272da9610dd5c574bb8ef838dc150961/drivers/gpu/drm/bridge/samsung-dsim.c#L850
-
-> >
-> > v3:
-> > * none
-> >
-> > v2:
-> > * check initialized state in samsung_dsim_init
-> >
-> > v1:
-> > * keep DSI init in host transfer
-> >
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> >   drivers/gpu/drm/bridge/samsung-dsim.c | 18 ++++++++++++------
-> >   1 file changed, 12 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > index 9b74a3f98a17..b07909a52f2d 100644
-> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > @@ -1258,6 +1258,9 @@ static int samsung_dsim_init(struct samsung_dsim *dsi)
-> >   {
-> >       const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
-> >
-> > +     if (dsi->state & DSIM_STATE_INITIALIZED)
-> > +             return 0;
-> > +
-> >       samsung_dsim_reset(dsi);
-> >       samsung_dsim_enable_irq(dsi);
-> >
-> > @@ -1270,6 +1273,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi)
-> >       samsung_dsim_set_phy_ctrl(dsi);
-> >       samsung_dsim_init_link(dsi);
-> >
-> > +     dsi->state |= DSIM_STATE_INITIALIZED;
-> > +
-> >       return 0;
-> >   }
-> >
-> > @@ -1289,6 +1294,10 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
-> >       }
-> >
-> >       dsi->state |= DSIM_STATE_ENABLED;
-> > +
-> > +     ret = samsung_dsim_init(dsi);
-> > +     if (ret)
-> > +             return;
-> >   }
-> >
-> >   static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
-> > @@ -1464,12 +1473,9 @@ static ssize_t samsung_dsim_host_transfer(struct mipi_dsi_host *host,
-> >       if (!(dsi->state & DSIM_STATE_ENABLED))
-> >               return -EINVAL;
-> >
-> > -     if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
-> > -             ret = samsung_dsim_init(dsi);
-> > -             if (ret)
-> > -                     return ret;
-> > -             dsi->state |= DSIM_STATE_INITIALIZED;
-> > -     }
-> > +     ret = samsung_dsim_init(dsi);
-> > +     if (ret)
-> > +             return ret;
-> >
-> >       ret = mipi_dsi_create_packet(&xfer.packet, msg);
-> >       if (ret < 0)
->
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
->
+-- 
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
