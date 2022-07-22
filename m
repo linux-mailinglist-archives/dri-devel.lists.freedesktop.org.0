@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8798657E7D2
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 22:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA0357E7DC
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 22:05:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 744A0112198;
-	Fri, 22 Jul 2022 20:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76CC59366E;
+	Fri, 22 Jul 2022 20:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279DF12BF67
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 20:01:38 +0000 (UTC)
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C4C93665
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 20:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=xRZ4/z785EVlZdg7+WQthXzuMmkFNeanc7s/O0nKQN8=;
- b=qHRnf0cWUkHUo+oOjjmqY2CD+N2Xd/aTesvn+UussxpUPFdXjCF9fOgGj3mwQjSWplF0zc7ThQ4QS
- q+CDUxWRgL01r5cw6a/e2AWnojcA9dA9TSMWqDI2ctJkRhv3ft6rUvUOwgVQH6fg4MhLsiwyFnKJtL
- y5ACwnTDvnN++7H51uojOwg/RnnfWv0fEy1vOHA8r4xT7+dCRRW2jUREY9U9R2W5gsqywDo6gOd34G
- t5AXsX5P+PuhEY1/570GeAJ0tJPLk5BzbDHshyHrfroDvCyhZBsOItg0QYYunoWb8MfMQ/F4S7cTfA
- npUKmwvyA7cE3Gi2RUCzoRIyn7M9lMA==
+ bh=Tzxqv/Uzh1JY+W5mrWl4jc5taDT0DwDxhpbR/ngIxKE=;
+ b=ngrCl12iS9dbWrzbb+yEVsi8jv2WhoHn8h0y9wimb9qK6AQJueW3fERGcoV1yQw/zIu9/G9RbA5rn
+ Yeao89uDhxCdUU5TDF4dvTf1L8nKnVo4mzuoBwGD5Dadd7gh75WPUVCXUKWNXcGaxVQPXTOxZugSm9
+ VWZAr3/FVedqQpwGfjkIu8WXd5CjNSidAL1L98VCqUhv8d8F9wHWj0xnSGdAi0RQPytjlWGTuY27sC
+ l3b7xbTydwxittImeDVjIEGHOm30MmaaUXI3b5kgas7FKOtIlKX9c8sZwz019clzsw1JXTfXeFPw6d
+ TDnKeTLqrjdmFX7N8EmCZHlGRAUlamg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=xRZ4/z785EVlZdg7+WQthXzuMmkFNeanc7s/O0nKQN8=;
- b=ukD19qP7MQupFGaMbV2BqB6YugANbp+p5md4cXvFsmYwtH8Ehi/f/slFQ9ODoUIyBkP6vBSUA66US
- KyIh1MxBw==
-X-HalOne-Cookie: 0e5c75ced090ed261a75055ef99751c50559f04c
-X-HalOne-ID: 1760f781-09f9-11ed-a918-d0431ea8a290
-Received: from mailproxy2.cst.dirpod4-cph3.one.com
+ bh=Tzxqv/Uzh1JY+W5mrWl4jc5taDT0DwDxhpbR/ngIxKE=;
+ b=mUvzipy2Q9Z8BIwDUwrCH/RmGe9aq0BuTkWEuXGc/CvysRYAcStZnN/aLKjysmkL/TPnREZ33sp9u
+ 08MztDcDg==
+X-HalOne-Cookie: 5935a94967758038358233096c6ddf6e78c687d9
+X-HalOne-ID: 90b086e4-09f9-11ed-a6c8-d0431ea8a283
+Received: from mailproxy1.cst.dirpod4-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 1760f781-09f9-11ed-a918-d0431ea8a290;
- Fri, 22 Jul 2022 20:01:36 +0000 (UTC)
-Date: Fri, 22 Jul 2022 22:01:34 +0200
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 90b086e4-09f9-11ed-a6c8-d0431ea8a283;
+ Fri, 22 Jul 2022 20:05:00 +0000 (UTC)
+Date: Fri, 22 Jul 2022 22:04:58 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v4 2/2] drm: rcar-du: Add RZ/G2L DSI driver
-Message-ID: <YtsCHnJKfGvkJXpD@ravnborg.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: Document RZ/G2L
+ MIPI DSI TX bindings
+Message-ID: <YtsC6p7yy86Dr95H@ravnborg.org>
 References: <20220722191924.544869-1-biju.das.jz@bp.renesas.com>
- <20220722191924.544869-3-biju.das.jz@bp.renesas.com>
+ <20220722191924.544869-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220722191924.544869-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220722191924.544869-2-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,45 +60,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Biju,
 
-driver looks good - you can add my:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-
-I have one general question - that is not related to this driver, but is
-directed to the bridge people on this mail.
-
-> +static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
-> +					 struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct drm_atomic_state *state = old_bridge_state->base.state;
-> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
-> +	const struct drm_display_mode *mode;
-> +	struct drm_connector *connector;
-> +	struct drm_crtc *crtc;
-> +	int ret;
+On Fri, Jul 22, 2022 at 08:19:23PM +0100, Biju Das wrote:
+> The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's. It
+> can operate in DSI mode, with up to four data lanes.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3->v4:
+>  * No change.
+> v2->v3:
+>  * Added Rb tag from Geert and Laurent
+>  * Fixed the typo "Receive" -> "transmit"
+>  * Added accepible values for data-lanes
+>  * Sorted Header file in the example
+>  * Added SoC specific compaible along with generic one.
+> v1->v2:
+>  * Added full path for dsi-controller.yaml
+>  * Modeled DSI + D-PHY as single block and updated reg property
+>  * Fixed typo D_PHY->D-PHY
+>  * Updated description
+>  * Added interrupts and interrupt-names and updated the example 
+> RFC->v1:
+>  * Added a ref to dsi-controller.yaml.
+> RFC:-
+>  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+> ---
+>  .../bindings/display/bridge/renesas,dsi.yaml  | 182 ++++++++++++++++++
+>  1 file changed, 182 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> new file mode 100644
+> index 000000000000..131d5b63ec4f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> @@ -0,0 +1,182 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> +	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
+> +title: Renesas RZ/G2L MIPI DSI Encoder
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  This binding describes the MIPI DSI encoder embedded in the Renesas
+> +  RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
+> +  up to four data lanes.
+> +
+> +allOf:
+> +  - $ref: /schemas/display/dsi-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+> +      - const: renesas,rzg2l-mipi-dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Sequence operation channel 0 interrupt
+> +      - description: Sequence operation channel 1 interrupt
+> +      - description: Video-Input operation channel 1 interrupt
+> +      - description: DSI Packet Receive interrupt
+> +      - description: DSI Fatal Error interrupt
+> +      - description: DSI D-PHY PPI interrupt
+> +      - description: Debug interrupt
+This is an awful lot of interrupts.
+Is this really individual interrupts or status bits in a single
+interrupt? If it is the latter then there should be only one interrupt
+defined.
 
-It is relative often we see the need to access the new crtc_state in
-the atomic_enable() operation. Could we add it as a parameter to
-atomic_enable() and fish it out in the caller?
-That would save some boilerplate code.
-
-I once had a helper cooked up for the above and could dig it up
-again - but the parameter idea seems better?!?
+Note: I looked at the driver, but it does not use interrupt so it did
+not answer my question.
 
 	Sam
