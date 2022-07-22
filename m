@@ -2,67 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBBD857E6A7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 20:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2512357E6F1
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 21:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB37B8DC2F;
-	Fri, 22 Jul 2022 18:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A216C8B21B;
+	Fri, 22 Jul 2022 19:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 330148D640
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 18:37:55 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id m12so7909188lfj.4
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 11:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pZNADembFWMrMyIeeoU2sLzijZgUqqEN6vVBxD7cEAs=;
- b=GsqhyOyvPqQLTvBum+zuJxJdCWumdKt28rH2mPmYbBK74XD17jt60KtD0pMHpo/hya
- vb9wzTzbNdeHuA/5g/kHobFtb0+H7CYDfb4AvZumRqW3JnejJKFeINvR34dlTLchYXjz
- j0UREVOivqXUfB4/IgLh/3GwMH3nmWpkN29OsnadwZiyJhvuC8Ke+A7q5rONII1LLIRN
- ur9/WC2nNosjE3LvdRSxF0kGBq3CGOT6wxtYRhP1t3tA3RPVu4/9VS+clhFLMjMPW09o
- 1TD97bVIN/s+O48yV/5C3XwcnVszKfIepyHe6JQqce4HYChtqdx1Ean31k2MwSuBhPl2
- mZzw==
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1582318B115;
+ Fri, 22 Jul 2022 19:02:31 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id c72so4039463edf.8;
+ Fri, 22 Jul 2022 12:02:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=avUZAWhiQeTD+s8eqp0tD4ouniDUp1tW0xSwM3iWcgw=;
+ b=LQvK3/tRTOcgvuVGh+M5/GehEEKi8faPfo/xJ6f9D43mmpKXwOaISdjz4xj7ofQ3yW
+ nPB0jd/IGzNmmADKc5f/o8Z1yT3yJ4Ca3eSheu30Eeovk4IgF8opO+bA5YqMns9iiHfR
+ WMJs/ryDGoq7evSTWEfckh14Ncv8IdNXpgMI9u6EJSwT7BzPgKPloTVj3HFFgeZvQmYU
+ e7nW2VAIZGhmkFVSt0X5l5kmtmuporEn8F86CAraj11WA4xluBQ1+iXMZ2A2ycS+rcv7
+ Df9OlLO/B/s+Fo55AAmrAiuWWwOFeveMF6OGRk1yl4jArlzvpo39JhK5fc1Fvg3aqT/c
+ b4SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pZNADembFWMrMyIeeoU2sLzijZgUqqEN6vVBxD7cEAs=;
- b=L+IoFc54BEjF089/i8pIDv17krH1DNzpRKaNXCvScjlUUvJI4VT50XqwX28Gl09snG
- 0XVCXGArJJu2R4uCk/weHWUUZF04uD7lviNutSQgWXH8cMqz3heVs2Qp+G3jEvyLD9q6
- ZSnxZrDIuPbWaeplwo4rmNpPJiu3Q4Z85oE7+IEUnX0qurQ4yAZrWHDqBgJbJ7/iBdFi
- pk6QEzKqJTf9CPngP43pSkYffVD/mh5nnVbVZ6ny97vhQjD9TgJGWvd6WkZjUg/INe9x
- O2tg/xsxfrZzOd0iAiegqTZ7srreIojr8pkIL+RcKUKSCywLcB1o+iasCpTHG+r+1s3a
- MgSg==
-X-Gm-Message-State: AJIora9Tt4vzQptAqrb7xNszdkcUKST9/5gXZ3O3vgKSLZVXF722Ggyp
- CdEKiHMXFGROHg1u/EtKTfywKw==
-X-Google-Smtp-Source: AGRyM1t4tkeV7OyDpZcsS6qCtak/AfOICQG9L4dyANvy9yS4TYY7Ac7Z+0mbnuyWn6CiHaHsFou02A==
-X-Received: by 2002:a05:6512:2622:b0:481:5b17:58e7 with SMTP id
- bt34-20020a056512262200b004815b1758e7mr478609lfb.600.1658515073264; 
- Fri, 22 Jul 2022 11:37:53 -0700 (PDT)
-Received: from [192.168.10.173] (93.81-167-86.customer.lyse.net.
- [81.167.86.93]) by smtp.gmail.com with ESMTPSA id
- d15-20020a0565123d0f00b0048a7222eb8bsm1008194lfv.135.2022.07.22.11.37.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 11:37:52 -0700 (PDT)
-Message-ID: <1a03d894-3f4c-fb57-5f05-ad7bf11f5488@linaro.org>
-Date: Fri, 22 Jul 2022 20:37:49 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=avUZAWhiQeTD+s8eqp0tD4ouniDUp1tW0xSwM3iWcgw=;
+ b=wX0FYVTlTUg0WKVRTzWV4iIvPKxsfheOUcJez0IeQj2R90uQCu+Hr2kL9D/JZsK1Vx
+ N8x8biXv0L+Ozky2v+waIcB/waatb9BGy1yCwvZEggMrYmlrVUaPJIl28aVtjLdUK5EF
+ wl6EjeNFvyQ1mJPp8Oo9BT1u6rl39SvCVuxY+hkCdZxw04KB5Lm7pdZWdSOuAalm6bEO
+ RPCtjLGWfdI8nENNIh0EsCAXOZRtz6nSXjHGx+lxP0MbqlGmTTLU5EReSTPyZ/7xFWWo
+ 8veQRiEmO2BR2GuwEQAsg9Ba8ni2SqmefIspbaC561bs3WRwsa+yTyIgg86m2g4hoqWt
+ 93BQ==
+X-Gm-Message-State: AJIora+nda7a5WkRqVc9h1UTWMRDPw/hHwOUerc7dPPNS6IAOCx5R4G0
+ m/9JaDofzBtENzyqR92hlEHnpbLSelI5CAgJF0ixX6DJ
+X-Google-Smtp-Source: AGRyM1vcdXkBOl/stulqTvLKIOZCE184bWWQit0ItjjwTNQf2Kc3Skz6cCZYUoQ9QmLUBeWNcN0z7ZoFi4KRjDqiH38=
+X-Received: by 2002:a05:6402:d0a:b0:437:f9a1:8493 with SMTP id
+ eb10-20020a0564020d0a00b00437f9a18493mr1289163edb.226.1658516549449; Fri, 22
+ Jul 2022 12:02:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/6] dt-bindings: panel: explicitly list SPI CPHA and CPOL
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220721153155.245336-1-krzysztof.kozlowski@linaro.org>
- <20220721153155.245336-2-krzysztof.kozlowski@linaro.org>
- <20220721193004.GA1783390-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220721193004.GA1783390-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220721060946.46462-1-slark_xiao@163.com>
+In-Reply-To: <20220721060946.46462-1-slark_xiao@163.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 22 Jul 2022 15:02:17 -0400
+Message-ID: <CADnq5_PXyhGrU-XixQqDv+mdNU0rAqnGsVp2b_tfu=7h0COihA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd: Fix typo 'the the' in comment
+To: Slark Xiao <slark_xiao@163.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,81 +62,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomislav Denis <tomislav.denis@avl.com>,
- Markuss Broks <markuss.broks@gmail.com>, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Oskar Andero <oskar.andero@gmail.com>,
- Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
- Nuno Sa <nuno.sa@analog.com>, Eric Dumazet <edumazet@google.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sankar Velliangiri <navin@linumiz.com>, linux-spi@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Christian Eggers <ceggers@arri.de>,
- Dragos Bogdan <dragos.bogdan@analog.com>,
- Matt Ranostay <matt.ranostay@konsulko.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Stefan Popa <stefan.popa@analog.com>,
- Sean Nyekjaer <sean@geanix.com>, Jakub Kicinski <kuba@kernel.org>,
- Nishant Malpani <nish.malpani25@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
- Stefan Wahren <stefan.wahren@in-tech.com>,
- Beniamin Bia <beniamin.bia@analog.com>,
- Alexandru Tachici <alexandru.tachici@analog.com>, devicetree@vger.kernel.org,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Dan Murphy <dmurphy@ti.com>,
- linux-fbdev@vger.kernel.org, Matheus Tavares <matheus.bernardino@usp.br>,
- Marek Belisko <marek@goldelico.com>,
- =?UTF-8?Q?M=c3=a5rten_Lindahl?= <martenli@axis.com>,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- Cristian Pop <cristian.pop@analog.com>, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, Pratyush Yadav <p.yadav@ti.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Mark Brown <broonie@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/07/2022 21:30, Rob Herring wrote:
-> On Thu, Jul 21, 2022 at 05:31:50PM +0200, Krzysztof Kozlowski wrote:
->> The spi-cpha and spi-cpol properties are device specific and should be
->> accepted only if device really needs them.  Explicitly list them in
->> device bindings in preparation of their removal from generic
->> spi-peripheral-props.yaml schema.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  .../bindings/display/panel/lgphilips,lb035q02.yaml   | 10 ++++++++++
->>  .../bindings/display/panel/samsung,ld9040.yaml       | 10 ++++++++++
->>  .../bindings/display/panel/samsung,lms380kf01.yaml   | 12 +++++++++---
->>  .../bindings/display/panel/samsung,lms397kf04.yaml   | 12 +++++++++---
->>  .../bindings/display/panel/samsung,s6d27a1.yaml      | 12 +++++++++---
->>  .../bindings/display/panel/sitronix,st7789v.yaml     | 10 ++++++++++
->>  .../devicetree/bindings/display/panel/tpo,td.yaml    | 10 ++++++++++
->>  7 files changed, 67 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
->> index 5e4e0e552c2f..0bd7bbad5b94 100644
->> --- a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
->> @@ -21,6 +21,16 @@ properties:
->>    enable-gpios: true
->>    port: true
->>  
->> +  spi-cpha:
->> +    type: boolean
->> +    description:
->> +      The device requires shifted clock phase (CPHA) mode.
->> +
->> +  spi-cpol:
->> +    type: boolean
->> +    description:
->> +      The device requires inverse clock polarity (CPOL) mode.
-> 
-> Not great duplicating the type and description everywhere.
-> 
-> We can move the definition back to spi-controller.yaml, so then that 
-> does type checking of the property, but not presence/absence checks.
+Applied.  Thanks!
 
-If I understand correctly, all client devices (which do no reference
-spi-controller) will need to explicitly mention CPHA/CPOL. Good idea.
+Alex
 
-Best regards,
-Krzysztof
+On Thu, Jul 21, 2022 at 3:26 AM Slark Xiao <slark_xiao@163.com> wrote:
+>
+> Replace 'the the' with 'the' in the comment.
+>
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
+>  drivers/gpu/drm/amd/include/atombios.h    | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> index ff659d4f772b..8adeb7469f1e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> @@ -47,7 +47,7 @@
+>   * for GPU/CPU synchronization.  When the fence is written,
+>   * it is expected that all buffers associated with that fence
+>   * are no longer in use by the associated ring on the GPU and
+> - * that the the relevant GPU caches have been flushed.
+> + * that the relevant GPU caches have been flushed.
+>   */
+>
+>  struct amdgpu_fence {
+> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
+> index 1f9df4e7509b..15943bc21bc5 100644
+> --- a/drivers/gpu/drm/amd/include/atombios.h
+> +++ b/drivers/gpu/drm/amd/include/atombios.h
+> @@ -3255,8 +3255,8 @@ ucMaxNBVoltageHigh:     Voltage regulator dependent PWM value. High 8 bits of  t
+>  ucMinNBVoltageHigh:     Voltage regulator dependent PWM value. High 8 bits of the value for the min voltage.Set this one to 0x00 if VC without PWM or no VC at all.
+>
+>
+> -usInterNBVoltageLow:    Voltage regulator dependent PWM value. The value makes the the voltage >=Min NB voltage but <=InterNBVoltageHigh. Set this to 0x0000 if VC without PWM or no VC at all.
+> -usInterNBVoltageHigh:   Voltage regulator dependent PWM value. The value makes the the voltage >=InterNBVoltageLow but <=Max NB voltage.Set this to 0x0000 if VC without PWM or no VC at all.
+> +usInterNBVoltageLow:    Voltage regulator dependent PWM value. The value makes the voltage >=Min NB voltage but <=InterNBVoltageHigh. Set this to 0x0000 if VC without PWM or no VC at all.
+> +usInterNBVoltageHigh:   Voltage regulator dependent PWM value. The value makes the voltage >=InterNBVoltageLow but <=Max NB voltage.Set this to 0x0000 if VC without PWM or no VC at all.
+>  */
+>
+>
+> --
+> 2.25.1
+>
