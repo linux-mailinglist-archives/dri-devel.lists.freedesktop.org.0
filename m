@@ -2,71 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039A457E72A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 21:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA7357E737
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 21:19:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C79D12AB34;
-	Fri, 22 Jul 2022 19:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A57692C2E;
+	Fri, 22 Jul 2022 19:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A5A18BA4F
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 19:16:00 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id p10so1568139lfd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 12:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=G47quR1ZrGgbuIvZ59TBsJJd6cPVPIYmhWGk53FjaIA=;
- b=spzJf2AITB3NQPutmqI27okRtwimfTO91xAARb293I66WGKv/cLML3hywZoRzlgoO1
- fBl9hcQgHMMGMr0yMet80vyPHKcxuoRtPmPunyfpNcyYVKp4EXf7n6gHcfs7KwqOHU/Z
- 6AQxfJ8LT+wdjKubufiFN/GsTTw/YPLnF3e6w8L26VB9pVbpq/pK50eJRaNBgBXRhore
- 47C0iCnBKDmsSj60FTjryu4yURM8Sz30TUco1YyUzbluYUuRYUx8nQBaJoG8GbaqUeTL
- rO4m7IBmVhhJ2gEcEUE/0uE6guKEYPN7l5gwEqDPrsucx97PC4T46APB/f87qtIKLdLO
- UmgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=G47quR1ZrGgbuIvZ59TBsJJd6cPVPIYmhWGk53FjaIA=;
- b=Icpn2o4Ro3rU0Ge9cpSVUL1QrYmwY3qnIXXmdyYRo3M2lGrQpAWRulV8r5pHwij1qu
- sKMZHBDYCGS14V9GERLifqOx1/cgw5H3NVV5KEggKNTMKs8k7JZxbyu68QavGo9hfa/i
- wVdXP0TfItu1wEV/K+tJQJY5DtAQKOPZXm8KdlgEf9V5wIwrOGgl9kZL1fJtugSzK9VP
- 6ys0T5Ci5wU0CPBf9oW822T/k3Eck8+VL0PDae0oGVwPgOSo/N5YPdfvts6WMN1CxijO
- MM1Sgu+CesFDzTdw0TjRadNEZK0fS4coriskXJ4c+qD3M92Mrdd3uxrgZ5uERae0RwsQ
- RlGw==
-X-Gm-Message-State: AJIora/NjUScEnwNo0bW7Sxm4TilCVTHjPKHlv+nVXWG/Pvofn4VYZCW
- DXsBRrDecwYnOAl+fA+vqx27yw==
-X-Google-Smtp-Source: AGRyM1vTa4j/tadJgnKEq9gHixcXZDFaetZSqHt0lkasbn82IkjJKmFFsP6XUHahqlJjNcJz6LaNrQ==
-X-Received: by 2002:a19:ad02:0:b0:48a:7246:63c6 with SMTP id
- t2-20020a19ad02000000b0048a724663c6mr520857lfc.541.1658517358365; 
- Fri, 22 Jul 2022 12:15:58 -0700 (PDT)
-Received: from krzk-bin.home (93.81-167-86.customer.lyse.net. [81.167.86.93])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a0565123b0700b0047255d211d7sm287484lfv.262.2022.07.22.12.15.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 12:15:57 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Mark Brown <broonie@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Maxime Ripard <mripard@kernel.org>, Marek Belisko <marek@goldelico.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Pratyush Yadav <p.yadav@ti.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org
-Subject: [PATCH v2 1/1] spi/panel: dt-bindings: drop CPHA and CPOL from common
- properties
-Date: Fri, 22 Jul 2022 21:15:39 +0200
-Message-Id: <20220722191539.90641-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220722191539.90641-1-krzysztof.kozlowski@linaro.org>
-References: <20220722191539.90641-1-krzysztof.kozlowski@linaro.org>
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 51A8D92C10
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 19:19:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,186,1654527600"; d="scan'208";a="128811328"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie6.idc.renesas.com with ESMTP; 23 Jul 2022 04:19:30 +0900
+Received: from localhost.localdomain (unknown [10.226.92.254])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id ECA8E400CA0C;
+ Sat, 23 Jul 2022 04:19:26 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v4 0/2] Add RZ/G2L DSI driver
+Date: Fri, 22 Jul 2022 20:19:22 +0100
+Message-Id: <20220722191924.544869-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,130 +41,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The spi-cpha and spi-cpol properties are device specific and should be
-accepted only if device really needs them.  Drop them from common
-spi-peripheral-props.yaml schema, mention in few panel drivers which use
-them and include instead in the SPI controller bindings.  The controller
-bindings will provide CPHA/CPOL type validation and one place for
-description.  Each device schema must list the properties if they are
-applicable.
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI mode only.
 
-Suggested-by: Jonathan Cameron <jic23@kernel.org>
-Suggested-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/display/panel/lgphilips,lb035q02.yaml    |  3 +++
- .../bindings/display/panel/samsung,ld9040.yaml        |  3 +++
- .../bindings/display/panel/sitronix,st7789v.yaml      |  3 +++
- .../devicetree/bindings/display/panel/tpo,td.yaml     |  3 +++
- .../devicetree/bindings/spi/spi-controller.yaml       | 11 +++++++++++
- .../devicetree/bindings/spi/spi-peripheral-props.yaml | 10 ----------
- 6 files changed, 23 insertions(+), 10 deletions(-)
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
-index 5e4e0e552c2f..628c4b898111 100644
---- a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
-@@ -21,6 +21,9 @@ properties:
-   enable-gpios: true
-   port: true
- 
-+  spi-cpha: true
-+  spi-cpol: true
-+
- required:
-   - compatible
-   - enable-gpios
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,ld9040.yaml b/Documentation/devicetree/bindings/display/panel/samsung,ld9040.yaml
-index d525165d6d63..c0fabeb38628 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,ld9040.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,ld9040.yaml
-@@ -42,6 +42,9 @@ properties:
-   panel-height-mm:
-     description: physical panel height [mm]
- 
-+  spi-cpha: true
-+  spi-cpol: true
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-index 9e1d707c2ace..d984b59daa4a 100644
---- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-@@ -23,6 +23,9 @@ properties:
-   backlight: true
-   port: true
- 
-+  spi-cpha: true
-+  spi-cpol: true
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/display/panel/tpo,td.yaml b/Documentation/devicetree/bindings/display/panel/tpo,td.yaml
-index f902a9d74141..e8c8ee8d7c88 100644
---- a/Documentation/devicetree/bindings/display/panel/tpo,td.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/tpo,td.yaml
-@@ -28,6 +28,9 @@ properties:
-   backlight: true
-   port: true
- 
-+  spi-cpha: true
-+  spi-cpol: true
-+
- required:
-   - compatible
-   - port
-diff --git a/Documentation/devicetree/bindings/spi/spi-controller.yaml b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-index 678cee68b52a..655713fba7e2 100644
---- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-@@ -95,6 +95,17 @@ patternProperties:
-     type: object
-     $ref: spi-peripheral-props.yaml
- 
-+    properties:
-+      spi-cpha:
-+        $ref: /schemas/types.yaml#/definitions/flag
-+        description:
-+          The device requires shifted clock phase (CPHA) mode.
-+
-+      spi-cpol:
-+        $ref: /schemas/types.yaml#/definitions/flag
-+        description:
-+          The device requires inverse clock polarity (CPOL) mode.
-+
-     required:
-       - compatible
-       - reg
-diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-index 5e32928c4fc3..2349f83c07f3 100644
---- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-@@ -34,16 +34,6 @@ properties:
-     description:
-       The device requires 3-wire mode.
- 
--  spi-cpha:
--    $ref: /schemas/types.yaml#/definitions/flag
--    description:
--      The device requires shifted clock phase (CPHA) mode.
--
--  spi-cpol:
--    $ref: /schemas/types.yaml#/definitions/flag
--    description:
--      The device requires inverse clock polarity (CPOL) mode.
--
-   spi-cs-high:
-     $ref: /schemas/types.yaml#/definitions/flag
-     description:
+The following are key features of this unit.
+
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
+
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
+
+Biju Das (2):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
+
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 +++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 712 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1055 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+
 -- 
-2.34.1
+2.25.1
 
