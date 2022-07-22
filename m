@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCF957E85C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 22:34:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC6C57E85E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 22:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86C793B63;
-	Fri, 22 Jul 2022 20:34:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B0A93B8F;
+	Fri, 22 Jul 2022 20:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095CE93B5D;
- Fri, 22 Jul 2022 20:34:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E0D93B89;
+ Fri, 22 Jul 2022 20:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,16 +19,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=TH9rxss53zay8H/y7PCgnrx83MHhoOnTSfGz46xB6jE=; b=SQO0yqwM5M+h50J1oBwTsZbqG9
- qNSvreEVeIreCuyRknn52tOS5WFJ/2S7TFJjGOA4ZRo6wsiCJaCZsUo2IOnIx4DNj5SiERDPRrboe
- rTNB+ooxIhggBhwlInkrNgtfcJ+CR+gUEvc+E4rrhhrOkFATPXJyVmwLAe4NESC+qquMPK74AsOu3
- rfWsa3p9QO5KZsbL2DogGXrY4JeJAmnuK6bx+HP5ONkIlqy9PsR2aDnWogXPSu2M+hnSO5dDDeObQ
- vny/46ZNxe97H1PJlQzQyNqGTCw8tFfuIvdE7G1YI46YmtIHCT7acN+t7qO7S4Teht2HXY+a5sH4a
- 1vjXtxKg==;
+ bh=7+kt7lXOg2rVGR6fwaVlAW44Sd/NwFG7DwhTa+6yfvM=; b=elkhrBkgGSiO5UJ34CwXrkxblr
+ u7jbS6bDQb/EQulXwN5VwNSKUfkHEKy0s5PfDb7mLyEYc0F/CrnjhpQqzyOHk459b94i6WOsCVp4u
+ cJQZOJNxlJVWXYrhhlcgXsXQZBi85MKpokjp31zBEKmI3XAmfbpXiB9rPnRTVJGCkcCVcIOf8Vqai
+ Fk53yqzzOJ0awTKMxCTod5oiW+qj3tzLGlI7Hcyes93yyYSpE7gpdsawQK5hVhXMR0/Wfo2lJwAT2
+ v/GZ+aESwfOPF5d92BhlUzZXTwYJ3Qv9KwJ89+5T6khGQbTL/Z1EVcWQINMjU3F9VaF7Jwya+NrRS
+ vLygpAvQ==;
 Received: from 201-13-50-220.dsl.telesp.net.br ([201.13.50.220]
  helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oEzLt-002fLB-Qo; Fri, 22 Jul 2022 22:34:26 +0200
+ id 1oEzM1-002fLB-5M; Fri, 22 Jul 2022 22:34:33 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
@@ -39,10 +39,9 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Tom St Denis <tom.stdenis@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: [PATCH 2/4] drm/amd/pm: Implement GFXOFF's entry count and residency
- for vangogh
-Date: Fri, 22 Jul 2022 17:33:45 -0300
-Message-Id: <20220722203347.70176-3-andrealmeid@igalia.com>
+Subject: [PATCH 3/4] Documentation/gpu: Document GFXOFF's count and residency
+Date: Fri, 22 Jul 2022 17:33:46 -0300
+Message-Id: <20220722203347.70176-4-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220722203347.70176-1-andrealmeid@igalia.com>
 References: <20220722203347.70176-1-andrealmeid@igalia.com>
@@ -66,165 +65,35 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement functions to get and set GFXOFF's entry count and residency
-for vangogh.
+Add documentation explaining those two new files.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- .../pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h    |  5 +-
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |  5 +-
- .../gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c  | 92 +++++++++++++++++++
- 3 files changed, 100 insertions(+), 2 deletions(-)
+ Documentation/gpu/amdgpu/thermal.rst | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h
-index fe130a497d6c..7471e2df2828 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h
-+++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h
-@@ -108,7 +108,10 @@
- #define PPSMC_MSG_SetSlowPPTLimit                      0x4A
- #define PPSMC_MSG_GetFastPPTLimit                      0x4B
- #define PPSMC_MSG_GetSlowPPTLimit                      0x4C
--#define PPSMC_Message_Count                            0x4D
-+#define PPSMC_MSG_GetGfxOffStatus		       0x50
-+#define PPSMC_MSG_GetGfxOffEntryCount		       0x51
-+#define PPSMC_MSG_LogGfxOffResidency		       0x52
-+#define PPSMC_Message_Count                            0x53
- 
- //Argument for PPSMC_MSG_GfxDeviceDriverReset
- enum {
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
-index 19084a4fcb2b..76fb6cbbc09c 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
-+++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h
-@@ -235,7 +235,10 @@
- 	__SMU_DUMMY_MAP(UnforceGfxVid),           \
- 	__SMU_DUMMY_MAP(HeavySBR),			\
- 	__SMU_DUMMY_MAP(SetBadHBMPagesRetiredFlagsPerChannel), \
--	__SMU_DUMMY_MAP(EnableGfxImu),
-+	__SMU_DUMMY_MAP(EnableGfxImu),			\
-+	__SMU_DUMMY_MAP(GetGfxOffStatus),		 \
-+	__SMU_DUMMY_MAP(GetGfxOffEntryCount),		 \
-+	__SMU_DUMMY_MAP(LogGfxOffResidency),
- 
- #undef __SMU_DUMMY_MAP
- #define __SMU_DUMMY_MAP(type)	SMU_MSG_##type
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-index 89504ff8e9ed..fff70f58a23c 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-@@ -138,6 +138,9 @@ static struct cmn2asic_msg_mapping vangogh_message_map[SMU_MSG_MAX_COUNT] = {
- 	MSG_MAP(SetSlowPPTLimit,                    PPSMC_MSG_SetSlowPPTLimit,						0),
- 	MSG_MAP(GetFastPPTLimit,                    PPSMC_MSG_GetFastPPTLimit,						0),
- 	MSG_MAP(GetSlowPPTLimit,                    PPSMC_MSG_GetSlowPPTLimit,						0),
-+	MSG_MAP(GetGfxOffStatus,		    PPSMC_MSG_GetGfxOffStatus,						0),
-+	MSG_MAP(GetGfxOffEntryCount,		    PPSMC_MSG_GetGfxOffEntryCount,					0),
-+	MSG_MAP(LogGfxOffResidency,		    PPSMC_MSG_LogGfxOffResidency,					0),
- };
- 
- static struct cmn2asic_mapping vangogh_feature_mask_map[SMU_FEATURE_COUNT] = {
-@@ -2200,6 +2203,92 @@ static int vangogh_set_power_limit(struct smu_context *smu,
- 	return ret;
- }
- 
-+/**
-+ * vangogh_set_gfxoff_residency
-+ *
-+ * @smu: amdgpu_device pointer
-+ * @start: start/stop residency log
-+ *
-+ * This function will be used to log gfxoff residency
-+ *
-+ *
-+ * Returns standard response codes.
-+ */
-+static u32 vangogh_set_gfxoff_residency(struct smu_context *smu, bool start)
-+{
-+	int ret = 0;
-+	u32 residency;
-+	struct amdgpu_device *adev = smu->adev;
+diff --git a/Documentation/gpu/amdgpu/thermal.rst b/Documentation/gpu/amdgpu/thermal.rst
+index 997231b6adcf..c31f94c6c681 100644
+--- a/Documentation/gpu/amdgpu/thermal.rst
++++ b/Documentation/gpu/amdgpu/thermal.rst
+@@ -104,3 +104,17 @@ Read it to check current GFXOFF's status of a GPU::
+ If GFXOFF is enabled, the value will be transitioning around [0, 3], always
+ getting into 0 when possible. When it's disabled, it's always at 2. Returns
+ ``-EINVAL`` if it's not supported.
 +
-+	switch (adev->ip_versions[MP1_HWIP][0]) {
-+	case IP_VERSION(11, 5, 0):
-+		if (!(adev->pm.pp_feature & PP_GFXOFF_MASK))
-+			return 0;
-+		ret = smu_cmn_send_smc_msg_with_param(smu, SMU_MSG_LogGfxOffResidency,
-+						      start, &residency);
-+		if (!start)
-+			adev->gfx.gfx_off_residency = residency;
-+		break;
-+	default:
-+		break;
-+	}
++``amdgpu_gfxoff_count``
++-----------------------
 +
-+	return ret;
-+}
++Read it to get the total GFXOFF entry count at the time of query since system
++power-up. *Only supported in vangogh*
 +
-+/**
-+ * vangogh_get_gfxoff_residency
-+ *
-+ * @smu: amdgpu_device pointer
-+ *
-+ * This function will be used to get gfxoff residency.
-+ *
-+ * Returns standard response codes.
-+ */
-+static u32 vangogh_get_gfxoff_residency(struct smu_context *smu, uint32_t *residency)
-+{
-+	int ret = 0;
-+	struct amdgpu_device *adev = smu->adev;
++``amdgpu_gfxoff_residency``
++---------------------------
 +
-+	switch (adev->ip_versions[MP1_HWIP][0]) {
-+	case IP_VERSION(11, 5, 0):
-+		*residency = adev->gfx.gfx_off_residency;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+/**
-+ * vangogh_get_gfxoff_entrycount - get gfxoff entry count
-+ *
-+ * @smu: amdgpu_device pointer
-+ *
-+ * This function will be used to get gfxoff entry count
-+ *
-+ * Returns standard response codes.
-+ */
-+static u32 vangogh_get_gfxoff_entrycount(struct smu_context *smu, uint32_t *entrycount)
-+{
-+	int ret = 0;
-+	struct amdgpu_device *adev = smu->adev;
-+
-+	switch (adev->ip_versions[MP1_HWIP][0]) {
-+	case IP_VERSION(11, 5, 0):
-+		if (!(adev->pm.pp_feature & PP_GFXOFF_MASK))
-+			return 0;
-+		ret = smu_cmn_send_smc_msg(smu, SMU_MSG_GetGfxOffEntryCount, entrycount);
-+		*entrycount += adev->gfx.gfx_off_entrycount;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static const struct pptable_funcs vangogh_ppt_funcs = {
- 
- 	.check_fw_status = smu_v11_0_check_fw_status,
-@@ -2237,6 +2326,9 @@ static const struct pptable_funcs vangogh_ppt_funcs = {
- 	.mode2_reset = vangogh_mode2_reset,
- 	.gfx_off_control = smu_v11_0_gfx_off_control,
- 	.get_gfx_off_status = vangogh_get_gfxoff_status,
-+	.get_gfx_off_entrycount = vangogh_get_gfxoff_entrycount,
-+	.get_gfx_off_residency = vangogh_get_gfxoff_residency,
-+	.set_gfx_off_residency = vangogh_set_gfxoff_residency,
- 	.get_ppt_limit = vangogh_get_ppt_limit,
- 	.get_power_limit = vangogh_get_power_limit,
- 	.set_power_limit = vangogh_set_power_limit,
++Write 1 to amdgpu_gfxoff_residency to start logging, and 0 to stop. Read it to
++get average GFXOFF residency % multiplied by 100 during the last logging
++interval. E.g. a value of 7854 means 78.54% of the time in the last logging
++interval the GPU was in GFXOFF mode. *Only supported in vangogh*
 -- 
 2.37.1
 
