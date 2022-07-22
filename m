@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3B057FA1A
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 09:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A321157FA27
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 09:23:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F069611386E;
-	Mon, 25 Jul 2022 07:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00F0711A0EC;
+	Mon, 25 Jul 2022 07:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
  [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364131125ED
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 21:32:17 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id z18so4275540qki.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 14:32:17 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA2810F1C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 21:32:19 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id b25so4561884qka.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 14:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1BGyLBuq3meNkdub1LpDqA0SaKJWYBl5yTRibnE/+hE=;
- b=kAfLZfqnVGSljWjnAtlpkQJDWBJSH4MK+UbIahboS+sE0OI+pVFANMnIulcwGJEHTB
- uvYoLI2W8mHVG1U32SdvfnHQwwlQHm5nQvuJLAtjhMuw31ks877Jvc7sfa9fKBxIpwgJ
- DCh8jn0tUYSREZ7iofhjBUZT8RfAN98RBwq8s=
+ bh=3fpoKNN9NKKcmdllRA8e2Sx9LkJKju9vLlCphHH6IUw=;
+ b=D0ZGglqNrEQpSVod+xAAHfggZ5dNBau9h+W1W/1tqJhLJ7nZnpj2C/3V4GLoa8yiMd
+ gP3HjutFM3Cw2oSOm+85ElSPXL+1SmMpFLNzk3itazyixB6PBoaNq59FxGRubYREkAiz
+ cxExG210lorwTL59CTiezY4RJ9PUEk4e3/iOQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1BGyLBuq3meNkdub1LpDqA0SaKJWYBl5yTRibnE/+hE=;
- b=36lVDdwK7FSm5FEIE6iqvpTj3xmWxmMsXcv0TO+ZgEaRBQZ8K9lMrLMPomow8tC+uQ
- NKIp/v60iwrKwV3AEhE2fTxQnIrxC2shlFZk6ADeoZlFGnR+j7J6B6zRA0dtCkAATldl
- 2M5qrzTi5qfxsvKkLk2aL7RhxiYFQ+l0jx7SC5hJYGduvjG4SfWR5Gyri7WkG/dzsZio
- nAlypApOAE3M3+n5JxJ2HqsOtdl3U5soMQk3/0z6YlOT59emcVq+DeT0GHzCFmEO3wm1
- 8drphx1qn69GKF2lKiCEdD1zw19kzjhEybX7s4Xl4ecGh0xa1RKrvbmGruxVY2VR0t4W
- gHNA==
-X-Gm-Message-State: AJIora+vAlkQ2E9kZdXGDpIezLZhYiT/ZOYM8r+mN+HHSbXzOVaPaPZc
- rKBsgSDTcFGBXYRZ4XykFAB+hw==
-X-Google-Smtp-Source: AGRyM1ueVogzyNnEKniOH7KLiF3z2/QNoYa4glGiiucBzlM+Ve+6eA+egLuG+oZNOoJZpFTWzwF++Q==
-X-Received: by 2002:a37:644b:0:b0:6b5:d62f:7ed with SMTP id
- y72-20020a37644b000000b006b5d62f07edmr1500662qkb.143.1658525536305; 
- Fri, 22 Jul 2022 14:32:16 -0700 (PDT)
+ bh=3fpoKNN9NKKcmdllRA8e2Sx9LkJKju9vLlCphHH6IUw=;
+ b=y6ejnxTcn5TP3Skcw6hm0Mzc9aM7TgU4zrnF4UVwDkFxu35JX7ota0VOWo962L87fm
+ uPktj5V5bVeoW/w6wnLFSVbZ5d6tKeBGFiyTkTQ3ZkKHuOmEsTDpSeiDearKcMCaicxn
+ zefF+OieDi4arE2BammgU7Qdr/iW20bjx4p1NlJtZAO70DHGRarcg3BTNt1Npwkq1yBp
+ BeCscZn4NbHeq1ioPuM28xOvyLCmt/8N9w219iq/IyYdclu7d1mdEAM4m7G1ABc+l2oE
+ 1HO5q73sVbhVxzO8UekF5YpzON2UUboJpruNsgf1tOzGxi93CGY3O/yhTSzN1LKf/DDT
+ XItA==
+X-Gm-Message-State: AJIora/4NXb2ea72q0A31T05lVakRg7yCNqZNzvUa55NgHqJCWS8Wv55
+ AqBe9JSWRgEQRJkBOfWB5V9EwQ==
+X-Google-Smtp-Source: AGRyM1tl4prvUFalxKv+GxLzaYuGWffkIril5012tUsFFA4jkKc/EHZ8mJiOS12vwwYRbqt7v6IhiQ==
+X-Received: by 2002:a05:620a:bd6:b0:6ab:8874:4cb4 with SMTP id
+ s22-20020a05620a0bd600b006ab88744cb4mr1551205qki.378.1658525538048; 
+ Fri, 22 Jul 2022 14:32:18 -0700 (PDT)
 Received: from jshargo (pool-108-14-42-16.nycmny.fios.verizon.net.
  [108.14.42.16]) by smtp.gmail.com with ESMTPSA id
- x9-20020a05620a448900b006b614fe291bsm4657187qkp.28.2022.07.22.14.32.15
+ bn14-20020a05622a1dce00b0031ebb1f8918sm3456021qtb.76.2022.07.22.14.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 14:32:16 -0700 (PDT)
+ Fri, 22 Jul 2022 14:32:17 -0700 (PDT)
 From: Jim Shargo <jshargo@chromium.org>
 To: jshargo@google.com, Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
  Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>
-Subject: [PATCH 1/5] drm/vkms: Merge default_config and device
-Date: Fri, 22 Jul 2022 17:32:09 -0400
-Message-Id: <20220722213214.1377835-2-jshargo@chromium.org>
+Subject: [PATCH 2/5] drm/vkms: VKMS now supports more than one "card"
+Date: Fri, 22 Jul 2022 17:32:10 -0400
+Message-Id: <20220722213214.1377835-3-jshargo@chromium.org>
 X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
 In-Reply-To: <20220722213214.1377835-1-jshargo@chromium.org>
 References: <20220722213214.1377835-1-jshargo@chromium.org>
@@ -77,190 +77,535 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a small refactor to make ConfigFS support easier.
 
-vkms_config is now a member of vkms_device and we now store a top-level
-reference to vkms_device.
+We now store the vkms_device statically, and maintain a list of
+"cards", each representing a different virtual DRM driver.
 
-This should be a no-op refactor.
+We also make it clear when a card is "default", that is created at
+initialization, and not. This is because, due to limitations on what we
+can do with the configfs API, the default card won't be reflected in
+configfs and is initialized in a unique way.
+
+Since we're only managing a single card, this should be a no-op.
 
 Signed-off-by: Jim Shargo <jshargo@chromium.org>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c    | 58 +++++++++---------------------
- drivers/gpu/drm/vkms/vkms_drv.h    |  5 ++-
- drivers/gpu/drm/vkms/vkms_output.c |  6 ++--
- 3 files changed, 22 insertions(+), 47 deletions(-)
+ drivers/gpu/drm/vkms/vkms_crtc.c      |  11 +-
+ drivers/gpu/drm/vkms/vkms_drv.c       | 160 ++++++++++++++++----------
+ drivers/gpu/drm/vkms/vkms_drv.h       |  32 ++++--
+ drivers/gpu/drm/vkms/vkms_output.c    |  25 ++--
+ drivers/gpu/drm/vkms/vkms_plane.c     |   4 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  20 ++--
+ 6 files changed, 158 insertions(+), 94 deletions(-)
 
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 57bbd32e9beb..c1b632952532 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -62,9 +62,10 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ static int vkms_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct drm_device *dev = crtc->dev;
++	struct vkms_card *card = drm_device_to_vkms_card(dev);
++	struct vkms_output *out = &card->output;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+-	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+ 
+ 	drm_calc_timestamping_constants(crtc, &crtc->mode);
+ 
+@@ -78,7 +79,9 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void vkms_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
++	struct drm_device *dev = crtc->dev;
++	struct vkms_card *card = drm_device_to_vkms_card(dev);
++	struct vkms_output *out = &card->output;
+ 
+ 	hrtimer_cancel(&out->vblank_hrtimer);
+ }
+@@ -88,9 +91,9 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 				      bool in_vblank_irq)
+ {
+ 	struct drm_device *dev = crtc->dev;
++	struct vkms_card *card = drm_device_to_vkms_card(dev);
++	struct vkms_output *output = &card->output;
+ 	unsigned int pipe = crtc->index;
+-	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+-	struct vkms_output *output = &vkmsdev->output;
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 
+ 	if (!READ_ONCE(vblank->enabled)) {
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 0ffe5f0e33f7..81ed9417e511 100644
+index 81ed9417e511..92fbade2199b 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.c
 +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -9,9 +9,9 @@
+  * the GPU in DRM API tests.
+  */
+ 
++#include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+-#include <linux/dma-mapping.h>
+ 
+ #include <drm/drm_gem.h>
+ #include <drm/drm_atomic.h>
 @@ -37,7 +37,7 @@
  #define DRIVER_MAJOR	1
  #define DRIVER_MINOR	0
  
--static struct vkms_config *default_config;
-+static struct vkms_device *vkms_device;
+-static struct vkms_device *vkms_device;
++static struct vkms_device vkms_device;
  
  static bool enable_cursor = true;
  module_param_named(enable_cursor, enable_cursor, bool, 0444);
-@@ -91,13 +91,9 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+@@ -55,9 +55,9 @@ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+ 
+ static void vkms_release(struct drm_device *dev)
+ {
+-	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
++	struct vkms_card *card = drm_device_to_vkms_card(dev);
+ 
+-	destroy_workqueue(vkms->output.composer_workq);
++	destroy_workqueue(card->output.composer_workq);
+ }
+ 
+ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+@@ -91,9 +91,9 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
  
  static int vkms_config_show(struct seq_file *m, void *data)
  {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct drm_device *dev = node->minor->dev;
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
--
--	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
--	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
--	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-+	seq_printf(m, "writeback=%d\n", vkms_device->config.writeback);
-+	seq_printf(m, "cursor=%d\n", vkms_device->config.cursor);
-+	seq_printf(m, "overlay=%d\n", vkms_device->config.overlay);
+-	seq_printf(m, "writeback=%d\n", vkms_device->config.writeback);
+-	seq_printf(m, "cursor=%d\n", vkms_device->config.cursor);
+-	seq_printf(m, "overlay=%d\n", vkms_device->config.overlay);
++	seq_printf(m, "writeback=%d\n", vkms_device.config.writeback);
++	seq_printf(m, "cursor=%d\n", vkms_device.config.cursor);
++	seq_printf(m, "overlay=%d\n", vkms_device.config.overlay);
  
  	return 0;
  }
-@@ -158,11 +154,10 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
- 	return vkms_output_init(vkmsdev, 0);
+@@ -133,9 +133,9 @@ static const struct drm_mode_config_helper_funcs vkms_mode_config_helpers = {
+ 	.atomic_commit_tail = vkms_atomic_commit_tail,
+ };
+ 
+-static int vkms_modeset_init(struct vkms_device *vkmsdev)
++static int vkms_modeset_init(struct vkms_card *card)
+ {
+-	struct drm_device *dev = &vkmsdev->drm;
++	struct drm_device *dev = &card->drm;
+ 
+ 	drm_mode_config_init(dev);
+ 	dev->mode_config.funcs = &vkms_mode_funcs;
+@@ -151,89 +151,133 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+ 	dev->mode_config.preferred_depth = 0;
+ 	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+ 
+-	return vkms_output_init(vkmsdev, 0);
++	return card->is_default ? vkms_output_init_default(card, 0) : -ENOTSUPP;
  }
  
--static int vkms_create(struct vkms_config *config)
-+static int vkms_create(void)
+-static int vkms_create(void)
++static void vkms_device_destroy(void)
  {
- 	int ret;
- 	struct platform_device *pdev;
--	struct vkms_device *vkms_device;
- 
- 	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
- 	if (IS_ERR(pdev))
-@@ -179,9 +174,11 @@ static int vkms_create(struct vkms_config *config)
- 		ret = PTR_ERR(vkms_device);
- 		goto out_devres;
- 	}
-+	
- 	vkms_device->platform = pdev;
--	vkms_device->config = config;
--	config->dev = vkms_device;
-+	vkms_device->config.cursor = enable_cursor;
-+	vkms_device->config.writeback = enable_writeback;
-+	vkms_device->config.overlay = enable_overlay;
- 
- 	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
- 					   DMA_BIT_MASK(64));
-@@ -207,6 +204,8 @@ static int vkms_create(struct vkms_config *config)
- 
- 	drm_fbdev_generic_setup(&vkms_device->drm, 0);
- 
-+	vkms_device->initialized = true;
+-	int ret;
++	struct vkms_card *card, *n;
 +
- 	return 0;
- 
- out_devres:
-@@ -218,46 +217,23 @@ static int vkms_create(struct vkms_config *config)
- 
- static int __init vkms_init(void)
- {
--	struct vkms_config *config;
--
--	config = kmalloc(sizeof(*config), GFP_KERNEL);
--	if (!config)
--		return -ENOMEM;
--
--	default_config = config;
--
--	config->cursor = enable_cursor;
--	config->writeback = enable_writeback;
--	config->overlay = enable_overlay;
--
--	return vkms_create(config);
-+	return vkms_create();
- }
- 
--static void vkms_destroy(struct vkms_config *config)
-+static void __exit vkms_exit(void)
- {
++	list_for_each_entry_safe(card, n, &vkms_device.cards, node) {
++		vkms_card_destroy(card);
++	}
++
++	memset(&vkms_device, 0, sizeof(struct vkms_device));
++}
++
++struct vkms_card *vkms_card_init(const char *name, bool is_default)
++{
++	char unique_name[64] = { 0 };
  	struct platform_device *pdev;
++	struct vkms_card *card;
++	void *grp;
++	int ret;
  
--	if (!config->dev) {
--		DRM_INFO("vkms_device is NULL.\n");
-+	if (!vkms_device || !vkms_device->initialized) {
- 		return;
+-	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
++	ret = snprintf(unique_name, ARRAY_SIZE(unique_name), "%s-%s",
++		       DRIVER_NAME, name);
++	if (ARRAY_SIZE(unique_name) <= ret) {
++		DRM_WARN("Truncated vkms card driver name '%s-%s' to '%s'\n",
++			 DRIVER_NAME, name, unique_name);
++	}
++
++	pdev = platform_device_register_simple(unique_name, -1, NULL, 0);
+ 	if (IS_ERR(pdev))
+-		return PTR_ERR(pdev);
++		return ERR_PTR(PTR_ERR(pdev));
+ 
+-	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+-		ret = -ENOMEM;
+-		goto out_unregister;
++	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
++	if (!grp) {
++		ret = ENOMEM;
++		goto out_platform_device;
  	}
  
--	pdev = config->dev->platform;
-+	pdev = vkms_device->platform;
+-	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+-					 struct vkms_device, drm);
+-	if (IS_ERR(vkms_device)) {
+-		ret = PTR_ERR(vkms_device);
+-		goto out_devres;
++	card = devm_drm_dev_alloc(&pdev->dev, &vkms_driver, struct vkms_card,
++				  drm);
++	if (IS_ERR(card)) {
++		ret = PTR_ERR(card);
++		goto out_release_group;
+ 	}
+-	
+-	vkms_device->platform = pdev;
+-	vkms_device->config.cursor = enable_cursor;
+-	vkms_device->config.writeback = enable_writeback;
+-	vkms_device->config.overlay = enable_overlay;
  
--	drm_dev_unregister(&config->dev->drm);
--	drm_atomic_helper_shutdown(&config->dev->drm);
-+	drm_dev_unregister(&vkms_device->drm);
-+	drm_atomic_helper_shutdown(&vkms_device->drm);
- 	devres_release_group(&pdev->dev, NULL);
+-	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+-					   DMA_BIT_MASK(64));
++	strncpy(card->name_buf, unique_name, ARRAY_SIZE(card->name_buf) - 1);
++	card->platform = pdev;
++	card->drm.unique = card->name_buf;
++	card->vkms_device = &vkms_device;
++	card->is_default = is_default;
++	card->is_registered = false;
++	card->resource_group_id = grp;
+ 
++	ret = dma_coerce_mask_and_coherent(card->drm.dev, DMA_BIT_MASK(64));
+ 	if (ret) {
+ 		DRM_ERROR("Could not initialize DMA support\n");
+-		goto out_devres;
++		goto out_release_group;
+ 	}
+ 
+-	ret = drm_vblank_init(&vkms_device->drm, 1);
++	ret = drm_vblank_init(&card->drm, 1);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to vblank\n");
+-		goto out_devres;
++		goto out_release_group;
+ 	}
+ 
+-	ret = vkms_modeset_init(vkms_device);
+-	if (ret)
+-		goto out_devres;
+-
+-	ret = drm_dev_register(&vkms_device->drm, 0);
+-	if (ret)
+-		goto out_devres;
++	ret = vkms_modeset_init(card);
++	if (ret) {
++		DRM_ERROR("Unable to initialize modesetting");
++		goto out_release_group;
++	}
+ 
+-	drm_fbdev_generic_setup(&vkms_device->drm, 0);
++	ret = drm_dev_register(&card->drm, 0);
++	if (ret) {
++		DRM_ERROR("Unable to register card");
++		return ERR_PTR(ret);
++	}
+ 
+-	vkms_device->initialized = true;
++	drm_fbdev_generic_setup(&card->drm, 0);
++	card->is_registered = true;
+ 
+-	return 0;
++	devres_close_group(&pdev->dev, grp);
++	list_add_tail(&card->node, &vkms_device.cards);
++	
++	return card;
+ 
+-out_devres:
+-	devres_release_group(&pdev->dev, NULL);
+-out_unregister:
++out_release_group:
++	devres_release_group(&pdev->dev, grp);
++out_platform_device:
  	platform_device_unregister(pdev);
--
--	config->dev = NULL;
--}
--
+-	return ret;
++	return ERR_PTR(ret);
+ }
+ 
+-static int __init vkms_init(void)
++void vkms_card_destroy(struct vkms_card *card)
+ {
+-	return vkms_create();
++	list_del(&card->node);
++	if (card->is_registered) {
++		drm_dev_unregister(&card->drm);
++		drm_atomic_helper_shutdown(&card->drm);
++		devres_release_group(&card->platform->dev,
++				     card->resource_group_id);
++		platform_device_unregister(card->platform);
++	}
+ }
+ 
 -static void __exit vkms_exit(void)
--{
--	if (default_config->dev)
--		vkms_destroy(default_config);
++static int __init vkms_init(void)
+ {
+-	struct platform_device *pdev;
 -
--	kfree(default_config);
+-	if (!vkms_device || !vkms_device->initialized) {
+-		return;
++	struct vkms_card *card;
++
++	vkms_device.config.cursor = enable_cursor;
++	vkms_device.config.writeback = enable_writeback;
++	vkms_device.config.overlay = enable_overlay;
++	INIT_LIST_HEAD(&vkms_device.cards);
++
++	card = vkms_card_init("default", /* configfs */ NULL);
++	if (IS_ERR(card)) {
++		DRM_ERROR("Unable to init default card");
++		vkms_device_destroy();
++		return PTR_ERR(card);
+ 	}
+ 
+-	pdev = vkms_device->platform;
++	return 0;
++}
+ 
+-	drm_dev_unregister(&vkms_device->drm);
+-	drm_atomic_helper_shutdown(&vkms_device->drm);
+-	devres_release_group(&pdev->dev, NULL);
+-	platform_device_unregister(pdev);
++static void __exit vkms_exit(void)
++{
++	vkms_device_destroy();
  }
  
  module_init(vkms_init);
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 91e63b12f60f..c7ebc4ee6b14 100644
+index c7ebc4ee6b14..1a98b81d6f22 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.h
 +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -99,15 +99,14 @@ struct vkms_config {
- 	bool writeback;
- 	bool cursor;
+@@ -4,6 +4,7 @@
+ #define _VKMS_DRV_H_
+ 
+ #include <linux/hrtimer.h>
++#include <linux/kernel.h>
+ 
+ #include <drm/drm.h>
+ #include <drm/drm_gem.h>
+@@ -101,19 +102,29 @@ struct vkms_config {
  	bool overlay;
--	/* only set when instantiated */
--	struct vkms_device *dev;
  };
  
- struct vkms_device {
- 	struct drm_device drm;
+-struct vkms_device {
+-	struct drm_device drm;
++struct vkms_card {
  	struct platform_device *platform;
++	struct drm_device drm;
++	struct list_head node;
  	struct vkms_output output;
--	const struct vkms_config *config;
-+	struct vkms_config config;
-+	bool initialized;
++	struct vkms_device *vkms_device;
++	/* storage for the value of drm->unique, giving this dev a unique busid */
++	char name_buf[64];
++	void *resource_group_id;
++	bool is_default;
++	bool is_registered;
++};
++
++struct vkms_device {
++	struct list_head cards;
+ 	struct vkms_config config;
+-	bool initialized;
  };
  
  #define drm_crtc_to_vkms_output(target) \
+ 	container_of(target, struct vkms_output, crtc)
+ 
+-#define drm_device_to_vkms_device(target) \
+-	container_of(target, struct vkms_device, drm)
++#define drm_device_to_vkms_card(target)                                        \
++	container_of(target, struct vkms_card, drm)
+ 
+ #define to_vkms_crtc_state(target)\
+ 	container_of(target, struct vkms_crtc_state, base)
+@@ -121,13 +132,18 @@ struct vkms_device {
+ #define to_vkms_plane_state(target)\
+ 	container_of(target, struct vkms_plane_state, base.base)
+ 
++/* Cards */
++struct vkms_card *vkms_card_init(const char *name, bool is_default);
++void vkms_card_destroy(struct vkms_card *card);
++
+ /* CRTC */
+ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+ 		   struct drm_plane *primary, struct drm_plane *cursor);
+ 
+-int vkms_output_init(struct vkms_device *vkmsdev, int index);
++int vkms_output_init_default(struct vkms_card *card, int index);
++int vkms_output_init(struct vkms_card *card, int index);
+ 
+-struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
++struct vkms_plane *vkms_plane_init(struct vkms_card *card,
+ 				   enum drm_plane_type type, int index);
+ 
+ /* CRC Support */
+@@ -142,6 +158,6 @@ void vkms_composer_worker(struct work_struct *work);
+ void vkms_set_composer(struct vkms_output *out, bool enabled);
+ 
+ /* Writeback */
+-int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
++int vkms_enable_writeback_connector(struct vkms_card *card);
+ 
+ #endif /* _VKMS_DRV_H_ */
 diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index ba0e82ae549a..d0061c82003a 100644
+index d0061c82003a..dafd47c0a54d 100644
 --- a/drivers/gpu/drm/vkms/vkms_output.c
 +++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -63,7 +63,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+@@ -32,12 +32,12 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+ 	.get_modes    = vkms_conn_get_modes,
+ };
+ 
+-static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
++static int vkms_add_overlay_plane(struct vkms_card *card, int index,
+ 				  struct drm_crtc *crtc)
+ {
+ 	struct vkms_plane *overlay;
+ 
+-	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
++	overlay = vkms_plane_init(card, DRM_PLANE_TYPE_OVERLAY, index);
+ 	if (IS_ERR(overlay))
+ 		return PTR_ERR(overlay);
+ 
+@@ -47,10 +47,11 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
+ 	return 0;
+ }
+ 
+-int vkms_output_init(struct vkms_device *vkmsdev, int index)
++int vkms_output_init_default(struct vkms_card *card, int index)
+ {
+-	struct vkms_output *output = &vkmsdev->output;
+-	struct drm_device *dev = &vkmsdev->drm;
++	const struct vkms_config *config = &card->vkms_device->config;
++	struct vkms_output *output = &card->output;
++	struct drm_device *dev = &card->drm;
+ 	struct drm_connector *connector = &output->connector;
+ 	struct drm_encoder *encoder = &output->encoder;
+ 	struct drm_crtc *crtc = &output->crtc;
+@@ -59,20 +60,20 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	int writeback;
+ 	unsigned int n;
+ 
+-	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
++	primary = vkms_plane_init(card, DRM_PLANE_TYPE_PRIMARY, index);
  	if (IS_ERR(primary))
  		return PTR_ERR(primary);
  
--	if (vkmsdev->config->overlay) {
-+	if (vkmsdev->config.overlay) {
+-	if (vkmsdev->config.overlay) {
++	if (config->overlay) {
  		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
- 			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
+-			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
++			ret = vkms_add_overlay_plane(card, index, crtc);
  			if (ret)
-@@ -71,7 +71,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 				return ret;
  		}
  	}
  
--	if (vkmsdev->config->cursor) {
-+	if (vkmsdev->config.cursor) {
- 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+-	if (vkmsdev->config.cursor) {
+-		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
++	if (config->cursor) {
++		cursor = vkms_plane_init(card, DRM_PLANE_TYPE_CURSOR, index);
  		if (IS_ERR(cursor))
  			return PTR_ERR(cursor);
-@@ -103,7 +103,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	}
+@@ -103,8 +104,8 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
  		goto err_attach;
  	}
  
--	if (vkmsdev->config->writeback) {
-+	if (vkmsdev->config.writeback) {
- 		writeback = vkms_enable_writeback_connector(vkmsdev);
+-	if (vkmsdev->config.writeback) {
+-		writeback = vkms_enable_writeback_connector(vkmsdev);
++	if (config->writeback) {
++		writeback = vkms_enable_writeback_connector(card);
  		if (writeback)
  			DRM_ERROR("Failed to init writeback connector\n");
+ 	}
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index d8eb674b49a6..28abd61a0bb9 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -158,10 +158,10 @@ static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+ 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+ };
+ 
+-struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
++struct vkms_plane *vkms_plane_init(struct vkms_card *card,
+ 				   enum drm_plane_type type, int index)
+ {
+-	struct drm_device *dev = &vkmsdev->drm;
++	struct drm_device *dev = &card->drm;
+ 	const struct drm_plane_helper_funcs *funcs;
+ 	struct vkms_plane *plane;
+ 	const u32 *formats;
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index af1604dfbbaf..681e7267d688 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -94,15 +94,15 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+ 				struct drm_writeback_job *job)
+ {
+ 	struct vkms_writeback_job *vkmsjob = job->priv;
+-	struct vkms_device *vkmsdev;
++	struct vkms_card *card;
+ 
+ 	if (!job->fb)
+ 		return;
+ 
+ 	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
+ 
+-	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+-	vkms_set_composer(&vkmsdev->output, false);
++	card = drm_device_to_vkms_card(job->fb->dev);
++	vkms_set_composer(&card->output, false);
+ 	kfree(vkmsjob);
+ }
+ 
+@@ -111,8 +111,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ {
+ 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+ 											 conn);
+-	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
+-	struct vkms_output *output = &vkmsdev->output;
++	struct vkms_card *card = drm_device_to_vkms_card(conn->dev);
++	struct vkms_output *output = &card->output;
+ 	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+ 	struct drm_connector_state *conn_state = wb_conn->base.state;
+ 	struct vkms_crtc_state *crtc_state = output->composer_state;
+@@ -120,7 +120,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	if (!conn_state)
+ 		return;
+ 
+-	vkms_set_composer(&vkmsdev->output, true);
++	vkms_set_composer(&card->output, true);
+ 
+ 	spin_lock_irq(&output->composer_lock);
+ 	crtc_state->active_writeback = conn_state->writeback_job->priv;
+@@ -136,14 +136,14 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+ 	.atomic_commit = vkms_wb_atomic_commit,
+ };
+ 
+-int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
++int vkms_enable_writeback_connector(struct vkms_card *card)
+ {
+-	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
++	struct drm_writeback_connector *wb = &card->output.wb_connector;
+ 
+-	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
++	card->output.wb_connector.encoder.possible_crtcs = 1;
+ 	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+ 
+-	return drm_writeback_connector_init(&vkmsdev->drm, wb,
++	return drm_writeback_connector_init(&card->drm, wb,
+ 					    &vkms_wb_connector_funcs,
+ 					    &vkms_wb_encoder_helper_funcs,
+ 					    vkms_wb_formats,
 -- 
 2.37.1.359.gd136c6c3e2-goog
 
