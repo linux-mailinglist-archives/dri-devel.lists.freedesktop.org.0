@@ -1,61 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1AA857DB9E
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 09:57:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CE257DC6D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 10:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6DD10EE8C;
-	Fri, 22 Jul 2022 07:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DEC9038D;
+	Fri, 22 Jul 2022 08:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB8A11238D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 07:57:02 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 649E96601ABF;
- Fri, 22 Jul 2022 08:56:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658476620;
- bh=2DGolipgyjptolp4am/pfMdXRfTwRTSgmtA0z4LFs74=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TWjJcmibV8VEFEuMdfgD9HUYattJGFNft4NDLBqSyUYkaeici4lRn0ccNAgCz40cq
- MQZt7GjX8qA8DUEWCTi8yIOL6u9YbtWgdCcaSo/an71v2OEpY//0cGgG2dgkd76qQ3
- u6Zh1RqQxXPI6SdE1agHamet20MjIiy/F03N5QH8AI2jghDmLBv8M1L0nrrSOhXdiP
- Ox5FUb8bFRanFQ4UPFYEQuBXsassSLjVfD4yQHp6JbcxfralOfGQ6rxILansDl2xo3
- ovUHwyqpHQM7s74K/YR+Pv4fHMzMP3J4DkdJcxoQ/D3LrmxfM+REkM+KqQ8GHaIMRx
- OMv/SONENFg+A==
-Message-ID: <addbe80a-8fdd-fe5e-f880-c11dc1833fb6@collabora.com>
-Date: Fri, 22 Jul 2022 09:56:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RESEND] media: mediatek: vcodec: Add to support VP9 inner racing
- mode
-Content-Language: en-US
-To: "mingjia.zhang@mediatek.com" <mingjia.zhang@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20220715064938.5812-1-mingjia.zhang@mediatek.com>
- <6d8aeee4-9732-1c62-67e0-6e8f56373aa6@collabora.com>
- <cf62ea99e74ea729a38fe7f806cbc06a0c549ddc.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <cf62ea99e74ea729a38fe7f806cbc06a0c549ddc.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mo-csw.securemx.jp (mo-csw1514.securemx.jp [210.130.202.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1696A9038A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 08:34:33 +0000 (UTC)
+Received: by mo-csw.securemx.jp (mx-mo-csw1514) id 26M8YCXB031306;
+ Fri, 22 Jul 2022 17:34:12 +0900
+X-Iguazu-Qid: 34trpbd9I5QiEQLLEO
+X-Iguazu-QSIG: v=2; s=0; t=1658478851; q=34trpbd9I5QiEQLLEO;
+ m=EUB3sIfsoyZ7QDFQ7pwFPBHYPpSEDZRaTCda0U/hj4g=
+Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
+ by relay.securemx.jp (mx-mr1513) id 26M8YAPq008986
+ (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 22 Jul 2022 17:34:10 +0900
+X-SA-MID: 39258132
+From: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+To: Rob Herring <robh+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v2 0/5] Add Toshiba Visconti DNN image processing accelerator
+ driver
+Date: Fri, 22 Jul 2022 17:28:53 +0900
+X-TSB-HOP2: ON
+Message-Id: <20220722082858.17880-1-yuji2.ishikawa@toshiba.co.jp>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +45,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, yuji2.ishikawa@toshiba.co.jp,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 22/07/22 08:43, mingjia.zhang@mediatek.com ha scritto:
-> Hi Angelo,
-> 
-> Thanks for your reply and useful comments.
-> 
-> In addition to running cts/gts test, I ran the fluster test with
-> GStreamer locally. The test result is "Ran 240/303 tests successfully"
-> 
-> 
+This series is the DNN image processing accelerator driver for Toshiba's ARM SoC, Visconti[0].
+This provides DT binding documentation, device driver, MAINTAINER files and documents.
 
-Just an advice: if you want to speed up the reviews and merging these
-commits, always post the full output of Fluster/GST testing when sending
-them.
+Best regards,
+Yuji
 
-This will make it easier for the media maintainers to review your code :-)
+[0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
 
-Anyway, thanks for the Fluster testing!
+dt-bindings: soc: visconti: Add Toshiba Visconti DNN image processing accelerator bindings
+  v1 -> v2:
+    - No update
 
-Cheers,
-Angelo
+soc: visconti: Add Toshiba Visconti image processing accelerator common source
+  v1 -> v2:
+    - checked with checkpatch.pl --strict
 
-> Thanks,
-> mingjia
-> 
-> 
-> On Fri, 2022-07-15 at 10:34 +0200, AngeloGioacchino Del Regno wrote:
->> Il 15/07/22 08:49, Mingjia Zhang ha scritto:
->>> In order to reduce decoder latency, enable VP9 inner racing mode.
->>> Send lat trans buffer information to core when trigger lat to work,
->>> need not to wait until lat decode done.
->>>
->>> Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
->>> ---
->>> CTS/GTS test pass
->>
->> CTS/GTS passing is a good indication but, please, test with GStreamer
->> (and
->> show the output, as well!).
->>
->> Thanks,
->> Angelo
->>
->>> ---
->>>    .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 64 ++++++++++++
->>> -------
->>>    1 file changed, 40 insertions(+), 24 deletions(-)
->>>
-> 
+soc: visconti: Add Toshiba Visconti DNN image processing accelerator
+  v1 -> v2:
+    - checked with checkpatch.pl --strict
+    - removed unused code
+
+MAINTAINERS: Add entries for Toshiba Visconti DNN image processing
+  v1 -> v2:
+    - No update
+
+Documentation: driver-api: visconti: add a description of DNN driver.
+  v1 -> v2:
+    - newly added documents
+
+Yuji Ishikawa (5):
+  dt-bindings: soc: visconti: Add Toshiba Visconti DNN image processing
+    accelerator bindings
+  soc: visconti: Add Toshiba Visconti image processing accelerator
+    common source
+  soc: visconti: Add Toshiba Visconti DNN image processing accelerator
+  MAINTAINERS: Add entries for Toshiba Visconti DNN image processing
+    accelerator
+  Documentation: driver-api: visconti: add a description of DNN driver.
+
+ .../soc/visconti/toshiba,visconti-dnn.yaml    |  54 ++
+ Documentation/driver-api/visconti/common.rst  | 115 ++++
+ Documentation/driver-api/visconti/dnn.rst     | 394 +++++++++++++
+ MAINTAINERS                                   |   2 +
+ drivers/soc/Kconfig                           |   1 +
+ drivers/soc/Makefile                          |   1 +
+ drivers/soc/visconti/Kconfig                  |   7 +
+ drivers/soc/visconti/Makefile                 |   8 +
+ drivers/soc/visconti/dnn/Makefile             |   6 +
+ drivers/soc/visconti/dnn/dnn.c                | 523 ++++++++++++++++++
+ drivers/soc/visconti/dnn/hwd_dnn.c            | 183 ++++++
+ drivers/soc/visconti/dnn/hwd_dnn.h            |  68 +++
+ drivers/soc/visconti/dnn/hwd_dnn_reg.h        | 228 ++++++++
+ drivers/soc/visconti/ipa_common.c             |  55 ++
+ drivers/soc/visconti/ipa_common.h             |  18 +
+ drivers/soc/visconti/uapi/dnn.h               |  77 +++
+ drivers/soc/visconti/uapi/ipa.h               |  90 +++
+ 17 files changed, 1830 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-dnn.yaml
+ create mode 100644 Documentation/driver-api/visconti/common.rst
+ create mode 100644 Documentation/driver-api/visconti/dnn.rst
+ create mode 100644 drivers/soc/visconti/Kconfig
+ create mode 100644 drivers/soc/visconti/Makefile
+ create mode 100644 drivers/soc/visconti/dnn/Makefile
+ create mode 100644 drivers/soc/visconti/dnn/dnn.c
+ create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.c
+ create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.h
+ create mode 100644 drivers/soc/visconti/dnn/hwd_dnn_reg.h
+ create mode 100644 drivers/soc/visconti/ipa_common.c
+ create mode 100644 drivers/soc/visconti/ipa_common.h
+ create mode 100644 drivers/soc/visconti/uapi/dnn.h
+ create mode 100644 drivers/soc/visconti/uapi/ipa.h
+
+-- 
+2.17.1
 
 
