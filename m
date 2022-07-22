@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C347D57DCE6
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 10:52:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D834B57DD68
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 11:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B98914BE;
-	Fri, 22 Jul 2022 08:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD43291FF2;
+	Fri, 22 Jul 2022 09:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16BBD914BD
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 08:52:46 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id a5so5556094wrx.12
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 01:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=2Pn4rXwJt2p3TU+sUueEHtQodbg6OuCCH2XmCube7cQ=;
- b=r27r4fHqAh0CWRW3DSWor9BS2qur9Q41GzIHFZqQES6pCfAcZx5CuJFslnk7z+fv47
- 6jlKigelz6Pb4RrJn0Hc1qzBD7Ev/b836NwnSQXWysNnhTuPdlQeJETOu1ZiXH1+eKPf
- Vqqni8cAY5bOcuzzngHlGJPBOi96W81wpdlhXmSqij+iqajS9YrtkIoGjZzApDyYAXcL
- sUL9U1xoEy9H+L83cIq0PHm6MUAmRm47KeQGih47T5/IxLZ4fGG5BYYBOF7VpjjIxhnf
- O96jmScWEVUOPGmmsgY1ZIH3Yp+WqvcOHuZWh5coUHu9umTjLfJhdoPvCipn7JX75cLB
- O0aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=2Pn4rXwJt2p3TU+sUueEHtQodbg6OuCCH2XmCube7cQ=;
- b=CCRr0a2+6FMXSvmh5nqB3+KPigaP8k/Z9tgSGnMnkit5D5oq856HzN5Wt72IVmbRAh
- v5qjgIdWg960k4ngvK5u+GQjCAL88VzoRqQ3NEL/H+IFUrndynS68vdHLz6SPuOkd2nB
- XBADESubVUVjnDpjpk16Fah+nCRuKJbgGY15sDsvWSGhvTydneCsd3Znq/va+ecoRX9U
- BdOIFeQeQW4D0FmsZIi/6nSQnZmwegLolFrbK1fM5UeZRlPzeUv1JZmTZWuCX7fcPghB
- kfo0EesNwm5mG70VQo3CrXKg9qIclLUXCXeGUXbxlSykv3xr9Q3QY66R4azmlqb+uQnc
- 1UUg==
-X-Gm-Message-State: AJIora+VU6bo0IZtV36H/i64UFucForrpqYG+i3V2AhQcCZtgjr33VBM
- k1yUUzWpKsBnyxlSUVWsSMnWEA==
-X-Google-Smtp-Source: AGRyM1uKdvpmi+vQrw3tcNIve4triqR6UDhGsTHpKea8nf/rvMaGuXeiQBf96xeCJUr5qlFO6NsSZA==
-X-Received: by 2002:adf:ef49:0:b0:21e:4688:5c66 with SMTP id
- c9-20020adfef49000000b0021e46885c66mr1635319wrp.145.1658479964036; 
- Fri, 22 Jul 2022 01:52:44 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:57a9:b2a2:82d5:8786?
- ([2a01:e0a:982:cbb0:57a9:b2a2:82d5:8786])
- by smtp.gmail.com with ESMTPSA id
- m184-20020a1c26c1000000b003a04722d745sm8031736wmm.23.2022.07.22.01.52.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 01:52:43 -0700 (PDT)
-Message-ID: <6467b619-d03f-a108-659f-062c96998848@baylibre.com>
-Date: Fri, 22 Jul 2022 10:52:42 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17C4D91FEB;
+ Fri, 22 Jul 2022 09:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658481236; x=1690017236;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=x0IVXe/dQxL+jMGm05hSRrfW+Ktw0b5z0uHvDMRGLwM=;
+ b=JdPWdGBjNbyyXY08oQT0l+xrfp/EOuLg8VYkjRByGqBFr+kfCPsb5VP/
+ 10XYdpHlXeDO7OowGbcoyr73UUUj9P7FJpCaobejvxyXeCWAO9v3pfs9c
+ 9MGSxZFAXC9HYgfBXxeahdHF0osz6ARNBLFlZ/BcL651DPBH+8LBrZkoI
+ NyXFufoUNwGbm0OTWZ5ffc1Jf5BR8YN+h0Hv3Yv1l94p6J8NNVjVqIJ+f
+ UuNwhfnV5od7SNh5gyCCZhia02cSp+0I1+97GNNUjzxSjHPbzQYLOYG4k
+ jB+m8xRpWRCJsPAu1uR/UO+mZKwqZdqRGNbftC6JmeGfaNJ3NJZYi31iE Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="267048760"
+X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="267048760"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2022 02:13:55 -0700
+X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="574099527"
+Received: from rdolan-mobl.ger.corp.intel.com (HELO [10.213.216.165])
+ ([10.213.216.165])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2022 02:13:52 -0700
+Message-ID: <118ae557-a7cb-10b2-9198-2ceb92948dd7@linux.intel.com>
+Date: Fri, 22 Jul 2022 10:13:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Use dev_err_probe() to avoid
- polluting the log
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/i915: stop using swiotlb
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20220722074755.660258-1-javierm@redhat.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220722074755.660258-1-javierm@redhat.com>
+To: Robert Beckett <bob.beckett@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220721174307.1085741-1-bob.beckett@collabora.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220721174307.1085741-1-bob.beckett@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,49 +64,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, Erico Nunes <ernunes@redhat.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Enric Balletbo i Serra <eballetbo@redhat.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, kernel@collabora.com,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/07/2022 09:47, Javier Martinez Canillas wrote:
-> If devm_drm_of_get_bridge() can't find the connected bridge, it returns an
-> ERR_PTR(-EPROBE_DEFER) to indicate that the probe should be deferred.
-> 
-> But this path also prints an error message, which pollutes the kernel log
-> since is printed on every probe deferral, i.e:
-> 
->    $ dmesg | grep "failed to create panel bridge" | wc -l
->    38
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
-> 
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 369bf72717f6..90bbabde1595 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -1206,10 +1206,9 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->   	int ret;
->   
->   	pdata->next_bridge = devm_drm_of_get_bridge(pdata->dev, np, 1, 0);
-> -	if (IS_ERR(pdata->next_bridge)) {
-> -		DRM_ERROR("failed to create panel bridge\n");
-> -		return PTR_ERR(pdata->next_bridge);
-> -	}
-> +	if (IS_ERR(pdata->next_bridge))
-> +		return dev_err_probe(pdata->dev, PTR_ERR(pdata->next_bridge),
-> +				     "failed to create panel bridge\n");
->   
->   	ti_sn_bridge_parse_lanes(pdata, np);
->   
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+On 21/07/2022 18:43, Robert Beckett wrote:
+> Calling swiotlb functions directly is nowadays considered harmful. See
+> https://lore.kernel.org/intel-gfx/20220711082614.GA29487@lst.de/
+> 
+> Replace swiotlb_max_segment() calls with dma_max_mapping_size().
+> In i915_gem_object_get_pages_internal() no longer consider max_segment
+> only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
+> causes of specific max segment sizes.
+
+This matches my understanding as well. And thanks for writing the patch 
+up, I actually copied you to comment on the timeline of code removal 
+only and did not expect you'd take it on fully. Thanks!
+
+Christoph - ack from you? Also, if we merge it via the normal process it 
+will hit 5.21 only. Does that work for you?
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
+
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> 
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_internal.c | 20 +++++---------------
+>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c    |  2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  4 ++--
+>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c  |  2 +-
+>   drivers/gpu/drm/i915/i915_scatterlist.h      | 16 ----------------
+>   5 files changed, 9 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> index c698f95af15f..e1aca378d90f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> @@ -6,7 +6,6 @@
+>   
+>   #include <linux/scatterlist.h>
+>   #include <linux/slab.h>
+> -#include <linux/swiotlb.h>
+>   
+>   #include "i915_drv.h"
+>   #include "i915_gem.h"
+> @@ -38,22 +37,13 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
+>   	struct scatterlist *sg;
+>   	unsigned int sg_page_sizes;
+>   	unsigned int npages;
+> -	int max_order;
+> +	int max_order = MAX_ORDER;
+> +	size_t max_segment;
+>   	gfp_t gfp;
+>   
+> -	max_order = MAX_ORDER;
+> -#ifdef CONFIG_SWIOTLB
+> -	if (is_swiotlb_active(obj->base.dev->dev)) {
+> -		unsigned int max_segment;
+> -
+> -		max_segment = swiotlb_max_segment();
+> -		if (max_segment) {
+> -			max_segment = max_t(unsigned int, max_segment,
+> -					    PAGE_SIZE) >> PAGE_SHIFT;
+> -			max_order = min(max_order, ilog2(max_segment));
+> -		}
+> -	}
+> -#endif
+> +	max_segment = dma_max_mapping_size(i915->drm.dev);
+> +	max_segment = max_t(size_t, max_segment, PAGE_SIZE) >> PAGE_SHIFT;
+> +	max_order = min(max_order, ilog2(max_segment));
+>   
+>   	gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
+>   	if (IS_I965GM(i915) || IS_I965G(i915)) {
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> index 4eed3dd90ba8..b0ec65b7c1da 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -194,7 +194,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>   	struct intel_memory_region *mem = obj->mm.region;
+>   	struct address_space *mapping = obj->base.filp->f_mapping;
+>   	const unsigned long page_count = obj->base.size / PAGE_SIZE;
+> -	unsigned int max_segment = i915_sg_segment_size();
+> +	unsigned int max_segment = dma_max_mapping_size(i915->drm.dev);
+>   	struct sg_table *st;
+>   	struct sgt_iter sgt_iter;
+>   	struct page *page;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 5a5cf332d8a5..882f046f4d18 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -189,7 +189,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+>   	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
+>   	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+>   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> -	const unsigned int max_segment = i915_sg_segment_size();
+> +	const unsigned int max_segment = dma_max_mapping_size(i915->drm.dev);
+>   	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
+>   	struct file *filp = i915_tt->filp;
+>   	struct sgt_iter sgt_iter;
+> @@ -568,7 +568,7 @@ static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
+>   	ret = sg_alloc_table_from_pages_segment(st,
+>   			ttm->pages, ttm->num_pages,
+>   			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
+> -			i915_sg_segment_size(), GFP_KERNEL);
+> +			dma_max_mapping_size(i915_tt->dev), GFP_KERNEL);
+>   	if (ret) {
+>   		st->sgl = NULL;
+>   		return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> index 094f06b4ce33..8a62a71859e6 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> @@ -129,7 +129,7 @@ static void i915_gem_object_userptr_drop_ref(struct drm_i915_gem_object *obj)
+>   static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
+>   {
+>   	const unsigned long num_pages = obj->base.size >> PAGE_SHIFT;
+> -	unsigned int max_segment = i915_sg_segment_size();
+> +	unsigned int max_segment = dma_max_mapping_size(obj->base.dev->dev);
+>   	struct sg_table *st;
+>   	unsigned int sg_page_sizes;
+>   	struct page **pvec;
+> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+> index 9ddb3e743a3e..c9a61b51e99d 100644
+> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
+> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+> @@ -9,7 +9,6 @@
+>   
+>   #include <linux/pfn.h>
+>   #include <linux/scatterlist.h>
+> -#include <linux/swiotlb.h>
+>   
+>   #include "i915_gem.h"
+>   
+> @@ -127,21 +126,6 @@ static inline unsigned int i915_sg_dma_sizes(struct scatterlist *sg)
+>   	return page_sizes;
+>   }
+>   
+> -static inline unsigned int i915_sg_segment_size(void)
+> -{
+> -	unsigned int size = swiotlb_max_segment();
+> -
+> -	if (size == 0)
+> -		size = UINT_MAX;
+> -
+> -	size = rounddown(size, PAGE_SIZE);
+> -	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
+> -	if (size < PAGE_SIZE)
+> -		size = PAGE_SIZE;
+> -
+> -	return size;
+> -}
+> -
+>   bool i915_sg_trim(struct sg_table *orig_st);
+>   
+>   /**
