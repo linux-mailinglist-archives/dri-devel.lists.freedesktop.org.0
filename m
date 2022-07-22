@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12F757D959
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 06:16:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8853C57D9D3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jul 2022 07:47:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E67A11A380;
-	Fri, 22 Jul 2022 04:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD5332BDDE;
+	Fri, 22 Jul 2022 05:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC6110F087
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 04:15:49 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id os14so6570888ejb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jul 2022 21:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc;
- bh=KPpMtjYycKsWO8I/2HQoLfLw+bGthVnZUbY/Sz4won8=;
- b=l9NTA96MbQS2WQTpP0ZGntinKVYwq9qxqk5waWcwikJTZOpQCrb4DPsKAI94TozmXl
- Znx0pSiCL3jRcXvNI0qnRY6Rh8SNse6fL5MP9g/meVlyM005jaruUxZpv7gOA6w4bNVG
- kKvUQkrNozDtXTpp2SFoznf/FU3WBvZH2S0e/F/p6bs9nopLZXT3VNlmon3G6VL8UJWQ
- XPKNzjL+uRbeMzQdzpjKgEh1lr0qFkqEMLmi8SJOSG5qWXS15X8lCVvW1tEeIXl6d7SJ
- F1LBS3nSylYVtDfElmatgsb2Mg97kNFetuut5/ZXQeVfw31Yud1lzemwY7EC24OuCQzc
- S/3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc;
- bh=KPpMtjYycKsWO8I/2HQoLfLw+bGthVnZUbY/Sz4won8=;
- b=adLBsW/KICGwpY7LbyCxrGK4wmuAp2oZhjtQl3XNBKXHJOc2eEulxvHvEy3g7nRT/F
- fuJh4uGBhPWmXMkfwsTMJoWNGPMnciXw2/U6vKYTy57FprugQDVWaZGyQHTQCeUNK1Se
- wj7IwxamG0FmWD6rOLPJJL+loVaN4A9Gxml7S10l3E+jZ5mWu1bF+30CxIq03cUMRQz2
- DoIj6aFdiGDNTE9ggzZuMsi3CUK4bAbLfYIHzaiWyRJL6XeU89i/kQ8B/NTmmNjtURwC
- ebcqHg2a3GxBxFU5BXZEXrjTBacr+Pno1kn1W7dp+1Dx3ZxYWjPQDH5YIO5Hq7YuahTK
- dVDQ==
-X-Gm-Message-State: AJIora80yrQCizHyfaAWbrlgGUJOBem3Sdde5gBWcmvu6ZW/3F4fKTDy
- ICvKOD1Zbox2bZofqe2ftbR1ZbJtmbdEljptbtLAkCsywrw=
-X-Google-Smtp-Source: AGRyM1vGB5026zxlcfevkvyTQRDxff9xNnhge1ch/G0mmL8B2YsA8Nv6qchY5uEHv0BxATxfDL5yiVNYi+l8GoMrClU=
-X-Received: by 2002:a17:907:96ac:b0:72f:1dea:5b66 with SMTP id
- hd44-20020a17090796ac00b0072f1dea5b66mr1574100ejc.266.1658463347975; Thu, 21
- Jul 2022 21:15:47 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892C72A768;
+ Fri, 22 Jul 2022 05:47:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658468858; x=1690004858;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=VtwUE2JoQhbrgtYPVYBKi1/iDx7BipcpwhpOrWi27FM=;
+ b=h3pMXNcMe3z4+KIqSH8AthD6bECvHgRD3qgQWNGpBhEctbd7lnxP55vq
+ zDXvu2b4T798Qf8l5iKUHBM4l2rbN6ZvfneCO2tF3r9QQ06zngT0nu179
+ OkU7Aixk7u97YvVwZZtQUSwURh1yHnHdsInCQsGqb2fCQo1jRr8ab2FYa
+ MC1UICCXOsLqyLqURimg50BJoRogSFxdx58UOZS2lTHrQrIwhPrmo7y8v
+ vDUE9vr75sBV7Jabgup2xvDVpHnTmLofe0x2jYgu/qalj7SauPgzkaYmv
+ pdZ8YYsyxIyw0PgbBG/OCQ/94hfi/n7gKjlpesfcRqtQ2qGw3j0Ub3pxg g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="284794268"
+X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; d="scan'208";a="284794268"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2022 22:47:37 -0700
+X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; d="scan'208";a="657080316"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2022 22:47:34 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/drm_edid: Refactor HFVSDB parsing for DSC1.2
+Date: Fri, 22 Jul 2022 11:16:47 +0530
+Message-Id: <20220722054647.3511645-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 22 Jul 2022 14:15:37 +1000
-Message-ID: <CAPM=9tx177pqAbBTC586NRwr+kbx=_pQjQwKpFjB+442m-uSdw@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.19-rc8
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,136 +54,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: swati2.sharma@intel.com, uma.shankar@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+DSC capabilities are given in bytes 11-13 of VSDB (i.e. bytes 8-10 of
+SCDS). Since minimum length of Data block is 7, all bytes greater than 7
+must be read only after checking the length of the data block.
 
-Fixes for this week. The main one is the i915 firmware fix for the
-phoronix reported issue. I've written some firmware guidelines as a
-result, should land in -next soon. Otherwise a few amdgpu fixes, a
-scheduler fix, ttm fix and two other minor ones.
+This patch adds check for data block length before reading relavant DSC
+bytes. It also corrects min DSC BPC to 8, and minor refactoring for
+better readability, and proper log messages.
 
-Regards,
-Dave.
+Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+---
+ drivers/gpu/drm/drm_edid.c | 124 +++++++++++++++++++++++--------------
+ 1 file changed, 77 insertions(+), 47 deletions(-)
 
-drm-fixes-2022-07-22:
-drm fixes for 5.19-rc8
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index bbc25e3b7220..f683a8d5fd31 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5703,12 +5703,58 @@ static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
+ 	hdmi->y420_dc_modes = dc_mask;
+ }
+ 
++static void drm_parse_dsc_slice_info(u8 dsc_max_slices,
++				     struct drm_hdmi_dsc_cap *hdmi_dsc)
++{
++	switch (dsc_max_slices) {
++	case 1:
++		hdmi_dsc->max_slices = 1;
++		hdmi_dsc->clk_per_slice = 340;
++		break;
++	case 2:
++		hdmi_dsc->max_slices = 2;
++		hdmi_dsc->clk_per_slice = 340;
++		break;
++	case 3:
++		hdmi_dsc->max_slices = 4;
++		hdmi_dsc->clk_per_slice = 340;
++		break;
++	case 4:
++		hdmi_dsc->max_slices = 8;
++		hdmi_dsc->clk_per_slice = 340;
++		break;
++	case 5:
++		hdmi_dsc->max_slices = 8;
++		hdmi_dsc->clk_per_slice = 400;
++		break;
++	case 6:
++		hdmi_dsc->max_slices = 12;
++		hdmi_dsc->clk_per_slice = 400;
++		break;
++	case 7:
++		hdmi_dsc->max_slices = 16;
++		hdmi_dsc->clk_per_slice = 400;
++		break;
++	case 0:
++	default:
++		hdmi_dsc->max_slices = 0;
++		hdmi_dsc->clk_per_slice = 0;
++	}
++}
++
+ /* Sink Capability Data Structure */
+ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 				      const u8 *hf_scds)
+ {
+ 	struct drm_display_info *display = &connector->display_info;
+ 	struct drm_hdmi_info *hdmi = &display->hdmi;
++	u8 db_length = hf_scds[0] & 0x1F;
++	u8 dsc_max_frl_rate;
++	u8 dsc_max_slices;
++	struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
++
++	if (db_length < 7 || db_length > 31)
++		return;
+ 
+ 	display->has_hdmi_infoframe = true;
+ 
+@@ -5749,17 +5795,25 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 
+ 	if (hf_scds[7]) {
+ 		u8 max_frl_rate;
+-		u8 dsc_max_frl_rate;
+-		u8 dsc_max_slices;
+-		struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
+ 
+-		DRM_DEBUG_KMS("hdmi_21 sink detected. parsing edid\n");
+ 		max_frl_rate = (hf_scds[7] & DRM_EDID_MAX_FRL_RATE_MASK) >> 4;
++		if (max_frl_rate)
++			DRM_DEBUG_KMS("HDMI2.1 FRL support detected\n");
++
+ 		drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
+ 				     &hdmi->max_frl_rate_per_lane);
++
++		drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
++	}
++
++	if (db_length < 11)
++		return;
++
++	if (hf_scds[11]) {
+ 		hdmi_dsc->v_1p2 = hf_scds[11] & DRM_EDID_DSC_1P2;
+ 
+ 		if (hdmi_dsc->v_1p2) {
++			DRM_DEBUG_KMS("HDMI DSC1.2 support detected\n");
+ 			hdmi_dsc->native_420 = hf_scds[11] & DRM_EDID_DSC_NATIVE_420;
+ 			hdmi_dsc->all_bpp = hf_scds[11] & DRM_EDID_DSC_ALL_BPP;
+ 
+@@ -5770,52 +5824,28 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 			else if (hf_scds[11] & DRM_EDID_DSC_10BPC)
+ 				hdmi_dsc->bpc_supported = 10;
+ 			else
+-				hdmi_dsc->bpc_supported = 0;
+-
+-			dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
+-			drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
+-					     &hdmi_dsc->max_frl_rate_per_lane);
+-			hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
+-
+-			dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
+-			switch (dsc_max_slices) {
+-			case 1:
+-				hdmi_dsc->max_slices = 1;
+-				hdmi_dsc->clk_per_slice = 340;
+-				break;
+-			case 2:
+-				hdmi_dsc->max_slices = 2;
+-				hdmi_dsc->clk_per_slice = 340;
+-				break;
+-			case 3:
+-				hdmi_dsc->max_slices = 4;
+-				hdmi_dsc->clk_per_slice = 340;
+-				break;
+-			case 4:
+-				hdmi_dsc->max_slices = 8;
+-				hdmi_dsc->clk_per_slice = 340;
+-				break;
+-			case 5:
+-				hdmi_dsc->max_slices = 8;
+-				hdmi_dsc->clk_per_slice = 400;
+-				break;
+-			case 6:
+-				hdmi_dsc->max_slices = 12;
+-				hdmi_dsc->clk_per_slice = 400;
+-				break;
+-			case 7:
+-				hdmi_dsc->max_slices = 16;
+-				hdmi_dsc->clk_per_slice = 400;
+-				break;
+-			case 0:
+-			default:
+-				hdmi_dsc->max_slices = 0;
+-				hdmi_dsc->clk_per_slice = 0;
+-			}
++				/* Supports min 8 BPC if DSC1.2 is supported*/
++				hdmi_dsc->bpc_supported = 8;
+ 		}
+ 	}
+ 
+-	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
++	if (db_length < 12)
++		return;
++
++	if (hdmi_dsc->v_1p2 && hf_scds[12]) {
++		dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
++		drm_parse_dsc_slice_info(dsc_max_slices, hdmi_dsc);
++
++		dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
++		drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
++				     &hdmi_dsc->max_frl_rate_per_lane);
++	}
++
++	if (db_length < 13)
++		return;
++
++	if (hdmi_dsc->v_1p2 && hf_scds[13])
++		hdmi_dsc->total_chunk_kbytes = hf_scds[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
+ }
+ 
+ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
+-- 
+2.25.1
 
-scheduler:
-- scheduling while atomic fix
-
-ttm:
-- locking fix
-
-edp:
-- variable typo fix
-
-i915:
-- add back support for v69 firmware on ADL-P.
-
-amdgpu:
-- Drop redundant buffer cleanup that can lead to a segfault
-- Add a bo_list mutex to avoid possible list corruption in CS
-- dmub notification fix
-
-imx:
-- fix error path
-The following changes since commit ff6992735ade75aae3e35d16b17da1008d753d28=
-:
-
-  Linux 5.19-rc7 (2022-07-17 13:30:22 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-07-22
-
-for you to fetch changes up to 7f5ec14a4e07a2a78fbde069709d5c8806882be2:
-
-  Merge tag 'drm-misc-fixes-2022-07-21' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-07-22
-12:19:45 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.19-rc8
-
-scheduler:
-- scheduling while atomic fix
-
-ttm:
-- locking fix
-
-edp:
-- variable typo fix
-
-i915:
-- add back support for v69 firmware on ADL-P.
-
-amdgpu:
-- Drop redundant buffer cleanup that can lead to a segfault
-- Add a bo_list mutex to avoid possible list corruption in CS
-- dmub notification fix
-
-imx:
-- fix error path
-
-----------------------------------------------------------------
-Christian K=C3=B6nig (1):
-      drm/ttm: fix locking in vmap/vunmap TTM GEM helpers
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: support v69 in parallel to v70
-
-Dave Airlie (3):
-      Merge tag 'drm-intel-fixes-2022-07-20-1' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-5.19-2022-07-20' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-07-21' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Dmitry Osipenko (1):
-      drm/scheduler: Don't kill jobs in interrupt context
-
-Liang He (1):
-      drm/imx/dcss: Add missing of_node_put() in fail path
-
-Luben Tuikov (1):
-      drm/amdgpu: Protect the amdgpu_bo_list list with a mutex v2
-
-Matthew Brost (1):
-      drm/i915/guc: Support programming the EU priority in the GuC descript=
-or
-
-N=C3=ADcolas F. R. A. Prado (1):
-      drm/panel-edp: Fix variable typo when saving hpd absent delay from DT
-
-Stylon Wang (1):
-      drm/amd/display: Fix new dmub notification enabling in DM
-
-xinhui pan (1):
-      drm/amdgpu: Remove one duplicated ef removal
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   6 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c        |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h        |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  16 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  27 +-
- drivers/gpu/drm/drm_gem_ttm_helper.c               |   9 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h      |  11 +-
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |  12 +-
- drivers/gpu/drm/i915/gt/intel_lrc.h                |  10 -
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |   3 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   5 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |  45 +++
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 374 +++++++++++++++++=
-+---
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  56 ++-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |   7 +
- drivers/gpu/drm/imx/dcss/dcss-dev.c                |   3 +
- drivers/gpu/drm/panel/panel-edp.c                  |   2 +-
- drivers/gpu/drm/scheduler/sched_entity.c           |   6 +-
- include/drm/gpu_scheduler.h                        |   4 +-
- 19 files changed, 505 insertions(+), 98 deletions(-)
