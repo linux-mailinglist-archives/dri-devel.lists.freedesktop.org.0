@@ -1,81 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0014757EA5E
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 01:41:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 014E657EA8F
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 02:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8718EA53;
-	Fri, 22 Jul 2022 23:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0E712AEA2;
+	Sat, 23 Jul 2022 00:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1AD28A681
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 23:41:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B9711BCA8
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 00:18:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658533267;
+ s=mimecast20190719; t=1658535485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=97bI5QgLIfV0Wdh5TUgNrSdu9yYHB/M82pkoGIrwijE=;
- b=ZS96DmFbdCLoBgifQrtmUoLuIi2asTutnqk+8aiT7QGa9n/yvxpzAm+yh5uFOtbvMG6z7y
- Pfi78HF40MYT7W4ygkPdXg3ArNxLHJzB9UuHj24+SGjAdRvVYn1hdvwE2dzD7U6qJWZTlg
- yJduQGSaP/4YzrCYmM8ALz008UBmH7o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iEphr6ZIYFwSwZ4pYciMnV/Wf4dcsbYqo+HwMi5Di7E=;
+ b=BMkb+MowpcA9AWBflrm3MortzhGqbtxIi9MmHxXMSCiP4Bks5nBKs8E/UY31xj0kemj3na
+ fCwXABq4qIEWmPx12R1YyhqJJTlfioEit+ehzB9vgZ9nu+jbeoT7zPlXB+pHVSg32m/BeL
+ LswSvtbZs2QTAWY0LOoGm2AOnIBmcYQ=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-DOl6KKcjP8mq90gENEDuJQ-1; Fri, 22 Jul 2022 19:41:04 -0400
-X-MC-Unique: DOl6KKcjP8mq90gENEDuJQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i133-20020a1c3b8b000000b003a2fe4c345cso1502504wma.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 16:41:04 -0700 (PDT)
+ us-mta-226-HgGowMMyP3mQ7Dxczpxugg-1; Fri, 22 Jul 2022 20:18:04 -0400
+X-MC-Unique: HgGowMMyP3mQ7Dxczpxugg-1
+Received: by mail-il1-f198.google.com with SMTP id
+ u9-20020a056e021a4900b002dc685a1c13so3489256ilv.19
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jul 2022 17:18:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=97bI5QgLIfV0Wdh5TUgNrSdu9yYHB/M82pkoGIrwijE=;
- b=WbuNqED0uhti3FQrhzeAkJBPtMRoiuFzmn5kVgDRHFOK4dzI01sYPase0iIJfww/9k
- TVKFS2kSS7Plj1LEmloCLMp3MD+HVrTQLH8QbUQhMyADv36gTh6TWfZ5LpZjHuEdvdID
- CJcp31sR2VHcySwTMmRZGCmeoQFv5EdSOyuQ/0WOcK6QF+ZGnlAkxmTA7Kzsg6SzR4dp
- wgCVY9CcpYk6ueoviSP+vAql3ZsYE1WDE7BzboegXrHOKarlT2OI9qt1Qkc5kXO+CQVj
- 2oPA4Tyq842hBHRMe2fyLsiNCg1XVZDKHalm7SBmI956u06hzWROszEvg47sXlVQTWjI
- BNFw==
-X-Gm-Message-State: AJIora8pU+AczPH6m08PngRPjLTj+BgFvmT79JOBsJTvU9UrWX9UIXsn
- yzrmsswpKiSaWkL4+iQdpAnBOevkjJ33wQbW17YV8xubg8l6khLBKaltWZb2K6FBKcbZ6Mj+Uwj
- jrspC6EReWR5RhI+Oa9FfEBiuyU5q
-X-Received: by 2002:a05:600c:1914:b0:3a3:4476:36f1 with SMTP id
- j20-20020a05600c191400b003a3447636f1mr2498471wmq.205.1658533263239; 
- Fri, 22 Jul 2022 16:41:03 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vZl5vBvV9oaQlXAWarpxnm0CK2ceKfdcr+DpcSHyKu4xh9ne3vQ7GxzdPJaOTMkBhI81Ta7g==
-X-Received: by 2002:a05:600c:1914:b0:3a3:4476:36f1 with SMTP id
- j20-20020a05600c191400b003a3447636f1mr2498461wmq.205.1658533262948; 
- Fri, 22 Jul 2022 16:41:02 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- r67-20020a1c2b46000000b003a308e9a192sm10205489wmr.30.2022.07.22.16.41.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 16:41:02 -0700 (PDT)
-Message-ID: <6f5f6fbb-5a6c-3bc3-20f7-1a97854434b0@redhat.com>
-Date: Sat, 23 Jul 2022 01:41:01 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=iEphr6ZIYFwSwZ4pYciMnV/Wf4dcsbYqo+HwMi5Di7E=;
+ b=rjYpOfkPrmvU0NGSXprc1hEbN0/HRBRvB4MOPboQz2EONrS/waY2eNygobNrji7hFh
+ J4YkMWnQz8nIZLtj1Qy3p6G7C8xQN03BWi9UKVsHoLT5Bz5Aw1DDKYirqJs8G5jw6PFW
+ v4zgK/i0ijwi8BeV4aaMy224anaDm2eSltJwZaEaevYZPpg8Zrzn8A/tQXcWF5LKgF6x
+ tsyfZMI1JZd4vFU62Enhlb8klzjXXs5mEu26jz8KFT5Yg8oXIRFCoZSdpiQzX/L8hxoN
+ 4mUIWSMbc2jIFQpj5r8obVgqkdVK4FCUew40Pk3XfSnnfQNuyOhDyUq7fYgrj7MRDX17
+ 92eA==
+X-Gm-Message-State: AJIora8T2iLYRYT7UNrYUoVS6FfV7+VdHjzgLTciDLR8EKNK2s+aI749
+ Jv3qd219+dRjRPEeU3JXsX+CGFcVfFZ+AMHLciwLekRZDkHXykINi6Q3MR8EthK8Hfu4+qQaB9F
+ SCAIZCgf5LE28QL6i0IE5moi3zItC
+X-Received: by 2002:a05:6638:160c:b0:33f:54c7:ee69 with SMTP id
+ x12-20020a056638160c00b0033f54c7ee69mr1050257jas.65.1658535483696; 
+ Fri, 22 Jul 2022 17:18:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vh5y3jozCZ7iRDuGEDUiaJjAA10VNoYNXKY4pR3tY8wyP5ioYAHZdpqHyeNFeMGRhrxZbgZA==
+X-Received: by 2002:a05:6638:160c:b0:33f:54c7:ee69 with SMTP id
+ x12-20020a056638160c00b0033f54c7ee69mr1050243jas.65.1658535483492; 
+ Fri, 22 Jul 2022 17:18:03 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ n4-20020a056602340400b00674f9fb1531sm2752495ioz.30.2022.07.22.17.18.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jul 2022 17:18:03 -0700 (PDT)
+Date: Fri, 22 Jul 2022 18:18:00 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [PATCH v3 00/10] Update vfio_pin/unpin_pages API
+Message-ID: <20220722181800.56093444.alex.williamson@redhat.com>
+In-Reply-To: <Ytsu07eGHS9B7HY8@Asurada-Nvidia>
+References: <20220708224427.1245-1-nicolinc@nvidia.com>
+ <20220722161129.21059262.alex.williamson@redhat.com>
+ <Ytsu07eGHS9B7HY8@Asurada-Nvidia>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Use dev_err_probe() to avoid
- polluting the log
-To: Doug Anderson <dianders@chromium.org>
-References: <20220722074755.660258-1-javierm@redhat.com>
- <CAD=FV=WR3UP4XMch5z8Hz8GzWRg5cCsK6FVwgoo=HHDnpTwz+g@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAD=FV=WR3UP4XMch5z8Hz8GzWRg5cCsK6FVwgoo=HHDnpTwz+g@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,49 +85,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Erico Nunes <ernunes@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Enric Balletbo i Serra <eballetbo@redhat.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
+ kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
+ agordeev@linux.ibm.com, hch@infradead.org, kvm@vger.kernel.org, corbet@lwn.net,
+ pasic@linux.ibm.com, jgg@nvidia.com, borntraeger@linux.ibm.com,
+ intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, jjherne@linux.ibm.com,
+ farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
+ linux-s390@vger.kernel.org, hca@linux.ibm.com, freude@linux.ibm.com,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ akrowiak@linux.ibm.com, tvrtko.ursulin@linux.intel.com, cohuck@redhat.com,
+ oberpar@linux.ibm.com, svens@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/22/22 15:35, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, Jul 22, 2022 at 12:48 AM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->>
->> If devm_drm_of_get_bridge() can't find the connected bridge, it returns an
->> ERR_PTR(-EPROBE_DEFER) to indicate that the probe should be deferred.
->>
->> But this path also prints an error message, which pollutes the kernel log
->> since is printed on every probe deferral, i.e:
->>
->>   $ dmesg | grep "failed to create panel bridge" | wc -l
->>   38
->>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->>
->>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 7 +++----
->>  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> 
-> If someone else doesn't beat me to it, I'll apply next week sometime.
-> 
+On Fri, 22 Jul 2022 16:12:19 -0700
+Nicolin Chen <nicolinc@nvidia.com> wrote:
 
-I've pushed this to drm-misc (drm-misc-next). Thanks all!
+> On Fri, Jul 22, 2022 at 04:11:29PM -0600, Alex Williamson wrote:
+> 
+> > GVT-g explodes for me with this series on my Broadwell test system,
+> > continuously spewing the following:  
+> 
+> Thank you for running additional tests.
+> 
+> > [   47.348778] WARNING: CPU: 3 PID: 501 at drivers/vfio/vfio_iommu_type1.c:978 vfio_iommu_type1_unpin_pages+0x7b/0x100 [vfio_iommu_type1]  
+>  
+> > Line 978 is the WARN_ON(i != npage) line.  For the cases where we don't
+> > find a matching vfio_dma, I'm seeing addresses that look maybe like
+> > we're shifting  a value that's already an iova by PAGE_SHIFT somewhere.  
+> 
+> Hmm..I don't understand the PAGE_SHIFT part. Do you mind clarifying?
 
--- 
-Best regards,
+The iova was a very large address for a 4GB VM with a lot of zeros on
+the low order bits, ex. 0x162459000000.  Thanks,
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Alex
+ 
+> And GVT code initiated an unpin request from gvt_unpin_guest_pag()
+> that is currently unpinning one page at a time on a contiguous IOVA
+> range, prior to this series. After this series, it leaves the per-
+> page routine to the internal loop of vfio_iommu_type1_unpin_pages(),
+> which is supposed to do the same.
+> 
+> So, either resulted from the npage input being wrong or some other
+> factor weighed in that invoked a vfio_remove_dma on those iovas?
+> 
+> Thanks
+> Nic
+> 
 
