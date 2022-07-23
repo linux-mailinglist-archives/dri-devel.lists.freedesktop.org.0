@@ -2,101 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C72A57EB7D
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 04:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D412557F0D2
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 19:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1A6612BC82;
-	Sat, 23 Jul 2022 02:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB326A7B7B;
+	Sat, 23 Jul 2022 17:57:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2049.outbound.protection.outlook.com [40.107.244.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62C6911A2F5;
- Sat, 23 Jul 2022 02:11:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jmOM9rhu89OCTAj9iwXnaed1XvgTBZbLKOgJoLtWpxlvQyqBEe1b8z8XXbaH4N+OuCWwTDeCF8xUm/1MQ2C1X1AjJpWFDttE0ZFozZYxhA68OvOditqBzPH+nBM/LhDhCywDpPuOHh2WwDsA7YOd+AhVBNvbCf9RLc2AtHIaF5tlY6v0AtBftv620Ak/GUH/B+95t+lsHaC9NjJ/9+o4pZwGfc/0nSMolSNXiWaUyMtht+tip8mD11ebiAAeE9enW0b3CznQyMLXVm5DxNsp2I6AIzOQUSFuYtVc6x56rPkdLxHM6iC9WlZ+yMs+tXWkyl7MUcGOEem4xbxPIhV/Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TY575vzFQFXTMHwI7BldBhG4flA4mttfKtr6gENEj7Q=;
- b=jPpnql7ODmhL6bLeF+xyW8FxYCbp+cFTvKBKIFKOUqAQ/A0i8QuNApcZEC771PGl4g85MmkjhsadAGnL3nS1si8T4qVOJfPUHI2K2odVh8iy7C37ArSrGQMv27trsprqYqOMZZW3tozEjLFf0MrGXPU+CIhhdKkUWd/FPGqZflSZcz1qYn3Jn9PdiltH/xcUJjlnP01e1O88j3FXmQCvki0zU5P/xqDhgOTnW8KAqxbVstKvqj+e0UlLWynlaGChI5jPpkeFWOVLNGa56FP97cWp2smzqlhf/3FECqumOH+6QOqi2sqrlp+wppBJLY4AXx8425E0a6Hc/k9hqqwKcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TY575vzFQFXTMHwI7BldBhG4flA4mttfKtr6gENEj7Q=;
- b=MRZ5fD7lH9k1+CTokdu7Y0GYfP9vVHLY7cuHWBoeEvia4rcOyTViZP2E+OXUX2ZHwLAfhm0ncDeUoc7F0vJpcevzn0qAA6DJvdg9XEKZrPTpH6GJgheMSmcYobktGgfqYWsm8ReH9vGppPijvpPUFYQqUUYmyBkhlmHj4D3Q9sn3T8s2giKQMTTpZw1sroeYEP/yzPZJKgA3Qvskgc7K+/7xIRki7Wqhxzf2bXTuwuBWIiUtEWDSX9UD8aWC75+fKExxVsZ0A7xHvcTiQt9Pto/8nsu0KiZmNiPeoZ19exl9os5QJkXE1UfSMzhqbp+lgwDnBwD9Y8gL8ov/XmPGlA==
-Received: from DM6PR13CA0071.namprd13.prod.outlook.com (2603:10b6:5:134::48)
- by MN2PR12MB3133.namprd12.prod.outlook.com (2603:10b6:208:c7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.20; Sat, 23 Jul
- 2022 02:11:00 +0000
-Received: from DM6NAM11FT023.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:134:cafe::8c) by DM6PR13CA0071.outlook.office365.com
- (2603:10b6:5:134::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.2 via Frontend
- Transport; Sat, 23 Jul 2022 02:11:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.236) by
- DM6NAM11FT023.mail.protection.outlook.com (10.13.173.96) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5458.17 via Frontend Transport; Sat, 23 Jul 2022 02:10:59 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- DRHQMAIL109.nvidia.com (10.27.9.19) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Sat, 23 Jul 2022 02:10:59 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Fri, 22 Jul 2022 19:10:58 -0700
-Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Fri, 22 Jul 2022 19:10:57 -0700
-Date: Fri, 22 Jul 2022 19:10:56 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v3 00/10] Update vfio_pin/unpin_pages API
-Message-ID: <YttYsIS34sSrYC2T@Asurada-Nvidia>
-References: <20220708224427.1245-1-nicolinc@nvidia.com>
- <20220722161129.21059262.alex.williamson@redhat.com>
- <Ytsu07eGHS9B7HY8@Asurada-Nvidia>
- <20220722181800.56093444.alex.williamson@redhat.com>
- <YttDAfDEnrlhcZix@Asurada-Nvidia>
- <20220722190901.262a1978.alex.williamson@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A838A7B7B
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 17:57:54 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oFJNq-0007TY-NT; Sat, 23 Jul 2022 19:57:46 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oFJNo-002l3m-LB; Sat, 23 Jul 2022 19:57:44 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oFJNn-00736y-FD; Sat, 23 Jul 2022 19:57:43 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>
+Subject: [PATCH 1/4] video: fb: imxfb: Drop platform data support
+Date: Sat, 23 Jul 2022 19:57:17 +0200
+Message-Id: <20220723175720.76933-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220722190901.262a1978.alex.williamson@redhat.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 683b32bb-f04d-4164-c7bf-08da6c50963e
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3133:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: skcMmkHis/56Vvc11wM70RZP8aaykckCteE8rW6HKrvXs9sCA7Jm0H2c0/OtusJuHiT0zalLu8Z1zdAeCVZmrhqWb7LsDGDFX5AEP9S8QZwkfqN6TrG8cjyPWbyW6HiwfI7Q4TUcIQ3CiS9Xmb4iuXmavFkUknpBKViY+wGeo5ZdTXqtT+rktePIOL5rpAG4M8Cb9Rij8iA45E0tS4M2e2gYB5IhkFVU1Fz8s1z61eyAQnRzjO6htKP+AvgCUhWFiVPSijYXo65CIq79nPdqVFT5Ie+4HpnpfBqdtMRe4Z6T5AAfVzmn8++uWVsr3HvJJmlLMpIeGtjwXp7EyJ5yWL4V5EL+jdD8XfKYed/sMe45b+pqACa8UdDp6+HSS5TDQV6974tHt16geHrG97BcsOLZwfRwQjXWRRQbxa+W4/PAvxKRqb8aVUKnGTUa687Z9DjaNe5c737VDTVYp3p3S/WZLpEora+TNRAz0oIrZ73qDW/vPed0jNVmBiB7st/xAoRpB851Mfgqu6MzTrLExJPZqkjjZf/9706+fbIv3ak5p2zXtHmvCfzlnsNI8eKCYKehKB8npzbT5saLwtK3aZdb7Fl0egaz4z0d+pptW7D3Y3K6bHC5FuMKDZNmT58dQwLavOHkb2QHxfc2qku71wc1y5W/MgDe0jFRF3TyyC+gA8lhlCtJS9ewPZlBX6/L8uul34RrGp07TJ54bONxKyXLb0/mm9dDpe27tXqMA1/z2xhaXYEQT28pUWyTAp8tltpZPuX9nPHwKRaqNFAPxdNxVv69vvQaEUZW8/6z0I9G0pC+jtCU1OATjkkjYqJ4ggmzkV/HeRfpJvaLB31cS+V/u5Buh8sjXVN7IHDa8yg04Dv7cJVLFuCrvLIQLkluyGyfetevElzk3erf1ezVqvDX9IECe75NQ1P8gQgDykY=
-X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(376002)(136003)(39860400002)(346002)(36840700001)(46966006)(40470700004)(186003)(5660300002)(7406005)(966005)(6916009)(54906003)(478600001)(81166007)(8936002)(82740400003)(356005)(7416002)(70586007)(8676002)(316002)(86362001)(40460700003)(70206006)(47076005)(426003)(4326008)(336012)(36860700001)(9686003)(26005)(33716001)(41300700001)(2906002)(4744005)(82310400005)(55016003)(40480700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2022 02:10:59.8976 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 683b32bb-f04d-4164-c7bf-08da6c50963e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT023.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3133
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6660; h=from:subject;
+ bh=y89wE7182nnsNf8FmAenMhLhHybFXcToTl7us5lNukY=;
+ b=owGbwMvMwMV48I9IxdpTbzgZT6slMSTdMcuLjXbLuqlU5rggvf+zdJrix7nr1n/3N9R567RVWpnh
+ yXzhTkZjFgZGLgZZMUWWuiItsQkSa/7blSzhhhnEygQyhYGLUwAmEh3LwbDgQ/EeiTWc88NUs4Uyrs
+ pmqMoutdd11e0zUTtoPz3VZVv11Fhvzta5S2613CreZqcTXO//SppTVn9ypjvTPHuz7wETO8XPKdum
+ r2yoTm1Ydt5msRPHHaUT3ie2n9mmf8v0yBmFJ3de+h9Se1u+yP1wXH329je3Qxt3NaXvWKQuwier4D
+ rv7NpvaQXWT2Na2fyfvLNQeKbaXFopJjz1ndcttYKbJqv+XJTfmDq1wbHy0DP1I05P1R4fFFwU6LGu
+ /rtgmrtNuL4F91fZqLtbO7/1rVf1srgTsqvR5n75wwviFj9y09e4LdWJeHXp7dxls0KCdXdqfdLb96
+ mrX3exoENsVal+XLLn/786TAU2AA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,29 +63,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
- kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
- agordeev@linux.ibm.com, hch@infradead.org, kvm@vger.kernel.org, corbet@lwn.net,
- pasic@linux.ibm.com, jgg@nvidia.com, borntraeger@linux.ibm.com,
- intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, jjherne@linux.ibm.com,
- farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
- linux-s390@vger.kernel.org, hca@linux.ibm.com, freude@linux.ibm.com,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- akrowiak@linux.ibm.com, tvrtko.ursulin@linux.intel.com, cohuck@redhat.com,
- oberpar@linux.ibm.com, svens@linux.ibm.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 22, 2022 at 07:09:01PM -0600, Alex Williamson wrote:
+No source file but the driver itself includes the header containing the
+platform data definition. The last user is gone since commit
+8485adf17a15 ("ARM: imx: Remove imx device directory").
 
-> > So, I think that I should send a v4, given that the patches aren't
-> > officially applied?
-> 
-> Yep, please rebase on current vfio next branch.  Thanks,
+So we can safely drop platform data support.
 
-Sent. And they are on Github, basing on linux-vfio next too:
-https://github.com/nicolinc/iommufd/commits/vfio_pin_pages-v4
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/video/fbdev/imxfb.c               | 99 ++++++++---------------
+ include/linux/platform_data/video-imxfb.h | 12 ---
+ 2 files changed, 34 insertions(+), 77 deletions(-)
 
-Thanks!
-Nic
+diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
+index a2f644c97f28..85a5bf5639d9 100644
+--- a/drivers/video/fbdev/imxfb.c
++++ b/drivers/video/fbdev/imxfb.c
+@@ -656,7 +656,6 @@ static int imxfb_activate_var(struct fb_var_screeninfo *var, struct fb_info *inf
+ 
+ static int imxfb_init_fbinfo(struct platform_device *pdev)
+ {
+-	struct imx_fb_platform_data *pdata = dev_get_platdata(&pdev->dev);
+ 	struct fb_info *info = platform_get_drvdata(pdev);
+ 	struct imxfb_info *fbi = info->par;
+ 	struct device_node *np;
+@@ -690,25 +689,20 @@ static int imxfb_init_fbinfo(struct platform_device *pdev)
+ 	info->fbops			= &imxfb_ops;
+ 	info->flags			= FBINFO_FLAG_DEFAULT |
+ 					  FBINFO_READS_FAST;
+-	if (pdata) {
+-		fbi->lscr1			= pdata->lscr1;
+-		fbi->dmacr			= pdata->dmacr;
+-		fbi->pwmr			= pdata->pwmr;
+-	} else {
+-		np = pdev->dev.of_node;
+-		info->var.grayscale = of_property_read_bool(np,
+-						"cmap-greyscale");
+-		fbi->cmap_inverse = of_property_read_bool(np, "cmap-inverse");
+-		fbi->cmap_static = of_property_read_bool(np, "cmap-static");
+ 
+-		fbi->lscr1 = IMXFB_LSCR1_DEFAULT;
++	np = pdev->dev.of_node;
++	info->var.grayscale = of_property_read_bool(np,
++					"cmap-greyscale");
++	fbi->cmap_inverse = of_property_read_bool(np, "cmap-inverse");
++	fbi->cmap_static = of_property_read_bool(np, "cmap-static");
+ 
+-		of_property_read_u32(np, "fsl,lpccr", &fbi->pwmr);
++	fbi->lscr1 = IMXFB_LSCR1_DEFAULT;
+ 
+-		of_property_read_u32(np, "fsl,lscr1", &fbi->lscr1);
++	of_property_read_u32(np, "fsl,lpccr", &fbi->pwmr);
+ 
+-		of_property_read_u32(np, "fsl,dmacr", &fbi->dmacr);
+-	}
++	of_property_read_u32(np, "fsl,lscr1", &fbi->lscr1);
++
++	of_property_read_u32(np, "fsl,dmacr", &fbi->dmacr);
+ 
+ 	return 0;
+ }
+@@ -863,10 +857,10 @@ static int imxfb_probe(struct platform_device *pdev)
+ 	struct imxfb_info *fbi;
+ 	struct lcd_device *lcd;
+ 	struct fb_info *info;
+-	struct imx_fb_platform_data *pdata;
+ 	struct resource *res;
+ 	struct imx_fb_videomode *m;
+ 	const struct of_device_id *of_id;
++	struct device_node *display_np;
+ 	int ret, i;
+ 	int bytes_per_pixel;
+ 
+@@ -884,8 +878,6 @@ static int imxfb_probe(struct platform_device *pdev)
+ 	if (!res)
+ 		return -ENODEV;
+ 
+-	pdata = dev_get_platdata(&pdev->dev);
+-
+ 	info = framebuffer_alloc(sizeof(struct imxfb_info), &pdev->dev);
+ 	if (!info)
+ 		return -ENOMEM;
+@@ -898,43 +890,34 @@ static int imxfb_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto failed_init;
+ 
+-	if (pdata) {
+-		if (!fb_mode)
+-			fb_mode = pdata->mode[0].mode.name;
+-
+-		fbi->mode = pdata->mode;
+-		fbi->num_modes = pdata->num_modes;
+-	} else {
+-		struct device_node *display_np;
+-		fb_mode = NULL;
+-
+-		display_np = of_parse_phandle(pdev->dev.of_node, "display", 0);
+-		if (!display_np) {
+-			dev_err(&pdev->dev, "No display defined in devicetree\n");
+-			ret = -EINVAL;
+-			goto failed_of_parse;
+-		}
++	fb_mode = NULL;
+ 
+-		/*
+-		 * imxfb does not support more modes, we choose only the native
+-		 * mode.
+-		 */
+-		fbi->num_modes = 1;
+-
+-		fbi->mode = devm_kzalloc(&pdev->dev,
+-				sizeof(struct imx_fb_videomode), GFP_KERNEL);
+-		if (!fbi->mode) {
+-			ret = -ENOMEM;
+-			of_node_put(display_np);
+-			goto failed_of_parse;
+-		}
++	display_np = of_parse_phandle(pdev->dev.of_node, "display", 0);
++	if (!display_np) {
++		dev_err(&pdev->dev, "No display defined in devicetree\n");
++		ret = -EINVAL;
++		goto failed_of_parse;
++	}
+ 
+-		ret = imxfb_of_read_mode(&pdev->dev, display_np, fbi->mode);
++	/*
++	 * imxfb does not support more modes, we choose only the native
++	 * mode.
++	 */
++	fbi->num_modes = 1;
++
++	fbi->mode = devm_kzalloc(&pdev->dev,
++			sizeof(struct imx_fb_videomode), GFP_KERNEL);
++	if (!fbi->mode) {
++		ret = -ENOMEM;
+ 		of_node_put(display_np);
+-		if (ret)
+-			goto failed_of_parse;
++		goto failed_of_parse;
+ 	}
+ 
++	ret = imxfb_of_read_mode(&pdev->dev, display_np, fbi->mode);
++	of_node_put(display_np);
++	if (ret)
++		goto failed_of_parse;
++
+ 	/* Calculate maximum bytes used per pixel. In most cases this should
+ 	 * be the same as m->bpp/8 */
+ 	m = &fbi->mode[0];
+@@ -1001,13 +984,6 @@ static int imxfb_probe(struct platform_device *pdev)
+ 
+ 	info->fix.smem_start = fbi->map_dma;
+ 
+-	if (pdata && pdata->init) {
+-		ret = pdata->init(fbi->pdev);
+-		if (ret)
+-			goto failed_platform_init;
+-	}
+-
+-
+ 	INIT_LIST_HEAD(&info->modelist);
+ 	for (i = 0; i < fbi->num_modes; i++)
+ 		fb_add_videomode(&fbi->mode[i].mode, &info->modelist);
+@@ -1059,9 +1035,6 @@ static int imxfb_probe(struct platform_device *pdev)
+ failed_register:
+ 	fb_dealloc_cmap(&info->cmap);
+ failed_cmap:
+-	if (pdata && pdata->exit)
+-		pdata->exit(fbi->pdev);
+-failed_platform_init:
+ 	dma_free_wc(&pdev->dev, fbi->map_size, info->screen_buffer,
+ 		    fbi->map_dma);
+ failed_map:
+@@ -1079,7 +1052,6 @@ static int imxfb_probe(struct platform_device *pdev)
+ 
+ static int imxfb_remove(struct platform_device *pdev)
+ {
+-	struct imx_fb_platform_data *pdata;
+ 	struct fb_info *info = platform_get_drvdata(pdev);
+ 	struct imxfb_info *fbi = info->par;
+ 	struct resource *res;
+@@ -1092,9 +1064,6 @@ static int imxfb_remove(struct platform_device *pdev)
+ 
+ 	unregister_framebuffer(info);
+ 	fb_dealloc_cmap(&info->cmap);
+-	pdata = dev_get_platdata(&pdev->dev);
+-	if (pdata && pdata->exit)
+-		pdata->exit(fbi->pdev);
+ 	dma_free_wc(&pdev->dev, fbi->map_size, info->screen_buffer,
+ 		    fbi->map_dma);
+ 	iounmap(fbi->regs);
+diff --git a/include/linux/platform_data/video-imxfb.h b/include/linux/platform_data/video-imxfb.h
+index 02812651af7d..b80a156a6617 100644
+--- a/include/linux/platform_data/video-imxfb.h
++++ b/include/linux/platform_data/video-imxfb.h
+@@ -55,16 +55,4 @@ struct imx_fb_videomode {
+ 	unsigned char	bpp;
+ };
+ 
+-struct imx_fb_platform_data {
+-	struct imx_fb_videomode *mode;
+-	int		num_modes;
+-
+-	u_int		pwmr;
+-	u_int		lscr1;
+-	u_int		dmacr;
+-
+-	int (*init)(struct platform_device *);
+-	void (*exit)(struct platform_device *);
+-};
+-
+ #endif /* ifndef __MACH_IMXFB_H__ */
+
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+-- 
+2.36.1
+
