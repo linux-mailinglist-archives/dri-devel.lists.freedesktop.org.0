@@ -1,59 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A26657F0D4
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 19:58:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CDA57F0E4
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 20:10:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38209A7B9F;
-	Sat, 23 Jul 2022 17:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CACA7F57;
+	Sat, 23 Jul 2022 18:10:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD57A7B86
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 17:58:01 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1oFJNq-0007Ta-NT; Sat, 23 Jul 2022 19:57:47 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1oFJNo-002l3q-OS; Sat, 23 Jul 2022 19:57:44 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1oFJNn-007377-W8; Sat, 23 Jul 2022 19:57:43 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>
-Subject: [PATCH 4/4] video: fb: imxfb: Convert request_mem_region + ioremap to
- devm_ioremap_resource
-Date: Sat, 23 Jul 2022 19:57:20 +0200
-Message-Id: <20220723175720.76933-4-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220723175720.76933-1-u.kleine-koenig@pengutronix.de>
-References: <20220723175720.76933-1-u.kleine-koenig@pengutronix.de>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 138CEA7F50
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 18:10:09 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id t17so20941lfk.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 11:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pNAUhjjDBroxympyUt6U8tDnLy00vPlBr4R4mbdJytw=;
+ b=z2f2fpiIj0R1syFPRFKESCT6v9mZZ1WS4rZkcNn3DWsi086CY9WoBx1WVUjTgsLr0S
+ 7UmKzoZaJHtUbo67i9IMKISGWxvrxu2EN9IioYUQmt4ClR6+8Ptpu5M9FRW/qeKwQxru
+ eMxfRrsL1MfB/AvletWTdPpVUS4ZZm4WnBXIqCbz2TUbPONxlAuBADFVTgA5Rflw4lno
+ aLS2qdg+2VlgS7rqytERlJrKl7KzmWFPyNZJS2SOCIaFUM8ap9sPtvhx+yjm6r/3DIOa
+ im1TftS9l2AB5aJIqLSiUnC8r96g3RaYTZL/kjAHZaut+2nKSC0vDHBF+QY9sMxC81jw
+ NnkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pNAUhjjDBroxympyUt6U8tDnLy00vPlBr4R4mbdJytw=;
+ b=vqIIOEDGN7204degH31Zj5cceJX4RHSfJ4+S0TyL5ovCVNgQgOpwNGlNnPDcEZcFp6
+ iRXOwxB762EFnsvwAqKWoU06o1ktw+Fgqcm2XVY0fKC6N1FJdLcTJz1QL/GmPHlwU9DT
+ hP9VEzple5gG4de58tzc3eae923oJDfT4mmqZwNztLgoZ4+BTDWOlYKcwIxVmiDMUH5f
+ M+f3qol4mxfUKYrZr3M/EBb+XstwbU02xvRVs0XNK5lQ7gX6fTljnRtCPnOSIuTmu34d
+ 6XXyQacP9EmldOCM+INkBtDqV0f7QshNVJm3SURKqid6ah3H0uSia/UmaipBWW4unHMu
+ gjmA==
+X-Gm-Message-State: AJIora/X55t1bLUxrXc8GPLVMUHU1M0JRAEF5KZ4T5RSk7rRfBD4exoY
+ PBJY/Ly0sQSYO8LLfQdHaZOIpQ==
+X-Google-Smtp-Source: AGRyM1uppMfY4czX8b7SEbjQ+hS9O1TE8PqpFelKIBXcz04UpXhgEujHzGnFx2Tn80DQX6Xml6yJlQ==
+X-Received: by 2002:a05:6512:22c8:b0:488:e69b:9311 with SMTP id
+ g8-20020a05651222c800b00488e69b9311mr1944284lfu.564.1658599807174; 
+ Sat, 23 Jul 2022 11:10:07 -0700 (PDT)
+Received: from [192.168.10.173] (93.81-167-86.customer.lyse.net.
+ [81.167.86.93]) by smtp.gmail.com with ESMTPSA id
+ g1-20020a056512118100b004811bf4999csm1754790lfr.290.2022.07.23.11.10.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Jul 2022 11:10:06 -0700 (PDT)
+Message-ID: <6a4c74fe-5558-5455-1f79-0289e10294b2@linaro.org>
+Date: Sat, 23 Jul 2022 20:10:04 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/1] spi/panel: dt-bindings: drop CPHA and CPOL from
+ common properties
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220722191539.90641-1-krzysztof.kozlowski@linaro.org>
+ <20220722191539.90641-2-krzysztof.kozlowski@linaro.org>
+ <Ytr+Q6kXr+f6dCfi@ravnborg.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Ytr+Q6kXr+f6dCfi@ravnborg.org>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2623; h=from:subject;
- bh=Sy7hObGjRzDQwuWl0g+BIDpZmNz70z1J61p/X002VA4=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBi3DZ7c07zI1Wue2I1wIRCwc9P6REz8lW6VqXalEtb
- /3TjSj+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYtw2ewAKCRDB/BR4rcrsCZt6CA
- CLEMPoV04R060xaKZZ4hha1Qld9Qp9OSVf7Fn8V+8ec7pQIzNgbW/x4AP/7wZt+mLjpXUSh5n0cSeA
- K1yX01Rh/CSBQYZSmqclsvspVprvjj6JrHzUfEQsuaT7ngvBIbHctZRaKT8UwsHv+ElUtIj6BBAiDG
- Fa3/JVJ+Kv/8+jOAJA23hV88Q2eNFdr6L3miMV1OP3o45F0U2w4cTpn5sEgLdJlUeeGfkEDnCaiRJt
- WA8FZPEQKKwSFJJaaQx0ti3RMMvV5MXa4za222ANSGfkrbvTLC8/Q0NGraPFYqBXD3aYV6gcNfAF3s
- tuup3wl0PWwnuX5q3xk3sfRpmgNN2m
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,89 +76,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Mark Brown <broonie@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Marek Belisko <marek@goldelico.com>, Pratyush Yadav <p.yadav@ti.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This has several advantages:
+On 22/07/2022 21:45, Sam Ravnborg wrote:
+> Hi Krzysztof
+> 
+> On Fri, Jul 22, 2022 at 09:15:39PM +0200, Krzysztof Kozlowski wrote:
+>> The spi-cpha and spi-cpol properties are device specific and should be
+>> accepted only if device really needs them.  Drop them from common
+>> spi-peripheral-props.yaml schema, mention in few panel drivers which use
+>> themi
+> 
+>     "and include instead in the SPI controller bindings."
+> 
+> I cannot see you do this in the touched bindings.
 
- - No need for manual undo of the two functions in the error path and
-   the remove function.
- - Drops error handling in .remove()
-   Note that returning early in .remove() yields resource leaks that
-   often result in access of freed memory or unmapped registers later.
- - Fixes a resource leak
-   request_mem_region allocates memory for the returned pointer that was
-   never freed.
+Yep, because you always have two schemas being in play. One is SPI
+controller and other is the device (SPI slave).
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/video/fbdev/imxfb.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+> So I cannot see how for example samsung,ld9040.yaml picks up
+> spi-controller.yaml and thus it no longer knows the spi-cpha and spi-cpol
+> properties.
 
-diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index fa6a19c1ae9b..c48477893dd0 100644
---- a/drivers/video/fbdev/imxfb.c
-+++ b/drivers/video/fbdev/imxfb.c
-@@ -937,13 +937,6 @@ static int imxfb_probe(struct platform_device *pdev)
- 		info->fix.smem_len = max_t(size_t, info->fix.smem_len,
- 				m->mode.xres * m->mode.yres * bytes_per_pixel);
- 
--	res = request_mem_region(res->start, resource_size(res),
--				DRIVER_NAME);
--	if (!res) {
--		ret = -EBUSY;
--		goto failed_req;
--	}
--
- 	fbi->clk_ipg = devm_clk_get(&pdev->dev, "ipg");
- 	if (IS_ERR(fbi->clk_ipg)) {
- 		ret = PTR_ERR(fbi->clk_ipg);
-@@ -977,7 +970,7 @@ static int imxfb_probe(struct platform_device *pdev)
- 		goto failed_getclock;
- 	}
- 
--	fbi->regs = ioremap(res->start, resource_size(res));
-+	fbi->regs = devm_ioremap_resource(&pdev->dev, res);
- 	if (fbi->regs == NULL) {
- 		dev_err(&pdev->dev, "Cannot map frame buffer registers\n");
- 		ret = -ENOMEM;
-@@ -1049,11 +1042,9 @@ static int imxfb_probe(struct platform_device *pdev)
- 	dma_free_wc(&pdev->dev, fbi->map_size, info->screen_buffer,
- 		    fbi->map_dma);
- failed_map:
--	iounmap(fbi->regs);
- failed_ioremap:
- failed_getclock:
- 	release_mem_region(res->start, resource_size(res));
--failed_req:
- failed_of_parse:
- 	kfree(info->pseudo_palette);
- failed_init:
-@@ -1065,11 +1056,6 @@ static int imxfb_remove(struct platform_device *pdev)
- {
- 	struct fb_info *info = platform_get_drvdata(pdev);
- 	struct imxfb_info *fbi = info->par;
--	struct resource *res;
--
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res)
--		return -EINVAL;
- 
- 	imxfb_disable_controller(fbi);
- 
-@@ -1077,8 +1063,6 @@ static int imxfb_remove(struct platform_device *pdev)
- 	fb_dealloc_cmap(&info->cmap);
- 	dma_free_wc(&pdev->dev, fbi->map_size, info->screen_buffer,
- 		    fbi->map_dma);
--	iounmap(fbi->regs);
--	release_mem_region(res->start, resource_size(res));
- 	kfree(info->pseudo_palette);
- 	framebuffer_release(info);
- 
--- 
-2.36.1
+ld9040 is not spi-controller, but a SPI slave device, AFAIU. It will be
+therefore a child of some SPI controller, thus the SPI controller
+schema, which includes spi-controller.yaml, will validate the type of
+spi-cpha/cpol properties.
 
+
+Best regards,
+Krzysztof
