@@ -2,73 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9BE57F1B5
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jul 2022 23:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B341257F1D5
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Jul 2022 00:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B43F8ADF8A;
-	Sat, 23 Jul 2022 21:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F59AF6B5;
+	Sat, 23 Jul 2022 22:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D0E0ADF86
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 21:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658610541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9KeV3b2L++kC1oJ9l6Py5QcKGf/q+aaG3Cox8NYOjJ4=;
- b=LILogoa5oB3YUxS7+VXV8Y6/OZMR+BOwymphCIqp8OP/eSr5F1k6cRs2oYgBGXMlKhJ60I
- 914oEEzj4PtxrqPI6wTWV9yYUKDUh50TWcUqimg306VOQvF1azQ7VjOMKifVmw1Gg/BEgu
- kGBwyl5rzgvL2FHNa0V5Ys8dz6EhECQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-A8lmpO9fOM-wrRq4KqNiuQ-1; Sat, 23 Jul 2022 17:08:59 -0400
-X-MC-Unique: A8lmpO9fOM-wrRq4KqNiuQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r82-20020a1c4455000000b003a300020352so4045199wma.5
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 14:08:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9KeV3b2L++kC1oJ9l6Py5QcKGf/q+aaG3Cox8NYOjJ4=;
- b=Dq37NyISWmYM8WLbDRYZEbuGC/z4ErCPclr1y9WokacGQOxvNdRd5gBV2LrkgfGSjd
- 6E62DduN2HVeMP/vhSY8f6EIvtVrOcu/Qn97x+EhOy6jNZVCRQRdKx/sM7hdeVaYAj+7
- hyuC/w4K7lmf6DZYttXldDBeYRyZgH2zhvVfaODfoi+pGn5/q97y6UHF6XDCWkbIyqL5
- uwVelUjmGEXO2ecxunTzkDk4bPH0kgMDFNLICZDgw7zOV06RIQT3B2biqFXefPB8DUgP
- xuQ6YFq/4Uf0/YCpdEGzAcd4eEIubGPCr/Yf4SDANyCv3Kl9mLNz555WC/1FKNiMsaa4
- iZ8g==
-X-Gm-Message-State: AJIora9R5++JuGCVkaEGGEE4zkmoW/qqJl1HIgiRmQ7OeJcudkpP42fQ
- h71IusrQP40B5sdvBVLwIkLE8tc11g0PA+j/GcS0rh19v1Gh5IDMbffrvuN/EZEZ74HxP7tXv6l
- 5MDZOk2DTGWjTsY31KU5gzWiT7gAH
-X-Received: by 2002:adf:f90f:0:b0:21e:7e3d:6af6 with SMTP id
- b15-20020adff90f000000b0021e7e3d6af6mr1780652wrr.183.1658610537956; 
- Sat, 23 Jul 2022 14:08:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tScx1EViU35wGKRbd11AAdwaQ2ZMMsBGJoIAt1Cxrb2NeGSD2oe3BbzTHgx6jv08s5IYWO2Q==
-X-Received: by 2002:adf:f90f:0:b0:21e:7e3d:6af6 with SMTP id
- b15-20020adff90f000000b0021e7e3d6af6mr1780646wrr.183.1658610537607; 
- Sat, 23 Jul 2022 14:08:57 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- j14-20020adfd20e000000b0021e40019ae7sm7643643wrh.48.2022.07.23.14.08.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jul 2022 14:08:57 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: Make .remove and .shutdown HW shutdown consistent
-Date: Sat, 23 Jul 2022 23:08:25 +0200
-Message-Id: <20220723210825.564922-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.37.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFDDAF6B2
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Jul 2022 22:02:31 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oFNCf-00087V-9I; Sun, 24 Jul 2022 00:02:29 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oFNCd-002n5G-I5; Sun, 24 Jul 2022 00:02:27 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oFNCc-0075BI-AS; Sun, 24 Jul 2022 00:02:26 +0200
+Date: Sun, 24 Jul 2022 00:02:18 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 1/4] video: fb: imxfb: Drop platform data support
+Message-ID: <20220723220218.2jxejv55aix5sqra@pengutronix.de>
+References: <20220723175720.76933-1-u.kleine-koenig@pengutronix.de>
+ <YtxKv0ZUbg6V+a2w@ravnborg.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tv7wq6pmbas72eox"
+Content-Disposition: inline
+In-Reply-To: <YtxKv0ZUbg6V+a2w@ravnborg.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,104 +54,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Helge Deller <deller@gmx.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers' .remove and .shutdown callbacks are executed on different code
-paths. The former is called when a device is removed from the bus, while
-the latter is called at system shutdown time to quiesce the device.
 
-This means that some overlap exists between the two, because both have to
-take care of properly shutting down the hardware. But currently the logic
-used in these two callbacks isn't consistent in msm drivers, which could
-lead to kernel oops.
+--tv7wq6pmbas72eox
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For example, on .remove the component is deleted and its .unbind callback
-leads to the hardware being shutdown but only if the DRM device has been
-marked as registered.
+Hi Sam,
 
-That check doesn't exist in the .shutdown logic and this can lead to the
-driver calling drm_atomic_helper_shutdown() for a DRM device that hasn't
-been properly initialized.
+On Sat, Jul 23, 2022 at 09:23:43PM +0200, Sam Ravnborg wrote:
+> On Sat, Jul 23, 2022 at 07:57:17PM +0200, Uwe Kleine-K=F6nig wrote:
+> > No source file but the driver itself includes the header containing the
+> > platform data definition. The last user is gone since commit
+> > 8485adf17a15 ("ARM: imx: Remove imx device directory").
+> >=20
+> > So we can safely drop platform data support.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> Do imxfb offer something that is not supported by the DRM drivers?
+> If yes then the clean-up is good, if not then we could drop the driver?
 
-A situation when this can happen is when a driver for an expected device
-fails to probe, since the .bind callback will never be executed.
+It's for different i.MX variants. imxfb is for i.MX2x while the DRM
+drivers in mainline are for i.MX6. (Not sure about the i.MX3 and i.MX5x
+variants.)
 
-This bug was attempted to be fixed in commit 623f279c7781 ("drm/msm: fix
-shutdown hook in case GPU components failed to bind"), but unfortunately
-it still happens in some cases.
+Somewhere in the middle of my todo list is to mainline an i.MX2x DRM
+driver that could replace the imxfb driver. If I only had a bit more
+time ...
 
-Rather than trying to keep fixing in both places, let's unify in a single
-helper function that could be used for the two callbacks.
+Best regards
+Uwe
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
- drivers/gpu/drm/msm/msm_drv.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+--tv7wq6pmbas72eox
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 1ed4cd09dbf8..669891bd6f09 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -190,14 +190,8 @@ static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
- 	return 0;
- }
- 
--static int msm_drm_uninit(struct device *dev)
-+static void msm_shutdown_hw(struct drm_device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct msm_drm_private *priv = platform_get_drvdata(pdev);
--	struct drm_device *ddev = priv->dev;
--	struct msm_kms *kms = priv->kms;
--	int i;
--
- 	/*
- 	 * Shutdown the hw if we're far enough along where things might be on.
- 	 * If we run this too early, we'll end up panicking in any variety of
-@@ -205,10 +199,21 @@ static int msm_drm_uninit(struct device *dev)
- 	 * msm_drm_init, drm_dev->registered is used as an indicator that the
- 	 * shutdown will be successful.
- 	 */
--	if (ddev->registered) {
-+	if (dev->registered)
-+		drm_atomic_helper_shutdown(dev);
-+}
-+
-+static int msm_drm_uninit(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct drm_device *ddev = priv->dev;
-+	struct msm_kms *kms = priv->kms;
-+	int i;
-+
-+	if (ddev->registered)
- 		drm_dev_unregister(ddev);
--		drm_atomic_helper_shutdown(ddev);
--	}
-+	msm_shutdown_hw(ddev);
- 
- 	/* We must cancel and cleanup any pending vblank enable/disable
- 	 * work before msm_irq_uninstall() to avoid work re-enabling an
-@@ -1242,10 +1247,8 @@ void msm_drv_shutdown(struct platform_device *pdev)
- 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
- 	struct drm_device *drm = priv ? priv->dev : NULL;
- 
--	if (!priv || !priv->kms)
--		return;
--
--	drm_atomic_helper_shutdown(drm);
-+	if (drm)
-+		msm_shutdown_hw(drm);
- }
- 
- static struct platform_driver msm_platform_driver = {
--- 
-2.37.1
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLcb+cACgkQwfwUeK3K
+7AnMxQf+Prxx4qWPFfT5Rzd7sH+GpYEQAPPCq4Eeri8Rx6j8TBZeuNj2c0Mefb24
+xliY410nXe9Smyu1ksXFa4w5AU3Smmd4m4JyCsagOKkAqUYnTfkkaOGtA/8HWGwj
+FKcG+0uNTCawqQ5e9QhmQ4P3Vmze6q/dWml9ff10F321P/3C3wADIQub++xwQme1
+t8to3N67oxncbBYOnG3KQ7Yyb40MPtWWatn6+XDJvuVMKiqPCpkxcEeFI88I7U9v
+AAW2/AqZAdbU9DiGNULQv7+Rreo6MbxVeuiQX1kJkv295TH0pSLzZuE9BLZljoCZ
+h1mq0c50aABMRQcIWF5p9r6r6D6bYQ==
+=ClRJ
+-----END PGP SIGNATURE-----
+
+--tv7wq6pmbas72eox--
