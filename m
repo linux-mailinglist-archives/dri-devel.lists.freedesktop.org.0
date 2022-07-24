@@ -2,74 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD7457F517
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Jul 2022 14:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE3557F590
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Jul 2022 16:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0942112CA8;
-	Sun, 24 Jul 2022 12:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDA1112251;
+	Sun, 24 Jul 2022 14:55:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F08112C85
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 12:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658666269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=G0f3MDsyJEdQb5fcMCp5m0x+k6cu5Bh/NA8aL6IfSBI=;
- b=ehyUlK8aucES34fLIJdZQQ5Q25R5ox4ZC2ZHdiQWqECqbjTBhEpOMFdw+O8kTYCWtqcU1R
- u9DyFIqKxNQ6K+nt39Ttdyl6wJhieVxCu/jZpRfyaiwiKE671B3AssjKs/S3cpbYV7taUA
- hmd1N+yfvwF96xGS9GMfPi35vv29eQ0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-nIdkJj4gMeyvAJEwGtZ-iA-1; Sun, 24 Jul 2022 08:37:46 -0400
-X-MC-Unique: nIdkJj4gMeyvAJEwGtZ-iA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bh18-20020a05600c3d1200b003a32044cc9fso4802581wmb.6
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 05:37:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=G0f3MDsyJEdQb5fcMCp5m0x+k6cu5Bh/NA8aL6IfSBI=;
- b=A7Bd4rPIorJ9pAycS9LE6ZQrnwc76weUNmovwDn+gn9b4a6jb7TWb/ktcwTg+CpC0o
- ygMoDyzJM7xaz9yA5yuKFbAs4FyvLKWvK8NQgDNNrCfYrgwDHoLyyNE8+UINgfNvGph9
- cSzXO0/JEo8M+3BGAq3kU0DATfVA3aFAePRbPwcLMMSd9J85+FNa48s9+gtuZvdStbJ0
- 14460BcovY5zXxExlgz8MXcY2QVGNZT1z70ClZYFsjT1B3dEnDqo3sin0HYZx7FciVIo
- r9ARgNf6pjRlcksDlH4oi3Tgfnm4BWSrik0JvcDZp9RlH6GSiFvq4AxzXzGg2y8Jp1RO
- FzRQ==
-X-Gm-Message-State: AJIora9DIQ7aBCK2TyG01DBcqqoYEu0ygUhiGtD/6p73DhbUatVF4s0y
- Do5AcLhUa4Qh+wT9B54DyYY89kEUssOxdtPWSbYn38BTe960mjcZswZoSq/va4SDFWwRyXmCKoB
- CbC1gB6R0CiROhMAINTVDyG9g1aie
-X-Received: by 2002:a05:6000:2c8:b0:21d:b356:5f21 with SMTP id
- o8-20020a05600002c800b0021db3565f21mr5325415wry.515.1658666265082; 
- Sun, 24 Jul 2022 05:37:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ug4YTsIGIBNBnXCQXnAEtS3vid0LdX10qcNDlCxc235fu3aeC6pJksAYEP5BAkqCWq0SUwHQ==
-X-Received: by 2002:a05:6000:2c8:b0:21d:b356:5f21 with SMTP id
- o8-20020a05600002c800b0021db3565f21mr5325389wry.515.1658666264736; 
- Sun, 24 Jul 2022 05:37:44 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l4-20020a05600012c400b0021e4829d359sm9368925wrx.39.2022.07.24.05.37.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jul 2022 05:37:44 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: Prevent modeset helpers to access an uninitialized
- drm_mode_config
-Date: Sun, 24 Jul 2022 14:37:41 +0200
-Message-Id: <20220724123741.1268536-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.37.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7501C10E0F4
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 14:55:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C166AB80D7E
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 14:55:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 621C3C341CF
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 14:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1658674550;
+ bh=yDfsJBAeYq/WYzWMvh0fgrniLI9xtp/fyATWyFNnb3I=;
+ h=From:To:Subject:Date:From;
+ b=X4K+PAeqlm7jO2kU30ZveFygvH0mdWxH6YOcigex/GZzQtTW3se9zibzGyaAMXlOA
+ cmgSGmvKvt6bfsaanXn6MddU4zgmk6296vBDd7SjCCLRp2I3wygpHWYLgv4yU1aghX
+ 7MQG16sCOq60jsGnFyE/ofN7C0TYDnx1Bns27/Qy0El68CPf1C/P17XYSYDD9L84NG
+ i+jfobyeXGvDCU09ANYGgYsVxU2CJbAjiwZcEPsSFHxz6LA3R0Nk45ly+SBu6cE4xd
+ GufBv/5JYGhj94fo/+Kf3Jm9bJas0rYXDJIuhqtcO0Q81CXYXnzmnexBZ2bqN6T1Sf
+ IzhW668TjQ2Kw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 490DECC13AD; Sun, 24 Jul 2022 14:55:50 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216277] New: X11 doesn't wait for amdgpu driver to be up
+Date: Sun, 24 Jul 2022 14:55:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dark_sylinc@yahoo.com.ar
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-216277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,104 +70,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM drivers initialize the mode configuration with drmm_mode_config_init()
-and that function (among other things) initializes mutexes that are later
-used by modeset helpers.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216277
 
-But the helpers should only attempt to grab those locks if the mode config
-was properly initialized. Otherwise it can lead to kernel oops. An example
-is when a DRM driver using the component framework does not initialize the
-drm_mode_config, because its .bind callback was not being executed due one
-of its expected sub-devices' driver failing to probe.
+            Bug ID: 216277
+           Summary: X11 doesn't wait for amdgpu driver to be up
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.18.11+
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: dark_sylinc@yahoo.com.ar
+        Regression: No
 
-Some drivers check the struct drm_driver.registered field as an indication
-on whether their .shutdown callback should call helpers to tearn down the
-mode configuration or not, but most drivers just assume that it is always
-safe to call helpers such as drm_atomic_helper_shutdown() during shutdown.
+# Context
 
-Let make the DRM core more robust and prevent this to happen, by marking a
-struct drm_mode_config as initialized during drmm_mode_config_init(). that
-way helpers can check for it and not attempt to grab uninitialized mutexes.
+I'm using Xubuntu 20.04
+I compiled Kernel 5.18.11+ myself (shows bug)
+I compiled Kernel 5.13.7+ myself (does not show bug)
+My GPU is AMD Radeon 6800 XT 16GB, I don't have an iGPU (CPU is Ryzen 5900X)
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+Mesa is:
 
- drivers/gpu/drm/drm_mode_config.c  | 4 ++++
- drivers/gpu/drm/drm_modeset_lock.c | 6 ++++++
- include/drm/drm_mode_config.h      | 8 ++++++++
- 3 files changed, 18 insertions(+)
+OpenGL renderer string: AMD Radeon RX 6800 XT (sienna_cichlid, LLVM 14.0.1,=
+ DRM
+3.46, 5.18.11+)
+OpenGL core profile version string: 4.6 (Core Profile) Mesa 22.0.5 - kisak-=
+mesa
+PPA
+OpenGL core profile shading language version string: 4.60
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 59b34f07cfce..db649f97120b 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -456,6 +456,8 @@ int drmm_mode_config_init(struct drm_device *dev)
- 		dma_resv_fini(&resv);
- 	}
- 
-+	dev->mode_config.initialized = true;
-+
- 	return drmm_add_action_or_reset(dev, drm_mode_config_init_release,
- 					NULL);
- }
-@@ -549,6 +551,8 @@ void drm_mode_config_cleanup(struct drm_device *dev)
- 	idr_destroy(&dev->mode_config.tile_idr);
- 	idr_destroy(&dev->mode_config.object_idr);
- 	drm_modeset_lock_fini(&dev->mode_config.connection_mutex);
-+
-+	dev->mode_config.initialized = false;
- }
- EXPORT_SYMBOL(drm_mode_config_cleanup);
- 
-diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
-index 918065982db4..d6a81cb88123 100644
---- a/drivers/gpu/drm/drm_modeset_lock.c
-+++ b/drivers/gpu/drm/drm_modeset_lock.c
-@@ -444,6 +444,9 @@ EXPORT_SYMBOL(drm_modeset_unlock);
-  *
-  * See also: DRM_MODESET_LOCK_ALL_BEGIN() and DRM_MODESET_LOCK_ALL_END()
-  *
-+ * This function must only be called after drmm_mode_config_init(), since it
-+ * takes locks that are initialized as part of the initial mode configuration.
-+ *
-  * Returns: 0 on success or a negative error-code on failure.
-  */
- int drm_modeset_lock_all_ctx(struct drm_device *dev,
-@@ -454,6 +457,9 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
- 	struct drm_plane *plane;
- 	int ret;
- 
-+	if (WARN_ON(!dev->mode_config.initialized))
-+		return -EINVAL;
-+
- 	ret = drm_modeset_lock(&dev->mode_config.connection_mutex, ctx);
- 	if (ret)
- 		return ret;
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 6b5e01295348..d2e1a6d7dcc2 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -954,6 +954,14 @@ struct drm_mode_config {
- 	struct drm_atomic_state *suspend_state;
- 
- 	const struct drm_mode_config_helper_funcs *helper_private;
-+
-+	/**
-+	 * @initialized:
-+	 *
-+	 * Internally used by modeset helpers such as drm_modeset_lock_all_ctx()
-+	 * to determine if the mode configuration has been properly initialized.
-+	 */
-+	bool initialized;
- };
- 
- int __must_check drmm_mode_config_init(struct drm_device *dev);
--- 
-2.37.1
 
+# Steps to reproduce
+
+1. Turn on the PC
+2. On *some* occasions X11 will crash, taking down the keyboard; leaving the
+computer in a seemingly frozen state while displaying tty with the last info
+messages
+3. As a workaround, I can login via ssh and type `sudo service lightdm rest=
+art`
+and the X11 server will start and everything starts working perfectly fine
+
+# Diagnostic
+
+It seems X11 doesn't wait for amdgpu to be up. This can be seen by checking
+/var/log/Xorg.0.log (attached):
+
+[     7.718] (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+[     7.718] (II) FBDEV: driver for framebuffer: fbdev
+[     7.718] (II) VESA: driver for VESA chipsets: vesa
+[     7.718] (WW) xf86OpenConsole: setpgid failed: Operation not permitted
+[     7.718] (WW) xf86OpenConsole: setsid failed: Operation not permitted
+[     7.719] (EE) open /dev/dri/card0: No such file or directory
+[     7.719] (WW) Falling back to old probe method for modesetting
+[     7.719] (EE) open /dev/dri/card0: No such file or directory
+
+Visually speaking, I *think* that X11 tries to init while tty is still in V=
+ESA
+mode before/during switching to 1920x1080
+
+AFAIK, systemd is responsible for waiting the GPU drivers are up. Does anyb=
+ody
+know where I should look? Does systemd need an update? Could this be a libD=
+RM
+issue? I currently have installed 2.4.110 in /usr/lib and libdrm 2.4.111
+compiled from source in /usr/local/lib
+
+I could try bisecting but unfortunately the reproducibility isn't "always"
+which makes it hard to debug.
+
+All of this has been working fine with Kernel 5.13.7+
+
+Cheers
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
