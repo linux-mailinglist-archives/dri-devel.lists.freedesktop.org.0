@@ -1,37 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E5457FA25
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 09:23:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E6957FA1C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 09:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01D4511A1B8;
-	Mon, 25 Jul 2022 07:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26443113D70;
+	Mon, 25 Jul 2022 07:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpbg.qq.com (biz-43-154-221-58.mail.qq.com [43.154.221.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA98BEF5F;
- Sun, 24 Jul 2022 07:37:15 +0000 (UTC)
-X-QQ-mid: bizesmtp80t1658648218tccj66q4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 258B5BF056
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 07:39:23 +0000 (UTC)
+X-QQ-mid: bizesmtp84t1658648357tnyquacb
 Received: from localhost.localdomain ( [125.70.163.183])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 24 Jul 2022 15:36:56 +0800 (CST)
+ id ; Sun, 24 Jul 2022 15:39:16 +0800 (CST)
 X-QQ-SSF: 01000000002000007000B00A0000000
-X-QQ-FEAT: 7jw2iSiCazoMav4Yzpx3ytw6EPmuPE4/jr5WrcEa/tATwFc9DCuRRags72aEm
- Ni4wJKPcbIzFuMp9rzpXMacoJrYGVH3rW/3F0kQ+/mgtJPAL1MOL57hrgwv4ZYZwPYfiCKM
- T8rwhYhM+7rwqqgy4cydyqW+VX6w8F+YgXIqnqrnd/Hona7FX0NSw0M9BTWNDtHPcHIFDxt
- t6zCE2HGk0bQZpekv88T2NWDfoI3fA6ghFcYA3yw2VKGa+FQLXPzPdHArsm6u0peE4dH+mU
- mNDfJblYFIwudRKXCOxpcsmC+QEaXdpRsLPfUTueF9Gl+Bf6jRTEKRUN8WIOxNA5vZebPeA
- 4qqWGSF2YQnpSWSaPpaRc6Nlk/HI8E37yaR3YjmVD4lGMyMXuJ88gYJ3udjHQ==
+X-QQ-FEAT: TXoNPSSaW4mNzmGZcubrXkzakWZSv2BucF8BlpBbW7QbtIbl1t+jzX3FJ+cT6
+ FTE1gmNTsd4afLdOZZlklAlQm7ytCv3CKyKh98e+mY0pWl3MWinQbqdMQGzTp5oPfD5RPy8
+ MfVajVY2J/sh9IWZSpS0y8dyfhHFNJIZsuQfI0TXZwlHmNdi0e3WDVR7FbiXAUR2fjgCP3Y
+ wA7uZWy6EwGiwhDfebyDfU33j0jw3aci3pI/xrrRMpJzT1e/dPKEY8r4BGQkFpfG0MLBLz+
+ OKCQTjPqySWTJAtajaaRWA8a4sF4Wd45jtBymRFgPH4rpQKa44DONFW8qpZpb0Fxj82pBnl
+ aCkVqdbnUUQ3YzXYoAaCqfALnrGYNAl8xs9Hx6ZaGK7cXegR5IVOBUxLF10LA==
 X-QQ-GoodBg: 0
 From: wangjianli <wangjianli@cdjrlc.com>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, wangqing@vivo.com, dan.carpenter@oracle.com,
- bjorn.andersson@linaro.org
-Subject: [PATCH] msm/adreno: fix repeated words in comments
-Date: Sun, 24 Jul 2022 15:36:50 +0800
-Message-Id: <20220724073650.16460-1-wangjianli@cdjrlc.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ irlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] gpu/drm: fix repeated words in comments
+Date: Sun, 24 Jul 2022 15:39:09 +0800
+Message-Id: <20220724073909.17164-1-wangjianli@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,8 +48,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wangjianli <wangjianli@cdjrlc.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Cc: wangjianli <wangjianli@cdjrlc.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -60,22 +57,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 +-
+ drivers/gpu/drm/drm_framebuffer.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 9f76f5b15759..9303a011b81d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1277,7 +1277,7 @@ static int a6xx_gmu_rpmh_arc_votes_init(struct device *dev, u32 *votes,
- 		}
- 
- 		/*
--		 * Look for a level in in the secondary list that matches. If
-+		 * Look for a level in the secondary list that matches. If
- 		 * nothing fits, use the maximum non zero vote
- 		 */
- 
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index 4562a8b86579..1ece22e7b6cb 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -935,7 +935,7 @@ EXPORT_SYMBOL(drm_framebuffer_unregister_private);
+  * the id and get back -EINVAL. Obviously no concern at driver unload time.
+  *
+  * Also, the framebuffer will not be removed from the lookup idr - for
+- * user-created framebuffers this will happen in in the rmfb ioctl. For
++ * user-created framebuffers this will happen in the rmfb ioctl. For
+  * driver-private objects (e.g. for fbdev) drivers need to explicitly call
+  * drm_framebuffer_unregister_private.
+  */
 -- 
 2.36.1
+
 
