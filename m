@@ -1,55 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C734B57F482
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Jul 2022 11:46:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6325357F4C9
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Jul 2022 13:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19EDAAD982;
-	Sun, 24 Jul 2022 09:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA4E82BC13;
+	Sun, 24 Jul 2022 11:13:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E31AA70AB
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 09:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
- message-id:subject:cc:to:from:date:from;
- bh=DkqpzAchLXmtZywchvjBdLq8pdyVIUoiP+DnnHhldOI=;
- b=BqV2fDL81ealynMunuznONsHsFq0sfsdNKC7RJ9ZtvsujhTttTWp60gHst53eGHxqEP/6EfH8DOED
- 9Hf3PlKrc4a71S//wp43pfIsJdKzbiC6cQ8vAXIWP5iQTgsjNIdN7lacamSIoUGNZEo6Cv/2DTz8yZ
- Bf69ZT7l0aOWR8gxLC0ZqX6d+cli+xCq6xaUZYSkSPVRSL5gwX2wvsaz4ivaYVQ8+WOr2Z9klH7Bct
- WQvlwAuCPT/QHzcexHODhHchdmzlnrv6iTWkBd2TYbHRbUxBxx68ZU+IU03V1niI5Ne8R3jloNmCVM
- LYr4d1VBfp68nIYUQykWE/r2P4k+mMg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
- message-id:subject:cc:to:from:date:from;
- bh=DkqpzAchLXmtZywchvjBdLq8pdyVIUoiP+DnnHhldOI=;
- b=aGMFzsceyms8TAATok1Fggo3By2K2dVTVcoCOoFgLKPJyGL8t22OzyxgXuL6zRxO9h3C5Rl7QL2Fu
- EzpRu7GAg==
-X-HalOne-Cookie: 6aee22b5d60a7eee958282967307d05ab7c8cbec
-X-HalOne-ID: 76912f13-0b35-11ed-a918-d0431ea8a290
-Received: from mailproxy1.cst.dirpod3-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 76912f13-0b35-11ed-a918-d0431ea8a290;
- Sun, 24 Jul 2022 09:46:17 +0000 (UTC)
-Date: Sun, 24 Jul 2022 11:46:15 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 1/4] video: fb: imxfb: Drop platform data support
-Message-ID: <Yt0U5yxOJCU1uCkl@ravnborg.org>
-References: <20220723175720.76933-1-u.kleine-koenig@pengutronix.de>
- <YtxKv0ZUbg6V+a2w@ravnborg.org>
- <20220723220218.2jxejv55aix5sqra@pengutronix.de>
- <Yt0ThsMUi34pyuPL@ravnborg.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2BD2BC13
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 11:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658661216;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Xqhc+CbJw3Nlf+xzSRRqWeo/fv/2gC1IWzkKfkJtYRM=;
+ b=T+kxGVErA0IK55X+NODEcX595kOHcV6xNbhY8/J1h6YPdAu1Rj4Sd4L78pdlBwfL56fSPm
+ MzDyGUASKyZYcPIMilAZHIA+tcrpsR+8ZQNTKhs+3Y6vwnBL5JN497Lrel+coU3L4aktKJ
+ jEXM9OXa52cP+dKvtyzI0VYZKmLPQQ0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-7J-cWd_MNg22UcNIN2rGQw-1; Sun, 24 Jul 2022 07:13:35 -0400
+X-MC-Unique: 7J-cWd_MNg22UcNIN2rGQw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t13-20020adfe10d000000b0021bae3def1eso1227112wrz.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jul 2022 04:13:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xqhc+CbJw3Nlf+xzSRRqWeo/fv/2gC1IWzkKfkJtYRM=;
+ b=MXvZaHNgUVRzL2tVy7fdkM6zIPzaCv8o3aceQ95dXqmf5WvCYFaQyL/u/dp/ECVB8m
+ c+b17/HlKsp/WQAD385NGw/Y3a8v1S6K6FO0VKJTctT+94vIK+iBwYqKLaCF3ABdu1Ia
+ +DGb6oSN1BsbVyKZ48k//ew6U5/bwDSE0vLJc2A9qOBpL/zY3MKbPhBnKeXUG14ztVxn
+ VvCLcvP2s+D8pGGEcOg81SbjxfvfVcHHC9sg3EWDChIoXN5cSCPXXCd/Pf2vJVQFihCe
+ t4RSCAYouewOkGzGoTVz31uVags8luBP7HvwMi2YahOXoQsgESK4afGWDksvLNtI3vaj
+ kCRw==
+X-Gm-Message-State: AJIora9RY7rBQzZwbMj6CmZfsz4SS9CYptoVaSpWt7n1Mc4njEWnyomN
+ UTsU/3NTb7dQAfh48hP9TNkqsxjrWbbOkWUrgXQRvLxSjEq4ofYN0S3K/Pgu9XQvMj2kPB/Z+tv
+ wZFXM7AgIDhbpi96E4f5j5nZ/4diU
+X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id
+ c9-20020adffb49000000b0021a3cccfb77mr4781414wrs.280.1658661212574; 
+ Sun, 24 Jul 2022 04:13:32 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tHtTQxj5ywWJ1uMePu5jkv7zUodG+r7Ar9d/15vm7ojl9V4dJ0avhXrjRru6OwN3JuywBspg==
+X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id
+ c9-20020adffb49000000b0021a3cccfb77mr4781402wrs.280.1658661212172; 
+ Sun, 24 Jul 2022 04:13:32 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ i7-20020adffc07000000b0021e49a7ca43sm9350417wrr.15.2022.07.24.04.13.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 24 Jul 2022 04:13:31 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/msm: Make .remove and .shutdown HW shutdown consistent
+Date: Sun, 24 Jul 2022 13:13:27 +0200
+Message-Id: <20220724111327.1195693-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yt0ThsMUi34pyuPL@ravnborg.org>
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,52 +81,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Helge Deller <deller@gmx.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
+Drivers' .remove and .shutdown callbacks are executed on different code
+paths. The former is called when a device is removed from the bus, while
+the latter is called at system shutdown time to quiesce the device.
 
-On Sun, Jul 24, 2022 at 11:40:22AM +0200, Sam Ravnborg wrote:
-> Hi Uwe,
-> 
-> On Sun, Jul 24, 2022 at 12:02:18AM +0200, Uwe Kleine-König wrote:
-> > Hi Sam,
-> > 
-> > On Sat, Jul 23, 2022 at 09:23:43PM +0200, Sam Ravnborg wrote:
-> > > On Sat, Jul 23, 2022 at 07:57:17PM +0200, Uwe Kleine-König wrote:
-> > > > No source file but the driver itself includes the header containing the
-> > > > platform data definition. The last user is gone since commit
-> > > > 8485adf17a15 ("ARM: imx: Remove imx device directory").
-> > > > 
-> > > > So we can safely drop platform data support.
-> > > > 
-> > > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > > 
-> > > Do imxfb offer something that is not supported by the DRM drivers?
-> > > If yes then the clean-up is good, if not then we could drop the driver?
-> > 
-> > It's for different i.MX variants. imxfb is for i.MX2x while the DRM
-> > drivers in mainline are for i.MX6. (Not sure about the i.MX3 and i.MX5x
-> > variants.)
-> > 
-> > Somewhere in the middle of my todo list is to mainline an i.MX2x DRM
-> > driver that could replace the imxfb driver. If I only had a bit more
-> > time ...
-> 
-> There is drm/mxsfb, where Kconfig says:
-> "including i.MX23, i.MX28, i.MX6SX, i.MX7 and i.MX8M".
-> 
-> So there is already something but if this is a 1:1 replacement I dunno.
+This means that some overlap exists between the two, because both have to
+take care of properly shutting down the hardware. But currently the logic
+used in these two callbacks isn't consistent in msm drivers, which could
+lead to kernel oops.
 
-I suddenly remembered we had the following commit:
+For example, on .remove the component is deleted and its .unbind callback
+leads to the hardware being shutdown but only if the DRM device has been
+marked as registered.
 
-f225f1393f034e17281274180626086276da766c ("video: fbdev: mxsfb: Remove driver")
+That check doesn't exist in the .shutdown logic and this can lead to the
+driver calling drm_atomic_helper_shutdown() for a DRM device that hasn't
+been properly initialized.
 
-So the fbdev counterpart of drm/mxsfb is already dropped.
+A situation like this can happen if drivers for expected sub-devices fail
+to probe, since the .bind callback will never be executed. If that is the
+case, drm_atomic_helper_shutdown() will attempt to take mutexes that are
+only initialized if drm_mode_config_init() is called during a device bind.
 
-	Sam
+This bug was attempted to be fixed in commit 623f279c7781 ("drm/msm: fix
+shutdown hook in case GPU components failed to bind"), but unfortunately
+it still happens in some cases as the one mentioned above, i.e:
+
+[  169.495897] systemd-shutdown[1]: Powering off.
+[  169.500466] kvm: exiting hardware virtualization
+[  169.554787] platform wifi-firmware.0: Removing from iommu group 12
+[  169.610238] platform video-firmware.0: Removing from iommu group 10
+[  169.682164] ------------[ cut here ]------------
+[  169.686909] WARNING: CPU: 6 PID: 1 at drivers/gpu/drm/drm_modeset_lock.c:317 drm_modeset_lock_all_ctx+0x3c4/0x3d0
+...
+[  169.775691] Hardware name: Google CoachZ (rev3+) (DT)
+[  169.780874] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  169.788021] pc : drm_modeset_lock_all_ctx+0x3c4/0x3d0
+[  169.793205] lr : drm_modeset_lock_all_ctx+0x48/0x3d0
+[  169.798299] sp : ffff80000805bb80
+[  169.801701] x29: ffff80000805bb80 x28: ffff327c00128000 x27: 0000000000000000
+[  169.809025] x26: 0000000000000000 x25: 0000000000000001 x24: ffffc95d820ec030
+[  169.816349] x23: ffff327c00bbd090 x22: ffffc95d8215eca0 x21: ffff327c039c5800
+[  169.823674] x20: ffff327c039c5988 x19: ffff80000805bbe8 x18: 0000000000000034
+[  169.830998] x17: 000000040044ffff x16: ffffc95d80cac920 x15: 0000000000000000
+[  169.838322] x14: 0000000000000315 x13: 0000000000000315 x12: 0000000000000000
+[  169.845646] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+[  169.852971] x8 : ffff80000805bc28 x7 : 0000000000000000 x6 : 0000000000000000
+[  169.860295] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+[  169.867619] x2 : ffff327c00128000 x1 : 0000000000000000 x0 : ffff327c039c59b0
+[  169.874944] Call trace:
+[  169.877467]  drm_modeset_lock_all_ctx+0x3c4/0x3d0
+[  169.882297]  drm_atomic_helper_shutdown+0x70/0x134
+[  169.887217]  msm_drv_shutdown+0x30/0x40
+[  169.891159]  platform_shutdown+0x28/0x40
+[  169.895191]  device_shutdown+0x148/0x350
+[  169.899221]  kernel_power_off+0x38/0x80
+[  169.903163]  __do_sys_reboot+0x288/0x2c0
+[  169.907192]  __arm64_sys_reboot+0x28/0x34
+[  169.911309]  invoke_syscall+0x48/0x114
+[  169.915162]  el0_svc_common.constprop.0+0x44/0xec
+[  169.919992]  do_el0_svc+0x2c/0xc0
+[  169.923394]  el0_svc+0x2c/0x84
+[  169.926535]  el0t_64_sync_handler+0x11c/0x150
+[  169.931013]  el0t_64_sync+0x18c/0x190
+[  169.934777] ---[ end trace 0000000000000000 ]---
+[  169.939557] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000018
+[  169.948574] Mem abort info:
+[  169.951452]   ESR = 0x0000000096000004
+[  169.955307]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  169.960765]   SET = 0, FnV = 0
+[  169.963901]   EA = 0, S1PTW = 0
+[  169.967127]   FSC = 0x04: level 0 translation fault
+[  169.972136] Data abort info:
+[  169.975093]   ISV = 0, ISS = 0x00000004
+[  169.979037]   CM = 0, WnR = 0
+[  169.982083] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010eab1000
+[  169.988697] [0000000000000018] pgd=0000000000000000, p4d=0000000000000000
+[  169.995669] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+...
+[  170.079614] Hardware name: Google CoachZ (rev3+) (DT)
+[  170.084801] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  170.091941] pc : ww_mutex_lock+0x28/0x32c
+[  170.096064] lr : drm_modeset_lock_all_ctx+0x1b0/0x3d0
+[  170.101254] sp : ffff80000805bb50
+[  170.104658] x29: ffff80000805bb50 x28: ffff327c00128000 x27: 0000000000000000
+[  170.111977] x26: 0000000000000000 x25: 0000000000000001 x24: 0000000000000018
+[  170.119296] x23: ffff80000805bc10 x22: ffff327c039c5ad8 x21: ffff327c039c5800
+[  170.126615] x20: ffff80000805bbe8 x19: 0000000000000018 x18: 0000000000000034
+[  170.133933] x17: 000000040044ffff x16: ffffc95d80cac920 x15: 0000000000000000
+[  170.141252] x14: 0000000000000315 x13: 0000000000000315 x12: 0000000000000000
+[  170.148571] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+[  170.155890] x8 : ffff80000805bc28 x7 : 0000000000000000 x6 : 0000000000000000
+[  170.163209] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+[  170.170528] x2 : ffff327c00128000 x1 : 0000000000000000 x0 : 0000000000000018
+[  170.177847] Call trace:
+[  170.180364]  ww_mutex_lock+0x28/0x32c
+[  170.184127]  drm_modeset_lock_all_ctx+0x1b0/0x3d0
+[  170.188957]  drm_atomic_helper_shutdown+0x70/0x134
+[  170.193876]  msm_drv_shutdown+0x30/0x40
+[  170.197820]  platform_shutdown+0x28/0x40
+[  170.201854]  device_shutdown+0x148/0x350
+[  170.205888]  kernel_power_off+0x38/0x80
+[  170.209832]  __do_sys_reboot+0x288/0x2c0
+[  170.213866]  __arm64_sys_reboot+0x28/0x34
+[  170.217990]  invoke_syscall+0x48/0x114
+[  170.221843]  el0_svc_common.constprop.0+0x44/0xec
+[  170.226672]  do_el0_svc+0x2c/0xc0
+[  170.230079]  el0_svc+0x2c/0x84
+[  170.233215]  el0t_64_sync_handler+0x11c/0x150
+[  170.237686]  el0t_64_sync+0x18c/0x190
+[  170.241451] Code: aa0103f4 d503201f d2800001 aa0103e3 (c8e37c02)
+[  170.247704] ---[ end trace 0000000000000000 ]---
+[  170.252457] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+[  170.260654] Kernel Offset: 0x495d77c00000 from 0xffff800008000000
+[  170.266910] PHYS_OFFSET: 0xffffcd8500000000
+[  170.271212] CPU features: 0x800,00c2a015,19801c82
+[  170.276042] Memory Limit: none
+[  170.279183] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
+
+Fixes: 623f279c7781 ("drm/msm: fix shutdown hook in case GPU components failed to bind")
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+
+Changes in v2:
+- Take the registered check out of the msm_shutdown_hw() and make callers to check instead.
+- Make msm_shutdown_hw() an inline function.
+- Add a Fixes: tag.
+
+ drivers/gpu/drm/msm/msm_drv.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 1ed4cd09dbf8..6deecb13a31c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -190,6 +190,20 @@ static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
+ 	return 0;
+ }
+ 
++/*
++ * Shutdown the hw if we're far enough along where things might be on.
++ * If we run this too early, we'll end up panicking in any variety of
++ * places. Since we don't register the drm device until late in
++ * msm_drm_init, drm_dev->registered is used as an indicator that the
++ * shutdown will be successful.
++ *
++ * This function must only be called if drm_dev->registered is true.
++ */
++static inline void msm_shutdown_hw(struct drm_device *dev)
++{
++	drm_atomic_helper_shutdown(dev);
++}
++
+ static int msm_drm_uninit(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -198,16 +212,9 @@ static int msm_drm_uninit(struct device *dev)
+ 	struct msm_kms *kms = priv->kms;
+ 	int i;
+ 
+-	/*
+-	 * Shutdown the hw if we're far enough along where things might be on.
+-	 * If we run this too early, we'll end up panicking in any variety of
+-	 * places. Since we don't register the drm device until late in
+-	 * msm_drm_init, drm_dev->registered is used as an indicator that the
+-	 * shutdown will be successful.
+-	 */
+ 	if (ddev->registered) {
+ 		drm_dev_unregister(ddev);
+-		drm_atomic_helper_shutdown(ddev);
++		msm_shutdown_hw(ddev);
+ 	}
+ 
+ 	/* We must cancel and cleanup any pending vblank enable/disable
+@@ -1242,10 +1249,8 @@ void msm_drv_shutdown(struct platform_device *pdev)
+ 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+ 	struct drm_device *drm = priv ? priv->dev : NULL;
+ 
+-	if (!priv || !priv->kms)
+-		return;
+-
+-	drm_atomic_helper_shutdown(drm);
++	if (drm && drm->registered)
++		msm_shutdown_hw(drm);
+ }
+ 
+ static struct platform_driver msm_platform_driver = {
+-- 
+2.37.1
+
