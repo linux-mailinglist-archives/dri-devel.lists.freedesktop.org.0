@@ -1,61 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E20758088F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:55:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B0958089B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4B910F97D;
-	Mon, 25 Jul 2022 23:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A5A10FB6F;
+	Mon, 25 Jul 2022 23:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3EC310F81A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 23:55:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1658793305;
- bh=cn905GothKnvTDgA+xETEp59lnPBZD34/Dq7YO1en4c=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=SH8/PmKMRAujG76SrAfJEjC/A22qClo/Hv5jL4o1k6hNrgwupO2Rs8q+4qjRDex61
- OJ/FrtS3q9UAt43kYrqQBvWMT92rpuVyjAASBAOPquwh0l2mwT6z/fM/g4ADTLoad4
- bsXf9oYGEp6EK8M9ZE1tQXcoy2s6g+Sq1Tc77yHE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([108.233.15.105]) by mail.gmx.net
- (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MHGCu-1oKVdP3y1Q-00DIS1; Tue, 26 Jul 2022 01:55:04 +0200
-From: Kevin Brace <kevinbrace@gmx.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 32/32] drm/via: Modify DRM core to be able to build
- OpenChrome DRM
-Date: Mon, 25 Jul 2022 16:53:59 -0700
-Message-Id: <20220725235359.20516-13-kevinbrace@gmx.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220725235359.20516-1-kevinbrace@gmx.com>
-References: <20220725235359.20516-1-kevinbrace@gmx.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54AA310FB6F;
+ Mon, 25 Jul 2022 23:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=O2ubfH2wQgxmJZWUP8M1vkKi6rTyTW4C61EL27uDGLI=; b=FdDGoOYDIjVUe17qJdSxcppF/6
+ BgyYILkT7FztFKmP5+K0qCFLxZJWgrWhYxWMSilPQ4diZCLP3Se96eLLn4WPnI6lY6ITlMj6DAPQy
+ VhK13AaOvQEp+JM6mzrrAjFHoNgvCfFnIecAQWxnBDbLf/CfOiQWjd7I/V6rMW2ANaWfyI1THxdfJ
+ 2RRlR/Yi0CZ/dCebV1OhcjrSLd08zWg6GCAaPZSivHXCg/pYcRO1jjChs9qJFJNdIwNDcvmD+M9oP
+ X/Ye4KdN1/p09or297EABop8W2NJ0cxKaB0HTzJ5EL18QHUWC8KRSokCcfX598Lc1yTlEhUU7Dwck
+ hIqTgYGw==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oG7yX-006bNf-8M; Tue, 26 Jul 2022 01:59:01 +0200
+Date: Mon, 25 Jul 2022 22:58:48 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Magali Lemes <magalilemes00@gmail.com>
+Subject: Re: [PATCH 2/2] drm/amd/display: include missing headers
+Message-ID: <20220725235848.372aapiwvmxiiowt@mail.igalia.com>
+References: <20220725181559.250030-1-magalilemes00@gmail.com>
+ <20220725181559.250030-2-magalilemes00@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aaCZN/W+0o3aY/Slwkd8gNNlsp8YYTVeUnCMhbAup2k/3bFqHAP
- pcVtZOOPWv7NnOtUuEwp3aPTKmntVqm63A049bRRzzM55Ks/EWQG2YJt11TRPAPj6t/eSqV
- /dB4HHyxHe9Np+J9CB7ZwfYIqAMmhJJkN7nfT6FixGU5ja8oRCIbjoqIa9OkeRLAX/2G4uK
- B9nd0ILtLrBrzf0GkzoGA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:O2W173xSvWs=:MEECTSf+WA8em4+r5KYIQm
- 7opQECBAH8CyP5WtFyVS/9gBhiMOIWALn58NhwqXmiSsJCevNvQsp4LQInLJmWkCiUe9wD9Yh
- b/Bb3y2OWajZzucdE2QVc74R7QLhobRpaXJM5YlODvLU1434hi2/AKx5DYaAdTczes2KPcDyI
- 63CXyBw3JIlAuzdIS0CmA6w2VeMC8NnmWHrrhg9+kDVTyrnLoEIVgpIQ7c3u72KBQWzsqeHQ9
- r0b5NpsSGfL4l6PjIVJ+CmoQ/R+KCs7XcAUpLyIVGOvtDKIp/Momm+Dm7JFcwFF6vJawLrrdx
- dzf5UZWj6gsWHMhHBYnUjiH8rHUX80FcU/n+xzHQM8oirRaio6C1NXpRQ7q2FBdoxrnnJRaUE
- vsIXIDwAOtlYn+ex1o7hnqIm3jzx7GXOZ2hL1zy677fN0+gnB0fdkLKWbx3ouL+CQheAFKkkT
- v+XdWD3PIOWbOMW4b8p9ac/V0wWn9kWNHGUQa1V5CzWNmjZUcLkMUJ+ipHyIys/pixjw9fS/O
- O3mHP5nEu6/NQYNnBxPqOTCbi+0lncpYNfRPe4hHbotVZ/qmLn75yS6PmmuYvbIR/x+XlV/sE
- SCjNxHUTXu/gs/3JiKxZEHHOmEi8zlIVZnXrM6YaVdgX6X2T6aeL4PSw99hrgiFqNNPOFjbsu
- n4/ugNiDIGNQGWjElguFwUCiW6OChmMc2DjpA9Pp7DZlFvT29wOmIOcc5GS8nY8bESjp3DY/8
- f3TcNPJ67SGpxdCT3rXpzHzoEfNMGPnDKZQwCKdevN55/NaCFGVg75oxdZqvku0SBN+yFZ62H
- kUCU3ec3L8ikRfmsMvxscCnqF4J/nrK6nhnQXNSEUx9tucQAGIBSMce9NpKzQWZke0HaCGIOL
- fWK+Q7g6jsunddmiWEaY+104serJDuSBMitQ1O7jTZu5DkOUi8IIOUKa/71LSD6FeZm/h2XUb
- U8KeB87hFpSS257UETnJtECp7/0PEgRlc05G+3+HAMruPMcHElP4HPeuXHlRWRWtsLyOd3KdC
- oc8aCrr6VutHeOdKMxv2m031C8ebhNicXMdBmceNA1aNFrDrGArTgJsrFX/4Q2mPu1DvOYuwI
- ycTQ2mOfDKpcUmwVOf3k9A+sFx39SWAsGvWwRu2FgB0rVG4EYsj5sNhHg==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fydmeijpi4u4gmq5"
+Content-Disposition: inline
+In-Reply-To: <20220725181559.250030-2-magalilemes00@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,43 +53,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>
+Cc: siqueirajordao@riseup.net, mairacanal@riseup.net, sunpeng.li@amd.com,
+ tales.aparecida@gmail.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ isabbasso@riseup.net, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
-Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
-=2D--
- drivers/gpu/drm/Kconfig  | 2 ++
- drivers/gpu/drm/Makefile | 1 +
- 2 files changed, 3 insertions(+)
+--fydmeijpi4u4gmq5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 30d5b91b717f..475d20c58da0 100644
-=2D-- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -385,6 +385,8 @@ source "drivers/gpu/drm/solomon/Kconfig"
+On 07/25, Magali Lemes wrote:
+> Add missing headers to solve the following warnings from sparse:
+>=20
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:656:17: wa=
+rning: symbol 'ddr4_wm_table_gs' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:693:17: wa=
+rning: symbol 'lpddr4_wm_table_gs' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:730:17: wa=
+rning: symbol 'lpddr4_wm_table_with_disabled_ppt' was not declared. Should =
+it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:767:17: wa=
+rning: symbol 'ddr4_wm_table_rn' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:804:17: wa=
+rning: symbol 'ddr4_1R_wm_table_rn' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:841:17: wa=
+rning: symbol 'lpddr4_wm_table_rn' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn301/dcn301_fpu.c:217:17: =
+warning: symbol 'ddr4_wm_table' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn301/dcn301_fpu.c:254:17: =
+warning: symbol 'lpddr5_wm_table' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:53:30: war=
+ning: symbol 'dcn3_1_ip' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:117:37: wa=
+rning: symbol 'dcn3_1_soc' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:197:30: wa=
+rning: symbol 'dcn3_15_ip' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:262:37: wa=
+rning: symbol 'dcn3_15_soc' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:293:30: wa=
+rning: symbol 'dcn3_16_ip' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:358:37: wa=
+rning: symbol 'dcn3_16_soc' was not declared. Should it be static?
+>=20
+Hi Magali,
 
- source "drivers/gpu/drm/sprd/Kconfig"
+Nice catch! See some comments below:
 
-+source "drivers/gpu/drm/via/Kconfig"
-+
- config DRM_HYPERV
- 	tristate "DRM Support for Hyper-V synthetic video device"
- 	depends on DRM && PCI && MMU && HYPERV
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index e6d0daca9bc2..72c6db91ee61 100644
-=2D-- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -97,6 +97,7 @@ obj-$(CONFIG_DRM_VC4)  +=3D vc4/
- obj-$(CONFIG_DRM_SIS)   +=3D sis/
- obj-$(CONFIG_DRM_SAVAGE)+=3D savage/
- obj-$(CONFIG_DRM_VMWGFX)+=3D vmwgfx/
-+obj-$(CONFIG_DRM_OPENCHROME) +=3Dvia/
- obj-$(CONFIG_DRM_VGEM)	+=3D vgem/
- obj-$(CONFIG_DRM_VKMS)	+=3D vkms/
- obj-$(CONFIG_DRM_NOUVEAU) +=3Dnouveau/
-=2D-
-2.35.1
+> Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h | 1 +
+>  drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c      | 1 +
+>  drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c    | 1 +
+>  drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c      | 3 +++
+>  4 files changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h b/=
+drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h
+> index 2e088c5171b2..f1319957e400 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h
+> @@ -28,6 +28,7 @@
+> =20
+>  #include "clk_mgr.h"
+>  #include "dm_pp_smu.h"
+> +#include "clk_mgr_internal.h"
 
+I see that this fix (right above) comes from another warning not listed
+in the commit message. Can you explicit it there or split it in
+another commit if possible?
+
+Also, clk_mgr/dcn21/rn_clk_mgr.c includes clk_mgr_internal.h and
+rn_clk_mgr.h; I wonder if a cleaner solution is to remove the
+`#include clk_mgr_internal.h` from rn_clk_mgr.c too.
+
+The remaining changes seems correct to me.
+
+Thanks,
+
+Melissa
+
+> =20
+>  extern struct wm_table ddr4_wm_table_gs;
+>  extern struct wm_table lpddr4_wm_table_gs;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c b/drive=
+rs/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
+> index eeeae52fe6fc..45e9f4663abe 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
+> @@ -30,6 +30,7 @@
+>  #include "dchubbub.h"
+>  #include "dcn20/dcn20_resource.h"
+>  #include "dcn21/dcn21_resource.h"
+> +#include "clk_mgr/dcn21/rn_clk_mgr.h"
+> =20
+>  #include "dcn20_fpu.h"
+> =20
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c b/dri=
+vers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
+> index 7ef66e511ec8..d211cf6d234c 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
+> @@ -26,6 +26,7 @@
+>  #include "clk_mgr.h"
+>  #include "dcn20/dcn20_resource.h"
+>  #include "dcn301/dcn301_resource.h"
+> +#include "clk_mgr/dcn301/vg_clk_mgr.h"
+> =20
+>  #include "dml/dcn20/dcn20_fpu.h"
+>  #include "dcn301_fpu.h"
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drive=
+rs/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+> index e36cfa5985ea..2d11a2c13345 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+> @@ -25,6 +25,9 @@
+> =20
+>  #include "resource.h"
+>  #include "clk_mgr.h"
+> +#include "dcn31/dcn31_resource.h"
+> +#include "dcn315/dcn315_resource.h"
+> +#include "dcn316/dcn316_resource.h"
+> =20
+>  #include "dml/dcn20/dcn20_fpu.h"
+>  #include "dcn31_fpu.h"
+> --=20
+> 2.37.1
+>=20
+
+--fydmeijpi4u4gmq5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmLfLhYACgkQwqF3j0dL
+ehxzPBAAlERN6pDxUTfpiujfTDPJOWpVtWnC1Masl4psyPTOojPrar7khCz7lyZL
+BVRSXjIGV7seRAe765s8oEb9D5GQUqMU3Jlpro1EBWF7AQ77qV3/hPlyhYCDr4tM
+am9En8V4PynUgos/ayu+ALEmgPNlBAlJd46fY2rln/4VlPAAyJosp1ipVMzMe4vL
+6QPonpOvTVcVoc3LjNGc2sDGfu1Ktmmou6fRKiHAXk4Wfk8ak55yzH5AoWG+X881
+SiiDdT+kt7U8c0cIdVvdt9T7aksOgPtAixDe22pZon2FaMfqjvOWrobRwOg2qAUG
+UXxHXxWUs1+2+y1J+AYx91WWdJ9A9S/po+Qaw/pdKNmGMwRQljcVTwrk4J46ib78
+F71NSi+39+cvyNOmnZoYpCy0A+YXJWoLsXv6bw225ntqA7Jyqf3LstklMaJYeTgh
+m0gGwQ4eJXZqcnfY29S7W+O4jo6gQXJJBC6Di/bJO1MBUQmPgmFWjaKJdpt7Peax
+SHrzyQwz2GZr1g3hq8MM+9KezYp5BpcjJEdNyC22Tu4+5mEmvs8aR+ZlY4VEEfXE
++UeILM57PyFFeYoqvL9wcyzPDCZwp+aHtl3Y7H7zxHZLcUmlpx9uAmipI3hobiKF
+k1a5jmi5Y3ez0FP14YsQPtyIE1EaEs+vSHbAXlPsn7tLIqpm16g=
+=MbwT
+-----END PGP SIGNATURE-----
+
+--fydmeijpi4u4gmq5--
