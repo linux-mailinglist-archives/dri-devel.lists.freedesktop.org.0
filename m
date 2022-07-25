@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4817E58088E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DF6580891
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:56:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E3D10F867;
-	Mon, 25 Jul 2022 23:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92DAE10F979;
+	Mon, 25 Jul 2022 23:55:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0C110F7A8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 23:55:03 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C23D710F7A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 23:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1658793301;
- bh=cWc+P/N292JSMbgctME39wsxDyYDadG6TsLkg7Un5Gw=;
+ s=badeba3b8450; t=1658793303;
+ bh=pxfy+UT5l42VA4LcXStAT+CB2mhSf7GSjL3dBox/1nk=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=ND2R+1b9iDwURqYH3hffnFbKtI3XU8GTTXLV9R+rS7GA7QWeLGgx7EiAT+YIKdS65
- qEeSdnwq1/trxOHP8W95w+LfDMRXi/kUE2/fVK3WPex+cq3epRGNMd6NhmVVwEayu2
- 8vWN42VjE5tS0O8qr/85ut2+HsvCVYz6dYbLMqlM=
+ b=NViUf9mK7MLywzR87+K/RROVZ17I0JT8QtCFs+yIe/iODFO+pIXSxUkXOU/cWlLZ3
+ 3/HZj4nf/5BWJVWLiTaxz6Imch0dR6PRoqHdZ4yXLhXpmwXWWBs6GbOc880qUjdU0v
+ wHQwRe0ypW3hovAOPDu5x0iaUGkPHgNRMITvD9GU=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([108.233.15.105]) by mail.gmx.net
  (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1N1wll-1nVojK3zrt-012D56; Tue, 26 Jul 2022 01:55:01 +0200
+ 1M9nxt-1oAMc44BjZ-005uSC; Tue, 26 Jul 2022 01:55:02 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 30/32] drm/via: Add Kconfig
-Date: Mon, 25 Jul 2022 16:53:57 -0700
-Message-Id: <20220725235359.20516-11-kevinbrace@gmx.com>
+Subject: [PATCH v3 31/32] drm/via: Add Makefile
+Date: Mon, 25 Jul 2022 16:53:58 -0700
+Message-Id: <20220725235359.20516-12-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220725235359.20516-1-kevinbrace@gmx.com>
 References: <20220725235359.20516-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:C0AoNCAC7HApVTVBQWwYwk/bLRAQE8xN5j2KUX1Csrj8jDzesR5
- ofo7DJpLHuGtYCuXnfVxKehhKCbiVtYtzDNyQc5klr6yb2EwYZ8zt8K1iVtMgPPOAN9nK97
- ugb5DxRWpFocNO9qhY7+Y+1jxQogRKgv5Dq+RGKP1G7mxMCgaaQLec0aBILvIUdjq9Ww1wO
- DG2vW1ujTR3Z8JhUpmLTA==
+X-Provags-ID: V03:K1:Zp45rOzWaXPq8iVW+btgELcefZPSNQKOAGxRJtomlG1ojfluuWm
+ jixskiNiAvbaA7DHTTk8W7qqwUvcUbHTl/TPr2sDbBaaTF3b8uSVXcVAnINMUZoknj+biqc
+ ZqnnKVegKjmeKyoss95TEotLjWKD85eQV2tdwojZhNEl8quHJCqW5PWgJ7RsKyRBeBlpjMX
+ qJ97Wx3gEg7dZ77PQP6Ug==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QSehRYhltn0=:VUl7ERVT2teCfxyc46op45
- xR0eiFqP1PHAlQhLQU1y2w2CnvQOk/b8DNmxSy9SM7alCCaw3jEP6GL9NdZWFjFWi03pLSXDF
- El47bFrS7Gdi4Ym2KXr1xDApL+GR6qVR/Rv/zci/3p6u9iOMHSvapdMoeJ19MHDCa6YDobfqT
- oPgaxIvzJAxI64gF00biSlQUdIn+9O4ChtN4PJNpJjLyUFMathShfbOezzmukcfSZ2ggihBD1
- TQk+Y9YAS16a+e4xfympNoXopXCDZKCe/i64G3nRL+wu1npO7i4YfHpMbfc4VvrrfkJ6WCQGA
- EW4Qvmq6jUAeZVeD453Lep/nIxqtNrlFdQfdknd5xw5br667DQtEx0YBqqGcGMzAxiQTWmV9H
- 7a9Iu4WXPPyiGuuoxb3jTcCQoVqOSTAXwPdxKLN0ZVkIpUE/7H50QaBwfj9ijw3c31DajAsav
- JGiw2V1kXLK6Mf1pqmsgIjQTHAtfG/WBTn1k5pieNVyFWRaO75hSjns0TnPyDiPlfXZYp+AEg
- 6QzPVCrBGFemMBuNJ9C4YapB/lGpMCwHP3iIFNwDbUFpF+852jp+icBR6rT5UVqAT07aep6Hl
- Y7PF/MRlbk6j3u2BjqjY2B+6d/EaC1oOLa5jAcEMn5h61/wu5UdBodYMrDn6F3IIoUGnROD5l
- uEm91sUlBnXm8vIZmoGgDT9ncyXaDHES3QUAq97ouGW5WMd/utbGB312YBG1VcPUZIK2UDPPT
- 0N5WixjHDva85m+YUw7TIAzk5xG4+7Z1lq4zQvFIQHUNUcVUcfOemCfnVd49Rgsjcd3h9MYXG
- 9qf5HPDn3ze0iNrNJU3dj+R+8n4j8MzyJS6E/U4B3lcTPRSTLlZdLi9GoNV05AyxdRaFw0ZgC
- VH8+/JSC/x6l+x0BPYf79aNDqOs3mF84WouLsDb2pEvMH1WTj40iQWbG0WhBacsZuL4lQvvNI
- auiyVnfH/oHJjtxoXaPxvhzM/Eor9BqfJwNf5MjZVf4P75YtIStMS3ihCkh+Htew51iPGTiCA
- b8bSX4iFeg6Cbyk7XiOvlYnhnJiJR0OQjCt+Hzn7/BJPS/j9DrIqIHQUWRcQs6VWOmZo1C6kM
- Gj7runkkchiYGuluNmamXByCCAidybCZJLvpHft3SXMzvfJRa4AN5+D+Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:U7lt3Y9eGHM=:VGF7IXiTabf8u+CMQ4jFX2
+ BC3myMW2dC8YGazjbtNfRZHTw61EWIy3RO6xdFAEzLC99StPlO6IOnZvR5dID/UDhGt1VxLvy
+ RuI+t4UI0DIYi9fcr8aLheG0Eu4UNCjyY2jfAQIvcGTKdu3w1HRy9B5rqK6ez9OxNgK8Jeu2j
+ CwtRKIUEiugBC8GNLakT22Xtm+UfHP3D8Amy7Ev0q9eTnFGHMNHbC1GAuhTUSY9G0tPH39pgr
+ c5C7FRffdL46cUUm6bSLJ4/JalLX0rnPxy5zfPANNkF9Yoq+aUEvgZm9A9m1WbXCygqlgNCqU
+ wJSL0ieIVPbVPcKHroifV4ju8g7LrJ3LNM2gmdXa6WSExu+FYett8PJaoJTmDp9p6mbr1V2JT
+ O0ZYzcVR9PjzKxPtyi4ZnqJ8m4tlylP9tixUsle+cFlk+XRfg3rciReelrCI1SUM9i1WHIP15
+ OH9Amfjfm2XK4l8VJyUS0xXA3unpbe6E2fEafmMFSQb3lJ+6jZA0DzjALZxAErnos6enXRB4w
+ yNvze5ayYC16q/8mD4CKSdSzQbsS6KRTo7dIyJSKc8pQS3Pxxnb2bWLMuH+YsQffnNqBtr8+V
+ p6ayKk1CFpF8XYHhUuPyCWkHcVXNZDmbmIWM+fPLlSUJaQJJ9H9PpdQbVDQaeJttECPaxMcTC
+ v4idBEOJF7yF2+IEfYPTvDijZYKTRBlfzKF2O4/to6dSsrEnoJgRrFhfCxNhO6nT/D0c8ze1V
+ mKtqwWV99ltCe0UbXGE+mhEqTgROPkRUWe9W9l5Wymqlu27da2eSSwKnuEMfGnCO3QyJVQtxr
+ yF7FgSyxQ8DIWgsyrAl5qb1ltQnAUI4QqWj7iwSpRm0yQqdNXokc9go8EUDbvIFOM0nwqh5h/
+ GPHcvjEozirKTwCXC+KAlYj7IGALkEzBWnhUCR1J7xXcxr4LMBYVIGgKs1pWyLBlM+9Xoecl6
+ Uh10/ZSzPsHPTC/RfYr3MTf8E93YBpKEYDv9yMTBI7lv5stJ7FznP59mO4SHE3QfTFAxqbINz
+ 4wiQ2MazVqD88/OJiBXlxP1kh/GpULSZ/NpV8seF0bsc/itEB5SFSN8vghq4OaDStnsLV3VQ0
+ bGjzHgrtId8iS2Niuuh0pR6mdvYKfaXjrDJqV4EFV0rMURqgkdoJSTOkA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,25 +75,43 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/Kconfig | 9 +++++++++
- 1 file changed, 9 insertions(+)
- create mode 100644 drivers/gpu/drm/via/Kconfig
+ drivers/gpu/drm/via/Makefile | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/Makefile
 
-diff --git a/drivers/gpu/drm/via/Kconfig b/drivers/gpu/drm/via/Kconfig
+diff --git a/drivers/gpu/drm/via/Makefile b/drivers/gpu/drm/via/Makefile
 new file mode 100644
-index 000000000000..7c4656a1d473
+index 000000000000..73ccacb4cd11
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/Kconfig
-@@ -0,0 +1,9 @@
-+config DRM_OPENCHROME
-+	tristate "OpenChrome (VIA Technologies Chrome)"
-+	depends on DRM && PCI && X86
-+	select DRM_KMS_HELPER
-+	select DRM_TTM
-+	help
-+	  Choose this option if you have VIA Technologies UniChrome or
-+	  Chrome9 integrated graphics. If M is selected the module will
-+	  be called via.
++++ b/drivers/gpu/drm/via/Makefile
+@@ -0,0 +1,26 @@
++#
++# Makefile for the drm device driver.  This driver provides support for t=
+he
++# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
++
++ccflags-y :=3D -Iinclude/drm
++via-y :=3D via_crtc.o \
++		via_crtc_hw.o \
++		via_cursor.o \
++		via_dac.o \
++		via_display.o \
++		via_drv.o \
++		via_encoder.o \
++		via_hdmi.o \
++		via_i2c.o \
++		via_init.o \
++		via_ioctl.o \
++		via_lvds.o \
++		via_object.o \
++		via_pll.o \
++		via_pm.o \
++		via_sii164.o \
++		via_tmds.o \
++		via_ttm.o \
++		via_vt1632.o
++
++obj-$(CONFIG_DRM_OPENCHROME)	+=3D via.o
 =2D-
 2.35.1
 
