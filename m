@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B3157FB5F
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 10:30:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7745B57FB8D
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 10:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B391D8B7CF;
-	Mon, 25 Jul 2022 08:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170AF11A5CD;
+	Mon, 25 Jul 2022 08:41:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBE3B8B7CF
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 08:30:20 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id o21so8074967qkm.10
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 01:30:20 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C47C11A5CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 08:41:11 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id z15so1129046edc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 01:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eGTl5W3lU5EPUSxceW+3YfZM8YTmZNPLhO3+yi0Lxxo=;
- b=SchD1OSJhqZUbaDH3npCvBVhvgdsTgcai4JGkAeNGwKszMwOXVv1jP2YUfdpVF00gi
- M7W+LOBWkm3fvR7QR5Oi7Rr243ZKrwIRGyjvM4fEdp3ybWcWAtUz3ifU5jDZ2eCRBBLb
- hVRD5fVGR5o7NHR3kRn8qM+u20mgIRdugneUsK0DRfgczIFrKpOhBB+f9+/lUqaYKRv+
- zCqM+TkCzfpywtt7PK8+F+XO4TuRbG4FDiDPWiwIK0+yYxleqIJNXSwBHMHq6a6DI1r4
- IHORJbjxNq0t+3W70uo7ZSMhJhotvD3N/NslNtJkOTvO+ulZgz6/dODRy4NI0YAEC0V6
- 1QjA==
+ :cc; bh=UdipHJQcUj266PLPEbEmcprZ34Syq9EbeJ0nWcxYTz4=;
+ b=ABfKDB+hF3n9Vc4uXcJH/wxowVuuZXANQHezQzdWr5Ngsh/idO85i0Q+mD/KzM+CSB
+ JRG1GVu0xs6ZoCw7wBbOa5FdTc5eWvaqw+UVN9SHdJEHFfzbRmgkEdix6DCMyHAi1FCr
+ JAr6axiQmtyvfzbVJQU1yILv+fNOSMc4pdNm12H0yVakxITFMYusQqnWis60Xho8AsGP
+ L+ODp9hB0BQ9UuYk5DfBPx3HnH1fkimsB44PQM+VpR5aT9SXUllZ5JiUeNza+o1o5KiL
+ NcV0q9dJ/h5dX9Q0H/4tQoS8YRcvn0AIT770BeqYm2Um/2gYOKrCHjcAMx/p6BEsJKeg
+ en4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eGTl5W3lU5EPUSxceW+3YfZM8YTmZNPLhO3+yi0Lxxo=;
- b=gsIIiWkPPZznYXrt1POL8pgXORVlp6z38lLX2+c2px8dlh60R3qMOIIhB+KmzdZIV+
- u3zicHPNTKEjuufGrMAi8T3PkQtqzUOmiPujd7aS9J3dA45uohK8WGfFaSDAABUkwEfG
- fPVj0BHfwoZDycBA6XOXlcM0NQrCYQ7DkCS5yKupTQ46j4n9sdgtJwRCrTa7gm0RH6XH
- shvTKuetzIPYvXGsX+Ee1ldAIZKz97Kic0YdwZh/xJe4D4xDxuoDU2tpSzI4WPzKhjG1
- b2JOh5RM9yJcJ7fM44BTqHgERBQhwOBDgw8cFLV95wvdmhmrIfz2+5R3LjRwFtIOJC0H
- HyiQ==
-X-Gm-Message-State: AJIora/x/f3OPo2PaGNrkdPy1esfjJm0xyv+XSIfZb7/ctYZWZQfh2Xk
- 8Yk78EYN0gY5nRGtiHGLNZOUuTPGHO8vNRNS9ePpf6A8Pbg=
-X-Google-Smtp-Source: AGRyM1tT9zd1NbQQxCDwlfF4CX1SIOVXegpCvtscSaJImwYFwZu4GtSNklBiffb6QTC6/u0h5ukzMhHUITILaRb40TA=
-X-Received: by 2002:a05:620a:2942:b0:6b5:e33a:1771 with SMTP id
- n2-20020a05620a294200b006b5e33a1771mr8042028qkp.665.1658737820011; Mon, 25
- Jul 2022 01:30:20 -0700 (PDT)
+ bh=UdipHJQcUj266PLPEbEmcprZ34Syq9EbeJ0nWcxYTz4=;
+ b=2YF681owYfV1u37XRFe2a4DmIqdRol+viUL9W0RWiDadoJ9SAXCb+KJvfIV7dX8Uge
+ r6JHw6VnjsBbmVutGPRP7BthGPrdGYJeo9YvLHk7nxR7SnCsdYRmtw+y6VW3F4WbkUoa
+ 9F4NpHT5uLi68QXLJ35IBv63Z/kK/wcmsAt+1abWf8yqDeA8mWTouLD2v6SEqSmQk6q0
+ nysM6WfP+xue7OvpyfxQl8QbSVKXkSCYaWLmuttyt57mTfhFEUFy54z3hDXEQ25AHahy
+ 5/QX/CgVnBRWp7xEvfyZip5nFjjz+q97rJBw9k9482jUZJgzK93GwdB54FZFWA8Djtwy
+ 6jbA==
+X-Gm-Message-State: AJIora+iEVksC0uevLDYl5BCzrzNt4mFJMwJ4eePqA8Lxg7d3mbZ0Ild
+ KCg0W5fiG55nR/2j5Ht8yuoEU8ULVaJJ1mnm+tMsFbf6RfCllA==
+X-Google-Smtp-Source: AGRyM1uGDvTB0F/h0jI2/Ct5fK7yQVedUikOG6t/KbrLBDyp6j54RIAxbhLcpZDExQEJMEzhAem3RNohcfKc/MXfF0k=
+X-Received: by 2002:a05:6402:34c5:b0:43a:8f90:e643 with SMTP id
+ w5-20020a05640234c500b0043a8f90e643mr11897371edc.88.1658738469088; Mon, 25
+ Jul 2022 01:41:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-8-peterwu.pub@gmail.com>
- <CAHp75VfiKMROzxeEaCH6qCthK9qanJPqbjADLMVH-V0upKf+9Q@mail.gmail.com>
-In-Reply-To: <CAHp75VfiKMROzxeEaCH6qCthK9qanJPqbjADLMVH-V0upKf+9Q@mail.gmail.com>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Mon, 25 Jul 2022 16:29:43 +0800
-Message-ID: <CABtFH5++4N1mECJ0vN-79WsJJWcBTVxLFgvkiouPf1qev7LHHQ@mail.gmail.com>
-Subject: Re: [PATCH v6 07/13] mfd: mt6370: Add MediaTek MT6370 support
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
+ <20220722102407.2205-12-peterwu.pub@gmail.com>
+In-Reply-To: <20220722102407.2205-12-peterwu.pub@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 25 Jul 2022 10:40:32 +0200
+Message-ID: <CAHp75VewxvEDGoPdRBvLSLQOQ6OZzVft1ce3DkF7MK_O1VXZkQ@mail.gmail.com>
+Subject: Re: [PATCH v6 11/13] leds: rgb: mt6370: Add MediaTek MT6370 current
+ sink type LED Indicator support
+To: ChiaEn Wu <peterwu.pub@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,51 +89,152 @@ Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 25, 2022 at 4:00 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Fri, Jul 22, 2022 at 12:25 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 >
+> From: ChiYuan Huang <cy_huang@richtek.com>
+
+^^^^ (Note this and read below)
+
+>
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+>
+> In MediaTek MT6370, there are four channel current-sink RGB LEDs that
+> support hardware pattern for constant current, PWM, and breath mode.
+> Isink4 channel can also be used as a CHG_VIN power good indicator.
+
+> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+
+In conjunction with above what SoB of Alice means?
+
+You really need to take your time and (re-)read
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html.
 
 ...
 
->
-> > +#define MT6370_REG_DEV_INFO    0x100
-> > +#define MT6370_REG_CHG_IRQ1    0x1C0
-> > +#define MT6370_REG_CHG_MASK1   0x1E0
-> > +
-> > +#define MT6370_VENID_MASK      GENMASK(7, 4)
-> > +
-> > +#define MT6370_NUM_IRQREGS     16
-> > +#define MT6370_USBC_I2CADDR    0x4E
->
-> > +#define MT6370_REG_ADDRLEN     2
-> > +#define MT6370_REG_MAXADDR     0x1FF
->
-> These two more logically to have near to other _REG_* definitions above.
+> + * Author: Alice Chen <alice_chen@richtek.com>
+> + * Author: ChiYuan Huang <cy_huang@richtek.com>
 
-Hi Andy,
-Thanks for your review.
-Do you mean that we should move '#define MT6370_USBC_I2CADDR' and
-'#define MT6370_REG_MAXADDR' after the line '#define
-MT6370_REG_CHG_MASK1'?
--------------------------------------------------------------------
-#define MT6370_REG_DEV_INFO    0x100
-#define MT6370_REG_CHG_IRQ1    0x1C0
-#define MT6370_REG_CHG_MASK1   0x1E0
-#define MT6370_USBC_I2CADDR    0x4E
-#define MT6370_REG_MAXADDR     0x1FF
+Would
+ * Authors:
+ *    Name_of_Author 1
+ *    Name_of_Author 2
 
-#define MT6370_VENID_MASK      GENMASK(7, 4)
+work for you?
 
-#define MT6370_NUM_IRQREGS     16
-#define MT6370_REG_ADDRLEN     2
--------------------------------------------------------------------
-Like this?
+...
 
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+> +struct mt6370_led {
+> +       union {
+> +               struct led_classdev isink;
+> +               struct led_classdev_mc mc;
+> +       };
+
+Where is the field that makes union work?
+
+> +       struct mt6370_priv *priv;
+> +       u32 default_state;
+> +       u32 index;
+> +};
+
+...
+
+> +static int mt6370_gen_breath_pattern(struct mt6370_priv *priv,
+> +                                    struct led_pattern *pattern, u32 len,
+> +                                    u8 *pattern_val, u32 val_len)
+> +{
+> +       enum mt6370_led_ranges sel_range;
+> +       struct led_pattern *curr;
+> +       unsigned int sel;
+> +       u8 val[P_MAX_PATTERNS / 2] = {};
+> +       int i;
+> +
+> +       if (len < P_MAX_PATTERNS && val_len < P_MAX_PATTERNS / 2)
+> +               return -EINVAL;
+> +
+> +       /*
+> +        * Pattern list
+> +        * tr1: byte 0, b'[7: 4]
+> +        * tr2: byte 0, b'[3: 0]
+> +        * tf1: byte 1, b'[7: 4]
+> +        * tf2: byte 1, b'[3: 0]
+> +        * ton: byte 2, b'[7: 4]
+> +        * toff: byte 2, b'[3: 0]
+> +        */
+> +       for (i = 0; i < P_MAX_PATTERNS; i++) {
+> +               curr = pattern + i;
+> +
+> +               sel_range = i == P_LED_TOFF ? R_LED_TOFF : R_LED_TRFON;
+> +
+> +               linear_range_get_selector_within(priv->ranges + sel_range,
+> +                                                curr->delta_t, &sel);
+> +
+> +               val[i / 2] |= sel << (4 * ((i + 1) % 2));
+> +       }
+> +
+> +       memcpy(pattern_val, val, 3);
+
+Isn't it something like put_unaligned_be24()/put_unaligned_le24()?
+
+
+> +       return 0;
+> +}
+
+...
+
+> +static inline int mt6370_mc_pattern_clear(struct led_classdev *lcdev)
+> +{
+> +       struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+> +       struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+> +       struct mt6370_priv *priv = led->priv;
+> +       struct mc_subled *subled;
+
+> +       int i, ret = 0;
+
+Redundant assignment.
+
+> +       mutex_lock(&led->priv->lock);
+> +
+> +       for (i = 0; i < mccdev->num_colors; i++) {
+> +               subled = mccdev->subled_info + i;
+> +
+> +               ret = mt6370_set_led_mode(priv, subled->channel,
+> +                                         MT6370_LED_REG_MODE);
+> +               if (ret)
+> +                       break;
+> +       }
+> +
+> +       mutex_unlock(&led->priv->lock);
+> +
+> +       return ret;
+> +}
+
+...
+
+> +       if (!fwnode_property_read_string(init_data->fwnode, "default-state",
+> +                                        &stat_str)) {
+
+ret = fwnode_...(...);
+if (!ret)
+
+> +               ret = match_string(states, ARRAY_SIZE(states), stat_str);
+> +               if (ret < 0)
+> +                       ret = STATE_OFF;
+> +
+> +               led->default_state = ret;
+> +       }
+
+...
+
+> +       int i = 0, ret;
+
+unsigned int i = 0;
+int ret;
 
 -- 
-Best Regards,
-ChiaEn Wu
+With Best Regards,
+Andy Shevchenko
