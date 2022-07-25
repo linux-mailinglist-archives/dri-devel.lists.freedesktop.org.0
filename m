@@ -1,58 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD58657FA04
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 09:18:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7DF57FA6B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 09:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 581FA1122C4;
-	Mon, 25 Jul 2022 07:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E99112C2C;
+	Mon, 25 Jul 2022 07:43:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 259FB1122C4
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 07:18:20 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id f14so8044588qkm.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 00:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qB3V+u7Q9YEV4g1kg7EbZ66mk5ndHbNPZ0M8bUvZ31c=;
- b=frxGvyzEIET2Q9oamPsAyfvyxiHFszbSm+YZf+q19HvyBYnjUOXE8i/JekhyOSh64P
- NuEvpSpUhDz/BhJiwSRd75Y6UtNbqf7NW+KfaF0dfs8Obhpw+vcJgNG57EKHOoII2jdQ
- HYyrOm0dGlLP0sPeZST5RWci8/jgvK3CFWZuh1lsxsh8hwlgCZuBNuXRjvhswOQQTEAB
- 3rlJOEbvccVK2akIaqG/1XRBhbOdRjG1qPD4O0+PbLCNF7cH+iflKkB2kX7dr9OWm1I3
- mdCEW/de3IEZV/Eg1waqWcY8PkkcuDTuCCyPJY+jRIYLOHYdwckvkuD3kTHEqlylXRDS
- +QUQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 723A9112C2C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 07:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658735002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eq4OL1zxJF2+2fp+Q22O19ixxH9CotH/xfhS3oI2/ds=;
+ b=INaZkesHOhDECa9oH57T1yc8zOkEwJM6+AmwzIt4jmdz0pjrw26uEqCUq0LANHp46CgQlY
+ RcNRsFAxvo1pNP6VRMLWzXQqA9B015I1WM93fFESqLcquKVSq3Amuy4cJGjYaK1lQrWKod
+ rg2n4SRjS/D9OqFkYTCVvkrmB3kLITo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-326-GLoDlKwaNqeSUo5Jrk1vBg-1; Mon, 25 Jul 2022 03:43:21 -0400
+X-MC-Unique: GLoDlKwaNqeSUo5Jrk1vBg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bh18-20020a05600c3d1200b003a32044cc9fso5798064wmb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 00:43:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qB3V+u7Q9YEV4g1kg7EbZ66mk5ndHbNPZ0M8bUvZ31c=;
- b=07lIYJTtaKndliGkXnbRVkQEs0RjSyRR6zwD2jzhqExZazXF33SIOiuI4dROTuTja/
- iyZJWVFlPgdV6YiWOjJMdrtY6KPbIJhJ77KLngrnqoMWiDVoNfOl2oqqTxQkVUGoxVSS
- Pa0cNEu6yqnSKlth9qMmzFgRhhmyEH4jcSHTnIdWrBx8ETFMYIKgsMprFB3G4WoElgd8
- XugRVGLJCzCfUVdTUj8xIdIwHGV10zgUzrDyvU2Co9TyviwlCVMpZyKhXVg+r4L5OzM4
- QEFn4dS+duA0v9e2ozFymvUn6uH9i88E8nfVKI01OXOQCixlCbyCA416bHNUxzpNb22g
- ZANg==
-X-Gm-Message-State: AJIora9mTzY2TPUcG1POsN377/wICwm5AfJc2/TwlMYhMQzvtf3jN8ge
- XPFu8eNVi9rBYf39hVpJQtOQvTQGI+9HD/26IZg=
-X-Google-Smtp-Source: AGRyM1sQr7cmb1Qkot+at32rNTVJswRBvZY4pUgBSQNZDPiar1y7xPCOx+VU9hPTE62sYGu2Tpo3yBaHpFdE1K1jlX0=
-X-Received: by 2002:a37:80c2:0:b0:6b5:e9e4:c4c1 with SMTP id
- b185-20020a3780c2000000b006b5e9e4c4c1mr7981575qkd.129.1658733499240; Mon, 25
- Jul 2022 00:18:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eq4OL1zxJF2+2fp+Q22O19ixxH9CotH/xfhS3oI2/ds=;
+ b=n45De6khfJ6DHkF9PtK1Vz2YWAT3UBA+zs3EdyhQN4CxRB3PUowbqMqVUub3NzIJvO
+ lYeUuTlAwuJZwbG7PjPH7tdEUr0zj27dMXxtoMXXTWWorvdGdvM1xYRoCbAVFDbbt4li
+ L8WZmOMS23xWZtBGWre8ZUJX1tsLfZ81yS3Hkk3Kw5D4CygVy4+eYfGzezRtuEZLfGus
+ ejqM0SOdhlQ2sIY0F8UMViN3RLvik5QWe9Ci0G9FRgWSb8miQhW4vq/9rxxHUP7+qo+K
+ MgtxT3pe1O8s5L5bQUypuvQf/06CyioQqdovvHDeatmv+dPNkDbhCMMw7FWCQ5NChj9r
+ H2+Q==
+X-Gm-Message-State: AJIora/mMKl8eOAFnx+v5OyfZbNm9gxqMhzEa+mu5qiv4mCXVfjf5rBW
+ DWUAZxi32yqoECuRH2KUGBP2KmUy7OcO8aaet5uw8+GJhNvIWhdCQ2RlJUxb2j+LcwT5pDrQgn0
+ uSu7VUIY+hJHf4XyUnko6crs9IT1Q
+X-Received: by 2002:a05:6000:144d:b0:21d:8109:701d with SMTP id
+ v13-20020a056000144d00b0021d8109701dmr6564242wrx.443.1658734998352; 
+ Mon, 25 Jul 2022 00:43:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tBKBzTRxo9vQI/80qLdj5OZrt+z9DMgSEy+3bbSO1SZWvbh7cisads/gEd5kCIpmRjt1OStw==
+X-Received: by 2002:a05:6000:144d:b0:21d:8109:701d with SMTP id
+ v13-20020a056000144d00b0021d8109701dmr6564214wrx.443.1658734997943; 
+ Mon, 25 Jul 2022 00:43:17 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ ay35-20020a05600c1e2300b003a2e42ae9a4sm16069031wmb.14.2022.07.25.00.43.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jul 2022 00:43:17 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/msm: Make .remove and .shutdown HW shutdown consistent
+Date: Mon, 25 Jul 2022 09:43:13 +0200
+Message-Id: <20220725074313.42172-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-9-peterwu.pub@gmail.com>
- <1f1a37daf6f3c19a2506f53689c8efbed2b716c3.camel@mediatek.com>
-In-Reply-To: <1f1a37daf6f3c19a2506f53689c8efbed2b716c3.camel@mediatek.com>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Mon, 25 Jul 2022 15:17:43 +0800
-Message-ID: <CABtFH5KwY_1EtXHHuiD8we-4RKvzQkueqTF_AQFEeDDv-66EYQ@mail.gmail.com>
-Subject: Re: [PATCH v6 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
- tcpci driver
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,340 +81,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 25, 2022 at 3:06 PM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
->
-> On Fri, 2022-07-22 at 18:24 +0800, ChiaEn Wu wrote:
-> > From: ChiYuan Huang <cy_huang@richtek.com>
-> >
-> > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > charger, a USB Type-C & Power Delivery (PD) controller, dual
-> > Flash LED current sources, a RGB LED driver, a backlight WLED driver,
-> > a display bias driver and a general LDO for portable devices.
-> >
-> > Add support for the Type-C & Power Delivery controller in
-> > MediaTek MT6370 IC.
-> >
-> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > ---
-> >
-> > v6
-> > - Convert tcpci as device resource managed with
-> > 'devm_add_action_or_reset' API.
-> > - Refine remvoe callback.
-> > - Refine the commit text from 'This commit add' to 'Add'.
-> > ---
-> >  drivers/usb/typec/tcpm/Kconfig        |  11 ++
-> >  drivers/usb/typec/tcpm/Makefile       |   1 +
-> >  drivers/usb/typec/tcpm/tcpci_mt6370.c | 208
-> > ++++++++++++++++++++++++++++++++++
-> >  3 files changed, 220 insertions(+)
-> >  create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
-> >
-> > diff --git a/drivers/usb/typec/tcpm/Kconfig
-> > b/drivers/usb/typec/tcpm/Kconfig
-> > index 073fd2e..e6b88ca 100644
-> > --- a/drivers/usb/typec/tcpm/Kconfig
-> > +++ b/drivers/usb/typec/tcpm/Kconfig
-> > @@ -35,6 +35,17 @@ config TYPEC_MT6360
-> >         USB Type-C. It works with Type-C Port Controller Manager
-> >         to provide USB PD and USB Type-C functionalities.
-> >
-> > +config TYPEC_TCPCI_MT6370
-> > +     tristate "MediaTek MT6370 Type-C driver"
-> > +     depends on MFD_MT6370
-> > +     help
-> > +       MediaTek MT6370 is a multi-functional IC that includes
-> > +       USB Type-C. It works with Type-C Port Controller Manager
-> > +       to provide USB PD and USB Type-C functionalities.
-> > +
-> > +       This driver can also be built as a module. The module
-> > +       will be called "tcpci_mt6370".
-> > +
-> >  config TYPEC_TCPCI_MAXIM
-> >       tristate "Maxim TCPCI based Type-C chip driver"
-> >       help
-> > diff --git a/drivers/usb/typec/tcpm/Makefile
-> > b/drivers/usb/typec/tcpm/Makefile
-> > index 7d499f3..906d9dc 100644
-> > --- a/drivers/usb/typec/tcpm/Makefile
-> > +++ b/drivers/usb/typec/tcpm/Makefile
-> > @@ -6,4 +6,5 @@ typec_wcove-y                         := wcove.o
-> >  obj-$(CONFIG_TYPEC_TCPCI)            += tcpci.o
-> >  obj-$(CONFIG_TYPEC_RT1711H)          += tcpci_rt1711h.o
-> >  obj-$(CONFIG_TYPEC_MT6360)           += tcpci_mt6360.o
-> > +obj-$(CONFIG_TYPEC_TCPCI_MT6370)     += tcpci_mt6370.o
-> >  obj-$(CONFIG_TYPEC_TCPCI_MAXIM)              += tcpci_maxim.o
-> > diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c
-> > b/drivers/usb/typec/tcpm/tcpci_mt6370.c
-> > new file mode 100644
-> > index 0000000..4f53319
-> > --- /dev/null
-> > +++ b/drivers/usb/typec/tcpm/tcpci_mt6370.c
-> > @@ -0,0 +1,208 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (C) 2022 Richtek Technology Corp.
-> > + *
-> > + * Author: ChiYuan Huang <cy_huang@richtek.com>
-> > + */
-> > +
-> > +#include <linux/bits.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/module.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_wakeup.h>
-> > +#include <linux/pm_wakeirq.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/usb/tcpm.h>
-> > +#include "tcpci.h"
-> > +
-> > +#define MT6370_REG_SYSCTRL8  0x9B
-> > +
-> > +#define MT6370_AUTOIDLE_MASK BIT(3)
-> > +
-> > +#define MT6370_VENDOR_ID     0x29CF
-> > +#define MT6370_TCPC_DID_A    0x2170
-> > +
-> > +struct mt6370_priv {
-> > +     struct device *dev;
-> > +     struct regulator *vbus;
-> > +     struct tcpci *tcpci;
-> > +     struct tcpci_data tcpci_data;
-> > +};
-> > +
-> > +static const struct reg_sequence mt6370_reg_init[] = {
-> > +     REG_SEQ(0xA0, 0x1, 1000),
-> > +     REG_SEQ(0x81, 0x38, 0),
-> > +     REG_SEQ(0x82, 0x82, 0),
-> > +     REG_SEQ(0xBA, 0xFC, 0),
-> > +     REG_SEQ(0xBB, 0x50, 0),
-> > +     REG_SEQ(0x9E, 0x8F, 0),
-> > +     REG_SEQ(0xA1, 0x5, 0),
-> > +     REG_SEQ(0xA2, 0x4, 0),
-> > +     REG_SEQ(0xA3, 0x4A, 0),
-> > +     REG_SEQ(0xA4, 0x01, 0),
-> > +     REG_SEQ(0x95, 0x01, 0),
-> > +     REG_SEQ(0x80, 0x71, 0),
-> > +     REG_SEQ(0x9B, 0x3A, 1000),
-> > +};
-> > +
-> > +static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data
-> > *data)
-> > +{
-> > +     u16 did;
-> > +     int ret;
-> > +
-> > +     ret = regmap_register_patch(data->regmap, mt6370_reg_init,
-> > +                                 ARRAY_SIZE(mt6370_reg_init));
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did,
-> > sizeof(u16));
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if (did == MT6370_TCPC_DID_A)
-> > +             return regmap_write(data->regmap, TCPC_FAULT_CTRL,
-> > 0x80);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct
-> > tcpci_data *data,
-> > +                              bool enable)
-> > +{
-> > +     return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
-> > +                               MT6370_AUTOIDLE_MASK,
-> > +                               !enable ? MT6370_AUTOIDLE_MASK : 0);
-> > +}
-> > +
-> > +static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct
-> > tcpci_data *data,
-> > +                             bool source, bool sink)
-> @sink is not used in this function?
+Drivers' .remove and .shutdown callbacks are executed on different code
+paths. The former is called when a device is removed from the bus, while
+the latter is called at system shutdown time to quiesce the device.
 
-Hi Chunfeng,
-The default HW binding is using the mt6370 switching charger.
-Due to the switching charger design, 'src usb boost' and 'sink battery
-charger', only one can be used at the same time.
-Thanks.
+This means that some overlap exists between the two, because both have to
+take care of properly shutting down the hardware. But currently the logic
+used in these two callbacks isn't consistent in msm drivers, which could
+lead to kernel panic.
 
->
-> > +{
-> > +     struct mt6370_priv *priv = container_of(data, struct
-> > mt6370_priv,
-> > +                                             tcpci_data);
-> > +     int ret;
-> > +
-> > +     ret = regulator_is_enabled(priv->vbus);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     if (ret && !source)
-> > +             return regulator_disable(priv->vbus);
-> > +
-> > +     if (!ret && source)
-> > +             return regulator_enable(priv->vbus);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static irqreturn_t mt6370_irq_handler(int irq, void *dev_id)
-> > +{
-> > +     struct mt6370_priv *priv = dev_id;
-> > +
-> > +     return tcpci_irq(priv->tcpci);
-> > +}
-> > +
-> > +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-> > +{
-> > +     struct regmap *regmap = priv->tcpci_data.regmap;
-> > +     u16 vid;
-> > +     int ret;
-> > +
-> > +     ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid,
-> > sizeof(u16));
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if (vid != MT6370_VENDOR_ID)
-> > +             return dev_err_probe(priv->dev, -ENODEV,
-> > +                                  "Vendor ID not correct 0x%02x\n",
-> > vid);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void mt6370_unregister_tcpci_port(void *tcpci)
-> > +{
-> > +     tcpci_unregister_port(tcpci);
-> > +}
-> > +
-> > +static int mt6370_tcpc_probe(struct platform_device *pdev)
-> > +{
-> > +     struct mt6370_priv *priv;
-> > +     struct device *dev = &pdev->dev;
-> > +     int irq, ret;
-> > +
-> > +     priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > +     if (!priv)
-> > +             return -ENOMEM;
-> > +
-> > +     priv->dev = dev;
-> > +
-> > +     priv->tcpci_data.regmap = dev_get_regmap(dev->parent, NULL);
-> > +     if (!priv->tcpci_data.regmap)
-> > +             return dev_err_probe(dev, -ENODEV, "Failed to init
-> > regmap\n");
-> > +
-> > +     ret = mt6370_check_vendor_info(priv);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     irq = platform_get_irq(pdev, 0);
-> > +     if (irq < 0)
-> > +             return dev_err_probe(dev, irq, "Failed to get irq\n");
-> > +
-> > +     /* Assign TCPCI feature and ops */
-> > +     priv->tcpci_data.auto_discharge_disconnect = 1;
-> > +     priv->tcpci_data.init = mt6370_tcpc_init;
-> > +     priv->tcpci_data.set_vconn = mt6370_tcpc_set_vconn;
-> > +
-> > +     priv->vbus = devm_regulator_get_optional(dev, "vbus");
-> > +     if (!IS_ERR(priv->vbus))
-> > +             priv->tcpci_data.set_vbus = mt6370_tcpc_set_vbus;
-> > +
-> > +     priv->tcpci = tcpci_register_port(dev, &priv->tcpci_data);
-> > +     if (IS_ERR(priv->tcpci))
-> > +             return dev_err_probe(dev, PTR_ERR(priv->tcpci),
-> > +                                  "Failed to register tcpci
-> > port\n");
-> > +
-> > +     ret = devm_add_action_or_reset(dev,
-> > mt6370_unregister_tcpci_port,
-> > +                                    priv->tcpci);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ret = devm_request_threaded_irq(dev, irq, NULL,
-> > mt6370_irq_handler,
-> > +                                     IRQF_ONESHOT, dev_name(dev),
-> > priv);
-> > +     if (ret)
-> > +             return dev_err_probe(dev, ret, "Failed to allocate
-> > irq\n");
-> > +
-> > +     device_init_wakeup(dev, true);
-> > +     dev_pm_set_wake_irq(dev, irq);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int mt6370_tcpc_remove(struct platform_device *pdev)
-> > +{
-> > +     dev_pm_clear_wake_irq(&pdev->dev);
-> > +     device_init_wakeup(&pdev->dev, false);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct of_device_id mt6370_tcpc_devid_table[] = {
-> > +     { .compatible = "mediatek,mt6370-tcpc" },
-> > +     {}
-> > +};
-> > +MODULE_DEVICE_TABLE(of, mt6370_tcpc_devid_table);
-> > +
-> > +static struct platform_driver mt6370_tcpc_driver = {
-> > +     .driver = {
-> > +             .name = "mt6370-tcpc",
-> > +             .of_match_table = mt6370_tcpc_devid_table,
-> > +     },
-> > +     .probe = mt6370_tcpc_probe,
-> > +     .remove = mt6370_tcpc_remove,
-> > +};
-> > +module_platform_driver(mt6370_tcpc_driver);
-> > +
-> > +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-> > +MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface
-> > Driver");
-> > +MODULE_LICENSE("GPL v2");
->
+For example, on .remove the component is deleted and its .unbind callback
+leads to the hardware being shutdown but only if the DRM device has been
+marked as registered.
 
+That check doesn't exist in the .shutdown logic and this can lead to the
+driver calling drm_atomic_helper_shutdown() for a DRM device that hasn't
+been properly initialized.
 
+A situation like this can happen if drivers for expected sub-devices fail
+to probe, since the .bind callback will never be executed. If that is the
+case, drm_atomic_helper_shutdown() will attempt to take mutexes that are
+only initialized if drm_mode_config_init() is called during a device bind.
+
+This bug was attempted to be fixed in commit 623f279c7781 ("drm/msm: fix
+shutdown hook in case GPU components failed to bind"), but unfortunately
+it still happens in some cases as the one mentioned above, i.e:
+
+[  169.495897] systemd-shutdown[1]: Powering off.
+[  169.500466] kvm: exiting hardware virtualization
+[  169.554787] platform wifi-firmware.0: Removing from iommu group 12
+[  169.610238] platform video-firmware.0: Removing from iommu group 10
+[  169.682164] ------------[ cut here ]------------
+[  169.686909] WARNING: CPU: 6 PID: 1 at drivers/gpu/drm/drm_modeset_lock.c:317 drm_modeset_lock_all_ctx+0x3c4/0x3d0
+...
+[  169.775691] Hardware name: Google CoachZ (rev3+) (DT)
+[  169.780874] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  169.788021] pc : drm_modeset_lock_all_ctx+0x3c4/0x3d0
+[  169.793205] lr : drm_modeset_lock_all_ctx+0x48/0x3d0
+[  169.798299] sp : ffff80000805bb80
+[  169.801701] x29: ffff80000805bb80 x28: ffff327c00128000 x27: 0000000000000000
+[  169.809025] x26: 0000000000000000 x25: 0000000000000001 x24: ffffc95d820ec030
+[  169.816349] x23: ffff327c00bbd090 x22: ffffc95d8215eca0 x21: ffff327c039c5800
+[  169.823674] x20: ffff327c039c5988 x19: ffff80000805bbe8 x18: 0000000000000034
+[  169.830998] x17: 000000040044ffff x16: ffffc95d80cac920 x15: 0000000000000000
+[  169.838322] x14: 0000000000000315 x13: 0000000000000315 x12: 0000000000000000
+[  169.845646] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+[  169.852971] x8 : ffff80000805bc28 x7 : 0000000000000000 x6 : 0000000000000000
+[  169.860295] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+[  169.867619] x2 : ffff327c00128000 x1 : 0000000000000000 x0 : ffff327c039c59b0
+[  169.874944] Call trace:
+[  169.877467]  drm_modeset_lock_all_ctx+0x3c4/0x3d0
+[  169.882297]  drm_atomic_helper_shutdown+0x70/0x134
+[  169.887217]  msm_drv_shutdown+0x30/0x40
+[  169.891159]  platform_shutdown+0x28/0x40
+[  169.895191]  device_shutdown+0x148/0x350
+[  169.899221]  kernel_power_off+0x38/0x80
+[  169.903163]  __do_sys_reboot+0x288/0x2c0
+[  169.907192]  __arm64_sys_reboot+0x28/0x34
+[  169.911309]  invoke_syscall+0x48/0x114
+[  169.915162]  el0_svc_common.constprop.0+0x44/0xec
+[  169.919992]  do_el0_svc+0x2c/0xc0
+[  169.923394]  el0_svc+0x2c/0x84
+[  169.926535]  el0t_64_sync_handler+0x11c/0x150
+[  169.931013]  el0t_64_sync+0x18c/0x190
+[  169.934777] ---[ end trace 0000000000000000 ]---
+[  169.939557] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000018
+[  169.948574] Mem abort info:
+[  169.951452]   ESR = 0x0000000096000004
+[  169.955307]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  169.960765]   SET = 0, FnV = 0
+[  169.963901]   EA = 0, S1PTW = 0
+[  169.967127]   FSC = 0x04: level 0 translation fault
+[  169.972136] Data abort info:
+[  169.975093]   ISV = 0, ISS = 0x00000004
+[  169.979037]   CM = 0, WnR = 0
+[  169.982083] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010eab1000
+[  169.988697] [0000000000000018] pgd=0000000000000000, p4d=0000000000000000
+[  169.995669] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+...
+[  170.079614] Hardware name: Google CoachZ (rev3+) (DT)
+[  170.084801] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  170.091941] pc : ww_mutex_lock+0x28/0x32c
+[  170.096064] lr : drm_modeset_lock_all_ctx+0x1b0/0x3d0
+[  170.101254] sp : ffff80000805bb50
+[  170.104658] x29: ffff80000805bb50 x28: ffff327c00128000 x27: 0000000000000000
+[  170.111977] x26: 0000000000000000 x25: 0000000000000001 x24: 0000000000000018
+[  170.119296] x23: ffff80000805bc10 x22: ffff327c039c5ad8 x21: ffff327c039c5800
+[  170.126615] x20: ffff80000805bbe8 x19: 0000000000000018 x18: 0000000000000034
+[  170.133933] x17: 000000040044ffff x16: ffffc95d80cac920 x15: 0000000000000000
+[  170.141252] x14: 0000000000000315 x13: 0000000000000315 x12: 0000000000000000
+[  170.148571] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+[  170.155890] x8 : ffff80000805bc28 x7 : 0000000000000000 x6 : 0000000000000000
+[  170.163209] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+[  170.170528] x2 : ffff327c00128000 x1 : 0000000000000000 x0 : 0000000000000018
+[  170.177847] Call trace:
+[  170.180364]  ww_mutex_lock+0x28/0x32c
+[  170.184127]  drm_modeset_lock_all_ctx+0x1b0/0x3d0
+[  170.188957]  drm_atomic_helper_shutdown+0x70/0x134
+[  170.193876]  msm_drv_shutdown+0x30/0x40
+[  170.197820]  platform_shutdown+0x28/0x40
+[  170.201854]  device_shutdown+0x148/0x350
+[  170.205888]  kernel_power_off+0x38/0x80
+[  170.209832]  __do_sys_reboot+0x288/0x2c0
+[  170.213866]  __arm64_sys_reboot+0x28/0x34
+[  170.217990]  invoke_syscall+0x48/0x114
+[  170.221843]  el0_svc_common.constprop.0+0x44/0xec
+[  170.226672]  do_el0_svc+0x2c/0xc0
+[  170.230079]  el0_svc+0x2c/0x84
+[  170.233215]  el0t_64_sync_handler+0x11c/0x150
+[  170.237686]  el0t_64_sync+0x18c/0x190
+[  170.241451] Code: aa0103f4 d503201f d2800001 aa0103e3 (c8e37c02)
+[  170.247704] ---[ end trace 0000000000000000 ]---
+[  170.252457] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+[  170.260654] Kernel Offset: 0x495d77c00000 from 0xffff800008000000
+[  170.266910] PHYS_OFFSET: 0xffffcd8500000000
+[  170.271212] CPU features: 0x800,00c2a015,19801c82
+[  170.276042] Memory Limit: none
+[  170.279183] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
+
+Fixes: 9d5cbf5fe46e ("drm/msm: add shutdown support for display platform_driver")
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+
+Changes in v3:
+- Drop the msm_shutdown_hw() wrapper and just call drm_atomic_helper_shutdown()
+  in both callbacks (Dmitry Baryshkov).
+- Copy the comment in msm_drm_uninit() to msm_drv_shutdown() (Dmitry Baryshkov).
+
+Changes in v2:
+- Take the registered check out of the msm_shutdown_hw() and make callers to check instead.
+- Make msm_shutdown_hw() an inline function.
+- Add a Fixes: tag.
+
+ drivers/gpu/drm/msm/msm_drv.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 1ed4cd09dbf8..1333fea57713 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1242,10 +1242,15 @@ void msm_drv_shutdown(struct platform_device *pdev)
+ 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+ 	struct drm_device *drm = priv ? priv->dev : NULL;
+ 
+-	if (!priv || !priv->kms)
+-		return;
+-
+-	drm_atomic_helper_shutdown(drm);
++	/*
++	 * Shutdown the hw if we're far enough along where things might be on.
++	 * If we run this too early, we'll end up panicking in any variety of
++	 * places. Since we don't register the drm device until late in
++	 * msm_drm_init, drm_dev->registered is used as an indicator that the
++	 * shutdown will be successful.
++	 */
++	if (drm && drm->registered)
++		drm_atomic_helper_shutdown(drm);
+ }
+ 
+ static struct platform_driver msm_platform_driver = {
 -- 
-Best Regards,
-ChiaEn Wu
+2.37.1
+
