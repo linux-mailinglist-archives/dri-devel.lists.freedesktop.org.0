@@ -1,57 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA2C57FEB4
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 14:02:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EF157FF65
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 14:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693EFA29A8;
-	Mon, 25 Jul 2022 12:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A75E9AE64C;
+	Mon, 25 Jul 2022 12:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E749A298A;
- Mon, 25 Jul 2022 12:02:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658750534; x=1690286534;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=lk+PADlyXADZ7SKXVUpertNGldyrF+vTAs6tch4NldI=;
- b=DQkAbNvu6ZT/xF3k2JrHq7CYn7b9Je1ofz6OjM+SBOCawGMjGXEXzLDv
- 9MuLNot1IiWrYN4A3N6qlyOZhevcMDLXMeRkCX46MUOQkubvQxUsZP+XR
- I5wXZVB5w/i+zXAIhgMUDSIPvp+bZWoPgn9ikZP0UgHKu52jXAd+yC/Vd
- aXiYo7rMQIJalDQbxByhwdCxybFFEM6rGBNsgYymbpWxHFi0RSLQDHj9r
- 62qgihGT9yx5S6Zf4psFUV18UAXata/J6CBWS4Tjv31gpL1VIlwINZa81
- kiWYHbOpH050ypReBrVGyrFk8o9Wooq+yCfepneJvgVqFgRAkN8CYcSqr Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="274544702"
-X-IronPort-AV: E=Sophos;i="5.93,192,1654585200"; d="scan'208";a="274544702"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2022 05:02:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,192,1654585200"; d="scan'208";a="632333571"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.13.24])
- ([10.213.13.24])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2022 05:02:08 -0700
-Message-ID: <4da1e879-319f-2ef3-253d-30492abd5d7a@intel.com>
-Date: Mon, 25 Jul 2022 14:02:04 +0200
+X-Greylist: delayed 469 seconds by postgrey-1.36 at gabe;
+ Mon, 25 Jul 2022 10:53:49 UTC
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC53794CE9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 10:53:49 +0000 (UTC)
+Received: from alisa-ThinkPad-T440s.. (unknown [83.149.199.65])
+ by mail.ispras.ru (Postfix) with ESMTPS id D00E440D403D;
+ Mon, 25 Jul 2022 10:45:56 +0000 (UTC)
+From: Alisa Khabibrakhmanova <khabibrakhmanova@ispras.ru>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/via: Add new condition to via_dma_cleanup()
+Date: Mon, 25 Jul 2022 13:45:55 +0300
+Message-Id: <20220725104555.124044-1-khabibrakhmanova@ispras.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [Intel-gfx] [PATCH v5 7/7] drm/i915: Remove truncation warning
- for large objects
-Content-Language: en-US
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220725092528.1281487-1-gwan-gyeong.mun@intel.com>
- <20220725092528.1281487-8-gwan-gyeong.mun@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220725092528.1281487-8-gwan-gyeong.mun@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 25 Jul 2022 12:57:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,34 +39,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, jani.nikula@intel.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, airlied@linux.ie,
- matthew.auld@intel.com, mchehab@kernel.org, nirmoy.das@intel.com
+Cc: ldv-project@linuxtesting.org,
+ Alisa Khabibrakhmanova <khabibrakhmanova@ispras.ru>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.07.2022 11:25, Gwan-gyeong Mun wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> Having addressed the issues surrounding incorrect types for local
-> variables and potential integer truncation in using the scatterlist API,
-> we have closed all the loop holes we had previously identified with
-> dangerously large object creation. As such, we can eliminate the warning
-> put in place to remind us to complete the review.
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Brian Welty <brian.welty@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Testcase: igt@gem_create@create-massive
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4991
-> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Pointer dev_priv->mmio, which was checked for NULL at via_do_init_map(),
+is passed to via_do_cleanup_map() and is dereferenced there without check.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+The patch adds the condition in via_dma_cleanup() which prevents potential NULL
+pointer dereference.
 
-Regards
-Andrzej
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Fixes: 22f579c621e2 ("drm: Add via unichrome support")
+Signed-off-by: Alisa Khabibrakhmanova <khabibrakhmanova@ispras.ru>
+---
+ drivers/gpu/drm/via/via_dma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/via/via_dma.c b/drivers/gpu/drm/via/via_dma.c
+index 177b0499abf1..56bcbbf4ed54 100644
+--- a/drivers/gpu/drm/via/via_dma.c
++++ b/drivers/gpu/drm/via/via_dma.c
+@@ -164,7 +164,7 @@ int via_dma_cleanup(struct drm_device *dev)
+ 		drm_via_private_t *dev_priv =
+ 		    (drm_via_private_t *) dev->dev_private;
+ 
+-		if (dev_priv->ring.virtual_start) {
++		if (dev_priv->ring.virtual_start && dev_priv->mmio) {
+ 			via_cmdbuf_reset(dev_priv);
+ 
+ 			drm_legacy_ioremapfree(&dev_priv->ring.map, dev);
+-- 
+2.34.1
 
