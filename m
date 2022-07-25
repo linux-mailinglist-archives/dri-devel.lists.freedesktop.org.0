@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3336557FEA6
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 13:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F248557FEAE
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 13:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48EA59F38A;
-	Mon, 25 Jul 2022 11:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13468A1C37;
+	Mon, 25 Jul 2022 11:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75C19F38A;
- Mon, 25 Jul 2022 11:53:44 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D1BA1BA4;
+ Mon, 25 Jul 2022 11:59:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658750024; x=1690286024;
+ t=1658750367; x=1690286367;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=aOBbbcWkwzQxpJUInkqTUvK6/lSICReW3Lo8xZr3qhA=;
- b=ZnihoWKKSW64uNOn+bQmTpcLoY/WqqGuTQbl158jg6AII35s0XDT3kuk
- KxV6Rauw7RRljGvojEF/0Uw4YmRkj+xiNh2ZkMd4j1PI8gnPtEZEh9cI9
- hCijKfdzXA5D5+MBcTGQy2cEaswy23KbyxEuW0RkCN6+FzpobisC7Asjs
- 7P2svbvdrnP1umweShk9ap726iD+RuRTgYfBESKV+Tj9yThw1Fy8Do5dG
- eWIjD4V2Cpm7N7L2YYRaHrJWr6+sNUjwIdklw0fwjcNpHEPJwRU8oJqI7
- RlXrwbqM+qg2azpql0/d25FdW986rxCFHP08lNgYr0zTroUfI54aAh4Hp g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="268071280"
-X-IronPort-AV: E=Sophos;i="5.93,192,1654585200"; d="scan'208";a="268071280"
+ bh=3cTXgsBfigtVKEbhJMoPU61A5f/edzZ1TEdm5LGUxKY=;
+ b=mdA/tzLah8iXuXFSrZVT55iqiUNOlUFX/Ot15j+ohkxOG+Zm1QgG0LRp
+ V6nzgK8+vTIKLPGEbAgiyHbo+le8xAKlwBWEqvMxCHXWLM4/1d9cnQlch
+ EPxoYWu4p/Ja6MZhSWqp4FJv8TsTVwYbvRPVtZaeJrkNMCItV1B6bakHI
+ IAmvOSUF8HIsCBK5QrS41mJ6JrPCUgWFxcQIvShoF4Z61VoHNfzT3HMCd
+ niIKav2zwNRZNtuckd41eaYdmh4qHOOznaQxBttpZkL3eizo05Fiyptue
+ wSTS4SNrM31T6IYJvwMKHJcuI3ijg+UG40g0wHe/y9Tnu6fYW1E8GTO/v A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="351674890"
+X-IronPort-AV: E=Sophos;i="5.93,192,1654585200"; d="scan'208";a="351674890"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2022 04:53:44 -0700
-X-IronPort-AV: E=Sophos;i="5.93,192,1654585200"; d="scan'208";a="632331236"
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2022 04:59:27 -0700
+X-IronPort-AV: E=Sophos;i="5.93,192,1654585200"; d="scan'208";a="632332478"
 Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.13.24])
  ([10.213.13.24])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2022 04:53:37 -0700
-Message-ID: <0b244396-39bb-4adb-6270-be32ba0c542a@intel.com>
-Date: Mon, 25 Jul 2022 13:53:33 +0200
+ 25 Jul 2022 04:59:21 -0700
+Message-ID: <9adf4881-15a4-862d-b90b-1ad2db3fcf99@intel.com>
+Date: Mon, 25 Jul 2022 13:59:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [Intel-gfx] [PATCH v5 4/7] drm/i915: Check for integer truncation
- on the configuration of ttm place
+Subject: Re: [Intel-gfx] [PATCH v5 5/7] drm/i915: Check if the size is too big
+ while creating shmem file
 Content-Language: en-US
 To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
  intel-gfx@lists.freedesktop.org
 References: <20220725092528.1281487-1-gwan-gyeong.mun@intel.com>
- <20220725092528.1281487-5-gwan-gyeong.mun@intel.com>
+ <20220725092528.1281487-6-gwan-gyeong.mun@intel.com>
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220725092528.1281487-5-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20220725092528.1281487-6-gwan-gyeong.mun@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,20 +71,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 25.07.2022 11:25, Gwan-gyeong Mun wrote:
-> There is an impedance mismatch between the first/last valid page
-> frame number of ttm place in unsigned and our memory/page accounting in
-> unsigned long.
-> As the object size is under the control of userspace, we have to be prudent
-> and catch the conversion errors.
-> To catch the implicit truncation as we switch from unsigned long to
-> unsigned, we use overflows_type check and report E2BIG or overflow_type
-> prior to the operation.
+> The __shmem_file_setup() function returns -EINVAL if size is greater than
+> MAX_LFS_FILESIZE. To handle the same error as other code that returns
+> -E2BIG when the size is too large, it add a code that returns -E2BIG when
+> the size is larger than the size that can be handled.
 > 
-> v3: Not to change execution inside a macro. (Mauro)
->      Add safe_conversion_gem_bug_on() macro and remove temporal
->      SAFE_CONVERSION() macro.
-> 
-> v4: Fix unhandled GEM_BUG_ON() macro call from safe_conversion_gem_bug_on()
+> v4: If BITS_PER_LONG is 32, size > MAX_LFS_FILESIZE is always false, so it
+>      checks only when BITS_PER_LONG is 64.
 > 
 > Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 > Cc: Chris Wilson <chris@chris-wilson.co.uk>
