@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D906057FBD5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 10:55:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4621B57FBF0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 11:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C322710FA7A;
-	Mon, 25 Jul 2022 08:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6758B18B354;
+	Mon, 25 Jul 2022 09:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E352711A3A9
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 08:55:37 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id c12so5619072ede.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 01:55:37 -0700 (PDT)
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 817B711B3A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 09:06:57 +0000 (UTC)
+Received: by mail-qt1-x831.google.com with SMTP id l14so7769778qtv.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 02:06:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3INTKFVzGpgdLiO6cm/tt/F3n1FdE/J8Gtrvuuomg/U=;
- b=KGUkTvmsrFj/i/g2Txcus2neVCIeH7fS7RYDzgarpCQjAlV25rYmvRqFk4rEW2Xu6H
- dVkCJgHWlrXopXOfsXa7jLI7QUV58LjpMPEGgOlQAaOnihMKMqUORjOGJ0SyGVX6oPmr
- AMrcGRzTVPctXdbs6Q2EfqiY6PKD5GpzJSWGECpaDGigxvdYX+uHjA92klNsnuWiXkR8
- KK3MgVH2qSoijeYpB69tibPEs3jLzlYrbqnbLehlkcag6TPz7QYuNOe0ls9ksOj0BiPk
- SOG0zIupDCmFrghFibZg1nOn4XrHoUYCdTW2Pwb7i2+PJ+hXVio5/EJxBh6mFV3wBtpH
- A4FQ==
+ :cc; bh=IY0j+H2edk5UsmI6A7sNzAv0qZHfigoVGkZeFtNqZD0=;
+ b=OAft5TUYAXK6FHwdudrZ3/ylDTgyd7ApXgH3mCQQrEy/AppLvKLTFrPAuRaeFgFtA7
+ It8xo2DsjfOuep3j9cWzIbiJND3QEGySnwIZHLW7+dtLSlt+35HbGtRezBb37b4ET1YA
+ T08HOavE/cN4KrCVfDqvDb9AfqV938ASpM6+DesVsCpK+wJIO8i1UyBgvsftmWjtDjOG
+ FhD3Z5NBfgipr391g2noPdoBVxJJl+Zl02FqMF/RSg8CvI8FVka2TxagkUfxCYyIA8lN
+ BEkxNh5JboG7/J/TGmZM68ALnFQGOS8vaYU/EgWzrbg9AQ2GE7pMqCpLXdsGFwSSNDLe
+ gkfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3INTKFVzGpgdLiO6cm/tt/F3n1FdE/J8Gtrvuuomg/U=;
- b=pDgrCtHNka9JMGjLdBPOk0adkIQw/gEN813xLCDXsajx07ZwdFEMEdY7FKoKocMaZa
- ILdShHLf57b64z5bhg3tI33y9yB9z/EAh4KhkTiaucBDaZ+gHuJSDUI/7JL60s8YnYL8
- We7tUrMlKSNWsuddxQBsjFTcWF05UiQx1yZ4KZ++mzCp6uw+0V6ZVO/kefjo6prsuyyW
- GqSK7SWbzCpo5DDns+hfaghUWNru6/IPXZkhjzGiwghYDziBYtFfDHlVCWl9xpVxAKNA
- 1yOv+T74KCIDPXpeLl/1tZifxIhzTyjgrQfbZlWnby4WhakkleltYM+TlRS7tqaGljgm
- qaZg==
-X-Gm-Message-State: AJIora+5ELOynFkSrdUp7vz/mDkakPJmdBlKwrgMYY3gXGgStdzeLHZ0
- /uPqQST4d9iugwD91looxujywprDZs38ALbgcl0=
-X-Google-Smtp-Source: AGRyM1v8y+nmZhsplbXoHzO4Ve+2H3JYkbB6esC4VwvluxmYvgNwKHcXWiOtO8fBnhCqb3I9/pY7SCo8PriYmFxn6lE=
-X-Received: by 2002:a05:6402:34c5:b0:43a:8f90:e643 with SMTP id
- w5-20020a05640234c500b0043a8f90e643mr11947835edc.88.1658739336148; Mon, 25
- Jul 2022 01:55:36 -0700 (PDT)
+ bh=IY0j+H2edk5UsmI6A7sNzAv0qZHfigoVGkZeFtNqZD0=;
+ b=EllveUakpHw56yCQQO3RHTDLa2UEwHgvwvDygfTFzr2VwaXOLYfnA2WmV5+UGnED4Z
+ QmyEN9KG1/eagxgugSUcygGzJ1tvlfFyNaS1+oyYueebmWyrejVmoNPhJrXdHpQo/oY3
+ XyAeaO4fpsgVklP0xH3VIJRlzKcQlSSxC2q75Wb244JID3vPXyOsbxX86iqIOiLGw/dW
+ F0e/88CcxYHro4odtxYObr9Gly2GWjLYmm1GS1B2d1Tk9oZSMM4FdN8EtrnP+LGJK47t
+ XelFmNfsxQW4uhPc0isSnQfUip2+BRKhOecGYlCsgEdoXdUku7582OUTgc5HfVAbYTgg
+ 0A2A==
+X-Gm-Message-State: AJIora/GGFXzwNBIVOmYijT/gcpr1LpY0ZYKfN5JekQde5lic0B1uYF0
+ 9odY9Tc3qYtjoMYjoLb9LU973w+4/r8QpRioZ3w=
+X-Google-Smtp-Source: AGRyM1tJSXMumghoATC65twYRnzaQxdiBNYaldY1M9f4DosemyPp1f+IvX7cbVFcEYtBJ2DRVha2cAhiDgReWJ+n9ic=
+X-Received: by 2002:ac8:5d49:0:b0:31f:aa:e632 with SMTP id
+ g9-20020ac85d49000000b0031f00aae632mr9318617qtx.427.1658740016501; 
+ Mon, 25 Jul 2022 02:06:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-13-peterwu.pub@gmail.com>
-In-Reply-To: <20220722102407.2205-13-peterwu.pub@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 25 Jul 2022 10:55:00 +0200
-Message-ID: <CAHp75VfgiK87VwWu2bTJ_mR0=g0sa0LPJ+H16OGcUdARmzFRSA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/13] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-To: ChiaEn Wu <peterwu.pub@gmail.com>
+ <20220722102407.2205-8-peterwu.pub@gmail.com>
+ <CAHp75VfiKMROzxeEaCH6qCthK9qanJPqbjADLMVH-V0upKf+9Q@mail.gmail.com>
+ <CABtFH5++4N1mECJ0vN-79WsJJWcBTVxLFgvkiouPf1qev7LHHQ@mail.gmail.com>
+ <CAHp75VfKihBLjUFqe_Sj5dqTO7-wjLehAF+9_8-sbUeyJ-ZAmg@mail.gmail.com>
+In-Reply-To: <CAHp75VfKihBLjUFqe_Sj5dqTO7-wjLehAF+9_8-sbUeyJ-ZAmg@mail.gmail.com>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Mon, 25 Jul 2022 17:06:20 +0800
+Message-ID: <CABtFH5+LvvcVscRotyRYXhXs1pPkCahbVe0NcSFxC4k_WMMsuQ@mail.gmail.com>
+Subject: Re: [PATCH v6 07/13] mfd: mt6370: Add MediaTek MT6370 support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,41 +91,52 @@ Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 22, 2022 at 12:25 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-
-Forgot to add a couple of things...
+On Mon, Jul 25, 2022 at 4:43 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> ...
+>
+> > > > +#define MT6370_REG_DEV_INFO    0x100
+> > > > +#define MT6370_REG_CHG_IRQ1    0x1C0
+> > > > +#define MT6370_REG_CHG_MASK1   0x1E0
+> > > > +
+> > > > +#define MT6370_VENID_MASK      GENMASK(7, 4)
+> > > > +
+> > > > +#define MT6370_NUM_IRQREGS     16
+> > > > +#define MT6370_USBC_I2CADDR    0x4E
+> > >
+> > > > +#define MT6370_REG_ADDRLEN     2
+> > > > +#define MT6370_REG_MAXADDR     0x1FF
+> > >
+> > > These two more logically to have near to other _REG_* definitions above.
+> >
 
 ...
 
-> +#define MT6370_ITORCH_MIN_UA           25000
-> +#define MT6370_ITORCH_STEP_UA          12500
-> +#define MT6370_ITORCH_MAX_UA           400000
-> +#define MT6370_ITORCH_DOUBLE_MAX_UA    800000
-> +#define MT6370_ISTRB_MIN_UA            50000
-> +#define MT6370_ISTRB_STEP_UA           12500
-> +#define MT6370_ISTRB_MAX_UA            1500000
-> +#define MT6370_ISTRB_DOUBLE_MAX_UA     3000000
+>
+> You lost me. Namespace has a meaning, i.e. grouping items of a kind.
+> In your proposal I don't see that. If REG_MAXADDR and REG_ADDRLEN are
+> _not_ of the _REG_ kind as per above, why do they have this namespace
+> in the first place?
 
-Perhaps _uA would be better and consistent across your series
-regarding current units.
+oh... Sorry, I just got the wrong meaning
+maybe it should be revised like this, right??
+-------------------------------------------------------------------
+#define MT6370_REG_DEV_INFO    0x100
+#define MT6370_REG_CHG_IRQ1    0x1C0
+#define MT6370_REG_CHG_MASK1   0x1E0
+#define MT6370_REG_MAXADDR     0x1FF // Move it to here
 
-...
+#define MT6370_VENID_MASK      GENMASK(7, 4)
 
-> +       /*
-> +        * For the flash to turn on/off, need to wait HW ramping up/down time
+#define MT6370_NUM_IRQREGS     16
+#define MT6370_USBC_I2CADDR    0x4E
 
-we need
+#define MT6370_MAX_ADDRLEN     2    // Rename
+-------------------------------------------------------------------
 
-> +        * 5ms/500us to prevent the unexpected problem.
-> +        */
-> +       if (!prev && curr)
-> +               usleep_range(5000, 6000);
-> +       else if (prev && !curr)
-> +               udelay(500);
-
-This still remains unanswered, why in the first place we allow
-switching, and a busy loop in the other place?
+Thanks!
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Best Regards,
+ChiaEn Wu
