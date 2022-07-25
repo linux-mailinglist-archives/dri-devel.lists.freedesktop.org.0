@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D19858049F
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 21:42:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E57E580521
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 22:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2EE112C86;
-	Mon, 25 Jul 2022 19:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D80BE8F058;
+	Mon, 25 Jul 2022 20:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D43E9112C86;
- Mon, 25 Jul 2022 19:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fB8xfMvgHCM7t/ObN6FhkrJI21/VktO8GPsKtazK7EU=; b=dbJzEm9oou0SafxUIgduHewGCM
- aiDDJ940JHEO8P0qh5z3xWEDuBc9qqRUqKvs/63xFcJ0gZidlP7rrUyAkt+O0tMLXDToGeHZfwWjU
- 4a5IcRhO+zSvIKIzWmhPrWqM0aVU2aBlcf0iC3SJfmznzSDdzP8piptTe3zK4if8DO/njj7xiPjIP
- d9c1ptNjEXbFjR6IkU4DjvLZz00E+2KM9LpSCQeIOaV5U8XQULWMIT9gjNo0wdo+gAod1paN8ticg
- YXLx2nAetOQ4xnOOUoCIgX6Bjxwgn4mMfmbMNf6h+QzXu1iTfB0k5XM777+ejeKdUKp9ES66UR8gE
- 91hEb1GA==;
-Received: from 201-13-50-220.dsl.telesp.net.br ([201.13.50.220]
- helo=[192.168.15.109]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1oG3yP-006KdW-3E; Mon, 25 Jul 2022 21:42:37 +0200
-Message-ID: <a7589316-2a55-85f2-b665-5fe4bebf7a69@igalia.com>
-Date: Mon, 25 Jul 2022 16:42:17 -0300
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A45B98DFC0;
+ Mon, 25 Jul 2022 20:12:40 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id o13so450119edc.0;
+ Mon, 25 Jul 2022 13:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DLNtAH4ZVUtmn0ECdu7iuFAaapi+HL9I7pXxXmdck8w=;
+ b=PTUrc6t1ic0HYfkNp2akyzJG2VcZ5pnZ+lxvTG51h33EEWxLes5a5mcyzuh8GlXTEI
+ yo8GZ686GVz6FZxlheDXTD00px2WiBzEGXUVc3fP6KKIUqx9hqzx3IX6+peazAI/VF53
+ VpnjVMpwAj4GXuZELDmhxcU3DlbL+hukrIdgletKPl1HnOyHba4SnYgLJpJ7JIGgQomP
+ 4EUUie+QxeJGLSXfIioN1ZFDB5i5+4bmnpO5DJZPdnDSyq5Beulsc3QbOUx7GIjZcKs7
+ kmCm7RkD/cVLlh7P3IGq5Wg8Q3lrB3PM2bRq/GAZTxi2RKXCLjCZjhSvl0tAW8bdHa4P
+ zdSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DLNtAH4ZVUtmn0ECdu7iuFAaapi+HL9I7pXxXmdck8w=;
+ b=zVqfvodfk9Und2y7d1yYNUgz3u5quFRfK6MUZbSlksbXtjV8HNyiypBD+OJ+191dIg
+ jLt5CId+kuCLgsjvLjQjUOy1acRLvCBWNAdbTdUPyAK8n6P1HESLEsPcWDwls73HLX1b
+ sLg6HI9zvvAKOnxJyUY/1+7qaRGvRQJ4DcHXj6HQtkiMY1FvyTyoFaoWczoqsHYCdofk
+ wfqC5g9dqeOHeMRIfldUfkfCjr0s91icbFVmb2vavkwFLQZVSz3Dk6SWnhl/mtNQN9of
+ B3n9W1kcipKaxhOY7CRsh+Wlcy/h26+zyF2VnEmXEVv5TjzKtaTIq4t/1ccwVmLulO3o
+ r1vQ==
+X-Gm-Message-State: AJIora9zvDGc52hVJJczAPVrHFFlDE92DrSbJDhbvgsu2VvYq6dVF2OX
+ 8FF49eNvbRVWSBy52E5P+7b0ToctRSsOOnd2m8s=
+X-Google-Smtp-Source: AGRyM1sHgpidV9VnWISJsHLqj+Bvg1fR0OozJDV3Q4VSZSDdCPqA8td9X6oFEhicq4HYQEhGBzhJRgnpRhXt5xv8eMo=
+X-Received: by 2002:a05:6402:248d:b0:437:dd4c:e70e with SMTP id
+ q13-20020a056402248d00b00437dd4ce70emr14751707eda.75.1658779959059; Mon, 25
+ Jul 2022 13:12:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] drm/amd/display: change variables type
-Content-Language: en-US
-To: Magali Lemes <magalilemes00@gmail.com>
-References: <20220725181559.250030-1-magalilemes00@gmail.com>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20220725181559.250030-1-magalilemes00@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220724074150.17869-1-wangjianli@cdjrlc.com>
+In-Reply-To: <20220724074150.17869-1-wangjianli@cdjrlc.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 25 Jul 2022 16:12:27 -0400
+Message-ID: <CADnq5_M0QnP+W83cSb-mpHNjrjnF9hS_e=PJ=QkEiof7Em=NPg@mail.gmail.com>
+Subject: Re: [PATCH] dc/dce: fix repeated words in comments
+To: wangjianli <wangjianli@cdjrlc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,57 +62,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: siqueirajordao@riseup.net, sunpeng.li@amd.com, tales.aparecida@gmail.com,
- airlied@linux.ie, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
- mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, isabbasso@riseup.net, andrealmeid@riseup.net,
- christian.koenig@amd.com
+Cc: airlied@linux.ie, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Magali,
+Applied.  Thanks!
 
-Às 15:15 de 25/07/22, Magali Lemes escreveu:
-> As "dcn3_15_soc" and "dcn3_16_soc" are of type "struct
-> _vcs_dpi_soc_bounding_box_st", change their types accordingly.
-> 
-
-I can see that indeed this type change sense for those variables, but
-isn't a bit strange that the type was wrong in the first place? I wonder
-if this variable is even used, given that it would very likely throw a
-compiler error when using the wrong type and trying to access struct
-members that aren't defined.
-
-> Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
+On Mon, Jul 25, 2022 at 3:23 AM wangjianli <wangjianli@cdjrlc.com> wrote:
+>
+>  Delete the redundant word 'in'.
+>
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h | 2 +-
->  drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
-> index 39929fa67a51..45276317c057 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
-> @@ -32,7 +32,7 @@
->  	container_of(pool, struct dcn315_resource_pool, base)
->  
->  extern struct _vcs_dpi_ip_params_st dcn3_15_ip;
-> -extern struct _vcs_dpi_ip_params_st dcn3_15_soc;
-> +extern struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc;
->  
->  struct dcn315_resource_pool {
->  	struct resource_pool base;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
-> index 0dc5a6c13ae7..d2234aac5449 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
-> @@ -32,7 +32,7 @@
->  	container_of(pool, struct dcn316_resource_pool, base)
->  
->  extern struct _vcs_dpi_ip_params_st dcn3_16_ip;
-> -extern struct _vcs_dpi_ip_params_st dcn3_16_soc;
-> +extern struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc;
->  
->  struct dcn316_resource_pool {
->  	struct resource_pool base;
+>  drivers/gpu/drm/amd/display/dc/dce/dce_audio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c b/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
+> index 70eaac017624..f0b585caa28f 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
+> @@ -322,7 +322,7 @@ static void set_video_latency(
+>                 value);
+>  }
+>
+> -/* set audio latency in in ms/2+1 */
+> +/* set audio latency in ms/2+1 */
+>  static void set_audio_latency(
+>         struct audio *audio,
+>         int latency_in_ms)
+> --
+> 2.36.1
+>
