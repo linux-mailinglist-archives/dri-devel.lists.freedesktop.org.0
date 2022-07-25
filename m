@@ -1,47 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C40580098
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 16:18:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1765800F5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 16:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55F7BBA1C4;
-	Mon, 25 Jul 2022 14:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9457BCDD7;
+	Mon, 25 Jul 2022 14:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4249BA1B0;
- Mon, 25 Jul 2022 14:18:51 +0000 (UTC)
-Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
- [82.71.8.225])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 10F266601B09;
- Mon, 25 Jul 2022 15:18:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658758730;
- bh=uu4oDAzDmHNnoK6xxxhUwEeNtd1C5dyETsi6Qtzx+Vw=;
- h=From:To:Cc:Subject:Date:From;
- b=UxAZ9sS5/+qvc9QAi0NzpVxOtM7lkoQPcFSpNGVSxlHF8rEF/9fgtCMs/kfRVGUgg
- Pfh75oK0mNleIbXXdvUQVbUwX4RP/K6+FhglXx29bAPfghz2M/+f3lZF44omcCjCf1
- gElaPUnGhAydA7qH8YIm2fO60it5tDgCPOc1AAsnBeVmCDj+QiugdpbTM/aK/P6ebq
- 6wvjww8oUKm6ubYJL0quAuFiAQO0woYm0rRnwaj8V6fHj7c+XuESoT5QxmiEb+cpnw
- BJ3NxXgBtYuzA9+UHo9O2FR63Z/EixCmAI755LZMkeEUDHsEFvd5IrQsN++VTrUO6c
- lx3L7MowhUc4A==
-From: Robert Beckett <bob.beckett@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v4] drm/i915: stop using swiotlb
-Date: Mon, 25 Jul 2022 15:18:32 +0100
-Message-Id: <20220725141833.1970029-1-bob.beckett@collabora.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9A6BCDD7
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 14:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658760519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MrIFLSXgxumLrr5N+Xm5tSy/MudCUAu7YLr1DhCbnqM=;
+ b=CKvRxYy2ZmshwR8XQ5M4MSV7hkM/R7qMl3gfku7c+4+zEhTzOJ5XhNMebLoGGuRL0eKGFL
+ 5lklxz+lvnrQWw2KarDImL7dks66XxCQdVrklYSVBGfcPk6mLFTjzfpqaJKFclkPVriJJb
+ FTxYLApYdDmKnY5U3LBWJGozFNv+T5I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-i_aw-uAcNX6W5woqmzRppw-1; Mon, 25 Jul 2022 10:48:38 -0400
+X-MC-Unique: i_aw-uAcNX6W5woqmzRppw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ az39-20020a05600c602700b003a321d33238so6297948wmb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 07:48:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MrIFLSXgxumLrr5N+Xm5tSy/MudCUAu7YLr1DhCbnqM=;
+ b=rMVF1jzCGoV2EcwMbVJ1I0Gh3Ft/ROZZ8thxu0hXDSgXmwLN1muc5eZoT/skCkgxwn
+ B3rl4Bj72knyfCki8/+AgQecOtxW7fKCzgcDX0KDdDWkWg4ou27TDx1F2JBnm4qX1+zd
+ ketDayEmzSk3BtXbpiNXOjicqSfz26yacbSLEaOvIsn6c+xubtU8Hec8Av0P41S8pAnb
+ 7Oxk7ottg3Lazh6T+TOHsgXsGsbnbSZGdVsyDFlMP+3TeOlTVYCdzB9mpDwJW4aIjOe9
+ wR/2c0mizOmZLgjglWkXVIoesIl8miDDyp1moXo8bGgUoSD8MiFe9DnsQhsy7L98OHxD
+ wNRw==
+X-Gm-Message-State: AJIora+UkpGEXSiDqchdtuUco4/2GKvuzh2k3d0V/pJ0cUCUAmBx3UTj
+ xm4Ik57HPoNwVF3DqhoemTT0fPxZbmks9qTvql8o9JStQyteSQ7j2sX907zoOq3Oq8xuWP5KGVD
+ I8P8gthQ8xWdfvP7HplVAoey1Ts54
+X-Received: by 2002:a05:600c:a188:b0:3a3:1802:e327 with SMTP id
+ id8-20020a05600ca18800b003a31802e327mr8922438wmb.41.1658760516686; 
+ Mon, 25 Jul 2022 07:48:36 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tnzVVUGDwiw4pcTWx5MAYSq6VOtiToiDObHgJ6Zic+31l2117wCx4rJ9QK42iIFmUvvV3/4Q==
+X-Received: by 2002:a05:600c:a188:b0:3a3:1802:e327 with SMTP id
+ id8-20020a05600ca18800b003a31802e327mr8922426wmb.41.1658760516510; 
+ Mon, 25 Jul 2022 07:48:36 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h9-20020a5d4fc9000000b0021e6277bc50sm10775122wrw.36.2022.07.25.07.48.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jul 2022 07:48:36 -0700 (PDT)
+Message-ID: <faad4b2a-c3dc-e6b8-ee2b-7aa920db3c0d@redhat.com>
+Date: Mon, 25 Jul 2022 16:48:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 01/10] drm/simpledrm: Remove mem field from device
+ structure
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
+ msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-2-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220720142732.32041-2-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,167 +92,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, kernel@collabora.com,
- Christoph Hellwig <hch@lst.de>
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calling swiotlb functions directly is nowadays considered harmful. See
-https://lore.kernel.org/intel-gfx/20220711082614.GA29487@lst.de/
+On 7/20/22 16:27, Thomas Zimmermann wrote:
+> Remove the unused mem field from struct simpledrm_device.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Replace swiotlb_max_segment() calls with dma_max_mapping_size().
-In i915_gem_object_get_pages_internal() no longer consider max_segment
-only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
-causes of specific max segment sizes.
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-
-v2: - restore UINT_MAX clamp in i915_sg_segment_size()
-    - drop PAGE_SIZE check as it will always be >= PAGE_SIZE
-v3: - actually clamp to UINT_MAX in i915_sg_segment_size()
-v4: - round down max segment size to PAGE_SIZE
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_internal.c | 19 ++++---------------
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c    |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  4 ++--
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c  |  2 +-
- drivers/gpu/drm/i915/i915_scatterlist.h      | 17 ++++-------------
- 5 files changed, 12 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-index c698f95af15f..24f37658f1bb 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-@@ -6,7 +6,6 @@
- 
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
--#include <linux/swiotlb.h>
- 
- #include "i915_drv.h"
- #include "i915_gem.h"
-@@ -38,22 +37,12 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
- 	struct scatterlist *sg;
- 	unsigned int sg_page_sizes;
- 	unsigned int npages;
--	int max_order;
-+	int max_order = MAX_ORDER;
-+	unsigned int max_segment;
- 	gfp_t gfp;
- 
--	max_order = MAX_ORDER;
--#ifdef CONFIG_SWIOTLB
--	if (is_swiotlb_active(obj->base.dev->dev)) {
--		unsigned int max_segment;
--
--		max_segment = swiotlb_max_segment();
--		if (max_segment) {
--			max_segment = max_t(unsigned int, max_segment,
--					    PAGE_SIZE) >> PAGE_SHIFT;
--			max_order = min(max_order, ilog2(max_segment));
--		}
--	}
--#endif
-+	max_segment = i915_sg_segment_size(i915->drm.dev) >> PAGE_SHIFT;
-+	max_order = min(max_order, ilog2(max_segment));
- 
- 	gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
- 	if (IS_I965GM(i915) || IS_I965G(i915)) {
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 4eed3dd90ba8..34b9c76cd8e6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -194,7 +194,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
- 	struct intel_memory_region *mem = obj->mm.region;
- 	struct address_space *mapping = obj->base.filp->f_mapping;
- 	const unsigned long page_count = obj->base.size / PAGE_SIZE;
--	unsigned int max_segment = i915_sg_segment_size();
-+	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
- 	struct sg_table *st;
- 	struct sgt_iter sgt_iter;
- 	struct page *page;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 5a5cf332d8a5..7a828c9c0f6d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -189,7 +189,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
- 	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
- 	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
- 	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
--	const unsigned int max_segment = i915_sg_segment_size();
-+	const unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
- 	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
- 	struct file *filp = i915_tt->filp;
- 	struct sgt_iter sgt_iter;
-@@ -568,7 +568,7 @@ static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
- 	ret = sg_alloc_table_from_pages_segment(st,
- 			ttm->pages, ttm->num_pages,
- 			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
--			i915_sg_segment_size(), GFP_KERNEL);
-+			i915_sg_segment_size(i915_tt->dev), GFP_KERNEL);
- 	if (ret) {
- 		st->sgl = NULL;
- 		return ERR_PTR(ret);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-index 094f06b4ce33..dfc35905dba2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-@@ -129,7 +129,7 @@ static void i915_gem_object_userptr_drop_ref(struct drm_i915_gem_object *obj)
- static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
- {
- 	const unsigned long num_pages = obj->base.size >> PAGE_SHIFT;
--	unsigned int max_segment = i915_sg_segment_size();
-+	unsigned int max_segment = i915_sg_segment_size(obj->base.dev->dev);
- 	struct sg_table *st;
- 	unsigned int sg_page_sizes;
- 	struct page **pvec;
-diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
-index 9ddb3e743a3e..1377a97a20cf 100644
---- a/drivers/gpu/drm/i915/i915_scatterlist.h
-+++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-@@ -9,7 +9,7 @@
- 
- #include <linux/pfn.h>
- #include <linux/scatterlist.h>
--#include <linux/swiotlb.h>
-+#include <linux/dma-mapping.h>
- 
- #include "i915_gem.h"
- 
-@@ -127,19 +127,10 @@ static inline unsigned int i915_sg_dma_sizes(struct scatterlist *sg)
- 	return page_sizes;
- }
- 
--static inline unsigned int i915_sg_segment_size(void)
-+static inline unsigned int i915_sg_segment_size(struct device *dev)
- {
--	unsigned int size = swiotlb_max_segment();
--
--	if (size == 0)
--		size = UINT_MAX;
--
--	size = rounddown(size, PAGE_SIZE);
--	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
--	if (size < PAGE_SIZE)
--		size = PAGE_SIZE;
--
--	return size;
-+	size_t max = min_t(size_t, UINT_MAX, dma_max_mapping_size(dev));
-+	return round_down(max, PAGE_SIZE);
- }
- 
- bool i915_sg_trim(struct sg_table *orig_st);
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
