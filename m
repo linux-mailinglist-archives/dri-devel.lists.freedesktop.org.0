@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A9C580005
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 15:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7765801F2
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 17:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 478DC1137F8;
-	Mon, 25 Jul 2022 13:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC78BC0768;
+	Mon, 25 Jul 2022 15:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72AD314B543
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 13:35:56 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id w5so1533635edd.13
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 06:35:56 -0700 (PDT)
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3366BC0768
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 15:34:29 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id 72so10729008pge.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 08:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=GFusXoam6wya2VWS9PJXuW3DvInAdEJ9//t9Bee21e0=;
- b=DHxGefFHTRv38ajY2FtkbXABq2lehE27Y6J4I4YP1q/gCf1BUjLwa/CzWdHYq9ky8W
- XiekGUCiEBu7VCY+yPnaX6gbG1DdOanziafwfDueep+B0alDKEth6xWtDjymUGK1//Oh
- YSSeHQu5vnEpxcflkic8YZzNHZjH/ZAJyY4C9OySp979POdziZTIq0W/krsJX3UVohbr
- AhrEMg69BejDE+gKzn9crpUvDdWnb9w3Tf50KRsoJr3On7kxLC1MJoFRojFEoW9+bqmR
- md4Lzpzdq2hh0K27fsRMa4ojnOWOR21HpIEQp8ij/AB8YSzbHiY7GdfcbOv/e2JdmqLm
- Nzvw==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=GVcBtZOANtlGOk2kyFP5BT5LKuDd1n4y4SlkfBh5i0c=;
+ b=aY0i5moV4xCLdYQwyBUTg1BTHgMtcdKsmK70EGnqxSyH/SNHtWvxH6lrCyCHpnD5/I
+ eKdIqqIS/7y1h6/9HbIQ9upn03exO6RMAFp7vEVYDHSn2Q3l+bnoh9pc3MGovD+r5o6t
+ ubCs83NZTvF2AQDoDo86lfcCoVRyrhShJ7dHlsAh1l7bPDVsC69rrSnWdcNkX1iiAvb6
+ ygGuuZQf+yyqfkaZR8iK4oDY07dx8lPhJTdxfz/DELvCBrzYA23Pu3vnKUMjF8kbDfGc
+ HRu6bibwy5eu/YNUM84gjl8bf8QwaFXeEXG2vm8T8C8tpzKFWu2K6vSu8eNAthcvG3UW
+ 7qWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GFusXoam6wya2VWS9PJXuW3DvInAdEJ9//t9Bee21e0=;
- b=dsJ8tCYLqq3k8bIf5Zx7MvvjDaqLsZm5s0+X0iG2IpItgadqT9GT/LVCd47qOGxrU2
- PulEjr6wF8GfdvfPF3hYKKBPjYqQxCa0sbix8S9cAenEIOXrcYvYQxh1Xg38Hlj8BwPI
- 6NrwOLBroXwwlySy2cy68M05dQp5+fed+TRoV7eOVnDl8owJ9Rthy02RTMzumLlkaGFF
- gH95QqgwKKpo5iJftmNbL4F+SJNXoKmZTSGYNDOR6tEICAVM+ydM6v98o9BC0qBK7qkJ
- qWErf2AmNsgBcOmVJxG5E0aaaLKvtLO6IQ329qenLutc0HTQ98RQVb3aiLNA+nyR04f7
- SCew==
-X-Gm-Message-State: AJIora9ChNFeFX7CY+nDpp3lFCQy7LzewSxCGvaTn/DbZ8gy635Hn43h
- w8t8sdt+KnxXRW7n6OXVvi/JBHJOhC8=
-X-Google-Smtp-Source: AGRyM1ujBwFeoM84g0CSfJMEgCS/HzjSDa85FHFeBOZZN7cTBNrH45rH5Jfd+3U8RRr+sAj37XzOjg==
-X-Received: by 2002:a05:6402:3492:b0:43a:d1f0:978e with SMTP id
- v18-20020a056402349200b0043ad1f0978emr13622758edc.306.1658756154918; 
- Mon, 25 Jul 2022 06:35:54 -0700 (PDT)
-Received: from [192.168.2.181] (46-10-149-62.ip.btc-net.bg. [46.10.149.62])
- by smtp.gmail.com with ESMTPSA id
- 11-20020a170906310b00b0072b3391193dsm5316555ejx.154.2022.07.25.06.35.54
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 06:35:54 -0700 (PDT)
-Message-ID: <4fc8a5cf-749d-0011-a223-027a354c05e0@gmail.com>
-Date: Mon, 25 Jul 2022 16:35:53 +0300
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=GVcBtZOANtlGOk2kyFP5BT5LKuDd1n4y4SlkfBh5i0c=;
+ b=XGkKaN+FbeBaFZQ6aTD3MxjPJNUlJDApTI/rXzbK4QgrwTUpyD+aevFjHeNPzaknDA
+ YbQe1TrvuQnEfoZgVCLiZ4n1Nv+2EiVSO2ZFyV8VPrj6A8uW1E1AtSlAsWdhEs02Mb1F
+ DmBbK3an9bScrQca5uPcJUCSJU0PFCgtP3y/OliCxuK8p/cf9zpjlfyMA8++WEYdq5cL
+ TpfvE4s9Hj2RHclbCzP/EQGMpYjnlx8y+8MMIf1o4oqEfp7TS9zv22fQR57ykHs51RX/
+ owzCU2/wYeC65H+dSr7CmT05yk9SAaWvXQFL9kIPi3r9p4a9RBBXiJJrI31Av+P/5tPa
+ WdGg==
+X-Gm-Message-State: AJIora8aRS8/Pi+UlTHrWRFOE1Lh+irol6CbJdYNsQ4kx8OYrL9dNMrl
+ hhZlehLgygWHbyJtqevayyLxwrjXnerG8OCxnL6rviWWt0+x47SD
+X-Google-Smtp-Source: AGRyM1u3dF3bwhEbwyf4LNJYCn+ofb87hMribTY7p3ioNLv7RroN2gI7oWBFmAmIgJsI16Jhyx9KcM0Xuxy6ARYTVio=
+X-Received: by 2002:a63:5c5e:0:b0:412:a2f1:d0dd with SMTP id
+ n30-20020a635c5e000000b00412a2f1d0ddmr11633584pgm.251.1658763268384; Mon, 25
+ Jul 2022 08:34:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 3/8] drm/vmwgfx: Use the hotspot properties from cursor
- planes
-Content-Language: en-US
+From: Kyryl Melekhin <k.melekhin@gmail.com>
+Date: Mon, 25 Jul 2022 11:34:16 +0000
+Message-ID: <CABgARp-kFcJLcQvRBjF+fMg8GhTj149Rw9VkLi+spZYHyQr4fw@mail.gmail.com>
+Subject: [amdgpu] drm/ttm: fbdev race condition into fork()
 To: dri-devel@lists.freedesktop.org
-References: <20220712033246.1148476-1-zack@kde.org>
- <20220712033246.1148476-4-zack@kde.org>
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20220712033246.1148476-4-zack@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,47 +62,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+Hello Dri-devel,
 
+There is yet another race condition happening with ttm objects,
+this time with fbdev.
 
-On 12.07.22 г. 6:32 ч., Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
->
-> Atomic modesetting got support for mouse hotspots via the hotspot
-> properties. Port the legacy kms hotspot handling to the new properties
-> on cursor planes.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Cc: Martin Krastev <krastevm@vmware.com>
-> Cc: Maaz Mombasawala <mombasawalam@vmware.com>
-> ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 9 ++-------
->   1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> index ff2f735bbe7a..3d3f73109199 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -652,13 +652,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
->   	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
->   	s32 hotspot_x, hotspot_y;
->   
-> -	hotspot_x = du->hotspot_x;
-> -	hotspot_y = du->hotspot_y;
-> -
-> -	if (new_state->fb) {
-> -		hotspot_x += new_state->fb->hot_x;
-> -		hotspot_y += new_state->fb->hot_y;
-> -	}
-> +	hotspot_x = du->hotspot_x + new_state->hotspot_x;
-> +	hotspot_y = du->hotspot_y + new_state->hotspot_y;
->   
->   	du->cursor_surface = vps->surf;
->   	du->cursor_bo = vps->bo;
+Please consider the following simple code that shows the problem (or
+email attached):
+https://0x0.st/ojmf.c
 
+The kernel assertion:
 
-LGTM.
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
+[ 2112.472011] ---[ end trace 0000000000000000 ]---
+[ 2182.118552] usb 3-2.2.1.4: reset high-speed USB device number 8
+using xhci_hcd
+[ 2194.632197] ------------[ cut here ]------------
+[ 2194.632199] WARNING: CPU: 6 PID: 383 at
+drivers/gpu/drm/ttm/ttm_bo_vm.c:352 0xffffffff8169c28f
+[ 2194.632201] CPU: 6 PID: 383 Comm: fb Tainted: G        W
+5.19.0-rc7+ #22 353afba44cdabdab9fdfaa6990a088718abd5d85
+[ 2194.632204] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./X300M-STX, BIOS L1.72 10/08/2021
+[ 2194.632205] RIP: 0010:0xffffffff8169c28f
+[ 2194.632206] Code: 48 8d ba 50 01 00 00 b8 01 00 00 00 f0 0f c1 82
+50 01 00 00 85 c0 74 16 8d 50 01 09 c2 78 01 c3 be 01 00 00 00 e9 91
+47 e5 ff <0f> 0b eb d2 be 02 00 00 00 e9 83 47 e5 ff 0f 1f 00 41 57 41
+56 41
+[ 2194.632207] RSP: 0018:ffffc90000767d30 EFLAGS: 00010287
+[ 2194.632209] RAX: ffff888100a627b8 RBX: ffff888101745ec0 RCX: ffff888102285128
+[ 2194.632210] RDX: ffff888102b00058 RSI: 00007f89976fb000 RDI: ffff88811031d440
+[ 2194.632211] RBP: ffff88810177c800 R08: ffff888102541138 R09: ffff88811f9d95e0
+[ 2194.632212] R10: ffff8887fe2fc000 R11: 0000000000000000 R12: 0000000000000000
+[ 2194.632213] R13: ffff888102c5fc00 R14: ffff88811031d390 R15: ffff88811031d440
+[ 2194.632213] FS:  00007f89977afb68(0000) GS:ffff8887ded80000(0000)
+knlGS:0000000000000000
+[ 2194.632214] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 2194.632215] CR2: 00007f8994840000 CR3: 00000001047df000 CR4: 0000000000750ee0
+[ 2194.632216] PKRU: 55555554
+[ 2194.632217] Call Trace:
+[ 2194.632218]  <TASK>
+[ 2194.632219]  0xffffffff81040d1e
+[ 2194.632220]  0xffffffff8104306b
+[ 2194.632221]  0xffffffff81043306
+[ 2194.632222]  ? 0xffffffff81608ae6
+[ 2194.632222]  0xffffffff810437d1
+[ 2194.632223]  0xffffffff81fa1884
+[ 2194.632224]  0xffffffff8200006a
+[ 2194.632225] RIP: 0033:0x00007f8997749429
+[ 2194.632226] Code: 88 00 00 00 31 c0 48 89 e5 48 89 ef e8 e0 b5 00
+00 bf ff ff ff ff e8 36 7a fc ff 4c 89 e7 e8 ae bc 01 00 b8 39 00 00
+00 0f 05 <48> 89 c3 85 c0 75 50 b8 ba 00 00 00 64 48 8b 14 25 00 00 00
+00 0f
+[ 2194.632227] RSP: 002b:00007ffee0d808e0 EFLAGS: 00000246 ORIG_RAX:
+0000000000000039
+[ 2194.632228] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f8997749429
+[ 2194.632229] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007f89977affd4
+[ 2194.632230] RBP: 00007ffee0d808e0 R08: 0000000000000000 R09: 0000000000000000
+[ 2194.632230] R10: 0000000000000008 R11: 0000000000000246 R12: 00007f89977affd4
+[ 2194.632231] R13: 00007f89977afb9c R14: 00007ffee0d809a0 R15: 00007f89977b0a40
+[ 2194.632232]  </TASK>
 
-Regards,
-Martin
+Apparently this commit does not fix it
+dbd0da2453c694f2f74651834d90fb280b57f151
+
+Hardware info:
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir/Cezanne
+Root Complex
+00:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe
+Dummy Host Bridge
+00:01.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe
+Dummy Host Bridge
+00:02.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir/Cezanne
+PCIe GPP Bridge
+00:02.4 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir/Cezanne
+PCIe GPP Bridge
+00:08.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe
+Dummy Host Bridge
+00:08.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir Internal
+PCIe GPP Bridge to Bus
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller (rev 51)
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge (rev 51)
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 0
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 1
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 2
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 3
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 4
+00:18.5 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 5
+00:18.6 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 6
+00:18.7 Host bridge: Advanced Micro Devices, Inc. [AMD] Cezanne Data
+Fabric; Function 7
+04:00.0 VGA compatible controller: Advanced Micro Devices, Inc.
+[AMD/ATI] Cezanne (rev c8)
+04:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Renoir
+Radeon High Definition Audio Controller
+
+Kyryl
