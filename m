@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0955801A5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 17:21:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2185801A7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jul 2022 17:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6888218B534;
-	Mon, 25 Jul 2022 15:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD6BF112901;
+	Mon, 25 Jul 2022 15:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C5112BF65;
- Mon, 25 Jul 2022 15:21:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC4C614AAE1;
+ Mon, 25 Jul 2022 15:21:03 +0000 (UTC)
 Received: from dimapc.. (109-252-119-232.nat.spd-mgts.ru [109.252.119.232])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A10F76601B0F;
- Mon, 25 Jul 2022 16:20:57 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2E5EC6601B0E;
+ Mon, 25 Jul 2022 16:21:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658762460;
- bh=ltVX9yxN2eLAR73pPjOKlf/yqK0yb6euW/XcSTbBYAM=;
+ s=mail; t=1658762462;
+ bh=va+2N1U6jZR9UG67k72ODpvUReFCq9AoJW3EC29fAyY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CTwsk8aEqX+50X62kwJFBB/CE6E/MD5iC4xfhw3GxUr+dc77H5JZshR7xRYBmAMD+
- 1Qec6YT59Q2KYEwuCkUwQ9jqyIWaj6/a9YPdxvW1s/SQQrGbTnDwyadKFKz+i88DRk
- Jaim9EhjDDIoFinrsHuZ+I+c7tkX2lOqK6c6pgP3wYpTthwPo3WThAx8pF+05udLBb
- +ogXXW9eNfnf4QYK2SVCEU4Vm73TnDmTK0iWaP9ri3pKNhE2Cn28ZtQh4cxBOHMvSF
- uprncMxbKlAWxZQJcmSREHNf1LWHZ4W0HZ3T96R8zaMDoHUPp3ocrmVVZCMQsir5De
- IQk7RsSeskUyw==
+ b=hF7ZR01ny2d7o7bYE+Z5dQKruldBmtrcJcYzRtqjWpjWhPHejJuJ8SbR06SZM2aPy
+ PtNrndiN/nQSiU3QbPd3ctnZp4AsfylceLBLgZg1oSvV4c3Zv419RY/B4awMy5ey1W
+ JdPdffAe80sYcNuJxp42Aie3X8uYUumDehJZnxPU9KVd3D21F8VXhUQFK+8ZkB1DWc
+ KmrEP/xKl94kuJKiRYwnCEIPYClTew820OvW7bvO7YKu8UcodMFHHx5wzl7sk4al/K
+ i0Wxa4jPFMqEzxfcD4BoG6SAy54UxKHYee5eOgxPvwHkUvoNdjeuL8fEHON/BKLhvt
+ 80xKjVSm5X6kA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -55,9 +55,9 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>
-Subject: [PATCH v2 4/5] media: videobuf2: Stop using internal dma-buf lock
-Date: Mon, 25 Jul 2022 18:18:38 +0300
-Message-Id: <20220725151839.31622-5-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 5/5] dma-buf: Remove internal lock
+Date: Mon, 25 Jul 2022 18:18:39 +0300
+Message-Id: <20220725151839.31622-6-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
 References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
@@ -84,137 +84,80 @@ Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All drivers that use dma-bufs have been moved to the updated locking
-specification and now dma-buf reservation is guaranteed to be locked
-by importers during the mapping operations. There is no need to take
-the internal dma-buf lock anymore. Remove locking from the videobuf2
-memory allocators.
+The internal dma-buf lock isn't needed anymore because the updated
+locking specification claims that dma-buf reservation must be locked
+by importers, and thus, the internal data is already protected by the
+reservation lock. Remove the obsoleted internal lock.
 
 Acked-by: Tomasz Figa <tfiga@chromium.org>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/media/common/videobuf2/videobuf2-dma-contig.c | 11 +----------
- drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 11 +----------
- drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 11 +----------
- 3 files changed, 3 insertions(+), 30 deletions(-)
+ drivers/dma-buf/dma-buf.c | 5 -----
+ include/linux/dma-buf.h   | 9 ---------
+ 2 files changed, 14 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index de762dbdaf78..2c69bf0470e7 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -382,18 +382,12 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
- {
- 	struct vb2_dc_attachment *attach = db_attach->priv;
--	/* stealing dmabuf mutex to serialize map/unmap operations */
--	struct mutex *lock = &db_attach->dmabuf->lock;
- 	struct sg_table *sgt;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index bfdd551c7571..1d211ab400a1 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -656,7 +656,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
  
--	mutex_lock(lock);
--
- 	sgt = &attach->sgt;
- 	/* return previously mapped sg table */
--	if (attach->dma_dir == dma_dir) {
--		mutex_unlock(lock);
-+	if (attach->dma_dir == dma_dir)
- 		return sgt;
--	}
+ 	dmabuf->file = file;
  
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
-@@ -409,14 +403,11 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
- 			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
--		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
- 	}
+-	mutex_init(&dmabuf->lock);
+ 	INIT_LIST_HEAD(&dmabuf->attachments);
  
- 	attach->dma_dir = dma_dir;
+ 	mutex_lock(&db_list.lock);
+@@ -1508,7 +1507,6 @@ int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+ 		return -EINVAL;
  
--	mutex_unlock(lock);
--
- 	return sgt;
+ 	dma_resv_lock(dmabuf->resv, NULL);
+-	mutex_lock(&dmabuf->lock);
+ 	if (dmabuf->vmapping_counter) {
+ 		dmabuf->vmapping_counter++;
+ 		BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
+@@ -1528,7 +1526,6 @@ int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+ 	*map = dmabuf->vmap_ptr;
+ 
+ out_unlock:
+-	mutex_unlock(&dmabuf->lock);
+ 	dma_resv_unlock(dmabuf->resv);
+ 	return ret;
  }
+@@ -1549,13 +1546,11 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+ 	BUG_ON(!iosys_map_is_equal(&dmabuf->vmap_ptr, map));
  
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 39e11600304a..e63e718c0bf7 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -424,18 +424,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
- 	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
- {
- 	struct vb2_dma_sg_attachment *attach = db_attach->priv;
--	/* stealing dmabuf mutex to serialize map/unmap operations */
--	struct mutex *lock = &db_attach->dmabuf->lock;
- 	struct sg_table *sgt;
- 
--	mutex_lock(lock);
--
- 	sgt = &attach->sgt;
- 	/* return previously mapped sg table */
--	if (attach->dma_dir == dma_dir) {
--		mutex_unlock(lock);
-+	if (attach->dma_dir == dma_dir)
- 		return sgt;
--	}
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
-@@ -446,14 +440,11 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
- 	/* mapping to the client with new direction */
- 	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
--		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
+ 	dma_resv_lock(dmabuf->resv, NULL);
+-	mutex_lock(&dmabuf->lock);
+ 	if (--dmabuf->vmapping_counter == 0) {
+ 		if (dmabuf->ops->vunmap)
+ 			dmabuf->ops->vunmap(dmabuf, map);
+ 		iosys_map_clear(&dmabuf->vmap_ptr);
  	}
- 
- 	attach->dma_dir = dma_dir;
- 
--	mutex_unlock(lock);
--
- 	return sgt;
+-	mutex_unlock(&dmabuf->lock);
+ 	dma_resv_unlock(dmabuf->resv);
  }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index e7a6a8d28862..2f9fb7f3c835 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -326,15 +326,6 @@ struct dma_buf {
+ 	/** @ops: dma_buf_ops associated with this buffer object. */
+ 	const struct dma_buf_ops *ops;
  
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index 7831bf545874..41db707e43a4 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -267,18 +267,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
- 	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
- {
- 	struct vb2_vmalloc_attachment *attach = db_attach->priv;
--	/* stealing dmabuf mutex to serialize map/unmap operations */
--	struct mutex *lock = &db_attach->dmabuf->lock;
- 	struct sg_table *sgt;
- 
--	mutex_lock(lock);
+-	/**
+-	 * @lock:
+-	 *
+-	 * Used internally to serialize list manipulation, attach/detach and
+-	 * vmap/unmap. Note that in many cases this is superseeded by
+-	 * dma_resv_lock() on @resv.
+-	 */
+-	struct mutex lock;
 -
- 	sgt = &attach->sgt;
- 	/* return previously mapped sg table */
--	if (attach->dma_dir == dma_dir) {
--		mutex_unlock(lock);
-+	if (attach->dma_dir == dma_dir)
- 		return sgt;
--	}
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
-@@ -289,14 +283,11 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
- 	/* mapping to the client with new direction */
- 	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
--		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
- 	}
- 
- 	attach->dma_dir = dma_dir;
- 
--	mutex_unlock(lock);
--
- 	return sgt;
- }
- 
+ 	/**
+ 	 * @vmapping_counter:
+ 	 *
 -- 
 2.36.1
 
