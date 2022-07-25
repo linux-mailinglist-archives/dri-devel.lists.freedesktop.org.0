@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D318580758
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 00:28:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740A3580804
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:11:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A5010FF91;
-	Mon, 25 Jul 2022 22:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E22510E376;
+	Mon, 25 Jul 2022 23:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C1A10FF59
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 22:28:35 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id n133so5031325oib.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 15:28:35 -0700 (PDT)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
+ [209.85.161.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A194E10E2CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 23:11:21 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id
+ r193-20020a4a37ca000000b0043578138958so2429836oor.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 16:11:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ydROe5Yeqe7LKLvisIFiWDBcUFI7G/LxHrwDl1ZPZes=;
- b=noawl1lIW8fWlbvKYxh7xf3gNTPjw3LBPNPHrMfdhlfaKUICjXKam9UWm490nvW7K/
- z5uFSpNb0bQg4+mNVcN7TmG2+YOUf2JV1JAvVZNZhJx75Q4Pr5BErYGF6/7gB1TKp8w9
- bzuis85On1QsALXaEhLsG8j9jSTl/LlT1I6gPLcPOBKyqAB/CGB2A/7mJLNIKo0iJ4GL
- BFQcst0wIFB8iak06oS1wUwn2CmtSbv2DgeX8OmQe7vjL3ZuXoiQjhg+IqvE+xj0nq+v
- xxJJ1saBR14AcRK1JrV/LuI4qRQj71j+U3zGnkO0DEicI6aFUuZZjMUdVfXo9crnSdgT
- sPLg==
-X-Gm-Message-State: AJIora8NLgQSmmtACX/C8MH4xP9Eyy2zYMvAspKIMmp+nGAYVa2IhD2U
- nE1MV3Oo0WmGl7MsBw3J+w==
-X-Google-Smtp-Source: AGRyM1s71mYHjgRvajARzt6yUDLac3slJauP/Yk6irLnti0u1tVfqTcvRz9lQPTSlzY1oaeDkp/SWA==
-X-Received: by 2002:a05:6808:bce:b0:33a:c6c8:9d6f with SMTP id
- o14-20020a0568080bce00b0033ac6c89d6fmr6219832oik.135.1658788114842; 
- Mon, 25 Jul 2022 15:28:34 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=VNdXVWht5zzjHjVhQhSusKUMhE8ELd1CfgAT3RGumig=;
+ b=LYgFcAmuavFrFofsbS+uA7222R/VOonaq8YhT/wB+H2L3h3Wqg6aCq1P9xiddLx+OK
+ kcOqmrOY8ASAeLAAwCSuFDgDdEVrdOTdQdHaNxukG0sRzaWux0xnBElWuhw/pdNjRY+E
+ VB0ZCa+kmJHTQpsONI6gdysSYZVfL/2/idQ/IFoJssuaNq/sQ+kqT5HCwwd6w4kTVVW3
+ 8aAeStl8NqjubyiaAiUd1nQf09Zl0l/6KAjsKU/GOJ47rcerYO8wgmR4koFny9B7RPAz
+ UEbcxMARUBLttgI85VdTDtXWgBMfS0K2fNhitH0VXEAbwgffu0AiePk47OsmfJb6KJo1
+ C9wQ==
+X-Gm-Message-State: AJIora9W7gUAvpTDebe29HAJxPSx+NNQEVnW1TWPJDLlwq3dwEqiwX39
+ 8JAYSnSwmy8+ZELXp1mtLg==
+X-Google-Smtp-Source: AGRyM1t/aV8rKVmSzFYaQ2SEStr6U2W+xOIy+oVghT1U75c1dg0LahG8eURVPT/HXUpAh5ssvQ3zgQ==
+X-Received: by 2002:a4a:6550:0:b0:435:f3e8:8d3e with SMTP id
+ z16-20020a4a6550000000b00435f3e88d3emr926118oog.13.1658790680687; 
+ Mon, 25 Jul 2022 16:11:20 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
  by smtp.gmail.com with ESMTPSA id
- b17-20020a056808011100b0033a9f4c13cesm5322861oie.13.2022.07.25.15.28.33
+ f97-20020a9d2c6a000000b0061c87262540sm5419037otb.65.2022.07.25.16.11.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 15:28:34 -0700 (PDT)
-Received: (nullmailer pid 2859320 invoked by uid 1000);
- Mon, 25 Jul 2022 22:28:32 -0000
-Date: Mon, 25 Jul 2022 16:28:32 -0600
+ Mon, 25 Jul 2022 16:11:20 -0700 (PDT)
+Received: (nullmailer pid 2927686 invoked by uid 1000);
+ Mon, 25 Jul 2022 23:11:18 -0000
+Date: Mon, 25 Jul 2022 17:11:18 -0600
 From: Rob Herring <robh@kernel.org>
-To: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Subject: Re: [PATCH v2 1/1] dt-bindings: display: mediatek: dpi: add
- power-domains property
-Message-ID: <20220725222832.GA2859262-robh@kernel.org>
-References: <20220720130604.14113-1-allen-kh.cheng@mediatek.com>
- <20220720130604.14113-2-allen-kh.cheng@mediatek.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: Document Renesas RZ/G2L DU
+ bindings
+Message-ID: <20220725231118.GA2927653-robh@kernel.org>
+References: <20220722191353.544516-1-biju.das.jz@bp.renesas.com>
+ <20220722191353.544516-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220720130604.14113-2-allen-kh.cheng@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220722191353.544516-2-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,28 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao shi <jitao.shi@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Jul 2022 21:06:04 +0800, Allen-KH Cheng wrote:
-> DPI is part of the display / multimedia block in MediaTek SoCs
-> and is managed using power controller in some platforms. We add
-> the power-domains property to the binding documentation.
+On Fri, 22 Jul 2022 20:13:52 +0100, Biju Das wrote:
+> The RZ/G2L LCD controller is composed of Frame Compression Processor
+> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
 > 
-> Fixes:9273cf7d3942("dt-bindings: display: mediatek: convert the dpi bindings to yaml")
+> The DU module supports the following hardware features
+> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
+> − Display timing master
+> − Generates video timings
+> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> − Supports Progressive
+> − Input data format (from VSPD): RGB888, RGB666
+> − Output data format: same as Input data format
+> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
+> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
 > 
-> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> This patch document DU module found on RZ/G2L LCDC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml   | 5 +++++
->  1 file changed, 5 insertions(+)
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+>  * started using same compatible for RZ/G2{L,LC}
+> v3: New patch
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 124 ++++++++++++++++++
+>  1 file changed, 124 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
