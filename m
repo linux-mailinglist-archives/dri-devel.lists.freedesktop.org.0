@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7676C58088B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C133580885
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 01:54:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2754110F828;
-	Mon, 25 Jul 2022 23:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DE510F78E;
+	Mon, 25 Jul 2022 23:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D02610F764
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 23:54:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16A4D10F764
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 23:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1658793282;
- bh=I0dm5++dA+KwP+P2CbnSIyqr6Q+Si6imI79Kn2Wsbs4=;
+ s=badeba3b8450; t=1658793284;
+ bh=U1tOUkU89L2GSH9zw9l0/ofInwMtCZt/XBKUs6jy2yc=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=CydG5iSHjQJrtM9slKX+HSIiSSbUQo4FHkUqWQ8JSVkqIMMuEmwUdbdwL1C2hLp0a
- ZL7nHdxfsK1vHjdso0mnlkcwJSkfLEkUHBV0Gi6ImPZW7pPGYxBQQG+9oE8u7PxBWJ
- Avnr490EkgOANZkYzzV7yMEE+m3YY+il2mscYHWI=
+ b=ZF6RErI9ELzBO1TeiRDfG19mtVa8Xg7VqGoJcWk/86gs+6pnQ72pxF0zsYZTqhAvi
+ ir9H4qelPDb6HoQNeRRJ4GpZ10c9iSmXmqgmIHyOWiGND7DMg5En4c1KelnoR/Yuyj
+ S1pZVpglXmYg5l9Eff7HcVK7UoeGyY0cuFEnJEH8=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([108.233.15.105]) by mail.gmx.net
  (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MWASY-1o0Drn0tq6-00XZ9n; Tue, 26 Jul 2022 01:54:42 +0200
+ 1N95eJ-1nRzVc0FNf-0165Us; Tue, 26 Jul 2022 01:54:44 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 21/32] drm/via: Add via_pm.c
-Date: Mon, 25 Jul 2022 16:53:48 -0700
-Message-Id: <20220725235359.20516-2-kevinbrace@gmx.com>
+Subject: [PATCH v3 22/32] drm/via: Add via_sii164.c
+Date: Mon, 25 Jul 2022 16:53:49 -0700
+Message-Id: <20220725235359.20516-3-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220725235359.20516-1-kevinbrace@gmx.com>
 References: <20220725235359.20516-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:P9bf878HtIassVlJ34a5pfD9S3WvG3mgUTQz/YBZ7BGFFjV+L6W
- iR8eAku49AWmTAGU0BQoMHMSBW/MQnLLDyTjuhVnmzen3/do6sEJ6M5Cdgzj67dOTG5JTsa
- gZUD9WYIqADyupHay56rI9a3SR7RdttZVMiutnIoxxL856EzPNDR93+1IayXLtoDKq7qKQC
- fsTyKu34yyCQUW+AnPCGg==
+X-Provags-ID: V03:K1:Lwicvs7dqTaDtJC+SmLqZuxOuAfkNPMipTXlA1SbP58Y/KUANGl
+ HCvf4eCpOYLXWMRUoRTzHL6JV66jlDW1Y56afKC8g2aLiuvSl5epXXDoY7lcxQfN/uuTgZy
+ 1aaWvMAVLTnwio7pQZ18ftNCJOm2svHr/ftbszj4HyIXOBQTmXAEluCli1zgG4sJpV/dxUi
+ 7XbVyhxaU+33ObC6/2sgg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4dP3yq1yHSw=:Z6YU3cmUbXldxtddui+T5A
- oNlwAnBMHrAiX+16xBF5OboSvpEnygweY7lq/B31lcnG9ZzeqVOLoGPORo4ec8mhVQOZ9lkjv
- HzUJG9Bj+ETnKKtvJmluzoPTQEZB+2iFs8nzyqkrFlvg/cyzyTX492EZT6NT1300LnrmLXp5P
- 1A88GGYQ31oOEAE5FUktrhpCFenkGBD8kD0r7ig2oHR9FtrPatE3OO0eqbVPZL6EORmeSuBJW
- wgGPiqYkn33PyP6azRrZ49lrM3MvUka6Vr9tZP7hGajol0vS/uNfNiVbxJTKCXLVrCx5M//RE
- afh/vPHJzO/6+sJHe2wHe8OBikVN352+PwWDZFB+c4KtikrcarfT2/N6f8BcYXGW94cDA+UhL
- OnnarUroW1YySRIyvpR3mejIKttHag3KXDvDAkFKWFmi1TPqYb1mJt3IzDd/wuchFJQ3v8UtA
- pNCl1Ni+eNvk6M//53ab0LQ+0J2lGbSresQjNc0PsgOtg02ZfQpoCcmoJ/QFZNFNWjcpzw9Xw
- YrgIIwyS594czJ619vVBhvAiEtq9Y7Pm6J120qqayANuTrsRbx7s59TptjFGPgAe4Tv3YExTm
- uA4hrTnfgiSAU0RAMk+rTycV6to8bOiGIHZeHuFzHeNjfCYVGLdl79kyCdenjJLrWrV0vP6ON
- ElfoAdRUTcHLD4qLWeF6qRyPMwmNOdznnJdM0Z6NQnfA7CXPm2vMJ9UeLdejpr5yR8l1eXv/6
- JRnPiFZQHuypZfJ6dRZgazBeJ8DzxuP1hD8hcBW1B2VD8Y8pIP3MJQh4HoM1kF+3ZdqM79KDG
- h5LL8qOsCyeZ4B2GTnqgEvbT5bsilpI3I4CQi78ZGnIhS8xeK06SNSYpfe68x1qsePXIaheuw
- OiwigHsd+6jNvTvZ0mm4Au2eHpMAMzni+Grq8fPBW11u0XbgDEjBbNsS/AKfo9MIWOKXGQqNM
- Q/5ePvyARW/Z/x/J8NKpzkocl8ybrB9rONE5mdC+Jej7krGUGuWov2sf5Tssu3K/c/h6cI/lY
- oV4Tj2eSw0GUePDysqcYcrMlhOkuRbu+MzqR3YzKDU2Ryc6DWmasvlO8TkfTfr5EV35gUUh2N
- LNyepBp8ndg+IxH/KDyc5kR+32XY9ymGN3+ZVIyeLMk6XSO9sLdu8m0mw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:el7ytO93lvw=:f25uBhb47qBOyY9vqukgVO
+ 3byNjh0PFczXaZpAb49bjMG55ND+IUOYpB7FOnby1jrIauktHnjOqfWCrjgQ+lX0pkbFOHEkc
+ LfqSN9gS5JD8VJt0sULkG6keP9bpIAOtZqpJ7/vzNZS5ZdDE/2qO5k+CTmfg1t+gyyawUqpju
+ mSY5Ua9CDioiLetvAiM02XabIrvpjBlv3OR6spO6cV5s9c4uh9zlacPJ8w2irVd0zoMEMSqtj
+ TxqiPoa7s62wqsaY/LMMdp7fepkT0mWqcxuHEhGaKRbCLf4vabj1br9Cp4K6c955MKylk5gq5
+ S/d/DByEB8XFRsMYyPKDUaeQ/HfECIaLPjlwVQLA5b9MCVLuzOT0gDCMF1FDRotkqJ624s5qr
+ 8/9bN9+cfM8V6Tt9sCpHbp7pl50BDRu1M570Ja+QJqQr+Z18QlDDiw1rKroS8t/1HCw2o6jB2
+ MdKwzYOb/nkCgfa7zvaipzJfNM2YiN2arUUPYHhWopUq8L8jLJlxoORZM0tPjSYG5oTerytcw
+ Vjrrq0uj+1V5ZODlPfsGFm1pJi0SXkjNUSoMPO8z44qqHQqmDHGuivEEwxGzGXLUZ/Sf3GsJG
+ /V6/3Wtme3IaEBK2ZehIT8ar0Har2QxRo2iC64n+uhen2shuYBqWaRG9W6CfUS6FwN+3NRzei
+ CclnCrTJwsQ5lcoVhkotpxIbZjfxTvfPCqwj9KxKc2051PMnGruyhW5FvaKvvaFpRKdlZ50Df
+ n4BXCr8+NuHYpHb6C7+cDDrfxTvI9TXGmokZbY7wH0xB0yKI2rbVYFi+bb88CqP5kqHdGolYc
+ 57TNoGIMFgwERxZkaW/FaUCbysVV96CQhFkFa6xpT9SZZzE7qLgABCMen5BWJzZr3q4gjipkx
+ CqWCJ6RvgiNfp3vJ+GOpPFqHCUdnpZdgq3muIMRjDgOp926d5PAxNxkgEJUfwUn8oQdEQ44pL
+ 8nUINNpGHPH+TCfi4hOsJWP28jdAETFpf0i44XUUtPBwBc/pVMf+U55RezzAKsE9Y0hocIdis
+ 7j1ft3SuWZ38yYVNUAwxaXOLc076ARJ72zEYY5zJJoZd92IU2DAmKas9Hwoo/nICTM2Uul8yQ
+ FPGxxMgMmdjdA31bJRsz10qKbHLv/HClmV6TbgHUoAqr+MpWstFucmyMg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,18 +76,19 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_pm.c | 187 +++++++++++++++++++++++++++++++++++
- 1 file changed, 187 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_pm.c
+ drivers/gpu/drm/via/via_sii164.c | 578 +++++++++++++++++++++++++++++++
+ 1 file changed, 578 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_sii164.c
 
-diff --git a/drivers/gpu/drm/via/via_pm.c b/drivers/gpu/drm/via/via_pm.c
+diff --git a/drivers/gpu/drm/via/via_sii164.c b/drivers/gpu/drm/via/via_si=
+i164.c
 new file mode 100644
-index 000000000000..5fad01447eed
+index 000000000000..05a4c0230fd7
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_pm.c
-@@ -0,0 +1,187 @@
++++ b/drivers/gpu/drm/via/via_sii164.c
+@@ -0,0 +1,578 @@
 +/*
-+ * Copyright =C2=A9 2017-2020 Kevin Brace.
++ * Copyright =C2=A9 2016-2018 Kevin Brace.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -95,193 +96,588 @@ a
 e"),
 + * to deal in the Software without restriction, including without limitat=
 ion
-+ * the rights to use, copy, modify, merge, publish, distribute, sub licen=
-se,
++ * the rights to use, copy, modify, merge, publish, distribute, sublicens=
+e,
 + * and/or sell copies of the Software, and to permit persons to whom the
 + * Software is furnished to do so, subject to the following conditions:
 + *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portion=
-s
-+ * of the Software.
++ * The above copyright notice and this permission notice (including the n=
+ext
++ * paragraph) shall be included in all copies or substantial portions of =
+the
++ * Software.
 + *
 + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRES=
 S OR
 + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILIT=
 Y,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHA=
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHA=
 LL
-+ * THE AUTHOR(S) OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES =
-OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR =
-OTHER
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR O=
+THER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISIN=
+G
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 + * DEALINGS IN THE SOFTWARE.
 + *
 + * Author(s):
 + * Kevin Brace <kevinbrace@bracecomputerlab.com>
 + */
 +
-+
-+#include <linux/console.h>
 +#include <linux/pci.h>
++
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_probe_helper.h>
 +
 +#include "via_drv.h"
 +
 +
-+int via_dev_pm_ops_suspend(struct device *dev)
++#define SII164_VEN		BIT(5)
++#define SII164_HEN		BIT(4)
++#define SII164_DSEL		BIT(3)
++#define SII164_BSEL		BIT(2)
++#define SII164_EDGE		BIT(1)
++#define SII164_PDB		BIT(0)
++
++
++static void via_sii164_power(struct i2c_adapter *i2c_bus, bool power_stat=
+e)
 +{
-+	struct pci_dev *pdev =3D to_pci_dev(dev);
-+	struct drm_device *drm_dev =3D pci_get_drvdata(pdev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(drm_dev);
-+	int ret =3D 0;
++	u8 buf;
++	u8 power_bit;
 +
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	console_lock();
++	via_i2c_readbytes(i2c_bus, 0x38, 0x08, &buf, 1);
++	power_bit =3D power_state ? SII164_PDB : 0x00;
++	buf &=3D ~power_bit;
++	buf |=3D power_bit;
++	via_i2c_writebytes(i2c_bus, 0x38, 0x08, &buf, 1);
++	DRM_DEBUG_KMS("SiI 164 (DVI) Power: %s\n",
++			power_state ? "On" : "Off");
 +
-+	/*
-+	 * Frame Buffer Size Control register (SR14) and GTI registers
-+	 * (SR66 through SR6F) need to be saved and restored upon standby
-+	 * resume or can lead to a display corruption issue. These registers
-+	 * are only available on VX800, VX855, and VX900 chipsets. This bug
-+	 * was observed on VIA Embedded EPIA-M830 mainboard.
-+	 */
-+	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CHROME9_HC3) ||
-+		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_CHROME9_HCM) ||
-+		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_CHROME9_HD)) {
-+		dev_priv->saved_sr14 =3D vga_rseq(VGABASE, 0x14);
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
 +
-+		dev_priv->saved_sr66 =3D vga_rseq(VGABASE, 0x66);
-+		dev_priv->saved_sr67 =3D vga_rseq(VGABASE, 0x67);
-+		dev_priv->saved_sr68 =3D vga_rseq(VGABASE, 0x68);
-+		dev_priv->saved_sr69 =3D vga_rseq(VGABASE, 0x69);
-+		dev_priv->saved_sr6a =3D vga_rseq(VGABASE, 0x6a);
-+		dev_priv->saved_sr6b =3D vga_rseq(VGABASE, 0x6b);
-+		dev_priv->saved_sr6c =3D vga_rseq(VGABASE, 0x6c);
-+		dev_priv->saved_sr6d =3D vga_rseq(VGABASE, 0x6d);
-+		dev_priv->saved_sr6e =3D vga_rseq(VGABASE, 0x6e);
-+		dev_priv->saved_sr6f =3D vga_rseq(VGABASE, 0x6f);
++
++static bool via_sii164_sense(struct i2c_adapter *i2c_bus)
++{
++	u8 buf;
++	bool rx_detected =3D false;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	via_i2c_readbytes(i2c_bus, 0x38, 0x09, &buf, 1);
++	if (buf & BIT(2)) {
++		rx_detected =3D true;
 +	}
 +
++	DRM_DEBUG_KMS("SiI 164 (DVI) Connector Sense: %s\n",
++			rx_detected ? "Connected" : "Not Connected");
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return rx_detected;
++}
++
++static void via_sii164_display_registers(struct i2c_adapter *i2c_bus)
++{
++	uint8_t i;
++	u8 buf;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	DRM_DEBUG_KMS("SiI 164 Registers:\n");
++	for (i =3D 0; i < 0x10; i++) {
++		via_i2c_readbytes(i2c_bus, 0x38, i, &buf, 1);
++		DRM_DEBUG_KMS("0x%02x: 0x%02x\n", i, buf);
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_sii164_init_registers(struct i2c_adapter *i2c_bus)
++{
++	u8 buf;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	buf =3D SII164_VEN | SII164_HEN |
++		SII164_DSEL |
++		SII164_EDGE | SII164_PDB;
++	via_i2c_writebytes(i2c_bus, 0x38, 0x08, &buf, 1);
++
 +	/*
-+	 * 3X5.3B through 3X5.3F are scratch pad registers.
-+	 * They are important for FP detection.
-+	 * Their values need to be saved because they get lost
-+	 * when resuming from standby.
++	 * Route receiver detect bit (Offset 0x09[2]) as the output
++	 * of MSEN pin.
 +	 */
-+	dev_priv->saved_cr3b =3D vga_rcrt(VGABASE, 0x3b);
-+	dev_priv->saved_cr3c =3D vga_rcrt(VGABASE, 0x3c);
-+	dev_priv->saved_cr3d =3D vga_rcrt(VGABASE, 0x3d);
-+	dev_priv->saved_cr3e =3D vga_rcrt(VGABASE, 0x3e);
-+	dev_priv->saved_cr3f =3D vga_rcrt(VGABASE, 0x3f);
++	buf =3D BIT(5);
++	via_i2c_writebytes(i2c_bus, 0x38, 0x09, &buf, 1);
 +
-+	console_unlock();
++	buf =3D 0x90;
++	via_i2c_writebytes(i2c_bus, 0x38, 0x0a, &buf, 1);
 +
-+	ret =3D drm_mode_config_helper_suspend(drm_dev);
-+	if (ret) {
-+		DRM_ERROR("Failed to prepare for suspend.\n");
++	buf =3D 0x89;
++	via_i2c_writebytes(i2c_bus, 0x38, 0x0c, &buf, 1);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++
++static const struct drm_encoder_funcs via_sii164_drm_encoder_funcs =3D {
++	.destroy =3D via_encoder_cleanup,
++};
++
++static void via_sii164_dpms(struct drm_encoder *encoder, int mode)
++{
++	struct via_encoder *enc =3D container_of(encoder,
++					struct via_encoder, base);
++	struct drm_device *dev =3D encoder->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct i2c_adapter *i2c_bus;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (enc->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
 +		goto exit;
 +	}
 +
-+	pci_save_state(pdev);
-+	pci_disable_device(pdev);
++	via_sii164_display_registers(i2c_bus);
++	switch (mode) {
++	case DRM_MODE_DPMS_ON:
++		via_sii164_power(i2c_bus, true);
++		via_transmitter_io_pad_state(dev_priv, enc->di_port, true);
++		break;
++	case DRM_MODE_DPMS_STANDBY:
++	case DRM_MODE_DPMS_SUSPEND:
++	case DRM_MODE_DPMS_OFF:
++		via_sii164_power(i2c_bus, false);
++		via_transmitter_io_pad_state(dev_priv, enc->di_port, false);
++		break;
++	default:
++		DRM_ERROR("Bad DPMS mode.");
++		break;
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static bool via_sii164_mode_fixup(struct drm_encoder *encoder,
++				const struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	drm_mode_set_crtcinfo(adjusted_mode, 0);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return true;
++}
++
++static void via_sii164_mode_set(struct drm_encoder *encoder,
++				struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{
++	struct via_crtc *iga =3D container_of(encoder->crtc, struct via_crtc, ba=
+se);
++	struct via_encoder *enc =3D container_of(encoder,
++					struct via_encoder, base);
++	struct drm_device *dev =3D encoder->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct i2c_adapter *i2c_bus;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (enc->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		goto exit;
++	}
++
++	via_transmitter_clock_drive_strength(dev_priv, enc->di_port, 0x03);
++	via_transmitter_data_drive_strength(dev_priv, enc->di_port, 0x03);
++	via_transmitter_io_pad_state(dev_priv, enc->di_port, true);
++	if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266_GFX) {
++		via_clock_source(dev_priv, enc->di_port, true);
++	}
++
++	via_sii164_display_registers(i2c_bus);
++	via_sii164_init_registers(i2c_bus);
++	via_sii164_display_registers(i2c_bus);
++
++	via_transmitter_display_source(dev_priv, enc->di_port, iga->index);
++exit:
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_sii164_prepare(struct drm_encoder *encoder)
++{
++	struct via_encoder *enc =3D container_of(encoder,
++					struct via_encoder, base);
++	struct drm_device *dev =3D encoder->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct i2c_adapter *i2c_bus;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (enc->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		goto exit;
++	}
++
++	via_sii164_power(i2c_bus, false);
++	via_transmitter_io_pad_state(dev_priv, enc->di_port, false);
++	if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266_GFX) {
++		via_output_enable(dev_priv, enc->di_port, false);
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_sii164_commit(struct drm_encoder *encoder)
++{
++	struct via_encoder *enc =3D container_of(encoder,
++					struct via_encoder, base);
++	struct drm_device *dev =3D encoder->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct i2c_adapter *i2c_bus;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (enc->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		goto exit;
++	}
++
++	via_sii164_power(i2c_bus, true);
++	via_transmitter_io_pad_state(dev_priv, enc->di_port, true);
++	if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266_GFX) {
++		via_output_enable(dev_priv, enc->di_port, true);
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_sii164_disable(struct drm_encoder *encoder)
++{
++	struct via_encoder *enc =3D container_of(encoder,
++					struct via_encoder, base);
++	struct drm_device *dev =3D encoder->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct i2c_adapter *i2c_bus;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (enc->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		goto exit;
++	}
++
++	via_sii164_power(i2c_bus, false);
++	via_transmitter_io_pad_state(dev_priv, enc->di_port, false);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++
++static const struct drm_encoder_helper_funcs
++via_sii164_drm_encoder_helper_funcs =3D {
++	.dpms =3D via_sii164_dpms,
++	.mode_fixup =3D via_sii164_mode_fixup,
++	.mode_set =3D via_sii164_mode_set,
++	.prepare =3D via_sii164_prepare,
++	.commit =3D via_sii164_commit,
++	.disable =3D via_sii164_disable,
++};
++
++
++static enum drm_connector_status via_sii164_detect(
++					struct drm_connector *connector,
++					bool force)
++{
++	struct via_connector *con =3D container_of(connector,
++					struct via_connector, base);
++	struct i2c_adapter *i2c_bus;
++	enum drm_connector_status ret =3D connector_status_disconnected;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (con->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (con->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (con->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (con->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (con->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		goto exit;
++	}
++
++	if (via_sii164_sense(i2c_bus)) {
++		ret =3D connector_status_connected;
++		DRM_DEBUG_KMS("DVI detected.\n");
++	}
++
 +exit:
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +	return ret;
 +}
 +
-+int via_dev_pm_ops_resume(struct device *dev)
++static const struct drm_connector_funcs via_sii164_drm_connector_funcs =
+=3D {
++	.dpms =3D drm_helper_connector_dpms,
++	.detect =3D via_sii164_detect,
++	.fill_modes =3D drm_helper_probe_single_connector_modes,
++	.destroy =3D via_connector_destroy,
++	.reset =3D drm_atomic_helper_connector_reset,
++	.atomic_duplicate_state =3D
++			drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state =3D
++			drm_atomic_helper_connector_destroy_state,
++};
++
++
++int via_sii164_mode_valid(struct drm_connector *connector,
++					struct drm_display_mode *mode)
 +{
-+	struct pci_dev *pdev =3D to_pci_dev(dev);
-+	struct drm_device *drm_dev =3D pci_get_drvdata(pdev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(drm_dev);
-+	void __iomem *regs =3D ioport_map(0x3c0, 100);
-+	u8 val;
-+	int ret =3D 0;
++	struct via_connector *con =3D container_of(connector,
++					struct via_connector, base);
++	struct i2c_adapter *i2c_bus;
++	u8 buf;
++	uint32_t low_freq_limit, high_freq_limit;
++	int ret;
 +
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	if (pci_enable_device(pdev)) {
-+		DRM_ERROR("Failed to initialize a PCI "
-+				"after resume.\n");
-+		ret =3D -EIO;
++	if (con->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (con->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (con->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (con->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (con->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		ret =3D MODE_ERROR;
 +		goto exit;
 +	}
 +
-+	console_lock();
++	via_i2c_readbytes(i2c_bus, 0x38, 0x06, &buf, 1);
++	low_freq_limit =3D buf * 1000;
++	via_i2c_readbytes(i2c_bus, 0x38, 0x07, &buf, 1);
++	high_freq_limit =3D (buf + 65) * 1000;
++	DRM_DEBUG_KMS("Low Frequency Limit: %u KHz\n", low_freq_limit);
++	DRM_DEBUG_KMS("High Frequency Limit: %u KHz\n", high_freq_limit);
 +
-+	val =3D ioread8(regs + 0x03);
-+	iowrite8(val | 0x1, regs + 0x03);
-+	val =3D ioread8(regs + 0x0C);
-+	iowrite8(val | 0x1, regs + 0x02);
-+
-+	/*
-+	 * Unlock Extended IO Space.
-+	 */
-+	iowrite8(0x10, regs + 0x04);
-+	iowrite8(0x01, regs + 0x05);
-+
-+	/*
-+	 * Unlock CRTC register protect.
-+	 */
-+	iowrite8(0x47, regs + 0x14);
-+
-+	/*
-+	 * Enable MMIO.
-+	 */
-+	iowrite8(0x1a, regs + 0x04);
-+	val =3D ioread8(regs + 0x05);
-+	iowrite8(val | 0x38, regs + 0x05);
-+
-+	/*
-+	 * Frame Buffer Size Control register (SR14) and GTI registers
-+	 * (SR66 through SR6F) need to be saved and restored upon standby
-+	 * resume or can lead to a display corruption issue. These registers
-+	 * are only available on VX800, VX855, and VX900 chipsets. This bug
-+	 * was observed on VIA Embedded EPIA-M830 mainboard.
-+	 */
-+	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CHROME9_HC3) ||
-+		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_CHROME9_HCM) ||
-+		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_CHROME9_HD)) {
-+		vga_wseq(VGABASE, 0x14, dev_priv->saved_sr14);
-+
-+		vga_wseq(VGABASE, 0x66, dev_priv->saved_sr66);
-+		vga_wseq(VGABASE, 0x67, dev_priv->saved_sr67);
-+		vga_wseq(VGABASE, 0x68, dev_priv->saved_sr68);
-+		vga_wseq(VGABASE, 0x69, dev_priv->saved_sr69);
-+		vga_wseq(VGABASE, 0x6a, dev_priv->saved_sr6a);
-+		vga_wseq(VGABASE, 0x6b, dev_priv->saved_sr6b);
-+		vga_wseq(VGABASE, 0x6c, dev_priv->saved_sr6c);
-+		vga_wseq(VGABASE, 0x6d, dev_priv->saved_sr6d);
-+		vga_wseq(VGABASE, 0x6e, dev_priv->saved_sr6e);
-+		vga_wseq(VGABASE, 0x6f, dev_priv->saved_sr6f);
++	if (mode->clock < low_freq_limit) {
++		ret =3D MODE_CLOCK_LOW;
++		goto exit;
 +	}
 +
-+	/*
-+	 * 3X5.3B through 3X5.3F are scratch pad registers.
-+	 * They are important for FP detection.
-+	 * Their values need to be restored because they are undefined
-+	 * after resuming from standby.
-+	 */
-+	vga_wcrt(VGABASE, 0x3b, dev_priv->saved_cr3b);
-+	vga_wcrt(VGABASE, 0x3c, dev_priv->saved_cr3c);
-+	vga_wcrt(VGABASE, 0x3d, dev_priv->saved_cr3d);
-+	vga_wcrt(VGABASE, 0x3e, dev_priv->saved_cr3e);
-+	vga_wcrt(VGABASE, 0x3f, dev_priv->saved_cr3f);
-+
-+	console_unlock();
-+
-+	ret =3D drm_mode_config_helper_resume(drm_dev);
-+	if (ret) {
-+		DRM_ERROR("Failed to perform a modeset "
-+				"after resume.\n");
++	if (mode->clock > high_freq_limit) {
++		ret =3D MODE_CLOCK_HIGH;
 +		goto exit;
++	}
++
++	ret =3D MODE_OK;
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static int via_sii164_get_modes(struct drm_connector *connector)
++{
++	struct via_connector *con =3D container_of(connector,
++					struct via_connector, base);
++	int count =3D 0;
++	struct i2c_adapter *i2c_bus;
++	struct edid *edid =3D NULL;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (con->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else if (con->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else if (con->i2c_bus & VIA_I2C_BUS3) {
++		i2c_bus =3D via_find_ddc_bus(0x25);
++	} else if (con->i2c_bus & VIA_I2C_BUS4) {
++		i2c_bus =3D via_find_ddc_bus(0x2c);
++	} else if (con->i2c_bus & VIA_I2C_BUS5) {
++		i2c_bus =3D via_find_ddc_bus(0x3d);
++	} else {
++		i2c_bus =3D NULL;
++		goto exit;
++	}
++
++	edid =3D drm_get_edid(&con->base, i2c_bus);
++	if (edid) {
++		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
++			drm_connector_update_edid_property(connector, edid);
++			count =3D drm_add_edid_modes(connector, edid);
++			DRM_DEBUG_KMS("DVI EDID information was obtained.\n");
++		}
++
++		kfree(edid);
 +	}
 +
 +exit:
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
++	return count;
++}
++
++static const struct drm_connector_helper_funcs
++via_sii164_drm_connector_helper_funcs =3D {
++	.mode_valid =3D via_sii164_mode_valid,
++	.get_modes =3D via_sii164_get_modes,
++};
++
++bool via_sii164_probe(struct i2c_adapter *i2c_bus)
++{
++	u8 buf;
++	u16 vendor_id, device_id, revision;
++	bool device_detected =3D false;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	via_i2c_readbytes(i2c_bus, 0x38, 0x00, &buf, 1);
++	vendor_id =3D buf;
++	via_i2c_readbytes(i2c_bus, 0x38, 0x01, &buf, 1);
++	vendor_id |=3D (buf << 8);
++	DRM_DEBUG_KMS("Vendor ID: %x\n", vendor_id);
++	via_i2c_readbytes(i2c_bus, 0x38, 0x02, &buf, 1);
++	device_id =3D buf;
++	via_i2c_readbytes(i2c_bus, 0x38, 0x03, &buf, 1);
++	device_id |=3D (buf << 8);
++	DRM_DEBUG_KMS("Device ID: %x\n", device_id);
++	via_i2c_readbytes(i2c_bus, 0x38, 0x04, &buf, 1);
++	revision =3D buf;
++	DRM_DEBUG_KMS("Revision: %x\n", revision);
++
++	if ((vendor_id !=3D 0x0001) || (device_id !=3D 0x0006)) {
++		goto exit;
++	}
++
++	device_detected =3D true;
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return device_detected;
++}
++
++void via_sii164_init(struct drm_device *dev)
++{
++	struct via_connector *con;
++	struct via_encoder *enc;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!dev_priv->ext_tmds_presence) {
++		goto exit;
++	}
++
++	enc =3D kzalloc(sizeof(*enc) + sizeof(*con), GFP_KERNEL);
++	if (!enc) {
++		DRM_ERROR("Failed to allocate connector "
++				"and encoder.\n");
++		goto exit;
++	}
++
++	drm_encoder_init(dev, &enc->base, &via_sii164_drm_encoder_funcs,
++						DRM_MODE_ENCODER_TMDS, NULL);
++	drm_encoder_helper_add(&enc->base,
++					&via_sii164_drm_encoder_helper_funcs);
++
++	enc->base.possible_crtcs =3D BIT(1) | BIT(0);
++	enc->base.possible_clones =3D 0;
++
++	enc->i2c_bus =3D dev_priv->ext_tmds_i2c_bus;
++	enc->di_port =3D dev_priv->ext_tmds_di_port;
++
++	/* Increment the number of DVI connectors. */
++	dev_priv->number_dvi++;
++
++
++	con =3D &enc->cons[0];
++
++	drm_connector_init(dev, &con->base, &via_sii164_drm_connector_funcs,
++				DRM_MODE_CONNECTOR_DVID);
++	drm_connector_helper_add(&con->base,
++				&via_sii164_drm_connector_helper_funcs);
++	drm_connector_register(&con->base);
++
++	con->base.doublescan_allowed =3D false;
++	con->base.interlace_allowed =3D false;
++
++	con->i2c_bus =3D dev_priv->ext_tmds_i2c_bus;
++
++	INIT_LIST_HEAD(&con->props);
++	drm_connector_attach_encoder(&con->base, &enc->base);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 =2D-
 2.35.1
