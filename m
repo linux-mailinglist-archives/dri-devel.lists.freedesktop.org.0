@@ -1,57 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6C7581764
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 18:25:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DB45817A2
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 18:42:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24A3B93315;
-	Tue, 26 Jul 2022 16:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113F618B18F;
+	Tue, 26 Jul 2022 16:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAA193328;
- Tue, 26 Jul 2022 16:25:28 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id m17so20602708wrw.7;
- Tue, 26 Jul 2022 09:25:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t8LcVDs8RvZGnf91eTJED60DiX0yf8UGdRli/z4R9ww=;
- b=KOAeoyBm7wwBLORTMOBcTE7Nn6Uh+DlNDpeypqWgO3iRo3tTNM3ST5PjirqDA0SNJd
- 2l8tM5Fj8bIosSVBQsNPXU16f9vBj/jxTLV1nUXBRaz958Ponsgt4MKJhTr/4P5C+ob8
- md49wVvLWNFB5WIcMqUydukfJrGCaC3zNFOc4r9JAlEwuq376EAb1KN9TGJAiGaS18CG
- pHW1lv0nYtqFya/3QGUA0ljw77iue/nXuR0nGJvpPMrGKGEDLJs/tHDRj6EjA6Mb7ZdR
- 76rNBUZTj8S4pvcPutDbd37L1F7Da4v1+THmyE+fq8vsqR1TLx/hBtGU89MS78ZkXDIt
- fYyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t8LcVDs8RvZGnf91eTJED60DiX0yf8UGdRli/z4R9ww=;
- b=I1dDVQEZoNiL941GAJrk3ll0xT0pGlfvJYxeauM49UIThwb7vIrQg7siU1CuOkQuWT
- /tpRCgntB1KcbzprGLcSNw5QHuhYbcvaV8VOSvWe8ZI+uHrxjg/vg5LShPMffX2dLdwg
- Pj50gJYhBdqUTuM0wd4jUVJF2pWf7JF9P4GATrWbHtGLKjYHlNHEikkUZ0pwJP0wIuvk
- BoPFs403nMgeMlcnqZpqpakRL+fSOSRIzvk3G8GsVkgYydOlYhWLOfw4JkLZc3HSF2ci
- kNlLz09Z4w1A1iYRAPlX0PHqJujUBAPkZdOugpmXOLlZUjKbJYXlISgKybY8MqjiEv34
- lWuw==
-X-Gm-Message-State: AJIora+H/3NNwviQzjIZvhFv7Svv9rlCvL8nNPon54CSggVhfLs1U6/p
- k6o0F967L4Rs2Cd5CW8WFJd02EGecXub6NTUOkQ=
-X-Google-Smtp-Source: AGRyM1vYA93JRusWt3hwGYo+dbJpfk0guI4CLJFR6iKYSfUwTVlqD4Bn4DScV0Cy1Y1E4ZJY93/GUDJxhAakmjQSbgI=
-X-Received: by 2002:adf:e187:0:b0:21d:64c6:74f0 with SMTP id
- az7-20020adfe187000000b0021d64c674f0mr10806915wrb.221.1658852726467; Tue, 26
- Jul 2022 09:25:26 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D050812A685
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 16:42:16 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,194,1654527600"; d="scan'208";a="129198076"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie6.idc.renesas.com with ESMTP; 27 Jul 2022 01:42:14 +0900
+Received: from localhost.localdomain (unknown [10.226.92.4])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5A1704004CE0;
+ Wed, 27 Jul 2022 01:42:11 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 00/10] Add RCar DU lib support
+Date: Tue, 26 Jul 2022 17:41:58 +0100
+Message-Id: <20220726164208.1048444-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220726044446.21102-1-quic_ddhamara@quicinc.com>
- <20220726044446.21102-2-quic_ddhamara@quicinc.com>
-In-Reply-To: <20220726044446.21102-2-quic_ddhamara@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 26 Jul 2022 09:25:50 -0700
-Message-ID: <CAF6AEGvd+nS+hiypoVAZ-kag1xHHBMO=e=aGPrVr-+asUmFXBw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v2 1/1] drm/msm/a6xx: Fix null pointer access
- in a6xx_get_indexed_registers
-To: quic_ddhamara@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +40,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_akhilpo@quicinc.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- robclark@gmail.com
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 25, 2022 at 9:46 PM <quic_ddhamara@quicinc.com> wrote:
->
-> From: Akhil P Oommen <quic_akhilpo@quicinc.com>
->
-> Fix a null pointer access when memory allocation fails in
-> a6xx_get_indexed_registers().
->
-> Change-Id: I33e13745cd8e5841d2f377f48a199af98be2ed02
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> Signed-off-by: Devi prasad Dhamarasingi <quic_ddhamara@quicinc.com>
-> ---
->
-> Changes in v2:
-> - Corrected the signoff name and email id.
->
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> index 55f443328d8e..507074f6222c 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> @@ -952,6 +952,12 @@ static void a6xx_get_indexed_registers(struct msm_gpu *gpu,
->         a6xx_get_indexed_regs(gpu, a6xx_state, &a6xx_cp_mempool_indexed,
->                 &a6xx_state->indexed_regs[i]);
->
-> +       if (!a6xx_state->indexed_regs[i].data) {
-> +               gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, mempool_size);
-> +               a6xx_state->nr_indexed_regs = count - 1;
-> +               return;
-> +       }
+Adding RCar DU lib support(Encoder, vsp and KMS) proved that it can save
+50% code saving on RZ/G2L compared to patch series [1].
 
-Hmm, I don't see us adjusting nr_indexed_regs if any of the earlier
-sections fails, so I don't think we need to do that here either.  So I
-think you could just:
+The current patchset contains just movement of codes with some trivial changes.
 
-if (a6xx_state->indexed_regs[i].data)
-   a6xx_state->indexed_regs[i].data[0x2000] = mempool_size;
+The subsequent patch series will have more additions to vsp and kms library.
+There is also plan to add library support for DU DRM and DU CRTC
+(Not yet ready/tested), which will further increase the common code.
 
-And I kinda expect if there was an allocation failure we'd just end up
-dereferencing a null ptr later in the show path.
+Current patch set + subsequent patch sets are tested on both RZ/G2M, RZ/G1N and
+RZ/G2L.
 
-But, I think in general you can assume small GFP_KERNEL allocations
-will never fail.  If necessary they will block for reclaim/shrinker to
-free up some memory or evict some pages to swap.  If you've gotten to
-the point where even that isn't possible, then a null ptr deref is
-really the least of your problems ;-)
+[1] https://lore.kernel.org/linux-renesas-soc/OS0PR01MB59226CE75483AD2B96833B3786949@OS0PR01MB5922.jpnprd01.prod.outlook.com/T/#t
 
-BR,
--R
+Biju Das (10):
+  drm: rcar-du: Add RZ/G2L reset and clocks to struct rcar_du_crtc
+  drm: rcar-du: Add encoder lib support
+  drm: rcar-du: Add kms lib support
+  drm: rcar-du: Add vsp lib support
+  drm: rcar-du: Move rcar_du_vsp_atomic_begin()
+  drm: rcar-du: Move rcar_du_vsp_atomic_flush()
+  drm: rcar-du: Move vsp rcar_du_vsp_{map,unmap}_fb()
+  drm: rcar-du: Move rcar_du_dumb_create()
+  drm: rcar-du: Move rcar_du_gem_prime_import_sg_table()
+  drm: rcar-du: Add rcar_du_lib_vsp_init()
 
-> +
->         /*
->          * Offset 0x2000 in the mempool is the size - copy the saved size over
->          * so the data is consistent
-> --
-> 2.37.0
->
+ drivers/gpu/drm/rcar-du/Kconfig               |  10 +
+ drivers/gpu/drm/rcar-du/Makefile              |   4 +
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |  10 +
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c     | 120 +-----
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.h     |  14 +-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.c | 138 ++++++
+ drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.h |  30 ++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 356 ----------------
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h         |  31 +-
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c     | 394 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h     |  42 ++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         | 249 +----------
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h         |  66 +--
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c     | 288 +++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h     |  93 +++++
+ 15 files changed, 1020 insertions(+), 825 deletions(-)
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
+
+-- 
+2.25.1
+
