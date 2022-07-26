@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D0E581131
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 12:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08E058115A
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 12:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 841578A2D6;
-	Tue, 26 Jul 2022 10:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91A6814A502;
+	Tue, 26 Jul 2022 10:41:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D94FC8A297
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 10:32:34 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q7EU0R002774;
- Tue, 26 Jul 2022 05:32:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=PODMain02222019;
- bh=Rgzgn6pxWGdE46sVS9kTTyVGpCIohZ0hRtKU1FWs9Mc=;
- b=RXQjezNLjwj/HpVEXGbOyfRCXB5YFUyDPskFMN5B2gh2Ii7dYvLXpqCWvBXlpciFOLp+
- ESVZEG+AgwriFTCm8AyIa307P3hdpEJq7POcukYdaxYJ2/ip1izmyVEKqM9HP0oiMSpl
- SUhhPH0nMCGOPu1pHgFDZ5Vxj4P1dptp12vmowgDW+MSWdxsSTRJDgwK2qZgxo4vTjgy
- XWedYzXp/50XmnKgDTiDT6X/3H56QT4epJJ3p8pwGH5nTzHL8yp3UmCCIyZQBRG33R2E
- FNubhDk8/aIq4L7nhjQukMX+1R6rYZkJEv14JD3PdVPTzsvYyBmlbyrRbsAHkHrqVQvJ Dg== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3hged1ubug-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 05:32:31 -0500
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.9; Tue, 26 Jul
- 2022 05:32:29 -0500
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1118.9 via Frontend Transport; Tue, 26 Jul 2022 05:32:29 -0500
-Received: from [198.90.251.95] (edi-sw-dsktp-006.ad.cirrus.com [198.90.251.95])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B1BAE2C5;
- Tue, 26 Jul 2022 10:32:29 +0000 (UTC)
-Message-ID: <4165774b-2b96-83d1-67eb-f7c49dd8041e@opensource.cirrus.com>
-Date: Tue, 26 Jul 2022 11:32:28 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA4018A2EB;
+ Tue, 26 Jul 2022 10:41:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658832097; x=1690368097;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jHZFk/+Ykb15Y5aLVAk7YLb5W9xuHiLms4IfcLqlpQQ=;
+ b=GUVsp5tNQGzsTrsbKu7dxM1/YB4fpeGwR0GILtvAhfY39RnHlZ5xouyE
+ 9AW0VO1K/l+yNICdOkbJozzxdpMhH921Aea7NGR7LwWGfRT9TCQaTycN2
+ knnZmGh6NTeNcAEDookq84eqyfgC9ZQGNHFd6XeUFElmOOFztCcyAuEQg
+ PswzGANhk4Ee82r0P+tXJnSYf8n4cvSPlW4vLIAbdPgiXBfTUFmtdVRWF
+ qFsDdHA2Ioucvq57933WZTWNOws/QZ2HTXyR7QXlIo0fDj3NFyO2rKBOP
+ hUDs34OKVpLoU2moyhbw9cp6OQu0+dj3s1fl4i8VjXSF2ws/yLrTB+XNU g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10419"; a="349622931"
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; d="scan'208";a="349622931"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2022 03:41:36 -0700
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; d="scan'208";a="667857204"
+Received: from gwolonhu-mobl.gar.corp.intel.com (HELO [10.214.160.8])
+ ([10.214.160.8])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2022 03:41:32 -0700
+Message-ID: <41eea55c-93d6-6406-d279-0583e17ab56c@intel.com>
+Date: Tue, 26 Jul 2022 11:41:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] component: try_module_get() to prevent unloading while in
- use
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <20220725160859.1274472-1-rf@opensource.cirrus.com>
- <Yt7cT66p0Bn+aXn5@kroah.com>
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <Yt7cT66p0Bn+aXn5@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: _DlEI_9hgYWZuqTkzb6e6eQs-CQ8iuIv
-X-Proofpoint-ORIG-GUID: _DlEI_9hgYWZuqTkzb6e6eQs-CQ8iuIv
-X-Proofpoint-Spam-Reason: safe
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v2 4/6] drm/i915: Implement intersect/compatible functions
+Content-Language: en-GB
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20220725114240.4844-1-Arunpravin.PaneerSelvam@amd.com>
+ <20220725114240.4844-4-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220725114240.4844-4-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +62,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rafael@kernel.org
+Cc: alexander.deucher@amd.com, luben.tuikov@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/07/2022 19:09, Greg KH wrote:
-> On Mon, Jul 25, 2022 at 05:08:59PM +0100, Richard Fitzgerald wrote:
->> Call try_module_get() on a component before attempting to call its
->> bind() function, to ensure that a loadable module cannot be
->> unloaded while we are executing its bind().
+On 25/07/2022 12:42, Arunpravin Paneer Selvam wrote:
+> Implemented a new intersect and compatible callback function
+> fetching start offset from drm buddy allocator.
 > 
-> How can bind be called while the module is unloaded?
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 43 +++++++++++++++++++
+>   1 file changed, 43 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+> index a5109548abc0..b5801c05bd41 100644
+> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+> @@ -178,6 +178,47 @@ static void i915_ttm_buddy_man_free(struct ttm_resource_manager *man,
+>   	kfree(bman_res);
+>   }
+>   
+> +static bool i915_ttm_buddy_man_intersect(struct ttm_resource_manager *man,
+> +					 struct ttm_resource *res,
+> +					 const struct ttm_place *place,
+> +					 size_t size)
+> +{
+> +	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
+> +	u32 start, num_pages = PFN_UP(size);
+> +	struct drm_buddy_block *block;
+> +
+> +	/* Check each drm buddy block individually */
+> +	list_for_each_entry(block, &bman_res->blocks, link) {
+> +		start = drm_buddy_block_offset(block) >> PAGE_SHIFT;
+> +		/* Don't evict BOs outside of the requested placement range */
+> +		if (place->fpfn >= (start + num_pages) ||
+> +		    (place->lpfn && place->lpfn <= start))
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
 
-I didn't say it could. What I said is "unloaded while we are executing
-its bind()". Maybe that's already guaranteed to be safe somehow. It's
-actually the problem below that I was trying to fix but placing the
-try_module_get() before the bind() rather than after bind() seemed a
-trivial extra safety.
+This looks like a nice idea. We should be able to clean up 
+i915_ttm_eviction_valuable() a fair bit I think, if we now call 
+ttm_bo_eviction_valuable() at the end (like in amdgpu), and move the 
+bits that are specific to buddy_man here?
 
->> If the bind is successful the module_put() is called only after it
->> has been unbound. This ensures that the module cannot be unloaded
->> while it is in use as an aggregate device.
-> 
-> That's almost never the correct thing to do, what problem is this
-> solving?
-> 
+So something like:
 
-What I see is that when a loadable module has been made part of an
-aggregate it is still possible to rmmod'd it.
+if (!place->fpfn && !place->lpfn)
+     return true;
 
-An alternative workaround would be for the parent to softdep to every
-driver that _might_ provide the aggregated components. Softdeps aren't
-unusual (we use it in some drivers that are directly related but don't
-directly link into each other). But to me this feels like a hack when
-used with the component framework - isn't the idea that the parent
-doesn't know (or doesn't need to know) which drivers will be aggregated?
-Wouldn't it be better that when a component driver is bound into an
-aggregate its module is automatically marked in-use?
+if (!place->fpfn &&
+     place->lpfn == i915_buddy_man_visible_size(man))
+     return bman_res->used_visible_size > 0;
 
-If there's a better way to mark the module in-use while is it bound
-into an aggregate, let me know and I'll look at implementing it.
+/* Check each drm buddy block individually */
+....
 
-> thanks,
-> 
-> greg k-h
+> +
+> +static bool i915_ttm_buddy_man_compatible(struct ttm_resource_manager *man,
+> +					  struct ttm_resource *res,
+> +					  const struct ttm_place *place,
+> +					  size_t size)
+
+Is it not possible to derive the size from res->num_pages?
+
+> +{
+> +	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
+> +	u32 start, num_pages = PFN_UP(size);
+> +	struct drm_buddy_block *block;
+> +
+> +	/* Check each drm buddy block individually */
+> +	list_for_each_entry(block, &bman_res->blocks, link) {
+> +		start = drm_buddy_block_offset(block) >> PAGE_SHIFT;
+> +		if (start < place->fpfn ||
+> +		    (place->lpfn && (start + num_pages) > place->lpfn))
+> +			return false;
+> +	}
+
+if (!place->fpfn && !place->lpfn)
+     return true;
+
+if (!place->fpfn &&
+     place->lpfn == i915_buddy_man_visible_size(man))
+     return bman_res->used_visible_size == res->num_pages;
+
+/* Check each drm buddy block individually */
+...
+
+> +
+> +	return true;
+> +}
+> +
+>   static void i915_ttm_buddy_man_debug(struct ttm_resource_manager *man,
+>   				     struct drm_printer *printer)
+>   {
+> @@ -205,6 +246,8 @@ static void i915_ttm_buddy_man_debug(struct ttm_resource_manager *man,
+>   static const struct ttm_resource_manager_func i915_ttm_buddy_manager_func = {
+>   	.alloc = i915_ttm_buddy_man_alloc,
+>   	.free = i915_ttm_buddy_man_free,
+> +	.intersect = i915_ttm_buddy_man_intersect,
+
+s/intersect/intersects/ ?
+
+> +	.compatible = i915_ttm_buddy_man_compatible,
+>   	.debug = i915_ttm_buddy_man_debug,
+>   };
+>   
