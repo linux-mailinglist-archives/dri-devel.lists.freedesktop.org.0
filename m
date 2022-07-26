@@ -2,116 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F2B58128C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 14:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1271D58128A
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 14:00:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85918E411;
-	Tue, 26 Jul 2022 12:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 201C98DFD9;
+	Tue, 26 Jul 2022 12:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 367 seconds by postgrey-1.36 at gabe;
- Tue, 26 Jul 2022 12:00:08 UTC
-Received: from de-smtp-delivery-113.mimecast.com
- (de-smtp-delivery-113.mimecast.com [194.104.109.113])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F5F8E44E
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 12:00:07 +0000 (UTC)
-Received: from CHE01-GV0-obe.outbound.protection.outlook.com
- (mail-gv0che01lp2049.outbound.protection.outlook.com [104.47.22.49]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-44-Fz5yqYjmM3q_rJRSFJSXpg-1; Tue, 26 Jul 2022 13:53:55 +0200
-X-MC-Unique: Fz5yqYjmM3q_rJRSFJSXpg-1
-Received: from ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:2e::8) by
- GV0P278MB0402.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:31::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5458.18; Tue, 26 Jul 2022 11:53:53 +0000
-Received: from ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
- ([fe80::3510:6f55:f14a:380f]) by ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
- ([fe80::3510:6f55:f14a:380f%6]) with mapi id 15.20.5458.025; Tue, 26 Jul 2022
- 11:53:53 +0000
-Date: Tue, 26 Jul 2022 13:53:52 +0200
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
-To: Max Krummenacher <max.oss.09@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>, Marek Vasut <marex@denx.de>,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Nikita Kiryanov <nikita@compulab.co.il>,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 0/4] drm/panel: simple: add bus-format support for
- panel-dpi
-Message-ID: <20220726115352.GA25619@francesco-nb.int.toradex.com>
-References: <20220628181838.2031-1-max.oss.09@gmail.com>
-In-Reply-To: <20220628181838.2031-1-max.oss.09@gmail.com>
-X-ClientProxiedBy: ZR0P278CA0035.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::22) To ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:2e::8)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFBE8DFC2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 11:59:59 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id v17so884502wrr.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 04:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=FeVAQTj8/mAfkMvlMLcvvaBxhrv6NPtimQHZr0slSEU=;
+ b=xGMvXn3lMLClPC6eYxENOclGIczqTe4up2YIXe+hB4oiUuGwxnYbUcVPOjQ6uneBOn
+ qF0JJhM66ZwzVuCuaD7h9ruyKVimYkfqcqQ4Kis3hhGc6TDEmPdt9pvCx2Q/ZtTFFx7/
+ RxQQz5GA+s0dhVW4w4r7ML655as4ZXTF5j/m2lzozaDmwFuFXQ4lqKSN8sMMdxCI/075
+ EWmE3VOrwt0RYvxBgte5TLjVz2Oaxglc4K/5fpz76xOLgwZrsFKVQt2JZRFWNVwF+Ble
+ KiAB1b+a9gGWGvWz9lI4jQ8rsd/MCa4vLoay1yTaFYPW+XO+7sLz7zjt1JKcROEGLX+Z
+ CX+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FeVAQTj8/mAfkMvlMLcvvaBxhrv6NPtimQHZr0slSEU=;
+ b=vnp2KETbjKVoLZAho+BaE+n3mn8kwWKEKNbG51X1iHKj5EQNT1P863Xc3jdJ5Odl0W
+ 0I8Iq9PXhLIT8SVOhf3Wmo94lszGHvT69Wt3grzcYhe8NTnTbBc6pkaL4WwA9AfFjqtD
+ VTXD0/GWIVHVJF/9Ty1gT8J9XhNa3epkDz6/iHe9rj2wQOfxQVaV4NFtlnMguqFrPZor
+ 0flGK2h9AuLxDQ3JIWWEJ1ySlxB9dXRXvVijd5CV26IaJXALzc4AFx6UP49KHuRkAUVh
+ 7O9SX/wY6FNLUbQ/e/o/f/K2WJ7rnlerPlhMQc9LsgzIXW0lBL8NXH1fe4wryRiWVw3k
+ aJsA==
+X-Gm-Message-State: AJIora/UhlcmUT1k41EfZAkvUQrcf5dcCQtYbCFiR7H2OiNR8Nvdr3zm
+ 5NBIPDwBfSSrJFKCi3rp25J5Tg==
+X-Google-Smtp-Source: AGRyM1uehfvDpwjgQ4OdVhAkG8XtMk/rrGDztYqeesidU3gudI8NvtnBD1+DZaV4TdshdsyfIFIYLQ==
+X-Received: by 2002:a5d:6d0b:0:b0:21d:9f26:f84a with SMTP id
+ e11-20020a5d6d0b000000b0021d9f26f84amr10703197wrq.155.1658836797777; 
+ Tue, 26 Jul 2022 04:59:57 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ bn20-20020a056000061400b0021e86504736sm6131350wrb.16.2022.07.26.04.59.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jul 2022 04:59:57 -0700 (PDT)
+Date: Tue, 26 Jul 2022 12:59:54 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [PATCH v6 13/13] video: backlight: mt6370: Add MediaTek MT6370
+ support
+Message-ID: <20220726115954.kpkmidrk3zo3dpbq@maple.lan>
+References: <20220722102407.2205-1-peterwu.pub@gmail.com>
+ <20220722102407.2205-14-peterwu.pub@gmail.com>
+ <20220725103128.xtaw2c4y5fobowg7@maple.lan>
+ <CABtFH5LUKTZenTktq3v1JZ9xe-yJFsMvCZuwDhmxdT87k0O-zA@mail.gmail.com>
+ <20220726093058.2fz2p2vg7xpfsnfe@maple.lan>
+ <CABtFH5+in-+=6r3wOvQ8-78DT9CXaMursJukhx+kdwMvvP3djw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76a85f7d-415e-4a37-7fd2-08da6efd8312
-X-MS-TrafficTypeDiagnostic: GV0P278MB0402:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0
-X-Microsoft-Antispam-Message-Info: 1T41ishksomgfRVChM26EAAfuzue6L7xN57hB1y67gSsr2U7vgONc1KzMBB7A23e96wIXFzZUUTL7ZeOZDlGAyf/IxMK1AZR28GA9dVn5GQzNILAulXPURbmhdFmJ2/eTx5kaIUZ00egx3d3Hc34DVedp824Z/PvcNYBfrvXNR6EPVau/f9Pl2VIaI7YwcNfunX6oHGnFaTMDGpIF79gqL55du5O6zt1aq44Ee2//LHZMnLJSLOVwTRwOyFBUPu3tvInDnC6kfGJh2FBUE4WTwEBoCPtQCh78IzxrfjtbbiAmvddxXDaVErGufAPB1tqPzuZyJn2OKaSc3ZMEJGh8ezx2W7YfezGUrxCKivupeUpU0IBUsd0xnh7WMABD2C6B0DxEp5/CSIk3yLVQl839Zfj1Nn7Zt5y21stcZ0aIxlRuOSpzMw7zGWUXXOirnbMF4p5geNcsnZpiKi7eA1r07Fh1RVq5H832sKpD8HgqF2NniroFv5KfwMRAlGSjkOm8RunNjMq+UkmZbys62Knr1AsOtca61fGbVJ4o5MOhKnf35xvjCajKH7b/ctulhOnVn0j/l1D9qaZ6UGVWnBd3xygxkPRCkVLN+2OWNoqgbgtjpwy0vGYF1R2qKCDUJd0rULlNsU/T+UeRrXEQCqbO4x9kOxoo+NGiAgCIG7bNwEyPC5IL4GTBIcsJ5KRcPp2HzajWMYOmseeZVpq1t+n8SXoPbNLVCD6wqNgQ42wpaLTPUns2kjv+DubMQnkE6Zc+TO2hOGfSZ9g2NxV9D6SzJ3T3WQahCPFKOoAhLBD6S0TGT+T7BMWeBLjvytFpLe4d2x/acy2vJ543a7FTmSrJOUKc/DnGeR+A8J+LFlUfdE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39850400004)(136003)(366004)(396003)(346002)(376002)(83380400001)(478600001)(6486002)(966005)(86362001)(2906002)(38100700002)(44832011)(38350700002)(4744005)(5660300002)(8936002)(33656002)(7416002)(26005)(4326008)(6506007)(52116002)(6512007)(41300700001)(921005)(8676002)(66946007)(66556008)(66476007)(110136005)(186003)(1076003)(316002);
- DIR:OUT; SFP:1102
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B0NC/LrCItkIfBC+hMJajq/pM+Jf2OMXDQpFyDZztQU0zMt35oNe1Aw9SE7+?=
- =?us-ascii?Q?O2B5m7hAqXMwX7yicSEec6hcREFUQZoVfVUXPENOLzHxsc4obTtLQxLUu82b?=
- =?us-ascii?Q?RrbKplmh9FPEKZRHlgbS/q4+1yQYxjy+dCOr83vrYimcgZQ57MN0iKN3qBuQ?=
- =?us-ascii?Q?SZib/HHb0mHGXF0QFrwnEpfSUK+qSRLlvskYELVpTC1OPIxVLuSqBvE0c2bs?=
- =?us-ascii?Q?BOXQLXD1VS3T9WPIrb5prVbOz95LdTN2TobvIEZMyShPxUOJutbC/MrF+XC2?=
- =?us-ascii?Q?rj+zBi6cMOFWeWcqgStskt2u7jn/aSjvkRtpXt+/VcjOI5LoI8epfcHWBwmh?=
- =?us-ascii?Q?5QpJlosbsJNOHrHX1MjIh+WJE0kSlf/pn+mpJtMJYU6ImVtjY1S5eHnab/QG?=
- =?us-ascii?Q?qY2KbFkethhj9+WpiW6zB1v2pyt8d2HQmoKxxjbiiRAo+pVHylHqz0/YrZCY?=
- =?us-ascii?Q?69b7CDd0dXKZ3+hY3QNkdRwBH1iNYfJi575f0HMU5XKtAqdM0b35btbD/I1G?=
- =?us-ascii?Q?HFo8jm4zPREouCeJoiPM7WEeQR3XoPTTy6t6GkYDpguIFcY9wOSNj1K1N84L?=
- =?us-ascii?Q?mzy+WR3fbg0Ahoj0CXgkuflnm/o28h8A+P0WND5F5NwqpC16wsIykpNBId8S?=
- =?us-ascii?Q?X8mYs8L7wmHdSEouOWOW+s3mVjUXBZqUFhYkMQcqC09jSkwx4gCMoQ3ggRk5?=
- =?us-ascii?Q?3mIQdzIPDxXC7x8jti9wqEydilgHdmKeTGezavUZjcZmftT4C0caCpDQXcKH?=
- =?us-ascii?Q?ijcOJ4Wg/Y0aJYOaZknlCRRVY7/8/O6+JbygZVCzceIDVRa0wbZt/XQ7o8u6?=
- =?us-ascii?Q?bdnTtS1DK+EWwZXa5UcCvcYfdQEd5M2gMmdypcpy96CEaR7cmiVkSyZWYUPi?=
- =?us-ascii?Q?JFT6ARAAF+wXN2dResUQ6nw/V+4OUIP5s0Cl4YuGY9zqQnuOsvFmBGsqswk7?=
- =?us-ascii?Q?sRCzgdCRxm9gzBvM81bXLMWQpj0jqWdUJduvgWM3lLo7+EYbL3rsUkhy05ds?=
- =?us-ascii?Q?gkyaAbVYTQuebcvIeR2P33WVoG6NYTJI+a17t2ZfDMLSBTeOnUHleQs98xJD?=
- =?us-ascii?Q?qcHcWAUTU6Aq2A3GPuc3y/t2Te38BQkVvV9BBmzcIcxbunDfaQKEtv9dinXk?=
- =?us-ascii?Q?jNTDzdIcsg3CNLB81+ArnYi5pqMwO2p5KgcbNI0KKfteI4Vpp2JRbhQUzSBw?=
- =?us-ascii?Q?RPe7OdghQf2L/iJKVtu2SWObC0FHPuxiYYoDR0lnIXBumg02DFNT8fsLoLWj?=
- =?us-ascii?Q?Yjns31K61NfwMul+SiQcGnnhc9QGGPiNxt/tD0IAba6xBfBGNmT3H5FA1AEL?=
- =?us-ascii?Q?NZrfJFLeiy95KiCzZSSIYUCB0pxp1m85ZwBvWk53lkTD1N04dexx5BIdfFOM?=
- =?us-ascii?Q?frF2ENzaVj8lFpbbZ6Pt85McAkoRzPIQvAuKJ+ffcJ0M1Tb/Ry4F3pGByE5X?=
- =?us-ascii?Q?Baks7ePLRRpf0nxhKa4uYifrzOva26ntoPiL/8GtPkggUFyN6c8CGUhwuUnU?=
- =?us-ascii?Q?9scL9cpJBZEzsnJhaZAnRXBMP7Gwv9Cwj/e90kGTiYzZqGDjSrDse2rDlbGd?=
- =?us-ascii?Q?Wg68eaXvX0fQiaaPCkHDipwjrHst77le9h8xg1ZVLLt2Fe/7Smv6Bdsf1gw9?=
- =?us-ascii?Q?kg=3D=3D?=
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76a85f7d-415e-4a37-7fd2-08da6efd8312
-X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0495.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 11:53:53.2405 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WE4uD0ZjK0z8UWLmbgJGyHiP7WRwjZ5DfYHLJLyKt/YdFBB81hegTkFTUKRjfOhaKzpLrP0PozQGUMrpEvLKmgkNDco976dZPR6jtzUagDw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV0P278MB0402
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CDE13A77 smtp.mailfrom=francesco.dolcini@toradex.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: toradex.com
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CABtFH5+in-+=6r3wOvQ8-78DT9CXaMursJukhx+kdwMvvP3djw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,33 +75,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, max.krummenacher@toradex.com
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree <devicetree@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ szuni chen <szunichen@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello all,
+On Tue, Jul 26, 2022 at 07:28:48PM +0800, ChiaEn Wu wrote:
+> On Tue, Jul 26, 2022 at 5:31 PM Daniel Thompson
+> <daniel.thompson@linaro.org> wrote:
+> ...
+> > > > Does the MT6372 support more steps than this? In other words does it use
+> > > > a fourteen bit scale or does it use an 11-bit scale at a different
+> > > > register location?
+> > >
+> > > Hi Daniel,
+> > >
+> > > Thanks for your reply.
+> > > Yes, MT6372 can support 16384 steps and uses a 14-bit scale register
+> > > location. But the maximum current of each
+> > > channel of MT6372 is the same as MT6370 and MT6371, both 30mA.
+> > > The main reason why MT6372 is designed this way is that one of the
+> > > customers asked for a more delicate
+> > > adjustment of the backlight brightness. But other customers actually
+> > > do not have such requirements.
+> > > Therefore, we designed it this way for maximum compatibility in software.
+>
+> Sorry for I used of the wrong word, I mean is 'driver', not
+> higher-level software
+>
+> >
+> > I don't think that is an acceptable approach for the upstream kernel.
+> >
+> > To be "compatible" with (broken) software this driver ends up reducing
+> > the capability of the upstream kernel to the point it becomes unable to
+> > meet requirements for delicate adjustment (requirements that were
+> > sufficiently important to change the hardware design so you could meet
+> > them).
+>
+> Originally, we just wanted to use one version of the driver to cover
+> all the SubPMIC of the 6370 series(6370~6372).
+> And, the users who use this series SubPMIC can directly apply this
+> driver to drive the backlight device without knowing the underlying
+> hardware.
+> To achieve this goal, we have designed it to look like this.
 
-On Tue, Jun 28, 2022 at 08:18:34PM +0200, Max Krummenacher wrote:
-> Commit 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support") added
-> support for defining a panel from device tree provided data.
->=20
-> However support for setting the bus format is missing, so that with
-> the current implementation a 'panel-dpi' panel can only be used
-> if the driver of the display interface connected can cope with a
-> missing bus_format.
->=20
-> This patch series defines the new property bus-format and adds it to
-> the panel-dpi implementation.
->=20
-> Check initial discussions [1] and [2].
-> [1] https://lore.kernel.org/all/20220201110717.3585-1-cniedermaier@dh-ele=
-ctronics.com/
-> [2] https://lore.kernel.org/all/20220222084723.14310-1-max.krummenacher@t=
-oradex.com/
+You don't need a second driver to support two different values for
+max-brightness. The same driver can support both ranges with nothing but
+a small tweak during the driver probe function.
 
-Any blocker to move this series forward? Apart the valuable feedback
-from Rob no comments in the last month.
 
-Thanks,
-Francesco
+> ...
+> > > > > +
+> > > > > +     if (brightness) {
+> > > > > +             brightness_val[0] = (brightness - 1) & MT6370_BL_DIM2_MASK;
+> > > > > +             brightness_val[1] = (brightness - 1) >> fls(MT6370_BL_DIM2_MASK);
+> > > > > +
+> > > > > +             /*
+> > > > > +              * To make MT6372 using 14 bits to control the brightness
+> > > > > +              * backward compatible with 11 bits brightness control
+> > > > > +              * (like MT6370 and MT6371 do), we left shift the value
+> > > > > +              * and pad with 1 to remaining bits. Hence, the MT6372's
+> > > > > +              * backlight brightness will be almost the same as MT6370's
+> > > > > +              * and MT6371's.
+> > > > > +              */
+> > > > > +             if (priv->vid_type == MT6370_VID_6372) {
+> > > > > +                     brightness_val[0] <<= MT6370_BL_DIM2_6372_SHIFT;
+> > > > > +                     brightness_val[0] |= MT6370_BL_DUMMY_6372_MASK;
+> > > > > +             }
+> > > >
+> > > > This somewhat depends on the answer to the first question above, but
+> > > > what is the point of this shifting? If the range is 14-bit then the
+> > > > driver should set max_brightness to 16384 and present the full range of
+> > > > the MT6372 to the user.
+> > >
+> > > So should we make all 16384 steps of MT6372 available to users?
+> >
+> > Yes.
+> >
+> >
+> > > Does that mean the DTS needs to be modified as well?
+> >
+> > Yes... the property to set initial brightness needs a 14-bit range.
+> >
+> > It would also be a good idea to discuss with the DT maintainers whether
+> > you should introduce a second compatible string (ending 6372) in order
+> > to allow the DT validation checks to detect accidental use of MT6372
+> > ranges on MT6370 hardware.
+>
+> hmmm... I have just thought about it,
+> maybe I can just modify the maximum value of default-brightness and
+> max-brightness in DT to 16384,
+> modify the description and add some comments.
 
+What for?
+
+All the other backlight drivers (there are >130 of them) expose the hardware
+range[1]. Most userspaces will already know how to handle that (by reading
+the max_brightness and, if it is recent enough, also the scale
+properties in sysfs).
+
+I'm still don't understand why one should fix a bug in the userspace by
+implementing a hack in the driver.
+
+
+[1] Well almost. The PWM backlight driver does contain support for
+    dead-spot avoidance and to allow the adoption of exponential scale.
+    However this  purpose of these is based on how PWM backlights work
+
+
+
+> And then on the driver side,
+> we can use mt6370_check_vendor_info( ) to determine whether it is MT6372.
+> If no, then in mt6370_bl_update_status(), first brightness_val / 8 and then set.
+> In mt6370_bl_get_brightness(), first brightness_val * 8 and then return;
+>
+> If I do this change, does this meet your requirements?
+
+Not really.
+
+It's still misleading a sophisticated userspace, which may make bad
+rounding decisions for backlight animation, in order to support a broken
+one.
+
+
+> > > Or, for the reasons, I have just explained (just one customer has this
+> > > requirement), then we do not make any changes for compatibility
+> > > reasons?
+> >
+> > I'd be curious what the compatiblity reasons are. In other words what
+> > software breaks?
+>
+> The reason is as above. We just hope the users who use this series SubPMIC can
+> directly apply this driver to drive the backlight device without
+> knowing the underlying hardware.
+> Not software breaks.
+
+As above, ignoring the max_brightness property is a bug in the
+userspace. I'm still unclear why sending faked ranges to userspace
+it a better solution than fixing the userspace.
+
+
+Daniel.
