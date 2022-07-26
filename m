@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4448C581628
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 17:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A82E581638
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 17:15:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05CF14B662;
-	Tue, 26 Jul 2022 15:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A403C14A203;
+	Tue, 26 Jul 2022 15:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8685411BF06;
- Tue, 26 Jul 2022 15:13:01 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id m8so18071733edd.9;
- Tue, 26 Jul 2022 08:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yBRJ8tjENtSpeGeTiHbZwiRBnJ1kinArNIbw/C/Deio=;
- b=hnWhl18EZMAMwY1NbWl9Q2ew4kUnjjCqLMbb0F9JJjclqDY7CuP912KLiNKu590o+1
- 8RnF31fx2WT2LYTxOEFlaS6xTqeFZQpvL6tqgLaEcBuyRfeADvMyMNu7WKCDqi4h+FQc
- aeP8E4YfZNPbL8yntzBlyrsxz96lXL2twpARm5kz32NHETxnRGKnDz3uZSV9PMuODHwB
- 32GcyieXHvubioLoH1q0V7YJgJRjd8AdV7VH9OCH2Cfw96PKVgwSF2ZK1GvnKPO+DMeL
- dT3lhkXWhgL04qhFKhUWZylGGXoTebKaYIcUqEVB39EMYhRJ5lYkhfD5zxkRB8i5oFD2
- T8CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yBRJ8tjENtSpeGeTiHbZwiRBnJ1kinArNIbw/C/Deio=;
- b=zyaIXkuft/xXu05YnylRvYtbxLsLQouTzzJSIuZnh5iWVIMbPGI6bEnlWVfXsCQqR1
- 3bZPVsfsmVZDncopSTtbABZ4xRZy7KNlRBWTjgJ+CseH1xHC8hq9HjeOSJuEPiVqiu1B
- QAjZpwibhiZidXGL31nV0YQ9MPWCwx3zxvfaL2PrPMHIbnMDWUnrWv0EcnVd8iGBgW3j
- P+OT96HoGCJO8w4w1DXnj8nc58lgsCso79fnSJc+hgZWlNZJKqxQ1YXGeuFwIqOsRlUR
- aHF+fhHTP2W4Ia7yjIOko+0Pg5IxCyypoN/1WeCZN8tiV0M3ztFBNLHe7Xm3kKRGCOq9
- Z/tg==
-X-Gm-Message-State: AJIora/g7avXwpOQU3UQ6bM14gaybEKxI8poBlXYn3y5l61OL5756Tbc
- X2OmJdunvwPLmweXdNylWRa9RQq5LnsotXy2pxMt3Hw+
-X-Google-Smtp-Source: AGRyM1tTEzA+j1LcE8eqCjN/NB3z2kPwkvrzkDdGBPUNyOcJTawPwyOiihQ4eBh42pZcKNXQGF+9YNePw0SL33WUunY=
-X-Received: by 2002:a05:6402:248d:b0:437:dd4c:e70e with SMTP id
- q13-20020a056402248d00b00437dd4ce70emr18432424eda.75.1658848379911; Tue, 26
- Jul 2022 08:12:59 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F71810F2C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 15:15:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 33028B80FF0;
+ Tue, 26 Jul 2022 15:15:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B62C433C1;
+ Tue, 26 Jul 2022 15:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1658848536;
+ bh=JdYLPvm15DCGWDloUpXmxYYLmSi+V/FEw3vBEoaF+Jw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=xBokB72rddFLxtHSosxuv3alJqsdn0oyulNn4jSAaE2unHKS0UIM1wLxL2J8T16L0
+ k39NRaycdo4vXVxUP4FOVG+nE53iMehPLaex58j9lRVfL0OQ2uKPiGgF5dJfnEg16i
+ sBHsTSPvke7L3MCKx6Puv+grQDjTJVYq56eH/DFk=
+Date: Tue, 26 Jul 2022 17:15:30 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: yuji2.ishikawa@toshiba.co.jp
+Subject: Re: [PATCH v2 3/5] soc: visconti: Add Toshiba Visconti DNN image
+ processing accelerator
+Message-ID: <YuAFEvKLnavheZMn@kroah.com>
+References: <20220722082858.17880-1-yuji2.ishikawa@toshiba.co.jp>
+ <20220722082858.17880-4-yuji2.ishikawa@toshiba.co.jp>
+ <Yt6Rryi4SHVc4DR4@kroah.com>
+ <TYAPR01MB62013C42CB26FD456929C0D592949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 26 Jul 2022 11:12:48 -0400
-Message-ID: <CADnq5_MtM9+ThO3O-ejdrD+dhSvN5A9KgX4Bf2zt0iKge1FJZA@mail.gmail.com>
-Subject: Re: [PATCH 01/20] drm/amd/display: Clean up some inconsistent
- indenting
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYAPR01MB62013C42CB26FD456929C0D592949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +54,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+Cc: linaro-mm-sig@lists.linaro.org, corbet@lwn.net,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+ sumit.semwal@linaro.org, hverkuil@xs4all.nl, robh+dt@kernel.org,
+ nobuhiro1.iwamatsu@toshiba.co.jp, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+On Tue, Jul 26, 2022 at 06:10:37AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
+> Hi Greg
+> 
+> Thank you for your comments.
+> 
+> > -----Original Message-----
+> > From: Greg KH <gregkh@linuxfoundation.org>
+> > Sent: Monday, July 25, 2022 9:51 PM
+> > To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
+> > <yuji2.ishikawa@toshiba.co.jp>
+> > Cc: Rob Herring <robh+dt@kernel.org>; Hans Verkuil <hverkuil@xs4all.nl>;
+> > iwamatsu nobuhiro(岩松 信洋 □ＳＷＣ◯ＡＣＴ)
+> > <nobuhiro1.iwamatsu@toshiba.co.jp>; Jonathan Corbet <corbet@lwn.net>;
+> > Sumit Semwal <sumit.semwal@linaro.org>; Christian König
+> > <christian.koenig@amd.com>; linux-arm-kernel@lists.infradead.org;
+> > linux-kernel@vger.kernel.org; linux-media@vger.kernel.org;
+> > dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org
+> > Subject: Re: [PATCH v2 3/5] soc: visconti: Add Toshiba Visconti DNN image
+> > processing accelerator
+> > 
+> > On Fri, Jul 22, 2022 at 05:28:56PM +0900, Yuji Ishikawa wrote:
+> > > --- /dev/null
+> > > +++ b/drivers/soc/visconti/uapi/dnn.h
+> > > @@ -0,0 +1,77 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > +/* Toshiba Visconti DNN Accelerator Support
+> > > + *
+> > > + * (C) Copyright 2022 TOSHIBA CORPORATION
+> > > + * (C) Copyright 2022 Toshiba Electronic Devices & Storage
+> > > +Corporation  */
+> > > +
+> > > +#ifndef _UAPI_LINUX_DNN_H
+> > > +#define _UAPI_LINUX_DNN_H
+> > > +
+> > > +#include <linux/ioctl.h>
+> > > +#include <linux/types.h>
+> > > +#include "ipa.h"
+> > > +
+> > > +#define DRV_DNN_BIT_CONFIG_DESC_FINAL (0x8000U)
+> > > +#define DRV_DNN_BUFFER_INDEX_MAX      (15)
+> > > +
+> > > +#define DRV_DNN_BASE_ADDR_NUM (8U) /* DNN number of base
+> > address */
+> > > +
+> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_INPUT	    (1U)
+> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_OUTPUT    (2U)
+> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_AWB	    (3U)
+> > > +#define DRV_DNN_BASE_ADDR_PURPOSE_TEMPORARY (4U)
+> > > +
+> > > +/**
+> > > + * struct drv_dnn_status - DNN IPA status for IOC_IPA_GET_STATUS
+> > > + *
+> > > + * @state:     State of driver
+> > > + * @eer_cmd:   Execution error command
+> > > + * @eer:       Execution error
+> > > + * @reserved:  Padding
+> > > + * @eer_flags: Execution error flags
+> > > + */
+> > > +struct drv_dnn_status {
+> > > +	enum drv_ipa_state state;
+> > > +	__u32 eer_cmd;
+> > > +	__u32 eer : 1;
+> > > +	__u32 reserved : 31;
+> > 
+> > bitfields will not work like this for uapi files, sorry.
+> 
+> I'll change the type of the member eer from bitfield to bool.
 
-Alex
+bool will not work for a user/kernel api structure at all, sorry.
 
-On Tue, Jul 26, 2022 at 3:26 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> No functional modification involved.
->
-> smatch warning:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hwseq.c:910 dcn32_init_hw() warn: inconsistent indenting.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-> index b6bada383958..201516a62b4b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-> @@ -907,10 +907,10 @@ void dcn32_init_hw(struct dc *dc)
->                 dc->res_pool->hubbub->funcs->init_crb(dc->res_pool->hubbub);
->
->         // Get DMCUB capabilities
-> -    if (dc->ctx->dmub_srv) {
-> -       dc_dmub_srv_query_caps_cmd(dc->ctx->dmub_srv->dmub);
-> -       dc->caps.dmub_caps.psr = dc->ctx->dmub_srv->dmub->feature_caps.psr;
-> -    }
-> +       if (dc->ctx->dmub_srv) {
-> +               dc_dmub_srv_query_caps_cmd(dc->ctx->dmub_srv->dmub);
-> +               dc->caps.dmub_caps.psr = dc->ctx->dmub_srv->dmub->feature_caps.psr;
-> +       }
->  }
->
->  static int calc_mpc_flow_ctrl_cnt(const struct dc_stream_state *stream,
-> --
-> 2.20.1.7.g153144c
->
+> > > +	__u32 eer_flags[32];
+> > 
+> > What endian is all of these?  Big?  Little?  Unknown?
+> 
+> The processors and accelerators are little endian in Visconti SoC.
+> Do I have to use more specific type such as __le32 ?
+
+Of course, this has to be defined as to how the hardware sees it.  Why
+wouldn't you specify this?
+
+> > > +};
+> > > +
+> > > +struct drv_dnn_base_addr {
+> > > +	__u32 purpose;
+> > > +	union {
+> > > +		struct drv_ipa_addr ipa_addr;
+> > > +		uintptr_t list_addr;
+> > 
+> > You really do not ever want a uintptr_t in a uapi file, that's not going to be
+> > portable at all.  It's also not a valid kernel type :(
+> 
+> I understand. The member list_addr should be typed "struct drv_ipa_addr*".
+
+No, not at all, that too will not work and is not portable.  Please read
+the documentation in the kernel for how to write correct user/kernel
+apis with ioctl structures.  It is all documented there, please do not
+ignore it and create an api that will be broken.
+
+> > > + * @config_done:          Flags of called configuration
+> > > + * @buffer_info:          Table of buffer information
+> > > + * @buffer_info_num:      Number of buffer_info
+> > > + */
+> > > +struct drv_dnn_descriptor {
+> > > +	struct drv_ipa_addr configuration;
+> > > +	__u32 configuration_offset;
+> > 
+> > What endian are any of these?
+> 
+> They are little endian as processors and accelerators are LE.
+> Do I have to use specific type such as __le32?
+
+Yes, as that is defined by your hardware, not the processor the kernel
+is running as.
+
+> Do we need special care for endianness	when userland and kernel are sharing data (a drv_dnn_descriptor instance) ?
+
+Yes, why wouldn't you?
+
+> I thought there're no endianness problem when the driver is reading/writing HW's 32bit registers.
+
+Is that what you are doing here?  It's impossible to tell.
+
+For data that only crosses the user/kernel boundry, you can use the
+native processor endian, but when it crosses the kernel/hardware
+boundry, you HAVE to specify it as to what the hardware expects.
+
+thanks,
+
+greg k-h
