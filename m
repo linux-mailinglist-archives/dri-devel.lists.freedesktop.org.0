@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53025810C3
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 12:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60B25810C8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 12:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B156710F5FF;
-	Tue, 26 Jul 2022 10:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAB92A572;
+	Tue, 26 Jul 2022 10:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACCF1126BE
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 10:06:07 +0000 (UTC)
-X-UUID: 3f58163cb94a407c8e7c05eefa6614b5-20220726
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94F602A6C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 10:07:11 +0000 (UTC)
+X-UUID: d8449a038d6e4e6797faf78e8f294378-20220726
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:59565c01-56bb-40b8-8533-06e05dbc404d, OB:0,
+X-CID-O-INFO: VERSION:1.1.8, REQID:81a6d707-a1c8-4a0a-980b-7b1c2322e53f, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:7896fad3-912a-458b-a623-74f605a77e93,
+X-CID-META: VersionHash:0f94e32, CLOUDID:7ab00fee-db04-4499-9fdf-04ef44b9468c,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 3f58163cb94a407c8e7c05eefa6614b5-20220726
+X-UUID: d8449a038d6e4e6797faf78e8f294378-20220726
 Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1380004839; Tue, 26 Jul 2022 18:06:03 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
- Tue, 26 Jul 2022 10:06:01 +0000
+ with ESMTP id 1403125518; Tue, 26 Jul 2022 18:06:53 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 26 Jul 2022 17:34:48 +0800
+ 15.2.792.15; Tue, 26 Jul 2022 18:06:51 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 26 Jul 2022 17:34:47 +0800
-Message-ID: <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
+ Transport; Tue, 26 Jul 2022 18:06:51 +0800
+Message-ID: <c70db24fb66f844a2b53c229fff6e943e99398db.camel@mediatek.com>
 Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, "chunkuang.hu@kernel.org"
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
  <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
  "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
  <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
@@ -49,12 +46,13 @@ To: Rex-BC Chen <rex-bc.chen@mediatek.com>, "chunkuang.hu@kernel.org"
  <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
  "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
  <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Tue, 26 Jul 2022 17:34:47 +0800
-In-Reply-To: <9c5b85034ec77be80d771ce3a17260453f007728.camel@mediatek.com>
+Date: Tue, 26 Jul 2022 18:06:50 +0800
+In-Reply-To: <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
 References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
  <20220712111223.13080-6-rex-bc.chen@mediatek.com>
  <378f904a445e90d65048ed07a1a55fd8c633f934.camel@mediatek.com>
  <9c5b85034ec77be80d771ce3a17260453f007728.camel@mediatek.com>
+ <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -89,96 +87,118 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-07-26 at 14:42 +0800, Rex-BC Chen wrote:
-> On Mon, 2022-07-25 at 17:16 +0800, CK Hu wrote:
-> > Hi, Bo-Chen:
-> > 
-> > On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
-> > > From: Markus Schneider-Pargmann <msp@baylibre.com>
+On Tue, 2022-07-26 at 17:34 +0800, CK Hu wrote:
+> On Tue, 2022-07-26 at 14:42 +0800, Rex-BC Chen wrote:
+> > On Mon, 2022-07-25 at 17:16 +0800, CK Hu wrote:
+> > > Hi, Bo-Chen:
 > > > 
-> > > This patch adds a embedded displayport driver for the MediaTek
-> > > mt8195
-> > > SoC.
+> > > On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> > > > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > > 
+> > > > This patch adds a embedded displayport driver for the MediaTek
+> > > > mt8195
+> > > > SoC.
+> > > > 
+> > > > It supports the MT8195, the embedded DisplayPort units. It
+> > > > offers
+> > > > DisplayPort 1.4 with up to 4 lanes.
+> > > > 
+> > > > The driver creates a child device for the phy. The child device
+> > > > will
+> > > > never exist without the parent being active. As they are
+> > > > sharing
+> > > > a
+> > > > register range, the parent passes a regmap pointer to the child
+> > > > so
+> > > > that
+> > > > both can work with the same register range. The phy driver sets
+> > > > device
+> > > > data that is read by the parent to get the phy device that can
+> > > > be
+> > > > used
+> > > > to control the phy properties.
+> > > > 
+> > > > This driver is based on an initial version by
+> > > > Jitao shi <jitao.shi@mediatek.com>
+> > > > 
+> > > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > > > ---
 > > > 
-> > > It supports the MT8195, the embedded DisplayPort units. It offers
-> > > DisplayPort 1.4 with up to 4 lanes.
+> > > [snip]
 > > > 
-> > > The driver creates a child device for the phy. The child device
-> > > will
-> > > never exist without the parent being active. As they are sharing
-> > > a
-> > > register range, the parent passes a regmap pointer to the child
-> > > so
-> > > that
-> > > both can work with the same register range. The phy driver sets
-> > > device
-> > > data that is read by the parent to get the phy device that can be
-> > > used
-> > > to control the phy properties.
+> > > > +
+> > > > +static int mtk_dp_training(struct mtk_dp *mtk_dp)
+> > > > +{
+> > > > +	short max_retry = 50;
+> > > > +	int ret;
+> > > > +
+> > > > +	do {
+> > > > +		ret = mtk_dp_train_start(mtk_dp);
+> > > > +		if (!ret)
+> > > > +			break;
+> > > > +		else if (ret != -EAGAIN)
+> > > > +			return ret;
+> > > > +	} while (--max_retry);
 > > > 
-> > > This driver is based on an initial version by
-> > > Jitao shi <jitao.shi@mediatek.com>
+> > > mtk_dp_train_start() would never return -EAGAIN, so drop this
+> > > while
+> > > loop.
 > > > 
-> > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > ---
+> > > Regards,
+> > > CK
+> > > 
 > > 
-> > [snip]
+> > Hello CK,
 > > 
-> > > +
-> > > +static int mtk_dp_training(struct mtk_dp *mtk_dp)
-> > > +{
-> > > +	short max_retry = 50;
-> > > +	int ret;
-> > > +
-> > > +	do {
-> > > +		ret = mtk_dp_train_start(mtk_dp);
-> > > +		if (!ret)
-> > > +			break;
-> > > +		else if (ret != -EAGAIN)
-> > > +			return ret;
-> > > +	} while (--max_retry);
+> > the function will not return -EAGAIN, but we still want to retry 50
+> > times if mtk_dp_train_start() is failed. If we retry 50 times and
+> > it
+> > is
+> > still failed. We can confirm there are some issues for the device.
 > > 
-> > mtk_dp_train_start() would never return -EAGAIN, so drop this while
-> > loop.
-> > 
-> > Regards,
-> > CK
-> > 
+> > I will remove the else if of -EAGAIN and keep th while loop.
 > 
-> Hello CK,
+> In this version, it never retry. And I believe you've tested this no-
+> retry version. If this no-retry version works fine, why do you insist
+> on retry? If you really need retry, merge this retry into
+> mtk_dp_train_start() because mtk_dp_train_start() have already retry.
 > 
-> the function will not return -EAGAIN, but we still want to retry 50
-> times if mtk_dp_train_start() is failed. If we retry 50 times and it
-> is
-> still failed. We can confirm there are some issues for the device.
+> Regards,
+> CK
 > 
-> I will remove the else if of -EAGAIN and keep th while loop.
 
-In this version, it never retry. And I believe you've tested this no-
-retry version. If this no-retry version works fine, why do you insist
-on retry? If you really need retry, merge this retry into
-mtk_dp_train_start() because mtk_dp_train_start() have already retry.
+Hello Ck,
 
-Regards,
-CK
+There are many different devices we are not testing for DP devices.
+I think we need to keep this.
+This retry is for restart with init state.
 
-> 
-> BRs,
-> Bo-Chen
+I think it's better to keep it here and it's more clear.
+
+I will remain the comments above, and I think it's enough.
+
+BRs,
+Bo-Chen
+
+> > 
+> > BRs,
+> > Bo-Chen
+> > > > 
+> > > > +	if (!max_retry)
+> > > > +		return -ETIMEDOUT;
+> > > > +
+> > > > +	ret = mtk_dp_video_config(mtk_dp);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +	mtk_dp_video_enable(mtk_dp, true);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
 > > > 
-> > > +	if (!max_retry)
-> > > +		return -ETIMEDOUT;
-> > > +
-> > > +	ret = mtk_dp_video_config(mtk_dp);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +	mtk_dp_video_enable(mtk_dp, true);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
+> > > 
 > > 
 > > 
 > 
