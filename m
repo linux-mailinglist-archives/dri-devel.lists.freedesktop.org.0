@@ -1,81 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30960581A3C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 21:22:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7E1581ABC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 22:09:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF8411B528;
-	Tue, 26 Jul 2022 19:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D160A2A7B;
+	Tue, 26 Jul 2022 20:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF1711B528
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 19:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658863330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HM/992FpowUrZBdOewYXTdFa78rfvZ1wIMJtEZDEzFo=;
- b=cN2r67UaTp5zrWI4EkfRQyUi8Txa3UtON2qB9KdIOip1YlFiYifcPk0XZXGarr3Wip6D5U
- w6vz7+MsKQ+zSLVpQoY2lxrwnnrv9hOxWBJkciCMa0aP0xzC5vZh/tkLQrDW7HNEyfhb9G
- rKfh1f6Neoc3e2tt/9oWfSMHJunvt8o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-75-8N4Ee8BuNlGUBMPIv7kZIg-1; Tue, 26 Jul 2022 15:22:08 -0400
-X-MC-Unique: 8N4Ee8BuNlGUBMPIv7kZIg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay19-20020a05600c1e1300b003a315c2c1c0so10635540wmb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 12:22:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HM/992FpowUrZBdOewYXTdFa78rfvZ1wIMJtEZDEzFo=;
- b=Ly3rOti++HgMRvO5CsXB8Ms6Uhp5IgcXbtr6HAiiHcAab8SrvBo9A2MJLizzm2dvtH
- XuFJU7faJv1rxURRRwgcie6FwX497YuIH53X/48RtAVuE3oZ4qti9jKtaavCz4ppCzui
- JgXLcpO+Gy3WOIYmE1G3hfAO6S+ggN2/0isPAXxzo9xTHh3ZDcNzUD41pjZZ+VignLL6
- C6sLUQYZFMy6TUWuvHHQMLzG2L+Fk9xm5daXdBLwAyK2Qnc8/7E6etw/q5UI9Wm39Zl7
- 9ChxZ4OZxH3dre+zc2sZ86dgkcHi1WyKZ968nv9Uwlmj245uTe+4+7XE0QhPUwt6VIyP
- K1xA==
-X-Gm-Message-State: AJIora+i7U7puNUrt9sw3nyAKlkf1r0VMfChCiEcNzLqI4F6e3DS/mhD
- Gfn2i34GxnQOiA3xWn5KPKmT2IBYd24dMFTekZcIN9wmzshgHznIEafngDyrH7r2aVrwZaiCK/O
- 7IwpbCFS5XRTlWjy6VyAOoCNNsRsy
-X-Received: by 2002:a5d:64e5:0:b0:21d:945a:e7c4 with SMTP id
- g5-20020a5d64e5000000b0021d945ae7c4mr12161309wri.0.1658863327270; 
- Tue, 26 Jul 2022 12:22:07 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vGZKU+Yu4t/pJR7G/x3ABdDb+Jc5JIBwBhoD8uXuQNqfQGzOOG9RFUs5hjLn5ORhAmUgcRxw==
-X-Received: by 2002:a5d:64e5:0:b0:21d:945a:e7c4 with SMTP id
- g5-20020a5d64e5000000b0021d945ae7c4mr12161300wri.0.1658863326979; 
- Tue, 26 Jul 2022 12:22:06 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- z21-20020a05600c0a1500b0039c454067ddsm19704276wmp.15.2022.07.26.12.22.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 12:22:06 -0700 (PDT)
-Message-ID: <90aef621-b686-12dd-de55-9a680f5783d7@redhat.com>
-Date: Tue, 26 Jul 2022 21:22:05 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79D49A2A48;
+ Tue, 26 Jul 2022 20:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=36wpHebUWA+lWUHxAuJLmGhedd5D2vCF+qo7fkkHIZw=; b=po3/K8o0LE+O1LP0BOKdX76MuI
+ aVX7XVON+Drywbs8JbetPnMkOqmdEKM75kXi0jABF2dai8m2FJVWd9gn2+fFEZsmIZ6A0NULB+cID
+ J1mDkNbfosUKiTtILcYPfLnMuC+qSlQZYYMa9WpKHgqm9puaJjb9mN66yMqXpmniS0H8azkifqJq9
+ 5dqm4IuBd8qHBEu1ymhcBam8yFAVrh2s2OGLZ6SEjg7zsmC9k7r5tdz5rX1lqyTjW+jcUaVIWbTIy
+ rYxusGLPt8vvnoq6pGu5PJLmY5y0c0eRr41vHCHvuFbwDLhGTNyN1S184X34vtA9aTdXitzHA8jiR
+ l5SGj/Kw==;
+Received: from 201-13-50-220.dsl.telesp.net.br ([201.13.50.220]
+ helo=[192.168.15.109]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1oGQs3-007gIM-UV; Tue, 26 Jul 2022 22:09:35 +0200
+Message-ID: <63594d3f-bf14-cf96-ecdb-5e12b4cd4472@igalia.com>
+Date: Tue, 26 Jul 2022 17:09:15 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 09/10] drm/ofdrm: Add per-model device function
-To: =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-10-tzimmermann@suse.de>
- <7b1a2807-59c7-d524-af8e-1ec634c740a7@redhat.com>
- <20220726144024.GP17705@kitsune.suse.cz>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220726144024.GP17705@kitsune.suse.cz>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 1/2] drm/amd/display: change variables type
 Content-Language: en-US
+To: Magali Lemes <magalilemes00@gmail.com>
+References: <20220725181559.250030-1-magalilemes00@gmail.com>
+ <a7589316-2a55-85f2-b665-5fe4bebf7a69@igalia.com>
+ <4f359e30-90f8-c8bf-4e07-6856fcfd3506@gmail.com>
+From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <4f359e30-90f8-c8bf-4e07-6856fcfd3506@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,58 +56,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, sam@ravnborg.org, airlied@linux.ie,
- mpe@ellerman.id.au, deller@gmx.de, mark.cave-ayland@ilande.co.uk,
- dri-devel@lists.freedesktop.org, paulus@samba.org, maxime@cerno.tech,
- Thomas Zimmermann <tzimmermann@suse.de>, geert@linux-m68k.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: siqueirajordao@riseup.net, mairacanal@riseup.net, sunpeng.li@amd.com,
+ tales.aparecida@gmail.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ isabbasso@riseup.net, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Michal,
-
-On 7/26/22 16:40, Michal Suchánek wrote:
-> Hello,
+Às 17:47 de 25/07/22, Magali Lemes escreveu:
 > 
-> On Tue, Jul 26, 2022 at 03:38:37PM +0200, Javier Martinez Canillas wrote:
->> On 7/20/22 16:27, Thomas Zimmermann wrote:
->>> Add a per-model device-function structure in preparation of adding
->>> color-management support. Detection of the individual models has been
->>> taken from fbdev's offb.
+> On 7/25/22 16:42, André Almeida wrote:
+>> Hi Magali,
+>>
+>> Às 15:15 de 25/07/22, Magali Lemes escreveu:
+>>> As "dcn3_15_soc" and "dcn3_16_soc" are of type "struct
+>>> _vcs_dpi_soc_bounding_box_st", change their types accordingly.
 >>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> I can see that indeed this type change sense for those variables, but
+>> isn't a bit strange that the type was wrong in the first place? I wonder
+>> if this variable is even used, given that it would very likely throw a
+>> compiler error when using the wrong type and trying to access struct
+>> members that aren't defined.
+> 
+> 
+> A compilation error would be thrown if either
+> "dc/dcn315/dcn315_resource.h" or "dc/dcn316/dcn316_resource.h" were
+> included in the files where "dcn3_15_soc" and "dcn3_16_soc" are
+> initialized. Since they are not included, the wrong variable type error
+> is not shown.
+> To solve the sparse warning in the second patch of this series, those
+> variables need to be declared first, but they are already declared,
+> we're only missing the headers. If I only add the headers, then those
+> variables will be seen, and I get the expected incompatible variables
+> types error. So, fixing the types here is a preliminary work for the
+> next patch.
+> 
+
+And what happens if you just drop this declaration? It still not clear
+to me why this belongs to this header, giving that AFAIK this var is
+only used at drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+
+Note that this kind of information you explained to me would be very
+useful if you had included it in a cover letter to add more context for
+your patches :)
+
+> 
+> Magali
+> 
+> 
+>>
+>>> Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
 >>> ---
->>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>
->> [...]
->>
->>> +static bool is_avivo(__be32 vendor, __be32 device)
->>> +{
->>> +	/* This will match most R5xx */
->>> +	return (vendor == 0x1002) &&
->>> +	       ((device >= 0x7100 && device < 0x7800) || (device >= 0x9400));
->>> +}
->>
->> Maybe add some constant macros to not have these magic numbers ?
-> 
-> This is based on the existing fbdev implementation's magic numbers:
-> 
-> drivers/video/fbdev/offb.c:                 ((*did >= 0x7100 && *did < 0x7800) ||
->
-
-Ah, I see. Then we might have to go with the magic numbers...
- 
-> Of course, it would be great if somebody knowledgeable could clarify
-> those.
->
-
-Indeed.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+>>>   drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h | 2 +-
+>>>   drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h | 2 +-
+>>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>> b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>> index 39929fa67a51..45276317c057 100644
+>>> --- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>> +++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>> @@ -32,7 +32,7 @@
+>>>       container_of(pool, struct dcn315_resource_pool, base)
+>>>     extern struct _vcs_dpi_ip_params_st dcn3_15_ip;
+>>> -extern struct _vcs_dpi_ip_params_st dcn3_15_soc;
+>>> +extern struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc;
+>>>     struct dcn315_resource_pool {
+>>>       struct resource_pool base;
+>>> diff --git a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>> b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>> index 0dc5a6c13ae7..d2234aac5449 100644
+>>> --- a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>> +++ b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>> @@ -32,7 +32,7 @@
+>>>       container_of(pool, struct dcn316_resource_pool, base)
+>>>     extern struct _vcs_dpi_ip_params_st dcn3_16_ip;
+>>> -extern struct _vcs_dpi_ip_params_st dcn3_16_soc;
+>>> +extern struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc;
+>>>     struct dcn316_resource_pool {
+>>>       struct resource_pool base;
