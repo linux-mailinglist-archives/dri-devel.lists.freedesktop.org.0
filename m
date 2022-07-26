@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C74580DA0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:28:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1FF580DA1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:28:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD92211BFB1;
-	Tue, 26 Jul 2022 07:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 359E114BBC3;
+	Tue, 26 Jul 2022 07:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-44.freemail.mail.aliyun.com
- (out30-44.freemail.mail.aliyun.com [115.124.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8F111B5B7;
- Tue, 26 Jul 2022 07:27:06 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R981e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+Received: from out30-45.freemail.mail.aliyun.com
+ (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D5D11BBE3;
+ Tue, 26 Jul 2022 07:27:10 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VKUPgkw_1658820420; 
+ TI=SMTPD_---0VKUIM7m_1658820425; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VKUPgkw_1658820420) by smtp.aliyun-inc.com;
- Tue, 26 Jul 2022 15:27:03 +0800
+ fp:SMTPD_---0VKUIM7m_1658820425) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 15:27:07 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH 10/20] drm/amd/display: Clean up some inconsistent indenting
-Date: Tue, 26 Jul 2022 15:25:45 +0800
-Message-Id: <20220726072555.91323-10-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH 11/20] drm/amd/display: Clean up some inconsistent indenting
+Date: Tue, 26 Jul 2022 15:25:46 +0800
+Message-Id: <20220726072555.91323-11-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
 References: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
@@ -51,114 +51,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 No functional modification involved.
 
-smatch warnings:
+smatch warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_mpc.c:116 mpc3_get_ogam_current() warn: inconsistent indenting.
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_mpc.c:445 mpc3_get_shaper_current() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:186 optc3_set_dsc_config() warn: inconsistent indenting.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- .../gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c  | 70 +++++++++----------
- 1 file changed, 35 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
-index 1981a71b961b..ad1c1b703874 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
-@@ -109,32 +109,32 @@ enum dc_lut_mode mpc3_get_ogam_current(struct mpc *mpc, int mpcc_id)
- 	uint32_t state_ram_lut_in_use;
- 	struct dcn30_mpc *mpc30 = TO_DCN30_MPC(mpc);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
+index 80136b5d7e48..d072997477dd 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
+@@ -180,11 +180,8 @@ void optc3_set_dsc_config(struct timing_generator *optc,
+ {
+ 	struct optc *optc1 = DCN10TG_FROM_TG(optc);
  
--	REG_GET_2(MPCC_OGAM_CONTROL[mpcc_id],
--			MPCC_OGAM_MODE_CURRENT, &state_mode,
--			MPCC_OGAM_SELECT_CURRENT, &state_ram_lut_in_use);
-+	REG_GET_2(MPCC_OGAM_CONTROL[mpcc_id], MPCC_OGAM_MODE_CURRENT, &state_mode,
-+		  MPCC_OGAM_SELECT_CURRENT, &state_ram_lut_in_use);
- 
--		switch (state_mode) {
-+	switch (state_mode) {
-+	case 0:
-+		mode = LUT_BYPASS;
-+		break;
-+	case 2:
-+		switch (state_ram_lut_in_use) {
- 		case 0:
--			mode = LUT_BYPASS;
-+			mode = LUT_RAM_A;
- 			break;
--		case 2:
--			switch (state_ram_lut_in_use) {
--			case 0:
--				mode = LUT_RAM_A;
--				break;
--			case 1:
--				mode = LUT_RAM_B;
--				break;
--			default:
--				mode = LUT_BYPASS;
--				break;
--			}
-+		case 1:
-+			mode = LUT_RAM_B;
- 			break;
- 		default:
- 			mode = LUT_BYPASS;
- 			break;
- 		}
--		return mode;
-+		break;
-+	default:
-+		mode = LUT_BYPASS;
-+		break;
-+	}
-+
-+	return mode;
+-	optc2_set_dsc_config(optc, dsc_mode, dsc_bytes_per_pixel,
+-		dsc_slice_width);
+-
+-		REG_UPDATE(OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, 0);
+-
++	optc2_set_dsc_config(optc, dsc_mode, dsc_bytes_per_pixel, dsc_slice_width);
++	REG_UPDATE(OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, 0);
  }
  
- void mpc3_power_on_ogam_lut(
-@@ -439,24 +439,24 @@ static enum dc_lut_mode mpc3_get_shaper_current(struct mpc *mpc, uint32_t rmu_id
- 	uint32_t state_mode;
- 	struct dcn30_mpc *mpc30 = TO_DCN30_MPC(mpc);
- 
--	REG_GET(SHAPER_CONTROL[rmu_idx],
--			MPC_RMU_SHAPER_LUT_MODE_CURRENT, &state_mode);
-+	REG_GET(SHAPER_CONTROL[rmu_idx], MPC_RMU_SHAPER_LUT_MODE_CURRENT, &state_mode);
- 
--		switch (state_mode) {
--		case 0:
--			mode = LUT_BYPASS;
--			break;
--		case 1:
--			mode = LUT_RAM_A;
--			break;
--		case 2:
--			mode = LUT_RAM_B;
--			break;
--		default:
--			mode = LUT_BYPASS;
--			break;
--		}
--		return mode;
-+	switch (state_mode) {
-+	case 0:
-+		mode = LUT_BYPASS;
-+		break;
-+	case 1:
-+		mode = LUT_RAM_A;
-+		break;
-+	case 2:
-+		mode = LUT_RAM_B;
-+		break;
-+	default:
-+		mode = LUT_BYPASS;
-+		break;
-+	}
-+
-+	return mode;
- }
- 
- static void mpc3_configure_shaper_lut(
+ void optc3_set_vrr_m_const(struct timing_generator *optc,
 -- 
 2.20.1.7.g153144c
 
