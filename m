@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A554D5808DE
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 03:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC9A5808E6
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 03:08:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFF5113A48;
-	Tue, 26 Jul 2022 01:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C75D3113F11;
+	Tue, 26 Jul 2022 01:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m1524.mail.126.com (m1524.mail.126.com [220.181.15.24])
- by gabe.freedesktop.org (Postfix) with ESMTP id DAB1B1123B6
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 01:01:10 +0000 (UTC)
+Received: from mail-m963.mail.126.com (mail-m963.mail.126.com [123.126.96.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 50B7C113F11
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 01:08:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=49NVQ
- r4JLgoxazRafSEmNJdnhbuMAI7JmExSKVfr1g8=; b=VOlKQgAKq0c+Aihj6cvmo
- mStFkWJzymYugq8KcfUGAgy7BN0gVahi676Vg67BWUCi4V66bKfhwdseXIqCGuFH
- jRvbXuQGGfc7pmiNjmpZamRt+iuMGd6wc5JncYn3ar8V5A4SQs6w0AnzIEYTw7Rt
- 34r+XD6FRwny965R4hBc6s=
-Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr24
- (Coremail) ; Tue, 26 Jul 2022 08:59:08 +0800 (CST)
-X-Originating-IP: [124.16.139.61]
-Date: Tue, 26 Jul 2022 08:59:08 +0800 (CST)
-From: "Liang He" <windhl@126.com>
-To: "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>
-Subject: Re:Re: [PATCH] drm/meson: Fix refcount bugs in
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=lvbhG
+ MrtTullxjZx01jQpF6ivXWHh1XL/NmfhOLf2sE=; b=AoI0tCAASJWvRxpnWjhzf
+ jpePc29tH/vJ1VbQA7pBfCGPj+28mFlxtFsYJjnz3RdHXjH5dQwRv8sWI0bLGaBA
+ GPJ66Of7gBqNWncn7UeUshrpkR1aJx8d+x8/RFJm2dXzvr4fXGHkiccVsZ6bC6DJ
+ O7d1TbuBsMkuXDzY7bJ034=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+ by smtp8 (Coremail) with SMTP id NORpCgDniZZLPt9ia0IKIg--.28429S2;
+ Tue, 26 Jul 2022 09:07:24 +0800 (CST)
+From: Liang He <windhl@126.com>
+To: narmstrong@baylibre.com, airlied@linux.ie, daniel@ffwll.ch,
+ khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, windhl@126.com
+Subject: [PATCH] drm/meson: Fix refcount bugs in
  meson_vpu_has_available_connectors()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <CAFBinCAUuX58QTE20LBGrFSBdQw2RO7KQdFcgdqnE4N0HKn52w@mail.gmail.com>
-References: <20220715132135.443675-1-windhl@126.com>
- <CAFBinCAUuX58QTE20LBGrFSBdQw2RO7KQdFcgdqnE4N0HKn52w@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+Date: Tue, 26 Jul 2022 09:07:22 +0800
+Message-Id: <20220726010722.1319416-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-ID: <e1a6de0.7fb.1823803c7c8.Coremail.windhl@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: GMqowAD3_iZcPN9irV9OAA--.45205W
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/xtbBGgRKF1-HZj3oaQABsA
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: NORpCgDniZZLPt9ia0IKIg--.28429S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Wr1xKw4kKr43Ar13CF48JFb_yoWkurc_WF
+ W8XFZrWr4UZr48AF4ayFy7uF9FkF1xurWfCF15ta4fCa4UAr1UZr1j9r90qw1fZFW3ZrZr
+ A3ykCF1Ykry3KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjFdyUUUUUU==
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuAxKF2JVkiHHxAAAsu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,26 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, airlied@linux.ie,
- khilman@baylibre.com, dri-devel@lists.freedesktop.org, jbrunet@baylibre.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkF0IDIwMjItMDctMjYgMDM6Mzk6MTcsICJNYXJ0aW4gQmx1bWVuc3RpbmdsIiA8bWFydGluLmJs
-dW1lbnN0aW5nbEBnb29nbGVtYWlsLmNvbT4gd3JvdGU6Cj5IZWxsbywKPgo+T24gRnJpLCBKdWwg
-MTUsIDIwMjIgYXQgMzoyMiBQTSBMaWFuZyBIZSA8d2luZGhsQDEyNi5jb20+IHdyb3RlOgo+Pgo+
-PiBJbiB0aGlzIGZ1bmN0aW9uLCB0aGVyZSBhcmUgdHdvIHJlZmNvdW50IGxlYWsgYnVnczoKPj4g
-KDEpIHdoZW4gYnJlYWtpbmcgb3V0IG9mIGZvcl9lYWNoX2VuZHBvaW50X29mX25vZGUoKSwgd2Ug
-bmVlZCBjYWxsCj4+IHRoZSBvZl9ub2RlX3B1dCgpIGZvciB0aGUgJ2VwJzsKPj4gKDIpIHdlIHNo
-b3VsZCBjYWxsIG9mX25vZGVfcHV0KCkgZm9yIHRoZSByZWZlcmVuY2UgcmV0dXJuZWQgYnkKPj4g
-b2ZfZ3JhcGhfZ2V0X3JlbW90ZV9wb3J0KCkgd2hlbiBpdCBpcyBub3QgdXNlZCBhbnltb3JlLgo+
-Pgo+PiBGaXhlczogYmJiZTc3NWVjNWI1ICgiZHJtOiBBZGQgc3VwcG9ydCBmb3IgQW1sb2dpYyBN
-ZXNvbiBHcmFwaGljIENvbnRyb2xsZXIiKQo+PiBTaWduZWQtb2ZmLWJ5OiBMaWFuZyBIZSA8d2lu
-ZGhsQDEyNi5jb20+Cj5BY2tlZC1ieTogTWFydGluIEJsdW1lbnN0aW5nbCA8bWFydGluLmJsdW1l
-bnN0aW5nbEBnb29nbGVtYWlsLmNvbT4KPgo+SXQncyBlYXN5IGZvciBtZSB0byBtaXNzIHBhdGNo
-ZXMgaWYgdGhlIGxpbnV4LWFtbG9naWMgbGlzdCBpcyBub3QgcGFydAo+b2YgdGhlIHJlY2lwaWVu
-dCBsaXN0Lgo+Q2FuIHlvdSBwbGVhc2UgcmUtc2VuZCB0aGlzIHBhdGNoIGFuZCBpbmNsdWRlIHRo
-ZSBsaW51eC1hbWxvZ2ljCj5tYWlsaW5nIGxpc3QgKHdpdGggbXkgYWNrZWQtYnkgYWRkZWQpPyBU
-aGVuIGl0IHNob3VsZCBhbHNvIHNob3cgdXAgaW4KPk5laWwncyBpbmJveCBzbyBoZSBjYW4gYXBw
-bHkgdGhpcyBwYXRjaC4KPgo+Cj5UaGFuayB5b3UKPk1hcnRpbgoKVGhhbmtzLCAKCkkgd2lsbCBk
-byB0aGF0IHNvb24uCg==
+In this function, there are two refcount leak bugs:
+(1) when breaking out of for_each_endpoint_of_node(), we need call
+the of_node_put() for the 'ep';
+(2) we should call of_node_put() for the reference returned by
+of_graph_get_remote_port() when it is not used anymore.
+
+Fixes: bbbe775ec5b5 ("drm: Add support for Amlogic Meson Graphic Controller")
+Signed-off-by: Liang He <windhl@126.com>
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+---
+ drivers/gpu/drm/meson/meson_drv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 1b70938cfd2c..bd4ca11d3ff5 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -115,8 +115,11 @@ static bool meson_vpu_has_available_connectors(struct device *dev)
+ 	for_each_endpoint_of_node(dev->of_node, ep) {
+ 		/* If the endpoint node exists, consider it enabled */
+ 		remote = of_graph_get_remote_port(ep);
+-		if (remote)
++		if (remote) {
++			of_node_put(remote);
++			of_node_put(ep);
+ 			return true;
++		}
+ 	}
+ 
+ 	return false;
+-- 
+2.25.1
+
