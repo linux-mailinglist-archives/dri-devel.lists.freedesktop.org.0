@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FBB580D99
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5C5580D9C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC0311BDD3;
-	Tue, 26 Jul 2022 07:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC18311BD3C;
+	Tue, 26 Jul 2022 07:27:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-44.freemail.mail.aliyun.com
- (out30-44.freemail.mail.aliyun.com [115.124.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF0411BC57;
- Tue, 26 Jul 2022 07:27:45 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400;
+Received: from out30-130.freemail.mail.aliyun.com
+ (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A04911B187;
+ Tue, 26 Jul 2022 07:27:51 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R961e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VKUOHFo_1658820458; 
+ TI=SMTPD_---0VKUN9FD_1658820463; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VKUOHFo_1658820458) by smtp.aliyun-inc.com;
- Tue, 26 Jul 2022 15:27:41 +0800
+ fp:SMTPD_---0VKUN9FD_1658820463) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 15:27:45 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH 19/20] drm/amd/display: Clean up some inconsistent indenting
-Date: Tue, 26 Jul 2022 15:25:54 +0800
-Message-Id: <20220726072555.91323-19-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH 20/20] drm/amd/display: Clean up some inconsistent indenting
+Date: Tue, 26 Jul 2022 15:25:55 +0800
+Message-Id: <20220726072555.91323-20-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
 References: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
@@ -49,81 +49,189 @@ Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up some inconsistent indenting, replace sizeof(x) / sizeof((x)[0]))
-with ARRAY_SIZE(x).
+No functional modification involved.
 
 smatch warnings:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.c:185 optc3_fpu_set_vrr_m_const() warn: inconsistent indenting.
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.c:355 dcn30_fpu_set_mcif_arb_params() warn: inconsistent indenting.
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.c:384 dcn30_fpu_calculate_wm_and_dlg() warn: inconsistent indenting.
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.c:390 dcn30_fpu_calculate_wm_and_dlg() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1372 dp_dsc_clock_en_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1478 dp_dsc_clock_en_write() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1563 dp_dsc_slice_width_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1667 dp_dsc_slice_width_write() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1752 dp_dsc_slice_height_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1856 dp_dsc_slice_height_write() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1937 dp_dsc_bits_per_pixel_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2038 dp_dsc_bits_per_pixel_write() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2117 dp_dsc_pic_width_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2178 dp_dsc_pic_height_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2254 dp_dsc_chunk_size_read() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2330 dp_dsc_slice_bpg_offset_read() warn: inconsistent indenting.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- .../drm/amd/display/dc/dml/dcn30/dcn30_fpu.c   | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 72 +++++++++----------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c
-index c00f759fdded..060426916998 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/dcn30_fpu.c
-@@ -181,7 +181,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_0_soc = {
- void optc3_fpu_set_vrr_m_const(struct timing_generator *optc,
- 		double vtotal_avg)
- {
--struct optc *optc1 = DCN10TG_FROM_TG(optc);
-+	struct optc *optc1 = DCN10TG_FROM_TG(optc);
- 	double vtotal_min, vtotal_max;
- 	double ratio, modulo, phase;
- 	uint32_t vblank_start;
-@@ -350,24 +350,24 @@ void dcn30_fpu_set_mcif_arb_params(struct mcif_arb_params *wb_arb_params,
- 	int pipe_cnt,
- 	int cur_pipe)
- {
--    int i;
-+	int i;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index aa4edf182095..0e48824f55e3 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -1369,9 +1369,9 @@ static ssize_t dp_dsc_clock_en_read(struct file *f, char __user *buf,
  
- 	dc_assert_fp_enabled();
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
  
--    for (i = 0; i < sizeof(wb_arb_params->cli_watermark)/sizeof(wb_arb_params->cli_watermark[0]); i++) {
-+	for (i = 0; i < ARRAY_SIZE(wb_arb_params->cli_watermark); i++) {
- 		wb_arb_params->cli_watermark[i] = get_wm_writeback_urgent(dml, pipes, pipe_cnt) * 1000;
- 		wb_arb_params->pstate_watermark[i] = get_wm_writeback_dram_clock_change(dml, pipes, pipe_cnt) * 1000;
--    }
-+	}
+ 	if (!pipe_ctx) {
+@@ -1475,9 +1475,9 @@ static ssize_t dp_dsc_clock_en_write(struct file *f, const char __user *buf,
  
--    wb_arb_params->dram_speed_change_duration = dml->vba.WritebackAllowDRAMClockChangeEndPosition[cur_pipe] * pipes[0].clks_cfg.refclk_mhz; /* num_clock_cycles = us * MHz */
-+	wb_arb_params->dram_speed_change_duration = dml->vba.WritebackAllowDRAMClockChangeEndPosition[cur_pipe] * pipes[0].clks_cfg.refclk_mhz; /* num_clock_cycles = us * MHz */
- }
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
  
- void dcn30_fpu_update_soc_for_wm_a(struct dc *dc, struct dc_state *context)
- {
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -1560,9 +1560,9 @@ static ssize_t dp_dsc_slice_width_read(struct file *f, char __user *buf,
  
--dc_assert_fp_enabled();
-+	dc_assert_fp_enabled();
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
  
--if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_A].valid) {
-+	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_A].valid) {
- 		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_A].dml_input.pstate_latency_us;
- 		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_A].dml_input.sr_enter_plus_exit_time_us;
- 		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_A].dml_input.sr_exit_time_us;
-@@ -380,12 +380,12 @@ void dcn30_fpu_calculate_wm_and_dlg(
- 		int pipe_cnt,
- 		int vlevel)
- {
--int maxMpcComb = context->bw_ctx.dml.vba.maxMpcComb;
-+	int maxMpcComb = context->bw_ctx.dml.vba.maxMpcComb;
- 	int i, pipe_idx;
- 	double dcfclk = context->bw_ctx.dml.vba.DCFCLKState[vlevel][maxMpcComb];
- 	bool pstate_en = context->bw_ctx.dml.vba.DRAMClockChangeSupport[vlevel][maxMpcComb] != dm_dram_clock_change_unsupported;
+ 	if (!pipe_ctx) {
+@@ -1664,9 +1664,9 @@ static ssize_t dp_dsc_slice_width_write(struct file *f, const char __user *buf,
  
--dc_assert_fp_enabled();
-+	dc_assert_fp_enabled();
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
  
- 	if (context->bw_ctx.dml.soc.min_dcfclk > dcfclk)
- 		dcfclk = context->bw_ctx.dml.soc.min_dcfclk;
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -1749,9 +1749,9 @@ static ssize_t dp_dsc_slice_height_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx) {
+@@ -1853,9 +1853,9 @@ static ssize_t dp_dsc_slice_height_write(struct file *f, const char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -1934,9 +1934,9 @@ static ssize_t dp_dsc_bits_per_pixel_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx) {
+@@ -2035,9 +2035,9 @@ static ssize_t dp_dsc_bits_per_pixel_write(struct file *f, const char __user *bu
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -2114,9 +2114,9 @@ static ssize_t dp_dsc_pic_width_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx) {
+@@ -2175,9 +2175,9 @@ static ssize_t dp_dsc_pic_height_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx) {
+@@ -2251,9 +2251,9 @@ static ssize_t dp_dsc_chunk_size_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx) {
+@@ -2327,9 +2327,9 @@ static ssize_t dp_dsc_slice_bpg_offset_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx) {
 -- 
 2.20.1.7.g153144c
 
