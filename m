@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1276C580D94
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B2E580D96
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C22211BD1A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710A911BD08;
 	Tue, 26 Jul 2022 07:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-133.freemail.mail.aliyun.com
- (out30-133.freemail.mail.aliyun.com [115.124.30.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7914F11BE31;
- Tue, 26 Jul 2022 07:27:16 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+Received: from out30-44.freemail.mail.aliyun.com
+ (out30-44.freemail.mail.aliyun.com [115.124.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6678E11BE7C;
+ Tue, 26 Jul 2022 07:27:21 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R481e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VKUOH31_1658820429; 
+ TI=SMTPD_---0VKUPgsP_1658820434; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VKUOH31_1658820429) by smtp.aliyun-inc.com;
- Tue, 26 Jul 2022 15:27:11 +0800
+ fp:SMTPD_---0VKUPgsP_1658820434) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 15:27:16 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH 12/20] drm/amd/display: Clean up some inconsistent indenting
-Date: Tue, 26 Jul 2022 15:25:47 +0800
-Message-Id: <20220726072555.91323-12-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH 13/20] drm/amd/display: Clean up some inconsistent indenting
+Date: Tue, 26 Jul 2022 15:25:48 +0800
+Message-Id: <20220726072555.91323-13-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
 References: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
@@ -51,31 +51,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 No functional modification involved.
 
-smatch warning:
+smatch warnings:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_dwb.c:104 dwb2_enable() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_mpc.c:305 mpc20_get_ogam_current() warn: inconsistent indenting.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c  | 36 +++++++++----------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c
-index 8d3884b306dd..f1490e97b6ce 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c
-@@ -101,8 +101,8 @@ static bool dwb2_enable(struct dwbc *dwbc, struct dc_dwb_params *params)
- 	struct dcn20_dwbc *dwbc20 = TO_DCN20_DWBC(dwbc);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
+index 15734db0cdea..3d307dd58e9a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
+@@ -299,24 +299,24 @@ static enum dc_lut_mode mpc20_get_ogam_current(struct mpc *mpc, int mpcc_id)
+ 	uint32_t state_mode;
+ 	struct dcn20_mpc *mpc20 = TO_DCN20_MPC(mpc);
  
- 	/* Only chroma scaling (sub-sampling) is supported in DCN2 */
--if ((params->cnv_params.src_width  != params->dest_width) ||
--		(params->cnv_params.src_height != params->dest_height)) {
-+	if ((params->cnv_params.src_width  != params->dest_width) ||
-+	    (params->cnv_params.src_height != params->dest_height)) {
+-	REG_GET(MPCC_OGAM_LUT_RAM_CONTROL[mpcc_id],
+-			MPCC_OGAM_CONFIG_STATUS, &state_mode);
+-
+-		switch (state_mode) {
+-		case 0:
+-			mode = LUT_BYPASS;
+-			break;
+-		case 1:
+-			mode = LUT_RAM_A;
+-			break;
+-		case 2:
+-			mode = LUT_RAM_B;
+-			break;
+-		default:
+-			mode = LUT_BYPASS;
+-			break;
+-		}
+-		return mode;
++	REG_GET(MPCC_OGAM_LUT_RAM_CONTROL[mpcc_id], MPCC_OGAM_CONFIG_STATUS, &state_mode);
++
++	switch (state_mode) {
++	case 0:
++		mode = LUT_BYPASS;
++		break;
++	case 1:
++		mode = LUT_RAM_A;
++		break;
++	case 2:
++		mode = LUT_RAM_B;
++		break;
++	default:
++		mode = LUT_BYPASS;
++		break;
++	}
++
++	return mode;
+ }
  
- 		DC_LOG_DWB("%s inst = %d, FAILED!LUMA SCALING NOT SUPPORTED", __func__, dwbc20->base.inst);
- 		return false;
+ static void mpc2_program_lutb(struct mpc *mpc, int mpcc_id,
 -- 
 2.20.1.7.g153144c
 
