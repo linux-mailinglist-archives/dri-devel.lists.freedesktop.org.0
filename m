@@ -1,61 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF785809FB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 05:30:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6895809FF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 05:31:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A2A14A44F;
-	Tue, 26 Jul 2022 03:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3111201E;
+	Tue, 26 Jul 2022 03:31:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E28514A6B0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 03:30:38 +0000 (UTC)
-X-UUID: e6da1e1c67f84d369b94ba63bf962b6d-20220726
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:53ff23a7-94be-4595-848e-ff4b1c03f1a5, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:758b04ee-db04-4499-9fdf-04ef44b9468c,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: e6da1e1c67f84d369b94ba63bf962b6d-20220726
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1573937601; Tue, 26 Jul 2022 11:30:31 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 26 Jul 2022 11:30:30 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 26 Jul 2022 11:30:30 +0800
-Message-ID: <ae6da1f0c9a27f97b4e9dd76071d03f21dcfcd3b.camel@mediatek.com>
-Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
- <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Tue, 26 Jul 2022 11:30:28 +0800
-In-Reply-To: <6232f0fc15bc1057aab68523e5eb63e10b3a2802.camel@mediatek.com>
-References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
- <20220712111223.13080-6-rex-bc.chen@mediatek.com>
- <6232f0fc15bc1057aab68523e5eb63e10b3a2802.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2100.outbound.protection.outlook.com [40.107.236.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9BB514A7C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 03:31:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZIZeOPQnCGws7Ecdji9EboYrXacpbUnB3/2RMMoodYRt3zXGL4z+rR7EcVkFWckkJL0mbKq14SLPTnVrsNWbOvHyOqPAtAtoISS0g8OUTrpyGkXjlpeD2x+07lyppOm4cBZ+HX6vub6CbT+d9JYAJ5uYPsJ2Rglex11FXMYmNiwsg2bVZYvQkiEC9JazXEbHCq4arFjrzt3dOg96oFckwdqfwJZkU+M4mvZzWKLJdN0llVW/MqVoq0Dmx85Nv6BuB8HsnY3IOvg9ncU9lb5GlWzTXp12YmgXwsWeWpJxb8qaEM8ig2jE74vC5Jcr5vQhI7M/EEFWvme/yNsibswNfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+dCS7LQ46t7nqdVSXJNWZfU5yXoPNyxVT3hjArbg/y4=;
+ b=G8Huk6DYoYAYP5DasoycK4KaQicPyikn8byoDrd8HxjS71leLttbPazE3+HvqhrtJkTIkJWjoZpXsVGFFSzF2Ra8fG4inLnsrrne8eAqzNaDKRQmBSqwVjZ23HfznjqwMThhQdlxVlTc1kBfJ5ubuJLUiOUVKUwCav2X0CNg9kAIzh9nxofrPT/MulUQtKx/UCIJ06Qk3VbInfiyLgTmMN2s1eEq5I9asiX7fNu471atJZvkjgxCg0PcTjvr+ZdWWdt2w2hd2xfxoWG1kfx6mPaNrnJBD+DysJRxP9JT1mRig6ogzbJ07/QYbe97Ju2RpyMwE3S/FGB29Xf+uR37cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+dCS7LQ46t7nqdVSXJNWZfU5yXoPNyxVT3hjArbg/y4=;
+ b=FJ3r0xt2g9yzmHGNmk3AiAIn41pvNKYIjuYrMlWvF/e3701yjt9dATaWnrvRpRaQ+DdSmAUetx2g6Lk8Xipojiuw6R3YR0OVq5/gT/V1FDUa3oKxH5AS/U/k8xasJh36UjuCzgw92C3FtCia0vRIbhAdfND5Mk6Xixb7esa27vE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by CO6PR04MB8316.namprd04.prod.outlook.com (2603:10b6:303:137::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Tue, 26 Jul
+ 2022 03:31:28 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::f02d:f2e:cba9:223b]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::f02d:f2e:cba9:223b%6]) with mapi id 15.20.5458.024; Tue, 26 Jul 2022
+ 03:31:22 +0000
+From: Xin Ji <xji@analogixsemi.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/bridge: anx7625: Support HDMI_I2S audio format
+Date: Tue, 26 Jul 2022 11:30:58 +0800
+Message-Id: <20220726033058.403715-1-xji@analogixsemi.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYWP286CA0022.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:262::8) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 634590c1-d796-4248-ac9e-08da6eb74fb8
+X-MS-TrafficTypeDiagnostic: CO6PR04MB8316:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: syoaGwYjXyx8VASXUHodftaXfgxLILWl51QUnEJIkPeQcsl2kiu+ZLqQrpujpzkZkKl6P36wYh5+v0DoZwEZ4Q96iDhxWfILlyLSgDCj47jrjE6hXxtAbGBZgzw5Qe/oDtxxFge7fTKjMJATltY6x4rfV2y6M5KUJi4ikgeWpZi8EbSEYMcenZbfH3LPTQIwnioFew4ZdCXAJ9mGZnjjRYbCHBQYUG8GbIq69wh53kSPQQzE47RLDNEQKwFwrwoBdtwba52CUVGDlryiw3AQ9P7OaZt5CFCqXk1CzDDVecYzrNo7StkyzXGDWK+yjKaR2weNZUlUk1hu66dwgtGFbrdLu9o7kS7z+oVCtHKPKi3TElWwgaEOotQhyBshej+NxiAjK9Sra72R7oCoySrYTMiLsIctiOJgZqNhga7K+vo985LdwdOLogdxP8CFf7aCrGF4mGhRK6ifXW+2ID3wUb3xHH/dWn4B6ym+Kxw96ux6TZR3ZNUU3rgd7VsP82aJCVlDCXtSHBZAW5OgAGA+QaLNtdQxqd8fQieEUrOfFGgikSe6V/6ghNG4Ii+6gUXYeYyMselg9KX0hVAxex/QEkNgLmaqclqtyLk2AptrloWgpBf0eA/gxDlBVmXsLemjMitMTfgwAt/qKwoBnQUPO7Vi8O+8eTuIA66zuVrQzzj7uV1s3oMu4MDuaJMR75aBuqmAiALfoudRZKW/YMSw2RuBP+uorOaVZkBZ9VWE0GTQJl8qBcJKDKpcoPFtoni/5Y+qjvyBVQHfGLIT5kyTWX6SOAKokXXnOINuzSDsiEo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(346002)(396003)(39840400004)(366004)(376002)(136003)(186003)(1076003)(8676002)(4326008)(66946007)(66556008)(83380400001)(66476007)(2616005)(110136005)(52116002)(6512007)(41300700001)(36756003)(6506007)(26005)(2906002)(38350700002)(38100700002)(86362001)(7416002)(6666004)(5660300002)(316002)(478600001)(8936002)(6486002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V0N/K6BPvC7Q6c5TOeg72ZyKWYgRWYWGUOcMLRABEyVNH9MJ1p2hczoMWZ7p?=
+ =?us-ascii?Q?C9mGAljPcTRWh3o6jjttUKr8+OTtTiV95rgTL0xTPHlT14EVLBuqSaXRXTNq?=
+ =?us-ascii?Q?GsazqAIMsIuFH4mdnnbnOCyOliOsZaovcflcq0BcXLgGanw4CO3qQMomwffi?=
+ =?us-ascii?Q?J/NgAqAJsxCqbj33kqOzmGW9Z4+8Sr5Cy+9aPu1BJF/2S15c2Um7nHpuTsf8?=
+ =?us-ascii?Q?B/1DJKITHhu0X8Wfv1ygDf1Kh76biDZkDCstnHA5dD7wZJF+bnh1xZ/HFL38?=
+ =?us-ascii?Q?5XIuZldCz6jnbgTKxDSApeu3uP+b/3Q2ZXZ1JmR6BZbqkWRQ3pC60ACn22u1?=
+ =?us-ascii?Q?u3qpEnakEx5FJRII5ApxCJLV584MTzRS/TDAIuBqcdeJgNeBdgrRoSjxlmMw?=
+ =?us-ascii?Q?IsoU1YaKcBZt2fzr4MT6H1hrHAzxGTrguHAJ21FcY8aeaFNd5hqEbKw2dqn2?=
+ =?us-ascii?Q?C4qfNrK6nWKGYzF8n7fgOvsfwDGQzyrKBKQ108fSZmCifn/CEJrlSeMnJJ67?=
+ =?us-ascii?Q?1t2v1zl2V1SnEJ4P7bUhLpQ0irEPB4BZWvw7viw1TgOJi3wvUq4vylJgc+xx?=
+ =?us-ascii?Q?KJuNfFURNKwvMakPIfLBqnhZDTCfjx61ndaI+9g8CrUxTvqc3ijEOlLYPmrJ?=
+ =?us-ascii?Q?6vkGG36tWQKudm9/2eZbU1mBJLc7RVPMjzde2NvLrDnp9KySg0LfBIVN3D2w?=
+ =?us-ascii?Q?rLbRUP8ZnIMI+3196+c3YQKzY3cGp+v4dIAAZgH3VdRKQzYdcanr5rPaMzrN?=
+ =?us-ascii?Q?N6HYiI0H0Zt//6B7Bzbio/wXE/+t0sljhTQerZjK66ve2DN+NOBjxKSQerjW?=
+ =?us-ascii?Q?UMlxFefSGPFb75v2HxkhEerfswksMxtOtWg+4Dk1881RttoxpyvMyYUcKRDC?=
+ =?us-ascii?Q?Pafo3H8bibcJC48S5Y72wMIJbgXsGqt3aeouGII0GNcVjNl58zSN30NItspN?=
+ =?us-ascii?Q?tMzYFwuzK4oGVjaF0qwWXvqCHsLOLBrm1Mi5i8hE0ZelB+CyRtH88syCGz/u?=
+ =?us-ascii?Q?8NeD2Lp931bBzBI8UBLBnRhs5KNQ5IYHSfgoConbt3w6qhbVVmk0u789AdS0?=
+ =?us-ascii?Q?gBCPWS9Fyo6H26xIsR2f4OaU2VckLl5Tqw3cD8ReNhiKaKM4/EG2hxChlj/3?=
+ =?us-ascii?Q?B1Wak255SJ350kfIQIChhVTpQEHQ68IJFyrt6WkHUCGmU1PJCwMUYVROtXTj?=
+ =?us-ascii?Q?paCsm6rKgAkwClBG8z2L2PtlzTyVQ9K2Pxhu7NV8t6ws2CjDel1yMzF3MPn+?=
+ =?us-ascii?Q?DzIwgEi4rRMhdwQ35/rE0jAvR0diH88nM8nLIPn1VVkJJ78L4OT+X5Pnllhr?=
+ =?us-ascii?Q?rKc636TRUebu+p3CWJCVWPUQtNdesR2ili1RAylT2/GLKVBPfXNhPA4TnwCM?=
+ =?us-ascii?Q?lplcmNYmh480xG8/UdnH5P4G1ZCgM/a8dsW+NTj+6ZH5sFjAux3g2N2OISrV?=
+ =?us-ascii?Q?00exAy5BvM33QU+NktBfaFr12dVTiN0KEFeo5B9wnhrqDLu3vBScLVNc+7BA?=
+ =?us-ascii?Q?o+hMLljTR7kE+fp3bpSLqd665hXdxFQKccTIV9X+kIiQ8/lTW2zP799j90nn?=
+ =?us-ascii?Q?5mYvfQ7cpQ6reUteppJYGb6FpVSMDKkrqVRTKmfK?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 634590c1-d796-4248-ac9e-08da6eb74fb8
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 03:31:22.3639 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 08VpMRB9UG5FfzCzRY9sH09aSOIn+vlZnklkAJMBqxwRzsXJtLVFeqE4P/qzgONQnuJxpbghM2/HngroDfRWKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB8316
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,140 +117,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "granquet@baylibre.com" <granquet@baylibre.com>,
- Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
- <jitao.shi@mediatek.com>,
- LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: qwen@analogixsemi.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hsinyi@chromium.org, bliang@analogixsemi.com,
+ Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-07-25 at 17:23 +0800, CK Hu wrote:
-> Hi, Bo-Chen:
-> 
-> On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a embedded displayport driver for the MediaTek
-> > mt8195
-> > SoC.
-> > 
-> > It supports the MT8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jitao shi <jitao.shi@mediatek.com>
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > ---
-> 
-> [snip]
-> 
-> > +
-> > +/*
-> > + * We need to handle HPD signal in eDP even though eDP is a always
-> > connected
-> > + * device. Besides connected status, there is another feature for
-> > HPD signal -
-> > + * HPD pulse: it presents an IRQ from sink devices to source
-> > devices
-> > (Refer to
-> > + * 5.1.4 of DP1.4 spec).
-> > + */
-> > +static irqreturn_t mtk_dp_hpd_isr_handler(struct mtk_dp *mtk_dp)
-> > +{
-> > +	bool hpd_change = false;
-> > +	u32 irq_status = mtk_dp_swirq_get_clear(mtk_dp) |
-> > +			 mtk_dp_hwirq_get_clear(mtk_dp);
-> > +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
-> > +
-> > +	if (!irq_status)
-> > +		return IRQ_HANDLED;
-> > +
-> > +	if (irq_status & MTK_DP_HPD_INTERRUPT)
-> > +		train_info->irq_sta.hpd_inerrupt = true;
-> > +	if (irq_status & MTK_DP_HPD_CONNECT ||
-> > +	    irq_status & MTK_DP_HPD_DISCONNECT)
-> > +		hpd_change = true;
-> > +
-> > +	if (!(hpd_change))
-> > +		return IRQ_WAKE_THREAD;
-> > +
-> > +	if (mtk_dp_plug_state(mtk_dp))
-> 
-> mtk_dp_plug_state() is called only here, and prevent function call in
-> isr handler, so squash mtk_dp_plug_state() into this function.
-> 
+1. Support HDMI_I2S audio format.
+2. Return 0 if there is no sink connection in .hw_param callback.
 
-Hello CK,
+Signed-off-by: Xin Ji <xji@analogixsemi.com>
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-Thanks for review.
-
-I would like to keep this because we will use this function for
-mtk_dp_plug_state_avoid_pulse() in dp patch.
-
-> > +		train_info->cable_plugged_in = true;
-> > +	else
-> > +		train_info->cable_plugged_in = false;
-> > +
-> > +	train_info->cable_state_change = true;
-> > +
-> > +	return IRQ_WAKE_THREAD;
-> > +}
-> > +
-> > +static irqreturn_t mtk_dp_hpd_event(int hpd, void *dev)
-> > +{
-> > +	struct mtk_dp *mtk_dp = dev;
-> > +	u32 irq_status;
-> > +
-> > +	irq_status = mtk_dp_read(mtk_dp, MTK_DP_TOP_IRQ_STATUS);
-> > +
-> > +	if (!irq_status)
-> > +		return IRQ_HANDLED;
-> > +
-> > +	if (irq_status & RGS_IRQ_STATUS_TRANSMITTER)
-> > +		return mtk_dp_hpd_isr_handler(mtk_dp);
-> 
-> Prevent function call in isr handler, squash mtk_dp_hpd_isr_handler()
-> into this function.
-> 
-
-Is this really necessary? We also modify this function in following
-patches. I think it's not a good idea to expand this.
-
-BRs,
-Bo-Chen
-
-> Regards,
-> CK
-> 
-> > +
-> > +	return IRQ_HANDLED;
-> > +}
-> > +
-> 
-> 
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 79fc7a50b497..c74b5df4cade 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1797,8 +1797,13 @@ static int anx7625_audio_hw_params(struct device *dev, void *data,
+ 	int wl, ch, rate;
+ 	int ret = 0;
+ 
+-	if (fmt->fmt != HDMI_DSP_A) {
+-		DRM_DEV_ERROR(dev, "only supports DSP_A\n");
++	if (anx7625_sink_detect(ctx) == connector_status_disconnected) {
++		DRM_DEV_DEBUG_DRIVER(dev, "DP not connected\n");
++		return 0;
++	}
++
++	if (fmt->fmt != HDMI_DSP_A && fmt->fmt != HDMI_I2S) {
++		DRM_DEV_ERROR(dev, "only supports DSP_A & I2S\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1806,10 +1811,16 @@ static int anx7625_audio_hw_params(struct device *dev, void *data,
+ 			     params->sample_rate, params->sample_width,
+ 			     params->cea.channels);
+ 
+-	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
+-				    AUDIO_CHANNEL_STATUS_6,
+-				    ~I2S_SLAVE_MODE,
+-				    TDM_SLAVE_MODE);
++	if (fmt->fmt == HDMI_DSP_A)
++		ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
++					   AUDIO_CHANNEL_STATUS_6,
++					   ~I2S_SLAVE_MODE,
++					   TDM_SLAVE_MODE);
++	else
++		ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
++					   AUDIO_CHANNEL_STATUS_6,
++					   ~TDM_SLAVE_MODE,
++					   I2S_SLAVE_MODE);
+ 
+ 	/* Word length */
+ 	switch (params->sample_width) {
+-- 
+2.25.1
 
