@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B62581911
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 19:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF11581917
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 19:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBD210EB84;
-	Tue, 26 Jul 2022 17:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1028F95643;
+	Tue, 26 Jul 2022 17:51:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B7596437;
- Tue, 26 Jul 2022 17:50:51 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- o20-20020a17090aac1400b001f2da729979so4347996pjq.0; 
- Tue, 26 Jul 2022 10:50:51 -0700 (PDT)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29BE996445;
+ Tue, 26 Jul 2022 17:50:55 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id d10so13864318pfd.9;
+ Tue, 26 Jul 2022 10:50:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kFWCPQ026Vm0ssc92OEIjelADHl+en2PNRs5WLmvYxM=;
- b=lCObkp9FE/21z/4v9sqKAMNyMrxnHTOC23HtKuVK1mUngMduut8t8o/S3WKSeIOy9q
- eOlJRPs8F7E+i6nsg9nRMcJTCai8vcnwrzcZBxYF/Z3qn/VtJanzwNbpjEzObQtluAnG
- cvaxFJ9Z/ZAvgcFSEbc76zlxwESJ1sarQZque5u7Ok3yxgXLm0uQ+ovtlDiDG7vEeda7
- twvXxFztsy9B5W5ogZPesgArzSflQVKrbpjZmbeiFhHnGKVEgAEcq9bk9giNnA0JT0Oh
- 7CfydKTvC7Tj/VlKrmjgWi7V5T846lIR9Odh71D7mv9h1eIkVBz9kA5JUKw0uUVWuiZk
- xOUw==
+ bh=2lydIYqrd+W135f9r06NI6UhXQCS/e+8vxoGcpQKqzg=;
+ b=PDhqNYSA6xODDrDd0vHt957kMkLlkt5YZtjJxu+uvf+VzRec12Wl4zGHGQHNUR+kud
+ r2uR4/8h303E1AlsaXNAe3ZhUAaJfqkiYP0VjNx0BL05Jb/zMAbRYkXPnovdWnP+9p7r
+ 5dvkMe5GeXznPQS1F+3pDa/nbm8Qwt3ybBYB/ZLstnjmLb3xOx3GEMP8Ze41fwemHtyQ
+ ozXKvekJUrPjKiub/Y3PVDeY3AiKdoDoVnUBe/6XnPIkYEyPRNyoqqaCdj4k7BOBjbvm
+ C+jMrQIrT81XHU+XCobgj7olhE+JGMUjWjw87bizuidWC86Pg/xKTPq1+2viHdzRY82B
+ Vc0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kFWCPQ026Vm0ssc92OEIjelADHl+en2PNRs5WLmvYxM=;
- b=MnyFTCzHNjkm7tUMS3n1jOxQKusuu+RIPRqVjP7wLZs5w570WJFUxoVdisQuqNYpZN
- wm9hqOVLJskngiFS4xTDT9w5UPH8bfLfR5VwvCqSPxafJRm14yHGKrEUhg/ayogPBkxP
- eNFsIzfrHVdMGC9Vvxoi72OKVFMWwDnst1uVdiAVW1eFv/DDVgvRXk93yxOibBbmyzai
- MyaRcLi+79xfdGrqHIeVBGCMWXT7wjosg47zecvyt0FJQRw3KdwvPh0A2WSdwfFRzThy
- FTVqGrD9v/9q00FC5VQWWwkBUYcS9WVjdPIp6473gA/eRNAmywEG3bYssnvtrfvgkmnb
- 0QDQ==
-X-Gm-Message-State: AJIora9z9n3K/PUMmL/J2GDXF27C8FnBgE1eA6km5SQU+XZcKZ2516TW
- mDc0PycmUju8hteiw85SGl20DMvsFPg=
-X-Google-Smtp-Source: AGRyM1tdh2qvuDkY5DLeIQHdWIquHQp5nCdXcLA0KqZYZtlIaOgeg6179jN5Fe39m4gSJU6SvicfjQ==
-X-Received: by 2002:a17:902:ea0d:b0:16d:80f9:da54 with SMTP id
- s13-20020a170902ea0d00b0016d80f9da54mr8481066plg.150.1658857850964; 
- Tue, 26 Jul 2022 10:50:50 -0700 (PDT)
+ bh=2lydIYqrd+W135f9r06NI6UhXQCS/e+8vxoGcpQKqzg=;
+ b=VND80pJFl/RQGzo+5CmHa6AfLu0o4jfxFUZQKzbMpZVmQDLjd+laRsQfA65iPdgBS1
+ kUSHz/fTSHdFq0wuGwM7TaahGIhFD12/pXxN68krCdz9f47RB/KyaNLNHnk9jYxQ4LSV
+ IqUh5dFPVtUOQzl2nJHIKgNOyvlnUQNz17lqdpEHqAIVBsUcu5Wet+AVbywlzmo8SsV0
+ WiEHiNV8I65bFu3mNQo7GkEn41RwVwZm3bF11RhvTNPlTnFQlgRYpGCkAO2+E5tk6oLq
+ dn4ZC0eokDHiRROsYx5MQBNv1Pc9h0OCyMTjOt05w9n4qe5A9qBMTtSxcISTXrk4czjG
+ FvYw==
+X-Gm-Message-State: AJIora/K4zf0Xi4q3YHxZ/3CTYtsZGJG0nUssrn9hdQzcTDr5+jqvKpz
+ SNO6qXD/P2wB+qqJx9Q9qsBqy/8anlY=
+X-Google-Smtp-Source: AGRyM1sGBKIW+nSuF4xjycb0Y98jAeOZnMBjSoj/fVz6HwmitE1tylB8Q/1BW6YONmhkBh9qfmetyg==
+X-Received: by 2002:a05:6a00:179e:b0:518:9e1d:1cbd with SMTP id
+ s30-20020a056a00179e00b005189e1d1cbdmr18408477pfg.12.1658857853881; 
+ Tue, 26 Jul 2022 10:50:53 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- h13-20020a170902680d00b00168c52319c3sm12015432plk.149.2022.07.26.10.50.49
+ p127-20020a622985000000b00528d3d7194dsm12026601pfp.4.2022.07.26.10.50.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 10:50:50 -0700 (PDT)
+ Tue, 26 Jul 2022 10:50:52 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 13/15] drm/msm/gem: Evict active GEM objects when necessary
-Date: Tue, 26 Jul 2022 10:50:37 -0700
-Message-Id: <20220726175043.1027731-14-robdclark@gmail.com>
+Subject: [PATCH v3 14/15] drm/msm/gem: Add msm_gem_assert_locked()
+Date: Tue, 26 Jul 2022 10:50:38 -0700
+Message-Id: <20220726175043.1027731-15-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220726175043.1027731-1-robdclark@gmail.com>
 References: <20220726175043.1027731-1-robdclark@gmail.com>
@@ -80,149 +79,206 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-If we are under enough memory pressure, we should stall waiting for
-active buffers to become idle in order to evict.
-
-v2: Check for __GFP_ATOMIC before blocking
+All use of msm_gem_is_locked() is just for WARN_ON()s, so extract out
+into an msm_gem_assert_locked() patch.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 70 +++++++++++++++++++++-----
- drivers/gpu/drm/msm/msm_gpu_trace.h    | 16 +++---
- 2 files changed, 68 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 36 +++++++++++++++++------------------
+ drivers/gpu/drm/msm/msm_gem.h |  8 +++++++-
+ 2 files changed, 25 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index 5cc05d669a08..f31054d25314 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -24,6 +24,13 @@ static bool can_swap(void)
- 	return enable_eviction && get_nr_swap_pages() > 0;
- }
- 
-+static bool can_block(struct shrink_control *sc)
-+{
-+	if (sc->gfp_mask & __GFP_ATOMIC)
-+		return false;
-+	return current_is_kswapd() || (sc->gfp_mask & __GFP_RECLAIM);
-+}
-+
- static unsigned long
- msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index d4e8af46f4ef..1dee0d18abbb 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -97,7 +97,7 @@ static struct page **get_pages(struct drm_gem_object *obj)
  {
-@@ -65,26 +72,65 @@ evict(struct drm_gem_object *obj)
- 	return true;
- }
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
  
-+static bool
-+wait_for_idle(struct drm_gem_object *obj)
-+{
-+	enum dma_resv_usage usage = dma_resv_usage_rw(true);
-+	return dma_resv_wait_timeout(obj->resv, usage, false, 1000) > 0;
-+}
-+
-+static bool
-+active_purge(struct drm_gem_object *obj)
-+{
-+	if (!wait_for_idle(obj))
-+		return false;
-+
-+	return purge(obj);
-+}
-+
-+static bool
-+active_evict(struct drm_gem_object *obj)
-+{
-+	if (!wait_for_idle(obj))
-+		return false;
-+
-+	return evict(obj);
-+}
-+
- static unsigned long
- msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	if (!msm_obj->pages) {
+ 		struct drm_device *dev = obj->dev;
+@@ -183,7 +183,7 @@ static struct page **msm_gem_pin_pages_locked(struct drm_gem_object *obj)
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct page **p;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	if (GEM_WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED)) {
+ 		return ERR_PTR(-EBUSY);
+@@ -278,7 +278,7 @@ static uint64_t mmap_offset(struct drm_gem_object *obj)
+ 	struct drm_device *dev = obj->dev;
+ 	int ret;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	/* Make it mmapable */
+ 	ret = drm_gem_create_mmap_offset(obj);
+@@ -307,7 +307,7 @@ static struct msm_gem_vma *add_vma(struct drm_gem_object *obj,
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct msm_gem_vma *vma;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	vma = kzalloc(sizeof(*vma), GFP_KERNEL);
+ 	if (!vma)
+@@ -326,7 +326,7 @@ static struct msm_gem_vma *lookup_vma(struct drm_gem_object *obj,
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct msm_gem_vma *vma;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	list_for_each_entry(vma, &msm_obj->vmas, list) {
+ 		if (vma->aspace == aspace)
+@@ -357,7 +357,7 @@ put_iova_spaces(struct drm_gem_object *obj, bool close)
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct msm_gem_vma *vma;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	list_for_each_entry(vma, &msm_obj->vmas, list) {
+ 		if (vma->aspace) {
+@@ -375,7 +375,7 @@ put_iova_vmas(struct drm_gem_object *obj)
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct msm_gem_vma *vma, *tmp;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	list_for_each_entry_safe(vma, tmp, &msm_obj->vmas, list) {
+ 		del_vma(vma);
+@@ -388,7 +388,7 @@ static struct msm_gem_vma *get_vma_locked(struct drm_gem_object *obj,
  {
- 	struct msm_drm_private *priv =
- 		container_of(shrinker, struct msm_drm_private, shrinker);
-+	struct {
-+		struct drm_gem_lru *lru;
-+		bool (*shrink)(struct drm_gem_object *obj);
-+		bool cond;
-+		unsigned long freed;
-+	} stages[] = {
-+		/* Stages of progressively more aggressive/expensive reclaim: */
-+		{ &priv->lru.dontneed, purge,        true },
-+		{ &priv->lru.willneed, evict,        can_swap() },
-+		{ &priv->lru.dontneed, active_purge, can_block(sc) },
-+		{ &priv->lru.willneed, active_evict, can_swap() && can_block(sc) },
-+	};
- 	long nr = sc->nr_to_scan;
--	unsigned long freed, purged, evicted = 0;
--
--	purged = drm_gem_lru_scan(&priv->lru.dontneed, nr, purge);
--	nr -= purged;
--
--	if (can_swap() && nr > 0) {
--		evicted = drm_gem_lru_scan(&priv->lru.willneed, nr, evict);
--		nr -= evicted;
-+	unsigned long freed = 0;
-+
-+	for (unsigned i = 0; (nr > 0) && (i < ARRAY_SIZE(stages)); i++) {
-+		if (!stages[i].cond)
-+			continue;
-+		stages[i].freed =
-+			drm_gem_lru_scan(stages[i].lru, nr, stages[i].shrink);
-+		nr -= stages[i].freed;
-+		freed += stages[i].freed;
- 	}
+ 	struct msm_gem_vma *vma;
  
--	freed = purged + evicted;
--
--	if (freed)
--		trace_msm_gem_shrink(sc->nr_to_scan, purged, evicted);
-+	if (freed) {
-+		trace_msm_gem_shrink(sc->nr_to_scan, stages[0].freed,
-+				     stages[1].freed, stages[2].freed,
-+				     stages[3].freed);
-+	}
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
  
- 	return (freed > 0) ? freed : SHRINK_STOP;
+ 	vma = lookup_vma(obj, aspace);
+ 
+@@ -428,7 +428,7 @@ int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma)
+ 	if (msm_obj->flags & MSM_BO_CACHED_COHERENT)
+ 		prot |= IOMMU_CACHE;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	if (GEM_WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED))
+ 		return -EBUSY;
+@@ -448,7 +448,7 @@ void msm_gem_unpin_locked(struct drm_gem_object *obj)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	msm_obj->pin_count--;
+ 	GEM_WARN_ON(msm_obj->pin_count < 0);
+@@ -469,7 +469,7 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
+ 	struct msm_gem_vma *vma;
+ 	int ret;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	vma = get_vma_locked(obj, aspace, range_start, range_end);
+ 	if (IS_ERR(vma))
+@@ -630,7 +630,7 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	int ret = 0;
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	if (obj->import_attach)
+ 		return ERR_PTR(-ENODEV);
+@@ -703,7 +703,7 @@ void msm_gem_put_vaddr_locked(struct drm_gem_object *obj)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 	GEM_WARN_ON(msm_obj->vmap_count < 1);
+ 
+ 	msm_obj->vmap_count--;
+@@ -745,7 +745,7 @@ void msm_gem_purge(struct drm_gem_object *obj)
+ 	struct drm_device *dev = obj->dev;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 	GEM_WARN_ON(!is_purgeable(msm_obj));
+ 
+ 	/* Get rid of any iommu mapping(s): */
+@@ -782,7 +782,7 @@ void msm_gem_evict(struct drm_gem_object *obj)
+ 	struct drm_device *dev = obj->dev;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 	GEM_WARN_ON(is_unevictable(msm_obj));
+ 
+ 	/* Get rid of any iommu mapping(s): */
+@@ -797,7 +797,7 @@ void msm_gem_vunmap(struct drm_gem_object *obj)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	if (!msm_obj->vaddr || GEM_WARN_ON(!is_vunmapable(msm_obj)))
+ 		return;
+@@ -811,7 +811,7 @@ static void update_lru(struct drm_gem_object *obj)
+ 	struct msm_drm_private *priv = obj->dev->dev_private;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
++	msm_gem_assert_locked(&msm_obj->base);
+ 
+ 	if (!msm_obj->pages) {
+ 		GEM_WARN_ON(msm_obj->pin_count);
+@@ -831,7 +831,7 @@ static void update_lru(struct drm_gem_object *obj)
+ 
+ bool msm_gem_active(struct drm_gem_object *obj)
+ {
+-	GEM_WARN_ON(!msm_gem_is_locked(obj));
++	msm_gem_assert_locked(obj);
+ 
+ 	if (to_msm_bo(obj)->pin_count)
+ 		return true;
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 0403b27ff779..3c6add51d13b 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -215,6 +215,12 @@ msm_gem_is_locked(struct drm_gem_object *obj)
+ 	return dma_resv_is_locked(obj->resv) || (kref_read(&obj->refcount) == 0);
  }
-diff --git a/drivers/gpu/drm/msm/msm_gpu_trace.h b/drivers/gpu/drm/msm/msm_gpu_trace.h
-index 8867fa0a0306..ac40d857bc45 100644
---- a/drivers/gpu/drm/msm/msm_gpu_trace.h
-+++ b/drivers/gpu/drm/msm/msm_gpu_trace.h
-@@ -116,22 +116,26 @@ TRACE_EVENT(msm_gmu_freq_change,
  
++static inline void
++msm_gem_assert_locked(struct drm_gem_object *obj)
++{
++	GEM_WARN_ON(!msm_gem_is_locked(obj));
++}
++
+ /* imported/exported objects are not purgeable: */
+ static inline bool is_unpurgeable(struct msm_gem_object *msm_obj)
+ {
+@@ -229,7 +235,7 @@ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
  
- TRACE_EVENT(msm_gem_shrink,
--		TP_PROTO(u32 nr_to_scan, u32 purged, u32 evicted),
--		TP_ARGS(nr_to_scan, purged, evicted),
-+		TP_PROTO(u32 nr_to_scan, u32 purged, u32 evicted,
-+			 u32 active_purged, u32 active_evicted),
-+		TP_ARGS(nr_to_scan, purged, evicted, active_purged, active_evicted),
- 		TP_STRUCT__entry(
- 			__field(u32, nr_to_scan)
- 			__field(u32, purged)
- 			__field(u32, evicted)
-+			__field(u32, active_purged)
-+			__field(u32, active_evicted)
- 			),
- 		TP_fast_assign(
- 			__entry->nr_to_scan = nr_to_scan;
- 			__entry->purged = purged;
- 			__entry->evicted = evicted;
-+			__entry->active_purged = active_purged;
-+			__entry->active_evicted = active_evicted;
- 			),
--		TP_printk("nr_to_scan=%u pages, purged=%u pages, evicted=%u pages",
--			  __entry->nr_to_scan,
--			  __entry->purged,
--			  __entry->evicted)
-+		TP_printk("nr_to_scan=%u pg, purged=%u pg, evicted=%u pg, active_purged=%u pg, active_evicted=%u pg",
-+			  __entry->nr_to_scan, __entry->purged, __entry->evicted,
-+			  __entry->active_purged, __entry->active_evicted)
- );
- 
+ static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
+ {
+-	GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
++	msm_gem_assert_locked(&msm_obj->base);
+ 	return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
+ }
  
 -- 
 2.36.1
