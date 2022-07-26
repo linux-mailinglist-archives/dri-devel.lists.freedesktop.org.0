@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF37581691
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 17:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EAA581695
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 17:40:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1DE91240;
-	Tue, 26 Jul 2022 15:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27A979140F;
+	Tue, 26 Jul 2022 15:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2BA091215
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 15:38:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA4D913FB;
+ Tue, 26 Jul 2022 15:40:00 +0000 (UTC)
+Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
+ [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 78E1838035;
- Tue, 26 Jul 2022 15:38:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658849925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ryV1HJCptD0nwoReqYwbenCXh0WLmaSLGVPdKV3OZ14=;
- b=oxDbM3ouJt673YP87UvBW499CowgY+FeAY/kCRWrqJAQTAWICJIZC7yUWhQ7JY7TKDHuyC
- /40cBCMyiHSDW6Wd0xi+ETMvlAL8eZ8rgVdh0EWS1Bfe4zkRjGpthrjXHA0en+uBe/kGU7
- zGV+zyx4S9quiN3P4mRDyHEK9hQ0qAo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658849925;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ryV1HJCptD0nwoReqYwbenCXh0WLmaSLGVPdKV3OZ14=;
- b=wVWhmq4c1eki7+2Og2//EDM8hO+eRAgiuV9boY2r1sORV3wDD+rD7d3h4W3ZCsBXv84lfN
- kNsMhtQy03K+SCBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 498CE13A7C;
- Tue, 26 Jul 2022 15:38:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UF4GEYUK4GIkXAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 26 Jul 2022 15:38:45 +0000
-Message-ID: <7ca66bcf-a29a-987c-4606-9209590dae91@suse.de>
-Date: Tue, 26 Jul 2022 17:38:44 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbeckett)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 48F426601AA5;
+ Tue, 26 Jul 2022 16:39:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1658849998;
+ bh=MfBRld9DG1AqTcljOtwL7Er7t53qlENKMHmgSJoha7I=;
+ h=From:To:Cc:Subject:Date:From;
+ b=X+ZSb3oNoc7vrECQPMkTFG7QIhkz8vVEkEATHdudZWlln1TNys9zgoaWgtBv7DB+C
+ joW3M7hTlvw3q745gXd2crdSmg063NkYETNTlnzxi9EuN9B+0Bnichj6jDykf2l2E/
+ XGt/ArLoOqRm1gQNBPATwAlWqmj6il7ROCkl0sJ1GbtVtCd32nlvRh8jj/sIe88KVk
+ iMqpfXeLprmE2tLKFjr2SNVAmJVUBpLng56ULyehOpB2TgcZ+mcbSz0CcVzmHxlgHy
+ oDe6kanARj9OOGfSixBj5ZzjkFTkC4gXW8Ee1QsI7cmzlADg5uSD6hMDlydSogqX0+
+ 9iOjk36xBBlFg==
+From: Robert Beckett <bob.beckett@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v5] drm/i915: stop using swiotlb
+Date: Tue, 26 Jul 2022 16:39:35 +0100
+Message-Id: <20220726153935.2272777-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/simpledrm: Fix return type of
- simpledrm_simple_display_pipe_mode_valid()
-Content-Language: en-US
-To: Sami Tolvanen <samitolvanen@google.com>,
- Nathan Chancellor <nathan@kernel.org>
-References: <20220725233629.223223-1-nathan@kernel.org>
- <CABCJKuf1gYZZb9U-zwjkvvRUUh9GvYsHF=8zub=pr9tG4BqtkA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CABCJKuf1gYZZb9U-zwjkvvRUUh9GvYsHF=8zub=pr9tG4BqtkA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------SKFncP8NLk0WuC8ZPEwA4780"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,103 +54,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Tomasz_Pawe=c5=82_Gajc?= <tpgxyz@gmail.com>,
- Kees Cook <keescook@chromium.org>, llvm@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- LKML <linux-kernel@vger.kernel.org>, "# 3.4.x" <stable@vger.kernel.org>
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, kernel@collabora.com,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------SKFncP8NLk0WuC8ZPEwA4780
-Content-Type: multipart/mixed; boundary="------------DMeztSdmW47OO0pR4AMxD1YJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sami Tolvanen <samitolvanen@google.com>,
- Nathan Chancellor <nathan@kernel.org>
-Cc: =?UTF-8?Q?Tomasz_Pawe=c5=82_Gajc?= <tpgxyz@gmail.com>,
- Kees Cook <keescook@chromium.org>, llvm@lists.linux.dev,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- "# 3.4.x" <stable@vger.kernel.org>
-Message-ID: <7ca66bcf-a29a-987c-4606-9209590dae91@suse.de>
-Subject: Re: [PATCH] drm/simpledrm: Fix return type of
- simpledrm_simple_display_pipe_mode_valid()
-References: <20220725233629.223223-1-nathan@kernel.org>
- <CABCJKuf1gYZZb9U-zwjkvvRUUh9GvYsHF=8zub=pr9tG4BqtkA@mail.gmail.com>
-In-Reply-To: <CABCJKuf1gYZZb9U-zwjkvvRUUh9GvYsHF=8zub=pr9tG4BqtkA@mail.gmail.com>
+Calling swiotlb functions directly is nowadays considered harmful. See
+https://lore.kernel.org/intel-gfx/20220711082614.GA29487@lst.de/
 
---------------DMeztSdmW47OO0pR4AMxD1YJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Replace swiotlb_max_segment() calls with dma_max_mapping_size().
+In i915_gem_object_get_pages_internal() no longer consider max_segment
+only if CONFIG_SWIOTLB is enabled. There can be other (iommu related)
+causes of specific max segment sizes.
 
-SGkNCg0KQW0gMjYuMDcuMjIgdW0gMDI6MTIgc2NocmllYiBTYW1pIFRvbHZhbmVuOg0KPiBP
-biBNb24sIEp1bCAyNSwgMjAyMiBhdCA0OjM3IFBNIE5hdGhhbiBDaGFuY2VsbG9yIDxuYXRo
-YW5Aa2VybmVsLm9yZz4gd3JvdGU6DQo+Pg0KPj4gV2hlbiBib290aW5nIGEga2VybmVsIGNv
-bXBpbGVkIHdpdGggY2xhbmcncyBDRkkgcHJvdGVjdGlvbg0KPj4gKENPTkZJR19DRklfQ0xB
-TkcpLCB0aGVyZSBpcyBhIENGSSBmYWlsdXJlIGluDQo+PiBkcm1fc2ltcGxlX2ttc19jcnRj
-X21vZGVfdmFsaWQoKSB3aGVuIHRyeWluZyB0byBjYWxsDQo+PiBzaW1wbGVkcm1fc2ltcGxl
-X2Rpc3BsYXlfcGlwZV9tb2RlX3ZhbGlkKCkgdGhyb3VnaCAtPm1vZGVfdmFsaWQoKToNCj4+
-DQo+PiBbICAgIDAuMzIyODAyXSBDRkkgZmFpbHVyZSAodGFyZ2V0OiBzaW1wbGVkcm1fc2lt
-cGxlX2Rpc3BsYXlfcGlwZV9tb2RlX3ZhbGlkKzB4MC8weDgpOg0KPj4gLi4uDQo+PiBbICAg
-IDAuMzI0OTI4XSBDYWxsIHRyYWNlOg0KPj4gWyAgICAwLjMyNDk2OV0gIF9fdWJzYW5faGFu
-ZGxlX2NmaV9jaGVja19mYWlsKzB4NTgvMHg2MA0KPj4gWyAgICAwLjMyNTA1M10gIF9fY2Zp
-X2NoZWNrX2ZhaWwrMHgzYy8weDQ0DQo+PiBbICAgIDAuMzI1MTIwXSAgX19jZmlfc2xvd3Bh
-dGhfZGlhZysweDE3OC8weDIwMA0KPj4gWyAgICAwLjMyNTE5Ml0gIGRybV9zaW1wbGVfa21z
-X2NydGNfbW9kZV92YWxpZCsweDU4LzB4ODANCj4+IFsgICAgMC4zMjUyNzldICBfX2RybV9o
-ZWxwZXJfdXBkYXRlX2FuZF92YWxpZGF0ZSsweDMxYy8weDQ2NA0KPj4gLi4uDQo+Pg0KPj4g
-VGhlIC0+bW9kZV92YWxpZCgpIG1lbWJlciBpbiAnc3RydWN0IGRybV9zaW1wbGVfZGlzcGxh
-eV9waXBlX2Z1bmNzJw0KPj4gZXhwZWN0cyBhIHJldHVybiB0eXBlIG9mICdlbnVtIGRybV9t
-b2RlX3N0YXR1cycsIG5vdCAnaW50Jy4gQ29ycmVjdCBpdA0KPj4gdG8gZml4IHRoZSBDRkkg
-ZmFpbHVyZS4NCj4+DQo+PiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZw0KPj4gRml4ZXM6
-IDExZThmNWZkMjIzYiAoImRybTogQWRkIHNpbXBsZWRybSBkcml2ZXIiKQ0KPj4gTGluazog
-aHR0cHM6Ly9naXRodWIuY29tL0NsYW5nQnVpbHRMaW51eC9saW51eC9pc3N1ZXMvMTY0Nw0K
-Pj4gUmVwb3J0ZWQtYnk6IFRvbWFzeiBQYXdlxYIgR2FqYyA8dHBneHl6QGdtYWlsLmNvbT4N
-Cj4+IFNpZ25lZC1vZmYtYnk6IE5hdGhhbiBDaGFuY2VsbG9yIDxuYXRoYW5Aa2VybmVsLm9y
-Zz4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYyB8IDIg
-Ky0NCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5j
-IGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+IGluZGV4IDc2ODI0MmE3
-OGUyYi4uNTQyMjM2MzY5MGU3IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rp
-bnkvc2ltcGxlZHJtLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRy
-bS5jDQo+PiBAQCAtNjI3LDcgKzYyNyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nv
-bm5lY3Rvcl9mdW5jcyBzaW1wbGVkcm1fY29ubmVjdG9yX2Z1bmNzID0gew0KPj4gICAgICAg
-ICAgLmF0b21pY19kZXN0cm95X3N0YXRlID0gZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9y
-X2Rlc3Ryb3lfc3RhdGUsDQo+PiAgIH07DQo+Pg0KPj4gLXN0YXRpYyBpbnQNCj4+ICtzdGF0
-aWMgZW51bSBkcm1fbW9kZV9zdGF0dXMNCj4+ICAgc2ltcGxlZHJtX3NpbXBsZV9kaXNwbGF5
-X3BpcGVfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUs
-DQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0
-IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpDQo+PiAgIHsNCj4gDQo+IFRoYW5rcyBmb3IgZml4
-aW5nIHRoaXMsIE5hdGhhbiEgVGhlIHBhdGNoIGxvb2tzIGNvcnJlY3QgdG8gbWUuDQo+IA0K
-PiBSZXZpZXdlZC1ieTogU2FtaSBUb2x2YW5lbiA8c2FtaXRvbHZhbmVuQGdvb2dsZS5jb20+
-DQoNClRoYW5rcyBhIGxvdC4gSSd2ZSBhZGRlZCB0aGUgcGF0Y2ggdG8gZHJtLW1pc2MtZml4
-ZXMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFNhbWkNCg0KLS0gDQpUaG9t
-YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
-ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
-cmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xo
-cmVyOiBJdm8gVG90ZXYNCg==
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
 
---------------DMeztSdmW47OO0pR4AMxD1YJ--
+v2: - restore UINT_MAX clamp in i915_sg_segment_size()
+    - drop PAGE_SIZE check as it will always be >= PAGE_SIZE
+v3: - actually clamp to UINT_MAX in i915_sg_segment_size()
+v4: - round down max segment size to PAGE_SIZE
+v5: - fix checkpatch whitespace issue
 
---------------SKFncP8NLk0WuC8ZPEwA4780
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c | 19 ++++---------------
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c  |  2 +-
+ drivers/gpu/drm/i915/i915_scatterlist.h      | 16 ++++------------
+ 5 files changed, 12 insertions(+), 31 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+index c698f95af15f..24f37658f1bb 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+@@ -6,7 +6,6 @@
+ 
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+-#include <linux/swiotlb.h>
+ 
+ #include "i915_drv.h"
+ #include "i915_gem.h"
+@@ -38,22 +37,12 @@ static int i915_gem_object_get_pages_internal(struct drm_i915_gem_object *obj)
+ 	struct scatterlist *sg;
+ 	unsigned int sg_page_sizes;
+ 	unsigned int npages;
+-	int max_order;
++	int max_order = MAX_ORDER;
++	unsigned int max_segment;
+ 	gfp_t gfp;
+ 
+-	max_order = MAX_ORDER;
+-#ifdef CONFIG_SWIOTLB
+-	if (is_swiotlb_active(obj->base.dev->dev)) {
+-		unsigned int max_segment;
+-
+-		max_segment = swiotlb_max_segment();
+-		if (max_segment) {
+-			max_segment = max_t(unsigned int, max_segment,
+-					    PAGE_SIZE) >> PAGE_SHIFT;
+-			max_order = min(max_order, ilog2(max_segment));
+-		}
+-	}
+-#endif
++	max_segment = i915_sg_segment_size(i915->drm.dev) >> PAGE_SHIFT;
++	max_order = min(max_order, ilog2(max_segment));
+ 
+ 	gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
+ 	if (IS_I965GM(i915) || IS_I965G(i915)) {
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 4eed3dd90ba8..34b9c76cd8e6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -194,7 +194,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	struct intel_memory_region *mem = obj->mm.region;
+ 	struct address_space *mapping = obj->base.filp->f_mapping;
+ 	const unsigned long page_count = obj->base.size / PAGE_SIZE;
+-	unsigned int max_segment = i915_sg_segment_size();
++	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+ 	struct sg_table *st;
+ 	struct sgt_iter sgt_iter;
+ 	struct page *page;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 5a5cf332d8a5..7a828c9c0f6d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -189,7 +189,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+ 	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
+ 	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+ 	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+-	const unsigned int max_segment = i915_sg_segment_size();
++	const unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+ 	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
+ 	struct file *filp = i915_tt->filp;
+ 	struct sgt_iter sgt_iter;
+@@ -568,7 +568,7 @@ static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
+ 	ret = sg_alloc_table_from_pages_segment(st,
+ 			ttm->pages, ttm->num_pages,
+ 			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
+-			i915_sg_segment_size(), GFP_KERNEL);
++			i915_sg_segment_size(i915_tt->dev), GFP_KERNEL);
+ 	if (ret) {
+ 		st->sgl = NULL;
+ 		return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 094f06b4ce33..dfc35905dba2 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -129,7 +129,7 @@ static void i915_gem_object_userptr_drop_ref(struct drm_i915_gem_object *obj)
+ static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
+ {
+ 	const unsigned long num_pages = obj->base.size >> PAGE_SHIFT;
+-	unsigned int max_segment = i915_sg_segment_size();
++	unsigned int max_segment = i915_sg_segment_size(obj->base.dev->dev);
+ 	struct sg_table *st;
+ 	unsigned int sg_page_sizes;
+ 	struct page **pvec;
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
+index 9ddb3e743a3e..3dd40012e901 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.h
++++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+@@ -9,7 +9,7 @@
+ 
+ #include <linux/pfn.h>
+ #include <linux/scatterlist.h>
+-#include <linux/swiotlb.h>
++#include <linux/dma-mapping.h>
+ 
+ #include "i915_gem.h"
+ 
+@@ -127,19 +127,11 @@ static inline unsigned int i915_sg_dma_sizes(struct scatterlist *sg)
+ 	return page_sizes;
+ }
+ 
+-static inline unsigned int i915_sg_segment_size(void)
++static inline unsigned int i915_sg_segment_size(struct device *dev)
+ {
+-	unsigned int size = swiotlb_max_segment();
++	size_t max = min_t(size_t, UINT_MAX, dma_max_mapping_size(dev));
+ 
+-	if (size == 0)
+-		size = UINT_MAX;
+-
+-	size = rounddown(size, PAGE_SIZE);
+-	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
+-	if (size < PAGE_SIZE)
+-		size = PAGE_SIZE;
+-
+-	return size;
++	return round_down(max, PAGE_SIZE);
+ }
+ 
+ bool i915_sg_trim(struct sg_table *orig_st);
+-- 
+2.25.1
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLgCoQFAwAAAAAACgkQlh/E3EQov+Bc
-Tw/9H50TvFSe7qFoU2rFqatLpiWndYty9se0fN37IM/B852asCzBl/o5FNbJE2M2CU4hU9t74GlZ
-bIOPUJ5yKZAzfFYgqJ2IhwyDvhFMqUxsu7r2P7bcMsSWA+88KfrT1NpKGDdbdsUjfOTCM7TPNaP5
-QJf+0j/KbN9vRBqkxLp7ocRNN7Lim7E1Ub/Wullxpg9rQQxWOLZh6pL3mP4gvQybVx/5qQADsd8G
-feKN5CIYRxFboTn/wErBmop9lTOy5WLnxuqPws90C2xTKHuDxTr88hlcstUMJQFGS71BWNi0MPQo
-K8XVPSo7jXmrGnDYxwqppZGnTo4FjKMhsTTGs6o1cfAr1yCA+OQu0qQLQLKHeVuFvUzVhNeLFlUF
-TmNC9zzcoeI6B2Rv+9sgU6gx9kvAPjwFMTTEe+bz2HzwqvQwxoNNHSKEJeAGyayZd9KANn5INAjb
-NcnIkTQyM7dzXgWC2gohrHL5yYjhIBrkwq3H0Bcjw1/iQQubxJkDAEIDFEyn30LnAP+IKxT0Vy2J
-VHHwWnLJZtUc81e4nI7Gflf1N2GJZAqQoycMrn4ZmLsMb5W7PsNZggakaZlTS86nElIDbdzlqLZz
-4i7aIvdLZAbJKJgFDy+l4Wb0GeI8tCOInDDSiXcicnEhFGm3crKD3vIRpfSa/k4SYIYVNVApEl++
-e28=
-=D0wX
------END PGP SIGNATURE-----
-
---------------SKFncP8NLk0WuC8ZPEwA4780--
