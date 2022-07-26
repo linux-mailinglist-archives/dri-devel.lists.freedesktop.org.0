@@ -1,70 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0C558140E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 15:22:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAC25812D1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 14:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4314C8F658;
-	Tue, 26 Jul 2022 13:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CC71120F3;
+	Tue, 26 Jul 2022 12:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A06E8F60D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 13:22:47 +0000 (UTC)
-X-UUID: 26dc3eeed2d74fedb77701fe27d90ddd-20220726
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:db6dc055-fe34-4f64-8398-18f5f1dc8141, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.8, REQID:db6dc055-fe34-4f64-8398-18f5f1dc8141, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:0f94e32, CLOUDID:2efa8bb3-06d2-48ef-b2dd-540836705165,
- C
- OID:c054147f60fb,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 26dc3eeed2d74fedb77701fe27d90ddd-20220726
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 636267679; Tue, 26 Jul 2022 21:22:40 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
- Tue, 26 Jul 2022 13:22:32 +0000
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 26 Jul 2022 18:06:51 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 26 Jul 2022 18:06:51 +0800
-Message-ID: <c70db24fb66f844a2b53c229fff6e943e99398db.camel@mediatek.com>
-Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
- <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Tue, 26 Jul 2022 18:06:50 +0800
-In-Reply-To: <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
-References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
- <20220712111223.13080-6-rex-bc.chen@mediatek.com>
- <378f904a445e90d65048ed07a1a55fd8c633f934.camel@mediatek.com>
- <9c5b85034ec77be80d771ce3a17260453f007728.camel@mediatek.com>
- <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9916113CEB;
+ Tue, 26 Jul 2022 12:07:03 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-10d845dcf92so18234319fac.12; 
+ Tue, 26 Jul 2022 05:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7T38UTPHaDYqfOXMWpYC5zzC9yjWJzkWI04Yg2JEH3c=;
+ b=nPC11/34luiHEnb1tElXmYo/Fb76IC0BjQEzDU0JmRpe9j3i3ay2HVChCT0sDqPF9A
+ LClxDfnuhb2jk1g2FNgGIKzFjDi9YhDU9KtGZYkx2Icm2hmpSO5/6nIMwOlxNb3WPePZ
+ XpOlv3Rp+C/PorqSv5F2yhuCUB+ZCN+MdCyplkk2KXaGP0I5Cu0kpb2MHFqH5i9EvnS3
+ RV6e+GJRXlnjOI4c6n1flbBoLVV8Z15+S5yI5iSNlgkLg28KKuwj7SS6a86PtM67tTZw
+ 1Oieb/QWqpR+2kX0mlHy3tosCEPTGdze3QGFMxtgO6WDMOKl3qvgsxVxjLSmXLeoYA6Y
+ M/ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7T38UTPHaDYqfOXMWpYC5zzC9yjWJzkWI04Yg2JEH3c=;
+ b=kmN/pfFftJIfYRe5G5Jgi9Dipm6Mg3xNsNylHnTwX/875wONiEuC4hN6TS5gAy8T7N
+ Y8Xr3+9iDlUcrLgIshh8oL+rzaFe7edMtB5w846SEgTQcsyg7LrOwkejQ2K3XMIpZvKg
+ +7YYnUKUVjjrwteLJfOXDiH7Urj6YJZ93aBrqfLw+ZXIlXNgM7Q5gIgS4doDcKcsEXjB
+ C/Dlgz824G1HMauh58v1XlEEI4XGgkTvZ02G1VAMQnrrsirSr4zQIMTw4yEgbYdUf7r0
+ g8RYa2KXKym/lJRb+19uofh/uhiRCSS1KAXdB2bQnAW8gmYBM/tG0cscNnNRpYXByzeV
+ d9yw==
+X-Gm-Message-State: AJIora/CGF2OqO80nxp4nRfbuzpB94OeUMH/z/Z/pL4NmKqqv3Dz6kTB
+ S7Y8s7l038BNIdNF2MWU8TA=
+X-Google-Smtp-Source: AGRyM1vYmk1/vlAA7ySYkjL2JlboJAsT4TLAa+QChodCThP0tZk1joXUO2gfrVYmNHWMSjaykZOKPQ==
+X-Received: by 2002:a05:6870:6087:b0:10b:aef4:db0a with SMTP id
+ t7-20020a056870608700b0010baef4db0amr16070887oae.17.1658837222558; 
+ Tue, 26 Jul 2022 05:07:02 -0700 (PDT)
+Received: from ?IPV6:2804:14c:bbe3:4370:95da:f07f:e927:6958?
+ ([2804:14c:bbe3:4370:95da:f07f:e927:6958])
+ by smtp.gmail.com with ESMTPSA id
+ t22-20020a9d7756000000b0061c3246bd42sm6223803otl.44.2022.07.26.05.06.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jul 2022 05:07:02 -0700 (PDT)
+Message-ID: <88ce4703-e295-f41a-5905-d8afe5589f80@gmail.com>
+Date: Tue, 26 Jul 2022 09:06:55 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/2] drm/amd/display: change variables type
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>
+References: <20220725181559.250030-1-magalilemes00@gmail.com>
+ <a7589316-2a55-85f2-b665-5fe4bebf7a69@igalia.com>
+ <4f359e30-90f8-c8bf-4e07-6856fcfd3506@gmail.com>
+ <20220725233853.5y7wgpbhfau24ric@mail.igalia.com>
+From: Magali Lemes <magalilemes00@gmail.com>
+In-Reply-To: <20220725233853.5y7wgpbhfau24ric@mail.igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,137 +78,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "granquet@baylibre.com" <granquet@baylibre.com>, Jitao Shi
- =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>,
- LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ siqueirajordao@riseup.net, mairacanal@riseup.net, sunpeng.li@amd.com,
+ tales.aparecida@gmail.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ isabbasso@riseup.net, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-07-26 at 17:34 +0800, CK Hu wrote:
-> On Tue, 2022-07-26 at 14:42 +0800, Rex-BC Chen wrote:
-> > On Mon, 2022-07-25 at 17:16 +0800, CK Hu wrote:
-> > > Hi, Bo-Chen:
-> > > 
-> > > On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
-> > > > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > > 
-> > > > This patch adds a embedded displayport driver for the MediaTek
-> > > > mt8195
-> > > > SoC.
-> > > > 
-> > > > It supports the MT8195, the embedded DisplayPort units. It
-> > > > offers
-> > > > DisplayPort 1.4 with up to 4 lanes.
-> > > > 
-> > > > The driver creates a child device for the phy. The child device
-> > > > will
-> > > > never exist without the parent being active. As they are
-> > > > sharing
-> > > > a
-> > > > register range, the parent passes a regmap pointer to the child
-> > > > so
-> > > > that
-> > > > both can work with the same register range. The phy driver sets
-> > > > device
-> > > > data that is read by the parent to get the phy device that can
-> > > > be
-> > > > used
-> > > > to control the phy properties.
-> > > > 
-> > > > This driver is based on an initial version by
-> > > > Jitao shi <jitao.shi@mediatek.com>
-> > > > 
-> > > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > > ---
-> > > 
-> > > [snip]
-> > > 
-> > > > +
-> > > > +static int mtk_dp_training(struct mtk_dp *mtk_dp)
-> > > > +{
-> > > > +	short max_retry = 50;
-> > > > +	int ret;
-> > > > +
-> > > > +	do {
-> > > > +		ret = mtk_dp_train_start(mtk_dp);
-> > > > +		if (!ret)
-> > > > +			break;
-> > > > +		else if (ret != -EAGAIN)
-> > > > +			return ret;
-> > > > +	} while (--max_retry);
-> > > 
-> > > mtk_dp_train_start() would never return -EAGAIN, so drop this
-> > > while
-> > > loop.
-> > > 
-> > > Regards,
-> > > CK
-> > > 
-> > 
-> > Hello CK,
-> > 
-> > the function will not return -EAGAIN, but we still want to retry 50
-> > times if mtk_dp_train_start() is failed. If we retry 50 times and
-> > it
-> > is
-> > still failed. We can confirm there are some issues for the device.
-> > 
-> > I will remove the else if of -EAGAIN and keep th while loop.
-> 
-> In this version, it never retry. And I believe you've tested this no-
-> retry version. If this no-retry version works fine, why do you insist
-> on retry? If you really need retry, merge this retry into
-> mtk_dp_train_start() because mtk_dp_train_start() have already retry.
-> 
-> Regards,
-> CK
-> 
+On 7/25/22 20:38, Melissa Wen wrote:
 
-Hello Ck,
+> On 07/25, Magali Lemes wrote:
+>> On 7/25/22 16:42, André Almeida wrote:
+>>> Hi Magali,
+>>>
+>>> Às 15:15 de 25/07/22, Magali Lemes escreveu:
+>>>> As "dcn3_15_soc" and "dcn3_16_soc" are of type "struct
+>>>> _vcs_dpi_soc_bounding_box_st", change their types accordingly.
+>>>>
+>>> I can see that indeed this type change sense for those variables, but
+>>> isn't a bit strange that the type was wrong in the first place? I wonder
+>>> if this variable is even used, given that it would very likely throw a
+>>> compiler error when using the wrong type and trying to access struct
+>>> members that aren't defined.
+>>
+>> A compilation error would be thrown if either "dc/dcn315/dcn315_resource.h"
+>> or "dc/dcn316/dcn316_resource.h" were included in the files where
+>> "dcn3_15_soc" and "dcn3_16_soc" are initialized. Since they are not
+>> included, the wrong variable type error is not shown.
+>> To solve the sparse warning in the second patch of this series, those
+>> variables need to be declared first, but they are already declared, we're
+>> only missing the headers. If I only add the headers, then those variables
+>> will be seen, and I get the expected incompatible variables types error. So,
+>> fixing the types here is a preliminary work for the next patch.
+>>
+> Hi Magali,
+>
+> Thanks for inspecting it. What you say makes sense, but André pointed
+> out something that makes sense to me too.
+>
+> As fas as I checked, dcn3_15_soc and dcn16_soc is not used outside their
+> respective FPU files. Maybe the proper solution is removing those
+> declarations (and make the struct static). Can you take a look at it?
+>
+> Best Regards,
+>
+> Melissa
 
-There are many different devices we are not testing for DP devices.
-I think we need to keep this.
-This retry is for restart with init state.
+Hi, Melissa. Thank you for the suggestion!
+My sole reason not to make those structs static was to keep some sort of 
+consistency with the rest of the dcn*_resource.h files, since that is 
+where all the other structs are first declared. I'm not sure, though, if 
+that's a good enough reason not to turn these variables into static. Let 
+me know what you think.
 
-I think it's better to keep it here and it's more clear.
+Magali
 
-I will remain the comments above, and I think it's enough.
 
-BRs,
-Bo-Chen
 
-> > 
-> > BRs,
-> > Bo-Chen
-> > > > 
-> > > > +	if (!max_retry)
-> > > > +		return -ETIMEDOUT;
-> > > > +
-> > > > +	ret = mtk_dp_video_config(mtk_dp);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +	mtk_dp_video_enable(mtk_dp, true);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > 
-> > > 
-> > 
-> > 
-> 
-> 
-
+> Magali
+>
+>
+>>>> Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h | 2 +-
+>>>>    drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h | 2 +-
+>>>>    2 files changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>>> index 39929fa67a51..45276317c057 100644
+>>>> --- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>>> +++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+>>>> @@ -32,7 +32,7 @@
+>>>>    	container_of(pool, struct dcn315_resource_pool, base)
+>>>>    extern struct _vcs_dpi_ip_params_st dcn3_15_ip;
+>>>> -extern struct _vcs_dpi_ip_params_st dcn3_15_soc;
+>>>> +extern struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc;
+>>>>    struct dcn315_resource_pool {
+>>>>    	struct resource_pool base;
+>>>> diff --git a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>>> index 0dc5a6c13ae7..d2234aac5449 100644
+>>>> --- a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>>> +++ b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
+>>>> @@ -32,7 +32,7 @@
+>>>>    	container_of(pool, struct dcn316_resource_pool, base)
+>>>>    extern struct _vcs_dpi_ip_params_st dcn3_16_ip;
+>>>> -extern struct _vcs_dpi_ip_params_st dcn3_16_soc;
+>>>> +extern struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc;
+>>>>    struct dcn316_resource_pool {
+>>>>    	struct resource_pool base;
