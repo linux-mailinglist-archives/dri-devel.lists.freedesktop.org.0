@@ -2,56 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666A4581441
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 15:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0C558140E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 15:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E65A90C4F;
-	Tue, 26 Jul 2022 13:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4314C8F658;
+	Tue, 26 Jul 2022 13:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34A0210E308
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 09:16:04 +0000 (UTC)
-X-UUID: e8ee800c05ff41459e7984d877b1f0f6-20220726
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A06E8F60D
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 13:22:47 +0000 (UTC)
+X-UUID: 26dc3eeed2d74fedb77701fe27d90ddd-20220726
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:55bed568-d55e-4f2d-9247-14b2fc126e32, OB:0,
+X-CID-O-INFO: VERSION:1.1.8, REQID:db6dc055-fe34-4f64-8398-18f5f1dc8141, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:c32787b3-06d2-48ef-b2dd-540836705165,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8, REQID:db6dc055-fe34-4f64-8398-18f5f1dc8141, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:0f94e32, CLOUDID:2efa8bb3-06d2-48ef-b2dd-540836705165,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: e8ee800c05ff41459e7984d877b1f0f6-20220726
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
+ OID:c054147f60fb,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 26dc3eeed2d74fedb77701fe27d90ddd-20220726
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1719183704; Tue, 26 Jul 2022 17:15:56 +0800
+ with ESMTP id 636267679; Tue, 26 Jul 2022 21:22:40 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
+ Tue, 26 Jul 2022 13:22:32 +0000
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
  mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 26 Jul 2022 17:15:55 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n1.mediatek.inc
+ 15.2.792.15; Tue, 26 Jul 2022 18:06:51 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 26 Jul 2022 17:15:54 +0800
-Message-ID: <9385f8642e6ad5491a036360c644dc21b9a3f009.camel@mediatek.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: Support HDMI_I2S audio format
-From: Jiaxin Yu <jiaxin.yu@mediatek.com>
-To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
- <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Tue, 26 Jul 2022 17:15:54 +0800
-In-Reply-To: <20220726033058.403715-1-xji@analogixsemi.com>
-References: <20220726033058.403715-1-xji@analogixsemi.com>
+ Transport; Tue, 26 Jul 2022 18:06:51 +0800
+Message-ID: <c70db24fb66f844a2b53c229fff6e943e99398db.camel@mediatek.com>
+Subject: Re: [PATCH v14 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Tue, 26 Jul 2022 18:06:50 +0800
+In-Reply-To: <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-6-rex-bc.chen@mediatek.com>
+ <378f904a445e90d65048ed07a1a55fd8c633f934.camel@mediatek.com>
+ <9c5b85034ec77be80d771ce3a17260453f007728.camel@mediatek.com>
+ <80f223c8ecf262a62feb047d39b9ea2d8655fd14.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-MTK: N
-X-Mailman-Approved-At: Tue, 26 Jul 2022 13:35:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,66 +77,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: qwen@analogixsemi.com, bliang@analogixsemi.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hsinyi@chromium.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>, Jitao Shi
+ =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>,
+ LiangXu Xu =?UTF-8?Q?=28=E5=BE=90=E4=BA=AE=29?= <LiangXu.Xu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-07-26 at 11:30 +0800, Xin Ji wrote:
-> 1. Support HDMI_I2S audio format.
-> 2. Return 0 if there is no sink connection in .hw_param callback.
+On Tue, 2022-07-26 at 17:34 +0800, CK Hu wrote:
+> On Tue, 2022-07-26 at 14:42 +0800, Rex-BC Chen wrote:
+> > On Mon, 2022-07-25 at 17:16 +0800, CK Hu wrote:
+> > > Hi, Bo-Chen:
+> > > 
+> > > On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> > > > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > > 
+> > > > This patch adds a embedded displayport driver for the MediaTek
+> > > > mt8195
+> > > > SoC.
+> > > > 
+> > > > It supports the MT8195, the embedded DisplayPort units. It
+> > > > offers
+> > > > DisplayPort 1.4 with up to 4 lanes.
+> > > > 
+> > > > The driver creates a child device for the phy. The child device
+> > > > will
+> > > > never exist without the parent being active. As they are
+> > > > sharing
+> > > > a
+> > > > register range, the parent passes a regmap pointer to the child
+> > > > so
+> > > > that
+> > > > both can work with the same register range. The phy driver sets
+> > > > device
+> > > > data that is read by the parent to get the phy device that can
+> > > > be
+> > > > used
+> > > > to control the phy properties.
+> > > > 
+> > > > This driver is based on an initial version by
+> > > > Jitao shi <jitao.shi@mediatek.com>
+> > > > 
+> > > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > > > ---
+> > > 
+> > > [snip]
+> > > 
+> > > > +
+> > > > +static int mtk_dp_training(struct mtk_dp *mtk_dp)
+> > > > +{
+> > > > +	short max_retry = 50;
+> > > > +	int ret;
+> > > > +
+> > > > +	do {
+> > > > +		ret = mtk_dp_train_start(mtk_dp);
+> > > > +		if (!ret)
+> > > > +			break;
+> > > > +		else if (ret != -EAGAIN)
+> > > > +			return ret;
+> > > > +	} while (--max_retry);
+> > > 
+> > > mtk_dp_train_start() would never return -EAGAIN, so drop this
+> > > while
+> > > loop.
+> > > 
+> > > Regards,
+> > > CK
+> > > 
+> > 
+> > Hello CK,
+> > 
+> > the function will not return -EAGAIN, but we still want to retry 50
+> > times if mtk_dp_train_start() is failed. If we retry 50 times and
+> > it
+> > is
+> > still failed. We can confirm there are some issues for the device.
+> > 
+> > I will remove the else if of -EAGAIN and keep th while loop.
 > 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 23 +++++++++++++++++--
-> ----
->  1 file changed, 17 insertions(+), 6 deletions(-)
+> In this version, it never retry. And I believe you've tested this no-
+> retry version. If this no-retry version works fine, why do you insist
+> on retry? If you really need retry, merge this retry into
+> mtk_dp_train_start() because mtk_dp_train_start() have already retry.
 > 
-Acked-by: Jiaxin Yu<jiaxin.yu@mediatek.com>
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 79fc7a50b497..c74b5df4cade 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1797,8 +1797,13 @@ static int anx7625_audio_hw_params(struct
-> device *dev, void *data,
->  	int wl, ch, rate;
->  	int ret = 0;
->  
-> -	if (fmt->fmt != HDMI_DSP_A) {
-> -		DRM_DEV_ERROR(dev, "only supports DSP_A\n");
-> +	if (anx7625_sink_detect(ctx) == connector_status_disconnected)
-> {
-> +		DRM_DEV_DEBUG_DRIVER(dev, "DP not connected\n");
-> +		return 0;
-> +	}
-> +
-> +	if (fmt->fmt != HDMI_DSP_A && fmt->fmt != HDMI_I2S) {
-> +		DRM_DEV_ERROR(dev, "only supports DSP_A & I2S\n");
->  		return -EINVAL;
->  	}
->  
-> @@ -1806,10 +1811,16 @@ static int anx7625_audio_hw_params(struct
-> device *dev, void *data,
->  			     params->sample_rate, params->sample_width,
->  			     params->cea.channels);
->  
-> -	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> -				    AUDIO_CHANNEL_STATUS_6,
-> -				    ~I2S_SLAVE_MODE,
-> -				    TDM_SLAVE_MODE);
-> +	if (fmt->fmt == HDMI_DSP_A)
-> +		ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> +					   AUDIO_CHANNEL_STATUS_6,
-> +					   ~I2S_SLAVE_MODE,
-> +					   TDM_SLAVE_MODE);
-> +	else
-> +		ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-> +					   AUDIO_CHANNEL_STATUS_6,
-> +					   ~TDM_SLAVE_MODE,
-> +					   I2S_SLAVE_MODE);
->  
->  	/* Word length */
->  	switch (params->sample_width) {
+> Regards,
+> CK
+> 
+
+Hello Ck,
+
+There are many different devices we are not testing for DP devices.
+I think we need to keep this.
+This retry is for restart with init state.
+
+I think it's better to keep it here and it's more clear.
+
+I will remain the comments above, and I think it's enough.
+
+BRs,
+Bo-Chen
+
+> > 
+> > BRs,
+> > Bo-Chen
+> > > > 
+> > > > +	if (!max_retry)
+> > > > +		return -ETIMEDOUT;
+> > > > +
+> > > > +	ret = mtk_dp_video_config(mtk_dp);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +	mtk_dp_video_enable(mtk_dp, true);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > 
+> > > 
+> > 
+> > 
+> 
+> 
 
