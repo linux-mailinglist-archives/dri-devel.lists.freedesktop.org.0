@@ -1,146 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288F058170F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 18:14:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9050C58175D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 18:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A32C592986;
-	Tue, 26 Jul 2022 16:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E3993051;
+	Tue, 26 Jul 2022 16:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C344592986
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 16:14:13 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnPKY006232;
- Tue, 26 Jul 2022 16:14:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=5VIC+8QKB6j6ojZgfnIHmY2RBsGnyCmv+5v6cZTexFo=;
- b=yGvh1FKKMdDj74JbHZXwJHnz+4fJO5bMThZm6PPDFWje1iSShPrmu6+DArGdBK/YE30x
- F9xbv8BH/7X/O0iDayRCzlDIEtBh69rRQP0ROMHfmkWd0dxUvthmUCPipFC629u73O2q
- rfCd6xN8Cpi+IdLGr+sDDQgYJL12YBfRGRZyAILfiLHapJnm+06Jm/iL9PNj3CEw0lEE
- vL2A/xRBxMKVP5R6Q8IzBFLu54ZAi2uufKCNHyUZtgz/gevbASus3jq5b4NMlC56yhlG
- XzFPwe/jqqqU2GwaxhqLW0wu375OzHIsnymOANJWkpjm456ras0KFrmwaCGQF3NXgG8+ Tg== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940puc0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:14:11 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QFWh5D034494; Tue, 26 Jul 2022 16:14:10 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh633163k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:14:10 +0000
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B08493010;
+ Tue, 26 Jul 2022 16:23:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hxTl12jHcFY9ybQIKkFAWEP4Bs5HJyagTMT5PNhSeYkDUu0rW+/xxO0BqgKa//q54X409J20NIyBCooAOoRryrBgAGI+ORlpNWMtt4ELZpWFfpiho7PcEt+hM5+uyxjt9RNyMlkBkWKmcSaJ3mkzPo37HRtVIISXJcL9riSJbkXGNsT5aA5GXfaCaqbhf8nJxJkQ3EssLISBu4UhnZp/Z5krtn8f3ecSw5cN6IpduVXM+MHQ+JulOOi4kXKl5jJ2Jp/T5yJpnV8InwHothGaNpR/2HZMNzq6kCrR1Vu7o3SCWzGEjqPYtoXqpCBlS7IOD5tse/GOqcZEZpkYORmEGQ==
+ b=EUR6/HwmYoMs5jza2JZ3VV1LJ9hTDP+Y57VOlpFgF++o3sm4NyechPsbB0+ghBAHowzCR1Puwga/AEFrWdH8D72tHwokYP44r0D/ICXQHJZNQv1UbGW6QdO86BbClflx8o9t7cvSIvjqOjdvKtkRepY3f7TCx14xo5aNywulZMqPY8YtZGjLXE6gaIPl/AmJCGcqj7iJf7xBXM3WY31+n06OAtmX53RU3HYmD7Ls8rxR7QtHjpM31EmVJHAfEkZjCxhDp+ghuWKtMukKOGagMoDwFcG3Gf4BEfgLeGqs3hO/x7BoS7cNidXoANyMpigVMWLhJg7PCA3tnIhdB0rRKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5VIC+8QKB6j6ojZgfnIHmY2RBsGnyCmv+5v6cZTexFo=;
- b=BqIn/RMYNvD34OPo0rWkYeJAlgf/Y7xaAasFPI+8ow7OiQB7HXXTZ3oARO71ySBvcQWS40H3Szv9TPmCLmp1EnEkkdqg6Pnswmz3j1T3iddv0ukBVN92+zIYPycVMoBCdOwMnPw3uHBRlKdmZbnfAtO38sjEFQhvKYB80VIIeR2ussAtlL1XA2swvWw4cdm4p86jktozwRphemvqvFFfl9CUHWHNxotwTd5Af2nSxGyPM4kJEsXu2eDMm4ar9p1bDt9m8mDWxQYIp4UjVj6MPmOqItDtEXWzEs94Zo1FX1OWR5+W3QWsshRrl+oIUMQwCfATmna4uMT6XPpDJNaSzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ bh=jE/kS7zg9fHg9BU3gVN3aDfApXTyyLnmpJ/lML53G+Y=;
+ b=F49yBwO4PIJxbpwL/i68ZMb3XFu+/yIeVuh3MZV9DhO2paRNR/C7Qhl3c1QekXmNhBl4ij+8iyUwRC9J/aPMN6W6HuHOJ/Khc7UkJSqiwefVKfsa0dREMNWyBA1XZm24MhOd5iExXi/C9U1GGVFx+B0K2Q2x1NByfqJuXeNujpZzzJveNGRXYTCVKkx7jYAXqmh5asnn92y7EgF58Py+ZhWK8kxLbmCOeGP1aEeI+nIB+S+upq+h2yGOTNv9kTBHiTcIc6BsGo74kuwjXi98TuN/UL2Z6OZXLKvWLvvSxhKLZoBocu3hQ1pY1BlwV4X8EXrXVTXpEY1MhumMBDnUxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5VIC+8QKB6j6ojZgfnIHmY2RBsGnyCmv+5v6cZTexFo=;
- b=QD50pHZlJNB6Wwq5mvVhkNKluDsOlIhLODRTbsEtoifJHtIf+hTgiax9O6jKWbRIdbL2320PbC3xcZoF6CDDNR2s6hP8Hmgr3IZbEYDt0sIRrH/YPleY2dZjTTe1dL7cGp2H5dbHNK8qpCdYquYHkl6mEtnqfWhduQ6yuCbAqpw=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SJ0PR10MB4479.namprd10.prod.outlook.com
- (2603:10b6:a03:2af::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Tue, 26 Jul
- 2022 16:14:08 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::24dc:9f9a:c139:5c97]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::24dc:9f9a:c139:5c97%4]) with mapi id 15.20.5458.025; Tue, 26 Jul 2022
- 16:14:07 +0000
-Date: Tue, 26 Jul 2022 19:13:48 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Peter Suti <peter.suti@streamunlimited.com>,
- Chuansheng Liu <chuansheng.liu@intel.com>
-Subject: Re: [PATCH] staging: fbtft: core: set smem_len before
- fb_deferred_io_init call
-Message-ID: <20220726161347.GR2338@kadam>
-References: <20220726082114.891853-1-peter.suti@streamunlimited.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220726082114.891853-1-peter.suti@streamunlimited.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0009.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+ bh=jE/kS7zg9fHg9BU3gVN3aDfApXTyyLnmpJ/lML53G+Y=;
+ b=2Jfd5kMjYbSxb9Ugcd3tkV8ZzTLzJti5N6FzH4Z1MdR+ZDf8dGHGxLJNocOlBq1Ukc36fBbwXdPvQkoiPT5kNtalrfnL67PuvkzZcxqItJTAsRQjZCGZ/6y5l//67vDxWvm+ThZmx778T+zzsgCBcNh99OthAxsmlYaKczNiyUY=
+Received: from MW4PR04CA0072.namprd04.prod.outlook.com (2603:10b6:303:6b::17)
+ by MWHPR12MB1261.namprd12.prod.outlook.com (2603:10b6:300:10::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Tue, 26 Jul
+ 2022 16:23:12 +0000
+Received: from CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:6b:cafe::91) by MW4PR04CA0072.outlook.office365.com
+ (2603:10b6:303:6b::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.24 via Frontend
+ Transport; Tue, 26 Jul 2022 16:23:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT019.mail.protection.outlook.com (10.13.175.57) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5458.17 via Frontend Transport; Tue, 26 Jul 2022 16:23:11 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Tue, 26 Jul 2022 11:22:59 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/ttm: Fix dummy res NULL ptr deref bug
+Date: Tue, 26 Jul 2022 09:22:05 -0700
+Message-ID: <20220726162205.2778-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9981f1e0-719b-41be-45d3-08da6f21dd55
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB4479:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92f00992-c09b-4514-9f88-08da6f232277
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1261:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /U75/waJgv12VJDaeXWvxdcPsmnj5eIBy7uG0ARy5ODCljBjqKQnjjqewHfjuah/CyHu9UEB6mggOs0ngO8p0q+9UnuyZWKhyrCJk7eywmas9LW50fkoDBdDFUjc3l2pF8qVCTfP7onl9kmJb3XJn+Vxe4gnHQSKhwzSJnHe6oFeNpgACADlaMXylnxl5B/jTI8BU+Pw3pDgg+cL5DWOPfGoKoPUrUbEaxa90LEDXspc8ZygZm5bOfL5vJN+HGev6MYdM7DvSk3IXzJ2iaqOgB2VrN7EeyXwzLyngWR4lg98qcGkSCMKvvv34IAQPmN8Iq9YoCzBzPgecNDdfZLJMMEU3QwsAphkf/Kdy+lrbLYNjl5uAzZHR8/0saA7AnGoliGZA7BYnmhRGCMJYnAlN5VI9fLgYZAol5BvQasqlCoWfGZfONUr0y6Xx8TOxRKTY5WT6YBub4JWGiZNl1fiKsyqyoWMmD3PcBc5EvOEnpx7sT/bQD0Y83bHXtcrXTB4SAbKNF0LsN39YGqNXsUZehvTgEWvdP10zXXIn+UsM0ON19zXv4oMjOmRxJjOYQrk3vRY+GBbZAiRusGoYlLKdb3mEz1S25bTGxqIgFVPWof9mVSTc8ocghw1MpGJtZUcCkMckTavhZt4Lf0TegULUWrXcwu/+iuDCZ9mvBIBpfJL+bXxMdmyeAoR8YhcQEadE0bitUp2785ZiLLp2+pV1p91b0UlJiCr1IwZOvNm4DF2pjZKVo8ql0qGI4jOJiaVXfYnW3W830N39wWm4+a7CNi0cy8Mdu/os/ZMxIvbb8H317+n3ImjrpBU1ZDRzvm9
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(7916004)(366004)(136003)(396003)(376002)(346002)(39860400002)(26005)(86362001)(6486002)(44832011)(6512007)(9686003)(38100700002)(2906002)(38350700002)(41300700001)(5660300002)(66476007)(83380400001)(4326008)(66556008)(1076003)(8676002)(66946007)(6666004)(110136005)(8936002)(186003)(33716001)(478600001)(6506007)(316002)(33656002)(52116002);
+X-Microsoft-Antispam-Message-Info: EiJ8GYuu6LaREXBWbEe4OKasZ5V75sFex4FTxPYkvqCjKiRDq0jNERUkekuV4ORZcdZkuPe1Unk+29EyQZGoUJP+opVby2EcwfvclrbO8yAJfx4gU51f+yuH0nbk7Pfv1wsyoU9DJtha5M1HfJQiBvdl78n0tncMEdKjUDFFtxpDSaj6Er3ygRLfArFsS5kewKnOP/cMt9vzNIDrhfnYcZMxS7WGTzWoLdCWBte1xKcG0aiTjXWDvevtLoi1OnPTurmknv2p2lOHgsWuuC2ROTm7maL0muohrhUyQvXuNsJ57EoG2zVaTHPSGrEb9Wk8V4qA/ZziJP8WQAxcvFdzSdpG0SKT5QMIddLRbvUMLVfdm1x8XW6a9xn2WfeqJMWfLl67czHcqU4aDDH+ifbWpZfNeSAK+NmP7271QYwCQvXGZu61oFdxeO1zOtdEiGE8ysEspurqLJsmQNQfZ1muI4Xq4waK9K32Ff5yKxt3BNlyaJQBIlTsqCg/A/ABVwxNhnymprGgC3AImAYSDxQ/G/vSErNvVoA70Gg/slpNei24t1/Cy1yqSSu3589frvAd96zMyR5oAqHPxXOUHkJBo3TRFEpCZKKJxhXg8lJeYiEJ961S3pALW2/C1Yo11cdfeTQQJHOQVP01G+N/w7v/QvgedvPXorBrRMfOEb903itqPtQ2QOR1PyAdHJew3bdMRXJ6uvzV5kbvqD6J3FUhcpvX7PrXDEFEsgy7DCEdW6skapWe6+NrfKukDlrnWeowSVWdcwk79tEPLEuGbyWkTj9rnGv4Oqlas1EtpSQJbyughSIkgLrByKA6Z4PfutV8JBKMZbe1h991lJ8/MIVQfW+DYcE+KZkt6phwOYsFcCs=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(39860400002)(136003)(346002)(376002)(46966006)(36840700001)(40470700004)(8936002)(40480700001)(82740400003)(26005)(70586007)(966005)(70206006)(4326008)(8676002)(81166007)(54906003)(36860700001)(478600001)(110136005)(7696005)(1076003)(316002)(36756003)(86362001)(41300700001)(82310400005)(6666004)(186003)(16526019)(2906002)(336012)(40460700003)(2616005)(5660300002)(356005)(47076005)(83380400001)(426003)(36900700001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7yqiM4dBJFAA1/hpwOrp4n1yxBe1s+BIfBTLiSGgjhdN0cejisvdqMjGfSpz?=
- =?us-ascii?Q?BpCvzT3gySbBpVOL0YYUnX/t4excOCYCLMNanD/bq9puc9L/iuPXDx+t3OgK?=
- =?us-ascii?Q?H/t94aMv/998UI1c7NZfegkmLTDOcH9tx1IeuivsIUfUk/dguv8jLm1Uqn+i?=
- =?us-ascii?Q?y+/v6cKHGwhHauCa6rGNsTq4aAS5KyhLcFXpIFrhHIPx+m3L+p9VuA8jlKsi?=
- =?us-ascii?Q?FBkBap644z/TAB8GgAiwcq5SFiKCtJgv1D8itEtvNoh0jQnw9uH7WRntcQwq?=
- =?us-ascii?Q?V48OSyq1DmDkeMxs6UiEjsacO6MXNeCtcVxWMJohCRDpMxr1w32UW5v9vbJ2?=
- =?us-ascii?Q?+7jxV+j23kUiphIgk4Q1jGaOouOEoBYrM+B5hJKSjYLBQB7wpUK0xI2IExOt?=
- =?us-ascii?Q?dQ0U11CNsKrtDlBRVNjgHxwrt/2RVoYM6Geuli3IG4IMzDB8IQvhdnbLhKcV?=
- =?us-ascii?Q?8QsPKe5yvUxsNzAHb+eWCU5mS3bT3eZoLIQA5xnlpji0ehRrrsBTI9ycYVVo?=
- =?us-ascii?Q?eCT6Q8RIBR2yN6bt1bP+1rmvRv7s8wrLsdOfZF9J63o+OBPUyWeVxjNrttSO?=
- =?us-ascii?Q?sWKXA8YS+hnaURt8+fJftyM+G9fAtRjS2+uZxnhaSko/0XkgXNkS3O7kFYj5?=
- =?us-ascii?Q?yZhCIVolFPCvHTN4h8qR5m2Vbj+rsz+soknpFkiOLlE3e4aZx9RjuAFQvaJE?=
- =?us-ascii?Q?2QVEQkowX92ZvllhmtY6D7oGUr2u6U+/l8wIydoIn1ITI3mLpW/NEgPtA7zc?=
- =?us-ascii?Q?Dpdl/Nn+K/N4sWkkbU6iIcXZNipC/Od0JmP9eoR9YYUl6+GvkQWMIolBO+Bd?=
- =?us-ascii?Q?Kb/rXxc31rY0iTty/8Pi/YVGeSvSyM5P/ujFhs+ryhU6B21NPGPBsBaCpch+?=
- =?us-ascii?Q?cYMPTNfeTa57w3bCCosLLQF+RefWtIVtrYm7XR1HcnSKy9Dl87IK3YzO7iJm?=
- =?us-ascii?Q?aqw8fqVOOrVmRYRz2cpYpqa5USSZHLJDlS/NF7XvDwfll08N0Hfee+NDPx/F?=
- =?us-ascii?Q?j9DCsvZt57i+RXSi1a1UuFuq3W33oK82qw7kKYdXwuUOOS89eyyHq4Q0eUv+?=
- =?us-ascii?Q?F08xZU67pX7JBquV3PIOAOmFfjF5too3kpqxuTKcNFIUXx6pPYqJL5hkx6h+?=
- =?us-ascii?Q?KYFSCkksJl7ndaQKrVivmXx9Tt805AKvNOfseuEF1ULFwocn3e4m4bVyw4dd?=
- =?us-ascii?Q?b8Yo5RJznEX7B/+b3nDIrQQuEGbY9udw37GfAf7PYrWJ+v6C+InA8gmyhvzq?=
- =?us-ascii?Q?AsmPtfkb/5CiZshLcSejIlD1XUGft8rQEeKdsFLNwAk2HZf0lr0szTZMl6Xx?=
- =?us-ascii?Q?MiTGsacdaKV8tu+tSEi5CMEOdypdnenkDvQm41wooBUqh2fxlO1/LOIDUvf1?=
- =?us-ascii?Q?ZkjPbIPReDZZzcX6DXumY9sbRJ6H1qvbkyCzwChRhKEsb7Mx+3QwjH8F5c2R?=
- =?us-ascii?Q?4YEOsK/0jXyivBm+q457dAt9v80o2zaLOmLQyiPJenpXlc1BM/9SQqQVcvXn?=
- =?us-ascii?Q?aRmU/p3sXUJ9ZA0cLcly+MrxxHWDZ1gSedPJ0O2pHq556NFjnmjajxYZnx07?=
- =?us-ascii?Q?asBkSbaFfle9jTGoVDWOupbOwiI1ZTFd5PQh2IEBNMa/4cDubDjr711WCnEh?=
- =?us-ascii?Q?4Q=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9981f1e0-719b-41be-45d3-08da6f21dd55
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 16:14:07.3521 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ue9Ga6sOnhwIYvV1gsK2zPcYduyOorYIlQdFoylj3XLIG/7vQfO2pTBj6YGXetTLL9XeG4iUh77dKea7rEDnNvZZDvTjW4P+E3aeTCrZbMg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4479
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-26_04,2022-07-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207260063
-X-Proofpoint-GUID: vTmx0m2G7k2tWyFn9UNLB-RVA8gAwjyP
-X-Proofpoint-ORIG-GUID: vTmx0m2G7k2tWyFn9UNLB-RVA8gAwjyP
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 16:23:11.7275 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92f00992-c09b-4514-9f88-08da6f232277
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1261
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,76 +99,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, luben.tuikov@amd.com,
+ kernel test robot <oliver.sang@intel.com>, christian.koenig@amd.com,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the patch.
+Check the bo->resource value before accessing the resource
+mem_type.
 
-On Tue, Jul 26, 2022 at 10:21:13AM +0200, Peter Suti wrote:
-> fb_deferred_io_init depends on smem_len being filled
-> to be able to initialize the virtual page lists since
-> commit 856082f021a2 ("fbdev: defio: fix the pagelist corruption")
-> 
+<log snip>
+[   40.191227][  T184] general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] SMP KASAN PTI
+[   40.192995][  T184] KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
+[   40.194411][  T184] CPU: 1 PID: 184 Comm: systemd-udevd Not tainted 5.19.0-rc4-00721-gb297c22b7070 #1
+[   40.196063][  T184] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.0-debian-1.16.0-4 04/01/2014
+[   40.199605][  T184] RIP: 0010:ttm_bo_validate+0x1b3/0x240 [ttm]
+[   40.200754][  T184] Code: e8 72 c5 ff ff 83 f8 b8 74 d4 85 c0 75 54 49 8b 9e 58 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 8d 7b 10 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 04 3c 03 7e 44 8b 53 10 31 c0 85 d2 0f 85 58
+[   40.203685][  T184] RSP: 0018:ffffc900006df0c8 EFLAGS: 00010202
+[   40.204630][  T184] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 1ffff1102f4bb71b
+[   40.205864][  T184] RDX: 0000000000000002 RSI: ffffc900006df208 RDI: 0000000000000010
+[   40.207102][  T184] RBP: 1ffff920000dbe1a R08: ffffc900006df208 R09: 0000000000000000
+[   40.208394][  T184] R10: ffff88817a5f0000 R11: 0000000000000001 R12: ffffc900006df110
+[   40.209692][  T184] R13: ffffc900006df0f0 R14: ffff88817a5db800 R15: ffffc900006df208
+[   40.210862][  T184] FS:  00007f6b1d16e8c0(0000) GS:ffff88839d700000(0000) knlGS:0000000000000000
+[   40.212250][  T184] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   40.213275][  T184] CR2: 000055a1001d4ff0 CR3: 00000001700f4000 CR4: 00000000000006e0
+[   40.214469][  T184] Call Trace:
+[   40.214974][  T184]  <TASK>
+[   40.215438][  T184]  ? ttm_bo_bounce_temp_buffer+0x140/0x140 [ttm]
+[   40.216572][  T184]  ? mutex_spin_on_owner+0x240/0x240
+[   40.217456][  T184]  ? drm_vma_offset_add+0xaa/0x100 [drm]
+[   40.218457][  T184]  ttm_bo_init_reserved+0x3d6/0x540 [ttm]
+[   40.219410][  T184]  ? shmem_get_inode+0x744/0x980
+[   40.220231][  T184]  ttm_bo_init_validate+0xb1/0x200 [ttm]
+[   40.221172][  T184]  ? bo_driver_evict_flags+0x340/0x340 [drm_vram_helper]
+[   40.222530][  T184]  ? ttm_bo_init_reserved+0x540/0x540 [ttm]
+[   40.223643][  T184]  ? __do_sys_finit_module+0x11a/0x1c0
+[   40.224654][  T184]  ? __shmem_file_setup+0x102/0x280
+[   40.234764][  T184]  drm_gem_vram_create+0x305/0x480 [drm_vram_helper]
+[   40.235766][  T184]  ? bo_driver_evict_flags+0x340/0x340 [drm_vram_helper]
+[   40.236846][  T184]  ? __kasan_slab_free+0x108/0x180
+[   40.237650][  T184]  drm_gem_vram_fill_create_dumb+0x134/0x340 [drm_vram_helper]
+[   40.238864][  T184]  ? local_pci_probe+0xdf/0x180
+[   40.239674][  T184]  ? drmm_vram_helper_init+0x400/0x400 [drm_vram_helper]
+[   40.240826][  T184]  drm_client_framebuffer_create+0x19c/0x400 [drm]
+[   40.241955][  T184]  ? drm_client_buffer_delete+0x200/0x200 [drm]
+[   40.243001][  T184]  ? drm_client_pick_crtcs+0x554/0xb80 [drm]
+[   40.244030][  T184]  drm_fb_helper_generic_probe+0x23f/0x940 [drm_kms_helper]
+[   40.245226][  T184]  ? __cond_resched+0x1c/0xc0
+[   40.245987][  T184]  ? drm_fb_helper_memory_range_to_clip+0x180/0x180 [drm_kms_helper]
+[   40.247316][  T184]  ? mutex_unlock+0x80/0x100
+[   40.248005][  T184]  ? __mutex_unlock_slowpath+0x2c0/0x2c0
+[   40.249083][  T184]  drm_fb_helper_single_fb_probe+0x907/0xf00 [drm_kms_helper]
+[   40.250314][  T184]  ? drm_fb_helper_check_var+0x1180/0x1180 [drm_kms_helper]
+[   40.251540][  T184]  ? __cond_resched+0x1c/0xc0
+[   40.252321][  T184]  ? mutex_lock+0x9f/0x100
+[   40.253062][  T184]  __drm_fb_helper_initial_config_and_unlock+0xb9/0x2c0 [drm_kms_helper]
+[   40.254394][  T184]  drm_fbdev_client_hotplug+0x56f/0x840 [drm_kms_helper]
+[   40.255477][  T184]  drm_fbdev_generic_setup+0x165/0x3c0 [drm_kms_helper]
+[   40.256607][  T184]  bochs_pci_probe+0x6b7/0x900 [bochs]
+[   40.257515][  T184]  ? _raw_spin_lock_irqsave+0x87/0x100
+[   40.258312][  T184]  ? bochs_hw_init+0x480/0x480 [bochs]
+[   40.259244][  T184]  ? bochs_hw_init+0x480/0x480 [bochs]
+[   40.260186][  T184]  local_pci_probe+0xdf/0x180
+[   40.260928][  T184]  pci_call_probe+0x15f/0x500
+[   40.265798][  T184]  ? _raw_spin_lock+0x81/0x100
+[   40.266508][  T184]  ? pci_pm_suspend_noirq+0x980/0x980
+[   40.267322][  T184]  ? pci_assign_irq+0x81/0x280
+[   40.268096][  T184]  ? pci_match_device+0x351/0x6c0
+[   40.268883][  T184]  ? kernfs_put+0x18/0x40
+[   40.269611][  T184]  pci_device_probe+0xee/0x240
+[   40.270352][  T184]  really_probe+0x435/0xa80
+[   40.271021][  T184]  __driver_probe_device+0x2ab/0x480
+[   40.271828][  T184]  driver_probe_device+0x49/0x140
+[   40.272627][  T184]  __driver_attach+0x1bd/0x4c0
+[   40.273372][  T184]  ? __device_attach_driver+0x240/0x240
+[   40.274273][  T184]  bus_for_each_dev+0x11e/0x1c0
+[   40.275080][  T184]  ? subsys_dev_iter_exit+0x40/0x40
+[   40.275951][  T184]  ? klist_add_tail+0x132/0x280
+[   40.276767][  T184]  bus_add_driver+0x39b/0x580
+[   40.277574][  T184]  driver_register+0x20f/0x3c0
+[   40.278281][  T184]  ? 0xffffffffc04a2000
+[   40.278894][  T184]  do_one_initcall+0x8a/0x300
+[   40.279642][  T184]  ? trace_event_raw_event_initcall_level+0x1c0/0x1c0
+[   40.280707][  T184]  ? kasan_unpoison+0x23/0x80
+[   40.281479][  T184]  ? kasan_unpoison+0x23/0x80
+[   40.282197][  T184]  do_init_module+0x190/0x640
+[   40.282926][  T184]  load_module+0x221b/0x2780
+[   40.283611][  T184]  ? layout_and_allocate+0x5c0/0x5c0
+[   40.284401][  T184]  ? kernel_read_file+0x286/0x6c0
+[   40.285216][  T184]  ? __x64_sys_fspick+0x2c0/0x2c0
+[   40.286043][  T184]  ? mmap_region+0x4e7/0x1300
+[   40.286832][  T184]  ? __do_sys_finit_module+0x11a/0x1c0
+[   40.287743][  T184]  __do_sys_finit_module+0x11a/0x1c0
+[   40.288636][  T184]  ? __ia32_sys_init_module+0xc0/0xc0
+[   40.289557][  T184]  ? __seccomp_filter+0x15e/0xc80
+[   40.290341][  T184]  ? vm_mmap_pgoff+0x185/0x240
+[   40.291060][  T184]  do_syscall_64+0x3b/0xc0
+[   40.291763][  T184]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+[   40.292678][  T184] RIP: 0033:0x7f6b1d6279b9
+[   40.293438][  T184] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d a7 54 0c 00 f7 d8 64 89 01 48
+[   40.296302][  T184] RSP: 002b:00007ffe7f51b798 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[   40.297633][  T184] RAX: ffffffffffffffda RBX: 00005642dcca2880 RCX: 00007f6b1d6279b9
+[   40.298890][  T184] RDX: 0000000000000000 RSI: 00007f6b1d7b2e2d RDI: 0000000000000016
+[   40.300199][  T184] RBP: 0000000000020000 R08: 0000000000000000 R09: 00005642dccd5530
+[   40.301547][  T184] R10: 0000000000000016 R11: 0000000000000246 R12: 00007f6b1d7b2e2d
+[   40.302698][  T184] R13: 0000000000000000 R14: 00005642dcca4230 R15: 00005642dcca2880
 
-This code has changed since then so the patch needs to be updated.
-The patch is still necessary but the bug will look different now
-because there was a WARN_ON() added.
+For more details: https://lists.01.org/hyperkitty/list/lkp@lists.01.org/thread/CDDMUNPBPCKKVECT35ZIUG7FN5ZMSFCQ/
 
-Currently the commit message does not say how this bug looks like to the
-user.  Also the use a Fixes tag.  Something like this:
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Reported-by: kernel test robot <oliver.sang@intel.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The fbtft_framebuffer_alloc() calls fb_deferred_io_init() before
-initializing info->fix.smem_len.  It is set to zero by the
-framebuffer_alloc() function.  It will trigger a WARN_ON() at the
-start of fb_deferred_io_init() and the function will not do anything.
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index c1bd006a5525..590110fdf59c 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -912,7 +912,7 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+ 	/*
+ 	 * We might need to add a TTM.
+ 	 */
+-	if (bo->resource->mem_type == TTM_PL_SYSTEM) {
++	if (!bo->resource || bo->resource->mem_type == TTM_PL_SYSTEM) {
+ 		ret = ttm_tt_create(bo, true);
+ 		if (ret)
+ 			return ret;
+-- 
+2.25.1
 
-Fixes: 856082f021a2 ("fbdev: defio: fix the pagelist corruption")
-Signed-off-by:
-
-Make sure you CC the original author (Chuansheng Liu) so they can review
-the bug fix.
-
-Google used to give good guides for how to send a v2 patch but now the
-first page is just useless.  :/
-
-regards,
-dan carpenter
-
-
-
-
-
-
-
-
-> Signed-off-by: Peter Suti <peter.suti@streamunlimited.com>
-> ---
->  drivers/staging/fbtft/fbtft-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 9c4d797e7ae4..4137c1a51e1b 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -656,7 +656,6 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
->  	fbdefio->delay =           HZ / fps;
->  	fbdefio->sort_pagelist =   true;
->  	fbdefio->deferred_io =     fbtft_deferred_io;
-> -	fb_deferred_io_init(info);
->  
->  	snprintf(info->fix.id, sizeof(info->fix.id), "%s", dev->driver->name);
->  	info->fix.type =           FB_TYPE_PACKED_PIXELS;
-> @@ -667,6 +666,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
->  	info->fix.line_length =    width * bpp / 8;
->  	info->fix.accel =          FB_ACCEL_NONE;
->  	info->fix.smem_len =       vmem_size;
-> +	fb_deferred_io_init(info);
->  
->  	info->var.rotate =         pdata->rotate;
->  	info->var.xres =           width;
-> -- 
-> 2.25.1
-> 
