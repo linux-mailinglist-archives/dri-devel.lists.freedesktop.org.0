@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418B3581894
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 19:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E9F581899
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 19:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA36795F63;
-	Tue, 26 Jul 2022 17:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF78695F66;
+	Tue, 26 Jul 2022 17:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1555B95F33
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 17:38:49 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id x1so12212683plb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 10:38:49 -0700 (PDT)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F4795F56
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 17:38:51 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ e8-20020a17090a280800b001f2fef7886eso1325660pjd.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 10:38:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QqvKH6fccVd80baHbnBCY4qodjMiSVmgD5LIGbvU2Z4=;
- b=B9/WWbhVyNMDG3jI569+7uLqSi0JK9ZiTjxEDD6Fo922/IUX3+iu02/YtEOj+vzgOM
- WPWEaxVHZ3tk9Ev34/jgvIPK5FRcg3gIqUTJFrjnJ5YMPWW3eshhvBUXlEwD+crvzMgt
- 8sLLH3atcRYwER1T8/1snBYPojt8tfmuvOdVs=
+ bh=fJDgGsVp/9ym8bVCX4DEK3+iI9mT2ogd+Xryi1JgPAI=;
+ b=Kh87AJklhSGHbjnLYi6JWYNUx2pSx4cl7szgvn8ecj57yYy/kDlcZRplDlDfTYEQeD
+ VeOBmELL2x+VZtbXQl1HJsHWW97OevB9j0uYetTvCvznTRNUGnVpz+YsDZxMKMRKUS7b
+ Ol1oRoWylsF/kXc/l31Y5qUVh9tgo5947EuPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QqvKH6fccVd80baHbnBCY4qodjMiSVmgD5LIGbvU2Z4=;
- b=kpd+0fj/nI2y1R+YmefBtpEcOrc7GzEd63pGlH73uBJpMmrkyU/HLIFj0xTT4f9kYZ
- D4LitV0f8Iwc37ObMebw0Uc6qjaRBpQB8Ffj/bLpWqnbtsHGFgkx1Ss6XqwxfxcJnh40
- JgqYAH1yp/hDATLikwvGR2nmCdonXkkHOz2ieZTCxI3H0lXKinBADwDYO6G0flXD9M5I
- /l0bMqeBkBIIMEeVtDmzWLKDfdNxwZeDFa9QEENuh0bkhzJVIU8oSWD81zrzpycUzWUQ
- 5Rsp81/DPL2EJah8wFdTySPWYnwF/NE+R8Z/7Ms+5RI7LBwbxaAD0sklMq0LAs6YfYbn
- ZOJA==
-X-Gm-Message-State: AJIora8yq4YbX+sN/xHzrS46+GX9Pf7h3cz0SKfdOUwAO+FeIy3e5+qf
- SHlCwdvQ1+r8RZszyJ1Zam48/4LEXSADTW6F
-X-Google-Smtp-Source: AGRyM1trr98gdklxubSGKVrsW/w7EKhRKIGIQlo+z7UMmwbo6HElyMi5CU7nlM/Xnx3B4vQl7fSzrQ==
-X-Received: by 2002:a17:902:e841:b0:16c:3053:c7e6 with SMTP id
- t1-20020a170902e84100b0016c3053c7e6mr17679425plg.163.1658857128631; 
- Tue, 26 Jul 2022 10:38:48 -0700 (PDT)
+ bh=fJDgGsVp/9ym8bVCX4DEK3+iI9mT2ogd+Xryi1JgPAI=;
+ b=5jT43dGCKzTAN6YvbiHIsNPsjDOat0YHxMT+t83pFnNap30xIELzL9298bD/FlBrWH
+ MUcyc0k3rC/en8hgwdTi5eZQ0VBUkjuFwWiiC2Ovf2pO7ZIlamhN74laGl54AzpKnbqm
+ gKvDuRPt1lrdr/eOOo3HPOV7XVMPNoVxZaHb1cz1DvxBOLp9XquVnzEqB00YFSrAcX83
+ 401C9EwjHqO3F81jUfB9gCvkGLJc3cTv1qWjcUxHgId0mns5XkdcVqSDPfR5W+ExHdOh
+ Ao+nSdClwtRoTvYl89GFz22+pWN+OzHDrTregzgXUAncAx7n7WOj7aUm1NP98X6pXPWD
+ bIjw==
+X-Gm-Message-State: AJIora/d4DefnR/VmloJaAR+/GilFv1E6Yecj6mLNLxJsLyYzDmhvRo2
+ oDy8IrPzFdsMxClSN6EzPLL/RQ==
+X-Google-Smtp-Source: AGRyM1tK5CVcyHdW+12ue/Q8sK3OVVAYgnuYyRdNJt8CWfhB2C2YLXNxFl4ZmN8vVRUHRpLhGnvE/w==
+X-Received: by 2002:a17:902:d581:b0:16b:e6b8:4080 with SMTP id
+ k1-20020a170902d58100b0016be6b84080mr17779542plh.146.1658857130908; 
+ Tue, 26 Jul 2022 10:38:50 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:8693:e9aa:75c0:5134])
  by smtp.gmail.com with ESMTPSA id
- ik29-20020a170902ab1d00b0016d9ecd71f4sm245884plb.77.2022.07.26.10.38.47
+ ik29-20020a170902ab1d00b0016d9ecd71f4sm245884plb.77.2022.07.26.10.38.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 10:38:47 -0700 (PDT)
+ Tue, 26 Jul 2022 10:38:50 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2 4/7] regulator: core: Allow specifying an initial load w/
- the bulk API
-Date: Tue, 26 Jul 2022 10:38:21 -0700
-Message-Id: <20220726103631.v2.4.Ie85f68215ada39f502a96dcb8a1f3ad977e3f68a@changeid>
+Subject: [PATCH v2 5/7] drm/msm/dsi: Use the new regulator bulk feature to
+ specify the load
+Date: Tue, 26 Jul 2022 10:38:22 -0700
+Message-Id: <20220726103631.v2.5.I7b3c72949883846badb073cfeae985c55239da1d@changeid>
 X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
 In-Reply-To: <20220726173824.1166873-1-dianders@chromium.org>
 References: <20220726173824.1166873-1-dianders@chromium.org>
@@ -70,104 +71,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a number of drivers that follow a pattern that looks like
-this:
-1. Use the regulator bulk API to get a bunch of regulators.
-2. Set the load on each of the regulators to use whenever the
-   regulators are enabled.
-
-Let's make this easier by just allowing the drivers to pass the load
-in.
-
-As part of this change we need to move the error printing in
-regulator_bulk_get() around; let's switch to the new dev_err_probe()
-to simplify it.
+As of the patch ("regulator: core: Allow specifying an initial load w/
+the bulk API") we can now specify the initial load in the bulk data
+rather than having to manually call regulator_set_load() on each
+regulator. Let's use it.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
 Changes in v2:
-- ("Allow specifying an initial load w/ the bulk API") new for v2.
+- ("Use the new regulator bulk feature to specify the load") new for v2.
 
- drivers/regulator/core.c           | 20 ++++++++++++--------
- include/linux/regulator/consumer.h | 12 ++++++++----
- 2 files changed, 20 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c    | 13 +++----------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 13 +++----------
+ 2 files changed, 6 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index 1e54a833f2cf..17c476fc8adb 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -4783,22 +4783,26 @@ int regulator_bulk_get(struct device *dev, int num_consumers,
- 		consumers[i].consumer = regulator_get(dev,
- 						      consumers[i].supply);
- 		if (IS_ERR(consumers[i].consumer)) {
--			ret = PTR_ERR(consumers[i].consumer);
- 			consumers[i].consumer = NULL;
-+			ret = dev_err_probe(dev, PTR_ERR(consumers[i].consumer),
-+					    "Failed to get supply '%s'",
-+					    consumers[i].supply);
- 			goto err;
- 		}
-+
-+		if (consumers[i].init_load_uA > 0) {
-+			ret = regulator_set_load(consumers[i].consumer,
-+						 consumers[i].init_load_uA);
-+			if (ret) {
-+				i++;
-+				goto err;
-+			}
-+		}
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 04265ad2fbef..dec7a94cf819 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -279,8 +279,10 @@ static int dsi_regulator_init(struct msm_dsi_host *msm_host)
+ 	int num = msm_host->cfg_hnd->cfg->reg_cfg.num;
+ 	int i, ret;
+ 
+-	for (i = 0; i < num; i++)
++	for (i = 0; i < num; i++) {
+ 		s[i].supply = regs[i].name;
++		s[i].init_load_uA = regs[i].enable_load;
++	}
+ 
+ 	ret = devm_regulator_bulk_get(&msm_host->pdev->dev, num, s);
+ 	if (ret < 0) {
+@@ -289,15 +291,6 @@ static int dsi_regulator_init(struct msm_dsi_host *msm_host)
+ 		return ret;
  	}
  
- 	return 0;
- 
- err:
--	if (ret != -EPROBE_DEFER)
--		dev_err(dev, "Failed to get supply '%s': %pe\n",
--			consumers[i].supply, ERR_PTR(ret));
--	else
--		dev_dbg(dev, "Failed to get supply '%s', deferring\n",
--			consumers[i].supply);
+-	for (i = 0; i < num; i++) {
+-		if (regs[i].enable_load >= 0) {
+-			ret = regulator_set_load(s[i].consumer,
+-						 regs[i].enable_load);
+-			if (ret < 0)
+-				return ret;
+-		}
+-	}
 -
- 	while (--i >= 0)
- 		regulator_put(consumers[i].consumer);
+ 	return 0;
+ }
  
-diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
-index bbf6590a6dec..5779f4466e62 100644
---- a/include/linux/regulator/consumer.h
-+++ b/include/linux/regulator/consumer.h
-@@ -171,10 +171,13 @@ struct regulator;
- /**
-  * struct regulator_bulk_data - Data used for bulk regulator operations.
-  *
-- * @supply:   The name of the supply.  Initialised by the user before
-- *            using the bulk regulator APIs.
-- * @consumer: The regulator consumer for the supply.  This will be managed
-- *            by the bulk API.
-+ * @supply:       The name of the supply.  Initialised by the user before
-+ *                using the bulk regulator APIs.
-+ * @init_load_uA: After getting the regulator, regulator_set_load() will be
-+ *                called with this load.  Initialised by the user before
-+ *                using the bulk regulator APIs.
-+ * @consumer:     The regulator consumer for the supply.  This will be managed
-+ *                by the bulk API.
-  *
-  * The regulator APIs provide a series of regulator_bulk_() API calls as
-  * a convenience to consumers which require multiple supplies.  This
-@@ -182,6 +185,7 @@ struct regulator;
-  */
- struct regulator_bulk_data {
- 	const char *supply;
-+	int init_load_uA;
- 	struct regulator *consumer;
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index 330c0c4e7f9d..f42ff57861da 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -515,8 +515,10 @@ static int dsi_phy_regulator_init(struct msm_dsi_phy *phy)
+ 	int num = phy->cfg->reg_cfg.num;
+ 	int i, ret;
  
- 	/* private: Internal use */
+-	for (i = 0; i < num; i++)
++	for (i = 0; i < num; i++) {
+ 		s[i].supply = regs[i].name;
++		s[i].init_load_uA = regs[i].enable_load;
++	}
+ 
+ 	ret = devm_regulator_bulk_get(dev, num, s);
+ 	if (ret < 0) {
+@@ -529,15 +531,6 @@ static int dsi_phy_regulator_init(struct msm_dsi_phy *phy)
+ 		return ret;
+ 	}
+ 
+-	for (i = 0; i < num; i++) {
+-		if (regs[i].enable_load >= 0) {
+-			ret = regulator_set_load(s[i].consumer,
+-							regs[i].enable_load);
+-			if (ret < 0)
+-				return ret;
+-		}
+-	}
+-
+ 	return 0;
+ }
+ 
 -- 
 2.37.1.359.gd136c6c3e2-goog
 
