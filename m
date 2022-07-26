@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CA2580D9A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:28:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE479580D9E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D91F11BD42;
-	Tue, 26 Jul 2022 07:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC04511BFB0;
+	Tue, 26 Jul 2022 07:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-42.freemail.mail.aliyun.com
- (out30-42.freemail.mail.aliyun.com [115.124.30.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 218F911B5B7;
- Tue, 26 Jul 2022 07:27:23 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+Received: from out30-56.freemail.mail.aliyun.com
+ (out30-56.freemail.mail.aliyun.com [115.124.30.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C579711BBE3;
+ Tue, 26 Jul 2022 07:27:27 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VKUIMGu_1658820438; 
+ TI=SMTPD_---0VKUJQq0_1658820441; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VKUIMGu_1658820438) by smtp.aliyun-inc.com;
- Tue, 26 Jul 2022 15:27:20 +0800
+ fp:SMTPD_---0VKUJQq0_1658820441) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 15:27:23 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH 14/20] drm/amd/display: Clean up some inconsistent indenting
-Date: Tue, 26 Jul 2022 15:25:49 +0800
-Message-Id: <20220726072555.91323-14-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH 15/20] drm/amd/display: Clean up some inconsistent indenting
+Date: Tue, 26 Jul 2022 15:25:50 +0800
+Message-Id: <20220726072555.91323-15-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
 References: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
@@ -51,105 +51,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 No functional modification involved.
 
-smatch warnings:
+smatch warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_dpp_cm.c:450 dpp20_get_blndgam_current() warn: inconsistent indenting.
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_dpp_cm.c:543 dpp20_get_shaper_current() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1728 dcn20_program_front_end_for_ctx() warn: inconsistent indenting.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- .../drm/amd/display/dc/dcn20/dcn20_dpp_cm.c   | 68 +++++++++----------
- 1 file changed, 34 insertions(+), 34 deletions(-)
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c   | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dpp_cm.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dpp_cm.c
-index 2feb051a2002..598caa508d43 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dpp_cm.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dpp_cm.c
-@@ -444,24 +444,24 @@ static enum dc_lut_mode dpp20_get_blndgam_current(struct dpp *dpp_base)
- 	uint32_t state_mode;
- 	struct dcn20_dpp *dpp = TO_DCN20_DPP(dpp_base);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+index 3b26962637d0..68690e2118cb 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+@@ -1715,15 +1715,13 @@ void dcn20_program_front_end_for_ctx(
+ 	DC_LOGGER_INIT(dc->ctx->logger);
  
--	REG_GET(CM_BLNDGAM_LUT_WRITE_EN_MASK,
--					CM_BLNDGAM_CONFIG_STATUS, &state_mode);
-+	REG_GET(CM_BLNDGAM_LUT_WRITE_EN_MASK, CM_BLNDGAM_CONFIG_STATUS, &state_mode);
- 
--		switch (state_mode) {
--		case 0:
--			mode = LUT_BYPASS;
--			break;
--		case 1:
--			mode = LUT_RAM_A;
--			break;
--		case 2:
--			mode = LUT_RAM_B;
--			break;
--		default:
--			mode = LUT_BYPASS;
--			break;
--		}
--		return mode;
-+	switch (state_mode) {
-+	case 0:
-+		mode = LUT_BYPASS;
-+		break;
-+	case 1:
-+		mode = LUT_RAM_A;
-+		break;
-+	case 2:
-+		mode = LUT_RAM_B;
-+		break;
-+	default:
-+		mode = LUT_BYPASS;
-+		break;
-+	}
+ 	/* Carry over GSL groups in case the context is changing. */
+-       for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-               struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i];
+-               struct pipe_ctx *old_pipe_ctx =
+-                       &dc->current_state->res_ctx.pipe_ctx[i];
+-
+-               if (pipe_ctx->stream == old_pipe_ctx->stream)
+-                       pipe_ctx->stream_res.gsl_group =
+-                               old_pipe_ctx->stream_res.gsl_group;
+-       }
++	for (i = 0; i < dc->res_pool->pipe_count; i++) {
++		struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i];
++		struct pipe_ctx *old_pipe_ctx = &dc->current_state->res_ctx.pipe_ctx[i];
 +
-+	return mode;
- }
- 
- bool dpp20_program_blnd_lut(
-@@ -537,24 +537,24 @@ static enum dc_lut_mode dpp20_get_shaper_current(struct dpp *dpp_base)
- 	uint32_t state_mode;
- 	struct dcn20_dpp *dpp = TO_DCN20_DPP(dpp_base);
- 
--	REG_GET(CM_SHAPER_LUT_WRITE_EN_MASK,
--			CM_SHAPER_CONFIG_STATUS, &state_mode);
-+	REG_GET(CM_SHAPER_LUT_WRITE_EN_MASK, CM_SHAPER_CONFIG_STATUS, &state_mode);
- 
--		switch (state_mode) {
--		case 0:
--			mode = LUT_BYPASS;
--			break;
--		case 1:
--			mode = LUT_RAM_A;
--			break;
--		case 2:
--			mode = LUT_RAM_B;
--			break;
--		default:
--			mode = LUT_BYPASS;
--			break;
--		}
--		return mode;
-+	switch (state_mode) {
-+	case 0:
-+		mode = LUT_BYPASS;
-+		break;
-+	case 1:
-+		mode = LUT_RAM_A;
-+		break;
-+	case 2:
-+		mode = LUT_RAM_B;
-+		break;
-+	default:
-+		mode = LUT_BYPASS;
-+		break;
++		if (pipe_ctx->stream == old_pipe_ctx->stream)
++			pipe_ctx->stream_res.gsl_group = old_pipe_ctx->stream_res.gsl_group;
 +	}
-+
-+	return mode;
- }
  
- static void dpp20_configure_shaper_lut(
+ 	if (dc->hwss.program_triplebuffer != NULL && dc->debug.enable_tri_buf) {
+ 		for (i = 0; i < dc->res_pool->pipe_count; i++) {
 -- 
 2.20.1.7.g153144c
 
