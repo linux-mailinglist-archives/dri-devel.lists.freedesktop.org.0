@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AE5580D37
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:26:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6F3580D73
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 09:27:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8DE10EF9C;
-	Tue, 26 Jul 2022 07:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A745113044;
+	Tue, 26 Jul 2022 07:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-131.freemail.mail.aliyun.com
- (out30-131.freemail.mail.aliyun.com [115.124.30.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC39D1128BD;
- Tue, 26 Jul 2022 07:26:33 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R881e4; CH=green; DM=||false|;
+Received: from out30-43.freemail.mail.aliyun.com
+ (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC29811B206;
+ Tue, 26 Jul 2022 07:26:38 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
  MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VKUNX5e_1658820387; 
+ TI=SMTPD_---0VKUBAlY_1658820391; 
 Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VKUNX5e_1658820387) by smtp.aliyun-inc.com;
- Tue, 26 Jul 2022 15:26:29 +0800
+ fp:SMTPD_---0VKUBAlY_1658820391) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 15:26:33 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH 02/20] drm/amd/display: Clean up some inconsistent indenting
-Date: Tue, 26 Jul 2022 15:25:37 +0800
-Message-Id: <20220726072555.91323-2-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH 03/20] drm/amd/display: Clean up some inconsistent indenting
+Date: Tue, 26 Jul 2022 15:25:38 +0800
+Message-Id: <20220726072555.91323-3-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
 References: <20220726072555.91323-1-jiapeng.chong@linux.alibaba.com>
@@ -53,60 +53,27 @@ No functional modification involved.
 
 smatch warnings:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_mpc.c:306 mpc32_get_shaper_current() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c:716 dcn314_clk_mgr_construct() warn: inconsistent indenting.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- .../gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c  | 36 +++++++++----------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
-index 94141f5e6994..357bd2461bc9 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c
-@@ -300,24 +300,24 @@ static enum dc_lut_mode mpc32_get_shaper_current(struct mpc *mpc, uint32_t mpcc_
- 	uint32_t state_mode;
- 	struct dcn30_mpc *mpc30 = TO_DCN30_MPC(mpc);
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
+index df6dd8465272..ee99974b3b62 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
+@@ -713,7 +713,8 @@ void dcn314_clk_mgr_construct(
+ 			dcn314_bw_params.wm_table = ddr5_wm_table;
  
--	REG_GET(MPCC_MCM_SHAPER_CONTROL[mpcc_id],
--			MPCC_MCM_SHAPER_MODE_CURRENT, &state_mode);
--
--		switch (state_mode) {
--		case 0:
--			mode = LUT_BYPASS;
--			break;
--		case 1:
--			mode = LUT_RAM_A;
--			break;
--		case 2:
--			mode = LUT_RAM_B;
--			break;
--		default:
--			mode = LUT_BYPASS;
--			break;
--		}
--		return mode;
-+	REG_GET(MPCC_MCM_SHAPER_CONTROL[mpcc_id], MPCC_MCM_SHAPER_MODE_CURRENT, &state_mode);
-+
-+	switch (state_mode) {
-+	case 0:
-+		mode = LUT_BYPASS;
-+		break;
-+	case 1:
-+		mode = LUT_RAM_A;
-+		break;
-+	case 2:
-+		mode = LUT_RAM_B;
-+		break;
-+	default:
-+		mode = LUT_BYPASS;
-+		break;
-+	}
-+
-+	return mode;
- }
+ 		/* Saved clocks configured at boot for debug purposes */
+-		 dcn314_dump_clk_registers(&clk_mgr->base.base.boot_snapshot, &clk_mgr->base.base, &log_info);
++		dcn314_dump_clk_registers(&clk_mgr->base.base.boot_snapshot,
++					  &clk_mgr->base.base, &log_info);
  
+ 	}
  
 -- 
 2.20.1.7.g153144c
