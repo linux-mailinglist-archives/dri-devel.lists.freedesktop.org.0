@@ -1,113 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02733580AEC
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 08:03:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3497D580AFF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 08:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6939910F1BA;
-	Tue, 26 Jul 2022 06:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D27710FBDD;
+	Tue, 26 Jul 2022 06:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2117.outbound.protection.outlook.com [40.107.113.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4ED510F1BA
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 06:03:40 +0000 (UTC)
+Received: from mo-csw.securemx.jp (mo-csw1515.securemx.jp [210.130.202.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9182F10FBDD
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 06:15:26 +0000 (UTC)
+Received: by mo-csw.securemx.jp (mx-mo-csw1515) id 26Q6F33v022118;
+ Tue, 26 Jul 2022 15:15:03 +0900
+X-Iguazu-Qid: 34trpbd9IC41e4v2kS
+X-Iguazu-QSIG: v=2; s=0; t=1658816103; q=34trpbd9IC41e4v2kS;
+ m=0iGqhylLcSYnE60v/Wl9w6rR54yh9X4VuGxAgciZon8=
+Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
+ by relay.securemx.jp (mx-mr1510) id 26Q6F1E0022213
+ (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 26 Jul 2022 15:15:01 +0900
+X-SA-MID: 42668458
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mj7mFLGYP5K/ZraBuVAwcf2I4WjAs7cVz3CpAzXXFQtwx7yzAFVU7Sy8FozPg+JysQ51htwtQbQhAT3MMItbJEwDjPfRjKQY5vJ7SDXkzLVWcYlkF1Wv9JyhekWA6ErZ/Hik5nzPAe7WFsuh18dNU3xDgvrMjSOZKaiPv7sFaouzqRNwKzIpT+9DrqBnHdMiSLfjfyQUDd7k+9fQiY8m53xQq7lGDUf5XEFQ7Yfx8ANUzA31jrRG8dWSwSREuNPx2Dc0s0NByqxg/y1uIV57v27CLPQfsr6xvHXZiwJARkMwTutFGgOAknODvtGCVe9avsA1qkUl3a4nAd6eQW0cBg==
+ b=TP3rTQqATDjYir5SDUUBh4etfAq5aFS9mWvzPNQIUcMwzrItZJlz9+oTs1/YsQ11TmqUKzBT830CNgCvVQVjYp7BGE34nl+mR0J3+r3SiPiRA0bTumvKiSyD93+D2qynKRmdnx12DthOBK4WUm+GDr/f8X5mPeVpZLt56ImBGr7X2yZJ7KXvu546ZI9qD6Cnlh4Pwyy+odHPyCr68eEeelHIBV3oghTI6QG81d470MY3B4ZNSBAGiaPeiW0LWx/BFI8rIapNO+JoWxZShPLf6vdeN/sepnw3VqE2ZCYVVEVzQIdybmEvsv9jGx77r6wz0EBd56JnyUBDL8WhCu272Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wuRHdKr5rlFwdXuzj0kYzP45f7W/qmmxTTFm97mLaNc=;
- b=Yv/WK003dcMJU+dA7LpDsSuQp5x+8kxUmxLJLKE5MppmJXd7qHc2aAYJfrOSlWCDhEY2yvA2bwsZDC+TiMAf2SCJ9ueOE4yaUg/YgovlI/cihDf90rm8F5TwY5NQcNwmd9hBHCFia0tgliM4JHxevAY8zlkc2ZykgCP1w5LiQL09hsKXmXue9Z715sjuT3Yiyrxa7YUUiGpJu5LhioxvsZgl735qc8wvHfg0LDXJ+WrSlQn7E1sAJ80yDxnsghKIL2wZHNGD6eu0eMbaAlB3te6sjjwSv2vFdkE/RZx13BFoiKxH8RJhjKQzOZXnSWMvhbvopWTxv7TzQeyeajgiGg==
+ bh=LochckwdzCR+mcS4dn9k+2wdjXt5JVQXDVzqGdWDE5U=;
+ b=AKwkm+ix15nUWWqRWf+DtsdZAOvkQKc/ZCL2c/5Z7/OcTaT/5iQBdHWyqkURsiQ5OJ+WX6ZaF2jWir/kAr/V3duVZVC325vZWo3y/z3TpGGpvaHntncJq7Ksy+pMCsU3Bkb3KaM45xK60nh6lzdnkrGoi4W1dIfW+ESXWyLyGntiztg/t3+oYXtvf36fUb2cDETJvq4ky8a3wG64QPflVLyG9DNSM3M2Alkj8vx8mSdwHL0swiFPC5EDHigah7ubZrK4rVSBcQ7ozdNShu5oa0f53+Fa3ThuFUndAQeiU+J4z+t7c1RVQyuzrHLwT1wwYQc5e5cnLJYT5U7HKEQAsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wuRHdKr5rlFwdXuzj0kYzP45f7W/qmmxTTFm97mLaNc=;
- b=lgzYj33qLCzaGs8jwMzoKVRvFys9HIc+oTmZ5nzhOnjQxOE332Nq4wJCQ+dMzIA4YmzAP/jYK3FB/Bee0HKEkxtJ7+xGL3817Rf43MbK9uUjuokto8MOZl68GDJVVKwbZYpda4bfwfQaDTSRw6lhG6LJ/FZAG6xrZX2dxUQOIyQ=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY2PR01MB2668.jpnprd01.prod.outlook.com (2603:1096:404:73::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.20; Tue, 26 Jul
- 2022 06:03:37 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b046:d8a3:ac9c:75b5]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b046:d8a3:ac9c:75b5%6]) with mapi id 15.20.5458.024; Tue, 26 Jul 2022
- 06:03:37 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>
-Subject: RE: [PATCH v4 0/2] Add RZ/G2L Display support
-Thread-Topic: [PATCH v4 0/2] Add RZ/G2L Display support
-Thread-Index: AQHYnf80GycMyyTrHUej+1/WpT8BZq2QJZxw
-Date: Tue, 26 Jul 2022 06:03:36 +0000
-Message-ID: <OS0PR01MB59226CE75483AD2B96833B3786949@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220722191353.544516-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220722191353.544516-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
+ smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
+ header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
+From: <yuji2.ishikawa@toshiba.co.jp>
+To: <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH v2 0/5] Add Toshiba Visconti DNN image processing
+ accelerator driver
+Thread-Topic: [PATCH v2 0/5] Add Toshiba Visconti DNN image processing
+ accelerator driver
+Thread-Index: AQHYnaUi/BiBjs98DUW2eb3g4GGnba2PDfeAgAEL1GA=
+Date: Tue, 26 Jul 2022 06:09:50 +0000
+X-TSB-HOP2: ON
+Message-ID: <TYAPR01MB62010C6B98C1C197E7E894AF92949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+References: <20220722082858.17880-1-yuji2.ishikawa@toshiba.co.jp>
+ <Yt6Qw/r0FQ0ElYdn@kroah.com>
+In-Reply-To: <Yt6Qw/r0FQ0ElYdn@kroah.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+ header.d=none;dmarc=none action=none header.from=toshiba.co.jp;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 29d04aa1-0c93-4387-be82-08da6ecc948a
-x-ms-traffictypediagnostic: TY2PR01MB2668:EE_
+x-ms-office365-filtering-correlation-id: e6c59c53-3cf9-458f-206b-08da6ecd7371
+x-ms-traffictypediagnostic: TYAPR01MB3424:EE_
+x-ld-processed: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f,ExtAddr,ExtFwd
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AYhwxyfuoqRGfdGokqJFwdTSjQVaJ5AnnnW+gyP3t8gnBk18/cx/yGMcyIpnANGAoO9TegD0/jzM7H6lOxqbdUyhrCc94oIu6OMU1bX3JzFSFdJY3USjyoxP0i/C6dT0wWbnRhBXmdCLbV7eZl6w3wMFvLVAtRWsvJuzfiVikffZZpFBA15qYfiEbc8bkIGtEX5T2Ilkly1QRYt9SG4F66vgPvGqUXiagT0pfzbpxnMLnqkKbDNOunN9RwA3oHh620uCrVT6xwsJ0oKA4g14D6RVTuXsvCVQ6ZTSddqLhvoWvsq0mVNKOMZu0x74laQjpVV9x77Zmqyu1Ot9yoOqo+r3SUazYS/8Rxl67iZcs/g0YpnKeoI2iZOGcpF2qifOr+0tj4OjhLFp+Nvvd1dgQW4eYA4w0g+uuAJbzz7VyveF5qM8iojW0oTAvbrk10oIj2sjRyAQhWW+90m/Et7wCh8VO7vXZSDncrSJU03ZFbgvektGmUU1YTFncieR0CITl7bQzospx0jh946GLOuiYPr8wJ2I7/1U//ZEHDGqAOBdTUKunDcxY6Gx14t/GjyE64X/bv2L3AgrbhUvedNUogwetk/j3DBv1TDXCkJOlzrT5LVFKSgbZpPrlMjbtgKDCgUuCyfrEqQIPWL121Fsdl6HPxgEQGE/2wrN63gly2dXpYHPXSJYkyvcWC27EePYhTGsR6uzWwnjd1tDwRoRE5r+/cnbnAvtpk0q2HoM8kp0CdilsGA9DGbBWSexxPFUZZzztE7pXyjOj4NZLArDN4U96346080zpWH4Y+TYvXE=
+x-microsoft-antispam-message-info: KvzD/Gg7PaLcwlAhqqfY8M+3OGS6UM80bN4D0m2VzgF0oxKSQFX6wuWhy3gntwQG30iKJMrfLjjZCV2QwwVVkZegoe4O8FMoRxEqp9XdPwCQu0CCewjytgVUGi9BADAQX2PmQRcxb0o1qJXCGHdq5i3+yVJID340l70+2hws/meOa1x+IZ2tQXSfAjO1sFr8BasbM7ebBeXYwbuVW99MVk2A7JmxgVbGqM27Z8NMOB9n6ARL7fkV4jJKmTt48xZBYjOwitd76ByWxP3krUeLT2OvDw0va7yVoN2Sh/RPc+pbjmVU+D6GDk+mdWRjLFsThz+yMd44VYLg9fsiGyiGxjpjEfdUVF20oU4qhDOsNNKoCxGgTxqCRe7MCBplQ7SKja1Yh6r5/UCUh2/Tq2jMb70fQQulwWfKQiFZQL7EBr07WNai47KEGxZucBc7ePppjk5W7ovtyyHeTo1t08Ij8luFT4zg5jHJ5fH14kY/8ERk5Z7w8jYDOW6yhT31BrvhTkBNmnKnvwkuasnJRQ3HwFHqIUJMknNGGLXVnC+iriGRg+3eDhln10aaCm19rNWAiwSnBLo5BewiCh8/nWy2/sqGnJ3qjnuhysdETJszr0BYpC1ooDgsXwshZVlFfwtDIDL9Q+Bbwdzz/co2qK0F7pQ9HGfHSZ/ulp8UyN0ef4wJcgTCeKYBnXrnTabhaEz5g693GCf7StascjKKpedsN6X9SwfupGilKSDlD+InCk7JkNN7veZqakVAb5XTXuCnUBcjc273gr0y4xpuUZ6qAFxSnntdXORZ5d6MTP9Ya+1xUSe6rF2O+tHKdu+pYBctQ77/JaHs4gtBrSgMtNPMIw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(136003)(376002)(346002)(396003)(366004)(26005)(6506007)(83380400001)(122000001)(38100700002)(186003)(71200400001)(2906002)(54906003)(41300700001)(478600001)(316002)(66446008)(64756008)(4326008)(66946007)(110136005)(55016003)(66556008)(9686003)(52536014)(8936002)(30864003)(66476007)(8676002)(38070700005)(7696005)(33656002)(5660300002)(40140700001)(86362001)(76116006);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:TYAPR01MB6201.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(376002)(346002)(396003)(366004)(39860400002)(4326008)(966005)(316002)(55016003)(66556008)(66946007)(66476007)(64756008)(66446008)(8676002)(71200400001)(8936002)(54906003)(478600001)(76116006)(6916009)(52536014)(5660300002)(7416002)(2906002)(41300700001)(6506007)(7696005)(53546011)(86362001)(33656002)(186003)(38070700005)(66574015)(38100700002)(83380400001)(9686003)(26005)(122000001);
+ DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6n/cYjKn2/pVcQlpaAR7U9lqS5E164+iQGBCc7vFMp87zfKdKec0tLlrS6G1?=
- =?us-ascii?Q?wgrEIZSgLuwo/psEO7fUgajHv/8PvZwoCVMiN1C4uEOlNIkqL0C5h3qN+EPa?=
- =?us-ascii?Q?fyMuJUtwXZ63fLWJKyqmaWJNodN1/Md5/BFT5I7id6XdIz+0vRKAQ9lMVBzZ?=
- =?us-ascii?Q?xmVr1B0GiXfvKIfwmP2KrL2zTtNinbScJgEZmOCAsmOpGLLpho6Hvgt3GSmK?=
- =?us-ascii?Q?TauIKE56SuVFMAuVSnntkfYbXEdmH4nN/cbQQSBAIahIkZ3Zs+LDWCVqPZEQ?=
- =?us-ascii?Q?PBbm4YWVRDDwXYTqKiJERX9s/zWgPGDErCRgakdneEfReRJzZvGMHTe8kN1J?=
- =?us-ascii?Q?kh1CZxC3di+9Ay6HoAckOqYa+PV+XoZFZainkXYtjXBk5Y4OnnERwUCzR84F?=
- =?us-ascii?Q?kTJPpXuCz4sV2cdIJPPofzDAj0F27y4dsJDKeBDe156zQSnPDCESUXGPf7xw?=
- =?us-ascii?Q?Rb5nHsOCPyh+5SlXNhwJGgWjN0axAUxP+eOcc30myyMPOjEWhAiZ7nf3ZS7Z?=
- =?us-ascii?Q?zWS51cj+uqgWAbKaJXGn2a3aDHpFy+2KO3dSFSvWWUKcvB95MNos5lVRbtmL?=
- =?us-ascii?Q?Rb+Fp/aj44wryYe74mmWyuXOt6qpNR05JzoMDB0z19V0iqRYN31ALMZ+hkfE?=
- =?us-ascii?Q?t1V3bQBUS7o6kCqaLhufrEJobU7SBhWAWheqYBwQ7CmyDgB5B3ED1qhOGp3p?=
- =?us-ascii?Q?XQ/iyOcXhGOqCygZGooqOOyfZ4+xhmjBD/H97o1DykOW6Xi8mKfHFnMznrFi?=
- =?us-ascii?Q?MDIwW94oQeScGTPoZj7fH9uT9je01mvNaxEXA/YkRq8YoWZmypux/lfBn1ac?=
- =?us-ascii?Q?mXNZmRd8tRppmvKHtlnVl55hXytIclCITEpC689wxMY9VqvL2lvJKZaADnXv?=
- =?us-ascii?Q?hOK12yjoaf4MJu6nLVZzFd3M9IimkLZk/7YCULThumuATUkOXCqrrnPUfBBl?=
- =?us-ascii?Q?OgpDG2POnVq1fIo6Ux75NWL2LqiI6hI3SFLwlh/4mKsEJez+20M9p2yu4HMG?=
- =?us-ascii?Q?2O3eO0kWK/N1QxI/0V1rEoIiVoOLEJGt8MSTQwq9a+i1q6fp24h8cz7SN0ff?=
- =?us-ascii?Q?6rU1KIcQ4zKIXh4deoJoW5mzMlPBoh0FwRZXlpmLWDwhCJppZEbAFAXg7i4Q?=
- =?us-ascii?Q?6DVWmt0pS7knQSsdv8c9RsYw4GIZOKa2AqLukgt3H0BCabLJdWDG8dSEe8+6?=
- =?us-ascii?Q?pJBwR6sk404WUgsyAVZ/xePxeZIrj+a/JuYz2ZINug9FN+L/kUxVnlPsb/h8?=
- =?us-ascii?Q?DlHy4uKU6SquduoAbHWANL/HWuBvgjAX2ByAjyHfqw+FGHJ+wLtSidMpvxGV?=
- =?us-ascii?Q?gtOztkRoPEPJ/7Ppil+nosq8cZrNQOBj4gSJUXVg4PCtyDbXY4gppffHbuVH?=
- =?us-ascii?Q?UH4gl4f5pHM8AE0o21CW9K6j6rYzfe0oiAKtwCCH3KsoHEEmzLCsvBGl/bhk?=
- =?us-ascii?Q?XqXWCpZb8Vpu8lhWOsWBMrNX3oIUDJyDYRTmFlTZDb+ypjIjX3zT0bm4uVYy?=
- =?us-ascii?Q?e6/uMzd//ZHVlJtd9uBM3KomZaNGTFv8UOmeLW8JW5pzVNKtir8g5u2zYDit?=
- =?us-ascii?Q?m/jJiqHGkT5IFmCA+0rd490SpnyMC1aNi5oA/9EePOuxm+AOnzOkFlFwwLip?=
- =?us-ascii?Q?Kw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z2NZVXB5REhZenZuRTdEOGxOWEN6K29ZWXN3VE92M0VzRzdOQmtPN3RZUzVD?=
+ =?utf-8?B?V0YrYVU2M1A4QklQc1Y5eWhDSTR4ZndHYzlucThDdHpycXQ0RXNFYUpiaHRS?=
+ =?utf-8?B?SGdrR0FycDVXZ2oxRjl6aklnbzQwdU84c2M3WXpaRVl5QVhuL2hoVFVxNFhX?=
+ =?utf-8?B?N3RzNUt4cm05UDVBSk90b3c5OWVqQmhZZlRiQ05uRjBKTGNFRWFVNWt1K0pD?=
+ =?utf-8?B?cUpCd29oajJVeFBVaS9UVmsxTkJldGFjOFI5S05HSnNQazJOaVhaQWtrRW1Z?=
+ =?utf-8?B?RzFJb2VtZWtWTFkvZUxxTmk5V25IL09XUnlDVGlIdWZHK2pWRURqdWVYck5q?=
+ =?utf-8?B?WjUvSmNhU25tNm1JSzBIQWNxMTd5dERteTc4bUEvOHdsMGlrQng5aktIaXIx?=
+ =?utf-8?B?TGc5OS9WQWxVbnlIdXB4MGhRbmxJblpuM1c2OHJKYUYzeDkrSTNLbVh1NHNC?=
+ =?utf-8?B?T2NYUHlTTmRyR2RPTnBUQUdjVlNsdlJKejhMZ05rVTNiYVlpM1pGUDhHSXNt?=
+ =?utf-8?B?SU50QVppNFFaamZvZ01tc2wzbXdNbTI5d0Nra044OGpOMjJCbGwwZHlxd1Vt?=
+ =?utf-8?B?dXVQVjAzUEltdmFDTGdYdGhFZlVrU251MmxxclNKdEJTK1RlZm01V21aY2ZN?=
+ =?utf-8?B?L1RRNS9UUHBrT2JwS01vWXN6akp4RlpEOWFSMlJsNDgzdEc0ZExuT241cHUr?=
+ =?utf-8?B?aVpBWTNiVDVqbVFaZWxMR0FGL3ZVY05LYzg1RTVxNndTMDJUeGIyR2lZT253?=
+ =?utf-8?B?UjJyZVFjM2lnUmEySHBZcHlNT0ZwUlFwL1cvSU9EY2NpelpxZVJDYkdCYTZS?=
+ =?utf-8?B?YWp5V2Z3V0tROXpZSWI5MXVTVC9xSEhwUk0vazhKVWN5ZXVqdER4N2R5WHpm?=
+ =?utf-8?B?K3F2ZUxtTWRXQzlDQURHMU82VEY0NTJPN1lVTmRwRnFaUVNGMkh3NUtON2xi?=
+ =?utf-8?B?MTlTT2I0aml5MHBxcVVlRkx0YVhsbVFMSVNJcGl6ZDlVbUJhMllGSzdZWXBF?=
+ =?utf-8?B?dnNLWTNqOG9TRmpHYk4xY3JuYzhlRnNmbUZRcHh2OFVSa3BhamhiZkxKeGti?=
+ =?utf-8?B?d3FvTHl2bDk3bFVRbXlBeGEwRkhod242L0NPZHljM200ZDIvclA5bHlhQ082?=
+ =?utf-8?B?NXF3MjFVQUM0NmV3Z3dRZi9zYmxJSlV0eWlEZ05BbUxYQVhkOXBRbEZ5dVB1?=
+ =?utf-8?B?bVF1N2NBY09ReER5VUg2UFRWOTRnS3cyWC9IdXJ1cjZpR1piSEF2ejNSUWRR?=
+ =?utf-8?B?ZUpydWJZV0tLNnBnZTcrSG5Eak05NVVBNzNWS1JjSkRRcFVjcURZY29zN1kz?=
+ =?utf-8?B?dmhqTnE1dVZvNDRqNnMvaWZoNkhFRDFBTVBPdWxGdjdFWGxWUDBLc3V2K3du?=
+ =?utf-8?B?cE5tYllmQWZ1ZUxjeXhjY2dCdklVNkdQdmoveEYwbWVFamFRUmJFN3d5b1Br?=
+ =?utf-8?B?VFczdUFhUkU4blBGamFtaDVjWkRmdVFaNURwbHR6dzNRK2J0d3NvbUg0TXp2?=
+ =?utf-8?B?b2dpcTBkQm5FSE5HY2orTGlIYVBGZXY4cHFvb0s2Sm5HeW1wQXZiMDV6TGJN?=
+ =?utf-8?B?a0VzOEtES0gvL3o2d2ZsNDVjOWtDN1N5b1ljNW9Jb21EZkJrUFhVSS9jTVM0?=
+ =?utf-8?B?ZzVDYUNneTZXZ0w0cHlmZnZOYUd0SXVXTzdTRjV3MTR5YUZtakQ0eXdYZEtm?=
+ =?utf-8?B?RzcwMzlxdXp1M2JOT29vdm5RUDd4cUxDVC9KS0NOeXI0ZGJrTEllVDQ3ZnRq?=
+ =?utf-8?B?WXdUQ3dGcW9GNzdLanpuaWZ5L1U5elJHcUtWNExOVE9hbk1KUkxpVzJiMVhw?=
+ =?utf-8?B?S0pxc0dWQlZKL0Nna0I3QmFjWC9JRmRUaHkwaHJHMmt4TE90c1RqdnFSRkUz?=
+ =?utf-8?B?eDRwUEJFZTFrZUJaN0tFVEE0bVV3MUtnaXd1UytHUEhlOUJDazcyRFNUVTM5?=
+ =?utf-8?B?UU8rcWMzRW1RTG4yVXMybmdCd01tQ2RtUDliOHV5MTByeW5pSTJVOUtVNEJI?=
+ =?utf-8?B?OGdNY0JMVS83anp5TG5FclIrNGN2eWdmbzZteGlFU2lOVkgwSkc2UVQyeW5z?=
+ =?utf-8?B?eE5aNDlOVXA0K0RGbFFkeitZOS9SUVo5UW9jdzZiTlh0bkYyVm94OXZITitt?=
+ =?utf-8?B?SFIyY3dLL1pFS3U0N0VRTFZMazVHS0hmdWpiNFd4bk9sd0I1M0dRL2oyZVY4?=
+ =?utf-8?B?OVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29d04aa1-0c93-4387-be82-08da6ecc948a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2022 06:03:37.0226 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: TYAPR01MB6201.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6c59c53-3cf9-458f-206b-08da6ecd7371
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2022 06:09:50.9866 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kXLAaGTjjGVzcRIgyzP2z14q/H0KzLkybByw4ojJnMRAg0zOxjIx2ghVsutZzxcvEXDyiACeAsNoSB9Z5yfgeW8fSsNe/nEtX4R6CsHiL1Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2668
+X-MS-Exchange-CrossTenant-userprincipalname: U8r+XcxDJNUVAVmrymBWo0undg9SGOZcMDHF1zjenYzYeKfd0iAcKXRQl/XefYXWy/OIMF6cLtwwKNk4sdMFKmLGAGZKCF+ZtQdZghtuqBk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3424
+X-OriginatorOrg: toshiba.co.jp
+MSSCP.TransferMailToMossAgent: 103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,463 +127,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Cc: linaro-mm-sig@lists.linaro.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sumit.semwal@linaro.org, hverkuil@xs4all.nl, robh+dt@kernel.org,
+ nobuhiro1.iwamatsu@toshiba.co.jp, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent and all,
-
-I have prototyped the RZ/G2L DU driver with a library that shares the commo=
-n code
-between R-Car and RZ/G2L Du drivers.
-
-Looks like the total patches is now more than 20.
-
-So planning to send the same with batches of 2-3 small series in order to m=
-ake
-review simpler.
-
-Cheers,
-Biju
-
-> Subject: [PATCH v4 0/2] Add RZ/G2L Display support
->=20
-> RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
-> Video signal processor (VSPD) and Display unit(DU). The output of LCDC
-> is connected to Display parallel interface and MIPI link video
-> interface.
->=20
-> This patch series aims to add basic display support on RZ/G2L SMARC EVK
-> platform. The output from DSI is connected to ADV7535.
->=20
-> The DU controller is similar to R-Car as it is connected to VSPD, so
-> most of code is based on R-Car with new CRTC/DRM driver specific to
-> RZ/G2L
->=20
-> v3->v4:
->  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-
-> du
->  * started using same compatible for RZ/G2{L,LC}
->  * Removed rzg2l_du_group.h and struct rzg2l_du_group
->  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
->  * Removed rzg2l_du_group_restart
->  * Updated rzg2l_du_crtc_set_display_timing
->  * Removed mode_valid callback.
->  * Updated rzg2l_du_crtc_create() parameters
->  * Updated compatible
->  * Removed RZG2L_DU_MAX_GROUPS
-> V2->v3:
->  * Added new bindings for RZ/G2L DU
->  * Removed indirection and created new DRM driver based on R-Car DU
-> v1->v2:
->  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
->  * Updated commit description for bindings
->  * Removed LCDC references from bindings
->  * Changed clock name from du.0->aclk from bindings
->  * Changed reset name from du.0->du from bindings
->  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
->  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
->  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
->  * Added forward declaration for struct reset_control
->=20
-> [1]
->=20
-> RFC->v1:
->  * Changed  minItems->maxItems for renesas,vsps.
->  * Added RZ/G2L LCDC driver with special handling for CRTC reusing
->    most of RCar DU code
->  * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
-> RFC:
-> Modetest output:-
-> root@smarc-rzg2l:~# modetest -M rzg2l-du
-> Encoders:
-> id      crtc    type    possible crtcs  possible clones
-> 40      39      none    0x00000001      0x00000001
-> 42      0       Virtual 0x00000001      0x00000002
->=20
-> Connectors:
-> id      encoder status          name            size (mm)       modes
-> encoders
-> 41      40      connected       HDMI-A-1        520x320         29
-> 40
->   modes:
->         index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
->   #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000
-> flags: phsync, nvsync; type: preferred, driver
->   #1 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
-> flags: phsync, pvsync; type: driver
->   #2 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352
-> flags: phsync, pvsync; type: driver
->   #3 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352
-> flags: phsync, pvsync; type: driver
->   #4 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000
-> flags: phsync, pvsync; type: driver
->   #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000
-> flags: phsync, pvsync; type: driver
->   #6 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000 flags:
-> phsync, pvsync; type: driver
->   #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags:
-> phsync, pvsync; type: driver
->   #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags:
-> phsync, pvsync; type: driver
->   #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags:
-> phsync, pvsync; type: driver
->   #10 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags:
-> phsync, pvsync; type: driver
->   #11 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags:
-> phsync, pvsync; type: driver
->   #12 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags:
-> nhsync, nvsync; type: driver
->   #13 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags:
-> nhsync, nvsync; type: driver
->   #14 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags:
-> nhsync, nvsync; type: driver
->   #15 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags:
-> phsync, pvsync; type: driver
->   #16 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags:
-> phsync, pvsync; type: driver
->   #17 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags:
-> phsync, pvsync; type: driver
->   #18 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags:
-> phsync, pvsync; type: driver
->   #19 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync,
-> nvsync; type: driver
->   #20 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync,
-> nvsync; type: driver
->   #21 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags: nhsync,
-> nvsync; type: driver
->   #22 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags: nhsync,
-> nvsync; type: driver
->   #23 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags: nhsync,
-> nvsync; type: driver
->   #24 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags: nhsync,
-> nvsync; type: driver
->   #25 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags: nhsync,
-> nvsync; type: driver
->   #26 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags: nhsync,
-> nvsync; type: driver
->   #27 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags: nhsync,
-> nvsync; type: driver
->   #28 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags: nhsync,
-> pvsync; type: driver
->   props:
->         1 EDID:
->                 flags: immutable blob
->                 blobs:
->=20
->                 value:
->                         00ffffffffffff003683832410101010
->                         1416010380342078eeb725ac5130b426
->                         105054bfef8068c0714f818001010101
->                         010101010101e83580a070381f403020
->                         250044682100001a000000ff00303031
->                         30310a20202020202020000000fc0048
->                         444d490a2020202020202020000000fd
->                         00384c1e5317000a20202020202001cf
->                         02031a71471003140513841223090707
->                         8301000065030c0010008c0ad0902040
->                         31200c40550036d431000018011d8018
->                         711c1620582c250036d43100009e011d
->                         80d0721c1620102c258036d43100009e
->                         011d00bc52d01e20b828554036d43100
->                         001ef339801871382d40582c4500c48e
->                         2100001e000000000000000000000054
->         2 DPMS:
->                 flags: enum
->                 enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
->                 value: 0
->         5 link-status:
->                 flags: enum
->                 enums: Good=3D0 Bad=3D1
->                 value: 0
->         6 non-desktop:
->                 flags: immutable range
->                 values: 0 1
->                 value: 0
->         4 TILE:
->                 flags: immutable blob
->                 blobs:
->=20
->                 value:
->         20 CRTC_ID:
->                 flags: object
->                 value: 39
->=20
-> CRTCs:
-> id      fb      pos     size
-> 39      49      (0,0)   (1920x1080)
->   #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000
-> flags: phsync, nvsync; type: preferred, driver
->   props:
->         22 ACTIVE:
->                 flags: range
->                 values: 0 1
->                 value: 1
->         23 MODE_ID:
->                 flags: blob
->                 blobs:
->=20
->                 value:
->                         101b02008007b007d007200800003804
->                         3a043f04570400003c00000009000000
->                         48000000313932307831303830000000
->                         00000000000000000000000000000000
->                         00000000
->         19 OUT_FENCE_PTR:
->                 flags: range
->                 values: 0 18446744073709551615
->                 value: 0
->         24 VRR_ENABLED:
->                 flags: range
->                 values: 0 1
->                 value: 0
->=20
-> Planes:
-> id      crtc    fb      CRTC x,y        x,y     gamma size      possible
-> crtcs
-> 32      39      49      0,0             0,0     0
-> 0x00000001
->   formats: RGB8 AR12 XR12 AR15 XR15 RG16 BG24 RG24 BA24 BX24 AR24 XR24
-> UYVY YUYV YVYU NV12 NV21 NV16 NV61 YU12 YV12 YU16 YV16 YU24 YV24
->   props:
->         8 type:
->                 flags: immutable enum
->                 enums: Overlay=3D0 Primary=3D1 Cursor=3D2
->                 value: 1
->         17 FB_ID:
->                 flags: object
->                 value: 49
->         18 IN_FENCE_FD:
->                 flags: signed range
->                 values: -1 2147483647
->                 value: -1
->         20 CRTC_ID:
->                 flags: object
->                 value: 39
->         13 CRTC_X:
->                 flags: signed range
->                 values: -2147483648 2147483647
->                 value: 0
->         14 CRTC_Y:
->                 flags: signed range
->                 values: -2147483648 2147483647
->                 value: 0
->         15 CRTC_W:
->                 flags: range
->                 values: 0 2147483647
->                 value: 1920
->         16 CRTC_H:
->                 flags: range
->                 values: 0 2147483647
->                 value: 1080
->         9 SRC_X:
->                 flags: range
->                 values: 0 4294967295
->                 value: 0
->         10 SRC_Y:
->                 flags: range
->                 values: 0 4294967295
->                 value: 0
->         11 SRC_W:
->                 flags: range
->                 values: 0 4294967295
->                 value: 125829120
->         12 SRC_H:
->                 flags: range
->                 values: 0 4294967295
->                 value: 70778880
->         30 IN_FORMATS:
->                 flags: immutable blob
->                 blobs:
->=20
->                 value:
->                         01000000000000001900000018000000
->                         01000000800000005247423841523132
->                         58523132415231355852313552473136
->                         42473234524732344241323442583234
->                         41523234585232345559565959555956
->                         595659554e5631324e5632314e563136
->                         4e563631595531325956313259553136
->                         59563136595532345956323400000000
->                         ffffff01000000000000000000000000
->                         0000000000000000
->                 in_formats blob decoded:
->                          RGB8:  LINEAR
->                          AR12:  LINEAR
->                          XR12:  LINEAR
->                          AR15:  LINEAR
->                          XR15:  LINEAR
->                          RG16:  LINEAR
->                          BG24:  LINEAR
->                          RG24:  LINEAR
->                          BA24:  LINEAR
->                          BX24:  LINEAR
->                          AR24:  LINEAR
->                          XR24:  LINEAR
->                          UYVY:  LINEAR
->                          YUYV:  LINEAR
->                          YVYU:  LINEAR
->                          NV12:  LINEAR
->                          NV21:  LINEAR
->                          NV16:  LINEAR
->                          NV61:  LINEAR
->                          YU12:  LINEAR
->                          YV12:  LINEAR
->                          YU16:  LINEAR
->                          YV16:  LINEAR
->                          YU24:  LINEAR
->                          YV24:  LINEAR
->         34 zpos:
->                 flags: immutable range
->                 values: 0 0
->                 value: 0
-> 35      0       0       0,0             0,0     0
-> 0x00000001
->   formats: RGB8 AR12 XR12 AR15 XR15 RG16 BG24 RG24 BA24 BX24 AR24 XR24
-> UYVY YUYV YVYU NV12 NV21 NV16 NV61 YU12 YV12 YU16 YV16 YU24 YV24
->   props:
->         8 type:
->                 flags: immutable enum
->                 enums: Overlay=3D0 Primary=3D1 Cursor=3D2
->                 value: 0
->         17 FB_ID:
->                 flags: object
->                 value: 0
->         18 IN_FENCE_FD:
->                 flags: signed range
->                 values: -1 2147483647
->                 value: -1
->         20 CRTC_ID:
->                 flags: object
->                 value: 0
->         13 CRTC_X:
->                 flags: signed range
->                 values: -2147483648 2147483647
->                 value: 0
->         14 CRTC_Y:
->                 flags: signed range
->                 values: -2147483648 2147483647
->                 value: 0
->         15 CRTC_W:
->                 flags: range
->                 values: 0 2147483647
->                 value: 0
->         16 CRTC_H:
->                 flags: range
->                 values: 0 2147483647
->                 value: 0
->         9 SRC_X:
->                 flags: range
->                 values: 0 4294967295
->                 value: 0
->         10 SRC_Y:
->                 flags: range
->                 values: 0 4294967295
->                 value: 0
->         11 SRC_W:
->                 flags: range
->                 values: 0 4294967295
->                 value: 0
->         12 SRC_H:
->                 flags: range
->                 values: 0 4294967295
->                 value: 0
->         30 IN_FORMATS:
->                 flags: immutable blob
->                 blobs:
->=20
->                 value:
->                         01000000000000001900000018000000
->                         01000000800000005247423841523132
->                         58523132415231355852313552473136
->                         42473234524732344241323442583234
->                         41523234585232345559565959555956
->                         595659554e5631324e5632314e563136
->                         4e563631595531325956313259553136
->                         59563136595532345956323400000000
->                         ffffff01000000000000000000000000
->                         0000000000000000
->                 in_formats blob decoded:
->                          RGB8:  LINEAR
->                          AR12:  LINEAR
->                          XR12:  LINEAR
->                          AR15:  LINEAR
->                          XR15:  LINEAR
->                          RG16:  LINEAR
->                          BG24:  LINEAR
->                          RG24:  LINEAR
->                          BA24:  LINEAR
->                          BX24:  LINEAR
->                          AR24:  LINEAR
->                          XR24:  LINEAR
->                          UYVY:  LINEAR
->                          YUYV:  LINEAR
->                          YVYU:  LINEAR
->                          NV12:  LINEAR
->                          NV21:  LINEAR
->                          NV16:  LINEAR
->                          NV61:  LINEAR
->                          YU12:  LINEAR
->                          YV12:  LINEAR
->                          YU16:  LINEAR
->                          YV16:  LINEAR
->                          YU24:  LINEAR
->                          YV24:  LINEAR
->         37 alpha:
->                 flags: range
->                 values: 0 65535
->                 value: 65535
->         38 zpos:
->                 flags: range
->                 values: 1 1
->                 value: 1
->=20
-> Frame buffers:
-> id      size    pitch
->=20
->=20
-> Biju Das (2):
->   dt-bindings: display: Document Renesas RZ/G2L DU bindings
->   drm: rcar-du: Add RZ/G2L DU Support
->=20
->  .../bindings/display/renesas,rzg2l-du.yaml    | 124 +++
->  drivers/gpu/drm/rcar-du/Kconfig               |  16 +-
->  drivers/gpu/drm/rcar-du/Makefile              |   9 +
->  drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c       | 718 +++++++++++++++++
->  drivers/gpu/drm/rcar-du/rzg2l_du_crtc.h       | 100 +++
->  drivers/gpu/drm/rcar-du/rzg2l_du_drv.c        | 192 +++++
->  drivers/gpu/drm/rcar-du/rzg2l_du_drv.h        |  99 +++
->  drivers/gpu/drm/rcar-du/rzg2l_du_encoder.c    | 114 +++
->  drivers/gpu/drm/rcar-du/rzg2l_du_encoder.h    |  29 +
->  drivers/gpu/drm/rcar-du/rzg2l_du_kms.c        | 756 ++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rzg2l_du_kms.h        |  43 +
->  drivers/gpu/drm/rcar-du/rzg2l_du_regs.h       |  67 ++
->  drivers/gpu/drm/rcar-du/rzg2l_du_vsp.c        | 422 ++++++++++
->  drivers/gpu/drm/rcar-du/rzg2l_du_vsp.h        |  93 +++
->  drivers/gpu/drm/rcar-du/rzg2l_du_writeback.c  | 250 ++++++
-> drivers/gpu/drm/rcar-du/rzg2l_du_writeback.h  |  42 +
->  16 files changed, 3073 insertions(+), 1 deletion(-)  create mode 100644
-> Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.h
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.h
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_encoder.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_encoder.h
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_kms.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_kms.h
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_regs.h
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_vsp.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_vsp.h
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_writeback.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_writeback.h
->=20
-> --
-> 2.25.1
+SGkgR3JlZw0KDQpUaGFuayB5b3UgZm9yIHlvdXIgY29tbWVudHMuDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR3JlZyBLSCA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5v
+cmc+DQo+IFNlbnQ6IE1vbmRheSwgSnVseSAyNSwgMjAyMiA5OjQ3IFBNDQo+IFRvOiBpc2hpa2F3
+YSB5dWppKOefs+W3nSDmgqDlj7gg4peL77yy77yk77yj4pah77yh77yp77y077yj4peL77yl77yh
+6ZaLKQ0KPiA8eXVqaTIuaXNoaWthd2FAdG9zaGliYS5jby5qcD4NCj4gQ2M6IFJvYiBIZXJyaW5n
+IDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBIYW5zIFZlcmt1aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD47
+DQo+IGl3YW1hdHN1IG5vYnVoaXJvKOWyqeadviDkv6HmtIsg4pah77yz77y377yj4pev77yh77yj
+77y0KQ0KPiA8bm9idWhpcm8xLml3YW1hdHN1QHRvc2hpYmEuY28uanA+OyBKb25hdGhhbiBDb3Ji
+ZXQgPGNvcmJldEBsd24ubmV0PjsNCj4gU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJv
+Lm9yZz47IENocmlzdGlhbiBLw7ZuaWcNCj4gPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT47IGxp
+bnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsNCj4gbGludXgta2VybmVsQHZnZXIu
+a2VybmVsLm9yZzsgbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOw0KPiBkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnOyBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcNCj4gU3Vi
+amVjdDogUmU6IFtQQVRDSCB2MiAwLzVdIEFkZCBUb3NoaWJhIFZpc2NvbnRpIEROTiBpbWFnZSBw
+cm9jZXNzaW5nDQo+IGFjY2VsZXJhdG9yIGRyaXZlcg0KPiANCj4gT24gRnJpLCBKdWwgMjIsIDIw
+MjIgYXQgMDU6Mjg6NTNQTSArMDkwMCwgWXVqaSBJc2hpa2F3YSB3cm90ZToNCj4gPiBUaGlzIHNl
+cmllcyBpcyB0aGUgRE5OIGltYWdlIHByb2Nlc3NpbmcgYWNjZWxlcmF0b3IgZHJpdmVyIGZvciBU
+b3NoaWJhJ3MgQVJNDQo+IFNvQywgVmlzY29udGlbMF0uDQo+ID4gVGhpcyBwcm92aWRlcyBEVCBi
+aW5kaW5nIGRvY3VtZW50YXRpb24sIGRldmljZSBkcml2ZXIsIE1BSU5UQUlORVIgZmlsZXMNCj4g
+YW5kIGRvY3VtZW50cy4NCj4gPg0KPiA+IEJlc3QgcmVnYXJkcywNCj4gPiBZdWppDQo+ID4NCj4g
+PiBbMF06DQo+ID4NCj4gaHR0cHM6Ly90b3NoaWJhLnNlbWljb24tc3RvcmFnZS5jb20vYXAtZW4v
+c2VtaWNvbmR1Y3Rvci9wcm9kdWN0L2ltYWdlLQ0KPiA+IHJlY29nbml0aW9uLXByb2Nlc3NvcnMt
+dmlzY29udGkuaHRtbA0KPiA+DQo+ID4gZHQtYmluZGluZ3M6IHNvYzogdmlzY29udGk6IEFkZCBU
+b3NoaWJhIFZpc2NvbnRpIEROTiBpbWFnZSBwcm9jZXNzaW5nDQo+IGFjY2VsZXJhdG9yIGJpbmRp
+bmdzDQo+ID4gICB2MSAtPiB2MjoNCj4gPiAgICAgLSBObyB1cGRhdGUNCj4gPg0KPiA+IHNvYzog
+dmlzY29udGk6IEFkZCBUb3NoaWJhIFZpc2NvbnRpIGltYWdlIHByb2Nlc3NpbmcgYWNjZWxlcmF0
+b3IgY29tbW9uDQo+IHNvdXJjZQ0KPiA+ICAgdjEgLT4gdjI6DQo+ID4gICAgIC0gY2hlY2tlZCB3
+aXRoIGNoZWNrcGF0Y2gucGwgLS1zdHJpY3QNCj4gPg0KPiA+IHNvYzogdmlzY29udGk6IEFkZCBU
+b3NoaWJhIFZpc2NvbnRpIEROTiBpbWFnZSBwcm9jZXNzaW5nIGFjY2VsZXJhdG9yDQo+ID4gICB2
+MSAtPiB2MjoNCj4gPiAgICAgLSBjaGVja2VkIHdpdGggY2hlY2twYXRjaC5wbCAtLXN0cmljdA0K
+PiA+ICAgICAtIHJlbW92ZWQgdW51c2VkIGNvZGUNCj4gPg0KPiA+IE1BSU5UQUlORVJTOiBBZGQg
+ZW50cmllcyBmb3IgVG9zaGliYSBWaXNjb250aSBETk4gaW1hZ2UgcHJvY2Vzc2luZw0KPiA+ICAg
+djEgLT4gdjI6DQo+ID4gICAgIC0gTm8gdXBkYXRlDQo+ID4NCj4gPiBEb2N1bWVudGF0aW9uOiBk
+cml2ZXItYXBpOiB2aXNjb250aTogYWRkIGEgZGVzY3JpcHRpb24gb2YgRE5OIGRyaXZlci4NCj4g
+PiAgIHYxIC0+IHYyOg0KPiA+ICAgICAtIG5ld2x5IGFkZGVkIGRvY3VtZW50cw0KPiA+DQo+ID4g
+WXVqaSBJc2hpa2F3YSAoNSk6DQo+ID4gICBkdC1iaW5kaW5nczogc29jOiB2aXNjb250aTogQWRk
+IFRvc2hpYmEgVmlzY29udGkgRE5OIGltYWdlIHByb2Nlc3NpbmcNCj4gPiAgICAgYWNjZWxlcmF0
+b3IgYmluZGluZ3MNCj4gPiAgIHNvYzogdmlzY29udGk6IEFkZCBUb3NoaWJhIFZpc2NvbnRpIGlt
+YWdlIHByb2Nlc3NpbmcgYWNjZWxlcmF0b3INCj4gPiAgICAgY29tbW9uIHNvdXJjZQ0KPiA+ICAg
+c29jOiB2aXNjb250aTogQWRkIFRvc2hpYmEgVmlzY29udGkgRE5OIGltYWdlIHByb2Nlc3Npbmcg
+YWNjZWxlcmF0b3INCj4gPiAgIE1BSU5UQUlORVJTOiBBZGQgZW50cmllcyBmb3IgVG9zaGliYSBW
+aXNjb250aSBETk4gaW1hZ2UgcHJvY2Vzc2luZw0KPiA+ICAgICBhY2NlbGVyYXRvcg0KPiA+ICAg
+RG9jdW1lbnRhdGlvbjogZHJpdmVyLWFwaTogdmlzY29udGk6IGFkZCBhIGRlc2NyaXB0aW9uIG9m
+IEROTiBkcml2ZXIuDQo+ID4NCj4gPiAgLi4uL3NvYy92aXNjb250aS90b3NoaWJhLHZpc2NvbnRp
+LWRubi55YW1sICAgIHwgIDU0ICsrDQo+ID4gIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS92aXNj
+b250aS9jb21tb24ucnN0ICB8IDExNSArKysrDQo+ID4gIERvY3VtZW50YXRpb24vZHJpdmVyLWFw
+aS92aXNjb250aS9kbm4ucnN0ICAgICB8IDM5NCArKysrKysrKysrKysrDQo+ID4gIE1BSU5UQUlO
+RVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMiArDQo+ID4gIGRyaXZl
+cnMvc29jL0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ID4gIGRy
+aXZlcnMvc29jL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ID4g
+IGRyaXZlcnMvc29jL3Zpc2NvbnRpL0tjb25maWcgICAgICAgICAgICAgICAgICB8ICAgNyArDQo+
+ID4gIGRyaXZlcnMvc29jL3Zpc2NvbnRpL01ha2VmaWxlICAgICAgICAgICAgICAgICB8ICAgOCAr
+DQo+ID4gIGRyaXZlcnMvc29jL3Zpc2NvbnRpL2Rubi9NYWtlZmlsZSAgICAgICAgICAgICB8ICAg
+NiArDQo+ID4gIGRyaXZlcnMvc29jL3Zpc2NvbnRpL2Rubi9kbm4uYyAgICAgICAgICAgICAgICB8
+IDUyMw0KPiArKysrKysrKysrKysrKysrKysNCj4gPiAgZHJpdmVycy9zb2MvdmlzY29udGkvZG5u
+L2h3ZF9kbm4uYyAgICAgICAgICAgIHwgMTgzICsrKysrKw0KPiA+ICBkcml2ZXJzL3NvYy92aXNj
+b250aS9kbm4vaHdkX2Rubi5oICAgICAgICAgICAgfCAgNjggKysrDQo+ID4gIGRyaXZlcnMvc29j
+L3Zpc2NvbnRpL2Rubi9od2RfZG5uX3JlZy5oICAgICAgICB8IDIyOCArKysrKysrKw0KPiA+ICBk
+cml2ZXJzL3NvYy92aXNjb250aS9pcGFfY29tbW9uLmMgICAgICAgICAgICAgfCAgNTUgKysNCj4g
+PiAgZHJpdmVycy9zb2MvdmlzY29udGkvaXBhX2NvbW1vbi5oICAgICAgICAgICAgIHwgIDE4ICsN
+Cj4gPiAgZHJpdmVycy9zb2MvdmlzY29udGkvdWFwaS9kbm4uaCAgICAgICAgICAgICAgIHwgIDc3
+ICsrKw0KPiA+ICBkcml2ZXJzL3NvYy92aXNjb250aS91YXBpL2lwYS5oICAgICAgICAgICAgICAg
+fCAgOTAgKysrDQo+IA0KPiBXaHkgaXMgdGhpcyBpbiBkcml2ZXJzL3NvYy8/DQoNCkFjdHVhbGx5
+LCBJJ20gbm90IHN1cmUgd2hlcmUgaGlzIG1vZHVsZSBzaG91bGQgbGl2ZSBpbi4NClRoZSBkaXJl
+Y3RvcnkgZHJpdmVycy9zb2Mgd2VyZSBjaG9zZW4ganVzdCBiZWNhdXNlIHRoZSBkcml2ZXIgaXMg
+c3BlY2lmaWMgdG8gVmlzY29udGkgU29DLg0KSXMgaXQgYmV0dGVyIHRvIG1vdmUgdGhlIGRyaXZl
+ciB0byBhbm90aGVyIGRpcmVjdG9yeSBzdWNoIGFzIGRyaXZlcnMvbWlzYyA/DQoNCj4gQW5kIHVh
+cGkgZmlsZXMgYmVsb25nIGluIHRoZSBjb3JyZWN0IGluY2x1ZGUgcGF0aCwgbm90IGJ1cnJpZWQg
+aW4gYSBkcml2ZXINCj4gc3ViZGlyZWN0b3J5IHdoZXJlIHRoZXkgd2lsbCBuZXZlciBiZSBwaWNr
+ZWQgdXAgY29ycmVjdGx5IGJ5IHRoZSBidWlsZCBzeXN0ZW0uDQo+IEhvdyBkaWQgeW91IHRlc3Qg
+dGhlc2U/DQoNCkkgdW5kZXJzdGFuZCBpdCdzIG5vdCBhIGdvb2QgaWRlYSB0byBwbGFjZSB1YXBp
+IGZpbGVzIHVuZGVyIGRyaXZlciBzdWJkaXJlY3RvcnkuDQpBIGJ1aWxkIGNvbW1hbmQgIm1ha2Ug
+aGVhZGVyc19pbnN0YWxsIiBkaWQgbm90IHBpY2sgb3V0IGhlYWRlcnMuDQpJIHVzZWQgYWRkaXRp
+b25hbCBzaGVsbCBzY3JpcHQgdG8gaW5zdGFsbCBoZWFkZXJzIGZvciBWaXNjb250aS4NCkknbGwg
+bW92ZSB1YXBpIGhlYWRlcnMgdG8gaW5jbHVkZS91YXBpL2xpbnV4Lg0KDQo+IHRoYW5rcywNCj4g
+DQo+IGdyZWcgay1oDQoNClJlZ2FyZHMsDQogIFl1amkNCg==
 
