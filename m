@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F07580F4A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 10:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195E6580F5E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 10:46:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A18F10E034;
-	Tue, 26 Jul 2022 08:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDCDE10ED56;
+	Tue, 26 Jul 2022 08:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61288112164;
- Tue, 26 Jul 2022 08:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658824866; x=1690360866;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=cDvh1RXCJi/hmIjoLQ82PzKrIfG7t8B0IO+umeOg2jA=;
- b=YfA615uPbkKhmpn/dp/F6gw6HOd2nOiOtXArkbLEMLegmAyixGov1ixZ
- SndouPBf+6ZPaMPr56eRvWIYjf0HZZDMq1Jm/spCkCxv+Y+oMFJhIJVe3
- FxRV6IBPPxN85b0KNfjZ2FbyctxFw1KCi36PqSebo2oxmDKOOe8ivZUKn
- qy0uZv0sPuOCRqeICaAnTaclYhFSXjhQpErRUVPDULkh+RvYFcdEUOJ/S
- RtpfMyqB75iuxbp6+BN0Xpp7ilIy+W8iucfWBw93P5IPZB11Gt77Zvcyo
- rcz2HB/VWs2IC06DUGceqS2a1brQtTEhst2HuamnPml/uIhy/0laKR8qi Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10419"; a="285447301"
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; d="scan'208";a="285447301"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2022 01:41:05 -0700
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; d="scan'208";a="927243867"
-Received: from atilson-mobl2.ger.corp.intel.com (HELO [10.213.238.124])
- ([10.213.238.124])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2022 01:41:04 -0700
-Message-ID: <52b519d6-ea46-35a9-81fd-256a44937dbd@linux.intel.com>
-Date: Tue, 26 Jul 2022 09:41:02 +0100
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA5CE10ED56
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 08:46:45 +0000 (UTC)
+X-UUID: 63514b995795457cac9035d883ae8191-20220726
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:c2016e17-6c6a-4d78-baec-69e09740b5c2, OB:0,
+ LO
+ B:0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:70
+X-CID-INFO: VERSION:1.1.8, REQID:c2016e17-6c6a-4d78-baec-69e09740b5c2, OB:0,
+ LOB:
+ 0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:70
+X-CID-META: VersionHash:0f94e32, CLOUDID:ac460dee-db04-4499-9fdf-04ef44b9468c,
+ C
+ OID:cd19d327659d,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 63514b995795457cac9035d883ae8191-20220726
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 284345635; Tue, 26 Jul 2022 16:46:41 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 26 Jul 2022 16:46:40 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Tue, 26 Jul 2022 16:46:40 +0800
+Message-ID: <38f785af2815e45d175f02d9970e3401e700a645.camel@mediatek.com>
+Subject: Re: [PATCH v14 01/10] dt-bindings: mediatek,dp: Add Display Port
+ binding
+From: CK Hu <ck.hu@mediatek.com>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Tue, 26 Jul 2022 16:46:40 +0800
+In-Reply-To: <ef407d8767d12d240280f1c9d9fdd8ba9d3e5632.camel@mediatek.com>
+References: <20220712111223.13080-1-rex-bc.chen@mediatek.com>
+ <20220712111223.13080-2-rex-bc.chen@mediatek.com>
+ <0e1d4cef6b7e72813300eb9be5650066166ac763.camel@mediatek.com>
+ <ef407d8767d12d240280f1c9d9fdd8ba9d3e5632.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/3] Revert "drm/amdgpu: move internal vram_mgr function
- into the C file"
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20220708093047.492662-1-Arunpravin.PaneerSelvam@amd.com>
- <a56afc27-3556-38ea-0d10-f7069091967e@suse.de>
- <476c4e58-ba0c-0736-2618-e7899dd5b60f@linux.intel.com>
- <ceba1244-33a8-9b74-6379-4d0569ca9bdb@amd.com>
- <b7b44b45-4143-963c-3279-87bdc6f727c1@suse.de>
- <3b66f6fe-422a-62e9-ff55-74d9f631d6e3@linux.intel.com>
- <3897e61d-6e30-8626-aac0-4ac1ef9957c2@gmail.com>
- <d78e0eab-74b8-443b-950a-7adaf963e595@suse.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <d78e0eab-74b8-443b-950a-7adaf963e595@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,69 +70,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 26/07/2022 08:46, Thomas Zimmermann wrote:
-> Hi
+On Tue, 2022-07-26 at 14:18 +0800, Rex-BC Chen wrote:
+> On Wed, 2022-07-13 at 15:56 +0800, CK Hu wrote:
+> > Hi, Bo-Chen:
+> > 
+> > On Tue, 2022-07-12 at 19:12 +0800, Bo-Chen Chen wrote:
+> > > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > 
+> > > This controller is present on several mediatek hardware.
+> > > Currently
+> > > mt8195 and mt8395 have this controller without a functional
+> > > difference,
+> > > so only one compatible field is added.
+> > > 
+> > > The controller can have two forms, as a normal display port and
+> > > as
+> > > an
+> > > embedded display port.
+> > > 
+> > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > > ---
+> > >  .../display/mediatek/mediatek,dp.yaml         | 115
+> > > ++++++++++++++++++
+> > >  1 file changed, 115 insertions(+)
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/display/mediatek/mediatek,dp.ya
+> > > ml
+> > > 
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.
+> > > ya
+> > > ml
+> > > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.
+> > > ya
+> > > ml
+> > > new file mode 100644
+> > > index 000000000000..e2d6cb314297
+> > > --- /dev/null
+> > > +++
+> > > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.
+> > > ya
+> > > ml
+> > > @@ -0,0 +1,115 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: 
+> > > http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: MediaTek Display Port Controller
+> > > +
+> > > +maintainers:
+> > > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > > +  - Jitao shi <jitao.shi@mediatek.com>
+> > > +
+> > > +description: |
+> > > +  Device tree bindings for the MediaTek display port TX (DP) and
+> > > +  embedded display port TX (eDP) controller present on some
+> > > MediaTek
+> > > SoCs.
+> > > +  MediaTek DP and eDP are different hardwares and they have
+> > > different
+> > > +  base address for registers, so we need two different
+> > > compatibles
+> > > to
+> > > +  separate them.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - mediatek,mt8195-dp-tx
+> > > +      - mediatek,mt8195-edp-tx
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  nvmem-cells:
+> > > +    maxItems: 1
+> > > +    description: efuse data for display port calibration
+> > > +
+> > > +  nvmem-cell-names:
+> > > +    const: dp_calibration_data
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > +        description: Input endpoint of the controller, usually
+> > > dp_intf
+> > > +
+> > > +      port@1:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description: Output endpoint of the controller
+> > > +        properties:
+> > > +          endpoint:
+> > > +            $ref: /schemas/media/video-interfaces.yaml#
+> > > +            unevaluatedProperties: false
+> > > +            properties:
+> > > +              data-lanes:
+> > > +                description: |
+> > > +                  number of lanes supported by the hardware.
+> > > +                  The possible values:
+> > > +                  0       - For 1 lane enabled in IP.
+> > > +                  0 1     - For 2 lanes enabled in IP.
+> > > +                  0 1 2 3 - For 4 lanes enabled in IP.
+> > > +                minItems: 1
+> > > +                maxItems: 4
+> > > +            required:
+> > > +              - data-lanes
+> > > +
+> > > +    required:
+> > > +      - port@0
+> > > +      - port@1
+> > > +
+> > > +  max-linkrate-mhz:
+> > > +    enum: [ 1620, 2700, 5400, 8100 ]
+> > > +    description: maximum link rate supported by the hardware.
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - interrupts
+> > > +  - ports
+> > > +  - max-linkrate-mhz
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +    #include <dt-bindings/power/mt8195-power.h>
+> > > +    dp_tx@1c600000 {
+> > > +        compatible = "mediatek,mt8195-dp-tx";
+> > > +        reg = <0x1c600000 0x8000>;
+> > > +        power-domains = <&spm MT8195_POWER_DOMAIN_DP_TX>;
+> > > +        interrupts = <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH 0>;
+> > > +        max-linkrate-mhz = <8100>;
+> > 
+> > Why dp-tx has no clock property? I think this device should work
+> > with
+> > a
+> > clock.
+> > 
+> > Regards,
+> > CK
+> > 
 > 
-> Am 25.07.22 um 19:14 schrieb Christian König:
->> Am 25.07.22 um 17:27 schrieb Tvrtko Ursulin:
->>>
->>> On 24/07/2022 19:28, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 22.07.22 um 17:47 schrieb Christian König:
->>>>> Hi Tvrtko,
->>>>>
->>>>> scratching my head what exactly is going on here.
->>>>>
->>>>> I've build tested drm-tip a couple of test in the last week and it 
->>>>> always worked flawlessly.
->>>>>
->>>>> It looks like that some conflict resolution is sometimes not 
->>>>> applied correctly, but I have no idea why.
->>>>
->>>> It worked last week, but must have been reintroduced meanhwile.
->>>> Please fetch the latest drm-tip and rebuild. The attached config 
->>>> produces the error on my system.
->>>
->>> What is the status with this? I hit a conflict on an implicated file 
->>> just now trying to rebuild drm-tip:
->>>
->>> Unmerged paths:
->>>   (use "git add/rm <file>..." as appropriate to mark resolution)
->>>         deleted by us: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
->>>
->>> I had an other i915 conflict to solve and as grep amdgpu_vram_mgr.h 
->>> drivers/gpu/drm/amd produced nothing I just did a git rm on it and 
->>> pushed the resolution.
->>>
->>> Let me know if I broke something, re-broke something, or whatever.. 
->>> Build of amdgpu certainly still looks broken on my end, both before 
->>> and after me rebuilding drm-tip so maybe I just preserved the breakage.
->>
->> It looks like that somehow re-broke, but I'm not sure how.
->>
->> I've fetched drm-tip on Friday at around 1pm CET and build it and that 
->> worked perfectly fine.
->>
->> Essentially the status of drm-misc-next for the following files should 
->> be carried on in drm-tip:
->>
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+> Hello CK,
 > 
-> I've reset these files to their state as in drm-misc-next and updated 
-> drm-tip. It appears to be working again from what I could test locally. 
-> Please try at your earliest convenience.
+> We just need to enable the power domain of dp.
+> The clock of dp is generated by itself and we are not using the
+> global
+> pll to generate clocks.
 
-Builds for me now - thank you!
+Add this to description because this is not trivial.
 
 Regards,
+CK
 
-Tvrtko
+> 
+> BRs,
+> Bo-Chen
+> 
+> > > +
+> > > +        ports {
+> > > +            #address-cells = <1>;
+> > > +            #size-cells = <0>;
+> > > +
+> > > +            port@0 {
+> > > +                reg = <0>;
+> > > +                dptx_in: endpoint {
+> > > +                    remote-endpoint = <&dp_intf0_out>;
+> > > +                };
+> > > +            };
+> > > +            port@1 {
+> > > +                reg = <1>;
+> > > +                dptx_out: endpoint {
+> > > +                    data-lanes = <0 1 2 3>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > 
+> > 
+> 
+> 
+
