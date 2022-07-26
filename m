@@ -2,109 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6895809FF
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 05:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399A2580A46
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jul 2022 06:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3111201E;
-	Tue, 26 Jul 2022 03:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3455112653;
+	Tue, 26 Jul 2022 04:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2100.outbound.protection.outlook.com [40.107.236.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9BB514A7C6
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 03:31:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZIZeOPQnCGws7Ecdji9EboYrXacpbUnB3/2RMMoodYRt3zXGL4z+rR7EcVkFWckkJL0mbKq14SLPTnVrsNWbOvHyOqPAtAtoISS0g8OUTrpyGkXjlpeD2x+07lyppOm4cBZ+HX6vub6CbT+d9JYAJ5uYPsJ2Rglex11FXMYmNiwsg2bVZYvQkiEC9JazXEbHCq4arFjrzt3dOg96oFckwdqfwJZkU+M4mvZzWKLJdN0llVW/MqVoq0Dmx85Nv6BuB8HsnY3IOvg9ncU9lb5GlWzTXp12YmgXwsWeWpJxb8qaEM8ig2jE74vC5Jcr5vQhI7M/EEFWvme/yNsibswNfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+dCS7LQ46t7nqdVSXJNWZfU5yXoPNyxVT3hjArbg/y4=;
- b=G8Huk6DYoYAYP5DasoycK4KaQicPyikn8byoDrd8HxjS71leLttbPazE3+HvqhrtJkTIkJWjoZpXsVGFFSzF2Ra8fG4inLnsrrne8eAqzNaDKRQmBSqwVjZ23HfznjqwMThhQdlxVlTc1kBfJ5ubuJLUiOUVKUwCav2X0CNg9kAIzh9nxofrPT/MulUQtKx/UCIJ06Qk3VbInfiyLgTmMN2s1eEq5I9asiX7fNu471atJZvkjgxCg0PcTjvr+ZdWWdt2w2hd2xfxoWG1kfx6mPaNrnJBD+DysJRxP9JT1mRig6ogzbJ07/QYbe97Ju2RpyMwE3S/FGB29Xf+uR37cA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dCS7LQ46t7nqdVSXJNWZfU5yXoPNyxVT3hjArbg/y4=;
- b=FJ3r0xt2g9yzmHGNmk3AiAIn41pvNKYIjuYrMlWvF/e3701yjt9dATaWnrvRpRaQ+DdSmAUetx2g6Lk8Xipojiuw6R3YR0OVq5/gT/V1FDUa3oKxH5AS/U/k8xasJh36UjuCzgw92C3FtCia0vRIbhAdfND5Mk6Xixb7esa27vE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by CO6PR04MB8316.namprd04.prod.outlook.com (2603:10b6:303:137::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Tue, 26 Jul
- 2022 03:31:28 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::f02d:f2e:cba9:223b]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::f02d:f2e:cba9:223b%6]) with mapi id 15.20.5458.024; Tue, 26 Jul 2022
- 03:31:22 +0000
-From: Xin Ji <xji@analogixsemi.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/bridge: anx7625: Support HDMI_I2S audio format
-Date: Tue, 26 Jul 2022 11:30:58 +0800
-Message-Id: <20220726033058.403715-1-xji@analogixsemi.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYWP286CA0022.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:262::8) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929F8112653
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jul 2022 04:15:46 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id 75so23409039ybf.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jul 2022 21:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lL85hlJEWNpWq8aoVq7T9RPrHigl/wy3kQyoeNe4Sas=;
+ b=hCdS8QSsYIw6gGaV0XS9IAV/+XD+Kk0QE5hzusxmOf5d2dTDTQQcL3NhqMYKbFY0Tn
+ ALB21R/6DazMYeCAAzfSZS7P0Z41gJsw+nZjWX6PlQXwXANm3LVAqrB5PFsMuqAHqXem
+ Mqmm3Ih1NTwtWzQhnAzSzRXXrf5yfCoFcjkmFFPLCmRVp2siIg3AfNjuCMTK2YESptid
+ eeP9tz5wTm7qe3sotMpBO4iTSI2DKFf7D3YatBVRT/PbkAZVFycO+siEvHp7i27pNctb
+ TonIMjdDnr0jjVWHRnLmYyT6Iqx8oAClUtlkGASQ6CkTyN1ePQ9WOQPU8smSEzTDkemD
+ 7GYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lL85hlJEWNpWq8aoVq7T9RPrHigl/wy3kQyoeNe4Sas=;
+ b=gMym2SKbMJg7tFd0PqwnAFm0hQfeLk7rLPTNPVjvTzBndVfJ0wurCHpPXuEInqxESG
+ IyPe71CNnzHmYUk4WuKGwIPMJp2g/FfivSysD9cZAYrUL1IuH3n3002aygvZi5Hbx/Se
+ uhtFzGnO9hBPMsYyADjjKLUOvc+FGld95wwaAMGsO1XYir1x1UZElvFJgdGNfBbwG3Ue
+ b+611BXxaPqv8dWk7zDCjLs9KN/U0EBr/vmk6UStcMP7WMGu1ORT55he2xSrhd9aZIww
+ dXzz5syaaEZXxtXcfYVW/CiPmcanu+YRI855QRsRkA5GhWaQGH8dDMzF39neChcc+H6U
+ g+Rg==
+X-Gm-Message-State: AJIora8h9l3lZn6p463iI+fC6L+k0OC8EZQCH7N0W2Q5XwLJVVFhiUq8
+ lZKazLuD38kRq4RzCMC8EV/LOCdg+EZnfzz6qtQ=
+X-Google-Smtp-Source: AGRyM1uSqvDW6wRuMm0lak5Iwbp5WAlFUJEhBzOij+tqweUKRMo5toAZUB++pRBDQrYJNbxll8cTRP6sKMvIiCj1/Dk=
+X-Received: by 2002:a05:6902:10c2:b0:671:73dd:e67e with SMTP id
+ w2-20020a05690210c200b0067173dde67emr484158ybu.16.1658808945685; Mon, 25 Jul
+ 2022 21:15:45 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 634590c1-d796-4248-ac9e-08da6eb74fb8
-X-MS-TrafficTypeDiagnostic: CO6PR04MB8316:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: syoaGwYjXyx8VASXUHodftaXfgxLILWl51QUnEJIkPeQcsl2kiu+ZLqQrpujpzkZkKl6P36wYh5+v0DoZwEZ4Q96iDhxWfILlyLSgDCj47jrjE6hXxtAbGBZgzw5Qe/oDtxxFge7fTKjMJATltY6x4rfV2y6M5KUJi4ikgeWpZi8EbSEYMcenZbfH3LPTQIwnioFew4ZdCXAJ9mGZnjjRYbCHBQYUG8GbIq69wh53kSPQQzE47RLDNEQKwFwrwoBdtwba52CUVGDlryiw3AQ9P7OaZt5CFCqXk1CzDDVecYzrNo7StkyzXGDWK+yjKaR2weNZUlUk1hu66dwgtGFbrdLu9o7kS7z+oVCtHKPKi3TElWwgaEOotQhyBshej+NxiAjK9Sra72R7oCoySrYTMiLsIctiOJgZqNhga7K+vo985LdwdOLogdxP8CFf7aCrGF4mGhRK6ifXW+2ID3wUb3xHH/dWn4B6ym+Kxw96ux6TZR3ZNUU3rgd7VsP82aJCVlDCXtSHBZAW5OgAGA+QaLNtdQxqd8fQieEUrOfFGgikSe6V/6ghNG4Ii+6gUXYeYyMselg9KX0hVAxex/QEkNgLmaqclqtyLk2AptrloWgpBf0eA/gxDlBVmXsLemjMitMTfgwAt/qKwoBnQUPO7Vi8O+8eTuIA66zuVrQzzj7uV1s3oMu4MDuaJMR75aBuqmAiALfoudRZKW/YMSw2RuBP+uorOaVZkBZ9VWE0GTQJl8qBcJKDKpcoPFtoni/5Y+qjvyBVQHfGLIT5kyTWX6SOAKokXXnOINuzSDsiEo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(396003)(39840400004)(366004)(376002)(136003)(186003)(1076003)(8676002)(4326008)(66946007)(66556008)(83380400001)(66476007)(2616005)(110136005)(52116002)(6512007)(41300700001)(36756003)(6506007)(26005)(2906002)(38350700002)(38100700002)(86362001)(7416002)(6666004)(5660300002)(316002)(478600001)(8936002)(6486002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V0N/K6BPvC7Q6c5TOeg72ZyKWYgRWYWGUOcMLRABEyVNH9MJ1p2hczoMWZ7p?=
- =?us-ascii?Q?C9mGAljPcTRWh3o6jjttUKr8+OTtTiV95rgTL0xTPHlT14EVLBuqSaXRXTNq?=
- =?us-ascii?Q?GsazqAIMsIuFH4mdnnbnOCyOliOsZaovcflcq0BcXLgGanw4CO3qQMomwffi?=
- =?us-ascii?Q?J/NgAqAJsxCqbj33kqOzmGW9Z4+8Sr5Cy+9aPu1BJF/2S15c2Um7nHpuTsf8?=
- =?us-ascii?Q?B/1DJKITHhu0X8Wfv1ygDf1Kh76biDZkDCstnHA5dD7wZJF+bnh1xZ/HFL38?=
- =?us-ascii?Q?5XIuZldCz6jnbgTKxDSApeu3uP+b/3Q2ZXZ1JmR6BZbqkWRQ3pC60ACn22u1?=
- =?us-ascii?Q?u3qpEnakEx5FJRII5ApxCJLV584MTzRS/TDAIuBqcdeJgNeBdgrRoSjxlmMw?=
- =?us-ascii?Q?IsoU1YaKcBZt2fzr4MT6H1hrHAzxGTrguHAJ21FcY8aeaFNd5hqEbKw2dqn2?=
- =?us-ascii?Q?C4qfNrK6nWKGYzF8n7fgOvsfwDGQzyrKBKQ108fSZmCifn/CEJrlSeMnJJ67?=
- =?us-ascii?Q?1t2v1zl2V1SnEJ4P7bUhLpQ0irEPB4BZWvw7viw1TgOJi3wvUq4vylJgc+xx?=
- =?us-ascii?Q?KJuNfFURNKwvMakPIfLBqnhZDTCfjx61ndaI+9g8CrUxTvqc3ijEOlLYPmrJ?=
- =?us-ascii?Q?6vkGG36tWQKudm9/2eZbU1mBJLc7RVPMjzde2NvLrDnp9KySg0LfBIVN3D2w?=
- =?us-ascii?Q?rLbRUP8ZnIMI+3196+c3YQKzY3cGp+v4dIAAZgH3VdRKQzYdcanr5rPaMzrN?=
- =?us-ascii?Q?N6HYiI0H0Zt//6B7Bzbio/wXE/+t0sljhTQerZjK66ve2DN+NOBjxKSQerjW?=
- =?us-ascii?Q?UMlxFefSGPFb75v2HxkhEerfswksMxtOtWg+4Dk1881RttoxpyvMyYUcKRDC?=
- =?us-ascii?Q?Pafo3H8bibcJC48S5Y72wMIJbgXsGqt3aeouGII0GNcVjNl58zSN30NItspN?=
- =?us-ascii?Q?tMzYFwuzK4oGVjaF0qwWXvqCHsLOLBrm1Mi5i8hE0ZelB+CyRtH88syCGz/u?=
- =?us-ascii?Q?8NeD2Lp931bBzBI8UBLBnRhs5KNQ5IYHSfgoConbt3w6qhbVVmk0u789AdS0?=
- =?us-ascii?Q?gBCPWS9Fyo6H26xIsR2f4OaU2VckLl5Tqw3cD8ReNhiKaKM4/EG2hxChlj/3?=
- =?us-ascii?Q?B1Wak255SJ350kfIQIChhVTpQEHQ68IJFyrt6WkHUCGmU1PJCwMUYVROtXTj?=
- =?us-ascii?Q?paCsm6rKgAkwClBG8z2L2PtlzTyVQ9K2Pxhu7NV8t6ws2CjDel1yMzF3MPn+?=
- =?us-ascii?Q?DzIwgEi4rRMhdwQ35/rE0jAvR0diH88nM8nLIPn1VVkJJ78L4OT+X5Pnllhr?=
- =?us-ascii?Q?rKc636TRUebu+p3CWJCVWPUQtNdesR2ili1RAylT2/GLKVBPfXNhPA4TnwCM?=
- =?us-ascii?Q?lplcmNYmh480xG8/UdnH5P4G1ZCgM/a8dsW+NTj+6ZH5sFjAux3g2N2OISrV?=
- =?us-ascii?Q?00exAy5BvM33QU+NktBfaFr12dVTiN0KEFeo5B9wnhrqDLu3vBScLVNc+7BA?=
- =?us-ascii?Q?o+hMLljTR7kE+fp3bpSLqd665hXdxFQKccTIV9X+kIiQ8/lTW2zP799j90nn?=
- =?us-ascii?Q?5mYvfQ7cpQ6reUteppJYGb6FpVSMDKkrqVRTKmfK?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 634590c1-d796-4248-ac9e-08da6eb74fb8
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 03:31:22.3639 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 08VpMRB9UG5FfzCzRY9sH09aSOIn+vlZnklkAJMBqxwRzsXJtLVFeqE4P/qzgONQnuJxpbghM2/HngroDfRWKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB8316
+References: <20220722102407.2205-1-peterwu.pub@gmail.com>
+ <20220722102407.2205-13-peterwu.pub@gmail.com>
+ <CAHp75VfgiK87VwWu2bTJ_mR0=g0sa0LPJ+H16OGcUdARmzFRSA@mail.gmail.com>
+In-Reply-To: <CAHp75VfgiK87VwWu2bTJ_mR0=g0sa0LPJ+H16OGcUdARmzFRSA@mail.gmail.com>
+From: szuni chen <szunichen@gmail.com>
+Date: Tue, 26 Jul 2022 12:15:34 +0800
+Message-ID: <CA+hk2fYpDRw+DRRU3m=EDOP6UEQNpJLyNBHe8Zi0qOfUObTb4Q@mail.gmail.com>
+Subject: Re: [PATCH v6 12/13] leds: flash: mt6370: Add MediaTek MT6370
+ flashlight support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,61 +65,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: qwen@analogixsemi.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hsinyi@chromium.org, bliang@analogixsemi.com,
- Xin Ji <xji@analogixsemi.com>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-1. Support HDMI_I2S audio format.
-2. Return 0 if there is no sink connection in .hw_param callback.
+Hi Andy,
 
-Signed-off-by: Xin Ji <xji@analogixsemi.com>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+>
+> > +#define MT6370_ITORCH_MIN_UA           25000
+> > +#define MT6370_ITORCH_STEP_UA          12500
+> > +#define MT6370_ITORCH_MAX_UA           400000
+> > +#define MT6370_ITORCH_DOUBLE_MAX_UA    800000
+> > +#define MT6370_ISTRB_MIN_UA            50000
+> > +#define MT6370_ISTRB_STEP_UA           12500
+> > +#define MT6370_ISTRB_MAX_UA            1500000
+> > +#define MT6370_ISTRB_DOUBLE_MAX_UA     3000000
+>
+> Perhaps _uA would be better and consistent across your series
+> regarding current units.
+>
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 79fc7a50b497..c74b5df4cade 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1797,8 +1797,13 @@ static int anx7625_audio_hw_params(struct device *dev, void *data,
- 	int wl, ch, rate;
- 	int ret = 0;
- 
--	if (fmt->fmt != HDMI_DSP_A) {
--		DRM_DEV_ERROR(dev, "only supports DSP_A\n");
-+	if (anx7625_sink_detect(ctx) == connector_status_disconnected) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "DP not connected\n");
-+		return 0;
-+	}
-+
-+	if (fmt->fmt != HDMI_DSP_A && fmt->fmt != HDMI_I2S) {
-+		DRM_DEV_ERROR(dev, "only supports DSP_A & I2S\n");
- 		return -EINVAL;
- 	}
- 
-@@ -1806,10 +1811,16 @@ static int anx7625_audio_hw_params(struct device *dev, void *data,
- 			     params->sample_rate, params->sample_width,
- 			     params->cea.channels);
- 
--	ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
--				    AUDIO_CHANNEL_STATUS_6,
--				    ~I2S_SLAVE_MODE,
--				    TDM_SLAVE_MODE);
-+	if (fmt->fmt == HDMI_DSP_A)
-+		ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-+					   AUDIO_CHANNEL_STATUS_6,
-+					   ~I2S_SLAVE_MODE,
-+					   TDM_SLAVE_MODE);
-+	else
-+		ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
-+					   AUDIO_CHANNEL_STATUS_6,
-+					   ~TDM_SLAVE_MODE,
-+					   I2S_SLAVE_MODE);
- 
- 	/* Word length */
- 	switch (params->sample_width) {
--- 
-2.25.1
+Yes, _uA will be more consistent, but in general, using upper case in
+the define macro is a convention, doesn't it?
 
+>
+> > +       /*
+> > +        * For the flash to turn on/off, need to wait for HW ramping up/down time
+>
+> we need
+>
+> > +        * 5ms/500us to prevent the unexpected problem.
+> > +        */
+> > +       if (!prev && curr)
+> > +               usleep_range(5000, 6000);
+> > +       else if (prev && !curr)
+> > +               udelay(500);
+>
+> This still remains unanswered, why in the first place we allow
+> switching, and a busy loop in the other place?
+
+If I refine the description to
+"For the flash to turn on/off, need to wait for 5ms/500us analog settling time.
+If any flash led is already used, then the analog is settled done, we
+don't need to wait again."
+is it answer the question?
+
+
+Best regards,
+Alice
