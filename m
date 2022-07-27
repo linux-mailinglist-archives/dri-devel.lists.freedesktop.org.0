@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CBE5821C4
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 10:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260BD5821E9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 10:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26DFA12BCC7;
-	Wed, 27 Jul 2022 08:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF13C275B;
+	Wed, 27 Jul 2022 08:18:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DBB512A476
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 08:06:53 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A8A536601ABE;
- Wed, 27 Jul 2022 09:06:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1658909211;
- bh=RAzqICOW9S1oGl5H8d7L9/J1u1cDZH2ud8LNYQY1T3M=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WrVrHpB4r9Rg8ui6n1LNe1Z4aVrjsI8phcDQTTuMVB/RMeashds0PTWh1HiPCQRId
- czTMc5B5HATboRK45fyVBpH+eZXbfJDIBJs87/uNXlp8y2C3vDJN5tWycVdOP6Y+pR
- NoPv1Wx/t30Q2WFWLW34pqv6Llq2co6UmLfpHaGOtU4nxaYvhB4FoLIGCF1O8v02K0
- igcHQEoObnRB5K9M9kKMzUt+bIMrqgRXq8+cg2nj/nGsdnaUovEXBPSwXEhe4pNuLW
- gBzpL+/BO1wbcxsSZ4BHaSLl5cgxdS3mGS3LGwpXbaEsq1wa4oqiuOE+K6IebX/NDS
- Odhulc7hKDdvQ==
-Message-ID: <826821ae-432b-f4cc-6b38-16be881213e6@collabora.com>
-Date: Wed, 27 Jul 2022 10:06:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH, v2] media: mediatek: vcodec: Add to support VP9 inner
- racing mode
-Content-Language: en-US
-To: Mingjia Zhang <mingjia.zhang@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20220727061310.2307-1-mingjia.zhang@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220727061310.2307-1-mingjia.zhang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2E5C2753
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 08:18:52 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5220E33C68;
+ Wed, 27 Jul 2022 08:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658909929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Afwxwpqi4PHP9gQvy42ArBsEBv8pS8AltwvoI3yDjtQ=;
+ b=Rj1jADJ+94fsezLiBkilEODE/x0JDmp6RVLfmcn04NIL3VzMnC3684XxezLNv/DAyHWHGh
+ scAdWXy3jC4ZMHbrlvhF+NvJY83WPuOsfxBZb/vzhExk9jwc2po8a+NDBq8Xx3mVOTShrB
+ 3zaCPz2DyXowRHoeBStTkHKNR8qXhN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658909929;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Afwxwpqi4PHP9gQvy42ArBsEBv8pS8AltwvoI3yDjtQ=;
+ b=T/Rt4UlJHJV8xdC1uyul6jxikYFTC+ckRjAFVcJEH2PNDpg4Qiiv4m4Yl2xCryj6mvEg4f
+ vO3emAdzQbsSFeCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 17D1E13ABC;
+ Wed, 27 Jul 2022 08:18:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id x+kHBen04GIwKgAAMHmgww
+ (envelope-from <tiwai@suse.de>); Wed, 27 Jul 2022 08:18:49 +0000
+Date: Wed, 27 Jul 2022 10:18:48 +0200
+Message-ID: <875yjjotnb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Matthieu CHARETTE <matthieu.charette@gmail.com>
+Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
+In-Reply-To: <20220727074152.43059-1-matthieu.charette@gmail.com>
+References: <202207172035.mtErdlaw-lkp@intel.com>
+ <20220727074152.43059-1-matthieu.charette@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,23 +66,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: kbuild-all@lists.01.org, lkp@intel.com, airlied@linux.ie,
+ tzimmermann@suse.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, andrealmeid@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/07/22 08:13, Mingjia Zhang ha scritto:
-> In order to reduce decoder latency, enable VP9 inner racing mode.
-> Send lat trans buffer information to core when trigger lat to work,
-> need not to wait until lat decode done.
+On Wed, 27 Jul 2022 09:41:52 +0200,
+Matthieu CHARETTE wrote:
 > 
-> Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
+> Loading an EDID using drm.edid_firmware parameter makes resume to fail
+> after firmware cache is being cleaned. This is because edid_load() use a
+> temporary device to request the firmware. This cause the EDID firmware
+> not to be cached from suspend. And, requesting the EDID firmware return
+> an error during resume.
+> So the request_firmware() call should use a permanent device for each
+> connector. Also, we should cache the EDID even if no monitor is
+> connected, in case it's plugged while suspended.
+> 
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2061
+> Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
 
-For MT8195:
+Can we simply cache the already loaded EDID bytes instead?
+Something like below (totally untested).
 
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+thanks,
+
+Takashi
+
+-- 8< --
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 1c48d162c77e..b9d2803b518b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -286,6 +286,7 @@ int drm_connector_init(struct drm_device *dev,
+ 	connector->status = connector_status_unknown;
+ 	connector->display_info.panel_orientation =
+ 		DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
++	connector->firmware_edid = NULL;
+ 
+ 	drm_connector_get_cmdline_mode(connector);
+ 
+@@ -485,6 +486,7 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 	ida_simple_remove(&dev->mode_config.connector_ida,
+ 			  connector->index);
+ 
++	kfree(connector->firmware_edid);
+ 	kfree(connector->display_info.bus_formats);
+ 	drm_mode_object_unregister(dev, &connector->base);
+ 	kfree(connector->name);
+diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+index 37d8ba3ddb46..a38fe4e00e4a 100644
+--- a/drivers/gpu/drm/drm_edid_load.c
++++ b/drivers/gpu/drm/drm_edid_load.c
+@@ -253,6 +253,13 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+ 			edid = new_edid;
+ 	}
+ 
++	connector->firmware_edid = drm_edid_duplicate((struct edid *)edid);
++	if (!connector->firmware_edid) {
++		kfree(edid);
++		edid = ERR_PTR(-ENOMEM);
++		goto out;
++	}
++
+ 	DRM_INFO("Got %s EDID base block and %d extension%s from "
+ 	    "\"%s\" for connector \"%s\"\n", (builtin >= 0) ? "built-in" :
+ 	    "external", valid_extensions, valid_extensions == 1 ? "" : "s",
+@@ -269,6 +276,12 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
+ 	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+ 	struct edid *edid;
+ 
++	/* already loaded? */
++	if (connector->firmware_edid) {
++		edid = drm_edid_duplicate(connector->firmware_edid);
++		return edid ? edid : ERR_PTR(-ENOMEM);
++	}
++
+ 	if (edid_firmware[0] == '\0')
+ 		return ERR_PTR(-ENOENT);
+ 
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f257..b5d0c87327a3 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1528,6 +1528,8 @@ struct drm_connector {
+ 	enum drm_connector_force force;
+ 	/** @override_edid: has the EDID been overwritten through debugfs for testing? */
+ 	bool override_edid;
++	/** @firmware_edid: the cached firmware EDID bytes */
++	struct edid *firmware_edid;
+ 	/** @epoch_counter: used to detect any other changes in connector, besides status */
+ 	u64 epoch_counter;
+ 
