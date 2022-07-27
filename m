@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85888582428
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 12:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44D4582444
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 12:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3745C4A18;
-	Wed, 27 Jul 2022 10:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D660B11BD32;
+	Wed, 27 Jul 2022 10:27:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AACBC4A18
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 10:24:36 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id p11so21620248lfu.5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 03:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pwRSwcrjoF7t2bTpsHDxTeVcAQajNb7y0PUjCxzEDfI=;
- b=LS+Iq/WMoD7g4rTSAOFGbQRQsJrbsmMhE3QRamPOWaFluRlH83NztRwKKklCzLTC8V
- 6k07KZyafk3PY9EMqAGNQmuPpzd/s33fd8UYM/WMho6YDmroalSHyZiDigk+AQH4iJNh
- wovh7QgkQCfvPkibvISyxjfZD5NR7FqPEDTJAwUsTCN1OasSb8WfLVT0ZET59CW1ZZjZ
- Fzc/6hs2f/d0/6PbS7ewKiwEvzDzLriAjfS81OlT32ybDtt5C5z0y4K88Avoxbg0qxZj
- kNWgJjzJEjKxJDjfKA+pDEznOoKegQRPULWet0Gs183MQAPGq8/FbztxLC5jjACU2/ID
- eeXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pwRSwcrjoF7t2bTpsHDxTeVcAQajNb7y0PUjCxzEDfI=;
- b=xCCFANPwttHT3scSP1Hy3gNsEMWKyTkHcndUW8fYICbVTr+I+GXge+j5YaarLkLePc
- QDa12AmnuhumB4qAgC4pTN5+dU92oWz6KYP4oE7Pyj23qzqT8KcB3bRCSXMCYl0wpGE1
- 0owCM4/FQ2cREwLD/B5EcbmmgObrmka27lMgjGvT9W07+im9CzqZcjxq6mrrf3qYQoUc
- AMTmmPg7NzeQ+WGu459b7aPVWdsfp7xB+zfl/yRnB9TdztNfWMbf/BgElVHrOb86JrR8
- hZF+If36dvJjE16zpd8s7Gfv6Yv/GXp4nU93tTFIszGJYhn8GcrbTaKeoBPBPLQFW9Dk
- /Z2Q==
-X-Gm-Message-State: AJIora9XhSXXBc6W/x1tCeNj4a5OBghSVXyLgIbESiBuJ1zfdW6XdRQT
- ZQduIChlXciVd+BaELdswT9m5Q==
-X-Google-Smtp-Source: AGRyM1tyXHCoDrQOD8dUuUL8NnbQqSpli/fmf0tsGDrueYdv2MU7LL5eZyMmjTbTitUO3XThHNJMOQ==
-X-Received: by 2002:a05:6512:114a:b0:48a:39e6:ff7d with SMTP id
- m10-20020a056512114a00b0048a39e6ff7dmr7678289lfg.338.1658917474613; 
- Wed, 27 Jul 2022 03:24:34 -0700 (PDT)
-Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no.
- [78.26.46.173]) by smtp.gmail.com with ESMTPSA id
- u7-20020ac258c7000000b0048a83ab2d32sm2251051lfo.0.2022.07.27.03.24.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Jul 2022 03:24:34 -0700 (PDT)
-Message-ID: <809e9c7d-7634-f690-675d-9eccac8c8de8@linaro.org>
-Date: Wed, 27 Jul 2022 12:24:32 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 379DBC3789;
+ Wed, 27 Jul 2022 10:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658917675; x=1690453675;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=RAxfJBN9n4CWOpgXIybmmcng3L781asp7yixKNjuixc=;
+ b=NQQDd4hmGj6KW3hHrH8EXr2WtEjhWxP8D0LuoHwNWnfPH5dD5L21H+O7
+ YJZKsVVwth7dZ5XuaaYwRFGPV+DwhBoNQVQq1u+fFq3ZHwYBuD3bD+6xW
+ w5IYzfvv6/bCzsZAuP0JZH1MEjZ/0R6CMEc9o6XtTBg8QmG3WWXWl6J7f
+ XyOszb5JWiaX2aXO1mt88H2W/kVzSqO3m7DlrpSIyqk1vkXPfe4xiiq4G
+ OqXV5HKPFNLG+cbLe7HVTb0i/L6oX0/6vDvUD/nydgyArutpZ9b4S7kYH
+ /ESABDcymlZ6PaI/beSL5geMv1csvCyKFvpHLJZOlpD1wTEGWpKKsuYZw Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10420"; a="271238528"
+X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; d="scan'208";a="271238528"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2022 03:27:54 -0700
+X-IronPort-AV: E=Sophos;i="5.93,195,1654585200"; d="scan'208";a="659139668"
+Received: from cene1-mobl.ger.corp.intel.com (HELO intel.com) ([10.252.44.151])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2022 03:27:50 -0700
+Date: Wed, 27 Jul 2022 12:26:19 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 1/7] drm: Move and add a few utility
+ macros into drm util header
+Message-ID: <YuESy0q5X9pksg9M@alfio.lan>
+References: <20220725092528.1281487-1-gwan-gyeong.mun@intel.com>
+ <20220725092528.1281487-2-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: Add Novatek NT35596S
- panel bindings
-Content-Language: en-US
-To: Molly Sophia <mollysophia379@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20220726101513.66988-1-mollysophia379@gmail.com>
- <20220726101513.66988-2-mollysophia379@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220726101513.66988-2-mollysophia379@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220725092528.1281487-2-gwan-gyeong.mun@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,57 +58,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: thomas.hellstrom@linux.intel.com,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, airlied@linux.ie, matthew.auld@intel.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, mchehab@kernel.org,
+ nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/07/2022 12:15, Molly Sophia wrote:
-> Add documentation for "novatek,nt35596s" panel.
+Hi,
+
+On Mon, Jul 25, 2022 at 12:25:22PM +0300, Gwan-gyeong Mun wrote:
+> It moves overflows_type utility macro into drm util header from i915_utils
+> header. The overflows_type can be used to catch the truncation between data
+> types. And it adds safe_conversion() macro which performs a type conversion
+> (cast) of an source value into a new variable, checking that the
+> destination is large enough to hold the source value.
+> And it adds exact_type and exactly_pgoff_t macro to catch type mis-match
+> while compiling.
 > 
-> Changes in v3:
-> - Embed the documentation into existing one (novatek,nt36672a).
+> v3: Add is_type_unsigned() macro (Mauro)
+>     Modify overflows_type() macro to consider signed data types (Mauro)
+>     Fix the problem that safe_conversion() macro always returns true
+> v4: Fix kernel-doc markups
 > 
-> Signed-off-by: Molly Sophia <mollysophia379@gmail.com>
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Nirmoy Das <nirmoy.das@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > ---
->  .../display/panel/novatek,nt36672a.yaml       | 20 ++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/i915/i915_utils.h |  5 +-
+>  include/drm/drm_util.h            | 77 +++++++++++++++++++++++++++++++
+>  2 files changed, 78 insertions(+), 4 deletions(-)
+
+Jani and Mauro suggested to have this macro in
+include/drm/drm_util.h.
+
+Can I please have an ack from one of the drm maintainers so that
+I can go ahead an apply this series?
+
+Thanks,
+Andi
+
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-> index 563766d283f6..560fb66d0e5a 100644
-> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-> @@ -20,14 +20,20 @@ allOf:
+> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+> index c10d68cdc3ca..345e5b2dc1cd 100644
+> --- a/drivers/gpu/drm/i915/i915_utils.h
+> +++ b/drivers/gpu/drm/i915/i915_utils.h
+> @@ -32,6 +32,7 @@
+>  #include <linux/types.h>
+>  #include <linux/workqueue.h>
+>  #include <linux/sched/clock.h>
+> +#include <drm/drm_util.h>
 >  
->  properties:
->    compatible:
-> -    items:
-> -      - enum:
-> -          - tianma,fhd-video
-> -      - const: novatek,nt36672a
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - tianma,fhd-video
-> +          - const: novatek,nt36672a
+>  #ifdef CONFIG_X86
+>  #include <asm/hypervisor.h>
+> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
+>  #define range_overflows_end_t(type, start, size, max) \
+>  	range_overflows_end((type)(start), (type)(size), (type)(max))
+>  
+> -/* Note we don't consider signbits :| */
+> -#define overflows_type(x, T) \
+> -	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
+> -
+>  #define ptr_mask_bits(ptr, n) ({					\
+>  	unsigned long __v = (unsigned long)(ptr);			\
+>  	(typeof(ptr))(__v & -BIT(n));					\
+> diff --git a/include/drm/drm_util.h b/include/drm/drm_util.h
+> index 79952d8c4bba..1de9ee5704fa 100644
+> --- a/include/drm/drm_util.h
+> +++ b/include/drm/drm_util.h
+> @@ -62,6 +62,83 @@
+>   */
+>  #define for_each_if(condition) if (!(condition)) {} else
+>  
+> +/**
+> + * is_type_unsigned - helper for checking data type which is an unsigned data
+> + * type or not
+> + * @x: The data type to check
+> + *
+> + * Returns:
+> + * True if the data type is an unsigned data type, false otherwise.
+> + */
+> +#define is_type_unsigned(x) ((typeof(x))-1 >= (typeof(x))0)
 > +
-> +      - items:
-> +          - enum:
-> +              - jdi,fhd-nt35596s
-> +          - const: novatek,nt35596s
-
-This entire entry should be rather before nt36672a judging by numbers:
-
-+    oneOf:
-+      - items:
-+          - enum:
-+              - jdi,fhd-nt35596s
-+          - const: novatek,nt35596s
-+
-+      - items:
-+          - enum:
-+              - tianma,fhd-video
-+          - const: novatek,nt36672a
-
-
-Best regards,
-Krzysztof
+> +/**
+> + * overflows_type - helper for checking the truncation between data types
+> + * @x: Source for overflow type comparison
+> + * @T: Destination for overflow type comparison
+> + *
+> + * It compares the values and size of each data type between the first and
+> + * second argument to check whether truncation can occur when assigning the
+> + * first argument to the variable of the second argument.
+> + * Source and Destination can be used with or without sign bit.
+> + * Composite data structures such as union and structure are not considered.
+> + * Enum data types are not considered.
+> + * Floating point data types are not considered.
+> + *
+> + * Returns:
+> + * True if truncation can occur, false otherwise.
+> + */
+> +
+> +#define overflows_type(x, T) \
+> +	(is_type_unsigned(x) ? \
+> +		is_type_unsigned(T) ? \
+> +			(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
+> +			: (sizeof(x) >= sizeof(T) && (x) >> (BITS_PER_TYPE(T) - 1)) ? 1 : 0 \
+> +	: is_type_unsigned(T) ? \
+> +		((x) < 0) ? 1 : (sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
+> +		: (sizeof(x) > sizeof(T)) ? \
+> +			((x) < 0) ? (((x) * -1) >> BITS_PER_TYPE(T)) ? 1 : 0 \
+> +				: ((x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
+> +			: 0)
+> +
+> +/**
+> + * exact_type - break compile if source type and destination value's type are
+> + * not the same
+> + * @T: Source type
+> + * @n: Destination value
+> + *
+> + * It is a helper macro for a poor man's -Wconversion: only allow variables of
+> + * an exact type. It determines whether the source type and destination value's
+> + * type are the same while compiling, and it breaks compile if two types are
+> + * not the same
+> + */
+> +#define exact_type(T, n) \
+> +	BUILD_BUG_ON(!__builtin_constant_p(n) && !__builtin_types_compatible_p(T, typeof(n)))
+> +
+> +/**
+> + * exactly_pgoff_t - helper to check if the type of a value is pgoff_t
+> + * @n: value to compare pgoff_t type
+> + *
+> + * It breaks compile if the argument value's type is not pgoff_t type.
+> + */
+> +#define exactly_pgoff_t(n) exact_type(pgoff_t, n)
+> +
+> +/**
+> + * safe_conversion - perform a type conversion (cast) of an source value into
+> + * a new variable, checking that the destination is large enough to hold the
+> + * source value.
+> + * @ptr: Destination pointer address
+> + * @value: Source value
+> + *
+> + * Returns:
+> + * If the value would overflow the destination, it returns false.
+> + */
+> +#define safe_conversion(ptr, value) ({ \
+> +	typeof(value) __v = (value); \
+> +	typeof(ptr) __ptr = (ptr); \
+> +	overflows_type(__v, *__ptr) ? 0 : ((*__ptr = (typeof(*__ptr))__v), 1); \
+> +})
+> +
+>  /**
+>   * drm_can_sleep - returns true if currently okay to sleep
+>   *
+> -- 
+> 2.34.1
