@@ -2,119 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A395582A38
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 18:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49001582A4F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 18:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3364FAB832;
-	Wed, 27 Jul 2022 16:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29A5212A991;
+	Wed, 27 Jul 2022 16:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2066.outbound.protection.outlook.com [40.107.94.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FACBABB81;
- Wed, 27 Jul 2022 16:04:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OD6+Id6FMAlo34bQXpne2nqbn92VE1VInZYfL0USyHKuhYCGBAJ56gHa9TwRxu8mtf5FNTMUaABiyAnwFNCMijoUTPw3di37vh92zgFGcooTUJC2Y3z3NsnPcAM4cELCVIyJJ0ltwIm23KjDUbqPJPa+JifyP7QXkTINNm7BvxHNm5rRiJKZ6h+lxEDYXig3U5168WBAX4xqq/3MDefRQOSNWfqV+LSkMLjoSpNOSJC52W9yjaRn4wRFkYIHjjOONVHs10DQajy2W0eWJIRe/8xSp99DjTA+FzVPLbUBhMbV0y+YRUG0xhE3nVl4IHtjFwiAObQZ5+far1JgsADDOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lcUQ8k++Hl8/w5pcOezVWHmJ5Ppv5G1VP5LgK/1cmIY=;
- b=oIkZkVexJKeuss1Q+4b8kcqRKLcqzIFLh19ZDNIPtddYp1HaC+Z/QrHvriKiYutX5V9QqBO34++ySrixpD70CMKpCCS9jbCigYASJ0M9d8RbMlMuDERmIsUfql0OtY2k0WArLKrPEuczr4tpciagEcGf/V9j2XNKSduaQdBo3owVRfKpwafyVdg+ZZ4BIJOuenpFiaJz6cQ32iJTTgHxZn6dH+4yHoyNBYXVrs5NftfnZRcqP7q7ca+Bqd3jK7H2jxtfoz5uRumZfqPVR7yewOl2Fw/2gH0HPu00yLlkPx+o1OVWw4tY5GiJmGmWWr8ff7I+5DqaCACn/UL8Pf5uXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lcUQ8k++Hl8/w5pcOezVWHmJ5Ppv5G1VP5LgK/1cmIY=;
- b=Sr0blYj+gp24WPOcIn7mxPd4aQ9s1EUWWGjhn2IVuj0f8/yqdy9szEH0twltn7Qk/7iMjIBZLXg5fZHMUqDtTu5zFRAZ7h7Rg/rpQCOfg52um/FejgObHhAXMN2XgDPR3kZ3GrX+0APBbzmVCqvaqGFr3ASvv/hwUIHmjZCE3mY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by CH0PR12MB5316.namprd12.prod.outlook.com (2603:10b6:610:d7::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Wed, 27 Jul
- 2022 16:04:13 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::406d:afb5:d2d7:8115]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::406d:afb5:d2d7:8115%5]) with mapi id 15.20.5458.025; Wed, 27 Jul 2022
- 16:04:13 +0000
-Message-ID: <17e02cd8-eba1-91b8-2506-91a7893ac967@amd.com>
-Date: Wed, 27 Jul 2022 12:04:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/amdkfd: use time_is_before_jiffies(a + b) to replace
- "jiffies - a > b"
-Content-Language: en-US
-To: Yu Zhe <yuzhe@nfschina.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220727025917.22477-1-yuzhe@nfschina.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20220727025917.22477-1-yuzhe@nfschina.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0071.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::12) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 95E2E91D9B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 16:08:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,195,1654527600"; d="scan'208";a="127555112"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 28 Jul 2022 01:08:00 +0900
+Received: from localhost.localdomain (unknown [10.226.92.195])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id C566540183E9;
+ Thu, 28 Jul 2022 01:07:56 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: [PATCH v5 00/10] Add RZ/G2L Display support
+Date: Wed, 27 Jul 2022 17:07:43 +0100
+Message-Id: <20220727160753.1774761-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: de8ab7a3-7992-4960-4206-08da6fe9a5ed
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5316:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dIlZzzRSzKp2Ip/stngwCKQW3vrNqiBWi8SARYOvzVcOrFwAcpWsYHmkgEuApB0neGyawbxD+FmnYOUnQ1TF25mEu6t6jNWNtiBVrcSEKgJI4NSlhqqRN7UUShFUtfpnt5xbsm8ViXC/X3TkEf6CxrGIIje5DImjNMGqM9fNQnJ+COPYz5eXtsSxRDOLxRgmzUBiUDiD+QluEHP9WS7cnB6nwS9fcL3dFx4B2WxrZJ2k0xAIYkdCiZj7Dhy5iZJmhgUwmvSuGXc0FN5UGedBna8ZPBGKUgze2WGc9iU8F85Is5jtmsZw8XXTHiE83Y9h+M07nlEJw4Bac3o3y4+3SIA6nD6ft865tlgbMqo9gL2DCqXEPcIXWTMYG/x73YLfoKruwDc4G9MggVRoqfct8knT8Qh3ic2u2oFyxeyNLFJ+xGhbsU9KTvexQfsEEMFuXTKEwY1CVLNIPwhPoCRFsV3DfCQqWGiZGoIeFKCbuqiIeTvbpoGA4asmyw2MVN5QVfFS9cEmHXwtjRDX0saV0WIbeXC6T4saU/jq/oQPvFbddIF8YiNS7c1K9lcO3s2wPz9hIxIZdEIIsBJASxYSjKC7b6YC2QX91qAd2NLwT45XSdU4Ih240U+sFQ+DI1r6qsQWCkZTpabduaTQ2CeG1gxe3B973VBrA7LHECWWq1oauDyZZDZmRb9+/digaSa7Ixzam5SZxS8rtdco3CfUVoIF3/Hfz8Y40vlXvpBUrqc9+t6u6wCg96AYAhegkEv4wN7MYpIB5M+ra+2Eo1Lj4ToZGOYb2E5cZz+S7EaJ02SW/Hg3QtKPmj+zdbSpo4A8T5CcR297u3g8a3jt9kfClg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(31696002)(86362001)(36756003)(38100700002)(8936002)(5660300002)(44832011)(478600001)(6486002)(316002)(4326008)(66476007)(66556008)(83380400001)(66946007)(186003)(2616005)(31686004)(41300700001)(26005)(2906002)(6506007)(6512007)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MmphK1RCYUxZMTNXZ1RQZlVvWWNtL1BPbXUzaEVIQzNaNmpaN0JwUk05cFZ4?=
- =?utf-8?B?SXlqV0pTSHZQdmRLTjNncWZ3TlMydjVsUmI4aHpCNnBubGJQYXpocDgwOFkr?=
- =?utf-8?B?bG96YjB0MlFGcjlwbk15L1dnNFkwVmFGVmplRVpiU2NWK29PS2pDZXpkRlFC?=
- =?utf-8?B?VVhjMm51Z2ZLMjRWZ3htbzFPejdUMW5QNnczd3pNZnRRNlpuNlY5QlFHek1p?=
- =?utf-8?B?L0NGQUVBUGU4Q0JLQ1BLWTdBbm56Ym9CV3A4VXdGdzB1b2FLeWZtUHFOaDFP?=
- =?utf-8?B?YlA5N2J5NWNHemlWVys3c1FTY2o2ZzRodXhHVDZaWTJGQ3Qyamh2VmlCOS9S?=
- =?utf-8?B?UFFEZ1JRTE5jSDRPbE4ybTJ3Vm4wb3haUjBxS2ZPMHg1amozNmtGOXNuaUpY?=
- =?utf-8?B?VzE0ejBMeExNTUFZRnBYSGZLTitrbUowdjVocjhhbTlrME1rSm0rRzR0emor?=
- =?utf-8?B?MGZiM1dQdk9ES0Q3N0tlWE9KcmdFVmNISm93ZDYzZU1NSjBWL04xSXVwNzN1?=
- =?utf-8?B?bnozWkpIMWRwblNCWm5wbTlZNEpldjk5UE5SQjZBOUY5VjBjUEF6YngzOVox?=
- =?utf-8?B?cVh3N0gzenBDK1g0V3NwU0NiZFdMZTlYT3ZkcS9XSEdsdzlDdEVab3hqNlpI?=
- =?utf-8?B?a3R4UzJJU3VXaEJ0aDFydnpZcGpidDBUMTRxMVFURHM4a3MwUmpzdFk1SmVu?=
- =?utf-8?B?V3hEZlRmc2pRVWlwS24rZDllSEZqRS9ZVmsyV1VYWnRUU3piam5QTi9iaTVG?=
- =?utf-8?B?anhJaVVHUjF2RnBGN3EvV3d5S2x1SXRMSjVBTy9mYXB5ZU5lb3hOK3ZZelRX?=
- =?utf-8?B?UHFyNFovcnFRNjBoeWJjZklld0JiclF5MUZjUWV5ai9sUXRSeVRERVVFdmxS?=
- =?utf-8?B?bk1La3hRV052blJqZEVXUzkrSmswRHl1OWpuWEhoNnluRll2aEROLy96UE1S?=
- =?utf-8?B?NjZlRFF5eU5KWDZmSXBvMXNzY1BUYzhNaXU4REJJNXp5Q3U3QWFUNWN2ODlJ?=
- =?utf-8?B?cXRHVFBoeUFibTB0VTVkL3EyeW1tU29qQm0yZEZ2bUVpV3pXQkF6TktIOVFi?=
- =?utf-8?B?ZndnSmdmZFkvL3BuSDNGSUlUZ2RKZ0ppdy9iVlBkWGt3Z0sxYW1KT25jeDVC?=
- =?utf-8?B?eEJkVHg2TTBrbEFiaURHcGt6aE9peU5CM1VFbVVCMW1qQk1lY2l1eXY5LzdC?=
- =?utf-8?B?dVRBT3V3WWlKMFNRN3hjbmgxOFBLWWJRZDRBcDZvWDdOb1BLZXdwQkEzT1k5?=
- =?utf-8?B?QjhFSFFDMmp3ajcxOGorWGlSQ05qdmw0Qnh3OU1ORWNadkhrelZ4enloT3V1?=
- =?utf-8?B?NjR4MmVJUnVWR2tHN01ySnFMazlrYWU5SGZUK3NJUnF4UXNhQzIwYWUreHlU?=
- =?utf-8?B?cHpTd3FGYk90OHNOYjZOQzVmSUd4NU5mVklTV2FsTi83SllqS3RGV1pjczMr?=
- =?utf-8?B?R0FtZnVHTjNveEtjT1lYSEtaR29CMzNmOE1kdlBKUUE5a1l3WkFHMGFyMXUx?=
- =?utf-8?B?RU5iSHZhUzRhMUZKQVpFUEtLMTVxQnB3Z3o4YXhDeE1oWUZ1VW0zM01MSTNT?=
- =?utf-8?B?THVBRlhFZ2FrMExENzVIZzl2SzF2bzVaMWNNNTNqZjJLTDg4cXRZRHZZWlVr?=
- =?utf-8?B?TjJ0ZEhtVzBUejE4YmpPeGxGNjhUL1E0RkVXRTg4ZGROTTROODlDejVZMTZS?=
- =?utf-8?B?d2Z2QXZJTEdoaXpYRGRHeWE0YkVNaFM4b21GZ2VTakJWYmZjc0Rob245aEZD?=
- =?utf-8?B?YWkvVG1KWVFUMzBEbDdpbDRXZWxGdXcxOFlIUTBWelNXMkM3L1F6YjJMV1p4?=
- =?utf-8?B?QkNxU2tUUmVEZTJCOEo3N3BPRUdiNzJJQkE1VVB6V0FSZFNxay9QcEpqNy9s?=
- =?utf-8?B?aGRvYVRnTEVndEhUdG5McENES200aCtOQ3BpZU9kclA3MEJpcDNpSm9nUGNR?=
- =?utf-8?B?ME9aeXdLVzRFcU44SVVtcDdpeE9QZkFJYjBYaVc0aXBSV2tTZGVjYnhBS09u?=
- =?utf-8?B?OXRkbDB0RGM1TGx6YXBxbHhhVlEvbUpJcDN3bytNd3U5OExNQWVBdC92bkRY?=
- =?utf-8?B?MUtFZkxtbyt6blZSUDVxdXZHUk1vc2liMkpNZTJheVpObGR4V08zK3Z6cUJa?=
- =?utf-8?Q?8DtjywJZCqcTDJRlWlQ5CddBi?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de8ab7a3-7992-4960-4206-08da6fe9a5ed
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2022 16:04:12.9448 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 56PnFny50NM1GeoUfnNPsHUuSBV1H5iKRAw9Q7PsVif3e4tICswilZIu1jKBGrFL6muIJoW6g+L0HjHjknWcfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5316
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,62 +40,442 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liqiong@nfschina.com, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch introduces a build warning for me:
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+Video signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
 
-   CC [M]  drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.o
-In file included from /home/fkuehlin/compute/kernel/include/linux/spinlock.h:54,
-                  from /home/fkuehlin/compute/kernel/include/linux/mmzone.h:8,
-                  from /home/fkuehlin/compute/kernel/include/linux/gfp.h:6,
-                  from /home/fkuehlin/compute/kernel/include/linux/slab.h:15,
-                  from /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.c:44:
-/home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.c: In function ?interrupt_wq?:
-/home/fkuehlin/compute/kernel/include/linux/typecheck.h:12:18: warning: comparison of distinct pointer types lacks a cast
-    12 |  (void)(&__dummy == &__dummy2); \
-       |                  ^~
-/home/fkuehlin/compute/kernel/include/linux/jiffies.h:106:3: note: in expansion of macro ?typecheck?
-   106 |   typecheck(unsigned long, b) && \
-       |   ^~~~~~~~~
-/home/fkuehlin/compute/kernel/include/linux/jiffies.h:154:35: note: in expansion of macro ?time_after?
-   154 | #define time_is_before_jiffies(a) time_after(jiffies, a)
-       |                                   ^~~~~~~~~~
-/home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.c:159:7: note: in expansion of macro ?time_is_before_jiffies?
-   159 |   if (time_is_before_jiffies(start_jiffies + HZ)) {
-       |       ^~~~~~~~~~~~~~~~~~~~~~
+This patch series aims to add basic display support on RZ/G2L SMARC EVK
+platform. The output from DSI is connected to ADV7535.
 
-I think you need to change the the definition of start_jiffies to be 
-unsigned long. Do you want to submit a v2 of your patch?
+The DU controller is similar to R-Car as it is connected to VSPD,
+so most of code is based on R-Car with new CRTC/DRM driver specific to
+RZ/G2L.
 
-That said, I think the existing code was fine, though the type-mismatch 
-highlighted by your patch is a bit iffy.
+Basic RCar DU lib created for kms, vsp and encoder drivers[1].
 
-Regards,
-   Felix
+This patch series enhances the RCar DU libs and RZ/G2L started using
+this libs and there by code size is reduced to almost 50%.
+
+Further enhancement possible by sharing common code for DRM and CRTC.
+
+Note:-
+This patch series depend upon [1]
+[1] https://lore.kernel.org/dri-devel/20220726164208.1048444-1-biju.das.jz@bp.renesas.com/T/#t
+
+v4->v5:
+ * Added Rb tag from Rob for binding patch.
+ * Started using RCar DU libs(kms, vsp and encoder)
+ * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+   rcar_du_format_info and rcar_du_encoder.
+v3->v4:
+ * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+ * started using same compatible for RZ/G2{L,LC}
+ * Removed rzg2l_du_group.h and struct rzg2l_du_group
+ * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+ * Removed rzg2l_du_group_restart
+ * Updated rzg2l_du_crtc_set_display_timing
+ * Removed mode_valid callback.
+ * Updated rzg2l_du_crtc_create() parameters
+ * Updated compatible
+ * Removed RZG2L_DU_MAX_GROUPS
+V2->v3:
+ * Added new bindings for RZ/G2L DU
+ * Removed indirection and created new DRM driver based on R-Car DU
+v1->v2:
+ * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+ * Updated commit description for bindings
+ * Removed LCDC references from bindings
+ * Changed clock name from du.0->aclk from bindings
+ * Changed reset name from du.0->du from bindings
+ * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+ * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+ * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+ * Added forward declaration for struct reset_control
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220312084205.31462-2-biju.das.jz@bp.renesas.com/
+
+RFC->v1:
+ * Changed  minItems->maxItems for renesas,vsps.
+ * Added RZ/G2L LCDC driver with special handling for CRTC reusing
+   most of RCar DU code
+ * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
+RFC:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-18-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-12-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-13-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-19-biju.das.jz@bp.renesas.com/
+
+Modetest output:-
+root@smarc-rzg2l:~# modetest -M rzg2l-du
+Encoders:
+id      crtc    type    possible crtcs  possible clones
+41      40      none    0x00000001      0x00000001
+43      0       Virtual 0x00000001      0x00000002
+
+Connectors:
+id      encoder status          name            size (mm)       modes   encoders
+42      41      connected       HDMI-A-1        520x320         29      41
+  modes:
+        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+  #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000 flags: phsync, nvsync; type: preferred, driver
+  #1 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500 flags: phsync, pvsync; type: driver
+  #2 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+  #3 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+  #4 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000 flags: phsync, pvsync; type: driver
+  #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: phsync, pvsync; type: driver
+  #6 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000 flags: phsync, pvsync; type: driver
+  #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags: phsync, pvsync; type: driver
+  #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #10 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #11 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags: phsync, pvsync; type: driver
+  #12 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags: nhsync, nvsync; type: driver
+  #13 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags: nhsync, nvsync; type: driver
+  #14 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags: nhsync, nvsync; type: driver
+  #15 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags: phsync, pvsync; type: driver
+  #16 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags: phsync, pvsync; type: driver
+  #17 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags: phsync, pvsync; type: driver
+  #18 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags: phsync, pvsync; type: driver
+  #19 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync, nvsync; type: driver
+  #20 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync, nvsync; type: driver
+  #21 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags: nhsync, nvsync; type: driver
+  #22 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags: nhsync, nvsync; type: driver
+  #23 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags: nhsync, nvsync; type: driver
+  #24 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags: nhsync, nvsync; type: driver
+  #25 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags: nhsync, nvsync; type: driver
+  #26 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags: nhsync, nvsync; type: driver
+  #27 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags: nhsync, nvsync; type: driver
+  #28 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags: nhsync, pvsync; type: driver
+  props:
+        1 EDID:
+                flags: immutable blob
+                blobs:
+
+                value:
+                        00ffffffffffff003683832410101010
+                        1416010380342078eeb725ac5130b426
+                        105054bfef8068c0714f818001010101
+                        010101010101e83580a070381f403020
+                        250044682100001a000000ff00303031
+                        30310a20202020202020000000fc0048
+                        444d490a2020202020202020000000fd
+                        00384c1e5317000a20202020202001cf
+                        02031a71471003140513841223090707
+                        8301000065030c0010008c0ad0902040
+                        31200c40550036d431000018011d8018
+                        711c1620582c250036d43100009e011d
+                        80d0721c1620102c258036d43100009e
+                        011d00bc52d01e20b828554036d43100
+                        001ef339801871382d40582c4500c48e
+                        2100001e000000000000000000000054
+        2 DPMS:
+                flags: enum
+                enums: On=0 Standby=1 Suspend=2 Off=3
+                value: 0
+        5 link-status:
+                flags: enum
+                enums: Good=0 Bad=1
+                value: 0
+        6 non-desktop:
+                flags: immutable range
+                values: 0 1
+                value: 0
+        4 TILE:
+                flags: immutable blob
+                blobs:
+
+                value:
+        20 CRTC_ID:
+                flags: object
+                value: 40
+
+CRTCs:
+id      fb      pos     size
+40      50      (0,0)   (1920x1080)
+  #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000 flags: phsync, nvsync; type: preferred, driver
+  props:
+        22 ACTIVE:
+                flags: range
+                values: 0 1
+                value: 1
+        23 MODE_ID:
+                flags: blob
+                blobs:
+
+                value:
+                        101b02008007b007d007200800003804
+                        3a043f04570400003c00000009000000
+                        48000000313932307831303830000000
+                        00000000000000000000000000000000
+                        00000000
+        19 OUT_FENCE_PTR:
+                flags: range
+                values: 0 18446744073709551615
+                value: 0
+        24 VRR_ENABLED:
+                flags: range
+                values: 0 1
+                value: 0
+
+Planes:
+id      crtc    fb      CRTC x,y        x,y     gamma size      possible crtcs
+32      40      50      0,0             0,0     0               0x00000001
+  formats: RGB8 AR12 XR12 AR15 XR15 RG16 BG24 RG24 BA24 BX24 AR24 XR24 UYVY YUYV YVYU NV12 NV21 NV16 NV61 YU12 YV12 YU16 YV16 YU24 YV24
+  props:
+        8 type:
+                flags: immutable enum
+                enums: Overlay=0 Primary=1 Cursor=2
+                value: 1
+        17 FB_ID:
+                flags: object
+                value: 50
+        18 IN_FENCE_FD:
+                flags: signed range
+                values: -1 2147483647
+                value: -1
+        20 CRTC_ID:
+                flags: object
+                value: 40
+        13 CRTC_X:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        14 CRTC_Y:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        15 CRTC_W:
+                flags: range
+                values: 0 2147483647
+                value: 1920
+        16 CRTC_H:
+                flags: range
+                values: 0 2147483647
+                value: 1080
+        9 SRC_X:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        10 SRC_Y:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        11 SRC_W:
+                flags: range
+                values: 0 4294967295
+                value: 125829120
+        12 SRC_H:
+                flags: range
+                values: 0 4294967295
+                value: 70778880
+        30 IN_FORMATS:
+                flags: immutable blob
+                blobs:
+
+                value:
+                        01000000000000001900000018000000
+                        01000000800000005247423841523132
+                        58523132415231355852313552473136
+                        42473234524732344241323442583234
+                        41523234585232345559565959555956
+                        595659554e5631324e5632314e563136
+                        4e563631595531325956313259553136
+                        59563136595532345956323400000000
+                        ffffff01000000000000000000000000
+                        0000000000000000
+                in_formats blob decoded:
+                         RGB8:  LINEAR
+                         AR12:  LINEAR
+                         XR12:  LINEAR
+                         AR15:  LINEAR
+                         XR15:  LINEAR
+                         RG16:  LINEAR
+                         BG24:  LINEAR
+                         RG24:  LINEAR
+                         BA24:  LINEAR
+                         BX24:  LINEAR
+                         AR24:  LINEAR
+                         XR24:  LINEAR
+                         UYVY:  LINEAR
+                         YUYV:  LINEAR
+                         YVYU:  LINEAR
+                         NV12:  LINEAR
+                         NV21:  LINEAR
+                         NV16:  LINEAR
+                         NV61:  LINEAR
+                         YU12:  LINEAR
+                         YV12:  LINEAR
+                         YU16:  LINEAR
+                         YV16:  LINEAR
+                         YU24:  LINEAR
+                         YV24:  LINEAR
+        34 alpha:
+                flags: range
+                values: 0 65535
+                value: 65535
+        35 zpos:
+                flags: range
+                values: 0 1
+                value: 0
+36      0       0       0,0             0,0     0               0x00000001
+  formats: RGB8 AR12 XR12 AR15 XR15 RG16 BG24 RG24 BA24 BX24 AR24 XR24 UYVY YUYV YVYU NV12 NV21 NV16 NV61 YU12 YV12 YU16 YV16 YU24 YV24
+  props:
+        8 type:
+                flags: immutable enum
+                enums: Overlay=0 Primary=1 Cursor=2
+                value: 0
+        17 FB_ID:
+                flags: object
+                value: 0
+        18 IN_FENCE_FD:
+                flags: signed range
+                values: -1 2147483647
+                value: -1
+        20 CRTC_ID:
+                flags: object
+                value: 0
+        13 CRTC_X:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        14 CRTC_Y:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        15 CRTC_W:
+                flags: range
+                values: 0 2147483647
+                value: 0
+        16 CRTC_H:
+                flags: range
+                values: 0 2147483647
+                value: 0
+        9 SRC_X:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        10 SRC_Y:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        11 SRC_W:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        12 SRC_H:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        30 IN_FORMATS:
+                flags: immutable blob
+                blobs:
+
+                value:
+                        01000000000000001900000018000000
+                        01000000800000005247423841523132
+                        58523132415231355852313552473136
+                        42473234524732344241323442583234
+                        41523234585232345559565959555956
+                        595659554e5631324e5632314e563136
+                        4e563631595531325956313259553136
+                        59563136595532345956323400000000
+                        ffffff01000000000000000000000000
+                        0000000000000000
+                in_formats blob decoded:
+                         RGB8:  LINEAR
+                         AR12:  LINEAR
+                         XR12:  LINEAR
+                         AR15:  LINEAR
+                         XR15:  LINEAR
+                         RG16:  LINEAR
+                         BG24:  LINEAR
+                         RG24:  LINEAR
+                         BA24:  LINEAR
+                         BX24:  LINEAR
+                         AR24:  LINEAR
+                         XR24:  LINEAR
+                         UYVY:  LINEAR
+                         YUYV:  LINEAR
+                         YVYU:  LINEAR
+                         NV12:  LINEAR
+                         NV21:  LINEAR
+                         NV16:  LINEAR
+                         NV61:  LINEAR
+                         YU12:  LINEAR
+                         YV12:  LINEAR
+                         YU16:  LINEAR
+                         YV16:  LINEAR
+                         YU24:  LINEAR
+                         YV24:  LINEAR
+        38 alpha:
+                flags: range
+                values: 0 65535
+                value: 65535
+        39 zpos:
+                flags: range
+                values: 0 1
+                value: 1
+
+Frame buffers:
+id      size    pitch
+
+Biju Das (10):
+  drm: rcar-du: Move rcar_du_vsp_plane_prepare_fb()
+  drm: rcar-du: Move rcar_du_vsp_plane_cleanup_fb()
+  drm: rcar-du: Move rcar_du_vsp_plane_atomic_update()
+  drm: rcar-du: Add rcar_du_lib_fb_create()
+  drm: rcar-du: Add rcar_du_lib_mode_cfg_helper_fns()
+  drm: rcar-du: Move rcar_du_encoders_init()
+  drm: rcar-du: Move rcar_du_properties_init()
+  drm: rcar-du: Add rcar_du_lib_vsps_init()
+  dt-bindings: display: Document Renesas RZ/G2L DU bindings
+  drm: rcar-du: Add RZ/G2L DU Support
+
+ .../bindings/display/renesas,rzg2l-du.yaml    | 124 +++
+ drivers/gpu/drm/rcar-du/Kconfig               |  17 +-
+ drivers/gpu/drm/rcar-du/Makefile              |  13 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 304 +-------
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c     | 330 ++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h     |  20 +
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  84 --
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c     |  84 ++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h     |  19 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c       | 718 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_du_crtc.h       |  26 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_drv.c        | 206 +++++
+ drivers/gpu/drm/rcar-du/rzg2l_du_drv.h        |  20 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_encoder.c    |  26 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_encoder.h    |  19 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_kms.c        | 158 ++++
+ drivers/gpu/drm/rcar-du/rzg2l_du_kms.h        |  17 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_regs.h       |  67 ++
+ drivers/gpu/drm/rcar-du/rzg2l_du_vsp.c        |  82 ++
+ drivers/gpu/drm/rcar-du/rzg2l_du_vsp.h        |  29 +
+ 20 files changed, 1978 insertions(+), 385 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_encoder.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_encoder.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_kms.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_kms.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_regs.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_vsp.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_vsp.h
 
 
-Am 2022-07-26 um 22:59 schrieb Yu Zhe:
-> time_is_before_jiffies deals with timer wrapping correctly.
->
-> Signed-off-by: Yu Zhe <yuzhe@nfschina.com>
-> ---
->   drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c b/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
-> index a9466d154395..6397926e059c 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
-> @@ -156,7 +156,7 @@ static void interrupt_wq(struct work_struct *work)
->   	while (dequeue_ih_ring_entry(dev, ih_ring_entry)) {
->   		dev->device_info.event_interrupt_class->interrupt_wq(dev,
->   								ih_ring_entry);
-> -		if (jiffies - start_jiffies > HZ) {
-> +		if (time_is_before_jiffies(start_jiffies + HZ)) {
->   			/* If we spent more than a second processing signals,
->   			 * reschedule the worker to avoid soft-lockup warnings
->   			 */
+base-commit: c90598c998da48a0499cb401c28d40e1f073733e
+-- 
+2.25.1
+
