@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78855582A59
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 18:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6DF582A5C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 18:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4695D92807;
-	Wed, 27 Jul 2022 16:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E33119629C;
+	Wed, 27 Jul 2022 16:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
  [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1F26410E13D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 16:08:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.93,195,1654527600"; d="scan'208";a="129334729"
+ by gabe.freedesktop.org (Postfix) with ESMTP id 196FA10E15B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 16:08:16 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.93,195,1654527600"; d="scan'208";a="129334740"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2022 01:08:12 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2022 01:08:16 +0900
 Received: from localhost.localdomain (unknown [10.226.92.195])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7A6674018A35;
- Thu, 28 Jul 2022 01:08:09 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7200D4018932;
+ Thu, 28 Jul 2022 01:08:13 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v5 03/10] drm: rcar-du: Move rcar_du_vsp_plane_atomic_update()
-Date: Wed, 27 Jul 2022 17:07:46 +0100
-Message-Id: <20220727160753.1774761-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v5 04/10] drm: rcar-du: Add rcar_du_lib_fb_create()
+Date: Wed, 27 Jul 2022 17:07:47 +0100
+Message-Id: <20220727160753.1774761-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220727160753.1774761-1-biju.das.jz@bp.renesas.com>
 References: <20220727160753.1774761-1-biju.das.jz@bp.renesas.com>
@@ -53,181 +53,184 @@ Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move rcar_du_vsp_plane_atomic_update() to RCar DU vsp lib so that
-both RCar and RZ/G2L DU vsp drivers can share this function.
+Move the common code from rcar_du_fb_create->rcar_du_lib_fb_create,
+so that rzg2l_du_fb_create() can reuse the common code.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v5:
  * New patch
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c     | 51 -----------------------
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c | 51 +++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h |  6 +++
- 3 files changed, 57 insertions(+), 51 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c     | 64 +--------------------
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c | 69 +++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h |  4 ++
+ 3 files changed, 74 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index c9090e581b12..aa63e2d19649 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -88,42 +88,6 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
- 	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
- }
- 
--static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
--{
--	struct rcar_du_vsp_plane_state *state =
--		to_rcar_vsp_plane_state(plane->plane.state);
--	struct rcar_du_crtc *crtc = to_rcar_crtc(state->state.crtc);
--	struct drm_framebuffer *fb = plane->plane.state->fb;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index ea2b7d5f1c23..9d65a7d6d96e 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -41,69 +41,7 @@ static struct drm_framebuffer *
+ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+ 		  const struct drm_mode_fb_cmd2 *mode_cmd)
+ {
+-	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
 -	const struct rcar_du_format_info *format;
--	struct vsp1_du_atomic_config cfg = {
--		.pixelformat = 0,
--		.pitch = fb->pitches[0],
--		.alpha = state->state.alpha >> 8,
--		.zpos = state->state.zpos,
--	};
+-	unsigned int chroma_pitch;
+-	unsigned int max_pitch;
+-	unsigned int align;
 -	unsigned int i;
 -
--	cfg.src.left = state->state.src.x1 >> 16;
--	cfg.src.top = state->state.src.y1 >> 16;
--	cfg.src.width = drm_rect_width(&state->state.src) >> 16;
--	cfg.src.height = drm_rect_height(&state->state.src) >> 16;
+-	format = rcar_du_format_info(mode_cmd->pixel_format);
+-	if (format == NULL) {
+-		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
+-			mode_cmd->pixel_format);
+-		return ERR_PTR(-EINVAL);
+-	}
 -
--	cfg.dst.left = state->state.dst.x1;
--	cfg.dst.top = state->state.dst.y1;
--	cfg.dst.width = drm_rect_width(&state->state.dst);
--	cfg.dst.height = drm_rect_height(&state->state.dst);
+-	if (rcdu->info->gen < 3) {
+-		/*
+-		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
+-		 * buffers to be aligned to a 16 pixels boundary (or 128 bytes
+-		 * on some platforms).
+-		 */
+-		unsigned int bpp = format->planes == 1 ? format->bpp / 8 : 1;
 -
--	for (i = 0; i < state->format->planes; ++i)
--		cfg.mem[i] = sg_dma_address(state->sg_tables[i].sgl)
--			   + fb->offsets[i];
+-		max_pitch = 4095 * bpp;
 -
--	format = rcar_du_format_info(state->format->fourcc);
--	cfg.pixelformat = format->v4l2;
+-		if (rcar_du_needs(rcdu, RCAR_DU_QUIRK_ALIGN_128B))
+-			align = 128;
+-		else
+-			align = 16 * bpp;
+-	} else {
+-		/*
+-		 * On Gen3 the memory interface is handled by the VSP that
+-		 * limits the pitch to 65535 bytes and has no alignment
+-		 * constraint.
+-		 */
+-		max_pitch = 65535;
+-		align = 1;
+-	}
 -
--	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
--			      plane->index, &cfg);
--}
+-	if (mode_cmd->pitches[0] & (align - 1) ||
+-	    mode_cmd->pitches[0] > max_pitch) {
+-		dev_dbg(dev->dev, "invalid pitch value %u\n",
+-			mode_cmd->pitches[0]);
+-		return ERR_PTR(-EINVAL);
+-	}
 -
- static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
- 					  struct drm_atomic_state *state)
- {
-@@ -135,21 +99,6 @@ static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
- 					    &rstate->format);
+-	/*
+-	 * Calculate the chroma plane(s) pitch using the horizontal subsampling
+-	 * factor. For semi-planar formats, the U and V planes are combined, the
+-	 * pitch must thus be doubled.
+-	 */
+-	chroma_pitch = mode_cmd->pitches[0] / format->hsub;
+-	if (format->planes == 2)
+-		chroma_pitch *= 2;
+-
+-	for (i = 1; i < format->planes; ++i) {
+-		if (mode_cmd->pitches[i] != chroma_pitch) {
+-			dev_dbg(dev->dev,
+-				"luma and chroma pitches are not compatible\n");
+-			return ERR_PTR(-EINVAL);
+-		}
+-	}
+-
+-	return drm_gem_fb_create(dev, file_priv, mode_cmd);
++	return rcar_du_lib_fb_create(dev, file_priv, mode_cmd);
  }
  
--static void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
--					struct drm_atomic_state *state)
--{
--	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
--	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
--	struct rcar_du_vsp_plane *rplane = to_rcar_vsp_plane(plane);
--	struct rcar_du_crtc *crtc = to_rcar_crtc(old_state->crtc);
--
--	if (new_state->visible)
--		rcar_du_vsp_plane_setup(rplane);
--	else if (old_state->crtc)
--		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
--				      rplane->index, NULL);
--}
--
- static const struct drm_plane_helper_funcs rcar_du_vsp_plane_helper_funcs = {
- 	.prepare_fb = rcar_du_vsp_plane_prepare_fb,
- 	.cleanup_fb = rcar_du_vsp_plane_cleanup_fb,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-index 9062837e68da..97f8ac22b582 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-@@ -85,6 +85,42 @@ static const u32 rcar_du_vsp_formats[] = {
- 	DRM_FORMAT_YVU444,
- };
+ /* -----------------------------------------------------------------------------
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+index 6461b99e08dc..d8f778a7b6db 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+@@ -392,3 +392,72 @@ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
  
-+static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+ 	return drm_gem_cma_dumb_create_internal(file, dev, args);
+ }
++
++struct drm_framebuffer *
++rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
++		      const struct drm_mode_fb_cmd2 *mode_cmd)
 +{
-+	struct rcar_du_vsp_plane_state *state =
-+		to_rcar_vsp_plane_state(plane->plane.state);
-+	struct rcar_du_crtc *crtc = to_rcar_crtc(state->state.crtc);
-+	struct drm_framebuffer *fb = plane->plane.state->fb;
++	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
 +	const struct rcar_du_format_info *format;
-+	struct vsp1_du_atomic_config cfg = {
-+		.pixelformat = 0,
-+		.pitch = fb->pitches[0],
-+		.alpha = state->state.alpha >> 8,
-+		.zpos = state->state.zpos,
-+	};
++	unsigned int chroma_pitch;
++	unsigned int max_pitch;
++	unsigned int align;
 +	unsigned int i;
 +
-+	cfg.src.left = state->state.src.x1 >> 16;
-+	cfg.src.top = state->state.src.y1 >> 16;
-+	cfg.src.width = drm_rect_width(&state->state.src) >> 16;
-+	cfg.src.height = drm_rect_height(&state->state.src) >> 16;
++	format = rcar_du_format_info(mode_cmd->pixel_format);
++	if (format == NULL) {
++		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
++			mode_cmd->pixel_format);
++		return ERR_PTR(-EINVAL);
++	}
 +
-+	cfg.dst.left = state->state.dst.x1;
-+	cfg.dst.top = state->state.dst.y1;
-+	cfg.dst.width = drm_rect_width(&state->state.dst);
-+	cfg.dst.height = drm_rect_height(&state->state.dst);
++	if (rcdu->info->gen < 3) {
++		/*
++		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
++		 * buffers to be aligned to a 16 pixels boundary (or 128 bytes
++		 * on some platforms).
++		 */
++		unsigned int bpp = format->planes == 1 ? format->bpp / 8 : 1;
 +
-+	for (i = 0; i < state->format->planes; ++i)
-+		cfg.mem[i] = sg_dma_address(state->sg_tables[i].sgl)
-+			   + fb->offsets[i];
++		max_pitch = 4095 * bpp;
 +
-+	format = rcar_du_format_info(state->format->fourcc);
-+	cfg.pixelformat = format->v4l2;
++		if (rcar_du_needs(rcdu, RCAR_DU_QUIRK_ALIGN_128B))
++			align = 128;
++		else
++			align = 16 * bpp;
++	} else {
++		/*
++		 * On Gen3 the memory interface is handled by the VSP that
++		 * limits the pitch to 65535 bytes and has no alignment
++		 * constraint.
++		 */
++		max_pitch = 65535;
++		align = 1;
++	}
 +
-+	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
-+			      plane->index, &cfg);
++	if (mode_cmd->pitches[0] & (align - 1) ||
++	    mode_cmd->pitches[0] > max_pitch) {
++		dev_dbg(dev->dev, "invalid pitch value %u\n",
++			mode_cmd->pitches[0]);
++		return ERR_PTR(-EINVAL);
++	}
++
++	/*
++	 * Calculate the chroma plane(s) pitch using the horizontal subsampling
++	 * factor. For semi-planar formats, the U and V planes are combined, the
++	 * pitch must thus be doubled.
++	 */
++	chroma_pitch = mode_cmd->pitches[0] / format->hsub;
++	if (format->planes == 2)
++		chroma_pitch *= 2;
++
++	for (i = 1; i < format->planes; ++i) {
++		if (mode_cmd->pitches[i] != chroma_pitch) {
++			dev_dbg(dev->dev,
++				"luma and chroma pitches are not compatible\n");
++			return ERR_PTR(-EINVAL);
++		}
++	}
++
++	return drm_gem_fb_create(dev, file_priv, mode_cmd);
 +}
-+
- int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
- 		       struct sg_table sg_tables[3])
- {
-@@ -193,6 +229,21 @@ void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
- 	rcar_du_vsp_unmap_fb(vsp, state->fb, rstate->sg_tables);
- }
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+index 5f45a369bb88..160928dc68b8 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+@@ -39,4 +39,8 @@ struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
+ 				struct dma_buf_attachment *attach,
+ 				struct sg_table *sgt);
  
-+void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
-+				     struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct rcar_du_vsp_plane *rplane = to_rcar_vsp_plane(plane);
-+	struct rcar_du_crtc *crtc = to_rcar_crtc(old_state->crtc);
++struct drm_framebuffer *
++rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
++		      const struct drm_mode_fb_cmd2 *mode_cmd);
 +
-+	if (new_state->visible)
-+		rcar_du_vsp_plane_setup(rplane);
-+	else if (old_state->crtc)
-+		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
-+				      rplane->index, NULL);
-+}
-+
- static struct drm_plane_state *
- rcar_du_vsp_plane_atomic_duplicate_state(struct drm_plane *plane)
- {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-index 094ada022fe5..0686894e659c 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-@@ -70,6 +70,8 @@ int rcar_du_vsp_plane_prepare_fb(struct drm_plane *plane,
- 				 struct drm_plane_state *state);
- void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
- 				  struct drm_plane_state *state);
-+void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
-+				     struct drm_atomic_state *state);
- #else
- static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
-@@ -101,6 +103,10 @@ static inline void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
- 						struct drm_plane_state *state)
- {
- }
-+static inline void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
-+						   struct drm_atomic_state *state)
-+{
-+}
- #endif
- 
- #endif /* __RCAR_DU_VSP_LIB_H__ */
+ #endif /* __RCAR_DU_KMS_LIB_H__ */
 -- 
 2.25.1
 
