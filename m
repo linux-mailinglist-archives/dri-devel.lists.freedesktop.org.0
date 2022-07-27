@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815ED582C3C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 18:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FCD582DD9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 19:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACFE7B685F;
-	Wed, 27 Jul 2022 16:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35BB1BF2E7;
+	Wed, 27 Jul 2022 17:04:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F029B5B94;
- Wed, 27 Jul 2022 16:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658940237; x=1690476237;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=2g7po6ocbadXtIwdXSQssZ2yJ0/Dj5FZEJfmxaCWx2k=;
- b=Ae0hnMJrfiuUKZDI4WtVXx8vPHihs8K2VIvRNToyPgIPCOHo6KjiE2Ly
- A2R+fpDYiFiQ1aY+SR2bR56S4e+xFedAPA2aonskPf5ROmXo1j9ZnCd40
- JlM2/DKpRRVCArG9TkpqqxygHBKdu9VVKaowdMtVlPDY4RRgd/GhWpkXj
- t+2lx9ThaAw08ik94vMTbXhj2JLUQb0LBjW5JseBWc1AOuQjDq3NO3I4z
- kDcrY9MUY+nXmKUjN24sMYpRZxJZOc2dk12UvXeVYvfZxNAeQv+piitDi
- Vj/yyfOAdIsCt4hgGwXmi3d0BL/XZm3okKVLxbVP+OrldggDFGGSYNDWW A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="352281867"
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="352281867"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2022 09:43:57 -0700
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="576061740"
-Received: from pmcquill-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.217.165])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2022 09:43:55 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/ttm: don't leak the ccs state
-Date: Wed, 27 Jul 2022 17:43:46 +0100
-Message-Id: <20220727164346.282407-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.37.1
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0128BBF2E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 17:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=G1yxjX0ml7bWjfSawJ8KXkM7VbWITujIankz7OQDQDU=;
+ b=jVM4agKAWmOwyeSa7KfEytokRMEy91zpRYZ1NLJSLohJKav/IH4ouKcVky9D2m31qboTIRepA65IP
+ aebcArchP+KYFud7n8Ar/0HyY2vkibNKiEJpIVFUX593g8guc09F45+BJfD5xuesQl/ahpWRkbk2Cp
+ mVuWtKIdbOCamxgL9ES6KRDHzyT63GI38lnbMhVAsFFEC1/1nsDFjaXY5a9IwFzo033DrNWN7+fsf7
+ Jn8KtD2dNw+qizO9gksC35QEiE+M3ldYWOoKyKVkHKAjkY0FVMvXpJxdmxrAMW0QuyRudI3Q7d4hnp
+ SWjbcEdB74BUyXJj/KELhPa99Vk9iDw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=G1yxjX0ml7bWjfSawJ8KXkM7VbWITujIankz7OQDQDU=;
+ b=lDk1ZjUPf5ZpN4MXa95KlvR0P9gIsDqDNA2gITqap0cMWkMJAGeAc7mQQND/XPpzx3GziAs6twqUL
+ JCjKCq6Aw==
+X-HalOne-Cookie: 8a64bf85c0aa5d803b906c36b6265a74ceb1f174
+X-HalOne-ID: 2a675d83-0dce-11ed-a6c8-d0431ea8a283
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 2a675d83-0dce-11ed-a6c8-d0431ea8a283;
+ Wed, 27 Jul 2022 17:04:24 +0000 (UTC)
+Date: Wed, 27 Jul 2022 19:04:23 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display: use spi-peripheral-props.yaml
+Message-ID: <YuFwF/sOk4svIlkK@ravnborg.org>
+References: <20220727164312.385836-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220727164312.385836-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,71 +58,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Heiko Schocher <hs@denx.de>, David Lechner <david@lechnology.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel only manages the ccs state with lmem-only objects, however
-the kernel should still take care not to leak the CCS state from the
-previous user.
+Hi Krzysztof,
 
-Fixes: 48760ffe923a ("drm/i915/gt: Clear compress metadata for Flat-ccs objects")
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_migrate.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+On Wed, Jul 27, 2022 at 06:43:12PM +0200, Krzysztof Kozlowski wrote:
+> Instead of listing directly properties typical for SPI peripherals,
+> reference the spi-peripheral-props.yaml schema.  This allows using all
+> properties typical for SPI-connected devices, even these which device
+> bindings author did not tried yet.
+> 
+> Remove the spi-* properties which now come via spi-peripheral-props.yaml
+> schema, except for the cases when device schema adds some constraints
+> like maximum frequency.
+> 
+> While changing additionalProperties->unevaluatedProperties, put it in
+> typical place, just before example DTS.
+> 
+> The sitronix,st7735r references also panel-common.yaml and lists
+> explicitly allowed properties, thus here reference only
+> spi-peripheral-props.yaml for purpose of documenting the SPI slave
+> device and bringing spi-max-frequency type validation.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index a69b244f14d0..9a0814422ba4 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -708,7 +708,7 @@ intel_context_migrate_copy(struct intel_context *ce,
- 	u8 src_access, dst_access;
- 	struct i915_request *rq;
- 	int src_sz, dst_sz;
--	bool ccs_is_src;
-+	bool ccs_is_src, overwrite_ccs;
- 	int err;
- 
- 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-@@ -749,6 +749,8 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
- 	}
- 
-+	overwrite_ccs = HAS_FLAT_CCS(i915) && !ccs_bytes_to_cpy && dst_is_lmem;
-+
- 	src_offset = 0;
- 	dst_offset = CHUNK_SZ;
- 	if (HAS_64K_PAGES(ce->engine->i915)) {
-@@ -852,6 +854,25 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			if (err)
- 				goto out_rq;
- 			ccs_bytes_to_cpy -= ccs_sz;
-+		} else if (overwrite_ccs) {
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/*
-+			 * While we can't always restore/manage the CCS state,
-+			 * we still need to ensure we don't leak the CCS state
-+			 * from the previous user, so make sure we overwrite it
-+			 * with something.
-+			 */
-+			err = emit_copy_ccs(rq, dst_offset, INDIRECT_ACCESS,
-+					    dst_offset, DIRECT_ACCESS, len);
-+			if (err)
-+				goto out_rq;
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
- 		}
- 
- 		/* Arbitration is re-enabled between requests. */
--- 
-2.37.1
+I assume this will be added to the same tree as the SPI CPHA and CPOL
+patch.
 
+	Sam
