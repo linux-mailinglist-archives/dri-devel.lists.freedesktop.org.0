@@ -1,86 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77D3582354
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 11:39:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0296658235D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 11:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39745C3D63;
-	Wed, 27 Jul 2022 09:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D666F18AB76;
+	Wed, 27 Jul 2022 09:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60816C3D33
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 09:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658914776;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QpYq8k+/zMFls5kVctZr6/54tObnNDYVXoF8Fq/DZnM=;
- b=D2nm8c8BNp6PbmFcApo4NSUDjf8H6GfGB8gTITZ596mIkJf+aySdJE4aNI5XfhvLG/bFGf
- BuhnJcVnhuPr5BJOSBf1BLB26BztMCdUo4tNrI/xWWB9nGnyqFHPtnUm0DRlNtSCwI961/
- YX8mamnFzvPvs6/U2BnZ8GYDtB3ibRE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-KEjju9AlMTS_OfvytjeGQQ-1; Wed, 27 Jul 2022 05:39:34 -0400
-X-MC-Unique: KEjju9AlMTS_OfvytjeGQQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n7-20020adf8b07000000b0021e577a8784so2623177wra.5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 02:39:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QpYq8k+/zMFls5kVctZr6/54tObnNDYVXoF8Fq/DZnM=;
- b=Xtkr9ni7mCE9PCYQWgDqlah2//48/X/NQ1eOoRTui82odOgF0/KLCgZANMjuSAAB/e
- gy9EFZr8Y2GLV5qjioqQzmqqWPfAkwfnCJLJchPKEVkPXKpWkJOIArLbjkZmH3X96mfi
- F67vtZlvM1iB4gKNHWaQK7gsHwyc3Oop75Wd0UGFfBPfnHMAEL6hVQ+4vFNOG3T5s2P3
- WbWRoOEmIJTrWIcqgmfVbQ18decixZYFyzkfspJlGOnlDTpnQUonAz3wR6c9iJnbuGu8
- oWRG0O1M18Ka7YV4E3ykOMhx/y0FxI4AW4mMRaNOZKSHI9QGddCCUAZTDwYKaWMH/Xiv
- sMlg==
-X-Gm-Message-State: AJIora8IFswSUUju1r0PahdUuxilC3IS0rCaOimqY61728CCe90tl98m
- tUtWgY1w1xVDQg2cFvgxSck5EQm3+SOnBQW2o0kXQ0YI71/vzicdZQQv/CkCYO1Ugn+D6mV2f3+
- 8eXxk8xWTWKE2KTziQ6xggljE3ITu
-X-Received: by 2002:adf:b317:0:b0:21e:5096:cc9a with SMTP id
- j23-20020adfb317000000b0021e5096cc9amr13218336wrd.481.1658914773569; 
- Wed, 27 Jul 2022 02:39:33 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v6OiTl+LoNwlWe8XcV0qSJ43j7F7WYkuLmnsjp6cy+jmMuLmruPU5Ty1ROsOCb5ONKsRirzA==
-X-Received: by 2002:adf:b317:0:b0:21e:5096:cc9a with SMTP id
- j23-20020adfb317000000b0021e5096cc9amr13218313wrd.481.1658914773238; 
- Wed, 27 Jul 2022 02:39:33 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- r21-20020a05600c35d500b003a17ab4e7c8sm1877647wmq.39.2022.07.27.02.39.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Jul 2022 02:39:32 -0700 (PDT)
-Message-ID: <b3392ac8-0e21-d429-489f-b12a562dcb7c@redhat.com>
-Date: Wed, 27 Jul 2022 11:39:31 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5BAA8DF49
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 09:40:49 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 10CA36601B25;
+ Wed, 27 Jul 2022 10:40:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1658914848;
+ bh=/tSZBVIuOPVrLZ+Pv9GixCN2b9o+Bbox7JHQmveYKn8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CnEUNxM6sH6Za9eS1dGCEiIZSFE/trQz92dIdRmswdczzZpDwPMWmdd82JkLXKQg9
+ d8f1SHZUhha6hjj+c8J9uN97ZVzKs4nxdHNhIfA3m0lDqb1FCpKhADcsO5NK0zWFqE
+ Ko2FK6RAi31qvCOZ7keaareHRzTGqP/+Pl/Lk6SSvCbeFplKoNWh1D9auuQ0IFBWnw
+ OldnTeHWmkfh0MEk6WaS3oPRH4rtP8ev+uvGXd/6kBXOgMVku/rSKQVZTW0TGa8hKd
+ TWI3y1DXPAjxBmzAeVhPfHXyC2Er4retswk8r2bkOWDG9bVQ+i3WSAw42Wk5oFy+Mm
+ g/BZP4RD41UkA==
+Message-ID: <ce46e9b2-8e34-b6cd-d802-35b3ae66e02d@collabora.com>
+Date: Wed, 27 Jul 2022 11:40:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 06/10] drm/simpledrm: Move some functionality into fwfb
- helper library
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
- msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-7-tzimmermann@suse.de>
- <c411480b-27b2-8c0b-534f-bbabd8018577@redhat.com>
- <623cde06-62ec-c8be-0f0e-2fd900c2359a@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <623cde06-62ec-c8be-0f0e-2fd900c2359a@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v15 07/11] drm/mediatek: Add retry to prevent misjudgment
+ for sink devices
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, daniel@ffwll.ch, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org, tzimmermann@suse.de,
+ matthias.bgg@gmail.com, deller@gmx.de, airlied@linux.ie
+References: <20220727045035.32225-1-rex-bc.chen@mediatek.com>
+ <20220727045035.32225-8-rex-bc.chen@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220727045035.32225-8-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,113 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/27/22 10:24, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 25.07.22 um 18:23 schrieb Javier Martinez Canillas:
->> On 7/20/22 16:27, Thomas Zimmermann wrote:
->>> Move some of simpledrm's functionality into a helper library. Other
->>> drivers for firmware-provided framebuffers will also need functions
->>> to handle fixed modes and color formats, or update the back buffer.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>
->> Nice patch!
-> 
-> TBH it took me 3 tries to get something done for this library and I'm 
-> still not happy with the result. I want to share code between simpledrm 
-> and ofdrm, but that turns out to be harder then expected. A good part of 
-> this code appears to belong into other libraries (you also mentioned 
-> this below).
-> 
-> I don't want to duplicated code between simpledrm and ofdrm without 
-> reason, but I expect that this library will somewhen be refactored and 
-> dissolved into existing libraries.
->
+Il 27/07/22 06:50, Bo-Chen Chen ha scritto:
+> For some DP dungles, we need to train more than onece to confirm that we
+> don't misjudge the status of sink device.
 
-Yes, I think is a step in the right direction and guess it would be even
-more useful once/if a 3rd firmware-provided framebuffer driver is added.
+Please fix the typos in your commit title and description.
+title: misjudgment -> misjudgement
+desc: dungles->dongles; onece->once
 
 > 
->>
->> [...]
->>
->>> +
->>> +/**
->>> + * DOC: overview
->>> + *
->>> + * The Firmware Framebuffer library FWFB provides helpers for devices with
->>> + * fixed-mode backing storage. It helps drivers to export a display mode of
->>> + * te correct size and copy updates to the backing storage.
->>
->> the
->>
->> it is "backing storage" or "backing store" ? I always thought that storage was
->> used for non-volatile media while "store" could be volatile and non-volatile.
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dp.c | 21 ++++++++++++++++++---
+>   1 file changed, 18 insertions(+), 3 deletions(-)
 > 
-> Why store? Isn't that a little shop for fashion or groceries? I'm no 
-> native speaker; I can't tell if either implies that we're sending 
-> pictures to a warehouse or bakery. :)
-> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index ce817cb59445..80d7d6488105 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -42,6 +42,7 @@
+>   #define MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT 3
+>   #define MTK_DP_TBC_BUF_READ_START_ADDR 0x08
+>   #define MTK_DP_TRAIN_DOWNSCALE_RETRY 8
+> +#define MTK_DP_TRAIN_CLEAR_RETRY 50
+>   
+>   struct mtk_dp_train_info {
+>   	bool tps3;
+> @@ -1431,11 +1432,25 @@ static int mtk_dp_video_config(struct mtk_dp *mtk_dp)
+>   
+>   static int mtk_dp_training(struct mtk_dp *mtk_dp)
+>   {
+> +	short max_retry = MTK_DP_TRAIN_CLEAR_RETRY;
+>   	int ret;
+>   
+> -	ret = mtk_dp_train_start(mtk_dp);
+> -	if (ret)
+> -		return ret;
+> +	/*
+> +	 * We do retry to confirm that we don't misjudge the sink status.
+> +	 * If it is still failed, we can confirm there are some issues for the
+> +	 * sink device.
+> +	 */
+> +	do {
+> +		ret = mtk_dp_train_start(mtk_dp);
+> +		if (!ret)
+> +			break;
+> +	} while (--max_retry);
+> +
+> +	dev_info(mtk_dp->dev, "dp training clear retry times: %d\n",
+> +		 MTK_DP_TRAIN_CLEAR_RETRY - max_retry);
 
-LOL.
+dev_dbg() here.
 
-> Would 'back buffer' (in contrast to 'shadow buffer') be clear?
->
+...after which,
 
-Back buffer is more clear indeed.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-[...]
-
->> It seems a little bit arbitrary to me that format is the only field that's
->> a pointer and the other ones are embedded into the struct drm_fwfb. Any
->> reason for that or is just a consequence of how types were used by the
->> simpledrm_device_create() function before that code moved into helpers ?
-> 
-> Format is constant and comes from statically initialized memory in 
-> drm_fourcc.c. I'd expect to be able to compare formats by comparing the 
-> pointers. Copying the format here would break the assumption.
->
-
-I see. Makes sense.
-
->>
->> [...]
->>
->>> +static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t fourcc)
->>> +{
->>> +	const uint32_t *fourccs_end = fourccs + nfourccs;
->>> +
->>> +	while (fourccs < fourccs_end) {
->>> +		if (*fourccs == fourcc)
->>> +			return true;
->>> +		++fourccs;
->>> +	}
->>> +	return false;
->>> +}
->>
->> This seems a helper that could be useful besides the drm_fwfb_helper.c file.
->>
->> I believe patches 1-6 shouldn't wait for the others in this series and could
->> just be merged when ready. Patches 7-10 can follow later.
-> 
-> Yeah, I'd like to move patches 1 to 5 into a new series for merging. 
-> Patch 6 is only useful for ofdrm and as I said, maybe there's a better 
-> solution then this library. I'd rather keep it here for now.
->
-
-OK.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> +
+> +	if (!max_retry)
+> +		return -ETIMEDOUT;
+>   
+>   	ret = mtk_dp_video_config(mtk_dp);
+>   	if (ret)
 
