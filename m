@@ -2,85 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87806582370
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 11:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A9E5823BE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 12:04:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1C3C4256;
-	Wed, 27 Jul 2022 09:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA487C4542;
+	Wed, 27 Jul 2022 10:04:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C28C4264
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 09:45:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658915107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d7wwuGLjAZB3K+Voj80d4Ozo5qLQ+l1QsRMGTb08BDM=;
- b=T8DxwKuuUlLCH6aJXT+leOrZNdfF+qWprRCtL/yXDR+xC9+yGQAlMSrMCcluyT9GaqrX6y
- fccuJYFyf4flcqUuFFymfTC0shPBTINB8+VQx0sqKl7QlTduR6oLJc1pz+EAKck4AVxG8W
- M6/VIGr7U8IMmNVlYf+agcgniws4tI8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-LA0Q8T0sOJSsYhGeFb2i-Q-1; Wed, 27 Jul 2022 05:45:06 -0400
-X-MC-Unique: LA0Q8T0sOJSsYhGeFb2i-Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n7-20020adfc607000000b0021a37d8f93aso2711695wrg.21
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 02:45:06 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93251C4546
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 10:04:37 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id z15so8934765edc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 03:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B+itH6nCjnZkG3yJTUkgH3T3RkzlJIEijujwFkNTeHs=;
+ b=cG/IRfZwWO83wiK8SoAZgFegp/oSsSTdk6uMQXsyEzBbyDQ15vq0yzVYGG9pEdfz0Z
+ ZOOouCQXEYxdPO6EleD7jGQocetQsqrcx2C7y57nBleaH3XWNh/p9EZXeeMxomYeea0n
+ ccGpQbPM3KyJhbgX8FqfpXge+UD+lyXVuyBlv7AUvzyTYioFKkLUVdtqpGd8x6O73yOd
+ o3BHcOkkAf6zj76YWhjS7ePObKwBxNP5KslRU9Zg6sRbYapoWTeSb3rLO4m4qR/dd5mY
+ Xo/AD9faus7q33rPJGp/5b3BvXu4+tVOAzawSfBgIW64yo4mi098uiZmqwCRYHPukGG4
+ n1TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d7wwuGLjAZB3K+Voj80d4Ozo5qLQ+l1QsRMGTb08BDM=;
- b=Saws4iXZvkUcfQpVmS/HfUktpM7yv9Lcug30yXizA0lCpha1OTwmmF7j2YmyQ5fsh1
- xfeGbU7HIkbisBs0CsSKZLBl/Hu+2mm+w7+5tS6r3QvaSGMZM2EioX6y9lsKE64MZfZ9
- ihFxbw5PwlnG+xZ0FyM2RhMQXlF2RS3vOasOvxUxXdYNCV3wTZFGHAx92nd67t91fL4W
- OFmCZeVdPSJvcJkpQSBkDCl/3do6KeIiwTRDMcGe33QlGudiW0374ilbgeP9LrKNpEbU
- RNrSt8SgXVOBxy/MiSqvpKMVWdqVj6DQi7YDdghQOTVXkHZneISllOTeDRzJrFDnaBiM
- uioA==
-X-Gm-Message-State: AJIora+MVTCgbD32Zjn5g5aO0ypShkbR5iDWzQJPAQwFBOTgW5roYWWk
- FDJd9n9jfCLhJxpaVLmjSsehKK2gaHS9Jy5pzwFmy7eBNdQi/VkfSxdBgsTYnlof1Q0sU6fdlBI
- pXmsj0Ut0xt5GS78eOIbQDtHDF4h4
-X-Received: by 2002:a05:600c:3caa:b0:3a0:18e4:781b with SMTP id
- bg42-20020a05600c3caa00b003a018e4781bmr2469506wmb.199.1658915105266; 
- Wed, 27 Jul 2022 02:45:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tY1NapkC+jkHigs52/MIzuEN8IcNKNYICxfk8KUt9jGlsGLWmG7Fj2fsNnrteJALcuFgDk/A==
-X-Received: by 2002:a05:600c:3caa:b0:3a0:18e4:781b with SMTP id
- bg42-20020a05600c3caa00b003a018e4781bmr2469489wmb.199.1658915105054; 
- Wed, 27 Jul 2022 02:45:05 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t6-20020a05600c198600b003a326ba4e99sm1915497wmq.34.2022.07.27.02.45.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Jul 2022 02:45:03 -0700 (PDT)
-Message-ID: <6b7bdf72-5ed3-f075-ecb8-639e569c5cb9@redhat.com>
-Date: Wed, 27 Jul 2022 11:45:02 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B+itH6nCjnZkG3yJTUkgH3T3RkzlJIEijujwFkNTeHs=;
+ b=lHax0NMtzAJkVw7163yJ6I/lKZ8yjARgOWEUrEPD/wP8dPATM3GpHBxiWuQkKGBfWp
+ 76epGyf5wkifbhrvCEmIBlRa4viGuljgi85c/2fmlLunBG5YaDcikn9q6OzgYoDJfPan
+ dlN1ZVMMLRTXKUE+NuHb8PV73JKjh/RRv17HV/W6Lc+SyEEP7+ofVtEdKFlx+ew0dEU+
+ tK1wYvkBIj5o98EE309pDdMnJvV0ix7NltTwz8pbosAOo5k1Bure9pdzQ3CM9BC0bI2/
+ mkxgIKimgjxHXXi6FE7e5DK/QNS6tw3WJUTAHTLYCyRYzo8tfGh96Zd5y05QoCsEp8Y1
+ dUjw==
+X-Gm-Message-State: AJIora9q4AfxCKGeGLyUEc5wkrdSGhZPbKkLjEyVooR7VELAmmtCog+s
+ 7l/Wu5GZSFhGOiUBgnIVAKNOmYlWtfrk8xfW5Uc=
+X-Google-Smtp-Source: AGRyM1uwEejs5nDWqG+s979XFdwYwQmE2ZsEpW0n4nQQ7TCJsCqlYSNktlo34cJclnigei8K3rZk9qCXUcGHByv5Ilw=
+X-Received: by 2002:a05:6402:501d:b0:437:e000:a898 with SMTP id
+ p29-20020a056402501d00b00437e000a898mr22474219eda.265.1658916275876; Wed, 27
+ Jul 2022 03:04:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 10/10] drm/ofdrm: Support color management
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
- msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-11-tzimmermann@suse.de>
- <abe3fa95-942b-6d2f-7167-83d0cea59444@redhat.com>
- <05511c35-da46-aefd-3e03-364b7311284c@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <05511c35-da46-aefd-3e03-364b7311284c@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220722102407.2205-1-peterwu.pub@gmail.com>
+ <20220722102407.2205-12-peterwu.pub@gmail.com>
+ <CAHp75VewxvEDGoPdRBvLSLQOQ6OZzVft1ce3DkF7MK_O1VXZkQ@mail.gmail.com>
+ <CABtFH5+im7=vyKLUqztYeAX81e7ETFc+9o7y0seg2pxH0PEnUQ@mail.gmail.com>
+ <CAHp75Vd4ApTju2LCCHQ1skgOjttwWo5b2NF3u+zbGyVnnFKNhA@mail.gmail.com>
+ <CABtFH5+bQx5ym5jOzCPJWbZ23WtGYYwS7cMRt2g3ipEEqTb3JA@mail.gmail.com>
+In-Reply-To: <CABtFH5+bQx5ym5jOzCPJWbZ23WtGYYwS7cMRt2g3ipEEqTb3JA@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 27 Jul 2022 12:03:59 +0200
+Message-ID: <CAHp75Vf7jeG_DmD3sZnerFDEVpMxDiL9DkMBddAk-kJH7Hfttg@mail.gmail.com>
+Subject: Re: [PATCH v6 11/13] leds: rgb: mt6370: Add MediaTek MT6370 current
+ sink type LED Indicator support
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,67 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/27/22 10:41, Thomas Zimmermann wrote:
-
-[...]
-
->>
->>> +static void __iomem *ofdrm_mach64_cmap_ioremap(struct ofdrm_device *odev,
->>> +					       struct device_node *of_node,
->>> +					       u64 fb_base)
->>> +{
->>> +	struct drm_device *dev = &odev->dev;
->>> +	u64 address;
->>> +	void __iomem *cmap_base;
->>> +
->>> +	address = fb_base & 0xff000000ul;
->>> +	address += 0x7ff000;
->>> +
->>
->> It would be good to know where these addresses are coming from. Maybe some
->> constant macros or a comment ? Same for the other places where addresses
->> and offsets are used.
-> 
-> I have no idea where these values come from. I took them from offb. And 
-> I suspect that some of these CMAP helpers could be further merged if 
-> only it was clear where the numbers come from.  But as i don't have the 
-> equipment for testing, I took most of this literally as-is from offb.
+On Wed, Jul 27, 2022 at 9:37 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+> On Tue, Jul 26, 2022 at 8:18 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
 >
-
-I see. As Michal mentioned maybe someone more familiar with this platform
-could shed some light about these but in any case that could be done later.
-
-[...]
-
->>> +
->>> +	new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_plane_state->crtc);
->>> +
->>> +	new_ofdrm_crtc_state = to_ofdrm_crtc_state(new_crtc_state);
->>> +	new_ofdrm_crtc_state->format = new_fb->format;
->>> +
->>
->> Ah, I understand now why you didn't factor out the .atomic_check callbacks
->> for the two drivers in a fwfb helper. Maybe you can also add a comment to
->> mention that this updates the format so the CRTC palette can be applied in
->> the .atomic_flush callback ?
-> 
-> Yeah, this code is one reason for not sharing atomic_check in fwfb.  The 
-> other reason is that the fwfb code is only a wrapper around the atomic 
-> helpers with little extra value.  I did have such fwfb helpers a some 
-> point, but removed them.
+> ...
 >
+> > > Just for saving memory space.
+> > > Because these led_classdevs do not be used at the same time.
+> > > Or do you think it would be better to rewrite it as follows?
+> > > -------------------------------------------------------------------------------------
+> > > struct mt6370_led {
+> > >        struct led_classdev isink;
+> > >        struct led_classdev_mc mc;
+> > >        struct mt6370_priv *priv;
+> > >        u32 default_state;
+> > >        u32 index;
+> > > };
+> > > -------------------------------------------------------------------------------------
+> >
+> > You obviously didn't get what I'm talking about...
+> > Each union to work properly should have an associated variable that
+> > holds the information of which field of the union is in use. Do you
+> > have such a variable? If not, how does your code know which one to
+> > use? If yes, add a proper comment there.
+> >
+>
+> Ummm... from my understanding,
+> if the colors of these four LEDs are set to 'LED_COLOR_ID_RGB' or
+> 'LED_COLOR_ID_MULTI' in DT,
+> their 'led->index' will be set to 'MT6370_VIRTUAL_MULTICOLOR' in
+> 'mt6370_leds_probe()'.
+> If so, these led devices will be set as 'struct led_classdev_mc' and
+> use related ops functions in 'mt6370_init_led_properties()'.
+> Instead, they whose 'led->index' is not 'MT6370_VIRTUAL_MULTICOLOR'
+> will be set as 'struct led_classdev'.
+> So, maybe the member 'index' of the 'struct mt6370_led' is what you
+> describe the information of which field of the union is in use?
 
-Got it.
+From this description it sounds like it is.
+
+> I will add the proper comment here to describe this thing. I'm so
+> sorry for misunderstanding your mean last time.
+
+Yes, please add a compressed version of what you said above to the code.
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+With Best Regards,
+Andy Shevchenko
