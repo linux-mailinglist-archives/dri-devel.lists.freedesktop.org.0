@@ -2,52 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A2C5822C0
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 11:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93115582320
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 11:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C329C36D7;
-	Wed, 27 Jul 2022 09:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F072C3B5C;
+	Wed, 27 Jul 2022 09:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2C42C36D0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 09:07:28 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id y9so15544839pff.12
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 02:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=WdjHuRxAl4NImVFIF4JC02Fp7SCGdh6XVUJ8vK99+aY=;
- b=ncLcqy6RH5X84w9V5TliSJ1AfuprYyfl2xZtNKIjiMw6kvHmhS0O5CSH0oEQC/4Zxv
- uzKCknzlSwrbjPrFa0KzpEE9mSfA08jHMAFZbEsZEshSUfFro5G23QZK/wo3dqc5duH0
- Lol55r/HjF635EBQ9sDkVKT/vMOLrMp8XpkX6E2mpzUTOhtdWfFh6n2iEwz2bXk8M+cy
- qiH4UTh0ad0thYxTN4FCNUQ8+kM3Ix49rS86xTQOvMQLVfi4MKnLw0+reJ5fkIs3DBjI
- OQ9vHZUz34FlK+ni3Z9pVQ8GOkvhoHySepcgfyBRs3kh48I37PkvfyJbAywY9Lz+4AvP
- VxUQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3890C99107
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 09:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658914235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WnlbuoDO11+s0PkrtymLUg/RTeerO1YGjIAWzaLsXI8=;
+ b=X+HjE5/5U5dFNSc/6+m12PsonTOslOScuaRhKjoGhswBkHnwcEQq2RmhHXUYZCrJUYDa67
+ Y/LULsgoXK9IOVh7nXEnMbbWQ84ni1AXkNDdzs9vZ3103wpx83aedcnMoQDBMsVos6CiBZ
+ qKDIvbx3TTMP0gz69c2Vq/ajyHWh85c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-288-zr3hvvjvNOqNJKNBzLc4JQ-1; Wed, 27 Jul 2022 05:30:34 -0400
+X-MC-Unique: zr3hvvjvNOqNJKNBzLc4JQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h18-20020adfaa92000000b0021ec200d50fso488628wrc.14
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 02:30:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=WdjHuRxAl4NImVFIF4JC02Fp7SCGdh6XVUJ8vK99+aY=;
- b=693oVlhTmTA8gldsosdTa4skyT+ojrPCVEEqk4g0n8UChh5n4U8m6yD4hhxj3COvlf
- UegBIQF94h7I3yBYZLD5ySt0qNCGyqxGiB06d/CXYR8QTJPtRRB9LrpU8pcYq1k2wTJ+
- kBLkQUAArBKNbzgLT/LsdHN+gneCFgHdudQbMNuCX2ToiIt/YoGeyTnqiFlIPqtnQ/OD
- N/ODfA00wqY5awIny62uB6dxQzD17Ob82OWwAZZFPrFqlRL1Vut9NV0GovBPDdeh8eoE
- EWVR7jI5tPSh0N3quiSOiKGbyYLfShJuFXqZayBx8doPMzEIKpiGa28A9Rt5LhJQRfKt
- R2pw==
-X-Gm-Message-State: AJIora9M7mdWkqDhi/ouKvjCVZ+ePwImS29zuHqKJD++zdv4fNEM3ki3
- JDis3wPnbakhO3nuDhWwR9WTiLPqPExKA6xwnQ==
-X-Google-Smtp-Source: AGRyM1vH/AEHYfbs3aWF0iR26kLMNpggartHuW2PnZK1D5a+ET0ksgorCUOsRG+F8rVfm3t1ZwjFgIc1WMSfJSMwbOQ=
-X-Received: by 2002:a63:f809:0:b0:41b:4a4c:4fbf with SMTP id
- n9-20020a63f809000000b0041b4a4c4fbfmr1260766pgh.616.1658912848298; Wed, 27
- Jul 2022 02:07:28 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WnlbuoDO11+s0PkrtymLUg/RTeerO1YGjIAWzaLsXI8=;
+ b=mY+HdjjAY7kSNplE5NgiYL8yxVNMYPp6Sb0VBzlGVnXkV7LBsNHIKePv1GLS88OJR4
+ FiwKqtpIDbvEl1+KOdMY7G0CvtkoZ9vjbn4DDuNPFrwKovozprsic15xkh9rruAIxgP3
+ gM6fVq7TIhAvq3sNPePivoxgGdYHxnwAQh7K/+FC3kLzg4ojftD3KhZCeT/HIm6J3HiJ
+ w/gnQK0qbZV8YiMNrYAxz0YMc946vzlQ0aTXoEUe/E5oRn3TEThIgT1x3Flhb7pIQAPO
+ 0VTD0/YXIDJSntowwuNiaYH/1WRC5dGt4AHh3gYXVB4xNgugYf1U26w2jvzKPLJV72Xl
+ lEQw==
+X-Gm-Message-State: AJIora9iylxktTeyeQVht22KQLj5gyXVtZrDcyVUWmeLtUdynSgoozGw
+ j82scMb9fe1LMcTCjI7ZXtDwuhax9cyWxBKfcehZzymbMLj+mE2w/gqd1zvvD669jkjuwzd5jig
+ FjFCyLtpOvOZcGRI9PC5SKTYQn0M8
+X-Received: by 2002:a05:600c:41c6:b0:3a3:4cab:74c1 with SMTP id
+ t6-20020a05600c41c600b003a34cab74c1mr2242280wmh.175.1658914233593; 
+ Wed, 27 Jul 2022 02:30:33 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uXQimwmNj3iiuQIjR5+7GqsX0PKlNmy42WJ5vwSnDC//JqOwhL7VkEb/l38nriYGA+tApYpA==
+X-Received: by 2002:a05:600c:41c6:b0:3a3:4cab:74c1 with SMTP id
+ t6-20020a05600c41c600b003a34cab74c1mr2242250wmh.175.1658914233261; 
+ Wed, 27 Jul 2022 02:30:33 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w6-20020adfec46000000b0021ed0202015sm1037150wrn.10.2022.07.27.02.30.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Jul 2022 02:30:32 -0700 (PDT)
+Message-ID: <123b9590-8a5d-70b3-b27b-59e71d4cf6da@redhat.com>
+Date: Wed, 27 Jul 2022 11:30:31 +0200
 MIME-Version: 1.0
-From: Zheyu Ma <zheyuma97@gmail.com>
-Date: Wed, 27 Jul 2022 17:07:17 +0800
-Message-ID: <CAMhUBjkps_2EAkbCpGuLiWVFObLkLuj=3UqbxcuENUNXMkbS9Q@mail.gmail.com>
-Subject: [BUG] video: fbdev: arkfb: Found a divide-by-zero bug which may cause
- DoS
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 02/10] drm/simpledrm: Inline device-init helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
+ msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-3-tzimmermann@suse.de>
+ <be24a47c-c41a-411a-da63-c699b53cb459@redhat.com>
+ <314820f8-3609-9182-97eb-ee30e240d114@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <314820f8-3609-9182-97eb-ee30e240d114@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,107 +93,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hello Thomas,
 
-I found a bug in the arkfb driver in the latest kernel, which may cause DoS.
+On 7/27/22 09:50, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 25.07.22 um 17:01 schrieb Javier Martinez Canillas:
+>> Hello Thomas,
+>>
+>> On 7/20/22 16:27, Thomas Zimmermann wrote:
+>>> Inline the helpers for initializing the hardware FB, the memory
+>>> management and the modesetting into the device-creation function.
+>>> No functional changes.
+>>>
+>>
+>> Could you please elaborate in the commit message why this change is
+>> desirable?  Without this additional context, this feels like going
+>> backwards, since you are dropping few helpers that have quite self
+>> contained code and making simpledrm_device_create() much larger.
+> 
+> To clarify: I want to make the init code more easy to follow. These old 
+> init functions still had to be called in the right order as each > possibly depends on settings from the others. It also feels like it's 
+> easier to extract common code for ofdrm. And the pipeline is static, so 
+> it doesn't require complex chains of helper calls. Having everything in 
+> one helper seems beneficial. (It's a trade-off, I know.)
+>
 
-The reason for this bug is that the user controls some input to ioctl,
-making 'mode' 0x7 on line 704, which causes hdiv = 1, hmul = 2, and if
-the pixclock is controlled to be 1, it will cause a division error in
-the function ark_set_pixclock().
+I see. That makes sense to me. Could you please add the explanation to
+the commit message ? And feel free to add my Acked-by for this one too.
 
-Here is a simple PoC:
+-- 
+Best regards,
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <sys/ioctl.h>
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-typedef unsigned int __u32;
-
-#define FBIOPUT_VSCREENINFO 0x4601
-
-struct fb_bitfield {
-__u32 offset; /* beginning of bitfield */
-__u32 length; /* length of bitfield */
-__u32 msb_right; /* != 0 : Most significant bit is */
-/* right */
-};
-
-struct fb_var_screeninfo {
-__u32 xres; /* visible resolution */
-__u32 yres;
-__u32 xres_virtual; /* virtual resolution */
-__u32 yres_virtual;
-__u32 xoffset; /* offset from virtual to visible */
-__u32 yoffset; /* resolution */
-
-__u32 bits_per_pixel; /* guess what */
-__u32 grayscale; /* 0 = color, 1 = grayscale, */
-/* >1 = FOURCC */
-struct fb_bitfield red; /* bitfield in fb mem if true color, */
-struct fb_bitfield green; /* else only length is significant */
-struct fb_bitfield blue;
-struct fb_bitfield transp; /* transparency */
-
-__u32 nonstd; /* != 0 Non standard pixel format */
-
-__u32 activate; /* see FB_ACTIVATE_* */
-
-__u32 height; /* height of picture in mm    */
-__u32 width; /* width of picture in mm     */
-
-__u32 accel_flags; /* (OBSOLETE) see fb_info.flags */
-
-/* Timing: All values in pixclocks, except pixclock (of course) */
-__u32 pixclock; /* pixel clock in ps (pico seconds) */
-__u32 left_margin; /* time from sync to picture */
-__u32 right_margin; /* time from picture to sync */
-__u32 upper_margin; /* time from sync to picture */
-__u32 lower_margin;
-__u32 hsync_len; /* length of horizontal sync */
-__u32 vsync_len; /* length of vertical sync */
-__u32 sync; /* see FB_SYNC_* */
-__u32 vmode; /* see FB_VMODE_* */
-__u32 rotate; /* angle we rotate counter clockwise */
-__u32 colorspace; /* colorspace for FOURCC-based modes */
-__u32 reserved[4]; /* Reserved for future compatibility */
-};
-
-struct fb_var_screeninfo var;
-
-int main(void) {
-int fd, ret;
-
-fd = open("/dev/fb0", O_RDONLY);
-if (fd < 0) {
-perror("Failed to open the device");
-return 1;
-}
-var.xres = 40;
-var.yres = 40;
-var.hsync_len = 1;
-var.vsync_len = 1;
-var.pixclock = 1;
-var.bits_per_pixel = 32;
-
-ret = ioctl(fd, FBIOPUT_VSCREENINFO, &var);
-if (ret < 0) {
-perror("Failed to call the ioctl");
-return 1;
-}
-return 0;
-}
-
-The easiest patch is to check the value of the argument 'pixclock' in
-the ark_set_pixclock function, but this is perhaps too late, should we
-do this check earlier? I'm not sure, so I'll report this bug to you.
-
-regards,
-
-Zheyu Ma
