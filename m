@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1E958213A
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 09:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CC258215B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 09:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2B0C1E8D;
-	Wed, 27 Jul 2022 07:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC18C2019;
+	Wed, 27 Jul 2022 07:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D80C1E8D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 07:37:36 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id b21so12073663qte.12
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 00:37:36 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2FDC203C
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 07:43:42 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id b26so23042686wrc.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 00:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7wBtopi5nrrnF3/tK6d3mUXKRzW2T+DIHWRi/Z/g55U=;
- b=JrXv07SnypKXIiO9c1hDaO1ve2XFoCQh3YJA9N0xzJ8VKdcy+NOWbVByEfE93yA1bT
- Tl79vU21bY1Riyh5vdmQjiXNRM6Y+lisVzjlFGA12N5TkfsJVvBTZVM+DXhLMCRLgtAT
- CWazI0B5gaYgTPfT/LBhBjVu7eM5hrdl/RUhg4FDmsUWR19oAbFy6HoE9edFHPyenD8T
- Qf2WPKI/e5SPnIeUMPrpopEK3VVMRKkcz81I6LE01vsC+va5BFGobzRlWIltgg+x4gCQ
- EHVJv70L2zauSaiZEF5yiD6RME26xNIBHXc93G+wfeZxZyIdgW4ZKl6QFkorqrFDfTKD
- 6LhA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OeZrEzfrBdJ8L6waHhuRMTGFQ5BiSnlrL0yjLoaEY2k=;
+ b=U1cUW5XlqqaK1ishHwceTNUmc5PtLliTCnbBGw1T6fBlZ1+LGugtrUL0DdgXQTLYxh
+ WEqlaOFuOcLqboKvl6Ex0ZRRCmua+LJivlI/5qmStGoM156Sgr+SgY0T/NPYhkHjnlkN
+ ADXto5HiW3TQFYGjXQi3asw9jLPOjIHBkRKvNphMM0st6C3Zj2ePkvco3VanLoF994rb
+ 4yYfdq3GDCVt2n56DWZJNVAXTIDB7dzNPIT+T3eEUEJ64kUpoFq/opl0mdKE5uhjQYNA
+ nPnIuKIsL+KwSdko9P137PSf9hbW0vwUhtlmztzuHIMs8DmijRpR+/vXb/CYVyQnwnL2
+ jlhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7wBtopi5nrrnF3/tK6d3mUXKRzW2T+DIHWRi/Z/g55U=;
- b=JZXzbsyb5AVqhOg6L+EdqAv2gbveZidrz4DOECV76ip9bJtEBaX7emmAkNBj/avHul
- 9hh7DIHQf1luWifA2hNgp1Kx2Eju4cPvc68oSGktXQwzR/GiO19N01a+HnP+1hjEuvFG
- h1Ds9g8NytSv5BcEsWOuTPChrfHdDK+Yw/7lAmFoPq5uBMmEL7AtPKWQnrsxMaMfppfH
- w3/KYHJlKJAbe4CTVYrNxcuZEX0HfXawd5fQSoBm3gH54nSa8qqYRtrEy2VX5T2yoBbH
- ONOqLY3B3cS5MEFrHw5/JD8OEvdxS1jGh6yGDuN9JM5npYkY44FMP+zfIuzaYw8Tm6x+
- MAYw==
-X-Gm-Message-State: AJIora8efyz452VeIjuf3bd17ug3eNhLlV+Y0wD7c9an2ypi8Xh5dMJ/
- NPw9hUWSzZPCXy4mADkjCVkXe2HzmN0vJ0Z7yjI=
-X-Google-Smtp-Source: AGRyM1sXpKQZrYG0IbOgoxNKanSErlzr5LcY9lrHn4FGhRFmisG96yuJDLZQZGtegCOB6F8ydUZqqM5XWqwFIZtxfFQ=
-X-Received: by 2002:a05:622a:6098:b0:2f0:f0d2:b5f0 with SMTP id
- hf24-20020a05622a609800b002f0f0d2b5f0mr17361865qtb.583.1658907456035; Wed, 27
- Jul 2022 00:37:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OeZrEzfrBdJ8L6waHhuRMTGFQ5BiSnlrL0yjLoaEY2k=;
+ b=MZ4AK/K/vpZqIbZeR4wWWC4zTZYJuD1kPT22EUjCugGyVnShHcZoQf+F5zCo4ru+O0
+ GodA5Cohi2hnPJaJtx1n8OFg/CMTsmW3igDegRQcA0HxkdaF0ARojFGXewXZATRXozQc
+ ng1aRRwO6qzLUe4N1AJ0bUDOrW9YpQeHXR0W07FSueBhAnD5G7LrK0LvqvBomlx6L7q+
+ +BStD0xOXKVr1qQLV6Ye0TO/5uvn8KF7utL0ex4lOlVS+ZxAQUgoZ3EQ+Vh9UfVrEBXY
+ 68tO9GRAM/4Oe/ktSKiuRggbmYM4GDCP5DH4zfctk1jVnr0Nbf6YbUAJpNm1Xk0Ia9FD
+ B1MQ==
+X-Gm-Message-State: AJIora9NkP3SDOCMKA0hLb6wQfi8KMM1HalCKK8P7UUSnBTe8DVm6lJc
+ 4f2Z4bljt75zFZM3ekhi+cU=
+X-Google-Smtp-Source: AGRyM1tA+eHjz8jAcQpI68AJx05rJR5j9es+Cj9EOFIQ8d8RFuf45AAggQRiJxTV0KFj2tjk02HUQg==
+X-Received: by 2002:a05:6000:1284:b0:21e:6526:bef5 with SMTP id
+ f4-20020a056000128400b0021e6526bef5mr12664583wrx.488.1658907821246; 
+ Wed, 27 Jul 2022 00:43:41 -0700 (PDT)
+Received: from fedora.. ([2a01:e0a:1d2:1f90:be95:f3a2:4d99:a3b3])
+ by smtp.gmail.com with ESMTPSA id
+ l16-20020a05600c4f1000b003a2e27fc275sm1442444wmq.12.2022.07.27.00.43.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jul 2022 00:43:40 -0700 (PDT)
+From: Matthieu CHARETTE <matthieu.charette@gmail.com>
+To: lkp@intel.com
+Subject: [PATCH] drm: Fix EDID firmware load on resume
+Date: Wed, 27 Jul 2022 09:41:52 +0200
+Message-Id: <20220727074152.43059-1-matthieu.charette@gmail.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <202207172035.mtErdlaw-lkp@intel.com>
+References: <202207172035.mtErdlaw-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-12-peterwu.pub@gmail.com>
- <CAHp75VewxvEDGoPdRBvLSLQOQ6OZzVft1ce3DkF7MK_O1VXZkQ@mail.gmail.com>
- <CABtFH5+im7=vyKLUqztYeAX81e7ETFc+9o7y0seg2pxH0PEnUQ@mail.gmail.com>
- <CAHp75Vd4ApTju2LCCHQ1skgOjttwWo5b2NF3u+zbGyVnnFKNhA@mail.gmail.com>
-In-Reply-To: <CAHp75Vd4ApTju2LCCHQ1skgOjttwWo5b2NF3u+zbGyVnnFKNhA@mail.gmail.com>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Wed, 27 Jul 2022 15:36:59 +0800
-Message-ID: <CABtFH5+bQx5ym5jOzCPJWbZ23WtGYYwS7cMRt2g3ipEEqTb3JA@mail.gmail.com>
-Subject: Re: [PATCH v6 11/13] leds: rgb: mt6370: Add MediaTek MT6370 current
- sink type LED Indicator support
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,71 +69,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: kbuild-all@lists.01.org, tzimmermann@suse.de, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ matthieu.charette@gmail.com, andrealmeid@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 26, 2022 at 8:18 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+Loading an EDID using drm.edid_firmware parameter makes resume to fail
+after firmware cache is being cleaned. This is because edid_load() use a
+temporary device to request the firmware. This cause the EDID firmware
+not to be cached from suspend. And, requesting the EDID firmware return
+an error during resume.
+So the request_firmware() call should use a permanent device for each
+connector. Also, we should cache the EDID even if no monitor is
+connected, in case it's plugged while suspended.
 
-...
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2061
+Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
+---
+ drivers/gpu/drm/drm_connector.c |  9 ++++
+ drivers/gpu/drm/drm_edid_load.c | 81 ++++++++++++++++++++++++++++-----
+ include/drm/drm_connector.h     | 12 +++++
+ include/drm/drm_edid.h          |  3 ++
+ 4 files changed, 94 insertions(+), 11 deletions(-)
 
-> > Just for saving memory space.
-> > Because these led_classdevs do not be used at the same time.
-> > Or do you think it would be better to rewrite it as follows?
-> > -------------------------------------------------------------------------------------
-> > struct mt6370_led {
-> >        struct led_classdev isink;
-> >        struct led_classdev_mc mc;
-> >        struct mt6370_priv *priv;
-> >        u32 default_state;
-> >        u32 index;
-> > };
-> > -------------------------------------------------------------------------------------
->
-> You obviously didn't get what I'm talking about...
-> Each union to work properly should have an associated variable that
-> holds the information of which field of the union is in use. Do you
-> have such a variable? If not, how does your code know which one to
-> use? If yes, add a proper comment there.
->
-
-Ummm... from my understanding,
-if the colors of these four LEDs are set to 'LED_COLOR_ID_RGB' or
-'LED_COLOR_ID_MULTI' in DT,
-their 'led->index' will be set to 'MT6370_VIRTUAL_MULTICOLOR' in
-'mt6370_leds_probe()'.
-If so, these led devices will be set as 'struct led_classdev_mc' and
-use related ops functions in 'mt6370_init_led_properties()'.
-Instead, they whose 'led->index' is not 'MT6370_VIRTUAL_MULTICOLOR'
-will be set as 'struct led_classdev'.
-So, maybe the member 'index' of the 'struct mt6370_led' is what you
-describe the information of which field of the union is in use?
-I will add the proper comment here to describe this thing. I'm so
-sorry for misunderstanding your mean last time.
-Thanks again for your review.
-
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 1c48d162c77e..e8819ebf1c4b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_privacy_screen_consumer.h>
+ #include <drm/drm_sysfs.h>
+ 
++#include <linux/platform_device.h>
+ #include <linux/uaccess.h>
+ 
+ #include "drm_crtc_internal.h"
+@@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
+ 
+ 	drm_connector_get_cmdline_mode(connector);
+ 
++	connector->edid_load_pdev = NULL;
++	drm_cache_edid_firmware(connector);
++
+ 	/* We should add connectors at the end to avoid upsetting the connector
+ 	 * index too much.
+ 	 */
+@@ -473,6 +477,11 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 		connector->tile_group = NULL;
+ 	}
+ 
++	if (connector->edid_load_pdev) {
++		platform_device_unregister(connector->edid_load_pdev);
++		connector->edid_load_pdev = NULL;
++	}
++
+ 	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
+ 		drm_mode_remove(connector, mode);
+ 
+diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+index 37d8ba3ddb46..5a82be9917ec 100644
+--- a/drivers/gpu/drm/drm_edid_load.c
++++ b/drivers/gpu/drm/drm_edid_load.c
+@@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int data_size)
+ 	return (edid[0x7e] + 1) * EDID_LENGTH;
+ }
+ 
++static struct platform_device *edid_pdev(const char *connector_name)
++{
++	struct platform_device *pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
++
++	if (IS_ERR(pdev)) {
++		DRM_ERROR("Failed to register EDID firmware platform device "
++			"for connector \"%s\"\n", connector_name);
++		return ERR_CAST(pdev);
++	}
++
++	return pdev;
++}
++
+ static void *edid_load(struct drm_connector *connector, const char *name,
+ 			const char *connector_name)
+ {
+@@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+ 		fwdata = generic_edid[builtin];
+ 		fwsize = sizeof(generic_edid[builtin]);
+ 	} else {
+-		struct platform_device *pdev;
++		struct platform_device *pdev = connector->edid_load_pdev;
+ 		int err;
+ 
+-		pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
+-		if (IS_ERR(pdev)) {
+-			DRM_ERROR("Failed to register EDID firmware platform device "
+-				  "for connector \"%s\"\n", connector_name);
+-			return ERR_CAST(pdev);
++		if (WARN_ON(!pdev)) {
++			pdev = edid_pdev(connector_name);
++			if (IS_ERR(pdev))
++				return ERR_CAST(pdev);
++			connector->edid_load_pdev = pdev;
+ 		}
+ 
+ 		err = request_firmware(&fw, name, &pdev->dev);
+-		platform_device_unregister(pdev);
+ 		if (err) {
+ 			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+ 				  name, err);
+@@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+ 	return edid;
+ }
+ 
+-struct edid *drm_load_edid_firmware(struct drm_connector *connector)
++static char *edid_name(const char *connector_name)
+ {
+-	const char *connector_name = connector->name;
+ 	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+-	struct edid *edid;
+ 
+ 	if (edid_firmware[0] == '\0')
+ 		return ERR_PTR(-ENOENT);
+@@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
+ 	if (*last == '\n')
+ 		*last = '\0';
+ 
+-	edid = edid_load(connector, edidname, connector_name);
++	edidname = kstrdup(edidname, GFP_KERNEL);
++	if (!edidname) {
++		kfree(fwstr);
++		return ERR_PTR(-ENOMEM);
++	}
++
+ 	kfree(fwstr);
++	return edidname;
++}
++
++void drm_cache_edid_firmware(struct drm_connector *connector)
++{
++	const char *connector_name = connector->name;
++	const char *edidname = edid_name(connector_name);
++	struct platform_device *pdev;
++	int err;
++
++	if (IS_ERR(edidname))
++		return;
++
++	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 0) {
++		kfree(edidname);
++		return;
++	}
++
++	pdev = edid_pdev(connector_name);
++	if (IS_ERR(pdev)) {
++		kfree(edidname);
++		return;
++	}
++	connector->edid_load_pdev = pdev;
++
++	err = firmware_request_cache(&pdev->dev, edidname);
++	if (err)
++		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed (err=%d)\n",
++			edidname, err);
++
++	kfree(edidname);
++}
++
++struct edid *drm_load_edid_firmware(struct drm_connector *connector)
++{
++	const char *connector_name = connector->name;
++	const char *edidname = edid_name(connector_name);
++	struct edid *edid;
++
++	if (IS_ERR(edidname))
++		return ERR_CAST(edidname);
++
++	edid = edid_load(connector, edidname, connector_name);
++	kfree(edidname);
+ 
+ 	return edid;
+ }
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f257..47c84741517e 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1573,6 +1573,18 @@ struct drm_connector {
+ 	 */
+ 	struct i2c_adapter *ddc;
+ 
++	/**
++	 * @edid_load_pdev: Platform device for loading EDID via firmware.
++	 *
++	 * The platform device is registered in drm_connector_init() in case a
++	 * custom EDID firmware is used with `edid_firmware` parameter. Otherwise,
++	 * it is set to NULL.
++	 *
++	 * Platform device is unregistered in drm_connector_cleanup() if it
++	 * is not NULL.
++	 */
++	struct platform_device *edid_load_pdev;
++
+ 	/**
+ 	 * @null_edid_counter: track sinks that give us all zeros for the EDID.
+ 	 * Needed to workaround some HW bugs where we get all 0s
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index b2756753370b..e907c928a35d 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector *connector,
+ 		      const struct drm_display_mode *mode);
+ 
+ #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
++void drm_cache_edid_firmware(struct drm_connector *connector);
+ struct edid *drm_load_edid_firmware(struct drm_connector *connector);
+ int __drm_set_edid_firmware_path(const char *path);
+ int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+ #else
++inline void
++drm_cache_edid_firmware(struct drm_connector *connector);
+ static inline struct edid *
+ drm_load_edid_firmware(struct drm_connector *connector)
+ {
 -- 
-Best Regards,
-ChiaEn Wu
+2.37.1
+
