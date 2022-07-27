@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F19582802
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 15:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600C758281C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 15:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA80C2D64;
-	Wed, 27 Jul 2022 13:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B4210E0EB;
+	Wed, 27 Jul 2022 13:59:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06FAEA4991
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 13:53:11 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id h9so24367825wrm.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 06:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:subject:to:cc:message-id:in-reply-to:references
- :mime-version; bh=Y58cmTeSEpbZmMj/8Am5lc7mvV2jG//V1Yk3jLMgpT8=;
- b=IIVvUktd+fhAMVppDEl6ROygiaCPpbrIUIinZRcIYpE6cQOyzyUCPyYfT3yz5oV7XJ
- 47odIOsNAdPNjD7e71EBcIADeqe+aXd45xYyG2ZAlgrYuROk/lGeJMq6xjA9wkVjy+Di
- uXVnCo1KrRYszv79U1ZEUnDyc4KF+m32O1juCrIABuzr9nMYh8ErUFyNSBXGFgnTHKnZ
- T6YKqqjOeq3sKQcUoRKvCASQTN5nlpr6sbJskHwV91O6QpcWrQI8XIK8cuXj9PNjZ77Y
- O7MK00w6zmtHEiYLiK2T/Q1q4a21EqDTluA6iiN8sxEMtepDwAl0DrFTXOBFFWedqppS
- cKxw==
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D5211A2FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 13:59:06 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id e16so13290743qka.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 06:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VL9RxAlrlCWPRlbOT8q7ce/Z6YeW18HbrwcrpBQP3qw=;
+ b=Pla9aOWUf7VME7IpoDRTTvu1DhvIABgH4b2rNbAEqnNyPiTAg66fOXhrPMMHoWxUq9
+ j+OXy77yp0dFb5ts+mD6P4lfG4iNWTJOtTWZkl/kZHqivrcDjxSwVv/IdMsoe8TdMlwZ
+ Te1VrsyBUjmT3BrOE1p12zdzUJa5TADZy+MqmvFqjWDxsCWMRlakO4upe4kw4V1Sx/G1
+ CALzIDXwocuP8F4nXFEApXBb2BtGAkphdkNp5GVdAL96jrvx+R28GhnOqhTBP9QaPeau
+ JR23ro+cVg60tEa53cnJE+WxUKkczKwA7vHx3+aEUV41UewN09MSWAHvZaJlQ/pE/Ix4
+ qqBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:subject:to:cc:message-id:in-reply-to
- :references:mime-version;
- bh=Y58cmTeSEpbZmMj/8Am5lc7mvV2jG//V1Yk3jLMgpT8=;
- b=e0rIh4KOPCFwbf59kFko7gfm5vnueQXYscRBHLOXiX4ROCbEGcDy63mon9ASAUhY8P
- KslrHwd5ORvD6dpFMKxqQJlYEJxH0BDmXDj7W2tEr/lO3uQVq/R3cSb8ifCwGAO7Teo9
- d4AtXdsHblUXExCHnK6DJmV6pFFIMXnMnu0JniBpy9H9lz4Lp+miuDSifFijvIcPKov5
- Qs95wwzjNZKCy6b0YL4mroCwNLsPl0kpMquSGjT+a2FpUyoqPYV0RH2f1sHFv2BJ4Bh/
- nAsMAKXUCSfVua1qVgeGBIrfndF/vLZITtmw4Hpi9DaQ7sKG9XwioXCOVqLPyVNEE654
- gFag==
-X-Gm-Message-State: AJIora9H1fJzSTN8GIMgoK/dtjnq5F4uDwHXStOHX1PTUmiGibhdzn8J
- NhRITuJt8bLIj9GBpXdG0XE=
-X-Google-Smtp-Source: AGRyM1sQGRlADJbklhkMNmJxREv3YCvcgKpLZeDcEt+a1MozhnbsXlRP0tAMoMJEyjBYdE9xnGeaeQ==
-X-Received: by 2002:a05:600c:154a:b0:3a3:2fae:9bae with SMTP id
- f10-20020a05600c154a00b003a32fae9baemr3310629wmg.23.1658929990250; 
- Wed, 27 Jul 2022 06:53:10 -0700 (PDT)
-Received: from fedora ([2a01:e0a:1d2:1f90:be95:f3a2:4d99:a3b3])
- by smtp.gmail.com with ESMTPSA id
- u17-20020a05600c19d100b0039db31f6372sm2741040wmq.2.2022.07.27.06.53.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 06:53:09 -0700 (PDT)
-Date: Wed, 27 Jul 2022 15:53:02 +0200
-From: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
-To: Takashi Iwai <tiwai@suse.de>
-Message-Id: <EKMOFR.QQ59KBZUHAHY2@gmail.com>
-In-Reply-To: <875yjjotnb.wl-tiwai@suse.de>
-References: <202207172035.mtErdlaw-lkp@intel.com>
- <20220727074152.43059-1-matthieu.charette@gmail.com>
- <875yjjotnb.wl-tiwai@suse.de>
-X-Mailer: geary/40.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VL9RxAlrlCWPRlbOT8q7ce/Z6YeW18HbrwcrpBQP3qw=;
+ b=O4x7EO+V5yn+u85Wg9APbo7urNHg00BgXF8IWmKMy0IQekcOdQic2GpvLHV+1Kdf3T
+ bkQ0EvkCDFcIWyoFgi7J81Pn3XmAyp71AeJiuzn66fpQvDi9+Cgf6CZhcs2RwFEbwVOv
+ MZS2bCT6woC0qsP1t3dH9JY66coO2IEeEIwf+2FWUiB0H7wd2JGOrDZJT6q4U2SH4Rl+
+ 0n2JXeH/JOrBZ8w4r7/vl6yTtWV/0+WwaNnfhX3VE29Q9FbsQ5ddyUwnC7IURYKiaFos
+ lG7aiJkLjzm7VajN0OyJGD6UmcQA+jrS3qRu7dRpV4JQ8gdRZIx6Gk0iQlJffgJES7eH
+ 6p6A==
+X-Gm-Message-State: AJIora+5ktEjE0kygcvTx5FDMRW4MQYxPvMXEHDuscxvkxB2QVbY8Aqw
+ 0rgjWHYyIPRCyYWZmL+kqnsQE5CvpjJflyxXE8MXYg==
+X-Google-Smtp-Source: AGRyM1tzZoro6GxmvJC6SIRF21uAIipGsfUkIUIInp4yja7tz6w/4VkQMK/Pw1QkZTbZIpbA1+WkpSQc+eqAzbr8zZI=
+X-Received: by 2002:a05:620a:2408:b0:6b6:2df3:d18b with SMTP id
+ d8-20020a05620a240800b006b62df3d18bmr15960355qkn.203.1658930345047; Wed, 27
+ Jul 2022 06:59:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+References: <20220725174810.1.If1f94fbbdb7c1d0fb3961de61483a851ad1971a7@changeid>
+ <661fa514-cd37-e062-3294-c844b7f0b894@quicinc.com>
+ <CAD=FV=UHhfLn+S8F60EPoC0ip6YzmrihfTz=KmmauXHCxof2QQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=UHhfLn+S8F60EPoC0ip6YzmrihfTz=KmmauXHCxof2QQ@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 27 Jul 2022 16:58:54 +0300
+Message-ID: <CAA8EJppHr7GjcvqRqXAgjw9mf+ObzCi58-VYSdO_JMfk1-4ifA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: Don't set a load before
+ disabling a regulator
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,129 +65,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, airlied@linux.ie,
- tzimmermann@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, andrealmeid@igalia.com
+Cc: Sean Paul <sean@poorly.run>, Vinod Koul <vkoul@kernel.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Mark Brown <broonie@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 27 Jul 2022 at 16:57, Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Tue, Jul 26, 2022 at 4:53 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >
+> > On 7/25/2022 5:49 PM, Douglas Anderson wrote:
+> > > As of commit 5451781dadf8 ("regulator: core: Only count load for
+> > > enabled consumers"), a load isn't counted for a disabled
+> > > regulator. That means all the code in the DSI driver to specify and
+> > > set loads before disabling a regulator is not actually doing anything
+> > > useful. Let's remove it.
+> > >
+> > > It should be noted that all of the loads set that were being specified
+> > > were pointless noise anyway. The only use for this number is to pick
+> > > between low power and high power modes of regulators. Regulators
+> > > appear to do this changeover at loads on the order of 10000 uA. You
+> > > would a lot of clients of the same rail for that 100 uA number to
+> >
+> > I guess you meant "you would need a lot of clients"
+>
+> Yeah, sorry. :( I'll fix it up if I need a v3.
+>
+>
+> > > @@ -259,15 +259,7 @@ static inline struct msm_dsi_host *to_msm_dsi_host(struct mipi_dsi_host *host)
+> > >   static void dsi_host_regulator_disable(struct msm_dsi_host *msm_host)
+> > >   {
+> > It seems like now we can drop this function dsi_host_regulator_disable()
+> > entirely and just call regulator_bulk_disable() ?
+>
+> Sure, if you want. One could still argue that it provides a tiny bit
+> of abstraction and avoids the caller from having to know where to find
+> the number of regulators and all that, but I can go either way. Is
+> this worth a v3, do you think? If so, I might tack it on at the end of
+> the series.
 
-Caching the EDID via the firmware API makes the kernel able to reclaim 
-the memory in case it's needed. And eventually, the kernel will load it 
-again before suspending.
-But for 128 bytes, even if we have many monitors it will not make any 
-difference.
-I don't know if storing a platform device can take more memory than 128 
-bytes of data.
-I let you decide which option is better. Just tell me if I should cache 
-the bytes instead.
+I'd say, drop it. Having extra single-call wrappers doesn't seem to add a lot.
 
-Thanks.
-
-Matthieu
-
-On Wed, Jul 27 2022 at 10:18:48 AM +0200, Takashi Iwai <tiwai@suse.de> 
-wrote:
-> On Wed, 27 Jul 2022 09:41:52 +0200,
-> Matthieu CHARETTE wrote:
->> 
->>  Loading an EDID using drm.edid_firmware parameter makes resume to 
->> fail
->>  after firmware cache is being cleaned. This is because edid_load() 
->> use a
->>  temporary device to request the firmware. This cause the EDID 
->> firmware
->>  not to be cached from suspend. And, requesting the EDID firmware 
->> return
->>  an error during resume.
->>  So the request_firmware() call should use a permanent device for 
->> each
->>  connector. Also, we should cache the EDID even if no monitor is
->>  connected, in case it's plugged while suspended.
->> 
->>  Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2061
->>  Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
-> 
-> Can we simply cache the already loaded EDID bytes instead?
-> Something like below (totally untested).
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> -- 8< --
-> diff --git a/drivers/gpu/drm/drm_connector.c 
-> b/drivers/gpu/drm/drm_connector.c
-> index 1c48d162c77e..b9d2803b518b 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -286,6 +286,7 @@ int drm_connector_init(struct drm_device *dev,
->  	connector->status = connector_status_unknown;
->  	connector->display_info.panel_orientation =
->  		DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-> +	connector->firmware_edid = NULL;
-> 
->  	drm_connector_get_cmdline_mode(connector);
-> 
-> @@ -485,6 +486,7 @@ void drm_connector_cleanup(struct drm_connector 
-> *connector)
->  	ida_simple_remove(&dev->mode_config.connector_ida,
->  			  connector->index);
-> 
-> +	kfree(connector->firmware_edid);
->  	kfree(connector->display_info.bus_formats);
->  	drm_mode_object_unregister(dev, &connector->base);
->  	kfree(connector->name);
-> diff --git a/drivers/gpu/drm/drm_edid_load.c 
-> b/drivers/gpu/drm/drm_edid_load.c
-> index 37d8ba3ddb46..a38fe4e00e4a 100644
-> --- a/drivers/gpu/drm/drm_edid_load.c
-> +++ b/drivers/gpu/drm/drm_edid_load.c
-> @@ -253,6 +253,13 @@ static void *edid_load(struct drm_connector 
-> *connector, const char *name,
->  			edid = new_edid;
->  	}
-> 
-> +	connector->firmware_edid = drm_edid_duplicate((struct edid *)edid);
-> +	if (!connector->firmware_edid) {
-> +		kfree(edid);
-> +		edid = ERR_PTR(-ENOMEM);
-> +		goto out;
-> +	}
-> +
->  	DRM_INFO("Got %s EDID base block and %d extension%s from "
->  	    "\"%s\" for connector \"%s\"\n", (builtin >= 0) ? "built-in" :
->  	    "external", valid_extensions, valid_extensions == 1 ? "" : "s",
-> @@ -269,6 +276,12 @@ struct edid *drm_load_edid_firmware(struct 
-> drm_connector *connector)
->  	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
->  	struct edid *edid;
-> 
-> +	/* already loaded? */
-> +	if (connector->firmware_edid) {
-> +		edid = drm_edid_duplicate(connector->firmware_edid);
-> +		return edid ? edid : ERR_PTR(-ENOMEM);
-> +	}
-> +
->  	if (edid_firmware[0] == '\0')
->  		return ERR_PTR(-ENOENT);
-> 
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 3ac4bf87f257..b5d0c87327a3 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1528,6 +1528,8 @@ struct drm_connector {
->  	enum drm_connector_force force;
->  	/** @override_edid: has the EDID been overwritten through debugfs 
-> for testing? */
->  	bool override_edid;
-> +	/** @firmware_edid: the cached firmware EDID bytes */
-> +	struct edid *firmware_edid;
->  	/** @epoch_counter: used to detect any other changes in connector, 
-> besides status */
->  	u64 epoch_counter;
-> 
+>
+> Note that I say "v3" because I actually included this patch in a
+> larger series and called that series "v2" [1].
+>
+>
+> [1] https://lore.kernel.org/r/20220726173824.1166873-1-dianders@chromium.org
 
 
+
+-- 
+With best wishes
+Dmitry
