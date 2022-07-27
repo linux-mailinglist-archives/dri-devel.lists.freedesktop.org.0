@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B31D5839D3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 09:49:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 707635839D0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 09:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619929513E;
-	Thu, 28 Jul 2022 07:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F41294CDC;
+	Thu, 28 Jul 2022 07:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6EB10FACA
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 07:31:26 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id y15so15424209plp.10
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 00:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=JAMO694Oo6l0rJ9WHvA6jFiTH+suc0dOkuX3t1F6TQo=;
- b=SrZZh4amzZ2qIwoFA52mW+urWPH+uedlcGdJG7StMSHrH0RoU+IpR2Z2wFfiESXP6U
- GuqZ6uhVDccHR2XDiYtxlPjkrCJaMczYYWUCek/WXZfxfRQgYdUdywVU1c5J0AtUZVgx
- cZizK5eBLnntpeJPhhppNeSyUx6aAcacB4PuVfSnRhCONDVXbvdnOICBzxG+cfqmH4NV
- QlQvB+o3ahES0Ce3FGA2N1Gt9HJwAC5ffUWKObrceeLgPfLnv9rjAT+SkgkmnZltsNgL
- iQT2+TdV0pzC/3KGYQqNQdTu61xN4pbneyxHl93yvQPxNeJkgqi9HI65Dzegj6dRFT9U
- 1J9w==
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6304D90E9B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 07:36:22 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id c24so12711449qkm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 00:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=streamunlimited.com; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=rO4phdManN60SPf1W9WiyPdt9raYFpN1OI/PcK1NnQ0=;
+ b=uf7lDkpVYO56NWMPL08t3bV7ykOUYmDaRNEf57tqkkhLMFpNUwzcla0Lokoe8tkjv6
+ GY7TYiWRZHqk7bMBMb76LrdFBYz0PHG29omXVyfilS5Kj7k2Y34QjUeFMx9v5Rx6hD86
+ OatRJqn2LPFVr9JyH10I7+SY5t911D/Yjk6Sc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=JAMO694Oo6l0rJ9WHvA6jFiTH+suc0dOkuX3t1F6TQo=;
- b=CZbtduiBErKA6xpUCV2CrbFyd1Dq7gj39cw7PIWCAWWWS6R+BP4lKR5WQjVkEqF7Sy
- pDfZBCpsDD0hjNpY582sDqNqRHI3PbOi1AJ0vI5dYXkWvhy1BfLvBg2h2qOq1biCvCvf
- NUcn/h72IjGRajmZTAp2d7s9urRmUw4eatGScfBWI5TkjT6+//keon1ycldhZJqUbJ/+
- t7fN/Kjjo3Bjp63AUzTb4TsLJSuvlk25SZCJJ1IKVHt7M3l4Urzjzfvf8/9nKFiNDmqP
- 4X6g4BGH48G9gr5ayw8aGKp3Fylecui+HFwrigFBCG4c5F6WXHx5Q4QwfhBHc/noMdMy
- QTTQ==
-X-Gm-Message-State: AJIora+AS9DY6GgKGLJzKiXlLT4DohRCVyJdbilP/60WyJs7fwS1Mb95
- LMllPU4gGtwjuwPQyDnOaUY=
-X-Google-Smtp-Source: AGRyM1v0TikaoZXfPRYExckx6I0q+Dh/vK5TzQMBoH7oEpGz7bf6kXLR0mBBip/ifIV7mqt+ze/zVA==
-X-Received: by 2002:a17:90b:1c04:b0:1f2:91be:b6f0 with SMTP id
- oc4-20020a17090b1c0400b001f291beb6f0mr3145473pjb.139.1658907085539; 
- Wed, 27 Jul 2022 00:31:25 -0700 (PDT)
-Received: from localhost.localdomain ([43.132.141.3])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rO4phdManN60SPf1W9WiyPdt9raYFpN1OI/PcK1NnQ0=;
+ b=SZnVPcvWYjWK2AwmhKuJ5ZZ7vRsa1qR0RE1tvhONJtCDiWcg/NCgRPdXe0YU1djiVF
+ yzM/i5j9yW+Bdu+v8h9Gf4lik8qRT1nohyQsTQ0SbXZQsStDYZUofAXnKnOn0PkM1ljq
+ icVy9tuUy4/qIt3koyrLokqvlSv4AtnCSs5pJHuA3ho4Uu13RPv0rqMsYWImN70OX4lE
+ BMoX4mUydVWJB/bHGXX8Y9MtM/uX+n71vBc+6Nz0K0E3XmhImALWZ9K4F5sjzDrmCFRB
+ jH28p03U1hsmzgdgk0fHPCbO5AJ5SbFRyPRc78vJBtUzlaNFtmP6kRg/ThpXG0duAeuX
+ 18mQ==
+X-Gm-Message-State: AJIora9KzRg9019REkK5faa59veTorp1Vb13qTTO2BvpdWTLmw3JLL+p
+ fk0Lqu3C77D7FvUl/+X7LnCPZg==
+X-Google-Smtp-Source: AGRyM1tTVXmc9JrwYNXN2698PGpq5P5gj2i9zaPSZqNDeI8sJMebG7pGAmT8yx65QQjJq/P/t8m5dQ==
+X-Received: by 2002:a05:620a:2552:b0:6b4:8dbf:8992 with SMTP id
+ s18-20020a05620a255200b006b48dbf8992mr15785127qko.109.1658907381478; 
+ Wed, 27 Jul 2022 00:36:21 -0700 (PDT)
+Received: from localhost.localdomain (vpn.streamunlimited.com. [91.114.0.140])
  by smtp.gmail.com with ESMTPSA id
- 63-20020a621942000000b005255263a864sm12956915pfz.169.2022.07.27.00.31.23
+ x22-20020ac86b56000000b0031f4007dd92sm2709526qts.89.2022.07.27.00.36.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 00:31:25 -0700 (PDT)
-From: Zeng Jingxiang <zengjx95@gmail.com>
-To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] gpu: lontium-lt9611: Fix NULL pointer dereference in
- lt9611_connector_init()
-Date: Wed, 27 Jul 2022 15:31:19 +0800
-Message-Id: <20220727073119.1578972-1-zengjx95@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Wed, 27 Jul 2022 00:36:21 -0700 (PDT)
+From: Peter Suti <peter.suti@streamunlimited.com>
+To: chuansheng.liu@intel.com, dan.carpenter@oracle.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH v3] staging: fbtft: core: set smem_len before
+ fb_deferred_io_init call
+Date: Wed, 27 Jul 2022 09:35:50 +0200
+Message-Id: <20220727073550.1491126-1-peter.suti@streamunlimited.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <YuDlfLeossnntH/C@kroah.com>
+References: <YuDlfLeossnntH/C@kroah.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 28 Jul 2022 07:49:19 +0000
@@ -71,45 +72,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zeng Jingxiang <linuszeng@tencent.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Peter Suti <peter.suti@streamunlimited.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zeng Jingxiang <linuszeng@tencent.com>
+The fbtft_framebuffer_alloc() calls fb_deferred_io_init() before
+initializing info->fix.smem_len.  It is set to zero by the
+framebuffer_alloc() function.  It will trigger a WARN_ON() at the
+start of fb_deferred_io_init() and the function will not do anything.
 
-A NULL check for bridge->encoder shows that it may be NULL, but it
-already been dereferenced on all paths leading to the check.
-812	if (!bridge->encoder) {
+Fixes: 856082f021a2 ("fbdev: defio: fix the pagelist corruption")
 
-Dereference the pointer bridge->encoder.
-810	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
-
-Signed-off-by: Zeng Jingxiang <linuszeng@tencent.com>
+Signed-off-by: Peter Suti <peter.suti@streamunlimited.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ V2 -> V3: Add patch changelog 
+ V1 -> V2: Change commit message and base on top of linux-next
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 7ef8fe5abc12..81a4751573fa 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -807,13 +807,14 @@ static int lt9611_connector_init(struct drm_bridge *bridge, struct lt9611 *lt961
+ drivers/staging/fbtft/fbtft-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 9b3eaed80cdd..afaba94d1d1c 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -654,7 +654,6 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	fbdefio->delay =            HZ / fps;
+ 	fbdefio->sort_pagereflist = true;
+ 	fbdefio->deferred_io =      fbtft_deferred_io;
+-	fb_deferred_io_init(info);
  
- 	drm_connector_helper_add(&lt9611->connector,
- 				 &lt9611_bridge_connector_helper_funcs);
--	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
+ 	snprintf(info->fix.id, sizeof(info->fix.id), "%s", dev->driver->name);
+ 	info->fix.type =           FB_TYPE_PACKED_PIXELS;
+@@ -665,6 +664,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	info->fix.line_length =    width * bpp / 8;
+ 	info->fix.accel =          FB_ACCEL_NONE;
+ 	info->fix.smem_len =       vmem_size;
++	fb_deferred_io_init(info);
  
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Parent encoder object not found");
- 		return -ENODEV;
- 	}
- 
-+	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
-+
- 	return 0;
- }
- 
+ 	info->var.rotate =         pdata->rotate;
+ 	info->var.xres =           width;
 -- 
-2.27.0
+2.25.1
 
