@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284B05820D7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 09:13:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 645C45820EA
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jul 2022 09:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20E2C1D8E;
-	Wed, 27 Jul 2022 07:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD67C1BA1;
+	Wed, 27 Jul 2022 07:18:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C858C1D8E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 07:13:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 2356DCE200A;
- Wed, 27 Jul 2022 07:13:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D9FEC433D6;
- Wed, 27 Jul 2022 07:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1658905983;
- bh=MSQbTiQFr2MCrq3clKgkD2bcbwG6ugJnVYD4QBdlIJo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nfoOYSfzjUcuGHiocDDfCwIcou9/iJboWfFFcig6ZOi1tY4lcwf17aCxHcrD7nTGO
- kbmsM0L/EMnAJz0jZ/QCAr/ZB72ypYqFNLO47oprq+ySDGwXAuQVOj4bQeuZeIgSZ4
- 90EyMxKC+kT4f/slBQHKbr5gaP/IV2hL5YYtJ/gU=
-Date: Wed, 27 Jul 2022 09:13:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Peter Suti <peter.suti@streamunlimited.com>
-Subject: Re: [PATCH v2] staging: fbtft: core: set smem_len before
- fb_deferred_io_init call
-Message-ID: <YuDlfLeossnntH/C@kroah.com>
-References: <20220726161347.GR2338@kadam>
- <20220727070723.1489599-1-peter.suti@streamunlimited.com>
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44FCEC1A91
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 07:18:46 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id os14so30000021ejb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jul 2022 00:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mSx3wHVt7xAJmmMmIb8aW81Pol+b+vBcAqVHpxDw1YE=;
+ b=vPPLAZkTvD5XkCEzh4ztZJr02ihnqDWfDjpcz48VEmrwOWsLCg3FbCUYkjTXGdxVSp
+ 0cJtZzJeEHur6jCRjr7TEOfindV2xd1V35jiE9fns0aon/JS2EtxRxTzbYQv7hS7/DXs
+ qm/LSQVdfa4nztx6M0i7j62iyrdw8j1Fv/a2KSPxyoeLAThVj6I6+RAqwxdL/cLDCVvr
+ mEh6xLr7a089GE97jcX7ScTz/xpCKQy8M8ozOXxqGOL4ho81ggdYr2L7C1XkEFib9c6D
+ Dx+v5rVAfO1J4jZBZyskFmzd8i90dC6ua2ft2udBjL0n7l5W3RagPeK7UNX3fMV1S0e7
+ b13Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mSx3wHVt7xAJmmMmIb8aW81Pol+b+vBcAqVHpxDw1YE=;
+ b=FN5i8OJ0lK8BSxaF1ZnOfun6T3c6akuA4F3+LeeiI5xcr5vfe/mSpAppPmlr8EbhXx
+ bTK2eBMQ+Qe0IKsoUpMa28M5CuW7GGVi8SNJiiMj0vxHbhFBRCICGCnHChivAqjr7RMd
+ dpv6mGM2Ccwi0cRTFefBhCah+QTr1JglgjK/yePetDHnjpLJ4iimBzVOQIN6V+C7LnlV
+ boXBTKUNau54Lvesu1aOcJB/mRcOoVO3WlEEi4CSLTaVn0rpnijnDKEwYCQwOw0Xnlh0
+ RZSeNhodx2tVJzkcgdQVoyTpXyUPKbI2ju3JeyzhCj6kvRjIdc5U+/Tfe1Pi4urBZEKg
+ rDAQ==
+X-Gm-Message-State: AJIora811FNduHd4BxUNjve/vyuXHL0SZc2KcvpxCr0YTw3dKyVUJcqm
+ 3RaDNgUsWn6vaZbzruGxNjT7PcVPPc47a9Cpo6gLtg==
+X-Google-Smtp-Source: AGRyM1uOWuMb7hdqzBwxTZzJsWfLCr5rBYpu5OaNGOvW35Amyw+j4mlWvcvZj18uXu+oCVQcqT4sPb/HyrW/OICyuuE=
+X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
+ e8-20020a17090658c800b006fe91d518d2mr17036681ejs.190.1658906324665; Wed, 27
+ Jul 2022 00:18:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220727070723.1489599-1-peter.suti@streamunlimited.com>
+References: <20220721062345.46842-1-slark_xiao@163.com>
+In-Reply-To: <20220721062345.46842-1-slark_xiao@163.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 27 Jul 2022 09:18:33 +0200
+Message-ID: <CACRpkdbM+RHcOrdzdfVE3qMb9-YJGqL8b1i0bqyMnFXEsSJQrA@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix typo 'the the' in comment
+To: Slark Xiao <slark_xiao@163.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,75 +62,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- chuansheng.liu@intel.com, dan.carpenter@oracle.com
+Cc: tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, sam@ravnborg.org,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 27, 2022 at 09:07:23AM +0200, Peter Suti wrote:
-> The fbtft_framebuffer_alloc() calls fb_deferred_io_init() before
-> initializing info->fix.smem_len.  It is set to zero by the
-> framebuffer_alloc() function.  It will trigger a WARN_ON() at the
-> start of fb_deferred_io_init() and the function will not do anything.
-> 
-> Fixes: 856082f021a2 ("fbdev: defio: fix the pagelist corruption")
-> 
-> Signed-off-by: Peter Suti <peter.suti@streamunlimited.com>
-> ---
->  drivers/staging/fbtft/fbtft-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 9b3eaed80cdd..afaba94d1d1c 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -654,7 +654,6 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
->  	fbdefio->delay =            HZ / fps;
->  	fbdefio->sort_pagereflist = true;
->  	fbdefio->deferred_io =      fbtft_deferred_io;
-> -	fb_deferred_io_init(info);
->  
->  	snprintf(info->fix.id, sizeof(info->fix.id), "%s", dev->driver->name);
->  	info->fix.type =           FB_TYPE_PACKED_PIXELS;
-> @@ -665,6 +664,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
->  	info->fix.line_length =    width * bpp / 8;
->  	info->fix.accel =          FB_ACCEL_NONE;
->  	info->fix.smem_len =       vmem_size;
-> +	fb_deferred_io_init(info);
->  
->  	info->var.rotate =         pdata->rotate;
->  	info->var.xres =           width;
-> -- 
-> 2.25.1
-> 
-> 
+On Thu, Jul 21, 2022 at 8:24 AM Slark Xiao <slark_xiao@163.com> wrote:
 
-Hi,
+> Replace 'the the' with 'the' in the comment.
+>
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Patch applied!
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Yours,
+Linus Walleij
