@@ -2,118 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB4D584633
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 21:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092C8584699
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 21:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDA710EBBD;
-	Thu, 28 Jul 2022 19:27:51 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 815BE10F191;
- Thu, 28 Jul 2022 19:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6645710ED74;
+	Thu, 28 Jul 2022 19:38:54 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2B3B10EFE5;
+ Thu, 28 Jul 2022 19:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659037130; x=1690573130;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=kI064CGGvui9vQnGFSdTcUmqtedvY93cICq0H8TeMFY=;
+ b=NlqEXmfFSFIQxpBnMTvxRhW5Xj3nxDgCIqlUTTmy4PCVGRvyx51eAvkx
+ elPtkl2bb8LRdUkN6vPxEVsLES4Vb3ep4G8cwX7TBpo5GpwYyp0ovVjNY
+ qnTn4XhHrJO8lfvd2WS8CD04GziM464u52Tra2P1Y+d5K1Z9Derbl3p1k
+ zZMupGVtiOH6yCH5pCobGrRSZMXGarwdO1YGmJJbHDVZ3BxuRFa0+kp7l
+ FH8odEEFKwW1WMpA2PKDJoWShGUP553mF3R0IQkV8AaI4E1B/9XaFWh9s
+ d3fHLLL62lJjvHf92xdB6XNZxDetHHVozhmP805WBsM2V8auDTzZBje8E g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="289371306"
+X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; d="scan'208";a="289371306"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2022 12:38:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; d="scan'208";a="576617753"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga006.jf.intel.com with ESMTP; 28 Jul 2022 12:38:48 -0700
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 28 Jul 2022 12:38:48 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 28 Jul 2022 12:38:48 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Thu, 28 Jul 2022 12:38:47 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Thu, 28 Jul 2022 12:38:47 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LmD2EG5vmWAU6o0H6ntJQidaWPGa/oSHBfXkj7JdRie+LtN+i+R5bqQgRhFupmxivujpfDowobNTGC6V9Jc+cz6/0/ogjB12tj/CCBjlPrmws4ecv/YkmU2ahG2yW8uJclKfVhJ83wht23snmjK4L3UAt8PB9vq/5PmIvKeEPmX1Rsul4lEM7qGSGvSSeXgWaP98/FkCHTD2SlJmJa+xs55YdTlIoWz+0AkVgcDM3TR50XcW2lxWTaiubZIHPVX+XMd7myg494qvGhGe++MOidbqg5h8oGsWw0Q3qf3Vj/k9xZjp4Te6UjAHi8843JGUeZhS0LysiADsiUVZT6N2PQ==
+ b=Pn+1PkBkA6cs0spUMWYpd7iJmIRYR1w73pLVXJkiQEZbl7mnc4OBRWyn9pwl66WtvFE8qT4G6hen9e0XwXwmee8lQVxTdp3QFlVYVph8GU/08kRy3MUmwF5WAwc0XXG9SYYajqB86fX30dKtXOB13lH6AM31uD5BQme2k+8E7FE65bnUWdbpHcPshVpTb6XpirAWxJvK9gIWG8tIrde/J1/3eME0eVEvS82QYTBUHjiDNmbBekUPlm5Ms57qDM+MkK8NbpN0zJa2qc0bY/0MUy72NyfRIDyf0xhWdt3tIam9T8K4Drd5Ol0QcYUcZIW3HISM/6CL8mOa64BJ+S+xkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2DbCus2YGHJ2qkQsfhKA+NOKscO5ZDR3eblmwZ8EuxQ=;
- b=TkkvaBjoROW0KtCF0sJdIZsXQJ37WH2arJg06zprvXWAVRF1uB7JIadPbxke5wZ4qOJGxvPNsafCleISuBls2YY6KQWe8FVphc1ZwMQ0yqUF/eLClbmC4FzbpvFZuP2LKgq2YvdhECPKehHiAHCG0C9Ti3wTztsRuu86e3TjsA0IDXMj0GwAJqz7hBym0H7q2YK+vHpTugkqewI+IlludYNGLvP77nAV/PVNRl0bN0klzTQXqiSt6S4weQRQuXcEnI2WDHRWg/4LPkbsWMTsWVTnjN7YEQg/iCNQ33u1DRMwbcDsxUUDgazrB2KYvXI8hzBVhSA0ngxDTVgBVHhTzw==
+ bh=sxvfokva8lxuLko/3WSQ6aSb5vIvKjrv6gLg+TNO72o=;
+ b=IYLGWsgL1DRHgK2bJuOUTw3KmXIxb4CjReO9rzyf8P7HH1/kBJFd45+uv+RFQFr+FuWZG/ty8LCidnt5QtM7W+5w+eZ2xPRZ/VMm6/+HrDfL2KR4yLwdk9GJKjwOG7ZIAxurWToM8c8q/koZEKr4cQOCw7zHS6lDeea2ACxgjdNcueDZO71JZEMUK8Yu1uLz9vAD6h/U09yGO7aLZYTsigj8Nr3Zy5xIX8sTeTSbbULSHEH+v0ryWC2zL1lpvnK6z0tI3Tn6r3mozNiRN8UAJnthOIyofTiseVVIHxSTLwYYTQBbDC+EVERv9f72eFNTPk1Cux6oLrWH1KkMptzydA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2DbCus2YGHJ2qkQsfhKA+NOKscO5ZDR3eblmwZ8EuxQ=;
- b=dfH/XTTLvrDBsmvyHopp/Rb+BHreEiDV2Vqu1MXOG8s1+5lW19H0XFfSUvb8A332Iij7UC2fxrYS9+XyRMuMivDkkhIVhr1mS+Zon0+bCg7DA2PZhyH2FIhNkYS6z/k3IXkrEVVx0zW71f+sAWrMZ1wAzQY2g1DZe059ADkNOnyO9Bs7H6mUjUCfI0c0gzZbkrKzXCf1iu+6saMukk22UGjSk7UlrhSzVpnHrzmlG6B6+lUlLHRGL7fn2X4mvgXw/tjFpl2xRf5MIQFNjjZTCcrthrq5B00A/AvLWZEMhPqxc2+bHh47qQ4ODCcs1ftnI9EicyZ5wvxfmjE2nU0cGw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN0PR12MB6150.namprd12.prod.outlook.com (2603:10b6:208:3c6::11)
- by BN6PR12MB1764.namprd12.prod.outlook.com (2603:10b6:404:105::8)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by CH2PR11MB4438.namprd11.prod.outlook.com (2603:10b6:610:4a::31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Thu, 28 Jul
- 2022 19:27:48 +0000
-Received: from MN0PR12MB6150.namprd12.prod.outlook.com
- ([fe80::30b4:54b4:c046:2e14]) by MN0PR12MB6150.namprd12.prod.outlook.com
- ([fe80::30b4:54b4:c046:2e14%3]) with mapi id 15.20.5482.006; Thu, 28 Jul 2022
- 19:27:48 +0000
-Message-ID: <84ec4ad5-a580-1a43-27ed-d47dbdf7d1bc@nvidia.com>
-Date: Thu, 28 Jul 2022 12:27:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] nouveau/svm: Fix to migrate all requested pages
-Content-Language: en-US
-To: Alistair Popple <apopple@nvidia.com>, bskeggs@redhat.com
-References: <20220720062745.960701-1-apopple@nvidia.com>
-From: Ralph Campbell <rcampbell@nvidia.com>
-In-Reply-To: <20220720062745.960701-1-apopple@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Thu, 28 Jul
+ 2022 19:38:40 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::516d:4bc0:8e7b:9a12]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::516d:4bc0:8e7b:9a12%6]) with mapi id 15.20.5458.024; Thu, 28 Jul 2022
+ 19:38:40 +0000
+Message-ID: <23cce78a-7bf7-9881-806a-5ee2da0a6ed3@intel.com>
+Date: Thu, 28 Jul 2022 12:38:38 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [Intel-gfx] [PATCH 6/6] drm/i915/guc: Don't abort on CTB_UNUSED
+ status
+Content-Language: en-GB
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220728024225.2363663-1-John.C.Harrison@Intel.com>
+ <20220728024225.2363663-7-John.C.Harrison@Intel.com>
+ <d1f3646b-ff37-0120-4284-7861b23e30b3@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <d1f3646b-ff37-0120-4284-7861b23e30b3@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR02CA0021.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::34) To MN0PR12MB6150.namprd12.prod.outlook.com
- (2603:10b6:208:3c6::11)
+X-ClientProxiedBy: BYAPR06CA0056.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::33) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d281fe8d-bf19-4256-e4fb-08da70cf4165
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1764:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65acd373-5d32-4021-34b2-08da70d0c5b2
+X-MS-TrafficTypeDiagnostic: CH2PR11MB4438:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yN9pQ+OPGzYZ8T1JrsiyNZi7gTiUDI7OYl5Vc5AMnosSjODh7TPTWnWzcRjSimnJ3Ik6AtLE7barBcafrnOLJUh0RT2n6qC/EgZ+SJ4e8LNgyY+lalyATJV98JLiFMxz5TJgGcLq+95u8KtHYDvqltOZg4oYF3GUpDkkwO6mYVr0mn2hXNxcvCvjZ1TKiMjl9vtRZM2Fa1figqzIBor3wKTcO+Sz6gWoQmx7eZUV9hMZ73CqTBhbM2iEo8GVEpaxvRbKtxZFJQdVCIHHTyDFYWmSpehceVfHuG9gCs/n84pz+zI7iGiKWcFLea5mCmIfOqLdkRaLahewnN/kmYV3GN91LyFQPeSXd19aiedDYgx3qswiOf9C44Rh4kJDh52QqWOqF1Sle2RR5bccq7Z89p1hfR+MJhlZoEhjf+ayUC6Dj40fvTRgd5CW8Mcyan5IsFBc64ixBazmsR3vC4Eo+PkfvkFpwLqoBAXHB6brQLiCxAYEulqMkpbd2/Qc1UWgiMqqh3LblpWn9jfjhAlslW4EwyBTNcC6xlf0p0z2hkrwammBEqUVMJuL1t2i6H2gl+3AQL/OMKUD5H+3B3BqfVrVrhAIKdWdgerfjibpECMcfqU+Ry11JgMlAMHKajolShyxnS0ur0F6Sqv80FXYVpB4IIgY3VZ1zNe4KDh/jMbA29j0u57e3k0kihqXviovUEaqrjINGeWJAwyW50hEIIyUrg9bD8Ba29jDCUIw3/tdd42b0my39MZdeyaX9sZfLug8YmQdhJ18UpvMVDOWb4tqyReMk8kLwTpy8XXU/a8czFSof8NwkV4SDBpEpcwI8KYOjsg/Ehl2QmlQIuSsUOnnthjC7P7MlhNU+xDVV3ulQPX3Ct2tSv1NXENb8HTQ
+X-Microsoft-Antispam-Message-Info: /kdX6FrSUSpt8efy51OeoRlSOYG0+scuRvww1BhGarrO2WHHiJUjGdYsoTfaFaJ6bPtwfhcV+nLKbuM91jT+0vinTT+jHqc1aKmCCPj3pF2DPAPsRo91UlAOazzAU7yo3MhQjmyynydV2FOkUYr3t/SjVXimnoesZIfxK5qT+QLSfUicqxGR1wGrYVh2MWQSXKs7oabRYHMLBtSqGDQg2EtT17qOLFusgrpVx/AAaFuUnKZKXaIT0t4bY7oAfRb+FUQz44hFWTZXbD3fbY7E/zowh71WSJoEN1oyqxTNrICRou+nFRwcDhpgRy+48m/LCxHimfMPooaAopedOCr2emQvXKX93xD8TEMmOAlUJhLpGZbxVeXpAE26j+2Z6fGrQvyH6N4emCrVgixteGg8I60PpfDK/cZ9AtUHRmjHmKeVSBP9WXGJebE5i25lbPOFaZWx/Kqc1W3/T6Fgw1XIP8gGqt77xEEB7FNRN35QxBG2pjIxTqWXMsTOxhihQcFcTyz56b2y69bTdcQryrvAyt25Iu2qqWbIRWjuvjY3xNVvDeHz66VHhB7CTcu1mWTuCJ3P87WSznDvqntruT7tkwI8m9EMstj4MtxVltoCyNPD90mk9I+5gtTLrRkNU9g6s8xWBshcHcuXGwYTRaN26M/1qreorGi3ePGm5Qe9ZMkMJgKwP7C1JcLFlK6pOepgbmskfeGDTFX2u9msEAYID7/LOS2NX9oy0ZoWk0bkZXM25CdrCQQ2foxPKgOdWAD+HG1jRSyhZ9FiHm+SiEKTWNfmZm0NxNeyapHrw8H8LDSkp8f/8lwq0iVMdwa+yAWXu98gKc1bW4XcwnalqFkOxg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6150.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(376002)(39860400002)(366004)(396003)(136003)(4326008)(66556008)(66946007)(8676002)(53546011)(478600001)(2906002)(83380400001)(6506007)(66476007)(86362001)(6666004)(41300700001)(4744005)(6486002)(5660300002)(6512007)(107886003)(31696002)(2616005)(8936002)(316002)(31686004)(186003)(36756003)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(136003)(346002)(396003)(376002)(39860400002)(66946007)(8676002)(4326008)(5660300002)(8936002)(31696002)(316002)(66556008)(6512007)(6486002)(6506007)(478600001)(82960400001)(66476007)(41300700001)(53546011)(31686004)(26005)(86362001)(36756003)(83380400001)(186003)(38100700002)(2616005)(450100002)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFRvVUlSZ1J0MzgwVFhQTjk4ZHEzemhxSDlFOGxuZWp0cmhLUlVUR3lqYWcr?=
- =?utf-8?B?UXVNTlNqMFdRbVNCZ0VTTVF2WmVFdGZNcHNvK0JJRTRvempVYS9abG9qVm1k?=
- =?utf-8?B?NDVTdW53dXFCVHRlaWMzMEtxREhZaFBua1M0bGExeUhNTWw1VjNBUktrUkZM?=
- =?utf-8?B?NFBNd1JpaFJOUlQxUUpobFFtTSs5a1JnQnZBdFhTL0ZGUytmdzlkakZvWXhF?=
- =?utf-8?B?cUtDMjZUVUJQZnZvaHhHRitpV0t4Q1RJV2xXVS9UYkNJNkdESVVpQXlpWVBj?=
- =?utf-8?B?b0w4T0NMNmlPamt4SDZDTzVyL1VlbUNjRlNnYnkrZ0oxOE8ydm9lREZHTFpY?=
- =?utf-8?B?ZGtJajJ6allSRGJ5R3N1RjZuOUdvQ2h4SGtVcG0rSDMweTViREw2RjA5OE1y?=
- =?utf-8?B?ejZVOE5adnRwKzdFMEovZ2hrVjF0Y3pUSWlaVGN4blFZNERvMzIxNlM5c0FY?=
- =?utf-8?B?czE2QUtoYkhpNyt6OFBLdThnbkEyMFBHZGtuUWYvUy9QbXYyclNuZjZOdzNQ?=
- =?utf-8?B?cnZHbW9BaGx4bzNMdDAvdkgzSnhuT0MwYW1xN2JsZzFTRHFjVTc2VEN2c1My?=
- =?utf-8?B?Z2JDRmRyV3VxM05hU0t2QTdQVFV2aUVrWUZOUjl6U3E3ei9wVWtFZXdhSk9o?=
- =?utf-8?B?bU55U3JnWEdraFBCY2ROeFZsVE1oTWh6NUV4M0pqdzhMU0xFOWZNTks5amFx?=
- =?utf-8?B?a2F4aVVYWWhPNTlUSlUwQk9CVk4vZGU4N2EwUm5VUlRZMXpQbEl6MkpFeU5T?=
- =?utf-8?B?L1dKNzZUZjVTTmNKVStqQ3RBOFpDNHBheXo4T3F5WUd3bDlxYTE1M05zSkFZ?=
- =?utf-8?B?RzA2NWhXYk9QSHdBN0pBaGY3azFTY1hENGo1L3VsMG4vNXIxK2tFeWhlMTk0?=
- =?utf-8?B?S2N6eFJnZUZqejFrazdaOVU4Z3MySGd0V1haanlTdjFQMVlIWnd1NE52cXBo?=
- =?utf-8?B?dVVrZHAwWXJVb2Z1NDg5LzA1UGlRWFZUQVlIdHFJMElEQzRsYnBka0FaYWQ3?=
- =?utf-8?B?WVRMVTA2TUpOeW40ZnBWMW1QME9ZWjl4eHZsa2FXaUZaYkxJQzN6aktLR3lU?=
- =?utf-8?B?Z3FQenV1ZFoxbjdrdmdEVmxwTklRVjJBSkNiU3B1NU1YbzRhOG01NGpRWjBh?=
- =?utf-8?B?K0Z4LzhFakFLVmFic1IrcWdhRW9wbmdjd05jYkVLb2xRQjliWTJSRnQzOW5v?=
- =?utf-8?B?em1lRC9KOWhQNUpDRVNQbVRkT2pJbTUrMzJJbG96MmZ1TWc3eUIwOTdoQXZv?=
- =?utf-8?B?eVVNeDVwUGpidy9YelZYWkF6QmczOXBMUnhFVEpTOE94NStySmN2RGozSUw4?=
- =?utf-8?B?ZlZXVkhZZi8xV1hLVndhWG51TzNKRkJ5VTNtdjhtaXAvTDhQdEpsSW4zZUIz?=
- =?utf-8?B?VWlOa3c0WWJqNHRWVThPaGU5VThUekY3QURBTGRIa2cwV0ZaalRQeDBBSFNz?=
- =?utf-8?B?RVEwcTFGNDc1djhZQXZzejVPNGRQY1lwWUZmdlNvSktEOTRZYTcvL0pIbUxo?=
- =?utf-8?B?dlpWblI1dWhXMjhLVko2RTVFMTVEWmxOSDlqZVVGV0t3NURSbkhXYUZpRTBv?=
- =?utf-8?B?T1hTd1ZId21LRkJkSDdZMzYyYmhjSFA5ZXd1dTk2WlFvOHdkOVpLNExXMzMw?=
- =?utf-8?B?Mlp4OHlXY3VNdzEyNE1FbEI5KzVTVW1VaUp5ZU5iK2FkaTM2SFBpazdPS04r?=
- =?utf-8?B?UFl0R1BLUzIyQUVpNGx4RlJzU0FrNDFTM0Q1SUxnVUpPeEdQTVpEZ3ovNFNT?=
- =?utf-8?B?SWZVS2ZYRWRtOWUvdUlGT21WOHVqRFJyTlk3Q3pmNmxzU0Jad0o4WGJVaEk5?=
- =?utf-8?B?eWE0RXNMeFZuSmdKS01LWkV5bmsyemo5OVpLdGFLcWk0VVRBQ3pKNzByU0hF?=
- =?utf-8?B?M1hXQzVxUnMwQnZTVVJGbHhoTnhHT0I4OU1VTnp3WXgvT2JndjN5aS9EaTVL?=
- =?utf-8?B?dFZnK3RqQXE3MzVlczArbkFJOEVCcDNNZ2Y5Q2FMSGo0K2txUW9xRlB0S3d6?=
- =?utf-8?B?UTBMSTdXTmhZaW5aWlVPK045WUw1Sm90Uy96cE1ER2JuaXB5YzcxRkxsNU9z?=
- =?utf-8?B?OFpwV2Y0a1dUdmxnZFBIRWpZUnkrNHRIY2drbVVBVDJxdzkzcXZNZVU4UUhH?=
- =?utf-8?B?QzlQYmYzN2t5NXRVRzZrUkpMb2svVDRMV2pwYldIdjU3SmV4MEFjUEgzMkZL?=
- =?utf-8?Q?he+vMQaHG91soJF5Z2LDhmM=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d281fe8d-bf19-4256-e4fb-08da70cf4165
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6150.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NW5aZzlheHk4bTFGc2tqYVVVR1BTZi93SlRDTElENVcyNExCU3dybVJhUVlC?=
+ =?utf-8?B?Z0VURzVTUkFMSHpIL0hyZDlYNHQwOXhwbXZVRkpkSTJxclV0U2RxU01YYU0w?=
+ =?utf-8?B?cDJaMVpPVkNEbWJad1JWSHIyM1FWR21zeGNiS2Y3SXk4TFpOYStMSlVUckpT?=
+ =?utf-8?B?bnU2WEprbUJ6TlVYWkNWUDFGVnlXcEFJRHJ2ZFFMN3p3SzJOQlBDZG12R0VH?=
+ =?utf-8?B?TnBNRm9OUmV5ZGNYR1N6bDA4VnllODM1Z2ozdVFOTndDcDBvRGhXSWdLNE51?=
+ =?utf-8?B?THJhTjcybityeFd2Vjl3YzRpSWJZRTdhVzBzK0lpdUI4L21KV3NIdHRYc090?=
+ =?utf-8?B?RjR2c3BLR28wRXUxVGcrZ0ozMGpCaW1CT2grS2NDcEhJa25Za2FMUW1uRjBu?=
+ =?utf-8?B?YUZaQ3ZUeU81eWdoNFpKVWVrcy80ZW9QQytqdkNVdm5PZWFTTk1VNlVSd3dp?=
+ =?utf-8?B?M0xpdWcxdUJFWU54U2M0MmFqRHc2NU5Nenp3YlVWbUsrT25RVnBNQmI2UTlo?=
+ =?utf-8?B?dkdsTlYvSEhTMFdYU2ExajZsRzVsZk9jL3R2cHZ3VEJCR0dLeU5la1hXQkdD?=
+ =?utf-8?B?dWtMQVVwYWI3ZWxsQVhqOXdSMk5UbWVHRVNEN1ZkMzFHTmNUYVJaWXJka0Yz?=
+ =?utf-8?B?RExadlgxSUp6NEh0TG4vMTBZVVlPeXhGWU5MWjNNRmZMSTRualdrVVlkbVll?=
+ =?utf-8?B?bDEvMlJrS3Z0NWxISkt1QzNpVUUxb1QzZG42cGNoTG43bjFNZ2dBSEpvQ28w?=
+ =?utf-8?B?VHVhZEJMYllXVXRJMGgyZWNYeGpDSXJQYTIxNEJ4d2JmV3p4T0xUbTJUOXo1?=
+ =?utf-8?B?RTBzNDV5L1NJYlhwMFM3QWxpTnhOWG1KR3dGdG9KZkRROFpIdzF6MzRLWkJr?=
+ =?utf-8?B?bHFOSzhOMWI2a002ZG5tSWJSSUdPRDgyeEZ6bFFCRzJvVEJITWlnKzFET1lo?=
+ =?utf-8?B?OS93MkVVR0wxb2xkL2hSZ2pTazhueUZJMnUxU0Vic2o1OEFNS1hJT2F0ZGxk?=
+ =?utf-8?B?a0V1SzE4ZmVhWVlRZjVPaWs2YVhJU2NRR1lxWE5KV0wvdlNPY0c0dXJQVnNt?=
+ =?utf-8?B?a2EwK3FRaGxuRUhrdkxEZ1NlUkNJaUc3cWlobXU5bmplYzVIbUdBV2JQakI5?=
+ =?utf-8?B?eGlYdmI5NUhSWEMvaUZXVnlzYmloNkQ5U0xoMllqWHhIQnBFZitob3F3Qi8x?=
+ =?utf-8?B?eEEva3hjRmZMOEVWWnBOQTdFV1JINjcyUHpVNmp1dHNmT25IVFdkQjk1bldu?=
+ =?utf-8?B?YzVhdXhCelpINXIwU0QzK3VEdlFWc1Q5V3BMVmhST2NlVTlVcEdyeGo4Q3Jl?=
+ =?utf-8?B?S3RIVUtVV0ROZjZ3STFGZitYSm9NdkZJOWlNa2QrN05aZHRCdVdMYy9reURT?=
+ =?utf-8?B?SlB5ZXo2SGJjWVJkcVQ5UnJNRzRzdUdZS0ZKQWNKOXQ0K0lNc2dTWnZzWHFv?=
+ =?utf-8?B?SnZJeFBtTFNJMTVsa2ZHNEtnTWRuVGxHVGNzOGM0cGc2WHo5aDIySjh2UG8y?=
+ =?utf-8?B?N2NOaU1oNkxoNldsV0t4dmdmdTM5anNQa1BzZllCSnByT2cxOFZBOFZrTk5K?=
+ =?utf-8?B?VWxnNVZlSFAzekRxSDVBdzF6ZVhHN3h4aUh6dXBDeDQ0QXo1djJORGtvSjMy?=
+ =?utf-8?B?R0lqbk9UVGZhRy9hVGdYclRRWUNmRlN5UVZBa0xFbndCbDhvcUQ3V3J2WmpP?=
+ =?utf-8?B?N0NhelRVcXRxVmt0bi9zdnRpRXg4R2Y4SFMybkpFMnBQS0Q1WHEvSGlwSVFW?=
+ =?utf-8?B?TDVZaU8rUHVncmF6MlRFMXdPU2JPcXFyMnZpN2hmaVlHUGx4a2VXUnpObHRx?=
+ =?utf-8?B?VHBxUWNKOG10V3VpeXVsdUFOUEI3djZ5MVhpcUVieVB2UkhoNjczazR4QWM1?=
+ =?utf-8?B?WWdqbVpiOTlHT3FKVDZ5SkZVOVdWTm5xQzFYbXZtUXoxeTRYdHZkNWtZWHZH?=
+ =?utf-8?B?ai9rUU1uU1lubGJhYVRENEMyWktadG5jT3NSSDV6YmVYQWJ4TWtJeWFSTzIr?=
+ =?utf-8?B?REk1Ui85MmRFaFpSaHBDNmlaT1lwc1llWjdBc0k1cjEyK0lUTURDUFo4Y2N3?=
+ =?utf-8?B?Tkl6SWQwbVVuSVpzRkFKU2xIUzZPUkMrK1FNQjh6S0RKZmU4aldUYWtsQ1hT?=
+ =?utf-8?B?QzlBdnhldGFNb2k4UkxUcythWnN3MDhNUGZjK2pDWThsSk1WQkJZNmpZU2VB?=
+ =?utf-8?B?REE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65acd373-5d32-4021-34b2-08da70d0c5b2
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 19:27:48.6116 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 19:38:39.9895 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: crNsEkYIQ3RNY0/LxMHSEkgC5zr2wL4W54/MTIzb2vcgRkAQW8VC3D10D55WrqPkMQod1NtAFfKJOHGF0GuYuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1764
+X-MS-Exchange-CrossTenant-UserPrincipalName: YuE4By4yUcPlX4rPCVg4Q2mVqtedT5QLQcYKIXeWIG11gIAXCp6GMvkmOXAN+drNC3WRt+Zx20uGhT/ri5xeJZ24St+xB18sf/l8qwW6LDo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4438
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,27 +161,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jhubbard@nvidia.com
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/19/22 23:27, Alistair Popple wrote:
+On 7/28/2022 12:06, Michal Wajdeczko wrote:
+> On 28.07.2022 04:42, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> When the KMD sends a CLIENT_RESET request to GuC (as part of the
+>> suspend sequence), GuC will mark the CTB buffer as 'UNUSED'. If the
+> hmm, GuC shouldn't do that on CLIENT_RESET, GuC shall only mark CTB as
+> UNUSED when we explicitly disable CTB using CONTROL_CTB as only then CTB
+> descriptors are known to be valid
+GuC very definitely does do that.
 
-> Users may request that pages from an OpenCL SVM allocation be migrated
-> to the GPU with clEnqueueSVMMigrateMem(). In Nouveau this will call into
-> nouveau_dmem_migrate_vma() to do the migration. If the total range to be
-> migrated exceeds SG_MAX_SINGLE_ALLOC the pages will be migrated in
-> chunks of size SG_MAX_SINGLE_ALLOC. However a typo in updating the
-> starting address means that only the first chunk will get migrated.
 >
-> Fix the calculation so that the entire range will get migrated if
-> possible.
+>> KMD then checked the CTB queue, it would see a non-zero status value
+>> and report the buffer as corrupted.
+>>
+>> Technically, no G2H messages should be received once the CLIENT_RESET
+>> has been sent. However, if a context was outstanding on an engine then
+>> it would get reset and a reset notification would be sent. So, don't
+>> actually treat UNUSED as a catastrophic error. Just flag it up as
+>> unexpected and keep going.
+> we should have already marked locally that CTB is disabled, either as
+> part of the explicit disabling of CTB with CONTROL_CTB, or implicit due
+> to issued CLIENT_RESET, but in both cases we shouldn't try to read CTB
+> any more, even it there are any outstanding messages ...
 >
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Fixes: e3d8b0890469 ("drm/nouveau/svm: map pages after migration")
+> is this due to a race with ct->enabled ?
+As per review comments on previous revision, it was only hit during POC 
+work of a hardware w/a that led to the G2H processing code being called 
+even when no G2H message had been sent.
 
-Thanks for fixing this!
-Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
+And you can't mark the CTB as disabled before sending a H2G message. 
+That would result in not sending the CLIENT_RESET H2G at all. We do mark 
+it disabled after having sent the message. But there will always exist a 
+potential race condition where GuC sends us a message before we get that 
+far.
+
+>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> ---
+>>   .../i915/gt/uc/abi/guc_communication_ctb_abi.h |  8 +++++---
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c      | 18 ++++++++++++++++--
+>>   2 files changed, 21 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> index df83c1cc7c7a6..28b8387f97b77 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
+>> @@ -37,6 +37,7 @@
+>>    *  |   |       |   - _`GUC_CTB_STATUS_OVERFLOW` = 1 (head/tail too large)     |
+>>    *  |   |       |   - _`GUC_CTB_STATUS_UNDERFLOW` = 2 (truncated message)      |
+>>    *  |   |       |   - _`GUC_CTB_STATUS_MISMATCH` = 4 (head/tail modified)      |
+>> + *  |   |       |   - _`GUC_CTB_STATUS_UNUSED` = 8 (CTB is not in use)         |
+>>    *  +---+-------+--------------------------------------------------------------+
+>>    *  |...|       | RESERVED = MBZ                                               |
+>>    *  +---+-------+--------------------------------------------------------------+
+>> @@ -49,9 +50,10 @@ struct guc_ct_buffer_desc {
+>>   	u32 tail;
+>>   	u32 status;
+>>   #define GUC_CTB_STATUS_NO_ERROR				0
+>> -#define GUC_CTB_STATUS_OVERFLOW				(1 << 0)
+>> -#define GUC_CTB_STATUS_UNDERFLOW			(1 << 1)
+>> -#define GUC_CTB_STATUS_MISMATCH				(1 << 2)
+>> +#define GUC_CTB_STATUS_OVERFLOW				BIT(0)
+>> +#define GUC_CTB_STATUS_UNDERFLOW			BIT(1)
+>> +#define GUC_CTB_STATUS_MISMATCH				BIT(2)
+>> +#define GUC_CTB_STATUS_UNUSED				BIT(3)
+> nit: our goal was to use plain C definitions in ABI headers as much as
+> possible without introducing any dependency on external macros
+Except that checkpatch complains like a complainy thing.
+
+>
+>>   	u32 reserved[13];
+>>   } __packed;
+>>   static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> index f01325cd1b625..11b5d4ddb19ce 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> @@ -816,8 +816,22 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>>   	if (unlikely(ctb->broken))
+>>   		return -EPIPE;
+>>   
+>> -	if (unlikely(desc->status))
+>> -		goto corrupted;
+>> +	if (unlikely(desc->status)) {
+>> +		u32 status = desc->status;
+>> +
+>> +		if (status & GUC_CTB_STATUS_UNUSED) {
+>> +			/*
+>> +			 * Potentially valid if a CLIENT_RESET request resulted in
+>> +			 * contexts/engines being reset. But should never happen as
+>> +			 * no contexts should be active when CLIENT_RESET is sent.
+>> +			 */
+>> +			CT_ERROR(ct, "Unexpected G2H after GuC has stopped!\n");
+>> +			status &= ~GUC_CTB_STATUS_UNUSED;
+> do you really want to continue read messages from already disabled CTB ?
+> maybe instead of clearing GUC_CTB_STATUS_UNUSED bit we should just return?
+GuC could have sent us a valid message right before shutting down its 
+end of the CTB. We should still process that message. Note that the 
+clear is only of the local status variable. The CTB itself is still 
+marked as closed by GuC.
+
+John.
+
+
+>
+> Michal
+>
+>> +		}
+>> +
+>> +		if (status)
+>> +			goto corrupted;
+>> +	}
+>>   
+>>   	GEM_BUG_ON(head > size);
+>>   
 
