@@ -2,58 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538EC58477F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 23:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB68584796
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 23:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E73610E081;
-	Thu, 28 Jul 2022 21:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DE3112BF4;
+	Thu, 28 Jul 2022 21:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50E7E10E1E4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 21:07:06 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id va17so5301971ejb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=Ab/60a7ap/TF4pOEKknPkIZ19AphsfkpAIUOdyILIjA=;
- b=BFQmBltvDWAyd4EdZYjsfo++kYP1bOdlRa9ZabzH2Q0s39aOYP2Y9NvADlWYjuszT/
- sTTbfR4WsUrQknG5OkKNVhyCz2YsQOcE9D9ycG3InxB3xxFnjWNuAaBCGKkZG8wkajtr
- Rpp0Ou4GkMHSI5QluJniDpEFg8FcoBv+Mlo3lDJPwnQlcSxPqoxWG/+x5BX1rqPDSLBE
- vEbHIgLuYsOWUV80Eb7WOysCdlpoNo2GuSdJhK3dUVp3ETfDy7wn/8SpsbiqL3dGH3pD
- cu3dPlrqBZ+j7I4xlFNAWN7vdVcdt94CO3SHK3O5euZXrxoISXO6IN8cqUKHG+Dfo6N+
- oZ5A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93277113E9B
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 21:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659043069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o/OfbOToIOdGriD6UGrknJy8SryGGj67M+1E/6CU+Ec=;
+ b=fQkyUdw6JxbXwes5F869yMFAV+qMV8sZ9M9DQ/fUC1yQe1LhCFyR8JJNckEbDrllRhrwPh
+ 16q/a13Fdor2gjsNAMpMoez8+jjE1fuNkb+f62flsu/F5tKhEtIGf4J/l0R004t0Izcst2
+ gcpFPzSm5uYajpevJrbF3IwPFQdTDQM=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-312-Wdea-4VHMbKtmpl8_yVmKg-1; Thu, 28 Jul 2022 17:17:48 -0400
+X-MC-Unique: Wdea-4VHMbKtmpl8_yVmKg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ w24-20020ac843d8000000b0031ecbfedc25so1789562qtn.15
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:17:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=Ab/60a7ap/TF4pOEKknPkIZ19AphsfkpAIUOdyILIjA=;
- b=N9eBNMa61hxgrOgxteNS1XbeC23SdkBP2CnhJstDdgk5/01qr3qilFe9TCLB37ky9V
- umOtKT5g4WLanmE+cRK8Ot5vkJkUYUsY3xl53+sWFqcEf1hJp5mHe7QG7nyf+3sKOaUD
- hDciFlegoVE36jKNU6MznGKVACJEURVjjY+fIc9hsigM7bCkCdtZkQpkcP7knl0LBBCn
- Ei2MLigg4SfhGmXWbKsqPl4ocEIVbuhdZOo3J1dZJcuGPvnno7wTMQUoHZtF9ibpQCta
- b7Qbbvowdjx6tPG8HPxnjIR3oUKBTpEetY9mUA14/esk8ZDCq62tK7NKkLRVuq3gU/2z
- lpkg==
-X-Gm-Message-State: AJIora+ojJ3JzJghjWrg30rQNV9Wed8hFaxbsS7fAgweAUmveK82Eyjr
- lWkTRc40TGr4wpctciM9iGLpPNNz2JIq+FVPvAU=
-X-Google-Smtp-Source: AGRyM1tRri2yxGEFn1QQ0Ft0YIQaCW8e+5RgcNCLhZwZ5P2GWyRFBLmCsyKL5A2sFwjM3h12cHNdVratAckuZRN8iZI=
-X-Received: by 2002:a17:907:6e02:b0:72b:9f16:1bc5 with SMTP id
- sd2-20020a1709076e0200b0072b9f161bc5mr564451ejc.676.1659042424819; Thu, 28
- Jul 2022 14:07:04 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=o/OfbOToIOdGriD6UGrknJy8SryGGj67M+1E/6CU+Ec=;
+ b=MvSDfyOo9cxh2gx8t9Woyb4dyNS84V8jrk5ibZ9YPY5slDS9fG/mwnXaGiEZQiNeBG
+ 1nYEAfci16H42O3jTi3cWs4sxxsacynCn83MBYC72RLFnuGmRNFcL3EMRJ7VHkrhfq1+
+ 1QE0O6fqZEEBpyzMQycTsUHnEDYDbaggP1yO1DXu1jspKhNmyGylhx40U9H4kJgmvE1O
+ BBpDBWmgD1aoQx+OLXdnc4Ay7+U4qEdJBGb28wOOEAm+n8fxOoYsTa3pOaDL/jKTyLgG
+ o9v0FXKH4eFqDjnBFPBjcrvVJAaKqngOMqvwAUQzCVEbyu7qyAYa8Ns0Xzd2Mwi+aXtg
+ ZdeA==
+X-Gm-Message-State: ACgBeo3NOB5XK/5cO++O8yzPWphsRe66hQwMCysrabU5ocOJ8dw6ctoF
+ YVxo5uThIT0nkdwuF6bEXohhw/+8p7zuduZAs/LEL1LV8MDumYlozWDq1u7mWaSCca3awB+8eDa
+ djJkIPOEaznuaZRog4hteyiVtWCnq
+X-Received: by 2002:a05:6214:d0b:b0:473:6ec:7a88 with SMTP id
+ 11-20020a0562140d0b00b0047306ec7a88mr745092qvh.15.1659043068299; 
+ Thu, 28 Jul 2022 14:17:48 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR60uCxaFzrGMtUq5KKxNBTJRHhJG8jPcfbfPtMDcncqIYPU6qs8lx55P8jDBfNQhF2MZEP13g==
+X-Received: by 2002:a05:6214:d0b:b0:473:6ec:7a88 with SMTP id
+ 11-20020a0562140d0b00b0047306ec7a88mr745075qvh.15.1659043068088; 
+ Thu, 28 Jul 2022 14:17:48 -0700 (PDT)
+Received: from [192.168.8.138] (pool-100-0-245-4.bstnma.fios.verizon.net.
+ [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
+ u4-20020a05620a0c4400b006b5c5987ff2sm1151388qki.96.2022.07.28.14.17.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jul 2022 14:17:47 -0700 (PDT)
+Message-ID: <6988c4ad3e230b8d252a2edff190502a0b17f4f2.camel@redhat.com>
+Subject: Re: susetting the remaining swioltb couplin in DRM
+From: Lyude Paul <lyude@redhat.com>
+To: Christoph Hellwig <hch@lst.de>, Jani Nikula
+ <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Ben Skeggs
+ <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>
+Date: Thu, 28 Jul 2022 17:17:46 -0400
+In-Reply-To: <20220711082614.GA29487@lst.de>
+References: <20220711082614.GA29487@lst.de>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-3-markuss.broks@gmail.com> <YuKfnAjB4gV0ki4A@kroah.com>
- <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
-In-Reply-To: <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 28 Jul 2022 23:06:27 +0200
-Message-ID: <CAHp75VeNM5vc58WAOLwHnhpDBwMk_FbzfnNRAEUDdZTBq9L73w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
-To: Markuss Broks <markuss.broks@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +90,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- linux-efi <linux-efi@vger.kernel.org>,
- Linux Documentation List <linux-doc@vger.kernel.org>,
- Tony Lindgren <tony@atomide.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Michal Suchanek <msuchanek@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 28, 2022 at 4:58 PM Markuss Broks <markuss.broks@gmail.com> wrote:
-> On 7/28/22 17:39, Greg Kroah-Hartman wrote:
-> > On Thu, Jul 28, 2022 at 05:28:19PM +0300, Markuss Broks wrote:
+Hi! Sorry about the slow reply to this, been busy with a bunch of other
+pressing nouveau work lately.
 
-> >>   delete mode 100644 drivers/firmware/efi/earlycon.c
-> >>   create mode 100644 drivers/video/fbdev/earlycon.c
-> >
-> > That should be a rename, not a delete/create, right?
->
-> Should this change be split into two separate commits,
-> one for moving the file and the second for making changes?
+Anyway, the steps look pretty simple here so I can see if I can write up a
+patch shortly :)
 
-I think it's a pointer to use `git format-patch -M -C ...` when
-preparing patches.
+On Mon, 2022-07-11 at 10:26 +0200, Christoph Hellwig wrote:
+> Hi i915 and nouveau maintainers,
+> 
+> any chance I could get some help to remove the remaining direct
+> driver calls into swiotlb, namely swiotlb_max_segment and
+> is_swiotlb_active.  Either should not matter to a driver as they
+> should be written to the DMA API.
+> 
+> In the i915 case it seems like the driver should use
+> dma_alloc_noncontiguous and/or dma_alloc_noncoherent to allocate
+> DMAable memory instead of using alloc_page and the streaming
+> dma mapping helpers.
+> 
+> For the latter it seems like it should just stop passing
+> use_dma_alloc == true to ttm_device_init and/or that function
+> should switch to use dma_alloc_noncoherent.
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
