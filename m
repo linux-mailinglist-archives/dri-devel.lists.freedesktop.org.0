@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F1B583E42
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:04:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4C0583E52
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:07:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35EB98C91;
-	Thu, 28 Jul 2022 12:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1377498E45;
+	Thu, 28 Jul 2022 12:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1FC8FF6C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:04:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D32977A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:07:40 +0000 (UTC)
 Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
  [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 888D156D;
- Thu, 28 Jul 2022 14:04:04 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F2EE56D;
+ Thu, 28 Jul 2022 14:07:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1659009845;
- bh=W8KWOIaou5r+VZS1JZiD6LrDaQ9bIBoLAeqLxYhMnDc=;
+ s=mail; t=1659010059;
+ bh=NYs1CegJfOdzTMrWzKcwsScJu3f3bNBSqgfmlYee5Ak=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=G5npxURHTqXY8u1iyD1KqtbRO7P8zd7pxttdTNeOyMazaL+pLXYliOwBq/7GlTupo
- o9w6kt8yw/PscOKGZA4d3GRK+ivp2OoCJA8I6iK2io3VqOGZIIlC3iHQNBXCgqZOcN
- sxXkHxHRU3sEk5AIPxrUwEzdT3lVvNV2F4fu94C8=
-Message-ID: <4382b760-418f-4033-97f2-47e082a30232@ideasonboard.com>
-Date: Thu, 28 Jul 2022 15:04:01 +0300
+ b=j1bGehUMRAMkTOMtefUeFkONS1rJvY3Q2Xxaq0dKdqYuxQftsyJ6NExvMVJ6HvPtF
+ tKvYMJGKVWbT8/2NOzCD4B3Aa2hLI5rWynCcCCP5g7oCoocWKK5fm3OFDV7pIk1i6g
+ 4sTnfVgLdjnIVUvrq/p8qDCbyk7HKQr4lrKNPBc0=
+Message-ID: <ca2c4f5b-7300-60cd-9667-f6441dec969f@ideasonboard.com>
+Date: Thu, 28 Jul 2022 15:07:35 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 2/2] drm/tidss: Add support for AM625 DSS
+Subject: Re: [PATCH 3/8] drm/tidss: Add support for DSS port properties
 Content-Language: en-US
 To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
  Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220627151200.4693-1-a-bhatia1@ti.com>
- <20220627151200.4693-3-a-bhatia1@ti.com>
+References: <20220719080845.22122-1-a-bhatia1@ti.com>
+ <20220719080845.22122-4-a-bhatia1@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220627151200.4693-3-a-bhatia1@ti.com>
+In-Reply-To: <20220719080845.22122-4-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,77 +57,29 @@ Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
  Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
- Rahul T R <r-ravikumar@ti.com>
+ Darren Etheridge <detheridge@ti.com>, Rahul T R <r-ravikumar@ti.com>,
+ Krunal Bhargav <k-bhargav@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2022 18:12, Aradhya Bhatia wrote:
-> Add support for the DSS IP on TI's new AM625 SoC in the tidss driver.
+On 19/07/2022 11:08, Aradhya Bhatia wrote:
+> Add support to enable and read the dss port properties.
+> 
+> The "ti,oldi-mode" property indicates the tidss driver how many OLDI
+> TXes are enabled as well as which mode do they need to be connected in.
+> 
+> The "ti,rgb565_to_888" is a special property that forces the DSS to
+> output 16bit RGB565 data to a 24bit RGB888 bridge. This property can be
+> used when the bridge does not explicity support RGB565.
 > 
 > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Reviewed-by: Rahul T R <r-ravikumar@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_dispc.c | 56 ++++++++++++++++++++++++++++-
->   drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
->   drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
->   3 files changed, 58 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index dae47853b728..f084f0688a54 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -272,6 +272,55 @@ const struct dispc_features dispc_j721e_feats = {
->   	.vid_order = { 1, 3, 0, 2 },
->   };
->   
-> +const struct dispc_features dispc_am625_feats = {
-> +	.max_pclk_khz = {
-> +		[DISPC_VP_DPI] = 165000,
-> +		[DISPC_VP_OLDI] = 165000,
-> +	},
-> +
-> +	.scaling = {
-> +		.in_width_max_5tap_rgb = 1280,
-> +		.in_width_max_3tap_rgb = 2560,
-> +		.in_width_max_5tap_yuv = 2560,
-> +		.in_width_max_3tap_yuv = 4096,
-> +		.upscale_limit = 16,
-> +		.downscale_limit_5tap = 4,
-> +		.downscale_limit_3tap = 2,
-> +		/*
-> +		 * The max supported pixel inc value is 255. The value
-> +		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
-> +		 * The maximum bpp of all formats supported by the HW
-> +		 * is 8. So the maximum supported xinc value is 32,
-> +		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
-> +		 */
-> +		.xinc_max = 32,
-> +	},
-> +
-> +	.subrev = DISPC_AM625,
-> +
-> +	.common = "common",
-> +	.common_regs = tidss_am65x_common_regs,
-> +
-> +	.num_vps = 2,
-> +	.vp_name = { "vp1", "vp2" },
-> +	.ovr_name = { "ovr1", "ovr2" },
-> +	.vpclk_name =  { "vp1", "vp2" },
-> +	.vp_bus_type = { DISPC_VP_OLDI, DISPC_VP_DPI },
 
-This looks correct, but with the two OLDI TXes, I think there will be 
-some interesting issues.
+I think it would be good if you would split the patches that contain 
+both OLDI and rgb565 changes, and arrange the series so that you first 
+have patches that add the rgb565 (dt and driver), and after that, the 
+OLDI changes.
 
-The tidss_kms.c associates a DSS VP and a DT port, but that's no longer 
-true if you add the ports for both OLDI TXes, as they both use the same 
-VP. I think fixing that won't affect this patch, though, and merging 
-this patch will, afaik, enable similar DSS functionality as we have for 
-AM65x.
-
-So, I think these two patches could be merged, or we could wait a bit 
-until the OLDI situation becomes more clear. Up to you. In any case, for 
-both patches:
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+They are fully separate things, and makes understanding the changes a 
+bit easier.
 
   Tomi
