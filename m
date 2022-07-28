@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1966A58394F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 09:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0648A58397B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 09:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33BF18A8ED;
-	Thu, 28 Jul 2022 07:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718E1113337;
+	Thu, 28 Jul 2022 07:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9143A18A8ED
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 07:14:02 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id n185so453964wmn.4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 00:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=hILZIvoDIkwNIrLsYQyrkCxgenn09M2LdHqO+LZDnXg=;
- b=JEHQyboLk91LSqSBdLvxuDK4/P/d4tQRRNF7SSwShdlK7YcIMZ9STiug2iCSGp9YWa
- tO2YQBAYZZuvAmEQxZEt+PPiqgC3wGlJ5YoEfTDJhf7dWqRUaQnogHTY8biMR1RWurbU
- fbJtHjMVBXc6PFdnNHt+/G0aw+h8kMCGdrn82p2VXN5IvqkpoKgEN4w/a0A5WXUHaigo
- 5jw/jrs0m6ASO3p4xdelXkBkHd5gBy9wjiZFSTB61oEUlnFm2tp+4vqE6DYSVdRV3b3r
- imCDPUK85+mNVPw2AqV4ovoYSQjGDq+4A9v29McqPerAejh3iOd3HO9ohnsqaVVMpudM
- 3mlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hILZIvoDIkwNIrLsYQyrkCxgenn09M2LdHqO+LZDnXg=;
- b=Sdne5PsrmL931XywCxS4kKT80VqXSKNMe+kV9reC6/bEsFhmpnHA9xxiVemAuM5Hhi
- q1DTtWpQKNb9bgThzY11L6QA5CA+HzWbhnfzhvcrd0k4BdOgvWQFnUyG/f80kyav0P8L
- 2yyQcKGV6wWRArMiVP4Gs4S+q7FpuTL9QpoIAXDzo2GMLCq1snS6GYkZni3LMQ/twIKX
- MqylX1ZTk2O9XcAce+VXjRFWNdLf6Yev5zUDYXq5F7SZe8ULouRp79UmNf3PTA9t9QgR
- RELbLy/gtmwXitTlfe3e0rqvoMKjbGe3VSaDsjkjJAvKJlkHd2jFFX76YDO5VBcJQTu5
- pJQw==
-X-Gm-Message-State: AJIora/J/6yvtSBU6c9eMjHV2WIApc7i/dkOe+TOgE5KdmfiXI249oti
- KcDyshoIrOWCGp2uJVb1cjk=
-X-Google-Smtp-Source: AGRyM1vOziCU/ukdoEd+TKLFPFGoE7CvG59ELGf0NP+CBG71ibzZVcXuVaPDa5v062hwASbiRR4AOg==
-X-Received: by 2002:a05:600c:17d0:b0:3a3:1b2d:ca44 with SMTP id
- y16-20020a05600c17d000b003a31b2dca44mr5417238wmo.100.1658992440913; 
- Thu, 28 Jul 2022 00:14:00 -0700 (PDT)
-Received: from elementary ([94.73.33.57]) by smtp.gmail.com with ESMTPSA id
- f8-20020a5d5688000000b0021bbf6687b1sm78281wrv.81.2022.07.28.00.13.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 00:14:00 -0700 (PDT)
-Date: Thu, 28 Jul 2022 09:13:53 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 04/12] drm/format-helper: Rework XRGB8888-to-RGBG332
- conversion
-Message-ID: <20220728071353.GA56421@elementary>
-References: <20220727113312.22407-1-tzimmermann@suse.de>
- <20220727113312.22407-5-tzimmermann@suse.de>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD53211BEE9;
+ Thu, 28 Jul 2022 07:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658993185; x=1690529185;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=g5kqmchM6HB+PXC+MCy/bxSNFEjJ81QvgGnZA2putgI=;
+ b=KPKaIbikPVqAgZhcIufZn9OVfVWWh4JMn6dDFsT/0XLnPNx182wdhYU6
+ LCAdyLXdXsOTmUN1FFfjR7nCSp74KvDNJnGrayCLylz8clYr389LSk2B+
+ f/iIiwIOAJ0v5m7Ke+94MwkyimGuxLKmaxijTmq/z8eI1aViA5wiOo28A
+ vAGRNS/dlxk3nMN0sCmW9p1z13O4zu1Xk7kQ6m5dtEi+MAk6aEofvys1F
+ nwsk3v8A4kKm6q86lTDy7dvytOHrE1xbgEwhph322nK21R/s705JQX8i5
+ ReeIamLGIitvpQzsp+tiQCu7yUXFj2Zb9GAglSnXnAwgaC5emLdsDbhG7 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="288456075"
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="288456075"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2022 00:26:25 -0700
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="659590683"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
+ ([10.249.36.196])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2022 00:26:21 -0700
+Date: Thu, 28 Jul 2022 09:26:18 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 06/21] drm/i915/gt: Batch TLB invalidations
+Message-ID: <20220728092618.050969fc@maurocar-mobl2>
+In-Reply-To: <20220728083232.352f80cf@maurocar-mobl2>
+References: <cover.1657800199.git.mchehab@kernel.org>
+ <9f535a97f32320a213a619a30c961ba44b595453.1657800199.git.mchehab@kernel.org>
+ <567823d5-57ba-30db-dd64-de609df4d8c5@linux.intel.com>
+ <20220727134836.7f7b5fab@maurocar-mobl2>
+ <d2337b73-ae34-3dd3-afa3-85c77dc2135e@linux.intel.com>
+ <20220728083232.352f80cf@maurocar-mobl2>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220727113312.22407-5-tzimmermann@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,149 +62,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, david@lechnology.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, javierm@redhat.com,
- virtualization@lists.linux-foundation.org, drawat.floss@gmail.com,
- noralf@tronnes.org, kraxel@redhat.com, airlied@redhat.com, sam@ravnborg.org
+Cc: Matthew Auld <matthew.auld@intel.com>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Tomas Winkler <tomas.winkler@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Thu, 28 Jul 2022 08:32:32 +0200
+Mauro Carvalho Chehab <mauro.chehab@linux.intel.com> wrote:
 
-On Wed, Jul 27, 2022 at 01:33:04PM +0200, Thomas Zimmermann wrote:
-> Update XRGB8888-to-RGB332 conversion to support struct iosys_map
-> and convert all users. Although these are single-plane color formats,
-> the new interface supports multi-plane formats for consistency with
-> drm_fb_blit().
+> On Wed, 27 Jul 2022 13:56:50 +0100
+> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Tested-by: José Expósito <jose.exposito89@gmail.com>
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-
-I just ran the tests in x86_64 and UML and they work as expected.
-I need to find some time to review all patches, but this one LGTM.
-
-This series will cause conflicts with [1]. Depending on which patchset
-gets merged earlier, we will have to resolve the conflicts in one
-series or the other.
-
-Best wishes,
-Jose
-
-[1] https://patchwork.kernel.org/project/dri-devel/list/?series=663266
-
-> ---
->  drivers/gpu/drm/drm_format_helper.c           | 25 ++++++++++++++-----
->  drivers/gpu/drm/gud/gud_pipe.c                |  2 +-
->  .../gpu/drm/tests/drm_format_helper_test.c    | 14 ++++++-----
->  include/drm/drm_format_helper.h               |  5 ++--
->  4 files changed, 31 insertions(+), 15 deletions(-)
+> > > Because vma_invalidate_tlb() basically stores a TLB seqno, but the
+> > > actual invalidation is deferred to when the pages are unset, at
+> > > __i915_gem_object_unset_pages().
+> > > 
+> > > So, what happens is:
+> > > 
+> > > - on VMA sync mode, the need to invalidate TLB is marked at
+> > >    __vma_put_pages(), before VMA unbind;
+> > > - on async, this is deferred to happen at ppgtt_unbind_vma(), where
+> > >    it marks the need to invalidate TLBs.
+> > > 
+> > > On both cases, __i915_gem_object_unset_pages() is called later,
+> > > when the driver is ready to unmap the page.    
+> > 
+> > Sorry still not clear to me why is the patch moving marking of the need 
+> > to invalidate (regardless if it a bit like today, or a seqno like in 
+> > this patch) from bind to unbind?
+> > 
+> > What if the seqno was stored in i915_vma_bind, where the bit is set 
+> > today, and all the hunks which touch the unbind and evict would 
+> > disappear from the patch. What wouldn't work in that case, if anything?  
 > 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index fa22d3cb11e8..2b5c3746ff4a 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -265,18 +265,31 @@ static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void *sbuf, unsigne
->  
->  /**
->   * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
-> - * @dst: RGB332 destination buffer
-> - * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-> - * @src: XRGB8888 source buffer
-> + * @dst: Array of RGB332 destination buffers
-> + * @dst_pitch: Array of numbers of bytes between two consecutive scanlines within dst
-> + * @vmap: Array of XRGB8888 source buffers
->   * @fb: DRM framebuffer
->   * @clip: Clip rectangle area to copy
->   *
->   * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
->   */
-> -void drm_fb_xrgb8888_to_rgb332(void *dst, unsigned int dst_pitch, const void *src,
-> -			       const struct drm_framebuffer *fb, const struct drm_rect *clip)
-> +void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pitch,
-> +			       const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-> +			       const struct drm_rect *clip)
->  {
-> -	drm_fb_xfrm(dst, dst_pitch, 1, src, fb, clip, false, drm_fb_xrgb8888_to_rgb332_line);
-> +	static const unsigned int default_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-> +		0, 0, 0, 0
-> +	};
-> +
-> +	if (!dst_pitch)
-> +		dst_pitch = default_dst_pitch;
-> +
-> +	if (dst[0].is_iomem)
-> +		drm_fb_xfrm_toio(dst[0].vaddr_iomem, dst_pitch[0], 1, vmap[0].vaddr, fb, clip,
-> +				 false, drm_fb_xrgb8888_to_rgb332_line);
-> +	else
-> +		drm_fb_xfrm(dst[0].vaddr, dst_pitch[0], 1, vmap[0].vaddr, fb, clip,
-> +			    false, drm_fb_xrgb8888_to_rgb332_line);
->  }
->  EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
->  
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-> index a15cda9ba058..426a3ae6cc50 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -196,7 +196,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
->  		} else if (format->format == DRM_FORMAT_R8) {
->  			drm_fb_xrgb8888_to_gray8(buf, 0, vaddr, fb, rect);
->  		} else if (format->format == DRM_FORMAT_RGB332) {
-> -			drm_fb_xrgb8888_to_rgb332(buf, 0, vaddr, fb, rect);
-> +			drm_fb_xrgb8888_to_rgb332(&dst, NULL, map_data, fb, rect);
->  		} else if (format->format == DRM_FORMAT_RGB565) {
->  			drm_fb_xrgb8888_to_rgb565(buf, 0, vaddr, fb, rect, gud_is_big_endian());
->  		} else if (format->format == DRM_FORMAT_RGB888) {
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 98583bf56044..b74dba06f704 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -124,7 +124,8 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
->  {
->  	const struct xrgb8888_to_rgb332_case *params = test->param_value;
->  	size_t dst_size;
-> -	__u8 *dst = NULL;
-> +	struct iosys_map dst, xrgb8888;
-> +	__u8 *buf = NULL;
->  
->  	struct drm_framebuffer fb = {
->  		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-> @@ -135,12 +136,13 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
->  				       &params->clip);
->  	KUNIT_ASSERT_GT(test, dst_size, 0);
->  
-> -	dst = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
-> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
->  
-> -	drm_fb_xrgb8888_to_rgb332(dst, params->dst_pitch, params->xrgb8888,
-> -				  &fb, &params->clip);
-> -	KUNIT_EXPECT_EQ(test, memcmp(dst, params->expected, dst_size), 0);
-> +	iosys_map_set_vaddr(&dst, buf);
-> +	iosys_map_set_vaddr(&xrgb8888, (void __force *)params->xrgb8888);
-> +	drm_fb_xrgb8888_to_rgb332(&dst, &params->dst_pitch, &xrgb8888, &fb, &params->clip);
-> +	KUNIT_EXPECT_EQ(test, memcmp(buf, params->expected, dst_size), 0);
->  }
->  
->  static struct kunit_case drm_format_helper_test_cases[] = {
-> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-> index 60944feaa936..3c28f099e3ed 100644
-> --- a/include/drm/drm_format_helper.h
-> +++ b/include/drm/drm_format_helper.h
-> @@ -20,8 +20,9 @@ void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
->  void drm_fb_swab(struct iosys_map *dst, const unsigned int *dst_pitch,
->  		 const struct iosys_map *vmap, const struct drm_framebuffer *fb,
->  		 const struct drm_rect *clip, bool cached);
-> -void drm_fb_xrgb8888_to_rgb332(void *dst, unsigned int dst_pitch, const void *vaddr,
-> -			       const struct drm_framebuffer *fb, const struct drm_rect *clip);
-> +void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pitch,
-> +			       const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-> +			       const struct drm_rect *clip);
->  void drm_fb_xrgb8888_to_rgb565(void *dst, unsigned int dst_pitch, const void *vaddr,
->  			       const struct drm_framebuffer *fb, const struct drm_rect *clip,
->  			       bool swab);
-> -- 
-> 2.37.1
+> Ah, now I see your point.
 > 
+> I can't see any sense on having a sequence number at VMA bind, as the
+> unbind order can be different. The need of doing a full TLB invalidation
+> or not depends on the unbind order.
+> 
+> The way the current algorithm works is that drm_i915_gem_object can be
+> created on any order, and, at unbind/evict, they receive a seqno.
+> 
+> The seqno is incremented at intel_gt_invalidate_tlb():
+> 
+>     void intel_gt_invalidate_tlb(struct intel_gt *gt, u32 seqno)
+>     {
+> 	with_intel_gt_pm_if_awake(gt, wakeref) {
+> 		mutex_lock(&gt->tlb.invalidate_lock);
+> 		if (tlb_seqno_passed(gt, seqno))
+> 				goto unlock;
+> 
+> 		mmio_invalidate_full(gt);
+> 
+> 		write_seqcount_invalidate(&gt->tlb.seqno);	// increment seqno
+> 		
+> 
+> So, let's say 3 objects were created, on this order:
+> 
+> 	obj1
+> 	obj2
+> 	obj3
+> 
+> They would be unbind/evict on a different order. On that time, 
+> the mm.tlb will be stamped with a seqno, using the number from the
+> last TLB flush, plus 1.
+> 
+> As different threads can be used to handle TLB flushes, let's imagine
+> two threads (just for the sake of having an example). On such case,
+> what we would have is:
+> 
+> seqno		Thread 0			Thread 1
+> 
+> seqno=2		unbind/evict event
+> 		obj3.mm.tlb = seqno | 1
+> seqno=2		unbind/evict event
+> 		obj1.mm.tlb = seqno | 1
+> 						__i915_gem_object_unset_pages() 
+> 						called for obj3, TLB flush happened,
+> 						invalidating both obj1 and obj2.
+> 						seqno += 2					
+> seqno=4		unbind/evict event
+> 		obj1.mm.tlb = seqno | 1
+
+cut-and-paste typo. it should be, instead:
+
+ 		obj2.mm.tlb = seqno | 1
+
+
+> 						__i915_gem_object_unset_pages()
+> 						called for obj1, don't flush.
+> ...
+> 						__i915_gem_object_unset_pages() called for obj2, TLB flush happened
+> 						seqno += 2
+> seqno=6
+> 
+> So, basically the seqno is used to track when the object data stopped
+> being updated, because of an unbind/evict event, being later used by
+> intel_gt_invalidate_tlb() when called from __i915_gem_object_unset_pages(),
+> in order to check if a previous invalidation call was enough to invalidate
+> the object, or if a new call is needed.
+> 
+> Now, if seqno is stored at bind, data can still leak, as the assumption
+> made by intel_gt_invalidate_tlb() that the data stopped being used at
+> seqno is not true anymore.
+> 
+> Still, I agree that this logic is complex and should be better 
+> documented. So, if you're now OK with this patch, I'll add the above
+> explanation inside a kernel-doc comment.
+
+I'm enclosing the kernel-doc patch (to be applied after moving the code into
+its own files: intel_tlb.c/intel_tlb.h):
+
+[PATCH] drm/i915/gt: document TLB cache invalidation functions
+
+Add a description for the TLB cache invalidation algorithm and for
+the related kAPI functions.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
+index af8cae979489..8eda0743da74 100644
+--- a/drivers/gpu/drm/i915/gt/intel_tlb.c
++++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
+@@ -145,6 +145,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
+ 	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
+ }
+ 
++/**
++ * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
++ * @gt: GT structure
++ * @seqno: sequence number
++ *
++ * Do a full TLB cache invalidation if the @seqno is bigger than the last
++ * full TLB cache invalidation.
++ *
++ * Note:
++ * The TLB cache invalidation logic depends on GEN-specific registers.
++ * It currently supports GEN8 to GEN12 and GuC-based TLB cache invalidation.
++ */
+ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+ {
+ 	intel_wakeref_t wakeref;
+@@ -177,6 +189,12 @@ void intel_gt_init_tlb(struct intel_gt *gt)
+ 	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
+ }
+ 
++/**
++ * intel_gt_fini_tlb - initialize TLB-specific vars
++ * @gt: GT structure
++ *
++ * Frees any resources needed by TLB cache invalidation logic.
++ */
+ void intel_gt_fini_tlb(struct intel_gt *gt)
+ {
+ 	mutex_destroy(&gt->tlb.invalidate_lock);
+diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
+index 46ce25bf5afe..d186f5d5901f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_tlb.h
++++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
+@@ -11,16 +11,99 @@
+ 
+ #include "intel_gt_types.h"
+ 
++/**
++ * DOC: TLB cache invalidation logic
++ *
++ * The way the current algorithm works is that drm_i915_gem_object can be
++ * created on any order. At unbind/evict time, the object is warranted that
++ * it won't be used anymore. So, they store a sequence number provided by
++ * intel_gt_next_invalidate_tlb_full().This can happen either at
++ * __vma_put_pages(), for VMA sync unbind, or at ppgtt_unbind_vma(), for
++ * VMA async VMA bind.
++ *
++ * At __i915_gem_object_unset_pages(), intel_gt_invalidate_tlb() is called,
++ * where it checks if the sequence number of the object was already invalidated
++ * or not. If not, it increments it::
++ *
++ *   void intel_gt_invalidate_tlb(struct intel_gt *gt, u32 seqno)
++ *   {
++ *   ...
++ * 	with_intel_gt_pm_if_awake(gt, wakeref) {
++ * 		mutex_lock(&gt->tlb.invalidate_lock);
++ * 		if (tlb_seqno_passed(gt, seqno))
++ * 				goto unlock;
++ *
++ * 		mmio_invalidate_full(gt);
++ *
++ * 		write_seqcount_invalidate(&gt->tlb.seqno); // increment seqno
++ *    ...
++ *
++ * So, let's say the current seqno is 2 and 3 new objects were created,
++ * on this order:
++ *
++ * 	obj1
++ * 	obj2
++ * 	obj3
++ *
++ * They can be unbind/evict on a different order. At unbind/evict time,
++ * the mm.tlb will be stamped with the sequence number, using the number
++ * from the last TLB flush, plus 1.
++ *
++ * Different threads may be used on unbind/evict and/or unset pages.
++ *
++ * As the logic at void intel_gt_invalidate_tlb() is protected by a mutex,
++ * for simplicity, let's consider just two threads::
++ *
++ *   sequence number	Thread 0		Thread 1
++ *
++ *   seqno=2
++ *			unbind/evict event
++ * 			obj3.mm.tlb = seqno | 1
++ *
++ *			unbind/evict event
++ * 			obj1.mm.tlb = seqno | 1
++ * 						__i915_gem_object_unset_pages()
++ * 						called for obj3 => TLB flush
++ * 						invalidating both obj1 and obj2.
++ * 						seqno += 2
++ *   seqno=4
++ *			unbind/evict event
++ * 			obj2.mm.tlb = seqno | 1
++ * 						__i915_gem_object_unset_pages()
++ * 						called for obj1, don't flush,
++ *						as past flush invalidated obj1
++ *
++ * 						__i915_gem_object_unset_pages()
++ *						called for obj2 => TLB flush
++ * 						seqno += 2
++ *   seqno=6
++ */
++
+ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno);
+ 
+ void intel_gt_init_tlb(struct intel_gt *gt);
+ void intel_gt_fini_tlb(struct intel_gt *gt);
+ 
++/**
++ * intel_gt_tlb_seqno - Returns the current TLB invlidation sequence number
++ *
++ * @gt: GT structure
++ *
++ * There's no need to lock while calling it, as seqprop_sequence is thread-safe
++ */
+ static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+ {
+ 	return seqprop_sequence(&gt->tlb.seqno);
+ }
+ 
++/**
++ * intel_gt_next_invalidate_tlb_full - Returns the next TLB full invalidation
++ *	sequence number
++ *
++ * @gt: GT structure
++ *
++ * There's no need to lock while calling it, as seqprop_sequence is thread-safe
++ */
+ static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
+ {
+ 	return intel_gt_tlb_seqno(gt) | 1;
+
