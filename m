@@ -1,46 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F975836C8
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 04:22:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E975836C7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 04:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0009E10F74C;
-	Thu, 28 Jul 2022 02:21:23 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nfschina.com (unknown
- [IPv6:2400:dd01:100f:2:72e2:84ff:fe10:5f45])
- by gabe.freedesktop.org (Postfix) with ESMTP id EDD4D10F24E;
- Thu, 28 Jul 2022 02:20:43 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mail.nfschina.com (Postfix) with ESMTP id C65111E80D89;
- Thu, 28 Jul 2022 10:20:35 +0800 (CST)
-X-Virus-Scanned: amavisd-new at test.com
-Received: from mail.nfschina.com ([127.0.0.1])
- by localhost (mail.nfschina.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pEUBs0og3I2Z; Thu, 28 Jul 2022 10:20:32 +0800 (CST)
-Received: from [172.30.18.178] (unknown [180.167.10.98])
- (Authenticated sender: yuzhe@nfschina.com)
- by mail.nfschina.com (Postfix) with ESMTPA id 59D301E80D72;
- Thu, 28 Jul 2022 10:20:32 +0800 (CST)
-Subject: Re: [PATCH] drm/amdkfd: use time_is_before_jiffies(a + b) to replace
- "jiffies - a > b"
-To: Felix Kuehling <felix.kuehling@amd.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220727025917.22477-1-yuzhe@nfschina.com>
- <17e02cd8-eba1-91b8-2506-91a7893ac967@amd.com>
-From: Yu Zhe <yuzhe@nfschina.com>
-Message-ID: <69adb14d-9f70-b118-14b2-92de75596c38@nfschina.com>
-Date: Thu, 28 Jul 2022 10:20:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6291D10F269;
+	Thu, 28 Jul 2022 02:21:21 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8E210FC2A;
+ Thu, 28 Jul 2022 02:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658974834; x=1690510834;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=IyalwOtL18vCl0280/KkPGvLMPiAN5G8nXgc9WdCsjU=;
+ b=Xm7XUJGdKtg2lW9rHpPelqVmUpUJOo6xE+6BxmPOblVH6EUfl9w6Et4n
+ LHyUrnt+iysNSmsV2zCG8t+MLZqxNCxBbYtPIBI6nunUmMifxmUKjzqU0
+ Z+hHG35wimvc2GNdcIfO2skSvaOYVR/9t09fhcLc6yaf/cCNKRksO8N61
+ cBhE9Yra2XpzffJRAxJcAxlKQ15vq+ex7eqobXNkAkrZEjyab+Bpi9i1D
+ ay7ZtUjAmeKhxMR2xl2yWBMj1aQFK2IOfY/fLMBX8k0xan7Mm/N27WgDq
+ ss6iKq11sXBP5ypA6Kyt8PceG3tlVBfsFedBmYh6hvPw1yI37LpF3enTZ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="285947588"
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="285947588"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2022 19:20:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="600648481"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga002.jf.intel.com with ESMTP; 27 Jul 2022 19:20:28 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 7/7] drm/i915/guc: Reduce spam from error capture
+Date: Wed, 27 Jul 2022 19:20:28 -0700
+Message-Id: <20220728022028.2190627-8-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220728022028.2190627-1-John.C.Harrison@Intel.com>
+References: <20220728022028.2190627-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-In-Reply-To: <17e02cd8-eba1-91b8-2506-91a7893ac967@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,63 +57,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liqiong@nfschina.com, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-在 2022年07月28日 00:04, Felix Kuehling 写道:
+From: John Harrison <John.C.Harrison@Intel.com>
 
-> This patch introduces a build warning for me:
->    CC [M]  drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.o
-> In file included from /home/fkuehlin/compute/kernel/include/linux/spinlock.h:54,
->                   from /home/fkuehlin/compute/kernel/include/linux/mmzone.h:8,
->                   from /home/fkuehlin/compute/kernel/include/linux/gfp.h:6,
->                   from /home/fkuehlin/compute/kernel/include/linux/slab.h:15,
->                   from /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.c:44:
-> /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.c: In function ?interrupt_wq?:
-> /home/fkuehlin/compute/kernel/include/linux/typecheck.h:12:18: warning: comparison of distinct pointer types lacks a cast
->     12 |  (void)(&__dummy == &__dummy2); \
->        |                  ^~
-> /home/fkuehlin/compute/kernel/include/linux/jiffies.h:106:3: note: in expansion of macro ?typecheck?
->    106 |   typecheck(unsigned long, b) && \
->        |   ^~~~~~~~~
-> /home/fkuehlin/compute/kernel/include/linux/jiffies.h:154:35: note: in expansion of macro ?time_after?
->    154 | #define time_is_before_jiffies(a) time_after(jiffies, a)
->        |                                   ^~~~~~~~~~
-> /home/fkuehlin/compute/kernel/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_interrupt.c:159:7: note: in expansion of macro ?time_is_before_jiffies?
->    159 |   if (time_is_before_jiffies(start_jiffies + HZ)) {
->        |       ^~~~~~~~~~~~~~~~~~~~~~
-> I think you need to change the the definition of start_jiffies to be
-> unsigned long. Do you want to submit a v2 of your patch?
+Some debug code got left in when the GuC based register save for error
+capture was added. Remove that.
 
-Yes, I will submit v2 patch later.
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 67 ++++++++-----------
+ 1 file changed, 28 insertions(+), 39 deletions(-)
 
-> That said, I think the existing code was fine, though the type-mismatch
-> highlighted by your patch is a bit iffy.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+index d2ac53d4f3b6e..8f11651460131 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+@@ -1383,33 +1383,22 @@ guc_capture_reg_to_str(const struct intel_guc *guc, u32 owner, u32 type,
+ 	return NULL;
+ }
+ 
+-#ifdef CONFIG_DRM_I915_DEBUG_GUC
+-#define __out(a, ...) \
+-	do { \
+-		drm_warn((&(a)->i915->drm), __VA_ARGS__); \
+-		i915_error_printf((a), __VA_ARGS__); \
+-	} while (0)
+-#else
+-#define __out(a, ...) \
+-	i915_error_printf(a, __VA_ARGS__)
+-#endif
+-
+ #define GCAP_PRINT_INTEL_ENG_INFO(ebuf, eng) \
+ 	do { \
+-		__out(ebuf, "    i915-Eng-Name: %s command stream\n", \
+-		      (eng)->name); \
+-		__out(ebuf, "    i915-Eng-Inst-Class: 0x%02x\n", (eng)->class); \
+-		__out(ebuf, "    i915-Eng-Inst-Id: 0x%02x\n", (eng)->instance); \
+-		__out(ebuf, "    i915-Eng-LogicalMask: 0x%08x\n", \
+-		      (eng)->logical_mask); \
++		i915_error_printf(ebuf, "    i915-Eng-Name: %s command stream\n", \
++				  (eng)->name); \
++		i915_error_printf(ebuf, "    i915-Eng-Inst-Class: 0x%02x\n", (eng)->class); \
++		i915_error_printf(ebuf, "    i915-Eng-Inst-Id: 0x%02x\n", (eng)->instance); \
++		i915_error_printf(ebuf, "    i915-Eng-LogicalMask: 0x%08x\n", \
++				  (eng)->logical_mask); \
+ 	} while (0)
+ 
+ #define GCAP_PRINT_GUC_INST_INFO(ebuf, node) \
+ 	do { \
+-		__out(ebuf, "    GuC-Engine-Inst-Id: 0x%08x\n", \
+-		      (node)->eng_inst); \
+-		__out(ebuf, "    GuC-Context-Id: 0x%08x\n", (node)->guc_id); \
+-		__out(ebuf, "    LRCA: 0x%08x\n", (node)->lrca); \
++		i915_error_printf(ebuf, "    GuC-Engine-Inst-Id: 0x%08x\n", \
++				  (node)->eng_inst); \
++		i915_error_printf(ebuf, "    GuC-Context-Id: 0x%08x\n", (node)->guc_id); \
++		i915_error_printf(ebuf, "    LRCA: 0x%08x\n", (node)->lrca); \
+ 	} while (0)
+ 
+ int intel_guc_capture_print_engine_node(struct drm_i915_error_state_buf *ebuf,
+@@ -1441,57 +1430,57 @@ int intel_guc_capture_print_engine_node(struct drm_i915_error_state_buf *ebuf,
+ 
+ 	guc = &ee->engine->gt->uc.guc;
+ 
+-	__out(ebuf, "global --- GuC Error Capture on %s command stream:\n",
+-	      ee->engine->name);
++	i915_error_printf(ebuf, "global --- GuC Error Capture on %s command stream:\n",
++			  ee->engine->name);
+ 
+ 	node = ee->guc_capture_node;
+ 	if (!node) {
+-		__out(ebuf, "  No matching ee-node\n");
++		i915_error_printf(ebuf, "  No matching ee-node\n");
+ 		return 0;
+ 	}
+ 
+-	__out(ebuf, "Coverage:  %s\n", grptype[node->is_partial]);
++	i915_error_printf(ebuf, "Coverage:  %s\n", grptype[node->is_partial]);
+ 
+ 	for (i = GUC_CAPTURE_LIST_TYPE_GLOBAL; i < GUC_CAPTURE_LIST_TYPE_MAX; ++i) {
+-		__out(ebuf, "  RegListType: %s\n",
+-		      datatype[i % GUC_CAPTURE_LIST_TYPE_MAX]);
+-		__out(ebuf, "    Owner-Id: %d\n", node->reginfo[i].vfid);
++		i915_error_printf(ebuf, "  RegListType: %s\n",
++				  datatype[i % GUC_CAPTURE_LIST_TYPE_MAX]);
++		i915_error_printf(ebuf, "    Owner-Id: %d\n", node->reginfo[i].vfid);
+ 
+ 		switch (i) {
+ 		case GUC_CAPTURE_LIST_TYPE_GLOBAL:
+ 		default:
+ 			break;
+ 		case GUC_CAPTURE_LIST_TYPE_ENGINE_CLASS:
+-			__out(ebuf, "    GuC-Eng-Class: %d\n", node->eng_class);
+-			__out(ebuf, "    i915-Eng-Class: %d\n",
+-			      guc_class_to_engine_class(node->eng_class));
++			i915_error_printf(ebuf, "    GuC-Eng-Class: %d\n", node->eng_class);
++			i915_error_printf(ebuf, "    i915-Eng-Class: %d\n",
++					  guc_class_to_engine_class(node->eng_class));
+ 			break;
+ 		case GUC_CAPTURE_LIST_TYPE_ENGINE_INSTANCE:
+ 			eng = intel_guc_lookup_engine(guc, node->eng_class, node->eng_inst);
+ 			if (eng)
+ 				GCAP_PRINT_INTEL_ENG_INFO(ebuf, eng);
+ 			else
+-				__out(ebuf, "    i915-Eng-Lookup Fail!\n");
++				i915_error_printf(ebuf, "    i915-Eng-Lookup Fail!\n");
+ 			GCAP_PRINT_GUC_INST_INFO(ebuf, node);
+ 			break;
+ 		}
+ 
+ 		numregs = node->reginfo[i].num_regs;
+-		__out(ebuf, "    NumRegs: %d\n", numregs);
++		i915_error_printf(ebuf, "    NumRegs: %d\n", numregs);
+ 		j = 0;
+ 		while (numregs--) {
+ 			regs = node->reginfo[i].regs;
+ 			str = guc_capture_reg_to_str(guc, GUC_CAPTURE_LIST_INDEX_PF, i,
+ 						     node->eng_class, 0, regs[j].offset, &is_ext);
+ 			if (!str)
+-				__out(ebuf, "      REG-0x%08x", regs[j].offset);
++				i915_error_printf(ebuf, "      REG-0x%08x", regs[j].offset);
+ 			else
+-				__out(ebuf, "      %s", str);
++				i915_error_printf(ebuf, "      %s", str);
+ 			if (is_ext)
+-				__out(ebuf, "[%ld][%ld]",
+-				      FIELD_GET(GUC_REGSET_STEERING_GROUP, regs[j].flags),
+-				      FIELD_GET(GUC_REGSET_STEERING_INSTANCE, regs[j].flags));
+-			__out(ebuf, ":  0x%08x\n", regs[j].value);
++				i915_error_printf(ebuf, "[%ld][%ld]",
++					FIELD_GET(GUC_REGSET_STEERING_GROUP, regs[j].flags),
++					FIELD_GET(GUC_REGSET_STEERING_INSTANCE, regs[j].flags));
++			i915_error_printf(ebuf, ":  0x%08x\n", regs[j].value);
+ 			++j;
+ 		}
+ 	}
+-- 
+2.37.1
 
-And if the timer wrap changes in the future you won't have to alter your driver code. So I think it's better.
-
-> Regards,
->    Felix
-> Am 2022-07-26 um 22:59 schrieb Yu Zhe:
->> time_is_before_jiffies deals with timer wrapping correctly.
->> Signed-off-by: Yu Zhe <yuzhe@nfschina.com>
->> ---
->>    drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c | 2 +-
->>    1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c b/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
->> index a9466d154395..6397926e059c 100644
->> --- a/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
->> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
->> @@ -156,7 +156,7 @@ static void interrupt_wq(struct work_struct *work)
->>        while (dequeue_ih_ring_entry(dev, ih_ring_entry)) {
->>            dev->device_info.event_interrupt_class->interrupt_wq(dev,
->>                                    ih_ring_entry);
->> -        if (jiffies - start_jiffies > HZ) {
->> +        if (time_is_before_jiffies(start_jiffies + HZ)) {
->>                /* If we spent more than a second processing signals,
->>                 * reschedule the worker to avoid soft-lockup warnings
->>                 */
->
