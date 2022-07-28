@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25FD583714
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 04:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D17583718
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 04:43:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E913010E086;
-	Thu, 28 Jul 2022 02:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157F510F961;
+	Thu, 28 Jul 2022 02:42:36 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BBFC10E070;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A78D610EA51;
  Thu, 28 Jul 2022 02:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1658976147; x=1690512147;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xHVpB6zkDipSCn0X1Zi2jWukcxVUmAzUsjYeZHrSmk0=;
- b=ZD8U2Ue6c+KZcECXX2sMQ8vnGTBWo+5ji47nvxp1Z03abF0lFDmOni9i
- CYpIBr0Xr1KsdYaOU4UMdsMLp2wOQgSQW7ysP0s69YtxAbbMW7no/7s7C
- 2mxdmSJkxb1nRPLP/tBEx8M3DefEbyfZgab5y9iUTpNTqZq3xD542knOX
- qmm5dfHzd+ubqT71OX3va26IJP8QdihvIs9ObuuH6D7KTlQQXM7VyYx4F
- 8qBS7WOdu9Xj/s7ZNzhDBQoz9Id3Kxq444drU/yXbP83/8KlKH9OdfrI/
- 5PV4Zq3SwjX5MRGq6FNSmguTE6/FpalfgXMS7LCI9mnuJlwoKDcmTlqt4 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="271443539"
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="271443539"
+ bh=E8B9qejhPS7QqWDfrnsVMTo6dJ/YDEkwJYeHMmIQxh0=;
+ b=iVZGZ758/Po0SNuH+JVdET+BJN+xjk/fWa/5K/4xw67JSsW/8IFXxDgT
+ 34rWMOJW1ORVRrln+mkQE1Be0V6apca5TOXhUe1BiPfEohqwmZLNg0NHT
+ 7fUHhBtAfTA3RHE5tV1iaebUeMegq25OpkShbmCTOXyvZ7QnQ1mV3a44V
+ ZT2uIHje3l6xB33C7cubeTEs8A7GD1v6/D8ZyRBezQ1OwBMhKgaGy6bJc
+ T/eKMvQS9aWwe3ftsuGeDZqbrlsIm+Q97JkaGH+q5tYm7tqC/ocREibQB
+ V+yC5e6TWgdYEVJic0MUT42RWU3zEZNR90e2KbkASXDGP2gktliJet8qz w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="271443540"
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="271443540"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Jul 2022 19:42:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="690096039"
+X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="690096043"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by FMSMGA003.fm.intel.com with ESMTP; 27 Jul 2022 19:42:25 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 1/6] drm/i915/guc: Route semaphores to GuC for Gen12+
-Date: Wed, 27 Jul 2022 19:42:20 -0700
-Message-Id: <20220728024225.2363663-2-John.C.Harrison@Intel.com>
+Subject: [PATCH 2/6] drm/i915/guc: Fix issues with live_preempt_cancel
+Date: Wed, 27 Jul 2022 19:42:21 -0700
+Message-Id: <20220728024225.2363663-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728024225.2363663-1-John.C.Harrison@Intel.com>
 References: <20220728024225.2363663-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
@@ -59,74 +58,82 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Matthew Brost <matthew.brost@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
  John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michał Winiarski <michal.winiarski@intel.com>
+From: Matthew Brost <matthew.brost@intel.com>
 
-In GuC submission mode, there is an option to use auto-switch out
-semaphores and have GuC auto-switch in a waiting context. This
-requires routing the semaphore interrupt to GuC.
+Having semaphores results in different behavior when a dependent request
+is cancelled. In the case of semaphores the request could be on the HW
+and complete successfully while without the request is held in the
+driver and the error from the dependent request is propagated. Fix
+live_preempt_cancel to take this behavior into account.
 
-Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+Also update live_preempt_cancel to use new function intel_context_ban
+rather than intel_context_set_banned.
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h        |  4 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 ++++++++++++++
- 2 files changed, 18 insertions(+)
+ drivers/gpu/drm/i915/gt/selftest_execlists.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-index 8dc063f087eb1..a7092f711e9cd 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-@@ -102,6 +102,10 @@
- #define   GUC_SEND_TRIGGER		  (1<<0)
- #define GEN11_GUC_HOST_INTERRUPT	_MMIO(0x1901f0)
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 02fc97a0ab502..015f8cd3463e2 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -2087,7 +2087,7 @@ static int __cancel_active0(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
  
-+#define GEN12_GUC_SEM_INTR_ENABLES	_MMIO(0xc71c)
-+#define   GUC_SEM_INTR_ROUTE_TO_GUC	BIT(31)
-+#define   GUC_SEM_INTR_ENABLE_ALL	(0xff)
-+
- #define GUC_NUM_DOORBELLS		256
+-	intel_context_set_banned(rq->context);
++	intel_context_ban(rq->context, rq);
+ 	err = intel_engine_pulse(arg->engine);
+ 	if (err)
+ 		goto out;
+@@ -2146,7 +2146,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
+ 	if (err)
+ 		goto out;
  
- /* format of the HW-monitored doorbell cacheline */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 76916aed897ad..0b8c6450fa344 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4191,13 +4191,27 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
+-	intel_context_set_banned(rq[1]->context);
++	intel_context_ban(rq[1]->context, rq[1]);
+ 	err = intel_engine_pulse(arg->engine);
+ 	if (err)
+ 		goto out;
+@@ -2229,7 +2229,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+ 	if (err)
+ 		goto out;
  
- void intel_guc_submission_enable(struct intel_guc *guc)
- {
-+	struct intel_gt *gt = guc_to_gt(guc);
-+
-+	/* Enable and route to GuC */
-+	if (GRAPHICS_VER(gt->i915) >= 12)
-+		intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES,
-+				   GUC_SEM_INTR_ROUTE_TO_GUC |
-+				   GUC_SEM_INTR_ENABLE_ALL);
-+
- 	guc_init_lrc_mapping(guc);
- 	guc_init_engine_stats(guc);
- }
+-	intel_context_set_banned(rq[2]->context);
++	intel_context_ban(rq[2]->context, rq[2]);
+ 	err = intel_engine_pulse(arg->engine);
+ 	if (err)
+ 		goto out;
+@@ -2244,7 +2244,13 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
  
- void intel_guc_submission_disable(struct intel_guc *guc)
- {
-+	struct intel_gt *gt = guc_to_gt(guc);
-+
- 	/* Note: By the time we're here, GuC may have already been reset */
-+
-+	/* Disable and route to host */
-+	if (GRAPHICS_VER(gt->i915) >= 12)
-+		intel_uncore_write(gt->uncore, GEN12_GUC_SEM_INTR_ENABLES, 0x0);
- }
+-	if (rq[1]->fence.error != 0) {
++	/*
++	 * The behavior between having semaphores and not is different. With
++	 * semaphores the subsequent request is on the hardware and not cancelled
++	 * while without the request is held in the driver and cancelled.
++	 */
++	if (intel_engine_has_semaphores(rq[1]->engine) &&
++	    rq[1]->fence.error != 0) {
+ 		pr_err("Normal inflight1 request did not complete\n");
+ 		err = -EINVAL;
+ 		goto out;
+@@ -2292,7 +2298,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
+ 		goto out;
+ 	}
  
- static bool __guc_submission_supported(struct intel_guc *guc)
+-	intel_context_set_banned(rq->context);
++	intel_context_ban(rq->context, rq);
+ 	err = intel_engine_pulse(arg->engine); /* force reset */
+ 	if (err)
+ 		goto out;
 -- 
 2.37.1
 
