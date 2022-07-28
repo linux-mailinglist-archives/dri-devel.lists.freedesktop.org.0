@@ -1,43 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FFE583CD1
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 13:04:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B10A583D3E
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 13:21:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8363C98EC7;
-	Thu, 28 Jul 2022 11:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE901127F7;
+	Thu, 28 Jul 2022 11:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2444198E46
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 11:03:58 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
- [91.158.154.79])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E366D56D;
- Thu, 28 Jul 2022 13:03:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1659006236;
- bh=4C5fixSDw1OhkJhVXTYHM7W8UHnH5gRoIf+wUO4yo1U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ipevg5r0GyMQWYZN+8cuQD6AIp3Kxw50cwc+B9UIstrn+rQ9xW5SnJUj9aqgwnlz+
- UDgJQqJgHV/zJVdi1uS7ctRp/DTJI5TUQA01mGVxp9lFT4fwnoYDxj7dDQwG/q4Xmd
- ayXE5EVemDF3A/aszMN6BDSKV0pMIplBq+Su46VQ=
-Message-ID: <f2909af1-be23-009b-ba71-34206f099473@ideasonboard.com>
-Date: Thu, 28 Jul 2022 14:03:53 +0300
+X-Greylist: delayed 460 seconds by postgrey-1.36 at gabe;
+ Thu, 28 Jul 2022 11:21:48 UTC
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58C8A97D39
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 11:21:48 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Ltp1h3XKzz4x1N;
+ Thu, 28 Jul 2022 21:14:00 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1659006843;
+ bh=wZItW5ZtKMHAK45zLNIh7lLY/k1xgG/tdE8BGbTrDhk=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=EvOuNhleqMSiHu7f5rYL6A7uO+J/Jiy3M00zpvoXyk2JKm3DFUp7iDR+lS3Y9doXt
+ pHsrS1Wz9/I3Uhn/+zUXi7njnfawpMliYynInvWYu+h3cRSobhCqiNjLfj98vAUu13
+ OAET0Ecz/FZdocX905JEmh3hY2QnI2QALYADJkoBMgcnXPnuetJ04OnWIQA38KHUVF
+ JyTcR+Ls9ax70KHCbAEFm6PkHhRglRzjm91nlbRtn/ChitPlpY3kvf2Q5z93oS/hms
+ LRbGTIFzRvZCrKGDbHZZHPzIdSEGe/2DlCWH3y26Q+dfV4jv0uKob/aCKd4HB0x7Y+
+ K4stznoQSRTyQ==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech,
+ sam@ravnborg.org, msuchanek@suse.de, benh@kernel.crashing.org,
+ paulus@samba.org, geert@linux-m68k.org, mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/10] drm: Add driver for PowerPC OF displays
+In-Reply-To: <20220720142732.32041-1-tzimmermann@suse.de>
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+Date: Thu, 28 Jul 2022 21:13:59 +1000
+Message-ID: <871qu5cww8.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 4/8] drm/tidss: Add support for Dual Link LVDS Bus Format
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-References: <20220719080845.22122-1-a-bhatia1@ti.com>
- <20220719080845.22122-5-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220719080845.22122-5-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,83 +55,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Darren Etheridge <detheridge@ti.com>, Rob Herring <robh+dt@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Rahul T R <r-ravikumar@ti.com>,
- Krunal Bhargav <k-bhargav@ti.com>
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/07/2022 11:08, Aradhya Bhatia wrote:
-> The 2 OLDI TXes in the AM625 SoC can be synced together to output a 2K
-> resolution video.
-> 
-> Add support in the driver for the discovery of such a dual mode
-> connection on the OLDI video port, using the values of "ti,oldi-mode"
-> property.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_dispc.c | 39 +++++++++++++++++++++--------
->   1 file changed, 28 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index add725fa682b..fb1fdecfc83a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -853,25 +853,36 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
->   	}
->   }
->   
-> -enum dispc_oldi_mode_reg_val { SPWG_18 = 0, JEIDA_24 = 1, SPWG_24 = 2 };
-> +enum dispc_oldi_mode_reg_val {
-> +	SPWG_18		= 0,
-> +	JEIDA_24	= 1,
-> +	SPWG_24		= 2,
-> +	DL_SPWG_18	= 4,
-> +	DL_JEIDA_24	= 5,
-> +	DL_SPWG_24	= 6,
-> +};
->   
->   struct dispc_bus_format {
->   	u32 bus_fmt;
->   	u32 data_width;
->   	bool is_oldi_fmt;
-> +	bool is_dual_link;
->   	enum dispc_oldi_mode_reg_val oldi_mode_reg_val;
->   };
->   
->   static const struct dispc_bus_format dispc_bus_formats[] = {
-> -	{ MEDIA_BUS_FMT_RGB444_1X12,		12, false, 0 },
-> -	{ MEDIA_BUS_FMT_RGB565_1X16,		16, false, 0 },
-> -	{ MEDIA_BUS_FMT_RGB666_1X18,		18, false, 0 },
-> -	{ MEDIA_BUS_FMT_RGB888_1X24,		24, false, 0 },
-> -	{ MEDIA_BUS_FMT_RGB101010_1X30,		30, false, 0 },
-> -	{ MEDIA_BUS_FMT_RGB121212_1X36,		36, false, 0 },
-> -	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,	18, true, SPWG_18 },
-> -	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,	24, true, SPWG_24 },
-> -	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,	24, true, JEIDA_24 },
-> +	{ MEDIA_BUS_FMT_RGB444_1X12,		12, false, false, 0 },
-> +	{ MEDIA_BUS_FMT_RGB565_1X16,		16, false, false, 0 },
-> +	{ MEDIA_BUS_FMT_RGB666_1X18,		18, false, false, 0 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X24,		24, false, false, 0 },
-> +	{ MEDIA_BUS_FMT_RGB101010_1X30,		30, false, false, 0 },
-> +	{ MEDIA_BUS_FMT_RGB121212_1X36,		36, false, false, 0 },
-> +	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,	18, true, false, SPWG_18 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,	24, true, false, SPWG_24 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,	24, true, false, JEIDA_24 },
-> +	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,	18, true, true, DL_SPWG_18 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,	24, true, true, DL_SPWG_24 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,	24, true, true, DL_JEIDA_24 },
->   };
+Thomas Zimmermann <tzimmermann@suse.de> writes:
+> (was: drm: Add driverof PowerPC OF displays)
+>
+> PowerPC's Open Firmware offers a simple display buffer for graphics
+> output. Add ofdrm, a DRM driver for the device. As with the existing
+> simpledrm driver, the graphics hardware is pre-initialized by the
+> firmware. The driver only provides blitting, no actual DRM modesetting
+> is possible.
 
-So the dual link sends two pixels per clock, right? Are there panel or 
-bridge drivers that support this? My initial thought was that it should 
-be a new bus format.
+Hi Thomas,
 
-  Tomi
+I tried to test this on a 32-bit ppc Mac Mini but didn't have much luck.
+But I'm probably doing something wrong because I'm a graphics noob.
+
+The machine normally uses CONFIG_DRM_RADEON, so I turned that off, and
+turned DRM_OFDRM on.
+
+When I boot I get boot messages but only one screen worth, the messages
+don't scroll at all, which is unusual. But I'm not sure if that's
+related to ofdrm or something else.
+
+The machine does come up, I can login via SSH. Is there some way to
+start X to exercise the driver from an SSH login?
+
+cheers
