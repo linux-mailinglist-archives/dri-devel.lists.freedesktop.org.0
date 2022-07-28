@@ -1,74 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AFC583E80
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:17:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E032D583EE1
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBDC2B65A;
-	Thu, 28 Jul 2022 12:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7135B99D89;
+	Thu, 28 Jul 2022 12:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA0E995F0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:17:33 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id w16so1316804ljh.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 05:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vTHkf3PkQuEgWJCGVwet40bcBQOgfr43zzOgeagd0v0=;
- b=DrB888e8pgeDAoMhrEqBNUb66SA6IcaJUsXBFF5IlGsk2uCCbZekR1kwgl3aEJ26bc
- 1jNfUJm4fIzr8GBhbQcg2hRDsO2Y2tL3avvUyMynyGj610ogrHFX2ygpX8G408ESIfbB
- KxIfBvfxPNvSDWH3LMIVnqvHC+Xzl45CXdtvtN+47GmWkNbUXVYTufPdCTUvNI4jMmbc
- 4V/bkz5hJu5XwxkgENOnMxmt9jNR558hunrovhY1W8Dr+JXrhi0bPajNHa77QPAPnhCW
- fjeaWrZ6iNC8gwKOGfCdhldVm8vmQJ3GKrBYXu9+UkMnrtL64h6qxMSPb7SXmhZy3gSh
- 7TJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vTHkf3PkQuEgWJCGVwet40bcBQOgfr43zzOgeagd0v0=;
- b=lIG6Vm2OGtQtx3VZ37wWaZvuKlmRp3i55SdmYteBRg9dqol15gyamq69pFB+21inT6
- pembFnq3exR7pWBmeBMsQA8JFo3oalRrE6/SqYeb/YxMzZQNdQ7qOIMIzZT6nvF8dDSg
- 0gLJ8GEyV+oM/+pfAV0BEElN1dqJCpxhTBRzJbkxlsH3xskIZ5goRha448qGe3UK2LoE
- Cu3kR88qyg0+z2T9ZHavWGeI/mO7X24oyeMG4ANTnn5jkRn2FKhHy2WvtEO9Nr8w1OG3
- /Qu2jIHqYgXik3rHJQ3gIveogsdEKyy4tfE5RWvSeC5rwBSBasneqT/wqoRJ2RZhFfq5
- 81vw==
-X-Gm-Message-State: AJIora+h3H/X1tXmBwE1LoqB5Xcs2rZIoOPRYJDy8FRFJuColb4afVPI
- rebDDhuktZ9jp2scksWUC9P7PA==
-X-Google-Smtp-Source: AGRyM1vNyLPheoEf3KZBupmIsZAAYI+VF8waTXPJlh0mdoKFxZ1zqu+EszKS24/oZeb1UEHCkEQOTg==
-X-Received: by 2002:a2e:a315:0:b0:25e:2e8f:f5c5 with SMTP id
- l21-20020a2ea315000000b0025e2e8ff5c5mr597979lje.145.1659010650856; 
- Thu, 28 Jul 2022 05:17:30 -0700 (PDT)
-Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no.
- [78.26.46.173]) by smtp.gmail.com with ESMTPSA id
- v22-20020a056512349600b004795d64f37dsm176194lfr.105.2022.07.28.05.17.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 05:17:30 -0700 (PDT)
-Message-ID: <1685ecd6-cfe7-c2f1-add5-6bfff055fa06@linaro.org>
-Date: Thu, 28 Jul 2022 14:17:29 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBA5799D75;
+ Thu, 28 Jul 2022 12:30:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E529CB82445;
+ Thu, 28 Jul 2022 12:30:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC3E6C4347C;
+ Thu, 28 Jul 2022 12:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659011406;
+ bh=SsLKQKAJDVdmsjFvuEvNTnovowDQ9E5EcEd8pA4PGds=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mloeqN3p2gVVuWZfpt5whWnuCmI19/IGx+lB3YAP9QC2uQ9mKtcWA5MmRci4SBSnN
+ A3242ZO939pfOZe9CPGwbXZCHdqcNCuV/SZ1+S+qsuX/jaSRFn6EsOUSfpb+LmQ+qX
+ 2l5TZNOMRRqcvej1lT+UsIv1SRxCIDExrXx4+Q768jnUGg8aWA3zeCDxS2vagMcKUn
+ Xywkd6UGWYKC3d2ACZqwNF5QAGE+jskhS3rzxHFhk/RCOqVqWR0GBXLrOxzM68XUnw
+ F9qmxPYJm02Eg34hB/Suee44VQfh9aowrLaeoUPi4AKcE+dW9406ggSPzTA0NG+dRk
+ +Nm/Yx0iVAleg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+ (envelope-from <mchehab@kernel.org>) id 1oH2eS-005W6T-95;
+ Thu, 28 Jul 2022 14:30:04 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: 
+Subject: [PATCH 0/2] Move TLB invalidation code for its own file and document
+ it
+Date: Thu, 28 Jul 2022 14:30:01 +0200
+Message-Id: <cover.1659011328.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4 2/2] drm: panel: Add novatek nt35596s panel driver
-Content-Language: en-US
-To: Molly Sophia <mollysophia379@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20220728023555.8952-1-mollysophia379@gmail.com>
- <20220728023555.8952-3-mollysophia379@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220728023555.8952-3-mollysophia379@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,24 +53,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2022 04:35, Molly Sophia wrote:
-> Novatek NT35596s is a generic DSI IC that drives command and video mode
-> panels. Add the driver for it. Currently add support for the LCD panel
-> from JDI connected with this IC, as found on Xiaomi Mi Mix2s phones.
-> 
-> Changes in v4:
-> - No change.
-> 
-> Changes in v3:
-> - Embed the support into existing driver (panel-novatek-nt36672a), as
->   these two IC are similar with different initialization commands.
-> 
+There are more things to be added to TLB invalidation. Before doing that,
+move the code to its own file, and add the relevant documentation.
 
-This does not go to commit msg (---).
+Chris Wilson (1):
+  drm/i915/gt: Move TLB invalidation to its own file
 
-Best regards,
-Krzysztof
+Mauro Carvalho Chehab (1):
+  drm/i915/gt: document TLB cache invalidation functions
+
+ drivers/gpu/drm/i915/Makefile             |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c        | 168 +----------------
+ drivers/gpu/drm/i915/gt/intel_gt.h        |  12 --
+ drivers/gpu/drm/i915/gt/intel_tlb.c       | 208 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_tlb.h       | 112 ++++++++++++
+ drivers/gpu/drm/i915/i915_vma.c           |   1 +
+ 7 files changed, 327 insertions(+), 179 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+
+-- 
+2.36.1
+
+
