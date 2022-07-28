@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6519E584090
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 16:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6121658411A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 16:28:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7B5110FB47;
-	Thu, 28 Jul 2022 14:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E76811A866;
+	Thu, 28 Jul 2022 14:28:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2EBF10FAF1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:07:45 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id d17so2982316lfa.12
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 07:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XURwmQrh3pi3kMw2kzj18VPxjyFA7fJIbFKY450RC7I=;
- b=qRGvHVeB02lb7PCsFuzh7wZCEHah7TU2JwUE6V6ElvhENbjDki89kU8OEIUZ9iWGFC
- BUuOdg76Z4r7uFqKrGaPCwzWTmcBvk9XDMcEiDZ0uVVWX9bHcw3Qws+QNr2wb/a8Cvmn
- xgGzp/9b0Gaqfbf4COE+OfjCye3EM3WZhCfiOyFKtXbfdtTnmEjhQLik0UXkLFeoWW2O
- A1IAF/qiguMdPPIsVAfRHk4l8yeTSxQFg4Lbt9nbrWBNCa4tVyi20KDydOuAFbqmHr7h
- 9Kqvwe0Lab0ngMkz08xS302Z5j2hEzgP/FNAccSHtTZhfQYWgPFv/q8i+SRHJwldY3qv
- XKOw==
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C20511A7D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:28:41 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id b11so3433572eju.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 07:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gvXbeuK/nDPmsZZTRnDVNdv3SfvIgHhFwFU2kIzHG68=;
+ b=UUn+zotXHe6ND+iqyztenRNM6eQqekQZejLSPdmR7TqJ/qPLS7+rJB6KdPHJxTiZK+
+ q3BotwxEHcUR0oxFWmR8c3559LeGfizKqWvCE/alvuJctwxRL+0/gyKCu9GT2leHLrOY
+ x6tXIjp7tGWh5atJIbhoXTGnFxQq658fGLd3SHG4ZCyiHaQh+hZLHXksYqUzfQJzK2cv
+ Y0LACEGoBZWEGxcBTk5kV+NcgEpQ30wdddhf+ysl1YBNQjYAYClayxzS9uXCs2IkNZnR
+ OOT27cxCpxgBMtOTuQyLc9fuI8ymnflO2gnBwmGQSNljurU5u2C3BQ7S9PDmoZyfO6h9
+ e0mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XURwmQrh3pi3kMw2kzj18VPxjyFA7fJIbFKY450RC7I=;
- b=b0dz+CotNazbqC0YHmEzumv3SzjVpADsC/MRykOV5dVCyRuBeQitkt4/KCCpkiCBKa
- avH7mADCJbwlovavRFxdLWvgmPx+5YF+CrH/YNRilJlG/sSBB2knBkUgNX+wSFnULnad
- /fWBBN9I85KDer1cRBdjZeEAo4tpUD0VhcREqSncmv38Eji7Ek8qI2izGSI51GMtbSMH
- 6sgAP/zdrYiER8I488e4kS5Qoi857R/IxLoowmnYY4nynGFhIe6w3M96PasREwM7QH/b
- 2B6B1DuIElEkkqsBsyLRZYaHvFeJZo29UuSmW0fQY6mLn5+b/sshhmAfNZBezGru8rzt
- PSRQ==
-X-Gm-Message-State: AJIora8vNNuVy5JXvPnqx31HYc3mvFXLdyX5Fyikj2q1geNrqw+wnkxR
- iLH0ynFYhMMn7ErjHtO6yf6tGQ==
-X-Google-Smtp-Source: AGRyM1sfj4KYcQ5fKo9HTWhxAnNgSyXWMVlNIWukceO//mHIgTAQ3IqTgcBO/4pGY1LTDh/sHPwfgQ==
-X-Received: by 2002:a19:710b:0:b0:48a:cf83:7551 with SMTP id
- m11-20020a19710b000000b0048acf837551mr334407lfc.137.1659017264043; 
- Thu, 28 Jul 2022 07:07:44 -0700 (PDT)
-Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no.
- [78.26.46.173]) by smtp.gmail.com with ESMTPSA id
- bi18-20020a05651c231200b0025e119e9276sm158570ljb.99.2022.07.28.07.07.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 07:07:43 -0700 (PDT)
-Message-ID: <24964892-d421-6104-c72a-187b484f99c6@linaro.org>
-Date: Thu, 28 Jul 2022 16:07:42 +0200
+ bh=gvXbeuK/nDPmsZZTRnDVNdv3SfvIgHhFwFU2kIzHG68=;
+ b=X2BbR7l4jqEBFtrccKRI12imjY38kFkC8PpSDk/h2w883mBu05Cpyhg+EF5ldkqWb3
+ k5BGJgva3I+jhzxT04ob7pBJxXbMhVFylsu21lFHBUQ/S5VFW9ZAzQDzSi3dX9jAOrWC
+ Vwtzpr+eXQjcQV3TWFocjXpBjivjjtHyfb7+D6vk6EHDKgFYB6KBf3s4RojblGBdZFc4
+ hUGnaospj2Jr4mQxGkmbDetVZMPpgAvdupkO7Z0mr7gAHKnFeBoN9Wni8srTTkx9dNoe
+ fAqQR8lgoON2S04lpYYeGwvzIeB9hkA6cctbdc4GdmtIkavy5MqeLdQnh/E9q6Vsd8HJ
+ x5xw==
+X-Gm-Message-State: AJIora8Wx5wo2dAoxUs9PB1CpFunYhWIZjKg3vh0DecsLN1Rd7eiDZAl
+ u2wwNZYRHAIpE0TAklqfbeU=
+X-Google-Smtp-Source: AGRyM1usb4SPM3cGqtqin0Wwas0cy7iM0Lq2zERxvCAmcTEakP2TyeXIbIB/uwiXZ00pIE3dJWi/UQ==
+X-Received: by 2002:a17:907:6d01:b0:72f:53f:7a25 with SMTP id
+ sa1-20020a1709076d0100b0072f053f7a25mr20932970ejc.126.1659018519713; 
+ Thu, 28 Jul 2022 07:28:39 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([23.154.177.9])
+ by smtp.gmail.com with ESMTPSA id
+ y1-20020aa7d501000000b0043cce1d3a0fsm755949edq.87.2022.07.28.07.28.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jul 2022 07:28:39 -0700 (PDT)
+From: Markuss Broks <markuss.broks@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Add generic framebuffer support to EFI earlycon driver
+Date: Thu, 28 Jul 2022 17:28:17 +0300
+Message-Id: <20220728142824.3836-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4 2/2] drm: panel: Add novatek nt35596s panel driver
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220728023555.8952-1-mollysophia379@gmail.com>
- <20220728023555.8952-3-mollysophia379@gmail.com>
- <1685ecd6-cfe7-c2f1-add5-6bfff055fa06@linaro.org>
- <YuKUNeazoho6LPTJ@ravnborg.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YuKUNeazoho6LPTJ@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,44 +67,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, Molly Sophia <mollysophia379@gmail.com>,
- phone-devel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
+ Markuss Broks <markuss.broks@gmail.com>, linux-doc@vger.kernel.org,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-serial@vger.kernel.org,
+ Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Michal Suchanek <msuchanek@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2022 15:50, Sam Ravnborg wrote:
-> Hi Krzysztof
-> On Thu, Jul 28, 2022 at 02:17:29PM +0200, Krzysztof Kozlowski wrote:
->> On 28/07/2022 04:35, Molly Sophia wrote:
->>> Novatek NT35596s is a generic DSI IC that drives command and video mode
->>> panels. Add the driver for it. Currently add support for the LCD panel
->>> from JDI connected with this IC, as found on Xiaomi Mi Mix2s phones.
->>>
->>> Changes in v4:
->>> - No change.
->>>
->>> Changes in v3:
->>> - Embed the support into existing driver (panel-novatek-nt36672a), as
->>>   these two IC are similar with different initialization commands.
->>>
->>
->> This does not go to commit msg (---).
-> It depends...
-> 
-> In the drm sub-system the general rule is if someone cares to write it,
-> then it deserves to be added to the commit message.
-> So for drm patches it is perfectly fine to have the history part
-> included in the commit message.
-> 
-> These sub-system differences does not makes it easier - I know.
+Make the EFI earlycon driver be suitable for any linear framebuffers.
+This should be helpful for early porting of boards with no other means of
+output, like smartphones/tablets. There seems to be an issue with early_ioremap
+function on ARM32, but I am unable to find the exact cause. It appears the mappings
+returned by it are somehow incorrect, thus the driver is disabled on ARM. EFI early
+console was disabled on IA64 previously, so I kept it in EFI earlycon Kconfig.
 
-OK, but I find it weird to store "No change" in commit log :)
+This patch also changes behavior on EFI systems, by selecting the mapping type
+based on if the framebuffer region intersects with system RAM. If it does, it's
+common sense that it should be in RAM as a whole, and so the system RAM mapping is
+used. It was tested to be working on my PC (Intel Z490 platform).
 
+Markuss Broks (2):
+  drivers: serial: earlycon: Pass device-tree node
+  efi: earlycon: Add support for generic framebuffers and move to fbdev
+    subsystem
 
-Best regards,
-Krzysztof
+ .../admin-guide/kernel-parameters.txt         |  12 +-
+ MAINTAINERS                                   |   5 +
+ drivers/firmware/efi/Kconfig                  |   6 +-
+ drivers/firmware/efi/Makefile                 |   1 -
+ drivers/firmware/efi/earlycon.c               | 246 --------------
+ drivers/tty/serial/earlycon.c                 |   3 +
+ drivers/video/fbdev/Kconfig                   |  11 +
+ drivers/video/fbdev/Makefile                  |   1 +
+ drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+ include/linux/serial_core.h                   |   1 +
+ 10 files changed, 331 insertions(+), 256 deletions(-)
+ delete mode 100644 drivers/firmware/efi/earlycon.c
+ create mode 100644 drivers/video/fbdev/earlycon.c
+
+-- 
+2.37.0
+
