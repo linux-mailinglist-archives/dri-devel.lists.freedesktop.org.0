@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19ECC58453D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 19:51:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CDE5584575
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 20:13:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9B010E778;
-	Thu, 28 Jul 2022 17:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CA9112679;
+	Thu, 28 Jul 2022 18:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B379D10E9DC
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 17:51:13 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 8-20020a05600c024800b003a2fe343db1so1447542wmj.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 10:51:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YlUW33qUz1u3QNCrgfswPy2v8jgmUdUSwTGtmme6eU0=;
- b=gDYHTL3xoRdr9vSsvTGmVAXGy9L+evVGkWjk2OYYBZuR3GD/xaOvfRkn5MD9/JBvBS
- 1RG64ID8OmN79RzUkupMYuRwR9GVfZ8Vhv/H4sStkU54BxKUX3rgso3H4KtGUU9T56hh
- KVfvjsoxRlp6eOr1RznozlMDbt3+I11MFFR4OURGxDxXIjcX1gKbM9E0uMybS9JV2vVa
- BLwoHeAk3b1rF3BPi45vczhNH9mhBCtEfJKcgi9u0a056e4c64yrlyBkc4sTtU0g0zVr
- +0OABpJqa8AmK0MimMB8sHLzCPwiVgSpOYlQQhAmG74kvPB1W66EWov+AVSVGOquACHr
- X+qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YlUW33qUz1u3QNCrgfswPy2v8jgmUdUSwTGtmme6eU0=;
- b=LyzPtuqEeJj6h4Bc+ed4dBSkdayWOeiox6qPYghMVY0AiS8JTzqHTzZB3+U22wozAj
- 6h2FbyQ18aJ2avgBRaHlHJghWk15jCZdvDyXIwyikCowCWyQW0+VnfZbttKOZhUWkQ3v
- x0I6xE4lKz+6ApL8YBB1WaXtoYU2U8IW2VsX8+uK42W/tGbUEiPp8whPpRw2idR6tgN7
- z5bXmW/ZvLAcv4Etl/B9OWEBfm/PEWW+6mugFN554M8/Ez831JDzmhh5+ItCDpmzTrao
- +z8KGQjYkKXnvIkr7z8G1e7eWoxWI6KjMgI8OssI7mPTkndwmZAQtRioUXdN29Aj4zC6
- VyYg==
-X-Gm-Message-State: AJIora+eJhguZX8vqxF8KLbDD45SJpgSAexjINrFiJ1od4PX+08/JPkR
- Bdf4SZTt0aDDvy+PmWgg8YQ=
-X-Google-Smtp-Source: AGRyM1sPPRMmaaBCJ523PjfKUrU6TnxSMuf4S7TtJszu0YhyO9G/4nJ7bk51F33yS1etRuoMHzthGQ==
-X-Received: by 2002:a05:600c:510f:b0:3a3:254c:b081 with SMTP id
- o15-20020a05600c510f00b003a3254cb081mr345788wms.65.1659030672106; 
- Thu, 28 Jul 2022 10:51:12 -0700 (PDT)
-Received: from elementary ([94.73.33.57]) by smtp.gmail.com with ESMTPSA id
- n40-20020a05600c3ba800b003a2ed2a40e4sm6526699wms.17.2022.07.28.10.51.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 10:51:11 -0700 (PDT)
-Date: Thu, 28 Jul 2022 19:51:08 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: javierm@redhat.com
-Subject: Re: [PATCH v3 0/4] KUnit tests for RGB565 conversion
-Message-ID: <20220728175108.GB52359@elementary>
-References: <20220726230916.390575-1-jose.exposito89@gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C05410E760
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 18:13:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 295ED1F9D9;
+ Thu, 28 Jul 2022 18:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659031994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/sPBOHCizRxOcqIb2C1bdSrs3Qlw/FAQ05Po6tZjRhc=;
+ b=AzXm5XX+MC3UpWh+dlZAGeBXIz9gtd5DL11I8CE4k4Uj+Ea5iloRIU7uu7hvohsSuWHfSZ
+ 1BcBkSPHEArrqBThIL25ZWTj/JynCsD+yi0+l4EnxyZ+OZaTacmh0THOt2zk3bNf2nl1zC
+ nuKk2iH3xD34osg+BxgtE3F/+rZXMSI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659031994;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/sPBOHCizRxOcqIb2C1bdSrs3Qlw/FAQ05Po6tZjRhc=;
+ b=DmEe4Ew8LWlNDlcIY7yZRYQhduz1tPWT79uNYPs2IKb+ina/TRIg14kvxAwqbHpbZO3xlK
+ IBKf2z+4plUYrBAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A0CEF13427;
+ Thu, 28 Jul 2022 18:13:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uAtRJrnR4mI5NwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 28 Jul 2022 18:13:13 +0000
+Message-ID: <ad66bc12-ff8c-33fe-739c-879ddd3be117@suse.de>
+Date: Thu, 28 Jul 2022 20:13:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220726230916.390575-1-jose.exposito89@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>, Markuss Broks <markuss.broks@gmail.com>
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-3-markuss.broks@gmail.com>
+ <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
+ <8e694cb6-c3dc-74e3-6804-fc532f108523@gmail.com>
+ <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------fka0dzGSHEDzxZIPDv0yrwbG"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +74,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- magalilemes00@gmail.com, airlied@linux.ie, maira.canal@usp.br,
- dlatypov@google.com, linux-kernel@vger.kernel.org, geert@linux-m68k.org,
- tales.aparecida@gmail.com, davidgow@google.com, isabbasso@riseup.net,
- kunit-dev@googlegroups.com
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-efi <linux-efi@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Tony Lindgren <tony@atomide.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Michal Suchanek <msuchanek@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 27, 2022 at 01:09:12AM +0200, José Expósito wrote:
-> Hello everyone,
-> 
-> This series is a follow up of the XRGB8888 to RGB332 conversion KUnit
-> tests.
-> 
-> As I mentioned in v2 [1] I suspected that the inconsistency handling
-> the endian might need to be fixed.
-> Fortunately, Geert Uytterhoeven fixed it in commit 4d9db10576ff
-> ("drm/format-helper: Fix endianness in drm_fb_*_to_*() conversion
-> helpers"), so I updated the tests to reflect his change.
-> 
-> Changes since v1:
-> 
->  - Fix a bug reported by David Gow in the XRGB8888 to RGB332 tests
->  - Simplify the test structure as suggested by David Gow
->  - Add Tested-by Tales L. Aparecida and Acked-by Thomas Zimmermann
->  - Fix link in the last patch (Thomas Zimmermann)
-> 
-> Changes since v2:
-> 
->  - Test endian as fixed in commit 4d9db10576ff ("drm/format-helper: Fix
->    endianness in drm_fb_*_to_*() conversion helpers")
->  - Fix Sparse warning reported by David Gow
->  - Add Reviewed-by David Gow
-> 
-> [1] https://lore.kernel.org/dri-devel/20220709115837.560877-1-jose.exposito89@gmail.com/
-> 
-> José Expósito (4):
->   drm/format-helper: Fix test on big endian architectures
->   drm/format-helper: Rename test cases to make them more generic
->   drm/format-helper: Support multiple target formats results
->   drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb565()
-> 
->  .../gpu/drm/tests/drm_format_helper_test.c    | 169 ++++++++++++++----
->  1 file changed, 139 insertions(+), 30 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------fka0dzGSHEDzxZIPDv0yrwbG
+Content-Type: multipart/mixed; boundary="------------wOfAjdQVOctUaTt2fnh0VO0v";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>, Markuss Broks <markuss.broks@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Ard Biesheuvel <ardb@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Helge Deller <deller@gmx.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Borislav Petkov <bp@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Kees Cook
+ <keescook@chromium.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Michal Suchanek <msuchanek@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Wei Ming Chen <jj251510319013@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tony Lindgren <tony@atomide.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ linux-efi <linux-efi@vger.kernel.org>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh@kernel.org>
+Message-ID: <ad66bc12-ff8c-33fe-739c-879ddd3be117@suse.de>
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-3-markuss.broks@gmail.com>
+ <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
+ <8e694cb6-c3dc-74e3-6804-fc532f108523@gmail.com>
+ <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
+In-Reply-To: <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
 
-As suggested by Thomas [1] I pushed the series to drm-misc-next.
+--------------wOfAjdQVOctUaTt2fnh0VO0v
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I've found some conflicts in drm-tip in unreleated files I'm trying to
-figure out on IRC though :(
+SGkNCg0KQW0gMjguMDcuMjIgdW0gMTc6MTYgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBUaHUsIEp1bCAyOCwgMjAyMiBhdCA0OjU3IFBNIE1hcmt1c3MgQnJva3MgPG1hcmt1c3Mu
+YnJva3NAZ21haWwuY29tPiB3cm90ZToNCj4+IE9uIDcvMjgvMjIgMTc6NDgsIEFybmQgQmVy
+Z21hbm4gd3JvdGU6DQo+Pj4gT24gVGh1LCBKdWwgMjgsIDIwMjIgYXQgNDoyOCBQTSBNYXJr
+dXNzIEJyb2tzIDxtYXJrdXNzLmJyb2tzQGdtYWlsLmNvbT4gd3JvdGU6DQo+Pj4+DQo+Pj4+
+IEFkZCBlYXJseSBjb25zb2xlIHN1cHBvcnQgZm9yIGdlbmVyaWMgbGluZWFyIGZyYW1lYnVm
+ZmVyIGRldmljZXMuDQo+Pj4+IFRoaXMgZHJpdmVyIHN1cHBvcnRzIHByb2JpbmcgZnJvbSBj
+bWRsaW5lIGVhcmx5IHBhcmFtZXRlcnMNCj4+Pj4gb3IgZnJvbSB0aGUgZGV2aWNlLXRyZWUg
+dXNpbmcgaW5mb3JtYXRpb24gaW4gc2ltcGxlLWZyYW1lYnVmZmVyIG5vZGUuDQo+Pj4+IFRo
+ZSBFRkkgZnVuY3Rpb25hbGl0eSBzaG91bGQgYmUgcmV0YWluZWQgaW4gd2hvbGUuDQo+Pj4+
+IFRoZSBkcml2ZXIgd2FzIGRpc2FibGVkIG9uIEFSTSBiZWNhdXNlIG9mIGEgYnVnIGluIGVh
+cmx5X2lvcmVtYXANCj4+Pj4gaW1wbGVtZW50YXRpb24gb24gQVJNLg0KPj4+Pg0KPj4+PiBT
+aWduZWQtb2ZmLWJ5OiBNYXJrdXNzIEJyb2tzIDxtYXJrdXNzLmJyb2tzQGdtYWlsLmNvbT4N
+Cj4+Pj4gLS0tDQo+Pj4+ICAgIC4uLi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50
+eHQgICAgICAgICB8ICAxMiArLQ0KPj4+PiAgICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKw0KPj4+PiAgICBkcml2ZXJzL2Zpcm13YXJl
+L2VmaS9LY29uZmlnICAgICAgICAgICAgICAgICAgfCAgIDYgKy0NCj4+Pj4gICAgZHJpdmVy
+cy9maXJtd2FyZS9lZmkvTWFrZWZpbGUgICAgICAgICAgICAgICAgIHwgICAxIC0NCj4+Pj4g
+ICAgZHJpdmVycy9maXJtd2FyZS9lZmkvZWFybHljb24uYyAgICAgICAgICAgICAgIHwgMjQ2
+IC0tLS0tLS0tLS0tLS0tDQo+Pj4+ICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZyAg
+ICAgICAgICAgICAgICAgICB8ICAxMSArDQo+Pj4+ICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYv
+TWFrZWZpbGUgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+Pj4+ICAgIGRyaXZlcnMvdmlk
+ZW8vZmJkZXYvZWFybHljb24uYyAgICAgICAgICAgICAgICB8IDMwMSArKysrKysrKysrKysr
+KysrKysNCj4+Pg0KPj4+IEl0IGxvb2tzIGxpa2UgdGhpcyBpcyBub3QgYWN0dWFsbHkgcmVs
+YXRlZCB0byBmYmRldiwgYW5kIHNpbmNlIGRyaXZlcnMgYXJlDQo+Pj4gbW92aW5nIGZyb20g
+ZmJkZXYvc2ltcGxlZmIgdG93YXJkcyBkcm0vc2ltcGxlZHJtLCBtYXliZSBpdCB3b3VsZCBi
+ZQ0KPj4+IGJldHRlciB0byBwdXQgdGhpcyBpbnRvIGVpdGhlciBkcml2ZXJzL2dwdS9kcm0v
+dGlueS8gb3IgcG9zc2libHkNCj4+PiBkcml2ZXJzL3ZpZGVvL2NvbnNvbGUgdG8gbGV0IHRo
+aXMgYmUgdXNlZCB3aXRob3V0IGVuYWJsaW5nIGZiZGV2Pw0KPj4NCj4+IElkZWFsbHkgdGhp
+cyBzaG91bGRuJ3QgZGVwZW5kIG9uIGFueXRoaW5nLCBiZWNhdXNlIGl0IGlzbid0IHV0aWxp
+emluZw0KPj4gYW55IG9mIGZiZGV2IGNvZGUgYW5kIHdvbid0IGJlIHV0aWxpemluZyBhbnkg
+b2YgZHJtL2NvbnNvbGUgY29kZS4gSQ0KPj4gYWdyZWUgdGhhdCBlaXRoZXIgb2YgdGhvc2Ug
+d291bGQgYmUgYSBiZXR0ZXIgcGxhY2UgZm9yIGl0LCBidXQgd2hpY2ggb25lDQo+PiBkbyB5
+b3UgdGhpbmsgd291bGQgc3VpdCBtb3JlIGZvciB0aGlzIGRyaXZlcj8NCj4gDQo+IEkgdGhp
+bmsgaWRlYWxseSB0aGlzIHdvdWxkIGJlIGludGVncmF0ZWQgd2l0aCBzaW1wbGVkcm0gaW4g
+dGhlIGxvbmcgcnVuLA0KPiBidXQgSSBoYXZlIG5vIGlkZWEgd2hhdCB0aGF0IG1lYW5zIGlu
+IHRlcm1zIG9mIGZ1dHVyZSBjb2RlIGNoYW5nZXMuDQo+IA0KPiBNYXliZSBUaG9tYXMgWmlt
+bWVybWFubiBoYXMgYW4gaWRlYSBoZXJlLg0KDQpJdCdzIG5vdCBhIGdyYXBoaWNzIGRyaXZl
+ciwgc28gaXQgZG9lc24ndCBiZWxvbmcgdG8gZmJkZXYgb3IgRFJNLiBJJ2QgDQpwdXQgdGhl
+IGNvZGUgdW5kZXIgZHJpdmVycy92aWRlby9jb25zb2xlLg0KDQpEaXJlY3QgaW50ZWdyYXRp
+b24gd2l0aCBzaW1wbGVkcm0gKG9yIGFueSBvdGhlciBmaXJtd2FyZSBncmFwaGljcyANCmRy
+aXZlcikgaXMgcHJvYmFibHkgbm90IGFuIG9wdGlvbi4gVGhvc2UgZHJpdmVycyBvcGVyYXRl
+IG9uIHBsYXRmb3JtIA0KZGV2aWNlcywgd2hpY2ggYXJlbid0IGF2YWlsYWJsZSB3aGVuIGVh
+cmx5Y29uIHJ1bnMuDQoNClRoZXJlJ3Mgbm8gbWFuYWdlbWVudCBvZiBmcmFtZWJ1ZmZlciBv
+d25lcnNoaXAgQUZBSUNUPyBGb3IgZmJkZXYgYW5kIA0KRFJNLCB3ZSBtYW5hZ2UgdGhlIG93
+bmVyc2hpcCBvZiB0aGUgZnJhbWVidWZmZXIgbWVtb3J5LiBXaGVuIGEgZHJpdmVyIA0KdGFr
+ZXMgb3ZlciB0aGUgZnJhbWVidWZmZXIsIGl0IGZpcnN0IGhhcyB0byByZW1vdmUgYW55IGRy
+aXZlciBwcmV2aW91c2x5IA0Kb3duaW5nIHRoYXQgbWVtb3J5LiAgVGhhdCBhcHBhcmVudGx5
+IGhhc24ndCBiZWVuIGEgbmVlZCBmb3IgZWFybHkgDQpjb25zb2xlcyBzbyBmYXIgKD8pIE1h
+eWJlIHdlIHNob3VsZCBpbnRlZ3JhdGUgdGhlbSBpbnRvIHRoZSBvd25lcnNoaXAgDQptYW5h
+Z2VtZW50IChzZWUgZHJpdmVycy92aWRlby9hcGVydHVyZS5jKS4NCg0KQmVzdCByZWdhcmRz
+DQpUaG9tYXMNCg0KPiANCj4gICAgICAgICAgQXJuZA0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
+b3Rldg0K
 
-Jose
+--------------wOfAjdQVOctUaTt2fnh0VO0v--
 
-[1] https://lore.kernel.org/dri-devel/4ba57f80-5025-c3a0-5f65-ec52643f0122@suse.de/
+--------------fka0dzGSHEDzxZIPDv0yrwbG
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLi0bkFAwAAAAAACgkQlh/E3EQov+B0
+sA//U3PXzUAbSYFqCHnF//0Eu06L7FmUbkLuFwZLHUFEugcVusx0d81xpinBhNLmxKqABWfl6vj0
+qfGznuHNoSFB0tA40/piKAa4XTPL7zFuUqKocfywJfxuqLEVg2Xni1phXMX4iWXXMoUiZU9dyooH
+NXH9+5OkrHnhkANWckiwXnfdeyze1PaOZCQA5gv37J5icYz77JNOEl5wNuu619EpxZb+yIGoFHe2
+kjo4hqPKUf6DtYmQ/XYRCaUK8ulWPpgtubnM72zrdTyBqyBtXcF10rRqepVNfJoeRNoz9aINVgwI
+9YUmGIfG2mu+VXfXCVUsplQHjTIviSP6yJdKAD+Y0tN1LhgzUaojrPL6AIHtWmRUhKFOcOomqv5s
+qWmOsZ5SdUrENkzcXsYsyFdxFck3lLfljwssyC5ucQ4e1+8CK9Yb4FqqQrsovAPKsP7LatV0/FUu
+T0KThUmmIORfvPNJi/7UwuzRLcn9ynTzL38DnZxrGGQu4McaqffAbDaq1wnDZBavtvcI1OrEF71m
+nbPZ0TeYZYfNI4ewFBfL69vR56ifRx73ptnWbA72XzZ5PxR1Uz3OYen6cZIUD/WB93MO9qsuTjIk
+IsHHmA5WShkgwyoiJ+fMMcgFaHik0ak4jjcgM3XfCvVpHPondGlN27Wy1DMxiFyzNS579V7geW3f
+9wo=
+=9erw
+-----END PGP SIGNATURE-----
+
+--------------fka0dzGSHEDzxZIPDv0yrwbG--
