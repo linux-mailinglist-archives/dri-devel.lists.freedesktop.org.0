@@ -1,52 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7D6583EEE
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:34:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73066583F0B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:41:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2D818AE8E;
-	Thu, 28 Jul 2022 12:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0424518B535;
+	Thu, 28 Jul 2022 12:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86A3211256A;
- Thu, 28 Jul 2022 12:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659011677; x=1690547677;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=NpqsG0b27gN4zLFhtffwbPF59H321Xp5P+60EfiMSG4=;
- b=RPXIsSlVUthC53YKNbdnuEIRS0zOU4Hhlvg2M1DK0eGmfWYSJjeeB8Rd
- xgKpRfWgnumy3B6c/VWunAn8vyVZbeSL92w439gQTiEGpNDdq7UA9TIxi
- 67EhKd7KZ/kWTTkCibsBFK+HrX3+X/wWZAkPYjy5sYtnK6VAHcE4v4lM5
- /sCgGqKtAPPuulfnZH/BGJMa6QkmS90OpEYFQR9kTgGcGMsS2ExgQlHFi
- f3XDssBnfC+FLHGExkvqErtTTihUEywEVQEeSN5NpP80BdDSF/HrhMPjF
- akjO6r/KENEI2FTr1l/TQSVwqtqwZOxG34fvIK3tMHq3uJx/WFZOoE7IU w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="289696580"
-X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="289696580"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 05:34:36 -0700
-X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="628873855"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
- ([10.251.211.191])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 05:34:33 -0700
-Date: Thu, 28 Jul 2022 14:34:30 +0200
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 0/6] drm/i915: reduce TLB performance
- regressions
-Message-ID: <20220728143430.0d0d875a@maurocar-mobl2>
-In-Reply-To: <YuJ8K7W50VeHNAGX@alfio.lan>
-References: <cover.1658924372.git.mchehab@kernel.org>
- <YuJ8K7W50VeHNAGX@alfio.lan>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53799113C41
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:41:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EFE0133692;
+ Thu, 28 Jul 2022 12:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659012064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=gXyB1id10wzgornZkslBRyFqMgJrfVys44tykM+OqDI=;
+ b=hKGK1dEwAi+RRG/jkPvc/JbXRTZZyoZ+qzt2Wk9gmzCEhDsiB7+ksq3Ca10b2VpPkMr0Zh
+ mRymQ/Z6jwstNyobG8bgXeSufxChOvsWyQFomQom4oiyigWBaW40F/0m9+DlY+ClctwQjg
+ uiF7kCYeIVY3j9lwbm7AWFwYgVRTRDc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659012064;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=gXyB1id10wzgornZkslBRyFqMgJrfVys44tykM+OqDI=;
+ b=KjAy4IheKvRnJTzVK/w9xre2TVKABVXCqAcyqrL0ewYztgQNTsopm0fsyfFuI26qyAmbQn
+ KkAfkJyJWU8xzFCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C67D713A7E;
+ Thu, 28 Jul 2022 12:41:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id CetIL+CD4mJwMAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 28 Jul 2022 12:41:04 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, sam@ravnborg.org, airlied@redhat.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v3 00/14] drm/mgag200: Move model-specific code into separate
+ functions
+Date: Thu, 28 Jul 2022 14:40:49 +0200
+Message-Id: <20220728124103.30159-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,167 +63,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
+Mgag200 still mixes model-specific code and generic code in the same
+functions. Separate it into distinct helpers.
 
-On Thu, 28 Jul 2022 14:08:11 +0200
-Andi Shyti <andi.shyti@linux.intel.com> wrote:
+As part of this effort, convert the driver from simple-KMS helpers
+to regular atomic helpers. The latter are way more flexible and can
+be adapted easily for each hardware model.
 
-> Hi Mauro,
-> 
-> Pushed in drm-intel-gt-next.
+Tested on Matrox G200 and G200EH hardware.
 
-Thank you!
+v3:
+	* only flip SCROFF when enabling/disable the plane (Jocelyn)
+	* style clean-ups throughout the patchset
+v2:
+	* don't duplicate DAC init values unecessarily (Sam, Jocelyn)
 
-I submitted two additional patches moving the TLB code into its own file,
-and adding the documentation for it, as agreed during patch 5/6 review:
+Thomas Zimmermann (14):
+  drm/mgag200: Split mgag200_modeset_init()
+  drm/mgag200: Move DAC-register setup into model-specific code
+  dmr/mgag200: Move ER/EW3 register initialization to per-model code
+  drm/mgag200: Acquire I/O-register lock in atomic_commit_tail function
+  drm/mgag200: Store primary plane's color format in CRTC state
+  drm/mgag200: Reorganize before dropping simple-KMS helpers
+  drm/mgag200: Replace simple-KMS with regular atomic helpers
+  drm/mgag200: Set SCROFF in primary-plane code
+  drm/mgag200: Add per-device callbacks
+  drm/mgag200: Provide per-device callbacks for BMC synchronization
+  drm/mgag200: Provide per-device callbacks for PIXPLLC
+  drm/mgag200: Move mode-config to model-specific code
+  drm/mgag200: Move CRTC atomic_enable to model-specific code
+  drm/mgag200: Remove type field from struct mga_device
 
-	https://patchwork.freedesktop.org/series/106806/
+ drivers/gpu/drm/mgag200/Makefile          |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_bmc.c     |  99 +++
+ drivers/gpu/drm/mgag200/mgag200_drv.c     |  21 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.h     | 208 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200.c    | 254 +++++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c  | 277 +++++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c | 181 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c  | 315 ++++++-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c  | 316 ++++++-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c | 192 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c  | 431 +++++++++-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  | 326 ++++++-
+ drivers/gpu/drm/mgag200/mgag200_mode.c    | 725 +++++-----------
+ drivers/gpu/drm/mgag200/mgag200_pll.c     | 997 ----------------------
+ 14 files changed, 2761 insertions(+), 1585 deletions(-)
+ create mode 100644 drivers/gpu/drm/mgag200/mgag200_bmc.c
+ delete mode 100644 drivers/gpu/drm/mgag200/mgag200_pll.c
 
-That should make easier to maintain TLB-related code and have such
-functions properly documented.
 
-Regards,
-Mauro
+base-commit: 15fbed4f822211fbb7653c2b8591594d92de9551
+-- 
+2.37.1
 
-
-> 
-> Thanks,
-> Andi
-> 
-> On Wed, Jul 27, 2022 at 02:29:50PM +0200, Mauro Carvalho Chehab wrote:
-> > Doing TLB invalidation cause performance regressions, like:
-> > 	[424.370996] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
-> > 
-> > As reported at:
-> > 	https://gitlab.freedesktop.org/drm/intel/-/issues/6424
-> > 
-> > as this is an expensive operation. So, reduce the need of it by:
-> >   - checking if the engine is awake;
-> >   - checking if the engine is not wedged;
-> >   - batching operations.
-> > 
-> > Additionally, add a workaround for a known hardware issue on some GPUs.
-> > 
-> > In order to double-check that this series won't be introducing any regressions,
-> > I used this new IGT test:
-> > 
-> > https://patchwork.freedesktop.org/patch/495684/?series=106757&rev=1
-> > 
-> > Checking the results for 3 different patchsets, on Broadwell:
-> > 
-> > 1) On the top of drm-tip (2022y-07m-14d-08h-35m-36) - e. g. with TLB
-> > invalidation and serialization patches:
-> > 
-> > 	$ sudo build/tests/gem_exec_tlb|grep Subtest
-> > 	Subtest close-clear: SUCCESS (10.490s)
-> > 	Subtest madv-clear: SUCCESS (10.484s)
-> > 	Subtest u-unmap-clear: SUCCESS (10.527s)
-> > 	Subtest u-shrink-clear: SUCCESS (10.506s)
-> > 	Subtest close-dumb: SUCCESS (10.165s)
-> > 	Subtest madv-dumb: SUCCESS (10.177s)
-> > 	Subtest u-unmap-dumb: SUCCESS (10.172s)
-> > 	Subtest u-shrink-dumb: SUCCESS (10.172s)
-> > 
-> > 2) With the new version of the batch TLB invalidation patches from this series:
-> > 
-> > 	$ sudo build/tests/gem_exec_tlb|grep Subtest
-> > 	Subtest close-clear: SUCCESS (10.483s)
-> > 	Subtest madv-clear: SUCCESS (10.495s)
-> > 	Subtest u-unmap-clear: SUCCESS (10.545s)
-> > 	Subtest u-shrink-clear: SUCCESS (10.508s)
-> > 	Subtest close-dumb: SUCCESS (10.172s)
-> > 	Subtest madv-dumb: SUCCESS (10.169s)
-> > 	Subtest u-unmap-dumb: SUCCESS (10.174s)
-> > 	Subtest u-shrink-dumb: SUCCESS (10.176s)
-> > 
-> > 3) Changing the TLB invalidation routine to do nothing[1]:
-> > 
-> > 	$ sudo ~/freedesktop-igt/build/tests/gem_exec_tlb|grep Subtest
-> > 	(gem_exec_tlb:1958) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1958) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1958) CRITICAL: Found deadbeef in a new (clear) buffer after 3 tries!
-> > 	(gem_exec_tlb:1956) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1956) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1956) CRITICAL: Found deadbeef in a new (clear) buffer after 89 tries!
-> > 	(gem_exec_tlb:1957) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1957) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1957) CRITICAL: Found deadbeef in a new (clear) buffer after 256 tries!
-> > 	(gem_exec_tlb:1960) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1960) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1960) CRITICAL: Found deadbeef in a new (clear) buffer after 845 tries!
-> > 	(gem_exec_tlb:1961) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1961) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1961) CRITICAL: Found deadbeef in a new (clear) buffer after 1138 tries!
-> > 	(gem_exec_tlb:1954) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1954) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1954) CRITICAL: Found deadbeef in a new (clear) buffer after 1359 tries!
-> > 	(gem_exec_tlb:1955) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1955) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1955) CRITICAL: Found deadbeef in a new (clear) buffer after 1794 tries!
-> > 	(gem_exec_tlb:1959) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> > 	(gem_exec_tlb:1959) CRITICAL: Failed assertion: !sq
-> > 	(gem_exec_tlb:1959) CRITICAL: Found deadbeef in a new (clear) buffer after 2139 tries!
-> > 	Dynamic subtest smem0 failed.
-> > 	**** DEBUG ****
-> > 	(gem_exec_tlb:1944) DEBUG: 2M hole:200000 contains poison:6b6b6b6b
-> > 	(gem_exec_tlb:1944) DEBUG: Running writer for 200000 at 300000 on bcs0
-> > 	(gem_exec_tlb:1944) DEBUG: Closing hole:200000 on rcs0, sample:deadbeef
-> > 	(gem_exec_tlb:1944) DEBUG: Rechecking hole:200000, sample:6b6b6b6b
-> > 	****  END  ****
-> > 	Subtest close-clear: FAIL (10.434s)
-> > 	Subtest madv-clear: SUCCESS (10.479s)
-> > 	Subtest u-unmap-clear: SUCCESS (10.512s)
-> > 
-> > In summary, the test does properly detect fail when TLB cache invalidation doesn't happen,
-> > as shown at result (3). It also shows that both current drm-tip and drm-tip with this series
-> > applied don't have TLB invalidation cache issues.
-> > 
-> > [1] I applied this patch on the top of drm-tip:
-> > 
-> > 	diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > 	index 68c2b0d8f187..0aefcd7be5e9 100644
-> > 	--- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > 	+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > 	@@ -930,0 +931,3 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
-> > 	+	// HACK: don't do TLB invalidations!!!
-> > 	+	return;
-> > 	+
-> > 
-> > Regards,
-> > Mauro
-> > 
-> > Chris Wilson (4):
-> >   drm/i915/gt: Ignore TLB invalidations on idle engines
-> >   drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
-> >   drm/i915/gt: Skip TLB invalidations once wedged
-> >   drm/i915/gt: Batch TLB invalidations
-> > 
-> > Mauro Carvalho Chehab (2):
-> >   drm/i915/gt: document with_intel_gt_pm_if_awake()
-> >   drm/i915/gt: describe the new tlb parameter at i915_vma_resource
-> > 
-> >  .../gpu/drm/i915/gem/i915_gem_object_types.h  |  3 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 25 +++---
-> >  drivers/gpu/drm/i915/gt/intel_gt.c            | 77 +++++++++++++++----
-> >  drivers/gpu/drm/i915/gt/intel_gt.h            | 12 ++-
-> >  drivers/gpu/drm/i915/gt/intel_gt_pm.h         | 11 +++
-> >  drivers/gpu/drm/i915/gt/intel_gt_types.h      | 18 ++++-
-> >  drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  8 +-
-> >  drivers/gpu/drm/i915/i915_vma.c               | 33 ++++++--
-> >  drivers/gpu/drm/i915/i915_vma.h               |  1 +
-> >  drivers/gpu/drm/i915/i915_vma_resource.c      |  9 ++-
-> >  drivers/gpu/drm/i915/i915_vma_resource.h      |  6 +-
-> >  11 files changed, 163 insertions(+), 40 deletions(-)
-> > 
-> > -- 
-> > 2.36.1
-> >   
