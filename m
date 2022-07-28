@@ -2,82 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB68584796
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 23:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5876584799
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 23:19:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69DE3112BF4;
-	Thu, 28 Jul 2022 21:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0044711A2ED;
+	Thu, 28 Jul 2022 21:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93277113E9B
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 21:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659043069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o/OfbOToIOdGriD6UGrknJy8SryGGj67M+1E/6CU+Ec=;
- b=fQkyUdw6JxbXwes5F869yMFAV+qMV8sZ9M9DQ/fUC1yQe1LhCFyR8JJNckEbDrllRhrwPh
- 16q/a13Fdor2gjsNAMpMoez8+jjE1fuNkb+f62flsu/F5tKhEtIGf4J/l0R004t0Izcst2
- gcpFPzSm5uYajpevJrbF3IwPFQdTDQM=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-312-Wdea-4VHMbKtmpl8_yVmKg-1; Thu, 28 Jul 2022 17:17:48 -0400
-X-MC-Unique: Wdea-4VHMbKtmpl8_yVmKg-1
-Received: by mail-qt1-f197.google.com with SMTP id
- w24-20020ac843d8000000b0031ecbfedc25so1789562qtn.15
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:17:48 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5B81124DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 21:18:55 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id z22so3693320edd.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=iyWCACEtC3V1/iSrvN7QORzRaYA0n5oxtpPIEK5JvoY=;
+ b=hojvuCIi/iO1jzC4b5F+GmGDTGC2yye7iwBOOzqvwXV5B9awqbtFx+l5y9sEpVYvVb
+ MKTJQFlSC6egSjsxyBPPsUi8SXkfkGpO7D0i0SG6bCx2pjNO7p+/kbAYFHVuceQ4QrRV
+ eOzWRd2+QQ/db5vE+TUfBHOTFgrYR/+XBFm/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=o/OfbOToIOdGriD6UGrknJy8SryGGj67M+1E/6CU+Ec=;
- b=MvSDfyOo9cxh2gx8t9Woyb4dyNS84V8jrk5ibZ9YPY5slDS9fG/mwnXaGiEZQiNeBG
- 1nYEAfci16H42O3jTi3cWs4sxxsacynCn83MBYC72RLFnuGmRNFcL3EMRJ7VHkrhfq1+
- 1QE0O6fqZEEBpyzMQycTsUHnEDYDbaggP1yO1DXu1jspKhNmyGylhx40U9H4kJgmvE1O
- BBpDBWmgD1aoQx+OLXdnc4Ay7+U4qEdJBGb28wOOEAm+n8fxOoYsTa3pOaDL/jKTyLgG
- o9v0FXKH4eFqDjnBFPBjcrvVJAaKqngOMqvwAUQzCVEbyu7qyAYa8Ns0Xzd2Mwi+aXtg
- ZdeA==
-X-Gm-Message-State: ACgBeo3NOB5XK/5cO++O8yzPWphsRe66hQwMCysrabU5ocOJ8dw6ctoF
- YVxo5uThIT0nkdwuF6bEXohhw/+8p7zuduZAs/LEL1LV8MDumYlozWDq1u7mWaSCca3awB+8eDa
- djJkIPOEaznuaZRog4hteyiVtWCnq
-X-Received: by 2002:a05:6214:d0b:b0:473:6ec:7a88 with SMTP id
- 11-20020a0562140d0b00b0047306ec7a88mr745092qvh.15.1659043068299; 
- Thu, 28 Jul 2022 14:17:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR60uCxaFzrGMtUq5KKxNBTJRHhJG8jPcfbfPtMDcncqIYPU6qs8lx55P8jDBfNQhF2MZEP13g==
-X-Received: by 2002:a05:6214:d0b:b0:473:6ec:7a88 with SMTP id
- 11-20020a0562140d0b00b0047306ec7a88mr745075qvh.15.1659043068088; 
- Thu, 28 Jul 2022 14:17:48 -0700 (PDT)
-Received: from [192.168.8.138] (pool-100-0-245-4.bstnma.fios.verizon.net.
- [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
- u4-20020a05620a0c4400b006b5c5987ff2sm1151388qki.96.2022.07.28.14.17.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 14:17:47 -0700 (PDT)
-Message-ID: <6988c4ad3e230b8d252a2edff190502a0b17f4f2.camel@redhat.com>
-Subject: Re: susetting the remaining swioltb couplin in DRM
-From: Lyude Paul <lyude@redhat.com>
-To: Christoph Hellwig <hch@lst.de>, Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Ben Skeggs
- <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>
-Date: Thu, 28 Jul 2022 17:17:46 -0400
-In-Reply-To: <20220711082614.GA29487@lst.de>
-References: <20220711082614.GA29487@lst.de>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=iyWCACEtC3V1/iSrvN7QORzRaYA0n5oxtpPIEK5JvoY=;
+ b=DZVCBSsgGr1Ig92TSxe8qyYKTIAJ89xekcUELoPjqlKXFffBEpEFI/mJDZvFfSZrdQ
+ I/IHZaQ1xwzAP6oR0uRt/klLHC1umQe7hBndN8zPRLn9fSV1RCKS0fnRHN0Wej3KB3Rk
+ FL88mDa1f2rsdWXJg9evdgaKodqvqtLyk/N9WVouHQsd9Som4ee1ozjON+K0cw0vgcrk
+ oVMv7vg3eIP81u7nek/HH7wbo4TvvVFYwj9Lb/vtOw4FkSu25NXIZNg4NXdPQYxLAN/8
+ XkICj55F8WR8g6oofkYAXhBaynodZltE43vdDk+JJJ5c9XPiT6+tbI96LVu9tN4stvjf
+ vZTA==
+X-Gm-Message-State: AJIora8G9pgDjhlBIj1LLXxP0TPH3YCA9BX22yq1JuiVvnT+SFIvr8gC
+ ts/n5larWqWDcrXUYDkbJGMhRNTBNKXZC2qr
+X-Google-Smtp-Source: AGRyM1slLhQVReZNVBQ+lQQojO5CTvv9Y0ibrU66Xn9SMp6N7iCGyF2H54In9GakffPSlHgKR4oq6g==
+X-Received: by 2002:a05:6402:444c:b0:43b:d375:e932 with SMTP id
+ o12-20020a056402444c00b0043bd375e932mr769116edb.399.1659043133654; 
+ Thu, 28 Jul 2022 14:18:53 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
+ [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
+ b10-20020a1709063caa00b0072b1cb2818csm806865ejh.158.2022.07.28.14.18.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jul 2022 14:18:52 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id
+ c187-20020a1c35c4000000b003a30d88fe8eso3219250wma.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:18:51 -0700 (PDT)
+X-Received: by 2002:a05:600c:5114:b0:3a3:3f7f:27ec with SMTP id
+ o20-20020a05600c511400b003a33f7f27ecmr406453wms.93.1659043131573; Thu, 28 Jul
+ 2022 14:18:51 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
+ <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
+ <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
+ <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
+ <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
+In-Reply-To: <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 28 Jul 2022 14:18:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UGYV1mZenDCRrbpC+gpE12-Uis7fm_=H3PeEjK=t36yA@mail.gmail.com>
+Message-ID: <CAD=FV=UGYV1mZenDCRrbpC+gpE12-Uis7fm_=H3PeEjK=t36yA@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
+ LQ140M1JW46
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,37 +78,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi! Sorry about the slow reply to this, been busy with a bunch of other
-pressing nouveau work lately.
+Hi,
 
-Anyway, the steps look pretty simple here so I can see if I can write up a
-patch shortly :)
+On Thu, Jul 28, 2022 at 10:34 AM Abhinav Kumar
+<quic_abhinavk@quicinc.com> wrote:
+>
+> Hi Rob and Doug
+>
+> On 7/22/2022 10:36 AM, Rob Clark wrote:
+> > On Fri, Jul 22, 2022 at 9:48 AM Doug Anderson <dianders@chromium.org> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On Fri, Jul 22, 2022 at 9:37 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>>
+> >>> + sankeerth
+> >>>
+> >>> Hi Doug
+> >>>
+> >>> On 7/21/2022 3:23 PM, Douglas Anderson wrote:
+> >>>> The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD reference
+> >>>> board. This panel supports 144 Hz and 60 Hz. In the EDID, the 144 Hz
+> >>>> mode is listed first and thus is marked preferred. The EDID decode I
+> >>>> ran says:
+> >>>>
+> >>>>     First detailed timing includes the native pixel format and preferred
+> >>>>     refresh rate.
+> >>>>
+> >>>>     ...
+> >>>>
+> >>>>     Detailed Timing Descriptors:
+> >>>>       DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.500 MHz
+> >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+> >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+> >>>>       DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.370 MHz
+> >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+> >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+> >>>>
+> >>>> I'm proposing here that the above is actually a bug and that the 60 Hz
+> >>>> mode really should be considered preferred by Linux.
+>
+> Its a bit tricky to say that this is a bug but I think we can certainly
+> add here that for an internal display we would have ideally had the
+> lower resolution first to indicate it as default.
 
-On Mon, 2022-07-11 at 10:26 +0200, Christoph Hellwig wrote:
-> Hi i915 and nouveau maintainers,
-> 
-> any chance I could get some help to remove the remaining direct
-> driver calls into swiotlb, namely swiotlb_max_segment and
-> is_swiotlb_active.  Either should not matter to a driver as they
-> should be written to the DMA API.
-> 
-> In the i915 case it seems like the driver should use
-> dma_alloc_noncontiguous and/or dma_alloc_noncoherent to allocate
-> DMAable memory instead of using alloc_page and the streaming
-> dma mapping helpers.
-> 
-> For the latter it seems like it should just stop passing
-> use_dma_alloc == true to ttm_device_init and/or that function
-> should switch to use dma_alloc_noncoherent.
-> 
+Yeah, it gets into the vagueness of the EDID spec in general. As far
+as I can find it's really up to the monitor to decide by what means it
+chooses the "preferred" refresh rate if the monitor can support many.
+Some displays may decide that the normal rate is "preferred" and some
+may decide that the high refresh rate is "preferred". Neither display
+is "wrong" per say, but it's nice to have some consistency here and to
+make it so that otherwise "dumb" userspace will get something
+reasonable by default. I'll change it to say:
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+While the EDID spec appears to allow a display to use any criteria for
+picking which refresh mode is "preferred" or "optimal", that vagueness
+is a bit annoying. From Linux's point of view let's choose the 60 Hz
+one as the default.
 
+
+> >>>> The argument here is that this is a laptop panel and on a laptop we
+> >>>> know power will always be a concern. Presumably even if someone using
+> >>>> this panel wanted to use 144 Hz for some use cases they would only do
+> >>>> so dynamically and would still want the default to be 60 Hz.
+> >>>>
+> >>>> Let's change the default to 60 Hz using a standard quirk.
+> >>>>
+> >>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >>>
+> >>> Yes, we were aware that 144Hz was getting picked. We found that while
+> >>> debugging the screen corruption issue.
+> >>>
+> >>> Well, yes power would be less with 60Hz but so will be the performance.
+> >>
+> >> What performance specifically will be less with 60 Hz? In general the
+> >> sc7280 CPU is a bit memory-bandwidth constrained and the LCD refresh
+> >> from memory is a non-trivial part of that. Reducing to 60 Hz will
+> >> relieve some of the memory bandwidth pressure and will actually allow
+> >> tasks on the CPU to run _faster_. I guess the downside is that some
+> >> animations might be a little less smooth...
+> >
+> > I guess he is referring to something that is vblank sync'd running
+> > faster than 60fps.
+> >
+> > but OTOH it is a bit of a waste for fbcon to be using 144Hz.  And
+> > there are enough android games that limit themselves to 30fps to save
+> > your "phone" battery.  So it seems a lot more sane to default to 60Hz
+> > and let userspace that knows it wants more pick the 144Hz rate when
+> > needed.
+> >
+> > BR,
+> > -R
+>
+> Yes i was referring to vblank synced apps.
+>
+> >
+> >>
+> >>
+> >>> The test teams have been validating with 144Hz so far so we are checking
+> >>> internally with the team whether its OKAY to goto 60Hz now since that
+> >>> kind of invalidates the testing they have been doing.
+> >>
+> >> You're worried that the panel itself won't work well at 60 Hz, or
+> >> something else about the system won't? The whole system in general
+> >> needs to work well with 60 Hz displays and I expect them to be much
+> >> more common than 144 Hz displays. Quite honestly if switching to 60 Hz
+> >> uncovers a problem that would be a huge benefit of landing this patch
+> >> because it would mean we'd find it now rather than down the road when
+> >> someone hooks up a different panel.
+>
+> I was worried that it will invalidate the testing they did so far but
+> since you have confirmed that you would prefer 60Hz to be more
+> thoroughly tested than 144Hz, I have informed the internal teams of this
+> change and given the heads up.
+>
+> You can have my R-b for this change,
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>
+> I would also wait to see if others have different thought about this.
+
+Thanks! I'll probably wait another week or so then I'll land in
+drm-misc-next with your tag.
+
+-Doug
