@@ -1,77 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF7158420A
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 16:44:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B99A558424A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 16:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D98A610E79C;
-	Thu, 28 Jul 2022 14:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30EC910F81C;
+	Thu, 28 Jul 2022 14:54:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF28E10E79C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:44:21 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 3ACC05C006D;
- Thu, 28 Jul 2022 10:44:21 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 28 Jul 2022 10:44:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1659019461; x=1659105861; bh=Fje/wPKfeK
- kA3zBSKNSFSbZIQmOsCAPH58zdG4srTYc=; b=SvvxdDah5oDoydmCwKaabHpvww
- uLFfTX1SncpEKbnfhDAAB4sFtjzYJdgMFInB2B31VJp/+JtoS8L4HuhcnzWH+/QO
- LSuVzUGoFepbdmV7MXdPNerHwKDPyJ9Mz0PzCxqPgThSahSHp1ShgHGrirgZFxBE
- E2WeyXIWIO1BGwWjYuB2zWRcn5jB0Eq5Zh5eWygGXI85SfOBdp6DGpDNPSs3bcn3
- 1CJ3CU/uU3ojxgkA5PTQ9OcBJMQFPPknKhaYUpVifb+lgLNAkS2AQXMfhSu6XYDz
- erzQLzSoGE1wGq1qKX2AdcV92D48hxurpRo72GWKAKmEN+GnOD65QshtqogQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1659019461; x=1659105861; bh=Fje/wPKfeKkA3zBSKNSFSbZIQmOs
- CAPH58zdG4srTYc=; b=Fcr58LC4fnDMv9jXrbHWX0xj/45IzOXtOLwxUsl40C5/
- vxE4QtO3C5fokOgcUkrCKO7TmWWEOZ5M0FRBt02bDcnn/5YBykfZrtYRCYO+QK8k
- lba+HYY8mA9qxYwm2xQUjPlI6Fo4MMXs7LD8ZBQKzS/C7toQm3IUsfwpWibnylP0
- c/JkRUoDzr4b4naxj/hug+16G6gGzCbg6hRGk85w0ppuBznYZ61jo42YGgPJAB3I
- 1AQ+IzVtZk0dHm2ZsuWOvsfuWtTMwXb8gBF5Horm8nApt7Uh2FppBK8EL/XYA5yA
- oh4KDFYyFLwedPxLHT0slQTz5ef38lmWFFGqIXmziw==
-X-ME-Sender: <xms:xaDiYlXJ9v_EGuSYWn_sXW9JbhLPJlhNoKbnAitMgaYHTxkxz0CMbw>
- <xme:xaDiYlkzSE0D7ordSQJYA452n3Lv0RMIAM8JZTCuIppJriE38kTx4g-W7DTwWVtFr
- cCvVHnhixLqER72Zxk>
-X-ME-Received: <xmr:xaDiYhYrTEEGMZ_hzoBP-3LG7k9GiPotk-V6IqYVRvag7n7UeSVIIBQPTyU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduhedgvddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegt
- vghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepteefffefgfektdefgfeludfgtd
- ejfeejvddttdekteeiffejvdfgheehfffhvedunecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:xaDiYoWIT037gzHTMlUY78lQdIQmAqWJrOt50ZdZ4oQ-2o87nj0G3g>
- <xmx:xaDiYvliZMzPd2-dvItolYw7Vhvs633dBuiijhIeU30i60dovplo6w>
- <xmx:xaDiYld2HOQCnGn0WTzvoYwrokRqjXItS-UwcWM4pcQ1fCA3XdFqLQ>
- <xmx:xaDiYqui1FnXdXBHOpJGwhbRALddYYZSUV-PgAxA5O9vWDdPKYq_lg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Jul 2022 10:44:18 -0400 (EDT)
-Date: Thu, 28 Jul 2022 16:44:13 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: emma@anholt.net, daniel@ffwll.ch, dakr@redhat.com, airlied@linux.ie,
- christian.koenig@amd.com
-Subject: Re: [PATCH 00/10] drm: use idr_init_base() over idr_init() if
- applicable
-Message-ID: <20220728144413.nebc2js26vlwovr3@penduick>
-References: <20220701185303.284082-1-dakr@redhat.com>
- <165901911294.5946.5075667196143577988.b4-ty@cerno.tech>
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Thu, 28 Jul 2022 14:53:57 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 933DA10F81C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:53:57 +0000 (UTC)
+Received: from mail-ej1-f45.google.com ([209.85.218.45]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N0X0U-1nVjQF45SO-00wR3J for <dri-devel@lists.freedesktop.org>; Thu, 28
+ Jul 2022 16:48:52 +0200
+Received: by mail-ej1-f45.google.com with SMTP id bp15so3559136ejb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 07:48:51 -0700 (PDT)
+X-Gm-Message-State: AJIora+ixtxU3nhHka7HeeSA1RghEwmqmGSNrwuo3ZsNMhddEUDJMlP9
+ aTuGIbo/DI3o/LeW/yPCW6Cz/PJIERYAPFqZnPQ=
+X-Google-Smtp-Source: AGRyM1voWFsned5bc+ZOEVWI6Tk3nmMi4UyCDiV3OuIb+yKzChXoAAi57A5zk3bEc9tox3U8iz+5WVxVjrqfdY0QZtc=
+X-Received: by 2002:a17:907:d0f:b0:72e:db1f:9b91 with SMTP id
+ gn15-20020a1709070d0f00b0072edb1f9b91mr21730608ejc.470.1659019731647; Thu, 28
+ Jul 2022 07:48:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="r2toc7lzoajpzjnz"
-Content-Disposition: inline
-In-Reply-To: <165901911294.5946.5075667196143577988.b4-ty@cerno.tech>
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-3-markuss.broks@gmail.com>
+In-Reply-To: <20220728142824.3836-3-markuss.broks@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 28 Jul 2022 16:48:35 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
+Message-ID: <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+To: Markuss Broks <markuss.broks@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:6MJrO5nAqDWzJwAmuYfuzZhujDx07hF+7cFaOWUvpluk7fz08yt
+ uhq1M8jLRE72TDJ4Wa+ZJGetKiwqfHU01CeJwzBXzpf8Q+Dg4nJ2o3k2xsFVQFj3IpaOzf/
+ TFmDvUNY25wJj9vTzXclbKWw7vPevYeUCQkqC9qVs0Bpnw7notNRJYUG6lYeWiGz+c+OJ9M
+ 9rzVXAiaCH8FWKO0vSvPQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dqiiiSPax5M=:O1/eiQMNkPteWQ62cjYHDQ
+ I0GU39ae6l/p8Zh59ZjvgklVAOmu5THmDl1H/1Y0QxUurWnsz94bUmNnWYtRCGQFQQuvFz73i
+ isX/euAuYzKzxl20pUY8de6BVCF/1Nn7FYx1C+i4nHbS2pWuo6gaqXr4y7UDNTQ4V9w6EtEhb
+ dyQNotN6DNEXlQjLYzQxYla3C3xrYwQ/C6FQNI9lIwyRpujfXDi3OmZEvmIWf3c3Yqpg+Wt/+
+ 2iXaUm35tS0w02clYtYeVl7jYbWNDwO+z4pgHhKhqu83y7AxnAq4Q4DE++B3wWDgugSq3R5ue
+ 6VXbG1sh8tWtKSXUhyK+LB6ob/bo9Chi2b36UQyaDfZcw7ct+ofP+h8pZGDA5YJlNNYPvcMiW
+ qKIMbLAc7Us3PpHFdzUSlLjgc9WfcCXWtdq6jULIdvYnyi8YU7rP+PqvcsMbvZiF6ZtuHc97T
+ lhtm+DKuRmBL6ZLjPbtCGXfUH0tEFaDkKvdmxofUQbEr3z0b5hQbOuz2Yjjfr8CX0ru1xMF9A
+ +Y+Ls8rZFKESm8OIfrujhh7U8MItqZ8w8yapDduSZzUpPlfQV1YC6ecrILxXlfMGYG7fMFA5L
+ nniymUAHndhOcPZn/qSczWRHkKMljBrCyapw7Dpd9POJ1sJMfbK8FZomlpSnaeGmjXtBqwGTP
+ /0oYEszHGZJg+fhzS8I6APHeT9gaam7R9Iki4X1y71exGFbJDUHpH5Xlyk0zkVZG1jjBrhZvq
+ OLPmc1vweB5Cped/qQTr/RZAXB60Z/r+/EhDzw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,57 +67,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-efi <linux-efi@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Tony Lindgren <tony@atomide.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Michal Suchanek <msuchanek@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 28, 2022 at 4:28 PM Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Add early console support for generic linear framebuffer devices.
+> This driver supports probing from cmdline early parameters
+> or from the device-tree using information in simple-framebuffer node.
+> The EFI functionality should be retained in whole.
+> The driver was disabled on ARM because of a bug in early_ioremap
+> implementation on ARM.
+>
+> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  12 +-
+>  MAINTAINERS                                   |   5 +
+>  drivers/firmware/efi/Kconfig                  |   6 +-
+>  drivers/firmware/efi/Makefile                 |   1 -
+>  drivers/firmware/efi/earlycon.c               | 246 --------------
+>  drivers/video/fbdev/Kconfig                   |  11 +
+>  drivers/video/fbdev/Makefile                  |   1 +
+>  drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
 
---r2toc7lzoajpzjnz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It looks like this is not actually related to fbdev, and since drivers are
+moving from fbdev/simplefb towards drm/simpledrm, maybe it would be
+better to put this into either drivers/gpu/drm/tiny/ or possibly
+drivers/video/console to let this be used without enabling fbdev?
 
-On Thu, Jul 28, 2022 at 04:41:41PM +0200, Maxime Ripard wrote:
-> On Fri, 1 Jul 2022 20:52:53 +0200, dakr@redhat.com wrote:
-> > From: Danilo Krummrich <dakr@redhat.com>
-> >=20
-> > This patch series initializes IDRs with idr_init_base(&idr, 1) rather t=
-han
-> > idr_init(&idr) in case for the particular IDR no IDs < 1 are ever reque=
-sted -
-> > this avoids unnecessary tree walks.
-> >=20
-> > Danilo Krummrich (10):
-> >   drm/amdgpu: use idr_init_base() to initialize mgr->ctx_handles
-> >   drm/amdgpu: use idr_init_base() to initialize fpriv->bo_list_handles
-> >   drm: use idr_init_base() to initialize master->magic_map
-> >   drm: use idr_init_base() to initialize master->lessee_idr
-> >   drm: use idr_init_base() to initialize mode_config.object_idr
-> >   drm: use idr_init_base() to initialize mode_config.tile_idr
-> >   drm/sis: use idr_init_base() to initialize dev_priv->object_idr
-> >   drm/v3d: use idr_init_base() to initialize v3d_priv->perfmon.idr
-> >   drm/via: use idr_init_base() to initialize dev_priv->object_idr
-> >   drm/todo: remove task for idr_init_base()
-> >=20
-> > [...]
->=20
-> Applied to drm/drm-misc (drm-misc-next).
-
-The via driver had changed a bit and the patch 9 didn't apply at all.
-I've moved the change to where it looked like it belonged, but you might
-want to double check.
-
-Maxime
-
---r2toc7lzoajpzjnz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYuKgvQAKCRCIQ8rmN6G3
-y57YAP4+m/e9OsvwjRt/iw8zIFBZKoLxAE0IPwnFlSHrNn2tUAD/WS/gzyTd6/LJ
-oF1hmSuR64Ar+Q/JsOPP81uQ+9wHJ7g=
-=UBYt
------END PGP SIGNATURE-----
-
---r2toc7lzoajpzjnz--
+        Arnd
