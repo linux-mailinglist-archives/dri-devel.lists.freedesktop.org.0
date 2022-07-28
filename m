@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02ED85847A3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 23:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D78C5847B1
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 23:25:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E11110E625;
-	Thu, 28 Jul 2022 21:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A5C11A7D7;
+	Thu, 28 Jul 2022 21:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB4021131B3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 21:20:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659043251; x=1690579251;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pxP46KbMMLqAAyC8VE4buMLpi2fN+uP6X+8JG9II198=;
- b=mtAf7M2Hm39W3dG176XEBoR+wivQb+Ai36XZ0PsscK4411xLciFDHu27
- d3YtmZC7WdAWM6zJTlyp4bo8/yJDxvyzY/ToV8MVKqa+msXJzzQbokoej
- 8RMfulLbCFv28Mv309iJCxh/dvTWi7Ok0crtxQfkJZ+akmf91Dr6FMfiE
- XjjQvUEZAUeX8KLYhbtKM1d7Eh9y/6B7FfrGFYkVjWo3sLnjsSlMDMiiB
- XEjKqfsVJU8AQCY5W9vV8m5mTTKU4Z0yYicIpI27pnyB15VJZbDopjufd
- M9u9J/wSL/nNQt+xzGMcBaH1GWcubGtYnoHNI2rHE666CBbFvsdRl/9V8 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="352630433"
-X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; d="scan'208";a="352630433"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 14:20:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; d="scan'208";a="703958074"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2022 14:20:45 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oHAw0-000Ab2-16;
- Thu, 28 Jul 2022 21:20:44 +0000
-Date: Fri, 29 Jul 2022 05:20:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Markuss Broks <markuss.broks@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
-Message-ID: <202207290523.Br8Zr7V3-lkp@intel.com>
-References: <20220728142824.3836-3-markuss.broks@gmail.com>
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB3D11A7D7;
+ Thu, 28 Jul 2022 21:25:41 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id b67so2805127vsc.1;
+ Thu, 28 Jul 2022 14:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q1x1ZjgS7VlCPMIkNXtdFYljX1S1cLlBsH9qDNb9IeA=;
+ b=AntHQtj37vjauhhoE+UtilNsPQlGYpwizVK2uPGDcmU/KoTjH/h70qT9dsUAjQh8Yn
+ I5zFNkHpjoVuYN/QCV4q54CqQSfDuhTzU+zG/ARdEz84RCFc78GxEiVrPXkQdpzqquMh
+ OT3pcMMrcIVqD4RR5TK5B1wfdpZxVy5ujqi2+no1VRBNDsZet8XOA9xLJONoTFnnSt1P
+ eRgRwRljTptzDq2xNtfdQiGsDCpj6ixosOdpYYmgknCRIx21J+AoaTkIyBlpvVsuB0VA
+ TKM2bhEe8dkuHdwblyJVxgbQLWBwGajFAvzrNWagsI710eDRWGPTa/bUwqzsGXcxQJ4I
+ 2LdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q1x1ZjgS7VlCPMIkNXtdFYljX1S1cLlBsH9qDNb9IeA=;
+ b=db9f7HXudrwkRLlVi1BHr7eLr+oyIqlmN3NL+HEGzos7HWU/eGIFNgy00mAD4SZJdp
+ LIueng9E5Wn5rVY0kLMl84nOLa4sNSmu0yAz9qmgHCH/MJn/1TAwJs9v+faaWT8u/HqI
+ E71NDb6PczyVmC5L+MznmQlGk/2/Kz5WTn6eaBN/6GTtlcM/obq66/KDrj4ANiuMuCeF
+ 8Uh7z2irXfJ24AI2gw14EwkFAJGmVfxOB1YvtYAmhYx5XxzeqlCnq+PQ84CyPxHCCwQs
+ gufeZ4WI6OVyBYK93QuZFi1TEr5IitAORyKB9dtP5F39vFyMIFGqZ7qUk0GHu4vHcth3
+ 82DA==
+X-Gm-Message-State: AJIora+p36goDwaU1M3iIVEAesw+Dokcjxmz5sDffsCs6PyRe9/ZQ3cV
+ kuQmVIkrFOHNQYKcbhRGjdmt3vFVrNXKdxmW0t4=
+X-Google-Smtp-Source: AGRyM1v1shvNHzO/g+2YGN9wO6mdmchskpLMKphMK6VfsUQYOfH19F+GmHEYBsRfgiS/rPDkCc8RED+TBPlK56almV8=
+X-Received: by 2002:a05:6102:f99:b0:35a:da59:dbab with SMTP id
+ e25-20020a0561020f9900b0035ada59dbabmr255025vsv.80.1659043540601; Thu, 28 Jul
+ 2022 14:25:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220728142824.3836-3-markuss.broks@gmail.com>
+References: <20220720153233.144129-1-jim.cromie@gmail.com>
+ <20220720153233.144129-17-jim.cromie@gmail.com>
+ <715fa561-703f-0ac7-8a88-859ee60bcb4c@akamai.com>
+In-Reply-To: <715fa561-703f-0ac7-8a88-859ee60bcb4c@akamai.com>
+From: jim.cromie@gmail.com
+Date: Thu, 28 Jul 2022 15:25:14 -0600
+Message-ID: <CAJfuBxyuLrgfk-D=VtaAB+d-5s9L7DR=mXeUoAVBMTKd1cBc5Q@mail.gmail.com>
+Subject: Re: [PATCH v4 16/41] dyndbg: add drm.debug style bitmap support
+To: Jason Baron <jbaron@akamai.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,175 +64,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
- Markuss Broks <markuss.broks@gmail.com>, linux-doc@vger.kernel.org,
- Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-serial@vger.kernel.org,
- Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Michal Suchanek <msuchanek@suse.de>, kbuild-all@lists.01.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Markuss,
+On Fri, Jul 22, 2022 at 2:33 PM Jason Baron <jbaron@akamai.com> wrote:
+>
+>
+>
+> On 7/20/22 11:32, Jim Cromie wrote:
+> > Add kernel_param_ops and callbacks to apply a class-map to a
+> > sysfs-node, which then can control classes defined in that class-map.
+> > This supports uses like:
+> >
+> >   echo 0x3 > /sys/module/drm/parameters/debug
+> >
+> > IE add these:
+> >
+> >  - int param_set_dyndbg_classes()
+> >  - int param_get_dyndbg_classes()
+> >  - struct kernel_param_ops param_ops_dyndbg_classes
+> >
+> > Following the model of kernel/params.c STANDARD_PARAM_DEFS, these are
+> > non-static and exported.  This might be unnecessary here.
+> >
+> > get/set use an augmented kernel_param; the arg refs a new struct
+> > ddebug_classes_bitmap_param, initialized by DYNAMIC_DEBUG_CLASSBITS
+> > macro, which contains:
+> >
+> > BITS: a pointer to the user module's ulong holding the bits/state.  By
+> > ref'g the client's bit-state _var, we coordinate with existing code
+> > (such as drm_debug_enabled) which uses the _var, so it works
+> > unchanged, even as the foundation is switched out underneath it..
+> > Using a ulong allows use of BIT() etc.
+> >
+> > FLAGS: dyndbg.flags toggled by changes to bitmap. Usually just "p".
+> >
+> > MAP: a pointer to struct ddebug_classes_map, which maps those
+> > class-names to .class_ids 0..N that the module is using.  This
+> > class-map is declared & initialized by DEFINE_DYNDBG_CLASSMAP.
+> >
+> > map-type: add support here for DD_CLASS_DISJOINT, DD_CLASS_VERBOSE.
+> >
+> > These 2 class-types both expect an integer; _DISJOINT treats input
+> > like a bit-vector (ala drm.debug), and sets each bit accordingly.
+> >
+> > _VERBOSE treats input like a bit-pos:N, then sets bits(0..N)=1, and
+> > bits(N+1..max)=0.  This applies (bit<N) semantics on top of disjoint
+> > bits.
+> >
+> > cases DD_CLASS_SYMBOLIC, DD_CLASS_LEVELS are included for the complete
+> > picture, with commented out call to a following commit.
+> >
+> > NOTES:
+> >
+> > this now includes SYMBOLIC/LEVELS support, too tedious to keep
+> > separate thru all the tweaking.
+> >
+> > get-param undoes the bit-pos -> bitmap transform that set-param does
+> > on VERBOSE inputs, this gives the read-what-was-written property.
+> >
+> > _VERBOSE is overlay on _DISJOINT:
+> >
+> > verbose-maps still need class-names, even though theyre not usable at
+> > the sysfs interface (unlike with _SYMBOLIC/_LEVELS).
+> >
+> >  - It must have a "V0" name,
+> >    something below "V1" to turn "V1" off.
+> >    __pr_debug_cls(V0,..) is printk, don't do that.
+> >
+> >  - "class names" is required at the >control interface.
+> >  - relative levels are not enforced at >control
+> >
+> > IOW this is possible, and maybe confusing:
+> >
+> >   echo class V3 +p > control
+> >   echo class V1 -p > control
+> >
+> > IMO thats ok, relative verbosity is an interface property.
+> >
+> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> > ---
+> > . drop kp->mod->name as unneeded (build-dependent) <lkp>
+> > ---
+> >  include/linux/dynamic_debug.h |  18 ++++
+> >  lib/dynamic_debug.c           | 193 ++++++++++++++++++++++++++++++++++
+> >  2 files changed, 211 insertions(+)
+> >
+> > diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+> > index f57076e02767..b50bdd5c8184 100644
+> > --- a/include/linux/dynamic_debug.h
+> > +++ b/include/linux/dynamic_debug.h
+> > @@ -113,6 +113,12 @@ struct ddebug_class_map {
+> >  #define NUM_TYPE_ARGS(eltype, ...)                           \
+> >       (sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
+> >
+> > +struct ddebug_classes_bitmap_param {
+> > +     unsigned long *bits;
+> > +     char flags[8];
+> > +     const struct ddebug_class_map *map;
+> > +};
+> > +
+> >  #if defined(CONFIG_DYNAMIC_DEBUG_CORE)
+> >
+> >  int ddebug_add_module(struct _ddebug *tab, unsigned int num_debugs,
+> > @@ -274,6 +280,10 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+> >                                  KERN_DEBUG, prefix_str, prefix_type, \
+> >                                  rowsize, groupsize, buf, len, ascii)
+> >
+> > +struct kernel_param;
+> > +int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp);
+> > +int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp);
+> > +
+> >  /* for test only, generally expect drm.debug style macro wrappers */
+> >  #define __pr_debug_cls(cls, fmt, ...) do {                   \
+> >       BUILD_BUG_ON_MSG(!__builtin_constant_p(cls),            \
+> > @@ -322,6 +332,14 @@ static inline int ddebug_dyndbg_module_param_cb(char *param, char *val,
+> >                               rowsize, groupsize, buf, len, ascii);   \
+> >       } while (0)
+> >
+> > +struct kernel_param;
+> > +static inline int param_set_dyndbg_classes(const char *instr, const struct kernel_param *kp)
+> > +{ return 0; }
+> > +static inline int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
+> > +{ return 0; }
+> > +
+> >  #endif /* !CONFIG_DYNAMIC_DEBUG_CORE */
+> >
+> > +extern const struct kernel_param_ops param_ops_dyndbg_classes;
+> > +
+> >  #endif
+> > diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> > index 4c27bbe5187e..dd27dc514aa3 100644
+> > --- a/lib/dynamic_debug.c
+> > +++ b/lib/dynamic_debug.c
+> > @@ -596,6 +596,199 @@ static int ddebug_exec_queries(char *query, const char *modname)
+> >       return nfound;
+> >  }
+> >
+> > +static int ddebug_apply_class_bitmap(const struct ddebug_classes_bitmap_param *dcp,
+> > +                                  unsigned long inbits)
+> > +{
+> > +#define QUERY_SIZE 128
+> > +     char query[QUERY_SIZE];
+> > +     const struct ddebug_class_map *map = dcp->map;
+> > +     int matches = 0;
+> > +     int bi, ct;
+> > +
+> > +     v2pr_info("in: 0x%lx on: 0x%lx\n", inbits, *dcp->bits);
+> > +
+> > +     for (bi = 0; bi < map->length; bi++) {
+> > +             if (test_bit(bi, &inbits) == test_bit(bi, dcp->bits))
+> > +                     continue;
+> > +
+> > +             snprintf(query, QUERY_SIZE, "class %s %c%s", map->class_names[bi],
+> > +                      test_bit(bi, &inbits) ? '+' : '-', dcp->flags);
+> > +
+> > +             ct = ddebug_exec_queries(query, NULL);
+> > +             matches += ct;
+> > +
+> > +             v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
+> > +                       ct, map->class_names[bi], inbits);
+> > +     }
+> > +     return matches;
+> > +}
+> > +
+> > +/* support for [+-] symbolic-name boolean list */
+> > +static int param_set_dyndbg_class_strings(const char *instr, const struct kernel_param *kp)
+> > +{
+> > +     const struct ddebug_classes_bitmap_param *dcp = kp->arg;
+> > +     const struct ddebug_class_map *map = dcp->map;
+> > +     unsigned long inbits;
+> > +     int idx, totct = 0;
+> > +     bool wanted;
+> > +     char *cls, *p;
+> > +
+> > +     cls = kstrdup(instr, GFP_KERNEL);
+> > +     p = strchr(cls, '\n');
+> > +     if (p)
+> > +             *p = '\0';
+> > +
+> > +     vpr_info("\"%s\" > %s\n", cls, kp->name);
+> > +     inbits = *dcp->bits;
+> > +
+> > +     for (; cls; cls = p) {
+> > +             p = strchr(cls, ',');
+> > +             if (p)
+> > +                     *p++ = '\0';
+> > +
+> > +             if (*cls == '-') {
+> > +                     wanted = false;
+> > +                     cls++;
+> > +             } else {
+> > +                     wanted = true;
+> > +                     if (*cls == '+')
+> > +                             cls++;
+> > +             }
+> > +             idx = match_string(map->class_names, map->length, cls);
+> > +             if (idx < 0) {
+> > +                     pr_err("%s unknown to %s\n", cls, kp->name);
+> > +                     continue;
+> > +             }
+> > +
+> > +             switch (map->map_type) {
+> > +             case DD_CLASS_TYPE_SYMBOLIC:
+> > +                     if (test_bit(idx, &inbits) == wanted) {
+> > +                             v3pr_info("no change on %s\n", cls);
+> > +                             continue;
+> > +                     }
+> > +                     inbits ^= BIT(idx);
+>
+> Didn't test this out but the code here confused me. In this case the bit at idx
+> in inbits doesn't match. But you are doing an exclusive OR here. So doesn't that
+> always set it? Shouldn't it be cleared if wanted is false?
+>
 
-I love your patch! Yet something to improve:
+I think the trouble is - in part - inbits varname;
+it starts with the old bit vector value -
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on efi/next staging/staging-testing usb/usb-testing linus/master v5.19-rc8 next-20220728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+        inbits = *dcp->bits;  // i'll add comment here
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markuss-Broks/Add-generic-framebuffer-support-to-EFI-earlycon-driver/20220728-223117
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20220729/202207290523.Br8Zr7V3-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b6a59e731326deaa78f7dcbd97520e2eed2bc707
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Markuss-Broks/Add-generic-framebuffer-support-to-EFI-earlycon-driver/20220728-223117
-        git checkout b6a59e731326deaa78f7dcbd97520e2eed2bc707
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/video/fbdev/
+2nd, this is while parsing the csv of classnames,
+and evaluating 1 bit/class at a time here,
+and only valid class-names
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+and wanted therefore only pertains to classes/bits that need toggled,
+wanted = 1/0  based on +/- setting for that class.
 
-All error/warnings (new ones prefixed by >>):
+>
+> > +                     break;
+> > +             case DD_CLASS_TYPE_LEVELS:
+> > +                     /* bitmask must respect classmap ranges, this does not */
+> > +                     inbits = (1 << (idx + wanted));
+>
+> This line also confused me - below in DD_CLASS_TYPE_VERBOSE: case you use the
+> CLASSMAP_BITMASK() which will set all the 'levels' below. So I was expecting
+> that here as well as this is the symbolic level case. I think I'm missing
+> something...
 
-   drivers/video/fbdev/earlycon.c: In function 'simplefb_earlycon_map':
->> drivers/video/fbdev/earlycon.c:65:16: error: implicit declaration of function 'early_memremap_prot'; did you mean 'early_memremap'? [-Werror=implicit-function-declaration]
-      65 |         return early_memremap_prot(info.phys_base + start, len, pgprot_val(fb_prot));
-         |                ^~~~~~~~~~~~~~~~~~~
-         |                early_memremap
->> drivers/video/fbdev/earlycon.c:65:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-      65 |         return early_memremap_prot(info.phys_base + start, len, pgprot_val(fb_prot));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   {standard input}: Assembler messages:
-   {standard input}:210: Error: Register number out of range 0..0
-   {standard input}:211: Error: Register number out of range 0..0
-   {standard input}:211: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:211: Warning: Only the first path encountering the conflict is reported
-   {standard input}:210: Warning: This is the location of the conflicting usage
-   {standard input}:212: Error: Register number out of range 0..0
-   {standard input}:212: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:212: Warning: Only the first path encountering the conflict is reported
-   {standard input}:210: Warning: This is the location of the conflicting usage
-   {standard input}:212: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:212: Warning: Only the first path encountering the conflict is reported
-   {standard input}:211: Warning: This is the location of the conflicting usage
-   {standard input}:214: Error: Register number out of range 0..0
-   {standard input}:214: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:214: Warning: Only the first path encountering the conflict is reported
-   {standard input}:210: Warning: This is the location of the conflicting usage
-   {standard input}:214: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:214: Warning: Only the first path encountering the conflict is reported
-   {standard input}:211: Warning: This is the location of the conflicting usage
-   {standard input}:214: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:214: Warning: Only the first path encountering the conflict is reported
-   {standard input}:212: Warning: This is the location of the conflicting usage
-   {standard input}:215: Error: Register number out of range 0..0
-   {standard input}:215: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:215: Warning: Only the first path encountering the conflict is reported
-   {standard input}:210: Warning: This is the location of the conflicting usage
-   {standard input}:215: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:215: Warning: Only the first path encountering the conflict is reported
-   {standard input}:211: Warning: This is the location of the conflicting usage
-   {standard input}:215: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:215: Warning: Only the first path encountering the conflict is reported
-   {standard input}:212: Warning: This is the location of the conflicting usage
-   {standard input}:215: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:215: Warning: Only the first path encountering the conflict is reported
-   {standard input}:214: Warning: This is the location of the conflicting usage
-   {standard input}:216: Error: Register number out of range 0..0
-   {standard input}:216: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:216: Warning: Only the first path encountering the conflict is reported
-   {standard input}:210: Warning: This is the location of the conflicting usage
-   {standard input}:216: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:216: Warning: Only the first path encountering the conflict is reported
-   {standard input}:211: Warning: This is the location of the conflicting usage
-   {standard input}:216: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:216: Warning: Only the first path encountering the conflict is reported
-   {standard input}:212: Warning: This is the location of the conflicting usage
-   {standard input}:216: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:216: Warning: Only the first path encountering the conflict is reported
-   {standard input}:214: Warning: This is the location of the conflicting usage
-   {standard input}:216: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 35
-   {standard input}:216: Warning: Only the first path encountering the conflict is reported
-   {standard input}:215: Warning: This is the location of the conflicting usage
-   {standard input}:220: Error: Register number out of range 0..0
-   {standard input}:376: Error: Register number out of range 0..1
-   {standard input}:376: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:376: Warning: Only the first path encountering the conflict is reported
-   {standard input}:374: Warning: This is the location of the conflicting usage
-   {standard input}:378: Error: Register number out of range 0..1
-   {standard input}:378: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:378: Warning: Only the first path encountering the conflict is reported
-   {standard input}:374: Warning: This is the location of the conflicting usage
-   {standard input}:378: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:378: Warning: Only the first path encountering the conflict is reported
-   {standard input}:376: Warning: This is the location of the conflicting usage
-   {standard input}:379: Error: Register number out of range 0..1
-   {standard input}:379: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:379: Warning: Only the first path encountering the conflict is reported
-   {standard input}:374: Warning: This is the location of the conflicting usage
-   {standard input}:379: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:379: Warning: Only the first path encountering the conflict is reported
-   {standard input}:376: Warning: This is the location of the conflicting usage
-   {standard input}:379: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:379: Warning: Only the first path encountering the conflict is reported
-   {standard input}:378: Warning: This is the location of the conflicting usage
-   {standard input}:380: Error: Register number out of range 0..1
-   {standard input}:380: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:380: Warning: Only the first path encountering the conflict is reported
-   {standard input}:374: Warning: This is the location of the conflicting usage
-   {standard input}:380: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:380: Warning: Only the first path encountering the conflict is reported
-   {standard input}:376: Warning: This is the location of the conflicting usage
-   {standard input}:380: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:380: Warning: Only the first path encountering the conflict is reported
-   {standard input}:378: Warning: This is the location of the conflicting usage
-   {standard input}:380: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:380: Warning: Only the first path encountering the conflict is reported
-   {standard input}:379: Warning: This is the location of the conflicting usage
-   {standard input}:383: Error: Register number out of range 0..1
-   {standard input}:384: Error: Register number out of range 0..1
-   {standard input}:384: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:384: Warning: Only the first path encountering the conflict is reported
-   {standard input}:383: Warning: This is the location of the conflicting usage
+So this is a bit inscrutable - and the comment needs refresh.
+
+again, we are taking classnames here, so are working a single class-id,
+this time the bits are not independent, as they were above.
+idx is the valid class-id pertaining to the classname
+- I'll pick a better varname here too
+so
+   inbits = (1<< ( cls_id + wanted ? 1 : 0 ))
+
+forces all bits below cls_id on, and maybe cls_id too.
+
+at bottom of the classnames loop, apply-bitmap applies the bits.
+it applies only changes made to inbits, by re-fetching orig dcp->bits
+and comparing.
+
+Note also the usage diffs for the 2 _NAMED styles
+
+   echo DRM_UT_CORE,-DRM_UT_KMS,+DRM_UT_DRIVER > debug_catnames
+
+   echo +NV_TRACE  > nv_debug_level_names
+
+while this would be weird / makework / stress-test
+
+   echo +V7,-V1,+V7,-V1 > /sys/module/test_dynamic_debug/p_level_names
 
 
-vim +65 drivers/video/fbdev/earlycon.c
 
-    56	
-    57	static __ref void *simplefb_earlycon_map(unsigned long start, unsigned long len)
-    58	{
-    59		pgprot_t fb_prot;
-    60	
-    61		if (info.virt_base)
-    62			return info.virt_base + start;
-    63	
-    64		fb_prot = PAGE_KERNEL;
-  > 65		return early_memremap_prot(info.phys_base + start, len, pgprot_val(fb_prot));
-    66	}
-    67	
+Ive been reworking the set - including your enum suggestions,
+also adding
+0010-dyndbg-cleanup-local-vars-in-ddebug_init.patch
+0011-dyndbg-create-and-use-struct-_ddebug_info.patch
+- this gathers __dyndbg and __dyndbg_classes sections
+- maybe infos, or something more subsystem-state-ey
+any suggestions ?
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+I'll change varnames I mentioned, and add comments.
+I'll add comments derived from this explanation
+(hope it clears things up)
+
+and have a few things to sort and retest, I'll send a new rev shortly.
