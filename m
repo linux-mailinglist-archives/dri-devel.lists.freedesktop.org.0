@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3AB2583A9D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 10:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8630A583AD9
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 11:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF305966BD;
-	Thu, 28 Jul 2022 08:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E586F96A0F;
+	Thu, 28 Jul 2022 09:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D596C966C3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 08:49:58 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 26S8nTdw039676;
- Thu, 28 Jul 2022 03:49:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1658998169;
- bh=14U9HxjRh3e7yTIKwyD4/eeKKqDboG34PmiiATYwwTE=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=NV13UGLCAMCJCt6vhQyGtTtxqSEKbKYuQR7XRPyavSabi9oQ9BTfsWW6YV6RPRz8B
- sQwuAl3EfdFx6B/jkX5bVFxZUL//rzQ6xCpgilGhcxfQQqWK8nHqf1G2ZTQ7tbBD16
- 0Uk4S4CrZk1CTbr/LIj4bbxaWOxDz4S9dgrvgDWs=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 26S8nTKG064147
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 28 Jul 2022 03:49:29 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 28
- Jul 2022 03:49:29 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Thu, 28 Jul 2022 03:49:29 -0500
-Received: from [172.24.157.172] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 26S8nO9k028827;
- Thu, 28 Jul 2022 03:49:25 -0500
-Message-ID: <0d9f4301-8af5-4497-8e59-affdc0541285@ti.com>
-Date: Thu, 28 Jul 2022 14:19:24 +0530
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076B496C82
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 09:00:14 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oGzNJ-0004A8-DP; Thu, 28 Jul 2022 11:00:09 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oGzNH-0006c4-09; Thu, 28 Jul 2022 11:00:07 +0200
+Date: Thu, 28 Jul 2022 11:00:06 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Liu Ying <victor.liu@oss.nxp.com>
+Subject: Re: [PATCH] drm: lcdif: change burst size to 256B
+Message-ID: <20220728090006.kh6p7gsbvtdsn7lb@pengutronix.de>
+References: <20220726094302.2859456-1-m.felsch@pengutronix.de>
+ <28dc6dfd-08a2-a207-4644-074fb7fee2f1@denx.de>
+ <22f34394e6f12c633594572a64d5c6bb40ff4476.camel@oss.nxp.com>
+ <20220727035618.skhhwd5hja6cvqgx@pengutronix.de>
+ <786c65bce75c5b73f162184e11ff8cf078845c4f.camel@oss.nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.0.3
-Subject: Re: [PATCH 8/8] drm/tidss: Enable Dual and Duplicate Modes for OLDI
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20220719080845.22122-1-a-bhatia1@ti.com>
- <20220719080845.22122-9-a-bhatia1@ti.com>
- <83df99ee-1304-121f-97e6-85ca416aef1f@ideasonboard.com>
- <c72e64b5-fbf0-0605-1d50-5b1f9b99eacf@ideasonboard.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <c72e64b5-fbf0-0605-1d50-5b1f9b99eacf@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <786c65bce75c5b73f162184e11ff8cf078845c4f.camel@oss.nxp.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,149 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Darren Etheridge <detheridge@ti.com>, Rob Herring <robh+dt@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Rahul T R <r-ravikumar@ti.com>,
- Krunal Bhargav <k-bhargav@ti.com>
+Cc: Marek Vasut <marex@denx.de>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com, kernel@pengutronix.de,
+ sam@ravnborg.org, jian.li@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-On 28-Jul-22 12:16, Tomi Valkeinen wrote:
-> On 27/07/2022 16:22, Tomi Valkeinen wrote:
->> Hi,
->>
->> On 19/07/2022 11:08, Aradhya Bhatia wrote:
->>> The AM625 DSS peripheral supports 2 OLDI TXes which can work to enable 2
->>> duplicated displays of smaller resolutions or enable a single Dual-Link
->>> display with a higher resolution (1920x1200).
->>>
->>> Configure the necessary register to enable the different modes.
->>>
->>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>> ---
->>>   drivers/gpu/drm/tidss/tidss_dispc.c | 44 +++++++++++++++++++++++++++--
->>>   1 file changed, 41 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c 
->>> b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> index 0b9689453ee8..28cb61259471 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> @@ -1021,8 +1021,8 @@ static void dispc_enable_oldi(struct 
->>> dispc_device *dispc, u32 hw_videoport,
->>>       int count = 0;
->>>       /*
->>> -     * For the moment DUALMODESYNC, MASTERSLAVE, MODE, and SRC
->>> -     * bits of DISPC_VP_DSS_OLDI_CFG are set statically to 0.
->>> +     * For the moment MASTERSLAVE, and SRC bits of 
->>> DISPC_VP_DSS_OLDI_CFG are
->>> +     * set statically to 0.
->>>        */
->>>       if (fmt->data_width == 24)
->>> @@ -1039,7 +1039,45 @@ static void dispc_enable_oldi(struct 
->>> dispc_device *dispc, u32 hw_videoport,
->>>       oldi_cfg |= BIT(0); /* ENABLE */
->>> -    dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 
->>> oldi_cfg);
->>> +    /*
->>> +     * As per all the current implementations of DSS, the OLDI TXes 
->>> are present only on
->>> +     * hw_videoport = 0 (OLDI TX 0). However, the config register 
->>> for 2nd OLDI TX (OLDI TX 1)
->>> +     * is present in the address space of hw_videoport = 1. Hence, 
->>> using "hw_videoport + 1" to
->>> +     * configure OLDI TX 1.
->>> +     */
->>> +
->>> +    switch (dispc->oldi_mode) {
->>> +    case OLDI_MODE_OFF:
->>> +        oldi_cfg &= ~BIT(0); /* DISABLE */
->>> +        dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 
->>> oldi_cfg);
->>> +        dispc_vp_write(dispc, hw_videoport + 1, 
->>> DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
->>> +        break;
->>> +
->>> +    case OLDI_SINGLE_LINK_SINGLE_MODE_0:
->>> +        dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 
->>> oldi_cfg);
->>> +        break;
->>> +
->>> +    case OLDI_SINGLE_LINK_SINGLE_MODE_1:
->>> +        dispc_vp_write(dispc, hw_videoport + 1, 
->>> DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
->>> +        break;
->>> +
->>> +    case OLDI_SINGLE_LINK_DUPLICATE_MODE:
->>> +        oldi_cfg |= BIT(5); /* DUPLICATE MODE */
->>> +        dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 
->>> oldi_cfg);
->>> +        dispc_vp_write(dispc, hw_videoport + 1, 
->>> DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
->>> +        break;
->>> +
->>> +    case OLDI_DUAL_LINK:
->>> +        oldi_cfg |= BIT(11); /* DUALMODESYNC */
->>> +        dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 
->>> oldi_cfg);
->>> +        dispc_vp_write(dispc, hw_videoport + 1, 
->>> DISPC_VP_DSS_OLDI_CFG, oldi_cfg);
->>> +        break;
->>> +
->>> +    default:
->>> +        dev_warn(dispc->dev, "%s: Incorrect oldi mode. Returning.\n",
->>> +             __func__);
->>> +        return;
->>> +    }
->>>       while (!(oldi_reset_bit & dispc_read(dispc, DSS_SYSSTATUS)) &&
->>>              count < 10000)
->>
->> This feels a bit hacky:
->>
->> - The function is dispc_enable_oldi, but the above code also disables 
->> oldi. We have code in dispc_vp_unprepare() which disables OLDI at the 
->> moment.
->>
->> - The function takes hw_videoport as a parameter, and is designed to 
->> work on that videoport. The above operates on two videoports. Isn't 
->> the function also called for hw_videoport +1, which would result in 
->> reg writes to hw_videoport + 2?
->>
->> - No matching code in dispc_vp_unprepare
->>
->> Obviously the duplicate mode (I presume that's "cloning") and the dual 
->> link complicate things here, and I have to say I haven't worked with 
->> such setups. But I think somehow this should be restructured so that 
->> common configuration (common to the OLDIs) is done somewhere else.
->>
->> I would guess that there are other drivers that support cloning and 
->> dual mode. Did you have a look how they handle things?
+On 22-07-28, Liu Ying wrote:
+> On Wed, 2022-07-27 at 05:56 +0200, Marco Felsch wrote:
+> > Hi Marek, Liu,
+> > 
+> > On 22-07-26, Liu Ying wrote:
+> > > On Tue, 2022-07-26 at 16:19 +0200, Marek Vasut wrote:
+> > > > On 7/26/22 11:43, Marco Felsch wrote:
+> > > > > FIFO underruns are seen if a AXI bus master with a higher
+> > > > > priority
+> > > > > do a
+> > > > > lot of memory access. Increase the burst size to 256B to avoid
+> > > > > such
+> > > > > underruns and to improve the memory access efficiency.
+> > > > 
+> > > > Sigh, this again ...
+> > 
+> > I know.. we also tried the PANIC mode but this somehow didn't worked
+> > as
+> > documented. So this was the only way to reduce the underruns without
+> > adapting the interconnect prio for the hdmi-lcdif.
+> > 
+> > > > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > index 1bec1279c8b5..1f22ea5896d5 100644
+> > > > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > > > > @@ -143,8 +143,20 @@ static void lcdif_set_mode(struct
+> > > > > lcdif_drm_private *lcdif, u32 bus_flags)
+> > > > >   	       CTRLDESCL0_1_WIDTH(m->crtc_hdisplay),
+> > > > >   	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
+> > > > >   
+> > > > > -	writel(CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state-
+> > > > > >fb-
+> > > > > > pitches[0]),
+> > > > > 
+> > > > > -	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
+> > > > > +	/*
+> > > > > +	 * Undocumented P_SIZE and T_SIZE bit fields but
+> > > > > according the
+> > > > > +	 * downstream kernel they control the AXI burst size.
+> > > > > As of now
+> > > > > there
+> > > 
+> > > I'm not sure if it is AXI burst size or any other burst size,
+> > > though it
+> > > seems to be AXI burst size.
+> > > 
+> > > Cc'ing Jian who mentioned 'burst size' and changed it from 128B to
+> > > 256B
+> > > in the downstream kernel.
+> > 
+> > Thanks.
 > 
-> Oh, I see now... There's just one dss video port for OLDI, the same as 
-> in am65x, but that single video port is now connected to two OLDI TXes. 
-> And thus this function will only be called for the single video port.
-> > But... The registers for the second OLDI are part of the second video
-> port (DPI) register block?
+> Jian told me that it's AXI burst size.
 
-Yes! The config register for the second OLDI TX has been (incorrectly)
-added in the register space for the DPI video port. 'dispc_vp_prepare'
-is the only function calling 'dispc_enable_oldi', and
-'dispc_enable_oldi' would not be called for hw_videoports = 1 (DPI)
-because of the conditional check.
+Thanks for asking him. Do you know anything about the PANIC mode? We
+tested it by:
+ - using the interconnect patchsets [1]
+ - added a patch for configuring the hdmi-lcdif interconnect via DT [not
+   send upstream yet]
+ - setting the PANIC threshold to thresh-low:1/2 and tresh-high:3/4 and
+   enabled the INT_ENABLE_D1_PLANE_PANIC_EN within
+   LCDC_V8_INT_ENABLE_D1 (like the downstream kernel) [no send upstream
+   yet]
+ - configured the 'LCDIF_NOC_HURRY' to 0x7 (highest prio) like you do
+   within your downstream TF-A.
 
-Hence, to activate both the OLDI-TXes connected to the OLDI video port,
-I had to use the (hw_videoport + 1) way.
+But this didn't worked for us and for Marek if I got him correctly. My
+question is: Is the PANIC mode working as documented or are there some
+missing bits?
 
-However, I will remove the disable part from the 'dispc_enable_oldi' and
-I will implement the disabling properly under 'dispc_vp_unprepare', in
-the next version.
+You can test if the PANIC mode is working on the downstream kernel by
+reducing the AXI burst size back to 64B, connect a display with at least
+1080P and do some heavy memory access. If panic mode is working you
+shouldn't see any display artifacts. I tested this before increasing the
+AXI burst size by setting the HDMI-LCDIF prio staticlly to a high prio
+like 0x5 and it was working with a 64B AXI burst size.
 
-Regards
-Aradhya
+Regards,
+  Marco
+
+> Reviewed-by: Liu Ying <victor.liu@nxp.com>
+> 
+> 
