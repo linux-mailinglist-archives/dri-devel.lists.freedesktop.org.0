@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62796583A58
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 10:27:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12AC583A8F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 10:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12F312A5B4;
-	Thu, 28 Jul 2022 08:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C477890437;
+	Thu, 28 Jul 2022 08:46:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E307111A8FB;
- Thu, 28 Jul 2022 08:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658996836; x=1690532836;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=QMV3XUI6sZSyvbNxBjeFjDJrSL9m5v2NWUri683FjN4=;
- b=OwZAp9LaBWTHUoEGG/82KN/imurvIvmeCBu9kz6DyPS3xcOTWAwNayW1
- QIVlTLX417pXkZwoGMzigPnHy7IdLKn62dRgJL9fznFzcoe2M6JXev4dp
- CAXbRBBHVE4K67jospcjGSBh0AmWD3YnpdBD9zqtEQM0hpzj1Mhu/d5gr
- 4IGNNLVSGsAfH25+4rIgKBG1r8t+QEKVExv9bUZhFKE8vFocBO/+mGxXt
- ximUwz+ib71SmGQwz3QcIUwN704Ow9FLQmvd1R1ZdqB6tF4FbcgG/sEHB
- ycwc/T9dv8iICN5qkfRWA9dC7a4TMwwmN8eR4bHOibnhw2xRMBKjOfSAz w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="289651741"
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="289651741"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 01:27:14 -0700
-X-IronPort-AV: E=Sophos;i="5.93,196,1654585200"; d="scan'208";a="576360881"
-Received: from niviojax-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.213.204.129])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 01:27:12 -0700
-Date: Thu, 28 Jul 2022 09:27:05 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <YuJIWaEbKcs/q0NY@tursulin-desk>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29E4E90437
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 08:46:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 55DA5CE24A8;
+ Thu, 28 Jul 2022 08:46:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D3BC433D6;
+ Thu, 28 Jul 2022 08:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1658997997;
+ bh=PHHs5nIX4IopTV7l9ydxSupubpXxFsPpF3wfP6Uh7PQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ky2BTmaXFZnSjp5uBZezKkZ2YCjVBT+RyuWrzm7y0CDJcsvDkInuVyqDmLObAC4l1
+ 8DB6vrT8AMdcqKlM+5NkasDZ9wAFk9b00iQ1xNRLUD04Mk++wqh0x/9C4hCHhNqtb5
+ 1ldyhyqnkUC6hQp/vBYybaV4jvD21snPg6O3+jzM=
+Date: Thu, 28 Jul 2022 10:46:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: yuji2.ishikawa@toshiba.co.jp
+Subject: Re: [PATCH v2 4/5] MAINTAINERS: Add entries for Toshiba Visconti DNN
+ image processing accelerator
+Message-ID: <YuJM66FM97jjA2L+@kroah.com>
+References: <20220722082858.17880-1-yuji2.ishikawa@toshiba.co.jp>
+ <20220722082858.17880-5-yuji2.ishikawa@toshiba.co.jp>
+ <Yt6Q3A4tkmu797eX@kroah.com>
+ <TYAPR01MB6201F467FB17AD40EE907E7392949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <TYAPR01MB6201F467FB17AD40EE907E7392949@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,49 +52,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sumit.semwal@linaro.org, hverkuil@xs4all.nl, robh+dt@kernel.org,
+ nobuhiro1.iwamatsu@toshiba.co.jp, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
 
-Just one fix this time round to further improve reliability of resets on
-execlists platforms in some edge cases.
+A: No.
+Q: Should I include quotations after my reply?
 
-Not sure if there is scope to do one more fixes pull before 5.19 is out so
-just in case. If it doesn't get pulled we'll send it to stable after release.
- 
-Regards,
+http://daringfireball.net/2007/07/on_top
 
-Tvrtko
+On Tue, Jul 26, 2022 at 06:10:40AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
+> Sorry for this patch not being well formatted.
+> 
+> I'll add change log and the signed-off-by tag.
+> I should have checked patches with checkpatch.pl as well as testing sources with --file option.
 
-drm-intel-fixes-2022-07-28-1:
-- Further reset robustness improvements for execlists [Wa_22011802037] (Umesh Nerlige Ramappa)
-The following changes since commit e0dccc3b76fb35bb257b4118367a883073d7390e:
+Just a normal call to checkpatch will work, no need for the --file
+option.
 
-  Linux 5.19-rc8 (2022-07-24 13:26:27 -0700)
+Also for new stuff, please use the --strict to see more things that you
+might also want to fix up.
 
-are available in the Git repository at:
+For future versions, also please cc: me on this series.
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-07-28-1
+thanks,
 
-for you to fetch changes up to a7a47a5dfa9a9692a41764ee9ab4054f12924a42:
-
-  drm/i915/reset: Add additional steps for Wa_22011802037 for execlist backend (2022-07-25 15:57:54 +0100)
-
-----------------------------------------------------------------
-- Further reset robustness improvements for execlists [Wa_22011802037] (Umesh Nerlige Ramappa)
-
-----------------------------------------------------------------
-Umesh Nerlige Ramappa (1):
-      drm/i915/reset: Add additional steps for Wa_22011802037 for execlist backend
-
- drivers/gpu/drm/i915/gt/intel_engine.h             |  2 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          | 88 +++++++++++++++++++++-
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |  7 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  4 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 81 ++------------------
- 5 files changed, 103 insertions(+), 79 deletions(-)
+greg k-h
