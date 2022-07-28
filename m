@@ -2,42 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C2C5841E4
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 16:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66735841FC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 16:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 355DA10E097;
-	Thu, 28 Jul 2022 14:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFDB510E48C;
+	Thu, 28 Jul 2022 14:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACAF510E800
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:39:28 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C5CFF619A0;
- Thu, 28 Jul 2022 14:39:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11A53C433D7;
- Thu, 28 Jul 2022 14:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1659019167;
- bh=3HHwUSnABtyBitfyWAYqnpnxT+xy7vgOKgYPD5JZTs4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AVqg/vUeMurLoJsh6DiMraBDl8Za7huyv9LG4WhAHgjsqDly2yvM+fGdOSc2ehzUL
- OL0rxnh3c5bC3B5XJZ6AtAWS6SJSt6HYMmHiW8m1q4mTuYCsM9Ym+etrMMUJ78tNIT
- vZRa/MJ5RHGcpwrUIh8jVh8KMNL2w0v1Brvz+Wtk=
-Date: Thu, 28 Jul 2022 16:39:24 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Markuss Broks <markuss.broks@gmail.com>
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
-Message-ID: <YuKfnAjB4gV0ki4A@kroah.com>
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-3-markuss.broks@gmail.com>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C497B10E48C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 14:41:54 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8B7185C00ED;
+ Thu, 28 Jul 2022 10:41:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 28 Jul 2022 10:41:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659019311; x=
+ 1659105711; bh=XYhfyDVH0yHI3jIlMNs9kEOh1alcltQ7znsPGjCUPlA=; b=h
+ fBqnTr/PrWy8B8BCKM9HIsotNih32VBh8Mi72h8yG9BBdpFFdAPVKPRKpg7EMNrI
+ 8aGO3Q04xxu7zWtEHdz7F7Thy3xeg63r2mQ+DWXpe+uMUU3kZ15sNE7ojQ19ySk3
+ SCpA2kVP4HHwg9a3l121ycXXk+kF8BVkHLEon2VjcDWpQ9vx/ofkwpMhABGRsGIU
+ ece+DYg2wAN8DF/mN701BYBqU0DBNS5Pvdk2WKakvhg4Y+sJ57ZBhlYaLt8GVgNd
+ UNXXRssv7D7H7c+VfnctAfuCmdVNgmKxa4su97i1Dpm2ZCXd3kcI0IE15DR9QptL
+ zYd8yg/doMj3fUX6vOh8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659019311; x=
+ 1659105711; bh=XYhfyDVH0yHI3jIlMNs9kEOh1alcltQ7znsPGjCUPlA=; b=O
+ qyaHRyMP1iAz23MRnfnPg4UFHAgFoXsTSnp7UVtpr55OSfmlsxNoZdEghOOEcz0G
+ LqQiAvY2gufzN/znLIlYDVjqi9woC27EjcMiPvpZpA+4i/W9uRqBGTJebumfBvt9
+ lStBldI9d+ezKLjKC7wHH7hftN0UUseTtzyg4oP/t/n2vDI3Ox5b34ZYZgFMAn2J
+ ozuNQlc56PBagyfJtd4GlgBvafPXldVHD1wSAE4gkV4AZxPlt/0tNXUjhO2mov30
+ 3/BQI3k++ctwMML5qJI09URCwclRo3iUTbN9LQd5c6265WmVNchi7b+/oKpE1s94
+ L+PEgRiWN587zOXENEkYg==
+X-ME-Sender: <xms:LqDiYk62tEB--HnAFE6B1qLXh2XZfj2sxjKs_8UkN3n5qAc0ytIZyg>
+ <xme:LqDiYl7PmeQ-XYTCVVCeq3lUicAWB3ojpIuGjdtOEMkS0R_zPKtNDoriyuPXE3GP4
+ HhY0gUyPxfH_nYhR-Q>
+X-ME-Received: <xmr:LqDiYjcX1Ctb6AIBN6sLV_QW2iEUAfglg1ntQsx5R6sicvozXIxg2JS1eyo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduhedgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
+ ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
+ tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
+ euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:L6DiYpK4wJM9422Q8LwfH-Q3J3HvUbpAIkD3aNhiQP9Ls8Zp_Q6h3g>
+ <xmx:L6DiYoKGvQ1XPM_rkbAX9CzYDyvNf3ZkQ8xd9fNcocQK0qc75kBWqQ>
+ <xmx:L6DiYqytSV1Bhgb8d9Yf45v-3fZf062Rp89EOVeDEX6z1JggEst7Hw>
+ <xmx:L6DiYg9LFF6nKG_SuQVB5_MuWV5jQ8_GwbZ-bmbyl6ksYoimtFUj5w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 Jul 2022 10:41:47 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: emma@anholt.net, daniel@ffwll.ch, dakr@redhat.com, airlied@linux.ie,
+ christian.koenig@amd.com
+Subject: Re: [PATCH 00/10] drm: use idr_init_base() over idr_init() if
+ applicable
+Date: Thu, 28 Jul 2022 16:41:41 +0200
+Message-Id: <165901911294.5946.5075667196143577988.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220701185303.284082-1-dakr@redhat.com>
+References: <20220701185303.284082-1-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220728142824.3836-3-markuss.broks@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +85,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-doc@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
- dri-devel@lists.freedesktop.org, Wei Ming Chen <jj251510319013@gmail.com>,
- phone-devel@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-serial@vger.kernel.org,
- Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Michal Suchanek <msuchanek@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
+Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 28, 2022 at 05:28:19PM +0300, Markuss Broks wrote:
-> Add early console support for generic linear framebuffer devices.
-> This driver supports probing from cmdline early parameters
-> or from the device-tree using information in simple-framebuffer node.
-> The EFI functionality should be retained in whole.
-> The driver was disabled on ARM because of a bug in early_ioremap
-> implementation on ARM.
+On Fri, 1 Jul 2022 20:52:53 +0200, dakr@redhat.com wrote:
+> From: Danilo Krummrich <dakr@redhat.com>
 > 
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  12 +-
->  MAINTAINERS                                   |   5 +
->  drivers/firmware/efi/Kconfig                  |   6 +-
->  drivers/firmware/efi/Makefile                 |   1 -
->  drivers/firmware/efi/earlycon.c               | 246 --------------
->  drivers/video/fbdev/Kconfig                   |  11 +
->  drivers/video/fbdev/Makefile                  |   1 +
->  drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
->  8 files changed, 327 insertions(+), 256 deletions(-)
->  delete mode 100644 drivers/firmware/efi/earlycon.c
->  create mode 100644 drivers/video/fbdev/earlycon.c
+> This patch series initializes IDRs with idr_init_base(&idr, 1) rather than
+> idr_init(&idr) in case for the particular IDR no IDs < 1 are ever requested -
+> this avoids unnecessary tree walks.
+> 
+> Danilo Krummrich (10):
+>   drm/amdgpu: use idr_init_base() to initialize mgr->ctx_handles
+>   drm/amdgpu: use idr_init_base() to initialize fpriv->bo_list_handles
+>   drm: use idr_init_base() to initialize master->magic_map
+>   drm: use idr_init_base() to initialize master->lessee_idr
+>   drm: use idr_init_base() to initialize mode_config.object_idr
+>   drm: use idr_init_base() to initialize mode_config.tile_idr
+>   drm/sis: use idr_init_base() to initialize dev_priv->object_idr
+>   drm/v3d: use idr_init_base() to initialize v3d_priv->perfmon.idr
+>   drm/via: use idr_init_base() to initialize dev_priv->object_idr
+>   drm/todo: remove task for idr_init_base()
+> 
+> [...]
 
-That should be a rename, not a delete/create, right?
+Applied to drm/drm-misc (drm-misc-next).
 
-thanks,
-
-greg k-h
+Thanks!
+Maxime
