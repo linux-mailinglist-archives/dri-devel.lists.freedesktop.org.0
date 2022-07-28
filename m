@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1BE583FCE
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 15:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667EF583FD0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 15:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A964994C6;
-	Thu, 28 Jul 2022 13:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFC114B2EB;
+	Thu, 28 Jul 2022 13:18:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F095D8DF0E
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 13:17:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9762C9A685
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 13:17:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659014257; x=1690550257;
+ t=1659014258; x=1690550258;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dCA94kR9Bxf5Q+RwGP9uolJjYB3XW3PD+p6rqn13738=;
- b=eWF38Ha7njbl2eDCuuy/hI1crlIJXnKshGQgbHwDFcdIpUUIngkqhf0D
- idceBfsSUkApFRG8XovynQBDElZpMwWJOlyowtQUmkUyuaRPPfRHB8oIv
- YaKHwHgFJSsBsAVV9BSRFcXJXXFet7YOZdQU7db2b81Zh15+bMUYZPJz5
- 3iqo564v6fG/yv3HOTpl3j7xiXF2n6MsbWhgjkjGcm4wdpuO/So31eOTY
- tjXk6E5lKoiCYWugGIiI42mk9N4+V/IL9TCN0hQd4go39BOTa7hdiBx6K
- icbILmcOMqoSGt2mNnFur0N/adj+trTgeiGn5s2cYiQG2rmUaZQOpODDE w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="288520377"
-X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="288520377"
+ bh=64kB/3MRqpIXrIheYtlXPIUl6teKO7BzEahOWcI5bsw=;
+ b=SoeBChvEik0XVUikQto2FJEDxNzmEwC/9HgIElz1C5NzKSoQNAZr9T+q
+ tFWOKp7u/tEODsVhyyrUeF8E79St/Fj1UfIuZPqIIrAHkLdinxH/DaQBu
+ pCcS431xmyqdE5gntJ37C6/0HgjkdqkCWgLtPnN6jE5hc5gmW7M77FslL
+ cRo0nK6H7yNJWMRMGB7PUDOsYX1hhJKELfaRu4/ixRBB82XwJ1MEDqXnF
+ pQVC7DegGYLzmml+sELs+gFVrNwiUkkAAdAKI6sUd/cRTf4O2PWkkEJVk
+ XdBRXgNqVI8sOW+8xyEkB4+F967mNeDDKu4NRh42j2sqm7SK8rVLXXvwO Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="288520389"
+X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="288520389"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 06:17:36 -0700
-X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="659722670"
+ 28 Jul 2022 06:17:38 -0700
+X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="659722675"
 Received: from jlawryno-desktop.igk.intel.com ([172.22.229.64])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 06:17:35 -0700
+ 28 Jul 2022 06:17:36 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH v1 4/7] drm/vpu: Add IPC driver and JSM messages
-Date: Thu, 28 Jul 2022 15:17:06 +0200
-Message-Id: <20220728131709.1087188-5-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v1 5/7] drm/vpu: Implement firmware parsing and booting
+Date: Thu, 28 Jul 2022 15:17:07 +0200
+Message-Id: <20220728131709.1087188-6-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com>
 References: <20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com>
@@ -64,1504 +64,1026 @@ Cc: andrzej.kacprowski@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IPC driver is used to send and receive messages to/from firmware
-running on the VPU.
-
-The only supported IPC message format is Job Submission Model (JSM)
-defined in vpu_jsm_api.h header.
+Read, parse and boot VPU firmware image.
 
 Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/gpu/drm/vpu/Makefile      |   2 +
- drivers/gpu/drm/vpu/vpu_drv.c     |  15 +
- drivers/gpu/drm/vpu/vpu_drv.h     |   1 +
- drivers/gpu/drm/vpu/vpu_hw_mtl.c  |   4 +
- drivers/gpu/drm/vpu/vpu_ipc.c     | 474 ++++++++++++++++++++++++++
- drivers/gpu/drm/vpu/vpu_ipc.h     |  91 +++++
- drivers/gpu/drm/vpu/vpu_jsm_api.h | 529 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/vpu/vpu_jsm_msg.c | 220 +++++++++++++
- drivers/gpu/drm/vpu/vpu_jsm_msg.h |  25 ++
- 9 files changed, 1361 insertions(+)
- create mode 100644 drivers/gpu/drm/vpu/vpu_ipc.c
- create mode 100644 drivers/gpu/drm/vpu/vpu_ipc.h
- create mode 100644 drivers/gpu/drm/vpu/vpu_jsm_api.h
- create mode 100644 drivers/gpu/drm/vpu/vpu_jsm_msg.c
- create mode 100644 drivers/gpu/drm/vpu/vpu_jsm_msg.h
+ drivers/gpu/drm/vpu/Makefile       |   1 +
+ drivers/gpu/drm/vpu/vpu_boot_api.h | 222 ++++++++++++++++
+ drivers/gpu/drm/vpu/vpu_drv.c      | 123 ++++++++-
+ drivers/gpu/drm/vpu/vpu_drv.h      |   9 +
+ drivers/gpu/drm/vpu/vpu_fw.c       | 413 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/vpu/vpu_fw.h       |  38 +++
+ drivers/gpu/drm/vpu/vpu_hw_mtl.c   |  11 +
+ include/uapi/drm/vpu_drm.h         |  21 ++
+ 8 files changed, 837 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/vpu/vpu_boot_api.h
+ create mode 100644 drivers/gpu/drm/vpu/vpu_fw.c
+ create mode 100644 drivers/gpu/drm/vpu/vpu_fw.h
 
 diff --git a/drivers/gpu/drm/vpu/Makefile b/drivers/gpu/drm/vpu/Makefile
-index b2f7a6c240f7..43cede47c75f 100644
+index 43cede47c75f..995a3a9c6777 100644
 --- a/drivers/gpu/drm/vpu/Makefile
 +++ b/drivers/gpu/drm/vpu/Makefile
-@@ -5,6 +5,8 @@ intel_vpu-y := \
+@@ -3,6 +3,7 @@
+ 
+ intel_vpu-y := \
  	vpu_drv.o \
++	vpu_fw.o \
  	vpu_gem.o \
  	vpu_hw_mtl.o \
-+	vpu_ipc.o \
-+	vpu_jsm_msg.o \
- 	vpu_mmu.o \
- 	vpu_mmu_context.o
- 
-diff --git a/drivers/gpu/drm/vpu/vpu_drv.c b/drivers/gpu/drm/vpu/vpu_drv.c
-index 0e820aeecdcc..48551c147a1c 100644
---- a/drivers/gpu/drm/vpu/vpu_drv.c
-+++ b/drivers/gpu/drm/vpu/vpu_drv.c
-@@ -16,6 +16,7 @@
- #include "vpu_drv.h"
- #include "vpu_gem.h"
- #include "vpu_hw.h"
-+#include "vpu_ipc.h"
- #include "vpu_mmu.h"
- #include "vpu_mmu_context.h"
- 
-@@ -201,6 +202,7 @@ int vpu_shutdown(struct vpu_device *vdev)
- 	int ret;
- 
- 	vpu_hw_irq_disable(vdev);
-+	vpu_ipc_disable(vdev);
- 	vpu_mmu_disable(vdev);
- 
- 	ret = vpu_hw_power_down(vdev);
-@@ -318,6 +320,10 @@ static int vpu_dev_init(struct vpu_device *vdev)
- 	if (!vdev->mmu)
- 		return -ENOMEM;
- 
-+	vdev->ipc = devm_kzalloc(vdev->drm.dev, sizeof(*vdev->ipc), GFP_KERNEL);
-+	if (!vdev->ipc)
-+		return -ENOMEM;
-+
- 	vdev->hw->ops = &vpu_hw_mtl_ops;
- 	vdev->platform = VPU_PLATFORM_INVALID;
- 
-@@ -361,8 +367,16 @@ static int vpu_dev_init(struct vpu_device *vdev)
- 		goto err_mmu_gctx_fini;
- 	}
- 
-+	ret = vpu_ipc_init(vdev);
-+	if (ret) {
-+		vpu_err(vdev, "Failed to initialize IPC: %d\n", ret);
-+		goto err_mmu_fini;
-+	}
-+
- 	return 0;
- 
-+err_mmu_fini:
-+	vpu_mmu_fini(vdev);
- err_mmu_gctx_fini:
- 	vpu_mmu_global_context_fini(vdev);
- err_power_down:
-@@ -378,6 +392,7 @@ static void vpu_dev_fini(struct vpu_device *vdev)
- {
- 	vpu_shutdown(vdev);
- 
-+	vpu_ipc_fini(vdev);
- 	vpu_mmu_fini(vdev);
- 	vpu_mmu_global_context_fini(vdev);
- 	vpu_irq_fini(vdev);
-diff --git a/drivers/gpu/drm/vpu/vpu_drv.h b/drivers/gpu/drm/vpu/vpu_drv.h
-index a9f3ad0c5f67..ddb83aeaf6d3 100644
---- a/drivers/gpu/drm/vpu/vpu_drv.h
-+++ b/drivers/gpu/drm/vpu/vpu_drv.h
-@@ -87,6 +87,7 @@ struct vpu_device {
- 	struct vpu_wa_table wa;
- 	struct vpu_hw_info *hw;
- 	struct vpu_mmu_info *mmu;
-+	struct vpu_ipc_info *ipc;
- 
- 	struct vpu_mmu_context gctx;
- 	struct xarray context_xa;
-diff --git a/drivers/gpu/drm/vpu/vpu_hw_mtl.c b/drivers/gpu/drm/vpu/vpu_hw_mtl.c
-index 901ec5c40de9..b53ec7b9cc4d 100644
---- a/drivers/gpu/drm/vpu/vpu_hw_mtl.c
-+++ b/drivers/gpu/drm/vpu/vpu_hw_mtl.c
-@@ -7,6 +7,7 @@
- #include "vpu_hw_mtl_reg.h"
- #include "vpu_hw_reg_io.h"
- #include "vpu_hw.h"
-+#include "vpu_ipc.h"
- #include "vpu_mmu.h"
- 
- #define TILE_FUSE_ENABLE_BOTH	     0x0
-@@ -931,6 +932,9 @@ static irqreturn_t vpu_hw_mtl_irqv_handler(struct vpu_device *vdev, int irq)
- 
- 	REGV_WR32(MTL_VPU_HOST_SS_ICB_CLEAR_0, status);
- 
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
-+		ret &= vpu_ipc_irq_handler(vdev);
-+
- 	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT, status))
- 		ret &= vpu_mmu_irq_evtq_handler(vdev);
- 
-diff --git a/drivers/gpu/drm/vpu/vpu_ipc.c b/drivers/gpu/drm/vpu/vpu_ipc.c
+ 	vpu_ipc.o \
+diff --git a/drivers/gpu/drm/vpu/vpu_boot_api.h b/drivers/gpu/drm/vpu/vpu_boot_api.h
 new file mode 100644
-index 000000000000..0a01e5614a5f
+index 000000000000..b8ab30979b8a
 --- /dev/null
-+++ b/drivers/gpu/drm/vpu/vpu_ipc.c
-@@ -0,0 +1,474 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright © 2020-2022 Intel Corporation
-+ */
-+
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/kthread.h>
-+#include <linux/wait.h>
-+
-+#include "vpu_drv.h"
-+#include "vpu_gem.h"
-+#include "vpu_hw.h"
-+#include "vpu_ipc.h"
-+#include "vpu_jsm_msg.h"
-+
-+#define IPC_MAX_RX_MSG	128
-+#define IS_KTHREAD()	(get_current()->flags & PF_KTHREAD)
-+
-+struct vpu_ipc_tx_buf {
-+	struct vpu_ipc_hdr ipc;
-+	struct vpu_jsm_msg jsm;
-+} __packed;
-+
-+struct vpu_ipc_rx_msg {
-+	struct list_head link;
-+	struct vpu_ipc_hdr *ipc_hdr;
-+	struct vpu_jsm_msg *jsm_msg;
-+};
-+
-+static void vpu_ipc_msg_dump(struct vpu_device *vdev, char *c,
-+			     struct vpu_ipc_hdr *ipc_hdr, u32 vpu_addr)
-+{
-+	vpu_dbg(IPC,
-+		"%s: vpu:0x%x (data_addr:0x%08x, data_size:0x%x, channel:0x%x, src_node:0x%x, dst_node:0x%x, status:0x%x)",
-+		c, vpu_addr, ipc_hdr->data_addr, ipc_hdr->data_size,
-+		ipc_hdr->channel, ipc_hdr->src_node, ipc_hdr->dst_node,
-+		ipc_hdr->status);
-+}
-+
-+static void vpu_jsm_msg_dump(struct vpu_device *vdev, char *c,
-+			     struct vpu_jsm_msg *jsm_msg, u32 vpu_addr)
-+{
-+	u32 *payload = (u32 *)&jsm_msg->payload;
-+
-+	vpu_dbg(JSM,
-+		"%s: vpu:0x%08x (type:%s, status:0x%x, id: 0x%x, result: 0x%x, payload:0x%x 0x%x 0x%x 0x%x 0x%x)\n",
-+		c, vpu_addr, vpu_jsm_msg_type_to_str(jsm_msg->type),
-+		jsm_msg->status, jsm_msg->request_id, jsm_msg->result,
-+		payload[0], payload[1], payload[2], payload[3], payload[4]);
-+}
-+
-+static void
-+vpu_ipc_rx_mark_free(struct vpu_device *vdev, struct vpu_ipc_hdr *ipc_hdr,
-+		     struct vpu_jsm_msg *jsm_msg)
-+{
-+	ipc_hdr->status = VPU_IPC_HDR_FREE;
-+	if (jsm_msg)
-+		jsm_msg->status = VPU_JSM_MSG_FREE;
-+	wmb(); /* Flush msg status to VPU */
-+}
-+
-+static void vpu_ipc_mem_fini(struct vpu_device *vdev)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+
-+	vpu_bo_free_internal(ipc->mem_rx);
-+	vpu_bo_free_internal(ipc->mem_tx);
-+}
-+
-+static int
-+vpu_ipc_tx_prepare(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+		   struct vpu_jsm_msg *req)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_ipc_tx_buf *tx_buf;
-+	u32 tx_buf_vpu_addr;
-+	u32 jsm_vpu_addr;
-+
-+	tx_buf_vpu_addr = gen_pool_alloc(ipc->mm_tx, sizeof(*tx_buf));
-+	if (!tx_buf_vpu_addr) {
-+		vpu_err(vdev, "Failed to reserve IPC buffer, size %ld\n",
-+			sizeof(*tx_buf));
-+		return -ENOMEM;
-+	}
-+
-+	tx_buf = vpu_to_cpu_addr(ipc->mem_tx, tx_buf_vpu_addr);
-+	if (WARN_ON(!tx_buf)) {
-+		gen_pool_free(ipc->mm_tx, tx_buf_vpu_addr, sizeof(*tx_buf));
-+		return -EIO;
-+	}
-+
-+	jsm_vpu_addr = tx_buf_vpu_addr + offsetof(struct vpu_ipc_tx_buf, jsm);
-+
-+	if (tx_buf->ipc.status != VPU_IPC_HDR_FREE)
-+		vpu_warn(vdev, "IPC message vpu:0x%x not released by firmware\n",
-+			 tx_buf_vpu_addr);
-+
-+	if (tx_buf->jsm.status != VPU_JSM_MSG_FREE)
-+		vpu_warn(vdev, "JSM message vpu:0x%x not released by firmware\n",
-+			 jsm_vpu_addr);
-+
-+	memset(tx_buf, 0, sizeof(*tx_buf));
-+	tx_buf->ipc.data_addr = jsm_vpu_addr;
-+	/* TODO: Set data_size to actual JSM message size, not union of all messages */
-+	tx_buf->ipc.data_size = sizeof(*req);
-+	tx_buf->ipc.channel = cons->channel;
-+	tx_buf->ipc.src_node = 0;
-+	tx_buf->ipc.dst_node = 1;
-+	tx_buf->ipc.status = VPU_IPC_HDR_ALLOCATED;
-+	tx_buf->jsm.type = req->type;
-+	tx_buf->jsm.status = VPU_JSM_MSG_ALLOCATED;
-+	tx_buf->jsm.payload = req->payload;
-+
-+	req->request_id = atomic_inc_return(&ipc->request_id);
-+	tx_buf->jsm.request_id = req->request_id;
-+	cons->request_id = req->request_id;
-+	wmb(); /* Flush IPC, JSM msgs */
-+
-+	cons->tx_vpu_addr = tx_buf_vpu_addr;
-+
-+	vpu_jsm_msg_dump(vdev, "TX", &tx_buf->jsm, jsm_vpu_addr);
-+	vpu_ipc_msg_dump(vdev, "TX", &tx_buf->ipc, tx_buf_vpu_addr);
-+
-+	return 0;
-+}
-+
-+static void vpu_ipc_tx_release(struct vpu_device *vdev, u32 vpu_addr)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+
-+	if (vpu_addr)
-+		gen_pool_free(ipc->mm_tx, vpu_addr, sizeof(struct vpu_ipc_tx_buf));
-+}
-+
-+static void vpu_ipc_tx(struct vpu_device *vdev, u32 vpu_addr)
-+{
-+	vpu_hw_reg_ipc_tx_set(vdev, vpu_addr);
-+}
-+
-+void vpu_ipc_consumer_add(struct vpu_device *vdev,
-+			  struct vpu_ipc_consumer *cons, u32 channel)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+
-+	init_waitqueue_head(&cons->rx_msg_wq);
-+	INIT_LIST_HEAD(&cons->link);
-+	cons->channel = channel;
-+	cons->tx_vpu_addr = 0;
-+	cons->request_id = 0;
-+
-+	INIT_LIST_HEAD(&cons->rx_msg_list);
-+
-+	spin_lock_irq(&ipc->cons_list_lock);
-+	list_add_tail(&cons->link, &ipc->cons_list);
-+	spin_unlock_irq(&ipc->cons_list_lock);
-+}
-+
-+void vpu_ipc_consumer_del(struct vpu_device *vdev, struct vpu_ipc_consumer *cons)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_ipc_rx_msg *rx_msg, *r;
-+
-+	spin_lock_irq(&ipc->cons_list_lock);
-+
-+	list_del(&cons->link);
-+	list_for_each_entry_safe(rx_msg, r, &cons->rx_msg_list, link) {
-+		list_del(&rx_msg->link);
-+		vpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
-+		atomic_dec(&ipc->rx_msg_count);
-+		kfree(rx_msg);
-+	}
-+
-+	spin_unlock_irq(&ipc->cons_list_lock);
-+
-+	vpu_ipc_tx_release(vdev, cons->tx_vpu_addr);
-+}
-+
-+static int vpu_ipc_send(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+			struct vpu_jsm_msg *req)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	int ret;
-+
-+	if (mutex_lock_interruptible(&ipc->lock))
-+		return -EINTR;
-+
-+	if (!ipc->on) {
-+		ret = -EAGAIN;
-+		goto unlock;
-+	}
-+
-+	ret = vpu_ipc_tx_prepare(vdev, cons, req);
-+	if (ret)
-+		goto unlock;
-+
-+	vpu_ipc_tx(vdev, cons->tx_vpu_addr);
-+
-+unlock:
-+	mutex_unlock(&ipc->lock);
-+	return ret;
-+}
-+
-+int vpu_ipc_receive(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+		    struct vpu_ipc_hdr *ipc_buf,
-+		    struct vpu_jsm_msg *ipc_payload, unsigned long timeout_ms)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_ipc_rx_msg *rx_msg;
-+	int wait_ret, ret = 0;
-+
-+	wait_ret = wait_event_interruptible_timeout(cons->rx_msg_wq,
-+						    (IS_KTHREAD() && kthread_should_stop()) ||
-+						    !list_empty(&cons->rx_msg_list),
-+						    msecs_to_jiffies(timeout_ms));
-+
-+	if (IS_KTHREAD() && kthread_should_stop())
-+		return -EINTR;
-+
-+	if (wait_ret == 0)
-+		return -ETIMEDOUT;
-+
-+	if (wait_ret < 0)
-+		return -ERESTARTSYS;
-+
-+	spin_lock_irq(&ipc->rx_msg_list_lock);
-+	rx_msg = list_first_entry_or_null(&cons->rx_msg_list,
-+					  struct vpu_ipc_rx_msg, link);
-+	if (!rx_msg) {
-+		spin_unlock_irq(&ipc->rx_msg_list_lock);
-+		return -EAGAIN;
-+	}
-+	list_del(&rx_msg->link);
-+	spin_unlock_irq(&ipc->rx_msg_list_lock);
-+
-+	if (ipc_buf)
-+		memcpy(ipc_buf, rx_msg->ipc_hdr, sizeof(*ipc_buf));
-+	if (rx_msg->jsm_msg) {
-+		u32 size = min_t(int, rx_msg->ipc_hdr->data_size, sizeof(*ipc_payload));
-+
-+		if (rx_msg->jsm_msg->result != VPU_JSM_STATUS_SUCCESS) {
-+			vpu_dbg(IPC, "IPC resp result error: %d\n", rx_msg->jsm_msg->result);
-+			ret = -EBADMSG;
-+		}
-+
-+		if (ipc_payload)
-+			memcpy(ipc_payload, rx_msg->jsm_msg, size);
-+	}
-+
-+	vpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
-+	atomic_dec(&ipc->rx_msg_count);
-+	kfree(rx_msg);
-+
-+	return ret;
-+}
-+
-+int vpu_ipc_send_receive(struct vpu_device *vdev, struct vpu_jsm_msg *req,
-+			 enum vpu_ipc_msg_type expected_resp_type,
-+			 struct vpu_jsm_msg *resp, u32 channel,
-+			 unsigned long timeout_ms)
-+{
-+	struct vpu_ipc_consumer cons;
-+	int ret;
-+
-+	vpu_ipc_consumer_add(vdev, &cons, channel);
-+
-+	ret = vpu_ipc_send(vdev, &cons, req);
-+	if (ret) {
-+		vpu_warn(vdev, "IPC send failed: %d\n", ret);
-+		goto consumer_del;
-+	}
-+
-+	ret = vpu_ipc_receive(vdev, &cons, NULL, resp, timeout_ms);
-+	if (ret) {
-+		vpu_warn(vdev, "IPC receive failed: %d\n", ret);
-+		goto consumer_del;
-+	}
-+
-+	if (resp->type != expected_resp_type) {
-+		vpu_warn(vdev, "Invalid JSM response type: %d\n", resp->type);
-+		ret = -EBADE;
-+	}
-+
-+consumer_del:
-+	vpu_ipc_consumer_del(vdev, &cons);
-+
-+	return ret;
-+}
-+
-+static bool
-+vpu_ipc_match_consumer(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+		       struct vpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
-+{
-+	if (cons->channel != ipc_hdr->channel)
-+		return false;
-+
-+	if (!jsm_msg || jsm_msg->request_id == cons->request_id)
-+		return true;
-+
-+	return false;
-+}
-+
-+static bool
-+vpu_ipc_dispatch(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+		 struct vpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_ipc_rx_msg *rx_msg;
-+	unsigned long f;
-+
-+	if (!vpu_ipc_match_consumer(vdev, cons, ipc_hdr, jsm_msg))
-+		return false;
-+
-+	if (atomic_read(&ipc->rx_msg_count) > IPC_MAX_RX_MSG) {
-+		vpu_warn(vdev, "IPC RX message dropped, msg count %d\n",
-+			 IPC_MAX_RX_MSG);
-+		vpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
-+		return true;
-+	}
-+
-+	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
-+	if (!rx_msg) {
-+		vpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
-+		return true;
-+	}
-+
-+	atomic_inc(&ipc->rx_msg_count);
-+
-+	rx_msg->ipc_hdr = ipc_hdr;
-+	rx_msg->jsm_msg = jsm_msg;
-+
-+	spin_lock_irqsave(&ipc->rx_msg_list_lock, f);
-+	list_add_tail(&rx_msg->link, &cons->rx_msg_list);
-+	spin_unlock_irqrestore(&ipc->rx_msg_list_lock, f);
-+
-+	wake_up_all(&cons->rx_msg_wq);
-+
-+	return true;
-+}
-+
-+irqreturn_t vpu_ipc_irq_handler(struct vpu_device *vdev)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_ipc_consumer *cons;
-+	struct vpu_ipc_hdr *ipc_hdr;
-+	struct vpu_jsm_msg *jsm_msg;
-+	unsigned long f;
-+
-+	/* Driver needs to purge all messages from IPC FIFO to clear IPC interrupt.
-+	 * Without purge IPC FIFO to 0 next IPC interrupts won't be generated.
-+	 */
-+	while (vpu_hw_reg_ipc_rx_count_get(vdev)) {
-+		u32 vpu_addr = vpu_hw_reg_ipc_rx_addr_get(vdev);
-+		bool dispatched = false;
-+
-+		ipc_hdr = vpu_to_cpu_addr(ipc->mem_rx, vpu_addr);
-+		if (!ipc_hdr) {
-+			vpu_warn(vdev, "IPC message 0x%x out of range\n", vpu_addr);
-+			continue;
-+		}
-+		vpu_ipc_msg_dump(vdev, "RX", ipc_hdr, vpu_addr);
-+
-+		jsm_msg = NULL;
-+		if (ipc_hdr->channel != VPU_IPC_CHAN_BOOT_MSG) {
-+			jsm_msg = vpu_to_cpu_addr(ipc->mem_rx, ipc_hdr->data_addr);
-+
-+			if (!jsm_msg) {
-+				vpu_warn(vdev, "JSM message 0x%x out of range\n",
-+					 ipc_hdr->data_addr);
-+				vpu_ipc_rx_mark_free(vdev, ipc_hdr, NULL);
-+				continue;
-+			}
-+
-+			vpu_jsm_msg_dump(vdev, "RX", jsm_msg, ipc_hdr->data_addr);
-+		}
-+
-+		spin_lock_irqsave(&ipc->cons_list_lock, f);
-+		list_for_each_entry(cons, &ipc->cons_list, link) {
-+			if (vpu_ipc_dispatch(vdev, cons, ipc_hdr, jsm_msg)) {
-+				dispatched = true;
-+				break;
-+			}
-+		}
-+		spin_unlock_irqrestore(&ipc->cons_list_lock, f);
-+
-+		if (!dispatched) {
-+			vpu_dbg(IPC, "IPC RX message 0x%x dropped (no consumer)\n",
-+				vpu_addr);
-+			vpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+int vpu_ipc_init(struct vpu_device *vdev)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_bo *mem_tx, *mem_rx;
-+	int ret = -ENOMEM;
-+
-+	mem_tx = vpu_bo_alloc_internal(vdev, 0, SZ_16K, true);
-+	if (!mem_tx)
-+		return ret;
-+
-+	mem_rx = vpu_bo_alloc_internal(vdev, 0, SZ_16K, true);
-+	if (!mem_rx)
-+		goto err_free_tx;
-+
-+	ipc->mm_tx = devm_gen_pool_create(vdev->drm.dev, __ffs(VPU_IPC_ALIGNMENT),
-+					  -1, "TX_IPC_JSM");
-+	if (IS_ERR(ipc->mm_tx)) {
-+		ret = PTR_ERR(ipc->mm_tx);
-+		vpu_err(vdev, "Failed to create gen pool, %pe\n", ipc->mm_tx);
-+		goto err_free_rx;
-+	}
-+
-+	ret = gen_pool_add(ipc->mm_tx, mem_tx->vpu_addr, mem_tx->base.size, -1);
-+	if (ret) {
-+		vpu_err(vdev, "gen_pool_add failed, ret %d\n", ret);
-+		goto err_free_rx;
-+	}
-+
-+	ipc->mem_rx = mem_rx;
-+	ipc->mem_tx = mem_tx;
-+
-+	memset(ipc->mem_tx->kvaddr, 0, ipc->mem_tx->base.size);
-+	memset(ipc->mem_rx->kvaddr, 0, ipc->mem_rx->base.size);
-+
-+	spin_lock_init(&ipc->rx_msg_list_lock);
-+	spin_lock_init(&ipc->cons_list_lock);
-+	INIT_LIST_HEAD(&ipc->cons_list);
-+
-+	mutex_init(&ipc->lock);
-+
-+	return 0;
-+
-+err_free_rx:
-+	vpu_bo_free_internal(mem_rx);
-+err_free_tx:
-+	vpu_bo_free_internal(mem_tx);
-+	return ret;
-+}
-+
-+void vpu_ipc_fini(struct vpu_device *vdev)
-+{
-+	vpu_ipc_mem_fini(vdev);
-+}
-+
-+void vpu_ipc_enable(struct vpu_device *vdev)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+
-+	mutex_lock(&ipc->lock);
-+	ipc->on = true;
-+	mutex_unlock(&ipc->lock);
-+}
-+
-+void vpu_ipc_disable(struct vpu_device *vdev)
-+{
-+	struct vpu_ipc_info *ipc = vdev->ipc;
-+	struct vpu_ipc_consumer *cons, *c;
-+	unsigned long f;
-+
-+	mutex_lock(&ipc->lock);
-+	ipc->on = false;
-+	mutex_unlock(&ipc->lock);
-+
-+	spin_lock_irqsave(&ipc->cons_list_lock, f);
-+	list_for_each_entry_safe(cons, c, &ipc->cons_list, link)
-+		wake_up_all(&cons->rx_msg_wq);
-+
-+	spin_unlock_irqrestore(&ipc->cons_list_lock, f);
-+}
-diff --git a/drivers/gpu/drm/vpu/vpu_ipc.h b/drivers/gpu/drm/vpu/vpu_ipc.h
-new file mode 100644
-index 000000000000..1245bfbef4ac
---- /dev/null
-+++ b/drivers/gpu/drm/vpu/vpu_ipc.h
-@@ -0,0 +1,91 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright © 2020-2022 Intel Corporation
-+ */
-+
-+#ifndef __VPU_IPC_H__
-+#define __VPU_IPC_H__
-+
-+#include <linux/interrupt.h>
-+
-+#include "vpu_jsm_api.h"
-+
-+struct vpu_bo;
-+
-+/* VPU FW boot notification */
-+#define VPU_IPC_CHAN_BOOT_MSG	   0x3ff
-+#define VPU_IPC_BOOT_MSG_DATA_ADDR 0x424f4f54
-+
-+/* The alignment to be used for IPC Buffers and IPC Data. */
-+#define VPU_IPC_ALIGNMENT	   64
-+
-+#define VPU_IPC_HDR_FREE	   0
-+#define VPU_IPC_HDR_ALLOCATED	   0
-+
-+/**
-+ * struct vpu_ipc_hdr - The IPC message header structure, exchanged
-+ * with the VPU device firmware.
-+ * @data_addr: The VPU address of the payload (JSM message)
-+ * @data_size: The size of the payload.
-+ * @channel: The channel used.
-+ * @src_node: The Node ID of the sender.
-+ * @dst_node: The Node ID of the intended receiver.
-+ * @status: IPC buffer usage status
-+ */
-+struct vpu_ipc_hdr {
-+	u32 data_addr;
-+	u32 data_size;
-+	u16 channel;
-+	u8 src_node;
-+	u8 dst_node;
-+	u8 status;
-+} __packed __aligned(VPU_IPC_ALIGNMENT);
-+
-+struct vpu_ipc_consumer {
-+	struct list_head link;
-+	u32 channel;
-+	u32 tx_vpu_addr;
-+	u32 request_id;
-+
-+	struct list_head rx_msg_list;
-+	wait_queue_head_t rx_msg_wq;
-+};
-+
-+struct vpu_ipc_info {
-+	struct gen_pool *mm_tx;
-+	struct vpu_bo *mem_tx;
-+	struct vpu_bo *mem_rx;
-+
-+	spinlock_t rx_msg_list_lock; /* Lock for consumer rx_msg list */
-+	atomic_t rx_msg_count;
-+
-+	spinlock_t cons_list_lock; /* Lock for consumers list */
-+	struct list_head cons_list;
-+
-+	atomic_t request_id;
-+	struct mutex lock; /* Lock on status */
-+	bool on;
-+};
-+
-+int vpu_ipc_init(struct vpu_device *vdev);
-+void vpu_ipc_fini(struct vpu_device *vdev);
-+
-+void vpu_ipc_enable(struct vpu_device *vdev);
-+void vpu_ipc_disable(struct vpu_device *vdev);
-+
-+irqreturn_t vpu_ipc_irq_handler(struct vpu_device *vdev);
-+
-+void vpu_ipc_consumer_add(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+			  u32 channel);
-+void vpu_ipc_consumer_del(struct vpu_device *vdev, struct vpu_ipc_consumer *cons);
-+
-+int vpu_ipc_receive(struct vpu_device *vdev, struct vpu_ipc_consumer *cons,
-+		    struct vpu_ipc_hdr *ipc_buf, struct vpu_jsm_msg *ipc_payload,
-+		    unsigned long timeout_ms);
-+
-+int vpu_ipc_send_receive(struct vpu_device *vdev, struct vpu_jsm_msg *req,
-+			 enum vpu_ipc_msg_type expected_resp_type,
-+			 struct vpu_jsm_msg *resp, u32 channel,
-+			 unsigned long timeout_ms);
-+
-+#endif /* __VPU_IPC_H__ */
-diff --git a/drivers/gpu/drm/vpu/vpu_jsm_api.h b/drivers/gpu/drm/vpu/vpu_jsm_api.h
-new file mode 100644
-index 000000000000..6ca0c45479c0
---- /dev/null
-+++ b/drivers/gpu/drm/vpu/vpu_jsm_api.h
-@@ -0,0 +1,529 @@
++++ b/drivers/gpu/drm/vpu/vpu_boot_api.h
+@@ -0,0 +1,222 @@
 +/* SPDX-License-Identifier: MIT */
 +/*
 + * Copyright © 2020-2022 Intel Corporation
 + */
 +
-+/**
-+ * @file
-+ * @brief JSM shared definitions
-+ *
-+ * @ingroup Jsm
-+ * @brief JSM shared definitions
-+ * @{
-+ */
-+#ifndef VPU_JSM_API_H
-+#define VPU_JSM_API_H
++#ifndef VPU_BOOT_API_H
++#define VPU_BOOT_API_H
 +
 +/*
-+ * Major version changes that break backward compatibility
++ * =========== FW API version information beginning ================
++ * The below values will be used to construct the version info this way:
++ * fw_bin_header->api_version[VPU_BOOT_API_VER_ID] = (VPU_BOOT_API_VER_MAJOR << 16) |
++ * VPU_BOOT_API_VER_MINOR; VPU_BOOT_API_VER_PATCH will be ignored.
 + */
-+#define VPU_JSM_API_VER_MAJOR 2
++
++/*
++ * Major version changes that break backward compatibility.
++ * Major version must start from 1 and can only be incremented.
++ */
++#define VPU_BOOT_API_VER_MAJOR 3
 +
 +/*
 + * Minor version changes when API backward compatibility is preserved.
++ * Resets to 0 if Major version is incremented.
 + */
-+#define VPU_JSM_API_VER_MINOR 5
++#define VPU_BOOT_API_VER_MINOR 7
 +
 +/*
 + * API header changed (field names, documentation, formatting) but API itself has not been changed
 + */
-+#define VPU_JSM_API_VER_PATCH 2
++#define VPU_BOOT_API_VER_PATCH 2
 +
 +/*
 + * Index in the API version table
++ * Must be unique for each API
 + */
-+#define VPU_JSM_API_VER_INDEX 4
++#define VPU_BOOT_API_VER_INDEX 0
++/* ------------ FW API version information end ---------------------*/
 +
-+/** Pack the API structures for now, once alignment issues are fixed this can be removed */
 +#pragma pack(push, 1)
 +
-+/*
-+ * Engine indexes.
-+ */
-+#define VPU_ENGINE_COMPUTE 0
-+#define VPU_ENGINE_COPY	   1
-+#define VPU_ENGINE_NB	   2
++/* Firmware image header format */
++#define VPU_FW_HEADER_SIZE    4096
++#define VPU_FW_HEADER_VERSION 0x1
++#define VPU_FW_VERSION_SIZE   32
++#define VPU_FW_API_VER_NUM    16
 +
-+/*
-+ * VPU status values.
-+ */
-+#define VPU_JSM_STATUS_SUCCESS				 0x0U
-+#define VPU_JSM_STATUS_PARSING_ERR			 0x1U
-+#define VPU_JSM_STATUS_PROCESSING_ERR			 0x2U
-+#define VPU_JSM_STATUS_PREEMPTED			 0x3U
-+#define VPU_JSM_STATUS_ABORTED				 0x4U
-+#define VPU_JSM_STATUS_USER_CTX_VIOL_ERR		 0x5U
-+#define VPU_JSM_STATUS_GLOBAL_CTX_VIOL_ERR		 0x6U
-+#define VPU_JSM_STATUS_MVNCI_WRONG_INPUT_FORMAT		 0x7U
-+#define VPU_JSM_STATUS_MVNCI_UNSUPPORTED_NETWORK_ELEMENT 0x8U
-+#define VPU_JSM_STATUS_MVNCI_INVALID_HANDLE		 0x9U
-+#define VPU_JSM_STATUS_MVNCI_OUT_OF_RESOURCES		 0xAU
-+#define VPU_JSM_STATUS_MVNCI_NOT_IMPLEMENTED		 0xBU
-+#define VPU_JSM_STATUS_MVNCI_INTERNAL_ERROR		 0xCU
-+
-+/*
-+ * Host <-> VPU IPC channels.
-+ * ASYNC commands use a high priority channel, other messages use low-priority ones.
-+ */
-+#define VPU_IPC_CHAN_ASYNC_CMD 0
-+#define VPU_IPC_CHAN_GEN_CMD   10
-+#define VPU_IPC_CHAN_JOB_RET   11
-+
-+/*
-+ * Job flags bit masks.
-+ */
-+#define VPU_JOB_FLAGS_NULL_SUBMISSION_MASK 0x00000001
-+
-+/*
-+ * Sizes of the reserved areas in jobs, in bytes.
-+ */
-+#define VPU_JOB_RESERVED_BYTES	     16
-+/*
-+ * Sizes of the reserved areas in job queues, in bytes.
-+ */
-+#define VPU_JOB_QUEUE_RESERVED_BYTES 52
-+
-+/*
-+ * Max length (including trailing NULL char) of trace entity name (e.g., the
-+ * name of a logging destination or a loggable HW component).
-+ */
-+#define VPU_TRACE_ENTITY_NAME_MAX_LEN 32
-+
-+/*
-+ * Max length (including trailing NULL char) of a dyndbg command.
-+ *
-+ * NOTE: 112 is used so that the size of 'struct vpu_ipc_msg' in the JSM API is
-+ * 128 bytes (multiple of 64 bytes, the cache line size).
-+ */
-+#define VPU_DYNDBG_CMD_MAX_LEN 112
-+
-+/*
-+ * Job format.
-+ */
-+struct vpu_job_queue_entry {
-+	u64 batch_buf_addr; /**< Address of VPU commands batch buffer */
-+	u32 job_id;	  /**< Job ID */
-+	u32 flags; /**< Flags bit field, see VPU_JOB_FLAGS_* above */
-+	u64 root_page_table_addr; /**< Address of root page table to use for this job */
-+	u64 root_page_table_update_counter; /**< Page tables update events counter */
-+	u64 preemption_buffer_address; /**< Address of the preemption buffer to use for this job */
-+	u64 preemption_buffer_size; /**< Size of the preemption buffer to use for this job */
-+	u8 reserved[VPU_JOB_RESERVED_BYTES];
++struct vpu_firmware_header {
++	u32 header_version;
++	u32 image_format;
++	u64 image_load_address;
++	u32 image_size;
++	u64 entry_point;
++	u8 vpu_version[VPU_FW_VERSION_SIZE];
++	u32 compression_type;
++	u64 firmware_version_load_address;
++	u32 firmware_version_size;
++	u64 boot_params_load_address;
++	u32 api_version[VPU_FW_API_VER_NUM];
++	/* Size of memory require for firmware execution */
++	u32 runtime_size;
++	u32 shave_nn_fw_size;
 +};
 +
-+/*
-+ * Job queue control registers.
-+ */
-+struct vpu_job_queue_header {
-+	u32 engine_idx;
-+	u32 head;
-+	u32 tail;
-+	u8 reserved[VPU_JOB_QUEUE_RESERVED_BYTES];
-+};
++/* Firmware boot parameters format */
++#define VPU_BOOT_PLL_COUNT     3
++#define VPU_BOOT_PLL_OUT_COUNT 4
 +
-+/*
-+ * Job queue format.
-+ */
-+struct vpu_job_queue {
-+	struct vpu_job_queue_header header;
-+	struct vpu_job_queue_entry job[];
++/* Values for boot_type field */
++#define VPU_BOOT_TYPE_COLDBOOT 0
++#define VPU_BOOT_TYPE_WARMBOOT 1
++
++/* Value for magic filed */
++#define VPU_BOOT_PARAMS_MAGIC 0x10000
++
++enum VPU_BOOT_L2_CACHE_CFG_TYPE {
++	VPU_BOOT_L2_CACHE_CFG_UPA = 0,
++	VPU_BOOT_L2_CACHE_CFG_NN = 1,
++	VPU_BOOT_L2_CACHE_CFG_NUM = 2
 +};
 +
 +/**
-+ * Logging entity types.
++ * Logging destinations.
 + *
-+ * This enum defines the different types of entities involved in logging.
++ * Logging output can be directed to different logging destinations. This enum
++ * defines the list of logging destinations supported by the VPU firmware (NOTE:
++ * a specific VPU FW binary may support only a subset of such output
++ * destinations, depending on the target platform and compile options).
 + */
-+enum vpu_trace_entity_type {
-+	/** Logging destination (entity where logs can be stored / printed). */
-+	VPU_TRACE_ENTITY_TYPE_DESTINATION = 1,
-+	/** Loggable HW component (HW entity that can be logged). */
-+	VPU_TRACE_ENTITY_TYPE_HW_COMPONENT = 2,
++enum vpu_trace_destination {
++	VPU_TRACE_DESTINATION_PIPEPRINT = 0x1,
++	VPU_TRACE_DESTINATION_VERBOSE_TRACING = 0x2,
++	VPU_TRACE_DESTINATION_NORTH_PEAK = 0x4,
 +};
 +
-+/*
-+ * Host <-> VPU IPC messages types.
-+ */
-+enum vpu_ipc_msg_type {
-+	VPU_JSM_MSG_UNKNOWN = 0xFFFFFFFF,
-+	/* IPC Host -> Device, Async commands */
-+	VPU_JSM_MSG_ASYNC_CMD = 0x1100,
-+	VPU_JSM_MSG_ENGINE_RESET = VPU_JSM_MSG_ASYNC_CMD,
-+	VPU_JSM_MSG_ENGINE_PREEMPT = 0x1101,
-+	VPU_JSM_MSG_REGISTER_DB = 0x1102,
-+	VPU_JSM_MSG_UNREGISTER_DB = 0x1103,
-+	VPU_JSM_MSG_QUERY_ENGINE_HB = 0x1104,
-+	VPU_JSM_MSG_GET_POWER_LEVEL_COUNT = 0x1105,
-+	VPU_JSM_MSG_GET_POWER_LEVEL = 0x1106,
-+	VPU_JSM_MSG_SET_POWER_LEVEL = 0x1107,
-+	VPU_JSM_MSG_METRIC_STREAMER_OPEN = 0x1108,
-+	VPU_JSM_MSG_METRIC_STREAMER_CLOSE = 0x1109,
-+	/** Configure logging (used to modify configuration passed in boot params). */
-+	VPU_JSM_MSG_TRACE_SET_CONFIG = 0x110a,
-+	/** Return current logging configuration. */
-+	VPU_JSM_MSG_TRACE_GET_CONFIG = 0x110b,
-+	/**
-+	 * Get masks of destinations and HW components supported by the firmware
-+	 * (may vary between HW generations and FW compile
-+	 * time configurations)
++struct vpu_boot_l2_cache_config {
++	u8 use;
++	u8 cfg;
++};
++
++struct vpu_warm_boot_section {
++	u32 src;
++	u32 dst;
++	u32 size;
++	u32 core_id;
++	u32 is_clear_op;
++};
++
++struct vpu_boot_params {
++	u32 magic;
++	u32 vpu_id;
++	u32 vpu_count;
++	u32 pad0[5];
++	/* Clock frequencies: 0x20 - 0xFF */
++	u32 frequency;
++	u32 pll[VPU_BOOT_PLL_COUNT][VPU_BOOT_PLL_OUT_COUNT];
++	u32 pad1[43];
++	/* Memory regions: 0x100 - 0x1FF */
++	u64 ipc_header_area_start;
++	u32 ipc_header_area_size;
++	u64 shared_region_base;
++	u32 shared_region_size;
++	u64 ipc_payload_area_start;
++	u32 ipc_payload_area_size;
++	u64 global_aliased_pio_base;
++	u32 global_aliased_pio_size;
++	u32 autoconfig;
++	struct vpu_boot_l2_cache_config cache_defaults[VPU_BOOT_L2_CACHE_CFG_NUM];
++	u64 global_memory_allocator_base;
++	u32 global_memory_allocator_size;
++	/*
++	 * ShaveNN FW section VPU base address
++	 * On VPU2.7 HW this address must be within 2GB range starting from L2C_PAGE_TABLE base
 +	 */
-+	VPU_JSM_MSG_TRACE_GET_CAPABILITY = 0x110c,
-+	/** Get the name of a destination or HW component. */
-+	VPU_JSM_MSG_TRACE_GET_NAME = 0x110d,
++	u64 shave_nn_fw_base;
++	u64 save_restore_ret_address; /* stores the address of FW's restore entry point */
++	u32 pad2[43];
++	/* IRQ re-direct numbers: 0x200 - 0x2FF */
++	s32 watchdog_irq_mss;
++	s32 watchdog_irq_nce;
++	u32 host_to_vpu_irq;
++	u32 vpu_to_host_irq;
++	/* VPU -> ARM IRQ line to use to request MMU update. */
++	u32 mmu_update_request_irq;
++	/* ARM -> VPU IRQ line to use to notify of MMU update completion. */
++	u32 mmu_update_done_irq;
++	/* ARM -> VPU IRQ line to use to request power level change. */
++	u32 set_power_level_irq;
++	/* VPU -> ARM IRQ line to use to notify of power level change completion. */
++	u32 set_power_level_done_irq;
++	/* VPU -> ARM IRQ line to use to notify of VPU idle state change */
++	u32 set_vpu_idle_update_irq;
++	/* VPU -> ARM IRQ line to use to request counter reset. */
++	u32 metric_query_event_irq;
++	/* ARM -> VPU IRQ line to use to notify of counter reset completion. */
++	u32 metric_query_event_done_irq;
++	u32 pad3[53];
++	/* Silicon information: 0x300 - 0x3FF */
++	u32 host_version_id;
++	u32 si_stepping;
++	u64 device_id;
++	u64 feature_exclusion;
++	u64 sku;
++	u32 min_freq_pll_ratio;
++	u32 max_freq_pll_ratio;
 +	/**
-+	 * Clean up user context. All jobs that belong to the current context are
-+	 * aborted and removed from internal scheduling queues. All doorbells assigned
-+	 * to the context are unregistered and any internal FW resources belonging to
-+	 * the context are released.
-+	 *
-+	 * Note: VPU_JSM_MSG_CONTEXT_DELETE is currently added as a placeholder and is
-+	 * not yet functional. Implementation of this command to be added by EISW-40925.
++	 * Initial log level threshold (messages with log level severity less than
++	 * the threshold will not be logged); applies to every enabled logging
++	 * destination and loggable HW component. See 'mvLog_t' enum for acceptable
++	 * values.
 +	 */
-+	VPU_JSM_MSG_CONTEXT_DELETE = 0x110e,
-+	/* IPC Host -> Device, General commands */
-+	VPU_JSM_MSG_GENERAL_CMD = 0x1200,
-+	VPU_JSM_MSG_BLOB_DEINIT = VPU_JSM_MSG_GENERAL_CMD,
++	u32 default_trace_level;
++	u32 boot_type;
++	u64 punit_telemetry_sram_base;
++	u64 punit_telemetry_sram_size;
++	u32 vpu_telemetry_enable;
++	u64 crit_tracing_buff_addr;
++	u32 crit_tracing_buff_size;
++	u64 verbose_tracing_buff_addr;
++	u32 verbose_tracing_buff_size;
++	u64 verbose_tracing_sw_component_mask; /* TO BE REMOVED */
 +	/**
-+	 * Control dyndbg behavior by executing a dyndbg command; equivalent to
-+	 * Linux command: `echo '<dyndbg_cmd>' > <debugfs>/dynamic_debug/control`.
-+	 */
-+	VPU_JSM_MSG_DYNDBG_CONTROL = 0x1201,
-+	/* IPC Device -> Host, Job completion */
-+	VPU_JSM_MSG_JOB_DONE = 0x2100,
-+	/* IPC Device -> Host, Async command completion */
-+	VPU_JSM_MSG_ASYNC_CMD_DONE = 0x2200,
-+	VPU_JSM_MSG_ENGINE_RESET_DONE = VPU_JSM_MSG_ASYNC_CMD_DONE,
-+	VPU_JSM_MSG_ENGINE_PREEMPT_DONE = 0x2201,
-+	VPU_JSM_MSG_REGISTER_DB_DONE = 0x2202,
-+	VPU_JSM_MSG_UNREGISTER_DB_DONE = 0x2203,
-+	VPU_JSM_MSG_QUERY_ENGINE_HB_DONE = 0x2204,
-+	VPU_JSM_MSG_GET_POWER_LEVEL_COUNT_DONE = 0x2205,
-+	VPU_JSM_MSG_GET_POWER_LEVEL_DONE = 0x2206,
-+	VPU_JSM_MSG_SET_POWER_LEVEL_DONE = 0x2207,
-+	VPU_JSM_MSG_METRIC_STREAMER_OPEN_DONE = 0x2208,
-+	VPU_JSM_MSG_METRIC_STREAMER_CLOSE_DONE = 0x2209,
-+	/** Response to VPU_JSM_MSG_TRACE_SET_CONFIG. */
-+	VPU_JSM_MSG_TRACE_SET_CONFIG_RSP = 0x220a,
-+	/** Response to VPU_JSM_MSG_TRACE_GET_CONFIG. */
-+	VPU_JSM_MSG_TRACE_GET_CONFIG_RSP = 0x220b,
-+	/** Response to VPU_JSM_MSG_TRACE_GET_CAPABILITY. */
-+	VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP = 0x220c,
-+	/** Response to VPU_JSM_MSG_TRACE_GET_NAME. */
-+	VPU_JSM_MSG_TRACE_GET_NAME_RSP = 0x220d,
-+	/** Response to VPU_JSM_MSG_CONTEXT_DELETE. */
-+	VPU_JSM_MSG_CONTEXT_DELETE_DONE = 0x220e,
-+	/* IPC Device -> Host, General command completion */
-+	VPU_JSM_MSG_GENERAL_CMD_DONE = 0x2300,
-+	VPU_JSM_MSG_BLOB_DEINIT_DONE = VPU_JSM_MSG_GENERAL_CMD_DONE,
-+	/** Response to VPU_JSM_MSG_DYNDBG_CONTROL. */
-+	VPU_JSM_MSG_DYNDBG_CONTROL_RSP = 0x2301,
-+};
-+
-+enum vpu_ipc_msg_status { VPU_JSM_MSG_FREE, VPU_JSM_MSG_ALLOCATED };
-+
-+/*
-+ * Host <-> LRT IPC message payload definitions
-+ */
-+struct vpu_ipc_msg_payload_engine_reset {
-+	/* Engine to be reset. */
-+	u32 engine_idx;
-+};
-+
-+struct vpu_ipc_msg_payload_engine_preempt {
-+	/* Engine to be preempted. */
-+	u32 engine_idx;
-+	/* ID of the preemption request. */
-+	u32 preempt_id;
-+};
-+
-+struct vpu_ipc_msg_payload_register_db {
-+	/* Index of the doorbell to register. */
-+	u32 db_idx;
-+	/* Virtual address in Global GTT pointing to the start of job queue. */
-+	u64 jobq_base;
-+	/* Size of the job queue in bytes. */
-+	u32 jobq_size;
-+	/* Host sub-stream ID for the context assigned to the doorbell. */
-+	u32 host_ssid;
-+};
-+
-+struct vpu_ipc_msg_payload_unregister_db {
-+	/* Index of the doorbell to unregister. */
-+	u32 db_idx;
-+};
-+
-+struct vpu_ipc_msg_payload_query_engine_hb {
-+	/* Engine to return heartbeat value. */
-+	u32 engine_idx;
-+};
-+
-+struct vpu_ipc_msg_payload_power_level {
-+	/**
-+	 * Requested power level. The power level value is in the
-+	 * range [0, power_level_count-1] where power_level_count
-+	 * is the number of available power levels as returned by
-+	 * the get power level count command. A power level of 0
-+	 * corresponds to the maximum possible power level, while
-+	 * power_level_count-1 corresponds to the minimum possible
-+	 * power level. Values outside of this range are not
-+	 * considered to be valid.
-+	 */
-+	u32 power_level;
-+};
-+
-+struct vpu_ipc_msg_payload_context_delete {
-+	/* Host sub-stream ID for the context to be finalised. */
-+	u32 host_ssid;
-+};
-+
-+struct vpu_ipc_msg_payload_blob_deinit {
-+	/* 64-bit unique ID for the blob to be de-initialized. */
-+	u64 blob_id;
-+};
-+
-+/**
-+ * @brief Metric streamer open command structure
-+ * @see VPU_JSM_MSG_METRIC_STREAMER_OPEN
-+ */
-+struct vpu_ipc_msg_payload_metric_streamer_open {
-+	/* Bit mask to select the desired metric group */
-+	/* @see bit indexes in vpu_metric_group_bit enum */
-+	u64 metric_group_mask;
-+	/* Sampling rate in milliseconds */
-+	u32 rate;
-+	/* Number of samples to collect */
-+	u32 sample_count;
-+	/**
-+	 * 64bit address to an array of 32bit sizes of the buffers where
-+	 * the counters will be stored.
-+	 * The array is indexed by metric group bit indexes.
-+	 */
-+	u64 metric_size_array_address;
-+	/**
-+	 * 64bit address to an array of 32bit sizes of the buffers where
-+	 * the counters will be stored.
-+	 * The array is indexed by metric group bit indexes.
-+	 */
-+	u64 metric_data_array_address;
-+};
-+
-+static_assert(sizeof(struct vpu_ipc_msg_payload_metric_streamer_open) % 8 == 0,
-+	      "vpu_ipc_msg_payload_metric_streamer_open is misaligned");
-+
-+struct vpu_ipc_msg_payload_job_done {
-+	/* Engine to which the job was submitted. */
-+	u32 engine_idx;
-+	/* Index of the doorbell to which the job was submitted */
-+	u32 db_idx;
-+	/* ID of the completed job */
-+	u32 job_id;
-+	/* Status of the completed job */
-+	u32 job_status;
-+};
-+
-+struct vpu_ipc_msg_payload_engine_reset_done {
-+	/* Engine reset. */
-+	u32 engine_idx;
-+};
-+
-+struct vpu_ipc_msg_payload_engine_preempt_done {
-+	/* Engine preempted. */
-+	u32 engine_idx;
-+	/* ID of the preemption request. */
-+	u32 preempt_id;
-+};
-+
-+struct vpu_ipc_msg_payload_register_db_done {
-+	/* Index of the registered doorbell. */
-+	u32 db_idx;
-+};
-+
-+struct vpu_ipc_msg_payload_unregister_db_done {
-+	/* Index of the unregistered doorbell. */
-+	u32 db_idx;
-+};
-+
-+struct vpu_ipc_msg_payload_query_engine_hb_done {
-+	/* Engine returning heartbeat value. */
-+	u32 engine_idx;
-+	/* Heartbeat value. */
-+	u64 heartbeat;
-+};
-+
-+struct vpu_ipc_msg_payload_get_power_level_count_done {
-+	/**
-+	 * Number of supported power levels. The maximum possible
-+	 * value of power_level_count is 16 but this may vary across
-+	 * implementations.
-+	 */
-+	u32 power_level_count;
-+	/**
-+	 * Power consumption limit for each supported power level in
-+	 * [0-100%] range relative to power level 0.
-+	 */
-+	u8 power_limit[16];
-+};
-+
-+struct vpu_ipc_msg_payload_blob_deinit_done {
-+	/* 64-bit unique ID for the blob de-initialized. */
-+	u64 blob_id;
-+};
-+
-+/**
-+ * Payload for VPU_JSM_MSG_TRACE_SET_CONFIG[_RSP] and
-+ * VPU_JSM_MSG_TRACE_GET_CONFIG_RSP messages.
-+ *
-+ * The payload is interpreted differently depending on the type of message:
-+ *
-+ * - For VPU_JSM_MSG_TRACE_SET_CONFIG, the payload specifies the desired
-+ *   logging configuration to be set.
-+ *
-+ * - For VPU_JSM_MSG_TRACE_SET_CONFIG_RSP, the payload reports the logging
-+ *   configuration that was set after a VPU_JSM_MSG_TRACE_SET_CONFIG request.
-+ *   The host can compare this payload with the one it sent in the
-+ *   VPU_JSM_MSG_TRACE_SET_CONFIG request to check whether or not the
-+ *   configuration was set as desired.
-+ *
-+ * - VPU_JSM_MSG_TRACE_GET_CONFIG_RSP, the payload reports the current logging
-+ *   configuration.
-+ */
-+struct vpu_ipc_msg_payload_trace_config {
-+	/**
-+	 * Logging level (currently set or to be set); see 'mvLog_t' enum for
-+	 * acceptable values. The specified logging level applies to all
-+	 * destinations and HW components
-+	 */
-+	u32 trace_level;
-+	/**
-+	 * Bitmask of logging destinations (currently enabled or to be enabled);
-+	 * bitwise OR of values defined in logging_destination enum.
++	 * Mask of destinations to which logging messages are delivered; bitwise OR
++	 * of values defined in vpu_trace_destination enum.
 +	 */
 +	u32 trace_destination_mask;
 +	/**
-+	 * Bitmask of loggable HW components (currently enabled or to be enabled);
-+	 * bitwise OR of values defined in loggable_hw_component enum.
++	 * Mask of hardware components for which logging is enabled; bitwise OR of
++	 * bits defined by the VPU_TRACE_PROC_BIT_* macros.
 +	 */
 +	u64 trace_hw_component_mask;
-+	u64 reserved_0; /**< Reserved for future extensions. */
-+};
-+
-+/**
-+ * Payload for VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP messages.
-+ */
-+struct vpu_ipc_msg_payload_trace_capability_rsp {
-+	u32 trace_destination_mask; /**< Bitmask of supported logging destinations. */
-+	u32 reserved_0;
-+	u64 trace_hw_component_mask; /**< Bitmask of supported loggable HW components. */
-+	u64 reserved_1; /**< Reserved for future extensions. */
-+};
-+
-+/**
-+ * Payload for VPU_JSM_MSG_TRACE_GET_NAME requests.
-+ */
-+struct vpu_ipc_msg_payload_trace_get_name {
-+	/**
-+	 * The type of the entity to query name for; see logging_entity_type for
-+	 * possible values.
-+	 */
-+	u32 entity_type;
-+	u32 reserved_0;
-+	/**
-+	 * The ID of the entity to query name for; possible values depends on the
-+	 * entity type.
-+	 */
-+	u64 entity_id;
-+};
-+
-+/**
-+ * Payload for VPU_JSM_MSG_TRACE_GET_NAME_RSP responses.
-+ */
-+struct vpu_ipc_msg_payload_trace_get_name_rsp {
-+	/**
-+	 * The type of the entity whose name was queried; see logging_entity_type
-+	 * for possible values.
-+	 */
-+	u32 entity_type;
-+	u32 reserved_0;
-+	/**
-+	 * The ID of the entity whose name was queried; possible values depends on
-+	 * the entity type.
-+	 */
-+	u64 entity_id;
-+	/** Reserved for future extensions. */
-+	u64 reserved_1;
-+	/** The name of the entity. */
-+	char entity_name[VPU_TRACE_ENTITY_NAME_MAX_LEN];
-+};
-+
-+/**
-+ * Payload for VPU_JSM_MSG_DYNDBG_CONTROL requests.
-+ *
-+ * VPU_JSM_MSG_DYNDBG_CONTROL are used to control the VPU FW Dynamic Debug
-+ * feature, which allows developers to selectively enable / disable MVLOG_DEBUG
-+ * messages. This is equivalent to the Dynamic Debug functionality provided by
-+ * Linux
-+ * (https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html)
-+ * The host can control Dynamic Debug behavior by sending dyndbg commands, which
-+ * have the same syntax as Linux
-+ * dyndbg commands.
-+ *
-+ * NOTE: in order for MVLOG_DEBUG messages to be actually printed, the host
-+ * still has to set the logging level to MVLOG_DEBUG, using the
-+ * VPU_JSM_MSG_TRACE_SET_CONFIG command.
-+ *
-+ * The host can see the current dynamic debug configuration by executing a
-+ * special 'show' command. The dyndbg configuration will be printed to the
-+ * configured logging destination using MVLOG_INFO logging level.
-+ */
-+struct vpu_ipc_msg_payload_dyndbg_control {
-+	/**
-+	 * Dyndbg command (same format as Linux dyndbg); must be a NULL-terminated
-+	 * string.
-+	 */
-+	char dyndbg_cmd[VPU_DYNDBG_CMD_MAX_LEN];
-+};
-+
-+/*
-+ * Payloads union, used to define complete message format.
-+ */
-+union vpu_ipc_msg_payload {
-+	struct vpu_ipc_msg_payload_engine_reset engine_reset;
-+	struct vpu_ipc_msg_payload_engine_preempt engine_preempt;
-+	struct vpu_ipc_msg_payload_register_db register_db;
-+	struct vpu_ipc_msg_payload_unregister_db unregister_db;
-+	struct vpu_ipc_msg_payload_query_engine_hb query_engine_hb;
-+	struct vpu_ipc_msg_payload_power_level power_level;
-+	struct vpu_ipc_msg_payload_blob_deinit blob_deinit;
-+	struct vpu_ipc_msg_payload_metric_streamer_open metric_streamer_open;
-+	struct vpu_ipc_msg_payload_context_delete context_delete;
-+	struct vpu_ipc_msg_payload_job_done job_done;
-+	struct vpu_ipc_msg_payload_engine_reset_done engine_reset_done;
-+	struct vpu_ipc_msg_payload_engine_preempt_done engine_preempt_done;
-+	struct vpu_ipc_msg_payload_register_db_done register_db_done;
-+	struct vpu_ipc_msg_payload_unregister_db_done unregister_db_done;
-+	struct vpu_ipc_msg_payload_query_engine_hb_done query_engine_hb_done;
-+	struct vpu_ipc_msg_payload_get_power_level_count_done get_power_level_count_done;
-+	struct vpu_ipc_msg_payload_blob_deinit_done blob_deinit_done;
-+	struct vpu_ipc_msg_payload_trace_config trace_config;
-+	struct vpu_ipc_msg_payload_trace_capability_rsp trace_capability;
-+	struct vpu_ipc_msg_payload_trace_get_name trace_get_name;
-+	struct vpu_ipc_msg_payload_trace_get_name_rsp trace_get_name_rsp;
-+	struct vpu_ipc_msg_payload_dyndbg_control dyndbg_control;
-+};
-+
-+/*
-+ * Host <-> LRT IPC message base structure.
-+ */
-+struct vpu_jsm_msg {
-+	enum vpu_ipc_msg_type type;
-+	enum vpu_ipc_msg_status status;
-+	u32 request_id;
-+	u32 result;
-+	union vpu_ipc_msg_payload payload;
++	/** Mask of trace message formats supported by the driver */
++	u64 tracing_buff_message_format_mask;
++	u64 trace_reserved_1[2];
++	u32 pad4[30];
++	/* Warm boot information: 0x400 - 0x43F */
++	u32 warm_boot_sections_count;
++	u32 warm_boot_start_address_reference;
++	u32 warm_boot_section_info_address_offset;
++	u32 pad5[13];
++	/* Power States transitions timestamps: 0x440 - 0x46F*/
++	struct {
++		/* VPU_IDLE -> VPU_ACTIVE transition initiated timestamp */
++		u64 vpu_active_state_requested;
++		/* VPU_IDLE -> VPU_ACTIVE transition completed timestamp */
++		u64 vpu_active_state_achieved;
++		/* VPU_ACTIVE -> VPU_IDLE transition initiated timestamp */
++		u64 vpu_idle_state_requested;
++		/* VPU_ACTIVE -> VPU_IDLE transition completed timestamp */
++		u64 vpu_idle_state_achieved;
++		/* VPU_IDLE -> VPU_STANDBY transition initiated timestamp */
++		u64 vpu_standby_state_requested;
++		/* VPU_IDLE -> VPU_STANDBY transition completed timestamp */
++		u64 vpu_standby_state_achieved;
++	} power_states_timestamps;
++	/* Unused/reserved: 0x470 - 0xFFF */
++	u32 pad6[740];
 +};
 +
 +#pragma pack(pop)
 +
 +#endif
+diff --git a/drivers/gpu/drm/vpu/vpu_drv.c b/drivers/gpu/drm/vpu/vpu_drv.c
+index 48551c147a1c..d0cdbb791e1f 100644
+--- a/drivers/gpu/drm/vpu/vpu_drv.c
++++ b/drivers/gpu/drm/vpu/vpu_drv.c
+@@ -13,10 +13,13 @@
+ #include <drm/drm_ioctl.h>
+ #include <drm/drm_prime.h>
+ 
++#include "vpu_boot_api.h"
+ #include "vpu_drv.h"
++#include "vpu_fw.h"
+ #include "vpu_gem.h"
+ #include "vpu_hw.h"
+ #include "vpu_ipc.h"
++#include "vpu_jsm_msg.h"
+ #include "vpu_mmu.h"
+ #include "vpu_mmu_context.h"
+ 
+@@ -31,6 +34,10 @@ int vpu_dbg_mask;
+ module_param_named(dbg_mask, vpu_dbg_mask, int, 0644);
+ MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See VPU_DBG_* macros.");
+ 
++int vpu_test_mode;
++module_param_named_unsafe(test_mode, vpu_test_mode, int, 0644);
++MODULE_PARM_DESC(test_mode, "Test mode: 0 - normal operation, 1 - fw unit test, 2 - null hw");
 +
-+///@}
-diff --git a/drivers/gpu/drm/vpu/vpu_jsm_msg.c b/drivers/gpu/drm/vpu/vpu_jsm_msg.c
+ u8 vpu_pll_min_ratio;
+ module_param_named(pll_min_ratio, vpu_pll_min_ratio, byte, 0644);
+ MODULE_PARM_DESC(pll_min_ratio, "Minimum PLL ratio used to set VPU frequency");
+@@ -126,6 +133,28 @@ static int vpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_fi
+ 	case DRM_VPU_PARAM_CONTEXT_ID:
+ 		args->value = file_priv->ctx.id;
+ 		break;
++	case DRM_VPU_PARAM_FW_API_VERSION:
++		if (args->index < VPU_FW_API_VER_NUM) {
++			struct vpu_firmware_header *fw_hdr;
++
++			fw_hdr = (struct vpu_firmware_header *)vdev->fw->file->data;
++			args->value = fw_hdr->api_version[args->index];
++		} else {
++			ret = -EINVAL;
++		}
++		break;
++	case DRM_VPU_PARAM_ENGINE_HEARTBEAT:
++		ret = vpu_jsm_get_heartbeat(vdev, args->index, &args->value);
++		break;
++	case DRM_VPU_PARAM_UNIQUE_INFERENCE_ID:
++		args->value = (u64)atomic64_inc_return(&vdev->unique_id_counter);
++		break;
++	case DRM_VPU_PARAM_TILE_CONFIG:
++		args->value = vdev->hw->tile_fuse;
++		break;
++	case DRM_VPU_PARAM_SKU:
++		args->value = vdev->hw->sku;
++		break;
+ 	default:
+ 		ret = -EINVAL;
+ 	}
+@@ -197,6 +226,71 @@ static const struct drm_ioctl_desc vpu_drm_ioctls[] = {
+ 
+ DEFINE_DRM_GEM_FOPS(vpu_fops);
+ 
++static int vpu_wait_for_ready(struct vpu_device *vdev)
++{
++	struct vpu_ipc_consumer cons;
++	struct vpu_ipc_hdr ipc_hdr;
++	unsigned long timeout;
++	int ret;
++
++	if (vpu_test_mode == VPU_TEST_MODE_FW_TEST)
++		return 0;
++
++	vpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_BOOT_MSG);
++
++	timeout = jiffies + msecs_to_jiffies(vdev->timeout.boot);
++	while (1) {
++		vpu_ipc_irq_handler(vdev);
++		ret = vpu_ipc_receive(vdev, &cons, &ipc_hdr, NULL, 0);
++		if (ret != -ETIMEDOUT || time_after_eq(jiffies, timeout))
++			break;
++
++		cond_resched();
++		if (signal_pending(current)) {
++			ret = -EINTR;
++			break;
++		}
++	}
++
++	vpu_ipc_consumer_del(vdev, &cons);
++
++	if (!ret && ipc_hdr.data_addr != VPU_IPC_BOOT_MSG_DATA_ADDR) {
++		vpu_err(vdev, "Invalid VPU ready message: 0x%x\n",
++			ipc_hdr.data_addr);
++		return -EIO;
++	}
++
++	if (!ret)
++		vpu_info(vdev, "VPU ready message received successfully\n");
++
++	return ret;
++}
++
++int vpu_boot(struct vpu_device *vdev)
++{
++	int ret;
++
++	/* Update boot params located at first 4KB of FW memory */
++	vpu_fw_boot_params_setup(vdev, vdev->fw->mem->kvaddr);
++
++	ret = vpu_hw_boot_fw(vdev);
++	if (ret) {
++		vpu_err(vdev, "Failed to start the firmware: %d\n", ret);
++		return ret;
++	}
++
++	ret = vpu_wait_for_ready(vdev);
++	if (ret) {
++		vpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
++		return ret;
++	}
++
++	vpu_hw_irq_clear(vdev);
++	vpu_hw_irq_enable(vdev);
++	vpu_ipc_enable(vdev);
++	return 0;
++}
++
+ int vpu_shutdown(struct vpu_device *vdev)
+ {
+ 	int ret;
+@@ -320,6 +414,10 @@ static int vpu_dev_init(struct vpu_device *vdev)
+ 	if (!vdev->mmu)
+ 		return -ENOMEM;
+ 
++	vdev->fw = devm_kzalloc(vdev->drm.dev, sizeof(*vdev->fw), GFP_KERNEL);
++	if (!vdev->fw)
++		return -ENOMEM;
++
+ 	vdev->ipc = devm_kzalloc(vdev->drm.dev, sizeof(*vdev->ipc), GFP_KERNEL);
+ 	if (!vdev->ipc)
+ 		return -ENOMEM;
+@@ -331,6 +429,8 @@ static int vpu_dev_init(struct vpu_device *vdev)
+ 	vdev->context_xa_limit.min = VPU_GLOBAL_CONTEXT_MMU_SSID + 1;
+ 	vdev->context_xa_limit.max = VPU_CONTEXT_LIMIT;
+ 
++	atomic64_set(&vdev->unique_id_counter, 0);
++
+ 	ret = vpu_pci_init(vdev);
+ 	if (ret) {
+ 		vpu_err(vdev, "Failed to initialize PCI device: %d\n", ret);
+@@ -367,14 +467,34 @@ static int vpu_dev_init(struct vpu_device *vdev)
+ 		goto err_mmu_gctx_fini;
+ 	}
+ 
++	ret = vpu_fw_init(vdev);
++	if (ret) {
++		vpu_err(vdev, "Failed to initialize firmware: %d\n", ret);
++		goto err_mmu_fini;
++	}
++
+ 	ret = vpu_ipc_init(vdev);
+ 	if (ret) {
+ 		vpu_err(vdev, "Failed to initialize IPC: %d\n", ret);
+-		goto err_mmu_fini;
++		goto err_fw_fini;
++	}
++
++	ret = vpu_fw_load(vdev);
++	if (ret) {
++		vpu_err(vdev, "Failed to load firmware: %d\n", ret);
++		goto err_fw_fini;
++	}
++
++	ret = vpu_boot(vdev);
++	if (ret) {
++		vpu_err(vdev, "Failed to boot: %d\n", ret);
++		goto err_fw_fini;
+ 	}
+ 
+ 	return 0;
+ 
++err_fw_fini:
++	vpu_fw_fini(vdev);
+ err_mmu_fini:
+ 	vpu_mmu_fini(vdev);
+ err_mmu_gctx_fini:
+@@ -393,6 +513,7 @@ static void vpu_dev_fini(struct vpu_device *vdev)
+ 	vpu_shutdown(vdev);
+ 
+ 	vpu_ipc_fini(vdev);
++	vpu_fw_fini(vdev);
+ 	vpu_mmu_fini(vdev);
+ 	vpu_mmu_global_context_fini(vdev);
+ 	vpu_irq_fini(vdev);
+diff --git a/drivers/gpu/drm/vpu/vpu_drv.h b/drivers/gpu/drm/vpu/vpu_drv.h
+index ddb83aeaf6d3..94c8712396a6 100644
+--- a/drivers/gpu/drm/vpu/vpu_drv.h
++++ b/drivers/gpu/drm/vpu/vpu_drv.h
+@@ -87,12 +87,15 @@ struct vpu_device {
+ 	struct vpu_wa_table wa;
+ 	struct vpu_hw_info *hw;
+ 	struct vpu_mmu_info *mmu;
++	struct vpu_fw_info *fw;
+ 	struct vpu_ipc_info *ipc;
+ 
+ 	struct vpu_mmu_context gctx;
+ 	struct xarray context_xa;
+ 	struct xa_limit context_xa_limit;
+ 
++	atomic64_t unique_id_counter;
++
+ 	struct {
+ 		int boot;
+ 		int jsm;
+@@ -113,9 +116,15 @@ extern int vpu_dbg_mask;
+ extern u8 vpu_pll_min_ratio;
+ extern u8 vpu_pll_max_ratio;
+ 
++#define VPU_TEST_MODE_DISABLED  0
++#define VPU_TEST_MODE_FW_TEST   1
++#define VPU_TEST_MODE_NULL_HW   2
++extern int vpu_test_mode;
++
+ void vpu_file_priv_get(struct vpu_file_priv *file_priv, struct vpu_file_priv **link);
+ void vpu_file_priv_put(struct vpu_file_priv **link);
+ char *vpu_platform_to_str(u32 platform);
++int vpu_boot(struct vpu_device *vdev);
+ int vpu_shutdown(struct vpu_device *vdev);
+ 
+ static inline bool vpu_is_mtl(struct vpu_device *vdev)
+diff --git a/drivers/gpu/drm/vpu/vpu_fw.c b/drivers/gpu/drm/vpu/vpu_fw.c
 new file mode 100644
-index 000000000000..ee4c1b74c329
+index 000000000000..153aafcf3423
 --- /dev/null
-+++ b/drivers/gpu/drm/vpu/vpu_jsm_msg.c
-@@ -0,0 +1,220 @@
++++ b/drivers/gpu/drm/vpu/vpu_fw.c
+@@ -0,0 +1,413 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright © 2020-2022 Intel Corporation
 + */
 +
++#include <linux/firmware.h>
++#include <linux/highmem.h>
++#include <linux/moduleparam.h>
++#include <linux/pci.h>
++
++#include "vpu_boot_api.h"
 +#include "vpu_drv.h"
++#include "vpu_fw.h"
++#include "vpu_gem.h"
++#include "vpu_hw.h"
 +#include "vpu_ipc.h"
-+#include "vpu_jsm_msg.h"
 +
-+const char *vpu_jsm_msg_type_to_str(enum vpu_ipc_msg_type type)
++#define FW_MAX_NAMES		3
++#define FW_GLOBAL_MEM_START	(2ull * SZ_1G)
++#define FW_GLOBAL_MEM_END	(3ull * SZ_1G)
++#define FW_SHARED_MEM_SIZE	SZ_256M /* Must be aligned to FW_SHARED_MEM_ALIGNMENT */
++#define FW_SHARED_MEM_ALIGNMENT	SZ_128K /* VPU MTRR limitation */
++#define FW_RUNTIME_MAX_SIZE	SZ_512M
++#define FW_SHAVE_NN_MAX_SIZE	SZ_2M
++#define FW_RUNTIME_MIN_ADDR	(FW_GLOBAL_MEM_START)
++#define FW_RUNTIME_MAX_ADDR	(FW_GLOBAL_MEM_END - FW_SHARED_MEM_SIZE)
++#define FW_VERSION_HEADER_SIZE	SZ_4K
++#define FW_FILE_IMAGE_OFFSET	(VPU_FW_HEADER_SIZE + FW_VERSION_HEADER_SIZE)
++
++#define WATCHDOG_MSS_REDIRECT	32
++#define WATCHDOG_NCE_REDIRECT	33
++
++#define ADDR_TO_L2_CACHE_CFG(addr) ((addr) >> 31)
++
++#define VPU_FW_CHECK_API(vdev, fw_hdr, name) vpu_fw_check_api(vdev, fw_hdr, #name, \
++								  VPU_##name##_API_VER_INDEX, \
++								  VPU_##name##_API_VER_MAJOR, \
++								  VPU_##name##_API_VER_MINOR)
++
++static char *vpu_firmware;
++module_param_named_unsafe(firmware, vpu_firmware, charp, 0644);
++MODULE_PARM_DESC(firmware, "VPU firmware binary in /lib/firmware/..");
++
++static int vpu_fw_request(struct vpu_device *vdev)
 +{
-+	switch (type) {
-+	case VPU_JSM_MSG_ENGINE_RESET:
-+		return "VPU_JSM_MSG_ENGINE_RESET";
-+	case VPU_JSM_MSG_ENGINE_PREEMPT:
-+		return "VPU_JSM_MSG_ENGINE_PREEMPT";
-+	case VPU_JSM_MSG_REGISTER_DB:
-+		return "VPU_JSM_MSG_REGISTER_DB";
-+	case VPU_JSM_MSG_UNREGISTER_DB:
-+		return "VPU_JSM_MSG_UNREGISTER_DB";
-+	case VPU_JSM_MSG_QUERY_ENGINE_HB:
-+		return "VPU_JSM_MSG_QUERY_ENGINE_HB";
-+	case VPU_JSM_MSG_TRACE_SET_CONFIG:
-+		return "VPU_JSM_MSG_TRACE_SET_CONFIG";
-+	case VPU_JSM_MSG_TRACE_GET_CONFIG:
-+		return "VPU_JSM_MSG_TRACE_GET_CONFIG";
-+	case VPU_JSM_MSG_TRACE_GET_CAPABILITY:
-+		return "VPU_JSM_MSG_TRACE_GET_CAPABILITY";
-+	case VPU_JSM_MSG_BLOB_DEINIT:
-+		return "VPU_JSM_MSG_BLOB_DEINIT";
-+	case VPU_JSM_MSG_DYNDBG_CONTROL:
-+		return "VPU_JSM_MSG_DYNDBG_CONTROL";
-+	case VPU_JSM_MSG_JOB_DONE:
-+		return "VPU_JSM_MSG_JOB_DONE";
-+	case VPU_JSM_MSG_ENGINE_RESET_DONE:
-+		return "VPU_JSM_MSG_ENGINE_RESET_DONE";
-+	case VPU_JSM_MSG_ENGINE_PREEMPT_DONE:
-+		return "VPU_JSM_MSG_ENGINE_PREEMPT_DONE";
-+	case VPU_JSM_MSG_REGISTER_DB_DONE:
-+		return "VPU_JSM_MSG_REGISTER_DB_DONE";
-+	case VPU_JSM_MSG_UNREGISTER_DB_DONE:
-+		return "VPU_JSM_MSG_UNREGISTER_DB_DONE";
-+	case VPU_JSM_MSG_QUERY_ENGINE_HB_DONE:
-+		return "VPU_JSM_MSG_QUERY_ENGINE_HB_DONE";
-+	case VPU_JSM_MSG_TRACE_SET_CONFIG_RSP:
-+		return "VPU_JSM_MSG_TRACE_SET_CONFIG_RSP";
-+	case VPU_JSM_MSG_TRACE_GET_CONFIG_RSP:
-+		return "VPU_JSM_MSG_TRACE_GET_CONFIG_RSP";
-+	case VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP:
-+		return "VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP";
-+	case VPU_JSM_MSG_BLOB_DEINIT_DONE:
-+		return "VPU_JSM_MSG_BLOB_DEINIT_DONE";
-+	case VPU_JSM_MSG_DYNDBG_CONTROL_RSP:
-+		return "VPU_JSM_MSG_DYNDBG_CONTROL_RSP";
-+	default:
-+		return "Unknown JSM message type";
++	const char *fw_names[FW_MAX_NAMES] = {
++		vpu_firmware,
++		"mtl_vpu.bin",
++		"intel/vpu/mtl_vpu_v0.0.bin"
++	};
++	int ret = -ENOENT;
++	int i;
++
++	for (i = 0; i < FW_MAX_NAMES; i++) {
++		ret = request_firmware(&vdev->fw->file, fw_names[i], vdev->drm.dev);
++		if (!ret)
++			return 0;
 +	}
++
++	vpu_err(vdev, "Failed to request firmware: %d\n", ret);
++	return ret;
 +}
 +
-+int vpu_jsm_register_db(struct vpu_device *vdev, u32 ctx_id, u32 db_id,
-+			u64 jobq_base, u32 jobq_size)
++static void
++vpu_fw_check_api(struct vpu_device *vdev, const struct vpu_firmware_header *fw_hdr,
++		 const char *str, int index, u16 expected_major, u16 expected_minor)
 +{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_REGISTER_DB };
-+	struct vpu_jsm_msg resp;
-+	int ret = 0;
++	u16 major = (u16)(fw_hdr->api_version[index] >> 16);
++	u16 minor = (u16)(fw_hdr->api_version[index]);
 +
-+	req.payload.register_db.db_idx = db_id;
-+	req.payload.register_db.jobq_base = jobq_base;
-+	req.payload.register_db.jobq_size = jobq_size;
-+	req.payload.register_db.host_ssid = ctx_id;
++	if (major != expected_major) {
++		vpu_warn(vdev, "Incompatible FW %s API version: %d.%d (expected %d.%d)\n",
++			 str, major, minor, expected_major, expected_minor);
++	}
++	vpu_dbg(FW_BOOT, "FW %s API version: %d.%d (expected %d.%d)\n",
++		str, major, minor, expected_major, expected_minor);
++}
 +
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_REGISTER_DB_DONE, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		vpu_err(vdev, "Failed to register doorbell %d: %d\n", db_id, ret);
-+		return ret;
++static int vpu_fw_parse(struct vpu_device *vdev)
++{
++	struct vpu_fw_info *fw = vdev->fw;
++	const struct vpu_firmware_header *fw_hdr = (const void *)fw->file->data;
++	u64 runtime_addr, image_load_addr, runtime_size, image_size;
++
++	if (fw->file->size <= FW_FILE_IMAGE_OFFSET) {
++		vpu_err(vdev, "Firmware file is too small: %zu\n", fw->file->size);
++		return -EINVAL;
 +	}
 +
-+	vpu_dbg(JSM, "Doorbell %d registered to context %d\n", db_id, ctx_id);
++	if (fw_hdr->header_version != VPU_FW_HEADER_VERSION) {
++		vpu_err(vdev, "Invalid firmware header version: %u\n", fw_hdr->header_version);
++		return -EINVAL;
++	}
++
++	runtime_addr = fw_hdr->boot_params_load_address;
++	runtime_size = fw_hdr->runtime_size;
++	image_load_addr = fw_hdr->image_load_address;
++	image_size = fw_hdr->image_size;
++
++	if (runtime_addr < FW_RUNTIME_MIN_ADDR || runtime_addr > FW_RUNTIME_MAX_ADDR) {
++		vpu_err(vdev, "Invalid firmware runtime address: 0x%llx\n", runtime_addr);
++		return -EINVAL;
++	}
++
++	if (runtime_size < fw->file->size || runtime_size > FW_RUNTIME_MAX_SIZE) {
++		vpu_err(vdev, "Invalid firmware runtime size: %llu\n", runtime_size);
++		return -EINVAL;
++	}
++
++	if (FW_FILE_IMAGE_OFFSET + image_size > fw->file->size) {
++		vpu_err(vdev, "Invalid image size: %llu\n", image_size);
++		return -EINVAL;
++	}
++
++	if (image_load_addr < runtime_addr ||
++	    image_load_addr + image_size > runtime_addr + runtime_size) {
++		vpu_err(vdev, "Invalid firmware load address size: 0x%llx and size %llu\n",
++			image_load_addr, image_size);
++		return -EINVAL;
++	}
++
++	if (fw_hdr->shave_nn_fw_size > FW_SHAVE_NN_MAX_SIZE) {
++		vpu_err(vdev, "SHAVE NN firmware is too big: %u\n", fw_hdr->shave_nn_fw_size);
++		return -EINVAL;
++	}
++
++	if (fw_hdr->entry_point < image_load_addr ||
++	    fw_hdr->entry_point >= image_load_addr + image_size) {
++		vpu_err(vdev, "Invalid entry point: 0x%llx\n", fw_hdr->entry_point);
++		return -EINVAL;
++	}
++
++	fw->runtime_addr = runtime_addr;
++	fw->runtime_size = runtime_size;
++	fw->image_load_offset = image_load_addr - runtime_addr;
++	fw->image_size = image_size;
++	fw->shave_nn_size = PAGE_ALIGN(fw_hdr->shave_nn_fw_size);
++
++	fw->cold_boot_entry_point = fw_hdr->entry_point;
++	fw->entry_point = fw->cold_boot_entry_point;
++
++	vpu_dbg(FW_BOOT, "Header version: 0x%x, format 0x%x\n",
++		fw_hdr->header_version, fw_hdr->image_format);
++	vpu_dbg(FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
++		fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
++	vpu_dbg(FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
++		fw->runtime_addr, image_load_addr, fw->entry_point);
++	vpu_dbg(FW_BOOT, "FW version: %s\n", (char *)fw_hdr + VPU_FW_HEADER_SIZE);
++
++	VPU_FW_CHECK_API(vdev, fw_hdr, BOOT);
++	VPU_FW_CHECK_API(vdev, fw_hdr, JSM);
 +
 +	return 0;
 +}
 +
-+int vpu_jsm_unregister_db(struct vpu_device *vdev, u32 db_id)
++static void vpu_fw_release(struct vpu_device *vdev)
 +{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_UNREGISTER_DB };
-+	struct vpu_jsm_msg resp;
-+	int ret = 0;
++	release_firmware(vdev->fw->file);
++}
 +
-+	req.payload.unregister_db.db_idx = db_id;
++static int vpu_fw_update_global_range(struct vpu_device *vdev)
++{
++	struct vpu_fw_info *fw = vdev->fw;
++	u64 start = ALIGN(fw->runtime_addr + fw->runtime_size, FW_SHARED_MEM_ALIGNMENT);
++	u64 size = FW_SHARED_MEM_SIZE;
 +
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_UNREGISTER_DB_DONE, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		vpu_warn(vdev, "Failed to unregister doorbell %d: %d\n", db_id, ret);
-+		return ret;
++	if (start + size > FW_GLOBAL_MEM_END) {
++		vpu_err(vdev, "No space for shared region, start %lld, size %lld\n", start, size);
++		return -EINVAL;
 +	}
 +
-+	vpu_dbg(JSM, "Doorbell %d unregistered\n", db_id);
-+
++	vpu_hw_init_range(&vdev->hw->ranges.global_low, start, size);
 +	return 0;
 +}
 +
-+int vpu_jsm_get_heartbeat(struct vpu_device *vdev, u32 engine, u64 *heartbeat)
++static int vpu_fw_mem_init(struct vpu_device *vdev)
 +{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_QUERY_ENGINE_HB };
-+	struct vpu_jsm_msg resp;
++	struct vpu_fw_info *fw = vdev->fw;
 +	int ret;
 +
-+	if (engine > VPU_ENGINE_COPY)
-+		return -EINVAL;
-+
-+	req.payload.query_engine_hb.engine_idx = engine;
-+
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		vpu_err(vdev, "Failed to get heartbeat from engine %d: %d\n", engine, ret);
-+		goto rpm_put;
-+	}
-+
-+	*heartbeat = resp.payload.query_engine_hb_done.heartbeat;
-+rpm_put:
-+	return ret;
-+}
-+
-+int vpu_jsm_reset_engine(struct vpu_device *vdev, u32 engine)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_ENGINE_RESET };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	if (engine > VPU_ENGINE_COPY)
-+		return -EINVAL;
-+
-+	req.payload.engine_reset.engine_idx = engine;
-+
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_ENGINE_RESET_DONE, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	ret = vpu_fw_update_global_range(vdev);
 +	if (ret)
-+		vpu_err(vdev, "Failed to reset engine %d: %d\n", engine, ret);
++		return ret;
 +
-+	return ret;
-+}
-+
-+int vpu_jsm_preempt_engine(struct vpu_device *vdev, u32 engine, u32 preempt_id)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_ENGINE_PREEMPT };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	if (engine > VPU_ENGINE_COPY)
-+		return -EINVAL;
-+
-+	req.payload.engine_preempt.engine_idx = engine;
-+	req.payload.engine_preempt.preempt_id = preempt_id;
-+
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_ENGINE_PREEMPT_DONE, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		vpu_err(vdev, "Failed to preempt engine %d: %d\n", engine, ret);
-+
-+	return ret;
-+}
-+
-+int vpu_jsm_dyndbg_control(struct vpu_device *vdev, char *command, size_t size)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_DYNDBG_CONTROL };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	if (!strncpy(req.payload.dyndbg_control.dyndbg_cmd, command, VPU_DYNDBG_CMD_MAX_LEN - 1))
++	fw->mem = vpu_bo_alloc_internal(vdev, fw->runtime_addr, fw->runtime_size, false);
++	if (!fw->mem) {
++		vpu_err(vdev, "Failed to allocate firmware runtime memory\n");
 +		return -ENOMEM;
-+
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_DYNDBG_CONTROL_RSP, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		vpu_warn(vdev, "Failed to send command \"%s\": ret %d\n", command, ret);
-+
-+	return ret;
-+}
-+
-+int vpu_jsm_trace_get_capability(struct vpu_device *vdev, u32 *trace_destination_mask,
-+				 u64 *trace_hw_component_mask)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_TRACE_GET_CAPABILITY };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		vpu_warn(vdev, "Failed to get trace capability: %d\n", ret);
-+		return ret;
 +	}
 +
-+	*trace_destination_mask = resp.payload.trace_capability.trace_destination_mask;
-+	*trace_hw_component_mask = resp.payload.trace_capability.trace_hw_component_mask;
++	if (fw->shave_nn_size) {
++		fw->mem_shave_nn = vpu_bo_alloc_internal(vdev, vdev->hw->ranges.global_high.start,
++							 fw->shave_nn_size, false);
++		if (!fw->mem_shave_nn) {
++			vpu_err(vdev, "Failed to allocate shavenn buffer\n");
++			vpu_bo_free_internal(fw->mem);
++			return -ENOMEM;
++		}
++	}
 +
-+	return ret;
++	return 0;
 +}
 +
-+int vpu_jsm_trace_set_config(struct vpu_device *vdev, u32 trace_level, u32 trace_destination_mask,
-+			     u64 trace_hw_component_mask)
++static void vpu_fw_mem_fini(struct vpu_device *vdev)
 +{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_TRACE_SET_CONFIG };
-+	struct vpu_jsm_msg resp;
++	struct vpu_fw_info *fw = vdev->fw;
++
++	if (fw->mem_shave_nn) {
++		vpu_bo_free_internal(fw->mem_shave_nn);
++		fw->mem_shave_nn = NULL;
++	}
++
++	vpu_bo_free_internal(fw->mem);
++	fw->mem = NULL;
++}
++
++int vpu_fw_init(struct vpu_device *vdev)
++{
 +	int ret;
 +
-+	req.payload.trace_config.trace_level = trace_level;
-+	req.payload.trace_config.trace_destination_mask = trace_destination_mask;
-+	req.payload.trace_config.trace_hw_component_mask = trace_hw_component_mask;
-+
-+	ret = vpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_TRACE_SET_CONFIG_RSP, &resp,
-+				   VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
++	ret = vpu_fw_request(vdev);
 +	if (ret)
-+		vpu_warn(vdev, "Failed to set config: %d\n", ret);
++		return ret;
 +
++	ret = vpu_fw_parse(vdev);
++	if (ret)
++		goto err_fw_release;
++
++	ret = vpu_fw_mem_init(vdev);
++	if (ret)
++		goto err_fw_release;
++
++	return 0;
++
++err_fw_release:
++	vpu_fw_release(vdev);
 +	return ret;
 +}
-diff --git a/drivers/gpu/drm/vpu/vpu_jsm_msg.h b/drivers/gpu/drm/vpu/vpu_jsm_msg.h
++
++void vpu_fw_fini(struct vpu_device *vdev)
++{
++	vpu_fw_mem_fini(vdev);
++	vpu_fw_release(vdev);
++}
++
++int vpu_fw_load(struct vpu_device *vdev)
++{
++	struct vpu_fw_info *fw = vdev->fw;
++	u64 image_end_offset = fw->image_load_offset + fw->image_size;
++	int ret;
++
++	ret = vpu_bo_vremap_internal(vdev, fw->mem, true);
++	if (ret)
++		return ret;
++
++	memset(fw->mem->kvaddr, 0, fw->image_load_offset);
++	memcpy(fw->mem->kvaddr + fw->image_load_offset,
++	       fw->file->data + FW_FILE_IMAGE_OFFSET, fw->image_size);
++	clflush_cache_range(fw->mem->kvaddr, image_end_offset);
++
++	if (VPU_WA(clear_runtime_mem)) {
++		u8 *start = fw->mem->kvaddr + image_end_offset;
++		u64 size = fw->mem->base.size - image_end_offset;
++
++		memset(start, 0, size);
++		clflush_cache_range(start, size);
++	}
++
++	return vpu_bo_vremap_internal(vdev, fw->mem, false);
++}
++
++static void vpu_fw_boot_params_print(struct vpu_device *vdev, struct vpu_boot_params *boot_params)
++{
++	vpu_dbg(FW_BOOT, "boot_params.magic = 0x%x\n",
++		boot_params->magic);
++	vpu_dbg(FW_BOOT, "boot_params.vpu_id = 0x%x\n",
++		boot_params->vpu_id);
++	vpu_dbg(FW_BOOT, "boot_params.vpu_count = 0x%x\n",
++		boot_params->vpu_count);
++	vpu_dbg(FW_BOOT, "boot_params.frequency = %u\n",
++		boot_params->frequency);
++
++	vpu_dbg(FW_BOOT, "boot_params.ipc_header_area_start = 0x%llx\n",
++		boot_params->ipc_header_area_start);
++	vpu_dbg(FW_BOOT, "boot_params.ipc_header_area_size = 0x%x\n",
++		boot_params->ipc_header_area_size);
++	vpu_dbg(FW_BOOT, "boot_params.shared_region_base = 0x%llx\n",
++		boot_params->shared_region_base);
++	vpu_dbg(FW_BOOT, "boot_params.shared_region_size = 0x%x\n",
++		boot_params->shared_region_size);
++	vpu_dbg(FW_BOOT, "boot_params.ipc_payload_area_start = 0x%llx\n",
++		boot_params->ipc_payload_area_start);
++	vpu_dbg(FW_BOOT, "boot_params.ipc_payload_area_size = 0x%x\n",
++		boot_params->ipc_payload_area_size);
++	vpu_dbg(FW_BOOT, "boot_params.global_aliased_pio_base = 0x%llx\n",
++		boot_params->global_aliased_pio_base);
++	vpu_dbg(FW_BOOT, "boot_params.global_aliased_pio_size = 0x%x\n",
++		boot_params->global_aliased_pio_size);
++
++	vpu_dbg(FW_BOOT, "boot_params.autoconfig = 0x%x\n",
++		boot_params->autoconfig);
++
++	vpu_dbg(FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 0x%x\n",
++		boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use);
++	vpu_dbg(FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg = 0x%x\n",
++		boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg);
++
++	vpu_dbg(FW_BOOT, "boot_params.global_memory_allocator_base = 0x%llx\n",
++		boot_params->global_memory_allocator_base);
++	vpu_dbg(FW_BOOT, "boot_params.global_memory_allocator_size = 0x%x\n",
++		boot_params->global_memory_allocator_size);
++
++	vpu_dbg(FW_BOOT, "boot_params.shave_nn_fw_base = 0x%llx\n",
++		boot_params->shave_nn_fw_base);
++
++	vpu_dbg(FW_BOOT, "boot_params.watchdog_irq_mss = 0x%x\n",
++		boot_params->watchdog_irq_mss);
++	vpu_dbg(FW_BOOT, "boot_params.watchdog_irq_nce = 0x%x\n",
++		boot_params->watchdog_irq_nce);
++	vpu_dbg(FW_BOOT, "boot_params.host_to_vpu_irq = 0x%x\n",
++		boot_params->host_to_vpu_irq);
++	vpu_dbg(FW_BOOT, "boot_params.vpu_to_host_irq = 0x%x\n",
++		boot_params->vpu_to_host_irq);
++
++	vpu_dbg(FW_BOOT, "boot_params.host_version_id = 0x%x\n",
++		boot_params->host_version_id);
++	vpu_dbg(FW_BOOT, "boot_params.si_stepping = 0x%x\n",
++		boot_params->si_stepping);
++	vpu_dbg(FW_BOOT, "boot_params.vdev_id = 0x%llx\n",
++		boot_params->device_id);
++	vpu_dbg(FW_BOOT, "boot_params.feature_exclusion = 0x%llx\n",
++		boot_params->feature_exclusion);
++	vpu_dbg(FW_BOOT, "boot_params.sku = %lld\n",
++		boot_params->sku);
++	vpu_dbg(FW_BOOT, "boot_params.min_freq_pll_ratio = 0x%x\n",
++		boot_params->min_freq_pll_ratio);
++	vpu_dbg(FW_BOOT, "boot_params.max_freq_pll_ratio = 0x%x\n",
++		boot_params->max_freq_pll_ratio);
++	vpu_dbg(FW_BOOT, "boot_params.default_trace_level = 0x%x\n",
++		boot_params->default_trace_level);
++	vpu_dbg(FW_BOOT, "boot_params.tracing_buff_message_format_mask = 0x%llx\n",
++		boot_params->tracing_buff_message_format_mask);
++	vpu_dbg(FW_BOOT, "boot_params.trace_destination_mask = 0x%x\n",
++		boot_params->trace_destination_mask);
++	vpu_dbg(FW_BOOT, "boot_params.trace_hw_component_mask = 0x%llx\n",
++		boot_params->trace_hw_component_mask);
++	vpu_dbg(FW_BOOT, "boot_params.boot_type = 0x%x\n",
++		boot_params->boot_type);
++	vpu_dbg(FW_BOOT, "boot_params.punit_telemetry_sram_base = 0x%llx\n",
++		boot_params->punit_telemetry_sram_base);
++	vpu_dbg(FW_BOOT, "boot_params.punit_telemetry_sram_size = 0x%llx\n",
++		boot_params->punit_telemetry_sram_size);
++	vpu_dbg(FW_BOOT, "boot_params.vpu_telemetry_enable = 0x%x\n",
++		boot_params->vpu_telemetry_enable);
++}
++
++void vpu_fw_boot_params_setup(struct vpu_device *vdev, struct vpu_boot_params *boot_params)
++{
++	struct vpu_bo *ipc_mem_rx = vdev->ipc->mem_rx;
++
++	/* In case of warm boot we only have to reset the entrypoint addr */
++	if (!vpu_fw_is_cold_boot(vdev)) {
++		boot_params->save_restore_ret_address = 0;
++		return;
++	}
++
++	boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
++	boot_params->vpu_id = to_pci_dev(vdev->drm.dev)->bus->number;
++	boot_params->frequency = vpu_hw_reg_pll_freq_get(vdev);
++
++	/*
++	 * Uncached region of VPU address space, covers IPC buffers, job queues
++	 * and log buffers, programmable to L2$ Uncached by VPU MTRR
++	 */
++	boot_params->shared_region_base = vdev->hw->ranges.global_low.start;
++	boot_params->shared_region_size = vdev->hw->ranges.global_low.end -
++					  vdev->hw->ranges.global_low.start;
++
++	boot_params->ipc_header_area_start = ipc_mem_rx->vpu_addr;
++	boot_params->ipc_header_area_size = ipc_mem_rx->base.size / 2;
++
++	boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ipc_mem_rx->base.size / 2;
++	boot_params->ipc_payload_area_size = ipc_mem_rx->base.size / 2;
++
++	boot_params->global_aliased_pio_base =
++		vdev->hw->ranges.global_aliased_pio.start;
++	boot_params->global_aliased_pio_size =
++		vpu_hw_range_size(&vdev->hw->ranges.global_aliased_pio);
++
++	/* Allow configuration for L2C_PAGE_TABLE with boot param value */
++	boot_params->autoconfig = 1;
++
++	/* Enable L2 cache for first 2GB of high memory */
++	boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 1;
++	boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg =
++		ADDR_TO_L2_CACHE_CFG(vdev->hw->ranges.global_high.start);
++
++	if (vdev->fw->mem_shave_nn)
++		boot_params->shave_nn_fw_base = vdev->fw->mem_shave_nn->vpu_addr;
++
++	boot_params->watchdog_irq_mss = WATCHDOG_MSS_REDIRECT;
++	boot_params->watchdog_irq_nce = WATCHDOG_NCE_REDIRECT;
++	boot_params->sku = vdev->hw->sku;
++
++	boot_params->min_freq_pll_ratio = vdev->hw->pll.min_ratio;
++	boot_params->max_freq_pll_ratio = vdev->hw->pll.max_ratio;
++
++	boot_params->punit_telemetry_sram_base = vpu_hw_reg_telemetry_offset_get(vdev);
++	boot_params->punit_telemetry_sram_size = vpu_hw_reg_telemetry_size_get(vdev);
++	boot_params->vpu_telemetry_enable = vpu_hw_reg_telemetry_enable_get(vdev);
++
++	vpu_fw_boot_params_print(vdev, boot_params);
++}
+diff --git a/drivers/gpu/drm/vpu/vpu_fw.h b/drivers/gpu/drm/vpu/vpu_fw.h
 new file mode 100644
-index 000000000000..93e28a1a7943
+index 000000000000..932bae42ca41
 --- /dev/null
-+++ b/drivers/gpu/drm/vpu/vpu_jsm_msg.h
-@@ -0,0 +1,25 @@
++++ b/drivers/gpu/drm/vpu/vpu_fw.h
+@@ -0,0 +1,38 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright © 2020-2022 Intel Corporation
 + */
 +
-+#ifndef __VPU_JSM_MSG_H__
-+#define __VPU_JSM_MSG_H__
++#ifndef __VPU_FW_H__
++#define __VPU_FW_H__
 +
-+#include "vpu_jsm_api.h"
++struct vpu_device;
++struct vpu_bo;
++struct vpu_boot_params;
 +
-+const char *vpu_jsm_msg_type_to_str(enum vpu_ipc_msg_type type);
++struct vpu_fw_info {
++	const struct firmware *file;
++	struct vpu_bo *mem;
++	struct vpu_bo *mem_shave_nn;
++	struct vpu_bo *mem_log_crit;
++	struct vpu_bo *mem_log_verb;
++	u64 runtime_addr;
++	u32 runtime_size;
++	u64 image_load_offset;
++	u32 image_size;
++	u32 shave_nn_size;
++	u64 entry_point; /* Cold or warm boot entry point for next boot */
++	u64 cold_boot_entry_point;
++};
 +
-+int vpu_jsm_register_db(struct vpu_device *vdev, u32 ctx_id, u32 db_id,
-+			u64 jobq_base, u32 jobq_size);
-+int vpu_jsm_unregister_db(struct vpu_device *vdev, u32 db_id);
-+int vpu_jsm_get_heartbeat(struct vpu_device *vdev, u32 engine, u64 *heartbeat);
-+int vpu_jsm_reset_engine(struct vpu_device *vdev, u32 engine);
-+int vpu_jsm_preempt_engine(struct vpu_device *vdev, u32 engine, u32 preempt_id);
-+int vpu_jsm_dyndbg_control(struct vpu_device *vdev, char *command, size_t size);
-+int vpu_jsm_trace_get_capability(struct vpu_device *vdev, u32 *trace_destination_mask,
-+				 u64 *trace_hw_component_mask);
-+int vpu_jsm_trace_set_config(struct vpu_device *vdev, u32 trace_level, u32 trace_destination_mask,
-+			     u64 trace_hw_component_mask);
++int vpu_fw_init(struct vpu_device *vdev);
++void vpu_fw_fini(struct vpu_device *vdev);
++int vpu_fw_load(struct vpu_device *vdev);
++void vpu_fw_boot_params_setup(struct vpu_device *vdev, struct vpu_boot_params *bp);
 +
-+#endif
++static inline bool vpu_fw_is_cold_boot(struct vpu_device *vdev)
++{
++	return vdev->fw->entry_point == vdev->fw->cold_boot_entry_point;
++}
++
++#endif /* __VPU_FW_H__ */
+diff --git a/drivers/gpu/drm/vpu/vpu_hw_mtl.c b/drivers/gpu/drm/vpu/vpu_hw_mtl.c
+index b53ec7b9cc4d..ba24dc29f962 100644
+--- a/drivers/gpu/drm/vpu/vpu_hw_mtl.c
++++ b/drivers/gpu/drm/vpu/vpu_hw_mtl.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "vpu_drv.h"
++#include "vpu_fw.h"
+ #include "vpu_hw_mtl_reg.h"
+ #include "vpu_hw_reg_io.h"
+ #include "vpu_hw.h"
+@@ -583,6 +584,16 @@ static void vpu_boot_soc_cpu_boot(struct vpu_device *vdev)
+ 
+ 	val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
+ 	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
++
++	val = vdev->fw->entry_point >> 9;
++	REGV_WR32(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, val);
++
++	val = REG_SET_FLD(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, DONE, val);
++	REGV_WR32(MTL_VPU_HOST_SS_LOADING_ADDRESS_LO, val);
++
++	vpu_dbg(PM, "Booting firmware, mode: %s\n",
++		vdev->fw->entry_point == vdev->fw->cold_boot_entry_point ?
++		"cold boot" : "resume");
+ }
+ 
+ static int vpu_boot_d0i3_drive(struct vpu_device *vdev, bool enable)
+diff --git a/include/uapi/drm/vpu_drm.h b/include/uapi/drm/vpu_drm.h
+index 8793ed06bfa9..b0492225433d 100644
+--- a/include/uapi/drm/vpu_drm.h
++++ b/include/uapi/drm/vpu_drm.h
+@@ -51,6 +51,11 @@ extern "C" {
+ #define DRM_VPU_PARAM_CONTEXT_BASE_ADDRESS 5
+ #define DRM_VPU_PARAM_CONTEXT_PRIORITY	   6
+ #define DRM_VPU_PARAM_CONTEXT_ID	   7
++#define DRM_VPU_PARAM_FW_API_VERSION	   8
++#define DRM_VPU_PARAM_ENGINE_HEARTBEAT	   9
++#define DRM_VPU_PARAM_UNIQUE_INFERENCE_ID  10
++#define DRM_VPU_PARAM_TILE_CONFIG	   11
++#define DRM_VPU_PARAM_SKU		   12
+ 
+ #define DRM_VPU_PLATFORM_TYPE_SILICON	   0
+ 
+@@ -94,6 +99,22 @@ struct drm_vpu_param {
+ 	 * %DRM_VPU_PARAM_CONTEXT_ID:
+ 	 * Current context ID, always greater than 0 (read-only)
+ 	 *
++	 * %DRM_VPU_PARAM_FW_API_VERSION:
++	 * Firmware API version array (read-only)
++	 *
++	 * %DRM_VPU_PARAM_ENGINE_HEARTBEAT:
++	 * Heartbeat value from an engine (read-only).
++	 * Engine ID (i.e. DRM_VPU_ENGINE_COMPUTE) is given via index.
++	 *
++	 * %DRM_VPU_PARAM_UNIQUE_INFERENCE_ID:
++	 * Device-unique inference ID (read-only)
++	 *
++	 * %DRM_VPU_PARAM_TILE_CONFIG:
++	 * VPU tile configuration  (read-only)
++	 *
++	 * %DRM_VPU_PARAM_SKU:
++	 * VPU SKU ID (read-only)
++	 *
+ 	 */
+ 	__u32 param;
+ 
 -- 
 2.34.1
 
