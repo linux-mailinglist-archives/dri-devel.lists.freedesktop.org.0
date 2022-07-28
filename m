@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CEA583F17
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:42:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0752583F12
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22FE997FF9;
-	Thu, 28 Jul 2022 12:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F69B2AB24;
+	Thu, 28 Jul 2022 12:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15E8B113C41
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:41:07 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626498FCE1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:41:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 50CA3203B5;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 78B7233771;
  Thu, 28 Jul 2022 12:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1659012066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A76vzVQQYNIblc81ux+Oe3HdLt07xl2UoyMaQpt7K54=;
- b=KHTDMY9T9esfGkwNbWzqTX/oTjkJJEboDFEL4/oYYFT0u62YtLL9E9PiaFgYAamWBZ750B
- SexC/0U/eBWIe7N+A3vRJBfITCuPmECNeiK18tAqXgZ8C3AjX339CHYJHMFPxujT6qvc/l
- skGkBosbvpQxpxV7882AUubC3w8gymY=
+ bh=hDyU3QwC02AUA19EV8KhzcAHUxDpwAfnzTGOuuE2KTw=;
+ b=AvHBfWSxrVPMF2VNyFS99S79bQ77bAO6RRS7NwK28XzDIZejJgzdcsyos2EmrTYUTcKZz3
+ EZIY7RrzC2vTlHovwNU60eyGhOviXxQKEvNQKVjC/wtI7PnoQxQ1I5ymzZRUiYKRkBgRy6
+ QKDBFtRyztnIW6l7QOF5aeg5kmbchOg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1659012066;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A76vzVQQYNIblc81ux+Oe3HdLt07xl2UoyMaQpt7K54=;
- b=YnN5LMJ/GOsM078CcQD5z6+48lpMBehhh7tnXlSb/n/vDuxGDJ34thw6iwfZeDayWZ1Ren
- WqU8kRxHVS/69iBA==
+ bh=hDyU3QwC02AUA19EV8KhzcAHUxDpwAfnzTGOuuE2KTw=;
+ b=GQ+VyBBJ+lBefgTO3RcMssy1f6yrFL6Ly6Iet+NZPti7O+3tvzt/Lg9PCoC9hWbGdyBtgR
+ +C2pX5RT7Xfpf6BA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1BBC413AB4;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5290213A7E;
  Thu, 28 Jul 2022 12:41:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WB2yBeKD4mJwMAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id wDE8E+KD4mJwMAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 28 Jul 2022 12:41:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, sam@ravnborg.org, airlied@redhat.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v3 07/14] drm/mgag200: Replace simple-KMS with regular atomic
- helpers
-Date: Thu, 28 Jul 2022 14:40:56 +0200
-Message-Id: <20220728124103.30159-8-tzimmermann@suse.de>
+Subject: [PATCH v3 08/14] drm/mgag200: Set SCROFF in primary-plane code
+Date: Thu, 28 Jul 2022 14:40:57 +0200
+Message-Id: <20220728124103.30159-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728124103.30159-1-tzimmermann@suse.de>
 References: <20220728124103.30159-1-tzimmermann@suse.de>
@@ -73,550 +72,106 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop simple-KMS in favor of regular atomic helpers. Makes the code
-more modular and hence better to adapt to per-model requirements.
-
-The simple-KMS helpers provide few extra features, so the patch is
-mostly about open-coding what simple-KMS does. The simple-KMS helpers
-do mix up plane and CRTC state. Changing to regular atomic helpers
-requires to split some of the simple-pipe functions into per-plane
-and per-CRTC code
-
-No functional changes.
+The SCROFF bit controls reading the primary plane's scanout buffer
+from video memory. Set it from primary-plane code, instead of CRTC
+code.
 
 v3:
-	* always run drm_atomic_helper_check_plane_state()
-	* clean up style
+	* only flip SCROFF when enabling/disabling the plane (Jocelyn)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 Tested-by: Jocelyn Falempe <jfalempe@redhat.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h  |   8 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c | 382 +++++++++++++++----------
- 2 files changed, 233 insertions(+), 157 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 35 +++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index bf6a01ff9719..b0433985ec0d 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -15,11 +15,13 @@
- 
- #include <video/vga.h>
- 
-+#include <drm/drm_connector.h>
-+#include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_shmem_helper.h>
--#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_plane.h>
- 
- #include "mgag200_reg.h"
- 
-@@ -276,9 +278,11 @@ struct mga_device {
- 	enum mga_type			type;
- 
- 	struct mgag200_pll pixpll;
-+	struct drm_plane primary_plane;
-+	struct drm_crtc crtc;
-+	struct drm_encoder encoder;
- 	struct mga_i2c_chan i2c;
- 	struct drm_connector connector;
--	struct drm_simple_display_pipe display_pipe;
- };
- 
- static inline struct mga_device *to_mga_device(struct drm_device *dev)
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 67795135d4dd..b524c1c5f032 100644
+index b524c1c5f032..22f15d4b4ff0 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -23,7 +23,6 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
+@@ -549,7 +549,7 @@ static void mgag200_g200ev_set_hiprilvl(struct mga_device *mdev)
  
- #include "mgag200_drv.h"
+ static void mgag200_enable_display(struct mga_device *mdev)
+ {
+-	u8 seq0, seq1, crtcext1;
++	u8 seq0, crtcext1;
  
-@@ -614,25 +613,106 @@ static void mgag200_handle_damage(struct mga_device *mdev, const struct iosys_ma
+ 	RREG_SEQ(0x00, seq0);
+ 	seq0 |= MGAREG_SEQ0_SYNCRST |
+@@ -563,12 +563,6 @@ static void mgag200_enable_display(struct mga_device *mdev)
+ 	mga_wait_vsync(mdev);
+ 	mga_wait_busy(mdev);
+ 
+-	RREG_SEQ(0x01, seq1);
+-	seq1 &= ~MGAREG_SEQ1_SCROFF;
+-	WREG_SEQ(0x01, seq1);
+-
+-	msleep(20);
+-
+ 	RREG_ECRT(0x01, crtcext1);
+ 	crtcext1 &= ~MGAREG_CRTCEXT1_VSYNCOFF;
+ 	crtcext1 &= ~MGAREG_CRTCEXT1_HSYNCOFF;
+@@ -577,7 +571,7 @@ static void mgag200_enable_display(struct mga_device *mdev)
+ 
+ static void mgag200_disable_display(struct mga_device *mdev)
+ {
+-	u8 seq0, seq1, crtcext1;
++	u8 seq0, crtcext1;
+ 
+ 	RREG_SEQ(0x00, seq0);
+ 	seq0 &= ~MGAREG_SEQ0_SYNCRST;
+@@ -590,12 +584,6 @@ static void mgag200_disable_display(struct mga_device *mdev)
+ 	mga_wait_vsync(mdev);
+ 	mga_wait_busy(mdev);
+ 
+-	RREG_SEQ(0x01, seq1);
+-	seq1 |= MGAREG_SEQ1_SCROFF;
+-	WREG_SEQ(0x01, seq1);
+-
+-	msleep(20);
+-
+ 	RREG_ECRT(0x01, crtcext1);
+ 	crtcext1 |= MGAREG_CRTCEXT1_VSYNCOFF |
+ 		    MGAREG_CRTCEXT1_HSYNCOFF;
+@@ -673,6 +661,7 @@ static void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct drm_atomic_helper_damage_iter iter;
+ 	struct drm_rect damage;
++	u8 seq1;
+ 
+ 	if (!fb)
+ 		return;
+@@ -685,11 +674,27 @@ static void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 	/* Always scanout image at VRAM offset 0 */
+ 	mgag200_set_startadd(mdev, (u32)0);
+ 	mgag200_set_offset(mdev, fb);
++
++	if (!old_plane_state->crtc && plane_state->crtc) { // enabling
++		RREG_SEQ(0x01, seq1);
++		seq1 &= ~MGAREG_SEQ1_SCROFF;
++		WREG_SEQ(0x01, seq1);
++		msleep(20);
++	}
  }
  
- /*
-- * Simple Display Pipe
-+ * Primary plane
-  */
- 
--static const uint32_t mgag200_simple_display_pipe_formats[] = {
-+static const uint32_t mgag200_primary_plane_formats[] = {
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_RGB888,
- };
- 
--static const uint64_t mgag200_simple_display_pipe_fmtmods[] = {
-+static const uint64_t mgag200_primary_plane_fmtmods[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID
- };
- 
--static enum drm_mode_status
--mgag200_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
--				       const struct drm_display_mode *mode)
-+static int mgag200_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+						     struct drm_atomic_state *new_state)
- {
--	struct mga_device *mdev = to_mga_device(pipe->crtc.dev);
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
-+	struct drm_framebuffer *new_fb = new_plane_state->fb;
-+	struct drm_framebuffer *fb = NULL;
-+	struct drm_crtc *new_crtc = new_plane_state->crtc;
-+	struct drm_crtc_state *new_crtc_state = NULL;
-+	struct mgag200_crtc_state *new_mgag200_crtc_state;
-+	int ret;
-+
-+	if (new_crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
-+
-+	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, true);
-+	if (ret)
-+		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
-+
-+	if (plane->state)
-+		fb = plane->state->fb;
-+
-+	if (!fb || (fb->format != new_fb->format))
-+		new_crtc_state->mode_changed = true; /* update PLL settings */
-+
-+	new_mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
-+	new_mgag200_crtc_state->format = new_fb->format;
-+
-+	return 0;
-+}
-+
-+static void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
-+						       struct drm_atomic_state *old_state)
+ static void mgag200_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+ 							struct drm_atomic_state *old_state)
+-{ }
 +{
 +	struct drm_device *dev = plane->dev;
 +	struct mga_device *mdev = to_mga_device(dev);
-+	struct drm_plane_state *plane_state = plane->state;
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(old_state, plane);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_atomic_helper_damage_iter iter;
-+	struct drm_rect damage;
++	u8 seq1;
 +
-+	if (!fb)
-+		return;
-+
-+	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-+	drm_atomic_for_each_plane_damage(&iter, &damage) {
-+		mgag200_handle_damage(mdev, shadow_plane_state->data, fb, &damage);
-+	}
-+
-+	/* Always scanout image at VRAM offset 0 */
-+	mgag200_set_startadd(mdev, (u32)0);
-+	mgag200_set_offset(mdev, fb);
++	RREG_SEQ(0x01, seq1);
++	seq1 |= MGAREG_SEQ1_SCROFF;
++	WREG_SEQ(0x01, seq1);
++	msleep(20);
 +}
-+
-+static void mgag200_primary_plane_helper_atomic_disable(struct drm_plane *plane,
-+							struct drm_atomic_state *old_state)
-+{ }
-+
-+static const struct drm_plane_helper_funcs mgag200_primary_plane_helper_funcs = {
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = mgag200_primary_plane_helper_atomic_check,
-+	.atomic_update = mgag200_primary_plane_helper_atomic_update,
-+	.atomic_disable = mgag200_primary_plane_helper_atomic_disable,
-+};
-+
-+static const struct drm_plane_funcs mgag200_primary_plane_funcs = {
-+	.update_plane = drm_atomic_helper_update_plane,
-+	.disable_plane = drm_atomic_helper_disable_plane,
-+	.destroy = drm_plane_cleanup,
-+	DRM_GEM_SHADOW_PLANE_FUNCS,
-+};
-+
-+/*
-+ * CRTC
-+ */
-+
-+static enum drm_mode_status mgag200_crtc_helper_mode_valid(struct drm_crtc *crtc,
-+							   const struct drm_display_mode *mode)
-+{
-+	struct mga_device *mdev = to_mga_device(crtc->dev);
- 	const struct mgag200_device_info *info = mdev->info;
  
- 	/*
-@@ -659,26 +739,69 @@ mgag200_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
- 	return MODE_OK;
- }
- 
--static void
--mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
--				   struct drm_crtc_state *crtc_state,
--				   struct drm_plane_state *plane_state)
-+static int mgag200_crtc_helper_atomic_check(struct drm_crtc *crtc,
-+					    struct drm_atomic_state *new_state)
- {
--	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *dev = crtc->dev;
- 	struct mga_device *mdev = to_mga_device(dev);
-+	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
- 	struct mgag200_pll *pixpll = &mdev->pixpll;
-+	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
-+	struct drm_property_blob *new_gamma_lut = new_crtc_state->gamma_lut;
-+	int ret;
-+
-+	ret = drm_atomic_helper_check_crtc_state(new_crtc_state, false);
-+	if (ret)
-+		return ret;
-+
-+	if (!new_crtc_state->enable)
-+		return 0;
-+
-+	if (new_crtc_state->mode_changed) {
-+		ret = pixpll->funcs->compute(pixpll, new_crtc_state->mode.clock,
-+					     &mgag200_crtc_state->pixpllc);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (new_crtc_state->color_mgmt_changed && new_gamma_lut) {
-+		if (new_gamma_lut->length != MGAG200_LUT_SIZE * sizeof(struct drm_color_lut)) {
-+			drm_dbg(dev, "Wrong size for gamma_lut %zu\n", new_gamma_lut->length);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return drm_atomic_add_affected_planes(new_state, crtc);
-+}
-+
-+static void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc,
-+					     struct drm_atomic_state *old_state)
-+{
-+	struct drm_crtc_state *crtc_state = crtc->state;
-+	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
-+	struct drm_device *dev = crtc->dev;
-+	struct mga_device *mdev = to_mga_device(dev);
-+
-+	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
-+		const struct drm_format_info *format = mgag200_crtc_state->format;
-+
-+		if (crtc_state->gamma_lut)
-+			mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
-+		else
-+			mgag200_crtc_set_gamma_linear(mdev, format);
-+	}
-+}
-+
-+static void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc,
-+					      struct drm_atomic_state *old_state)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct mga_device *mdev = to_mga_device(dev);
-+	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
- 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
--	struct drm_framebuffer *fb = plane_state->fb;
- 	const struct drm_format_info *format = mgag200_crtc_state->format;
--	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
--	struct drm_rect fullscreen = {
--		.x1 = 0,
--		.x2 = fb->width,
--		.y1 = 0,
--		.y2 = fb->height,
--	};
-+	struct mgag200_pll *pixpll = &mdev->pixpll;
- 
- 	if (mdev->type == G200_WB || mdev->type == G200_EW3)
- 		mgag200_g200wb_hold_bmc(mdev);
-@@ -696,108 +819,50 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	else if (mdev->type == G200_EV)
- 		mgag200_g200ev_set_hiprilvl(mdev);
- 
--	if (mdev->type == G200_WB || mdev->type == G200_EW3)
--		mgag200_g200wb_release_bmc(mdev);
--
--	if (crtc_state->gamma_lut)
--		mgag200_crtc_set_gamma(mdev, format, crtc_state->gamma_lut->data);
--	else
--		mgag200_crtc_set_gamma_linear(mdev, format);
--
- 	mgag200_enable_display(mdev);
- 
--	mgag200_handle_damage(mdev, shadow_plane_state->data, fb, &fullscreen);
--
--	/* Always scanout image at VRAM offset 0 */
--	mgag200_set_startadd(mdev, (u32)0);
--	mgag200_set_offset(mdev, fb);
-+	if (mdev->type == G200_WB || mdev->type == G200_EW3)
-+		mgag200_g200wb_release_bmc(mdev);
- }
- 
--static void
--mgag200_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
-+static void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-+					       struct drm_atomic_state *old_state)
- {
--	struct drm_crtc *crtc = &pipe->crtc;
- 	struct mga_device *mdev = to_mga_device(crtc->dev);
- 
--	mgag200_disable_display(mdev);
--}
--
--static int
--mgag200_simple_display_pipe_check(struct drm_simple_display_pipe *pipe,
--				  struct drm_plane_state *plane_state,
--				  struct drm_crtc_state *crtc_state)
--{
--	struct drm_plane *plane = plane_state->plane;
--	struct drm_device *dev = plane->dev;
--	struct mga_device *mdev = to_mga_device(dev);
--	struct mgag200_pll *pixpll = &mdev->pixpll;
--	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
--	struct drm_framebuffer *new_fb = plane_state->fb;
--	struct drm_framebuffer *fb = NULL;
--	int ret;
--
--	if (!new_fb)
--		return 0;
--
--	if (plane->state)
--		fb = plane->state->fb;
--
--	if (!fb || (fb->format != new_fb->format))
--		crtc_state->mode_changed = true; /* update PLL settings */
--
--	mgag200_crtc_state->format = new_fb->format;
-+	if (mdev->type == G200_WB || mdev->type == G200_EW3)
-+		mgag200_g200wb_hold_bmc(mdev);
- 
--	if (crtc_state->mode_changed) {
--		ret = pixpll->funcs->compute(pixpll, crtc_state->mode.clock,
--					     &mgag200_crtc_state->pixpllc);
--		if (ret)
--			return ret;
--	}
-+	mgag200_disable_display(mdev);
- 
--	if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
--		if (crtc_state->gamma_lut->length !=
--		    MGAG200_LUT_SIZE * sizeof(struct drm_color_lut)) {
--			drm_err(dev, "Wrong size for gamma_lut %zu\n",
--				crtc_state->gamma_lut->length);
--			return -EINVAL;
--		}
--	}
--	return 0;
-+	if (mdev->type == G200_WB || mdev->type == G200_EW3)
-+		mgag200_g200wb_release_bmc(mdev);
- }
- 
--static void
--mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
--				   struct drm_plane_state *old_state)
--{
--	struct drm_plane *plane = &pipe->plane;
--	struct drm_crtc *crtc = &pipe->crtc;
--	struct drm_device *dev = plane->dev;
--	struct mga_device *mdev = to_mga_device(dev);
--	struct drm_plane_state *state = plane->state;
--	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
--	struct drm_framebuffer *fb = state->fb;
--	struct drm_rect damage;
--	struct drm_atomic_helper_damage_iter iter;
-+static const struct drm_crtc_helper_funcs mgag200_crtc_helper_funcs = {
-+	.mode_valid = mgag200_crtc_helper_mode_valid,
-+	.atomic_check = mgag200_crtc_helper_atomic_check,
-+	.atomic_flush = mgag200_crtc_helper_atomic_flush,
-+	.atomic_enable = mgag200_crtc_helper_atomic_enable,
-+	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-+};
- 
--	if (!fb)
--		return;
-+static void mgag200_crtc_reset(struct drm_crtc *crtc)
-+{
-+	struct mgag200_crtc_state *mgag200_crtc_state;
- 
--	if (crtc->state->color_mgmt_changed && crtc->state->gamma_lut)
--		mgag200_crtc_set_gamma(mdev, fb->format, crtc->state->gamma_lut->data);
-+	if (crtc->state)
-+		crtc->funcs->atomic_destroy_state(crtc, crtc->state);
- 
--	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
--	drm_atomic_for_each_plane_damage(&iter, &damage) {
--		mgag200_handle_damage(mdev, shadow_plane_state->data, fb, &damage);
--	}
--	/* Always scanout image at VRAM offset 0 */
--	mgag200_set_startadd(mdev, (u32)0);
--	mgag200_set_offset(mdev, fb);
-+	mgag200_crtc_state = kzalloc(sizeof(*mgag200_crtc_state), GFP_KERNEL);
-+	if (mgag200_crtc_state)
-+		__drm_atomic_helper_crtc_reset(crtc, &mgag200_crtc_state->base);
-+	else
-+		__drm_atomic_helper_crtc_reset(crtc, NULL);
- }
- 
--static struct drm_crtc_state *
--mgag200_simple_display_pipe_duplicate_crtc_state(struct drm_simple_display_pipe *pipe)
-+static struct drm_crtc_state *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
- {
--	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
- 	struct mgag200_crtc_state *new_mgag200_crtc_state;
-@@ -817,8 +882,8 @@ mgag200_simple_display_pipe_duplicate_crtc_state(struct drm_simple_display_pipe
- 	return &new_mgag200_crtc_state->base;
- }
- 
--static void mgag200_simple_display_pipe_destroy_crtc_state(struct drm_simple_display_pipe *pipe,
--							   struct drm_crtc_state *crtc_state)
-+static void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-+					      struct drm_crtc_state *crtc_state)
- {
- 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
- 
-@@ -826,33 +891,21 @@ static void mgag200_simple_display_pipe_destroy_crtc_state(struct drm_simple_dis
- 	kfree(mgag200_crtc_state);
- }
- 
--static void mgag200_simple_display_pipe_reset_crtc(struct drm_simple_display_pipe *pipe)
--{
--	struct drm_crtc *crtc = &pipe->crtc;
--	struct mgag200_crtc_state *mgag200_crtc_state;
--
--	if (crtc->state) {
--		mgag200_simple_display_pipe_destroy_crtc_state(pipe, crtc->state);
--		crtc->state = NULL; /* must be set to NULL here */
--	}
-+static const struct drm_crtc_funcs mgag200_crtc_funcs = {
-+	.reset = mgag200_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = mgag200_crtc_atomic_duplicate_state,
-+	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state,
-+};
- 
--	mgag200_crtc_state = kzalloc(sizeof(*mgag200_crtc_state), GFP_KERNEL);
--	if (!mgag200_crtc_state)
--		return;
--	__drm_atomic_helper_crtc_reset(crtc, &mgag200_crtc_state->base);
--}
-+/*
-+ * Encoder
-+ */
- 
--static const struct drm_simple_display_pipe_funcs
--mgag200_simple_display_pipe_funcs = {
--	.mode_valid = mgag200_simple_display_pipe_mode_valid,
--	.enable	    = mgag200_simple_display_pipe_enable,
--	.disable    = mgag200_simple_display_pipe_disable,
--	.check	    = mgag200_simple_display_pipe_check,
--	.update	    = mgag200_simple_display_pipe_update,
--	.reset_crtc = mgag200_simple_display_pipe_reset_crtc,
--	.duplicate_crtc_state = mgag200_simple_display_pipe_duplicate_crtc_state,
--	.destroy_crtc_state = mgag200_simple_display_pipe_destroy_crtc_state,
--	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-+static const struct drm_encoder_funcs mgag200_dac_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
- };
- 
- /*
-@@ -999,12 +1052,49 @@ static int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vra
- static int mgag200_pipeline_init(struct mga_device *mdev)
- {
- 	struct drm_device *dev = &mdev->base;
-+	struct drm_plane *primary_plane = &mdev->primary_plane;
-+	struct drm_crtc *crtc = &mdev->crtc;
-+	struct drm_encoder *encoder = &mdev->encoder;
- 	struct mga_i2c_chan *i2c = &mdev->i2c;
- 	struct drm_connector *connector = &mdev->connector;
--	struct drm_simple_display_pipe *pipe = &mdev->display_pipe;
--	size_t format_count = ARRAY_SIZE(mgag200_simple_display_pipe_formats);
- 	int ret;
- 
-+	ret = mgag200_pixpll_init(&mdev->pixpll, mdev);
-+	if (ret)
-+		return ret;
-+
-+	ret = drm_universal_plane_init(dev, primary_plane, 0,
-+				       &mgag200_primary_plane_funcs,
-+				       mgag200_primary_plane_formats,
-+				       ARRAY_SIZE(mgag200_primary_plane_formats),
-+				       mgag200_primary_plane_fmtmods,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret) {
-+		drm_err(dev, "drm_universal_plane_init() failed: %d\n", ret);
-+		return ret;
-+	}
-+	drm_plane_helper_add(primary_plane, &mgag200_primary_plane_helper_funcs);
-+	drm_plane_enable_fb_damage_clips(primary_plane);
-+
-+	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL, &mgag200_crtc_funcs, NULL);
-+	if (ret) {
-+		drm_err(dev, "drm_crtc_init_with_planes() failed: %d\n", ret);
-+		return ret;
-+	}
-+	drm_crtc_helper_add(crtc, &mgag200_crtc_helper_funcs);
-+
-+	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
-+	drm_mode_crtc_set_gamma_size(crtc, MGAG200_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, MGAG200_LUT_SIZE);
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	ret = drm_encoder_init(dev, encoder, &mgag200_dac_encoder_funcs,
-+			       DRM_MODE_ENCODER_DAC, NULL);
-+	if (ret) {
-+		drm_err(dev, "drm_encoder_init() failed: %d\n", ret);
-+		return ret;
-+	}
-+
- 	ret = mgag200_i2c_init(mdev, i2c);
- 	if (ret) {
- 		drm_err(dev, "failed to add DDC bus: %d\n", ret);
-@@ -1021,30 +1111,12 @@ static int mgag200_pipeline_init(struct mga_device *mdev)
- 	}
- 	drm_connector_helper_add(connector, &mga_vga_connector_helper_funcs);
- 
--	ret = mgag200_pixpll_init(&mdev->pixpll, mdev);
--	if (ret)
--		return ret;
--
--	ret = drm_simple_display_pipe_init(dev, pipe,
--					   &mgag200_simple_display_pipe_funcs,
--					   mgag200_simple_display_pipe_formats,
--					   format_count,
--					   mgag200_simple_display_pipe_fmtmods,
--					   connector);
-+	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret) {
--		drm_err(dev,
--			"drm_simple_display_pipe_init() failed, error %d\n",
--			ret);
-+		drm_err(dev, "drm_connector_attach_encoder() failed: %d\n", ret);
- 		return ret;
- 	}
- 
--	drm_plane_enable_fb_damage_clips(&pipe->plane);
--
--	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
--	drm_mode_crtc_set_gamma_size(&pipe->crtc, MGAG200_LUT_SIZE);
--
--	drm_crtc_enable_color_mgmt(&pipe->crtc, 0, false, MGAG200_LUT_SIZE);
--
- 	return 0;
- }
- 
+ static const struct drm_plane_helper_funcs mgag200_primary_plane_helper_funcs = {
+ 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
 -- 
 2.37.1
 
