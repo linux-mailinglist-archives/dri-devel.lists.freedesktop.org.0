@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73066583F0B
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32607583F13
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0424518B535;
-	Thu, 28 Jul 2022 12:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A189443C;
+	Thu, 28 Jul 2022 12:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53799113C41
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF208FCE1
  for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:41:06 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EFE0133692;
- Thu, 28 Jul 2022 12:41:04 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 28E69336C1;
+ Thu, 28 Jul 2022 12:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1659012064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=gXyB1id10wzgornZkslBRyFqMgJrfVys44tykM+OqDI=;
- b=hKGK1dEwAi+RRG/jkPvc/JbXRTZZyoZ+qzt2Wk9gmzCEhDsiB7+ksq3Ca10b2VpPkMr0Zh
- mRymQ/Z6jwstNyobG8bgXeSufxChOvsWyQFomQom4oiyigWBaW40F/0m9+DlY+ClctwQjg
- uiF7kCYeIVY3j9lwbm7AWFwYgVRTRDc=
+ t=1659012065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=US3SZt+NntNgJdLjO0kcmpbhdUkBaOvAEH3vHlwki1M=;
+ b=lGjRM6uuziSqCEASRYL+a84UL/YvkI9573hhT9mHYZr555593ljSmCNdrKD/gsgzulOtIm
+ yxAAG9guJ1MLtRiQS0QXhX++6JeA+zfRKHSzJJyBGd7uFdI0wHj8R1wE1NHE6vGSNctBGZ
+ ew9w2NpDIq+ILVkn3zx8bzGjrVaAXFQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1659012064;
+ s=susede2_ed25519; t=1659012065;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=gXyB1id10wzgornZkslBRyFqMgJrfVys44tykM+OqDI=;
- b=KjAy4IheKvRnJTzVK/w9xre2TVKABVXCqAcyqrL0ewYztgQNTsopm0fsyfFuI26qyAmbQn
- KkAfkJyJWU8xzFCg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=US3SZt+NntNgJdLjO0kcmpbhdUkBaOvAEH3vHlwki1M=;
+ b=bT74zGWMEGWABWg2F93KfUbm601MYUYivRXAtX3IkHibK8Wq8AMidMvIpYNIHIErKfabxL
+ so2s6ZApefccSKBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C67D713A7E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 010E813AB4;
  Thu, 28 Jul 2022 12:41:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CetIL+CD4mJwMAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id iISaOuCD4mJwMAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 28 Jul 2022 12:41:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, sam@ravnborg.org, airlied@redhat.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v3 00/14] drm/mgag200: Move model-specific code into separate
- functions
-Date: Thu, 28 Jul 2022 14:40:49 +0200
-Message-Id: <20220728124103.30159-1-tzimmermann@suse.de>
+Subject: [PATCH v3 01/14] drm/mgag200: Split mgag200_modeset_init()
+Date: Thu, 28 Jul 2022 14:40:50 +0200
+Message-Id: <20220728124103.30159-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220728124103.30159-1-tzimmermann@suse.de>
+References: <20220728124103.30159-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,57 +72,93 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mgag200 still mixes model-specific code and generic code in the same
-functions. Separate it into distinct helpers.
+Split mgag200_modeset_init() into smaller helpers to initialize
+the mode_config structure and the pipeline. This will be helpful
+for transforming this code into per-model functions. No functional
+changes.
 
-As part of this effort, convert the driver from simple-KMS helpers
-to regular atomic helpers. The latter are way more flexible and can
-be adapted easily for each hardware model.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Tested-by: Jocelyn Falempe <jfalempe@redhat.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+---
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 41 ++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 9 deletions(-)
 
-Tested on Matrox G200 and G200EH hardware.
-
-v3:
-	* only flip SCROFF when enabling/disable the plane (Jocelyn)
-	* style clean-ups throughout the patchset
-v2:
-	* don't duplicate DAC init values unecessarily (Sam, Jocelyn)
-
-Thomas Zimmermann (14):
-  drm/mgag200: Split mgag200_modeset_init()
-  drm/mgag200: Move DAC-register setup into model-specific code
-  dmr/mgag200: Move ER/EW3 register initialization to per-model code
-  drm/mgag200: Acquire I/O-register lock in atomic_commit_tail function
-  drm/mgag200: Store primary plane's color format in CRTC state
-  drm/mgag200: Reorganize before dropping simple-KMS helpers
-  drm/mgag200: Replace simple-KMS with regular atomic helpers
-  drm/mgag200: Set SCROFF in primary-plane code
-  drm/mgag200: Add per-device callbacks
-  drm/mgag200: Provide per-device callbacks for BMC synchronization
-  drm/mgag200: Provide per-device callbacks for PIXPLLC
-  drm/mgag200: Move mode-config to model-specific code
-  drm/mgag200: Move CRTC atomic_enable to model-specific code
-  drm/mgag200: Remove type field from struct mga_device
-
- drivers/gpu/drm/mgag200/Makefile          |   4 +-
- drivers/gpu/drm/mgag200/mgag200_bmc.c     |  99 +++
- drivers/gpu/drm/mgag200/mgag200_drv.c     |  21 +-
- drivers/gpu/drm/mgag200/mgag200_drv.h     | 208 ++++-
- drivers/gpu/drm/mgag200/mgag200_g200.c    | 254 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200eh.c  | 277 +++++-
- drivers/gpu/drm/mgag200/mgag200_g200eh3.c | 181 +++-
- drivers/gpu/drm/mgag200/mgag200_g200er.c  | 315 ++++++-
- drivers/gpu/drm/mgag200/mgag200_g200ev.c  | 316 ++++++-
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c | 192 ++++-
- drivers/gpu/drm/mgag200/mgag200_g200se.c  | 431 +++++++++-
- drivers/gpu/drm/mgag200/mgag200_g200wb.c  | 326 ++++++-
- drivers/gpu/drm/mgag200/mgag200_mode.c    | 725 +++++-----------
- drivers/gpu/drm/mgag200/mgag200_pll.c     | 997 ----------------------
- 14 files changed, 2761 insertions(+), 1585 deletions(-)
- create mode 100644 drivers/gpu/drm/mgag200/mgag200_bmc.c
- delete mode 100644 drivers/gpu/drm/mgag200/mgag200_pll.c
-
-
-base-commit: 15fbed4f822211fbb7653c2b8591594d92de9551
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index a02f599cb9cf..78fdb3148ed7 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -1047,23 +1047,16 @@ static const struct drm_mode_config_funcs mgag200_mode_config_funcs = {
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+-int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available)
++static int mgag200_mode_config_init(struct mga_device *mdev, resource_size_t vram_available)
+ {
+ 	struct drm_device *dev = &mdev->base;
+-	struct mga_i2c_chan *i2c = &mdev->i2c;
+-	struct drm_connector *connector = &mdev->connector;
+-	struct drm_simple_display_pipe *pipe = &mdev->display_pipe;
+-	size_t format_count = ARRAY_SIZE(mgag200_simple_display_pipe_formats);
+ 	int ret;
+ 
+-	mgag200_init_regs(mdev);
+-
+ 	mdev->vram_available = vram_available;
+ 
+ 	ret = drmm_mode_config_init(dev);
+ 	if (ret) {
+-		drm_err(dev, "drmm_mode_config_init() failed, error %d\n",
+-			ret);
++		drm_err(dev, "drmm_mode_config_init() failed: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -1073,6 +1066,18 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
+ 	dev->mode_config.fb_base = mdev->vram_res->start;
+ 	dev->mode_config.funcs = &mgag200_mode_config_funcs;
+ 
++	return 0;
++}
++
++static int mgag200_pipeline_init(struct mga_device *mdev)
++{
++	struct drm_device *dev = &mdev->base;
++	struct mga_i2c_chan *i2c = &mdev->i2c;
++	struct drm_connector *connector = &mdev->connector;
++	struct drm_simple_display_pipe *pipe = &mdev->display_pipe;
++	size_t format_count = ARRAY_SIZE(mgag200_simple_display_pipe_formats);
++	int ret;
++
+ 	ret = mgag200_i2c_init(mdev, i2c);
+ 	if (ret) {
+ 		drm_err(dev, "failed to add DDC bus: %d\n", ret);
+@@ -1113,6 +1118,24 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
+ 
+ 	drm_crtc_enable_color_mgmt(&pipe->crtc, 0, false, MGAG200_LUT_SIZE);
+ 
++	return 0;
++}
++
++int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available)
++{
++	struct drm_device *dev = &mdev->base;
++	int ret;
++
++	mgag200_init_regs(mdev);
++
++	ret = mgag200_mode_config_init(mdev, vram_available);
++	if (ret)
++		return ret;
++
++	ret = mgag200_pipeline_init(mdev);
++	if (ret)
++		return ret;
++
+ 	drm_mode_config_reset(dev);
+ 
+ 	return 0;
 -- 
 2.37.1
 
