@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CF15843DE
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 18:12:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7D058450B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 19:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA3310E53D;
-	Thu, 28 Jul 2022 16:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA16E10EE2B;
+	Thu, 28 Jul 2022 17:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD9E10E9DA
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 16:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=QX9Hvrhq1tv4fuik2gar58r4BELAfbzt39ubLuFRRa0=; b=Ifec17vWKOORU7KJ0UJ0qxyM7V
- BfbF1rc539Oq5wXb9QGSZDhcZIxZrMfngNDwDuR4D+GSRfUyIo8Fe/Xaqkfn5Cs1wzUc6F3ZVHwwe
- mtO12JyefeJ7YdQmoOuRZQCqE572PizMAdBqXJ8mUOd5jCCSuS+GTUt1Nw+l1+FkON8j4UXVeCl96
- 6MU8fzYK9ecQS31LIlcFNfz+XChPvIfmAgZ+xlR2xC4fOR27U3A0wrrIkHf0K8Defjfv0PnUtg7tI
- mmj+4hZuc8EF5rXHdTzBcy4JvZ+MN536BLqZ7b5+38+RKCN49IC8+cCL7wNRdpdz12jaiiAvRoNli
- 9P6xh4NA==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oH67S-00A3YA-MD; Thu, 28 Jul 2022 18:12:14 +0200
-Date: Thu, 28 Jul 2022 15:11:55 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
-Subject: Re: [PATCH] drm/tests: Split up test cases in
- igt_check_drm_format_min_pitch
-Message-ID: <20220728161155.tzjalvrxaezk556t@mail.igalia.com>
-References: <20220717184336.1197723-1-mairacanal@riseup.net>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A53111A1A4;
+ Thu, 28 Jul 2022 17:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1659029666; x=1690565666;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=o+fn6h9fFDfk07b94ykcs0xYkUzKgqQtjInlwWCLcjs=;
+ b=jwQ1HpKjEiU8jJBoBqrTA2eeN9TvXocWLVLHZoc7WyC+XYhAEiapTpfy
+ RvYEDigEeJp3pbAbMBj0sWqf+ELL7Ru3CnYFdqwj2QmYpnY6qjCMkl/Uw
+ 9vxvvAnudidKFA+99g1z6tu0bmAJYvl7u1yKZW20ZyeAfx6W/9wITgXBo A=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 28 Jul 2022 10:34:25 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2022 10:34:25 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 28 Jul 2022 10:34:24 -0700
+Received: from [10.111.167.242] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 28 Jul
+ 2022 10:34:21 -0700
+Message-ID: <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
+Date: Thu, 28 Jul 2022 10:34:19 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cycfpb3jug72cn35"
-Content-Disposition: inline
-In-Reply-To: <20220717184336.1197723-1-mairacanal@riseup.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
+ LQ140M1JW46
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Doug Anderson <dianders@chromium.org>
+References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
+ <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
+ <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
+ <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,138 +67,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
- siqueirajordao@riseup.net, magalilemes00@gmail.com,
- David Airlie <airlied@linux.ie>, tales.aparecida@gmail.com,
- Daniel Latypov <dlatypov@google.com>, brendanhiggins@google.com,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
- kunit-dev@googlegroups.com,
- =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Rob and Doug
 
---cycfpb3jug72cn35
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/22/2022 10:36 AM, Rob Clark wrote:
+> On Fri, Jul 22, 2022 at 9:48 AM Doug Anderson <dianders@chromium.org> wrote:
+>>
+>> Hi,
+>>
+>> On Fri, Jul 22, 2022 at 9:37 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>
+>>> + sankeerth
+>>>
+>>> Hi Doug
+>>>
+>>> On 7/21/2022 3:23 PM, Douglas Anderson wrote:
+>>>> The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD reference
+>>>> board. This panel supports 144 Hz and 60 Hz. In the EDID, the 144 Hz
+>>>> mode is listed first and thus is marked preferred. The EDID decode I
+>>>> ran says:
+>>>>
+>>>>     First detailed timing includes the native pixel format and preferred
+>>>>     refresh rate.
+>>>>
+>>>>     ...
+>>>>
+>>>>     Detailed Timing Descriptors:
+>>>>       DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.500 MHz
+>>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+>>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+>>>>       DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.370 MHz
+>>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+>>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+>>>>
+>>>> I'm proposing here that the above is actually a bug and that the 60 Hz
+>>>> mode really should be considered preferred by Linux.
 
-On 07/17, Ma=EDra Canal wrote:
-> The igt_check_drm_format_min_pitch() function had a lot of
-> KUNIT_EXPECT_* calls, all of which ended up allocating and initializing
-> various test assertion structures on the stack.
->=20
-> This behavior was producing -Wframe-larger-than warnings on PowerPC, i386,
-> and MIPS architectures, such as:
->=20
-> drivers/gpu/drm/tests/drm_format_test.c: In function 'igt_check_drm_forma=
-t_min_pitch':
-> drivers/gpu/drm/tests/drm_format_test.c:271:1: error: the frame size of
-> 3712 bytes is larger than 2048 bytes
->=20
-> So, the igt_check_drm_format_min_pitch() test case was split into three
-> smaller functions: one testing single plane formats, one testing multiple
-> planes formats, and the other testing tiled formats.
->=20
-Hi Ma=EDra,
+Its a bit tricky to say that this is a bug but I think we can certainly 
+add here that for an internal display we would have ideally had the 
+lower resolution first to indicate it as default.
 
-Could you add a Fixes tag to indicate the commit that introduces the
-issue?
+>>>>
+>>>> The argument here is that this is a laptop panel and on a laptop we
+>>>> know power will always be a concern. Presumably even if someone using
+>>>> this panel wanted to use 144 Hz for some use cases they would only do
+>>>> so dynamically and would still want the default to be 60 Hz.
+>>>>
+>>>> Let's change the default to 60 Hz using a standard quirk.
+>>>>
+>>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>>
+>>> Yes, we were aware that 144Hz was getting picked. We found that while
+>>> debugging the screen corruption issue.
+>>>
+>>> Well, yes power would be less with 60Hz but so will be the performance.
+>>
+>> What performance specifically will be less with 60 Hz? In general the
+>> sc7280 CPU is a bit memory-bandwidth constrained and the LCD refresh
+>> from memory is a non-trivial part of that. Reducing to 60 Hz will
+>> relieve some of the memory bandwidth pressure and will actually allow
+>> tasks on the CPU to run _faster_. I guess the downside is that some
+>> animations might be a little less smooth...
+> 
+> I guess he is referring to something that is vblank sync'd running
+> faster than 60fps.
+> 
+> but OTOH it is a bit of a waste for fbcon to be using 144Hz.  And
+> there are enough android games that limit themselves to 30fps to save
+> your "phone" battery.  So it seems a lot more sane to default to 60Hz
+> and let userspace that knows it wants more pick the 144Hz rate when
+> needed.
+> 
+> BR,
+> -R
 
-Thanks,
+Yes i was referring to vblank synced apps.
 
-Melissa
+> 
+>>
+>>
+>>> The test teams have been validating with 144Hz so far so we are checking
+>>> internally with the team whether its OKAY to goto 60Hz now since that
+>>> kind of invalidates the testing they have been doing.
+>>
+>> You're worried that the panel itself won't work well at 60 Hz, or
+>> something else about the system won't? The whole system in general
+>> needs to work well with 60 Hz displays and I expect them to be much
+>> more common than 144 Hz displays. Quite honestly if switching to 60 Hz
+>> uncovers a problem that would be a huge benefit of landing this patch
+>> because it would mean we'd find it now rather than down the road when
+>> someone hooks up a different panel.
 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Ma=EDra Canal <mairacanal@riseup.net>
-> ---
->  drivers/gpu/drm/tests/drm_format_test.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/te=
-sts/drm_format_test.c
-> index 056cb8599d6d..28f2b8f88818 100644
-> --- a/drivers/gpu/drm/tests/drm_format_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_test.c
-> @@ -91,7 +91,7 @@ static void igt_check_drm_format_block_height(struct ku=
-nit *test)
->  	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
->  }
-> =20
-> -static void igt_check_drm_format_min_pitch(struct kunit *test)
-> +static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit=
- *test)
->  {
->  	const struct drm_format_info *info =3D NULL;
-> =20
-> @@ -175,6 +175,11 @@ static void igt_check_drm_format_min_pitch(struct ku=
-nit *test)
->  			(uint64_t)UINT_MAX * 4);
->  	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)=
-),
->  			(uint64_t)(UINT_MAX - 1) * 4);
-> +}
-> +
-> +static void igt_check_drm_format_min_pitch_for_multiple_planes(struct ku=
-nit *test)
-> +{
-> +	const struct drm_format_info *info =3D NULL;
-> =20
->  	/* Test 2 planes format */
->  	info =3D drm_format_info(DRM_FORMAT_NV12);
-> @@ -249,6 +254,11 @@ static void igt_check_drm_format_min_pitch(struct ku=
-nit *test)
->  			(uint64_t)(UINT_MAX - 1) / 2);
->  	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, (UINT_MAX - 1)=
- / 2),
->  			(uint64_t)(UINT_MAX - 1) / 2);
-> +}
-> +
-> +static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit=
- *test)
-> +{
-> +	const struct drm_format_info *info =3D NULL;
-> =20
->  	/* Test tiled format */
->  	info =3D drm_format_info(DRM_FORMAT_X0L2);
-> @@ -273,7 +283,9 @@ static void igt_check_drm_format_min_pitch(struct kun=
-it *test)
->  static struct kunit_case drm_format_tests[] =3D {
->  	KUNIT_CASE(igt_check_drm_format_block_width),
->  	KUNIT_CASE(igt_check_drm_format_block_height),
-> -	KUNIT_CASE(igt_check_drm_format_min_pitch),
-> +	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
-> +	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multiple_planes),
-> +	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
->  	{ }
->  };
-> =20
-> --=20
-> 2.36.1
->=20
+I was worried that it will invalidate the testing they did so far but 
+since you have confirmed that you would prefer 60Hz to be more 
+thoroughly tested than 144Hz, I have informed the internal teams of this 
+change and given the heads up.
 
---cycfpb3jug72cn35
-Content-Type: application/pgp-signature; name="signature.asc"
+You can have my R-b for this change,
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmLitTIACgkQwqF3j0dL
-ehwt4A/+IqGJpHDAaqlrXh3uSs6Sz5+Ca8yyh0YOHdzqDY64qUdT1DYXohXpy7MV
-fmgbtKGJL5erww3V5Jqg01+zpV1Q9MaC02Nb1txXqBreI1k8c1ALkB/m1Mlj6nLl
-UavoEhVhxA5utbETxtATCoEq3C/LxC65hZ6LPdwj2kQQaPOOHEccpuPC3CYTu9do
-qRblunLb6+VKPxdSmUFVwK2Ocshg1Efoa3ZJ9AipJjVmOQUSzXI644hr9l6biPOF
-a/5aS8R08FL7QhQQU9lzNU2zUeJuPSXdXDcUnZ3vkcOFR5bXejdedlMcK/SPbJbA
-4W5u6fNjE5PBer3AZDyc33xWUNUbc7kevBJj2oiqAGikQ6gLwJxTnQo8vRHwHoW0
-psyGiheXTlpMo4CPBmsHvGDSDSo8eQ6GNiyoXdMNC6LMal++ly/DgH7nMlhA83SS
-G2QwCvmHVgpR3BJ/R7voFcFoMn9DpTnwjvcAZqoXribwbOA9CIEhV0zVejlBbGoR
-HoassarpIU+B+I/c6i19qXt+crD4MW2x3W+X7hbrFTuOvE30QGtpFqP3CLBPUj3E
-ySNjplYAP3ZrK6ZGERzPThNavFDQB4ZzSUUclTRo0KxFqY2kNZfbc3ZVeg71UriN
-mPtuXUUC9tb7xsRRVaKCoJcRyur/nSG0RKce7dSUbdI5OdPVsHg=
-=OvDL
------END PGP SIGNATURE-----
+I would also wait to see if others have different thought about this.
 
---cycfpb3jug72cn35--
+>>
+>> -Doug
