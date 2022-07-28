@@ -2,49 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973C9583E56
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED336583E79
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jul 2022 14:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F91B99C15;
-	Thu, 28 Jul 2022 12:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1541698EA0;
+	Thu, 28 Jul 2022 12:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61CC899BB3;
- Thu, 28 Jul 2022 12:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659010098; x=1690546098;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3jiLtV59Oj63tPBciYjw2M2P/yqHMni/unx6284Merw=;
- b=kSh36Zs83g9DJk7LxqnstCu3Rz5Z3pmeu26cS9dgdpjoljKAIjtttT/f
- h49s1LKvpjAYTOn8U1aUqvxkzvnqgL3ZU2DxNYJ/bnaHPVlapYSTAAYw+
- UUlsj9FjZxQDj2kZRLZ1hSpXkn8G7AR/eeynrSa3harZ+AZT4eKl7JJ0Q
- sb0xESR5yJpr2mQ66ITx5MjtcmAKmVmaV09/QC+OQ750Qli+DUkldu5iv
- pRFZlPusY+B5q6XMvESi2zCD0gVUSfBUkXaFuKDEH5BUQC9HpSAsJXpvk
- dUTUkzAj9sbPuHJ5GTF+SiR/HGd39fOj8LBUXiBhdim73+3gwQyoi3eqG w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10421"; a="288507494"
-X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="288507494"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 05:08:17 -0700
-X-IronPort-AV: E=Sophos;i="5.93,198,1654585200"; d="scan'208";a="659698817"
-Received: from dgonsal1-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.46.97])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 05:08:14 -0700
-Date: Thu, 28 Jul 2022 14:08:11 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH v3 0/6] drm/i915: reduce TLB performance
- regressions
-Message-ID: <YuJ8K7W50VeHNAGX@alfio.lan>
-References: <cover.1658924372.git.mchehab@kernel.org>
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A983398EA0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 12:17:06 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id p22so1750898lji.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 05:17:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=SAWlWlo5GyVcE2aVGpSKqxbu1YUmv/l8IRZI6iKroOU=;
+ b=BXCd3H2LIDg72mznLqVg5bCu0ydPWZ9vxSa+uouKxRIMrlEOyi6wiRbwpeI5l73R+O
+ zlzDvu0U4f3TAGJvsEHQySn6MI7MaiGA6Qb8sLyjf1i9cSbqdQuhf6KOar0piZKkqhIw
+ khEN2g/YMno9sKaTw/kbqVdlu20zUch89KBAAQNpMXN0kRs4ZspH8+Ngbw0EKao4z/Kh
+ zAX/YTf2W0j9XVAMQn324gViKVkCrjnyIDndRZApF7blfneG+w5miK8qw5KFvcbOmWFi
+ g+34B7gVdfQXWUMeVh3vfs23vDQOb7rhcgxrV+KI2FRmXNY4HS3QGPORkvgfFofZDGtu
+ mJdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SAWlWlo5GyVcE2aVGpSKqxbu1YUmv/l8IRZI6iKroOU=;
+ b=MWwgPO2VCPUNOfiUHN425HGMCtMLivz8DhlDotbXPq/EsU2cntOC+6mX4IDIuS0E5x
+ 1uoiCeOBnN8Qqt5ZMW6Vf48yqNTJAzFEdWujyKh8V5xf+thtJ1FLINEHEd/mLuldSOFy
+ AtTXN75DLTM7r5edBHpKOAEYJXsgunWMnjkp9rW3z4+slyiL+w4ow+0Gp8Q21RAAbQIo
+ 8f7pNgzjnTh87qtu4O0Vnn0MZZpKjZ2ewZHmKSzDo9ooFtnaNiMVSHpwSp/KSfN4ev6v
+ gKyYqGJE+jwkieIEZB7BUwG4wsbmbHLkNQ3InmzURy1oGdyz5BsS7e3ONg5doHr8U8O6
+ KCIQ==
+X-Gm-Message-State: AJIora9r8Mp2eeAcn1B54zzowfGaJ/6zG/QtmXeFwbTiV5+0oeW1pI9A
+ eD0CyVqGhCdHJtU1CK2giosQGw==
+X-Google-Smtp-Source: AGRyM1vI0ZKeUCG/yKFDtqirw8GvQ0KhX68RAHnYDcvxAh8pmNNCY3ml26WPiz6AEjbmu75zhj5hyA==
+X-Received: by 2002:a2e:a177:0:b0:25e:2d69:391b with SMTP id
+ u23-20020a2ea177000000b0025e2d69391bmr699026ljl.60.1659010624826; 
+ Thu, 28 Jul 2022 05:17:04 -0700 (PDT)
+Received: from [192.168.3.197] (78-26-46-173.network.trollfjord.no.
+ [78.26.46.173]) by smtp.gmail.com with ESMTPSA id
+ r4-20020ac25c04000000b0048a9ec2ce46sm169134lfp.260.2022.07.28.05.17.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jul 2022 05:17:04 -0700 (PDT)
+Message-ID: <5467d0ad-0285-f2ba-5366-68b0c30caed0@linaro.org>
+Date: Thu, 28 Jul 2022 14:17:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1658924372.git.mchehab@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: panel: Add Novatek NT35596S
+ panel bindings
+Content-Language: en-US
+To: Molly Sophia <mollysophia379@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20220728023555.8952-1-mollysophia379@gmail.com>
+ <20220728023555.8952-2-mollysophia379@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220728023555.8952-2-mollysophia379@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,147 +82,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro,
+On 28/07/2022 04:35, Molly Sophia wrote:
+> Add documentation for "novatek,nt35596s" panel.
+> 
+> Changes in v4:
+> - Correct numeric order of the items.
+> 
+> Changes in v3:
+> - Embed the documentation into existing one (novatek,nt36672a).
 
-Pushed in drm-intel-gt-next.
+This does not go to commit msg, but to changelog after ---
 
-Thanks,
-Andi
+With this fixed:
 
-On Wed, Jul 27, 2022 at 02:29:50PM +0200, Mauro Carvalho Chehab wrote:
-> Doing TLB invalidation cause performance regressions, like:
-> 	[424.370996] i915 0000:00:02.0: [drm] *ERROR* rcs0 TLB invalidation did not complete in 4ms!
-> 
-> As reported at:
-> 	https://gitlab.freedesktop.org/drm/intel/-/issues/6424
-> 
-> as this is an expensive operation. So, reduce the need of it by:
->   - checking if the engine is awake;
->   - checking if the engine is not wedged;
->   - batching operations.
-> 
-> Additionally, add a workaround for a known hardware issue on some GPUs.
-> 
-> In order to double-check that this series won't be introducing any regressions,
-> I used this new IGT test:
-> 
-> https://patchwork.freedesktop.org/patch/495684/?series=106757&rev=1
-> 
-> Checking the results for 3 different patchsets, on Broadwell:
-> 
-> 1) On the top of drm-tip (2022y-07m-14d-08h-35m-36) - e. g. with TLB
-> invalidation and serialization patches:
-> 
-> 	$ sudo build/tests/gem_exec_tlb|grep Subtest
-> 	Subtest close-clear: SUCCESS (10.490s)
-> 	Subtest madv-clear: SUCCESS (10.484s)
-> 	Subtest u-unmap-clear: SUCCESS (10.527s)
-> 	Subtest u-shrink-clear: SUCCESS (10.506s)
-> 	Subtest close-dumb: SUCCESS (10.165s)
-> 	Subtest madv-dumb: SUCCESS (10.177s)
-> 	Subtest u-unmap-dumb: SUCCESS (10.172s)
-> 	Subtest u-shrink-dumb: SUCCESS (10.172s)
-> 
-> 2) With the new version of the batch TLB invalidation patches from this series:
-> 
-> 	$ sudo build/tests/gem_exec_tlb|grep Subtest
-> 	Subtest close-clear: SUCCESS (10.483s)
-> 	Subtest madv-clear: SUCCESS (10.495s)
-> 	Subtest u-unmap-clear: SUCCESS (10.545s)
-> 	Subtest u-shrink-clear: SUCCESS (10.508s)
-> 	Subtest close-dumb: SUCCESS (10.172s)
-> 	Subtest madv-dumb: SUCCESS (10.169s)
-> 	Subtest u-unmap-dumb: SUCCESS (10.174s)
-> 	Subtest u-shrink-dumb: SUCCESS (10.176s)
-> 
-> 3) Changing the TLB invalidation routine to do nothing[1]:
-> 
-> 	$ sudo ~/freedesktop-igt/build/tests/gem_exec_tlb|grep Subtest
-> 	(gem_exec_tlb:1958) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1958) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1958) CRITICAL: Found deadbeef in a new (clear) buffer after 3 tries!
-> 	(gem_exec_tlb:1956) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1956) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1956) CRITICAL: Found deadbeef in a new (clear) buffer after 89 tries!
-> 	(gem_exec_tlb:1957) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1957) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1957) CRITICAL: Found deadbeef in a new (clear) buffer after 256 tries!
-> 	(gem_exec_tlb:1960) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1960) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1960) CRITICAL: Found deadbeef in a new (clear) buffer after 845 tries!
-> 	(gem_exec_tlb:1961) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1961) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1961) CRITICAL: Found deadbeef in a new (clear) buffer after 1138 tries!
-> 	(gem_exec_tlb:1954) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1954) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1954) CRITICAL: Found deadbeef in a new (clear) buffer after 1359 tries!
-> 	(gem_exec_tlb:1955) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1955) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1955) CRITICAL: Found deadbeef in a new (clear) buffer after 1794 tries!
-> 	(gem_exec_tlb:1959) CRITICAL: Test assertion failure function check_bo, file ../tests/i915/gem_exec_tlb.c:384:
-> 	(gem_exec_tlb:1959) CRITICAL: Failed assertion: !sq
-> 	(gem_exec_tlb:1959) CRITICAL: Found deadbeef in a new (clear) buffer after 2139 tries!
-> 	Dynamic subtest smem0 failed.
-> 	**** DEBUG ****
-> 	(gem_exec_tlb:1944) DEBUG: 2M hole:200000 contains poison:6b6b6b6b
-> 	(gem_exec_tlb:1944) DEBUG: Running writer for 200000 at 300000 on bcs0
-> 	(gem_exec_tlb:1944) DEBUG: Closing hole:200000 on rcs0, sample:deadbeef
-> 	(gem_exec_tlb:1944) DEBUG: Rechecking hole:200000, sample:6b6b6b6b
-> 	****  END  ****
-> 	Subtest close-clear: FAIL (10.434s)
-> 	Subtest madv-clear: SUCCESS (10.479s)
-> 	Subtest u-unmap-clear: SUCCESS (10.512s)
-> 
-> In summary, the test does properly detect fail when TLB cache invalidation doesn't happen,
-> as shown at result (3). It also shows that both current drm-tip and drm-tip with this series
-> applied don't have TLB invalidation cache issues.
-> 
-> [1] I applied this patch on the top of drm-tip:
-> 
-> 	diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> 	index 68c2b0d8f187..0aefcd7be5e9 100644
-> 	--- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> 	+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> 	@@ -930,0 +931,3 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
-> 	+	// HACK: don't do TLB invalidations!!!
-> 	+	return;
-> 	+
-> 
-> Regards,
-> Mauro
-> 
-> Chris Wilson (4):
->   drm/i915/gt: Ignore TLB invalidations on idle engines
->   drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
->   drm/i915/gt: Skip TLB invalidations once wedged
->   drm/i915/gt: Batch TLB invalidations
-> 
-> Mauro Carvalho Chehab (2):
->   drm/i915/gt: document with_intel_gt_pm_if_awake()
->   drm/i915/gt: describe the new tlb parameter at i915_vma_resource
-> 
->  .../gpu/drm/i915/gem/i915_gem_object_types.h  |  3 +-
->  drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 25 +++---
->  drivers/gpu/drm/i915/gt/intel_gt.c            | 77 +++++++++++++++----
->  drivers/gpu/drm/i915/gt/intel_gt.h            | 12 ++-
->  drivers/gpu/drm/i915/gt/intel_gt_pm.h         | 11 +++
->  drivers/gpu/drm/i915/gt/intel_gt_types.h      | 18 ++++-
->  drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  8 +-
->  drivers/gpu/drm/i915/i915_vma.c               | 33 ++++++--
->  drivers/gpu/drm/i915/i915_vma.h               |  1 +
->  drivers/gpu/drm/i915/i915_vma_resource.c      |  9 ++-
->  drivers/gpu/drm/i915/i915_vma_resource.h      |  6 +-
->  11 files changed, 163 insertions(+), 40 deletions(-)
-> 
-> -- 
-> 2.36.1
-> 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
