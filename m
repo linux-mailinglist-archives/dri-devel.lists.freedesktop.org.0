@@ -2,157 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F5C5853B2
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057345853B6
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD5E12B318;
-	Fri, 29 Jul 2022 16:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1E5512B496;
+	Fri, 29 Jul 2022 16:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18C718A6D6
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659112869; x=1690648869;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=CYque/qqe8+sxkoN3DLojI44Tx36I/xTy+0UfACcqsM=;
- b=K6tkInAJb8dw+uX9Fwept66cGUzqaa0wbTaEPhr1VK/EcohCv8bnbHhh
- oSVujjicmEr7WU+qHs4Slmxc9bF82bURmeKt+rb7Qrakm7md950VTaArb
- hO9OvWlbKfQWilpgPBIGRu7j22oK89sd40xNAZFw1raByGj86y2SG3smU
- shOseAyqsrlAoTQOHHt8DCyX7vtaGWUwsNNweHp9w3yyJVW4F5CoVn1w0
- 3HXMwVHwo7ngceteR+C8SrWDEnjNBNVcxC1VNbUZVpGAz9M5li4BhUFeF
- rPK0s67uUVF4pnPRrlmg1WLfotwu1KbWcA5hCmd/WdP0BQPWFTy7oY3gw g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="375105088"
-X-IronPort-AV: E=Sophos;i="5.93,201,1654585200"; d="scan'208";a="375105088"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2022 09:40:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,201,1654585200"; d="scan'208";a="660306122"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga008.fm.intel.com with ESMTP; 29 Jul 2022 09:40:29 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Fri, 29 Jul 2022 09:40:29 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Fri, 29 Jul 2022 09:40:29 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Fri, 29 Jul 2022 09:40:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XCa6ZokproKq7gsM1/s+U1t0xAIqIS58et4UiTUIIVcKCVPcxHDUCdTOhu82PofwNbcGcdV7oUmLdncutBa3qRf3OmBNnawN6FDFRI6IYuR8Cb6AI7Jhvo7uplPMg+qOqmMZgvw7UFvm5mgwvR9uVaDnTFYXUEA1+HVBfEIlqza1spUoZcIordHZGrgSYwqYe2RPbMZOQn7AK/VOBVzRSRzj810ZySAsXJFDqmC2dpVPHM59XoCiENGfaIGiVSW18WAZcfMMtZHJ2ww8U5RdOHGw1yiVcb4yQxoPUpAHKmVbFEU+KQ+8G+ti5L1oCf4PEG33gQCgU22aRZ6MYU2bxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYque/qqe8+sxkoN3DLojI44Tx36I/xTy+0UfACcqsM=;
- b=WfScZZLwaDKJ68oSKBLCc55DNu9A8/SkBW0f3mTSNdqQyWeHourIc8X/MBihFbrDQQIN2iEiL7/j8vK+m7fhOFSW+ixVynB1NrAB6zxGH1JUipCKR9nZAmCAqqEtUz8+Jzgom6QnhqHAXKPnXDJ8KDA/kR7lGBX9+yGDoUTGJiQbxagOzQrwg2WhCqGxiw3C4n0410T1VbK9ceWKMhzmYqOozSlq635Jl1ZCJA9np1zMFTVPMHVpxQ0Lmalgx6zEGBwRLXgHLkH2oRQslqTUpfmFuwkUrgQmksLmoZqXdu+7ngd4eoZm+N2NZ4t+3BTDLcWfBeHI6gkY+D4kzGdMzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by DM6PR11MB3355.namprd11.prod.outlook.com (2603:10b6:5:5d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.23; Fri, 29 Jul
- 2022 16:40:27 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::5c0d:3883:7fe4:627b]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::5c0d:3883:7fe4:627b%7]) with mapi id 15.20.5482.012; Fri, 29 Jul 2022
- 16:40:27 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Zeng Jingxiang
- <zengjx95@gmail.com>, "edmund.j.dea@intel.com" <edmund.j.dea@intel.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "maxime@cerno.tech" <maxime@cerno.tech>, "ville.syrjala@linux.intel.com"
- <ville.syrjala@linux.intel.com>
-Subject: RE: [PATCH] drm/kmb: fix dereference before NULL check in
- kmb_plane_atomic_update()
-Thread-Topic: [PATCH] drm/kmb: fix dereference before NULL check in
- kmb_plane_atomic_update()
-Thread-Index: AQHYovha9jwL5q3OmE+pLUQWk+vsja2VZ5GAgAAArQCAACP6YA==
-Date: Fri, 29 Jul 2022 16:40:26 +0000
-Message-ID: <BY5PR11MB41828228EF0D27174703431B8C999@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <20220729030711.2117849-1-zengjx95@gmail.com>
- <a68022f4-28d0-7743-27fe-6df652082184@suse.de>
- <fef74b28-80f1-9184-efa5-25f3343ace40@suse.de>
-In-Reply-To: <fef74b28-80f1-9184-efa5-25f3343ace40@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.500.17
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f290c150-3ef5-48d7-4d20-08da71810aab
-x-ms-traffictypediagnostic: DM6PR11MB3355:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Mt947Z0NCUtBuCh2aHOO2PRgUiBBk4OFK1s3k3ocm9AFlgqmxWxWnRZAt7U/qsUey/1Y4nXdNqqdayC8l6eRQtbZoM4K78rA0qo28oLNxFfRJHwVONTLwfAgDVBtdeDZseoTAgjYTbWDNbdLnhmUIxByxByfyGBjwWXdG56jECI5Fn2/RZ2UVIyo7tJyVDcM0v3o34rCLUSBud5lDsrKX3fySh/1GXR49jiyau8+R20EsoW9yzc8Gvt1LCinmz3GZXQRUUAkPVX1/+MLm5SnoFuvGA9ShMdgxnKsgwXwNtIXex/ed2ZZbZo2h2pA6gcKVax4fB3YzNpX9bcg2HKz8d4mcJRiCNubIJnsfNF9koDJ2lzdkAPNZcawRVLsOzOHzirZiSRz/nGZ2ApLRvEVc1xmP+Vmp7devWpBX3UQltAaRSz6ANQW9NlvBA84SFCrqMENsZ+hH3sGIevR1CPzKP+8fWtKsGlJRLp8qcBx/s92rxoAECSJa9Wmwo83wtQafz/WwKkfQYsBlBEZoFbGkL48W6gq1cBUJPYvchT7rRPFrfg/fFSs14XBMDUF0HrG4q2XRwyqxNxP3234BvcZI8Sr06WSIxvLq9zLRSac+1xQfl2ScD5W34DsXHibxfRJJQ+I0iFdnTYml+wkv9SyvQdOtLV12bq5F08VjwV3DStm8KgOVS7dv9ZkeS6ZuHubXRahVRUFs1xX1pJTRPdfyGm4mgHlrTH/gVPi5kxFPwnqRlw+IzeUe4Jg9mB5Azi2YfiYdsxYySx7JZe1N2qREi1MSOIPUwf3VcWP4fV6EsArj4fIvzoEwzX6fL7ntUr0
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(376002)(366004)(39860400002)(346002)(396003)(53546011)(71200400001)(82960400001)(83380400001)(2906002)(122000001)(86362001)(66556008)(76116006)(54906003)(38100700002)(8676002)(66476007)(66446008)(110136005)(38070700005)(26005)(66946007)(64756008)(5660300002)(6506007)(8936002)(33656002)(316002)(41300700001)(7696005)(4326008)(55016003)(52536014)(66574015)(9686003)(7416002)(478600001)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZXYySHltWlBtTG5CRFI1c1ppbDNuQm1ad1NkTmNBZEpUOFJOdGpFSzFxWXBX?=
- =?utf-8?B?djVicGV5YTJvU2VZaThSQ0N6S0YyS2JXczRFYlMvUHJldEZwbVhsTE5UTnJ5?=
- =?utf-8?B?cGc0NTZGc201OUUwTGtsRXhpWmE2cVduTDNsRXlScnYwdFYzYjEvUTdOSWhn?=
- =?utf-8?B?bDV4d2oxZ2NHZTZNUWpiOGdOdXBMTEUxR0trdFBzZU9pVFR0YUF3OUF4UHhj?=
- =?utf-8?B?cDlpSW1rZjA0S3p3U3NpUnFmS0pUVW0zMTY5VkxLNE5rZk1QV2VoU1pkUUlD?=
- =?utf-8?B?L3ZPYTU1OHBOK3ZGTUdUZzBpRVJYZDI4MVNBUCtrNVhvZWFiSjZ4SWhCMWVY?=
- =?utf-8?B?MXFKZi9qdTIxY3lwMUkvWE9wODltMk8vaDhtaVh5SkhrUVVUN0czSzBTcURR?=
- =?utf-8?B?NDFNYU42WEVtdkpIaVcvZHp4ZEVOLzJLNkJXc01rSWgwQThoVXp1QXo2QnU5?=
- =?utf-8?B?cEpJOFpZbVBaZmR4SUVMRUhBWDR3Y3pUaXdVck9xTE9FQThMc2d1L2xlQ1pN?=
- =?utf-8?B?TmkzR2ZveEdwZEYrQjAxY3BZYkx6UFoycXhsQVdWc3kxNHJyOXVPSkpBSGZ5?=
- =?utf-8?B?MWZJamtzcm5PdlVrM21mMjNiYXoyUWozNkVmZzE3bzg3RE1YakV4T3U2V0tP?=
- =?utf-8?B?ZjB3RnAwWlFMdU9jU0t3MWpJUE5lbXViTkVsZVlWd3FhbUFrQThpZ08zZ2x2?=
- =?utf-8?B?ajMwN0lBVjZndXJLbVVZM29XZDZHNzd5N2ZldlpHVzdhSDQreTJxTnpXcVp2?=
- =?utf-8?B?Y3NqQjdpUm56NGs2Y2ZpUmcwSTNZcWxEVCtWV3hSYzZwSncrZVA0K09NZzRQ?=
- =?utf-8?B?WFk2OTE0eUhsR0pGMGNpSjRCL2FibFNFaFE1dFl4NTBOMVgzMlY5dFgwMEFM?=
- =?utf-8?B?ZEdwTE1FcFZBdVpDTUJ3VUZwQTNFWFdwTFFkdm93R05uaHlFT2tJcDNzdHZz?=
- =?utf-8?B?SEZia0FoN2Q1WXdmc0NaNnhSK05zOXZuNDhOS1RuQ3cyMnd0aUtSYXdVTVl5?=
- =?utf-8?B?T2lGM2RyaCtoTTBWTllwU09yOE5tWklFZlpQbFZNSDFuVmx5UmhuZ1BKWGRv?=
- =?utf-8?B?UGRBZGtyS051RDZwUWxLR0ZmZ1B2Wk1nUjBidzdYamF4TmRyVU5JOUpwdGk0?=
- =?utf-8?B?RzNBQ0pYOFcxVEpJOGRQUnZLSFhWMmJYY3dPdThCVXRQMDVwWkIwTUhzR1R2?=
- =?utf-8?B?cVFiUDRtdWliR0V2SkZYOEcvSTJsS0VLSFBaaGtaSytUUXNPTnRNTG9MZGVv?=
- =?utf-8?B?Y3Byd1FlWEFwSVBwYTcvclhObEhCaUdlZ2x2L1FmQWkxTG5ZYWNkdXRjS1Rn?=
- =?utf-8?B?emtmMmt4cWdrOW90TDNIc2NPRGkrVEZ3aWNVcWREL25WdmlHaXlnellaWEhC?=
- =?utf-8?B?S2NpZEdyTStSVHJhcnBWL0dHWFJ2RC9Tdm9PYXk3RllzRXM4cGdYSmhCZjY2?=
- =?utf-8?B?eWs5OVlTWU1xekZOOGpGWW1qWEtKTm1zMFhDc1hZcEZrRTZnRlhVdlhxUlJH?=
- =?utf-8?B?d0thV3BCcGNzVU5KRVY0L3pwY01KNHlrdUpvd3dZY3ZqLzY1eXd0NzVPcVJQ?=
- =?utf-8?B?QXdlczlyeVlmZVdZVy94MzlCekdXazlmdmgxNE0rSE9jL0plb08wblZvalJT?=
- =?utf-8?B?UVRpTjZxR0J3d0tFNnA1Q1pOOFBJWXhpTFVvWHIzYWJwVVZ5WXZZcVFRaklR?=
- =?utf-8?B?K0ovUTVTN3pha245R0orMURLbUVzTGMwOUJYVG45QUpUYm5rTmNtVW1ibEMz?=
- =?utf-8?B?c3ZYTEpLUTNZd1prQWEwVGZOUE5RaUNLbGhsb3R4dTlkRkdlc1Z1ZURiOTM1?=
- =?utf-8?B?djZQSjNEVVFkdXVUcDFZZHBqaWc4a2lXMGNybUluaDBjcXFPYlRvYlQ4MEJD?=
- =?utf-8?B?d0RqUGRKdkYvbnpNdmQvV1RuQ0xXNER1TjgrdElwTTd4WXlJMWQ1Y0ViWnBI?=
- =?utf-8?B?U0QyTE5vQVdGL1Y2S0JHclZ1TE1PaE9oWWN1d2ZZVFA4NHk1bHlzbWRvVmVD?=
- =?utf-8?B?WTVLanZuSHo4cEI5QkhEQWtqelJNekhMNjVVUldJM2ZHOEhvZkFwbnExSUFK?=
- =?utf-8?B?QlFheGZFRk5jRTRhWlkwR2FSSEo2SWsvZGFXZjcrdGgyZzhtYlRnTkR0S0xH?=
- =?utf-8?B?ejdpeHJLamR2UjNZR0h6a1Z3eXV3T0tEeFZUUFNkZjRKeTVMY2lJdHdpV2Jy?=
- =?utf-8?B?b0E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68FBB10F8FE;
+ Fri, 29 Jul 2022 16:41:40 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 986255C00BF;
+ Fri, 29 Jul 2022 12:41:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 29 Jul 2022 12:41:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1659112899; x=1659199299; bh=vwJQ7sD4dG
+ 7A8X3sl4630p9ybNJbGIZPkCYHWDFRHOw=; b=nrQh9TATJ0OuMlig2AOr1ZntXY
+ KU4u61qMFVMlEBwNZ4IZZcc5MmGTz9EOcLvKr3kSzlrdHZXfF0P8d8WtjLrppS3k
+ PvgBE9jz0VEqnJBi2K9+z1Cl3/O69lXCwEXQW+zKYajT63PJHroXCFhQg8d6Jorb
+ rIQcFR5uNXqe8E8A8qKc1SwDSXwdr6S9tiI5JgbzmLyITAFJeFWNgw/N24wBfl7q
+ E9XhlD62gB6Gxs/lhHkjjfiKpijtmIMPoN08uOIXAb3BRZH6ZtFSRzEou0SaHCCi
+ CssmSeayqZ49dZkI7Tw+JlhQZ5NtaLllvavpr5B+2s+8i64NHjKlLWnisSkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1659112899; x=1659199299; bh=vwJQ7sD4dG7A8X3sl4630p9ybNJb
+ GIZPkCYHWDFRHOw=; b=vspUWQJZtY3/RMVDt3OwYtIZFUFyfUI0y/KyDGjjqo7s
+ v6XuTaLxcuw3bU+2p5M4666jwTAVvcVAIPgHEdEWdremwHGkHzvUKWlTqq8228wJ
+ VMWhfY33skzOver9P9k36SEct7mYuzEiUx53lhDK+wdYaUgpA3DebKepWNKtAIIV
+ uucp2awRnstfO0pVqgMa/4fsJyZPPLD1+lZpR+fU0NDp/iGFmlEAzg0WFD1RAdGP
+ I5aWrxTXj+lKqhPQ01CFu9V9ZU9MgNXT765qUctvRzQuvhu2mtwx/rESKrhu/GnG
+ FLBlQpUudD8l+dI1qQRp6xL8IdPE33C54J8Reip9yQ==
+X-ME-Sender: <xms:ww3kYt9nIZ_NZQkj-7yXIDhmxVEjy3lT25ITx0BMatv2SWHoEF7wEg>
+ <xme:ww3kYhuwFTBY8YgMbnJLIwvlsuHwassnPtzRKRGsD6BWNBgoRJnWORK95SfrpGRt1
+ TZBRuYC-sE6LFEUyww>
+X-ME-Received: <xmr:ww3kYrCVuK90gokBAUGueeKioFX53eU84Iln3c9-1PofaodJ7bch3e3h7XNkZg_AVcq5_tISYeE1HziFvMI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddthecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+ fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ww3kYhdIN4vbnHbTvJazERlLA8AMdkclpSR-AJxLgUc6zDD3S4crsA>
+ <xmx:ww3kYiMgxpTzUwDxt62LMntejyIGGl_qdM2he3BD1PkNgk5vSsyVnA>
+ <xmx:ww3kYjm9ZdQOoWNH8_r-ljnc1W2f_lWjFBiA0Zmn7HX9ItHz8Nw1ZQ>
+ <xmx:ww3kYpqcGi_8EgEjNqoOjPu0dDOqcyj9x6RSOxG3DLHNe4Tj0ovYsA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 Jul 2022 12:41:38 -0400 (EDT)
+Date: Fri, 29 Jul 2022 18:41:36 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
+ LQ140M1JW46
+Message-ID: <20220729164136.opucqg64qz4ypmvo@penduick>
+References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
+ <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
+ <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
+ <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
+ <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
+ <CAD=FV=UGYV1mZenDCRrbpC+gpE12-Uis7fm_=H3PeEjK=t36yA@mail.gmail.com>
+ <20220729075118.ofnpk52tk4usm3n3@penduick>
+ <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f290c150-3ef5-48d7-4d20-08da71810aab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2022 16:40:26.9596 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EtxHRy9vDF4IOfGVeTEPT0hFCOj9enXZLyrATlvJjpyNEaJBz01p9qcfVopDM9ILzNS/P19sEGF4GvGAm0x+vKiaF/C3qjf1+jvLGlgDsbE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3355
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nmnf5qri3rvyhvwr"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,82 +90,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zeng Jingxiang <linuszeng@tencent.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWdyZWUgd2l0aCBUaG9tYXMsIGRybV9hdG9taWNfY29tbWl0KCkgd2lsbCBub3QgY2FsbCBrbWJf
-YXRvbWljX3VwZGF0ZSgpIHdpdGggYSBOVUxMIHBsYW5lLiBUaGlzIGlzIG5vdCBhbiBhY3R1YWwg
-YnVnLg0KDQpUaGFua3MsDQpBbml0aGEgDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-Cj4gRnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+IFNlbnQ6
-IEZyaWRheSwgSnVseSAyOSwgMjAyMiA3OjI2IEFNDQo+IFRvOiBaZW5nIEppbmd4aWFuZyA8emVu
-Z2p4OTVAZ21haWwuY29tPjsgQ2hyaXNhbnRodXMsIEFuaXRoYQ0KPiA8YW5pdGhhLmNocmlzYW50
-aHVzQGludGVsLmNvbT47IGVkbXVuZC5qLmRlYUBpbnRlbC5jb207IGFpcmxpZWRAbGludXguaWU7
-DQo+IGRhbmllbEBmZndsbC5jaDsgbGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tOyBt
-YXhpbWVAY2Vybm8udGVjaDsNCj4gdmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20NCj4gQ2M6
-IFplbmcgSmluZ3hpYW5nIDxsaW51c3plbmdAdGVuY2VudC5jb20+OyBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnOw0KPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IFN1Ympl
-Y3Q6IFJlOiBbUEFUQ0hdIGRybS9rbWI6IGZpeCBkZXJlZmVyZW5jZSBiZWZvcmUgTlVMTCBjaGVj
-ayBpbg0KPiBrbWJfcGxhbmVfYXRvbWljX3VwZGF0ZSgpDQo+IA0KPiBIaQ0KPiANCj4gQW0gMjku
-MDcuMjIgdW0gMTY6MjMgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4gPiBIaQ0KPiA+DQo+
-ID4gQW0gMjkuMDcuMjIgdW0gMDU6MDcgc2NocmllYiBaZW5nIEppbmd4aWFuZzoNCj4gPj4gRnJv
-bTogWmVuZyBKaW5neGlhbmcgPGxpbnVzemVuZ0B0ZW5jZW50LmNvbT4NCj4gPj4NCj4gPj4gVGhl
-ICJwbGFuZSIgcG9pbnRlciB3YXMgYWNjZXNzIGJlZm9yZSBjaGVja2luZyBpZiBpdCB3YXMgTlVM
-TC4NCj4gPj4NCj4gPj4gVGhlIGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZSgpIGZ1bmN0
-aW9uIHdpbGwgZGVyZWZlcmVuY2UNCj4gPj4gdGhlIHBvaW50ZXIgInBsYW5lIi4NCj4gPj4gMzQ1
-wqDCoMKgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9sZF9wbGFuZV9zdGF0ZSA9DQo+ID4+IMKg
-wqDCoMKgwqDCoMKgIGRybV9hdG9taWNfZ2V0X29sZF9wbGFuZV9zdGF0ZShzdGF0ZSwgcGxhbmUp
-Ow0KPiA+PiAzNDbCoMKgwqAgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3BsYW5lX3N0YXRl
-ID0NCj4gPj4gwqDCoMKgwqDCoMKgwqAgZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0
-YXRlLCBwbGFuZSk7DQo+ID4+DQo+ID4+IEEgTlVMTCBjaGVjayBmb3IgInBsYW5lIiBpbmRpY2F0
-ZXMgdGhhdCBpdCBtYXkgYmUgTlVMTA0KPiA+PiAzNjPCoMKgwqAgaWYgKCFwbGFuZSB8fCAhbmV3
-X3BsYW5lX3N0YXRlIHx8ICFvbGRfcGxhbmVfc3RhdGUpDQo+ID4NCj4gPiBJcyB0aGlzIGFuIGFj
-dHVhbCBidWcgdGhhdCBoYXBwZW5zPw0KPiA+DQo+ID4gQWxsIHBsYW5lcyBzaG91bGQgYWx3YXlz
-IGhhdmUgYSBzdGF0ZS4gVGhlcmVmb3JlIHRoZSB0ZXN0cyBmb3INCj4gPiAhbmV3X3BsYW5lX3N0
-YXRlIGFuZCAhb2xkX3BsYW5lX3N0YXRlIGNhbiBiZSByZW1vdmVkLCBJJ2Qgc2F5Lg0KPiANCj4g
-SnVzdCB0byBjbGFyaWZ5OiBtb3ZpbmcgdGhlIHRlc3QgZm9yICFwbGFuZSBiZWZvcmUgdXNpbmcg
-b25lIG9mIHRoZQ0KPiBnZXRfcGxhbmVfc3RhdGUgZnVuY3Rpb25zIGlzIGEgY29ycmVjdCBidWdm
-aXguDQo+IA0KPiBCZXN0IHJlZ2FyZHMNCj4gVGhvbWFzDQo+IA0KPiA+DQo+ID4gQmVzdCByZWdh
-cmRzDQo+ID4gVGhvbWFzDQo+ID4NCj4gPj4NCj4gPj4gRml4ZXM6IDk3NzY5N2UyMGIzZCAoImRy
-bS9hdG9taWM6IFBhc3MgdGhlIGZ1bGwgc3RhdGUgdG8gcGxhbmVzIGF0b21pYw0KPiA+PiBkaXNh
-YmxlIGFuZCB1cGRhdGUiKQ0KPiA+PiBGaXhlczogMzc0MThiZjE0YzEzICgiZHJtOiBVc2Ugc3Rh
-dGUgaGVscGVyIGluc3RlYWQgb2YgdGhlIHBsYW5lIHN0YXRlDQo+ID4+IHBvaW50ZXIiKQ0KPiA+
-PiBTaWduZWQtb2ZmLWJ5OiBaZW5nIEppbmd4aWFuZyA8bGludXN6ZW5nQHRlbmNlbnQuY29tPg0K
-PiA+PiAtLS0NCj4gPj4gwqAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYyB8IDEzICsr
-KysrKysrLS0tLS0NCj4gPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNSBk
-ZWxldGlvbnMoLSkNCj4gPj4NCj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9rbWIv
-a21iX3BsYW5lLmMNCj4gPj4gYi9kcml2ZXJzL2dwdS9kcm0va21iL2ttYl9wbGFuZS5jDQo+ID4+
-IGluZGV4IDI3MzViOGViMzUzNy4uZDJiYzk5OGI2NWNlIDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0va21iL2ttYl9wbGFuZS5jDQo+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9r
-bWIva21iX3BsYW5lLmMNCj4gPj4gQEAgLTM0MiwxMCArMzQyLDcgQEAgc3RhdGljIHZvaWQga21i
-X3BsYW5lX3NldF9hbHBoYShzdHJ1Y3QNCj4gPj4ga21iX2RybV9wcml2YXRlICprbWIsDQo+ID4+
-IMKgIHN0YXRpYyB2b2lkIGttYl9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUg
-KnBsYW5lLA0KPiA+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-c3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQ0KPiA+PiDCoCB7DQo+ID4+IC3CoMKgwqAg
-c3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3BsYW5lX3N0YXRlID0NCj4gPj4gZHJtX2F0b21p
-Y19nZXRfb2xkX3BsYW5lX3N0YXRlKHN0YXRlLA0KPiA+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgcGxhbmUpOw0KPiA+PiAtwqDCoMKgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19wbGFu
-ZV9zdGF0ZSA9DQo+ID4+IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0ZShzdGF0ZSwNCj4g
-Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBsYW5lKTsNCj4gPj4gK8KgwqDCoCBzdHJ1Y3Qg
-ZHJtX3BsYW5lX3N0YXRlICpvbGRfcGxhbmVfc3RhdGUsICpuZXdfcGxhbmVfc3RhdGU7DQo+ID4+
-IMKgwqDCoMKgwqAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmI7DQo+ID4+IMKgwqDCoMKgwqAg
-c3RydWN0IGttYl9kcm1fcHJpdmF0ZSAqa21iOw0KPiA+PiDCoMKgwqDCoMKgIHVuc2lnbmVkIGlu
-dCB3aWR0aDsNCj4gPj4gQEAgLTM2MCw3ICszNTcsMTMgQEAgc3RhdGljIHZvaWQga21iX3BsYW5l
-X2F0b21pY191cGRhdGUoc3RydWN0DQo+ID4+IGRybV9wbGFuZSAqcGxhbmUsDQo+ID4+IMKgwqDC
-oMKgwqAgc3RhdGljIGRtYV9hZGRyX3QgYWRkcltNQVhfU1VCX1BMQU5FU107DQo+ID4+IMKgwqDC
-oMKgwqAgc3RydWN0IGRpc3BfY2ZnICppbml0X2Rpc3BfY2ZnOw0KPiA+PiAtwqDCoMKgIGlmICgh
-cGxhbmUgfHwgIW5ld19wbGFuZV9zdGF0ZSB8fCAhb2xkX3BsYW5lX3N0YXRlKQ0KPiA+PiArwqDC
-oMKgIGlmICghcGxhbmUpDQo+ID4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm47DQo+ID4+ICsNCj4g
-Pj4gK8KgwqDCoCBvbGRfcGxhbmVfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3Rh
-dGUoc3RhdGUsIHBsYW5lKTsNCj4gPj4gK8KgwqDCoCBuZXdfcGxhbmVfc3RhdGUgPSBkcm1fYXRv
-bWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsIHBsYW5lKTsNCj4gPj4gKw0KPiA+PiArwqDC
-oMKgIGlmICghbmV3X3BsYW5lX3N0YXRlIHx8ICFvbGRfcGxhbmVfc3RhdGUpDQo+ID4+IMKgwqDC
-oMKgwqDCoMKgwqDCoCByZXR1cm47DQo+ID4+IMKgwqDCoMKgwqAgZmIgPSBuZXdfcGxhbmVfc3Rh
-dGUtPmZiOw0KPiA+DQo+IA0KPiAtLQ0KPiBUaG9tYXMgWmltbWVybWFubg0KPiBHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQo+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-PiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCj4gKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KPiBHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+
+--nmnf5qri3rvyhvwr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jul 29, 2022 at 07:50:20AM -0700, Doug Anderson wrote:
+> On Fri, Jul 29, 2022 at 12:51 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Thu, Jul 28, 2022 at 02:18:38PM -0700, Doug Anderson wrote:
+> > > Hi,
+> > >
+> > > On Thu, Jul 28, 2022 at 10:34 AM Abhinav Kumar
+> > > <quic_abhinavk@quicinc.com> wrote:
+> > > >
+> > > > Hi Rob and Doug
+> > > >
+> > > > On 7/22/2022 10:36 AM, Rob Clark wrote:
+> > > > > On Fri, Jul 22, 2022 at 9:48 AM Doug Anderson <dianders@chromium.=
+org> wrote:
+> > > > >>
+> > > > >> Hi,
+> > > > >>
+> > > > >> On Fri, Jul 22, 2022 at 9:37 AM Abhinav Kumar <quic_abhinavk@qui=
+cinc.com> wrote:
+> > > > >>>
+> > > > >>> + sankeerth
+> > > > >>>
+> > > > >>> Hi Doug
+> > > > >>>
+> > > > >>> On 7/21/2022 3:23 PM, Douglas Anderson wrote:
+> > > > >>>> The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD refe=
+rence
+> > > > >>>> board. This panel supports 144 Hz and 60 Hz. In the EDID, the =
+144 Hz
+> > > > >>>> mode is listed first and thus is marked preferred. The EDID de=
+code I
+> > > > >>>> ran says:
+> > > > >>>>
+> > > > >>>>     First detailed timing includes the native pixel format and=
+ preferred
+> > > > >>>>     refresh rate.
+> > > > >>>>
+> > > > >>>>     ...
+> > > > >>>>
+> > > > >>>>     Detailed Timing Descriptors:
+> > > > >>>>       DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.5=
+00 MHz
+> > > > >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+> > > > >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+> > > > >>>>       DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.3=
+70 MHz
+> > > > >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+> > > > >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+> > > > >>>>
+> > > > >>>> I'm proposing here that the above is actually a bug and that t=
+he 60 Hz
+> > > > >>>> mode really should be considered preferred by Linux.
+> > > >
+> > > > Its a bit tricky to say that this is a bug but I think we can certa=
+inly
+> > > > add here that for an internal display we would have ideally had the
+> > > > lower resolution first to indicate it as default.
+> > >
+> > > Yeah, it gets into the vagueness of the EDID spec in general. As far
+> > > as I can find it's really up to the monitor to decide by what means it
+> > > chooses the "preferred" refresh rate if the monitor can support many.
+> > > Some displays may decide that the normal rate is "preferred" and some
+> > > may decide that the high refresh rate is "preferred". Neither display
+> > > is "wrong" per say, but it's nice to have some consistency here and to
+> > > make it so that otherwise "dumb" userspace will get something
+> > > reasonable by default. I'll change it to say:
+> > >
+> > > While the EDID spec appears to allow a display to use any criteria for
+> > > picking which refresh mode is "preferred" or "optimal", that vagueness
+> > > is a bit annoying. From Linux's point of view let's choose the 60 Hz
+> > > one as the default.
+> >
+> > And if we start making that decision, it should be for all panels with a
+> > similar constraint, so most likely handled by the core, and the new
+> > policy properly documented.
+> >
+> > Doing that just for a single panel is weird.
+>=20
+> Yeah, though having a "general policy" in the core can be problematic.
+>=20
+> In general I think panel EDIDs are only trustworthy as far as you can
+> throw them. They are notorious for having wrong and incorrect
+> information, which is why the EDID quirk list exists to begin with.
+> Trying to change how we're going to interpret all EDIDs, even all
+> EDIDs for eDP panels, seems like it will break someone somewhere.
+> Maybe there are EDIDs out there that were only ever validated at the
+> higher refresh rate and they don't work / flicker / cause digitizer
+> noise at the lower refresh rate. Heck, we've seen eDP panel vendors
+> that can't even get their checksum correct, so I'm not sure I want to
+> make a global assertion that all panels validated their "secondary"
+> display mode.
+>
+> In this particular case, we have validated that this particular Sharp
+> panel works fine at the lower refresh rate.
+>=20
+> I would also note that, as far as I understand it, ODMs actually can
+> request different EDIDs from the panel vendors. In the past we have
+> been able to get panel vendors to change EDIDs. Thus for most panels
+> I'd expect that we would discover this early, change the EDID default,
+> and be done with it. The case here is a little unusual in that by the
+> time we got involved and started digging into this panel too many were
+> created and nobody wants to throw away those old panels. This is why
+> I'm treating it as a quirk/bug. Really: we should have updated the
+> EDID of the panel but we're unable to in this case.
+
+You raise some good points, but most of the discussion around that patch
+were mostly around performances, power consumption and so on.
+
+This is very much a policy decision, and if there is some panel where
+the EDID reports 60Hz but is broken, then that panel should be the
+exception to the policy
+
+But doing it for a single panel is just odd
+
+Maxime
+
+--nmnf5qri3rvyhvwr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYuQNwAAKCRCIQ8rmN6G3
+y5K/AQDd8eMgde6zHk1UUtFFYseaBoCI45v37aTnSvYvhz5dGAD9HdDh4twH58Ei
+LYXUH5k7b/x3Tui590b7dKKqyxIT+9E=
+=5sio
+-----END PGP SIGNATURE-----
+
+--nmnf5qri3rvyhvwr--
