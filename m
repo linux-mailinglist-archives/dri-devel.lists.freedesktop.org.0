@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D7D5848FC
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 02:20:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3285848FB
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 02:20:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5714310E1C6;
-	Fri, 29 Jul 2022 00:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB2910E504;
+	Fri, 29 Jul 2022 00:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0F510EB95
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 00:18:35 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id a89so4061150edf.5
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 17:18:35 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66B301125A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 00:18:48 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id z23so5786918eju.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 17:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=PyBgADkFmRZGD19YV3bJfXKekitzQhA7zmplwDjvl4A=;
- b=EBDfKbN161jfJ2QBSHpfJwdM19oVk8aVJ4xikkdC2kuXRN+8QRATaPmhq8E7nW+CwY
- 0BgTL+iXQpYb3/SFbGQJMC8MumsErqG7MH3njWLFzrqPP1pRCjSDD9mvh9NlaP21SyHV
- gJmZF+TK74SlIlGljuDFIZFOnwtouZg04HSZI=
+ bh=DEDxzOgHTQRQ+rvv/SEM8DOqN9V3eUaGY5hH+UtkIUE=;
+ b=XgGvjKM+Hr42e4KmwAK3a1argfHnnskNbRdLej5zKrxwQdZsp8y8yMpZaRkfb6IxQr
+ C8PRTgOCkSzXDctTwt3AbbUt42+nPjnl1Ik5fW1fT+au0znVnOZDXvJpfPbucVm4Bv+n
+ ty8qUI1gfDrvRlxRV1sm3ItakjLTxp6xy+YLM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=PyBgADkFmRZGD19YV3bJfXKekitzQhA7zmplwDjvl4A=;
- b=7B36LJk57cEJyN9fBk+SaEwYHyZxfFjnj0Zq6xMiqBeUdIXs9yYpIo6DG93yuu65jR
- UfCILpcQC7cSH1pCSH5V3p1VO94SvSagM0t+jtSonz28YoCu7sDe3+TZe6SocuNUhfxq
- xAO0LMs72Q2gv4HqvHXTf1dha+iCSX0ZQRmJLU2GVsR4e/WagSS7Pr58dPPQ8EtDWy7I
- 2qvl1DUgVtUkg7OVItjtV4fL4OyY+qk3Q4Oc6aqxYt0VOrAgoWPjIWGs05srGCdsEQhh
- NgE5h3iW8PeneSmWAzkXx5t45gNl4VUEAtRRngbN61dtKLMFXUSyCNBYrtJ34LwATrzy
- Fasg==
-X-Gm-Message-State: AJIora8vV3iY/nzUdLMgJZZG4sG8we+PfFHDiaMmZK7sNJp/wfolC4Qd
- tLe79orB1N5se0mbvfUUGr5YN2N96je8pFQL
-X-Google-Smtp-Source: AGRyM1sz5AERDw+OXmqz7R/EnufANcM39kA8NcXBg/tiRKc5AtxuSfBFvIs8mEIpomPtyeaWxdW9Yg==
-X-Received: by 2002:a05:6402:388b:b0:42b:5f20:c616 with SMTP id
- fd11-20020a056402388b00b0042b5f20c616mr1295803edb.50.1659053914990; 
- Thu, 28 Jul 2022 17:18:34 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
- [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
- g17-20020a170906539100b00722dcb4629bsm977484ejo.14.2022.07.28.17.18.33
+ bh=DEDxzOgHTQRQ+rvv/SEM8DOqN9V3eUaGY5hH+UtkIUE=;
+ b=druMxovV3w1KslowQZOL4e26LHF9px+2igsMJ4UayhIgNLkufKwuwXiR/j7LZ6FWhl
+ fX1b5tvnPrjZQ9eV3vyQncgMlSwOvHQ4neVUxhF/FR8KGOZfKkGR3rKH1KcxH0S9T5e0
+ Q82xNyMfgHh1HmHkax1lF3YxHUNzWhfvFrw1eU9OMb4Yi0sk2T/PKgXcAHgocTCkNIyn
+ k78KY3Eplr2tctxkwkxlzyaH5HBh8tX65x29sc5DpxNislvdi3opgCTvThc5OO0m1Zwr
+ STzCkhXa9Wvd4MA2sWSLomn7XB8GKDkNLmJuHhn7we9YtXZjJCIs6Z2935itwGhN7ejZ
+ sQ8w==
+X-Gm-Message-State: AJIora+rXV676pPLKLo/Ai/ctWSqkGk27x3TwtWnpc96EsjpNkHHp8Kw
+ EFeHUnCNaa6a3FjceMaVIBUHvFeGVJSV5d89
+X-Google-Smtp-Source: AGRyM1u64A4eYm943/G+ED0zQmJplFaxdeJCfH0DVqPVA863D4hyE5cI2f8RLOOt5rJGBKbl3ORycQ==
+X-Received: by 2002:a17:907:72d1:b0:72b:6da5:9bb with SMTP id
+ du17-20020a17090772d100b0072b6da509bbmr900134ejc.681.1659053925807; 
+ Thu, 28 Jul 2022 17:18:45 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ kz15-20020a17090777cf00b00730165d4d43sm986693ejc.12.2022.07.28.17.18.45
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 17:18:34 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id k8so1989092wrd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 17:18:33 -0700 (PDT)
-X-Received: by 2002:a5d:6843:0:b0:21f:1114:fc54 with SMTP id
- o3-20020a5d6843000000b0021f1114fc54mr146662wrw.138.1659053913662; Thu, 28 Jul
- 2022 17:18:33 -0700 (PDT)
+ Thu, 28 Jul 2022 17:18:45 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id
+ i10-20020a1c3b0a000000b003a2fa488efdso1137957wma.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 17:18:45 -0700 (PDT)
+X-Received: by 2002:a05:600c:2e48:b0:3a3:1ce3:3036 with SMTP id
+ q8-20020a05600c2e4800b003a31ce33036mr1007498wmf.188.1659053924819; Thu, 28
+ Jul 2022 17:18:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <1657544224-10680-1-git-send-email-quic_vpolimer@quicinc.com>
- <1657544224-10680-3-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1657544224-10680-3-git-send-email-quic_vpolimer@quicinc.com>
+ <1657544224-10680-4-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1657544224-10680-4-git-send-email-quic_vpolimer@quicinc.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 28 Jul 2022 17:18:20 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X2Ci6G5c4LNibKTWu5ZC962j8QeHpG2nn7uCCoRCuFdw@mail.gmail.com>
-Message-ID: <CAD=FV=X2Ci6G5c4LNibKTWu5ZC962j8QeHpG2nn7uCCoRCuFdw@mail.gmail.com>
-Subject: Re: [PATCH v6 02/10] drm: add helper functions to retrieve old and
- new crtc
+Date: Thu, 28 Jul 2022 17:18:31 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UXKHrp63wosBdXDBKKcierbgfUOT-W1QF2N23No+MJBw@mail.gmail.com>
+Message-ID: <CAD=FV=UXKHrp63wosBdXDBKKcierbgfUOT-W1QF2N23No+MJBw@mail.gmail.com>
+Subject: Re: [PATCH v6 03/10] drm/msm/dp: use atomic callbacks for DP bridge
+ ops
 To: Vinod Polimera <quic_vpolimer@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,19 +97,17 @@ Hi,
 On Mon, Jul 11, 2022 at 5:57 AM Vinod Polimera
 <quic_vpolimer@quicinc.com> wrote:
 >
-> Add new helper functions, drm_atomic_get_old_crtc_for_encoder
-> and drm_atomic_get_new_crtc_for_encoder to retrieve the
-> corresponding crtc for the encoder.
+> Use atomic variants for DP bridge callback functions so that
+> the atomic state can be accessed in the interface drivers.
+> The atomic state will help the driver find out if the display
+> is in self refresh state.
 >
 > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 > Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 > ---
->  drivers/gpu/drm/drm_atomic.c | 60 ++++++++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_atomic.h     |  7 ++++++
->  2 files changed, 67 insertions(+)
-
-I don't have a lot of intuition about the code here since I haven't
-messed much at this level, but what you have here looks right and
-matches other similar helpers. I'm happy enough with:
+>  drivers/gpu/drm/msm/dp/dp_display.c |  9 ++++++---
+>  drivers/gpu/drm/msm/dp/dp_drm.c     | 17 ++++++++++-------
+>  drivers/gpu/drm/msm/dp/dp_drm.h     |  9 ++++++---
+>  3 files changed, 22 insertions(+), 13 deletions(-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
