@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A35458493A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 03:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64D6584A32
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 05:31:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2753F10FEAE;
-	Fri, 29 Jul 2022 01:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDD910E47A;
+	Fri, 29 Jul 2022 03:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6296111B3CA
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 01:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1659056780;
- bh=aF/ABl+Ih4ZKaUbHEjptPqaZcMwACEofItxQofKHD9c=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=W2calaNOYIReelgZz6f/nSX2NQCdv/sLMOrKmSuzC5UzYJQq7lg/eWg0CgNqwED4n
- 9mfFLYBTjs2/Y8vy85A/TFyfYr+51tbhDBWSkgS6PmIb6VyRKOwBM37uTi/uPU1W1I
- zSBa20oJeZYNC9aRoMnHz9fiIqKUe0ObN0SOt910=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [172.58.35.54] ([172.58.35.54]) by web-mail.gmx.net
- (3c-app-mailcom-bs16.server.lan [172.19.170.184]) (via HTTP); Fri, 29 Jul
- 2022 03:06:20 +0200
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE9A10E4F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 03:31:16 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id ez10so6261253ejc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 20:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=pJ4ZUNG6LxmawDqEhLdtSFr1ngQQv8SUwuZZJONKqlk=;
+ b=a3RvweEzgjIpWRMXKG/5emZwl5y7xuQha54CpE3QKGBJjg9mdwZIwIIwRm+D+qdKxH
+ 5v5bU7EAiBeG8iRUUmi0qalXbma8j5z9AldHGGVrgcsa4vTWOcACG5fRUwUpy6Pc3FOS
+ uGGyxEFovHOxzpBn2keHGzI7MbXGBD04e35e4O2QoMTCU//RIYihivc89s/05z6c7che
+ 38Gkol416Ub6BspeO4GOL4O8jlCuoeeXhq/ItQ79zAh4SBPRUhlHYjLXXa5xXLYps/Xa
+ 77lWkCp7dsOOFwfKYQhEmlm75qMGalH+Rqvf194+ltCrsBF0eQd9l6KQ0G4Ra+JBPtKq
+ TDhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=pJ4ZUNG6LxmawDqEhLdtSFr1ngQQv8SUwuZZJONKqlk=;
+ b=pD66kxUZIDMwM34QmqELQK/p9rcMt/MUwAl0ofD2KDnFLzM9RwmKC3g1IBxmi9uB3N
+ 3xpVjQNtsJpYr3EzF/pIt3dG+Q/APPd6OIsAudPmw6rVBz/4ZtzBE9g+A8P4ir42zAnj
+ oc57dvR9fPLVw5TjGNmtEzzfWfo9y4IGQoQKCh6V/UVDCj1ukhBQESjsIH+guaD+K25N
+ kuA25U17YqCAX52Qv+vG6YmnbNd8vWzTK7rguMrx18t3jc96+tJEAdvjx2vPw5RVRclG
+ O7RHH2oXxa0hwhWJOLSo9I8zwGZju4Qkp/O2SDRaXGpjIGXfnnR6MnXGZd4X2fnqkM+r
+ HPZA==
+X-Gm-Message-State: AJIora9NiCtNtN6/aQWwVatHAhkLSYLXXCFwh0KgqPzgpMybR9uCOIcA
+ wRnL8RNp4WQu4Mx+n3fLZNnxtyb2xDQ3qrN16VSd10LRgTo=
+X-Google-Smtp-Source: AGRyM1u1wBoESmd8bswYQncgE9pmBLhDJETi3dXUVLdy6xWjU+oeob04bHDcARbgnSkosnR8Ud/APH0SBGAfnk7xQ2Q=
+X-Received: by 2002:a17:907:7f9f:b0:72f:11fc:86bc with SMTP id
+ qk31-20020a1709077f9f00b0072f11fc86bcmr1312411ejc.770.1659065474730; Thu, 28
+ Jul 2022 20:31:14 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <trinity-a16031db-8f2d-4a85-93f5-55ae94703c61-1659056780791@3c-app-mailcom-bs16>
-From: Kevin Brace <kevinbrace@gmx.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 29 Jul 2022 03:06:20 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <CAPM=9tx9JFVFdBpEkxVF5AjtpBuVcyWY-xA=-u=ZZMemz4jafA@mail.gmail.com>
-References: <20220725235359.20516-1-kevinbrace@gmx.com>
- <20220725235359.20516-7-kevinbrace@gmx.com> <YuAnXcz0ImO+cAHu@ravnborg.org>
- <6e3473a8-f668-efdc-92b4-0a085e6531d7@suse.de>
- <CAPM=9tx9JFVFdBpEkxVF5AjtpBuVcyWY-xA=-u=ZZMemz4jafA@mail.gmail.com>
-Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:hY0qzEwPOna8Bo6pzJgW5mhtreVW4cRzld5Vnu7ElLSQAwivKvO5It0W6ilagM6Gg6AL9
- 5GMELUEf+rJMexwitNjtM9mQq9SYjUKSWSuFQ23wW+unAGOI1hFao9Kyf5WnxgPbhXCfsa9fg1s3
- deSR4rlgvoS9aRsiBl1M/9Klb5YbONRh4Wv2ltrFlQ17HUpZjHpoqydjbVeklRRi7PqqN1t2NW5k
- VCdf8C0cmlzjmkbe+FXayc3tTtSkBbQNgBrcBodMDwQfRMsmagIUpVseCnYWihHG9uF3IBN6rftp
- bo=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GMwIloaOCIE=:RIn4uG8ndVUnkW4AgrdogZ
- NLC1rvC5AOpcl8dEXDjhM2qRN6Q50sZtDA6EaTUwz6iUfINHwu1/eiPlo6VlmyCfVJ3PTkQUy
- LE/UU+PzpQZVc7Sl9naaUpfJFacLgaGac3pzPebHxWtPiupmWda3s0uP6pmFuGAKldJEGcwnR
- Z7SxFyK82t5ddt+JELzmLwBhwy+4sIy5m91In205hdfDZpVQm5XlV2leWHMcSlHJZMexQyc3d
- psgvf3X157QY38ELnz/MbDT9BsaRoJdDr/emo27UdyhzKbSwEiFxSUWgwSy+5wfk5+roX0lPK
- ZKCTUnbd2bOzbR2bAk3dJnY2FxcGrOfVqlt29d1Qvzs8G9v6DCgit7geQ14CUaTS3EspNnOi3
- fXnEc6Wv7vsO7+92ROUN+oUATgtFzsToNqvwNF2EKYqqfR7zoBuhCsKJTFDMhCfVYt6a1modU
- rv3249afA6E566thO8x3u3Pn4cvjVF8Da/hls3YyjStFeelgx3oya+aj4Vx3ZgmHtFhlUKtFL
- W3AhvRTB0QALm/BdojEg6iC4aixIJ7nTWPFAfI7BAYHF7fvp8DMJY4BanrJsLJKvy5UFEF1Qv
- Qp4Mf7nM24tKhuCkdghkkiwLVE04m/dJv+OKwI4IZ7LR68ey5hNlnZyVEpqoHuQRCokPgeCID
- ySJZqSNYIYvdVSd3eqWzTN7rI6WNmvzu5HLIrwl/4Aymt8CLLlZTZ8fbhwqdCxw+9vXf2kEV4
- FN5jbITgl8IZ1h05hMYeH00V+ncPPZJd9eV6ftLgWW/UCNtbU9jhvqAJc+ud9IyZI5IJVeMF5
- 6I2QNXe
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 29 Jul 2022 13:31:03 +1000
+Message-ID: <CAPM=9txsRyEJWjrTsha6wkqcdTM5MmTqRVns5b9eQCaQAwJpNg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.19 final
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,186 +61,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Linus,
 
-Thanks for pointing out the blog written by Daniel=2E
-I was thinking that I will need to make refinements to OpenChrome DRM uAPI=
-, so I will rework the uAPI=2E
-I also plan to discontinue old VIA DRM uAPI by using drm_invalid_op()=2E
-No one pointed this out, but I was thinking that something like this had t=
-o be done=2E
-I will work on these, and post the updated code soon with taking into cons=
-ideration the VIA DRM DRI1 compaction work done by Sam / Thomas=2E
+Quiet extra week, just a single fix for i915 workaround with execlist backend.
 
 Regards,
+Dave.
 
-Kevin Brace
-Brace Computer Laboratory blog
-https://bracecomputerlab=2Ecom
+drm-fixes-2022-07-29:
+drm fixes for 5.19 final
 
+i915:
+- Further reset robustness improvements for execlists [Wa_22011802037]
+The following changes since commit e0dccc3b76fb35bb257b4118367a883073d7390e:
 
-> Sent: Tuesday, July 26, 2022 at 1:20 PM
-> From: "Dave Airlie" <airlied@gmail=2Ecom>
-> To: "Thomas Zimmermann" <tzimmermann@suse=2Ede>
-> Cc: "Sam Ravnborg" <sam@ravnborg=2Eorg>, "Kevin Brace" <kevinbrace@gmx=
-=2Ecom>, "Kevin Brace" <kevinbrace@bracecomputerlab=2Ecom>, "dri-devel" <dr=
-i-devel@lists=2Efreedesktop=2Eorg>
-> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm=2Eh
->
-> On Wed, 27 Jul 2022 at 04:18, Thomas Zimmermann <tzimmermann@suse=2Ede> =
-wrote:
-> >
-> > Hi
-> >
-> > Am 26=2E07=2E22 um 19:41 schrieb Sam Ravnborg:
-> > > Hi Kevin=2E
-> > >
-> > > On Mon, Jul 25, 2022 at 04:53:53PM -0700, Kevin Brace wrote:
-> > >> From: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
-> > >>
-> > >> Changed the uAPI=2E
-> > >>
-> > >> Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
-> > >
-> > > It would be great to have the new extensions to the UAPI documented
-> > > using kernel-doc=2E
-> > > As an example see: vc4_drm=2Eh
-> > >
-> > > There are a lot of UAPI that is missing documentation, but if we do =
-not
-> > > add it for new UAPI then this situation never improves=2E
-> > >
-> > > Please use __u32, __u64 like you see in other drm UAPI files=2E
-> > >
-> > > PS=2E If you reply to this mail, then please keep the full mail as
-> > > usually my mails to Kevin bounces (something with STARTTLS)=2E
-> > >
-> > >       Sam
-> > >
-> > >> ---
-> > >>   include/uapi/drm/via_drm=2Eh | 35 +++++++++++++++++++++++++++++++=
-----
-> > >>   1 file changed, 31 insertions(+), 4 deletions(-)
-> > >>
-> > >> diff --git a/include/uapi/drm/via_drm=2Eh b/include/uapi/drm/via_dr=
-m=2Eh
-> > >> index a1e125d42208=2E=2Ee9da45ce130a 100644
-> > >> --- a/include/uapi/drm/via_drm=2Eh
-> > >> +++ b/include/uapi/drm/via_drm=2Eh
-> > >> @@ -1,4 +1,5 @@
-> > >>   /*
-> > >> + * Copyright =C2=A9 2020 Kevin Brace
-> > >>    * Copyright 1998-2003 VIA Technologies, Inc=2E All Rights Reserv=
-ed=2E
-> > >>    * Copyright 2001-2003 S3 Graphics, Inc=2E All Rights Reserved=2E
-> > >>    *
-> > >> @@ -16,10 +17,10 @@
-> > >>    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND=
-, EXPRESS OR
-> > >>    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHA=
-NTABILITY,
-> > >>    * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT=2E IN NO=
- EVENT SHALL
-> > >> - * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,=
- DAMAGES OR
-> > >> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHE=
-RWISE,
-> > >> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE =
-USE OR OTHER
-> > >> - * DEALINGS IN THE SOFTWARE=2E
-> > >> + * THE AUTHORS, COPYRIGHT HOLDERS, AND/OR ITS SUPPLIERS BE LIABLE =
-FOR ANY
-> > >> + * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONT=
-RACT, TORT
-> > >> + * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SO=
-FTWARE OR
-> > >> + * THE USE OR OTHER DEALINGS IN THE SOFTWARE=2E
-> > >>    */
-> > > Do not mix license changes with other changes - and use SPDX tag if
-> > > possible for the updated license=2E
-> > > See other drm UAPI files for examples=2E
-> > >
-> > >
-> > >>   #ifndef _VIA_DRM_H_
-> > >>   #define _VIA_DRM_H_
-> > >> @@ -81,6 +82,11 @@ extern "C" {
-> > >>   #define DRM_VIA_DMA_BLIT        0x0e
-> > >>   #define DRM_VIA_BLIT_SYNC       0x0f
-> > >>
-> > >> +#define     DRM_VIA_GEM_CREATE      0x10
-> > >> +#define     DRM_VIA_GEM_MAP         0x11
-> > >> +#define     DRM_VIA_GEM_UNMAP       0x12
-> > >> +
-> > > Use the same alignment as the previous lines=2E
-> > >> +
-> > > Drop extra empty line=2E
-> > >
-> > >>   #define DRM_IOCTL_VIA_ALLOCMEM       DRM_IOWR(DRM_COMMAND_BASE + =
-DRM_VIA_ALLOCMEM, drm_via_mem_t)
-> > >>   #define DRM_IOCTL_VIA_FREEMEM        DRM_IOW( DRM_COMMAND_BASE + =
-DRM_VIA_FREEMEM, drm_via_mem_t)
-> > >>   #define DRM_IOCTL_VIA_AGP_INIT       DRM_IOWR(DRM_COMMAND_BASE + =
-DRM_VIA_AGP_INIT, drm_via_agp_t)
-> > >> @@ -97,6 +103,10 @@ extern "C" {
-> > >>   #define DRM_IOCTL_VIA_DMA_BLIT    DRM_IOW(DRM_COMMAND_BASE + DRM_=
-VIA_DMA_BLIT, drm_via_dmablit_t)
-> > >>   #define DRM_IOCTL_VIA_BLIT_SYNC   DRM_IOW(DRM_COMMAND_BASE + DRM_=
-VIA_BLIT_SYNC, drm_via_blitsync_t)
-> > >>
-> > >> +#define     DRM_IOCTL_VIA_GEM_CREATE        DRM_IOWR(DRM_COMMAND_B=
-ASE + DRM_VIA_GEM_CREATE, struct drm_via_gem_create)
-> > >> +#define     DRM_IOCTL_VIA_GEM_MAP           DRM_IOWR(DRM_COMMAND_B=
-ASE + DRM_VIA_GEM_MAP, struct drm_via_gem_map)
-> > >> +#define     DRM_IOCTL_VIA_GEM_UNMAP         DRM_IOR(DRM_COMMAND_BA=
-SE + DRM_VIA_GEM_UNMAP, struct drm_via_gem_unmap)
-> > >> +
-> > > Use same alignment as previous lines=2E
-> > >
-> > >>   /* Indices into buf=2ESetup where various bits of state are mirro=
-red per
-> > >>    * context and per buffer=2E  These can be fired at the card as a=
- unit,
-> > >>    * or in a piecewise fashion as required=2E
-> > >> @@ -275,6 +285,23 @@ typedef struct drm_via_dmablit {
-> > >>      drm_via_blitsync_t sync;
-> > >>   } drm_via_dmablit_t;
-> > >>
-> > >> +struct drm_via_gem_create {
-> > >> +    uint64_t size;
-> > >> +    uint32_t alignment;
-> > >> +    uint32_t domain;
-> > >> +    uint32_t handle;
-> > >> +    uint64_t offset;
-> > >> +};
-> > > I do not know if this is relevant, but adding a 64 bit parameter
-> > > (offset) that is only 32 bit aligned looks like trouble to me=2E
-> > > I hope others that knows this better can comment here=2E
-> >
-> > The compiler will leave a 4-byte gap between handle and offset=2E
-> > Structure allocation guarantees a minimal alignment of 8 bytes, so the
-> > field alignment will be correct=2E It's all dependend on architecture,
-> > platofrm, calling convention, but that's the rule of thumb=2E
-> >
-> > Have a look at the tool 'pahole' to inspect data-structure alignment i=
-n
-> > object files=2E You'll find plenty of gaps in compiled structure=2E
-> >
-> > It's still questionable to leave the gap there=2E Either declare it
-> > explicity (e=2Eg=2E, __u32 empty0; )  or declare the structure with
-> > __attribute__((__packed__))=2E  Personally, I'd use the former=2E
->=20
-> It's not allowed at all to use packed or leave the gap=2E
->=20
-> https://www=2Ekernel=2Eorg/doc/html/latest/process/botching-up-ioctls=2E=
-html
->=20
-> The 2nd prereq covers this=2E
->=20
-> Dave=2E
->
+  Linux 5.19-rc8 (2022-07-24 13:26:27 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-07-29
+
+for you to fetch changes up to f16a2f593d0095e82e6b7f9d776f869c8ab45952:
+
+  Merge tag 'drm-intel-fixes-2022-07-28-1' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-07-29
+11:39:13 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.19 final
+
+i915:
+- Further reset robustness improvements for execlists [Wa_22011802037]
+
+----------------------------------------------------------------
+Dave Airlie (1):
+      Merge tag 'drm-intel-fixes-2022-07-28-1' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Umesh Nerlige Ramappa (1):
+      drm/i915/reset: Add additional steps for Wa_22011802037 for
+execlist backend
+
+ drivers/gpu/drm/i915/gt/intel_engine.h             |  2 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          | 88 +++++++++++++++++++++-
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |  7 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 81 ++------------------
+ 5 files changed, 103 insertions(+), 79 deletions(-)
