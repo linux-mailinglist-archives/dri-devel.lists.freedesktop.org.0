@@ -1,47 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBFC5851C6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 16:46:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771C35851D0
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 16:50:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E08A510E968;
-	Fri, 29 Jul 2022 14:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81A9D10E089;
+	Fri, 29 Jul 2022 14:50:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB0B10F193
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 14:46:19 +0000 (UTC)
-Received: from sobremesa.fritz.box (unknown
- [IPv6:2a02:8010:65b5:0:bbb0:f8ec:7bc9:dbe4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F3EE26601B70;
- Fri, 29 Jul 2022 15:46:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1659105978;
- bh=3ai7oM2mUUZr9JH9WfFCODlGxj15wDZtw/GT9rfVEvM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FbftqnEVHWnFjJXiXPiZELjxtZkM/JGoGTKYpn3D35NIaj7oljj3YwYRRmLLBzW9W
- QIzgN8mBnXfr29FnKT1ZVVsRszzlYMB9xd7aROy2Smgy0KfOz/dRwnvLiPODmTV7z+
- WapfZ6tppTjklG4EOk6dKe/w1VlYoVtO7SPouBynxRiAeuy9Nl/llHT9kz0EYiHQLR
- VOwIXVQypPCPPj1S9XzQUQFAzi660TzzL8QGUMHaNM0cC7oPFVRRD5+YATQUebpn2o
- FviwBJwEpztC3LGVXzUPN8IjNczKIyOTENgOLP4UQ0vS13zXImSaFsTd0YNyVGlbCk
- jAKLNijiiBenA==
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 2/2] drm/panfrost: Add support for devcoredump
-Date: Fri, 29 Jul 2022 15:46:10 +0100
-Message-Id: <20220729144610.2105223-3-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220729144610.2105223-1-adrian.larumbe@collabora.com>
-References: <20220729144610.2105223-1-adrian.larumbe@collabora.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2616110E089
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 14:50:38 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id rq15so2947413ejc.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 07:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=g357UGRf0Iful4TOzguMzCzIJcq6XgTINqo6kA79z4o=;
+ b=APHHgWYL3tgaUeSKYYhNcmwEqqgGv9WmoGy/seJ3KbfcSysjrKeQ7jz9d/y7CZxIzr
+ KhHjx20mL8cZKbWP2mZjLD3QTqnnAeR7aOTWv0EZwaYVPOIVZT6fyxk3v2DryVWXoYJD
+ hgOZY6cjz5nz2PmjMwGfgOJxaxyP0kNcvsQV8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=g357UGRf0Iful4TOzguMzCzIJcq6XgTINqo6kA79z4o=;
+ b=0L24falc3OTuXtB3qJEaX/ApTz79b91xA7EQo7l3l1ehSbuzqxiHrF4NEUpN+wMyxs
+ azhxDp2sTGMkIMhm7bl8qdU/sgUjCfGZvTnXWQDSQJhLQVeGI3tCFJHLIWqE08YxwcBO
+ 8Ae/aSG2BxxKD3M75dFUvTCZxdGknc1SlrLaftIBacqnufEH3BfzaZvkSKR+lbbI7A4d
+ xF3cI7nZ/p2QQY4TQyjvtACduX8sBrd0CUqEhj6XBXRdGH5XqFxLARdmU+2dHeYcHofb
+ Eu5QTkSj31hYbY+uqvrnAodwBa4Qt150yQx6n4osZ5aJp0F0kGgW5jXVot7a0GsHR+ti
+ ewXw==
+X-Gm-Message-State: AJIora8vhVOuVDYv5w7iZwjXu1a8LY9YM8pwR45lKKh//5PxV8J+bCKd
+ 6LhNlFnr4kgKgeKJx2PqNACgD2E6kZwPjmz0+R4=
+X-Google-Smtp-Source: AGRyM1uOGPyeuOrMUahiAMDmzhIAk1y+moXX8o8S1vcEZgx0EnPsPo7seJL6RXHNnmLzxi8XBY5/Hg==
+X-Received: by 2002:a17:906:ef8c:b0:72c:780c:6693 with SMTP id
+ ze12-20020a170906ef8c00b0072c780c6693mr3117945ejb.196.1659106237438; 
+ Fri, 29 Jul 2022 07:50:37 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com.
+ [209.85.221.45]) by smtp.gmail.com with ESMTPSA id
+ f7-20020a056402068700b0043adc6552d6sm2447016edy.20.2022.07.29.07.50.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Jul 2022 07:50:35 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id z16so6222170wrh.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 07:50:34 -0700 (PDT)
+X-Received: by 2002:a05:6000:178f:b0:21e:98ee:f1e6 with SMTP id
+ e15-20020a056000178f00b0021e98eef1e6mr2691892wrg.405.1659106233759; Fri, 29
+ Jul 2022 07:50:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
+ <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
+ <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
+ <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
+ <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
+ <CAD=FV=UGYV1mZenDCRrbpC+gpE12-Uis7fm_=H3PeEjK=t36yA@mail.gmail.com>
+ <20220729075118.ofnpk52tk4usm3n3@penduick>
+In-Reply-To: <20220729075118.ofnpk52tk4usm3n3@penduick>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 29 Jul 2022 07:50:20 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
+Message-ID: <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
+ LQ140M1JW46
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,404 +79,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adrian.larumbe@collabora.com
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the event of a job timeout, debug dump information will be written into
-/sys/class/devcoredump.
+Hi,
 
-Inspired by etnaviv's similar feature.
+On Fri, Jul 29, 2022 at 12:51 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Thu, Jul 28, 2022 at 02:18:38PM -0700, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Thu, Jul 28, 2022 at 10:34 AM Abhinav Kumar
+> > <quic_abhinavk@quicinc.com> wrote:
+> > >
+> > > Hi Rob and Doug
+> > >
+> > > On 7/22/2022 10:36 AM, Rob Clark wrote:
+> > > > On Fri, Jul 22, 2022 at 9:48 AM Doug Anderson <dianders@chromium.org> wrote:
+> > > >>
+> > > >> Hi,
+> > > >>
+> > > >> On Fri, Jul 22, 2022 at 9:37 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> > > >>>
+> > > >>> + sankeerth
+> > > >>>
+> > > >>> Hi Doug
+> > > >>>
+> > > >>> On 7/21/2022 3:23 PM, Douglas Anderson wrote:
+> > > >>>> The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD reference
+> > > >>>> board. This panel supports 144 Hz and 60 Hz. In the EDID, the 144 Hz
+> > > >>>> mode is listed first and thus is marked preferred. The EDID decode I
+> > > >>>> ran says:
+> > > >>>>
+> > > >>>>     First detailed timing includes the native pixel format and preferred
+> > > >>>>     refresh rate.
+> > > >>>>
+> > > >>>>     ...
+> > > >>>>
+> > > >>>>     Detailed Timing Descriptors:
+> > > >>>>       DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.500 MHz
+> > > >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+> > > >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+> > > >>>>       DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.370 MHz
+> > > >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
+> > > >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
+> > > >>>>
+> > > >>>> I'm proposing here that the above is actually a bug and that the 60 Hz
+> > > >>>> mode really should be considered preferred by Linux.
+> > >
+> > > Its a bit tricky to say that this is a bug but I think we can certainly
+> > > add here that for an internal display we would have ideally had the
+> > > lower resolution first to indicate it as default.
+> >
+> > Yeah, it gets into the vagueness of the EDID spec in general. As far
+> > as I can find it's really up to the monitor to decide by what means it
+> > chooses the "preferred" refresh rate if the monitor can support many.
+> > Some displays may decide that the normal rate is "preferred" and some
+> > may decide that the high refresh rate is "preferred". Neither display
+> > is "wrong" per say, but it's nice to have some consistency here and to
+> > make it so that otherwise "dumb" userspace will get something
+> > reasonable by default. I'll change it to say:
+> >
+> > While the EDID spec appears to allow a display to use any criteria for
+> > picking which refresh mode is "preferred" or "optimal", that vagueness
+> > is a bit annoying. From Linux's point of view let's choose the 60 Hz
+> > one as the default.
+>
+> And if we start making that decision, it should be for all panels with a
+> similar constraint, so most likely handled by the core, and the new
+> policy properly documented.
+>
+> Doing that just for a single panel is weird.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/Kconfig         |   1 +
- drivers/gpu/drm/panfrost/Makefile        |   3 +-
- drivers/gpu/drm/panfrost/panfrost_dump.c | 249 +++++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_dump.h |  12 ++
- drivers/gpu/drm/panfrost/panfrost_job.c  |   3 +
- include/uapi/drm/panfrost_drm.h          |  47 +++++
- 6 files changed, 314 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
+Yeah, though having a "general policy" in the core can be problematic.
 
-diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
-index 86cdc0ce79e6..079600328be1 100644
---- a/drivers/gpu/drm/panfrost/Kconfig
-+++ b/drivers/gpu/drm/panfrost/Kconfig
-@@ -11,6 +11,7 @@ config DRM_PANFROST
- 	select DRM_GEM_SHMEM_HELPER
- 	select PM_DEVFREQ
- 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-+	select WANT_DEV_COREDUMP
- 	help
- 	  DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
- 	  Bifrost (G3x, G5x, G7x) GPUs.
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index b71935862417..7da2b3f02ed9 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -9,6 +9,7 @@ panfrost-y := \
- 	panfrost_gpu.o \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
--	panfrost_perfcnt.o
-+	panfrost_perfcnt.o \
-+	panfrost_dump.o
- 
- obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-new file mode 100644
-index 000000000000..72458a6cc197
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-@@ -0,0 +1,249 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright 2021 Collabora ltd. */
-+
-+#include <linux/err.h>
-+#include <linux/device.h>
-+#include <linux/devcoredump.h>
-+#include <linux/moduleparam.h>
-+#include <linux/iosys-map.h>
-+#include <drm/panfrost_drm.h>
-+#include <drm/drm_device.h>
-+
-+#include "panfrost_job.h"
-+#include "panfrost_gem.h"
-+#include "panfrost_regs.h"
-+#include "panfrost_dump.h"
-+#include "panfrost_device.h"
-+
-+static bool panfrost_dump_core = true;
-+module_param_named(dump_core, panfrost_dump_core, bool, 0600);
-+
-+struct panfrost_dump_iterator {
-+	void *start;
-+	struct panfrost_dump_object_header *hdr;
-+	void *data;
-+};
-+
-+static const unsigned short panfrost_dump_registers[] = {
-+	SHADER_READY_LO,
-+	SHADER_READY_HI,
-+	TILER_READY_LO,
-+	TILER_READY_HI,
-+	L2_READY_LO,
-+	L2_READY_HI,
-+	JOB_INT_MASK,
-+	JOB_INT_STAT,
-+	JS_HEAD_LO(0),
-+	JS_HEAD_HI(0),
-+	JS_TAIL_LO(0),
-+	JS_TAIL_HI(0),
-+	JS_AFFINITY_LO(0),
-+	JS_AFFINITY_HI(0),
-+	JS_CONFIG(0),
-+	JS_STATUS(0),
-+	JS_HEAD_NEXT_LO(0),
-+	JS_HEAD_NEXT_HI(0),
-+	JS_AFFINITY_NEXT_LO(0),
-+	JS_AFFINITY_NEXT_HI(0),
-+	JS_CONFIG_NEXT(0),
-+	MMU_INT_MASK,
-+	MMU_INT_STAT,
-+	AS_TRANSTAB_LO(0),
-+	AS_TRANSTAB_HI(0),
-+	AS_MEMATTR_LO(0),
-+	AS_MEMATTR_HI(0),
-+	AS_FAULTSTATUS(0),
-+	AS_FAULTADDRESS_LO(0),
-+	AS_FAULTADDRESS_HI(0),
-+	AS_STATUS(0),
-+};
-+
-+static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
-+	u32 type, void *data_end)
-+{
-+	struct panfrost_dump_object_header *hdr = iter->hdr;
-+
-+	hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
-+	hdr->type = cpu_to_le32(type);
-+	hdr->file_offset = cpu_to_le32(iter->data - iter->start);
-+	hdr->file_size = cpu_to_le32(data_end - iter->data);
-+
-+	iter->hdr++;
-+	iter->data += le32_to_cpu(hdr->file_size);
-+}
-+
-+static void
-+panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
-+			     struct panfrost_device *pfdev,
-+			     u32 as_nr, int slot)
-+{
-+	struct panfrost_dump_registers *dumpreg = iter->data;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, dumpreg++) {
-+		unsigned int js_as_offset = 0;
-+		unsigned int reg;
-+
-+		if (panfrost_dump_registers[i] >= JS_BASE &&
-+		    panfrost_dump_registers[i] <= JS_BASE + JS_SLOT_STRIDE)
-+			js_as_offset = slot * JS_SLOT_STRIDE;
-+		else if (panfrost_dump_registers[i] >= MMU_BASE &&
-+			 panfrost_dump_registers[i] <= MMU_BASE + MMU_AS_STRIDE)
-+			js_as_offset = (as_nr << MMU_AS_SHIFT);
-+
-+		reg = panfrost_dump_registers[i] + js_as_offset;
-+
-+		dumpreg->reg = cpu_to_le32(reg);
-+		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
-+	}
-+
-+	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
-+}
-+
-+void panfrost_core_dump(struct panfrost_job *job)
-+{
-+	struct panfrost_device *pfdev = job->pfdev;
-+	struct panfrost_dump_iterator iter;
-+	struct drm_gem_object *dbo;
-+	unsigned int n_obj, n_bomap_pages;
-+	__le64 *bomap, *bomap_start;
-+	size_t file_size;
-+	u32 as_nr;
-+	int slot;
-+	int ret, i;
-+
-+	as_nr = job->mmu->as;
-+	slot = panfrost_job_get_slot(job);
-+
-+	/* Only catch the first event, or when manually re-armed */
-+	if (!panfrost_dump_core)
-+		return;
-+	panfrost_dump_core = false;
-+
-+	/* At least, we dump registers and end marker */
-+	n_obj = 2;
-+	n_bomap_pages = 0;
-+	file_size = ARRAY_SIZE(panfrost_dump_registers) *
-+			sizeof(struct panfrost_dump_registers);
-+
-+	/* Add in the active buffer objects */
-+	for (i = 0; i < job->bo_count; i++) {
-+		/*
-+		 * Even though the CPU could be configured to use 16K or 64K pages, this
-+		 * is a very unusual situation for most kernel setups on SoCs that have
-+		 * a Panfrost device. Also many places across the driver make the somewhat
-+		 * arbitrary assumption that Panfrost's MMU page size is the same as the CPU's,
-+		 * so let's have a sanity check to ensure that's always the case
-+		 */
-+		dbo = job->bos[i];
-+		WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
-+
-+		file_size += dbo->size;
-+		n_bomap_pages += dbo->size >> PAGE_SHIFT;
-+		n_obj++;
-+	}
-+
-+	/* If we have any buffer objects, add a bomap object */
-+	if (n_bomap_pages) {
-+		file_size += n_bomap_pages * sizeof(*bomap);
-+		n_obj++;
-+	}
-+
-+	/* Add the size of the headers */
-+	file_size += sizeof(*iter.hdr) * n_obj;
-+
-+	/*
-+	 * Allocate the file in vmalloc memory, it's likely to be big.
-+	 * The reason behind these GFP flags is that we don't want to trigger the
-+	 * OOM killer in the event that not enough memory could be found for our
-+	 * dump file. We also don't want the allocator to do any error reporting,
-+	 * as the right behaviour is failing gracefully if a big enough buffer
-+	 * could not be allocated.
-+	 */
-+	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-+			__GFP_NORETRY);
-+	if (!iter.start) {
-+		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
-+		return;
-+	}
-+
-+	/* Point the data member after the headers */
-+	iter.hdr = iter.start;
-+	iter.data = &iter.hdr[n_obj];
-+
-+	memset(iter.hdr, 0, iter.data - iter.start);
-+
-+	/*
-+	 * For now, we write the job identifier in the register dump header,
-+	 * so that we can decode the entire dump later with pandecode
-+	 */
-+	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
-+	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
-+	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
-+	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
-+	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
-+
-+	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
-+
-+	/* Reserve space for the bomap */
-+	if (job->bo_count) {
-+		bomap_start = bomap = iter.data;
-+		memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
-+		panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
-+					  bomap + n_bomap_pages);
-+	}
-+
-+	for (i = 0; i < job->bo_count; i++) {
-+		struct iosys_map map;
-+		struct panfrost_gem_mapping *mapping;
-+		struct panfrost_gem_object *bo;
-+		struct sg_page_iter page_iter;
-+		void *vaddr;
-+
-+		bo = to_panfrost_bo(job->bos[i]);
-+		mapping = job->mappings[i];
-+
-+		if (!bo->base.sgt) {
-+			dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
-+			iter.hdr->bomap.valid = 0;
-+			goto dump_header;
-+		}
-+
-+		ret = drm_gem_shmem_vmap(&bo->base, &map);
-+		if (ret) {
-+			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
-+			iter.hdr->bomap.valid = 0;
-+			goto dump_header;
-+		}
-+
-+		WARN_ON(!mapping->active);
-+
-+		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
-+
-+		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
-+			struct page *page = sg_page_iter_page(&page_iter);
-+
-+			if (!IS_ERR(page)) {
-+				*bomap++ = cpu_to_le64(page_to_phys(page));
-+			} else {
-+				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
-+				*bomap++ = ~cpu_to_le64(0);
-+			}
-+		}
-+
-+		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
-+
-+		vaddr = map.vaddr;
-+		memcpy(iter.data, vaddr, bo->base.base.size);
-+
-+		drm_gem_shmem_vunmap(&bo->base, &map);
-+
-+		iter.hdr->bomap.valid = cpu_to_le32(1);
-+
-+dump_header:	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
-+					  bo->base.base.size);
-+	}
-+	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_TRAILER, iter.data);
-+
-+	dev_coredumpv(pfdev->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.h b/drivers/gpu/drm/panfrost/panfrost_dump.h
-new file mode 100644
-index 000000000000..7d9bcefa5346
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2021 Collabora ltd.
-+ */
-+
-+#ifndef PANFROST_DUMP_H
-+#define PANFROST_DUMP_H
-+
-+struct panfrost_job;
-+void panfrost_core_dump(struct panfrost_job *job);
-+
-+#endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 7c4208476fbd..dbc597ab46fb 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -20,6 +20,7 @@
- #include "panfrost_regs.h"
- #include "panfrost_gpu.h"
- #include "panfrost_mmu.h"
-+#include "panfrost_dump.h"
- 
- #define JOB_TIMEOUT_MS 500
- 
-@@ -727,6 +728,8 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 		job_read(pfdev, JS_TAIL_LO(js)),
- 		sched_job);
- 
-+	panfrost_core_dump(job);
-+
- 	atomic_set(&pfdev->reset.pending, 1);
- 	panfrost_reset(pfdev, sched_job);
- 
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 9e40277d8185..eac87310b348 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -224,6 +224,53 @@ struct drm_panfrost_madvise {
- 	__u32 retained;       /* out, whether backing store still exists */
- };
- 
-+/* Definitions for coredump decoding in user space */
-+#define PANFROSTDUMP_MAJOR 1
-+#define PANFROSTDUMP_MINOR 0
-+
-+#define PANFROSTDUMP_MAGIC 0x464E4150 /* PANF */
-+
-+#define PANFROSTDUMP_BUF_REG 0
-+#define PANFROSTDUMP_BUF_BOMAP (PANFROSTDUMP_BUF_REG + 1)
-+#define PANFROSTDUMP_BUF_BO (PANFROSTDUMP_BUF_BOMAP + 1)
-+#define PANFROSTDUMP_BUF_TRAILER (PANFROSTDUMP_BUF_BO + 1)
-+
-+struct panfrost_dump_object_header {
-+	__le32 magic;
-+	__le32 type;
-+	__le32 file_size;
-+	__le32 file_offset;
-+
-+	union {
-+		struct pan_reg_hdr {
-+			__le64 jc;
-+			__le32 gpu_id;
-+			__le32 major;
-+			__le32 minor;
-+			__le64 nbos;
-+		} reghdr;
-+
-+		struct pan_bomap_hdr {
-+			__le32 valid;
-+			__le64 iova;
-+			__le32 data[2];
-+		} bomap;
-+
-+		/*
-+		 * Force same size in case we want to expand the header
-+		 * with new fields and also keep it 512-byte aligned
-+		 */
-+
-+		__le32 sizer[496];
-+	};
-+};
-+
-+/* Registers object, an array of these */
-+struct panfrost_dump_registers {
-+	__le32 reg;
-+	__le32 value;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
--- 
-2.37.0
+In general I think panel EDIDs are only trustworthy as far as you can
+throw them. They are notorious for having wrong and incorrect
+information, which is why the EDID quirk list exists to begin with.
+Trying to change how we're going to interpret all EDIDs, even all
+EDIDs for eDP panels, seems like it will break someone somewhere.
+Maybe there are EDIDs out there that were only ever validated at the
+higher refresh rate and they don't work / flicker / cause digitizer
+noise at the lower refresh rate. Heck, we've seen eDP panel vendors
+that can't even get their checksum correct, so I'm not sure I want to
+make a global assertion that all panels validated their "secondary"
+display mode.
 
+In this particular case, we have validated that this particular Sharp
+panel works fine at the lower refresh rate.
+
+I would also note that, as far as I understand it, ODMs actually can
+request different EDIDs from the panel vendors. In the past we have
+been able to get panel vendors to change EDIDs. Thus for most panels
+I'd expect that we would discover this early, change the EDID default,
+and be done with it. The case here is a little unusual in that by the
+time we got involved and started digging into this panel too many were
+created and nobody wants to throw away those old panels. This is why
+I'm treating it as a quirk/bug. Really: we should have updated the
+EDID of the panel but we're unable to in this case.
+
+-Doug
