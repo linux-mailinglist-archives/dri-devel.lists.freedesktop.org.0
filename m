@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AE75853FA
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:49:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884885853E6
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F761113830;
-	Fri, 29 Jul 2022 16:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4BFD10F72E;
+	Fri, 29 Jul 2022 16:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E00210F9A9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A59D10F48C
  for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:45:49 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id D652F58098F;
- Fri, 29 Jul 2022 12:37:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 29 Jul 2022 12:37:06 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2FD86580970;
+ Fri, 29 Jul 2022 12:37:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 29 Jul 2022 12:37:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1659112626; x=
- 1659119826; bh=4qGx3hZit6lgcEk+++mw0lRXGNof3zdttC570gMtjkM=; b=l
- GACZXlgopYcJNm4Jm6wUqewu+H5w79l2k87mB6ByuFKrffOg2jW04MqWIKX7wXuT
- tu/gXq7aZ6MiPhdXSCQmnR867FM5S6bHMgb0KwLbCKQ14lB8/+d7mWV+uoJ2Zko5
- g1Z7KdTmmhnvUoLy8ujVPawPqvy5dzvTz2I7fK8w0UU9vA/6m00uKcbwRCLKYxgv
- LgrX4C6bJMXUPRpVpH//dPw5Qg6kA+iiqpchNOcxcJH0ywL+lTuEermd8+goPpm2
- Al17zY5g3h814WxOVm0PqSUgBIOUCc8QbX2keq3Dp8adm4spk62UB4BcMgT8FYIh
- gW+9bhBxWG4Q4+7miGbRw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659112631; x=
+ 1659119831; bh=+5E38+xZJMqYKmGrfI9Nt4r8XFy7N2jsoRvZqx2cZ10=; b=r
+ BkenR+XksQHlSX/BAJw8y4H9rzdmqEcwi3Zm6ynYruJpbMytDehshtuhaofk6php
+ gUwZM90D23gF8NWtjhHFzrJQp7A1tYfgLLFvgxUMYUVW/0EVUMUCEoF/o9EIAGOC
+ ipZVNIAfdGNnkRHNU9s4qrgOdyukxZwQuhcnb7WTDMxOYNIlVXtRKegdUspasLK7
+ Nwd0FsFMdYAh+YuSwkraSgi1r8pImZt+2zaDYIxGD76x3gD1lq4AokYesPW3OQO7
+ iMeN3Y8wwWdq8N0FtS/9nYEQpdBoqfeZdUSe1TYAj+QxX6k/PxE3FtgSKB2UDx1K
+ 4Kfj/9FXQeybOMP8nIsUw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659112626; x=
- 1659119826; bh=4qGx3hZit6lgcEk+++mw0lRXGNof3zdttC570gMtjkM=; b=c
- OvUOHm9ML7xSguz94NpbYgHBEoQHjTx71dbbu2OgTJHN5RqyOhVUVVd7T2XgB++S
- rge56cRXsONSQYTJPXBHlrxJcnLQhqZUuEL2CejFHEyupVXss4H+jxOoHqnFqdoe
- MHKeeegoNvasrgU8EvWVngBhAxcnYt34ro6tEP+6kwAB5KXpVO6e3Q5n8INY/f3N
- 58JM5mw/1GrjZEBePm/sRYLWZ/D6R6n5ECtzNf420wkyUCYxLhAnlMJis3HzKW4u
- qnGs0TK+kzZ2BoajUJHv9aeICJY5wvfoTT17tiupUS2js06CdfeACWHksF1EQZoi
- tsA+DY71nFeZTrqzkku1w==
-X-ME-Sender: <xms:sgzkYtkz2igTVrIsv4wD5TTDGtzjOyx3dc1k-LTYA00VIpRgoLjE8A>
- <xme:sgzkYo0lf7HKkWLM1KcKiSAB8A4B0WxXZy8B07vtbHVAp8u9VXoPV8L6TAvfmfCGM
- OtDnPAnvfSTWEWH-EM>
-X-ME-Received: <xmr:sgzkYjoDPKoAaxu2C_-ypyZJW6qCKxwPmQl9gOEdRpqb7NoYY4eFT-ITJ-bJ7yfYesn6BUzDYyugEJaZh0E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddtfecutefuodetggdotefrod
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659112631; x=
+ 1659119831; bh=+5E38+xZJMqYKmGrfI9Nt4r8XFy7N2jsoRvZqx2cZ10=; b=g
+ nEIAYE8TviTyA201GDG+dm7FyhztchoT8Zu9rL9CMkGHY/3QZj46Ahkxmqj+k6Xl
+ 0KWOxPLxGVVwwE4Rk+di2QZaXpC7e6URMnoy5RXDMZ5VunE5kLCxEQtbGBrVLpL1
+ oV5WuYF39FvSZo7fGDppd4mjvhKxLp3JZMH852yQcREjThxlWrOz6v+ORLU+h1cx
+ NRrok7OPAUn+TsFgr9T4lJZjwWwntroQsoyVPgCSjuNfWcIbzHRR7Mtk1O8n+rCr
+ gYcaNzKDxgTQTcsEzUhBRfr23CphG0Qn0pJ0IikRl98ppb3b41zrImBOYvUVG9B7
+ P2KxKEor8BJnamtOSUgww==
+X-ME-Sender: <xms:twzkYrMuM1H3ZFZonv0WFWL-HoXMwPvfB_SBc8fLdsUnS_1ciASmUw>
+ <xme:twzkYl_QuR0QVXanqdkezR1szSwCxV6Hh_Tl2DYLK6rR62bleqvauAWDRzuI2Z594
+ yhMq4zdBAvebJpMPq8>
+X-ME-Received: <xmr:twzkYqRqRwqu9mZufCv3KLMhM4xOzSmq01S5i8Y2oKVtEUHd5tuHVhXnj7elFV_PJso0xdKRs3QoKD8ZMbs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddtgecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefo
  rgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecugg
  ftrfgrthhtvghrnhepgfffgfetffduudelhfevieffffduleevgfegkeeutefgffejheel
- leekjeefhfejnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrh
+ leekjeefhfejnecuvehluhhsthgvrhfuihiivgepjeenucfrrghrrghmpehmrghilhhfrh
  homhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:sgzkYtnnzvCIrnkoeZfuupii8TnxYLTrIn0Vyo9DVbEQxQ2g_UTcrg>
- <xmx:sgzkYr1xtZIIvkJu4p4CirYW0QgUEx7xo6OmbvSmPxjsl7WsXsm_0A>
- <xmx:sgzkYsvXk7wj0tkYE9lgDsSW8bgon7iKJ8nAXoRhYtPZrokwTqUHHg>
- <xmx:sgzkYmEKF4G1B_FABO6kc972JK6uqx9D0oCMHNk150ek6jjaEnsTYQ>
+X-ME-Proxy: <xmx:twzkYvsrS1Yol3B2iXCkaS9btSxHBZxl_EWGgLCbjgEAicppKPF0qg>
+ <xmx:twzkYjcALbnjOIL2D9G84ykFQKX0dHnjr6xfNAsgkOL7wlDqPshTqw>
+ <xmx:twzkYr0d9atXIUHTF0CqMBQ7uc3FGD68_b1UnL_9hffDL5cfbKx1Rw>
+ <xmx:twzkYstuDCwRyBez-c3qXYvf5OtfDt1Be6XjAj_lMC-25Jr8rNaasg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Jul 2022 12:37:05 -0400 (EDT)
+ 29 Jul 2022 12:37:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -73,20 +73,20 @@ To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Kevin Hilman <khilman@baylibre.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v1 27/35] drm/sun4i: tv: Merge mode_set into atomic_enable
-Date: Fri, 29 Jul 2022 18:35:10 +0200
-Message-Id: <20220728-rpi-analog-tv-properties-v1-27-3d53ae722097@cerno.tech>
+Subject: [PATCH v1 28/35] drm/sun4i: tv: Remove useless function
+Date: Fri, 29 Jul 2022 18:35:11 +0200
+Message-Id: <20220728-rpi-analog-tv-properties-v1-28-3d53ae722097@cerno.tech>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.10.0-dev-49460
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2077; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=j0+yMQ24E6EGIp+/t0OCzlRHmGmJAkQbvTve/uup35s=;
- b=owGbwMvMwCHc4XzqmfnC7acZT6slMSQ94VGqVGbNf3G7w++iaqyd3Kqsk+uWPVoba7c/5YyfxaFb
- WYHyHaUsDMIcDLJiiizXBd/a8YVFuUXwfNgMM4eVCWQIAxenAEyksJLhr9TCllaboHWHGySPhz76Lh
- d0kvNi/moR/VCrqnx7lj82Bxn+cHLyujT81VqYnaCcyHro4GX9Aisdiy2z8nnkWrxmN2i5AwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=761; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=3TBhnmWcnMOIjFQ9wN7h7LBx+REzOKQhe2V3iuF2js0=;
+ b=owGbwMvMwCHc4XzqmfnC7acZT6slMSQ94VEK2xdZHPRYpTL3Qf97rhcTp6zhmb9r7bzt64M7SvPS
+ +LcydZSyMAhzMMiKKbJcF3xrxxcW5RbB82EzzBxWJpAhDFycAjARvlcMf4WfyB5WPrfr34tNPdpW5b
+ 8uvpx4IUghMvV+nfEhH8b5JhUMf4Vaalo8H/MpnGNdMu934fsbPG/lXx92Xzat9M+Xtpq3PB8A
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Content-Transfer-Encoding: 8bit
@@ -112,63 +112,29 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our mode_set implementation can be merged into our atomic_enable
-implementation to simplify things, so let's do this.
+The drm_connector_to_sun4i_tv() function isn't used anywhere in the driver,
+so let's remove it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index f7aad995ab5b..3944da9a3c34 100644
+index 3944da9a3c34..52bbba8f19dc 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_tv.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -359,23 +359,13 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
- {
- 	struct sun4i_tv *tv = drm_encoder_to_sun4i_tv(encoder);
- 	struct sun4i_crtc *crtc = drm_crtc_to_sun4i_crtc(encoder->crtc);
--
--	DRM_DEBUG_DRIVER("Enabling the TV Output\n");
--
--	sunxi_engine_apply_color_correction(crtc->engine);
--
--	regmap_update_bits(tv->regs, SUN4I_TVE_EN_REG,
--			   SUN4I_TVE_EN_ENABLE,
--			   SUN4I_TVE_EN_ENABLE);
--}
--
--static void sun4i_tv_mode_set(struct drm_encoder *encoder,
--			      struct drm_display_mode *mode,
--			      struct drm_display_mode *adjusted_mode)
--{
--	struct sun4i_tv *tv = drm_encoder_to_sun4i_tv(encoder);
-+	struct drm_crtc_state *crtc_state =
-+		drm_atomic_get_new_crtc_state(state, encoder->crtc);
-+	struct drm_display_mode *mode = &crtc_state->mode;
- 	const struct tv_mode *tv_mode = sun4i_tv_find_tv_by_mode(mode);
- 
-+	DRM_DEBUG_DRIVER("Enabling the TV Output\n");
-+
- 	/* Enable and map the DAC to the output */
- 	regmap_update_bits(tv->regs, SUN4I_TVE_EN_REG,
- 			   SUN4I_TVE_EN_DAC_MAP_MASK,
-@@ -468,12 +458,17 @@ static void sun4i_tv_mode_set(struct drm_encoder *encoder,
- 		      SUN4I_TVE_RESYNC_FIELD : 0));
- 
- 	regmap_write(tv->regs, SUN4I_TVE_SLAVE_REG, 0);
-+
-+	sunxi_engine_apply_color_correction(crtc->engine);
-+
-+	regmap_update_bits(tv->regs, SUN4I_TVE_EN_REG,
-+			   SUN4I_TVE_EN_ENABLE,
-+			   SUN4I_TVE_EN_ENABLE);
+@@ -275,13 +275,6 @@ drm_encoder_to_sun4i_tv(struct drm_encoder *encoder)
+ 			    encoder);
  }
  
- static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
- 	.atomic_disable	= sun4i_tv_disable,
- 	.atomic_enable	= sun4i_tv_enable,
--	.mode_set	= sun4i_tv_mode_set,
- };
- 
- static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
+-static inline struct sun4i_tv *
+-drm_connector_to_sun4i_tv(struct drm_connector *connector)
+-{
+-	return container_of(connector, struct sun4i_tv,
+-			    connector);
+-}
+-
+ /*
+  * FIXME: If only the drm_display_mode private field was usable, this
+  * could go away...
 
 -- 
 b4 0.10.0-dev-49460
