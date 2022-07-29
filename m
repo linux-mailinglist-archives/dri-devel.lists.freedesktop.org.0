@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15B1584C94
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 09:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40F4584C57
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 09:04:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6689D11B7B6;
-	Fri, 29 Jul 2022 07:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E1D10E837;
+	Fri, 29 Jul 2022 07:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFF210E101
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 06:51:49 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- d65-20020a17090a6f4700b001f303a97b14so4405827pjk.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jul 2022 23:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=cjhKGepMlIEO3Wci9/3Wr5ru3tWGJp3cNdIthSMySCg=;
- b=US94Ex6+mIhfte+TqRog+s2Pf22KJc6EgYEaPm3/yUsb6/+DYws4WaXhwOUT5GvYPQ
- V92T+XmW89JigEKPMhesf2sLNaIfs8njwK4lMudM73HLb2oWIyjgOLu+Al8k1NSGP3sw
- Bc4/TB99oOjibAFHntXUclE1OJ2BWuJKWeGHUQMHObXkXv/jBmkrQ2u35JwD6PJedTvW
- mF+0s7zreMnnXEDUKqVM+peME7l8ECifPSAItc7v4z312/oS8NX/SwCfsmg0BKohTB2m
- XL+ZKcgoW1ED9fh+9y6mnlckLOz/+aUnBt/952jo36p7b2lTrLCD2VDvr+bCXTtXg4bs
- avgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cjhKGepMlIEO3Wci9/3Wr5ru3tWGJp3cNdIthSMySCg=;
- b=XLqf1lVVbCUL44LyeWN0sAq+0apGtPCcZ0LlkcoAuyMUMwzPXo+j67xy2y6PRgyDdH
- cNZHEfg22WvC94T7xzaNN4AtDppxFDjbmyBenzlI4kOr6eigGMBgbVZKzhdxgpYUecqf
- mPacIdS9gwQCnEBmHmdvbOf+DVvU20Ytah9zOSjPwLThSEWi4Kc/xN27sl8f7P0SgSk+
- Zvv7muGXaT+YW29Lr085VCWJlExm/Ue69ary8r7MbTKo9/pf3i4AzoEMlZFitTt5ea98
- 0hf4x99q0vDGKAZMw0Ctb5sUCSRXVQVGAn+dpxUPQeba5MnQcSt5chtWHta63qEAUgGl
- cREw==
-X-Gm-Message-State: ACgBeo0Gtc6GfU9k6H6lYv9i1TYNjBHO7sUVBWGAjsTGRrIWOCyBvnq1
- sdxQgKBnwI56pMaZvPRJJVJoerONYKpYaQ==
-X-Google-Smtp-Source: AA6agR5SdBo50/7T8qs90kIzI/XxNgQSSDqRotzuwp+Yc5ZycTaAJ2WsuqUnVJtlvvd/f4FflqW/6A==
-X-Received: by 2002:a17:90b:33c6:b0:1f3:2434:29c6 with SMTP id
- lk6-20020a17090b33c600b001f3243429c6mr3322066pjb.70.1659077509104; 
- Thu, 28 Jul 2022 23:51:49 -0700 (PDT)
-Received: from fedora.. ([103.159.189.145]) by smtp.gmail.com with ESMTPSA id
- mg20-20020a17090b371400b001f30b100e04sm4989301pjb.15.2022.07.28.23.51.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 23:51:48 -0700 (PDT)
-From: Khalid Masum <khalid.masum.92@gmail.com>
-To: syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] KASAN: vmalloc-out-of-bounds Write in imageblit (2)
-Date: Fri, 29 Jul 2022 12:51:39 +0600
-Message-Id: <20220729065139.6529-1-khalid.masum.92@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A66210E0E4;
+ Fri, 29 Jul 2022 07:04:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 09AE8619FD;
+ Fri, 29 Jul 2022 07:04:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65564C433D7;
+ Fri, 29 Jul 2022 07:03:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659078239;
+ bh=fzCBMgJfZnLfcaUhqg9JhjJadviES9eqpXWT+njnHTg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Yyf+039YkXdBICHTs98ag+yEw6yF8QT8bAC4OODtkBlfhp67tCKgZ0MU0tvVTt3P7
+ ztzi//nINQlNfrWF/sRHa9IbEpSr8xHs3szShKGlnKD4Xz+GlZJuL2podux/40S7O2
+ rFAtudqi+0tdIV3mNkmc3BFMRyETo55M/BW1I/jdxu/k+Af2/lexXThSYjJ4HhFWtC
+ K1LXYO7FQZVrvJKw+k0j6lgO7zEU3Fyrfl8/mKhqGproj2TD3rF9LvN05xkh1zdPRr
+ YzRUBYS7UWan8d4R0g6R3WI67B3G6Br3q37o9b7fkn0Cmsmm8DwsjyZcZUbzCVg5BN
+ MYmUuL6/R7E2w==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+ (envelope-from <mchehab@kernel.org>) id 1oHK2O-005nBq-Vd;
+ Fri, 29 Jul 2022 09:03:56 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: 
+Subject: [PATCH v2 0/2] Move TLB invalidation code for its own file and
+ document it
+Date: Fri, 29 Jul 2022 09:03:53 +0200
+Message-Id: <cover.1659077372.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <000000000000bbdd0405d120c155@google.com>
-References: <000000000000bbdd0405d120c155@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 29 Jul 2022 07:30:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,11 +54,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Here is a simplified reproducer for the issue:
+There are more things to be added to TLB invalidation. Before doing that,
+move the code to its own file, and add the relevant documentation.
 
-https://gist.githubusercontent.com/Labnann/923d6b9b3a19848fc129637b839b8a55/raw/a68271fcc724569735fe27f80817e561b3ff629a/reproducer.c
+Patch 1 only moves the code and do some function renames. No functional
+change.
+
+Patch 2 adds documentation for the TLB invalidation algorithm and functions.
+
+---
+
+v2: only patch 2 (kernel-doc) was modified:
+
+  - The kernel-doc markups for TLB were added to i915.rst doc;
+  - Some minor fixes at the texts;
+  - Use a table instead of a literal block while explaining how the algorithm works.
+    That should make easier to understand the logic, both in text form and after
+    its conversion to HTML/PDF;
+  - Remove mention for GuC, as this depends on a series that will be sent later.
+
+Chris Wilson (1):
+  drm/i915/gt: Move TLB invalidation to its own file
+
+Mauro Carvalho Chehab (1):
+  drm/i915/gt: document TLB cache invalidation functions
+
+ Documentation/gpu/i915.rst                |   7 +
+ drivers/gpu/drm/i915/Makefile             |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c        | 168 +----------------
+ drivers/gpu/drm/i915/gt/intel_gt.h        |  12 --
+ drivers/gpu/drm/i915/gt/intel_tlb.c       | 208 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_tlb.h       | 130 ++++++++++++++
+ drivers/gpu/drm/i915/i915_vma.c           |   1 +
+ 8 files changed, 352 insertions(+), 179 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+
+-- 
+2.36.1
 
 
