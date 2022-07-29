@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F20584EE3
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 12:35:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4077A584F3A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 12:50:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE10E10F359;
-	Fri, 29 Jul 2022 10:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA7A810F264;
+	Fri, 29 Jul 2022 10:50:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC3010E21A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 10:34:54 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id i13so5280378edj.11
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 03:34:54 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0947F10FA13
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 10:48:14 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id v17so5360045edc.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 03:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=Zk6yHET57f/wYXBe4yiexZ1AAMItVqOz1Jv1kut5E8E=;
- b=IsM5N0dJ2jSYwlQl9rbwt+OLNPEKaCRVIniuh9/fK2UA5cEWqol8qEt2eY1KAFImh0
- xgKtFlDvRwmal8EgGb4Op+XBno/E/HH8Bxy8BPnkUU2nIxz44g1exMkT0mBgnzczAkOM
- jEEdvopg/k2e5S3/4OLDkdml7fNMgGZXJmK2pxORFJYNKUIs9dcrZpTPKP/PyTRRiDnU
- 4AbNyblEPeQVwrctPIK+zUGSC8WmuyEHQXK0TllYSTMZqHtKbYQ+rO3pNAksc0uoqvC9
- H7uLLtXO9go/uW0Ye5nZLjgde4OuJHwsb257PiiTAEQZboCcDlee7NJuUdg+WQoQdZGF
- 8sKg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=3n/U/FQWga428NP8njwRwJq8YQtOFS7dE4r1PAnkS1w=;
+ b=NUwJ6Ia5ztlFAPJRSi//yXxSQSxStivnbYzEDrxWCEUcunK9mPPbSDW9UDDz5jYYTf
+ 5/3Tv/X7zyoHU/COku0GH9BU+wnuhqnwNFhGBh/oBwLrmzhgi2WmL6r/pQigVKDP+2wN
+ r2nnp+tCjUus1cege2Vm5IiCUqgIiTt4/grj8tzAwe+OtUD4H+EwBDhK/GPRq3Lq3Riq
+ OU7YrReBurHOIdx3AJ1A2MhkIWr3n3xTalz66sqsFBkMks+QVyqGj8zIaTAQPSbuEfQf
+ 8cevW1Q80DurxbNMHDhAvDW9cs5zdQWNQyPeZtlVDDib66Jn5ZADWJkEZ//9TVlc5tq5
+ Kiow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=Zk6yHET57f/wYXBe4yiexZ1AAMItVqOz1Jv1kut5E8E=;
- b=qVeehy+jjsBUQFmATKjnB6OERH6dbJF3jRXx7gV0fCpGBLNgbWLIMNHhMVV2H5sMtj
- YITB5sZSW8gFk2oAtG6ID0Kuc6of0Dnd5kYU3Q7b67iFSvw7/+rMDUkjRzQGDxi0a2Cr
- zDIfnFswMwZ0Wr72mTU0KCAA0fAuXgxDWfOkeqQCMfr23qgn9DaldGC9IGAxJpf6vQlV
- fXTyMxb9yWqbuIpIHY5I3PPS+yCpD5GsUdf0ffkVmc2NWUy8nsXBP/IgqLtN8dRzvrOw
- m2KrjfWJcmxx7ra5/bHRjTF+QavnB9mC2ZNG9Y2l+A/HtpCi0lCkrQedeYGDPdEKJOuZ
- qx4g==
-X-Gm-Message-State: AJIora/A9HZsR/k+M0Y+TKfi5gKERDeNFO6SHRxj/e7BHap+bW/fs7f6
- bNyQFptGBQbbbLuSsh0XZ3hWEUSib4fXwbtVAxM=
-X-Google-Smtp-Source: AGRyM1thJcc6VzDaeaE+EySViKuCRpu348iS7jC1QI3PpaFzkcmRpNMn9JsAnkR2MfsFuw188nD7QnVuUJohoFdGXiU=
-X-Received: by 2002:a05:6402:501d:b0:437:e000:a898 with SMTP id
- p29-20020a056402501d00b00437e000a898mr2923947eda.265.1659090892398; Fri, 29
- Jul 2022 03:34:52 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=3n/U/FQWga428NP8njwRwJq8YQtOFS7dE4r1PAnkS1w=;
+ b=j5lKiOAbeUjgDEuaCy2GckRQJ/CbDFAzwoOOHYc3W39pq/cqLaG1fLQ9SQZj+KiQ/t
+ SdDQKsAGZDhQINCFwFVpdJrUo1CZ+77MNGlv96AKB0OIQTyHUYzlxkXFxCO6zo8BvvlI
+ mPzZ1Lg061WoSkm4nc6e3mgSu++ri/hmSEl6LfGefocPjsP4m9igI+8fQJJxCMsLt1gm
+ 5dkr/oqkhIuI1DwQ9hbl1o+XsapOr1vfBITcOwePBC/0qqD8HB/TQKelD8MTuH6mReDR
+ VKruNzltCaRSSLjAPom8CSlnzCC4joDtQDhBfxNSI0wL0UaRlpGLKX6yYWCjPCHNdkI+
+ ofuw==
+X-Gm-Message-State: AJIora/4A3L2CbbM9vVo3TqLcaTRNs5JUBPh3ZZeZZ5t4gx3GJXnzukR
+ KUDIZGZSTyWAX6K2zysgII/msyKl/tNMO55Dd6Q=
+X-Google-Smtp-Source: AGRyM1swfkCmQwapy/e5MLB35AJLdgSMfrw8dhx1rZSpZi2iRMETLlJ8/O9gf/GWaYLbPNQzerUI5dsp0GToPimD/Xw=
+X-Received: by 2002:a05:6402:2714:b0:43c:1c1:717e with SMTP id
+ y20-20020a056402271400b0043c01c1717emr2983928edd.67.1659091692189; Fri, 29
+ Jul 2022 03:48:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-13-peterwu.pub@gmail.com>
- <CAHp75Vf85_uzA9fRxTizbPJxODcXFpM4wuU6DxP2j9UA47B_2g@mail.gmail.com>
- <CA+hk2fYcw0szJ7bBvfEjtyUE_Z61_A1vFWmPSdhe-gmd5jbC6g@mail.gmail.com>
-In-Reply-To: <CA+hk2fYcw0szJ7bBvfEjtyUE_Z61_A1vFWmPSdhe-gmd5jbC6g@mail.gmail.com>
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-2-markuss.broks@gmail.com> <YuKfaVG/ZbYtFjS/@kroah.com>
+ <CAHp75Vfz8e1j4qZ6XY6WqMR4E9fKFxrTxj7P6KraXzSLk_NhxQ@mail.gmail.com>
+ <YuOS5yUfNlTOtI6U@kroah.com>
+In-Reply-To: <YuOS5yUfNlTOtI6U@kroah.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 29 Jul 2022 12:34:14 +0200
-Message-ID: <CAHp75VctFBkPYumu-4+iGNATt=zE7HJ3n0kRSdDduJZ=h6FDEQ@mail.gmail.com>
-Subject: Re: [PATCH v6 12/13] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-To: szuni chen <szunichen@gmail.com>
+Date: Fri, 29 Jul 2022 12:47:35 +0200
+Message-ID: <CAHp75VcqtO5E91e5HxM6qN3gcMH5-_h=508chyDiWzvmLiFn6A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drivers: serial: earlycon: Pass device-tree node
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,61 +66,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ linux-efi <linux-efi@vger.kernel.org>, Markuss Broks <markuss.broks@gmail.com>,
+ Linux Documentation List <linux-doc@vger.kernel.org>,
+ Tony Lindgren <tony@atomide.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Borislav Petkov <bp@suse.de>, Petr Mladek <pmladek@suse.com>,
+ Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Michal Suchanek <msuchanek@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 29, 2022 at 8:17 AM szuni chen <szunichen@gmail.com> wrote:
-> Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=
-=9C=8825=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:51=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > On Fri, Jul 22, 2022 at 12:25 PM ChiaEn Wu <peterwu.pub@gmail.com> wrot=
-e:
-> > >
-> > > From: Alice Chen <alice_chen@richtek.com>
+On Fri, Jul 29, 2022 at 9:57 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Thu, Jul 28, 2022 at 11:04:24PM +0200, Andy Shevchenko wrote:
+> > On Thu, Jul 28, 2022 at 4:41 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > > On Thu, Jul 28, 2022 at 05:28:18PM +0300, Markuss Broks wrote:
 
 ...
 
-> > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> > > > +     unsigned long node;
+> > >
+> > > That should not be an unsigned long, but rather an 'int'.  Something got
+> > > messed up, of_setup_earlycon() should be changed to reflect this before
+> > > propagating the error to other places in the kernel.
 > >
-> > This SoB chain is wrong. Prioritize and read Submitting Patches!
+> > It's a pointer, but what puzzles me, why it can't be declared as a such:
+> >
+> >  struct device_node *node;
+> >
+> > ?
 >
-> After reading the Submitted Patches,
-> ChiaEn Wu wasn't involved in the development but he submitted the patch,
-> So, ChiaEn Wu <chiaen_wu@richtek.com> should be the last SoB, right?
-
-Right. Submitter's SoB is the last SoB in the chain.
-
-> I will revise SoB to
+> It should not be a pointer, trace things backwards, it comes from a call
+> to of_setup_earlycon() from early_init_dt_scan_chosen_stdout() which has
+> offset declared as an int, and then does:
+>         if (of_setup_earlycon(match, offset, options) == 0)
 >
-> Signed-off-by: SzuNi Chen <alice_chen@richtek.com>
+> So why would it be a node?
 
-Not sure I understand the SzuNi <--> Alice transformation...
+This is a very good question.
 
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > > And it's not really a "node" but an "offset", right?
+> >
+> > Seems no.
 >
-> If there is anything else I need to fix, please let me know. Thank you.
+> Really?  What am I missing here?
 
---=20
+It's me who is missing something here, thanks for your elaboration!
+After it it becomes clear that your first question should be
+addressed.
+
+-- 
 With Best Regards,
 Andy Shevchenko
