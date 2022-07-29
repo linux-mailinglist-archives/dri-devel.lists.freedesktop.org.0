@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F4358514E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 16:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EDE58517C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 16:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA9C310E322;
-	Fri, 29 Jul 2022 14:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFFE910E817;
+	Fri, 29 Jul 2022 14:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF04B10E0A1;
- Fri, 29 Jul 2022 14:08:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA79210E817
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 14:23:23 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id B7B6ECE29C0;
- Fri, 29 Jul 2022 14:07:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 988F6C433D6;
- Fri, 29 Jul 2022 14:07:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659103675;
- bh=cUXcZAT76ZabW6lC7i4r3goD7kw1XreIuadvSWS0sng=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bVItfyvIGROdWste07gaHkciQVKLZj2Wnu4y2OrU7JpKC/VY4NM65LXlENon0y+9+
- RGnVxxrrcwNQMrwI5xl/j1q2tiB0m56dyTwrE2P+jjrAuMHgaNH0EDFq0cjGAvZ9nN
- udvbxRL/YFB5otA8VdvffsLqO1xEHdLSY5pg3EBAaT/zcK1jNCxIWo23TI2PxrxjOr
- IE4mVZg3HQgNqgiiXXAza+Tu/8mkt1QFvnLbSi4d9/OoLob39WGZ4FMIisHvaV2LMo
- fDxc2Jzm2Xonnzh17zMdLEbNPyENcw+EQ0oaySgIGV3AmugxQSKqDnHmd1V7VokRYD
- tLoClKUIJZ+Jw==
-Date: Fri, 29 Jul 2022 15:07:47 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v16 0/3] eDP/DP Phy vdda realted function
-Message-ID: <YuPps+cvVAMugWmy@sirena.org.uk>
-References: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
- <YtkrDcjTGhpaU1e0@hovoldconsulting.com>
- <CAA8EJprQnnWjDZJy9+zUBsVQCi3jtc0Ngtzzk9MXpwOvuAS68g@mail.gmail.com>
- <CAD=FV=W0m-x9JC=5hQ3urSNmUp8sY-u8YkNd66yrKfRNAH4rcg@mail.gmail.com>
- <YuPiJWQ1/wQbkvD8@hovoldconsulting.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BF4E934B1C;
+ Fri, 29 Jul 2022 14:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659104601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=41yTqV34Y9S/L+H/w43+RTmir3H4LTje1VGve6f4RDU=;
+ b=g4e8RkVotq+qshmeZR5PldOGSHDtXeCHF643L5YFJSvubFf8NpSSh02YreA7qWwBK5oaq7
+ t+KznGB12iPdKHpj57zBPmmZCBLbbS8S4AnFJeDZk8zKkhBA66scK9HwUunEE25bWWpSgR
+ KnPKszz7TFJwx1bp0Eha+ZaakGxpU94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659104601;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=41yTqV34Y9S/L+H/w43+RTmir3H4LTje1VGve6f4RDU=;
+ b=tG9PlLHEzBx4R6SnDnH8mnJ2jtVkxqABaeWviAc6YFeCL5OdXahdIrxFrgU/cADu1ktln/
+ mb6ke0H4wYMftOBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 851AE13A1B;
+ Fri, 29 Jul 2022 14:23:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id qjxKH1nt42JzZAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 29 Jul 2022 14:23:21 +0000
+Message-ID: <a68022f4-28d0-7743-27fe-6df652082184@suse.de>
+Date: Fri, 29 Jul 2022 16:23:21 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="lMMlcIGCjceHAIpO"
-Content-Disposition: inline
-In-Reply-To: <YuPiJWQ1/wQbkvD8@hovoldconsulting.com>
-X-Cookie: Dime is money.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/kmb: fix dereference before NULL check in
+ kmb_plane_atomic_update()
+Content-Language: en-US
+To: Zeng Jingxiang <zengjx95@gmail.com>, anitha.chrisanthus@intel.com,
+ edmund.j.dea@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ laurent.pinchart@ideasonboard.com, maxime@cerno.tech,
+ ville.syrjala@linux.intel.com
+References: <20220729030711.2117849-1-zengjx95@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220729030711.2117849-1-zengjx95@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------dFxj7YZV00EUycLoniKD5Q4Y"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,91 +73,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Anderson <dianders@chromium.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Zeng Jingxiang <linuszeng@tencent.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------dFxj7YZV00EUycLoniKD5Q4Y
+Content-Type: multipart/mixed; boundary="------------sj5f9zrJyPyQK1Z5Zze4SzFW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Zeng Jingxiang <zengjx95@gmail.com>, anitha.chrisanthus@intel.com,
+ edmund.j.dea@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ laurent.pinchart@ideasonboard.com, maxime@cerno.tech,
+ ville.syrjala@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Zeng Jingxiang <linuszeng@tencent.com>
+Message-ID: <a68022f4-28d0-7743-27fe-6df652082184@suse.de>
+Subject: Re: [PATCH] drm/kmb: fix dereference before NULL check in
+ kmb_plane_atomic_update()
+References: <20220729030711.2117849-1-zengjx95@gmail.com>
+In-Reply-To: <20220729030711.2117849-1-zengjx95@gmail.com>
 
---lMMlcIGCjceHAIpO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--------------sj5f9zrJyPyQK1Z5Zze4SzFW
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Fri, Jul 29, 2022 at 03:35:33PM +0200, Johan Hovold wrote:
+SGkNCg0KQW0gMjkuMDcuMjIgdW0gMDU6MDcgc2NocmllYiBaZW5nIEppbmd4aWFuZzoNCj4g
+RnJvbTogWmVuZyBKaW5neGlhbmcgPGxpbnVzemVuZ0B0ZW5jZW50LmNvbT4NCj4gDQo+IFRo
+ZSAicGxhbmUiIHBvaW50ZXIgd2FzIGFjY2VzcyBiZWZvcmUgY2hlY2tpbmcgaWYgaXQgd2Fz
+IE5VTEwuDQo+IA0KPiBUaGUgZHJtX2F0b21pY19nZXRfb2xkX3BsYW5lX3N0YXRlKCkgZnVu
+Y3Rpb24gd2lsbCBkZXJlZmVyZW5jZQ0KPiB0aGUgcG9pbnRlciAicGxhbmUiLg0KPiAzNDUJ
+c3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3BsYW5lX3N0YXRlID0NCj4gCQlkcm1fYXRv
+bWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsIHBsYW5lKTsNCj4gMzQ2CXN0cnVjdCBk
+cm1fcGxhbmVfc3RhdGUgKm5ld19wbGFuZV9zdGF0ZSA9DQo+IAkJZHJtX2F0b21pY19nZXRf
+bmV3X3BsYW5lX3N0YXRlKHN0YXRlLCBwbGFuZSk7DQo+IA0KPiBBIE5VTEwgY2hlY2sgZm9y
+ICJwbGFuZSIgaW5kaWNhdGVzIHRoYXQgaXQgbWF5IGJlIE5VTEwNCj4gMzYzCWlmICghcGxh
+bmUgfHwgIW5ld19wbGFuZV9zdGF0ZSB8fCAhb2xkX3BsYW5lX3N0YXRlKQ0KDQpJcyB0aGlz
+IGFuIGFjdHVhbCBidWcgdGhhdCBoYXBwZW5zPw0KDQpBbGwgcGxhbmVzIHNob3VsZCBhbHdh
+eXMgaGF2ZSBhIHN0YXRlLiBUaGVyZWZvcmUgdGhlIHRlc3RzIGZvciANCiFuZXdfcGxhbmVf
+c3RhdGUgYW5kICFvbGRfcGxhbmVfc3RhdGUgY2FuIGJlIHJlbW92ZWQsIEknZCBzYXkuDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEZpeGVzOiA5Nzc2OTdlMjBiM2QgKCJk
+cm0vYXRvbWljOiBQYXNzIHRoZSBmdWxsIHN0YXRlIHRvIHBsYW5lcyBhdG9taWMgZGlzYWJs
+ZSBhbmQgdXBkYXRlIikNCj4gRml4ZXM6IDM3NDE4YmYxNGMxMyAoImRybTogVXNlIHN0YXRl
+IGhlbHBlciBpbnN0ZWFkIG9mIHRoZSBwbGFuZSBzdGF0ZSBwb2ludGVyIikNCj4gU2lnbmVk
+LW9mZi1ieTogWmVuZyBKaW5neGlhbmcgPGxpbnVzemVuZ0B0ZW5jZW50LmNvbT4NCj4gLS0t
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYyB8IDEzICsrKysrKysrLS0t
+LS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygt
+KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0va21iL2ttYl9wbGFuZS5jDQo+IGluZGV4IDI3MzViOGViMzUz
+Ny4uZDJiYzk5OGI2NWNlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0va21iL2tt
+Yl9wbGFuZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMNCj4g
+QEAgLTM0MiwxMCArMzQyLDcgQEAgc3RhdGljIHZvaWQga21iX3BsYW5lX3NldF9hbHBoYShz
+dHJ1Y3Qga21iX2RybV9wcml2YXRlICprbWIsDQo+ICAgc3RhdGljIHZvaWQga21iX3BsYW5l
+X2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+ICAgCQkJCSAgICBz
+dHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpDQo+ICAgew0KPiAtCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm9sZF9wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9wbGFu
+ZV9zdGF0ZShzdGF0ZSwNCj4gLQkJCQkJCQkJCQkgcGxhbmUpOw0KPiAtCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm5ld19wbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFu
+ZV9zdGF0ZShzdGF0ZSwNCj4gLQkJCQkJCQkJCQkgcGxhbmUpOw0KPiArCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKm9sZF9wbGFuZV9zdGF0ZSwgKm5ld19wbGFuZV9zdGF0ZTsNCj4gICAJ
+c3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmI7DQo+ICAgCXN0cnVjdCBrbWJfZHJtX3ByaXZh
+dGUgKmttYjsNCj4gICAJdW5zaWduZWQgaW50IHdpZHRoOw0KPiBAQCAtMzYwLDcgKzM1Nywx
+MyBAQCBzdGF0aWMgdm9pZCBrbWJfcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3Bs
+YW5lICpwbGFuZSwNCj4gICAJc3RhdGljIGRtYV9hZGRyX3QgYWRkcltNQVhfU1VCX1BMQU5F
+U107DQo+ICAgCXN0cnVjdCBkaXNwX2NmZyAqaW5pdF9kaXNwX2NmZzsNCj4gICANCj4gLQlp
+ZiAoIXBsYW5lIHx8ICFuZXdfcGxhbmVfc3RhdGUgfHwgIW9sZF9wbGFuZV9zdGF0ZSkNCj4g
+KwlpZiAoIXBsYW5lKQ0KPiArCQlyZXR1cm47DQo+ICsNCj4gKwlvbGRfcGxhbmVfc3RhdGUg
+PSBkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoc3RhdGUsIHBsYW5lKTsNCj4gKwlu
+ZXdfcGxhbmVfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUs
+IHBsYW5lKTsNCj4gKw0KPiArCWlmICghbmV3X3BsYW5lX3N0YXRlIHx8ICFvbGRfcGxhbmVf
+c3RhdGUpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+ICAgCWZiID0gbmV3X3BsYW5lX3N0YXRl
+LT5mYjsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
+LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
+ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-> I guess we just need to drop all those regulator-allow-set-load
-> properties for now even if using DT for power-management configuration
-> this way does seem to run against the whole DT-as-hardware-description
-> idea (e.g. we may want to add them back when/if active- and idle loads
-> are specified by the corresponding Linux drivers).
+--------------sj5f9zrJyPyQK1Z5Zze4SzFW--
 
-Well, there's also a question of if the hardware can usefully make use
-of the facility - is there any non-suspend state where the regulator
-needs to be on but is drawing so little current that it's worth trying
-to select a lower power mode?
-
-> But that doesn't address the problem that was trying to highlight here,
-> and that you had noticed years ago, namely that using set_load only
-> works reliably if *all* consumers use it.
-
-> Shouldn't an enabled regulator from a consumer that didn't specify a
-> load somehow result in HPM always being selected (e.g. count as INT_MAX
-> load as Doug suggested some years ago)?
-
-Possibly, but note that as well as the consumers with software drivers
-you also have to consider any passive consumers on the board which may
-not have any representation in DT so the actual numbers may well be off
-even if every consumer is trying to keep things up to date.  You also
-come back to the "let's just shove a random number in here" problem.
-
-For ultimate saftey we probably want a command line option to gate the
-feature which people can set to say they've audited their full
-software/hardware integration stack.
-
-> At some point in the discussion I thought Mark suggested removing
-> set_load from drivers that don't actually manage active and idle loads.
-> That would also work, at least until the day one of the drivers adds
-> support for idle loads.
-
-Yes, if the driver isn't actively managing loads it's probably not doing
-anything useful.
-
-The difficulties with this sort of system integration question is an
-unfortunate consequence of DT, having to describe what's safe for an
-unknown software stack is fundamentally hard.  I do question how much
-effort it's worth putting into enabling this, especially in cases where
-the regulator is shared - how much power is actually saved in the grand
-scheme of things given that this is only taking effect when the system
-is out of suspend and we tend to be talking about some percentage of the
-power being drawn on something which is presumably already consuming
-very little power for this to be at all relevant?
-
---lMMlcIGCjceHAIpO
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------dFxj7YZV00EUycLoniKD5Q4Y
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLj6bIACgkQJNaLcl1U
-h9BSSQf/eAdvLr6Oa23fgbGkvVf3vFVUAXordLXh1s2WpGE7ULmzOAETnrSqD+y2
-ZBiHcceuxWistf4AYnco7OZYGMeethjT0JUSU0gv6+C6H8oLuMZbI9/krqP8zwN2
-Ld5PvOB/fc2KGy/0Ox31e+pnsj8hK0WBQUVwVtalxkM0ltx0n92rwvsJCYK97OP8
-JNEt1aa4QEpnmocrB5KcsU1n1uJE4jrq7aZxxi1C+XlOwi8x4I+a6d9F7fnv+8Sc
-C6wRxlVsmSTwE7G47dBrk2/jhQZTenfpXwRktn8lrHDvFFHKyx4Yx3N2dGO27nC1
-zE9ytCAAJyTBkIPr+OniWH5PKcnfWA==
-=tOZj
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLj7VkFAwAAAAAACgkQlh/E3EQov+Ad
+Zg//R4VYlh2BljVqjozhuI2AHSb42lYJ4w8vMJigf0CR6rHQNj3t4FVREFRA6Mgru5ekCUz9+vFy
+SFUwg0kZjMr57vT/iWBzm60DNkUSiizkyNXPpwUxW82m11dhtPjsp7nh5rgHVXlbrTjnQNi2M0QJ
+Qya+EySc8bUy4Oytczg2pGrJXlY48UlNOnLyUI8ZY8B9Qzm7UlqkMmxqrAeFEfhoPDP/jIG27whs
+Y2ip3XcCPtY62+Xj3EiHOsWvCq6cKmJ20u8YRUypij6VuoJWOrJ/vrfj4VwVlEZkP/K/KhOo+5BH
+cK75WSOPzzvIZLkuy/qkwHc8NL941+F2gu4d2BPmjgVNwU3QiTW9ezol8XvS+nB5typ0sEN/LTZ+
+mFfh8BBoY3aGY1eU1LMOBhC6YO0KGglfuDtedFKXYiHim2AvPLt36uvMjDcEfPOLo2HCmx25mlqT
+kkqh0Moe/GR48GW6/soiexuF1NslXd+xvMtOnv+TP0E5e5p4mCysZ6txEmwmJTMpMYwt4VBY32T0
+8fPMTSPi8wE+Ej64reX4Ash+ULxBBpW2S61cVknUajrkZiRFrY7Jph1zNeMslOW7A5t0chx3exIQ
+sPD0xb2VfKH65x9MTsBqfWpS0aiXn9DWdzXsJrbjYvAPS5/YCnkAhEasCX49WyCsmIshjk2TP9p/
+pY0=
+=VE1D
 -----END PGP SIGNATURE-----
 
---lMMlcIGCjceHAIpO--
+--------------dFxj7YZV00EUycLoniKD5Q4Y--
