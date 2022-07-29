@@ -1,154 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2920584919
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 02:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A35458493A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 03:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 912D911BF79;
-	Fri, 29 Jul 2022 00:35:36 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735AA11BF79;
- Fri, 29 Jul 2022 00:35:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659054934; x=1690590934;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=J+Hz8J99w0nqQ5vWKKmRNy593e97M5eOY6UsylivcZE=;
- b=j6jXchL6fE1cjPruiM7vSCc/y9HgDAzmHtM/jkh0vhzaWzoquaUBeWIb
- RMBLUhXiN2hkkbOXkG9uuOSzOwM/0yANUEm3CmYU0tB6DZ0cWT6gw1lS6
- UIcjS9MjJqGSvAtCr42HuoqIqTFnm5+qzzI+VcjFJQfAQ9akh+V9gEbSW
- 3zsjNa2VGNi47DZAoMxd+Dbk4bAWTu9LBjaruSIgN8EvQ4eYfmYvKUrVA
- aS8mcJD1lQ9bREQY7/MNNtedGM8eDbgHO3aR2vP708+ZTCitiRzPU5myA
- jrH927QD/rr/U9u+nv6D926t6Q4wUFY3uCx1VgMIIJS1KC3jzc1JUtn57 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="350362545"
-X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; d="scan'208";a="350362545"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2022 17:35:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; d="scan'208";a="576736740"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga006.jf.intel.com with ESMTP; 28 Jul 2022 17:35:33 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 28 Jul 2022 17:35:33 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 28 Jul 2022 17:35:33 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Thu, 28 Jul 2022 17:35:33 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Thu, 28 Jul 2022 17:35:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C9XVdlARWZnbbAbr7ePmbqjGRdLzZc6zpVNJv8Nt5oksPZU6IcQ3dFm0oKGmZ/w7+wWIW2eGgBlk3pwul4fBIcDzhTj0XmOAbT6znuBivBLzu+AtfUe5ap3GTds9jmXMfq/OMuH3Owbx6jIV7+W5gLXHPJu+c3HJ77twn9JRRiNF3lPHAzsof3jdMLoRNZceRnrrj36Q8xHh+Ry6XnoghZpfB+SgdD3FsCLyVDSnih3Kcr5AK5HCdRf+kMLhR6s1cIUM5WImG7FRvHoutx0xC5fnJyVsEjaaguYelJ9er5r0xPgAMdkAU9AIu543dfUYsMdar0nkE5rK+h9t48kgdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r+GhjMiG7gNiV4AeKmFzXzKc+Zw57ZPQuisyJaYod9s=;
- b=L8H3gnnj6eJFdn/8juBdIQ6L5LQ+F3n0GkvmpZT9CVYk+ETmI74AI9dxNBmtxiEN48v3UmdDoBhpxYtKOpKeX6VPnsd8/u43CA5aMJ1yugR2YXFSY/PLA3PyZOZ8L0Dc1+KhQ2Uvf5f7T4wihyA7yPILMT4kq7q+4LAiAfpRn2rvgMR73ZM16qGCWMPLZPFYaJ7mmSus5L/GRMiF3FwIazvyZFxqQ0Daj71q9h/QuQ/5iBBI4IB0DcdTCvcGS0uOIn8E5iEh1JHkNV3TftPXGZVYWAJG+KZEX9cFNymFuvV7iiJdGin9IqP4MnNkL6aOIZgP9TjpvhtDTlZ4/0iQVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by MN2PR11MB3599.namprd11.prod.outlook.com (2603:10b6:208:ed::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Fri, 29 Jul
- 2022 00:35:31 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::516d:4bc0:8e7b:9a12]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::516d:4bc0:8e7b:9a12%6]) with mapi id 15.20.5458.024; Fri, 29 Jul 2022
- 00:35:31 +0000
-Message-ID: <e9fb8872-1d78-430a-ee91-175bac5d85ba@intel.com>
-Date: Thu, 28 Jul 2022 17:35:28 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [Intel-gfx] [PATCH 6/6] drm/i915/guc: Don't abort on CTB_UNUSED
- status
-Content-Language: en-GB
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20220728024225.2363663-1-John.C.Harrison@Intel.com>
- <20220728024225.2363663-7-John.C.Harrison@Intel.com>
- <d0e94746-132d-061c-ef68-2016d50b09d9@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <d0e94746-132d-061c-ef68-2016d50b09d9@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW3PR05CA0012.namprd05.prod.outlook.com
- (2603:10b6:303:2b::17) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2753F10FEAE;
+	Fri, 29 Jul 2022 01:06:27 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6296111B3CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 01:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1659056780;
+ bh=aF/ABl+Ih4ZKaUbHEjptPqaZcMwACEofItxQofKHD9c=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=W2calaNOYIReelgZz6f/nSX2NQCdv/sLMOrKmSuzC5UzYJQq7lg/eWg0CgNqwED4n
+ 9mfFLYBTjs2/Y8vy85A/TFyfYr+51tbhDBWSkgS6PmIb6VyRKOwBM37uTi/uPU1W1I
+ zSBa20oJeZYNC9aRoMnHz9fiIqKUe0ObN0SOt910=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [172.58.35.54] ([172.58.35.54]) by web-mail.gmx.net
+ (3c-app-mailcom-bs16.server.lan [172.19.170.184]) (via HTTP); Fri, 29 Jul
+ 2022 03:06:20 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cfe4af49-66b8-4176-c9d5-08da70fa3de5
-X-MS-TrafficTypeDiagnostic: MN2PR11MB3599:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4JlJyfXwOKAdmxSRBOMjj4lJPBf3scijbcRn1ixm+cU/xABeSKS8SxuUZCnxQmccY0ZMYgqEJwnC26qydzx3W/3Xzm6pmtjWXMMN+M47BkSosyq3gkYRbdX0u1/CB8yELLP5nf6ijko2joDXX9J2CmxlwZfd63DCX6uthtuKz3K20mgQDJHtHuTBrSO0ShMSQgklRLHTybM7FhdrQ9Rc2MnSQfrVnirHU+OAjOIrohOAcH8W+O9bK7OF3vKeaVzfsoFAHfBd4NzTpDU59sqYWlfGppi2bynulzMtGn82+A+pokuGPYoocaEvUxckQCpU42wZYqwAqcdWOpjXeYek3Cn9qBt1sPKAQPWV8qxg3Y/nKh3K2mXpYPQ4+LHo2oIroMR+UsrKZGM6q13EX2ctxzSlfm/qxasYbxATEJWH22ENKFGX7AEFfajZVg94QqW4ND/R3ulnW3//wNXvNsAL4F2p7ENTizMq5CsLrq8ZSbBbUiYZmpoTQR75NsIDN7wE/lQBWD4Xl01upHAt6eKt/L9P05fgH9BO+hZ9eh5kZTxgHhyG0MFIF853im05u9EltDKMW021KGyZY6513NZf8VceBDuPXfWCzeVhnznvjLgUI1smAVQrh7dgMix/LFmDKUTFqK/LiRZX10/cRCGRd7d6A2xetwNQwPdyc1Hm7fcwlY9o3zqEamkW65gZjWf4gFjJ0L/KXt026ZmhRKPkEcGvqL6bsWB1hif/ddznYGzrL7tGvDgQyDVYogaeKikC+P3v5NE8un2Af09e0ZAq7kEWcJ5O+v4auDLK7wVoZU/320cOONtrwz5YUMpI6iXCL3rVLPLOb1UCBzqRutYrHQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(136003)(366004)(346002)(376002)(39860400002)(66946007)(66476007)(478600001)(450100002)(8676002)(5660300002)(4326008)(66556008)(36756003)(31686004)(8936002)(6486002)(316002)(2616005)(53546011)(6506007)(186003)(6666004)(2906002)(41300700001)(26005)(82960400001)(38100700002)(6512007)(83380400001)(86362001)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDQ5Q3NIbEVGbm9nb0lFSi9za1VBWUNvbkxLQUY5SklZSlprT3dhOUd1WDBk?=
- =?utf-8?B?ei9ZRnN1RlVZd0diVFpLZnJKZ0U5RTd0MjZIbHRBQVhsOTk5VkpYSWlndWIx?=
- =?utf-8?B?aEVQQ1UrRm9wYzQ4ekJDRHV3UG5KL3BGZ1lMWmVJY3NuekRqMzdIanp1WVFq?=
- =?utf-8?B?ZzZsa2kzN0c2OGFsMlNzUUN2WWlLdGJlTDlJaWxxUHV3RndkRUpZQkJlL0xl?=
- =?utf-8?B?VG14azZKZU9ham1tT0syL0p4TWFDamhwMVI2cUUrWkVNUG5oZEdmUWc2MDBu?=
- =?utf-8?B?L09jQVlCU2ROMyt4clBtclp2NXVPK09ScVNxc0VGZG9WOTlvZWJOaFVhVTRL?=
- =?utf-8?B?ZlRUZHFyd0UrS0U2NzZhRDcvYjVRb2xadG5NRmJpdGVhWUIybE1Sb04rTXVp?=
- =?utf-8?B?ajdVZnBPVzUvNjBtYytGOVZvUFBQZmdqc3FqamlFUU9pQnpOazVmdnByQkJy?=
- =?utf-8?B?TVhITlhIWHgrZGdyRkNrNzRvWlMvT1BZNTg1dCtPYVFFdWJ3MjVMTlR5ZXJQ?=
- =?utf-8?B?ZjRFWTByRTJ2NjVLc0xtU2YxUDg1QzByYXJHUHp5YjBkc1JPcVV5TFg3cXc4?=
- =?utf-8?B?Qlg3RUFOWDlyRk42MWxUMlV0N0xpNmtJV1RsdFByck5NdlpTYUh4amo1Zm93?=
- =?utf-8?B?RWN5cVJDbU04bDYyeEpnVWZyRjJnd2ZpcmNLMjNiUk5sNW0vVnVrbEZZTkRV?=
- =?utf-8?B?MXJpMHYrYVVLd2hjc1hNbzlFREcxVm1tZzY2a1BwOHlRZjlPbjhML0tZWlNa?=
- =?utf-8?B?NkZzQkFUWkxDYkJpSVlRNjNoOVBLUXdJWjB5amV2VTlmVVZwTXJGOHZRN0po?=
- =?utf-8?B?a3hBcXl4Y2lQblRORHB6cVVpM0ZodUJsaFhDdjdnTVd2ZmNwY3l0L2MzWlBw?=
- =?utf-8?B?aDkvRnZpM0tOTG0zOXlMOW5halVWeGxqZEQ2VGJ5TmVUMFgyMmVsaUZGRCts?=
- =?utf-8?B?eXQ3a0VUTE8xWmFtZUkyekgyNXFPTzRnZXcrQXMxTFFRUFFjb0NmOEU5MkJ1?=
- =?utf-8?B?UmF0bjB2M2I5a0k5VDhtV3RUZmF6WjNnYXhRcERHd1k0b200UjdJdXUza1Rm?=
- =?utf-8?B?eWtsdzJORWdPSWdEeDRBck5DVWNjV1E3R0Y5TWVwWk14L3RCNHNDcC9VRDRk?=
- =?utf-8?B?TE9kQ2lubnhtdDNXWnJhM3UxUVkzYURudTcyRklzdHdQclgva3Rmbk1FRklz?=
- =?utf-8?B?K1lCZWJ0SWxRZ2Y3eGRNWmUwLzM1VXAwQzN2dy9YbE9UdWthdGZKdlRRVU1j?=
- =?utf-8?B?QWFiZERVVjhUWTdRb1cxVUJDZ0RTeDZicjBwWU9HMzh1REM2ZUlCN0RqdVVU?=
- =?utf-8?B?ZWhHM1JPM3QxZyt2bVR5cENxOXNsQ28xdUVYUXMxa1FyZ2Zzc1FFK1V1SGY0?=
- =?utf-8?B?L1UxenN1MEgvTXh5MXRhb2hJSTYvSERDNlBOTXBjZ2llVjhlb3grVHpZRzV4?=
- =?utf-8?B?azZ2OExTN1Z2Rm5FODlTYmI3aE5OS3k0VDZUQU9PSEx1ekZpN3RrWUN0YkVB?=
- =?utf-8?B?R1doeXVFTWQ4NVY5NzFlcEtQMzQ2NEYvcHJVemJHYlRaZVY0Qzk4L3A4TGRt?=
- =?utf-8?B?b1lsc2tzME9OZ0RBNzRISkFBRUdDdHNxL1lNa1pqcWxpVjh2MFdEemFmcmtV?=
- =?utf-8?B?bXNhd1J5Rjc2UTJJdjRwclFEREZYOHJRU3dFRnQwR29IMWh4cENUZG1yd3RE?=
- =?utf-8?B?VGRkVFkyQUxPSVQ5aEQvQ3dXb05KMGtzTWpEMTR0RnRNb2t1cjNoNlVzM3Zv?=
- =?utf-8?B?Y3N0NW8zR2pvNllhZXdaYUZ1TWtiVWJMVzhPQ3F6U09aeEpZR21sRTdLaEQ0?=
- =?utf-8?B?L2wyZUtFQWNXK2xFVW4wYVpVTU9MeXdYaTJjNnFwNzF2L2poNjN2Vlc3LzVs?=
- =?utf-8?B?OVpkWngxSUxGZkZBc2tZbWU0K3NDWE5DWWsza0xhOWFiOVNrRFpyMHliTjUv?=
- =?utf-8?B?bk9BV3E0UEI3RS9yMDhsZTdjMFBXZVlRbVg4eUJ6NmxiY3JiaS8xMXJJUTZU?=
- =?utf-8?B?T0lwR1dWcmpabzRQMW92VjVYMjhUQnZYNW9JRExUam5QMVNPWm0yUW5WS253?=
- =?utf-8?B?UXVwTWlGMU1lTlQycnpHdkdrN2hxdzQyNFNqcDJrSmRxZXJ1RmJVNzIyck1o?=
- =?utf-8?B?SkZ1RytsV2kxRFJnYWNqOUNOL1l4MkN3Wks2OG1LVDBiWHhKRFZ1ckJ4VFFv?=
- =?utf-8?B?emc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfe4af49-66b8-4176-c9d5-08da70fa3de5
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2022 00:35:31.0513 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jstJEDhdegsw1gLgfG/yVIBga+HlNKnhRTEv+pcILCHOef0rjlzaQIjOxT8GpfOp3f7uSTwaRPG+KxanJzhF8ejKt/kFgPYAGUrs4V73lMU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB3599
-X-OriginatorOrg: intel.com
+Message-ID: <trinity-a16031db-8f2d-4a85-93f5-55ae94703c61-1659056780791@3c-app-mailcom-bs16>
+From: Kevin Brace <kevinbrace@gmx.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 29 Jul 2022 03:06:20 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <CAPM=9tx9JFVFdBpEkxVF5AjtpBuVcyWY-xA=-u=ZZMemz4jafA@mail.gmail.com>
+References: <20220725235359.20516-1-kevinbrace@gmx.com>
+ <20220725235359.20516-7-kevinbrace@gmx.com> <YuAnXcz0ImO+cAHu@ravnborg.org>
+ <6e3473a8-f668-efdc-92b4-0a085e6531d7@suse.de>
+ <CAPM=9tx9JFVFdBpEkxVF5AjtpBuVcyWY-xA=-u=ZZMemz4jafA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:hY0qzEwPOna8Bo6pzJgW5mhtreVW4cRzld5Vnu7ElLSQAwivKvO5It0W6ilagM6Gg6AL9
+ 5GMELUEf+rJMexwitNjtM9mQq9SYjUKSWSuFQ23wW+unAGOI1hFao9Kyf5WnxgPbhXCfsa9fg1s3
+ deSR4rlgvoS9aRsiBl1M/9Klb5YbONRh4Wv2ltrFlQ17HUpZjHpoqydjbVeklRRi7PqqN1t2NW5k
+ VCdf8C0cmlzjmkbe+FXayc3tTtSkBbQNgBrcBodMDwQfRMsmagIUpVseCnYWihHG9uF3IBN6rftp
+ bo=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GMwIloaOCIE=:RIn4uG8ndVUnkW4AgrdogZ
+ NLC1rvC5AOpcl8dEXDjhM2qRN6Q50sZtDA6EaTUwz6iUfINHwu1/eiPlo6VlmyCfVJ3PTkQUy
+ LE/UU+PzpQZVc7Sl9naaUpfJFacLgaGac3pzPebHxWtPiupmWda3s0uP6pmFuGAKldJEGcwnR
+ Z7SxFyK82t5ddt+JELzmLwBhwy+4sIy5m91In205hdfDZpVQm5XlV2leWHMcSlHJZMexQyc3d
+ psgvf3X157QY38ELnz/MbDT9BsaRoJdDr/emo27UdyhzKbSwEiFxSUWgwSy+5wfk5+roX0lPK
+ ZKCTUnbd2bOzbR2bAk3dJnY2FxcGrOfVqlt29d1Qvzs8G9v6DCgit7geQ14CUaTS3EspNnOi3
+ fXnEc6Wv7vsO7+92ROUN+oUATgtFzsToNqvwNF2EKYqqfR7zoBuhCsKJTFDMhCfVYt6a1modU
+ rv3249afA6E566thO8x3u3Pn4cvjVF8Da/hls3YyjStFeelgx3oya+aj4Vx3ZgmHtFhlUKtFL
+ W3AhvRTB0QALm/BdojEg6iC4aixIJ7nTWPFAfI7BAYHF7fvp8DMJY4BanrJsLJKvy5UFEF1Qv
+ Qp4Mf7nM24tKhuCkdghkkiwLVE04m/dJv+OKwI4IZ7LR68ey5hNlnZyVEpqoHuQRCokPgeCID
+ ySJZqSNYIYvdVSd3eqWzTN7rI6WNmvzu5HLIrwl/4Aymt8CLLlZTZ8fbhwqdCxw+9vXf2kEV4
+ FN5jbITgl8IZ1h05hMYeH00V+ncPPZJd9eV6ftLgWW/UCNtbU9jhvqAJc+ud9IyZI5IJVeMF5
+ 6I2QNXe
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,125 +71,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/28/2022 17:00, Ceraolo Spurio, Daniele wrote:
-> On 7/27/2022 7:42 PM, John.C.Harrison@Intel.com wrote:
->> From: John Harrison <John.C.Harrison@Intel.com>
->>
->> When the KMD sends a CLIENT_RESET request to GuC (as part of the
->> suspend sequence), GuC will mark the CTB buffer as 'UNUSED'. If the
->> KMD then checked the CTB queue, it would see a non-zero status value
->> and report the buffer as corrupted.
->>
->> Technically, no G2H messages should be received once the CLIENT_RESET
->> has been sent. However, if a context was outstanding on an engine then
->> it would get reset and a reset notification would be sent. So, don't
->> actually treat UNUSED as a catastrophic error. Just flag it up as
->> unexpected and keep going.
->
-> Given that we disable CTs right after sending the CLIENT_RESET, there 
-> is only a small window for the kernel to receive a G2H interrupt 
-> before we turn everything off. If we want to support catching 
-> unexpected G2Hs coming at that time, maybe we should instead make sure 
-> all CT messages (if any) have been processed before the disable. Not a 
-> blocker for this patch, can be done as a follow-up.
-Yeah, it gets messy. How do you check for messages in a CTB that is 
-already marked as 'do not touch me'? The current check for available 
-work (head != tail) is after the status check. This is specifically so 
-that we don't try to process corrupted messages in a corrupted buffer. 
-But by definition, if the send(CLIENT_RESEET) call has returned then the 
-status is already 'do not use'. Ideally, we would just want to flush out 
-any pending interrupts before turning interrupts off in the sanitise 
-code. But then, is there a race where the interrupt hasn't quite made it 
-far enough by that time? Do we need to stall for a bit? How long?
+Hi Dave,
 
-As noted, in the case where we actually hit the issue the interrupt 
-handler did get to run in the gap between sending the reset message and 
-turning off the i915 side of the CTB. So we are basically into windows 
-of opportunity and diminishing returns. Given that it is supposedly an 
-impossible situation anyway, I'm not sure it is worth putting a complex 
-solution in to solve. But yeah, can think more and maybe get some kind 
-of extra check in there as a follow up.
+Thanks for pointing out the blog written by Daniel=2E
+I was thinking that I will need to make refinements to OpenChrome DRM uAPI=
+, so I will rework the uAPI=2E
+I also plan to discontinue old VIA DRM uAPI by using drm_invalid_op()=2E
+No one pointed this out, but I was thinking that something like this had t=
+o be done=2E
+I will work on these, and post the updated code soon with taking into cons=
+ideration the VIA DRM DRI1 compaction work done by Sam / Thomas=2E
 
-John.
+Regards,
+
+Kevin Brace
+Brace Computer Laboratory blog
+https://bracecomputerlab=2Ecom
 
 
+> Sent: Tuesday, July 26, 2022 at 1:20 PM
+> From: "Dave Airlie" <airlied@gmail=2Ecom>
+> To: "Thomas Zimmermann" <tzimmermann@suse=2Ede>
+> Cc: "Sam Ravnborg" <sam@ravnborg=2Eorg>, "Kevin Brace" <kevinbrace@gmx=
+=2Ecom>, "Kevin Brace" <kevinbrace@bracecomputerlab=2Ecom>, "dri-devel" <dr=
+i-devel@lists=2Efreedesktop=2Eorg>
+> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm=2Eh
 >
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> On Wed, 27 Jul 2022 at 04:18, Thomas Zimmermann <tzimmermann@suse=2Ede> =
+wrote:
+> >
+> > Hi
+> >
+> > Am 26=2E07=2E22 um 19:41 schrieb Sam Ravnborg:
+> > > Hi Kevin=2E
+> > >
+> > > On Mon, Jul 25, 2022 at 04:53:53PM -0700, Kevin Brace wrote:
+> > >> From: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
+> > >>
+> > >> Changed the uAPI=2E
+> > >>
+> > >> Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
+> > >
+> > > It would be great to have the new extensions to the UAPI documented
+> > > using kernel-doc=2E
+> > > As an example see: vc4_drm=2Eh
+> > >
+> > > There are a lot of UAPI that is missing documentation, but if we do =
+not
+> > > add it for new UAPI then this situation never improves=2E
+> > >
+> > > Please use __u32, __u64 like you see in other drm UAPI files=2E
+> > >
+> > > PS=2E If you reply to this mail, then please keep the full mail as
+> > > usually my mails to Kevin bounces (something with STARTTLS)=2E
+> > >
+> > >       Sam
+> > >
+> > >> ---
+> > >>   include/uapi/drm/via_drm=2Eh | 35 +++++++++++++++++++++++++++++++=
+----
+> > >>   1 file changed, 31 insertions(+), 4 deletions(-)
+> > >>
+> > >> diff --git a/include/uapi/drm/via_drm=2Eh b/include/uapi/drm/via_dr=
+m=2Eh
+> > >> index a1e125d42208=2E=2Ee9da45ce130a 100644
+> > >> --- a/include/uapi/drm/via_drm=2Eh
+> > >> +++ b/include/uapi/drm/via_drm=2Eh
+> > >> @@ -1,4 +1,5 @@
+> > >>   /*
+> > >> + * Copyright =C2=A9 2020 Kevin Brace
+> > >>    * Copyright 1998-2003 VIA Technologies, Inc=2E All Rights Reserv=
+ed=2E
+> > >>    * Copyright 2001-2003 S3 Graphics, Inc=2E All Rights Reserved=2E
+> > >>    *
+> > >> @@ -16,10 +17,10 @@
+> > >>    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND=
+, EXPRESS OR
+> > >>    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHA=
+NTABILITY,
+> > >>    * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT=2E IN NO=
+ EVENT SHALL
+> > >> - * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,=
+ DAMAGES OR
+> > >> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHE=
+RWISE,
+> > >> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE =
+USE OR OTHER
+> > >> - * DEALINGS IN THE SOFTWARE=2E
+> > >> + * THE AUTHORS, COPYRIGHT HOLDERS, AND/OR ITS SUPPLIERS BE LIABLE =
+FOR ANY
+> > >> + * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONT=
+RACT, TORT
+> > >> + * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SO=
+FTWARE OR
+> > >> + * THE USE OR OTHER DEALINGS IN THE SOFTWARE=2E
+> > >>    */
+> > > Do not mix license changes with other changes - and use SPDX tag if
+> > > possible for the updated license=2E
+> > > See other drm UAPI files for examples=2E
+> > >
+> > >
+> > >>   #ifndef _VIA_DRM_H_
+> > >>   #define _VIA_DRM_H_
+> > >> @@ -81,6 +82,11 @@ extern "C" {
+> > >>   #define DRM_VIA_DMA_BLIT        0x0e
+> > >>   #define DRM_VIA_BLIT_SYNC       0x0f
+> > >>
+> > >> +#define     DRM_VIA_GEM_CREATE      0x10
+> > >> +#define     DRM_VIA_GEM_MAP         0x11
+> > >> +#define     DRM_VIA_GEM_UNMAP       0x12
+> > >> +
+> > > Use the same alignment as the previous lines=2E
+> > >> +
+> > > Drop extra empty line=2E
+> > >
+> > >>   #define DRM_IOCTL_VIA_ALLOCMEM       DRM_IOWR(DRM_COMMAND_BASE + =
+DRM_VIA_ALLOCMEM, drm_via_mem_t)
+> > >>   #define DRM_IOCTL_VIA_FREEMEM        DRM_IOW( DRM_COMMAND_BASE + =
+DRM_VIA_FREEMEM, drm_via_mem_t)
+> > >>   #define DRM_IOCTL_VIA_AGP_INIT       DRM_IOWR(DRM_COMMAND_BASE + =
+DRM_VIA_AGP_INIT, drm_via_agp_t)
+> > >> @@ -97,6 +103,10 @@ extern "C" {
+> > >>   #define DRM_IOCTL_VIA_DMA_BLIT    DRM_IOW(DRM_COMMAND_BASE + DRM_=
+VIA_DMA_BLIT, drm_via_dmablit_t)
+> > >>   #define DRM_IOCTL_VIA_BLIT_SYNC   DRM_IOW(DRM_COMMAND_BASE + DRM_=
+VIA_BLIT_SYNC, drm_via_blitsync_t)
+> > >>
+> > >> +#define     DRM_IOCTL_VIA_GEM_CREATE        DRM_IOWR(DRM_COMMAND_B=
+ASE + DRM_VIA_GEM_CREATE, struct drm_via_gem_create)
+> > >> +#define     DRM_IOCTL_VIA_GEM_MAP           DRM_IOWR(DRM_COMMAND_B=
+ASE + DRM_VIA_GEM_MAP, struct drm_via_gem_map)
+> > >> +#define     DRM_IOCTL_VIA_GEM_UNMAP         DRM_IOR(DRM_COMMAND_BA=
+SE + DRM_VIA_GEM_UNMAP, struct drm_via_gem_unmap)
+> > >> +
+> > > Use same alignment as previous lines=2E
+> > >
+> > >>   /* Indices into buf=2ESetup where various bits of state are mirro=
+red per
+> > >>    * context and per buffer=2E  These can be fired at the card as a=
+ unit,
+> > >>    * or in a piecewise fashion as required=2E
+> > >> @@ -275,6 +285,23 @@ typedef struct drm_via_dmablit {
+> > >>      drm_via_blitsync_t sync;
+> > >>   } drm_via_dmablit_t;
+> > >>
+> > >> +struct drm_via_gem_create {
+> > >> +    uint64_t size;
+> > >> +    uint32_t alignment;
+> > >> +    uint32_t domain;
+> > >> +    uint32_t handle;
+> > >> +    uint64_t offset;
+> > >> +};
+> > > I do not know if this is relevant, but adding a 64 bit parameter
+> > > (offset) that is only 32 bit aligned looks like trouble to me=2E
+> > > I hope others that knows this better can comment here=2E
+> >
+> > The compiler will leave a 4-byte gap between handle and offset=2E
+> > Structure allocation guarantees a minimal alignment of 8 bytes, so the
+> > field alignment will be correct=2E It's all dependend on architecture,
+> > platofrm, calling convention, but that's the rule of thumb=2E
+> >
+> > Have a look at the tool 'pahole' to inspect data-structure alignment i=
+n
+> > object files=2E You'll find plenty of gaps in compiled structure=2E
+> >
+> > It's still questionable to leave the gap there=2E Either declare it
+> > explicity (e=2Eg=2E, __u32 empty0; )  or declare the structure with
+> > __attribute__((__packed__))=2E  Personally, I'd use the former=2E
+>=20
+> It's not allowed at all to use packed or leave the gap=2E
+>=20
+> https://www=2Ekernel=2Eorg/doc/html/latest/process/botching-up-ioctls=2E=
+html
+>=20
+> The 2nd prereq covers this=2E
+>=20
+> Dave=2E
 >
-> Daniele
->
->> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> ---
->>   .../i915/gt/uc/abi/guc_communication_ctb_abi.h |  8 +++++---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c      | 18 ++++++++++++++++--
->>   2 files changed, 21 insertions(+), 5 deletions(-)
->>
->> diff --git 
->> a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h 
->> b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> index df83c1cc7c7a6..28b8387f97b77 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
->> @@ -37,6 +37,7 @@
->>    *  |   |       |   - _`GUC_CTB_STATUS_OVERFLOW` = 1 (head/tail too 
->> large)     |
->>    *  |   |       |   - _`GUC_CTB_STATUS_UNDERFLOW` = 2 (truncated 
->> message)      |
->>    *  |   |       |   - _`GUC_CTB_STATUS_MISMATCH` = 4 (head/tail 
->> modified)      |
->> + *  |   |       |   - _`GUC_CTB_STATUS_UNUSED` = 8 (CTB is not in 
->> use)         |
->>    * 
->> +---+-------+--------------------------------------------------------------+
->>    *  |...|       | RESERVED = 
->> MBZ                                               |
->>    * 
->> +---+-------+--------------------------------------------------------------+
->> @@ -49,9 +50,10 @@ struct guc_ct_buffer_desc {
->>       u32 tail;
->>       u32 status;
->>   #define GUC_CTB_STATUS_NO_ERROR                0
->> -#define GUC_CTB_STATUS_OVERFLOW                (1 << 0)
->> -#define GUC_CTB_STATUS_UNDERFLOW            (1 << 1)
->> -#define GUC_CTB_STATUS_MISMATCH                (1 << 2)
->> +#define GUC_CTB_STATUS_OVERFLOW                BIT(0)
->> +#define GUC_CTB_STATUS_UNDERFLOW            BIT(1)
->> +#define GUC_CTB_STATUS_MISMATCH                BIT(2)
->> +#define GUC_CTB_STATUS_UNUSED                BIT(3)
->>       u32 reserved[13];
->>   } __packed;
->>   static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> index f01325cd1b625..11b5d4ddb19ce 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> @@ -816,8 +816,22 @@ static int ct_read(struct intel_guc_ct *ct, 
->> struct ct_incoming_msg **msg)
->>       if (unlikely(ctb->broken))
->>           return -EPIPE;
->>   -    if (unlikely(desc->status))
->> -        goto corrupted;
->> +    if (unlikely(desc->status)) {
->> +        u32 status = desc->status;
->> +
->> +        if (status & GUC_CTB_STATUS_UNUSED) {
->> +            /*
->> +             * Potentially valid if a CLIENT_RESET request resulted in
->> +             * contexts/engines being reset. But should never happen as
->> +             * no contexts should be active when CLIENT_RESET is sent.
->> +             */
->> +            CT_ERROR(ct, "Unexpected G2H after GuC has stopped!\n");
->> +            status &= ~GUC_CTB_STATUS_UNUSED;
->> +        }
->> +
->> +        if (status)
->> +            goto corrupted;
->> +    }
->>         GEM_BUG_ON(head > size);
->
-
