@@ -2,73 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D756584E54
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 11:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F20584EE3
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 12:35:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1450710E100;
-	Fri, 29 Jul 2022 09:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE10E10F359;
+	Fri, 29 Jul 2022 10:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE10410E100;
- Fri, 29 Jul 2022 09:45:24 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 67B54320097E;
- Fri, 29 Jul 2022 05:45:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 29 Jul 2022 05:45:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1659087919; x=1659174319; bh=Nb1XFfcUmB4xSnr2WbBKf7pSNBG/bD/tv8e
- 22Ydwx5A=; b=jlr/cQUC6ZbkuF+LoVnD/U2wrP8AHeng9AcnK9iKSrb1EwHBHXO
- naX230P6xr0589d7Rx0p/fS3TjzlR2uSlxYVOIuK4czJNCQhMTy11T2mczeYOsDP
- rhLQKUj075Ks97S89XeZWw1kWXm7RJsnM0bCfPhWylQ6naFKzxW2oxPW8IUFS3mH
- r8JBzkthnEgT3UwtViVE11FqDaBHPmOk6j6kjlZxKkfac4XtW5geHgEBvvh05JIQ
- j+0FBbIDs3dkFZkLeysfDATQcq4zmr4cPP043s7jYfi97t8ZR+d4COfiNbZzT4yI
- iBAhXafr8/98XcMuWG7BZlOWDNyR2FJf4ag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659087919; x=
- 1659174319; bh=Nb1XFfcUmB4xSnr2WbBKf7pSNBG/bD/tv8e22Ydwx5A=; b=o
- kXPGq5e49T34YKeRSvsMAqAUMsJBYpA/w9maSNqLjKFMoXov/l+RsXAQGowokhyk
- y8Yz350naSTQbCkbOVsi2k2BKBmFgyPCtpBW/Go3ewC++ckPn7jK+jcw6YrcXprL
- zdJU83bv5GSGLHTu7/K32gqii2i0OzfOmqiGVzUeC5hxMP6iQF0i4zV6cEOMI9QP
- wAbNSsYbIBZFezINE4C0MrkJGdi6DDrnOXYlpPa456F7gTzplQx/QUbO+tRWhYnu
- 5TpV55QTHhvLjc+iPB5IQY37+u6BoUtPs/qOwwu7/zczxrrsWQXq3ExNmnnQoBVv
- 2MH573WgMcJoG4/XdnfYQ==
-X-ME-Sender: <xms:L6zjYkjK5J9FKfOV5AvG1NLrwa6orcqCx1DfIERu-bB-ij5PPd-_Tg>
- <xme:L6zjYtDsfNSC6nJzKpf1VNay4TpNoXqNX4Id2ZZO8oIcKPXaajExhkdU9XIkpyNjN
- mU2rBD0wetu5_w5K5I>
-X-ME-Received: <xmr:L6zjYsEMFF0YgvULRl0G8MtjWbWU_CUTWfd6rqaBCHfhI4vGid6VrPO4Gx9vo-pC8SJmQjFYM3Xoof_YhJk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedgudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
- ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:L6zjYlRAzgmdGwu8Q9OxAbz_lKH7hM5wH0HVmu3Z7OG-fT2hQZNXsg>
- <xmx:L6zjYhygUNx3O4gerTr5ih7OrnaS7AZzKWNEeilYxljPFRVTDG-8Dg>
- <xmx:L6zjYj7w46DKDARVs5tID_Eaztj0vnweXZ6UO-GdS30lOb1tao5I0g>
- <xmx:L6zjYmpxzy5aMkgDbKvkKkVlOvxUJJsCPtOWS-HiWopmJLSctKyMYg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Jul 2022 05:45:18 -0400 (EDT)
-Date: Fri, 29 Jul 2022 11:45:14 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20220729094514.sfzhc3gqjgwgal62@penduick>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC3010E21A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 10:34:54 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id i13so5280378edj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 03:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=Zk6yHET57f/wYXBe4yiexZ1AAMItVqOz1Jv1kut5E8E=;
+ b=IsM5N0dJ2jSYwlQl9rbwt+OLNPEKaCRVIniuh9/fK2UA5cEWqol8qEt2eY1KAFImh0
+ xgKtFlDvRwmal8EgGb4Op+XBno/E/HH8Bxy8BPnkUU2nIxz44g1exMkT0mBgnzczAkOM
+ jEEdvopg/k2e5S3/4OLDkdml7fNMgGZXJmK2pxORFJYNKUIs9dcrZpTPKP/PyTRRiDnU
+ 4AbNyblEPeQVwrctPIK+zUGSC8WmuyEHQXK0TllYSTMZqHtKbYQ+rO3pNAksc0uoqvC9
+ H7uLLtXO9go/uW0Ye5nZLjgde4OuJHwsb257PiiTAEQZboCcDlee7NJuUdg+WQoQdZGF
+ 8sKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=Zk6yHET57f/wYXBe4yiexZ1AAMItVqOz1Jv1kut5E8E=;
+ b=qVeehy+jjsBUQFmATKjnB6OERH6dbJF3jRXx7gV0fCpGBLNgbWLIMNHhMVV2H5sMtj
+ YITB5sZSW8gFk2oAtG6ID0Kuc6of0Dnd5kYU3Q7b67iFSvw7/+rMDUkjRzQGDxi0a2Cr
+ zDIfnFswMwZ0Wr72mTU0KCAA0fAuXgxDWfOkeqQCMfr23qgn9DaldGC9IGAxJpf6vQlV
+ fXTyMxb9yWqbuIpIHY5I3PPS+yCpD5GsUdf0ffkVmc2NWUy8nsXBP/IgqLtN8dRzvrOw
+ m2KrjfWJcmxx7ra5/bHRjTF+QavnB9mC2ZNG9Y2l+A/HtpCi0lCkrQedeYGDPdEKJOuZ
+ qx4g==
+X-Gm-Message-State: AJIora/A9HZsR/k+M0Y+TKfi5gKERDeNFO6SHRxj/e7BHap+bW/fs7f6
+ bNyQFptGBQbbbLuSsh0XZ3hWEUSib4fXwbtVAxM=
+X-Google-Smtp-Source: AGRyM1thJcc6VzDaeaE+EySViKuCRpu348iS7jC1QI3PpaFzkcmRpNMn9JsAnkR2MfsFuw188nD7QnVuUJohoFdGXiU=
+X-Received: by 2002:a05:6402:501d:b0:437:e000:a898 with SMTP id
+ p29-20020a056402501d00b00437e000a898mr2923947eda.265.1659090892398; Fri, 29
+ Jul 2022 03:34:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gkue4arypncbwmyr"
-Content-Disposition: inline
+References: <20220722102407.2205-1-peterwu.pub@gmail.com>
+ <20220722102407.2205-13-peterwu.pub@gmail.com>
+ <CAHp75Vf85_uzA9fRxTizbPJxODcXFpM4wuU6DxP2j9UA47B_2g@mail.gmail.com>
+ <CA+hk2fYcw0szJ7bBvfEjtyUE_Z61_A1vFWmPSdhe-gmd5jbC6g@mail.gmail.com>
+In-Reply-To: <CA+hk2fYcw0szJ7bBvfEjtyUE_Z61_A1vFWmPSdhe-gmd5jbC6g@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 29 Jul 2022 12:34:14 +0200
+Message-ID: <CAHp75VctFBkPYumu-4+iGNATt=zE7HJ3n0kRSdDduJZ=h6FDEQ@mail.gmail.com>
+Subject: Re: [PATCH v6 12/13] leds: flash: mt6370: Add MediaTek MT6370
+ flashlight support
+To: szuni chen <szunichen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,65 +68,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jul 29, 2022 at 8:17 AM szuni chen <szunichen@gmail.com> wrote:
+> Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=
+=9C=8825=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:51=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> > On Fri, Jul 22, 2022 at 12:25 PM ChiaEn Wu <peterwu.pub@gmail.com> wrot=
+e:
+> > >
+> > > From: Alice Chen <alice_chen@richtek.com>
 
---gkue4arypncbwmyr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+...
 
-Hi Dave, Daniel,
+> > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> >
+> > This SoB chain is wrong. Prioritize and read Submitting Patches!
+>
+> After reading the Submitted Patches,
+> ChiaEn Wu wasn't involved in the development but he submitted the patch,
+> So, ChiaEn Wu <chiaen_wu@richtek.com> should be the last SoB, right?
 
-Here's this week drm-misc-fixes PR
+Right. Submitter's SoB is the last SoB in the chain.
 
-It's a partial resend from yesterday that only had the simpledrm but the mail somehow got lost.
+> I will revise SoB to
+>
+> Signed-off-by: SzuNi Chen <alice_chen@richtek.com>
 
-Maxime
+Not sure I understand the SzuNi <--> Alice transformation...
 
-drm-misc-fixes-2022-07-29:
-One fix to fix simpledrm mode_valid return value, and one for page
-migration in nouveau
-The following changes since commit 02c87df2480ac855d88ee308ce3fa857d9bd55a8:
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+>
+> If there is anything else I need to fix, please let me know. Thank you.
 
-  drm/imx/dcss: Add missing of_node_put() in fail path (2022-07-20 10:12:15 +0300)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-07-29
-
-for you to fetch changes up to 66cee9097e2b74ff3c8cc040ce5717c521a0c3fa:
-
-  nouveau/svm: Fix to migrate all requested pages (2022-07-28 16:43:31 -0400)
-
-----------------------------------------------------------------
-One fix to fix simpledrm mode_valid return value, and one for page
-migration in nouveau
-
-----------------------------------------------------------------
-Alistair Popple (1):
-      nouveau/svm: Fix to migrate all requested pages
-
-Nathan Chancellor (1):
-      drm/simpledrm: Fix return type of simpledrm_simple_display_pipe_mode_valid()
-
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 6 +++++-
- drivers/gpu/drm/tiny/simpledrm.c       | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
-
---gkue4arypncbwmyr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYuOsKgAKCRCIQ8rmN6G3
-y4MJAP9FWzwxfl2685THKnGfcN79yIMwbe/2Vsi18u22AsmReQD/faDammKkpaMR
-+y+rXwv/nG1+emeinO8Gk/4/0ksHgOw=
-=E79N
------END PGP SIGNATURE-----
-
---gkue4arypncbwmyr--
+--=20
+With Best Regards,
+Andy Shevchenko
