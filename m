@@ -2,82 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057345853B6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10375853B7
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E5512B496;
-	Fri, 29 Jul 2022 16:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F55610F405;
+	Fri, 29 Jul 2022 16:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68FBB10F8FE;
- Fri, 29 Jul 2022 16:41:40 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 986255C00BF;
- Fri, 29 Jul 2022 12:41:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 29 Jul 2022 12:41:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1659112899; x=1659199299; bh=vwJQ7sD4dG
- 7A8X3sl4630p9ybNJbGIZPkCYHWDFRHOw=; b=nrQh9TATJ0OuMlig2AOr1ZntXY
- KU4u61qMFVMlEBwNZ4IZZcc5MmGTz9EOcLvKr3kSzlrdHZXfF0P8d8WtjLrppS3k
- PvgBE9jz0VEqnJBi2K9+z1Cl3/O69lXCwEXQW+zKYajT63PJHroXCFhQg8d6Jorb
- rIQcFR5uNXqe8E8A8qKc1SwDSXwdr6S9tiI5JgbzmLyITAFJeFWNgw/N24wBfl7q
- E9XhlD62gB6Gxs/lhHkjjfiKpijtmIMPoN08uOIXAb3BRZH6ZtFSRzEou0SaHCCi
- CssmSeayqZ49dZkI7Tw+JlhQZ5NtaLllvavpr5B+2s+8i64NHjKlLWnisSkQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1659112899; x=1659199299; bh=vwJQ7sD4dG7A8X3sl4630p9ybNJb
- GIZPkCYHWDFRHOw=; b=vspUWQJZtY3/RMVDt3OwYtIZFUFyfUI0y/KyDGjjqo7s
- v6XuTaLxcuw3bU+2p5M4666jwTAVvcVAIPgHEdEWdremwHGkHzvUKWlTqq8228wJ
- VMWhfY33skzOver9P9k36SEct7mYuzEiUx53lhDK+wdYaUgpA3DebKepWNKtAIIV
- uucp2awRnstfO0pVqgMa/4fsJyZPPLD1+lZpR+fU0NDp/iGFmlEAzg0WFD1RAdGP
- I5aWrxTXj+lKqhPQ01CFu9V9ZU9MgNXT765qUctvRzQuvhu2mtwx/rESKrhu/GnG
- FLBlQpUudD8l+dI1qQRp6xL8IdPE33C54J8Reip9yQ==
-X-ME-Sender: <xms:ww3kYt9nIZ_NZQkj-7yXIDhmxVEjy3lT25ITx0BMatv2SWHoEF7wEg>
- <xme:ww3kYhuwFTBY8YgMbnJLIwvlsuHwassnPtzRKRGsD6BWNBgoRJnWORK95SfrpGRt1
- TZBRuYC-sE6LFEUyww>
-X-ME-Received: <xmr:ww3kYrCVuK90gokBAUGueeKioFX53eU84Iln3c9-1PofaodJ7bch3e3h7XNkZg_AVcq5_tISYeE1HziFvMI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddthecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
- fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ww3kYhdIN4vbnHbTvJazERlLA8AMdkclpSR-AJxLgUc6zDD3S4crsA>
- <xmx:ww3kYiMgxpTzUwDxt62LMntejyIGGl_qdM2he3BD1PkNgk5vSsyVnA>
- <xmx:ww3kYjm9ZdQOoWNH8_r-ljnc1W2f_lWjFBiA0Zmn7HX9ItHz8Nw1ZQ>
- <xmx:ww3kYpqcGi_8EgEjNqoOjPu0dDOqcyj9x6RSOxG3DLHNe4Tj0ovYsA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Jul 2022 12:41:38 -0400 (EDT)
-Date: Fri, 29 Jul 2022 18:41:36 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [RFC PATCH] drm/edid: Make 144 Hz not preferred on Sharp
- LQ140M1JW46
-Message-ID: <20220729164136.opucqg64qz4ypmvo@penduick>
-References: <20220721152314.RFC.1.Ie333b3e4aff6e4a5b58c4aa805e030e561be8773@changeid>
- <269f2610-425b-f296-dcfc-89bdc2e1d587@quicinc.com>
- <CAD=FV=XSVXasU5PMR2kL0WQjQ458xDePuTGd1m14_v9JO5B6oA@mail.gmail.com>
- <CAF6AEGv_Vikf80v-7ccz90fvGPrk5pV1tOxRoWKxKHYuEW8=aA@mail.gmail.com>
- <5c8ca71c-5f0b-d5f5-9f16-e312dec0d01b@quicinc.com>
- <CAD=FV=UGYV1mZenDCRrbpC+gpE12-Uis7fm_=H3PeEjK=t36yA@mail.gmail.com>
- <20220729075118.ofnpk52tk4usm3n3@penduick>
- <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3733F12B906
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=I0sePq6rCVZfxouy1PxONZQBMjMeOXI8wteh+r/gn/A=; b=HWxurkv2DxU+7ybwyuSLZWFljF
+ QkbcSMRl/25e9R993s3MWb3G/0c+WzjaL9cygJeq1nksguusQKWJcL4rit/6MbKMfTn4rB2BvL1pb
+ G+CoLMdBn6w5+hM4kypJITdSari9sUOeTuc9ZbKsrVd96NKkOClHJy5d0DSV8iH4bjbmZ5Fjf5D4p
+ CTj1j0JgLCGGQ1Ga6PO6AUowNMcO4KouA5VjR7o8xbC9wFYI1tVBLYh6yr1qqhkUMQ3bYGdEpG2ul
+ DMHP/eFq97VC2AT50Fz9Y0uvFTFByhO5GkFeGQnMrVeQrV8ad7Vx0vEL9VpXlL+u6ChIJN/MmgEJ6
+ p078m2Vw==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oHT41-00BAtH-OR; Fri, 29 Jul 2022 18:42:13 +0200
+Date: Fri, 29 Jul 2022 15:42:00 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH v2] drm/tests: Split up test cases in
+ igt_check_drm_format_min_pitch
+Message-ID: <20220729164200.tigobs62ylfjk3hs@mail.igalia.com>
+References: <20220729124726.748221-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nmnf5qri3rvyhvwr"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="us3k4w46mzsadc3u"
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=WUB68-DQ-pAFjGaG-kid33ve4Qc3iqb8OUh61xTBohmg@mail.gmail.com>
+In-Reply-To: <20220729124726.748221-1-mairacanal@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,146 +53,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-kselftest@vger.kernel.org,
+ =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ David Gow <davidgow@google.com>, siqueirajordao@riseup.net,
+ magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
+ tales.aparecida@gmail.com, Daniel Latypov <dlatypov@google.com>,
+ brendanhiggins@google.com, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, kunit-dev@googlegroups.com,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---nmnf5qri3rvyhvwr
-Content-Type: text/plain; charset=us-ascii
+--us3k4w46mzsadc3u
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 29, 2022 at 07:50:20AM -0700, Doug Anderson wrote:
-> On Fri, Jul 29, 2022 at 12:51 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > On Thu, Jul 28, 2022 at 02:18:38PM -0700, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Thu, Jul 28, 2022 at 10:34 AM Abhinav Kumar
-> > > <quic_abhinavk@quicinc.com> wrote:
-> > > >
-> > > > Hi Rob and Doug
-> > > >
-> > > > On 7/22/2022 10:36 AM, Rob Clark wrote:
-> > > > > On Fri, Jul 22, 2022 at 9:48 AM Doug Anderson <dianders@chromium.=
-org> wrote:
-> > > > >>
-> > > > >> Hi,
-> > > > >>
-> > > > >> On Fri, Jul 22, 2022 at 9:37 AM Abhinav Kumar <quic_abhinavk@qui=
-cinc.com> wrote:
-> > > > >>>
-> > > > >>> + sankeerth
-> > > > >>>
-> > > > >>> Hi Doug
-> > > > >>>
-> > > > >>> On 7/21/2022 3:23 PM, Douglas Anderson wrote:
-> > > > >>>> The Sharp LQ140M1JW46 panel is on the Qualcomm sc7280 CRD refe=
-rence
-> > > > >>>> board. This panel supports 144 Hz and 60 Hz. In the EDID, the =
-144 Hz
-> > > > >>>> mode is listed first and thus is marked preferred. The EDID de=
-code I
-> > > > >>>> ran says:
-> > > > >>>>
-> > > > >>>>     First detailed timing includes the native pixel format and=
- preferred
-> > > > >>>>     refresh rate.
-> > > > >>>>
-> > > > >>>>     ...
-> > > > >>>>
-> > > > >>>>     Detailed Timing Descriptors:
-> > > > >>>>       DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.5=
-00 MHz
-> > > > >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
-> > > > >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
-> > > > >>>>       DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.3=
-70 MHz
-> > > > >>>>                    Hfront   48 Hsync  32 Hback  80 Hpol N
-> > > > >>>>                    Vfront    3 Vsync   5 Vback  69 Vpol N
-> > > > >>>>
-> > > > >>>> I'm proposing here that the above is actually a bug and that t=
-he 60 Hz
-> > > > >>>> mode really should be considered preferred by Linux.
-> > > >
-> > > > Its a bit tricky to say that this is a bug but I think we can certa=
-inly
-> > > > add here that for an internal display we would have ideally had the
-> > > > lower resolution first to indicate it as default.
-> > >
-> > > Yeah, it gets into the vagueness of the EDID spec in general. As far
-> > > as I can find it's really up to the monitor to decide by what means it
-> > > chooses the "preferred" refresh rate if the monitor can support many.
-> > > Some displays may decide that the normal rate is "preferred" and some
-> > > may decide that the high refresh rate is "preferred". Neither display
-> > > is "wrong" per say, but it's nice to have some consistency here and to
-> > > make it so that otherwise "dumb" userspace will get something
-> > > reasonable by default. I'll change it to say:
-> > >
-> > > While the EDID spec appears to allow a display to use any criteria for
-> > > picking which refresh mode is "preferred" or "optimal", that vagueness
-> > > is a bit annoying. From Linux's point of view let's choose the 60 Hz
-> > > one as the default.
-> >
-> > And if we start making that decision, it should be for all panels with a
-> > similar constraint, so most likely handled by the core, and the new
-> > policy properly documented.
-> >
-> > Doing that just for a single panel is weird.
+On 07/29, Ma=EDra Canal wrote:
+> The igt_check_drm_format_min_pitch() function had a lot of
+> KUNIT_EXPECT_* calls, all of which ended up allocating and initializing
+> various test assertion structures on the stack.
 >=20
-> Yeah, though having a "general policy" in the core can be problematic.
+> This behavior was producing -Wframe-larger-than warnings on PowerPC, i386,
+> and MIPS architectures, such as:
 >=20
-> In general I think panel EDIDs are only trustworthy as far as you can
-> throw them. They are notorious for having wrong and incorrect
-> information, which is why the EDID quirk list exists to begin with.
-> Trying to change how we're going to interpret all EDIDs, even all
-> EDIDs for eDP panels, seems like it will break someone somewhere.
-> Maybe there are EDIDs out there that were only ever validated at the
-> higher refresh rate and they don't work / flicker / cause digitizer
-> noise at the lower refresh rate. Heck, we've seen eDP panel vendors
-> that can't even get their checksum correct, so I'm not sure I want to
-> make a global assertion that all panels validated their "secondary"
-> display mode.
->
-> In this particular case, we have validated that this particular Sharp
-> panel works fine at the lower refresh rate.
+> drivers/gpu/drm/tests/drm_format_test.c: In function 'igt_check_drm_forma=
+t_min_pitch':
+> drivers/gpu/drm/tests/drm_format_test.c:271:1: error: the frame size of
+> 3712 bytes is larger than 2048 bytes
 >=20
-> I would also note that, as far as I understand it, ODMs actually can
-> request different EDIDs from the panel vendors. In the past we have
-> been able to get panel vendors to change EDIDs. Thus for most panels
-> I'd expect that we would discover this early, change the EDID default,
-> and be done with it. The case here is a little unusual in that by the
-> time we got involved and started digging into this panel too many were
-> created and nobody wants to throw away those old panels. This is why
-> I'm treating it as a quirk/bug. Really: we should have updated the
-> EDID of the panel but we're unable to in this case.
+> So, the igt_check_drm_format_min_pitch() test case was split into three
+> smaller functions: one testing single plane formats, one testing
+> multi-planar formats, and the other testing tiled formats.
+>=20
+> Fixes: 0421bb0baa84 ("drm: selftest: convert drm_format selftest to KUnit=
+")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Ma=EDra Canal <mairacanal@riseup.net>
+> Tested-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Andr=E9 Almeida <andrealmeid@igalia.com>
 
-You raise some good points, but most of the discussion around that patch
-were mostly around performances, power consumption and so on.
+Applied to drm-misc-next
 
-This is very much a policy decision, and if there is some panel where
-the EDID reports 60Hz but is broken, then that panel should be the
-exception to the policy
+Thanks,
 
-But doing it for a single panel is just odd
+Melissa
+> ---
+> v1 -> v2:
+> - Add Guenter's Tested-by tag.
+> - Add Andr=E9's Reviewed-by tag.
+> - Replace "multiple planes" for "multi-planar" (Andr=E9 Almeida).
+> - Add Fixes tag (Melissa Wen).
+> ---
+>  drivers/gpu/drm/tests/drm_format_test.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/te=
+sts/drm_format_test.c
+> index 056cb8599d6d..afb4bca72187 100644
+> --- a/drivers/gpu/drm/tests/drm_format_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_test.c
+> @@ -91,7 +91,7 @@ static void igt_check_drm_format_block_height(struct ku=
+nit *test)
+>  	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
+>  }
+> =20
+> -static void igt_check_drm_format_min_pitch(struct kunit *test)
+> +static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit=
+ *test)
+>  {
+>  	const struct drm_format_info *info =3D NULL;
+> =20
+> @@ -175,6 +175,11 @@ static void igt_check_drm_format_min_pitch(struct ku=
+nit *test)
+>  			(uint64_t)UINT_MAX * 4);
+>  	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)=
+),
+>  			(uint64_t)(UINT_MAX - 1) * 4);
+> +}
+> +
+> +static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit=
+ *test)
+> +{
+> +	const struct drm_format_info *info =3D NULL;
+> =20
+>  	/* Test 2 planes format */
+>  	info =3D drm_format_info(DRM_FORMAT_NV12);
+> @@ -249,6 +254,11 @@ static void igt_check_drm_format_min_pitch(struct ku=
+nit *test)
+>  			(uint64_t)(UINT_MAX - 1) / 2);
+>  	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, (UINT_MAX - 1)=
+ / 2),
+>  			(uint64_t)(UINT_MAX - 1) / 2);
+> +}
+> +
+> +static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit=
+ *test)
+> +{
+> +	const struct drm_format_info *info =3D NULL;
+> =20
+>  	/* Test tiled format */
+>  	info =3D drm_format_info(DRM_FORMAT_X0L2);
+> @@ -273,7 +283,9 @@ static void igt_check_drm_format_min_pitch(struct kun=
+it *test)
+>  static struct kunit_case drm_format_tests[] =3D {
+>  	KUNIT_CASE(igt_check_drm_format_block_width),
+>  	KUNIT_CASE(igt_check_drm_format_block_height),
+> -	KUNIT_CASE(igt_check_drm_format_min_pitch),
+> +	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
+> +	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multi_planar),
+> +	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
+>  	{ }
+>  };
+> =20
+> --=20
+> 2.37.1
+>=20
 
-Maxime
-
---nmnf5qri3rvyhvwr
+--us3k4w46mzsadc3u
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABMIAB0WIQTXEe0+DlZaRlgM8LOIQ8rmN6G3ywUCYuQNwAAKCRCIQ8rmN6G3
-y5K/AQDd8eMgde6zHk1UUtFFYseaBoCI45v37aTnSvYvhz5dGAD9HdDh4twH58Ei
-LYXUH5k7b/x3Tui590b7dKKqyxIT+9E=
-=5sio
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmLkDcoACgkQwqF3j0dL
+ehxEEg/+OchgHJgfQDSDNvSuoU6LSFztXLcnsmVB1tAc0/mhQZGml7wGaqof2SAn
+AthWTU8hPxjS6IP2xg+8GnhAagJVSDTbKr8nBGd8jguGtYAC+MeoK1ow+UYPgERH
+XUFZ6IYGtEHanOfw4UXsczgUsTOsxmAsHjAlVmeikCUXTQNsyXd3D7IYBoubgef/
+TRSAoa1HTCHaQLymIXNJC5HoT2W1DuUuo9nfBI5qv3F9fhCQbNTPJiZer6R1qhks
+rpvQcJwJ3FvdEQ0CooH8zuyzw0CtaNPFCeA64ldeDSmhONXjHNYFSmEZ9XgO3g4z
+ylOqVPDpM8/XaZ4ZOion5VP/THoOxBFKIYa3VwZ7w7sEsVSuBSGSuC5MJQXxjPeB
+xDtxWY4ZiMVKGwWcfQpkgNHW/yaDVWIxtTqW++hhGzWLh9BI8PfYDmbOEshvWQKO
+9Z/O4hFsF5bkj96bAwwLZtyhBayziz6rf7RheqfoRmhwfbX9e8CFRoFqTLsywD/C
+3YyZTTMJHFPhhNKTPHVchfeqei18zdFDnPUCvGdQZERY3ktAzbV/ld9gFuEV2nqe
+/66fxjfw//s4Pw4w4UJDZ9oj1wuVtGU4g/ZadwIl0TdVcrrK8ptKn48aJy0CQJW8
+CY0rxO0pnYX4Oh/MxsR/0/5oRtoqrKj0BKOYvCq5B07f7oOX1g4=
+=Jncg
 -----END PGP SIGNATURE-----
 
---nmnf5qri3rvyhvwr--
+--us3k4w46mzsadc3u--
