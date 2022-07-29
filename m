@@ -1,63 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025A25855FF
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 22:17:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1165585611
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 22:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 363A310E162;
-	Fri, 29 Jul 2022 20:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE79F10E27F;
+	Fri, 29 Jul 2022 20:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C88910E162
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 20:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659125848; x=1690661848;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zHXzzmsjuJv9AN/O6EtjvRoPXkwz0wGDEtmwwZMap3k=;
- b=oHN4iIRqtP884kTuGUOLzSnJ9WDsBDZtb4U3Nrr/I81+5gsnn3Empp6b
- rvZJIBuvXyMBwhBrtgsrq2xJ6LeSxlZxykDTUJQ/HtYX7Oc+GuXumHwZp
- GFxXUpMbChMwPN0mIFqRwd4Eei7bPdKJ0ajF7QScvgLq/14D5ysN/53b0
- 5Nz2qR7fhZMjG2HsXQHEbKJhA+LkMUr9OUS38K27AGOXES6sKz1fDtbKj
- Tg5+N8WRXWzrZoCeZMp1lIdu8Rses+0TfPbzDNpucYlgfHpLBuDDIx00D
- /UbTsXM0HRP6FQ4TMAcaKIHltpeTsMkmBYrcmgw9XVHWLP3B+5IxpieF3 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="268610332"
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; d="scan'208";a="268610332"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2022 13:17:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; d="scan'208";a="598355595"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 29 Jul 2022 13:17:21 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oHWQC-000C3x-2S;
- Fri, 29 Jul 2022 20:17:20 +0000
-Date: Sat, 30 Jul 2022 04:16:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v1 33/35] drm/connector: Remove TV modes property
-Message-ID: <202207300454.3rIc8wpM-lkp@intel.com>
-References: <20220728-rpi-analog-tv-properties-v1-33-3d53ae722097@cerno.tech>
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F7910E27F
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 20:24:39 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id p5so7085431edi.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 13:24:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=DD5ZTUFuKAP0HflbyT4tZofzegaYKmqv/uxWG1vqBO4=;
+ b=Jm3l9HhHkx5hqABQOnfdln7qyATxQaRlBiOS5jsXIeXPzxxoAoLnBwmesVJ4gbG2cq
+ Jm3PvjjOK+aW/VJqiIiPG1ccR5fKellIuDnzJ3J85hU++B35mEU9gMlNeK2AxEbScH27
+ YZ1DrToUrRUkJRdKhmH72EMr2YW6Xv2WTp+X8rOqKxKZnKsxxam2whmLHQMXJlpfT5f1
+ RrMlid5be+mecjbVQPP18JzrPep22/VkW7CnjW2b4CFY4GhOkk2wBT4+ms5aosZmhfut
+ 62jNX0H8y9n06SWlIoZ4FaRheLKx4sTeyYuo8QLpYoSGqQZ7wmXcT21Kgjz40dejhudN
+ Xa8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=DD5ZTUFuKAP0HflbyT4tZofzegaYKmqv/uxWG1vqBO4=;
+ b=wqaUlqiYtV8BxsJHOaNatVH/oI6Ueq6iQvdUcUtx4s1p8LU1oecgIS+X33NGPO6hKA
+ kYlXIXPTaw6XNAlRWYRQ+bhX4HyF96m1WjiAXF6NGIF++whp2CyG1utyvD/x9HtvjoXU
+ FoxwWsWWPEMKqLiP6I07RVxQpsU3o8SLU7FIS6dVJRDiysCmjAUBVS3MMPhdX1RfRxRG
+ c+Baua/K4JsoQu/1pXIyA0fNHhWl4DpuseDCJ+BtNnt6d6m/PKwy8tqQST9EiLQrAtO0
+ UAQ5/6DTfniHurcfEwJpU7iTb+tFQevkKwdWwYwchm09hCPbd0WwU2PHWLawS0WbsZHS
+ 8OIg==
+X-Gm-Message-State: AJIora94DqRuJfYXWJd8fKynHWO295UQLb0vFFdYR6iydd/lxSjYTJk9
+ YWnbJSrkF/SNr7bRbHeOnk+b+KHhAywKuzmfLxo=
+X-Google-Smtp-Source: AGRyM1sJGV43E1lWJdEwZnroFIFGxZkNFN0msL97/FHFmAUUBBTVi+g8K85bUi4sl3c8G/yjvwrPQMLOY30kIxj91pg=
+X-Received: by 2002:a05:6402:e93:b0:43b:6a49:7e88 with SMTP id
+ h19-20020a0564020e9300b0043b6a497e88mr5288547eda.132.1659126277931; Fri, 29
+ Jul 2022 13:24:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-33-3d53ae722097@cerno.tech>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 30 Jul 2022 06:24:26 +1000
+Message-ID: <CAPM=9twcrq24uhTF4yYR2v1tJsK76D_S4=fjE=K4s+78Wds91Q@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.19 final (part 2)
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,106 +61,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hey Linus,
 
-I love your patch! Yet something to improve:
+Maxime had the dog^Wmailing list server eat his homework^Wmisc pull
+request. Two more small fixes, one in nouveau svm code and the other
+in simpledrm.
 
-[auto build test ERROR on 37b355fdaf31ee18bda9a93c2a438dc1cbf57ec9]
+Thanks,
+Dave.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-Analog-TV-Improvements/20220730-004859
-base:   37b355fdaf31ee18bda9a93c2a438dc1cbf57ec9
-config: riscv-randconfig-r042-20220729 (https://download.01.org/0day-ci/archive/20220730/202207300454.3rIc8wpM-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8dfaecc4c24494337933aff9d9166486ca0949f1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/83327cd72054a9c8d02b6f632453a8bdc90d3797
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/drm-Analog-TV-Improvements/20220730-004859
-        git checkout 83327cd72054a9c8d02b6f632453a8bdc90d3797
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/
+drm-fixes-2022-07-30:
+drm fixes for 5.19 final (part 2)
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+nouveau:
+- page migration fix
 
-All errors (new ones prefixed by >>):
+simpledrm:
+- fix mode_valid return value
+The following changes since commit f16a2f593d0095e82e6b7f9d776f869c8ab45952:
 
->> drivers/gpu/drm/nouveau/dispnv04/tvnv17.c:656:51: error: too many arguments to function call, expected 2, have 3
-           drm_mode_create_tv_properties(dev, num_tv_norms, nv17_tv_norm_names);
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                    ^~~~~~~~~~~~~~~~~~
-   include/drm/drm_connector.h:1807:5: note: 'drm_mode_create_tv_properties' declared here
-   int drm_mode_create_tv_properties(struct drm_device *dev,
-       ^
-   1 error generated.
+  Merge tag 'drm-intel-fixes-2022-07-28-1' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-07-29
+11:39:13 +1000)
 
+are available in the Git repository at:
 
-vim +656 drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-07-30
 
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  633  
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  634  static int nv17_tv_create_resources(struct drm_encoder *encoder,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  635  				    struct drm_connector *connector)
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  636  {
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  637  	struct drm_device *dev = encoder->dev;
-77145f1cbdf8d2 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2012-07-31  638  	struct nouveau_drm *drm = nouveau_drm(dev);
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  639  	struct drm_mode_config *conf = &dev->mode_config;
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  640  	struct nv17_tv_encoder *tv_enc = to_tv_enc(encoder);
-cb75d97e9c7774 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2012-07-11  641  	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  642  	int num_tv_norms = dcb->tvconf.has_component_output ? NUM_TV_NORMS :
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  643  							NUM_LD_TV_NORMS;
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  644  	int i;
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  645  
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  646  	if (nouveau_tv_norm) {
-2574c809d7c0f0 drivers/gpu/drm/nouveau/dispnv04/tvnv17.c YueHaibing 2019-12-30  647  		i = match_string(nv17_tv_norm_names, num_tv_norms,
-2574c809d7c0f0 drivers/gpu/drm/nouveau/dispnv04/tvnv17.c YueHaibing 2019-12-30  648  				 nouveau_tv_norm);
-2574c809d7c0f0 drivers/gpu/drm/nouveau/dispnv04/tvnv17.c YueHaibing 2019-12-30  649  		if (i < 0)
-77145f1cbdf8d2 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2012-07-31  650  			NV_WARN(drm, "Invalid TV norm setting \"%s\"\n",
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  651  				nouveau_tv_norm);
-2574c809d7c0f0 drivers/gpu/drm/nouveau/dispnv04/tvnv17.c YueHaibing 2019-12-30  652  		else
-2574c809d7c0f0 drivers/gpu/drm/nouveau/dispnv04/tvnv17.c YueHaibing 2019-12-30  653  			tv_enc->tv_norm = i;
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  654  	}
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  655  
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11 @656  	drm_mode_create_tv_properties(dev, num_tv_norms, nv17_tv_norm_names);
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  657  
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  658  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  659  					conf->tv_select_subconnector_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  660  					tv_enc->select_subconnector);
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  661  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  662  					conf->tv_subconnector_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  663  					tv_enc->subconnector);
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  664  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  665  					conf->tv_mode_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  666  					tv_enc->tv_norm);
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  667  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  668  					conf->tv_flicker_reduction_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  669  					tv_enc->flicker);
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  670  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  671  					conf->tv_saturation_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  672  					tv_enc->saturation);
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  673  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  674  					conf->tv_hue_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  675  					tv_enc->hue);
-2db83827dc7679 drivers/gpu/drm/nouveau/nv17_tv.c         Rob Clark  2012-10-11  676  	drm_object_attach_property(&connector->base,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  677  					conf->tv_overscan_property,
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  678  					tv_enc->overscan);
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  679  
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  680  	return 0;
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  681  }
-6ee738610f41b5 drivers/gpu/drm/nouveau/nv17_tv.c         Ben Skeggs 2009-12-11  682  
+for you to fetch changes up to ce156c8a1811c96a243590abd0e9b5a3b72c1f3a:
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+  Merge tag 'drm-misc-fixes-2022-07-29' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-07-30
+06:09:57 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.19 final (part 2)
+
+nouveau:
+- page migration fix
+
+simpledrm:
+- fix mode_valid return value
+
+----------------------------------------------------------------
+Alistair Popple (1):
+      nouveau/svm: Fix to migrate all requested pages
+
+Dave Airlie (1):
+      Merge tag 'drm-misc-fixes-2022-07-29' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Nathan Chancellor (1):
+      drm/simpledrm: Fix return type of
+simpledrm_simple_display_pipe_mode_valid()
+
+ drivers/gpu/drm/nouveau/nouveau_dmem.c | 6 +++++-
+ drivers/gpu/drm/tiny/simpledrm.c       | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
