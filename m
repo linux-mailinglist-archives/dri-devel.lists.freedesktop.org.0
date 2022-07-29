@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110155853DE
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:46:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 863F45853F6
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:48:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE88A11278E;
-	Fri, 29 Jul 2022 16:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62A1E113F31;
+	Fri, 29 Jul 2022 16:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1457811A131
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:45:51 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 120AB580987;
- Fri, 29 Jul 2022 12:36:58 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5F410F40F
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:45:48 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BFF1B58098C;
+ Fri, 29 Jul 2022 12:37:02 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 29 Jul 2022 12:36:58 -0400
+ by compute1.internal (MEProxy); Fri, 29 Jul 2022 12:37:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1659112618; x=
- 1659119818; bh=KPOI4/TXZTWMxLhqbVA9Fbfap16PAXSDXDUftOCVS/Q=; b=Z
- SvEofhte+UnkbZTWldfewQfZE53m3+a+dxFnpzIXi5Qsri/rdiSmWjlXNfX1B6wf
- lQLFNC6aqqLrhAyMbkhjOAXgQbP/zx0DaCcWjkXRj+2324xBf0Zwsn8K81M+VqP7
- KIfLtPfZ+s1pEV9tioIsnSrP73TXhurck5XNJ4OXwC+iQMisiG/dnVCWWtdK+NWS
- SIFr8DoR20UVvyxTedG7cKaDFzvQnlCGd8UW9PAQsGXf+4kurJi7kXs8WK7rdi7j
- lE6vcMsokUH8TWMhIBxBo43CEj/mLnIUr5/WBNnHb5rc7t6uriXQRF+mXNu3GYZc
- NP87o0fX7LAim2cCy88YA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659112622; x=
+ 1659119822; bh=XckcpoELRAAukT+qCBdvHaSrqmBkD7IAU61uNE+rv7c=; b=j
+ 5OTEe9/ikhzjIBEHcRVP3n4XSH68mICFLAMWOa+MfxgmIge1F1uPH/lXRx7eP/ec
+ a165ZF/rRh8AYgzmv1nxuDYXqGJE5OSWR90UrReF+MmMxaB9alL09MfiVa89ustS
+ Q9aB0l78V6v5itSekOqdN4mB4IShHItwWBSuKvOabMY3IK1jzLhDh1LAdkVphfl8
+ jtUvlN/LhBbEn3eHl+psxH/hUfsFUisNKB/NGdYSax+B+lDkSOA6wLE7+QDu+lEN
+ eRXj1jPdjAftUz9TB+4NVh0iuTeRGYv2dEHlXGLNvLpRYCUVK483utVd1CX0f5GE
+ Lr2t3LoV7Zc2dHkOssqIA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659112618; x=
- 1659119818; bh=KPOI4/TXZTWMxLhqbVA9Fbfap16PAXSDXDUftOCVS/Q=; b=h
- 32uz+j2a2L/Huo9mna3KEPDvPLAa3pVj78Ipdn6Gb/NVxBCV+3sv/hcE+8YNcdd5
- U+d5HHhL8Qc6BKKSmpCZZRU+WiC23SFDE8aqti+nNGkkzPY5L/oXeF4olgL1BOFD
- AFZOnZdo+UK1BGms7Har+xAV/roS5bZFl9Jfole3ZlsraAdIfERIlxHiPavOWdI8
- wy9P5j412Ct+bKyDWzIvo/q/BCWGxAj/Gt8vII5f9xvv2dBgu1f8CFtxmIFpJ2+c
- FeBWHFoISHNm2sAC1JkqKTkjonAne6A2l0SOoGj0FRewfBOTg/o0e29M0Di4Vwrb
- VFAmhpLUwwoLDKZ6o9e4g==
-X-ME-Sender: <xms:qQzkYpzloqQfoT_acDyNQtwnAChbN30XjkWGJKF0rwlRCFp0HdK3Ew>
- <xme:qQzkYpQHbK8oAtnqCw-8NzhqJfrj5D1cwHuQ3YdKdX22Z17aH68p3hIkUzbQE5jHZ
- rLOyL8HDp1vfKkc5To>
-X-ME-Received: <xmr:qQzkYjWKngt5fDyW7s9sj6tqE6yR8JMmobF7JB4ygevesrsIl5QrP40yCf7cPe0EVVLRM0qioQ1GhYv0Uqo>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659112622; x=
+ 1659119822; bh=XckcpoELRAAukT+qCBdvHaSrqmBkD7IAU61uNE+rv7c=; b=s
+ AF3Da3EY5YoxK1fo01f536wWejrgWzd7TM9jGrQ0CYJHqvxt2KzjQfi1mwA11OAR
+ S1Wnwtze6MRqp2ARoA64gZHvD01fHTSNXHvD9ZcFApL/MeaQC/A4oSCd1w8CdRUg
+ KjbuB1ynEgEWO2RqN6oaYCUDquksz+Ilf18fbiirVn3t/9M3vRHBAFYyAkv8+LbT
+ mNsUvlM0G4PwDQKiIiP6jCdaTw8lKF2xyKWbpbjKIKOu4hDbU5NsGQb2QLNU0ZzK
+ SkVuuJTyufbW653qDIAGQfdxrK2nut5YL5rDo4pMTUAhN6Jhb+2DWcymWJbN8o5/
+ SgMSDGu0mhyk/4ntzinrw==
+X-ME-Sender: <xms:rQzkYjQsX7L-7Ujc-qReTQobJhjbNEIr51p4hHZDCy3tNBKOwpj_Pg>
+ <xme:rQzkYkymIpQ8aCvTFXjmEpOTPK-KliEPuMYrPJizB37kDIPQAHzaaq6bq8t1ND28j
+ rzC8IoDuUpJHEn3pRM>
+X-ME-Received: <xmr:rQzkYo1umWGzFd_CHN4CFE3FZ4F_OiE2tCdU_3-cQ0U1i5ge57XGuJf0K3MLR9DRtnbFab6DPJniM0iVth4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddtgecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefo
  rgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecugg
  ftrfgrthhtvghrnhepgfffgfetffduudelhfevieffffduleevgfegkeeutefgffejheel
- leekjeefhfejnecuvehluhhsthgvrhfuihiivgepieenucfrrghrrghmpehmrghilhhfrh
+ leekjeefhfejnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
  homhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qQzkYrjiawb3_zSB04cqWyXGMTtPgHxCxfS74cg1CMsHespIBFuWWA>
- <xmx:qQzkYrCchHeEeb-4Olku7epOZ27yxBCD1LzLXXZFhsz_X4D9Oj6LSw>
- <xmx:qQzkYkJzY5vPvIpMHGtch6z4FRbNG59Gwz0rZBJzjTQIwDvfzd9EcQ>
- <xmx:qgzkYtyqp0pqKektVuKakc57RnaxNqFRSl46UC4jHpEFywzrnkWIaw>
+X-ME-Proxy: <xmx:rQzkYjAshtz7u1LoO9Z3AQfWbjRmZaE447Nmca-uw9LqwAnaRQixAg>
+ <xmx:rQzkYsi0VwlOyxANgsNV0kkoOIjLlVgs-VuHwm7XAiqpupoiKINyEQ>
+ <xmx:rQzkYnpFCmAtCWwG-ikV88ds_Ol0OI-rzxzQ5919nVptVEMS9dv_Nw>
+ <xmx:rgzkYjSbYw3BSevVsGPJV5btvgUTKFClIL7v3JCdcucifxvazYp2mQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Jul 2022 12:36:56 -0400 (EDT)
+ 29 Jul 2022 12:37:00 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -73,20 +73,20 @@ To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Kevin Hilman <khilman@baylibre.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v1 25/35] drm/sun4i: tv: Remove unused mode_valid
-Date: Fri, 29 Jul 2022 18:35:08 +0200
-Message-Id: <20220728-rpi-analog-tv-properties-v1-25-3d53ae722097@cerno.tech>
+Subject: [PATCH v1 26/35] drm/sun4i: tv: Convert to atomic hooks
+Date: Fri, 29 Jul 2022 18:35:09 +0200
+Message-Id: <20220728-rpi-analog-tv-properties-v1-26-3d53ae722097@cerno.tech>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.10.0-dev-49460
-X-Developer-Signature: v=1; a=openpgp-sha256; l=817; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=Z/IvtOhxkP1S2d5G4fie4sSqHzE+LzlsmSMCeFD/rMo=;
- b=owGbwMvMwCHc4XzqmfnC7acZT6slMSQ94VFavOB2svwPZSF582fnpi7503Rwfds+16buhsA+uX/x
- 1x96dJSyMAhzMMiKKbJcF3xrxxcW5RbB82EzzBxWJpAhDFycAjCRA2GMDLffJF6ofa74ccbHIPejZq
- 4lLZs7Cnavy288/6lQk/nmoxMM/ytPa7zaWqP1ITPg1oMlk69OuH5ksmyLpmqEf6nGHRG7vscA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1623; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=rHEOub477XlbL+5lo6Ff+MJpYcQ5tUS9w6PRTcDJwtg=;
+ b=owGbwMvMwCHc4XzqmfnC7acZT6slMSQ94VFyZDbY0vu+cOkaQx7r9NN+Hyvr/17ekrb1G3tE7TpV
+ rumuHaUsDMIcDLJiiizXBd/a8YVFuUXwfNgMM4eVCWQIAxenAEzklSHDXzmtmae1W/5G/3/v3ucfo/
+ Qp7kRd43Yf0WOvInrWMwcc2sbwv2SV9Yy2n8IzTe+cFdTdvetm4Kyf7+r7bbc5c1g1WvQYawIA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Content-Transfer-Encoding: 8bit
@@ -112,31 +112,46 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mode_valid implementation is pretty much a nop, let's remove it.
+The VC4 VEC driver still uses legacy enable and disable hook
+implementation. Let's convert to the atomic variants.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index 94883abe0dfd..53152d77c392 100644
+index 53152d77c392..f7aad995ab5b 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_tv.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -497,16 +497,8 @@ static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
- 	return i;
+@@ -339,7 +339,8 @@ static void sun4i_tv_mode_to_drm_mode(const struct tv_mode *tv_mode,
+ 	mode->vtotal = mode->vsync_end  + tv_mode->vback_porch;
  }
  
--static int sun4i_tv_comp_mode_valid(struct drm_connector *connector,
--				    struct drm_display_mode *mode)
--{
--	/* TODO */
--	return MODE_OK;
--}
--
- static const struct drm_connector_helper_funcs sun4i_tv_comp_connector_helper_funcs = {
- 	.get_modes	= sun4i_tv_comp_get_modes,
--	.mode_valid	= sun4i_tv_comp_mode_valid,
+-static void sun4i_tv_disable(struct drm_encoder *encoder)
++static void sun4i_tv_disable(struct drm_encoder *encoder,
++			    struct drm_atomic_state *state)
+ {
+ 	struct sun4i_tv *tv = drm_encoder_to_sun4i_tv(encoder);
+ 	struct sun4i_crtc *crtc = drm_crtc_to_sun4i_crtc(encoder->crtc);
+@@ -353,7 +354,8 @@ static void sun4i_tv_disable(struct drm_encoder *encoder)
+ 	sunxi_engine_disable_color_correction(crtc->engine);
+ }
+ 
+-static void sun4i_tv_enable(struct drm_encoder *encoder)
++static void sun4i_tv_enable(struct drm_encoder *encoder,
++			    struct drm_atomic_state *state)
+ {
+ 	struct sun4i_tv *tv = drm_encoder_to_sun4i_tv(encoder);
+ 	struct sun4i_crtc *crtc = drm_crtc_to_sun4i_crtc(encoder->crtc);
+@@ -469,8 +471,8 @@ static void sun4i_tv_mode_set(struct drm_encoder *encoder,
+ }
+ 
+ static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
+-	.disable	= sun4i_tv_disable,
+-	.enable		= sun4i_tv_enable,
++	.atomic_disable	= sun4i_tv_disable,
++	.atomic_enable	= sun4i_tv_enable,
+ 	.mode_set	= sun4i_tv_mode_set,
  };
  
- static void
 
 -- 
 b4 0.10.0-dev-49460
