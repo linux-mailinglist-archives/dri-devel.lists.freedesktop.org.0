@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA798585358
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:16:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D240358534A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:16:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA4110E230;
-	Fri, 29 Jul 2022 16:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6BB110E059;
+	Fri, 29 Jul 2022 16:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FDE10E0C3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F210510E0DC;
  Fri, 29 Jul 2022 16:16:22 +0000 (UTC)
 Received: from sobremesa.fritz.box (unknown
  [IPv6:2a02:8010:65b5:0:bbb0:f8ec:7bc9:dbe4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 75C4D6601B83;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A39A06601B84;
  Fri, 29 Jul 2022 17:16:21 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1659111381;
- bh=f+d7THDJrdn1CISodtLhjzIHNGshaLdcJ4RQdQedI/k=;
+ bh=QDBNG5GYmsfWyjGjGSj+ZS05HXR9mQQdbyqEDYo56kg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hj5rYWA/UeHfWgonZXB3vKBC2x8DVRptC3hGAgIJGmKZ6X2+zXdQz8gi/0XfNuYTm
- +JKJc5ra/0RCHaKY5a3UD83XDczCzsPZY3xVcFI3GNFMD+To7y0p1FCpUZ7byjPiHF
- ai0JwQaEs5P6PTf/9UM9zdEcMquruQ2WLuXgwH2RxPC5XNjFMA4AkImCfqfbwneeNz
- 6X2qFVlBYIZwP+ELCqAjpuEwBpFRVJTOOafcvWT3Y+dmEqhzYB4SkH5FJLsYhliSeu
- c32MCuqrAEVLtx70mNuKYmaU1ZWZzTS08P1FLdw2k/xFNbfoxUo1Jj1qRh/rWAhtzG
- mR8YU/hLZTZag==
+ b=isUT1JzEXyRkSVf58Gjr8BhDkzLhrfkZ6YPuMlWMwFy3pvp3oxnAyMd1SMMvIUelE
+ G4fXEYj1JPcjiKnwm05263LOG4WMJJHqh2IUVWM1mAZhiXQGbO9JYvht4k+Bh2eYtd
+ b9Zx2MfOA1w3FRp8NPDafumrmAhEqgerzf3Ygn+ro2pghyx6ajLd8sGgqe2qVvsjAF
+ 9EdR7PzoZeDksGaYWKtS/TD2YHKfY6eVb4DhjaIM5KobpmHsLv/11Aq+BlzZMl0Ep2
+ 3+YkhCkLsCMibrT0hAkDTABguHlnR6OsboCaaHMnar3SfXBZalJ4ENTHUvXQmYDMoG
+ XSUSKRg9Ew4cQ==
 From: Adrian Larumbe <adrian.larumbe@collabora.com>
 To: daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/i915: Change semantics of context isolation reporting
- to UM
-Date: Fri, 29 Jul 2022 17:16:11 +0100
-Message-Id: <20220729161612.2212512-2-adrian.larumbe@collabora.com>
+Subject: [PATCH 2/2] drm/i915: force getparam ioctl return bool for
+ HAS_CONTEXT_ISOLATION
+Date: Fri, 29 Jul 2022 17:16:12 +0100
+Message-Id: <20220729161612.2212512-3-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220729161612.2212512-1-adrian.larumbe@collabora.com>
 References: <20220729161612.2212512-1-adrian.larumbe@collabora.com>
@@ -57,38 +57,64 @@ Cc: bob.beckett@collabora.com, adrian.larumbe@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I915_PARAM_HAS_CONTEXT_ISOLATION was already being used as a boolean by
-both Iris and Vulkan , and stood for the guarantee that, when creating a
-new context, it would not contain register state from preexisting ones.
-
-However, the actual param ioctl was returning a bitmask for the
-engines in which isolation is supported, and IGT gem_ctx_isolation was
-exploiting this wrong semantics when making decisions about which
-engines support it.
-
-This is a uAPI documentation change that precedes the actual change in
-the getparam ioctl.
+In a previous commit, the uAPI documentation for this param was updated
+to reflect the actual usage expected by Iris. Now make sure the driver
+does indeed return a boolean value rather than an engine bitmask.
 
 Signed-off-by: Adrian Larumbe <adrian.larumbe@collabora.com>
 ---
- include/uapi/drm/i915_drm.h | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_user.c | 14 ++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_engine_user.h |  1 +
+ drivers/gpu/drm/i915/i915_getparam.c        |  2 +-
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 094f6e377793..09adb7ea01d1 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -692,10 +692,6 @@ typedef struct drm_i915_irq_wait {
-  * supports) that all state set by this context will not leak to any other
-  * context.
-  *
-- * As not every engine across every gen support contexts, the returned
-- * value reports the support of context isolation for individual engines by
-- * returning a bitmask of each engine class set to true if that class supports
-- * isolation.
-  */
- #define I915_PARAM_HAS_CONTEXT_ISOLATION 50
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+index 46a174f8aa00..7bdee1c9d940 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+@@ -306,3 +306,17 @@ unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915)
  
+ 	return which;
+ }
++
++bool engines_context_isolated(struct drm_i915_private *i915)
++{
++	struct intel_engine_cs *engine;
++
++	if (!DRIVER_CAPS(i915)->has_logical_contexts)
++		return false;
++
++	for_each_uabi_engine(engine, i915)
++		if (!engine->default_state)
++			return false;
++
++	return true;
++}
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.h b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+index 3dc7e8ab9fbc..760167db07d5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_user.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+@@ -15,6 +15,7 @@ struct intel_engine_cs *
+ intel_engine_lookup_user(struct drm_i915_private *i915, u8 class, u8 instance);
+ 
+ unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915);
++bool engines_context_isolated(struct drm_i915_private *i915);
+ 
+ void intel_engine_add_user(struct intel_engine_cs *engine);
+ void intel_engines_driver_register(struct drm_i915_private *i915);
+diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+index 6fd15b39570c..dd31cc00c529 100644
+--- a/drivers/gpu/drm/i915/i915_getparam.c
++++ b/drivers/gpu/drm/i915/i915_getparam.c
+@@ -145,7 +145,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 		value = 1;
+ 		break;
+ 	case I915_PARAM_HAS_CONTEXT_ISOLATION:
+-		value = intel_engines_has_context_isolation(i915);
++		value = engines_context_isolated(i915);
+ 		break;
+ 	case I915_PARAM_SLICE_MASK:
+ 		/* Not supported from Xe_HP onward; use topology queries */
 -- 
 2.37.0
 
