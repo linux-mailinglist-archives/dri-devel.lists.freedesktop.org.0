@@ -1,48 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEBF58502A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 14:47:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D685850AB
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 15:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E45410E69E;
-	Fri, 29 Jul 2022 12:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D9BE10E57D;
+	Fri, 29 Jul 2022 13:17:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A87610E69E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 12:47:48 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+X-Greylist: delayed 381 seconds by postgrey-1.36 at gabe;
+ Fri, 29 Jul 2022 13:17:17 UTC
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C0010E57D
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 13:17:17 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4LvS3S27TdzDryr;
- Fri, 29 Jul 2022 12:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1659098868; bh=Vt0VPfclkRufw77C1gyDHO5bTh47NlGy4ZqbXCi4sps=;
- h=From:To:Cc:Subject:Date:From;
- b=H6Zlmy3gEPYuxQrqXBIRWNazqAbs0Rl1NBVv4mCT7HiEZZZH7KPIIWcM61SmRM+bd
- qgDkKTY1ywRYQt+rcwQjS6W2PjxxGnTFcKFNfje4EcAgeL7bBodOmCKMzrbf9a6XIv
- fl2wmhdWPqtZmoMwU00vKmt9LR7CNpzQND6xwZ/4=
-X-Riseup-User-ID: D51D301B64699EE8E41E0FB830FFA8BAC7F4CF00F83929CCD84A28A9DBC451D1
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4LvS3K5sc3z5wWb;
- Fri, 29 Jul 2022 12:47:41 +0000 (UTC)
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
- tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
- siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>,
- David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
- brendanhiggins@google.com, Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH v2] drm/tests: Split up test cases in
- igt_check_drm_format_min_pitch
-Date: Fri, 29 Jul 2022 09:47:26 -0300
-Message-Id: <20220729124726.748221-1-mairacanal@riseup.net>
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LvSZ12Mrfz4xG8;
+ Fri, 29 Jul 2022 23:10:49 +1000 (AEST)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: deller@gmx.de, mrochs@linux.ibm.com, Michael Ellerman <mpe@ellerman.id.au>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, ukrishn@linux.ibm.com,
+ manoj@linux.ibm.com, tzimmermann@suse.de, Nicholas Piggin <npiggin@gmail.com>,
+ martin.petersen@oracle.com, jejb@linux.ibm.com
+In-Reply-To: <f75b383673663e27f6b57e50b4abfb9fe3780b00.1657264228.git.christophe.leroy@csgroup.eu>
+References: <f75b383673663e27f6b57e50b4abfb9fe3780b00.1657264228.git.christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH v3 1/4] video: fbdev: offb: Include missing
+ linux/platform_device.h
+Message-Id: <165909976850.253830.18083403914079325529.b4-ty@ellerman.id.au>
+Date: Fri, 29 Jul 2022 23:02:48 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,93 +46,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The igt_check_drm_format_min_pitch() function had a lot of
-KUNIT_EXPECT_* calls, all of which ended up allocating and initializing
-various test assertion structures on the stack.
+On Fri, 8 Jul 2022 09:11:05 +0200, Christophe Leroy wrote:
+> A lot of drivers were getting platform and of headers
+> indirectly via headers like asm/pci.h or asm/prom.h
+> 
+> Most of them were fixed during 5.19 cycle but a newissue was
+> introduced by commit 52b1b46c39ae ("of: Create platform devices
+> for OF framebuffers")
+> 
+> [...]
 
-This behavior was producing -Wframe-larger-than warnings on PowerPC, i386,
-and MIPS architectures, such as:
+Applied to powerpc/next.
 
-drivers/gpu/drm/tests/drm_format_test.c: In function 'igt_check_drm_format_min_pitch':
-drivers/gpu/drm/tests/drm_format_test.c:271:1: error: the frame size of
-3712 bytes is larger than 2048 bytes
+[1/4] video: fbdev: offb: Include missing linux/platform_device.h
+      https://git.kernel.org/powerpc/c/ebef8abc963b9e537c0a0d619dd8faf1b8f2b183
+[2/4] scsi: cxlflash: Include missing linux/irqdomain.h
+      https://git.kernel.org/powerpc/c/61657dcd528b75cd196adaf56890124c13953c8d
+[3/4] powerpc: Remove asm/prom.h from asm/mpc52xx.h and asm/pci.h
+      https://git.kernel.org/powerpc/c/4d5c5bad51935482437528f7fa4dffdcb3330d8b
+[4/4] powerpc: Finally remove unnecessary headers from asm/prom.h
+      https://git.kernel.org/powerpc/c/36afe68714d45edf34430d28e3dc787425ad8b22
 
-So, the igt_check_drm_format_min_pitch() test case was split into three
-smaller functions: one testing single plane formats, one testing
-multi-planar formats, and the other testing tiled formats.
-
-Fixes: 0421bb0baa84 ("drm: selftest: convert drm_format selftest to KUnit")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
----
-v1 -> v2:
-- Add Guenter's Tested-by tag.
-- Add André's Reviewed-by tag.
-- Replace "multiple planes" for "multi-planar" (André Almeida).
-- Add Fixes tag (Melissa Wen).
----
- drivers/gpu/drm/tests/drm_format_test.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/tests/drm_format_test.c b/drivers/gpu/drm/tests/drm_format_test.c
-index 056cb8599d6d..afb4bca72187 100644
---- a/drivers/gpu/drm/tests/drm_format_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_test.c
-@@ -91,7 +91,7 @@ static void igt_check_drm_format_block_height(struct kunit *test)
- 	KUNIT_EXPECT_FALSE(test, drm_format_info_block_height(info, -1));
- }
- 
--static void igt_check_drm_format_min_pitch(struct kunit *test)
-+static void igt_check_drm_format_min_pitch_for_single_plane(struct kunit *test)
- {
- 	const struct drm_format_info *info = NULL;
- 
-@@ -175,6 +175,11 @@ static void igt_check_drm_format_min_pitch(struct kunit *test)
- 			(uint64_t)UINT_MAX * 4);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 0, (UINT_MAX - 1)),
- 			(uint64_t)(UINT_MAX - 1) * 4);
-+}
-+
-+static void igt_check_drm_format_min_pitch_for_multi_planar(struct kunit *test)
-+{
-+	const struct drm_format_info *info = NULL;
- 
- 	/* Test 2 planes format */
- 	info = drm_format_info(DRM_FORMAT_NV12);
-@@ -249,6 +254,11 @@ static void igt_check_drm_format_min_pitch(struct kunit *test)
- 			(uint64_t)(UINT_MAX - 1) / 2);
- 	KUNIT_EXPECT_EQ(test, drm_format_info_min_pitch(info, 2, (UINT_MAX - 1) / 2),
- 			(uint64_t)(UINT_MAX - 1) / 2);
-+}
-+
-+static void igt_check_drm_format_min_pitch_for_tiled_format(struct kunit *test)
-+{
-+	const struct drm_format_info *info = NULL;
- 
- 	/* Test tiled format */
- 	info = drm_format_info(DRM_FORMAT_X0L2);
-@@ -273,7 +283,9 @@ static void igt_check_drm_format_min_pitch(struct kunit *test)
- static struct kunit_case drm_format_tests[] = {
- 	KUNIT_CASE(igt_check_drm_format_block_width),
- 	KUNIT_CASE(igt_check_drm_format_block_height),
--	KUNIT_CASE(igt_check_drm_format_min_pitch),
-+	KUNIT_CASE(igt_check_drm_format_min_pitch_for_single_plane),
-+	KUNIT_CASE(igt_check_drm_format_min_pitch_for_multi_planar),
-+	KUNIT_CASE(igt_check_drm_format_min_pitch_for_tiled_format),
- 	{ }
- };
- 
--- 
-2.37.1
-
+cheers
