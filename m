@@ -2,54 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67C6584A3B
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 05:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C60584A44
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 05:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C3F10E486;
-	Fri, 29 Jul 2022 03:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3735710E5CE;
+	Fri, 29 Jul 2022 03:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541C510E136
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 03:37:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AEB0461E1B;
- Fri, 29 Jul 2022 03:37:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D1BEC433D6;
- Fri, 29 Jul 2022 03:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659065854;
- bh=9mcUUg5lmuACGthaun+7+p+qT7sMOwljbBFVfcsaj+o=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=dkjcWeaRfHdg3UDbnV/TDsjdjAPiKyXeDcQEf3rYd1lOSBheySxpw+IYn5t+bm3Px
- pE7t5RJreDKPYYAUVmPa6V964ElXyGMePl7HPy+2W2hWrA00dOr09150ez1WcmDEXR
- zgEGB3ZtBZiOYzBt2JzAdzGBn9B6qoA2Tb3jMT3SrexkSzAmk/dfdUrPgErLYH88N3
- BcPkLqiwUSIXKLpNnTklNtbr8ayJmkXstGnW1mclDqJxKUs5rKxUoZqWz3YmPSfrOU
- SbAIAsXsZFR2bMWCFmo3twJ3s5Z4mxYzpAcw84FG+wzyOnesMCIo7T17QS+U+lY6A7
- 70/WKIgPA6/lw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 07180C43140; Fri, 29 Jul 2022 03:37:34 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.19 final
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txsRyEJWjrTsha6wkqcdTM5MmTqRVns5b9eQCaQAwJpNg@mail.gmail.com>
-References: <CAPM=9txsRyEJWjrTsha6wkqcdTM5MmTqRVns5b9eQCaQAwJpNg@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9txsRyEJWjrTsha6wkqcdTM5MmTqRVns5b9eQCaQAwJpNg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-07-29
-X-PR-Tracked-Commit-Id: f16a2f593d0095e82e6b7f9d776f869c8ab45952
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6e2c0490769ef8a95b61304389116ccc85c53e12
-Message-Id: <165906585402.27318.8863200340585582598.pr-tracker-bot@kernel.org>
-Date: Fri, 29 Jul 2022 03:37:34 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from out30-130.freemail.mail.aliyun.com
+ (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C12B61132B2;
+ Fri, 29 Jul 2022 03:42:10 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=13; SR=0;
+ TI=SMTPD_---0VKjhn3k_1659066123; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VKjhn3k_1659066123) by smtp.aliyun-inc.com;
+ Fri, 29 Jul 2022 11:42:05 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: harry.wentland@amd.com
+Subject: [PATCH] drm/amd/display: Remove useless else if
+Date: Fri, 29 Jul 2022 11:41:50 +0800
+Message-Id: <20220729034150.72631-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,22 +40,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, sunpeng.li@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 29 Jul 2022 13:31:03 +1000:
+The assignment of the else and else if branches is the same, so the else
+if here is redundant, so we remove it and add a comment to make the code
+here readable.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-07-29
+Eliminate the follow coccicheck warning:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6e2c0490769ef8a95b61304389116ccc85c53e12
+./drivers/comedi/drivers/das1800.c:1300:8-10: WARNING: possible
+condition with no effect (if == else).
 
-Thank you!
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
+index 63861cdfb09f..02bea8f0c8c9 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
+@@ -2132,10 +2132,10 @@ static bool dcn314_resource_construct(
+ 
+ 	if (dc->ctx->dce_environment == DCE_ENV_PRODUCTION_DRV)
+ 		dc->debug = debug_defaults_drv;
+-	else if (dc->ctx->dce_environment == DCE_ENV_FPGA_MAXIMUS)
+-		dc->debug = debug_defaults_diags;
+ 	else
++	/* This branch contains condition '(dc->ctx->dce_environment == DCE_ENV_FPGA_MAXIMUS)' */
+ 		dc->debug = debug_defaults_diags;
++
+ 	// Init the vm_helper
+ 	if (dc->vm_helper)
+ 		vm_helper_init(dc->vm_helper, 16);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.20.1.7.g153144c
+
