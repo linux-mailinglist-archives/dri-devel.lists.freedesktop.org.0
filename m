@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E67F5853D1
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:46:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 335B95853CC
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jul 2022 18:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB92C10F48C;
-	Fri, 29 Jul 2022 16:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5417410EC4B;
+	Fri, 29 Jul 2022 16:46:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A4211278E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:45:49 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C9F1958095A;
- Fri, 29 Jul 2022 12:36:39 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9053113F31
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 16:45:50 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8D6FA58095D;
+ Fri, 29 Jul 2022 12:36:42 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 29 Jul 2022 12:36:39 -0400
+ by compute3.internal (MEProxy); Fri, 29 Jul 2022 12:36:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1659112599; x=
- 1659119799; bh=AbNcPzJA6v/1uyYWumbYgSqegXZI6Xt12q0cobRS6KU=; b=S
- 2ZADGuo9ZIFB5W0yiNQUOgLYWbIvo3HriE7GN2yzby9+XyODXiuUp4zd12rZnkq7
- PznbIbn/ZssNgWJh0/XoDoMC794l1lBDZ+3iqkQEn+Wf8Fjfs/Vxss3a/Ivj0GFa
- RvmIIbjotac56Ab8FrKPH8ZQpH+4pBNZsQJw/Da4sJkv2s2SDFbJgCXs61rSgVWy
- teSAmefS3UgPmHaJ/4Ag3bu7t6bQZUlzWNSjJvM+2bkqXNMH3pK/W1MIYvgpMHaI
- qTWJxPE/M51B1iBA68ot4ODqW5bHK/NVa7pEjXe9+WIgsv7LH6mnfFPk9Sd+tXw3
- 1QnVG5BUidOVd9uYR5EkQ==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659112602; x=
+ 1659119802; bh=KDco9eCGDduZLjJ6UEu8nzvgHaRDBuru3VXQGkkLnUI=; b=n
+ E0tkzx03WN5TiLGs9ipU/YdE7rVpwNKNzk/pRTKLVCzktxzmICb5Q/h7Hh5rzw2a
+ 2YzFLyOwiRCBiGtDC80HMZLaeRL5og1zTLggerFpWOIyn2vt9CmqqChXcrwAurS4
+ Jym+kzwu5t0LwtvkLKYup8xKX7jYeu/CDrBuys1TIzC1EN25TpnFQYGqUegKnXFN
+ wFp7cARKd3czLfIAxtfuutOaHAD9XsCkzyy+OzWtDFBCQ/bOUpXx2x7nNjC/BCjT
+ OkbQshwaTiUfXdDO2clZoG+fw8+OEEJZSFDd4xNnagLgmzV1i37qC6XFKOV7Z9jc
+ qRetOt7bLl6FHZV1FVyXg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659112599; x=
- 1659119799; bh=AbNcPzJA6v/1uyYWumbYgSqegXZI6Xt12q0cobRS6KU=; b=c
- uXI7RYXu/CYtaumHSYijNmhPTAc69E6acqDsOPEiJV2DhisNYOMCEPnyvHyQZN4e
- ANEog9t3IJ/EfK6UukMBauG4sOKb4asdVZ5KEQkVGh+Ike51K5Qx3mry3ZTzYPXm
- LF6AQmFom6pP+pXN9J2Z/jt59PqUiTAlXrKy+iVAYPmJzwPhpzZqGGPu5deJE3V+
- z6SDqU6KJP7lPXrBH8FkvC3pjHzfuxWLg5YDWyOGjlgtKtoOWmhIdOnDc4UkOrbL
- eLmtZrUeCuTZgwVK2syhHpfD15lsAXrCNfCvm74q3EMB51ducvJSO8WLI6cjRyZY
- vQgojyOliaep7cfJCcY9Q==
-X-ME-Sender: <xms:lwzkYrlwtQbB9iUJk1UbRBhYZZRkFDu0gcRDFIJ2v8jrOOmZAJttRQ>
- <xme:lwzkYu1QCX8d1xOUk4s8Puw3GJl-3Fc4VtsNifpylob9Qv9LZu8vr8tyElTb07eBo
- mYS-toW75hQOeB_BRY>
-X-ME-Received: <xmr:lwzkYhq7iI00-l5t1a6YTQnQ5fGBEb1Tdc6hUbEXtkOkTrPg7GGuzhIdl2Pg07ARMaziBROLbsKhg9eyUPA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddtfecutefuodetggdotefrod
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659112602; x=
+ 1659119802; bh=KDco9eCGDduZLjJ6UEu8nzvgHaRDBuru3VXQGkkLnUI=; b=o
+ WV8/cNEZ0Bym/9XhKH/7zycveDBjY5tcA20WybRz1B+ATy40EIWgkt12sw1mwXs6
+ GUSapHLTLVIWlUEy3cC9o+NpqRA+v5pBpwLBk93nGFrGLz4hbtG2ydvDX+xnfaRl
+ mNESpTI2hAXOkTsPPDsPjldemnVafS2dkwul1i3yZuxFh2MjrXe7P+BsEUYVwbLn
+ QpngoNdNBJ3VD/guJW71fdvqy/lVREqip1rpOjZWwGwVE+KOtTLyVOXD3xyJkRT6
+ 8Oj28MhnzG8RTtxvJOPOGBrQgd1m6zpoufNCUsU5+uOHJobo5gZl9yCkJkn/8t1p
+ 4faUZRuRWtZGNugpOIvMA==
+X-ME-Sender: <xms:mgzkYmucP36Vpc-a6lTYbXnMumf4bqNkVpwez-8tQs0WEte6xVQstg>
+ <xme:mgzkYrfXNyx9YSmIsks0TL3ASWmFGPN-D7RG08MoE_F18QC83PnSx9TwidZJGx2-U
+ VQ8FtSgNArqQou1YNk>
+X-ME-Received: <xmr:mgzkYhybqYWfXz48ckShCNcCgvEzwAMs4fAkAKieNDaYJuoCLKFAXukttqY7_vFV3ISUarf-y6_UAlmEfM4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedguddtgecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefo
  rgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecugg
  ftrfgrthhtvghrnhepgfffgfetffduudelhfevieffffduleevgfegkeeutefgffejheel
- leekjeefhfejnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrh
+ leekjeefhfejnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
  homhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:lwzkYjlyLGinsBuVLZofx8nnnRUx2NrpK1IBbo_CEYH9ohfL0hWL-A>
- <xmx:lwzkYp2cW0CWHRhw4WbOKTaManrumGwEiDVsrHJPooatTp2SHQrFNA>
- <xmx:lwzkYitZWb2WbmxenJVAsYbFkt5v2bnekBwkxuviQNS6oikBpUwoIw>
- <xmx:lwzkYkEyfQPOf0np-oHcelKkmbaysisF36WQNRIwvbJPRXrn_gkSOg>
+X-ME-Proxy: <xmx:mgzkYhOfRdU76YScxjxocfsh-WVZcfJ-6WN7qee43NxZkAV4gJ4Z5A>
+ <xmx:mgzkYm-RV7f1DsPTgJn-H02U4cYhWpmMsqKsBV-9P79eVtgao12_CA>
+ <xmx:mgzkYpVCLZIpV6lx97soF8YMRWaVF7lvWgmhBHPJtr8GI5y_BQw2JQ>
+ <xmx:mgzkYkM7aJOOIwfsy--kdPmtm9q1xKGzGNmA_gu1c_Ah4MxxI6AgkQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Jul 2022 12:36:38 -0400 (EDT)
+ 29 Jul 2022 12:36:41 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -73,20 +73,20 @@ To: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Kevin Hilman <khilman@baylibre.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v1 20/35] drm/vc4: vec: Switch for common modes
-Date: Fri, 29 Jul 2022 18:35:03 +0200
-Message-Id: <20220728-rpi-analog-tv-properties-v1-20-3d53ae722097@cerno.tech>
+Subject: [PATCH v1 21/35] drm/vc4: vec: Fix definition of PAL-M mode
+Date: Fri, 29 Jul 2022 18:35:04 +0200
+Message-Id: <20220728-rpi-analog-tv-properties-v1-21-3d53ae722097@cerno.tech>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.10.0-dev-49460
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1771; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=D8SpF+ipMcOmIfOKSwAuLhopKhw+DWNbLfscw43wats=;
- b=owGbwMvMwCHc4XzqmfnC7acZT6slMSQ94VFK2TaX/aiA1Achtoznca7X69ijj0Tuj30usYIxbZJd
- 9WTTjlIWBmEOBlkxRZbrgm/t+MKi3CJ4PmyGmcPKBDKEgYtTACbCsZGRYdol8Ulb9X32PT1Q9btpcf
- zy+2v1uZzqw9Vu8bS0rWnVnMnI8OXmB/vuB15sk04aqmrlFM8UvDg1JkNmqx5f7YtQt0y2mwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1298; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=q6ak9G5lLCyLk1cD0J927SADrL34ogzk7cE5OcIe9fI=;
+ b=owGbwMvMwCHc4XzqmfnC7acZT6slMSQ94VEKlez6xPWljINBRypiGZNEXLT0hsg1tk7ZX/P2T9z8
+ ferEjlIWBmEOBlkxRZbrgm/t+MKi3CJ4PmyGmcPKBDKEgYtTACbSasjwP/brk6fLdqY0FsqcNUqOkU
+ zy9VujZnyqwCaC5dTtpy8rfBgZVvyJmeHxb6Juh0Xrl2PnNvw9tc9SQedfZH8u8/PitsCybgA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Content-Transfer-Encoding: 8bit
@@ -112,58 +112,42 @@ Cc: Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the core has a definition for the 525 and 625 lines analog TV
-modes, let's switch to it for vc4.
+From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 
+PAL-M is a Brazilian analog TV standard that uses a PAL-style chroma
+subcarrier at 3.575611[888111] MHz on top of 525-line (480i60) timings.
+This commit makes the driver actually use the proper VEC preset for this
+mode instead of just changing PAL subcarrier frequency.
+
+Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index 8f30a530b2d5..255bba563fce 100644
+index 255bba563fce..fba15a14787e 100644
 --- a/drivers/gpu/drm/vc4/vc4_vec.c
 +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -224,38 +224,24 @@ static const struct debugfs_reg32 vec_regs[] = {
- 	VC4_REG32(VEC_DAC_MISC),
- };
+@@ -69,6 +69,7 @@
+ #define VEC_CONFIG0_STD_MASK		GENMASK(1, 0)
+ #define VEC_CONFIG0_NTSC_STD		0
+ #define VEC_CONFIG0_PAL_BDGHI_STD	1
++#define VEC_CONFIG0_PAL_M_STD		2
+ #define VEC_CONFIG0_PAL_N_STD		3
  
--static const struct drm_display_mode ntsc_mode = {
--	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
--		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
--		 480, 480 + 7, 480 + 7 + 6, 525, 0,
--		 DRM_MODE_FLAG_INTERLACE)
--};
--
--static const struct drm_display_mode pal_mode = {
--	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
--		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
--		 576, 576 + 4, 576 + 4 + 6, 625, 0,
--		 DRM_MODE_FLAG_INTERLACE)
--};
--
- static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
- 	[VC4_VEC_TV_MODE_NTSC] = {
--		.mode = &ntsc_mode,
-+		.mode = &drm_mode_480i,
- 		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
- 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
- 	},
- 	[VC4_VEC_TV_MODE_NTSC_J] = {
--		.mode = &ntsc_mode,
-+		.mode = &drm_mode_480i,
- 		.config0 = VEC_CONFIG0_NTSC_STD,
- 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
- 	},
- 	[VC4_VEC_TV_MODE_PAL] = {
--		.mode = &pal_mode,
-+		.mode = &drm_mode_576i,
- 		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
+ #define VEC_SCHPH			0x108
+@@ -241,10 +242,9 @@ static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
  	},
  	[VC4_VEC_TV_MODE_PAL_M] = {
--		.mode = &pal_mode,
-+		.mode = &drm_mode_576i,
- 		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
- 		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
- 		.custom_freq = 0x223b61d1,
+-		.mode = &drm_mode_576i,
+-		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
+-		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
+-		.custom_freq = 0x223b61d1,
++		.mode = &drm_mode_480i,
++		.config0 = VEC_CONFIG0_PAL_M_STD,
++		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+ 	},
+ };
+ 
 
 -- 
 b4 0.10.0-dev-49460
