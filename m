@@ -1,47 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A171585815
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 04:42:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6944585816
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 04:43:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA74810E2C3;
-	Sat, 30 Jul 2022 02:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE58A10E342;
+	Sat, 30 Jul 2022 02:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBF010E042;
- Sat, 30 Jul 2022 02:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DoWUSFfdp1DbelCpJZW8+ybwygbd/m+exxYZmmyTXOc=; b=BIhMo1Y/s4qhZ3Hu44+7Yu3cDV
- vKphqnukwIKms2hZ7+8vymACWRWH7hzxDuEcZXqC7TSSeKrT+KQ5ntbvwBo8hknF0+pFx2+5W1O0g
- QTgkN46hoJZlA29R1HW+/2zMn7Ymf06F12Nw8ONwkxRKi6GB0qM11Xd2dM3C8b3ZYr8mA+NM59Pf6
- m48vr3icZtio49TVDQAQHEty93bQSajyMA6yNCBeTzKeFXIOWo+3Zs+NHSKgU51hKriIXYkCzo0JS
- bgr5Yih/H0xf9Xa7joLUzz8dgKazAi1QPPUzTlqutrq+ABhhSaGgSvVVvRTnQ2JyD2Ct3bpSCRsSh
- RH9tuuwQ==;
-Received: from [187.34.27.134] (helo=[192.168.15.109])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1oHcQe-00BiFl-Rj; Sat, 30 Jul 2022 04:42:12 +0200
-Message-ID: <85a49b72-8bb7-b3b3-8a69-2c90cda8079d@igalia.com>
-Date: Fri, 29 Jul 2022 23:41:55 -0300
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5418310E042
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 02:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659148956; x=1690684956;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mcpZdeDc1xfj4+c/v41ilgEl0id0FXrF8qWUD5A4IXE=;
+ b=LGFbfbjeqM9yvOFOmiEu5zFLYB91W4bhs0rWR47khOO7wIcSjYjeH5Y0
+ 7XS3f+eTmtZXCakClzrSGEvjAOK97Rq3zKDc5kWEAuMK3e5WUDnYDgTB+
+ X9Ac0uhap3i+QapuC0MQvF7PjmkLsynqdupIZIkJHnWjknpc5kVBFDT2I
+ LR0Q0PqfhIljsKLMNYIIxBgn2gDX2v9OzcwqlVSYTwq6mC4OG7ymAkSt+
+ OPU105IUuljTZ4WjHjGgv/QBhHUv6MZRmS+riioQRUE/gC2UWcLUdMcUF
+ GlN/BjNLVN0YkEKV7mZyCvAz3RfRR+mREzTikj38FTQ7/QFqmyxyMxbT6 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="287640808"
+X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; d="scan'208";a="287640808"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2022 19:42:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; d="scan'208";a="928949097"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 29 Jul 2022 19:42:34 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oHcQz-000CIs-34;
+ Sat, 30 Jul 2022 02:42:33 +0000
+Date: Sat, 30 Jul 2022 10:42:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] dma-buf: Add ioctl to query mmap info
+Message-ID: <202207301057.KVTYTw6h-lkp@intel.com>
+References: <20220729170744.1301044-2-robdclark@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Stack-frame warnings in display_mode_vba_32.c
-Content-Language: en-US
-To: paulmck@kernel.org
-References: <20220730022532.GA1234397@paulmck-ThinkPad-P17-Gen-1>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20220730022532.GA1234397@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220729170744.1301044-2-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,101 +58,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, arnd@arndb.de, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-next@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, linux@roeck-us.net
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+Hi Rob,
 
-Às 23:25 de 29/07/22, Paul E. McKenney escreveu:
-> Hello!
-> 
-> I am seeing the following in allmodconfig builds of recent -next on x86:
-> 
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c: In function ‘DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation’:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1659:1: error: the frame size of 2144 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
->  1659 | }
->       | ^
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c: In function ‘dml32_ModeSupportAndSystemConfigurationFull’:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:3799:1: error: the frame size of 2480 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
->  3799 | } // ModeSupportAndSystemConfigurationFull
->       | ^
+I love your patch! Perhaps something to improve:
 
-I think they are fixed at amd-staging-drm-next:
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.19-rc8]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20220728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-git log --oneline amd/amd-staging-drm-next
-drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
-953daa61981b drm/amd/display: Reduce stack size in the mode support function
-361e705e712d drm/amd/display: reduce stack for
-dml32_CalculatePrefetchSchedule
-f2dbf5a4dd1e drm/amd/display: reduce stack for
-dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport
-a0a68cda2ef8 drm/amd/display: reduce stack for dml32_CalculateVMRowAndSwath
-ca6730ca0f01 drm/amd/display: reduce stack for
-dml32_CalculateSwathAndDETConfiguration
-593eef8c1a5e drm/amd/display: reduce stack size in dcn32 dml (v2)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/dma-buf-map-info-support/20220730-010844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6e2c0490769ef8a95b61304389116ccc85c53e12
+config: m68k-randconfig-s032-20220729 (https://download.01.org/0day-ci/archive/20220730/202207301057.KVTYTw6h-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/203f14a73a179d6c5fbfa4813e45fde2a9ae9860
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rob-Clark/dma-buf-map-info-support/20220730-010844
+        git checkout 203f14a73a179d6c5fbfa4813e45fde2a9ae9860
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash
 
-https://gitlab.freedesktop.org/agd5f/linux/-/commits/amd-staging-drm-next/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> 
-> Bisection located the commit shown below.  Doing an allmodconfig build
-> on this commit reproduces the error, its parent builds fine.
-> 
-> Thoughts?
-> 
-> 							Thanx, Paul
-> 
-> ------------------------------------------------------------------------
-> 
-> commit 3876a8b5e241081b2a519f848a65c00d8e6cd124
-> Author: Guenter Roeck <linux@roeck-us.net>
-> Date:   Tue Jul 12 15:42:47 2022 -0700
-> 
->     drm/amd/display: Enable building new display engine with KCOV enabled
->     
->     The new display engine uses floating point math, which is not supported
->     by KCOV. Commit 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov
->     is enabled") tried to work around the problem by disabling
->     CONFIG_DRM_AMD_DC_DCN if KCOV_INSTRUMENT_ALL and KCOV_ENABLE_COMPARISONS
->     are enabled. The result is that KCOV can not be enabled on systems which
->     require this display engine. A much simpler and less invasive solution is
->     to disable KCOV selectively when compiling the display enagine while
->     keeping it enabled for the rest of the kernel.
->     
->     Fixes: 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov is enabled")
->     Cc: Arnd Bergmann <arnd@arndb.de>
->     Cc: Leo Li <sunpeng.li@amd.com>
->     Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->     Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> 
-> diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-> index b4029c0d5d8c5..96cbc87f7b6b8 100644
-> --- a/drivers/gpu/drm/amd/display/Kconfig
-> +++ b/drivers/gpu/drm/amd/display/Kconfig
-> @@ -6,7 +6,7 @@ config DRM_AMD_DC
->  	bool "AMD DC - Enable new display engine"
->  	default y
->  	select SND_HDA_COMPONENT if SND_HDA_CORE
-> -	select DRM_AMD_DC_DCN if (X86 || PPC64) && !(KCOV_INSTRUMENT_ALL && KCOV_ENABLE_COMPARISONS)
-> +	select DRM_AMD_DC_DCN if (X86 || PPC64)
->  	help
->  	  Choose this option if you want to use the new display engine
->  	  support for AMDGPU. This adds required support for Vega and
-> diff --git a/drivers/gpu/drm/amd/display/dc/Makefile b/drivers/gpu/drm/amd/display/dc/Makefile
-> index 273f8f2c8e020..b9effadfc4bb7 100644
-> --- a/drivers/gpu/drm/amd/display/dc/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/Makefile
-> @@ -25,6 +25,9 @@
->  DC_LIBS = basics bios dml clk_mgr dce gpio irq link virtual
->  
->  ifdef CONFIG_DRM_AMD_DC_DCN
-> +
-> +KCOV_INSTRUMENT := n
-> +
->  DC_LIBS += dcn20
->  DC_LIBS += dsc
->  DC_LIBS += dcn10
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/dma-buf.c:346:26: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void [noderef] __user *to @@     got void const [noderef] __user *uarg @@
+   drivers/dma-buf/dma-buf.c:346:26: sparse:     expected void [noderef] __user *to
+   drivers/dma-buf/dma-buf.c:346:26: sparse:     got void const [noderef] __user *uarg
+
+vim +346 drivers/dma-buf/dma-buf.c
+
+   328	
+   329	static long dma_buf_info(struct dma_buf *dmabuf, const void __user *uarg)
+   330	{
+   331		struct dma_buf_info arg;
+   332	
+   333		if (copy_from_user(&arg, uarg, sizeof(arg)))
+   334			return -EFAULT;
+   335	
+   336		switch (arg.param) {
+   337		case DMA_BUF_INFO_VM_PROT:
+   338			if (!dmabuf->ops->mmap_info)
+   339				return -ENOSYS;
+   340			arg.value = dmabuf->ops->mmap_info(dmabuf);
+   341			break;
+   342		default:
+   343			return -EINVAL;
+   344		}
+   345	
+ > 346		if (copy_to_user(uarg, &arg, sizeof(arg)))
+   347			return -EFAULT;
+   348	
+   349		return 0;
+   350	}
+   351	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
