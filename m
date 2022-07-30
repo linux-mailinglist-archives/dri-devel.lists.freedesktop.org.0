@@ -2,75 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1684B585AA0
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 15:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08ED585AF2
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 17:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F9EA5F01;
-	Sat, 30 Jul 2022 13:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A859F10E1A2;
+	Sat, 30 Jul 2022 15:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955A5A3C13
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 13:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659189434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1f70MssFhBYEHYXeD4+sKykEagtXma9/kZU4YNZRu5w=;
- b=SEfEb1t7QaeVsI3qceOYXaW44RJsus+YBFe3KMbKzAM/pPSdflprZFJEA7f0NXZruPloBF
- IDTJHVWHYNTrRZkWCa0IC2RwD1UWkfL+bEubD3bT1xmluWiMpZ9jSS/Q8KAkT5Ae4tK+Pc
- aeRX2/xj18rfdlYW9wOjPBUZMq7TZN4=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-lMOVVzdmMOO_iI-WTpZ6eA-1; Sat, 30 Jul 2022 09:57:12 -0400
-X-MC-Unique: lMOVVzdmMOO_iI-WTpZ6eA-1
-Received: by mail-oo1-f72.google.com with SMTP id
- k9-20020a4a8509000000b004357aae682aso3311633ooh.18
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 06:57:12 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0A7810E8B2
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 15:16:09 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id b16so1420662edd.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 08:16:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=6d+ycc7qXtxhS4npbdEsrK/vN/0sRNEBBmbeqlyXufg=;
+ b=P0TMiqwDhd8by8yvDd/Sz0r/VhC0ZH8Y7nekdOikJIUt5rZ35AI/5G630+FHsxqYYF
+ QzBQZhoUz8e9bkiAyH0Xf8bRv6nFXkr+J+t1tn9GvfLwEr4cWnu7oER/0YRDdipJVb1N
+ FA/p1e1wgCdtkNB8XQUb9jyCURnPtMvviYCqixNurn/hgeqbC/Io2nJ1ivku8H7mBART
+ Y5DnrIeCY67iMVU6IrN6dlMfrfoeORiveTDSzzS5YXwhM4L/Q6F2iC/mDrz5gYPLMMTQ
+ Faa/3clEgsMvYGw5+54tjh/6btSBroakweciOGlM+/aPu9gIg2IpPZ29YiLE2CmGsTm2
+ Nmog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1f70MssFhBYEHYXeD4+sKykEagtXma9/kZU4YNZRu5w=;
- b=1c36xN2wIL1bNDwrhWxXvfE4ZGPayy3jqXzNOYtqf9axl8sCNelEXytECs48k6BOLq
- M0ycQyzYPM/qlgyPQlq7N8+PnXBHJWgQiJherKGLFJMeV6w0idEMKWfO+QzKutASR7U1
- 9PJjg73tv4ZYSferhJ0XmHQIxeIL8nQeMHSGXht1E2IcCjJ1FI6bWlBTqHiM/acVXf8a
- NBYTiE66D5S12AAcve0YknM5iMMRtf7Ofcnydne00TXE2ebcDdPgZPjYsXp7BF4IQ7TB
- yKKQKl3VUUUYPxjVByaG2hV21kPG4k3g5tDCAcz+au5z1x1hZvof/mHc1bLhnmoc2wxT
- 2YkA==
-X-Gm-Message-State: AJIora/daW5KnclLJmCLztPPRzGJAebvfiHDz18mwYv8PVhnIdtBpbKW
- RChkTh0EBM2j4gKHAuwRUjHdz7SuxlQyzcwDbhJb2GNMN8RTwpIuh4D7uIT+zs/pHc+b4zi4gEB
- CrLVYi8ek89fW+IdOhYk7WrPiOnf3
-X-Received: by 2002:a05:6808:ec6:b0:337:ae28:d6a4 with SMTP id
- q6-20020a0568080ec600b00337ae28d6a4mr3722924oiv.218.1659189431998; 
- Sat, 30 Jul 2022 06:57:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tqYuNzkkPpQ1CwLa1Ls+3mSVLhrznsOlH7yFqnyWC40TTHuKs+AylpDa/QQqRafAqTOqWQ2g==
-X-Received: by 2002:a05:6808:ec6:b0:337:ae28:d6a4 with SMTP id
- q6-20020a0568080ec600b00337ae28d6a4mr3722920oiv.218.1659189431690; 
- Sat, 30 Jul 2022 06:57:11 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- a40-20020a056870d62800b0010e00d6a1c0sm1919050oaq.51.2022.07.30.06.57.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Jul 2022 06:57:11 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: zackr@vmware.com, linux-graphics-maintainer@vmware.com, airlied@linux.ie,
- daniel@ffwll.ch, cai.huoqing@linux.dev
-Subject: [PATCH] drm/vmwgfx: cleanup comments
-Date: Sat, 30 Jul 2022 09:57:04 -0400
-Message-Id: <20220730135704.2889434-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=6d+ycc7qXtxhS4npbdEsrK/vN/0sRNEBBmbeqlyXufg=;
+ b=7/GeNCPRY4F3q6O4e+nji8W6+48qR3iJ5JgVE1AFAT3iQapidNczXNquwnmzrXsnU2
+ gz0YnGybDOnDArJp2jzYC4G1KQdIr3laLB5d8iovZt3OEAyyTHa2DgTFledeV+Uj8/mK
+ 8RGnF2gKTg7sF9JqiPqMb6gXK9A+0m9sZHBJId1gusMSaXh3TCFSJfd9FBe5qJ8G66iQ
+ MiJdYmJMQ4C59EpDZGXI8AmX+xEwjiRQqNP/Viwdml0K7gH9eB5apw2Wa24YxpetEfye
+ nvHSVshfywpRhB/jaFl6+ScBC4IwG2+qCMEZokDm0RpUtgwgztx4Ku+XjzBc6UfegLp3
+ CmVQ==
+X-Gm-Message-State: ACgBeo3WFNFZWuB6KxRaI5bMFu3JHqpphB0xiBIS1KTC7ljN/+uXQHpz
+ LXSW7Cj/bJolw/7Du3lhLj1iJGGeVA3ESO781oyeCqNICWk=
+X-Google-Smtp-Source: AA6agR50m5cLcwmzWZnTHbOke5eloAsFvg2RgpkIwddRz5csGWEmG2tLSCO8on2mbiFS79VU6AJxZ/XSFQeuSoyker8=
+X-Received: by 2002:a50:bace:0:b0:43d:370a:e1c1 with SMTP id
+ x72-20020a50bace000000b0043d370ae1c1mr5244948ede.193.1659194167564; Sat, 30
+ Jul 2022 08:16:07 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+From: Adam Ford <aford173@gmail.com>
+Date: Sat, 30 Jul 2022 10:15:56 -0500
+Message-ID: <CAHCN7xJ=N1vWVTBjArskJ59fyaLzmAGWfc0E=_iGizrDNR_Udw@mail.gmail.com>
+Subject: imx8mm lcdif->dsi->adv7535 no video, no errors
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,184 +60,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove second 'should'
+Hey all,
 
-Spelling replacements
-aqcuire     -> acquire
-applcations -> applications
-assumings   -> assumes
-begining    -> beginning
-commited    -> committed
-contol      -> control
-inbetween   -> in between
-resorces    -> resources
-succesful   -> successful
-successfule -> successful
+I am trying to test Jagan's patch series [1] to add support for the
+samsung dsim bridge which is used on the imx8mm to output DSI video.
+The DSIM gets the video from the mxsfb, and in my case, the DSI is
+sent to the adv7535 for connecting to HDMI.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h | 2 +-
- drivers/gpu/drm/vmwgfx/ttm_object.h                    | 4 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                     | 2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c             | 8 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                    | 2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c               | 8 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c        | 2 +-
- 7 files changed, 14 insertions(+), 14 deletions(-)
+I have been able to get the device tree setup and I don't get any
+errors.  The Linux system appears to think the video is connected as
+determined by modetest:
 
-diff --git a/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h b/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
-index 1f6e3bbc6605..f84376718086 100644
---- a/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
-+++ b/drivers/gpu/drm/vmwgfx/device_include/vm_basic_types.h
-@@ -121,7 +121,7 @@ typedef __attribute__((aligned(32))) struct MKSGuestStatInfoEntry {
-  *
-  * Since the MKSGuestStatInfoEntry structures contain userlevel
-  * pointers, the InstanceDescriptor also contains pointers to the
-- * begining of these sections allowing the host side code to correctly
-+ * beginning of these sections allowing the host side code to correctly
-  * interpret the pointers.
-  *
-  * Because the host side code never acknowledges anything back to the
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
-index 4c8700027c6d..1a2fa0f83f5f 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.h
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
-@@ -96,7 +96,7 @@ struct ttm_object_device;
-  *
-  * This struct is intended to be used as a base struct for objects that
-  * are visible to user-space. It provides a global name, race-safe
-- * access and refcounting, minimal access contol and hooks for unref actions.
-+ * access and refcounting, minimal access control and hooks for unref actions.
-  */
- 
- struct ttm_base_object {
-@@ -138,7 +138,7 @@ struct ttm_prime_object {
-  *
-  * @tfile: Pointer to a struct ttm_object_file.
-  * @base: The struct ttm_base_object to initialize.
-- * @shareable: This object is shareable with other applcations.
-+ * @shareable: This object is shareable with other applications.
-  * (different @tfile pointers.)
-  * @type: The object type.
-  * @refcount_release: See the struct ttm_base_object description.
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index 85a66014c2b6..58246471597c 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -729,7 +729,7 @@ int vmw_user_bo_lookup(struct drm_file *filp,
-  * Any persistent usage of the object requires a refcount to be taken using
-  * ttm_bo_reference_unless_doomed(). Iff this function returns successfully it
-  * needs to be paired with vmw_user_bo_noref_release() and no sleeping-
-- * or scheduling functions may be called inbetween these function calls.
-+ * or scheduling functions may be called in between these function calls.
-  *
-  * Return: A struct vmw_buffer_object pointer if successful or negative
-  * error pointer on failure.
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-index 415774fde796..82ef58ccdd42 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
-@@ -36,7 +36,7 @@
-  * @res: Refcounted pointer to a struct vmw_resource.
-  * @hash: Hash entry for the manager hash table.
-  * @head: List head used either by the staging list or the manager list
-- * of commited resources.
-+ * of committed resources.
-  * @state: Staging state of this resource entry.
-  * @man: Pointer to a resource manager for this entry.
-  */
-@@ -51,9 +51,9 @@ struct vmw_cmdbuf_res {
- /**
-  * struct vmw_cmdbuf_res_manager - Command buffer resource manager.
-  *
-- * @resources: Hash table containing staged and commited command buffer
-+ * @resources: Hash table containing staged and committed command buffer
-  * resources
-- * @list: List of commited command buffer resources.
-+ * @list: List of committed command buffer resources.
-  * @dev_priv: Pointer to a device private structure.
-  *
-  * @resources and @list are protected by the cmdbuf mutex for now.
-@@ -118,7 +118,7 @@ static void vmw_cmdbuf_res_free(struct vmw_cmdbuf_res_manager *man,
-  * This function commits a list of command buffer resource
-  * additions or removals.
-  * It is typically called when the execbuf ioctl call triggering these
-- * actions has commited the fifo contents to the device.
-+ * actions has committed the fifo contents to the device.
-  */
- void vmw_cmdbuf_res_commit(struct list_head *list)
- {
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 7046dfd0d1c6..85f86faa3243 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -70,7 +70,7 @@ struct vmw_du_update_plane {
- 	 *
- 	 * Some surface resource or buffer object need some extra cmd submission
- 	 * like update GB image for proxy surface and define a GMRFB for screen
--	 * object. That should should be done here as this callback will be
-+	 * object. That should be done here as this callback will be
- 	 * called after FIFO allocation with the address of command buufer.
- 	 *
- 	 * This callback is optional.
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index a7d62a4eb47b..f66caa540e14 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -525,7 +525,7 @@ void vmw_resource_unreserve(struct vmw_resource *res,
-  *                             for a resource and in that case, allocate
-  *                             one, reserve and validate it.
-  *
-- * @ticket:         The ww aqcquire context to use, or NULL if trylocking.
-+ * @ticket:         The ww acquire context to use, or NULL if trylocking.
-  * @res:            The resource for which to allocate a backup buffer.
-  * @interruptible:  Whether any sleeps during allocation should be
-  *                  performed while interruptible.
-@@ -686,7 +686,7 @@ static int vmw_resource_do_evict(struct ww_acquire_ctx *ticket,
-  * @intr: Perform waits interruptible if possible.
-  * @dirtying: Pending GPU operation will dirty the resource
-  *
-- * On succesful return, any backup DMA buffer pointed to by @res->backup will
-+ * On successful return, any backup DMA buffer pointed to by @res->backup will
-  * be reserved and validated.
-  * On hardware resource shortage, this function will repeatedly evict
-  * resources of the same type until the validation succeeds.
-@@ -804,7 +804,7 @@ void vmw_resource_unbind_list(struct vmw_buffer_object *vbo)
-  * @dx_query_mob: Buffer containing the DX query MOB
-  *
-  * Read back cached states from the device if they exist.  This function
-- * assumings binding_mutex is held.
-+ * assumes binding_mutex is held.
-  */
- int vmw_query_readback_all(struct vmw_buffer_object *dx_query_mob)
- {
-@@ -1125,7 +1125,7 @@ int vmw_resources_clean(struct vmw_buffer_object *vbo, pgoff_t start,
- 	}
- 
- 	/*
--	 * In order of increasing backup_offset, clean dirty resorces
-+	 * In order of increasing backup_offset, clean dirty resources
- 	 * intersecting the range.
- 	 */
- 	while (found) {
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c
-index 483ad544ea54..0d51b4542269 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_simple_resource.c
-@@ -196,7 +196,7 @@ vmw_simple_resource_create_ioctl(struct drm_device *dev, void *data,
-  * type.
-  *
-  * Returns: Refcounted pointer to the embedded struct vmw_resource if
-- * successfule. Error pointer otherwise.
-+ * successful. Error pointer otherwise.
-  */
- struct vmw_resource *
- vmw_simple_resource_lookup(struct ttm_object_file *tfile,
--- 
-2.27.0
+trying to open device 'mxsfb-drm'...done
+Encoders:
+id crtc type possible crtcs possible clones
+34 33 none 0x00000001 0x00000001
 
+Connectors:
+id encoder status name size (mm) modes encoders
+35 34 connected HDMI-A-1        620x340 29 34
+  modes:
+index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
+  #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
+flags: nhsync, nvsync; type: driver
+  #1 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
+flags: phsync, pvsync; type: driver
+  #2 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352
+flags: phsync, pvsync; type: driver
+  #3 1920x1080 50.00 1920 2448 2492 2640 1080 1084 1089 1125 148500
+flags: phsync, pvsync; type: driver
+  #4 1680x1050 59.88 1680 1728 1760 1840 1050 1053 1059 1080 119000
+flags: phsync, nvsync; type: driver
+  #5 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000
+flags: phsync, pvsync; type: driver
+  #6 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000
+flags: phsync, pvsync; type: driver
+  #7 1440x900 59.90 1440 1488 1520 1600 900 903 909 926 88750 flags:
+phsync, nvsync; type: driver
+  #8 1280x960 60.00 1280 1376 1488 1800 960 961 964 1000 108000 flags:
+phsync, pvsync; type: driver
+  #9 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags:
+phsync, pvsync; type: driver
+  #10 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags:
+phsync, pvsync; type: driver
+  #11 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags:
+phsync, pvsync; type: driver
+  #12 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags:
+phsync, pvsync; type: driver
+  #13 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags:
+nhsync, nvsync; type: driver
+  #14 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags:
+nhsync, nvsync; type: driver
+  #15 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags:
+nhsync, nvsync; type: driver
+  #16 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags:
+phsync, pvsync; type: driver
+  #17 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags:
+phsync, pvsync; type: driver
+  #18 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags:
+phsync, pvsync; type: driver
+  #19 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags:
+phsync, pvsync; type: driver
+  #20 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags:
+nhsync, nvsync; type: driver
+  #21 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags:
+nhsync, nvsync; type: driver
+  #22 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags:
+nhsync, nvsync; type: driver
+  #23 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags:
+nhsync, nvsync; type: driver
+  #24 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags:
+nhsync, nvsync; type: driver
+  #25 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags:
+nhsync, nvsync; type: driver
+  #26 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags:
+nhsync, nvsync; type: driver
+  #27 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags:
+nhsync, nvsync; type: driver
+  #28 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags:
+nhsync, pvsync; type: driver
+  props:
+1 EDID:
+flags: immutable blob
+blobs:
+
+value:
+00ffffffffffff0005e37928b1000000
+2b190103803e22782a08a5a2574fa228
+0f5054bfef00d1c0b300950081808140
+81c0010101014dd000a0f0703e803020
+35006d552100001aa36600a0f0701f80
+302035006d552100001a000000fc0055
+3238373947360a2020202020000000fd
+0017501e8c3c000a2020202020200114
+020333f14c9004031f1301125d5e5f60
+6123090707830100006d030c00100039
+7820006001020367d85dc401788003e3
+0f000c011d007251d01e206e2855006d
+552100001e8c0ad08a20e02d10103e96
+006d55210000184d6c80a070703e8030
+203a006d552100001aa36600a0f0701f
+80302035006d552100001a00000000ea
+2 DPMS:
+flags: enum
+enums: On=0 Standby=1 Suspend=2 Off=3
+value: 0
+5 link-status:
+flags: enum
+enums: Good=0 Bad=1
+value: 0
+6 non-desktop:
+flags: immutable range
+values: 0 1
+value: 0
+4 TILE:
+flags: immutable blob
+blobs:
+
+value:
+
+CRTCs:
+id fb pos size
+33 37 (0,0) (1920x1080)
+  #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
+flags: nhsync, nvsync; type: driver
+  props:
+24 VRR_ENABLED:
+flags: range
+values: 0 1
+value: 0
+
+Planes:
+id crtc fb CRTC x,y x,y gamma size possible crtcs
+31 33 37 0,0 0,0 0        0x00000001
+  formats: RG16 XR24
+  props:
+8 type:
+
+flags: immutable enum
+enums: Overlay=0 Primary=1 Cursor=2
+value: 1
+30 IN_FORMATS:
+flags: immutable blob
+blobs:
+
+value:
+01000000000000000200000018000000
+01000000200000005247313658523234
+03000000000000000000000000000000
+0000000000000000
+in_formats blob decoded:
+RG16:  LINEAR
+XR24:  LINEAR
+
+Frame buffers:
+id size pitch
+
+Unfortunately, there is no video in my monitor, and my monitor states
+there is no signal.
+
+If I use NXP's downstream kernel, this same hardware configuration
+works fine and I can see the video.
+
+I have checked the clk_summary, and the working and non-working
+conditions both have clock rates that are the same for DSI, LCDIF and
+related items.  The power domains connected to the lcdif and the dsi
+show they are active.
+
+Since I go no errors, and  Linux looks like it's happy, I was hoping
+someone from who better understands the interconnections between all
+these bridge layers might be able to offer a suggestion of something
+to investigate and/or try.
+
+The kernel repo I am using is from Jagan located here:
+
+[1] - https://github.com/openedev/kernel
+
+I am not convinced it's a device tree issue since I get no errors when
+the drivers enumerate, but I can provide my device tree updates if
+that helps.
+
+adam
