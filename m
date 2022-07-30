@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1718D58596F
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 11:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A6D58597B
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 11:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1793A10F36C;
-	Sat, 30 Jul 2022 09:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4706E10FF25;
+	Sat, 30 Jul 2022 09:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E029110F36C;
- Sat, 30 Jul 2022 09:18:10 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26F0610F79B;
+ Sat, 30 Jul 2022 09:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1659172691; x=1690708691;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=9DS4bJLebw1lBvzzjml/GDCUoVQ6Slpznv0XDbK9ev4=;
- b=BfJ9qiKmAgQdJkQ+QDwK8zsaJVe3w580UGN2zk5yZqkHo4iBHMTYzzI6
- 09WT3tsIfWZr9sLo4dgIc21XS+BJdkjqo88s2yaOHN2xlxAZmwvZadoV2
- aU7kjxeF9kwABRdyppXAhdcm772aaFY+/c1WWHE8iEEJJUQW5NLU5qNmK 0=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 30 Jul 2022 02:18:10 -0700
+ t=1659172696; x=1690708696;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version;
+ bh=R2e9pEbUf+I47x6p9w3u3PcS7jXislGPlZCo8X1ItLY=;
+ b=H4ZaSiINDcvvsOfjPQbl2yG2hp21mO3jQVFcQ8T1iv7yAcJqW6ezglw/
+ XbzvihsugLGHW7XFxzxCmYsRHEc5RNX1g47mUWm3W0F0cG2pC9bHdLlKV
+ DKcymZfyB5/XRuP5BCFqyCzwqDY7nn/E0Fu6HLa1uMM8AU8dvGFF0hYl+ E=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 30 Jul 2022 02:18:15 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2022 02:18:09 -0700
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2022 02:18:14 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sat, 30 Jul 2022 02:18:09 -0700
+ 15.2.986.22; Sat, 30 Jul 2022 02:18:14 -0700
 Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sat, 30 Jul 2022 02:18:03 -0700
+ 15.2.986.22; Sat, 30 Jul 2022 02:18:09 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 To: freedreno <freedreno@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, Rob Clark
  <robdclark@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, "Stephen
  Boyd" <swboyd@chromium.org>
-Subject: [PATCH 0/5] clk/qcom: Support gdsc collapse polling using 'reset'
- inteface
-Date: Sat, 30 Jul 2022 14:47:39 +0530
-Message-ID: <1659172664-10345-1-git-send-email-quic_akhilpo@quicinc.com>
+Subject: [PATCH 1/5] dt-bindings: clk: qcom: Support gpu cx gdsc reset
+Date: Sat, 30 Jul 2022 14:47:40 +0530
+Message-ID: <20220730144713.1.I68b749219741db01356a42d782f74265d29a2ac3@changeid>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1659172664-10345-1-git-send-email-quic_akhilpo@quicinc.com>
+References: <1659172664-10345-1-git-send-email-quic_akhilpo@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -64,44 +67,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
  Michael Turquette <mturquette@baylibre.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, Rob
- Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, Andy Gross <agross@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Andy Gross <agross@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add necessary definitions in gpucc bindings to ensure gpu cx gdsc collapse
+through 'reset' framework for SC7280.
 
-Some clients like adreno gpu driver would like to ensure that its gdsc
-is collapsed at hardware during a gpu reset sequence. This is because it
-has a votable gdsc which could be ON due to a vote from another subsystem
-like tz, hyp etc or due to an internal hardware signal. To allow
-this, gpucc driver can expose an interface to the client driver using
-reset framework. Using this the client driver can trigger a polling within
-the gdsc driver.
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
 
-This series is rebased on top of linus's master branch.
+ include/dt-bindings/clock/qcom,gpucc-sc7280.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Related discussion: https://patchwork.freedesktop.org/patch/493144/
-
-
-Akhil P Oommen (5):
-  dt-bindings: clk: qcom: Support gpu cx gdsc reset
-  clk: qcom: Allow custom reset ops
-  clk: qcom: gpucc-sc7280: Add cx collapse reset support
-  clk: qcom: gdsc: Add a reset op to poll gdsc collapse
-  arm64: dts: qcom: sc7280: Add Reset support for gpu
-
- arch/arm64/boot/dts/qcom/sc7280.dtsi          |  3 +++
- drivers/clk/qcom/gdsc.c                       | 23 +++++++++++++++++++----
- drivers/clk/qcom/gdsc.h                       |  7 +++++++
- drivers/clk/qcom/gpucc-sc7280.c               |  6 ++++++
- drivers/clk/qcom/reset.c                      |  6 ++++++
- drivers/clk/qcom/reset.h                      |  2 ++
- include/dt-bindings/clock/qcom,gpucc-sc7280.h |  3 +++
- 7 files changed, 46 insertions(+), 4 deletions(-)
-
+diff --git a/include/dt-bindings/clock/qcom,gpucc-sc7280.h b/include/dt-bindings/clock/qcom,gpucc-sc7280.h
+index 669b23b..843a31b 100644
+--- a/include/dt-bindings/clock/qcom,gpucc-sc7280.h
++++ b/include/dt-bindings/clock/qcom,gpucc-sc7280.h
+@@ -32,4 +32,7 @@
+ #define GPU_CC_CX_GDSC				0
+ #define GPU_CC_GX_GDSC				1
+ 
++/* GPU_CC reset IDs */
++#define GPU_CX_COLLAPSE				0
++
+ #endif
 -- 
 2.7.4
 
