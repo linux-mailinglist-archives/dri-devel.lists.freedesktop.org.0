@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EADB5857B6
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 03:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDB35857B8
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 03:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77D398787;
-	Sat, 30 Jul 2022 01:09:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8CB699951;
+	Sat, 30 Jul 2022 01:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com
- [IPv6:2607:f8b0:4864:20::e2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12CF1995BF;
- Sat, 30 Jul 2022 01:09:38 +0000 (UTC)
-Received: by mail-vs1-xe2e.google.com with SMTP id x125so6133797vsb.13;
- Fri, 29 Jul 2022 18:09:38 -0700 (PDT)
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
+ [IPv6:2607:f8b0:4864:20::e2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44743991EB;
+ Sat, 30 Jul 2022 01:10:21 +0000 (UTC)
+Received: by mail-vs1-xe2a.google.com with SMTP id t28so6163408vsr.11;
+ Fri, 29 Jul 2022 18:10:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=vARix7LjC8+V2lUGH4a8vd6kYiVRgsW91KpYoaINCzQ=;
- b=h113yoKonBCsoBgBIJRG7TYW5IdVv4PVNH8xQ8/CeD83AaZBkSm1tPLxlHGG5I3izq
- XE1LWdsManpW3WR2GsEBJzEWbaCqJRKau3bfdKkYJGf0SiPg/mHwRGDgCZoJgqGjAgwZ
- pubW0SNyRXvkcuaL1RZ6TOu3hgvThYRGYIEn54dnyCIkgwOgXK1EwUaCY6lSJn/Pgy7P
- IPbornuOuO5c14lTFpbpKB+3gTQXOEeRo8QPFNZgX04+1QRD13i/5kZrySmeCWmK80BG
- aFDOjS211eIPiWia8ebJGIKoZ5impL7Ay3b82rVVLHVGOXAmRTCoPV8jNXB995mpKbPn
- /r1w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=3Sz2rolMVv0cdP4ostXteQeLyc14aNYq/ZCxOFD4XiM=;
+ b=VP+ID6vLjTJHOLcQEZvpz/7ErDjng1bhyuCfCC5R1jQVkEijl2P7TAClNxXRskI5ls
+ 8a5wzfhLwgQxHN41hTDnkGx7VtosqGN0XsCJ9Exb1Lz+ERfnTgl/RxcN4q0PWxWAmlxi
+ qHjTkg8H8+6TQGmTz/XK1MiFjKwPzeMej2k9RgA4T3a4K8gXBNIHx4WD5lGVPESTt0L+
+ v8g+wuvy2byGJCHPsmLanQEMWoRqXTqZU70NoJpOfDnK7XFIg6jHDgF4dnzXRcyQqJPX
+ FRUliBWODW9pn9oLV3dsGzZfK4LSzXvux+25UoA6UriMcSqLgyj4UzAfKWCFXoGyo2NS
+ 0x9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=vARix7LjC8+V2lUGH4a8vd6kYiVRgsW91KpYoaINCzQ=;
- b=NR6lCZebwij8IAdicpTGquxiJGWDZOUiQmVopiL+wvt9fucy+6lDaT+AjZZ1vKT08w
- 5M37SEOkSVVq95qOqGccOCdutgqTpSVVf7ikVyHr+7fGaF6a6tLBVD2sjaDVE7AOqPw8
- 489EmFfUJRqqhVp4CQ2wHPmEH4P+zzyKQe/4x+87j2lpGQ2q0vN8eUY9PRrnLNoFccOc
- d931cNxbuhUs2aTIA1PQ9wP3G4wBJU+fibS/pBjFEtHZTzMmVUSAGmuxSDm/NO1s3ojk
- dyTepVAY27LgqjC40+LK4qaIpn31Foe5SRBmIArRxUgjy/hE71hEBOHXEhjtg10BhzWV
- fQpg==
-X-Gm-Message-State: AJIora+JB+MMOF/DBErptgYWJDzHa211Yt4gD2CI2RkBLjWryepWAFps
- 9OK33qchXfp4hHOy1m3F6FY=
-X-Google-Smtp-Source: AGRyM1vUkskwW8/ECjR5ojI7xK86Qa6NccAqCTnIOvLVkS0dbaeXNnOBlj+kxpSaep33CjcVICgjcg==
-X-Received: by 2002:a67:2486:0:b0:354:565c:62ec with SMTP id
- k128-20020a672486000000b00354565c62ecmr2562697vsk.26.1659143377041; 
- Fri, 29 Jul 2022 18:09:37 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=3Sz2rolMVv0cdP4ostXteQeLyc14aNYq/ZCxOFD4XiM=;
+ b=cs13jjz/2bJ0VfJqptm9VcmKooG3AMy9XciIXVOlN1uMLe0D5Dkkzs9KpMDSm+99MY
+ vaEUPAaUjL9tOU2NwlL61ZFX2perGpvN7al2YpERSn3s3+gdMwnr5y6txN2Ph+g2rPBW
+ dD6MUlUOzmyRM4seE/G2hlfcDy330C4VUYWnbJByqNldIX/xLDQcTkZDqHXkOvPs20Ip
+ aLm6tbBinKZrTC04w6IeYyErLZe/sfrwTL8iArQo/kDR2VJhCeQ0waEWm73ofSTE+SG7
+ 6kfWN7t5+UZSzTs9xoRR3h/lf0hsQfyw656nAwavPtft8FXaI3f5ZQf8ifjv0zItwtK3
+ 9Asg==
+X-Gm-Message-State: AJIora8+ihvHVfLY+VzQl9SqbRqfqO2TmGi7D1F/gotj/yJoKlenbW1v
+ 3iU21ZXTmo7n4/abwL2OzDQ=
+X-Google-Smtp-Source: AGRyM1uewnPKiyg7SneKT+OvpGqlbZdRlix+UMbcuDNXx3y0wOk1FNpXVlBV+1imyExWtxmwu0wjPA==
+X-Received: by 2002:a67:c902:0:b0:358:743b:d0e3 with SMTP id
+ w2-20020a67c902000000b00358743bd0e3mr2602562vsk.68.1659143420270; 
+ Fri, 29 Jul 2022 18:10:20 -0700 (PDT)
 Received: from fedora.. ([2804:14c:bbe3:4370:95da:f07f:e927:6958])
  by smtp.gmail.com with ESMTPSA id
- a11-20020a67b30b000000b0035860d6caf8sm1708047vsm.2.2022.07.29.18.09.31
+ a11-20020a67b30b000000b0035860d6caf8sm1708047vsm.2.2022.07.29.18.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 18:09:35 -0700 (PDT)
+ Fri, 29 Jul 2022 18:10:19 -0700 (PDT)
 From: Magali Lemes <magalilemes00@gmail.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, mwen@igalia.com, alex.hung@amd.com
-Subject: [PATCH v2 1/3] drm/amd/display: make variables static
-Date: Fri, 29 Jul 2022 22:06:58 -0300
-Message-Id: <20220730010700.1824647-1-magalilemes00@gmail.com>
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v2 2/3] drm/amd/display: remove header from source file
+Date: Fri, 29 Jul 2022 22:07:00 -0300
+Message-Id: <20220730010700.1824647-2-magalilemes00@gmail.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220730010700.1824647-1-magalilemes00@gmail.com>
+References: <20220730010700.1824647-1-magalilemes00@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,102 +74,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: siqueirajordao@riseup.net, Magali Lemes <magalilemes00@gmail.com>,
  tales.aparecida@gmail.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, mairacanal@riseup.net,
+ amd-gfx@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
  dri-devel@lists.freedesktop.org, isabbasso@riseup.net, andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As "dcn3_1_soc", "dcn3_15_soc", and "dcn3_16_soc" are not used outside
-of their corresponding "dcn3*_fpu.c", make them static and remove their
-extern declaration.
+Since "rn_clk_mgr.h" needs ‘struct clk_mgr_internal’ which is declared
+in "clk_mgr_internal.h", include "clk_mgr_internal.h" in "rn_clk_mgr.h"
+instead of in its source file.
+Because of the change above, change the order of '#include
+"rn_clk_mgr.h"', so that the necessary structs are visible to
+dcn20_clk_mgr.h.
 
-Fixes: 26f4712aedbd ("drm/amd/display: move FPU related code from dcn31 to dml/dcn31 folder")
-Fixes: fa896297b31b ("drm/amd/display: move FPU related code from dcn315 to dml/dcn31 folder")
-Fixes: 3f8951cc123f ("drm/amd/display: move FPU related code from dcn316 to dml/dcn31 folder")
 Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
 Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 ---
 Changes in v2:
-  - remove the extern declaration of "dcn3_15_soc" and "dcn3_16_soc"
-  instead of just fixing their type (Melissa and André)
-  - apply this fix to "dcn3_1_soc" as well
-  - update the commit message accordingly
-  - add Fixes and Reviewed-by tags.
+  - split commit (Melissa).
 
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h   | 1 -
- drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h | 1 -
- drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h | 1 -
- drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c    | 6 +++---
- 4 files changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c | 3 +--
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-index 41f8ec99da6b..901436591ed4 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-@@ -32,7 +32,6 @@
- 	container_of(pool, struct dcn31_resource_pool, base)
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
+index 0202dc682682..ca6dfd2d7561 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
+@@ -24,10 +24,9 @@
+  */
  
- extern struct _vcs_dpi_ip_params_st dcn3_1_ip;
--extern struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc;
+ #include "dccg.h"
+-#include "clk_mgr_internal.h"
++#include "rn_clk_mgr.h"
  
- struct dcn31_resource_pool {
- 	struct resource_pool base;
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
-index 39929fa67a51..22849eaa6f24 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
-@@ -32,7 +32,6 @@
- 	container_of(pool, struct dcn315_resource_pool, base)
+ #include "dcn20/dcn20_clk_mgr.h"
+-#include "rn_clk_mgr.h"
+ #include "dml/dcn20/dcn20_fpu.h"
  
- extern struct _vcs_dpi_ip_params_st dcn3_15_ip;
--extern struct _vcs_dpi_ip_params_st dcn3_15_soc;
+ #include "dce100/dce_clk_mgr.h"
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h
+index 2e088c5171b2..f1319957e400 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.h
+@@ -28,6 +28,7 @@
  
- struct dcn315_resource_pool {
- 	struct resource_pool base;
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
-index 0dc5a6c13ae7..aba6d634131b 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.h
-@@ -32,7 +32,6 @@
- 	container_of(pool, struct dcn316_resource_pool, base)
+ #include "clk_mgr.h"
+ #include "dm_pp_smu.h"
++#include "clk_mgr_internal.h"
  
- extern struct _vcs_dpi_ip_params_st dcn3_16_ip;
--extern struct _vcs_dpi_ip_params_st dcn3_16_soc;
- 
- struct dcn316_resource_pool {
- 	struct resource_pool base;
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-index e36cfa5985ea..5664653ba5ac 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-@@ -114,7 +114,7 @@ struct _vcs_dpi_ip_params_st dcn3_1_ip = {
- 	.dcc_supported = true,
- };
- 
--struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc = {
-+static struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc = {
- 		/*TODO: correct dispclk/dppclk voltage level determination*/
- 	.clock_limits = {
- 		{
-@@ -259,7 +259,7 @@ struct _vcs_dpi_ip_params_st dcn3_15_ip = {
- 	.dcc_supported = true,
- };
- 
--struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc = {
-+static struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc = {
- 	.sr_exit_time_us = 9.0,
- 	.sr_enter_plus_exit_time_us = 11.0,
- 	.sr_exit_z8_time_us = 50.0,
-@@ -355,7 +355,7 @@ struct _vcs_dpi_ip_params_st dcn3_16_ip = {
- 	.dcc_supported = true,
- };
- 
--struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc = {
-+static struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc = {
- 		/*TODO: correct dispclk/dppclk voltage level determination*/
- 	.clock_limits = {
- 		{
+ extern struct wm_table ddr4_wm_table_gs;
+ extern struct wm_table lpddr4_wm_table_gs;
 -- 
 2.37.1
 
