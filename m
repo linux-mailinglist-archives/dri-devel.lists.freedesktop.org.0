@@ -2,50 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5D05858D0
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 08:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B866585951
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 11:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E49BB10F3B6;
-	Sat, 30 Jul 2022 06:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489B410E84D;
+	Sat, 30 Jul 2022 09:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DF110F3B6
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 06:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659161574; x=1690697574;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=z3dt3CF/Wfrwij9l6dIICz7tlz6a9YtfxGNodSaZ3wo=;
- b=Igez/TtdKkTs2gm8EAKoTzinOpeGDY17XWraozVNrQO4uq4U1MTJX6Q3
- PSnCjFOaTHl01OtG+IlU8pHpb7YZ28UzMcUX06/ehwOo3/GfM0vxmcD3V
- rkeeJ44DzXl8l+EehES4kMtbtDSr+IiVx5yJrTwjOSFVQ1JgN3CHvGBZe
- BCnutOlrPUJ9hGWrNh7NulD8xFci19EvcFfOZcyHyrqWGE/ciVSGyOGOb
- 76vqRp7ab1zhflpaPEVvfLnbsvpI273vgckAuOxewizLpr7Uz1w+vGv+a
- R1QJH5F+RTNj1YEcw/d7/r66Y2zorDpx1Pr4jvw1Fbio3XF3gVfNq6BfW Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="268662182"
-X-IronPort-AV: E=Sophos;i="5.93,203,1654585200"; d="scan'208";a="268662182"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2022 23:12:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,203,1654585200"; d="scan'208";a="928980357"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 29 Jul 2022 23:12:43 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oHfiN-000CUB-0k;
- Sat, 30 Jul 2022 06:12:43 +0000
-Date: Sat, 30 Jul 2022 14:12:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] dma-buf: Add ioctl to query mmap info
-Message-ID: <202207301450.M4icK2Bg-lkp@intel.com>
-References: <20220729170744.1301044-2-robdclark@gmail.com>
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8419E10E84D;
+ Sat, 30 Jul 2022 09:06:15 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ g8-20020a9d6b08000000b0061d0ac9ebb2so4804420otp.10; 
+ Sat, 30 Jul 2022 02:06:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc;
+ bh=4eVRrmQ+WXTUA655hJC7om/Fw3gm4iKU9b/x4bJL90A=;
+ b=J+r/cTKaC7sX+nLput/6FyeuQ2jWiikEwrwsmUBWQSWAqoIH9ZS3G7DyyVXhbIRWN3
+ t+a9Hfa9oBQfWBipeAqIiLzzpGQM307ARmC1mp5YtOuzbqMjDDrZk3Z7UGwdVGNlcf4Y
+ 4ipwWMSRKRvYfUghdmPEmTl1iKi3aWv+YCV41Gn1FRwl7HSZTS6lcsrOIbbBMN+piQny
+ +IlU7zpmj/+iWY4bHv8Gq+1yBK4n1MsB0ryjip0UNWz/uiUCJazYDQhd1JlZt6+F4VBC
+ N0KhOvzQtZcTqbn3oamQFhbqygpDCE5wz/+3rNUAzqCL0uK1H6yEORWhRlEi+OJCbz1r
+ yRWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc;
+ bh=4eVRrmQ+WXTUA655hJC7om/Fw3gm4iKU9b/x4bJL90A=;
+ b=Ku7ax+yIdpDVNR8Y1M1vNO24yZkuY60FJEbYhjwRXmffFh84ZtrLuFXsQJuzvLnlYC
+ 80s1r8/NtvjSCyXKqZtoRQotgJbbPwzsdlpfUFZzhhvJfrFjbOLJakfxl1gqeCSrZ/DV
+ swWkfbVuRKTq66hrgZyVG9F3KuPjAqSXGk7RX4DWiOMDzedaOeT0PZJmEeYqIaiRg9Ds
+ hq2mdqnLuJ98LkiQHIA4nitHMVcyLKLllYodoPW/VIczCVrs5CcXo/f+kdA7zSpGSQ2D
+ iFaLy3V9TK8FCti/rvJRfkxx8T/PHC/JJ3pLrj0sXUd+bMr/rwOWsw/Mf3DU3d1hI1jy
+ 3soA==
+X-Gm-Message-State: AJIora8CQVBFnXZB+IjPEt/OhZ9Qog0DerwrotsQD/8kdrbcL9vUkuEo
+ kIxfyfYvk4WovvF+QO8X/8Y=
+X-Google-Smtp-Source: AGRyM1tx2RCvf5THPT7g5vMumNDZwSgV7NHBp0eGgabTb6fToRvUbVhKrQcvmNq0qVoMOtPaq2NAeQ==
+X-Received: by 2002:a05:6830:d81:b0:616:abfa:796f with SMTP id
+ bv1-20020a0568300d8100b00616abfa796fmr2849828otb.18.1659171974604; 
+ Sat, 30 Jul 2022 02:06:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a056830164400b0061c9c7813d4sm1658129otr.24.2022.07.30.02.06.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Jul 2022 02:06:13 -0700 (PDT)
+Message-ID: <80410e6e-838b-fa3d-1f87-710eb3c751c5@roeck-us.net>
+Date: Sat, 30 Jul 2022 02:06:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220729170744.1301044-2-robdclark@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Stack-frame warnings in display_mode_vba_32.c
+Content-Language: en-US
+To: paulmck@kernel.org, =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+References: <20220730022532.GA1234397@paulmck-ThinkPad-P17-Gen-1>
+ <85a49b72-8bb7-b3b3-8a69-2c90cda8079d@igalia.com>
+ <20220730051238.GR2860372@paulmck-ThinkPad-P17-Gen-1>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220730051238.GR2860372@paulmck-ThinkPad-P17-Gen-1>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,79 +78,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
+Cc: sfr@canb.auug.org.au, arnd@arndb.de, sunpeng.li@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-next@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+On 7/29/22 22:12, Paul E. McKenney wrote:
+> On Fri, Jul 29, 2022 at 11:41:55PM -0300, André Almeida wrote:
+>> Hi Paul,
+>>
+>> Às 23:25 de 29/07/22, Paul E. McKenney escreveu:
+>>> Hello!
+>>>
+>>> I am seeing the following in allmodconfig builds of recent -next on x86:
+>>>
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c: In function ‘DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation’:
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1659:1: error: the frame size of 2144 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+>>>   1659 | }
+>>>        | ^
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c: In function ‘dml32_ModeSupportAndSystemConfigurationFull’:
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:3799:1: error: the frame size of 2480 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+>>>   3799 | } // ModeSupportAndSystemConfigurationFull
+>>>        | ^
+>>
+>> I think they are fixed at amd-staging-drm-next:
+>>
+>> git log --oneline amd/amd-staging-drm-next
+>> drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+>> 953daa61981b drm/amd/display: Reduce stack size in the mode support function
+>> 361e705e712d drm/amd/display: reduce stack for
+>> dml32_CalculatePrefetchSchedule
+>> f2dbf5a4dd1e drm/amd/display: reduce stack for
+>> dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport
+>> a0a68cda2ef8 drm/amd/display: reduce stack for dml32_CalculateVMRowAndSwath
+>> ca6730ca0f01 drm/amd/display: reduce stack for
+>> dml32_CalculateSwathAndDETConfiguration
+>> 593eef8c1a5e drm/amd/display: reduce stack size in dcn32 dml (v2)
+>>
+>> https://gitlab.freedesktop.org/agd5f/linux/-/commits/amd-staging-drm-next/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+> 
+> Very good, thank you!  I will test again on the next -next.
+> 
 
-I love your patch! Yet something to improve:
+Did you try next-20220728 ?
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.19-rc8]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20220728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+groeck@server:~/src/linux-next$ git describe
+next-20220728
+groeck@server:~/src/linux-next$ git log --oneline drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c
+1b54a0121dba drm/amd/display: Reduce stack size in the mode support function
+86e4863e67a9 drm/amd/display: reduce stack for dml32_CalculatePrefetchSchedule
+3c3abac60117 drm/amd/display: reduce stack for dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport
+c3b3f9ba25e6 drm/amd/display: reduce stack for dml32_CalculateVMRowAndSwath
+bac4b41d917a drm/amd/display: reduce stack for dml32_CalculateSwathAndDETConfiguration
+7acc487ab57e drm/amd/display: reduce stack size in dcn32 dml (v2)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/dma-buf-map-info-support/20220730-010844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6e2c0490769ef8a95b61304389116ccc85c53e12
-config: arm-randconfig-r033-20220729 (https://download.01.org/0day-ci/archive/20220730/202207301450.M4icK2Bg-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/203f14a73a179d6c5fbfa4813e45fde2a9ae9860
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Clark/dma-buf-map-info-support/20220730-010844
-        git checkout 203f14a73a179d6c5fbfa4813e45fde2a9ae9860
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma-buf/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/dma-buf/dma-buf.c:346:19: error: passing 'const void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           if (copy_to_user(uarg, &arg, sizeof(arg)))
-                            ^~~~
-   include/linux/uaccess.h:157:27: note: passing argument to parameter 'to' here
-   copy_to_user(void __user *to, const void *from, unsigned long n)
-                             ^
-   1 error generated.
-
-
-vim +346 drivers/dma-buf/dma-buf.c
-
-   328	
-   329	static long dma_buf_info(struct dma_buf *dmabuf, const void __user *uarg)
-   330	{
-   331		struct dma_buf_info arg;
-   332	
-   333		if (copy_from_user(&arg, uarg, sizeof(arg)))
-   334			return -EFAULT;
-   335	
-   336		switch (arg.param) {
-   337		case DMA_BUF_INFO_VM_PROT:
-   338			if (!dmabuf->ops->mmap_info)
-   339				return -ENOSYS;
-   340			arg.value = dmabuf->ops->mmap_info(dmabuf);
-   341			break;
-   342		default:
-   343			return -EINVAL;
-   344		}
-   345	
- > 346		if (copy_to_user(uarg, &arg, sizeof(arg)))
-   347			return -EFAULT;
-   348	
-   349		return 0;
-   350	}
-   351	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Guenter
