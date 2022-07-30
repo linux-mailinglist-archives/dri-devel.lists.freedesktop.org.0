@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF94F585BA7
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 20:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B92585BAB
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 20:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 701B410FB1E;
-	Sat, 30 Jul 2022 18:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E74010E1E6;
+	Sat, 30 Jul 2022 18:50:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA23210F349
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 18:49:40 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C2A10E1E6
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 18:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1659206976;
- bh=tzpuq9WlpLWCJEtviNi1Uat9UZ6Xt70/8x9Fk89rkQI=;
+ s=badeba3b8450; t=1659207020;
+ bh=lb1Lf8t4xaY9Y+QKg74YnMmqnO8vj3n92i+vvXEUpGA=;
  h=X-UI-Sender-Class:Date:From:To:Subject:References:In-Reply-To;
- b=Z7LG35tJxwkQ3BgKgcp7zo21le33aNsP6OEVrhp7263Riqe0OUfUCfP53iVx9nM1t
- uS1O+cH8tjt9MFqd/ZPMFk84LPOq28I1Z6Moam208QtsYy8WtQO+9a2i/g/EHT0X8S
- eN+Ng5yKMbVoJLrRU76MxS8O9qRW9j4ze1v2Y7/8=
+ b=OqCn9F5VJ0ZzU4RrAfP9GQO5F0OrM8Tr8bjpKCvVtP4itsId9U2SMQTbAmFlDCSv4
+ uAr6BOqixGqUSFPLDv2CuOERLaIas5fIpEkntGPTE1xhbdvZj76ECEb3UHT9MGE46I
+ apaqNGOPUz59Wbcxkkb6AAwzGUOK0dmgGB9//wMw=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.141.10]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mkpav-1nbKed2Kxb-00mGpR; Sat, 30
- Jul 2022 20:49:36 +0200
-Date: Sat, 30 Jul 2022 20:49:35 +0200
+Received: from p100 ([92.116.141.10]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MWics-1nxw0K0OL2-00X1Ln; Sat, 30
+ Jul 2022 20:50:20 +0200
+Date: Sat, 30 Jul 2022 20:50:18 +0200
 From: Helge Deller <deller@gmx.de>
 To: Khalid Masum <khalid.masum.92@gmail.com>,
  syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>,
@@ -31,8 +31,8 @@ To: Khalid Masum <khalid.masum.92@gmail.com>,
  linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@kernel.org>
-Subject: [PATCH] tty: vt: selection: Add check for valid tiocl_selection values
-Message-ID: <YuV9PybMPgc83Jis@p100>
+Subject: [PATCH] vt: Clear selection before changing the font
+Message-ID: <YuV9apZGNmGfjcor@p100>
 References: <000000000000bbdd0405d120c155@google.com>
  <20220729065139.6529-1-khalid.masum.92@gmail.com>
  <eb4a26aa-da30-ceee-7d27-c1e902dd4218@gmx.de>
@@ -40,29 +40,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <eb4a26aa-da30-ceee-7d27-c1e902dd4218@gmx.de>
-X-Provags-ID: V03:K1:ToEKFG7q8TqzWkKiUkgmSqOQzPl1CLwKRLoO7HO9nMZDveCnd3E
- ZCrrvyAiL47IG8ccPvy1YF8o6nma4f3RCYro88uhfqrOK9valmhagjkrBHZwcQHffntu60u
- OTtXGGByC8CpWRM+jLgBvhgLY8Ih1ubehsACmXGKiZFDPm9h3kxYsziGHZ/7APJOG+5fc4C
- 9ogYGTt+u/tILdMa9/R3w==
+X-Provags-ID: V03:K1:aOJ76y6sEpgwGrwvfAja8bpGQzr5GQjvWnu3S4B6ULoT14KB9IS
+ 1kW0r3aNgXnf0ZQAjCzdN524HpXX3bNj2x5ReEp6m58tt6DPYuZvv4Mp4cBAdqNzbOs2q0Y
+ 4sFI7UcoIuDhGgXx46OTbL1STGIB/oqgyMpvnc2y9xNP/swxVQGZC9k0l9ByEZ7RDiDO1o3
+ BDKWJaS7E2t4JTbcihZHw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2gR9PQI4N7k=:TJBDvRUHky6mj8cMXAoQK7
- 7AdrXDcfxuD4U3Oi64GVAGSOA01a6M+L8yawRDJeHCtChIlYAwLLzuJ6bOa7TrPXdvb2bhl9u
- E4ENbkvmMinwfw5K6MAxGdHEpkuUeq3VlH6ghedN8qms5r3aCo4K7rujaPth0q56pjK2xRdaC
- bViq28xmkRT1GJ2SCg/By9SM/M25T+R5YLaJ7qHA9iAvLEManBb+EVPc9Hza/F1apMo+r+cqS
- VMcfX2TfjCpvEUf6VUtRFmDle2PSbibP+xLjZ9hEKP8Fd4vv178Vu90cNudVv05tLqmhrXDY6
- SVI+MfwJJNElpQtTtchYrZ8iyl2e9R8B4sGkQ30X+iHUdWsTFwjFvu/Y3wUkuTWlrUqnqy/qp
- ddSwPjorRBpw7HmCe8h9/fucA2Rmr0NC9a5vJknnhMKQpciP0GIKou3MxxdW/HhXgI71kvHCJ
- QYEZZ805VLf2vQv7vmbUkigSloKx23xHY+vnasw/Af3rhxwQ+zC7uAgNww0ZocnL3ni4/mlVn
- QD8qGfIb1hYjGYrDrQ67rBKoT3G5FpcOWRpYtZOwCtTL4UzJX8xLXdTgzKDrxYMXccBUCv1Hs
- hXij+JVMf1wKsYYH22eL7oBX99UDqEfZPtijGI0uerVroDPQOdWXdqhdd2MzJ9qM1QZYeh6XN
- taDpQ2qcS+pzb910f3ZBWN1VRft7koGixtUdpAE00RQDq6Zb4f2jEOyYxRHO2ctQMh8u1RjwT
- A3JsrpFbZdtfwGRAxb/o5fso5ylCDfBWp6H92ZMwceaWaew2IFDnzp2fX3byc98OydiQ+PEfF
- /vawlJiaa+3fVX7ebRg7yMnFQ+64Rh3F0orzhjCnBgURI5UNUNq21fcpI4p4kUYiU8tp1ok4e
- FOdWUtgYGRIblUQ5/R+PSo5C0qa2PoF0Wpi2LGuuFaRDb0aiCRRpchwp2zLzR0SHiVgkt+BLI
- 6q0W9yrJbI3KXWV+2Qb0CppOybuBFAl1e2TxpAawoa30kUWnsFcJ3lNlD+SWs7IO7t+5Rx3Qe
- SJhn23opLWDrq8iO5lzxriaat5Y7wVK01IJdRd6gjM9UcLg/6bwEJhrKG8cL/9PC1T1veFHEF
- tBzT5g2z9emAwuXG4gCCUmX8+GIfIfjL39mv8gVNmRAf1f/azH7OB4Szw==
-Content-Transfer-Encoding: quoted-printable
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9vIoM7sHZEo=:mhN90fgXNBTJz11SQ1Z03B
+ z9UUnW1mIkP+eG+jQmGYjaUMTW+e5dZIhqh/PcpFoLYPlzvIRxzA7+Pc75i3B1LmzH9VtspTI
+ L2GBlFOqO1W9/nMxSAWx7FGKK3SYhi5MVcl0H126RzTS9CV1B53DdTrnTAEbBioJbBU2bnsBb
+ 97R6CYHmoJ7Dz9hBSAJOXOTqmokl7mjlWkGKycnh5IHOH+hVOsgzMFCOuwKIMVt/iWLn7nQi1
+ m7GA9K8Kw9syj3giA0mpUUj+ic7+SwiAjuTkpWlUtnxp1J4lF2IZio6sEN1lgwXOXDeTHz0Zl
+ idOGLyQqUAHvulM+OZxQMFxJtZ7CDGkAeb/SQZvUMWo1PAEv978gVgg8eMYdSHj/ZCAYZdNnL
+ DToKoVs8FyB09ef4fjor7QaQpzyr238k375dJ6rv1+baBpxfcN3UoDjUxj7ArRVPRErozqRet
+ Q3wJKaWMOdqLGbNdWkIVqLSQ8H4uRPgwq4+bndJk0llcC1Ien7t2YQJIcm4yDtI4d1S4+2fQt
+ GXkWdAr2UcFQjGXuaYGrAyuGlxyi1oN2lDHapPqaZgMw8OEVeDZ19f9O//284hgFEvr3cOiMQ
+ Xj+sx9MGaQuRQcW51nsh1aiadcdaKM/vHQ/PTaUGJREcHQFXpd4Ntp8P7vtPDpYamTsKPaHxW
+ Zk8c7yC+EW6vV/YVhSjc3kUf3MOoiEnKBufYdQRLIxT7F7MLeY/c8BNHg5XU3vHsf6FmlJvry
+ /gFK5wS87pIUbZu4ghDU1QNGCgo5CtqKpZ1z80RET5PalQ9qdNUEGOtasDqiERCqFXGl/Pbbi
+ iS8+6E7SjdpmJ03oSorBn/xKLRflAiECYR5RJvyy8AAtHdpr8wKIWj03xk+LIkJrLShMil9QZ
+ cGSJO27M/Lij8ESuFLDvKKt2pGJbGgVhIKDJoshGQeMayZPYgHVzemRLveevxGEHJKXbE2ouU
+ AnGcOF2pywFkLCBOV5aP0WcnL7va4j7J/sBBzX9l4OPMgSoKvqPnTSjkComoTYGiCu8gj66MA
+ xU5IOAWEmMLaOZcjleaAcy3nT7qHLYov3PD3UC3SPUQnAeaoVeSo8lnrySfI437iIODjGWX+l
+ TkWWSghXt223mfkkGMZEQRnnYPZexGk0RZnhcQSHEXqjPAp8BSffj5e9Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,24 +77,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The line and column numbers for the selection need to start at 1.
-Add the checks to prevent invalid input.
+When changing the console font with ioctl(KDFONTOP) the new font size
+can be bigger than the previous font. A previous selection may thus now
+be outside of the new screen size and thus trigger out-of-bounds
+accesses to graphics memory if the selection is removed in
+vc_do_resize().
+
+Prevent such out-of-memory accesses by dropping the selection before the
+various con_font_set() console handlers are called.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
 
-diff --git a/drivers/tty/vt/selection.c b/drivers/tty/vt/selection.c
-index f7755e73696e..58692a9b4097 100644
-=2D-- a/drivers/tty/vt/selection.c
-+++ b/drivers/tty/vt/selection.c
-@@ -326,6 +326,9 @@ static int vc_selection(struct vc_data *vc, struct tio=
-cl_selection *v,
- 		return 0;
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index dfc1f4b445f3..3f09205185a4 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -4662,9 +4662,11 @@ static int con_font_set(struct vc_data *vc, struct console_font_op *op)
+ 	console_lock();
+ 	if (vc->vc_mode != KD_TEXT)
+ 		rc = -EINVAL;
+-	else if (vc->vc_sw->con_font_set)
++	else if (vc->vc_sw->con_font_set) {
++		if (vc_is_sel(vc))
++			clear_selection();
+ 		rc = vc->vc_sw->con_font_set(vc, &font, op->flags);
+-	else
++	} else
+ 		rc = -ENOSYS;
+ 	console_unlock();
+ 	kfree(font.data);
+@@ -4691,9 +4693,11 @@ static int con_font_default(struct vc_data *vc, struct console_font_op *op)
+ 		console_unlock();
+ 		return -EINVAL;
  	}
-
-+	if (!v->xs || !v->ys || !v->xe || !v->ye)
-+		return -EINVAL;
-+
- 	v->xs =3D min_t(u16, v->xs - 1, vc->vc_cols - 1);
- 	v->ys =3D min_t(u16, v->ys - 1, vc->vc_rows - 1);
- 	v->xe =3D min_t(u16, v->xe - 1, vc->vc_cols - 1);
+-	if (vc->vc_sw->con_font_default)
++	if (vc->vc_sw->con_font_default) {
++		if (vc_is_sel(vc))
++			clear_selection();
+ 		rc = vc->vc_sw->con_font_default(vc, &font, s);
+-	else
++	} else
+ 		rc = -ENOSYS;
+ 	console_unlock();
+ 	if (!rc) {
