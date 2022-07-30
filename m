@@ -2,79 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861985858DD
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 08:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5D05858D0
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 08:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B8210F5F2;
-	Sat, 30 Jul 2022 06:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49BB10F3B6;
+	Sat, 30 Jul 2022 06:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E77BA10E146
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 18:12:12 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id bq11so3346516lfb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jul 2022 11:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=YRtWVtjASRhasg4zc8teXz0/znN+y1S+ZkqIbY7XKTA=;
- b=nKEbCpTn4ES338fo/oL+ZxbpzekkKK2V0nZCrR8D9coR5pJNycc5h9KHT3bd8XeneQ
- vPSuxtMcHwyAfCbOMCvpReAOZt0imu43u+fzDy1KqhXerbTrgMa2PFQ/1EM3YFWwnm20
- n+Pay0YAcn5etX+RhQMrfN2166BiRYs1f6LlxnUIgqQA17G+U4KzPhZlOZpPSwW9yDJc
- VqmOVvoVheAn8/IAIy+SueUv7yI1jmne/GlQE11VSytvv8R0SJvtANTgFeVKRxqOoG8P
- pbs6XpbiFip7/U/Ms8xoVcdMPVTz11kQDSLw9cyGEAoUlwClryZRDsAT/7eUJXB0Enty
- p/rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=YRtWVtjASRhasg4zc8teXz0/znN+y1S+ZkqIbY7XKTA=;
- b=tTk/rg1mgVebk93FpUttoo036WyzATbBfMMr2DrU2GRpaTzdUqKZmx4VQ0mb4+W992
- kLZ86CRMe8vqgznAj564Nlrj8gxJfHG2ucB3SJ3Oqac9bwjA8W9Sshn3vQXcfhkwCVFd
- pTNXromxVyZIuhMFfbDbA745m3DWZp4hhpUH7pfrpAw/QxcGfr/PMwwoiiwPe6/Iz6uw
- k8ItDr0ylHqE1NrDS+2JBOVk1uQfpAKWmJy9OgQZPQw9yred2qqBIl9LNryOq6hRVfVe
- IsNVoTmEnH1o2JUxKN0paqwliWNdNWRGXIrjyyrmk5bSEZeEvvZLutQ8DoVwEoU3jYI2
- wAUg==
-X-Gm-Message-State: AJIora8v2qoMF3TOSmSk4TSc+0YckobdLOohFhN2a6RSANjZgJt6lp4a
- sQwHVQX6tiduQAihFFHnb/Q=
-X-Google-Smtp-Source: AGRyM1tGTdtn7I/aNBel79an2DZRtTumSuY2b+SFhmNnAAQda14q5JmpFf7rHUQ5FfW3XCUPU7bjZw==
-X-Received: by 2002:a05:6512:1521:b0:48a:3c5d:5d17 with SMTP id
- bq33-20020a056512152100b0048a3c5d5d17mr1600643lfb.587.1659118331035; 
- Fri, 29 Jul 2022 11:12:11 -0700 (PDT)
-Received: from [192.168.177.6] (public-gprs370360.centertel.pl. [37.47.77.249])
- by smtp.googlemail.com with ESMTPSA id
- p3-20020a2e7403000000b0025e0b9ea91csm731173ljc.84.2022.07.29.11.12.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jul 2022 11:12:10 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <0e285cf5-6ef2-3484-9fb7-5eb55c0ca269@gmail.com>
-Date: Fri, 29 Jul 2022 20:12:07 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DF110F3B6
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 06:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659161574; x=1690697574;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=z3dt3CF/Wfrwij9l6dIICz7tlz6a9YtfxGNodSaZ3wo=;
+ b=Igez/TtdKkTs2gm8EAKoTzinOpeGDY17XWraozVNrQO4uq4U1MTJX6Q3
+ PSnCjFOaTHl01OtG+IlU8pHpb7YZ28UzMcUX06/ehwOo3/GfM0vxmcD3V
+ rkeeJ44DzXl8l+EehES4kMtbtDSr+IiVx5yJrTwjOSFVQ1JgN3CHvGBZe
+ BCnutOlrPUJ9hGWrNh7NulD8xFci19EvcFfOZcyHyrqWGE/ciVSGyOGOb
+ 76vqRp7ab1zhflpaPEVvfLnbsvpI273vgckAuOxewizLpr7Uz1w+vGv+a
+ R1QJH5F+RTNj1YEcw/d7/r66Y2zorDpx1Pr4jvw1Fbio3XF3gVfNq6BfW Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="268662182"
+X-IronPort-AV: E=Sophos;i="5.93,203,1654585200"; d="scan'208";a="268662182"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2022 23:12:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,203,1654585200"; d="scan'208";a="928980357"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 29 Jul 2022 23:12:43 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oHfiN-000CUB-0k;
+ Sat, 30 Jul 2022 06:12:43 +0000
+Date: Sat, 30 Jul 2022 14:12:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] dma-buf: Add ioctl to query mmap info
+Message-ID: <202207301450.M4icK2Bg-lkp@intel.com>
+References: <20220729170744.1301044-2-robdclark@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.0
-Subject: Re: [PATCH v1 20/35] drm/vc4: vec: Switch for common modes
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-20-3d53ae722097@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-20-3d53ae722097@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 30 Jul 2022 06:32:44 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220729170744.1301044-2-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,92 +58,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-amlogic@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Rob,
 
-I'm just noting that the modelines you defined in drm_modes.c are 
-different to the ones you're removing here.
+I love your patch! Yet something to improve:
 
-The horizontal sync differences probably doesn't matter too much, VC4 
-uses those only as a hint anyway and generates sync autonomously, so the 
-slight differences will only cause the image to slightly shift horizontally.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.19-rc8]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20220728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-But you're also changing the 480i vertical sync (vsync_start is now 488 
-instead of 487, etc.). Are you sure that this won't break anything? This 
-will probably shift the image by 1 line (which for the 480i might 
-actually mean going out of spec), and I _think_ it might control the odd 
-vs. even field first modes on some drivers. I won't be able to test this 
-before Monday, but I'm just pointing out the potential issue.
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/dma-buf-map-info-support/20220730-010844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 6e2c0490769ef8a95b61304389116ccc85c53e12
+config: arm-randconfig-r033-20220729 (https://download.01.org/0day-ci/archive/20220730/202207301450.M4icK2Bg-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/203f14a73a179d6c5fbfa4813e45fde2a9ae9860
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rob-Clark/dma-buf-map-info-support/20220730-010844
+        git checkout 203f14a73a179d6c5fbfa4813e45fde2a9ae9860
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma-buf/
 
-BTW, I've seen a similar thing in the sun4i driver changes (patch 32/35) 
-and the differences in vertical sync are even more dramatic. It's 
-entirely possible that the current timings in sun4i are broken and the 
-new ones are correct (the new ones certainly look saner to me), but I'd 
-double-check if that driver does not have any quirks that would 
-_require_ such weird settings.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Best regards,
-Mateusz Kwiatkowski
+All errors (new ones prefixed by >>):
 
-W dniu 29.07.2022 o 18:35, Maxime Ripard pisze:
-> Now that the core has a definition for the 525 and 625 lines analog TV
-> modes, let's switch to it for vc4.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> index 8f30a530b2d5..255bba563fce 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -224,38 +224,24 @@ static const struct debugfs_reg32 vec_regs[] = {
->   	VC4_REG32(VEC_DAC_MISC),
->   };
->   
-> -static const struct drm_display_mode ntsc_mode = {
-> -	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
-> -		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
-> -		 480, 480 + 7, 480 + 7 + 6, 525, 0,
-> -		 DRM_MODE_FLAG_INTERLACE)
-> -};
-> -
-> -static const struct drm_display_mode pal_mode = {
-> -	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
-> -		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
-> -		 576, 576 + 4, 576 + 4 + 6, 625, 0,
-> -		 DRM_MODE_FLAG_INTERLACE)
-> -};
-> -
->   static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
->   	[VC4_VEC_TV_MODE_NTSC] = {
-> -		.mode = &ntsc_mode,
-> +		.mode = &drm_mode_480i,
->   		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->   	},
->   	[VC4_VEC_TV_MODE_NTSC_J] = {
-> -		.mode = &ntsc_mode,
-> +		.mode = &drm_mode_480i,
->   		.config0 = VEC_CONFIG0_NTSC_STD,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->   	},
->   	[VC4_VEC_TV_MODE_PAL] = {
-> -		.mode = &pal_mode,
-> +		.mode = &drm_mode_576i,
->   		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->   	},
->   	[VC4_VEC_TV_MODE_PAL_M] = {
-> -		.mode = &pal_mode,
-> +		.mode = &drm_mode_576i,
->   		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
->   		.custom_freq = 0x223b61d1,
->
+>> drivers/dma-buf/dma-buf.c:346:19: error: passing 'const void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           if (copy_to_user(uarg, &arg, sizeof(arg)))
+                            ^~~~
+   include/linux/uaccess.h:157:27: note: passing argument to parameter 'to' here
+   copy_to_user(void __user *to, const void *from, unsigned long n)
+                             ^
+   1 error generated.
 
+
+vim +346 drivers/dma-buf/dma-buf.c
+
+   328	
+   329	static long dma_buf_info(struct dma_buf *dmabuf, const void __user *uarg)
+   330	{
+   331		struct dma_buf_info arg;
+   332	
+   333		if (copy_from_user(&arg, uarg, sizeof(arg)))
+   334			return -EFAULT;
+   335	
+   336		switch (arg.param) {
+   337		case DMA_BUF_INFO_VM_PROT:
+   338			if (!dmabuf->ops->mmap_info)
+   339				return -ENOSYS;
+   340			arg.value = dmabuf->ops->mmap_info(dmabuf);
+   341			break;
+   342		default:
+   343			return -EINVAL;
+   344		}
+   345	
+ > 346		if (copy_to_user(uarg, &arg, sizeof(arg)))
+   347			return -EFAULT;
+   348	
+   349		return 0;
+   350	}
+   351	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
