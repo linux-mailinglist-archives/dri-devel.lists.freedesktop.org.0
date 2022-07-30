@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4E35857BA
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 03:10:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B067F5857FF
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 04:26:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED2799045;
-	Sat, 30 Jul 2022 01:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D3E89F5B;
+	Sat, 30 Jul 2022 02:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com
- [IPv6:2607:f8b0:4864:20::a2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3283A991B8;
- Sat, 30 Jul 2022 01:10:48 +0000 (UTC)
-Received: by mail-vk1-xa2f.google.com with SMTP id e3so975447vkg.4;
- Fri, 29 Jul 2022 18:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=EXcx83ZCGKGC5SWB/05DKVL5trtEdgyIefeqFTLbxmU=;
- b=nqH35WOEqeaaV3rWES5oh+tbu7iyeSzn+7k3m/1+JY0iGtZefI8/K9Peak3GWeNiZM
- AeObWBj4g8Ms5Cz71F80tn5h2CVFAqakCW/V2H6XfWbo9x+qnMz9k3BvFu8rUgO4azuL
- oLYha79NrEwGXTARdVmxjSCv8WXOMDczq9tNdL4gL8sZYOcqP/qcvtPtafK+kQY4cZ0H
- ivqAxBY3hv+d/OWQ/ZhsvGqwhCvMbMhjkkX3H+Bsd52rj+mLdLGiHlR/iyzcGQrT6V7X
- Z5++dMtt6pdDKSB1Sl+TdgiT2EOcOak50jjtyvDHgtb6cey4BDIH4KpOu3qb/S7xo6tV
- ASuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=EXcx83ZCGKGC5SWB/05DKVL5trtEdgyIefeqFTLbxmU=;
- b=yX6F5q5h2ptmrWPCwW8P96kmohf45mYEzPzhS9/ETa9HxGRHmN5Njzo3FONlmvORTp
- GT3hqdlzRdv8PPhj7uilfRpLyyMxDat454kaQk+EtHm45ywJDnaL6t6gujBt6Aow8Jkz
- wJIDAAaXslpg3XM7a8YaCso2IGMv89GWlyKUhzVWIGsmhc0wg5wq6WJsaT+nNm3c8cif
- WjepMFTRjDCtFhhFq4l2b+xlARVRNqZu5J7GsbiXo0wkgoGIFKB23Cr7QF3OAlFDKArX
- JTJseGbTA+g6n/lL05My2YgwpKTnP+XUmqPMySoMjlYt1MLrV/zsMUwUSXZHrdO03vLp
- +W8Q==
-X-Gm-Message-State: AJIora9BkGhgfixrBJEMsKLS6vdHafsv8nMwRcNZGsBQzhwSA5FUMO9p
- AxL2N75iv/QqcdiPQY0I+10=
-X-Google-Smtp-Source: AGRyM1uJ1ktVWvmgN8VnXITJwjJwAVAlzQaQIMt2sto+TIUlZd7N/VUYhdchN0Cp4mnwauIz2Rqwjg==
-X-Received: by 2002:a1f:df41:0:b0:376:ecd7:4930 with SMTP id
- w62-20020a1fdf41000000b00376ecd74930mr2615048vkg.11.1659143447011; 
- Fri, 29 Jul 2022 18:10:47 -0700 (PDT)
-Received: from fedora.. ([2804:14c:bbe3:4370:95da:f07f:e927:6958])
- by smtp.gmail.com with ESMTPSA id
- a11-20020a67b30b000000b0035860d6caf8sm1708047vsm.2.2022.07.29.18.10.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 18:10:46 -0700 (PDT)
-From: Magali Lemes <magalilemes00@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, mwen@igalia.com, mairacanal@riseup.net,
- alex.hung@amd.com
-Subject: [PATCH v2 3/3] drm/amd/display: include missing headers
-Date: Fri, 29 Jul 2022 22:07:02 -0300
-Message-Id: <20220730010700.1824647-3-magalilemes00@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220730010700.1824647-1-magalilemes00@gmail.com>
-References: <20220730010700.1824647-1-magalilemes00@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBAB10E2C3;
+ Sat, 30 Jul 2022 02:25:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ACEBB61DC5;
+ Sat, 30 Jul 2022 02:25:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1974CC433C1;
+ Sat, 30 Jul 2022 02:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659147933;
+ bh=EsersN85TttPaQcdVgjli1UBcGalAzLNzoI5+PJX7dM=;
+ h=Date:From:To:Cc:Subject:Reply-To:From;
+ b=B4+6uWnYV7ESdirnk7ZjgWGid8KnJI6m1JBH5aa0AERpBYWc5YSvyj63GgbXIJHu6
+ KFVTFuUJ2Asl0NdjuPGKjFUJQ0o4VsAqxulR3d+78OluLQYI+JnvIgSuHEMvaIvwon
+ wpl2pY3m2PjaUv/nU1Zl0G8RBD8nDYznCDESmclu/N+4mC4mtfIWGaKPEQvXniwk5A
+ uG98IJjh1LYDKXGV6rI2Ukcml2jJjxrajTJBucWOh6cWR7vUA5WnMfArM98ICarnmt
+ x76yt4QwANCleBOa2tCk4mKQ9MJ1QvT+ddlwncWT31DitJ3XS4A82P4SvxfdjD4amA
+ WkgB8qMacyB/w==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+ id A2F845C04B1; Fri, 29 Jul 2022 19:25:32 -0700 (PDT)
+Date: Fri, 29 Jul 2022 19:25:32 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: linux@roeck-us.net, alexander.deucher@amd.com, arnd@arndb.de,
+ sunpeng.li@amd.com, harry.wentland@amd.com
+Subject: Stack-frame warnings in display_mode_vba_32.c
+Message-ID: <20220730022532.GA1234397@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,84 +53,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: siqueirajordao@riseup.net, Magali Lemes <magalilemes00@gmail.com>,
- tales.aparecida@gmail.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- isabbasso@riseup.net, andrealmeid@riseup.net
+Reply-To: paulmck@kernel.org
+Cc: sfr@canb.auug.org.au, linux-next@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing headers to solve the following warnings from sparse:
+Hello!
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:656:17: warning: symbol 'ddr4_wm_table_gs' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:693:17: warning: symbol 'lpddr4_wm_table_gs' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:730:17: warning: symbol 'lpddr4_wm_table_with_disabled_ppt' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:767:17: warning: symbol 'ddr4_wm_table_rn' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:804:17: warning: symbol 'ddr4_1R_wm_table_rn' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/dcn20_fpu.c:841:17: warning: symbol 'lpddr4_wm_table_rn' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn301/dcn301_fpu.c:217:17: warning: symbol 'ddr4_wm_table' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn301/dcn301_fpu.c:254:17: warning: symbol 'lpddr5_wm_table' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:53:30: warning: symbol 'dcn3_1_ip' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:197:30: warning: symbol 'dcn3_15_ip' was not declared. Should it be static?
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/dcn31_fpu.c:293:30: warning: symbol 'dcn3_16_ip' was not declared. Should it be static?
+I am seeing the following in allmodconfig builds of recent -next on x86:
 
-Fixes: 490d2bc889f1 ("drm/amd/display: move FPU code on dcn21 clk_mgr")
-Fixes: 83916f9a32a4 ("drm/amd/display: move FPU code from dcn301 clk mgr to DML folder")
-Fixes: 26f4712aedbd ("drm/amd/display: move FPU related code from dcn31 to dml/dcn31 folder")
-Fixes: fa896297b31b ("drm/amd/display: move FPU related code from dcn315 to dml/dcn31 folder")
-Fixes: 3f8951cc123f ("drm/amd/display: move FPU related code from dcn316 to dml/dcn31 folder")
-Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
-Reviewed-by: Melissa Wen <mwen@igalia.com>
----
-Changes in v2:
-  - split commit (Melissa)
-  - update the commit message accordingly
-  - add Fixes and Reviewed-by tags.
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c: In function ‘DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1659:1: error: the frame size of 2144 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+ 1659 | }
+      | ^
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c: In function ‘dml32_ModeSupportAndSystemConfigurationFull’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:3799:1: error: the frame size of 2480 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+ 3799 | } // ModeSupportAndSystemConfigurationFull
+      | ^
 
- drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   | 1 +
- drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c | 1 +
- drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   | 3 +++
- 3 files changed, 5 insertions(+)
+Bisection located the commit shown below.  Doing an allmodconfig build
+on this commit reproduces the error, its parent builds fine.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-index ca44df4fca74..d34e0f1314d9 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-@@ -30,6 +30,7 @@
- #include "dchubbub.h"
- #include "dcn20/dcn20_resource.h"
- #include "dcn21/dcn21_resource.h"
-+#include "clk_mgr/dcn21/rn_clk_mgr.h"
- 
- #include "dcn20_fpu.h"
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
-index 7ef66e511ec8..d211cf6d234c 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
-@@ -26,6 +26,7 @@
- #include "clk_mgr.h"
- #include "dcn20/dcn20_resource.h"
- #include "dcn301/dcn301_resource.h"
-+#include "clk_mgr/dcn301/vg_clk_mgr.h"
- 
- #include "dml/dcn20/dcn20_fpu.h"
- #include "dcn301_fpu.h"
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-index 5664653ba5ac..149a1b17cdf3 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
+Thoughts?
+
+							Thanx, Paul
+
+------------------------------------------------------------------------
+
+commit 3876a8b5e241081b2a519f848a65c00d8e6cd124
+Author: Guenter Roeck <linux@roeck-us.net>
+Date:   Tue Jul 12 15:42:47 2022 -0700
+
+    drm/amd/display: Enable building new display engine with KCOV enabled
+    
+    The new display engine uses floating point math, which is not supported
+    by KCOV. Commit 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov
+    is enabled") tried to work around the problem by disabling
+    CONFIG_DRM_AMD_DC_DCN if KCOV_INSTRUMENT_ALL and KCOV_ENABLE_COMPARISONS
+    are enabled. The result is that KCOV can not be enabled on systems which
+    require this display engine. A much simpler and less invasive solution is
+    to disable KCOV selectively when compiling the display enagine while
+    keeping it enabled for the rest of the kernel.
+    
+    Fixes: 9d1d02ff3678 ("drm/amd/display: Don't build DCN1 when kcov is enabled")
+    Cc: Arnd Bergmann <arnd@arndb.de>
+    Cc: Leo Li <sunpeng.li@amd.com>
+    Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+    Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index b4029c0d5d8c5..96cbc87f7b6b8 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -6,7 +6,7 @@ config DRM_AMD_DC
+ 	bool "AMD DC - Enable new display engine"
+ 	default y
+ 	select SND_HDA_COMPONENT if SND_HDA_CORE
+-	select DRM_AMD_DC_DCN if (X86 || PPC64) && !(KCOV_INSTRUMENT_ALL && KCOV_ENABLE_COMPARISONS)
++	select DRM_AMD_DC_DCN if (X86 || PPC64)
+ 	help
+ 	  Choose this option if you want to use the new display engine
+ 	  support for AMDGPU. This adds required support for Vega and
+diff --git a/drivers/gpu/drm/amd/display/dc/Makefile b/drivers/gpu/drm/amd/display/dc/Makefile
+index 273f8f2c8e020..b9effadfc4bb7 100644
+--- a/drivers/gpu/drm/amd/display/dc/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/Makefile
 @@ -25,6 +25,9 @@
+ DC_LIBS = basics bios dml clk_mgr dce gpio irq link virtual
  
- #include "resource.h"
- #include "clk_mgr.h"
-+#include "dcn31/dcn31_resource.h"
-+#include "dcn315/dcn315_resource.h"
-+#include "dcn316/dcn316_resource.h"
- 
- #include "dml/dcn20/dcn20_fpu.h"
- #include "dcn31_fpu.h"
--- 
-2.37.1
-
+ ifdef CONFIG_DRM_AMD_DC_DCN
++
++KCOV_INSTRUMENT := n
++
+ DC_LIBS += dcn20
+ DC_LIBS += dsc
+ DC_LIBS += dcn10
