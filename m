@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BDD585CE2
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jul 2022 04:15:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D374C585DF5
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jul 2022 09:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC82B3AFB;
-	Sun, 31 Jul 2022 02:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492BAB39BE;
+	Sun, 31 Jul 2022 07:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26FE2A6BC0
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jul 2022 02:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1659233687;
- bh=8U5SVjzXF+XRHabpANRx+tSjmZLtWKXH9i6Um/MJiy4=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=P8OL1ZkWtdYEtgRXpVZ4oPPSWzmN7rcxuSQ+x/vQeyvTfsNx2oGY72DX+2s6zswKd
- tOPAZu9opZm7rmlNeRzqwj5FUukU3bcbJfbFRAWaNT39tmWLDP/WuDEM+DknrxWWhq
- Bu7WuH9rCUt4zrKJZ1QUOOrtJ5+FDr9GcaZOfd34=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [68.251.140.185] ([68.251.140.185]) by web-mail.gmx.net
- (3c-app-mailcom-bs13.server.lan [172.19.170.181]) (via HTTP); Sun, 31 Jul
- 2022 04:14:47 +0200
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B776510E684
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 23:19:33 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id j1so1517960wrw.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 16:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=VDb1fygqmzJq+4ODXnKnnrG1zJ5IMlTZW7OoKxaS5S8=;
+ b=AAAp2ws1QCgGbsgAWKfpIVhIIiXOqVKRilbalzriAoKHYqU6axRIpnpCWNf13hrOgj
+ TmEUelGjHTR2uDN+mBV8Ie9ZiJdtcvXk6YorOCQ7ErIDUlV2SgO568APKK5hqWA2Xu2n
+ pnMb5xvDQwlBLOfQmlM+CqfpdAhbCa/KFf8IutLQ6EUte03tiwbhuhdN7p8gTSF6qo+f
+ ndlKsKWfFwcmYSnaz+Q+GXohciBMPQEFAsepA99KwNfQ4WN8RS0izvP29FRo4C8tIv43
+ c1toi0rKgwU7fZaC7b1of8YcCEFZmLg1BzKh7tBjQY4JAyaEXJmnT68qykkp/zZjJSal
+ KRtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=VDb1fygqmzJq+4ODXnKnnrG1zJ5IMlTZW7OoKxaS5S8=;
+ b=Uqa8qbr2gVl66iPBEm9Tf+LJImAFHZGp9wA9Tvpplu8+GNKjiqWiaGkF0Y44S6rzsT
+ yLZFpOyQtz9vGLOC5hTEqMTxGEof7bQbIRvK7sO6dY79tPxSal2Uo6KgspBIdPh2K7pZ
+ mOCovbXNkup4WqFyK/zidoPh9FqG/tnGMCId1/aBhgJZfc97IMzSlRD0GyreWl+pyhzK
+ 98RJiWOVA4CseZ6C6P6WMCLGQyl9uKoLnz8iCZEUZktL77jNtljsiEeWAy8SEe/x5GmO
+ MQHLHPlDy1LvV4KbaV0H1NiJB0aGCSbpgkqJGWLGwr83BrIB4Dh524LyggvxMPYL7wHp
+ /gKA==
+X-Gm-Message-State: ACgBeo2o2RWamLavAt7UVDRxYwvju/w/Y+XJQiBCrvRSbp+YmU6/hUmZ
+ ubrb5VbdBv8SofNiSujiOCw=
+X-Google-Smtp-Source: AA6agR7uhwIFSGLZ+KbnvPVkvqnl4EdyZiLqBn7R765VXBBW+icHEpU0Hfv/9FmS9nxO1FaZrGhQrg==
+X-Received: by 2002:a5d:55d1:0:b0:21e:cc2c:f357 with SMTP id
+ i17-20020a5d55d1000000b0021ecc2cf357mr5946574wrw.186.1659223171912; 
+ Sat, 30 Jul 2022 16:19:31 -0700 (PDT)
+Received: from localhost.localdomain ([84.255.184.16])
+ by smtp.gmail.com with ESMTPSA id
+ v21-20020a7bcb55000000b003a3270735besm9375351wmj.28.2022.07.30.16.19.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Jul 2022 16:19:31 -0700 (PDT)
+From: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+To: mripard@kernel.org
+Subject: [RFC PATCH] drm/gem: Fix a UAF caused by invalid reference counting
+ in drm_gem_mmap()
+Date: Sun, 31 Jul 2022 02:15:59 +0300
+Message-Id: <20220730231559.85423-1-mazinalhaddad05@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Message-ID: <trinity-23c389fa-8d72-4800-b7c2-957f08501523-1659233687117@3c-app-mailcom-bs13>
-From: Kevin Brace <kevinbrace@gmx.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 31 Jul 2022 04:14:47 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <YuAnXcz0ImO+cAHu@ravnborg.org>
-References: <20220725235359.20516-1-kevinbrace@gmx.com>
- <20220725235359.20516-7-kevinbrace@gmx.com> <YuAnXcz0ImO+cAHu@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:jahOfQfCu7zaKZ6YpaI/Qr+dguISPwVvwx/M6U3lnTfw/mQBmMyp+jnLXlpb37VCViJbf
- wUo3seUN/8zUtCjmc6uAA52/w33BOsQisf7rg1beoNfzJRfagmi1GhEGhJbMiqzWvFZt72aHoe3U
- WKCHLSmxg6JkIscYno0uXgTApg87oOseGECFtXx7Ra2jzR8czdjT0dtm8J1Hp57HAXHzDvIJwhrE
- pZRugYX6+c0bQsrHwkTtRayM9GpvQCa/q5UefaKAo4kVR85aqmRtDzOx+5t6QN6ceIY4ydT0Ar44
- Bg=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wxhgudMgl1M=:a4dveevf+Wijd/kT7otqjh
- 68t2hrhjRu/KGTqd+GTd5+Ps2TUErmYc0sCxiA/nJ3w1eOZ3M88y0j+CdcYEsJWupsPaHYUGQ
- 37XFVfOTspT5/siLyFiT0dzg59UeayBvqGBsuJETHYbO9Otn24w9mWNSqmIYcUtSCvJluvcS0
- 3ReWLigXGTUlDx65dOAkUtT5GJKXdvjsO0O3N1UDxybYq+UyqD1j107oK2CphR8RQ/oKWD/7X
- sLDgHcPLgEoE3LsALpQmbsvV0vB43uIfC5GHfzitzyrxt+W2fbhV4xgXL4ZaMPutR3cnBx+YR
- xRsygM7sylfa7qwzOgDamyx3nqPY/snlDFxDUa6zDhj81gv7jrLK+WfAU28DKFGE2g+d/S6hp
- s+al9XtzzbnHiKCwRgibPSd0pgcFcqbiqy8rDzuS/3lkqA3dAzGz41nNIk2IsRgb8/VCnM1JW
- rwQpEcIo5UsPopUoG5V66oNVRvk8yDgBQ2GZijnF8GhlQfPeS8DupL5ITZt05tsDsMoy4B37A
- h0LMWcsCBPVMR8znUS4yUAj/yUOO3joaevHDPmT2dTwkkEvXV+crWo3me1f47aXHjzuiDJJqb
- aUgVcoJ382/+g7zT5BfnsOYrYCVr/jtetD6IfstTYcwoLIpC9+LV07D48bwO2MbGRFN8+Q3Mj
- UkrM1WK2HRZhkHWeShiJCYXX/ZVvKZXsoUBBveKNh7MDUtjvY7vaoWnvAB9nLuGi4R8ESblIi
- ZtVZ0vfanFQDPqtPSmlMFg/Qh2om9c2P08BUGB9WlNoZ6N6xCWE/mczUP5FtZ5P3XzUD8JFrL
- LiQ8hU+
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 31 Jul 2022 07:40:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,175 +69,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com, tzimmermann@suse.de,
+ airlied@linux.ie, paskripkin@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Mazin Al Haddad <mazinalhaddad05@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Fixes a bug reported by syzkaller.
 
-I will study vc4_drm=2Eh and update newer portions (i=2Ee=2E, the section =
-I am actively adding to via_drm=2Eh) with new comments that can be converte=
-d to kernel-doc automatically=2E
-I also plan to rework the uAPI somewhat=2E
+Mmaping a dumb buffer can result in a use-after-free if there is an
+error in the return path of the driver specific gem object's mmap()
+callback. This is due to improper reference counting in the error path.
 
-- Remove DRM_VIA_GEM_UNMAP
-- Revive a uAPI that can pass a PCI Device ID back to userspace=2E
+The use-after-free occurs when attempting to close the drm file as
+the freed gem object is accessed again (through handle). A failure in
+drm_gem_shmem_get_pages() within drm_gem_shmem_mmap() (or equivalent
+obj->funcs->mmap() call) leads to a call to drm_gem_vm_close()
+in the error path, which decrements the reference count of the object
+in question and leads to a free after it is further decremented in
+drm_gem_mmap_object()'s error path and drm_gem_mmap().
 
-Regards,
+Fix it by removing the call to drm_gem_vm_close() in error path of
+driver specific callback. This changes the code so that only two decrements
+happen instead of three, matching up with the references taken by the
+driver within the drm_gem_mmap() function.
 
-Kevin Brace
-Brace Computer Laboratory blog
-https://bracecomputerlab=2Ecom
+Trimmed syzbot report:
+
+Call Trace:
+ <TASK>
+ drm_gem_object_release_handle+0xf2/0x110 drivers/gpu/drm/drm_gem.c:253
+ idr_for_each+0x113/0x220 lib/idr.c:208
+ drm_gem_release+0x22/0x30 drivers/gpu/drm/drm_gem.c:932
+ drm_file_free.part.0+0x805/0xb80 drivers/gpu/drm/drm_file.c:281
+ drm_file_free drivers/gpu/drm/drm_file.c:248 [inline]
+ drm_close_helper.isra.0+0x17d/0x1f0 drivers/gpu/drm/drm_file.c:308
+ drm_release+0x1e6/0x530 drivers/gpu/drm/drm_file.c:495
+
+Freed by task 3606:
+ kfree+0xd6/0x4d0 mm/slub.c:4584
+ drm_gem_object_free drivers/gpu/drm/drm_gem.c:974 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ __drm_gem_object_put include/drm/drm_gem.h:371 [inline]
+ drm_gem_object_put include/drm/drm_gem.h:384 [inline]
+ drm_gem_mmap+0x4fc/0x770 drivers/gpu/drm/drm_gem.c:1134
+ call_mmap include/linux/fs.h:2063 [inline]
+ mmap_region+0xbe7/0x1460 mm/mmap.c:1796
+ do_mmap+0x863/0xfa0 mm/mmap.c:1587
+ vm_mmap_pgoff+0x1b7/0x290 mm/util.c:552
+ ksys_mmap_pgoff+0x40d/0x5a0 mm/mmap.c:1633
+
+Link: https://syzkaller.appspot.com/bug?id=e84227937d2d71da66e62f8c67b69a0cc387123c
+Fixes: 45d9c8dde4cd ("drm/vgem: use shmem helpers")
+Reported-by: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
+Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+---
+
+RFC because I'm not quite sure that this is the correct fix so guidance would be
+appreciated. I looked at the implementation of the drm_gem_object's
+mmap callback in various drivers including, exynos, panfrost and the
+cma helper and all of them also call drm_gem_vm_close() on error
+(which only decrements the object reference count).
+
+Most likely other drivers also run into this issue on mmap() error,
+as the dumb buffer create can have one reference on entry
+to drm_gem_mmap(). Two references will then be taken (one in drm_gem_mmap
+and the other in drm_gem_mmap_object). If the driver decides to error out
+and release a reference within it's own error path it will ultimately
+remove three references. So maybe it's easier to have the reference counts
+be adjusted in the drm_gem_mmap() and drm_gem_mmap_object() function rather
+than have it in the drivers.
+
+Is there a need to go through the other drivers and remove the
+drm_gem_vm_close() call? Or is there a better way of doing this.
+I'm not sure if deleting the call is the correct thing to do here and if
+there is something I'm missing. Please let me know if there is anything
+I need to change.
 
 
-> Sent: Tuesday, July 26, 2022 at 10:41 AM
-> From: "Sam Ravnborg" <sam@ravnborg=2Eorg>
-> To: "Kevin Brace" <kevinbrace@gmx=2Ecom>
-> Cc: dri-devel@lists=2Efreedesktop=2Eorg, "Kevin Brace" <kevinbrace@brace=
-computerlab=2Ecom>
-> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm=2Eh
->
-> Hi Kevin=2E
->=20
-> On Mon, Jul 25, 2022 at 04:53:53PM -0700, Kevin Brace wrote:
-> > From: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
-> >=20
-> > Changed the uAPI=2E
-> >=20
-> > Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
->=20
-> It would be great to have the new extensions to the UAPI documented
-> using kernel-doc=2E
-> As an example see: vc4_drm=2Eh
->=20
-> There are a lot of UAPI that is missing documentation, but if we do not
-> add it for new UAPI then this situation never improves=2E
->=20
-> Please use __u32, __u64 like you see in other drm UAPI files=2E
->=20
-> PS=2E If you reply to this mail, then please keep the full mail as
-> usually my mails to Kevin bounces (something with STARTTLS)=2E
->=20
-> 	Sam
->=20
-> > ---
-> >  include/uapi/drm/via_drm=2Eh | 35 +++++++++++++++++++++++++++++++----
-> >  1 file changed, 31 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/include/uapi/drm/via_drm=2Eh b/include/uapi/drm/via_drm=
-=2Eh
-> > index a1e125d42208=2E=2Ee9da45ce130a 100644
-> > --- a/include/uapi/drm/via_drm=2Eh
-> > +++ b/include/uapi/drm/via_drm=2Eh
-> > @@ -1,4 +1,5 @@
-> >  /*
-> > + * Copyright =C2=A9 2020 Kevin Brace
-> >   * Copyright 1998-2003 VIA Technologies, Inc=2E All Rights Reserved=
-=2E
-> >   * Copyright 2001-2003 S3 Graphics, Inc=2E All Rights Reserved=2E
-> >   *
-> > @@ -16,10 +17,10 @@
-> >   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EX=
-PRESS OR
-> >   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTAB=
-ILITY,
-> >   * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT=2E IN NO EVE=
-NT SHALL
-> > - * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DA=
-MAGES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWI=
-SE,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE=
- OR OTHER
-> > - * DEALINGS IN THE SOFTWARE=2E
-> > + * THE AUTHORS, COPYRIGHT HOLDERS, AND/OR ITS SUPPLIERS BE LIABLE FOR=
- ANY
-> > + * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRAC=
-T, TORT
-> > + * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTW=
-ARE OR
-> > + * THE USE OR OTHER DEALINGS IN THE SOFTWARE=2E
-> >   */
-> Do not mix license changes with other changes - and use SPDX tag if
-> possible for the updated license=2E
-> See other drm UAPI files for examples=2E
->=20
->=20
-> >  #ifndef _VIA_DRM_H_
-> >  #define _VIA_DRM_H_
-> > @@ -81,6 +82,11 @@ extern "C" {
-> >  #define DRM_VIA_DMA_BLIT        0x0e
-> >  #define DRM_VIA_BLIT_SYNC       0x0f
-> >=20
-> > +#define	DRM_VIA_GEM_CREATE	0x10
-> > +#define	DRM_VIA_GEM_MAP		0x11
-> > +#define	DRM_VIA_GEM_UNMAP	0x12
-> > +
-> Use the same alignment as the previous lines=2E
-> > +
-> Drop extra empty line=2E
->=20
-> >  #define DRM_IOCTL_VIA_ALLOCMEM	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_=
-ALLOCMEM, drm_via_mem_t)
-> >  #define DRM_IOCTL_VIA_FREEMEM	  DRM_IOW( DRM_COMMAND_BASE + DRM_VIA_F=
-REEMEM, drm_via_mem_t)
-> >  #define DRM_IOCTL_VIA_AGP_INIT	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_=
-AGP_INIT, drm_via_agp_t)
-> > @@ -97,6 +103,10 @@ extern "C" {
-> >  #define DRM_IOCTL_VIA_DMA_BLIT    DRM_IOW(DRM_COMMAND_BASE + DRM_VIA_=
-DMA_BLIT, drm_via_dmablit_t)
-> >  #define DRM_IOCTL_VIA_BLIT_SYNC   DRM_IOW(DRM_COMMAND_BASE + DRM_VIA_=
-BLIT_SYNC, drm_via_blitsync_t)
-> >=20
-> > +#define	DRM_IOCTL_VIA_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_=
-GEM_CREATE, struct drm_via_gem_create)
-> > +#define	DRM_IOCTL_VIA_GEM_MAP		DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_GE=
-M_MAP, struct drm_via_gem_map)
-> > +#define	DRM_IOCTL_VIA_GEM_UNMAP		DRM_IOR(DRM_COMMAND_BASE + DRM_VIA_G=
-EM_UNMAP, struct drm_via_gem_unmap)
-> > +
-> Use same alignment as previous lines=2E
->=20
-> >  /* Indices into buf=2ESetup where various bits of state are mirrored =
-per
-> >   * context and per buffer=2E  These can be fired at the card as a uni=
-t,
-> >   * or in a piecewise fashion as required=2E
-> > @@ -275,6 +285,23 @@ typedef struct drm_via_dmablit {
-> >  	drm_via_blitsync_t sync;
-> >  } drm_via_dmablit_t;
-> >=20
-> > +struct drm_via_gem_create {
-> > +	uint64_t size;
-> > +	uint32_t alignment;
-> > +	uint32_t domain;
-> > +	uint32_t handle;
-> > +	uint64_t offset;
-> > +};
-> I do not know if this is relevant, but adding a 64 bit parameter
-> (offset) that is only 32 bit aligned looks like trouble to me=2E
-> I hope others that knows this better can comment here=2E
->=20
-> > +
-> > +struct drm_via_gem_map {
-> > +	uint32_t handle;
-> > +	uint64_t map_offset;
-> > +};
-> Same here with the alignment=2E
->=20
-> If drm_via_gem_create=2Eoffset and drm_via_gem_map=2Emap_offset is the s=
-ame
-> the field should have the same name - to make the API easier to use=2E
->=20
->=20
-> > +
-> > +struct drm_via_gem_unmap {
-> > +	uint32_t handle;
-> > +};
-> > +
-> >  #if defined(__cplusplus)
-> >  }
-> >  #endif
-> > --
-> > 2=2E35=2E1
->
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 8ad0e02991ca..01908bba5970 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -622,7 +622,6 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+ 
+ 	ret = drm_gem_shmem_get_pages(shmem);
+ 	if (ret) {
+-		drm_gem_vm_close(vma);
+ 		return ret;
+ 	}
+ 
+-- 
+2.37.1
+
