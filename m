@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E36585C65
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jul 2022 23:42:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BB1585C87
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jul 2022 00:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCD610E7EE;
-	Sat, 30 Jul 2022 21:42:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35ACD10E298;
+	Sat, 30 Jul 2022 22:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82EFE10E83C
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 21:42:07 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 166D61C0001; Sat, 30 Jul 2022 23:42:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1659217326;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EEZJegvkXmNvO4clUx6dPeVmv4JNyxctAwR1j8c43QA=;
- b=JhTPNqhtgDpVDKFDtpjcA2Twtqu8DqbYMC54pUN6e1L3IsfbH8feFNeEY97iNaPgKG6DLa
- vZeaX5O2xZH1+9NqAOsNvVmmP6yoPqh0RU7vxbUzYkWl2IDU28vPW0pLUx15CtXpPSL9jf
- NXoRhATfSpZHeWB0nmkCup62xs+PetM=
-Date: Sat, 30 Jul 2022 23:42:05 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Subject: Re: [PATCH v6 12/13] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-Message-ID: <20220730214205.GK23307@duo.ucw.cz>
-References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-13-peterwu.pub@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABA810E72F
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jul 2022 22:36:45 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AA69415;
+ Sun, 31 Jul 2022 00:36:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1659220603;
+ bh=14Tzs1PO+Qt1tNZVsm22hOzJ4ymMQ1fyMrdYUuh37Uw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=loZyF05QD4JpJWUBuUWIn8M5asGlPEy6V0U3zYwLNxVMcfRUNLoEct0bMk6j1T4+R
+ 5559wv/Pz1BQwklMpeully0WLBDe6RH174DwpspVE1mxZMHI2u8azt0vGNYp1HkRgh
+ DAtNQ+hKEkR6mqX0J6gZzN7FF3TogFpRdOHLBt9U=
+Date: Sun, 31 Jul 2022 01:36:39 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Takanari Hayama <taki@igel.co.jp>
+Subject: Re: [PATCH 2/3] media: vsp1: add blend mode support
+Message-ID: <YuWyd2YGLx1J5vPW@pendragon.ideasonboard.com>
+References: <20220704025231.3911138-1-taki@igel.co.jp>
+ <20220704025231.3911138-3-taki@igel.co.jp>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="EMQjp+MvU6EBGjHc"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220722102407.2205-13-peterwu.pub@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220704025231.3911138-3-taki@igel.co.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,73 +47,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
- alice_chen@richtek.com, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, cy_huang@richtek.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
- robh+dt@kernel.org, andy.shevchenko@gmail.com, chunfeng.yun@mediatek.com,
- linux@roeck-us.net, devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- szunichen@gmail.com, broonie@kernel.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- jingoohan1@gmail.com, linux-usb@vger.kernel.org, sre@kernel.org,
- linux-kernel@vger.kernel.org, chiaen_wu@richtek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Hayama-san,
 
---EMQjp+MvU6EBGjHc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-Hi!
+On Mon, Jul 04, 2022 at 11:52:30AM +0900, Takanari Hayama wrote:
+> To support DRM blend mode in R-Car DU driver, we must add blend mode
+> support in VSP1. Although VSP1 hardware is capable to support all blend
+> mode defined in DRM, the current R-Car DU driver implicitly supports
+> DRM_MODE_BLEND_COVERAGE only.
+> 
+> We add a new property to vsp1_du_atomic_config, so that R-Car DU driver
+> can pass the desired blend mode.
+> 
+> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 11 +++++++++++
+>  include/media/vsp1.h                           | 14 ++++++++++++++
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index 9ec3ac835987..ed0cf552fce2 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -861,6 +861,17 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>  	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+>  	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+>  
+> +	switch (cfg->blend_mode) {
+> +	case VSP1_DU_BLEND_MODE_PREMULTI:
+> +		rpf->format.flags = V4L2_PIX_FMT_FLAG_PREMUL_ALPHA;
+> +		break;
+> +	case VSP1_DU_BLEND_MODE_PIXEL_NONE:
+> +		rpf->pixel_alpha = false;
+> +		fallthrough;
+> +	case VSP1_DU_BLEND_MODE_COVERAGE:
+> +		rpf->format.flags = 0;
+> +	}
 
-> From: Alice Chen <alice_chen@richtek.com>
->=20
-> The MediaTek MT6370 is a highly-integrated smart power management IC,
-> which includes a single cell Li-Ion/Li-Polymer switching battery
-> charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> LED current sources, a RGB LED driver, a backlight WLED driver,
-> a display bias driver and a general LDO for portable devices.
->=20
-> The Flash LED in MT6370 has 2 channels and support torch/strobe mode.
-> Add the support of MT6370 FLASH LED.
->=20
-> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+This should work, but wouldn't it be simpler to override the format
+passed in cfg->pixelformat in rcar_du_vsp_plane_setup() with the
+non-alpha variant when state->state.pixel_blend_mode is set to
+DRM_MODE_BLEND_PIXEL_NONE ? That way you could drop rpf->pixel_alpha,
+turn cfg->blend_mode into a premult bool flag, and drop the
+vsp1_du_blend_mode enum. There's only three formats with an alpha
+channel that the rcar-du driver supports (DRM_FORMAT_ARGB4444,
+DRM_FORMAT_ARGB1555 and DRM_FORMAT_ARGB8888), so the override could be
+as simple as a switch (state->format->fourcc) when the blend mode is
+NONE.
 
-> +config LEDS_MT6370_FLASHLIGHT
-> +	tristate "Flash LED Support for MediaTek MT6370 PMIC"
-> +	depends on LEDS_CLASS
+> +
+>  	drm_pipe->pipe.inputs[rpf_index] = rpf;
+>  
+>  	return 0;
+> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> index cc1b0d42ce95..1ba7459b7a06 100644
+> --- a/include/media/vsp1.h
+> +++ b/include/media/vsp1.h
+> @@ -42,6 +42,18 @@ struct vsp1_du_lif_config {
+>  int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+>  		      const struct vsp1_du_lif_config *cfg);
+>  
+> +/**
+> + * enum vsp1_du_blend_mode - Pixel blend mode
+> + * @VSP1_DU_BLEND_MODE_PREMULTI: Pixel alpha is pre-mutiplied
+> + * @VSP1_DU_BLEND_MODE_COVERAGE: Pixel alpha is not pre-mutiplied
+> + * @VSP1_DU_BLEND_MODE_PIXEL_NONE: Ignores the pixel alpha
+> + */
+> +enum vsp1_du_blend_mode {
+> +	VSP1_DU_BLEND_MODE_PREMULTI,
+> +	VSP1_DU_BLEND_MODE_COVERAGE,
+> +	VSP1_DU_BLEND_MODE_PIXEL_NONE,
+> +};
+> +
+>  /**
+>   * struct vsp1_du_atomic_config - VSP atomic configuration parameters
+>   * @pixelformat: plane pixel format (V4L2 4CC)
+> @@ -51,6 +63,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+>   * @dst: destination rectangle on the display (integer coordinates)
+>   * @alpha: alpha value (0: fully transparent, 255: fully opaque)
+>   * @zpos: Z position of the plane (from 0 to number of planes minus 1)
+> + * @blend_mode: Pixel blend mode of the plane
+>   */
+>  struct vsp1_du_atomic_config {
+>  	u32 pixelformat;
+> @@ -60,6 +73,7 @@ struct vsp1_du_atomic_config {
+>  	struct v4l2_rect dst;
+>  	unsigned int alpha;
+>  	unsigned int zpos;
+> +	enum vsp1_du_blend_mode blend_mode;
+>  };
+>  
+>  /**
 
-I'd name it just LEDS_MT6370_FLASH.
+-- 
+Regards,
 
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2022 Richtek Technology Corp.
-> + *
-> + * Author: Alice Chen <alice_chen@richtek.com
-
-Add ">" at end of line.
-
-The series is quite big, would it be possible to submit LED changes
-in separate series?
-
-Thanks,
-								Pavel
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---EMQjp+MvU6EBGjHc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYuWlrQAKCRAw5/Bqldv6
-8s+wAJ4tcHfH66JAvG66D+7AtIPL7xaD/ACeLylCABT4fJdlPhsq4ijIBLwsq3M=
-=kLCB
------END PGP SIGNATURE-----
-
---EMQjp+MvU6EBGjHc--
+Laurent Pinchart
