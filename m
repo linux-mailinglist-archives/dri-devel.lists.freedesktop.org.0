@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A96586C54
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 15:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7A5586C77
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 16:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BD3C1E01;
-	Mon,  1 Aug 2022 13:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D305C5017;
+	Mon,  1 Aug 2022 13:58:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F20C7C1AD9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:50:33 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 245F34DF0E;
- Mon,  1 Aug 2022 13:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1659361832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wCCOz51TO3XsDpxvOgDWxtb2EWMo+ZtFrA7OPE6RhB8=;
- b=lXIGgAsEXHiyHPNzomBo6AIcz0lV4atI1Xe6q/EdsuARoT31Rh+fnBouVCvPQ4BFo8AUYg
- jft/ShQ7Cdx8cIFbClpQslSA4t0vX3jwWNRXJeMKKw8YvQzlF6jG+S8HOxcHS6kqlv1Kg4
- 3HXrzSXVHtg8HlzWhMYmFmOoQzOqRPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1659361832;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wCCOz51TO3XsDpxvOgDWxtb2EWMo+ZtFrA7OPE6RhB8=;
- b=v4ymiLePCIvkY7oixj4iqLNH9updIFRgnRjHjk8f5De3uiggJJzIwV6Hg5B9c4FDb+UFcK
- j4u3C0BWUG5fpkDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F338713A72;
- Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2MSbOifa52IDRwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 01 Aug 2022 13:50:31 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, geert@linux-m68k.org, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v3 5/5] drm/simpledrm: Convert to atomic helpers
-Date: Mon,  1 Aug 2022 15:50:28 +0200
-Message-Id: <20220801135028.30647-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220801135028.30647-1-tzimmermann@suse.de>
-References: <20220801135028.30647-1-tzimmermann@suse.de>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C2DC1463;
+ Mon,  1 Aug 2022 13:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659361985; x=1690897985;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NcTbzlV5Dz72mTPe4hWZ3TsW91wDU7s6ZjMp0vIZFeA=;
+ b=PZBixtgqFJ1gHZHGp08MpRhuyH94xwnrBbszhkjdqwd0VjOLWfu9r8xq
+ AZ6DwGy6VilezpixjWOgrP4m6El4YaMqyldaupyHd1Twhe33aJyqCRdBA
+ crehTcrPywbdcMwgNQ3M56c1/tGUEMkLu9RT+NNtiJTONRB23BK0b5Ztl
+ 8K2sVpmVoaoa3Xo6YvNJ8Uw1YLq/ncEDIv1t3QbR4NLP7fLxicCxtLtac
+ 0C4L1zZcY9esC5/8VNhR6SHq4QYXy7NICTeSsF+UgrITJ4ONMNGl+6TWK
+ 7iFNmoXbtAHwXSmo1nDzMlXUoP7g5/+m8RhQwywZSR5Nhvju3DHDBUkcR Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="289921043"
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="289921043"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 06:53:03 -0700
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="661157789"
+Received: from ideak-desk.fi.intel.com ([10.237.72.175])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 06:53:02 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/amd/display: Fix merge conflict resolution in
+ amdgpu_dm_plane.c
+Date: Mon,  1 Aug 2022 16:52:57 +0300
+Message-Id: <20220801135259.3039679-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.31.1.189.g2e36527f23
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,415 +54,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the simple-KMS helpers with the regular atomic helpers. The
-regular helpers are better architectured and therefore allow for easier
-code sharing among drivers. No functional changes.
+The API change introduced in
 
-v3:
-	* remove empty CRTC helpers atomic_{enable, disable} (Javier)
-	* unconditionally run drm_atomic_helper_check_plane_state()
+commit 30c637151cfa ("drm/plane-helper: Export individual helpers")
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+was missed in the conflict resolution of
+
+commit d93a13bd75b9 ("Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip")
+
+fix this up.
+
+Fixes: d93a13bd75b9 ("Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip")
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 273 +++++++++++++++++++------------
- 1 file changed, 168 insertions(+), 105 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 11a7348ccf4d..82fd98f77981 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -8,6 +8,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <drm/drm_aperture.h>
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_damage_helper.h>
-@@ -20,8 +21,8 @@
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- 
- #define DRIVER_NAME	"simpledrm"
- #define DRIVER_DESC	"DRM driver for simple-framebuffer platform devices"
-@@ -221,8 +222,10 @@ struct simpledrm_device {
- 	/* modesetting */
- 	uint32_t formats[8];
- 	size_t nformats;
-+	struct drm_plane primary_plane;
-+	struct drm_crtc crtc;
-+	struct drm_encoder encoder;
- 	struct drm_connector connector;
--	struct drm_simple_display_pipe pipe;
- };
- 
- static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
-@@ -460,7 +463,7 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
-  * TODO: Add blit helpers for remaining formats and uncomment
-  *       constants.
-  */
--static const uint32_t simpledrm_default_formats[] = {
-+static const uint32_t simpledrm_primary_plane_formats[] = {
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
- 	DRM_FORMAT_RGB565,
-@@ -471,73 +474,44 @@ static const uint32_t simpledrm_default_formats[] = {
- 	DRM_FORMAT_ARGB2101010,
- };
- 
--static const uint64_t simpledrm_format_modifiers[] = {
-+static const uint64_t simpledrm_primary_plane_format_modifiers[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID
- };
- 
--static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
-+static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+						       struct drm_atomic_state *new_state)
- {
--	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->dev);
--	struct drm_display_mode *mode;
--
--	mode = drm_mode_duplicate(connector->dev, &sdev->mode);
--	if (!mode)
--		return 0;
--
--	if (mode->name[0] == '\0')
--		drm_mode_set_name(mode);
--
--	mode->type |= DRM_MODE_TYPE_PREFERRED;
--	drm_mode_probed_add(connector, mode);
--
--	if (mode->width_mm)
--		connector->display_info.width_mm = mode->width_mm;
--	if (mode->height_mm)
--		connector->display_info.height_mm = mode->height_mm;
--
--	return 1;
--}
--
--static const struct drm_connector_helper_funcs simpledrm_connector_helper_funcs = {
--	.get_modes = simpledrm_connector_helper_get_modes,
--};
--
--static const struct drm_connector_funcs simpledrm_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = drm_connector_cleanup,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
-+	struct drm_crtc *new_crtc = new_plane_state->crtc;
-+	struct drm_crtc_state *new_crtc_state = NULL;
-+	int ret;
- 
--static enum drm_mode_status
--simpledrm_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
--				    const struct drm_display_mode *mode)
--{
--	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
-+	if (new_crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_crtc);
- 
--	if (mode->hdisplay != sdev->mode.hdisplay &&
--	    mode->vdisplay != sdev->mode.vdisplay)
--		return MODE_ONE_SIZE;
--	else if (mode->hdisplay != sdev->mode.hdisplay)
--		return MODE_ONE_WIDTH;
--	else if (mode->vdisplay != sdev->mode.vdisplay)
--		return MODE_ONE_HEIGHT;
-+	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, false);
-+	if (ret)
-+		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
- 
--	return MODE_OK;
-+	return 0;
- }
- 
--static void
--simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
--				     struct drm_crtc_state *crtc_state,
--				     struct drm_plane_state *plane_state)
-+static void simpledrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
-+							 struct drm_atomic_state *old_state)
- {
--	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_plane_state *plane_state = plane->state;
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(old_state, plane);
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
--	struct drm_framebuffer *fb = plane_state->fb;
- 	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
--	struct drm_device *dev = &sdev->dev;
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_device *dev = plane->dev;
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
- 	void __iomem *dst = sdev->screen_base;
- 	struct drm_rect src_clip, dst_clip;
- 	int idx;
-@@ -545,7 +519,8 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	if (!fb)
- 		return;
- 
--	drm_rect_fp_to_int(&src_clip, &plane_state->src);
-+	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &src_clip))
-+		return;
- 
- 	dst_clip = plane_state->dst;
- 	if (!drm_rect_intersect(&dst_clip, &src_clip))
-@@ -560,11 +535,11 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	drm_dev_exit(idx);
- }
- 
--static void
--simpledrm_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
-+static void simpledrm_primary_plane_helper_atomic_disable(struct drm_plane *plane,
-+							  struct drm_atomic_state *old_state)
- {
--	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
--	struct drm_device *dev = &sdev->dev;
-+	struct drm_device *dev = plane->dev;
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
- 	int idx;
- 
- 	if (!drm_dev_enter(dev, &idx))
-@@ -576,46 +551,105 @@ simpledrm_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
- 	drm_dev_exit(idx);
- }
- 
--static void
--simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
--				     struct drm_plane_state *old_plane_state)
-+static const struct drm_plane_helper_funcs simpledrm_primary_plane_helper_funcs = {
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = simpledrm_primary_plane_helper_atomic_check,
-+	.atomic_update = simpledrm_primary_plane_helper_atomic_update,
-+	.atomic_disable = simpledrm_primary_plane_helper_atomic_disable,
-+};
-+
-+static const struct drm_plane_funcs simpledrm_primary_plane_funcs = {
-+	.update_plane = drm_atomic_helper_update_plane,
-+	.disable_plane = drm_atomic_helper_disable_plane,
-+	.destroy = drm_plane_cleanup,
-+	DRM_GEM_SHADOW_PLANE_FUNCS,
-+};
-+
-+static enum drm_mode_status simpledrm_crtc_helper_mode_valid(struct drm_crtc *crtc,
-+							     const struct drm_display_mode *mode)
- {
--	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
--	struct drm_plane_state *plane_state = pipe->plane.state;
--	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
--	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
--	struct drm_framebuffer *fb = plane_state->fb;
--	struct drm_device *dev = &sdev->dev;
--	void __iomem *dst = sdev->screen_base;
--	struct drm_rect src_clip, dst_clip;
--	int idx;
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(crtc->dev);
- 
--	if (!fb)
--		return;
-+	if (mode->hdisplay != sdev->mode.hdisplay &&
-+	    mode->vdisplay != sdev->mode.vdisplay)
-+		return MODE_ONE_SIZE;
-+	else if (mode->hdisplay != sdev->mode.hdisplay)
-+		return MODE_ONE_WIDTH;
-+	else if (mode->vdisplay != sdev->mode.vdisplay)
-+		return MODE_ONE_HEIGHT;
- 
--	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &src_clip))
--		return;
-+	return MODE_OK;
-+}
- 
--	dst_clip = plane_state->dst;
--	if (!drm_rect_intersect(&dst_clip, &src_clip))
--		return;
-+static int simpledrm_crtc_helper_atomic_check(struct drm_crtc *crtc,
-+					      struct drm_atomic_state *new_state)
-+{
-+	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
-+	int ret;
- 
--	if (!drm_dev_enter(dev, &idx))
--		return;
-+	ret = drm_atomic_helper_check_crtc_state(new_crtc_state, false);
-+	if (ret)
-+		return ret;
- 
--	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
--	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &src_clip);
-+	return drm_atomic_add_affected_planes(new_state, crtc);
-+}
- 
--	drm_dev_exit(idx);
-+/*
-+ * The CRTC is always enabled. Screen updates are performed by
-+ * the primary plane's atomic_update function. Disabling clears
-+ * the screen in the primary plane's atomic_disable function.
-+ */
-+static const struct drm_crtc_helper_funcs simpledrm_crtc_helper_funcs = {
-+	.mode_valid = simpledrm_crtc_helper_mode_valid,
-+	.atomic_check = simpledrm_crtc_helper_atomic_check,
-+};
-+
-+static const struct drm_crtc_funcs simpledrm_crtc_funcs = {
-+	.reset = drm_atomic_helper_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+};
-+
-+static const struct drm_encoder_funcs simpledrm_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
-+static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->dev);
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &sdev->mode);
-+	if (!mode)
-+		return 0;
-+
-+	if (mode->name[0] == '\0')
-+		drm_mode_set_name(mode);
-+
-+	mode->type |= DRM_MODE_TYPE_PREFERRED;
-+	drm_mode_probed_add(connector, mode);
-+
-+	if (mode->width_mm)
-+		connector->display_info.width_mm = mode->width_mm;
-+	if (mode->height_mm)
-+		connector->display_info.height_mm = mode->height_mm;
-+
-+	return 1;
- }
- 
--static const struct drm_simple_display_pipe_funcs
--simpledrm_simple_display_pipe_funcs = {
--	.mode_valid = simpledrm_simple_display_pipe_mode_valid,
--	.enable = simpledrm_simple_display_pipe_enable,
--	.disable = simpledrm_simple_display_pipe_disable,
--	.update = simpledrm_simple_display_pipe_update,
--	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-+static const struct drm_connector_helper_funcs simpledrm_connector_helper_funcs = {
-+	.get_modes = simpledrm_connector_helper_get_modes,
-+};
-+
-+static const struct drm_connector_funcs simpledrm_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
- static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
-@@ -653,10 +687,10 @@ static const uint32_t *simpledrm_device_formats(struct simpledrm_device *sdev,
- 	sdev->nformats = 1;
- 
- 	/* default formats go second */
--	for (i = 0; i < ARRAY_SIZE(simpledrm_default_formats); ++i) {
--		if (simpledrm_default_formats[i] == sdev->format->format)
-+	for (i = 0; i < ARRAY_SIZE(simpledrm_primary_plane_formats); ++i) {
-+		if (simpledrm_primary_plane_formats[i] == sdev->format->format)
- 			continue; /* native format already went first */
--		sdev->formats[sdev->nformats] = simpledrm_default_formats[i];
-+		sdev->formats[sdev->nformats] = simpledrm_primary_plane_formats[i];
- 		sdev->nformats++;
- 	}
- 
-@@ -689,8 +723,10 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 	const struct drm_format_info *format;
- 	struct resource *res, *mem;
- 	void __iomem *screen_base;
-+	struct drm_plane *primary_plane;
-+	struct drm_crtc *crtc;
-+	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
--	struct drm_simple_display_pipe *pipe;
- 	unsigned long max_width, max_height;
- 	const uint32_t *formats;
- 	size_t nformats;
-@@ -802,6 +838,40 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 	dev->mode_config.preferred_depth = format->cpp[0] * 8;
- 	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
- 
-+	/* Primary plane */
-+
-+	formats = simpledrm_device_formats(sdev, &nformats);
-+
-+	primary_plane = &sdev->primary_plane;
-+	ret = drm_universal_plane_init(dev, primary_plane, 0, &simpledrm_primary_plane_funcs,
-+				       formats, nformats,
-+				       simpledrm_primary_plane_format_modifiers,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	drm_plane_helper_add(primary_plane, &simpledrm_primary_plane_helper_funcs);
-+	drm_plane_enable_fb_damage_clips(primary_plane);
-+
-+	/* CRTC */
-+
-+	crtc = &sdev->crtc;
-+	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
-+					&simpledrm_crtc_funcs, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	drm_crtc_helper_add(crtc, &simpledrm_crtc_helper_funcs);
-+
-+	/* Encoder */
-+
-+	encoder = &sdev->encoder;
-+	ret = drm_encoder_init(dev, encoder, &simpledrm_encoder_funcs,
-+			       DRM_MODE_ENCODER_NONE, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+
-+	/* Connector */
-+
- 	connector = &sdev->connector;
- 	ret = drm_connector_init(dev, connector, &simpledrm_connector_funcs,
- 				 DRM_MODE_CONNECTOR_Unknown);
-@@ -812,17 +882,10 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
- 						       width, height);
- 
--	formats = simpledrm_device_formats(sdev, &nformats);
--
--	pipe = &sdev->pipe;
--	ret = drm_simple_display_pipe_init(dev, pipe, &simpledrm_simple_display_pipe_funcs,
--					   formats, nformats, simpledrm_format_modifiers,
--					   connector);
-+	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	drm_plane_enable_fb_damage_clips(&pipe->plane);
--
- 	drm_mode_config_reset(dev);
- 
- 	return sdev;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 8cd25b2ea0dca..5eb5d31e591de 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1562,7 +1562,7 @@ int dm_drm_plane_get_property(struct drm_plane *plane,
+ static const struct drm_plane_funcs dm_plane_funcs = {
+ 	.update_plane	= drm_atomic_helper_update_plane,
+ 	.disable_plane	= drm_atomic_helper_disable_plane,
+-	.destroy	= drm_primary_helper_destroy,
++	.destroy	= drm_plane_helper_destroy,
+ 	.reset = dm_drm_plane_reset,
+ 	.atomic_duplicate_state = dm_drm_plane_duplicate_state,
+ 	.atomic_destroy_state = dm_drm_plane_destroy_state,
 -- 
 2.37.1
 
