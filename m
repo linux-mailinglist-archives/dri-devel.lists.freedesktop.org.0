@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044F4586D52
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 16:56:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9E3586D73
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 17:10:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EEF111B3BB;
-	Mon,  1 Aug 2022 14:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82AFE113CEF;
+	Mon,  1 Aug 2022 15:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7F0112247
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 14:56:01 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id z22so14081002edd.6
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 07:56:01 -0700 (PDT)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4985712B8FB;
+ Mon,  1 Aug 2022 15:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ECWbBaHkZs9J1S0N5JScglb2hCZdGmluc3XrIhFKN00=;
- b=rVcXcMOrSxa08RXKnpFNMpBHPPsPIQM5f+nW3w3iWddmUPEd4k+AJBWcgFeGkLF1l1
- p8eSuQf/wgN1nFnTwlS7Axavinryf8qzx18aioGJOsqNqoJuBBcf+RLRiIC6lXWZ/1ew
- h3Im8gmI/wtUxrYsGkSviEEB8bHrKpa4VfBVaDin4AaLMWY6uURPOyC3g5nweN6j7EM0
- 9ADIiew3Y4D5wm8+d5SZrJfJayYmAQoTO0J8Dri+/iwlreEkWiZlWlMyAaVCAwFKkTEy
- rnhp5l+Y4l3QAHBYFg5YgD4x72KL5wghZ4ltRqkf8xDNi+P6hiiiorQSWsZapest8yJT
- Z7Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ECWbBaHkZs9J1S0N5JScglb2hCZdGmluc3XrIhFKN00=;
- b=7fFbBHB4EO9veatyXOrXdupWAHxQUsQ1Jz3fl5YAjSUsCXltuaEdYVoZ1t5pY/tlaT
- yN+M9FQP/fa8var1Y6RlSI0GfKrJTCSZN74gE863B5EF0MNBnQ9eujanHty3n0a5Te1O
- cJF8BZL9d1P5OG1ohxFnF3vbK0cz2cZUcRpbQQp9ZBT+YYDz/mM3zVUGRwFkiLLjRaRh
- vLyRFdbR1TblR4LBpyPG/QUh/zQNL+bgyzMOQmBk9yt//+Q8/oLeFWz/5As9o0/8iXxk
- zo6ZZV5hsAw+1/CrBIhNje4yRX/m+ad792uTH0IKvefabQgJQ+sKGkT9Y05C5+mYJrl8
- UiUQ==
-X-Gm-Message-State: AJIora//insNndttFLvBOP26eObxohsDg9MpxpHda/i001u23CNEJS+Y
- BxbOXEBVfLmc/eezISsXzupt9lwaj8cdUzuFjJfUwQ==
-X-Google-Smtp-Source: AGRyM1tntz3eziALAkPCu6tccuM24ozU9m66PGZQO3x+GPRbcZTSy62uhWN2tM0aCtWwB4vY1JySRUGuEmxaJE+6plc=
-X-Received: by 2002:a05:6402:194f:b0:43a:298f:f39c with SMTP id
- f15-20020a056402194f00b0043a298ff39cmr16378949edz.106.1659365760316; Mon, 01
- Aug 2022 07:56:00 -0700 (PDT)
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1659366623; x=1690902623;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=a7fStmEkXQqjNzeaJ60mZgYwtUwEj9JVdHOtlh68THc=;
+ b=RCL4muJ59/OoNG/KmwETe2YdwtxX5hrd7So1BxEcH/PV5MQ9CZFoMofD
+ 760dz6j5GL5pWHEqDbSZkUvrHOawCnr++o7rCaxxa1f+ZlaZhl+bGKYaT
+ 3yz02C0HUPIlE6WLCe3ysxMYKmo2KWrqjmi5UM5EdtXSXyP1v5r2g77tW c=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 01 Aug 2022 08:10:22 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 08:10:21 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 1 Aug 2022 08:10:20 -0700
+Received: from [10.216.14.65] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 1 Aug 2022
+ 08:10:13 -0700
+Message-ID: <e18b057b-f5da-48a4-7086-9bc64d3819fb@quicinc.com>
+Date: Mon, 1 Aug 2022 20:40:07 +0530
 MIME-Version: 1.0
-References: <20220801131113.182487-1-marex@denx.de>
-In-Reply-To: <20220801131113.182487-1-marex@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 1 Aug 2022 15:55:43 +0100
-Message-ID: <CAPY8ntCowWODtQtSHoPkjL2_XjVQCW8Fduutt3rYAZ=e9MZT_A@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Add and use hs_rate and lp_rate
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3 4/8] drm/msm: Fix cx collapse issue during recovery
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <1659174051-27816-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220730150952.v3.4.I4ac27a0b34ea796ce0f938bb509e257516bc6f57@changeid>
+ <CAF6AEGuqptUzOtcjG+oA4BQha3Jk-UzDK-8SF_8v5A+8Dg71uQ@mail.gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <CAF6AEGuqptUzOtcjG+oA4BQha3Jk-UzDK-8SF_8v5A+8Dg71uQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,141 +65,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Douglas
+ Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Matthias Kaehlcke <mka@chromium.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek
+On 7/31/2022 9:52 PM, Rob Clark wrote:
+> On Sat, Jul 30, 2022 at 2:41 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>> There are some hardware logic under CX domain. For a successful
+>> recovery, we should ensure cx headswitch collapses to ensure all the
+>> stale states are cleard out. This is especially true to for a6xx family
+>> where we can GMU co-processor.
+>>
+>> Currently, cx doesn't collapse due to a devlink between gpu and its
+>> smmu. So the *struct gpu device* needs to be runtime suspended to ensure
+>> that the iommu driver removes its vote on cx gdsc.
+>>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> ---
+>>
+>> Changes in v3:
+>> - Simplied the pm refcount drop since we have just a single refcount now
+>> for all active submits
+>>
+>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 24 +++++++++++++++++++++---
+>>   drivers/gpu/drm/msm/msm_gpu.c         |  4 +---
+>>   2 files changed, 22 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> index 42ed9a3..1b049c5 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> @@ -1193,7 +1193,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>>   {
+>>          struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>          struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>> -       int i;
+>> +       int i, active_submits;
+>>
+>>          adreno_dump_info(gpu);
+>>
+>> @@ -1210,8 +1210,26 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>>           */
+>>          gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+>>
+>> -       gpu->funcs->pm_suspend(gpu);
+>> -       gpu->funcs->pm_resume(gpu);
+>> +       pm_runtime_dont_use_autosuspend(&gpu->pdev->dev);
+>> +
+>> +       /* active_submit won't change until we make a submission */
+>> +       mutex_lock(&gpu->active_lock);
+>> +       active_submits = gpu->active_submits;
+>> +       mutex_unlock(&gpu->active_lock);
+>> +
+>> +       /* Drop the rpm refcount from active submits */
+>> +       if (active_submits)
+>> +               pm_runtime_put(&gpu->pdev->dev);
+> Couldn't this race with an incoming submit triggering active_submits
+> to transition 0 -> 1?  Moving the mutex_unlock() would solve this.
+>
+> Actually, maybe just move the mutex_unlock() to the end of the entire
+> sequence.  You could also clear gpu->active_submits and restore it
+> before unlocking, so you can drop the removal of the WARN_ON_ONCE
+> (patch 6/8) which should otherwise be squashed into this patch to keep
+> things bisectable
+Because we are holding gpu->lock, there won't be any new submissions to 
+gpu. But I agree with your both suggestions.
 
-On Mon, 1 Aug 2022 at 14:12, Marek Vasut <marex@denx.de> wrote:
+-Akhil.
 >
-> Fill in hs_rate and lp_rate to struct mipi_dsi_device for this bridge and
-> adjust DSI input frequency calculations such that they expect the DSI host
-> to configure HS clock according to hs_rate.
+>> +
+>> +       /* And the final one from recover worker */
+>> +       pm_runtime_put_sync(&gpu->pdev->dev);
+>> +
+>> +       pm_runtime_use_autosuspend(&gpu->pdev->dev);
+>> +
+>> +       if (active_submits)
+>> +               pm_runtime_get(&gpu->pdev->dev);
+>> +
+>> +       pm_runtime_get_sync(&gpu->pdev->dev);
+>>
+>>          msm_gpu_hw_init(gpu);
+>>   }
+>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+>> index 1945efb..07e55a6 100644
+>> --- a/drivers/gpu/drm/msm/msm_gpu.c
+>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+>> @@ -426,9 +426,7 @@ static void recover_worker(struct kthread_work *work)
+>>                  /* retire completed submits, plus the one that hung: */
+>>                  retire_submits(gpu);
+>>
+>> -               pm_runtime_get_sync(&gpu->pdev->dev);
+>>                  gpu->funcs->recover(gpu);
+>> -               pm_runtime_put_sync(&gpu->pdev->dev);
+> Hmm, could this have some fallout on earlier gens?
+>
+> I guess I should extend the igt msm_recovery test to run on things
+> prior to a6xx..
+>
+> BR,
+> -R
+No, because of patch 3/8 in this series.
 
-I think this falls into another of the areas that is lacking in the DSI support.
-hs_rate is defined as the *maximum* lane frequency in high speed
-mode[1]. As documented there is no obligation on the DSI host to
-choose this specific rate, just some frequency below it and above or
-equal to that required by the pixel clock. At a system level, the link
-frequency is often prescribed for EMC purposes.
+-Akhil.
+>
+>>                  /*
+>>                   * Replay all remaining submits starting with highest priority
+>> @@ -445,7 +443,7 @@ static void recover_worker(struct kthread_work *work)
+>>                  }
+>>          }
+>>
+>> -       pm_runtime_put_sync(&gpu->pdev->dev);
+>> +       pm_runtime_put(&gpu->pdev->dev);
+>>
+>>          mutex_unlock(&gpu->lock);
+>>
+>> --
+>> 2.7.4
+>>
 
-The issue is then that the SN65DSI83 is configured to use the DSI
-clock lane as the source for the PLL generating the LVDS clock,
-therefore with no route for the DSI peripheral to query the link
-frequency chosen by the host, you're stuck.
-
-SN65DSI83 also supports non-burst mode (as currently), so how would
-this be configured now?
-Does MIPI_DSI_MODE_VIDEO_BURST [2] oblige the DSI host to run in burst
-mode, or say that burst mode is supported by the peripheral? What if
-your DSI host doesn't support burst mode and it is optional on your
-peripheral?
-I raised these questions and others at [3], but largely got no real answers.
-
-
-The patch does exactly what you describe and has value, but without
-definition in the frameworks of exactly how burst mode must be
-implemented by the DSI host, I would say that it's going to cause
-issues.
-I am aware of users of your driver with the Raspberry Pi, but your
-expectation isn't currently valid on the Pi as there is no definition
-of the correct thing for the host to do.
-
-Cheers.
-  Dave
-
-[1] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_mipi_dsi.h#L176
-[2] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_mipi_dsi.h#L119
-[3] start of thread at
-https://lists.freedesktop.org/archives/dri-devel/2021-July/313576.html
-and specifically hs_rate/burst at
-https://lists.freedesktop.org/archives/dri-devel/2021-October/326732.html
-
-> This is an optimization for the DSI burst mode case. In case the DSI device
-> supports DSI burst mode, it is recommended to operate the DSI interface at
-> the highest possible HS clock frequency which the DSI device supports. This
-> permits the DSI host to send as short as possible bursts of data on the DSI
-> link and keep the DSI data lanes in LP mode otherwise, which reduces power
-> consumption.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 14e7aa77e7584..b161f25c3a2f5 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -286,8 +286,7 @@ static u8 sn65dsi83_get_lvds_range(struct sn65dsi83 *ctx,
->         return (mode_clock - 12500) / 25000;
->  }
->
-> -static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
-> -                                 const struct drm_display_mode *mode)
-> +static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx)
->  {
->         /*
->          * The encoding of the CHA_DSI_CLK_RANGE is as follows:
-> @@ -303,20 +302,20 @@ static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
->          *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
->          * the 2 is there because the bus is DDR.
->          */
-> -       return DIV_ROUND_UP(clamp((unsigned int)mode->clock *
-> -                           mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
-> -                           ctx->dsi->lanes / 2, 40000U, 500000U), 5000U);
-> +       return DIV_ROUND_UP(ctx->dsi->hs_rate, 5000000U);
->  }
->
-> -static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
-> +static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx,
-> +                               const struct drm_display_mode *mode)
->  {
->         /* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
-> -       unsigned int dsi_div = mipi_dsi_pixel_format_to_bpp(ctx->dsi->format);
-> +       unsigned int dsi_div;
-> +       int mode_clock = mode->clock;
->
-> -       dsi_div /= ctx->dsi->lanes;
-> +       if (ctx->lvds_dual_link)
-> +               mode_clock /= 2;
->
-> -       if (!ctx->lvds_dual_link)
-> -               dsi_div /= 2;
-> +       dsi_div = (ctx->dsi->hs_rate / mode_clock) / 1000;
->
->         return dsi_div - 1;
->  }
-> @@ -397,9 +396,9 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->                      REG_RC_LVDS_PLL_LVDS_CLK_RANGE(sn65dsi83_get_lvds_range(ctx, mode)) |
->                      REG_RC_LVDS_PLL_HS_CLK_SRC_DPHY);
->         regmap_write(ctx->regmap, REG_DSI_CLK,
-> -                    REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx, mode)));
-> +                    REG_DSI_CLK_CHA_DSI_CLK_RANGE(sn65dsi83_get_dsi_range(ctx)));
->         regmap_write(ctx->regmap, REG_RC_DSI_CLK,
-> -                    REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx)));
-> +                    REG_RC_DSI_CLK_DSI_CLK_DIVIDER(sn65dsi83_get_dsi_div(ctx, mode)));
->
->         /* Set number of DSI lanes and LVDS link config. */
->         regmap_write(ctx->regmap, REG_DSI_LANE,
-> @@ -643,6 +642,8 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
->         dsi->lanes = dsi_lanes;
->         dsi->format = MIPI_DSI_FMT_RGB888;
->         dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
-> +       dsi->hs_rate = 500000000;
-> +       dsi->lp_rate = 16000000;
->
->         ret = devm_mipi_dsi_attach(dev, dsi);
->         if (ret < 0) {
-> --
-> 2.35.1
->
