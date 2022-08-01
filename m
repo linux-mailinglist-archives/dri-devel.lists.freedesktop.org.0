@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7424A5871C7
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 21:52:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362545871F0
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 22:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D54A8EC29;
-	Mon,  1 Aug 2022 19:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A0014A13A;
+	Mon,  1 Aug 2022 20:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C62C8B213
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 19:51:45 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id 206so7073852pgb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 12:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=dR+H5DgsvjR0QyoFiNRqr/JAWUNMcgGPEXzXe3YKbRY=;
- b=frSpdh45TuWu76mH63xtZhu7CKbri0Km2IeQIRrVyVdYGmmS/ux+7aZbiKWjZ47O34
- PxW8ihbAKVey3f0r4za/SoQUooQWS+nlNhMISmQ4jgGb0J8cBki8IMHXX5gMosVXLTos
- 6aRJht3EYpupBGHYLNa/Aw15GxcIKbSI+zcy0=
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B636014A70E;
+ Mon,  1 Aug 2022 20:00:41 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id t1so18954129lft.8;
+ Mon, 01 Aug 2022 13:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=V5gQ5qjxqGzCmOK1PLGxzPSbavAClYglR/pW8JvcVsY=;
+ b=EOL03vS8sJyZdeSxpiRsCpF+3QVM3bz3TKLSdmNrCoN76SVWyUko+Tv6vsSYLW7ohS
+ OoFPkFDsJRnCHJ8rN0rBpqI8kXsGle4DYUVWllYVv4qGUEKKkiDcieFDGBfMgt6tEi7t
+ LP86DXRvoqv4wH2xg+sMC+aIO5Wf/uE9oLW9FlN2WJvKg9mQqtKopNHU39gskBLHOLhg
+ oqT9ulPJApTuxEbnIx4D096yBekO7hEns8wHMQ8Vga8PMh+bdRVTg2U1BdfxwzpUz+Sa
+ x2ALv/PS9Hp6ZtJQhZD3YGGC5A9n7f4sDdG7YeKW3OJkegRDy04hq3vJtVLEaS9RiQd6
+ Co6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=dR+H5DgsvjR0QyoFiNRqr/JAWUNMcgGPEXzXe3YKbRY=;
- b=FFEL5ainhVOivUF7kx88uH9qiLaIb3Ijz/OTwu4xedCTdd7F79ltXGvLDEYhpg4rNv
- +hAsGEncECa1nTrg/lkH6pyaySd0U2+qnEy+PleaMwX5IHzvVsE055vtMF2+AeD+XzyQ
- qBsFkqxCN/1yYYdcJeD2yjmlbDf2Xdh2SIdc7dJHd8/OJDEf2DFh2Ip5pBtGBgQEMS5k
- Sn0q4gXVTc2qx+vVPa6vCNyj1YwD9ACRvHJ2+W/rLiOS/4hUDEC76Y6RErLHO9/VM0tC
- NrKFFfVjfpFwA5DEhGRYPvOfmsbj4nJunOcNjY9Ge9y+KDrYs/db3XdnPj7mthArcJa9
- Q1sw==
-X-Gm-Message-State: ACgBeo2LbwqkMXZY7tVeC9PqF7f+6EpnTDX+qQtGmBMEjiErx1MKsVkD
- bnpsfGvI+23uztqd9LL0Ns2cpr7TiPUcCNicnHfLzQ==
-X-Google-Smtp-Source: AA6agR7eEiNpUei/D65W3dNWbRG0jraq9q/sZnjn4XfAwaG4cKYsywGUC3qy52/E5Sr9ysCurayirlNiUC5RNtqh5MA=
-X-Received: by 2002:a05:6a00:2341:b0:52c:e2eb:cc70 with SMTP id
- j1-20020a056a00234100b0052ce2ebcc70mr14917077pfj.32.1659383504589; Mon, 01
- Aug 2022 12:51:44 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 1 Aug 2022 12:51:43 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=V5gQ5qjxqGzCmOK1PLGxzPSbavAClYglR/pW8JvcVsY=;
+ b=PtG86v0kx+LwH61i7yDcNZTaULLXV6U1PScFfGv/+Qlf48ZANMoqpWZqyda651wA4v
+ ghleXkYcGxy/RBwvilKF6NG0G7uTfXAXUZEYelinK5hX/0aExPAHRmMrdONqVmu6YD0k
+ oZWZL8eTOXW8VVvtv2zvVpm/wOr9JYzqSQmsd7nCFDzalO8fCCvhu09GBdOyOuoF1lsr
+ uQjm2YC3h9pxKmd8oSawixR3gU8AZtfmFtAESwWTA4WAkxqPl/h43Ql3uiLbwp/01r0W
+ DNwxsW8g1dioq7i6Q/EYBFqfGUTb7rW9IG0gG0CavJBNdJZq5BVys6m0crqGf4jY5lL5
+ pg6A==
+X-Gm-Message-State: AJIora8xcDZvk4iemLnGCnbPghUJnWZP/fVTO1PbOQdL57I7mhuhoGxu
+ UPUiT0xkvhS7LNdBxHn/rZLHvII1VNkIsWKZcVA=
+X-Google-Smtp-Source: AGRyM1vBBRHawcG8ftTonyM9q75QurQ3p3zcaTaySOV/jAW8LTQYo2ezKlXopdPACqJAWiV0BTKWTE1V6STR2cdwnFI=
+X-Received: by 2002:a05:6512:3f13:b0:48a:a89e:3ccb with SMTP id
+ y19-20020a0565123f1300b0048aa89e3ccbmr5804969lfa.245.1659384039913; Mon, 01
+ Aug 2022 13:00:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1659382970-17477-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1659382970-17477-1-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 1 Aug 2022 12:51:43 -0700
-Message-ID: <CAE-0n52=zJ0ScrknAhsvJQc5hXP7+TGaoa4gnaVzsT26bQL_Uw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix tps4
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
- dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
+References: <20220726175043.1027731-1-robdclark@gmail.com>
+ <20220726175043.1027731-10-robdclark@gmail.com>
+ <def8e47c-067e-0841-4ae4-1eb90244cd50@collabora.com>
+In-Reply-To: <def8e47c-067e-0841-4ae4-1eb90244cd50@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 1 Aug 2022 13:00:27 -0700
+Message-ID: <CAF6AEGtV4GY6=PmQh0wrKxjxk_baRCzOo=s=Uz-uKBNEn7SBBg@mail.gmail.com>
+Subject: Re: [PATCH v3 09/15] drm/gem: Add LRU/shrinker helper
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,44 +65,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-08-01 12:42:50)
-> Data Symbols scrambled is required for tps4 at link training 2.
-> Therefore SCRAMBLING_DISABLE bit should not be set for tps4 to
-> work.
-> RECOVERED_CLOCK_OUT_EN is for enable simple EYE test for jitter
-> measurement with minimal equipment for embedded applications purpose
-> and is not required to be set during normal operation.
-> Current implementation always have RECOVERED_CLOCK_OUT_EN bit set
-> which cause SCRAMBLING_DISABLE bit wrongly set at tps4 which prevent
-> tps4 from working.
-> This patch delete setting RECOVERED_CLOCK_OUT_EN to fix SCRAMBLING_DISABLE
-> be wrongly set at tps4.
+On Mon, Aug 1, 2022 at 12:41 PM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
 >
-> Fixes: 956653250b21 ("drm/msm/dp: add support of tps4 (training pattern 4) for HBR3")
+> On 7/26/22 20:50, Rob Clark wrote:
+> > +/**
+> > + * drm_gem_lru_remove - remove object from whatever LRU it is in
+> > + *
+> > + * If the object is currently in any LRU, remove it.
+> > + *
+> > + * @obj: The GEM object to remove from current LRU
+> > + */
+> > +void
+> > +drm_gem_lru_remove(struct drm_gem_object *obj)
+> > +{
+> > +     struct drm_gem_lru *lru = obj->lru;
+> > +
+> > +     if (!lru)
+> > +             return;
+> > +
+> > +     mutex_lock(lru->lock);
+> > +     lru_remove(obj);
+> > +     mutex_unlock(lru->lock);
+> > +}
+> > +EXPORT_SYMBOL(drm_gem_lru_remove);
 >
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I made a preliminary port of the DRM-SHMEM shrinker on top of the the
+> latest version of dma-buf locking convention and yours LRU patches. It
+> all works good, the only thing that is missing for the DRM-SHMEM
+> shrinker is the drm_gem_lru_remove_locked().
 >
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index ab6aa13..013ca02 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1214,7 +1214,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
->         if (ret)
->                 return ret;
->
-> -       dp_ctrl_train_pattern_set(ctrl, pattern | DP_RECOVERED_CLOCK_OUT_EN);
-> +       dp_ctrl_train_pattern_set(ctrl, pattern);
+> What about to add a locked variant of drm_gem_lru_remove()?
 
-This line is from the first patch introducing this driver. Even if this
-is fixing tps4 support, it sounds like the bit should never have been
-enabled in the first place. Why isn't the fixes tag targeted at the
-first commit? Does it hurt to apply it without commit 956653250b21?
+Sounds fine to me.. the only reason it didn't exist yet was because it
+wasn't needed yet..
+
+I can respin w/ an addition of a _locked() version, or you can add it
+on top in your patchset.  Either is fine by me
+
+BR,
+-R
