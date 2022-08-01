@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F87586E93
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 18:32:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1DC586EBA
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 18:39:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21CD95F99;
-	Mon,  1 Aug 2022 16:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0C94113B3C;
+	Mon,  1 Aug 2022 16:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28FC95F99
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 16:32:40 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id h145so8770628iof.9
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 09:32:40 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF8011AD45
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 16:38:44 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id r4so6763570edi.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 09:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=nU1GnPIuVRRBbVgvjKUW8zO6vMC9UQ9iLWl6VrggR6M=;
+ b=LRJm3enBK8X/1DDHZ8wd8ir49jVGJ71j3SmUg+hxZ9dlqwbPe6h4VckjyfVv7kHw85
+ XwrZOOklZ/risaIPDo5ji97z06bxIOSlQQ6NV8uAvw9FM72yWwpNfHzymv9Z8LaA7YSV
+ fnv85kXex1FS76q/lcsOlgjeUR0tPAbSve4A7rW0d9aw1kl8WUCeteCVdCcXPZ6apO0o
+ yK1Y2zliHok6+WZeMK1G8ZQULO2WYl2GlAmuumT6MDJPpphjJnmo5dT/f2rkbUxZyZ7n
+ UhaVtwaKl515uHSTKhsM5F2do9agh74bMjHEd083TV9Sxy/LkHdmdSBI7omZ27v8wrB5
+ zmGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=P77IYnhQDubE2Ls3jmoSKfwkpvjmalaSlppSMIKTGTM=;
- b=URpUGfy+xAdRfco8Z8oF5AOsgAPH1COSq9cG2hoLh/pXBTofKWT4hDvaP2mrxksGt3
- fWOUDL1CtY6jIxo07NDTomXSpm64jyDGZGdggwLHSdm71h6xoYWxEHRTjVrYNnxwjP/f
- Mn7JCMDrmA4DDHy3g5ZhGqlad/1XmsknF7IQaqbV4OrqtskGfrNV6pfAlG6/wYR6g0m1
- TGwxBaAHgRE05MyRFl3vZQqZayQ0SuDJuIl5maNYu8aUOcxtaR74yrssTutERU4CeaQv
- ohHb4FqKtTVuI8h0qoQlbDpdsUO0x3JCIYRBi/u7u75EO1diCJP/Ngf37uumCYv2mHau
- KPUQ==
-X-Gm-Message-State: AJIora/4Yiq7vGtAQ8GXRGlypoD5oN2hiGz5cNTOrdT4vlfax3qJANs+
- D+Kmq69SAImDuH25FoaVmg==
-X-Google-Smtp-Source: AGRyM1sGSDz3McDNYyjHmCnx+CCO6rr6pBD+ZJoy5Rch8LwJhbnibMSs+18u9nKe27M/R15G0H8FIg==
-X-Received: by 2002:a05:6638:2103:b0:341:4a1b:c551 with SMTP id
- n3-20020a056638210300b003414a1bc551mr6588973jaj.87.1659371559878; 
- Mon, 01 Aug 2022 09:32:39 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id
- y14-20020a5e870e000000b0067bd7f5f964sm5934051ioj.7.2022.08.01.09.32.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 09:32:39 -0700 (PDT)
-Received: (nullmailer pid 1137649 invoked by uid 1000);
- Mon, 01 Aug 2022 16:32:38 -0000
-Date: Mon, 1 Aug 2022 10:32:38 -0600
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: icn6211: Add support
- for RGB/BGR swap
-Message-ID: <20220801163238.GA1130127-robh@kernel.org>
-References: <20220801131901.183090-1-marex@denx.de>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=nU1GnPIuVRRBbVgvjKUW8zO6vMC9UQ9iLWl6VrggR6M=;
+ b=s3Gu20r8iC7TBLv3kZo20jB7Cy85X6SHKIO9v1OvLNTXPvCF68t3a0wK4Fp35gn13U
+ ZyN44o1mRBtHPWd9CjQICm8EM9TNVK0USsqRyFe1yzD007WO1q37JL9zIrh7z8B5QZ+S
+ ZZmNUgLKg7nN4f0jCDVpGLok5TZ73B7CAAK9dW2fv3NyBpGvzqGHFHDoJ0RexvcPK4l/
+ W4PI9yJvMyFYW4iDbdPZMrgoS+WIAxW1Mgv/8C26CkJs81vfRpktjGrWMuJdfpfgOeK8
+ wn5luCeD0Vdrsfozcr2qq/dweoZxm3gEaeshV9NBwShZ8r+PJ8oLAdghYyyH/LAXr5pu
+ I65w==
+X-Gm-Message-State: AJIora/hBYOoP+J5O58c5lBqncOA76DiIP+SbdLinAl50rsKRx3fLES4
+ Ztm4YaVHMt05S6hRh12js9enEC/nghcKh1jlONM=
+X-Google-Smtp-Source: AGRyM1vLIoWT+glKyXibgKyptZbO+7IYEqyk7if6CMncD99NPJSb3B50Qv4I3vhWlTPNi9kBF94tPj6z+0VVKTgy4uY=
+X-Received: by 2002:aa7:da92:0:b0:43c:c5af:d5c9 with SMTP id
+ q18-20020aa7da92000000b0043cc5afd5c9mr16808106eds.10.1659371922963; Mon, 01
+ Aug 2022 09:38:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220801131901.183090-1-marex@denx.de>
+References: <20220801131113.182487-1-marex@denx.de>
+ <CAPY8ntCowWODtQtSHoPkjL2_XjVQCW8Fduutt3rYAZ=e9MZT_A@mail.gmail.com>
+ <f1edd1a3-05d3-2476-f678-298aa145b71e@denx.de>
+In-Reply-To: <f1edd1a3-05d3-2476-f678-298aa145b71e@denx.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 1 Aug 2022 11:38:31 -0500
+Message-ID: <CAHCN7x+_f4SpXZfdEbdb=v8bYmwHtZU1R1MH7TjAfbky=+qWfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Add and use hs_rate and lp_rate
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +65,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 01, 2022 at 03:19:00PM +0200, Marek Vasut wrote:
-> The ICN6211 is capable of swapping the output DPI RGB/BGR color channels,
-> document a DT property to select this swap in DT. This can be useful on
-> hardware where such swap happens.
+On Mon, Aug 1, 2022 at 11:05 AM Marek Vasut <marex@denx.de> wrote:
+>
+> On 8/1/22 16:55, Dave Stevenson wrote:
+> > Hi Marek
+>
+> Hi,
+>
+> > On Mon, 1 Aug 2022 at 14:12, Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> Fill in hs_rate and lp_rate to struct mipi_dsi_device for this bridge and
+> >> adjust DSI input frequency calculations such that they expect the DSI host
+> >> to configure HS clock according to hs_rate.
+> >
+> > I think this falls into another of the areas that is lacking in the DSI support.
+> > hs_rate is defined as the *maximum* lane frequency in high speed
+> > mode[1]. As documented there is no obligation on the DSI host to
+> > choose this specific rate, just some frequency below it and above or
+> > equal to that required by the pixel clock. At a system level, the link
+> > frequency is often prescribed for EMC purposes.
+>
+> The reduced upper limit could likely be defined by a DT property, but
+> that's not hard to add.
+>
+> > The issue is then that the SN65DSI83 is configured to use the DSI
+> > clock lane as the source for the PLL generating the LVDS clock,
+> > therefore with no route for the DSI peripheral to query the link
+> > frequency chosen by the host, you're stuck.
+>
+> At least making the host pick the highest supported frequency means we
+> have a well defined link frequency which either is accepted by both ends
+> or not at all, instead of the current guesswork on both ends, bridge and
+> host.
+>
+> Regarding reduction of the maximum hs_rate, see above, probably use a DT
+> property. Regarding check for hs_rate below minimum possible rate,
+> likely something the DSI host should do based on desired mode .
+>
+> If you are looking for some frequency negotiation starter, look at:
+> [RFC][PATCH 0/7] drm/bridge: Add support for selecting DSI host HS clock
+> from DSI bridge
+>
+> > SN65DSI83 also supports non-burst mode (as currently), so how would
+> > this be configured now?
+> > Does MIPI_DSI_MODE_VIDEO_BURST [2] oblige the DSI host to run in burst
+> > mode, or say that burst mode is supported by the peripheral?
+>
+> My understanding is that it is the former -- if the flag is set, the DSI
+> host must operate the device in burst mode.
+>
+> > What if
+> > your DSI host doesn't support burst mode and it is optional on your
+> > peripheral?
+>
+> The limit still applies. In the sync pulses mode, you can still run the
+> link at high frequency, it's just that the DSI data lanes won't go into
+> LP mode between bursts of data, they would stuff the link with NOPs
+> instead, as far as I can tell.
+>
+> > I raised these questions and others at [3], but largely got no real answers.
+> >
+> >
+> > The patch does exactly what you describe and has value, but without
+> > definition in the frameworks of exactly how burst mode must be
+> > implemented by the DSI host, I would say that it's going to cause
+> > issues.
+> > I am aware of users of your driver with the Raspberry Pi, but your
+> > expectation isn't currently valid on the Pi as there is no definition
+> > of the correct thing for the host to do.
+>
+> This patch actually helped me deal with stability issues on MX8M . Of
 
-We should ensure this series[1] works for you instead.
+I have a board with the SN65DSI83 and I have been testing Jagan's DSIM
+patch series and I noticed the SN65DSI83  throws a PLL timeout error.
+What kind of stability issues were you seeing?   I'll try to pull in
+this patch, and I'm happy to test and reply with 'Tested-by' if it
+works.
 
+adam
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../devicetree/bindings/display/bridge/chipone,icn6211.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> index 18563ebed1a96..e721dd76e6640 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-> @@ -33,6 +33,12 @@ properties:
->          Optional external clock connected to REF_CLK input.
->          The clock rate must be in 10..154 MHz range.
->  
-> +  blue-and-red-swap:
-
-'swap' assumes I know the default order and I don't. Better to make the 
-property name describe the end result. ('invert' properties have the 
-same issue)
-
-> +    description:
-> +      If defined, the DPI output blue and red channels are swapped,
-> +      i.e. RGB becomes BGR.
-> +    type: boolean
-> +
->    enable-gpios:
->      description: Bridge EN pin, chip is reset when EN is low.
-
-Rob
-
-[1] https://lore.kernel.org/r/20220628181838.2031-3-max.oss.09@gmail.com
-
+> course, the DSIM driver has to handle the case where bridge provides
+> hs_rate and configure its PLL accordingly. That's a two-liner patch.
