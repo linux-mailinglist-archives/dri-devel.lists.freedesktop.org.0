@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66FF586BCD
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 15:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22AC586BD2
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 15:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 452F4B42DE;
-	Mon,  1 Aug 2022 13:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED073B576F;
+	Mon,  1 Aug 2022 13:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 865B5AE698
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:18:07 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55F4B4261
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:19:17 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 54446844A4;
- Mon,  1 Aug 2022 15:18:05 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id F24E38440A;
+ Mon,  1 Aug 2022 15:19:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1659359885;
- bh=N4f7ASRTdWGmpiNXa73Y0ypjif91mY0wortTWZEZrHI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SmBtbvjbnBDqT39hShcx5GZGErgWy42Hht6wrlpYrnzEULQGR7ucMJlDFDW5/u62Y
- J2mzGrzTtRNM02r4+LSM5u/8ROaKpa6cCeCH8NWqJjEsZy1rx8uzVOvO3gMb6RbAEU
- r/NKDh9rGFO+32dC0MS7hJewOyDH4f+EgfitkYqc2fSf1+czE5PwjNJxKbKw9pGof6
- IJNjKlVwYN7znEqYsCIYd6D1yGzRc/TUxiDUGIi36kxB39gUzFn3apGAuG1rZvxR07
- 3MqvCV5O6j7UOSezsJ5DfvrFGCSXn9qXkOkLNuQR70MwnJ7ssnlza6Sb6kMGOXZfYX
- oHomR4Xo9aZTA==
+ s=phobos-20191101; t=1659359956;
+ bh=wcj9FeuZ8cXOT472oAuu+NLSau/Fb3N8+CJ+hx0ObTk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=It6bgbcM77Xx+hB2L5xAvGLjIyNRK9efCuax0y1ICpu0NqpR8tK9GKUl9uvKTudmD
+ srmlN1ubOyV13njSRszPsrtWwF78h9dZ5UVXNnMfkw8wgRH4k2mgWsk6/N6ihg01P8
+ aHjkdMWFys01a2AKRTszwZONHNVpC2WQbMkgdynOANO5NNgIJdhDOuH1DavxH2rTSp
+ EJXtD9LTAqxPXe3bLmW7ekY5Bv4MPoF7uwHgoPsYk7nw74JPtYDe62hCA78T72Nc8X
+ zGn0rMgOeC2Hn77MLccIwJGtmKVZ3eUa8HFnpomxNRq5YrYc8qMXvf4AS5BihNBr6q
+ +tTXzjuwMU2RQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm: bridge: icn6211: Add support for external REFCLK
-Date: Mon,  1 Aug 2022 15:17:47 +0200
-Message-Id: <20220801131747.183041-2-marex@denx.de>
+Subject: [PATCH 1/2] dt-bindings: display: bridge: icn6211: Add support for
+ RGB/BGR swap
+Date: Mon,  1 Aug 2022 15:19:00 +0200
+Message-Id: <20220801131901.183090-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220801131747.183041-1-marex@denx.de>
-References: <20220801131747.183041-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
@@ -52,134 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, robert.foss@linaro.org,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ robert.foss@linaro.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ICN6211 is capable of deriving its internal PLL clock from either
-MIPI DSI HS clock, external REFCLK clock, or even internal oscillator.
-Currently supported is only the first option. Add support for external
-REFCLK clock input in addition to that.
-
-There is little difference between these options, except that in case
-of MIPI DSI HS clock input, the HS clock are pre-divided by a fixed /4
-divider before being fed to the PLL input, while in case of external
-REFCLK, the RECLK clock are fed directly into the PLL input.
-
-Per exceptionally poor documentation, the REFCLK must be in range of
-10..154 MHz.
+The ICN6211 is capable of swapping the output DPI RGB/BGR color channels,
+document a DT property to select this swap in DT. This can be useful on
+hardware where such swap happens.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
 Cc: Robert Foss <robert.foss@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 39 +++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/display/bridge/chipone,icn6211.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index 65966f280cf4e..7ee1858bab321 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -11,6 +11,7 @@
+diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+index 18563ebed1a96..e721dd76e6640 100644
+--- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+@@ -33,6 +33,12 @@ properties:
+         Optional external clock connected to REF_CLK input.
+         The clock rate must be in 10..154 MHz range.
  
- #include <linux/bitfield.h>
- #include <linux/bits.h>
-+#include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-@@ -151,6 +152,8 @@ struct chipone {
- 	struct regulator *vdd1;
- 	struct regulator *vdd2;
- 	struct regulator *vdd3;
-+	struct clk *refclk;
-+	unsigned long refclk_rate;
- 	bool interface_i2c;
- };
- 
-@@ -273,7 +276,10 @@ static void chipone_configure_pll(struct chipone *icn,
- 	 * It seems the PLL input clock after applying P pre-divider have
- 	 * to be lower than 20 MHz.
- 	 */
--	fin = icn->dsi->hs_rate / 4; /* in Hz */
-+	if (icn->refclk)
-+		fin = icn->refclk_rate;
-+	else
-+		fin = icn->dsi->hs_rate / 4; /* in Hz */
- 
- 	/* Minimum value of P predivider for PLL input in 5..20 MHz */
- 	p_min = clamp(DIV_ROUND_UP(fin, 20000000), 1U, 31U);
-@@ -318,16 +324,18 @@ static void chipone_configure_pll(struct chipone *icn,
- 	best_p_pot = !(best_p & 1);
- 
- 	dev_dbg(icn->dev,
--		"PLL: P[3:0]=%d P[4]=2*%d M=%d S[7:5]=2^%d delta=%d => DSI f_in=%d Hz ; DPI f_out=%d Hz\n",
-+		"PLL: P[3:0]=%d P[4]=2*%d M=%d S[7:5]=2^%d delta=%d => DSI f_in(%s)=%d Hz ; DPI f_out=%d Hz\n",
- 		best_p >> best_p_pot, best_p_pot, best_m, best_s + 1,
--		min_delta, fin, (fin * best_m) / (best_p << (best_s + 1)));
-+		min_delta, icn->refclk ? "EXT" : "DSI", fin,
-+		(fin * best_m) / (best_p << (best_s + 1)));
- 
- 	ref_div = PLL_REF_DIV_P(best_p >> best_p_pot) | PLL_REF_DIV_S(best_s);
- 	if (best_p_pot)	/* Prefer /2 pre-divider */
- 		ref_div |= PLL_REF_DIV_Pe;
- 
--	/* Clock source selection fixed to MIPI DSI clock lane */
--	chipone_writeb(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
-+	/* Clock source selection either external clock or MIPI DSI clock lane */
-+	chipone_writeb(icn, PLL_CTRL(6),
-+		       icn->refclk ? PLL_CTRL_6_EXTERNAL : PLL_CTRL_6_MIPI_CLK);
- 	chipone_writeb(icn, PLL_REF_DIV, ref_div);
- 	chipone_writeb(icn, PLL_INT(0), best_m);
- }
-@@ -463,6 +471,11 @@ static void chipone_atomic_pre_enable(struct drm_bridge *bridge,
- 				      "failed to enable VDD3 regulator: %d\n", ret);
- 	}
- 
-+	ret = clk_prepare_enable(icn->refclk);
-+	if (ret)
-+		DRM_DEV_ERROR(icn->dev,
-+			      "failed to enable RECLK clock: %d\n", ret);
++  blue-and-red-swap:
++    description:
++      If defined, the DPI output blue and red channels are swapped,
++      i.e. RGB becomes BGR.
++    type: boolean
 +
- 	gpiod_set_value(icn->enable_gpio, 1);
+   enable-gpios:
+     description: Bridge EN pin, chip is reset when EN is low.
  
- 	usleep_range(10000, 11000);
-@@ -473,6 +486,8 @@ static void chipone_atomic_post_disable(struct drm_bridge *bridge,
- {
- 	struct chipone *icn = bridge_to_chipone(bridge);
- 
-+	clk_disable_unprepare(icn->refclk);
-+
- 	if (icn->vdd1)
- 		regulator_disable(icn->vdd1);
- 
-@@ -618,6 +633,20 @@ static int chipone_parse_dt(struct chipone *icn)
- 	struct device *dev = icn->dev;
- 	int ret;
- 
-+	icn->refclk = devm_clk_get_optional(dev, "refclk");
-+	if (IS_ERR(icn->refclk)) {
-+		ret = PTR_ERR(icn->refclk);
-+		DRM_DEV_ERROR(dev, "failed to get REFCLK clock: %d\n", ret);
-+		return ret;
-+	} else if (icn->refclk) {
-+		icn->refclk_rate = clk_get_rate(icn->refclk);
-+		if (icn->refclk_rate < 10000000 || icn->refclk_rate > 154000000) {
-+			DRM_DEV_ERROR(dev, "REFCLK out of range: %ld Hz\n",
-+				      icn->refclk_rate);
-+			return -EINVAL;
-+		}
-+	}
-+
- 	icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
- 	if (IS_ERR(icn->vdd1)) {
- 		ret = PTR_ERR(icn->vdd1);
 -- 
 2.35.1
 
