@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0E0586C32
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 15:45:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75FBB586C74
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 15:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E121BFD25;
-	Mon,  1 Aug 2022 13:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 470E414BB3C;
+	Mon,  1 Aug 2022 13:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16306C0904
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:38:10 +0000 (UTC)
-Date: Mon, 01 Aug 2022 13:38:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1659361087; x=1659620287;
- bh=5dRgEI3ZI9MIrO6XOaZjyo8varJXc/68IgRO/fG+g1k=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=hHMUBvG32Nll2z1sem8Crp33avFVl6gWMuCAyPFOoG4CB0MPqej0y5TtHbeAbej2N
- r43sMTC/aC/TRlrn3hp8h7p/JTTqEzqo8GkGNMhFT3S5DUyNc/PnYKCdtfoy6F56XH
- J0ekIR6lI1bqlAUW0sMSfQ0VaXqSUQMi/f8yhPiM7eVJFChye/qKBSHhJtiWrYISR3
- dEfSdYbmlnI0jXLu0LyUiqCRlK7V+548pbU9XNe3zPVaoONvnKL9fdKhe3rpnIWPIc
- Nm8UtAJQns4ZyNToj9lz/0SE10cuoVrnjl7KsaEyvEEYikoRCfvgCefUIANYkt0V3U
- yGhwEIaeyzUZw==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [RFC PATCH] drm: hide unregistered connectors from GETCONNECTOR IOCTL
-Message-ID: <20220801133754.461037-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0A7EC18F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:50:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4E71C4DF17;
+ Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659361831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=iP6rdSRnlCLFbNRs7RkXjAAiUsiwAfmsLbjbP2Idve4=;
+ b=aH8poV0H9aTESUg0QbngItfUpXQs3ZDPmkmaKDAEB/X3qw+UpRhYZpvTwb2JjN6iRtQA16
+ d4OZ205cpCwe4uN5xCfnnBtGrNQ8WkB3ruVE6DiU3N8vMikq+z8+Jls+1cRKMF0MCQ90vb
+ rbGdWFe9JI2veRzCwDoQRphVWKatPVU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659361831;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=iP6rdSRnlCLFbNRs7RkXjAAiUsiwAfmsLbjbP2Idve4=;
+ b=Ka30Ho22ZDj+ma81wCzlKGfEC5lQAQOWRrS054dK3L5/x8n1wyCjCu93o6uxSwuuX+IJjY
+ ikXXYmH1DIK0IsBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A3D413A72;
+ Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id JKthCSfa52IDRwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 01 Aug 2022 13:50:31 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, geert@linux-m68k.org, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v3 0/5] drm/simpledrm: Various improvements
+Date: Mon,  1 Aug 2022 15:50:23 +0200
+Message-Id: <20220801135028.30647-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,48 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When registering a connector, the kernel sends a hotplug uevent in
-drm_connector_register(). When unregistering a connector, drivers
-are expected to send a uevent as well. However, user-space has no way
-to figure out that the connector isn't registered anymore: it'll still
-be reported in GETCONNECTOR IOCTLs.
+Patchset contains various improvements for simpledrm that were
+implemented in preparation of adding another firmware graphics
+driver. [1] Javier and Geert already reviewed the changes and
+it was agreed that they could be merged independently.
 
-The documentation for DRM_CONNECTOR_UNREGISTERED states:
+We start with v3, as that's were we branch of the original
+patches.
 
-> The connector [=E2=80=A6] has since been unregistered and removed from
-> userspace, or the connector was unregistered before it had a chance
-> to be exposed to userspace
+v3:
+	* branch from ofdrm patches
+	* fix stride calculation
+	* fix usage of drm_atomic_helper_check_plane_state()
+	* remove empty CRTC atomic_{enable,disable}
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_mode_config.c | 3 +++
- 1 file changed, 3 insertions(+)
+[1] https://patchwork.freedesktop.org/series/106538/
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_c=
-onfig.c
-index 688c8afe0bf1..939d621c9ad4 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -151,6 +151,9 @@ int drm_mode_getresources(struct drm_device *dev, void =
-*data,
- =09count =3D 0;
- =09connector_id =3D u64_to_user_ptr(card_res->connector_id_ptr);
- =09drm_for_each_connector_iter(connector, &conn_iter) {
-+=09=09if (connector->registration_state !=3D DRM_CONNECTOR_REGISTERED)
-+=09=09=09continue;
-+
- =09=09/* only expose writeback connectors if userspace understands them */
- =09=09if (!file_priv->writeback_connectors &&
- =09=09    (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK))
---=20
+Thomas Zimmermann (5):
+  drm/simpledrm: Remove mem field from device structure
+  drm/simpledrm: Inline device-init helpers
+  drm/simpledrm: Remove pdev field from device structure
+  drm/simpledrm: Compute framebuffer stride if not set
+  drm/simpledrm: Convert to atomic helpers
+
+ drivers/gpu/drm/tiny/simpledrm.c | 559 ++++++++++++++++---------------
+ 1 file changed, 293 insertions(+), 266 deletions(-)
+
+
+base-commit: 06ec37c2c220f7213b91af6148dbd5d772a171b1
+-- 
 2.37.1
-
 
