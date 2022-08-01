@@ -2,59 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D929586E1C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 17:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979AB586F4E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C064D91025;
-	Mon,  1 Aug 2022 15:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFAD8F346;
+	Mon,  1 Aug 2022 17:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDB7D1127E0
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 15:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659369251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bDrzxcK/hdqF7u8DnUOKQqM/ecXSwkQXnfqic59uxkQ=;
- b=fvr0vBXom4gOmnQZyFA3o+5Q7lCG2q0AqnabgG2DsUDk+0TDXXWdHSNqK+Zf/7evgp+Xry
- eJPIsnCRX2JlYu4eK8oYLEUanrDTYtuuikw7kKLfuqFu1vn1ARVVt715s3lOHsDckt6IBv
- xRp+kxvf8Aa0smWHEAc+KC6mFI9L8/o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-9GoOoRyOOP-3kn0drtBscw-1; Mon, 01 Aug 2022 11:54:06 -0400
-X-MC-Unique: 9GoOoRyOOP-3kn0drtBscw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF7D4101A586;
- Mon,  1 Aug 2022 15:54:05 +0000 (UTC)
-Received: from starship (unknown [10.40.194.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D3AB40E80F4;
- Mon,  1 Aug 2022 15:53:59 +0000 (UTC)
-Message-ID: <ad3a01ffe9c6f7fa40a4b51ac88d8fad56606435.camel@redhat.com>
-Subject: Re: [RFC PATCH v3 04/19] KVM: x86: mmu: allow to enable write
- tracking externally
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Sean Christopherson <seanjc@google.com>
-Date: Mon, 01 Aug 2022 18:53:58 +0300
-In-Reply-To: <7c4cf32dca42ab84bdb427a9e4862dbf5509f961.camel@redhat.com>
-References: <20220427200314.276673-1-mlevitsk@redhat.com>
- <20220427200314.276673-5-mlevitsk@redhat.com> <YoZyWOh4NPA0uN5J@google.com>
- <5ed0d0e5a88bbee2f95d794dbbeb1ad16789f319.camel@redhat.com>
- <c22a18631c2067871b9ed8a9246ad58fa1ab8947.camel@redhat.com>
- <Yt6/9V0S9of7dueW@google.com>
- <7c4cf32dca42ab84bdb427a9e4862dbf5509f961.camel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Greylist: delayed 55295 seconds by postgrey-1.36 at gabe;
+ Mon, 01 Aug 2022 11:43:11 UTC
+Received: from kozue.soulik.info (kozue.soulik.info
+ [IPv6:2001:19f0:7000:8404:5054:ff:fe75:428f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEBEF11A550
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 11:43:11 +0000 (UTC)
+Received: from [192.168.10.77] (unknown [112.65.61.203])
+ by kozue.soulik.info (Postfix) with ESMTPSA id 06989100DB3;
+ Mon,  1 Aug 2022 20:34:06 +0900 (JST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: ayaka <ayaka@soulik.info>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
+ memory runtine
+Date: Mon, 1 Aug 2022 19:39:51 +0800
+Message-Id: <1C214079-69AA-40D7-92EC-ED1F86CD37A3@soulik.info>
+References: <CAAFQd5CKfv6F6cgN95SE42HWQYynsSuYFcU_8aePgtawXyey1g@mail.gmail.com>
+In-Reply-To: <CAAFQd5CKfv6F6cgN95SE42HWQYynsSuYFcU_8aePgtawXyey1g@mail.gmail.com>
+To: Tomasz Figa <tfiga@chromium.org>
+X-Mailer: iPad Mail (18D61)
+X-Mailman-Approved-At: Mon, 01 Aug 2022 17:07:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,117 +43,587 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
+ Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
+ christian.koenig@amd.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-07-28 at 10:46 +0300, Maxim Levitsky wrote:
-> On Mon, 2022-07-25 at 16:08 +0000, Sean Christopherson wrote:
-> > On Wed, Jul 20, 2022, Maxim Levitsky wrote:
-> > > On Sun, 2022-05-22 at 13:22 +0300, Maxim Levitsky wrote:
-> > > > On Thu, 2022-05-19 at 16:37 +0000, Sean Christopherson wrote:
-> > > > > On Wed, Apr 27, 2022, Maxim Levitsky wrote:
-> > > > > > @@ -5753,6 +5752,10 @@ int kvm_mmu_init_vm(struct kvm *kvm)
-> > > Now for nested AVIC, this is what I would like to do:
-> > >  
-> > > - just like mmu, I prefer to register the write tracking notifier, when the
-> > >   VM is created.
-> > > 
-> > > - just like mmu, write tracking should only be enabled when nested AVIC is
-> > >   actually used first time, so that write tracking is not always enabled when
-> > >   you just boot a VM with nested avic supported, since the VM might not use
-> > >   nested at all.
-> > >  
-> > > Thus I either need to use the __kvm_page_track_register_notifier too for AVIC
-> > > (and thus need to export it) or I need to have a boolean
-> > > (nested_avic_was_used_once) and register the write tracking notifier only
-> > > when false and do it not on VM creation but on first attempt to use nested
-> > > AVIC.
-> > >  
-> > > Do you think this is worth it? I mean there is some value of registering the
-> > > notifier only when needed (this way it is not called for nothing) but it does
-> > > complicate things a bit.
-> > 
-> > Compared to everything else that you're doing in the nested AVIC code, refcounting
-> > the shared kvm_page_track_notifier_node object is a trivial amount of complexity.
-> Makes sense.
-> 
-> > And on that topic, do you have performance numbers to justify using a single
-> > shared node?  E.g. if every table instance has its own notifier, then no additional
-> > refcounting is needed. 
-> 
-> The thing is that KVM goes over the list of notifiers and calls them for every write from the emulator
-> in fact even just for mmio write, and when you enable write tracking on a page,
-> you just write protect the page and add a mark in the page track array, which is roughly 
-> 
-> 'don't install spte, don't install mmio spte, but just emulate the page fault if it hits this page'
-> 
-> So adding more than a bare minimum to this list, seems just a bit wrong.
-> 
-> 
-> >  It's not obvious that a shared node will provide better
-> > performance, e.g. if there are only a handful of AVIC tables being shadowed, then
-> > a linear walk of all nodes is likely fast enough, and doesn't bring the risk of
-> > a write potentially being stalled due to having to acquire a VM-scoped mutex.
-> 
-> The thing is that if I register multiple notifiers, they all will be called anyway,
-> but yes I can use container_of, and discover which table the notifier belongs to,
-> instead of having a hash table where I lookup the GFN of the fault.
-> 
-> The above means practically that all the shadow physid tables will be in a linear
-> list of notifiers, so I could indeed avoid per vm mutex on the write tracking,
-> however for simplicity I probably will still need it because I do modify the page,
-> and having per physid table mutex complicates things.
-> 
-> Currently in my code the locking is very simple and somewhat dumb, but the performance
-> is very good because the code isn't executed often, most of the time the AVIC hardware
-> works alone without any VM exits.
-> 
-> Once the code is accepted upstream, it's one of the things that can be improved.
-> 
-> 
-> Note though that I still need a hash table and a mutex because on each VM entry,
-> the guest can use a different physid table, so I need to lookup it, and create it,
-> if not found, which would require read/write of the hash table and thus a mutex.
-> 
-> 
-> 
-> > > I can also stash this boolean (like 'bool registered;') into the 'struct
-> > > kvm_page_track_notifier_node',  and thus allow the
-> > > kvm_page_track_register_notifier to be called more that once -  then I can
-> > > also get rid of __kvm_page_track_register_notifier. 
-> > 
-> > No, allowing redundant registration without proper refcounting leads to pain,
-> > e.g. X registers, Y registers, X unregisters, kaboom.
-> > 
-> 
-> True, but then what about adding a refcount to 'struct kvm_page_track_notifier_node'
-> instead of a boolean, and allowing redundant registration? 
-> Probably not worth it, in which case I am OK to add a refcount to my avic code.
-> 
-> Or maybe just scrap the whole thing and just leave registration and activation of the
-> write tracking as two separate things? Honestly now that looks like the most clean
-> solution.
 
 
-Kind ping on this. Do you still want me to enable write tracking on the notifier registeration,
-or scrap the idea?
+Sent from my iPad
 
+> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote:
+>=20
+> =EF=BB=BFCAUTION: Email originated externally, do not click links or open a=
+ttachments unless you recognize the sender and know the content is safe.
+>=20
+>=20
+>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> wrote=
+:
+>>=20
+>>=20
+>>=20
+>>> On 8/1/22 14:19, Tomasz Figa wrote:
+>>>=20
+>> Hello Tomasz
+>>>=20
+>>> ?Hi Randy,
+>>>=20
+>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
+>>>>=20
+>>>> From: Randy Li <ayaka@soulik.info>
+>>>>=20
+>>>> This module is still at a early stage, I wrote this for showing what
+>>>> APIs we need here.
+>>>>=20
+>>>> Let me explain why we need such a module here.
+>>>> If you won't allocate buffers from a V4L2 M2M device, this module
+>>>> may not be very useful. I am sure the most of users won't know a
+>>>> device would require them allocate buffers from a DMA-Heap then
+>>>> import those buffers into a V4L2's queue.
+>>>>=20
+>>>> Then the question goes back to why DMA-Heap. =46rom the Android's
+>>>> description, we know it is about the copyright's DRM.
+>>>> When we allocate a buffer in a DMA-Heap, it may register that buffer
+>>>> in the trusted execution environment so the firmware which is running
+>>>> or could only be acccesed from there could use that buffer later.
+>>>>=20
+>>>> The answer above leads to another thing which is not done in this
+>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
+>>>> responses a IOMMU device as well. For the genernal purpose, we would
+>>>> be better assuming the device mapping should be done for each device
+>>>> itself. The problem here we only know alloc_devs in those DMAbuf
+>>>> methods, which are DMA-heaps in my design, the device from the queue
+>>>> is not enough, a plane may requests another IOMMU device or table
+>>>> for mapping.
+>>>>=20
+>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
+>>>> ---
+>>>>  drivers/media/common/videobuf2/Kconfig        |   6 +
+>>>>  drivers/media/common/videobuf2/Makefile       |   1 +
+>>>>  .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++++++=
 
-Best regards,
-	Maxim Levitsky
-> 
+>>>>  include/media/videobuf2-dma-heap.h            |  30 ++
+>>>>  4 files changed, 387 insertions(+)
+>>>>  create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-heap.c=
+
+>>>>  create mode 100644 include/media/videobuf2-dma-heap.h
+>>>>=20
+>>>=20
+>>> First of all, thanks for the series.
+>>>=20
+>>> Possibly a stupid question, but why not just allocate the DMA-bufs
+>>> directly from the DMA-buf heap device in the userspace and just import
+>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
+>> Sometimes the allocation policy could be very complex, let's suppose a
+>> multiple planes pixel format enabling with frame buffer compression.
+>> Its luma, chroma data could be allocated from a pool which is delegated
+>> for large buffers while its metadata would come from a pool which many
+>> users could take some few slices from it(likes system pool).
+>>=20
+>> Then when we have a new users knowing nothing about this platform, if we
+>> just configure the alloc_devs in each queues well. The user won't need
+>> to know those complex rules.
+>>=20
+>> The real situation could be more complex, Samsung MFC's left and right
+>> banks could be regarded as two pools, many devices would benefit from
+>> this either from the allocation times or the security buffers policy.
+>>=20
+>> In our design, when we need to do some security decoding(DRM video),
+>> codecs2 would allocate buffers from the pool delegated for that. While
+>> the non-DRM video, users could not care about this.
+>=20
+> I'm a little bit surprised about this, because on Android all the
+> graphics buffers are allocated from the system IAllocator and imported
+> to the specific devices.
+>=20
+In the non-tunnel mode, yes it is. While the tunnel mode is completely vendo=
+r defined. Neither HWC nor codec2 cares about where the buffers coming from,=
+ you could do what ever you want.
+
+Besides there are DRM video in GNU Linux platform, I heard the webkit has ma=
+de huge effort here and Playready is one could work in non-Android Linux.
+> Would it make sense to instead extend the UAPI to expose enough
+> information about the allocation requirements to the userspace, so it
+> can allocate correctly?
+Yes, it could. But as I said it would need the users to do more works.
+> My reasoning here is that it's not a driver's decision to allocate
+> from a DMA-buf heap (and which one) or not. It's the userspace which
+> knows that, based on the specific use case that it wants to fulfill.
+>=20
+Although I would like to let the users decide that, users just can=E2=80=99t=
+ do that which would violate the security rules in some platforms.
+For example,  video codec and display device could only access a region of m=
+emory, any other device or trusted apps can=E2=80=99t access it. Users have t=
+o allocate the buffer from the pool the vendor decided.
+
+So why not we offer a quick way that users don=E2=80=99t need to try and err=
+or.
+> Also, FWIW, dma_heap_ioctl_allocate() is a static function not exposed
+> to other kernel modules:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__elixir.bootlin.com_=
+linux_v5.19_source_drivers_dma-2Dbuf_dma-2Dheap.c-23L52&d=3DDwIBaQ&c=3D7dfBJ=
+8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7=
+PXU-mLTeZE&m=3DHFC3KS_ZU9m61rWQgCO99xSAwnfR3nT8M6h9aW2JYG4-Sy_Uog4xkR8awUOw6=
+5Fe&s=3DTPQwWeG-DdLcgJtaA1cIuQhl3zsHLITkWFV1UNLSFWs&e=3D
+>=20
+I may forget to mention that you need two extra patches from Linaro that exp=
+ort those API(original version is actually out of time). Besides Android ker=
+nel did have the two kAPI I need here.
+Actually I need more APIs from DMA-heap to archive those things in TODO list=
+.
+> By the way, the MFC left/right port requirement was gone long ago, it
+> was only one of the earliest Exynos SoCs which required that.
+>=20
+Yes, MFCv5 or v6 right. I just want mention that the world has any possible,=
+ vendor always has its own reason.
 > Best regards,
-> 	Maxim Levitsky
+> Tomasz
+>=20
+>>>=20
+>>> Best regards,
+>>> Tomasz
+>>>=20
+>>>> diff --git a/drivers/media/common/videobuf2/Kconfig b/drivers/media/com=
+mon/videobuf2/Kconfig
+>>>> index d2223a12c95f..02235077f07e 100644
+>>>> --- a/drivers/media/common/videobuf2/Kconfig
+>>>> +++ b/drivers/media/common/videobuf2/Kconfig
+>>>> @@ -30,3 +30,9 @@ config VIDEOBUF2_DMA_SG
+>>>>  config VIDEOBUF2_DVB
+>>>>         tristate
+>>>>         select VIDEOBUF2_CORE
+>>>> +
+>>>> +config VIDEOBUF2_DMA_HEAP
+>>>> +       tristate
+>>>> +       select VIDEOBUF2_CORE
+>>>> +       select VIDEOBUF2_MEMOPS
+>>>> +       select DMABUF_HEAPS
+>>>> diff --git a/drivers/media/common/videobuf2/Makefile b/drivers/media/co=
+mmon/videobuf2/Makefile
+>>>> index a6fe3f304685..7fe65f93117f 100644
+>>>> --- a/drivers/media/common/videobuf2/Makefile
+>>>> +++ b/drivers/media/common/videobuf2/Makefile
+>>>> @@ -10,6 +10,7 @@ endif
+>>>>  # (e. g. LC_ALL=3DC sort Makefile)
+>>>>  obj-$(CONFIG_VIDEOBUF2_CORE) +=3D videobuf2-common.o
+>>>>  obj-$(CONFIG_VIDEOBUF2_DMA_CONTIG) +=3D videobuf2-dma-contig.o
+>>>> +obj-$(CONFIG_VIDEOBUF2_DMA_HEAP) +=3D videobuf2-dma-heap.o
+>>>>  obj-$(CONFIG_VIDEOBUF2_DMA_SG) +=3D videobuf2-dma-sg.o
+>>>>  obj-$(CONFIG_VIDEOBUF2_DVB) +=3D videobuf2-dvb.o
+>>>>  obj-$(CONFIG_VIDEOBUF2_MEMOPS) +=3D videobuf2-memops.o
+>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-heap.c b/driv=
+ers/media/common/videobuf2/videobuf2-dma-heap.c
+>>>> new file mode 100644
+>>>> index 000000000000..377b82ab8f5a
+>>>> --- /dev/null
+>>>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-heap.c
+>>>> @@ -0,0 +1,350 @@
+>>>> +/*
+>>>> + * Copyright (C) 2022 Randy Li <ayaka@soulik.info>
+>>>> + *
+>>>> + * This software is licensed under the terms of the GNU General Public=
 
+>>>> + * License version 2, as published by the Free Software Foundation, an=
+d
+>>>> + * may be copied, distributed, and modified under those terms.
+>>>> + *
+>>>> + * This program is distributed in the hope that it will be useful,
+>>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>>> + * GNU General Public License for more details.
+>>>> + *
+>>>> + */
+>>>> +
+>>>> +#include <linux/dma-buf.h>
+>>>> +#include <linux/dma-heap.h>
+>>>> +#include <linux/refcount.h>
+>>>> +#include <linux/scatterlist.h>
+>>>> +#include <linux/sched.h>
+>>>> +#include <linux/slab.h>
+>>>> +#include <linux/dma-mapping.h>
+>>>> +
+>>>> +#include <media/videobuf2-v4l2.h>
+>>>> +#include <media/videobuf2-memops.h>
+>>>> +#include <media/videobuf2-dma-heap.h>
+>>>> +
+>>>> +struct vb2_dmaheap_buf {
+>>>> +       struct device *dev;
+>>>> +       void *vaddr;
+>>>> +       unsigned long size;
+>>>> +       struct dma_buf *dmabuf;
+>>>> +       dma_addr_t dma_addr;
+>>>> +       unsigned long attrs;
+>>>> +       enum dma_data_direction dma_dir;
+>>>> +       struct sg_table *dma_sgt;
+>>>> +
+>>>> +       /* MMAP related */
+>>>> +       struct vb2_vmarea_handler handler;
+>>>> +       refcount_t refcount;
+>>>> +
+>>>> +       /* DMABUF related */
+>>>> +       struct dma_buf_attachment *db_attach;
+>>>> +};
+>>>> +
+>>>> +/*********************************************/
+>>>> +/*         callbacks for all buffers         */
+>>>> +/*********************************************/
+>>>> +
+>>>> +void *vb2_dmaheap_cookie(struct vb2_buffer *vb, void *buf_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +
+>>>> +       return &buf->dma_addr;
+>>>> +}
+>>>> +
+>>>> +static void *vb2_dmaheap_vaddr(struct vb2_buffer *vb, void *buf_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +       struct iosys_map map;
+>>>> +
+>>>> +       if (buf->vaddr)
+>>>> +           return buf->vaddr;
+>>>> +
+>>>> +       if (buf->db_attach) {
+>>>> +               if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+>>>> +                       buf->vaddr =3D map.vaddr;
+>>>> +       }
+>>>> +
+>>>> +       return buf->vaddr;
+>>>> +}
+>>>> +
+>>>> +static unsigned int vb2_dmaheap_num_users(void *buf_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +
+>>>> +       return refcount_read(&buf->refcount);
+>>>> +}
+>>>> +
+>>>> +static void vb2_dmaheap_prepare(void *buf_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +
+>>>> +       /* TODO: DMABUF exporter will flush the cache for us */
+>>>> +       if (buf->db_attach)
+>>>> +               return;
+>>>> +
+>>>> +       dma_buf_end_cpu_access(buf->dmabuf, buf->dma_dir);
+>>>> +}
+>>>> +
+>>>> +static void vb2_dmaheap_finish(void *buf_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +
+>>>> +       /* TODO: DMABUF exporter will flush the cache for us */
+>>>> +       if (buf->db_attach)
+>>>> +               return;
+>>>> +
+>>>> +       dma_buf_begin_cpu_access(buf->dmabuf, buf->dma_dir);
+>>>> +}
+>>>> +
+>>>> +/*********************************************/
+>>>> +/*        callbacks for MMAP buffers         */
+>>>> +/*********************************************/
+>>>> +
+>>>> +void vb2_dmaheap_put(void *buf_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +
+>>>> +       if (!refcount_dec_and_test(&buf->refcount))
+>>>> +               return;
+>>>> +
+>>>> +       dma_buf_put(buf->dmabuf);
+>>>> +
+>>>> +       put_device(buf->dev);
+>>>> +       kfree(buf);
+>>>> +}
+>>>> +
+>>>> +static void *vb2_dmaheap_alloc(struct vb2_buffer *vb,
+>>>> +                              struct device *dev,
+>>>> +                              unsigned long size)
+>>>> +{
+>>>> +       struct vb2_queue *q =3D vb->vb2_queue;
+>>>> +       struct dma_heap *heap;
+>>>> +       struct vb2_dmaheap_buf *buf;
+>>>> +       const char *heap_name;
+>>>> +       int ret;
+>>>> +
+>>>> +       if (WARN_ON(!dev))
+>>>> +               return ERR_PTR(-EINVAL);
+>>>> +
+>>>> +       heap_name =3D dev_name(dev);
+>>>> +       if (!heap_name)
+>>>> +               return ERR_PTR(-EINVAL);
+>>>> +
+>>>> +       heap =3D dma_heap_find(heap_name);
+>>>> +       if (!heap) {
+>>>> +               dev_err(dev, "is not a DMA-heap device\n");
+>>>> +               return ERR_PTR(-EINVAL);
+>>>> +       }
+>>>> +
+>>>> +       buf =3D kzalloc(sizeof *buf, GFP_KERNEL);
+>>>> +       if (!buf)
+>>>> +               return ERR_PTR(-ENOMEM);
+>>>> +
+>>>> +       /* Prevent the device from being released while the buffer is u=
+sed */
+>>>> +       buf->dev =3D get_device(dev);
+>>>> +       buf->attrs =3D vb->vb2_queue->dma_attrs;
+>>>> +       buf->dma_dir =3D vb->vb2_queue->dma_dir;
+>>>> +
+>>>> +       /* TODO: heap flags */
+>>>> +       ret =3D dma_heap_buffer_alloc(heap, size, 0, 0);
+>>>> +       if (ret < 0) {
+>>>> +               dev_err(dev, "is not a DMA-heap device\n");
+>>>> +               put_device(buf->dev);
+>>>> +               kfree(buf);
+>>>> +               return ERR_PTR(ret);
+>>>> +       }
+>>>> +       buf->dmabuf =3D dma_buf_get(ret);
+>>>> +
+>>>> +       /* FIXME */
+>>>> +       buf->dma_addr =3D 0;
+>>>> +
+>>>> +       if ((q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) =3D=3D 0)
+>>>> +               buf->vaddr =3D buf->dmabuf;
+>>>> +
+>>>> +       buf->handler.refcount =3D &buf->refcount;
+>>>> +       buf->handler.put =3D vb2_dmaheap_put;
+>>>> +       buf->handler.arg =3D buf;
+>>>> +
+>>>> +       refcount_set(&buf->refcount, 1);
+>>>> +
+>>>> +       return buf;
+>>>> +}
+>>>> +
+>>>> +static int vb2_dmaheap_mmap(void *buf_priv, struct vm_area_struct *vma=
+)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +       int ret;
+>>>> +
+>>>> +       if (!buf) {
+>>>> +               printk(KERN_ERR "No buffer to map\n");
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       vma->vm_flags &=3D ~VM_PFNMAP;
+>>>> +
+>>>> +       ret =3D dma_buf_mmap(buf->dmabuf, vma, 0);
+>>>> +       if (ret) {
+>>>> +               pr_err("Remapping memory failed, error: %d\n", ret);
+>>>> +               return ret;
+>>>> +       }
+>>>> +       vma->vm_flags           |=3D VM_DONTEXPAND | VM_DONTDUMP;
+>>>> +       vma->vm_private_data    =3D &buf->handler;
+>>>> +       vma->vm_ops             =3D &vb2_common_vm_ops;
+>>>> +
+>>>> +       vma->vm_ops->open(vma);
+>>>> +
+>>>> +       pr_debug("%s: mapped memid 0x%08lx at 0x%08lx, size %ld\n",
+>>>> +                __func__, (unsigned long)buf->dma_addr, vma->vm_start,=
+
+>>>> +                buf->size);
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +/*********************************************/
+>>>> +/*         DMABUF ops for exporters          */
+>>>> +/*********************************************/
+>>>> +
+>>>> +static struct dma_buf *vb2_dmaheap_get_dmabuf(struct vb2_buffer *vb,
+>>>> +                                             void *buf_priv,
+>>>> +                                             unsigned long flags)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D buf_priv;
+>>>> +       struct dma_buf *dbuf;
+>>>> +
+>>>> +       dbuf =3D buf->dmabuf;
+>>>> +
+>>>> +       return dbuf;
+>>>> +}
+>>>> +
+>>>> +/*********************************************/
+>>>> +/*       callbacks for DMABUF buffers        */
+>>>> +/*********************************************/
+>>>> +
+>>>> +static int vb2_dmaheap_map_dmabuf(void *mem_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D mem_priv;
+>>>> +       struct sg_table *sgt;
+>>>> +
+>>>> +       if (WARN_ON(!buf->db_attach)) {
+>>>> +               pr_err("trying to pin a non attached buffer\n");
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       if (WARN_ON(buf->dma_sgt)) {
+>>>> +               pr_err("dmabuf buffer is already pinned\n");
+>>>> +               return 0;
+>>>> +       }
+>>>> +
+>>>> +       /* get the associated scatterlist for this buffer */
+>>>> +       sgt =3D dma_buf_map_attachment(buf->db_attach, buf->dma_dir);
+>>>> +       if (IS_ERR(sgt)) {
+>>>> +               pr_err("Error getting dmabuf scatterlist\n");
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       buf->dma_addr =3D sg_dma_address(sgt->sgl);
+>>>> +       buf->dma_sgt =3D sgt;
+>>>> +       buf->vaddr =3D NULL;
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +static void vb2_dmaheap_unmap_dmabuf(void *mem_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D mem_priv;
+>>>> +       struct sg_table *sgt =3D buf->dma_sgt;
+>>>> +       struct iosys_map map =3D IOSYS_MAP_INIT_VADDR(buf->vaddr);
+>>>> +
+>>>> +       if (WARN_ON(!buf->db_attach)) {
+>>>> +               pr_err("trying to unpin a not attached buffer\n");
+>>>> +               return;
+>>>> +       }
+>>>> +
+>>>> +       if (WARN_ON(!sgt)) {
+>>>> +               pr_err("dmabuf buffer is already unpinned\n");
+>>>> +               return;
+>>>> +       }
+>>>> +
+>>>> +       if (buf->vaddr) {
+>>>> +               dma_buf_vunmap(buf->db_attach->dmabuf, &map);
+>>>> +               buf->vaddr =3D NULL;
+>>>> +       }
+>>>> +       dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
+>>>> +
+>>>> +       buf->dma_addr =3D 0;
+>>>> +       buf->dma_sgt =3D NULL;
+>>>> +}
+>>>> +
+>>>> +static void vb2_dmaheap_detach_dmabuf(void *mem_priv)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf =3D mem_priv;
+>>>> +
+>>>> +       /* if vb2 works correctly you should never detach mapped buffer=
+ */
+>>>> +       if (WARN_ON(buf->dma_addr))
+>>>> +               vb2_dmaheap_unmap_dmabuf(buf);
+>>>> +
+>>>> +       /* detach this attachment */
+>>>> +       dma_buf_detach(buf->db_attach->dmabuf, buf->db_attach);
+>>>> +       kfree(buf);
+>>>> +}
+>>>> +
+>>>> +static void *vb2_dmaheap_attach_dmabuf(struct vb2_buffer *vb, struct d=
+evice *dev,
+>>>> +                                      struct dma_buf *dbuf, unsigned l=
+ong size)
+>>>> +{
+>>>> +       struct vb2_dmaheap_buf *buf;
+>>>> +       struct dma_buf_attachment *dba;
+>>>> +
+>>>> +       if (dbuf->size < size)
+>>>> +               return ERR_PTR(-EFAULT);
+>>>> +
+>>>> +       if (WARN_ON(!dev))
+>>>> +               return ERR_PTR(-EINVAL);
+>>>> +       /*
+>>>> +        * TODO: A better way to check whether the buffer is coming
+>>>> +        * from this heap or this heap could accept this buffer
+>>>> +        */
+>>>> +       if (strcmp(dbuf->exp_name, dev_name(dev)))
+>>>> +               return ERR_PTR(-EINVAL);
+>>>> +
+>>>> +       buf =3D kzalloc(sizeof(*buf), GFP_KERNEL);
+>>>> +       if (!buf)
+>>>> +               return ERR_PTR(-ENOMEM);
+>>>> +
+>>>> +       buf->dev =3D dev;
+>>>> +       /* create attachment for the dmabuf with the user device */
+>>>> +       dba =3D dma_buf_attach(dbuf, buf->dev);
+>>>> +       if (IS_ERR(dba)) {
+>>>> +               pr_err("failed to attach dmabuf\n");
+>>>> +               kfree(buf);
+>>>> +               return dba;
+>>>> +       }
+>>>> +
+>>>> +       buf->dma_dir =3D vb->vb2_queue->dma_dir;
+>>>> +       buf->size =3D size;
+>>>> +       buf->db_attach =3D dba;
+>>>> +
+>>>> +       return buf;
+>>>> +}
+>>>> +
+>>>> +const struct vb2_mem_ops vb2_dmaheap_memops =3D {
+>>>> +       .alloc =3D vb2_dmaheap_alloc,
+>>>> +       .put =3D vb2_dmaheap_put,
+>>>> +       .get_dmabuf =3D vb2_dmaheap_get_dmabuf,
+>>>> +       .cookie =3D vb2_dmaheap_cookie,
+>>>> +       .vaddr =3D vb2_dmaheap_vaddr,
+>>>> +       .prepare =3D vb2_dmaheap_prepare,
+>>>> +       .finish =3D vb2_dmaheap_finish,
+>>>> +       .map_dmabuf =3D vb2_dmaheap_map_dmabuf,
+>>>> +       .unmap_dmabuf =3D vb2_dmaheap_unmap_dmabuf,
+>>>> +       .attach_dmabuf =3D vb2_dmaheap_attach_dmabuf,
+>>>> +       .detach_dmabuf =3D vb2_dmaheap_detach_dmabuf,
+>>>> +       .num_users =3D vb2_dmaheap_num_users,
+>>>> +       .mmap =3D vb2_dmaheap_mmap,
+>>>> +};
+>>>> +
+>>>> +MODULE_DESCRIPTION("DMA-Heap memory handling routines for videobuf2");=
+
+>>>> +MODULE_AUTHOR("Randy Li <ayaka@soulik.info>");
+>>>> +MODULE_LICENSE("GPL");
+>>>> +MODULE_IMPORT_NS(DMA_BUF);
+>>>> diff --git a/include/media/videobuf2-dma-heap.h b/include/media/videobu=
+f2-dma-heap.h
+>>>> new file mode 100644
+>>>> index 000000000000..fa057f67d6e9
+>>>> --- /dev/null
+>>>> +++ b/include/media/videobuf2-dma-heap.h
+>>>> @@ -0,0 +1,30 @@
+>>>> +/*
+>>>> + * Copyright (C) 2022 Randy Li <ayaka@soulik.info>
+>>>> + *
+>>>> + * This software is licensed under the terms of the GNU General Public=
+
+>>>> + * License version 2, as published by the Free Software Foundation, an=
+d
+>>>> + * may be copied, distributed, and modified under those terms.
+>>>> + *
+>>>> + * This program is distributed in the hope that it will be useful,
+>>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>>> + * GNU General Public License for more details.
+>>>> + *
+>>>> + */
+>>>> +
+>>>> +#ifndef _MEDIA_VIDEOBUF2_DMA_HEAP_H
+>>>> +#define _MEDIA_VIDEOBUF2_DMA_HEAP_H
+>>>> +
+>>>> +#include <media/videobuf2-v4l2.h>
+>>>> +#include <linux/dma-mapping.h>
+>>>> +
+>>>> +static inline dma_addr_t
+>>>> +vb2_dmaheap_plane_dma_addr(struct vb2_buffer *vb, unsigned int plane_n=
+o)
+>>>> +{
+>>>> +       dma_addr_t *addr =3D vb2_plane_cookie(vb, plane_no);
+>>>> +
+>>>> +       return *addr;
+>>>> +}
+>>>> +
+>>>> +extern const struct vb2_mem_ops vb2_dmaheap_memops;
+>>>> +#endif
+>>>> --
+>>>> 2.17.1
+>>>>=20
+>>=20
+>> --
+>> Hsia-Jun(Randy) Li
 
