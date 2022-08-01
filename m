@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0814A586F90
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C20586FA4
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D1311A1A4;
-	Mon,  1 Aug 2022 17:28:59 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6C648AD1B;
- Mon,  1 Aug 2022 17:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659374930; x=1690910930;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=M74AuQ4AL6LJpGzX0ABXJ3owg2Ahbx+/x9efdgIpSA8=;
- b=jR9n/PXIVN9nXetGjNVjyGQfafERMPVP4egQfkvvi3zyyGLixekDZrku
- mWGn1FIHRQ1oZ9my/hR9Yf6mRAkJqPTeLk+8GbnarFefTNotakkGNgWUs
- SstYkurOqTwZNC8lphc119q69C1uOaux1oLzPhNFfRBHW08RVbBthJP2w
- gkZhYdUAvdL5SU4SHKCLVOCNMBXSWBfAjrnS4KLlQAYC8Yep8HBq0rTv1
- OwGvkWUUQ92AZA8iZmnV/GHuYq3Iy1iBVpRlDXTzE8TBDPHjKi6ODkHQM
- QPXZM6UX9Rh/cvg7YEdrT4YYnLv7Y6maE8Oc9TrAnzPu6wRyet5C0xBQq w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="289976639"
-X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="289976639"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2022 10:28:48 -0700
-X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="552590557"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2022 10:28:48 -0700
-Date: Mon, 1 Aug 2022 10:28:29 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: John.C.Harrison@Intel.com
-Subject: Re: [PATCH 0/1] Move DG2 to GuC v70.4.1
-Message-ID: <20220801172829.GJ14039@nvishwa1-DESK>
-References: <20220728230722.2749701-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD4193BD6;
+	Mon,  1 Aug 2022 17:38:23 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBB68E44D;
+ Mon,  1 Aug 2022 17:38:17 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id m22so6617761lfl.9;
+ Mon, 01 Aug 2022 10:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=ZEofs24gWs056HlATsdo9nk24MrkNe/lc9UM4+Isgr8=;
+ b=Y6aD/NFrfESMvBfbHzvKOWWdDZQzFo2aG0nDV5EzCdNn4dWqhzz55mE6mbkGX4X023
+ w5f+dmNk7z7SwcCdijk0Gcahw2NhGVeHrgPh7AyzIc3O4cZ0amRedlG9Aj2zCWP2Gaw1
+ VDLnkeRuX6DyUR1cfRFhGREXishTcJx85CfewWjc51jacmOqc9rgj0omjylug/jBR/iD
+ YJzuXVhof3t/CpA5FNbIDnp70aZKTec0ly7qX39koUnCNNZiPhjlFQD4ssz9erbDBNU+
+ ZGNIK7s7nKoRiy78/O/sovkFTvOuN2Lt7wAQVl7q0vBBO/ctYd5xNyZ5t3J9nT3ZJOhr
+ aOUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=ZEofs24gWs056HlATsdo9nk24MrkNe/lc9UM4+Isgr8=;
+ b=kJozb5VcLgw3RVwXDvrEqdTGmi133WeATLzdmEPR94IrxVjOF2ywoQIb62LYShms8M
+ F/xKI/N/GqFjAPlEb3Ey6jr22E3ay04lI/fY/7R0y0k0zcY5PBObT+mjZ6AYEGuSm/B3
+ nN+qYqBASK4QcfG8Mv06e83KOnMhSuz9yf15+OcsCY0SUCHuNAeTH28Y9PPg6yV53+k0
+ 7noOKWoZmzFdNPXovIY9kv5BxqZhpX7bfFaTQqZm39kY5MZMr77Kqm/HZvYIugpf9Wq3
+ C7HXcQX6fU7ATy2llb3LYzPv1fHLfPyOIBnammblRD63KlGNDdhJ9lmiJixgA5Cm31PS
+ WpBg==
+X-Gm-Message-State: AJIora/ivfyN9VWIriFT+1tumjhTusEmkSzs5rvzDpj4VSx954j5uSsn
+ QOJNEt6BYu9P3fcyqZOuYdjISbK/eSPrRqLHo1A=
+X-Google-Smtp-Source: AGRyM1uH70a7t4bA3N9awioJlcyh926xaZ5LmjMqI/SMlNSixVeVv7X58I/Su0ACuAScAp5/nzenLH2wV2YKiMFTjBI=
+X-Received: by 2002:ac2:4f03:0:b0:481:50f7:ac07 with SMTP id
+ k3-20020ac24f03000000b0048150f7ac07mr5615148lfr.422.1659375495569; Mon, 01
+ Aug 2022 10:38:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220728230722.2749701-1-John.C.Harrison@Intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20220708162632.3529864-1-bjorn.andersson@linaro.org>
+In-Reply-To: <20220708162632.3529864-1-bjorn.andersson@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 1 Aug 2022 10:38:41 -0700
+Message-ID: <CAF6AEGuWj_7MPaYCcQa+ewr2MsLGNttKO=HVqmb72SPEemmizw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/gpu: Drop qos request if devm_devfreq_add_device()
+ fails
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-GFX@Lists.FreeDesktop.Org, DRI-Devel@Lists.FreeDesktop.Org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 28, 2022 at 04:07:21PM -0700, John.C.Harrison@Intel.com wrote:
->From: John Harrison <John.C.Harrison@Intel.com>
+On Fri, Jul 8, 2022 at 9:24 AM Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
 >
->The latest GuC release contains a bunch of fixes for DG2. Start using
->it.
+> In the event that devm_devfreq_add_device() fails the device's qos freq
+> list is left referencing df->idle_freq and df->boost_freq. Attempting to
+> initialize devfreq again after a probe deferral will then cause invalid
+> memory accesses in dev_pm_qos_add_request().
 >
->Note that some of these fixes require i915 side support which will
->follow in separate patches.
+> Fix this by dropping the requests in the error path.
+>
+> Fixes: 7c0ffcd40b16 ("drm/msm/gpu: Respect PM QoS constraints")
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-So, this patch series has a dependency on those i915 fixes required?
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-Niranjana
-
+> ---
+>  drivers/gpu/drm/msm/msm_gpu_devfreq.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
->Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> index c2ea978c8921..21e271a318ee 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> @@ -198,6 +198,8 @@ void msm_devfreq_init(struct msm_gpu *gpu)
 >
->
->John Harrison (1):
->  drm/i915/dg2: Update DG2 to GuC v70.4.1
->
-> drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->-- 
->2.37.1
+>         if (IS_ERR(df->devfreq)) {
+>                 DRM_DEV_ERROR(&gpu->pdev->dev, "Couldn't initialize GPU devfreq\n");
+> +               dev_pm_qos_remove_request(&df->idle_freq);
+> +               dev_pm_qos_remove_request(&df->boost_freq);
+>                 df->devfreq = NULL;
+>                 return;
+>         }
+> --
+> 2.35.1
 >
