@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BBB586C85
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 16:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2572586C82
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 16:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15B7E14B1BF;
-	Mon,  1 Aug 2022 13:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9DEC14A45B;
+	Mon,  1 Aug 2022 13:58:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB80DC0AC6
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:50:33 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EE3DF4DF11;
- Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1659361831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=raR5oTMFAEw6H259zs6BoIPEDKNiUxVjC/LRRvYTjK8=;
- b=JUiNd1l/BNhZwbvfwfQMWcDN0yvPIR0HmRA811JVm80m52a3Igp2of/acg2J/Z436r4TY3
- 3wbrn6r2t40SJ3vG37YTe768dXjbEWj3MvyendWv9abeJr5u8B7Xb5zjW9Da/xBW8+5My+
- Bn/fpRXyE4mH7//5JxSYJn5pLI9QaoE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1659361831;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=raR5oTMFAEw6H259zs6BoIPEDKNiUxVjC/LRRvYTjK8=;
- b=LggrkZvKzIHAwedVCv1gx13kJOW6zb/TM2nJijcoSNYoh9nCXJxSrVuUyx2GaSFPQbIFgg
- /iI7o04cYwls2zDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAA0213A72;
- Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6FmcMCfa52IDRwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 01 Aug 2022 13:50:31 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, geert@linux-m68k.org, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v3 4/5] drm/simpledrm: Compute framebuffer stride if not set
-Date: Mon,  1 Aug 2022 15:50:27 +0200
-Message-Id: <20220801135028.30647-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220801135028.30647-1-tzimmermann@suse.de>
-References: <20220801135028.30647-1-tzimmermann@suse.de>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61015C3B32;
+ Mon,  1 Aug 2022 13:53:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659361987; x=1690897987;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=CPvBQH1FedYAX9FU/4Wrfdczss9r4R9ly/4TTGjKkDE=;
+ b=Es2eiMDnOMmLSYMZudEtppAaI1WTKRq+ei7O0M8YPMHEZx+lGeN7bJxp
+ 24ILjzIgRaCeoYtxgsa3tE+3tccYlNK2YovFSrn2JzLCTFSdLxFx2bfGf
+ V7RocZA3RfCc7h4cu9YYWv3smS8P21d1M/xNZ8iIw69HFgeI5kZniCbWu
+ EftIwtI6IH5cEIpP69ZjH29WULLG3d2TM/w2ENNPptCeqJCVSLp19xTyZ
+ wPbiMmXZhGOlzl8dZcyjW8pn3hnFhqngQsUkK6IGy2wsebg88PeyvPkmj
+ IO3wXV0GTJrMCSCJprylieI/d5HETZwxIRD07ltEk4IR0fbcjLH8L+Aj6 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="289921050"
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="289921050"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 06:53:07 -0700
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="661157798"
+Received: from ideak-desk.fi.intel.com ([10.237.72.175])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 06:53:05 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 3/3] drm/amd/display: Fix static declaration follows
+ non-static declaration compiler warn
+Date: Mon,  1 Aug 2022 16:52:59 +0300
+Message-Id: <20220801135259.3039679-3-imre.deak@intel.com>
+X-Mailer: git-send-email 2.31.1.189.g2e36527f23
+In-Reply-To: <20220801135259.3039679-1-imre.deak@intel.com>
+References: <20220801135259.3039679-1-imre.deak@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,36 +57,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Alan Liu <HaoPing.Liu@amd.com>, intel-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compute the framebuffer's scanline stride length if not given by
-the simplefb data.
+Fix the
 
-v3:
-	* get pixel size from drm_format_info_bpp() (Geert, Javier)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:951:13: error: static declaration of ‘get_min_max_dc_plane_scaling’ follows non-static declaration
+  951 | static void get_min_max_dc_plane_scaling(struct drm_device *dev,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:36:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.h:39:6: note: previous declaration of ‘get_min_max_dc_plane_scaling’ with type ‘void(struct drm_device *, struct drm_framebuffer *, int *, int *)’
+   39 | void get_min_max_dc_plane_scaling(struct drm_device *dev,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+complier warning.
+
+Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes")
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Harry Wentland <Harry.Wentland@amd.com>
+Cc: Alan Liu <HaoPing.Liu@amd.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 9d27608d7369..11a7348ccf4d 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -743,6 +743,9 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 		drm_err(dev, "no simplefb configuration found\n");
- 		return ERR_PTR(-ENODEV);
- 	}
-+	if (!stride)
-+		stride = DIV_ROUND_UP(drm_format_info_bpp(format, 0) * width, 8);
-+
- 	sdev->mode = simpledrm_mode(width, height);
- 	sdev->format = format;
- 	sdev->pitch = stride;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+index 95168c2cfa6fa..eeeec391f4b53 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+@@ -36,10 +36,6 @@ int fill_dc_scaling_info(struct amdgpu_device *adev,
+ 			 const struct drm_plane_state *state,
+ 			 struct dc_scaling_info *scaling_info);
+ 
+-void get_min_max_dc_plane_scaling(struct drm_device *dev,
+-				  struct drm_framebuffer *fb,
+-				  int *min_downscale, int *max_upscale);
+-
+ int dm_plane_helper_check_state(struct drm_plane_state *state,
+ 				struct drm_crtc_state *new_crtc_state);
+ 
 -- 
 2.37.1
 
