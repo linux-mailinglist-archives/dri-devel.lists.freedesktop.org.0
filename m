@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555A6586C6F
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 15:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EEA586C83
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 16:03:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51590C3CE4;
-	Mon,  1 Aug 2022 13:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD548C4329;
+	Mon,  1 Aug 2022 13:57:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E692C2EDB;
- Mon,  1 Aug 2022 13:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659361985; x=1690897985;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fHW/DZnRidfn52Gk2JhscN5xBiq6sdhJgZX8TCu4pRs=;
- b=KCA9e8zNtbRium0G/6h0a5FUj3dwnKiWsYYjHA5+Em6SEetTZBRN/1ce
- rg/wZnWqT5qGNYZ7NmkDPvd+2hYCivHGP0QbSFio8S1Hjri32977TwfZQ
- sdeyOsmRJ/4JOIyyUDp0isq9iX+vvxCUFaurVm4by524Ut1rtBiNecoFP
- vokeaUF4rQjwlThZ7ms+H81gJBxWf2fCJ/bU6qwub0L3VUnDzZALTPJQ8
- MTh97kRgnoM2Zk9utfS1Sx8ULgcm7I/NTVNcG41onnPlnnT3K124KByZT
- mIfO2HkTq9FJRo3L4MpiuHMscBBMPk0I7L3x9U/1u9e+24IbBVG1+7vvK g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="289921046"
-X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="289921046"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2022 06:53:05 -0700
-X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="661157793"
-Received: from ideak-desk.fi.intel.com ([10.237.72.175])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2022 06:53:03 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/amd/display: Fix 'no previous prototype' compiler
- warns in amdgpu_dm_plane.c
-Date: Mon,  1 Aug 2022 16:52:58 +0300
-Message-Id: <20220801135259.3039679-2-imre.deak@intel.com>
-X-Mailer: git-send-email 2.31.1.189.g2e36527f23
-In-Reply-To: <20220801135259.3039679-1-imre.deak@intel.com>
-References: <20220801135259.3039679-1-imre.deak@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB0DC2AAA
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 13:50:33 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C87DB66F62;
+ Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659361831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i+Ukcq0L/VDgL6LldtANlmqa+RYUdHWOf9CIBxm5wH4=;
+ b=eSPyOSRfN2dZKBqQSzr/fRfPV294LcJRWKpSwiv1bgxi7DZnNxOLy07K4GAzMIrBwVbEFR
+ 7sO00dwhF3ZWxbpRuTu71pK3+rnYa9Q8KvDRzi3jLlnoclcqRW3f+fZA7yaxkOIQETQJmK
+ iVeC3z4gIqJbO1hYZE9EShUz292d8U0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659361831;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i+Ukcq0L/VDgL6LldtANlmqa+RYUdHWOf9CIBxm5wH4=;
+ b=psBnotvplcdrEe6dUs50/feWmmWySMqqHn9aUiKpr8esN15M/okoSNDxp1UpedzTR3czz5
+ MiVJ3W66xETuI4Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3A2413ADF;
+ Mon,  1 Aug 2022 13:50:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AKAfJyfa52IDRwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 01 Aug 2022 13:50:31 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, geert@linux-m68k.org, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v3 3/5] drm/simpledrm: Remove pdev field from device structure
+Date: Mon,  1 Aug 2022 15:50:26 +0200
+Message-Id: <20220801135028.30647-4-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220801135028.30647-1-tzimmermann@suse.de>
+References: <20220801135028.30647-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,39 +67,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <HaoPing.Liu@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- intel-gfx@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix compiler warnings like the following triggered by
-'-Wmissing-prototypes':
+Replace the remaining uses of the field pdev by upcasts from the Linux
+device and remove the field.
 
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.o
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:83:31: warning: no previous prototype for â€˜amd_get_format_infoâ€™ [-Wmissing-prototypes]
- const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
-
-Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes")
-Cc: Harry Wentland <Harry.Wentland@amd.com>
-Cc: Alan Liu <HaoPing.Liu@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/tiny/simpledrm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 5eb5d31e591de..da3b086b0d6ef 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -33,6 +33,7 @@
- #include "amdgpu.h"
- #include "dal_asic_id.h"
- #include "amdgpu_display.h"
-+#include "amdgpu_dm_plane.h"
- #include "amdgpu_dm_trace.h"
- #include "gc/gc_11_0_0_offset.h"
- #include "gc/gc_11_0_0_sh_mask.h"
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index f458e8bec63e..9d27608d7369 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -198,7 +198,6 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
+ 
+ struct simpledrm_device {
+ 	struct drm_device dev;
+-	struct platform_device *pdev;
+ 
+ 	/* clocks */
+ #if defined CONFIG_OF && defined CONFIG_COMMON_CLK
+@@ -271,7 +270,7 @@ static void simpledrm_device_release_clocks(void *res)
+ static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
+ {
+ 	struct drm_device *dev = &sdev->dev;
+-	struct platform_device *pdev = sdev->pdev;
++	struct platform_device *pdev = to_platform_device(dev->dev);
+ 	struct device_node *of_node = pdev->dev.of_node;
+ 	struct clk *clock;
+ 	unsigned int i;
+@@ -369,7 +368,7 @@ static void simpledrm_device_release_regulators(void *res)
+ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
+ {
+ 	struct drm_device *dev = &sdev->dev;
+-	struct platform_device *pdev = sdev->pdev;
++	struct platform_device *pdev = to_platform_device(dev->dev);
+ 	struct device_node *of_node = pdev->dev.of_node;
+ 	struct property *prop;
+ 	struct regulator *regulator;
+@@ -701,7 +700,6 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 	if (IS_ERR(sdev))
+ 		return ERR_CAST(sdev);
+ 	dev = &sdev->dev;
+-	sdev->pdev = pdev;
+ 	platform_set_drvdata(pdev, sdev);
+ 
+ 	/*
 -- 
 2.37.1
 
