@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBA4586E3F
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 18:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F87586E93
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 18:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8503C9370E;
-	Mon,  1 Aug 2022 16:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E21CD95F99;
+	Mon,  1 Aug 2022 16:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328838B2B0
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 16:04:57 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 19AD780CF3;
- Mon,  1 Aug 2022 18:04:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1659369894;
- bh=2vuaz6TtAMRZ+lCHQF9fQ+7LuYkGeNO+Ge3sIy9ibfI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WkacSSj4YAMS6krdfuL18BiFyxj3/E8y2vj62NXCzubBB/gVO+zW5mOovLW9L4UMA
- MR6K03mlJlzeoeOWU4ceQyIcNzVr5jmz/oCKY6cEFfMDAWacKtPXqBcW4DLRwgWt8H
- qB04H1L5T8ZJleVUoHgVwQrlvTcr8+KoTrBZhxLj/BKlu9HUtljIfv5A2C28ZGGWAe
- +SGQbHeqLOQbLfWQmFdIwABIZVLG3iMulN0rBieaYRFj5+H9hmQ949A+U0R0SRTpyv
- 81DRNtNmZT6w+P4Jne4Xf4HyzEjHM4eRUFyaNT0kFO9k6uArZNplSA2wmAjMiY2fMD
- 2Xp6DFFrng+lg==
-Message-ID: <f1edd1a3-05d3-2476-f678-298aa145b71e@denx.de>
-Date: Mon, 1 Aug 2022 18:04:53 +0200
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28FC95F99
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 16:32:40 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id h145so8770628iof.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 09:32:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=P77IYnhQDubE2Ls3jmoSKfwkpvjmalaSlppSMIKTGTM=;
+ b=URpUGfy+xAdRfco8Z8oF5AOsgAPH1COSq9cG2hoLh/pXBTofKWT4hDvaP2mrxksGt3
+ fWOUDL1CtY6jIxo07NDTomXSpm64jyDGZGdggwLHSdm71h6xoYWxEHRTjVrYNnxwjP/f
+ Mn7JCMDrmA4DDHy3g5ZhGqlad/1XmsknF7IQaqbV4OrqtskGfrNV6pfAlG6/wYR6g0m1
+ TGwxBaAHgRE05MyRFl3vZQqZayQ0SuDJuIl5maNYu8aUOcxtaR74yrssTutERU4CeaQv
+ ohHb4FqKtTVuI8h0qoQlbDpdsUO0x3JCIYRBi/u7u75EO1diCJP/Ngf37uumCYv2mHau
+ KPUQ==
+X-Gm-Message-State: AJIora/4Yiq7vGtAQ8GXRGlypoD5oN2hiGz5cNTOrdT4vlfax3qJANs+
+ D+Kmq69SAImDuH25FoaVmg==
+X-Google-Smtp-Source: AGRyM1sGSDz3McDNYyjHmCnx+CCO6rr6pBD+ZJoy5Rch8LwJhbnibMSs+18u9nKe27M/R15G0H8FIg==
+X-Received: by 2002:a05:6638:2103:b0:341:4a1b:c551 with SMTP id
+ n3-20020a056638210300b003414a1bc551mr6588973jaj.87.1659371559878; 
+ Mon, 01 Aug 2022 09:32:39 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ y14-20020a5e870e000000b0067bd7f5f964sm5934051ioj.7.2022.08.01.09.32.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 09:32:39 -0700 (PDT)
+Received: (nullmailer pid 1137649 invoked by uid 1000);
+ Mon, 01 Aug 2022 16:32:38 -0000
+Date: Mon, 1 Aug 2022 10:32:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: icn6211: Add support
+ for RGB/BGR swap
+Message-ID: <20220801163238.GA1130127-robh@kernel.org>
+References: <20220801131901.183090-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Add and use hs_rate and lp_rate
-Content-Language: en-US
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20220801131113.182487-1-marex@denx.de>
- <CAPY8ntCowWODtQtSHoPkjL2_XjVQCW8Fduutt3rYAZ=e9MZT_A@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAPY8ntCowWODtQtSHoPkjL2_XjVQCW8Fduutt3rYAZ=e9MZT_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220801131901.183090-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,79 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/1/22 16:55, Dave Stevenson wrote:
-> Hi Marek
+On Mon, Aug 01, 2022 at 03:19:00PM +0200, Marek Vasut wrote:
+> The ICN6211 is capable of swapping the output DPI RGB/BGR color channels,
+> document a DT property to select this swap in DT. This can be useful on
+> hardware where such swap happens.
 
-Hi,
+We should ensure this series[1] works for you instead.
 
-> On Mon, 1 Aug 2022 at 14:12, Marek Vasut <marex@denx.de> wrote:
->>
->> Fill in hs_rate and lp_rate to struct mipi_dsi_device for this bridge and
->> adjust DSI input frequency calculations such that they expect the DSI host
->> to configure HS clock according to hs_rate.
+
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../devicetree/bindings/display/bridge/chipone,icn6211.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> I think this falls into another of the areas that is lacking in the DSI support.
-> hs_rate is defined as the *maximum* lane frequency in high speed
-> mode[1]. As documented there is no obligation on the DSI host to
-> choose this specific rate, just some frequency below it and above or
-> equal to that required by the pixel clock. At a system level, the link
-> frequency is often prescribed for EMC purposes.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> index 18563ebed1a96..e721dd76e6640 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> @@ -33,6 +33,12 @@ properties:
+>          Optional external clock connected to REF_CLK input.
+>          The clock rate must be in 10..154 MHz range.
+>  
+> +  blue-and-red-swap:
 
-The reduced upper limit could likely be defined by a DT property, but 
-that's not hard to add.
+'swap' assumes I know the default order and I don't. Better to make the 
+property name describe the end result. ('invert' properties have the 
+same issue)
 
-> The issue is then that the SN65DSI83 is configured to use the DSI
-> clock lane as the source for the PLL generating the LVDS clock,
-> therefore with no route for the DSI peripheral to query the link
-> frequency chosen by the host, you're stuck.
+> +    description:
+> +      If defined, the DPI output blue and red channels are swapped,
+> +      i.e. RGB becomes BGR.
+> +    type: boolean
+> +
+>    enable-gpios:
+>      description: Bridge EN pin, chip is reset when EN is low.
 
-At least making the host pick the highest supported frequency means we 
-have a well defined link frequency which either is accepted by both ends 
-or not at all, instead of the current guesswork on both ends, bridge and 
-host.
+Rob
 
-Regarding reduction of the maximum hs_rate, see above, probably use a DT 
-property. Regarding check for hs_rate below minimum possible rate, 
-likely something the DSI host should do based on desired mode .
+[1] https://lore.kernel.org/r/20220628181838.2031-3-max.oss.09@gmail.com
 
-If you are looking for some frequency negotiation starter, look at:
-[RFC][PATCH 0/7] drm/bridge: Add support for selecting DSI host HS clock 
-from DSI bridge
-
-> SN65DSI83 also supports non-burst mode (as currently), so how would
-> this be configured now?
-> Does MIPI_DSI_MODE_VIDEO_BURST [2] oblige the DSI host to run in burst
-> mode, or say that burst mode is supported by the peripheral?
-
-My understanding is that it is the former -- if the flag is set, the DSI 
-host must operate the device in burst mode.
-
-> What if
-> your DSI host doesn't support burst mode and it is optional on your
-> peripheral?
-
-The limit still applies. In the sync pulses mode, you can still run the 
-link at high frequency, it's just that the DSI data lanes won't go into 
-LP mode between bursts of data, they would stuff the link with NOPs 
-instead, as far as I can tell.
-
-> I raised these questions and others at [3], but largely got no real answers.
-> 
-> 
-> The patch does exactly what you describe and has value, but without
-> definition in the frameworks of exactly how burst mode must be
-> implemented by the DSI host, I would say that it's going to cause
-> issues.
-> I am aware of users of your driver with the Raspberry Pi, but your
-> expectation isn't currently valid on the Pi as there is no definition
-> of the correct thing for the host to do.
-
-This patch actually helped me deal with stability issues on MX8M . Of 
-course, the DSIM driver has to handle the case where bridge provides 
-hs_rate and configure its PLL accordingly. That's a two-liner patch.
