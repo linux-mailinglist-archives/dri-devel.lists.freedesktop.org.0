@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9FA5871FD
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 22:08:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99ABC5871FE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 22:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDCD12A702;
-	Mon,  1 Aug 2022 20:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C55992BB55;
+	Mon,  1 Aug 2022 20:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F9E10E212
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 20:07:28 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id a7so9365299ejp.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 13:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=dM75XEwFU5CbiGRXcEpaIYQB6b03v9H4wzpeMmKaTgk=;
- b=LYlztePAEJ2AR3JYWDBFtZ3dDQRZSbMAj+XFcthBsl3pBXZqprQFMOHZwwbFTGLOKx
- Kcc5sHUB2ovvR1uPTOKjlEKx4fAHAfeDxvzpuG1rxkxvLqeODXbWDMxaO8kT6TXyGXKp
- nelGiqXplCHeWya10cSQlxq30U76m08sgRAaXBd+mSp97UcJxSQEQ+YAuDAYXkPMcQZJ
- QWofxAa7sdyEA4SoI9RKrfTc6287QDZGBAmDinTsSHGhp7lIIVEHwGPok8xr7p9JNqse
- dinisRZYsfERxKgNA1olrNs9Ds8FbKWw2pvKlAzoW/yXKMSYqy/lt61xttNLi4ytim2p
- 9J2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=dM75XEwFU5CbiGRXcEpaIYQB6b03v9H4wzpeMmKaTgk=;
- b=pcEzC271GE7Zl1Axcf0ctZ99SCtv+lnIlSUMo4xJbnmkN0PvHkoydoWTWeEzCJpZOe
- tyQ6dhfsSEZ+dkRkSLgu5bwr6jY/BuzkTQGmL1aZrxA/LyyQWGEcDUGKgTMln5rwBdK6
- rFsFmnXcFGnZ57K+a8CFCjbaK7CKfSUkzBE7SrAt634yg0gHqbXC6QTl18CQdxhQUrN1
- zsvzmCTBSZTtV3Nqcuj+l+t3Q5ct2PVHSfj2jtSGvYXrDltsMkNI0Xn1sgHxYnIj3nPD
- 8YMg56quzagSZXAengYQzt48CYcdpyjW+rqmtoDl6bF5Phr71hxViADz3/3ssS0nfmP6
- Et6g==
-X-Gm-Message-State: AJIora+fIscoSZUOi3CKQrl8jtN0hC7WWbL4vZr+52oOl3hlWvTAsEIC
- yuV6O4imyky95Bg584L/kR5BwYyqE8GW/oEkQnM=
-X-Google-Smtp-Source: AGRyM1uexHlNzjAEWlTkuhlfGVVKV9MRLa+HenftvIKqi3rwguQ7/nrBYx0l41AbyHlSKpZlsYS3aD9ELhcedZFNS2k=
-X-Received: by 2002:a17:907:2724:b0:72b:496c:568a with SMTP id
- d4-20020a170907272400b0072b496c568amr13821421ejl.305.1659384446832; Mon, 01
- Aug 2022 13:07:26 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FB5718A92C;
+ Mon,  1 Aug 2022 20:08:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1659384504; x=1690920504;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Z2sKdEmuR5GzYMOhpZvEQcMlZYe/O/eQFVyPPPVjpGM=;
+ b=zBwNSxd52hJpSeNoOxGh7lP1qn3YwJ5vJC4yBaeWO3/d0H/7eIcNi6h9
+ 9Y2Nv/4rDHJZ3Zm2ch9lUU/4Siv/pmx6NtyhgYy3A//Zx41xHhxW2OmaX
+ aa6hEAJgE9itePzEdJivB0wLdd+0e8hSfRgctn0fdD9eWZn/T2DyG/xdA 8=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Aug 2022 13:08:23 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 13:08:22 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 1 Aug 2022 13:08:22 -0700
+Received: from [10.110.16.215] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 1 Aug 2022
+ 13:08:20 -0700
+Message-ID: <89f3dfa2-0983-5e33-281f-94539492d1d2@quicinc.com>
+Date: Mon, 1 Aug 2022 13:08:13 -0700
 MIME-Version: 1.0
-References: <CAHCN7xJ=N1vWVTBjArskJ59fyaLzmAGWfc0E=_iGizrDNR_Udw@mail.gmail.com>
- <CAOMZO5BAheG4r1Umnd7bLhOqezsxJgE0x1c-858EcabbpPm6Pg@mail.gmail.com>
-In-Reply-To: <CAOMZO5BAheG4r1Umnd7bLhOqezsxJgE0x1c-858EcabbpPm6Pg@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 1 Aug 2022 15:07:15 -0500
-Message-ID: <CAHCN7xLDPvQ__WJPeCptvq7mFtF3v3TGAG_vyDBxSdoqWwoO8A@mail.gmail.com>
-Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
-To: Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix tps4
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1659382970-17477-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52=zJ0ScrknAhsvJQc5hXP7+TGaoa4gnaVzsT26bQL_Uw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n52=zJ0ScrknAhsvJQc5hXP7+TGaoa4gnaVzsT26bQL_Uw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +68,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>,
- Robert Foss <robert.foss@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 1, 2022 at 2:33 PM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Hi Adam,
->
-> On Sat, Jul 30, 2022 at 12:16 PM Adam Ford <aford173@gmail.com> wrote:
-> >
-> > Hey all,
-> >
-> > I am trying to test Jagan's patch series [1] to add support for the
-> > samsung dsim bridge which is used on the imx8mm to output DSI video.
-> > The DSIM gets the video from the mxsfb, and in my case, the DSI is
-> > sent to the adv7535 for connecting to HDMI.
->
-> I had to add some extra patches on top of Jagan's imx8mm-dsi-v3 to get
-> HDMI output functional on a imx8mm-evk via ADV7535:
->
-> https://github.com/fabioestevam/kernel/commits/imx8mm-dsi-v3
->
-> Does it work on your board?
 
-I'll give them a try tonight.  I managed to get a hold of an adv7535
-user manual, and there are some items that it appears NXP did in their
-downstream kernel that never got pushed upstream. Based on my review
-of some of the changes, some of the NXP changes seem reasonable to me.
-If/when I can get it working, I'll try to report back some of my
-findings and push driver changes to the adv7535 as I find them.
 
-adam
+On 8/1/2022 12:51 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-08-01 12:42:50)
+>> Data Symbols scrambled is required for tps4 at link training 2.
+>> Therefore SCRAMBLING_DISABLE bit should not be set for tps4 to
+>> work.
+>> RECOVERED_CLOCK_OUT_EN is for enable simple EYE test for jitter
+>> measurement with minimal equipment for embedded applications purpose
+>> and is not required to be set during normal operation.
+>> Current implementation always have RECOVERED_CLOCK_OUT_EN bit set
+>> which cause SCRAMBLING_DISABLE bit wrongly set at tps4 which prevent
+>> tps4 from working.
+>> This patch delete setting RECOVERED_CLOCK_OUT_EN to fix SCRAMBLING_DISABLE
+>> be wrongly set at tps4.
+>>
+>> Fixes: 956653250b21 ("drm/msm/dp: add support of tps4 (training pattern 4) for HBR3")
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index ab6aa13..013ca02 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1214,7 +1214,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+>>          if (ret)
+>>                  return ret;
+>>
+>> -       dp_ctrl_train_pattern_set(ctrl, pattern | DP_RECOVERED_CLOCK_OUT_EN);
+>> +       dp_ctrl_train_pattern_set(ctrl, pattern);
+> This line is from the first patch introducing this driver. Even if this
+> is fixing tps4 support, it sounds like the bit should never have been
+> enabled in the first place. Why isn't the fixes tag targeted at the
+> first commit? Does it hurt to apply it without commit 956653250b21?
+agree, it should be fixed to first patch
