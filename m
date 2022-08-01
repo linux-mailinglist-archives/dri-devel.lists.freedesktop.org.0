@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1DC586EBA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 18:39:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24686586F38
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:05:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C94113B3C;
-	Mon,  1 Aug 2022 16:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B2EF2AF7A;
+	Mon,  1 Aug 2022 17:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF8011AD45
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Aug 2022 16:38:44 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id r4so6763570edi.8
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 09:38:44 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F9011BA6A;
+ Mon,  1 Aug 2022 17:04:28 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ s5-20020a17090a13c500b001f4da9ffe5fso5822059pjf.5; 
+ Mon, 01 Aug 2022 10:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=nU1GnPIuVRRBbVgvjKUW8zO6vMC9UQ9iLWl6VrggR6M=;
- b=LRJm3enBK8X/1DDHZ8wd8ir49jVGJ71j3SmUg+hxZ9dlqwbPe6h4VckjyfVv7kHw85
- XwrZOOklZ/risaIPDo5ji97z06bxIOSlQQ6NV8uAvw9FM72yWwpNfHzymv9Z8LaA7YSV
- fnv85kXex1FS76q/lcsOlgjeUR0tPAbSve4A7rW0d9aw1kl8WUCeteCVdCcXPZ6apO0o
- yK1Y2zliHok6+WZeMK1G8ZQULO2WYl2GlAmuumT6MDJPpphjJnmo5dT/f2rkbUxZyZ7n
- UhaVtwaKl515uHSTKhsM5F2do9agh74bMjHEd083TV9Sxy/LkHdmdSBI7omZ27v8wrB5
- zmGg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=xOX9chVYPROOGAwdmaGgZcPW07GxLyOUqTmIVsiyRrY=;
+ b=APqGvEY9aCng9joJBKu4D5mC2tl8a1Y345jPp7UNZbhXrBCzYzipvvUw6DJuz/DyMh
+ xUwH38OxWdYI5ubyyM9eYy7A9keEqSdj6kjsrM1r0EO0opDIPanW7or/+pN6ouFdYpeE
+ cUg5u+pTWdd7+6lgxaDAeWdasptlCzw/MG+OdazqsPSBJcITD1rGEZ43khcN5DYRdNBc
+ mpBZbCLB+Ci36ZBqqwamfhQpbdvIK6X4S77rJX2aagCc76p1sMjOPa+Ms5vR1p1VKdCg
+ THWheImhu7rAq+i/2t1MpySjeVhjTTaw0oHSWovn0rE/Yrxe8EwMIJ8mfKpklG2R6+t3
+ 2BAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=nU1GnPIuVRRBbVgvjKUW8zO6vMC9UQ9iLWl6VrggR6M=;
- b=s3Gu20r8iC7TBLv3kZo20jB7Cy85X6SHKIO9v1OvLNTXPvCF68t3a0wK4Fp35gn13U
- ZyN44o1mRBtHPWd9CjQICm8EM9TNVK0USsqRyFe1yzD007WO1q37JL9zIrh7z8B5QZ+S
- ZZmNUgLKg7nN4f0jCDVpGLok5TZ73B7CAAK9dW2fv3NyBpGvzqGHFHDoJ0RexvcPK4l/
- W4PI9yJvMyFYW4iDbdPZMrgoS+WIAxW1Mgv/8C26CkJs81vfRpktjGrWMuJdfpfgOeK8
- wn5luCeD0Vdrsfozcr2qq/dweoZxm3gEaeshV9NBwShZ8r+PJ8oLAdghYyyH/LAXr5pu
- I65w==
-X-Gm-Message-State: AJIora/hBYOoP+J5O58c5lBqncOA76DiIP+SbdLinAl50rsKRx3fLES4
- Ztm4YaVHMt05S6hRh12js9enEC/nghcKh1jlONM=
-X-Google-Smtp-Source: AGRyM1vLIoWT+glKyXibgKyptZbO+7IYEqyk7if6CMncD99NPJSb3B50Qv4I3vhWlTPNi9kBF94tPj6z+0VVKTgy4uY=
-X-Received: by 2002:aa7:da92:0:b0:43c:c5af:d5c9 with SMTP id
- q18-20020aa7da92000000b0043cc5afd5c9mr16808106eds.10.1659371922963; Mon, 01
- Aug 2022 09:38:42 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=xOX9chVYPROOGAwdmaGgZcPW07GxLyOUqTmIVsiyRrY=;
+ b=YvzRLULUI67pDm0ECpjna5tYGI6/fiw2XIo/UNLa6Faq0nKRwTsoN8SZsosejwbpv3
+ PT5PbwzgRjB6p7VespEuK6qF9WlI3gWtuWmaWBkKzP5eVFUzG/DWieNXNnd44E0xpJJV
+ poQZVtJopSxQZA+JdtXIng5s8f5nOr3G6kk0RAkx1R+TfRThhLuBPb+1Mrv5pHzmotrZ
+ X9pj2IbJlCfnN2VQT7dECpqwWeFdp2zF0PUvCioNFnX0SH2IsPsqXe6AqDOvHHCErFuK
+ uXF9U3s53OGXfH/YElBtEtHUS+rxvzRh4XxCeH+QWIB8mBoLhKWyzTtCVp2APu8bPf5n
+ WZgA==
+X-Gm-Message-State: ACgBeo13grJ813DgxrkDyP2CPuTbCwf4y19ySYxx51g7lxs7Vqs57q/K
+ Wao9S3Wr5E6hSVJ9WfYiCIjr+UKGOnc=
+X-Google-Smtp-Source: AA6agR4Wp1sdG2ePJHPzujo2lxC4pM4up8FzRO7eHzEQfmz1DeZIq9jjtKnY1WFOjVr4/m8ni0CLdw==
+X-Received: by 2002:a17:902:da91:b0:16d:3bc2:ff49 with SMTP id
+ j17-20020a170902da9100b0016d3bc2ff49mr17520540plx.85.1659373466548; 
+ Mon, 01 Aug 2022 10:04:26 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ y3-20020a17090a1f4300b001f2e50bd789sm11953200pjy.31.2022.08.01.10.04.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 10:04:24 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/3] dma-buf: map-info support
+Date: Mon,  1 Aug 2022 10:04:54 -0700
+Message-Id: <20220801170459.1593706-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220801131113.182487-1-marex@denx.de>
- <CAPY8ntCowWODtQtSHoPkjL2_XjVQCW8Fduutt3rYAZ=e9MZT_A@mail.gmail.com>
- <f1edd1a3-05d3-2476-f678-298aa145b71e@denx.de>
-In-Reply-To: <f1edd1a3-05d3-2476-f678-298aa145b71e@denx.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 1 Aug 2022 11:38:31 -0500
-Message-ID: <CAHCN7x+_f4SpXZfdEbdb=v8bYmwHtZU1R1MH7TjAfbky=+qWfw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Add and use hs_rate and lp_rate
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +68,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jerome.pouiller@silabs.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 1, 2022 at 11:05 AM Marek Vasut <marex@denx.de> wrote:
->
-> On 8/1/22 16:55, Dave Stevenson wrote:
-> > Hi Marek
->
-> Hi,
->
-> > On Mon, 1 Aug 2022 at 14:12, Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> Fill in hs_rate and lp_rate to struct mipi_dsi_device for this bridge and
-> >> adjust DSI input frequency calculations such that they expect the DSI host
-> >> to configure HS clock according to hs_rate.
-> >
-> > I think this falls into another of the areas that is lacking in the DSI support.
-> > hs_rate is defined as the *maximum* lane frequency in high speed
-> > mode[1]. As documented there is no obligation on the DSI host to
-> > choose this specific rate, just some frequency below it and above or
-> > equal to that required by the pixel clock. At a system level, the link
-> > frequency is often prescribed for EMC purposes.
->
-> The reduced upper limit could likely be defined by a DT property, but
-> that's not hard to add.
->
-> > The issue is then that the SN65DSI83 is configured to use the DSI
-> > clock lane as the source for the PLL generating the LVDS clock,
-> > therefore with no route for the DSI peripheral to query the link
-> > frequency chosen by the host, you're stuck.
->
-> At least making the host pick the highest supported frequency means we
-> have a well defined link frequency which either is accepted by both ends
-> or not at all, instead of the current guesswork on both ends, bridge and
-> host.
->
-> Regarding reduction of the maximum hs_rate, see above, probably use a DT
-> property. Regarding check for hs_rate below minimum possible rate,
-> likely something the DSI host should do based on desired mode .
->
-> If you are looking for some frequency negotiation starter, look at:
-> [RFC][PATCH 0/7] drm/bridge: Add support for selecting DSI host HS clock
-> from DSI bridge
->
-> > SN65DSI83 also supports non-burst mode (as currently), so how would
-> > this be configured now?
-> > Does MIPI_DSI_MODE_VIDEO_BURST [2] oblige the DSI host to run in burst
-> > mode, or say that burst mode is supported by the peripheral?
->
-> My understanding is that it is the former -- if the flag is set, the DSI
-> host must operate the device in burst mode.
->
-> > What if
-> > your DSI host doesn't support burst mode and it is optional on your
-> > peripheral?
->
-> The limit still applies. In the sync pulses mode, you can still run the
-> link at high frequency, it's just that the DSI data lanes won't go into
-> LP mode between bursts of data, they would stuff the link with NOPs
-> instead, as far as I can tell.
->
-> > I raised these questions and others at [3], but largely got no real answers.
-> >
-> >
-> > The patch does exactly what you describe and has value, but without
-> > definition in the frameworks of exactly how burst mode must be
-> > implemented by the DSI host, I would say that it's going to cause
-> > issues.
-> > I am aware of users of your driver with the Raspberry Pi, but your
-> > expectation isn't currently valid on the Pi as there is no definition
-> > of the correct thing for the host to do.
->
-> This patch actually helped me deal with stability issues on MX8M . Of
+From: Rob Clark <robdclark@chromium.org>
 
-I have a board with the SN65DSI83 and I have been testing Jagan's DSIM
-patch series and I noticed the SN65DSI83  throws a PLL timeout error.
-What kind of stability issues were you seeing?   I'll try to pull in
-this patch, and I'm happy to test and reply with 'Tested-by' if it
-works.
+See 1/3 for motivation.
 
-adam
+Rob Clark (3):
+  dma-buf: Add ioctl to query mmap info
+  drm/prime: Wire up mmap_info support
+  drm/msm/prime: Add mmap_info support
 
-> course, the DSIM driver has to handle the case where bridge provides
-> hs_rate and configure its PLL accordingly. That's a two-liner patch.
+ drivers/dma-buf/dma-buf.c           | 26 ++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_prime.c         | 12 ++++++++++++
+ drivers/gpu/drm/msm/msm_drv.c       |  1 +
+ drivers/gpu/drm/msm/msm_drv.h       |  1 +
+ drivers/gpu/drm/msm/msm_gem_prime.c | 11 +++++++++++
+ include/drm/drm_drv.h               |  7 +++++++
+ include/linux/dma-buf.h             |  7 +++++++
+ include/uapi/linux/dma-buf.h        | 28 ++++++++++++++++++++++++++++
+ 8 files changed, 93 insertions(+)
+
+-- 
+2.36.1
+
