@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8738586F4A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE91586F58
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBD99680F;
-	Mon,  1 Aug 2022 17:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C305912A21B;
+	Mon,  1 Aug 2022 17:12:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C59E590568;
- Mon,  1 Aug 2022 17:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lV6Nj9c4zvsHkFQy7tICycDimwo4Sq7catGYsp4e4OM=; b=sszIulLjEmptCoufWV9wadwb/R
- IVtmrJZm/Vty1rFEIr29ikO/5UmW6LsYXtyEHOU5bNSRa0f0C7XJ/D2VNjmUmLuhv8TYhO2ACzj+h
- TMlhiuE69NL5c2Nj1cuv3LMv63tAj0pnuOFp2tLz/WbGmHVxPdo2WNN1xtKc+JcdIrUSalpQmXVCh
- huPAqm10mMtetvt4p7Loc8AdcjzwSVablv+s8SA8WPl+qGWiRydKvSFq3q22kyS8WhfBhnOAjafr7
- 2Ztmk+Q/0x7Guu7S9gYcwWbqktGLC3zLJS9HmC4Tm1N9W4tlTkiDshcMQ7BgSDEIzbcxbKw4mJfkz
- rm8KI8HQ==;
-Received: from [187.34.27.134] (helo=[192.168.15.109])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1oIYsd-00Dy7P-Lq; Mon, 01 Aug 2022 19:06:59 +0200
-Message-ID: <31187f41-64c8-d7ce-fcf2-5da421b3e194@igalia.com>
-Date: Mon, 1 Aug 2022 14:06:41 -0300
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0988612A21B;
+ Mon,  1 Aug 2022 17:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659373938; x=1690909938;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=DFXStBY5eMGiDbcr0wAufBmc0V3fo8FmbFKEExuiPpw=;
+ b=J0v5LqL1qMl8OGh2UH2whti+UMn8mQtDiZqEmPTxnOJClP6InlNQoB0l
+ m+NVgC85pUSYyByTV5TwAB0eCubqYCUu0ACA94HiGoxlwH7SwfH+c0YPk
+ h+O8hghCtISToLynElxduMTjzlf8JIHn60jT3JALL4jLHYIGAcahTMLAL
+ +6KLqagDzFhr56n5FbDv/Q9TkWPK3NGLowRf5tL4UqJN+Al23xWRTzyUp
+ hoojGXOQyBDcyCWPcVfjjn5S67XWETkQxsPrVgwGbmRSvvoxP2wiWThBR
+ 8oXsDwygtWX8vvo0OseHhErI+kGNt+u+ETCrntumU7g0+xIyP/YQPx6BS Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="375501973"
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="375501973"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 10:12:16 -0700
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; d="scan'208";a="929632376"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 10:12:16 -0700
+Date: Mon, 1 Aug 2022 10:11:53 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+Subject: Re: [PATCH] drm/i915/userptr: remove redundation assignment to
+ variable ret
+Message-ID: <20220801171153.GI14039@nvishwa1-DESK>
+References: <20220730122342.146475-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCHv2 -next] drm/amdgpu: double free error and freeing
- uninitialized null pointer
-Content-Language: en-US
-To: Sebin Sebastian <mailmesebin00@gmail.com>
-References: <20220730034923.25500-1-mailmesebin00@gmail.com>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20220730034923.25500-1-mailmesebin00@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220730122342.146475-1-colin.i.king@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,24 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Às 00:46 de 30/07/22, Sebin Sebastian escreveu:
-> Fix a double free and an uninitialized pointer read error. Both tmp and
-> new are pointing at same address and both are freed which leads to
-> double free. Adding a check to verify if new and tmp are free in the
-> error_free label fixes the double free issue. new is not initialized to
-> null which also leads to a free on an uninitialized pointer.
-> 
-> Suggested by: S. Amaranath <Amaranath.Somalapuram@amd.com>
-> Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
+On Sat, Jul 30, 2022 at 01:23:42PM +0100, Colin Ian King wrote:
+>Variable ret is assigned a value that is never read; it is either
+>being re-assigned during the following while-loop or after the loop.
+>The assignmnt is redundant and can be removed.
+>
+>Cleans up clang scan build warning:
+>drivers/gpu/drm/i915/gem/i915_gem_userptr.c:295:11: warning: Although
+>the value stored to 'ret' is used in the enclosing expression, the
+>value is never actually read from 'ret' [deadcode.DeadStores]
+>
+>Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>---
+> drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>index 8423df021b71..075aef875a07 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>@@ -292,7 +292,7 @@ int i915_gem_object_userptr_submit_init(struct drm_i915_gem_object *obj)
+> 	if (!i915_gem_object_is_readonly(obj))
+> 		gup_flags |= FOLL_WRITE;
+>
+>-	pinned = ret = 0;
+>+	pinned = 0;
+> 	while (pinned < num_pages) {
+> 		ret = pin_user_pages_fast(obj->userptr.ptr + pinned * PAGE_SIZE,
+> 					  num_pages - pinned, gup_flags,
 
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
+LGTM.
+Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+>-- 
+>2.35.3
+>
