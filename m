@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8690586F3C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597C6586F3D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Aug 2022 19:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A397B8BF55;
-	Mon,  1 Aug 2022 17:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94AE510EC08;
+	Mon,  1 Aug 2022 17:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D7111B85B;
- Mon,  1 Aug 2022 17:04:32 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id t2so11040279ply.2;
- Mon, 01 Aug 2022 10:04:32 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED8510E704;
+ Mon,  1 Aug 2022 17:04:34 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id y15so11014202plp.10;
+ Mon, 01 Aug 2022 10:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=TkCavpnUSJ7vycAkcy6P7E6qdN3Z1ej/wDjztPEV1Xs=;
- b=mcZ6MXoEnw1JToD2hyRhIZ7pGnefjHTTti+cjwuy9wEhPI6rOCmXGKRxCCyNgpQVGQ
- 8ESBynZewyeP+SZ1jLeB8wARO2Qg6Ez0lCcZ4hW5Ad8Ij6Gv9RiSk4lnu4tQPos6Vs8t
- Wvq0L05TVB+4rbq4F2Qbli+EVXlKvq50rJMQBYzqGnXZ4V7U37sqyIGaTCR+TY+fWwKF
- OOkDDbKQsUeSAysdawliNu53PRsS1Ms5xw86ZQOU9y+IdzyNh61KweuH7ZDuCKbTwsxq
- HD4OvuUg7ZP692EA+mU+yv7FDvEb1AXFoMHE+NNT9MVfirvSgmZL52BvG/lfo29jqZoD
- uHkQ==
+ bh=FldoPR8BVfM3iFKwCM1XMFRXAR81Z32eid0v1j3G9ms=;
+ b=P5t1olBIPvtepOhoWbKkkUVf08sqYRhi/TWm0yi84qISkPToL9ZOLKl9vbFjIhS8b6
+ bYTGbV0qB/1eFZxubi3BGt7V+ba/RPrbVnj2ybfRDE1e4/zGNVRt84kxHdnCLYh48VMh
+ yGWtynCaP4Gs4beiBVSZtPZ0zuPSDeZMuSQBe8GFNhIaaWNaRxYXfhpdFWnH1+8BSYla
+ B1QVJcxpfiKeMa0GZm7VYaXkCIdRz302vr8+YYr5MmLE0Q93QpYRn8tB1hjqLiaZg6Qv
+ 0gVNQbMUetaPGuhYCUUlsObNnTVxyaUBmhWs2DGHn17+baKEzk962HChc/qyqhDF4zRo
+ 8x3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=TkCavpnUSJ7vycAkcy6P7E6qdN3Z1ej/wDjztPEV1Xs=;
- b=Ffh8jfPnYnNgLGohKZESRSa4UjxAL6SXa5Jgo8vx3i25h0bKGlCiTO6WV76VPBaTHM
- krjX1dknjSG+a14YwHlR0LZj4ScpaaN9QpwDiE8g5VMv+grRjxRRZtDy+rtVYVArw7r7
- CTIVPsstGbOITuCRITocnkDe4iiJ/d9AxPV0A7TT6WqPogzNuizUX2Sz9I6LjqvxYQtH
- grh8AlgGOILgQV4nPWtTctnmcna1EMi069ZBcXVQzL358ziQ2wlSDNMUvVtA8L7oBZE8
- HpXaDpM5qgJ/KJm0kP0pObYQwauZ9aTDttXolAK8oYHTUH+bnHZ3RxHXcHiU1lwNSgxs
- yKDQ==
-X-Gm-Message-State: ACgBeo31485WeO4DLBYm6W5NZU5uQpf/GtF5QBYzQjMbbAuWFDd/8B3r
- 5eia/shhl4wCnu6ZN3BZZuTTpW4FrQQ=
-X-Google-Smtp-Source: AA6agR52MvgLOLsM9cuZ5dMaC0PMt05gnbIz5aCroJo5wVmxWfOtz0BXNBd1TvyuExGOeaD5YCdI6Q==
-X-Received: by 2002:a17:903:22cb:b0:16e:e31f:5197 with SMTP id
- y11-20020a17090322cb00b0016ee31f5197mr7430704plg.23.1659373470488; 
- Mon, 01 Aug 2022 10:04:30 -0700 (PDT)
+ bh=FldoPR8BVfM3iFKwCM1XMFRXAR81Z32eid0v1j3G9ms=;
+ b=w/KhfHUi7Zh4+fEUtoeez5d4fHoZkUVPK0ufmoAfQJTxRlcju7lNY6I2O4rhr4LqiS
+ mFMk8WqDkCqyfMobpaBVa3iq+Rs5Zld9aqcdo0lAulHMiGxqvFMiFTBaG+Ywft1b1Umf
+ XT6skH6/UfUdRZyxS3GJ+Znkt/JPw9YEfMgaVZkj/BJ11vxgv7DDwe46TvSSPGcrAHwu
+ vyFSu7auC9wELga1+HpI7VwhmSuL3ufZdhgy1OF0sFBO8gu5/H5RvZeL8wXtZSwxqvLx
+ Z0xeKr3W1+a7GGwp08O/DioegU3UWGVAQ8PNEs2dfIeRlN7k5j/nbN2FEE1KRfrl9M1G
+ sdsg==
+X-Gm-Message-State: ACgBeo2Rn7okyMNwt7PpEPyj2czEwlA4d046tvnYuJ8TR5y/5RlKlLIr
+ pKKjGj6/Y8BmRs7D3YZ+1z+ELZczocw=
+X-Google-Smtp-Source: AA6agR7RKmYUgh7A3D15hwwh+KxJFk2yHczvexmfofd2/7qJwEl8Vx18v5W+zk5ElLXMIRH6WGWqOg==
+X-Received: by 2002:a17:902:e945:b0:16b:f802:1660 with SMTP id
+ b5-20020a170902e94500b0016bf8021660mr17490083pll.7.1659373473559; 
+ Mon, 01 Aug 2022 10:04:33 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- f13-20020a170902ce8d00b0016d5626af4fsm10105279plg.21.2022.08.01.10.04.28
+ d17-20020a170902ced100b0016d9877d3bfsm9937250plg.32.2022.08.01.10.04.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 10:04:29 -0700 (PDT)
+ Mon, 01 Aug 2022 10:04:32 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/3] dma-buf: Add ioctl to query mmap info
-Date: Mon,  1 Aug 2022 10:04:55 -0700
-Message-Id: <20220801170459.1593706-2-robdclark@gmail.com>
+Subject: [PATCH v2 2/3] drm/prime: Wire up mmap_info support
+Date: Mon,  1 Aug 2022 10:04:56 -0700
+Message-Id: <20220801170459.1593706-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220801170459.1593706-1-robdclark@gmail.com>
 References: <20220801170459.1593706-1-robdclark@gmail.com>
@@ -69,145 +69,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jerome.pouiller@silabs.com>,
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
  open list <linux-kernel@vger.kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This is a fairly narrowly focused interface, providing a way for a VMM
-in userspace to tell the guest kernel what pgprot settings to use when
-mapping a buffer to guest userspace.
-
-For buffers that get mapped into guest userspace, virglrenderer returns
-a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
-pages into the guest VM, it needs to report to drm/virtio in the guest
-the cache settings to use for guest userspace.  In particular, on some
-architectures, creating aliased mappings with different cache attributes
-is frowned upon, so it is important that the guest mappings have the
-same cache attributes as any potential host mappings.
+Just plumbing the thing thru an extra layer.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
-v2. fix compiler warning
+ drivers/gpu/drm/drm_prime.c | 12 ++++++++++++
+ include/drm/drm_drv.h       |  7 +++++++
+ 2 files changed, 19 insertions(+)
 
- drivers/dma-buf/dma-buf.c    | 26 ++++++++++++++++++++++++++
- include/linux/dma-buf.h      |  7 +++++++
- include/uapi/linux/dma-buf.h | 28 ++++++++++++++++++++++++++++
- 3 files changed, 61 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 32f55640890c..87c52f080274 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -326,6 +326,29 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	return 0;
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index e3f09f18110c..f58586e131c5 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -784,6 +784,17 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
  }
+ EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
  
-+static long dma_buf_info(struct dma_buf *dmabuf, void __user *uarg)
++static int drm_gem_dmabuf_mmap_info(struct dma_buf *dma_buf)
 +{
-+	struct dma_buf_info arg;
++	struct drm_gem_object *obj = dma_buf->priv;
++	struct drm_device *dev = obj->dev;
 +
-+	if (copy_from_user(&arg, uarg, sizeof(arg)))
-+		return -EFAULT;
++	if (!dev->driver->gem_prime_mmap_info)
++		return -ENOSYS;
 +
-+	switch (arg.param) {
-+	case DMA_BUF_INFO_VM_PROT:
-+		if (!dmabuf->ops->mmap_info)
-+			return -ENOSYS;
-+		arg.value = dmabuf->ops->mmap_info(dmabuf);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (copy_to_user(uarg, &arg, sizeof(arg)))
-+		return -EFAULT;
-+
-+	return 0;
++	return dev->driver->gem_prime_mmap_info(obj);
 +}
 +
- static long dma_buf_ioctl(struct file *file,
- 			  unsigned int cmd, unsigned long arg)
- {
-@@ -369,6 +392,9 @@ static long dma_buf_ioctl(struct file *file,
- 	case DMA_BUF_SET_NAME_B:
- 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
- 
-+	case DMA_BUF_IOCTL_INFO:
-+		return dma_buf_info(dmabuf, (void __user *)arg);
-+
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 71731796c8c3..6f4de64a5937 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -283,6 +283,13 @@ struct dma_buf_ops {
- 	 */
- 	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
- 
-+	/**
-+	 * @mmap_info:
-+	 *
-+	 * Return mmapping info for the buffer.  See DMA_BUF_INFO_VM_PROT.
-+	 */
-+	int (*mmap_info)(struct dma_buf *);
-+
- 	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
- 	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
+ 	.cache_sgt_mapping = true,
+ 	.attach = drm_gem_map_attach,
+@@ -792,6 +803,7 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
+ 	.unmap_dma_buf = drm_gem_unmap_dma_buf,
+ 	.release = drm_gem_dmabuf_release,
+ 	.mmap = drm_gem_dmabuf_mmap,
++	.mmap_info = drm_gem_dmabuf_mmap_info,
+ 	.vmap = drm_gem_dmabuf_vmap,
+ 	.vunmap = drm_gem_dmabuf_vunmap,
  };
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index b1523cb8ab30..a41adac0f46a 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -85,6 +85,32 @@ struct dma_buf_sync {
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index f6159acb8856..797c0f8c2dd0 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -355,6 +355,13 @@ struct drm_driver {
+ 	 */
+ 	int (*gem_prime_mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma);
  
- #define DMA_BUF_NAME_LEN	32
- 
-+
-+/**
-+ * struct dma_buf_info - Query info about the buffer.
-+ */
-+struct dma_buf_info {
-+
-+#define DMA_BUF_INFO_VM_PROT      1
-+#  define DMA_BUF_VM_PROT_WC      0
-+#  define DMA_BUF_VM_PROT_CACHED  1
-+
 +	/**
-+	 * @param: Which param to query
++	 * @gem_prim_mmap_info:
 +	 *
-+	 * DMA_BUF_INFO_BM_PROT:
-+	 *     Query the access permissions of userspace mmap's of this buffer.
-+	 *     Returns one of DMA_BUF_VM_PROT_x
++	 * Get info about mmap setup by gem_prime_mmap.  See dma_buf_ops:mmap_info.
 +	 */
-+	__u32 param;
-+	__u32 pad;
++	int (*gem_prime_mmap_info)(struct drm_gem_object *obj);
 +
-+	/**
-+	 * @value: Return value of the query.
-+	 */
-+	__u64 value;
-+};
-+
- #define DMA_BUF_BASE		'b'
- #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
- 
-@@ -95,4 +121,6 @@ struct dma_buf_sync {
- #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, __u32)
- #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, __u64)
- 
-+#define DMA_BUF_IOCTL_INFO	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_info)
-+
- #endif
+ 	/**
+ 	 * @dumb_create:
+ 	 *
 -- 
 2.36.1
 
