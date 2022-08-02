@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586FA5887E1
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 09:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8B35887D6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 09:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3E311248A;
-	Wed,  3 Aug 2022 07:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12AED10E203;
+	Wed,  3 Aug 2022 07:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 5223 seconds by postgrey-1.36 at gabe;
- Tue, 02 Aug 2022 13:38:24 UTC
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
- [67.231.149.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB56C11217B
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 13:38:24 +0000 (UTC)
-Received: from pps.filterd (m0048274.ppops.net [127.0.0.1])
- by m0048274.ppops.net-00176a03. (8.17.1.5/8.17.1.5) with ESMTP id
- 272406lr032006
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Aug 2022 08:11:20 -0400
-Date: Tue, 2 Aug 2022 15:04:04 +0300
-From: Ian Ray <ian.ray@ge.com>
-To: Martyn Welch <martyn.welch@collabora.co.uk>
-Subject: Re: [PATCH] drm/bridge: megachips: Fix a null pointer dereference bug
-Message-ID: <20220802120403.GA26182@zoo6.em.health.ge.com>
-References: <20220716081304.2762135-1-zheyuma97@gmail.com>
- <946c008942f4ef4ca642818b23e9941c162383e3.camel@collabora.co.uk>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0329499C
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 19:03:04 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id w3so3142298edc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Aug 2022 12:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hdZe8WkFIDKqrtIYgscLkYHRt1bx/RYV0KOkoVHZg/U=;
+ b=gCYPSqJEQcsEXEg1PVpE4xVbI3EovHiB2CErLstNYEEw9Kd7e2Yoyj/dY3KraWCNXa
+ jfH3FVYLKnyP3m92iKulAVVPL1h63ILHVaiWen5VR04KQB14SfbJART7GD7MZQA/wGlW
+ 3XLkj5PTJciEcprJKYLyMkpSYBlHZTQ8vs3qLiS9TYf/FMRO7XxqUnqJscqg8xuXopek
+ Fa2UB3p5WH6DXM2KpSRPhSQBi3c0NCmOMuCoK/XBSxoYKTRETx7Fki+elejv6jKNa+sb
+ VAgw3R95yNxm35jFxYLsMXZS4fJmBi2J2djAaaHrbABgD0VUczcgO40WULkHHFmJuEto
+ nbnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hdZe8WkFIDKqrtIYgscLkYHRt1bx/RYV0KOkoVHZg/U=;
+ b=Nj5lxHTXAK4Mpg2RZxu3zuz935i299avEHvEM+9GtJg1UF7Tk/23FYYBijhWeaGu6Z
+ eEcg6iTZOPHVNs+tHLS9QX4vU4z/cz++/qLVnmE7aQvZzO38iuWyPfR4Gyi4lEJwkpLr
+ 55n8xoOqCbcvGBWnPD5slljqwKalHaR6jcBGvkLdfR5NieZYMMQhokUHCSnw6BYs0PIq
+ oJXQH69ku5dCDJL6eqZd4v1JUMKtGlUtP2ja3t1Jg1hYmhogZ4G3m9zKBLwNbW+KLGsi
+ BaIXyqcSI+3MxgAIvx2DnKgqSryiCbj3pOk4D5/H+IzPlm2ywSc61nHr2P1k4v9IKDK5
+ Vt3Q==
+X-Gm-Message-State: AJIora9xgVaf2rXVhv7ra3Ajfo5v0eTW7gX+V879l6R3JeqZC062AeTv
+ qqJfG3LqRZzB+TfXSzcgQUI4pkRJ/VC62OinBKMnNrUBJk81ng==
+X-Google-Smtp-Source: AGRyM1u/nRRxEHLE6sP2ETOr10p93ZE9ry7i/CBgAJ9Vjm+Hzy7fU1bSg/CnAiXNxTbBgwkcgA7CnrQKA2HsC53ijjw=
+X-Received: by 2002:a05:6402:16:b0:43a:f435:5d07 with SMTP id
+ d22-20020a056402001600b0043af4355d07mr22904421edu.420.1659466983066; Tue, 02
+ Aug 2022 12:03:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <946c008942f4ef4ca642818b23e9941c162383e3.camel@collabora.co.uk>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: oB53lIvuJdspmys9C-hLSCAmkgl5lnz3
-X-Proofpoint-GUID: oB53lIvuJdspmys9C-hLSCAmkgl5lnz3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-02_07,2022-08-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- lowpriorityscore=0
- bulkscore=0 suspectscore=0 clxscore=1011 mlxscore=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 priorityscore=1501 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2208020057
+References: <CANX2M5Ysmgv1b4toRxeTDiKtpJyv_-dTqsRediqd8NbT=RKObQ@mail.gmail.com>
+In-Reply-To: <CANX2M5Ysmgv1b4toRxeTDiKtpJyv_-dTqsRediqd8NbT=RKObQ@mail.gmail.com>
+From: Dipanjan Das <mail.dipanjan.das@gmail.com>
+Date: Tue, 2 Aug 2022 12:02:51 -0700
+Message-ID: <CANX2M5Z2LzD_Z6qgq9Avv3hygQ7LJNX+KyZOK6_5d-KZRNwfCg@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in drm_gem_object_release
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run, 
+ airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Wed, 03 Aug 2022 07:21:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,70 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zheyu Ma <zheyuma97@gmail.com>, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, peter.senna@gmail.com,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- jernej.skrabec@gmail.com
+Cc: fleischermarius@googlemail.com, syzkaller@googlegroups.com,
+ its.priyanka.bose@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 19, 2022 at 09:38:16AM +0100, Martyn Welch wrote:
-> On Sat, 2022-07-16 at 16:13 +0800, Zheyu Ma wrote:
-> > When removing the module we will get the following warning:
-> > 
-> > [   31.911505] i2c-core: driver [stdp2690-ge-b850v3-fw] unregistered
-> > [   31.912484] general protection fault, probably for non-canonical
-> > address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
-> > [   31.913338] KASAN: null-ptr-deref in range [0x0000000000000008-
-> > 0x000000000000000f]
-> > [   31.915280] RIP: 0010:drm_bridge_remove+0x97/0x130
-> > [   31.921825] Call Trace:
-> > [   31.922533]  stdp4028_ge_b850v3_fw_remove+0x34/0x60
-> > [megachips_stdpxxxx_ge_b850v3_fw]
-> > [   31.923139]  i2c_device_remove+0x181/0x1f0
-> > 
-> > The two bridges (stdp2690, stdp4028) do not probe at the same time,
-> > so
-> > the driver does not call ge_b850v3_resgiter() when probing, causing
-> > the
-> > driver to try to remove the object that has not been initialized.
-> > 
-> > Fix this by checking whether both the bridges are probed.
-> > 
-> > Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-> 
-> Good catch!
-> 
-> Acked-by: Martyn Welch <martyn.welch@collabora.com>
+On Fri, Jul 22, 2022 at 9:23 AM Dipanjan Das
+<mail.dipanjan.das@gmail.com> wrote:
+> ======================================================
+> description: KASAN: use-after-free Read in drm_gem_object_release
+> affected file: drivers/gpu/drm/drm_gem.c
+> kernel version: 5.4.206
+> kernel commit: 981f87403bb9841f1e0b7953e12a51f09a47a4f0
+> git tree: upstream
+> kernel config: https://syzkaller.appspot.com/text?tag=KernelConfig&x=1aab6d4187ddf667
+> crash reproducer: attached
+> ======================================================
+> Crash log:
+> ======================================================
+> BUG: KASAN: use-after-free in drm_gem_object_release+0xf7/0x120
+> drivers/gpu/drm/drm_gem.c:952
+> ==================================================================
+> BUG: KASAN: double-free or invalid-free in
+> drm_gem_vram_create+0x1b7/0x1f0
+> drivers/gpu/drm/drm_gem_vram_helper.c:142
 
-Tested-by: Ian Ray <ian.ray@ge.com>
+We did an initial analysis for this bug and figured out the following:
 
+If ttm_bo_init_reserved() fails, the `gbo` and `gbo->bo.base` will be
+freed by ttm_buffer_object_destroy(). But then drm_gem_vram_create()
+and drm_gem_vram_init() will attempt to free `gbo` and `gbo->bo.base`
+again. This will result in UAF and Double Free. A similar bug (the
+stack traces were a bit different) has been patched by this upstream
+commit: https://github.com/torvalds/linux/commit/da62cb7230f0871c30dc9789071f63229158d261.
+We applied this patch and can confirm that the repro does not trigger
+the issue anymore.
 
-> 
-> Would be worth adding:
-> 
-> Fixes: 11632d4aa2b3 ("drm/bridge: megachips: Ensure both bridges are
-> probed before registration")
-> 
-> > ---
-> >  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > index cce98bf2a4e7..c68a4cdf4625 100644
-> > --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > @@ -296,7 +296,9 @@ static void ge_b850v3_lvds_remove(void)
-> >          * This check is to avoid both the drivers
-> >          * removing the bridge in their remove() function
-> >          */
-> > -       if (!ge_b850v3_lvds_ptr)
-> > +       if (!ge_b850v3_lvds_ptr ||
-> > +               !ge_b850v3_lvds_ptr->stdp2690_i2c ||
-> > +               !ge_b850v3_lvds_ptr->stdp4028_i2c)
-> >                 goto out;
-> >  
-> >         drm_bridge_remove(&ge_b850v3_lvds_ptr->bridge);
-> 
+-- 
+Thanks and Regards,
+
+Dipanjan
