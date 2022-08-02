@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5049A58768D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 07:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526C958772F
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 08:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 373B011BCCB;
-	Tue,  2 Aug 2022 05:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739B210EE07;
+	Tue,  2 Aug 2022 06:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF7D211BCA3
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 05:09:15 +0000 (UTC)
-X-UUID: d90cb81c6ffa4484bf87f5f097666c6c-20220802
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:c987c419-5aa8-4d9a-92c3-3f78d742cd0b, OB:10,
- L
- OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
- CTION:release,TS:45
-X-CID-INFO: VERSION:1.1.8, REQID:c987c419-5aa8-4d9a-92c3-3f78d742cd0b, OB:10,
- LOB
- :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-META: VersionHash:0f94e32, CLOUDID:6cfa08d0-a6cf-4fb6-be1b-c60094821ca2,
- C
- OID:4b69b0cc6ffe,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: d90cb81c6ffa4484bf87f5f097666c6c-20220802
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 831541770; Tue, 02 Aug 2022 13:09:10 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 2 Aug 2022 13:09:08 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 2 Aug 2022 13:09:08 +0800
-Message-ID: <202347b5f781ba1a9abe7297c9906793ad547d0d.camel@mediatek.com>
-Subject: Re: [PATCH v15 05/11] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Tue, 2 Aug 2022 13:09:08 +0800
-In-Reply-To: <20220727045035.32225-6-rex-bc.chen@mediatek.com>
-References: <20220727045035.32225-1-rex-bc.chen@mediatek.com>
- <20220727045035.32225-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08FB110E7CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 06:43:44 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id v7so6970539ljh.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 23:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=BsVVyC/Z22amNBasFSTwD0frJD17UKZEk4SMZVrNHIU=;
+ b=LqsvxmpWorpzOIuC6m2PTfI3qLyPXcxYoD1BefdsAJ6zN/c+uRM/ZyBDVFvUHqVVr5
+ PFUFNleauUP10jwKwGBZNxk41Ub+2rSxmhC2haoWEvstGEEkiwzM8oRPnPeRsimtAzz0
+ vhS4Mfuf7qZJdQie6g5PllOUJnq4bEz+xirCMM6jEkTP8PwwhgTvFrCwFvBtf0KmP9sd
+ DDYzSf1pbfk1bo5WoU0wIMw7UZTdStKO8lqRy2HCQtCcOGUQVo3Pxom7srF4W3BrfL89
+ GezqyLAknkdh4kLyjB89ZUhQf459poH+NOmqn9si+pcdpduhWx9lnCRxsii7vx2+Nmsw
+ uu/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=BsVVyC/Z22amNBasFSTwD0frJD17UKZEk4SMZVrNHIU=;
+ b=DuCmr9xVMPaTObneyxYiP5K7nv5SoAl6NWYBZxg+jmVAkq6B5Iz3Gb3Er6Ojr/a98w
+ Mj669oPu01z3wPj+4Exr+Gi8ytCluen2pr7ivMgnRClQ9Epqs2yrdpcLqQjNSktcZSrl
+ 7wf1F3erN+6hFm/rMHsOWutZstpmNubOf/TKrS8XH6cI89NSggNJJi+rSDNCIQ0P+WJ8
+ 0qVr3iX1r3Kd1OM+DsQj0CRgMv049VJWso9SYQPbYNziCsTyEJxiYuOcuTg3R9mU+92e
+ qihV0Yr+mhGKtPG87oKbtAiuq3i4w2HBbI+mdWfIXY86Dv1zk/vAxHjw2CRlrUOwf+TR
+ sDPg==
+X-Gm-Message-State: ACgBeo3LfBBn6Tr3gB5u48fLUeEyk6Sqoz5+MdhswvV8KltoAD/N8pIn
+ pin8TBmurWQT5B73XSy4laxRkA==
+X-Google-Smtp-Source: AA6agR5W1350TyooKgsucDtF4STvja5/ZEelSzPbU/uzlbpxtdSurx+SHUuqPhe1zxxlb5nMwyCsKg==
+X-Received: by 2002:a2e:a370:0:b0:25e:502a:5308 with SMTP id
+ i16-20020a2ea370000000b0025e502a5308mr2336327ljn.282.1659422622264; 
+ Mon, 01 Aug 2022 23:43:42 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ a17-20020a056512201100b0048b08e25979sm199607lfb.199.2022.08.01.23.43.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Aug 2022 23:43:41 -0700 (PDT)
+Message-ID: <bdf6abfe-89e3-80bb-6c5e-fcea713814e9@linaro.org>
+Date: Tue, 2 Aug 2022 09:43:40 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix
+ tps4
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
+ vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
+ bjorn.andersson@linaro.org
+References: <1659384830-9909-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1659384830-9909-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,118 +77,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+On 01/08/2022 23:13, Kuogee Hsieh wrote:
+> Data Symbols scrambled is required for tps4 at link training 2.
+> Therefore SCRAMBLING_DISABLE bit should not be set for tps4 to
+> work.
+> RECOVERED_CLOCK_OUT_EN is for enable simple EYE test for jitter
+> measurement with minimal equipment for embedded applications purpose
+> and is not required to be set during normal operation.
+> Current implementation always have RECOVERED_CLOCK_OUT_EN bit set
+> which cause SCRAMBLING_DISABLE bit wrongly set at tps4 which prevent
+> tps4 from working.
+> This patch delete setting RECOVERED_CLOCK_OUT_EN to fix SCRAMBLING_DISABLE
+> be wrongly set at tps4.
 
-On Wed, 2022-07-27 at 12:50 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
+Minor nits, more likely concerning feature patches:
+- Please insert blank lines between paragraphs, it makes commit message 
+easier to read. And please add no extra line breaks if you do not intent 
+to end the paragraph here.
+
+- "This patch" is generally the frowned upon phrase (see 
+Documentation/process/submitting-patches.rst)
+
+Nevertheless:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
+> Changes in v2:
+> -- fix Fixes tag
 > 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index ab6aa13..013ca02 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1214,7 +1214,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+>   	if (ret)
+>   		return ret;
+>   
+> -	dp_ctrl_train_pattern_set(ctrl, pattern | DP_RECOVERED_CLOCK_OUT_EN);
+> +	dp_ctrl_train_pattern_set(ctrl, pattern);
+>   
+>   	for (tries = 0; tries <= maximum_retries; tries++) {
+>   		drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
 
-[snip]
 
-> +
-> +static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
-> +{
-> +	struct mtk_dp *mtk_dp = dev;
-> +
-> +	if (mtk_dp->train_info.hpd_inerrupt) {
-
-When the thread is running, mtk_dp->train_info.hpd_inerrupt would be
-true. So this checking is redundant.
-
-> +		dev_dbg(mtk_dp->dev, "MTK_DP_HPD_INTERRUPT\n");
-> +		mtk_dp->train_info.hpd_inerrupt = false;
-> +		mtk_dp_hpd_sink_event(mtk_dp);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t mtk_dp_hpd_event(int hpd, void *dev)
-> +{
-> +	struct mtk_dp *mtk_dp = dev;
-> +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
-> +	u32 irq_status;
-> +
-> +	irq_status = mtk_dp_read(mtk_dp, MTK_DP_TOP_IRQ_STATUS);
-> +
-> +	if (!irq_status)
-> +		return IRQ_HANDLED;
-> +
-> +	if (irq_status & RGS_IRQ_STATUS_TRANSMITTER) {
-
-Combine this if-checking with previous if-checking, it would be:
-
-if (!(irq_status & RGS_IRQ_STATUS_TRANSMITTER))
-	return IRQ_HANDLED;
-
-> +		irq_status = mtk_dp_swirq_get_clear(mtk_dp) |
-> +			     mtk_dp_hwirq_get_clear(mtk_dp);
-> +
-> +		if (!irq_status)
-> +			return IRQ_HANDLED;
-> +
-> +		if (irq_status & MTK_DP_HPD_INTERRUPT)
-
-Does this interrupt MTK_DP_HPD_INTERRUPT have any relation with
-MTK_DP_HPD_CONNECT and MTK_DP_HPD_CONNECT? From the naming, I guess
-that when MTK_DP_HPD_CONNECT happen, MTK_DP_HPD_INTERRUPT would also
-happen. Either for MTK_DP_HPD_DISCONNECT. When would
-MTK_DP_HPD_INTERRUPT happen but MTK_DP_HPD_CONNECT or
-MTK_DP_HPD_DISCONNECT does not happen.
-
-Regards,
-CK
-
-> +			train_info->hpd_inerrupt = true;
-> +
-> +		if (!(irq_status & MTK_DP_HPD_CONNECT ||
-> +		      irq_status & MTK_DP_HPD_DISCONNECT))
-> +			return IRQ_WAKE_THREAD;
-> +
-> +		if (!!(mtk_dp_read(mtk_dp, MTK_DP_TRANS_P0_3414) &
-> +		       HPD_DB_DP_TRANS_P0_MASK))
-> +			train_info->cable_plugged_in = true;
-> +		else
-> +			train_info->cable_plugged_in = false;
-> +
-> +		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> +				   DP_PWR_STATE_BANDGAP_TPLL_LANE,
-> +				   DP_PWR_STATE_MASK);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-
+-- 
+With best wishes
+Dmitry
