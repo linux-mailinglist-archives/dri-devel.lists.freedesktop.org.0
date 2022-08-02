@@ -2,82 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB72F5883EC
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 00:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23231588422
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 00:21:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4FE311B419;
-	Tue,  2 Aug 2022 22:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBE1496ED1;
+	Tue,  2 Aug 2022 22:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B452B513
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 22:12:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659478352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8Y0WynJgJNSfh9M8m5gL0/rvOhxBadhWnHgYusmFFV8=;
- b=L6Q/8cvv9m6vr9N4WIC+ZZeD16b5u+uGuTEFi5uwTvho5I8M/iFNgHwuGraEqTJqVZqNm4
- VAEmx5kZrTjlVqP99bG3nhIjwkW+3RRMMWP+Soyvj8dH9+PxA+ZN1D1dRjbWKtJjesY/Tg
- zbQJTp5WIaxVKaw7HlfSUYbCYhceEyo=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-A4VevY_xM4anPp1dfe_3-Q-1; Tue, 02 Aug 2022 18:12:31 -0400
-X-MC-Unique: A4VevY_xM4anPp1dfe_3-Q-1
-Received: by mail-qk1-f197.google.com with SMTP id
- l15-20020a05620a28cf00b006b46997c070so12628510qkp.20
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Aug 2022 15:12:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=8Y0WynJgJNSfh9M8m5gL0/rvOhxBadhWnHgYusmFFV8=;
- b=IooToeVqN8jvFlv2P5aYxhI+yKNNeRl0M0qAB+E+g4UkKLBkOhztI98Yqh7jq2riiB
- GNI2+jx0NEBuw8/Fe+jVpeBQFFzgkUFQvtsu6lwfvzLljp72bXS6aWmHczG/pquWMf1h
- NIArlVQJl/z/tjvahWGvyCf08cO1Cj2aatwEExflOHInw2jCEqTXmoIzlHmKVQH3HKLY
- yfK69EyjlHxGMyk8g0HTWz+Av/qwV2hpkGxlB/3eXEcPGcAzTjdZdaocKNjf18phNWd0
- HsUqaRt5pRN/bmF6yfKdOhsytolo28JM/tk6uJucsxrbwHH8OtUeRu0TU4DfW/938ei5
- KYAg==
-X-Gm-Message-State: AJIora/nR2AS3VnjFAiiIzeTY6xO9GKqR+QraDK2/4JrNopA0Hl1kq2o
- snEO+jeP6P1qrxaBv3RCUF+vJCrqgfJRoSoa824cCiYOY8BH69FEUYyAgTUk+mEU3EkmODs/KHP
- A1kCJu9SxprKe6VgUU5Db8dhlQI+F
-X-Received: by 2002:a05:620a:c52:b0:6b5:467f:4f6d with SMTP id
- u18-20020a05620a0c5200b006b5467f4f6dmr17268469qki.503.1659478350601; 
- Tue, 02 Aug 2022 15:12:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vVi4NYTvyopJmtP9Nw2sj+ZJUYf1nCNfIK7eICNG5FUBO+EPj7/KKC2dY5Fub85vgbFtL4GQ==
-X-Received: by 2002:a05:620a:c52:b0:6b5:467f:4f6d with SMTP id
- u18-20020a05620a0c5200b006b5467f4f6dmr17268453qki.503.1659478350366; 
- Tue, 02 Aug 2022 15:12:30 -0700 (PDT)
-Received: from [192.168.8.138] (pool-100-0-245-4.bstnma.fios.verizon.net.
- [100.0.245.4]) by smtp.gmail.com with ESMTPSA id
- o20-20020ac87c54000000b0033a5048464fsm1898043qtv.11.2022.08.02.15.12.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 15:12:29 -0700 (PDT)
-Message-ID: <31d47373883e9aabe5bfa7b172e21b84cc6a164d.camel@redhat.com>
-Subject: Re: [RESEND RFC 15/18] drm/display/dp_mst: Skip releasing payloads
- if last connected port isn't connected
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Date: Tue, 02 Aug 2022 18:12:28 -0400
-In-Reply-To: <CO6PR12MB54890BFD954BBF578E2ADA67FC819@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20220607192933.1333228-1-lyude@redhat.com>
- <20220607192933.1333228-16-lyude@redhat.com>
- <CO6PR12MB54890BFD954BBF578E2ADA67FC819@CO6PR12MB5489.namprd12.prod.outlook.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E239685D;
+ Tue,  2 Aug 2022 22:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659478889; x=1691014889;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=NO2WtrOKar5ANWVFrOOMHlFXmySyEsGE0Oy4esliW9U=;
+ b=lC3dYO4ChgfAjMkwDTXRf9Wp1UBybTh5VkJpQHZkpZ+W2OU4KV7vFp0K
+ 3jGlScXHPu48CaN2fWDkZRDA5lsImYFNvTKqb+ZkBFV9QYzrpkci4wZ9S
+ ySw/uUKyh7C8rWDJwDeaDf/5owEc9dPHr7DefJ8ni4vnowtEpOq+3f9gL
+ nyBcC+4wCdtr2C28vZ6dHFnwBGeNKQvg40VX8RzKDfxptNFQCZKLxYJhg
+ Vfj3lIxKSQfjlBXjlpgfsTECUrUet7z9mRoqNZkbD04VcpnxfQcUozZfj
+ ASuZKu9So/dbweQ0ibzmxaIpsWBjbN9lHf6w1AksCzyhO1JRylVbVd8cb g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="351244144"
+X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; d="scan'208";a="351244144"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 15:21:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; d="scan'208";a="670618105"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 15:21:28 -0700
+Date: Tue, 2 Aug 2022 15:21:08 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH v2 1/2] drm/i915/gt: Move TLB invalidation to
+ its own file
+Message-ID: <20220802222108.GK14039@nvishwa1-DESK>
+References: <cover.1659077372.git.mchehab@kernel.org>
+ <f4d7b534511b57336eaea0ce696afdf675cf5892.1659077372.git.mchehab@kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f4d7b534511b57336eaea0ce696afdf675cf5892.1659077372.git.mchehab@kernel.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,302 +59,543 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>, "Lakha, 
- Bhawanpreet" <Bhawanpreet.Lakha@amd.com>, David Airlie <airlied@linux.ie>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>, Sean Paul <sean@poorly.run>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tomas Winkler <tomas.winkler@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-07-05 at 08:45 +0000, Lin, Wayne wrote:
-> [Public]
-> 
-> 
-> 
-> > -----Original Message-----
-> > From: Lyude Paul <lyude@redhat.com>
-> > Sent: Wednesday, June 8, 2022 3:30 AM
-> > To: dri-devel@lists.freedesktop.org; nouveau@lists.freedesktop.org; amd-
-> > gfx@lists.freedesktop.org
-> > Cc: Lin, Wayne <Wayne.Lin@amd.com>; Ville Syrjälä
-> > <ville.syrjala@linux.intel.com>; Zuo, Jerry <Jerry.Zuo@amd.com>; Jani
-> > Nikula
-> > <jani.nikula@intel.com>; Imre Deak <imre.deak@intel.com>; Daniel Vetter
-> > <daniel.vetter@ffwll.ch>; Sean Paul <sean@poorly.run>; David Airlie
-> > <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Thomas Zimmermann
-> > <tzimmermann@suse.de>; Lakha, Bhawanpreet
-> > <Bhawanpreet.Lakha@amd.com>; open list <linux-kernel@vger.kernel.org>
-> > Subject: [RESEND RFC 15/18] drm/display/dp_mst: Skip releasing payloads if
-> > last connected port isn't connected
-> > 
-> > In the past, we've ran into strange issues regarding errors in response to
-> > trying to destroy payloads after a port has been unplugged. We fixed this
-> > back in:
-> > 
-> > This is intended to replace the workaround that was added here:
-> > 
-> > commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by
-> > ports in stale topology")
-> > 
-> > which was intended fix to some of the payload leaks that were observed
-> > before, where we would attempt to determine if the port was still
-> > connected to the topology before updating payloads using
-> > drm_dp_mst_port_downstream_of_branch. This wasn't a particularly good
-> > solution, since one of the points of still having port and mstb validation
-> > is to
-> > avoid sending messages to newly disconnected branches wherever possible
-> > - thus the required use of drm_dp_mst_port_downstream_of_branch
-> > would indicate something may be wrong with said validation.
-> > 
-> > It seems like it may have just been races and luck that made
-> > drm_dp_mst_port_downstream_of_branch work however, as while I was
-> > trying to figure out the true cause of this issue when removing the legacy
-> > MST code - I discovered an important excerpt in section 2.14.2.3.3.6 of
-> > the DP
-> > 2.0
-> > specs:
-> > 
-> > "BAD_PARAM - This reply is transmitted when a Message Transaction
-> > parameter is in error; for example, the next port number is invalid or /no
-> > device is connected/ to the port associated with the port number."
-> > 
-> > Sure enough - removing the calls to
-> > drm_dp_mst_port_downstream_of_branch()
-> > and instead checking the ->ddps field of the parent port to see whether we
-> > should release a given payload or not seems to totally fix the issue. This
-> > does
-> > actually make sense to me, as it seems the implication is that given a
-> > topology where an MSTB is removed, the payload for the MST parent's port
-> > will be released automatically if that port is also marked as
-> > disconnected.
-> > However, if there's another parent in the chain after that which is
-> > connected
-> > - payloads must be released there with an ALLOCATE_PAYLOAD message.
-> > 
-> > So, let's do that!
-> > 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > Cc: Wayne Lin <Wayne.Lin@amd.com>
-> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
-> > Cc: Jani Nikula <jani.nikula@intel.com>
-> > Cc: Imre Deak <imre.deak@intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Sean Paul <sean@poorly.run>
-> > ---
-> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 51 +++++++------------
-> >  1 file changed, 17 insertions(+), 34 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > index dd314586bac3..70adb8db4335 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > @@ -3137,7 +3137,7 @@ static struct drm_dp_mst_port
-> > *drm_dp_get_last_connected_port_to_mstb(struct drm  static struct
-> > drm_dp_mst_branch *  drm_dp_get_last_connected_port_and_mstb(struct
-> > drm_dp_mst_topology_mgr *mgr,
-> >                                         struct drm_dp_mst_branch *mstb,
-> > -                                       int *port_num)
-> > +                                       struct drm_dp_mst_port
-> > **last_port)
-> >  {
-> >         struct drm_dp_mst_branch *rmstb = NULL;
-> >         struct drm_dp_mst_port *found_port;
-> > @@ -3153,7 +3153,8 @@
-> > drm_dp_get_last_connected_port_and_mstb(struct
-> > drm_dp_mst_topology_mgr *mgr,
-> > 
-> >                 if (drm_dp_mst_topology_try_get_mstb(found_port-
-> > > parent)) {
-> >                         rmstb = found_port->parent;
-> > -                       *port_num = found_port->port_num;
-> > +                       *last_port = found_port;
-> > +                       drm_dp_mst_get_port_malloc(found_port);
-> >                 } else {
-> >                         /* Search again, starting from this parent */
-> >                         mstb = found_port->parent;
-> > @@ -3170,7 +3171,7 @@ static int drm_dp_payload_send_msg(struct
-> > drm_dp_mst_topology_mgr *mgr,
-> >                                    int pbn)
-> >  {
-> >         struct drm_dp_sideband_msg_tx *txmsg;
-> > -       struct drm_dp_mst_branch *mstb;
-> > +       struct drm_dp_mst_branch *mstb = NULL;
-> >         int ret, port_num;
-> >         u8 sinks[DRM_DP_MAX_SDP_STREAMS];
-> >         int i;
-> > @@ -3178,12 +3179,22 @@ static int drm_dp_payload_send_msg(struct
-> > drm_dp_mst_topology_mgr *mgr,
-> >         port_num = port->port_num;
-> >         mstb = drm_dp_mst_topology_get_mstb_validated(mgr, port-
-> > > parent);
-> >         if (!mstb) {
-> > -               mstb = drm_dp_get_last_connected_port_and_mstb(mgr,
-> > -                                                              port-
-> > >parent,
-> > -                                                              &port_num);
-> > +               struct drm_dp_mst_port *rport = NULL;
-> > +               bool ddps;
-> > 
-> > +               mstb = drm_dp_get_last_connected_port_and_mstb(mgr,
-> > port->parent,
-> > +&rport);
-> >                 if (!mstb)
-> >                         return -EINVAL;
-> > +
-> > +               ddps = rport->ddps;
-> > +               port_num = rport->port_num;
-> > +               drm_dp_mst_put_port_malloc(rport);
-> > +
-> > +               /* If the port is currently marked as disconnected, don't
-> > send
-> > a payload message */
-> > +               if (!ddps) {
-> Hi Lyude,
-> 
-> Thanks for driving this!
-> Shouldn't we still send ALLOCATE_PAYLOAD with PBN 0 to the last connected 
-> Port even its peer device is disconnected? We rely on this "path msg" to
-> update
-> all payload ID tables along the virtual payload channel.
-> 
+On Fri, Jul 29, 2022 at 09:03:54AM +0200, Mauro Carvalho Chehab wrote:
+>From: Chris Wilson <chris.p.wilson@intel.com>
+>
+>Prepare for supporting more TLB invalidation scenarios by moving
+>the current MMIO invalidation to its own file.
 
-Do you know if there's any devices that break with this change, btw? Would be
-super useful to know imho, and if so I might be alright with dropping it
-depending on what the answer to the next paragraph is.
+And looks like,
+1. Rename intel_gt_invalidate_tlb() to intel_gt_invalidate_tlb_full()
+2. Add intel_gt_init_tlb() and intel_gt_fini_tlb() abstracts.
 
-> commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by
-> ports in stale topology") was trying to skip updating payload for a target
-> which is
-> no longer existing in the current topology rooted at mgr->mst_primary. I
-> passed
-> "mgr->mst_primary" to drm_dp_mst_port_downstream_of_branch() previously.
-> Sorry, I might not fully understand the issue you've seen. Could you
-> elaborate on
-> this more please?
-> 
-> Thanks!
+Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 
-I will have to double check this since it's been a month, but basically - the
-idea of having the topology references in the first place was to be the one
-check for figuring out whether something's in a topology or not. I've been
-thinking of maybe trying to replace it at some point, but I think we'd want to
-do it all over the helpers instead of just in certain spots.
-
-The other thing I noticed was that when I was rewriting this code, I noticed
-it seemed a lot like we had misunderstood the issue that was causing leaks in
-the first place. The BAD_PARAM we noticed indicates the payload we're trying
-to remove on the other end doesn't exist anymore, meaning the branch device in
-question got rid of any payloads it had active in response to the CSN. In
-testing though I found that payloads would be automatically released in
-situations where the last reachable port was marked as disconnected via a
-previous CSN, but was still reachable otherwise, and not in any other
-situation. This also seemed to match up with the excerpts in the DP spec that
-I found, so I assumed it was probably correct.
-
-Also, I think using the DDPS field instead of trying to traverse the topology
-state (which might not have been fully updated yet in response to CSNs) might
-be a slightly better idea since DDPS may end up being updated before the port
-has been removed from our in-memory topology, which is kind of one of the
-reasons I've been considering trying to come up with a better solution then
-topology references someday (unfortunately it works 'good enough' for the most
-part, so definitely not a priority). This is 100% a guess on my part though.
-
-> > +                       ret = -EINVAL;
-> > +                       goto fail_put;
-> > +               }
-> >         }
-> > 
-> >         txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL); @@ -3384,7 +3395,6
-> > @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr
-> > *mgr, int start_s
-> >         struct drm_dp_mst_port *port;
-> >         int i, j;
-> >         int cur_slots = start_slot;
-> > -       bool skip;
-> > 
-> >         mutex_lock(&mgr->payload_lock);
-> >         for (i = 0; i < mgr->max_payloads; i++) { @@ -3399,16 +3409,6 @@
-> > int
-> > drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
-> > int start_s
-> >                         port = container_of(vcpi, struct drm_dp_mst_port,
-> >                                             vcpi);
-> > 
-> > -                       mutex_lock(&mgr->lock);
-> > -                       skip
-> > = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
-> > -                       mutex_unlock(&mgr->lock);
-> > -
-> > -                       if (skip) {
-> > -                               drm_dbg_kms(mgr->dev,
-> > -                                           "Virtual channel %d is not in
-> > current
-> > topology\n",
-> > -                                           i);
-> > -                               continue;
-> > -                       }
-> >                         /* Validated ports don't matter if we're releasing
-> >                          * VCPI
-> >                          */
-> > @@ -3509,7 +3509,6 @@ int drm_dp_update_payload_part2(struct
-> > drm_dp_mst_topology_mgr *mgr)
-> >         struct drm_dp_mst_port *port;
-> >         int i;
-> >         int ret = 0;
-> > -       bool skip;
-> > 
-> >         mutex_lock(&mgr->payload_lock);
-> >         for (i = 0; i < mgr->max_payloads; i++) { @@ -3519,13 +3518,6 @@
-> > int
-> > drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr)
-> > 
-> >                 port = container_of(mgr->proposed_vcpis[i], struct
-> > drm_dp_mst_port, vcpi);
-> > 
-> > -               mutex_lock(&mgr->lock);
-> > -               skip = !drm_dp_mst_port_downstream_of_branch(port,
-> > mgr->mst_primary);
-> > -               mutex_unlock(&mgr->lock);
-> > -
-> > -               if (skip)
-> > -                       continue;
-> > -
-> >                 drm_dbg_kms(mgr->dev, "payload %d %d\n", i, mgr-
-> > > payloads[i].payload_state);
-> >                 if (mgr->payloads[i].payload_state == DP_PAYLOAD_LOCAL)
-> > {
-> >                         ret = drm_dp_create_payload_step2(mgr, port, mgr-
-> > > proposed_vcpis[i]->vcpi, &mgr->payloads[i]); @@ -4780,18 +4772,9 @@
-> > EXPORT_SYMBOL(drm_dp_mst_reset_vcpi_slots);
-> >  void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
-> >                                 struct drm_dp_mst_port *port)
-> >  {
-> > -       bool skip;
-> > -
-> >         if (!port->vcpi.vcpi)
-> >                 return;
-> > 
-> > -       mutex_lock(&mgr->lock);
-> > -       skip = !drm_dp_mst_port_downstream_of_branch(port, mgr-
-> > > mst_primary);
-> > -       mutex_unlock(&mgr->lock);
-> > -
-> > -       if (skip)
-> > -               return;
-> > -
-> >         drm_dp_mst_put_payload_id(mgr, port->vcpi.vcpi);
-> >         port->vcpi.num_slots = 0;
-> >         port->vcpi.pbn = 0;
-> > --
-> > 2.35.3
-> --
-> Wayne Lin
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+>
+>Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+>Cc: Fei Yang <fei.yang@intel.com>
+>Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>---
+>
+>To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+>See [PATCH v2 0/2] at: https://lore.kernel.org/all/cover.1659077372.git.mchehab@kernel.org/
+>
+> drivers/gpu/drm/i915/Makefile             |   1 +
+> drivers/gpu/drm/i915/gem/i915_gem_pages.c |   4 +-
+> drivers/gpu/drm/i915/gt/intel_gt.c        | 168 +-------------------
+> drivers/gpu/drm/i915/gt/intel_gt.h        |  12 --
+> drivers/gpu/drm/i915/gt/intel_tlb.c       | 183 ++++++++++++++++++++++
+> drivers/gpu/drm/i915/gt/intel_tlb.h       |  29 ++++
+> drivers/gpu/drm/i915/i915_vma.c           |   1 +
+> 7 files changed, 219 insertions(+), 179 deletions(-)
+> create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+> create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+>
+>diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>index 522ef9b4aff3..d3df9832d1f7 100644
+>--- a/drivers/gpu/drm/i915/Makefile
+>+++ b/drivers/gpu/drm/i915/Makefile
+>@@ -126,6 +126,7 @@ gt-y += \
+> 	gt/intel_sseu.o \
+> 	gt/intel_sseu_debugfs.o \
+> 	gt/intel_timeline.o \
+>+	gt/intel_tlb.o \
+> 	gt/intel_workarounds.o \
+> 	gt/shmem_utils.o \
+> 	gt/sysfs_engines.o
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>index 8357dbdcab5c..1cd76cc5d9f3 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>@@ -7,7 +7,7 @@
+> #include <drm/drm_cache.h>
+>
+> #include "gt/intel_gt.h"
+>-#include "gt/intel_gt_pm.h"
+>+#include "gt/intel_tlb.h"
+>
+> #include "i915_drv.h"
+> #include "i915_gem_object.h"
+>@@ -199,7 +199,7 @@ static void flush_tlb_invalidate(struct drm_i915_gem_object *obj)
+> 	if (!obj->mm.tlb)
+> 		return;
+>
+>-	intel_gt_invalidate_tlb(gt, obj->mm.tlb);
+>+	intel_gt_invalidate_tlb_full(gt, obj->mm.tlb);
+> 	obj->mm.tlb = 0;
+> }
+>
+>diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+>index f435e06125aa..18d82cd620bd 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>@@ -11,9 +11,7 @@
+> #include "pxp/intel_pxp.h"
+>
+> #include "i915_drv.h"
+>-#include "i915_perf_oa_regs.h"
+> #include "intel_context.h"
+>-#include "intel_engine_pm.h"
+> #include "intel_engine_regs.h"
+> #include "intel_ggtt_gmch.h"
+> #include "intel_gt.h"
+>@@ -31,6 +29,7 @@
+> #include "intel_renderstate.h"
+> #include "intel_rps.h"
+> #include "intel_gt_sysfs.h"
+>+#include "intel_tlb.h"
+> #include "intel_uncore.h"
+> #include "shmem_utils.h"
+>
+>@@ -48,8 +47,7 @@ static void __intel_gt_init_early(struct intel_gt *gt)
+> 	intel_gt_init_reset(gt);
+> 	intel_gt_init_requests(gt);
+> 	intel_gt_init_timelines(gt);
+>-	mutex_init(&gt->tlb.invalidate_lock);
+>-	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
+>+	intel_gt_init_tlb(gt);
+> 	intel_gt_pm_init_early(gt);
+>
+> 	intel_uc_init_early(&gt->uc);
+>@@ -770,7 +768,7 @@ void intel_gt_driver_late_release_all(struct drm_i915_private *i915)
+> 		intel_gt_fini_requests(gt);
+> 		intel_gt_fini_reset(gt);
+> 		intel_gt_fini_timelines(gt);
+>-		mutex_destroy(&gt->tlb.invalidate_lock);
+>+		intel_gt_fini_tlb(gt);
+> 		intel_engines_free(gt);
+> 	}
+> }
+>@@ -881,163 +879,3 @@ void intel_gt_info_print(const struct intel_gt_info *info,
+>
+> 	intel_sseu_dump(&info->sseu, p);
+> }
+>-
+>-struct reg_and_bit {
+>-	i915_reg_t reg;
+>-	u32 bit;
+>-};
+>-
+>-static struct reg_and_bit
+>-get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
+>-		const i915_reg_t *regs, const unsigned int num)
+>-{
+>-	const unsigned int class = engine->class;
+>-	struct reg_and_bit rb = { };
+>-
+>-	if (drm_WARN_ON_ONCE(&engine->i915->drm,
+>-			     class >= num || !regs[class].reg))
+>-		return rb;
+>-
+>-	rb.reg = regs[class];
+>-	if (gen8 && class == VIDEO_DECODE_CLASS)
+>-		rb.reg.reg += 4 * engine->instance; /* GEN8_M2TCR */
+>-	else
+>-		rb.bit = engine->instance;
+>-
+>-	rb.bit = BIT(rb.bit);
+>-
+>-	return rb;
+>-}
+>-
+>-static void mmio_invalidate_full(struct intel_gt *gt)
+>-{
+>-	static const i915_reg_t gen8_regs[] = {
+>-		[RENDER_CLASS]			= GEN8_RTCR,
+>-		[VIDEO_DECODE_CLASS]		= GEN8_M1TCR, /* , GEN8_M2TCR */
+>-		[VIDEO_ENHANCEMENT_CLASS]	= GEN8_VTCR,
+>-		[COPY_ENGINE_CLASS]		= GEN8_BTCR,
+>-	};
+>-	static const i915_reg_t gen12_regs[] = {
+>-		[RENDER_CLASS]			= GEN12_GFX_TLB_INV_CR,
+>-		[VIDEO_DECODE_CLASS]		= GEN12_VD_TLB_INV_CR,
+>-		[VIDEO_ENHANCEMENT_CLASS]	= GEN12_VE_TLB_INV_CR,
+>-		[COPY_ENGINE_CLASS]		= GEN12_BLT_TLB_INV_CR,
+>-		[COMPUTE_CLASS]			= GEN12_COMPCTX_TLB_INV_CR,
+>-	};
+>-	struct drm_i915_private *i915 = gt->i915;
+>-	struct intel_uncore *uncore = gt->uncore;
+>-	struct intel_engine_cs *engine;
+>-	intel_engine_mask_t awake, tmp;
+>-	enum intel_engine_id id;
+>-	const i915_reg_t *regs;
+>-	unsigned int num = 0;
+>-
+>-	if (GRAPHICS_VER(i915) == 12) {
+>-		regs = gen12_regs;
+>-		num = ARRAY_SIZE(gen12_regs);
+>-	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+>-		regs = gen8_regs;
+>-		num = ARRAY_SIZE(gen8_regs);
+>-	} else if (GRAPHICS_VER(i915) < 8) {
+>-		return;
+>-	}
+>-
+>-	if (drm_WARN_ONCE(&i915->drm, !num,
+>-			  "Platform does not implement TLB invalidation!"))
+>-		return;
+>-
+>-	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+>-
+>-	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset */
+>-
+>-	awake = 0;
+>-	for_each_engine(engine, gt, id) {
+>-		struct reg_and_bit rb;
+>-
+>-		if (!intel_engine_pm_is_awake(engine))
+>-			continue;
+>-
+>-		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+>-		if (!i915_mmio_reg_offset(rb.reg))
+>-			continue;
+>-
+>-		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+>-		awake |= engine->mask;
+>-	}
+>-
+>-	GT_TRACE(gt, "invalidated engines %08x\n", awake);
+>-
+>-	/* Wa_2207587034:tgl,dg1,rkl,adl-s,adl-p */
+>-	if (awake &&
+>-	    (IS_TIGERLAKE(i915) ||
+>-	     IS_DG1(i915) ||
+>-	     IS_ROCKETLAKE(i915) ||
+>-	     IS_ALDERLAKE_S(i915) ||
+>-	     IS_ALDERLAKE_P(i915)))
+>-		intel_uncore_write_fw(uncore, GEN12_OA_TLB_INV_CR, 1);
+>-
+>-	spin_unlock_irq(&uncore->lock);
+>-
+>-	for_each_engine_masked(engine, gt, awake, tmp) {
+>-		struct reg_and_bit rb;
+>-
+>-		/*
+>-		 * HW architecture suggest typical invalidation time at 40us,
+>-		 * with pessimistic cases up to 100us and a recommendation to
+>-		 * cap at 1ms. We go a bit higher just in case.
+>-		 */
+>-		const unsigned int timeout_us = 100;
+>-		const unsigned int timeout_ms = 4;
+>-
+>-		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+>-		if (__intel_wait_for_register_fw(uncore,
+>-						 rb.reg, rb.bit, 0,
+>-						 timeout_us, timeout_ms,
+>-						 NULL))
+>-			drm_err_ratelimited(&gt->i915->drm,
+>-					    "%s TLB invalidation did not complete in %ums!\n",
+>-					    engine->name, timeout_ms);
+>-	}
+>-
+>-	/*
+>-	 * Use delayed put since a) we mostly expect a flurry of TLB
+>-	 * invalidations so it is good to avoid paying the forcewake cost and
+>-	 * b) it works around a bug in Icelake which cannot cope with too rapid
+>-	 * transitions.
+>-	 */
+>-	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
+>-}
+>-
+>-static bool tlb_seqno_passed(const struct intel_gt *gt, u32 seqno)
+>-{
+>-	u32 cur = intel_gt_tlb_seqno(gt);
+>-
+>-	/* Only skip if a *full* TLB invalidate barrier has passed */
+>-	return (s32)(cur - ALIGN(seqno, 2)) > 0;
+>-}
+>-
+>-void intel_gt_invalidate_tlb(struct intel_gt *gt, u32 seqno)
+>-{
+>-	intel_wakeref_t wakeref;
+>-
+>-	if (I915_SELFTEST_ONLY(gt->awake == -ENODEV))
+>-		return;
+>-
+>-	if (intel_gt_is_wedged(gt))
+>-		return;
+>-
+>-	if (tlb_seqno_passed(gt, seqno))
+>-		return;
+>-
+>-	with_intel_gt_pm_if_awake(gt, wakeref) {
+>-		mutex_lock(&gt->tlb.invalidate_lock);
+>-		if (tlb_seqno_passed(gt, seqno))
+>-			goto unlock;
+>-
+>-		mmio_invalidate_full(gt);
+>-
+>-		write_seqcount_invalidate(&gt->tlb.seqno);
+>-unlock:
+>-		mutex_unlock(&gt->tlb.invalidate_lock);
+>-	}
+>-}
+>diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+>index 40b06adf509a..b4bba16cdb53 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_gt.h
+>+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+>@@ -101,16 +101,4 @@ void intel_gt_info_print(const struct intel_gt_info *info,
+>
+> void intel_gt_watchdog_work(struct work_struct *work);
+>
+>-static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+>-{
+>-	return seqprop_sequence(&gt->tlb.seqno);
+>-}
+>-
+>-static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
+>-{
+>-	return intel_gt_tlb_seqno(gt) | 1;
+>-}
+>-
+>-void intel_gt_invalidate_tlb(struct intel_gt *gt, u32 seqno);
+>-
+> #endif /* __INTEL_GT_H__ */
+>diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
+>new file mode 100644
+>index 000000000000..af8cae979489
+>--- /dev/null
+>+++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
+>@@ -0,0 +1,183 @@
+>+// SPDX-License-Identifier: MIT
+>+/*
+>+ * Copyright � 2022 Intel Corporation
+>+ */
+>+
+>+#include "i915_drv.h"
+>+#include "i915_perf_oa_regs.h"
+>+#include "intel_engine_pm.h"
+>+#include "intel_gt.h"
+>+#include "intel_gt_pm.h"
+>+#include "intel_gt_regs.h"
+>+#include "intel_tlb.h"
+>+
+>+struct reg_and_bit {
+>+	i915_reg_t reg;
+>+	u32 bit;
+>+};
+>+
+>+static struct reg_and_bit
+>+get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
+>+		const i915_reg_t *regs, const unsigned int num)
+>+{
+>+	const unsigned int class = engine->class;
+>+	struct reg_and_bit rb = { };
+>+
+>+	if (drm_WARN_ON_ONCE(&engine->i915->drm,
+>+			     class >= num || !regs[class].reg))
+>+		return rb;
+>+
+>+	rb.reg = regs[class];
+>+	if (gen8 && class == VIDEO_DECODE_CLASS)
+>+		rb.reg.reg += 4 * engine->instance; /* GEN8_M2TCR */
+>+	else
+>+		rb.bit = engine->instance;
+>+
+>+	rb.bit = BIT(rb.bit);
+>+
+>+	return rb;
+>+}
+>+
+>+static bool tlb_seqno_passed(const struct intel_gt *gt, u32 seqno)
+>+{
+>+	u32 cur = intel_gt_tlb_seqno(gt);
+>+
+>+	/* Only skip if a *full* TLB invalidate barrier has passed */
+>+	return (s32)(cur - ALIGN(seqno, 2)) > 0;
+>+}
+>+
+>+static void mmio_invalidate_full(struct intel_gt *gt)
+>+{
+>+	static const i915_reg_t gen8_regs[] = {
+>+		[RENDER_CLASS]			= GEN8_RTCR,
+>+		[VIDEO_DECODE_CLASS]		= GEN8_M1TCR, /* , GEN8_M2TCR */
+>+		[VIDEO_ENHANCEMENT_CLASS]	= GEN8_VTCR,
+>+		[COPY_ENGINE_CLASS]		= GEN8_BTCR,
+>+	};
+>+	static const i915_reg_t gen12_regs[] = {
+>+		[RENDER_CLASS]			= GEN12_GFX_TLB_INV_CR,
+>+		[VIDEO_DECODE_CLASS]		= GEN12_VD_TLB_INV_CR,
+>+		[VIDEO_ENHANCEMENT_CLASS]	= GEN12_VE_TLB_INV_CR,
+>+		[COPY_ENGINE_CLASS]		= GEN12_BLT_TLB_INV_CR,
+>+		[COMPUTE_CLASS]			= GEN12_COMPCTX_TLB_INV_CR,
+>+	};
+>+	struct drm_i915_private *i915 = gt->i915;
+>+	struct intel_uncore *uncore = gt->uncore;
+>+	struct intel_engine_cs *engine;
+>+	intel_engine_mask_t awake, tmp;
+>+	enum intel_engine_id id;
+>+	const i915_reg_t *regs;
+>+	unsigned int num = 0;
+>+
+>+	if (GRAPHICS_VER(i915) == 12) {
+>+		regs = gen12_regs;
+>+		num = ARRAY_SIZE(gen12_regs);
+>+	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+>+		regs = gen8_regs;
+>+		num = ARRAY_SIZE(gen8_regs);
+>+	} else if (GRAPHICS_VER(i915) < 8) {
+>+		return;
+>+	}
+>+
+>+	if (drm_WARN_ONCE(&i915->drm, !num,
+>+			  "Platform does not implement TLB invalidation!"))
+>+		return;
+>+
+>+	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+>+
+>+	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset */
+>+
+>+	awake = 0;
+>+	for_each_engine(engine, gt, id) {
+>+		struct reg_and_bit rb;
+>+
+>+		if (!intel_engine_pm_is_awake(engine))
+>+			continue;
+>+
+>+		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+>+		if (!i915_mmio_reg_offset(rb.reg))
+>+			continue;
+>+
+>+		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+>+		awake |= engine->mask;
+>+	}
+>+
+>+	GT_TRACE(gt, "invalidated engines %08x\n", awake);
+>+
+>+	/* Wa_2207587034:tgl,dg1,rkl,adl-s,adl-p */
+>+	if (awake &&
+>+	    (IS_TIGERLAKE(i915) ||
+>+	     IS_DG1(i915) ||
+>+	     IS_ROCKETLAKE(i915) ||
+>+	     IS_ALDERLAKE_S(i915) ||
+>+	     IS_ALDERLAKE_P(i915)))
+>+		intel_uncore_write_fw(uncore, GEN12_OA_TLB_INV_CR, 1);
+>+
+>+	spin_unlock_irq(&uncore->lock);
+>+
+>+	for_each_engine_masked(engine, gt, awake, tmp) {
+>+		struct reg_and_bit rb;
+>+
+>+		/*
+>+		 * HW architecture suggest typical invalidation time at 40us,
+>+		 * with pessimistic cases up to 100us and a recommendation to
+>+		 * cap at 1ms. We go a bit higher just in case.
+>+		 */
+>+		const unsigned int timeout_us = 100;
+>+		const unsigned int timeout_ms = 4;
+>+
+>+		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+>+		if (__intel_wait_for_register_fw(uncore,
+>+						 rb.reg, rb.bit, 0,
+>+						 timeout_us, timeout_ms,
+>+						 NULL))
+>+			drm_err_ratelimited(&gt->i915->drm,
+>+					    "%s TLB invalidation did not complete in %ums!\n",
+>+					    engine->name, timeout_ms);
+>+	}
+>+
+>+	/*
+>+	 * Use delayed put since a) we mostly expect a flurry of TLB
+>+	 * invalidations so it is good to avoid paying the forcewake cost and
+>+	 * b) it works around a bug in Icelake which cannot cope with too rapid
+>+	 * transitions.
+>+	 */
+>+	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
+>+}
+>+
+>+void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+>+{
+>+	intel_wakeref_t wakeref;
+>+
+>+	if (I915_SELFTEST_ONLY(gt->awake == -ENODEV))
+>+		return;
+>+
+>+	if (intel_gt_is_wedged(gt))
+>+		return;
+>+
+>+	if (tlb_seqno_passed(gt, seqno))
+>+		return;
+>+
+>+	with_intel_gt_pm_if_awake(gt, wakeref) {
+>+		mutex_lock(&gt->tlb.invalidate_lock);
+>+		if (tlb_seqno_passed(gt, seqno))
+>+			goto unlock;
+>+
+>+		mmio_invalidate_full(gt);
+>+
+>+		write_seqcount_invalidate(&gt->tlb.seqno);
+>+unlock:
+>+		mutex_unlock(&gt->tlb.invalidate_lock);
+>+	}
+>+}
+>+
+>+void intel_gt_init_tlb(struct intel_gt *gt)
+>+{
+>+	mutex_init(&gt->tlb.invalidate_lock);
+>+	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
+>+}
+>+
+>+void intel_gt_fini_tlb(struct intel_gt *gt)
+>+{
+>+	mutex_destroy(&gt->tlb.invalidate_lock);
+>+}
+>diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
+>new file mode 100644
+>index 000000000000..46ce25bf5afe
+>--- /dev/null
+>+++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
+>@@ -0,0 +1,29 @@
+>+/* SPDX-License-Identifier: MIT */
+>+/*
+>+ * Copyright � 2022 Intel Corporation
+>+ */
+>+
+>+#ifndef INTEL_TLB_H
+>+#define INTEL_TLB_H
+>+
+>+#include <linux/seqlock.h>
+>+#include <linux/types.h>
+>+
+>+#include "intel_gt_types.h"
+>+
+>+void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno);
+>+
+>+void intel_gt_init_tlb(struct intel_gt *gt);
+>+void intel_gt_fini_tlb(struct intel_gt *gt);
+>+
+>+static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+>+{
+>+	return seqprop_sequence(&gt->tlb.seqno);
+>+}
+>+
+>+static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
+>+{
+>+	return intel_gt_tlb_seqno(gt) | 1;
+>+}
+>+
+>+#endif /* INTEL_TLB_H */
+>diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>index 84a9ccbc5fc5..fe947d1456d5 100644
+>--- a/drivers/gpu/drm/i915/i915_vma.c
+>+++ b/drivers/gpu/drm/i915/i915_vma.c
+>@@ -33,6 +33,7 @@
+> #include "gt/intel_engine_heartbeat.h"
+> #include "gt/intel_gt.h"
+> #include "gt/intel_gt_requests.h"
+>+#include "gt/intel_tlb.h"
+>
+> #include "i915_drv.h"
+> #include "i915_gem_evict.h"
+>-- 
+>2.36.1
+>
