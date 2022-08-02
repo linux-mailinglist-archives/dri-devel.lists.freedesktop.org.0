@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0012C5875B3
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 04:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F225875FF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 05:32:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00921113603;
-	Tue,  2 Aug 2022 02:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B507310FF84;
+	Tue,  2 Aug 2022 03:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0938D1135F2
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 02:56:40 +0000 (UTC)
-X-UUID: 0f016471410a40bd970b5f5ee99a0f83-20220802
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:d2f20303-42dd-4a9c-bd21-a3eb2abb00cb, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.8, REQID:d2f20303-42dd-4a9c-bd21-a3eb2abb00cb, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:0f94e32, CLOUDID:0f96f5d0-841b-4e95-ad42-8f86e18f54fc,
- C
- OID:423ab5852118,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 0f016471410a40bd970b5f5ee99a0f83-20220802
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1129900911; Tue, 02 Aug 2022 10:56:32 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 2 Aug 2022 10:56:31 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 2 Aug 2022 10:56:31 +0800
-Message-ID: <f38757a55a5a5f90099a2b166363b32da44ff3a7.camel@mediatek.com>
-Subject: Re: [PATCH v15 05/11] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Tue, 2 Aug 2022 10:56:30 +0800
-In-Reply-To: <20220727045035.32225-6-rex-bc.chen@mediatek.com>
-References: <20220727045035.32225-1-rex-bc.chen@mediatek.com>
- <20220727045035.32225-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4A11123A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 03:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659411111;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o+qUDBHIYcaqcwjO19c+9D25AupKrMJUJZGkK9P5m78=;
+ b=KRQO1zdCtgB2ROqwuR/FpU6SCxNpjLi8ysUdliocvPEFNcMmTtlfsfSYl4w/o88f1B3XMW
+ gWR7VLRwtrOXXktBSm6hw3cvfS3whOFDKqJNlbeBg3PgCns2HA2R42R2fKg1v0Jn7ef1CG
+ H1B+z946XWO1e7Yq547ebANuRzZq1Po=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-5-mwQs09v_NPWoUgw0qgChJg-1; Mon, 01 Aug 2022 23:31:50 -0400
+X-MC-Unique: mwQs09v_NPWoUgw0qgChJg-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ z1-20020a0565120c0100b0048ab2910b13so3983616lfu.23
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 20:31:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=o+qUDBHIYcaqcwjO19c+9D25AupKrMJUJZGkK9P5m78=;
+ b=2Zhqd3kyDo85mFQWFQMktandse3ny+xRox9hTdC6zZH9xKqAuw00DCNo3U6qcmyMhf
+ 8AoE3mFRB0L61EEbzzbNg3w9g9KsmwWq3c7CLyszslCp8I3MqGHIaZ+WBrw+rlu/qs3t
+ RUrpiwvq8lRgiMb9jAbzKnAEbeu9xXYji8ilZwYI+v68E0AqLCSIOgt5u8NVZkXfk3cy
+ qv3af9odQstOt8CnZxfufXUaBb0XtPqWONNhW8agL0/Tho70efl6ntqZHWGo/inKS7Hy
+ NKTnH6t4si3toMXO9KRQNdakGkH2gLjWndsuKf+hKqefxzQLR3YZXGQYKhKNqkyPnJ6M
+ MiQA==
+X-Gm-Message-State: AJIora+i/FPp768SvZK/m1NCZg3ZiJ8fyqebbsBZc+AHuubCvJYDkjy9
+ X3q9Q2J6TpepTiZY9KCcEjg7fWhe6kKopMO0xw1xV0nZ6v9SldLGGUT2lIIxSJg/CyTHiA9pVdD
+ nWm1de1bA4SIbKA4gzx3ff2eHBc9E/wyX+TvTIehQ1VqRy/3NQCRRW6LH0gHH/UmDII8Dj0iwZj
+ iMQks=
+X-Received: by 2002:a05:6512:131b:b0:48a:26dd:d823 with SMTP id
+ x27-20020a056512131b00b0048a26ddd823mr6410280lfu.661.1659411108808; 
+ Mon, 01 Aug 2022 20:31:48 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tGnInis/3hI/Wg6D76XQoQaIffekX2RxhwrwlZ3egFwM2wSRriEz3UlhMmkgJvB+r66uchTQ==
+X-Received: by 2002:a05:6512:131b:b0:48a:26dd:d823 with SMTP id
+ x27-20020a056512131b00b0048a26ddd823mr6410273lfu.661.1659411108499; 
+ Mon, 01 Aug 2022 20:31:48 -0700 (PDT)
+Received: from mjp-Z390-AORUS-MASTER.redhat.com
+ (91-145-109-188.bb.dnainternet.fi. [91.145.109.188])
+ by smtp.gmail.com with ESMTPSA id
+ o20-20020a056512053400b0048a73d83b7csm1106012lfc.133.2022.08.01.20.31.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 20:31:47 -0700 (PDT)
+From: mpenttil@redhat.com
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] Prevent CPU deadlock with fbdev based consoles while printing
+ scheduler warnings
+Date: Tue,  2 Aug 2022 06:31:42 +0300
+Message-Id: <20220802033142.31655-1-mpenttil@redhat.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +82,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: airlied@linux.ie, =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+From: Mika Penttilä <mpenttil@redhat.com>
 
-On Wed, 2022-07-27 at 12:50 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
+With some fbdev based consoles, using the deferred_io mechanism and drm_fb_helper,
+there can be a call chain like:
 
-[snip]
+Backtrack:
 
-> +
-> +#define MTK_DP_ENC0_P0_31D0			(ENC0_OFFSET + 0x1D0)
+try_to_wake_up  <-- rq_lock taken
+__queue_work
+queue_work_on
+soft_cursor
+hide_cursor
+vt_console_print
+console_unlock
+vprintk_emit
+printk
+__warn_printk
+(cfs_rq_is_decayed -> SCHED_WARN_ON)
+__update_blocked_fair
+update_blocked_averages   <-- rq_lock taken
 
-MTK_DP_ENC0_P0_31D0 is uselese, so remove it.
+Example producer is with qemu bochs virtio device (qemu stdvga),
+and drm bochs support in the guest.
 
-> +#define VSC_EXT_CEA_HB0_DP_ENC0_P0_MASK		GENMASK(7, 0)
-> +#define VSC_EXT_CEA_HB1_DP_ENC0_P0_MASK		GENMASK(15, 8)
-> +#define VSC_EXT_CEA_HB1_DP_ENC0_P0_SHIFT	BIT(3)
-> +
-> +#define MTK_DP_ENC0_P0_31D4			(ENC0_OFFSET + 0x1D4)
+This can fixed be used using schedule_delayed_work() to get out of scheduler context,
+if needed, while queueing the damage_work.
 
-Ditto.
+Signed-off-by: Mika Penttilä <mpenttil@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+---
+ drivers/gpu/drm/drm_fb_helper.c | 8 ++++----
+ include/drm/drm_fb_helper.h     | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-> +#define VSC_EXT_CEA_HB2_DP_ENC0_P0_MASK		GENMASK(7, 0)
-> +#define VSC_EXT_CEA_HB2_DP_ENC0_P0_SHIFT	0
-> +#define VSC_EXT_CEA_HB3_DP_ENC0_P0_MASK		GENMASK(15, 8)
-> +
-> +#define MTK_DP_ENC0_P0_31D8			(ENC0_OFFSET + 0x1D8)
-
-Ditto.
-
-> +#define VSC_EXT_VESA_NUM_DP_ENC0_P0_MASK	GENMASK(5, 0)
-> +#define VSC_EXT_VESA_NUM_DP_ENC0_P0_SHIFT	0
-> +#define VSC_EXT_CEA_NUM_DP_ENC0_P0_MASK		GENMASK(13, 8)
-> +#define VSC_EXT_CEA_NUM_DP_ENC0_P0_SHIFT	BIT(3)
-> +
-> +#define MTK_DP_ENC0_P0_31DC			(ENC0_OFFSET + 0x1DC)
-
-Ditto.
-
-Regards,
-CK
-
-> +#define HDR0_CFG_DP_ENC0_P0_MASK		GENMASK(7, 0)
-> +#define HDR0_CFG_DP_ENC0_P0_SHIFT		0
-> +#define MTK_DP_ENC0_P0_31E8			(ENC0_OFFSET + 0x1E8)
-> +#define MTK_DP_ENC0_P0_31EC			(ENC0_OFFSET + 0x1EC)
-> +#define AUDIO_CH_SRC_SEL_DP_ENC0_P0_MASK	BIT(4)
-> +#define AUDIO_CH_SRC_SEL_DP_ENC0_P0_SHIFT	BIT(2)
-> +#define ISRC1_HB3_DP_ENC0_P0_MASK		GENMASK(15, 8)
-> +#define ISRC1_HB3_DP_ENC0_P0_SHIFT		BIT(3)
-> +
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 5ad2b6a2778c..6449e8dc97f6 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -429,7 +429,7 @@ static int drm_fb_helper_damage_blit(struct drm_fb_helper *fb_helper,
+ static void drm_fb_helper_damage_work(struct work_struct *work)
+ {
+ 	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper,
+-						    damage_work);
++						    damage_work.work);
+ 	struct drm_device *dev = helper->dev;
+ 	struct drm_clip_rect *clip = &helper->damage_clip;
+ 	struct drm_clip_rect clip_copy;
+@@ -488,7 +488,7 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
+ 	INIT_LIST_HEAD(&helper->kernel_fb_list);
+ 	spin_lock_init(&helper->damage_lock);
+ 	INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
+-	INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
++	INIT_DELAYED_WORK(&helper->damage_work, drm_fb_helper_damage_work);
+ 	helper->damage_clip.x1 = helper->damage_clip.y1 = ~0;
+ 	mutex_init(&helper->lock);
+ 	helper->funcs = funcs;
+@@ -625,7 +625,7 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ 		return;
+ 
+ 	cancel_work_sync(&fb_helper->resume_work);
+-	cancel_work_sync(&fb_helper->damage_work);
++	cancel_delayed_work_sync(&fb_helper->damage_work);
+ 
+ 	info = fb_helper->fbdev;
+ 	if (info) {
+@@ -677,7 +677,7 @@ static void drm_fb_helper_damage(struct fb_info *info, u32 x, u32 y,
+ 	clip->y2 = max_t(u32, clip->y2, y + height);
+ 	spin_unlock_irqrestore(&helper->damage_lock, flags);
+ 
+-	schedule_work(&helper->damage_work);
++	schedule_delayed_work(&helper->damage_work, in_atomic() ? 1 : 0);
+ }
+ 
+ /* Convert memory region into area of scanlines and pixels per scanline */
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 329607ca65c0..65a26d57d517 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -132,7 +132,7 @@ struct drm_fb_helper {
+ 	u32 pseudo_palette[17];
+ 	struct drm_clip_rect damage_clip;
+ 	spinlock_t damage_lock;
+-	struct work_struct damage_work;
++	struct delayed_work damage_work;
+ 	struct work_struct resume_work;
+ 
+ 	/**
+-- 
+2.17.1
 
