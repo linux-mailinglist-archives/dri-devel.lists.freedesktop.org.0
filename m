@@ -2,40 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886D7587B13
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 12:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581EC587B5E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 13:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1FE11B3AB;
-	Tue,  2 Aug 2022 10:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3D7912A6DA;
+	Tue,  2 Aug 2022 11:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37DAC10E914
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 10:53:37 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B200B25B;
- Tue,  2 Aug 2022 12:53:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1659437614;
- bh=w8AZJHqp+A9fn1ePAye0WrrjbAMpqA/lRUqJ3qO4C9E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PLf6T6q508gLjgspDip9CkpueQ+XlYkfgVC55ovdoqaOOc0ELjJLiQW0KsI/HqpNS
- g418Fy6Ajgis4ryKa+ZwH6zWBON4NLY8NWan+1YDmvxwE3XH/yGHeXbOp+pFJzlI35
- eXIujlVMPgsaM9UOPIUexcLunmxP98DgcbskvrdA=
-Date: Tue, 2 Aug 2022 13:53:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v7 1/5] drm/fb: remove unused includes of
- drm_fb_cma_helper.h
-Message-ID: <YukCKUvNGuLx3JT7@pendragon.ideasonboard.com>
-References: <20220802000405.949236-1-dakr@redhat.com>
- <20220802000405.949236-2-dakr@redhat.com>
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBCF114A2F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 11:09:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=RDKDOiFX9DJ8KJteDihxk8WMDzoB2Csjk08l0LD8urs=;
+ b=YYJ0qctBXv88GsNUDDNT33hYVMfzU0NR1ZQBx9blGPAvzIvet5IGH6U276Q4QRrbjrRKQOHDbHsHX
+ ehy3h59/m4ZFXy2i+//iGikdiFTgITOkVC6wVq9CwhW17wIVG3y4KnWJiCjNbsHzlKqJ8GQK12oSN+
+ vTghv9j/i5Cpu1CEJES4bZcrwGIS9jy9FqYbgRKvGkaIew0LtaIGYjuxGgZIr4TB7SSPrlWlubjxD4
+ KwJLry3hydoqzPvDzgIJlc2wKBVmAyX4G9/ekt9dZ6emWms1tGX+tly/s/JeddzPNB99Di4ioU2b1z
+ PYK4Fm1bfrLhSLXwbYlUpBnonjPiGEQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=RDKDOiFX9DJ8KJteDihxk8WMDzoB2Csjk08l0LD8urs=;
+ b=RfehnFKbBeGZ5laUH541Vvbtp9nCobaNvG+kFiEw6Jv8jvaQ+KdwLmoydHj2tO48Bk5u4v8iuSiP3
+ e+Rrk4PBw==
+X-HalOne-Cookie: cde644e7151886fe86bb052493c110b6859a4db0
+X-HalOne-ID: 97c2082c-1253-11ed-a6c9-d0431ea8a283
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 97c2082c-1253-11ed-a6c9-d0431ea8a283;
+ Tue, 02 Aug 2022 11:09:35 +0000 (UTC)
+Date: Tue, 2 Aug 2022 13:09:34 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Kevin Brace <kevinbrace@gmx.com>
+Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
+Message-ID: <YukF7guP0EBIz0PT@ravnborg.org>
+References: <20220725235359.20516-1-kevinbrace@gmx.com>
+ <20220725235359.20516-7-kevinbrace@gmx.com>
+ <f7a47d59-d4d2-61fb-4e42-1decff2e7d62@suse.de>
+ <trinity-e1f9136b-24dd-44ed-861b-a0735c91422e-1659221316349@3c-app-mailcom-bs07>
+ <Yufl737qQnxlHeGd@ravnborg.org>
+ <trinity-4501b716-d008-4a86-9e0c-681c301e4b87-1659399030120@3c-app-mailcom-bs06>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220802000405.949236-2-dakr@redhat.com>
+In-Reply-To: <trinity-4501b716-d008-4a86-9e0c-681c301e4b87-1659399030120@3c-app-mailcom-bs06>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,368 +63,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
-
-Thank you for the patch.
-
-On Tue, Aug 02, 2022 at 02:04:01AM +0200, Danilo Krummrich wrote:
-> Quite a lot of drivers include the drm_fb_cma_helper.h header file
-> without actually making use of it's provided API, hence remove those
-> includes.
+Hi Kevin,
 > 
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/arm/hdlcd_drv.c                 | 1 -
->  drivers/gpu/drm/arm/malidp_drv.c                | 1 -
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c         | 1 -
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       | 1 -
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c       | 1 -
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 1 -
->  drivers/gpu/drm/imx/imx-drm-core.c              | 1 -
->  drivers/gpu/drm/imx/ipuv3-crtc.c                | 1 -
->  drivers/gpu/drm/logicvc/logicvc_mode.c          | 1 -
->  drivers/gpu/drm/pl111/pl111_drv.c               | 1 -
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c          | 1 -
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c           | 1 -
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c           | 1 -
->  drivers/gpu/drm/shmobile/shmob_drm_kms.c        | 1 -
->  drivers/gpu/drm/solomon/ssd130x.c               | 1 -
->  drivers/gpu/drm/sti/sti_drv.c                   | 1 -
->  drivers/gpu/drm/sti/sti_plane.c                 | 1 -
->  drivers/gpu/drm/stm/drv.c                       | 1 -
->  drivers/gpu/drm/sun4i/sun4i_drv.c               | 1 -
->  drivers/gpu/drm/sun4i/sun8i_mixer.c             | 1 -
->  drivers/gpu/drm/tidss/tidss_crtc.c              | 1 -
->  drivers/gpu/drm/tidss/tidss_kms.c               | 1 -
->  drivers/gpu/drm/tidss/tidss_plane.c             | 1 -
->  drivers/gpu/drm/tve200/tve200_drv.c             | 1 -
->  drivers/gpu/drm/v3d/v3d_drv.c                   | 1 -
->  drivers/gpu/drm/vc4/vc4_drv.c                   | 1 -
->  26 files changed, 26 deletions(-)
+> OpenChrome DDX carries lots of legacy code.
 > 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index 350ca4e4eaa6..b32168e3f9ae 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -26,7 +26,6 @@
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-> index d5aef21426cf..fa6c1a4254dc 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -19,7 +19,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_cma_helper.h>
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> index 7780b72de9e8..54aa8af45829 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -16,7 +16,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_device.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> index 7a503bf08d0f..4baa4977e473 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> @@ -20,7 +20,6 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_modeset_helper.h>
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c
-> index d763f53f480c..5b47000738e4 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c
-> @@ -6,7 +6,6 @@
->   */
->  
->  #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_probe_helper.h>
->  
-> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> index 2af51df6dca7..e8b0fe970969 100644
-> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> @@ -19,7 +19,6 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
-> index 50fd7aac5198..e43345bd1346 100644
-> --- a/drivers/gpu/drm/imx/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
-> @@ -16,7 +16,6 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
-> index f7863d6dea80..d9f832f952c2 100644
-> --- a/drivers/gpu/drm/imx/ipuv3-crtc.c
-> +++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
-> @@ -18,7 +18,6 @@
->  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/logicvc/logicvc_mode.c b/drivers/gpu/drm/logicvc/logicvc_mode.c
-> index 11940704f644..c59da7039dc1 100644
-> --- a/drivers/gpu/drm/logicvc/logicvc_mode.c
-> +++ b/drivers/gpu/drm/logicvc/logicvc_mode.c
-> @@ -10,7 +10,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-> index 19a4324bd356..5b5f3573b619 100644
-> --- a/drivers/gpu/drm/pl111/pl111_drv.c
-> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
-> @@ -48,7 +48,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_cma_helper.h>
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 169ca0c8912f..ed887ebd2f6b 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -17,7 +17,6 @@
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_device.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_vblank.h>
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 70d85610d720..110ec9538b44 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -20,7 +20,6 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_managed.h>
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index 761451ee5263..7fed5b0c65ce 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -11,7 +11,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_device.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> index 68d21be784aa..edb003537530 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> @@ -9,7 +9,6 @@
->  
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_crtc_helper.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index 77f80b0d3a5e..973ae2dfb2f8 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -21,7 +21,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_damage_helper.h>
->  #include <drm/drm_edid.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_format_helper.h>
->  #include <drm/drm_framebuffer.h>
-> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-> index d858209cf8de..c0fbdb8cf6eb 100644
-> --- a/drivers/gpu/drm/sti/sti_drv.c
-> +++ b/drivers/gpu/drm/sti/sti_drv.c
-> @@ -14,7 +14,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/sti/sti_plane.c b/drivers/gpu/drm/sti/sti_plane.c
-> index c74b524663ab..0a55180be22b 100644
-> --- a/drivers/gpu/drm/sti/sti_plane.c
-> +++ b/drivers/gpu/drm/sti/sti_plane.c
-> @@ -9,7 +9,6 @@
->  #include <linux/types.h>
->  
->  #include <drm/drm_blend.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem_cma_helper.h>
-> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-> index c63945dc2260..bb269dad30f9 100644
-> --- a/drivers/gpu/drm/stm/drv.c
-> +++ b/drivers/gpu/drm/stm/drv.c
-> @@ -18,7 +18,6 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> index 6eb1aabdb161..382074ef1394 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> @@ -17,7 +17,6 @@
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_module.h>
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> index 4e9bd9cb6b36..b3d1c0940406 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -16,7 +16,6 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index ad4ce9d06622..92d2c25bb0ff 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -8,7 +8,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_crtc_helper.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_vblank.h>
->  
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 666e527a0acf..b61db8f279e9 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -10,7 +10,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_crtc_helper.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_of.h>
-> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-> index 68a85a94ffcb..42d50ec5526d 100644
-> --- a/drivers/gpu/drm/tidss/tidss_plane.c
-> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
-> @@ -11,7 +11,6 @@
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_gem_atomic_helper.h>
->  
->  #include "tidss_crtc.h"
-> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-> index 6d9d2921abf4..86ebfe626cd0 100644
-> --- a/drivers/gpu/drm/tve200/tve200_drv.c
-> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-> @@ -39,7 +39,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index 8c7f910daa28..e8c975b81585 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -22,7 +22,6 @@
->  #include <linux/reset.h>
->  
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_managed.h>
->  #include <uapi/drm/v3d_drm.h>
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index 89975bdd607e..d33baf2667dd 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -33,7 +33,6 @@
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_vblank.h>
->  
+> https://cgit.freedesktop.org/openchrome/xf86-video-openchrome/tree/src/via_drm.h?h=main&id=dc661c59257e855cd9b29c14b91a8ee2d9b86ccb
+> 
+> There is a requirement to use the same via_drm.h with both DDX and DRM.
+> Hence, I need to keep a lot of the legacy DRI1 definitions inside via_drm.h.
 
--- 
-Regards,
+This part is fully understood. Also on top of this the via DRI1 driver
+uses this. I am not asking to have anything deleted from the existing
+uapi via_drm.h file.
 
-Laurent Pinchart
+
+My feedback is that the following code should be dropped from the
+openchrome driver:
+
++	DRM_IOCTL_DEF_DRV(VIA_ALLOCMEM, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_FREEMEM, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_AGP_INIT, drm_invalid_op, DRM_AUTH | DRM_MASTER),
++	DRM_IOCTL_DEF_DRV(VIA_FB_INIT, drm_invalid_op, DRM_AUTH | DRM_MASTER),
++	DRM_IOCTL_DEF_DRV(VIA_MAP_INIT, drm_invalid_op, DRM_AUTH | DRM_MASTER),
++	DRM_IOCTL_DEF_DRV(VIA_DEC_FUTEX, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_DMA_INIT, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_CMDBUFFER, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_FLUSH, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_PCICMD, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_CMDBUF_SIZE, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_WAIT_IRQ, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_DMA_BLIT, drm_invalid_op, DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(VIA_BLIT_SYNC, drm_invalid_op, DRM_AUTH),
+
+(Copied from openchrome-drm - I recall you did not post this code yet).
+
+The new openchrome driver should not care at all about the old UAPI,
+so just drop the above.
+
+The comment above is based on the understanding that when we have a kms
+compliant driver the user space is generic and we do not expect or need
+any via specifics in user space.
+
+In other words - x86-video-openchrome should - according to my
+understanding - not be needed. And we can have a fully operational
+wayland (and maybe X) userspace using the generic UAPI. This is where
+Thomas Zimmermann's comment about dumb buffers are relevant.
+
+Do I miss something obvious here?
+
+	Sam
