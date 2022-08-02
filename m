@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DAB587DBD
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 15:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE9D587DF1
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 16:12:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E82CC12BD56;
-	Tue,  2 Aug 2022 13:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84AD82A307;
+	Tue,  2 Aug 2022 14:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EE410E2B5
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 13:59:03 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE8E18BF94
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 14:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659448744; x=1690984744;
+ t=1659449525; x=1690985525;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=JXaQKy9UvN4RoNFqHuqgOiDf4e31ilcdvl1X5DNMf8k=;
- b=YSRpB96wqszYgM1dE+VP9ZTvWvHX0qFnQ3n3qYKgyDkt8q97JyWak5OA
- MciUlKoSnPTtO6WI6eqGFngZQOK3UiT5CDvBk4ok7qmRlBV6zTzezRQbE
- zQTrPfWFoNHpQldro3+MNCJuTFNRlm3Fw7HfuWMTWGM48+/jt//23cvdq
- z+/6kLzq0HjI8cnc1xhWjyGuH79Mrl+cILvnapdfPUPHixhppGU40pO/q
- Q2EMn2Z01hiQcjnUDZVsnGTmzU6AFLrfSsZEcaH9SiesICyWCq3VIUiq9
- pJ81UHE9uukHfMmDRZQBJpCHqVMAEOOCAA/rJOu0X1Izk5pyVL1TiCTBn w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="276323364"
-X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; d="scan'208";a="276323364"
+ bh=dtqbIWIshtMdWZaXawlb0KolgEJHLzd9qo0q7OSwsjo=;
+ b=Iexo7/JHG/SIWrbLVCKK/Ip8mAlLKgvewrYY47jBb3dmdkmxxCGot262
+ 3r8+CrkmWiYr/Yqw83Ip00V1ASVQU0n0baToJzCU4KKfWH5ahgnQIas9y
+ CNA1F7QhKdq11R7XPdJVwrISyU7C6AN5J6SRAl58pUY+BKMcZwMWcxly8
+ hq16RV70K/dkFw7mGcFMKDvIwQEybGMKGVG30+tv0EgFWVcJ9IyB7SK4k
+ SEUZ5csBGqmubHdouJ93f2mwRjiB0iPxve/fKDvbrfBO54XBuhHi5zUsg
+ vJj6ezN80AlQKpot+YdvwjzJo7jD6pD4lmg/vPcm8Qq+WV8Tq4aiPJm4g w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="269796756"
+X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; d="scan'208";a="269796756"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 06:59:02 -0700
-X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; d="scan'208";a="661633082"
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 07:12:04 -0700
+X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; d="scan'208";a="661637859"
 Received: from llaviniu-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.60.134])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 06:58:55 -0700
+ 02 Aug 2022 07:11:58 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet
- <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>, Thomas
- Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, Emma
- Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Noralf =?utf-8?Q?Tr=C3=B8n?=
- =?utf-8?Q?nes?=
- <noralf@tronnes.org>, Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, daniel@ffwll.ch, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org,
+ tzimmermann@suse.de, matthias.bgg@gmail.com, deller@gmx.de,
+ airlied@linux.ie
+Subject: Re: [PATCH v15 03/11] drm/edid: Add cea_sad helpers for freq/length
+In-Reply-To: <20220727045035.32225-4-rex-bc.chen@mediatek.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
-Date: Tue, 02 Aug 2022 16:58:53 +0300
-Message-ID: <8735eeg31e.fsf@intel.com>
+References: <20220727045035.32225-1-rex-bc.chen@mediatek.com>
+ <20220727045035.32225-4-rex-bc.chen@mediatek.com>
+Date: Tue, 02 Aug 2022 17:11:55 +0300
+Message-ID: <87zggmenv8.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,141 +61,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Jul 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-lines
-> modes in the drivers.
+On Wed, 27 Jul 2022, Bo-Chen Chen <rex-bc.chen@mediatek.com> wrote:
+> From: Guillaume Ranquet <granquet@baylibre.com>
 >
-> Since those modes are fairly standards, and that we'll need to use them in
-> more places in the future, let's move the meson definition into the
-> framework.
+> This patch adds two helper functions that extract the frequency and word
+> length from a struct cea_sad.
+>
+> For these helper functions new defines are added that help translate the
+> 'freq' and 'byte2' fields into real numbers.
 
-I think you should always expose interfaces, not data. Data is not an
-interface, and I think this sets a bad example that will be cargo
-culted.
+I think we should stop adding a plethora of functions that deal with
+sads like this.
 
+There should probably be *one* struct that contains all the details you
+and everyone need extracted. There should be *one* function that fills
+in all the details. The struct should be placed in
+connector->display_info, and the function should be called *once* from
+update_display_info().
+
+Ideally, the function shouldn't even be exposed from drm_edid.c, but if
+you still need to deal with situations where you don't call connector
+update, maybe it needs to be exposed.
 
 BR,
 Jani.
 
+
 >
-> The meson one was chosen because vc4's isn't accurate and doesn't amount to
-> 525 and 625 lines.
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 63 ++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_edid.h     | 14 +++++++++
+>  2 files changed, 77 insertions(+)
 >
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 304004fb80aa..a4c1bd688338 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -48,6 +48,24 @@
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index bc43e1b32092..2a6f92da5ff3 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -4916,6 +4916,69 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb)
+>  }
+>  EXPORT_SYMBOL(drm_edid_to_speaker_allocation);
 >  
->  #include "drm_crtc_internal.h"
->  
-> +const struct drm_display_mode drm_mode_480i = {
-> +	DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 13500,
-> +		 720, 739, 801, 858, 0,
-> +		 480, 488, 494, 525, 0,
-> +		 DRM_MODE_FLAG_INTERLACE),
-> +	.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> +};
-> +EXPORT_SYMBOL_GPL(drm_mode_480i);
+> +/**
+> + * drm_cea_sad_get_sample_rate - Extract the sample rate from cea_sad
+> + * @sad: Pointer to the cea_sad struct
+> + *
+> + * Extracts the cea_sad frequency field and returns the sample rate in Hz.
+> + *
+> + * Return: Sample rate in Hz or a negative errno if parsing failed.
+> + */
+> +int drm_cea_sad_get_sample_rate(const struct cea_sad *sad)
+> +{
+> +	switch (sad->freq) {
+> +	case DRM_CEA_SAD_FREQ_32KHZ:
+> +		return 32000;
+> +	case DRM_CEA_SAD_FREQ_44KHZ:
+> +		return 44100;
+> +	case DRM_CEA_SAD_FREQ_48KHZ:
+> +		return 48000;
+> +	case DRM_CEA_SAD_FREQ_88KHZ:
+> +		return 88200;
+> +	case DRM_CEA_SAD_FREQ_96KHZ:
+> +		return 96000;
+> +	case DRM_CEA_SAD_FREQ_176KHZ:
+> +		return 176400;
+> +	case DRM_CEA_SAD_FREQ_192KHZ:
+> +		return 192000;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_cea_sad_get_sample_rate);
 > +
-> +const struct drm_display_mode drm_mode_576i = {
-> +	DRM_MODE("720x576i", DRM_MODE_TYPE_DRIVER, 13500,
-> +		 720, 732, 795, 864, 0,
-> +		 576, 580, 586, 625, 0,
-> +		 DRM_MODE_FLAG_INTERLACE),
-> +	.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> +};
-> +EXPORT_SYMBOL_GPL(drm_mode_576i);
+> +/**
+> + * drm_cea_sad_get_uncompressed_word_length - Extract word length
+> + * @sad: Pointer to the cea_sad struct
+> + *
+> + * Extracts the cea_sad byte2 field and returns the word length for an
+> + * uncompressed stream.
+> + *
+> + * Note: This function may only be called for uncompressed audio.
+> + *
+> + * Return: Word length in bits or a negative errno if parsing failed.
+> + */
+> +int drm_cea_sad_get_uncompressed_word_length(const struct cea_sad *sad)
+> +{
+> +	if (sad->format != HDMI_AUDIO_CODING_TYPE_PCM) {
+> +		DRM_WARN("Unable to get the uncompressed word length for format: %u\n",
+> +			 sad->format);
+> +		return -EINVAL;
+> +	}
 > +
->  /**
->   * drm_mode_debug_printmodeline - print a mode to dmesg
->   * @mode: mode to print
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> index 8110a6e39320..98ec3e563155 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> @@ -45,21 +45,11 @@ struct meson_encoder_cvbs {
->  struct meson_cvbs_mode meson_cvbs_modes[MESON_CVBS_MODES_COUNT] = {
->  	{ /* PAL */
->  		.enci = &meson_cvbs_enci_pal,
-> -		.mode = {
-> -			DRM_MODE("720x576i", DRM_MODE_TYPE_DRIVER, 13500,
-> -				 720, 732, 795, 864, 0, 576, 580, 586, 625, 0,
-> -				 DRM_MODE_FLAG_INTERLACE),
-> -			.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> -		},
-> +		.mode = &drm_mode_576i,
->  	},
->  	{ /* NTSC */
->  		.enci = &meson_cvbs_enci_ntsc,
-> -		.mode = {
-> -			DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 13500,
-> -				720, 739, 801, 858, 0, 480, 488, 494, 525, 0,
-> -				DRM_MODE_FLAG_INTERLACE),
-> -			.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> -		},
-> +		.mode = &drm_mode_480i,
->  	},
->  };
->  
-> @@ -71,7 +61,7 @@ meson_cvbs_get_mode(const struct drm_display_mode *req_mode)
->  	for (i = 0; i < MESON_CVBS_MODES_COUNT; ++i) {
->  		struct meson_cvbs_mode *meson_mode = &meson_cvbs_modes[i];
->  
-> -		if (drm_mode_match(req_mode, &meson_mode->mode,
-> +		if (drm_mode_match(req_mode, meson_mode->mode,
->  				   DRM_MODE_MATCH_TIMINGS |
->  				   DRM_MODE_MATCH_CLOCK |
->  				   DRM_MODE_MATCH_FLAGS |
-> @@ -104,7 +94,7 @@ static int meson_encoder_cvbs_get_modes(struct drm_bridge *bridge,
->  	for (i = 0; i < MESON_CVBS_MODES_COUNT; ++i) {
->  		struct meson_cvbs_mode *meson_mode = &meson_cvbs_modes[i];
->  
-> -		mode = drm_mode_duplicate(priv->drm, &meson_mode->mode);
-> +		mode = drm_mode_duplicate(priv->drm, meson_mode->mode);
->  		if (!mode) {
->  			dev_err(priv->dev, "Failed to create a new display mode\n");
->  			return 0;
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.h b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-> index 61d9d183ce7f..26cefb202924 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-> @@ -16,7 +16,7 @@
->  
->  struct meson_cvbs_mode {
->  	struct meson_cvbs_enci_mode *enci;
-> -	struct drm_display_mode mode;
-> +	const struct drm_display_mode *mode;
->  };
->  
->  #define MESON_CVBS_MODES_COUNT	2
-> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> index a80ae9639e96..b4a440e2688c 100644
-> --- a/include/drm/drm_modes.h
-> +++ b/include/drm/drm_modes.h
-> @@ -394,6 +394,9 @@ struct drm_display_mode {
->  
->  };
->  
-> +extern const struct drm_display_mode drm_mode_480i;
-> +extern const struct drm_display_mode drm_mode_576i;
+> +	switch (sad->byte2) {
+> +	case DRM_CEA_SAD_UNCOMPRESSED_WORD_16BIT:
+> +		return 16;
+> +	case DRM_CEA_SAD_UNCOMPRESSED_WORD_20BIT:
+> +		return 20;
+> +	case DRM_CEA_SAD_UNCOMPRESSED_WORD_24BIT:
+> +		return 24;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_cea_sad_get_uncompressed_word_length);
 > +
 >  /**
->   * DRM_MODE_FMT - printf string for &struct drm_display_mode
->   */
+>   * drm_av_sync_delay - compute the HDMI/DP sink audio-video sync delay
+>   * @connector: connector associated with the HDMI/DP sink
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index c2c43a4af681..779b710aed40 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -373,6 +373,18 @@ struct cea_sad {
+>  	u8 byte2;
+>  };
+>  
+> +#define DRM_CEA_SAD_FREQ_32KHZ  BIT(0)
+> +#define DRM_CEA_SAD_FREQ_44KHZ  BIT(1)
+> +#define DRM_CEA_SAD_FREQ_48KHZ  BIT(2)
+> +#define DRM_CEA_SAD_FREQ_88KHZ  BIT(3)
+> +#define DRM_CEA_SAD_FREQ_96KHZ  BIT(4)
+> +#define DRM_CEA_SAD_FREQ_176KHZ BIT(5)
+> +#define DRM_CEA_SAD_FREQ_192KHZ BIT(6)
+> +
+> +#define DRM_CEA_SAD_UNCOMPRESSED_WORD_16BIT BIT(0)
+> +#define DRM_CEA_SAD_UNCOMPRESSED_WORD_20BIT BIT(1)
+> +#define DRM_CEA_SAD_UNCOMPRESSED_WORD_24BIT BIT(2)
+> +
+>  struct drm_encoder;
+>  struct drm_connector;
+>  struct drm_connector_state;
+> @@ -380,6 +392,8 @@ struct drm_display_mode;
+>  
+>  int drm_edid_to_sad(const struct edid *edid, struct cea_sad **sads);
+>  int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
+> +int drm_cea_sad_get_sample_rate(const struct cea_sad *sad);
+> +int drm_cea_sad_get_uncompressed_word_length(const struct cea_sad *sad);
+>  int drm_av_sync_delay(struct drm_connector *connector,
+>  		      const struct drm_display_mode *mode);
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
