@@ -2,50 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC6A587BA9
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 13:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E463587BC0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 13:45:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C917210E272;
-	Tue,  2 Aug 2022 11:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0598A11A2B2;
+	Tue,  2 Aug 2022 11:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B878F10E3CD
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 11:33:18 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8739283F8E;
- Tue,  2 Aug 2022 13:33:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1659439996;
- bh=C0sEt+j3wwgW/FAzW+nrtKZhnpmRe7HY/B8uWWmsQaM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dcwweDoxX1IF0bbhhE6fTWJFPn5FCC6y7ZsFE+wQ8wqKiUDFKmGmni/uU+3MS468R
- MaY8H6+H9YtVJ9u4fI91v2nrY2lQAcSjqyZl5owmuEIHk/GeSlIWB2AyRbtDdBeupg
- gxSSd0FmQS5p3RAJ1za2g1P3ZDxfCVEQJWiOkdZCNlHJWbHYI5UGRyN0rwE8iO/WIR
- H+YF6s83Abxbju0mBgxAYyPZ1VhmxRS4El6ac0XGlL3Y36FcFGJqgOBhWVRc3/DvOa
- 7kvbTP5KRL7urRBZTrvEgbRPXCq5pcR/cbXLq5oYp6oC3b7U8wHiqMZ1jnSek/RR4o
- G7J6JwDkYmJHw==
-Message-ID: <4d917546-23a2-a33a-1f59-ec78305aa854@denx.de>
-Date: Tue, 2 Aug 2022 13:33:14 +0200
+X-Greylist: delayed 338 seconds by postgrey-1.36 at gabe;
+ Tue, 02 Aug 2022 11:45:29 UTC
+Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
+ [115.236.118.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3E7C10E030
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 11:45:29 +0000 (UTC)
+Received: from localhost (unknown [58.22.7.114])
+ by mail-m11885.qiye.163.com (Hmail) with ESMTPA id E61644C0362;
+ Tue,  2 Aug 2022 19:39:47 +0800 (CST)
+From: Jeffy Chen <jeffy.chen@rock-chips.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH] drm/gem: Fix GEM handle release errors
+Date: Tue,  2 Aug 2022 19:33:16 +0800
+Message-Id: <20220802113316.18340-1-jeffy.chen@rock-chips.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: icn6211: Add support
- for RGB/BGR swap
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220801131901.183090-1-marex@denx.de>
- <20220801163238.GA1130127-robh@kernel.org>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220801163238.GA1130127-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaT00eVkJJQk4dTx8YHhhJQlUTARMWGhIXJB
+ QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NzY6LAw5Ej08NzEZL0xJTB0Z
+ HRQwChBVSlVKTU5CT09LSENDSEhKVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFOQkpCNwY+
+X-HM-Tid: 0a825e5ad7862eb9kusne61644c0362
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,27 +45,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: David Airlie <airlied@linux.ie>, Jeffy Chen <jeffy.chen@rock-chips.com>,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/1/22 18:32, Rob Herring wrote:
-> On Mon, Aug 01, 2022 at 03:19:00PM +0200, Marek Vasut wrote:
->> The ICN6211 is capable of swapping the output DPI RGB/BGR color channels,
->> document a DT property to select this swap in DT. This can be useful on
->> hardware where such swap happens.
-> 
-> We should ensure this series[1] works for you instead.
+Currently we are assuming a one to one mapping between dmabuf and handle
+when releasing GEM handles.
 
-[...]
+But that is not always true, since we would create extra handles for the
+GEM obj in cases like gem_open() and getfb{,2}().
 
-> Rob
-> 
-> [1] https://lore.kernel.org/r/20220628181838.2031-3-max.oss.09@gmail.com
+A similar issue was reported at:
+https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
 
-I'm still not convinced that we should encode this pixel format value 
-directly into the DT instead of trying to describe the DPI bus color 
-channel width/order/shift in the DT instead. I think I mentioned that 
-before in one of the previous versions of that series.
+Another problem is that the drm_gem_remove_prime_handles() now only
+remove handle to the exported dmabuf (gem_obj->dma_buf), so the imported
+ones would leak:
+WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 drm_prime_destroy_file_private+0x18/0x24
+
+Let's fix these by using handle to find the exact map to remove.
+
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+---
+
+ drivers/gpu/drm/drm_gem.c      | 17 +----------------
+ drivers/gpu/drm/drm_internal.h |  4 ++--
+ drivers/gpu/drm/drm_prime.c    | 16 ++++++++++------
+ 3 files changed, 13 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index eb0c2d041f13..ed39da383570 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_init);
+ 
+-static void
+-drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
+-{
+-	/*
+-	 * Note: obj->dma_buf can't disappear as long as we still hold a
+-	 * handle reference in obj->handle_count.
+-	 */
+-	mutex_lock(&filp->prime.lock);
+-	if (obj->dma_buf) {
+-		drm_prime_remove_buf_handle_locked(&filp->prime,
+-						   obj->dma_buf);
+-	}
+-	mutex_unlock(&filp->prime.lock);
+-}
+-
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+ 	if (obj->funcs->close)
+ 		obj->funcs->close(obj, file_priv);
+ 
+-	drm_gem_remove_prime_handles(obj, file_priv);
++	drm_prime_remove_buf_handle(&file_priv->prime, id);
+ 	drm_vma_node_revoke(&obj->vma_node, file_priv);
+ 
+ 	drm_gem_object_handle_put_unlocked(obj);
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 1fbbc19f1ac0..7bb98e6a446d 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+ void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
+-void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf);
++void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
++				 uint32_t handle);
+ 
+ /* drm_drv.c */
+ struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index e3f09f18110c..c28518ab62d0 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+ 	return -ENOENT;
+ }
+ 
+-void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf)
++void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
++				 uint32_t handle)
+ {
+ 	struct rb_node *rb;
+ 
++	mutex_lock(&prime_fpriv->lock);
++
+ 	rb = prime_fpriv->dmabufs.rb_node;
+ 	while (rb) {
+ 		struct drm_prime_member *member;
+ 
+ 		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+-		if (member->dma_buf == dma_buf) {
++		if (member->handle == handle) {
+ 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
+ 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+ 
+-			dma_buf_put(dma_buf);
++			dma_buf_put(member->dma_buf);
+ 			kfree(member);
+-			return;
+-		} else if (member->dma_buf < dma_buf) {
++			break;
++		} else if (member->handle < handle) {
+ 			rb = rb->rb_right;
+ 		} else {
+ 			rb = rb->rb_left;
+ 		}
+ 	}
++
++	mutex_unlock(&prime_fpriv->lock);
+ }
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
+-- 
+2.20.1
+
