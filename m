@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E885587F67
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 17:52:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B30587F68
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 17:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1289050B;
-	Tue,  2 Aug 2022 15:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61E5F12AA82;
+	Tue,  2 Aug 2022 15:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2795D9045B;
- Tue,  2 Aug 2022 15:51:27 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id w10so13869013plq.0;
- Tue, 02 Aug 2022 08:51:27 -0700 (PDT)
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBBB89048D;
+ Tue,  2 Aug 2022 15:51:29 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id u133so7274886pfc.10;
+ Tue, 02 Aug 2022 08:51:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=AwYCVdrGkHnM2D+4h4BxfmYuAccPj8wFXhKV37+GyLo=;
- b=ARajg9SXrp7L34xI/L1wA9184aueBkou7taRAYgfMmeFpXW82dWb/YI4KTnJKaEbNV
- OFtbKltU38+EurNqiYyNdr4uf/qnSQs7hT6xr+aJWWNNHwJSEj9k80xdZwBARN4jMAyg
- 9ur5vywUmCBQxIUPt2ql9Lw7EVeGMxHeF7/riXMIDRvMEjFM6MYHfbJo14nYlEgzahac
- TqX5N9JilHHTxo4Vzl9QxoRMXXlVC6TEHxhIfIxaxnszL+KVAuUSUjhT5+Z5DvzazeZI
- CkDOCDTemgWzlJi0uCdM1SP8gBncRJER24+oONSfIMWh9gLn2/gfKDYTzza4Yp9UYmG/
- 8EgA==
+ bh=6E5wGlWgwtmRN55cq/vUaSJZuL1NyuRgvoYtJGWwhUY=;
+ b=GEfOJB7gdA4SxlaauM6Ugt1tZF4JKhQxQH244oEQIqhh9LV1XJGzasRjPRwFOhk6nj
+ LqCY2Zm8HojS7Ghpd7BFD0y/3AEM4H/VSjoCC7jnTy5WxAZF4Cis+szcEaa3F0BtcWaQ
+ OEgtEdaN7O56vF8AlFJTMSQ70vMFGNsQpwIfD0E1IK2s8rLZwRFXNm6iFW5CfwrN72LX
+ bxegJs1R/Myor9Wf2/nRrbu5F5Cj3JEI9p3qBIL38QLw56hBPFlHBSy3rKEQTflMdgXn
+ 6xoFT/4AAos4XOP2Vc0dT+/Xa2uSn43q5vGyGQClCkgeFbcxV2t3ev+fOYpno61xx7eH
+ i5cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=AwYCVdrGkHnM2D+4h4BxfmYuAccPj8wFXhKV37+GyLo=;
- b=PqR4H9/bIvbv8+xdFvJq8WyvXLdbEyXXnIdW7vlwYp77cbiEQ/09oL4SS0abCRBGmX
- Eqw20G+lkZwAdvjIUlQ0ijrm05b1esO9GTvxWgmUx7eozIFrV5JxzKMlpEYLmbresa1y
- 5KxtaMx1ojREcEBSQNbIObcKmuyW8KJRiLRPOMrAjZXDqwV1n2mqk5gN5y8e4xLM8siP
- wlvk/oh8s7/XuvWSyBzNfTDsj4hknRcAbi4PelvU8YhF/tCWoeH9/scx/Yblc2opJ40M
- Ke/GVtmmrt2n7R+T+SObFbx17Eqrqjs9O9Iqw4U+1xna3Siiyie5op3utiEVcWvqH7Su
- 67Cg==
-X-Gm-Message-State: ACgBeo3pabSASEB0z5TOJS4kQeEJPBqdlPmwg5Bu9n+ZiCxZwKmBN2T2
- FeUopOhaWebYcyMO+VbqqFTaC5NUTpU=
-X-Google-Smtp-Source: AA6agR5ybwbYaWs8UaMfNMG/agnFBgQ19TL8DiPTztRpVe/R+rveUXnDpdfNDBUn4PmfyOb+0vRVOQ==
-X-Received: by 2002:a17:902:e5d1:b0:16b:ece4:79e6 with SMTP id
- u17-20020a170902e5d100b0016bece479e6mr21971931plf.83.1659455486238; 
- Tue, 02 Aug 2022 08:51:26 -0700 (PDT)
+ bh=6E5wGlWgwtmRN55cq/vUaSJZuL1NyuRgvoYtJGWwhUY=;
+ b=7uUaSGqipWn2MpSnAXC7oJ37vd6lE/YaMx2+yaDUxMp+FErotqLaPAGhmfgHcfEL8T
+ f2UGXltt7XXmUwunQPePCvYsmhUfqIs1jVDgTzgUek7beNPEK1PAUVsV3uylp7sxO15z
+ /NnLXNQVgAnwJKoJ5Cm5BTkG4okWkGLCGQOaI/Dq9QoAZejbZpxrC94HQ+h33i/Fi2gM
+ VDTO5gxrI4f1tiVjMhfGD7x41nG6wRZzU2XxoegX0JJBKZ53eg6BL4g4RTdWQFWv2lUe
+ /SwwSucmPE8Hqwf9xsOn/KbdBxDrr1WrafFQgpRzfrM9Ea5dHfSkje+AoStZ27g0/V97
+ YY3A==
+X-Gm-Message-State: ACgBeo2nURKo2v7udYAA11fdyYZdmbIhbEIdymJRnELYOe5GVQO99jw4
+ 0lHZDvnHs4Ahvy9oxZCLbmAMj/ODDVk=
+X-Google-Smtp-Source: AA6agR5hyY6tEw30Evo0Mcd6KS/1UZLdeHQ2xVV06qRPr03qk2v+YkINNRhwe6EVTfVeOpSWQkvuWw==
+X-Received: by 2002:a63:448:0:b0:41b:b3a6:c005 with SMTP id
+ 69-20020a630448000000b0041bb3a6c005mr14712235pge.201.1659455488843; 
+ Tue, 02 Aug 2022 08:51:28 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- y1-20020a17090a2b4100b001e292e30129sm11127180pjc.22.2022.08.02.08.51.24
+ c189-20020a624ec6000000b0052b6ed5ca40sm4871314pfb.192.2022.08.02.08.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 08:51:25 -0700 (PDT)
+ Tue, 02 Aug 2022 08:51:27 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 03/15] drm/msm: Split out idr_lock
-Date: Tue,  2 Aug 2022 08:51:36 -0700
-Message-Id: <20220802155152.1727594-4-robdclark@gmail.com>
+Subject: [PATCH v4 04/15] drm/msm/gem: Check for active in shrinker path
+Date: Tue,  2 Aug 2022 08:51:37 -0700
+Message-Id: <20220802155152.1727594-5-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220802155152.1727594-1-robdclark@gmail.com>
 References: <20220802155152.1727594-1-robdclark@gmail.com>
@@ -79,114 +79,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Otherwise if we hit reclaim pinning objects in the submit path, we'll be
-blocking retire_worker trying to free a submit.
+Currently in our shrinker path we shouldn't be encountering anything
+that is active, but this will change in subsequent patches.  So check
+if there are unsignaled fences.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c         |  4 ++--
- drivers/gpu/drm/msm/msm_gem_submit.c  | 10 ++++++++--
- drivers/gpu/drm/msm/msm_gpu.h         |  4 +++-
- drivers/gpu/drm/msm/msm_submitqueue.c |  1 +
- 4 files changed, 14 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c          | 10 ++++++++++
+ drivers/gpu/drm/msm/msm_gem.h          |  1 +
+ drivers/gpu/drm/msm/msm_gem_shrinker.c |  6 ++++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 1ed4cd09dbf8..d7ca025457b6 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -883,13 +883,13 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
- 	 * retired, so if the fence is not found it means there is nothing
- 	 * to wait for
- 	 */
--	ret = mutex_lock_interruptible(&queue->lock);
-+	ret = mutex_lock_interruptible(&queue->idr_lock);
- 	if (ret)
- 		return ret;
- 	fence = idr_find(&queue->fence_idr, fence_id);
- 	if (fence)
- 		fence = dma_fence_get_rcu(fence);
--	mutex_unlock(&queue->lock);
-+	mutex_unlock(&queue->idr_lock);
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 8ddbd2e001d4..b55d252aef17 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -870,6 +870,16 @@ static void update_inactive(struct msm_gem_object *msm_obj)
+ 	mutex_unlock(&priv->mm_lock);
+ }
  
- 	if (!fence)
- 		return 0;
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index c7819781879c..16c662808522 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -72,9 +72,9 @@ void __msm_gem_submit_destroy(struct kref *kref)
- 	unsigned i;
++bool msm_gem_active(struct drm_gem_object *obj)
++{
++	GEM_WARN_ON(!msm_gem_is_locked(obj));
++
++	if (to_msm_bo(obj)->pin_count)
++		return true;
++
++	return !dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true));
++}
++
+ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
+ {
+ 	bool write = !!(op & MSM_PREP_WRITE);
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 432032ad4aed..0ab0dc4f8c25 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -173,6 +173,7 @@ void msm_gem_put_vaddr(struct drm_gem_object *obj);
+ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv);
+ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu);
+ void msm_gem_active_put(struct drm_gem_object *obj);
++bool msm_gem_active(struct drm_gem_object *obj);
+ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
+ int msm_gem_cpu_fini(struct drm_gem_object *obj);
+ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index 6e39d959b9f0..ea8ed74982c1 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -43,6 +43,9 @@ purge(struct msm_gem_object *msm_obj)
+ 	if (!is_purgeable(msm_obj))
+ 		return false;
  
- 	if (submit->fence_id) {
--		mutex_lock(&submit->queue->lock);
-+		mutex_lock(&submit->queue->idr_lock);
- 		idr_remove(&submit->queue->fence_idr, submit->fence_id);
--		mutex_unlock(&submit->queue->lock);
-+		mutex_unlock(&submit->queue->idr_lock);
- 	}
- 
- 	dma_fence_put(submit->user_fence);
-@@ -881,6 +881,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 
- 	submit->nr_cmds = i;
- 
-+	mutex_lock(&queue->idr_lock);
++	if (msm_gem_active(&msm_obj->base))
++		return false;
 +
  	/*
- 	 * If using userspace provided seqno fence, validate that the id
- 	 * is available before arming sched job.  Since access to fence_idr
-@@ -889,6 +891,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	 */
- 	if ((args->flags & MSM_SUBMIT_FENCE_SN_IN) &&
- 			idr_find(&queue->fence_idr, args->fence)) {
-+		mutex_unlock(&queue->idr_lock);
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -921,6 +924,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 						    submit->user_fence, 1,
- 						    INT_MAX, GFP_KERNEL);
- 	}
-+
-+	mutex_unlock(&queue->idr_lock);
-+
- 	if (submit->fence_id < 0) {
- 		ret = submit->fence_id;
- 		submit->fence_id = 0;
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 4d935fedd2ac..962d2070bcdf 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -466,7 +466,8 @@ static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
-  * @node:      node in the context's list of submitqueues
-  * @fence_idr: maps fence-id to dma_fence for userspace visible fence
-  *             seqno, protected by submitqueue lock
-- * @lock:      submitqueue lock
-+ * @idr_lock:  for serializing access to fence_idr
-+ * @lock:      submitqueue lock for serializing submits on a queue
-  * @ref:       reference count
-  * @entity:    the submit job-queue
-  */
-@@ -479,6 +480,7 @@ struct msm_gpu_submitqueue {
- 	struct msm_file_private *ctx;
- 	struct list_head node;
- 	struct idr fence_idr;
-+	struct mutex idr_lock;
- 	struct mutex lock;
- 	struct kref ref;
- 	struct drm_sched_entity *entity;
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index f486a3cd4e55..c6929e205b51 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -200,6 +200,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 		*id = queue->id;
+ 	 * This will move the obj out of still_in_list to
+ 	 * the purged list
+@@ -58,6 +61,9 @@ evict(struct msm_gem_object *msm_obj)
+ 	if (is_unevictable(msm_obj))
+ 		return false;
  
- 	idr_init(&queue->fence_idr);
-+	mutex_init(&queue->idr_lock);
- 	mutex_init(&queue->lock);
++	if (msm_gem_active(&msm_obj->base))
++		return false;
++
+ 	msm_gem_evict(&msm_obj->base);
  
- 	list_add_tail(&queue->node, &ctx->submitqueues);
+ 	return true;
 -- 
 2.36.1
 
