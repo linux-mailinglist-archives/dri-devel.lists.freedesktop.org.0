@@ -1,77 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04CC5874A8
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 02:05:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6F05874B8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 02:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E798910E3BE;
-	Tue,  2 Aug 2022 00:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B4A10E4C2;
+	Tue,  2 Aug 2022 00:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFEDC10E28E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 00:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659398661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U6SzF5bzrdmxIOn5tTpulDRO8riGmWkL+mC1UkjRs+s=;
- b=BYtLNrT0dByASAMc8vv7gc3u8PFCNW9NeiEeEF0vdHZJjb3ybXQTyh6efxMLRP9f6zWEuW
- +f1cHPGG3DD4CrQUos9ldX6+3yDdnbwumfaPUo7NBMcfEaWNMk2ddWo/fotMFDdkL+BYZw
- OJ1oQuXT4gw6/uTh+yde0i5Eq1DjgyQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-06h0vXYSNLihUW0ArrRbrA-1; Mon, 01 Aug 2022 20:04:20 -0400
-X-MC-Unique: 06h0vXYSNLihUW0ArrRbrA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w5-20020a05640234c500b0043dda025648so1225346edc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Aug 2022 17:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=U6SzF5bzrdmxIOn5tTpulDRO8riGmWkL+mC1UkjRs+s=;
- b=5HZ5Vo4D8fjIOhh5KpqpcgGYSkjWPWyR65AoE0sHHB2xhBMfCTfEDOGEnvcDcxDM1Z
- WgSwsCzhPtA59D2f8V8CvFRmkXLoLhLjabLqmEdvDnGRImmQ91tgOrNIJLFmkEwQ7l+7
- itiF25Cq+5pMMpP0td+GY1tqdys6vOqW/nkj5pWxHN6eBhZd8m0HAooYcw3R7Cn6meUY
- smvAGeytrbyhvIga5jCUvaEk3Oli4s33zGbByVcLC1Ce43wML7M8GBY6QrrdPqd99CrM
- P32EKLqU5nHwEDd2Q5x6otmxCWHUALEM8Y5KdbyxfPXtPTEJwQBAXAUFGfgHVLuwDKZv
- J0dw==
-X-Gm-Message-State: ACgBeo0GsqxtrhGDJUXcJfX/wjwF163XpwgLLCgaxdnsfEs5AjdbGpYD
- R2naAnVa1kN38asGzNFl4FwCzkiQ2hwVtCHkgRAK0WFVwvTifE/5+l8SqLbcYMdJ6MIoqPIFJwP
- r+InzJqU9hvnab44ukeU7w3prGDzJ
-X-Received: by 2002:a17:907:3e20:b0:730:7528:d7d7 with SMTP id
- hp32-20020a1709073e2000b007307528d7d7mr6521266ejc.136.1659398659621; 
- Mon, 01 Aug 2022 17:04:19 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6thFS7LA8ACR06UD7XqVrl7c5feAQorB6NJrtwmpPXzDw1vuirxz8o3tTHC8XQS8w9dnrsLg==
-X-Received: by 2002:a17:907:3e20:b0:730:7528:d7d7 with SMTP id
- hp32-20020a1709073e2000b007307528d7d7mr6521253ejc.136.1659398659502; 
- Mon, 01 Aug 2022 17:04:19 -0700 (PDT)
-Received: from pollux.redhat.com ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- s4-20020a056402036400b0043cbdb16fbbsm7461686edw.24.2022.08.01.17.04.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 17:04:17 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: daniel@ffwll.ch, laurent.pinchart@ideasonboard.com, airlied@linux.ie,
- tzimmermann@suse.de, mripard@kernel.org, sam@ravnborg.org
-Subject: [PATCH drm-misc-next v7 5/5] drm/todo: remove task to rename CMA
- helpers
-Date: Tue,  2 Aug 2022 02:04:05 +0200
-Message-Id: <20220802000405.949236-6-dakr@redhat.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220802000405.949236-1-dakr@redhat.com>
-References: <20220802000405.949236-1-dakr@redhat.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E58010E4C2
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Aug 2022 00:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1659399030;
+ bh=YldzH2kP/t/zX2IFxkwoPVv8Hfd4paU3Hwj5wgqC2D8=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=UZct7F1pHs6TNr+Eqd7WL1d2Sey8n2UAKxgHR1tkX/cjgYsalP6T1b55zCwbOV1JU
+ ijjbxhsRwPvyLvLo9nMO7ianxVIhnuz33TA8rKZMHK1Xh4769RFvgE+jtNVQJ+pveR
+ N3mmv2ytKhGZGbtn3CLvJCypMapABultZDx+n7es=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [23.24.200.25] ([23.24.200.25]) by web-mail.gmx.net
+ (3c-app-mailcom-bs06.server.lan [172.19.170.174]) (via HTTP); Tue, 2 Aug
+ 2022 02:10:30 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Message-ID: <trinity-4501b716-d008-4a86-9e0c-681c301e4b87-1659399030120@3c-app-mailcom-bs06>
+From: Kevin Brace <kevinbrace@gmx.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 2 Aug 2022 02:10:30 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <Yufl737qQnxlHeGd@ravnborg.org>
+References: <20220725235359.20516-1-kevinbrace@gmx.com>
+ <20220725235359.20516-7-kevinbrace@gmx.com>
+ <f7a47d59-d4d2-61fb-4e42-1decff2e7d62@suse.de>
+ <trinity-e1f9136b-24dd-44ed-861b-a0735c91422e-1659221316349@3c-app-mailcom-bs07>
+ <Yufl737qQnxlHeGd@ravnborg.org>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:kNAlRD56HluaPMYQwpXHDwCZoaZEwTS4bDHMG55BYyw+b/UQdm5PjWBupA6Mlx8A7f+ox
+ xNTQszhaJkT6HOYHDXrk1IVBhSiZtBi4+rokE/4iTLuHvLhSDRM0MG7bSYSNLMYvu+UdqJbSdX1t
+ XHRWxubearJgX+F6lvaBF/GO5MQLlxbpQTA+PD0b0Q0Tllzt1iCJZcSQICHY13g5avkUAKoixRgv
+ QhkI9OIEN0zRw3zxHEDQ0/Nl3LXctlWcCa8VUSmmYfOCFPV3I024csyL+Ru9oGFae5H7eC1JRInd
+ 0g=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mNlBuW/Hc5U=:SheEi9dtIrh60x0ACCW9L2
+ 5dPYHaEJfk6wiNi9VoyWc08h7C/MLBH7yDLFVpxUn9Mt/AMCGDTk8uoBvfZeGXXgW2YNlm4jP
+ zwSU8D1X/4k1a5xZ/sxje3FCLOLk1IDTuDVpvl7Xg9/pi86oLtVEjvwXygrjAvJPMgcYjQ6ob
+ dg7F6CFePzDK9ZfhTa+pgkDgIdmmhR1ga3asDfUGU8ORZjAhvejHPsZOgBuIyKlZJkMsmMpY+
+ 8EHqxX1/Opy54sCCPA4cg0YB1H40N/jXDImt12lqdMhd9rCp3QMvhvkgowL21O31rV/usQ/Eu
+ VOzDdxqKmbANcTvaJBaNOjTsLKmk75rcaKh1wGuSvVhDY8F4DGRlWPwqvwb3XdXXdvkJmOqYE
+ ECEeTmUurB1n3FbiF1+jPl1uDZyOfxeJOcmBuiBdB2oq1URSV/9tNHccgUUlZ5bH8I8jY0FZh
+ flswfRkAXyrLZxeyp7oalRPhjzE+CxFkKOSeynVkAfjC6P2Hq0mMNj5orkUski4nQ9ORVT/Nq
+ cIanVAcG15PXrzbIXvXsPSy+jARH2oWuw3qiY/bbgkbKNL2W+B1cNTfI6BkJujdll1UWf/toI
+ knAsjC3Z9fDQzHsJK4bkdh8JYmWDHA7jJzVKylRCRcNOTrHIxbRCSVhP4MbvZ/o7mHpdBm4a2
+ AYKuWXq1tbfvy64kfXBqFBR9c/LREP1HUaDhYUn0zxyEbzpST+zWpFjvxOLOwov/krhlRIkCd
+ 6wwxFGUu7c1x/mPWSDobro+0sGYCQRCzRHOtoWf3nagUWRHgiSBQ9FAWyRppVYmtR1xWSw08E
+ dHQNNuW
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both, GEM and FB, CMA helpers were renamed to "GEM DMA" and "FB DMA",
-hence the task can be removed.
+Hi Sam,
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- Documentation/gpu/todo.rst | 13 -------------
- 1 file changed, 13 deletions(-)
+OpenChrome DDX carries lots of legacy code.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index de226ccc2c54..7634c27ac562 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -331,19 +331,6 @@ converted, except for struct drm_driver.gem_prime_mmap.
- 
- Level: Intermediate
- 
--Rename CMA helpers to DMA helpers
-----------------------------------
--
--CMA (standing for contiguous memory allocator) is really a bit an accident of
--what these were used for first, a much better name would be DMA helpers. In the
--text these should even be called coherent DMA memory helpers (so maybe CDM, but
--no one knows what that means) since underneath they just use dma_alloc_coherent.
--
--Contact: Laurent Pinchart, Daniel Vetter
--
--Level: Intermediate (mostly because it is a huge tasks without good partial
--milestones, not technically itself that challenging)
--
- connector register/unregister fixes
- -----------------------------------
- 
--- 
-2.37.1
+https://cgit.freedesktop.org/openchrome/xf86-video-openchrome/tree/src/via=
+_drm.h?h=3Dmain&id=3Ddc661c59257e855cd9b29c14b91a8ee2d9b86ccb
 
+There is a requirement to use the same via_drm.h with both DDX and DRM.
+Hence, I need to keep a lot of the legacy DRI1 definitions inside via_drm.=
+h.
+
+Regards,
+
+Kevin Brace
+Brace Computer Laboratory blog
+https://bracecomputerlab.com
+
+
+> Sent: Monday, August 01, 2022 at 7:40 AM
+> From: "Sam Ravnborg" <sam@ravnborg.org>
+> To: "Kevin Brace" <kevinbrace@gmx.com>
+> Cc: "Thomas Zimmermann" <tzimmermann@suse.de>, dri-devel@lists.freedeskt=
+op.org
+> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
+>
+> Hi Kevin,
+>
+> > I cannot drop the older DRI1 based uAPI calls.
+> > This is because include/uapi/drm/via_drm.h needs to retain backward
+> > compatibility with the existing OpenChrome DDX's XvMC library
+> > (it gets compiled when OpenChrome DDX is built) and likely with the
+> > existing DDX Xv code as well.
+> > If I remove the DRI1 based uAPI calls, the XvMC library will not get
+> > compiled (compile error will occur since the XvMC library assumes the
+> > presence of DRI1 based uAPI), and I assume the same for the DDX Xv cod=
+e
+> > (I cannot even reach here since the XvMC library is compiled first).
+>
+> If you just keep the relevant definitions in drm_via.h then the compile
+> issues should be OK - and then there is no need to implement anything in
+> the driver. Or did I not understand the problem you are trying to solve?
+>
+> 	Sam
+>
