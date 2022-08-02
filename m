@@ -2,135 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461B158807C
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 18:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C96958808C
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Aug 2022 18:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE4891B09;
-	Tue,  2 Aug 2022 16:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF2791B60;
+	Tue,  2 Aug 2022 16:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D128A91C33;
- Tue,  2 Aug 2022 16:49:43 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C1C10E2BE;
+ Tue,  2 Aug 2022 16:57:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XUata67gSHaGPRoxjjeTm8mRBhb/9NM0svcE01lp+TF60jQVkgsJJIzZShYmV/iXODfpAVMKcwJVgk2QCoSLw8++cDlf+m/3k5cQyH691ua/ylIpYA4TBN48E+xxRSOw5UEwfnIk5ywlGrmg5/hlEI3aiqGmc2riSCP7PRBCgxG18dJzybYS61EOTb9BM8ZeYDjj7bPX9Hyysa3DK0sKuoH4CjXazL/Spk4hqwYN3PY2KOZPpaVnCctBTEW5IqXjMW3TbECrD7cFuJJs8xk7nAtARYA8GRYkZ04kvhXJArmUnjM5QAXI6rdeLBniyQTgrQPCdjLc6exWQarR9ptoMw==
+ b=XJd5QHZ1Kemad5zzT4prIRs0ZgEmhh7ZdV3PhgDPotBrXxRU7ZUx9l+9HUhgr7iqvUX3HrmOklPMvNABaL5SY3iP8vJn/iDjyV3Z3LzY7fi69BKv1RL0/sCN0T0KogoBL9s2oM5rSnEbVXuvreqIYlY70JTbPMK7fr6lfvg9UtBd6NgIWbE4Px3NJEEaQEt9zV5VynO26cCQQWx2Noeu9QoEwx0NHP1Y/OsGu6mjfSsi8MPOlFi6rQzGRUC/u6r038XLMcVc1GMeKmAFOLVV9/mNoR5C2CYKd12e6d6DoPC4qQrKbfLWxbxTf8qwxCondCVdOD7TNblajGXU4sMxRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=diCJJRpSjE6HZCLBpSbHRMI2iUZ77Sss/ktXaBchjnA=;
- b=cZ50FKY+DQL/mgNYbCATogBiHb/AACdezK7KqekhlS3ACqqTpA34Tptt2ykxYX/84A6Gplf+b6MA++94MjYdvycOIEUyNlTyUmMqA5lXfywwteQkBAa7uDCm39G6Gjw0+qNXcLZegjKGx6OkYrcUXhaa0rRjSo9U58MPiiXio7YOBjvswBtvv41d9DAjmWJrXBeWMt+wpao8J6VQUSyD/2ZOT03tIj9lywynGH2QEfwTSy+OYocEXwvgSYdwZpRz8oqlrhWxGh2hB4WGEqfXB5htvaH2CCCQlhpbxi75D0D4MeddcMJjcpxekEyHx4Il/BcN/WU2c0mSnKstF0w9rQ==
+ bh=v0BRbTZfcFYlztC1UoZwBV4VBnGguZZdUuiS1uG80+g=;
+ b=K94hY/EV4rVcZbLNUg8gCH8ryBmVWueNFGMrnbJkV7CEcuDmbKRebK7azjTk6E+d9j6gLdSehpOvLYeFYNInU7YW67EuAN8zDSJ3TKY/7Ng5wHp7mbYVo2Liw2/2CvyHh7Xgeqjzpt817Rt1eXXPVcI5mq/MfheoZzY+kKu3YE4EwTUoQ+u4pN/DgRo3M/Yt2n6uB5iy04qLH1YDFX1yBwW3o+ZAIfUrDJex+96diwylnoYBbq/INuBoWIaKo3Aj9eytMbEU3pQFF1v3QDB0K0YeBvgZmaiSq55uMIJ0u1X/u4EsUcfIOgv+SpfuXH01NcwcbfNtOhA3sIpeKwAIAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=diCJJRpSjE6HZCLBpSbHRMI2iUZ77Sss/ktXaBchjnA=;
- b=e263jZDmL+Ct39zO8QTsmNh9QR1ivaFXuzZD9/BF2YhMI0fYTnjarCq1w2a5p+5K+j9DoO52uzGp6SAoQgssNcHgwLXcrBd4TXqiCJ8l7ZvVg1SMxyq87IdMEn5AZO6E8iLcTOduBFbSr+RDcyd1mK09EN48QPz50Dm71cme0naWMdIzUvcnquzLdfQ599EWPcXs9tzjH4s8gBzH5vvKge71WUupWF0a/fgoInsx/gjIPYWgF52TBSIE/pc5Zn2GDD99WxsAFwo++WDnJTMgXPXbTAyvRAVahmCGKHXp9cJ5xpH3uDO5n0EVYq4F5Y7RBIetR6SYXQmjMRClFHR1Ig==
+ bh=v0BRbTZfcFYlztC1UoZwBV4VBnGguZZdUuiS1uG80+g=;
+ b=L8PNkhkQxdZIkU/LDwhknm/0RJmTtP8jA6JieahVBVJss9Vgo72EK7QmyOW3ev1xFvNCY4SJiBG3+lt9OBhAenXeevM7sumPiphD5C0VC1ZxGqc3mDKT/NNRoj1aE1JqlMtQ2p3eOPtXzqoRRtJjEFkv3R3LQcEYqfH/DsE8KIg=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB2763.namprd12.prod.outlook.com (2603:10b6:5:48::16) by
- BY5PR12MB4902.namprd12.prod.outlook.com (2603:10b6:a03:1dd::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5482.12; Tue, 2 Aug 2022 16:49:41 +0000
-Received: from DM6PR12MB2763.namprd12.prod.outlook.com
- ([fe80::6012:2e0d:2697:8b02]) by DM6PR12MB2763.namprd12.prod.outlook.com
- ([fe80::6012:2e0d:2697:8b02%3]) with mapi id 15.20.5482.016; Tue, 2 Aug 2022
- 16:49:41 +0000
-Message-ID: <5cfb26a2-ec7b-578e-dc01-79776dc7e0c9@nvidia.com>
-Date: Tue, 2 Aug 2022 11:49:36 -0500
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
+ by BN7PR12MB2676.namprd12.prod.outlook.com (2603:10b6:408:2d::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Tue, 2 Aug
+ 2022 16:57:25 +0000
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::d122:1dae:8445:2e43]) by MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::d122:1dae:8445:2e43%7]) with mapi id 15.20.5482.016; Tue, 2 Aug 2022
+ 16:57:25 +0000
+Message-ID: <8a3f1d72-5995-5db3-e550-8c532024c304@amd.com>
+Date: Tue, 2 Aug 2022 12:57:24 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 01/29] ACPI: video: Add
- acpi_video_backlight_use_native() helper
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/3] drm/amd/display: Fix 'no previous prototype' compiler
+ warns in amdgpu_dm_plane.c
 Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>, Mark Gross <markgross@kernel.org>,
- Andy Shevchenko <andy@kernel.org>
-References: <20220712193910.439171-1-hdegoede@redhat.com>
- <20220712193910.439171-2-hdegoede@redhat.com>
- <641cb059-48f5-5f05-5ec2-610f1215391c@nvidia.com>
- <20e4ffcf-2a3a-e671-5f98-1602b78df3cb@nvidia.com>
- <331ebd23-d2a4-bb33-5462-b9bd3284ab69@redhat.com>
-From: Daniel Dadap <ddadap@nvidia.com>
-In-Reply-To: <331ebd23-d2a4-bb33-5462-b9bd3284ab69@redhat.com>
+To: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org
+References: <20220801135259.3039679-1-imre.deak@intel.com>
+ <20220801135259.3039679-2-imre.deak@intel.com>
+From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <20220801135259.3039679-2-imre.deak@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR03CA0123.namprd03.prod.outlook.com
- (2603:10b6:5:3b4::8) To DM6PR12MB2763.namprd12.prod.outlook.com
- (2603:10b6:5:48::16)
+X-ClientProxiedBy: MN2PR13CA0031.namprd13.prod.outlook.com
+ (2603:10b6:208:160::44) To MN2PR12MB2941.namprd12.prod.outlook.com
+ (2603:10b6:208:a9::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 420bb7ab-aace-4e72-23a9-08da74a6febc
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4902:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c878386-13f2-4ec5-1b30-08da74a81337
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2676:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZIzS6OwGacw2P3UWKCxovTQNOhNiELjnpaqBVaXWouIfhAgiUvhJHPUpR/DuVab9HaQTR8x9Y/jl5Jl+Q8Szehtwko/zc4yGAUSfjg4IDOBbNfUpLXLThpc17DOQZCjM0mjd4b9+Un7783LNTAmSeFUFnn19bFTiwiDIQD4FoLQFqaohAxot0ONszof9vJ02MGlmCeM3cBpNAbLNHh8nZ3P3S916epbh15ME6zQeO3X/AaJ/XAVUrjxjKx5gb3qvXxN11QYSHozkmHVAt71pw1nBVQl2+5MxrBZGcev9FA91p94UiKpKB2JDmnY15VnS8NLKWc7zEWA0H2c4b2Kw0ePffQOAAwZhdkmp2E096MsmiwpBjLvYmx106eI+x1D0S6PTHZ3gXBCyMaNZfIbfU3qNEyXhAl6kC6wLT4aiJFYJPnQ3niJVKA7ldmqiEXDOib8QcUsh0hWXoa3SPw2Cfm0TppnWAI0zhLu+bjX6XEeu+95qTO46YI6sXJRlZ+3l0+z9w3hkYQ3rUu5rK5dA/VJI/G54IfUXeQUVymTcfPsnFIPQke7AqF8R+EX1/U+gjCHEff+Uc3O2PWEqI3DCNpqH3nqASPFBeHheRPPuyE2XRbNnPY4Ih0EgF1lZfu/4HzSY6tZV1Ya/rsl9WFTXA51b/R7WMxfK9gIjNLcSAzhK7G590KIjInquue+IvtCFWRYEVP1Zg+SnqLtFG1wkcQuyr/4pyPG9/WCU/23IHEhKvLOfx5E+aHYrEWJCRUsOBEVejkapGC0QUAr4UyA38WoyoFor9i4K/VwahMJBHVU4fK2ohhFbjIuoOOcdDTkP3etUQ1GUmCld6C1ggFxgsRjVjztFnsbJgV7LmIANqJs=
+X-Microsoft-Antispam-Message-Info: XhmKZv41vCxwUmsqkMzf4jewoBt0gUtZJoPUhCVYp/NjbtP6e+ia+mTkML2vAeRgICxOoQcpu8snIYDTDDm4RSK94kKPd8eHB6R/WrOM5spUgvAmJiPJ/0xk3UphrQJ9ghw0Y0xCSe6rSFwUx+V+zwHnae3GqOjoIMENy/UP4CZXWuyWVxGSxkccTkjqZgQf3qJ5vJsjtyONJjeITVvEZ+Ovy95niVFBdrzQC/z7fFdPk0Dr+6X0hQqPvZgkB+T0uQZdBM5XIyZ03/4+7AZvJSE33ZY0y1IZ1SK+QbyOWw51k6ohTW2xve+rDzAw9CT/v5i7RsLM5iqR3MbzTGi2/OZI9cod6qCcE+f/+S2w0+/fNzfjo96MIWfQe5CVnzg7pQ4cNOUh0ost5vE0rru9XiFt3IuQWkFu4kbd0J3Uc5QqTzoW2iJDaWNWS2Gn71WaD2ihM/LptAA89l54482zVEfdgWHR9ifg0kDJDTlnjCoI5afig1LAdA7vP/7JculxiWpb3cTbW9k/Lwk4i6lxqfOoCWj1VbZZ/s9SsBWeOl9yRE/LC0iUkg0z4eEhiZOeGDM6cQCheH/5PceN/evPcU89XbSOBZOwu7xdde/GNvylfZq+IPECdOJWKyLXOxcsMJH8ET6hLU+nFTzcFAyNqa+K04TSRHGg86piYuOgJkzXX3VpXfMW73DOrbRwdz/h9OIE/bxCgvyKMzH51TUgsEzMb36h9AbjFPx/VzQYHReensa9A9lHRjDPb4NsmEii2fVGQ5kuD3U9lvJDzidsX0vgjVhlPmNm3yRbB1EOmYhga7T02pMYriN6rRGAXVIH5x24/GZPIjQtQAssHGsQnA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2763.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(346002)(136003)(396003)(366004)(39860400002)(26005)(53546011)(6512007)(86362001)(41300700001)(6666004)(6506007)(110136005)(31696002)(54906003)(316002)(478600001)(6486002)(38100700002)(921005)(2616005)(83380400001)(186003)(7416002)(30864003)(5660300002)(4326008)(31686004)(66556008)(8676002)(36756003)(66946007)(8936002)(66476007)(2906002)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(316002)(83380400001)(54906003)(41300700001)(38100700002)(26005)(2906002)(8936002)(2616005)(66476007)(66556008)(4326008)(31696002)(6512007)(8676002)(86362001)(36756003)(53546011)(186003)(6486002)(6506007)(5660300002)(31686004)(66946007)(478600001)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STFFbVoyZlIrYzB4NTdvK0dFeFNURkVLcmNBNWd3YkIzQ3YvZ2Z5Rmd6Q09y?=
- =?utf-8?B?R0k3MEdYeXBiNVpVQ0sxVGhSMjd1QnJ5YlVGaGl2N3RmRnBQSU1YaHI3dXJm?=
- =?utf-8?B?M2swSEZIdEU3YzZyWCs2QmJLMytFOVJUZ3NYSnBYUHJtMUJMRUZVTTMwOU1O?=
- =?utf-8?B?ZEV1T2NUbUJaZ3Q1N0pZWFVpREIrSFd3cEZQbTNOL24wdVkxb2E0VHBuVlZy?=
- =?utf-8?B?a29vWnJTblZyZzdZUTgyMHRjT1RTalJTMXAvWXJlNC9pMEJRMWd3S3BkR0dF?=
- =?utf-8?B?Mmp3WE9RM3NNWk1UMDFoUVBxSzZqTGdsOFhCbzZIaitHbkQ5dWlXbUFhcEJq?=
- =?utf-8?B?QlgyL01jT0hKUGM5NnZmUXJ4bjRKUGRBZUMvVEliSnFrdUlOQk13MFR4aHdj?=
- =?utf-8?B?MzViNHQrak14eUZkckpBb3NaWUorRjlYYjlzK1hkQzVWL2VpUE95bWtscCti?=
- =?utf-8?B?U3VSbUtvQ0J5RGk3Wk00cHNyU01zZVBwblc2dHBGeWFrYlhtZlhXZlJMRXNx?=
- =?utf-8?B?dStEZ0FVRkVFV2Rhak5TUmlpcURWbFNYQkRJTngxMHpkOEtSNGMzWTFjREhD?=
- =?utf-8?B?WVM3V0V4WjlxWjloVjI2TlkzZDdSRzdIZ3U1Qm50VjlrRVN0Vk5PZU1MT29W?=
- =?utf-8?B?SlErakN4OFYvUlJsYUh0Uzh1UEt1WHgyVGNKaHczaWh2ZjdQUDJkTTdTVDNT?=
- =?utf-8?B?Ukt3amlGR0M5L1BoOWhjYk9RMk5aemNkVjBjWTgvVXdsWENmNFFGbUJTZko0?=
- =?utf-8?B?eHEwdGY4MmhrQUhLMTIyWXM1dXVRL1EvYnRZTElSVUVJSWJkSjdQTkhvT1R0?=
- =?utf-8?B?WmtoSFBreWRRMFdMZGFFMGFKUHlzRDRaSERHcUdpRkNyR0xRVmViWk8xdnhE?=
- =?utf-8?B?dEZGcllOcVErL3gzbUQ2WnNPeW1OZnZ4SHVNZmtSMnVJQ0lSdzdJOWxvNVVG?=
- =?utf-8?B?LzhIcmVnZ3RoTUxuVFl4b0hxSVhxRHVpeFUvZGx3UjhMU0JHVjdUTGE4UGVk?=
- =?utf-8?B?ODZob2RxZEI5amV0WmMzQ282OWpwTHRJNzlOTktKQWZUK0g0SmJqZkV3cU9l?=
- =?utf-8?B?M0ZlclRWdC9kVnh6MFVIWjhrRlArRTFFNm9abm5GYU5zMlA2emZSZ2JIbnVW?=
- =?utf-8?B?TEZZNGVqQTVQaGR6d1NFWTlWZjh5ZUtuZklkQlJNejkwZkwvcTdEQjk3STVK?=
- =?utf-8?B?aGt1Umx0WlJ1RWJSRURoYklKeWFJQ29ya1FTZ1lCbW5ONW5lMlB1WEtDSkRa?=
- =?utf-8?B?L3hiOGhMajV2bTVLWUs2c2NyZTU2R0pVY3FxZ29oRUljRGhaQ3hhY21jYTVw?=
- =?utf-8?B?MTZrZFpjcTc2dnNPMTZFVHNlNmYwRWNyQWNpM3VrL0JsVVlSeUo1MkxLSFUy?=
- =?utf-8?B?aVhrUXJzbGNJempWQzh1amNVRVB4V3pNQUNIeFlmWW82djA4R0cwdDdBM1lG?=
- =?utf-8?B?U1JQSi82cG03RHc1RGE1cHFjWXlkeEtTKytuaGVQNU4yQ3V5OCtlYmZYUVM0?=
- =?utf-8?B?QXhBVUN3Qm9yTHNneUMxUzR2Tyt6VFdlNU5ncnA4WmI3bTMxWUtjaGVESEoy?=
- =?utf-8?B?OC9HR3U2Vjdaa1U3ODVQOGMvbXc3M1ZhRDh4TE5LaURnMGVZaHd2YlJHUWVV?=
- =?utf-8?B?M0Z1ajYrTXNoMHZEY3V2OEd3U3Avdm53Um8rOFNzdVhJaDUvNVhwY2FKQisw?=
- =?utf-8?B?RHFMNGNTdDhEVDdTczRnUnVJcDlYUS9aY3RNUHVnUUpxS2R6c0EyL3g5ODVn?=
- =?utf-8?B?SlpTQVM1ZVQwbkJZdXIvOXJOVU9tMEJuVUZZMkczeCtKcHJBbXI2UUUzTnJR?=
- =?utf-8?B?Y2poOXUxRGRnTmgrZXlPeE0vcDBwcmxiQzU4cCswOXhVOTRCY0xNcElEWHJ6?=
- =?utf-8?B?V3FDSFpNWlhtWHV6UUwzWHN1RDVVa2FtbEVtZmlJMjBZMkhiZUxCWTR4cC9r?=
- =?utf-8?B?Qy95MkorZE51Ym9DaXU0NVBRenVKZFM2VmZKeW9rUGxZa1VJSzQzYS9RTVpr?=
- =?utf-8?B?NEdsQlRTSXZXc0tUWCtnMDNIbU9ISHFpVnVwRUlxVWhaVDVXQ0lGejFFUEtM?=
- =?utf-8?B?S2ZhVGpLV0xURmJrTnJvaVYvUER4T1pmU0RRNWJNMDNSKzV6WXgzYlh5Qnox?=
- =?utf-8?Q?iXwgkBBCviPtvoyJ/PxIDOIus?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 420bb7ab-aace-4e72-23a9-08da74a6febc
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2763.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OW9zdHJwTFo3aUhTQ3VsY2V0NTNVZEpIN1lxUXc1eTAyd0VUT3cyZVMrWnE1?=
+ =?utf-8?B?Nys5OHZUTEhWYlVublR4OXBwU09NWDhJeWliM09VYXN5WHN3RXBwV1RIMkVL?=
+ =?utf-8?B?WmhsTTF2Tjl0azdXVFI3bExSdnQ3dkZBblNzWStZc25URDRIMG12S1UzT2hX?=
+ =?utf-8?B?d0k0RHp0Q1VCMnh5SlVvczdyWUt2Vk9RSXVvQ1VsRzdHZDZMYlE0UkdVNlRR?=
+ =?utf-8?B?c1JWdU5HaVExdW44OStDcGhmK2YrOUlEL0h5dnJySDIzOXlKd2srNlZZYnRQ?=
+ =?utf-8?B?aWNMRTRpSTc2VTZBQk8yL3hKLzI0R1hmb2t1OWUwSllDcDRjdmdxekxkSm5k?=
+ =?utf-8?B?YTd0eEYweEJSZlBFYXkyQTJORWdreHNyWHdFcDF3UUtqZC95cGVLYUhWN1NQ?=
+ =?utf-8?B?T1FOS3dweXZZQ29vanZ5bUlBekh6Nm8wYXRveU11dlBwcmIzZ2dJMHgvbTY1?=
+ =?utf-8?B?cHhuU2RVVlFOMmRvWitYQmJnOWFzMFYwN08xMjhxeFZZVXlUcnM5blpKbC9O?=
+ =?utf-8?B?bTZzeHI4Y0pHajRnSkdwaWllbzFsaVplRHNwQURuTnh6NTllZlVhc2huRlhW?=
+ =?utf-8?B?T3pnbXpCdkYwTk4xbWR5Y1ZlWC9lbGNnYzE4MW43Rk5ZM2Z3T2dwTEhNRDR5?=
+ =?utf-8?B?VGpQV0hCZWY1SkxWMDVBQ1V0b05JMUVkOWF2cTVsWXpCcEhVeTdFZzd0amMw?=
+ =?utf-8?B?YUtjS2dVd1M2Qk03Y2FLMjhoaExScDZHM0xjY0JBNjdRNmFWK0NoL0lkZVpJ?=
+ =?utf-8?B?R3N2dzVtVDJKMzhZRjd2a0l6RmUrcEdkdjRoRjcxb0krZUxaTHdpVE5SeFVv?=
+ =?utf-8?B?T3p2OXNwZlhlN3pzM2pzeC80SEJvTS9FeHJMRjlRWVlrS2VHaTViRHAwUURC?=
+ =?utf-8?B?eVdsRks3SFR5ZmxhQVB4Q2lEaGlaNkRPM1BQYUN1YkxoeS81K1FmUzZrWkhM?=
+ =?utf-8?B?Qi92QVFMQWZNYnJMaWNOdktUbEF3Wkd5K2pnejE0R1ViU1QzcElvdHJKWkJM?=
+ =?utf-8?B?TUxhc1pMZDc1ZlBTVjd2MmtiQ0lBZTVsVDNuQXZhLyswejBkaXovRDhQODdH?=
+ =?utf-8?B?ZFN4dGFFdjhjQkJJeS8vVmc0a0dEcmxBcUdQeTZUUjZEZ3lmdW5RdW1DVWhJ?=
+ =?utf-8?B?VFpFZW1QT2pSVkhIQ1h0QWQrbmtSRlN0Y21nYUZKelVBZXo5NzFFQXBJdDc2?=
+ =?utf-8?B?bkRXYlNYWFZ2cTBtOC9NQzZSdEJkVXRqVmpENmMxeEFSNkhsakd5aG1JS3FI?=
+ =?utf-8?B?YUlzcTdpZUxFbWZ0eGtXQ0t4VmpXVzNMbEZEd0Qwa0lEOHFJcHpHbkpySlQy?=
+ =?utf-8?B?d0RXZjZJK3JJM1JyZW1HY2h3a0IzVktkaVllUTNndWRjc2ptblRJaEZEUXJI?=
+ =?utf-8?B?WmQzaUtjcWVrNEUrbUh0Tmw3SHgzMHVOVU5LNVh2RS9QR2tub0lqWjFYeFdp?=
+ =?utf-8?B?MTJVYW4zNm1GUG9xdm1IZmZ6eGdFdWpiSGx1TDFndjBxSGUrSG5qWGtkM04v?=
+ =?utf-8?B?WlAvbUxCaWVVUmxOVTZCWWUrVTRrcEdvQ0plSEI3dWpxazNHbjBWUUF2Q1Zs?=
+ =?utf-8?B?SVI5L3BLT1pRUC9Ja3lNMEtJTWc4bHdySmR6UVBOeXgvVlNKbmpUYjg4YzNV?=
+ =?utf-8?B?Y1U4bGNtaW5kS1FNRzF4MkVmQ2JKN1o0MHNFMVJUZmJHWjJFazZ6N0dwdUxK?=
+ =?utf-8?B?U29RTm5BaGFlNGZGNk56RkxIV0VEYXlObjlsWXlTbUg3OTh6SUplQkpkdDBJ?=
+ =?utf-8?B?VGlsUDREd3dnK3pMYmhKTlJvT01YU1lQMldLWmxYVUlZdURpT3FmbFZmTUhw?=
+ =?utf-8?B?UFoxcSt6N1FIdXpyakRoWTY2NW93SUpvVHlNYzdFTi9pZkt5ZXR0cytmam0r?=
+ =?utf-8?B?aWhMOGcwMnptNFplY0plN2RWYVBBaTRXZmpiRU05a1AvaWJIS3dqK2pWbHVj?=
+ =?utf-8?B?M2RKeCtPaTk1ZEErcWxLdkNGMmd4UjhwSm56YmJlVVlKc1I3cm15SHd5QVVG?=
+ =?utf-8?B?OUNCdGdrTkR6ODJYSndGVXRxT01xN1R4WHVYaDl0VGFoc2hqa3pFTEJoSXho?=
+ =?utf-8?B?OTg3dkEzNHZCczlJejM4bnVWbVdCdzI5YzJCSWtzV0dSNUtxR3pRNmtDcWRC?=
+ =?utf-8?Q?Z498qPUx90hqsY0AvzFzGbuxu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c878386-13f2-4ec5-1b30-08da74a81337
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2022 16:49:41.5513 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2022 16:57:25.3302 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OpHMoa7ZCB9bhGKUu6n8li3ytbnz8WoK/iOWcH+XI44PJGOHQfqmdw5nNg5sEFujQuoOZziyW4BT5Tk4qxelmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4902
+X-MS-Exchange-CrossTenant-UserPrincipalName: INDWhDld4DfgbXPpaXKFztaEzwA8WTZkQA6nfLAgub1DySiEFJYo4VWcAQ0MS4W5WeduIcd2xG2LuCoX4/iEjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2676
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,286 +126,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
+Cc: Alan Liu <HaoPing.Liu@amd.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/2/22 06:31, Hans de Goede wrote:
-> Hi Daniel,
->
-> On 7/21/22 23:30, Daniel Dadap wrote:
->> On 7/21/22 16:24, Daniel Dadap wrote:
->>> On 7/12/22 14:38, Hans de Goede wrote:
->>>> ATM on x86 laptops where we want userspace to use the acpi_video backlight
->>>> device we often register both the GPU's native backlight device and
->>>> acpi_video's firmware acpi_video# backlight device. This relies on
->>>> userspace preferring firmware type backlight devices over native ones, but
->>>> registering 2 backlight devices for a single display really is undesirable.
->>>>
->>>> On x86 laptops where the native GPU backlight device should be used,
->>>> the registering of other backlight devices is avoided by their drivers
->>>> using acpi_video_get_backlight_type() and only registering their backlight
->>>> if the return value matches their type.
->>>>
->>>> acpi_video_get_backlight_type() uses
->>>> backlight_device_get_by_type(BACKLIGHT_RAW) to determine if a native
->>>> driver is available and will never return native if this returns
->>>> false. This means that the GPU's native backlight registering code
->>>> cannot just call acpi_video_get_backlight_type() to determine if it
->>>> should register its backlight, since acpi_video_get_backlight_type() will
->>>> never return native until the native backlight has already registered.
->>>>
->>>> To fix this add a new internal native function parameter to
->>>> acpi_video_get_backlight_type(), which when set to true will make
->>>> acpi_video_get_backlight_type() behave as if a native backlight has
->>>> already been registered.
->>>>
->>>> And add a new acpi_video_backlight_use_native() helper, which sets this
->>>> to true, for use in native GPU backlight code.
->>>>
->>>> Changes in v2:
->>>> - Replace adding a native parameter to acpi_video_get_backlight_type() with
->>>>     adding a new acpi_video_backlight_use_native() helper.
->>>>
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>>    drivers/acpi/video_detect.c | 24 ++++++++++++++++++++----
->>>>    include/acpi/video.h        |  5 +++++
->>>>    2 files changed, 25 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
->>>> index becc198e4c22..4346c990022d 100644
->>>> --- a/drivers/acpi/video_detect.c
->>>> +++ b/drivers/acpi/video_detect.c
->>>> @@ -17,8 +17,9 @@
->>>>     * Otherwise vendor specific drivers like thinkpad_acpi, asus-laptop,
->>>>     * sony_acpi,... can take care about backlight brightness.
->>>>     *
->>>> - * Backlight drivers can use acpi_video_get_backlight_type() to determine
->>>> - * which driver should handle the backlight.
->>>> + * Backlight drivers can use acpi_video_get_backlight_type() to determine which
->>>> + * driver should handle the backlight. RAW/GPU-driver backlight drivers must
->>>> + * use the acpi_video_backlight_use_native() helper for this.
->>>>     *
->>>>     * If CONFIG_ACPI_VIDEO is neither set as "compiled in" (y) nor as a module (m)
->>>>     * this file will not be compiled and acpi_video_get_backlight_type() will
->>>> @@ -548,9 +549,10 @@ static int acpi_video_backlight_notify(struct notifier_block *nb,
->>>>     * Arguably the native on win8 check should be done first, but that would
->>>>     * be a behavior change, which may causes issues.
->>>>     */
->>>> -enum acpi_backlight_type acpi_video_get_backlight_type(void)
->>>> +static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
->>>>    {
->>>>        static DEFINE_MUTEX(init_mutex);
->>>> +    static bool native_available;
->>>>        static bool init_done;
->>>>        static long video_caps;
->>>>    @@ -570,6 +572,8 @@ enum acpi_backlight_type acpi_video_get_backlight_type(void)
->>>>                backlight_notifier_registered = true;
->>>>            init_done = true;
->>>>        }
->>>> +    if (native)
->>>> +        native_available = true;
->>>>        mutex_unlock(&init_mutex);
->>>>          if (acpi_backlight_cmdline != acpi_backlight_undef)
->>>> @@ -581,13 +585,25 @@ enum acpi_backlight_type acpi_video_get_backlight_type(void)
->>>>        if (!(video_caps & ACPI_VIDEO_BACKLIGHT))
->>>>            return acpi_backlight_vendor;
->>>>    -    if (acpi_osi_is_win8() && backlight_device_get_by_type(BACKLIGHT_RAW))
->>>> +    if (acpi_osi_is_win8() &&
->>>> +        (native_available || backlight_device_get_by_type(BACKLIGHT_RAW)))
->>>>            return acpi_backlight_native;
->>>>          return acpi_backlight_video;
->>>
->>> So I ran into a minor problem when testing the NVIDIA proprietary driver against this change set, after checking acpi_video_backlight_use_native() before registering the NVIDIA proprietary driver's backlight handler. Namely, for the case where a user installs the NVIDIA proprietary driver after the video.ko has already registered its backlight handler, we end up with both the firmware and native handlers registered simultaneously, since the ACPI video driver no longer unregisters its backlight handler. In this state, desktop environments end up preferring the registered but non-functional firmware handler from video.ko. (Manually twiddling the sysfs interface for the native NVIDIA handler works fine.) When rebooting the system after installing the NVIDIA proprietary driver, it is able to register its native handler before the delayed work to register the ACPI video backlight handler fires, so we end up with only one (native) handler, and userspace is happy.
->>>
->>> Maybe this will be moot later on, when the existing sysfs interface is deprecated, and it probably isn't a huge deal, since a reboot fixes things (I imagine installing an in-tree DRM/KMS driver on an already running kernel isn't really a thing, which is why this isn't a problem with the in-tree drivers), but would it make sense to unregister the ACPI video backlight handler here before returning acpi_backlight_native? That way, we'll briefly end up with zero backlight handlers rather than briefly ending up with two of them. Not sure if that's really any better, though.
->>>
->> Thinking about this a little more, maybe it's better not to overly complicate things, and just assert that users of the NVIDIA proprietary driver will need to reboot after installation in order to get the backlight working, at least until we get further along in this effort and the backlight interface transitions to the DRM connector property you have proposed.
-> Right, this series stops unregistering the acpi_video# /sys/class/backlight
-> devices because the idea is to never register them in the first place.
->
-> Registering them in the first place causes 2 problems:
->
-> 1. It causes userspace to see udev events for the register + unregister
-> and by the time the systemd backlight level save/restore helper runs
-> from udev the unregister has already happened and it logs ugly errors.
-> More in general this kinda racy behavior just is ugly.
->
-> 2. On some hw merely registering the backlight device, which I think
-> at least tries to retrieve the current level through ACPI, is causing
-> issues. So now we have DMI quirks to force the native backlight on
-> some devices, even though the heuristics also say native eventually,
-> just to avoid the race. Avoiding the add + remove dance allows
-> us to drop a bunch of quirks and likely also fixes issues on other
-> devices which we don't yet know need the quirk.
 
 
-Yes, those sound like good reasons to avoid registering the ACPI video 
-backlight driver wherever possible.
+On 2022-08-01 09:52, Imre Deak wrote:
+> Fix compiler warnings like the following triggered by
+> '-Wmissing-prototypes':
+> 
+>    CC [M]  drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.o
+> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:83:31: warning: no previous prototype for â€˜amd_get_format_infoâ€™ [-Wmissing-prototypes]
 
+I see "â€˜" around "amd_get_format_info"; I'm not sure if my email 
+client adds that or if there is something wrong in the commit message.
 
-> So this patch-set changes the acpi_video.c code to no longer register
-> the acpi_video# backlight devices at init time *at all*. Instead native
-> drivers are supposed to now call acpi_video_register_backlight()
-> when they have found an internal panel. But to avoid this causing
-> the acpi_video# backlight devices to not show up at all in some
-> cases (e.g. native kms drivers blacklisted) the acpi_video code
-> also calls acpi_video_register_backlight() itself after 8 seconds.
->
-> I believe this is what you are hitting, the 8 seconds have passed
-> before the nvidia driver calls acpi_video_backlight_use_native(),
-> so the acpi_video# backlight devices have registered (and no longer
-> go away).
->
-> This is not only a problem when installing the nvidia binary driver
-> for the first time. It can also be a problem if the binary driver
-> is not in the initrd and leaving the initrd takes longer then
-> 8 seconds, say because of a diskcrypt password. So I believe that
-> this really can be a problem with the nvidia binary driver.
+With the commit message change:
 
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
-Hmm. I hadn't considered the case of the binary driver being absent from 
-the initrd, and the possibility of the transition out of the initrd 
-happening after the timeout. Yes, this is a bigger problem than the 
-"only after first installing the driver" scenario I ran into.
+>   const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
+> 
+> Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes")
+> Cc: Harry Wentland <Harry.Wentland@amd.com>
+> Cc: Alan Liu <HaoPing.Liu@amd.com>
+> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 5eb5d31e591de..da3b086b0d6ef 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -33,6 +33,7 @@
+>   #include "amdgpu.h"
+>   #include "dal_asic_id.h"
+>   #include "amdgpu_display.h"
+> +#include "amdgpu_dm_plane.h"
+>   #include "amdgpu_dm_trace.h"
+>   #include "gc/gc_11_0_0_offset.h"
+>   #include "gc/gc_11_0_0_sh_mask.h"
 
-
-> But I think this is easy to fix. We could make the 8 second
-> delay configurable by replacing the ACPI_VIDEO_REGISTER_BACKLIGHT_DELAY
-> define with a module-parameter; and we could make "0" as value mean
-> that acpi_video.c will never call acpi_video_register_backlight()
-> itself.
->
-> Since the various (also counting distor packaging) nvidia binary
-> driver installers already all modify the kernel commandline to
-> blacklist nouveau, then the installers can just also pass this
-> parameter and then acpi_video.c will never register the acpi_video#.
-
-
-This sounds like a reasonable compromise, but I worry that it may be 
-difficult to determine whether a system definitely doesn't need the ACPI 
-video backlight driver. On the other hand, the last system that I recall 
-personally seeing that did use the ACPI video backlight driver was a 
-little over 10 years ago, so it's possible that there are no systems 
-which use that driver which are supported by current versions of the 
-NVIDIA proprietary driver. I'll have to do some research to determine 
-what types of systems actually used video.ko's backlight driver, unless 
-you happen to know already.
-
-
-> This does mean that the nvidia binary driver then must call
-> acpi_video_register_backlight() when an internal panel is found.
->
-> Note the current patches to amdgpu/nouveau skip the calling of
-> acpi_video_register_backlight() when
-> the acpi_video_backlight_use_native() call returns true and they
-> have registered their own backlight. But calling it always is ok
-> *as long as the driver is driving the laptops internal panel* !
->
-> acpi_video_register_backlight() contains:
->
->         if (acpi_video_get_backlight_type() != acpi_backlight_video)
->                  return 0;
->
-> So calling it when a native backlight has already been registered
-> is a no-op.
-
-
-The NVIDIA proprietary driver will already know when it has registered 
-its own backlight handler, so there probably isn't any need to always 
-call it when driving an internal panel. I'll have to double-check to see 
-if we have already determined whether a panel is connected before 
-registering the backlight handler: I am pretty certain that is the case.
-
-One further potential difficulty that I anticipate is that not all 
-dynamic mux systems use the EC backlight driver (or a similar, 
-GPU-agnostic driver), and rather have whichever GPU happens to be 
-connected at the time be responsible for the backlight. I had initially 
-thought that supporting the EC backlight interface was a requirement for 
-OEMs to implement dynamic mux support, but I recently learned this is 
-not true in all cases. On Windows, this requires coordinating the 
-backlight controls of the two GPU drivers across a mux switch, to load 
-the state of the switched-away-from GPU and set it on the switched-to 
-GPU. I imagine for these systems we may need to do some similar 
-save/restore, probably managed by vga-switcheroo, but it would require 
-having both GPU drivers register their own native backlight handlers 
-(and possibly while one of them is not connected to the panel).
-
-Dynamic mux switching isn't actually supported on Linux, yet, so we 
-should be able to kick this particular can a little further down the 
-road, but in the meantime we should probably start planning for how best 
-to handle this sort of system under the "only one backlight handler per 
-panel" model. Maybe the vga-switcheroo handler can register its own 
-backlight handler, that then negotiates the actual backlight settings 
-between the relevant GPU drivers, possibly through a new vga-switcheroo 
-client callback. I'll have to think about this a bit more.
-
-
-> Please let me know if the proposed solution works for you and
-> if you want me to make ACPI_VIDEO_REGISTER_BACKLIGHT_DELAY a
-> module-option for the next version.
-
-
-I do think it should be workable, apart from the concern I mentioned 
-above about knowing when to set the module option to disable the ACPI 
-video backlight driver. I'll need to get a better understanding of 
-exactly which systems actually use that driver.
-
-
-> Regards,
->
-> Hans
->
->
-> p.s.
->
-> I think that eventually I might even try to make the new
-> module-param default to 0 / default to not having acpi_video.c
-> do the registering itself ever and see how that goes...
-
-Would the GPU drivers then be responsible for calling acpi_video_register_backlight() again? My understanding was that part of the intention here was to make that no longer necessary.
-
->
->>>>    }
->>>> +
->>>> +enum acpi_backlight_type acpi_video_get_backlight_type(void)
->>>> +{
->>>> +    return __acpi_video_get_backlight_type(false);
->>>> +}
->>>>    EXPORT_SYMBOL(acpi_video_get_backlight_type);
->>>>    +bool acpi_video_backlight_use_native(void)
->>>> +{
->>>> +    return __acpi_video_get_backlight_type(true) == acpi_backlight_native;
->>>> +}
->>>> +EXPORT_SYMBOL(acpi_video_backlight_use_native);
->>>> +
->>>>    /*
->>>>     * Set the preferred backlight interface type based on DMI info.
->>>>     * This function allows DMI blacklists to be implemented by external
->>>> diff --git a/include/acpi/video.h b/include/acpi/video.h
->>>> index db8548ff03ce..4705e339c252 100644
->>>> --- a/include/acpi/video.h
->>>> +++ b/include/acpi/video.h
->>>> @@ -56,6 +56,7 @@ extern void acpi_video_unregister(void);
->>>>    extern int acpi_video_get_edid(struct acpi_device *device, int type,
->>>>                       int device_id, void **edid);
->>>>    extern enum acpi_backlight_type acpi_video_get_backlight_type(void);
->>>> +extern bool acpi_video_backlight_use_native(void);
->>>>    extern void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type);
->>>>    /*
->>>>     * Note: The value returned by acpi_video_handles_brightness_key_presses()
->>>> @@ -77,6 +78,10 @@ static inline enum acpi_backlight_type acpi_video_get_backlight_type(void)
->>>>    {
->>>>        return acpi_backlight_vendor;
->>>>    }
->>>> +static inline bool acpi_video_backlight_use_native(void)
->>>> +{
->>>> +    return true;
->>>> +}
->>>>    static inline void acpi_video_set_dmi_backlight_type(enum acpi_backlight_type type)
->>>>    {
->>>>    }
