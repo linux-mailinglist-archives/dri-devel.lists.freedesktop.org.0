@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF37A588777
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 08:37:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 554A758878C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 08:46:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA7D410F91B;
-	Wed,  3 Aug 2022 06:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C51210E8D3;
+	Wed,  3 Aug 2022 06:45:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFBF10FECC
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 06:37:30 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id d14so13159292lfl.13
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Aug 2022 23:37:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3C/lNt77+qlJDztrS8WVjy6lbQy6qfEyINiYOOYnU18=;
- b=OkTTeDdgE1wq3JFHiRmbjgpyqJF9kC+95jnwwzwrKilHNWflwBySJidfMTBFuX1US3
- JLlom3TZgEzsdoeqoGjWDbLUUs/wzgFAasq1I/3bubb/U3cA+rKmxQqyjFFm6Goml4Kd
- yL4A1YBkBsHnJ5jm/nuf9kXHpK+/Wh/bXGqfyfPkqHdEjzw69+Co4UoPHz1VMgo2gXTQ
- n0GGainzh8Hw+TW+JVZ9ockkmlKNfPaTYHI2oNT/mHU4J9H03QGZhyxvdaY0z6pejV3B
- UVlfzuHuwgOOoVEZDOtR0K6eVjW6IEUuWpk30GlQNTScVwvI6zi1tmQlxysqusRscnZk
- PhYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3C/lNt77+qlJDztrS8WVjy6lbQy6qfEyINiYOOYnU18=;
- b=0WzW6IwBMeWfdUlwQathGLXqfqog1+aSAQw6R/EGs2A6HeQwCB1R5IwHAlsmbJi1L2
- vNRXIBOQIlfuFccL+e1QQ0SQOyqKyBLu6yjBDbtSeZKkArtcQRvdXxctbt3gI9QdHC3m
- zoab+Lp2rTym5B7C09LUKjKKdR4FnHefy+/k6WiYsVwVsDoC/Sq7P6cYa28UqSXqb5If
- vjEEDdcSBmeICSOeTufU2nOuvV51dPDoyVtvNwMdUYFlhNZo+i1BizVxcXRQRwBL6Zdt
- YnVkKT+PLZm7JcowJ5//AgtJRYSByWrT/O3bXY62npKhhd2lmE1tpYoYkIFMuM0cXLQG
- oIjg==
-X-Gm-Message-State: AJIora+yNdHEVjIQx5yqte8rV87GAf+hnwmtbwUsw6ccsvVUQRmkuBBd
- fRX43SvcOLyEPn3SbdaguQkWTQ==
-X-Google-Smtp-Source: AGRyM1s5ZskGPA3x2RfGUG+ZddgaBOYCr+PGg5vqJBsdELbLJDGDQFIGpzGmtTAa7OvrGnkfkkU8OQ==
-X-Received: by 2002:a05:6512:3f0c:b0:48a:433:6d3b with SMTP id
- y12-20020a0565123f0c00b0048a04336d3bmr8447107lfa.570.1659508649004; 
- Tue, 02 Aug 2022 23:37:29 -0700 (PDT)
-Received: from [192.168.1.6] ([213.161.169.44])
- by smtp.gmail.com with ESMTPSA id
- a11-20020a19f80b000000b0048af437ce87sm1246604lff.183.2022.08.02.23.37.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Aug 2022 23:37:27 -0700 (PDT)
-Message-ID: <f2453080-d71b-3c33-ba8e-d2ed15e06927@linaro.org>
-Date: Wed, 3 Aug 2022 08:37:23 +0200
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC6F10F414
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 06:45:48 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2736jLws025983;
+ Wed, 3 Aug 2022 01:45:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1659509121;
+ bh=sMxR/cYnNHSziJ4eordm1fdKL/wVbLQvEtLnAAMD3TM=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=ElcX/qb+qbCyyq7oxpgBJd2lUqwFf76O/q+JDjIjLiV1mTZQ9SGtOsNVz5EAokBOh
+ 3mVOKFUbHPFwpEGX6gkRAcAvZu7MoZJElDm43o70rke16vV7y2Pnmggu4qDgLFWTsJ
+ sX8lnbxqKWcnS02MuTVfEdh1PXhHdM5Qy0LmAdhI=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2736jKH4019604
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 3 Aug 2022 01:45:20 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 3
+ Aug 2022 01:45:20 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Wed, 3 Aug 2022 01:45:20 -0500
+Received: from [172.24.157.172] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2736jC96087125;
+ Wed, 3 Aug 2022 01:45:13 -0500
+Message-ID: <a010d333-70b1-bc58-ddf8-d3fa911a6852@ti.com>
+Date: Wed, 3 Aug 2022 12:15:12 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/5] dt-bindings: clk: qcom: Support gpu cx gdsc reset
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.0.3
+Subject: Re: [PATCH v3 4/4] drm/panel: simple: add bus-format support for
+ panel-dpi
 Content-Language: en-US
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Stephen Boyd <swboyd@chromium.org>
-References: <1659172664-10345-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220730144713.1.I68b749219741db01356a42d782f74265d29a2ac3@changeid>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220730144713.1.I68b749219741db01356a42d782f74265d29a2ac3@changeid>
-Content-Type: text/plain; charset=UTF-8
+To: Max Krummenacher <max.oss.09@gmail.com>, <max.krummenacher@toradex.com>
+References: <20220628181838.2031-1-max.oss.09@gmail.com>
+ <20220628181838.2031-5-max.oss.09@gmail.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20220628181838.2031-5-max.oss.09@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,26 +65,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Andy Gross <agross@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/07/2022 11:17, Akhil P Oommen wrote:
-> Add necessary definitions in gpucc bindings to ensure gpu cx gdsc collapse
-> through 'reset' framework for SC7280.
+
+
+On 28-Jun-22 23:48, Max Krummenacher wrote:
+> From: Max Krummenacher <max.krummenacher@toradex.com>
 > 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> Evaluate the device tree bus-format property to set bus_format for
+> a 'panel-dpi' panel. Additionally infer the bpc value from the
+> given bus-format.
+> 
+> Valid values for bus-format are found in:
+> <include/dt-bindings/display/dt-media-bus-format.h>
+> 
+> This completes the addition of panel-dpi to completely specify
+> a panel-simple panel from the device tree.
+> 
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> 
 > ---
+> 
+> Changes in v3:
+> - Moved the bus-format property under the port/endpoint node as
+>    suggested by Rob Herring
+> 
+> Changes in v2:
+> - Fix errors found by dt_binding_check
+> 
+>   drivers/gpu/drm/panel/panel-simple.c | 49 ++++++++++++++++++++++++++++
+>   1 file changed, 49 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 4a2e580a2f7b..f1a457f1069e 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -21,9 +21,11 @@
+>    * DEALINGS IN THE SOFTWARE.
+>    */
+>   
+> +#include <dt-bindings/display/dt-media-bus-format.h>
+>   #include <linux/delay.h>
+>   #include <linux/gpio/consumer.h>
+>   #include <linux/module.h>
+> +#include <linux/of_graph.h>
+>   #include <linux/of_platform.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/pm_runtime.h>
+> @@ -449,10 +451,12 @@ static int panel_dpi_probe(struct device *dev,
+>   			   struct panel_simple *panel)
+>   {
+>   	struct display_timing *timing;
+> +	struct device_node *endpoint;
+>   	const struct device_node *np;
+>   	struct panel_desc *desc;
+>   	unsigned int bus_flags;
+>   	struct videomode vm;
+> +	u32 bus_format;
+>   	int ret;
+>   
+>   	np = dev->of_node;
+> @@ -477,6 +481,51 @@ static int panel_dpi_probe(struct device *dev,
+>   	of_property_read_u32(np, "width-mm", &desc->size.width);
+>   	of_property_read_u32(np, "height-mm", &desc->size.height);
+>   
+> +	endpoint = of_graph_get_endpoint_by_regs(np, -1, -1);
+> +	if (endpoint &&
+> +	    !of_property_read_u32(endpoint, "bus-format", &bus_format)) {
+> +		/* infer bpc from bus-format */
+> +		switch (bus_format) {
+> +		case DT_MEDIA_BUS_FMT_RGB565_1X16:
+> +			desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
+> +			desc->bpc = 6;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_RGB666_1X18:
+> +			desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+> +			desc->bpc = 6;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
+> +			desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> +			desc->bpc = 6;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_BGR888_1X24:
+> +			desc->bus_format = MEDIA_BUS_FMT_BGR888_1X24;
+> +			desc->bpc = 8;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_GBR888_1X24:
+> +			desc->bus_format = MEDIA_BUS_FMT_GBR888_1X24;
+> +			desc->bpc = 8;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_RBG888_1X24:
+> +			desc->bus_format = MEDIA_BUS_FMT_RBG888_1X24;
+> +			desc->bpc = 8;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_RGB888_1X24:
+> +			desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> +			desc->bpc = 8;
+> +			break;
+> +		case DT_MEDIA_BUS_FMT_RGB888_1X32_PADHI:
+> +			desc->bus_format = MEDIA_BUS_FMT_RGB888_1X32_PADHI;
+> +			desc->bpc = 8;
+> +			break;
+> +		default:
+> +			dev_err(dev, "%pOF: unknown bus-format property\n", np);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	of_node_put(endpoint);
+> +
+>   	/* Extract bus_flags from display_timing */
+>   	bus_flags = 0;
+>   	vm.flags = timing->flags;
 
-Assuming discussion in cover letter sorts out:
+I understand that it is important to add a bus-format property for dumb
+dpi-panels, and I agree with the implementation in the patch-set.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+However,
+I do not yet fully understand Rob's comments on the dt-bindings side of
+patch set (patch 1/4) and what consequences it may cause if that remains
+unresolved.
+
+Given that the bus-format property gets added, I do not see any concern
+with the panel-simple driver patch.
 
 
-Best regards,
-Krzysztof
+Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
+
+
+Regards
+Aradhya
