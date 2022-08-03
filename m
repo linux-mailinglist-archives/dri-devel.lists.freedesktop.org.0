@@ -2,50 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47529588749
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 08:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF37A588777
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 08:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 087A910F98F;
-	Wed,  3 Aug 2022 06:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7D410F91B;
+	Wed,  3 Aug 2022 06:37:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6E310F62E
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 06:20:45 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1oJ7kF-0003De-Qv; Wed, 03 Aug 2022 08:20:39 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1oJ7k0-0002E4-PY; Wed, 03 Aug 2022 08:20:24 +0200
-Date: Wed, 3 Aug 2022 08:20:24 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
-Message-ID: <20220803062024.vn7awasmifkp5xow@pengutronix.de>
-References: <CAOMZO5BAheG4r1Umnd7bLhOqezsxJgE0x1c-858EcabbpPm6Pg@mail.gmail.com>
- <20220801225538.qtdb5zd66g6ipewz@pengutronix.de>
- <CAOMZO5DUTxQKbpTVOgaVC0V7hPqJG77sgmkW8p=aNpG8th-aLw@mail.gmail.com>
- <CAHCN7xL2w7a=SeXbwcNNxqb3kpRV9Bs0AbK0Nmjbj+dm0NDaVA@mail.gmail.com>
- <CAOMZO5BQWnUj4Ouq3=vhqq55zN8otO_9vPX8ht+muFM_5pg9Fg@mail.gmail.com>
- <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
- <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
- <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
- <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
- <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBFBF10FECC
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 06:37:30 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id d14so13159292lfl.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Aug 2022 23:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3C/lNt77+qlJDztrS8WVjy6lbQy6qfEyINiYOOYnU18=;
+ b=OkTTeDdgE1wq3JFHiRmbjgpyqJF9kC+95jnwwzwrKilHNWflwBySJidfMTBFuX1US3
+ JLlom3TZgEzsdoeqoGjWDbLUUs/wzgFAasq1I/3bubb/U3cA+rKmxQqyjFFm6Goml4Kd
+ yL4A1YBkBsHnJ5jm/nuf9kXHpK+/Wh/bXGqfyfPkqHdEjzw69+Co4UoPHz1VMgo2gXTQ
+ n0GGainzh8Hw+TW+JVZ9ockkmlKNfPaTYHI2oNT/mHU4J9H03QGZhyxvdaY0z6pejV3B
+ UVlfzuHuwgOOoVEZDOtR0K6eVjW6IEUuWpk30GlQNTScVwvI6zi1tmQlxysqusRscnZk
+ PhYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3C/lNt77+qlJDztrS8WVjy6lbQy6qfEyINiYOOYnU18=;
+ b=0WzW6IwBMeWfdUlwQathGLXqfqog1+aSAQw6R/EGs2A6HeQwCB1R5IwHAlsmbJi1L2
+ vNRXIBOQIlfuFccL+e1QQ0SQOyqKyBLu6yjBDbtSeZKkArtcQRvdXxctbt3gI9QdHC3m
+ zoab+Lp2rTym5B7C09LUKjKKdR4FnHefy+/k6WiYsVwVsDoC/Sq7P6cYa28UqSXqb5If
+ vjEEDdcSBmeICSOeTufU2nOuvV51dPDoyVtvNwMdUYFlhNZo+i1BizVxcXRQRwBL6Zdt
+ YnVkKT+PLZm7JcowJ5//AgtJRYSByWrT/O3bXY62npKhhd2lmE1tpYoYkIFMuM0cXLQG
+ oIjg==
+X-Gm-Message-State: AJIora+yNdHEVjIQx5yqte8rV87GAf+hnwmtbwUsw6ccsvVUQRmkuBBd
+ fRX43SvcOLyEPn3SbdaguQkWTQ==
+X-Google-Smtp-Source: AGRyM1s5ZskGPA3x2RfGUG+ZddgaBOYCr+PGg5vqJBsdELbLJDGDQFIGpzGmtTAa7OvrGnkfkkU8OQ==
+X-Received: by 2002:a05:6512:3f0c:b0:48a:433:6d3b with SMTP id
+ y12-20020a0565123f0c00b0048a04336d3bmr8447107lfa.570.1659508649004; 
+ Tue, 02 Aug 2022 23:37:29 -0700 (PDT)
+Received: from [192.168.1.6] ([213.161.169.44])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020a19f80b000000b0048af437ce87sm1246604lff.183.2022.08.02.23.37.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Aug 2022 23:37:27 -0700 (PDT)
+Message-ID: <f2453080-d71b-3c33-ba8e-d2ed15e06927@linaro.org>
+Date: Wed, 3 Aug 2022 08:37:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/5] dt-bindings: clk: qcom: Support gpu cx gdsc reset
+Content-Language: en-US
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Stephen Boyd <swboyd@chromium.org>
+References: <1659172664-10345-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220730144713.1.I68b749219741db01356a42d782f74265d29a2ac3@changeid>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220730144713.1.I68b749219741db01356a42d782f74265d29a2ac3@changeid>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,110 +78,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, robert.chiras@nxp.com,
- laurentiu.palcu@nxp.com, NXP Linux Team <linux-imx@nxp.com>,
- Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Andy Gross <agross@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22-08-02, Adam Ford wrote:
-
-...
-
-> > I did some reading about the internal timing generator.  It appears
-> > that it's required when video formats use fractional bytes, and it's
-> > preconfigured to run at 720p by default, but registers 28h through 37h
-> > configure it for other video modes.
->
-> I think there may still be some issues with the DSIM since some of the
-> clock frequencies are set in the device tree.
+On 30/07/2022 11:17, Akhil P Oommen wrote:
+> Add necessary definitions in gpucc bindings to ensure gpu cx gdsc collapse
+> through 'reset' framework for SC7280.
 > 
-> From what I can tell, the pixel rate is calculated based on the
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
 
-By pixel rate you mean the HDMI pixel rate from the ADV? If so then yes.
-The ADV has an divider which is already configured by the driver but
-meaningless since the driver is lacking of setting the "manual-divider"
-bit within the same register.
+Assuming discussion in cover letter sorts out:
 
-> burst-clock-frequency and that generates a byte clock.  For 891000000,
-> the byte clock is 111375000.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-The burst-clock-frequency is the hs-clk and DDR. So the MIPI-DSI clock
-is burst-clock-frequency/2 which is in your case: 891000000/2 =
-445500000. This clock is than divided by 3 within the ADV and you get
-your 148500000 pixel clock. This divide by 3 is detected automatically
-by the ADV due to the missing bit (see above).
 
-> Modetest timings for 1080p show:
-> 
-> index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
->   #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
-> flags: nhsync, nvsync; type: driver
-> 
-> 
-> When looking at modetest, there is a clock for 1080p which appears to be 148500.
-> 111375000/148500 = 750.
-
-Please see above.
-
-> The rest of the entries in my table do not divide evenly.  I don;t
-> know if that explains the lack of display, but it's something to note.
-> It seems to me that instead of fixing the
-> samsung,burst-clock-frequency to 891000000, we should make the desired
-> PLL related to the desired pixel clock so it divides evenly.
-
-Please see above.
-
-> Looking at NXP's kernel, I also noticed that their esc_prescaler is
-> based on the byte clock divided by 20MHz.  With some small code
-> changes to get the PLL based on the desired pixel clock instead of
-> hard-coded,  I was able to set
-> 
-> samsung,burst-clock-frequency = <1500000000>;
-
-This is not correct since the burst-clock-freq. specifies the hs-clock
-for the data lanes (see above).
-
-> samsung,esc-clock-frequency = <20000000>;
-
-This is correct, we also use a esc-clock of 20MHz.
-
-> With these settings and the above mentioned code changes, 1080p still
-> appears, however when attempting other modes, the display still fails
-> to load.  I also noticed that the phy ref clock is set to 27MHz
-> instead of NXP's 12MHz. 
-
-That's interesting, I didn't noticed that NXP uses 12 MHz as refclock
-but I don't think that this is the problem. Since we have other
-converter chips using the bridge driver and they work fine. I still
-think that the main problem is within the ADV driver.
-
-> I attempted to play with that setting, but I couldn't get 1080p to
-> work again, so I backed it out.
-> 
-> Maybe I am headed in the wrong direction, but I'm going to examine the
-> P/M/S calculation of the timing on NXP's kernel to see how the DSIM in
-> this code compares.
-
-I think the pms values are fine.
-
-> If someone who understands the interactions between these different
-> components has suggestions, I'm willing to run some experiments.
-
-Did managed to get access to the ADV7535 programming guide? This is the
-black box here. Let me check if I can provide you a link with our repo
-so you can test our current DSIM state if you want.
-
-Regards,
-  Marco
+Best regards,
+Krzysztof
