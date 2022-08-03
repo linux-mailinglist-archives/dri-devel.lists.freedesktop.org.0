@@ -1,153 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43579588527
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 02:30:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3784D58858A
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 03:50:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D2D62B05A;
-	Wed,  3 Aug 2022 00:30:07 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A8F12A7DD;
- Wed,  3 Aug 2022 00:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659486592; x=1691022592;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=8UgWdUtmmVtFdQQl0mydMTSYRCNU10ZyUdBO3ubQmkM=;
- b=FSVtvG4Afu/jj7QiD7DK1i/M4lUvdHdBPgkbMZWewMqoHldGkWWY01dY
- hnqSpbC7Ac9CXZhyEzETVMf33XN85xfkK5azG2Sz81ekGvlXaE+zHkoux
- NCRdhRD8Hzm0/gDrJLVSDbJsN96DtOEU+uf0X9EpMiVQV5IiUJiXO+CS9
- FVXXKlnuFme9id7nmV6//BE74fV8r4/dRMfscp39XduzSy48WwV+pzteP
- jLiVa9dVMxE5zW8XLo8qQtRAbIrWawOB4/7sfR/WtXXEKC7dxGmO61TmT
- 5fzVXDrMAdF0AGEcXuivDcTfBle6PU02D0NnswQB42r8lPCeHPsdxV6PR A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="289560873"
-X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; d="scan'208";a="289560873"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 17:29:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; d="scan'208";a="602631889"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga002.jf.intel.com with ESMTP; 02 Aug 2022 17:29:50 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 2 Aug 2022 17:29:50 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 2 Aug 2022 17:29:49 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Tue, 2 Aug 2022 17:29:49 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Tue, 2 Aug 2022 17:29:49 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YYdAAJRhzaeFFMqxDNzz3uVgmoGqc/XwF6FkTUWW0qahxRh1IrysrSudRzNlyWao8VBKmZsHJwmtvygo10Yy6qXBY5APoGneLFNBlvylyZVX7WEuBCzaKDmgEf84plwR46a37IAjEWXxgUj/r2FknrfWezKAlsSufo2YBEXxElUd/uQNSKMnlblumpBn3uzVgAI66O1x7uBlNuOp+gki4P/2UIDG9LpfSuz5MkPtyPDEUZARfHBIMgAw0bz0OJ/ujxotEpUQzfozI8Ipi2Z617zlB1FVecUl+0+OURw8nHKfmFaQXUrn4D9FwNTh+OGqH9MtaoikijQFOxs7EP1vcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jUrBczy3ZGMWIq09y84v5E6EAb1GTMeimHPCaK7sttw=;
- b=bXr8SEbxXQmfSF8Rzk7ici2yWSpTboUzzqSf4Ju1j55+np9PKIRc3BjY3if5pvTY4ezOkVtBGlghk/NwpzLsGNH37eZsBcpWqEhFI+PEP/SGkrMh/N6U1NmtN6VAsEEZmJygpLrqOKp+9FJ2o8K02oyBcATQxfNqOFsNLCVA+sBLaYJZVzwimb957+rEIYL/arIzRVcGqnnzZhdpV5TNHjxGTBdEWmJmuWPrpstIVPJxILyFZnKs1J6hf/Tx0I9ZDzzgJZStoMBYJD6FayAnO6fFuThXL3Pf7wTa4yUC9LyDsiloSuOWcqyMCH0LG2s9lYa078mY7YQBi3ZGcLVYig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by SA2PR11MB5180.namprd11.prod.outlook.com (2603:10b6:806:fb::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Wed, 3 Aug
- 2022 00:29:47 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::516d:4bc0:8e7b:9a12]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::516d:4bc0:8e7b:9a12%6]) with mapi id 15.20.5482.016; Wed, 3 Aug 2022
- 00:29:47 +0000
-Message-ID: <064d5fbe-0496-65e2-a0f9-0341a0a6079b@intel.com>
-Date: Tue, 2 Aug 2022 17:29:44 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH 1/7] drm/i915/guc: Add a helper for log buffer size
-Content-Language: en-GB
-To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
- "Intel-GFX@Lists.FreeDesktop.Org" <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20220728022028.2190627-1-John.C.Harrison@Intel.com>
- <20220728022028.2190627-2-John.C.Harrison@Intel.com>
- <e8e5eaf585a38dc0af79236b83d52d51c47e3e25.camel@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <e8e5eaf585a38dc0af79236b83d52d51c47e3e25.camel@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR05CA0013.namprd05.prod.outlook.com
- (2603:10b6:a03:254::18) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E43E996CA;
+	Wed,  3 Aug 2022 01:49:56 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28565996CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 01:49:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1659491389;
+ bh=uTsAZoJTmF3l5oRRsE8qnG2RbuONGK/PvUrBdrMjx2g=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=a7p6I71kjJkldC/C2ycYJUOaWQwaxkl8x9CKy4Er/QQ8rFQrggz9aeynsvutI5SVT
+ naw2ZFMZw/2ntcMlUG5T9VfSVDvGuJmtF5ASoK0bDr09tF73PRaeXanzc1D69UZy/P
+ y2pgCoe/2MLhizNcGj7smPfSvdvku/5QQaC/80qA=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [4.28.11.157] ([4.28.11.157]) by web-mail.gmx.net
+ (3c-app-mailcom-bs14.server.lan [172.19.170.182]) (via HTTP); Wed, 3 Aug
+ 2022 03:49:49 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0ceff1fd-5afb-47f3-62c8-08da74e74513
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5180:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 98RM9xJbOvEaMAKTPVw+3Y17zD8L3FJmfanb4922CYh4neflJviUI3q1jsyHJAzhjF/oJEvYZkduJr8PoCQsfhQ8gbDjNrWbio6NtiZPetLIXYyTKwwAzEUuiUJKVTG1ohbqv3vnHevS6cBJhqdIBn2ER7g55YhVqEphEbGsoV+bDp6pGrEobUWEida6YktxudZe35wewMACghI0+gZpCJJ1yILLqsLTYtm5Sz2Ia4lkzJ4HbAtBQq+50pOg2DY58TmYyfGtTZ2v5J/A9HNxoQFWRVwIge9afT1wxu8VlgVTKmW1hjHkwYh7lhx6CT751nVuSMFT5/GlDiqP17t4+WyEOCSRgHOdnfV9u7Tiwl8jvNHm3xOkOqw0P6RjVljFCzncyy/O6gSFpUlN5+RMNP9vJ8f1i+yf5Z5iLSkIEXPEsPTLvDStIDjfIaoYUGjOs9jYYOAJ4mfThpWq9r9ITRc6PIU7iJ6Ta9ISR9Jn97JsWWiByX4fi4zWn1BXSJBoldYHqCHnr2zES0+75tMfXZcSmwa9GgvrW5R2FrQK9IzPMNK8updHDsNOQFXTOeVq4MaRE3MuxLAY17yHZ3Sw/3BG0HLL05OxLfQTXEPMNU10Il3gJiSulX+j1hcNy2F434iFXHiOwXuFFg0Oe1ffDDNDY/tsqbL7Ktq6nVzubT/18zLI61beFI/nsNaq2mixJz8oZrPFCuA33qBV6VK7p8VHCtNIghV1lCyclNZa9fhpOUzubqp9Gn1txE/JgvcgDwUW43YhtgaVgHIvn9LVpPaJev4on0rGgrgMbH5lzS1akKssTuNrEuzBGhfIn5qwlfC4jq9rcdRVEi/z/p9VGg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(346002)(366004)(376002)(39860400002)(136003)(6506007)(31696002)(6666004)(6512007)(53546011)(26005)(41300700001)(316002)(478600001)(54906003)(110136005)(86362001)(6486002)(82960400001)(38100700002)(2616005)(186003)(107886003)(83380400001)(450100002)(2906002)(66556008)(36756003)(8936002)(4326008)(66476007)(66946007)(31686004)(8676002)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?enNIYWQzL2FDdy9mVUp0MXl5ZWo3U0Y5UnlQQ1ZUajQzbUkxZjJmTzFxYk81?=
- =?utf-8?B?MC9rdXRuQVZZdVN5SHpiNFJ1Q1lEbG1BL1A1SlJUSTEzVlFxRGNGaGoybnZP?=
- =?utf-8?B?NDU1T05jaHd0STlnVjNlNllTNzhXZEg5WEswMnNoQ2R3Nnk2dXVaV2w1K294?=
- =?utf-8?B?TFJhYXlpRGJZanRaRndVRlB5VFp0dXJrTUxKSFQzemJ4SXk5UzNhb25jWUlx?=
- =?utf-8?B?UGVqaXNVQ2l3ZkJNdkxuUG9hWk05SjlqL0FuTWwzRW9SZ0Uzb2NZY1UySTds?=
- =?utf-8?B?TzRuYkhkU3dJU0hKZDBna2dHenhXaWRCakNmdGYyc21zeEFVYUhza2hvWGdu?=
- =?utf-8?B?RXpYN0Nad0NBakVLUnNGcDVTRVZLMUhkUW9VY0I5VGx6d09ZRlRsUnRYM0Fk?=
- =?utf-8?B?ZkZwK1RsNFN6dVlWSzRIVkpDcEZRdzR3bnhJTnFXUUMrV3NvWURQZVd6SjE5?=
- =?utf-8?B?czVSRmxGVDVWUGh3WTdXZUhvY01hcjNsVzhsdDVHV1pFaWh4V3BwakNmdEUr?=
- =?utf-8?B?S3FIdnF0L2M0cm84TU5ibEdBWnJMY2lDcWtGUFh0T3NsUmRwNStVazJkOFpr?=
- =?utf-8?B?Ym1pMDFqTlE0MG5rWmNaTXpVZDdKQll0NlU3UFVkV1pqc0JZb3VtcnA0L05s?=
- =?utf-8?B?bVlCY0xTTmJFQzdQNjdMcXUvVmJtSzAvcnZLTWVrRGlrdEhScGw2enVDYTF0?=
- =?utf-8?B?Q0lUMlpubE4zY2lSTndLOU5EY1lRQUc0VVc2ejF5RWtabFRlK2ExczVLZWxH?=
- =?utf-8?B?U2RvcWJNelhORFZDTDRZNkl4RnVNYWhBNDRVNmIzV0NjUkFGRE1WdTAzeHlH?=
- =?utf-8?B?ZUgyMmk4cjdxSGlUOGswRlRCSlRTNmVwNC9UYmRZUFBrcERpRngrd2ZNRzNz?=
- =?utf-8?B?dGhpNkMyM2s0S0taeU9sUGdmMlNOcDlXYkFpMkZkNEJCbXpVVkhuU0hhbjVJ?=
- =?utf-8?B?NDBkc041TGsrOTMzWjZMSk9LWDc4VFFsbDBzMVZiSzRwZ3JqQjBQU0ZORlNz?=
- =?utf-8?B?anVyNzhlTEh0bmJPam5hMDVwQ1hTR1hXZFlFU3YzSFhSTkEvTFZRTTVxT0JV?=
- =?utf-8?B?V2t4YnUzUS84R2p2WDZHV2IrVklMOG1LMHpMZzFxV0pHMDR4Sy9tT09MQVdG?=
- =?utf-8?B?bTNKSGg4SmxtUWpOay93NmFnb1Z1dnBaQWNLdW12a01CYzFRaW0zeVlhalpj?=
- =?utf-8?B?NWd3NU9wMGh4UzdCR1dxc1VuaG1nSTVzZlFkYndnNE9JRXN0MWJvM0V5YkMw?=
- =?utf-8?B?a2NBWjE5ZkszOHNqSVN3TmVQdkFVOVVhMmV6MzNLNEx4bVNiVmF4MWtEM1RC?=
- =?utf-8?B?cHhDWEZ6T0FYYWlxRWUyOXpxaVZLTmR3ZzNaUDZrcmxLc0FJYTdrZE9kWlhZ?=
- =?utf-8?B?TGlibU1qa25Eazk4THdRdTN3cmlnb21nOEsxTk5wQm9OSCtvSlYwL20wZ0FD?=
- =?utf-8?B?d1RJQ0pmdzlTclRIRFpQVmRGa2FWMlpBa2tTc0NadjVObjBPTVF0ejRZbzNx?=
- =?utf-8?B?VmNCTzJTRW56N1laUHh4V01kcHU2SVJ0S2hGMEQ5SUVTUFp6S1FIVGF3TGJS?=
- =?utf-8?B?ZHJJcUJXWU14blpSWjJuMUpxR2VwZkI2eHRnYzV1M3V2alVsVmhEcEw5dnlM?=
- =?utf-8?B?alpSREJNZjdOUHZxeUZTLzF1VFRTWjdBRWgxS1V2N3RqM3l1d094ek53WmVy?=
- =?utf-8?B?QU9OMllnVVJJNVlxM1FScGc0NU5qV2QvMjkvR0hZMXdvRHFTWE5PSi9hZEVr?=
- =?utf-8?B?MWVxK002Q3NNWkJUY2kva0xzdlcvUDJ3aStQeFB6WksxQnNSdXNEbjJLZGRK?=
- =?utf-8?B?cVVxZ1NpejZpbm1adDJ6b3RRSG1WZjBveXJNRk5BMXRYZ3dCSG9iZk10UG5S?=
- =?utf-8?B?R2pkVkRQSmNVdzg5UHc0MHRSWDlEUU56bklEVkVPTVoySm82R2R5cHJ2TmlW?=
- =?utf-8?B?cW11N2FSamZMbW5WMVNIYkx6aWVheEVxRWpuKzg0T0czYmJYZGd6a2JrL1lh?=
- =?utf-8?B?OVAzRXNRV3VyT0Zyd0hiWGY3aitTdWQvU3JKM3ZaT0tHbjRDc1FCeW9sd1Nz?=
- =?utf-8?B?RU5Ja0dYWDk0Y0dQTHlTdW1hRUIwNFF2SlZiSnUveUd6bGVKRCt5Z082dGM0?=
- =?utf-8?B?RE8xUi8rUVZRc1I0UnpDSmgvNmE3NGtLMGtjTkp1YktLODBDRjM4Z3J5Z0x3?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ceff1fd-5afb-47f3-62c8-08da74e74513
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2022 00:29:47.2918 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BfxZOeXKPah7HmuOQzDQ+r+k7p7O+4VNGvuiOtpASqMqlHt+B0F8+bxV+Syg0CduBcy3WHIvht6FayDFbty1wnFtUsyzkANLxuXZ23okYbM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5180
-X-OriginatorOrg: intel.com
+Message-ID: <trinity-0dcadb0d-103a-403a-a915-02d19e8ba823-1659491389263@3c-app-mailcom-bs14>
+From: Kevin Brace <kevinbrace@gmx.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 3 Aug 2022 03:49:49 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <fdcca10e-1d63-4d00-af03-94ba1b9dab57@suse.de>
+References: <20220725235359.20516-1-kevinbrace@gmx.com>
+ <20220725235359.20516-7-kevinbrace@gmx.com>
+ <f7a47d59-d4d2-61fb-4e42-1decff2e7d62@suse.de>
+ <trinity-e1f9136b-24dd-44ed-861b-a0735c91422e-1659221316349@3c-app-mailcom-bs07>
+ <43fd433c-f108-d75a-b141-f4ff985455b9@suse.de>
+ <trinity-8c70d1f1-fd67-46a1-a84b-7cc771cca62d-1659411946174@3c-app-mailcom-bs03>
+ <fdcca10e-1d63-4d00-af03-94ba1b9dab57@suse.de>
+Content-Transfer-Encoding: quoted-printable
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:SU7TMpI64Onk+IIYNZCN3uMt3iTPpkJcPXjZdvYwcyQnjKfCh6rH2thd6Phed85HH2sCA
+ 9kclEntFjxCYwdi7zq99nyvdDp0ZArQJVnn/LjfIXCh9q7QmSHiwa+Rf4EFl6v8lX26kqN4X/znF
+ 4VPp7TXL19x0LngEl41RMo+bQZYPbIiFGAZpagzmpcyG5C81NPH2gxSXFtmdX9C+bgOC4Df53cFc
+ dHZ+uyPtprqIGz1aE4yMk/p7Oy/ix14R1BO3p4SzYW8YKlhxU9FKv9E064v28ab2nKWfa0Ke45Tb
+ BM=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1z9g+1m4KgU=:ludhlfuwyxwm4m11wvESvJ
+ qfRRd/wHTcg8wD6PeZUXgUlfXDO1CCMEBE0RQ4yM7757TI9rDUgN/2USfRhRtsh/Lk4Q5wHoz
+ ZKbp9n4+tM+fZjzzZICfWGmkCN2ZRvV3IWZxPDXCtWwhi2ZKMeLCrWy2UA5QmBbTUfpi2iI79
+ pPN0ye1ANDrG7HdvJttb3b43Fp8SkAwesvOFKNJJUKGs2aNlHJ2ySXgmDA9XYWxeufCPwBEB0
+ t92279piDXfiBVO2430xQDyPCzEtKjkr/bNUFDpsEATXJ3W+bM10Tcf0fbFrTIhFscfz1Q8Cy
+ camZKhGWVlFVBVzDBGJG1SEXLGUtTpdaPGIGuJxeMBsTmITdCopZMu/LjHxZCu32fDtTRdsDP
+ P6FN6VWmSYl6lskDDbdoR1XT5OfNYz5rauRo+IUp54gFTO3wRK64O7rchvJEgrw1Vd1w5rnCl
+ mXGtqsqH8hQGnNeMyjJE46DsyxC+55aiZTMmAI79LcRm53DhTCfpWIyeaWJ+HVJDj5KqfH30x
+ YHonBEF97CTVM8d0L/xIEhY1WFbp0j3hABOE8ry5p9Yaljd5zryCi9kljATLUsjQJpoVYvtaI
+ udTvQWQh0TLqRrDeMct6jnTrTQZaPprL8+ByvlyEpUAwzJVWGgPb+IUqCN7GJsPP/lGA6Ebyr
+ 1ycrgIiOEhqcQS8hh4yr5H/V3TplSJMEDi7YsMV0K5d/MyYwoPzdP1dM/cSL90pEMEZs7UvVf
+ fkxC17ZQwsyfLTgDCUp1YtAdiQRuUOLdvKe75orFZAi7STEA8LgxO+I9Q/lXOrZqRYvMuxi8s
+ 8qolvVm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,108 +74,333 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>,
- "DRI-Devel@Lists.FreeDesktop.Org" <DRI-Devel@Lists.FreeDesktop.Org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/2/2022 10:37, Teres Alexis, Alan Previn wrote:
-> Something minor in comments, so conditional R-B (please fix on the way in or reply to correct me):
->
-> Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
->
-> On Wed, 2022-07-27 at 19:20 -0700, Harrison, John C wrote:
->> From: Alan Previn <alan.previn.teres.alexis@intel.com>
->>
->> Add a helper to get GuC log buffer size.
->>
->> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
->> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_log.c | 49 ++++++++++++----------
->>   1 file changed, 27 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->> index 25b2d7ce6640d..492bbf419d4df 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->> @@ -15,6 +15,32 @@
->>   
->>   static void guc_log_copy_debuglogs_for_relay(struct intel_guc_log *log);
->>   
->> +static u32 intel_guc_log_size(struct intel_guc_log *log)
->> +{
->> +	/*
->> +	 *  GuC Log buffer Layout:
->> +	 *
->> +	 *  NB: Ordering must follow "enum guc_log_buffer_type".
->> +	 *
->> +	 *  +===============================+ 00B
->> +	 *  |      Debug state header       |
->> +	 *  +-------------------------------+ 32B
->>
-> Something we might have missed in prior updates but i think the bufer state is now 36 bytes long no? (9 dwords).
-Good catch. Yes, an extra word was added some while back.
+Hi Thomas,
 
-John.
+I am honestly surprised of the e-mail back and forth regarding the mainlin=
+ing of OpenChrome DRM, but let me state my position=2E
+Considering the age of the hardware I am dealing with (i=2Ee=2E, pre-OpenG=
+L 2=2Ex generation 3D engine), I do not anticipate being able to run OpenCh=
+rome on Wayland with acceleration=2E
+As a first step after mainlining, I am looking to add uAPI to pass 2D / 3D=
+ acceleration commands to the graphics engine, but frankly, I am going to f=
+ocus on the 2D acceleration side first=2E
+Considering the age of the hardware, I do not think limiting the use to X=
+=2EOrg X Server is a bad choice=2E
+I do OpenChrome development on Gentoo Linux where 32-bit x86 ISA and X=2EO=
+rg X Server are still fully supported=2E
+Adding 3D acceleration will likely be done after 2D and video acceleration=
+s are mostly working=2E
+The proposed OpenChrome uAPI is essentially a cutdown version of the mostl=
+y 2D acceleration focused implementation (my opinion) being worked on and o=
+ff since 2011=2E
+The limited addition of uAPI calls is merely a preparatory step for adding=
+ 2D acceleration in the near future (I have not started the work yet=2E)=2E
+I assume you are aware that OpenChrome DDX is a user of DRM_VIA_GEM_CREATE=
+, DRM_VIA_GEM_MAP, and DRM_VIA_GEM_UNMAP uAPIs=2E
+For those who still choose to use older generation hardware, I think X=2EO=
+rg X Server still has a lot of life left in it, and I plan to continue mode=
+rnizing the graphics stack for what I call "underserved" (i=2Ee=2E, neglect=
+ed) graphics hardware=2E
 
->
->
->> +	 *  |    Crash dump state header    |
->> +	 *  +-------------------------------+ 64B
->> +	 *  |     Capture state header      |
->> +	 *  +-------------------------------+ 96B
->> +	 *  |                               |
->> +	 *  +===============================+ PAGE_SIZE (4KB)
->> +	 *  |          Debug logs           |
->> +	 *  +===============================+ + DEBUG_SIZE
->> +	 *  |        Crash Dump logs        |
->> +	 *  +===============================+ + CRASH_SIZE
->> +	 *  |         Capture logs          |
->> +	 *  +===============================+ + CAPTURE_SIZE
->> +	 */
->> +	return PAGE_SIZE + CRASH_BUFFER_SIZE + DEBUG_BUFFER_SIZE + CAPTURE_BUFFER_SIZE;
->> +}
->> +
->>   /**
->>    * DOC: GuC firmware log
->>    *
->> @@ -461,32 +487,11 @@ int intel_guc_log_create(struct intel_guc_log *log)
->>   
->>   	GEM_BUG_ON(log->vma);
->>   
->> -	/*
->> -	 *  GuC Log buffer Layout
->> -	 * (this ordering must follow "enum guc_log_buffer_type" definition)
->> -	 *
->> -	 *  +===============================+ 00B
->> -	 *  |      Debug state header       |
->> -	 *  +-------------------------------+ 32B
->> -	 *  |    Crash dump state header    |
->> -	 *  +-------------------------------+ 64B
->> -	 *  |     Capture state header      |
->> -	 *  +-------------------------------+ 96B
->> -	 *  |                               |
->> -	 *  +===============================+ PAGE_SIZE (4KB)
->> -	 *  |          Debug logs           |
->> -	 *  +===============================+ + DEBUG_SIZE
->> -	 *  |        Crash Dump logs        |
->> -	 *  +===============================+ + CRASH_SIZE
->> -	 *  |         Capture logs          |
->> -	 *  +===============================+ + CAPTURE_SIZE
->> -	 */
->>   	if (intel_guc_capture_output_min_size_est(guc) > CAPTURE_BUFFER_SIZE)
->>   		DRM_WARN("GuC log buffer for state_capture maybe too small. %d < %d\n",
->>   			 CAPTURE_BUFFER_SIZE, intel_guc_capture_output_min_size_est(guc));
->>   
->> -	guc_log_size = PAGE_SIZE + CRASH_BUFFER_SIZE + DEBUG_BUFFER_SIZE +
->> -		       CAPTURE_BUFFER_SIZE;
->> +	guc_log_size = intel_guc_log_size(log);
->>   
->>   	vma = intel_guc_allocate_vma(guc, guc_log_size);
->>   	if (IS_ERR(vma)) {
->> -- 
->> 2.37.1
->>
+Regards,
 
+Kevin Brace
+Brace Computer Laboratory blog
+https://bracecomputerlab=2Ecom
+
+
+> Sent: Tuesday, August 02, 2022 at 4:38 AM
+> From: "Thomas Zimmermann" <tzimmermann@suse=2Ede>
+> To: "Kevin Brace" <kevinbrace@gmx=2Ecom>
+> Cc: dri-devel@lists=2Efreedesktop=2Eorg
+> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm=2Eh
+>
+> Hi
+>=20
+> Am 02=2E08=2E22 um 05:45 schrieb Kevin Brace:
+> > Hi Thomas,
+> >=20
+> > I hope I am comprehending this right=2E
+> > Yes, I am adding 3 new uAPI calls, not 6 of them=2E
+> > Correspondingly, there are 3 new structs added=2E
+>=20
+> That's understood=2E
+>=20
+> > While I may drop one (unmap uAPI), I personally do not wish to drop th=
+e other two at this point=2E
+> > Instead, I may need to add setparam and / or getparam uAPI to pass PCI=
+ Device ID back to the userspace=2E
+> > This is mainly needed by Mesa, although there is no code for Mesa at t=
+his point=2E
+>=20
+> Exactly my point! There's no userspace for it=2E That's why Sam and me a=
+re=20
+> asking you to remove all kinds if uapi changes or ioctls from the=20
+> patchset until Mesa (or some other component) requires it=2E
+>=20
+> > I fear dropping the remaining two will require substantial redesign, a=
+nd I will like to avoid this since the code is already working=2E
+>=20
+> No, it won't require a redesign=2E You'll have to remove the changes to=
+=20
+> the uapi header and any new ioctls that are in the patchset=2E Userspace=
+=20
+> programs; such as X11's modesetting driver, Weston or Gnome; will use=20
+> the kernel's dumb-buffer ioctls to create unaccelerated buffers=2E  You=
+=20
+> won't need any via-specific code in userspace=2E It's all there already=
+=20
+> and fully driver independent=2E Mesa will do software rendering=2E  For =
+the=20
+> kernel's dumb buffers, please see [1]=2E
+>=20
+> > It is my plan to proceed to adding acceleration after the code is adde=
+d to the mainline kernel tree, so I will like to do it the way it is set up=
+ now=2E
+>=20
+> You can still send the current uapi changes when you add 3d acceleration=
+=20
+> to the kernel and Mesa=2E  But once these interfaces have been added to=
+=20
+> the kernel, they are nearly impossible to change or remove=2E That's why=
+=20
+> we don't want to do this now=2E
+>=20
+> Best regards
+> Thomas
+>=20
+> [1]=20
+> https://www=2Ekernel=2Eorg/doc/html/latest/gpu/drm-kms=2Ehtml#dumb-buffe=
+r-objects
+>=20
+> >=20
+> > Regards,
+> >=20
+> > Kevin Brace
+> > Brace Computer Laboratory blog
+> > https://bracecomputerlab=2Ecom
+> >=20
+> >=20
+> >> Sent: Monday, August 01, 2022 at 11:49 AM
+> >> From: "Thomas Zimmermann" <tzimmermann@suse=2Ede>
+> >> To: "Kevin Brace" <kevinbrace@gmx=2Ecom>
+> >> Cc: dri-devel@lists=2Efreedesktop=2Eorg
+> >> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm=2Eh
+> >>
+> >> Hi Kevin
+> >>
+> >> Am 31=2E07=2E22 um 00:48 schrieb Kevin Brace:
+> >>> Hi Thomas,
+> >>>
+> >>> I cannot drop the older DRI1 based uAPI calls=2E
+> >>> This is because include/uapi/drm/via_drm=2Eh needs to retain backwar=
+d compatibility with the existing OpenChrome DDX's XvMC library (it gets co=
+mpiled when OpenChrome DDX is built) and likely with the existing DDX Xv co=
+de as well=2E
+> >>> If I remove the DRI1 based uAPI calls, the XvMC library will not get=
+ compiled (compile error will occur since the XvMC library assumes the pres=
+ence of DRI1 based uAPI), and I assume the same for the DDX Xv code (I cann=
+ot even reach here since the XvMC library is compiled first)=2E
+> >>> Although the v3 patch does not contain it, v4 patch will utilize drm=
+_invalid_op() for the discontinued (not deprecated since OpenChrome DRM doe=
+s not support the older DRI1 based uAPI at all) DRI1 based uAPI=2E
+> >>>
+> >>> https://cgit=2Efreedesktop=2Eorg/openchrome/drm-openchrome/commit/?h=
+=3Ddrm-next-5=2E20&id=3D16b3d68f95c9ccd15b7a3310e5d752fabbc76518
+> >>>
+> >>> drm_invalid_op() is related to drm_ioctl=2Ec, and is meant for legac=
+y DRMs like Radeon, i915, etc=2E
+> >>> Since OpenChrome DRM is not a clean sheet design (related to VIA DRM=
+ to some extent), I will use this function for properly handling discontinu=
+ed legacy uAPI calls=2E
+> >>> I hope this explanation / reasoning is okay with you=2E
+> >>
+> >> I'm not sure I understand your reply ormaybe I'm just missing somethi=
+ng
+> >> here=2E
+> >>
+> >> I'm not asking you to remove the existing DRI1 uapi=2E I'm just askin=
+g to
+> >> not add the 6 new _GEM_ defines and 3 new _gem_ structures now=2E  Yo=
+u
+> >> mentioned that the driver does not yet support acceleration of any ki=
+nd=2E
+> >> So there should be no need to extend to uapi now=2E  You can still do=
+ this
+> >> when you add acceleration to the driver=2E
+> >>
+> >> Until then, the Xorg modesetting driver or any Compositor can use the
+> >> generic dumb-buffer ioctls that create buffers with no acceleration=
+=2E
+> >>
+> >> Best regards
+> >> Thomas
+> >>
+> >>>
+> >>> Regards,
+> >>>
+> >>> Kevin Brace
+> >>> Brace Computer Laboratory blog
+> >>> https://bracecomputerlab=2Ecom
+> >>>
+> >>>> Sent: Tuesday, July 26, 2022 at 11:24 AM
+> >>>> From: "Thomas Zimmermann" <tzimmermann@suse=2Ede>
+> >>>> To: "Kevin Brace" <kevinbrace@gmx=2Ecom>, dri-devel@lists=2Efreedes=
+ktop=2Eorg
+> >>>> Cc: "Kevin Brace" <kevinbrace@bracecomputerlab=2Ecom>
+> >>>> Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm=2Eh
+> >>>>
+> >>>> Hi
+> >>>>
+> >>>> Am 26=2E07=2E22 um 01:53 schrieb Kevin Brace:
+> >>>>> From: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
+> >>>>>
+> >>>>> Changed the uAPI=2E
+> >>>>>
+> >>>>> Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab=2Ecom>
+> >>>>> ---
+> >>>>>     include/uapi/drm/via_drm=2Eh | 35 ++++++++++++++++++++++++++++=
++++----
+> >>>>>     1 file changed, 31 insertions(+), 4 deletions(-)
+> >>>>>
+> >>>>> diff --git a/include/uapi/drm/via_drm=2Eh b/include/uapi/drm/via_d=
+rm=2Eh
+> >>>>> index a1e125d42208=2E=2Ee9da45ce130a 100644
+> >>>>> --- a/include/uapi/drm/via_drm=2Eh
+> >>>>> +++ b/include/uapi/drm/via_drm=2Eh
+> >>>>> @@ -1,4 +1,5 @@
+> >>>>>     /*
+> >>>>> + * Copyright =C2=A9 2020 Kevin Brace
+> >>>>>      * Copyright 1998-2003 VIA Technologies, Inc=2E All Rights Res=
+erved=2E
+> >>>>>      * Copyright 2001-2003 S3 Graphics, Inc=2E All Rights Reserved=
+=2E
+> >>>>>      *
+> >>>>> @@ -16,10 +17,10 @@
+> >>>>>      * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY K=
+IND, EXPRESS OR
+> >>>>>      * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MER=
+CHANTABILITY,
+> >>>>>      * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT=2E IN=
+ NO EVENT SHALL
+> >>>>> - * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM=
+, DAMAGES OR
+> >>>>> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTH=
+ERWISE,
+> >>>>> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE=
+ USE OR OTHER
+> >>>>> - * DEALINGS IN THE SOFTWARE=2E
+> >>>>> + * THE AUTHORS, COPYRIGHT HOLDERS, AND/OR ITS SUPPLIERS BE LIABLE=
+ FOR ANY
+> >>>>> + * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CON=
+TRACT, TORT
+> >>>>> + * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE S=
+OFTWARE OR
+> >>>>> + * THE USE OR OTHER DEALINGS IN THE SOFTWARE=2E
+> >>>>>      */
+> >>>>>     #ifndef _VIA_DRM_H_
+> >>>>>     #define _VIA_DRM_H_
+> >>>>> @@ -81,6 +82,11 @@ extern "C" {
+> >>>>>     #define DRM_VIA_DMA_BLIT        0x0e
+> >>>>>     #define DRM_VIA_BLIT_SYNC       0x0f
+> >>>>>
+> >>>>> +#define	DRM_VIA_GEM_CREATE	0x10
+> >>>>> +#define	DRM_VIA_GEM_MAP		0x11
+> >>>>> +#define	DRM_VIA_GEM_UNMAP	0x12
+> >>>>
+> >>>> This looks a lot like ioctl ops for using accelerated HW buffers=2E=
+ But
+> >>>> the patch is near the end of the series and you said in the series'
+> >>>> cover letter that there's no acceleration=2E I suspect that these
+> >>>> constants are currently unused?  If so, please drop the patch from =
+the
+> >>>> series=2E If can be merged later when something really depends on i=
+t=2E
+> >>>>
+> >>>> Best regards
+> >>>> Thomas
+> >>>>
+> >>>>> +
+> >>>>> +
+> >>>>>     #define DRM_IOCTL_VIA_ALLOCMEM	  DRM_IOWR(DRM_COMMAND_BASE + D=
+RM_VIA_ALLOCMEM, drm_via_mem_t)
+> >>>>>     #define DRM_IOCTL_VIA_FREEMEM	  DRM_IOW( DRM_COMMAND_BASE + DR=
+M_VIA_FREEMEM, drm_via_mem_t)
+> >>>>>     #define DRM_IOCTL_VIA_AGP_INIT	  DRM_IOWR(DRM_COMMAND_BASE + D=
+RM_VIA_AGP_INIT, drm_via_agp_t)
+> >>>>> @@ -97,6 +103,10 @@ extern "C" {
+> >>>>>     #define DRM_IOCTL_VIA_DMA_BLIT    DRM_IOW(DRM_COMMAND_BASE + D=
+RM_VIA_DMA_BLIT, drm_via_dmablit_t)
+> >>>>>     #define DRM_IOCTL_VIA_BLIT_SYNC   DRM_IOW(DRM_COMMAND_BASE + D=
+RM_VIA_BLIT_SYNC, drm_via_blitsync_t)
+> >>>>>
+> >>>>> +#define	DRM_IOCTL_VIA_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_=
+VIA_GEM_CREATE, struct drm_via_gem_create)
+> >>>>> +#define	DRM_IOCTL_VIA_GEM_MAP		DRM_IOWR(DRM_COMMAND_BASE + DRM_VI=
+A_GEM_MAP, struct drm_via_gem_map)
+> >>>>> +#define	DRM_IOCTL_VIA_GEM_UNMAP		DRM_IOR(DRM_COMMAND_BASE + DRM_V=
+IA_GEM_UNMAP, struct drm_via_gem_unmap)
+> >>>>> +
+> >>>>>     /* Indices into buf=2ESetup where various bits of state are mi=
+rrored per
+> >>>>>      * context and per buffer=2E  These can be fired at the card a=
+s a unit,
+> >>>>>      * or in a piecewise fashion as required=2E
+> >>>>> @@ -275,6 +285,23 @@ typedef struct drm_via_dmablit {
+> >>>>>     	drm_via_blitsync_t sync;
+> >>>>>     } drm_via_dmablit_t;
+> >>>>>
+> >>>>> +struct drm_via_gem_create {
+> >>>>> +	uint64_t size;
+> >>>>> +	uint32_t alignment;
+> >>>>> +	uint32_t domain;
+> >>>>> +	uint32_t handle;
+> >>>>> +	uint64_t offset;
+> >>>>> +};
+> >>>>> +
+> >>>>> +struct drm_via_gem_map {
+> >>>>> +	uint32_t handle;
+> >>>>> +	uint64_t map_offset;
+> >>>>> +};
+> >>>>> +
+> >>>>> +struct drm_via_gem_unmap {
+> >>>>> +	uint32_t handle;
+> >>>>> +};
+> >>>>> +
+> >>>>>     #if defined(__cplusplus)
+> >>>>>     }
+> >>>>>     #endif
+> >>>>> --
+> >>>>> 2=2E35=2E1
+> >>>>>
+> >>>>
+> >>>> --=20
+> >>>> Thomas Zimmermann
+> >>>> Graphics Driver Developer
+> >>>> SUSE Software Solutions Germany GmbH
+> >>>> Maxfeldstr=2E 5, 90409 N=C3=BCrnberg, Germany
+> >>>> (HRB 36809, AG N=C3=BCrnberg)
+> >>>> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+> >>>>
+> >>
+> >> --=20
+> >> Thomas Zimmermann
+> >> Graphics Driver Developer
+> >> SUSE Software Solutions Germany GmbH
+> >> Maxfeldstr=2E 5, 90409 N=C3=BCrnberg, Germany
+> >> (HRB 36809, AG N=C3=BCrnberg)
+> >> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+> >>
+>=20
+> --=20
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr=2E 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+>
