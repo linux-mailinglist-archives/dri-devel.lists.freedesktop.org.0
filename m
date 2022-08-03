@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAAA588E3D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 16:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7209588E54
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 16:14:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73E62AE6F;
-	Wed,  3 Aug 2022 14:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 488F82B592;
+	Wed,  3 Aug 2022 14:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2392AB20;
- Wed,  3 Aug 2022 14:06:00 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F6314BB41;
+ Wed,  3 Aug 2022 14:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659535560; x=1691071560;
+ t=1659536031; x=1691072031;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=34VL+dhIeVMzhLZ89miUYPbPdIYYdh9192LOywXQAJs=;
- b=hgdsAsAAMnGgX84X8Mi/yLNH/qSM8ZL89cCM1yMF1GI4H8hDJWHFGLqs
- wXZXES9+jmowzwLjT/Bgq/i8n1t3GZnMHIqWPNXVSrAF3/U1ksnEr4ZQf
- 08DLBmpTJ5VlYUPTgvOEOtRrXm51hrg2GY9+2m23z+vcW9zJGtvM5ZQxl
- qKetmVP6TaGBDvKilcd7srfK6IydYTDbdz5vlnqJxLqhuGqHlxkLC0U8y
- 37zFj8crWXmLNX8SnY0yHj6chnpunjW5aekskYSNH83NwJPKqqWH2VUXk
- iyROM5IG/S/ZRtUmNx/jpFHb57eU3yJp5bZWawdbakEi4BRvBdtERf9Hf g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="289689983"
-X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; d="scan'208";a="289689983"
+ bh=BsKJWJU6OZj2+68nG5xGQnbTAWykYOp6ZiGKI8pwOXQ=;
+ b=YkmaxmEaNO8656A7WDqseWA9/I774sWuf1+ZdyMu6DW693L3QS2cCsx8
+ T2kxbfJCqPoofWFHeSI7pZnfoGcAVqrF9ipj3M2r7v+G3qGQdUGmG8Bsw
+ o1EU0MkEJiIY72MBD75jwnn5uvsEQfI7Ohg7XYOpf6ddvJIuQB79pHnFf
+ uzNToolN2p3/ZO5dILu4OnNqePy/fJCxNrlIt9jUIBkk4rZB65dUi6GcS
+ fvtwDp6cVT6a2d0Dp7tHlQsJfCDPg5i94RzqpDst5fiwuZLSnV20qviGh
+ N7Fn+n/OlY3DPpz1SS+db3SlvoqtL8sdhPNbSg71zJGBJ4IpTsKVTlt4X g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="288436920"
+X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; d="scan'208";a="288436920"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2022 07:05:49 -0700
-X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; d="scan'208";a="631161030"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2022 07:13:49 -0700
+X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; d="scan'208";a="631163538"
 Received: from ns1-mobl.gar.corp.intel.com (HELO localhost) ([10.252.59.244])
  by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 07:05:44 -0700
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 07:13:45 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>, Gwan-gyeong Mun
- <gwan-gyeong.mun@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5 1/7] drm: Move and add a few utility
- macros into drm util header
-In-Reply-To: <YuESy0q5X9pksg9M@alfio.lan>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v5 4/7] drm/i915: Check for integer truncation on the
+ configuration of ttm place
+In-Reply-To: <20220725092528.1281487-5-gwan-gyeong.mun@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220725092528.1281487-1-gwan-gyeong.mun@intel.com>
- <20220725092528.1281487-2-gwan-gyeong.mun@intel.com>
- <YuESy0q5X9pksg9M@alfio.lan>
-Date: Wed, 03 Aug 2022 17:05:41 +0300
-Message-ID: <875yj9qv62.fsf@intel.com>
+ <20220725092528.1281487-5-gwan-gyeong.mun@intel.com>
+Date: Wed, 03 Aug 2022 17:13:43 +0300
+Message-ID: <8735edquso.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -60,202 +59,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, airlied@linux.ie,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, matthew.auld@intel.com,
- Thomas Zimmermann <tzimmermann@suse.de>, mchehab@kernel.org,
- nirmoy.das@intel.com
+Cc: thomas.hellstrom@linux.intel.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, mchehab@kernel.org, nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Jul 2022, Andi Shyti <andi.shyti@linux.intel.com> wrote:
-> Hi,
+On Mon, 25 Jul 2022, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
+> There is an impedance mismatch between the first/last valid page
+> frame number of ttm place in unsigned and our memory/page accounting in
+> unsigned long.
+> As the object size is under the control of userspace, we have to be prude=
+nt
+> and catch the conversion errors.
+> To catch the implicit truncation as we switch from unsigned long to
+> unsigned, we use overflows_type check and report E2BIG or overflow_type
+> prior to the operation.
 >
-> On Mon, Jul 25, 2022 at 12:25:22PM +0300, Gwan-gyeong Mun wrote:
->> It moves overflows_type utility macro into drm util header from i915_uti=
-ls
->> header. The overflows_type can be used to catch the truncation between d=
-ata
->> types. And it adds safe_conversion() macro which performs a type convers=
-ion
->> (cast) of an source value into a new variable, checking that the
->> destination is large enough to hold the source value.
->> And it adds exact_type and exactly_pgoff_t macro to catch type mis-match
->> while compiling.
->>=20
->> v3: Add is_type_unsigned() macro (Mauro)
->>     Modify overflows_type() macro to consider signed data types (Mauro)
->>     Fix the problem that safe_conversion() macro always returns true
->> v4: Fix kernel-doc markups
->>=20
->> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
->> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Nirmoy Das <nirmoy.das@intel.com>
->> Cc: Jani Nikula <jani.nikula@intel.com>
->> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->> ---
->>  drivers/gpu/drm/i915/i915_utils.h |  5 +-
->>  include/drm/drm_util.h            | 77 +++++++++++++++++++++++++++++++
->>  2 files changed, 78 insertions(+), 4 deletions(-)
+> v3: Not to change execution inside a macro. (Mauro)
+>     Add safe_conversion_gem_bug_on() macro and remove temporal
+>     SAFE_CONVERSION() macro.
 >
-> Jani and Mauro suggested to have this macro in
-> include/drm/drm_util.h.
+> v4: Fix unhandled GEM_BUG_ON() macro call from safe_conversion_gem_bug_on=
+()
+>
+> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  6 +++---
+>  drivers/gpu/drm/i915/i915_gem.h         |  4 ++++
+>  drivers/gpu/drm/i915/intel_region_ttm.c | 20 +++++++++++++++++---
+>  3 files changed, 24 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
+15/gem/i915_gem_ttm.c
+> index 9f2be1892b6c..88f2887627dc 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -140,14 +140,14 @@ i915_ttm_place_from_region(const struct intel_memor=
+y_region *mr,
+>  	if (flags & I915_BO_ALLOC_CONTIGUOUS)
+>  		place->flags |=3D TTM_PL_FLAG_CONTIGUOUS;
+>  	if (offset !=3D I915_BO_INVALID_OFFSET) {
+> -		place->fpfn =3D offset >> PAGE_SHIFT;
+> -		place->lpfn =3D place->fpfn + (size >> PAGE_SHIFT);
+> +		safe_conversion_gem_bug_on(&place->fpfn, offset >> PAGE_SHIFT);
+> +		safe_conversion_gem_bug_on(&place->lpfn, place->fpfn + (size >> PAGE_S=
+HIFT));
 
-I can't recall suggesting such a thing. The macros in question have
-nothing specifically to do with i915 *or* drm. They are generic, and
-should be in generic kernel headers.
+So the natural thing would be to have and use two orthogonal helpers, a
+safe_conversion predicate and a warn:
 
-We must stop piling up generic and generally useful stuff in our own
-headers.
+	GEM_BUG_ON(!safe_conversion(...));
 
-I thought I've been clear about this all along.
+or even:
 
+	if (GEM_BUG_ON(!safe_conversion(...)))
+		/* ... */
+
+But GEM_BUG_ON() is surprising and does not follow the same pattern as
+WARN_ON/BUG_ON. *sigh*
 
 BR,
 Jani.
 
 
-
-
->
-> Can I please have an ack from one of the drm maintainers so that
-> I can go ahead an apply this series?
->
-> Thanks,
-> Andi
->
->>=20
->> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i9=
-15_utils.h
->> index c10d68cdc3ca..345e5b2dc1cd 100644
->> --- a/drivers/gpu/drm/i915/i915_utils.h
->> +++ b/drivers/gpu/drm/i915/i915_utils.h
->> @@ -32,6 +32,7 @@
->>  #include <linux/types.h>
->>  #include <linux/workqueue.h>
->>  #include <linux/sched/clock.h>
->> +#include <drm/drm_util.h>
->>=20=20
->>  #ifdef CONFIG_X86
->>  #include <asm/hypervisor.h>
->> @@ -111,10 +112,6 @@ bool i915_error_injected(void);
->>  #define range_overflows_end_t(type, start, size, max) \
->>  	range_overflows_end((type)(start), (type)(size), (type)(max))
->>=20=20
->> -/* Note we don't consider signbits :| */
->> -#define overflows_type(x, T) \
->> -	(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T))
->> -
->>  #define ptr_mask_bits(ptr, n) ({					\
->>  	unsigned long __v =3D (unsigned long)(ptr);			\
->>  	(typeof(ptr))(__v & -BIT(n));					\
->> diff --git a/include/drm/drm_util.h b/include/drm/drm_util.h
->> index 79952d8c4bba..1de9ee5704fa 100644
->> --- a/include/drm/drm_util.h
->> +++ b/include/drm/drm_util.h
->> @@ -62,6 +62,83 @@
->>   */
->>  #define for_each_if(condition) if (!(condition)) {} else
->>=20=20
->> +/**
->> + * is_type_unsigned - helper for checking data type which is an unsigne=
-d data
->> + * type or not
->> + * @x: The data type to check
->> + *
->> + * Returns:
->> + * True if the data type is an unsigned data type, false otherwise.
->> + */
->> +#define is_type_unsigned(x) ((typeof(x))-1 >=3D (typeof(x))0)
->> +
->> +/**
->> + * overflows_type - helper for checking the truncation between data typ=
-es
->> + * @x: Source for overflow type comparison
->> + * @T: Destination for overflow type comparison
->> + *
->> + * It compares the values and size of each data type between the first =
-and
->> + * second argument to check whether truncation can occur when assigning=
- the
->> + * first argument to the variable of the second argument.
->> + * Source and Destination can be used with or without sign bit.
->> + * Composite data structures such as union and structure are not consid=
-ered.
->> + * Enum data types are not considered.
->> + * Floating point data types are not considered.
->> + *
->> + * Returns:
->> + * True if truncation can occur, false otherwise.
->> + */
->> +
->> +#define overflows_type(x, T) \
->> +	(is_type_unsigned(x) ? \
->> +		is_type_unsigned(T) ? \
->> +			(sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
->> +			: (sizeof(x) >=3D sizeof(T) && (x) >> (BITS_PER_TYPE(T) - 1)) ? 1 : =
-0 \
->> +	: is_type_unsigned(T) ? \
->> +		((x) < 0) ? 1 : (sizeof(x) > sizeof(T) && (x) >> BITS_PER_TYPE(T)) ? =
-1 : 0 \
->> +		: (sizeof(x) > sizeof(T)) ? \
->> +			((x) < 0) ? (((x) * -1) >> BITS_PER_TYPE(T)) ? 1 : 0 \
->> +				: ((x) >> BITS_PER_TYPE(T)) ? 1 : 0 \
->> +			: 0)
->> +
->> +/**
->> + * exact_type - break compile if source type and destination value's ty=
-pe are
->> + * not the same
->> + * @T: Source type
->> + * @n: Destination value
->> + *
->> + * It is a helper macro for a poor man's -Wconversion: only allow varia=
-bles of
->> + * an exact type. It determines whether the source type and destination=
- value's
->> + * type are the same while compiling, and it breaks compile if two type=
-s are
->> + * not the same
->> + */
->> +#define exact_type(T, n) \
->> +	BUILD_BUG_ON(!__builtin_constant_p(n) && !__builtin_types_compatible_p=
-(T, typeof(n)))
->> +
->> +/**
->> + * exactly_pgoff_t - helper to check if the type of a value is pgoff_t
->> + * @n: value to compare pgoff_t type
->> + *
->> + * It breaks compile if the argument value's type is not pgoff_t type.
->> + */
->> +#define exactly_pgoff_t(n) exact_type(pgoff_t, n)
->> +
->> +/**
->> + * safe_conversion - perform a type conversion (cast) of an source valu=
-e into
->> + * a new variable, checking that the destination is large enough to hol=
-d the
->> + * source value.
->> + * @ptr: Destination pointer address
->> + * @value: Source value
->> + *
->> + * Returns:
->> + * If the value would overflow the destination, it returns false.
->> + */
->> +#define safe_conversion(ptr, value) ({ \
->> +	typeof(value) __v =3D (value); \
->> +	typeof(ptr) __ptr =3D (ptr); \
->> +	overflows_type(__v, *__ptr) ? 0 : ((*__ptr =3D (typeof(*__ptr))__v), 1=
-); \
->> +})
->> +
->>  /**
->>   * drm_can_sleep - returns true if currently okay to sleep
->>   *
->> --=20
->> 2.34.1
+>  	} else if (mr->io_size && mr->io_size < mr->total) {
+>  		if (flags & I915_BO_ALLOC_GPU_ONLY) {
+>  			place->flags |=3D TTM_PL_FLAG_TOPDOWN;
+>  		} else {
+>  			place->fpfn =3D 0;
+> -			place->lpfn =3D mr->io_size >> PAGE_SHIFT;
+> +			safe_conversion_gem_bug_on(&place->lpfn, mr->io_size >> PAGE_SHIFT);
+>  		}
+>  	}
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_gem.h b/drivers/gpu/drm/i915/i915_=
+gem.h
+> index 68d8d52bd541..327dacedd5d1 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.h
+> +++ b/drivers/gpu/drm/i915/i915_gem.h
+> @@ -83,5 +83,9 @@ struct drm_i915_private;
+>  #endif
+>=20=20
+>  #define I915_GEM_IDLE_TIMEOUT (HZ / 5)
+> +#define safe_conversion_gem_bug_on(ptr, value) !({ \
+> +	safe_conversion(ptr, value) ? 0 \
+> +		: (({ GEM_BUG_ON(overflows_type(value, *ptr)); }), 1); \
+> +})
+>=20=20
+>  #endif /* __I915_GEM_H__ */
+> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i9=
+15/intel_region_ttm.c
+> index 575d67bc6ffe..f0d143948725 100644
+> --- a/drivers/gpu/drm/i915/intel_region_ttm.c
+> +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+> @@ -209,14 +209,26 @@ intel_region_ttm_resource_alloc(struct intel_memory=
+_region *mem,
+>  	if (flags & I915_BO_ALLOC_CONTIGUOUS)
+>  		place.flags |=3D TTM_PL_FLAG_CONTIGUOUS;
+>  	if (offset !=3D I915_BO_INVALID_OFFSET) {
+> -		place.fpfn =3D offset >> PAGE_SHIFT;
+> -		place.lpfn =3D place.fpfn + (size >> PAGE_SHIFT);
+> +		if (!safe_conversion_gem_bug_on(&place.fpfn,
+> +						offset >> PAGE_SHIFT)) {
+> +			ret =3D -E2BIG;
+> +			goto out;
+> +		}
+> +		if (!safe_conversion_gem_bug_on(&place.lpfn,
+> +						place.fpfn + (size >> PAGE_SHIFT))) {
+> +			ret =3D -E2BIG;
+> +			goto out;
+> +		}
+>  	} else if (mem->io_size && mem->io_size < mem->total) {
+>  		if (flags & I915_BO_ALLOC_GPU_ONLY) {
+>  			place.flags |=3D TTM_PL_FLAG_TOPDOWN;
+>  		} else {
+>  			place.fpfn =3D 0;
+> -			place.lpfn =3D mem->io_size >> PAGE_SHIFT;
+> +			if (!safe_conversion_gem_bug_on(&place.lpfn,
+> +							mem->io_size >> PAGE_SHIFT)) {
+> +				ret =3D -E2BIG;
+> +				goto out;
+> +			}
+>  		}
+>  	}
+>=20=20
+> @@ -224,6 +236,8 @@ intel_region_ttm_resource_alloc(struct intel_memory_r=
+egion *mem,
+>  	mock_bo.bdev =3D &mem->i915->bdev;
+>=20=20
+>  	ret =3D man->func->alloc(man, &mock_bo, &place, &res);
+> +
+> +out:
+>  	if (ret =3D=3D -ENOSPC)
+>  		ret =3D -ENXIO;
+>  	if (!ret)
 
 --=20
 Jani Nikula, Intel Open Source Graphics Center
