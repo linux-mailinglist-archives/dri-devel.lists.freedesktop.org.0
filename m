@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7567358913C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 19:22:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49327589140
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 19:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D049911B0AA;
-	Wed,  3 Aug 2022 17:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC7C718A4B4;
+	Wed,  3 Aug 2022 17:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B242810FC65;
- Wed,  3 Aug 2022 17:22:30 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id w14so3950895plp.9;
- Wed, 03 Aug 2022 10:22:30 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7E211B070;
+ Wed,  3 Aug 2022 17:22:34 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id o3so17007867ple.5;
+ Wed, 03 Aug 2022 10:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=rm9GxJHf4bMp41yMMJ7kHX0LNzG+Q8tVx0zjX0fL5Eg=;
- b=Q+y4N05F6bbrA0KTd1dyGcJCIJqVn7sRmV5SaPGauTQkvOrW8lcA1nzpq/Cnxtyten
- B+WTtQBhfxWMiIY9oD+v+Hv3yz+BgMc41r3ruHOBd4emBH1YkkVHLhkyNZ27Io6wmG1b
- kvqztKsDuYNfSI2qsQiYSV1OmEMziJqAql3pq7UMLCMKePIqDag6k1WgqX3lSf9BcACr
- 54OyYAsmrzS92zZWS90j1oEKOd61FN3KxENQXcnnAVjORamMdsjKB7bFXJOczf1idzbY
- 9Tut5EM5VdPAmX1rKNperE0sVDqZfCx/FSUo9jAMMd8AheD5tLphb43lbsDCDtHLbJUE
- cinQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=9lYXINAlxxMxWSbvsI8AJB5wGlCbPGWBgmb6qoY0xm4=;
+ b=icUeEm2PKM5WXTxzKJFNcPkN/1w9jNcDpqXthRNOePTbuqlNuwmsHAHZh0UYrco2uV
+ lXR+rVyNGmoAWv2aWAhcNwvpmQzwtQesbe+v/Vzh/lmNO5VFrkMlvjCx1WaQz+PFah+h
+ nTS71/uWhVJcrBUL5v0Rh5eVesXhkBSiPFXfVDPdFjGvxOeSPA5xtcsNWf4+Ub3z+cMc
+ 6Fz98feK5mr4tkjugDJfIg1LD6KD2ldbfQ8BeLTqMnNiCsbCvMoO1loqoZA2xHNycKDK
+ jv5vbUFjaZiD8X/ER6DfsPMdoKir8DziTFI6T8paN+D6pEsBOjegHkOKpkn2FYbpFvzC
+ IXBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=rm9GxJHf4bMp41yMMJ7kHX0LNzG+Q8tVx0zjX0fL5Eg=;
- b=cx+TL/lK3YPRHqOxKo5ErkylJSCWEReyMQ11r+vTw36Qu9lRX0MVKC6IpgyEj0EKcw
- 84k0Xu+Uyqr3hFDojzC9bnMOLMZkWI29TRfO+fWZRpROONIU5x6eiwDox0os6eIEqeZZ
- dFSp/s1jYGZc8Akg7jlh/79OQBhgOcGm8Iua341VMXyX0qjL8cjJkI/RI+NIxvDRkyrI
- s7+nXahBxZPjEVbPTn207Ynv45/6Ckvb/fd/3YAlgXQKXseAovK+QbFxlEa7IGrRe+A3
- aQ233OyRHXyDi3dT1/fb5iYTsmSUVA4z+osqeZDdOWtyvIz6Ll9kHyFEqGH1mVWJG2pc
- +ugg==
-X-Gm-Message-State: ACgBeo2dKi4nR0EAUrjefR3lenY2/zFko274I6SVKuUg4x5kS7+l1fQz
- r6dDXyUDdfltKmDWbuOlRLbTHmMTCfM=
-X-Google-Smtp-Source: AA6agR6pXPAuirMDUgBbJXkQS1bmQjv10jiSXKUS29WnbnLBrvkAXU7IYSzphYn8d1V5pdrLO2khRQ==
-X-Received: by 2002:a17:902:ccc4:b0:156:5d37:b42f with SMTP id
- z4-20020a170902ccc400b001565d37b42fmr27186057ple.157.1659547349427; 
- Wed, 03 Aug 2022 10:22:29 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=9lYXINAlxxMxWSbvsI8AJB5wGlCbPGWBgmb6qoY0xm4=;
+ b=VapRb3XShATGYMuwlEYapus6k8pkWAg4R5UxaFfpHD32rJKMkhmscvalGlqxOSBxr+
+ Z//on2Hp9006TWiRcRLwz63zLi4M2z+S8fHJOVd9NbV8DM1R2H436P6HlnfP5uEdscoi
+ RJ8I5JKHC3hRNlUwnt/Gbmx2tFyeo1U4GVu8gX5smGXn4URQSHBtfosTXu4nZkgTHCIA
+ Kek3mk5OprPFTkccorf/xPRtk/SvIgmA4Quh3ddpOPnHxVmkAIRiUbVC+NxO3uuLGZzk
+ Aq56JQRgYMiytKQN3fZix1dHI8fzoHHh4H0YeoZBnmUd7w6UMxdN8J7RRkR7w6HNpaZy
+ IENQ==
+X-Gm-Message-State: ACgBeo1Vma7r7XmmLWWbgi2kO9sSk72MZVpBm3IT7k8g90313c+tjNne
+ j6wDChPtBONl6YYp3efiY+EV5AaSah8=
+X-Google-Smtp-Source: AA6agR4anjaSlbUEFkuNTyBJBYjx1Dfme76YDiiwhXa3CuIz6Y3YjdykMMx8iwP5lYQ+74B54uQZXg==
+X-Received: by 2002:a17:90b:1c8e:b0:1f1:b5a8:330f with SMTP id
+ oo14-20020a17090b1c8e00b001f1b5a8330fmr5815071pjb.179.1659547353432; 
+ Wed, 03 Aug 2022 10:22:33 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- u5-20020a17090a4bc500b001f239783e3dsm1857657pjl.34.2022.08.03.10.22.27
+ j12-20020a170903024c00b0016d01c133e1sm2226044plh.248.2022.08.03.10.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 10:22:28 -0700 (PDT)
+ Wed, 03 Aug 2022 10:22:31 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/msm: Move hangcheck timer restart
-Date: Wed,  3 Aug 2022 10:23:01 -0700
-Message-Id: <20220803172302.1976981-1-robdclark@gmail.com>
+Subject: [PATCH 2/2] drm/msm/rd: Fix FIFO-full deadlock
+Date: Wed,  3 Aug 2022 10:23:02 -0700
+Message-Id: <20220803172302.1976981-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220803172302.1976981-1-robdclark@gmail.com>
+References: <20220803172302.1976981-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,67 +79,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Don't directly restart the hangcheck timer from the timer handler, but
-instead start it after the recover_worker replays remaining jobs.
-
-If the kthread is blocked for other reasons, there is no point to
-immediately restart the timer.  Fixes a random symptom of the problem
-fixed in the next patch.
+If the previous thing cat'ing $debugfs/rd left the FIFO full, then
+subsequent open could deadlock in rd_write() (because open is blocked,
+not giving a chance for read() to consume any data in the FIFO).  Also
+it is generally a good idea to clear out old data from the FIFO.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/msm_rd.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index fba85f894314..8f9c48eabf7d 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -328,6 +328,7 @@ find_submit(struct msm_ringbuffer *ring, uint32_t fence)
- }
+diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
+index a92ffde53f0b..db2f847c8535 100644
+--- a/drivers/gpu/drm/msm/msm_rd.c
++++ b/drivers/gpu/drm/msm/msm_rd.c
+@@ -196,6 +196,9 @@ static int rd_open(struct inode *inode, struct file *file)
+ 	file->private_data = rd;
+ 	rd->open = true;
  
- static void retire_submits(struct msm_gpu *gpu);
-+static void hangcheck_timer_reset(struct msm_gpu *gpu);
- 
- static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
- {
-@@ -420,6 +421,8 @@ static void recover_worker(struct kthread_work *work)
- 	}
- 
- 	if (msm_gpu_active(gpu)) {
-+		bool restart_hangcheck = false;
++	/* Reset fifo to clear any previously unread data: */
++	rd->fifo.head = rd->fifo.tail = 0;
 +
- 		/* retire completed submits, plus the one that hung: */
- 		retire_submits(gpu);
- 
-@@ -436,10 +439,15 @@ static void recover_worker(struct kthread_work *work)
- 			unsigned long flags;
- 
- 			spin_lock_irqsave(&ring->submit_lock, flags);
--			list_for_each_entry(submit, &ring->submits, node)
-+			list_for_each_entry(submit, &ring->submits, node) {
- 				gpu->funcs->submit(gpu, submit);
-+				restart_hangcheck = true;
-+			}
- 			spin_unlock_irqrestore(&ring->submit_lock, flags);
- 		}
-+
-+		if (restart_hangcheck)
-+			hangcheck_timer_reset(gpu);
- 	}
- 
- 	mutex_unlock(&gpu->lock);
-@@ -515,10 +523,6 @@ static void hangcheck_handler(struct timer_list *t)
- 		kthread_queue_work(gpu->worker, &gpu->recover_work);
- 	}
- 
--	/* if still more pending work, reset the hangcheck timer: */
--	if (fence_after(ring->fctx->last_fence, ring->hangcheck_fence))
--		hangcheck_timer_reset(gpu);
--
- 	/* workaround for missing irq: */
- 	msm_gpu_retire(gpu);
- }
+ 	/* the parsing tools need to know gpu-id to know which
+ 	 * register database to load.
+ 	 *
 -- 
 2.36.1
 
