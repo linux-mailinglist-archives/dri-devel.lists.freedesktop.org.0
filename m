@@ -1,36 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3BE5888C0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 10:39:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D31B25888DD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 10:50:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD5B10E622;
-	Wed,  3 Aug 2022 08:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D90DE112C0C;
+	Wed,  3 Aug 2022 08:50:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
- [115.236.118.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 246D910F2C4
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 08:39:07 +0000 (UTC)
-Received: from localhost (unknown [103.29.142.67])
- by mail-m11885.qiye.163.com (Hmail) with ESMTPA id C3C424C0847;
- Wed,  3 Aug 2022 16:39:02 +0800 (CST)
-From: Jeffy Chen <jeffy.chen@rock-chips.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v2] drm/gem: Fix GEM handle release errors
-Date: Wed,  3 Aug 2022 16:32:37 +0800
-Message-Id: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
-X-Mailer: git-send-email 2.20.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8051125E9;
+ Wed,  3 Aug 2022 08:50:25 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C751BB821B4;
+ Wed,  3 Aug 2022 08:50:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C428C433D6;
+ Wed,  3 Aug 2022 08:50:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659516620;
+ bh=lcBBGQP1cMln4snVW0FD2LaDsPlFtDJyczxrGwOfe/4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OrIYoUrDNQaIPpBy3vKM446Otlu8KmxoDb7pEMlvauKF7D1Xab/3fdFp1iRDL9kRC
+ IM1rVrmCLTUhG5FKX2RFndcSUocoe9fCExwYM0ebi5Hjqbw3DhF+nNrep+i0zz/DPj
+ FAIaudx1LT9qDJ1gRdke5kiieCNY3cE3llwzr8aiyNih2Bbw1ISDo0O7ws0RQ0y3Hu
+ a0asIBkOeA6fGE0bWLLp0smArL+b7RQ0ovxEqKC6yFwywVyi3AikPnKKQfxsLuI4Lc
+ osLerpkW0Mxk6ErF5Wc19cwB8OVlFdZ7VVTekDd+nIQjkw45PLTbTYBlEkx3pIbCfI
+ djPijGU1gqHtw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1oJA5O-0007O7-Fj; Wed, 03 Aug 2022 10:50:38 +0200
+Date: Wed, 3 Aug 2022 10:50:38 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v16 0/3] eDP/DP Phy vdda realted function
+Message-ID: <Yuo23sdBe6tI7g5K@hovoldconsulting.com>
+References: <1657038556-2231-1-git-send-email-quic_khsieh@quicinc.com>
+ <YtkrDcjTGhpaU1e0@hovoldconsulting.com>
+ <CAA8EJprQnnWjDZJy9+zUBsVQCi3jtc0Ngtzzk9MXpwOvuAS68g@mail.gmail.com>
+ <CAD=FV=W0m-x9JC=5hQ3urSNmUp8sY-u8YkNd66yrKfRNAH4rcg@mail.gmail.com>
+ <YuPiJWQ1/wQbkvD8@hovoldconsulting.com>
+ <YuPps+cvVAMugWmy@sirena.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGR1PVkhDTh0fGU9LGh5MHVUTARMWGhIXJBQOD1
- lXWRgSC1lBWUpLSFVJQlVKT0lVTUxZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRw6PAw*Dj02IzARHgg1OQtO
- UQMwCzVVSlVKTU5CTkpOQk9ISE9DVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlKS0hVSUJVSk9JVU1MWVdZCAFZQU1LTUI3Bg++
-X-HM-Tid: 0a8262dbb7b72eb9kusnc3c424c0847
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YTsIOlOo8860ehFK"
+Content-Disposition: inline
+In-Reply-To: <YuPps+cvVAMugWmy@sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,139 +60,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jeffy Chen <jeffy.chen@rock-chips.com>,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Doug Anderson <dianders@chromium.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently we are assuming a one to one mapping between dmabuf and handle
-when releasing GEM handles.
 
-But that is not always true, since we would create extra handles for the
-GEM obj in cases like gem_open() and getfb{,2}().
+--YTsIOlOo8860ehFK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A similar issue was reported at:
-https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
+On Fri, Jul 29, 2022 at 03:07:47PM +0100, Mark Brown wrote:
+> On Fri, Jul 29, 2022 at 03:35:33PM +0200, Johan Hovold wrote:
+>=20
+> > I guess we just need to drop all those regulator-allow-set-load
+> > properties for now even if using DT for power-management configuration
+> > this way does seem to run against the whole DT-as-hardware-description
+> > idea (e.g. we may want to add them back when/if active- and idle loads
+> > are specified by the corresponding Linux drivers).
+>=20
+> Well, there's also a question of if the hardware can usefully make use
+> of the facility - is there any non-suspend state where the regulator
+> needs to be on but is drawing so little current that it's worth trying
+> to select a lower power mode?
 
-Another problem is that the drm_gem_remove_prime_handles() now only
-remove handle to the exported dmabuf (gem_obj->dma_buf), so the imported
-ones would leak:
-WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 drm_prime_destroy_file_private+0x18/0x24
+Good point.
 
-Let's fix these by using handle to find the exact map to remove.
+> > But that doesn't address the problem that was trying to highlight here,
+> > and that you had noticed years ago, namely that using set_load only
+> > works reliably if *all* consumers use it.
+>=20
+> > Shouldn't an enabled regulator from a consumer that didn't specify a
+> > load somehow result in HPM always being selected (e.g. count as INT_MAX
+> > load as Doug suggested some years ago)?
+>=20
+> Possibly, but note that as well as the consumers with software drivers
+> you also have to consider any passive consumers on the board which may
+> not have any representation in DT so the actual numbers may well be off
+> even if every consumer is trying to keep things up to date.  You also
+> come back to the "let's just shove a random number in here" problem.
 
-Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
----
+Right, but some of that could be captured in DT with
+'regulator-system-load'.
 
-Changes in v2:
-Fix a typo of rbtree.
+> For ultimate saftey we probably want a command line option to gate the
+> feature which people can set to say they've audited their full
+> software/hardware integration stack.
 
- drivers/gpu/drm/drm_gem.c      | 17 +----------------
- drivers/gpu/drm/drm_internal.h |  4 ++--
- drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
- 3 files changed, 15 insertions(+), 26 deletions(-)
+That sounds like it could be useful.
+=20
+> > At some point in the discussion I thought Mark suggested removing
+> > set_load from drivers that don't actually manage active and idle loads.
+> > That would also work, at least until the day one of the drivers adds
+> > support for idle loads.
+>=20
+> Yes, if the driver isn't actively managing loads it's probably not doing
+> anything useful.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index eb0c2d041f13..ed39da383570 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_gem_private_object_init);
- 
--static void
--drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
--{
--	/*
--	 * Note: obj->dma_buf can't disappear as long as we still hold a
--	 * handle reference in obj->handle_count.
--	 */
--	mutex_lock(&filp->prime.lock);
--	if (obj->dma_buf) {
--		drm_prime_remove_buf_handle_locked(&filp->prime,
--						   obj->dma_buf);
--	}
--	mutex_unlock(&filp->prime.lock);
--}
--
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-  * @obj: GEM object to clean up.
-@@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- 	if (obj->funcs->close)
- 		obj->funcs->close(obj, file_priv);
- 
--	drm_gem_remove_prime_handles(obj, file_priv);
-+	drm_prime_remove_buf_handle(&file_priv->prime, id);
- 	drm_vma_node_revoke(&obj->vma_node, file_priv);
- 
- 	drm_gem_object_handle_put_unlocked(obj);
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 1fbbc19f1ac0..7bb98e6a446d 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 
- void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
- void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
--void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
--					struct dma_buf *dma_buf);
-+void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-+				 uint32_t handle);
- 
- /* drm_drv.c */
- struct drm_minor *drm_minor_acquire(unsigned int minor_id);
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index e3f09f18110c..bd5366b16381 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
- 	return -ENOENT;
- }
- 
--void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
--					struct dma_buf *dma_buf)
-+void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-+				 uint32_t handle)
- {
- 	struct rb_node *rb;
- 
--	rb = prime_fpriv->dmabufs.rb_node;
-+	mutex_lock(&prime_fpriv->lock);
-+
-+	rb = prime_fpriv->handles.rb_node;
- 	while (rb) {
- 		struct drm_prime_member *member;
- 
--		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
--		if (member->dma_buf == dma_buf) {
-+		member = rb_entry(rb, struct drm_prime_member, handle_rb);
-+		if (member->handle == handle) {
- 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
- 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
- 
--			dma_buf_put(dma_buf);
-+			dma_buf_put(member->dma_buf);
- 			kfree(member);
--			return;
--		} else if (member->dma_buf < dma_buf) {
-+			break;
-+		} else if (member->handle < handle) {
- 			rb = rb->rb_right;
- 		} else {
- 			rb = rb->rb_left;
- 		}
- 	}
-+
-+	mutex_unlock(&prime_fpriv->lock);
- }
- 
- void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
--- 
-2.20.1
+Ok, thanks for confirming. Perhaps we should drop the set_loads() added
+to the PHY driver by this series then.
+=20
+> The difficulties with this sort of system integration question is an
+> unfortunate consequence of DT, having to describe what's safe for an
+> unknown software stack is fundamentally hard.  I do question how much
+> effort it's worth putting into enabling this, especially in cases where
+> the regulator is shared - how much power is actually saved in the grand
+> scheme of things given that this is only taking effect when the system
+> is out of suspend and we tend to be talking about some percentage of the
+> power being drawn on something which is presumably already consuming
+> very little power for this to be at all relevant?
 
+I tend to agree. Thanks again for your input!
+
+Johan
+
+--YTsIOlOo8860ehFK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCYuo22gAKCRALxc3C7H1l
+CArBAP4+W07nkP4v5zuEdV1LepVpAWJtpTTVnGwdfkVwnr5FAgD+I8xjWidPc2Kq
+nD+BAXuccWyyiOPlBuyM2GD/ZXjL1wQ=
+=ehiB
+-----END PGP SIGNATURE-----
+
+--YTsIOlOo8860ehFK--
