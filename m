@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FD5589239
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 20:24:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DFD58924C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 20:31:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E55018A91C;
-	Wed,  3 Aug 2022 18:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 151E510E67F;
+	Wed,  3 Aug 2022 18:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB84611A786
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 18:24:23 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id m22so15781267lfl.9
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Aug 2022 11:24:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=FVLEwCo6wxH6UqQ/rgVg/jkY1RdcrYbsKsmzA+SVqRM=;
- b=LU1swnTijzeZZHDu0s9wSa9WU5gb5v2Gito5N8j4LrA1Lw+WiFszXSofRJVsyE051X
- FpxVAyVV6DgsUD/iHB03RL2Hqw6XA5ZFm9bd4kxt/c7/J6f/2awu1WIDydmr7kEsD8Fy
- /V/BRMK0ime3RJhroiEaGVlCjEMrmhMQJGzz3Lvc7oDf8pVG804AtiHy47qOrqT/GS71
- EW38btSgTAsIMt2lqiUdCZKB1aQ716nYBRko3UsnwgoP+dh/UOkF31RQ74cZdypOvbBf
- GA9TqqO0DEAPxsKcsloFtdV7pffPsWcFOPQdmX9MSzyULZ7c6TCH0UtA5Q7myhY305sL
- r9uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=FVLEwCo6wxH6UqQ/rgVg/jkY1RdcrYbsKsmzA+SVqRM=;
- b=UAr1yy+WGX8+15EA9GApvullCaYd/OCBai3z1PCvRwcLMnELEmg1Agv+fvzWyWnnvs
- LL8D0pUFIHt6p1oOcyTLBnU+Xak6kklZNL348jxbev6sWx4Vkc+nnyg/GYJrVKDBj0/K
- KXouSBofBuHHP6K54rTxkiUHvu2Kdt5O8OtN4Dfp6XAjAu7mzQImjhY6KFlNckK53gnx
- hXWqpwBrFkSydAyc10zo2gbsE4Ka9yEw4iXEUgC1NJTFIvSWA5G2kPzjVKXqJdUOU9WI
- 8LVyCZwbBLd1yWVsIkdJ59404Wbhb/W+qt8QuKvE5++4ov73yucW5rVoCajBj9ZMbpZL
- /thQ==
-X-Gm-Message-State: ACgBeo30WwSF6CQ4KSSYz2D+UqrdCgP34zByabKDxdhDswgXEzWBIdE1
- Yc7RndDtInqqKRrik+EVqF4=
-X-Google-Smtp-Source: AA6agR6sr8zJyhjOEd9u8ffumf8oYnOnI2d0WKHOSZv6kXvRl24BTaFUgSjQk+9avxwkktN42YcSmg==
-X-Received: by 2002:a05:6512:70b:b0:48b:1d93:d31a with SMTP id
- b11-20020a056512070b00b0048b1d93d31amr1535068lfs.522.1659551061796; 
- Wed, 03 Aug 2022 11:24:21 -0700 (PDT)
-Received: from localhost.localdomain (83.24.233.119.ipv4.supernova.orange.pl.
- [83.24.233.119]) by smtp.gmail.com with ESMTPSA id
- s3-20020a056512202300b0048af79884fesm1290967lfs.101.2022.08.03.11.24.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 11:24:21 -0700 (PDT)
-From: Maccraft123 <maccraft123mc@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for Anbernic Win600
-Date: Wed,  3 Aug 2022 20:24:03 +0200
-Message-Id: <20220803182402.1217293-1-maccraft123mc@gmail.com>
-X-Mailer: git-send-email 2.37.1
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBCBB18A39D
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 18:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=65y2wtoqQCBqVrsSrAIKNGOeVAKV8o3MY4b6Y1Eav/A=;
+ b=i90WrpF9CC81gCX+wdbGglJ0U/k3X3fJ4JXp9ptxLzvG5E7uiJLMypjAaaF4jB5KTiGWPCdKoajE8
+ ooz47gnkb6mSjKzlrOESUc0TQsqYKwqVO+1WmK0rsMOpboZYb1Qve+Iou/7UEsTGXtcjKJtJYbp+kJ
+ LnvY+2p6MJKW5QrALMEViFwVea1KuTxCLzoSeR7rtrIDFd7cRnTZjKK4t6WtfIvpXyGH8BmUc73C4i
+ jcQAploP6jVspv8kguDp6JyeBkamP1vtWvFrzIDgGZd9cvQn6t45ymW0jkZsHkGbIJdyl77xmwXPFj
+ 6Qgw6kgK2ZhewB71IiW+CERPXI18J8A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=65y2wtoqQCBqVrsSrAIKNGOeVAKV8o3MY4b6Y1Eav/A=;
+ b=e/s5UO7hlZU1T+u4r+DFOChz3ljq+1Z3e+7Jq+MXTxZk2i4Az26l0euzk7rgnwXDpgkeE11zMwW39
+ Q6/ji2wDw==
+X-HalOne-Cookie: fcc8388dc46c66a467ca33f7355d09cec17be80e
+X-HalOne-ID: 7185b375-135a-11ed-a6ca-d0431ea8a283
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 7185b375-135a-11ed-a6ca-d0431ea8a283;
+ Wed, 03 Aug 2022 18:31:09 +0000 (UTC)
+Date: Wed, 3 Aug 2022 20:31:07 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH] drm/virtio: remove drm_plane_cleanup() destroy hook
+Message-ID: <Yuq+63QAyOYQvbvX@ravnborg.org>
+References: <20220803145520.1143208-1-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220803145520.1143208-1-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +58,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
+Hi Danilo,
 
-This device is another x86 gaming handheld, and as (hopefully) there is
-only one set of DMI IDs it's using DMI_EXACT_MATCH
-
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index d4e0f2e85548..a8681610ede7 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -128,6 +128,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* Anbernic Win600 */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
-+		},
-+		.driver_data = (void *)&lcd720x1280_rightside_up,
- 	}, {	/* Asus T100HA */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
--- 
-2.37.1
-
+On Wed, Aug 03, 2022 at 04:55:20PM +0200, Danilo Krummrich wrote:
+> drmm_universal_plane_alloc() already registers drm_plane_cleanup() as
+> managed release action via drmm_add_action_or_reset(). Hence,
+> drm_plane_cleanup() should not be set as drm_plane_funcs.destroy hook.
+> 
+> Fixes: 7847628862a8 ("drm/virtio: plane: use drm managed resources")
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_plane.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> index c599c99f228e..4c09e313bebc 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> @@ -69,7 +69,6 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+>  static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
+>  	.update_plane		= drm_atomic_helper_update_plane,
+>  	.disable_plane		= drm_atomic_helper_disable_plane,
+> -	.destroy		= drm_plane_cleanup,
+>  	.reset			= drm_atomic_helper_plane_reset,
+>  	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+>  	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> -- 
+> 2.37.1
