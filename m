@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BBD588F70
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 17:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E9D58909D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 18:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5BA10F8E5;
-	Wed,  3 Aug 2022 15:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCFD911AB4D;
+	Wed,  3 Aug 2022 16:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7A910F577
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 15:31:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 10F5EB822DC
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 15:31:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 54AC0C43143
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 15:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659540703;
- bh=MbqOdm6JOtBSyW9bVhqsllHYVmFE8LFofekDoBvuS6Q=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=WokuF6do1L4tL5+L+TzaC4kSP7CZdPImDNZjj9gJxWUxe9i+0+YU3YG1V4XXGHjdv
- zYUKKNVz/vRDowNXTl+p+K1zGrATGPsURY4N47Z/LN1QffJzqhrz2wJkeO5MYdlVkv
- y4YGUEvBXlSkWYLUPff0+RfFE2d1coHac2mQofP5CoYYhpa3EbSxm+trPH7TU6ZGh/
- w08+Kxd3OUBEeP8NfA96XUN3za4hUwK5rghxejWdT4nNqngYnqm9156DWCPp+Jyknm
- XZUYmkkwZ78hA9owjDc+QAA6GZHMAHTEiREvekdJVNKnTM+6ND/OAXklRaiord2ZXO
- QZJ1GKqfciZAA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 452DBC433E6; Wed,  3 Aug 2022 15:31:43 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
- 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Wed, 03 Aug 2022 15:31:42 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: crptdngl71@gmx.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211807-2300-NBOlU0i3Sz@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
-References: <bug-211807-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C7610E524
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 16:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=68z9jyjknoySiaFxXXmGG4Vo8VW1dA2XzXu+STPvC0I=;
+ b=QKKsqiFmmiNka2518t1sQHjj4pHlOGmU0AUh8gEQHlPr8pqX+P5e8QaUFUoe/pKvsOb3eJEinNarG
+ 0nWVGZnHpIMglOFI//RWXz0lF3nnThsl/OnMPSPk8ZWDtGqbkj5jIeqge/pvJ80QICdomvFUcNJETO
+ yVRB8HIi23m+Hc8V2hTZ/OSDuJzumQDFOQRhpSxS1yJ4hrdTpIm19SgjbmtDvGhWgzn1TnGpK8O0cA
+ rz8IIf0Qs5GLMPXvB06CwQb6oOJtllWcFgSTV3d1TBgROXBdx0QPM0lDR4XdXg/uJFwxJ/zcgMFIlM
+ LCZqbB9aGyFCBOH2Z3oDAjZ3PLEWXag==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=68z9jyjknoySiaFxXXmGG4Vo8VW1dA2XzXu+STPvC0I=;
+ b=2iLl/ltvNnB/jcCTDDWYBHrZmGlI4rKbldzAPNHaOgVHSoml3mSZv6Qk5te2QAPhQk+itOoGySlzC
+ 1/gPbFjAA==
+X-HalOne-Cookie: b64f77903176371c8467822ef5ec63017d31e85c
+X-HalOne-ID: ad6a4b58-134a-11ed-be81-d0431ea8bb03
+Received: from mailproxy3.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id ad6a4b58-134a-11ed-be81-d0431ea8bb03;
+ Wed, 03 Aug 2022 16:38:17 +0000 (UTC)
+Date: Wed, 3 Aug 2022 18:38:16 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v7 0/5] drm: rename CMA helpers to DMA
+ helpers
+Message-ID: <YuqkeDmV0nFVhYuG@ravnborg.org>
+References: <20220802000405.949236-1-dakr@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802000405.949236-1-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +59,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
+Hi Danilo,
 
---- Comment #23 from crptdngl71@gmx.net ---
-Further details:
-After logging into spinchat the issue does not occur straight away. It take=
-s a
-bit, use all buttons a while.
+On Tue, Aug 02, 2022 at 02:04:00AM +0200, Danilo Krummrich wrote:
+> This patch series renames all CMA helpers to DMA helpers - considering the
+> hierarchy of APIs (mm/cma -> dma -> gem/fb dma helpers) calling them DMA
+> helpers seems to be more applicable.
+> 
+> Additionally, commit e57924d4ae80 ("drm/doc: Task to rename CMA helpers")
+> requests to rename the CMA helpers and implies that people seem to be confused
+> about the naming.
+> 
+> The patches are compile-time tested building a x86_64 kernel with
+> `make allyesconfig && make drivers/gpu/drm`.
+> 
+> Changes in v2:
+>   - Fixed up comments for consistent memory/address classification
+>     (DMA-contiguous)
+>   - Added a patch to rename struct drm_gem_dma_object.{paddr => dma_addr}
+> 
+> Changes in v3:
+>   - Use a ccoccinelle script for
+>     "drm/gem: rename struct drm_gem_dma_object.{paddr => dma_addr}" for fixing
+>     up missing drivers and compile-test on x86_64, arm and arm64.
+> 
+> Changes in v4:
+>   - Rebased all patches on drm-misc/drm-misc-next.
+> 
+> Changes in v5:
+>   - Rebase of v4, meanwhile some merge conflicts came up on
+>     drm-misc/drm-misc-next.
+> 
+> Changes in v6:
+>   - Added a patch to remove unused include occurances of drm_fb_cma_helper.h
+>     in various drivers.
+> 
+> Changes in v7:
+>   - Fix `select DRM_KMS_{CMA => DMA}_HELPER` and
+>         `select DRM_GEM_{CMA => DMA}_HELPER` in
+>     drivers/gpu/drm/logicvc/Kconfig and drivers/gpu/drm/mxsfb/Kconfig which
+>     slipped through in a rebase.
+>   - Another rebase.
+> 
+> Danilo Krummrich (5):
+>   drm/fb: remove unused includes of drm_fb_cma_helper.h
+>   drm/fb: rename FB CMA helpers to FB DMA helpers
+>   drm/gem: rename GEM CMA helpers to GEM DMA helpers
+>   drm/gem: rename struct drm_gem_dma_object.{paddr => dma_addr}
+>   drm/todo: remove task to rename CMA helpers
 
-This seems to suggest that the issue is related to a memory buffer that lea=
-ks
-somehow or gets corrupted, because after that has been reached the issue oc=
-curs
-more frequently.
+Thanks for looking into this task!
+The patches are now applied to drm-misc (drm-misc-next).
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+	Sam
