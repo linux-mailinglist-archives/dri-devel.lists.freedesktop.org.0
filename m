@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C610588CD9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 15:17:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE03588CDA
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 15:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86B3918B10A;
-	Wed,  3 Aug 2022 13:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BAF1131BC;
+	Wed,  3 Aug 2022 13:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79FA618B183
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 13:17:11 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7821218B40B
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 13:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1659532626;
- bh=ijNK7+C9GwS9hFV217KdcR0mCCJXat/+dfi5+nWW7vo=;
+ s=badeba3b8450; t=1659532639;
+ bh=2uXVOsfdm/Cp3uY6kF6GOzfMslaJ+Q2URlY6OMkhB4k=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=KLVfhmUjZcW3w4VVKGLmouP9njA7VWHE6LDLlretIi4CWpeqvljsQs4OIYhSui5y7
- co7ZGz0fmvsmOc2va97EEApaFTc7hgUeLgpg1NqE9WUMj2iF18u0XQr7wAn7Vr4Sbu
- T0kYE8NLmLHg5KUC+F1pJqwnhtM0IRmJZc1oRFZw=
+ b=iUwyh9kivAhjHDlcF29t/6ST0ba/e5FHfKgjwoD9WzmxwR57Fevoqu7kmOaNGXP1x
+ JF2oY6YA2UGTTF2yR+zB52qlz4SeeSDrnoONmPggQnpiRXKUUBFW//BRXsskDZbv9z
+ E5FzmuyroQmiHk8W8RoZ5ZNMgb8RSzqkFaAAQUqU=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.136.66]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5VHG-1nLJKy2l1G-016xYA; Wed, 03
- Aug 2022 15:17:06 +0200
-Message-ID: <d7fb3369-ef7f-8d8f-48bc-fe7cd61047b5@gmx.de>
-Date: Wed, 3 Aug 2022 15:16:18 +0200
+Received: from [192.168.20.60] ([92.116.136.66]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MWRVb-1nue1M2bf9-00Xx87; Wed, 03
+ Aug 2022 15:17:19 +0200
+Message-ID: <cc6fd011-7859-3e3e-b5dd-54cdf0d4c348@gmx.de>
+Date: Wed, 3 Aug 2022 15:16:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] video: fbdev: arkfb: Fix a divide-by-zero bug in
- ark_set_pixclock()
+Subject: Re: [PATCH] video: fbdev: i740fb: Check the argument of
+ i740_calc_vclk()
 Content-Language: en-US
-To: Zheyu Ma <zheyuma97@gmail.com>, Ondrej Zajicek <santiago@crfreenet.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Antonino Daplas <adaplas@gmail.com>
-References: <20220803092313.2492371-1-zheyuma97@gmail.com>
+To: Zheyu Ma <zheyuma97@gmail.com>
+References: <20220803092419.2821723-1-zheyuma97@gmail.com>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220803092313.2492371-1-zheyuma97@gmail.com>
+In-Reply-To: <20220803092419.2821723-1-zheyuma97@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lQljVW+9U2quFOlICL5iuL0qQsxBfhrJ/SOcJDuXBcLxgtkcRMq
- N1VzQHqvyDjpI6ZUU9HAzKo0RYEGAybibieBpH9UP/PHT/WmA65wdyZPcC209YI0xARz1P9
- 8BC3NMOMCSRe5ZJKsl6BltUUK3igg4tp3m6nn6MtiSYM106YPdcnxqsMRv51MPKVQ8L5fmn
- dA0M5ojv7+gYY3RYcWUJg==
+X-Provags-ID: V03:K1:eRSeW4PJIGssh/5M3NkXRiTW3dOVBM6Og7Z93prx9vqyWoQpOh8
+ Ax0mO7cda3IQIsEZLIV2zyez3BqNfDOzrLF9FRn4Y149joFv74w0gapuLID3YWN6xHfg7H6
+ lPwPNaENP0Jts2kzu5PeY5OMtw71VWxqePrTSL8S4Hg/knmz6BR/6uj2w2YATuGuD8sFYIH
+ CBCf40KUfpMZuS29jb9mA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h4IFC4aVW08=:HnCeX4OCRi/TeYynLI1xBD
- zZKE9O64nRYUapljhlHNsnE428kIdlgmS5NUXtlqstdQ3i6oLaDzRL37vQBkWyMsGgjIG7B3r
- AEHXoy9i5/08pmUOKJc6i6EtNz5775Fyq93zNu1BFKNOZ9vSV0gJuqGn16ZcaybNUR1yQuIvL
- eJ3RIhqxunXfkLNyApuzq6XgcEP3QD/Ez+xLIJQ7sjLSgGpBjsHdfBS7jssqs7Op2LnWNFFdD
- TBLVB1WBKvkJukLv3z/hyQifCRCTKcCc7znZxF3DUSFUjnqIM2WxhzqAEzWgADwT48eCIGGLI
- zh23v7XvmTHtSBoYLk0sImX1V673Zzpc+ZqkRyDJbVhvEp/gEeQcYL80L0zkPNQP1iGjXyy2j
- YIOQFdBJLdVcSJLO/xnJ3RYiDCLgZ8BOgR5R05A9Slvqcqxj5LjFfvDPMv5ATnGntEIrnnEgj
- i3lBt92pV1hHqsxv+OH4J1yGhPC0gFlJaMicyDZOLFS5I/tCiYM10JLYJUa8c2/Y3kMuR11yL
- 0rl08NyM/g2OYXneYh5HJiN0oUF0gB9yQ8v6McItgQcTYj8A2yK9DCx5Bh1b/HwAHZsAmJO3b
- MKf8zxQZ+8psG641SzPenI4g10fwqYv5w5ctR0lmrpNW6e8Xwf7w6BlOAaddoRt+4pu0vwpnl
- ehwv5kDgoRKJbfeAPLsziUC6wW1gBBSN3Psj4d4qDqqGLp2RsJx6OIP22Cm5bnZgaWv84LHxC
- 9TIujyV9WwCy1AcKD7kbF3ZungYAxpv3QaftNTguBsr2Crp8NJJCrF/pSvN5Ph3zEuILscDIb
- one6vqUdIQrjC1wpWRNS1YShHnlHtokbNlZdOJjmoZQHcHjCLZF3QBgPmhJh92VcVxe0uK6g4
- 1tWwV7y+1JyT6mdHw5A6k50sim/AinXXXujzqusU/ak+wpvZ8B38BJrUIlQSaTfPoDDYFV45/
- rYNt6dIWIDSdXh30U1dP6gg+jS/LRAdqX5kByxSfEP2Ntrbe4StmT84eOBoljJEfecBZB6EqW
- EEFjsm1ak+T7JqzbluMEYohOeTxFplQa3xrK3g7wH1oE1X+Xdo+TFejfeaJgvJ1Dz35pO2TGA
- nU0OXeBV3AtABBKgLTLYOppGaoDv05E91gpo/TVIV52bFe0ToBStaHFQg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bWjkjY+hQbs=:gfeB4WA58CZy4EfG67nxkX
+ 5cXuvP7udvnFQMddeAmaWjLy4aDBDevEv1vnxaMOetJrOh0AXkmUeQ40uo07yKan1/HajTdDV
+ 8bdJ1Ofx2eUvS95aoLDrl5DfRhY1cKU9n+o5WMDn4o2F9Hv5WB+iRxrNQNdNdaPz2Oatpkazu
+ AaBHb8kTvi62/QkoKRJtOY+5M9OXP1i73DwGqfh2QHuQCSvNDwfAfUzKE/GGG/vYvdfUzcLcC
+ ZOnsHOGixOTFEvyiwdiFZ+rltWQKO95w4nkJgL/IAJvkXmImufnQlX+OHOR9qIpi8OQAcxMC5
+ qls25f6XB7HVp/iyguytExp4jODLx3iIDSJS4bSHzLlPR4bPim7zvWguO+3MgQYfs/mvV2uet
+ V8pmv9gmOrkoeVTnLqRcNpsKnKT1Bf6JGOmqHm2qFsZ7eZvyiH/pnj5pCMXEhQdtkwXyNPlvC
+ 7u0URUWrvpQNxVVGo8Pe0FVUO9HNqtTbYWo0ezoXGA2v4NheOJkkSgN2nWGtyo/THJtafBxPu
+ F21q4g5aadCIXckmq6k0aRUo48gnlmtP7TVGHZxthDRLR2KLiOd9gpo0+1vn9vNBJbBvRvJWM
+ qGp61OSRW9sq9ZIEB7KHoy7zQMxicKL+yi4ktNO2ygA+QZOy0+UyUXGaxHsmWulXYLChxXGjW
+ 8Yjbb/RtZG7u1T22+NesNyr+TOlSm5ZyczdCljK0HyuTg+A6AfoX4YjxwX98s1jO8pVGki6et
+ ItSt1oOlQy2URTxN3Qz88Yo4KIaiZ9Ac+lbO1JUGIUO0b0iX8oo/IvjTAZLDSK4xvI8tBdOkw
+ 0FwrnpNBKU9bIJ3WPFkbKZh4nJ1ygVaxVC8ny0GGu9l+W8p2pAhcdbo3hEuCT5RngnYhyEt+S
+ dstUFK2wqvMOMQhXe+PfD1PRxZTHZ/6zbXtpD4A6s2XOFse3+XLrpiWXZuq3oustBY5Y77PjN
+ cz1VkSmhF5hU/nPxh3xK6bkqIPeIgE6agvVw3EFDoge/5NFJfGxilk3di0E59+O0CFdJ1dWpq
+ S7xWnwxsIpF8ymELT9uCuOTtlbmRlksnhbwr/w+JC6LmqH1smplzl8wJSjaLQCacwiZPQJWi6
+ Gh4BR51KJlcazs5ZE9vYGjkAxugC+tzlGvqNIKVKRD3bZD5zuDfDNOunA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,33 +76,29 @@ Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/3/22 11:23, Zheyu Ma wrote:
+On 8/3/22 11:24, Zheyu Ma wrote:
 > Since the user can control the arguments of the ioctl() from the user
-> space, under special arguments that may result in a divide-by-zero bug
-> in:
->   drivers/video/fbdev/arkfb.c:784: ark_set_pixclock(info, (hdiv * info->=
-var.pixclock) / hmul);
-> with hdiv=3D1, pixclock=3D1 and hmul=3D2 you end up with (1*1)/2 =3D (in=
-t) 0.
-> and then in:
->   drivers/video/fbdev/arkfb.c:504: rv =3D dac_set_freq(par->dac, 0, 1000=
-000000 / pixclock);
-> we'll get a division-by-zero.
+> space, under special arguments that may result in a divide-by-zero bug.
+>
+> If the user provides an improper 'pixclock' value that makes the argumet
+> of i740_calc_vclk() less than 'I740_RFREQ_FIX', it will cause a
+> divide-by-zero bug in:
+>     drivers/video/fbdev/i740fb.c:353 p_best =3D min(15, ilog2(I740_MAX_V=
+CO_FREQ / (freq / I740_RFREQ_FIX)));
 >
 > The following log can reveal it:
 >
 > divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-> RIP: 0010:ark_set_pixclock drivers/video/fbdev/arkfb.c:504 [inline]
-> RIP: 0010:arkfb_set_par+0x10fc/0x24c0 drivers/video/fbdev/arkfb.c:784
+> RIP: 0010:i740_calc_vclk drivers/video/fbdev/i740fb.c:353 [inline]
+> RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:646 [inline]
+> RIP: 0010:i740fb_set_par+0x163f/0x3b70 drivers/video/fbdev/i740fb.c:742
 > Call Trace:
 >  fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1034
 >  do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
 >  fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
 >
-> Fix this by checking the argument of ark_set_pixclock() first.
+> Fix this by checking the argument of i740_calc_vclk() first.
 >
-> Fixes: 681e14730c73 ("arkfb: new framebuffer driver for ARK Logic cards"=
-)
 > Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 
 applied to fbdev git tree.
@@ -113,26 +107,36 @@ Thanks!
 Helge
 
 > ---
->  drivers/video/fbdev/arkfb.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  drivers/video/fbdev/i740fb.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-> index eb3e47c58c5f..ed76ddc7df3d 100644
-> --- a/drivers/video/fbdev/arkfb.c
-> +++ b/drivers/video/fbdev/arkfb.c
-> @@ -781,7 +781,12 @@ static int arkfb_set_par(struct fb_info *info)
->  		return -EINVAL;
->  	}
+> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
+> index 09dd85553d4f..7f09a0daaaa2 100644
+> --- a/drivers/video/fbdev/i740fb.c
+> +++ b/drivers/video/fbdev/i740fb.c
+> @@ -400,7 +400,7 @@ static int i740fb_decode_var(const struct fb_var_scr=
+eeninfo *var,
+>  	u32 xres, right, hslen, left, xtotal;
+>  	u32 yres, lower, vslen, upper, ytotal;
+>  	u32 vxres, xoffset, vyres, yoffset;
+> -	u32 bpp, base, dacspeed24, mem;
+> +	u32 bpp, base, dacspeed24, mem, freq;
+>  	u8 r7;
+>  	int i;
 >
-> -	ark_set_pixclock(info, (hdiv * info->var.pixclock) / hmul);
-> +	value =3D (hdiv * info->var.pixclock) / hmul;
-> +	if (!value) {
+> @@ -643,7 +643,12 @@ static int i740fb_decode_var(const struct fb_var_sc=
+reeninfo *var,
+>  	par->atc[VGA_ATC_OVERSCAN] =3D 0;
+>
+>  	/* Calculate VCLK that most closely matches the requested dot clock */
+> -	i740_calc_vclk((((u32)1e9) / var->pixclock) * (u32)(1e3), par);
+> +	freq =3D (((u32)1e9) / var->pixclock) * (u32)(1e3);
+> +	if (freq < I740_RFREQ_FIX) {
 > +		fb_dbg(info, "invalid pixclock\n");
-> +		value =3D 1;
+> +		freq =3D I740_RFREQ_FIX;
 > +	}
-> +	ark_set_pixclock(info, value);
->  	svga_set_timings(par->state.vgabase, &ark_timing_regs, &(info->var), h=
-mul, hdiv,
->  			 (info->var.vmode & FB_VMODE_DOUBLE)     ? 2 : 1,
->  			 (info->var.vmode & FB_VMODE_INTERLACED) ? 2 : 1,
+> +	i740_calc_vclk(freq, par);
+>
+>  	/* Since we program the clocks ourselves, always use VCLK2. */
+>  	par->misc |=3D 0x0C;
 
