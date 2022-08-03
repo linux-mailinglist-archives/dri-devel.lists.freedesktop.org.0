@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE03588CDA
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 15:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88981588D67
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 15:42:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9BAF1131BC;
-	Wed,  3 Aug 2022 13:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A7414A361;
+	Wed,  3 Aug 2022 13:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7821218B40B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 13:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1659532639;
- bh=2uXVOsfdm/Cp3uY6kF6GOzfMslaJ+Q2URlY6OMkhB4k=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=iUwyh9kivAhjHDlcF29t/6ST0ba/e5FHfKgjwoD9WzmxwR57Fevoqu7kmOaNGXP1x
- JF2oY6YA2UGTTF2yR+zB52qlz4SeeSDrnoONmPggQnpiRXKUUBFW//BRXsskDZbv9z
- E5FzmuyroQmiHk8W8RoZ5ZNMgb8RSzqkFaAAQUqU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.136.66]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MWRVb-1nue1M2bf9-00Xx87; Wed, 03
- Aug 2022 15:17:19 +0200
-Message-ID: <cc6fd011-7859-3e3e-b5dd-54cdf0d4c348@gmx.de>
-Date: Wed, 3 Aug 2022 15:16:31 +0200
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D087718A824
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 13:41:36 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id r4so13786642edi.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Aug 2022 06:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G1ZD0h2YWrR0hMjVozSrbot3VwSQIRL5ULo1ojHt/wI=;
+ b=pQXBP9zB/5FoJoNLS/7/ZY55/FGlmxrPg/TLdHOBr63hmDFhK5qhq4im/D7R9m2qqm
+ 6SgfKoPXBurhnCZ2DbbKJyxsioz7A9niypOjNU46BgcwsIilqTIJUuWFfLtoqAF34+Ks
+ BZGVVB8nca+7awkw7PhHa30On+19lUmhOhE5ZT1yvd1dSE2ECleSdEBs7aHkk5FpFDdS
+ m1LeaGSylWpmIhDeNq4rriuNpVNhc7/EYQumlueInxlCE4Geb3e1gwdFMOuG7hBhm/O7
+ fSOAhKDenBg6/eaGfcqBwFk7l1gx+chgePmp2xKQlCeTque5Vn2MV1UHzU0njHtd9ba2
+ 9ebQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G1ZD0h2YWrR0hMjVozSrbot3VwSQIRL5ULo1ojHt/wI=;
+ b=t2Di7sGnaGh20vhDqtS2/a8FnX4//tdr0LRHmATk2eDRQM/b1BUEnEz1KUdzLefnTx
+ 5YJfclV0RChKDlTz6OGqK66pIaWHX+6c15MLuLCOJkj/H7m9cbuzLwDTZA/fDFdfMQMZ
+ wkAhoFizmVfIDZHE/oaXgmOHGUGoc3BK+tE7c1xmFGtJv7UR0jKa2QdzcB+FL3IJqde5
+ B9aX9Rel9Cu8FaPIiZqgjtmoPZ4wbYNE2WPTmGi6zoxhbo3ehUGEzbkoIAwcTZ3bv7Ee
+ oOEa/h6TDnblgXS/Aa+Vm1H+8v1i05R7k6YSMnKAYEsFiDS4AvgJ6sx3SCv1radJITYq
+ DNZw==
+X-Gm-Message-State: AJIora/+HV/3qAD4CTXEJIznE1Jhbm9DKaI+K/+divGbFZpeSY+lpgtY
+ W5XIKl/yMQJPCzDFLD9EmatnSM3A/BZOqvuGBGx3rA==
+X-Google-Smtp-Source: AGRyM1seWScXiWZMavg3EsgpzdbrT3+jpm6LSsu2M8qVNr3eC/2rjrG3Fxr0Mrrn6er3AkGl4oLgu7SJU7bTicpn3K8=
+X-Received: by 2002:aa7:d60b:0:b0:43c:f7ab:3c8f with SMTP id
+ c11-20020aa7d60b000000b0043cf7ab3c8fmr25516672edr.6.1659534095310; Wed, 03
+ Aug 2022 06:41:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] video: fbdev: i740fb: Check the argument of
- i740_calc_vclk()
-Content-Language: en-US
-To: Zheyu Ma <zheyuma97@gmail.com>
-References: <20220803092419.2821723-1-zheyuma97@gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220803092419.2821723-1-zheyuma97@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+References: <CAOMZO5BAheG4r1Umnd7bLhOqezsxJgE0x1c-858EcabbpPm6Pg@mail.gmail.com>
+ <20220801225538.qtdb5zd66g6ipewz@pengutronix.de>
+ <CAOMZO5DUTxQKbpTVOgaVC0V7hPqJG77sgmkW8p=aNpG8th-aLw@mail.gmail.com>
+ <CAHCN7xL2w7a=SeXbwcNNxqb3kpRV9Bs0AbK0Nmjbj+dm0NDaVA@mail.gmail.com>
+ <CAOMZO5BQWnUj4Ouq3=vhqq55zN8otO_9vPX8ht+muFM_5pg9Fg@mail.gmail.com>
+ <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
+ <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
+ <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
+ <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
+ <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
+ <20220803062024.vn7awasmifkp5xow@pengutronix.de>
+ <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
+ <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
+ <CAHCN7x+HSPJpYYDgV_F91ZsPHW9Uwze8KRAqWE-XAyp5yzB9Hw@mail.gmail.com>
+In-Reply-To: <CAHCN7x+HSPJpYYDgV_F91ZsPHW9Uwze8KRAqWE-XAyp5yzB9Hw@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 3 Aug 2022 14:41:18 +0100
+Message-ID: <CAPY8ntCeUXRqNVyxU7ey6P99pZ3XAXcVHL65bdb3f0qbcK+rBA@mail.gmail.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+To: Adam Ford <aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:eRSeW4PJIGssh/5M3NkXRiTW3dOVBM6Og7Z93prx9vqyWoQpOh8
- Ax0mO7cda3IQIsEZLIV2zyez3BqNfDOzrLF9FRn4Y149joFv74w0gapuLID3YWN6xHfg7H6
- lPwPNaENP0Jts2kzu5PeY5OMtw71VWxqePrTSL8S4Hg/knmz6BR/6uj2w2YATuGuD8sFYIH
- CBCf40KUfpMZuS29jb9mA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bWjkjY+hQbs=:gfeB4WA58CZy4EfG67nxkX
- 5cXuvP7udvnFQMddeAmaWjLy4aDBDevEv1vnxaMOetJrOh0AXkmUeQ40uo07yKan1/HajTdDV
- 8bdJ1Ofx2eUvS95aoLDrl5DfRhY1cKU9n+o5WMDn4o2F9Hv5WB+iRxrNQNdNdaPz2Oatpkazu
- AaBHb8kTvi62/QkoKRJtOY+5M9OXP1i73DwGqfh2QHuQCSvNDwfAfUzKE/GGG/vYvdfUzcLcC
- ZOnsHOGixOTFEvyiwdiFZ+rltWQKO95w4nkJgL/IAJvkXmImufnQlX+OHOR9qIpi8OQAcxMC5
- qls25f6XB7HVp/iyguytExp4jODLx3iIDSJS4bSHzLlPR4bPim7zvWguO+3MgQYfs/mvV2uet
- V8pmv9gmOrkoeVTnLqRcNpsKnKT1Bf6JGOmqHm2qFsZ7eZvyiH/pnj5pCMXEhQdtkwXyNPlvC
- 7u0URUWrvpQNxVVGo8Pe0FVUO9HNqtTbYWo0ezoXGA2v4NheOJkkSgN2nWGtyo/THJtafBxPu
- F21q4g5aadCIXckmq6k0aRUo48gnlmtP7TVGHZxthDRLR2KLiOd9gpo0+1vn9vNBJbBvRvJWM
- qGp61OSRW9sq9ZIEB7KHoy7zQMxicKL+yi4ktNO2ygA+QZOy0+UyUXGaxHsmWulXYLChxXGjW
- 8Yjbb/RtZG7u1T22+NesNyr+TOlSm5ZyczdCljK0HyuTg+A6AfoX4YjxwX98s1jO8pVGki6et
- ItSt1oOlQy2URTxN3Qz88Yo4KIaiZ9Ac+lbO1JUGIUO0b0iX8oo/IvjTAZLDSK4xvI8tBdOkw
- 0FwrnpNBKU9bIJ3WPFkbKZh4nJ1ygVaxVC8ny0GGu9l+W8p2pAhcdbo3hEuCT5RngnYhyEt+S
- dstUFK2wqvMOMQhXe+PfD1PRxZTHZ/6zbXtpD4A6s2XOFse3+XLrpiWXZuq3oustBY5Y77PjN
- cz1VkSmhF5hU/nPxh3xK6bkqIPeIgE6agvVw3EFDoge/5NFJfGxilk3di0E59+O0CFdJ1dWpq
- S7xWnwxsIpF8ymELT9uCuOTtlbmRlksnhbwr/w+JC6LmqH1smplzl8wJSjaLQCacwiZPQJWi6
- Gh4BR51KJlcazs5ZE9vYGjkAxugC+tzlGvqNIKVKRD3bZD5zuDfDNOunA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,72 +78,273 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Marco Felsch <m.felsch@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, robert.chiras@nxp.com,
+ NXP Linux Team <linux-imx@nxp.com>, laurentiu.palcu@nxp.com,
+ Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/3/22 11:24, Zheyu Ma wrote:
-> Since the user can control the arguments of the ioctl() from the user
-> space, under special arguments that may result in a divide-by-zero bug.
+On Wed, 3 Aug 2022 at 13:31, Adam Ford <aford173@gmail.com> wrote:
 >
-> If the user provides an improper 'pixclock' value that makes the argumet
-> of i740_calc_vclk() less than 'I740_RFREQ_FIX', it will cause a
-> divide-by-zero bug in:
->     drivers/video/fbdev/i740fb.c:353 p_best =3D min(15, ilog2(I740_MAX_V=
-CO_FREQ / (freq / I740_RFREQ_FIX)));
+> On Wed, Aug 3, 2022 at 7:17 AM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi Adam
+> >
+> > On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Wed, Aug 3, 2022 at 1:20 AM Marco Felsch <m.felsch@pengutronix.de>=
+ wrote:
+> > > >
+> > > > On 22-08-02, Adam Ford wrote:
+> > > >
+> > > > ...
+> > > >
+> > > > > > I did some reading about the internal timing generator.  It app=
+ears
+> > > > > > that it's required when video formats use fractional bytes, and=
+ it's
+> > > > > > preconfigured to run at 720p by default, but registers 28h thro=
+ugh 37h
+> > > > > > configure it for other video modes.
+> > > > >
+> > > > > I think there may still be some issues with the DSIM since some o=
+f the
+> > > > > clock frequencies are set in the device tree.
+> > > > >
+> > > > > From what I can tell, the pixel rate is calculated based on the
+> > > >
+> > > > By pixel rate you mean the HDMI pixel rate from the ADV? If so then=
+ yes.
+> > > > The ADV has an divider which is already configured by the driver bu=
+t
+> > > > meaningless since the driver is lacking of setting the "manual-divi=
+der"
+> > > > bit within the same register.
+> > >
+> > > I was thinking about the pixel clock from the DSI to the ADV.  I did
+> > > see the manual-divider bit was missing.  I tried enabling that bit,
+> > > but it didn't appear to make much difference.
+> > > >
+> > > > > burst-clock-frequency and that generates a byte clock.  For 89100=
+0000,
+> > > > > the byte clock is 111375000.
+> > > >
+> > > > The burst-clock-frequency is the hs-clk and DDR. So the MIPI-DSI cl=
+ock
+> > > > is burst-clock-frequency/2 which is in your case: 891000000/2 =3D
+> > > > 445500000. This clock is than divided by 3 within the ADV and you g=
+et
+> > > > your 148500000 pixel clock. This divide by 3 is detected automatica=
+lly
+> > > > by the ADV due to the missing bit (see above).
+> > > >
+> > > > > Modetest timings for 1080p show:
+> > > > >
+> > > > > index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
+> > > > >   #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 1485=
+00
+> > > > > flags: nhsync, nvsync; type: driver
+> > > > >
+> > > > >
+> > > > > When looking at modetest, there is a clock for 1080p which appear=
+s to be 148500.
+> > > > > 111375000/148500 =3D 750.
+> > > >
+> > > > Please see above.
+> > > >
+> > > > > The rest of the entries in my table do not divide evenly.  I don;=
+t
+> > > > > know if that explains the lack of display, but it's something to =
+note.
+> > > > > It seems to me that instead of fixing the
+> > > > > samsung,burst-clock-frequency to 891000000, we should make the de=
+sired
+> > > > > PLL related to the desired pixel clock so it divides evenly.
+> > > >
+> > > > Please see above.
+> > > >
+> > > > > Looking at NXP's kernel, I also noticed that their esc_prescaler =
+is
+> > > > > based on the byte clock divided by 20MHz.  With some small code
+> > > > > changes to get the PLL based on the desired pixel clock instead o=
+f
+> > > > > hard-coded,  I was able to set
+> > > > >
+> > > > > samsung,burst-clock-frequency =3D <1500000000>;
+> > > >
+> > > > This is not correct since the burst-clock-freq. specifies the hs-cl=
+ock
+> > > > for the data lanes (see above).
+> > >
+> > > But I don't think the clock should be fixed. I think it should vary a=
+s
+> > > the resolution changes.  From what I can tell, NXP's DSI code doesn't
+> > > hard code this value, but it does appear to cap it at 1.5G.  I did
+> > > soom looking into the NXP frequency calculation and it is capable of
+> > > adjusting resolutions to some extent and from what I can see the
+> > > 891MHz clock is only set when 1080p.  At 720p, thier kernel shows the
+> > > output frequency at  445.5 MHz.  The way the DSIM is currently
+> > > configured, it's fixed at 891MHz, so I don't expect the output feedin=
+g
+> > > the adv7535 to be correct for the different resolutions.
+> > >
+> > >
+> > > >
+> > > > > samsung,esc-clock-frequency =3D <20000000>;
+> > > >
+> > > > This is correct, we also use a esc-clock of 20MHz.
+> > > >
+> > > > > With these settings and the above mentioned code changes, 1080p s=
+till
+> > > > > appears, however when attempting other modes, the display still f=
+ails
+> > > > > to load.  I also noticed that the phy ref clock is set to 27MHz
+> > > > > instead of NXP's 12MHz.
+> > > >
+> > > > That's interesting, I didn't noticed that NXP uses 12 MHz as refclo=
+ck
+> > > > but I don't think that this is the problem. Since we have other
+> > > > converter chips using the bridge driver and they work fine. I still
+> > > > think that the main problem is within the ADV driver.
+> > >
+> > > Do the other converter chips work fine at different resolutions?
+> > >
+> > > >
+> > > > > I attempted to play with that setting, but I couldn't get 1080p t=
+o
+> > > > > work again, so I backed it out.
+> > > > >
+> > > > > Maybe I am headed in the wrong direction, but I'm going to examin=
+e the
+> > > > > P/M/S calculation of the timing on NXP's kernel to see how the DS=
+IM in
+> > > > > this code compares.
+> > > >
+> > > > I think the pms values are fine.
+> > >
+> > > I compared the P/M/S values between this driver and NXP's and they
+> > > calculate different values of PMS when running at 1080P.
+> > > NXP @ 1080p:
+> > > fout =3D 891000, fin =3D 12000, m =3D 297, p =3D 2, s =3D 1, best_del=
+ta =3D 0
+> > >
+> > > This kernel @ 1080p:
+> > >
+> > > PLL freq 891000000, (p 3, m 99, s 0)
+> > >
+> > > at 720P, the NXP Kernel
+> > > fout =3D 445500, fin =3D 12000, m =3D 297, p =3D 2, s =3D 2, best_del=
+ta =3D 0
+> > > (working)
+> > >
+> > > at 720P, this kernel:
+> > > PLL freq 891000000, (p 3, m 99, s 0)
+> > > hs_clk =3D 891000000, byte_clk =3D 111375000, esc_clk =3D 18562500
+> > > (not working)
+> > >
+> > >
+> > > >
+> > > > > If someone who understands the interactions between these differe=
+nt
+> > > > > components has suggestions, I'm willing to run some experiments.
+> > > >
+> > > > Did managed to get access to the ADV7535 programming guide? This is=
+ the
+> > > > black box here. Let me check if I can provide you a link with our r=
+epo
+> > > > so you can test our current DSIM state if you want.
+> > >
+> > > I do have access to the programming guide, but it's under NDA, but
+> > > I'll try to answer questions if I can.
+> >
+> > Not meaning to butt in, but I have datasheets for ADV7533 and 7535
+> > from previously looking at these chips.
 >
-> The following log can reveal it:
+> Thanks for the feedback.
 >
-> divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-> RIP: 0010:i740_calc_vclk drivers/video/fbdev/i740fb.c:353 [inline]
-> RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:646 [inline]
-> RIP: 0010:i740fb_set_par+0x163f/0x3b70 drivers/video/fbdev/i740fb.c:742
-> Call Trace:
->  fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1034
->  do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
->  fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
+> > Mine fairly plainly states:
+> > "The DSI receiver input supports DSI video mode operation only, and
+> > specifically, only supports nonburst mode with sync pulses".
+> > Non-burst mode meaning that the DSI pixel rate MUST be the same as the
+> > HDMI pixel rate.
 >
-> Fix this by checking the argument of i740_calc_vclk() first.
+> Mine also states the DSI source needs to provide correct video timing
+> with start and stop sync packets.
 >
-> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+> If I remember correctly, it seemed like Marek V wanted the hard coded
+> samsung,burst-clock-frequency to go away so the clock frequency could
+> be set dynamically.
 
-applied to fbdev git tree.
+I've never worked with Exynos or imx8, but my view would be that
+samsung,burst-clock-frequency should only be used if
+MIPI_DSI_MODE_VIDEO_BURST is set in the mode_flags (it isn't for
+adv7533/5).
+Without that flag the DSI link frequency should be running at the rate
+defined by the mode clock, number of lanes, bpp, etc.
 
-Thanks!
-Helge
+From the DSI spec (v 1.1 section 8.11.1):
+"Non-Burst Mode with Sync Pulses =E2=80=93 enables the peripheral to
+accurately reconstruct original video timing, including sync pulse
+widths."
+"RGB pixel packets are time-compressed, leaving more time during a
+scan line for LP mode (saving power) or for multiplexing other
+transmissions onto the DSI link."
+How can the peripheral reconstruct the video timing off a quirky link frequ=
+ency?
 
-> ---
->  drivers/video/fbdev/i740fb.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-> index 09dd85553d4f..7f09a0daaaa2 100644
-> --- a/drivers/video/fbdev/i740fb.c
-> +++ b/drivers/video/fbdev/i740fb.c
-> @@ -400,7 +400,7 @@ static int i740fb_decode_var(const struct fb_var_scr=
-eeninfo *var,
->  	u32 xres, right, hslen, left, xtotal;
->  	u32 yres, lower, vslen, upper, ytotal;
->  	u32 vxres, xoffset, vyres, yoffset;
-> -	u32 bpp, base, dacspeed24, mem;
-> +	u32 bpp, base, dacspeed24, mem, freq;
->  	u8 r7;
->  	int i;
->
-> @@ -643,7 +643,12 @@ static int i740fb_decode_var(const struct fb_var_sc=
-reeninfo *var,
->  	par->atc[VGA_ATC_OVERSCAN] =3D 0;
->
->  	/* Calculate VCLK that most closely matches the requested dot clock */
-> -	i740_calc_vclk((((u32)1e9) / var->pixclock) * (u32)(1e3), par);
-> +	freq =3D (((u32)1e9) / var->pixclock) * (u32)(1e3);
-> +	if (freq < I740_RFREQ_FIX) {
-> +		fb_dbg(info, "invalid pixclock\n");
-> +		freq =3D I740_RFREQ_FIX;
-> +	}
-> +	i740_calc_vclk(freq, par);
->
->  	/* Since we program the clocks ourselves, always use VCLK2. */
->  	par->misc |=3D 0x0C;
+Unless the Exynos DSIM_CONFIG_REG register bit DSIM_BURST_MODE [1]
+reconfigures the clock setup of the DSI block, then I don't see how
+the Exynos driver can follow the DSI spec in that regard.
 
+Hope that helps.
+
+  Dave
+
+[1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/exynos/e=
+xynos_drm_dsi.c#L803
+
+> I have attempted to do some of this work based on
+> what I am seeing in the NXP kernel, and I get get my monitor to sync
+> at some resolutions, but the screen is usually all green or all blue,
+> so it's not really a success.  The clock part appears to be good
+> enough to make the monitor see some sort of signal, so I am going to
+> investigate the calculation of the rest of the video timings to see if
+> I can fix the color issue.
+>
+> > Section 6.1.1 "DSI Input Modes" of adv7533_hardware_user_s_guide is
+> > even more explicit about the requirement of DSI timing matching
+> >
+> > The NXP kernel switching down to an hs_clk of 445.5MHz would therefore
+> > be correct for 720p operation.
+> >
+> > If you do program the manual DSI divider register to allow a DSI pixel
+> > rate of 148.5MHz vs HDMI pixel rate of 74.25MHz, you'd be relying on
+> > the ADV753x having at least a half-line FIFO between DSI rx and HDMI
+> > tx to compensate for the differing data rates. I see no reference to
+> > such, and I'd be surprised if it was more than a half dozen pixels to
+> > compensate for the jitter in the cases where the internal timing
+> > generator is mandatory due to fractional bytes.
+>
+> Thanks Dave!
+>
+> adam
+>
+> >
+> >   Dave
+> >
+> > > adam
+> > > >
+> > > > Regards,
+> > > >   Marco
