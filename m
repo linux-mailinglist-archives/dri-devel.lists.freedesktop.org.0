@@ -1,62 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49327589140
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 19:23:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB10258926D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 20:51:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC7C718A4B4;
-	Wed,  3 Aug 2022 17:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB7B113591;
+	Wed,  3 Aug 2022 18:50:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7E211B070;
- Wed,  3 Aug 2022 17:22:34 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id o3so17007867ple.5;
- Wed, 03 Aug 2022 10:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=9lYXINAlxxMxWSbvsI8AJB5wGlCbPGWBgmb6qoY0xm4=;
- b=icUeEm2PKM5WXTxzKJFNcPkN/1w9jNcDpqXthRNOePTbuqlNuwmsHAHZh0UYrco2uV
- lXR+rVyNGmoAWv2aWAhcNwvpmQzwtQesbe+v/Vzh/lmNO5VFrkMlvjCx1WaQz+PFah+h
- nTS71/uWhVJcrBUL5v0Rh5eVesXhkBSiPFXfVDPdFjGvxOeSPA5xtcsNWf4+Ub3z+cMc
- 6Fz98feK5mr4tkjugDJfIg1LD6KD2ldbfQ8BeLTqMnNiCsbCvMoO1loqoZA2xHNycKDK
- jv5vbUFjaZiD8X/ER6DfsPMdoKir8DziTFI6T8paN+D6pEsBOjegHkOKpkn2FYbpFvzC
- IXBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=9lYXINAlxxMxWSbvsI8AJB5wGlCbPGWBgmb6qoY0xm4=;
- b=VapRb3XShATGYMuwlEYapus6k8pkWAg4R5UxaFfpHD32rJKMkhmscvalGlqxOSBxr+
- Z//on2Hp9006TWiRcRLwz63zLi4M2z+S8fHJOVd9NbV8DM1R2H436P6HlnfP5uEdscoi
- RJ8I5JKHC3hRNlUwnt/Gbmx2tFyeo1U4GVu8gX5smGXn4URQSHBtfosTXu4nZkgTHCIA
- Kek3mk5OprPFTkccorf/xPRtk/SvIgmA4Quh3ddpOPnHxVmkAIRiUbVC+NxO3uuLGZzk
- Aq56JQRgYMiytKQN3fZix1dHI8fzoHHh4H0YeoZBnmUd7w6UMxdN8J7RRkR7w6HNpaZy
- IENQ==
-X-Gm-Message-State: ACgBeo1Vma7r7XmmLWWbgi2kO9sSk72MZVpBm3IT7k8g90313c+tjNne
- j6wDChPtBONl6YYp3efiY+EV5AaSah8=
-X-Google-Smtp-Source: AA6agR4anjaSlbUEFkuNTyBJBYjx1Dfme76YDiiwhXa3CuIz6Y3YjdykMMx8iwP5lYQ+74B54uQZXg==
-X-Received: by 2002:a17:90b:1c8e:b0:1f1:b5a8:330f with SMTP id
- oo14-20020a17090b1c8e00b001f1b5a8330fmr5815071pjb.179.1659547353432; 
- Wed, 03 Aug 2022 10:22:33 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b0016d01c133e1sm2226044plh.248.2022.08.03.10.22.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 10:22:31 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm/rd: Fix FIFO-full deadlock
-Date: Wed,  3 Aug 2022 10:23:02 -0700
-Message-Id: <20220803172302.1976981-2-robdclark@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220803172302.1976981-1-robdclark@gmail.com>
-References: <20220803172302.1976981-1-robdclark@gmail.com>
+X-Greylist: delayed 433 seconds by postgrey-1.36 at gabe;
+ Wed, 03 Aug 2022 09:28:28 UTC
+Received: from qq.com (smtpbg401.qq.com [113.96.223.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1E2C10EA0F;
+ Wed,  3 Aug 2022 09:28:28 +0000 (UTC)
+X-QQ-mid: bizesmtp66t1659518422tzylbcvz
+Received: from localhost.localdomain ( [58.240.82.166])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 03 Aug 2022 17:20:15 +0800 (CST)
+X-QQ-SSF: 01400000002000C0K000B00C0000000
+X-QQ-FEAT: SX/WFj88WPUxbTF4fAIy8feA+WbS0O/OdVIzxiN547FytXi3P1FLnwSOmn5Ue
+ GLflUhkiIY0OHLxLWqNHfRMF1NyEPY299Fn9TpbE+qsJQvjLbyO9hE/r9hQJEzKE7aQi9yl
+ kUY1OiWrmJtReOBNsVxA1j1fgtKTz9ik2D5Es8dIBfgkfRdHkPb/Wjiwokant2XroxS1PZL
+ yhIQSbH9aS14LMec+cOSbLFV9f636CiavPxXwc1ONXb2+bEwSkOWMr8U2bhTwTNWH0nJj84
+ 6/0NgasvDcCWYGCBHWjcfNgomBtqYvf7Y6W8z8Zbd1H5Q+KTotX+Nv2u+oOOwgrFd3sMMk4
+ hwqP3a63xmaL41XwJ0j/BFILIHlggrYZbiOnExPqtcaGg4/T1Xyi5Kdu+HFX/NXeW6iZ85V
+X-QQ-GoodBg: 2
+From: Zhen Ni <nizhen@uniontech.com>
+To: airlied@linux.ie, daniel@ffwll.ch, evan.quan@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
+Subject: [PATCH 1/2] drm/amd/pm: Fix a potential gpu_metrics_table memory leak
+Date: Wed,  3 Aug 2022 17:19:58 +0800
+Message-Id: <20220803091959.10030-1-nizhen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign3
+X-QQ-Bgrelay: 1
+X-Mailman-Approved-At: Wed, 03 Aug 2022 18:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Zhen Ni <nizhen@uniontech.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Memory is allocated for gpu_metrics_table in
+smu_v13_0_4_init_smc_tables(), but not freed in
+smu_v13_0_4_fini_smc_tables(). This may cause memory leaks, fix it.
 
-If the previous thing cat'ing $debugfs/rd left the FIFO full, then
-subsequent open could deadlock in rd_write() (because open is blocked,
-not giving a chance for read() to consume any data in the FIFO).  Also
-it is generally a good idea to clear out old data from the FIFO.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Zhen Ni <nizhen@uniontech.com>
 ---
- drivers/gpu/drm/msm/msm_rd.c | 3 +++
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-index a92ffde53f0b..db2f847c8535 100644
---- a/drivers/gpu/drm/msm/msm_rd.c
-+++ b/drivers/gpu/drm/msm/msm_rd.c
-@@ -196,6 +196,9 @@ static int rd_open(struct inode *inode, struct file *file)
- 	file->private_data = rd;
- 	rd->open = true;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c
+index 5a17b51aa0f9..7df360c25d51 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c
+@@ -190,6 +190,9 @@ static int smu_v13_0_4_fini_smc_tables(struct smu_context *smu)
+ 	kfree(smu_table->watermarks_table);
+ 	smu_table->watermarks_table = NULL;
  
-+	/* Reset fifo to clear any previously unread data: */
-+	rd->fifo.head = rd->fifo.tail = 0;
++	kfree(smu_table->gpu_metrics_table);
++	smu_table->gpu_metrics_table = NULL;
 +
- 	/* the parsing tools need to know gpu-id to know which
- 	 * register database to load.
- 	 *
+ 	return 0;
+ }
+ 
 -- 
-2.36.1
+2.20.1
+
+
 
