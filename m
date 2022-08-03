@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FA1589366
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Aug 2022 22:43:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A740589476
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 00:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB17410E1C3;
-	Wed,  3 Aug 2022 20:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1482811A106;
+	Wed,  3 Aug 2022 22:37:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A76891BA
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 20:43:02 +0000 (UTC)
-Date: Wed, 03 Aug 2022 20:42:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1659559379; x=1659818579;
- bh=8XlFONgs+Gi2FQsHSEeU9iW0mujgWJEVRuegN9bNLTc=;
- h=Date:To:From:Reply-To:Subject:Message-ID:Feedback-ID:From:To:Cc:
- Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=mjz8t/u86GK6GCz+1hImz3Z27W6reA+dGwV1Xu0IjweWFvXbMEzK2v4whaERVKqvX
- asY+78lHX4JXzyN5o0YBdKe7f/Ws4paBXexVRCakl53ekKxvZWguI6EN44ZuB/6Mjv
- aRGyN2GcAVDXuMeSmKoh6BLhaDBtwMA5Ux+laUmnfFHyQf5Q4/pLbom2N/yQpDViKT
- w6yZEmsbTAxlVNyqaa7xBmxVacCEs483iLZHwllOAu3EJQx/spelihnrDwLofGx816
- aAcqzIKXPELdnlUasS7l1y2oE226Yaldik6GrzXbFvnphVojDX9TH9I7AAV8XBzkNj
- w9v4yIIUZ4a5g==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: fix whitespace in drm_plane_create_color_properties()
-Message-ID: <20220803204240.33409-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+ [209.85.166.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6E0711B386
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Aug 2022 22:37:13 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id i84so1398736ioa.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Aug 2022 15:37:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=4pz4MBcrSjB8kB9MOPhMov58tyMfLBBMG6H3f2eOpjw=;
+ b=0Xs9zi2Xq+oEI0rUKy+/nVL35EOP5LYLIrZxDln0YBIwHzaLDSlIoAPLMoYMIsQ1lK
+ w2m03VleB+aV3KGXg6oFoZKW+oaYPH2EBnwwOrSRq0VU0aBq7gg5hPBJPiLnB3X1aMG/
+ m+j5YabCR2YsMKGWD6Btvf/tx9w51lyGm6BaNxEmRKMoIw6l7a0yZG9c9qxrU04vnUGi
+ EjQr8fhUrlwVuLx2rZWtRA/FFfJEIWCD/DoA6AnC07UTADsY/kkGWiJ0pwXha5XFz3FD
+ ZM+49Tp+C85fzv1wlXZQfdL4zKcblNAIL7/F7ubbjVIhrvTQmo8Ie11alTP6NOG+Z1qI
+ 4X7g==
+X-Gm-Message-State: AJIora87d804SWeilUj88R4sikOnFCVO9PpvGTVN4oAVxhAfkMzUl8bD
+ 6d4HL5J2//A4rCUTTmimbw==
+X-Google-Smtp-Source: AGRyM1vIT2vAplfGeDRkhgbxS2UqKelL062MMS4BX6biQYqaVsZYCUdK1voS1xq8V8TPBXgUgPtQ7w==
+X-Received: by 2002:a05:6638:2410:b0:341:5daa:2bc9 with SMTP id
+ z16-20020a056638241000b003415daa2bc9mr11576771jat.306.1659566232542; 
+ Wed, 03 Aug 2022 15:37:12 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ i2-20020a026002000000b0033f8af36a96sm8186583jac.165.2022.08.03.15.37.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Aug 2022 15:37:12 -0700 (PDT)
+Received: (nullmailer pid 2745689 invoked by uid 1000);
+ Wed, 03 Aug 2022 22:37:10 -0000
+Date: Wed, 3 Aug 2022 16:37:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: icn6211: Add support
+ for external REFCLK
+Message-ID: <20220803223710.GA2744605-robh@kernel.org>
+References: <20220801131747.183041-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220801131747.183041-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,34 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_property_create_enum() call for "COLOR_RANGE" contains a tab
-character in the middle of the argument list.
+On Mon, Aug 01, 2022 at 03:17:46PM +0200, Marek Vasut wrote:
+> The ICN6211 is capable of deriving its internal PLL clock from either
+> MIPI DSI HS clock, external REFCLK clock, or even internal oscillator.
+> Currently supported is only the first option. Document support for
+> external REFCLK clock input in addition to that.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../bindings/display/bridge/chipone,icn6211.yaml         | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> index 4f0b7c71313c3..18563ebed1a96 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+> @@ -24,6 +24,15 @@ properties:
+>      maxItems: 1
+>      description: virtual channel number of a DSI peripheral
+>  
+> +  clock-names:
+> +    const: "refclk"
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
- drivers/gpu/drm/drm_color_mgmt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Drop quotes.
 
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_m=
-gmt.c
-index 17c6c3eefcd6..d021497841b8 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -575,7 +575,7 @@ int drm_plane_create_color_properties(struct drm_plane =
-*plane,
- =09=09len++;
- =09}
-=20
--=09prop =3D drm_property_create_enum(dev, 0,=09"COLOR_RANGE",
-+=09prop =3D drm_property_create_enum(dev, 0, "COLOR_RANGE",
- =09=09=09=09=09enum_list, len);
- =09if (!prop)
- =09=09return -ENOMEM;
---=20
-2.37.1
+With that,
 
-
+Reviewed-by: Rob Herring <robh@kernel.org>
