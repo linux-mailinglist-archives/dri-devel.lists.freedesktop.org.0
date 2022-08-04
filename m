@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EEC589E37
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 17:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DD6589EED
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 17:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28598112D2A;
-	Thu,  4 Aug 2022 15:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 989CF9BF7C;
+	Thu,  4 Aug 2022 15:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A79914A5AC
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 15:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=CjqqfUDtTEDfLxHjiOJHQxNSFK3p9uEUwyce5c5CjE0=;
- b=CKUC6EE2HwjA8qgbnmkSfEc1cQzf+3Oi/+i5xMVZPuCArkppoeXCFVi74YeoQ6uRrXGP9r/XgcNf/
- 3S86IAl8Yzs/dO/uAudIp2TUt0lFbImTKBOcpjRucQ9EgUDYoqvFLPLR/UsVJHtgRlADdLQc7R0xQL
- 8G3y7wQxkB3dJus/bAqc1gYyPii7AMsLiqZAuwCdUwwS/vuc/oh/U4l1J2ymrPN6L+ibqdmjL6NmPA
- WRiQ9Bm+7pj/W7bBBY8IBlGVouB1dCBKI55amEnw2hoDX0k/0o5NfaGZfsNpp30BX880i/s4kvI65u
- UsnRApVZh07qShHVfyVTDcwHnLGvORw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=CjqqfUDtTEDfLxHjiOJHQxNSFK3p9uEUwyce5c5CjE0=;
- b=eTCfykPUvZvvTf0GSt3q0DvfJCyt8koBmZQc3yne+cImNpSzvPcHLqE2njiMWbrQqep8smwW6J4Ar
- 2DyBBQ4BQ==
-X-HalOne-Cookie: 859cbcbd99a20f6c40af0da7b86d4c94216a00f3
-X-HalOne-ID: 65595e50-1407-11ed-a6ca-d0431ea8a283
-Received: from mailproxy2.cst.dirpod3-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 65595e50-1407-11ed-a6ca-d0431ea8a283;
- Thu, 04 Aug 2022 15:09:11 +0000 (UTC)
-Date: Thu, 4 Aug 2022 17:09:10 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 26/32] drm/via: Add via_drm.h
-Message-ID: <YuvhFtd+gHXD4U9x@ravnborg.org>
-References: <20220725235359.20516-1-kevinbrace@gmx.com>
- <20220725235359.20516-7-kevinbrace@gmx.com>
- <f7a47d59-d4d2-61fb-4e42-1decff2e7d62@suse.de>
- <trinity-e1f9136b-24dd-44ed-861b-a0735c91422e-1659221316349@3c-app-mailcom-bs07>
- <43fd433c-f108-d75a-b141-f4ff985455b9@suse.de>
- <trinity-8c70d1f1-fd67-46a1-a84b-7cc771cca62d-1659411946174@3c-app-mailcom-bs03>
- <fdcca10e-1d63-4d00-af03-94ba1b9dab57@suse.de>
- <trinity-0dcadb0d-103a-403a-a915-02d19e8ba823-1659491389263@3c-app-mailcom-bs14>
- <72b40bf1-5252-1f10-e5a7-c0ccc8c9d98b@suse.de>
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69D5F9BF88
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 15:53:02 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id b96so266691edf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 08:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fireburn-co-uk.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kfOK7s3xFsw9XOCf5rZ5v1wNOUbWhtj/0D6S2FQvtM4=;
+ b=xkMI17oM3zfPjoCLWJIfoLEnzXtAFKPZa4ZWlivsE178VeTOwHGHU9Hr4pUoF4Fx5S
+ e5YGoJoRK/7ejxUK4KXnY7eldNgTsVQ2YrMR5ogMfXVKZJtB/QUM5al6wZmb10Kdg3jN
+ s80XcOp8siV+ER6lpOr5DSL58AxHq3TX45uYGA1BvPIJLivLpurOqY402nDfKfJZEzYY
+ kQnYggNAwZjX6kO83NC1DuySWHjriR7yj2vyTtF38zJF7oVm/t7a9+qkfrSmrcH2CSgW
+ 9rYw92j4oquUkSL8DYp7d/2V15rgUrXkgF1HU9mqEJzxSGqzGYh1tcYl0fdN0SrmHJ0G
+ LPtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kfOK7s3xFsw9XOCf5rZ5v1wNOUbWhtj/0D6S2FQvtM4=;
+ b=wzE7W/u6tvVlUJ1NyWWKBQyN1aKDyg32va2pVqQC12u62l5Y5wU2X9yaT6F8btXjvA
+ 4995V4IZqDwihb3nMc2Vpgn4i69kY1lwYmOy7prMbXnkX2xBfxF2FeG8E9046ep1cNko
+ te+e6onlBm4bGoLYABUJZwxnnDs4SvbZ1mVNxgoVihOqGqHLPk7OIrCnca6G56fdpK0X
+ aOjyNVkGl9baxmCnhwf0qNk9gg7yh1uwiCoqymAc+7KyVkae+X8xMPnqZO0cI/NpI/HF
+ 72C/sDj1ovcT+44qiXlnDS58XV5RsmpSzbGjjKEisZXqbbxES08V4IHV93zDqDubCJTl
+ 3Jlw==
+X-Gm-Message-State: ACgBeo0qcwZ0gP/0/vCJ/XfjX58g6FuhceTO/ca/QuFX/VCX+uPIv5mD
+ n4U22DN6u9qdRZ+2Gp/o5DcZTsG9QlSpsV6judHiJw==
+X-Google-Smtp-Source: AA6agR6lQ9q9dJTBGl3Gilpz3rF721hsEVFdi6SAsf5d+O2sa6KidsumgOaF4nVCpZCbmEiXDBPvWVfWUWYmNO/CD1s=
+X-Received: by 2002:a05:6402:2d1:b0:43c:bb20:71bf with SMTP id
+ b17-20020a05640202d100b0043cbb2071bfmr2688992edx.59.1659628380746; Thu, 04
+ Aug 2022 08:53:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72b40bf1-5252-1f10-e5a7-c0ccc8c9d98b@suse.de>
+References: <20220708102124.493372-1-Arunpravin.PaneerSelvam@amd.com>
+ <20220714145423.721e1c3b@maurocar-mobl2>
+ <83d9f973-abdd-3d8b-5955-84cfc3f49eea@amd.com>
+ <CADnq5_MNkeG4E9ZXRLpgFQxrDN9jDhk7KYYHbjvtY-cUt5Kk8A@mail.gmail.com>
+ <076231a3-38e9-e013-e106-aa926d009e77@amd.com>
+ <87zgh6b1dp.wl-ashutosh.dixit@intel.com>
+In-Reply-To: <87zgh6b1dp.wl-ashutosh.dixit@intel.com>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Thu, 4 Aug 2022 16:52:49 +0100
+Message-ID: <CAHbf0-EpHZmpqFgbyY753xQ2HZ_26bYT3qkYy0+EiVfYowzqxg@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/amdgpu: add drm buddy support to amdgpu"
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,27 +70,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Kevin Brace <kevinbrace@gmx.com>
+Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kevin,
+Hi
 
->  1) Get an un-accelerated driver merged without new uapi, ioctls, etc. All
-> you need is there already. We already agreed to take the code mostly as-is
-> and do the cleanups later on.
-> 
->  2a) Stay around on dri-devel, send improvements and fixes for the merged
-> code.
-> 
->  2b) In parallel, you can work on video, 3d, etc in both kernel and
-> userspace.
+When is this relanding?
 
-And on top of this the driver will see all the refactoring going on in
-drm drivers all the time, and we may find cases where the driver can use
-more of the drm helpers.
+Cheers
 
-I really hope to see next revision where there is focus on the general
-un-accelerated case and without the extras as Thomas mentions.
+Mike
 
-	Sam
+On Mon, 18 Jul 2022 at 21:40, Dixit, Ashutosh <ashutosh.dixit@intel.com> wr=
+ote:
+>
+> On Thu, 14 Jul 2022 08:00:32 -0700, Christian K=C3=B6nig wrote:
+> >
+> > Am 14.07.22 um 15:33 schrieb Alex Deucher:
+> > > On Thu, Jul 14, 2022 at 9:09 AM Christian K=C3=B6nig
+> > > <christian.koenig@amd.com> wrote:
+> > >> Hi Mauro,
+> > >>
+> > >> well the last time I checked drm-tip was clean.
+> > >>
+> > >> The revert is necessary because we had some problems with the commit
+> > >> which we couldn't fix in the 5.19 cycle.
+> > > Would it be worth reverting the revert and applying the actual fix[1]=
+?
+> > >   It's a huge revert unfortunately while the actual fix is like 10
+> > > lines of code.  I'm concerned there will be subtle fallout from the
+> > > revert due to how extensive it is.
+> >
+> > We have other bug fixes and cleanups around that patch which didn't mad=
+e it
+> > into 5.19 either. I don't want to create an ever greater mess.
+> >
+> > Real question is why building drm-tip work for me but not for others?
+>
+> Seeing this on latest drm-tip:
+>
+> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:54:1: error: redefinition of=
+ =E2=80=98amdgpu_vram_mgr_first_block=E2=80=99
+>    54 | amdgpu_vram_mgr_first_block(struct list_head *list)
+>       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:29,
+>                  from drivers/gpu/drm/amd/amdgpu/amdgpu.h:73,
+>                  from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:28:
+> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:57:1: note: previous definit=
+ion of =E2=80=98amdgpu_vram_mgr_first_block=E2=80=99 with type =E2=80=98str=
+uct drm_buddy_block *(struct list_head *)=E2=80=99
+>    57 | amdgpu_vram_mgr_first_block(struct list_head *list)
+>       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:59:20: error: redefinition o=
+f =E2=80=98amdgpu_is_vram_mgr_blocks_contiguous=E2=80=99
+>    59 | static inline bool amdgpu_is_vram_mgr_blocks_contiguous(struct li=
+st_head *head)
+>       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:62:20: note: previous defini=
+tion of =E2=80=98amdgpu_is_vram_mgr_blocks_contiguous=E2=80=99 with type =
+=E2=80=98bool(struct list_head *)=E2=80=99 {aka =E2=80=98_Bool(struct list_=
+head *)=E2=80=99}
+>    62 | static inline bool amdgpu_is_vram_mgr_blocks_contiguous(struct li=
+st_head *head)
+>       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> make[4]: *** [scripts/Makefile.build:249: drivers/gpu/drm/amd/amdgpu/amdg=
+pu_vram_mgr.o] Error 1
+> make[4]: *** Waiting for unfinished jobs....
+> make[3]: *** [scripts/Makefile.build:466: drivers/gpu/drm/amd/amdgpu] Err=
+or 2
+> make[2]: *** [scripts/Makefile.build:466: drivers/gpu/drm] Error 2
+> make[1]: *** [scripts/Makefile.build:466: drivers/gpu] Error 2
