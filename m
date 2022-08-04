@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E140B589BCE
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 14:42:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF9D589BD2
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 14:42:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250651139E8;
-	Thu,  4 Aug 2022 12:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B025D97998;
+	Thu,  4 Aug 2022 12:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 424A097971
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 12:41:41 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id h132so17833274pgc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 05:41:41 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6279749C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 12:41:45 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id f192so9783654pfa.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 05:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=Jxp/ZZ2IP/r5wdh/E9VL2sjWN7cCRv4O2EVI3aFNd88=;
- b=mB1b1iZj1jk6+iE3H8+0/DIUxhsUtKMmi1cUlKktRqiKRdQl6wcVCaH0fxiKE5L1St
- Oo0ssMdoZK+r/XpROJQAL4ajPnwpPXVyS3osq1JaxsveNY7yOUdGfwwVcgyxRjB/7+rD
- TatDIZp8jwH4Q892sSBKqahFwQjQh0tcbDYNmkFOpnl+GyaYDpreX6AY0LN/kjjWFVOp
- KjALY8HLg1vivHOSjiIKxVIuoT/K5JZwwypcojJ/gbMP0ILl+YPZy1lNDvz2V6+ybajI
- 5yjS77Vurc+ZDrE4mltLD27p3SSiNZrMPLy3NaQgwQ2c6Z6lz5tAfKQFxCDcvZoz+4o7
- K7XA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=w0Xxsd10rxzXzo6/5gdWcIy61xCxC4G1bz1u1E9fXCo=;
+ b=qD8j7MqqhHWzCEXuJN+GpeSzUdlAxRyaiur92DU6at98u5tgv2exchm9KnIJRPGGwS
+ 4RgMLhbFh/yr8Q5O4ECnkUGj9S8gVPjiXPm2LAFsx62EZjdxCo/OrIO5X5UEUWZsK5PU
+ UJFOkziuTiJVtruzn+BZy2AXNBM9tOueP9AeUKB8Os84d2OHraomImWx0uk3mxj4ocS9
+ yt97Dn5UzB1sUM9GM90TBP/DX0MFg4Jas3MDnu477/0yYH7Q8QAuxZGpZ0l1JAg0BiAr
+ f1sP+x3t5jzGDNAbbDywp0l0mt82aC4dm5lR37ou1KVyg69+j4Q+f6p4AxwrxFDJ3bHw
+ 8OLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=Jxp/ZZ2IP/r5wdh/E9VL2sjWN7cCRv4O2EVI3aFNd88=;
- b=IQHQMVWlkotPEQWIS1H8FDABl4wa+rNHvZ/XZ4EGhaljBYkR9mB+4gevj/N3dpX4WX
- lVOqvT55wYnS+96VgUIB3eAV8ymqY7ge4BHDJZQ/4hrUeDRJZ+Gjvus2DR8Kl+lSCPxY
- bFsHstBIT1GBMn5yA5bHG7DPqPGdFc0AVGhXQ67yVtunCg3k6E+c8SS02Cu18kEULGqp
- JUZfr3gi/mv1IDuTpU62Uf80A51DDJDTpUT8/fNjvpveN2TZInyhx4dN2KT6GKFVf5En
- plZeU1GcRF+bUS5mNC9cbn78+L29Oxv/oE2bW2NohFDn91SpkxmhhaEAits5EuyDRqzx
- JKuw==
-X-Gm-Message-State: ACgBeo0ySG3Ihg7PAvtxpxvvKB9zDfzCDJjiymUKyFx5HvsyZxDBOCg/
- d/44PbZnDn6vPWBsrBceQA==
-X-Google-Smtp-Source: AA6agR7OCkCZOlQGd61Gl4vRVugbgIJJG5uCOjm6CCDU2oMYjrbQ4/YazeoSktpsodzeVz9eh6wGsg==
-X-Received: by 2002:a05:6a00:1c4b:b0:52e:6c05:8f1f with SMTP id
- s11-20020a056a001c4b00b0052e6c058f1fmr1746153pfw.7.1659616900533; 
- Thu, 04 Aug 2022 05:41:40 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=w0Xxsd10rxzXzo6/5gdWcIy61xCxC4G1bz1u1E9fXCo=;
+ b=qKwpfvqUvtG/jHmjplBuFZYV2bu7+1ZmWka1PPBFgWXqan6y/Lr2lKDuTsOcxaP05W
+ /MoU7UPY/5/ChyfbL9vHuwljfaW/KDVR4+vLWfRGtOZbDUSi/tsc3R/Ew6p220wpDXDO
+ khDkFGGqs91AyOi/ELhROV5u1+r4sENn8KW22zVcr8HutaU/nYKEHcGb0eag70286MmS
+ tw9d8ymu3xJWNZ9KaiigZk9+ArRXhtZhNcepb3SLit39G3tREsIJ03dFdP3dt10UnOGI
+ 5B+O8fQFo5cFMWVAW+TaqBllzSxC5U/+UPNXA66f+i4zBhe5p+2cTqEsl3iXCA5zkKCg
+ 4Uuw==
+X-Gm-Message-State: ACgBeo0i6IVfkmNXLLWpfB4ANnklrboGT+o8IukcYW3WHilqbk4kI+yw
+ 1d5kI9Yra8yrAHSsuMvCng==
+X-Google-Smtp-Source: AA6agR5DWlGw0W1xZXujx2KGDv9sHfvTIt+iTdErPfZLMXgRlBBtcYlNDb72wX2TK2CqsJhy7Jwogw==
+X-Received: by 2002:a63:1658:0:b0:41a:4118:f4b9 with SMTP id
+ 24-20020a631658000000b0041a4118f4b9mr1497090pgw.153.1659616904598; 
+ Thu, 04 Aug 2022 05:41:44 -0700 (PDT)
 Received: from localhost.localdomain ([166.111.133.51])
  by smtp.gmail.com with ESMTPSA id
- i8-20020a63bf48000000b0041b672e93c2sm1070769pgo.17.2022.08.04.05.41.38
+ i8-20020a63bf48000000b0041b672e93c2sm1070769pgo.17.2022.08.04.05.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Aug 2022 05:41:40 -0700 (PDT)
+ Thu, 04 Aug 2022 05:41:44 -0700 (PDT)
 From: Zheyu Ma <zheyuma97@gmail.com>
 To: deller@gmx.de, adaplas@gmail.com, santiago@crfreenet.org,
  akpm@linux-foundation.org
-Subject: [PATCH 0/3] Fix bugs in *_set_par() caused by user input
-Date: Thu,  4 Aug 2022 20:41:22 +0800
-Message-Id: <20220804124125.3506755-1-zheyuma97@gmail.com>
+Subject: [PATCH 1/3] video: fbdev: vt8623fb: Check the size of screen before
+ memset_io()
+Date: Thu,  4 Aug 2022 20:41:23 +0800
+Message-Id: <20220804124125.3506755-2-zheyuma97@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220804124125.3506755-1-zheyuma97@gmail.com>
+References: <20220804124125.3506755-1-zheyuma97@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,21 +76,42 @@ Cc: linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the function *_set_par(), the value of 'screen_size' is
+In the function vt8623fb_set_par(), the value of 'screen_size' is
 calculated by the user input. If the user provides the improper value,
 the value of 'screen_size' may larger than 'info->screen_size', which
-may cause a bug in the memset_io().
+may cause the following bug:
 
-Zheyu Ma (3):
-  video: fbdev: vt8623fb: Check the size of screen before memset_io()
-  video: fbdev: arkfb: Check the size of screen before memset_io()
-  video: fbdev: s3fb: Check the size of screen before memset_io()
+[  583.339036] BUG: unable to handle page fault for address: ffffc90005000000
+[  583.339049] #PF: supervisor write access in kernel mode
+[  583.339052] #PF: error_code(0x0002) - not-present page
+[  583.339074] RIP: 0010:memset_orig+0x33/0xb0
+[  583.339110] Call Trace:
+[  583.339118]  vt8623fb_set_par+0x11cd/0x21e0
+[  583.339146]  fb_set_var+0x604/0xeb0
+[  583.339181]  do_fb_ioctl+0x234/0x670
+[  583.339209]  fb_ioctl+0xdd/0x130
 
- drivers/video/fbdev/arkfb.c    | 2 ++
- drivers/video/fbdev/s3fb.c     | 2 ++
+Fix the this by checking the value of 'screen_size' before memset_io().
+
+Fixes: 558b7bd86c32 ("vt8623fb: new framebuffer driver for VIA VT8623")
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+---
  drivers/video/fbdev/vt8623fb.c | 2 ++
- 3 files changed, 6 insertions(+)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623fb.c
+index a92a8c670cf0..4274c6efb249 100644
+--- a/drivers/video/fbdev/vt8623fb.c
++++ b/drivers/video/fbdev/vt8623fb.c
+@@ -507,6 +507,8 @@ static int vt8623fb_set_par(struct fb_info *info)
+ 			 (info->var.vmode & FB_VMODE_DOUBLE) ? 2 : 1, 1,
+ 			 1, info->node);
+ 
++	if (screen_size > info->screen_size)
++		screen_size = info->screen_size;
+ 	memset_io(info->screen_base, 0x00, screen_size);
+ 
+ 	/* Device and screen back on */
 -- 
 2.25.1
 
