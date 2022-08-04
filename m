@@ -1,63 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DD6589EED
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 17:53:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBCD589F01
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 17:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 989CF9BF7C;
-	Thu,  4 Aug 2022 15:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65D69D295;
+	Thu,  4 Aug 2022 15:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D5F9BF88
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 15:53:02 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id b96so266691edf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 08:53:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kfOK7s3xFsw9XOCf5rZ5v1wNOUbWhtj/0D6S2FQvtM4=;
- b=xkMI17oM3zfPjoCLWJIfoLEnzXtAFKPZa4ZWlivsE178VeTOwHGHU9Hr4pUoF4Fx5S
- e5YGoJoRK/7ejxUK4KXnY7eldNgTsVQ2YrMR5ogMfXVKZJtB/QUM5al6wZmb10Kdg3jN
- s80XcOp8siV+ER6lpOr5DSL58AxHq3TX45uYGA1BvPIJLivLpurOqY402nDfKfJZEzYY
- kQnYggNAwZjX6kO83NC1DuySWHjriR7yj2vyTtF38zJF7oVm/t7a9+qkfrSmrcH2CSgW
- 9rYw92j4oquUkSL8DYp7d/2V15rgUrXkgF1HU9mqEJzxSGqzGYh1tcYl0fdN0SrmHJ0G
- LPtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kfOK7s3xFsw9XOCf5rZ5v1wNOUbWhtj/0D6S2FQvtM4=;
- b=wzE7W/u6tvVlUJ1NyWWKBQyN1aKDyg32va2pVqQC12u62l5Y5wU2X9yaT6F8btXjvA
- 4995V4IZqDwihb3nMc2Vpgn4i69kY1lwYmOy7prMbXnkX2xBfxF2FeG8E9046ep1cNko
- te+e6onlBm4bGoLYABUJZwxnnDs4SvbZ1mVNxgoVihOqGqHLPk7OIrCnca6G56fdpK0X
- aOjyNVkGl9baxmCnhwf0qNk9gg7yh1uwiCoqymAc+7KyVkae+X8xMPnqZO0cI/NpI/HF
- 72C/sDj1ovcT+44qiXlnDS58XV5RsmpSzbGjjKEisZXqbbxES08V4IHV93zDqDubCJTl
- 3Jlw==
-X-Gm-Message-State: ACgBeo0qcwZ0gP/0/vCJ/XfjX58g6FuhceTO/ca/QuFX/VCX+uPIv5mD
- n4U22DN6u9qdRZ+2Gp/o5DcZTsG9QlSpsV6judHiJw==
-X-Google-Smtp-Source: AA6agR6lQ9q9dJTBGl3Gilpz3rF721hsEVFdi6SAsf5d+O2sa6KidsumgOaF4nVCpZCbmEiXDBPvWVfWUWYmNO/CD1s=
-X-Received: by 2002:a05:6402:2d1:b0:43c:bb20:71bf with SMTP id
- b17-20020a05640202d100b0043cbb2071bfmr2688992edx.59.1659628380746; Thu, 04
- Aug 2022 08:53:00 -0700 (PDT)
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-eastusazon11010004.outbound.protection.outlook.com [52.101.51.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9085312AB6B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 15:58:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E3FY0ZKu7o9LybalRPXbhAT565zzlxNBRfgHzNyAvPnVVSCkP65OkgDf7Gb6GkH+JnbAeEUZrVPRUBv1ZDcbckzEJNEVnIvmWJthLJ+kfH+9EPYYLe7dcF346V2iNKmOp6lDY2P9ne9Gj0RT1b+51RNxeHWkn5qY9Q909v9rZM0JMSTmOo82VHYCwuNktgBHfp6NgTeLWJb8A1Rsnx3+ugnaN8nLdxduHczUtknlW4WC0hOs31TGXYGbAYbhVSXNTROu72NwQItXxGrT50OB/mc1V2I60Lqh7+5+moyo4Ic0PR91Lop5YDejn51VK44MljBdTSdL+5xaMHVTt32lJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1/7LUD56mzNocyfHqMWn6umhSKqicGk/bea/sEkDOzU=;
+ b=fIiCr7eq3J79CySwK85DKXvUpiH/JtoZB3zMQ/IlLzTzgMof0ff5FXWaBWF0HiTDg1vKxS+HDTKeISUtr6WEzptfO+s7D87ygVechcfS+4jlTqzIoy7LPlPOang72PWROD92Cv/eNWJyBgYiSvvRLhPfpdR3JK8BWItiA6AqKj1Exb2vz6taOARLU0eoHW+P0K2+oJzFctKCizLEFhnCmOp3B/lP7dbrlfQXQ/neUYuGhkF2DdXplzdHT/6Av45tp6Sg3wJyRHE0jfDpliUxTgsyg3h/+WOziGWcGoqmbmxdbYvyNM6bMW2B9/Mq+BMUKKE1mjcQ0uR74/gfLZpYMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1/7LUD56mzNocyfHqMWn6umhSKqicGk/bea/sEkDOzU=;
+ b=iIEiK7nCqD2IDFvFsz4dwqpFF1E4NNv8jPLucg2XnIFgh+znD3uTW2WUPE75ozHtNHLomHYOMXVka0/l+SmtrGVoVm2wpHiMZdp4SF9N6I6PU+VgMA5H0SRJHFlc8YPcQ78ujMiTW/cBEd17MXsnKDNIOyleT5n3S2v8LqgCOCY=
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
+ by DM6PR05MB4107.namprd05.prod.outlook.com (2603:10b6:5:8a::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.10; Thu, 4 Aug
+ 2022 15:57:58 +0000
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::14fc:26d8:a523:ce02]) by CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::14fc:26d8:a523:ce02%3]) with mapi id 15.20.5504.014; Thu, 4 Aug 2022
+ 15:57:58 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "airlied@linux.ie"
+ <airlied@linux.ie>, Linux-graphics-maintainer
+ <Linux-graphics-maintainer@vmware.com>, "trix@redhat.com" <trix@redhat.com>,
+ "cai.huoqing@linux.dev" <cai.huoqing@linux.dev>
+Subject: Re: [PATCH] drm/vmwgfx: cleanup comments
+Thread-Topic: [PATCH] drm/vmwgfx: cleanup comments
+Thread-Index: AQHYpBxI6b1XVVpgZ0mAD+AUOrTWbq2e7bSA
+Date: Thu, 4 Aug 2022 15:57:58 +0000
+Message-ID: <541ceb5f87460873e65e454ae7432f1cf35cc4a3.camel@vmware.com>
+References: <20220730135704.2889434-1-trix@redhat.com>
+In-Reply-To: <20220730135704.2889434-1-trix@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f9807b1a-d68c-42e1-d037-08da763219f5
+x-ms-traffictypediagnostic: DM6PR05MB4107:EE_
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: futAcShIkw3DmqKpFEInAF9XahXyeBH2ojqWmthsM6Ejz613I9kusFWe59WdFadSHorhz3jVjxXhVAVUA+5goKods1tN9eyhVV0tgC79EcxNDExuXIoGkWCLMcjo+qQQSpKQi3xoABDlhkyrXM3/rPLd/+KR/XcADLxsyCwTqjSK+I30eKPpoAV5wqqT+5NrIf4EMOWLd7bBrxrey1MMFbmubVww2xKF6QNYJ8GQCopgGTy/BkZEkhS8GwxdWE1h0W8Y9PgLlcqHqmIMIpOB9eoapl1NgFYvBssdgoEfRBpR+/cfLQik5bm47abNgpI2xjDmm9J/aBKZyOIaXWcxtfguEPTEV2Pg5iqzXRIn4J7x8kKwTFY1WiKBRP/e8F2BJ8JAY9j79ojrKlMBR4Y3KOEeK9qOjoU55q/TG3xqKPP6qNXt2HtJJnqwBh0EefBbZnvdp50u2iPsU83+GXBM8fEbn5Fpunz2olIU8oz6K+gQnsV+6SavRYV78V2BuSyRUanuZ32UNff1S3Pp5VEICzvKkoXOqBkrRi6rWlNYejnv4J27H1wzVQETHY42AWJ+3qd8Fs5d/J/PWBc6oUmgkhY+BL2EqV4q/FrrnFYvP17PRTFYdnJ4/4bCfkXLw79eSZEClBH6wirVsgk4GjfUZoiXxsdONMb7iB0w2m5aLJn1cM9Xe9uLbsNFwcyFzg2+jXXAzxHiZct8PrSxIUlVqP6rNkLWe//lLsr0M9x6BwvIyL7whYSygnIh2N5QI+h03TRhqoLKH2JrkU97Tv3kq4uFTIEmfUiw493WYHLIbGJJrwhNVFLWoQLsZnE7ZeQ4
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(346002)(136003)(366004)(376002)(396003)(5660300002)(4744005)(66556008)(64756008)(76116006)(91956017)(4326008)(66946007)(66446008)(186003)(8936002)(66476007)(86362001)(2906002)(38100700002)(122000001)(71200400001)(8676002)(6512007)(316002)(26005)(54906003)(2616005)(110136005)(6506007)(478600001)(6486002)(41300700001)(36756003)(38070700005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y1RZRmJXWnJrU3c0amgvTzEzc0orVVl3S1NGOFczSjVRSFRWbEd3bDVUTEFK?=
+ =?utf-8?B?K0dXaUkxYzdtbUh4SDZWeGtlUGxueEljSElXcmd5UWNMRW8yTXVucVpaTmtG?=
+ =?utf-8?B?MEZpclhlTndCWVNobTZTdlZEd3FoczVsamd2Y2JDV05yVElCTkZhd3pYTE1Z?=
+ =?utf-8?B?WE9qSVpZUDBrT3o0RkpNcFFISjZlZGJocTNHNDl1YzFQblRHTzkraUlHcTFx?=
+ =?utf-8?B?UnRNZk1JcTZGelJ3dVZad2ZJcDNIekNzRkZWMjNxbWdSdVhPUFFaYklvcVFs?=
+ =?utf-8?B?YUlEcGRvTEFnL2x0WFlTSDJOMjRTbUt3SFQ1T0lpdi9rZjI5ZG9MamNEMURp?=
+ =?utf-8?B?R2dJL1RTRFdpY3ZDOVpIeDVwekxGYTBZYTU2ZmlHcFZJdWR3bkRCcE52L2xm?=
+ =?utf-8?B?WVJyb1RRUURxQW00NkEvY0JEeFJjOFc5WmMyS0VrclB3clp0ajBJZ2d1NkU2?=
+ =?utf-8?B?aytBQnh5SHFJUEtuY1MxTXBQSzBzWXZYRWJubkE2RHRRY1NncmpCSitwVS90?=
+ =?utf-8?B?b0Y1Wk96U2dZVjZYam1DWVRBK3FaeG5HZmNrcjM4NnpWZEFQWmwwNk0rVHdE?=
+ =?utf-8?B?NUtnN1haY1JBU1hxcDcyVEJTUzlYL1B0WndnZ3R4V3g3YU9CZXRmUWtLQmds?=
+ =?utf-8?B?WXBVbCsxdThwRDRaQllReVEvN0FhZ3c4KzdHYy9CSkFHTUVDa21uTkZaUEl3?=
+ =?utf-8?B?NDhwOWNVekVVdlJXUjZkMGpHK05ObmcrQTJGeGJScFoxSStNbm5DQW5wMVND?=
+ =?utf-8?B?RktwdFBHa0g3SHo0S2dISlBpTG8vSjVCM2JBQkhGVjBRS2pHZE9jaFNxRlFX?=
+ =?utf-8?B?aWdDTDdVT1cvTFV6QVd0YU5XZDZMOFZzZnhZMjNuOU54ZFY2NVlmMXEva2Vo?=
+ =?utf-8?B?WDIwYXRRSlovaVFpTFVvWCsvRjBHUEdtQXBlVkY5L3F6ZUh5Y2VHaXRCaGRM?=
+ =?utf-8?B?UnllSVlZZ2FCVUNzRjlxZGRRaG5wSlh6UVhnQjdQK3F5RTBhN1YwelladVQ1?=
+ =?utf-8?B?TlJGbkFjQUlkSEc2TmU1QWNUZDRjZVJDU3ZtcURlTmRIUUhNeDA0VjdJVFJ1?=
+ =?utf-8?B?cXVPa3FBZjFINVI3cUVxZ2NneTQ5cndmVm50dFR4dFVUWUNGMUx6VjRGZ3FI?=
+ =?utf-8?B?b2s2WHhLSEdrZlpLSDBWNm1iM3JBbW01cjh0UnphZndBZEdjblRFbDlFQzVl?=
+ =?utf-8?B?Ylc3aDBPbkZXQnRNZGN4MktmN2JMTnB3ZWUwY2N6em5MSldueFlIbUIzenFo?=
+ =?utf-8?B?YXJrUGx1cE15algwMUUrS3l3a3drWnhjQ0JDYnB0TXVqWlRQUHBVTDBQN202?=
+ =?utf-8?B?QzV6R1FEOE1zb2RCYTI0S0dFWWc2WDhKbVA5ZGo3TkgvT1lOQnF2RWJub3J2?=
+ =?utf-8?B?MHZOL09BMmlSTWpYdXZzQjhmYXZRM3pKL2dkbmlSNkFzekZ5b2VaRCtzK1dm?=
+ =?utf-8?B?REZQY0gyWEVXQ3pQTTNoamNhbThNTWNSMVNhd05SR2RqMlQwU1FIcllwYThQ?=
+ =?utf-8?B?UUtpNVE1S0YvMFEzRXdiZXFzK1FnRHMrTVVXMWRUSVhJUjc0cGJsQkxoczJ6?=
+ =?utf-8?B?a0hZK2ptZzVYcDRnZDNlUnJVL2FjZGE3ekVML0ZvZzh1c1RxVktZNWhDejgw?=
+ =?utf-8?B?ejRzcHNSTlV3aGN1TTZsYm9LdG1lMGI3SytkelpDbm5BYlRVdFMxQ0syYmN5?=
+ =?utf-8?B?VGc5ck5ZaDVuNVJQSlJtQ0ljL3B2elRmdThxVEFrNHU5a2dseEdQUS9QRUg1?=
+ =?utf-8?B?QkZFVmwvYnE0UzNTSERYMHZEdnNmc1FwNkN0U0MxRVh6bTlxVEdwQ1B5M2hy?=
+ =?utf-8?B?OVpJWU1NU2ZNMWI2RGZNWEl1WGdxelgyMm5wemlmMC9CZkdabmZ0b3JRQXVT?=
+ =?utf-8?B?TTJ0YzErR3NueHpIZTdQMXBYeFdUQ1owWHUwaERRZWZTS2poS1hyL25HY0Yw?=
+ =?utf-8?B?Z0lqUTE2aUpDTEx2OWtXWkZLdTJpUzY1UE13aWZ2Wm9Qem9qQWMrR3JON2tD?=
+ =?utf-8?B?TWVHdzRzWTNIOEFxK0I3TEdEMXM4L0k0bEFvRU5wMG1XcjlFOC8wZkIwYWJ0?=
+ =?utf-8?B?bHgxOW5WQTVEdW9HcWxjVkwzQXg4ZFFvOGNEYVgyaFhvV0tjQTlQQ1p6Qjg1?=
+ =?utf-8?Q?AU/VUoWOc+A/8GIAuYpiX12Zd?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <70AFFE65AD948149BEF5D3E6CFB74DF7@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220708102124.493372-1-Arunpravin.PaneerSelvam@amd.com>
- <20220714145423.721e1c3b@maurocar-mobl2>
- <83d9f973-abdd-3d8b-5955-84cfc3f49eea@amd.com>
- <CADnq5_MNkeG4E9ZXRLpgFQxrDN9jDhk7KYYHbjvtY-cUt5Kk8A@mail.gmail.com>
- <076231a3-38e9-e013-e106-aa926d009e77@amd.com>
- <87zgh6b1dp.wl-ashutosh.dixit@intel.com>
-In-Reply-To: <87zgh6b1dp.wl-ashutosh.dixit@intel.com>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Thu, 4 Aug 2022 16:52:49 +0100
-Message-ID: <CAHbf0-EpHZmpqFgbyY753xQ2HZ_26bYT3qkYy0+EiVfYowzqxg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/amdgpu: add drm buddy support to amdgpu"
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9807b1a-d68c-42e1-d037-08da763219f5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2022 15:57:58.1860 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5aTUZGScCe3lgxaluZYkPiLM2w25t3XSnA/PEiYNhEh51UZn7/mXXht1Lm0OUxPtlZMNqrjSjjKuSnpSuyIwDQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR05MB4107
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +131,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-When is this relanding?
-
-Cheers
-
-Mike
-
-On Mon, 18 Jul 2022 at 21:40, Dixit, Ashutosh <ashutosh.dixit@intel.com> wr=
-ote:
->
-> On Thu, 14 Jul 2022 08:00:32 -0700, Christian K=C3=B6nig wrote:
-> >
-> > Am 14.07.22 um 15:33 schrieb Alex Deucher:
-> > > On Thu, Jul 14, 2022 at 9:09 AM Christian K=C3=B6nig
-> > > <christian.koenig@amd.com> wrote:
-> > >> Hi Mauro,
-> > >>
-> > >> well the last time I checked drm-tip was clean.
-> > >>
-> > >> The revert is necessary because we had some problems with the commit
-> > >> which we couldn't fix in the 5.19 cycle.
-> > > Would it be worth reverting the revert and applying the actual fix[1]=
-?
-> > >   It's a huge revert unfortunately while the actual fix is like 10
-> > > lines of code.  I'm concerned there will be subtle fallout from the
-> > > revert due to how extensive it is.
-> >
-> > We have other bug fixes and cleanups around that patch which didn't mad=
-e it
-> > into 5.19 either. I don't want to create an ever greater mess.
-> >
-> > Real question is why building drm-tip work for me but not for others?
->
-> Seeing this on latest drm-tip:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:54:1: error: redefinition of=
- =E2=80=98amdgpu_vram_mgr_first_block=E2=80=99
->    54 | amdgpu_vram_mgr_first_block(struct list_head *list)
->       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:29,
->                  from drivers/gpu/drm/amd/amdgpu/amdgpu.h:73,
->                  from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:28:
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:57:1: note: previous definit=
-ion of =E2=80=98amdgpu_vram_mgr_first_block=E2=80=99 with type =E2=80=98str=
-uct drm_buddy_block *(struct list_head *)=E2=80=99
->    57 | amdgpu_vram_mgr_first_block(struct list_head *list)
->       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:59:20: error: redefinition o=
-f =E2=80=98amdgpu_is_vram_mgr_blocks_contiguous=E2=80=99
->    59 | static inline bool amdgpu_is_vram_mgr_blocks_contiguous(struct li=
-st_head *head)
->       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h:62:20: note: previous defini=
-tion of =E2=80=98amdgpu_is_vram_mgr_blocks_contiguous=E2=80=99 with type =
-=E2=80=98bool(struct list_head *)=E2=80=99 {aka =E2=80=98_Bool(struct list_=
-head *)=E2=80=99}
->    62 | static inline bool amdgpu_is_vram_mgr_blocks_contiguous(struct li=
-st_head *head)
->       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> make[4]: *** [scripts/Makefile.build:249: drivers/gpu/drm/amd/amdgpu/amdg=
-pu_vram_mgr.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> make[3]: *** [scripts/Makefile.build:466: drivers/gpu/drm/amd/amdgpu] Err=
-or 2
-> make[2]: *** [scripts/Makefile.build:466: drivers/gpu/drm] Error 2
-> make[1]: *** [scripts/Makefile.build:466: drivers/gpu] Error 2
+T24gU2F0LCAyMDIyLTA3LTMwIGF0IDA5OjU3IC0wNDAwLCBUb20gUml4IHdyb3RlOg0KPiBSZW1v
+dmUgc2Vjb25kICdzaG91bGQnDQo+IA0KPiBTcGVsbGluZyByZXBsYWNlbWVudHMNCj4gYXFjdWly
+ZSAgICAgLT4gYWNxdWlyZQ0KPiBhcHBsY2F0aW9ucyAtPiBhcHBsaWNhdGlvbnMNCj4gYXNzdW1p
+bmdzICAgLT4gYXNzdW1lcw0KPiBiZWdpbmluZyAgICAtPiBiZWdpbm5pbmcNCj4gY29tbWl0ZWQg
+ICAgLT4gY29tbWl0dGVkDQo+IGNvbnRvbCAgICAgIC0+IGNvbnRyb2wNCj4gaW5iZXR3ZWVuICAg
+LT4gaW4gYmV0d2Vlbg0KPiByZXNvcmNlcyAgICAtPiByZXNvdXJjZXMNCj4gc3VjY2VzZnVsICAg
+LT4gc3VjY2Vzc2Z1bA0KPiBzdWNjZXNzZnVsZSAtPiBzdWNjZXNzZnVsDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBUb20gUml4IDx0cml4QHJlZGhhdC5jb20+DQoNClRoYW5rcywgbG9va3MgZ29vZC4g
+SSBwdXNoZWQgaXQgdGhyb3VnaCBkcm0tbWlzYy1uZXh0Lg0KDQp6DQo=
