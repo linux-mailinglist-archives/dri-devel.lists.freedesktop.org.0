@@ -1,68 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0651589B5E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 14:03:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 496BB589B97
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 14:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11FA11B7BE;
-	Thu,  4 Aug 2022 12:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4F997317;
+	Thu,  4 Aug 2022 12:21:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC7C11307B
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 12:03:30 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id gk3so24294631ejb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 05:03:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jSPm0DHeY8SKZeRpVKL5I803Vfkof5kWJmeBgU5n5aQ=;
- b=HRe87RuKA2aMNt0BUkwVjsmRkP+vcor3jKfM/10zOmoFQ5AYDVEIwVShBVAMqjROdv
- Kqz0BYYQtvJ/MACbb+RA3HFGSEE6+H7kLrA12J3zrRUw+fz8XQMXJMDbjZVCy7eJuGTF
- Sd06MYy4ktBVgror3Ceaes2yFbkRQl/cZHb0wxqG3+E/oYrAyZPqqsppepmYc7fLrafo
- zAIrgCb0nYlGcjIbyS70S40zBcUVw/9MDq2Jn0mhim5Ly8U7BBT/tl+az+i53WrU9a26
- pvRUlrYHwWIcPPIngak6CkEXwte/AktBZrv1MFqvfcsCxAeqRgWzrKvs0g0GItOznj6K
- Oz8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jSPm0DHeY8SKZeRpVKL5I803Vfkof5kWJmeBgU5n5aQ=;
- b=DM33BSA+/J1K0630t68+v7MJQhj1k9NK39hUrbe73fOdu40iKjUM3oI8gmBIlHopgM
- /PNwlFXyimmpWNzCa+5HxLaTV9qygS8LOZXzAytgW+9OjRko/hCzaKWvwCyUJnBCYGkh
- wQ4/MQbezjSL4s0NPDQIeXIZDxBn4Ozcs3AO/4JRikrY8WjCXryDfCsnELlviLzqan2M
- d1qOy62imZNXP2L7uY1y6hzKZQtmSZ+MhAieS73Z3CycL6u7KhDJYIBdVVqOwiWRDkaM
- aGs/mxr0cJl1Bkq5bTbe3KYVHV9QA8emAsBFo16gkfaiECeQce/YJZJmEFfeePDfOtkC
- qiBQ==
-X-Gm-Message-State: ACgBeo3JLyJkeCjRRdV8OZ53lpotSQQAGAL/IL/BlxmNazQQyU/2Q40Z
- zRlyft0LCpaOf/Vm9J5HleRJ6s/UFJPf9efs0GHbSg==
-X-Google-Smtp-Source: AA6agR7GLiGaCWfqJOO/0niSITItXhWPceMEoVYX48l6R5vAkeNBINt4rqXCIQCBL7f6IjF+RiSPpWukxIzZTPo1ueE=
-X-Received: by 2002:a17:907:d92:b0:72e:e94d:b675 with SMTP id
- go18-20020a1709070d9200b0072ee94db675mr1141263ejc.742.1659614608368; Thu, 04
- Aug 2022 05:03:28 -0700 (PDT)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2069.outbound.protection.outlook.com [40.107.102.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84FE091B22;
+ Thu,  4 Aug 2022 12:20:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b3HFy4FCiDMrpuL+4fUeSyVik0vw1GRrpDr8726FZQDWQOGP8mo6ChNdB4D5IJj9CuBepfcfeYq/cY9RxXyghctZoCnRxuYfJUpVUbaMRJFllWclP+oIHtJk1muZRuLEHH2tanwLuPpw8TxI/N1QzC4b8DPtKm811Alxu6KhJBsb2znYGO0XHuBTbCwBkBu04EwdalwCuvLyeFKN5MqvwkAXTRz19JzYvvQLgohM4gV+eKLlBQKEthuzU+yV/yCLuU9STeiQd0MQyLydiGcfr0+qRSUcX/O15QFg+ckVXF/V0DxjG2X4qsV1qVNsgzLOZbiZkervvLishes69DMsww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LNG2HOCzmu9ukuOyisfgnQMqREmpbUTXSLRUO1g9esU=;
+ b=lGoyg2y7Q6nCzXvoAh51BP7EEEhjxOapMRW3no9zLsbzWN4EA+DFltjnnZWW2PD9YCGMu2pNQ9SXooAC+Hbt9nFFE1NaPZ4IA2tkELYC3nQd8libWwmFXDjcrPRHOAZQRo2hryl70eFhfDSFS2/dB07Pmd2ApEpSoOyDRrvIxP2NuvSKCZZgz3n1Spj9t7yaEk/dQmAXLGCe9Y2fQIObErEAMKrnlg60rztTjviiNkzEKqGiypWRxLoWEnFSs03WiJYUUTgSZ6zwUf/T5KiWGpdc0OAike8bjzigVuew42kra1gPTQreCcP7dulCmMJCHbOQzO7771gj9H1aONSZzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LNG2HOCzmu9ukuOyisfgnQMqREmpbUTXSLRUO1g9esU=;
+ b=iEC7X/3WyTkaLpiFoWZyZmoyZFbWK4hWZrBUGIi2SikEuLhZmqyNchTgZc95CiSyAaYY7mjS4BWn7a3faGuyZLwD+OrJ9m94L9bqYt7Yq0e2ZqEGTStHAk0HtEC7u20Vby68O8hq694WrKUxAu1hUqlBEmMe9HH1PO+hBjf/e8c=
+Received: from BN0PR04CA0210.namprd04.prod.outlook.com (2603:10b6:408:e9::35)
+ by DM6PR12MB4601.namprd12.prod.outlook.com (2603:10b6:5:163::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 4 Aug
+ 2022 12:20:47 +0000
+Received: from BN8NAM11FT044.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e9:cafe::1) by BN0PR04CA0210.outlook.office365.com
+ (2603:10b6:408:e9::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.12 via Frontend
+ Transport; Thu, 4 Aug 2022 12:20:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT044.mail.protection.outlook.com (10.13.177.219) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5504.14 via Frontend Transport; Thu, 4 Aug 2022 12:20:46 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 4 Aug 2022 07:20:42 -0500
+From: Arvind Yadav <Arvind.Yadav@amd.com>
+To: <Christian.Koenig@amd.com>, <andrey.grodzovsky@amd.com>,
+ <shashank.sharma@amd.com>, <amaranath.somalapuram@amd.com>,
+ <Luben.Tuikov@amd.com>, <Alexander.Deucher@amd.com>,
+ <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH RFC] dma-buf: To check DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT status
+ on debug
+Date: Thu, 4 Aug 2022 17:49:38 +0530
+Message-ID: <20220804121938.622630-1-Arvind.Yadav@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
- <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
- <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
- <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
- <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
- <20220803062024.vn7awasmifkp5xow@pengutronix.de>
- <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
- <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
- <CAHCN7x+HSPJpYYDgV_F91ZsPHW9Uwze8KRAqWE-XAyp5yzB9Hw@mail.gmail.com>
- <CAPY8ntCeUXRqNVyxU7ey6P99pZ3XAXcVHL65bdb3f0qbcK+rBA@mail.gmail.com>
- <20220804102757.pc7hljonea43ytwg@pengutronix.de>
-In-Reply-To: <20220804102757.pc7hljonea43ytwg@pengutronix.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 4 Aug 2022 13:03:12 +0100
-Message-ID: <CAPY8ntBqdv=yPZy3g8Pw=wYA39y88esT4dVH9Fkq-=V2cS56Nw@mail.gmail.com>
-Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
-To: Marco Felsch <m.felsch@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 248535c8-f8f8-46d6-8cd1-08da7613c2be
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4601:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iw6iWsy/Ffnfr8atDGAVam2ylH10Tvv/utjPhT48d3UK1q8ti+G6uJrajR1cjA4BUIwgHKBYk7GMFoA1lbdO8IlFJgdfAQkH2UmAFjTae0IztMn/WK6zyCDifiBku3ZnGuZmrdL6cpNgkjkkJWVwK78FAGMbEauEOKtchjyOLm5DoANdPUgxnFdq1Ikm+IQ0bCQpi/SvPusE89V1uVKyhcfawHLNRkDEg/D6TSusItfTURBk6Gt9JoIsEJhNzFy8DzFaWpVmdpczkpZt/DZmKARxxI9c4svNHFY5TUdnp+TO4nCM/U1dihsJdjz2+mYme2mK15yZdFMbrRnWqTUmUMV32t1SB8c40B1F9B8ew72DqO/gFvTyIqYUgNWUYjcWLENqXrelJPA7ZijewlW2n27Q1B8pdpTCuGrsw2wDp2+2L1k5sXNHIV0StCaZlUEaq/i+mcX5ou6cOkG1n1ttuxRfXcBvX9YTyCdzP1GufFMDKVl6tMBHW9n1XQT/ll1OOPnyDgoQviPWH8Hu5HoDRYMZkfYjdVg5L5Cmtn5/SSyGaIPKEiTg7Va2ZCOA5iMO1LjRmfPL0hbMyJmRciJmqsqokWrVd217muyo7rIQQQKdEZGbno8uEg6hNIv+lYTJifFcI50YgGb/DTWOCgbtH400hspSIohJpa2J8bNUjgaRaEYmtkS44JYGvgTqXw+HN2wNIfZqAbIvO0U+dHYMKOhHZPuqBL0e/nKqbTM1QkHIlDTQds2VO8VLg1faxhj7L27PHcNsMW/pfq/tRkAotJPTuEV5qEJkDa2qsR2zRW3PgWQdMfTHkhovWEVpM1wh0HlFspgT8MDrWuHZ4NpZklEy3kEL2TFEYfPkr2OuJLm7lBSDxg3JM5oVNMKj6LV7ZiyC39irNPQ2eLggNojQcQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(136003)(39860400002)(376002)(396003)(40470700004)(46966006)(36840700001)(921005)(356005)(86362001)(83380400001)(70206006)(40460700003)(81166007)(70586007)(8676002)(40480700001)(36860700001)(4326008)(82740400003)(110136005)(2906002)(316002)(5660300002)(8936002)(2616005)(1076003)(26005)(47076005)(336012)(6666004)(7696005)(426003)(16526019)(186003)(82310400005)(478600001)(41300700001)(4744005)(36756003)(2101003)(83996005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 12:20:46.9289 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 248535c8-f8f8-46d6-8cd1-08da7613c2be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT044.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4601
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,101 +104,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- laurentiu.palcu@nxp.com, Sascha Hauer <s.hauer@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, NXP Linux Team <linux-imx@nxp.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, robert.chiras@nxp.com,
- Robert Foss <robert.foss@linaro.org>, Adam Ford <aford173@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Arvind Yadav <Arvind.Yadav@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marco
+If core DMA-buf framework forgets to call dma_fence_enable_signaling()
+before calling the dma_fence_is_signaled(). To handle this scenario on
+debug kernel the DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT needs to be checked
+before checking the actual signaling status.
 
-On Thu, 4 Aug 2022 at 11:28, Marco Felsch <m.felsch@pengutronix.de> wrote:
->
-> On 22-08-03, Dave Stevenson wrote:
-> > On Wed, 3 Aug 2022 at 13:31, Adam Ford <aford173@gmail.com> wrote:
->
-> ...
->
-> > > Mine also states the DSI source needs to provide correct video timing
-> > > with start and stop sync packets.
-> > >
-> > > If I remember correctly, it seemed like Marek V wanted the hard coded
-> > > samsung,burst-clock-frequency to go away so the clock frequency could
-> > > be set dynamically.
-> >
-> > I've never worked with Exynos or imx8, but my view would be that
-> > samsung,burst-clock-frequency should only be used if
-> > MIPI_DSI_MODE_VIDEO_BURST is set in the mode_flags (it isn't for
-> > adv7533/5).
->
-> Some notes on that. The samsung,burst-clock-frequency is the
-> hs-bit-clock-rate which is twice the dsi-clock-rate. This has nothing to
-> do with the MIPI_DSI_MODE_VIDEO_BURST.
->
-> > Without that flag the DSI link frequency should be running at the rate
-> > defined by the mode clock, number of lanes, bpp, etc.
->
-> IMHO the DSI link have only to guarantee the bandwidth is sufficient for
-> the mode.
+Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+---
+ include/linux/dma-fence.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-DSI spec 8.11.3 Non-Burst Mode with Sync Events
-"This mode is a simplification of the format described in Section
-8.11.2 (Non-Burst Mode with Sync Pulses)
-...
-Pixels are transmitted at the same rate as they would in a
-corresponding parallel display interface such as DPI-2."
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 775cdc0b4f24..7c95c8d5e5f5 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -428,6 +428,10 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+ static inline bool
+ dma_fence_is_signaled(struct dma_fence *fence)
+ {
++#ifdef CONFIG_DEBUG_FS
++	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags))
++		return true;
++#endif
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return true;
+ 
+-- 
+2.25.1
 
-If you are running the DSI clock at anything other than that rate,
-then AIUI you are in a burst mode (although you may choose not to drop
-into LP mode).
-
-(One of my pet peeves that there is no documentation as to exactly
-what MIPI_DSI_MODE_VIDEO_BURST is meant to mean. Seeing as in the DSI
-spec all modes of 8.11 say that the host can drop to LP during
-blanking if time allows, it surely has to be the time compression
-element of 8.11.4 Burst Mode).
-
-> > From the DSI spec (v 1.1 section 8.11.1):
-> > "Non-Burst Mode with Sync Pulses =E2=80=93 enables the peripheral to
-> > accurately reconstruct original video timing, including sync pulse
-> > widths."
-> > "RGB pixel packets are time-compressed, leaving more time during a
-> > scan line for LP mode (saving power) or for multiplexing other
-> > transmissions onto the DSI link."
-> > How can the peripheral reconstruct the video timing off a quirky link f=
-requency?
->
-> If the ADV couldn't reconstruct the sync signals, then we should not get
-> any mode working but we get the 1080P mode working.
->
-> > Unless the Exynos DSIM_CONFIG_REG register bit DSIM_BURST_MODE [1]
-> > reconfigures the clock setup of the DSI block, then I don't see how
-> > the Exynos driver can follow the DSI spec in that regard.
->
-> Why do you think that the Exynos driver isn't following the spec? We
-> configure the host into video mode with sync signals which is working
-> for the 1080P mode.
-
-1080p is working with samsung,burst-clock-frequency setting?
-As I say, I've not worked with this IP, I'm only looking at it from
-the outside having spent far too much time recently on the Pi DSI
-interface.
-exynos_drm_dsi.c seems to be doing a lot of PLL computation around
-burst-clock-frequency, and nothing with the pixel clock rate. Without
-knowledge of what that DSIM_BURST_MODE bit in DSIM_CONFIG_REG actually
-does in the hardware, I can only make guesses. Perhaps it does ditch
-the burst clock and switch the bit clock to be derived from the pixel
-clock of the upstream block, but that seems unlikely.
-
-  Dave
