@@ -2,50 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D17589C89
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 15:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBBD589C9F
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 15:27:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36F6697E29;
-	Thu,  4 Aug 2022 13:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5632F8FF7F;
+	Thu,  4 Aug 2022 13:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEF7298769
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 13:23:05 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1oJaoZ-0006jS-Kq; Thu, 04 Aug 2022 15:23:03 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1oJaoW-0003qA-73; Thu, 04 Aug 2022 15:23:00 +0200
-Date: Thu, 4 Aug 2022 15:23:00 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
-Message-ID: <20220804132300.suvbmppxm4osaniy@pengutronix.de>
-References: <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
- <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
- <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
- <20220803062024.vn7awasmifkp5xow@pengutronix.de>
- <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
- <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
- <20220804093829.42kdelp7u4r743nv@pengutronix.de>
- <CAPY8ntBovVq1HVt_UneDF8OB9KBdEBv52o=4BCTmf9VpiODxVg@mail.gmail.com>
- <20220804125152.idyzetjqkjzgbbm2@pengutronix.de>
- <CAHCN7xKXe14z1QxrdLHNkNOmpR=txUZAt3BsEry7TymbjtDsjA@mail.gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA85497634
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 13:27:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MWTGTKAZp+xxv6txUEBRA7Ra6gREAIu7pXUbXN5KzCiDCdPwP/JSO7kZWud6WZUtUGG8Zd9RZmZKPZ8P72XQhTRzSZ+aawe+AS2y41cKVpPOzSUQB7lIGHjtGKGteaMm3x2+9lfUNKV4cNNwEgSTHkJnEoHUTJZBZhZYUH5m/Jo4uZuT+aZVdOOM5sU+LouXRy1hRy/1EtuypovAyOY2+2KvNrttKbjkKHaYToqd/8ETcHPrV5zkLVyRrnOwOjpnvSIFvWSVnFSzrJAoab80T+MSyuHpMNfH5B9r+EaaT/xpdPaW8ZI919ep6Lvx2+4S0QMRRRLHoShK2OD7zv/pMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cacTPxwas0Ejiku4Lp+559f0Ljr2+TwkVkmPkF6Wd9Y=;
+ b=PUKvg2wDagIy0IqKuHj/k/pZH6IO0joZxCfSM/vwRNlWknqfFcewTkici7AaTCi1ZiimrHJSXRzTd90xmmRhRp/sIiutE/mcSY3N/T6wf4rcVPnWqtT3FFu7MtUta09G9bMgCNlOQgv/1L1yNZrtoCxhXHLY6Lnbv76XLuph0bEkKjPao0T1TRshMMKIwMUbg6RqxKPHQ5oZx7Mlkc4y9ea+880iZq0OlPAzolXFkzJNSFeDfXAzAyUu6dVjpa2Nwfv/DtD2gDr2T2Kv4vU3Cdf+XpVEjyyfTaJqI22ZqJbrDzP6WoX00oE/avvytYyE1v8Gh/Qr+O8SH5grXIdBPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cacTPxwas0Ejiku4Lp+559f0Ljr2+TwkVkmPkF6Wd9Y=;
+ b=2Pdlv8a5NN5w09CRU8AXAyF0x8xmTEd7tvW2lXmhATFjF+gHpt7Ofe+EGvggqMzS/dGEjVph0fL9V70Z1AVnOWYAY+HV12IHqFMkhBNAwTKqxZXbUBfnNDA9r0AAdL5eLgHrW0YVvc67om0xdMRNgmRjauPMHvot9b3CmCC3YkM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CH2PR12MB4938.namprd12.prod.outlook.com (2603:10b6:610:34::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 4 Aug
+ 2022 13:27:31 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::6999:13c9:d124:418a]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::6999:13c9:d124:418a%8]) with mapi id 15.20.5504.015; Thu, 4 Aug 2022
+ 13:27:31 +0000
+Message-ID: <938ca191-074b-468c-d44d-0be795fb0700@amd.com>
+Date: Thu, 4 Aug 2022 09:27:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/amd/display: restore plane with no modifiers code.
+Content-Language: en-US
+To: Dave Airlie <airlied@redhat.com>, torvalds@linux-foundation.org
+References: <20220804055036.691670-1-airlied@redhat.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20220804055036.691670-1-airlied@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0102.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:85::21) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xKXe14z1QxrdLHNkNOmpR=txUZAt3BsEry7TymbjtDsjA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 68f3514f-4545-4b87-9d70-08da761d154f
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4938:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dUOVjJ7PPAsKKrJIqdM+QktupWQRJeNnuOXVb+Xbl3wG8u0fyd5YaAxL3T1vD1s77XUTy20zrMAK/Syc97rVaZ8ZkwYZ5s+T3ruNuXktEe57vt/kHJt/QjADjCgUXXSvib5SC0FCj0gEonPukeSngZvMSvrzmX2cTmjXAay6xVcYMK/eKO1OADAi/sz05Mhfil+f4ZrY7diDaD6t39R0M6DnN5jwq296Bhp5v2ztQjTPoZ8HwOJbSDXEBfVXlV/7Le7/cNjqGEAPL7LIpUu3vg9ZMA5dDGFxMm79WguWYf+Cj/+xPBovW7qEYSiPvhyGNNMS+1LGaLPFQR8d1pN8kO/BVOz5YJ81J/pVxitRPOOQPrgMKSZhYobn87GmcnYfUJILXxJNONtI5Cj0fGvDD53WEedmwwSo+rK3Gcd9GQEji2nIMHW8tQbWcNWii8UZfsGH2uSCC04AGHyKH4nMkkZLzmBonHs5Ad9pyvzl+WouJGAepHD4aT3mQxElkPtD74KXW5TW8blJnCSMxrw5cFu7T6v8yalAUvpJ2TrUsgy2LLeVd2sSsMu6n53TPp+8zzNk8Onfw3hfbwnawJPLjxnEVP1dxr9rSKusNDzwisfDJC3uaUYfNl8H6ilZ6EHSa9CTB8bjEyMeANG7lv1g8l0DCRu+YsAs4HOWfz/A+cWFUJBDsvUP8x7nJoXqNRj6Shc5VgJN6oJszef03Fef3Lb+9wlBEKZho0v818486jOzbQt/YCR9KgTsvAXdrwpdof42R9ykB45+I3vLEUDCVeFBpbYhbzcIdsekunTLpYA2PrRx4occ6njRsPRVIp51EzkdniCKjfmfUx7xI3cvWg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(366004)(39860400002)(6486002)(36756003)(31686004)(66556008)(4326008)(8676002)(66476007)(83380400001)(8936002)(31696002)(478600001)(5660300002)(66946007)(186003)(44832011)(86362001)(6666004)(41300700001)(2906002)(316002)(53546011)(38100700002)(6506007)(6512007)(2616005)(26005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aklkUTV0Um1EZFd2R2dXaTNGUkN4ekdYNUNpaVhoZ2x0ZU4vUVRrU081WTBn?=
+ =?utf-8?B?VEVsVEVqNzJ4bEZTSmhWOVYyZFdMejl3YXNKLzNlWXNnZndUTi9TRHBDZU9o?=
+ =?utf-8?B?VUtxclFqV1B5UmFmNVdUNXBPNm1GeGgySU5sVllycnYyVW05RTVzc2taa0Nj?=
+ =?utf-8?B?RjFuWlB2MzI4RElSTE1SekNLTE50OUdPMUxHK3liamRLUFRsWFRtVnpVRU9W?=
+ =?utf-8?B?ZUdweTQ1QzQ1Z3NLWVZ1ZDQ4MmIvTzN3M0hrR2MyWkxhQmpjbWNqSmtXT0F1?=
+ =?utf-8?B?aTY3YTZ5ekxBeEFWSlJsRDA0dUxXNVNkV201NDJyb3BwNUEyYkwxMW15WSs5?=
+ =?utf-8?B?ZWhSdVJHZE96WHBMVTE3bDdTWldqdnlyVUl4M2hrYm4yQU91NVFMSk9SVVdT?=
+ =?utf-8?B?V1hyWHA3bGJUcnRnbms1MC9aTi83REhyS3Y3RFA0eHpvQWlkdjhPcVpIRlZQ?=
+ =?utf-8?B?dmVoY2dxZlVDZTNSQzhDQTVxWFZZT0FwOXVEVmNxUVRtcDlxTERxUjNWRXNR?=
+ =?utf-8?B?NkJxR3EwYXRwNXlXNGJLTWp4dVQxK2dLbTZYbjZzRFJnOVQwallXZ3FYdGsy?=
+ =?utf-8?B?K215TmxwcElIRmhvS3NWUW9QRWhPR0hlc3A5NWx5YnBBdW1vK1FCYkI3cVZL?=
+ =?utf-8?B?RFJvSWtyK0xQNElkaUlRbEJnQlZTdjYveERiSFRieVBhbENpMGIvM2lWRFdH?=
+ =?utf-8?B?U3UweE4vK2dBYzNSQm94M1dvN1N3eWRzTDRzZk1KMVZqM3h3RFd4WWNTNDV3?=
+ =?utf-8?B?NWdCSzlJMFc1bUE2VWpnTHo3dzdvangwQ2RjdktuY2I1ejBuR3p2U0tud0xy?=
+ =?utf-8?B?SlowQ0ZRbFhsLzNtNmI3Tjlnbm8rQkZGbzZrR1hiUFFGZWNab2t4d2UyZGJi?=
+ =?utf-8?B?bllnNnk3SGVncklWTEh3NERmTTVaL1EvTVRFa0pyQzJHdVN0WU1qSG1Gbmoz?=
+ =?utf-8?B?N3JzNUUzczA1NlhpL0lkMnNjaTQrRjlMclh5aUlpejI0UEZseUN3TjVCZjQ5?=
+ =?utf-8?B?aXN6WjVtdHMzUnQvb3ZVcktsaE52NWJUd0V2OUQ3c25ESlFLYjhyVFpxNWwz?=
+ =?utf-8?B?RHgyTTFuWmx6Mksxc0NOTzF0ZkpidUdEWnA5bUNBSFdMV0tiYW9kWWxqby8x?=
+ =?utf-8?B?ckYzeTdScFAwUWtzNzRuZVpoWkNGMGxmY0RqZmFtdncwSGpOVHk5aFVKbUdF?=
+ =?utf-8?B?Y0dzQmM5VG81VU1PL0pHQzdJcEpsOVByU2tLTis0c2w4NmRsaUtrQTh4by9r?=
+ =?utf-8?B?M1B1NFhVTm1naDZPdnl3bFhLMytaQUU1dzdaNjVOUEtDcjhFL1RyTlREZE5T?=
+ =?utf-8?B?dWE2VGRtSi9LaXZORmxQb3daN2xjRGNPbFhtZDVOMkhWT3A0MzY0dFpSWGpN?=
+ =?utf-8?B?VGpzRlY3T2kvNi9iMWhoMHdvWklsbXhnV0lGeW4zMmdGYndjQnl4b3N1NWNw?=
+ =?utf-8?B?Wk9KeitNM1FzVElJNk5jQTd4UmpOUUdyYTdtZ1FhWCtDQlQ2VTZvM2dsMnRP?=
+ =?utf-8?B?dTV5NzNiRDFQM2R4c00yUlF0RHlDU1RDYVI3ekdKb0NubmNpMWNiUklWdXBE?=
+ =?utf-8?B?MVIxaE50UzlYdmtlRm8rQkR4Q2FHZXM0Yjk4UmVibEljcFVuTTM5cWZjeHNu?=
+ =?utf-8?B?YVF5c0lrUnhWZ2ZYNWEvU3J2Vko5K1V2WGJTS0NFemVieVQrMnVnRTljaEFM?=
+ =?utf-8?B?aDJDUmY5Yzd0b1JTdk1mVEkwbzR1T3VHUXRuc1JoTnhXT21sOElONVVEK2pP?=
+ =?utf-8?B?eGd5aDRQQXBwdlFMUzJXeUc2aFVDSFBuVzRmaTQ0b2R1WmxRU2luakVvWElh?=
+ =?utf-8?B?RUd6ck5YWUJYdGhrSncxLzJweHp0QWkvcG50amVISjRQRkRsMWNVMUgvdHdo?=
+ =?utf-8?B?cnppbWpmQzR0Y29PWUxMd0Ywd21wTkN2cVdjc1Q1aG4xMTJ6clBtNWVQYnpU?=
+ =?utf-8?B?SjdEbm1wRFYybFlTVmhTZkpRbWVyU0RodUg4T2VqMkdrUU0wMkRPVG80eVZY?=
+ =?utf-8?B?SXphb3Z5bVpsMzJoNVlhZUdwSWdDeTY5RmRtWHoyYlV5T1ZnWis4VGpRVmdC?=
+ =?utf-8?B?Mkt0YnBTUXRvTWZIMHhEMnpmeXdaRkRJYWZkRFIydUJpRVhNTnVHanI1U1p6?=
+ =?utf-8?Q?bMdkPJ5v4MhFw3NdBOGNuyIUj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68f3514f-4545-4b87-9d70-08da761d154f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 13:27:31.2045 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NFmjfJSTsyAe/YirrfYxgCRUpEv6amalmUnlHh1WuSNZmytWaiOnP79iy6EuyT2SXfcdOPRoZ5wn7VQ2DHcbRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4938
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,228 +124,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, robert.chiras@nxp.com,
- Shawn Guo <shawnguo@kernel.org>, laurentiu.palcu@nxp.com,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adam,
+On 2022-08-04 01:50, Dave Airlie wrote:
+> When this file was split in
+> 
+> 5d945cbcd4b16a29d6470a80dfb19738f9a4319f
+> Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Date:   Wed Jul 20 15:31:42 2022 -0400
+> 
+> drm/amd/display: Create a file dedicated to planes
+> 
+> This chunk seemed to get dropped. Linus noticed on this
+> rx580 and I've reproduced on FIJI which makes sense as these
+> are pre-modifier GPUs.
+> 
+> With this applied, I get gdm back.
+> 
+> Fixes: 5d945cbcd4b1 ("drm/amd/display: Create a file dedicated to planes")
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-On 22-08-04, Adam Ford wrote:
-> On Thu, Aug 4, 2022 at 7:52 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
-> >
-> > Hi Dave,
-> >
-> > On 22-08-04, Dave Stevenson wrote:
-> > > Hi Marco
-> > >
-> > > On Thu, 4 Aug 2022 at 10:38, Marco Felsch <m.felsch@pengutronix.de> wrote:
-> > > >
-> > > > Hi Dave, Adam,
-> > > >
-> > > > On 22-08-03, Dave Stevenson wrote:
-> > > > > Hi Adam
-> > > > >
-> > > > > On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com> wrote:
-> > > >
-> > > > ...
-> > > >
-> > > > > > > Did managed to get access to the ADV7535 programming guide? This is the
-> > > > > > > black box here. Let me check if I can provide you a link with our repo
-> > > > > > > so you can test our current DSIM state if you want.
-> > > > > >
-> > > > > > I do have access to the programming guide, but it's under NDA, but
-> > > > > > I'll try to answer questions if I can.
-> > > > >
-> > > > > Not meaning to butt in, but I have datasheets for ADV7533 and 7535
-> > > > > from previously looking at these chips.
-> > > >
-> > > > Thanks for stepping into :)
-> > > >
-> > > > > Mine fairly plainly states:
-> > > > > "The DSI receiver input supports DSI video mode operation only, and
-> > > > > specifically, only supports nonburst mode with sync pulses".
-> > > >
-> > > > I've read this also, and we are working in nonburst mode with sync
-> > > > pulses. I have no access to an MIPI-DSI analyzer therefore I can't
-> > > > verify it.
-> > > >
-> > > > > Non-burst mode meaning that the DSI pixel rate MUST be the same as the
-> > > > > HDMI pixel rate.
-> > > >
-> > > > On DSI side you don't have a pixel-clock instead there is bit-clock.
-> > >
-> > > You have an effective pixel clock, with a fixed conversion for the
-> > > configuration.
-> > >
-> > > DSI bit-clock * number of lanes / bits_per_pixel = pixel rate.
-> > > 891Mbit/s * 4 lanes / 24bpp = 148.5 Mpixels/s
-> >
-> > Okay, I just checked the bandwidth which must equal.
-> >
-> > > As noted elsewhere, the DSI is DDR, so the clock lane itself is only
-> > > running at 891 / 2 = 445.5MHz.
-> > >
-> > > > > Section 6.1.1 "DSI Input Modes" of adv7533_hardware_user_s_guide is
-> > > > > even more explicit about the requirement of DSI timing matching
-> > > >
-> > > > Is it possible to share the key points of the requirements?
-> > >
-> > > "Specifically the ADV7533 supports the Non-Burst Mode with syncs. This
-> > > mode requires real time data generation as a pulse packet received
-> > > becomes a pulse generated. Therefore this mode requires a continuous
-> > > stream of data with correct video timing to avoid any visual
-> > > artifacts."
-> > >
-> > > LP mode is supported on data lanes. Clock lane must remain in HS mode.
-> > >
-> > > "... the goal is to accurately convey DPI-type timing over DSI. This
-> > > includes matching DPI pixel-transmission rates, and widths of timing
-> > > events."
-> >
-> > Thanks for sharing.
-> >
-> > > > > The NXP kernel switching down to an hs_clk of 445.5MHz would therefore
-> > > > > be correct for 720p operation.
-> > > >
-> > > > It should be absolute no difference if you work on 891MHz with 2 lanes
-> > > > or on 445.5 MHz with 4 lanes. What must be ensured is that you need the
-> > > > minimum required bandwidth which is roughly: 1280*720*24*60 = 1.327
-> > > > GBps.
-> > >
-> > > Has someone changed the number of lanes in use? I'd missed that if so,
-> > > but I'll agree that 891MHz over 2 lanes should work for 720p60.
-> >
-> > The ADV driver is changing it autom. but this logic is somehow odd and
-> > there was already a approach to stop the driver doing this.
-> >
-> > To sync up: we have two problems:
-> >   1) The 720P mode with static DSI host configuration isn't working
-> >      without hacks.
-> 
-> can you share your hacks with me about getting 720p to work?  I've
-> been struggling to get 720 to work.
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-Here you go: https://git.pengutronix.de/cgit/mfe/linux
+Harry
 
-It has just one branch, so very easy. If you use a 8MMini-EVK with the
-NXP-Adapter than you only need a proper defconfig.
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 8cd25b2ea0dc..b841b8b0a9d8 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -1591,6 +1591,9 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>  	if (res)
+>  		return res;
+>  
+> +	if (modifiers == NULL)
+> +		adev_to_drm(dm->adev)->mode_config.fb_modifiers_not_supported = true;
+> +
+>  	res = drm_universal_plane_init(adev_to_drm(dm->adev), plane, possible_crtcs,
+>  				       &dm_plane_funcs, formats, num_formats,
+>  				       modifiers, plane->type, NULL);
 
-> >   2) The DSI link frequency should changed as soon as required
-> >      automatically. So we can provide all modes.
-> >
-> > I would concentrate on problem 1 first before moving on to the 2nd.
-> 
-> I do have some code that does #2 already. 
-
-Unfortunately no, since we want to fix problem 1 first.
-
-> I can clean it up and share if you want.  I've been bouncing back and
-> forth between the NXP kernel and the Jagan/Fabio kernel to compare and
-> with my clock change, it appears to be generating similar clocks to
-> the NXP, yet it still won't sync at 720P.
-> 
-> >
-> > > I have just noted that 720p59.94 at 24bpp on 4 lanes is listed as one
-> > > of the modes that is mandatory to use the timing generator (reg 0x27
-> > > bit 7 = 1). On 2 lanes it is not required.
-> > > I don't know why it's referencing the 1000/1001 pixel clock rates and
-> > > not the base one, as it's only a base clock change with the same
-> > > timing (74.176MHz clock instead of 74.25MHz).
-> >
-> > Interesting! I would like to know how the HDMI block gets fetched by the
-> > DSI block and how the timing-generator can influence this in good/bad
-> > way. So that we know what DSI settings (freq, lanes) are sufficient.
-> >
-> > > > > If you do program the manual DSI divider register to allow a DSI pixel
-> > > > > rate of 148.5MHz vs HDMI pixel rate of 74.25MHz, you'd be relying on
-> > > >
-> > > > There is no such DSI pixel rate to be precise, we only have a DSI bit
-> > > > clock/rate.
-> > > >
-> > > > > the ADV753x having at least a half-line FIFO between DSI rx and HDMI
-> > > > > tx to compensate for the differing data rates. I see no reference to
-> > > > > such, and I'd be surprised if it was more than a half dozen pixels to
-> > > > > compensate for the jitter in the cases where the internal timing
-> > > > > generator is mandatory due to fractional bytes.
-> > > >
-> > > > This is interesting and would proofs our assumption that the device
-> > > > don't have a FIFO :)
-> > > >
-> > > > Our assumptions (we don't have the datasheet/programming manual):
-> > > >   - HDMI part is fetching 3 bytes per HDMI pixclk
-> > > >   - Ratio between dsi-clk and hdmi-pixelclk must be 3 so the DSI and
-> > > >     HDMI are in sync. So from bandwidth pov there are no differences
-> > > >     between:
-> > > >       - HDMI: 74.25 MHz * 24 Bit  = 1782.0 MBit/s
-> > > >       - DSI:    891 MHz * 2 lanes = 1782.0 MBit/s (dsi-clock: 445.5 )
-> > > >       - DSI:  445.5 MHz * 4 lanes = 1782.0 MBit/s (dsi-clock: 222.75)
-> > > >
-> > > >     But the ratio is different and therefore the faster clocking option
-> > > >     let something 'overflow'.
-> > >
-> > > I'll agree that all looks consistent.
-> > >
-> > > > Anyway, but all this means that Adam should configure the
-> > > > burst-clock-rate to 445.5 and set the lanes to 4. But this doesn't work
-> > > > either and now we are back on my initial statement -> the driver needs
-> > > > some attention.
-> > >
-> > > Things always need attention :-)
-> >
-> > ^^
-> >
-> > > I suspect that it's the use of the timing generator that is the issue.
-> > > The programming guide does recommend using it for all modes, so that
-> > > would be a sensible first step.
-> >
-> > But I tested it without the timing-generator too. Can you or Adam verify
-> > the timing-generator diable logic?
-> 
-> The internal timing generator is enabled by setting bit 7 of register 27.
-> 
-> After the timings bits are set, the generator must be reset by
-> toggling bit 6.  Bits [5:0] must be 001011b
-> 
-> So going between CB and 8B does this task.  From what I can tell, this
-> code is correct.
-
-Okay, thanks for checking.
-
-Regards,
-  Marco
-
-> The NXP kernel which appears to sync at a few additional resolutions
-> appears to do this as well.
-> 
-> >
-> > > I will say that we had a number of issues getting this chip to do
-> > > anything, and it generally seemed happier on 2 or 3 lanes instead of
-> > > 4. Suffice to say that we abandoned trying to use it, despite some
-> > > assistance from ADI.
-> 
-> Ideally, I'd like to experiment with 2-lane as well.  Part of me
-> wonders if this could be dynamic to help further adjust timings.  When
-> I try to get clock settings for slower rates, it seems like the clock
-> generation is off.
-> 
-> adam
-> >
-> > Even more interessting, what is your alternative to this chip?
-> >
-> > Regards,
-> >   Marco
-> 
