@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C71E589D59
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 16:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359F9589DB7
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 16:40:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE8714A461;
-	Thu,  4 Aug 2022 14:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF5A296D21;
+	Thu,  4 Aug 2022 14:39:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB2499DE5
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 14:17:23 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id b16so18046203edd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 07:17:23 -0700 (PDT)
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 446099424D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 14:39:19 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id bf13so28541pgb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 07:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=V3jLsfHepCtzmM3jqaIFNUTw4oeeGqLPVBJGqzP2VdM=;
- b=JkX7XwsJCHIlFiF0B5fxtl8ET99tlQYq3RS+0DqL8n+QyFBMY+jCN8PnuswadccSA5
- v0MdTihTLtD8ubvNIhYjEY+sngNIR8YxPzP/ayFfUmaggZkgLAMOBQ4VFkROAMr386p0
- BLiUb6KVyGjjtpbltPlz+BraNZwXSKA3psbVY=
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=eiXJeP7WokDKvW2gy8/Ekzn80/y0tYXfb01K6UEv3lo=;
+ b=VsrMMFdPnpBCkYIHS/8OlaF+PlqFIGTirKIbaSa5AE4wKgjslo29008CtGT619gMIT
+ Ex0cX8v+7y0sm9KVWMiW6+HrHEGQuoEFMt0I52/VPDRolLiEfS3NXdJv92ojd1a6JTDh
+ 1vSJ6jB4tQPT2ypbNg9C+h3sKPn0vxwcKCjx4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=V3jLsfHepCtzmM3jqaIFNUTw4oeeGqLPVBJGqzP2VdM=;
- b=MqmT3xDp/JujenhSQb1xpcHhgb9SPcbA54XXnpMrC9sTwJV4Y7vCtoSbHCg+pGUD9S
- twYau8fG/v7wOEbxyYpsLcdvSkpl5VXN6H9nu/ytSdjHK3iuWHGCXuF/EDfKUQBkLHIm
- kLwOwaDT6ZbrsN1RRP1CnZWQN5uQM+qyKMetuh5OaZloIGEB8wn5AK3OUIIJwPtAJ8QM
- 7LdhxfQjfth/JCDqkoPs08o6FYSAcI7AaxFzmOzbABsAC5sVuXO+PLJ1qLh7lVgJoOsX
- rKMqRrTFZpzQWUvNw7pD1sLL4S6M6Vp4d+RuuC0VT6Y+o0Z2uFZ1CajU+H0AqkcMjR+P
- yrag==
-X-Gm-Message-State: ACgBeo26+WGQrIlUJO8a0uyFPYdRGrbvId1NBuZVsCWnER/9746bRNks
- /mSzJN3kX8g3wnbfZPbPYwCbDkM9BUaI7MgQ
-X-Google-Smtp-Source: AA6agR7IK3FTjRjiCJlftsDJXBT5PCZQT3IuIupCBVVCXPtU4G/O6xU2KynAtz6THGtM5Cp3DnfFrg==
-X-Received: by 2002:a50:baa1:0:b0:43e:5e95:3eda with SMTP id
- x30-20020a50baa1000000b0043e5e953edamr2262419ede.340.1659622641494; 
- Thu, 04 Aug 2022 07:17:21 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- y89-20020a50bb62000000b0043ba0cf5dbasm762741ede.2.2022.08.04.07.17.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 07:17:13 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id z12so15333858wrs.9
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 07:17:11 -0700 (PDT)
-X-Received: by 2002:a5d:5889:0:b0:21d:bccd:38e3 with SMTP id
- n9-20020a5d5889000000b0021dbccd38e3mr1554422wrf.659.1659622631172; Thu, 04
- Aug 2022 07:17:11 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=eiXJeP7WokDKvW2gy8/Ekzn80/y0tYXfb01K6UEv3lo=;
+ b=62M9o6KAQ8a7SnppSfa8jZHOalg3oQ6Dr1thHyaGmNU9e0acsbRvByHgi3BMfRskDw
+ JjOS2qP9c++yu7ItFEilG/HlMbFSif1xSYkI8THN2/4uEkMjqnGcBsKF8S1rt10jW1AF
+ ZD7pRk0Z83GAgyNIsgH4TVaHCqY0TOKglgRS+zY90WvT0LNMxdlo2G2OOMzZPFYCKjIz
+ V/aKnfIO8O9wCzNvh9TQnI0bozNzq6WwLUObll43NINSVzC53/QzOJhDXXlk9SH+OAEQ
+ Jo+A1iW+4k1ktccOZL1CKGklUKNHfcyAIMH1L0FP715gJx7eSGeMUpdY6JVHkzZQWose
+ 4hBA==
+X-Gm-Message-State: ACgBeo26YKY3Atju6vXGxDNUOy2dS9shfHMNKusYKzLaoR/w4JZj7o1V
+ gBHO3fywbAscEaiBm4GOenGQFw==
+X-Google-Smtp-Source: AA6agR7Rnj6JVadOw+wUTPK9LSMDxWtcpLrIyOUlRbk4YSruGHyO1UKQ+7PBkeD8xesD3fFqH0MeFg==
+X-Received: by 2002:a05:6a00:1821:b0:52e:3c7c:9297 with SMTP id
+ y33-20020a056a00182100b0052e3c7c9297mr2278473pfa.54.1659623958441; 
+ Thu, 04 Aug 2022 07:39:18 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:aa71:2553:6f54:5cb1])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a170902680700b0016a111c83cdsm1075071plk.119.2022.08.04.07.39.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Aug 2022 07:39:17 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 0/6] drm/msm/dsi regulator improvements
+Date: Thu,  4 Aug 2022 07:38:47 -0700
+Message-Id: <20220804143854.1544395-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.37.1.455.g008518b4e5-goog
 MIME-Version: 1.0
-References: <1659608930-4370-1-git-send-email-quic_kalyant@quicinc.com>
-In-Reply-To: <1659608930-4370-1-git-send-email-quic_kalyant@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 4 Aug 2022 07:16:57 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vo8GMLi=QfV=HXyVf=PTsOkntrc+OTsnQ5jMWYxSDFuQ@mail.gmail.com>
-Message-ID: <CAD=FV=Vo8GMLi=QfV=HXyVf=PTsOkntrc+OTsnQ5jMWYxSDFuQ@mail.gmail.com>
-Subject: Re: [v1] drm/msm/disp/dpu1: add support for hierarchical flush for
- dspp in sc7280
-To: Kalyan Thota <quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +66,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Sean Paul <sean@poorly.run>, Vinod Koul <vkoul@kernel.org>,
+ Archit Taneja <architt@codeaurora.org>, Loic Poulain <loic.poulain@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>, Mark Brown <broonie@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 4, 2022 at 3:29 AM Kalyan Thota <quic_kalyant@quicinc.com> wrote:
->
-> +static void dpu_hw_ctl_set_dspp_hierarchical_flush(struct dpu_hw_ctl *ctx,
-> +       enum dpu_dspp dspp, enum dpu_dspp_sub_blk dspp_sub_blk)
-> +{
-> +       uint32_t flushbits = 0, active = 0;
+The main goal of this series is to make a small dent in cleaning up
+the way we deal with regulator loads for DSI drivers.
 
-nit: don't init to 0 since you just override below.
+As of v3 of this series, the regulator API improvements needed for the
+later patches in the series are merged into mainline. Thus this series
+only contains the DSI changes now.
 
+I'd expect:
+* The first two patches are bugfixes found while converting the DSI
+  driver over. Those could land any time.
+* The third patch ("drm/msm/dsi: Don't set a load before disabling a
+  regulator") is a patch a sent the other day verbatim, included in
+  this series because it's highly related. It could land any
+  time.
+* The next two patches use the new APIs. Since those APIs are now in
+  mainline those could also land any time.
+* The last patch is just cleanup I noticed as I was touching the
+  function. It's not really related to regulators but it applies atop
+  these. In theory it could be rebased to land separately.
 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> index ac15444..8ecab91 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> @@ -160,6 +160,9 @@ struct dpu_hw_ctl_ops {
->         uint32_t (*get_bitmask_dspp)(struct dpu_hw_ctl *ctx,
->                 enum dpu_dspp blk);
->
-> +       void (*set_dspp_hierarchical_flush)(struct dpu_hw_ctl *ctx,
-> +               enum dpu_dspp blk, enum dpu_dspp_sub_blk dspp_sub_blk);
-> +
+Changes in v4:
+- Correct the commit that this Fixes.
+- Mention error code change in commit message.
+- Use more gooder English in the commit description.
 
-Given that most of the items in this list have kernel-doc comments
-explaining them, probably you should have one for your new one too.
+Changes in v3:
+- ("Improve dsi_phy_driver_probe() probe error handling") new for v3.
+- Do all the PHYs too.
+- Fix typo in commit message.
+- Get rid of error print after devm_regulator_bulk_get_const().
+- Just directly call the bulk commands; get rid of the wrapper.
+- Update commit message to point at the git hash of the regulator change.
 
--Doug
+Changes in v2:
+- ("Fix number of regulators for SDM660") new for v2.
+- ("Fix number of regulators for msm8996_dsi_cfg") new for v2.
+- ("Take advantage of devm_regulator_bulk_get_const") new for v2.
+- ("Use the new regulator bulk feature to specify the load") new for v2.
+
+Douglas Anderson (6):
+  drm/msm/dsi: Fix number of regulators for msm8996_dsi_cfg
+  drm/msm/dsi: Fix number of regulators for SDM660
+  drm/msm/dsi: Don't set a load before disabling a regulator
+  drm/msm/dsi: Use the new regulator bulk feature to specify the load
+  drm/msm/dsi: Take advantage of devm_regulator_bulk_get_const()
+  drm/msm/dsi: Improve dsi_phy_driver_probe() probe error handling
+
+ drivers/gpu/drm/msm/dsi/dsi.h                 |  13 --
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c             | 172 +++++++++---------
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h             |   3 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |  96 ++--------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         | 160 ++++------------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |   5 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    |  20 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    |  32 ++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c    |  14 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    |  28 +--
+ .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   |  12 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     |  32 ++--
+ 12 files changed, 197 insertions(+), 390 deletions(-)
+
+-- 
+2.37.1.455.g008518b4e5-goog
+
