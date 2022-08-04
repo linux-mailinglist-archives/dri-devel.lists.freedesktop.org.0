@@ -2,74 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02449589A76
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 12:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBE0589B0C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 13:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B9494AD6;
-	Thu,  4 Aug 2022 10:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F15BB9664D;
+	Thu,  4 Aug 2022 11:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B1A94A96;
- Thu,  4 Aug 2022 10:29:06 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 274A9UUG023791;
- Thu, 4 Aug 2022 10:29:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc : subject : date : message-id; s=qcppdkim1;
- bh=EZe8eC3iDD3kk/ONKmOPiIysE9i0w67BBMmkWHWW3H0=;
- b=FBoIiZmGu46jChSLNNt60yA4a4inoaJYCyOSbJdw4LeZdChhTBfLw2Gh//h0nuhVHUGw
- 9BmR1qYBSBKQoTyRKUDlbJWLtvO1O72rD2uFhIUl3EZCmXQ8Mbh+9ThrUwOIFWMPOykR
- akPO7ZzQQ4i1AlsUFd0rx+3OEbpWA96gJWzV5oy+DWq2HYw7NaVrNwQp13l1qVVHmcSM
- 0WsLpNHCASVvvcm2pKJkXZJ+Jw289QtCUfZOUvBvNLm+pdMQGTBWCv0sFT2fWSv9CUIa
- BC3sPFy+ya76OqwyT79KWnHbgArzN57UQQK8qAij/WAStAU+rKur3WX7IhQWtFTpYPf3 xQ== 
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hqy7r9cu3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Aug 2022 10:29:03 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 274ASxPf017796; 
- Thu, 4 Aug 2022 10:28:59 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3hmwqkg9n7-1;
- Thu, 04 Aug 2022 10:28:59 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 274ASwq7017791;
- Thu, 4 Aug 2022 10:28:58 GMT
-Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
- [10.204.66.210])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 274ASwYO017790;
- Thu, 04 Aug 2022 10:28:58 +0000
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id D9F5E40F4; Thu,  4 Aug 2022 03:28:57 -0700 (PDT)
-From: Kalyan Thota <quic_kalyant@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] drm/msm/disp/dpu1: add support for hierarchical flush for dspp
- in sc7280
-Date: Thu,  4 Aug 2022 03:28:50 -0700
-Message-Id: <1659608930-4370-1-git-send-email-quic_kalyant@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 1ZUH6sWsyGbNWSu42OdW5FXzlwGvlRt5
-X-Proofpoint-ORIG-GUID: 1ZUH6sWsyGbNWSu42OdW5FXzlwGvlRt5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-04_03,2022-08-04_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 clxscore=1011 impostorscore=0 phishscore=0 adultscore=0
- suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208040045
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66AC212AC08
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 11:31:19 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id b16so17449577edd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 04:31:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OZCMUxfbvhV8KUF7AQQe3QbS9+vNWbCElynU3LR9VS4=;
+ b=iXLRL5Vm95CI/aiauBsLd6V9ZtUPLX/NJy6pPlAWa63XnDQ1oALPg0Atx2OmS+T9ff
+ tA1MdiuOx3RVaDyTQDz4AMqZp5EsmK0QRLCbpXXaLovQdmjY3oJKTZTMC4LUQVRMyauh
+ T3wC3dKYWV/6wwYwxF8TeVSGMgeCUCGZ1ffcyiB7LFTm/T1irGOAJbJJGOqE6OWl0SNM
+ 0mLzl9jRmeaXDAmAK7DsmwqdtKaWcgngvTKrm8aykT80GFGBCVCf86QXBKfRjTov+wRz
+ cjCwEU1SoxYzeA8nCxVDSAQMtzgtcKaSx8Q34mE+gBcWgDiKAMpm7oW8jBGIQ0R1zikC
+ plwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OZCMUxfbvhV8KUF7AQQe3QbS9+vNWbCElynU3LR9VS4=;
+ b=fB66jqXQfbjTub9Q0bVp4pmkKRlUwhHrrP6JUMKQ9z1oF/6tZueNzdHgMQ+USRwhAJ
+ YHNWNMqXmHUt2fkyS8l0p1jKyihV4rV+THpDm+fkZY3IyrZa+qnzBiT1rPUigzhmI2f6
+ 7FuJdbz2dlv8Lu/KybUd99L90+mexJ69YrtGWn+KKOMcu843kVTpug2wMgoAA/e4UBoK
+ roZGHneHR+yh8CBSx46NR2di0eO4DgtnK+98vU6qWevSOb/a3WZj1wlzLCAJKLus2Cz6
+ dI2JhkUbd09bh3zIwrEcOhjQWQMxLcnjIu0BOr2qI1LkpJsB82+m+BwXgEIoGhG0fT7q
+ 8lhQ==
+X-Gm-Message-State: ACgBeo0JqkblyVi465GVAzyvGEm2rw9cxddg92XX0JkAlW8vgc+qOpaN
+ 98U9LcSvDNFTd5jf93mulnXMlnug8px8eaBHqEzpIsDtRUHRrQ==
+X-Google-Smtp-Source: AA6agR6jUWiPc/C5Il2dX+DC2AF25v7K7TwLUJuBM4tCoPL9sZdF5zUQjMNMM2BDJZnBG4JfUpt9r5mFE4uxW+gju7U=
+X-Received: by 2002:a05:6402:1771:b0:43d:3fab:dd73 with SMTP id
+ da17-20020a056402177100b0043d3fabdd73mr1596394edb.136.1659612677847; Thu, 04
+ Aug 2022 04:31:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAHCN7xL2w7a=SeXbwcNNxqb3kpRV9Bs0AbK0Nmjbj+dm0NDaVA@mail.gmail.com>
+ <CAOMZO5BQWnUj4Ouq3=vhqq55zN8otO_9vPX8ht+muFM_5pg9Fg@mail.gmail.com>
+ <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
+ <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
+ <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
+ <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
+ <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
+ <20220803062024.vn7awasmifkp5xow@pengutronix.de>
+ <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
+ <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
+ <20220804093829.42kdelp7u4r743nv@pengutronix.de>
+In-Reply-To: <20220804093829.42kdelp7u4r743nv@pengutronix.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 4 Aug 2022 12:31:01 +0100
+Message-ID: <CAPY8ntBovVq1HVt_UneDF8OB9KBdEBv52o=4BCTmf9VpiODxVg@mail.gmail.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+To: Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,178 +73,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, dianders@chromium.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_vpolimer@quicinc.com, dmitry.baryshkov@linaro.org, swboyd@chromium.org
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ laurentiu.palcu@nxp.com, Sascha Hauer <s.hauer@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, robert.chiras@nxp.com,
+ Robert Foss <robert.foss@linaro.org>, Adam Ford <aford173@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Flush mechanism for DSPP blocks has changed in sc7280 family, it
-allows individual sub blocks to be flushed in coordination with
-master flush control.
+Hi Marco
 
-representation: master_flush && (PCC_flush | IGC_flush .. etc )
+On Thu, 4 Aug 2022 at 10:38, Marco Felsch <m.felsch@pengutronix.de> wrote:
+>
+> Hi Dave, Adam,
+>
+> On 22-08-03, Dave Stevenson wrote:
+> > Hi Adam
+> >
+> > On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com> wrote:
+>
+> ...
+>
+> > > > Did managed to get access to the ADV7535 programming guide? This is the
+> > > > black box here. Let me check if I can provide you a link with our repo
+> > > > so you can test our current DSIM state if you want.
+> > >
+> > > I do have access to the programming guide, but it's under NDA, but
+> > > I'll try to answer questions if I can.
+> >
+> > Not meaning to butt in, but I have datasheets for ADV7533 and 7535
+> > from previously looking at these chips.
+>
+> Thanks for stepping into :)
+>
+> > Mine fairly plainly states:
+> > "The DSI receiver input supports DSI video mode operation only, and
+> > specifically, only supports nonburst mode with sync pulses".
+>
+> I've read this also, and we are working in nonburst mode with sync
+> pulses. I have no access to an MIPI-DSI analyzer therefore I can't
+> verify it.
+>
+> > Non-burst mode meaning that the DSI pixel rate MUST be the same as the
+> > HDMI pixel rate.
+>
+> On DSI side you don't have a pixel-clock instead there is bit-clock.
 
-This change adds necessary support for the above design.
+You have an effective pixel clock, with a fixed conversion for the
+configuration.
 
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  4 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 +++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 40 +++++++++++++++++++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     |  3 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |  7 +++++
- 6 files changed, 59 insertions(+), 2 deletions(-)
+DSI bit-clock * number of lanes / bits_per_pixel = pixel rate.
+891Mbit/s * 4 lanes / 24bpp = 148.5 Mpixels/s
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 7763558..4eca317 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -703,6 +703,10 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
- 		mixer[i].flush_mask |= ctl->ops.get_bitmask_dspp(ctl,
- 			mixer[i].hw_dspp->idx);
- 
-+		if(ctl->ops.set_dspp_hierarchical_flush)
-+			ctl->ops.set_dspp_hierarchical_flush(ctl,
-+						mixer[i].hw_dspp->idx, DSPP_SUB_PCC);
-+
- 		/* stage config flush mask */
- 		ctl->ops.update_pending_flush(ctl, mixer[i].flush_mask);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 021eb2f..3b27a87 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -58,7 +58,10 @@
- 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
- 
- #define CTL_SC7280_MASK \
--	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
-+	(BIT(DPU_CTL_ACTIVE_CFG) | \
-+	 BIT(DPU_CTL_FETCH_ACTIVE) | \
-+	 BIT(DPU_CTL_VM_CFG) | \
-+	 BIT(DPU_CTL_HIERARCHICAL_FLUSH))
- 
- #define MERGE_3D_SM8150_MASK (0)
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index b85b24b..7922f6c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -185,6 +185,7 @@ enum {
-  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
-  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
-  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
-+ * @DPU_CTL_HIERARCHICAL_FLUSH: CTL config to support hierarchical flush
-  * @DPU_CTL_MAX
-  */
- enum {
-@@ -192,6 +193,7 @@ enum {
- 	DPU_CTL_ACTIVE_CFG,
- 	DPU_CTL_FETCH_ACTIVE,
- 	DPU_CTL_VM_CFG,
-+	DPU_CTL_HIERARCHICAL_FLUSH,
- 	DPU_CTL_MAX
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 3584f5e..b34fc30 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -28,6 +28,8 @@
- #define   CTL_INTF_FLUSH                0x110
- #define   CTL_INTF_MASTER               0x134
- #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-+#define   CTL_DSPP_0_FLUSH		0x13C
-+
- 
- #define CTL_MIXER_BORDER_OUT            BIT(24)
- #define CTL_FLUSH_MASK_CTL              BIT(17)
-@@ -292,6 +294,36 @@ static uint32_t dpu_hw_ctl_get_bitmask_dspp(struct dpu_hw_ctl *ctx,
- 	return flushbits;
- }
- 
-+static uint32_t dpu_hw_ctl_get_bitmask_dspp_v1(struct dpu_hw_ctl *ctx,
-+	enum dpu_dspp dspp)
-+{
-+	return BIT(29);
-+}
-+
-+static void dpu_hw_ctl_set_dspp_hierarchical_flush(struct dpu_hw_ctl *ctx,
-+	enum dpu_dspp dspp, enum dpu_dspp_sub_blk dspp_sub_blk)
-+{
-+	uint32_t flushbits = 0, active = 0;
-+
-+	switch (dspp_sub_blk) {
-+	case DSPP_SUB_IGC:
-+		flushbits = BIT(2);
-+		break;
-+	case DSPP_SUB_PCC:
-+		flushbits = BIT(4);
-+		break;
-+	case DSPP_SUB_GC:
-+		flushbits = BIT(5);
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	active = DPU_REG_READ(&ctx->hw, CTL_DSPP_0_FLUSH + ((dspp - 1) * 4));
-+
-+	DPU_REG_WRITE(&ctx->hw, CTL_DSPP_0_FLUSH + ((dspp - 1) * 4), active | flushbits);
-+}
-+
- static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-@@ -600,7 +632,13 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
- 	ops->get_bitmask_sspp = dpu_hw_ctl_get_bitmask_sspp;
- 	ops->get_bitmask_mixer = dpu_hw_ctl_get_bitmask_mixer;
--	ops->get_bitmask_dspp = dpu_hw_ctl_get_bitmask_dspp;
-+	if (cap & BIT(DPU_CTL_HIERARCHICAL_FLUSH)) {
-+		ops->get_bitmask_dspp = dpu_hw_ctl_get_bitmask_dspp_v1;
-+		ops->set_dspp_hierarchical_flush = dpu_hw_ctl_set_dspp_hierarchical_flush;
-+	} else {
-+		ops->get_bitmask_dspp = dpu_hw_ctl_get_bitmask_dspp;
-+	}
-+
- 	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
- 		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index ac15444..8ecab91 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-@@ -160,6 +160,9 @@ struct dpu_hw_ctl_ops {
- 	uint32_t (*get_bitmask_dspp)(struct dpu_hw_ctl *ctx,
- 		enum dpu_dspp blk);
- 
-+	void (*set_dspp_hierarchical_flush)(struct dpu_hw_ctl *ctx,
-+		enum dpu_dspp blk, enum dpu_dspp_sub_blk dspp_sub_blk);
-+
- 	/**
- 	 * Set all blend stages to disabled
- 	 * @ctx       : ctl path ctx pointer
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index bb9cead..561e2ab 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -166,6 +166,13 @@ enum dpu_dspp {
- 	DSPP_MAX
- };
- 
-+enum dpu_dspp_sub_blk{
-+	DSPP_SUB_PCC = 1,
-+	DSPP_SUB_IGC,
-+	DSPP_SUB_GC,
-+	DSPP_SUB_MAX
-+};
-+
- enum dpu_ctl {
- 	CTL_0 = 1,
- 	CTL_1,
--- 
-2.7.4
+As noted elsewhere, the DSI is DDR, so the clock lane itself is only
+running at 891 / 2 = 445.5MHz.
 
+> > Section 6.1.1 "DSI Input Modes" of adv7533_hardware_user_s_guide is
+> > even more explicit about the requirement of DSI timing matching
+>
+> Is it possible to share the key points of the requirements?
+
+"Specifically the ADV7533 supports the Non-Burst Mode with syncs. This
+mode requires real time data generation as a pulse packet received
+becomes a pulse generated. Therefore this mode requires a continuous
+stream of data with correct video timing to avoid any visual
+artifacts."
+
+LP mode is supported on data lanes. Clock lane must remain in HS mode.
+
+"... the goal is to accurately convey DPI-type timing over DSI. This
+includes matching DPI pixel-transmission rates, and widths of timing
+events."
+
+> > The NXP kernel switching down to an hs_clk of 445.5MHz would therefore
+> > be correct for 720p operation.
+>
+> It should be absolute no difference if you work on 891MHz with 2 lanes
+> or on 445.5 MHz with 4 lanes. What must be ensured is that you need the
+> minimum required bandwidth which is roughly: 1280*720*24*60 = 1.327
+> GBps.
+
+Has someone changed the number of lanes in use? I'd missed that if so,
+but I'll agree that 891MHz over 2 lanes should work for 720p60.
+
+I have just noted that 720p59.94 at 24bpp on 4 lanes is listed as one
+of the modes that is mandatory to use the timing generator (reg 0x27
+bit 7 = 1). On 2 lanes it is not required.
+I don't know why it's referencing the 1000/1001 pixel clock rates and
+not the base one, as it's only a base clock change with the same
+timing (74.176MHz clock instead of 74.25MHz).
+
+> > If you do program the manual DSI divider register to allow a DSI pixel
+> > rate of 148.5MHz vs HDMI pixel rate of 74.25MHz, you'd be relying on
+>
+> There is no such DSI pixel rate to be precise, we only have a DSI bit
+> clock/rate.
+>
+> > the ADV753x having at least a half-line FIFO between DSI rx and HDMI
+> > tx to compensate for the differing data rates. I see no reference to
+> > such, and I'd be surprised if it was more than a half dozen pixels to
+> > compensate for the jitter in the cases where the internal timing
+> > generator is mandatory due to fractional bytes.
+>
+> This is interesting and would proofs our assumption that the device
+> don't have a FIFO :)
+>
+> Our assumptions (we don't have the datasheet/programming manual):
+>   - HDMI part is fetching 3 bytes per HDMI pixclk
+>   - Ratio between dsi-clk and hdmi-pixelclk must be 3 so the DSI and
+>     HDMI are in sync. So from bandwidth pov there are no differences
+>     between:
+>       - HDMI: 74.25 MHz * 24 Bit  = 1782.0 MBit/s
+>       - DSI:    891 MHz * 2 lanes = 1782.0 MBit/s (dsi-clock: 445.5 )
+>       - DSI:  445.5 MHz * 4 lanes = 1782.0 MBit/s (dsi-clock: 222.75)
+>
+>     But the ratio is different and therefore the faster clocking option
+>     let something 'overflow'.
+
+I'll agree that all looks consistent.
+
+> Anyway, but all this means that Adam should configure the
+> burst-clock-rate to 445.5 and set the lanes to 4. But this doesn't work
+> either and now we are back on my initial statement -> the driver needs
+> some attention.
+
+Things always need attention :-)
+I suspect that it's the use of the timing generator that is the issue.
+The programming guide does recommend using it for all modes, so that
+would be a sensible first step.
+
+I will say that we had a number of issues getting this chip to do
+anything, and it generally seemed happier on 2 or 3 lanes instead of
+4. Suffice to say that we abandoned trying to use it, despite some
+assistance from ADI.
+
+  Dave
