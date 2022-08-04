@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AD558985C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 09:29:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4BC589870
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 09:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8A78F9EC;
-	Thu,  4 Aug 2022 07:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D46AC8FC27;
+	Thu,  4 Aug 2022 07:35:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2E08F9AC
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 07:28:38 +0000 (UTC)
-X-UUID: 15fffef3515d4341b96a4d1c6f8d2a6b-20220804
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=x66EfoTWTYDCKcVdC8lZzcAt/C/fApipSf6qy4Bj2u4=; 
- b=oso7hfu/IRm71CTLWyVioU5XqQs6N+lZfAegW7TKbqicPgYmhZguOpgSVf10N/JbbYcvsfoxU9cpItdijSCvjchvOuSSzhnBxZYock+yw8rqN0OCoMYWHaOfjGqm/fgqB496UkRPubKHSctaW7h85fg8gter/L+3nfA9Cr8bOOg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:1fcaf52d-d48a-4861-b89b-e4ddd10adda1, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:f2fd34d1-841b-4e95-ad42-8f86e18f54fc,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 15fffef3515d4341b96a4d1c6f8d2a6b-20220804
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 369657683; Thu, 04 Aug 2022 15:28:31 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 4 Aug 2022 15:28:30 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Thu, 4 Aug 2022 15:28:30 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Subject: [PATCH v25 7/7] drm/mediatek: add mediatek-drm of vdosys1 support for
- MT8195
-Date: Thu, 4 Aug 2022 15:28:27 +0800
-Message-ID: <20220804072827.22383-8-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220804072827.22383-1-nancy.lin@mediatek.com>
-References: <20220804072827.22383-1-nancy.lin@mediatek.com>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 613808FBFD;
+ Thu,  4 Aug 2022 07:35:11 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id z12so14084711wrs.9;
+ Thu, 04 Aug 2022 00:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc; bh=5EU04U6zAYyIYzGGcwcDfmg2hMhuz1M0NEedR2ivuW0=;
+ b=RszuOa+odpEaiEJy45G5YW+s0j47TpRmy+lEDVUwPVP6JcsPJrwMo8tspfvRb7fMre
+ W99E7nWmRNZSwcQhGwF7U5/tPYQqr8NnwO1Jj52xEZHtAju58FkRMFQifV7yjHz4R7uZ
+ m+nMVKawX5MR5rLXmzXaeUmOP9JPQ/GTqa8O616Ny/hVj/FzIVxzhR4i5VxzKP4Uxs2N
+ NNcVAj7HwHwKi4SGOn+kAUk7hOVyYV9XW6b6mu/ZbjjRwmTOHtMXIMuyrNK1WhC89ZXv
+ +7u8jVSkbkWWd/rROPN/oXOkKdOy+nWLplYIFpAPipSroyvbydNn4zA69ceObU+QdJu0
+ 2W5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=5EU04U6zAYyIYzGGcwcDfmg2hMhuz1M0NEedR2ivuW0=;
+ b=hNI4SrBFyTzk9nR3IIvFNZXQ0ZDM0f4YnUD0dGHoPid/hLn0rB/lpsg/UHYfcCqYBv
+ Vj+aDeoV9L1LzXtdUbhO7gbAc4xQmNRs7RTELMHxQx8kpaGcVgr3jbpTmHy4a7XCZqxR
+ gQVe1wTwEPGoehXseVXHb7EndGYtLRijF/p+eH33ByXh8LIPFofgw+QKSrc7woJVHj/w
+ Jb6LbBECZNaWAXGjBeq6ue4Vpa0H2Zjr23eiI5Osy8RVEH/mgzbDlcFAq9BIoVS5ZCI5
+ ZSGyZfqF8I2yFupXC7N6NN9KBtN4/jKXxxaxT27pSrueTEx2UlIFZWr3O3IHVJs68Djm
+ E3kg==
+X-Gm-Message-State: ACgBeo3qmDyTDNC3acnLRfQ20YsNLFDqWYBXNi6viysnMnBU3YlbS/+L
+ +3Wc1GCKdhPVmMglWkudAAE=
+X-Google-Smtp-Source: AA6agR7QyZrRl97ERrAkEom1RkOvNNl2TGMuPIkZIfvXeehObd0r+4cGJ+S6KNmKW/eNfqqc4NTEgg==
+X-Received: by 2002:a5d:64c1:0:b0:220:83fd:521e with SMTP id
+ f1-20020a5d64c1000000b0022083fd521emr435672wri.428.1659598509871; 
+ Thu, 04 Aug 2022 00:35:09 -0700 (PDT)
+Received: from debian ([2405:201:8005:8149:e5c9:c0ac:4d82:e94b])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020adfe84e000000b0021badf3cb26sm309913wrn.63.2022.08.04.00.35.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Aug 2022 00:35:08 -0700 (PDT)
+Date: Thu, 4 Aug 2022 08:34:58 +0100
+From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+To: Chengming Gui <Jack.Gui@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: mainline build failure due to 6fdd2077ec03 ("drm/amd/amdgpu: add
+ memory training support for PSP_V13")
+Message-ID: <Yut2otE1h2xtC79o@debian>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,71 +68,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ amd-gfx@lists.freedesktop.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm.
+Hi All,
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Tested-by: AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+The latest mainline kernel branch fails to build for alpha and mips
+allmodconfig with the error:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
- b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 48d6a3e9c01e..2ea1627d1278 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -210,6 +210,12 @@ static const unsigned int mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const unsigned int mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_DRM_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -336,15 +342,19 @@ static const struct mtk_mmsys_driver_data
- mt8195_vdosys0_driver_data = {
- 	.io_start = 0x1c01a000,
- 	.main_path = mt8195_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
--	.mmsys_dev_num = 1,
-+	.mmsys_dev_num = 2,
- };
- 
- static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.io_start = 0x1c100000,
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
- };
- 
- static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
--	.num_drv_data = 1,
-+	.num_drv_data = 2,
- 	.drv_data = {
- 		&mt8195_vdosys0_driver_data,
- 		&mt8195_vdosys1_driver_data,
--- 
-2.18.0
+drivers/gpu/drm/amd/amdgpu/psp_v13_0.c: In function 'psp_v13_0_memory_training':
+drivers/gpu/drm/amd/amdgpu/psp_v13_0.c:534:23: error: implicit declaration of function 'vmalloc'; did you mean 'kvmalloc'? [-Werror=implicit-function-declaration]
+  534 |                 buf = vmalloc(sz);
+      |                       ^~~~~~~
+      |                       kvmalloc
+drivers/gpu/drm/amd/amdgpu/psp_v13_0.c:534:21: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Werror=int-conversion]
+  534 |                 buf = vmalloc(sz);
+      |                     ^
+drivers/gpu/drm/amd/amdgpu/psp_v13_0.c:545:33: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+  545 |                                 vfree(buf);
+      |                                 ^~~~~
+      |                                 kvfree
 
+git bisect pointed to 6fdd2077ec03 ("drm/amd/amdgpu: add memory training support for PSP_V13").
+
+And, reverting that commit has fixed the build failure.
+
+I will be happy to test any patch or provide any extra log if needed.
+
+--
+Regards
+Sudip
