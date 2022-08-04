@@ -1,66 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E9A5899D9
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 11:22:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C853B5899FA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 11:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88E192F85;
-	Thu,  4 Aug 2022 09:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E530934C6;
+	Thu,  4 Aug 2022 09:38:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 325412BF78
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 09:22:29 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id gb36so10199098ejc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 02:22:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=KLFS4WUlaqxZbqoy7i8FOJPlIwGNfBkjIWJSYKEP0DM=;
- b=YI4z+BamjCLzN+Q+V2Li6/9OqTFmOgY6kc9xqL077vqHiW6k5CIiLfec7+qQyqFzEb
- xzn4xRNpML/clsVx2UxssxEbUdtUxBMhEukzkC1marEuEsEJZc9u6/8zvbeQx1If3I7U
- NgvLY9Uo4mu8R+sklkytd3TbP7OYYFBkJIiv9OGuUVeV6DVe4wYGXCDNoaLPjglI2zTD
- 69u8grCd4VRm/rP5eWIbftz5CgFd8nbfvKRKzEyNrkl2PxaGy7cmnOeDpCdTah1QML+f
- dKSv2VMxQcI8F8Dpnml3LR/rBDs0ODdkj3sFoZHHrCx6jfsWcuvP04f0hbr2zngPufxu
- dSjA==
-X-Gm-Message-State: ACgBeo0/S4YV3coIqn5BWHwqVbU65j2nvlELK5pJXvcrNyetN3IoImg2
- Ny7797XjlnbbF2RFNe0Fv+8=
-X-Google-Smtp-Source: AA6agR7nr7rXhSDs20ISvDf9usQGNbKryjMfX5Glou808Dft/hnakz10xMZehmVM2yJKUeqPtOtHwQ==
-X-Received: by 2002:a17:907:b14:b0:730:abbd:e965 with SMTP id
- h20-20020a1709070b1400b00730abbde965mr711749ejl.245.1659604947641; 
- Thu, 04 Aug 2022 02:22:27 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
- by smtp.gmail.com with ESMTPSA id
- a17-20020aa7cf11000000b0043cfb6af49asm377023edy.16.2022.08.04.02.22.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 02:22:27 -0700 (PDT)
-Message-ID: <2d4e82f9-e370-bb01-8656-fe0376c22a77@kernel.org>
-Date: Thu, 4 Aug 2022 11:22:26 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6713C11A9D3
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 09:38:38 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oJXJL-0005oZ-BR; Thu, 04 Aug 2022 11:38:35 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oJXJF-0007CX-Os; Thu, 04 Aug 2022 11:38:29 +0200
+Date: Thu, 4 Aug 2022 11:38:29 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+Message-ID: <20220804093829.42kdelp7u4r743nv@pengutronix.de>
+References: <CAHCN7xL2w7a=SeXbwcNNxqb3kpRV9Bs0AbK0Nmjbj+dm0NDaVA@mail.gmail.com>
+ <CAOMZO5BQWnUj4Ouq3=vhqq55zN8otO_9vPX8ht+muFM_5pg9Fg@mail.gmail.com>
+ <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
+ <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
+ <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
+ <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
+ <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
+ <20220803062024.vn7awasmifkp5xow@pengutronix.de>
+ <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
+ <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] tty: vt: selection: Add check for valid tiocl_selection
- values
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Khalid Masum <khalid.masum.92@gmail.com>,
- syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <000000000000bbdd0405d120c155@google.com>
- <20220729065139.6529-1-khalid.masum.92@gmail.com>
- <eb4a26aa-da30-ceee-7d27-c1e902dd4218@gmx.de> <YuV9PybMPgc83Jis@p100>
- <1eb62346-304b-54d5-8a62-8a35888d51bd@kernel.org>
- <35e860bb-c76c-ca5f-3f48-2bf6cb798689@gmx.de>
- <0fbc2150-b4aa-f2cb-5084-3a9f69b3455d@gmx.de>
-From: Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <0fbc2150-b4aa-f2cb-5084-3a9f69b3455d@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,69 +58,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ laurentiu.palcu@nxp.com, Sascha Hauer <s.hauer@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, robert.chiras@nxp.com,
+ Robert Foss <robert.foss@linaro.org>, Adam Ford <aford173@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04. 08. 22, 10:44, Helge Deller wrote:
-> On 8/4/22 09:15, Helge Deller wrote:
->> Hello Jiri,
->>
->> Thanks for looking into this patch!
->>
->> On 8/4/22 07:47, Jiri Slaby wrote:
->>> On 30. 07. 22, 20:49, Helge Deller wrote:
->>>> The line and column numbers for the selection need to start at 1.
->>>> Add the checks to prevent invalid input.
->>>>
->>>> Signed-off-by: Helge Deller <deller@gmx.de>
->>>> Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
->>>>
->>>> diff --git a/drivers/tty/vt/selection.c b/drivers/tty/vt/selection.c
->>>> index f7755e73696e..58692a9b4097 100644
->>>> --- a/drivers/tty/vt/selection.c
->>>> +++ b/drivers/tty/vt/selection.c
->>>> @@ -326,6 +326,9 @@ static int vc_selection(struct vc_data *vc, struct tiocl_selection *v,
->>>>            return 0;
->>>>        }
->>>>
->>>> +    if (!v->xs || !v->ys || !v->xe || !v->ye)
->>>> +        return -EINVAL;
->>>
->>> Hmm, I'm not sure about this. It potentially breaks userspace (by
->>> returning EINVAL now).
->>
->> Right.
->> According to the code below, my interpretation is that all xs/ys/xe/ye values
->> should be > 0. But of course I might be wrong on this, as I didn't find any
->> documentation for TIOCL_SETSEL.
->>
->> And if userspace tries to set an invalid selection (e.g. by selecting row 0),
->> my patch now returns -EINVAL, while it returned success before.
->>
->>> And the code below should handle this just fine, right:
->>>>        v->xs = min_t(u16, v->xs - 1, vc->vc_cols - 1);
->>>>        v->ys = min_t(u16, v->ys - 1, vc->vc_rows - 1);
->>>>        v->xe = min_t(u16, v->xe - 1, vc->vc_cols - 1);
->>
->> It "handles it fine" in the sense that it can cope with the
->> input and will not crash.
->> But it returns (maybe?) unexpected results...
+Hi Dave, Adam,
+
+On 22-08-03, Dave Stevenson wrote:
+> Hi Adam
 > 
-> After some more thinking maybe you are right.
-> In case a user provided invalid values in the past, simply an unexpected
-> selection was set, but nothing broke.
-> Since the patch doesn't fix any critical issue, we could just drop this patch
-> and leave it as is.
+> On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com> wrote:
 
-We can still do a trial and revert it if something breaks... It's just 
-that _noone_ knows with all this undocumented stuff ;).
+...
 
-But in fact, 0 currently means full row/column. Isn't it on purpose?
+> > > Did managed to get access to the ADV7535 programming guide? This is the
+> > > black box here. Let me check if I can provide you a link with our repo
+> > > so you can test our current DSIM state if you want.
+> >
+> > I do have access to the programming guide, but it's under NDA, but
+> > I'll try to answer questions if I can.
+> 
+> Not meaning to butt in, but I have datasheets for ADV7533 and 7535
+> from previously looking at these chips.
 
-Today, we are out of luck, codesearch.debian.net gives no clue about users:
-https://codesearch.debian.net/search?q=%5CbTIOCL_SETSEL%5Cb&literal=0
+Thanks for stepping into :)
 
-thanks,
--- 
-js
-suse labs
+> Mine fairly plainly states:
+> "The DSI receiver input supports DSI video mode operation only, and
+> specifically, only supports nonburst mode with sync pulses".
+
+I've read this also, and we are working in nonburst mode with sync
+pulses. I have no access to an MIPI-DSI analyzer therefore I can't
+verify it.
+
+> Non-burst mode meaning that the DSI pixel rate MUST be the same as the
+> HDMI pixel rate.
+
+On DSI side you don't have a pixel-clock instead there is bit-clock.
+
+> Section 6.1.1 "DSI Input Modes" of adv7533_hardware_user_s_guide is
+> even more explicit about the requirement of DSI timing matching
+
+Is it possible to share the key points of the requirements?
+
+> The NXP kernel switching down to an hs_clk of 445.5MHz would therefore
+> be correct for 720p operation.
+
+It should be absolute no difference if you work on 891MHz with 2 lanes
+or on 445.5 MHz with 4 lanes. What must be ensured is that you need the
+minimum required bandwidth which is roughly: 1280*720*24*60 = 1.327
+GBps.
+
+> If you do program the manual DSI divider register to allow a DSI pixel
+> rate of 148.5MHz vs HDMI pixel rate of 74.25MHz, you'd be relying on
+
+There is no such DSI pixel rate to be precise, we only have a DSI bit
+clock/rate.
+
+> the ADV753x having at least a half-line FIFO between DSI rx and HDMI
+> tx to compensate for the differing data rates. I see no reference to
+> such, and I'd be surprised if it was more than a half dozen pixels to
+> compensate for the jitter in the cases where the internal timing
+> generator is mandatory due to fractional bytes.
+
+This is interesting and would proofs our assumption that the device
+don't have a FIFO :)
+
+Our assumptions (we don't have the datasheet/programming manual):
+  - HDMI part is fetching 3 bytes per HDMI pixclk
+  - Ratio between dsi-clk and hdmi-pixelclk must be 3 so the DSI and
+    HDMI are in sync. So from bandwidth pov there are no differences
+    between:
+      - HDMI: 74.25 MHz * 24 Bit  = 1782.0 MBit/s
+      - DSI:    891 MHz * 2 lanes = 1782.0 MBit/s (dsi-clock: 445.5 )
+      - DSI:  445.5 MHz * 4 lanes = 1782.0 MBit/s (dsi-clock: 222.75)
+
+    But the ratio is different and therefore the faster clocking option
+    let something 'overflow'.
+
+Anyway, but all this means that Adam should configure the
+burst-clock-rate to 445.5 and set the lanes to 4. But this doesn't work
+either and now we are back on my initial statement -> the driver needs
+some attention.
+
+Regards,
+  Marco
