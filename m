@@ -1,53 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F7558A1DA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 22:22:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 680AC58A28E
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 22:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D13E68CFC9;
-	Thu,  4 Aug 2022 20:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38D7FA71AE;
+	Thu,  4 Aug 2022 20:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37C6D10F3FB
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 20:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=xkSnPbTttnxOhHWTBnilIh0iHoBa5HPmoRojRGu+rVw=;
- b=cIuQo9kdQVfww7Tfs8gxYbsDbajcRrM/bIAV0pQCxJA+4c7ZujYPHgzN6O6O3c/9Qp1tL2yVFxoTx
- 3Jti7XviA6W3WJRJl708DA7GSPJoKBS1gDOWRJzl75RkJp3OhQARY8mB707XDzJop0jXPT2IoRyU8Z
- kBv6Fg4AfcQUHWc9xh0wQLQSdjHHmIIoRLvpi632dMc0lhz7bRqkERs0aI5vIfQE+eRdQEvpS3eOV/
- WbMJP+91TfUksy3YbURfSabRRbBNR1KmQmSY7ILS7Is0Mw9fkO2z0bxfndKuZHp3NbJ8ycnXZFxB4C
- O+CLr4CCxl2Adfj6omuVL8Wy4a33KKg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=xkSnPbTttnxOhHWTBnilIh0iHoBa5HPmoRojRGu+rVw=;
- b=3LNCwAyKtI0MEwXkv05EBHzW+t17UxR4LaEFhQ0lnxOKrpPmLg7QagJoTVuSjMec8dVInzCq6cwuF
- W3LIO95AA==
-X-HalOne-Cookie: 26ad2c18fe4e8288730b6c2192e64739cc5e5ff9
-X-HalOne-ID: 0ab3fe06-1433-11ed-a6ca-d0431ea8a283
-Received: from mailproxy4.cst.dirpod4-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 0ab3fe06-1433-11ed-a6ca-d0431ea8a283;
- Thu, 04 Aug 2022 20:21:37 +0000 (UTC)
-Date: Thu, 4 Aug 2022 22:21:36 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 11/12] drm/format-helper: Rework XRGB8888-to-MONO
- conversion
-Message-ID: <YuwqUMqRwxr2yyqW@ravnborg.org>
-References: <20220727113312.22407-1-tzimmermann@suse.de>
- <20220727113312.22407-12-tzimmermann@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB63A700C;
+ Thu,  4 Aug 2022 20:43:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D70426178F;
+ Thu,  4 Aug 2022 20:43:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF40C433D6;
+ Thu,  4 Aug 2022 20:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659645825;
+ bh=/dBnGEelz0eNZ7ash2KCkOnK42Kq3O9zA1e57MIkXCU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=juU3p2LUjcxjMlM6vTTY1lLZWVXb/mcsQMqGkZ/WHOsek7V0hDFsZrX6Fy+36KdAL
+ yn6BDe8wUhOCTy+9ZmfJBWS+mP62dLFKmdwlOlB9vlElBwclJg+RepYpdf+Rh/Cr1R
+ u1r3hEtJJAPuVVjBIr5FfU5oSiL0TI8wqQ8BHsU7AMGN+99rp1KPkm9Dpm3bncEXmC
+ lYPlURhbpMy9WqPtn0SPIKyz/PKWa3k6Nr+SvcKaVd542jSA8LDJaEgGIFbA2AG+zj
+ aP9g14qRKxapm+F0brNeG0LRJa69nTT/49cOFbDE96HEXU1PPAUMgBawRt2tazl2La
+ ZP/6K+bDSkX/w==
+Date: Thu, 4 Aug 2022 13:43:42 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: mainline build failure for x86_64 allmodconfig with clang
+Message-ID: <YuwvfsztWaHvquwC@dev-arch.thelio-3990X>
+References: <YuwRyQYPCb1FD+mr@debian>
+ <CAHk-=whptVSSZL=wSUQJdRBeVfS+Xy_K4anQ7eQOky7XUrXhUQ@mail.gmail.com>
+ <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220727113312.22407-12-tzimmermann@suse.de>
+In-Reply-To: <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,168 +54,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, david@lechnology.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, javierm@redhat.com,
- virtualization@lists.linux-foundation.org, drawat.floss@gmail.com,
- noralf@tronnes.org, kraxel@redhat.com, jose.exposito89@gmail.com,
- airlied@redhat.com
+Cc: clang-built-linux <llvm@lists.linux.dev>, David Airlie <airlied@linux.ie>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ "Sudip Mukherjee \(Codethink\)" <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 27, 2022 at 01:33:11PM +0200, Thomas Zimmermann wrote:
-> Update XRGB8888-to-MONO conversion to support struct iosys_map
-> and convert all users. Although these are single-plane color formats,
-> the new interface supports multi-plane formats for consistency with
-> drm_fb_blit().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/drm_format_helper.c | 28 +++++++++++++++++++---------
->  drivers/gpu/drm/solomon/ssd130x.c   |  7 ++++---
->  drivers/gpu/drm/tiny/repaper.c      |  6 +++++-
->  include/drm/drm_format_helper.h     |  5 +++--
->  4 files changed, 31 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index 521932fac491..d296d181659d 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -680,9 +680,9 @@ static void drm_fb_gray8_to_mono_line(void *dbuf, const void *sbuf, unsigned int
->  
->  /**
->   * drm_fb_xrgb8888_to_mono - Convert XRGB8888 to monochrome
-It should be documented that this only supports system memory (no io
-memory support).
+On Thu, Aug 04, 2022 at 09:24:41PM +0200, Arnd Bergmann wrote:
+> On Thu, Aug 4, 2022 at 8:52 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Thu, Aug 4, 2022 at 11:37 AM Sudip Mukherjee (Codethink)
+> > <sudipm.mukherjee@gmail.com> wrote:cov_trace_cmp
+> > >
+> > > git bisect points to 3876a8b5e241 ("drm/amd/display: Enable building new display engine with KCOV enabled").
+> >
+> > Ahh. So that was presumably why it was disabled before - because it
+> > presumably does disgusting things that make KCOV generate even bigger
+> > stack frames than it already has.
+> >
+> > Those functions do seem to have fairly big stack footprints already (I
+> > didn't try to look into why, I assume it's partly due to aggressive
+> > inlining, and probably some automatic structures on stack). But gcc
+> > doesn't seem to make it all that much worse with KCOV (and my clang
+> > build doesn't enable KCOV).
+> >
+> > So it's presumably some KCOV-vs-clang thing. Nathan?
 
-	Sam
+Looks like Arnd beat me to it :)
 
-> - * @dst: monochrome destination buffer (0=black, 1=white)
-> - * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-> - * @vaddr: XRGB8888 source buffer
-> + * @dst: Array of monochrome destination buffers (0=black, 1=white)
-> + * @dst_pitch: Array of numbers of bytes between two consecutive scanlines within dst
-> + * @vmap: Array of XRGB8888 source buffers
->   * @fb: DRM framebuffer
->   * @clip: Clip rectangle area to copy
->   *
-> @@ -700,26 +700,36 @@ static void drm_fb_gray8_to_mono_line(void *dbuf, const void *sbuf, unsigned int
->   * x-coordinate that is a multiple of 8, then the caller must take care itself
->   * of supplying a suitable clip rectangle.
->   */
-> -void drm_fb_xrgb8888_to_mono(void *dst, unsigned int dst_pitch, const void *vaddr,
-> -			     const struct drm_framebuffer *fb, const struct drm_rect *clip)
-> +void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitch,
-> +			     const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-> +			     const struct drm_rect *clip)
->  {
-> +	static const unsigned int default_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-> +		0, 0, 0, 0
-> +	};
->  	unsigned int linepixels = drm_rect_width(clip);
->  	unsigned int lines = drm_rect_height(clip);
->  	unsigned int cpp = fb->format->cpp[0];
->  	unsigned int len_src32 = linepixels * cpp;
->  	struct drm_device *dev = fb->dev;
-> +	void *vaddr = vmap[0].vaddr;
-> +	unsigned int dst_pitch_0;
->  	unsigned int y;
-> -	u8 *mono = dst, *gray8;
-> +	u8 *mono = dst[0].vaddr, *gray8;
->  	u32 *src32;
->  
->  	if (drm_WARN_ON(dev, fb->format->format != DRM_FORMAT_XRGB8888))
->  		return;
->  
-> +	if (!dst_pitch)
-> +		dst_pitch = default_dst_pitch;
-> +	dst_pitch_0 = dst_pitch[0];
-> +
->  	/*
->  	 * The mono destination buffer contains 1 bit per pixel
->  	 */
-> -	if (!dst_pitch)
-> -		dst_pitch = DIV_ROUND_UP(linepixels, 8);
-> +	if (!dst_pitch_0)
-> +		dst_pitch_0 = DIV_ROUND_UP(linepixels, 8);
->  
->  	/*
->  	 * The cma memory is write-combined so reads are uncached.
-> @@ -744,7 +754,7 @@ void drm_fb_xrgb8888_to_mono(void *dst, unsigned int dst_pitch, const void *vadd
->  		drm_fb_xrgb8888_to_gray8_line(gray8, src32, linepixels);
->  		drm_fb_gray8_to_mono_line(mono, gray8, linepixels);
->  		vaddr += fb->pitches[0];
-> -		mono += dst_pitch;
-> +		mono += dst_pitch_0;
->  	}
->  
->  	kfree(src32);
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index 5a3e3b78cd9e..aa7329a65c98 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -537,11 +537,11 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x)
->  	kfree(buf);
->  }
->  
-> -static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_map *map,
-> +static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_map *vmap,
->  				struct drm_rect *rect)
->  {
->  	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
-> -	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
-> +	struct iosys_map dst;
->  	unsigned int dst_pitch;
->  	int ret = 0;
->  	u8 *buf = NULL;
-> @@ -555,7 +555,8 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
->  	if (!buf)
->  		return -ENOMEM;
->  
-> -	drm_fb_xrgb8888_to_mono(buf, dst_pitch, vmap, fb, rect);
-> +	iosys_map_set_vaddr(&dst, buf);
-> +	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect);
->  
->  	ssd130x_update_rect(ssd130x, buf, rect);
->  
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-> index 013790c45d0a..0cdf6ab8fcc5 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -513,6 +513,8 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb)
->  {
->  	struct drm_gem_cma_object *cma_obj = drm_fb_cma_get_gem_obj(fb, 0);
->  	struct repaper_epd *epd = drm_to_epd(fb->dev);
-> +	unsigned int dst_pitch = 0;
-> +	struct iosys_map dst, vmap;
->  	struct drm_rect clip;
->  	int idx, ret = 0;
->  	u8 *buf = NULL;
-> @@ -541,7 +543,9 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb)
->  	if (ret)
->  		goto out_free;
->  
-> -	drm_fb_xrgb8888_to_mono(buf, 0, cma_obj->vaddr, fb, &clip);
-> +	iosys_map_set_vaddr(&dst, buf);
-> +	iosys_map_set_vaddr(&vmap, cma_obj->vaddr);
-> +	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, &vmap, fb, &clip);
->  
->  	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->  
-> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-> index 68087c982497..1e1d8f356cc1 100644
-> --- a/include/drm/drm_format_helper.h
-> +++ b/include/drm/drm_format_helper.h
-> @@ -40,7 +40,8 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
->  		const struct iosys_map *vmap, const struct drm_framebuffer *fb,
->  		const struct drm_rect *rect);
->  
-> -void drm_fb_xrgb8888_to_mono(void *dst, unsigned int dst_pitch, const void *src,
-> -			     const struct drm_framebuffer *fb, const struct drm_rect *clip);
-> +void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitch,
-> +			     const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-> +			     const struct drm_rect *clip);
->  
->  #endif /* __LINUX_DRM_FORMAT_HELPER_H */
-> -- 
-> 2.37.1
+> The dependency was originally added to avoid a link failure in 9d1d02ff3678
+>  ("drm/amd/display: Don't build DCN1 when kcov is enabled") after I reported the
+> problem in https://lists.freedesktop.org/archives/dri-devel/2018-August/186131.html
+> 
+> The commit from the bisection just turns off KCOV for the entire directory
+> to avoid the link failure, so it's not actually a problem with KCOV vs clang,
+> but I think a problem with clang vs badly written code that was obscured
+> in allmodconfig builds prior to this.
+
+Right, I do think the sanitizers make things worse here too, as those get
+enabled with allmodconfig. I ran some really quick tests with allmodconfig and
+a few instrumentation options flipped on/off:
+
+allmodconfig (CONFIG_KASAN=y, CONFIG_KCSAN=n, CONFIG_KCOV=y, and CONFIG_UBSAN=y):
+
+warning: stack frame size (2216) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2184) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2176) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+
+allmodconfig + CONFIG_KASAN=n:
+
+warning: stack frame size (2112) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+
+allmodconfig + CONFIG_KCOV=n:
+
+warning: stack frame size (2216) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2184) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2176) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+
+allmodconfig + CONFIG_UBSAN=n:
+
+warning: stack frame size (2584) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2680) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2352) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+
+allmodconfig + CONFIG_KASAN=n + CONFIG_KCSAN=y + CONFIG_UBSAN=n:
+
+warning: stack frame size (2504) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2600) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+warning: stack frame size (2264) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+
+allmodconfig + CONFIG_KASAN=n + CONFIG_KCSAN=n + CONFIG_UBSAN=n:
+
+warning: stack frame size (2072) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
+
+There might be other debugging configurations that make this worse too,
+as I don't see those warnings on my distribution configuration.
+
+> The dml30_ModeSupportAndSystemConfigurationFull() function exercises
+> a few paths in the compiler that are otherwise rare. On thing it does is to
+> pass up to 60 arguments to other functions, and it heavily uses float and
+> double variables. Both of these make it rather fragile when it comes to
+> unusual compiler options, so the files keep coming up whenever a new
+> instrumentation feature gets added. There is probably some other flag
+> in allmodconfig that we can disable to improve this again, but I have not
+> checked this time.
+
+I do notice that these files build with a non-configurable
+-Wframe-large-than value:
+
+$ rg frame_warn_flag drivers/gpu/drm/amd/display/dc/dml/Makefile
+54:frame_warn_flag := -Wframe-larger-than=2048
+70:CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_mode_vba_30.o := $(dml_ccflags) $(frame_warn_flag)
+72:CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_mode_vba_31.o := $(dml_ccflags) $(frame_warn_flag)
+76:CFLAGS_$(AMDDALPATH)/dc/dml/dcn32/display_mode_vba_32.o := $(dml_ccflags) $(frame_warn_flag)
+
+I suppose that could just be bumped as a quick workaround? Two of those
+files have a comment that implies modifying them in non-trivial ways is
+not recommended.
+
+/*
+ * NOTE:
+ *   This file is gcc-parsable HW gospel, coming straight from HW engineers.
+ *
+ * It doesn't adhere to Linux kernel style and sometimes will do things in odd
+ * ways. Unless there is something clearly wrong with it the code should
+ * remain as-is as it provides us with a guarantee from HW that it is correct.
+ */
+
+I do note that commit 1b54a0121dba ("drm/amd/display: Reduce stack size
+in the mode support function") did have a workaround for GCC. It appears
+clang will still inline mode_support_configuration(). If I mark it as
+'noinline', the warning disappears in that file.
+
+Cheers,
+Nathan
