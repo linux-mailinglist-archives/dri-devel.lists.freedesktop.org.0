@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AC7589751
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 07:26:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F757589774
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 07:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A49E2AE3B;
-	Thu,  4 Aug 2022 05:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE3E1121F8;
+	Thu,  4 Aug 2022 05:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDDF8D07D
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 05:25:48 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id tl27so17072556ejc.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Aug 2022 22:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=WGTQSI2IDsep0Ep5FWuQwgSDPWRRC7GjkzJ83Cekmfs=;
- b=Zy8HoBrD482o0HXyIVzu9RXswuhGZryy6gWwsEAkcgFis3yd4cHkmfpbyU6PZBiUin
- /yy5C6sLzs6RYHAMFDwtQTKTHRCvq2+t1A1R5F3LqVtDMCk3UMscBfA7c0BtMfN5+TOm
- aY7XPZ9v9yVanu0GGoWCIliPpWPKmBY5V/v6wLjthGnym6Xd6q92J9xL4TrTHt+7cPKJ
- satCuJlS8IAevD9NS4HuDG5FzF9v6OSVLZdQ001uSC1D9ZgfLycnI6nZibeaAyt60gxW
- bRF7po+bTs7g3pCAmSMtMesNuaPpnRCPOjsGB30prKYGa5dIYjsWBrH2Kpz6EXkmvNtQ
- 0Jjg==
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18D211249A
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 05:47:12 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id y13so20985029ejp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Aug 2022 22:47:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=WGTQSI2IDsep0Ep5FWuQwgSDPWRRC7GjkzJ83Cekmfs=;
- b=fopy9hNQz6NKOOHj/mUIfanM6wlWjPvwi8TAa4h6Z4TPpKFx0zIDw0M65pkEh4LTb4
- MKig2r3Hn09DJz8pKbufNyVKVVXBYYW8qE4sJQYkXC5Qmjhu7qmwBBPlZ1fbcFssr5SC
- 4KBfZhFoQVUd33fSzCn5ovrqywugFDC4qxAiJ2HkpiKCWBcGmXwDe+9u1zq2eFCn2heU
- rFRSpCTvP9aN5SPwF+e3hdfqwjpieNpyLU7ZMyDUBmFdMU4TPwLEzPOpzLtdX/UgC/E5
- hMVb2p2K+YAE/cwCicQwKYro8dy/nuqXG5GYTjJEgHqrCS0TsVN22vokqbrNYq7tWK3u
- JkOA==
-X-Gm-Message-State: ACgBeo3uOd1MGvchNLjTU6+i4WB24jiUcrWV6n7pEX4Oeo9zWSh0XPXP
- FPILigfaublWTMH9nsAEp72s3UJo5dwHymgXeDI=
-X-Google-Smtp-Source: AA6agR6cQoFYWdNihZ9jcq0oWE0SS71XYkuqIcIySvpAa4kd8U41krPCRaiIHhK4ubW+zc9nbArvEkHl3hzwDzqRUCA=
-X-Received: by 2002:a17:907:6eac:b0:730:a07f:38bb with SMTP id
- sh44-20020a1709076eac00b00730a07f38bbmr149703ejc.750.1659590746620; Wed, 03
- Aug 2022 22:25:46 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=+Qy5efYo9rDk2BsamMw6aPZr7j8DOLrxvf8t4GZMPAc=;
+ b=c4i1LXWsip+MyvihhsYAC9rtDU9CZw/VBQru187NyOFyHxlhIciq4nF+WbGKZQ7akp
+ njCtOx1Obp2UNCPnW0pIIp11Syh0plGpbHIXs+PCXPApUjN/AqDQADvuAl3qNHbwURa+
+ /PNVIXmNbhl2sxNufhmjFcFyRbG7hzeL8q2dD6ugc8UYHjpd2NgGrHRW/T7aa9yg/B+U
+ oXXyz0Eoc1nkvzLQnDvPFSeJg+PlT9dRCNBJtUS/PlmJBOvfp5ICFBae8xSfgYUxP4ER
+ rP7FzyCYw5bebEVwWCVTpaix31+tULl+CDAO1HqKCaCvlxxPf7mbcDuv7f/XTJgA9kDw
+ kCrA==
+X-Gm-Message-State: ACgBeo0LaKcOUc/AMrThL/77jmxfmmOJIflNk7SC+tk6huAYqpK4JwUv
+ BL2BgWxz9U9pdPaUVrNhtmg=
+X-Google-Smtp-Source: AA6agR4oUuaNBzJoYT26uMDLtGGEjB1kpaM/SRsRVEbHpQbaFOy7rHx5Ud1iTdXfq+qFj1rrnNWe+Q==
+X-Received: by 2002:a17:907:3ea8:b0:730:9756:7c81 with SMTP id
+ hs40-20020a1709073ea800b0073097567c81mr189092ejc.726.1659592030840; 
+ Wed, 03 Aug 2022 22:47:10 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+ by smtp.gmail.com with ESMTPSA id
+ e3-20020a1709067e0300b0070efa110afcsm8002633ejr.83.2022.08.03.22.47.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Aug 2022 22:47:10 -0700 (PDT)
+Message-ID: <1eb62346-304b-54d5-8a62-8a35888d51bd@kernel.org>
+Date: Thu, 4 Aug 2022 07:47:09 +0200
 MIME-Version: 1.0
-References: <CAPM=9twFEv8AcRQG-WXg5owy_Xhxy3DqnvVCFHgtd4TYCcKWEQ@mail.gmail.com>
- <CAHk-=whXSt2N0GcoPC6XxXXLMpXm-34ua+X4AhPsLoqBcF6Xqg@mail.gmail.com>
- <CAHk-=wj8UHvjsVPohpRA1RJo1upyKoSnjcsys+=vbRVbpPvBMg@mail.gmail.com>
- <CAPM=9txsYE1zFDW+ehHQv138DoeT1Fw6hfzfPa4czvXGSjefjw@mail.gmail.com>
- <CAHk-=wj+yzauNXiEwHfCrkbdLSQkizdR1Q3YJLAqPo6AVq2_4Q@mail.gmail.com>
- <CAPM=9txkjJg5uArn1ann7Hf+JFCukQFGwqv+YHAx97Cdxezs_Q@mail.gmail.com>
- <CAHk-=whWcektQzPJgSPa2DC3wMPxgLh8fJVQWeo8i99XMXPjfg@mail.gmail.com>
- <CAPM=9twUvRoVcWHhBH7yuDDVj8K8aM0APQ8Yx3cx19keLJP8Gg@mail.gmail.com>
- <CAHk-=wjbfAuN1eV+F0wWFsWEaMmJsT2p3DXnUvxo7bQ-xJwKCQ@mail.gmail.com>
- <CAHk-=wih3NEubvTye4URZOmLYu6G+ZT9cngepo0z++ogCWUymQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wih3NEubvTye4URZOmLYu6G+ZT9cngepo0z++ogCWUymQ@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 4 Aug 2022 15:25:35 +1000
-Message-ID: <CAPM=9twRb4c62e0mU9CwOTAYMkR6YCRR5=KLTrSKoLbJ7RB9xw@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.20/6.0
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] tty: vt: selection: Add check for valid tiocl_selection
+ values
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, Khalid Masum <khalid.masum.92@gmail.com>,
+ syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <000000000000bbdd0405d120c155@google.com>
+ <20220729065139.6529-1-khalid.masum.92@gmail.com>
+ <eb4a26aa-da30-ceee-7d27-c1e902dd4218@gmx.de> <YuV9PybMPgc83Jis@p100>
+From: Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <YuV9PybMPgc83Jis@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Aug 2022 at 14:46, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, Aug 3, 2022 at 9:27 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > I'll do a few more. It's close enough already that it should be just
-> > four more reboots to pinpoint exactly which commit breaks.
->
-> commit 5d945cbcd4b16a29d6470a80dfb19738f9a4319f is the first bad commit.
->
-> I think it's supposed to make no semantic changes, but it clearly does.
->
-> What a pain to figure out what's wrong in there, and I assume it
-> doesn't revert cleanly either.
->
-> Bringing in the guilty parties. See
->
->   https://lore.kernel.org/all/CAHk-=wj+yzauNXiEwHfCrkbdLSQkizdR1Q3YJLAqPo6AVq2_4Q@mail.gmail.com/
->
-> for the beginning of this thread.
+On 30. 07. 22, 20:49, Helge Deller wrote:
+> The line and column numbers for the selection need to start at 1.
+> Add the checks to prevent invalid input.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
+> 
+> diff --git a/drivers/tty/vt/selection.c b/drivers/tty/vt/selection.c
+> index f7755e73696e..58692a9b4097 100644
+> --- a/drivers/tty/vt/selection.c
+> +++ b/drivers/tty/vt/selection.c
+> @@ -326,6 +326,9 @@ static int vc_selection(struct vc_data *vc, struct tiocl_selection *v,
+>   		return 0;
+>   	}
+> 
+> +	if (!v->xs || !v->ys || !v->xe || !v->ye)
+> +		return -EINVAL;
 
-I think I've tracked it down, looks like it would only affect GFX8
-cards, which might explain why you and I have seen it, and I haven't
-seen any other reports.
+Hmm, I'm not sure about this. It potentially breaks userspace (by 
+returning EINVAL now). And the code below should handle this just fine, 
+right:
 
-pretty sure you have an rx580, and I just happen to have a fiji card
-in this machine right now.
+> +
+>   	v->xs = min_t(u16, v->xs - 1, vc->vc_cols - 1);
+>   	v->ys = min_t(u16, v->ys - 1, vc->vc_rows - 1);
+>   	v->xe = min_t(u16, v->xe - 1, vc->vc_cols - 1);
 
-I'll retest on master and send you a fixup patch.
+?
 
-Dave.
+thanks,
+-- 
+js
+suse labs
