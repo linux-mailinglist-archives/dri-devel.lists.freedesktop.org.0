@@ -2,50 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFA4589969
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 10:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B904E589973
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 10:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0417B91756;
-	Thu,  4 Aug 2022 08:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7397391962;
+	Thu,  4 Aug 2022 08:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573478EF05
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 08:41:32 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1oJWQ2-0007xA-P9; Thu, 04 Aug 2022 10:41:26 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1oJWPw-00043J-Kr; Thu, 04 Aug 2022 10:41:20 +0200
-Date: Thu, 4 Aug 2022 10:41:20 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
-Message-ID: <20220804084120.in435n4ofdw6ksfj@pengutronix.de>
-References: <CAOMZO5DUTxQKbpTVOgaVC0V7hPqJG77sgmkW8p=aNpG8th-aLw@mail.gmail.com>
- <CAHCN7xL2w7a=SeXbwcNNxqb3kpRV9Bs0AbK0Nmjbj+dm0NDaVA@mail.gmail.com>
- <CAOMZO5BQWnUj4Ouq3=vhqq55zN8otO_9vPX8ht+muFM_5pg9Fg@mail.gmail.com>
- <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
- <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
- <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
- <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
- <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
- <20220803062024.vn7awasmifkp5xow@pengutronix.de>
- <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBCF91955
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 08:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1659602742;
+ bh=zBHeLt3swzlhQhq8Mg+oecUGN1GpWSW7/ADB/NwqugE=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:References:In-Reply-To;
+ b=CpTM/L9+EiQjofNeKED27cW/pamOhQHaWJ9kPCuJeGNRydk0SMqBL12zLE5U7scY2
+ ChiR3HgHcbzURgwYXlywvO9tNjrPyVfZ3hMk6FXlDhAEyjqgynuBMJYoxJz2+1Oxqs
+ G67677hbWeXBbnsz7/tZ/dA52064VRTU6wi2QNN8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.176.33]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGhuU-1oEcel3x1W-00DpdQ; Thu, 04
+ Aug 2022 10:45:42 +0200
+Message-ID: <0fbc2150-b4aa-f2cb-5084-3a9f69b3455d@gmx.de>
+Date: Thu, 4 Aug 2022 10:44:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] tty: vt: selection: Add check for valid tiocl_selection
+ values
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+To: Jiri Slaby <jirislaby@kernel.org>,
+ Khalid Masum <khalid.masum.92@gmail.com>,
+ syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <000000000000bbdd0405d120c155@google.com>
+ <20220729065139.6529-1-khalid.masum.92@gmail.com>
+ <eb4a26aa-da30-ceee-7d27-c1e902dd4218@gmx.de> <YuV9PybMPgc83Jis@p100>
+ <1eb62346-304b-54d5-8a62-8a35888d51bd@kernel.org>
+ <35e860bb-c76c-ca5f-3f48-2bf6cb798689@gmx.de>
+In-Reply-To: <35e860bb-c76c-ca5f-3f48-2bf6cb798689@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fvnbUjIfRjo7BJSx+mfDA4vZyG8NWXczmkia6v3VEBCbAyao9hd
+ exfzNMaGvcGQxH4Wvi0pQPqDGVjRjsbygiweWzqqKN84vnc01cUaFT500sLFmneopmj6TuN
+ 7D8EJ8pXwbhM7DmAcvWEYyuPh8lKGaxGucyqyJFgRu34oMBEb142RvDrcK9gdV236pr3wtT
+ Oy5TtUfMy3fcCyOUFruuw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yOyWATsJFEw=:5/aYH5v3o7Xf+v2pqkfDUK
+ reV/GHEIayBJfoEzdblpgI9tivDovDbUtiadXbrco1O1Kz/139sfsYQ0v7CvR3uzJp9KLYDwR
+ HUy9n1zYPpW92BNmMt4mGO64m+SNpC6k2xcrQbAl2p5exmUCgv2eDZfXtukUFmM+A+s+9eTIu
+ fbTTBaE+RPM4bPa4tMbNhMFuJoEGAc7jSz71EUcLdnwqnZPhmD7G3rsvvV241xFytVD74Ty3E
+ DN36Oqb8zFSsDDuDzzrFynP9ZkH9htFN8iZtWXV1Ecwarp06/GJ1hFwvyNU+eZJn9wJ9/xYc1
+ Vz/Ll7S7kfQ2eeR3kcoitXlP/MIv1Av93Kgs1HtcLMS1xSz78IMy3hN6YqPGEB7TlaroAwUZG
+ y5kVhKzUGPqeszSaqofYC/PzSRHw2iK3V6qVK/VvqE00bFveRyxB1zS+dJ0BvQJejXPNnj4ad
+ cgz6VWmb/Fd5NMRDtzGM/aao8Dd6CI2jlwp7jnO4IevakW7ptE4FfazIc6q19UIolnrfbp8iS
+ gVJVJy2UDEssqoqTP4SRJkL8yGAYfFKJQjtILiwX2hZ3KY0ByVOniP0SYkQOpjdE+ziCgUgqS
+ jX7qKet8R6eQ+eeg+YlPeSteXvgcwVUY2nTw1aluOUEEOPX/SNX8nzkOfu/19NOk7Xa4akCBJ
+ wyy2rO8r28wZmTUdJNbgwdhJB7cjj0DXgD7oM4Yl3neecSqDqf33kEas6KlrehHj4wqS/1nC9
+ UlbKQ0qZ/Gu4bwXXDZRhZAt+IBh33/hIFUzUOSeOV6r1CPxUykUDa+pUpA6ednhIhbU6njKyN
+ mL5FPM5oSG1euYGSbNvhs8aAOeFPBzteq/Ga48v6SNffpjl7uFIaM6nc2ZYAVSTqkpO885DS0
+ 4aj/gQ4TV+8y+WCkmOWfkRlFa1C2C1Ksy6kAi/iZkKUBApFP/7g8R3fIq3eWUWgw1yQghgEiA
+ yp4/ctSMTC1V4CyUq5FSDXI39NTc47Oifz6kyw0yIaH4aQ3D1HKftyJgepHkvQDIjaMDcteUl
+ JqmX9jvje5xHJOL+I8Q87bWPd7IFqWfnb4ETlQ5dNBl+VJBqYiGEzc+0amG0leXUMsi6KI9VY
+ qwmRjvX9VRaDMvvEOmOmfJU4qF/5hyagZQAEzySWsild0wCtSTf7hWrsg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,176 +80,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, robert.chiras@nxp.com,
- laurentiu.palcu@nxp.com, NXP Linux Team <linux-imx@nxp.com>,
- Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22-08-03, Adam Ford wrote:
-> On Wed, Aug 3, 2022 at 1:20 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
-> >
-> > On 22-08-02, Adam Ford wrote:
-> >
-> > ...
-> >
-> > > > I did some reading about the internal timing generator.  It appears
-> > > > that it's required when video formats use fractional bytes, and it's
-> > > > preconfigured to run at 720p by default, but registers 28h through 37h
-> > > > configure it for other video modes.
-> > >
-> > > I think there may still be some issues with the DSIM since some of the
-> > > clock frequencies are set in the device tree.
-> > >
-> > > From what I can tell, the pixel rate is calculated based on the
-> >
-> > By pixel rate you mean the HDMI pixel rate from the ADV? If so then yes.
-> > The ADV has an divider which is already configured by the driver but
-> > meaningless since the driver is lacking of setting the "manual-divider"
-> > bit within the same register.
-> 
-> I was thinking about the pixel clock from the DSI to the ADV.  I did
-> see the manual-divider bit was missing.  I tried enabling that bit,
-> but it didn't appear to make much difference.
+On 8/4/22 09:15, Helge Deller wrote:
+> Hello Jiri,
+>
+> Thanks for looking into this patch!
+>
+> On 8/4/22 07:47, Jiri Slaby wrote:
+>> On 30. 07. 22, 20:49, Helge Deller wrote:
+>>> The line and column numbers for the selection need to start at 1.
+>>> Add the checks to prevent invalid input.
+>>>
+>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>> Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
+>>>
+>>> diff --git a/drivers/tty/vt/selection.c b/drivers/tty/vt/selection.c
+>>> index f7755e73696e..58692a9b4097 100644
+>>> --- a/drivers/tty/vt/selection.c
+>>> +++ b/drivers/tty/vt/selection.c
+>>> @@ -326,6 +326,9 @@ static int vc_selection(struct vc_data *vc, struct=
+ tiocl_selection *v,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>
+>>> +=C2=A0=C2=A0=C2=A0 if (!v->xs || !v->ys || !v->xe || !v->ye)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+>>
+>> Hmm, I'm not sure about this. It potentially breaks userspace (by
+>> returning EINVAL now).
+>
+> Right.
+> According to the code below, my interpretation is that all xs/ys/xe/ye v=
+alues
+> should be > 0. But of course I might be wrong on this, as I didn't find =
+any
+> documentation for TIOCL_SETSEL.
+>
+> And if userspace tries to set an invalid selection (e.g. by selecting ro=
+w 0),
+> my patch now returns -EINVAL, while it returned success before.
+>
+>> And the code below should handle this just fine, right:
+>>>       v->xs =3D min_t(u16, v->xs - 1, vc->vc_cols - 1);
+>>>       v->ys =3D min_t(u16, v->ys - 1, vc->vc_rows - 1);
+>>>       v->xe =3D min_t(u16, v->xe - 1, vc->vc_cols - 1);
+>
+> It "handles it fine" in the sense that it can cope with the
+> input and will not crash.
+> But it returns (maybe?) unexpected results...
 
-This depends, e.g. I saw that the HDMI pixel clock is correct if I had
-set this bit, set the divider manually to 6 and configured the dsi-host
-burst clock to 891MHz:
-  -> 891MHz / 2 = 445.5 (DSI-Clock) -> 445.5 / 6 = 74.25 (HDMI pixel
-  clock for 720P)
+After some more thinking maybe you are right.
+In case a user provided invalid values in the past, simply an unexpected
+selection was set, but nothing broke.
+Since the patch doesn't fix any critical issue, we could just drop this pa=
+tch
+and leave it as is.
 
-Of course this doesn't happen automatically yet :( I also find it a bit
-of too reduce the lane line, I had removed this logic too. But as I
-said, I got no frames shown on my HDMI monitor.
-
-...
-
-> > > samsung,burst-clock-frequency = <1500000000>;
-> >
-> > This is not correct since the burst-clock-freq. specifies the hs-clock
-> > for the data lanes (see above).
-> 
-> But I don't think the clock should be fixed. I think it should vary as
-> the resolution changes. 
-
-You're right and this is something we have on our TODO list as well. But
-this needs a bit more work within the DRM framework. So the client and
-the host can negotiate the frequency.
-
-Remember our main problem: with a correct burst-clock-frequency set and
-lane number set for 720P, the ADV don't display anything.
-
-> From what I can tell, NXP's DSI code doesn't
-> hard code this value, but it does appear to cap it at 1.5G.  I did
-> soom looking into the NXP frequency calculation
-
-Can you provide me a link? There are a lot frequencies involved in this
-discussion ^^ Just that I look at the same location.
-
-> and it is capable of adjusting resolutions to some extent and from
-> what I can see the 891MHz clock is only set when 1080p.  At 720p,
-> thier kernel shows the output frequency at  445.5 MHz. 
-
-Yes, we need the dynamic handling but hardcoding it isn't the way we
-should go either. We have the dynamic PLL calculation, so we can
-configure it to all possible values not just a few VESA standards.
-
-> The way the DSIM is currently configured, it's fixed at 891MHz, so I
-> don't expect the output feeding the adv7535 to be correct for the
-> different resolutions.
-
-Why not? The ADV can work with that hs-clock and for 720P@60 we need a
-bandwidth of roughly (only pixels no package header/footer overhead):
-
-  1280x720x24x60 = 1327104000 Bit/s = 1327.104 MBit/s
-
-With 891MHz and 2 lanes we have
-
-  891MBps * 2 = 1782000000 Bit/s = 1782 MBit/s
-
-So this should be fine. With 445.5 MHz and 2 lanes we have not enough
-bandwidth and with 445.5 MHz and 4 lanes we have exactly the same
-bandwidth.
-
-Therefore I still think that there is problem within the ADV.
-
-...
-
-> > > With these settings and the above mentioned code changes, 1080p still
-> > > appears, however when attempting other modes, the display still fails
-> > > to load.  I also noticed that the phy ref clock is set to 27MHz
-> > > instead of NXP's 12MHz.
-> >
-> > That's interesting, I didn't noticed that NXP uses 12 MHz as refclock
-> > but I don't think that this is the problem. Since we have other
-> > converter chips using the bridge driver and they work fine. I still
-> > think that the main problem is within the ADV driver.
-> 
-> Do the other converter chips work fine at different resolutions?
-
-Yes.
-
-> 
-> >
-> > > I attempted to play with that setting, but I couldn't get 1080p to
-> > > work again, so I backed it out.
-> > >
-> > > Maybe I am headed in the wrong direction, but I'm going to examine the
-> > > P/M/S calculation of the timing on NXP's kernel to see how the DSIM in
-> > > this code compares.
-> >
-> > I think the pms values are fine.
-> 
-> I compared the P/M/S values between this driver and NXP's and they
-> calculate different values of PMS when running at 1080P.
-
-NXP don't calculate anything if I remember correctly, they just provide
-PLL values so they reach the frequency. On the other hand with the
-patches from Jagan we can configure the PLL to what-ever value :)
-
-> NXP @ 1080p:
-> fout = 891000, fin = 12000, m = 297, p = 2, s = 1, best_delta = 0
-> 
-> This kernel @ 1080p:
-> 
-> PLL freq 891000000, (p 3, m 99, s 0)
-
-As you said, we use a differnet fin value 27MHz instead of the 12MHz so
-those values must be different.
-
-> at 720P, the NXP Kernel
-> fout = 445500, fin = 12000, m = 297, p = 2, s = 2, best_delta = 0
-> (working)
-> 
-> at 720P, this kernel:
-> PLL freq 891000000, (p 3, m 99, s 0)
-> hs_clk = 891000000, byte_clk = 111375000, esc_clk = 18562500
-> (not working)
-
-Yes, as I said you need to configure the PLL manually (see above).
-
-> > > If someone who understands the interactions between these different
-> > > components has suggestions, I'm willing to run some experiments.
-> >
-> > Did managed to get access to the ADV7535 programming guide? This is the
-> > black box here. Let me check if I can provide you a link with our repo
-> > so you can test our current DSIM state if you want.
-> 
-> I do have access to the programming guide, but it's under NDA, but
-> I'll try to answer questions if I can.
-
-Thanks a lot for your work :)
-
-Regards,
-  Marco
+Helge
