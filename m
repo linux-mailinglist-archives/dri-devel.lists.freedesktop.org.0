@@ -2,53 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AED758992D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 10:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF34589954
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 10:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31CA12B7D6;
-	Thu,  4 Aug 2022 08:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFAD110F578;
+	Thu,  4 Aug 2022 08:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E86AE8F24E;
- Thu,  4 Aug 2022 08:18:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659601088; x=1691137088;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=yQan3K3MzfFlco62xGlbqgCcc6m4f4EY80JPF0pTQKo=;
- b=iPy+FLyUQp9FK3McfCq60svqU05OWF6uXIdHc4GdrFRwTWLodkT02whN
- mhjsxqdZCY22mwQvcK2BcarP7KWeX4HB04wWVCaOm919qALCSRzpGQ1sH
- gPSjgjelpXF4irhjr7I2GUe1vIwh4OqsBf+FVf1xfrDNT/c59318F1Jt2
- WJLO6Oj5CT2Yo3Ebc/d+f55o8Dv8uJYcDUgcR5Le2sN/lCiN/GlcU0rlf
- bOrs+71geb8Z3EqLb+45HUOMi/HtCoN0HGiB/U3CY33P4zXfInlsPz2JF
- gbRLxelBK9xTl9UtNOEAeCfrXXNHi1OuBiUb/EsTVOHAO4oArpJWVeGHu w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="270253082"
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; d="scan'208";a="270253082"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2022 01:18:07 -0700
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; d="scan'208";a="603135791"
-Received: from fzoltan-mobl1.ger.corp.intel.com (HELO [10.213.220.160])
- ([10.213.220.160])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2022 01:18:03 -0700
-Message-ID: <aa323022-f54c-23e2-92b9-87191209177e@linux.intel.com>
-Date: Thu, 4 Aug 2022 09:18:01 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAEEB10F703
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 08:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659601949;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0auJsCK06PWTESW74y0ftQcvvf4/UB9cG0roNrgm6PM=;
+ b=HoSfioQLx/TlkONr7r6cptFhNK0B6OCZ/Vh9kyq3+xtcXHPOkPtjQkzQzEVz/UC6qkzael
+ tABhLSd/3gRI3WPhNvSxNaX/xWulBxQSRQc1xk7HwLq0BT9723MQrKjz5fimqrBjb54CmO
+ y0sGmReaolFQoZhheuPTIiN3HTecOYo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-503-mRX2S-BHMa2gmv0wmr2VfQ-1; Thu, 04 Aug 2022 04:32:28 -0400
+X-MC-Unique: mRX2S-BHMa2gmv0wmr2VfQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ f13-20020a0564021e8d00b00437a2acb543so12549687edf.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 01:32:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0auJsCK06PWTESW74y0ftQcvvf4/UB9cG0roNrgm6PM=;
+ b=fnTgkSI1p+dRKjrwrBqhrhMFguPXURRTyz5wHTECCzYraI6psSW5m2Ss0uguciNh52
+ aCvKBl1SuWI8PCR6DHzU81ZoqYHDg29ZStNHU3Ga9KQYwWfdel8m1dG/A3OvKk1BGIO7
+ rvrFiMCvXC1voBEQu8TD8gnJUtbHe1UUKDaBT2kBnxGhT/rmZzFqWKBewsajpoaYZ/Qb
+ shV0q12nsHCRTqcfR+4wqDS2E+ANE0ZR8dSEWhDMIQbgJDmUF6b8o5qULMSb//KtLJCW
+ vQB/yWwesZzsF0zVyEU1OK8hkGs6mHpDoIsza3XsukE44YPqR41kDZYha+Kxm34kv022
+ 9gKg==
+X-Gm-Message-State: ACgBeo2ZTsndM24SeiWHotUUyEUtGZkdjenEOcVjuOFJ60u9TAQhwuqw
+ q3roQqe7AmK95m0II7B2AhCtJ883ccB0EJdk2QqbcCcQ3RByn0ml/z1LeDbPPeyK5oC88Yc9+42
+ d9gY/Hf52/9PVdM4ivldqdQuKhY9e
+X-Received: by 2002:a05:6402:4381:b0:43b:cb55:ae3c with SMTP id
+ o1-20020a056402438100b0043bcb55ae3cmr889701edc.45.1659601947647; 
+ Thu, 04 Aug 2022 01:32:27 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ftOGy44vO+4n3LYxeMS36KALCYj0N9kx8p1IMh8cFSJwJS1ngCJxRjXd3sz+0KKmEt8qqMA==
+X-Received: by 2002:a05:6402:4381:b0:43b:cb55:ae3c with SMTP id
+ o1-20020a056402438100b0043bcb55ae3cmr889679edc.45.1659601947436; 
+ Thu, 04 Aug 2022 01:32:27 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a1709063db200b00726c0e63b94sm112530ejh.27.2022.08.04.01.32.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Aug 2022 01:32:26 -0700 (PDT)
+Message-ID: <d24e781c-3c84-26eb-14b9-8cb4ea3b32ba@redhat.com>
+Date: Thu, 4 Aug 2022 10:32:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 1/3] drm/i915: pass a pointer for tlb seqno at
- vma_invalidate_tlb()
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Anbernic
+ Win600
+To: Maccraft123 <maccraft123mc@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220803182402.1217293-1-maccraft123mc@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220803182402.1217293-1-maccraft123mc@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <cover.1659598090.git.mchehab@kernel.org>
- <f9550e6bacea10131ff40dd8981b69eb9251cdcd.1659598090.git.mchehab@kernel.org>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <f9550e6bacea10131ff40dd8981b69eb9251cdcd.1659598090.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,96 +91,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, Chris Wilson <chris.p.wilson@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 04/08/2022 08:37, Mauro Carvalho Chehab wrote:
-> WRITE_ONCE() should happen at the original var, not on a local
-> copy of it.
+On 8/3/22 20:24, Maccraft123 wrote:
+> From: Maya Matuszczyk <maccraft123mc@gmail.com>
 > 
-> Fixes: 5d36acb7198b ("drm/i915/gt: Batch TLB invalidations")
+> This device is another x86 gaming handheld, and as (hopefully) there is
+> only one set of DMI IDs it's using DMI_EXACT_MATCH
+> 
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
 
-Cc: stable I think, since the above one was. So both hit 5.21 (or 6.1) 
-together.
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Since we are currently in the middle of the merge window
+and this patch needs to go to a -fixes branch I'm not quite
+sure how to handle this.
+
+Hopefully one of the drm-misc maintainers can pick this
+up (once rc1 is out?) .
 
 Regards,
 
-Tvrtko
+Hans
 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+
 > ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v3 0/3] at: https://lore.kernel.org/all/cover.1659598090.git.mchehab@kernel.org/
-> 
->   drivers/gpu/drm/i915/gt/intel_ppgtt.c | 2 +-
->   drivers/gpu/drm/i915/i915_vma.c       | 6 +++---
->   drivers/gpu/drm/i915/i915_vma.h       | 2 +-
->   3 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> index 2da6c82a8bd2..6ee8d1127016 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-> @@ -211,7 +211,7 @@ void ppgtt_unbind_vma(struct i915_address_space *vm,
->   
->   	vm->clear_range(vm, vma_res->start, vma_res->vma_size);
->   	if (vma_res->tlb)
-> -		vma_invalidate_tlb(vm, *vma_res->tlb);
-> +		vma_invalidate_tlb(vm, vma_res->tlb);
->   }
->   
->   static unsigned long pd_count(u64 size, int shift)
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 84a9ccbc5fc5..260371716490 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -1308,7 +1308,7 @@ I915_SELFTEST_EXPORT int i915_vma_get_pages(struct i915_vma *vma)
->   	return err;
->   }
->   
-> -void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb)
-> +void vma_invalidate_tlb(struct i915_address_space *vm, u32 *tlb)
->   {
->   	/*
->   	 * Before we release the pages that were bound by this vma, we
-> @@ -1318,7 +1318,7 @@ void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb)
->   	 * the most recent TLB invalidation seqno, and if we have not yet
->   	 * flushed the TLBs upon release, perform a full invalidation.
->   	 */
-> -	WRITE_ONCE(tlb, intel_gt_next_invalidate_tlb_full(vm->gt));
-> +	WRITE_ONCE(*tlb, intel_gt_next_invalidate_tlb_full(vm->gt));
->   }
->   
->   static void __vma_put_pages(struct i915_vma *vma, unsigned int count)
-> @@ -1971,7 +1971,7 @@ struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
->   			dma_fence_put(unbind_fence);
->   			unbind_fence = NULL;
->   		}
-> -		vma_invalidate_tlb(vma->vm, vma->obj->mm.tlb);
-> +		vma_invalidate_tlb(vma->vm, &vma->obj->mm.tlb);
->   	}
->   
->   	/*
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 5048eed536da..33a58f605d75 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -213,7 +213,7 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
->   			u64 size, u64 alignment, u64 flags);
->   void __i915_vma_set_map_and_fenceable(struct i915_vma *vma);
->   void i915_vma_revoke_mmap(struct i915_vma *vma);
-> -void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb);
-> +void vma_invalidate_tlb(struct i915_address_space *vm, u32 *tlb);
->   struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async);
->   int __i915_vma_unbind(struct i915_vma *vma);
->   int __must_check i915_vma_unbind(struct i915_vma *vma);
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index d4e0f2e85548..a8681610ede7 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -128,6 +128,12 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
+>  		},
+>  		.driver_data = (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* Anbernic Win600 */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
+> +		},
+> +		.driver_data = (void *)&lcd720x1280_rightside_up,
+>  	}, {	/* Asus T100HA */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+
