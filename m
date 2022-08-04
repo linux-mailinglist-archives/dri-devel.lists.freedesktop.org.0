@@ -2,109 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877F4589DE2
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 16:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B439D589DEA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 16:52:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8D29A7B4;
-	Thu,  4 Aug 2022 14:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4D29A85A;
+	Thu,  4 Aug 2022 14:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 253E418A523
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 14:50:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JRRUEKC4men3xhsKO+vWRLeHcOAjC75lQ5C2FJKXQ9cdJkU4ZTQdveSgqrqkatCtjbBlKpyGho6lA3spyrcht07cksa6JmHsb/bvt1VvKR5xX/suqHlpSz/ilwllAOkmbrmsyqI7iyrTgtO2C+HiiL0MlVPDOCo4lWcSdf+BOvWov8lzwXMBrYRtnHW8thylVuWSBlJgbcaziM5WFI7dlkxRt8AEfo1BdSlVeyPzRGTRDNdjoibxYAW4UsGlKJ6wJZhoW+QD+OyOm3rAZKwBsrpdHf/zZ8I260wsb2mO5gAh+iQOTteTBNuoZdNdoOyti3ZK8Prw670RCGdK600w6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lVBcRVAx9X1uPZPiQV5Rqd5dySwPvCS21UiFAXXVZWA=;
- b=UAzXegfOpu6V0vjsIYdEAqOKvDJPO8e4rvQbFDnFWfky1E854R7K+dxCmkSDVQXE9RhgJBEDq4BxZYIvCK1dJBJqFnnyZQ/tesor1iFrWrsMCGPQg+vnE4TQ8fwcV54CKOrBmSaGuoLrptj4p8mrtSBzGtdrn2gZFT6If3nxsqNukNpu8+K76RrGU7aoLKR2HcT7iSyp4rmAzCXU/TljZNinYg3tWiITz+aroXoB/52WSqyf8leB5sLVIt9jPyqc18bD8+5/Zafj+P5CYvlfBa9D1IqB7Z2Uq2LclVgvArzvC1IbzDpVicn8vjyPye76Lkw6QLeNcUwq+gfBzjK+pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lVBcRVAx9X1uPZPiQV5Rqd5dySwPvCS21UiFAXXVZWA=;
- b=YYGULDoGVEQZ2/17KPSwYSscX0oU6cmyx3BoKETUBLcWF0DXtHRTPlYifaC2Y172Zkq9vb5YLuvsRngilXK+RnvhSEI90PBWJI+TNzKApz6Vrqa7nlwFRxeN+6ef2/FYkOc6qmhP72FTo97vSXoK+KXqBtZKYV3Ux2qybD8W6EjQnrkkx6uOFcE0tQO8w9AwY6d94j9gY2NJhsu9ooKXkjZrtp1ZmavPFW6dGU0y8iD/UhBzeysWSQ1lox5F5iB4nyUlxMAggLh6qtOgxlZ4cUx6M4mYEmRAXF0gZA+1ekf6NCZ291sYvFjHGe+ug+MdebmYVPqwa8b7etee8u74Ng==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by LV2PR12MB5797.namprd12.prod.outlook.com (2603:10b6:408:17b::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 4 Aug
- 2022 14:50:30 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::1a7:7daa:9230:1372]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::1a7:7daa:9230:1372%7]) with mapi id 15.20.5504.014; Thu, 4 Aug 2022
- 14:50:30 +0000
-Date: Thu, 4 Aug 2022 11:50:29 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Oded Gabbay <oded.gabbay@gmail.com>
-Subject: Re: New subsystem for acceleration devices
-Message-ID: <YuvctaLwRi+z0Gw4@nvidia.com>
-References: <CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com>
- <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
- <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
- <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
- <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
-X-ClientProxiedBy: MN2PR03CA0003.namprd03.prod.outlook.com
- (2603:10b6:208:23a::8) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D939A85D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 14:52:07 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id gk3so25164418ejb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 07:52:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BWfvbI/fCQxffa07xrH5Bhn2ICjeR5HGQt2MGWBy+fg=;
+ b=WzTrf9lbqKCko1Ohdl7g6gYcc1+ksnl0iyuqBbyzdeXMm3kBSFu/bf5X8iSScnV1X/
+ WCejVUwAXVtjzDQXUyrOUvLIH8by18+X98DTdZH2GXlm6S178Sd3QUaJ9cVbfr/eQIkb
+ /jVRYJ2OR9h9YmhtibjX/Sd+txsGUFoAaKvzfZNQgkJsgDi9jJdjICHvTjCnvCAaKfrJ
+ RjNZHm/zVBCnsHAmFSAFRuXmbbBBY98dNgMTdUqtO2CYfdgVC/vd0ChQK+QhuswXHD9r
+ 0B8rXxJiRUBj8qkgxHrQfrJOTNJh6QlMAdtAP3AD9Slv+iW0QUPtrtvSahpRRrsD8AuU
+ AOQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BWfvbI/fCQxffa07xrH5Bhn2ICjeR5HGQt2MGWBy+fg=;
+ b=B/gARACVIFvY5RRBGfOqfMX5V9pdkh4B3sTtAP0+3mXq16r6jv0bxaxPx3AM3cV6UG
+ 1t896DVox1jF0lME+2/2ZO9EnCZIFqHc9dfSyzLo9TU0IbyYLXsNyBg6CH4Qdt+ZGXRd
+ pZJJwQ4tTJr5YrqMfP0v1q0fMZDT4SwpILdBCwtjleqZnK/S11ivb55tpwqIZ++7hHFw
+ cYz5F46yTvrcmboqe85crPU+wxgYycua23uN5ApozRqccYZt/YnlRFm+Hco+GhsxUyi4
+ w52PgR8dYwzsA7jGpVBQ7UjHMYC1A1Z27/C0ub+1Vw0cHxPB0gf6v9z8AB6MGd7I4A2V
+ T6mw==
+X-Gm-Message-State: ACgBeo2NOqhOl2D69L6W1boKkghal+FWL7KslKvIbyRvDioRh1RfKcY9
+ FSIg6N/jZvoRuRMj7H94EKhN2vtYipCvYlfnf+CL/g==
+X-Google-Smtp-Source: AA6agR6dicmwfDEC/wLJzQTmUC5hwNo5Ku3TMvN+XWyi0mIjTYltdiGX2XrBVVs+SBHlPOLwnMoNtu9g/OACV35QSwk=
+X-Received: by 2002:a17:907:c07:b0:730:b91b:2cab with SMTP id
+ ga7-20020a1709070c0700b00730b91b2cabmr1762872ejc.294.1659624725670; Thu, 04
+ Aug 2022 07:52:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 52fa82fd-9f11-489a-8f58-08da7628ad40
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5797:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YzdrC32APWDk2KLpGY5c5zyCgbLJYkBS0iBQcsfWpcEmK911uphlrya2BIGPGHRljo2feCYMhIQVKVz3pOeDfUwtpmFquKhls195ivAZ17U594FlWT46Its9puqVHBgCsMTjXNQUPxTNP5AKB5iCCsQIklAOecuIxyvKT5Y1ooYPA2wn47euFApTN4sj461g818DDiCumpJL4JYuTpPWVz28vNXe5pMFOSvkXSPQrw+UrS8AzUogpMQZZAAeIfxLioGeCFfpkxBZF88wJfei7IOkHzuS4ZOxz7L0PQWG0kyPRNoNIxL20x8b6j0fDwrhljJs5kXi/jjRuHMyMHTskeC0k3VK+sy4aYxuoJooiHKD/Z3umXdEzCHuPuBomBU7IFaTL3U503iWfaG0CVqe4IkUMhSK1pDJWuPxL0+iMmjN2+LBhu4sxTwO4hGdo7DTxPFMNEkYS2LYdhIqyfbA4mdApDMIf0MO0lC2yrKvIltrc2XoKTjBl7Q5tfjPhbUcDi7+vxuHEXvoh9JNIWF74kit+izKa6ugos/fhSR8BEnmI8iAFBkCr9ggkrwK5TE1OxozEkkCfI2Evg28N6Gx0xG1O+QUPUUur39WDU+c0vgbdEXeZE0lWaUHOdAap5FqhpHyuXacLmF+5cMY8QFRLejMKJzQGkptUZtFvAO8Uo4UPosN6fGwcywwFKs4gzbaUUa7dtFWsOl0qRNp/YVY+r8x43wPPIoCouG5nt4Wvy59vH5cOVqygQD+figOQ/V6cqtuRBEZlTwwOo+vHEIFVTWZoYUcpBM7mM0nWRF6q4g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(376002)(396003)(366004)(346002)(136003)(38100700002)(8936002)(186003)(2616005)(4326008)(36756003)(316002)(66556008)(66476007)(6916009)(54906003)(8676002)(66946007)(86362001)(6512007)(6506007)(6486002)(478600001)(2906002)(5660300002)(41300700001)(26005)(67856001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vRaHFA8eun9H00hh9xMg09skvdq30ZR7rpUrUVsqL5dcd4idUgNzOlycllMX?=
- =?us-ascii?Q?9UD7VKRa517e7QtzK19Kfe5rMZj+H0X9B1lK562K5M/J+V76lZLXGMRvuS/g?=
- =?us-ascii?Q?ufX1PzMMQUJq3K0g96rDwSykMRksk9LdqNoQ+crMtS1IvL2mBOMoCaD0O2PL?=
- =?us-ascii?Q?nRtM7DvgJz6noK+pg+Uo0VPYHvKHPU5SMtuxZ8LYoo9pPj0eyzhoeb4TKL35?=
- =?us-ascii?Q?JSaeDJfJsTFkQzSdWHFAAZD+B90ctb43UnUdLvMm81nEd8XBdvUbF1FD9PPT?=
- =?us-ascii?Q?QEMxDu0m7DbScZ0tiqlFzqpbKoOwoYVASfb9HIytIct6QE1+xLpqfgFatVjc?=
- =?us-ascii?Q?zWAkHz803VeMl14vpZ+esr+9yqddcXIur9CgdnhT+RD74LAcSoxwh5Ul+RdB?=
- =?us-ascii?Q?XNc1hRFikT/fGbPnUnPYFBRDZ+qdAcFdn6dZdf49mPskWJqoJC5E10RMncRN?=
- =?us-ascii?Q?f7g2lw9eMY6iZUf9YnK3CokhmgSPWbUX5lLCG9umirO5daCAWQXgrIGQf7FU?=
- =?us-ascii?Q?JJ1C5S8PZEEYOGiZb0T2c36KHJRgFo+Tj4qwyYajS0BFAKNrWl9c2kecU73a?=
- =?us-ascii?Q?g9ZBlyYn3O/Tc2GozDP0/69QhES52q6ckokUxUlTqZVyK7Evr5NdQY+a2lrN?=
- =?us-ascii?Q?n+GWomEMmRZ6Q7h8/Fj6leh5vEN5KrW3L1+i+m+rtQ5y+gSsNIn0WO2ZoE5A?=
- =?us-ascii?Q?NUF3P4dp38VLuPNWT8IEqimEVQpL1xsOK5LBwzTtz5bkZs58DlVRoerca72b?=
- =?us-ascii?Q?Ac6fNXdVoIxHxae1NJWwoLXTG1wzATnTNXgyipokD/zfcHNWAtCdQmHv9s0S?=
- =?us-ascii?Q?ynAhI+URErmQ53nrlui5xY4jgrLPjYctkDSkrBUCWX7ib1Y7dQf1Azt3tG3R?=
- =?us-ascii?Q?1pJrDXsX4+o1osh56m7rvSePufbnZpDvvfNSBw+LkT93aAQk+8OCK2HTwlyA?=
- =?us-ascii?Q?OuXxSCMc7DTxae5IWt6mFkaqVrFupgPro0+mTXK011IbfLPqU0SUkftGwRpG?=
- =?us-ascii?Q?dq+HmJjTJazFbo8H0rdER9A9Ol6cT/VusJSgBv28aQsDR7VdhXNr5oWVDbU+?=
- =?us-ascii?Q?K92CA2q5JB/H09BNWMNonupQe+se+Z2hbSnBFtCeIfuO9ODcrEGzXTH3sKYh?=
- =?us-ascii?Q?Qrw8d5RwjkjRmJGDi3og0PNAU7ZLAEh3sHldipjbg5ZjT5OfH0toqClm8YcS?=
- =?us-ascii?Q?toqwyb+Hxk9HYBjGuP1dZQNr/ipjOTiChY3NfF8g4ll8KKDtiR4KZc2sdTrx?=
- =?us-ascii?Q?j3owilGVxlhzePREhh4sJwxgDodvMAfseO39wJf1A6+7HPj5Z6+dYZROXtj0?=
- =?us-ascii?Q?QSPuwa/yjVj3ztRgZNgt9NqsSFRPDksBBBbsNFnthVkVnx1S5SBS4zqPtKCD?=
- =?us-ascii?Q?FpgUEwpinqgsT/Xlwc/Ivn1x/9ijQTGAIsRZclYWLd4UKPyTawxq17TI0foY?=
- =?us-ascii?Q?WQiSrnEI+eQstS5gCMovQNl2Ajjow/ZUC/a65KgG3B7CZAzbVpiCKlJ8Gg5R?=
- =?us-ascii?Q?L960dMnKlru5VXzERfQKk2XQ9LXV0iCuL0u1uVanyd59fZelZt9w039vaX0e?=
- =?us-ascii?Q?WLUT3BU3OhYejX62oQT077OfM8CjSEY6FcZB9eJT?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52fa82fd-9f11-489a-8f58-08da7628ad40
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 14:50:30.6160 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VzUMDY1SMTr4qcm5NYmFlja4S6KaVGOFsFLr+TzP+LElg2+a8UJq4drZxM4RfZrK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5797
+References: <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
+ <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
+ <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
+ <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
+ <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
+ <20220803062024.vn7awasmifkp5xow@pengutronix.de>
+ <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
+ <CAPY8ntBBz56Es=pK+KpqhyYLUET95DT_zE6gorOWx4WkCSxJAg@mail.gmail.com>
+ <20220804093829.42kdelp7u4r743nv@pengutronix.de>
+ <CAPY8ntBovVq1HVt_UneDF8OB9KBdEBv52o=4BCTmf9VpiODxVg@mail.gmail.com>
+ <20220804125152.idyzetjqkjzgbbm2@pengutronix.de>
+In-Reply-To: <20220804125152.idyzetjqkjzgbbm2@pengutronix.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 4 Aug 2022 15:51:49 +0100
+Message-ID: <CAPY8ntAatYvbf5ehfsj4qcSDC=sODeN1Cj0vDjn6p0M=k320NA@mail.gmail.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+To: Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,41 +73,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jiho Chu <jiho.chu@samsung.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ laurentiu.palcu@nxp.com, Sascha Hauer <s.hauer@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, robert.chiras@nxp.com,
+ Robert Foss <robert.foss@linaro.org>, Adam Ford <aford173@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 04, 2022 at 10:43:42AM +0300, Oded Gabbay wrote:
+On Thu, 4 Aug 2022 at 13:51, Marco Felsch <m.felsch@pengutronix.de> wrote:
+>
+> Hi Dave,
+>
+> On 22-08-04, Dave Stevenson wrote:
+> > Hi Marco
+> >
+> > On Thu, 4 Aug 2022 at 10:38, Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > >
+> > > Hi Dave, Adam,
+> > >
+> > > On 22-08-03, Dave Stevenson wrote:
+> > > > Hi Adam
+> > > >
+> > > > On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > ...
+> > >
+> > > > > > Did managed to get access to the ADV7535 programming guide? This is the
+> > > > > > black box here. Let me check if I can provide you a link with our repo
+> > > > > > so you can test our current DSIM state if you want.
+> > > > >
+> > > > > I do have access to the programming guide, but it's under NDA, but
+> > > > > I'll try to answer questions if I can.
+> > > >
+> > > > Not meaning to butt in, but I have datasheets for ADV7533 and 7535
+> > > > from previously looking at these chips.
+> > >
+> > > Thanks for stepping into :)
+> > >
+> > > > Mine fairly plainly states:
+> > > > "The DSI receiver input supports DSI video mode operation only, and
+> > > > specifically, only supports nonburst mode with sync pulses".
+> > >
+> > > I've read this also, and we are working in nonburst mode with sync
+> > > pulses. I have no access to an MIPI-DSI analyzer therefore I can't
+> > > verify it.
+> > >
+> > > > Non-burst mode meaning that the DSI pixel rate MUST be the same as the
+> > > > HDMI pixel rate.
+> > >
+> > > On DSI side you don't have a pixel-clock instead there is bit-clock.
+> >
+> > You have an effective pixel clock, with a fixed conversion for the
+> > configuration.
+> >
+> > DSI bit-clock * number of lanes / bits_per_pixel = pixel rate.
+> > 891Mbit/s * 4 lanes / 24bpp = 148.5 Mpixels/s
+>
+> Okay, I just checked the bandwidth which must equal.
+>
+> > As noted elsewhere, the DSI is DDR, so the clock lane itself is only
+> > running at 891 / 2 = 445.5MHz.
+> >
+> > > > Section 6.1.1 "DSI Input Modes" of adv7533_hardware_user_s_guide is
+> > > > even more explicit about the requirement of DSI timing matching
+> > >
+> > > Is it possible to share the key points of the requirements?
+> >
+> > "Specifically the ADV7533 supports the Non-Burst Mode with syncs. This
+> > mode requires real time data generation as a pulse packet received
+> > becomes a pulse generated. Therefore this mode requires a continuous
+> > stream of data with correct video timing to avoid any visual
+> > artifacts."
+> >
+> > LP mode is supported on data lanes. Clock lane must remain in HS mode.
+> >
+> > "... the goal is to accurately convey DPI-type timing over DSI. This
+> > includes matching DPI pixel-transmission rates, and widths of timing
+> > events."
+>
+> Thanks for sharing.
+>
+> > > > The NXP kernel switching down to an hs_clk of 445.5MHz would therefore
+> > > > be correct for 720p operation.
+> > >
+> > > It should be absolute no difference if you work on 891MHz with 2 lanes
+> > > or on 445.5 MHz with 4 lanes. What must be ensured is that you need the
+> > > minimum required bandwidth which is roughly: 1280*720*24*60 = 1.327
+> > > GBps.
+> >
+> > Has someone changed the number of lanes in use? I'd missed that if so,
+> > but I'll agree that 891MHz over 2 lanes should work for 720p60.
+>
+> The ADV driver is changing it autom. but this logic is somehow odd and
+> there was already a approach to stop the driver doing this.
 
-> After all, memory management services, or common device chars handling
-> I can get from other subsystems (e.g. rdma) as well. I'm sure I could
-> model my uAPI to be rdma uAPI compliant (I can define proprietary uAPI
-> there as well), but this doesn't mean I belong there, right ?
+I'd missed that bit in the driver where it appears to drop to 3 lanes
+for pixel clock < 80000 via a mipi_dsi_detach and _attach. Quirky, but
+probably the only way it can be achieved in the current framework.
 
-You sure can, but there is still an expectation, eg in RDMA, that your
-device has a similarity to the established standards (like roce in
-habana's case) that RDMA is geared to support.
+> To sync up: we have two problems:
+>   1) The 720P mode with static DSI host configuration isn't working
+>      without hacks.
+>   2) The DSI link frequency should changed as soon as required
+>      automatically. So we can provide all modes.
+>
+> I would concentrate on problem 1 first before moving on to the 2nd.
 
-I think the the most important thing to establish a new subsystem is
-to actually identify what commonalities it is supposed to be
-providing. Usually this is driven by some standards body, but the
-AI/ML space hasn't gone in that direction at all yet.
+If you change your link frequency, it may be worth trying a lower
+resolution again such as 720x480 @ 60fps on 2 lanes. (720480@60 on 4
+lanes is again listed as mandatory for using the timing generator).
 
-We don't need a "subsystem" to have a bunch of drivers expose chardevs
-with completely unique ioctls.
+> > I have just noted that 720p59.94 at 24bpp on 4 lanes is listed as one
+> > of the modes that is mandatory to use the timing generator (reg 0x27
+> > bit 7 = 1). On 2 lanes it is not required.
+> > I don't know why it's referencing the 1000/1001 pixel clock rates and
+> > not the base one, as it's only a base clock change with the same
+> > timing (74.176MHz clock instead of 74.25MHz).
+>
+> Interesting! I would like to know how the HDMI block gets fetched by the
+> DSI block and how the timing-generator can influence this in good/bad
+> way. So that we know what DSI settings (freq, lanes) are sufficient.
+>
+> > > > If you do program the manual DSI divider register to allow a DSI pixel
+> > > > rate of 148.5MHz vs HDMI pixel rate of 74.25MHz, you'd be relying on
+> > >
+> > > There is no such DSI pixel rate to be precise, we only have a DSI bit
+> > > clock/rate.
+> > >
+> > > > the ADV753x having at least a half-line FIFO between DSI rx and HDMI
+> > > > tx to compensate for the differing data rates. I see no reference to
+> > > > such, and I'd be surprised if it was more than a half dozen pixels to
+> > > > compensate for the jitter in the cases where the internal timing
+> > > > generator is mandatory due to fractional bytes.
+> > >
+> > > This is interesting and would proofs our assumption that the device
+> > > don't have a FIFO :)
+> > >
+> > > Our assumptions (we don't have the datasheet/programming manual):
+> > >   - HDMI part is fetching 3 bytes per HDMI pixclk
+> > >   - Ratio between dsi-clk and hdmi-pixelclk must be 3 so the DSI and
+> > >     HDMI are in sync. So from bandwidth pov there are no differences
+> > >     between:
+> > >       - HDMI: 74.25 MHz * 24 Bit  = 1782.0 MBit/s
+> > >       - DSI:    891 MHz * 2 lanes = 1782.0 MBit/s (dsi-clock: 445.5 )
+> > >       - DSI:  445.5 MHz * 4 lanes = 1782.0 MBit/s (dsi-clock: 222.75)
+> > >
+> > >     But the ratio is different and therefore the faster clocking option
+> > >     let something 'overflow'.
+> >
+> > I'll agree that all looks consistent.
+> >
+> > > Anyway, but all this means that Adam should configure the
+> > > burst-clock-rate to 445.5 and set the lanes to 4. But this doesn't work
+> > > either and now we are back on my initial statement -> the driver needs
+> > > some attention.
+> >
+> > Things always need attention :-)
+>
+> ^^
+>
+> > I suspect that it's the use of the timing generator that is the issue.
+> > The programming guide does recommend using it for all modes, so that
+> > would be a sensible first step.
+>
+> But I tested it without the timing-generator too. Can you or Adam verify
+> the timing-generator diable logic?
 
-The flip is true of DRM - DRM is pretty general. I bet I could
-implement an RDMA device under DRM - but that doesn't mean it should
-be done.
+Sorry, running without the use of the timing generator is the issue.
+It is mandatory in some modes, but supported in all modes. Always
+using it should therefore avoid not using it in one of the mandatory
+modes (the list looks a little arbitrary).
 
-My biggest concern is that this subsystem not turn into a back door
-for a bunch of abuse of kernel APIs going forward. Though things are
-better now, we still see this in DRM where expediency or performance
-justifies hacky shortcuts instead of good in-kernel architecture. At
-least DRM has reliable and experienced review these days.
+> > I will say that we had a number of issues getting this chip to do
+> > anything, and it generally seemed happier on 2 or 3 lanes instead of
+> > 4. Suffice to say that we abandoned trying to use it, despite some
+> > assistance from ADI.
+>
+> Even more interessting, what is your alternative to this chip?
 
-Jason
+BCM2711 which supported dual HDMI natively.
+Our investigation of ADV7535 was when trying to build what became
+Pi400 using BCM2710/BCM2837 (only has a single HDMI output). Whilst I
+do have the prototype, the ADV was wired up weirdly with I2C so I
+never really got it running with Linux.
+
+  Dave
