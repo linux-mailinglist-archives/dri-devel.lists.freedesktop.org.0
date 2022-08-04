@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF43A58A008
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 19:51:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE38E58A00C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 19:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982C8A13B8;
-	Thu,  4 Aug 2022 17:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6103F9BFF6;
+	Thu,  4 Aug 2022 17:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5B2A2A61
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 17:48:56 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-10cf9f5b500so369863fac.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 10:48:56 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E380B9E2A6
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 17:53:34 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id q184so251069oif.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 10:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=RSuhwQUQ/rtlHZ0/kclF6sR3y8SDjI8wPdFTaAIfmE8=;
- b=pA5TqVCrqsfU3E1QS05RGTU3XdQaYQEL1rIkanyUCosL0FnWxJeieTDvzxMRKpF9LZ
- bcuNTTiH+XvLsEHA19T+IPa7YneFcn2RV9FtCUgLzQ3+SPqeyd0/hhScoCzRwfMncigD
- 6odDNfaeIFS1OSBrRXhXp3hyDXwG02jFZ894kdfrwwZhuxDeYNul3r8lwOqTuZnfH17W
- oI2PHJeIESNUPGIlwPUtUnWDhbcqHPzgwjJ/X8Kvz7F+Cd+qhTpa4tj09VOyegKcmHKB
- a5/8yBAWDig6O/f0ubkESsFBPczUHPlT8nK728m/eaa7q/btLXyX+4pkjZlEwdgCutxk
- KA4g==
+ bh=geQKvVgUIrbIYqUyW/DcQqiSd9imQnwOiLDTjM9ijiM=;
+ b=EEuFgw/lIJQA/31pdk+fOk++kLMbRbd9jGZAr/sPZdCKoZaK9L9bJZ6pJqLvfvkblm
+ hXhLKeIe6Vpqt2Iz3ofypgNATKNk7cOQAsbbI3hIscEuApeb+xdDyZJ/VNODlAzdStSm
+ kw1e6bt0PdUqFPhepSmCp9w26ACgmITzUlDdgo2zhLNuFpqCw6xPgWWZyB0engV4+TuP
+ o/KwoG4uMp4oBuRjMDqIH0xf7bu+3EUgZx3nFCEPd2WbEiXgusg1H7O0J7maxLFhGmFQ
+ m3+11Em/XXPOeJTdAMrGfvK0gTPvVY+lddfbzFBAcYCmYohK2Jb1K6vnjhKBxL2FpYX/
+ nIqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=RSuhwQUQ/rtlHZ0/kclF6sR3y8SDjI8wPdFTaAIfmE8=;
- b=TiciMISSa3+ta1bYGBkqcyRjtqpQd8yIauo/xf7ccT2WSf3Qx0W53Upw0m0dId2Vki
- lDF+fMfrm385fe+VtQ8LtcmvFe7GwTQ4gaXvrXAHHr3o3i/zHHGXVh+2sfQsJmHwmSNO
- tYTA+ZXrGason4WKSAzDW03B0m4Mo0ak39cS5B5DZdqX1XLANYE4HHZFBZbapLGlch/6
- hy5c7KASGHeVJPaCW5qBj/+RsMCDDRJwkWn9kF5g7ZeMqzlvpclDltsRe3yNwW8tFBLP
- Okgks1yMPpsJxk966FgAChnwXpvB+xXmbf13tzVtZak6oWUOC+kuUHaH4HH1x0JvT9T7
- iN3Q==
-X-Gm-Message-State: ACgBeo2pwidS0wAbBbyAhcU1fL7TuaPxJfolGKDTWBVTZHdigA4c6359
- skoB4cGP9LEh+in43Dk/a6ugYEKNvTEM+sefcrA=
-X-Google-Smtp-Source: AA6agR641/SV2Bllh6acKzFzyf8aJ1w6LSNmQ+XzJeUciEYy5SIPAV4FucSy24dkiLjEytsbgNfuIm4AxMvAic576X8=
-X-Received: by 2002:a05:6870:961d:b0:10d:7606:b212 with SMTP id
- d29-20020a056870961d00b0010d7606b212mr1395995oaq.166.1659635335065; Thu, 04
- Aug 2022 10:48:55 -0700 (PDT)
+ bh=geQKvVgUIrbIYqUyW/DcQqiSd9imQnwOiLDTjM9ijiM=;
+ b=Cd9fp4Mqfc250ZsUgUTjamq21miIlzjTlnIvxMvcNOqU8NuqWXu/uY7lwhPLqAUc/8
+ d6zlDc+mg/Px3yCOR1uZw0pp81y0EiKM5ypXER8BnYBPvBo1j/8JABmoQ7OqGbGX+GPW
+ Xf4o1RrkCft13nHph1mKFcm2uR8lmgf3z4C/KG7DBlHCaJsZQNl/Dkvb4L8KCjpM8n+k
+ iwJ6MHvMG+shN2hlM/pJr/ZGQAgVsMDGs5+03ks+aarmK5qhnMUkRtF8i3YQLFsoxeZM
+ 7RFAS44nozNUDeEk2gc4dUF1qSYiq/OjHkV2nLagvc4/D3ayqlWknTGNiuRV0EXgE293
+ JRJA==
+X-Gm-Message-State: ACgBeo3KYNn0uNBxv2J1O3FV/zoHbvSoNoGfkL/lUz7XRx+RW8iIJhdI
+ PgjAyCvIkXv5l+drYSkLkIDKk44dmxg5RqSX4aI=
+X-Google-Smtp-Source: AA6agR61XlZ3sqh/frADT6/ObtuMMuW2jCbC/8voPeg9czkI8z4sn5r+2KMGL5+VAOXTQcE2hive+AORaMmUR1xk6Gg=
+X-Received: by 2002:a05:6808:11cc:b0:32e:7fc5:3a49 with SMTP id
+ p12-20020a05680811cc00b0032e7fc53a49mr1341752oiv.166.1659635613886; Thu, 04
+ Aug 2022 10:53:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com>
  <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
  <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
  <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
- <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
- <YuvctaLwRi+z0Gw4@nvidia.com>
-In-Reply-To: <YuvctaLwRi+z0Gw4@nvidia.com>
+ <e9250ec3-1e29-5b38-c4eb-7e380f1eed4f@linux.intel.com>
+ <a869ef99-9cc6-d3a0-ddcc-7257eac32f01@quicinc.com>
+In-Reply-To: <a869ef99-9cc6-d3a0-ddcc-7257eac32f01@quicinc.com>
 From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Thu, 4 Aug 2022 20:48:28 +0300
-Message-ID: <CAFCwf12wD3uEhr+kxwN9ROXApHzGh_n1je5susZV5NgGR9fCcQ@mail.gmail.com>
+Date: Thu, 4 Aug 2022 20:53:06 +0300
+Message-ID: <CAFCwf1309BW80F0d+uweswpKh7TOuVnn+AyVymw23TiWCRENDQ@mail.gmail.com>
 Subject: Re: New subsystem for acceleration devices
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,87 +68,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Arnd Bergmann <arnd@arndb.de>,
  "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jiho Chu <jiho.chu@samsung.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 4, 2022 at 5:50 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Thu, Aug 4, 2022 at 6:04 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
 >
-> On Thu, Aug 04, 2022 at 10:43:42AM +0300, Oded Gabbay wrote:
+> On 8/4/2022 6:00 AM, Tvrtko Ursulin wrote:
+> >
+> > On 04/08/2022 00:54, Dave Airlie wrote:
+> >> On Thu, 4 Aug 2022 at 06:21, Oded Gabbay <oded.gabbay@gmail.com> wrote:
+> >>>
+> >>> On Wed, Aug 3, 2022 at 10:04 PM Dave Airlie <airlied@gmail.com> wrote:
+> >>>>
+> >>>> On Sun, 31 Jul 2022 at 22:04, Oded Gabbay <oded.gabbay@gmail.com>
+> >>>> wrote:
+> >>>>>
+> >>>>> Hi,
+> >>>>> Greg and I talked a couple of months ago about preparing a new accel
+> >>>>> subsystem for compute/acceleration devices that are not GPUs and I
+> >>>>> think your drivers that you are now trying to upstream fit it as well.
+> >>>>
+> >>>> We've had some submissions for not-GPUs to the drm subsystem recently.
+> >>>>
+> >>>> Intel GNA, Intel VPU, NVDLA, rpmsg AI processor unit.
+> >>>>
+> >>>> why is creating a new subsystem at this time necessary?
+> >>>>
+> >>>> Are we just creating a subsystem to avoid the open source userspace
+> >>>> consumer rules? Or do we have some concrete reasoning behind it?
+> >>>>
+> >>>> Dave.
+> >>>
+> >>> Hi Dave.
+> >>> The reason it happened now is because I saw two drivers, which are
+> >>> doing h/w acceleration for AI, trying to be accepted to the misc
+> >>> subsystem.
+> >>> Add to that the fact I talked with Greg a couple of months ago about
+> >>> doing a subsystem for any compute accelerators, which he was positive
+> >>> about, I thought it is a good opportunity to finally do it.
+> >>>
+> >>> I also honestly think that I can contribute much to these drivers from
+> >>> my experience with the habana driver (which is now deployed in mass at
+> >>> AWS) and contribute code from the habana driver to a common framework
+> >>> for AI drivers.
+> >>
+> >> Why not port the habana driver to drm now instead? I don't get why it
+> >> wouldn't make sense?
+> >>
+> >> Stepping up to create a new subsystem is great, but we need rules
+> >> around what belongs where, we can't just spawn new subsystems when we
+> >> have no clear guidelines on where drivers should land.
+> >>
+> >> What are the rules for a new accel subsystem? Do we have to now
+> >> retarget the 3 drivers that are queued up to use drm for accelerators,
+> >> because 2 drivers don't?
+> >
+> > Isn't there three on the "don't prefer drm" side as well? Habana,
+> > Toshiba and Samsung? Just so the numbers argument is not misrepresented.
+> > Perhaps a poll like a) prefer DRM, b) prefer a new subsystem, c) don't
+> > care in principle; is in order?
 >
-> > After all, memory management services, or common device chars handling
-> > I can get from other subsystems (e.g. rdma) as well. I'm sure I could
-> > model my uAPI to be rdma uAPI compliant (I can define proprietary uAPI
-> > there as well), but this doesn't mean I belong there, right ?
+> I'll chime in with my opinions.  Take them for what you will.
 >
-> You sure can, but there is still an expectation, eg in RDMA, that your
-> device has a similarity to the established standards (like roce in
-> habana's case) that RDMA is geared to support.
+> I would say I fall into the C category, but I'm targeting DRM and will
+> be the 5th(?) accel device to do so.
 >
-> I think the the most important thing to establish a new subsystem is
-> to actually identify what commonalities it is supposed to be
-> providing. Usually this is driven by some standards body, but the
-> AI/ML space hasn't gone in that direction at all yet.
-I agree. In the AI-world the standard doesn't exist and I don't see
-anything on the horizon. There are the AI frameworks/compilers which
-are 30,000 feet above us, and there is CUDA which is closed-source and
-I have no idea what it does inside.
+> I'll say that the ksummit (from what I see in the LWN article) made me
+> very happy.  Finally, the community had clear rules for accel drivers.
+> When I targeted misc in the past, it seemed like Greg moved the goal
+> post just for me, which stalled our attempt.  It was even more
+> frustrating to see that the high bar Greg set for us was not applied to
+> other devices of the same "class" in following submissions.
 >
-> We don't need a "subsystem" to have a bunch of drivers expose chardevs
-> with completely unique ioctls.
-I totally agree with this sentence and this is *exactly* why
-personally I don't want to use DRM because when I look at the long
-list of common IOCTLs in drm.h, I don't find anything that I can use.
-It's simply either not relevant at all to my h/w or it is something
-that our h/w implemented differently.
-
-This is in contrast to the rdma, where as you said, we have ibverbs
-API. So, when you asked that we write an IBverbs driver I understood
-the reasoning. There is a common user-space library which talks to the
-rdma drivers and all the rdma applications use that library and once I
-will write a (somewhat) standard driver, then hopefully I can enjoy
-all that.
-
+> However, the past is the past, and based on ksummit, we've spent a
+> number of months retargeting DRM.  In a week (or two), I plan to post
+> something to start up the discussions again.
 >
-> The flip is true of DRM - DRM is pretty general. I bet I could
-> implement an RDMA device under DRM - but that doesn't mean it should
-> be done.
+> As far as the DRM userspace requirements, unless we've misunderstood
+> something, they've been easier to satisfy (pending review I suppose)
+> than what misc has set.
+I think it is quite the opposite. In misc originally there was very
+minimal userspace requirements, but when my driver started to use
+dma-buf, Dave asked for more.
+e.g. a driver that wants to get accepted to DRM and use a fork of LLVM
+must not only open-source his code, but also to upstream his fork to
+the mainline LLVM tree. In misc there is nothing that closely comes to
+that requirement afaik.
 >
-> My biggest concern is that this subsystem not turn into a back door
-> for a bunch of abuse of kernel APIs going forward. Though things are
-How do you suggest to make sure it won't happen ?
+> I would say that Dave Airlie's feedback on this discussion resonates
+> with me.  From the perspective of a vendor wanting to be a part of the
+> community, clear rules are important and ksummit seemed to set that.
+> Oded's announcement has thrown all of that into the wind.  Without a
+That wasn't my intention. I simply wanted to:
+1. Offload Greg with these types of drivers.
+2. Offer to the new drivers a standard char device handling
+3. Start a community of kernel hackers that are writing device drivers
+for compute accelerators.
 
-> better now, we still see this in DRM where expediency or performance
-> justifies hacky shortcuts instead of good in-kernel architecture. At
-> least DRM has reliable and experienced review these days.
-Definitely. DRM has some parts that are really well written. For
-example, the whole char device handling with sysfs/debugfs and managed
-resources code. This is something I would gladly either use or
-copy-paste into the hw accel subsystem.
-And of course more pairs of eyes looking at the code will usually
-produce better code.
-
-I think that it is clear from my previous email what I intended to
-provide. A clean, simple framework for devices to register with, get
-services for the most basic stuff such as device char handling,
-sysfs/debugfs. Later on, add more simple stuff such as memory manager
-and uapi for memory handling. I guess someone can say all that exists
-in drm, but like I said it exists in other subsystems as well.
-
-I want to be perfectly honest and say there is nothing special here
-for AI. It's actually the opposite, it is a generic framework for
-compute only. Think of it as an easier path to upstream if you just
-want to do compute acceleration. Maybe in the future it will be more,
-but I can't predict the future.
-
-If that's not enough for a new subsystem, fair enough, I'll withdraw my offer.
-
-Thanks,
-Oded
+> proposal to evaluate (eg show me the code with clear guidelines), I
+> cannot seriously consider Oded's idea, and I'm not sure I want to sit by
+> another few years to see it settle out.
+I thought of posting something quick (but not dirty) but this backlash
+has made me rethink that.
 
 >
-> Jason
+> I expect to move forward with what we were planning prior to seeing this
+> thread which is targeting DRM.  We'll see what the DRM folks say when
+> they have something to look at.  If our device doesn't fit in DRM per an
+> assessment of the DRM folks, then I sure hope they can suggest where we
+> do fit because then we'll have tried misc and DRM, and not found a home.
+>   Since "drivers/accel" doesn't exist, and realistically won't for a
+> long time if ever, I don't see why we should consider it.
+>
+> Why DRM?  We consume dma_buf and might look to p2pdma in the future.
+> ksummit appears clear - we are a DRM device.  Also, someone could
+> probably run openCL on our device if they were so inclined to wire it
+> up.  Over time, I've come to the thinking that we are a GPU, just
+> without display.  Yes, it would have helped if DRM and/or drivers/gpu
+> were renamed, but I think I'm past that point.  Once you have everything
+> written, it doesn't seem like it matters if the uAPI device is called
+> /dev/drmX, /dev/miscX, or /dev/magic.
+>
+> I will not opine on other devices as I am no expert on them.  Today, my
+> opinion is that DRM is the best place for me.  We'll see where that goes.
+>
+> > More to the point, code sharing is a very compelling argument if it can
+> > be demonstrated to be significant, aka not needing to reinvent the same
+> > wheel.
+> >
+> > Perhaps one route forward could be a) to consider is to rename DRM to
+> > something more appropriate, removing rendering from the name and
+> > replacing with accelerators, co-processors, I don't know... Although I
+> > am not sure renaming the codebase, character device node names and
+> > userspace headers is all that feasible. Thought to mention it
+> > nevertheless, maybe it gives an idea to someone how it could be done.
+> >
+> > And b) allow the userspace rules to be considered per driver, or per
+> > class (is it a gpu or not should be a question that can be answered).
+> > Shouldn't be a blocker if it still matches the rules present elsewhere
+> > in the kernel.
+> >
+> > Those two would remove the two most contentions points as far as I
+> > understood the thread.
+> >
+> > Regards,
+> >
+> > Tvrtko
+> >
+>
