@@ -1,84 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF34589954
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 10:32:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFA4589969
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 10:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFAD110F578;
-	Thu,  4 Aug 2022 08:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0417B91756;
+	Thu,  4 Aug 2022 08:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEEB10F703
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 08:32:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659601949;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0auJsCK06PWTESW74y0ftQcvvf4/UB9cG0roNrgm6PM=;
- b=HoSfioQLx/TlkONr7r6cptFhNK0B6OCZ/Vh9kyq3+xtcXHPOkPtjQkzQzEVz/UC6qkzael
- tABhLSd/3gRI3WPhNvSxNaX/xWulBxQSRQc1xk7HwLq0BT9723MQrKjz5fimqrBjb54CmO
- y0sGmReaolFQoZhheuPTIiN3HTecOYo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-mRX2S-BHMa2gmv0wmr2VfQ-1; Thu, 04 Aug 2022 04:32:28 -0400
-X-MC-Unique: mRX2S-BHMa2gmv0wmr2VfQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- f13-20020a0564021e8d00b00437a2acb543so12549687edf.7
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 01:32:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0auJsCK06PWTESW74y0ftQcvvf4/UB9cG0roNrgm6PM=;
- b=fnTgkSI1p+dRKjrwrBqhrhMFguPXURRTyz5wHTECCzYraI6psSW5m2Ss0uguciNh52
- aCvKBl1SuWI8PCR6DHzU81ZoqYHDg29ZStNHU3Ga9KQYwWfdel8m1dG/A3OvKk1BGIO7
- rvrFiMCvXC1voBEQu8TD8gnJUtbHe1UUKDaBT2kBnxGhT/rmZzFqWKBewsajpoaYZ/Qb
- shV0q12nsHCRTqcfR+4wqDS2E+ANE0ZR8dSEWhDMIQbgJDmUF6b8o5qULMSb//KtLJCW
- vQB/yWwesZzsF0zVyEU1OK8hkGs6mHpDoIsza3XsukE44YPqR41kDZYha+Kxm34kv022
- 9gKg==
-X-Gm-Message-State: ACgBeo2ZTsndM24SeiWHotUUyEUtGZkdjenEOcVjuOFJ60u9TAQhwuqw
- q3roQqe7AmK95m0II7B2AhCtJ883ccB0EJdk2QqbcCcQ3RByn0ml/z1LeDbPPeyK5oC88Yc9+42
- d9gY/Hf52/9PVdM4ivldqdQuKhY9e
-X-Received: by 2002:a05:6402:4381:b0:43b:cb55:ae3c with SMTP id
- o1-20020a056402438100b0043bcb55ae3cmr889701edc.45.1659601947647; 
- Thu, 04 Aug 2022 01:32:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5ftOGy44vO+4n3LYxeMS36KALCYj0N9kx8p1IMh8cFSJwJS1ngCJxRjXd3sz+0KKmEt8qqMA==
-X-Received: by 2002:a05:6402:4381:b0:43b:cb55:ae3c with SMTP id
- o1-20020a056402438100b0043bcb55ae3cmr889679edc.45.1659601947436; 
- Thu, 04 Aug 2022 01:32:27 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- y18-20020a1709063db200b00726c0e63b94sm112530ejh.27.2022.08.04.01.32.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 01:32:26 -0700 (PDT)
-Message-ID: <d24e781c-3c84-26eb-14b9-8cb4ea3b32ba@redhat.com>
-Date: Thu, 4 Aug 2022 10:32:26 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573478EF05
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 08:41:32 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oJWQ2-0007xA-P9; Thu, 04 Aug 2022 10:41:26 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1oJWPw-00043J-Kr; Thu, 04 Aug 2022 10:41:20 +0200
+Date: Thu, 4 Aug 2022 10:41:20 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Adam Ford <aford173@gmail.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+Message-ID: <20220804084120.in435n4ofdw6ksfj@pengutronix.de>
+References: <CAOMZO5DUTxQKbpTVOgaVC0V7hPqJG77sgmkW8p=aNpG8th-aLw@mail.gmail.com>
+ <CAHCN7xL2w7a=SeXbwcNNxqb3kpRV9Bs0AbK0Nmjbj+dm0NDaVA@mail.gmail.com>
+ <CAOMZO5BQWnUj4Ouq3=vhqq55zN8otO_9vPX8ht+muFM_5pg9Fg@mail.gmail.com>
+ <CAHCN7xJy6X5733m3zwcFMuWM9oGHJEmKrs2KUNhzMzNVggRx0g@mail.gmail.com>
+ <20220802080820.jyf3tfpgcj3pvbtp@pengutronix.de>
+ <CAHCN7xL-7wGnEhY9+zDXYjigZfnfsnY_NsRf+enYt_BPsFxgnQ@mail.gmail.com>
+ <CAHCN7xLpCbOY+Ma6gKJievw6aUZ5-Qs4S=zxjTgRu=Be7zvhoQ@mail.gmail.com>
+ <CAHCN7xKzYcCPL0ddTENGw6xdCMNdYw-m5u4NSBHb96Vb_tByGg@mail.gmail.com>
+ <20220803062024.vn7awasmifkp5xow@pengutronix.de>
+ <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Anbernic
- Win600
-To: Maccraft123 <maccraft123mc@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220803182402.1217293-1-maccraft123mc@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220803182402.1217293-1-maccraft123mc@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHCN7xL3maPyX8eUiT6mKYei==6pkEvVTwX3vY+1uLTSNDGQ3Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,56 +58,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, robert.chiras@nxp.com,
+ laurentiu.palcu@nxp.com, NXP Linux Team <linux-imx@nxp.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 8/3/22 20:24, Maccraft123 wrote:
-> From: Maya Matuszczyk <maccraft123mc@gmail.com>
+On 22-08-03, Adam Ford wrote:
+> On Wed, Aug 3, 2022 at 1:20 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> >
+> > On 22-08-02, Adam Ford wrote:
+> >
+> > ...
+> >
+> > > > I did some reading about the internal timing generator.  It appears
+> > > > that it's required when video formats use fractional bytes, and it's
+> > > > preconfigured to run at 720p by default, but registers 28h through 37h
+> > > > configure it for other video modes.
+> > >
+> > > I think there may still be some issues with the DSIM since some of the
+> > > clock frequencies are set in the device tree.
+> > >
+> > > From what I can tell, the pixel rate is calculated based on the
+> >
+> > By pixel rate you mean the HDMI pixel rate from the ADV? If so then yes.
+> > The ADV has an divider which is already configured by the driver but
+> > meaningless since the driver is lacking of setting the "manual-divider"
+> > bit within the same register.
 > 
-> This device is another x86 gaming handheld, and as (hopefully) there is
-> only one set of DMI IDs it's using DMI_EXACT_MATCH
+> I was thinking about the pixel clock from the DSI to the ADV.  I did
+> see the manual-divider bit was missing.  I tried enabling that bit,
+> but it didn't appear to make much difference.
+
+This depends, e.g. I saw that the HDMI pixel clock is correct if I had
+set this bit, set the divider manually to 6 and configured the dsi-host
+burst clock to 891MHz:
+  -> 891MHz / 2 = 445.5 (DSI-Clock) -> 445.5 / 6 = 74.25 (HDMI pixel
+  clock for 720P)
+
+Of course this doesn't happen automatically yet :( I also find it a bit
+of too reduce the lane line, I had removed this logic too. But as I
+said, I got no frames shown on my HDMI monitor.
+
+...
+
+> > > samsung,burst-clock-frequency = <1500000000>;
+> >
+> > This is not correct since the burst-clock-freq. specifies the hs-clock
+> > for the data lanes (see above).
 > 
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> But I don't think the clock should be fixed. I think it should vary as
+> the resolution changes. 
 
-Thanks, patch looks good to me:
+You're right and this is something we have on our TODO list as well. But
+this needs a bit more work within the DRM framework. So the client and
+the host can negotiate the frequency.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Remember our main problem: with a correct burst-clock-frequency set and
+lane number set for 720P, the ADV don't display anything.
 
-Since we are currently in the middle of the merge window
-and this patch needs to go to a -fixes branch I'm not quite
-sure how to handle this.
+> From what I can tell, NXP's DSI code doesn't
+> hard code this value, but it does appear to cap it at 1.5G.  I did
+> soom looking into the NXP frequency calculation
 
-Hopefully one of the drm-misc maintainers can pick this
-up (once rc1 is out?) .
+Can you provide me a link? There are a lot frequencies involved in this
+discussion ^^ Just that I look at the same location.
+
+> and it is capable of adjusting resolutions to some extent and from
+> what I can see the 891MHz clock is only set when 1080p.  At 720p,
+> thier kernel shows the output frequency at  445.5 MHz. 
+
+Yes, we need the dynamic handling but hardcoding it isn't the way we
+should go either. We have the dynamic PLL calculation, so we can
+configure it to all possible values not just a few VESA standards.
+
+> The way the DSIM is currently configured, it's fixed at 891MHz, so I
+> don't expect the output feeding the adv7535 to be correct for the
+> different resolutions.
+
+Why not? The ADV can work with that hs-clock and for 720P@60 we need a
+bandwidth of roughly (only pixels no package header/footer overhead):
+
+  1280x720x24x60 = 1327104000 Bit/s = 1327.104 MBit/s
+
+With 891MHz and 2 lanes we have
+
+  891MBps * 2 = 1782000000 Bit/s = 1782 MBit/s
+
+So this should be fine. With 445.5 MHz and 2 lanes we have not enough
+bandwidth and with 445.5 MHz and 4 lanes we have exactly the same
+bandwidth.
+
+Therefore I still think that there is problem within the ADV.
+
+...
+
+> > > With these settings and the above mentioned code changes, 1080p still
+> > > appears, however when attempting other modes, the display still fails
+> > > to load.  I also noticed that the phy ref clock is set to 27MHz
+> > > instead of NXP's 12MHz.
+> >
+> > That's interesting, I didn't noticed that NXP uses 12 MHz as refclock
+> > but I don't think that this is the problem. Since we have other
+> > converter chips using the bridge driver and they work fine. I still
+> > think that the main problem is within the ADV driver.
+> 
+> Do the other converter chips work fine at different resolutions?
+
+Yes.
+
+> 
+> >
+> > > I attempted to play with that setting, but I couldn't get 1080p to
+> > > work again, so I backed it out.
+> > >
+> > > Maybe I am headed in the wrong direction, but I'm going to examine the
+> > > P/M/S calculation of the timing on NXP's kernel to see how the DSIM in
+> > > this code compares.
+> >
+> > I think the pms values are fine.
+> 
+> I compared the P/M/S values between this driver and NXP's and they
+> calculate different values of PMS when running at 1080P.
+
+NXP don't calculate anything if I remember correctly, they just provide
+PLL values so they reach the frequency. On the other hand with the
+patches from Jagan we can configure the PLL to what-ever value :)
+
+> NXP @ 1080p:
+> fout = 891000, fin = 12000, m = 297, p = 2, s = 1, best_delta = 0
+> 
+> This kernel @ 1080p:
+> 
+> PLL freq 891000000, (p 3, m 99, s 0)
+
+As you said, we use a differnet fin value 27MHz instead of the 12MHz so
+those values must be different.
+
+> at 720P, the NXP Kernel
+> fout = 445500, fin = 12000, m = 297, p = 2, s = 2, best_delta = 0
+> (working)
+> 
+> at 720P, this kernel:
+> PLL freq 891000000, (p 3, m 99, s 0)
+> hs_clk = 891000000, byte_clk = 111375000, esc_clk = 18562500
+> (not working)
+
+Yes, as I said you need to configure the PLL manually (see above).
+
+> > > If someone who understands the interactions between these different
+> > > components has suggestions, I'm willing to run some experiments.
+> >
+> > Did managed to get access to the ADV7535 programming guide? This is the
+> > black box here. Let me check if I can provide you a link with our repo
+> > so you can test our current DSIM state if you want.
+> 
+> I do have access to the programming guide, but it's under NDA, but
+> I'll try to answer questions if I can.
+
+Thanks a lot for your work :)
 
 Regards,
-
-Hans
-
-
-
-> ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index d4e0f2e85548..a8681610ede7 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -128,6 +128,12 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
->  		},
->  		.driver_data = (void *)&lcd800x1280_rightside_up,
-> +	}, {	/* Anbernic Win600 */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
-> +		},
-> +		.driver_data = (void *)&lcd720x1280_rightside_up,
->  	}, {	/* Asus T100HA */
->  		.matches = {
->  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-
+  Marco
