@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB85D589FCC
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 19:18:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F03F3589FD9
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 19:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA7BA17ED;
-	Thu,  4 Aug 2022 17:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2309ADFC;
+	Thu,  4 Aug 2022 17:26:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
  [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC794A17D8
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 17:17:40 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id dc19so418593ejb.12
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 10:17:40 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5512A36E
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 17:25:39 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id tl27so558613ejc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 10:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linux-foundation.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=W3oQTjR935kyPwW8JTzNphawSp0RrVbBZvc3FA95SqM=;
- b=CXWDpj8EE+E/y1A4LLIdWpEV4dz6BU5+YOyxOh/YLtPkJwFlBJB1T2YAT5I0CWpJbm
- VVDqDcqzQQ8s3ioCrfGbckfIaXDN/DMIQcyKDaq2cGGklhoikD/bu8Yh47Rv2wLjHhXb
- ti4AKQ9roXLqZxh+MOQdxpogEjPOBzv2zGxt8=
+ bh=SSuMHfi3kcMSgnyvItLcQACEgUeRMPEBufWTkyyNck4=;
+ b=QVKp1nRXrljkSMaNE8czkVxdfvvVkB6enkHU8DpRs4rDPd/IV28vYtSJ2DcN6VZ5x5
+ lWrhBmOP+alvOf1/u9pSH+k/Yawyo9kwUoC4cbA4lM9Om2EGUojfr+k1wJNPyhp8hlyd
+ wEPOZsiacLpiQpfseuIX8HIbQmJhiObDpdlIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=W3oQTjR935kyPwW8JTzNphawSp0RrVbBZvc3FA95SqM=;
- b=SWth4K1PSTkF+5TDmvL2Vq+izAqPqCMFqMuMhEy7bKz0MN0RShbLSaHWU307teHVK+
- P3Yvem1i75laPwmIITuphjCcn6FaEazNLc5yj4DN/aODRwYw6NUtHtJ855KJI9jWxMgF
- e1MkcxqDFH5vsYmEk5NGaLNNFapeHnYyNVrUTh6/zj8i+PbrzPuILSgnEYcaybC6OFad
- lI2w+/f00S+Kf5fkdBFT10KMX1C8CuollDLhxP+BzCKOGM4NQEjODRHo+GtMJr3ppTRO
- 2nbDACU1UhYxbBU2ugcbCrc7lT11o7dopuKu3bCVrj59wTmvbKaU6/57pl8HnaWL8gZO
- 7joA==
-X-Gm-Message-State: ACgBeo1QkGPxc4k4RQw2twY/j94mZhZ0dtW+1/R0SwhTaYywfZMy3ek1
- CHRF1CLG63zIkgX3drsqfagL38sytNUuJMV0
-X-Google-Smtp-Source: AA6agR5aNyOGbp8XAomBicyuCIxslPz7GeAWvDz/W49KeLT37SzgZT2y7PVSDaATtcLpeHjt4LDQ7g==
-X-Received: by 2002:a17:907:7f24:b0:72b:8e8e:11e with SMTP id
- qf36-20020a1709077f2400b0072b8e8e011emr2123498ejc.429.1659633458757; 
- Thu, 04 Aug 2022 10:17:38 -0700 (PDT)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com.
- [209.85.221.45]) by smtp.gmail.com with ESMTPSA id
- a15-20020a05640213cf00b0043c92c44c53sm905868edx.93.2022.08.04.10.17.38
+ bh=SSuMHfi3kcMSgnyvItLcQACEgUeRMPEBufWTkyyNck4=;
+ b=mpvpZc32nc9UayVYkMzvmolw70aJoONqAPKH+7HorZAqiVHzOPptPBqZQbrIo7qDcx
+ KmrPq2dVSIMf6fjGa/WEdIbXg1HBoOgpwgoQgJul+5QYVj4Tc9hW+tbbuC58qLioP/9O
+ iq3g05Vb9anFo2C5H7S8A5NV9n2tJ/iGmZ1/0Tde6Sgzk4dcVJmIj5JYEsowK6dJn6Zc
+ kwdw6gqdnUk9WaEmrO5XPunyJN7PB1Q6I3xcTVgIitrDOU0m72j0JxB12IByDXLokSfB
+ izJklM+lowiwfhKGANfZdtHXw2sl4GKj+FNxI3azf+Ypm9tigXCT0NhwwLLOJrLNRtux
+ bizQ==
+X-Gm-Message-State: ACgBeo0+3F1LfcBJiIBMoHpn+appPMynLYYewPTsH4GFEbaBAW2KJeRu
+ 67QBiTByYj3kavv0gBBPWYwaXpocwiGlDsQD
+X-Google-Smtp-Source: AA6agR4pzwQ0Y/CMbgYz143YNT+LIOBxF7u9Uku9nqgP6dlZPirCLoX6wjZJHyyCxWBLNcgZwdeAAg==
+X-Received: by 2002:a17:907:6e14:b0:730:a229:f747 with SMTP id
+ sd20-20020a1709076e1400b00730a229f747mr2242971ejc.202.1659633938179; 
+ Thu, 04 Aug 2022 10:25:38 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ w10-20020aa7d28a000000b0043cf2e0ce1csm934721edq.48.2022.08.04.10.25.37
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Aug 2022 10:17:38 -0700 (PDT)
-Received: by mail-wr1-f45.google.com with SMTP id v3so577685wrp.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 10:17:38 -0700 (PDT)
-X-Received: by 2002:a5d:56cf:0:b0:21e:ce64:afe7 with SMTP id
- m15-20020a5d56cf000000b0021ece64afe7mr2010623wrw.281.1659633457704; Thu, 04
- Aug 2022 10:17:37 -0700 (PDT)
+ Thu, 04 Aug 2022 10:25:37 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id c22so269182wmr.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Aug 2022 10:25:37 -0700 (PDT)
+X-Received: by 2002:a05:600c:1d94:b0:3a4:ffd9:bb4a with SMTP id
+ p20-20020a05600c1d9400b003a4ffd9bb4amr2128779wms.8.1659633937248; Thu, 04 Aug
+ 2022 10:25:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <Yut2otE1h2xtC79o@debian>
-In-Reply-To: <Yut2otE1h2xtC79o@debian>
+References: <20220804055036.691670-1-airlied@redhat.com>
+In-Reply-To: <20220804055036.691670-1-airlied@redhat.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 4 Aug 2022 10:17:21 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjPF0dXvDeqPiSzpev4KhhWU0-R8muaYVF73vy2Vw=QTw@mail.gmail.com>
-Message-ID: <CAHk-=wjPF0dXvDeqPiSzpev4KhhWU0-R8muaYVF73vy2Vw=QTw@mail.gmail.com>
-Subject: Re: mainline build failure due to 6fdd2077ec03 ("drm/amd/amdgpu: add
- memory training support for PSP_V13")
-To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+Date: Thu, 4 Aug 2022 10:25:21 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiDQceAojsjRTtd=Rq4h3pkU8C1uFj97EuWkYWGQk_6Lg@mail.gmail.com>
+Message-ID: <CAHk-=wiDQceAojsjRTtd=Rq4h3pkU8C1uFj97EuWkYWGQk_6Lg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: restore plane with no modifiers code.
+To: Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,28 +73,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chengming Gui <Jack.Gui@amd.com>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 4, 2022 at 12:35 AM Sudip Mukherjee (Codethink)
-<sudipm.mukherjee@gmail.com> wrote:
+On Wed, Aug 3, 2022 at 10:50 PM Dave Airlie <airlied@redhat.com> wrote:
 >
-> I will be happy to test any patch or provide any extra log if needed.
+> With this applied, I get gdm back.
 
-It sounds like that file just needs to get a
+I can confirm that it makes thing work again for me too. Applied.
 
-    #include <linux/vmalloc.h>
-
-there, and for some reason architectures other than alpha and mips end
-up getting it accidentally through other headers.
-
-Mind testing just adding that header file, and perhaps even sending a
-patch if (when) that works for you?
-
-                    Linus
+             Linus
