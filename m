@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680AC58A28E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 22:49:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA5058A2EA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 23:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38D7FA71AE;
-	Thu,  4 Aug 2022 20:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28D5112A46A;
+	Thu,  4 Aug 2022 21:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB63A700C;
- Thu,  4 Aug 2022 20:43:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D70426178F;
- Thu,  4 Aug 2022 20:43:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF40C433D6;
- Thu,  4 Aug 2022 20:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659645825;
- bh=/dBnGEelz0eNZ7ash2KCkOnK42Kq3O9zA1e57MIkXCU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=juU3p2LUjcxjMlM6vTTY1lLZWVXb/mcsQMqGkZ/WHOsek7V0hDFsZrX6Fy+36KdAL
- yn6BDe8wUhOCTy+9ZmfJBWS+mP62dLFKmdwlOlB9vlElBwclJg+RepYpdf+Rh/Cr1R
- u1r3hEtJJAPuVVjBIr5FfU5oSiL0TI8wqQ8BHsU7AMGN+99rp1KPkm9Dpm3bncEXmC
- lYPlURhbpMy9WqPtn0SPIKyz/PKWa3k6Nr+SvcKaVd542jSA8LDJaEgGIFbA2AG+zj
- aP9g14qRKxapm+F0brNeG0LRJa69nTT/49cOFbDE96HEXU1PPAUMgBawRt2tazl2La
- ZP/6K+bDSkX/w==
-Date: Thu, 4 Aug 2022 13:43:42 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: mainline build failure for x86_64 allmodconfig with clang
-Message-ID: <YuwvfsztWaHvquwC@dev-arch.thelio-3990X>
-References: <YuwRyQYPCb1FD+mr@debian>
- <CAHk-=whptVSSZL=wSUQJdRBeVfS+Xy_K4anQ7eQOky7XUrXhUQ@mail.gmail.com>
- <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB37A9018B;
+ Thu,  4 Aug 2022 21:52:07 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id i14so1675004ejg.6;
+ Thu, 04 Aug 2022 14:52:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=XGVxhvWebi09u50nEyRtzfdSDoh+U76+Ahl1lp2ZZY8=;
+ b=D9Q2m0PHStwPDjKM3/Jpb4NceuJ9WzJRb72H1QUpMpggPCAARBm3b0lkrGIcso1AZQ
+ ovye+97JPoUozd0OEbKYlYyWyc2FB/4k24vvl4ydC315P5EBHLlNqUxs56+MLzglea3q
+ jHMwFATGieCNDhoBdvILfQJAMJ0zoQnfXR40LdMUrYF0daHfZO85VMhYYtEQH8nX0c+P
+ sQC1rt3zXXVwTlQl/5uCmCWeEF41FC4g8RmWNVGUwBdfgR7tTm7GknM4prt6pOUVCP06
+ mYSHG4WmejdGn8B9e3tu4l/lBRFHGhfN5IB+HUgZ5krVrNnUC2+8gG68jxKruOAzuwCG
+ VSog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=XGVxhvWebi09u50nEyRtzfdSDoh+U76+Ahl1lp2ZZY8=;
+ b=Ml4SP6BEFv1FWq8RBgernebDijwbeS742d1Q+yCxJ0j5X2f0GbMABrkwkSwI0ZTmox
+ Cgfx182OMp2Zyw2HOjU8twB3RGcUag8P1oUX530NydRAbxPz24+U+TkZ3g59x2HVS10X
+ gSec6h4GGb7gaT1i3RHXYahyhmsuFux9cr+CZK+s5nkDB1eTwU9NjUKODrWriH7S8WZM
+ GMz6krd6FM560xw4WmV5rXV0ZqM51Uqv41kDv4VBBDzvc7tFvY7ycb3K98jeXdRKe7Hw
+ RrPTMizlCf6WF4IHmql5DTnTY48/jvH4/mqYh7BYmm72XdIZDfmHy1wywYYUtpw20ESM
+ CGBw==
+X-Gm-Message-State: ACgBeo3exc0BpVlNEq3dtfBYuxjHnie6oVZt1HRV5E0tnDG2fPWglH3h
+ XyUSoW9jN56Gtxj5mSZQ0kb7Q7hzC+XhI/1hYDU=
+X-Google-Smtp-Source: AA6agR427x4QqJbOu2BlFhPQqof86KwZzGGxqtZa6zH5hsQzpjs0ShErbUaw3eUbPD953ckJB7ROp9ZeR2mRPAJ4Nkw=
+X-Received: by 2002:a17:907:6eac:b0:730:a07f:38bb with SMTP id
+ sh44-20020a1709076eac00b00730a07f38bbmr2998462ejc.750.1659649926301; Thu, 04
+ Aug 2022 14:52:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
+References: <20220708102124.493372-1-Arunpravin.PaneerSelvam@amd.com>
+ <20220714145423.721e1c3b@maurocar-mobl2>
+ <83d9f973-abdd-3d8b-5955-84cfc3f49eea@amd.com>
+ <CADnq5_MNkeG4E9ZXRLpgFQxrDN9jDhk7KYYHbjvtY-cUt5Kk8A@mail.gmail.com>
+ <076231a3-38e9-e013-e106-aa926d009e77@amd.com>
+ <87zgh6b1dp.wl-ashutosh.dixit@intel.com>
+ <CAHbf0-EpHZmpqFgbyY753xQ2HZ_26bYT3qkYy0+EiVfYowzqxg@mail.gmail.com>
+In-Reply-To: <CAHbf0-EpHZmpqFgbyY753xQ2HZ_26bYT3qkYy0+EiVfYowzqxg@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 5 Aug 2022 07:51:54 +1000
+Message-ID: <CAPM=9twjM7txC5J7bgdaS7=k91GP_FPNttAT0-7tR9ehAtxtNw@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/amdgpu: add drm buddy support to amdgpu"
+To: Mike Lothian <mike@fireburn.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,124 +69,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: clang-built-linux <llvm@lists.linux.dev>, David Airlie <airlied@linux.ie>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- "Sudip Mukherjee \(Codethink\)" <sudipm.mukherjee@gmail.com>
+Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Dixit,
+ Ashutosh" <ashutosh.dixit@intel.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 04, 2022 at 09:24:41PM +0200, Arnd Bergmann wrote:
-> On Thu, Aug 4, 2022 at 8:52 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Thu, Aug 4, 2022 at 11:37 AM Sudip Mukherjee (Codethink)
-> > <sudipm.mukherjee@gmail.com> wrote:cov_trace_cmp
-> > >
-> > > git bisect points to 3876a8b5e241 ("drm/amd/display: Enable building new display engine with KCOV enabled").
-> >
-> > Ahh. So that was presumably why it was disabled before - because it
-> > presumably does disgusting things that make KCOV generate even bigger
-> > stack frames than it already has.
-> >
-> > Those functions do seem to have fairly big stack footprints already (I
-> > didn't try to look into why, I assume it's partly due to aggressive
-> > inlining, and probably some automatic structures on stack). But gcc
-> > doesn't seem to make it all that much worse with KCOV (and my clang
-> > build doesn't enable KCOV).
-> >
-> > So it's presumably some KCOV-vs-clang thing. Nathan?
+On Fri, 5 Aug 2022 at 01:53, Mike Lothian <mike@fireburn.co.uk> wrote:
+>
+> Hi
+>
+> When is this relanding?
 
-Looks like Arnd beat me to it :)
+It should be in Linus tree now enabled.
 
-> The dependency was originally added to avoid a link failure in 9d1d02ff3678
->  ("drm/amd/display: Don't build DCN1 when kcov is enabled") after I reported the
-> problem in https://lists.freedesktop.org/archives/dri-devel/2018-August/186131.html
-> 
-> The commit from the bisection just turns off KCOV for the entire directory
-> to avoid the link failure, so it's not actually a problem with KCOV vs clang,
-> but I think a problem with clang vs badly written code that was obscured
-> in allmodconfig builds prior to this.
-
-Right, I do think the sanitizers make things worse here too, as those get
-enabled with allmodconfig. I ran some really quick tests with allmodconfig and
-a few instrumentation options flipped on/off:
-
-allmodconfig (CONFIG_KASAN=y, CONFIG_KCSAN=n, CONFIG_KCOV=y, and CONFIG_UBSAN=y):
-
-warning: stack frame size (2216) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2184) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2176) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-
-allmodconfig + CONFIG_KASAN=n:
-
-warning: stack frame size (2112) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-
-allmodconfig + CONFIG_KCOV=n:
-
-warning: stack frame size (2216) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2184) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2176) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-
-allmodconfig + CONFIG_UBSAN=n:
-
-warning: stack frame size (2584) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2680) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2352) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-
-allmodconfig + CONFIG_KASAN=n + CONFIG_KCSAN=y + CONFIG_UBSAN=n:
-
-warning: stack frame size (2504) exceeds limit (2048) in 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2600) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-warning: stack frame size (2264) exceeds limit (2048) in 'dml32_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-
-allmodconfig + CONFIG_KASAN=n + CONFIG_KCSAN=n + CONFIG_UBSAN=n:
-
-warning: stack frame size (2072) exceeds limit (2048) in 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than]
-
-There might be other debugging configurations that make this worse too,
-as I don't see those warnings on my distribution configuration.
-
-> The dml30_ModeSupportAndSystemConfigurationFull() function exercises
-> a few paths in the compiler that are otherwise rare. On thing it does is to
-> pass up to 60 arguments to other functions, and it heavily uses float and
-> double variables. Both of these make it rather fragile when it comes to
-> unusual compiler options, so the files keep coming up whenever a new
-> instrumentation feature gets added. There is probably some other flag
-> in allmodconfig that we can disable to improve this again, but I have not
-> checked this time.
-
-I do notice that these files build with a non-configurable
--Wframe-large-than value:
-
-$ rg frame_warn_flag drivers/gpu/drm/amd/display/dc/dml/Makefile
-54:frame_warn_flag := -Wframe-larger-than=2048
-70:CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_mode_vba_30.o := $(dml_ccflags) $(frame_warn_flag)
-72:CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_mode_vba_31.o := $(dml_ccflags) $(frame_warn_flag)
-76:CFLAGS_$(AMDDALPATH)/dc/dml/dcn32/display_mode_vba_32.o := $(dml_ccflags) $(frame_warn_flag)
-
-I suppose that could just be bumped as a quick workaround? Two of those
-files have a comment that implies modifying them in non-trivial ways is
-not recommended.
-
-/*
- * NOTE:
- *   This file is gcc-parsable HW gospel, coming straight from HW engineers.
- *
- * It doesn't adhere to Linux kernel style and sometimes will do things in odd
- * ways. Unless there is something clearly wrong with it the code should
- * remain as-is as it provides us with a guarantee from HW that it is correct.
- */
-
-I do note that commit 1b54a0121dba ("drm/amd/display: Reduce stack size
-in the mode support function") did have a workaround for GCC. It appears
-clang will still inline mode_support_configuration(). If I mark it as
-'noinline', the warning disappears in that file.
-
-Cheers,
-Nathan
+Dave.
