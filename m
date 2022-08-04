@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C986C58984B
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 09:24:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B18F589860
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Aug 2022 09:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2EDB8F791;
-	Thu,  4 Aug 2022 07:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF41011B28E;
+	Thu,  4 Aug 2022 07:29:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6448F78B;
- Thu,  4 Aug 2022 07:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659597870; x=1691133870;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XFXZ6nPS/wW61CR4TyXoN1VHQPghXBw2a0IwCOPSs/A=;
- b=cSoZ0f3v1mDNE79CnTZajoMmbQ5mhkNSAxfl27SZZsIuJoqqy2t8kPox
- NX9MKybbp+TDlcO3qIPmIaB8lFUwnmyLUXDbq63Leo8yu9gPbfgkGW/uu
- //6qOjdWspPvrlklQ+s/BmnLCggCU+0TQ0uXyuXQ3sy/8R+8ny+OmuuHr
- aAaK/yJ0sCVYfPtWJDIR+Cfri4J4Wwa9fT+xb2wYnAEhMJWOMsygReIA+
- ceeTAJlGgxfMF3EbldGZ6XwpHYx1VyHROcaKerMaMLQE6H9oYHSEQAz4E
- sbCxIQtvfEG/HWQwGHPe04NoBhVXvZa0bs0a/PAZ2HPXgoU96o6TV7rbQ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="376161345"
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; d="scan'208";a="376161345"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2022 00:24:29 -0700
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; d="scan'208";a="662415569"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
- ([10.252.62.103])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2022 00:24:26 -0700
-Date: Thu, 4 Aug 2022 09:24:24 +0200
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915/gt: document TLB cache
- invalidation functions
-Message-ID: <20220804092424.6a7f1772@maurocar-mobl2>
-In-Reply-To: <20220802223042.GL14039@nvishwa1-DESK>
-References: <cover.1659077372.git.mchehab@kernel.org>
- <ebb5f34f223626038f241fdf00a0dcfd33a19606.1659077372.git.mchehab@kernel.org>
- <20220802223042.GL14039@nvishwa1-DESK>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306C98F9AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Aug 2022 07:28:39 +0000 (UTC)
+X-UUID: 42c1bd04af764ea6b21e52dd1aab5b89-20220804
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=yt9IoGkctuhNwUyy3kVD6Wx5U+zcXEGurLyQgFP17rw=; 
+ b=JwRADRZ4gfi7ofmqbXRSfAR5Pd0S7aTiBLZfEoEA5ET6z32ZjdNPLcRqAOcHBeAWrEbN7cC9Q9+zzcYbfbXh3xEMDKyk6ue1d9wj98TJBl/VXaiPbMUNaV8wflRqMF2CW9yan9agWViboIcFPHEaizxmde/lh9V9jSh10G/NNJs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:6aef8cd4-3aec-4698-aa73-c86566fb6939, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:0f94e32, CLOUDID:f97544d0-a6cf-4fb6-be1b-c60094821ca2,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: 42c1bd04af764ea6b21e52dd1aab5b89-20220804
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 872062755; Thu, 04 Aug 2022 15:28:31 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 4 Aug 2022 15:28:29 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Thu, 4 Aug 2022 15:28:29 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v25 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Thu, 4 Aug 2022 15:28:20 +0800
+Message-ID: <20220804072827.22383-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,275 +63,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Chris Wilson <chris.p.wilson@intel.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2 Aug 2022 15:30:44 -0700
-Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com> wrote:
+The hardware path of vdosys1 with DPTx output need to go through by several
+ modules, such as, OVL_ADAPTOR and MERGE.
 
-> On Fri, Jul 29, 2022 at 09:03:55AM +0200, Mauro Carvalho Chehab wrote:
-> >Add a description for the TLB cache invalidation algorithm and for
-> >the related kAPI functions.
-> >
-> >Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >---
-> >
-> >To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> >See [PATCH v2 0/2] at: https://lore.kernel.org/all/cover.1659077372.git.mchehab@kernel.org/
-> >
-> > Documentation/gpu/i915.rst          |   7 ++
-> > drivers/gpu/drm/i915/gt/intel_tlb.c |  25 +++++++
-> > drivers/gpu/drm/i915/gt/intel_tlb.h | 101 ++++++++++++++++++++++++++++
-> > 3 files changed, 133 insertions(+)
-> >
-> >diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> >index 4e59db1cfb00..46911fdd79e8 100644
-> >--- a/Documentation/gpu/i915.rst
-> >+++ b/Documentation/gpu/i915.rst
-> >@@ -58,6 +58,13 @@ Intel GVT-g Host Support(vGPU device model)
-> > .. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
-> >    :internal:
-> >
-> >+TLB cache invalidation
-> >+----------------------
-> >+
-> >+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_tlb.h
-> >+
-> >+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_tlb.c
-> >+
-> > Workarounds
-> > -----------
-> >
-> >diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
-> >index af8cae979489..4873b7ecc015 100644
-> >--- a/drivers/gpu/drm/i915/gt/intel_tlb.c
-> >+++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
-> >@@ -145,6 +145,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
-> > 	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
-> > }
-> >
-> >+/**
-> >+ * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
-> >+ * @gt: GT structure
-> >+ * @seqno: sequence number
-> >+ *
-> >+ * Do a full TLB cache invalidation if the @seqno is bigger than the last
-> >+ * full TLB cache invalidation.
-> >+ *
-> >+ * Note:
-> >+ * The TLB cache invalidation logic depends on GEN-specific registers.
-> >+ * It currently supports MMIO-based TLB flush for GEN8 to GEN12.
-> >+ */
-> > void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
-> > {
-> > 	intel_wakeref_t wakeref;
-> >@@ -171,12 +183,25 @@ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
-> > 	}
-> > }
-> >
-> >+/**
-> >+ * intel_gt_init_tlb - initialize TLB-specific vars
-> >+ * @gt: GT structure
-> >+ *
-> >+ * TLB cache invalidation logic internally uses some resources that require
-> >+ * initialization. Should be called before doing any TLB cache invalidation.
-> >+ */
-> > void intel_gt_init_tlb(struct intel_gt *gt)
-> > {
-> > 	mutex_init(&gt->tlb.invalidate_lock);
-> > 	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
-> > }
-> >
-> >+/**
-> >+ * intel_gt_fini_tlb - initialize TLB-specific vars  
-> 
-> Free TLB-specific vars
+Add DRM and these modules support by the patches below:
 
-OK.
+Changes in v25:
+- rebase to next-20220803
 
-> 
-> >+ * @gt: GT structure
-> >+ *
-> >+ * Frees any resources needed by TLB cache invalidation logic.
-> >+ */
-> > void intel_gt_fini_tlb(struct intel_gt *gt)
-> > {
-> > 	mutex_destroy(&gt->tlb.invalidate_lock);
-> >diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
-> >index 46ce25bf5afe..dca70c33bd61 100644
-> >--- a/drivers/gpu/drm/i915/gt/intel_tlb.h
-> >+++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
-> >@@ -11,16 +11,117 @@
-> >
-> > #include "intel_gt_types.h"
-> >
-> >+/**
-> >+ * DOC: TLB cache invalidation logic
-> >+ *
-> >+ * The way the current algorithm works is that a struct drm_i915_gem_object can
-> >+ * be created on any order. At unbind/evict time, the object is warranted that
-> >+ * it won't be used anymore. So, a sequence number provided by
-> >+ * intel_gt_next_invalidate_tlb_full() is stored on it. This can happen either
-> >+ * at __vma_put_pages() - for VMA sync unbind, or at ppgtt_unbind_vma() - for
-> >+ * VMA async VMA bind.
-> >+ *
-> >+ * At __i915_gem_object_unset_pages(), intel_gt_invalidate_tlb_full() is called,
-> >+ * where it checks if the sequence number of the object was already invalidated
-> >+ * or not. If not, it flushes the TLB and increments the sequence number::
-> >+ *
-> >+ *   void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
-> >+ *   {
-> >+ *   ...
-> >+ * 	with_intel_gt_pm_if_awake(gt, wakeref) {
-> >+ * 		mutex_lock(&gt->tlb.invalidate_lock);
-> >+ * 		if (tlb_seqno_passed(gt, seqno))
-> >+ * 				goto unlock;
-> >+ *
-> >+ * 		// Some code to do TLB invalidation
-> >+ *   ...
-> >+ *
-> >+ * 		write_seqcount_invalidate(&gt->tlb.seqno); // increment seqno
-> >+ * 		mutex_lock(&gt->tlb.invalidate_lock);
-> >+ *      }
-> >+ *
-> >+ * So, let's say the current seqno is 2 and 3 new objects were created,
-> >+ * on this order::
-> >+ *
-> >+ * 	obj1
-> >+ * 	obj2
-> >+ * 	obj3
-> >+ *
-> >+ * They can be unbind/evict on a different order. At unbind/evict time,
-> >+ * the mm.tlb will be stamped with the sequence number, using the number
-> >+ * from the last TLB flush, plus 1.  
-> 
-> I am trying to get my head around the below function.
-> 
-> void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb)
-> {
->         WRITE_ONCE(tlb, intel_gt_next_invalidate_tlb_full(vm->gt));
-> }
-> 
-> Though we pass obj->mm.tlb for 'tlb' while calling this function,
-> aren't we writing to local 'tlb' variable here instead of obj->mm.tlb?
+Changes in v24:
+- fix ovl_adaptor binding issue (mtk_disp_ovl_adaptor.c)
+  - Since ovl_adaptor is an aggregated component, it should be bounded after
+    all its child components are bounded.
+- rebase to next-20220708
 
-It should be passing a pointer. I wrote such fix after a review,
-but somehow it ended getting lost. I'll send the fix at v3.
+Changes in v23:
+- separate[7] mmsys/mutex and drm patches into two series
 
-> >+ *
-> >+ * Different threads may be used on unbind/evict and/or unset pages.
-> >+ * As the logic at void intel_gt_invalidate_tlb_full() is protected by a mutex,  
-> 
-> May be we can skip 'void' and just keep function name here.
+Changes in v22:
+- rebase to next-20220525
+- rebase to vdosys0 series v22
+- separate dts to a new patch
 
-Sure.
+Changes in v21:
+- fix reviewer comment
+  - fix rdma and ethdr binding doc and dts
 
-> >+ * for simplicity, let's consider just two threads:
-> >+ *
-> >+ * +-------------------+-------------------------+---------------------------------+
-> >+ * | sequence number   | Thread 0                | Thread 1                        +
-> >+ * +===================+=========================+=================================+
-> >+ * | seqno=2           |                         |                                 |
-> >+ * |                   +-------------------------+---------------------------------+
-> >+ * |                   | unbind/evict obj3.      |                                 |
-> >+ * |                   |                         |                                 |
-> >+ * |                   | obj3.mm.tlb = seqno | 1 |                                 |
-> >+ * |                   | // obj3.mm.tlb = 3      |                                 |
-> >+ * |                   +-------------------------+---------------------------------+
-> >+ * |                   | unbind/evict obj1.      |                                 |
-> >+ * |                   |                         |                                 |
-> >+ * |                   | obj1.mm.tlb = seqno | 1 |                                 |
-> >+ * |                   | // obj1.mm.tlb = 3      |                                 |
-> >+ * |                   +-------------------------+---------------------------------+
-> >+ * |                   |                         | __i915_gem_object_unset_pages() |
-> >+ * |                   |                         | called for obj3 => TLB flush    |
-> >+ * |                   |                         | invalidating both obj1 and obj2.|
-> >+ * |                   |                         |                                 |
-> >+ * |                   |                         | seqno += 2                      |
-> >+ * +-------------------+-------------------------+---------------------------------+
-> >+ * | seqno=4           |                         |                                 |
-> >+ * |                   +-------------------------+---------------------------------+
-> >+ * |                   | unbind/evict obj2.      |                                 |
-> >+ * |                   |                         |                                 |
-> >+ * |                   | obj2.mm.tlb = seqno | 1 |                                 |
-> >+ * |                   | // obj2.mm.tlb = 5      |                                 |
-> >+ * |                   +-------------------------+---------------------------------+
-> >+ * |                   |                         | __i915_gem_object_unset_pages() |
-> >+ * |                   |                         | called for obj1, don't flush    |
-> >+ * |                   |                         | as past flush invalidated obj1. |
-> >+ * |                   +-------------------------+---------------------------------+
-> >+ * |                   |                         | __i915_gem_object_unset_pages() |
-> >+ * |                   |                         | called for obj2 => TLB flush.   |
-> >+ * |                   |                         | invalidating obj2.              |
-> >+ * |                   |                         |                                 |
-> >+ * |                   |                         | seqno += 2                      |
-> >+ * +-------------------+-------------------------+---------------------------------+
-> >+ * | seqno=6           |                         |                                 |
-> >+ * +-------------------+-------------------------+---------------------------------+
-> >+ */
-> >+
-> > void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno);
-> >
-> > void intel_gt_init_tlb(struct intel_gt *gt);
-> > void intel_gt_fini_tlb(struct intel_gt *gt);
-> >
-> >+/**
-> >+ * intel_gt_tlb_seqno - Returns the current TLB invlidation sequence number
-> >+ *  
-> 
-> Probably this empty comment line needs to be removed before the parameter
-> description below?
+Changes in v20:
+- fix reviewer comment
+  - update mmsys update bit api name
+  - add mtk_mmsys_update_bits error message if lose gce property
+  - list all mt8195 vdosys1 reset bits
 
-Kernel-doc actually accepts both with or without a blank line. My
-personal preference is to place a blank line, because sometimes the
-function description plus function name is bigger than one line.
-So, it is usually clearer when adding a blank line than doing
-something like this (perfectly valid kerneldoc markup):
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
 
-	/**
-	 * long_function_name_foo - Lorem ipsum dolor sit amet, consectetur
-	 * adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
-	 * @bar: some parameter
-	 *  ...
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
 
-But yeah, kernel-doc documentation example doesn't have a blank
-line. So, I'll drop it.
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
 
-> 
-> >+ * @gt: GT structure
-> >+ *
-> >+ * There's no need to lock while calling it, as seqprop_sequence is thread-safe
-> >+ */
-> > static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
-> > {
-> > 	return seqprop_sequence(&gt->tlb.seqno);
-> > }
-> >
-> >+/**
-> >+ * intel_gt_next_invalidate_tlb_full - Returns the next TLB full invalidation
-> >+ *	sequence number
-> >+ *  
-> 
-> Same here.
-> 
-> -Niranjana
-> 
-> >+ * @gt: GT structure
-> >+ *
-> >+ * There's no need to lock while calling it, as seqprop_sequence is thread-safe
-> >+ */
-> > static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
-> > {
-> > 	return intel_gt_tlb_seqno(gt) | 1;
-> >-- 
-> >2.36.1
-> >  
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
 
-Thanks!
-Mauro
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using
+ devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma
+ init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[4] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys1) support for mt8195
+    20220526110233.20080-1-nancy.lin@mediatek.com
+
+Nancy.Lin (7):
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+
+ .../display/mediatek/mediatek,ethdr.yaml      | 188 +++++++
+ drivers/gpu/drm/mediatek/Makefile             |   2 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  26 +
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 528 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 129 +++--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 359 ++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  24 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 370 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
+ 12 files changed, 1615 insertions(+), 197 deletions(-)
+ create mode 100644
+ Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+
+-- 
+2.18.0
+
