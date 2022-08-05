@@ -1,68 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF11958A99A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 12:43:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC2B58A9A5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 12:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A204B48FB;
-	Fri,  5 Aug 2022 10:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35A114BCAB;
+	Fri,  5 Aug 2022 10:42:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86AFEB354C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 10:09:50 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id b18so1649980qtq.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 03:09:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8osKs3XHWs2tJshTy51ciuxCpaj0R2ycT8OfaZIOWNQ=;
- b=Wux8wYgJ+wtdOYj6/wLNTMNtVsjmK6vhZFf4SpuJ5w5bV7UGZQ1ODQTPVja2hW1nwv
- QgUs9HzuV1/ZtfI+iJGCQR5A4oz8ElXQKwCIjVPoecshhsQ+d4a9hjiRKIz2+KCoyBQ7
- 49OwqChszzHDLl7bviXz2rTxmIKZvQAZCz+gU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8osKs3XHWs2tJshTy51ciuxCpaj0R2ycT8OfaZIOWNQ=;
- b=F5YKKcDgwzZDp0nk3mguTeEhbHr0I3vZi+y1FoRlhhWBkXM6Q4t7jFjv5SvB9kG1Rd
- o9cvw0VDkhjoCr8tAUpf5Z+YFE1Nq9oDxa3vWQ2/WwX9ase7enZlgFXgJ6d9HM61/wWA
- 8oGz4GEKtQ7VhGCxDRINKEee5RVhBVAK1N4tl8NC/xxVqwMS6N1evhevjDVrGdbB2n3J
- EMK0PK6o5IW68LtkejoP0OfRQ4zFtc0Z21fb4wKr6igu7a1Hm1qok1vZC0jFJYV1We31
- K1F8/vOsjkN5DtXZ4NJ8DdQ+SiL4lYIyEZY/Oo4URGCweODvuSyaH7o8PM0ddoN5aFWK
- XI6w==
-X-Gm-Message-State: ACgBeo0xsDhnSsrCGIvL6I2l3SJ3v//OBdB2JWECqyZePkmVo6j2Y/yH
- LqA7ZHQQRYASbQVxjknf6gncl9449WmGFw==
-X-Google-Smtp-Source: AA6agR6tn1I/M4bO5Ash30sGRCvWjkiqABNc+x8DgfebWl78JMR9i3MCCruIL9RzhY2So2CYzploUg==
-X-Received: by 2002:ac8:7d12:0:b0:31f:228d:89cb with SMTP id
- g18-20020ac87d12000000b0031f228d89cbmr5034541qtb.287.1659694188766; 
- Fri, 05 Aug 2022 03:09:48 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
- [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
- d19-20020a05620a241300b006a6ab259261sm2844502qkn.29.2022.08.05.03.09.47
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Aug 2022 03:09:48 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id 199so3068261ybl.9
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 03:09:47 -0700 (PDT)
-X-Received: by 2002:a05:6902:1382:b0:66f:f9fe:79d6 with SMTP id
- x2-20020a056902138200b0066ff9fe79d6mr4625654ybu.493.1659694187287; Fri, 05
- Aug 2022 03:09:47 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3662A14B7C4;
+ Fri,  5 Aug 2022 10:13:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659694422; x=1691230422;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mH7WCLwOQGG3jyxhi7S9TzWGDgrbyokmcuBFbffDLDo=;
+ b=BfMIGC6rCALS97zTMWtMAPKUoL8SEGD3Go6kSIeq8xMcTxNmzSvEU0Gs
+ vlbPKAzeabk4jZ7Q809RdpKjX/ZckYv6yJIMSZtxkAO6jaTo6YEm5Hwx6
+ Jk3VlqADql1KlQ2Del6bpBi+uCPVcMvmBO6wVgTBBk6KuQ900QhTi3zzA
+ vn+s6BRUlgE7yiXLGrFRR5TB7/gp9C6ptj3cXJWG7F7z2Wh9aLuilvJ7N
+ rF8M0tYmOvr2ddx8Iocb7g26C0a7WFfVDNn3IZOWHe69izT6a13ZPm6YH
+ /R3I6Ts1eyTsBTc8gNqkeoOHLAcYhZB6ae8jroRkHivHIk9U9p7dx0hPl A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10429"; a="376466296"
+X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="376466296"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2022 03:13:41 -0700
+X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="662933861"
+Received: from jevargas-mobl3.amr.corp.intel.com (HELO localhost)
+ ([10.252.32.116])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2022 03:13:39 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [CI 1/2] drm/i915/edid: convert DP, HDMI and LVDS to drm_edid
+Date: Fri,  5 Aug 2022 13:13:33 +0300
+Message-Id: <20220805101334.925995-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
- <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
-In-Reply-To: <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Fri, 5 Aug 2022 19:09:35 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
-Message-ID: <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
-Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
- memory runtine
-To: ayaka <ayaka@soulik.info>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,185 +56,391 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
- christian.koenig@amd.com, m.szyprowski@samsung.com
+Cc: jani.nikula@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 2, 2022 at 9:21 PM ayaka <ayaka@soulik.info> wrote:
->
-> Sorry, the previous one contains html data.
->
-> > On Aug 2, 2022, at 3:33 PM, Tomasz Figa <tfiga@chromium.org> wrote:
-> >
-> > =EF=BB=BFOn Mon, Aug 1, 2022 at 8:43 PM ayaka <ayaka@soulik.info> wrote=
-:
-> >> Sent from my iPad
-> >>>> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote:
-> >>> =EF=BB=BFCAUTION: Email originated externally, do not click links or =
-open attachments unless you recognize the sender and know the content is sa=
-fe.
-> >>>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> =
-wrote:
-> >>>>> On 8/1/22 14:19, Tomasz Figa wrote:
-> >>>> Hello Tomasz
-> >>>>> ?Hi Randy,
-> >>>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
-> >>>>>> From: Randy Li <ayaka@soulik.info>
-> >>>>>> This module is still at a early stage, I wrote this for showing wh=
-at
-> >>>>>> APIs we need here.
-> >>>>>> Let me explain why we need such a module here.
-> >>>>>> If you won't allocate buffers from a V4L2 M2M device, this module
-> >>>>>> may not be very useful. I am sure the most of users won't know a
-> >>>>>> device would require them allocate buffers from a DMA-Heap then
-> >>>>>> import those buffers into a V4L2's queue.
-> >>>>>> Then the question goes back to why DMA-Heap. From the Android's
-> >>>>>> description, we know it is about the copyright's DRM.
-> >>>>>> When we allocate a buffer in a DMA-Heap, it may register that buff=
-er
-> >>>>>> in the trusted execution environment so the firmware which is runn=
-ing
-> >>>>>> or could only be acccesed from there could use that buffer later.
-> >>>>>> The answer above leads to another thing which is not done in this
-> >>>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
-> >>>>>> responses a IOMMU device as well. For the genernal purpose, we wou=
-ld
-> >>>>>> be better assuming the device mapping should be done for each devi=
-ce
-> >>>>>> itself. The problem here we only know alloc_devs in those DMAbuf
-> >>>>>> methods, which are DMA-heaps in my design, the device from the que=
-ue
-> >>>>>> is not enough, a plane may requests another IOMMU device or table
-> >>>>>> for mapping.
-> >>>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
-> >>>>>> ---
-> >>>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
-> >>>>>> drivers/media/common/videobuf2/Makefile       |   1 +
-> >>>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++=
-++++
-> >>>>>> include/media/videobuf2-dma-heap.h            |  30 ++
-> >>>>>> 4 files changed, 387 insertions(+)
-> >>>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-he=
-ap.c
-> >>>>>> create mode 100644 include/media/videobuf2-dma-heap.h
-> >>>>> First of all, thanks for the series.
-> >>>>> Possibly a stupid question, but why not just allocate the DMA-bufs
-> >>>>> directly from the DMA-buf heap device in the userspace and just imp=
-ort
-> >>>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
-> >>>> Sometimes the allocation policy could be very complex, let's suppose=
- a
-> >>>> multiple planes pixel format enabling with frame buffer compression.
-> >>>> Its luma, chroma data could be allocated from a pool which is delega=
-ted
-> >>>> for large buffers while its metadata would come from a pool which ma=
-ny
-> >>>> users could take some few slices from it(likes system pool).
-> >>>> Then when we have a new users knowing nothing about this platform, i=
-f we
-> >>>> just configure the alloc_devs in each queues well. The user won't ne=
-ed
-> >>>> to know those complex rules.
-> >>>> The real situation could be more complex, Samsung MFC's left and rig=
-ht
-> >>>> banks could be regarded as two pools, many devices would benefit fro=
-m
-> >>>> this either from the allocation times or the security buffers policy=
-.
-> >>>> In our design, when we need to do some security decoding(DRM video),
-> >>>> codecs2 would allocate buffers from the pool delegated for that. Whi=
-le
-> >>>> the non-DRM video, users could not care about this.
-> >>> I'm a little bit surprised about this, because on Android all the
-> >>> graphics buffers are allocated from the system IAllocator and importe=
-d
-> >>> to the specific devices.
-> >> In the non-tunnel mode, yes it is. While the tunnel mode is completely=
- vendor defined. Neither HWC nor codec2 cares about where the buffers comin=
-g from, you could do what ever you want.
-> >> Besides there are DRM video in GNU Linux platform, I heard the webkit =
-has made huge effort here and Playready is one could work in non-Android Li=
-nux.
-> >>> Would it make sense to instead extend the UAPI to expose enough
-> >>> information about the allocation requirements to the userspace, so it
-> >>> can allocate correctly?
-> >> Yes, it could. But as I said it would need the users to do more works.
-> >>> My reasoning here is that it's not a driver's decision to allocate
-> >>> from a DMA-buf heap (and which one) or not. It's the userspace which
-> >>> knows that, based on the specific use case that it wants to fulfill.
-> >> Although I would like to let the users decide that, users just can=E2=
-=80=99t do that which would violate the security rules in some platforms.
-> >> For example,  video codec and display device could only access a regio=
-n of memory, any other device or trusted apps can=E2=80=99t access it. User=
-s have to allocate the buffer from the pool the vendor decided.
-> >> So why not we offer a quick way that users don=E2=80=99t need to try a=
-nd error.
-> >
-> > In principle, I'm not against integrating DMA-buf heap with vb2,
-> > however I see some problems I mentioned before:
-> >
-> > 1) How would the driver know if it should allocate from a DMA-buf heap =
-or not?
->
-> struct vb2_queue.mem_ops
->
-> int (*queue_setup)(struct vb2_queue *q,unsigned int *num_buffers, unsigne=
-d int *num_planes, unsigned int sizes[], struct device *alloc_devs[]);
+Convert all the connectors that use cached connector edid and
+detect_edid to drm_edid.
 
-Sorry, I don't understand what you mean here.
+Since drm_get_edid() calls drm_connector_update_edid_property() while
+drm_edid_read*() do not, we need to call drm_edid_connector_update()
+separately, in part due to the EDID caching behaviour in HDMI and
+DP. Especially DP depends on the details parsed from EDID. (The big
+behavioural change conflating EDID reading with parsing and property
+update was done in commit 5186421cbfe2 ("drm: Introduce epoch counter to
+drm_connector"))
 
-Just to make sure we're on the same page - what I'm referring to is
-that whether DMA-buf heap is used or not is specific to a given use
-case, which is controlled by the userspace. So the userspace must be
-able to control whether the driver allocates from a DMA-buf heap or
-the regular way.
+v4: Call drm_edid_connector_update() after reading HDMI/DP EDID
 
->
-> > 2) How would the driver know which heap to allocate from?
->
-> From vb2_queue.alloc_devs
->
-> What I did now is likes what MFC does, create some mem_alloc_devs.
-> It would be better that we could retrieve the DMA-heaps=E2=80=99 devices =
-from kernel, but that is not enough, we need a place to store the heap flag=
-s although none of them are defined yet.
->
-> From Android documents, I think it is unlikely we would have heap flags.
-> =E2=80=9CStandardization: The DMA-BUF heaps framework offers a well-defin=
-ed UAPI. ION allowed custom flags and heap IDs that prevented developing a =
-common testing framework because each device=E2=80=99s ION implementation c=
-ould behave differently.=E2=80=9D
->
+v3: Don't leak vga switcheroo EDID in LVDS init (Ville)
 
-alloc_devs is something that the driver sets and it's a struct device
-for which the DMA API can be called to manage the DMA buffers for this
-video device. It's not a way to select a use case-dependent allocation
-method.
+v2: Don't leak opregion fallback EDID (Ville)
 
-> > 3) How would the heap know how to allocate properly for the device?
-> >
-> Because =E2=80=9Ceach DMA-BUF heap is a separate character device=E2=80=
-=9D.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ .../gpu/drm/i915/display/intel_connector.c    |  4 +-
+ .../drm/i915/display/intel_display_types.h    |  4 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       | 80 +++++++++++--------
+ drivers/gpu/drm/i915/display/intel_hdmi.c     | 28 ++++---
+ drivers/gpu/drm/i915/display/intel_lvds.c     | 37 +++++----
+ 5 files changed, 87 insertions(+), 66 deletions(-)
 
-Could you elaborate? Sorry, I'm not sure how this answers my question.
+diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
+index 1dcc268927a2..d83b2a64f618 100644
+--- a/drivers/gpu/drm/i915/display/intel_connector.c
++++ b/drivers/gpu/drm/i915/display/intel_connector.c
+@@ -95,12 +95,12 @@ void intel_connector_destroy(struct drm_connector *connector)
+ {
+ 	struct intel_connector *intel_connector = to_intel_connector(connector);
+ 
+-	kfree(intel_connector->detect_edid);
++	drm_edid_free(intel_connector->detect_edid);
+ 
+ 	intel_hdcp_cleanup(intel_connector);
+ 
+ 	if (!IS_ERR_OR_NULL(intel_connector->edid))
+-		kfree(intel_connector->edid);
++		drm_edid_free(intel_connector->edid);
+ 
+ 	intel_panel_fini(intel_connector);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 0da9b208d56e..d476df0ac9df 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -592,8 +592,8 @@ struct intel_connector {
+ 	struct intel_panel panel;
+ 
+ 	/* Cached EDID for eDP and LVDS. May hold ERR_PTR for invalid EDID. */
+-	struct edid *edid;
+-	struct edid *detect_edid;
++	const struct drm_edid *edid;
++	const struct drm_edid *detect_edid;
+ 
+ 	/* Number of times hotplug detection was tried after an HPD interrupt */
+ 	int hotplug_retries;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 32292c0be2bd..8a3b2dbebe04 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -3577,12 +3577,11 @@ static u8 intel_dp_autotest_edid(struct intel_dp *intel_dp)
+ 				    intel_dp->aux.i2c_defer_count);
+ 		intel_dp->compliance.test_data.edid = INTEL_DP_RESOLUTION_FAILSAFE;
+ 	} else {
+-		struct edid *block = intel_connector->detect_edid;
++		/* FIXME: Get rid of drm_edid_raw() */
++		const struct edid *block = drm_edid_raw(intel_connector->detect_edid);
+ 
+-		/* We have to write the checksum
+-		 * of the last block read
+-		 */
+-		block += intel_connector->detect_edid->extensions;
++		/* We have to write the checksum of the last block read */
++		block += block->extensions;
+ 
+ 		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_TEST_EDID_CHECKSUM,
+ 				       block->checksum) <= 0)
+@@ -4461,7 +4460,7 @@ bool intel_digital_port_connected(struct intel_encoder *encoder)
+ 	return is_connected;
+ }
+ 
+-static struct edid *
++static const struct drm_edid *
+ intel_dp_get_edid(struct intel_dp *intel_dp)
+ {
+ 	struct intel_connector *intel_connector = intel_dp->attached_connector;
+@@ -4472,18 +4471,22 @@ intel_dp_get_edid(struct intel_dp *intel_dp)
+ 		if (IS_ERR(intel_connector->edid))
+ 			return NULL;
+ 
+-		return drm_edid_duplicate(intel_connector->edid);
++		return drm_edid_dup(intel_connector->edid);
+ 	} else
+-		return drm_get_edid(&intel_connector->base,
+-				    &intel_dp->aux.ddc);
++		return drm_edid_read_ddc(&intel_connector->base,
++					 &intel_dp->aux.ddc);
+ }
+ 
+ static void
+ intel_dp_update_dfp(struct intel_dp *intel_dp,
+-		    const struct edid *edid)
++		    const struct drm_edid *drm_edid)
+ {
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	struct intel_connector *connector = intel_dp->attached_connector;
++	const struct edid *edid;
++
++	/* FIXME: Get rid of drm_edid_raw() */
++	edid = drm_edid_raw(drm_edid);
+ 
+ 	intel_dp->dfp.max_bpc =
+ 		drm_dp_downstream_max_bpc(intel_dp->dpcd,
+@@ -4583,21 +4586,27 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
+ {
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	struct intel_connector *connector = intel_dp->attached_connector;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
++	const struct edid *edid;
+ 	bool vrr_capable;
+ 
+ 	intel_dp_unset_edid(intel_dp);
+-	edid = intel_dp_get_edid(intel_dp);
+-	connector->detect_edid = edid;
++	drm_edid = intel_dp_get_edid(intel_dp);
++	connector->detect_edid = drm_edid;
++
++	/* Below we depend on display info having been updated */
++	drm_edid_connector_update(&connector->base, drm_edid);
+ 
+ 	vrr_capable = intel_vrr_is_capable(connector);
+ 	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s] VRR capable: %s\n",
+ 		    connector->base.base.id, connector->base.name, str_yes_no(vrr_capable));
+ 	drm_connector_set_vrr_capable_property(&connector->base, vrr_capable);
+ 
+-	intel_dp_update_dfp(intel_dp, edid);
++	intel_dp_update_dfp(intel_dp, drm_edid);
+ 	intel_dp_update_420(intel_dp);
+ 
++	/* FIXME: Get rid of drm_edid_raw() */
++	edid = drm_edid_raw(drm_edid);
+ 	if (edid && edid->input & DRM_EDID_INPUT_DIGITAL) {
+ 		intel_dp->has_hdmi_sink = drm_detect_hdmi_monitor(edid);
+ 		intel_dp->has_audio = drm_detect_monitor_audio(edid);
+@@ -4612,7 +4621,7 @@ intel_dp_unset_edid(struct intel_dp *intel_dp)
+ 	struct intel_connector *connector = intel_dp->attached_connector;
+ 
+ 	drm_dp_cec_unset_edid(&intel_dp->aux);
+-	kfree(connector->detect_edid);
++	drm_edid_free(connector->detect_edid);
+ 	connector->detect_edid = NULL;
+ 
+ 	intel_dp->has_hdmi_sink = false;
+@@ -4776,12 +4785,11 @@ intel_dp_force(struct drm_connector *connector)
+ static int intel_dp_get_modes(struct drm_connector *connector)
+ {
+ 	struct intel_connector *intel_connector = to_intel_connector(connector);
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int num_modes = 0;
+ 
+-	edid = intel_connector->detect_edid;
+-	if (edid)
+-		num_modes = intel_connector_update_modes(connector, edid);
++	drm_edid = intel_connector->detect_edid;
++	num_modes = drm_edid_connector_update(connector, drm_edid);
+ 
+ 	/* Also add fixed mode, which may or may not be present in EDID */
+ 	if (intel_dp_is_edp(intel_attached_dp(intel_connector)))
+@@ -4790,7 +4798,7 @@ static int intel_dp_get_modes(struct drm_connector *connector)
+ 	if (num_modes)
+ 		return num_modes;
+ 
+-	if (!edid) {
++	if (!drm_edid) {
+ 		struct intel_dp *intel_dp = intel_attached_dp(intel_connector);
+ 		struct drm_display_mode *mode;
+ 
+@@ -5198,7 +5206,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+ 	bool has_dpcd;
+ 	enum pipe pipe = INVALID_PIPE;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 
+ 	if (!intel_dp_is_edp(intel_dp))
+ 		return true;
+@@ -5231,29 +5239,33 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 	}
+ 
+ 	mutex_lock(&dev->mode_config.mutex);
+-	edid = drm_get_edid(connector, &intel_dp->aux.ddc);
+-	if (!edid) {
++	drm_edid = drm_edid_read_ddc(connector, &intel_dp->aux.ddc);
++	if (!drm_edid) {
++		const struct edid *edid;
++
+ 		/* Fallback to EDID from ACPI OpRegion, if any */
++		/* FIXME: Make intel_opregion_get_edid() return drm_edid */
+ 		edid = intel_opregion_get_edid(intel_connector);
+-		if (edid)
++		if (edid) {
++			drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
+ 			drm_dbg_kms(&dev_priv->drm,
+ 				    "[CONNECTOR:%d:%s] Using OpRegion EDID\n",
+ 				    connector->base.id, connector->name);
+-	}
+-	if (edid) {
+-		if (drm_add_edid_modes(connector, edid)) {
+-			drm_connector_update_edid_property(connector, edid);
+-		} else {
+ 			kfree(edid);
+-			edid = ERR_PTR(-EINVAL);
++		}
++	}
++	if (drm_edid) {
++		if (!drm_edid_connector_update(connector, drm_edid)) {
++			drm_edid_free(drm_edid);
++			drm_edid = ERR_PTR(-EINVAL);
+ 		}
+ 	} else {
+-		edid = ERR_PTR(-ENOENT);
++		drm_edid = ERR_PTR(-ENOENT);
+ 	}
+-	intel_connector->edid = edid;
++	intel_connector->edid = drm_edid;
+ 
+-	intel_bios_init_panel(dev_priv, &intel_connector->panel,
+-			      encoder->devdata, IS_ERR(edid) ? NULL : edid);
++	intel_bios_init_panel(dev_priv, &intel_connector->panel, encoder->devdata,
++			      IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
+ 
+ 	intel_panel_add_edid_fixed_modes(intel_connector,
+ 					 intel_connector->panel.vbt.drrs_type != DRRS_TYPE_NONE,
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index a88f589351fa..feef8323592d 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2349,7 +2349,7 @@ intel_hdmi_unset_edid(struct drm_connector *connector)
+ 	intel_hdmi->dp_dual_mode.type = DRM_DP_DUAL_MODE_NONE;
+ 	intel_hdmi->dp_dual_mode.max_tmds_clock = 0;
+ 
+-	kfree(to_intel_connector(connector)->detect_edid);
++	drm_edid_free(to_intel_connector(connector)->detect_edid);
+ 	to_intel_connector(connector)->detect_edid = NULL;
+ }
+ 
+@@ -2416,7 +2416,8 @@ intel_hdmi_set_edid(struct drm_connector *connector)
+ 	struct drm_i915_private *dev_priv = to_i915(connector->dev);
+ 	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
+ 	intel_wakeref_t wakeref;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
++	const struct edid *edid;
+ 	bool connected = false;
+ 	struct i2c_adapter *i2c;
+ 
+@@ -2424,21 +2425,26 @@ intel_hdmi_set_edid(struct drm_connector *connector)
+ 
+ 	i2c = intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
+ 
+-	edid = drm_get_edid(connector, i2c);
++	drm_edid = drm_edid_read_ddc(connector, i2c);
+ 
+-	if (!edid && !intel_gmbus_is_forced_bit(i2c)) {
++	if (!drm_edid && !intel_gmbus_is_forced_bit(i2c)) {
+ 		drm_dbg_kms(&dev_priv->drm,
+ 			    "HDMI GMBUS EDID read failed, retry using GPIO bit-banging\n");
+ 		intel_gmbus_force_bit(i2c, true);
+-		edid = drm_get_edid(connector, i2c);
++		drm_edid = drm_edid_read_ddc(connector, i2c);
+ 		intel_gmbus_force_bit(i2c, false);
+ 	}
+ 
+-	intel_hdmi_dp_dual_mode_detect(connector, edid != NULL);
++	drm_edid_connector_update(connector, drm_edid);
++
++	intel_hdmi_dp_dual_mode_detect(connector, drm_edid != NULL);
+ 
+ 	intel_display_power_put(dev_priv, POWER_DOMAIN_GMBUS, wakeref);
+ 
+-	to_intel_connector(connector)->detect_edid = edid;
++	to_intel_connector(connector)->detect_edid = drm_edid;
++
++	/* FIXME: Get rid of drm_edid_raw() */
++	edid = drm_edid_raw(drm_edid);
+ 	if (edid && edid->input & DRM_EDID_INPUT_DIGITAL) {
+ 		intel_hdmi->has_audio = drm_detect_monitor_audio(edid);
+ 		intel_hdmi->has_hdmi_sink = drm_detect_hdmi_monitor(edid);
+@@ -2510,13 +2516,11 @@ intel_hdmi_force(struct drm_connector *connector)
+ 
+ static int intel_hdmi_get_modes(struct drm_connector *connector)
+ {
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 
+-	edid = to_intel_connector(connector)->detect_edid;
+-	if (edid == NULL)
+-		return 0;
++	drm_edid = to_intel_connector(connector)->detect_edid;
+ 
+-	return intel_connector_update_modes(connector, edid);
++	return drm_edid_connector_update(connector, drm_edid);
+ }
+ 
+ static struct i2c_adapter *
+diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
+index 730480ac3300..98c07fd3bd3e 100644
+--- a/drivers/gpu/drm/i915/display/intel_lvds.c
++++ b/drivers/gpu/drm/i915/display/intel_lvds.c
+@@ -479,7 +479,7 @@ static int intel_lvds_get_modes(struct drm_connector *connector)
+ 
+ 	/* use cached edid if we have one */
+ 	if (!IS_ERR_OR_NULL(intel_connector->edid))
+-		return drm_add_edid_modes(connector, intel_connector->edid);
++		return drm_edid_connector_update(connector, intel_connector->edid);
+ 
+ 	return intel_panel_get_modes(intel_connector);
+ }
+@@ -829,7 +829,7 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
+ 	struct intel_connector *intel_connector;
+ 	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	i915_reg_t lvds_reg;
+ 	u32 lvds;
+ 	u8 pin;
+@@ -948,27 +948,32 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
+ 	 * preferred mode is the right one.
+ 	 */
+ 	mutex_lock(&dev->mode_config.mutex);
+-	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC)
++	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC) {
++		const struct edid *edid;
++
++		/* FIXME: Make drm_get_edid_switcheroo() return drm_edid */
+ 		edid = drm_get_edid_switcheroo(connector,
+-				    intel_gmbus_get_adapter(dev_priv, pin));
+-	else
+-		edid = drm_get_edid(connector,
+-				    intel_gmbus_get_adapter(dev_priv, pin));
+-	if (edid) {
+-		if (drm_add_edid_modes(connector, edid)) {
+-			drm_connector_update_edid_property(connector,
+-								edid);
+-		} else {
++					       intel_gmbus_get_adapter(dev_priv, pin));
++		if (edid) {
++			drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
+ 			kfree(edid);
+-			edid = ERR_PTR(-EINVAL);
+ 		}
+ 	} else {
+-		edid = ERR_PTR(-ENOENT);
++		drm_edid = drm_edid_read_ddc(connector,
++					     intel_gmbus_get_adapter(dev_priv, pin));
++	}
++	if (drm_edid) {
++		if (!drm_edid_connector_update(connector, drm_edid)) {
++			drm_edid_free(drm_edid);
++			drm_edid = ERR_PTR(-EINVAL);
++		}
++	} else {
++		drm_edid = ERR_PTR(-ENOENT);
+ 	}
+-	intel_connector->edid = edid;
++	intel_connector->edid = drm_edid;
+ 
+ 	intel_bios_init_panel(dev_priv, &intel_connector->panel, NULL,
+-			      IS_ERR(edid) ? NULL : edid);
++			      IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
+ 
+ 	/* Try EDID first */
+ 	intel_panel_add_edid_fixed_modes(intel_connector,
+-- 
+2.30.2
 
-> But as I said in the first draft I am not sure about the DMA mapping part=
-. alloc_devs responds for the heap, we have a device variable in the queue =
-that mapping function could access, but that may not be enough. A plane may=
- apply a different mapping policy or IOMMU here.
->
-> Would it be better that I create a interface here that creating a memdev =
-with DMA-heap description ?
-
-My intuition still tells me that it would be universally better to
-just let the userspace allocate the buffers independently (like with
-gralloc/Ion) and import to V4L2 using V4L2_MEM_DMABUF. It was possible
-to do things this way nicely with regular Android graphics buffers, so
-could you explain what difference of your use case makes it
-impossible?
-
-Best regards,
-Tomasz
