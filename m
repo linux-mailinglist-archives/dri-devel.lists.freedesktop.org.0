@@ -1,148 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C636A58AD61
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 17:47:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 707F458ADD1
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 18:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 168B5B73CD;
-	Fri,  5 Aug 2022 15:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 699758FB39;
+	Fri,  5 Aug 2022 16:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr50088.outbound.protection.outlook.com [40.107.5.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8E4B723C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 15:46:42 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=jMtIVfJlpoVXpHXr4HljZPFvDyDphHSP/fyW3vY3BNNzIodGrKZc7LsIIeKSKSz5PMYVyJ40b+gnLS2yIYsB1z98eo9VJ0m9uxplG1tf28WA3XP89l80w6/kMZelkcBQOD+R+m71WWia9o75GwG5ZsVwvBb+OAZzjApG5dO+8gbLQ3uzGrS1H9TkZmuvsUpyBM34csadLEqEiQoIGzD83CtsB63TIY0Y02aoeQ62b/jdSazNoRtYbP1a5+FR0pKnlHfdazM2dWEE2AOiMt0hP12+lJZS8/LcOUELwo7CV/+9K3oQHLRAiakgu1EDS1QEJwsfaPqZ1PmZl6HmTEEa4Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=RqxfrUNJadOs7siDgJ1VqZTsij4iVbfRFCUWFF4l9kb4codaBqoa6mWF9+JXYfbyLP0ImWgiguu3HuAwRl8lQHh0lgLdOwJCIi6El0BEXqB9+n2QQRjBsVz9ZXhlu8YGd1jKp/vQdfln7i239hYzHqkzTNLrJmaE6v3YUQ0MGmo7U/cfnNVFIqvMCm7O9oYlkyo/0uWbA2pbaTufXsq+OE/iOu0XVmSZBKS8os2Tsu82hAeaAslqIsZdKCXV0Xq/hB7sZfFirV+/z7F+Rx0EuhX5Ggs60ZarhaW6w1Eead53W458VltBI2MmN4HaE5g3xRO7b+Ydt1yISWbGS/2F8A==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=qHOGmtsSakbe7N+Udj/tOHtChrY8nHQveffzbJbv2LETreIIBvEAAybmgQmn1Vm36rR7Bzy5TVCuN+7HW65Boo1rqCJ1l9EuMVyifB2TSwVjmwHOlWeXbUKylOz329qNN085xtxMqGcye/sC9dXfR37lE5CLHnKWWBPE96D2BD8=
-Received: from AS8PR04CA0094.eurprd04.prod.outlook.com (2603:10a6:20b:31e::9)
- by AM6PR08MB3767.eurprd08.prod.outlook.com (2603:10a6:20b:84::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.14; Fri, 5 Aug
- 2022 15:46:37 +0000
-Received: from VE1EUR03FT028.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:31e:cafe::fa) by AS8PR04CA0094.outlook.office365.com
- (2603:10a6:20b:31e::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16 via Frontend
- Transport; Fri, 5 Aug 2022 15:46:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT028.mail.protection.outlook.com (10.152.18.88) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.16 via Frontend Transport; Fri, 5 Aug 2022 15:46:36 +0000
-Received: ("Tessian outbound 6a3290ff1310:v123");
- Fri, 05 Aug 2022 15:46:36 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 46f7976c1139297c
-X-CR-MTA-TID: 64aa7808
-Received: from a719dd14048b.1
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 0FF34C66-776C-4005-A059-745D3A5F947A.1; 
- Fri, 05 Aug 2022 15:46:29 +0000
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a719dd14048b.1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Fri, 05 Aug 2022 15:46:29 +0000
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFB3B91FA2;
+ Fri,  5 Aug 2022 16:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659715288; x=1691251288;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=Ba3jsv7TZvr0Tl4lIg1X2+ZHTnRCgRk5vgIxTLK36Bw=;
+ b=fu7ceJZ9EGsbtOoWJlnz3W0zKd7nS1AkiP+e52KRgXtQKW5n8JkffXXC
+ tBTvY6BSUR5Co9znEJ+H/qIud+moI9+9S1HsPhO7ST8hk/AVWyNREGFtb
+ VV2ftfumketp29u0cjI0o+2+dTSm1Ztn7H8n+bu3QFiKaI5C2Nd116Dwo
+ n50B/K6kJzUbY1wwpvBrEaEsGZG+2PGd7ro4ZPE4790pxyC5YSrysFhRn
+ COPEdtG0VjpQ1++NU2l3kmXPMh/Geg+HEK67ePUDWVRmjeg+OregUUBj8
+ vMnExWMWcvZ0XxLymBJ9rkyCfat4SX1GaT7Bwx6Bja/GWBJTgvGpwejJR g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10430"; a="270611208"
+X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="270611208"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2022 09:01:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; d="scan'208";a="849370362"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga006.fm.intel.com with ESMTP; 05 Aug 2022 09:01:27 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Fri, 5 Aug 2022 09:01:26 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Fri, 5 Aug 2022 09:01:26 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Fri, 5 Aug 2022 09:01:20 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jjbv3qO0gHmG7U1l9cbQR/xGsYQFGVqjQopYFVlXGNwRbbzOg+ZiKvwkF4/loNJPuujl1frsT0BXDmQ56MDYib6fhuIiFld58kU5CJ0Uaql7OLMdHn73mlfnXzEBVNXZpeXSxIcsf2g1F3ZTWU+O2gw/EiL9QKUGkcgOh+gpsupp4KbFBxp3InPApIF73Xg+AGsB0kR6uMN83gjiBwaxh9q7PnaxeQ2IISvopc5lobt2lSAmmtN0aG0sgL4Z4vy6rJJ8fkGPdZaimGHSHHVELq91+9o2ZPhirWsALLXwipRoGWR//JOumx947XYMqo+qC+jUk4x8IVIubZL6ljn67w==
+ b=mGXg5L/9X/Gx9rvIGyZv1FFZOYbSUj5Wu7nL52CRzx+CmjWS1SDa9fjMMJdpjRTeh9khWb+rcIR6JO4r6IgpGtdHL370Gu3G+LsurD+KEon7DjhP4VqZIepu8pdUlr+u7yPliT6hjrKTCIoogOfbYEJ5i2e6N6siprkiurxJnvYpSC8VfAjrR2nG38l32SDj9z8S55I/xC7xtlDfCEBSSItngKvX6Yuuje2igfFoFcQzKiDCfCcA3r/iteHKNnGHsdjvayb872AnOwg3Rfo6DWqZVjPxVV4D6PSnIdF0l+qVcutvIbeJSwiGxiFDpA+3UkItEvrx15mTJyKqiHhMTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=j2uXwsKq+blAA/vbiJbvY0KNYvmYwxdbqbVNSYQa7c2gUgrBdm/6mNJps+oMZ0Ayib2o9yPoQ0JJBFd8Y4dO0AyTBP2V2Hkyzk6P/neMTx2rbtlFdvvsc1l2S/7gKPKAd5vKyt+Z8BKdGcabfFka3+Nl+bb0EuqKqxBy93hi+bM/OCOYL2TvaahrDJQuQP00vX+XnPIJqt3oqJjm7AjNFAv5ZudwItKkmUkrkoFFcwYMiCg01/i2BUarZoLDyEWNiIClmDtZuRxWogILI7zwbPmoVndAs+seO6eMcEDFjLFmPlO58rDwF3btqThddcwB9O2EvXpPLGtEwhQN4A/S7w==
+ bh=gJaEqwVxhxyO7VlrAX20JqEHqaCDfJ1P4oIJbDWX+HA=;
+ b=WGu2YHns0tSJbSXS6oY/Is4zSHsS6Mt2qn5tqLyJEFA63yBemBMmXvhDeLMKHPCSjSUwLmVF/Iv0k+2jYN1l/Z0YCaSop2wMvLliFGQ9DT3Z2DsfaEkuSK83g4ehtFI8/rP/TA3LOXMbvsuKsePX2WUvKBnD298Xb+RYKi1zzcDss6N148Cm1YmKYdyumQQSfNwr0/4C7Efu/7zT/D5kaIAgPt07n1R7zFccTkzdOs/PzTipz9pflKHbR31ERXjm6Fg06ohTHf1zOKQ/re078SPF5YgS/kL6oIOtyoyO5h83eFseAjbP25p6PybRZ2H0xzqbxCvc7jGOnYyNL2PQdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=qHOGmtsSakbe7N+Udj/tOHtChrY8nHQveffzbJbv2LETreIIBvEAAybmgQmn1Vm36rR7Bzy5TVCuN+7HW65Boo1rqCJ1l9EuMVyifB2TSwVjmwHOlWeXbUKylOz329qNN085xtxMqGcye/sC9dXfR37lE5CLHnKWWBPE96D2BD8=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AS8PR08MB6805.eurprd08.prod.outlook.com (2603:10a6:20b:396::14)
- by AS8PR08MB8061.eurprd08.prod.outlook.com (2603:10a6:20b:54a::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.16; Fri, 5 Aug
- 2022 15:46:27 +0000
-Received: from AS8PR08MB6805.eurprd08.prod.outlook.com
- ([fe80::c91e:5344:358c:b0e1]) by AS8PR08MB6805.eurprd08.prod.outlook.com
- ([fe80::c91e:5344:358c:b0e1%5]) with mapi id 15.20.5504.016; Fri, 5 Aug 2022
- 15:46:27 +0000
-Date: Fri, 5 Aug 2022 16:46:24 +0100
-From: Brian Starkey <brian.starkey@arm.com>
-To: Olivier Masse <olivier.masse@nxp.com>
-Subject: Re: [PATCH 2/3] dt-bindings: reserved-memory: add linaro,secure-heap
-Message-ID: <20220805154624.qhrao5p3gwywl3xr@000377403353>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
- <20220805135330.970-3-olivier.masse@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220805135330.970-3-olivier.masse@nxp.com>
-X-ClientProxiedBy: LO6P123CA0008.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::16) To AS8PR08MB6805.eurprd08.prod.outlook.com
- (2603:10a6:20b:396::14)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM5PR11MB1372.namprd11.prod.outlook.com (2603:10b6:3:11::14) by
+ CY4PR11MB0056.namprd11.prod.outlook.com (2603:10b6:910:7c::30) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5482.16; Fri, 5 Aug 2022 16:00:12 +0000
+Received: from DM5PR11MB1372.namprd11.prod.outlook.com
+ ([fe80::bc9e:4951:a404:5507]) by DM5PR11MB1372.namprd11.prod.outlook.com
+ ([fe80::bc9e:4951:a404:5507%3]) with mapi id 15.20.5504.016; Fri, 5 Aug 2022
+ 16:00:12 +0000
+From: "Piorkowski, Piotr" <piotr.piorkowski@intel.com>
+To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v3 0/2] Sanitycheck PCI BARs
+Date: Fri, 5 Aug 2022 17:59:57 +0200
+Message-ID: <20220805155959.1983584-1-piotr.piorkowski@intel.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0018.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::11) To DM5PR11MB1372.namprd11.prod.outlook.com
+ (2603:10b6:3:11::14)
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 55a852b8-82a0-4bb3-e3ed-08da76f9ae5e
-X-MS-TrafficTypeDiagnostic: AS8PR08MB8061:EE_|VE1EUR03FT028:EE_|AM6PR08MB3767:EE_
-x-checkrecipientrouted: true
-NoDisclaimer: true
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 70e840c2-2fad-4f20-c485-08da76fb9430
+X-MS-TrafficTypeDiagnostic: CY4PR11MB0056:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: H1uHJ2kie9Frpo6Pbo77eF5lMdXUXrXzwQa4o2e/YA1zqYVFecxNtE5hiH6CGi36jX1ZssLbd91fC2JnOcaVIo5Pa74fwf+jx03ZaBV0a2ofUbx4GO5MSjXp6mPU0vuYpXC+6c+KNunmbrOrxWi40xkjR6JFoWxNflGjZhJ/5iDLiyB9NYND66RW1X/goXwJBFjXuAc+3sXF5ZqVXuWZHsNracwdInsTU651ubFtGiM2fA4YSQ8xjHpRMq8ME5SF0dJZsMbI4/+AG8KRf6tJ0UOgyQs7zX4c/l44B+VY8ocgtws4iFy7+LHCTLymuCjiBLDoql/anBlkeMcGmeuH0ht2cnqyvdJZRY2RI0EMrXYqLPtnGUrbDEKSPg4UXk1dpvwu8iPCM9ie21nHJy+dAITWtLqEmiPQtE6ut2XZYOg3eKiNJyxY7G6vGlw7t9e9cTkDGtGFZul/MAyyIOtGVOaDSOwpZSjr4nil2QMfU32cY+Iz2K2B6IUQVbW35jd1y1X37C4c6RnAYTK3uLLw/rr3i7JV+VDqRkCt+U36wUV2NVgVZCk/aPsy21rhyTYKs2lmAWWk+vq+8RT4N9pFsV8F5jXeuj0jOQwLlqYo6NrOdocTsgLCqnEtO++nf/x77m5NkNwjYIVv/cISwEn//o/teRae1H+DldtCt9eKGIDuqGtQDxh76tyuNyfjkgX2XwI1ZXmy9fK+gMn3WFFZ60yF3+TBmoDJEkd+XxS083++/MMlD5GvXCEUcisHSYt2jgXHE5xXw2V57GAnxbp+VnaNIO8g9akDB7GiwgtH8eIwDbh/JKYLDmk+/zX5JlvB
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AS8PR08MB6805.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230016)(7916004)(4636009)(136003)(346002)(366004)(396003)(39860400002)(376002)(8676002)(83380400001)(4326008)(66556008)(66946007)(1076003)(186003)(66476007)(8936002)(7416002)(2906002)(5660300002)(44832011)(6916009)(6506007)(966005)(478600001)(6486002)(6666004)(86362001)(9686003)(316002)(41300700001)(26005)(6512007)(38100700002)(33716001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8061
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT028.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 20e93066-289d-4fc1-3f75-08da76f9a884
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vnc7hkArK26gAmvwYdvT4JhZSHXrdvoPjYfravBT4uhp0/SADMXJjTqELaICLiLqBToE9vGIRCMsVNazOvRiBtEJ/oqRCmQqJWOD6EpiiYiXmmGX6JhEq4qpOwoSOkIaKt5dKO/ylVpLDfHgiHPex2ev3juuOIjkYKN4UIyljSzdc9XS5m4hCCpQKzpp/qipXGFK5xTLdgKVt4L1L6YacCfVZKP53bRT4slYCpcgalx0F/xRycJexIy0Sqp7E0koaje4iTK1tyEi2gV/SoLznpF28xmlckTTmmqq0E0z/FbNjQcz7whrnaCVcBvcECzkZ0bShoNZ7Nolu05I64ZcgTHudW0JHNVoATk3tRHuzLDXFUty1hlbIBHO+vUa/63JSFvlWLkbTuUJ438P8Vnl1ylAF5/rfjt5znMOPZbpZI2GRPcsCQMx9aQzV+rOVxC13fqgis5J4Zbjz7i3NIZbDovJjXJmkx9nto3ALkRLTwnejiAQe8ZQkdPWSDBzEGJofEtlaPl1LEDtqveud/ML44gatvUJzdpSjenod2dTlT0vWx1CTHPNgfJ36puI66kzMi3PY7yqRMgD7YXraS+djIvHTQrG/ghpyDTqDmI1FyyZDqcvodQky5VLsUgtCEfNBqLkJ84DtoXtBwaPEMjA44DQsD/nY00OSHoUjTJJlQFYLq/+rL6CEJwaiUxe7mTtnv/m+k2+UfndQitJPysqES9UGyRP4Ha8MDZaXzL5X7PADU4gQJY5zG+vzgJddFlX1G/cp3BGPJzD73hWllrAvYOjv8GOC2nuWZoK8zON2o5V2SqmUi9jvYNHxWWxw38NsMok2WGOtTGvwU8AiZg642ylLPc6SQtQs2C7SZI3w37UG8AfnAIj/Ns/LRbB2z97
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(13230016)(4636009)(7916004)(39860400002)(396003)(346002)(376002)(136003)(46966006)(40470700004)(36840700001)(6862004)(316002)(478600001)(9686003)(107886003)(83380400001)(26005)(6512007)(82740400003)(6486002)(6666004)(186003)(1076003)(40460700003)(8936002)(41300700001)(336012)(966005)(6506007)(356005)(40480700001)(33716001)(47076005)(81166007)(2906002)(8676002)(4326008)(70206006)(82310400005)(86362001)(36860700001)(70586007)(44832011)(5660300002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2022 15:46:36.9641 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55a852b8-82a0-4bb3-e3ed-08da76f9ae5e
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT028.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3767
+X-Microsoft-Antispam-Message-Info: YxDjwPu9LFGk1ftPH4/Vl7wJWPf+kMy1iCGo4N91/4GohGbEWYzXpZlBuqnDtzzYdYieC7WsBZvSyNFnyfbF6adM0MuuBkUI82mH2/ZGVq2FahypFfz5axWY4ge+JARnRsKzN2EwObnXAUOrGqgRyp5IEdu0AxC/PxvdzXOlK7w097uqq8Lemo7QPURO0KwiMwup3/UaOle+89WMW1Y+ye4MaIS1FsNx0fYyLmruHOd5NA4C/bORt8mkom+p51BUh/b2aC5VtrzWdcPQhkGnoaqrYd+2RgPKx0+1vG31sWq01bIKO/qgbGafBFwFNvFhy+v8KvrdfwsXRdyxdRpSurIkBucGr9o7QJB6Ok7Tx2Qv8Ecl6P4C55I039asOZElBw4/1dRYiz63eTXnNXRLHQYwB6FYPQo8SzhB4nc7j6wiMeLbFi/gJ8RvRRUsW2gtvGsGGCNBo38d26QE8/OYXl5q9H4qCozcP4ilg/GUAtn7fihzD/Yxe0WL/1Qb1m9yODugvpjfqszHoY7xoFwaRstijRFbhfQl9yHXfogKC6l8IY44ssgZvhFRemGEKPHXi8bs4dhkTTPWzjWOhdhPa3eojhY9ce6Oll7A1o4+yf0SpoLyMQlvCre2gcQZ/lOr+UUOhPAgTiMs5ecHcWpwgBUucd9We/qkG/WAqpJFcf7HWR4xJzxJ72VJlemgPYQR
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR11MB1372.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(396003)(376002)(39860400002)(136003)(346002)(366004)(38100700002)(41300700001)(6486002)(36756003)(2616005)(8936002)(26005)(2906002)(966005)(6512007)(478600001)(86362001)(5660300002)(4326008)(66556008)(8676002)(316002)(83380400001)(54906003)(6666004)(66574015)(66946007)(82960400001)(66476007)(6506007)(1076003)(186003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGtMS01ZZ0Z4eTRHVXJXUTdsUDVFNko4RlJUSkJDRExWallQODJxR3NTL25r?=
+ =?utf-8?B?dUhlTEg5ZnF3SWZlL29SRXRaQXBFd0dUTVQvamhWTUVTRmNJVDh3VlZiNXNs?=
+ =?utf-8?B?VVNLaEI4L0JRV1NmZFRncThzUlJHNWRiNlI3QTlFZXNVeVNWVHl3WVdnUm0r?=
+ =?utf-8?B?eUhFZ095WmpKWndWWW44eGpYcFNFbER4NzdBcFlBbk9VKzNPYUNub20yV2Nw?=
+ =?utf-8?B?cGdPZTRYcDBubmlESVg3Tkt0SE9wYkFleVFtZTg3SnJyQTNaRTBxOFZlMy9i?=
+ =?utf-8?B?VkZtS05ZMjd3RnM3bk50R3dxcnNDZGF0Z1o0Qk5QZXF6bWFKODl5Sm5yK1Js?=
+ =?utf-8?B?c0tWSnRBZWZObUFUS1BvL1RwcEYzOVRsaVZsZWE2ZmRvOEtESklKdUdGM040?=
+ =?utf-8?B?NzhlMjF1NWNsM1llRUloVExuMHlPczFvZjJaMStFWmo4NjlPblRXdHV2eENW?=
+ =?utf-8?B?RVlab3Ztc3FPeDc3TnRzZ2w2eFNvYWdqZURlaHhOb0pNSDNuQVdyV0JkRTZq?=
+ =?utf-8?B?amo1Y2gxWGEwQUJBbFE4cTlXNEwrV3RMQ3YvaFB2ZzVuM1dwQVBvRXRNVk9N?=
+ =?utf-8?B?R2xkOElrYlE1TFFET1FMSmtFZmlpbzMrOHF4QjVoS3dqQjdxRTgrQmllblhU?=
+ =?utf-8?B?TE5RaGJVL2czSUplZDN1ZVBHelkyTVN2MURQZ2Z6b2NNaWd2NzdtZHJKdTJK?=
+ =?utf-8?B?bHlsZEVwVVhXNFdqZjB2SWU1YXhMczVoSHdXV3d6MlRyOGVWRDhObU5QTEcv?=
+ =?utf-8?B?Tm9tOGhadkFXUThXYVh4YXZUZDhqNU5QMXRlMGNOT2R3TzVZTEVVNS9vZUp1?=
+ =?utf-8?B?Sm9SRVQ5NW51SytTYjY3QS82MUQ4bnZ1bXFsSGRINGVEckYwdWlod2N0cEgy?=
+ =?utf-8?B?WE0xTy80KzBKcnplLzlhZW4rTHBma0tVUXN5VzJzMUpkczBGTWhOS2VPSG1h?=
+ =?utf-8?B?ZmR4YWpWNkJDUjBkb2xlejN1bDRDZXJ6eGZZQWp4MEE1TDh4RjBmMUphVngz?=
+ =?utf-8?B?WS9zUEJnbkxkQTV2c0Z2UTAwbVhBMXBUcHEvOVR4emFNek12ZWpDa2RyY0dn?=
+ =?utf-8?B?b2J2aG9EMitwR1FoZXFKSkptVXNCZUJ0aFJERGk2alArMitjSDN5RVJBS3dB?=
+ =?utf-8?B?OGdrbFdpSHJtZDNVT1NBMDc2WlByVFpqQTFvVW5XYU5wazZ6L1hzMlEydTBl?=
+ =?utf-8?B?SkMxUkpVazhmdm1RbTZqM1BvWTVva1NzVHczNDNjeHNhVDAvN3R6Z0NGNEkw?=
+ =?utf-8?B?NlF5S1U1NjhENjBOaDZkK0tiOXE2UzJqR1BkVXp3OWcwdXJVWGI3amZLbGgx?=
+ =?utf-8?B?YnhLYmhTQ0srZm4vbUdub3c2SUlyaWMyaFlSVXJFTllnK21VaGluckN2cE5M?=
+ =?utf-8?B?c0FEVVo5L0RTbmpsRHJ3Q0JMZ0YrWlA2Y084aXZvQ2NMVDRiQUNWM0d2TXBn?=
+ =?utf-8?B?MzJYaFpENTczOFZUK0plemFRKzY5eENPRktobyt5Z2xDdmY0dEdDZmZkaWJJ?=
+ =?utf-8?B?NGtXQWN0WTVVNmY5YWhRU2t0K1k0MVU5UzJrdkhveTRYcE1IOFl3aDZmSXNx?=
+ =?utf-8?B?V3NvMjBQdENVa0c0M0dnNzdjRG5PWXNtYXljUStHc0VXZnNHNjRqeXpzczF6?=
+ =?utf-8?B?WGJFV3BzaUlWQkhNNEY5T3pRTExaUUh3ZkdVcGVvN0FTdmx5WkQ3cXNZRWs3?=
+ =?utf-8?B?S3k0aEF3KzNMcVdFanppNks1ak5MTlZUSkN3MElyRloyYi9paW5pV1VYNnp5?=
+ =?utf-8?B?dWFicElKZTdicUJzM2JRS2J4UjJUdlZZbkZlSUhMTkIyK2lPVENKN1k4UXBz?=
+ =?utf-8?B?VDY4N25OM2lTYytZOGtLN2VRelpraFFpQnVEMWhOTmp2VnlsVDNOUld3ZENk?=
+ =?utf-8?B?emlITmQrZzQrcnV0U0E5YldrNm5abjRldmttVmxTYXdWNjIzL1h6VDFkdHhE?=
+ =?utf-8?B?YnBYcUpMK0pHV3RONmZ3N0NFb3FBQ2dORTdwQmV2VWFYTDc2M0JWMHlOY2d6?=
+ =?utf-8?B?VTlFZW84WFMxckxyeGxmK0VvS2t6bytxMGhheE1uSlZpQ2NVWnl2VVlkVWtW?=
+ =?utf-8?B?S1pIMGRHT0FCL2s5bm05ZjdiQ01DSEl5NCsreHVtYmczZHl6WURGV0gxbk5l?=
+ =?utf-8?B?VlV0MnlZaFovcXhCNWYyeEZZQitMeE9OTEp2NTRaQmdnRXgxc1cxQjM2M0tT?=
+ =?utf-8?B?MUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70e840c2-2fad-4f20-c485-08da76fb9430
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1372.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2022 16:00:12.4251 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TJmmIzrcywkv5Tr+m/St5xXpR13QkUPBKh6feXLoNJkJwg603URCSHdevWZrHUM2692T9PTko3Mb6CHNizoAwQVpZKQbJy2TjbSgoSYg64E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB0056
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,93 +149,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: clement.faure@nxp.com, benjamin.gaignard@collabora.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org, nd@arm.com,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Rob and devicetree list.
+From: Piotr Piórkowski <piotr.piorkowski@intel.com>
 
-I don't know if this should be "linaro" or something more generic,
-and also where previous discussions got to about DMA heaps in DT.
+When initializing the i915, we want to be sure that the PCI
+BARs have been properly initialized.
+As part of this series, I have prepared two patches,
+one that introduces BARs names to use in code instead of numbers,
+and another that adds function to validate BARs before use.
+This is an evolution of the concept I presented in the patch:
+https://patchwork.freedesktop.org/patch/470184/?series=99094
+The main difference between the original patch and what I have
+prepared here is that previously I checked all BARs at the beginning
+of i915 initialization, and now I only check BAR 0 at beginning.
+This is due to the fact that I have noticed that it can happen that only
+BAR 0 is available (I have observed this in the case of virtualization,
+on some platforms).
+Therefore, at the beginning, let's verify only BAR 0, and the others only
+before the first use.
 
-Cheers,
--Brian
+v2: Fix build
+v3: replace header linux/pci.h to forward declaration for struct pci_dev
 
-On Fri, Aug 05, 2022 at 03:53:29PM +0200, Olivier Masse wrote:
-> DMABUF Reserved memory definition for OP-TEE SDP feaure.
-> 
-> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> ---
->  .../reserved-memory/linaro,secure-heap.yaml   | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml b/Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml
-> new file mode 100644
-> index 000000000000..80522a4e2989
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reserved-memory/linaro,secure-heap.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Linaro Secure DMABUF Heap
-> +
-> +maintainers:
-> +  - Olivier Masse <olivier.masse@nxp.com>
-> +
-> +description:
-> +  Linaro OP-TEE firmware needs a reserved memory for the
-> +  Secure Data Path feature (aka SDP).
-> +  The purpose is to provide a secure memory heap which allow
-> +  non-secure OS to allocate/free secure buffers.
-> +  The TEE is reponsible for protecting the SDP memory buffers.
-> +  TEE Trusted Application can access secure memory references
-> +  provided as parameters (DMABUF file descriptor).
-> +
-> +allOf:
-> +  - $ref: "reserved-memory.yaml"
-> +
-> +properties:
-> +  compatible:
-> +    const: linaro,secure-heap
-> +
-> +  reg:
-> +    description:
-> +      Region of memory reserved for OP-TEE SDP feature
-> +
-> +  no-map:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      Avoid creating a virtual mapping of the region as part of the OS'
-> +      standard mapping of system memory.
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - no-map
-> +
-> +examples:
-> +  - |
-> +  reserved-memory {
-> +    #address-cells = <2>;
-> +    #size-cells = <2>;
-> +
-> +    sdp@3e800000 {
-> +      compatible = "linaro,secure-heap";
-> +      no-map;
-> +      reg = <0 0x3E800000 0 0x00400000>;
-> +    };
-> +  };
-> -- 
-> 2.25.0
-> 
+Signed-off-by: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+
+
+Piotr Piórkowski (2):
+  drm/i915: Use of BARs names instead of numbers
+  drm/i915: Sanitycheck PCI BARs
+
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |  5 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    | 11 +++++---
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 16 +++++++++---
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  3 ++-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   | 17 +++++++------
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |  5 ++--
+ drivers/gpu/drm/i915/i915_pci.c               | 25 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_pci.h               |  6 +++++
+ drivers/gpu/drm/i915/intel_pci_config.h       |  7 ++++++
+ 9 files changed, 76 insertions(+), 19 deletions(-)
+
+-- 
+2.25.1
+
