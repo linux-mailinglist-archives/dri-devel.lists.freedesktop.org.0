@@ -1,113 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229AC58AFCE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 20:35:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E30B58AFF2
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 20:36:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA18914A6;
-	Fri,  5 Aug 2022 18:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C366211B908;
+	Fri,  5 Aug 2022 18:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from na01-obe.outbound.protection.outlook.com
- (mail-cusazon11020021.outbound.protection.outlook.com [52.101.61.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3AD8B5DC
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 18:35:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I9Em5BbH64ZNXKaIFbw/61dO8/9eE3vEA8+fGqYuH/eFoSNqupJtoQLJht5Ch1CPQqTDXGk+zcAE2pch7YWi9Eb5GvoBBoLdui3Fsy4ZvTe8yINdwJ7KhMDImoZdwhVkN7nyOnWmQxjNns6F5qQZMSycDCDEbtGRHSRMijPDhSZdz/4zhR8BaVllNwamHcl6mMQiJVYScNT68BZqG2JnX4LdJvCUtyue8SKE9Xg9WWfUTf6+3mQDINvxrXEL68DVd6651b7EmcoKhQTKZr5oOVhbT/518LSD8YRrJoi1+PLTk66xi3i9fqc0EFq9Uq1L81eEKTx8Py6BUL0zkxY0VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MYP8DjgNImKn3Sumv0DM+z5UnJhXqDJL7y/sHXX3kiY=;
- b=arKCUgojMaX2bdKvYL09QzDFaoW/eQf4jWDly1wj+2BmTIn1PZxWpWwjgWS1XvpuLKNWu4jr0IffF7/mCLFSNtw3zeMqiZhFZEE+I5bI+48bLkNsRwnsDHtutrdEkjKClKLfK9EgWrcbttLbU00Ntit9+FpW4R2lnB3Vlth8k1E9NvCjzVcrMMaWYyiWHSohH8shwG9MOYWKTQ2Ih7mlYinw+Fn2leqp/p1VFtJ0oT4CNJpuativNWPoC1OLOc2grr5siltXqDR+KMOL8h1/ugqUy5R59qP3irGJ6C03mXmEsqWaXdNLgdOmQZnyoVuFblMWib6kyWqhBQ4DtP11KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MYP8DjgNImKn3Sumv0DM+z5UnJhXqDJL7y/sHXX3kiY=;
- b=O9eDccU5XWattU0UI4OiH7+DMBlIvl0l+0TfuLH8aN0qak6LExK/W7dhMyggKEad8+10Jibd2MmB0vJBABfI/x4lgRU2k2vKVqpepxkoPRbF2BHSky+XRiLrt5OQrd8xM88dHu5rO/+b9VC1IuYle0e6AEWcGHTa8djfuhA+soI=
-Received: from PH0PR21MB3025.namprd21.prod.outlook.com (2603:10b6:510:d2::21)
- by CH2PR21MB1431.namprd21.prod.outlook.com (2603:10b6:610:5d::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Fri, 5 Aug
- 2022 18:35:02 +0000
-Received: from PH0PR21MB3025.namprd21.prod.outlook.com
- ([fe80::29af:3ad1:b654:63b8]) by PH0PR21MB3025.namprd21.prod.outlook.com
- ([fe80::29af:3ad1:b654:63b8%6]) with mapi id 15.20.5525.005; Fri, 5 Aug 2022
- 18:35:01 +0000
-From: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Deepak Rawat
- <drawat.floss@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: RE: [PATCH] drm/hyperv: Fix an error handling path in
- hyperv_vmbus_probe()
-Thread-Topic: [PATCH] drm/hyperv: Fix an error handling path in
- hyperv_vmbus_probe()
-Thread-Index: AQHYpRhoWdKqZI1ivUaFNPBsm/0vva2gp4OA
-Date: Fri, 5 Aug 2022 18:35:01 +0000
-Message-ID: <PH0PR21MB3025D61C85CD6E724919A9D8D79E9@PH0PR21MB3025.namprd21.prod.outlook.com>
-References: <7dfa372af3e35fbb1d6f157183dfef2e4512d3be.1659297696.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <7dfa372af3e35fbb1d6f157183dfef2e4512d3be.1659297696.git.christophe.jaillet@wanadoo.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=fe3841fb-4099-4e82-98b0-b322b10f7934;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-08-05T18:26:17Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6d09bf18-c340-4f59-bc20-08da7711354b
-x-ms-traffictypediagnostic: CH2PR21MB1431:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rvmo36Kvlxkw08YxnOcQyRTS/WXwtsua2J5U+tQMz6gqoTMXlAAaS18lGIeCOAdbcALB/Tud63nFdzUmKC3tu0cE5yBBfgDVGgworFAhYQsALrdB6UnLK5Tr+qgs2lIryLRsSPRDRWlu4tj2Cbbdl8ntMJP0wiA8l0mHUGXhMp1PuV29DvndssTtIhTf/HWpyuoVd56anCtMpYUaf/7CTjkPT/OyXICv1A2VAYtexNZWt0pYhdGVZkZMaj9IxRkWYa8cb0EEUw2u7nLkjCGjZAIjQth52W4+R600QuNtEv5f/SRUKymFoLNNAk7rbA1kjH3I1xCxHnYrp5NzmIWjeIEaJO9r3b+356Gq1aTJCZjWABs7wyAA0uIGuoZg6MVmXHhUMAALSlgaC1N+ck/p+QsS4tYspPyRVziq7y0QsDXLD9hWaiLe6EX6h65aavEEIslvpDaj0aUmcAoM1kR33SCfG2MPSeV0j4LlPT46Od7H7lJrBHd8m8ojvTha7z4xfo/CnuFTb78RQkIkcvhiAT5Q26r9VXe12o7cyGEqlQJ4YLTRF+e9iY6V2PLPjZuVzzs5upoDJkxbqqi/nlbp9531bJjm3G7zxP5+8ALSTjmI3ROdqiRMxdD1GGtXVRbTGQko2ZSMRVmTB2NbiUxkwTbXr4aVEdPU5hCDAqs9h53liX1QkaYRwoAb/pvStglyGaGxCBU1H2ZwnMPG/LfvnOEB9/7KjAUKmKYIDeBKmj0KFeICcdCuhBu88hID483eD4knMnIFSyOJI6wHEJ6hXwm4Of/K0U/C89MZLt2UuLLRh5vy1gGbDsSiFVhFYMiYdluWO80kTkBUmvAxar3fh6/tme812118gb6UMn5OTnA=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR21MB3025.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199009)(110136005)(5660300002)(52536014)(8990500004)(8936002)(33656002)(316002)(66476007)(66946007)(54906003)(64756008)(76116006)(66446008)(4326008)(8676002)(55016003)(66556008)(71200400001)(478600001)(10290500003)(7696005)(122000001)(38100700002)(38070700005)(6506007)(41300700001)(86362001)(9686003)(26005)(82950400001)(186003)(82960400001)(2906002)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lNipHprEqhPu0jlqATcy5bqSyLj/kYseTT6u41n5ZeKb76ySpVdeNiJsc0Oq?=
- =?us-ascii?Q?lcXtUMI9hQ506boccLjrYfhtFq3d7Rtrc24j0WpI00QRhLqQwUJsd4D92xLX?=
- =?us-ascii?Q?p9YDrT5knC+XIW/Z72hn9U8KcRfe8LayOlLbocS9xPHzQKDgkmthzJnV9YtK?=
- =?us-ascii?Q?yVJO1TmkYQfjyhQmWRBKofSljjjfpx+8y0EF8UZAHtQ1aJSQOsExJ2GPEUjo?=
- =?us-ascii?Q?M86Wc1NhGQ2A0bGv5gvO7QoGpxrBFm5qTnKaZ0VnkrhTv/2BQIfx0foZbTKH?=
- =?us-ascii?Q?wtaj84Gf0qItN269NzE8TNO8dKkxQomPih1cqO47UcyLjkzytAFB1X5de9d7?=
- =?us-ascii?Q?czBJ6AWdPA5HznITfXENhRaNJe5vaX1Y/w8iS7CvxKdINOcfEsJfJB55AHq4?=
- =?us-ascii?Q?fy6WV714UonucGcysY6sO9k/lStU+Su6iXvyr9IqyugxFD2pPpOyhaCwEgWB?=
- =?us-ascii?Q?RL7+948F05InS8G7sSG1qyCLeM6lJKS1kK5sVRoF0mxJiZMGKjqgj3UPmMLZ?=
- =?us-ascii?Q?LhCbxgdIyhufzZG9BnikKx+VrCnF3Ab7/31XgNAA8FmO01FE7HySiOeEoOEr?=
- =?us-ascii?Q?DpycPFl8P5KR+1In85DQ80VY2IOMk/f/u/TExwg5obyiSNMEwhUWEqy/yOb3?=
- =?us-ascii?Q?ja23UYQ5drY3pDCZBCOZTOAbA1r+I9PTjpW/rlp1Cky+4ZbYCXRg317flC20?=
- =?us-ascii?Q?oSQXL/oWSYtGIPeGGFWJRsiIdAy1dx+NyQ4AMWmVoPLrunnSy9vv59vRMBXR?=
- =?us-ascii?Q?NL6NFmlP77a2fYE7HygNbrV1G3qRneT4V14ls+5QEs9A69vmevVoBRhickB3?=
- =?us-ascii?Q?QrNCU03eGbid9a93VHqSj/sd5eaIp6KWWBbikoUcd/tediUL/O1uw8fqNCg6?=
- =?us-ascii?Q?8/NTSYEry4lk3XGXZx6IZTpwauZXVF7fBxxI2UjDUw87nbUDY249dOYejYnO?=
- =?us-ascii?Q?aLDHB0BoAig68C9drlAhjypijMENfjiBKREvX9exGUNckR5HGj/gb0tEiDOj?=
- =?us-ascii?Q?gvxacfmhusvnM/LoxARBscRRWxBRMMwnJSzRQB/62QNRr/oZSm7FpbXBquTX?=
- =?us-ascii?Q?u9LrQj9TLzS03L5P8s7cgaWxtDCtcicetYvP0vGMlEhGZJ/zOtQsW1uZOuzf?=
- =?us-ascii?Q?dBwEICq4ZFo0jkB4it1TjI6dhD0jMOId58EDYBLATfUA72wRwXhA9OLMpckP?=
- =?us-ascii?Q?Bv/ZqsLv9ddE/vzPqRryT2utTXr/YrURZDHfBN6WK+7veH9SGG999T0KIfib?=
- =?us-ascii?Q?uyXExTuMU2wbeUlk0K/b84suvC3sX1wGMJ4c2vFgUYclqDSXKsNCcOF3gtck?=
- =?us-ascii?Q?6ImQZ1KlZzenBcBuI4M9ng5dWmEYmwFelLOTW2rCNX7plA23Fm4NIT09Lnsz?=
- =?us-ascii?Q?4ve5BorvsJqrimIOXMBRV3vGgMYHcMrmfPBzzJYTeVV5gNQYEcZN3d6hjjPa?=
- =?us-ascii?Q?VSnsrO8Jh79O2kYRITd8yDLQT7m3S1lrkg7doVMiMe0aUpizc6MNHlfAJItj?=
- =?us-ascii?Q?n+IOY/dx88btuMmX+jjhhxbwWlJU6km1BSPMmbWmOzP1Ix5ZFqdZ10gtCWD3?=
- =?us-ascii?Q?hnEY6+qnKxsjuAHJmO+Ex+JDk1pg6DpJDeyOHMJT1fRgVWZpl0MMFMKemPAP?=
- =?us-ascii?Q?mw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC0614A5A5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 18:36:28 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id h8so2334169qvs.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 11:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=S2rZsLeEu87NEzITibu9fquLEDRtDp+jgi+Tg1jwT8Q=;
+ b=OqFxCJZLjpZPcETwgTk/47CYrwAF30GRem7xvVdscKYKUAIoppiG31tENIjTg7HZ86
+ GllEn9o63eMR97JCYM5NPtcXK8l7da07LkY4+Etbifk9EuNobt/QFwvuHyC1AVhIgRs+
+ 5W+ZcWmKDoL/OdKe51fo/fkB27RSFgbjw2/S63hXebhoF/VOH6yF3/7pvsKLAtQXsaQ1
+ Tts5ql3aw5U0XPWfRh4wQo2rBL2t/MM9zZW+2hHiwtC0UJ/WQ3898xJ8A0k+SOH2/XUE
+ 9qsBXE405W6MQVrdKJ77doUJpxxIpbUNqJLEoulW+cJr+YLtLqXP18u7eixZsoJ1kcWY
+ ECkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=S2rZsLeEu87NEzITibu9fquLEDRtDp+jgi+Tg1jwT8Q=;
+ b=TL3bs/gRSkrt1RS9yPsujWSDeVvqs5YTnvmYIxpwrxRi79arymGpXIe+oXfA6lRLX4
+ ox+H6rNk6KeFRyjtmnwKlKOhiVbyTSu2n8a6RvQMawHIxBEPm+SpIKrR4Wl/w0Nh/nD6
+ jwehLU4S8ulbVLQ2LeG4yw0r1zX/XaO2ZWLKgqG29Ttq4iBj8d8jg30jv4jsRGY5Llbx
+ 0YTfwcemfnuMLGXUgcmVkvAFz7ZtlfCkrGhZX/41v38ieVEZyKz5KIESRI7IgFWngCAb
+ +WzlMimtotHF9/8l1ZCXtKM5KcsevU8Hydd/aMGz1QU6M5sdtDIMyuwPNf5EQheJ4re5
+ Tgng==
+X-Gm-Message-State: ACgBeo2Idiqe5XtO9YC0YPewL3AgFxlRIiy4h5lAkZLxpcI6EjTTBwbr
+ TRx22I2nx5s1aJSEOln/33Zd4A==
+X-Google-Smtp-Source: AA6agR5+VXcu3UVBBkz/inkZzc2wONdbOjTHdSeWI1sZFaEjJm35GGsIXxQCr9CAVSL/r8vguluExA==
+X-Received: by 2002:a05:6214:27ce:b0:477:2f42:a199 with SMTP id
+ ge14-20020a05621427ce00b004772f42a199mr6704821qvb.115.1659724587301; 
+ Fri, 05 Aug 2022 11:36:27 -0700 (PDT)
+Received: from localhost (48.230.85.34.bc.googleusercontent.com.
+ [34.85.230.48]) by smtp.gmail.com with ESMTPSA id
+ y20-20020a05620a44d400b006a6ebde4799sm3575340qkp.90.2022.08.05.11.36.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Aug 2022 11:36:26 -0700 (PDT)
+Date: Fri, 5 Aug 2022 18:36:26 +0000
+From: Sean Paul <sean@poorly.run>
+To: Jim Shargo <jshargo@chromium.org>
+Subject: Re: [PATCH 2/5] drm/vkms: VKMS now supports more than one "card"
+Message-ID: <Yu1jKp76WkvA/gJr@art_vandelay>
+References: <20220722213214.1377835-1-jshargo@chromium.org>
+ <20220722213214.1377835-3-jshargo@chromium.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR21MB1431
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220722213214.1377835-3-jshargo@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,85 +70,627 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ jshargo@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr> Sent: Sunday, July=
- 31, 2022 1:02 PM
->=20
-> hyperv_setup_vram() calls vmbus_allocate_mmio().
-> This must be undone in the error handling path of the probe, as already
-> done in the remove function.
->=20
-> This patch depends on commit a0ab5abced55 ("drm/hyperv : Removing the
-> restruction of VRAM allocation with PCI bar size").
-> Without it, something like what is done in commit e048834c209a
-> ("drm/hyperv: Fix device removal on Gen1 VMs") should be done.
+On Fri, Jul 22, 2022 at 05:32:10PM -0400, Jim Shargo wrote:
+> This is a small refactor to make ConfigFS support easier.
+> 
+> We now store the vkms_device statically, and maintain a list of
+> "cards", each representing a different virtual DRM driver.
+> 
+> We also make it clear when a card is "default", that is created at
+> initialization, and not. This is because, due to limitations on what we
+> can do with the configfs API, the default card won't be reflected in
+> configfs and is initialized in a unique way.
+> 
+> Since we're only managing a single card, this should be a no-op.
+> 
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
 
-Should the above paragraph be below the '---' as a comment, rather than
-part of the commit message?  It's more about staging instructions than a
-long-term record of the actual functional/code change.
-
->=20
-> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic vid=
-eo device")
-
-I wonder if the Fixes: dependency should be on a0ab5abced55.  As you noted,
-this patch won't apply cleanly on stable kernel versions that lack that com=
-mit,
-so we'll need a separate patch for stable if we want to make the fix there.
-
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-
-All that said, the fix looks good, so
-
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Re-sending the review with the correct subject and reply-to. Let's use this one
+for discussion and pretend the other one doesn't exist :-)
 
 > ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 6d11e7938c83..fc8b4e045f5d 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -133,7 +133,6 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
->  	}
->=20
->  	ret =3D hyperv_setup_vram(hv, hdev);
-> -
->  	if (ret)
->  		goto err_vmbus_close;
->=20
-> @@ -150,18 +149,20 @@ static int hyperv_vmbus_probe(struct hv_device *hde=
-v,
->=20
->  	ret =3D hyperv_mode_config_init(hv);
->  	if (ret)
-> -		goto err_vmbus_close;
-> +		goto err_free_mmio;
->=20
->  	ret =3D drm_dev_register(dev, 0);
->  	if (ret) {
->  		drm_err(dev, "Failed to register drm driver.\n");
-> -		goto err_vmbus_close;
-> +		goto err_free_mmio;
->  	}
->=20
->  	drm_fbdev_generic_setup(dev, 0);
->=20
->  	return 0;
->=20
-> +err_free_mmio:
-> +	vmbus_free_mmio(hv->mem->start, hv->fb_size);
->  err_vmbus_close:
->  	vmbus_close(hdev->channel);
->  err_hv_set_drv_data:
-> --
-> 2.34.1
+>  drivers/gpu/drm/vkms/vkms_crtc.c      |  11 +-
+>  drivers/gpu/drm/vkms/vkms_drv.c       | 160 ++++++++++++++++----------
+>  drivers/gpu/drm/vkms/vkms_drv.h       |  32 ++++--
+>  drivers/gpu/drm/vkms/vkms_output.c    |  25 ++--
+>  drivers/gpu/drm/vkms/vkms_plane.c     |   4 +-
+>  drivers/gpu/drm/vkms/vkms_writeback.c |  20 ++--
+>  6 files changed, 158 insertions(+), 94 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 57bbd32e9beb..c1b632952532 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -62,9 +62,10 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+>  static int vkms_enable_vblank(struct drm_crtc *crtc)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
+> +	struct vkms_output *out = &card->output;
+>  	unsigned int pipe = drm_crtc_index(crtc);
+>  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+> -	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>  
+>  	drm_calc_timestamping_constants(crtc, &crtc->mode);
+>  
+> @@ -78,7 +79,9 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
+>  
+>  static void vkms_disable_vblank(struct drm_crtc *crtc)
+>  {
+> -	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+> +	struct drm_device *dev = crtc->dev;
+> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
+> +	struct vkms_output *out = &card->output;
+>  
+>  	hrtimer_cancel(&out->vblank_hrtimer);
+>  }
+> @@ -88,9 +91,9 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+>  				      bool in_vblank_irq)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
+> +	struct vkms_output *output = &card->output;
+>  	unsigned int pipe = crtc->index;
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> -	struct vkms_output *output = &vkmsdev->output;
+>  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+>  
+>  	if (!READ_ONCE(vblank->enabled)) {
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 81ed9417e511..92fbade2199b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -9,9 +9,9 @@
+>   * the GPU in DRM API tests.
+>   */
+>  
+> +#include <linux/kernel.h>
 
+Unless you're using something directly from this header, it's probably best
+not to include it as it pulls in a _lot_ of stuff.
+
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/dma-mapping.h>
+>  
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_atomic.h>
+> @@ -37,7 +37,7 @@
+>  #define DRIVER_MAJOR	1
+>  #define DRIVER_MINOR	0
+>  
+> -static struct vkms_device *vkms_device;
+> +static struct vkms_device vkms_device;
+>  
+>  static bool enable_cursor = true;
+>  module_param_named(enable_cursor, enable_cursor, bool, 0444);
+> @@ -55,9 +55,9 @@ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>  
+>  static void vkms_release(struct drm_device *dev)
+>  {
+> -	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
+> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
+>  
+> -	destroy_workqueue(vkms->output.composer_workq);
+> +	destroy_workqueue(card->output.composer_workq);
+>  }
+>  
+>  static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+> @@ -91,9 +91,9 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  
+>  static int vkms_config_show(struct seq_file *m, void *data)
+>  {
+> -	seq_printf(m, "writeback=%d\n", vkms_device->config.writeback);
+> -	seq_printf(m, "cursor=%d\n", vkms_device->config.cursor);
+> -	seq_printf(m, "overlay=%d\n", vkms_device->config.overlay);
+> +	seq_printf(m, "writeback=%d\n", vkms_device.config.writeback);
+> +	seq_printf(m, "cursor=%d\n", vkms_device.config.cursor);
+> +	seq_printf(m, "overlay=%d\n", vkms_device.config.overlay);
+>  
+>  	return 0;
+>  }
+> @@ -133,9 +133,9 @@ static const struct drm_mode_config_helper_funcs vkms_mode_config_helpers = {
+>  	.atomic_commit_tail = vkms_atomic_commit_tail,
+>  };
+>  
+> -static int vkms_modeset_init(struct vkms_device *vkmsdev)
+> +static int vkms_modeset_init(struct vkms_card *card)
+>  {
+> -	struct drm_device *dev = &vkmsdev->drm;
+> +	struct drm_device *dev = &card->drm;
+>  
+>  	drm_mode_config_init(dev);
+>  	dev->mode_config.funcs = &vkms_mode_funcs;
+> @@ -151,89 +151,133 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  	dev->mode_config.preferred_depth = 0;
+>  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>  
+> -	return vkms_output_init(vkmsdev, 0);
+> +	return card->is_default ? vkms_output_init_default(card, 0) : -ENOTSUPP;
+
+AFAICT if card is not default this failure will roll up to vkms_card_init and
+to vkms_init() which will cause everything to get torn down. So we can probably
+check at the start of the function and fail early.
+
+Also, minor nit: Ternary operators are usually discouraged.
+
+
+>  }
+>  
+> -static int vkms_create(void)
+> +static void vkms_device_destroy(void)
+>  {
+> -	int ret;
+> +	struct vkms_card *card, *n;
+> +
+> +	list_for_each_entry_safe(card, n, &vkms_device.cards, node) {
+> +		vkms_card_destroy(card);
+> +	}
+
+Nit: no braces
+
+> +
+> +	memset(&vkms_device, 0, sizeof(struct vkms_device));
+
+Nit: You could do sizeof(vkms_device) here (sidebar: naming the variable the
+same as the struct is unfortunate).
+
+That said, this is either unnecessary or not a good idea since it blows away at
+least the backpointer to platform_device, clears drm_device, and other items
+which have proper destroy/clean-up functions. So we either don't need this, or
+we need to clean up everything in vkms_device explicitly.
+
+> +}
+> +
+> +struct vkms_card *vkms_card_init(const char *name, bool is_default)
+> +{
+> +	char unique_name[64] = { 0 };
+>  	struct platform_device *pdev;
+> +	struct vkms_card *card;
+> +	void *grp;
+> +	int ret;
+>  
+> -	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> +	ret = snprintf(unique_name, ARRAY_SIZE(unique_name), "%s-%s",
+> +		       DRIVER_NAME, name);
+> +	if (ARRAY_SIZE(unique_name) <= ret) {
+> +		DRM_WARN("Truncated vkms card driver name '%s-%s' to '%s'\n",
+
+Nit: The DRM_* print macros are deprecated in favor of the drm_* print
+functions. You probably also want to use a categorized message here instead of
+just warn, perhaps drm_dbg() which defaults to DRIVER category.
+
+You might consider converting the driver to drm_* before this patchset so we're
+working from a consistent base.
+
+> +			 DRIVER_NAME, name, unique_name);
+> +	}
+> +
+> +	pdev = platform_device_register_simple(unique_name, -1, NULL, 0);
+>  	if (IS_ERR(pdev))
+> -		return PTR_ERR(pdev);
+> +		return ERR_PTR(PTR_ERR(pdev));
+
+return pdev;
+
+>  
+> -	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+> -		ret = -ENOMEM;
+> -		goto out_unregister;
+> +	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
+> +	if (!grp) {
+> +		ret = ENOMEM;
+> +		goto out_platform_device;
+>  	}
+>  
+> -	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+> -					 struct vkms_device, drm);
+> -	if (IS_ERR(vkms_device)) {
+> -		ret = PTR_ERR(vkms_device);
+> -		goto out_devres;
+> +	card = devm_drm_dev_alloc(&pdev->dev, &vkms_driver, struct vkms_card,
+> +				  drm);
+> +	if (IS_ERR(card)) {
+> +		ret = PTR_ERR(card);
+> +		goto out_release_group;
+>  	}
+> -	
+> -	vkms_device->platform = pdev;
+> -	vkms_device->config.cursor = enable_cursor;
+> -	vkms_device->config.writeback = enable_writeback;
+> -	vkms_device->config.overlay = enable_overlay;
+>  
+> -	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+> -					   DMA_BIT_MASK(64));
+> +	strncpy(card->name_buf, unique_name, ARRAY_SIZE(card->name_buf) - 1);
+> +	card->platform = pdev;
+> +	card->drm.unique = card->name_buf;
+> +	card->vkms_device = &vkms_device;
+> +	card->is_default = is_default;
+> +	card->is_registered = false;
+> +	card->resource_group_id = grp;
+>  
+> +	ret = dma_coerce_mask_and_coherent(card->drm.dev, DMA_BIT_MASK(64));
+>  	if (ret) {
+>  		DRM_ERROR("Could not initialize DMA support\n");
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+>  
+> -	ret = drm_vblank_init(&vkms_device->drm, 1);
+> +	ret = drm_vblank_init(&card->drm, 1);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to vblank\n");
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+>  
+> -	ret = vkms_modeset_init(vkms_device);
+> -	if (ret)
+> -		goto out_devres;
+> -
+> -	ret = drm_dev_register(&vkms_device->drm, 0);
+> -	if (ret)
+> -		goto out_devres;
+> +	ret = vkms_modeset_init(card);
+> +	if (ret) {
+> +		DRM_ERROR("Unable to initialize modesetting");
+> +		goto out_release_group;
+> +	}
+>  
+> -	drm_fbdev_generic_setup(&vkms_device->drm, 0);
+> +	ret = drm_dev_register(&card->drm, 0);
+> +	if (ret) {
+> +		DRM_ERROR("Unable to register card");
+> +		return ERR_PTR(ret);
+
+No cleanup required if this fails?
+
+> +	}
+>  
+> -	vkms_device->initialized = true;
+> +	drm_fbdev_generic_setup(&card->drm, 0);
+> +	card->is_registered = true;
+
+Re-raising the race concern here.
+
+>  
+> -	return 0;
+> +	devres_close_group(&pdev->dev, grp);
+> +	list_add_tail(&card->node, &vkms_device.cards);
+
+I am still unclear why we need to bookkeep the cards ourselves since we're
+spawning a new platform_device for each drm_device. It feels like perhaps it
+would be easier to spawn a new platform_driver for each new drm device with its
+own .probe & .remove function which keeps track of its own instance. This would
+avoid the necessity of vkms_card, each platform_driver would have its own
+vkms_device containing a drm_device.
+
+I'm assuming that rmmod would invoke .remove on all the sub platform_drivers,
+but if not you could keep track of them in the platform device and unregister
+each one on unload which would be a lot less statekeeping.
+
+> +	
+> +	return card;
+>  
+> -out_devres:
+> -	devres_release_group(&pdev->dev, NULL);
+> -out_unregister:
+> +out_release_group:
+> +	devres_release_group(&pdev->dev, grp);
+> +out_platform_device:
+>  	platform_device_unregister(pdev);
+> -	return ret;
+> +	return ERR_PTR(ret);
+>  }
+>  
+> -static int __init vkms_init(void)
+> +void vkms_card_destroy(struct vkms_card *card)
+>  {
+> -	return vkms_create();
+> +	list_del(&card->node);
+> +	if (card->is_registered) {
+
+Nit: You could save yourself some indentation here and exit early.
+
+> +		drm_dev_unregister(&card->drm);
+> +		drm_atomic_helper_shutdown(&card->drm);
+> +		devres_release_group(&card->platform->dev,
+> +				     card->resource_group_id);
+> +		platform_device_unregister(card->platform);
+> +	}
+>  }
+>  
+> -static void __exit vkms_exit(void)
+> +static int __init vkms_init(void)
+>  {
+> -	struct platform_device *pdev;
+> -
+> -	if (!vkms_device || !vkms_device->initialized) {
+> -		return;
+> +	struct vkms_card *card;
+> +
+> +	vkms_device.config.cursor = enable_cursor;
+> +	vkms_device.config.writeback = enable_writeback;
+> +	vkms_device.config.overlay = enable_overlay;
+> +	INIT_LIST_HEAD(&vkms_device.cards);
+> +
+> +	card = vkms_card_init("default", /* configfs */ NULL);
+
+This passes NULL for the bool is_default argument. Presumably this should be
+true, or perhaps you don't need the second arg at all right now.
+
+> +	if (IS_ERR(card)) {
+> +		DRM_ERROR("Unable to init default card");
+> +		vkms_device_destroy();
+> +		return PTR_ERR(card);
+>  	}
+>  
+> -	pdev = vkms_device->platform;
+> +	return 0;
+> +}
+>  
+> -	drm_dev_unregister(&vkms_device->drm);
+> -	drm_atomic_helper_shutdown(&vkms_device->drm);
+> -	devres_release_group(&pdev->dev, NULL);
+> -	platform_device_unregister(pdev);
+> +static void __exit vkms_exit(void)
+> +{
+> +	vkms_device_destroy();
+>  }
+>  
+>  module_init(vkms_init);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index c7ebc4ee6b14..1a98b81d6f22 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -4,6 +4,7 @@
+>  #define _VKMS_DRV_H_
+>  
+>  #include <linux/hrtimer.h>
+> +#include <linux/kernel.h>
+
+From kernel.h:
+ * This header has combined a lot of unrelated to each other stuff.
+ * The process of splitting its content is in progress while keeping
+ * backward compatibility. That's why it's highly recommended NOT to
+ * include this header inside another header file, especially under
+ * generic or architectural include/ directory.
+
+>  
+>  #include <drm/drm.h>
+>  #include <drm/drm_gem.h>
+> @@ -101,19 +102,29 @@ struct vkms_config {
+>  	bool overlay;
+>  };
+>  
+> -struct vkms_device {
+> -	struct drm_device drm;
+> +struct vkms_card {
+>  	struct platform_device *platform;
+> +	struct drm_device drm;
+> +	struct list_head node;
+
+Nit: node is pretty ambiguous
+
+>  	struct vkms_output output;
+> +	struct vkms_device *vkms_device;
+> +	/* storage for the value of drm->unique, giving this dev a unique busid */
+
+I didn't quite grok this comment, mind expanding?
+
+> +	char name_buf[64];
+> +	void *resource_group_id;
+> +	bool is_default;
+> +	bool is_registered;
+> +};
+> +
+> +struct vkms_device {
+> +	struct list_head cards;
+>  	struct vkms_config config;
+> -	bool initialized;
+>  };
+>  
+>  #define drm_crtc_to_vkms_output(target) \
+>  	container_of(target, struct vkms_output, crtc)
+>  
+> -#define drm_device_to_vkms_device(target) \
+> -	container_of(target, struct vkms_device, drm)
+> +#define drm_device_to_vkms_card(target)                                        \
+> +	container_of(target, struct vkms_card, drm)
+>  
+>  #define to_vkms_crtc_state(target)\
+>  	container_of(target, struct vkms_crtc_state, base)
+> @@ -121,13 +132,18 @@ struct vkms_device {
+>  #define to_vkms_plane_state(target)\
+>  	container_of(target, struct vkms_plane_state, base.base)
+>  
+> +/* Cards */
+> +struct vkms_card *vkms_card_init(const char *name, bool is_default);
+> +void vkms_card_destroy(struct vkms_card *card);
+> +
+>  /* CRTC */
+>  int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+>  		   struct drm_plane *primary, struct drm_plane *cursor);
+>  
+> -int vkms_output_init(struct vkms_device *vkmsdev, int index);
+> +int vkms_output_init_default(struct vkms_card *card, int index);
+> +int vkms_output_init(struct vkms_card *card, int index);
+>  
+> -struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> +struct vkms_plane *vkms_plane_init(struct vkms_card *card,
+>  				   enum drm_plane_type type, int index);
+>  
+>  /* CRC Support */
+> @@ -142,6 +158,6 @@ void vkms_composer_worker(struct work_struct *work);
+>  void vkms_set_composer(struct vkms_output *out, bool enabled);
+>  
+>  /* Writeback */
+> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+> +int vkms_enable_writeback_connector(struct vkms_card *card);
+>  
+>  #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index d0061c82003a..dafd47c0a54d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -32,12 +32,12 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+>  	.get_modes    = vkms_conn_get_modes,
+>  };
+>  
+> -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
+> +static int vkms_add_overlay_plane(struct vkms_card *card, int index,
+>  				  struct drm_crtc *crtc)
+>  {
+>  	struct vkms_plane *overlay;
+>  
+> -	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
+> +	overlay = vkms_plane_init(card, DRM_PLANE_TYPE_OVERLAY, index);
+>  	if (IS_ERR(overlay))
+>  		return PTR_ERR(overlay);
+>  
+> @@ -47,10 +47,11 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
+>  	return 0;
+>  }
+>  
+> -int vkms_output_init(struct vkms_device *vkmsdev, int index)
+> +int vkms_output_init_default(struct vkms_card *card, int index)
+>  {
+> -	struct vkms_output *output = &vkmsdev->output;
+> -	struct drm_device *dev = &vkmsdev->drm;
+> +	const struct vkms_config *config = &card->vkms_device->config;
+> +	struct vkms_output *output = &card->output;
+> +	struct drm_device *dev = &card->drm;
+>  	struct drm_connector *connector = &output->connector;
+>  	struct drm_encoder *encoder = &output->encoder;
+>  	struct drm_crtc *crtc = &output->crtc;
+> @@ -59,20 +60,20 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  	int writeback;
+>  	unsigned int n;
+>  
+> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
+> +	primary = vkms_plane_init(card, DRM_PLANE_TYPE_PRIMARY, index);
+>  	if (IS_ERR(primary))
+>  		return PTR_ERR(primary);
+>  
+> -	if (vkmsdev->config.overlay) {
+> +	if (config->overlay) {
+>  		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+> -			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
+> +			ret = vkms_add_overlay_plane(card, index, crtc);
+>  			if (ret)
+>  				return ret;
+>  		}
+>  	}
+>  
+> -	if (vkmsdev->config.cursor) {
+> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+> +	if (config->cursor) {
+> +		cursor = vkms_plane_init(card, DRM_PLANE_TYPE_CURSOR, index);
+>  		if (IS_ERR(cursor))
+>  			return PTR_ERR(cursor);
+>  	}
+> @@ -103,8 +104,8 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  		goto err_attach;
+>  	}
+>  
+> -	if (vkmsdev->config.writeback) {
+> -		writeback = vkms_enable_writeback_connector(vkmsdev);
+> +	if (config->writeback) {
+> +		writeback = vkms_enable_writeback_connector(card);
+>  		if (writeback)
+>  			DRM_ERROR("Failed to init writeback connector\n");
+>  	}
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index d8eb674b49a6..28abd61a0bb9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -158,10 +158,10 @@ static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+>  	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+>  };
+>  
+> -struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> +struct vkms_plane *vkms_plane_init(struct vkms_card *card,
+>  				   enum drm_plane_type type, int index)
+>  {
+> -	struct drm_device *dev = &vkmsdev->drm;
+> +	struct drm_device *dev = &card->drm;
+>  	const struct drm_plane_helper_funcs *funcs;
+>  	struct vkms_plane *plane;
+>  	const u32 *formats;
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index af1604dfbbaf..681e7267d688 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -94,15 +94,15 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+>  				struct drm_writeback_job *job)
+>  {
+>  	struct vkms_writeback_job *vkmsjob = job->priv;
+> -	struct vkms_device *vkmsdev;
+> +	struct vkms_card *card;
+>  
+>  	if (!job->fb)
+>  		return;
+>  
+>  	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
+>  
+> -	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+> -	vkms_set_composer(&vkmsdev->output, false);
+> +	card = drm_device_to_vkms_card(job->fb->dev);
+> +	vkms_set_composer(&card->output, false);
+>  	kfree(vkmsjob);
+>  }
+>  
+> @@ -111,8 +111,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>  {
+>  	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+>  											 conn);
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
+> -	struct vkms_output *output = &vkmsdev->output;
+> +	struct vkms_card *card = drm_device_to_vkms_card(conn->dev);
+> +	struct vkms_output *output = &card->output;
+>  	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+>  	struct drm_connector_state *conn_state = wb_conn->base.state;
+>  	struct vkms_crtc_state *crtc_state = output->composer_state;
+> @@ -120,7 +120,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>  	if (!conn_state)
+>  		return;
+>  
+> -	vkms_set_composer(&vkmsdev->output, true);
+> +	vkms_set_composer(&card->output, true);
+>  
+>  	spin_lock_irq(&output->composer_lock);
+>  	crtc_state->active_writeback = conn_state->writeback_job->priv;
+> @@ -136,14 +136,14 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+>  	.atomic_commit = vkms_wb_atomic_commit,
+>  };
+>  
+> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+> +int vkms_enable_writeback_connector(struct vkms_card *card)
+>  {
+> -	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
+> +	struct drm_writeback_connector *wb = &card->output.wb_connector;
+>  
+> -	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
+> +	card->output.wb_connector.encoder.possible_crtcs = 1;
+>  	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>  
+> -	return drm_writeback_connector_init(&vkmsdev->drm, wb,
+> +	return drm_writeback_connector_init(&card->drm, wb,
+>  					    &vkms_wb_connector_funcs,
+>  					    &vkms_wb_encoder_helper_funcs,
+>  					    vkms_wb_formats,
+> -- 
+> 2.37.1.359.gd136c6c3e2-goog
+> 
+
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
