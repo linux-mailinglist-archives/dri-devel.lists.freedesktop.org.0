@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E30B58AFF2
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 20:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C088D58B06D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 21:38:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C366211B908;
-	Fri,  5 Aug 2022 18:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FEDA5722;
+	Fri,  5 Aug 2022 19:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC0614A5A5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 18:36:28 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id h8so2334169qvs.6
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 11:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=S2rZsLeEu87NEzITibu9fquLEDRtDp+jgi+Tg1jwT8Q=;
- b=OqFxCJZLjpZPcETwgTk/47CYrwAF30GRem7xvVdscKYKUAIoppiG31tENIjTg7HZ86
- GllEn9o63eMR97JCYM5NPtcXK8l7da07LkY4+Etbifk9EuNobt/QFwvuHyC1AVhIgRs+
- 5W+ZcWmKDoL/OdKe51fo/fkB27RSFgbjw2/S63hXebhoF/VOH6yF3/7pvsKLAtQXsaQ1
- Tts5ql3aw5U0XPWfRh4wQo2rBL2t/MM9zZW+2hHiwtC0UJ/WQ3898xJ8A0k+SOH2/XUE
- 9qsBXE405W6MQVrdKJ77doUJpxxIpbUNqJLEoulW+cJr+YLtLqXP18u7eixZsoJ1kcWY
- ECkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=S2rZsLeEu87NEzITibu9fquLEDRtDp+jgi+Tg1jwT8Q=;
- b=TL3bs/gRSkrt1RS9yPsujWSDeVvqs5YTnvmYIxpwrxRi79arymGpXIe+oXfA6lRLX4
- ox+H6rNk6KeFRyjtmnwKlKOhiVbyTSu2n8a6RvQMawHIxBEPm+SpIKrR4Wl/w0Nh/nD6
- jwehLU4S8ulbVLQ2LeG4yw0r1zX/XaO2ZWLKgqG29Ttq4iBj8d8jg30jv4jsRGY5Llbx
- 0YTfwcemfnuMLGXUgcmVkvAFz7ZtlfCkrGhZX/41v38ieVEZyKz5KIESRI7IgFWngCAb
- +WzlMimtotHF9/8l1ZCXtKM5KcsevU8Hydd/aMGz1QU6M5sdtDIMyuwPNf5EQheJ4re5
- Tgng==
-X-Gm-Message-State: ACgBeo2Idiqe5XtO9YC0YPewL3AgFxlRIiy4h5lAkZLxpcI6EjTTBwbr
- TRx22I2nx5s1aJSEOln/33Zd4A==
-X-Google-Smtp-Source: AA6agR5+VXcu3UVBBkz/inkZzc2wONdbOjTHdSeWI1sZFaEjJm35GGsIXxQCr9CAVSL/r8vguluExA==
-X-Received: by 2002:a05:6214:27ce:b0:477:2f42:a199 with SMTP id
- ge14-20020a05621427ce00b004772f42a199mr6704821qvb.115.1659724587301; 
- Fri, 05 Aug 2022 11:36:27 -0700 (PDT)
-Received: from localhost (48.230.85.34.bc.googleusercontent.com.
- [34.85.230.48]) by smtp.gmail.com with ESMTPSA id
- y20-20020a05620a44d400b006a6ebde4799sm3575340qkp.90.2022.08.05.11.36.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 11:36:26 -0700 (PDT)
-Date: Fri, 5 Aug 2022 18:36:26 +0000
-From: Sean Paul <sean@poorly.run>
-To: Jim Shargo <jshargo@chromium.org>
-Subject: Re: [PATCH 2/5] drm/vkms: VKMS now supports more than one "card"
-Message-ID: <Yu1jKp76WkvA/gJr@art_vandelay>
-References: <20220722213214.1377835-1-jshargo@chromium.org>
- <20220722213214.1377835-3-jshargo@chromium.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE669A3E57;
+ Fri,  5 Aug 2022 19:32:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1359C61A36;
+ Fri,  5 Aug 2022 19:32:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6385CC4347C;
+ Fri,  5 Aug 2022 19:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659727953;
+ bh=mfEh6ybw6rE7/YvSjSNtL1TZqU0Vwg2ccAlpa8gmxCw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=LX1rWOzm68paQ6IF/V/Z7Jyc4mrDJMxk18613pIutd20SJHjYfs8ZhEb+NcRWW05d
+ MXovB+DdlRSYT/gY3UIS7oUWTnQ6Ma47JwlMLJ2KnAmdSKv5rbgaSpS2BtD2/28tq4
+ rB1JGnZgbQBUwc6ohYPWw+vYSmCvEqBTbnujzgvplYHbExArH2u2i3DUWOv8LBCE7g
+ ScShm5/Xl1O0DZjH6hn6562iDgdMKwrr3b80zPM5FwwhwBnYEAnjLxH5S+is3Jhp9p
+ plohILwpbGdi9lOPyJmrVHVYDzrzbXoMNGgzVr7pUDH3A3H1U39o2wxM/bwqRJexqt
+ 3iAmOBvR3Rk3A==
+Received: by mail-ej1-f49.google.com with SMTP id uj29so6791385ejc.0;
+ Fri, 05 Aug 2022 12:32:33 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2SDrsheGYsVpMR6LOJNzThoYtSo5rwGfGHekf1AleUYyVx80bF
+ Oo5VBb1wvpLuB0JSKjOLa+dUiaQXlV9HRCZhfa0=
+X-Google-Smtp-Source: AA6agR6sufpPn7fKAXba69irZ//FbrrVb5P7LMB5EmBMDbLarfIv7nL6lJv4uXFV2w0bUTCcP1jOVQ494qKG5VTQJm8=
+X-Received: by 2002:a17:907:28d6:b0:731:5d0:4401 with SMTP id
+ en22-20020a17090728d600b0073105d04401mr2212923ejc.765.1659727951560; Fri, 05
+ Aug 2022 12:32:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220722213214.1377835-3-jshargo@chromium.org>
+References: <YuwRyQYPCb1FD+mr@debian>
+ <CAHk-=whptVSSZL=wSUQJdRBeVfS+Xy_K4anQ7eQOky7XUrXhUQ@mail.gmail.com>
+ <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
+ <YuwvfsztWaHvquwC@dev-arch.thelio-3990X>
+ <9fb73284-7572-5703-93d3-f83a43535baf@amd.com>
+ <CAK8P3a3Fv=_+GV9r=k4jP72zZOjJowL-GOue-51EhyVDBaEfEw@mail.gmail.com>
+ <Yu1bMqL5tsbq1ojj@dev-arch.thelio-3990X>
+In-Reply-To: <Yu1bMqL5tsbq1ojj@dev-arch.thelio-3990X>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Fri, 5 Aug 2022 21:32:13 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3PAxkctN6AXOsoTBTFgwHhk7_OSYwJ4Rgk7Dbs+bc0Qw@mail.gmail.com>
+Message-ID: <CAK8P3a3PAxkctN6AXOsoTBTFgwHhk7_OSYwJ4Rgk7Dbs+bc0Qw@mail.gmail.com>
+Subject: Re: mainline build failure for x86_64 allmodconfig with clang
+To: Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,627 +66,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- jshargo@google.com
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ clang-built-linux <llvm@lists.linux.dev>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Sudip Mukherjee \(Codethink\)" <sudipm.mukherjee@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 22, 2022 at 05:32:10PM -0400, Jim Shargo wrote:
-> This is a small refactor to make ConfigFS support easier.
-> 
-> We now store the vkms_device statically, and maintain a list of
-> "cards", each representing a different virtual DRM driver.
-> 
-> We also make it clear when a card is "default", that is created at
-> initialization, and not. This is because, due to limitations on what we
-> can do with the configfs API, the default card won't be reflected in
-> configfs and is initialized in a unique way.
-> 
-> Since we're only managing a single card, this should be a no-op.
-> 
-> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+On Fri, Aug 5, 2022 at 8:02 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> On Fri, Aug 05, 2022 at 06:16:45PM +0200, Arnd Bergmann wrote:
+> > On Fri, Aug 5, 2022 at 5:32 PM Harry Wentland <harry.wentland@amd.com> wrote:
+> > While splitting out sub-functions can help reduce the maximum stack
+> > usage, it seems that in this case it makes the actual problem worse:
+> > I see 2168 bytes for the combined
+> > dml32_ModeSupportAndSystemConfigurationFull(), but marking
+> > mode_support_configuration() as noinline gives me 1992 bytes
+> > for the outer function plus 384 bytes for the inner one. So it does
+> > avoid the warning (barely), but not the problem that the warning tries
+> > to point out.
+>
+> I haven't had a chance to take a look at splitting things up yet, would
+> you recommend a different approach?
 
-Re-sending the review with the correct subject and reply-to. Let's use this one
-for discussion and pretend the other one doesn't exist :-)
+Splitting up large functions can help when you have large local variables
+that are used in different parts of the function, and the split gets the
+compiler to reuse stack locations.
 
-> ---
->  drivers/gpu/drm/vkms/vkms_crtc.c      |  11 +-
->  drivers/gpu/drm/vkms/vkms_drv.c       | 160 ++++++++++++++++----------
->  drivers/gpu/drm/vkms/vkms_drv.h       |  32 ++++--
->  drivers/gpu/drm/vkms/vkms_output.c    |  25 ++--
->  drivers/gpu/drm/vkms/vkms_plane.c     |   4 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c |  20 ++--
->  6 files changed, 158 insertions(+), 94 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 57bbd32e9beb..c1b632952532 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -62,9 +62,10 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->  static int vkms_enable_vblank(struct drm_crtc *crtc)
->  {
->  	struct drm_device *dev = crtc->dev;
-> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
-> +	struct vkms_output *out = &card->output;
->  	unsigned int pipe = drm_crtc_index(crtc);
->  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
-> -	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->  
->  	drm_calc_timestamping_constants(crtc, &crtc->mode);
->  
-> @@ -78,7 +79,9 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
->  
->  static void vkms_disable_vblank(struct drm_crtc *crtc)
->  {
-> -	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> +	struct drm_device *dev = crtc->dev;
-> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
-> +	struct vkms_output *out = &card->output;
->  
->  	hrtimer_cancel(&out->vblank_hrtimer);
->  }
-> @@ -88,9 +91,9 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
->  				      bool in_vblank_irq)
->  {
->  	struct drm_device *dev = crtc->dev;
-> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
-> +	struct vkms_output *output = &card->output;
->  	unsigned int pipe = crtc->index;
-> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
-> -	struct vkms_output *output = &vkmsdev->output;
->  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
->  
->  	if (!READ_ONCE(vblank->enabled)) {
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 81ed9417e511..92fbade2199b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -9,9 +9,9 @@
->   * the GPU in DRM API tests.
->   */
->  
-> +#include <linux/kernel.h>
+I think in this particular function, the problem isn't actually local variables
+but either pushing variables on the stack for argument passing,
+or something that causes the compiler to run out of registers so it
+has to spill registers to the stack.
 
-Unless you're using something directly from this header, it's probably best
-not to include it as it pulls in a _lot_ of stuff.
+In either case, one has to actually look at the generated output
+and then try to rearrange the codes so this does not happen.
 
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> -#include <linux/dma-mapping.h>
->  
->  #include <drm/drm_gem.h>
->  #include <drm/drm_atomic.h>
-> @@ -37,7 +37,7 @@
->  #define DRIVER_MAJOR	1
->  #define DRIVER_MINOR	0
->  
-> -static struct vkms_device *vkms_device;
-> +static struct vkms_device vkms_device;
->  
->  static bool enable_cursor = true;
->  module_param_named(enable_cursor, enable_cursor, bool, 0444);
-> @@ -55,9 +55,9 @@ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
->  
->  static void vkms_release(struct drm_device *dev)
->  {
-> -	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
-> +	struct vkms_card *card = drm_device_to_vkms_card(dev);
->  
-> -	destroy_workqueue(vkms->output.composer_workq);
-> +	destroy_workqueue(card->output.composer_workq);
->  }
->  
->  static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
-> @@ -91,9 +91,9 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
->  
->  static int vkms_config_show(struct seq_file *m, void *data)
->  {
-> -	seq_printf(m, "writeback=%d\n", vkms_device->config.writeback);
-> -	seq_printf(m, "cursor=%d\n", vkms_device->config.cursor);
-> -	seq_printf(m, "overlay=%d\n", vkms_device->config.overlay);
-> +	seq_printf(m, "writeback=%d\n", vkms_device.config.writeback);
-> +	seq_printf(m, "cursor=%d\n", vkms_device.config.cursor);
-> +	seq_printf(m, "overlay=%d\n", vkms_device.config.overlay);
->  
->  	return 0;
->  }
-> @@ -133,9 +133,9 @@ static const struct drm_mode_config_helper_funcs vkms_mode_config_helpers = {
->  	.atomic_commit_tail = vkms_atomic_commit_tail,
->  };
->  
-> -static int vkms_modeset_init(struct vkms_device *vkmsdev)
-> +static int vkms_modeset_init(struct vkms_card *card)
->  {
-> -	struct drm_device *dev = &vkmsdev->drm;
-> +	struct drm_device *dev = &card->drm;
->  
->  	drm_mode_config_init(dev);
->  	dev->mode_config.funcs = &vkms_mode_funcs;
-> @@ -151,89 +151,133 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
->  	dev->mode_config.preferred_depth = 0;
->  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
->  
-> -	return vkms_output_init(vkmsdev, 0);
-> +	return card->is_default ? vkms_output_init_default(card, 0) : -ENOTSUPP;
+One thing to try would be to condense a function call like
 
-AFAICT if card is not default this failure will roll up to vkms_card_init and
-to vkms_init() which will cause everything to get torn down. So we can probably
-check at the start of the function and fail early.
+                dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport(
 
-Also, minor nit: Ternary operators are usually discouraged.
+&v->dummy_vars.dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport,
+                        mode_lib->vba.USRRetrainingRequiredFinal,
+                        mode_lib->vba.UsesMALLForPStateChange,
 
+mode_lib->vba.PrefetchModePerState[mode_lib->vba.VoltageLevel][mode_lib->vba.maxMpcComb],
+                        mode_lib->vba.NumberOfActiveSurfaces,
+                        mode_lib->vba.MaxLineBufferLines,
+                        mode_lib->vba.LineBufferSizeFinal,
+                        mode_lib->vba.WritebackInterfaceBufferSize,
+                        mode_lib->vba.DCFCLK,
+                        mode_lib->vba.ReturnBW,
+                        mode_lib->vba.SynchronizeTimingsFinal,
 
->  }
->  
-> -static int vkms_create(void)
-> +static void vkms_device_destroy(void)
->  {
-> -	int ret;
-> +	struct vkms_card *card, *n;
-> +
-> +	list_for_each_entry_safe(card, n, &vkms_device.cards, node) {
-> +		vkms_card_destroy(card);
-> +	}
+mode_lib->vba.SynchronizeDRRDisplaysForUCLKPStateChangeFinal,
+                        mode_lib->vba.DRRDisplay,
+                        v->dpte_group_bytes,
+                        v->meta_row_height,
+                        v->meta_row_height_chroma,
 
-Nit: no braces
+v->dummy_vars.DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation.mmSOCParameters,
+                        mode_lib->vba.WritebackChunkSize,
+                        mode_lib->vba.SOCCLK,
+                        v->DCFCLKDeepSleep,
+                        mode_lib->vba.DETBufferSizeY,
+                        mode_lib->vba.DETBufferSizeC,
+                        mode_lib->vba.SwathHeightY,
+                        mode_lib->vba.SwathHeightC,
+                        mode_lib->vba.LBBitPerPixel,
+                        v->SwathWidthY,
+                        v->SwathWidthC,
+                        mode_lib->vba.HRatio,
+                        mode_lib->vba.HRatioChroma,
+                        mode_lib->vba.vtaps,
+                        mode_lib->vba.VTAPsChroma,
+                        mode_lib->vba.VRatio,
+                        mode_lib->vba.VRatioChroma,
+                        mode_lib->vba.HTotal,
+                        mode_lib->vba.VTotal,
+                        mode_lib->vba.VActive,
+                        mode_lib->vba.PixelClock,
+                        mode_lib->vba.BlendingAndTiming,
+                        .... /* more arguments */);
 
-> +
-> +	memset(&vkms_device, 0, sizeof(struct vkms_device));
+into calling conventions that take a pointer to 'mode_lib->vba' and another
+one to 'v', so these are no longer passed on the stack individually.
 
-Nit: You could do sizeof(vkms_device) here (sidebar: naming the variable the
-same as the struct is unfortunate).
-
-That said, this is either unnecessary or not a good idea since it blows away at
-least the backpointer to platform_device, clears drm_device, and other items
-which have proper destroy/clean-up functions. So we either don't need this, or
-we need to clean up everything in vkms_device explicitly.
-
-> +}
-> +
-> +struct vkms_card *vkms_card_init(const char *name, bool is_default)
-> +{
-> +	char unique_name[64] = { 0 };
->  	struct platform_device *pdev;
-> +	struct vkms_card *card;
-> +	void *grp;
-> +	int ret;
->  
-> -	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
-> +	ret = snprintf(unique_name, ARRAY_SIZE(unique_name), "%s-%s",
-> +		       DRIVER_NAME, name);
-> +	if (ARRAY_SIZE(unique_name) <= ret) {
-> +		DRM_WARN("Truncated vkms card driver name '%s-%s' to '%s'\n",
-
-Nit: The DRM_* print macros are deprecated in favor of the drm_* print
-functions. You probably also want to use a categorized message here instead of
-just warn, perhaps drm_dbg() which defaults to DRIVER category.
-
-You might consider converting the driver to drm_* before this patchset so we're
-working from a consistent base.
-
-> +			 DRIVER_NAME, name, unique_name);
-> +	}
-> +
-> +	pdev = platform_device_register_simple(unique_name, -1, NULL, 0);
->  	if (IS_ERR(pdev))
-> -		return PTR_ERR(pdev);
-> +		return ERR_PTR(PTR_ERR(pdev));
-
-return pdev;
-
->  
-> -	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
-> -		ret = -ENOMEM;
-> -		goto out_unregister;
-> +	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
-> +	if (!grp) {
-> +		ret = ENOMEM;
-> +		goto out_platform_device;
->  	}
->  
-> -	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
-> -					 struct vkms_device, drm);
-> -	if (IS_ERR(vkms_device)) {
-> -		ret = PTR_ERR(vkms_device);
-> -		goto out_devres;
-> +	card = devm_drm_dev_alloc(&pdev->dev, &vkms_driver, struct vkms_card,
-> +				  drm);
-> +	if (IS_ERR(card)) {
-> +		ret = PTR_ERR(card);
-> +		goto out_release_group;
->  	}
-> -	
-> -	vkms_device->platform = pdev;
-> -	vkms_device->config.cursor = enable_cursor;
-> -	vkms_device->config.writeback = enable_writeback;
-> -	vkms_device->config.overlay = enable_overlay;
->  
-> -	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
-> -					   DMA_BIT_MASK(64));
-> +	strncpy(card->name_buf, unique_name, ARRAY_SIZE(card->name_buf) - 1);
-> +	card->platform = pdev;
-> +	card->drm.unique = card->name_buf;
-> +	card->vkms_device = &vkms_device;
-> +	card->is_default = is_default;
-> +	card->is_registered = false;
-> +	card->resource_group_id = grp;
->  
-> +	ret = dma_coerce_mask_and_coherent(card->drm.dev, DMA_BIT_MASK(64));
->  	if (ret) {
->  		DRM_ERROR("Could not initialize DMA support\n");
-> -		goto out_devres;
-> +		goto out_release_group;
->  	}
->  
-> -	ret = drm_vblank_init(&vkms_device->drm, 1);
-> +	ret = drm_vblank_init(&card->drm, 1);
->  	if (ret) {
->  		DRM_ERROR("Failed to vblank\n");
-> -		goto out_devres;
-> +		goto out_release_group;
->  	}
->  
-> -	ret = vkms_modeset_init(vkms_device);
-> -	if (ret)
-> -		goto out_devres;
-> -
-> -	ret = drm_dev_register(&vkms_device->drm, 0);
-> -	if (ret)
-> -		goto out_devres;
-> +	ret = vkms_modeset_init(card);
-> +	if (ret) {
-> +		DRM_ERROR("Unable to initialize modesetting");
-> +		goto out_release_group;
-> +	}
->  
-> -	drm_fbdev_generic_setup(&vkms_device->drm, 0);
-> +	ret = drm_dev_register(&card->drm, 0);
-> +	if (ret) {
-> +		DRM_ERROR("Unable to register card");
-> +		return ERR_PTR(ret);
-
-No cleanup required if this fails?
-
-> +	}
->  
-> -	vkms_device->initialized = true;
-> +	drm_fbdev_generic_setup(&card->drm, 0);
-> +	card->is_registered = true;
-
-Re-raising the race concern here.
-
->  
-> -	return 0;
-> +	devres_close_group(&pdev->dev, grp);
-> +	list_add_tail(&card->node, &vkms_device.cards);
-
-I am still unclear why we need to bookkeep the cards ourselves since we're
-spawning a new platform_device for each drm_device. It feels like perhaps it
-would be easier to spawn a new platform_driver for each new drm device with its
-own .probe & .remove function which keeps track of its own instance. This would
-avoid the necessity of vkms_card, each platform_driver would have its own
-vkms_device containing a drm_device.
-
-I'm assuming that rmmod would invoke .remove on all the sub platform_drivers,
-but if not you could keep track of them in the platform device and unregister
-each one on unload which would be a lot less statekeeping.
-
-> +	
-> +	return card;
->  
-> -out_devres:
-> -	devres_release_group(&pdev->dev, NULL);
-> -out_unregister:
-> +out_release_group:
-> +	devres_release_group(&pdev->dev, grp);
-> +out_platform_device:
->  	platform_device_unregister(pdev);
-> -	return ret;
-> +	return ERR_PTR(ret);
->  }
->  
-> -static int __init vkms_init(void)
-> +void vkms_card_destroy(struct vkms_card *card)
->  {
-> -	return vkms_create();
-> +	list_del(&card->node);
-> +	if (card->is_registered) {
-
-Nit: You could save yourself some indentation here and exit early.
-
-> +		drm_dev_unregister(&card->drm);
-> +		drm_atomic_helper_shutdown(&card->drm);
-> +		devres_release_group(&card->platform->dev,
-> +				     card->resource_group_id);
-> +		platform_device_unregister(card->platform);
-> +	}
->  }
->  
-> -static void __exit vkms_exit(void)
-> +static int __init vkms_init(void)
->  {
-> -	struct platform_device *pdev;
-> -
-> -	if (!vkms_device || !vkms_device->initialized) {
-> -		return;
-> +	struct vkms_card *card;
-> +
-> +	vkms_device.config.cursor = enable_cursor;
-> +	vkms_device.config.writeback = enable_writeback;
-> +	vkms_device.config.overlay = enable_overlay;
-> +	INIT_LIST_HEAD(&vkms_device.cards);
-> +
-> +	card = vkms_card_init("default", /* configfs */ NULL);
-
-This passes NULL for the bool is_default argument. Presumably this should be
-true, or perhaps you don't need the second arg at all right now.
-
-> +	if (IS_ERR(card)) {
-> +		DRM_ERROR("Unable to init default card");
-> +		vkms_device_destroy();
-> +		return PTR_ERR(card);
->  	}
->  
-> -	pdev = vkms_device->platform;
-> +	return 0;
-> +}
->  
-> -	drm_dev_unregister(&vkms_device->drm);
-> -	drm_atomic_helper_shutdown(&vkms_device->drm);
-> -	devres_release_group(&pdev->dev, NULL);
-> -	platform_device_unregister(pdev);
-> +static void __exit vkms_exit(void)
-> +{
-> +	vkms_device_destroy();
->  }
->  
->  module_init(vkms_init);
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index c7ebc4ee6b14..1a98b81d6f22 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -4,6 +4,7 @@
->  #define _VKMS_DRV_H_
->  
->  #include <linux/hrtimer.h>
-> +#include <linux/kernel.h>
-
-From kernel.h:
- * This header has combined a lot of unrelated to each other stuff.
- * The process of splitting its content is in progress while keeping
- * backward compatibility. That's why it's highly recommended NOT to
- * include this header inside another header file, especially under
- * generic or architectural include/ directory.
-
->  
->  #include <drm/drm.h>
->  #include <drm/drm_gem.h>
-> @@ -101,19 +102,29 @@ struct vkms_config {
->  	bool overlay;
->  };
->  
-> -struct vkms_device {
-> -	struct drm_device drm;
-> +struct vkms_card {
->  	struct platform_device *platform;
-> +	struct drm_device drm;
-> +	struct list_head node;
-
-Nit: node is pretty ambiguous
-
->  	struct vkms_output output;
-> +	struct vkms_device *vkms_device;
-> +	/* storage for the value of drm->unique, giving this dev a unique busid */
-
-I didn't quite grok this comment, mind expanding?
-
-> +	char name_buf[64];
-> +	void *resource_group_id;
-> +	bool is_default;
-> +	bool is_registered;
-> +};
-> +
-> +struct vkms_device {
-> +	struct list_head cards;
->  	struct vkms_config config;
-> -	bool initialized;
->  };
->  
->  #define drm_crtc_to_vkms_output(target) \
->  	container_of(target, struct vkms_output, crtc)
->  
-> -#define drm_device_to_vkms_device(target) \
-> -	container_of(target, struct vkms_device, drm)
-> +#define drm_device_to_vkms_card(target)                                        \
-> +	container_of(target, struct vkms_card, drm)
->  
->  #define to_vkms_crtc_state(target)\
->  	container_of(target, struct vkms_crtc_state, base)
-> @@ -121,13 +132,18 @@ struct vkms_device {
->  #define to_vkms_plane_state(target)\
->  	container_of(target, struct vkms_plane_state, base.base)
->  
-> +/* Cards */
-> +struct vkms_card *vkms_card_init(const char *name, bool is_default);
-> +void vkms_card_destroy(struct vkms_card *card);
-> +
->  /* CRTC */
->  int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->  		   struct drm_plane *primary, struct drm_plane *cursor);
->  
-> -int vkms_output_init(struct vkms_device *vkmsdev, int index);
-> +int vkms_output_init_default(struct vkms_card *card, int index);
-> +int vkms_output_init(struct vkms_card *card, int index);
->  
-> -struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> +struct vkms_plane *vkms_plane_init(struct vkms_card *card,
->  				   enum drm_plane_type type, int index);
->  
->  /* CRC Support */
-> @@ -142,6 +158,6 @@ void vkms_composer_worker(struct work_struct *work);
->  void vkms_set_composer(struct vkms_output *out, bool enabled);
->  
->  /* Writeback */
-> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-> +int vkms_enable_writeback_connector(struct vkms_card *card);
->  
->  #endif /* _VKMS_DRV_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index d0061c82003a..dafd47c0a54d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -32,12 +32,12 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
->  	.get_modes    = vkms_conn_get_modes,
->  };
->  
-> -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
-> +static int vkms_add_overlay_plane(struct vkms_card *card, int index,
->  				  struct drm_crtc *crtc)
->  {
->  	struct vkms_plane *overlay;
->  
-> -	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> +	overlay = vkms_plane_init(card, DRM_PLANE_TYPE_OVERLAY, index);
->  	if (IS_ERR(overlay))
->  		return PTR_ERR(overlay);
->  
-> @@ -47,10 +47,11 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
->  	return 0;
->  }
->  
-> -int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> +int vkms_output_init_default(struct vkms_card *card, int index)
->  {
-> -	struct vkms_output *output = &vkmsdev->output;
-> -	struct drm_device *dev = &vkmsdev->drm;
-> +	const struct vkms_config *config = &card->vkms_device->config;
-> +	struct vkms_output *output = &card->output;
-> +	struct drm_device *dev = &card->drm;
->  	struct drm_connector *connector = &output->connector;
->  	struct drm_encoder *encoder = &output->encoder;
->  	struct drm_crtc *crtc = &output->crtc;
-> @@ -59,20 +60,20 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	int writeback;
->  	unsigned int n;
->  
-> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
-> +	primary = vkms_plane_init(card, DRM_PLANE_TYPE_PRIMARY, index);
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
->  
-> -	if (vkmsdev->config.overlay) {
-> +	if (config->overlay) {
->  		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> -			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
-> +			ret = vkms_add_overlay_plane(card, index, crtc);
->  			if (ret)
->  				return ret;
->  		}
->  	}
->  
-> -	if (vkmsdev->config.cursor) {
-> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
-> +	if (config->cursor) {
-> +		cursor = vkms_plane_init(card, DRM_PLANE_TYPE_CURSOR, index);
->  		if (IS_ERR(cursor))
->  			return PTR_ERR(cursor);
->  	}
-> @@ -103,8 +104,8 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  		goto err_attach;
->  	}
->  
-> -	if (vkmsdev->config.writeback) {
-> -		writeback = vkms_enable_writeback_connector(vkmsdev);
-> +	if (config->writeback) {
-> +		writeback = vkms_enable_writeback_connector(card);
->  		if (writeback)
->  			DRM_ERROR("Failed to init writeback connector\n");
->  	}
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index d8eb674b49a6..28abd61a0bb9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -158,10 +158,10 @@ static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
->  	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
->  };
->  
-> -struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> +struct vkms_plane *vkms_plane_init(struct vkms_card *card,
->  				   enum drm_plane_type type, int index)
->  {
-> -	struct drm_device *dev = &vkmsdev->drm;
-> +	struct drm_device *dev = &card->drm;
->  	const struct drm_plane_helper_funcs *funcs;
->  	struct vkms_plane *plane;
->  	const u32 *formats;
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> index af1604dfbbaf..681e7267d688 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -94,15 +94,15 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
->  				struct drm_writeback_job *job)
->  {
->  	struct vkms_writeback_job *vkmsjob = job->priv;
-> -	struct vkms_device *vkmsdev;
-> +	struct vkms_card *card;
->  
->  	if (!job->fb)
->  		return;
->  
->  	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
->  
-> -	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
-> -	vkms_set_composer(&vkmsdev->output, false);
-> +	card = drm_device_to_vkms_card(job->fb->dev);
-> +	vkms_set_composer(&card->output, false);
->  	kfree(vkmsjob);
->  }
->  
-> @@ -111,8 +111,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
->  {
->  	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
->  											 conn);
-> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
-> -	struct vkms_output *output = &vkmsdev->output;
-> +	struct vkms_card *card = drm_device_to_vkms_card(conn->dev);
-> +	struct vkms_output *output = &card->output;
->  	struct drm_writeback_connector *wb_conn = &output->wb_connector;
->  	struct drm_connector_state *conn_state = wb_conn->base.state;
->  	struct vkms_crtc_state *crtc_state = output->composer_state;
-> @@ -120,7 +120,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
->  	if (!conn_state)
->  		return;
->  
-> -	vkms_set_composer(&vkmsdev->output, true);
-> +	vkms_set_composer(&card->output, true);
->  
->  	spin_lock_irq(&output->composer_lock);
->  	crtc_state->active_writeback = conn_state->writeback_job->priv;
-> @@ -136,14 +136,14 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
->  	.atomic_commit = vkms_wb_atomic_commit,
->  };
->  
-> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
-> +int vkms_enable_writeback_connector(struct vkms_card *card)
->  {
-> -	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
-> +	struct drm_writeback_connector *wb = &card->output.wb_connector;
->  
-> -	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
-> +	card->output.wb_connector.encoder.possible_crtcs = 1;
->  	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
->  
-> -	return drm_writeback_connector_init(&vkmsdev->drm, wb,
-> +	return drm_writeback_connector_init(&card->drm, wb,
->  					    &vkms_wb_connector_funcs,
->  					    &vkms_wb_encoder_helper_funcs,
->  					    vkms_wb_formats,
-> -- 
-> 2.37.1.359.gd136c6c3e2-goog
-> 
-
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+       Arnd
