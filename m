@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031EF58AB5D
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 15:10:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0213C58AB73
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 15:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1696210F306;
-	Fri,  5 Aug 2022 13:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 737BE93B66;
+	Fri,  5 Aug 2022 13:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E096C967F5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 13:10:16 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id i24so1761158qkg.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 06:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=9J24cDKKqsOduTS9UUyGj2I+dc2JXq9COm3ho1bp/NE=;
- b=NZ/lhCyR9M4uoWmE11gXdKIY5QHCgnKHevuKo4TMG1DjXmtxuHL9IGeJwZ4LfPJ5Sx
- An9X10WyEwlH6gobWrRkcQrihAvfFo/NEkJHppMNCjVysFpqBcUQppBPmmWv/gJlRwNJ
- AJ5R5hBz/6Z6zt3zcMCzNBlOWAFcgddiIbDO26176idaVxtdAeLEwOB83fyRhNgFshT0
- PgEvwdsJAJBc7N5GmC3tSOdTGVFK5PY33vJvxUo6aKPI13T8ZPWktLxzYyY8DyD7/CRd
- N6n68KF39/cpPvRO/LCj/Zk8AkuXDm7CeFfWTupOMgC5Oh24O5OoP7ydY1qxP317WUAG
- zV8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=9J24cDKKqsOduTS9UUyGj2I+dc2JXq9COm3ho1bp/NE=;
- b=2x5F6Jcm+iQqwUMWeNTJHGbDmgzOSMo/kq2lqqeM/urIglRaec5LzNXoB/vtvTEfNa
- rS+yfg322bBjVWWN1wv7oog3IyCN9CSsN9ofD/U0fJRJee2/MpBxmtT5BQRST448+aIx
- A964uH2bkYkE3irs/EVz4X6vV1nuoIwXFoDj43/i1xRKk/ns4hXIOaaLNzONVruaqx5T
- WjdRCKjPYm6s38oiXljALFK3rwn8v5BZrVISmg7TQqwXc36Uz7Myy+Tu4f1j+5BGQMTy
- s3W0qkwPkpXXjEZoBu90XwoVbPPpeUDUuvo1XAjG00muRDyZ0AL/dyKtNpa9ezWqvVXG
- ADkg==
-X-Gm-Message-State: ACgBeo3JYPkPQpmsLAnzZf2014ddK9n/M50KTxUI4m+Y1ifsdGlF0aZ8
- fBACf4fqu3EBF3hw3D6oIyeJW6RBrvzHwjE/So4=
-X-Google-Smtp-Source: AA6agR6KCeqnEoqyKUTU9bwzHJxmJAXoC1uA/8jBqjS4KNKKgC3bBRK/UzGUzHpzrq29/PrSFNdU8y5czcT3jzWXnGE=
-X-Received: by 2002:a05:620a:254d:b0:6ab:84b8:25eb with SMTP id
- s13-20020a05620a254d00b006ab84b825ebmr5054205qko.383.1659705015729; Fri, 05
- Aug 2022 06:10:15 -0700 (PDT)
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
+ [185.70.41.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01BCA8F72C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 13:15:10 +0000 (UTC)
+Date: Fri, 05 Aug 2022 13:14:46 +0000
+Authentication-Results: mail-41103.protonmail.ch;
+ dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com
+ header.b="FAZEeCdd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail3; t=1659705304; x=1659964504;
+ bh=ziI5V+sIub4XwCkMXnfzTYqZ1lrMICCCmyYVkMbZJ64=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+ Feedback-ID:Message-ID;
+ b=FAZEeCddvGry0RRerFlnxxBc2UyoIGfr56LjriN9eMRNygtTSGxPO5QnIMOx8wl2c
+ dSFITvunQak+jqDJcqx+gBEVw3veJnduFGbwnGO7VKOptySadtuBGlSvYoPz5d3vIN
+ 7EFYfH7F5Too/d1gcX303LiTtQdM2UowKc9+77PD5j87JLHDZqZ/H100t9j2I/lzLF
+ OawfSicHFQVlV7kT5YgXOLCTrSmDc02SczVQhJiNTf3icSkrEwWkKfERjzJ4vy1uly
+ 7zTPOwF6x4G1rDEYgV60ougjBlhww1H+wx99rKV5NtvBRAst7eAaVSP5ZSxkN51rvO
+ 8PU4QrvmxCIhA==
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Yassine Oudjana <y.oudjana@protonmail.com>
+Subject: Re: [RFC PATCH] drm/msm: lookup the ICC paths in both mdp5/dpu and
+ mdss devices
+Message-ID: <jqNAyNB27XoGsxddwc_bag0mjFI1qbGMGS7BtyDbd8ZK15RKmQNvVgJYUzcEc_U-h_Ei0mKju27yZJ5qI1xDxPbGvpcLkxX9aG_tmbxxzBI=@protonmail.com>
+In-Reply-To: <20220805115630.506391-1-dmitry.baryshkov@linaro.org>
+References: <20220805115630.506391-1-dmitry.baryshkov@linaro.org>
+Feedback-ID: 6882736:user:proton
 MIME-Version: 1.0
-References: <20220805070610.3516-1-peterwu.pub@gmail.com>
- <20220805070610.3516-13-peterwu.pub@gmail.com>
-In-Reply-To: <20220805070610.3516-13-peterwu.pub@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 5 Aug 2022 15:09:39 +0200
-Message-ID: <CAHp75VcdU6AVdksuhsHkzvD6mOBJ6G=yrmuHA9zAXLroXDFAjg@mail.gmail.com>
-Subject: Re: [PATCH v7 12/13] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,73 +52,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ChiaEn Wu <chiaen_wu@richtek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 5, 2022 at 9:07 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+On Friday, August 5th, 2022 at 12:56 PM, Dmitry Baryshkov <dmitry.baryshkov=
+@linaro.org> wrote:
+
+> The commit 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master
+> components") changed the MDP5 driver to look for the interconnect paths
+> in the MDSS device rather than in the MDP5 device itself. This was left
+> unnoticed since on my testing devices the interconnects probably didn't
+> reach the sync state.
 >
-> From: Alice Chen <alice_chen@richtek.com>
+> Rather than just using the MDP5 device for ICC path lookups for the MDP5
+> devices, introduce an additional helper to check both MDP5/DPU and MDSS
+> nodes. This will be helpful for the MDP5->DPU conversion, since the
 >
-> The MediaTek MT6370 is a highly-integrated smart power management IC,
-> which includes a single cell Li-Ion/Li-Polymer switching battery
-> charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> LED current sources, a RGB LED driver, a backlight WLED driver,
-> a display bias driver and a general LDO for portable devices.
+> driver will have to check both nodes.
 >
-> Add a support for the MT6370 Flash LED driver. Flash LED in MT6370
-> has 2 channels and support torch/strobe mode.
+> Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master components")
+> Reported-by: Marijn Suijten marijn.suijten@somainline.org
+>
+> Reported-by: Yassine Oudjana y.oudjana@protonmail.com
+>
+> Signed-off-by: Dmitry Baryshkov dmitry.baryshkov@linaro.org
+>
+> ---
+> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 7 ++-----
+> drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 9 +++------
+> drivers/gpu/drm/msm/msm_drv.h | 2 ++
+> drivers/gpu/drm/msm/msm_io_utils.c | 22 ++++++++++++++++++++++
+> 4 files changed, 29 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/ms=
+m/disp/dpu1/dpu_kms.c
+> index e23e2552e802..9eff6c2b1917 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -383,12 +383,9 @@ static int dpu_kms_parse_data_bus_icc_path(struct dp=
+u_kms *dpu_kms)
+> struct icc_path *path1;
+> struct drm_device *dev =3D dpu_kms->dev;
+>
+> struct device *dpu_dev =3D dev->dev;
+>
+> - struct device *mdss_dev =3D dpu_dev->parent;
+>
+>
+> - /* Interconnects are a part of MDSS device tree binding, not the
+> - * MDP/DPU device. */
+> - path0 =3D of_icc_get(mdss_dev, "mdp0-mem");
+> - path1 =3D of_icc_get(mdss_dev, "mdp1-mem");
+> + path0 =3D msm_icc_get(dpu_dev, "mdp0-mem");
+> + path1 =3D msm_icc_get(dpu_dev, "mdp1-mem");
+>
+> if (IS_ERR_OR_NULL(path0))
+> return PTR_ERR_OR_ZERO(path0);
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/m=
+sm/disp/mdp5/mdp5_kms.c
+> index 3d5621a68f85..b0c372fef5d5 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> @@ -921,12 +921,9 @@ static int mdp5_init(struct platform_device *pdev, s=
+truct drm_device *dev)
+>
+> static int mdp5_setup_interconnect(struct platform_device pdev)
+> {
+> - / Interconnects are a part of MDSS device tree binding, not the
+> - * MDP5 device. */
+> - struct device *mdss_dev =3D pdev->dev.parent;
+>
+> - struct icc_path *path0 =3D of_icc_get(mdss_dev, "mdp0-mem");
+> - struct icc_path *path1 =3D of_icc_get(mdss_dev, "mdp1-mem");
+> - struct icc_path *path_rot =3D of_icc_get(mdss_dev, "rotator-mem");
+> + struct icc_path *path0 =3D msm_icc_get(&pdev->dev, "mdp0-mem");
+>
+> + struct icc_path *path1 =3D msm_icc_get(&pdev->dev, "mdp1-mem");
+>
+> + struct icc_path *path_rot =3D msm_icc_get(&pdev->dev, "rotator-mem");
+>
+>
+> if (IS_ERR(path0))
+> return PTR_ERR(path0);
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.=
+h
+> index 08388d742d65..d38510f6dbf5 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -441,6 +441,8 @@ void __iomem *msm_ioremap_size(struct platform_device=
+ *pdev, const char *name,
+> phys_addr_t *size);
+> void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char =
+*name);
+>
+> +struct icc_path *msm_icc_get(struct device *dev, const char *name);
+> +
+> #define msm_writel(data, addr) writel((data), (addr))
+> #define msm_readl(addr) readl((addr))
+>
+> diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm=
+_io_utils.c
+> index 7b504617833a..d02cd29ce829 100644
+> --- a/drivers/gpu/drm/msm/msm_io_utils.c
+> +++ b/drivers/gpu/drm/msm/msm_io_utils.c
+> @@ -5,6 +5,8 @@
+> * Author: Rob Clark robdclark@gmail.com
+>
+> */
+>
+> +#include <linux/interconnect.h>
+>
+> +
+> #include "msm_drv.h"
+>
+> /*
+> @@ -124,3 +126,23 @@ void msm_hrtimer_work_init(struct msm_hrtimer_work *=
+work,
+> work->worker =3D worker;
+>
+> kthread_init_work(&work->work, fn);
+>
+> }
+> +
+> +struct icc_path *msm_icc_get(struct device *dev, const char *name)
+> +{
+> + struct device *mdss_dev =3D dev->parent;
+>
+> + struct icc_path path;
+> +
+> + path =3D of_icc_get(dev, name);
+> + if (path)
+> + return path;
+> +
+> + /
+> + * If there are no interconnects attached to the corresponding device
+> + * node, of_icc_get() will return NULL.
+> + *
+> + * If the MDP5/DPU device node doesn't have interconnects, lookup the
+> + * path in the parent (MDSS) device.
+> + */
+> + return of_icc_get(mdss_dev, name);
+> +
+> +}
+> --
+> 2.35.1
 
-Same comments as per previous LED related patch.
-
-...
-
-> +       /*
-> +        * For the flash to turn on/off, we need to wait HW ramping up/down time
-> +        * 5ms/500us to prevent the unexpected problem.
-> +        */
-> +       if (!priv->fled_strobe_used && curr)
-> +               usleep_range(5000, 6000);
-> +       else if (priv->fled_strobe_used && !curr)
-> +               usleep_range(500, 600);
-
-Now it's much better!
-
-...
-
-> +       /*
-> +        * Always configure as min level when off to
-> +        * prevent flash current spike
-
-/*
- * You need to check the style
- * of multi-line comments like
- * this one.
- */
-
-> +        */
-
--- 
-With Best Regards,
-Andy Shevchenko
+Tested-by: Yassine Oudjana <y.oudjana@protonmail.com> # msm8996
