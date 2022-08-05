@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640C258B218
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 23:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7386858B231
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 23:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F1DAA2E5;
-	Fri,  5 Aug 2022 21:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4E8AD9C3;
+	Fri,  5 Aug 2022 21:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A80FEA1771;
- Fri,  5 Aug 2022 21:54:55 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id q124so2870358iod.3;
- Fri, 05 Aug 2022 14:54:55 -0700 (PDT)
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4EFA1A61;
+ Fri,  5 Aug 2022 21:54:56 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id d139so2864275iof.4;
+ Fri, 05 Aug 2022 14:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=8Di3KlCpKKLc83SvAaF4ufqdssAuqHwTNN+eiKiYlTw=;
- b=KMSBPxec0CZihP4SWoEQ8H+eUfnM6dpBj0CRtlFtLTYwb4BV0yDmo61reX1hHnGkp7
- S3V+E1OgM4UDp2ijXiPwTxvb5x/X23N+NRQsTJ6wrtQ7MF1xar01ugxg8JVIga5vuHtt
- EQapkyCoIWiVlU55niDWItnMQjycBO/b6kV4CX3GPUz6dMNFnGdTIrsCRJfVm2ybrLdf
- y/DWjeZpAyibNZrId6OjLyipoBONfLMyXKs18Vmo6ncq7x0wkZa+ZiCDQ3ykC/wUeoKF
- TQpFfiZuVsEMPNw/DilCduphak4xGdB4GPaVLDIZE0i80vY2GETKEVTfnmfykp92kaMR
- KQVw==
+ bh=biCdDG3hgO3jLiBuVTkyAcrTfguva6XGgr+3k3kyQtA=;
+ b=pHnMQq3haUq9GMLZ0ynr5l3syQtI6afCrVEI6lsWXN81GTRcVJy5Cn5+BSQeHOJ4o2
+ 9gZqTfnSpDehgvg/rGF5irUFyjyxfzLmZUR+Eha8hJBP9DuHTmPK6X+ndg4HKd15q1JS
+ sCS+iaTIxAIBXM/d/yqQOcV2Wic1kg1qjTsLdnMCK4uUQ46j9b2c41zHAShKJKRC7/8Q
+ 0/bJav19LeFkkifQi2og+BnCOWIRgDfFEVmcyRgFXmKHggODr+d4k1vSrxLtT5YN9D9D
+ 8xTVooc+6ro8Kz6O+2CSLdhD+hk1I2lefgilIfI61+huZYmAOZXha4ZiAn5QO/KRv+fP
+ Q9dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=8Di3KlCpKKLc83SvAaF4ufqdssAuqHwTNN+eiKiYlTw=;
- b=j0IZXaIoDgl09JG/LNaLoRuYINZcTwZUP8iGLjeNdG6gle8Tk+00n1MhxnDdVZIhsy
- I4z80v6pMWv07oXFsgh7FA3Kppa+jwIqw7va8tOyKPPgBsC29R+yfjjwSBGutk5t408k
- 7H0pxfvokLsLnv0SiMOZCWQ2qL+Ual+T2xi0BoEXcIzQ+gUByyYk8ZhhKVPa5vjjT7xi
- hw4VlNx6S3BGjFy1Qb/tBxtAqDHZzDGCWjKlq/DD1fstdpgox5Wnn2TRbjCwEbAKh9BI
- tRwVZ/G1vtzbqDHOAOAtMJnl730muiqvPJslHkqyJwg+MOjm5ZnupCXMEyxkmnxhr0kj
- 1wiQ==
-X-Gm-Message-State: ACgBeo0Ay0ODtCZf+qHmT4fAC5xeToZh47ycrtGDIp6mjfsdWEy12TXj
- goPgwXkNX3IFso/ZOkWTkFI=
-X-Google-Smtp-Source: AA6agR4O2kdgTkTSTjS3wkx/1NG+MBZqECClAcHMDs/7cRn6A/ixRnTDTJEjOKioFT/ts6fhOTAU2A==
-X-Received: by 2002:a05:6638:d45:b0:340:5c58:51f4 with SMTP id
- d5-20020a0566380d4500b003405c5851f4mr3839718jak.280.1659736495160; 
- Fri, 05 Aug 2022 14:54:55 -0700 (PDT)
+ bh=biCdDG3hgO3jLiBuVTkyAcrTfguva6XGgr+3k3kyQtA=;
+ b=t4+AiNf2V8BtAzoga7bI41pzMVVfdz9D7jA1sX+k/3dZHdKVqP/9OQEPmLEuWfqmmO
+ Kz1YwMDCkik6VyoKwLSGn2y0tIgRowkzESVJxUDeJx9p/SCoF9wZglWTA7Me74C119Q6
+ fj8U99kawyLB5jRgp7L01QACiMHt1zN4XM/UEE8Ep0Yk+W1w7aBR0DbXsJ3CmaDUn8jq
+ 5ZGyIp6o8t/7G8cplsXnC6rQjZnofv5Chr/1RQMGM107Hc8G5IE9OBMX9wQbyGxg1pQ3
+ GAjLzNo1aon87uGZjEwuzMfvwKSj8zIL3i775rrdxhYph2uihwbXn7dOfG9PhVw5XYOH
+ iu3w==
+X-Gm-Message-State: ACgBeo3v+JgqqM38c89X+8jCZ3tMBXnbA76IhglCC5uhPtrksxNydGm3
+ BQJ4y0Q9wLvmtYr4w0Q/x6U=
+X-Google-Smtp-Source: AA6agR7o9yyEcyXzO2ABPft0K9eQpztTLUpOdyg5+NkeVd4bjtaZXLFgtityexVYW5cT+1534AxQqQ==
+X-Received: by 2002:a6b:5f03:0:b0:67b:ef4d:e3ed with SMTP id
+ t3-20020a6b5f03000000b0067bef4de3edmr3759281iob.45.1659736496145; 
+ Fri, 05 Aug 2022 14:54:56 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- e12-20020a056602044c00b0067c09fd0b53sm1765532iov.21.2022.08.05.14.54.54
+ e12-20020a056602044c00b0067c09fd0b53sm1765532iov.21.2022.08.05.14.54.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 14:54:54 -0700 (PDT)
+ Fri, 05 Aug 2022 14:54:55 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-arm-msm@vger.kernel.org
-Subject: [PATCH v5 31/33] nouveau: change nvkm_debug/trace to use dev_dbg POC
-Date: Fri,  5 Aug 2022 15:53:53 -0600
-Message-Id: <20220805215355.3509287-32-jim.cromie@gmail.com>
+Subject: [PATCH v5 32/33] nouveau: adapt NV_DEBUG, NV_ATOMIC to use DRM.debug
+Date: Fri,  5 Aug 2022 15:53:54 -0600
+Message-Id: <20220805215355.3509287-33-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220805215355.3509287-1-jim.cromie@gmail.com>
 References: <20220805215355.3509287-1-jim.cromie@gmail.com>
@@ -77,71 +77,62 @@ Cc: daniel.vetter@ffwll.ch, seanpaul@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These 2 macros formerly used dev_info, and they still check
-subdev->debug to gate the printing.  So dyndbg control is redundant
-ATM (and possibly confusing, since its off by default).
+These 2 macros used drm_debug_enabled() on DRM_UT_{DRIVER,ATOMIC}
+respectively, replace those with drm_dbg_##cat invocations.
 
-prdbg count is up from 3, or from 65 (with VMM_DEBUG here)
+this results in new class'd prdbg callsites:
 
-[    7.765379] dyndbg: 516 debug prints in module nouveau
+:#> grep nouveau /proc/dynamic_debug/control | grep class | wc
+    116    1130   15584
+:#> grep nouveau /proc/dynamic_debug/control | grep class | grep DRIVER | wc
+     74     704    9709
+:#> grep nouveau /proc/dynamic_debug/control | grep class | grep ATOMIC | wc
+     31     307    4237
+:#> grep nouveau /proc/dynamic_debug/control | grep class | grep KMS | wc
+     11     119    1638
 
-Its possible to control error, warn, info callsites too, but they're
-usually on, and the .data overheads on ~450 more callsites (56 bytes
-each) would just be wasted.
-
-$ for l in fatal error warn info debug trace spam; do
-      echo $l; ack nvkm_$l drivers/gpu |wc; done
-fatal
-      3      19     335
-error
-    289    1956   30651
-warn
-     84     513    8860
-info
-     14      88    1502
-debug
-    387    2339   40844
-trace
-     31     219    3368
-spam
-      1       7     123
-
-bash-5.1# echo $(( 516-65-387-31-1 ))
-32
-
-Thats approximate; not accounting #defines and doc/comment mentions.
-
-NOTE: this patch changes the log-level of the macro-issued messages
-from KERN_INFO to KERN_DEBUG.  Adding a .kern_lvl field to struct
-_ddebug could fix that.
-
-RFC: dyndbg & subdev->debug
-
-Separate class-maps for each subdev are possible; except for the
-coordinated use of _base, each is independent, including choice of
-DISJOINT or LEVELS, as long as class-names don't conflict.
-So theres some flexibility.
+the KMS entries are due to existing uses of drm_dbg_kms().
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-index 96113c8bee8c..065d07ccea87 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-@@ -59,8 +59,8 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
- #define nvkm_error(s,f,a...) nvkm_printk((s), ERROR,    err, f, ##a)
- #define nvkm_warn(s,f,a...)  nvkm_printk((s),  WARN, notice, f, ##a)
- #define nvkm_info(s,f,a...)  nvkm_printk((s),  INFO,   info, f, ##a)
--#define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,   info, f, ##a)
--#define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,   info, f, ##a)
-+#define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,    dbg, f, ##a)
-+#define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,    dbg, f, ##a)
- #define nvkm_spam(s,f,a...)  nvkm_printk((s),  SPAM,    dbg, f, ##a)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index b2a970aa9bf4..f266cd6b0405 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -39,6 +39,7 @@
+  */
  
- #define nvkm_error_ratelimited(s,f,a...) nvkm_printk((s), ERROR, err_ratelimited, f, ##a)
+ #include <linux/notifier.h>
++#include <linux/dynamic_debug.h>
+ 
+ #include <nvif/client.h>
+ #include <nvif/device.h>
+@@ -264,13 +265,16 @@ void nouveau_drm_device_remove(struct drm_device *dev);
+ #define NV_WARN(drm,f,a...) NV_PRINTK(warn, &(drm)->client, f, ##a)
+ #define NV_INFO(drm,f,a...) NV_PRINTK(info, &(drm)->client, f, ##a)
+ 
+-#define NV_DEBUG(drm,f,a...) do {                                              \
+-	if (drm_debug_enabled(DRM_UT_DRIVER))                                  \
+-		NV_PRINTK(info, &(drm)->client, f, ##a);                       \
++#define NV_DRMDBG(cat,c,f,a...) do {				\
++	struct nouveau_cli *_cli = (c);				\
++	drm_dbg_##cat(_cli->drm->dev, "%s: "f, _cli->name, ##a); \
+ } while(0)
+-#define NV_ATOMIC(drm,f,a...) do {                                             \
+-	if (drm_debug_enabled(DRM_UT_ATOMIC))                                  \
+-		NV_PRINTK(info, &(drm)->client, f, ##a);                       \
++
++#define NV_DEBUG(drm,f,a...) do {					\
++	NV_DRMDBG(driver, &(drm)->client, f, ##a);			\
++} while(0)
++#define NV_ATOMIC(drm,f,a...) do {					\
++	NV_DRMDBG(atomic, &(drm)->client, f, ##a);			\
+ } while(0)
+ 
+ #define NV_PRINTK_ONCE(l,c,f,a...) NV_PRINTK(l##_once,c,f, ##a)
 -- 
 2.37.1
 
