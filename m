@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA93F58A96F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 12:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF11958A99A
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 12:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19EC6B3391;
-	Fri,  5 Aug 2022 10:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A204B48FB;
+	Fri,  5 Aug 2022 10:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B905B2D94
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 10:04:13 +0000 (UTC)
-X-UUID: 336099e929534db1bed9f65902fd4041-20220805
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=4ymU9UPDzQSPhSijF07ZsK7Ugrt7XPRENnUzEM05VgA=; 
- b=tiPuAgaYGfN8WqBxN8R914aLFzPGbt2F01PMT+Pk5obnwqnp8m8DlgJy4/q4m20rPzHhEpzOSsNj8srmQpiJwQ7QFFbUbGxUKaSw+VxDunQ7I6H75mMkxZ2FCcsfDSR5rpy4/fkvfNVs/4im2A8Uusi1Wcy5tb9en4rqytOzjLI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8, REQID:6e05efe9-c813-4148-a137-e5c164b7bf25, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:0f94e32, CLOUDID:91c4e09b-da39-4e3b-a854-56c7d2111b46,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 336099e929534db1bed9f65902fd4041-20220805
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2122009989; Fri, 05 Aug 2022 18:04:11 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Fri, 5 Aug 2022 18:04:09 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 5 Aug 2022 18:04:09 +0800
-Message-ID: <0afc69a72a4c55b17f8b626d43a08ad56ada64c5.camel@mediatek.com>
-Subject: Re: [PATCH v25 00/10] Add MediaTek SoC(vdosys1) support for mt8195
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
- Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Fri, 5 Aug 2022 18:04:08 +0800
-In-Reply-To: <20220711075245.10492-1-nancy.lin@mediatek.com>
-References: <20220711075245.10492-1-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86AFEB354C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 10:09:50 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id b18so1649980qtq.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 03:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8osKs3XHWs2tJshTy51ciuxCpaj0R2ycT8OfaZIOWNQ=;
+ b=Wux8wYgJ+wtdOYj6/wLNTMNtVsjmK6vhZFf4SpuJ5w5bV7UGZQ1ODQTPVja2hW1nwv
+ QgUs9HzuV1/ZtfI+iJGCQR5A4oz8ElXQKwCIjVPoecshhsQ+d4a9hjiRKIz2+KCoyBQ7
+ 49OwqChszzHDLl7bviXz2rTxmIKZvQAZCz+gU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8osKs3XHWs2tJshTy51ciuxCpaj0R2ycT8OfaZIOWNQ=;
+ b=F5YKKcDgwzZDp0nk3mguTeEhbHr0I3vZi+y1FoRlhhWBkXM6Q4t7jFjv5SvB9kG1Rd
+ o9cvw0VDkhjoCr8tAUpf5Z+YFE1Nq9oDxa3vWQ2/WwX9ase7enZlgFXgJ6d9HM61/wWA
+ 8oGz4GEKtQ7VhGCxDRINKEee5RVhBVAK1N4tl8NC/xxVqwMS6N1evhevjDVrGdbB2n3J
+ EMK0PK6o5IW68LtkejoP0OfRQ4zFtc0Z21fb4wKr6igu7a1Hm1qok1vZC0jFJYV1We31
+ K1F8/vOsjkN5DtXZ4NJ8DdQ+SiL4lYIyEZY/Oo4URGCweODvuSyaH7o8PM0ddoN5aFWK
+ XI6w==
+X-Gm-Message-State: ACgBeo0xsDhnSsrCGIvL6I2l3SJ3v//OBdB2JWECqyZePkmVo6j2Y/yH
+ LqA7ZHQQRYASbQVxjknf6gncl9449WmGFw==
+X-Google-Smtp-Source: AA6agR6tn1I/M4bO5Ash30sGRCvWjkiqABNc+x8DgfebWl78JMR9i3MCCruIL9RzhY2So2CYzploUg==
+X-Received: by 2002:ac8:7d12:0:b0:31f:228d:89cb with SMTP id
+ g18-20020ac87d12000000b0031f228d89cbmr5034541qtb.287.1659694188766; 
+ Fri, 05 Aug 2022 03:09:48 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
+ [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
+ d19-20020a05620a241300b006a6ab259261sm2844502qkn.29.2022.08.05.03.09.47
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Aug 2022 03:09:48 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 199so3068261ybl.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Aug 2022 03:09:47 -0700 (PDT)
+X-Received: by 2002:a05:6902:1382:b0:66f:f9fe:79d6 with SMTP id
+ x2-20020a056902138200b0066ff9fe79d6mr4625654ybu.493.1659694187287; Fri, 05
+ Aug 2022 03:09:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
+ <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
+In-Reply-To: <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Fri, 5 Aug 2022 19:09:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
+Message-ID: <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
+Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
+ memory runtine
+To: ayaka <ayaka@soulik.info>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,234 +75,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan
- Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
+ Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
+ christian.koenig@amd.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-07-11 at 15:52 +0800, Nancy.Lin wrote:
-> The hardware path of vdosys1 with DPTx output need to go through by
-> several modules, such as, OVL_ADAPTOR and MERGE.
-> 
-> Add mmsys and mutex modules support by the patches below:
-> 
-> Changes in v25:
-> - fix reviewer comment
->   - refine mtk_mmsys_reset_update func
-> - rebase to next-20220708
-> 
-> Changes in v24:
-> - fix reviewer comment
->   - refine mtk_mmsys_reset_update func
-> - rebase to next-20220622
-> 
-> Changes in v23:
-> - separate[7] mmsys/mutex and drm patches into two series
-> 
-> Changes in v22:
-> - rebase to next-20220525
-> - rebase to vdosys0 series v22
-> - separate dts to a new patch
-> 
-> Changes in v21:
-> - fix reviewer comment
->   - fix rdma and ethdr binding doc and dts
-> 
-> Changes in v20:
-> - fix reviewer comment
->   - update mmsys update bit api name
->   - add mtk_mmsys_update_bits error message if lose gce property
->   - list all mt8195 vdosys1 reset bits
-> 
-> Changes in v19:
-> - fix reviewer comment
->   - separate mt8195 mmsys component to a new patch
->   - separate mt8195 vdo0 and vdo1 routing table
->   - separate mmsys_write_reg api to a new patch and simplify write
-> reg code
->   - separate mmsys 64 bit reset to a new patch
->   - separate mtk-mutex dp_intf1 component to a new patch
-> 
-> Changes in v18:
-> - fix reviewer comment
->   - fix rdma binding doc
->   - fix ethdr binding doc
->   - refine mmsys config cmdq support
->   - refine merge reset control flow, get reset control in probe
-> function
->   - add ethdr reset control error handling and remove dbg log
-> - rebase to vdosys0 series v20 (ref [5])
-> 
-> Changes in v17:
-> - fix reviewer comment in v16
->   - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
->   - separate mmsys config API
->   - move mdp_rdma binding yaml
-> - fix ovl adaptor pm runtime get sync timing issue
-> - rebase to vdosys0 series v19 (ref [5])
-> - rebase to [7] for modify vblank register change
-> 
-> Changes in v16:
-> - fix reviewer comment in v 15
->   - fix mtk_drm_ddp_comp.c alignment
->   - fix vdosys0 mmsys num before adding vdosys1 patch
-> 
-> Changes in v15:
-> - fix ethdr uppercase hex number in dts
-> 
-> Changes in v14:
-> - remove MTK_MMSYS 64 bit dependency
-> - add ethdr.yaml back and fix dt_schema check fail
-> 
-> Resend v13
-> - add related maintainer in maillist
-> 
-> Changes in v13:
-> - fix reviewer comment in v12
->   - fix rdma dt-binding format
->   - fix dts node naming
-> - fix 32 bit build error
->   - modify 64bit dependency for mtk-mmsys
-> - rebase to vdosys0 series v16. (ref [5])
-> 
-> Changes in v12:
-> - fix reviewer comment in v11
->   - modify mbox index
->   - refine dma dev for ovl_adaptor sub driver
-> 
-> Changes in v11:
-> - remove ethdr vblank spin lock
-> - refine ovl_adaptor print message
-> 
-> Changes in v10:
-> - refine ethdr reset control using
-> devm_reset_control_array_get_optional_exclusive
-> - fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
-> 
-> Changes in v9:
-> - rebase on kernel-5.16-rc1
-> - rebase on vdosys0 series v13. (ref [5])
-> - fix ovl_adaptor sub driver is brought up unintentionally
-> - fix clang build test fail- duplicate ethdr/mdp_rdma
-> init_module/cleanup_module symbol issue 
-> 
-> Changes in v8:
-> - separate merge async reset to new patch.
-> - separate drm ovl_adaptor sub driver to new patch.
-> - fix reviewer comment in v7.
-> 
-> Changes in v7:
-> - rebase on vdosys0 series v12 (ref[5])
-> - add dma description in ethdr binding document.
-> - refine vdosys1 bit definition of mmsys routing table.
-> - separate merge modification into 3 pathces.
-> - separate mutex modification into 2 patches.
-> - add plane color coding for mdp_rdma csc.
-> - move mdp_rdma pm control to ovl_adaptor.
-> - fix reviewer comment in v6.
-> 
-> Changes in v6:
-> - rebase on kernel-5.15-rc1.
-> - change mbox label to gce0 for dts node of vdosys1.
-> - modify mmsys reset num for mt8195.
-> - rebase on vdosys0 series v10. (ref [5])
-> - use drm to bring up ovl_adaptor driver.
-> - move drm iommu/mutex check from kms init to drm bind.
-> - modify rdma binding doc location.
-> (Documentation/devicetree/bindings/arm/)
-> - modify for reviewer's comment in v5.
-> 
-> Changes in v5:
-> - add mmsys reset controller reference.
-> 
-> Changes in v4:
-> - use merge common driver for merge1~4.
-> - refine ovl_adaptor rdma driver.
-> - use ovl_adaptor ddp_comp function instead of ethdr.
-> - modify for reviewer's comment in v3.
-> 
-> Changes in v3:
-> - modify for reviewer's comment in v2.
-> - add vdosys1 2 pixels align limit.
-> - add mixer odd offset support.
-> 
-> Changes in v2:
-> - Merge PSEUDO_OVL and ETHDR into one DRM component.
-> - Add mmsys config API for vdosys1 hardware setting.
-> - Add mmsys reset control using linux reset framework.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> 
-> This series are based on the following patch:
-> [1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
->     20220112114724.1953-4-tinghan.shen@mediatek.com
-> [2] arm64: dts: mt8195: add IOMMU and smi nodes
->     20210615173233.26682-15-tinghan.shen@mediatek.com
-> [3] arm64: dts: mt8195: add gce node
->     20220126090109.32143-1-jason-jh.lin@mediatek.com
-> [4] [v2] arm64: dts: mt8195: add display node for vdosys0
->     20220225021535.2655-1-jason-jh.lin@mediatek.com
-> [5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
->     20220526102126.19756-1-jason-jh.lin@mediatek.com
-> [6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
->     20220407075726.17771-2-yong.wu@mediatek.com
-> [7] Add MediaTek SoC DRM (vdosys1) support for mt8195
->     20220526110233.20080-1-nancy.lin@mediatek.com
-> 
-> Nancy.Lin (10):
->   dt-bindings: reset: mt8195: add vdosys1 reset control bit
->   soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
->   soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
->   soc: mediatek: add mtk_mmsys_update_bits API
->   soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
->   soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
->     vdosys1
->   soc: mediatek: mmsys: add mmsys for support 64 reset bits
->   soc: mediatek: mmsys: add reset control for MT8195 vdosys1
->   soc: mediatek: add mtk-mutex component - dp_intf1
->   soc: mediatek: add mtk-mutex support for mt8195 vdosys1
-> 
->  drivers/soc/mediatek/mt8195-mmsys.h       | 146
-> ++++++++++++++++++++++
->  drivers/soc/mediatek/mtk-mmsys.c          | 132 ++++++++++++++-----
->  drivers/soc/mediatek/mtk-mmsys.h          |   1 +
->  drivers/soc/mediatek/mtk-mutex.c          |  37 ++++++
->  include/dt-bindings/reset/mt8195-resets.h |  45 +++++++
->  include/linux/soc/mediatek/mtk-mmsys.h    |  25 ++++
->  6 files changed, 355 insertions(+), 31 deletions(-)
-> 
+On Tue, Aug 2, 2022 at 9:21 PM ayaka <ayaka@soulik.info> wrote:
+>
+> Sorry, the previous one contains html data.
+>
+> > On Aug 2, 2022, at 3:33 PM, Tomasz Figa <tfiga@chromium.org> wrote:
+> >
+> > =EF=BB=BFOn Mon, Aug 1, 2022 at 8:43 PM ayaka <ayaka@soulik.info> wrote=
+:
+> >> Sent from my iPad
+> >>>> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote:
+> >>> =EF=BB=BFCAUTION: Email originated externally, do not click links or =
+open attachments unless you recognize the sender and know the content is sa=
+fe.
+> >>>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> =
+wrote:
+> >>>>> On 8/1/22 14:19, Tomasz Figa wrote:
+> >>>> Hello Tomasz
+> >>>>> ?Hi Randy,
+> >>>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
+> >>>>>> From: Randy Li <ayaka@soulik.info>
+> >>>>>> This module is still at a early stage, I wrote this for showing wh=
+at
+> >>>>>> APIs we need here.
+> >>>>>> Let me explain why we need such a module here.
+> >>>>>> If you won't allocate buffers from a V4L2 M2M device, this module
+> >>>>>> may not be very useful. I am sure the most of users won't know a
+> >>>>>> device would require them allocate buffers from a DMA-Heap then
+> >>>>>> import those buffers into a V4L2's queue.
+> >>>>>> Then the question goes back to why DMA-Heap. From the Android's
+> >>>>>> description, we know it is about the copyright's DRM.
+> >>>>>> When we allocate a buffer in a DMA-Heap, it may register that buff=
+er
+> >>>>>> in the trusted execution environment so the firmware which is runn=
+ing
+> >>>>>> or could only be acccesed from there could use that buffer later.
+> >>>>>> The answer above leads to another thing which is not done in this
+> >>>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
+> >>>>>> responses a IOMMU device as well. For the genernal purpose, we wou=
+ld
+> >>>>>> be better assuming the device mapping should be done for each devi=
+ce
+> >>>>>> itself. The problem here we only know alloc_devs in those DMAbuf
+> >>>>>> methods, which are DMA-heaps in my design, the device from the que=
+ue
+> >>>>>> is not enough, a plane may requests another IOMMU device or table
+> >>>>>> for mapping.
+> >>>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
+> >>>>>> ---
+> >>>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
+> >>>>>> drivers/media/common/videobuf2/Makefile       |   1 +
+> >>>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++=
+++++
+> >>>>>> include/media/videobuf2-dma-heap.h            |  30 ++
+> >>>>>> 4 files changed, 387 insertions(+)
+> >>>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-he=
+ap.c
+> >>>>>> create mode 100644 include/media/videobuf2-dma-heap.h
+> >>>>> First of all, thanks for the series.
+> >>>>> Possibly a stupid question, but why not just allocate the DMA-bufs
+> >>>>> directly from the DMA-buf heap device in the userspace and just imp=
+ort
+> >>>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
+> >>>> Sometimes the allocation policy could be very complex, let's suppose=
+ a
+> >>>> multiple planes pixel format enabling with frame buffer compression.
+> >>>> Its luma, chroma data could be allocated from a pool which is delega=
+ted
+> >>>> for large buffers while its metadata would come from a pool which ma=
+ny
+> >>>> users could take some few slices from it(likes system pool).
+> >>>> Then when we have a new users knowing nothing about this platform, i=
+f we
+> >>>> just configure the alloc_devs in each queues well. The user won't ne=
+ed
+> >>>> to know those complex rules.
+> >>>> The real situation could be more complex, Samsung MFC's left and rig=
+ht
+> >>>> banks could be regarded as two pools, many devices would benefit fro=
+m
+> >>>> this either from the allocation times or the security buffers policy=
+.
+> >>>> In our design, when we need to do some security decoding(DRM video),
+> >>>> codecs2 would allocate buffers from the pool delegated for that. Whi=
+le
+> >>>> the non-DRM video, users could not care about this.
+> >>> I'm a little bit surprised about this, because on Android all the
+> >>> graphics buffers are allocated from the system IAllocator and importe=
+d
+> >>> to the specific devices.
+> >> In the non-tunnel mode, yes it is. While the tunnel mode is completely=
+ vendor defined. Neither HWC nor codec2 cares about where the buffers comin=
+g from, you could do what ever you want.
+> >> Besides there are DRM video in GNU Linux platform, I heard the webkit =
+has made huge effort here and Playready is one could work in non-Android Li=
+nux.
+> >>> Would it make sense to instead extend the UAPI to expose enough
+> >>> information about the allocation requirements to the userspace, so it
+> >>> can allocate correctly?
+> >> Yes, it could. But as I said it would need the users to do more works.
+> >>> My reasoning here is that it's not a driver's decision to allocate
+> >>> from a DMA-buf heap (and which one) or not. It's the userspace which
+> >>> knows that, based on the specific use case that it wants to fulfill.
+> >> Although I would like to let the users decide that, users just can=E2=
+=80=99t do that which would violate the security rules in some platforms.
+> >> For example,  video codec and display device could only access a regio=
+n of memory, any other device or trusted apps can=E2=80=99t access it. User=
+s have to allocate the buffer from the pool the vendor decided.
+> >> So why not we offer a quick way that users don=E2=80=99t need to try a=
+nd error.
+> >
+> > In principle, I'm not against integrating DMA-buf heap with vb2,
+> > however I see some problems I mentioned before:
+> >
+> > 1) How would the driver know if it should allocate from a DMA-buf heap =
+or not?
+>
+> struct vb2_queue.mem_ops
+>
+> int (*queue_setup)(struct vb2_queue *q,unsigned int *num_buffers, unsigne=
+d int *num_planes, unsigned int sizes[], struct device *alloc_devs[]);
 
-Hello Matthias,
+Sorry, I don't understand what you mean here.
 
-This series is about mmsys configuration of external display path.
+Just to make sure we're on the same page - what I'm referring to is
+that whether DMA-buf heap is used or not is specific to a given use
+case, which is controlled by the userspace. So the userspace must be
+able to control whether the driver allocates from a DMA-buf heap or
+the regular way.
 
-It is in version *25*, and it is reviewed by many reviewers, like CK
-and Angelo.
-The reset.h is also reviewed by Krzysztof.
+>
+> > 2) How would the driver know which heap to allocate from?
+>
+> From vb2_queue.alloc_devs
+>
+> What I did now is likes what MFC does, create some mem_alloc_devs.
+> It would be better that we could retrieve the DMA-heaps=E2=80=99 devices =
+from kernel, but that is not enough, we need a place to store the heap flag=
+s although none of them are defined yet.
+>
+> From Android documents, I think it is unlikely we would have heap flags.
+> =E2=80=9CStandardization: The DMA-BUF heaps framework offers a well-defin=
+ed UAPI. ION allowed custom flags and heap IDs that prevented developing a =
+common testing framework because each device=E2=80=99s ION implementation c=
+ould behave differently.=E2=80=9D
+>
 
-This series is also well tested by Rex-BC and Angelo.
-Rex tested this series with modetest successfully using 5.19-rc2
-mainline
-kernel with dp/dpintf/dp phy series.([1])
+alloc_devs is something that the driver sets and it's a struct device
+for which the DMA API can be called to manage the DMA buffers for this
+video device. It's not a way to select a use case-dependent allocation
+method.
 
-Could you kindly take a look for this series and give us some comments
-or feedback? We really need this series being accepted.
+> > 3) How would the heap know how to allocate properly for the device?
+> >
+> Because =E2=80=9Ceach DMA-BUF heap is a separate character device=E2=80=
+=9D.
 
-Thanks for your big support!
+Could you elaborate? Sorry, I'm not sure how this answers my question.
 
-[1]:
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=654074
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=653448
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=653410
+> But as I said in the first draft I am not sure about the DMA mapping part=
+. alloc_devs responds for the heap, we have a device variable in the queue =
+that mapping function could access, but that may not be enough. A plane may=
+ apply a different mapping policy or IOMMU here.
+>
+> Would it be better that I create a interface here that creating a memdev =
+with DMA-heap description ?
 
-BRs,
-Nancy
+My intuition still tells me that it would be universally better to
+just let the userspace allocate the buffers independently (like with
+gralloc/Ion) and import to V4L2 using V4L2_MEM_DMABUF. It was possible
+to do things this way nicely with regular Android graphics buffers, so
+could you explain what difference of your use case makes it
+impossible?
 
-
+Best regards,
+Tomasz
