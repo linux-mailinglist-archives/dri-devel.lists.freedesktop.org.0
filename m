@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8E458ADF8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 18:20:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B14958AE5F
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Aug 2022 18:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC8EB7CB9;
-	Fri,  5 Aug 2022 16:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CDDBB87C3;
+	Fri,  5 Aug 2022 16:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED4E7B7D74;
- Fri,  5 Aug 2022 16:17:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 80B5DB80B20;
- Fri,  5 Aug 2022 16:17:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44AC7C43140;
- Fri,  5 Aug 2022 16:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659716223;
- bh=8grFLuwlQy0Ot8AOJ3yQKp3FjPtqCsWnDxEz8xLu22U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=S1Zay7+AGgZcUCq7wrx5A/C0aep+dKgB5hcEjFtW4tftu/80/B6Q8OcvcwNhq+Otu
- o222N5h+m/UXeaeDBok542Ri8zeZAGBgaLJ+Y31oeXxv6WUrdkg5fE5gyoBtFjQtmk
- slz8VGRuiJsttzZCXh9Z0zJADXe35fRHrOy/k/qhXYgTTneYaN95kk+9Al5yDGJa6w
- 7yBzHnwUTcOdXpHxuzYOeTY70INSOjkjzzKg/g7OxKzY1RXLJ0KNZiLIBF+/1WJDjV
- Qyd4zMIPm7hw9L2O/QptByvsMheDELqbCm0et8wP2oNga9unCv5w1R9iOgczug9GBK
- SAZ8bzhOxoZvQ==
-Received: by mail-ej1-f54.google.com with SMTP id dc19so5793851ejb.12;
- Fri, 05 Aug 2022 09:17:03 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3d0RY/b49gi8gq1I9fYAoyq155L8kPcCu28MtYpw+HuNrgxWKn
- pbFblXG0FXevfeXDY2wi5wKZUN1SFzwA0K4kRdk=
-X-Google-Smtp-Source: AA6agR4R1JzUUmCUe4J6toqC9u62zKSlRPtv5bfElt/h5Y16RKiwaSKXI4eB4mnRJZxJJ+hBT4gy7eHrda+QQm1kO9Q=
-X-Received: by 2002:a17:907:28d6:b0:731:5d0:4401 with SMTP id
- en22-20020a17090728d600b0073105d04401mr1753624ejc.765.1659716221514; Fri, 05
- Aug 2022 09:17:01 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE4D1B8801
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Aug 2022 16:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1659718077;
+ bh=BwxgXFyMoX6LG4RcXS/FAfwlY+oHnVTND2orTGFFzTg=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=VY4XvpIbVvbOGQNhkoQViFXEx1DZaUvp6CDdqM9Z8ieXT/ri0Aas/wsOqzvzjYKhW
+ wGWlmGB1bYJI1eR9QI4KDJ3aWyAg7Yxw6H7FN45lSVGBJ581oJ5446zPxHrRwFNSx9
+ c9Hx+f3QACVCuV2XUQCsev9DWfiirimdssBJdcaw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.139.128]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJVHU-1o08Bh2wEC-00JuGH; Fri, 05
+ Aug 2022 18:47:57 +0200
+Message-ID: <98c1755d-5b67-70f7-c569-431e650ece70@gmx.de>
+Date: Fri, 5 Aug 2022 18:47:07 +0200
 MIME-Version: 1.0
-References: <YuwRyQYPCb1FD+mr@debian>
- <CAHk-=whptVSSZL=wSUQJdRBeVfS+Xy_K4anQ7eQOky7XUrXhUQ@mail.gmail.com>
- <CAK8P3a2bEaExue0OtNeLa2CVzBx-1dE9w2HZ2PAV5N8Ct9G=JQ@mail.gmail.com>
- <YuwvfsztWaHvquwC@dev-arch.thelio-3990X>
- <9fb73284-7572-5703-93d3-f83a43535baf@amd.com>
-In-Reply-To: <9fb73284-7572-5703-93d3-f83a43535baf@amd.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 5 Aug 2022 18:16:45 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3Fv=_+GV9r=k4jP72zZOjJowL-GOue-51EhyVDBaEfEw@mail.gmail.com>
-Message-ID: <CAK8P3a3Fv=_+GV9r=k4jP72zZOjJowL-GOue-51EhyVDBaEfEw@mail.gmail.com>
-Subject: Re: mainline build failure for x86_64 allmodconfig with clang
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/3] Fix bugs in *_set_par() caused by user input
+Content-Language: en-US
+To: Zheyu Ma <zheyuma97@gmail.com>, adaplas@gmail.com,
+ santiago@crfreenet.org, akpm@linux-foundation.org
+References: <20220804124125.3506755-1-zheyuma97@gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220804124125.3506755-1-zheyuma97@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:k9hWd321fIJId4w8JA+DmGPit3IfSkp0j0DDxrSaFTDDz5RI90+
+ rgYRcegevBKruvpsas6YTNL7Sd/n5FS79ygEB8ZjRG1Irc6fe/UruUExSw6XHsBnIcjCFhE
+ mNWteMGBNNBGslWubvmFTWBCXvw5wcK8Zb1F1A0QZWgrGN3s9QkBiQAZpxcmn1iz7E65bQT
+ 3i+DL97ehXko+KCj9jU0Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:flE13ZOQYvs=:2QDXygMtVdgKv5Y2vuUzR0
+ M5KIRzzFTezbFLNsDpJQ5LG+juFdRUQgvBjsRGWPtRO5tkuWCV1vg82Sik9gsmFgl2EV8wJYf
+ yxv0RYGeY1WZ+Z/puTueVm8i52U6XY5b816czI9oJqdfa5Kxe6TyXOid+nYtZhBGmQBZS7J2y
+ 6FYcbcZszrYilAwRCd41jM2/irzI6ahtpDj2Vk+6AVLFA3TyryTZwbZJx0qHEE6yUXeJgth6t
+ CKEJCKLyZzk6pk8ZZTIAMAHORcVpoiP4ZtKRLxoMSfoqOEdITacEDsRudb7T8XqkmaXRnlqDs
+ DcGnLFCXn5vqz5OVvSyTRpz7h5wq0bIy9n2hqx/U78qmSZf+ixIWct2roQbnd+aQJVZTwd5FE
+ g88nuB1U9s5gRv9KRRqAsm/moGG4QGQbRPYB+LwxQNGNT7psUu8B0xX42IUz2BRiDa88+oTMF
+ d3f1sMVMyOZiLuyG+jkf6GNXsCE7kflIlzTa/y7VJ+7fwIn/GlYhke2L1izcfqWu1S6+0uJc6
+ VG7tW2i6z5b1C2uia0IW656WOleUh6UiBuM7hNKwgZqfQpv/mIlQ+joI3NEK11bV3ezv74XCL
+ d4PrCa/BJ85hXp5ahUSl8qZtGGcvLz8RqkKOx23fSIdutWcGdGur3I0ED5c2XDmY3l6PtVhK/
+ NtOk0Bse+3UnkCPQqTd5AW/s5kZBD4qB/HDjrPMosRtmwg8uPuSCXKw82yWa9p854y2G44NYH
+ M/8RPpmlzneK//ZCxm9QgFKW3yK9KBQ7n/eswO029z5R65YZq9UeHyl2Yl/s1RU0vaVEaQGmX
+ XgwfeBtqcvO2LBNzdS7yQFjXUy1jsUveUvMQPH3S81kfw03VGAHh5IXVOfsjP1t25kX1GEBYH
+ zEmnwdbKHIFl6QzDGds40n/GYHCzAVlt2k82MT20zohKYSwMuCUbnIdoCEfcSFzvgks/VtAo+
+ 0fzzvznvlnqiBUPvMR5OOxPKvwRsajZpaQJQLM4vsN6jv7pgzzQxb86qyTU+QHp7QLU3/rUzf
+ Y87R3BluQnWr4zfzxLlfOSukmkGMxZZZu64SYXGaV9kuX4BUOW5N5LwoaIRlTEetj74czxAPZ
+ pZex8fmT9uFxIv00ASynq8Nws47fX20o8HUE1d8qYxeqvkvuJFWr8ifxQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,96 +71,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- clang-built-linux <llvm@lists.linux.dev>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Sudip Mukherjee \(Codethink\)" <sudipm.mukherjee@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 5, 2022 at 5:32 PM Harry Wentland <harry.wentland@amd.com> wrote:
-> > I do notice that these files build with a non-configurable
-> > -Wframe-large-than value:
-> >
-> > $ rg frame_warn_flag drivers/gpu/drm/amd/display/dc/dml/Makefile
-> > 54:frame_warn_flag := -Wframe-larger-than=2048
+On 8/4/22 14:41, Zheyu Ma wrote:
+> In the function *_set_par(), the value of 'screen_size' is
+> calculated by the user input. If the user provides the improper value,
+> the value of 'screen_size' may larger than 'info->screen_size', which
+> may cause a bug in the memset_io().
 >
-> Tbh, I was looking at the history and I can't find a good reason this
-> was added. It should be safe to drop this. I would much rather use
-> the CONFIG_FRAME_WARN value than override it.
+> Zheyu Ma (3):
+>   video: fbdev: vt8623fb: Check the size of screen before memset_io()
+>   video: fbdev: arkfb: Check the size of screen before memset_io()
+>   video: fbdev: s3fb: Check the size of screen before memset_io()
+
+applied all 3 patches to fbdev git tree.
+
+Thanks!
+Helge
+
 >
-> AFAIK most builds use 2048 by default anyways.
-
-I'm fairly sure this was done for 32-bit builds, which default to a lower
-warning limit of 1024 bytes and would otherwise run into this
-problem when 64-bit platforms don't. With the default warning limit,
-clang warns even more about an i386 build:
-
-display/dc/dml/dcn20/display_rq_dlg_calc_20.c:1549:6: error: stack
-frame size (1324) exceeds limit (1024) in 'dml20_rq_dlg_get_dlg_reg'
-display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:1550:6: error: stack
-frame size (1324) exceeds limit (1024) in 'dml20v2_rq_dlg_get_dlg_reg'
-display/dc/dml/dcn30/display_rq_dlg_calc_30.c:1742:6: error: stack
-frame size (1484) exceeds limit (1024) in 'dml30_rq_dlg_get_dlg_reg'
-display/dc/dml/dcn31/display_rq_dlg_calc_31.c:1571:6: error: stack
-frame size (1548) exceeds limit (1024) in 'dml31_rq_dlg_get_dlg_reg'
-display/dc/dml/dcn21/display_rq_dlg_calc_21.c:1657:6: error: stack
-frame size (1388) exceeds limit (1024) in 'dml21_rq_dlg_get_dlg_reg'
-display/dc/dml/dcn32/display_rq_dlg_calc_32.c:206:6: error: stack
-frame size (1276) exceeds limit (1024) in 'dml32_rq_dlg_get_dlg_reg'
-display/dc/dml/dcn31/display_mode_vba_31.c:2049:13: error: stack frame
-size (1468) exceeds limit (1024) in
-'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation'
-display/dc/dml/dcn20/display_mode_vba_20v2.c:1145:13: error: stack
-frame size (1228) exceeds limit (1024) in
-'dml20v2_DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation'
-display/dc/dml/dcn20/display_mode_vba_20.c:1085:13: error: stack frame
-size (1340) exceeds limit (1024) in
-'dml20_DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation'
-display/dc/dml/dcn31/display_mode_vba_31.c:3908:6: error: stack frame
-size (1996) exceeds limit (1024) in
-'dml31_ModeSupportAndSystemConfigurationFull'
-display/dc/dml/dcn21/display_mode_vba_21.c:1466:13: error: stack frame
-size (1308) exceeds limit (1024) in
-'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation'
-display/dc/dml/dcn20/display_mode_vba_20v2.c:3393:6: error: stack
-frame size (1356) exceeds limit (1024) in
-'dml20v2_ModeSupportAndSystemConfigurationFull'
-display/dc/dml/dcn20/display_mode_vba_20.c:3286:6: error: stack frame
-size (1468) exceeds limit (1024) in
-'dml20_ModeSupportAndSystemConfigurationFull'
-display/dc/dml/dcn21/display_mode_vba_21.c:3518:6: error: stack frame
-size (1228) exceeds limit (1024) in
-'dml21_ModeSupportAndSystemConfigurationFull'
-display/dc/dml/dcn30/display_mode_vba_30.c:1906:13: error: stack frame
-size (1436) exceeds limit (1024) in
-'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation'
-display/dc/dml/dcn30/display_mode_vba_30.c:3596:6: error: stack frame
-size (2092) exceeds limit (1024) in
-'dml30_ModeSupportAndSystemConfigurationFull'
-> > I do note that commit 1b54a0121dba ("drm/amd/display: Reduce stack size
-> > in the mode support function") did have a workaround for GCC. It appears
-> > clang will still inline mode_support_configuration(). If I mark it as
-> > 'noinline', the warning disappears in that file.
+>  drivers/video/fbdev/arkfb.c    | 2 ++
+>  drivers/video/fbdev/s3fb.c     | 2 ++
+>  drivers/video/fbdev/vt8623fb.c | 2 ++
+>  3 files changed, 6 insertions(+)
 >
-> That'd be the best quick fix. I guess if we split out functions to fix
-> stack usage we should mark them as 'noinline' in the future to avoid
-> agressive compiler optimizations.
 
-While splitting out sub-functions can help reduce the maximum stack
-usage, it seems that in this case it makes the actual problem worse:
-I see 2168 bytes for the combined
-dml32_ModeSupportAndSystemConfigurationFull(), but marking
-mode_support_configuration() as noinline gives me 1992 bytes
-for the outer function plus 384 bytes for the inner one. So it does
-avoid the warning (barely), but not the problem that the warning tries
-to point out.
-
-        Arnd
