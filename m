@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010EC58B6F8
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Aug 2022 18:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB4958B6FD
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Aug 2022 18:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D60F10F685;
-	Sat,  6 Aug 2022 16:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4203310F158;
+	Sat,  6 Aug 2022 16:36:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5302F10F475
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Aug 2022 16:34:01 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id g14so2722670ile.11
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Aug 2022 09:34:01 -0700 (PDT)
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B96B112F51
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Aug 2022 16:34:18 +0000 (UTC)
+Received: by mail-io1-xd2d.google.com with SMTP id n207so666821iod.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Aug 2022 09:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=CrJZA7OyrjgVNT2yluOnXy9DkAQBVd94845d/Gv6tLM=;
- b=BBnD1fZYV9L2qmB93O8uuBM7b56i/6rpHB39Gt4NkxShp0AsrpWMBGl/hy/vBshktb
- uqT7gsS2icCt8SfpYN2cW6sPvBtB/02bOxI5UVcvvsI/8/XBDUx7U4iufh68Zr1Vyx0U
- XvNmYYOCkUDsh5TTrbb9bEEjDI+H/1OLOc0H1OlLUGHf9BtWfGLsiDMZMr/jTUTb0gmn
- yGOy1qm7kpSH4/DUDZ1T6G81Bd6zON/uxEygpVzX3b1VL4aJi8ob277QNJZpYb1V0xo0
- pf/bRHA4vutnBu8e7AerEFWX2zS+hrsbt2OeIkRRfDjTTVllZumPKga35ZYUcjwZIZp7
- aOig==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=SaUBoqntZ3xpwrUzgeOy0DwQIiOjlZNYBHlnYS80ldA=;
+ b=ALOJApgiU1Bu3FBCE6WOR5MxyhMFROfvC2N4q2QgxbdLU8q5Oz6ouEKcxRaLJXRvm2
+ u4X1wlQszDadkFj1NVcSc2LBAot93rNmccBTeeZQvnjT5sFyawYLZxOiiFGCx1qHtA9Y
+ rt2WpaBNi9ispLb4kU+UPMPeTIV52hJ68eHHc3jHHpnROX/dDCvv3NyGJRDuCmErtkZF
+ fM9CZacWKhb8Gdr7qb62NorcVrVZgfgxa/qI5WaUTQLuJ5MoLskJKQO91Zovgdc/LhZJ
+ QxyoAryeDy01p1QYDyvYi7bHwzQyCWOQ+/vR82/J9aUf/tInw8ceycHXAF2AV7MJUHM3
+ 0sXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=CrJZA7OyrjgVNT2yluOnXy9DkAQBVd94845d/Gv6tLM=;
- b=QYsVKoSZl3iZI7cnU/q8m4whbQb2pxCnzd1EsjI3Ml21t8vCLKqKx8fLIpvqd7FBDY
- xefLj+ca5hhHnK2T76jSNRR1jUkZM1bibfXKWiDerppUh2pqAXPTCBisVYHYtUhscmpp
- kpHHTZ8KByVsCUSyanFKRtp5PBKKr+Zku0+LGGvxsbLk6gA5b8ZRCakvB9z317R61HJV
- yHym1GSMFL3vhrC2tDfp7OFlBtjn4Lot3zpuyuPuEnJaqjjNtgi0RimQm60JL4QxwD9B
- w5q7NT/FMb6IUPOeUXk4Snf2p1gSjCPmnICAjJNsrvbQLyKorObetqIma+i29DgbQ4d9
- LO8A==
-X-Gm-Message-State: ACgBeo0Pyc6whfyz8dkNOOv1tL+CXWjJhlxxMovtkVuoI5uxT0Io5Z5q
- aRXLXjV9Y/Zp5SLqNEmHd4Q=
-X-Google-Smtp-Source: AA6agR4ik2yLjyl4JGzH05jPebblOZOGEbVYo9YxyJpbB8q+HpxUbT/8PJmzG5GbANnhrZXBdyKDhQ==
-X-Received: by 2002:a05:6e02:1a61:b0:2e0:c417:4cb0 with SMTP id
- w1-20020a056e021a6100b002e0c4174cb0mr1025014ilv.186.1659803640515; 
- Sat, 06 Aug 2022 09:34:00 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=SaUBoqntZ3xpwrUzgeOy0DwQIiOjlZNYBHlnYS80ldA=;
+ b=Pmd7SEPJPyvuTYe2EPTCL1l/olXLf7/az8n4iGrE6GQFHQw7/CgFG1PRErsSnmO9Gp
+ pbAY4syLsMxfM5up+VPMyLCI9dqyy+aJjop/X/AEI6yt8dNMjcv9K6wxlnizlZuqzr2g
+ IUEVQfM2S+ka2FWcphetuDmAbZRPrMcsMXenF/z7MUqAOgA71/9CBXlZrDYu8hf4pAB5
+ 8mHhKLBEi7tWwLULRZOMe6F4NwlVPjuklQP0BT7LkihkccQYo28Ez2O861xzZyJ9aLi4
+ ia8Gnm3PGG92WageYM0GhiiZF9gBVJGUsKeRy+Cluh3BNHn1UedKKQkVRtfikfNBDeMO
+ OdUw==
+X-Gm-Message-State: ACgBeo1Q78xDcd1cIi58yzSkaThiglPhlINhoMmHcRmzs4qfkfrnKxtd
+ sgPQZ+f5zcWRL9uAhJzVzD0=
+X-Google-Smtp-Source: AA6agR7DiKfCMvxm+CA/RzSBpZzX9VjXHcm3LmI4qDSBMzjn4WzFx9p3rf/PMs3V8fkzCvhnxs8qUg==
+X-Received: by 2002:a05:6602:2c01:b0:65d:d998:680c with SMTP id
+ w1-20020a0566022c0100b0065dd998680cmr4791990iov.132.1659803657459; 
+ Sat, 06 Aug 2022 09:34:17 -0700 (PDT)
 Received: from nergzd-desktop.localdomain (tor-exit-50.for-privacy.net.
  [185.220.101.50]) by smtp.gmail.com with ESMTPSA id
- a20-20020a056e020e1400b002de6fa0d0c0sm2908009ilk.63.2022.08.06.09.33.50
+ a20-20020a056e020e1400b002de6fa0d0c0sm2908009ilk.63.2022.08.06.09.34.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Aug 2022 09:34:00 -0700 (PDT)
+ Sat, 06 Aug 2022 09:34:17 -0700 (PDT)
 From: Markuss Broks <markuss.broks@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/3] Add generic framebuffer support to EFI earlycon driver
-Date: Sat,  6 Aug 2022 19:32:21 +0300
-Message-Id: <20220806163255.10404-1-markuss.broks@gmail.com>
+Subject: [PATCH v2 1/3] drivers: serial: earlycon: Correct argument name
+Date: Sat,  6 Aug 2022 19:32:22 +0300
+Message-Id: <20220806163255.10404-2-markuss.broks@gmail.com>
 X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220806163255.10404-1-markuss.broks@gmail.com>
+References: <20220806163255.10404-1-markuss.broks@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,52 +87,74 @@ Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the EFI earlycon driver be suitable for any linear framebuffers.
-This should be helpful for early porting of boards with no other means of
-output, like smartphones/tablets. There seems to be an issue with early_ioremap
-function on ARM32, but I am unable to find the exact cause. It appears the mappings
-returned by it are somehow incorrect, thus the driver is disabled on ARM. EFI early
-console was disabled on IA64 previously because of missing early_memremap_prot,
-and this is inherited to this driver.
+The "node" argument is actually an offset, and it's also
+an "int", and not "unsigned long". Correct the of_setup_earlycon
+function.
 
-This patch also changes behavior on EFI systems, by selecting the mapping type
-based on if the framebuffer region intersects with system RAM. If it does, it's
-common sense that it should be in RAM as a whole, and so the system RAM mapping is
-used. It was tested to be working on my PC (Intel Z490 platform), as well as several
-ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+---
+ drivers/tty/serial/earlycon.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Markuss Broks (2):
-  drivers: serial: earlycon: Pass device-tree node
-  efi: earlycon: Add support for generic framebuffers and move to fbdev
-    subsystem
-
-
-v1 -> v2:
-
-- a new patch correcting serial/earlycon.c argument name to "offset" instead
-  of "node"
-- move IA64 exclusion from EFI earlycon Kconfig to earlycon driver Kconfig
-  (IA64 has no early_memremap_prot)
-- move driver from fbdev to console subsystem
-- select EFI earlycon by default
-- fetch stride manually from device-tree, as on some devices it seems stride
-  doesn't match the horizontal resolution * bpp.
-- use saner format (e.g. 1920x1080x32 instead of 1920,1080,32).
-
- .../admin-guide/kernel-parameters.txt         |  12 +-
- MAINTAINERS                                   |   5 +
- drivers/firmware/efi/Kconfig                  |   6 +-
- drivers/firmware/efi/Makefile                 |   1 -
- drivers/firmware/efi/earlycon.c               | 246 --------------
- drivers/tty/serial/earlycon.c                 |   3 +
- drivers/video/fbdev/Kconfig                   |  11 +
- drivers/video/fbdev/Makefile                  |   1 +
- drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
- include/linux/serial_core.h                   |   1 +
- 10 files changed, 331 insertions(+), 256 deletions(-)
- delete mode 100644 drivers/firmware/efi/earlycon.c
- create mode 100644 drivers/video/fbdev/earlycon.c
-
+diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
+index 57c70851f22a0e78805f34d1a7700708104b6f6a..bc210ae8173d97d5ef422468acf2755a853cb943 100644
+--- a/drivers/tty/serial/earlycon.c
++++ b/drivers/tty/serial/earlycon.c
+@@ -244,7 +244,7 @@ early_param("earlycon", param_setup_earlycon);
+ #ifdef CONFIG_OF_EARLY_FLATTREE
+ 
+ int __init of_setup_earlycon(const struct earlycon_id *match,
+-			     unsigned long node,
++			     int offset,
+ 			     const char *options)
+ {
+ 	int err;
+@@ -255,25 +255,25 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ 
+ 	spin_lock_init(&port->lock);
+ 	port->iotype = UPIO_MEM;
+-	addr = of_flat_dt_translate_address(node);
++	addr = of_flat_dt_translate_address(offset);
+ 	if (addr == OF_BAD_ADDR) {
+ 		pr_warn("[%s] bad address\n", match->name);
+ 		return -ENXIO;
+ 	}
+ 	port->mapbase = addr;
+ 
+-	val = of_get_flat_dt_prop(node, "reg-offset", NULL);
++	val = of_get_flat_dt_prop(offset, "reg-offset", NULL);
+ 	if (val)
+ 		port->mapbase += be32_to_cpu(*val);
+ 	port->membase = earlycon_map(port->mapbase, SZ_4K);
+ 
+-	val = of_get_flat_dt_prop(node, "reg-shift", NULL);
++	val = of_get_flat_dt_prop(offset, "reg-shift", NULL);
+ 	if (val)
+ 		port->regshift = be32_to_cpu(*val);
+-	big_endian = of_get_flat_dt_prop(node, "big-endian", NULL) != NULL ||
++	big_endian = of_get_flat_dt_prop(offset, "big-endian", NULL) != NULL ||
+ 		(IS_ENABLED(CONFIG_CPU_BIG_ENDIAN) &&
+-		 of_get_flat_dt_prop(node, "native-endian", NULL) != NULL);
+-	val = of_get_flat_dt_prop(node, "reg-io-width", NULL);
++		 of_get_flat_dt_prop(offset, "native-endian", NULL) != NULL);
++	val = of_get_flat_dt_prop(offset, "reg-io-width", NULL);
+ 	if (val) {
+ 		switch (be32_to_cpu(*val)) {
+ 		case 1:
+@@ -291,11 +291,11 @@ int __init of_setup_earlycon(const struct earlycon_id *match,
+ 		}
+ 	}
+ 
+-	val = of_get_flat_dt_prop(node, "current-speed", NULL);
++	val = of_get_flat_dt_prop(offset, "current-speed", NULL);
+ 	if (val)
+ 		early_console_dev.baud = be32_to_cpu(*val);
+ 
+-	val = of_get_flat_dt_prop(node, "clock-frequency", NULL);
++	val = of_get_flat_dt_prop(offset, "clock-frequency", NULL);
+ 	if (val)
+ 		port->uartclk = be32_to_cpu(*val);
+ 
 -- 
 2.37.0
 
