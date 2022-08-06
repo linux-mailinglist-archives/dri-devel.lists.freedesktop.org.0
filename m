@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E4358B822
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Aug 2022 22:11:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D389558B876
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Aug 2022 23:38:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E5011291E;
-	Sat,  6 Aug 2022 20:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F435113024;
+	Sat,  6 Aug 2022 21:38:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BAC1125B9
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Aug 2022 20:11:04 +0000 (UTC)
-Date: Sat, 06 Aug 2022 20:10:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1659816660; x=1660075860;
- bh=Cc28ws3HPXjCbDRMPaRWRLSv/vem2ZvOfbjdOBkIMVE=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=OqiWlC5VXdkFR96uPe3QdFl7XbG+AKvZDWlFZxdtwTCvddMjAHO/yXOJWT3A4+Bxm
- oJ78f/uFxCdcmm9JO+SOFZ0R3DxuUsF6LgFwEE9F23fOyKVRczzKvVWGwvjgdWURrx
- OuoyVvREvdSXXgE2guV3NWo3hcN26fGuAgOHayQQJhkO++rNkNVkoRaNSTRuKUsr7c
- khyuA9othZgs4x8H1QWRJssdg3W/eutBUDS2trKYZIo9QSHrjDJ+yGzJofH4saGq1e
- RFRo2q6TXTAsWdGV6ZkdoQ4DolM8/vdbXz5FiDAJiCBpqfOtNYAgxh3Qz5UoFT29jf
- t+31cSW/AXmdA==
-To: "Hoosier, Matt" <Matt.Hoosier@garmin.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: How to test whether a buffer is in linear format
-Message-ID: <fy2nAbatiBdkL1uU_gQDMm_cmINuuox465B4N5RaTdAv5TPpHZdlXn388lhEA3wRJT3ux8uRcQp_N2E4E3Lnpi2ryLfEPOx30RDhVYQkr6w=@emersion.fr>
-In-Reply-To: <2beb027f324d4d60a1d1bf10fafb65ee@garmin.com>
-References: <491b09b4dd40404c8559513713bdb17a@garmin.com>
- <20220806144700.0519b70c@ferris.localdomain>
- <2beb027f324d4d60a1d1bf10fafb65ee@garmin.com>
-Feedback-ID: 1358184:user:proton
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4D1D112AA6
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Aug 2022 21:38:13 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id 17so4175164qky.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Aug 2022 14:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=MfKNCdoirxc2xo2dJ2ZnrKHYVycXxfrXH8JNH8fm1Y8=;
+ b=YBzle4Bzk8bMM2eG1wG0QftAx91m2KHC2NzsZY+bkn3ddnh1U940M/jxSnYcV7UjIc
+ pKdr3JCm6dxKjr9Hb2YoyGGOlso4bztjd2UILk6zq6O2FGtlS2u6FlMhyadpHXVi+OQ4
+ VLFnXJt0xdQYzrfMfNi5GuvEG+2nm5LIWyd/WwVe/+vURptktX6hP5gZ+kqvBnq5GW/x
+ uOYMEySPd9JJ4EjR9eel8ie2TJuDeTQgonSosqk441GIXY39IMjaq9ezX4siGpJPGaNe
+ dumUqe4+XqL9xkAHhTVD7Bi6ZhQIocYnNbNY/wY9R8aWANkblzYAgHFibHzxlMWRpxl6
+ C9vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=MfKNCdoirxc2xo2dJ2ZnrKHYVycXxfrXH8JNH8fm1Y8=;
+ b=YWS++ZTcmsT+emIwDFy4KTUFQwh0J+iYJ0B3fAjsi07tXhudNV3bYtqwVamGxVrHO0
+ +4PpmH2M+0zl/6xYTBfjz0vEg6PvWI0kJxjBAe+eb/Ryd5WI71VKbACj9TwUWXaOmWev
+ /zbHOqr6jomjPAeBlcR+qGFL2EpHZ9qY0b2AvuHhXbWaN7tGepStoKBASLnf5FrXzBUl
+ 8io8PttP2v1u1m0DlgYiCp1pRzuMcPOSF5sjhdFFENB3kwsf++EEi3kZZLgPHR+l/7HA
+ 1oZT2KAxquTnT4p5WZwYTdnhiAATIU6KLxSzRRQ2ert1x/GB1dnxrEnnkP0o8nuhBy2W
+ 45lA==
+X-Gm-Message-State: ACgBeo3gWOiw/bEqoTjKJ/X7ew7CTY8hZ214i95CF2VMSQDT7K2FRxIm
+ 5qElABRXOatUaJXhhAx9Egu2oVxE4F9PvVB4ia8=
+X-Google-Smtp-Source: AA6agR56Da74aJjiF+4nLUKRTvJqjbVZJG6Bbd44zgX3ASwhuBBjAStAwYDAMCCSp6ij5AOPtil/tLlaj2OWYcKKILA=
+X-Received: by 2002:a05:620a:8018:b0:6b6:5df:977 with SMTP id
+ ee24-20020a05620a801800b006b605df0977mr9477710qkb.320.1659821892589; Sat, 06
+ Aug 2022 14:38:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220806163255.10404-1-markuss.broks@gmail.com>
+ <20220806163255.10404-4-markuss.broks@gmail.com>
+In-Reply-To: <20220806163255.10404-4-markuss.broks@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 6 Aug 2022 23:37:35 +0200
+Message-ID: <CAHp75VcMgFQJoFC68GCTej--44+iFWXEpjh2Q7O0XbHk588OCw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] efi: earlycon: Add support for generic
+ framebuffers and move to console subsystem
+To: Markuss Broks <markuss.broks@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,30 +65,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ linux-efi <linux-efi@vger.kernel.org>,
+ Linux Documentation List <linux-doc@vger.kernel.org>,
+ Tony Lindgren <tony@atomide.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, Michal Suchanek <msuchanek@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Saturday, August 6th, 2022 at 21:56, Hoosier, Matt <Matt.Hoosier@garmin.=
-com> wrote:
+On Sat, Aug 6, 2022 at 6:38 PM Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Add early console support for generic linear framebuffer devices.
+> This driver supports probing from cmdline early parameters
+> or from the device-tree using information in simple-framebuffer node.
+> The EFI functionality should be retained in whole.
+> The driver was disabled on ARM because of a bug in early_ioremap
 
-> Any idea what=E2=80=99s up with some compositors adding code to infer
-> DRM_FORMAT_MOD_LINEAR semantics when the buffer=E2=80=99s modifiers are s=
-et
-> to 0?
+We refer to functions like func().
 
-What does that mean? A buffer only has a single modifier, and LINEAR =3D=3D=
- 0.
+> implementation on ARM and on IA64 because of lack of early_memremap_prot.
 
-> Wlroots, for example, added this as a =E2=80=9Csafety net for drm drivers=
- not announcing modifiers=E2=80=9D.
->=20
-> https://source.puri.sm/Librem5/wlroots/-/merge_requests/63
+Ditto.
 
-This is not upstream wlroots. This change doesn't make sense to me at
-all. Either a driver supports modifiers and advertises support for it,
-either it doesn't and gbm_surface_create_with_modifiers fails. At any
-rate, forcing LINEAR in this code-path doesn't make sense.
+...
+
+> +#include <asm/early_ioremap.h>
+
+Can it be placed after linux/* ones?
+
+> +#include <linux/console.h>
+> +#include <linux/efi.h>
+> +#include <linux/font.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mm.h>
+> +#include <linux/of.h>
+> +#include <linux/of_fdt.h>
+> +#include <linux/serial_core.h>
+> +#include <linux/screen_info.h>
+
+...
+
+> +static int __init simplefb_earlycon_remap_fb(void)
+> +{
+> +       unsigned long mapping;
+
++ Blank line.
+
+> +       /* bail if there is no bootconsole or it has been disabled already */
+> +       if (!earlycon_console || !(earlycon_console->flags & CON_ENABLED))
+> +               return 0;
+> +
+> +       if (region_intersects(info.phys_base, info.size,
+> +                             IORESOURCE_SYSTEM_RAM, IORES_DESC_NONE) == REGION_INTERSECTS)
+> +               mapping = MEMREMAP_WB;
+> +       else
+> +               mapping = MEMREMAP_WC;
+
+> +       info.virt_base = memremap(info.phys_base, info.size, mapping);
+> +
+> +       return info.virt_base ? 0 : -ENOMEM;
+
+Easier to read the standard pattern:
+
+  if (!info.virt_base)
+    return -ENOMEM;
+
+  return 0;
+
+> +}
+
+...
+
+> +static void simplefb_earlycon_write_char(u8 *dst, unsigned char c, unsigned int h)
+> +{
+> +       const u8 *src;
+> +       int m, n, bytes;
+> +       u8 x;
+> +
+> +       bytes = BITS_TO_BYTES(font->width);
+> +       src = font->data + c * font->height * bytes + h * bytes;
+> +
+> +       for (m = 0; m < font->width; m++) {
+> +               n = m % 8;
+> +               x = *(src + m / 8);
+
+I would write it as
+
+  x = src[m / 8];
+
+> +               if ((x >> (7 - n)) & 1)
+
+> +                       memset(dst, 0xff, (info.depth / 8));
+
+Too many parentheses.
+
+> +               else
+> +                       memset(dst, 0, (info.depth / 8));
+
+Ditto.
+
+> +               dst += (info.depth / 8);
+
+Ditto.
+
+> +       }
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
