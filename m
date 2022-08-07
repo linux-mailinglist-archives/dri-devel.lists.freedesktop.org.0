@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A6058C313
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:54:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A814A58C37E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 08:48:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60EE08DBE1;
-	Mon,  8 Aug 2022 05:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A768FF3B;
+	Mon,  8 Aug 2022 06:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E536E8DBDC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:54:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8B9F1B80B2B;
- Mon,  8 Aug 2022 05:54:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75FD7C433C1;
- Mon,  8 Aug 2022 05:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659938064;
- bh=fdGOCwmBEK9CWaxIAUwPDifSkxj7PaxAllZU82W3Ry4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QDZCAORd+CDcOLkVaf1UPrSE3hL4ymPfTAuq2qSfODI7WxCqUcSnMbh3DtyhlFmJv
- 7SevWPkePl6NqhsK3RYndm1t2fn+fbAom30UPqa0cR2amyetfoRRWdGx3CXGiYHDZt
- Of7afz3KYKWFNMpBPluGeh5layWLYJjc5TrLg/hYiVSPzaKx/phIj8DYFxCEetS+oo
- VPrPWivn++E8p3/wtNdfSWjzbrNpsPym6oOUjOxkAaODCg0y8DOZiS8eb0oXiG0/zS
- mkb3Gcc7zQP6MSKndbsDnnz9oUxVJbMYhXXwdUWBULqeM/HcNnDV8ZG1umR+7Q9Piu
- gsv6IZjnMR64A==
-Date: Mon, 8 Aug 2022 07:54:16 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Robin Reckmann <robin.reckmann@googlemail.com>
-Subject: Re: [PATCH] i2c: qcom-geni: Fix GPI DMA buffer sync-back
-Message-ID: <YvClCC4ArBEjQJl9@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Robin Reckmann <robin.reckmann@googlemail.com>,
- Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Robin Reckmann <robin.reckmann@gmail.com>,
- linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20220807140455.409417-1-robin.reckmann@gmail.com>
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 867221138E8
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Aug 2022 23:37:20 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id v2so5345059qvs.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Aug 2022 16:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dosowisko-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Tk4lJmjCtGQ9DW3EP5ELEcoY510rpB0Aq8haLsJgim8=;
+ b=hPiC/xpk9PLSDyNSrz9zBfuUielDp9yQOmppp5dB5ek2MnhQl+Rdyf52nQoxsJ3XHk
+ YxXLI3PNwFq3j7nt4S+Ot8w7GWLNM5vZ+CSoDybLzPf77p0e5/q6ZZydO6LV6C/TFBtj
+ nmBpw5dKQaXWHBZ//4S/0yX5CXXQN7fI798r6NMFxQmING1+qwWNbBvZWyyy73ipiZjA
+ WQOAouNrxsDc41WWUOiirkAbU9DwvGHjLNq6SaqYLF/OD1V47q2bN0uo/5tuDKqq1N1G
+ DIeC3gGZxyGy9dHagESc4Pfeq1XD6ciYYT8c4RojlJ/9V7TVyxY65mq+u/tZOfZaL71y
+ xPcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Tk4lJmjCtGQ9DW3EP5ELEcoY510rpB0Aq8haLsJgim8=;
+ b=sYB0p1uWVJeuSbRvY2Iv2LdsfTVg0bhI8kAAx5Ij5TaQ5sjQ0f7FIDHYgU8Y280M93
+ 9csEELl4D00toKRpFHnoydN4TfnTvewQ3XT/UaYL/UkXaAMNILSPZxJGNeJiq5RPONjg
+ ZkrvhnqyALoMc0NuVpIQnHxU8IbfM7iNcs8AK3zl2GY/1sXYHqajA4Mp95LKI+cQyKLX
+ 3SdNt+3x+SF3osz/eqtCyeK08R6xX8rFEgMU2Dm9NXwWRb4h4aBLPo3n655qn4YOcxhv
+ fFBheLq/8OsyW0BXIzNifKwH18lk9pYU8Vc5U24RPkImdiCAfEDchtEpiJZhNSUv5nNA
+ HDRQ==
+X-Gm-Message-State: ACgBeo298jkqkr9uDc6rawrw4z80G1/ZIQs65knTC6PhRXRU4uqh5gfI
+ Hwx4eMsAexPtH3ABR0jqe/5KExPqT8jqVFg69Tq0HQ==
+X-Google-Smtp-Source: AA6agR4+YURb8O7hbK85WOABXS2cugTgh9dOqypwbBsLPxwDCsGV1dig2MD9ynFcaEIvVBtiJ/kgRP8D8DrRAWW3yyI=
+X-Received: by 2002:ad4:596e:0:b0:47a:2ae5:b65e with SMTP id
+ eq14-20020ad4596e000000b0047a2ae5b65emr7017175qvb.109.1659915439313; Sun, 07
+ Aug 2022 16:37:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="XD4kyBoxfGtTDMuX"
-Content-Disposition: inline
-In-Reply-To: <20220807140455.409417-1-robin.reckmann@gmail.com>
+Received: by 2002:a05:620a:280e:0:0:0:0 with HTTP; Sun, 7 Aug 2022 16:37:18
+ -0700 (PDT)
+X-Originating-IP: [83.24.7.184]
+In-Reply-To: <2beb027f324d4d60a1d1bf10fafb65ee@garmin.com>
+References: <491b09b4dd40404c8559513713bdb17a@garmin.com>
+ <20220806144700.0519b70c@ferris.localdomain>
+ <2beb027f324d4d60a1d1bf10fafb65ee@garmin.com>
+From: Sebastian Krzyszkowiak <dos@dosowisko.net>
+Date: Mon, 8 Aug 2022 01:37:18 +0200
+Message-ID: <CADZ+VTnQhYToj1JacMYTCHUavf7hhe8Ds-cEVB+=xmDukiZBzg@mail.gmail.com>
+Subject: Re: How to test whether a buffer is in linear format
+To: "Hoosier, Matt" <Matt.Hoosier@garmin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Mon, 08 Aug 2022 06:47:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Andy Gross <agross@kernel.org>, linux-i2c@vger.kernel.org,
- Robin Reckmann <robin.reckmann@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Pekka Paalanen <ppaalanen@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/6/22, Hoosier, Matt <Matt.Hoosier@garmin.com> wrote:
+> Any idea what=E2=80=99s up with some compositors adding code to infer
+> DRM_FORMAT_MOD_LINEAR semantics when the buffer=E2=80=99s modifiers are s=
+et to 0?
+> Wlroots, for example, added this as a =E2=80=9Csafety net for drm drivers=
+ not
+> announcing modifiers=E2=80=9D.
+>
+> https://source.puri.sm/Librem5/wlroots/-/merge_requests/63
 
---XD4kyBoxfGtTDMuX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For the record, that's an old piece of code from a branch that hasn't
+been used for a long time already, so don't pay attention to it. See
+https://github.com/swaywm/wlroots/pull/2090 for details.
 
-On Sun, Aug 07, 2022 at 11:04:54PM +0900, Robin Reckmann wrote:
-> Fix i2c transfers using GPI DMA mode for all message types that do not set
-> the I2C_M_DMA_SAFE flag (e.g. SMBus "read byte").
->=20
-> In this case a bounce buffer is returned by i2c_get_dma_safe_msg_buf(),
-> and it has to synced back to the message after the transfer is done.
->=20
-> Add missing assignment of dma buffer in geni_i2c_gpi().
->=20
-> Set xferred in i2c_put_dma_safe_msg_buf() to true in case of no error to
-> ensure the sync-back of this dma buffer to the message.
->=20
-> Signed-off-by: Robin Reckmann <robin.reckmann@gmail.com>
-
-Thank you! What would be a Fixes tag for this?
-
-
---XD4kyBoxfGtTDMuX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmLwpQQACgkQFA3kzBSg
-KbYMhRAArxGcGhOSEP/LoXFsoUt62gmN7SUbYALnShNEsiAAsIyfcDokRbSxVfPk
-hoe7hFLjoEL+ZcARfiqvYWGbTpX6dlFx3TUdkkVkL6oyCJ/YcfvgFat7FwV0cNyP
-ce2soTTDV0gDRecDLRald5RA50fdPcvcUpEhrwJDb/2JjffKXhJs4rlCOfHVUNXt
-QbVwJVj54xgMeCmLrN6FsR14lTzQ5m+CnbHeDJCrKPFIxAIVIWwXvSU6lhucNYCo
-lFn0Q4ZDdOnBEy2miNvvdPT0BEKxplT4SgJpD3zGjxGnFSIbO0w8kdZLvfioCrA0
-s5gQxVZpHxtLtKtQruAgX8r2+JW1zSSxG8aicdX9QgNABybcYfHV4tH/CJikDLMb
-VTPc8qi0HtPLMnBribfmECcHaeLzEe38gtb7aGDUG4z8wXZgePXRGfnqLtCDGykg
-4Vomw99Ugc/1+XwwrpUr0JLBYqVPXq2veOsirnGo0OR3iJGajMZw4y9Tlct9AQZZ
-IL7lfPhTlO2WS2rVfURyOXZCUg1/tax/RgDfzFvjJesvy9+hpZ/pq9Csl+k1b+GZ
-8lbslOpKD0bM/WLDWYbrel6IH/openjxQ7M5UNusGNAnEmZPpm5QMfxsa3tjQEm7
-Tv2AXDVrVjdsK4dpcqarPjowL/IJ2I8CntN4+KefRLE0ZOhthtU=
-=HpON
------END PGP SIGNATURE-----
-
---XD4kyBoxfGtTDMuX--
+Cheers,
+Sebastian
