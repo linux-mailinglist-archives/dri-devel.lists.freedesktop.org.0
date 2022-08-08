@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0990F58C968
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 15:28:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFAB58C97D
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 15:31:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA8B98F5E;
-	Mon,  8 Aug 2022 13:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7539A9BD92;
+	Mon,  8 Aug 2022 13:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4CE9A4F0
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 13:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sm06QmZFBfpM+CVfRuCk8ilv4zuVsgxBKZv+QTHnC4M=; b=BVZBner5wyuQ/jxHxNSURaeBFT
- 6RsH7EuNQGZjRvNdavFNOfqtEG4CRh+R2BOZEdE1+T6IuZljSjAqEhzbC1V/nMbKSXMnnvHdyWui6
- 4CwfkVM3X2vz7xOaFhlW8B6oYb4d8NdWucidNGTzEk/ApPUJNowlxL4E9p05qVujRoqmb69hltCRI
- PSv6GAgOKCUc03fviQwuObft6lQa79J75srgEbnHBpxwjZ7mwkLF6o0zWQ1FaRjpLdrO5LtNuR9P2
- QkzN8ELFv8r4Oj80NxqyuDAwswPeUSjSny7v0USaDhIYUjnVnKs7McWrM6h56c5Jc0tG3dcBeSGtX
- swidYSWw==;
-Received: from [2a01:799:961:d200:c193:6d77:c9c8:8] (port=65002)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oL2Q5-00019X-Ru; Mon, 08 Aug 2022 15:03:45 +0200
-Message-ID: <14fb938c-f9db-bbea-3dd1-96fc409155f8@tronnes.org>
-Date: Mon, 8 Aug 2022 15:03:42 +0200
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
+ [IPv6:2607:f8b0:4864:20::d2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607B59A5CD;
+ Mon,  8 Aug 2022 13:03:58 +0000 (UTC)
+Received: by mail-io1-xd2b.google.com with SMTP id z145so7005684iof.9;
+ Mon, 08 Aug 2022 06:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=ZvT8zFSaN4+LwwHuSYqMb23PG3MGFvgeXxhuTYLZpLA=;
+ b=bIV76remtNAYQAeCdeb3qJ3+b164qBdDrAh+RltF+dOCvtut76rYCFEeN05QWNkUuV
+ AoVR5s8C364z0ybC7ibjDVnQDDa4asxYupQ5SMfZiDM9z7fodmeKYug3z8bzjsmQ+3Q0
+ qoVud6QDZ7mOFNA9ESM5uAe9aFWlBDDNZvrbWyYB/qpn8LHm+33J2ADJwdmpnZZq2SW2
+ BGrRUXM5imEq8M5Kiman/R0HF9ju5F9Y9WoiHfQxom2ElQLBXRg6lBPQBHG3rly+3UYV
+ YSHbTbM5eTZT5Yhyfldvmq7YR1Hldk21TeWy52szjq0pmCwdvTf7O4OogCI1Lni7YdY3
+ dP7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=ZvT8zFSaN4+LwwHuSYqMb23PG3MGFvgeXxhuTYLZpLA=;
+ b=GX2V/SnRJOocpJu1J8yFwj1pzQ6/z0vJV24r3PbViOhLbQzvviZ9oXXuES+I0Qg9Vm
+ fgCiSx3OX1Y5Fmi3Wqe1x20KzRyRFHPO2DlinVZg27M6N9fv/VWsafB097sbkxgvriGX
+ JXP9jntoV39zQphUg+MBcjJ9aKAD9rPw1Q78GMBoQqoZ+D5+zP8R8AMZE61icOmiHbC3
+ YDpIFjFsiQR1vk20GzRkKlJIkoGe+ep1nVSbn1cg1cMd8sKKeVRQCXW/PkTtgrgaO6Y0
+ YGjlDue4l8QgJgRqzkq9BoM1L24y7Yh7tSDv8ZGUgL6KM4tdGCtWBNrgk4j8wZ0NOuQz
+ 6QXQ==
+X-Gm-Message-State: ACgBeo3FkJhEqcT6p+kOvD4UyTOyi+BBkTr8Cl7a9lQXMQK/ZHT8VIcW
+ l03A2U4P6ybd1ySXMBNylC1qA5d8YqdxjeophKfKydvT
+X-Google-Smtp-Source: AA6agR60DUrBizeFAOIl0MFBBFVK7rm5XRv8HCDKfsPieaM8O+nIy31LtUASY2Py2R3HzanJm6GnC6zPInf13BA0Rpo=
+X-Received: by 2002:a05:6638:f8f:b0:342:cb21:f6d6 with SMTP id
+ h15-20020a0566380f8f00b00342cb21f6d6mr5560379jal.138.1659963837491; Mon, 08
+ Aug 2022 06:03:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220729170744.1301044-1-robdclark@gmail.com>
+ <20220729170744.1301044-2-robdclark@gmail.com>
+ <62afe47a-1a50-80ef-400d-8c238f1cb332@quicinc.com>
+In-Reply-To: <62afe47a-1a50-80ef-400d-8c238f1cb332@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 8 Aug 2022 06:04:19 -0700
+Message-ID: <CAF6AEGuRnnjXN-sFeBkgF+ZiHQsABUEXBRLTO+jibHFk7RumSg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 1/3] dma-buf: Add ioctl to query mmap info
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,82 +65,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Aug 7, 2022 at 1:25 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> On 7/29/2022 10:37 PM, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > This is a fairly narrowly focused interface, providing a way for a VMM
+> > in userspace to tell the guest kernel what pgprot settings to use when
+> > mapping a buffer to guest userspace.
+> >
+> > For buffers that get mapped into guest userspace, virglrenderer returns
+> > a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
+> > pages into the guest VM, it needs to report to drm/virtio in the guest
+> > the cache settings to use for guest userspace.  In particular, on some
+> > architectures, creating aliased mappings with different cache attributes
+> > is frowned upon, so it is important that the guest mappings have the
+> > same cache attributes as any potential host mappings.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/dma-buf/dma-buf.c    | 26 ++++++++++++++++++++++++++
+> >   include/linux/dma-buf.h      |  7 +++++++
+> >   include/uapi/linux/dma-buf.h | 28 ++++++++++++++++++++++++++++
+> >   3 files changed, 61 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 32f55640890c..d02d6c2a3b49 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -326,6 +326,29 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >       return 0;
+> >   }
+> >
+> > +static long dma_buf_info(struct dma_buf *dmabuf, const void __user *uarg)
+> > +{
+> > +     struct dma_buf_info arg;
+> > +
+> > +     if (copy_from_user(&arg, uarg, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     switch (arg.param) {
+> > +     case DMA_BUF_INFO_VM_PROT:
+> > +             if (!dmabuf->ops->mmap_info)
+> > +                     return -ENOSYS;
+> > +             arg.value = dmabuf->ops->mmap_info(dmabuf);
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     if (copy_to_user(uarg, &arg, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >   static long dma_buf_ioctl(struct file *file,
+> >                         unsigned int cmd, unsigned long arg)
+> >   {
+> > @@ -369,6 +392,9 @@ static long dma_buf_ioctl(struct file *file,
+> >       case DMA_BUF_SET_NAME_B:
+> >               return dma_buf_set_name(dmabuf, (const char __user *)arg);
+> >
+> > +     case DMA_BUF_IOCTL_INFO:
+> > +             return dma_buf_info(dmabuf, (const void __user *)arg);
+> > +
+> >       default:
+> >               return -ENOTTY;
+> >       }
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 71731796c8c3..6f4de64a5937 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -283,6 +283,13 @@ struct dma_buf_ops {
+> >        */
+> >       int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
+> >
+> > +     /**
+> > +      * @mmap_info:
+> > +      *
+> > +      * Return mmapping info for the buffer.  See DMA_BUF_INFO_VM_PROT.
+> > +      */
+> > +     int (*mmap_info)(struct dma_buf *);
+> > +
+> >       int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> >       void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> >   };
+> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> > index b1523cb8ab30..a41adac0f46a 100644
+> > --- a/include/uapi/linux/dma-buf.h
+> > +++ b/include/uapi/linux/dma-buf.h
+> > @@ -85,6 +85,32 @@ struct dma_buf_sync {
+> >
+> >   #define DMA_BUF_NAME_LEN    32
+> >
+> > +
+> > +/**
+> > + * struct dma_buf_info - Query info about the buffer.
+> > + */
+> > +struct dma_buf_info {
+> > +
+> > +#define DMA_BUF_INFO_VM_PROT      1
+> > +#  define DMA_BUF_VM_PROT_WC      0
+> > +#  define DMA_BUF_VM_PROT_CACHED  1
+> > +
+> > +     /**
+> > +      * @param: Which param to query
+> > +      *
+> > +      * DMA_BUF_INFO_BM_PROT:
+> Is there a typo here? BM -> VM ?
 
+yes, fixed locally
 
-Den 29.07.2022 18.34, skrev Maxime Ripard:
-> Hi,
-> 
-> Here's a series aiming at improving the command line named modes support,
-> and more importantly how we deal with all the analog TV variants.
-> 
-> The named modes support were initially introduced to allow to specify the
-> analog TV mode to be used.
-> 
-> However, this was causing multiple issues:
-> 
->   * The mode name parsed on the command line was passed directly to the
->     driver, which had to figure out which mode it was suppose to match;
-> 
->   * Figuring that out wasn't really easy, since the video= argument or what
->     the userspace might not even have a name in the first place, but
->     instead could have passed a mode with the same timings;
-> 
->   * The fallback to matching on the timings was mostly working as long as
->     we were supporting one 525 lines (most likely NSTC) and one 625 lines
->     (PAL), but couldn't differentiate between two modes with the same
->     timings (NTSC vs PAL-M vs NSTC-J for example); 
-> 
->   * There was also some overlap with the tv mode property registered by 
->     drm_mode_create_tv_properties(), but named modes weren't interacting
->     with that property at all.
-> 
->   * Even though that property was generic, its possible values were
->     specific to each drivers, which made some generic support difficult.
-> 
-> Thus, I chose to tackle in multiple steps:
-> 
->   * A new TV norm property was introduced, with generic values, each driver
->     reporting through a bitmask what standard it supports to the userspace;
-> 
->   * This option was added to the command line parsing code to be able to
->     specify it on the kernel command line, and new atomic_check and reset
->     helpers were created to integrate properly into atomic KMS;
-> 
->   * The named mode parsing code is now creating a proper display mode for
->     the given named mode, and the TV standard will thus be part of the
->     connector state;
-> 
->   * Two drivers were converted and tested for now (vc4 and sun4i), with
->     some backward compatibility code to translate the old TV mode to the
->     new TV mode;
-> 
-> Unit tests were created along the way. Nouveau, ch7006 and gud are
-> currently broken for now since I expect that work to be reworked fairly
-> significantly. I'm also not entirely sure about how to migrate GUD to the
-> new property.
-> 
-
-I have looked at gud and I think the future proof solution is to add a
-new TV_NORM property to the GUD protocol and add backwards compatibility
-for the GUD_TV_MODE property (just for the modes that Raspberry Pi
-supports since the gadget driver is out of tree). I don't bother
-supporting the tv.mode property in userspace (I haven't seen anything
-that uses the property).
-
-I have written up most of the host driver changes but I have to do the
-gadget side as well to make sure it works. I'll post some patches when
-I'm done. In hindsight I should have used a bitmask for the TV standards
-in the first place ;)
-
-Noralf.
+>
+> -Akhil.
+> > +      *     Query the access permissions of userspace mmap's of this buffer.
+> > +      *     Returns one of DMA_BUF_VM_PROT_x
+> > +      */
+> > +     __u32 param;
+> > +     __u32 pad;
+> > +
+> > +     /**
+> > +      * @value: Return value of the query.
+> > +      */
+> > +     __u64 value;
+> > +};
+> > +
+> >   #define DMA_BUF_BASE                'b'
+> >   #define DMA_BUF_IOCTL_SYNC  _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+> >
+> > @@ -95,4 +121,6 @@ struct dma_buf_sync {
+> >   #define DMA_BUF_SET_NAME_A  _IOW(DMA_BUF_BASE, 1, __u32)
+> >   #define DMA_BUF_SET_NAME_B  _IOW(DMA_BUF_BASE, 1, __u64)
+> >
+> > +#define DMA_BUF_IOCTL_INFO   _IOWR(DMA_BUF_BASE, 2, struct dma_buf_info)
+> > +
+> >   #endif
+>
