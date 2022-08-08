@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B7358CC37
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 18:38:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5436258CD3B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 19:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C7CB10E9AC;
-	Mon,  8 Aug 2022 16:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 729881126EF;
+	Mon,  8 Aug 2022 17:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0777010E3B9;
- Mon,  8 Aug 2022 16:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659976699; x=1691512699;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ZdtKQDr/7hNuJqSsyBjbXL9BpkN6bXL5MCwDsuiI8z4=;
- b=ZuZzv9coZa3TfZLliNsJn9KtBerX3l9ilTnPBkwYoQu5ly0CjMLHCZcn
- sKBpYSWnee77jth0Ck8CxVGqd+mU0XbStW6kRW4W5qmWRno7lTYL++48K
- UZSMLgOvzlj9miTld7+RVF4K71joIcxNL3h+rRieZjtsXiRacqg0xiE/b
- VXnrN5YSwqcuCmXrJ2qPbNnvU44v2QouA6GcFDiZ3/lMecfVEbvUe00L5
- v8CYlwEjH3LcG/2FPPCrriOBlgdzvMitG5F+yM4Q7T+m+4xCRm8P0y5GD
- bL1yDIXWzmZ9PwPmzRzM1imIIopI0alg7GrPfF5i2zDTmrDB7S2nKHPTM g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="290645220"
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="290645220"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 09:38:05 -0700
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="664030714"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.40.190])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 09:38:00 -0700
-Date: Mon, 8 Aug 2022 18:37:58 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v3 1/3] drm/i915: pass a pointer for tlb seqno at
- vma_invalidate_tlb()
-Message-ID: <YvE75o0uOtDGayNK@alfio.lan>
-References: <cover.1659598090.git.mchehab@kernel.org>
- <f9550e6bacea10131ff40dd8981b69eb9251cdcd.1659598090.git.mchehab@kernel.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7403B10E973
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:39:13 +0000 (UTC)
+Received: from beaker.jlekstrand.net
+ (2603-8080-2102-63d7-019e-342e-5881-a163.res6.spectrum.com
+ [IPv6:2603:8080:2102:63d7:19e:342e:5881:a163])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: jekstrand)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 820CA6601C23;
+ Mon,  8 Aug 2022 17:39:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1659976752;
+ bh=lUR9EBxTwOWQ8xtuUHWly70WATh0dcwGDObC1W+0H9s=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=fyOlBzb5eVchgM7J44orvPybTeGqQxZcacOayQUX2JkMFh14zXvF7N1JVXXUB4EpA
+ uud7T5KPo0eq4YE+m08xNtS2X20+8EI2YiD4o7uaXtkAhr3hObjaX91ohyf3n2JBdK
+ lZdiZUaFqZHNm743pbxQsuRxrvkTcsmDXyQvLlMy4nlZVsTmz0zkuyM4x1v29/fqxQ
+ S2CoJLnHpueS2M07CJeICdw31dyGl8ommUvmPDHWAvGOYurMa03OGt0kdVyflYuNE5
+ hhbYYZUttt7fwHVCkxjJplAu1TFNuEf1WSMJxg6MNCFzZigbi04c6fIlbt6gGTWOtU
+ k6ILJP88uk/iw==
+Message-ID: <427467a1466ec7c56616661775d98102407f6fdb.camel@collabora.com>
+Subject: Re: [PATCH] dma-buf: Use dma_fence_unwrap_for_each when importing
+ fences
+From: Jason Ekstrand <jason.ekstrand@collabora.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jason
+ Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
+Date: Mon, 08 Aug 2022 11:39:07 -0500
+In-Reply-To: <4e8657c4-54aa-ad16-3350-f81c610997f4@amd.com>
+References: <20220802210158.4162525-1-jason.ekstrand@collabora.com>
+ <4e8657c4-54aa-ad16-3350-f81c610997f4@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f9550e6bacea10131ff40dd8981b69eb9251cdcd.1659598090.git.mchehab@kernel.org>
+X-Mailman-Approved-At: Mon, 08 Aug 2022 17:54:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,29 +58,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- Chris Wilson <chris.p.wilson@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: Sarah Walker <Sarah.Walker@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro,
+T24gU3VuLCAyMDIyLTA4LTA3IGF0IDE4OjM1ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
+Ogo+IEFtIDAyLjA4LjIyIHVtIDIzOjAxIHNjaHJpZWIgSmFzb24gRWtzdHJhbmQ6Cj4gPiBFdmVy
+IHNpbmNlIDY4MTI5ZjQzMWZhYSAoImRtYS1idWY6IHdhcm4gYWJvdXQgY29udGFpbmVycyBpbgo+
+ID4gZG1hX3Jlc3Ygb2JqZWN0IiksCj4gPiBkbWFfcmVzdl9hZGRfc2hhcmVkX2ZlbmNlIHdpbGwg
+d2FybiBpZiB5b3UgYXR0ZW1wdCB0byBhZGQgYQo+ID4gY29udGFpbmVyIGZlbmNlLgo+ID4gV2hp
+bGUgbW9zdCBkcml2ZXJzIHdlcmUgZmluZSwgZmVuY2VzIGNhbiBhbHNvIGJlIGFkZGVkIHRvIGEK
+PiA+IGRtYV9yZXN2IHZpYSB0aGUKPiA+IHJlY2VudGx5IGFkZGVkIERNQV9CVUZfSU9DVExfSU1Q
+T1JUX1NZTkNfRklMRS7CoCBVc2UKPiA+IGRtYV9mZW5jZV91bndyYXBfZm9yX2VhY2gKPiA+IHRv
+IGFkZCBlYWNoIGZlbmNlIG9uZSBhdCBhIHRpbWUuCj4gPiAKPiA+IEZpeGVzOiA1OTQ3NDA0OTdl
+OTkgKCJkbWEtYnVmOiBBZGQgYW4gQVBJIGZvciBpbXBvcnRpbmcgc3luYyBmaWxlcwo+ID4gKHYx
+MCkiKQo+ID4gU2lnbmVkLW9mZi1ieTogSmFzb24gRWtzdHJhbmQgPGphc29uLmVrc3RyYW5kQGNv
+bGxhYm9yYS5jb20+Cj4gPiBSZXBvcnRlZC1ieTogU2FyYWggV2Fsa2VyIDxTYXJhaC5XYWxrZXJA
+aW1ndGVjLmNvbT4KPiA+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
+ZC5jb20+Cj4gPiAtLS0KPiA+IMKgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCAyMyArKysr
+KysrKysrKysrKysrKy0tLS0tLQo+ID4gwqAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMo
+KyksIDYgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYv
+ZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+ID4gaW5kZXggNjMwMTMzMjg0
+ZTJiLi44ZDVkNDUxMTJmNTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1
+Zi5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gPiBAQCAtMTUsNiArMTUs
+NyBAQAo+ID4gwqAgI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KPiA+IMKgICNpbmNsdWRlIDxsaW51
+eC9kbWEtYnVmLmg+Cj4gPiDCoCAjaW5jbHVkZSA8bGludXgvZG1hLWZlbmNlLmg+Cj4gPiArI2lu
+Y2x1ZGUgPGxpbnV4L2RtYS1mZW5jZS11bndyYXAuaD4KPiA+IMKgICNpbmNsdWRlIDxsaW51eC9h
+bm9uX2lub2Rlcy5oPgo+ID4gwqAgI2luY2x1ZGUgPGxpbnV4L2V4cG9ydC5oPgo+ID4gwqAgI2lu
+Y2x1ZGUgPGxpbnV4L2RlYnVnZnMuaD4KPiA+IEBAIC0zOTEsOCArMzkyLDEwIEBAIHN0YXRpYyBs
+b25nIGRtYV9idWZfaW1wb3J0X3N5bmNfZmlsZShzdHJ1Y3QKPiA+IGRtYV9idWYgKmRtYWJ1ZiwK
+PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCB2b2lkIF9fdXNlciAqdXNlcl9kYXRhKQo+ID4gwqAg
+ewo+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfYnVmX2ltcG9ydF9zeW5jX2ZpbGUgYXJn
+Owo+ID4gLcKgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7Cj4gPiArwqDCoMKg
+wqDCoMKgwqBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSwgKmY7Cj4gPiDCoMKgwqDCoMKgwqDCoMKg
+ZW51bSBkbWFfcmVzdl91c2FnZSB1c2FnZTsKPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFf
+ZmVuY2VfdW53cmFwIGl0ZXI7Cj4gPiArwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBpbnQgbnVtX2Zl
+bmNlczsKPiA+IMKgwqDCoMKgwqDCoMKgwqBpbnQgcmV0ID0gMDsKPiA+IMKgIAo+ID4gwqDCoMKg
+wqDCoMKgwqDCoGlmIChjb3B5X2Zyb21fdXNlcigmYXJnLCB1c2VyX2RhdGEsIHNpemVvZihhcmcp
+KSkKPiA+IEBAIC00MTEsMTMgKzQxNCwyMSBAQCBzdGF0aWMgbG9uZyBkbWFfYnVmX2ltcG9ydF9z
+eW5jX2ZpbGUoc3RydWN0Cj4gPiBkbWFfYnVmICpkbWFidWYsCj4gPiDCoMKgwqDCoMKgwqDCoMKg
+dXNhZ2UgPSAoYXJnLmZsYWdzICYgRE1BX0JVRl9TWU5DX1dSSVRFKSA/Cj4gPiBETUFfUkVTVl9V
+U0FHRV9XUklURSA6Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgCj4gPiBETUFfUkVTVl9VU0FHRV9SRUFEOwo+ID4gwqAgCj4gPiAtwqDCoMKgwqDCoMKgwqBk
+bWFfcmVzdl9sb2NrKGRtYWJ1Zi0+cmVzdiwgTlVMTCk7Cj4gPiArwqDCoMKgwqDCoMKgwqBudW1f
+ZmVuY2VzID0gMDsKPiA+ICvCoMKgwqDCoMKgwqDCoGRtYV9mZW5jZV91bndyYXBfZm9yX2VhY2go
+ZiwgJml0ZXIsIGZlbmNlKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCsrbnVt
+X2ZlbmNlczsKPiA+IMKgIAo+ID4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gZG1hX3Jlc3ZfcmVzZXJ2
+ZV9mZW5jZXMoZG1hYnVmLT5yZXN2LCAxKTsKPiA+IC3CoMKgwqDCoMKgwqDCoGlmICghcmV0KQo+
+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9yZXN2X2FkZF9mZW5jZShkbWFi
+dWYtPnJlc3YsIGZlbmNlLCB1c2FnZSk7Cj4gPiArwqDCoMKgwqDCoMKgwqBpZiAobnVtX2ZlbmNl
+cyA+IDApIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkbWFfcmVzdl9sb2Nr
+KGRtYWJ1Zi0+cmVzdiwgTlVMTCk7Cj4gPiDCoCAKPiA+IC3CoMKgwqDCoMKgwqDCoGRtYV9yZXN2
+X3VubG9jayhkbWFidWYtPnJlc3YpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHJldCA9IGRtYV9yZXN2X3Jlc2VydmVfZmVuY2VzKGRtYWJ1Zi0+cmVzdiwKPiA+IG51bV9mZW5j
+ZXMpOwo+IAo+IFRoYXQgbG9va3MgbGlrZSBpdCBpcyBtaXNwbGFjZWQuCj4gCj4gWW91ICptdXN0
+KiBvbmx5IGxvY2sgdGhlIHJlc2VydmF0aW9uIG9iamVjdCBvbmNlIGFuZCB0aGVuIGFkZCBhbGwK
+PiBmZW5jZXMgCj4gaW4gb25lIGdvLgoKVGhhdCdzIHdoYXQgSSdtIGRvaW5nLiAgTG9jaywgcmVz
+ZXJ2ZSwgYWRkIGEgYnVuY2gsIHVubG9jay4gIEkgYW0KYXNzdW1pbmcgdGhhdCB0aGUgaXRlcmF0
+b3Igd29uJ3Qgc3VkZGVubHkgd2FudCB0byBpdGVyYXRlIG1vcmUgZmVuY2VzCmJldHdlZW4gbXkg
+aW5pdGlhbCBjb3VudCBhbmQgd2hlbiBJIGdvIHRvIGFkZCB0aGVtIGJ1dCBJIHRoaW5rIHRoYXQK
+YXNzdW1wdGlvbiBpcyBvay4KCi0tSmFzb24KCgo+IFRoaW5raW5nIG5vdyBhYm91dCBpdCB3ZSBw
+cm9iYWJseSBoYWQgYSBidWcgYXJvdW5kIHRoYXQgYmVmb3JlIGFzCj4gd2VsbC4gCj4gR29pbmcg
+dG8gZG91YmxlIGNoZWNrIHRvbW9ycm93Lgo+IAo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+IAo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmICghcmV0KSB7Cj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9mZW5jZV91bndyYXBf
+Zm9yX2VhY2goZiwgJml0ZXIsIGZlbmNlKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX3Jlc3ZfYWRkX2ZlbmNlKGRt
+YWJ1Zi0+cmVzdiwgZiwKPiA+IHVzYWdlKTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqB9Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX3Jlc3Zf
+dW5sb2NrKGRtYWJ1Zi0+cmVzdik7Cj4gPiArwqDCoMKgwqDCoMKgwqB9Cj4gPiDCoCAKPiA+IMKg
+wqDCoMKgwqDCoMKgwqBkbWFfZmVuY2VfcHV0KGZlbmNlKTsKPiA+IMKgIAo+IAoK
 
-On Thu, Aug 04, 2022 at 09:37:22AM +0200, Mauro Carvalho Chehab wrote:
-> WRITE_ONCE() should happen at the original var, not on a local
-> copy of it.
-> 
-> Fixes: 5d36acb7198b ("drm/i915/gt: Batch TLB invalidations")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Are you going to send it to the stable mailing list?
-
-Andi
