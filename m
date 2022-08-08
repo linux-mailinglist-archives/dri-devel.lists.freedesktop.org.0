@@ -1,50 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFE158CC9E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 19:19:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E21758CCF4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 19:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B8F10E230;
-	Mon,  8 Aug 2022 17:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5257110E23D;
+	Mon,  8 Aug 2022 17:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDA5F10E7E3
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 17:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659979146; x=1691515146;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=2M0Gift2bIkEpuyV+QSRuLQemKZWmk9fMTillQXnu7w=;
- b=lyp0WK5eVHA1Bc/+2z2HPhiAxCht6nNTMytXntYgiPLGgFM4s/1cUMwC
- AAqjQJ6T7T6l3NJr3TyBEyyr6EgpQUqvHc81Atulehtv0vPP5Yl+N2LrQ
- Aux7GZ2KNKI8RRW65Z1E7mhw6QbEBkmSXc4Bwi2bIt5KCOw+/qIPDtKkS
- GI4tmLH6TmEohBwc23uY+2eKkDEmcTmF71HPkzCCS/MMHxAwKxeTXJqeE
- k/82s80Dr1JTgW82rt+uB+adE3zvlTNwzwkdvdUQX4+iyUjHODB4JeCWA
- e68zmqocTwIS15E1Zl0rAwV/RMaQyFoeL7f41cLgoQbZPgxVdOAw7eQ4K Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="271033770"
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="271033770"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 10:19:05 -0700
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="664048967"
-Received: from ograu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.143])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 10:19:03 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
-In-Reply-To: <PDYAGR.ODW3J0YFOA5G3@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <202207172035.mtErdlaw-lkp@intel.com>
- <20220727074152.43059-1-matthieu.charette@gmail.com>
- <87wnbqen2f.fsf@intel.com> <PDYAGR.ODW3J0YFOA5G3@gmail.com>
-Date: Mon, 08 Aug 2022 20:19:01 +0300
-Message-ID: <87edxqodq2.fsf@intel.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2126C10E0F6
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 17:46:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MGoHl8y/Ky3YiUXMq1Q8AnMQG6K2F99m/+0QhKrruKUq+Cb8L0cHpU4Nnymau2lxnOjS5PE/AMXTCE/WzDX5o8YSGK9wKRvzum8I0xh127k0SgFfQ77WIGhy5F/AGpMYhPGNHF4PF2N8jGAiQMNe9Kp9KLpo77ckMVJ4BzgcQJOth3k3VSRunA/HJ3rx1mjSD7fPFMBuDTBpsKu0CVKNe4GO7eiN9MCnutCeDKeGJZqV6vn3Pm1TxBkIwFCbE9bDSCgk+K0H3unev7zTNd/8jkk/Kpte68HNLoUJ8EtEeSfj2F0rdcgjQfH7ANTFR9JcqL+VKt+RuZoeynVjn1hQcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=it83voNRN/dEQcPN1ubnKvr8602PLeTZ2Yso5E2zxwk=;
+ b=e7JxnfM38nCB+XPn/XJCCmCIe2jKMA85q/IWJ3BNYzJL5NYMXpXyz1WnVLk6k3bsF2cttOlme1Q6xNmN2FSTCUOpyOsDtfcGErAJgCTHWD6yjYw+hhEHPgtaIdCAcXzUDAt/4vamy/i+1BwDXqpwPiSSdI6dK6CDfgYPiFdF5c4z/udeuicneCyAdMRktmTHREfXMlWF7PvrEVcWRsojMGmXog4837EW+CHn01z05o1ct4lsW6Rr/qBN1ggpUK8qkqLRbJxmwOTHFPj5Yg/6raA2sPXWDJa8Dep9WoNi+uP7kEP/zHJsN009e1j/q+Biae7XI3Ie2H21jD1E65PwfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=it83voNRN/dEQcPN1ubnKvr8602PLeTZ2Yso5E2zxwk=;
+ b=HP7TvV5+IiIccYTu76YjMI6PPCrM+WgMOqFz42g3ldxFl+boT7PxP4ylw7uIUet+Ys/oYtVX/TUC75Ks3pD01setaq3xJgNbHoajWyQQs1R2F9rluj5tcHtzOWfLrvt4hnK9Wq83ocBRP6y/IFxta3dX7UMdSYpfr04NHqhKfZBaMgvmfGEClQKZc31XHnOCBNuoudPlj0p611Zjf3ppV5IEZb8i1YpDuLKPJrXpRkgjH1i4F4DZ2oCk3tHdykHzKbc6J6bZ32vlQ2fg4EunUSw8XAPgFpHhj4GNOkNO/ONqEGC8Iti2x0QvfYnw4VpjKH+EJaaPO++YfiEzecmh4A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MWHPR12MB1839.namprd12.prod.outlook.com (2603:10b6:300:10b::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Mon, 8 Aug
+ 2022 17:46:29 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::1a7:7daa:9230:1372]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::1a7:7daa:9230:1372%7]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
+ 17:46:28 +0000
+Date: Mon, 8 Aug 2022 14:46:27 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Oded Gabbay <oded.gabbay@gmail.com>
+Subject: Re: New subsystem for acceleration devices
+Message-ID: <YvFL8/g+xbrhLzEr@nvidia.com>
+References: <CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com>
+ <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
+ <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
+ <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
+ <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
+ <YuvctaLwRi+z0Gw4@nvidia.com>
+ <CAFCwf12wD3uEhr+kxwN9ROXApHzGh_n1je5susZV5NgGR9fCcQ@mail.gmail.com>
+ <Yuxi1eRHPN36Or+1@nvidia.com>
+ <CAFCwf13QF_JdzNcpw==zzBoEQUYChMXfechotH31qmAfYZUGmg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFCwf13QF_JdzNcpw==zzBoEQUYChMXfechotH31qmAfYZUGmg@mail.gmail.com>
+X-ClientProxiedBy: BL1PR13CA0180.namprd13.prod.outlook.com
+ (2603:10b6:208:2bd::35) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9a223d97-1ba9-42cf-4881-08da7965ebd9
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1839:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GpF4RhGMz1AEdHYzYJKN4eoF0bC1g+KoNKmQFUaAQ91wvQk1Y46XvyibgvTgAtcMfTr9bOZc37lQ3xHhLwgz4A/j68CA11RLKZ1yFQzgBok/6SpmmfWKIYBVruWm82jU4wOXAtywB6BBaYRntGG1E+Mev6fljshPPOTvKd5ZoiMksHUzkMTuzKrgLrGbOsmvgyoCNU0pw4bOs9+9KWYN5dkKppcMm2x+k6r3Zy9wMuVDG/FU5Q3mTX7brdsGlAYCDl/sCpfCmRaLVEUc+Nu+1bDl8qbto0sTOX5CJeg8dNwx2Z0cWoeIvqdFVn7GgaDm2QPjxsHEc0a/90aUBlOahEg9Csg1iuGYtowILpHLwunaGW1bMzEXWffS3P+xZWdlrpxftljXkRUk6NRIf+xeVjiQW1bTE9cYckjtUW5Q27HFOLs/BUcIcTHT1jJQyMycHGATxoLQPc15LqAKTrwBrgnmdqjf9gIIsIy+SOP10wbwywRM4FBMJyxYR/VhcFe2sHQ9hThLQVPKW03Pvfx5+XBBPYQW2kLar0ToRTwLF7xnZJeRAdFPEHMz3cImjD750+Ojlb5bS1LjqKxRZ03Om3D9M4PLNVBflycuY3N9+s73gzZFM+XsCeXBTO2J47yO7zdnh5kXkPmKMoyAYDsYK9Xg+8wYQJS9oKwXx/oGg1SbYlU+/V/mju7kSQyxXteZn/cgIR1mEKDe/DnHMwfhvUX+pQ/ZKh40s8GXINKY1IiGha2L9Vjw+zeeMx8hR1Aa
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(39860400002)(366004)(376002)(396003)(136003)(54906003)(5660300002)(8676002)(41300700001)(26005)(6916009)(2616005)(66476007)(478600001)(86362001)(36756003)(186003)(8936002)(316002)(66946007)(6506007)(6512007)(66556008)(4326008)(2906002)(38100700002)(83380400001)(6486002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4WsFmn0wqSDZp31SPRgHlkk6Vov18gz5MCXdXbJYI8qXU4VRPpcCPIo6shcm?=
+ =?us-ascii?Q?tCshUr96uk3f+hiNaX/V12nERhMWbos83oDmYOeGxxIK8OqOedofqqznu4gP?=
+ =?us-ascii?Q?D6qEYcop9Cz6lz7ZcdVMK2HfEltQrqlt+kpS7BKmjySihM9TXp+ZjsJe+VN6?=
+ =?us-ascii?Q?ZQyAsysxT1HqNtU/xPbFgnq3LXbA6AtL7SwNuQBn5EmRDcMYcxf1t3fg7yHV?=
+ =?us-ascii?Q?Jxoxm3G6SN8LdhArrRZVrFlbdavGvfkUs3tYymc0PdJKJIi3Ip95J3JBg7rc?=
+ =?us-ascii?Q?BKoGgw1nQFladsCAAVjJYNVdUbm0uYlFm8Oq7dPZrdMZFUhxQuB99A14cZ6D?=
+ =?us-ascii?Q?6np3VNfGG3v/XkFsHyCBGByNAvH0MYO952zVuMpj5tPbI641O9eLmzzMVK5q?=
+ =?us-ascii?Q?ucJAtTfTbi4Dj0RUE/1lR5kH1OYuSVsh6QezzJYjACbwnmQ/7fQYhmjYRQau?=
+ =?us-ascii?Q?T23Y1yd3GTKWbcB7UcfUVJkprReHLuYmy6NT7PAaQW7eB0QfCyxiOM5Nibc7?=
+ =?us-ascii?Q?1kqDG0zy9b7xKFNx0YWPnkp3Fr61npCgkTt4yKZSvzyoElLYQtPhtmV6bjkn?=
+ =?us-ascii?Q?ZN4uuG61jdHmKsIaRLl5W19yFujPfkyfcAH2FivTj9tn43yUg6ixEw8oY9C1?=
+ =?us-ascii?Q?1aIdDCzaXr+lq8XNb30bwUWybWa2tHsmsr9UE0zEBkpHlebJFJz7nAT05GUQ?=
+ =?us-ascii?Q?4PMhHfMrR7OcLZZLnDcZ+t7lo6ZRjNnHytFKF5dsyfHWJ+izVBUQE0OQr2Jg?=
+ =?us-ascii?Q?fDEoDq7GgYaXY1n03mifLEeYCMenYiZsaWIPpXA1xr4wG1mCyzKP2nmLnj+Z?=
+ =?us-ascii?Q?fk8AdZE1turYqUTi+p82OmBrOjYhXp7bwHCPcIfjHmlg9yl5yVqmDlIJVW0s?=
+ =?us-ascii?Q?MadV6/zbI2oXc/dEj73dfuNiOLegc55OP0yTFBnC7id5PWH3gglgFVlNMwhr?=
+ =?us-ascii?Q?nU/ovGZ66ZeY78IdrqVN9lESuhXldCnyTSoouy5CnsN3xasrr/Knt431hVmG?=
+ =?us-ascii?Q?Ak5qZ+IEwQlrY2SvzgAjzRD9VRqxZrmmWcftDsYR6J33BpDFs6m7cVkJNaJW?=
+ =?us-ascii?Q?y16p4Rth6OIFzO3iOrVBnG6twGNWKO40bYiB7xEyq5pH7281QWfanA2g74Jv?=
+ =?us-ascii?Q?wqwNyFXBZ+bEDc2DH4AtYvosoBbp++49qH84Edg6d106LnqdtAGidvE02q+L?=
+ =?us-ascii?Q?pw0MqSce9gSsmIlLn7tO45YxiUah13DPoI0ZXsQmlTZIFhxdp/rzVZszaDXy?=
+ =?us-ascii?Q?/euPTzrnTfCGWgzFU4NeFHvHMVfEzd7wehzK9V4h+k5ymU/j7/aezisVnt1X?=
+ =?us-ascii?Q?23qoE1SguKhonqklLSKfRkAtuLNzs4V7mgDlXAtoRrIX1u3XCMgpcZ8uW9EJ?=
+ =?us-ascii?Q?rv53t5ajZkULIEpNhp8oCPlCIRrUl7R6aJlJTfZk+2X9SsG2/7QQ2K76xkAV?=
+ =?us-ascii?Q?JfJCanZrApJ+9321WdIgg+TSg1drUGvNUqoDX0HuI3CBQKbwZV+OLPRGpU0I?=
+ =?us-ascii?Q?yyyLH0toqHiA1H1enPSKMFyOkXfPuqyIkMDz9JgNChca+JasPlquaYr9Tn0n?=
+ =?us-ascii?Q?Jvls9gpV/zXLX0miC/z7hsEakDMU8PFNI1ivnLVP?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a223d97-1ba9-42cf-4881-08da7965ebd9
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 17:46:28.3608 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7qqxNMXthWEbEyvtjyBOwr/uWAQYypKUDIT4V+EvXIEa27EPF3OMTJX0+/zu70m2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1839
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,284 +121,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, andrealmeid@igalia.com
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiho Chu <jiho.chu@samsung.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 08 Aug 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> wrote:
-> Sorry, What do you mean?
+On Sun, Aug 07, 2022 at 09:43:40AM +0300, Oded Gabbay wrote:
 
-You cache with one name at connector init time, but the name specified
-using drm.edid_firmware may be changed whenever, to cause the next EDID
-read to use a different EDID firmware.
+> 1. If there is a subsystem which is responsible for creating and
+> exposing the device character files, then there should be some code
+> that connects between each device driver to that subsystem.
+> i.e. There should be functions that each driver should call from its
+> probe and release callback functions.
+> 
+> Those functions should take care of the following:
+> - Create metadata for the device, the device's minor(s) and the
+> driver's ioctls table and driver's callback for file operations (both
+> are common for all the driver's devices). Save all that metadata with
+> proper locking.
+> - Create the device char files themselves and supply file operations
+> that will be called per each open/close/mmap/etc.
+> - Keep track of all these objects' lifetime in regard to the device
+> driver's lifetime, with proper handling for release.
+> - Add common handling and entries of sysfs/debugfs for these devices
+> with the ability for each device driver to add their own unique
+> entries.
+> 
+> 2. I think that you underestimate (due to your experience) the "using
+> it properly" part... It is not so easy to do this properly for
+> inexperienced kernel people. If we provide all the code I mentioned
+> above, the device driver writer doesn't need to be aware of all these
+> kernel APIs.
 
-BR,
-Jani.
+This may be, but it still seems weird to me to justify a subsystem as
+"making existing APIs simpler so drivers don't mess them up". It
+suggests perhaps we need additional core API helpers?
 
+> > It would be nice to at least identify something that could obviously
+> > be common, like some kind of enumeration and metadata kind of stuff
+> > (think like ethtool, devlink, rdma tool, nvemctl etc)
+> Definitely. I think we can have at least one ioctl that will be common
+> to all drivers from the start.
 
+Generally you don't want that as an ioctl because you have to open the
+device to execute it, there may be permissions issues for instance -
+or if you have a single-open-at-a-time model like VFIO, then it
+doesn't work well together.
+
+Usually this would be sysfs or netlink.
+
+> > This makes sense to me, all accelerators need a way to set a memory
+> > map, but on the other hand we are doing some very nifty stuff in this
+> > area with iommufd and it might be very interesting to just have the
+> > accelerator driver link to that API instead of building yet another
+> > copy of pin_user_pages() code.. Especially with PASID likely becoming
+> > part of any accelerator toolkit.
 >
-> Matthieu
->
-> On Tue, Aug 2 2022 at 05:29:12 PM +0300, Jani Nikula 
-> <jani.nikula@linux.intel.com> wrote:
->> On Wed, 27 Jul 2022, Matthieu CHARETTE <matthieu.charette@gmail.com 
->> <mailto:matthieu.charette@gmail.com>> wrote:
->>>  Loading an EDID using drm.edid_firmware parameter makes resume to 
->>> fail
->>>  after firmware cache is being cleaned. This is because edid_load() 
->>> use a
->>>  temporary device to request the firmware. This cause the EDID 
->>> firmware
->>>  not to be cached from suspend. And, requesting the EDID firmware 
->>> return
->>>  an error during resume.
->>>  So the request_firmware() call should use a permanent device for 
->>> each
->>>  connector. Also, we should cache the EDID even if no monitor is
->>>  connected, in case it's plugged while suspended.
->> 
->> AFAICT this breaks changing drm.edid_firmware runtime.
->> 
->> BR,
->> Jani.
->> 
->>> 
->>>  Link: <https://gitlab.freedesktop.org/drm/amd/-/issues/2061>
->>>  Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com 
->>> <mailto:matthieu.charette@gmail.com>>
->>>  ---
->>>   drivers/gpu/drm/drm_connector.c |  9 ++++
->>>   drivers/gpu/drm/drm_edid_load.c | 81 
->>> ++++++++++++++++++++++++++++-----
->>>   include/drm/drm_connector.h     | 12 +++++
->>>   include/drm/drm_edid.h          |  3 ++
->>>   4 files changed, 94 insertions(+), 11 deletions(-)
->>> 
->>>  diff --git a/drivers/gpu/drm/drm_connector.c 
->>> b/drivers/gpu/drm/drm_connector.c
->>>  index 1c48d162c77e..e8819ebf1c4b 100644
->>>  --- a/drivers/gpu/drm/drm_connector.c
->>>  +++ b/drivers/gpu/drm/drm_connector.c
->>>  @@ -31,6 +31,7 @@
->>>   #include <drm/drm_privacy_screen_consumer.h>
->>>   #include <drm/drm_sysfs.h>
->>> 
->>>  +#include <linux/platform_device.h>
->>>   #include <linux/uaccess.h>
->>> 
->>>   #include "drm_crtc_internal.h"
->>>  @@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
->>> 
->>>   	drm_connector_get_cmdline_mode(connector);
->>> 
->>>  +	connector->edid_load_pdev = NULL;
->>>  +	drm_cache_edid_firmware(connector);
->>>  +
->>>   	/* We should add connectors at the end to avoid upsetting the 
->>> connector
->>>   	 * index too much.
->>>   	 */
->>>  @@ -473,6 +477,11 @@ void drm_connector_cleanup(struct 
->>> drm_connector *connector)
->>>   		connector->tile_group = NULL;
->>>   	}
->>> 
->>>  +	if (connector->edid_load_pdev) {
->>>  +		platform_device_unregister(connector->edid_load_pdev);
->>>  +		connector->edid_load_pdev = NULL;
->>>  +	}
->>>  +
->>>   	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
->>>   		drm_mode_remove(connector, mode);
->>> 
->>>  diff --git a/drivers/gpu/drm/drm_edid_load.c 
->>> b/drivers/gpu/drm/drm_edid_load.c
->>>  index 37d8ba3ddb46..5a82be9917ec 100644
->>>  --- a/drivers/gpu/drm/drm_edid_load.c
->>>  +++ b/drivers/gpu/drm/drm_edid_load.c
->>>  @@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int 
->>> data_size)
->>>   	return (edid[0x7e] + 1) * EDID_LENGTH;
->>>   }
->>> 
->>>  +static struct platform_device *edid_pdev(const char 
->>> *connector_name)
->>>  +{
->>>  +	struct platform_device *pdev = 
->>> platform_device_register_simple(connector_name, -1, NULL, 0);
->>>  +
->>>  +	if (IS_ERR(pdev)) {
->>>  +		DRM_ERROR("Failed to register EDID firmware platform device "
->>>  +			"for connector \"%s\"\n", connector_name);
->>>  +		return ERR_CAST(pdev);
->>>  +	}
->>>  +
->>>  +	return pdev;
->>>  +}
->>>  +
->>>   static void *edid_load(struct drm_connector *connector, const char 
->>> *name,
->>>   			const char *connector_name)
->>>   {
->>>  @@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector 
->>> *connector, const char *name,
->>>   		fwdata = generic_edid[builtin];
->>>   		fwsize = sizeof(generic_edid[builtin]);
->>>   	} else {
->>>  -		struct platform_device *pdev;
->>>  +		struct platform_device *pdev = connector->edid_load_pdev;
->>>   		int err;
->>> 
->>>  -		pdev = platform_device_register_simple(connector_name, -1, NULL, 
->>> 0);
->>>  -		if (IS_ERR(pdev)) {
->>>  -			DRM_ERROR("Failed to register EDID firmware platform device "
->>>  -				  "for connector \"%s\"\n", connector_name);
->>>  -			return ERR_CAST(pdev);
->>>  +		if (WARN_ON(!pdev)) {
->>>  +			pdev = edid_pdev(connector_name);
->>>  +			if (IS_ERR(pdev))
->>>  +				return ERR_CAST(pdev);
->>>  +			connector->edid_load_pdev = pdev;
->>>   		}
->>> 
->>>   		err = request_firmware(&fw, name, &pdev->dev);
->>>  -		platform_device_unregister(pdev);
->>>   		if (err) {
->>>   			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
->>>   				  name, err);
->>>  @@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector 
->>> *connector, const char *name,
->>>   	return edid;
->>>   }
->>> 
->>>  -struct edid *drm_load_edid_firmware(struct drm_connector 
->>> *connector)
->>>  +static char *edid_name(const char *connector_name)
->>>   {
->>>  -	const char *connector_name = connector->name;
->>>   	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
->>>  -	struct edid *edid;
->>> 
->>>   	if (edid_firmware[0] == '\0')
->>>   		return ERR_PTR(-ENOENT);
->>>  @@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct 
->>> drm_connector *connector)
->>>   	if (*last == '\n')
->>>   		*last = '\0';
->>> 
->>>  -	edid = edid_load(connector, edidname, connector_name);
->>>  +	edidname = kstrdup(edidname, GFP_KERNEL);
->>>  +	if (!edidname) {
->>>  +		kfree(fwstr);
->>>  +		return ERR_PTR(-ENOMEM);
->>>  +	}
->>>  +
->>>   	kfree(fwstr);
->>>  +	return edidname;
->>>  +}
->>>  +
->>>  +void drm_cache_edid_firmware(struct drm_connector *connector)
->>>  +{
->>>  +	const char *connector_name = connector->name;
->>>  +	const char *edidname = edid_name(connector_name);
->>>  +	struct platform_device *pdev;
->>>  +	int err;
->>>  +
->>>  +	if (IS_ERR(edidname))
->>>  +		return;
->>>  +
->>>  +	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 
->>> 0) {
->>>  +		kfree(edidname);
->>>  +		return;
->>>  +	}
->>>  +
->>>  +	pdev = edid_pdev(connector_name);
->>>  +	if (IS_ERR(pdev)) {
->>>  +		kfree(edidname);
->>>  +		return;
->>>  +	}
->>>  +	connector->edid_load_pdev = pdev;
->>>  +
->>>  +	err = firmware_request_cache(&pdev->dev, edidname);
->>>  +	if (err)
->>>  +		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed 
->>> (err=%d)\n",
->>>  +			edidname, err);
->>>  +
->>>  +	kfree(edidname);
->>>  +}
->>>  +
->>>  +struct edid *drm_load_edid_firmware(struct drm_connector 
->>> *connector)
->>>  +{
->>>  +	const char *connector_name = connector->name;
->>>  +	const char *edidname = edid_name(connector_name);
->>>  +	struct edid *edid;
->>>  +
->>>  +	if (IS_ERR(edidname))
->>>  +		return ERR_CAST(edidname);
->>>  +
->>>  +	edid = edid_load(connector, edidname, connector_name);
->>>  +	kfree(edidname);
->>> 
->>>   	return edid;
->>>   }
->>>  diff --git a/include/drm/drm_connector.h 
->>> b/include/drm/drm_connector.h
->>>  index 3ac4bf87f257..47c84741517e 100644
->>>  --- a/include/drm/drm_connector.h
->>>  +++ b/include/drm/drm_connector.h
->>>  @@ -1573,6 +1573,18 @@ struct drm_connector {
->>>   	 */
->>>   	struct i2c_adapter *ddc;
->>> 
->>>  +	/**
->>>  +	 * @edid_load_pdev: Platform device for loading EDID via firmware.
->>>  +	 *
->>>  +	 * The platform device is registered in drm_connector_init() in 
->>> case a
->>>  +	 * custom EDID firmware is used with `edid_firmware` parameter. 
->>> Otherwise,
->>>  +	 * it is set to NULL.
->>>  +	 *
->>>  +	 * Platform device is unregistered in drm_connector_cleanup() if 
->>> it
->>>  +	 * is not NULL.
->>>  +	 */
->>>  +	struct platform_device *edid_load_pdev;
->>>  +
->>>   	/**
->>>   	 * @null_edid_counter: track sinks that give us all zeros for the 
->>> EDID.
->>>   	 * Needed to workaround some HW bugs where we get all 0s
->>>  diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
->>>  index b2756753370b..e907c928a35d 100644
->>>  --- a/include/drm/drm_edid.h
->>>  +++ b/include/drm/drm_edid.h
->>>  @@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector 
->>> *connector,
->>>   		      const struct drm_display_mode *mode);
->>> 
->>>   #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
->>>  +void drm_cache_edid_firmware(struct drm_connector *connector);
->>>   struct edid *drm_load_edid_firmware(struct drm_connector 
->>> *connector);
->>>   int __drm_set_edid_firmware_path(const char *path);
->>>   int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
->>>   #else
->>>  +inline void
->>>  +drm_cache_edid_firmware(struct drm_connector *connector);
->>>   static inline struct edid *
->>>   drm_load_edid_firmware(struct drm_connector *connector)
->>>   {
->> 
->> --
->> Jani Nikula, Intel Open Source Graphics Center
->
+> Here I disagree with you. First of all, there are many relatively
+> simple accelerators, especially in edge, where PASID is really not
+> relevant.
+> Second, even for the more sophisticated PCIe/CXL-based ones, PASID is
+> not mandatory and I suspect that it won't be in 100% of those devices.
+> But definitely that should be an alternative to the "classic" way of
+> handling dma'able memory (pin_user_pages()).
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+My point was that iommufd can do the pinning for you and dump that
+result into a iommu based PASID, or it can do the pinning for you and
+allow the driver to translate it into its own page table format eg the
+ASID in the habana device.
+
+We don't need to have map/unmap APIs to manage address spaces in every
+subsystem.
+
+> Maybe this is something that should be discussed in the kernel summit ?
+
+Maybe, I expect to be at LPC at least
+
+Jason 
