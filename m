@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55EE58CDB9
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 20:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DD858CE0C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 20:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4597510E6D7;
-	Mon,  8 Aug 2022 18:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0242810F7B2;
+	Mon,  8 Aug 2022 18:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
- (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B0A510E397
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 18:37:25 +0000 (UTC)
+Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 466CB10EC2A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 18:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=i0y6RSQK7dE3A6Y/eYZg4QjyeroqpJKUhXu6rdO6Qo4=;
- b=GfTxWZlVCPYtW8oNroCmmebJL5AFtXwNVBNy0ZjSv4JyMp6eqSLzDTKAJCXULXmuDIyV7FHzuEOOM
- 76r1CkYC+LRKwM6LRnDBGAAuQfoiOpZMNPUc5j7Mt6rrHkK6tSiyyT+B18FYxSYsCkizxx8QDRRLUe
- hs+tLPByYjCNkKYPS+p7AMU2U+uJZkbWhUjt9Ia5+OvRlGLb4X1NZmyAKn/uSuwxGdVkzkYpi4TaJZ
- jecVpkRIj5CmFrRS1qKACrLgb3eIx5C9BfeVeimODedH+Dz/hcdchHq+x1b04B4hRZOxiQ9z6mNM6V
- 4HHkRpO26nAiA6T7z9+YSQzVbHTxHOw==
+ bh=ZTp6SIDLt5GT3+bYAdxWFxhygxOBr/A7Riii2XrJfsc=;
+ b=qhGpcxdb5iTbEBtvZPVLEA6ZpqKHR8yu4ZU8RMLVyULUlpuViXjv5sLW9s8EbpNBeuxkp3vOy+A3i
+ ro3rWUTX2ntUy3aMfpdUg7VFehlTK83iDTfAA9xgwWrwwYQatToe5Q6Nn0lnkYJ5ebYDUbBF8Z9Ik2
+ pWh1qlFKhJKTIgYAHepzyWGLCkYI5XJSk7f9rnow+JEsAoXU0B+yLxaoCQgdaBOx7CYyzjmoMupNxH
+ ptVn1RYFMy9LM272K9Ab9qzU8/wMXvLpa+ASdikJ/bk75JFfibKV0nrg1gN2Aauj5kNT/2KrXiZg5n
+ FLj+eSxKJHb+Y9hVxJs0wDH1aRHj5Iw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=i0y6RSQK7dE3A6Y/eYZg4QjyeroqpJKUhXu6rdO6Qo4=;
- b=tawh23rV8gu8jKqNH/F+PQjY0phHkkqLNbhyRaeMeid8e4h303EMqugcfZwDtgW8U21GPOT+IZ8FF
- AHUcMwFAQ==
-X-HalOne-Cookie: 03e7d3fadb5e1d8e6e2175ae13c72f7a820641fa
-X-HalOne-ID: 24432e59-1749-11ed-8244-d0431ea8bb10
-Received: from mailproxy4.cst.dirpod3-cph3.one.com
+ bh=ZTp6SIDLt5GT3+bYAdxWFxhygxOBr/A7Riii2XrJfsc=;
+ b=krHftYRNaUIwUi2jPUvODBthBMPhm1UnlHVDq/my2tEemJ0SoWJXWf5GYoaSsokq99Zl2pUloaXyx
+ 6/KigL3CA==
+X-HalOne-Cookie: eb00fd88576e255c300373dd3168e6e64109d575
+X-HalOne-ID: 02a222c7-174a-11ed-a91b-d0431ea8a290
+Received: from mailproxy3.cst.dirpod3-cph3.one.com
  (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 24432e59-1749-11ed-8244-d0431ea8bb10;
- Mon, 08 Aug 2022 18:37:23 +0000 (UTC)
-Date: Mon, 8 Aug 2022 20:37:21 +0200
+ by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 02a222c7-174a-11ed-a91b-d0431ea8a290;
+ Mon, 08 Aug 2022 18:43:36 +0000 (UTC)
+Date: Mon, 8 Aug 2022 20:43:34 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 01/14] iosys-map: Add IOSYS_MAP_INIT_VADDR_IOMEM()
-Message-ID: <YvFX4eSZ8/PU4+RL@ravnborg.org>
+Subject: Re: [PATCH v2 03/14] drm/format-helper: Merge drm_fb_memcpy() and
+ drm_fb_memcpy_toio()
+Message-ID: <YvFZVlkfUFowPeu3@ravnborg.org>
 References: <20220808125406.20752-1-tzimmermann@suse.de>
- <20220808125406.20752-2-tzimmermann@suse.de>
+ <20220808125406.20752-4-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220808125406.20752-2-tzimmermann@suse.de>
+In-Reply-To: <20220808125406.20752-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +67,19 @@ Cc: linux-hyperv@vger.kernel.org, david@lechnology.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 08, 2022 at 02:53:53PM +0200, Thomas Zimmermann wrote:
-> Add IOSYS_MAP_INIT_VADDR_IOMEM() for static init of variables of type
-> struct iosys_map.
+Hi Thomas,
+
+On Mon, Aug 08, 2022 at 02:53:55PM +0200, Thomas Zimmermann wrote:
+> Merge drm_fb_memcpy() and drm_fb_memcpy_toio() into a drm_fb_memcpy()
+> that uses struct iosys_map for buffers. The new function also supports
+> multi-plane color formats. Convert all users of the original helpers.
+> 
+> v2:
+> 	* rebase onto refactored mgag200
+> 	* use drm_formap_info_bpp() (Sam)
+> 	* do static init in hyperv and mgag200 (Sam)
+> 	* update documentation (Sam)
+> 	* add TODO on vaddr location (Sam)
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  include/linux/iosys-map.h | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-> index a533cae189d7..cb71aa616bd3 100644
-> --- a/include/linux/iosys-map.h
-> +++ b/include/linux/iosys-map.h
-> @@ -46,10 +46,13 @@
->   *
->   *	iosys_map_set_vaddr(&map, 0xdeadbeaf);
->   *
-> - * To set an address in I/O memory, use iosys_map_set_vaddr_iomem().
-> + * To set an address in I/O memory, use IOSYS_MAP_INIT_VADDR_IOMEM() or
-> + * iosys_map_set_vaddr_iomem().
->   *
->   * .. code-block:: c
->   *
-> + *	struct iosys_map map = IOSYS_MAP_INIT_VADDR_IOMEM(0xdeadbeaf);
-> + *
->   *	iosys_map_set_vaddr_iomem(&map, 0xdeadbeaf);
->   *
->   * Instances of struct iosys_map do not have to be cleaned up, but
-> @@ -121,6 +124,16 @@ struct iosys_map {
->  		.is_iomem = false,	\
->  	}
->  
-> +/**
-> + * IOSYS_MAP_INIT_VADDR_IOMEM - Initializes struct iosys_map to an address in I/O memory
-> + * @vaddr_iomem_:	An I/O-memory address
-> + */
-> +#define IOSYS_MAP_INIT_VADDR_IOMEM(vaddr_iomem_)	\
-> +	{						\
-> +		.vaddr_iomem = (vaddr_iomem_),		\
-> +		.is_iomem = true,			\
-> +	}
-> +
->  /**
->   * IOSYS_MAP_INIT_OFFSET - Initializes struct iosys_map from another iosys_map
->   * @map_:	The dma-buf mapping structure to copy from
-> -- 
-> 2.37.1
