@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239EE58C141
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 03:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DE658C1A9
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 04:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B11E11A929;
-	Mon,  8 Aug 2022 01:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362DC18A647;
+	Mon,  8 Aug 2022 02:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A412411A929
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 01:57:42 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 00B3281F4E;
- Mon,  8 Aug 2022 03:57:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1659923860;
- bh=pmbwwpNpeueT+ISdq9JYGWZKBeNckBvZC95Cyj0u2Sg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=swPqynnQcZz6+SlHvETz+dwhUjz4urK9u64r73z6XvsUYdAbGVkP/mtbkhRWgHRh6
- OJXN7pa1wXLMrlZfyJ2y17VJsGqlajeEysgl3ZVDNjh2DxBXRkoJqjSU82j8zDfzSg
- 343BA8tTQsKh8Bn4QTK4hWaVGqZc9ZKAkbHrlTLXT5p6GnOn5L6u+Fwi+TNLpp2L2s
- 9o8/BSNbSgHNWA8qqTBi6DrYg+jR5jU0x/SsG1ghUA+lPs5xDbJ/W9pG0RsHE14rMI
- JKJZeke5ayJVD2eO/6wmkvTMrzNoUCOurRSuyZRcCXcczQ+6LsEdjgA/zGM+yH+HsA
- MsW3EsXkplYvA==
-Message-ID: <4788af3e-b36d-fbe9-bd17-db1db85f1b7f@denx.de>
-Date: Mon, 8 Aug 2022 03:57:39 +0200
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 349F918A686
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 02:35:12 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id o22so9651438edc.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Aug 2022 19:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=HR8fsz3D9jTQuvWD7UhLglZE9DhqQ7qKdBgq9AHGyhw=;
+ b=TqMboQ6xUihS6VfN20PnmTTKTnnwgcivO+xrnjffl29WtUYC6OjzH+ZaspLdxyBezQ
+ UBjIc5JGVvYG5LUeRRFzXPo80cYbSUYHPlElRZUcCVLI7I8Ye4YGZdEgkT1JULgOPCnt
+ +v7/qzPSpxGvNhwv+DvKpqlqvPEYMvXjaVE/br0Hew76sD5B97yttSIhQUE+WpOvwJA9
+ CWz6Acj4haWz1Ka1Rbb9Jnd5SBnReFIsI7idH9Rz3lWETcXdIOFTuOdCkdSAyCd7uLFe
+ Z6qEO03LCFoRdhovVoiEqGRLysIooZo0AwRhgH5W9kiRo/VRj8eB+KxTFZ9wi+vnYe5w
+ x5Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=HR8fsz3D9jTQuvWD7UhLglZE9DhqQ7qKdBgq9AHGyhw=;
+ b=TmKboc4HgVPMytw9x0GdXANEvuUir8i0fOgzhaQRTP2ZEw2rfb4RBG9QD6CbDTHG8L
+ AMx0DeO3t7za/0dOsBXXy3lHZSIz49t5h+tTZO5pwfa0VNLQXYU2epUuqCDuGSwM9BBu
+ XQdFj/LpwFDZYt9zGn/tj7mzd+Kh/a/spcm/atR9mpLNzNSDOc7bjuASxxHIIb3ZfjCe
+ 2+orLVfcQNeHomaGQpYRplw+6ChjtVQRs8qtBatPaPEysmsRlEQKN9cnwGSpaPdzzZrw
+ wgZg7O7bPlBOAFNTPsrkOmaL4ry8Rb6xPUnAwpdu5nZQooCCxoQrJNBYjR/B1GSrOHlb
+ 7EDA==
+X-Gm-Message-State: ACgBeo2G191+FBqxez2X3xjlYrCiPM1ozbzFcXiNQuukL/ZTGKb7MJyl
+ owaVD8QQQMalXVTPDTr1F5hLN8wOa04WJTTAjJU=
+X-Google-Smtp-Source: AA6agR6DnTRVcG6bu7XktaYl6QqQT8jwqMZ8ZUUVcmQNy/wet1iIg5SHkIGHbroERpdJpebUlX5ajwJN/ZpoLl93GbY=
+X-Received: by 2002:aa7:d513:0:b0:43d:5c81:4f71 with SMTP id
+ y19-20020aa7d513000000b0043d5c814f71mr12029971edq.308.1659926110611; Sun, 07
+ Aug 2022 19:35:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: icn6211: Add support
- for RGB/BGR swap
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220801131901.183090-1-marex@denx.de>
- <20220801163238.GA1130127-robh@kernel.org>
- <4d917546-23a2-a33a-1f59-ec78305aa854@denx.de>
- <CAL_JsqLHKnL80spDSAqMq0cOkVNztv0MjVsR-Rs83qd_q7_MQg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAL_JsqLHKnL80spDSAqMq0cOkVNztv0MjVsR-Rs83qd_q7_MQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 8 Aug 2022 12:34:59 +1000
+Message-ID: <CAPM=9tyqsK3X_+s53Xy5jUs+cq3+aSkYne-E4NLLJ+NBnRqjNg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/7] New DRM driver for Intel VPU
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, 
+ "Koenig, Christian" <Christian.Koenig@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Dave Airlie <airlied@linux.ie>, andrzej.kacprowski@linux.intel.com,
+ dri-devel <dri-devel@lists.freedesktop.org>, stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/4/22 00:41, Rob Herring wrote:
-> On Tue, Aug 2, 2022 at 5:33 AM Marek Vasut <marex@denx.de> wrote:
->>
->> On 8/1/22 18:32, Rob Herring wrote:
->>> On Mon, Aug 01, 2022 at 03:19:00PM +0200, Marek Vasut wrote:
->>>> The ICN6211 is capable of swapping the output DPI RGB/BGR color channels,
->>>> document a DT property to select this swap in DT. This can be useful on
->>>> hardware where such swap happens.
->>>
->>> We should ensure this series[1] works for you instead.
->>
->> [...]
->>
->>> Rob
->>>
->>> [1] https://lore.kernel.org/r/20220628181838.2031-3-max.oss.09@gmail.com
->>
->> I'm still not convinced that we should encode this pixel format value
->> directly into the DT instead of trying to describe the DPI bus color
->> channel width/order/shift in the DT instead. I think I mentioned that
->> before in one of the previous versions of that series.
-> 
-> I worry that it gets pretty verbose, but worth having the discussion.
-> In any case, let's have that discussion and not add yet another one
-> off property.
+On Thu, 28 Jul 2022 at 23:17, Jacek Lawrynowicz
+<jacek.lawrynowicz@linux.intel.com> wrote:
+>
+> Hi,
+>
+> This patchset contains a new Linux* Kernel Driver for Intel=C2=AE VPUs.
+>
+> VPU stands for Versatile Processing Unit and it is an AI inference accele=
+rator
+> integrated with Intel non-server CPUs starting from 14th generation.
+> VPU enables efficient execution of Deep Learning applications
+> like object detection, classification etc.
+>
+> Driver is part of gpu/drm subsystem because VPU is similar in operation t=
+o
+> an integrated GPU. Reusing drm driver init, ioctl handling, gem and prime
+> helpers and drm_mm allows to minimize code duplication in the kernel.
+>
+> The whole driver is licensed under GPL-2.0-only except for two headers im=
+ported
+> from the firmware that are MIT licensed.
+>
+> User mode driver stack consists of Level Zero API driver and OpenVINO plu=
+gin.
+> Both should be open-sourced by the end of Q3.
+> The firmware for the VPU will be distributed as a closed source binary.
 
-Done, I replied
+
+Thanks for the submission, this looks pretty good and well layed out,
+
+just a few higher level things, I think I'd like this name intel-vpu
+or ivpu or something, VPU is a pretty generic namespace usage.
+
+I think adding some sort of TODO file with what is missing and what
+future things need to happen would be useful to know when merging this
+might be a good idea.
+
+I'm kinda thinking with a rename we could merge this sooner into a
+staging-lite model.
+
+I think I'd like Christian/Maarten to maybe review the fencing/uapi,
+to make sure nothing too much is wrong there. The submit/waitbo model
+is getting a bit old, and using syncobjs might be useful to make it
+more modern. Is this device meant to be used by multiple users at
+once? Maybe we'd want scheduler integration for it as well (which I
+think I saw mentioned somewhere in passing).
+
+Dave.
