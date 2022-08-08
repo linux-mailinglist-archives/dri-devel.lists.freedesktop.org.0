@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE01C58C302
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:47:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C241358C30B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C8714A6F1;
-	Mon,  8 Aug 2022 05:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61E898D6C0;
+	Mon,  8 Aug 2022 05:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1181E11B544
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:46:42 +0000 (UTC)
-X-UUID: 5f9f0a52b07f45639a2c320be271104a-20220808
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5C598D6C0
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:51:01 +0000 (UTC)
+X-UUID: 59e4d564d1024e14b9a34b3e7c4b76aa-20220808
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=VYf6ezy+/tgRHSxGzJXfNlPkkPg4ZknRRAkBfdbZORU=; 
- b=jDvh4+64DMoZeeiCyFLavW6xLEs1PQPUnXjuZEqNk4jUFU0YnroyL0xZAg70bt+KNlyNpvw8JJpAsAM2wwm5FSxrsJ8U1pJMxCizUF45TyJ7xRC+dpg1iwc/kpgKFKpH+0g1+cvz193a7fgwNShpkzyI7BaK5jC/WXtU1TpHSsM=;
+ bh=a1HzzRePzEuTmzevPoaY0WG9Aj+DqmyLMfY/ojomtGo=; 
+ b=a7oqFG552aqjGlQmAGDXO1URGvnXUNT0B49ukGGLFfxJMHF3WFzB09kob+sWfB9daDdKWTKpvPG17MS0GP+K0WUONZFt5XTgcuLMFyvaJnDEMq/4+gqRle4tT0A2AzDfmAoouj+U3C9afXJOe+eMYY7DZjZ2W9ydNkgjaAL1ogI=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.9, REQID:1145f007-8b2c-427d-be21-a07512c8074d, OB:0,
+X-CID-O-INFO: VERSION:1.1.9, REQID:b74202e5-6be2-4a35-8a52-e8461a03fb6d, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_H
  am,ACTION:release,TS:0
-X-CID-META: VersionHash:3d8acc9, CLOUDID:38fb2fae-9535-44a6-aa9b-7f62b79b6ff6,
+X-CID-META: VersionHash:3d8acc9, CLOUDID:f7b9099c-da39-4e3b-a854-56c7d2111b46,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 5f9f0a52b07f45639a2c320be271104a-20220808
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 902237526; Mon, 08 Aug 2022 13:46:39 +0800
+X-UUID: 59e4d564d1024e14b9a34b3e7c4b76aa-20220808
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1620236941; Mon, 08 Aug 2022 13:50:56 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
  mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 8 Aug 2022 13:46:39 +0800
+ 15.2.792.15; Mon, 8 Aug 2022 13:50:55 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 8 Aug 2022 13:46:39 +0800
-Message-ID: <d9eb673132f643e39caeb422309bf4315f0c136e.camel@mediatek.com>
+ Transport; Mon, 8 Aug 2022 13:50:54 +0800
+Message-ID: <d88ee153da3e881d273862667eae0fdc80af08bc.camel@mediatek.com>
 Subject: Re: [PATCH v16 3/8] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -48,7 +48,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Mon, 8 Aug 2022 13:46:39 +0800
+Date: Mon, 8 Aug 2022 13:50:54 +0800
 In-Reply-To: <20220805101459.3386-4-rex-bc.chen@mediatek.com>
 References: <20220805101459.3386-1-rex-bc.chen@mediatek.com>
  <20220805101459.3386-4-rex-bc.chen@mediatek.com>
@@ -113,65 +113,29 @@ On Fri, 2022-08-05 at 18:14 +0800, Bo-Chen Chen wrote:
 
 [snip]
 
-> +
-> +static irqreturn_t mtk_dp_hpd_event(int hpd, void *dev)
-> +{
-> +	struct mtk_dp *mtk_dp = dev;
-> +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
-> +	u32 irq_status;
-> +
-> +	irq_status = mtk_dp_read(mtk_dp, MTK_DP_TOP_IRQ_STATUS);
-> +
-> +	if (!(irq_status & RGS_IRQ_STATUS_TRANSMITTER))
-> +		return IRQ_HANDLED;
+> +#define MTK_DP_ENC0_P0_3038			(ENC0_OFFSET + 0x38)
+> +#define VIDEO_SOURCE_SEL_DP_ENC0_P0_MASK	BIT(11)
+> +#define VIDEO_SOURCE_SEL_DP_ENC0_P0_SHIFT	(BIT(0) | BIT(1) |
+> BIT(3))
 
-If one of MTK_DP_HPD_INTERRUPT, MTK_DP_HPD_CONNECT,
-MTK_DP_HPD_DISCONNECT exist, does it imply RGS_IRQ_STATUS_TRANSMITTER
-exist? If so, I think this checking is redundant because we could
-directly check MTK_DP_HPD_INTERRUPT, MTK_DP_HPD_CONNECT,
-MTK_DP_HPD_DISCONNECT.
+It's not necessary to define a symbol for shift because it's trivial
+that we understand it's a shift.
 
 > +
-> +	irq_status = mtk_dp_swirq_get_clear(mtk_dp) |
-> +		     mtk_dp_hwirq_get_clear(mtk_dp);
-> +
-> +	if (!irq_status)
-> +		return IRQ_HANDLED;
-> +
-> +	if (irq_status & MTK_DP_HPD_INTERRUPT)
-> +		train_info->hpd_inerrupt = true;
+> +#define MTK_DP_ENC0_P0_303C			(ENC0_OFFSET + 0x3C)
+> +#define SRAM_START_READ_THRD_DP_ENC0_P0_MASK	GENMASK(5, 0)
+> +#define SRAM_START_READ_THRD_DP_ENC0_P0_SHIFT	0
 
-train_info->hpd_inerrupt is useless, so drop it.
+Ditto.
 
-> +
-> +	if (!(irq_status & MTK_DP_HPD_CONNECT ||
-> +	      irq_status & MTK_DP_HPD_DISCONNECT))
-> +		return IRQ_WAKE_THREAD;
+> +#define VIDEO_COLOR_DEPTH_DP_ENC0_P0_MASK	GENMASK(10, 8)
+> +#define VIDEO_COLOR_DEPTH_DP_ENC0_P0_SHIFT	BIT(3)
 
-this could be changed to
-
-if (irq_status == MTK_DP_HPD_INTERRUPT)
-	return IRQ_WAKE_THREAD;
-
-But I find one problem. If irq_status == MTK_DP_HPD_INTERRUPT |
-MTK_DP_HPD_CONNECT, the thread would not be waked up. Is this what you
-want?
+Ditto.
 
 Regards,
 CK
 
 > +
-> +	if (!!(mtk_dp_read(mtk_dp, MTK_DP_TRANS_P0_3414) &
-> +	       HPD_DB_DP_TRANS_P0_MASK))
-> +		train_info->cable_plugged_in = true;
-> +	else
-> +		train_info->cable_plugged_in = false;
-> +
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> +			   DP_PWR_STATE_BANDGAP_TPLL_LANE,
-> +			   DP_PWR_STATE_MASK);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
+> 
 
