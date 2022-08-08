@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BEB58CC71
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 18:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFE158CC9E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 19:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8023010E2F2;
-	Mon,  8 Aug 2022 16:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B8F10E230;
+	Mon,  8 Aug 2022 17:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF7410E155;
- Mon,  8 Aug 2022 16:58:58 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDA5F10E7E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 17:19:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659977938; x=1691513938;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CyZ9KFHsK3W8qpzogvHPOd+GVdfB3OgqatLSpmKZvks=;
- b=gver6fXtOJrP1CliWmoplgP1yrmKkplLEHQAMfSLu9DDrBZk1THPGDQV
- alO5SQYjSWy6QUwbXi7zkm0tBb90JAWs0lrUB6HctogTWaWmtXCTbAgkh
- aYSZPuTyGA/DXuUOqndRyRP7SS2NiJt10l/M4euHdBICg/bv4jB9WBr3l
- UvkdC5tGnPJ3QTS3U/pp6AhgDJJXd+4AlQ69m/0qt5FDph6/9C4c4u3Wc
- po+Zd4Rc1iZgfAjJilR5MFQbZtNNjVEaL7W1EQQNYZcOj3isKEfienZQf
- +QPG6iQiw+ZXgmxnuyBq+g+0pb5uE7Bk755Z1b6nNpLGHMMQc386/aTbL A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="273692049"
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="273692049"
+ t=1659979146; x=1691515146;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=2M0Gift2bIkEpuyV+QSRuLQemKZWmk9fMTillQXnu7w=;
+ b=lyp0WK5eVHA1Bc/+2z2HPhiAxCht6nNTMytXntYgiPLGgFM4s/1cUMwC
+ AAqjQJ6T7T6l3NJr3TyBEyyr6EgpQUqvHc81Atulehtv0vPP5Yl+N2LrQ
+ Aux7GZ2KNKI8RRW65Z1E7mhw6QbEBkmSXc4Bwi2bIt5KCOw+/qIPDtKkS
+ GI4tmLH6TmEohBwc23uY+2eKkDEmcTmF71HPkzCCS/MMHxAwKxeTXJqeE
+ k/82s80Dr1JTgW82rt+uB+adE3zvlTNwzwkdvdUQX4+iyUjHODB4JeCWA
+ e68zmqocTwIS15E1Zl0rAwV/RMaQyFoeL7f41cLgoQbZPgxVdOAw7eQ4K Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="271033770"
+X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="271033770"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 09:58:57 -0700
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="664040274"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.40.190])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2022 10:19:05 -0700
+X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="664048967"
+Received: from ograu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.143])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 09:58:53 -0700
-Date: Mon, 8 Aug 2022 18:58:50 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v3 3/3] drm/i915/gt: document TLB cache invalidation
- functions
-Message-ID: <YvFAyhjeGSwJkEjc@alfio.lan>
-References: <cover.1659598090.git.mchehab@kernel.org>
- <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
+ 08 Aug 2022 10:19:03 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matthieu CHARETTE <matthieu.charette@gmail.com>
+Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
+In-Reply-To: <PDYAGR.ODW3J0YFOA5G3@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <202207172035.mtErdlaw-lkp@intel.com>
+ <20220727074152.43059-1-matthieu.charette@gmail.com>
+ <87wnbqen2f.fsf@intel.com> <PDYAGR.ODW3J0YFOA5G3@gmail.com>
+Date: Mon, 08 Aug 2022 20:19:01 +0300
+Message-ID: <87edxqodq2.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,25 +57,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chris Wilson <chris.p.wilson@intel.com>, linux-doc@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: kbuild-all@lists.01.org, lkp@intel.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, andrealmeid@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro,
+On Mon, 08 Aug 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> wrote:
+> Sorry, What do you mean?
 
-On Thu, Aug 04, 2022 at 09:37:24AM +0200, Mauro Carvalho Chehab wrote:
-> Add a description for the TLB cache invalidation algorithm and for
-> the related kAPI functions.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+You cache with one name at connector init time, but the name specified
+using drm.edid_firmware may be changed whenever, to cause the next EDID
+read to use a different EDID firmware.
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+BR,
+Jani.
 
-Andi
+
+>
+> Matthieu
+>
+> On Tue, Aug 2 2022 at 05:29:12 PM +0300, Jani Nikula 
+> <jani.nikula@linux.intel.com> wrote:
+>> On Wed, 27 Jul 2022, Matthieu CHARETTE <matthieu.charette@gmail.com 
+>> <mailto:matthieu.charette@gmail.com>> wrote:
+>>>  Loading an EDID using drm.edid_firmware parameter makes resume to 
+>>> fail
+>>>  after firmware cache is being cleaned. This is because edid_load() 
+>>> use a
+>>>  temporary device to request the firmware. This cause the EDID 
+>>> firmware
+>>>  not to be cached from suspend. And, requesting the EDID firmware 
+>>> return
+>>>  an error during resume.
+>>>  So the request_firmware() call should use a permanent device for 
+>>> each
+>>>  connector. Also, we should cache the EDID even if no monitor is
+>>>  connected, in case it's plugged while suspended.
+>> 
+>> AFAICT this breaks changing drm.edid_firmware runtime.
+>> 
+>> BR,
+>> Jani.
+>> 
+>>> 
+>>>  Link: <https://gitlab.freedesktop.org/drm/amd/-/issues/2061>
+>>>  Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com 
+>>> <mailto:matthieu.charette@gmail.com>>
+>>>  ---
+>>>   drivers/gpu/drm/drm_connector.c |  9 ++++
+>>>   drivers/gpu/drm/drm_edid_load.c | 81 
+>>> ++++++++++++++++++++++++++++-----
+>>>   include/drm/drm_connector.h     | 12 +++++
+>>>   include/drm/drm_edid.h          |  3 ++
+>>>   4 files changed, 94 insertions(+), 11 deletions(-)
+>>> 
+>>>  diff --git a/drivers/gpu/drm/drm_connector.c 
+>>> b/drivers/gpu/drm/drm_connector.c
+>>>  index 1c48d162c77e..e8819ebf1c4b 100644
+>>>  --- a/drivers/gpu/drm/drm_connector.c
+>>>  +++ b/drivers/gpu/drm/drm_connector.c
+>>>  @@ -31,6 +31,7 @@
+>>>   #include <drm/drm_privacy_screen_consumer.h>
+>>>   #include <drm/drm_sysfs.h>
+>>> 
+>>>  +#include <linux/platform_device.h>
+>>>   #include <linux/uaccess.h>
+>>> 
+>>>   #include "drm_crtc_internal.h"
+>>>  @@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
+>>> 
+>>>   	drm_connector_get_cmdline_mode(connector);
+>>> 
+>>>  +	connector->edid_load_pdev = NULL;
+>>>  +	drm_cache_edid_firmware(connector);
+>>>  +
+>>>   	/* We should add connectors at the end to avoid upsetting the 
+>>> connector
+>>>   	 * index too much.
+>>>   	 */
+>>>  @@ -473,6 +477,11 @@ void drm_connector_cleanup(struct 
+>>> drm_connector *connector)
+>>>   		connector->tile_group = NULL;
+>>>   	}
+>>> 
+>>>  +	if (connector->edid_load_pdev) {
+>>>  +		platform_device_unregister(connector->edid_load_pdev);
+>>>  +		connector->edid_load_pdev = NULL;
+>>>  +	}
+>>>  +
+>>>   	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
+>>>   		drm_mode_remove(connector, mode);
+>>> 
+>>>  diff --git a/drivers/gpu/drm/drm_edid_load.c 
+>>> b/drivers/gpu/drm/drm_edid_load.c
+>>>  index 37d8ba3ddb46..5a82be9917ec 100644
+>>>  --- a/drivers/gpu/drm/drm_edid_load.c
+>>>  +++ b/drivers/gpu/drm/drm_edid_load.c
+>>>  @@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int 
+>>> data_size)
+>>>   	return (edid[0x7e] + 1) * EDID_LENGTH;
+>>>   }
+>>> 
+>>>  +static struct platform_device *edid_pdev(const char 
+>>> *connector_name)
+>>>  +{
+>>>  +	struct platform_device *pdev = 
+>>> platform_device_register_simple(connector_name, -1, NULL, 0);
+>>>  +
+>>>  +	if (IS_ERR(pdev)) {
+>>>  +		DRM_ERROR("Failed to register EDID firmware platform device "
+>>>  +			"for connector \"%s\"\n", connector_name);
+>>>  +		return ERR_CAST(pdev);
+>>>  +	}
+>>>  +
+>>>  +	return pdev;
+>>>  +}
+>>>  +
+>>>   static void *edid_load(struct drm_connector *connector, const char 
+>>> *name,
+>>>   			const char *connector_name)
+>>>   {
+>>>  @@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector 
+>>> *connector, const char *name,
+>>>   		fwdata = generic_edid[builtin];
+>>>   		fwsize = sizeof(generic_edid[builtin]);
+>>>   	} else {
+>>>  -		struct platform_device *pdev;
+>>>  +		struct platform_device *pdev = connector->edid_load_pdev;
+>>>   		int err;
+>>> 
+>>>  -		pdev = platform_device_register_simple(connector_name, -1, NULL, 
+>>> 0);
+>>>  -		if (IS_ERR(pdev)) {
+>>>  -			DRM_ERROR("Failed to register EDID firmware platform device "
+>>>  -				  "for connector \"%s\"\n", connector_name);
+>>>  -			return ERR_CAST(pdev);
+>>>  +		if (WARN_ON(!pdev)) {
+>>>  +			pdev = edid_pdev(connector_name);
+>>>  +			if (IS_ERR(pdev))
+>>>  +				return ERR_CAST(pdev);
+>>>  +			connector->edid_load_pdev = pdev;
+>>>   		}
+>>> 
+>>>   		err = request_firmware(&fw, name, &pdev->dev);
+>>>  -		platform_device_unregister(pdev);
+>>>   		if (err) {
+>>>   			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+>>>   				  name, err);
+>>>  @@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector 
+>>> *connector, const char *name,
+>>>   	return edid;
+>>>   }
+>>> 
+>>>  -struct edid *drm_load_edid_firmware(struct drm_connector 
+>>> *connector)
+>>>  +static char *edid_name(const char *connector_name)
+>>>   {
+>>>  -	const char *connector_name = connector->name;
+>>>   	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+>>>  -	struct edid *edid;
+>>> 
+>>>   	if (edid_firmware[0] == '\0')
+>>>   		return ERR_PTR(-ENOENT);
+>>>  @@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct 
+>>> drm_connector *connector)
+>>>   	if (*last == '\n')
+>>>   		*last = '\0';
+>>> 
+>>>  -	edid = edid_load(connector, edidname, connector_name);
+>>>  +	edidname = kstrdup(edidname, GFP_KERNEL);
+>>>  +	if (!edidname) {
+>>>  +		kfree(fwstr);
+>>>  +		return ERR_PTR(-ENOMEM);
+>>>  +	}
+>>>  +
+>>>   	kfree(fwstr);
+>>>  +	return edidname;
+>>>  +}
+>>>  +
+>>>  +void drm_cache_edid_firmware(struct drm_connector *connector)
+>>>  +{
+>>>  +	const char *connector_name = connector->name;
+>>>  +	const char *edidname = edid_name(connector_name);
+>>>  +	struct platform_device *pdev;
+>>>  +	int err;
+>>>  +
+>>>  +	if (IS_ERR(edidname))
+>>>  +		return;
+>>>  +
+>>>  +	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 
+>>> 0) {
+>>>  +		kfree(edidname);
+>>>  +		return;
+>>>  +	}
+>>>  +
+>>>  +	pdev = edid_pdev(connector_name);
+>>>  +	if (IS_ERR(pdev)) {
+>>>  +		kfree(edidname);
+>>>  +		return;
+>>>  +	}
+>>>  +	connector->edid_load_pdev = pdev;
+>>>  +
+>>>  +	err = firmware_request_cache(&pdev->dev, edidname);
+>>>  +	if (err)
+>>>  +		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed 
+>>> (err=%d)\n",
+>>>  +			edidname, err);
+>>>  +
+>>>  +	kfree(edidname);
+>>>  +}
+>>>  +
+>>>  +struct edid *drm_load_edid_firmware(struct drm_connector 
+>>> *connector)
+>>>  +{
+>>>  +	const char *connector_name = connector->name;
+>>>  +	const char *edidname = edid_name(connector_name);
+>>>  +	struct edid *edid;
+>>>  +
+>>>  +	if (IS_ERR(edidname))
+>>>  +		return ERR_CAST(edidname);
+>>>  +
+>>>  +	edid = edid_load(connector, edidname, connector_name);
+>>>  +	kfree(edidname);
+>>> 
+>>>   	return edid;
+>>>   }
+>>>  diff --git a/include/drm/drm_connector.h 
+>>> b/include/drm/drm_connector.h
+>>>  index 3ac4bf87f257..47c84741517e 100644
+>>>  --- a/include/drm/drm_connector.h
+>>>  +++ b/include/drm/drm_connector.h
+>>>  @@ -1573,6 +1573,18 @@ struct drm_connector {
+>>>   	 */
+>>>   	struct i2c_adapter *ddc;
+>>> 
+>>>  +	/**
+>>>  +	 * @edid_load_pdev: Platform device for loading EDID via firmware.
+>>>  +	 *
+>>>  +	 * The platform device is registered in drm_connector_init() in 
+>>> case a
+>>>  +	 * custom EDID firmware is used with `edid_firmware` parameter. 
+>>> Otherwise,
+>>>  +	 * it is set to NULL.
+>>>  +	 *
+>>>  +	 * Platform device is unregistered in drm_connector_cleanup() if 
+>>> it
+>>>  +	 * is not NULL.
+>>>  +	 */
+>>>  +	struct platform_device *edid_load_pdev;
+>>>  +
+>>>   	/**
+>>>   	 * @null_edid_counter: track sinks that give us all zeros for the 
+>>> EDID.
+>>>   	 * Needed to workaround some HW bugs where we get all 0s
+>>>  diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>>>  index b2756753370b..e907c928a35d 100644
+>>>  --- a/include/drm/drm_edid.h
+>>>  +++ b/include/drm/drm_edid.h
+>>>  @@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector 
+>>> *connector,
+>>>   		      const struct drm_display_mode *mode);
+>>> 
+>>>   #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
+>>>  +void drm_cache_edid_firmware(struct drm_connector *connector);
+>>>   struct edid *drm_load_edid_firmware(struct drm_connector 
+>>> *connector);
+>>>   int __drm_set_edid_firmware_path(const char *path);
+>>>   int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+>>>   #else
+>>>  +inline void
+>>>  +drm_cache_edid_firmware(struct drm_connector *connector);
+>>>   static inline struct edid *
+>>>   drm_load_edid_firmware(struct drm_connector *connector)
+>>>   {
+>> 
+>> --
+>> Jani Nikula, Intel Open Source Graphics Center
+>
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
