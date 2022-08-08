@@ -1,107 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F7F58CAEF
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 16:58:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8D558CB29
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 17:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88041112746;
-	Mon,  8 Aug 2022 14:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A642113B5E;
+	Mon,  8 Aug 2022 15:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60070.outbound.protection.outlook.com [40.107.6.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC1E14A501
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 14:58:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NSo24lqrgIwuX8r7x1Fw04y8UNgGJ3H3aVr573V5QMLX8usOmijH3SF00Hg0cGL0XINsdgK0iVF2TdHhdbYRaz+56kYZcNeK2Uo2XTsClnunbCzjcnXy5ENSBJxeFSVr3TEZzDRgMvTMm7e2q0mVOWb+m/xN/3IsAnZfsNJI9KuU3gQQ5lWCmn04fc3cip7Ryec9CCOld0nXgFCB/PMWsr+DzmtDWWF+ITFwDR7ahprqjdPPg5CcICoB9OvAEsUqQorGbS3IKQQ3jpMNXSg2HRiOpcQFOhjOCnqaJZCfg7Vqny+IAvqxPuXofrHrXzhpqExqgw08oapeXvScom5Snw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FxTuwg1X8qAwF21M87xxBCmOM7qUuvYcbHbpmp88cuk=;
- b=PkJA3T4omNiml/oXfgqGRZlDArRrVpPNf5kO/pinK2Wsu2oFRn4/7GTAwzWTrc50PR/RbRxqy4Rj39+c0VDSagyVhLRn0DV/79/pMRtjbfxwBkhi8MjaoP6M7N59bjalxG92QbMQuYvWoFP80bx8Hxi+MSNUgIkF+c58uM6kov4XQ4zr5/NnFS3QHMfuY3mCUDRRGxCC0qHF/tyUoRuZ/2N82NEuDa7q/xHqzx5sqTKq9QGLpPcfdaecepnME5yJiCgfl6jJc/dIKU+HEMAV0tJWJIdDi+X5oPYieYvWm4ADAXD1IYhdfPPHd8sK4O9cPuijSrLlYXULllxgvoRhqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FxTuwg1X8qAwF21M87xxBCmOM7qUuvYcbHbpmp88cuk=;
- b=HdeYoyySZ4V0YT/mNtUfAnVQE5CEMeB+cS1+ZYxIfM3VkkbCNvTP6/2dKYIA6BmuUy7251Nc68C07euXTyoXGCSWFecWJBO9guAF/shC9qYQ+a7HPV5rn4oea0qRfjrBlVAMqSR9Y7Uz646LvOY4McvDOym5OSxiNdFopBr88rk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by DB3PR0402MB3881.eurprd04.prod.outlook.com (2603:10a6:8:12::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20; Mon, 8 Aug
- 2022 14:58:25 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9%5]) with mapi id 15.20.5504.019; Mon, 8 Aug 2022
- 14:58:25 +0000
-From: Olivier Masse <olivier.masse@nxp.com>
-To: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, christian.koenig@amd.com,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf heap support
-Date: Mon,  8 Aug 2022 16:58:19 +0200
-Message-Id: <20220808145819.12176-1-olivier.masse@nxp.com>
-X-Mailer: git-send-email 2.25.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR01CA0094.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::35) To AM6PR04MB6743.eurprd04.prod.outlook.com
- (2603:10a6:20b:f1::11)
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA6F2B053
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 15:15:24 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id s2so6701652qtx.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 08:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc; bh=E1+RvZYFttA7KfQ1mW79F5z6+egwwtoFoB1XJg6ELSg=;
+ b=AVe6sQGfMehOZihPIbKsmijDAmaC5j5gxtf6YiZ/i0CXOHmjNIvvLExq+5iQpAR4DI
+ P5DY+hFJA2HzBv+wDHOFHS7NSaos3RXOq7py448i+ZAXrVe7aFKE2r8k/zmowAuqTZwD
+ hwoZlNL9LzMiK4LG+7IGDmKI0xBT410HNXjKJ0U3uBqd7S2RqEkgtFwJJvaa0Wkj46DZ
+ nk+IE8HveFCZ7FcpI5vflC4tJtjEScQyWfy+b2BMiL2RpdfBxfb+8jqP+2qehmbkYT9k
+ He3aFjobz40m+4nbM8CrNGFgYcKNbVCAVmywpjoMw0SYIONh+a6ApTXe60gtFRzwjAUi
+ AE6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=E1+RvZYFttA7KfQ1mW79F5z6+egwwtoFoB1XJg6ELSg=;
+ b=OyPTgGZIKE1soi1MxH7BtsbJJqTVT1ApBeIZEoVXRWpVgs9lzvNln4qDVt8Dax1ZrX
+ HA+Sb6VWdld4bJEmvLsV4qI+bx+YLvkkw2B/GF2kvI6M0O2s9cWS526Z0lJkjUrdaQiX
+ tRkguKLWZBk/DUYDfdDnwEpedw7gqZmcWjXXSGrYNVoCcbsqIQ1kadxmx2M+hxLBdzvB
+ rdn4vQGTB0/Aqn+pFoiq1YSigwXQeSxy2uhO23mMn5wCxWKxnFowmrihAejxUszF6aek
+ unGfmM5bZkk4zLpE9YqC6cRe8S2qb8VK5ZIAV2LOHygCeCh8InxPo2J9IzY/jBUcxa16
+ J81g==
+X-Gm-Message-State: ACgBeo1E913evmx/cnuYx8K4VJDOqCtaNLkHuSzd8RAxBpLbYwm+U4aU
+ 2ed7DjVgSUxQFRF+Uhsi46DTfQ==
+X-Google-Smtp-Source: AA6agR7SOgQH4fepgo2aG4rek0z8+vmrQqc5LwnlMyHAfnP6b2yJV3xT2ATVcuuOBXYLMID2C5CEHA==
+X-Received: by 2002:ac8:5e4c:0:b0:343:423:e736 with SMTP id
+ i12-20020ac85e4c000000b003430423e736mr1111801qtx.490.1659971723666; 
+ Mon, 08 Aug 2022 08:15:23 -0700 (PDT)
+Received: from localhost (48.230.85.34.bc.googleusercontent.com.
+ [34.85.230.48]) by smtp.gmail.com with ESMTPSA id
+ ay34-20020a05620a17a200b006b8e7afe20bsm9836458qkb.123.2022.08.08.08.15.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Aug 2022 08:15:22 -0700 (PDT)
+Date: Mon, 8 Aug 2022 15:15:22 +0000
+From: Sean Paul <sean@poorly.run>
+To: Jim Shargo <jshargo@chromium.org>
+Subject: Re: [PATCH 5/5] drm/vkms: Support registering configfs devices
+Message-ID: <YvEoiiJi24xR0Xiz@art_vandelay>
+References: <20220722213214.1377835-1-jshargo@chromium.org>
+ <20220722213214.1377835-6-jshargo@chromium.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88b4f7e9-adcc-40a0-99fb-08da794e71be
-X-MS-TrafficTypeDiagnostic: DB3PR0402MB3881:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fAh+BtEargVVr6XB/XhN5s1Nq80bhVfm4Ppyt8V83KsQ5Uxaua5JhrDscTaEF8DK10Bq7UfqjzCW/zNCetvtPfl4wOmSifP2f70j8ls7RwnZz1hxdZjHxZP14ElW/EhCLnooYefha+vGObyaY6Wtf2OXJdR3LpT70bb09TYF3wWJFjkXvR5WteI+FbguP5cK1KwE/ZSO8KFMttEYG+ocweSbcVXcDwM3jQ2azEdS00EOZXpYDSXpQhcJht/uLDU1GtjjDy+gBUAPhHsOxN6oJGRHT1PFkE+0NrE3tH3iVMdD1uD79md+saXtYmR7+otxrSUSMr7FgSeazrk1UMer/CmfxW8fIm2k2LUH8YuuLsH1Q151i+e9Z/j/uT6llWHyeRiRvLijSG6Fk6why8kXJzBjkNMcOzytaY7zk/XjbIKHpRKN6PhScK9Ny/tLDFLyBsmVf1wlMwstvLuHQ318bqD9c04S9JK80kfIlR1GQfq77bOvTXdwYT2zihIWGQY/OatYkBZgCxrxDr/lxEJdHGwEyAMoroQYHiQWpHkj6i0Lkgdg3zSppP/n7UQc4C2bBRl2PwdTeP8rrJcCwBRaVKXj3xnGxnYroUSnMszmEmhLFr7fSTqYRDGNopOVDX536ldypCxuFHBlb7OMs2vKydpFwRh+FdCLrvwmHwMSAyLKKQEygNjh72SuOIBuNAQbdBdEmE1a6gpncZ6+nS48sdK2lwKnDebkbpw4VrlEgUFCXcP0Jrcov3g3I4D3NfU78/kfwIIdSzYLcmdUjLQwY4KmpcJb8Za8tW4YRexnP0w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR04MB6743.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(346002)(366004)(39860400002)(396003)(136003)(38100700002)(38350700002)(2906002)(66476007)(66946007)(66556008)(86362001)(8676002)(52116002)(4326008)(55236004)(6506007)(6512007)(6666004)(26005)(478600001)(316002)(6486002)(41300700001)(186003)(2616005)(1076003)(83380400001)(8936002)(5660300002)(36756003)(44832011);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v3nFSzNS43bqsrMn8DDxhayNfNM8UUcm6y0RoPztCyJ1A0ZdhVFHC7xj3hWJ?=
- =?us-ascii?Q?ojXJueKzVpJoEhMHI6bd2iZeFTwgTLuXsz+QaJCYfxeLoyjBvuf7AU25qb63?=
- =?us-ascii?Q?qLlPB6i4k1hInsNkV97OUggaULzU082xomHzmZVsOZDujfEygkvTPtXK9L0T?=
- =?us-ascii?Q?Ypo65/Bfl3ayWKTxyQbyRUbafvw/7slvu43uaay4WwCZMBo0ZvzjyVLuCMv/?=
- =?us-ascii?Q?Z4qwFP8GCBxgz29rVegrVu8PYKBavFAm/ye8J9agoSYto7sjX40kvPauW0GI?=
- =?us-ascii?Q?7ZWF33W3rHSbyqZLAWRbsqo9Fti8TzyPkkOFPhiXj5/UECcFZlg/QBOFV4hU?=
- =?us-ascii?Q?JaOsE2tAOiSKQhbwcEyQrSVcGVt42OW4p426S7QJtg1nupEBHi++Ru1aXPa9?=
- =?us-ascii?Q?n8Xh1kldK8E+kWNQOrU53SB1y3xF5UJcczxSQMqOniMo5psinpIp8o0Ry+Ok?=
- =?us-ascii?Q?0kvQe9YntBgvi2+COMEUIASot2H226qAb7Worhafb+AvIvtXuP4ViCI9Kdcl?=
- =?us-ascii?Q?OPCa9oOKOkOT1fFSWrDZsGwx4vIaahIz69DJa3hsJT89jR9metwunoB78ktb?=
- =?us-ascii?Q?JOkhi5UqfELwDx8yeVr7So6FaNc7k0t1e0BgcDuXi6xlf3lb2hNtwZFORGWg?=
- =?us-ascii?Q?yXjXbZp5VHj0vkzhAyQWVPQt9wGFq55Ap6NTn6ioD37H4zFxiIYgcJZjU6we?=
- =?us-ascii?Q?zbIJ1ODi3gOr8G1EMs9OUbjkIXPYR8Po4zFQxfK7WN3z53JUfUBgWd9LaPR0?=
- =?us-ascii?Q?reDuABz8ag/ITxhtCq368Nup1RiBlIz6k6+S+gk4l/hrPSz8yrbbH+4L943/?=
- =?us-ascii?Q?Mg+g5VeZtnQ5M52THIzLpGbmfH7t2HN5QhBVdY4MTx50lg5mzQefgy0yPuzH?=
- =?us-ascii?Q?buACrpDdU+8+KpzF4/Tr7Yw38xNlvj+r47tOzffixKfRgnPkZPgbxSjkNeGX?=
- =?us-ascii?Q?qd33tFmnkRQ/Lsytks7HaN2sswkafXQxORWzCYi4tv6QvZQvlg+kIex8NwMt?=
- =?us-ascii?Q?QjpkxbeJ0DByNQKzAY0xx/ZYIN1LEqGgsUSFLzhFdg5HXmWjkgmvoyrRHmJO?=
- =?us-ascii?Q?zwTMTv3qBAr2qr0chpUW5EoEnrIwfoYx7ZmRy5tk0clwC+4N30Ryu4seD7b5?=
- =?us-ascii?Q?gXkULu5pgreFmsWXvAIOami14AlTf3hIR8myPtEgzDtqdkuAzDldoB3VZH88?=
- =?us-ascii?Q?Djhq27LJhujzn/Ajv7/Hr61+IKAdRHcpc5hA/MSmWamXatemC6z1aJwnW/+v?=
- =?us-ascii?Q?SbfPuumjhMKA+aXvonvVv4wps2ADz1d4l5HXR3kXxJAVAKhFMzYgbAhVtjzl?=
- =?us-ascii?Q?whtVKInNqQfiIuR5KcHc1sww3fY1SlWWKYgwy+fGltAKI6WflwsVXE8/KDGf?=
- =?us-ascii?Q?ovGXoJ7Civ5asZk9zkXeF1jJuHjMwkjhcDkbZ1cH6r4C+MGLYEihyifHxje2?=
- =?us-ascii?Q?IXMmwTOL4d1oeSHuH1SvHF5EwLPguwl/uw27v9USned8+h6JpiKVgWE2AXml?=
- =?us-ascii?Q?BXmpaIUcDtFfE7pOWEa1z4tXleo6M6Ffpoe8owEtVY/mWPfNm5WozHRZfe5C?=
- =?us-ascii?Q?7ev/CY8QfcwmLq8nny+12cx+sbNEgHnOzNGPk2St?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88b4f7e9-adcc-40a0-99fb-08da794e71be
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 14:58:25.1104 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eXUTNyt/Lcghza+1l0SMInSH5rDZaEX6gPh4akbhdHDYqJT+NQO+tpFHVmIo13Vivl9doqYqRQrhPNfJ0fya7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3881
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220722213214.1377835-6-jshargo@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,393 +72,566 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: clement.faure@nxp.com, olivier.masse@nxp.com
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ jshargo@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add Linaro secure heap compatible reserved mem: linaro,secure-heap
-use genalloc to allocate/free buffer from buffer pool.
-buffer pool info is defined from a dts reserved memory.
+On Fri, Jul 22, 2022 at 05:32:13PM -0400, Jim Shargo wrote:
+> VKMS now supports creating virtual cards and registering them to create
+> real drm devices.
+> 
+> In addition to the registration logic, this commit also prevents users
+> from adding new objects once a card is registered.
+> 
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+> ---
+>  drivers/gpu/drm/vkms/vkms_configfs.c |  27 +++-
+>  drivers/gpu/drm/vkms/vkms_drv.c      |  21 ++-
+>  drivers/gpu/drm/vkms/vkms_drv.h      |   3 +
+>  drivers/gpu/drm/vkms/vkms_output.c   | 227 ++++++++++++++++++++++++---
+>  4 files changed, 251 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index fa0d8700258e..6f0f4e39864a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -326,8 +326,15 @@ static struct config_item_type plane_type = {
+>  static struct config_group *connectors_group_make(struct config_group *group,
+>  						  const char *name)
+>  {
+> -	struct vkms_config_connector *connector =
+> -		kzalloc(sizeof(struct vkms_config_connector), GFP_KERNEL);
+> +	struct vkms_configfs *configfs =
+> +		container_of(group, struct vkms_configfs, connectors_group);
+> +	struct vkms_config_connector *connector;
+> +
+> +	if (configfs->card) {
 
-Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
----
- drivers/dma-buf/heaps/Kconfig       |   9 +
- drivers/dma-buf/heaps/Makefile      |   1 +
- drivers/dma-buf/heaps/secure_heap.c | 339 ++++++++++++++++++++++++++++
- 3 files changed, 349 insertions(+)
- create mode 100644 drivers/dma-buf/heaps/secure_heap.c
+I think it would be better to assign configfs->card in
+card_is_registered_store() after successful call to vkms_card_init(). My
+reasoning is that the functions in this file care about configfs->card, and not
+vkms_drv.c. As a bonus, you can also eliminate the if (configfs) check before
+the assignment which is necessary in vkms_card_init() but not
+card_is_registered_store().
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index 3782eeeb91c0..c9070c728b9a 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -20,3 +20,12 @@ config DMABUF_HEAPS_DSP
-           Choose this option to enable the dsp dmabuf heap. The dsp heap
-           is allocated by gen allocater. it's allocated according the dts.
-           If in doubt, say Y.
-+
-+config DMABUF_HEAPS_SECURE
-+	tristate "DMA-BUF Secure Heap"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the secure dmabuf heap. The secure heap
-+	  pools are defined according to the DT. Heaps are allocated
-+	  in the pools using gen allocater.
-+	  If in doubt, say Y.
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 29733f84c354..863ef10056a3 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -2,3 +2,4 @@
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_DSP)          += dsp_heap.o
-+obj-$(CONFIG_DMABUF_HEAPS_SECURE)	+= secure_heap.o
-diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/secure_heap.c
-new file mode 100644
-index 000000000000..a3023bf8d457
---- /dev/null
-+++ b/drivers/dma-buf/heaps/secure_heap.c
-@@ -0,0 +1,339 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DMABUF secure heap exporter
-+ *
-+ * Copyright 2022 NXP.
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+
-+#define MAX_SECURE_HEAP 2
-+#define MAX_HEAP_NAME_LEN 32
-+
-+struct secure_heap_buffer {
-+	struct dma_heap *heap;
-+	struct list_head attachments;
-+	struct mutex lock;
-+	unsigned long len;
-+	struct sg_table sg_table;
-+	int vmap_cnt;
-+	void *vaddr;
-+};
-+
-+struct secure_heap_attachment {
-+	struct device *dev;
-+	struct sg_table *table;
-+	struct list_head list;
-+};
-+
-+struct secure_heap_info {
-+	struct gen_pool *pool;
-+};
-+
-+struct rmem_secure {
-+	phys_addr_t base;
-+	phys_addr_t size;
-+
-+	char name[MAX_HEAP_NAME_LEN];
-+};
-+
-+static struct rmem_secure secure_data[MAX_SECURE_HEAP] = {0};
-+static unsigned int secure_data_count;
-+
-+static struct sg_table *dup_sg_table(struct sg_table *table)
-+{
-+	struct sg_table *new_table;
-+	int ret, i;
-+	struct scatterlist *sg, *new_sg;
-+
-+	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
-+	if (!new_table)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
-+	if (ret) {
-+		kfree(new_table);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	new_sg = new_table->sgl;
-+	for_each_sgtable_sg(table, sg, i) {
-+		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
-+		new_sg->dma_address = sg->dma_address;
-+#ifdef CONFIG_NEED_SG_DMA_LENGTH
-+		new_sg->dma_length = sg->dma_length;
-+#endif
-+		new_sg = sg_next(new_sg);
-+	}
-+
-+	return new_table;
-+}
-+
-+static int secure_heap_attach(struct dma_buf *dmabuf,
-+			      struct dma_buf_attachment *attachment)
-+{
-+	struct secure_heap_buffer *buffer = dmabuf->priv;
-+	struct secure_heap_attachment *a;
-+	struct sg_table *table;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+
-+	table = dup_sg_table(&buffer->sg_table);
-+	if (IS_ERR(table)) {
-+		kfree(a);
-+		return PTR_ERR(table);
-+	}
-+
-+	a->table = table;
-+	a->dev = attachment->dev;
-+	INIT_LIST_HEAD(&a->list);
-+	attachment->priv = a;
-+
-+	mutex_lock(&buffer->lock);
-+	list_add(&a->list, &buffer->attachments);
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static void secure_heap_detach(struct dma_buf *dmabuf,
-+			       struct dma_buf_attachment *attachment)
-+{
-+	struct secure_heap_buffer *buffer = dmabuf->priv;
-+	struct secure_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	list_del(&a->list);
-+	mutex_unlock(&buffer->lock);
-+
-+	sg_free_table(a->table);
-+	kfree(a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *secure_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+						enum dma_data_direction direction)
-+{
-+	struct secure_heap_attachment *a = attachment->priv;
-+
-+	return a->table;
-+}
-+
-+static void secure_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+				      struct sg_table *table,
-+				      enum dma_data_direction direction)
-+{
-+}
-+
-+static void secure_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct secure_heap_buffer *buffer = dmabuf->priv;
-+	struct secure_heap_info *info;
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	int i;
-+
-+	info = dma_heap_get_drvdata(buffer->heap);
-+
-+	table = &buffer->sg_table;
-+	for_each_sg(table->sgl, sg, table->nents, i)
-+		gen_pool_free(info->pool, sg_dma_address(sg), sg_dma_len(sg));
-+
-+	sg_free_table(table);
-+	kfree(buffer);
-+}
-+
-+static const struct dma_buf_ops secure_heap_buf_ops = {
-+	.attach = secure_heap_attach,
-+	.detach = secure_heap_detach,
-+	.map_dma_buf = secure_heap_map_dma_buf,
-+	.unmap_dma_buf = secure_heap_unmap_dma_buf,
-+	.release = secure_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *secure_heap_allocate(struct dma_heap *heap,
-+					    unsigned long len,
-+					    unsigned long fd_flags,
-+					    unsigned long heap_flags)
-+{
-+	struct secure_heap_buffer *buffer;
-+	struct secure_heap_info *info = dma_heap_get_drvdata(heap);
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	unsigned long size = roundup(len, PAGE_SIZE);
-+	struct dma_buf *dmabuf;
-+	struct sg_table *table;
-+	int ret = -ENOMEM;
-+	unsigned long phy_addr;
-+
-+	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-+	if (!buffer)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer->attachments);
-+	mutex_init(&buffer->lock);
-+	buffer->heap = heap;
-+	buffer->len = size;
-+
-+	phy_addr = gen_pool_alloc(info->pool, size);
-+	if (!phy_addr)
-+		goto free_buffer;
-+
-+	table = &buffer->sg_table;
-+	if (sg_alloc_table(table, 1, GFP_KERNEL))
-+		goto free_pool;
-+
-+	sg_set_page(table->sgl,	phys_to_page(phy_addr),	size, 0);
-+	sg_dma_address(table->sgl) = phy_addr;
-+	sg_dma_len(table->sgl) = size;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &secure_heap_buf_ops;
-+	exp_info.size = buffer->len;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer;
-+	dmabuf = dma_buf_export(&exp_info);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		goto free_table;
-+	}
-+
-+	return dmabuf;
-+
-+free_table:
-+	sg_free_table(table);
-+
-+free_pool:
-+	gen_pool_free(info->pool, phy_addr, size);
-+
-+free_buffer:
-+	mutex_destroy(&buffer->lock);
-+	kfree(buffer);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops secure_heap_ops = {
-+	.allocate = secure_heap_allocate,
-+};
-+
-+static int secure_heap_add(struct rmem_secure *rmem)
-+{
-+	struct dma_heap *secure_heap;
-+	struct dma_heap_export_info exp_info;
-+	struct secure_heap_info *info = NULL;
-+	struct gen_pool *pool = NULL;
-+	int ret = -EINVAL;
-+
-+	if (rmem->base == 0 || rmem->size == 0) {
-+		pr_err("secure_data base or size is not correct\n");
-+		goto error;
-+	}
-+
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
-+	if (!info) {
-+		pr_err("dmabuf info allocation failed\n");
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	pool = gen_pool_create(PAGE_SHIFT, -1);
-+	if (!pool) {
-+		pr_err("can't create gen pool\n");
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	if (gen_pool_add(pool, rmem->base, rmem->size, -1) < 0) {
-+		pr_err("failed to add memory into pool\n");
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	info->pool = pool;
-+
-+	exp_info.name = rmem->name;
-+	exp_info.ops = &secure_heap_ops;
-+	exp_info.priv = info;
-+
-+	secure_heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(secure_heap)) {
-+		pr_err("dmabuf secure heap allocation failed\n");
-+		ret = PTR_ERR(secure_heap);
-+		goto error;
-+	}
-+
-+	return 0;
-+
-+error:
-+	if (pool)
-+		gen_pool_destroy(pool);
-+	kfree(info);
-+
-+	return ret;
-+}
-+
-+static int secure_heap_create(void)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < secure_data_count; i++) {
-+		ret = secure_heap_add(&secure_data[i]);
-+		if (ret)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
-+static int __init rmem_secure_heap_setup(struct reserved_mem *rmem)
-+{
-+	if (secure_data_count < MAX_SECURE_HEAP) {
-+		int name_len = 0;
-+		const char *s = rmem->name;
-+
-+		secure_data[secure_data_count].base = rmem->base;
-+		secure_data[secure_data_count].size = rmem->size;
-+
-+		while (name_len < MAX_HEAP_NAME_LEN) {
-+			if ((*s == '@') || (*s == '\0'))
-+				break;
-+			name_len++;
-+			s++;
-+		}
-+		if (name_len == MAX_HEAP_NAME_LEN)
-+			name_len--;
-+
-+		strncpy(secure_data[secure_data_count].name, rmem->name, name_len);
-+		secure_data[secure_data_count].name[name_len] = '\0';
-+
-+		pr_info("Reserved memory: DMA buf secure pool %s at %pa, size %ld MiB\n",
-+			secure_data[secure_data_count].name,
-+			&rmem->base, (unsigned long)rmem->size / SZ_1M);
-+
-+		secure_data_count++;
-+		return 0;
-+	}
-+	WARN_ONCE(1, "Cannot handle more than %u secure heaps\n", MAX_SECURE_HEAP);
-+	return -EINVAL;
-+}
-+
-+RESERVEDMEM_OF_DECLARE(secure_heap, "linaro,secure-heap", rmem_secure_heap_setup);
-+
-+module_init(secure_heap_create);
-+MODULE_LICENSE("GPL v2");
+> +		return ERR_PTR(EBUSY);
+
+Nit: Negative errno please (applies elsewhere through the patch as well).
+
+> +	}
+
+Nit: remove braces
+
+> +
+> +	connector = kzalloc(sizeof(struct vkms_config_connector), GFP_KERNEL);
+
+Nit: sizeof(*connector) could be handy here and elsewhere below.
+
+It's a bit awkward to make use of devres elsewhere and not here. I guess the
+devres group doesn't exist at this point and perhaps card destruction and
+config_group destruction aren't strictly ordered. ¯\_(ツ)_/¯
+
+>  	if (!connector)
+>  		return ERR_PTR(ENOMEM);
+>  
+> @@ -368,6 +375,9 @@ static struct config_group *crtcs_group_make(struct config_group *group,
+>  						     VKMS_MAX_OUTPUT_OBJECTS);
+>  	struct vkms_config_crtc *crtc;
+>  
+> +	if (configfs->card)
+
+It really feels like we should have some locking protecting us from races
+between adding new components and registration.
+
+> +		return ERR_PTR(EBUSY);
+> +
+>  	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
+>  		DRM_ERROR("Unable to allocate another CRTC.");
+>  		return ERR_PTR(ENOMEM);
+> @@ -413,6 +423,9 @@ static struct config_group *encoders_group_make(struct config_group *group,
+>  		&configfs->allocated_encoders, VKMS_MAX_OUTPUT_OBJECTS);
+>  	struct vkms_config_encoder *encoder;
+>  
+> +	if (configfs->card)
+> +		return ERR_PTR(EBUSY);
+> +
+>  	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
+>  		DRM_ERROR("Unable to allocate another encoder.");
+>  		return ERR_PTR(ENOMEM);
+> @@ -454,8 +467,14 @@ static struct config_item_type encoders_group_type = {
+>  static struct config_group *make_plane_group(struct config_group *group,
+>  					     const char *name)
+>  {
+> -	struct vkms_config_plane *plane =
+> -		kzalloc(sizeof(struct vkms_config_plane), GFP_KERNEL);
+> +	struct vkms_configfs *configfs =
+> +		container_of(group, struct vkms_configfs, planes_group);
+> +	struct vkms_config_plane *plane;
+> +
+> +	if (configfs->card)
+> +		return ERR_PTR(EBUSY);
+> +
+> +	plane = kzalloc(sizeof(struct vkms_config_plane), GFP_KERNEL);
+>  	if (!plane)
+>  		return ERR_PTR(ENOMEM);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 37b95ca28672..4e00f3b0de7d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -216,7 +216,7 @@ struct vkms_card *vkms_card_init(const char *name, struct vkms_configfs *configf
+>  		goto out_release_group;
+>  	}
+>  
+> -	ret = drm_vblank_init(&card->drm, 1);
+> +	ret = drm_vblank_init(&card->drm, vkms_card_crtc_count(card));
+
+I wonder if you could re-order this below vkms_modeset_init() and use
+card->output.num_crtcs instead of the new function?
+
+>  	if (ret) {
+>  		DRM_ERROR("Failed to vblank\n");
+>  		goto out_release_group;
+> @@ -231,7 +231,7 @@ struct vkms_card *vkms_card_init(const char *name, struct vkms_configfs *configf
+>  	ret = drm_dev_register(&card->drm, 0);
+>  	if (ret) {
+>  		DRM_ERROR("Unable to register card");
+> -		return ERR_PTR(ret);
+> +		goto out_modeset;
+
+Not sure if this is the one I commented on in the previous patch, but at the
+risk of duplicate comments, this cleanup feels like it belongs in an earlier patch.
+
+>  	}
+>  
+>  	drm_fbdev_generic_setup(&card->drm, 0);
+> @@ -245,6 +245,8 @@ struct vkms_card *vkms_card_init(const char *name, struct vkms_configfs *configf
+>  
+>  	return card;
+>  
+> +out_modeset:
+> +	vkms_output_clear(card);
+>  out_release_group:
+>  	devres_release_group(&pdev->dev, grp);
+>  out_platform_device:
+> @@ -264,6 +266,21 @@ void vkms_card_destroy(struct vkms_card *card)
+
+I feel like vkms_card_destroy() should also be calling vkms_output_clear() or it
+should have the same cleanup procedure as the error handling code in
+vkms_card_init().
+
+>  	}
+>  }
+>  
+> +int vkms_card_crtc_count(struct vkms_card *card)
+
+AFAICT this isn't used outside vkms_drv.c so it should be static.
+
+> +{
+> +	struct list_head *item;
+> +	int count = 0;
+> +
+> +	if (card->is_default)
+> +		return 1;
+> +
+> +	BUG_ON(!card->configfs);
+> +	list_for_each(item, &card->configfs->crtcs_group.cg_children) {
+
+Do you need any locking here? 
+
+> +		count += 1;
+> +	}
+> +	return count;
+> +}
+> +
+>  static int __init vkms_init(void)
+>  {
+>  	struct vkms_card *card;
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index f43e4c563863..2e6bfed890f9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -222,11 +222,14 @@ struct vkms_card *vkms_card_init(const char *name,
+>  				 struct vkms_configfs *configfs);
+>  void vkms_card_destroy(struct vkms_card *card);
+>  
+> +int vkms_card_crtc_count(struct vkms_card *card);
+> +
+>  /* CRTC */
+>  struct vkms_crtc *vkms_crtc_init(struct vkms_card *card, struct drm_plane *primary, struct drm_plane *cursor);
+>  
+>  int vkms_output_init_default(struct vkms_card *card, int index);
+>  int vkms_output_init(struct vkms_card *card, int index);
+> +void vkms_output_clear(struct vkms_card *card);
+>  
+>  struct vkms_plane *vkms_plane_init(struct vkms_card *card,
+>  				   enum drm_plane_type type);
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index e343a9c1f311..857cd8593dce 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -4,6 +4,10 @@
+>  #include <linux/kernel.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+
+It makes sense that we would need these, but I'm not sure why it's now and not
+earlier in the patchset.
+
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  
+> @@ -46,7 +50,7 @@ static struct drm_connector *vkms_connector_init(struct vkms_card *card)
+>  
+>  	connector = &card->output.connectors[card->output.num_connectors++];
+>  	ret = drm_connector_init(&card->drm, connector, &vkms_connector_funcs,
+> -			   DRM_MODE_CONNECTOR_VIRTUAL);
+> +				 DRM_MODE_CONNECTOR_VIRTUAL);
+
+Nit: This indent was introduced in patch 3, if you fix it there it'll drop out of here.
+
+
+>  	if (ret) {
+>  		memset(connector, 0, sizeof(*connector));
+>  		card->output.num_connectors -= 1;
+> @@ -79,7 +83,6 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_card *card)
+>  int vkms_output_init_default(struct vkms_card *card, int index)
+
+How feasible would it be to initialize the default device in configfs with the
+module config and then call vkms_output_init() to initialize it instead of
+duplicating all of this init? As a bonus, we could probably turf some of the
+if(default) logic sprinkled around.
+
+>  {
+>  	const struct vkms_config *config = &card->vkms_device->config;
+> -	struct vkms_output *output = &card->output;
+>  	struct drm_device *dev = &card->drm;
+>  	struct drm_connector *connector;
+>  	struct drm_encoder *encoder;
+> @@ -99,7 +102,7 @@ int vkms_output_init_default(struct vkms_card *card, int index)
+>  				vkms_plane_init(card, DRM_PLANE_TYPE_OVERLAY);
+>  			if (IS_ERR(overlay)) {
+>  				ret = PTR_ERR(overlay);
+> -				goto err_planes;
+> +				goto cleanup_output;
+>  			}
+>  		}
+>  	}
+> @@ -108,7 +111,7 @@ int vkms_output_init_default(struct vkms_card *card, int index)
+>  		cursor = vkms_plane_init(card, DRM_PLANE_TYPE_CURSOR);
+>  		if (IS_ERR(cursor)) {
+>  			ret = PTR_ERR(cursor);
+> -			goto err_planes;
+> +			goto cleanup_output;
+>  		}
+>  	}
+>  
+> @@ -117,7 +120,7 @@ int vkms_output_init_default(struct vkms_card *card, int index)
+>  	if (IS_ERR(vkms_crtc)) {
+>  		DRM_ERROR("Failed to init crtc\n");
+>  		ret = PTR_ERR(vkms_crtc);
+> -		goto err_planes;
+> +		goto cleanup_output;
+>  	}
+>  
+>  	for (int i = 0; i < card->output.num_planes; i++) {
+> @@ -129,22 +132,21 @@ int vkms_output_init_default(struct vkms_card *card, int index)
+>  	if (IS_ERR(connector)) {
+>  		DRM_ERROR("Failed to init connector\n");
+>  		ret = PTR_ERR(connector);
+> -		goto err_connector;
+> +		goto cleanup_output;
+>  	}
+>  
+>  	encoder = vkms_encoder_init(card);
+>  	if (IS_ERR(encoder)) {
+>  		DRM_ERROR("Failed to init encoder\n");
+>  		ret = PTR_ERR(encoder);
+> -		goto err_encoder;
+> +		goto cleanup_output;
+>  	}
+>  	encoder->possible_crtcs |= drm_crtc_mask(&vkms_crtc->base);
+>  
+> -
+
+Nit: This blank line was introduced in patch 3, perhaps remove it from there and
+it'll drop out here.
+
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to attach connector to encoder\n");
+> -		goto err_attach;
+> +		goto cleanup_output;
+>  	}
+>  
+>  	if (config->writeback) {
+> @@ -157,26 +159,209 @@ int vkms_output_init_default(struct vkms_card *card, int index)
+>  
+>  	return 0;
+>  
+> -err_attach:
+> -	drm_encoder_cleanup(encoder);
+> +cleanup_output:
+> +	vkms_output_clear(card);
+> +	return ret;
+> +}
+>  
+> -err_encoder:
+> -	drm_connector_cleanup(connector);
+> +static bool is_object_linked(struct vkms_config_links *links, unsigned long idx)
+> +{
+> +	return links->linked_object_bitmap & (1 << idx);
+
+Nit: You could use some of the bit helpers available (and avoid the implicit
+cast):
+
+return FIELD_GET(BIT(idx), links->linked_object_bitmap) != 0;
+
+> +}
+>  
+> -err_connector:
+> -	drm_crtc_cleanup(&vkms_crtc->base);
+> +int vkms_output_init(struct vkms_card *card, int index)
+> +{
+> +	struct drm_device *dev = &card->drm;
+> +	struct vkms_configfs *configfs = card->configfs;
+> +	struct vkms_output *output = &card->output;
+> +	struct plane_map {
+> +		struct vkms_config_plane *config_plane;
+> +		struct vkms_plane *plane;
+> +	} plane_map[VKMS_MAX_OUTPUT_OBJECTS] = { 0 };
+> +	struct encoder_map {
+> +		struct vkms_config_encoder *config_encoder;
+> +		struct drm_encoder *encoder;
+> +	} encoder_map[VKMS_MAX_OUTPUT_OBJECTS] = { 0 };
+> +	struct config_item *item;
+> +	int i, ret;
+> +
+> +	i = 0;
+> +	list_for_each_entry (item, &configfs->planes_group.cg_children,
+> +			     ci_entry) {
+> +		struct vkms_config_plane *config_plane =
+> +			item_to_config_plane(item);
+> +		struct vkms_plane *plane =
+> +			vkms_plane_init(card, config_plane->type);
+> +
+> +		if (IS_ERR(plane)) {
+> +			DRM_ERROR("Unable to init plane from config: %s",
+> +				  item->ci_name);
+
+It'd be nice to print the return value here.
+
+> +			ret = PTR_ERR(plane);
+> +			goto cleanup_output;
+> +		}
+>  
+> -err_planes:
+> -	for (int i = 0; i < output->num_planes; i++) {
+> -		drm_plane_cleanup(&output->planes[i].base);
+> +		plane_map[i].config_plane = config_plane;
+> +		plane_map[i].plane = plane;
+> +		i += 1;
+
+Instead of tracking with i, you could use "output->num_planes - 1"? Same comment
+below for different "num_blah"
+
+> +	}
+> +
+> +	i = 0;
+> +	list_for_each_entry (item, &configfs->encoders_group.cg_children,
+> +			     ci_entry) {
+> +		struct vkms_config_encoder *config_encoder =
+> +			item_to_config_encoder(item);
+> +		struct drm_encoder *encoder = vkms_encoder_init(card);
+> +
+> +		if (IS_ERR(encoder)) {
+> +			DRM_ERROR("Failed to init config encoder: %s",
+> +				  item->ci_name);
+> +			ret = PTR_ERR(encoder);
+> +			goto cleanup_output;
+> +		}
+> +		encoder_map[i].config_encoder = config_encoder;
+> +		encoder_map[i].encoder = encoder;
+> +		i += 1;
+> +	}
+> +
+> +	list_for_each_entry (item, &configfs->connectors_group.cg_children,
+> +			     ci_entry) {
+> +		struct vkms_config_connector *config_connector =
+> +			item_to_config_connector(item);
+> +		struct drm_connector *connector = vkms_connector_init(card);
+> +
+> +		if (IS_ERR(connector)) {
+> +			DRM_ERROR("Failed to init connector from config: %s",
+> +				  item->ci_name);
+> +			ret = PTR_ERR(connector);
+> +			goto cleanup_output;
+> +		}
+> +
+> +		for (int j = 0; j < output->num_connectors; j++) {
+> +			struct encoder_map *encoder = &encoder_map[j];
+> +
+> +			if (is_object_linked(
+> +				    &config_connector->possible_encoders,
+> +				    encoder->config_encoder
+> +					    ->encoder_config_idx)) {
+> +				drm_connector_attach_encoder(connector,
+> +							     encoder->encoder);
+> +			}
+> +		}
+> +	}
+> +
+> +	list_for_each_entry (item, &configfs->crtcs_group.cg_children,
+> +			     ci_entry) {
+> +		struct vkms_config_crtc *config_crtc =
+> +			item_to_config_crtc(item);
+> +		struct vkms_crtc *vkms_crtc;
+> +		struct drm_plane *primary = NULL, *cursor = NULL;
+> +
+> +		for (int j = 0; j < output->num_planes; j++) {
+> +			struct plane_map *plane_entry = &plane_map[j];
+> +			struct drm_plane *plane = &plane_entry->plane->base;
+> +
+> +			if (!is_object_linked(
+> +				    &plane_entry->config_plane->possible_crtcs,
+> +				    config_crtc->crtc_config_idx)) {
+> +				continue;
+> +			}
+
+Nit: Braces
+
+> +
+> +			if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
+> +				if (primary) {
+> +					DRM_WARN(
+> +						"Too many primary planes found for crtc %s.",
+> +						item->ci_name);
+
+Nit: drm_dbg()
+
+> +					ret = EINVAL;
+> +					goto cleanup_output;
+> +				}
+> +				primary = plane;
+> +			} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
+> +				if (cursor) {
+> +					DRM_WARN(
+> +						"Too many cursor planes found for crtc %s.", 
+> +						item->ci_name);
+> +					ret = EINVAL;
+> +					goto cleanup_output;
+> +				}
+> +				cursor = plane;
+> +			}
+> +		}
+> +
+> +		if (!primary) {
+> +			DRM_WARN("No primary plane configured for crtc %s", item->ci_name);
+> +			ret = EINVAL;
+> +			goto cleanup_output;
+> +		}
+> +
+> +		// TODO add names to helper
+
+Mind expanding on this?
+
+> +		vkms_crtc = vkms_crtc_init(card, primary, cursor);
+> +		if (IS_ERR(vkms_crtc)) {
+> +			DRM_WARN("Unable to init crtc from config: %s",
+> +				 item->ci_name);
+> +			ret = PTR_ERR(vkms_crtc);
+> +			goto cleanup_output;
+> +		}
+> +
+> +		for (int j = 0; j < output->num_planes; j++) {
+> +			struct plane_map *plane_entry = &plane_map[j];
+> +
+> +			if (!plane_entry->plane)
+> +				break;
+> +
+> +			if (is_object_linked(
+> +				    &plane_entry->config_plane->possible_crtcs,
+> +				    config_crtc->crtc_config_idx)) {
+> +				plane_entry->plane->base.possible_crtcs |=
+> +					drm_crtc_mask(&vkms_crtc->base);
+> +			}
+> +		}
+> +
+> +		for (int j = 0; j < output->num_encoders; j++) {
+> +			struct encoder_map *encoder_entry = &encoder_map[j];
+> +
+> +			if (is_object_linked(&encoder_entry->config_encoder
+> +						      ->possible_crtcs,
+> +					     config_crtc->crtc_config_idx)) {
+> +				encoder_entry->encoder->possible_crtcs |=
+> +					drm_crtc_mask(&vkms_crtc->base);
+> +			}
+> +		}
+> +
+> +		if (card->vkms_device->config.writeback) {
+> +			ret = vkms_enable_writeback_connector(card, vkms_crtc);
+> +			if (ret)
+> +				DRM_WARN(
+> +					"Failed to init writeback connector for config crtc: %s",
+> +					item->ci_name);
+
+Nit: drm_dbg and please print the error message.
+
+> +		}
+>  	}
+>  
+> -	memset(output, 0, sizeof(struct vkms_output));
+> +	drm_mode_config_reset(dev);
+> +
+> +	return 0;
+>  
+> +cleanup_output:
+> +	vkms_output_clear(card);
+> +	resume_device_irqs(); // REMOVE
+
+REMOVE?
+
+>  	return ret;
+>  }
+>  
+> -int vkms_output_init(struct vkms_card *card, int index)
+> +void vkms_output_clear(struct vkms_card *card)
+>  {
+> -	return -ENOTSUPP;
+> +	struct vkms_output *output = &card->output;
+> +
+> +	for (int i = 0; i < output->num_crtcs; i++) {
+> +		drm_crtc_cleanup(&output->crtcs[i].base);
+> +	}
+> +	for (int i = 0; i < output->num_encoders; i++) {
+> +		drm_encoder_cleanup(&output->encoders[i]);
+> +	}
+> +	for (int i = 0; i < output->num_connectors; i++) {
+> +		drm_connector_cleanup(&output->connectors[i]);
+> +	}
+> +	for (int i = 0; i < output->num_planes; i++) {
+> +		drm_plane_cleanup(&output->planes[i].base);
+> +	}
+
+Nit: braces for all of these
+
+> +
+> +	memset(output, 0, sizeof(*output));
+
+Same concerns about memset as before.
+
+>  }
+> -- 
+> 2.37.1.359.gd136c6c3e2-goog
+> 
+
 -- 
-2.25.0
-
+Sean Paul, Software Engineer, Google / Chromium OS
