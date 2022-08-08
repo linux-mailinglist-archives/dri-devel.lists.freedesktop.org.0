@@ -1,52 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1655B58C6A5
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 12:42:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B3E58C75A
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 13:13:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBAA18AA66;
-	Mon,  8 Aug 2022 10:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4FB98A89;
+	Mon,  8 Aug 2022 11:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C43A89115
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 10:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659955304; x=1691491304;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=aBiG1MGB72IeEyxs+iCyTFUOBbSKHTrSn9Nx+k53lwk=;
- b=TKV/Rpso8LwJt7+mdxImblmrQ+MycbV7ZtPKvO7KPvIs91dPzGNHnFL7
- i/z1AiFetTyMDCshykVFKFOKMqHdQ1BSE5EhlR/IghG0LqKSMKGmz/QwZ
- oawa9Xi4KDPfmVVXQPioJlZkLczG2fJkSRX5wgmk51r6VLWRFtDGagC99
- s92JHWj/QERTTdZ2nbFZGZFsCiByPTrIjfwqI1eMldXHnTZfkTRYWcivl
- iSObmWzdRgvim0A94r3YMJwKjGhkkYdp4dvRqii/tN2B14QrD+gfP1R+1
- tUIFh0lhG0nwN5AXbL0B+iD6wg8P1mB3DyX7segXmdrYLov2cRifnYAL/ g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="290568644"
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="290568644"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2022 03:41:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="746585288"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga001.fm.intel.com with SMTP; 08 Aug 2022 03:41:35 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Mon, 08 Aug 2022 13:41:35 +0300
-Date: Mon, 8 Aug 2022 13:41:35 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Subject: Re: [PATCH v7 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
- tcpci driver
-Message-ID: <YvDoXyaFaDeH7dCX@kuha.fi.intel.com>
-References: <20220805070610.3516-1-peterwu.pub@gmail.com>
- <20220805070610.3516-9-peterwu.pub@gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BB9C97180;
+ Mon,  8 Aug 2022 11:00:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Kx5Py4mhKHRBqruNIuVHwC10uZ8jMWRrtwnsOKJbQcD6YIl6gh54kVzZ0N+/uoAsQ/ZKRkazprg85W7ZKfUp5vT/fFjSIEyMfEfVrbDcmWB6FpA8D+UpUbifJTWKxMNIaviF12bVv060+NB72q8ai1desKYAAcDv80hMwXjQ/wHFI8kDZHsTsxEyM+LrXp0/CFhzBdcDLlbCx4QXOxAG09PU0pWW8103OGgbId96fs9BxAthDmhvJHuHTGkbD1yqms57TbUzK3VojU4myFEejwghCd8t8qFc6KzB68oC6DQUxsHdYqblUQvSn1UYK1VKS1d2FE4Srs9K6EesPunUFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Rzb5w0yl8FalnXsHxrelBgvG8IfNT9lSABf+ZjSu6w=;
+ b=PFlTgwYiB6wIurcacYjruI0XIougiKCa9rHDgVStHK4gZ2f4+7Hqg1iKA7wx/ABCcqma1ArYfChbhKRW9BGQr3+7zEdzdudVLZoO9Mn9ZFpm3HKWF9/CsOsW5q3K0pewpP6zrrZG3wEX5SQkF/lJTa8WstDNQ2rBvNMVC0m34+QFuE4jB2OdVjYY1zeWnyQvgagn7CPQbWh/ZjDHnXnGU9IlyhPSaty4nO8EevSNppK81lF15Q2C+9WQIOCooSD0hG7A5YCzBANhWAhECuSkCHAzVdV8MD8SJglbPYEPWwIhZjOJw34KKYgxhMUzfqSvaSdD2seu61SS3B8VdMYlzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Rzb5w0yl8FalnXsHxrelBgvG8IfNT9lSABf+ZjSu6w=;
+ b=4WOKp1gtF9gXvDDXFhrTHKuusaR6RnydsNn05AbPmonMEWr6v2EjL+/Y1JsmOYXN5E1tRsJMz2BD8YzzYPKbeX4cqeBLu312TE3TN9yeBKErlgjAJ2OKpWRFO3pUlSPahTkTnrap1MIF3KaEm/Q/23R94KulVY2ohbSnOR7oDf0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BN8PR12MB2995.namprd12.prod.outlook.com (2603:10b6:408:41::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Mon, 8 Aug
+ 2022 11:00:04 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
+ 11:00:03 +0000
+Message-ID: <acc970f2-632f-0372-8082-6bd54f0c7cf5@amd.com>
+Date: Mon, 8 Aug 2022 12:59:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] amdgpu: add context creation flags in CS IOCTL
+Content-Language: en-US
+To: Shashank Sharma <shashank.sharma@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220802135558.6324-1-shashank.sharma@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220802135558.6324-1-shashank.sharma@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM7PR02CA0007.eurprd02.prod.outlook.com
+ (2603:10a6:20b:100::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220805070610.3516-9-peterwu.pub@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2609aa20-b480-4657-661a-08da792d255f
+X-MS-TrafficTypeDiagnostic: BN8PR12MB2995:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FttIps4t8BhHvtdmWfM4TiY5cEPGi73LH229RAvm+WEZD1IBVD5ELPjce8BMEj0b4tRtjMieccs8QnWnUqwSOxgOVxE7O1z0HUZmyzubt6+pnf5JXivn4kBjn5/to9x7AXmhP5K5Ice8e5qc3nYKGezfnUm9E/b/vOykGpbldhLotW5CLd5GF8phSVJFdp0RnnmCSifUJG8n8S+OSikGeNXsrZV0rKwD91ENIbhwxonOhuB+PzqjfZ0jZd09mrhotcQQFUll0jARdWvp80gn5R+fv27yCB2JStPEBcUK1vqpr9CXUjuovsKzE37d8TL32sk5BTP6jj2zd4BsVYyAZq7RiuJtKLBDFRHg+R0BGPcLyUL5kvj5zpMZHG+dNvZZAxLE6fK2m79soa2SMwuRVo77I+n9hT9Mm6xnXEWbGJKELdq1lejWu6KrB9gEh5MCieOT1h7z/GhU+zrOHv+Y5LDnG43mP8+x2Tecfik5f10Zlwy2e7ykdxrN3k7f/hGqQCAKpxstGOqFrUQSH00rUqbHNUe+kDphTpYP9zc2vnjm32/hvnKhMB19XXHhjaDJtlmf8fTsVjzo5eSUamEsrJ8zcXpQSrAaGQ+U/XjL1WZleBKlyZWlz1ko2Klu097KqqoYirIPnHMSSaW3A81i7WF9ESjLxhgN7BR3agxPWD+Hc3lzmwSO4cosQc0LOKZaWGBRwtjMOFjnsbMhfe8ZmsCNOac7r/vTNvWjbyUyrUiNYvP8lDDMbM1vzL8aiVYZDztFoXnSTLzyXH9xyyTmGlHtYD7oPFk8twgzF3KzMyVeRL/SxZ0dMN+Nkh+lqKdHRGtzPSdBEoxVLW4u0cvHRQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(396003)(39860400002)(366004)(346002)(376002)(186003)(41300700001)(36756003)(8936002)(5660300002)(31686004)(83380400001)(2616005)(2906002)(86362001)(31696002)(66476007)(66556008)(66946007)(450100002)(38100700002)(54906003)(6486002)(478600001)(316002)(4326008)(8676002)(6666004)(6506007)(6512007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WG1oeVVoZEsrejA1VHRpcXBZWUFWdkk3ODJFRE9zbHhLZU5LQzRnT3gxbmJx?=
+ =?utf-8?B?MGwxQmd3Z05pMEFhRDhDUUZvSDhHZVU3RHpuRlY2VGUzVFBUdGJsaVRCWVhz?=
+ =?utf-8?B?NTUwWXlEMHVBUksyK3h6TytzbHZ6RktYRmRuTk4yb0hvbGRaZmVMU1V3ZCtv?=
+ =?utf-8?B?bkpmMkdoNWhDSFVzMXBWTGtrV21jelZWVXduZDFpMFhEZ3lyQjY1dmdDeUM5?=
+ =?utf-8?B?TU5aV3lJVjF0L1pOSGNWdUJueVdKeWxGaFdodWZuVys0N012N1g5cWZvTW4x?=
+ =?utf-8?B?UkQ2WjRXUDJzK2NGOGJzNENBendlRW0xN0poSHZHQS9RRXFyUUVJV1hhZWRI?=
+ =?utf-8?B?WHcwWHFrK2FUaS9oMngyQmpEUFpnK01zWG5nd0JCRTdDWFBtdnJxZGlFZXNq?=
+ =?utf-8?B?c3RTVEdFYWtEMDFPL0VvNDVxeVQxcEJ3L01ITjd4RmZVeHJLMlVnOWExeFRq?=
+ =?utf-8?B?ZE51YlhHZUdQYzN2SWhvY0p4UEZ0MnZ1KzRFTnVmK0NtOXlYY3NjYTJqYVNY?=
+ =?utf-8?B?SXpzNGFySjE1OWxnMVdreDZnazl6amo5WXVPbUFCS1B0cjlSUW4zREpGZ2J0?=
+ =?utf-8?B?WDdqRTEzZ1VKWkl4U1ZoSzhYYm1EeGlTenJGcE1YdXdVb3FtT090MDhoSnlx?=
+ =?utf-8?B?c3g2aEpkT0VqOUNFb0Y4VmRDSmNJNjkxSGFPNGxRd3R3Y0F6Y285SVZBK2F1?=
+ =?utf-8?B?dkpxRUVPczFwdnRmTnRJWGlBUE1oKzZTNHVTYndaN1BrVG9nQ1gzbTR2R1FU?=
+ =?utf-8?B?WlFHVSszOHhLWVZDMDFQKzBCLzg1ak9BR0kwOUZObGZTWlpnR0Y0MjdqNFNm?=
+ =?utf-8?B?NE1qZGF4aXdBTUpGc1BTU3cxdVgzTE9EY3lUYVJTc3hNcDA0azVSNGpxMkwr?=
+ =?utf-8?B?c3ZzdG1xajgrNmdKTWdBUUxCejl6VTFkUTF5QWZhU01CZXNHSWc0UWhLbG9L?=
+ =?utf-8?B?aEU5RW5ua1F2RG9NSjNNZVhXV2NmSlRyaWJNaXVxbHNoaUNNbkRMUHB0OG8r?=
+ =?utf-8?B?dmJxeTB3YWg4NE02NGFxU2w1ZFFzZU5ielFRa1U5c1gyZnZYOHVpNGp6VjNn?=
+ =?utf-8?B?RGxNbjUzZkVmYk1FT2dac3dVeWYrN0d5NFgvSWdYMmVFTWZSOTkwQldidEpp?=
+ =?utf-8?B?dmMwZUJWbDBkMnNMK3lucUpKK2k3bVNtbnZTaDBxMnRkSnZUZmFUUkFNeUdQ?=
+ =?utf-8?B?bWpDV2xEOHFwalV2Rm94N2p6NjNwSUxvcWdMcUllNFc0NGtDcU1TcnhoYWJ3?=
+ =?utf-8?B?RXZUT0tOMFY3REsrZmNyYzRrU2I0eEQyNmFqd0lHK0I5eWxpRk5wQW5CbTBQ?=
+ =?utf-8?B?TGlucVlMWW9odjZ1OWRJbFRnaHFMaCtDU2p1ZzhwNFVRSkQydU50NldFWWtw?=
+ =?utf-8?B?WW4rNlJnZ1YwZ3hZSWZadWdFME5ncFZkWFpicEhXT2RxUGN2ZnR4azNTcUF2?=
+ =?utf-8?B?Z2VRc3J3TzlIUkhIQXhhZ2RVa1VHM21QaSt5Yk13ZVBUeUFrTFZ1MEt1Tk1m?=
+ =?utf-8?B?N3N0ajFlWDFRWGJ4RzR1Ly9QVG1GNDBVdTJFOVcvMUlnOWluUG9QOHI3RTlI?=
+ =?utf-8?B?VjlZeENKMWlhdzNvRDhtbVdIR0EyZVpKa25xbis5ZlZxQ1dkR1VuTStSTG4r?=
+ =?utf-8?B?K1l3WWRLV0NteFRGazVYYm52SXREQ1ZrM05QeVRVSEgyaGdYSDVxUGkvcW03?=
+ =?utf-8?B?ek9BK2VGUTNIaUw2SG41dTNHOXpyeGhqUkhZVUh0cjBjSE12WkpOQ3BtK2p3?=
+ =?utf-8?B?SXJkVFg5MXhVSHMzd1F3V3lpRFZ3NmNKRUFTdnJSYVkrYllDNjFtZVlvNDd2?=
+ =?utf-8?B?NGhzcnJPVVdrbkR6Z1VyQU5yUm1zYWUzQklHbFE0MTllYVZ5RHk1M1ZZM21k?=
+ =?utf-8?B?Um9OU3lyMmlySXc4V2dVeEJLbEI2WFd6SCs5MWZQbDRPaWdSaE1sYTBLVWZY?=
+ =?utf-8?B?U2FLK3J3dzZnQWFMZ255L0VvNUUxbk4vdGNHUVFVWkp3Ymx0SmxOZiszK2FR?=
+ =?utf-8?B?djU0Y2draFhHYnlORXNxZUVkWU9xd0k3YmxOTU0xOWRqd3RHcmhLQmRwK2tX?=
+ =?utf-8?B?amdMc1hRQkdiTFE1VmhRcUNXME1HVFdCenpBZWo0eWhjNEU3RzE3dXpiVTlC?=
+ =?utf-8?B?QVBYTTcyZWFSZ0p2cmlLT0tPK3c1MjFJVXdNRmpRMW5tN0VSOCtGcXA5R25N?=
+ =?utf-8?Q?gDGCnw/cL+rc7clpvJ3lx+LRDjsvVCeku2eb5ecptZL2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2609aa20-b480-4657-661a-08da792d255f
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 11:00:03.7282 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Y8VUhrMAabAAJHuxZs+dfF85Rq+r6PVP/bgDiHDqlia1YdttMU0p1BVsf8iuBb7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2995
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,301 +126,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- alice_chen@richtek.com, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, cy_huang@richtek.com,
- pavel@ucw.cz, lee.jones@linaro.org, linux-leds@vger.kernel.org,
- daniel.thompson@linaro.org, deller@gmx.de, robh+dt@kernel.org,
- andy.shevchenko@gmail.com, chunfeng.yun@mediatek.com, linux@roeck-us.net,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org, szunichen@gmail.com,
- broonie@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- jingoohan1@gmail.com, linux-usb@vger.kernel.org, sre@kernel.org,
- linux-kernel@vger.kernel.org, chiaen_wu@richtek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Marek Olsak <marek.olsak@amd.com>,
+ Amarnath Somalapuram <amaranath.somalapuram@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 05, 2022 at 03:06:05PM +0800, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> The MediaTek MT6370 is a highly-integrated smart power management IC,
-> which includes a single cell Li-Ion/Li-Polymer switching battery
-> charger, a USB Type-C & Power Delivery (PD) controller, dual
-> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
-> a display bias driver and a general LDO for portable devices.
-> 
-> Add a support for the Type-C & Power Delivery controller in
-> MediaTek MT6370 IC.
-> 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+Am 02.08.22 um 15:55 schrieb Shashank Sharma:
+> This patch adds:
+> - A new input parameter "flags" in the amdgpu_ctx_create2 call.
+> - Some new flags defining workload type hints.
+> - Some change in the caller function of amdgpu_ctx_create2, to
+>    accomodate this new parameter.
+>
+> The idea is to pass the workload hints while context creation,
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Bad idea.
 
+Please take AMDGPU_CTX_OP_SET_STABLE_PSTATE and 
+AMDGPU_CTX_OP_GET_STABLE_PSTATE as blueprint for this and don't add 
+extra flags to the context creation.
+
+Regards,
+Christian.
+
+
+>   so
+> that kernel GPU scheduler can pass this information to GPU FW, which in
+> turn can adjust the GPU characterstics as per the workload type.
+>
+> Signed-off-by: Shashank Sharma <shashank.sharma@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Marek Olsak <marek.olsak@amd.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Amarnath Somalapuram <amaranath.somalapuram@amd.com>
 > ---
-> 
-> v7
-> - Revise 'devm_add_action_or_reset(dev, ...)' to one line
-> - Revise 'return regmap_update_bits(...)' with using positive
->   conditional
-> ---
->  drivers/usb/typec/tcpm/Kconfig        |  11 ++
->  drivers/usb/typec/tcpm/Makefile       |   1 +
->  drivers/usb/typec/tcpm/tcpci_mt6370.c | 207 ++++++++++++++++++++++++++++++++++
->  3 files changed, 219 insertions(+)
->  create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
-> 
-> diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
-> index 073fd2e..e6b88ca 100644
-> --- a/drivers/usb/typec/tcpm/Kconfig
-> +++ b/drivers/usb/typec/tcpm/Kconfig
-> @@ -35,6 +35,17 @@ config TYPEC_MT6360
->  	  USB Type-C. It works with Type-C Port Controller Manager
->  	  to provide USB PD and USB Type-C functionalities.
->  
-> +config TYPEC_TCPCI_MT6370
-> +	tristate "MediaTek MT6370 Type-C driver"
-> +	depends on MFD_MT6370
-> +	help
-> +	  MediaTek MT6370 is a multi-functional IC that includes
-> +	  USB Type-C. It works with Type-C Port Controller Manager
-> +	  to provide USB PD and USB Type-C functionalities.
+>   amdgpu/amdgpu.h          |  2 ++
+>   amdgpu/amdgpu_cs.c       |  5 ++++-
+>   include/drm/amdgpu_drm.h | 10 +++++++++-
+>   3 files changed, 15 insertions(+), 2 deletions(-)
+>
+> diff --git a/amdgpu/amdgpu.h b/amdgpu/amdgpu.h
+> index b118dd48..1ebb46e6 100644
+> --- a/amdgpu/amdgpu.h
+> +++ b/amdgpu/amdgpu.h
+> @@ -874,6 +874,7 @@ int amdgpu_bo_list_update(amdgpu_bo_list_handle handle,
+>    *
+>    * \param   dev      - \c [in] Device handle. See #amdgpu_device_initialize()
+>    * \param   priority - \c [in] Context creation flags. See AMDGPU_CTX_PRIORITY_*
+> + * \param   flags    - \c [in] Context flags. See AMDGPU_CTX_FLAGS_*
+>    * \param   context  - \c [out] GPU Context handle
+>    *
+>    * \return   0 on success\n
+> @@ -884,6 +885,7 @@ int amdgpu_bo_list_update(amdgpu_bo_list_handle handle,
+>   */
+>   int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
+>   			 uint32_t priority,
+> +			 uint32_t flags,
+>   			 amdgpu_context_handle *context);
+>   /**
+>    * Create GPU execution Context
+> diff --git a/amdgpu/amdgpu_cs.c b/amdgpu/amdgpu_cs.c
+> index fad484bf..d4723ea5 100644
+> --- a/amdgpu/amdgpu_cs.c
+> +++ b/amdgpu/amdgpu_cs.c
+> @@ -44,12 +44,14 @@ static int amdgpu_cs_reset_sem(amdgpu_semaphore_handle sem);
+>    *
+>    * \param   dev      - \c [in] Device handle. See #amdgpu_device_initialize()
+>    * \param   priority - \c [in] Context creation flags. See AMDGPU_CTX_PRIORITY_*
+> + * \param   flags    - \c [in] Context flags. See AMDGPU_CTX_FLAGS_*
+>    * \param   context  - \c [out] GPU Context handle
+>    *
+>    * \return  0 on success otherwise POSIX Error code
+>   */
+>   drm_public int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
+>   				     uint32_t priority,
+> +				     uint32_t flags,
+>   				     amdgpu_context_handle *context)
+>   {
+>   	struct amdgpu_context *gpu_context;
+> @@ -74,6 +76,7 @@ drm_public int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
+>   	memset(&args, 0, sizeof(args));
+>   	args.in.op = AMDGPU_CTX_OP_ALLOC_CTX;
+>   	args.in.priority = priority;
+> +	args.in.flags = flags;
+>   
+>   	r = drmCommandWriteRead(dev->fd, DRM_AMDGPU_CTX, &args, sizeof(args));
+>   	if (r)
+> @@ -97,7 +100,7 @@ error:
+>   drm_public int amdgpu_cs_ctx_create(amdgpu_device_handle dev,
+>   				    amdgpu_context_handle *context)
+>   {
+> -	return amdgpu_cs_ctx_create2(dev, AMDGPU_CTX_PRIORITY_NORMAL, context);
+> +	return amdgpu_cs_ctx_create2(dev, AMDGPU_CTX_PRIORITY_NORMAL, 0, context);
+>   }
+>   
+>   /**
+> diff --git a/include/drm/amdgpu_drm.h b/include/drm/amdgpu_drm.h
+> index 0cbd1540..d9fb1f20 100644
+> --- a/include/drm/amdgpu_drm.h
+> +++ b/include/drm/amdgpu_drm.h
+> @@ -238,10 +238,18 @@ union drm_amdgpu_bo_list {
+>   #define AMDGPU_CTX_PRIORITY_HIGH        512
+>   #define AMDGPU_CTX_PRIORITY_VERY_HIGH   1023
+>   
+> +/* GPU context workload hint bitmask */
+> +#define AMDGPU_CTX_FLAGS_WORKLOAD_HINT_MASK    0xFF
+> +#define AMDGPU_CTX_FLAGS_WORKLOAD_HINT_NONE    0
+> +#define AMDGPU_CTX_FLAGS_WORKLOAD_HINT_3D      (1 << 1)
+> +#define AMDGPU_CTX_FLAGS_WORKLOAD_HINT_VIDEO   (1 << 2)
+> +#define AMDGPU_CTX_FLAGS_WORKLOAD_HINT_VR      (1 << 3)
+> +#define AMDGPU_CTX_FLAGS_WORKLOAD_HINT_COMPUTE (1 << 4)
 > +
-> +	  This driver can also be built as a module. The module
-> +	  will be called "tcpci_mt6370".
-> +
->  config TYPEC_TCPCI_MAXIM
->  	tristate "Maxim TCPCI based Type-C chip driver"
->  	help
-> diff --git a/drivers/usb/typec/tcpm/Makefile b/drivers/usb/typec/tcpm/Makefile
-> index 7d499f3..906d9dc 100644
-> --- a/drivers/usb/typec/tcpm/Makefile
-> +++ b/drivers/usb/typec/tcpm/Makefile
-> @@ -6,4 +6,5 @@ typec_wcove-y				:= wcove.o
->  obj-$(CONFIG_TYPEC_TCPCI)		+= tcpci.o
->  obj-$(CONFIG_TYPEC_RT1711H)		+= tcpci_rt1711h.o
->  obj-$(CONFIG_TYPEC_MT6360)		+= tcpci_mt6360.o
-> +obj-$(CONFIG_TYPEC_TCPCI_MT6370)	+= tcpci_mt6370.o
->  obj-$(CONFIG_TYPEC_TCPCI_MAXIM)		+= tcpci_maxim.o
-> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c b/drivers/usb/typec/tcpm/tcpci_mt6370.c
-> new file mode 100644
-> index 0000000..c5bb201
-> --- /dev/null
-> +++ b/drivers/usb/typec/tcpm/tcpci_mt6370.c
-> @@ -0,0 +1,207 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2022 Richtek Technology Corp.
-> + *
-> + * Author: ChiYuan Huang <cy_huang@richtek.com>
-> + */
-> +
-> +#include <linux/bits.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_wakeup.h>
-> +#include <linux/pm_wakeirq.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/usb/tcpci.h>
-> +#include <linux/usb/tcpm.h>
-> +
-> +#define MT6370_REG_SYSCTRL8	0x9B
-> +
-> +#define MT6370_AUTOIDLE_MASK	BIT(3)
-> +
-> +#define MT6370_VENDOR_ID	0x29CF
-> +#define MT6370_TCPC_DID_A	0x2170
-> +
-> +struct mt6370_priv {
-> +	struct device *dev;
-> +	struct regulator *vbus;
-> +	struct tcpci *tcpci;
-> +	struct tcpci_data tcpci_data;
-> +};
-> +
-> +static const struct reg_sequence mt6370_reg_init[] = {
-> +	REG_SEQ(0xA0, 0x1, 1000),
-> +	REG_SEQ(0x81, 0x38, 0),
-> +	REG_SEQ(0x82, 0x82, 0),
-> +	REG_SEQ(0xBA, 0xFC, 0),
-> +	REG_SEQ(0xBB, 0x50, 0),
-> +	REG_SEQ(0x9E, 0x8F, 0),
-> +	REG_SEQ(0xA1, 0x5, 0),
-> +	REG_SEQ(0xA2, 0x4, 0),
-> +	REG_SEQ(0xA3, 0x4A, 0),
-> +	REG_SEQ(0xA4, 0x01, 0),
-> +	REG_SEQ(0x95, 0x01, 0),
-> +	REG_SEQ(0x80, 0x71, 0),
-> +	REG_SEQ(0x9B, 0x3A, 1000),
-> +};
-> +
-> +static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data *data)
-> +{
-> +	u16 did;
-> +	int ret;
-> +
-> +	ret = regmap_register_patch(data->regmap, mt6370_reg_init,
-> +				    ARRAY_SIZE(mt6370_reg_init));
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did, sizeof(u16));
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (did == MT6370_TCPC_DID_A)
-> +		return regmap_write(data->regmap, TCPC_FAULT_CTRL, 0x80);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct tcpci_data *data,
-> +				 bool enable)
-> +{
-> +	return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
-> +				  MT6370_AUTOIDLE_MASK,
-> +				  enable ? 0 : MT6370_AUTOIDLE_MASK);
-> +}
-> +
-> +static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct tcpci_data *data,
-> +				bool source, bool sink)
-> +{
-> +	struct mt6370_priv *priv = container_of(data, struct mt6370_priv,
-> +						tcpci_data);
-> +	int ret;
-> +
-> +	ret = regulator_is_enabled(priv->vbus);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (ret && !source)
-> +		return regulator_disable(priv->vbus);
-> +
-> +	if (!ret && source)
-> +		return regulator_enable(priv->vbus);
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t mt6370_irq_handler(int irq, void *dev_id)
-> +{
-> +	struct mt6370_priv *priv = dev_id;
-> +
-> +	return tcpci_irq(priv->tcpci);
-> +}
-> +
-> +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-> +{
-> +	struct regmap *regmap = priv->tcpci_data.regmap;
-> +	u16 vid;
-> +	int ret;
-> +
-> +	ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid, sizeof(u16));
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (vid != MT6370_VENDOR_ID)
-> +		return dev_err_probe(priv->dev, -ENODEV,
-> +				     "Vendor ID not correct 0x%02x\n", vid);
-> +
-> +	return 0;
-> +}
-> +
-> +static void mt6370_unregister_tcpci_port(void *tcpci)
-> +{
-> +	tcpci_unregister_port(tcpci);
-> +}
-> +
-> +static int mt6370_tcpc_probe(struct platform_device *pdev)
-> +{
-> +	struct mt6370_priv *priv;
-> +	struct device *dev = &pdev->dev;
-> +	int irq, ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->dev = dev;
-> +
-> +	priv->tcpci_data.regmap = dev_get_regmap(dev->parent, NULL);
-> +	if (!priv->tcpci_data.regmap)
-> +		return dev_err_probe(dev, -ENODEV, "Failed to init regmap\n");
-> +
-> +	ret = mt6370_check_vendor_info(priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return dev_err_probe(dev, irq, "Failed to get irq\n");
-> +
-> +	/* Assign TCPCI feature and ops */
-> +	priv->tcpci_data.auto_discharge_disconnect = 1;
-> +	priv->tcpci_data.init = mt6370_tcpc_init;
-> +	priv->tcpci_data.set_vconn = mt6370_tcpc_set_vconn;
-> +
-> +	priv->vbus = devm_regulator_get_optional(dev, "vbus");
-> +	if (!IS_ERR(priv->vbus))
-> +		priv->tcpci_data.set_vbus = mt6370_tcpc_set_vbus;
-> +
-> +	priv->tcpci = tcpci_register_port(dev, &priv->tcpci_data);
-> +	if (IS_ERR(priv->tcpci))
-> +		return dev_err_probe(dev, PTR_ERR(priv->tcpci),
-> +				     "Failed to register tcpci port\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, mt6370_unregister_tcpci_port, priv->tcpci);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_request_threaded_irq(dev, irq, NULL, mt6370_irq_handler,
-> +					IRQF_ONESHOT, dev_name(dev), priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to allocate irq\n");
-> +
-> +	device_init_wakeup(dev, true);
-> +	dev_pm_set_wake_irq(dev, irq);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mt6370_tcpc_remove(struct platform_device *pdev)
-> +{
-> +	dev_pm_clear_wake_irq(&pdev->dev);
-> +	device_init_wakeup(&pdev->dev, false);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id mt6370_tcpc_devid_table[] = {
-> +	{ .compatible = "mediatek,mt6370-tcpc" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, mt6370_tcpc_devid_table);
-> +
-> +static struct platform_driver mt6370_tcpc_driver = {
-> +	.driver = {
-> +		.name = "mt6370-tcpc",
-> +		.of_match_table = mt6370_tcpc_devid_table,
-> +	},
-> +	.probe = mt6370_tcpc_probe,
-> +	.remove = mt6370_tcpc_remove,
-> +};
-> +module_platform_driver(mt6370_tcpc_driver);
-> +
-> +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-> +MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface Driver");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.7.4
+>   struct drm_amdgpu_ctx_in {
+>   	/** AMDGPU_CTX_OP_* */
+>   	__u32	op;
+> -	/** For future use, no flags defined so far */
+> +	/** AMDGPU_CTX_FLAGS_* */
+>   	__u32	flags;
+>   	__u32	ctx_id;
+>   	/** AMDGPU_CTX_PRIORITY_* */
 
--- 
-heikki
