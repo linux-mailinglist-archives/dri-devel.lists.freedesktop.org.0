@@ -1,38 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD90958C794
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 13:34:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F8F58C7AC
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 13:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5507E97F0D;
-	Mon,  8 Aug 2022 11:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 821CC971EC;
+	Mon,  8 Aug 2022 11:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EA4C597A45
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 11:28:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 533E31596;
- Mon,  8 Aug 2022 04:28:41 -0700 (PDT)
-Received: from [10.57.42.25] (unknown [10.57.42.25])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFF8C3F67D;
- Mon,  8 Aug 2022 04:28:39 -0700 (PDT)
-Message-ID: <f740ad1c-31f7-7464-1584-c244f6b751c6@arm.com>
-Date: Mon, 8 Aug 2022 12:28:38 +0100
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCF499187;
+ Mon,  8 Aug 2022 11:30:55 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id a7so16050584ejp.2;
+ Mon, 08 Aug 2022 04:30:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=dAEB+ltJy92aHJia4rkluIFFluTtwX5Z1gYtEjy8D4Y=;
+ b=BogbkyhW0jpxu8TZ2/FZ6IImPEXkk0ZXX7XIcE0Dz9n+YhTS8cg9RU2rnrvh/2RAqd
+ 3ah3WYJGwt47hbstjEyPyJeUg+XTLNXZTAngQgpyobPBkEQ71TiUxpcMGjSGkIqmsUZq
+ GlEgzZI5zwdNCamT3uBoDXIV3IEq2yCaVWWo2EqYIRIHcqF608yDyqV8G0L+n5ydRHC1
+ IEQZotoAlYPaCxpQHRF0zGq8+kb8KBKrwI5r8DPzB1ZWBVJArAEAZnFOIMhcJxuUEhC7
+ UJXrd+Pd4HG/+4BMI7H1xf4IZMc+i9BD6AF9SNkE6+Xqd2ECeIFDenuE7CHmGYf7XN0a
+ X79g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=dAEB+ltJy92aHJia4rkluIFFluTtwX5Z1gYtEjy8D4Y=;
+ b=IxS2tABHPhHjt3xgXFlqCEGYyIUT4iv2pNLRGQd92CNDD8+nhWusWE0KOKqZ9fpmmi
+ 5Dq7+StrTQ1OLlzgPpJrUeiaPLj74xPJGosJYOgjjktZlyT78OtrNT+oe5QO0wBGk4U5
+ PnnASUmgIk8oMpHOWma//Zhg3N//5+pCohm6btq9rz/hrvvLpzL2Uyns1TEy/JV7Mce1
+ xgOF28bSmHBxKvN0Ft0ZArOENEP+HCFFDyCsGRSvor0mLBZvRN91g5XTpq6fPHK/n7Ms
+ Pe3R+mKncc4EiMD9OaUx9nkcYHUXM8BD1iFjR7rzGB/SXd7lhoqElMtwRXR/vwxG7iYg
+ mhQw==
+X-Gm-Message-State: ACgBeo2rEtZgG1/9yrvs2cQXl3rymnZ4i+XhlLljin45Q6cqUjug09Mc
+ j6OfbTktpG0Xs9gvzcBTfw4=
+X-Google-Smtp-Source: AA6agR6EWxK4X/LpXbejTAc6NOFR/jRq0fCwafMfgJ/wtJ/x0PwvL5uZHd+pzB3sAkDzRUmOGLf/GQ==
+X-Received: by 2002:a17:906:7303:b0:730:a4e8:27f1 with SMTP id
+ di3-20020a170906730300b00730a4e827f1mr13593548ejc.474.1659958254273; 
+ Mon, 08 Aug 2022 04:30:54 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:2de9:6498:3b4e:7aeb?
+ ([2a02:908:1256:79a0:2de9:6498:3b4e:7aeb])
+ by smtp.gmail.com with ESMTPSA id
+ e12-20020a50fb8c000000b0043a78236cd2sm4442087edq.89.2022.08.08.04.30.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Aug 2022 04:30:53 -0700 (PDT)
+Message-ID: <8398d805-a749-dac6-9bf8-6f93935dd2ec@gmail.com>
+Date: Mon, 8 Aug 2022 13:30:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v6 2/2] drm/panfrost: Add support for devcoredump
-Content-Language: en-GB
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- robh@kernel.org, tomeu.vizoso@collabora.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-References: <20220729144610.2105223-1-adrian.larumbe@collabora.com>
- <20220729144610.2105223-3-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20220729144610.2105223-3-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 2/6] drm/ttm: Implement intersect/compatible functions
+Content-Language: en-US
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20220725114240.4844-1-Arunpravin.PaneerSelvam@amd.com>
+ <20220725114240.4844-2-Arunpravin.PaneerSelvam@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220725114240.4844-2-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,411 +77,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: alexander.deucher@amd.com, luben.tuikov@amd.com, christian.koenig@amd.com,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/07/2022 15:46, Adrián Larumbe wrote:
-> In the event of a job timeout, debug dump information will be written into
-> /sys/class/devcoredump.
-> 
-> Inspired by etnaviv's similar feature.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
 
-I'll push these to drm-misc-next.
-
-Thanks,
-
-Steve
-
+Am 25.07.22 um 13:42 schrieb Arunpravin Paneer Selvam:
+> Implemented a new intersect and compatible callback functions
+> to ttm range manager fetching start offset from drm mm range
+> allocator.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 > ---
->  drivers/gpu/drm/panfrost/Kconfig         |   1 +
->  drivers/gpu/drm/panfrost/Makefile        |   3 +-
->  drivers/gpu/drm/panfrost/panfrost_dump.c | 249 +++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_dump.h |  12 ++
->  drivers/gpu/drm/panfrost/panfrost_job.c  |   3 +
->  include/uapi/drm/panfrost_drm.h          |  47 +++++
->  6 files changed, 314 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
-> 
-> diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
-> index 86cdc0ce79e6..079600328be1 100644
-> --- a/drivers/gpu/drm/panfrost/Kconfig
-> +++ b/drivers/gpu/drm/panfrost/Kconfig
-> @@ -11,6 +11,7 @@ config DRM_PANFROST
->  	select DRM_GEM_SHMEM_HELPER
->  	select PM_DEVFREQ
->  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-> +	select WANT_DEV_COREDUMP
->  	help
->  	  DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
->  	  Bifrost (G3x, G5x, G7x) GPUs.
-> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-> index b71935862417..7da2b3f02ed9 100644
-> --- a/drivers/gpu/drm/panfrost/Makefile
-> +++ b/drivers/gpu/drm/panfrost/Makefile
-> @@ -9,6 +9,7 @@ panfrost-y := \
->  	panfrost_gpu.o \
->  	panfrost_job.o \
->  	panfrost_mmu.o \
-> -	panfrost_perfcnt.o
-> +	panfrost_perfcnt.o \
-> +	panfrost_dump.o
->  
->  obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-> new file mode 100644
-> index 000000000000..72458a6cc197
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-> @@ -0,0 +1,249 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright 2021 Collabora ltd. */
-> +
-> +#include <linux/err.h>
-> +#include <linux/device.h>
-> +#include <linux/devcoredump.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/iosys-map.h>
-> +#include <drm/panfrost_drm.h>
-> +#include <drm/drm_device.h>
-> +
-> +#include "panfrost_job.h"
-> +#include "panfrost_gem.h"
-> +#include "panfrost_regs.h"
-> +#include "panfrost_dump.h"
-> +#include "panfrost_device.h"
-> +
-> +static bool panfrost_dump_core = true;
-> +module_param_named(dump_core, panfrost_dump_core, bool, 0600);
-> +
-> +struct panfrost_dump_iterator {
-> +	void *start;
-> +	struct panfrost_dump_object_header *hdr;
-> +	void *data;
-> +};
-> +
-> +static const unsigned short panfrost_dump_registers[] = {
-> +	SHADER_READY_LO,
-> +	SHADER_READY_HI,
-> +	TILER_READY_LO,
-> +	TILER_READY_HI,
-> +	L2_READY_LO,
-> +	L2_READY_HI,
-> +	JOB_INT_MASK,
-> +	JOB_INT_STAT,
-> +	JS_HEAD_LO(0),
-> +	JS_HEAD_HI(0),
-> +	JS_TAIL_LO(0),
-> +	JS_TAIL_HI(0),
-> +	JS_AFFINITY_LO(0),
-> +	JS_AFFINITY_HI(0),
-> +	JS_CONFIG(0),
-> +	JS_STATUS(0),
-> +	JS_HEAD_NEXT_LO(0),
-> +	JS_HEAD_NEXT_HI(0),
-> +	JS_AFFINITY_NEXT_LO(0),
-> +	JS_AFFINITY_NEXT_HI(0),
-> +	JS_CONFIG_NEXT(0),
-> +	MMU_INT_MASK,
-> +	MMU_INT_STAT,
-> +	AS_TRANSTAB_LO(0),
-> +	AS_TRANSTAB_HI(0),
-> +	AS_MEMATTR_LO(0),
-> +	AS_MEMATTR_HI(0),
-> +	AS_FAULTSTATUS(0),
-> +	AS_FAULTADDRESS_LO(0),
-> +	AS_FAULTADDRESS_HI(0),
-> +	AS_STATUS(0),
-> +};
-> +
-> +static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
-> +	u32 type, void *data_end)
+>   drivers/gpu/drm/ttm/ttm_range_manager.c | 33 +++++++++++++++++++++++++
+>   1 file changed, 33 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+> index d91666721dc6..12b8d9b36fe6 100644
+> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
+> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+> @@ -113,6 +113,37 @@ static void ttm_range_man_free(struct ttm_resource_manager *man,
+>   	kfree(node);
+>   }
+>   
+> +static bool ttm_range_man_intersect(struct ttm_resource_manager *man,
+> +				    struct ttm_resource *res,
+> +				    const struct ttm_place *place,
+> +				    size_t size)
 > +{
-> +	struct panfrost_dump_object_header *hdr = iter->hdr;
+> +	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+> +	u32 num_pages = PFN_UP(size);
 > +
-> +	hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
-> +	hdr->type = cpu_to_le32(type);
-> +	hdr->file_offset = cpu_to_le32(iter->data - iter->start);
-> +	hdr->file_size = cpu_to_le32(data_end - iter->data);
+> +	/* Don't evict BOs outside of the requested placement range */
+> +	if (place->fpfn >= (node->start + num_pages) ||
+> +	    (place->lpfn && place->lpfn <= node->start))
+> +		return false;
 > +
-> +	iter->hdr++;
-> +	iter->data += le32_to_cpu(hdr->file_size);
+> +	return true;
 > +}
 > +
-> +static void
-> +panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
-> +			     struct panfrost_device *pfdev,
-> +			     u32 as_nr, int slot)
+> +static bool ttm_range_man_compatible(struct ttm_resource_manager *man,
+> +				     struct ttm_resource *res,
+> +				     const struct ttm_place *place,
+> +				     size_t size)
 > +{
-> +	struct panfrost_dump_registers *dumpreg = iter->data;
-> +	unsigned int i;
+> +	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+> +	u32 num_pages = PFN_UP(size);
 > +
-> +	for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, dumpreg++) {
-> +		unsigned int js_as_offset = 0;
-> +		unsigned int reg;
+> +	if (node->start < place->fpfn ||
+
+This should probably be "<=".
+
+Regards,
+Christian.
+
+> +	    (place->lpfn && (node->start + num_pages) > place->lpfn))
+> +		return false;
 > +
-> +		if (panfrost_dump_registers[i] >= JS_BASE &&
-> +		    panfrost_dump_registers[i] <= JS_BASE + JS_SLOT_STRIDE)
-> +			js_as_offset = slot * JS_SLOT_STRIDE;
-> +		else if (panfrost_dump_registers[i] >= MMU_BASE &&
-> +			 panfrost_dump_registers[i] <= MMU_BASE + MMU_AS_STRIDE)
-> +			js_as_offset = (as_nr << MMU_AS_SHIFT);
-> +
-> +		reg = panfrost_dump_registers[i] + js_as_offset;
-> +
-> +		dumpreg->reg = cpu_to_le32(reg);
-> +		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
-> +	}
-> +
-> +	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
+> +	return true;
 > +}
 > +
-> +void panfrost_core_dump(struct panfrost_job *job)
-> +{
-> +	struct panfrost_device *pfdev = job->pfdev;
-> +	struct panfrost_dump_iterator iter;
-> +	struct drm_gem_object *dbo;
-> +	unsigned int n_obj, n_bomap_pages;
-> +	__le64 *bomap, *bomap_start;
-> +	size_t file_size;
-> +	u32 as_nr;
-> +	int slot;
-> +	int ret, i;
-> +
-> +	as_nr = job->mmu->as;
-> +	slot = panfrost_job_get_slot(job);
-> +
-> +	/* Only catch the first event, or when manually re-armed */
-> +	if (!panfrost_dump_core)
-> +		return;
-> +	panfrost_dump_core = false;
-> +
-> +	/* At least, we dump registers and end marker */
-> +	n_obj = 2;
-> +	n_bomap_pages = 0;
-> +	file_size = ARRAY_SIZE(panfrost_dump_registers) *
-> +			sizeof(struct panfrost_dump_registers);
-> +
-> +	/* Add in the active buffer objects */
-> +	for (i = 0; i < job->bo_count; i++) {
-> +		/*
-> +		 * Even though the CPU could be configured to use 16K or 64K pages, this
-> +		 * is a very unusual situation for most kernel setups on SoCs that have
-> +		 * a Panfrost device. Also many places across the driver make the somewhat
-> +		 * arbitrary assumption that Panfrost's MMU page size is the same as the CPU's,
-> +		 * so let's have a sanity check to ensure that's always the case
-> +		 */
-> +		dbo = job->bos[i];
-> +		WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
-> +
-> +		file_size += dbo->size;
-> +		n_bomap_pages += dbo->size >> PAGE_SHIFT;
-> +		n_obj++;
-> +	}
-> +
-> +	/* If we have any buffer objects, add a bomap object */
-> +	if (n_bomap_pages) {
-> +		file_size += n_bomap_pages * sizeof(*bomap);
-> +		n_obj++;
-> +	}
-> +
-> +	/* Add the size of the headers */
-> +	file_size += sizeof(*iter.hdr) * n_obj;
-> +
-> +	/*
-> +	 * Allocate the file in vmalloc memory, it's likely to be big.
-> +	 * The reason behind these GFP flags is that we don't want to trigger the
-> +	 * OOM killer in the event that not enough memory could be found for our
-> +	 * dump file. We also don't want the allocator to do any error reporting,
-> +	 * as the right behaviour is failing gracefully if a big enough buffer
-> +	 * could not be allocated.
-> +	 */
-> +	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-> +			__GFP_NORETRY);
-> +	if (!iter.start) {
-> +		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
-> +		return;
-> +	}
-> +
-> +	/* Point the data member after the headers */
-> +	iter.hdr = iter.start;
-> +	iter.data = &iter.hdr[n_obj];
-> +
-> +	memset(iter.hdr, 0, iter.data - iter.start);
-> +
-> +	/*
-> +	 * For now, we write the job identifier in the register dump header,
-> +	 * so that we can decode the entire dump later with pandecode
-> +	 */
-> +	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
-> +	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
-> +	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
-> +	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
-> +	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
-> +
-> +	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
-> +
-> +	/* Reserve space for the bomap */
-> +	if (job->bo_count) {
-> +		bomap_start = bomap = iter.data;
-> +		memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
-> +		panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
-> +					  bomap + n_bomap_pages);
-> +	}
-> +
-> +	for (i = 0; i < job->bo_count; i++) {
-> +		struct iosys_map map;
-> +		struct panfrost_gem_mapping *mapping;
-> +		struct panfrost_gem_object *bo;
-> +		struct sg_page_iter page_iter;
-> +		void *vaddr;
-> +
-> +		bo = to_panfrost_bo(job->bos[i]);
-> +		mapping = job->mappings[i];
-> +
-> +		if (!bo->base.sgt) {
-> +			dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
-> +			iter.hdr->bomap.valid = 0;
-> +			goto dump_header;
-> +		}
-> +
-> +		ret = drm_gem_shmem_vmap(&bo->base, &map);
-> +		if (ret) {
-> +			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
-> +			iter.hdr->bomap.valid = 0;
-> +			goto dump_header;
-> +		}
-> +
-> +		WARN_ON(!mapping->active);
-> +
-> +		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
-> +
-> +		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
-> +			struct page *page = sg_page_iter_page(&page_iter);
-> +
-> +			if (!IS_ERR(page)) {
-> +				*bomap++ = cpu_to_le64(page_to_phys(page));
-> +			} else {
-> +				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
-> +				*bomap++ = ~cpu_to_le64(0);
-> +			}
-> +		}
-> +
-> +		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
-> +
-> +		vaddr = map.vaddr;
-> +		memcpy(iter.data, vaddr, bo->base.base.size);
-> +
-> +		drm_gem_shmem_vunmap(&bo->base, &map);
-> +
-> +		iter.hdr->bomap.valid = cpu_to_le32(1);
-> +
-> +dump_header:	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
-> +					  bo->base.base.size);
-> +	}
-> +	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_TRAILER, iter.data);
-> +
-> +	dev_coredumpv(pfdev->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-> +}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.h b/drivers/gpu/drm/panfrost/panfrost_dump.h
-> new file mode 100644
-> index 000000000000..7d9bcefa5346
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_dump.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2021 Collabora ltd.
-> + */
-> +
-> +#ifndef PANFROST_DUMP_H
-> +#define PANFROST_DUMP_H
-> +
-> +struct panfrost_job;
-> +void panfrost_core_dump(struct panfrost_job *job);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 7c4208476fbd..dbc597ab46fb 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -20,6 +20,7 @@
->  #include "panfrost_regs.h"
->  #include "panfrost_gpu.h"
->  #include "panfrost_mmu.h"
-> +#include "panfrost_dump.h"
->  
->  #define JOB_TIMEOUT_MS 500
->  
-> @@ -727,6 +728,8 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->  		job_read(pfdev, JS_TAIL_LO(js)),
->  		sched_job);
->  
-> +	panfrost_core_dump(job);
-> +
->  	atomic_set(&pfdev->reset.pending, 1);
->  	panfrost_reset(pfdev, sched_job);
->  
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 9e40277d8185..eac87310b348 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -224,6 +224,53 @@ struct drm_panfrost_madvise {
->  	__u32 retained;       /* out, whether backing store still exists */
->  };
->  
-> +/* Definitions for coredump decoding in user space */
-> +#define PANFROSTDUMP_MAJOR 1
-> +#define PANFROSTDUMP_MINOR 0
-> +
-> +#define PANFROSTDUMP_MAGIC 0x464E4150 /* PANF */
-> +
-> +#define PANFROSTDUMP_BUF_REG 0
-> +#define PANFROSTDUMP_BUF_BOMAP (PANFROSTDUMP_BUF_REG + 1)
-> +#define PANFROSTDUMP_BUF_BO (PANFROSTDUMP_BUF_BOMAP + 1)
-> +#define PANFROSTDUMP_BUF_TRAILER (PANFROSTDUMP_BUF_BO + 1)
-> +
-> +struct panfrost_dump_object_header {
-> +	__le32 magic;
-> +	__le32 type;
-> +	__le32 file_size;
-> +	__le32 file_offset;
-> +
-> +	union {
-> +		struct pan_reg_hdr {
-> +			__le64 jc;
-> +			__le32 gpu_id;
-> +			__le32 major;
-> +			__le32 minor;
-> +			__le64 nbos;
-> +		} reghdr;
-> +
-> +		struct pan_bomap_hdr {
-> +			__le32 valid;
-> +			__le64 iova;
-> +			__le32 data[2];
-> +		} bomap;
-> +
-> +		/*
-> +		 * Force same size in case we want to expand the header
-> +		 * with new fields and also keep it 512-byte aligned
-> +		 */
-> +
-> +		__le32 sizer[496];
-> +	};
-> +};
-> +
-> +/* Registers object, an array of these */
-> +struct panfrost_dump_registers {
-> +	__le32 reg;
-> +	__le32 value;
-> +};
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
+>   static void ttm_range_man_debug(struct ttm_resource_manager *man,
+>   				struct drm_printer *printer)
+>   {
+> @@ -126,6 +157,8 @@ static void ttm_range_man_debug(struct ttm_resource_manager *man,
+>   static const struct ttm_resource_manager_func ttm_range_manager_func = {
+>   	.alloc = ttm_range_man_alloc,
+>   	.free = ttm_range_man_free,
+> +	.intersect = ttm_range_man_intersect,
+> +	.compatible = ttm_range_man_compatible,
+>   	.debug = ttm_range_man_debug
+>   };
+>   
 
