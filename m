@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5436258CD3B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 19:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA1058CC66
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 18:54:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 729881126EF;
-	Mon,  8 Aug 2022 17:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C03110E0C7;
+	Mon,  8 Aug 2022 16:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7403B10E973
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:39:13 +0000 (UTC)
-Received: from beaker.jlekstrand.net
- (2603-8080-2102-63d7-019e-342e-5881-a163.res6.spectrum.com
- [IPv6:2603:8080:2102:63d7:19e:342e:5881:a163])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: jekstrand)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 820CA6601C23;
- Mon,  8 Aug 2022 17:39:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1659976752;
- bh=lUR9EBxTwOWQ8xtuUHWly70WATh0dcwGDObC1W+0H9s=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=fyOlBzb5eVchgM7J44orvPybTeGqQxZcacOayQUX2JkMFh14zXvF7N1JVXXUB4EpA
- uud7T5KPo0eq4YE+m08xNtS2X20+8EI2YiD4o7uaXtkAhr3hObjaX91ohyf3n2JBdK
- lZdiZUaFqZHNm743pbxQsuRxrvkTcsmDXyQvLlMy4nlZVsTmz0zkuyM4x1v29/fqxQ
- S2CoJLnHpueS2M07CJeICdw31dyGl8ommUvmPDHWAvGOYurMa03OGt0kdVyflYuNE5
- hhbYYZUttt7fwHVCkxjJplAu1TFNuEf1WSMJxg6MNCFzZigbi04c6fIlbt6gGTWOtU
- k6ILJP88uk/iw==
-Message-ID: <427467a1466ec7c56616661775d98102407f6fdb.camel@collabora.com>
-Subject: Re: [PATCH] dma-buf: Use dma_fence_unwrap_for_each when importing
- fences
-From: Jason Ekstrand <jason.ekstrand@collabora.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jason
- Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
-Date: Mon, 08 Aug 2022 11:39:07 -0500
-In-Reply-To: <4e8657c4-54aa-ad16-3350-f81c610997f4@amd.com>
-References: <20220802210158.4162525-1-jason.ekstrand@collabora.com>
- <4e8657c4-54aa-ad16-3350-f81c610997f4@amd.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB1010E0C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:53:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B84166115D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:53:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1BC49C433D7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659977627;
+ bh=+IolhOUwjnTiIdMX74RIoSTrunV5auYZu3ijNGyR9hU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=E3MRtt+Hxilju1l+jibDt4irQpdXcedr9rS7Xf7w84xxp6ogRDzrwuL3phiLQ9vTN
+ hk5m0DWBqLIQ9j93xchvhDj6465PVVG8mjRCMo2ZF+3u/W2aIITGbgBofWtfq3xwu1
+ YTM1V6MVdEx/MKNZZnL2AmZIS7H3vTWh+asDugCd+CYBdvcQt8SpJYr4RsFhPPCjCD
+ rlLfwY9V/eeJM8C2Ufdzae6YC4cLufyeDTTZhjV4mm2ylV+4u61+WOQrjNixBwinX1
+ aZnQCDAQPBVaH8SiC4sHuozJ83D6xnnG+uyUB0SJauTRqgsYPTNSkD0Z1E78G2TbJn
+ haCocvyznpuSA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id EE1A2C433E9; Mon,  8 Aug 2022 16:53:46 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216092] rn_vbios_smu_send_msg_with_param+0xf9/0x100 - amdgpu
+Date: Mon, 08 Aug 2022 16:53:46 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216092-2300-z13EIqtIlg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216092-2300@https.bugzilla.kernel.org/>
+References: <bug-216092-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 08 Aug 2022 17:54:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,76 +71,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <Sarah.Walker@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAyMDIyLTA4LTA3IGF0IDE4OjM1ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
-Ogo+IEFtIDAyLjA4LjIyIHVtIDIzOjAxIHNjaHJpZWIgSmFzb24gRWtzdHJhbmQ6Cj4gPiBFdmVy
-IHNpbmNlIDY4MTI5ZjQzMWZhYSAoImRtYS1idWY6IHdhcm4gYWJvdXQgY29udGFpbmVycyBpbgo+
-ID4gZG1hX3Jlc3Ygb2JqZWN0IiksCj4gPiBkbWFfcmVzdl9hZGRfc2hhcmVkX2ZlbmNlIHdpbGwg
-d2FybiBpZiB5b3UgYXR0ZW1wdCB0byBhZGQgYQo+ID4gY29udGFpbmVyIGZlbmNlLgo+ID4gV2hp
-bGUgbW9zdCBkcml2ZXJzIHdlcmUgZmluZSwgZmVuY2VzIGNhbiBhbHNvIGJlIGFkZGVkIHRvIGEK
-PiA+IGRtYV9yZXN2IHZpYSB0aGUKPiA+IHJlY2VudGx5IGFkZGVkIERNQV9CVUZfSU9DVExfSU1Q
-T1JUX1NZTkNfRklMRS7CoCBVc2UKPiA+IGRtYV9mZW5jZV91bndyYXBfZm9yX2VhY2gKPiA+IHRv
-IGFkZCBlYWNoIGZlbmNlIG9uZSBhdCBhIHRpbWUuCj4gPiAKPiA+IEZpeGVzOiA1OTQ3NDA0OTdl
-OTkgKCJkbWEtYnVmOiBBZGQgYW4gQVBJIGZvciBpbXBvcnRpbmcgc3luYyBmaWxlcwo+ID4gKHYx
-MCkiKQo+ID4gU2lnbmVkLW9mZi1ieTogSmFzb24gRWtzdHJhbmQgPGphc29uLmVrc3RyYW5kQGNv
-bGxhYm9yYS5jb20+Cj4gPiBSZXBvcnRlZC1ieTogU2FyYWggV2Fsa2VyIDxTYXJhaC5XYWxrZXJA
-aW1ndGVjLmNvbT4KPiA+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
-ZC5jb20+Cj4gPiAtLS0KPiA+IMKgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCAyMyArKysr
-KysrKysrKysrKysrKy0tLS0tLQo+ID4gwqAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMo
-KyksIDYgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYv
-ZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+ID4gaW5kZXggNjMwMTMzMjg0
-ZTJiLi44ZDVkNDUxMTJmNTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1
-Zi5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gPiBAQCAtMTUsNiArMTUs
-NyBAQAo+ID4gwqAgI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KPiA+IMKgICNpbmNsdWRlIDxsaW51
-eC9kbWEtYnVmLmg+Cj4gPiDCoCAjaW5jbHVkZSA8bGludXgvZG1hLWZlbmNlLmg+Cj4gPiArI2lu
-Y2x1ZGUgPGxpbnV4L2RtYS1mZW5jZS11bndyYXAuaD4KPiA+IMKgICNpbmNsdWRlIDxsaW51eC9h
-bm9uX2lub2Rlcy5oPgo+ID4gwqAgI2luY2x1ZGUgPGxpbnV4L2V4cG9ydC5oPgo+ID4gwqAgI2lu
-Y2x1ZGUgPGxpbnV4L2RlYnVnZnMuaD4KPiA+IEBAIC0zOTEsOCArMzkyLDEwIEBAIHN0YXRpYyBs
-b25nIGRtYV9idWZfaW1wb3J0X3N5bmNfZmlsZShzdHJ1Y3QKPiA+IGRtYV9idWYgKmRtYWJ1ZiwK
-PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCB2b2lkIF9fdXNlciAqdXNlcl9kYXRhKQo+ID4gwqAg
-ewo+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfYnVmX2ltcG9ydF9zeW5jX2ZpbGUgYXJn
-Owo+ID4gLcKgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7Cj4gPiArwqDCoMKg
-wqDCoMKgwqBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSwgKmY7Cj4gPiDCoMKgwqDCoMKgwqDCoMKg
-ZW51bSBkbWFfcmVzdl91c2FnZSB1c2FnZTsKPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFf
-ZmVuY2VfdW53cmFwIGl0ZXI7Cj4gPiArwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBpbnQgbnVtX2Zl
-bmNlczsKPiA+IMKgwqDCoMKgwqDCoMKgwqBpbnQgcmV0ID0gMDsKPiA+IMKgIAo+ID4gwqDCoMKg
-wqDCoMKgwqDCoGlmIChjb3B5X2Zyb21fdXNlcigmYXJnLCB1c2VyX2RhdGEsIHNpemVvZihhcmcp
-KSkKPiA+IEBAIC00MTEsMTMgKzQxNCwyMSBAQCBzdGF0aWMgbG9uZyBkbWFfYnVmX2ltcG9ydF9z
-eW5jX2ZpbGUoc3RydWN0Cj4gPiBkbWFfYnVmICpkbWFidWYsCj4gPiDCoMKgwqDCoMKgwqDCoMKg
-dXNhZ2UgPSAoYXJnLmZsYWdzICYgRE1BX0JVRl9TWU5DX1dSSVRFKSA/Cj4gPiBETUFfUkVTVl9V
-U0FHRV9XUklURSA6Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgCj4gPiBETUFfUkVTVl9VU0FHRV9SRUFEOwo+ID4gwqAgCj4gPiAtwqDCoMKgwqDCoMKgwqBk
-bWFfcmVzdl9sb2NrKGRtYWJ1Zi0+cmVzdiwgTlVMTCk7Cj4gPiArwqDCoMKgwqDCoMKgwqBudW1f
-ZmVuY2VzID0gMDsKPiA+ICvCoMKgwqDCoMKgwqDCoGRtYV9mZW5jZV91bndyYXBfZm9yX2VhY2go
-ZiwgJml0ZXIsIGZlbmNlKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCsrbnVt
-X2ZlbmNlczsKPiA+IMKgIAo+ID4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gZG1hX3Jlc3ZfcmVzZXJ2
-ZV9mZW5jZXMoZG1hYnVmLT5yZXN2LCAxKTsKPiA+IC3CoMKgwqDCoMKgwqDCoGlmICghcmV0KQo+
-ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9yZXN2X2FkZF9mZW5jZShkbWFi
-dWYtPnJlc3YsIGZlbmNlLCB1c2FnZSk7Cj4gPiArwqDCoMKgwqDCoMKgwqBpZiAobnVtX2ZlbmNl
-cyA+IDApIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkbWFfcmVzdl9sb2Nr
-KGRtYWJ1Zi0+cmVzdiwgTlVMTCk7Cj4gPiDCoCAKPiA+IC3CoMKgwqDCoMKgwqDCoGRtYV9yZXN2
-X3VubG9jayhkbWFidWYtPnJlc3YpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHJldCA9IGRtYV9yZXN2X3Jlc2VydmVfZmVuY2VzKGRtYWJ1Zi0+cmVzdiwKPiA+IG51bV9mZW5j
-ZXMpOwo+IAo+IFRoYXQgbG9va3MgbGlrZSBpdCBpcyBtaXNwbGFjZWQuCj4gCj4gWW91ICptdXN0
-KiBvbmx5IGxvY2sgdGhlIHJlc2VydmF0aW9uIG9iamVjdCBvbmNlIGFuZCB0aGVuIGFkZCBhbGwK
-PiBmZW5jZXMgCj4gaW4gb25lIGdvLgoKVGhhdCdzIHdoYXQgSSdtIGRvaW5nLiAgTG9jaywgcmVz
-ZXJ2ZSwgYWRkIGEgYnVuY2gsIHVubG9jay4gIEkgYW0KYXNzdW1pbmcgdGhhdCB0aGUgaXRlcmF0
-b3Igd29uJ3Qgc3VkZGVubHkgd2FudCB0byBpdGVyYXRlIG1vcmUgZmVuY2VzCmJldHdlZW4gbXkg
-aW5pdGlhbCBjb3VudCBhbmQgd2hlbiBJIGdvIHRvIGFkZCB0aGVtIGJ1dCBJIHRoaW5rIHRoYXQK
-YXNzdW1wdGlvbiBpcyBvay4KCi0tSmFzb24KCgo+IFRoaW5raW5nIG5vdyBhYm91dCBpdCB3ZSBw
-cm9iYWJseSBoYWQgYSBidWcgYXJvdW5kIHRoYXQgYmVmb3JlIGFzCj4gd2VsbC4gCj4gR29pbmcg
-dG8gZG91YmxlIGNoZWNrIHRvbW9ycm93Lgo+IAo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+IAo+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmICghcmV0KSB7Cj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9mZW5jZV91bndyYXBf
-Zm9yX2VhY2goZiwgJml0ZXIsIGZlbmNlKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX3Jlc3ZfYWRkX2ZlbmNlKGRt
-YWJ1Zi0+cmVzdiwgZiwKPiA+IHVzYWdlKTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqB9Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX3Jlc3Zf
-dW5sb2NrKGRtYWJ1Zi0+cmVzdik7Cj4gPiArwqDCoMKgwqDCoMKgwqB9Cj4gPiDCoCAKPiA+IMKg
-wqDCoMKgwqDCoMKgwqBkbWFfZmVuY2VfcHV0KGZlbmNlKTsKPiA+IMKgIAo+IAoK
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216092
 
+--- Comment #6 from Alex Deucher (alexdeucher@gmail.com) ---
+See also:
+https://gitlab.freedesktop.org/drm/amd/-/issues/2110
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
