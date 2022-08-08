@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B0F58C2C6
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:22:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE01C58C302
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:47:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B66E114A397;
-	Mon,  8 Aug 2022 05:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5C8714A6F1;
+	Mon,  8 Aug 2022 05:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFE628D27D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:22:02 +0000 (UTC)
-X-UUID: d9445aa5bd2d4b018e3d6b324b5af82e-20220808
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1181E11B544
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:46:42 +0000 (UTC)
+X-UUID: 5f9f0a52b07f45639a2c320be271104a-20220808
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=hQFOClsoBFUo+S5UAAJFv6gCUWt7W/fTQiotWmpTraQ=; 
- b=hi4t5vLDn89nDFsJpoIkAnqReudoLKapkZaWWOdpmx/pmaDu+bswgEZbJAHU7BnExL6rf42bDuLsHTHtADRV5JxDKbfhWbcKmY0IaKS+yaUUmfORjVkHcogys6m0vj9VoPZkuGOAnpp84rFFxetFt2Yc5oSPIpm8TRvXyUwzer8=;
+ bh=VYf6ezy+/tgRHSxGzJXfNlPkkPg4ZknRRAkBfdbZORU=; 
+ b=jDvh4+64DMoZeeiCyFLavW6xLEs1PQPUnXjuZEqNk4jUFU0YnroyL0xZAg70bt+KNlyNpvw8JJpAsAM2wwm5FSxrsJ8U1pJMxCizUF45TyJ7xRC+dpg1iwc/kpgKFKpH+0g1+cvz193a7fgwNShpkzyI7BaK5jC/WXtU1TpHSsM=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.9, REQID:ff16173d-2816-48e2-99db-879f28142fea, OB:0,
+X-CID-O-INFO: VERSION:1.1.9, REQID:1145f007-8b2c-427d-be21-a07512c8074d, OB:0,
  LO
- B:30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release
- _Ham,ACTION:release,TS:45
-X-CID-INFO: VERSION:1.1.9, REQID:ff16173d-2816-48e2-99db-879f28142fea, OB:0,
- LOB:
- 30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_H
- am,ACTION:release,TS:45
-X-CID-META: VersionHash:3d8acc9, CLOUDID:434bfc48-f57f-4088-93dd-066979cdb4e6,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_H
+ am,ACTION:release,TS:0
+X-CID-META: VersionHash:3d8acc9, CLOUDID:38fb2fae-9535-44a6-aa9b-7f62b79b6ff6,
  C
- OID:76cc9ae0fa5d,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0
-X-UUID: d9445aa5bd2d4b018e3d6b324b5af82e-20220808
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 5f9f0a52b07f45639a2c320be271104a-20220808
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1586861012; Mon, 08 Aug 2022 13:21:57 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ with ESMTP id 902237526; Mon, 08 Aug 2022 13:46:39 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 8 Aug 2022 13:21:55 +0800
+ 15.2.792.15; Mon, 8 Aug 2022 13:46:39 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 8 Aug 2022 13:21:55 +0800
-Message-ID: <150988eef41cac1e1c4b422cf1ad65c10309f472.camel@mediatek.com>
+ Transport; Mon, 8 Aug 2022 13:46:39 +0800
+Message-ID: <d9eb673132f643e39caeb422309bf4315f0c136e.camel@mediatek.com>
 Subject: Re: [PATCH v16 3/8] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -52,7 +48,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Mon, 8 Aug 2022 13:21:55 +0800
+Date: Mon, 8 Aug 2022 13:46:39 +0800
 In-Reply-To: <20220805101459.3386-4-rex-bc.chen@mediatek.com>
 References: <20220805101459.3386-1-rex-bc.chen@mediatek.com>
  <20220805101459.3386-4-rex-bc.chen@mediatek.com>
@@ -118,39 +114,64 @@ On Fri, 2022-08-05 at 18:14 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +static void mtk_dp_hpd_sink_event(struct mtk_dp *mtk_dp)
+> +static irqreturn_t mtk_dp_hpd_event(int hpd, void *dev)
 > +{
-> +	ssize_t ret;
-> +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
-> +	u32 link_status_reg = DP_LANE0_1_STATUS;
+> +	struct mtk_dp *mtk_dp = dev;
+> +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
+> +	u32 irq_status;
 > +
-> +	ret = drm_dp_dpcd_read(&mtk_dp->aux, link_status_reg,
-> link_status,
-> +			       sizeof(link_status));
-> +	if (!ret) {
-> +		drm_err(mtk_dp->drm_dev, "Read link status failed\n");
-> +		return;
-> +	}
+> +	irq_status = mtk_dp_read(mtk_dp, MTK_DP_TOP_IRQ_STATUS);
 > +
-> +	if (!drm_dp_channel_eq_ok(link_status, mtk_dp-
-> >train_info.lane_count)) {
-> +		drm_err(mtk_dp->drm_dev, "Channel EQ failed\n");
-> +		return;
-> +	}
-> +
-> +	if (link_status[1] & DP_REMOTE_CONTROL_COMMAND_PENDING)
+> +	if (!(irq_status & RGS_IRQ_STATUS_TRANSMITTER))
+> +		return IRQ_HANDLED;
 
-I does not see any other DP driver process
-DP_REMOTE_CONTROL_COMMAND_PENDING, why mtk dp driver process it? If
-this is an advanced function, separate this to an independent patch.
+If one of MTK_DP_HPD_INTERRUPT, MTK_DP_HPD_CONNECT,
+MTK_DP_HPD_DISCONNECT exist, does it imply RGS_IRQ_STATUS_TRANSMITTER
+exist? If so, I think this checking is redundant because we could
+directly check MTK_DP_HPD_INTERRUPT, MTK_DP_HPD_CONNECT,
+MTK_DP_HPD_DISCONNECT.
+
+> +
+> +	irq_status = mtk_dp_swirq_get_clear(mtk_dp) |
+> +		     mtk_dp_hwirq_get_clear(mtk_dp);
+> +
+> +	if (!irq_status)
+> +		return IRQ_HANDLED;
+> +
+> +	if (irq_status & MTK_DP_HPD_INTERRUPT)
+> +		train_info->hpd_inerrupt = true;
+
+train_info->hpd_inerrupt is useless, so drop it.
+
+> +
+> +	if (!(irq_status & MTK_DP_HPD_CONNECT ||
+> +	      irq_status & MTK_DP_HPD_DISCONNECT))
+> +		return IRQ_WAKE_THREAD;
+
+this could be changed to
+
+if (irq_status == MTK_DP_HPD_INTERRUPT)
+	return IRQ_WAKE_THREAD;
+
+But I find one problem. If irq_status == MTK_DP_HPD_INTERRUPT |
+MTK_DP_HPD_CONNECT, the thread would not be waked up. Is this what you
+want?
 
 Regards,
 CK
 
-> +		drm_dp_dpcd_writeb(&mtk_dp->aux,
-> DP_DEVICE_SERVICE_IRQ_VECTOR,
-> +				   DP_REMOTE_CONTROL_COMMAND_PENDING);
+> +
+> +	if (!!(mtk_dp_read(mtk_dp, MTK_DP_TRANS_P0_3414) &
+> +	       HPD_DB_DP_TRANS_P0_MASK))
+> +		train_info->cable_plugged_in = true;
+> +	else
+> +		train_info->cable_plugged_in = false;
+> +
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+> +			   DP_PWR_STATE_BANDGAP_TPLL_LANE,
+> +			   DP_PWR_STATE_MASK);
+> +
+> +	return IRQ_HANDLED;
 > +}
 > +
-> 
 
