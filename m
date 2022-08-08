@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8D558CB29
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 17:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2C458CB2B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 17:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A642113B5E;
-	Mon,  8 Aug 2022 15:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B68B1112595;
+	Mon,  8 Aug 2022 15:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA6F2B053
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 15:15:24 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id s2so6701652qtx.6
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 08:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc; bh=E1+RvZYFttA7KfQ1mW79F5z6+egwwtoFoB1XJg6ELSg=;
- b=AVe6sQGfMehOZihPIbKsmijDAmaC5j5gxtf6YiZ/i0CXOHmjNIvvLExq+5iQpAR4DI
- P5DY+hFJA2HzBv+wDHOFHS7NSaos3RXOq7py448i+ZAXrVe7aFKE2r8k/zmowAuqTZwD
- hwoZlNL9LzMiK4LG+7IGDmKI0xBT410HNXjKJ0U3uBqd7S2RqEkgtFwJJvaa0Wkj46DZ
- nk+IE8HveFCZ7FcpI5vflC4tJtjEScQyWfy+b2BMiL2RpdfBxfb+8jqP+2qehmbkYT9k
- He3aFjobz40m+4nbM8CrNGFgYcKNbVCAVmywpjoMw0SYIONh+a6ApTXe60gtFRzwjAUi
- AE6g==
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3032B225
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 15:15:33 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id l22so11271832wrz.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 08:15:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
+ :date:from:to:cc;
+ bh=aX5eN81HWESmJRv88W0AI5OJIWxgo2+CRoZwYXMKtCU=;
+ b=Vr8BTyxqf7qQirOBiaFgxwMwXWYUu6kCtfYbMorBmgoIgZNEa/5G3nIby8Tpd+q8Vs
+ 4ywVnUUiQRlSTa19nLHwf+zzuIYnlSVyCL7lD0napvmtuwxhqSLkJX9rg7+vG5o7I9al
+ 8LNsTBc4nc8q/LGEOeqWBN42XpS9aE8ZkroOE7h5V81CSmR0IK2Alt9hcVZ8r+n1Tm/M
+ CoQ7pY7Fz83+gaOdq2GXxtwpYksNK7/mwwaOVX/VQtKuuKbhB2MO4pr2o0uPdaxjUdwC
+ bxiIT3a9mzNYs8ZojcPW2TMlO/w37khvO6LmMNmo1/ccsE15gjIy88jIb5KpjTMNUbeW
+ KGMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=E1+RvZYFttA7KfQ1mW79F5z6+egwwtoFoB1XJg6ELSg=;
- b=OyPTgGZIKE1soi1MxH7BtsbJJqTVT1ApBeIZEoVXRWpVgs9lzvNln4qDVt8Dax1ZrX
- HA+Sb6VWdld4bJEmvLsV4qI+bx+YLvkkw2B/GF2kvI6M0O2s9cWS526Z0lJkjUrdaQiX
- tRkguKLWZBk/DUYDfdDnwEpedw7gqZmcWjXXSGrYNVoCcbsqIQ1kadxmx2M+hxLBdzvB
- rdn4vQGTB0/Aqn+pFoiq1YSigwXQeSxy2uhO23mMn5wCxWKxnFowmrihAejxUszF6aek
- unGfmM5bZkk4zLpE9YqC6cRe8S2qb8VK5ZIAV2LOHygCeCh8InxPo2J9IzY/jBUcxa16
- J81g==
-X-Gm-Message-State: ACgBeo1E913evmx/cnuYx8K4VJDOqCtaNLkHuSzd8RAxBpLbYwm+U4aU
- 2ed7DjVgSUxQFRF+Uhsi46DTfQ==
-X-Google-Smtp-Source: AA6agR7SOgQH4fepgo2aG4rek0z8+vmrQqc5LwnlMyHAfnP6b2yJV3xT2ATVcuuOBXYLMID2C5CEHA==
-X-Received: by 2002:ac8:5e4c:0:b0:343:423:e736 with SMTP id
- i12-20020ac85e4c000000b003430423e736mr1111801qtx.490.1659971723666; 
- Mon, 08 Aug 2022 08:15:23 -0700 (PDT)
-Received: from localhost (48.230.85.34.bc.googleusercontent.com.
- [34.85.230.48]) by smtp.gmail.com with ESMTPSA id
- ay34-20020a05620a17a200b006b8e7afe20bsm9836458qkb.123.2022.08.08.08.15.22
+ h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
+ :date:x-gm-message-state:from:to:cc;
+ bh=aX5eN81HWESmJRv88W0AI5OJIWxgo2+CRoZwYXMKtCU=;
+ b=oHBIasTPgXnmm1M7Mj1MSazZxDpttT6cwYJ2ZCA8eXv9Y5UOgnI9ugX/YqniZ2qDmX
+ 2idxt27B9S1Vj2jzgn9PBE3HZK4eeKZV8JFzq5OMTcD+6sflJq9yv4J5m+PtjjgFUYUA
+ VMq2L1Cc1Si+qvSWLKtm2QJyM1vuqXYQ88AlfBWBd4H7Gh9aGPLMoRKFJ3vtnNazYWto
+ jSDriti0m+aRicnKmhxiNNVKDSG5NL8bjfq0lD8m8qs9upVLJ9K6tdnBCKGPxNpNPGF1
+ 2lOgMP70ecr4kMiaLs78ImSgi+AlSneHASXr1X8Scj8mgk73RX9q0jarsxXLlkxGT6LK
+ tE5Q==
+X-Gm-Message-State: ACgBeo3ZR9ubFPgBYJX8OnpJZLeJ9lchldem285xaI9ETVDEKQaZI3Ki
+ vVmOygVLkWP0/txnMHaZOWo=
+X-Google-Smtp-Source: AA6agR6koSiS4NDnWWMI/JyRAsMcpmCzaZWXxVzQjc9ZAPjykYm54Z/3WZDM7o2o+zcmpDEaIS+pUA==
+X-Received: by 2002:adf:e111:0:b0:21d:665e:2fa5 with SMTP id
+ t17-20020adfe111000000b0021d665e2fa5mr12226602wrz.652.1659971731902; 
+ Mon, 08 Aug 2022 08:15:31 -0700 (PDT)
+Received: from [192.168.0.181] (82-64-129-2.subs.proxad.net. [82.64.129.2])
+ by smtp.gmail.com with ESMTPSA id
+ u7-20020a05600c210700b003a3561d4f3fsm2810035wml.43.2022.08.08.08.15.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 08:15:22 -0700 (PDT)
-Date: Mon, 8 Aug 2022 15:15:22 +0000
-From: Sean Paul <sean@poorly.run>
-To: Jim Shargo <jshargo@chromium.org>
-Subject: Re: [PATCH 5/5] drm/vkms: Support registering configfs devices
-Message-ID: <YvEoiiJi24xR0Xiz@art_vandelay>
-References: <20220722213214.1377835-1-jshargo@chromium.org>
- <20220722213214.1377835-6-jshargo@chromium.org>
+ Mon, 08 Aug 2022 08:15:31 -0700 (PDT)
+Date: Mon, 08 Aug 2022 17:15:25 +0200
+From: Matthieu CHARETTE <matthieu.charette@gmail.com>
+Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Message-Id: <PDYAGR.ODW3J0YFOA5G3@gmail.com>
+In-Reply-To: <87wnbqen2f.fsf@intel.com>
+References: <202207172035.mtErdlaw-lkp@intel.com>
+ <20220727074152.43059-1-matthieu.charette@gmail.com>
+ <87wnbqen2f.fsf@intel.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220722213214.1377835-6-jshargo@chromium.org>
+Content-Type: multipart/alternative; boundary="=-bxxlzlNWaqsntO0fg8Im"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,566 +71,505 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- jshargo@google.com
+Cc: kbuild-all@lists.01.org, lkp@intel.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, andrealmeid@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 22, 2022 at 05:32:13PM -0400, Jim Shargo wrote:
-> VKMS now supports creating virtual cards and registering them to create
-> real drm devices.
+--=-bxxlzlNWaqsntO0fg8Im
+Content-Type: text/plain; charset=us-ascii; format=flowed
+
+Sorry, What do you mean?
+
+Matthieu
+
+On Tue, Aug 2 2022 at 05:29:12 PM +0300, Jani Nikula 
+<jani.nikula@linux.intel.com> wrote:
+> On Wed, 27 Jul 2022, Matthieu CHARETTE <matthieu.charette@gmail.com 
+> <mailto:matthieu.charette@gmail.com>> wrote:
+>>  Loading an EDID using drm.edid_firmware parameter makes resume to 
+>> fail
+>>  after firmware cache is being cleaned. This is because edid_load() 
+>> use a
+>>  temporary device to request the firmware. This cause the EDID 
+>> firmware
+>>  not to be cached from suspend. And, requesting the EDID firmware 
+>> return
+>>  an error during resume.
+>>  So the request_firmware() call should use a permanent device for 
+>> each
+>>  connector. Also, we should cache the EDID even if no monitor is
+>>  connected, in case it's plugged while suspended.
 > 
-> In addition to the registration logic, this commit also prevents users
-> from adding new objects once a card is registered.
+> AFAICT this breaks changing drm.edid_firmware runtime.
 > 
-> Signed-off-by: Jim Shargo <jshargo@chromium.org>
-> ---
->  drivers/gpu/drm/vkms/vkms_configfs.c |  27 +++-
->  drivers/gpu/drm/vkms/vkms_drv.c      |  21 ++-
->  drivers/gpu/drm/vkms/vkms_drv.h      |   3 +
->  drivers/gpu/drm/vkms/vkms_output.c   | 227 ++++++++++++++++++++++++---
->  4 files changed, 251 insertions(+), 27 deletions(-)
+> BR,
+> Jani.
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index fa0d8700258e..6f0f4e39864a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -326,8 +326,15 @@ static struct config_item_type plane_type = {
->  static struct config_group *connectors_group_make(struct config_group *group,
->  						  const char *name)
->  {
-> -	struct vkms_config_connector *connector =
-> -		kzalloc(sizeof(struct vkms_config_connector), GFP_KERNEL);
-> +	struct vkms_configfs *configfs =
-> +		container_of(group, struct vkms_configfs, connectors_group);
-> +	struct vkms_config_connector *connector;
-> +
-> +	if (configfs->card) {
-
-I think it would be better to assign configfs->card in
-card_is_registered_store() after successful call to vkms_card_init(). My
-reasoning is that the functions in this file care about configfs->card, and not
-vkms_drv.c. As a bonus, you can also eliminate the if (configfs) check before
-the assignment which is necessary in vkms_card_init() but not
-card_is_registered_store().
-
-> +		return ERR_PTR(EBUSY);
-
-Nit: Negative errno please (applies elsewhere through the patch as well).
-
-> +	}
-
-Nit: remove braces
-
-> +
-> +	connector = kzalloc(sizeof(struct vkms_config_connector), GFP_KERNEL);
-
-Nit: sizeof(*connector) could be handy here and elsewhere below.
-
-It's a bit awkward to make use of devres elsewhere and not here. I guess the
-devres group doesn't exist at this point and perhaps card destruction and
-config_group destruction aren't strictly ordered. ¯\_(ツ)_/¯
-
->  	if (!connector)
->  		return ERR_PTR(ENOMEM);
->  
-> @@ -368,6 +375,9 @@ static struct config_group *crtcs_group_make(struct config_group *group,
->  						     VKMS_MAX_OUTPUT_OBJECTS);
->  	struct vkms_config_crtc *crtc;
->  
-> +	if (configfs->card)
-
-It really feels like we should have some locking protecting us from races
-between adding new components and registration.
-
-> +		return ERR_PTR(EBUSY);
-> +
->  	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
->  		DRM_ERROR("Unable to allocate another CRTC.");
->  		return ERR_PTR(ENOMEM);
-> @@ -413,6 +423,9 @@ static struct config_group *encoders_group_make(struct config_group *group,
->  		&configfs->allocated_encoders, VKMS_MAX_OUTPUT_OBJECTS);
->  	struct vkms_config_encoder *encoder;
->  
-> +	if (configfs->card)
-> +		return ERR_PTR(EBUSY);
-> +
->  	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
->  		DRM_ERROR("Unable to allocate another encoder.");
->  		return ERR_PTR(ENOMEM);
-> @@ -454,8 +467,14 @@ static struct config_item_type encoders_group_type = {
->  static struct config_group *make_plane_group(struct config_group *group,
->  					     const char *name)
->  {
-> -	struct vkms_config_plane *plane =
-> -		kzalloc(sizeof(struct vkms_config_plane), GFP_KERNEL);
-> +	struct vkms_configfs *configfs =
-> +		container_of(group, struct vkms_configfs, planes_group);
-> +	struct vkms_config_plane *plane;
-> +
-> +	if (configfs->card)
-> +		return ERR_PTR(EBUSY);
-> +
-> +	plane = kzalloc(sizeof(struct vkms_config_plane), GFP_KERNEL);
->  	if (!plane)
->  		return ERR_PTR(ENOMEM);
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 37b95ca28672..4e00f3b0de7d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -216,7 +216,7 @@ struct vkms_card *vkms_card_init(const char *name, struct vkms_configfs *configf
->  		goto out_release_group;
->  	}
->  
-> -	ret = drm_vblank_init(&card->drm, 1);
-> +	ret = drm_vblank_init(&card->drm, vkms_card_crtc_count(card));
-
-I wonder if you could re-order this below vkms_modeset_init() and use
-card->output.num_crtcs instead of the new function?
-
->  	if (ret) {
->  		DRM_ERROR("Failed to vblank\n");
->  		goto out_release_group;
-> @@ -231,7 +231,7 @@ struct vkms_card *vkms_card_init(const char *name, struct vkms_configfs *configf
->  	ret = drm_dev_register(&card->drm, 0);
->  	if (ret) {
->  		DRM_ERROR("Unable to register card");
-> -		return ERR_PTR(ret);
-> +		goto out_modeset;
-
-Not sure if this is the one I commented on in the previous patch, but at the
-risk of duplicate comments, this cleanup feels like it belongs in an earlier patch.
-
->  	}
->  
->  	drm_fbdev_generic_setup(&card->drm, 0);
-> @@ -245,6 +245,8 @@ struct vkms_card *vkms_card_init(const char *name, struct vkms_configfs *configf
->  
->  	return card;
->  
-> +out_modeset:
-> +	vkms_output_clear(card);
->  out_release_group:
->  	devres_release_group(&pdev->dev, grp);
->  out_platform_device:
-> @@ -264,6 +266,21 @@ void vkms_card_destroy(struct vkms_card *card)
-
-I feel like vkms_card_destroy() should also be calling vkms_output_clear() or it
-should have the same cleanup procedure as the error handling code in
-vkms_card_init().
-
->  	}
->  }
->  
-> +int vkms_card_crtc_count(struct vkms_card *card)
-
-AFAICT this isn't used outside vkms_drv.c so it should be static.
-
-> +{
-> +	struct list_head *item;
-> +	int count = 0;
-> +
-> +	if (card->is_default)
-> +		return 1;
-> +
-> +	BUG_ON(!card->configfs);
-> +	list_for_each(item, &card->configfs->crtcs_group.cg_children) {
-
-Do you need any locking here? 
-
-> +		count += 1;
-> +	}
-> +	return count;
-> +}
-> +
->  static int __init vkms_init(void)
->  {
->  	struct vkms_card *card;
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index f43e4c563863..2e6bfed890f9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -222,11 +222,14 @@ struct vkms_card *vkms_card_init(const char *name,
->  				 struct vkms_configfs *configfs);
->  void vkms_card_destroy(struct vkms_card *card);
->  
-> +int vkms_card_crtc_count(struct vkms_card *card);
-> +
->  /* CRTC */
->  struct vkms_crtc *vkms_crtc_init(struct vkms_card *card, struct drm_plane *primary, struct drm_plane *cursor);
->  
->  int vkms_output_init_default(struct vkms_card *card, int index);
->  int vkms_output_init(struct vkms_card *card, int index);
-> +void vkms_output_clear(struct vkms_card *card);
->  
->  struct vkms_plane *vkms_plane_init(struct vkms_card *card,
->  				   enum drm_plane_type type);
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index e343a9c1f311..857cd8593dce 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -4,6 +4,10 @@
->  #include <linux/kernel.h>
->  
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_encoder.h>
-> +#include <drm/drm_plane.h>
-
-It makes sense that we would need these, but I'm not sure why it's now and not
-earlier in the patchset.
-
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  
-> @@ -46,7 +50,7 @@ static struct drm_connector *vkms_connector_init(struct vkms_card *card)
->  
->  	connector = &card->output.connectors[card->output.num_connectors++];
->  	ret = drm_connector_init(&card->drm, connector, &vkms_connector_funcs,
-> -			   DRM_MODE_CONNECTOR_VIRTUAL);
-> +				 DRM_MODE_CONNECTOR_VIRTUAL);
-
-Nit: This indent was introduced in patch 3, if you fix it there it'll drop out of here.
-
-
->  	if (ret) {
->  		memset(connector, 0, sizeof(*connector));
->  		card->output.num_connectors -= 1;
-> @@ -79,7 +83,6 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_card *card)
->  int vkms_output_init_default(struct vkms_card *card, int index)
-
-How feasible would it be to initialize the default device in configfs with the
-module config and then call vkms_output_init() to initialize it instead of
-duplicating all of this init? As a bonus, we could probably turf some of the
-if(default) logic sprinkled around.
-
->  {
->  	const struct vkms_config *config = &card->vkms_device->config;
-> -	struct vkms_output *output = &card->output;
->  	struct drm_device *dev = &card->drm;
->  	struct drm_connector *connector;
->  	struct drm_encoder *encoder;
-> @@ -99,7 +102,7 @@ int vkms_output_init_default(struct vkms_card *card, int index)
->  				vkms_plane_init(card, DRM_PLANE_TYPE_OVERLAY);
->  			if (IS_ERR(overlay)) {
->  				ret = PTR_ERR(overlay);
-> -				goto err_planes;
-> +				goto cleanup_output;
->  			}
->  		}
->  	}
-> @@ -108,7 +111,7 @@ int vkms_output_init_default(struct vkms_card *card, int index)
->  		cursor = vkms_plane_init(card, DRM_PLANE_TYPE_CURSOR);
->  		if (IS_ERR(cursor)) {
->  			ret = PTR_ERR(cursor);
-> -			goto err_planes;
-> +			goto cleanup_output;
->  		}
->  	}
->  
-> @@ -117,7 +120,7 @@ int vkms_output_init_default(struct vkms_card *card, int index)
->  	if (IS_ERR(vkms_crtc)) {
->  		DRM_ERROR("Failed to init crtc\n");
->  		ret = PTR_ERR(vkms_crtc);
-> -		goto err_planes;
-> +		goto cleanup_output;
->  	}
->  
->  	for (int i = 0; i < card->output.num_planes; i++) {
-> @@ -129,22 +132,21 @@ int vkms_output_init_default(struct vkms_card *card, int index)
->  	if (IS_ERR(connector)) {
->  		DRM_ERROR("Failed to init connector\n");
->  		ret = PTR_ERR(connector);
-> -		goto err_connector;
-> +		goto cleanup_output;
->  	}
->  
->  	encoder = vkms_encoder_init(card);
->  	if (IS_ERR(encoder)) {
->  		DRM_ERROR("Failed to init encoder\n");
->  		ret = PTR_ERR(encoder);
-> -		goto err_encoder;
-> +		goto cleanup_output;
->  	}
->  	encoder->possible_crtcs |= drm_crtc_mask(&vkms_crtc->base);
->  
-> -
-
-Nit: This blank line was introduced in patch 3, perhaps remove it from there and
-it'll drop out here.
-
->  	ret = drm_connector_attach_encoder(connector, encoder);
->  	if (ret) {
->  		DRM_ERROR("Failed to attach connector to encoder\n");
-> -		goto err_attach;
-> +		goto cleanup_output;
->  	}
->  
->  	if (config->writeback) {
-> @@ -157,26 +159,209 @@ int vkms_output_init_default(struct vkms_card *card, int index)
->  
->  	return 0;
->  
-> -err_attach:
-> -	drm_encoder_cleanup(encoder);
-> +cleanup_output:
-> +	vkms_output_clear(card);
-> +	return ret;
-> +}
->  
-> -err_encoder:
-> -	drm_connector_cleanup(connector);
-> +static bool is_object_linked(struct vkms_config_links *links, unsigned long idx)
-> +{
-> +	return links->linked_object_bitmap & (1 << idx);
-
-Nit: You could use some of the bit helpers available (and avoid the implicit
-cast):
-
-return FIELD_GET(BIT(idx), links->linked_object_bitmap) != 0;
-
-> +}
->  
-> -err_connector:
-> -	drm_crtc_cleanup(&vkms_crtc->base);
-> +int vkms_output_init(struct vkms_card *card, int index)
-> +{
-> +	struct drm_device *dev = &card->drm;
-> +	struct vkms_configfs *configfs = card->configfs;
-> +	struct vkms_output *output = &card->output;
-> +	struct plane_map {
-> +		struct vkms_config_plane *config_plane;
-> +		struct vkms_plane *plane;
-> +	} plane_map[VKMS_MAX_OUTPUT_OBJECTS] = { 0 };
-> +	struct encoder_map {
-> +		struct vkms_config_encoder *config_encoder;
-> +		struct drm_encoder *encoder;
-> +	} encoder_map[VKMS_MAX_OUTPUT_OBJECTS] = { 0 };
-> +	struct config_item *item;
-> +	int i, ret;
-> +
-> +	i = 0;
-> +	list_for_each_entry (item, &configfs->planes_group.cg_children,
-> +			     ci_entry) {
-> +		struct vkms_config_plane *config_plane =
-> +			item_to_config_plane(item);
-> +		struct vkms_plane *plane =
-> +			vkms_plane_init(card, config_plane->type);
-> +
-> +		if (IS_ERR(plane)) {
-> +			DRM_ERROR("Unable to init plane from config: %s",
-> +				  item->ci_name);
-
-It'd be nice to print the return value here.
-
-> +			ret = PTR_ERR(plane);
-> +			goto cleanup_output;
-> +		}
->  
-> -err_planes:
-> -	for (int i = 0; i < output->num_planes; i++) {
-> -		drm_plane_cleanup(&output->planes[i].base);
-> +		plane_map[i].config_plane = config_plane;
-> +		plane_map[i].plane = plane;
-> +		i += 1;
-
-Instead of tracking with i, you could use "output->num_planes - 1"? Same comment
-below for different "num_blah"
-
-> +	}
-> +
-> +	i = 0;
-> +	list_for_each_entry (item, &configfs->encoders_group.cg_children,
-> +			     ci_entry) {
-> +		struct vkms_config_encoder *config_encoder =
-> +			item_to_config_encoder(item);
-> +		struct drm_encoder *encoder = vkms_encoder_init(card);
-> +
-> +		if (IS_ERR(encoder)) {
-> +			DRM_ERROR("Failed to init config encoder: %s",
-> +				  item->ci_name);
-> +			ret = PTR_ERR(encoder);
-> +			goto cleanup_output;
-> +		}
-> +		encoder_map[i].config_encoder = config_encoder;
-> +		encoder_map[i].encoder = encoder;
-> +		i += 1;
-> +	}
-> +
-> +	list_for_each_entry (item, &configfs->connectors_group.cg_children,
-> +			     ci_entry) {
-> +		struct vkms_config_connector *config_connector =
-> +			item_to_config_connector(item);
-> +		struct drm_connector *connector = vkms_connector_init(card);
-> +
-> +		if (IS_ERR(connector)) {
-> +			DRM_ERROR("Failed to init connector from config: %s",
-> +				  item->ci_name);
-> +			ret = PTR_ERR(connector);
-> +			goto cleanup_output;
-> +		}
-> +
-> +		for (int j = 0; j < output->num_connectors; j++) {
-> +			struct encoder_map *encoder = &encoder_map[j];
-> +
-> +			if (is_object_linked(
-> +				    &config_connector->possible_encoders,
-> +				    encoder->config_encoder
-> +					    ->encoder_config_idx)) {
-> +				drm_connector_attach_encoder(connector,
-> +							     encoder->encoder);
-> +			}
-> +		}
-> +	}
-> +
-> +	list_for_each_entry (item, &configfs->crtcs_group.cg_children,
-> +			     ci_entry) {
-> +		struct vkms_config_crtc *config_crtc =
-> +			item_to_config_crtc(item);
-> +		struct vkms_crtc *vkms_crtc;
-> +		struct drm_plane *primary = NULL, *cursor = NULL;
-> +
-> +		for (int j = 0; j < output->num_planes; j++) {
-> +			struct plane_map *plane_entry = &plane_map[j];
-> +			struct drm_plane *plane = &plane_entry->plane->base;
-> +
-> +			if (!is_object_linked(
-> +				    &plane_entry->config_plane->possible_crtcs,
-> +				    config_crtc->crtc_config_idx)) {
-> +				continue;
-> +			}
-
-Nit: Braces
-
-> +
-> +			if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
-> +				if (primary) {
-> +					DRM_WARN(
-> +						"Too many primary planes found for crtc %s.",
-> +						item->ci_name);
-
-Nit: drm_dbg()
-
-> +					ret = EINVAL;
-> +					goto cleanup_output;
-> +				}
-> +				primary = plane;
-> +			} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
-> +				if (cursor) {
-> +					DRM_WARN(
-> +						"Too many cursor planes found for crtc %s.", 
-> +						item->ci_name);
-> +					ret = EINVAL;
-> +					goto cleanup_output;
-> +				}
-> +				cursor = plane;
-> +			}
-> +		}
-> +
-> +		if (!primary) {
-> +			DRM_WARN("No primary plane configured for crtc %s", item->ci_name);
-> +			ret = EINVAL;
-> +			goto cleanup_output;
-> +		}
-> +
-> +		// TODO add names to helper
-
-Mind expanding on this?
-
-> +		vkms_crtc = vkms_crtc_init(card, primary, cursor);
-> +		if (IS_ERR(vkms_crtc)) {
-> +			DRM_WARN("Unable to init crtc from config: %s",
-> +				 item->ci_name);
-> +			ret = PTR_ERR(vkms_crtc);
-> +			goto cleanup_output;
-> +		}
-> +
-> +		for (int j = 0; j < output->num_planes; j++) {
-> +			struct plane_map *plane_entry = &plane_map[j];
-> +
-> +			if (!plane_entry->plane)
-> +				break;
-> +
-> +			if (is_object_linked(
-> +				    &plane_entry->config_plane->possible_crtcs,
-> +				    config_crtc->crtc_config_idx)) {
-> +				plane_entry->plane->base.possible_crtcs |=
-> +					drm_crtc_mask(&vkms_crtc->base);
-> +			}
-> +		}
-> +
-> +		for (int j = 0; j < output->num_encoders; j++) {
-> +			struct encoder_map *encoder_entry = &encoder_map[j];
-> +
-> +			if (is_object_linked(&encoder_entry->config_encoder
-> +						      ->possible_crtcs,
-> +					     config_crtc->crtc_config_idx)) {
-> +				encoder_entry->encoder->possible_crtcs |=
-> +					drm_crtc_mask(&vkms_crtc->base);
-> +			}
-> +		}
-> +
-> +		if (card->vkms_device->config.writeback) {
-> +			ret = vkms_enable_writeback_connector(card, vkms_crtc);
-> +			if (ret)
-> +				DRM_WARN(
-> +					"Failed to init writeback connector for config crtc: %s",
-> +					item->ci_name);
-
-Nit: drm_dbg and please print the error message.
-
-> +		}
->  	}
->  
-> -	memset(output, 0, sizeof(struct vkms_output));
-> +	drm_mode_config_reset(dev);
-> +
-> +	return 0;
->  
-> +cleanup_output:
-> +	vkms_output_clear(card);
-> +	resume_device_irqs(); // REMOVE
-
-REMOVE?
-
->  	return ret;
->  }
->  
-> -int vkms_output_init(struct vkms_card *card, int index)
-> +void vkms_output_clear(struct vkms_card *card)
->  {
-> -	return -ENOTSUPP;
-> +	struct vkms_output *output = &card->output;
-> +
-> +	for (int i = 0; i < output->num_crtcs; i++) {
-> +		drm_crtc_cleanup(&output->crtcs[i].base);
-> +	}
-> +	for (int i = 0; i < output->num_encoders; i++) {
-> +		drm_encoder_cleanup(&output->encoders[i]);
-> +	}
-> +	for (int i = 0; i < output->num_connectors; i++) {
-> +		drm_connector_cleanup(&output->connectors[i]);
-> +	}
-> +	for (int i = 0; i < output->num_planes; i++) {
-> +		drm_plane_cleanup(&output->planes[i].base);
-> +	}
-
-Nit: braces for all of these
-
-> +
-> +	memset(output, 0, sizeof(*output));
-
-Same concerns about memset as before.
-
->  }
-> -- 
-> 2.37.1.359.gd136c6c3e2-goog
+>> 
+>>  Link: <https://gitlab.freedesktop.org/drm/amd/-/issues/2061>
+>>  Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com 
+>> <mailto:matthieu.charette@gmail.com>>
+>>  ---
+>>   drivers/gpu/drm/drm_connector.c |  9 ++++
+>>   drivers/gpu/drm/drm_edid_load.c | 81 
+>> ++++++++++++++++++++++++++++-----
+>>   include/drm/drm_connector.h     | 12 +++++
+>>   include/drm/drm_edid.h          |  3 ++
+>>   4 files changed, 94 insertions(+), 11 deletions(-)
+>> 
+>>  diff --git a/drivers/gpu/drm/drm_connector.c 
+>> b/drivers/gpu/drm/drm_connector.c
+>>  index 1c48d162c77e..e8819ebf1c4b 100644
+>>  --- a/drivers/gpu/drm/drm_connector.c
+>>  +++ b/drivers/gpu/drm/drm_connector.c
+>>  @@ -31,6 +31,7 @@
+>>   #include <drm/drm_privacy_screen_consumer.h>
+>>   #include <drm/drm_sysfs.h>
+>> 
+>>  +#include <linux/platform_device.h>
+>>   #include <linux/uaccess.h>
+>> 
+>>   #include "drm_crtc_internal.h"
+>>  @@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
+>> 
+>>   	drm_connector_get_cmdline_mode(connector);
+>> 
+>>  +	connector->edid_load_pdev = NULL;
+>>  +	drm_cache_edid_firmware(connector);
+>>  +
+>>   	/* We should add connectors at the end to avoid upsetting the 
+>> connector
+>>   	 * index too much.
+>>   	 */
+>>  @@ -473,6 +477,11 @@ void drm_connector_cleanup(struct 
+>> drm_connector *connector)
+>>   		connector->tile_group = NULL;
+>>   	}
+>> 
+>>  +	if (connector->edid_load_pdev) {
+>>  +		platform_device_unregister(connector->edid_load_pdev);
+>>  +		connector->edid_load_pdev = NULL;
+>>  +	}
+>>  +
+>>   	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
+>>   		drm_mode_remove(connector, mode);
+>> 
+>>  diff --git a/drivers/gpu/drm/drm_edid_load.c 
+>> b/drivers/gpu/drm/drm_edid_load.c
+>>  index 37d8ba3ddb46..5a82be9917ec 100644
+>>  --- a/drivers/gpu/drm/drm_edid_load.c
+>>  +++ b/drivers/gpu/drm/drm_edid_load.c
+>>  @@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int 
+>> data_size)
+>>   	return (edid[0x7e] + 1) * EDID_LENGTH;
+>>   }
+>> 
+>>  +static struct platform_device *edid_pdev(const char 
+>> *connector_name)
+>>  +{
+>>  +	struct platform_device *pdev = 
+>> platform_device_register_simple(connector_name, -1, NULL, 0);
+>>  +
+>>  +	if (IS_ERR(pdev)) {
+>>  +		DRM_ERROR("Failed to register EDID firmware platform device "
+>>  +			"for connector \"%s\"\n", connector_name);
+>>  +		return ERR_CAST(pdev);
+>>  +	}
+>>  +
+>>  +	return pdev;
+>>  +}
+>>  +
+>>   static void *edid_load(struct drm_connector *connector, const char 
+>> *name,
+>>   			const char *connector_name)
+>>   {
+>>  @@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector 
+>> *connector, const char *name,
+>>   		fwdata = generic_edid[builtin];
+>>   		fwsize = sizeof(generic_edid[builtin]);
+>>   	} else {
+>>  -		struct platform_device *pdev;
+>>  +		struct platform_device *pdev = connector->edid_load_pdev;
+>>   		int err;
+>> 
+>>  -		pdev = platform_device_register_simple(connector_name, -1, NULL, 
+>> 0);
+>>  -		if (IS_ERR(pdev)) {
+>>  -			DRM_ERROR("Failed to register EDID firmware platform device "
+>>  -				  "for connector \"%s\"\n", connector_name);
+>>  -			return ERR_CAST(pdev);
+>>  +		if (WARN_ON(!pdev)) {
+>>  +			pdev = edid_pdev(connector_name);
+>>  +			if (IS_ERR(pdev))
+>>  +				return ERR_CAST(pdev);
+>>  +			connector->edid_load_pdev = pdev;
+>>   		}
+>> 
+>>   		err = request_firmware(&fw, name, &pdev->dev);
+>>  -		platform_device_unregister(pdev);
+>>   		if (err) {
+>>   			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+>>   				  name, err);
+>>  @@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector 
+>> *connector, const char *name,
+>>   	return edid;
+>>   }
+>> 
+>>  -struct edid *drm_load_edid_firmware(struct drm_connector 
+>> *connector)
+>>  +static char *edid_name(const char *connector_name)
+>>   {
+>>  -	const char *connector_name = connector->name;
+>>   	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+>>  -	struct edid *edid;
+>> 
+>>   	if (edid_firmware[0] == '\0')
+>>   		return ERR_PTR(-ENOENT);
+>>  @@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct 
+>> drm_connector *connector)
+>>   	if (*last == '\n')
+>>   		*last = '\0';
+>> 
+>>  -	edid = edid_load(connector, edidname, connector_name);
+>>  +	edidname = kstrdup(edidname, GFP_KERNEL);
+>>  +	if (!edidname) {
+>>  +		kfree(fwstr);
+>>  +		return ERR_PTR(-ENOMEM);
+>>  +	}
+>>  +
+>>   	kfree(fwstr);
+>>  +	return edidname;
+>>  +}
+>>  +
+>>  +void drm_cache_edid_firmware(struct drm_connector *connector)
+>>  +{
+>>  +	const char *connector_name = connector->name;
+>>  +	const char *edidname = edid_name(connector_name);
+>>  +	struct platform_device *pdev;
+>>  +	int err;
+>>  +
+>>  +	if (IS_ERR(edidname))
+>>  +		return;
+>>  +
+>>  +	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 
+>> 0) {
+>>  +		kfree(edidname);
+>>  +		return;
+>>  +	}
+>>  +
+>>  +	pdev = edid_pdev(connector_name);
+>>  +	if (IS_ERR(pdev)) {
+>>  +		kfree(edidname);
+>>  +		return;
+>>  +	}
+>>  +	connector->edid_load_pdev = pdev;
+>>  +
+>>  +	err = firmware_request_cache(&pdev->dev, edidname);
+>>  +	if (err)
+>>  +		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed 
+>> (err=%d)\n",
+>>  +			edidname, err);
+>>  +
+>>  +	kfree(edidname);
+>>  +}
+>>  +
+>>  +struct edid *drm_load_edid_firmware(struct drm_connector 
+>> *connector)
+>>  +{
+>>  +	const char *connector_name = connector->name;
+>>  +	const char *edidname = edid_name(connector_name);
+>>  +	struct edid *edid;
+>>  +
+>>  +	if (IS_ERR(edidname))
+>>  +		return ERR_CAST(edidname);
+>>  +
+>>  +	edid = edid_load(connector, edidname, connector_name);
+>>  +	kfree(edidname);
+>> 
+>>   	return edid;
+>>   }
+>>  diff --git a/include/drm/drm_connector.h 
+>> b/include/drm/drm_connector.h
+>>  index 3ac4bf87f257..47c84741517e 100644
+>>  --- a/include/drm/drm_connector.h
+>>  +++ b/include/drm/drm_connector.h
+>>  @@ -1573,6 +1573,18 @@ struct drm_connector {
+>>   	 */
+>>   	struct i2c_adapter *ddc;
+>> 
+>>  +	/**
+>>  +	 * @edid_load_pdev: Platform device for loading EDID via firmware.
+>>  +	 *
+>>  +	 * The platform device is registered in drm_connector_init() in 
+>> case a
+>>  +	 * custom EDID firmware is used with `edid_firmware` parameter. 
+>> Otherwise,
+>>  +	 * it is set to NULL.
+>>  +	 *
+>>  +	 * Platform device is unregistered in drm_connector_cleanup() if 
+>> it
+>>  +	 * is not NULL.
+>>  +	 */
+>>  +	struct platform_device *edid_load_pdev;
+>>  +
+>>   	/**
+>>   	 * @null_edid_counter: track sinks that give us all zeros for the 
+>> EDID.
+>>   	 * Needed to workaround some HW bugs where we get all 0s
+>>  diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>>  index b2756753370b..e907c928a35d 100644
+>>  --- a/include/drm/drm_edid.h
+>>  +++ b/include/drm/drm_edid.h
+>>  @@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector 
+>> *connector,
+>>   		      const struct drm_display_mode *mode);
+>> 
+>>   #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
+>>  +void drm_cache_edid_firmware(struct drm_connector *connector);
+>>   struct edid *drm_load_edid_firmware(struct drm_connector 
+>> *connector);
+>>   int __drm_set_edid_firmware_path(const char *path);
+>>   int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+>>   #else
+>>  +inline void
+>>  +drm_cache_edid_firmware(struct drm_connector *connector);
+>>   static inline struct edid *
+>>   drm_load_edid_firmware(struct drm_connector *connector)
+>>   {
 > 
+> --
+> Jani Nikula, Intel Open Source Graphics Center
 
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+
+--=-bxxlzlNWaqsntO0fg8Im
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div>Sorry, What do you mean?</div><div><br></div><div>Matthieu</div></div><div id="geary-quote" dir="auto"><br>On Tue, Aug 2 2022 at 05:29:12 PM +0300, Jani Nikula &lt;jani.nikula@linux.intel.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">On Wed, 27 Jul 2022, Matthieu CHARETTE &lt;<a href="mailto:matthieu.charette@gmail.com">matthieu.charette@gmail.com</a>&gt; wrote:
+<blockquote> Loading an EDID using drm.edid_firmware parameter makes resume to fail
+ after firmware cache is being cleaned. This is because edid_load() use a
+ temporary device to request the firmware. This cause the EDID firmware
+ not to be cached from suspend. And, requesting the EDID firmware return
+ an error during resume.
+ So the request_firmware() call should use a permanent device for each
+ connector. Also, we should cache the EDID even if no monitor is
+ connected, in case it's plugged while suspended.
+</blockquote>
+AFAICT this breaks changing drm.edid_firmware runtime.
+
+BR,
+Jani.
+
+<blockquote>
+ Link: <a href="https://gitlab.freedesktop.org/drm/amd/-/issues/2061">https://gitlab.freedesktop.org/drm/amd/-/issues/2061</a>
+ Signed-off-by: Matthieu CHARETTE &lt;<a href="mailto:matthieu.charette@gmail.com">matthieu.charette@gmail.com</a>&gt;
+ ---
+  drivers/gpu/drm/drm_connector.c |  9 ++++
+  drivers/gpu/drm/drm_edid_load.c | 81 ++++++++++++++++++++++++++++-----
+  include/drm/drm_connector.h     | 12 +++++
+  include/drm/drm_edid.h          |  3 ++
+  4 files changed, 94 insertions(+), 11 deletions(-)
+
+ diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+ index 1c48d162c77e..e8819ebf1c4b 100644
+ --- a/drivers/gpu/drm/drm_connector.c
+ +++ b/drivers/gpu/drm/drm_connector.c
+ @@ -31,6 +31,7 @@
+  #include &lt;drm/drm_privacy_screen_consumer.h&gt;
+  #include &lt;drm/drm_sysfs.h&gt;
+  
+ +#include &lt;linux/platform_device.h&gt;
+  #include &lt;linux/uaccess.h&gt;
+  
+  #include "drm_crtc_internal.h"
+ @@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
+  
+  	drm_connector_get_cmdline_mode(connector);
+  
+ +	connector-&gt;edid_load_pdev = NULL;
+ +	drm_cache_edid_firmware(connector);
+ +
+  	/* We should add connectors at the end to avoid upsetting the connector
+  	 * index too much.
+  	 */
+ @@ -473,6 +477,11 @@ void drm_connector_cleanup(struct drm_connector *connector)
+  		connector-&gt;tile_group = NULL;
+  	}
+  
+ +	if (connector-&gt;edid_load_pdev) {
+ +		platform_device_unregister(connector-&gt;edid_load_pdev);
+ +		connector-&gt;edid_load_pdev = NULL;
+ +	}
+ +
+  	list_for_each_entry_safe(mode, t, &amp;connector-&gt;probed_modes, head)
+  		drm_mode_remove(connector, mode);
+  
+ diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+ index 37d8ba3ddb46..5a82be9917ec 100644
+ --- a/drivers/gpu/drm/drm_edid_load.c
+ +++ b/drivers/gpu/drm/drm_edid_load.c
+ @@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int data_size)
+  	return (edid[0x7e] + 1) * EDID_LENGTH;
+  }
+  
+ +static struct platform_device *edid_pdev(const char *connector_name)
+ +{
+ +	struct platform_device *pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
+ +
+ +	if (IS_ERR(pdev)) {
+ +		DRM_ERROR("Failed to register EDID firmware platform device "
+ +			"for connector \"%s\"\n", connector_name);
+ +		return ERR_CAST(pdev);
+ +	}
+ +
+ +	return pdev;
+ +}
+ +
+  static void *edid_load(struct drm_connector *connector, const char *name,
+  			const char *connector_name)
+  {
+ @@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+  		fwdata = generic_edid[builtin];
+  		fwsize = sizeof(generic_edid[builtin]);
+  	} else {
+ -		struct platform_device *pdev;
+ +		struct platform_device *pdev = connector-&gt;edid_load_pdev;
+  		int err;
+  
+ -		pdev = platform_device_register_simple(connector_name, -1, NULL, 0);
+ -		if (IS_ERR(pdev)) {
+ -			DRM_ERROR("Failed to register EDID firmware platform device "
+ -				  "for connector \"%s\"\n", connector_name);
+ -			return ERR_CAST(pdev);
+ +		if (WARN_ON(!pdev)) {
+ +			pdev = edid_pdev(connector_name);
+ +			if (IS_ERR(pdev))
+ +				return ERR_CAST(pdev);
+ +			connector-&gt;edid_load_pdev = pdev;
+  		}
+  
+  		err = request_firmware(&amp;fw, name, &amp;pdev-&gt;dev);
+ -		platform_device_unregister(pdev);
+  		if (err) {
+  			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
+  				  name, err);
+ @@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector *connector, const char *name,
+  	return edid;
+  }
+  
+ -struct edid *drm_load_edid_firmware(struct drm_connector *connector)
+ +static char *edid_name(const char *connector_name)
+  {
+ -	const char *connector_name = connector-&gt;name;
+  	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
+ -	struct edid *edid;
+  
+  	if (edid_firmware[0] == '\0')
+  		return ERR_PTR(-ENOENT);
+ @@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
+  	if (*last == '\n')
+  		*last = '\0';
+  
+ -	edid = edid_load(connector, edidname, connector_name);
+ +	edidname = kstrdup(edidname, GFP_KERNEL);
+ +	if (!edidname) {
+ +		kfree(fwstr);
+ +		return ERR_PTR(-ENOMEM);
+ +	}
+ +
+  	kfree(fwstr);
+ +	return edidname;
+ +}
+ +
+ +void drm_cache_edid_firmware(struct drm_connector *connector)
+ +{
+ +	const char *connector_name = connector-&gt;name;
+ +	const char *edidname = edid_name(connector_name);
+ +	struct platform_device *pdev;
+ +	int err;
+ +
+ +	if (IS_ERR(edidname))
+ +		return;
+ +
+ +	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) &gt;= 0) {
+ +		kfree(edidname);
+ +		return;
+ +	}
+ +
+ +	pdev = edid_pdev(connector_name);
+ +	if (IS_ERR(pdev)) {
+ +		kfree(edidname);
+ +		return;
+ +	}
+ +	connector-&gt;edid_load_pdev = pdev;
+ +
+ +	err = firmware_request_cache(&amp;pdev-&gt;dev, edidname);
+ +	if (err)
+ +		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed (err=%d)\n",
+ +			edidname, err);
+ +
+ +	kfree(edidname);
+ +}
+ +
+ +struct edid *drm_load_edid_firmware(struct drm_connector *connector)
+ +{
+ +	const char *connector_name = connector-&gt;name;
+ +	const char *edidname = edid_name(connector_name);
+ +	struct edid *edid;
+ +
+ +	if (IS_ERR(edidname))
+ +		return ERR_CAST(edidname);
+ +
+ +	edid = edid_load(connector, edidname, connector_name);
+ +	kfree(edidname);
+  
+  	return edid;
+  }
+ diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+ index 3ac4bf87f257..47c84741517e 100644
+ --- a/include/drm/drm_connector.h
+ +++ b/include/drm/drm_connector.h
+ @@ -1573,6 +1573,18 @@ struct drm_connector {
+  	 */
+  	struct i2c_adapter *ddc;
+  
+ +	/**
+ +	 * @edid_load_pdev: Platform device for loading EDID via firmware.
+ +	 *
+ +	 * The platform device is registered in drm_connector_init() in case a
+ +	 * custom EDID firmware is used with `edid_firmware` parameter. Otherwise,
+ +	 * it is set to NULL.
+ +	 *
+ +	 * Platform device is unregistered in drm_connector_cleanup() if it
+ +	 * is not NULL.
+ +	 */
+ +	struct platform_device *edid_load_pdev;
+ +
+  	/**
+  	 * @null_edid_counter: track sinks that give us all zeros for the EDID.
+  	 * Needed to workaround some HW bugs where we get all 0s
+ diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+ index b2756753370b..e907c928a35d 100644
+ --- a/include/drm/drm_edid.h
+ +++ b/include/drm/drm_edid.h
+ @@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector *connector,
+  		      const struct drm_display_mode *mode);
+  
+  #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
+ +void drm_cache_edid_firmware(struct drm_connector *connector);
+  struct edid *drm_load_edid_firmware(struct drm_connector *connector);
+  int __drm_set_edid_firmware_path(const char *path);
+  int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+  #else
+ +inline void
+ +drm_cache_edid_firmware(struct drm_connector *connector);
+  static inline struct edid *
+  drm_load_edid_firmware(struct drm_connector *connector)
+  {
+</blockquote>
+<div>-- 
+</div>Jani Nikula, Intel Open Source Graphics Center
+</div></blockquote></div>
+--=-bxxlzlNWaqsntO0fg8Im--
+
