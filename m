@@ -2,63 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A0B58CB2C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 17:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C32858CB88
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 17:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FCBF10F51B;
-	Mon,  8 Aug 2022 15:18:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BDA10F165;
+	Mon,  8 Aug 2022 15:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1C7D113C1D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 15:17:56 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id z17so11272092wrq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 08:17:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
- :date:from:to:cc;
- bh=Sx/LpVMDOgAyPOOip8IKLXylF7z+2nxoh91q5XVdIMU=;
- b=KwGrIquBlk0FIoPmgkOi9ueE3W2wR4ehGf5t2C81nktdWU0d4Cv2JetNn9PZfSI6Pa
- MExwBdafxJYvgAcTvwTfxiKWWeW2zmQXFMf5nzAeR+sKPFgdT2A78xR9Fe3k96rUPRSQ
- jNE5MS9l1jjwBpuxfp+xu6iSA/EVoIBuzNJ4SlIHQKNRQBQx4hsoP18GVmM63su9RXew
- aloYSPgFGOfMekZV9Lxa6un4jH2Yk+XgACA7I3Vwex8t6E8XCoOBD7DN/H/zfPOUnYtz
- /XqLP6r7UrEYotwc0wB/bN4E7uKnUUx5EjCWumDdrqWnGBcE14CqxhQ72HKYpXBUEZZo
- ODNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
- :date:x-gm-message-state:from:to:cc;
- bh=Sx/LpVMDOgAyPOOip8IKLXylF7z+2nxoh91q5XVdIMU=;
- b=z7YfkGWC6hqsBldj/UHsDG8edJGCTzCw2rmewMXODBfZAoZxxW4RQik37QaWwE8C4I
- JahGZF0W9NsZW4HmNN2ewWXWUjwuoCH12yTBoGNb4a9PQGYvJjdEtOGD1FNw2zLBMjwX
- uccLbhPOoTCNxdv2T2LF91ixHLsPlbBBNFVgdsMxpdLrm517lm+d6taIPzeUoImFy2+D
- OYDfsAJgOg7p7mgSWO6eJz2AvIaBqJb9S5HQBY67GVaTRjp7zC7jbYH0MSCWS7akbBeK
- KkHtxGgh6QssEEOiB80KmqU1q1sTfAQPkneZfRP+loablcLtBjFOfwUThfYYjJ9GeVDW
- i5DA==
-X-Gm-Message-State: ACgBeo3o15tuGw1ngFZ7zqveOLGbRPTwBfCMUaUoBvlQiZ4QsO8M+deL
- B8myxkwJFigc5bzbUARG4Tnk3dXBe6A=
-X-Google-Smtp-Source: AA6agR7D+rkdGU4qRSJaD16XWNBQ0lBTZcg6C9M7QKoqHySWiMP7g9yY+um510CFmmCFFBfmFmOxiw==
-X-Received: by 2002:adf:eb01:0:b0:220:5c0d:eb29 with SMTP id
- s1-20020adfeb01000000b002205c0deb29mr11168924wrn.528.1659971875061; 
- Mon, 08 Aug 2022 08:17:55 -0700 (PDT)
-Received: from fedora ([2a01:e0a:1d2:1f90:be95:f3a2:4d99:a3b3])
- by smtp.gmail.com with ESMTPSA id
- e3-20020adf9bc3000000b0020e6ce4dabdsm11525673wrc.103.2022.08.08.08.17.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 08:17:54 -0700 (PDT)
-Date: Mon, 08 Aug 2022 17:17:48 +0200
-From: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Subject: Re: [PATCH] drm: Fix EDID firmware load on resume
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Message-Id: <OHYAGR.5V9CNVUP533V3@gmail.com>
-In-Reply-To: <87wnbqen2f.fsf@intel.com>
-References: <202207172035.mtErdlaw-lkp@intel.com>
- <20220727074152.43059-1-matthieu.charette@gmail.com>
- <87wnbqen2f.fsf@intel.com>
-X-Mailer: geary/40.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E0F10E74C;
+ Mon,  8 Aug 2022 15:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659973694; x=1691509694;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=/sxkM1XlF/iSNWepqq59WOSlHz5yY6/77NZ7Slz2tYs=;
+ b=YfioGYgmlUSK/RkIjMtgE3H5n+PPg6IusQm9kAjcpijQY1PDnLRHANx1
+ TmS8rDkr0OhzFmwoh7Dj97GyiaRBAnceNbfabRY/rLz+VDGXAXerhv+xE
+ stKl59Jl5vkN2jFrko0CY5qpXMwy/zA9JXK8QJFQKcHuKInZ63fAizSOp
+ 9bOerG8u22ft/p8BdPMtqntsDxMC9zrO270m5mgRjNKPADwFVokRRNajB
+ 2/351ehhsBlQuwRksQ9QIq0lRmeqBvVW7He+IA/9OYtuBVIiyYsT+S8OU
+ s/4eBkJoikr/PF3DaFop1L7QDSue+E4TOXmG7yuNdfqPzkhll+OYMqtN9 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10433"; a="288190383"
+X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="288190383"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2022 08:48:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,222,1654585200"; d="scan'208";a="672535618"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga004.fm.intel.com with ESMTP; 08 Aug 2022 08:48:06 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 8 Aug 2022 08:48:05 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Mon, 8 Aug 2022 08:48:05 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Mon, 8 Aug 2022 08:48:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ee2wBtG5Mdo9X5eLyUBxg7YiKPI4OwnT8h3nwWHIhv6aN6CSpNkgY+IM6qIIbRpuT3xdtM/T60DiA0QRqrvNxuBGS7htWXR0fiDLkqp6D1mzXP5w5rlJdybZfLh+CM5gnfnjlUvaY0fSOh8Xyrge1ONZZBZ8std34OSAATNpaHBr8gvLA8U/FiLdzkAb7fw1S5K0I/IJYI6XWm+VVeVMzWsTIcjWN5LJI8godu+GGUkeozsYLsyL8lU5FRqJ4N6B9x0ITzOvwrOFH51CgwlGYwtNw5/bxI+0YQ9lVBAgA9g6RE9VJrkQJvOIqKUxkKrAz7Z6VAsJKEIZdmVmv/lGWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/sxkM1XlF/iSNWepqq59WOSlHz5yY6/77NZ7Slz2tYs=;
+ b=UpzpYSCiSY3510+A5ayxj1ybNsBxwqfz+FW/z2uCLJIP0y7f+y5Focrle70xl9LnGNl2RJMy3+Lw1TRZpcAYatBGDc3rl44g8OZCY3zhMXKH7XhPJWuLhZEsXJco1h0uh9L9ztlS6NPX0zYl1QtaD5/RF4K8svdmAmf4jqFU4+GTOrYgk7g37eeTgdfSox+OfEswTpn3+X0aJPXyC/c2wFoigJonPz7VzFvYh4jwQVJTg/b4czQ84pkDZtyYHw7GMUPoY+f9MqqUdFswW4TnXfZXsGQfTHPpCgV9UUZOwJ4AeRh+oqjKUGdnVO/5/5zU6itzZMu0uOoAKRcj9l2R2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB3114.namprd11.prod.outlook.com (2603:10b6:5:6d::11) by
+ BYAPR11MB3477.namprd11.prod.outlook.com (2603:10b6:a03:7c::28) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5504.17; Mon, 8 Aug 2022 15:48:02 +0000
+Received: from DM6PR11MB3114.namprd11.prod.outlook.com
+ ([fe80::c1e0:f556:b4b2:f786]) by DM6PR11MB3114.namprd11.prod.outlook.com
+ ([fe80::c1e0:f556:b4b2:f786%3]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
+ 15:48:02 +0000
+From: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "airlied@linux.ie" <airlied@linux.ie>
+Subject: Re: [PATCH v5] drm/i915: stop using swiotlb
+Thread-Topic: [PATCH v5] drm/i915: stop using swiotlb
+Thread-Index: AQHYoQYOzb0CoTFuS0awczhJA9Gioa2lOmuA
+Date: Mon, 8 Aug 2022 15:48:02 +0000
+Message-ID: <1160a7c31084ab2259088e4bfe88b41ad61c2bcc.camel@intel.com>
+References: <20220726153935.2272777-1-bob.beckett@collabora.com>
+In-Reply-To: <20220726153935.2272777-1-bob.beckett@collabora.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.3 (3.44.3-1.fc36) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1bdf61a8-40b2-4759-5b2e-08da79556088
+x-ms-traffictypediagnostic: BYAPR11MB3477:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nYUJZrcNdATJGE6/vqd+jiKY/ppsdxxH7XTeEg8akyG+5dYwzNh0oq5YZtOQRk9MR14fpljUfb9TPmoZG7g18hwrY9rwJOF4nJBTEPs3OKhkd87kyBb9jblOoLYfMedi6HlJDVQu67HULY3edUrmA9eWeHAsAaYa3e9PH15gIy4uyusnQAYNeTr15zs3Te4khbgBaaeidoyZZHrTMzfPnMqbnxf8jE+Q9J4TiI0bFp0QScnYxk/gvlFcqsKXZwDDnm7vgG8Xz3n79NIt4qJ7KSeGHosvYGwrrk239x3Vj+BdX/S7zEzRC8SrIn35fHc9nLQ3Lgxmf0d/4mttjMrjvKT4GLHepkpsQb/KvpATc5bR16YWPQnGj/0KntUSINR0zEz+xU28y8SOAGwKXIjj3Mh/flACk2+yMJLMlat8vhMSX6+Za74P7meCzu0v615Ky++Cr+hRwaQaaZPBH29KDmRywS20Asamu9Lc4eC8z6Uj5SxmLvbYBxRYo1HeLwjvZ/l65ia2dFlrtK2TEJwCoxgjtDssW798oo2VT0Lws9+76Lu/yXeNiemCffzET7+vxlxcyq0GPbnGjCdu3CHPlhv2t2DTRkDwTV0q/W/i7mxzsKvUky1/se42QeE3G9liR7qgkVkoYW5OS7TLJAIO9r/3/bLO/1RJ6xm3dlO82AlW6G9aQvG7zLP0e8mev8Co7DzQq/jaDntIi5B0X/uQN+eb/IJ93tEpyO3uQdJVJQrOW+sOfj16jUzv3cMCN2dQerFR5HPB3CtxtWB+iVTJGkrp7Rt3nmKgtET5xEr6sgLMKVchgwTzNp2b9Jt0H4uQm75ASss68m9Ae6lja0s5ZQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3114.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(376002)(39860400002)(346002)(136003)(366004)(396003)(316002)(54906003)(110136005)(966005)(41300700001)(6512007)(26005)(2906002)(36756003)(6506007)(7416002)(4326008)(66476007)(82960400001)(66556008)(76116006)(66446008)(64756008)(66946007)(8936002)(5660300002)(86362001)(91956017)(6486002)(478600001)(2616005)(83380400001)(71200400001)(38100700002)(186003)(38070700005)(8676002)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UkN1NTRLMmxTQkRjMTJsSWs4eUc3eVY2MkFiUmxoOUJDTHJUOWFySG0rdFpH?=
+ =?utf-8?B?SkQ1WHZ4Z2pqL1RncENIdlp0NUp3cCtsNGE2cFZSeFNJVkRnOVhDaEdqKzJE?=
+ =?utf-8?B?Q2lhTlh5bENlb0NnZ0kvZWxINklqczVic2htM1UrVUhJbjMyb3dXZm9sQXV1?=
+ =?utf-8?B?Rld1U2x3MkxJNHg5dXdZcjcrSjhtY3Y5UllWWEVVQmdnVHBnUWdHME14TkxU?=
+ =?utf-8?B?dUtNRThNNXFJSlpuajRCUHlNc0VUWkJkVS95NUVUbU9zekhKNGN6VUtRVlEz?=
+ =?utf-8?B?OGJ0QkVOQkZrRDhDekptR08rYUQyZEpIYUt4WHJMS1hienRqVVdicUt3R1RX?=
+ =?utf-8?B?aW03dStlR2tINXR6UkdQUjNaWldqUk5ISzhxeEo1UC9hSHlKa3JKY1RNU3k0?=
+ =?utf-8?B?MXFsQXY5YzNrSHhjeUJDVnllV0pCTDRqaGlxUmI2VmZsbE1FcndYZmdjbnI3?=
+ =?utf-8?B?T3pBOFpkV1pDMXkxZzNzanFhM3pjWDI0eTZxRHN4MW02ZlVvSGZBUVp1QzJo?=
+ =?utf-8?B?UVBMakdRY1VvZzliRWRXMWxvalFUQVBMVGJmNjZnS0hPYWFmUS9TS21EeDRp?=
+ =?utf-8?B?MVdQNTRXTGMxcEl1RUNSQzhlSW05TmlYZ3h4K3kyNGt2T0hDbjJuUTVlbjVj?=
+ =?utf-8?B?bVhqQ3E4dDhaTEF2SVlxbzdISU1KT1ZGazZKM3dtcG9VQmV1NkEwNmFHRVZM?=
+ =?utf-8?B?Uk9RWGhZQXdxb2pSbW8yZ3Jsci9iQWlZdGhyUGFRdDROWWMxQXZDeGNKa1E0?=
+ =?utf-8?B?SWdqSnJKSW9QbFFjTjZKRlRqdm1lR2piNGJzNWxZS05YLy9FaW4yY0ZVN0JQ?=
+ =?utf-8?B?N1VUakFsZVlpTzRYNFdKRWV0eHc5dVNTazZBMlRXQ0tCYlBQSEpHZVNQOXRV?=
+ =?utf-8?B?RENtUWM4MGF5MGtGV0FHT29kWlhhZTVVcFltaVIwSW9ERklRVXVKeUFrY0Zp?=
+ =?utf-8?B?aVVxVSt4Ym5BTmZBOGxweGJUdHE5ditoYUZDZU5UWlJQd3pMVXhiZ1MrdXhV?=
+ =?utf-8?B?c2ZEUjlsckhYS1RNdDVoZGd2allnNEtHYjN6YVVpM2dNaHcySE9yV01RaXI5?=
+ =?utf-8?B?L3lBak56YTlXMTRqVW0rSnFCQVZleVF5d3dCNFFESzJHQ3lLeDBOeWFxdU1l?=
+ =?utf-8?B?Z2JxcVhEV21RdG9iQktWUHJQcEhxYVRTQTBHWGg3eW9PUVArVVdvenR3RUN0?=
+ =?utf-8?B?ZVRtZFBETnN6L0dwYmN1cDNkdlYyVkdyODcrTGVCL3dXVFpwK3Y2UTlEZUdz?=
+ =?utf-8?B?eEwxOVV3VWU4M09YM0VhczhGZWFoOXprS29sTGJhQVM1NUd2ZVB0VlFFVTMx?=
+ =?utf-8?B?ZHVEY09tM1UxWXRZQjBROW1aZzduQ0pkVzViYWF2alJVK3gzVURoSGZ1TTVB?=
+ =?utf-8?B?d0pwd0N0NGhiNEgzTDVqTjc1UkEwM2dXaVZpV3VWNWpJUWhhc25nb1U5emJH?=
+ =?utf-8?B?NC96L2JGN2Y4RnpvanlBb3JCb0c2elRXVDd6dUJkOStiNVlnVDZGZVZGNytK?=
+ =?utf-8?B?NEFIZE1OenVrbm85MmRJbjJ2aUw5NWsySldwVmY1TlVjeHhUSXM1bHptclRj?=
+ =?utf-8?B?RVZ2ZFhIWjRkTUp2OGFsQm9lb1hESmF1NCtwc0dBTmRSdUdSUUdhOS9zZFRj?=
+ =?utf-8?B?NVFidC94UW9NcVRlVytuTmh1YmFlOWIyeXFUNkM5aThjcW1aaDZHTkxRRkhq?=
+ =?utf-8?B?cTVMbjYrMUQyc09WbjFzZzJJN2srbWFMNnBtWmE1a1RoKzJnS1JKc0hvUm8w?=
+ =?utf-8?B?bDNSVW1FV0tDNGkxWmxIQUdDSHlibUdnUkJ5cVVoaGlBdXdlQ3ZmcU5TemxK?=
+ =?utf-8?B?VG83NU1WNy9SSGZQNG0yeERHbklpcXdyWHMwdGc0dFF6czY4cmlmUmtKYkYy?=
+ =?utf-8?B?dzVjQlZhVEZYVFpFOTRWUVZFVnJSR0dZNUZUckpNRTFtbnI3Z205TjhwSnhM?=
+ =?utf-8?B?YVNoenZNeGdzV1JVZGU1OXNRVXp6cjRDbGhLampLdksrcmhvL0RTam5VZ1o1?=
+ =?utf-8?B?WlhFQ0Q1dmtWblpTMzliOUdxVmZ5RGpzQnZwVXYrYVJxR1NGSWJjYkdJKy9X?=
+ =?utf-8?B?MklkYXd4S2FKTFBMZzRDbW5EM2ZSR0ZNaVlGTCs4R1p1Y3FTS0dYeFJ5WGwx?=
+ =?utf-8?B?eW52aWhhOC9jT1QrSGRwa3JmNGpMeEpwenJkU1pWTHNyMFhjVTVENDk0QkN4?=
+ =?utf-8?B?VEE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E65BA8C01E17C940AB557E12C0CAC992@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3114.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bdf61a8-40b2-4759-5b2e-08da79556088
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2022 15:48:02.4451 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0Odi7V2eRVfLD4e5ahIMGZJZoGpjCIkYm+8H3egLi9YD7xqoq9S1E1R2Qa82mEt96XDe3K2tUXvvIo09ikfwGgMGBVuwE6hWC5LDeR0NAGQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3477
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,271 +160,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, andrealmeid@igalia.com
+Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>,
+ "kernel@collabora.com" <kernel@collabora.com>, "hch@lst.de" <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry, What do you mean?
-
-Matthieu
-
-On Tue, Aug 2 2022 at 05:29:12 PM +0300, Jani Nikula 
-<jani.nikula@linux.intel.com> wrote:
-> On Wed, 27 Jul 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> 
-> wrote:
->>  Loading an EDID using drm.edid_firmware parameter makes resume to 
->> fail
->>  after firmware cache is being cleaned. This is because edid_load() 
->> use a
->>  temporary device to request the firmware. This cause the EDID 
->> firmware
->>  not to be cached from suspend. And, requesting the EDID firmware 
->> return
->>  an error during resume.
->>  So the request_firmware() call should use a permanent device for 
->> each
->>  connector. Also, we should cache the EDID even if no monitor is
->>  connected, in case it's plugged while suspended.
-> 
-> AFAICT this breaks changing drm.edid_firmware runtime.
-> 
-> BR,
-> Jani.
-> 
->> 
->>  Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2061
->>  Signed-off-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
->>  ---
->>   drivers/gpu/drm/drm_connector.c |  9 ++++
->>   drivers/gpu/drm/drm_edid_load.c | 81 
->> ++++++++++++++++++++++++++++-----
->>   include/drm/drm_connector.h     | 12 +++++
->>   include/drm/drm_edid.h          |  3 ++
->>   4 files changed, 94 insertions(+), 11 deletions(-)
->> 
->>  diff --git a/drivers/gpu/drm/drm_connector.c 
->> b/drivers/gpu/drm/drm_connector.c
->>  index 1c48d162c77e..e8819ebf1c4b 100644
->>  --- a/drivers/gpu/drm/drm_connector.c
->>  +++ b/drivers/gpu/drm/drm_connector.c
->>  @@ -31,6 +31,7 @@
->>   #include <drm/drm_privacy_screen_consumer.h>
->>   #include <drm/drm_sysfs.h>
->> 
->>  +#include <linux/platform_device.h>
->>   #include <linux/uaccess.h>
->> 
->>   #include "drm_crtc_internal.h"
->>  @@ -289,6 +290,9 @@ int drm_connector_init(struct drm_device *dev,
->> 
->>   	drm_connector_get_cmdline_mode(connector);
->> 
->>  +	connector->edid_load_pdev = NULL;
->>  +	drm_cache_edid_firmware(connector);
->>  +
->>   	/* We should add connectors at the end to avoid upsetting the 
->> connector
->>   	 * index too much.
->>   	 */
->>  @@ -473,6 +477,11 @@ void drm_connector_cleanup(struct 
->> drm_connector *connector)
->>   		connector->tile_group = NULL;
->>   	}
->> 
->>  +	if (connector->edid_load_pdev) {
->>  +		platform_device_unregister(connector->edid_load_pdev);
->>  +		connector->edid_load_pdev = NULL;
->>  +	}
->>  +
->>   	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
->>   		drm_mode_remove(connector, mode);
->> 
->>  diff --git a/drivers/gpu/drm/drm_edid_load.c 
->> b/drivers/gpu/drm/drm_edid_load.c
->>  index 37d8ba3ddb46..5a82be9917ec 100644
->>  --- a/drivers/gpu/drm/drm_edid_load.c
->>  +++ b/drivers/gpu/drm/drm_edid_load.c
->>  @@ -167,6 +167,19 @@ static int edid_size(const u8 *edid, int 
->> data_size)
->>   	return (edid[0x7e] + 1) * EDID_LENGTH;
->>   }
->> 
->>  +static struct platform_device *edid_pdev(const char 
->> *connector_name)
->>  +{
->>  +	struct platform_device *pdev = 
->> platform_device_register_simple(connector_name, -1, NULL, 0);
->>  +
->>  +	if (IS_ERR(pdev)) {
->>  +		DRM_ERROR("Failed to register EDID firmware platform device "
->>  +			"for connector \"%s\"\n", connector_name);
->>  +		return ERR_CAST(pdev);
->>  +	}
->>  +
->>  +	return pdev;
->>  +}
->>  +
->>   static void *edid_load(struct drm_connector *connector, const char 
->> *name,
->>   			const char *connector_name)
->>   {
->>  @@ -182,18 +195,17 @@ static void *edid_load(struct drm_connector 
->> *connector, const char *name,
->>   		fwdata = generic_edid[builtin];
->>   		fwsize = sizeof(generic_edid[builtin]);
->>   	} else {
->>  -		struct platform_device *pdev;
->>  +		struct platform_device *pdev = connector->edid_load_pdev;
->>   		int err;
->> 
->>  -		pdev = platform_device_register_simple(connector_name, -1, NULL, 
->> 0);
->>  -		if (IS_ERR(pdev)) {
->>  -			DRM_ERROR("Failed to register EDID firmware platform device "
->>  -				  "for connector \"%s\"\n", connector_name);
->>  -			return ERR_CAST(pdev);
->>  +		if (WARN_ON(!pdev)) {
->>  +			pdev = edid_pdev(connector_name);
->>  +			if (IS_ERR(pdev))
->>  +				return ERR_CAST(pdev);
->>  +			connector->edid_load_pdev = pdev;
->>   		}
->> 
->>   		err = request_firmware(&fw, name, &pdev->dev);
->>  -		platform_device_unregister(pdev);
->>   		if (err) {
->>   			DRM_ERROR("Requesting EDID firmware \"%s\" failed (err=%d)\n",
->>   				  name, err);
->>  @@ -263,11 +275,9 @@ static void *edid_load(struct drm_connector 
->> *connector, const char *name,
->>   	return edid;
->>   }
->> 
->>  -struct edid *drm_load_edid_firmware(struct drm_connector 
->> *connector)
->>  +static char *edid_name(const char *connector_name)
->>   {
->>  -	const char *connector_name = connector->name;
->>   	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
->>  -	struct edid *edid;
->> 
->>   	if (edid_firmware[0] == '\0')
->>   		return ERR_PTR(-ENOENT);
->>  @@ -310,8 +320,57 @@ struct edid *drm_load_edid_firmware(struct 
->> drm_connector *connector)
->>   	if (*last == '\n')
->>   		*last = '\0';
->> 
->>  -	edid = edid_load(connector, edidname, connector_name);
->>  +	edidname = kstrdup(edidname, GFP_KERNEL);
->>  +	if (!edidname) {
->>  +		kfree(fwstr);
->>  +		return ERR_PTR(-ENOMEM);
->>  +	}
->>  +
->>   	kfree(fwstr);
->>  +	return edidname;
->>  +}
->>  +
->>  +void drm_cache_edid_firmware(struct drm_connector *connector)
->>  +{
->>  +	const char *connector_name = connector->name;
->>  +	const char *edidname = edid_name(connector_name);
->>  +	struct platform_device *pdev;
->>  +	int err;
->>  +
->>  +	if (IS_ERR(edidname))
->>  +		return;
->>  +
->>  +	if (match_string(generic_edid_name, GENERIC_EDIDS, edidname) >= 
->> 0) {
->>  +		kfree(edidname);
->>  +		return;
->>  +	}
->>  +
->>  +	pdev = edid_pdev(connector_name);
->>  +	if (IS_ERR(pdev)) {
->>  +		kfree(edidname);
->>  +		return;
->>  +	}
->>  +	connector->edid_load_pdev = pdev;
->>  +
->>  +	err = firmware_request_cache(&pdev->dev, edidname);
->>  +	if (err)
->>  +		DRM_ERROR("Requesting EDID firmware cache \"%s\" failed 
->> (err=%d)\n",
->>  +			edidname, err);
->>  +
->>  +	kfree(edidname);
->>  +}
->>  +
->>  +struct edid *drm_load_edid_firmware(struct drm_connector 
->> *connector)
->>  +{
->>  +	const char *connector_name = connector->name;
->>  +	const char *edidname = edid_name(connector_name);
->>  +	struct edid *edid;
->>  +
->>  +	if (IS_ERR(edidname))
->>  +		return ERR_CAST(edidname);
->>  +
->>  +	edid = edid_load(connector, edidname, connector_name);
->>  +	kfree(edidname);
->> 
->>   	return edid;
->>   }
->>  diff --git a/include/drm/drm_connector.h 
->> b/include/drm/drm_connector.h
->>  index 3ac4bf87f257..47c84741517e 100644
->>  --- a/include/drm/drm_connector.h
->>  +++ b/include/drm/drm_connector.h
->>  @@ -1573,6 +1573,18 @@ struct drm_connector {
->>   	 */
->>   	struct i2c_adapter *ddc;
->> 
->>  +	/**
->>  +	 * @edid_load_pdev: Platform device for loading EDID via firmware.
->>  +	 *
->>  +	 * The platform device is registered in drm_connector_init() in 
->> case a
->>  +	 * custom EDID firmware is used with `edid_firmware` parameter. 
->> Otherwise,
->>  +	 * it is set to NULL.
->>  +	 *
->>  +	 * Platform device is unregistered in drm_connector_cleanup() if 
->> it
->>  +	 * is not NULL.
->>  +	 */
->>  +	struct platform_device *edid_load_pdev;
->>  +
->>   	/**
->>   	 * @null_edid_counter: track sinks that give us all zeros for the 
->> EDID.
->>   	 * Needed to workaround some HW bugs where we get all 0s
->>  diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
->>  index b2756753370b..e907c928a35d 100644
->>  --- a/include/drm/drm_edid.h
->>  +++ b/include/drm/drm_edid.h
->>  @@ -378,10 +378,13 @@ int drm_av_sync_delay(struct drm_connector 
->> *connector,
->>   		      const struct drm_display_mode *mode);
->> 
->>   #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
->>  +void drm_cache_edid_firmware(struct drm_connector *connector);
->>   struct edid *drm_load_edid_firmware(struct drm_connector 
->> *connector);
->>   int __drm_set_edid_firmware_path(const char *path);
->>   int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
->>   #else
->>  +inline void
->>  +drm_cache_edid_firmware(struct drm_connector *connector);
->>   static inline struct edid *
->>   drm_load_edid_firmware(struct drm_connector *connector)
->>   {
-> 
-> --
-> Jani Nikula, Intel Open Source Graphics Center
-
-
+SGksIFtiYWNrIGZyb20gdmFjYXRpb25dDQoNCk9uIFR1ZSwgMjAyMi0wNy0yNiBhdCAxNjozOSAr
+MDEwMCwgUm9iZXJ0IEJlY2tldHQgd3JvdGU6DQo+IENhbGxpbmcgc3dpb3RsYiBmdW5jdGlvbnMg
+ZGlyZWN0bHkgaXMgbm93YWRheXMgY29uc2lkZXJlZCBoYXJtZnVsLg0KPiBTZWUNCj4gaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvaW50ZWwtZ2Z4LzIwMjIwNzExMDgyNjE0LkdBMjk0ODdAbHN0LmRl
+Lw0KPiANCj4gUmVwbGFjZSBzd2lvdGxiX21heF9zZWdtZW50KCkgY2FsbHMgd2l0aCBkbWFfbWF4
+X21hcHBpbmdfc2l6ZSgpLg0KPiBJbiBpOTE1X2dlbV9vYmplY3RfZ2V0X3BhZ2VzX2ludGVybmFs
+KCkgbm8gbG9uZ2VyIGNvbnNpZGVyDQo+IG1heF9zZWdtZW50DQo+IG9ubHkgaWYgQ09ORklHX1NX
+SU9UTEIgaXMgZW5hYmxlZC4gVGhlcmUgY2FuIGJlIG90aGVyIChpb21tdSByZWxhdGVkKQ0KPiBj
+YXVzZXMgb2Ygc3BlY2lmaWMgbWF4IHNlZ21lbnQgc2l6ZXMuDQo+IA0KPiBDYzogQ2hyaXN0b3Bo
+IEhlbGx3aWcgPGhjaEBsc3QuZGU+DQo+IENjOiBUdnJ0a28gVXJzdWxpbiA8dHZydGtvLnVyc3Vs
+aW5AbGludXguaW50ZWwuY29tPg0KPiBDYzogVGhvbWFzIEhlbGxzdHJvbSA8dGhvbWFzLmhlbGxz
+dHJvbUBpbnRlbC5jb20+DQo+IENjOiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5j
+b20+DQo+IA0KPiB2MjogLSByZXN0b3JlIFVJTlRfTUFYIGNsYW1wIGluIGk5MTVfc2dfc2VnbWVu
+dF9zaXplKCkNCj4gwqDCoMKgIC0gZHJvcCBQQUdFX1NJWkUgY2hlY2sgYXMgaXQgd2lsbCBhbHdh
+eXMgYmUgPj0gUEFHRV9TSVpFDQo+IHYzOiAtIGFjdHVhbGx5IGNsYW1wIHRvIFVJTlRfTUFYIGlu
+IGk5MTVfc2dfc2VnbWVudF9zaXplKCkNCj4gdjQ6IC0gcm91bmQgZG93biBtYXggc2VnbWVudCBz
+aXplIHRvIFBBR0VfU0laRQ0KPiB2NTogLSBmaXggY2hlY2twYXRjaCB3aGl0ZXNwYWNlIGlzc3Vl
+DQo+IA0KPiBSZXZpZXdlZC1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+DQo+IFJl
+dmlld2VkLWJ5OiBUdnJ0a28gVXJzdWxpbiA8dHZydGtvLnVyc3VsaW5AaW50ZWwuY29tPg0KPiBT
+aWduZWQtb2ZmLWJ5OiBSb2JlcnQgQmVja2V0dCA8Ym9iLmJlY2tldHRAY29sbGFib3JhLmNvbT4N
+Cg0KSG1tLA0KDQpUaGlzIHdob2xlIHRoaW5nIGxvb2tzIGEgYml0IHN0cmFuZ2UgdG8gbWUgc2lu
+Y2Ugd2l0aCBTV0lPVExCIGFjdHVhbGx5DQp1c2VkIGZvciBpOTE1LCB0aGUgZHJpdmVyIHNob3Vs
+ZCBtYWxmdW5jdGlvbiBhbnl3YXkgYXMgaXQgZG9lc24ndCBkbw0KYW55IGRtYV9zeW5jX3NnX2Zv
+cl9jcHUoKSBvciBkbWFfc3luY19zZ19mb3JfZGV2aWNlKCksIGFuZCB0aGUgZHJpdmVyDQphc3N1
+bWVzIGFsbCBjb2hlcmVudCBkbWEuIElzIHRoYXQgU1dJT1RMQj1mb3JjZSBrZXJuZWwgb3B0aW9u
+IHN0aWxsDQphdmFpbGFibGU/DQoNCkFsc28sIGNvcnJlY3QgbWUgaWYgSSdtIHdyb25nLCBidXQg
+dGhlIG9yaWdpbmFsIGRyaXZlciBzZWdtZW50IHNpemUNCmFwcGVhcnMgdG8gbWVhbiAidGhlIGxh
+cmdlc3QgY29udGlndW91cyBhcmVhIHRoYXQgY2FuIGJlIGhhbmRsZWQgZWl0aGVyDQpieSB0aGUg
+ZGV2aWNlIG9yIHRoZSBkbWEgbWFwcGluZyBsYXllciIgcmF0aGVyIHRoYW4gdGhlIHRvdGFsIHNw
+YWNlDQphdmFpbGFibGUgZm9yIGRtYSBtYXBwaW5ncz8gTm90IGNvbXBsZXRlbHkgc3VyZSB3aGF0
+DQpkbWFfbWF4X21hcHBpbmdfc2l6ZSgpIGlzIHJldHVybmluZywgdGhvdWdoPw0KDQovVGhvbWFz
+DQoNCg0K
