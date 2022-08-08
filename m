@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3065C58D0DF
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 01:58:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC76E58D0ED
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 01:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1D7ADDC2;
-	Mon,  8 Aug 2022 23:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7879EADDFA;
+	Mon,  8 Aug 2022 23:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE80A71EA
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 23:55:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37AF2B082
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 23:55:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660002917;
+ s=mimecast20190719; t=1660002923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m2leLlKnhht5Zd1Jvvd0vHV196LjRIIKrLG7rDDvvSk=;
- b=P4N8TceYiMsTwC1LBoWR+R74SIXnThPH8yjOQ0vpW0EJJlbafx8YIVTy354ynSg5EotTxE
- uB8iJyOJlhqMYk9wcKR6r9swqfT3Jem8+ij8OJrVlNwhR6XVHpsvIMKRYqtSxeOK8ZujAE
- VMsgQxS9ZZJ1pLeiRAwxPD48p3pKc3k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=30H6QDzA7I/sBciEdR6Syxy5xFUzveiQOzb7qmpNOVo=;
+ b=V//sZ8jx4/HzybdN9VyBuaz+4fIRVkZ/QtYNMfRP70qaGVHG4e7lHz89Kl0b0BAiaaOYBn
+ yEvmWc2V6VeTRAAMpNoZTIGFq40RAaLtPaUOdoUsRpbIMMx0SGZLhI9zElVdjwnBJXxll+
+ KvGElXuyBajbhcNIjrVV+e8CX7M9X7k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-ViECr-QnNtKXqpg0guHCpg-1; Mon, 08 Aug 2022 19:55:11 -0400
-X-MC-Unique: ViECr-QnNtKXqpg0guHCpg-1
+ us-mta-622-sy2E9R3jO7-cI1sGo2prXg-1; Mon, 08 Aug 2022 19:55:20 -0400
+X-MC-Unique: sy2E9R3jO7-cI1sGo2prXg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 366EF3C0CD5A;
- Mon,  8 Aug 2022 23:55:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D16C101AA48;
+ Mon,  8 Aug 2022 23:55:20 +0000 (UTC)
 Received: from emerald.lyude.net (unknown [10.22.17.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BA89C15BA1;
- Mon,  8 Aug 2022 23:55:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DBDCC15BA1;
+ Mon,  8 Aug 2022 23:55:19 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [RFC v2 15/18] drm/display/dp_mst: Skip releasing payloads if last
- connected port isn't connected
-Date: Mon,  8 Aug 2022 19:52:00 -0400
-Message-Id: <20220808235203.123892-16-lyude@redhat.com>
+Subject: [RFC v2 16/18] drm/display/dp_mst: Maintain time slot allocations
+ when deleting payloads
+Date: Mon,  8 Aug 2022 19:52:01 -0400
+Message-Id: <20220808235203.123892-17-lyude@redhat.com>
 In-Reply-To: <20220808235203.123892-1-lyude@redhat.com>
 References: <20220808235203.123892-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -64,6 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>,
  Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  open list <linux-kernel@vger.kernel.org>,
  Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, David Airlie <airlied@linux.ie>,
  Fangzhi Zuo <Jerry.Zuo@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
@@ -71,44 +72,17 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the past, we've ran into strange issues regarding errors in response to
-trying to destroy payloads after a port has been unplugged. We fixed this
-back in:
+Currently, we set drm_dp_atomic_payload->time_slots to 0 in order to
+indicate that we're about to delete a payload in the current atomic state.
+Since we're going to be dropping all of the legacy code for handling the
+payload table however, we need to be able to ensure that we still keep
+track of the current time slot allocations for each payload so we can reuse
+this info when asking the root MST hub to delete payloads. We'll also be
+using it to recalculate the start slots of each VC.
 
-This is intended to replace the workaround that was added here:
-
-commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by ports in stale topology")
-
-which was intended fix to some of the payload leaks that were observed
-before, where we would attempt to determine if the port was still connected
-to the topology before updating payloads using
-drm_dp_mst_port_downstream_of_branch. This wasn't a particularly good
-solution, since one of the points of still having port and mstb validation
-is to avoid sending messages to newly disconnected branches wherever
-possible - thus the required use of drm_dp_mst_port_downstream_of_branch
-would indicate something may be wrong with said validation.
-
-It seems like it may have just been races and luck that made
-drm_dp_mst_port_downstream_of_branch work however, as while I was trying to
-figure out the true cause of this issue when removing the legacy MST code -
-I discovered an important excerpt in section 2.14.2.3.3.6 of the DP 2.0
-specs:
-
-"BAD_PARAM - This reply is transmitted when a Message Transaction parameter
-is in error; for example, the next port number is invalid or /no device is
-connected/ to the port associated with the port number."
-
-Sure enough - removing the calls to drm_dp_mst_port_downstream_of_branch()
-and instead checking the ->ddps field of the parent port to see whether we
-should release a given payload or not seems to totally fix the issue. This
-does actually make sense to me, as it seems the implication is that given a
-topology where an MSTB is removed, the payload for the MST parent's port
-will be released automatically if that port is also marked as disconnected.
-However, if there's another parent in the chain after that which is
-connected - payloads must be released there with an ALLOCATE_PAYLOAD
-message.
-
-So, let's do that!
+So, let's keep track of the intent of a payload in drm_dp_atomic_payload by
+adding ->delete, which we set whenever we're planning on deleting a payload
+during the current atomic commit.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Cc: Wayne Lin <Wayne.Lin@amd.com>
@@ -120,133 +94,82 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Sean Paul <sean@poorly.run>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 51 +++++++------------
- 1 file changed, 17 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 14 +++++++-------
+ include/drm/display/drm_dp_mst_helper.h       |  5 ++++-
+ 2 files changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index a5460cadf2c8..e9cf09a4b2a4 100644
+index e9cf09a4b2a4..3fce1ed8d5e8 100644
 --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3128,7 +3128,7 @@ static struct drm_dp_mst_port *drm_dp_get_last_connected_port_to_mstb(struct drm
- static struct drm_dp_mst_branch *
- drm_dp_get_last_connected_port_and_mstb(struct drm_dp_mst_topology_mgr *mgr,
- 					struct drm_dp_mst_branch *mstb,
--					int *port_num)
-+					struct drm_dp_mst_port **last_port)
- {
- 	struct drm_dp_mst_branch *rmstb = NULL;
- 	struct drm_dp_mst_port *found_port;
-@@ -3144,7 +3144,8 @@ drm_dp_get_last_connected_port_and_mstb(struct drm_dp_mst_topology_mgr *mgr,
- 
- 		if (drm_dp_mst_topology_try_get_mstb(found_port->parent)) {
- 			rmstb = found_port->parent;
--			*port_num = found_port->port_num;
-+			*last_port = found_port;
-+			drm_dp_mst_get_port_malloc(found_port);
- 		} else {
- 			/* Search again, starting from this parent */
- 			mstb = found_port->parent;
-@@ -3161,7 +3162,7 @@ static int drm_dp_payload_send_msg(struct drm_dp_mst_topology_mgr *mgr,
- 				   int pbn)
- {
- 	struct drm_dp_sideband_msg_tx *txmsg;
--	struct drm_dp_mst_branch *mstb;
-+	struct drm_dp_mst_branch *mstb = NULL;
- 	int ret, port_num;
- 	u8 sinks[DRM_DP_MAX_SDP_STREAMS];
- 	int i;
-@@ -3169,12 +3170,22 @@ static int drm_dp_payload_send_msg(struct drm_dp_mst_topology_mgr *mgr,
- 	port_num = port->port_num;
- 	mstb = drm_dp_mst_topology_get_mstb_validated(mgr, port->parent);
- 	if (!mstb) {
--		mstb = drm_dp_get_last_connected_port_and_mstb(mgr,
--							       port->parent,
--							       &port_num);
-+		struct drm_dp_mst_port *rport = NULL;
-+		bool ddps;
- 
-+		mstb = drm_dp_get_last_connected_port_and_mstb(mgr, port->parent, &rport);
- 		if (!mstb)
- 			return -EINVAL;
-+
-+		ddps = rport->ddps;
-+		port_num = rport->port_num;
-+		drm_dp_mst_put_port_malloc(rport);
-+
-+		/* If the port is currently marked as disconnected, don't send a payload message */
-+		if (!ddps) {
-+			ret = -EINVAL;
-+			goto fail_put;
-+		}
+@@ -4399,7 +4399,7 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
+ 		 * releasing and allocating the same timeslot allocation,
+ 		 * which is an error
+ 		 */
+-		if (WARN_ON(!prev_slots)) {
++		if (drm_WARN_ON(mgr->dev, payload->delete)) {
+ 			drm_err(mgr->dev,
+ 				"cannot allocate and release time slots on [MST PORT:%p] in the same state\n",
+ 				port);
+@@ -4504,10 +4504,10 @@ int drm_dp_atomic_release_time_slots(struct drm_atomic_state *state,
  	}
  
- 	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
-@@ -3375,7 +3386,6 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr, int start_s
- 	struct drm_dp_mst_port *port;
- 	int i, j;
- 	int cur_slots = start_slot;
--	bool skip;
+ 	drm_dbg_atomic(mgr->dev, "[MST PORT:%p] TU %d -> 0\n", port, payload->time_slots);
+-	if (payload->time_slots) {
++	if (!payload->delete) {
+ 		drm_dp_mst_put_port_malloc(port);
+-		payload->time_slots = 0;
+ 		payload->pbn = 0;
++		payload->delete = true;
+ 	}
  
- 	mutex_lock(&mgr->payload_lock);
- 	for (i = 0; i < mgr->max_payloads; i++) {
-@@ -3390,16 +3400,6 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr, int start_s
- 			port = container_of(vcpi, struct drm_dp_mst_port,
- 					    vcpi);
+ 	return 0;
+@@ -5222,7 +5222,7 @@ drm_dp_mst_duplicate_state(struct drm_private_obj *obj)
  
--			mutex_lock(&mgr->lock);
--			skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
--			mutex_unlock(&mgr->lock);
--
--			if (skip) {
--				drm_dbg_kms(mgr->dev,
--					    "Virtual channel %d is not in current topology\n",
--					    i);
--				continue;
--			}
- 			/* Validated ports don't matter if we're releasing
- 			 * VCPI
- 			 */
-@@ -3500,7 +3500,6 @@ int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr)
- 	struct drm_dp_mst_port *port;
+ 	list_for_each_entry(pos, &old_state->payloads, next) {
+ 		/* Prune leftover freed timeslot allocations */
+-		if (!pos->time_slots)
++		if (pos->delete)
+ 			continue;
+ 
+ 		payload = kmemdup(pos, sizeof(*payload), GFP_KERNEL);
+@@ -5254,8 +5254,8 @@ static void drm_dp_mst_destroy_state(struct drm_private_obj *obj,
  	int i;
- 	int ret = 0;
--	bool skip;
  
- 	mutex_lock(&mgr->payload_lock);
- 	for (i = 0; i < mgr->max_payloads; i++) {
-@@ -3510,13 +3509,6 @@ int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr)
+ 	list_for_each_entry_safe(pos, tmp, &mst_state->payloads, next) {
+-		/* We only keep references to ports with non-zero VCPIs */
+-		if (pos->time_slots)
++		/* We only keep references to ports with active payloads */
++		if (!pos->delete)
+ 			drm_dp_mst_put_port_malloc(pos->port);
+ 		kfree(pos);
+ 	}
+@@ -5383,7 +5383,7 @@ drm_dp_mst_atomic_check_payload_alloc_limits(struct drm_dp_mst_topology_mgr *mgr
  
- 		port = container_of(mgr->proposed_vcpis[i], struct drm_dp_mst_port, vcpi);
+ 	list_for_each_entry(payload, &mst_state->payloads, next) {
+ 		/* Releasing payloads is always OK-even if the port is gone */
+-		if (!payload->time_slots) {
++		if (payload->delete) {
+ 			drm_dbg_atomic(mgr->dev, "[MST PORT:%p] releases all time slots\n",
+ 				       payload->port);
+ 			continue;
+diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+index b9c361b242ea..8b847836a0b4 100644
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -560,8 +560,11 @@ struct drm_dp_mst_atomic_payload {
+ 	int time_slots;
+ 	/** @pbn: The payload bandwidth for this payload */
+ 	int pbn;
++
++	/** @delete: Whether or not we intend to delete this payload during this atomic commit */
++	bool delete : 1;
+ 	/** @dsc_enabled: Whether or not this payload has DSC enabled */
+-	bool dsc_enabled;
++	bool dsc_enabled : 1;
  
--		mutex_lock(&mgr->lock);
--		skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
--		mutex_unlock(&mgr->lock);
--
--		if (skip)
--			continue;
--
- 		drm_dbg_kms(mgr->dev, "payload %d %d\n", i, mgr->payloads[i].payload_state);
- 		if (mgr->payloads[i].payload_state == DP_PAYLOAD_LOCAL) {
- 			ret = drm_dp_create_payload_step2(mgr, port, mgr->proposed_vcpis[i]->vcpi, &mgr->payloads[i]);
-@@ -4769,18 +4761,9 @@ EXPORT_SYMBOL(drm_dp_mst_reset_vcpi_slots);
- void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
- 				struct drm_dp_mst_port *port)
- {
--	bool skip;
--
- 	if (!port->vcpi.vcpi)
- 		return;
- 
--	mutex_lock(&mgr->lock);
--	skip = !drm_dp_mst_port_downstream_of_branch(port, mgr->mst_primary);
--	mutex_unlock(&mgr->lock);
--
--	if (skip)
--		return;
--
- 	drm_dp_mst_put_payload_id(mgr, port->vcpi.vcpi);
- 	port->vcpi.num_slots = 0;
- 	port->vcpi.pbn = 0;
+ 	/** @next: The list node for this payload */
+ 	struct list_head next;
 -- 
 2.37.1
 
