@@ -1,107 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C79E58CC20
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 18:30:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489CA58CC30
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 18:36:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF6D10FE3F;
-	Mon,  8 Aug 2022 16:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651A311B1AC;
+	Mon,  8 Aug 2022 16:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2076.outbound.protection.outlook.com [40.107.100.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B13DF10F203
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:28:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eZfN2gWQN2ocTFFqo9HaLjBSkJxVJ6x7XwcJn1SUwPt7nr+7A9UrEWCdwlgHY+wKV2vnOukIFdJLAzasbexBNFbNtqQteaIwQHMyt8aH6OFOFxOYLcvT/nnHL8YKF+NeRSHnNMGih0RMhqNxcH8dxxqnhaUBgxT9K8TUe2ayOgKD/CD/3hCtAvrif5SY7lbPf9MXhy3wCOUnW9UJ7H/LUaSoIqLbdHGh/8fzpzYXBoKm112dzaTJLS64+9PotA24zgOzNT5zmjGDfXfSno6LcdXaO2DO/x7aA/cyB9itSLXaCw9cJjzUwExKJXrFYJulpqJlbJ0+kH2/+FGDg4sbNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rK80iMTGd1eIHomFhsjpcRaZdqfqiEx88Ue6AouhtXg=;
- b=iv8Dqble4/bypz8gceYgjzhbo5GeX3Fh7IcNBsxYiIWNwqhI5uw8iRSGh6HPscOc3thvTxsudfjv5YL3LgRHayRkwVkJy74pIuYTPVm5zVMtdFt3Whrnitlxu3OMw9ZdmT2KuDmiZZh/KRq4uBd4PoIu3mzKW+dGGD0kmMZ3feSxe6bO4BbaGxy2jJREMEr5UZlzSCvEk9oG2YH7Tk/IOE8F2h3AP3AZYFrbXpZcIC4FwO/2sVFVKvElZ9XOj+wazi2NvrzH3tBDUuKzroI58bLvaQwBunKZHXqmt/7hltJwRv/dwYY9RYyF1g9yp63vMzWuuvN0KQzhzklWFVIKbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rK80iMTGd1eIHomFhsjpcRaZdqfqiEx88Ue6AouhtXg=;
- b=Ugdv0H1v1a3AYZWXnUZz2y/Vq8j+JiibbA+j8ICNClWq+WTWA+K1mVMr1axDsKWUq8XNMlruzXhgLrBunSkrz4oSahulrBwdCKmsvwrBrH7vMXb6V/xB7PxL8nq86lJTcb7apgwgtHVBvO/XMSRJhKqUYIBITLOVqkRRL57Jskc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by SJ0PR03MB6389.namprd03.prod.outlook.com (2603:10b6:a03:398::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Mon, 8 Aug
- 2022 16:28:42 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::c832:eea0:1883:a19c]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::c832:eea0:1883:a19c%3]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
- 16:28:42 +0000
-From: Hsia-Jun Li <randy.li@synaptics.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
-Date: Tue,  9 Aug 2022 00:27:50 +0800
-Message-Id: <20220808162750.828001-3-randy.li@synaptics.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220808162750.828001-1-randy.li@synaptics.com>
-References: <20220808162750.828001-1-randy.li@synaptics.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0043.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::18) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5BB1121E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 16:29:26 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id i62so14474428yba.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 09:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Y2IMNWPIjkzwaAM4UvkDC79np/PUW3X2sEbAT/ct8M4=;
+ b=LxmDtRGZHfImjROQcKCDQgGiXe9nnrACKjUj1qQ1Oo5w8W1sVppkiIaStTZalM3DXn
+ d4fg1VCCvKly9zyZDlAlOBTDConQkbR6pYotSN97XAEEa3G6Ci/dkjE2SlkeewTK2qS/
+ +LZD9TM6jhdfJet5x28hBgUlGGgDvlR0Axijg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Y2IMNWPIjkzwaAM4UvkDC79np/PUW3X2sEbAT/ct8M4=;
+ b=2MXKWmiQFRWtN1UK4z9x+69FtgZ/Vt0nJMhSCVFSzqrrJbvOkcjITClph17UM29TJT
+ CNn/kL/wRFAcBVSx6QxhG1Zb/2WohM+fyKaBdWlxialHJkqMTwvpbQ/1a8/7+wtlheD/
+ 6vE0MtTD8jF8JWwGIKoLpRqDW2WNs1EVEdGgam/9CbxZyyeN/YWJXcVkPDf4/Z8onzqH
+ UU1AyDR1sq34m92rRqJRP+DGH8UxI3KD9UvIirRZfFunB3DkuD1MRW+sOLxXLO+URSpN
+ ueuRKL2WFPVvQbrZHJfKwN2Xr1e3hFThZeUIYK4LrwWiZDGKfAHBynmJNQhYmjFpHDp9
+ D35w==
+X-Gm-Message-State: ACgBeo0pVkp0F0+prJtfag/QReK//YA2we/WaXhTt+wjw2vUqlKZpO4u
+ 5MJY4YeIo5DPExZPMk3+NrH5CDE+RgCb7IIm7FBKig==
+X-Google-Smtp-Source: AA6agR6kDyxRT7WvypBMOU0kjVKYcER2bG2K/ZyDSG0YHpOdaiMnykM2TuLH0P9zUQOyjlN1ElXY6sY14LDXcz0HYCw=
+X-Received: by 2002:a25:b68b:0:b0:673:df99:5838 with SMTP id
+ s11-20020a25b68b000000b00673df995838mr17329517ybj.157.1659976165690; Mon, 08
+ Aug 2022 09:29:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38bdbed9-a945-4adc-1855-08da795b0edb
-X-MS-TrafficTypeDiagnostic: SJ0PR03MB6389:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vb5VzMVn8fZpnWsJbmODZLq5ypMQJCUP7Bq8e5Il+iq7me9DT/k/ArfwRVY/MDXD3LS6qOgmCh+JNLxg2KatoOwFQgN76I8EajQi8C5liOEj2QQQP3riRkW92JC4VRZyp7MUSSuWSAJNG5ARWEZd3LTatprpZGWoehzPT/edMHImFu6l8E25TUC7esOVhfrn2RPwKtt71VX8u5HUms5N6o7EQaXvXjksdEgO1gYc/SDv/pTjDriXToU/kafqVVlPup1OpIkX2lvhHFTZY154GO8SnnsyGk5zxB9cMlk4EWm0BKQNDnrmJ6ujjoGNYI/B/qfh28W0YLucIlRAQBYBAv3OIxlyhFcMkoMfIfq+R0QkWD0uLysf++Sj5EIwN35Kn3WftYX1vtArM2R9lMjex94I2v1jCTGdWRaPcT72flc9dlS5tBD2H4VbAEUoLEkXOcAhtodX8b3zIwFfqUT36GKde7MzZkJLEFW+CikcNXojiq06BBkramr5BTtptbUu7ejQmAvhq+ev8YgTI2EJwE1vDeUujyEiek0xEeCLFMWx7mrM5bbu/fOWVCnp6uRx7PkgGkF+gIq6XztEsjLHQWNRolFnfTFy3sbEdxdPbPKq3m9qIL7+JHxODJKdz75IoKKobUzpUBJY2PzSjVdE5RWpJWyGbX/rJKnCFZlCC5R8aR2DZviJN88LpmfLE6CoAJDN7IC+nhfvOmojPafnVj36yUoJlFXYvlGXCoOArXcDVVwI7HhvxH7e9ClbSqqM5NvJxQuhxz1roEvjW+H+CFNPmTHtu8ydgrBA4LQ/nSXdkLcW2zEjNKioLrDjMGNL/LsWhOn+Eonaf39AinbU6Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR03MB5196.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(366004)(136003)(396003)(39860400002)(346002)(376002)(5660300002)(36756003)(6916009)(7416002)(38100700002)(38350700002)(66946007)(4326008)(66476007)(8676002)(66556008)(6666004)(316002)(478600001)(6486002)(41300700001)(966005)(8936002)(1076003)(6512007)(186003)(26005)(107886003)(2906002)(52116002)(2616005)(6506007)(83380400001)(86362001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4OFjWOpbKQTMDPxd/58hojKNE/c45X8xHCXAJDyHdS8nCzFL5Q9a+VpQm1Zy?=
- =?us-ascii?Q?9LMT6pv1HPNuNkn1ffFapFKMVjiN+eEcKNqTLMSOo9V/Vxwq5Cvct5o+4tya?=
- =?us-ascii?Q?qpv6MK1PsH7rjCIdsT+D/F1FQsi9IEGHQ/Deb1haGtwIKtV54Ivxh8FXmFpb?=
- =?us-ascii?Q?UIJymhcXQyfBwRqc9pa0Zkty0UfLfx8U8MfhxCWpWme/ueX+W3fztvNKNtPG?=
- =?us-ascii?Q?ggfPiNI2V0xdrzfeXe6DsVEziIsirCd4nri2YXryI5p62/po0WvXz4G91uci?=
- =?us-ascii?Q?JvOsBz9C5dBvqvFwaLuvrQCDuYL0os7szNH0yfY8GJH4/ZhQzV8OLFvDOi3Z?=
- =?us-ascii?Q?2S4F+os71ulazbvu6+dZz4o6Fy59onHiAgqbO3ckuukm4TEVJ4QvQgEv4itc?=
- =?us-ascii?Q?B7Va4NXbUd8/tGM/K93ySTO2wp07+Tt2fZnc//ZfiVwEkOCYLJO3UAdFI5xU?=
- =?us-ascii?Q?3v6MmPIMlr+/v90gKw7snTft7DTjgpjWXKxraS4lnTQxf2pUAuiPjlxGs9+C?=
- =?us-ascii?Q?wO0ZiHXActiB48Lyt8EK+kIYK3LexZX6kEcNAEL/hqqmEoObDTOiaYIgBmv4?=
- =?us-ascii?Q?871aPMcIoS0lh+uyYVMFX3WjmAv4nEtQO2O/auMHnkqbbtD1ixCRQQMOmeOn?=
- =?us-ascii?Q?oj8A0kxgpv6s60nBWZWjKMM4sxBDA977okpFedaz+BdxnSc4LHyW84jyZreJ?=
- =?us-ascii?Q?mtUdI9VfMkloHJRGLeFNS02E2rdg4KDAbleIGdRq+iRG+cF0LzdV0GaFPLMq?=
- =?us-ascii?Q?R4ymgFbpMYyXPC7tFDE0JjfAbOdEsBjmKQQhXH4yngnyeTdCbufCoyaYoaPg?=
- =?us-ascii?Q?BcU1f+jhuwjt+h0T+X55vREtNhSX1d+TYKGZfVqsZ3Z3iKwtB8Be5/rBrXqp?=
- =?us-ascii?Q?ZwQteLxxODlTpJAuJmSIL9hM+CE9g4GZMnq3lGOQZhtOQBJeiYSlbu4GPzAs?=
- =?us-ascii?Q?6E4vqtSiKqjs1qEnXU1R0qz/bYoX8Ej3+oSnfZQJLkOls5bDMehr5fojZw/W?=
- =?us-ascii?Q?9IeH+6nmHV5dqfmGTgIRagNMGYwLwjb+w4twyrpxa8BMkOM/geR0Do6V6zEG?=
- =?us-ascii?Q?mN4aDVOhJz1EJPahUFXlTvQD6yNeJbE3WF/qxxcFG/Y2cRsghWgvyKy8jmae?=
- =?us-ascii?Q?o/3RWmioNAuuRA2BLi5j52EZh9YTcpE4qwfbqmR5vhRgUX/rsiKmq5fx68sH?=
- =?us-ascii?Q?d0acYk4wSPUUmip5ueGGpz9pfNBV2bm0/H+LtEueNN0bwlxp9bRjWSDMk4mJ?=
- =?us-ascii?Q?edgDykzeMwTz0QwQU94Q90Njcz5eowfvAa2OTAf9D9X7aPQ7GNBLUTieOIGx?=
- =?us-ascii?Q?77nNB+QSTh5Hb/WyMxcJBX2WOVQRV7ZHzqkoEZlwa8JLXIQDYd2yscsyvbC1?=
- =?us-ascii?Q?/OAVQck1EeI8fJj36tdA2kTDOeKBVNLaHVQpBeVtBvXxm2xCZ9U7U5Ag4yol?=
- =?us-ascii?Q?EpUP+ke3yqh7sNLKZ7rs9rpOgyogX61blJQVMXOpmDtRtlQQjgZb6d4gS4DX?=
- =?us-ascii?Q?983BqVGEz0eXUHmdE9KtWqf8P68r+LWN1RZIqmj4VGgcko7/8H/Ps/m9eAn+?=
- =?us-ascii?Q?NoHelkk+TatcquApAy4gczwTpAJx8bccCN/rA/ds?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38bdbed9-a945-4adc-1855-08da795b0edb
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 16:28:42.8476 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: icVMVvVaXxM05VJ64pVTJf91fEHo7gllzP66rpbZn2ewd/01P9afiwcjU7m1qROZ89LHx3UbQhQNAnUNhO4DrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB6389
+References: <20220729170744.1301044-1-robdclark@gmail.com>
+ <20220729170744.1301044-2-robdclark@gmail.com>
+ <3d2083aa-fc6c-6875-3daf-e5abe45fb762@gmail.com>
+ <CAF6AEGvKdM3vyCvBZK=ZcdGmak7tsrP1b8ANyyaMjVfNDViqyw@mail.gmail.com>
+ <973de2f8-75e4-d4c7-a13a-c541a6cf7c77@amd.com>
+ <CAF6AEGuhQT6A_jh8kLWh5xMoUGc1osdewyBk-8NoprtWOHseaQ@mail.gmail.com>
+ <2fc74efe-220f-b57a-e804-7d2b3880d14f@gmail.com>
+ <CAF6AEGv9H+fSFKPNqwPxYUjkgj05AimpXbp-p_JL8nKLnzON=w@mail.gmail.com>
+ <e2423bd7-ef73-8d43-c661-a19c80ad1a26@gmail.com>
+ <CAF6AEGsoYaXe2+qug_TfT99KXuXh9Ez2L2HjQZroE6c6GSW4SQ@mail.gmail.com>
+ <e90caaaa-cae9-c6d1-bfb6-dc56aa559681@amd.com>
+ <CAF6AEGtWjtF7_uCYAH4uARVXgnOnX3DZ3KQahxTdAi_9Myvw0w@mail.gmail.com>
+ <4e7448d2-7b26-e260-3d6c-7aa263a75250@amd.com>
+In-Reply-To: <4e7448d2-7b26-e260-3d6c-7aa263a75250@amd.com>
+From: Rob Clark <robdclark@chromium.org>
+Date: Mon, 8 Aug 2022 09:29:52 -0700
+Message-ID: <CAJs_Fx7vf7RyGqBrQHySyG4zr31O_j8GyQeWTCjxZ3R2VDnE9Q@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/3] dma-buf: Add ioctl to query mmap info
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,69 +73,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, tfiga@chromium.org,
- tzimmermann@suse.de, sebastian.hesselbarth@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- sakari.ailus@linux.intel.com, "Hsia-Jun\(Randy\) Li" <randy.li@synaptics.com>,
- laurent.pinchart@ideasonboard.com, ribalda@chromium.org,
- hverkuil-cisco@xs4all.nl, mchehab@kernel.org, jszhang@kernel.org,
- ezequiel@vanguardiasur.com.ar
+Cc: =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+On Mon, Aug 8, 2022 at 7:56 AM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>
+> Am 08.08.22 um 15:26 schrieb Rob Clark:
+> > On Mon, Aug 8, 2022 at 4:22 AM Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+> >
+> > [SNIP]
+> >>>> If the virtio/virtgpu UAPI was build around the idea that this is
+> >>>> possible then it is most likely fundamental broken.
+> >>> How else can you envision mmap'ing to guest userspace working?
+> >> Well long story short: You can't.
+> >>
+> >> See userspace mappings are not persistent, but rather faulted in on
+> >> demand. The exporter is responsible for setting those up to be able to
+> >> add reverse tracking and so can invalidate those mappings when the
+> >> backing store changes.
+> > I think that is not actually a problem.  At least for how it works on
+> > arm64 but I'm almost positive x86 is similar.. I'm not sure how else
+> > you could virtualize mmu/iommu/etc in a way that didn't have horrible
+> > performance.
+> >
+> > There are two levels of pagetable translation, the first controlled by
+> > the host kernel, the second by the guest.  From the PoV of host
+> > kernel, it is just memory mapped to userspace, getting faulted in on
+> > demand, just as normal.  First the guest controlled translation
+> > triggers a fault in the guest which sets up guest mapping.  And then
+> > the second level of translation to translate from what guest sees as
+> > PA (but host sees as VA) to actual PA triggers a fault in the host.
+>
+> Ok, that's calming.
+>
+> At least that's not the approach talked about the last time this came up
+> and it doesn't rip a massive security hole somewhere.
 
-The most of detail has been written in the drm.
-Please notice that the tiled formats here request
-one more plane for storing the motion vector metadata.
-This buffer won't be compressed, so you can't append
-it to luma or chroma plane.
+Hmm, tbh I'm not sure which thread/discussion this was.. it could have
+been before I was paying much attention to the vm use-case
 
-Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
----
- drivers/media/v4l2-core/v4l2-common.c | 1 +
- drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
- include/uapi/linux/videodev2.h        | 2 ++
- 3 files changed, 5 insertions(+)
+> The question is why is the guest then not using the caching attributes
+> setup by the host page tables when the translation is forwarded anyway?
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index e0fbe6ba4b6c..f645278b3055 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_SGBRG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_SGRBG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_SRGGB12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_NV12M_V4H1C, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 5, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2, .block_w = { 128, 128 }, .block_h = { 128, 128 } },
- 	};
- 	unsigned int i;
- 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index e6fd355a2e92..8f65964aff08 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
- 		case V4L2_PIX_FMT_QC08C:	descr = "QCOM Compressed 8-bit Format"; break;
- 		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-bit Format"; break;
-+		case V4L2_PIX_FMT_NV12M_V4H1C:	descr = "Synaptics Compressed 8-bit tiled Format";break;
-+		case V4L2_PIX_FMT_NV12M_10_V4H3P8C:	descr = "Synaptics Compressed 10-bit tiled Format";break;
- 		default:
- 			if (fmt->description[0])
- 				return;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 01e630f2ec78..7e928cb69e7c 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -661,6 +661,8 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
- #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
- #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
-+#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1', '2')   /* 12  Y/CbCr 4:2:0 tiles */
-+#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y', '1', '0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
- 
- /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.htm */
- #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  8  BGBG.. GRGR.. */
--- 
-2.17.1
+The guest kernel itself doesn't know.  AFAICT, at least on arm, the hw
+will combine the attributes of the mapping in S1 and S2 pagetables and
+use the most restrictive.  So if S1 (host) is cached but S2 (guest) is
+WC, you'll end up w/ WC.
 
+That said, at least on aarch64, it seems like we could always tell the
+guest it is cached, and if mapped WC in S1 you'll end up with WC
+access.  But this seems to depend on an optional feature, FWB, which
+allows S2 to override S1 attributes, not being enabled.  And not
+entirely sure how it works on x86.
+
+BR,
+-R
+
+> > [SNIP]
+> > This is basically what happens, although via the two levels of pgtable
+> > translation.  This patch provides the missing piece, the caching
+> > attributes.
+>
+> Yeah, but that won't work like this. See the backing store migrates all
+> the time and when it is backed by PCIe/VRAM/local memory you need to use
+> write combine while system memory is usually cached.
+>
+> >>       Because otherwise you can't accommodate that the exporter is
+> >> changing those caching attributes.
+> > Changing the attributes dynamically isn't going to work.. or at least
+> > not easily.  If you had some sort of synchronous notification to host
+> > userspace, it could trigger an irq to the guest, I suppose.  But it
+> > would mean host kernel has to block waiting for host userspace to
+> > interrupt the guest, then wait for guest vgpu process to be scheduled
+> > and handle the irq.
+>
+> We basically change that on every page flip on APUs and that doesn't
+> sound like something fast.
+>
+> Thanks for the explanation how this works,
+> Christian.
+>
+> >
+> > At least in the case of msm, the cache attributes are static for the
+> > life of the buffer, so this scenario isn't a problem.  AFAICT this
+> > should work fine for at least all UMA hw.. I'm a bit less sure when it
+> > comes to TTM, but shouldn't you at least be able to use worst-cache
+> > cache attributes for buffers that are allowed to be mapped to guest?
+> >
+> > BR,
+> > -R
+> >
+> >>> But more seriously, let's take a step back here.. what scenarios are
+> >>> you seeing this being problematic for?  Then we can see how to come u=
+p
+> >>> with solutions.  The current situation of host userspace VMM just
+> >>> guessing isn't great.
+> >> Well "isn't great" is a complete understatement. When KVM/virtio/virtg=
+pu
+> >> is doing what I guess they are doing here then that is a really major
+> >> security hole.
+> >>
+> >>>     And sticking our heads in the sand and
+> >>> pretending VMs don't exist isn't great.  So what can we do?  I can
+> >>> instead add a msm ioctl to return this info and solve the problem eve=
+n
+> >>> more narrowly for a single platform.  But then the problem still
+> >>> remains on other platforms.
+> >> Well once more: This is *not* MSM specific, you just absolutely *can't
+> >> do that* for any driver!
+> >>
+> >> I'm just really wondering what the heck is going on here, because all =
+of
+> >> this was discussed in lengthy before on the mailing list and very
+> >> bluntly rejected.
+> >>
+> >> Either I'm missing something (that's certainly possible) or we have a
+> >> strong case of somebody implementing something without thinking about
+> >> all the consequences.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>
+> >>> Slightly implicit in this is that mapping dma-bufs to the guest won't
+> >>> work for anything that requires DMA_BUF_IOCTL_SYNC for coherency.. we
+> >>> could add a possible return value for DMA_BUF_INFO_VM_PROT indicating
+> >>> that the buffer does not support mapping to guest or CPU access
+> >>> without DMA_BUF_IOCTL_SYNC.  Then at least the VMM can fail gracefull=
+y
+> >>> instead of subtly.
+> >>>
+> >>> BR,
+> >>> -R
+>
