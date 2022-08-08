@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C241358C30B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A6058C313
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 07:54:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E898D6C0;
-	Mon,  8 Aug 2022 05:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60EE08DBE1;
+	Mon,  8 Aug 2022 05:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C598D6C0
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:51:01 +0000 (UTC)
-X-UUID: 59e4d564d1024e14b9a34b3e7c4b76aa-20220808
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=a1HzzRePzEuTmzevPoaY0WG9Aj+DqmyLMfY/ojomtGo=; 
- b=a7oqFG552aqjGlQmAGDXO1URGvnXUNT0B49ukGGLFfxJMHF3WFzB09kob+sWfB9daDdKWTKpvPG17MS0GP+K0WUONZFt5XTgcuLMFyvaJnDEMq/4+gqRle4tT0A2AzDfmAoouj+U3C9afXJOe+eMYY7DZjZ2W9ydNkgjaAL1ogI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.9, REQID:b74202e5-6be2-4a35-8a52-e8461a03fb6d, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_H
- am,ACTION:release,TS:0
-X-CID-META: VersionHash:3d8acc9, CLOUDID:f7b9099c-da39-4e3b-a854-56c7d2111b46,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 59e4d564d1024e14b9a34b3e7c4b76aa-20220808
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1620236941; Mon, 08 Aug 2022 13:50:56 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 8 Aug 2022 13:50:55 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 8 Aug 2022 13:50:54 +0800
-Message-ID: <d88ee153da3e881d273862667eae0fdc80af08bc.camel@mediatek.com>
-Subject: Re: [PATCH v16 3/8] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Mon, 8 Aug 2022 13:50:54 +0800
-In-Reply-To: <20220805101459.3386-4-rex-bc.chen@mediatek.com>
-References: <20220805101459.3386-1-rex-bc.chen@mediatek.com>
- <20220805101459.3386-4-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E536E8DBDC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 05:54:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8B9F1B80B2B;
+ Mon,  8 Aug 2022 05:54:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75FD7C433C1;
+ Mon,  8 Aug 2022 05:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659938064;
+ bh=fdGOCwmBEK9CWaxIAUwPDifSkxj7PaxAllZU82W3Ry4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QDZCAORd+CDcOLkVaf1UPrSE3hL4ymPfTAuq2qSfODI7WxCqUcSnMbh3DtyhlFmJv
+ 7SevWPkePl6NqhsK3RYndm1t2fn+fbAom30UPqa0cR2amyetfoRRWdGx3CXGiYHDZt
+ Of7afz3KYKWFNMpBPluGeh5layWLYJjc5TrLg/hYiVSPzaKx/phIj8DYFxCEetS+oo
+ VPrPWivn++E8p3/wtNdfSWjzbrNpsPym6oOUjOxkAaODCg0y8DOZiS8eb0oXiG0/zS
+ mkb3Gcc7zQP6MSKndbsDnnz9oUxVJbMYhXXwdUWBULqeM/HcNnDV8ZG1umR+7Q9Piu
+ gsv6IZjnMR64A==
+Date: Mon, 8 Aug 2022 07:54:16 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Robin Reckmann <robin.reckmann@googlemail.com>
+Subject: Re: [PATCH] i2c: qcom-geni: Fix GPI DMA buffer sync-back
+Message-ID: <YvClCC4ArBEjQJl9@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Robin Reckmann <robin.reckmann@googlemail.com>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Robin Reckmann <robin.reckmann@gmail.com>,
+ linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20220807140455.409417-1-robin.reckmann@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="XD4kyBoxfGtTDMuX"
+Content-Disposition: inline
+In-Reply-To: <20220807140455.409417-1-robin.reckmann@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,73 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+Cc: linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Andy Gross <agross@kernel.org>, linux-i2c@vger.kernel.org,
+ Robin Reckmann <robin.reckmann@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
 
-On Fri, 2022-08-05 at 18:14 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> Tested-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
+--XD4kyBoxfGtTDMuX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[snip]
+On Sun, Aug 07, 2022 at 11:04:54PM +0900, Robin Reckmann wrote:
+> Fix i2c transfers using GPI DMA mode for all message types that do not set
+> the I2C_M_DMA_SAFE flag (e.g. SMBus "read byte").
+>=20
+> In this case a bounce buffer is returned by i2c_get_dma_safe_msg_buf(),
+> and it has to synced back to the message after the transfer is done.
+>=20
+> Add missing assignment of dma buffer in geni_i2c_gpi().
+>=20
+> Set xferred in i2c_put_dma_safe_msg_buf() to true in case of no error to
+> ensure the sync-back of this dma buffer to the message.
+>=20
+> Signed-off-by: Robin Reckmann <robin.reckmann@gmail.com>
 
-> +#define MTK_DP_ENC0_P0_3038			(ENC0_OFFSET + 0x38)
-> +#define VIDEO_SOURCE_SEL_DP_ENC0_P0_MASK	BIT(11)
-> +#define VIDEO_SOURCE_SEL_DP_ENC0_P0_SHIFT	(BIT(0) | BIT(1) |
-> BIT(3))
+Thank you! What would be a Fixes tag for this?
 
-It's not necessary to define a symbol for shift because it's trivial
-that we understand it's a shift.
 
-> +
-> +#define MTK_DP_ENC0_P0_303C			(ENC0_OFFSET + 0x3C)
-> +#define SRAM_START_READ_THRD_DP_ENC0_P0_MASK	GENMASK(5, 0)
-> +#define SRAM_START_READ_THRD_DP_ENC0_P0_SHIFT	0
+--XD4kyBoxfGtTDMuX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Ditto.
+-----BEGIN PGP SIGNATURE-----
 
-> +#define VIDEO_COLOR_DEPTH_DP_ENC0_P0_MASK	GENMASK(10, 8)
-> +#define VIDEO_COLOR_DEPTH_DP_ENC0_P0_SHIFT	BIT(3)
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmLwpQQACgkQFA3kzBSg
+KbYMhRAArxGcGhOSEP/LoXFsoUt62gmN7SUbYALnShNEsiAAsIyfcDokRbSxVfPk
+hoe7hFLjoEL+ZcARfiqvYWGbTpX6dlFx3TUdkkVkL6oyCJ/YcfvgFat7FwV0cNyP
+ce2soTTDV0gDRecDLRald5RA50fdPcvcUpEhrwJDb/2JjffKXhJs4rlCOfHVUNXt
+QbVwJVj54xgMeCmLrN6FsR14lTzQ5m+CnbHeDJCrKPFIxAIVIWwXvSU6lhucNYCo
+lFn0Q4ZDdOnBEy2miNvvdPT0BEKxplT4SgJpD3zGjxGnFSIbO0w8kdZLvfioCrA0
+s5gQxVZpHxtLtKtQruAgX8r2+JW1zSSxG8aicdX9QgNABybcYfHV4tH/CJikDLMb
+VTPc8qi0HtPLMnBribfmECcHaeLzEe38gtb7aGDUG4z8wXZgePXRGfnqLtCDGykg
+4Vomw99Ugc/1+XwwrpUr0JLBYqVPXq2veOsirnGo0OR3iJGajMZw4y9Tlct9AQZZ
+IL7lfPhTlO2WS2rVfURyOXZCUg1/tax/RgDfzFvjJesvy9+hpZ/pq9Csl+k1b+GZ
+8lbslOpKD0bM/WLDWYbrel6IH/openjxQ7M5UNusGNAnEmZPpm5QMfxsa3tjQEm7
+Tv2AXDVrVjdsK4dpcqarPjowL/IJ2I8CntN4+KefRLE0ZOhthtU=
+=HpON
+-----END PGP SIGNATURE-----
 
-Ditto.
-
-Regards,
-CK
-
-> +
-> 
-
+--XD4kyBoxfGtTDMuX--
