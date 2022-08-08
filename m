@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BF358C481
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 09:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FD458C496
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 10:04:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 011219301B;
-	Mon,  8 Aug 2022 07:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC0B892F73;
+	Mon,  8 Aug 2022 08:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18A7A92C04
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 07:52:15 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id q30so9865617wra.11
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 00:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=IJ4kunP1J9pj2q4yZwyvQMf3KoEr+bUd77eXvDlFmvM=;
- b=7OMB237UVNyaV3vNucxwikyrOugV6/sDg/hkJIzgLZlxDKoRTrlWNsFy9ct8cj0GJ2
- wYTdnM/YrkU5DirkEzRF0fwQp3jy0S9aHtFrasiQyh+sbAriAHPHl3OdOyeN2RztfDPL
- KmAlwZUHzY7GWyWPrJK0j6KN5cXgqkGgNW5PE93mkWprStUfJoZK4bHu+m3S+n6TqW+H
- gH8Hu3AsiNveHsa/QRuEgfchKpxzHPy5gOz8FLkBdFsvy3pTjqnGl9/U75udYKZEO3eq
- sYlJB7vN6yNz61aRqoPM8AglPF3cByra40plcjRuGSPciuVtQ60Pep1bcd7jdetq4TcN
- cAKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=IJ4kunP1J9pj2q4yZwyvQMf3KoEr+bUd77eXvDlFmvM=;
- b=y6/Wf3tRPO1YA80yUVZG3SruTinuoDNqhw3/kTNVUhaf3wscyRkRq3AZnir9IFHfnZ
- VoCnqbn89dU18/X1e3PZ62JzBVATiNCmHcOOCcFH9qDOnav4mGy9s0eFuWChp20XUqlV
- Lc4J77giWQnQUJq3xca5FAATOWqwTAPdxo4ZPgnVYfNHEH9V7OFuFq91/1gQw+xY2Qjt
- kxUDtzDsd5jTcTSyiyfeYVloNmukI3TPirrB0iIZwctobcvUS4U6tXj/GJ5FxMm7KjY+
- KFXLjzDvqKa85EczlbZPR3as+rBntTvGJn+a2LayacuSlN5w1zxgjzi1KtGIIyJvWr08
- g7qA==
-X-Gm-Message-State: ACgBeo3p9pLH0m2mernCf2x+F6le6zqKMUlCUxd/2slcFMRPNdxK2Nnr
- tBZEVy3Aa9gGv42NeUJGhpW2Kg==
-X-Google-Smtp-Source: AA6agR43e+yqIlLSyJSG6dgGvsKXg5JEqdq3EVBg6TTrHBtXN12v7SlbDG3PCFvH0ktIrKBk8z9W5g==
-X-Received: by 2002:a05:6000:61c:b0:220:6425:c113 with SMTP id
- bn28-20020a056000061c00b002206425c113mr11149522wrb.612.1659945133528; 
- Mon, 08 Aug 2022 00:52:13 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:982:cbb0:1832:7d81:d0f6:dc4b])
- by smtp.gmail.com with ESMTPSA id
- bi19-20020a05600c3d9300b003a342933727sm18480533wmb.3.2022.08.08.00.52.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 00:52:13 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: airlied@linux.ie, martin.blumenstingl@googlemail.com,
- linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
- dri-devel@lists.freedesktop.org, Liang He <windhl@126.com>,
- daniel@ffwll.ch, khilman@baylibre.com
-Subject: Re: [PATCH] drm/meson: Fix refcount bugs in
- meson_vpu_has_available_connectors()
-Date: Mon,  8 Aug 2022 09:52:11 +0200
-Message-Id: <165994512091.16922.455382541518056728.b4-ty@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220726010722.1319416-1-windhl@126.com>
-References: <20220726010722.1319416-1-windhl@126.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDD9905C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 08:04:09 +0000 (UTC)
+X-UUID: 5e3ad97a77e34191ada0152c7f724a11-20220808
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=rLpQA2HDs6HPyBnCtsxUkBeWCCaY6SEoWDsQLMWSn6E=; 
+ b=VnyxvmC2wet1tG9LzRfZZB/QlP00LMJ4f5KHU7soY0SXhxZa3CTGSAkr/N0l7AFxty0mLRFXdX94h9iew3sRF3XSmAhoKSjH49JVsJTu2NX0RGYF2XC/KYfzSO0JkafFHGvfkhzYxXzsdtM1kw45mqlQU12YdHinxe/x8DxZXAU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.9, REQID:d35900d0-85e1-4926-9341-baac68d5a81f, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_H
+ am,ACTION:release,TS:0
+X-CID-META: VersionHash:3d8acc9, CLOUDID:f8d90d9c-da39-4e3b-a854-56c7d2111b46,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 5e3ad97a77e34191ada0152c7f724a11-20220808
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1122278036; Mon, 08 Aug 2022 16:04:03 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 8 Aug 2022 16:04:01 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 8 Aug 2022 16:04:01 +0800
+Message-ID: <575181dc6cdd1fcf391e840c0fcd5722b954a457.camel@mediatek.com>
+Subject: Re: [PATCH v16 3/8] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Mon, 8 Aug 2022 16:04:01 +0800
+In-Reply-To: <20220805101459.3386-4-rex-bc.chen@mediatek.com>
+References: <20220805101459.3386-1-rex-bc.chen@mediatek.com>
+ <20220805101459.3386-4-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,26 +69,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, liangxu.xu@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi, Bo-Chen:
 
-On Tue, 26 Jul 2022 09:07:22 +0800, Liang He wrote:
-> In this function, there are two refcount leak bugs:
-> (1) when breaking out of for_each_endpoint_of_node(), we need call
-> the of_node_put() for the 'ep';
-> (2) we should call of_node_put() for the reference returned by
-> of_graph_get_remote_port() when it is not used anymore.
+On Fri, 2022-08-05 at 18:14 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
 > 
-> [...]
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> Tested-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
+[snip]
 
-[1/1] drm/meson: Fix refcount bugs in meson_vpu_has_available_connectors()
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=91b3c8dbe898df158fd2a84675f3a284ff6666f7
+> +
+> +static enum drm_mode_status
+> +mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
+> +			 const struct drm_display_info *info,
+> +			 const struct drm_display_mode *mode)
+> +{
+> +	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+> +	u32 rx_linkrate = (u32)mtk_dp->train_info.link_rate * 27000;
+> +	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16
+> : 24;
+> +
+> +	if (rx_linkrate * mtk_dp->train_info.lane_count < mode->clock *
+> bpp / 8)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	if (mode->clock > 600000)
 
--- 
-Neil
+If the clock has pass the linkrate and land_count limitation, the clock
+would be OK because the linkrate and lane_count is trained. Why need to
+check 600000?
+
+Regards,
+CK
+
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+
