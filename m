@@ -2,131 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC7A58C614
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 12:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0D758C61E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 12:13:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C729564A;
-	Mon,  8 Aug 2022 10:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A452A942FB;
+	Mon,  8 Aug 2022 10:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC9493E53;
- Mon,  8 Aug 2022 10:02:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dPTmr6DksH/FYWk7XNfOE8CuoZJ8gjtF9Wq0b4pYPW52MKy8uqXTRToUCpzWJIfKClbZ1I23vvQiqfayeqKx1iw8XY5De3R0FBRKzs/I+vAjfjyUKqnCgZnyEqlu9QKrwR4s4MUwc3nwdyP2u8L+r0i562ms0DL4PlYImoySNMzNSAQZCYChpX+B/Xdxm4wS+ZsbQypgnSoQ/WytgJ09WI57QK8VLywBtMLOC5jou0CECEj5sLuZPuqfj7yMnXrUpJvSdwvChw770yjqJsrUDh053NtN9OqDypcsqFCGfbz/T1DTvzkDfDVLFdiueXXdHrWrYvxQSQLoQSB84A8UUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UasBFavkM21Xx9KSaHRjvFjATsidym5Avw19r52yePw=;
- b=ogb2fk1VTnLoJtVjz8Yn1qID+X6GR3C/l/nxhyC/yZqZg1781EMcJt4LOmYXkEz2KBLCQPE0r0WNwp4PxSpen/lehS329ios1AVCP3x/V26wZ3VIHvX4AEMgvfQmq+bT5OmetjpPBUdF0byGIx1kiq4fmBvL+xcALdNRQnfYk87gpfXv5npL89xmyGKHRRm+A6VtimtN1N2NsCRAuRui5dJtQhlk0Yxdgr0i0n09DP2/EW36YjyCFVTo3u+3ORWB48GqZCkADgo6JAMXtesHxwEeilRFE62pGTNLLrGZiOGtNPUAL5VwVAH3xhsb3akhS/MgHCMbDZaR7U2i1ndMzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UasBFavkM21Xx9KSaHRjvFjATsidym5Avw19r52yePw=;
- b=SPbgL2PM0tPzxn5DdSgv7p1KHMuoZgW/sgWhpuszPGBNZJ3Db2SEwRv7klU7S9yC6RS5AtMfgmLr+Sqjn7NvXF85lWojfYOxMkVSw9iZC7SnxHi2tQQK/blJy/Fn6Ygq2VpuSUD6mfrW97SpywGOsmnIXJSWzQxNnl7XqCENoK4=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by BL0PR12MB4705.namprd12.prod.outlook.com (2603:10b6:208:88::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Mon, 8 Aug
- 2022 10:02:29 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::3931:6e19:485a:2c34]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::3931:6e19:485a:2c34%6]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
- 10:02:29 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: RE: [RESEND RFC 18/18] drm/display/dp_mst: Move all payload info into
- the atomic state
-Thread-Topic: [RESEND RFC 18/18] drm/display/dp_mst: Move all payload info
- into the atomic state
-Thread-Index: AQHYeqbgSVnUwi//gUS5WPmor4cgkq1votDQgC5W44CAByRbEA==
-Date: Mon, 8 Aug 2022 10:02:29 +0000
-Message-ID: <CO6PR12MB54896ECA603462858C9AFBA2FC639@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20220607192933.1333228-1-lyude@redhat.com>
- <20220607192933.1333228-19-lyude@redhat.com>
- <CO6PR12MB5489BAFF2DDCD67F8BDCD827FC819@CO6PR12MB5489.namprd12.prod.outlook.com>
- <848f35a693b26bfd15b3c6539eacd3e313dcd3a7.camel@redhat.com>
-In-Reply-To: <848f35a693b26bfd15b3c6539eacd3e313dcd3a7.camel@redhat.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-08-08T10:02:26Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=26ebe980-aeba-438e-b1f9-1f561de6995d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5b8a4306-50c7-4934-08a2-08da79251aa8
-x-ms-traffictypediagnostic: BL0PR12MB4705:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6p2NMfxIJ+8X8nLn+N3zq+Zebx0h8tDhyEEdEcAWPfZ6SH2hC+OJZie8HN4Y0eeWkiLjL+2l/CSJlxzwHMWLWMEssvQPekaFkvirY4KeXurqAbie87MxD6gKfN+r2MImpeVesBHgx+zPut0ACOGBDJ+tHbw1QfAbHmGd/XfB5bSczi8KElYx7CWX3yRGVI+RAZaJlrgTjfkd9CpW9m2oUvQE7+Jn4NaWvo1IQhZCH3I/lYT5+5UBZ1uOBpPQmhjAMH7XzOWzgLXiWvs5025Fafe6f+yJDL/Yp+ANBuKS+ZZkTirecB7CJi+7r8elqhKv1QINhrmzJbnpPFU8PvHi9pRetYf6OO15DJ0CQ78iRGlsDF9TlaSzSm1YBD1DNfhqGEzHal1RZuK0xgMg5MpsXjwKlFhjGf/eT86Jx4Lan8bena6iTyLe+LZ5/T7Gtm0/SYb44fZlHQ6MMJ10ySrpj55YlQA+S2tSAeIQvTiKs/eeeP6RXsq8BEpsU5xIUP9dkD9TmCht3VsWQA0Iaz0GbfK7frolYwtdPKxM7g8SVoykNLPUtzNv5PGVhU1yx5JJFm+l27vfI316ke9AqxwaLjEzS2+HJ0dxekQH9b4vvpQKCyTDSzDN+3qufE3YVZKAFejeL+pvW8uBpLMNlKAnYNd2/qC8OkOX5flg9uMC9CAuw9GKAAwASzOc104s8nXH/6Dn+ceHBTrddyB0w+WV4TUrhBdsUaW9eNrpG6EqZTy0g7V0HVwNe53W0HBFv/UmDKqCGOBDh+AbCHbY86eOJ67hL+r4wFOlIR0xxGRi+RDP58q1jDOSHLkF7vSwk4bH
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(136003)(376002)(39860400002)(366004)(346002)(478600001)(2906002)(122000001)(83380400001)(33656002)(9686003)(26005)(186003)(66574015)(41300700001)(53546011)(6506007)(7696005)(55016003)(316002)(110136005)(38070700005)(8676002)(4326008)(66556008)(66946007)(76116006)(66446008)(66476007)(64756008)(38100700002)(8936002)(54906003)(52536014)(71200400001)(86362001)(5660300002)(7416002)(7406005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UlJQQkphS2JPQXpzOEU3K2txWFRvRmswSE5PV2hLdVZURnk0ZzIrMnZhR2Ra?=
- =?utf-8?B?SnhKSTZCTVptUEpZV0RXOUtQUG9KMVBUR2pwTjFyWkJZeGtTTTRwSTR5V0JX?=
- =?utf-8?B?b3pQVjMyajk0RG9MQUV0RTNHU1dDc3oxWWR3b1lNcWJuNitOK0NiNjhKQUdy?=
- =?utf-8?B?dEI4S2ZYdWRaZ0QvbG1tODNjZExzWXRoOUNBMFMraFluMWJLM0NYV1NlYjZo?=
- =?utf-8?B?QnozUSt1QWp3OUNaYWtrcFR5WmpJRlhydmxUQ2U2UlFpR0FqYUFaangxVFVU?=
- =?utf-8?B?TitoOUZrQXJ2SFJWbzh3VXlqU2h6VW9uL25xTWVud01KRnMxOG9jZDFkcFZZ?=
- =?utf-8?B?VEgzQ0djcnh1R080MzFndVhMbFhmM2VkK3hhTmNUN2s5dXNaNHZGZ2ZTMTlB?=
- =?utf-8?B?cUFSTjVIZk9JV21ZUFFCYVNDSHFEYUFDWGQ1M2ZrOXMwZFJDV3dIbGMzb1h3?=
- =?utf-8?B?cWZCZzl1YWluSm1uTjZjYW9xQ3RTY2F2alRPcUZRaGxJOGkxNitJQ2kyQzVt?=
- =?utf-8?B?RWZBUmxTR2t4eDJncVNaUGN1UXA2QnQ3Zmt5Z1AwWUpmQXlBdHhBeVY2bE1O?=
- =?utf-8?B?QzlhMnliOFllUHlmbkkyZHRZdEs5aUpIV0d6dCtOQUFpVXB1UU81ZjErY1VB?=
- =?utf-8?B?UkdCZTFGcG9vSnBqdUQzZjI4emVsTG9DWE56dWhyckl2WW9aRUJuQnZ6M04x?=
- =?utf-8?B?T3hTU29PYnV2cmpPSW1xQnJ2WnZZOTlEb2NicGhuMkpjeHBTM21KLzB6TEI2?=
- =?utf-8?B?SU1tbEw2VEFab3MwSGoxN1ptMTFITHA3UE9xVFFBWkhsNVhrT3NrWndrQ3Ni?=
- =?utf-8?B?Uk05R1djVFp5RE82WHZoMkkwcEg5RDJ1bnVDR3pPSUpnY211eDVQN0crSEN2?=
- =?utf-8?B?YkE0K01sSGhpeDdWMmFhMmp1dEljeUNhN1Y3Q0ptSlBKVi9TN0ttZkFQbWhp?=
- =?utf-8?B?QXpqNnJNTzQ0YU5tbXZnVFhySHRrY1pKVmlOWXBJay9NUU5xaFNjU3BrWVd1?=
- =?utf-8?B?b09WTVZETXpNY1pCdFQ0ckVsNk56QWIxdHZXQ1FGYkI5elNtSlNlR3lPTEw5?=
- =?utf-8?B?MGYxbitSYTk4cVBERWhiazNjcmNkWHRVMDhhdSt0WFFhOWpGSGphbEJEaUJT?=
- =?utf-8?B?ZjlBanNDS3QrOWdXVXkvakhhZGF5K05SWGliQ1JHQ2hBdWt5RlI2NVZIMU0z?=
- =?utf-8?B?amlRSVNaelZWVWxoZjVvMGRqZlM3M1hPNW03Z3QwWmtXNklHaWQwWVMrbnlG?=
- =?utf-8?B?Y3RRS0lyWXBIcENsTmVIc1hWdkh3UzBSYUkzODBsajg1c1NUcmJhS2lkSUVr?=
- =?utf-8?B?ZlI1V2dRUmd0TkNzNDE4TmtmbzBndXFwdGc5RUJONTVxMTlaU0F2UGFYN0lp?=
- =?utf-8?B?S2FnZmQ0MGRGeENZRENudldXRU1hUmNzK214RzI3R1BoUFJlMDJSRHhBaEU3?=
- =?utf-8?B?V0tWN2hJTFBPZ25VU3c4S3YvM09LK1gxcHQ0dDBiUlQ0YmYydGd5d0MyL2RF?=
- =?utf-8?B?THdTSEd0T00rejJxcWdCUXNPU1JLYlRmQzAwWkVkdk9wMmZhNkVOQ0JablJw?=
- =?utf-8?B?cHN1STRGcEdTSlRhdW5hU3hwakd6TDFaVWVYS3ZmeUtNZm5tRUlVSXVzZkJm?=
- =?utf-8?B?ZGhDQ3U3cDNEWkhUQlhhVTQ4eitzV09EakkvTUZOdW9oVC9IdHdhMkFDL25r?=
- =?utf-8?B?a1Myb0FsMmJlbzF0RVpBVFpoS0Nwc2NCcjQveUNsU0xXM3RYeWZ5TzVVbkxi?=
- =?utf-8?B?WGRITGczQWM5ZFBuNTNxT1ppUHRidDJDY1Vidjgyck5VaEJWZVM4T1RKeHBp?=
- =?utf-8?B?T2pTTWRmL2dSSXRhaGpveGZDZHFiZVRNWXFuTlNZWDM5SmUxeWp5Tlp0aEhE?=
- =?utf-8?B?eU5MNUNvOXpWOTl3YmI5NFZWZjk3UzRuR0pQeVk1NEdkVmhEQU1kM1d4OVJW?=
- =?utf-8?B?L3p6aXdLZ2Y3SS9JTThkQjlmYi9GUGRtamFMcytzNU5tdHpYb1hFUHhaTTYy?=
- =?utf-8?B?b0FtUUtUOE9HYUtiZHhtM2tTTHpReHkwdEhqK2Y1MTNWcGorLzJNMHRZWE83?=
- =?utf-8?B?N2RyeEtMK1JGdmVoUFVoYkcxNzVPU2YrcHBFRE5zdFFIRVJxWkk1T3RZT2xY?=
- =?utf-8?Q?s7lM=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 556F4909E7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 10:13:27 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id a7so15719651ejp.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 03:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=pVs9Is7odQ3WzU+SLvPQvDhBo62OjeLjgoGnygCY5zs=;
+ b=k3QBUwDqffPCZ08ePgVlvPz3NmxmgECmrXLDF/F27mivNGStIpor53DAoJHVLGHlEj
+ 6aWAfvimSWjs7NE9l/0uewhoZRgoSU6QaoezveDxQOiLdRTCXAR5jEoXFxv2D1YUAsLl
+ xrRat/DMRZBaRL8AO3hqtNR+dlrhEU+8gaWbaYMweNwhd6wzPrP82UJAYMIc8aC4WCiH
+ uwWLYi/27EpJ+XI4zTB/ZaC2JVX+sKeOLgJzv+iAIQcOA6qonkze0nCFsPPuqiG/IYjR
+ 7ljWANiMxEEkakJ+0IyVWtgogB7BKS2ZjXkPaua2qy8mHUA7EY7jDeWTPZHxANrjqT+A
+ nfcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=pVs9Is7odQ3WzU+SLvPQvDhBo62OjeLjgoGnygCY5zs=;
+ b=gah14F/PMoF7HZgCXDRTG1GFq0L9K0Dh/KOX4vWaC8o9iea5Wx0Ky4vlOCKdFdglgV
+ mkH0mnXS46bwkxP+qVojDmVB8JZw5HTh9LIDeovo30OfFrNW4wjHwTuFAeiOn6maG8jO
+ ZH4qzaONq2Ejz9PWbL8+AW+Lx/BY8fwDzxKYXTm2NUhm1xf5ywbkPoIi1FhGBvMFab3h
+ 15viSWI6vnp9H6E7Zzcq1FKImxKpKmBDtSIj6oFYdcuTBk3c2Dqn070Y1TgoIlt54YkD
+ MoYY33XJADhkqWCCoEh8N+6GBUBnpNywQtXl/HjNFC2QRdjzOo6bhybaOD2TtpzNctWo
+ 58kw==
+X-Gm-Message-State: ACgBeo3bsMGqTWh8ezisrk8b/4s+LPg3nYyb5u/oshLL2VY0xt1n7DLB
+ OyonucZh26xP7XlWplI3KFBvi1UK5gANjEnmZog=
+X-Google-Smtp-Source: AA6agR6c9iksX4aFJvbqgXAPY/uh8iEGCG3zN9Ge+zdXSD/IoZ0V/qqgwGW9Kx++VvzPOg1NNaLkBMWbKDpP3TOjUgA=
+X-Received: by 2002:a17:906:9b09:b0:730:9480:9729 with SMTP id
+ eo9-20020a1709069b0900b0073094809729mr13399061ejc.588.1659953605481; Mon, 08
+ Aug 2022 03:13:25 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b8a4306-50c7-4934-08a2-08da79251aa8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2022 10:02:29.3692 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RYD0Iw1ousg4ijhY+rQrEZ7kPGHr6vjL5gG3DNdd66+WzRYRKB9C0EXZ0O0up71VrVpin7cisSjKOocI0o4e+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4705
+References: <20220804093829.42kdelp7u4r743nv@pengutronix.de>
+ <CAPY8ntBovVq1HVt_UneDF8OB9KBdEBv52o=4BCTmf9VpiODxVg@mail.gmail.com>
+ <20220804125152.idyzetjqkjzgbbm2@pengutronix.de>
+ <CAPY8ntAatYvbf5ehfsj4qcSDC=sODeN1Cj0vDjn6p0M=k320NA@mail.gmail.com>
+ <CAHCN7x+DkJgGvMLnYBXscSMDmTCeaHeJKK6T9eLUm+rXSx=NQA@mail.gmail.com>
+ <OS0PR01MB592206843B43BC93F4F699FC869E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHCN7x+UAk1wPTOj7EFUXkRY3b3BPXTT6SqD4A7sJO87ZpHgFg@mail.gmail.com>
+ <CAHCN7xJ4TWpLmD_WRrEXoHWy52MEfUL-_R5x=kF-1JC0_C8Q1Q@mail.gmail.com>
+ <CAHCN7x+y9zrfs_wtptFNQW3+hcF2aeuqZY7xFs+gcGJNv334oQ@mail.gmail.com>
+ <CAHCN7xLMD2hh8FqFY_pw7-P0RP2wG-7Yf+7y1NAfYxY36r3bGw@mail.gmail.com>
+ <20220808085437.44rrs6e44ibgztld@pengutronix.de>
+In-Reply-To: <20220808085437.44rrs6e44ibgztld@pengutronix.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 8 Aug 2022 05:13:14 -0500
+Message-ID: <CAHCN7xJwp1rJ-CpE7FvBgQb-NmVmOEQQFP8KoL=tjE85CEYzbA@mail.gmail.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+To: Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,124 +73,416 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chen, Ian" <Ian.Chen@amd.com>, Karol Herbst <kherbst@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?utf-8?B?Sm9zw6kgUm9iZXJ0byBkZSBTb3V6YQ==?= <jose.souza@intel.com>,
- open list <linux-kernel@vger.kernel.org>, "Lei, Jun" <Jun.Lei@amd.com>, "Lakha,
- Bhawanpreet" <Bhawanpreet.Lakha@amd.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>, "Li, Sun peng
- \(Leo\)" <Sunpeng.Li@amd.com>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>, "Shih, Jude" <Jude.Shih@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- "Strauss, Michael" <Michael.Strauss@amd.com>, Juston Li <juston.li@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- "open list:INTEL DRM DRIVERS" <intel-gfx@lists.freedesktop.org>,
- Luo Jiaxing <luojiaxing@huawei.com>, "Liu, Wenjing" <Wenjing.Liu@amd.com>, "Wu,
- Hersen" <hersenxs.wu@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, "Ma,
- Leo" <Hanghong.Ma@amd.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Sean Paul <sean@poorly.run>, He Ying <heying24@huawei.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, "Li, Roman" <Roman.Li@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>, Claudio Suarez <cssk@net-c.es>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Sean Paul <seanpaul@chromium.org>, Colin Ian King <colin.king@intel.com>,
- "Kazlauskas, 
- Nicholas" <Nicholas.Kazlauskas@amd.com>, Fernando Ramos <greenfoo@u92.eu>
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "robert.chiras@nxp.com" <robert.chiras@nxp.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ "laurentiu.palcu@nxp.com" <laurentiu.palcu@nxp.com>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1B1YmxpY10NCg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTHl1
-ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4NCj4gU2VudDogVGh1cnNkYXksIEF1Z3VzdCA0LCAy
-MDIyIDQ6MjggQU0NCj4gVG86IExpbiwgV2F5bmUgPFdheW5lLkxpbkBhbWQuY29tPjsgZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsNCj4gbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5v
-cmc7IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENjOiBWaWxsZSBTeXJqw6Rsw6Qg
-PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPjsgWnVvLCBKZXJyeQ0KPiA8SmVycnkuWnVv
-QGFtZC5jb20+OyBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPjsgSW1yZSBEZWFr
-DQo+IDxpbXJlLmRlYWtAaW50ZWwuY29tPjsgRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBm
-ZndsbC5jaD47IFNlYW4gUGF1bA0KPiA8c2VhbkBwb29ybHkucnVuPjsgV2VudGxhbmQsIEhhcnJ5
-IDxIYXJyeS5XZW50bGFuZEBhbWQuY29tPjsgTGksIFN1bg0KPiBwZW5nIChMZW8pIDxTdW5wZW5n
-LkxpQGFtZC5jb20+OyBTaXF1ZWlyYSwgUm9kcmlnbw0KPiA8Um9kcmlnby5TaXF1ZWlyYUBhbWQu
-Y29tPjsgRGV1Y2hlciwgQWxleGFuZGVyDQo+IDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPjsg
-S29lbmlnLCBDaHJpc3RpYW4NCj4gPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbT47IFBhbiwgWGlu
-aHVpIDxYaW5odWkuUGFuQGFtZC5jb20+OyBEYXZpZA0KPiBBaXJsaWUgPGFpcmxpZWRAbGludXgu
-aWU+OyBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+OyBKYW5pIE5pa3VsYQ0KPiA8amFu
-aS5uaWt1bGFAbGludXguaW50ZWwuY29tPjsgSm9vbmFzIExhaHRpbmVuDQo+IDxqb29uYXMubGFo
-dGluZW5AbGludXguaW50ZWwuY29tPjsgUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwu
-Y29tPjsNCj4gVHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGluQGxpbnV4LmludGVsLmNvbT47
-IEJlbiBTa2VnZ3MNCj4gPGJza2VnZ3NAcmVkaGF0LmNvbT47IEthcm9sIEhlcmJzdCA8a2hlcmJz
-dEByZWRoYXQuY29tPjsgS2F6bGF1c2thcywNCj4gTmljaG9sYXMgPE5pY2hvbGFzLkthemxhdXNr
-YXNAYW1kLmNvbT47IExpLCBSb21hbg0KPiA8Um9tYW4uTGlAYW1kLmNvbT47IFNoaWgsIEp1ZGUg
-PEp1ZGUuU2hpaEBhbWQuY29tPjsgU2ltb24gU2VyDQo+IDxjb250YWN0QGVtZXJzaW9uLmZyPjsg
-TGFraGEsIEJoYXdhbnByZWV0DQo+IDxCaGF3YW5wcmVldC5MYWtoYUBhbWQuY29tPjsgTWlraXRh
-IExpcHNraSA8bWlraXRhLmxpcHNraUBhbWQuY29tPjsNCj4gQ2xhdWRpbyBTdWFyZXogPGNzc2tA
-bmV0LWMuZXM+OyBDaGVuLCBJYW4gPElhbi5DaGVuQGFtZC5jb20+OyBDb2xpbiBJYW4NCj4gS2lu
-ZyA8Y29saW4ua2luZ0BpbnRlbC5jb20+OyBXdSwgSGVyc2VuIDxoZXJzZW54cy53dUBhbWQuY29t
-PjsgTGl1LA0KPiBXZW5qaW5nIDxXZW5qaW5nLkxpdUBhbWQuY29tPjsgTGVpLCBKdW4gPEp1bi5M
-ZWlAYW1kLmNvbT47IFN0cmF1c3MsDQo+IE1pY2hhZWwgPE1pY2hhZWwuU3RyYXVzc0BhbWQuY29t
-PjsgTWEsIExlbyA8SGFuZ2hvbmcuTWFAYW1kLmNvbT47DQo+IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPjsgSm9zw6kgUm9iZXJ0byBkZSBTb3V6YQ0KPiA8am9zZS5zb3V6
-YUBpbnRlbC5jb20+OyBIZSBZaW5nIDxoZXlpbmcyNEBodWF3ZWkuY29tPjsgQW5zaHVtYW4NCj4g
-R3VwdGEgPGFuc2h1bWFuLmd1cHRhQGludGVsLmNvbT47IEFuZGkgU2h5dGkNCj4gPGFuZGkuc2h5
-dGlAbGludXguaW50ZWwuY29tPjsgQXNodXRvc2ggRGl4aXQgPGFzaHV0b3NoLmRpeGl0QGludGVs
-LmNvbT47DQo+IEp1c3RvbiBMaSA8anVzdG9uLmxpQGludGVsLmNvbT47IFNlYW4gUGF1bCA8c2Vh
-bnBhdWxAY2hyb21pdW0ub3JnPjsNCj4gRmVybmFuZG8gUmFtb3MgPGdyZWVuZm9vQHU5Mi5ldT47
-IEx1byBKaWF4aW5nDQo+IDxsdW9qaWF4aW5nQGh1YXdlaS5jb20+OyBKYXZpZXIgTWFydGluZXog
-Q2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT47DQo+IG9wZW4gbGlzdCA8bGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZz47IG9wZW4gbGlzdDpJTlRFTCBEUk0gRFJJVkVSUw0KPiA8aW50ZWwt
-Z2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4NCj4gU3ViamVjdDogUmU6IFtSRVNFTkQgUkZDIDE4
-LzE4XSBkcm0vZGlzcGxheS9kcF9tc3Q6IE1vdmUgYWxsIHBheWxvYWQgaW5mbw0KPiBpbnRvIHRo
-ZSBhdG9taWMgc3RhdGUNCj4gDQo+IE9uIFR1ZSwgMjAyMi0wNy0wNSBhdCAwOToxMCArMDAwMCwg
-TGluLCBXYXluZSB3cm90ZToNCj4gPiA+ICtzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0Ow0KPiA+ID4g
-Kw0KPiA+ID4gwqAgLyogRFAgTVNUIHN0cmVhbSBhbGxvY2F0aW9uIChwYXlsb2FkIGJhbmR3aWR0
-aCBudW1iZXIpICovDQo+ID4gPiDCoCBzdHJ1Y3QgZGNfZHBfbXN0X3N0cmVhbV9hbGxvY2F0aW9u
-IHsNCj4gPiA+IMKgwqAgdWludDhfdCB2Y3BfaWQ7DQo+ID4gPiDCoMKgIC8qIG51bWJlciBvZiBz
-bG90cyByZXF1aXJlZCBmb3IgdGhlIERQIHN0cmVhbSBpbg0KPiA+ID4gwqDCoCAqIHRyYW5zcG9y
-dCBwYWNrZXQgKi8NCj4gPiA+IMKgwqAgdWludDhfdCBzbG90X2NvdW50Ow0KPiA+ID4gKyAvKiBU
-aGUgTVNUIHBvcnQgdGhpcyBpcyBvbiwgdGhpcyBpcyB1c2VkIHRvIGFzc29jaWF0ZSBEQyBNU1QN
-Cj4gPiA+ICsgcGF5bG9hZHMNCj4gPiA+IHdpdGggdGhlaXINCj4gPiA+ICsgKiByZXNwZWN0aXZl
-IERSTSBwYXlsb2FkcyBhbGxvY2F0aW9ucywgYW5kIGNhbiBiZSBpZ25vcmVkIG9uIG5vbi0NCj4g
-PiA+IExpbnV4Lg0KPiA+ID4gKyAqLw0KPiA+DQo+ID4gSXMgaXQgbmVjZXNzYXJ5IGZvciBhZGRp
-bmcgdGhpcyBuZXcgbWVtYmVyPyBTaW5jZSB0aGlzIGlzIGZvciBzZXR0aW5nDQo+ID4gdGhlIERD
-IEhXIGFuZCBub3QgcmVsYXRpbmcgdG8gZHJtLg0KPiANCj4gSSBkb24ndCBlbnRpcmVseSBrbm93
-LCBob25lc3RseS4gVGhlIHJlYXNvbnMgSSBkaWQgaXQ6DQo+IA0KPiAgKiBNYXBwaW5nIHRoaW5n
-cyBmcm9tIERSTSB0byBEQyBhbmQgZnJvbSBEQyB0byBEUk0gaXMgcmVhbGx5IGNvbmZ1c2luZyBm
-b3INCj4gICAgb3V0c2lkZSBjb250cmlidXRvcnMgbGlrZSBteXNlbGYsIHNvIGl0IHdhc24ndCBl
-dmVuIHJlYWxseSBjbGVhciB0byBtZSBpZg0KPiAgICB0aGVyZSB3YXMgYW5vdGhlciB3YXkgdG8g
-cmVjb25zdHJ1Y3QgdGhlIERSTSBjb250ZXh0IGZyb20gdGhlIHNwb3RzDQo+IHdoZXJlDQo+ICAg
-IHdlIGNhbGwgZnJvbSBEQyB1cCB0byBETSAobm90IGEgdHlwbywgc2VlIG5leHQgcG9pbnQpLg0K
-PiAgKiBUaGVzZSBEQyBzdHJ1Y3RzIGZvciBNU1QgYXJlIGFscmVhZHkgbGF5ZXIgbWl4aW5nIGFz
-IGZhciBhcyBJIGNhbiB0ZWxsLA0KPiAgICBqdXN0IG5vdCBpbiBhbiBpbW1lZGlhdGVseSBvYnZp
-b3VzIHdheS4gV2hpbGUgdGhpcyBzdHJ1Y3QgaXRzZWxmIGlzIGZvciBEQywNCj4gICAgdGhlcmUn
-cyBtdWx0aXBsZSBzcG90cyB3aGVyZSB3ZSBwYXNzIHRoZSBEQyBwYXlsb2FkIHN0cnVjdHMgZG93
-biBmcm9tDQo+IERNIHRvDQo+ICAgIERDLCB0aGVuIHBhc3MgdGhlbSBiYWNrIHVwIGZyb20gREMg
-dG8gRE0gYW5kIGhhdmUgdG8gZmlndXJlIG91dCBob3cgdG8NCj4gICAgcmVjb25zdHJ1Y3QgdGhl
-IERSTSBjb250ZXh0IHRoYXQgd2UgYWN0dWFsbHkgbmVlZCB0byB1c2UgdGhlIE1TVCBoZWxwZXJz
-DQo+ICAgIGZyb20gdGhhdC4gU28sIHRoYXQga2luZCBvZiBmdXJ0aGVyIGNvbXBsaWNhdGVzIHRo
-ZSBjb25mdXNpb24gb2Ygd2hlcmUNCj4gICAgbGF5ZXJzIHNob3VsZCBiZSBzZXBhcmF0ZWQuDQo+
-ICAqIEFzIGZhciBhcyBJJ20gYXdhcmUgd2l0aCBDIHRoZXJlIHNob3VsZG4ndCBiZSBhbnkgaXNz
-dWUgd2l0aCBhZGRpbmcgYQ0KPiAgICBwb2ludGVyIHRvIGEgc3RydWN0IHdob3NlIGNvbnRlbnRz
-IGFyZSB1bmRlZmluZWQuIElNSE8sIHRoaXMgaXMgYWxzbw0KPiAgICBwcmVmZXJhYmxlIHRvIGp1
-c3QgdXNpbmcgdm9pZCogYmVjYXVzZSB0aGVuIGF0IGxlYXN0IHlvdSBnZXQgc29tZSBoaW50IGFz
-DQo+ICAgIHRvIHRoZSBhY3R1YWwgdHlwZSBvZiB0aGUgZGF0YSBhbmQgYXZvaWQgdGhlIHBvc3Np
-YmlsaXR5IG9mIGNhc3RpbmcgaXQgdG8NCj4gICAgdGhlIHdyb25nIHR5cGUuIFNvIHRsO2RyLCBv
-biBhbnkgcGxhdGZvcm0gZXZlbiBvdXRzaWRlIG9mIExpbnV4IHdpdGggYQ0KPiAgICByZWFzb25h
-Ymx5IGNvbXBsaWFudCBjb21waWxlciB0aGlzIHNob3VsZCBzdGlsbCBidWlsZCBqdXN0IGZpbmUu
-IEl0J2xsIGV2ZW4NCj4gICAgZ2l2ZSB5b3UgdGhlIGFkZGVkIGJvbnVzIG9mIHdhcm5pbmcgcGVv
-cGxlIGlmIHRoZXkgdHJ5IHRvIGFjY2VzcyB0aGUNCj4gICAgY29udGVudHMgb2YgdGhpcyBtZW1i
-ZXIgaW4gREMgb24gbm9uLUxpbnV4IHBsYXRmb3Jtcy4gSWYgdm9pZCogaXMgcHJlZmVycmVkDQo+
-ICAgIHRob3VnaCBJJ20gZmluZSB3aXRoIHN3aXRjaGluZyBpdCB0byB0aGF0Lg0KPiANCj4gLS0N
-Cj4gQ2hlZXJzLCBMeXVkZSBQYXVsIChzaGUvaGVyKSBTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQg
-SGF0DQoNCkhpIEx5dWRlLA0KDQpUaGFua3MgZm9yIHlvdXIgdGltZSENCkkgd2FzIHRoaW5raW5n
-IHRoYXQgb3VyIERDIGp1c3QgbWFpbmx5IHRha2VzIGNhcmUgb2YgSFcgcmVsYXRlZCBwcm9ncmFt
-bWluZy4gDQpTdHJ1Y3QgZGNfZHBfbXN0X3N0cmVhbV9hbGxvY2F0aW9uIGlzIG9ubHkgdXNlZCB0
-byBjb25zdHJ1Y3QgYSBjb3B5IG9mIHRoZSB2aXJ0dWFsIA0KY2hhbm5lbCBwYXlsb2FkIElEIGFu
-ZCBzbG90cyBjb3VudCBvZiBwYXlsb2FkIGFsbG9jYXRpb24gdGFibGUgZGV0ZXJtaW5lZCBieQ0K
-ZG0vZHJtLiBJRCBhbmQgc2xvdHMgYXJlIG9ubHkgdGhpbmdzIHJlcXVpcmVkIGZvciBwcm9ncmFt
-bWluZyBIVyByZWdpc3RlcnMuDQpJIHRoaW5rIHRoZXJlIHNob3VsZG4ndCBiZSBhbnkgc3BvdHMg
-dG8gdHJ5IHRvIGNvbnN0cnVjdCB0aGUgRFJNIGNvbnRleHQgZnJvbQ0KdGhpcyBkYyBzdHJ1Y3Qg
-c2luY2UgdGhlcmUgaXMgbm8gc3VjaCBjb25jZXB0IGluIEhXIGxldmVsLiBPdXIgSFcgc2hvdWxk
-IG9ubHkgDQp0YWtlIGNhcmUgb2YgbG9jYWwgRFAgbGluayBhbmQgaXQgZG9lc24ndCBoYXZlIG92
-ZXJhbGwgdG9wb2xvZ3kgaW5mby4NCg0KVGhhbmtzIQ0KDQpSZWdhcmRzLA0KV2F5bmU=
+On Mon, Aug 8, 2022 at 3:54 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+>
+> On 22-08-07, Adam Ford wrote:
+> > On Fri, Aug 5, 2022 at 4:05 PM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Fri, Aug 5, 2022 at 7:56 AM Adam Ford <aford173@gmail.com> wrote:
+> > > >
+> > > > On Fri, Aug 5, 2022 at 5:55 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > >
+> > > > > On Fri, Aug 5, 2022 at 3:44 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > > >
+> > > > > > Hi Adam and all,
+> > > > > >
+> > > > > > > Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+> > > > > > >
+> > > > > > > On Thu, Aug 4, 2022 at 9:52 AM Dave Stevenson
+> > > > > > > <dave.stevenson@raspberrypi.com> wrote:
+> > > > > > > >
+> > > > > > > > On Thu, 4 Aug 2022 at 13:51, Marco Felsch <m.felsch@pengutronix.de>
+> > > > > > > wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Dave,
+> > > > > > > > >
+> > > > > > > > > On 22-08-04, Dave Stevenson wrote:
+> > > > > > > > > > Hi Marco
+> > > > > > > > > >
+> > > > > > > > > > On Thu, 4 Aug 2022 at 10:38, Marco Felsch
+> > > > > > > <m.felsch@pengutronix.de> wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > Hi Dave, Adam,
+> > > > > > > > > > >
+> > > > > > > > > > > On 22-08-03, Dave Stevenson wrote:
+> > > > > > > > > > > > Hi Adam
+> > > > > > > > > > > >
+> > > > > > > > > > > > On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com>
+> > > > > > > wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > ...
+> > > > > > > > > > >
+> > > > > > > > > > > > > > Did managed to get access to the ADV7535 programming
+> > > > > > > > > > > > > > guide? This is the black box here. Let me check if I can
+> > > > > > > > > > > > > > provide you a link with our repo so you can test our
+> > > > > > > current DSIM state if you want.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > I do have access to the programming guide, but it's under
+> > > > > > > > > > > > > NDA, but I'll try to answer questions if I can.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Not meaning to butt in, but I have datasheets for ADV7533 and
+> > > > > > > > > > > > 7535 from previously looking at these chips.
+> > > > > > > > > > >
+> > > > > > > > > > > Thanks for stepping into :)
+> > > > > > > > > > >
+> > > > > > > > > > > > Mine fairly plainly states:
+> > > > > > > > > > > > "The DSI receiver input supports DSI video mode operation
+> > > > > > > > > > > > only, and specifically, only supports nonburst mode with sync
+> > > > > > > pulses".
+> > > > > > > > > > >
+> > > > > > > > > > > I've read this also, and we are working in nonburst mode with
+> > > > > > > > > > > sync pulses. I have no access to an MIPI-DSI analyzer therefore
+> > > > > > > > > > > I can't verify it.
+> > > > > > > > > > >
+> > > > > > > > > > > > Non-burst mode meaning that the DSI pixel rate MUST be the
+> > > > > > > > > > > > same as the HDMI pixel rate.
+> > > > > > > > > > >
+> > > > > > > > > > > On DSI side you don't have a pixel-clock instead there is bit-
+> > > > > > > clock.
+> > > > > > > > > >
+> > > > > > > > > > You have an effective pixel clock, with a fixed conversion for the
+> > > > > > > > > > configuration.
+> > > > > > > > > >
+> > > > > > > > > > DSI bit-clock * number of lanes / bits_per_pixel = pixel rate.
+> > > > > > > > > > 891Mbit/s * 4 lanes / 24bpp = 148.5 Mpixels/s
+> > > > > > > > >
+> > > > > > > > > Okay, I just checked the bandwidth which must equal.
+> > > > > > > > >
+> > > > > > > > > > As noted elsewhere, the DSI is DDR, so the clock lane itself is
+> > > > > > > > > > only running at 891 / 2 = 445.5MHz.
+> > > > > > > > > >
+> > > > > > > > > > > > Section 6.1.1 "DSI Input Modes" of
+> > > > > > > > > > > > adv7533_hardware_user_s_guide is even more explicit about the
+> > > > > > > > > > > > requirement of DSI timing matching
+> > > > > > > > > > >
+> > > > > > > > > > > Is it possible to share the key points of the requirements?
+> > > > > > > > > >
+> > > > > > > > > > "Specifically the ADV7533 supports the Non-Burst Mode with syncs.
+> > > > > > > > > > This mode requires real time data generation as a pulse packet
+> > > > > > > > > > received becomes a pulse generated. Therefore this mode requires a
+> > > > > > > > > > continuous stream of data with correct video timing to avoid any
+> > > > > > > > > > visual artifacts."
+> > > > > > > > > >
+> > > > > > > > > > LP mode is supported on data lanes. Clock lane must remain in HS
+> > > > > > > mode.
+> > > > > > > > > >
+> > > > > > > > > > "... the goal is to accurately convey DPI-type timing over DSI.
+> > > > > > > > > > This includes matching DPI pixel-transmission rates, and widths of
+> > > > > > > > > > timing events."
+> > > > > > > > >
+> > > > > > > > > Thanks for sharing.
+> > > > > > > > >
+> > > > > > > > > > > > The NXP kernel switching down to an hs_clk of 445.5MHz would
+> > > > > > > > > > > > therefore be correct for 720p operation.
+> > > > > > > > > > >
+> > > > > > > > > > > It should be absolute no difference if you work on 891MHz with 2
+> > > > > > > > > > > lanes or on 445.5 MHz with 4 lanes. What must be ensured is that
+> > > > > > > > > > > you need the minimum required bandwidth which is roughly:
+> > > > > > > > > > > 1280*720*24*60 = 1.327 GBps.
+> > > > > > > > > >
+> > > > > > > > > > Has someone changed the number of lanes in use? I'd missed that if
+> > > > > > > > > > so, but I'll agree that 891MHz over 2 lanes should work for
+> > > > > > > 720p60.
+> > > > > > > > >
+> > > > > > > > > The ADV driver is changing it autom. but this logic is somehow odd
+> > > > > > > > > and there was already a approach to stop the driver doing this.
+> > > > > > > >
+> > > > > > > > I'd missed that bit in the driver where it appears to drop to 3 lanes
+> > > > > > > > for pixel clock < 80000 via a mipi_dsi_detach and _attach. Quirky, but
+> > > > > > > > probably the only way it can be achieved in the current framework.
+> > > > > > > >
+> > > > > > > > > To sync up: we have two problems:
+> > > > > > > > >   1) The 720P mode with static DSI host configuration isn't working
+> > > > > > > > >      without hacks.
+> > > > > > > > >   2) The DSI link frequency should changed as soon as required
+> > > > > > > > >      automatically. So we can provide all modes.
+> > > > > > > > >
+> > > > > > > > > I would concentrate on problem 1 first before moving on to the 2nd.
+> > > > > > > >
+> > > > > > > > If you change your link frequency, it may be worth trying a lower
+> > > > > > > > resolution again such as 720x480 @ 60fps on 2 lanes. (720480@60 on 4
+> > > > > > > > lanes is again listed as mandatory for using the timing generator).
+> > > >
+> > > > Marco,
+> > > >
+> > > > Looking through the DSIM driver that NXP uses, it appears that they
+> > > > have a few special cases where they intentionally manipulate the DSIM
+> > > > under certain conditions:
+> > > >
+> > > > /* '1280x720@60Hz' mode with 2 data lanes
+> > > > * requires special fine tuning for DPHY
+> > > > * TIMING config according to the tests.
+> > > > */
+> > > >
+> > > > There is also a separate one for the 4-lane mode:
+> > > >
+> > > > /* workaround for CEA standard mode "1280x720@60" "1920x1080p24"
+> > > > * display on 4 data lanes with Non-burst with sync
+> > > > * pulse DSI mode, since use the standard horizontal
+> > > > * timings cannot display correctly. And this code
+> > > > * cannot be put into the dsim Bridge's mode_fixup,
+> > > > * since the DSI device lane number change always
+> > > > * happens after that.
+> > > > */
+> > > >
+> > > > And lastly, they address issues with 3-lane mode:
+> > > >
+> > > > /* TODO: DSIM 3 lanes has some display issue, so
+> > > > * avoid 3 lanes enable, and force data lanes to
+> > > > * be 2.
+> > > > */
+> > > >
+> > > > Since the ADV is trying to adjust the lanes to 3 when running at 720p,
+> > > > it could be part of the reason you need to jump to 2-lane mode.
+> > > >
+> > > > > > > >
+> > > > > > > > > > I have just noted that 720p59.94 at 24bpp on 4 lanes is listed as
+> > > > > > > > > > one of the modes that is mandatory to use the timing generator
+> > > > > > > > > > (reg 0x27 bit 7 = 1). On 2 lanes it is not required.
+> > > > > > > > > > I don't know why it's referencing the 1000/1001 pixel clock rates
+> > > > > > > > > > and not the base one, as it's only a base clock change with the
+> > > > > > > > > > same timing (74.176MHz clock instead of 74.25MHz).
+> > > > > > > > >
+> > > > > > > > > Interesting! I would like to know how the HDMI block gets fetched by
+> > > > > > > > > the DSI block and how the timing-generator can influence this in
+> > > > > > > > > good/bad way. So that we know what DSI settings (freq, lanes) are
+> > > > > > > sufficient.
+> > > > > > > > >
+> > > > > > > > > > > > If you do program the manual DSI divider register to allow a
+> > > > > > > > > > > > DSI pixel rate of 148.5MHz vs HDMI pixel rate of 74.25MHz,
+> > > > > > > > > > > > you'd be relying on
+> > > > > > > > > > >
+> > > > > > > > > > > There is no such DSI pixel rate to be precise, we only have a
+> > > > > > > > > > > DSI bit clock/rate.
+> > > > > > > > > > >
+> > > > > > > > > > > > the ADV753x having at least a half-line FIFO between DSI rx
+> > > > > > > > > > > > and HDMI tx to compensate for the differing data rates. I see
+> > > > > > > > > > > > no reference to such, and I'd be surprised if it was more than
+> > > > > > > > > > > > a half dozen pixels to compensate for the jitter in the cases
+> > > > > > > > > > > > where the internal timing generator is mandatory due to
+> > > > > > > fractional bytes.
+> > > > > > > > > > >
+> > > > > > > > > > > This is interesting and would proofs our assumption that the
+> > > > > > > > > > > device don't have a FIFO :)
+> > > > > > > > > > >
+> > > > > > > > > > > Our assumptions (we don't have the datasheet/programming
+> > > > > > > manual):
+> > > > > > > > > > >   - HDMI part is fetching 3 bytes per HDMI pixclk
+> > > > > > > > > > >   - Ratio between dsi-clk and hdmi-pixelclk must be 3 so the DSI
+> > > > > > > and
+> > > > > > > > > > >     HDMI are in sync. So from bandwidth pov there are no
+> > > > > > > differences
+> > > > > > > > > > >     between:
+> > > > > > > > > > >       - HDMI: 74.25 MHz * 24 Bit  = 1782.0 MBit/s
+> > > > > > > > > > >       - DSI:    891 MHz * 2 lanes = 1782.0 MBit/s (dsi-clock:
+> > > > > > > 445.5 )
+> > > > > > > > > > >       - DSI:  445.5 MHz * 4 lanes = 1782.0 MBit/s (dsi-clock:
+> > > > > > > > > > > 222.75)
+> > > > > > > > > > >
+> > > > > > > > > > >     But the ratio is different and therefore the faster clocking
+> > > > > > > option
+> > > > > > > > > > >     let something 'overflow'.
+> > > > > > > > > >
+> > > > > > > > > > I'll agree that all looks consistent.
+> > > > > > > > > >
+> > > > > > > > > > > Anyway, but all this means that Adam should configure the
+> > > > > > > > > > > burst-clock-rate to 445.5 and set the lanes to 4. But this
+> > > > > > > > > > > doesn't work either and now we are back on my initial statement
+> > > > > > > > > > > -> the driver needs some attention.
+> > > > > > > > > >
+> > > > > > > > > > Things always need attention :-)
+> > > > > > > > >
+> > > > > > > > > ^^
+> > > > > > > > >
+> > > > > > > > > > I suspect that it's the use of the timing generator that is the
+> > > > > > > issue.
+> > > > > > > > > > The programming guide does recommend using it for all modes, so
+> > > > > > > > > > that would be a sensible first step.
+> > > > > > > > >
+> > > > > > > > > But I tested it without the timing-generator too. Can you or Adam
+> > > > > > > > > verify the timing-generator diable logic?
+> > > > > > > >
+> > > > > > > > Sorry, running without the use of the timing generator is the issue.
+> > > > > > > > It is mandatory in some modes, but supported in all modes. Always
+> > > > > > > > using it should therefore avoid not using it in one of the mandatory
+> > > > > > > > modes (the list looks a little arbitrary).
+> > >
+> > > I tested running various modes with the timing generator disable on an
+> > > NXP kernel with functional video, and some of the video modes stopped
+> > > operating or became blurry.  With the generator on, it appeared to
+> > > make the issues go away, so I think it should be left on.
+> > >
+> > > > > > > >
+> > > > > > > > > > I will say that we had a number of issues getting this chip to do
+> > > > > > > > > > anything, and it generally seemed happier on 2 or 3 lanes instead
+> > > > > > > > > > of 4. Suffice to say that we abandoned trying to use it, despite
+> > > > > > > > > > some assistance from ADI.
+> > > > > > > > >
+> > > > > > > > > Even more interessting, what is your alternative to this chip?
+> > > > > > > >
+> > > > > > > > BCM2711 which supported dual HDMI natively.
+> > > > > > > > Our investigation of ADV7535 was when trying to build what became
+> > > > > > > > Pi400 using BCM2710/BCM2837 (only has a single HDMI output). Whilst I
+> > > > > > > > do have the prototype, the ADV was wired up weirdly with I2C so I
+> > > > > > > > never really got it running with Linux.
+> > > > > > >
+> > > > > > > I think I have convinced myself that the DSIM is working good enough to
+> > > > > > > match that of the NXP.
+> > > > > > >
+> > > > > > > I've gone through and made a list of the register differences between a
+> > > > > > > working display using NXP's kernel and the non-working display.  I've
+> > > > > > > identified a small handful of registers on both the CEC bank of
+> > > > > > > registers and main set of registers.
+> > > > > > >
+> > > > > > > I noticed that the working NXP version doesn't rescale the number of
+> > > > > > > lanes based on the clock rate, and it stays fixed at 4 lanes.
+> > > > > >
+> > > > > > Does it mean theoretically rescale of lanes is not required??
+> > > > >
+> > > > > On the custom kernel from NXP, I can sync at 720p at 4-lanes.
+> > > > > Unfortunately, I haven't yet been able to replicate all the register
+> > > > > settings between my working version at 720p and my non-working
+> > > > > version, and I still have yet to sync at 720p using the mainline
+> > > > > adv7535 driver.  I am still wrokong on it.
+> > > > >
+> > > > > > At least 2 platforms can work with fixed 4 lanes@720p.
+> > > >
+> > > > Based on what I'm seeing for this NXP platform, it almost seems like
+> > > > the DSI transmitter should make the determination on whether or not to
+> > > > scale the number of lanes instead of having the ADV7373 do it.  Since
+> > > > their custom kernel is able to do 720p in 4-lane mode with this part,
+> > > > it doesn't seem unreasonable to me.
+> > >
+> > > I did a bunch of comparisons between registers for both the ADV7535
+> > > and the DSIM, and it appears that the video information is somehow
+> > > different between the working NXP kernel and non-working one.
+> > >
+> > > The two main differences are around the values of htotal  hfp.  Both
+> > > the DSIM and the ADV7535 are using different values for htotal and the
+> > > hfp between the kernels.  I am wondering if there is a bug in the 5.19
+> > > driver which is fetching wrong info or somehow the data isn't being
+> > > calculated properly because both the DSIM and the ADV timings match
+> > > each other, but don't match the working kernel.
+> > >
+> > >
+> > > 720p Working on NXP:
+> > >
+> > > [   24.657957] sec_mipi_dsim_set_main_mode: vmode->hfront_porch 112 ->
+> > > hfp_wc = 78
+> > > [   24.665284] sec_mipi_dsim_set_main_mode: vmode->hsync_len 40 -> hsa_wc = 24
+> > > [   24.681496] adv7511_dsi_config_timing_gen: htotal 1652
+> > > [   24.691372] adv7511_dsi_config_timing_gen: hfp 112
+> > >
+> > > 720p Not working:
+> > >
+> > > [  106.424404] samsung_dsim_set_display_mode: vfp = 5
+> > > [  106.429216] samsung_dsim_set_display_mode: bfp = 20
+> > > [  106.441777] sec_mipi_dsim_set_main_mode: vmode->hfront_porch 110 ->
+> > > hfp_wc = 77
+> > > [  106.449221] sec_mipi_dsim_set_main_mode: vmode->hsync_len 40 -> hsa_wc = 24
+> > > [  106.456314] LCD size = 1280x720
+> > > [  106.470115] adv7511_dsi_config_timing_gen: htotal = 1650
+> > > [  106.480707] adv7511_dsi_config_timing_gen: hfp = 110
+> > >
+> >
+> > After spending more time than I care to admit, I think I have a
+> > working solution to the DSIM + ADV7535, but the vast majority of the
+> > changes I had to do were revolving around samsung_dsim_set_phy_ctrl.
+> > I have an LVDS bridge based on the ti,sn65dsi83.  With some
+> > suggestions from Marek V, I replaced the fixed-clock solution with a
+> > dynamic one based on the attached bridge's requested clocks.
+> >
+> > With those changes, I have the following resolutions working on the
+> > ADV7535 (with almost no chages to the ADV code) ane one that's nearly
+> > working:
+> >
+> > Working:
+> >
+> > 1080p@60
+> > 1080p@50
+> > 720p@50
+> > 800x600-75
+> > 720x576
+> >
+> > Partially Working:
+> > 720p@60 (hsync appears off, rounding error?)
+> >
+> > This driver appears to be using a fixed frequency and the
+> > corresponding fixed frequency in the DPHY settings. If the clock
+> > changes, the samsung_dsim_set_phy_ctrl needs to adjust accordingly.
+> > NXP lists a 2-lane operation mode for 720 as needing some additional
+> > adjustments because the calculations don't quite line up, but due to
+> > the other changes I made, I didn't investigate 2-lane very much.
+> >
+> > In order to switch resolutions, I had to lock the adv7535 in 4-lane
+> > mode with a minor patch to the adv driver, because the DSIM doesn't
+> > appear to operate in 3-lane mode (like the adv7511 wants to do) and
+> > the DSIM seemed to be unhappy about the connections and
+> > disconnections.  I also made some changes to the PMS calibration for
+> > the PLL which allowed me to lower the phy clock a bit.
+> >
+> > The rest of the changes I did were attempting to port the dsim dphy
+> > frequency tables from NXP's kernel.  If anyone from NXP or Samsung has
+> > the formula for how to determine some of the values for the DPHY, I'd
+> > like to replace the look-up table [1] with a formula.
+> >
+> > Once I have my code changes cleaned up, I'll push them to a github and
+> > share the info.
+> >
+> > [1] - https://source.codeaurora.org/external/imx/linux-imx/tree/include/drm/bridge/sec_mipi_dsim.h?h=lf-5.15.y
+>
+> Hi Adam,
+>
+> thanks for your work and sharing. Did you tested our current solution
+> since we think that we understood the DSIM porches? As I said in the
+> very beginning of this discussion, NXP took some porch values we really
+> don't understand and I don't think they do either. NXP tweaked the
+> values somehow so the chip is producing at least the most wanted
+> resolutions.
+
+I am using the porch calculator that Jagan's driver used + a bunch of
+stuff to address a variety of clock rates and their corresponding DPHY
+settings.  I did notice that the porches were different from NXP's,
+but for the resolutions I listed, I didn't have to tweak them myself.
+I have a tweaking hack for 720x480, but it's purely on the DSIM side,
+and I haven't had to hack the ADV driver (other than to keep it from
+switching from 4-lanes).    I am not convinced the ADV7535 is a bad
+part, but I am convinced there is more to the DSIM than their TRM
+documents state.  My changes to the DSIM driver also fixed my LVDS
+bridge issue, so I feel like I am headed in the right direction.
+
+I was planning on reviewing your porch calculator and generating some
+sort of adjustment, but I'd like to keep it on the DSIM side so as not
+to impact or break the ADV7535 for others.
+
+I am guessing that the NXP tweaks were potentially to address areas
+where the algorithm where it was compensating for the horizontal
+timings where it does some math to recalculate what the timings should
+be and there may have been sound rounding errors, but it's just a
+guess.
+
+adam
+
+>
+> Regards,
+>   Marco
