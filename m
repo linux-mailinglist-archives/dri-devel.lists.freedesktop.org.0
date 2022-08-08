@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0C858C896
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 14:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 508E258C963
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 15:26:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5698EE89;
-	Mon,  8 Aug 2022 12:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 430AA90DA0;
+	Mon,  8 Aug 2022 12:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB6D8ED34
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 12:49:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=G3MaW7kSYZuMclka/Q3KdMVcnRc0tc/Et8yfYULCynQ=; b=iqw5Csu28VnoEc7vARcIhbwfqu
- yMk2QZCnoa7Y+Nq1c4OYg/on/3g0JXfDfDVLkVT2gtS65R3lLIJjJhdlyn2NwE6tl6/gyCfDid9h4
- oIxM+W1wXM2ysGLQkxbxjtCH4eD9j2zbJs96qAMuUGEl6tM0J2RrWRu7hNGpJYGyTTfkkolsJkQCz
- NIFEpFgOiD9VVYG62zaxc+mn35nfaigoFiS4zh2ZrIhBTzBFyah/nnlJviuqjYXYv3SjClAAfMtAq
- nITFsMIMI8UCuXYMcJjdvJAfgfbH14cvX/qrbI5IYd9pj1EpH/C9qok5onYfzdunbnNb5WbCuDH2e
- krpv+m2w==;
-Received: from [2a01:799:961:d200:fd91:af1e:9da7:f964] (port=64771)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oL2By-0006Tp-QU; Mon, 08 Aug 2022 14:49:10 +0200
-Message-ID: <d96df677-a1a7-ae49-bda6-abad025dc974@tronnes.org>
-Date: Mon, 8 Aug 2022 14:49:08 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB5E190DA0
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 12:54:09 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8C5BE34C95;
+ Mon,  8 Aug 2022 12:54:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659963248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ik09SnqexUD06uakj2NLVtxYzVE0gpz9sZNZeW15+mk=;
+ b=X890syQvd+elb+aB4Mr/Wy4ux2Gc5pEj4+8e78pbY6R6WPDfOWgxS5XvBe/FOSQWuk5Ezs
+ HLNdUBtkzYrWkRQnbC9eJW0nRfJHir8hLIAU1AbIoXN+r13sECMAJGwDrtMLSfbPc3Ou9L
+ srzrDYEIZakjdnBCyX+h9suS+3gcOSk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659963248;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ik09SnqexUD06uakj2NLVtxYzVE0gpz9sZNZeW15+mk=;
+ b=NQjPenJ8n0RiAhloW7VTeGOf1DlRN9/CKs6NAXVq5DZRUrRR3cMNZijvwru4np0Xj3PdUZ
+ 53/CUv7O36zCNrCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 354EF13A7C;
+ Mon,  8 Aug 2022 12:54:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id JrTxC3AH8WLHUgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Aug 2022 12:54:08 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: sam@ravnborg.org, jose.exposito89@gmail.com, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, noralf@tronnes.org, drawat.floss@gmail.com,
+ lucas.demarchi@intel.com, david@lechnology.com, kraxel@redhat.com
+Subject: [PATCH v2 00/14] drm/format-helper: Move to struct iosys_map
+Date: Mon,  8 Aug 2022 14:53:52 +0200
+Message-Id: <20220808125406.20752-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 06/35] drm/connector: Only register TV mode property if
- present
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-6-3d53ae722097@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-6-3d53ae722097@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,71 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-hyperv@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Change format-conversion helpers to use struct iosys_map for source
+and destination buffers. Update all users. Also prepare interface for
+multi-plane color formats.
+
+The format-conversion helpers mostly used to convert to I/O memory
+or system memory. To actual memory type depended on the usecase. We
+now have drivers upcomming that do the conversion entirely in system
+memory. It's a good opportunity to stream-line the interface of the
+conversion helpers to use struct iosys_map. Source and destination
+buffers can now be either in system or in I/O memory. Note that the
+implementation still only supports source buffers in system memory.
+
+This patchset also changes the interface to support multi-plane
+color formats, where the values for each component are stored in
+distinct memory locations. Converting from RGBRGBRGB to RRRGGGBBB
+would require a single source buffer with RGB values and 3 destination
+buffers for the R, G and B values. Conversion-helper interfaces now
+support this.
+
+v2:
+	* add IOSYS_MAP_INIT_VADDR_IOMEM (Sam)
+	* use drm_format_info_bpp() (Sam)
+	* update documentation (Sam)
+	* rename 'vmap' to 'src' (Sam)
+	* many smaller cleanups and fixes (Sam, Jose)
+
+Thomas Zimmermann (14):
+  iosys-map: Add IOSYS_MAP_INIT_VADDR_IOMEM()
+  drm/format-helper: Provide drm_fb_blit()
+  drm/format-helper: Merge drm_fb_memcpy() and drm_fb_memcpy_toio()
+  drm/format-helper: Convert drm_fb_swab() to struct iosys_map
+  drm/format-helper: Rework XRGB8888-to-RGBG332 conversion
+  drm/format-helper: Rework XRGB8888-to-RGBG565 conversion
+  drm/format-helper: Rework XRGB8888-to-RGB888 conversion
+  drm/format-helper: Rework RGB565-to-XRGB8888 conversion
+  drm/format-helper: Rework RGB888-to-XRGB8888 conversion
+  drm/format-helper: Rework XRGB8888-to-XRGB2101010 conversion
+  drm/format-helper: Rework XRGB8888-to-GRAY8 conversion
+  drm/format-helper: Rework XRGB8888-to-MONO conversion
+  drm/format-helper: Move destination-buffer handling into internal
+    helper
+  drm/format-helper: Rename parameter vmap to src
+
+ drivers/gpu/drm/drm_format_helper.c           | 509 ++++++++++--------
+ drivers/gpu/drm/drm_mipi_dbi.c                |   9 +-
+ drivers/gpu/drm/gud/gud_pipe.c                |  20 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   9 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c        |   9 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |   7 +-
+ .../gpu/drm/tests/drm_format_helper_test.c    |  45 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |  19 +-
+ drivers/gpu/drm/tiny/repaper.c                |   6 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |   8 +-
+ drivers/gpu/drm/tiny/st7586.c                 |   5 +-
+ include/drm/drm_format_helper.h               |  56 +-
+ include/linux/iosys-map.h                     |  15 +-
+ 13 files changed, 416 insertions(+), 301 deletions(-)
 
 
-Den 29.07.2022 18.34, skrev Maxime Ripard:
-> The drm_create_tv_properties() will create the TV mode property
-> unconditionally.
-> 
-> However, since we'll gradually phase it out, let's register it only if we
-> have a list passed as an argument. This will make the transition easier.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
+base-commit: 2bdae66c9988dd0f07633629c0a85383cfc05940
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+-- 
+2.37.1
 
-I don't understand why this makes the transition easier, but if you
-think so:
-
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
-
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 68a4e47f85a9..d73a68764b6e 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1684,7 +1684,6 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
->  	struct drm_property *tv_selector;
->  	struct drm_property *tv_subconnector;
->  	struct drm_property *tv_norm;
-> -	unsigned int i;
->  
->  	if (dev->mode_config.tv_select_subconnector_property)
->  		return 0;
-> @@ -1723,15 +1722,19 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
->  		goto nomem;
->  	dev->mode_config.tv_norm_property = tv_norm;
->  
-> -	dev->mode_config.tv_mode_property =
-> -		drm_property_create(dev, DRM_MODE_PROP_ENUM,
-> -				    "mode", num_modes);
-> -	if (!dev->mode_config.tv_mode_property)
-> -		goto nomem;
-> +	if (num_modes) {
-> +		unsigned int i;
->  
-> -	for (i = 0; i < num_modes; i++)
-> -		drm_property_add_enum(dev->mode_config.tv_mode_property,
-> -				      i, modes[i]);
-> +		dev->mode_config.tv_mode_property =
-> +			drm_property_create(dev, DRM_MODE_PROP_ENUM,
-> +					    "mode", num_modes);
-> +		if (!dev->mode_config.tv_mode_property)
-> +			goto nomem;
-> +
-> +		for (i = 0; i < num_modes; i++)
-> +			drm_property_add_enum(dev->mode_config.tv_mode_property,
-> +					      i, modes[i]);
-> +	}
->  
->  	dev->mode_config.tv_brightness_property =
->  		drm_property_create_range(dev, 0, "brightness", 0, 100);
-> 
