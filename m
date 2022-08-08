@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8F058C635
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 12:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B638658C632
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 12:16:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21CC190C56;
-	Mon,  8 Aug 2022 10:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172F111BD01;
+	Mon,  8 Aug 2022 10:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2736A11B00F
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 10:16:21 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id x19so3694781lfq.7
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 03:16:21 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C0318AF43
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 10:16:22 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id bq11so11980985lfb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 03:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZSWhWVIMTdJmNV7dT9qbKSPZrPrjVzwG2y9B/jqm4bI=;
- b=wGcPgMyieO9cFvxTr79rS8AREemXIwc2wUFNElRfqEBdu9/xR5fsJEYyDhTDCpnFU5
- 5XQthhQY2MGzL+JC/gVaFgeMpiHud6rGrIfIArCUVLUxFgpBiR+OT3G0n3jgDS9pGxqY
- 24uzj13OFJGEuWH7D51hwsfbRXhSrGL61Ri87xWfoZEnwTjUmcKJ9Md6qb+El90tUsp0
- qRdiqyG1WDavMTJtM9WybGesHfpCnseXWIhvasJxOuzkhjQ3TTJkiYTsqugKCDTuV5WC
- 0wvpdFIKSTfIb9VJwK6AdgDQfLBmXlRopfSfJRJn/8ekWknLSVL7XSE9mJMWcth8Vmo+
- KNSQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JWyHWpRZ1Kh32AMhlQIk7pyHBxJVf8IzTt5zqpwObhY=;
+ b=MrROKyLJJ83f3Rr2mGc49Yse06wHtSB+UZ/fdnVkIROrdgd6G5U0BHv6wZCH0y/ELG
+ AJ/m/Z/4Q7nc+d7bJBHuSjCXT9hyjQr6FsJpynKeTu7fw5UTIUgWnyB4ROV6D1v5kGxH
+ vKTPX90RZrqPKvjtOl/EiKG71FvteMwCGWYOobnquUOQm8jIHa9oCCfQu+PvxlH5NrCW
+ iwRFPN/ePSPg8LUGx4iyC/fG14Oske8ipp/nAcCYTlFCM7MokuuK008QWNlC2JyW29WO
+ FHjxT9M+nzbkNOPuHVaA9LMMz6lcaIpnRfAwa8DyvaqiF6QwEl9fAi1PbdzqmFR0fH97
+ EVPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZSWhWVIMTdJmNV7dT9qbKSPZrPrjVzwG2y9B/jqm4bI=;
- b=1mjY9BFmeU/XJXH5qR7UlnfpWy45eGnVGtK8vRay59mnq8+caIYF4wqM92nEbOeBCG
- Vrqh4skGBGUT5Qn9anQOTQU2UNpPveiPePA8v+W1E3zwx8ELB+bfmyLHS2UQhS2ETm1o
- JeBrlMQLOytfDYeXMuAHkaRlafdSEHXjNtdFeeaWe2xrCvsc0BoVfxcJ5JhKgCbjANdI
- c059awlMu5zGVFGxV9IQVJ2GJP1AamQjdgepuQkvv+YmbBWH9xtdYt8AuH2NgO9L8ZVY
- wAegvmx/rJCkLHzYFteXdo+5LkrsB2+WOmb5ItED87h2v6h8pY8xbZYlLNU8bHU0x3Lz
- 5zfw==
-X-Gm-Message-State: ACgBeo38mY03AOlK1aQdMzHVkmEwI93VTVCEk7lPGK7yocQcuBSaWOUF
- lzAT5bXqQNIHKW/c8IPyB3iNBA==
-X-Google-Smtp-Source: AA6agR6WbH/uUBPu/P11zqkM//sK+ay53hJ55+HI/jBG+cpCuOejT7yCoIJ5LI688QEEuBe0vJLETA==
-X-Received: by 2002:a05:6512:13a0:b0:48c:e86e:fe1a with SMTP id
- p32-20020a05651213a000b0048ce86efe1amr57526lfa.594.1659953779439; 
- Mon, 08 Aug 2022 03:16:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JWyHWpRZ1Kh32AMhlQIk7pyHBxJVf8IzTt5zqpwObhY=;
+ b=Hnpl23IkJltCjOg090s6o/WSypdxTPqTL4KXRNc0WetjjiMpccLfzNmkZrhYaHpi5t
+ 8DGR4fYfqWGIq7Qps7i5puUw/Or3i0dXAIJSjbrVRTEtJ+CO0a6v7nDLt/Cit2N1X381
+ B4+6/jIVpRJsemC3f16LDKUsix+nP/hf+xUg4SHE2WeYdwcaI+4F5oJVwemQQRaqAMiZ
+ l09/1mUPKvZDBRC+R7r5KK9f7nYynGl+oBwMsWd5C2JOIJG/ZAoISv9X1TWYpTkxPZP4
+ 4DOzU+KdSuRdmsNInZSsATSkJJBg/wnDOkskWih50mMiGrgEEMxJsAMpa4huYDl7NK6P
+ U3BQ==
+X-Gm-Message-State: ACgBeo3GSwIygUPWTe+fGK9ZPE8Edcgb7s3KZtygP8yEqDteDX8tpY5z
+ eW0kKA3382JwoofC+QG4eHfduA==
+X-Google-Smtp-Source: AA6agR7cfm64Y6GBFeSO18v6MzV1E5WMXn0USHffiVixm1IpLgTYtoCxMdxCHJ8TpfOA7GHPubr/eg==
+X-Received: by 2002:a05:6512:2349:b0:48c:ee14:7fc with SMTP id
+ p9-20020a056512234900b0048cee1407fcmr1125838lfu.71.1659953780871; 
+ Mon, 08 Aug 2022 03:16:20 -0700 (PDT)
 Received: from localhost.localdomain ([83.146.140.105])
  by smtp.gmail.com with ESMTPSA id
- b2-20020a056512070200b0048b193f677dsm1377489lfs.178.2022.08.08.03.16.17
+ b2-20020a056512070200b0048b193f677dsm1377489lfs.178.2022.08.08.03.16.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Aug 2022 03:16:18 -0700 (PDT)
+ Mon, 08 Aug 2022 03:16:20 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Daniel Lezcano <daniel.lezcano@linaro.org>, Lee Jones <lee@kernel.org>,
  linux-samsung-soc@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
@@ -56,10 +56,12 @@ To: Daniel Lezcano <daniel.lezcano@linaro.org>, Lee Jones <lee@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] MAINTAINERS: Drop Bartlomiej Zolnierkiewicz
-Date: Mon,  8 Aug 2022 13:15:24 +0300
-Message-Id: <20220808101526.46556-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/3] MAINTAINERS: pwm-fan: Drop Bartlomiej Zolnierkiewicz
+Date: Mon,  8 Aug 2022 13:15:25 +0300
+Message-Id: <20220808101526.46556-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220808101526.46556-1-krzysztof.kozlowski@linaro.org>
+References: <20220808101526.46556-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,47 +93,28 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 I assume that if other change was preferred, there was quite enough of
 time to send a patch for this. :)
 ---
- MAINTAINERS | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ MAINTAINERS | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 2180312fe0a4..423c81f8ba61 100644
+index 423c81f8ba61..4832b317fe05 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -5369,8 +5369,8 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
- F:	drivers/cpuidle/cpuidle-big_little.c
+@@ -16529,14 +16529,6 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	drivers/media/usb/pwc/*
+ F:	include/trace/events/pwc.h
  
- CPUIDLE DRIVER - ARM EXYNOS
+-PWM FAN DRIVER
 -M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
- M:	Daniel Lezcano <daniel.lezcano@linaro.org>
-+R:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
- M:	Kukjin Kim <kgene@kernel.org>
- L:	linux-pm@vger.kernel.org
- L:	linux-samsung-soc@vger.kernel.org
-@@ -12404,7 +12404,6 @@ F:	drivers/power/supply/max77976_charger.c
- 
- MAXIM MUIC CHARGER DRIVERS FOR EXYNOS BASED BOARDS
- M:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
--M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
- L:	linux-pm@vger.kernel.org
- S:	Supported
- B:	mailto:linux-samsung-soc@vger.kernel.org
-@@ -12416,7 +12415,6 @@ F:	drivers/power/supply/max77693_charger.c
- MAXIM PMIC AND MUIC DRIVERS FOR EXYNOS BASED BOARDS
- M:	Chanwoo Choi <cw00.choi@samsung.com>
- M:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
--M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
- L:	linux-kernel@vger.kernel.org
- S:	Supported
- B:	mailto:linux-samsung-soc@vger.kernel.org
-@@ -17973,7 +17971,6 @@ F:	drivers/platform/x86/samsung-laptop.c
- 
- SAMSUNG MULTIFUNCTION PMIC DEVICE DRIVERS
- M:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
--M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
- L:	linux-kernel@vger.kernel.org
- L:	linux-samsung-soc@vger.kernel.org
- S:	Supported
+-L:	linux-hwmon@vger.kernel.org
+-S:	Supported
+-F:	Documentation/devicetree/bindings/hwmon/pwm-fan.txt
+-F:	Documentation/hwmon/pwm-fan.rst
+-F:	drivers/hwmon/pwm-fan.c
+-
+ PWM IR Transmitter
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
 -- 
 2.34.1
 
