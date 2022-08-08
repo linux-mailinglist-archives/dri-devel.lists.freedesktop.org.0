@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901E558C985
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 15:32:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8D158CA0D
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Aug 2022 16:01:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D93F96EB2;
-	Mon,  8 Aug 2022 13:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09A6C8A302;
+	Mon,  8 Aug 2022 14:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
- [IPv6:2607:f8b0:4864:20::d2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 072FF955E0;
- Mon,  8 Aug 2022 13:25:51 +0000 (UTC)
-Received: by mail-io1-xd2a.google.com with SMTP id e69so7070488iof.5;
- Mon, 08 Aug 2022 06:25:50 -0700 (PDT)
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5038FDD9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Aug 2022 13:56:21 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ j66-20020a9d17c8000000b00636b0377a8cso5558973otj.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 06:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=68YFZMEC3HDKi0QaOaKu3aQ5ajl6AwHAA0kXrY5iQ1Q=;
- b=YskrSqzDRjwAS6zEM261EvA4vuSRbclnqunPEU681fpivWsF9cKCFz3cV2NndcUQoy
- L9hexw/43YJQYXzlVTxcP5xlAEpucUZGfp49DuIymQkFDM0O9qoVyW6pmIjBmEunyFg/
- HLzSH5rY+TfQoKJlCu53vJSYKFEnEJsUlDuBbnFRYRnGJE4iWlSKtrWE59nNbSVrtsXK
- SPQLFprvPHSfU9f7Y8QM9pHsfilvaQf+zKnaedszgM1CH1Lf5OFjJiweWVfJI/Zy0jSY
- nWmFKX7fPhul/ndOg18WcJLy/6mwTrtNwHfPuCh7WZEc8Jc186ngAWn1zOaBDaiTKfZw
- fl9g==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=7MpufPiEwqIWSMkyna1zV0ThiQO6ldBPgCVBYks6zEc=;
+ b=Kwsu0tPQArpLJrXVfS1QRtCrZJghUgXixY2AdivNGt7clwGtzYlVlB3hPgG5o9SGK4
+ uBOwOy4/04BYIPJvNvbDHSz0DUS5X6krnwAxKZH5/ZtbxoFtU8uSRqNC9j8jJ7qXXH8b
+ 5Ih0z94z+YBT6bYImHhyk7AYOy1Z8wQ8qcJJAD73INmJbcxAnZ6lTRw3dyaIFm52F7/g
+ 3LaoZOmbSWP9+OpaS4+3kag5nWbrARjlnmH3+0d21PWzQuF3dhbqFXqxGJon3wgZztrX
+ O+2vRAylTVQCzFB9auTekz5/qLXWsLbSVLiQpzqjfUbWrffw/980sZPHKsFKV2V87Sq7
+ 0lxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=68YFZMEC3HDKi0QaOaKu3aQ5ajl6AwHAA0kXrY5iQ1Q=;
- b=r8+TOBi6kVYOZ7Ov0E47oaRdEcKAKGcG8WWlKACLXZV5aOwUwYxv8hk6LvuDlgIp7P
- T0pmVnfQhdwiV1cmsRq4BKaaBNinvxhUtMZTeA6R0haeqkABnvbre3AorAhvCOsClNTz
- Moq2a2km6lUyjhN9Ny7oW30nMLaKAIfTNwWPcryaTzHVNIk4egSZbqEzLPhNddsqqekF
- 3M03CDZyiyF0NzdBeiNv4dm9Q4rUxk1LYZc1v1n5C5yfPs9h+HArvjCRuu2DChWOGETm
- Q01Hc750tir51qlAKFAUbvO7uyr3mXQnpZI7OrYJuC++ewbQmRliu3NPMzdVRD2zcGUE
- jkJg==
-X-Gm-Message-State: ACgBeo1gzmYYkAda7Oo9C0aaBLG7IEFlqn1lDGEhYInafVcxBxScdj/5
- 2wjXFuu2GBnHm3y7I8W/I/MJQyUcii7YZUyNjJfIih+l
-X-Google-Smtp-Source: AA6agR5kgcCUFrKEOY6pQkBu7dL4BYwwYhkLVLcJXG2oUjiWGRcjk7WM5nj0V9FKf11K3BwZgSpkupnTmUgxGK2O/Sc=
-X-Received: by 2002:a05:6638:2653:b0:343:146b:e74e with SMTP id
- n19-20020a056638265300b00343146be74emr1246643jat.85.1659965150208; Mon, 08
- Aug 2022 06:25:50 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=7MpufPiEwqIWSMkyna1zV0ThiQO6ldBPgCVBYks6zEc=;
+ b=xYxnOeSvWnQy315r0GMI1HPLoPTun8LLaT1PnDzqR58a3m8MKSe13GgQOUpUEgl7FT
+ YVrYqAUs09fnk6VNrbGz7xVkBBZcUGXz4dyfJCXBh4t0Zdh0qFUoUcUlD+e0CUdzwrhi
+ Lha19lhxn29Tk1JXlrb//mUC5FuPxMeo6ltPOUT5Rdy8QmJoSKEQlm33btzZ+V8/Q7TG
+ RfM9KYJ95FEyzILIWSm9yCxbBO2/CFcwIQZjK5nYFceWBD8ty/5qaJ6KzJ2EUW4LpBxJ
+ AIYnNYBCj2JlAcY3XbmuOLTpPsclbi+/8P/Ct8wmUWxsmZgvnIyfuV+FRlLa5XL/srtp
+ YofQ==
+X-Gm-Message-State: ACgBeo1OkHwlO9bbHEihxn67PUXPGaA2tZAOd63lTHNt2cc4K+FTr6f/
+ DmmwrF8v6pawOPhebbVymL0S6J+X00nEVOm7SIw=
+X-Google-Smtp-Source: AA6agR4Fz/+Jh+PKEF1AyJjJ+m0XqiL7J7daj/1+TOsuYNLadSf7OpcTSkeX7vYvbMDQdZ19HVHllJYZocy4LLWVhR0=
+X-Received: by 2002:a9d:6443:0:b0:61c:7f6b:fef8 with SMTP id
+ m3-20020a9d6443000000b0061c7f6bfef8mr6888698otl.319.1659966980579; Mon, 08
+ Aug 2022 06:56:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220729170744.1301044-1-robdclark@gmail.com>
- <20220729170744.1301044-2-robdclark@gmail.com>
- <3d2083aa-fc6c-6875-3daf-e5abe45fb762@gmail.com>
- <CAF6AEGvKdM3vyCvBZK=ZcdGmak7tsrP1b8ANyyaMjVfNDViqyw@mail.gmail.com>
- <973de2f8-75e4-d4c7-a13a-c541a6cf7c77@amd.com>
- <CAF6AEGuhQT6A_jh8kLWh5xMoUGc1osdewyBk-8NoprtWOHseaQ@mail.gmail.com>
- <2fc74efe-220f-b57a-e804-7d2b3880d14f@gmail.com>
- <CAF6AEGv9H+fSFKPNqwPxYUjkgj05AimpXbp-p_JL8nKLnzON=w@mail.gmail.com>
- <e2423bd7-ef73-8d43-c661-a19c80ad1a26@gmail.com>
- <CAF6AEGsoYaXe2+qug_TfT99KXuXh9Ez2L2HjQZroE6c6GSW4SQ@mail.gmail.com>
- <e90caaaa-cae9-c6d1-bfb6-dc56aa559681@amd.com>
-In-Reply-To: <e90caaaa-cae9-c6d1-bfb6-dc56aa559681@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 8 Aug 2022 06:26:16 -0700
-Message-ID: <CAF6AEGtWjtF7_uCYAH4uARVXgnOnX3DZ3KQahxTdAi_9Myvw0w@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/3] dma-buf: Add ioctl to query mmap info
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20220628181838.2031-1-max.oss.09@gmail.com>
+ <20220628181838.2031-3-max.oss.09@gmail.com>
+ <7e30f558-d42e-9751-7729-f0422f3926fa@denx.de>
+In-Reply-To: <7e30f558-d42e-9751-7729-f0422f3926fa@denx.de>
+From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Mon, 8 Aug 2022 15:56:09 +0200
+Message-ID: <CAEHkU3WJ75W0RAtSKECNHmr-KLmZyziPz_t80wFNubxvGvD21g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] dt-bindings: display: add new bus-format property
+ for panel-dpi
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,178 +67,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ max.krummenacher@toradex.com,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 8, 2022 at 4:22 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Am 07.08.22 um 21:10 schrieb Rob Clark:
-> > On Sun, Aug 7, 2022 at 11:05 AM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Am 07.08.22 um 19:56 schrieb Rob Clark:
-> >>> On Sun, Aug 7, 2022 at 10:38 AM Christian K=C3=B6nig
-> >>> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>> [SNIP]
-> >>>> And exactly that was declared completely illegal the last time it ca=
-me
-> >>>> up on the mailing list.
-> >>>>
-> >>>> Daniel implemented a whole bunch of patches into the DMA-buf layer t=
-o
-> >>>> make it impossible for KVM to do this.
-> >>> This issue isn't really with KVM, it is not making any CPU mappings
-> >>> itself.  KVM is just making the pages available to the guest.
-> >> Well I can only repeat myself: This is strictly illegal.
-> >>
-> >> Please try this approach with CONFIG_DMABUF_DEBUG set. I'm pretty sure
-> >> you will immediately run into a crash.
-> >>
-> >> See this here as well
-> >> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fel=
-ixir.bootlin.com%2Flinux%2Fv5.19%2Fsource%2Fdrivers%2Fdma-buf%2Fdma-buf.c%2=
-3L653&amp;data=3D05%7C01%7Cchristian.koenig%40amd.com%7Cc1392f76994f4fef7c7=
-f08da78a86283%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6379549618929967=
-70%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1h=
-aWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DT3g9ICZizCWXkIn5vEnhFYs38Uj3=
-7jCwHjMb1s3UtOw%3D&amp;reserved=3D0
-> >>
-> >> Daniel intentionally added code to mangle the page pointers to make it
-> >> impossible for KVM to do this.
-> > I don't believe KVM is using the sg table, so this isn't going to stop
-> > anything ;-)
->
-> Then I have no idea how KVM actually works. Can you please briefly
-> describe that?
->
-> >> If the virtio/virtgpu UAPI was build around the idea that this is
-> >> possible then it is most likely fundamental broken.
-> > How else can you envision mmap'ing to guest userspace working?
->
-> Well long story short: You can't.
->
-> See userspace mappings are not persistent, but rather faulted in on
-> demand. The exporter is responsible for setting those up to be able to
-> add reverse tracking and so can invalidate those mappings when the
-> backing store changes.
+Hi Marek
 
-I think that is not actually a problem.  At least for how it works on
-arm64 but I'm almost positive x86 is similar.. I'm not sure how else
-you could virtualize mmu/iommu/etc in a way that didn't have horrible
-performance.
+On Wed, Aug 3, 2022 at 10:21 AM Marek Vasut <marex@denx.de> wrote:
+>
+> On 6/28/22 20:18, Max Krummenacher wrote:
+>
+> Hello Max,
+>
+> [...]
+>
+> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > index dae0676b5c6e..52f5db03b6a8 100644
+> > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > @@ -26,7 +26,28 @@ properties:
+> >     height-mm: true
+> >     label: true
+> >     panel-timing: true
+> > -  port: true
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +    description:
+> > +      Input port node, receives the panel data.
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +
+> > +        properties:
+> > +          bus-format:
+> > +            $ref: /schemas/types.yaml#/definitions/uint32
+> > +            minimum: 0x1001
+> > +            maximum: 0x1fff
+> > +            description: |
+> > +              Describes how the display panel is connected to the display interface.
+> > +              Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
+> > +              The mapping between the color/significance of the panel lines to the
+> > +              parallel data lines are defined in:
+> > +              https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
+>
+> I am not sure whether I should re-open this discussion, but I still
+> wonder, wouldn't it be better to describe the DPI bus color channel
+> ordering (RGB, BGR, ...), width of each color channel in bits, pixel
+> format (RGB, YUV, ...) instead of using specific constants for the
+> entire format ?
 
-There are two levels of pagetable translation, the first controlled by
-the host kernel, the second by the guest.  From the PoV of host
-kernel, it is just memory mapped to userspace, getting faulted in on
-demand, just as normal.  First the guest controlled translation
-triggers a fault in the guest which sets up guest mapping.  And then
-the second level of translation to translate from what guest sees as
-PA (but host sees as VA) to actual PA triggers a fault in the host.
+From a system view it would be hard to define that structure which
+will catch any and all future requirements. Assume that there will be
+3D panels and they will need an additional depth field. Or in
+in addition to RGB data there will be a fourth color component. Or
+whatever the panel manufacturers might come up with...
+Or consider the Tegra 30 example I brought up in this thread. Tegras can
+output RGB666 for 18bit panels, and then use the next 8 bits to extend
+to 24bit (Maybe RGB666RGB222 ?).
+https://lore.kernel.org/all/71ef1b35301330d0bbb64844247b6c4c2237ad1c.camel@gmail.com/
+If such requirements pop up the enumeration can be extended with a new
+value without changing the binding in any way, with a structured
+approach this will require changed bindings, maybe even with issues
+in backward compatibility.
 
->
-> > The guest kernel is the one that controls the guest userspace pagetable=
-s,
-> > not the host kernel.  I guess your complaint is about VMs in general,
-> > but unfortunately I don't think you'll convince the rest of the
-> > industry to abandon VMs ;-)
->
-> I'm not arguing against the usefulness of VM, it's just that what you
-> describe here technically is just utterly nonsense as far as I can tell.
->
-> I have to confess that I'm totally lacking how this KVM mapping works,
-> but when the struct pages pointers from the sg_table are not used I see
-> two possibilities what was implemented here:
->
-> 1. KVM is somehow walking the page tables to figure out what to map into
-> the guest VM.
+From an implementation perspective for Linux the busformat in code is
+currently an enumeration. So one would have to take the device tree
+structured busformat and run it through a potentially complicated
+function to get to the Linux busformat enumeration value. The final
+consumer has no advantage over what is there today.
 
-it is just mapping host VA to the guest.. the guest kernel sees this
-as the PA and uses the level of pgtable translation that it controls
-to map to guest userspace.  *All* that is needed (which this patch
-provides) is the correct cache attributes.
+IMHO a change away from one enumeration value to a structured approach
+creates some drawbacks without any obvious advantages.
 
->      This would be *HIGHLY* illegal and not just with DMA-buf, but with
-> pretty much a whole bunch of other drivers/subsystems as well.
->      In other words it would be trivial for the guest to take over the
-> host with that because it doesn't take into account that the underlying
-> backing store of DMA-buf and other mmaped() areas can change at any time.
->
-> 2. The guest VM triggers the fault handler for the mappings to fill in
-> their page tables on demand.
->
->      That would actually work with DMA-buf, but then the guest needs to
-> somehow use the caching attributes from the host side and not use it's ow=
-n.
+Comments, other views on that?
 
-This is basically what happens, although via the two levels of pgtable
-translation.  This patch provides the missing piece, the caching
-attributes.
-
->      Because otherwise you can't accommodate that the exporter is
-> changing those caching attributes.
-
-Changing the attributes dynamically isn't going to work.. or at least
-not easily.  If you had some sort of synchronous notification to host
-userspace, it could trigger an irq to the guest, I suppose.  But it
-would mean host kernel has to block waiting for host userspace to
-interrupt the guest, then wait for guest vgpu process to be scheduled
-and handle the irq.
-
-At least in the case of msm, the cache attributes are static for the
-life of the buffer, so this scenario isn't a problem.  AFAICT this
-should work fine for at least all UMA hw.. I'm a bit less sure when it
-comes to TTM, but shouldn't you at least be able to use worst-cache
-cache attributes for buffers that are allowed to be mapped to guest?
-
-BR,
--R
-
->
-> > But more seriously, let's take a step back here.. what scenarios are
-> > you seeing this being problematic for?  Then we can see how to come up
-> > with solutions.  The current situation of host userspace VMM just
-> > guessing isn't great.
->
-> Well "isn't great" is a complete understatement. When KVM/virtio/virtgpu
-> is doing what I guess they are doing here then that is a really major
-> security hole.
->
-> >    And sticking our heads in the sand and
-> > pretending VMs don't exist isn't great.  So what can we do?  I can
-> > instead add a msm ioctl to return this info and solve the problem even
-> > more narrowly for a single platform.  But then the problem still
-> > remains on other platforms.
->
-> Well once more: This is *not* MSM specific, you just absolutely *can't
-> do that* for any driver!
->
-> I'm just really wondering what the heck is going on here, because all of
-> this was discussed in lengthy before on the mailing list and very
-> bluntly rejected.
->
-> Either I'm missing something (that's certainly possible) or we have a
-> strong case of somebody implementing something without thinking about
-> all the consequences.
->
-> Regards,
-> Christian.
->
->
-> >
-> > Slightly implicit in this is that mapping dma-bufs to the guest won't
-> > work for anything that requires DMA_BUF_IOCTL_SYNC for coherency.. we
-> > could add a possible return value for DMA_BUF_INFO_VM_PROT indicating
-> > that the buffer does not support mapping to guest or CPU access
-> > without DMA_BUF_IOCTL_SYNC.  Then at least the VMM can fail gracefully
-> > instead of subtly.
-> >
-> > BR,
-> > -R
->
+Regards
+Max
