@@ -2,78 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADDA58E1A5
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 23:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6938C58E157
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 22:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A95C35C7;
-	Tue,  9 Aug 2022 21:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50172BF099;
+	Tue,  9 Aug 2022 20:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1848 seconds by postgrey-1.36 at gabe;
- Tue, 09 Aug 2022 21:15:56 UTC
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C958DC1C57;
- Tue,  9 Aug 2022 21:15:56 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 279JdZkR008907;
- Tue, 9 Aug 2022 20:45:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=IEE0YHiaWW61YmH/j85ir0CvCiEo9J0vpFpZfNkOFUM=;
- b=F5BfVaDcYMMED9p/4k+UaxY/T3HlYYvEx5WTevmN6qdTsu+i78hq/mjxLN1z5cU9kTtw
- rciyrHQp4niPYGSdpY5dGweDEiqGFek8tEfhJXhufnuwUk+V7bXR66SK+24cJbeIfPEa
- mI7lV8cYCNYj15jiACrApngqpAPRlCdvbCQy7EzvVTZfChG05aqQZ/Yzk0M61+0ADCOI
- 6cQ/4C2YQPWnuSrXgZMj34NVDywxJRjofZ4Z3gJIvGTms/dKK7JItuGQ03aGvM2WKBUU
- F0Mk8Kz55rhcxS/4Bor7Cs2Ze7JSvNqvGisv17XjvQsj69sfA8TyrWAHQ0p2D+4FQ3QZ hg== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3huwr5g4s7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Aug 2022 20:45:01 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
- [10.47.97.222])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 279Kj0rF004101
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 9 Aug 2022 20:45:00 GMT
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 9 Aug 2022 13:45:00 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 9 Aug 2022 13:44:59 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH] drm/msm/dp: check hpd_state before push idle pattern at
- dp_bridge_disable()
-Date: Tue, 9 Aug 2022 13:44:50 -0700
-Message-ID: <1660077890-31622-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F15CEBEED8
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 20:48:28 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D39DE84118;
+ Tue,  9 Aug 2022 22:48:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1660078106;
+ bh=JJSsrT4UZcBVA5DIFP1raBwefaSZaZyJk2glWhpxivs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=aFS4m4ZE9Ly8UCyoLnCPQVvMqymsfuTVDdNSqcLafX7h2Ph/MRFBTYw4yDA7XqJst
+ BfcQbH3vUq+3yDGWEZyKZB03hUSxnP3NJgHY2Bsdg959QW4k+zd1gfbD87Kj4T8XsK
+ cWxdhlkWx5A9yL/iCyaUOxJuvTHIxqrTJPJUjLKzsSGqCYb17R+DkSLtHEDyv23Re/
+ a2qn7998sfsTmLhBq2685I4En9lWWyBBEoQrtmrRqfaoGlaKbh85N394FBLMgu9Jr6
+ mxmcAYsenvMSidtAQzyfkcNGI6GH1RfNBkgeEoNetHJx0QuS8ze3QpbcuFrQ/psgG8
+ reV3HMrekpQFw==
+Message-ID: <b8b87371-4c23-a40a-f58b-a49140494963@denx.de>
+Date: Tue, 9 Aug 2022 22:48:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: AetsPD28bEHPnV7Wmy05NjwCeOGwWvSL
-X-Proofpoint-ORIG-GUID: AetsPD28bEHPnV7Wmy05NjwCeOGwWvSL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-09_05,2022-08-09_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 phishscore=0 impostorscore=0 mlxscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208090076
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 3/3] drm/bridge: tc358767: disable main link PHYs on main
+ link disable
+Content-Language: en-US
+To: Robert Foss <robert.foss@linaro.org>, Lucas Stach <l.stach@pengutronix.de>
+References: <20220706132812.2171250-1-l.stach@pengutronix.de>
+ <20220706132812.2171250-3-l.stach@pengutronix.de>
+ <CAG3jFytKthxb27FHRG7wPvtU6T=t314Nw-SCo75qFxTe3ij_OA@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAG3jFytKthxb27FHRG7wPvtU6T=t314Nw-SCo75qFxTe3ij_OA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,54 +59,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: kernel@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dp_bridge_disable() is the first step toward tearing down main link.
-Its major function is to start transmitting idle pattern to replace
-video stream. This patch will check hpd_state to make sure main link
-is enabled before commit changes of main link's configuration to
-push idle pattern out to avoid system crashing due to main link clock
-is disabled while access main link registers.
+On 7/6/22 15:42, Robert Foss wrote:
+> On Wed, 6 Jul 2022 at 15:28, Lucas Stach <l.stach@pengutronix.de> wrote:
+>>
+>> Disable the main link PHYs and put them into reset when the main link
+>> is disabled. When the PHYs stay enabled while the rest of the DP link
+>> circuits are disabled there is some noise on the data lanes, which some
+>> displays try to lock onto, waking them up from their low power state.
+>>
+>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>> ---
+>>   drivers/gpu/drm/bridge/tc358767.c | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+>> index fd4936215b55..615b4988bf34 100644
+>> --- a/drivers/gpu/drm/bridge/tc358767.c
+>> +++ b/drivers/gpu/drm/bridge/tc358767.c
+>> @@ -1249,7 +1249,13 @@ static int tc_main_link_disable(struct tc_data *tc)
+>>          if (ret)
+>>                  return ret;
+>>
+>> -       return regmap_write(tc->regmap, DP0CTL, 0);
+>> +       ret = regmap_write(tc->regmap, DP0CTL, 0);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       return regmap_update_bits(tc->regmap, DP_PHY_CTRL,
+>> +                                 PHY_M0_RST | PHY_M1_RST | PHY_M0_EN,
+>> +                                 PHY_M0_RST | PHY_M1_RST);
+>>   }
+>>
+>>   static int tc_dsi_rx_enable(struct tc_data *tc)
+>> --
+>> 2.30.2
+>>
+> 
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Fixes: 13ea4799a81b ("drm/msm/dp: remove extra wrappers and public functions");
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-
-Reported-by: Leonard Lausen @leezu
----
- drivers/gpu/drm/msm/dp/dp_display.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index b36f8b6..678289a 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1729,10 +1729,20 @@ void dp_bridge_disable(struct drm_bridge *drm_bridge)
- 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
- 	struct msm_dp *dp = dp_bridge->dp_display;
- 	struct dp_display_private *dp_display;
-+	u32 state;
- 
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 
-+	mutex_lock(&dp_display->event_mutex);
-+
-+	state = dp_display->hpd_state;
-+	if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED) {
-+		mutex_unlock(&dp_display->event_mutex);
-+		return;
-+	}
-+
- 	dp_ctrl_push_idle(dp_display->ctrl);
-+	mutex_unlock(&dp_display->event_mutex);
- }
- 
- void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Do you want me to apply this ?
