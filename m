@@ -2,89 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5541758D8BB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 14:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE26858D8DA
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 14:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59F6AD3012;
-	Tue,  9 Aug 2022 12:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E007D3FF1;
+	Tue,  9 Aug 2022 12:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67CAED2FD8;
- Tue,  9 Aug 2022 12:22:49 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id z22so14865481edd.6;
- Tue, 09 Aug 2022 05:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=ENuHlbjz1pAGwfnMCHPOCMjJ7lm1GDfyKj1z+dAIomI=;
- b=LMIaO6KtyGfCMjyVolJLKx6pqbNHzm3nbsNhqOHQndZno2haGHemi3OKK32fd8ySvw
- xgI+8JOLck1XBBmrsobUtHo8q+Yy6RQKem2rama65pGIowkD9JGg5hjeTSBzjNg8Wj/B
- HdmJ9PE9f4BtDpOV6+oT7BpKQhoyjSh6tyWfkSG/3QPKHXBRT9jQ9V1sNlzkmTabTQ6J
- V+NbP+XPgk6LB4GuLotNzXDERUjM0BaxjTyt5nDUg5ZIA0ZaG3PfCxpJINWR0Tq5/HRZ
- M524vztuqbClD1dkMf4OHIXJDQTbdzqDEltcfto09QtOkUPWJUdWc3eSn0glyWzhzcTp
- n6ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=ENuHlbjz1pAGwfnMCHPOCMjJ7lm1GDfyKj1z+dAIomI=;
- b=sBsK8U3PDtq1wn8b5yLhA+nY6iZ/Uo+B1Jq1D9IGuo03/eyHsUAZAs8cqwNTonzkjN
- s9bHt84RdmUiUd0iHB736GaTneRAdGpJHD6YyS3ewhg5DUwoCgNcL2Nd7P1fmgEt/C2V
- zGTUmBbvF5ek1rrK89Nfx6c9Nc8a3Lly5UDwNzkFDtXc7etQlYZv2y2GlpYSdt4TsufT
- WMudooEc82OOzeHq51pgSUdiA7AkXiwzkaXUDur5Z8iJEsypAtlviQRj7E1gRzGsgRXM
- c+vPEC56MLc6I4Swlyxm0ljqhB8EhTMZz8QZQPGlbS1/Hyay/Gx/wTTxoMQkKCY6zHeM
- l8NA==
-X-Gm-Message-State: ACgBeo3MTMSaBwreCNBzjZIt0lh8b6rUEgn8JVX/sraLrcdlvWEPIj2P
- moyFbJeZvZxniWwXcYk27aw=
-X-Google-Smtp-Source: AA6agR6pH7ES5csxKm46AMTJYImmVr1iiIFX65pwfW8why81zsLtDKWioSrAedC4PXxv1rnvVNUAUg==
-X-Received: by 2002:a05:6402:538a:b0:43a:298e:bc2b with SMTP id
- ew10-20020a056402538a00b0043a298ebc2bmr21686576edb.125.1660047768338; 
- Tue, 09 Aug 2022 05:22:48 -0700 (PDT)
-Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de.
- [87.176.189.159]) by smtp.gmail.com with ESMTPSA id
- cn15-20020a0564020caf00b0043ba0cf5dbasm5886236edb.2.2022.08.09.05.22.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Aug 2022 05:22:47 -0700 (PDT)
-Message-ID: <a08c001f-b0e8-4e7c-6d63-16b2a0e7a505@gmail.com>
-Date: Tue, 9 Aug 2022 14:22:39 +0200
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6AB95B14
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 12:43:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hOZCGCbtcw+E6ecqBGQ8p5+6CeQ2qMFJX/adoIfJ1xFsqLLQQufvxRJsmkqK6vc9xofRiPy56bD5Cb0SIhgfCtaVaiDu3BZ/VtZTREMCHHdMy44XbSYNOuySQ81gyONrlTCZCbFzCgcEt5PNwmkLplbaV9ISP6iUcIMAxfUi2Imev1ihFnL2VJvTifIGV1zjJAkmOOs2hzDK800aqal+9gMamHYrm0z5/n7wdI1nThmt90rwFIm5ck/QW+WzjKpTtPM6xU0fJONoY8saHlJGB6PEdaUrf4+JLq/j7HzFsDbet9NOMGUi7xw2U9bfHQXcsGJ0OAMfymYF2DJZ49Q4oQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1dUrwIPK/KeGMHlwj0OHqXM3YgXOcCRaBy9NT/Hlro4=;
+ b=N2A+POmN5V6CsOQHlnkYN+S4U6wFWU3kMvgAsCVN++ibsLLYnlz27reRIkX+pwJvHxH12TRnPvSMutfgP7wZAT+nF3byOSncuiL3PN51znEJC79r1b2RXOMJU43DBAOWnFKX/cIOl+zFu0gocLlhXb7QxojeInfqx6Q0YxpT+6zrrDnctKUB4JBIvowJs60vPoFRNf5GOU1bgpM8z4Is7IBzznJDXX0hJioc7mgJ8csd/WahH4FSPNDCfbFsDj/3M5t1BXfbI7jWExBWb+rSE3g8AFNBwWOPOwX4G/QXa4JLWvy90VNpXplMq6Za/Vgo83LOtqqtR3qswL+rCG/CqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1dUrwIPK/KeGMHlwj0OHqXM3YgXOcCRaBy9NT/Hlro4=;
+ b=MftrVn8H1pnJAf0lfa92O3f4bleznpVGBBMhRsS9OKXLMOlizQRl3Rq/ExUWagD4lNBF1IhRgNEV8R3IgYSn/I1PQ8dQBphs4udUkpvX6WhpZ4hZEOiOyY+mB6AKHVXnoIZzWLrdEzg+w5r/wl3ByCDssHwgcLCm4bU2wwpYiliGu8SSGB+oJt4xdkA7pOt9nKpurU+5IPjWMlpGdeRy6je2WHdmK0hoHxDvbLxd+k5JP83Dz7RubDp3kgJFfkuwZsHRTttPhynHvn6mPnMyC5NEBhB7zkiRbHrIkBOnazkq6yJfch9OT9n8gfd8D3ardVJqAVgbq4xr9ibIiyua4Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by BN8PR12MB3347.namprd12.prod.outlook.com (2603:10b6:408:43::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Tue, 9 Aug
+ 2022 12:43:42 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::1a7:7daa:9230:1372]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::1a7:7daa:9230:1372%7]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
+ 12:43:42 +0000
+Date: Tue, 9 Aug 2022 09:43:41 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Oded Gabbay <oded.gabbay@gmail.com>
+Subject: Re: New subsystem for acceleration devices
+Message-ID: <YvJWfS5h2SeWGAEM@nvidia.com>
+References: <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
+ <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
+ <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
+ <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
+ <YuvctaLwRi+z0Gw4@nvidia.com>
+ <CAFCwf12wD3uEhr+kxwN9ROXApHzGh_n1je5susZV5NgGR9fCcQ@mail.gmail.com>
+ <Yuxi1eRHPN36Or+1@nvidia.com>
+ <CAFCwf13QF_JdzNcpw==zzBoEQUYChMXfechotH31qmAfYZUGmg@mail.gmail.com>
+ <YvFL8/g+xbrhLzEr@nvidia.com>
+ <CAFCwf12MFVmBOEMw37Cdh4O3n13LosR4yDi007eH9BhF3kRC4w@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFCwf12MFVmBOEMw37Cdh4O3n13LosR4yDi007eH9BhF3kRC4w@mail.gmail.com>
+X-ClientProxiedBy: MN2PR19CA0009.namprd19.prod.outlook.com
+ (2603:10b6:208:178::22) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [Linaro-mm-sig] [PATCH v2 2/5] drm/gem: Take reservation lock for
- vmap/vunmap operations
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
- <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>
-References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
- <20220725151839.31622-3-dmitry.osipenko@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220725151839.31622-3-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 444d8bd2-6a25-46ae-1123-08da7a04ca5a
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3347:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: urDp7oZlKAbisy/o1mV9UjnG93j3e3t7UsvNbHDRkYCQK1fftV71G32z4o6PG5XgsiCPPoibjEiakUzNSxDHL3ESuZSzGuVgJJUTLT6SWxo3TlCHH+loAPWPt3mTCMXrmyChk3zAvhTSt1obos/mUxPhAo73fxZyhuAmq3RFjkzFY30Ujk/bWUhXf6T9wamemPIlpYiDVPs8EWdB36a+X+neYxoww7pAt23ol3boX5y++Ar8fZF1jfSYRmJ6o3rg42hVebvwugRsCtDXFADurU8XzGzkdGtiDOdcD+GZvSCaQlpTeEd2kksxegrddUKZPWmP3fo4QKG+xR/ryVZamz0kKofMDW62KZLhkt9uXPFuslFCPrB5KrUwv6pAOpRZwKGapTdfdZ+9dzHhGRBcbJqlLFMO6ROhv/RzNTZIiJU+XTOhJye/tyzTf0BOTlnWdI954oR9gV/TuklKYZkh4OYnKn2+ujHXUXU76IVIbSu9UpUobwo+IJBl3ngt+H5t5geyWR2YNm90DD3+TbCB6zu5/f2nAnmeejAROdykiH6NQv/usmHi6sa/xl+v5jpEL3nxoGjfIKmtH1VwMYNC0nyGQpk8fzYaAglGcOs5otMStjBoRpwMtwQedSpMoHx4EOwT4kRXLhEtKQjxIWrH1vl8/yEwNIAcjLkrB8Dj/gW1dFaxIg9djpvLK7sIjq8ibEdKX0JCuPiUnKMRJ/iUKmKt/ETU1gfAS9FCzCEgZP05RsUGt/l849WOiKxo1sMT
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(366004)(396003)(39860400002)(376002)(346002)(38100700002)(316002)(36756003)(83380400001)(54906003)(186003)(6916009)(8676002)(4326008)(6486002)(5660300002)(2906002)(86362001)(6506007)(2616005)(66946007)(8936002)(6512007)(66476007)(26005)(66556008)(478600001)(41300700001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oEh995q5vhrlT2p4ivEiHSEw/Edbnu1mReJmBQ530pGn/4ysqSHjAOWXIyXL?=
+ =?us-ascii?Q?7bumGLv0bD8inBwZe7juAWFMobt9biaJas3L9e41ZRK61igIOa4vCne55+z8?=
+ =?us-ascii?Q?c42DTNFAtQdn9TmbleBFdEVOO3qHHmW3BzUW+2HCkA/5GTt5DLYOj9FrW0h0?=
+ =?us-ascii?Q?tfxrKBdAnUoKU7AcebFDgz6QU9NJzIzNaXB1Y+LpFBLfC9gCZAxIW1YqKLJA?=
+ =?us-ascii?Q?BgC2UejW2o1TZkR6px1jpQI6OJVgs6ID9GX+5Xj43NrA71u26xlHaZH4mVcc?=
+ =?us-ascii?Q?NCMMe0VKLfax/mCl/e1Xmx72KuqGIBoczLl4URM3GIKYoxxaP85cVufuO57G?=
+ =?us-ascii?Q?ovRp1L15C4elyT93WCWe7llsFeF9SWOlBSEVsbsApv1n2IBOiJU4oGgFrUIy?=
+ =?us-ascii?Q?hbm3yj5ssPTUGvnzr8ZA8Oi/5LhJUQJXgPimEb2Em/ZxyZpKIqXAL21k9fW3?=
+ =?us-ascii?Q?udwOAvQez+sxc5ZBp65vcinj9PtQiLmxA2jGFyVusFc/Z3RxinMaLNHMTqnr?=
+ =?us-ascii?Q?Dhkgo3APPY247KEv2TuRQLky7M7SXLrEtiUgv6HzDmltXUi/o9/6aMr383iz?=
+ =?us-ascii?Q?tEPXKG8ry47XUv6PsWdBdCMTzAwpEmNtpi7pMgqvOoVyB9UFR4gXcDq6Qpcm?=
+ =?us-ascii?Q?AdNzZaPywm+V5OZPxGuqyjFMvf9HIPt+7YQKwtpPCN0DXe7D7gRN8/Pl+WFC?=
+ =?us-ascii?Q?/YXAkl4RW0mSwsmunaWldnwaSuFnGSB88hybVx0Eq02iCIQCDawpcmcp2bmO?=
+ =?us-ascii?Q?v7JCmVpu0r8pSPEFNs9AbPLvUaEBWvQwgx1BMHr6pSwrxE7Zvc7E+Sh2wQ51?=
+ =?us-ascii?Q?5imf4WDCx/6bAI7u8Xti1MCaEDDNn2bTl0rsu04MEHehGEjwa3Ho1y/epZTU?=
+ =?us-ascii?Q?FVbdMjOqzF0t4FT7bUmXbRoK/KMeaLbn0laG8vJ0dwvQEY7vN/c38vJGyXas?=
+ =?us-ascii?Q?Nx4RJNAzuegjXdfhOUna0noYoCJdH3wL+plfySWu/WsrUauETS5lvpRgDh3k?=
+ =?us-ascii?Q?h3kbu8/6F7d310gbL52QJAoVgMXU5FPMXlPE0HATIusRrl0xq6ZbAF7nvkfv?=
+ =?us-ascii?Q?pjoDQHLjVGIAZ8cIbpanU2mjmKeQRX8zfeYsulG7VtXO4pL1a7IGUB0Mu0wJ?=
+ =?us-ascii?Q?eDx+0IYmwbjotljgMZkawc/HGuN7kqodJIP08JcR2T4YrFEzs6AJFOwyP3IO?=
+ =?us-ascii?Q?KFvCA8XmVQtSl7Vf/U4Jea/02/p5aPY0fnnwPWZ5vD9j08X3QUrVydBsdRgv?=
+ =?us-ascii?Q?dPMBZ+Wtk+0mn3/AZ5z1/ek/O4qXt4k74VxtJCxFt9mzo64xKSm8pIFosGBV?=
+ =?us-ascii?Q?IldEm9AubkimtyiGfKH86TzMihfcuUbnNs4t2pHXJS8UXOAu6p0u5hLkC/Ly?=
+ =?us-ascii?Q?VqtiarcRuTge91QHuaCaLKffof2vznLwNQp3t+NcMunYESr+0rFIYBnP1fpQ?=
+ =?us-ascii?Q?JriVnNQ0gRqYxb2Pkmln9JrAiKDrQDJgD25S8Ikjb0OSti9lNwIa51Ey3R91?=
+ =?us-ascii?Q?0YbsdU5hwk1WxWFtKidqXYg+br5tD95Jr5rMMpufxjed2auojuFZNPZsWUr1?=
+ =?us-ascii?Q?0HiZmRZ01GM8fjXC8g55kyIdLTv22AkdlMRijxfV?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 444d8bd2-6a25-46ae-1123-08da7a04ca5a
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 12:43:42.0641 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m+OR7/zsjcVClj2niiY+UXvk4hSZ3NFFJ3cZEs55uA1LffWAuHzBweVNEVODrVrE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,257 +122,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, linux-media@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiho Chu <jiho.chu@samsung.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.07.22 um 17:18 schrieb Dmitry Osipenko:
-> The new common dma-buf locking convention will require buffer importers
-> to hold the reservation lock around mapping operations. Make DRM GEM core
-> to take the lock around the vmapping operations and update QXL and i915
-> drivers to use the locked functions for the case where DRM core now holds
-> the lock. This patch prepares DRM core and drivers to transition to the
-> common dma-buf locking convention where vmapping of exported GEMs will
-> be done under the held reservation lock.
->
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+On Mon, Aug 08, 2022 at 11:26:11PM +0300, Oded Gabbay wrote:
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+> So if you want a common uAPI and a common userspace library to use it,
+> you need to expose the same device character files for every device,
+> regardless of the driver. e.g. you need all devices to be called
+> /dev/accelX and not /dev/habanaX or /dev/nvidiaX
 
-> ---
->   drivers/gpu/drm/drm_client.c                 |  4 ++--
->   drivers/gpu/drm/drm_gem.c                    | 24 ++++++++++++++++++++
->   drivers/gpu/drm/drm_gem_framebuffer_helper.c |  6 ++---
->   drivers/gpu/drm/drm_prime.c                  |  4 ++--
->   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c   |  2 +-
->   drivers/gpu/drm/qxl/qxl_object.c             | 17 +++++++-------
->   drivers/gpu/drm/qxl/qxl_prime.c              |  4 ++--
->   include/drm/drm_gem.h                        |  3 +++
->   8 files changed, 46 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index af3b7395bf69..e9a1cd310352 100644
-> --- a/drivers/gpu/drm/drm_client.c
-> +++ b/drivers/gpu/drm/drm_client.c
-> @@ -323,7 +323,7 @@ drm_client_buffer_vmap(struct drm_client_buffer *buffer,
->   	 * fd_install step out of the driver backend hooks, to make that
->   	 * final step optional for internal users.
->   	 */
-> -	ret = drm_gem_vmap(buffer->gem, map);
-> +	ret = drm_gem_vmap_unlocked(buffer->gem, map);
->   	if (ret)
->   		return ret;
->   
-> @@ -345,7 +345,7 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
->   {
->   	struct iosys_map *map = &buffer->map;
->   
-> -	drm_gem_vunmap(buffer->gem, map);
-> +	drm_gem_vunmap_unlocked(buffer->gem, map);
->   }
->   EXPORT_SYMBOL(drm_client_buffer_vunmap);
->   
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index eb0c2d041f13..8b92846112ef 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1171,6 +1171,8 @@ int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
->   {
->   	int ret;
->   
-> +	dma_resv_assert_held(obj->resv);
-> +
->   	if (!obj->funcs->vmap)
->   		return -EOPNOTSUPP;
->   
-> @@ -1186,6 +1188,8 @@ EXPORT_SYMBOL(drm_gem_vmap);
->   
->   void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
->   {
-> +	dma_resv_assert_held(obj->resv);
-> +
->   	if (iosys_map_is_null(map))
->   		return;
->   
-> @@ -1197,6 +1201,26 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
->   }
->   EXPORT_SYMBOL(drm_gem_vunmap);
->   
-> +int drm_gem_vmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
-> +{
-> +	int ret;
-> +
-> +	dma_resv_lock(obj->resv, NULL);
-> +	ret = drm_gem_vmap(obj, map);
-> +	dma_resv_unlock(obj->resv);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_gem_vmap_unlocked);
-> +
-> +void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
-> +{
-> +	dma_resv_lock(obj->resv, NULL);
-> +	drm_gem_vunmap(obj, map);
-> +	dma_resv_unlock(obj->resv);
-> +}
-> +EXPORT_SYMBOL(drm_gem_vunmap_unlocked);
-> +
->   /**
->    * drm_gem_lock_reservations - Sets up the ww context and acquires
->    * the lock on an array of GEM objects.
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index 61339a9cd010..135cd4a96ea9 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -354,7 +354,7 @@ int drm_gem_fb_vmap(struct drm_framebuffer *fb, struct iosys_map *map,
->   			ret = -EINVAL;
->   			goto err_drm_gem_vunmap;
->   		}
-> -		ret = drm_gem_vmap(obj, &map[i]);
-> +		ret = drm_gem_vmap_unlocked(obj, &map[i]);
->   		if (ret)
->   			goto err_drm_gem_vunmap;
->   	}
-> @@ -376,7 +376,7 @@ int drm_gem_fb_vmap(struct drm_framebuffer *fb, struct iosys_map *map,
->   		obj = drm_gem_fb_get_obj(fb, i);
->   		if (!obj)
->   			continue;
-> -		drm_gem_vunmap(obj, &map[i]);
-> +		drm_gem_vunmap_unlocked(obj, &map[i]);
->   	}
->   	return ret;
->   }
-> @@ -403,7 +403,7 @@ void drm_gem_fb_vunmap(struct drm_framebuffer *fb, struct iosys_map *map)
->   			continue;
->   		if (iosys_map_is_null(&map[i]))
->   			continue;
-> -		drm_gem_vunmap(obj, &map[i]);
-> +		drm_gem_vunmap_unlocked(obj, &map[i]);
->   	}
->   }
->   EXPORT_SYMBOL(drm_gem_fb_vunmap);
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index b75ef1756873..1bd234fd21a5 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -678,7 +678,7 @@ int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
->   {
->   	struct drm_gem_object *obj = dma_buf->priv;
->   
-> -	return drm_gem_vmap(obj, map);
-> +	return drm_gem_vmap_unlocked(obj, map);
->   }
->   EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
->   
-> @@ -694,7 +694,7 @@ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
->   {
->   	struct drm_gem_object *obj = dma_buf->priv;
->   
-> -	drm_gem_vunmap(obj, map);
-> +	drm_gem_vunmap_unlocked(obj, map);
->   }
->   EXPORT_SYMBOL(drm_gem_dmabuf_vunmap);
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> index 5ecea7df98b1..cc54a5b1d6ae 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> @@ -72,7 +72,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf,
->   	struct drm_i915_gem_object *obj = dma_buf_to_obj(dma_buf);
->   	void *vaddr;
->   
-> -	vaddr = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
-> +	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
->   	if (IS_ERR(vaddr))
->   		return PTR_ERR(vaddr);
->   
-> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-> index b42a657e4c2f..a64cd635fbc0 100644
-> --- a/drivers/gpu/drm/qxl/qxl_object.c
-> +++ b/drivers/gpu/drm/qxl/qxl_object.c
-> @@ -168,9 +168,16 @@ int qxl_bo_vmap_locked(struct qxl_bo *bo, struct iosys_map *map)
->   		bo->map_count++;
->   		goto out;
->   	}
-> -	r = ttm_bo_vmap(&bo->tbo, &bo->map);
-> +
-> +	r = __qxl_bo_pin(bo);
->   	if (r)
->   		return r;
-> +
-> +	r = ttm_bo_vmap(&bo->tbo, &bo->map);
-> +	if (r) {
-> +		__qxl_bo_unpin(bo);
-> +		return r;
-> +	}
->   	bo->map_count = 1;
->   
->   	/* TODO: Remove kptr in favor of map everywhere. */
-> @@ -192,12 +199,6 @@ int qxl_bo_vmap(struct qxl_bo *bo, struct iosys_map *map)
->   	if (r)
->   		return r;
->   
-> -	r = __qxl_bo_pin(bo);
-> -	if (r) {
-> -		qxl_bo_unreserve(bo);
-> -		return r;
-> -	}
-> -
->   	r = qxl_bo_vmap_locked(bo, map);
->   	qxl_bo_unreserve(bo);
->   	return r;
-> @@ -247,6 +248,7 @@ void qxl_bo_vunmap_locked(struct qxl_bo *bo)
->   		return;
->   	bo->kptr = NULL;
->   	ttm_bo_vunmap(&bo->tbo, &bo->map);
-> +	__qxl_bo_unpin(bo);
->   }
->   
->   int qxl_bo_vunmap(struct qxl_bo *bo)
-> @@ -258,7 +260,6 @@ int qxl_bo_vunmap(struct qxl_bo *bo)
->   		return r;
->   
->   	qxl_bo_vunmap_locked(bo);
-> -	__qxl_bo_unpin(bo);
->   	qxl_bo_unreserve(bo);
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/qxl/qxl_prime.c b/drivers/gpu/drm/qxl/qxl_prime.c
-> index 142d01415acb..9169c26357d3 100644
-> --- a/drivers/gpu/drm/qxl/qxl_prime.c
-> +++ b/drivers/gpu/drm/qxl/qxl_prime.c
-> @@ -59,7 +59,7 @@ int qxl_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
->   	struct qxl_bo *bo = gem_to_qxl_bo(obj);
->   	int ret;
->   
-> -	ret = qxl_bo_vmap(bo, map);
-> +	ret = qxl_bo_vmap_locked(bo, map);
->   	if (ret < 0)
->   		return ret;
->   
-> @@ -71,5 +71,5 @@ void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
->   {
->   	struct qxl_bo *bo = gem_to_qxl_bo(obj);
->   
-> -	qxl_bo_vunmap(bo);
-> +	qxl_bo_vunmap_locked(bo);
->   }
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 87cffc9efa85..bf3700415229 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -420,4 +420,7 @@ void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->   int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->   			    u32 handle, u64 *offset);
->   
-> +int drm_gem_vmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map);
-> +void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map);
-> +
->   #endif /* __DRM_GEM_H__ */
+So, this is an interesting idea. One of the things we did in RDMA that
+turned our very well is to have the user side of the kernel/user API
+in a single git repo for all the drivers, including the lowest layer
+of the driver-specific APIs.
 
+It gives a reasonable target for a DRM-like test of "you must have a
+userspace". Ie send your userspace and userspace documentation/tests
+before your kernel side can be merged.
+
+Even if it is just a git repo collecting and curating driver-specific
+libraries under the "accel" banner it could be quite a useful
+activity.
+
+But, probably this boils down to things that look like:
+
+  device = habana_open_device()
+  habana_mooo(device)
+
+  device = nvidia_open_device()
+  nvidia_baaa(device)
+
+> That's what I mean by abstracting all this kernel API from the
+> drivers. Not because it is an API that is hard to use, but because the
+> drivers should *not* use it at all.
+> 
+> I think drm did that pretty well. Their code defines objects for
+> driver, device and minors, with resource manager that will take care
+> of releasing the objects automatically (it is based on devres.c).
+
+We have lots of examples of subsystems doing this - the main thing
+unique about accel is that that there is really no shared uAPI between
+the drivers, and not 'abstraction' provided by the kernel. Maybe that
+is the point..
+
+> So actually I do want an ioctl but as you said, not for the main
+> device char, but to an accompanied control device char.
+
+There is a general problem across all these "thick" devices in the
+kernel to support their RAS & configuration requirements and IMHO we
+don't have a good answer at all.
+
+We've been talking on and off here about having some kind of
+subsystem/methodology specifically for this area - how to monitor,
+configure, service, etc a very complicated off-CPU device. I think
+there would be a lot of interest in this and maybe it shouldn't be
+coupled to this accel idea.
+
+Eg we already have some established mechinisms - I would expect any
+accel device to be able to introspect and upgrade its flash FW using
+the 'devlink flash' common API.
+
+> an application only has access to the information ioctl through this
+> device char (so it can't submit anything, allocate memory, etc.) and
+> can only retrieve metrics which do not leak information about the
+> compute application.
+
+This is often being done over a netlink socket as the "second char"
+
+Jason
