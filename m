@@ -2,123 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071ED58D600
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 11:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868CF58D640
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 11:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBCDCC640;
-	Tue,  9 Aug 2022 09:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A528ECCA0D;
+	Tue,  9 Aug 2022 09:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2045.outbound.protection.outlook.com [40.107.92.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA8E8CC61C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 09:09:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uy3HdsHiLpnp+4rrRmsRkePcWFaknb+Z7bSahXJiNafyLuQUCpw7yRJaPmdKqvmAa+3dKN9NeqZsT0cOOv+513RsAipctjGw5ijH4zgbESFgQK4uWjXNn0TDxMdHFjJcZmZf92GIaiBJ85WacSh4z1KRESMWbEZP5pSMiKiQDDD1trLZFRNxj8851LGVim74B5L15nQYh6RjDn5qcsu/kKr0fjdJdxQTv/JDHgP6UCdmCN80naR6TM4Kaq3SLZlKRZxMClC2JeiA0sfaFYv3f4HW4XuVBgVSDmujqSC5rLBun6N9xt1+D0Eoq3j4r/zXiL3+GLpGyVwWtIph/zZ8qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k/zM4ne7UuDgrhObzuvjQfDUYwgMez4H6/oxZ3QrBoA=;
- b=n7lT+QfuZzpwShHZb6PjgxiJiBsiEe3ucmY8vLo827+MeWEtdXIdOE08J1lsSItOOESp5qVoEpz6zI0PyAmQaYMdojNKKI+U7EmoaJjGL1ZRZ3WxCE7fd/n/wMHn3fmTS5vLknVjSBKdU9aP/zCACVvV7mCRfSSW9aFx16+AgUAzKs23U2wew+/LVvFN0lvFeGI8qfOlVjBImwDRfJYk+wkAgfIR2lCX3vz+GLjHjV+qqvj4wY3VCtAasTgabL/E7N7Jp0bt2c25KZIaz0j4sIyCswuggeqqwHpgbG9lwuGwaGk5Fan3acVHInftJGrQ8wI/e98KT887LYzZtbQIQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k/zM4ne7UuDgrhObzuvjQfDUYwgMez4H6/oxZ3QrBoA=;
- b=NOdJ2lKJlFLW3/1ZbmBtCuZ8N8Y4SntFUTDHrn2E2OdBcRacxnVoMnHjXahzPBeTQ/XEkgzFZjQxbo802RrsLtJ5SHexi4VmIMG+iKTOfqnOSSUdTnRK5mseoHHlnCCWTQwKgW55buYmiocjmkJ6EwTIsKiJkgsr9/eMshD769A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MWHPR1201MB0109.namprd12.prod.outlook.com (2603:10b6:301:52::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Tue, 9 Aug
- 2022 09:09:03 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
- 09:09:03 +0000
-Message-ID: <71e47fe6-440b-e9ea-cd66-8362c41428ca@amd.com>
-Date: Tue, 9 Aug 2022 11:08:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v2] drm/gem: Fix GEM handle release
- errors
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-To: Chen Jeffy <jeffy.chen@rock-chips.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
- <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
- <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
- <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
- <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
- <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
-In-Reply-To: <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0131.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51056CC9A6
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 09:13:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1888834F65;
+ Tue,  9 Aug 2022 09:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660036427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJSHuew8vf+9wFLb4p8A2bkQsHP8Yvi29fzkqBpe3U8=;
+ b=V5ivWgRclZaQaNA+PxsaqCK9xvReibPwNtTBL6Nc3qY6yBojztzyhiTTebc2RcwgPtQuXM
+ vZwh070RQh04HJ84TopDe7MkWbBB9y8pOEYs3cFvcE/tlnPbM96pxu3ANTeTSgJk2cA1K8
+ LZLFPpaMZDo8z0z5LhslbfccGxbx7LI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660036427;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJSHuew8vf+9wFLb4p8A2bkQsHP8Yvi29fzkqBpe3U8=;
+ b=7Wat+FVtsFh39sqwJ0Q1R4S5fzYO2y8JETXN1JzdxxIVs2oHHymC0VRPkGFTutOsniOpkZ
+ wIX2fFO/EAkGT4Dg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C64C513A9D;
+ Tue,  9 Aug 2022 09:13:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kiJeL0ol8mLPLwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Aug 2022 09:13:46 +0000
+Message-ID: <32d98960-a952-b3ab-c3fb-0d615626a3d1@suse.de>
+Date: Tue, 9 Aug 2022 11:13:46 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7e39b51-c6eb-4109-33b3-08da79e6cdd1
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0109:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 075tL2Z1pFRgecThBnpN1l5zecHkk+J+88JN7wzlBu+PCCGkVRh/qJU9HfMCa3eaX2gQj/5ZVzMHwYc/6DrldoYNcaU/0Ocakpnesn618XLLZgaABmMOcGOuTDncdaK7MqljfD9G6q7RRKwV8DD8LV3P9OpHweLH1yXlMkrfTRcHTTtPVtdGh2cqhZ85VWFUL5N4pIBoH6VO12EWII4hLFc4t9HicwHkrbfqL3+t3w77etP5ey588UsJHv6EH/nWuzEBG1BEwvXog/aeZWxTzRzB5oYJ8xl4CZRfkcb1t9PnFUyviAMp00hYHvX8LE31AwQDOzDfxvMfJC/X2exeOEyNSQFzGdl0SM9ZVxm5dz4M0rfFYyESQEGhwyoOphNnjX4R1DuHs3FoPbbHxHf/42wMbMXXcZ3l9N5WCcEBd2zF7MNTWqaivproA8NU1iGt9COe1dTzT5QzrsQBIHOl+ZkncGz4rRgXri0YTP98OdVFJKJivdb5spj1F9YzBFyKQv+XGvOrEbswom2avFBGDRX4M/+dftdPme4bbxfJzQQHBBIuBXX5zWaNkiy2eLZ3EdhZSOT24RTPcx1wOlX63PD7F8GFozrMSZA+jpPbiNA6fSPKzRBYYskhYyB9GKlTGETE20lNTdQgzfK5AqKs7kcFb4BapSjBPcbJQSufxRHF1dCkSDVCZ9xi2MmMMf/fOg2C1BC5TuNm+o0fHDlBWVX93jZ5YgB7wR6v3CkBSCd+izeEyEwkp1w61byEB9pBhkbbZoJQpzFtdrkasfp5Uy8cGNEx2gq/RuyR3Ld1CqLpygDxrYSZeqhCYPilxdLjHB+EoieFoNC+biD4/Ox1MQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(41300700001)(6666004)(26005)(2906002)(83380400001)(6512007)(2616005)(38100700002)(6506007)(66574015)(316002)(186003)(66476007)(31686004)(6486002)(8676002)(36756003)(66946007)(4326008)(66556008)(110136005)(8936002)(54906003)(86362001)(478600001)(5660300002)(7416002)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjA0OVRKV3ZuRURHWGR1T29xQmZWYUlCNDRkWXQ5MmZBc3RtWkp3SjFyMWcw?=
- =?utf-8?B?bjdoMVM2WjZnczc3U3R0aDVUNmg4OHFNVVFWV2dnZ1dPODNWNGxuczZmWFNh?=
- =?utf-8?B?eml6UjZJMFNldXorMWVEWTlxQzhtS0xTMk1WRFZUemorTDBydmd4V0NKZG01?=
- =?utf-8?B?YUFDb2k4bjFqbHQwTEpSTUdRWWFxVktVczFoY1c3eVlPeG5Rb1NnSm51QzZY?=
- =?utf-8?B?eDUxR0hod0JTOVNiOFFjc2xGNExLeGE2djZzQWdvbG1mUldhaDhOZXlYNm1O?=
- =?utf-8?B?dm1jbWhENnI2ekNuL1Z2RVcvNDNEOXR5a0xjUnJ6WCt4RlFsbHgxVnVIZVVO?=
- =?utf-8?B?bFBEWGh6eWxMYUZhamhXV1hFdlZFMllzQ3Q4OGFnRGhPRzFJWmd2YlJGVito?=
- =?utf-8?B?L2x0ZFdzVHFQOThTazJVUzhjMnFnVExxbjAySkZmbW1KT3JXVzY4SThSeG1w?=
- =?utf-8?B?R3U1Z2RaWENPMEZrQVJGMk5TQVE2OXl5S0h2RC9ZYVhiUjNCbk1UdHZBcSt4?=
- =?utf-8?B?aDRCd2dPSXVTcm9NR2R5VFVNWHFlcjlEK1dnZGNobGdCb2o1Q1BWbDZqSTNM?=
- =?utf-8?B?dkZ6bXNuN3hhOE5ZdCt5U01UaHJIei9VT1ovWklCSVFEaEEvSjRBZ1BVKzkw?=
- =?utf-8?B?RWF0MTl2a2VSNmdneXF0anFrdnRGVDZleHRJVGE5WVBxY0piMzhxbW1oQkkw?=
- =?utf-8?B?RENVQUtUQVZFcG85MzlESXRRVDZGb0o5WU0rR3NsY3pQWHVpd2dleCtaeU9k?=
- =?utf-8?B?enBpL3JyOFVPM3RhaVVEV3ZMMkZzM293SjlJaHNDOXZjZVJpYzd3cVRjQm9G?=
- =?utf-8?B?U3BvZ1JzSjBEeXB1UXNtLzJ3S0Q2ZzFwR3FzZXJkTG9sVkk5SEZDbXU4VS9Y?=
- =?utf-8?B?STI4M014SUd3S1RsVFUyUVlzdUlBdUdhZTRJMWdkb0Z3RFB1K0ZmN0tQQUR6?=
- =?utf-8?B?V053Zk9FK1EzK0MvQWVnclNFdFAvbnl6bmwrVnJ6dDJGRGRGdjM4ZTBIL0pa?=
- =?utf-8?B?cXFaSTU2WUt5Ui9UKyt1cldId0R0UExsMDk3YWo4TVhSOWdOa2pUMCtCakZa?=
- =?utf-8?B?QkltTnhzeDlxOCs4UmIveUR0RVVmbkpoUys0eFh1Ym1RQlpCQU9mOWp3b1hv?=
- =?utf-8?B?dllPa1JjaXYzSThsWlIrQjNwR3NVUWVVeWFBSUVZdHU3cDJ3c0xRd2syczBO?=
- =?utf-8?B?dUMvRHJCNU9JekwzUEtWbm9oc3ZyWERZL1M1S0dFdWplRGM2WGRVNE1MaCt0?=
- =?utf-8?B?S2RWa3Znenk0WkYrWU5rMkpCMDlmaGtRK1NrN0dGUmt0UTk3NUxwcWhwYzFq?=
- =?utf-8?B?M2xZaGltM2FnR1A0TlV1OUg3b1V2SjU5Wm1jcC9uRjNsZCtXdUpnallhN1la?=
- =?utf-8?B?a2prdTRNM3hrbUJ6N0dsK1NjcklMS2pLSUN0a01XOHptTjhzc2hBM2ZpbGpz?=
- =?utf-8?B?MUJSQVhmdXFVU3ZwZGpSSVJZR2VnM203MmsrenEvOG4zMFJnTEpPNThxUVVM?=
- =?utf-8?B?N256SGRWcXV1ZmJHUE5Cbng1TzZIMTZLcGQ4bFNUdm5vMHhIQlcybGY3Y0tG?=
- =?utf-8?B?eGd0a2VPa1V5bW4yZzR5Z2tESkhiRVFDRXZqdlJuVm43UGlCdndreERXbzNK?=
- =?utf-8?B?MGl6NEdWYlduUXd6aytJcXdtZDUxeHBubnBDR3JwdEFkUkMzcW1yWXFnYURj?=
- =?utf-8?B?b2ZHZ0Y3bXJsVkZqZFNib3JCNWpIWm5wTmllbG5SK3FFVGJZQ05qZ1l0MHRw?=
- =?utf-8?B?c25ZUnY5MEZ1Tms3ZU56MzNUeVBRbW5DaVdZMWd1SWJwblBhVHB3dVZ3YWx5?=
- =?utf-8?B?YVlucmh6YkJzQ01vZ3JObTJwRlBJNHR5eWM2STRMZnZhN3NROHc1MkVRajYz?=
- =?utf-8?B?UWRyTzBiWTM0Vy9MSVY5MHdDM29nT0QzeFY4MDQvZmhtYTdnQ2dwZDBmNnNR?=
- =?utf-8?B?d25EN0lVSEw0V0lsYzdJYTVzVW5jZU9HMlkvbzFWNW5DbFdzTnZNazVtQ25t?=
- =?utf-8?B?Z1VtK0E5Q2tQc0xuMGRJUkpJYkxGZmFsK3hxTkNzanUzN1pFVUJHYlkxdzVE?=
- =?utf-8?B?T05MZURrTS83bE5hWnJTSEozZitzWmFxUnlpU3E2N0trd3hqNEhzeUlmL05V?=
- =?utf-8?Q?+i51h57/VnIygkcn4XbVaojPB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7e39b51-c6eb-4109-33b3-08da79e6cdd1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 09:09:03.0387 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rIg8nuCcBGNc+/zsWAcrO3Apnbd+9R8aYgvCQoBhFAT72JvBQ5ONoQX7hfyd8qkR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0109
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+To: Takashi Iwai <tiwai@suse.de>
+References: <20220804075826.27036-1-tiwai@suse.de>
+ <20220804075826.27036-4-tiwai@suse.de>
+ <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de> <87h72lx4yw.wl-tiwai@suse.de>
+ <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de> <87a68dwzzi.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87a68dwzzi.wl-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------gg2fgYIg0QzANPFhSFtWSkmf"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,49 +72,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jeffy,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------gg2fgYIg0QzANPFhSFtWSkmf
+Content-Type: multipart/mixed; boundary="------------BcjxvGw1N20JEjYGU9WD2euq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <32d98960-a952-b3ab-c3fb-0d615626a3d1@suse.de>
+Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+References: <20220804075826.27036-1-tiwai@suse.de>
+ <20220804075826.27036-4-tiwai@suse.de>
+ <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de> <87h72lx4yw.wl-tiwai@suse.de>
+ <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de> <87a68dwzzi.wl-tiwai@suse.de>
+In-Reply-To: <87a68dwzzi.wl-tiwai@suse.de>
 
-Am 09.08.22 um 09:55 schrieb Christian König:
-> [SNIP]
->>>
->>>>
->>>>
->>>> So we are allowing GEM object to have multiple handles, and GEM 
->>>> object could have at most one dma-buf, doesn't that means that 
->>>> dma-buf could map to multiple handles?
->>>
->>> No, at least not for the same GEM file private. That's the reason 
->>> why the rb is indexed by the dma_buf object and not the handle.
->>>
->>> In other words the rb is so that you have exactly one handle for 
->>> each dma_buf in each file private.
->>
->> I don't think so, because if user get multiple handles for the same 
->> GEM obj and use drm_gem_prime_handle_to_fd() for those handles
->
-> Mhm, that works? This is illegal and should have been prevented somehow.
+--------------BcjxvGw1N20JEjYGU9WD2euq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-At least I see the problem now. I'm just not sure how to fix it.
+SGkNCg0KQW0gMDkuMDguMjIgdW0gMTE6MDMgc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IE9u
+IFR1ZSwgMDkgQXVnIDIwMjIgMDk6NDE6MTkgKzAyMDAsDQo+IFRob21hcyBaaW1tZXJtYW5u
+IHdyb3RlOg0KPj4NCj4+IEhpDQo+Pg0KPj4gQW0gMDkuMDguMjIgdW0gMDk6MTUgc2Nocmll
+YiBUYWthc2hpIEl3YWk6DQo+Pj4gT24gVHVlLCAwOSBBdWcgMjAyMiAwOToxMzoxNiArMDIw
+MCwNCj4+PiBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+Pj4NCj4+Pj4gSGkNCj4+Pj4N
+Cj4+Pj4gQW0gMDQuMDguMjIgdW0gMDk6NTggc2NocmllYiBUYWthc2hpIEl3YWk6DQo+Pj4+
+PiBBdCBib3RoIHN1c3BlbmQgYW5kIGRpc2Nvbm5lY3QsIHdlIHNob3VsZCByYXRoZXIgY2Fu
+Y2VsIHRoZSBwZW5kaW5nDQo+Pj4+PiBVUkJzIGltbWVkaWF0ZWx5LiAgRm9yIHRoZSBzdXNw
+ZW5kIGNhc2UsIHRoZSBkaXNwbGF5IHdpbGwgYmUgdHVybmVkDQo+Pj4+PiBvZmYsIHNvIGl0
+IG1ha2VzIG5vIHNlbnNlIHRvIHByb2Nlc3MgdGhlIHJlbmRlcmluZy4gIEFuZCBmb3IgdGhl
+DQo+Pj4+PiBkaXNjb25uZWN0IGNhc2UsIHRoZSBkZXZpY2UgbWF5IGJlIG5vIGxvbmdlciBh
+Y2Nlc3NpYmxlLCBoZW5jZSB3ZQ0KPj4+Pj4gc2hvdWxkbid0IGRvIGFueSBzdWJtaXNzaW9u
+Lg0KPj4+Pj4NCj4+Pj4+IFRlc3RlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBUYWthc2hpIEl3YWkgPHRpd2Fp
+QHN1c2UuZGU+DQo+Pj4+PiAtLS0NCj4+Pj4+ICAgICBkcml2ZXJzL2dwdS9kcm0vdWRsL3Vk
+bF9kcnYuaCAgICAgfCAgMiArKw0KPj4+Pj4gICAgIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRs
+X21haW4uYyAgICB8IDI1ICsrKysrKysrKysrKysrKysrKysrKystLS0NCj4+Pj4+ICAgICBk
+cml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMgfCAgMiArKw0KPj4+Pj4gICAgIDMg
+ZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4+Pj4+
+DQo+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmggYi9k
+cml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaA0KPj4+Pj4gaW5kZXggZjAxZTUwYzViN2I3
+Li4yOGFhZjc1ZDcxY2YgMTAwNjQ0DQo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdWRs
+L3VkbF9kcnYuaA0KPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmgN
+Cj4+Pj4+IEBAIC0zOSw2ICszOSw3IEBAIHN0cnVjdCB1cmJfbm9kZSB7DQo+Pj4+PiAgICAg
+ICBzdHJ1Y3QgdXJiX2xpc3Qgew0KPj4+Pj4gICAgIAlzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7
+DQo+Pj4+PiArCXN0cnVjdCBsaXN0X2hlYWQgaW5fZmxpZ2h0Ow0KPj4+Pj4gICAgIAlzcGlu
+bG9ja190IGxvY2s7DQo+Pj4+PiAgICAgCXdhaXRfcXVldWVfaGVhZF90IHNsZWVwOw0KPj4+
+Pj4gICAgIAlpbnQgYXZhaWxhYmxlOw0KPj4+Pj4gQEAgLTg0LDYgKzg1LDcgQEAgc3RhdGlj
+IGlubGluZSBzdHJ1Y3QgdXJiICp1ZGxfZ2V0X3VyYihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+KQ0KPj4+Pj4gICAgICAgaW50IHVkbF9zdWJtaXRfdXJiKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYsIHN0cnVjdCB1cmIgKnVyYiwNCj4+Pj4+IHNpemVfdCBsZW4pOw0KPj4+Pj4gICAgIGlu
+dCB1ZGxfc3luY19wZW5kaW5nX3VyYnMoc3RydWN0IGRybV9kZXZpY2UgKmRldik7DQo+Pj4+
+PiArdm9pZCB1ZGxfa2lsbF9wZW5kaW5nX3VyYnMoc3RydWN0IGRybV9kZXZpY2UgKmRldik7
+DQo+Pj4+PiAgICAgdm9pZCB1ZGxfdXJiX2NvbXBsZXRpb24oc3RydWN0IHVyYiAqdXJiKTsN
+Cj4+Pj4+ICAgICAgIGludCB1ZGxfaW5pdChzdHJ1Y3QgdWRsX2RldmljZSAqdWRsKTsNCj4+
+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMNCj4+Pj4+IGluZGV4IDkzNjE1NjQ4NDE0Yi4u
+NDcyMDRiN2ViMTBlIDEwMDY0NA0KPj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfbWFpbi5jDQo+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMN
+Cj4+Pj4+IEBAIC0xMzUsNyArMTM1LDcgQEAgdm9pZCB1ZGxfdXJiX2NvbXBsZXRpb24oc3Ry
+dWN0IHVyYiAqdXJiKQ0KPj4+Pj4gICAgIAl1cmItPnRyYW5zZmVyX2J1ZmZlcl9sZW5ndGgg
+PSB1ZGwtPnVyYnMuc2l6ZTsgLyogcmVzZXQgdG8gYWN0dWFsICovDQo+Pj4+PiAgICAgICAJ
+c3Bpbl9sb2NrX2lycXNhdmUoJnVkbC0+dXJicy5sb2NrLCBmbGFncyk7DQo+Pj4+PiAtCWxp
+c3RfYWRkX3RhaWwoJnVub2RlLT5lbnRyeSwgJnVkbC0+dXJicy5saXN0KTsNCj4+Pj4+ICsJ
+bGlzdF9tb3ZlKCZ1bm9kZS0+ZW50cnksICZ1ZGwtPnVyYnMubGlzdCk7DQo+Pj4+PiAgICAg
+CXVkbC0+dXJicy5hdmFpbGFibGUrKzsNCj4+Pj4+ICAgICAJc3Bpbl91bmxvY2tfaXJxcmVz
+dG9yZSgmdWRsLT51cmJzLmxvY2ssIGZsYWdzKTsNCj4+Pj4+ICAgICBAQCAtMTgwLDYgKzE4
+MCw3IEBAIHN0YXRpYyBpbnQgdWRsX2FsbG9jX3VyYl9saXN0KHN0cnVjdA0KPj4+Pj4gZHJt
+X2RldmljZSAqZGV2LCBpbnQgY291bnQsIHNpemVfdCBzaXplKQ0KPj4+Pj4gICAgIHJldHJ5
+Og0KPj4+Pj4gICAgIAl1ZGwtPnVyYnMuc2l6ZSA9IHNpemU7DQo+Pj4+PiAgICAgCUlOSVRf
+TElTVF9IRUFEKCZ1ZGwtPnVyYnMubGlzdCk7DQo+Pj4+PiArCUlOSVRfTElTVF9IRUFEKCZ1
+ZGwtPnVyYnMuaW5fZmxpZ2h0KTsNCj4+Pj4+ICAgICAgIAlpbml0X3dhaXRxdWV1ZV9oZWFk
+KCZ1ZGwtPnVyYnMuc2xlZXApOw0KPj4+Pj4gICAgIAl1ZGwtPnVyYnMuY291bnQgPSAwOw0K
+Pj4+Pj4gQEAgLTI0Niw3ICsyNDcsNyBAQCBzdHJ1Y3QgdXJiICp1ZGxfZ2V0X3VyYl90aW1l
+b3V0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGxvbmcgdGltZW91dCkNCj4+Pj4+ICAgICAJ
+fQ0KPj4+Pj4gICAgICAgCXVub2RlID0gbGlzdF9maXJzdF9lbnRyeSgmdWRsLT51cmJzLmxp
+c3QsIHN0cnVjdCB1cmJfbm9kZSwNCj4+Pj4+IGVudHJ5KTsNCj4+Pj4+IC0JbGlzdF9kZWxf
+aW5pdCgmdW5vZGUtPmVudHJ5KTsNCj4+Pj4+ICsJbGlzdF9tb3ZlKCZ1bm9kZS0+ZW50cnks
+ICZ1ZGwtPnVyYnMuaW5fZmxpZ2h0KTsNCj4+Pj4+ICAgICAJdWRsLT51cmJzLmF2YWlsYWJs
+ZS0tOw0KPj4+Pj4gICAgICAgdW5sb2NrOg0KPj4+Pj4gQEAgLTI3OSw3ICsyODAsNyBAQCBp
+bnQgdWRsX3N5bmNfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pj4+
+PiAgICAgCXNwaW5fbG9ja19pcnEoJnVkbC0+dXJicy5sb2NrKTsNCj4+Pj4+ICAgICAJLyog
+MiBzZWNvbmRzIGFzIGEgc2FuZSB0aW1lb3V0ICovDQo+Pj4+PiAgICAgCWlmICghd2FpdF9l
+dmVudF9sb2NrX2lycV90aW1lb3V0KHVkbC0+dXJicy5zbGVlcCwNCj4+Pj4+IC0JCQkJCSB1
+ZGwtPnVyYnMuYXZhaWxhYmxlID09IHVkbC0+dXJicy5jb3VudCwNCj4+Pj4+ICsJCQkJCSBs
+aXN0X2VtcHR5KCZ1ZGwtPnVyYnMuaW5fZmxpZ2h0KSwNCj4+Pj4+ICAgICAJCQkJCSB1ZGwt
+PnVyYnMubG9jaywNCj4+Pj4+ICAgICAJCQkJCSBtc2Vjc190b19qaWZmaWVzKDIwMDApKSkN
+Cj4+Pj4+ICAgICAJCXJldCA9IC1FVElNRURPVVQ7DQo+Pj4+PiBAQCAtMjg3LDYgKzI4OCwy
+MyBAQCBpbnQgdWRsX3N5bmNfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYp
+DQo+Pj4+PiAgICAgCXJldHVybiByZXQ7DQo+Pj4+PiAgICAgfQ0KPj4+Pj4gICAgICsvKiBr
+aWxsIHBlbmRpbmcgVVJCcyAqLw0KPj4+Pj4gK3ZvaWQgdWRsX2tpbGxfcGVuZGluZ191cmJz
+KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pj4+PiArew0KPj4+Pj4gKwlzdHJ1Y3QgdWRs
+X2RldmljZSAqdWRsID0gdG9fdWRsKGRldik7DQo+Pj4+PiArCXN0cnVjdCB1cmJfbm9kZSAq
+dW5vZGU7DQo+Pj4+PiArDQo+Pj4+PiArCXNwaW5fbG9ja19pcnEoJnVkbC0+dXJicy5sb2Nr
+KTsNCj4+Pj4+ICsJd2hpbGUgKCFsaXN0X2VtcHR5KCZ1ZGwtPnVyYnMuaW5fZmxpZ2h0KSkg
+ew0KPj4+Pj4gKwkJdW5vZGUgPSBsaXN0X2ZpcnN0X2VudHJ5KCZ1ZGwtPnVyYnMuaW5fZmxp
+Z2h0LA0KPj4+Pj4gKwkJCQkJIHN0cnVjdCB1cmJfbm9kZSwgZW50cnkpOw0KPj4+Pj4gKwkJ
+c3Bpbl91bmxvY2tfaXJxKCZ1ZGwtPnVyYnMubG9jayk7DQo+Pj4+PiArCQl1c2Jfa2lsbF91
+cmIodW5vZGUtPnVyYik7DQo+Pj4+PiArCQlzcGluX2xvY2tfaXJxKCZ1ZGwtPnVyYnMubG9j
+ayk7DQo+Pj4+PiArCX0NCj4+Pj4+ICsJc3Bpbl91bmxvY2tfaXJxKCZ1ZGwtPnVyYnMubG9j
+ayk7DQo+Pj4+PiArfQ0KPj4+Pj4gKw0KPj4+Pj4gICAgIGludCB1ZGxfaW5pdChzdHJ1Y3Qg
+dWRsX2RldmljZSAqdWRsKQ0KPj4+Pj4gICAgIHsNCj4+Pj4+ICAgICAJc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiA9ICZ1ZGwtPmRybTsNCj4+Pj4+IEBAIC0zMzUsNiArMzUzLDcgQEAgaW50
+IHVkbF9kcm9wX3VzYihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPj4+Pj4gICAgIHsNCj4+
+Pj4+ICAgICAJc3RydWN0IHVkbF9kZXZpY2UgKnVkbCA9IHRvX3VkbChkZXYpOw0KPj4+Pj4g
+ICAgICsJdWRsX2tpbGxfcGVuZGluZ191cmJzKGRldik7DQo+Pj4+PiAgICAgCXVkbF9mcmVl
+X3VyYl9saXN0KGRldik7DQo+Pj4+PiAgICAgCXB1dF9kZXZpY2UodWRsLT5kbWFkZXYpOw0K
+Pj4+Pj4gICAgIAl1ZGwtPmRtYWRldiA9IE5VTEw7DQo+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfbW9kZXNldC5jDQo+Pj4+PiBpbmRleCA1MDAyNTYwNmI2YWQuLjE2OTExMGQ4ZmMyZSAx
+MDA2NDQNCj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYw0K
+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jDQo+Pj4+PiBA
+QCAtMzk3LDYgKzM5Nyw4IEBAIHVkbF9zaW1wbGVfZGlzcGxheV9waXBlX2Rpc2FibGUoc3Ry
+dWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlKQ0KPj4+Pj4gICAgIAlzdHJ1Y3Qg
+dXJiICp1cmI7DQo+Pj4+PiAgICAgCWNoYXIgKmJ1ZjsNCj4+Pj4+ICAgICArCXVkbF9raWxs
+X3BlbmRpbmdfdXJicyhkZXYpOw0KPj4+Pj4gKw0KPj4+Pg0KPj4+PiBJIGFscmVhZHkgcmV2
+aWV3ZWQgdGhlIHBhdGNoc2V0LCBidXQgSSBoYXZlIGFub3RoZXIgY29tbWVudC4gSSB0aGlu
+aw0KPj4+PiB3ZSBzaG91bGQgb25seSBraWxsIHVyYnMgZnJvbSB3aXRoaW4gdGhlIHN1c3Bl
+bmQgaGFuZGxlci4gU2FtZSBmb3IgdGhlDQo+Pj4+IGNhbGwgdG8gdGhlIFVSQi1zeW5jIGZ1
+bmN0aW9uIGluIHBhdGNoIDIuDQo+Pj4+DQo+Pj4+IFRoaXMgZGlzYWJsZSBmdW5jdGlvbiBp
+cyBwYXJ0IG9mIHRoZSByZWd1bGFyIG1vZGVzZXQgcGF0aC4gSXQncw0KPj4+PiBwcm9iYWJs
+eSBub3QgYXBwcm9wcmlhdGUgdG8gb3V0cmlnaHQgcmVtb3ZlIHBlbmRpbmcgVVJCcyBoZXJl
+LiBUaGlzDQo+Pj4+IGNhbiBsZWFkIHRvIGZhaWxlZCBtb2Rlc2V0cywgd2hpY2ggd291bGQg
+aGF2ZSBzdWNjZWVkZWQgb3RoZXJ3aXNlLg0KPj4+DQo+Pj4gV2VsbCwgdGhlIGRldmljZSBz
+aGFsbCBiZSB0dXJuZWQgb2ZmIHJpZ2h0IGFmdGVyIHRoYXQgcG9pbnQsIHNvIHRoZQ0KPj4+
+IGFsbCBwZW5kaW5nIHJlbmRlcmluZyBtYWtlcyBsaXR0bGUgc2Vuc2UsIG5vPw0KPj4NCj4+
+IHVkbF9zaW1wbGVfZGlzcGxheV9waXBlX2Rpc2FibGUoKSBvbmx5IGRpc2FibGVzIHRoZSBk
+aXNwbGF5LCBidXQgbm90DQo+PiB0aGUgZGV2aWNlLiBUaGUga2lsbCBvcGVyYXRpb24gaGVy
+ZSBjb3VsZCBwb3RlbnRpYWxseSBraWxsIHNvbWUgdmFsaWQNCj4+IG1vZGVzZXQgb3BlcmF0
+aW9uIHRoYXQgd2FzIHN0aWxsIGdvaW5nIG9uLiBBbmQgd2hvIGtub3dzIHdoYXQgdGhlDQo+
+PiBkZXZpY2Ugc3RhdGUgaXMgYWZ0ZXIgdGhhdC4NCj4gDQo+IEJ1dCB1ZGxfc2ltcGxlX2Rp
+c3BsYXlfcGlwZV9kaXNhYmxlKCkgaW52b2tlcyBVRExfQkxBTktfTU9ERV9QT1dFUkRPV04N
+Cj4gY29tbWFuZCByaWdodCBhZnRlciB0aGUgcGxhY2UgSSd2ZSBwdXQgdWRsX2tpbGxfcGVu
+ZGluZ191cmJzKCkuICBTbyBpdA0KPiBzaGFsbCBibGFuayAvIHR1cm4gb2ZmIHRoZSBwb3dl
+ciAob2YgdGhlIGRldmljZSwgYXMgaXQgaGFzIGEgc2luZ2xlDQo+IG91dHB1dCkuICBBbmQg
+dGhlIFVSQiBjb21wbGV0aW9uIGRvZXNuJ3QgZG8gYW55IGVycm9yIGhhbmRsaW5nIGJ1dA0K
+PiBqdXN0IHJlLWxpbmtzIFVSQiBjaGFpbiBhbmQgd2FrZXMgdXAgdGhlIHF1ZXVlLiAgU28g
+a2lsbGluZyBhIHBlbmRpbmcNCj4gVVJCIHdvdWxkIG5vdGhpbmcgYnV0IGNhbmNlbGluZyB0
+aGUgaW4tZmxpZ2h0IFVSQnMsIGFuZCB0aGVyZSBzaG91bGQNCj4gYmUgbm8gZGlzdHVyYmFu
+Y2UgdG8gdGhlIG1vZGVzZXQgb3BlcmF0aW9uIGl0c2VsZiwgYXMgdGhlIHNjcmVlbiB3aWxs
+DQo+IGJlIGJsYW5rZWQgaW1tZWRpYXRlbHkuDQoNClRoZSBibGFuayBtb2RlIGlzIGVzc2Vu
+dGlhbGx5IERQTVMuIEl0J3MgdW5yZWxhdGVkIHRvIHRoZSBkZXZpY2UncyANCmRpc3BsYXkg
+bW9kZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gT2YgY291cnNlLCBpdCdz
+IGFsbCB0aGVvcnksIGFuZCBpZiB0aGlzIGJyZWFrcyBhbnl0aGluZywgaXQgc2hvdWxkIGJl
+DQo+IGNvcnJlY3RlZCA6KQ0KPiANCj4gDQo+IHRoYW5rcywNCj4gDQo+IFRha2FzaGkNCg0K
+LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
+RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
+OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
+w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Your v2 patch indeed prevents leakage of the drm_prime_member for the 
-additional handles, but those shouldn't have been added in the first place.
+--------------BcjxvGw1N20JEjYGU9WD2euq--
 
-The issue is that with this we make it unpredictable which handle is 
-returned. E.g. if we have handle 2,5,7 it can be that because of 
-re-balancing the tree sometimes 2 and sometimes 5 is returned.
+--------------gg2fgYIg0QzANPFhSFtWSkmf
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-That's not really a good idea and breaks a couple of assumptions as far 
-as I know.
+-----BEGIN PGP SIGNATURE-----
 
-Ideas?
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLyJUoFAwAAAAAACgkQlh/E3EQov+CT
+vBAAs6xCaIxDH9RvMbwwSURPxxbIL14zaT5nz2vTay/oOGisJGR+GowYT9jv6jK2a5d1mO3yhXVr
+gTlYVqIj9YZBMy5H0y05Xlf5wYlavn7Hn/go9ioQNeWaGUdur3saNhVJqwAJBEKEa3skvbTTiAss
+9g4Vkacm3Ya3gzVLF45dh3dPVCla3rPHsGR8pcSPfGjiqpXy+WTFSB6kEqlow66tHgWFCvgKX86I
+SXHQDGXchUEnqPZ3JJmeDaFS8bLgi2oHsDsixdhDvx0rZGH8PqU9La/KgeT9otwfML6dfzJLq1ZM
+ay0IQxiUiYakATfTbhURUGZEX8HT6cG4pQHsN+9m2+Jf+yTVQKawIO88rrW05AdCgYtHMsDf658M
+zlpbgDdY+TxYeaC2eTBcaDarw49CURh00Asujlr9asegzbnHJWGkNwutpThd1Sr+zlk1wVBeM4My
+8HWvpcGu+Z5KIn3s9OlQDv75HgPqs09abBtNmbXKJRLL74YZZyxjMzvD4hwnNQ3yRwS4nxZf9gua
+agE8oYUga2jjgQoDlzF2ZD2/7FcTShxpI3Z06ISRRiM3sJrw3NVdQ7JF4gw+hjlHphppqqFIgnzd
+OZUBckj8iHEHnOBVAyBigdCBVyYMVMYIqiB0Mfxg5NPV9GDkCzraLMmV7dv9pt+nciplJImktkmK
+YWg=
+=hSq/
+-----END PGP SIGNATURE-----
 
-Thanks,
-Christian.
+--------------gg2fgYIg0QzANPFhSFtWSkmf--
