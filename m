@@ -1,119 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB2058D95F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 15:29:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A15F358D96E
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 15:35:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 509B4D6202;
-	Tue,  9 Aug 2022 13:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52574D6757;
+	Tue,  9 Aug 2022 13:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D712D6055;
- Tue,  9 Aug 2022 13:28:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dg3DY6lGnDG2Dvqb47DCq3PkMG8HyWQCVqohvY1iJ7i2yrS0KmZKTl9e0Yb3E1BSycs99KRv8ZDs3KeuofRXZ06PjIbvke/oBNbyOxA6xvlSa4Whq/bfkm6975kE+4nRhMwEXwc1hKuy6XB1jvYMe6OTH4maX0kvKFv+I2pO/0e7mG971I9XKUnIarV2NcuSg7kSTJEr9VPBvabKAef6cGAQmM8+y1LO2KA8kcnnGMd01R1p2WiiQA3oKXHgipiBOnNX7Y7Eyzhmk890SacdTQxgGu1Rdk0V6o6J3513CHne4w1bsfrVm6j1JugSAspz0ItCy/y/CrYBsChTp50xOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OMr6BGvPgfJk77GXwl1rvLZBUkIB0pxwZI1N0jf4HVM=;
- b=RQlOGyZjVOHfTY5ozBWGX1vb1GchdXbu0hjFw+yiOSPsXSJ8z1FcxH3OxDxNAlKBHXXA80wtssQk19IOjv+1wTGJ9yupUdm54UcoPtiOPrg+QTQNRUv0j607GdjR4vAIGrJ7UwVxDZIqSSN5TW7Wfvvu9O9QOoGxzktC1rwQlP3OQ5pMgzMwiEe0H1s3wKFdfT2pqKnprsgQtmNlJJg4vnkqkK3KSdrlQO3JKZSpTrXtdxMZCCp6ev2T9dmm9lhYb16WlgsJwQdX9x8X3owEAzs998aiooJIoOvBUy9aostPv+WFxdh/56oHr54urFfBC2mOsqMiyr+rD79vcXT0xQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OMr6BGvPgfJk77GXwl1rvLZBUkIB0pxwZI1N0jf4HVM=;
- b=hab+nvgq9a9ZdtD5dKFJ3ZENZJ9c91GGHlMIAt3AaeSK439teEWAsro2VKZdllGNL+gsmhYP4CwHiExoCbxvZlAPrXSQQebj0fDolUUCgmi9RAmFOgvN6MzYMo/L+cOeiqCAvey87MVqBpGels/q9NeI2vVNnDZgYq+d3A7+jYA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN2PR12MB4141.namprd12.prod.outlook.com (2603:10b6:208:1d5::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Tue, 9 Aug
- 2022 13:28:14 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
- 13:28:14 +0000
-Message-ID: <7cf898fd-f3fe-061d-19ec-68d74627bd7d@amd.com>
-Date: Tue, 9 Aug 2022 15:28:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drivers:gpu:drm:amd:amdgpu:amdgpu_cs.c:fix a potential
- use-after-free
-Content-Language: en-US
-To: Wentao_Liang <Wentao_Liang_g@163.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com
-References: <20220728121237.9201-1-Wentao_Liang_g@163.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220728121237.9201-1-Wentao_Liang_g@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0125.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C0FD66FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 13:34:51 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 279DYLhX034492;
+ Tue, 9 Aug 2022 08:34:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1660052061;
+ bh=WWRi3nIHMWjo8QM+N+oh4W6m3/cOmkPPLuocntv/5zk=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=VWMHk/XNgY2rO0zT2BX/nivDMaBJmhuSTnhZrylpLQv4KlbeLYFVskfGUagMKlr63
+ DZk4IC78+VQWULAfyxokJxGDsMPqUU4XQuzyQG4FGJ7g+tZ5tQdDT+6BulkcltcBp4
+ uKRUBFkrJBprAwv0M3dI4e4/R2uYKGRe44FLJMv4=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 279DYLIO078605
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 9 Aug 2022 08:34:21 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 9
+ Aug 2022 08:34:20 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Tue, 9 Aug 2022 08:34:20 -0500
+Received: from [10.250.235.49] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 279DYEgY080291;
+ Tue, 9 Aug 2022 08:34:15 -0500
+Message-ID: <dcd04013-7e58-d36a-b2c4-21c6270747c1@ti.com>
+Date: Tue, 9 Aug 2022 19:04:14 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 70b5a1d8-4a1f-40ca-fa47-08da7a0b02f0
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4141:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EZ7z0KmmXkeXZlD8NdMCapinQ4NbjF8HS8nWb3PyxMdYzk0r7HxFxtkxCYtI0fZsKurC5Tj3ck7MuuRWFTa9JrLJzvu2zP6O0TItAzdO7jMW0y8XL3GtPWvQuB40QgPJNNGvI8+w+rwoMQ3Br0t9lQOFcJdXMe87Y/BlzeHoTeZ4Os+yjtM9KxMU8DaIy0ByWkfvKUy0wP86VzKg8ri7CDsMVbDfoUaegrJhaLOhh3GHOLjVcxaeZckhUlDsv1FGBHcVejg3NWBe3JZcNRY5IlQn0Mj1BFlfo8/tRJiUoIWqZEGn9XTf2b5LgShBU0V4bu2yw1u85ZaIP/s9T3oAGHc8obtNkReb80JsHq0llEAHkWXNkc3I7O7P+EftIBOQpjCE/SeTtI4JEno9QTkC0Z8xPLnFe3OkPNMpU4rHr33nu4hHSlTdkfKSJuEonuJWKdbWBbsQ702K7c4iwk32zTZycgmNm1nCUf+jJ+ivkcmsNafR14nWuZrmB7mxqtdCzgAXLHve3Ywo6TWi7ooqtcwv62fc/2OovIYtNifFRyk4nD9Zod9I/YDPD3r6ENuqWygC9uh7Qa50eed2W6Rgp2gnsEVdSWoZQKn1YRb/3lpiWrXnxCEw9r34pNAjCAPrfAhKk7044UXjxXX6I1ybENjivfvvI+40OshJn6Wd1f+AqfwUr70C0QuR6zSSX19bWEpyzM3QGBxuFo0zh1gsv8z6CByjKk4yFGVP1Pi/o7ORLheHOoykq1LZZuAR17xrfmS9yycQlZU/Bo7lm4g5gMgLfvSAdMcDUpRXT3rOiJ/A0d3BAI827ZNcvbu8zGdsAvLkCCA7tPIjcOXotEK6tw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(31686004)(186003)(86362001)(6506007)(2616005)(83380400001)(26005)(36756003)(6666004)(31696002)(66574015)(6512007)(5660300002)(316002)(6486002)(6636002)(478600001)(41300700001)(8676002)(66476007)(66556008)(66946007)(38100700002)(8936002)(4326008)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bkpOQjF4eTRHaVRzV2lVd2NIelpoakpkUVdUdmViY0R5T0l4Uk1VWVVNYk5q?=
- =?utf-8?B?NUpaNDBQTm14M2h0VGpRLzJYWW9QTjNYQys2TjhEKzZsREhEaWdYQ3BKTFVI?=
- =?utf-8?B?dmxraTJhMW9KbXQ3d09NU1F1NCtOU2J0ekNpZHJ5TFJBSExhUEM3V29aTXhx?=
- =?utf-8?B?WmdSMTN6b2RQR24zeXJSY3JUd3p4aTJIR2U5YkVEblhNUHdCWGoyUzRNN2Jw?=
- =?utf-8?B?VXV6MWY3WmxibzBLTDJmRTVpa0ZYbjRpd3kycENtOExwNWwwTHZrTXovMFNM?=
- =?utf-8?B?V0YrZHo3NkVpTHRZZHlJZngvOGZiVmgyT0pzRGE1aVNZSHgrUStXLzVNTjlB?=
- =?utf-8?B?WGc2L1gxYjBjNk10cnhBWXU2QnBRMUk2a1ZJMHFRdFZWQ3d4anc1cTNrVWk1?=
- =?utf-8?B?RXBwZThmZzMyQ1RUdjIxZDM2UFRTVkRWb1h0Tnc4VU1zOTdzbzdWQkd6Y1Nh?=
- =?utf-8?B?dnlGekNSTFpBdGVmZUFKUHUzQ25Cemp3a3NrZkpacGdHTnV2ODA2emcyUjNF?=
- =?utf-8?B?RUxhYWQ4Ump0NVl0TnNhY2FiekdtWUswRTdMZzJqM08wbm0yOW5CaU9XZTVq?=
- =?utf-8?B?RXNWcm1NbHJWOC9sa1gySENRN0U3dkJHcDJLVXUwMkFZY2NIRExPQ3VBRHo4?=
- =?utf-8?B?K2hjenF5b2g1ZEljZ2FjT2VmbnlZMFBEQjloa29uSnJ1cFNTeFl5TndjVE0z?=
- =?utf-8?B?VkFrRFlGZGhQand1allkZHZsWTVSN1pyL0VCazAxWEo3cHJ1aEorWjRVRVJ1?=
- =?utf-8?B?Wng0VGlxWS9RS0JVcUluWjZPYnQrQk42M0xPcWErMytZV0JTUDdpZ3dMZnRm?=
- =?utf-8?B?WUVQemphUzVqZDlKWU4zVVdpTlRYbXIrWWJSM2RxTjFsUGVER3UxdGN1Wlpk?=
- =?utf-8?B?UEZOM1BVTk1Bd09OcTJDZlllb0gzb0VUaVA2Qk43b0dWRDYvTVhucC9pN1lC?=
- =?utf-8?B?Qk5nZ1FPdjd1dGdFbjlxVldFUUpzQjEyeGFYa0dHdTRmVjV0UjYyK0lsZ1M4?=
- =?utf-8?B?ZXp2eCtmMXpRTHpDcDBGU2ZGMzFXYVFwNW5nbGZadlNnNnI2ZDlxckthZXVu?=
- =?utf-8?B?R3dISGw5K2ZZaVZUYWNxZjVTanF2QlZFK3RmaGpaTnBTKzBtb05GWEFxZzZP?=
- =?utf-8?B?bXpTUEpyb01zTnRCazR4V0pjcUpCOUVua1BWZGpFRnhSTkxkMWxMVkVmWmtI?=
- =?utf-8?B?cGRaRnkzRXpzWDkvWlQ2cmRrVThTVzhSVnVFUmJVYmZnZmRPTHZ5SFRKa3VJ?=
- =?utf-8?B?VGVOZWZpMUZOKzQrblovODZYbG9SOVJMR2t4ZEZFRndWMWpxY2pJSzlkZytP?=
- =?utf-8?B?NFN0OHhFanV2bHR5ditDaU55eGpWaG4zRXlhOGp6TDBlYmRCbGxTaDJYR1B4?=
- =?utf-8?B?eHNiaTFheS9lbXBFVHlwK0RjbXMxaUg4VEdpakVmdzVkMlhJRUt1eTUvVlNr?=
- =?utf-8?B?UHdzeWVhWnpBbGtLa1cveWxMMWVCY2dxVjlCUkVaazg4cFBJZm84RnJRMjZH?=
- =?utf-8?B?Z2wxdmRKcHBjSithZWNSNDFhZDZ3NnBWSklpa2paK3JpSUs1TFZhZmQxZTd3?=
- =?utf-8?B?UU9mbVhwSTJadmEwM0I0aVJ1M003WU80NDYvbk5OVXFRKzlScm9RRXdiSlVh?=
- =?utf-8?B?U3pkcWw5SzRSc2d2L3U2cGt3RnMzMEdUYTBnNWlFeUZRTkxNWXh5bmtBaUVV?=
- =?utf-8?B?VFhVT3QvZTNoY1JIZ0dDM1RBeHIyTnd2dXJGd0dpb3FWMFNNMnRzTHlnS0lR?=
- =?utf-8?B?bFg2K0RtdjVQWUJrYXd5M2JCbTdncGJTKy9KaXVsbFBUdzk4Q0hKd0NLZzFq?=
- =?utf-8?B?MXdheDdnNTdvQWtybzZ5UzVtTUVYMHN2VWlwNFJaZm9FMFFLV1hlTjFNRy9i?=
- =?utf-8?B?WGVLb0lNeEVjSTZxQnNzSCt0S1IyRUc0aFZ1WkdicEsybFZid2VodHJwNmhn?=
- =?utf-8?B?VjErRVJZWnFvKzM2TWxrM1pOS1RYS3BJajFjbFlGZndCeWZ4a0pUaHpYdUlL?=
- =?utf-8?B?ZU1IdnBOdXdlbDFmL1FVVUd3c1VRYmRsZHh0WmdhaFZHZkdOWGxQZlZqK0dZ?=
- =?utf-8?B?eDQvSUVIRVJqdXJjUUdkcWkwWExoNzU3NDVxTnBCK3NwbGRWRkJJN3g2OEl1?=
- =?utf-8?Q?TI1fBZN1nz7ezhDFUXsow5WI8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70b5a1d8-4a1f-40ca-fa47-08da7a0b02f0
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 13:28:14.1266 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UyMe0otblRCdCqceXNGz6IRVHFZUIJbew9eJymKOzTwTtBkDYTGTyYXB7Dvf6xkK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4141
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH 4/8] drm/tidss: Add support for Dual Link LVDS Bus Format
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20220719080845.22122-1-a-bhatia1@ti.com>
+ <20220719080845.22122-5-a-bhatia1@ti.com>
+ <f2909af1-be23-009b-ba71-34206f099473@ideasonboard.com>
+ <ec8dce9b-51d6-a566-67bb-b76f6f3458d7@ideasonboard.com>
+ <1f9de2d8-7507-bdc2-93c1-470c8e060586@ti.com>
+ <b8fd1719-b0ec-495b-54f9-1d591ff8af9e@ideasonboard.com>
+ <09682120-632a-1bfb-c0d7-034f5f076421@ti.com>
+ <ff7448fd-e50c-1c6d-ad28-ea7e555cdd24@ideasonboard.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <ff7448fd-e50c-1c6d-ad28-ea7e555cdd24@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,68 +70,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Darren Etheridge <detheridge@ti.com>, Rob Herring <robh+dt@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Rahul T R <r-ravikumar@ti.com>,
+ Krunal Bhargav <k-bhargav@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.07.22 um 14:12 schrieb Wentao_Liang:
-> in line 1535, "dma_fence_put(fence);" drop the reference to fence and may
-> cause fence to be released. However, fence is used subsequently in line
-> 1542 "fence->error". This may result in an use-after-free bug.
->
-> It can be fixed by recording fence->error in a variable before dropping
-> the reference to fence and referencing it after dropping.
->
-> The bug has been confirmed by Christian König on 2021-08-16. Now, I
-> resend this patch with my real name. I hope the patch can be updated
-> in a near future.
+Hi Tomi,
 
-The subject line should be something like "drm/amdgpu: fix potential use 
-after free".
+On 09-Aug-22 15:21, Tomi Valkeinen wrote:
+> On 09/08/2022 12:06, Aradhya Bhatia wrote:
+> 
+>>>> Even in DT, the dss port (for OLDI) connects to the panel port's
+>>>> endpoint directly. Even in cases of dual link or cloning, it's only a
+>>>> singular remote-to-endpoint connection between the (OLDI) VP and the
+>>>> panel port. Hence the requirement of the properties in the earlier
+>>>> patches of the series.
+>>>
+>>> Sorry, I don't follow. If you use cloning, you have two TX outputs, 
+>>> going to two panels, right? So you need two panel DT nodes, and those 
+>>> would connect to two OLDI TX ports in the DSS.
+>>>  > Afaics the existing dual link bridge/panel drivers also use two ports
+>>> for the connection, so to use the dual link you need two ports in the 
+>>> DSS.
+>>>
+>>> I admit I'm not familiar with LVDS dual link, but it's not clear to 
+>>> me how you see the dual OLDI TX being used with other drivers if you 
+>>> have only one port. What kind of setups have you tested?
+>>>
+>> In the DTs, the OLDIs are not modeled at all. Since the DSS only has a
+>> single VP for OLDI, the DT dss port (for OLDI) is connected to a single
+>> simple-panel node for dual link, bypassing the OLDI TX in DT. I have
+>> this same OLDI setup and have been testing on this.
+> 
+> A DSS VP is a DSS internal port, whereas a port node in the DT is an 
+> external port. There doesn't have to be a 1:1 match between those.
+> 
+> The port in the DT represents some kind of "connector" to the outside 
+> world, which is usually a collection of pins that provide a video bus.
+> 
+Okay, I now understand what you are saying. Indeed, I was mapping the
+DSS VP and DT DSS port as 1:1 in my mind, which should not be the case.
 
->
-> Signed-off-by: Wentao_Liang <Wentao_Liang_g@163.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index b28af04b0c3e..1d675a5838f2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -1518,7 +1518,7 @@ static int amdgpu_cs_wait_all_fences(struct amdgpu_device *adev,
->   				     struct drm_amdgpu_fence *fences)
->   {
->   	uint32_t fence_count = wait->in.fence_count;
-> -	unsigned int i;
-> +	unsigned int i, error;
+> Here, as far as I can see, the DSS clearly has three external ports, two 
+> OLDI ports and one DPI port.
+> 
+>> I do not have a cloning display setup with me, but I have seen DT DSS
+>> port connected to one of 2 panel nodes while the other panel (remains as
+>> a companion panel to the first) without any endpoint connections. Since,
+>> the OLDI TXes (0 and 1), receive the same clocks and inputs from DSS
+>> OLDI VP, this 'method' has worked too.
+> 
+> This, and using simple-panel for dual link with single port connection, 
+> sounds like a hack.
+> 
+> A practical example: TI's customer wants to use AM625 and THC63LVD1024 
+> bridge. How does it work? THC63LVD1024 driver uses two LVDS ports for 
+> input, both of which are used in dual-link mode.
+> 
+Right. There has to be 2 ports for OLDI in DSS, to be connected to 2
+ports of a single panel (dual link) or 2 ports of 2 panels (cloning).
 
->   	long r = 1;
->   
->   	for (i = 0; i < fence_count; i++) {
-> @@ -1533,14 +1533,15 @@ static int amdgpu_cs_wait_all_fences(struct amdgpu_device *adev,
->   
->   		r = dma_fence_wait_timeout(fence, true, timeout);
->   		dma_fence_put(fence);
-> +		error = fence->error;
+>>>> The use of lvds helper functions does not seem feasible in this case,
+>>>> because even they read DT properties to determine the dual link
+>>>> connection and those properties need to be a part of a lvds bridge
+>>>> device.
+>>>
+>>> Can you elaborate a bit more why the DRM helpers couldn't be used here?
+>>>
+>> The drm_of.c helpers use DT properties to ascertain the presence of a
+>> dual-link connection. While there wasn't a specific helper to determine
+>> dual-link or not, the drivers use the odd/even pixel order helper which
+>> is based on the properties "dual-lvds-odd-pixels" and "dual-lvds-odd-
+>> pixels". If either of the properties are absent, the helper returns an
+>> error making the driver to use single link.
+>>
+>> These properties are LVDS specific, but they could not be added in the
+>> DT because there is no OLDI TX DT node for our case.
+> 
+> If I'm not mistaken, those properties are in the port node, not the 
+> device node, and also, I believe those properties are on the sink side, 
+> so they wouldn't even be in the AM625 data. See, for example:
+> 
+> arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+Yeah, they are indeed on the sink side. I was misunderstood about this.
+And the onus for properties is not on DSS nodes anymore.
 
-That's still the wrong order, you need to get the fence error before 
-dropping the reference.
+This probably is a different discussion, but since the sink is now
+responsible for those properties, these should get introduced in the
+panel-common bindings, right?
 
-Christian.
+The above example has a separate binding, but many dumb dual-link panels
+will require those properties in panel-common.
 
->   		if (r < 0)
->   			return r;
->   
->   		if (r == 0)
->   			break;
->   
-> -		if (fence->error)
-> -			return fence->error;
-> +		if (error)
-> +			return error;
->   	}
->   
->   	memset(wait, 0, sizeof(*wait));
+> 
+>>>> I have also been considering the idea of implementing a new device
+>>>> driver for the OLDI TXes, not unlike the renesas' one. That way the
+>>>> driver could have the properties and the lvds helper functions at their
+>>>> disposal. I am just slightly unsure if that would allow space for any
+>>>> conflicts because of the shared register space.
+>>>
+>>> No, I don't think new devices are needed here.
+>> Okay...
+>>
+>> I am not quite sure I understand completely what you are recommending
+>> the OLDI to be. It seems to me that you want the OLDI TXes to be modeled
+>> as nodes, right? Wouldn't that automatically require some sort of
+>> standalone driver arrangement for them? Or am I missing something
+>> important here?
+> 
+> No, I'm only talking about the DT port nodes. At the moment the AM65x DT 
+> bindings doc says that there are two ports, port@0 for OLDI and port@1 
+> for DPI. I'm saying AM625 needs three ports.
+Agreed.
 
+Moreover, I will update the binding to reflect 3 ports for am625-dss.
+
+
+Regards
+Aradhya
