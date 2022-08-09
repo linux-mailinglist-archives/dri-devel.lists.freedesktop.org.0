@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164D158D5C8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 10:54:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F8D58D5F2
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 11:03:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F42CBD7A;
-	Tue,  9 Aug 2022 08:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB95CC278;
+	Tue,  9 Aug 2022 09:03:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
- [115.236.118.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E13ECBD76
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 08:54:30 +0000 (UTC)
-Received: from [192.168.111.100] (unknown [58.22.7.114])
- by mail-m11885.qiye.163.com (Hmail) with ESMTPA id 14A394C09F8;
- Tue,  9 Aug 2022 16:54:26 +0800 (CST)
-Message-ID: <571973c5-02bd-5a18-834b-20c69f82e342@rock-chips.com>
-Date: Tue, 9 Aug 2022 16:54:24 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.1
-Subject: Re: [PATCH v2] drm/gem: Fix GEM handle release errors
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
- <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
- <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
- <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
- <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
- <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
-From: Chen Jeffy <jeffy.chen@rock-chips.com>
-In-Reply-To: <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGkhOVhpLT0kZGElLHkhJGVUTARMWGhIXJB
- QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktITUpVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NCo6Lio*Iz0yKy4oNT0INE4T
- Pz4KCk9VSlVKTU1LS0hOSU1NQklKVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKSExMSTcG
-X-HM-Tid: 0a8281cff79a2eb9kusn14a394c09f8
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6501CC273
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 09:03:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 507BA1FDE0;
+ Tue,  9 Aug 2022 09:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660035794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lhykmQ44uj44lUBw5voN63DGvbKrGYW5PE8k5Kwylb8=;
+ b=VUH79OCxr1bqjexgeWWz/8KclSRjY2HIeCdX+ZxUPMvp1kJeTB9iVV3aEZG8JNwzTPMC2J
+ sZgkgShilaFOvvX222uCU99U3wgJwEOvXjt56WT5D9GLzlVTlU9DJzz/x66ffKKt5P859A
+ ldR+zO9zwnuTcHa3bPf95eB0N6cqI3I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660035794;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lhykmQ44uj44lUBw5voN63DGvbKrGYW5PE8k5Kwylb8=;
+ b=6vvDCYtVHkbTAfiodpJoQihX3ATuVrrolewfU16zMtpQtMx94E5WewknYnuZpaqsk9cRes
+ JvX/D3On/lRNK8CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2AA5113A9D;
+ Tue,  9 Aug 2022 09:03:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id xV7ACdIi8mKdKAAAMHmgww
+ (envelope-from <tiwai@suse.de>); Tue, 09 Aug 2022 09:03:14 +0000
+Date: Tue, 09 Aug 2022 11:03:13 +0200
+Message-ID: <87a68dwzzi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+In-Reply-To: <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de>
+References: <20220804075826.27036-1-tiwai@suse.de>
+ <20220804075826.27036-4-tiwai@suse.de>
+ <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de>
+ <87h72lx4yw.wl-tiwai@suse.de>
+ <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,286 +69,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Tue, 09 Aug 2022 09:41:19 +0200,
+Thomas Zimmermann wrote:
+> 
+> Hi
+> 
+> Am 09.08.22 um 09:15 schrieb Takashi Iwai:
+> > On Tue, 09 Aug 2022 09:13:16 +0200,
+> > Thomas Zimmermann wrote:
+> >> 
+> >> Hi
+> >> 
+> >> Am 04.08.22 um 09:58 schrieb Takashi Iwai:
+> >>> At both suspend and disconnect, we should rather cancel the pending
+> >>> URBs immediately.  For the suspend case, the display will be turned
+> >>> off, so it makes no sense to process the rendering.  And for the
+> >>> disconnect case, the device may be no longer accessible, hence we
+> >>> shouldn't do any submission.
+> >>> 
+> >>> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> >>> ---
+> >>>    drivers/gpu/drm/udl/udl_drv.h     |  2 ++
+> >>>    drivers/gpu/drm/udl/udl_main.c    | 25 ++++++++++++++++++++++---
+> >>>    drivers/gpu/drm/udl/udl_modeset.c |  2 ++
+> >>>    3 files changed, 26 insertions(+), 3 deletions(-)
+> >>> 
+> >>> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+> >>> index f01e50c5b7b7..28aaf75d71cf 100644
+> >>> --- a/drivers/gpu/drm/udl/udl_drv.h
+> >>> +++ b/drivers/gpu/drm/udl/udl_drv.h
+> >>> @@ -39,6 +39,7 @@ struct urb_node {
+> >>>      struct urb_list {
+> >>>    	struct list_head list;
+> >>> +	struct list_head in_flight;
+> >>>    	spinlock_t lock;
+> >>>    	wait_queue_head_t sleep;
+> >>>    	int available;
+> >>> @@ -84,6 +85,7 @@ static inline struct urb *udl_get_urb(struct drm_device *dev)
+> >>>      int udl_submit_urb(struct drm_device *dev, struct urb *urb,
+> >>> size_t len);
+> >>>    int udl_sync_pending_urbs(struct drm_device *dev);
+> >>> +void udl_kill_pending_urbs(struct drm_device *dev);
+> >>>    void udl_urb_completion(struct urb *urb);
+> >>>      int udl_init(struct udl_device *udl);
+> >>> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> >>> index 93615648414b..47204b7eb10e 100644
+> >>> --- a/drivers/gpu/drm/udl/udl_main.c
+> >>> +++ b/drivers/gpu/drm/udl/udl_main.c
+> >>> @@ -135,7 +135,7 @@ void udl_urb_completion(struct urb *urb)
+> >>>    	urb->transfer_buffer_length = udl->urbs.size; /* reset to actual */
+> >>>      	spin_lock_irqsave(&udl->urbs.lock, flags);
+> >>> -	list_add_tail(&unode->entry, &udl->urbs.list);
+> >>> +	list_move(&unode->entry, &udl->urbs.list);
+> >>>    	udl->urbs.available++;
+> >>>    	spin_unlock_irqrestore(&udl->urbs.lock, flags);
+> >>>    @@ -180,6 +180,7 @@ static int udl_alloc_urb_list(struct
+> >>> drm_device *dev, int count, size_t size)
+> >>>    retry:
+> >>>    	udl->urbs.size = size;
+> >>>    	INIT_LIST_HEAD(&udl->urbs.list);
+> >>> +	INIT_LIST_HEAD(&udl->urbs.in_flight);
+> >>>      	init_waitqueue_head(&udl->urbs.sleep);
+> >>>    	udl->urbs.count = 0;
+> >>> @@ -246,7 +247,7 @@ struct urb *udl_get_urb_timeout(struct drm_device *dev, long timeout)
+> >>>    	}
+> >>>      	unode = list_first_entry(&udl->urbs.list, struct urb_node,
+> >>> entry);
+> >>> -	list_del_init(&unode->entry);
+> >>> +	list_move(&unode->entry, &udl->urbs.in_flight);
+> >>>    	udl->urbs.available--;
+> >>>      unlock:
+> >>> @@ -279,7 +280,7 @@ int udl_sync_pending_urbs(struct drm_device *dev)
+> >>>    	spin_lock_irq(&udl->urbs.lock);
+> >>>    	/* 2 seconds as a sane timeout */
+> >>>    	if (!wait_event_lock_irq_timeout(udl->urbs.sleep,
+> >>> -					 udl->urbs.available == udl->urbs.count,
+> >>> +					 list_empty(&udl->urbs.in_flight),
+> >>>    					 udl->urbs.lock,
+> >>>    					 msecs_to_jiffies(2000)))
+> >>>    		ret = -ETIMEDOUT;
+> >>> @@ -287,6 +288,23 @@ int udl_sync_pending_urbs(struct drm_device *dev)
+> >>>    	return ret;
+> >>>    }
+> >>>    +/* kill pending URBs */
+> >>> +void udl_kill_pending_urbs(struct drm_device *dev)
+> >>> +{
+> >>> +	struct udl_device *udl = to_udl(dev);
+> >>> +	struct urb_node *unode;
+> >>> +
+> >>> +	spin_lock_irq(&udl->urbs.lock);
+> >>> +	while (!list_empty(&udl->urbs.in_flight)) {
+> >>> +		unode = list_first_entry(&udl->urbs.in_flight,
+> >>> +					 struct urb_node, entry);
+> >>> +		spin_unlock_irq(&udl->urbs.lock);
+> >>> +		usb_kill_urb(unode->urb);
+> >>> +		spin_lock_irq(&udl->urbs.lock);
+> >>> +	}
+> >>> +	spin_unlock_irq(&udl->urbs.lock);
+> >>> +}
+> >>> +
+> >>>    int udl_init(struct udl_device *udl)
+> >>>    {
+> >>>    	struct drm_device *dev = &udl->drm;
+> >>> @@ -335,6 +353,7 @@ int udl_drop_usb(struct drm_device *dev)
+> >>>    {
+> >>>    	struct udl_device *udl = to_udl(dev);
+> >>>    +	udl_kill_pending_urbs(dev);
+> >>>    	udl_free_urb_list(dev);
+> >>>    	put_device(udl->dmadev);
+> >>>    	udl->dmadev = NULL;
+> >>> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> >>> index 50025606b6ad..169110d8fc2e 100644
+> >>> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> >>> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> >>> @@ -397,6 +397,8 @@ udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
+> >>>    	struct urb *urb;
+> >>>    	char *buf;
+> >>>    +	udl_kill_pending_urbs(dev);
+> >>> +
+> >> 
+> >> I already reviewed the patchset, but I have another comment. I think
+> >> we should only kill urbs from within the suspend handler. Same for the
+> >> call to the URB-sync function in patch 2.
+> >> 
+> >> This disable function is part of the regular modeset path. It's
+> >> probably not appropriate to outright remove pending URBs here. This
+> >> can lead to failed modesets, which would have succeeded otherwise.
+> > 
+> > Well, the device shall be turned off right after that point, so the
+> > all pending rendering makes little sense, no?
+> 
+> udl_simple_display_pipe_disable() only disables the display, but not
+> the device. The kill operation here could potentially kill some valid
+> modeset operation that was still going on. And who knows what the
+> device state is after that.
 
-On 8/9 星期二 15:55, Christian König wrote:
-> Am 09.08.22 um 03:28 schrieb Chen Jeffy:
->> Hi Christian,
->>
->> On 8/9 星期二 2:03, Christian König wrote:
->>> Hi Jeffy,
->>>
->>> Am 08.08.22 um 05:51 schrieb Chen Jeffy:
->>>> Hi Christian,
->>>>
->>>> Thanks for your reply, and sorry i didn't make it clear.
->>>>
->>>> On 8/8 星期一 0:52, Christian König wrote:
->>>>> Am 03.08.22 um 10:32 schrieb Jeffy Chen:
->>>>>> Currently we are assuming a one to one mapping between dmabuf and 
->>>>>> handle
->>>>>> when releasing GEM handles.
->>>>>>
->>>>>> But that is not always true, since we would create extra handles 
->>>>>> for the
->>>>>> GEM obj in cases like gem_open() and getfb{,2}().
->>>>>>
->>>>>> A similar issue was reported at:
->>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20211105083308.392156-1-jay.xu%40rock-chips.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C52cd6ca16a3a415b92a708da79a67dec%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637956053232922419%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=hIuH18B10sbVAyS0D4iK6R6WYc%2BZ7mlxGcKdUae%2BW6Y%3D&amp;reserved=0
->>>>>>
->>>>>> Another problem is that the drm_gem_remove_prime_handles() now only
->>>>>> remove handle to the exported dmabuf (gem_obj->dma_buf), so the 
->>>>>> imported
->>>>>> ones would leak:
->>>>>> WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 
->>>>>> drm_prime_destroy_file_private+0x18/0x24
->>>>>>
->>>>>> Let's fix these by using handle to find the exact map to remove.
->>>>>
->>>>> Well we are clearly something missing here. As far as I can see the 
->>>>> current code is correct.
->>>>>
->>>>> Creating multiple GEM handles for the same DMA-buf is possible, but 
->>>>> illegal. >
->>>>> In other words when a GEM handle is exported as DMA-buf and 
->>>>> imported again you should intentionally always get the same handle.
->>>>
->>>> These issue are not about having handles for importing an exported 
->>>> dma-buf case, but for having multiple handles to a GEM object(which 
->>>> means having multiple handles to a dma-buf).
->>>>
->>>> I know the drm-prime is trying to make dma-buf and handle maps one 
->>>> to one, but the drm-gem is allowing to create extra handles for a 
->>>> GEM object, for example:
->>>> drm_gem_open_ioctl -> drm_gem_handle_create_tail
->>>> drm_mode_getfb2_ioctl -> drm_gem_handle_create
->>>> drm_mode_getfb -> fb->funcs->create_handle
->>>
->>> Yes, so far that's correct.
->>>
->>>>
->>>>
->>>> So we are allowing GEM object to have multiple handles, and GEM 
->>>> object could have at most one dma-buf, doesn't that means that 
->>>> dma-buf could map to multiple handles?
->>>
->>> No, at least not for the same GEM file private. That's the reason why 
->>> the rb is indexed by the dma_buf object and not the handle.
->>>
->>> In other words the rb is so that you have exactly one handle for each 
->>> dma_buf in each file private.
->>
->> I don't think so, because if user get multiple handles for the same 
->> GEM obj and use drm_gem_prime_handle_to_fd() for those handles
-> 
-> Mhm, that works? This is illegal and should have been prevented somehow.
-> 
-> Let me double check the code.
-> 
-> Thanks for pointing that out,
-> Christian.
-> 
+But udl_simple_display_pipe_disable() invokes UDL_BLANK_MODE_POWERDOWN
+command right after the place I've put udl_kill_pending_urbs().  So it
+shall blank / turn off the power (of the device, as it has a single
+output).  And the URB completion doesn't do any error handling but
+just re-links URB chain and wakes up the queue.  So killing a pending
+URB would nothing but canceling the in-flight URBs, and there should
+be no disturbance to the modeset operation itself, as the screen will
+be blanked immediately.
 
-Thanks for checking it, my test case is a preload library which hooks 
-the drmModeSetCrtc(and other APIs) then use drmModeGetFB to extract 
-dmafd from fb_id.
+Of course, it's all theory, and if this breaks anything, it should be
+corrected :)
 
-> 
->> , the current code would try to add multiple maps to rb:
->> drm_prime_add_buf_handle(buf_1, hdl_1)
->> drm_prime_add_buf_handle(buf_1, hdl_2)
->> ...
->> drm_prime_add_buf_handle(buf_1, hdl_n)
->>
->>>
->>>>
->>>> Or should we rewrite the GEM framework to limit GEM object with uniq 
->>>> handle?
->>>
->>> No, the extra handles are expected because when you call 
->>> drm_mode_getfb*() and drm_gem_open_ioctl() the caller now owns the 
->>> returned GEM handle.
->>>
->>>>
->>>> The other issue is that we are leaking dma-buf <-> handle map for 
->>>> the imported dma-buf, since the drm_gem_remove_prime_handles doesn't 
->>>> take care of obj->import_attach->dmabuf.
->>>
->>> No, that's correct as well. obj->dma_buf is set even for imported 
->>> DMA-buf objects. See drm_gem_prime_fd_to_handle().
->>
->> Well, that obj->dma_buf would be set in 
->> drm_gem_prime_fd_to_handle(create new handle), and cleared when 
->> releasing the latest handle(release handle).
->>
->> So it doesn't cover other handle creating path.
->>
->> For example, a imported dma buf:
->> drm_gem_prime_fd_to_handle <-- we got a handle and obj->dma_buf and 
->> obj->import_attach->dmabuf
->> drm_gem_handle_delete <-- we lost that handle and obj->dma_buf cleared
->> drm_gem_open_ioctl/or getfb* <-- we got a new handle and 
->> obj->import_attach->dmabuf
->> drm_gem_handle_delete <-- we lost that handle and obj->dma_buf is 
->> null, which means rb leaks.
 
-Another way to solve this would be set this obj->dma_buf again in 
-drm_gem_prime_handle_to_fd(), which would make sure obj->dma_buf is 
-valid in all current paths lead to drm_prime_add_buf_handle().
+thanks,
 
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> But of cause this can be fixed in other way:
->>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>> @@ -180,6 +180,9 @@ drm_gem_remove_prime_handles(struct 
->>>> drm_gem_object *obj, struct drm_file *filp)
->>>> drm_prime_remove_buf_handle_locked(&filp->prime,
->>>> obj->dma_buf);
->>>>         }
->>>> +       if (obj->import_attach)
->>>> + drm_prime_remove_buf_handle_locked(&filp->prime,
->>>> + obj->import_attach->dmabuf);
->>>>         mutex_unlock(&filp->prime.lock);
->>>>  }
->>>>
->>>>
->>>>> So this is pretty much a clear NAK to this patch since it shouldn't 
->>>>> be necessary or something is seriously broken somewhere else.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>>
->>>>>> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
->>>>>> ---
->>>>>>
->>>>>> Changes in v2:
->>>>>> Fix a typo of rbtree.
->>>>>>
->>>>>>   drivers/gpu/drm/drm_gem.c      | 17 +----------------
->>>>>>   drivers/gpu/drm/drm_internal.h |  4 ++--
->>>>>>   drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
->>>>>>   3 files changed, 15 insertions(+), 26 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>>>> index eb0c2d041f13..ed39da383570 100644
->>>>>> --- a/drivers/gpu/drm/drm_gem.c
->>>>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>>>> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct 
->>>>>> drm_device *dev,
->>>>>>   }
->>>>>>   EXPORT_SYMBOL(drm_gem_private_object_init);
->>>>>> -static void
->>>>>> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct 
->>>>>> drm_file *filp)
->>>>>> -{
->>>>>> -    /*
->>>>>> -     * Note: obj->dma_buf can't disappear as long as we still hold a
->>>>>> -     * handle reference in obj->handle_count.
->>>>>> -     */
->>>>>> -    mutex_lock(&filp->prime.lock);
->>>>>> -    if (obj->dma_buf) {
->>>>>> - drm_prime_remove_buf_handle_locked(&filp->prime,
->>>>>> -                           obj->dma_buf);
->>>>>> -    }
->>>>>> -    mutex_unlock(&filp->prime.lock);
->>>>>> -}
->>>>>> -
->>>>>>   /**
->>>>>>    * drm_gem_object_handle_free - release resources bound to 
->>>>>> userspace handles
->>>>>>    * @obj: GEM object to clean up.
->>>>>> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void 
->>>>>> *ptr, void *data)
->>>>>>       if (obj->funcs->close)
->>>>>>           obj->funcs->close(obj, file_priv);
->>>>>> -    drm_gem_remove_prime_handles(obj, file_priv);
->>>>>> +    drm_prime_remove_buf_handle(&file_priv->prime, id);
->>>>>>       drm_vma_node_revoke(&obj->vma_node, file_priv);
->>>>>>       drm_gem_object_handle_put_unlocked(obj);
->>>>>> diff --git a/drivers/gpu/drm/drm_internal.h 
->>>>>> b/drivers/gpu/drm/drm_internal.h
->>>>>> index 1fbbc19f1ac0..7bb98e6a446d 100644
->>>>>> --- a/drivers/gpu/drm/drm_internal.h
->>>>>> +++ b/drivers/gpu/drm/drm_internal.h
->>>>>> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct 
->>>>>> drm_device *dev, void *data,
->>>>>>   void drm_prime_init_file_private(struct drm_prime_file_private 
->>>>>> *prime_fpriv);
->>>>>>   void drm_prime_destroy_file_private(struct 
->>>>>> drm_prime_file_private *prime_fpriv);
->>>>>> -void drm_prime_remove_buf_handle_locked(struct 
->>>>>> drm_prime_file_private *prime_fpriv,
->>>>>> -                    struct dma_buf *dma_buf);
->>>>>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
->>>>>> *prime_fpriv,
->>>>>> +                 uint32_t handle);
->>>>>>   /* drm_drv.c */
->>>>>>   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
->>>>>> diff --git a/drivers/gpu/drm/drm_prime.c 
->>>>>> b/drivers/gpu/drm/drm_prime.c
->>>>>> index e3f09f18110c..bd5366b16381 100644
->>>>>> --- a/drivers/gpu/drm/drm_prime.c
->>>>>> +++ b/drivers/gpu/drm/drm_prime.c
->>>>>> @@ -190,29 +190,33 @@ static int 
->>>>>> drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
->>>>>>       return -ENOENT;
->>>>>>   }
->>>>>> -void drm_prime_remove_buf_handle_locked(struct 
->>>>>> drm_prime_file_private *prime_fpriv,
->>>>>> -                    struct dma_buf *dma_buf)
->>>>>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
->>>>>> *prime_fpriv,
->>>>>> +                 uint32_t handle)
->>>>>>   {
->>>>>>       struct rb_node *rb;
->>>>>> -    rb = prime_fpriv->dmabufs.rb_node;
->>>>>> +    mutex_lock(&prime_fpriv->lock);
->>>>>> +
->>>>>> +    rb = prime_fpriv->handles.rb_node;
->>>>>>       while (rb) {
->>>>>>           struct drm_prime_member *member;
->>>>>> -        member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
->>>>>> -        if (member->dma_buf == dma_buf) {
->>>>>> +        member = rb_entry(rb, struct drm_prime_member, handle_rb);
->>>>>> +        if (member->handle == handle) {
->>>>>>               rb_erase(&member->handle_rb, &prime_fpriv->handles);
->>>>>>               rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
->>>>>> -            dma_buf_put(dma_buf);
->>>>>> +            dma_buf_put(member->dma_buf);
->>>>>>               kfree(member);
->>>>>> -            return;
->>>>>> -        } else if (member->dma_buf < dma_buf) {
->>>>>> +            break;
->>>>>> +        } else if (member->handle < handle) {
->>>>>>               rb = rb->rb_right;
->>>>>>           } else {
->>>>>>               rb = rb->rb_left;
->>>>>>           }
->>>>>>       }
->>>>>> +
->>>>>> +    mutex_unlock(&prime_fpriv->lock);
->>>>>>   }
->>>>>>   void drm_prime_init_file_private(struct drm_prime_file_private 
->>>>>> *prime_fpriv)
->>>>>
->>>>>
->>>>
->>>
->>>
->>
-> 
-> 
-
+Takashi
