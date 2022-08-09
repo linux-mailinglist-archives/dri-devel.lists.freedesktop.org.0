@@ -2,42 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D11958D1A7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 03:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A915A58D1B7
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 03:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F736B17E7;
-	Tue,  9 Aug 2022 01:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51B378FD9F;
+	Tue,  9 Aug 2022 01:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
- [115.236.118.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40910B6FC9
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 01:12:49 +0000 (UTC)
-Received: from [192.168.111.100] (unknown [58.22.7.114])
- by mail-m11885.qiye.163.com (Hmail) with ESMTPA id A41224C0488;
- Tue,  9 Aug 2022 09:12:46 +0800 (CST)
-Message-ID: <717f4fb6-9523-6358-eb10-94fc08a1e1b2@rock-chips.com>
-Date: Tue, 9 Aug 2022 09:12:45 +0800
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABF87B8719
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 01:25:14 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 94CB1845A5;
+ Tue,  9 Aug 2022 03:25:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1660008311;
+ bh=goK8Xyy9CXnnnf5aAlKG6fKJPnCIUrulzRORKlgOilg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OJyY+JZVJF8GVtbbz92GXnTeWynqEa2Gfb6K0/BOUVjuV/WpEnqWXxNIrw4CcX1bZ
+ 3LypYW6m/ynPf82BIJfOSZr4TP+oAbw4yCc2i40BUx34a5LJhKswMymFLhwdfg1LW+
+ QFwR549mlYbg5BcDir8gmDt6x1ycjgchvmxFUIo2ygDFOdhj8bH2a3fUOqFmG2Np4e
+ 8XY5utnnYKQkltJjJYNFFQiTf+/tHsT239xyKvp26bRwgSZXCK//R5qmu4RyszmrTJ
+ 3J2oIVr+hhVkJnf64RfBAdhy7rEHXdNjtrSBFp0mLarDL6570BzGik6nefc6udnZed
+ yjOaHTC4lvbwg==
+Message-ID: <aa288917-9841-aab8-0a6a-764b775d8c02@denx.de>
+Date: Tue, 9 Aug 2022 03:25:10 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.1
-Subject: Re: [PATCH] drm/gem: Fix GEM handle release errors
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 2/4] dt-bindings: display: add new bus-format property
+ for panel-dpi
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20220802113316.18340-1-jeffy.chen@rock-chips.com>
- <61e6fd7e-fde7-19ae-0e31-0ad8013d0e48@amd.com>
-From: Chen Jeffy <jeffy.chen@rock-chips.com>
-In-Reply-To: <61e6fd7e-fde7-19ae-0e31-0ad8013d0e48@amd.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+References: <20220628181838.2031-1-max.oss.09@gmail.com>
+ <20220628181838.2031-3-max.oss.09@gmail.com>
+ <7e30f558-d42e-9751-7729-f0422f3926fa@denx.de>
+ <CAEHkU3WJ75W0RAtSKECNHmr-KLmZyziPz_t80wFNubxvGvD21g@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAEHkU3WJ75W0RAtSKECNHmr-KLmZyziPz_t80wFNubxvGvD21g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTEoaVkgdTRhDTRkdSBkdTVUTARMWGhIXJB
- QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktITkhVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pwg6Nhw*AT0xLy8ICh4fKj9I
- NRMwCwFVSlVKTU1LS0tMTk1MTk5JVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFMQ0pONwY+
-X-HM-Tid: 0a8280294ef12eb9kusna41224c0488
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,153 +60,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ max.krummenacher@toradex.com,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On 8/8/22 15:56, Max Krummenacher wrote:
+> Hi Marek
 
-Sorry, i've sent a v2 before, please check that.
+Hello Max,
 
-On 8/9 星期二 2:05, Christian König wrote:
-> 
-> 
-> Am 02.08.22 um 13:33 schrieb Jeffy Chen:
->> Currently we are assuming a one to one mapping between dmabuf and handle
->> when releasing GEM handles.
->>
->> But that is not always true, since we would create extra handles for the
->> GEM obj in cases like gem_open() and getfb{,2}().
->>
->> A similar issue was reported at:
->> https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
->>
->> Another problem is that the drm_gem_remove_prime_handles() now only
->> remove handle to the exported dmabuf (gem_obj->dma_buf), so the imported
->> ones would leak:
->> WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 
->> drm_prime_destroy_file_private+0x18/0x24
->>
->> Let's fix these by using handle to find the exact map to remove.
->>
->> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
->> ---
->>
->>   drivers/gpu/drm/drm_gem.c      | 17 +----------------
->>   drivers/gpu/drm/drm_internal.h |  4 ++--
->>   drivers/gpu/drm/drm_prime.c    | 16 ++++++++++------
->>   3 files changed, 13 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index eb0c2d041f13..ed39da383570 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct 
->> drm_device *dev,
->>   }
->>   EXPORT_SYMBOL(drm_gem_private_object_init);
->> -static void
->> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct 
->> drm_file *filp)
->> -{
->> -    /*
->> -     * Note: obj->dma_buf can't disappear as long as we still hold a
->> -     * handle reference in obj->handle_count.
->> -     */
->> -    mutex_lock(&filp->prime.lock);
->> -    if (obj->dma_buf) {
->> -        drm_prime_remove_buf_handle_locked(&filp->prime,
->> -                           obj->dma_buf);
->> -    }
->> -    mutex_unlock(&filp->prime.lock);
->> -}
->> -
->>   /**
->>    * drm_gem_object_handle_free - release resources bound to userspace 
->> handles
->>    * @obj: GEM object to clean up.
->> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, 
->> void *data)
->>       if (obj->funcs->close)
->>           obj->funcs->close(obj, file_priv);
->> -    drm_gem_remove_prime_handles(obj, file_priv);
->> +    drm_prime_remove_buf_handle(&file_priv->prime, id);
->>       drm_vma_node_revoke(&obj->vma_node, file_priv);
->>       drm_gem_object_handle_put_unlocked(obj);
->> diff --git a/drivers/gpu/drm/drm_internal.h 
->> b/drivers/gpu/drm/drm_internal.h
->> index 1fbbc19f1ac0..7bb98e6a446d 100644
->> --- a/drivers/gpu/drm/drm_internal.h
->> +++ b/drivers/gpu/drm/drm_internal.h
->> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device 
->> *dev, void *data,
->>   void drm_prime_init_file_private(struct drm_prime_file_private 
->> *prime_fpriv);
->>   void drm_prime_destroy_file_private(struct drm_prime_file_private 
->> *prime_fpriv);
->> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private 
->> *prime_fpriv,
->> -                    struct dma_buf *dma_buf);
->> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
->> *prime_fpriv,
->> +                 uint32_t handle);
->>   /* drm_drv.c */
->>   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
->> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->> index e3f09f18110c..c28518ab62d0 100644
->> --- a/drivers/gpu/drm/drm_prime.c
->> +++ b/drivers/gpu/drm/drm_prime.c
->> @@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct 
->> drm_prime_file_private *prime_fpri
->>       return -ENOENT;
->>   }
->> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private 
->> *prime_fpriv,
->> -                    struct dma_buf *dma_buf)
->> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
->> *prime_fpriv,
->> +                 uint32_t handle)
->>   {
->>       struct rb_node *rb;
->> +    mutex_lock(&prime_fpriv->lock);
->> +
->>       rb = prime_fpriv->dmabufs.rb_node;
->>       while (rb) {
->>           struct drm_prime_member *member;
->>           member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
->> -        if (member->dma_buf == dma_buf) {
->> +        if (member->handle == handle) {
->>               rb_erase(&member->handle_rb, &prime_fpriv->handles);
->>               rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
->> -            dma_buf_put(dma_buf);
->> +            dma_buf_put(member->dma_buf);
->>               kfree(member);
->> -            return;
->> -        } else if (member->dma_buf < dma_buf) {
->> +            break;
->> +        } else if (member->handle < handle) {
-> 
-> Just to make it clear once more. That change here is completely broken.
-> 
-> The rb is indexed by the dma_buf object, not the handle.
-> 
-> Regards,
-> Christian.
-> 
->>               rb = rb->rb_right;
->>           } else {
->>               rb = rb->rb_left;
->>           }
->>       }
->> +
->> +    mutex_unlock(&prime_fpriv->lock);
->>   }
->>   void drm_prime_init_file_private(struct drm_prime_file_private 
->> *prime_fpriv)
-> 
-> 
+[...]
 
+>>> +        properties:
+>>> +          bus-format:
+>>> +            $ref: /schemas/types.yaml#/definitions/uint32
+>>> +            minimum: 0x1001
+>>> +            maximum: 0x1fff
+>>> +            description: |
+>>> +              Describes how the display panel is connected to the display interface.
+>>> +              Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
+>>> +              The mapping between the color/significance of the panel lines to the
+>>> +              parallel data lines are defined in:
+>>> +              https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
+>>
+>> I am not sure whether I should re-open this discussion, but I still
+>> wonder, wouldn't it be better to describe the DPI bus color channel
+>> ordering (RGB, BGR, ...), width of each color channel in bits, pixel
+>> format (RGB, YUV, ...) instead of using specific constants for the
+>> entire format ?
+> 
+>>From a system view it would be hard to define that structure which
+> will catch any and all future requirements. Assume that there will be
+> 3D panels and they will need an additional depth field.
+
+You can very much say you have panels which require Y/U/V color channels 
+instead of R/G/B , and then just add more color channels as needed. But 
+that -- color channel, their order, offset, bit width, can be described 
+rather easily, something like:
+
+color-channel-names = "R", "G", "B";
+color-channel-width = <8 8 8>;
+color-channel-shift = <16 8 0>;
+
+> Or in
+> in addition to RGB data there will be a fourth color component. Or
+> whatever the panel manufacturers might come up with...
+> Or consider the Tegra 30 example I brought up in this thread. Tegras can
+> output RGB666 for 18bit panels, and then use the next 8 bits to extend
+> to 24bit (Maybe RGB666RGB222 ?).
+
+I think there are two options here:
+
+1) Look at 'data-lanes' property on DSI ? Both the DSI host and DSI
+    device define the 'data-lanes' property per endpoint and they might
+    not be the same.
+
+But with DPI, the better option might be:
+
+2) Implement something like LVDS codec, some sort of transparent DPI
+    bridge driver which can be defined in DT and represent the "glue"
+    wiring adapter between the mismatched DPI source and sink formats.
+
+> https://lore.kernel.org/all/71ef1b35301330d0bbb64844247b6c4c2237ad1c.camel@gmail.com/
+> If such requirements pop up the enumeration can be extended with a new
+> value without changing the binding in any way, with a structured
+> approach this will require changed bindings, maybe even with issues
+> in backward compatibility.
+
+If we have 2) which would describe how the DPI wires were connected, 
+like "channel R got shifted by two bits, bottom two bits got replicated, 
+etc.", then maybe we can avoid introducing new non-standard formats 
+altogether ?
+
+>>From an implementation perspective for Linux the busformat in code is
+> currently an enumeration. So one would have to take the device tree
+> structured busformat and run it through a potentially complicated
+> function to get to the Linux busformat enumeration value. The final
+> consumer has no advantage over what is there today.
+> 
+> IMHO a change away from one enumeration value to a structured approach
+> creates some drawbacks without any obvious advantages.
+> 
+> Comments, other views on that?
+
+See above.
