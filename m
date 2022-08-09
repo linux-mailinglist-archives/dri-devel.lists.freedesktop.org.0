@@ -2,115 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD3D58D426
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 09:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A4F58D44A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 09:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8A2C8A18;
-	Tue,  9 Aug 2022 07:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E99EAC90E4;
+	Tue,  9 Aug 2022 07:13:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr140077.outbound.protection.outlook.com [40.107.14.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9900C8A02
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 07:01:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HGXiRMshTcSqiA2Zw9htQMcmb4I8Ckzc9YqELBDAJZ+EqY2IOt7fbOaLI7TAJ2NEIEKI1adCYORmZwn9J5+2hSw9yfQKK3TnNhVmSEmZ0g9DSNuvPSbiFoXsg0YNTb6xPY9jrHWkWn1OOKNU9/ZpkpJy+WxQ+zPWYuXa1+qPnVb7n8jeaNwo/GYJS7cAjyUNpVdyJgRq0RzUjC4/CXJPo9cZyQT5j9subtgXu8wsDc+GnES+7WyE1l8POgospknWKOicTPgShiqixpeKbItTLox1JYXK1NUKrZU55xmB1CVlY2NKOJYZNxPtd5VSpkIrntLGzXCuURTOKKjb0zyX2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QPMIV8kxt42N7lw7kOOwVK613/ek4jXsvi460jFtmeI=;
- b=i5leLGJxnIKFcuymHKSxc0In6O2DHxvTSkClW0QvID2S91NYHqdsjq/U4MhGyFuelAWSWjheXts6s4W0iqiwffDFpg6JZ9CgEvCVYuIKf6wrTbv22d8EPj3019AOkEv1epa5D2qrWe4bzlUiW0pIvwq7Vy+68ufBppjvKTVn5cz7l7/HSeJfVena0ZHvNwDDDFxyd/kaGf8zJCWyvopJmU2VtpyKOS1gGhqczi5PmotbAPcXDWnj26xUlVDQSUxbLB8BQ+2P5w8bc29bCCdwhS6vcS4skrI6qbxcHlFmUdrCODaV2SFfjkXUotszH4NroiKeaqPEvfjth0pzARGzqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QPMIV8kxt42N7lw7kOOwVK613/ek4jXsvi460jFtmeI=;
- b=hmWfN/KoHRi/SlUoins8OY4wm2z7INsQ/zv//71rbCSTyU54M1QA8hTT42OI8e5CiVTJ1RNLsNFwkwDALwJJn72eF+r3W58XZWhpvQHbH28lkhYfNPG1wH5+ImYBfolIlaXbbs0iixHmnCd1M4eHm87PK5OeFQs5GqlM0II+cvo=
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by PAXPR04MB9155.eurprd04.prod.outlook.com (2603:10a6:102:22e::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.21; Tue, 9 Aug
- 2022 07:01:41 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9%5]) with mapi id 15.20.5504.019; Tue, 9 Aug 2022
- 07:01:41 +0000
-From: Olivier Masse <olivier.masse@nxp.com>
-To: "brian.starkey@arm.com" <brian.starkey@arm.com>
-Subject: Re: [EXT] Re: [PATCH 2/3] dt-bindings: reserved-memory: add
- linaro,secure-heap
-Thread-Topic: [EXT] Re: [PATCH 2/3] dt-bindings: reserved-memory: add
- linaro,secure-heap
-Thread-Index: AQHYqNLEnjJonunwF0WOKfYz9B6iK62gc2IAgAW2aIA=
-Date: Tue, 9 Aug 2022 07:01:41 +0000
-Message-ID: <79c6672afa8aa7ebc1c56be6dc87641bccf6690f.camel@nxp.com>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
- <20220805135330.970-3-olivier.masse@nxp.com>
- <20220805154624.qhrao5p3gwywl3xr@000377403353>
-In-Reply-To: <20220805154624.qhrao5p3gwywl3xr@000377403353>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 25dec40f-030d-488b-2c45-08da79d5033f
-x-ms-traffictypediagnostic: PAXPR04MB9155:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Fg1Mn95vOQRIcexMHhd8Du6OXhoonUXE41e5kjH3WDFDvPbMcXM/X9KGVE7FJ7VaOj4Ygu4FKJAGKmN5d5KjEIWJZVGaQVNwjJ8QmOGZAT3u0ij3caT8XCtMEuyU77eB8iwstHbt4/4rVb6mU4+F6opVmmA4vU2m3Ixut+aBA1LgVhEbfSBBM5DUbeiwZXRWa3BBajTNsWi9ybirXqQiB1UeEZkzPNUCNqaq0qJhYMIkKEzDUMkl2BAS1DkJ4Juirsy0uNHAfkRgMUvuAgFWXKFJJVNXQSW3RtDG3LRSCLeDT9nNpigvwkawbqwQLPfFheVqXEMwYNkH66XUA38JdMcEoOQ9HP9BGSVmnB3LLPbEXnviydWCYKQqJCekgdLFS3kiZAXeSkrsXrqG3CKB6gaRoukuoWhgoGQnYRPamN+QdOnZ3lfElf3TxwmYJg5jHzZolJ5RqkgWHyGd8XzpG8xu606O6MY4Z3QQQ3o2vk7hOSDC/DHyyBhkQgbrwiG+4i9L7kRVV2ZFDwpiqbdNQEs4FJ7XHXvPYjHc9uFKgEkGeM/eQqzxK5QnYqRUzZrNuvkQCYK+XXaA3ixEojbr6QZDz47i8navtXBEZC04FjAoqbbL1DJIXzIS7ZjFMoa01scwfs3WQQ6zhZgjKyNqFtQltsSMShHBNVxoVJiR7gfbxzbIaWpntIZB2pFkVB+OlILxHNitIMhxwe7Uta78zc15XNS22rx53Ph3tmM/bxjrhEQGVFzynHgor2KUjHd1pk/XCErN9/sx6Nob5fVM+Qwi4+Xl57fS2R3TKqNjXf1ebspPI7A6BeieZ+P2dgJv4PCcdJybx72lwzODjwUcemG51TEUx5JK56F5yED7AZCjKX/ExpfZWFVTktYXG1QAww0pv7Ivy9OCViFrWLShlg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR04MB6743.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(71200400001)(36756003)(6506007)(478600001)(41300700001)(45080400002)(6486002)(966005)(38070700005)(86362001)(6512007)(83380400001)(2616005)(26005)(186003)(54906003)(316002)(66556008)(66476007)(66446008)(66946007)(76116006)(91956017)(64756008)(4326008)(8676002)(44832011)(2906002)(8936002)(7416002)(5660300002)(6916009)(122000001)(38100700002)(99106002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?JGnTliOtt8KpinXP4ZvT1O2PjJbwGhuA02YiJh5CXiCQyiB2RIYs6L8pl?=
- =?iso-8859-15?Q?AXFzrAtp8HrRjMncIPFgQ58h0n1gEzDK+ki+cTW+d7YofDhl5sNFWcjZA?=
- =?iso-8859-15?Q?/nbk1HPIWAI7xi1R4Z/HXHS3WpJSRI/ctwxEcKcdqCdlqjBIaG4SbMu0V?=
- =?iso-8859-15?Q?jAOaPDINVua9i2Ej6aCvXIc5k924+WaGiDcf3d1jsQizdDxF8SLhzPlqQ?=
- =?iso-8859-15?Q?h4Epu5MQviRwVCra0LUeKWayH9EASuhCeP23JqFJMRnOVniML+DscdQIk?=
- =?iso-8859-15?Q?sgQWnfCCUCynQM8g4sji94ObLnbgjoZegFzGPwXLqUFmDWKY1A11yhz39?=
- =?iso-8859-15?Q?z+X75RB3zUsZ8+4LWw2D+jZrKsEgUUqjk/NFlEcnHeHf76t7ZEsIkBk3E?=
- =?iso-8859-15?Q?/fO3piN+RPf8rog0LhnSKqqaJhM0Nflb/3hqy8txdA2vS5o+OYk9VNcqr?=
- =?iso-8859-15?Q?udH/Ie2yhgdOUBLy23uNLxlVNUOylvzTtRWiwLoj2C2Oe2mwj9BLyjYMQ?=
- =?iso-8859-15?Q?dzZnU77GLyLkJXQR9J3Qfxp/Y/vforgcm5K83K3w98kSAJQ7wWpR00j84?=
- =?iso-8859-15?Q?aJeeh20f/kZjRwwRsfSl16O0OjKkehXA2bH4pbnzV9mjwTLhkxXwHD9oe?=
- =?iso-8859-15?Q?JrGM3TPxtFReT75iYVcNsSf28PPX5vn3f2Vf/Gk2UtlmFZwMuBThSK1Zh?=
- =?iso-8859-15?Q?WySvAyk9fpSyzqbNGxEEUApufh0MSCbGepTPBI4v4H3Fh7j6PyUzGa7nM?=
- =?iso-8859-15?Q?6G4xPpNxDKTmmmO/KtyaCZegPy268KOZXZJVPtb41ZlLY8RvZShBAec4H?=
- =?iso-8859-15?Q?TW+llz3PK575BHPB4CbnRCiMH91Y6+KKS/LCBRrd9kqaHEUbDaZmjWUo6?=
- =?iso-8859-15?Q?mVBe0jaO2CizTrcDb7IB1O+C3o1L5jPpynYXzkkRsBNFdspE7/mmh4/uq?=
- =?iso-8859-15?Q?HHUNihx6tO58pgirnNYB8nCKd3NKyiIRtuol+hhIXQNUNqm83aDoWmpOc?=
- =?iso-8859-15?Q?PkvcdDszcv67jlOdPmOYl2yNf3EoMuXpyWFBE6tEDa8EckNuSCiuVmpXG?=
- =?iso-8859-15?Q?nuvHB96fFXP/0+BJUYz90yEy8YgzWynsaxLd4foIZDgliHhEHHvujwWbE?=
- =?iso-8859-15?Q?JXn1tg99JKp6wuJs9YLeGvmYSsuBQsQd8e4F6k+fqhFkbpmIzaHp2Hp2w?=
- =?iso-8859-15?Q?M+97fgO9CB61fI44Y+TSTMfsJ821/yDjStpB0280pVnZ4vLWfRtx7YcP+?=
- =?iso-8859-15?Q?VcGrxrasArKJzinAqhvzizl6aAwxc29NhOEfSvR9KXzDX/6tR2JaC9yFN?=
- =?iso-8859-15?Q?PVUnBUHji6gLdsegREVEkp3oU2s65R32F/eYbBR+6eZW4dQLtX9egQOb2?=
- =?iso-8859-15?Q?kqPffvFXiZqkkVQ4s1cp/KkvbKDrA5rSl6Ol7KNVl81eJZzJ30RRltHaw?=
- =?iso-8859-15?Q?2fCsIfmho+RtDd38h7d+aYzIgCE4qm1K6jBkwjLaStgewe3QdjOV+qYU5?=
- =?iso-8859-15?Q?sIgjdvc+6MUCd6jqP3GRIPNxRg58cum95w1ke69zDaVjHTJb8UaFJDObO?=
- =?iso-8859-15?Q?8z/SoiLoqBOM8pUNQxPbpmPtXldHBtS9Vy6XWxhODxXuV2N+BLr4BhS3T?=
- =?iso-8859-15?Q?k1gXAc887vbT7jNh7mglIuV/616QqteAXjSYeku1TC7G3rL980S8Lae4Q?=
- =?iso-8859-15?Q?3M5e?=
-Content-Type: text/plain; charset="iso-8859-15"
-Content-ID: <2290B54D7EA71D4A89DD95AED9E54C0E@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87C3BB038
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 07:13:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E30FC34CD9;
+ Tue,  9 Aug 2022 07:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660029196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=R9WK+PF0ETOz3VoM1ksRtxXg6EcKjbZyKCGgIJY3ihY=;
+ b=VrPX3cMOdwqnxqgWtgWGVCGqNFJ2Pj6KNnxc+fXlNJ3pKlMcTA6CVECUNPxjxRHtxPKLsi
+ 8/BmJ8l2aiDdEpQYwujMfF85oi8/4XTryVexh62Q3Caq785NJH3/8BAsyhkH8MzxrLyfJI
+ qhI1xlnx4kxep5cMMK6VXQNq+U/iBqA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660029196;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=R9WK+PF0ETOz3VoM1ksRtxXg6EcKjbZyKCGgIJY3ihY=;
+ b=kKnaQhyJ2hN29wC5Xj0XqDrcccm4M0hLeTgV5Z2rFZstZW2n2rQXeHi8weYhyjDMNzS42Z
+ V9R7KDcyMc00RVCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C520E13A9D;
+ Tue,  9 Aug 2022 07:13:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kBZFLwwJ8mLTcAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Aug 2022 07:13:16 +0000
+Message-ID: <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de>
+Date: Tue, 9 Aug 2022 09:13:16 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25dec40f-030d-488b-2c45-08da79d5033f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2022 07:01:41.5500 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9lmgv20HjL4BCOKSTXq5ThcUKaoGtd1q7DH11+NVybvQzhEHqID7y5N4YkjeDwBd0kjNpk3ckpCWZPFIOjFKyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9155
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+To: Takashi Iwai <tiwai@suse.de>, dri-devel@lists.freedesktop.org
+References: <20220804075826.27036-1-tiwai@suse.de>
+ <20220804075826.27036-4-tiwai@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220804075826.27036-4-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6PVvEJazcpT2eX77No8hSGCQ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,140 +70,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>, "nd@arm.com" <nd@arm.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Brian,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6PVvEJazcpT2eX77No8hSGCQ
+Content-Type: multipart/mixed; boundary="------------p5U70wzSTyvnHbBy1wMp7HQn";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Takashi Iwai <tiwai@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
+Message-ID: <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de>
+Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+References: <20220804075826.27036-1-tiwai@suse.de>
+ <20220804075826.27036-4-tiwai@suse.de>
+In-Reply-To: <20220804075826.27036-4-tiwai@suse.de>
 
-It was part of a discussion during a Devicetree evolution meeting with
-Bill Mills from Linaro.
+--------------p5U70wzSTyvnHbBy1wMp7HQn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I've done some modification to OPTEE OS and OPTEE TEST to support dma
-buf:
-OPTEE OS
-https://github.com/OP-TEE/optee_os/commit/eb108a04369fbfaf60c03c0e00bbe9489=
-a761c69
-https://github.com/OP-TEE/optee_os/commit/513b0748d46e7eefa17dadb204289e49d=
-c17f854
+SGkNCg0KQW0gMDQuMDguMjIgdW0gMDk6NTggc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IEF0
+IGJvdGggc3VzcGVuZCBhbmQgZGlzY29ubmVjdCwgd2Ugc2hvdWxkIHJhdGhlciBjYW5jZWwg
+dGhlIHBlbmRpbmcNCj4gVVJCcyBpbW1lZGlhdGVseS4gIEZvciB0aGUgc3VzcGVuZCBjYXNl
+LCB0aGUgZGlzcGxheSB3aWxsIGJlIHR1cm5lZA0KPiBvZmYsIHNvIGl0IG1ha2VzIG5vIHNl
+bnNlIHRvIHByb2Nlc3MgdGhlIHJlbmRlcmluZy4gIEFuZCBmb3IgdGhlDQo+IGRpc2Nvbm5l
+Y3QgY2FzZSwgdGhlIGRldmljZSBtYXkgYmUgbm8gbG9uZ2VyIGFjY2Vzc2libGUsIGhlbmNl
+IHdlDQo+IHNob3VsZG4ndCBkbyBhbnkgc3VibWlzc2lvbi4NCj4gDQo+IFRlc3RlZC1ieTog
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+IFNpZ25lZC1vZmYt
+Ynk6IFRha2FzaGkgSXdhaSA8dGl3YWlAc3VzZS5kZT4NCj4gLS0tDQo+ICAgZHJpdmVycy9n
+cHUvZHJtL3VkbC91ZGxfZHJ2LmggICAgIHwgIDIgKysNCj4gICBkcml2ZXJzL2dwdS9kcm0v
+dWRsL3VkbF9tYWluLmMgICAgfCAyNSArKysrKysrKysrKysrKysrKysrKysrLS0tDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jIHwgIDIgKysNCj4gICAzIGZpbGVz
+IGNoYW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmggYi9kcml2ZXJzL2dwdS9k
+cm0vdWRsL3VkbF9kcnYuaA0KPiBpbmRleCBmMDFlNTBjNWI3YjcuLjI4YWFmNzVkNzFjZiAx
+MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmgNCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmgNCj4gQEAgLTM5LDYgKzM5LDcgQEAgc3Ry
+dWN0IHVyYl9ub2RlIHsNCj4gICANCj4gICBzdHJ1Y3QgdXJiX2xpc3Qgew0KPiAgIAlzdHJ1
+Y3QgbGlzdF9oZWFkIGxpc3Q7DQo+ICsJc3RydWN0IGxpc3RfaGVhZCBpbl9mbGlnaHQ7DQo+
+ICAgCXNwaW5sb2NrX3QgbG9jazsNCj4gICAJd2FpdF9xdWV1ZV9oZWFkX3Qgc2xlZXA7DQo+
+ICAgCWludCBhdmFpbGFibGU7DQo+IEBAIC04NCw2ICs4NSw3IEBAIHN0YXRpYyBpbmxpbmUg
+c3RydWN0IHVyYiAqdWRsX2dldF91cmIoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4gICAN
+Cj4gICBpbnQgdWRsX3N1Ym1pdF91cmIoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0
+IHVyYiAqdXJiLCBzaXplX3QgbGVuKTsNCj4gICBpbnQgdWRsX3N5bmNfcGVuZGluZ191cmJz
+KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpOw0KPiArdm9pZCB1ZGxfa2lsbF9wZW5kaW5nX3Vy
+YnMoc3RydWN0IGRybV9kZXZpY2UgKmRldik7DQo+ICAgdm9pZCB1ZGxfdXJiX2NvbXBsZXRp
+b24oc3RydWN0IHVyYiAqdXJiKTsNCj4gICANCj4gICBpbnQgdWRsX2luaXQoc3RydWN0IHVk
+bF9kZXZpY2UgKnVkbCk7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3Vk
+bF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWluLmMNCj4gaW5kZXggOTM2
+MTU2NDg0MTRiLi40NzIwNGI3ZWIxMGUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS91ZGwvdWRsX21haW4uYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9tYWlu
+LmMNCj4gQEAgLTEzNSw3ICsxMzUsNyBAQCB2b2lkIHVkbF91cmJfY29tcGxldGlvbihzdHJ1
+Y3QgdXJiICp1cmIpDQo+ICAgCXVyYi0+dHJhbnNmZXJfYnVmZmVyX2xlbmd0aCA9IHVkbC0+
+dXJicy5zaXplOyAvKiByZXNldCB0byBhY3R1YWwgKi8NCj4gICANCj4gICAJc3Bpbl9sb2Nr
+X2lycXNhdmUoJnVkbC0+dXJicy5sb2NrLCBmbGFncyk7DQo+IC0JbGlzdF9hZGRfdGFpbCgm
+dW5vZGUtPmVudHJ5LCAmdWRsLT51cmJzLmxpc3QpOw0KPiArCWxpc3RfbW92ZSgmdW5vZGUt
+PmVudHJ5LCAmdWRsLT51cmJzLmxpc3QpOw0KPiAgIAl1ZGwtPnVyYnMuYXZhaWxhYmxlKys7
+DQo+ICAgCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnVkbC0+dXJicy5sb2NrLCBmbGFncyk7
+DQo+ICAgDQo+IEBAIC0xODAsNiArMTgwLDcgQEAgc3RhdGljIGludCB1ZGxfYWxsb2NfdXJi
+X2xpc3Qoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGNvdW50LCBzaXplX3Qgc2l6ZSkN
+Cj4gICByZXRyeToNCj4gICAJdWRsLT51cmJzLnNpemUgPSBzaXplOw0KPiAgIAlJTklUX0xJ
+U1RfSEVBRCgmdWRsLT51cmJzLmxpc3QpOw0KPiArCUlOSVRfTElTVF9IRUFEKCZ1ZGwtPnVy
+YnMuaW5fZmxpZ2h0KTsNCj4gICANCj4gICAJaW5pdF93YWl0cXVldWVfaGVhZCgmdWRsLT51
+cmJzLnNsZWVwKTsNCj4gICAJdWRsLT51cmJzLmNvdW50ID0gMDsNCj4gQEAgLTI0Niw3ICsy
+NDcsNyBAQCBzdHJ1Y3QgdXJiICp1ZGxfZ2V0X3VyYl90aW1lb3V0KHN0cnVjdCBkcm1fZGV2
+aWNlICpkZXYsIGxvbmcgdGltZW91dCkNCj4gICAJfQ0KPiAgIA0KPiAgIAl1bm9kZSA9IGxp
+c3RfZmlyc3RfZW50cnkoJnVkbC0+dXJicy5saXN0LCBzdHJ1Y3QgdXJiX25vZGUsIGVudHJ5
+KTsNCj4gLQlsaXN0X2RlbF9pbml0KCZ1bm9kZS0+ZW50cnkpOw0KPiArCWxpc3RfbW92ZSgm
+dW5vZGUtPmVudHJ5LCAmdWRsLT51cmJzLmluX2ZsaWdodCk7DQo+ICAgCXVkbC0+dXJicy5h
+dmFpbGFibGUtLTsNCj4gICANCj4gICB1bmxvY2s6DQo+IEBAIC0yNzksNyArMjgwLDcgQEAg
+aW50IHVkbF9zeW5jX3BlbmRpbmdfdXJicyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAg
+IAlzcGluX2xvY2tfaXJxKCZ1ZGwtPnVyYnMubG9jayk7DQo+ICAgCS8qIDIgc2Vjb25kcyBh
+cyBhIHNhbmUgdGltZW91dCAqLw0KPiAgIAlpZiAoIXdhaXRfZXZlbnRfbG9ja19pcnFfdGlt
+ZW91dCh1ZGwtPnVyYnMuc2xlZXAsDQo+IC0JCQkJCSB1ZGwtPnVyYnMuYXZhaWxhYmxlID09
+IHVkbC0+dXJicy5jb3VudCwNCj4gKwkJCQkJIGxpc3RfZW1wdHkoJnVkbC0+dXJicy5pbl9m
+bGlnaHQpLA0KPiAgIAkJCQkJIHVkbC0+dXJicy5sb2NrLA0KPiAgIAkJCQkJIG1zZWNzX3Rv
+X2ppZmZpZXMoMjAwMCkpKQ0KPiAgIAkJcmV0ID0gLUVUSU1FRE9VVDsNCj4gQEAgLTI4Nyw2
+ICsyODgsMjMgQEAgaW50IHVkbF9zeW5jX3BlbmRpbmdfdXJicyhzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2KQ0KPiAgIAlyZXR1cm4gcmV0Ow0KPiAgIH0NCj4gICANCj4gKy8qIGtpbGwgcGVu
+ZGluZyBVUkJzICovDQo+ICt2b2lkIHVkbF9raWxsX3BlbmRpbmdfdXJicyhzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2KQ0KPiArew0KPiArCXN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwgPSB0b191
+ZGwoZGV2KTsNCj4gKwlzdHJ1Y3QgdXJiX25vZGUgKnVub2RlOw0KPiArDQo+ICsJc3Bpbl9s
+b2NrX2lycSgmdWRsLT51cmJzLmxvY2spOw0KPiArCXdoaWxlICghbGlzdF9lbXB0eSgmdWRs
+LT51cmJzLmluX2ZsaWdodCkpIHsNCj4gKwkJdW5vZGUgPSBsaXN0X2ZpcnN0X2VudHJ5KCZ1
+ZGwtPnVyYnMuaW5fZmxpZ2h0LA0KPiArCQkJCQkgc3RydWN0IHVyYl9ub2RlLCBlbnRyeSk7
+DQo+ICsJCXNwaW5fdW5sb2NrX2lycSgmdWRsLT51cmJzLmxvY2spOw0KPiArCQl1c2Jfa2ls
+bF91cmIodW5vZGUtPnVyYik7DQo+ICsJCXNwaW5fbG9ja19pcnEoJnVkbC0+dXJicy5sb2Nr
+KTsNCj4gKwl9DQo+ICsJc3Bpbl91bmxvY2tfaXJxKCZ1ZGwtPnVyYnMubG9jayk7DQo+ICt9
+DQo+ICsNCj4gICBpbnQgdWRsX2luaXQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCkNCj4gICB7
+DQo+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmdWRsLT5kcm07DQo+IEBAIC0zMzUs
+NiArMzUzLDcgQEAgaW50IHVkbF9kcm9wX3VzYihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0K
+PiAgIHsNCj4gICAJc3RydWN0IHVkbF9kZXZpY2UgKnVkbCA9IHRvX3VkbChkZXYpOw0KPiAg
+IA0KPiArCXVkbF9raWxsX3BlbmRpbmdfdXJicyhkZXYpOw0KPiAgIAl1ZGxfZnJlZV91cmJf
+bGlzdChkZXYpOw0KPiAgIAlwdXRfZGV2aWNlKHVkbC0+ZG1hZGV2KTsNCj4gICAJdWRsLT5k
+bWFkZXYgPSBOVUxMOw0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxf
+bW9kZXNldC5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jDQo+IGluZGV4
+IDUwMDI1NjA2YjZhZC4uMTY5MTEwZDhmYzJlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfbW9kZXNldC5jDQo+IEBAIC0zOTcsNiArMzk3LDggQEAgdWRsX3NpbXBsZV9kaXNwbGF5
+X3BpcGVfZGlzYWJsZShzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUpDQo+
+ICAgCXN0cnVjdCB1cmIgKnVyYjsNCj4gICAJY2hhciAqYnVmOw0KPiAgIA0KPiArCXVkbF9r
+aWxsX3BlbmRpbmdfdXJicyhkZXYpOw0KPiArDQoNCkkgYWxyZWFkeSByZXZpZXdlZCB0aGUg
+cGF0Y2hzZXQsIGJ1dCBJIGhhdmUgYW5vdGhlciBjb21tZW50LiBJIHRoaW5rIHdlIA0Kc2hv
+dWxkIG9ubHkga2lsbCB1cmJzIGZyb20gd2l0aGluIHRoZSBzdXNwZW5kIGhhbmRsZXIuIFNh
+bWUgZm9yIHRoZSBjYWxsIA0KdG8gdGhlIFVSQi1zeW5jIGZ1bmN0aW9uIGluIHBhdGNoIDIu
+DQoNClRoaXMgZGlzYWJsZSBmdW5jdGlvbiBpcyBwYXJ0IG9mIHRoZSByZWd1bGFyIG1vZGVz
+ZXQgcGF0aC4gSXQncyBwcm9iYWJseSANCm5vdCBhcHByb3ByaWF0ZSB0byBvdXRyaWdodCBy
+ZW1vdmUgcGVuZGluZyBVUkJzIGhlcmUuIFRoaXMgY2FuIGxlYWQgdG8gDQpmYWlsZWQgbW9k
+ZXNldHMsIHdoaWNoIHdvdWxkIGhhdmUgc3VjY2VlZGVkIG90aGVyd2lzZS4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KPiAgIAl1cmIgPSB1ZGxfZ2V0X3VyYihkZXYpOw0KPiAgIAlp
+ZiAoIXVyYikNCj4gICAJCXJldHVybjsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
+MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-OPTEE TEST
-https://github.com/OP-TEE/optee_test/commit/da5282a011b40621a2cf7a296c11a35=
-c833ed91b
 
-BR / Olivier
+--------------p5U70wzSTyvnHbBy1wMp7HQn--
 
-On ven., 2022-08-05 at 16:46 +0100, Brian Starkey wrote:
-> Caution: EXT Email
->=20
-> +Rob and devicetree list.
->=20
-> I don't know if this should be "linaro" or something more generic,
-> and also where previous discussions got to about DMA heaps in DT.
->=20
-> Cheers,
-> -Brian
->=20
-> On Fri, Aug 05, 2022 at 03:53:29PM +0200, Olivier Masse wrote:
-> > DMABUF Reserved memory definition for OP-TEE SDP feaure.
-> >=20
-> > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > ---
-> >  .../reserved-memory/linaro,secure-heap.yaml   | 56
-> > +++++++++++++++++++
-> >  1 file changed, 56 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/reserved-
-> > memory/linaro,secure-heap.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/reserved-
-> > memory/linaro,secure-heap.yaml
-> > b/Documentation/devicetree/bindings/reserved-memory/linaro,secure-
-> > heap.yaml
-> > new file mode 100644
-> > index 000000000000..80522a4e2989
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/reserved-
-> > memory/linaro,secure-heap.yaml
-> > @@ -0,0 +1,56 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id:=20
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevi=
-cetree.org%2Fschemas%2Freserved-memory%2Flinaro%2Csecure-heap.yaml%23&amp;d=
-ata=3D05%7C01%7Colivier.masse%40nxp.com%7C0a9e67bbd65446aa05e408da76f9b82a%=
-7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637953112157450452%7CUnknown%7=
-CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn=
-0%3D%7C3000%7C%7C%7C&amp;sdata=3Dlb9U8Fnt1Y43UgObcgakAC%2FZx4je%2BCoNX5vhkF=
-vgbdQ%3D&amp;reserved=3D0
-> > +$schema:=20
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevi=
-cetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=3D05%7C01%7Colivier.masse=
-%40nxp.com%7C0a9e67bbd65446aa05e408da76f9b82a%7C686ea1d3bc2b4c6fa92cd99c5c3=
-01635%7C0%7C0%7C637953112157450452%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAw=
-MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdat=
-a=3DUVuVI%2FmUFj7jX7c6DY0rRi9lkZW7kqTJyQurQxvNvz8%3D&amp;reserved=3D0
-> > +
-> > +title: Linaro Secure DMABUF Heap
-> > +
-> > +maintainers:
-> > +  - Olivier Masse <olivier.masse@nxp.com>
-> > +
-> > +description:
-> > +  Linaro OP-TEE firmware needs a reserved memory for the
-> > +  Secure Data Path feature (aka SDP).
-> > +  The purpose is to provide a secure memory heap which allow
-> > +  non-secure OS to allocate/free secure buffers.
-> > +  The TEE is reponsible for protecting the SDP memory buffers.
-> > +  TEE Trusted Application can access secure memory references
-> > +  provided as parameters (DMABUF file descriptor).
-> > +
-> > +allOf:
-> > +  - $ref: "reserved-memory.yaml"
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: linaro,secure-heap
-> > +
-> > +  reg:
-> > +    description:
-> > +      Region of memory reserved for OP-TEE SDP feature
-> > +
-> > +  no-map:
-> > +    $ref: /schemas/types.yaml#/definitions/flag
-> > +    description:
-> > +      Avoid creating a virtual mapping of the region as part of
-> > the OS'
-> > +      standard mapping of system memory.
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - no-map
-> > +
-> > +examples:
-> > +  - |
-> > +  reserved-memory {
-> > +    #address-cells =3D <2>;
-> > +    #size-cells =3D <2>;
-> > +
-> > +    sdp@3e800000 {
-> > +      compatible =3D "linaro,secure-heap";
-> > +      no-map;
-> > +      reg =3D <0 0x3E800000 0 0x00400000>;
-> > +    };
-> > +  };
-> > --
-> > 2.25.0
-> >=20
+--------------6PVvEJazcpT2eX77No8hSGCQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLyCQwFAwAAAAAACgkQlh/E3EQov+CP
+TQ/+Ndhu1QNi2h4m/FL0sw8mHZcn7aAFgM/z+lnTPwzOoRlvj3+NDlMGGLeTPg21UqRLcevddCKG
+boVbrmmUkippN6ZWgvXfCxGVC73a1B7GbWjPoaO/hNYvZozMl20aeFLxY48G/3uMLUBn72NO2Tf7
+xzLSFt0mqTd0XLe/JNwgn5h5ZfIGrsKx9z8H3Fx49P1bMlN5nGreWM2dgjLELy/pN0NZvt7xqTgX
+QXItN35kHQ45T1f5tMKkE5jtNTbcKQ69qzXtXEH9HVG+znaMeejl6rRn0Qsem4/LFALg691bOmk0
+tvJEsgfPBDU4vS9BWzwGlJ8wiJLSXFQLF7hCEW2qqP/Oos1ubHjQIc/YXcRFsSzyVidHozG0KV6O
+1y44lu4D69Ba1mm1F+ZBLbgStjxxMWtOVLRP6S/5i9kxn5Z89IPhzHYcpnBdoM9rd9gTYhnZgaax
+Z7dSFY0Ipn9wGvPh97vlqxqCzMbqmcceZN8Ot0POvuA10ckashuL4puOkIIWJqJGZh+ZYDOJ7ZSu
+Pxi6M266a+4JhVj0knla5gA8YOg211Sg0REcysaXLRfRQVUytXDtAYAZbQorTcEcMSZI9B/i59kh
+pSTQ6eXawSOODROhIMeWrE1ZA62+UE85VMmMJ58gETI7JBvqZhY1l4/y6WWGJhg3l7v93BC7wfQY
+oog=
+=SVRx
+-----END PGP SIGNATURE-----
+
+--------------6PVvEJazcpT2eX77No8hSGCQ--
