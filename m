@@ -2,93 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C743D58D67E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 11:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0445758D6CB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 11:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15BD0907EF;
-	Tue,  9 Aug 2022 09:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E8CCD9C5;
+	Tue,  9 Aug 2022 09:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2088.outbound.protection.outlook.com [40.107.237.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F51907B3;
- Tue,  9 Aug 2022 09:23:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SoJzepwrHEQ3RQeyR9nmJzAMNOrLA23gPf6m6Bkwe/ZmjQBcZCtdQEkO9/E7izJ5ywaYR7KwWUHCCPV9GNhr6yPeZ3M38YsRA+qphkunHhYHzlEeDDtfH4aYslnWJLS1D2kRCVnBbJQPEikmjsU43sYx2bHv3xoWkrUA/haS9zwIM+NKDzj5BP/xz3hpB5SzAwu6b+yV95ILOeqTbZ+TKjmUsZ/v6fmgq64DqDtL3pz993xGRUhshSWKyTQjwF7DZphZoes23bFLFh+s/n0Ydk7xkXbXgQajOxfm974CFX93iqO9s4PziMw/52nIY/OVkSWOVJ5DG0cBsN9dCKIoCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hQi5HdAfqk9e3uellmQXB3kBOwi/n5rmJXrEPF94U0Y=;
- b=CQ/ldPhH3pLjOWBLqxCR1HZf0EYanAvM24AwrjIPEFwY4fOA3FiHSlrH3IA/6F7S8NFd3t64pzFX+Oub8OcFnIVYG1aoyiHcTUgiCX2pclaxke6f3BmpoJH8QrDqcJzplaDoBdEIX02AmIFcdFRbEzPTUhSXXWFs4xGcThzftCMiqogEyvJPDpeiSUXYbFt9PMRA50ZH/wrgjUAJw0rlAq92I9BPYpwcjhXDHPIvOw12axhCt2sXqm+P7PiCMxum2kLqFJ49/CQM3bjnaA56ujA8jC5Fke6Uo5TuVsuT6fahfF5iwRwhVOhBSDnHfONWZNwd9FwHokyLZni/10ERjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hQi5HdAfqk9e3uellmQXB3kBOwi/n5rmJXrEPF94U0Y=;
- b=YX7Vx9YKQH/jeanh0phrY7kckTn/JZjZYA3Mw/i8EEMKpAMhVXUOojeUCGuUQ9s4+SSerx8LRnDjHm5yR+m8C/evzHHOBBA3qebKFKhg/y7DJ6Ya/UqfV1qPXkqoNXAo/+Bgh0QmFXYEGIoQY6Xvw31gqGIFU/BFReLMEangMR8=
-Received: from MW4PR04CA0332.namprd04.prod.outlook.com (2603:10b6:303:8a::7)
- by BN8PR12MB2897.namprd12.prod.outlook.com (2603:10b6:408:99::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Tue, 9 Aug
- 2022 09:23:38 +0000
-Received: from CO1NAM11FT042.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8a:cafe::4c) by MW4PR04CA0332.outlook.office365.com
- (2603:10b6:303:8a::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20 via Frontend
- Transport; Tue, 9 Aug 2022 09:23:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT042.mail.protection.outlook.com (10.13.174.250) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5504.14 via Frontend Transport; Tue, 9 Aug 2022 09:23:37 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 9 Aug 2022 04:23:32 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH v5 6/6] drm/ttm: Switch to using the new res callback
-Date: Tue, 9 Aug 2022 02:22:30 -0700
-Message-ID: <20220809092230.2808-6-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220809092230.2808-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20220809092230.2808-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 244EF8F3EE
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 09:51:16 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
+ [91.158.154.79])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C2C8481;
+ Tue,  9 Aug 2022 11:51:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1660038674;
+ bh=r2sdgyuhzqotsEz/pACTyQCNacvrrwjhRBMGFPAHOqE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=O7h2FKBjjAc9l33om8vVHf+MwJNoHWfqMy7RO9Hq0c8XGI00KcfLktFxoIGSyCssg
+ iw5onPCppQwZFyuYL4IuWp4hdxLbNvkk6UjEUn9UgIT4Nx5zxMmT8sSVqswRQo6fCh
+ Kjp3KRR3vjbv6JDpH7AUxBlju4oViuDMFnJXSn7o=
+Message-ID: <ff7448fd-e50c-1c6d-ad28-ea7e555cdd24@ideasonboard.com>
+Date: Tue, 9 Aug 2022 12:51:10 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/8] drm/tidss: Add support for Dual Link LVDS Bus Format
+Content-Language: en-US
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+References: <20220719080845.22122-1-a-bhatia1@ti.com>
+ <20220719080845.22122-5-a-bhatia1@ti.com>
+ <f2909af1-be23-009b-ba71-34206f099473@ideasonboard.com>
+ <ec8dce9b-51d6-a566-67bb-b76f6f3458d7@ideasonboard.com>
+ <1f9de2d8-7507-bdc2-93c1-470c8e060586@ti.com>
+ <b8fd1719-b0ec-495b-54f9-1d591ff8af9e@ideasonboard.com>
+ <09682120-632a-1bfb-c0d7-034f5f076421@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <09682120-632a-1bfb-c0d7-034f5f076421@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 51edffe3-f0b0-4c10-a44c-08da79e8d768
-X-MS-TrafficTypeDiagnostic: BN8PR12MB2897:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YkorguVr2yeIFlvH8ggTt/VgulBHAvVeqzPyz0DDPD6hthBwnF5tvP0bRs38HUPwvtNUYdfIgxicKd4Juo26pXloZmLKYMSJ/lt6PyxCnFTH7H85+UvlIJgK4RqQyzhOwCRE1mtmPr4Bvjnv4wmM14cT0pvt7cGfTen3D6CCs7vIzVn4HElVj5/EwhqiK3+PQ6ctddXVZx+r5Q4MfAZ6lAlaKqkx9YFlURjLoLGR1P8i9dSba+SicfJ3+fJ3I3N3mL3ovUIJIPQFYomn6+BwYeOutMDzLrsq8V+aO6C1OOAJAGSeo5Ghyii8j3SfpxL6RTCGkN/fK7tMMyGSlXafIxbPk1HOFXX0ehp/idKtYocBy7QKC6CBSJaGItPF7+TCVOlEmEbMHkgjiwugzyA63FaemlLHVGw5kIuMmDmgjfiK/sldWXQ21zZuzpXl9v7tiD2Prhxl756rVyzaS4ubr5M1N1Q9mA+cTEIFthMUuBjmR3n8VnU+dvHOPkeQsW8Sf1YutDY+izl5SUSmJaqlwQV/7wlv1Da/EHfO2SF81BnQhf+RlT6zIUsOVyloOHVpzuPMgAmUeXR+0mF698BletVCRUpYPFjFJlQ1VKb+WaSh3EIr9OR2EvsdTwCYCiK9bcgn4VDWB3Ub5OjcKhiVj2FuXQDy7OyoNHxXODxO78xzSGsoLl1jqLU15LDDE4EZNIPs732tFEMXeIDMmtegU8bp/RfDDx/+9sLKrv1XGX674aFmlrxxD1HTJU4sZis1rP1MEpA0wux/BAdqggL956zcV8m9r2tLzb93B96MPUh1M41B2JIRKi+q7Ey5Y2BQ8G1c2+TS06ccssJBh/GeGQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(136003)(346002)(39860400002)(396003)(40470700004)(36840700001)(46966006)(70206006)(70586007)(40480700001)(82740400003)(2906002)(81166007)(5660300002)(356005)(8936002)(8676002)(4326008)(478600001)(83380400001)(66574015)(7696005)(47076005)(16526019)(336012)(2616005)(426003)(186003)(26005)(1076003)(36860700001)(41300700001)(54906003)(110136005)(316002)(86362001)(82310400005)(36756003)(40460700003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 09:23:37.7960 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51edffe3-f0b0-4c10-a44c-08da79e8d768
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT042.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2897
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,146 +55,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- luben.tuikov@amd.com, christian.koenig@amd.com, matthew.auld@intel.com
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Darren Etheridge <detheridge@ti.com>, Rob Herring <robh+dt@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Rahul T R <r-ravikumar@ti.com>,
+ Krunal Bhargav <k-bhargav@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apply new intersect and compatible callback instead
-of having a generic placement range verfications.
+On 09/08/2022 12:06, Aradhya Bhatia wrote:
 
-v2: Added a separate callback for compatiblilty
-    checks (Christian)
+>>> Even in DT, the dss port (for OLDI) connects to the panel port's
+>>> endpoint directly. Even in cases of dual link or cloning, it's only a
+>>> singular remote-to-endpoint connection between the (OLDI) VP and the
+>>> panel port. Hence the requirement of the properties in the earlier
+>>> patches of the series.
+>>
+>> Sorry, I don't follow. If you use cloning, you have two TX outputs, 
+>> going to two panels, right? So you need two panel DT nodes, and those 
+>> would connect to two OLDI TX ports in the DSS.
+>>  > Afaics the existing dual link bridge/panel drivers also use two ports
+>> for the connection, so to use the dual link you need two ports in the 
+>> DSS.
+>>
+>> I admit I'm not familiar with LVDS dual link, but it's not clear to me 
+>> how you see the dual OLDI TX being used with other drivers if you have 
+>> only one port. What kind of setups have you tested?
+>>
+> In the DTs, the OLDIs are not modeled at all. Since the DSS only has a
+> single VP for OLDI, the DT dss port (for OLDI) is connected to a single
+> simple-panel node for dual link, bypassing the OLDI TX in DT. I have
+> this same OLDI setup and have been testing on this.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 45 +++++++------------------
- drivers/gpu/drm/ttm/ttm_bo.c            |  9 +++--
- drivers/gpu/drm/ttm/ttm_resource.c      |  5 +--
- 3 files changed, 20 insertions(+), 39 deletions(-)
+A DSS VP is a DSS internal port, whereas a port node in the DT is an 
+external port. There doesn't have to be a 1:1 match between those.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 170935c294f5..7d25a10395c0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1328,11 +1328,12 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
- static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
- 					    const struct ttm_place *place)
- {
--	unsigned long num_pages = bo->resource->num_pages;
- 	struct dma_resv_iter resv_cursor;
--	struct amdgpu_res_cursor cursor;
- 	struct dma_fence *f;
- 
-+	if (!amdgpu_bo_is_amdgpu_bo(bo))
-+		return ttm_bo_eviction_valuable(bo, place);
-+
- 	/* Swapout? */
- 	if (bo->resource->mem_type == TTM_PL_SYSTEM)
- 		return true;
-@@ -1351,40 +1352,20 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
- 			return false;
- 	}
- 
--	switch (bo->resource->mem_type) {
--	case AMDGPU_PL_PREEMPT:
--		/* Preemptible BOs don't own system resources managed by the
--		 * driver (pages, VRAM, GART space). They point to resources
--		 * owned by someone else (e.g. pageable memory in user mode
--		 * or a DMABuf). They are used in a preemptible context so we
--		 * can guarantee no deadlocks and good QoS in case of MMU
--		 * notifiers or DMABuf move notifiers from the resource owner.
--		 */
-+	/* Preemptible BOs don't own system resources managed by the
-+	 * driver (pages, VRAM, GART space). They point to resources
-+	 * owned by someone else (e.g. pageable memory in user mode
-+	 * or a DMABuf). They are used in a preemptible context so we
-+	 * can guarantee no deadlocks and good QoS in case of MMU
-+	 * notifiers or DMABuf move notifiers from the resource owner.
-+	 */
-+	if (bo->resource->mem_type == AMDGPU_PL_PREEMPT)
- 		return false;
--	case TTM_PL_TT:
--		if (amdgpu_bo_is_amdgpu_bo(bo) &&
--		    amdgpu_bo_encrypted(ttm_to_amdgpu_bo(bo)))
--			return false;
--		return true;
- 
--	case TTM_PL_VRAM:
--		/* Check each drm MM node individually */
--		amdgpu_res_first(bo->resource, 0, (u64)num_pages << PAGE_SHIFT,
--				 &cursor);
--		while (cursor.remaining) {
--			if (place->fpfn < PFN_DOWN(cursor.start + cursor.size)
--			    && !(place->lpfn &&
--				 place->lpfn <= PFN_DOWN(cursor.start)))
--				return true;
--
--			amdgpu_res_next(&cursor, cursor.size);
--		}
-+	if (bo->resource->mem_type == TTM_PL_TT &&
-+	    amdgpu_bo_encrypted(ttm_to_amdgpu_bo(bo)))
- 		return false;
- 
--	default:
--		break;
--	}
--
- 	return ttm_bo_eviction_valuable(bo, place);
- }
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index c1bd006a5525..f066e8124c50 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -518,6 +518,9 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
- bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
- 			      const struct ttm_place *place)
- {
-+	struct ttm_resource *res = bo->resource;
-+	struct ttm_device *bdev = bo->bdev;
-+
- 	dma_resv_assert_held(bo->base.resv);
- 	if (bo->resource->mem_type == TTM_PL_SYSTEM)
- 		return true;
-@@ -525,11 +528,7 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
- 	/* Don't evict this BO if it's outside of the
- 	 * requested placement range
- 	 */
--	if (place->fpfn >= (bo->resource->start + bo->resource->num_pages) ||
--	    (place->lpfn && place->lpfn <= bo->resource->start))
--		return false;
--
--	return true;
-+	return ttm_resource_intersects(bdev, res, place, bo->base.size);
- }
- EXPORT_SYMBOL(ttm_bo_eviction_valuable);
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index ea67976f1f60..a729c32a1e48 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -316,6 +316,8 @@ static bool ttm_resource_places_compat(struct ttm_resource *res,
- 				       const struct ttm_place *places,
- 				       unsigned num_placement)
- {
-+	struct ttm_buffer_object *bo = res->bo;
-+	struct ttm_device *bdev = bo->bdev;
- 	unsigned i;
- 
- 	if (res->placement & TTM_PL_FLAG_TEMPORARY)
-@@ -324,8 +326,7 @@ static bool ttm_resource_places_compat(struct ttm_resource *res,
- 	for (i = 0; i < num_placement; i++) {
- 		const struct ttm_place *heap = &places[i];
- 
--		if (res->start < heap->fpfn || (heap->lpfn &&
--		    (res->start + res->num_pages) > heap->lpfn))
-+		if (!ttm_resource_compatible(bdev, res, heap, bo->base.size))
- 			continue;
- 
- 		if ((res->mem_type == heap->mem_type) &&
--- 
-2.25.1
+The port in the DT represents some kind of "connector" to the outside 
+world, which is usually a collection of pins that provide a video bus.
 
+Here, as far as I can see, the DSS clearly has three external ports, two 
+OLDI ports and one DPI port.
+
+> I do not have a cloning display setup with me, but I have seen DT DSS
+> port connected to one of 2 panel nodes while the other panel (remains as
+> a companion panel to the first) without any endpoint connections. Since,
+> the OLDI TXes (0 and 1), receive the same clocks and inputs from DSS
+> OLDI VP, this 'method' has worked too.
+
+This, and using simple-panel for dual link with single port connection, 
+sounds like a hack.
+
+A practical example: TI's customer wants to use AM625 and THC63LVD1024 
+bridge. How does it work? THC63LVD1024 driver uses two LVDS ports for 
+input, both of which are used in dual-link mode.
+
+>>> The use of lvds helper functions does not seem feasible in this case,
+>>> because even they read DT properties to determine the dual link
+>>> connection and those properties need to be a part of a lvds bridge
+>>> device.
+>>
+>> Can you elaborate a bit more why the DRM helpers couldn't be used here?
+>>
+> The drm_of.c helpers use DT properties to ascertain the presence of a
+> dual-link connection. While there wasn't a specific helper to determine
+> dual-link or not, the drivers use the odd/even pixel order helper which
+> is based on the properties "dual-lvds-odd-pixels" and "dual-lvds-odd-
+> pixels". If either of the properties are absent, the helper returns an
+> error making the driver to use single link.
+> 
+> These properties are LVDS specific, but they could not be added in the
+> DT because there is no OLDI TX DT node for our case.
+
+If I'm not mistaken, those properties are in the port node, not the 
+device node, and also, I believe those properties are on the sink side, 
+so they wouldn't even be in the AM625 data. See, for example:
+
+arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+
+>>> I have also been considering the idea of implementing a new device
+>>> driver for the OLDI TXes, not unlike the renesas' one. That way the
+>>> driver could have the properties and the lvds helper functions at their
+>>> disposal. I am just slightly unsure if that would allow space for any
+>>> conflicts because of the shared register space.
+>>
+>> No, I don't think new devices are needed here.
+> Okay...
+> 
+> I am not quite sure I understand completely what you are recommending
+> the OLDI to be. It seems to me that you want the OLDI TXes to be modeled
+> as nodes, right? Wouldn't that automatically require some sort of
+> standalone driver arrangement for them? Or am I missing something
+> important here?
+
+No, I'm only talking about the DT port nodes. At the moment the AM65x DT 
+bindings doc says that there are two ports, port@0 for OLDI and port@1 
+for DPI. I'm saying AM625 needs three ports.
+
+  Tomi
