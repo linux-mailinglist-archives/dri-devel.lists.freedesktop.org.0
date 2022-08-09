@@ -1,45 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FFC58D1BE
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 03:29:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BFE58D274
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 05:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4521135B0;
-	Tue,  9 Aug 2022 01:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B67FC1266;
+	Tue,  9 Aug 2022 03:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
- [115.236.118.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A1CB8D4D
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 01:28:41 +0000 (UTC)
-Received: from [192.168.111.100] (unknown [58.22.7.114])
- by mail-m11885.qiye.163.com (Hmail) with ESMTPA id 613EC4C0545;
- Tue,  9 Aug 2022 09:28:37 +0800 (CST)
-Message-ID: <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
-Date: Tue, 9 Aug 2022 09:28:36 +0800
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9FD9C1230
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 03:45:31 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id o22so13555580edc.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Aug 2022 20:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=9F8FxxfrPb5Sdx5h2Zgmce9kBBf7fY7qVQikPgRjlmc=;
+ b=RaQAIJNwcxbp5N7Ljenz2IhHTuVz/7u6tG5jGT+O/kNxqk+1t3R06nXIXOcwUj0Pau
+ B4Pk8/gTWWRN7oj0Srpvt4dpAgoq92wUyhiJGKMKL7g+SJfDAzYtQXIzGUT6bab7nhGC
+ HsXZsjVZB69fZ9jNhbZ7H3s8ViXSDhtARxwUct4vpfbb9Obv+HyLfwpgNE2lIKRGdPIZ
+ mcoqanPBxoETuy1JlQkDhyBTkGlrZnVCzT5ezZgzNka3PAMTcz2zjlGRUt1U5nw8buKy
+ 8HrrroTFlIzIxGUE8WSYcwDPp4tkXcG9Aum/SqHFLB2OroDLYI29KhJcQfntFAMQroW2
+ Y5VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=9F8FxxfrPb5Sdx5h2Zgmce9kBBf7fY7qVQikPgRjlmc=;
+ b=nFGJkCIGNv4IsGtenx7XC0iaYdJbgCVFPjQZltzEIIsPre8Xu9R9W955aiCL+ckI8D
+ 0mMcoSGwF6ZKFRKxZ/2VD+vYCbVvKc1LTW1KsVyG39J4dqQcErgRVz5E5UDD/BbQkkt+
+ a9wWTKFpdPQkKBLlvbN3jxoyE9DONeokNgVl9h4pzj3Ry5++jO9UmVgpGoeg6/Wq0PJl
+ L3qy1aWxEtStkzoiwAuUkBMTK+wTEy0nxVnBN1og12WBFxBSLT8UF2IntjwtcPQS8YH+
+ rSkcIbBgd6brtPawz0BkImVHVLqtTN5qQaeHrltNLeWj6aBRv58/1aHvmTsD4exgBBiv
+ xarA==
+X-Gm-Message-State: ACgBeo123EdiO02KcOisvPF9swlebOpFG88heowTArnPLmOist2bZbgk
+ tTjrYM4SGhXPPQrvygckFbKvnpOZgp7YcTymwprRfqVo+4E=
+X-Google-Smtp-Source: AA6agR6VyBzeUBLmvjxrNGHmYAyxgTiphS/hGmm8ub6xiFttkBF97vh0Cilb49Qoky5SG1DMH3ecTbJIPDanQiD8KDQ=
+X-Received: by 2002:a05:6402:32a8:b0:43e:5490:295f with SMTP id
+ f40-20020a05640232a800b0043e5490295fmr20229099eda.193.1660016729960; Mon, 08
+ Aug 2022 20:45:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.1
-Subject: Re: [PATCH v2] drm/gem: Fix GEM handle release errors
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
- <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
- <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
- <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
-From: Chen Jeffy <jeffy.chen@rock-chips.com>
-In-Reply-To: <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR9MVkoZSE5CSkweT0lNHlUTARMWGhIXJB
- QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktITUpVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NEk6SDo4LT06Iy8ZCTIQSzkc
- AggwCypVSlVKTU1LS0tDTkpDSUtJVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKSUhDTTcG
-X-HM-Tid: 0a828037d0932eb9kusn613ec4c0545
+References: <20220804093829.42kdelp7u4r743nv@pengutronix.de>
+ <CAPY8ntBovVq1HVt_UneDF8OB9KBdEBv52o=4BCTmf9VpiODxVg@mail.gmail.com>
+ <20220804125152.idyzetjqkjzgbbm2@pengutronix.de>
+ <CAPY8ntAatYvbf5ehfsj4qcSDC=sODeN1Cj0vDjn6p0M=k320NA@mail.gmail.com>
+ <CAHCN7x+DkJgGvMLnYBXscSMDmTCeaHeJKK6T9eLUm+rXSx=NQA@mail.gmail.com>
+ <OS0PR01MB592206843B43BC93F4F699FC869E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHCN7x+UAk1wPTOj7EFUXkRY3b3BPXTT6SqD4A7sJO87ZpHgFg@mail.gmail.com>
+ <CAHCN7xJ4TWpLmD_WRrEXoHWy52MEfUL-_R5x=kF-1JC0_C8Q1Q@mail.gmail.com>
+ <CAHCN7x+y9zrfs_wtptFNQW3+hcF2aeuqZY7xFs+gcGJNv334oQ@mail.gmail.com>
+ <CAHCN7xLMD2hh8FqFY_pw7-P0RP2wG-7Yf+7y1NAfYxY36r3bGw@mail.gmail.com>
+ <20220808085437.44rrs6e44ibgztld@pengutronix.de>
+ <CAHCN7xJwp1rJ-CpE7FvBgQb-NmVmOEQQFP8KoL=tjE85CEYzbA@mail.gmail.com>
+In-Reply-To: <CAHCN7xJwp1rJ-CpE7FvBgQb-NmVmOEQQFP8KoL=tjE85CEYzbA@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 8 Aug 2022 22:45:18 -0500
+Message-ID: <CAHCN7xLCzUFLmpc_SQpZmaPuSf8oyUcpiv7rdwkO0TRfk_SAvA@mail.gmail.com>
+Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+To: Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,259 +74,461 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "robert.chiras@nxp.com" <robert.chiras@nxp.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ "laurentiu.palcu@nxp.com" <laurentiu.palcu@nxp.com>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Mon, Aug 8, 2022 at 5:13 AM Adam Ford <aford173@gmail.com> wrote:
+>
+> On Mon, Aug 8, 2022 at 3:54 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> >
+> > On 22-08-07, Adam Ford wrote:
+> > > On Fri, Aug 5, 2022 at 4:05 PM Adam Ford <aford173@gmail.com> wrote:
+> > > >
+> > > > On Fri, Aug 5, 2022 at 7:56 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > >
+> > > > > On Fri, Aug 5, 2022 at 5:55 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > > >
+> > > > > > On Fri, Aug 5, 2022 at 3:44 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > > > >
+> > > > > > > Hi Adam and all,
+> > > > > > >
+> > > > > > > > Subject: Re: imx8mm lcdif->dsi->adv7535 no video, no errors
+> > > > > > > >
+> > > > > > > > On Thu, Aug 4, 2022 at 9:52 AM Dave Stevenson
+> > > > > > > > <dave.stevenson@raspberrypi.com> wrote:
+> > > > > > > > >
+> > > > > > > > > On Thu, 4 Aug 2022 at 13:51, Marco Felsch <m.felsch@pengutronix.de>
+> > > > > > > > wrote:
+> > > > > > > > > >
+> > > > > > > > > > Hi Dave,
+> > > > > > > > > >
+> > > > > > > > > > On 22-08-04, Dave Stevenson wrote:
+> > > > > > > > > > > Hi Marco
+> > > > > > > > > > >
+> > > > > > > > > > > On Thu, 4 Aug 2022 at 10:38, Marco Felsch
+> > > > > > > > <m.felsch@pengutronix.de> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > Hi Dave, Adam,
+> > > > > > > > > > > >
+> > > > > > > > > > > > On 22-08-03, Dave Stevenson wrote:
+> > > > > > > > > > > > > Hi Adam
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > On Wed, 3 Aug 2022 at 12:03, Adam Ford <aford173@gmail.com>
+> > > > > > > > wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > ...
+> > > > > > > > > > > >
+> > > > > > > > > > > > > > > Did managed to get access to the ADV7535 programming
+> > > > > > > > > > > > > > > guide? This is the black box here. Let me check if I can
+> > > > > > > > > > > > > > > provide you a link with our repo so you can test our
+> > > > > > > > current DSIM state if you want.
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > I do have access to the programming guide, but it's under
+> > > > > > > > > > > > > > NDA, but I'll try to answer questions if I can.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Not meaning to butt in, but I have datasheets for ADV7533 and
+> > > > > > > > > > > > > 7535 from previously looking at these chips.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Thanks for stepping into :)
+> > > > > > > > > > > >
+> > > > > > > > > > > > > Mine fairly plainly states:
+> > > > > > > > > > > > > "The DSI receiver input supports DSI video mode operation
+> > > > > > > > > > > > > only, and specifically, only supports nonburst mode with sync
+> > > > > > > > pulses".
+> > > > > > > > > > > >
+> > > > > > > > > > > > I've read this also, and we are working in nonburst mode with
+> > > > > > > > > > > > sync pulses. I have no access to an MIPI-DSI analyzer therefore
+> > > > > > > > > > > > I can't verify it.
+> > > > > > > > > > > >
+> > > > > > > > > > > > > Non-burst mode meaning that the DSI pixel rate MUST be the
+> > > > > > > > > > > > > same as the HDMI pixel rate.
+> > > > > > > > > > > >
+> > > > > > > > > > > > On DSI side you don't have a pixel-clock instead there is bit-
+> > > > > > > > clock.
+> > > > > > > > > > >
+> > > > > > > > > > > You have an effective pixel clock, with a fixed conversion for the
+> > > > > > > > > > > configuration.
+> > > > > > > > > > >
+> > > > > > > > > > > DSI bit-clock * number of lanes / bits_per_pixel = pixel rate.
+> > > > > > > > > > > 891Mbit/s * 4 lanes / 24bpp = 148.5 Mpixels/s
+> > > > > > > > > >
+> > > > > > > > > > Okay, I just checked the bandwidth which must equal.
+> > > > > > > > > >
+> > > > > > > > > > > As noted elsewhere, the DSI is DDR, so the clock lane itself is
+> > > > > > > > > > > only running at 891 / 2 = 445.5MHz.
+> > > > > > > > > > >
+> > > > > > > > > > > > > Section 6.1.1 "DSI Input Modes" of
+> > > > > > > > > > > > > adv7533_hardware_user_s_guide is even more explicit about the
+> > > > > > > > > > > > > requirement of DSI timing matching
+> > > > > > > > > > > >
+> > > > > > > > > > > > Is it possible to share the key points of the requirements?
+> > > > > > > > > > >
+> > > > > > > > > > > "Specifically the ADV7533 supports the Non-Burst Mode with syncs.
+> > > > > > > > > > > This mode requires real time data generation as a pulse packet
+> > > > > > > > > > > received becomes a pulse generated. Therefore this mode requires a
+> > > > > > > > > > > continuous stream of data with correct video timing to avoid any
+> > > > > > > > > > > visual artifacts."
+> > > > > > > > > > >
+> > > > > > > > > > > LP mode is supported on data lanes. Clock lane must remain in HS
+> > > > > > > > mode.
+> > > > > > > > > > >
+> > > > > > > > > > > "... the goal is to accurately convey DPI-type timing over DSI.
+> > > > > > > > > > > This includes matching DPI pixel-transmission rates, and widths of
+> > > > > > > > > > > timing events."
+> > > > > > > > > >
+> > > > > > > > > > Thanks for sharing.
+> > > > > > > > > >
+> > > > > > > > > > > > > The NXP kernel switching down to an hs_clk of 445.5MHz would
+> > > > > > > > > > > > > therefore be correct for 720p operation.
+> > > > > > > > > > > >
+> > > > > > > > > > > > It should be absolute no difference if you work on 891MHz with 2
+> > > > > > > > > > > > lanes or on 445.5 MHz with 4 lanes. What must be ensured is that
+> > > > > > > > > > > > you need the minimum required bandwidth which is roughly:
+> > > > > > > > > > > > 1280*720*24*60 = 1.327 GBps.
+> > > > > > > > > > >
+> > > > > > > > > > > Has someone changed the number of lanes in use? I'd missed that if
+> > > > > > > > > > > so, but I'll agree that 891MHz over 2 lanes should work for
+> > > > > > > > 720p60.
+> > > > > > > > > >
+> > > > > > > > > > The ADV driver is changing it autom. but this logic is somehow odd
+> > > > > > > > > > and there was already a approach to stop the driver doing this.
+> > > > > > > > >
+> > > > > > > > > I'd missed that bit in the driver where it appears to drop to 3 lanes
+> > > > > > > > > for pixel clock < 80000 via a mipi_dsi_detach and _attach. Quirky, but
+> > > > > > > > > probably the only way it can be achieved in the current framework.
+> > > > > > > > >
+> > > > > > > > > > To sync up: we have two problems:
+> > > > > > > > > >   1) The 720P mode with static DSI host configuration isn't working
+> > > > > > > > > >      without hacks.
+> > > > > > > > > >   2) The DSI link frequency should changed as soon as required
+> > > > > > > > > >      automatically. So we can provide all modes.
+> > > > > > > > > >
+> > > > > > > > > > I would concentrate on problem 1 first before moving on to the 2nd.
+> > > > > > > > >
+> > > > > > > > > If you change your link frequency, it may be worth trying a lower
+> > > > > > > > > resolution again such as 720x480 @ 60fps on 2 lanes. (720480@60 on 4
+> > > > > > > > > lanes is again listed as mandatory for using the timing generator).
+> > > > >
+> > > > > Marco,
+> > > > >
+> > > > > Looking through the DSIM driver that NXP uses, it appears that they
+> > > > > have a few special cases where they intentionally manipulate the DSIM
+> > > > > under certain conditions:
+> > > > >
+> > > > > /* '1280x720@60Hz' mode with 2 data lanes
+> > > > > * requires special fine tuning for DPHY
+> > > > > * TIMING config according to the tests.
+> > > > > */
+> > > > >
+> > > > > There is also a separate one for the 4-lane mode:
+> > > > >
+> > > > > /* workaround for CEA standard mode "1280x720@60" "1920x1080p24"
+> > > > > * display on 4 data lanes with Non-burst with sync
+> > > > > * pulse DSI mode, since use the standard horizontal
+> > > > > * timings cannot display correctly. And this code
+> > > > > * cannot be put into the dsim Bridge's mode_fixup,
+> > > > > * since the DSI device lane number change always
+> > > > > * happens after that.
+> > > > > */
+> > > > >
+> > > > > And lastly, they address issues with 3-lane mode:
+> > > > >
+> > > > > /* TODO: DSIM 3 lanes has some display issue, so
+> > > > > * avoid 3 lanes enable, and force data lanes to
+> > > > > * be 2.
+> > > > > */
+> > > > >
+> > > > > Since the ADV is trying to adjust the lanes to 3 when running at 720p,
+> > > > > it could be part of the reason you need to jump to 2-lane mode.
+> > > > >
+> > > > > > > > >
+> > > > > > > > > > > I have just noted that 720p59.94 at 24bpp on 4 lanes is listed as
+> > > > > > > > > > > one of the modes that is mandatory to use the timing generator
+> > > > > > > > > > > (reg 0x27 bit 7 = 1). On 2 lanes it is not required.
+> > > > > > > > > > > I don't know why it's referencing the 1000/1001 pixel clock rates
+> > > > > > > > > > > and not the base one, as it's only a base clock change with the
+> > > > > > > > > > > same timing (74.176MHz clock instead of 74.25MHz).
+> > > > > > > > > >
+> > > > > > > > > > Interesting! I would like to know how the HDMI block gets fetched by
+> > > > > > > > > > the DSI block and how the timing-generator can influence this in
+> > > > > > > > > > good/bad way. So that we know what DSI settings (freq, lanes) are
+> > > > > > > > sufficient.
+> > > > > > > > > >
+> > > > > > > > > > > > > If you do program the manual DSI divider register to allow a
+> > > > > > > > > > > > > DSI pixel rate of 148.5MHz vs HDMI pixel rate of 74.25MHz,
+> > > > > > > > > > > > > you'd be relying on
+> > > > > > > > > > > >
+> > > > > > > > > > > > There is no such DSI pixel rate to be precise, we only have a
+> > > > > > > > > > > > DSI bit clock/rate.
+> > > > > > > > > > > >
+> > > > > > > > > > > > > the ADV753x having at least a half-line FIFO between DSI rx
+> > > > > > > > > > > > > and HDMI tx to compensate for the differing data rates. I see
+> > > > > > > > > > > > > no reference to such, and I'd be surprised if it was more than
+> > > > > > > > > > > > > a half dozen pixels to compensate for the jitter in the cases
+> > > > > > > > > > > > > where the internal timing generator is mandatory due to
+> > > > > > > > fractional bytes.
+> > > > > > > > > > > >
+> > > > > > > > > > > > This is interesting and would proofs our assumption that the
+> > > > > > > > > > > > device don't have a FIFO :)
+> > > > > > > > > > > >
+> > > > > > > > > > > > Our assumptions (we don't have the datasheet/programming
+> > > > > > > > manual):
+> > > > > > > > > > > >   - HDMI part is fetching 3 bytes per HDMI pixclk
+> > > > > > > > > > > >   - Ratio between dsi-clk and hdmi-pixelclk must be 3 so the DSI
+> > > > > > > > and
+> > > > > > > > > > > >     HDMI are in sync. So from bandwidth pov there are no
+> > > > > > > > differences
+> > > > > > > > > > > >     between:
+> > > > > > > > > > > >       - HDMI: 74.25 MHz * 24 Bit  = 1782.0 MBit/s
+> > > > > > > > > > > >       - DSI:    891 MHz * 2 lanes = 1782.0 MBit/s (dsi-clock:
+> > > > > > > > 445.5 )
+> > > > > > > > > > > >       - DSI:  445.5 MHz * 4 lanes = 1782.0 MBit/s (dsi-clock:
+> > > > > > > > > > > > 222.75)
+> > > > > > > > > > > >
+> > > > > > > > > > > >     But the ratio is different and therefore the faster clocking
+> > > > > > > > option
+> > > > > > > > > > > >     let something 'overflow'.
+> > > > > > > > > > >
+> > > > > > > > > > > I'll agree that all looks consistent.
+> > > > > > > > > > >
+> > > > > > > > > > > > Anyway, but all this means that Adam should configure the
+> > > > > > > > > > > > burst-clock-rate to 445.5 and set the lanes to 4. But this
+> > > > > > > > > > > > doesn't work either and now we are back on my initial statement
+> > > > > > > > > > > > -> the driver needs some attention.
+> > > > > > > > > > >
+> > > > > > > > > > > Things always need attention :-)
+> > > > > > > > > >
+> > > > > > > > > > ^^
+> > > > > > > > > >
+> > > > > > > > > > > I suspect that it's the use of the timing generator that is the
+> > > > > > > > issue.
+> > > > > > > > > > > The programming guide does recommend using it for all modes, so
+> > > > > > > > > > > that would be a sensible first step.
+> > > > > > > > > >
+> > > > > > > > > > But I tested it without the timing-generator too. Can you or Adam
+> > > > > > > > > > verify the timing-generator diable logic?
+> > > > > > > > >
+> > > > > > > > > Sorry, running without the use of the timing generator is the issue.
+> > > > > > > > > It is mandatory in some modes, but supported in all modes. Always
+> > > > > > > > > using it should therefore avoid not using it in one of the mandatory
+> > > > > > > > > modes (the list looks a little arbitrary).
+> > > >
+> > > > I tested running various modes with the timing generator disable on an
+> > > > NXP kernel with functional video, and some of the video modes stopped
+> > > > operating or became blurry.  With the generator on, it appeared to
+> > > > make the issues go away, so I think it should be left on.
+> > > >
+> > > > > > > > >
+> > > > > > > > > > > I will say that we had a number of issues getting this chip to do
+> > > > > > > > > > > anything, and it generally seemed happier on 2 or 3 lanes instead
+> > > > > > > > > > > of 4. Suffice to say that we abandoned trying to use it, despite
+> > > > > > > > > > > some assistance from ADI.
+> > > > > > > > > >
+> > > > > > > > > > Even more interessting, what is your alternative to this chip?
+> > > > > > > > >
+> > > > > > > > > BCM2711 which supported dual HDMI natively.
+> > > > > > > > > Our investigation of ADV7535 was when trying to build what became
+> > > > > > > > > Pi400 using BCM2710/BCM2837 (only has a single HDMI output). Whilst I
+> > > > > > > > > do have the prototype, the ADV was wired up weirdly with I2C so I
+> > > > > > > > > never really got it running with Linux.
+> > > > > > > >
+> > > > > > > > I think I have convinced myself that the DSIM is working good enough to
+> > > > > > > > match that of the NXP.
+> > > > > > > >
+> > > > > > > > I've gone through and made a list of the register differences between a
+> > > > > > > > working display using NXP's kernel and the non-working display.  I've
+> > > > > > > > identified a small handful of registers on both the CEC bank of
+> > > > > > > > registers and main set of registers.
+> > > > > > > >
+> > > > > > > > I noticed that the working NXP version doesn't rescale the number of
+> > > > > > > > lanes based on the clock rate, and it stays fixed at 4 lanes.
+> > > > > > >
+> > > > > > > Does it mean theoretically rescale of lanes is not required??
+> > > > > >
+> > > > > > On the custom kernel from NXP, I can sync at 720p at 4-lanes.
+> > > > > > Unfortunately, I haven't yet been able to replicate all the register
+> > > > > > settings between my working version at 720p and my non-working
+> > > > > > version, and I still have yet to sync at 720p using the mainline
+> > > > > > adv7535 driver.  I am still wrokong on it.
+> > > > > >
+> > > > > > > At least 2 platforms can work with fixed 4 lanes@720p.
+> > > > >
+> > > > > Based on what I'm seeing for this NXP platform, it almost seems like
+> > > > > the DSI transmitter should make the determination on whether or not to
+> > > > > scale the number of lanes instead of having the ADV7373 do it.  Since
+> > > > > their custom kernel is able to do 720p in 4-lane mode with this part,
+> > > > > it doesn't seem unreasonable to me.
+> > > >
+> > > > I did a bunch of comparisons between registers for both the ADV7535
+> > > > and the DSIM, and it appears that the video information is somehow
+> > > > different between the working NXP kernel and non-working one.
+> > > >
+> > > > The two main differences are around the values of htotal  hfp.  Both
+> > > > the DSIM and the ADV7535 are using different values for htotal and the
+> > > > hfp between the kernels.  I am wondering if there is a bug in the 5.19
+> > > > driver which is fetching wrong info or somehow the data isn't being
+> > > > calculated properly because both the DSIM and the ADV timings match
+> > > > each other, but don't match the working kernel.
+> > > >
+> > > >
+> > > > 720p Working on NXP:
+> > > >
+> > > > [   24.657957] sec_mipi_dsim_set_main_mode: vmode->hfront_porch 112 ->
+> > > > hfp_wc = 78
+> > > > [   24.665284] sec_mipi_dsim_set_main_mode: vmode->hsync_len 40 -> hsa_wc = 24
+> > > > [   24.681496] adv7511_dsi_config_timing_gen: htotal 1652
+> > > > [   24.691372] adv7511_dsi_config_timing_gen: hfp 112
+> > > >
+> > > > 720p Not working:
+> > > >
+> > > > [  106.424404] samsung_dsim_set_display_mode: vfp = 5
+> > > > [  106.429216] samsung_dsim_set_display_mode: bfp = 20
+> > > > [  106.441777] sec_mipi_dsim_set_main_mode: vmode->hfront_porch 110 ->
+> > > > hfp_wc = 77
+> > > > [  106.449221] sec_mipi_dsim_set_main_mode: vmode->hsync_len 40 -> hsa_wc = 24
+> > > > [  106.456314] LCD size = 1280x720
+> > > > [  106.470115] adv7511_dsi_config_timing_gen: htotal = 1650
+> > > > [  106.480707] adv7511_dsi_config_timing_gen: hfp = 110
+> > > >
+> > >
+> > > After spending more time than I care to admit, I think I have a
+> > > working solution to the DSIM + ADV7535, but the vast majority of the
+> > > changes I had to do were revolving around samsung_dsim_set_phy_ctrl.
+> > > I have an LVDS bridge based on the ti,sn65dsi83.  With some
+> > > suggestions from Marek V, I replaced the fixed-clock solution with a
+> > > dynamic one based on the attached bridge's requested clocks.
+> > >
+> > > With those changes, I have the following resolutions working on the
+> > > ADV7535 (with almost no chages to the ADV code) ane one that's nearly
+> > > working:
+> > >
+> > > Working:
+> > >
+> > > 1080p@60
+> > > 1080p@50
+> > > 720p@50
+> > > 800x600-75
+> > > 720x576
+> > >
+> > > Partially Working:
+> > > 720p@60 (hsync appears off, rounding error?)
+> > >
+> > > This driver appears to be using a fixed frequency and the
+> > > corresponding fixed frequency in the DPHY settings. If the clock
+> > > changes, the samsung_dsim_set_phy_ctrl needs to adjust accordingly.
+> > > NXP lists a 2-lane operation mode for 720 as needing some additional
+> > > adjustments because the calculations don't quite line up, but due to
+> > > the other changes I made, I didn't investigate 2-lane very much.
+> > >
+> > > In order to switch resolutions, I had to lock the adv7535 in 4-lane
+> > > mode with a minor patch to the adv driver, because the DSIM doesn't
+> > > appear to operate in 3-lane mode (like the adv7511 wants to do) and
+> > > the DSIM seemed to be unhappy about the connections and
+> > > disconnections.  I also made some changes to the PMS calibration for
+> > > the PLL which allowed me to lower the phy clock a bit.
+> > >
+> > > The rest of the changes I did were attempting to port the dsim dphy
+> > > frequency tables from NXP's kernel.  If anyone from NXP or Samsung has
+> > > the formula for how to determine some of the values for the DPHY, I'd
+> > > like to replace the look-up table [1] with a formula.
+> > >
+> > > Once I have my code changes cleaned up, I'll push them to a github and
+> > > share the info.
+> > >
+> > > [1] - https://source.codeaurora.org/external/imx/linux-imx/tree/include/drm/bridge/sec_mipi_dsim.h?h=lf-5.15.y
+> >
+> > Hi Adam,
+> >
+> > thanks for your work and sharing. Did you tested our current solution
+> > since we think that we understood the DSIM porches? As I said in the
+> > very beginning of this discussion, NXP took some porch values we really
+> > don't understand and I don't think they do either. NXP tweaked the
+> > values somehow so the chip is producing at least the most wanted
+> > resolutions.
+>
+> I am using the porch calculator that Jagan's driver used + a bunch of
+> stuff to address a variety of clock rates and their corresponding DPHY
+> settings.  I did notice that the porches were different from NXP's,
+> but for the resolutions I listed, I didn't have to tweak them myself.
+> I have a tweaking hack for 720x480, but it's purely on the DSIM side,
+> and I haven't had to hack the ADV driver (other than to keep it from
+> switching from 4-lanes).    I am not convinced the ADV7535 is a bad
+> part, but I am convinced there is more to the DSIM than their TRM
+> documents state.  My changes to the DSIM driver also fixed my LVDS
+> bridge issue, so I feel like I am headed in the right direction.
+>
+> I was planning on reviewing your porch calculator and generating some
+> sort of adjustment, but I'd like to keep it on the DSIM side so as not
+> to impact or break the ADV7535 for others.
+>
+> I am guessing that the NXP tweaks were potentially to address areas
+> where the algorithm where it was compensating for the horizontal
+> timings where it does some math to recalculate what the timings should
+> be and there may have been sound rounding errors, but it's just a
+> guess.
 
-On 8/9 星期二 2:03, Christian König wrote:
-> Hi Jeffy,
-> 
-> Am 08.08.22 um 05:51 schrieb Chen Jeffy:
->> Hi Christian,
->>
->> Thanks for your reply, and sorry i didn't make it clear.
->>
->> On 8/8 星期一 0:52, Christian König wrote:
->>> Am 03.08.22 um 10:32 schrieb Jeffy Chen:
->>>> Currently we are assuming a one to one mapping between dmabuf and 
->>>> handle
->>>> when releasing GEM handles.
->>>>
->>>> But that is not always true, since we would create extra handles for 
->>>> the
->>>> GEM obj in cases like gem_open() and getfb{,2}().
->>>>
->>>> A similar issue was reported at:
->>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20211105083308.392156-1-jay.xu%40rock-chips.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Cd7488e9f235041f7e84408da78f14882%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637955274964656400%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=9G2YbHcYUs1VQYyvjXwLzYawNw%2BP8i%2BjjPBSHx3r2yg%3D&amp;reserved=0
->>>>
->>>> Another problem is that the drm_gem_remove_prime_handles() now only
->>>> remove handle to the exported dmabuf (gem_obj->dma_buf), so the 
->>>> imported
->>>> ones would leak:
->>>> WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 
->>>> drm_prime_destroy_file_private+0x18/0x24
->>>>
->>>> Let's fix these by using handle to find the exact map to remove.
->>>
->>> Well we are clearly something missing here. As far as I can see the 
->>> current code is correct.
->>>
->>> Creating multiple GEM handles for the same DMA-buf is possible, but 
->>> illegal. >
->>> In other words when a GEM handle is exported as DMA-buf and imported 
->>> again you should intentionally always get the same handle.
->>
->> These issue are not about having handles for importing an exported 
->> dma-buf case, but for having multiple handles to a GEM object(which 
->> means having multiple handles to a dma-buf).
->>
->> I know the drm-prime is trying to make dma-buf and handle maps one to 
->> one, but the drm-gem is allowing to create extra handles for a GEM 
->> object, for example:
->> drm_gem_open_ioctl -> drm_gem_handle_create_tail
->> drm_mode_getfb2_ioctl -> drm_gem_handle_create
->> drm_mode_getfb -> fb->funcs->create_handle
-> 
-> Yes, so far that's correct.
-> 
->>
->>
->> So we are allowing GEM object to have multiple handles, and GEM object 
->> could have at most one dma-buf, doesn't that means that dma-buf could 
->> map to multiple handles?
-> 
-> No, at least not for the same GEM file private. That's the reason why 
-> the rb is indexed by the dma_buf object and not the handle.
-> 
-> In other words the rb is so that you have exactly one handle for each 
-> dma_buf in each file private.
+Jagan / Fabio / Marco et al,
 
-I don't think so, because if user get multiple handles for the same GEM 
-obj and use drm_gem_prime_handle_to_fd() for those handles, the current 
-code would try to add multiple maps to rb:
-drm_prime_add_buf_handle(buf_1, hdl_1)
-drm_prime_add_buf_handle(buf_1, hdl_2)
-...
-drm_prime_add_buf_handle(buf_1, hdl_n)
+I quasi-cleaned the code up, so it won't cause a bunch of splat.  It
+needs more cleanup before I can do more formal patches.  It's not
+perfect, but I wanted to share what I have.
 
-> 
->>
->> Or should we rewrite the GEM framework to limit GEM object with uniq 
->> handle?
-> 
-> No, the extra handles are expected because when you call 
-> drm_mode_getfb*() and drm_gem_open_ioctl() the caller now owns the 
-> returned GEM handle.
-> 
->>
->> The other issue is that we are leaking dma-buf <-> handle map for the 
->> imported dma-buf, since the drm_gem_remove_prime_handles doesn't take 
->> care of obj->import_attach->dmabuf.
-> 
-> No, that's correct as well. obj->dma_buf is set even for imported 
-> DMA-buf objects. See drm_gem_prime_fd_to_handle().
+My github account is here:
+https://github.com/aford173/linux/tree/imx8mm-dsi-v3-7535-enhancements
 
-Well, that obj->dma_buf would be set in 
-drm_gem_prime_fd_to_handle(create new handle), and cleared when 
-releasing the latest handle(release handle).
+It's based on Jagan's imx8mm-dsi-v3 with some changes from Fabio.
 
-So it doesn't cover other handle creating path.
+From there I added the following:
 
-For example, a imported dma buf:
-drm_gem_prime_fd_to_handle <-- we got a handle and obj->dma_buf and 
-obj->import_attach->dmabuf
-drm_gem_handle_delete <-- we lost that handle and obj->dma_buf cleared
-drm_gem_open_ioctl/or getfb* <-- we got a new handle and 
-obj->import_attach->dmabuf
-drm_gem_handle_delete <-- we lost that handle and obj->dma_buf is null, 
-which means rb leaks.
+Tweaked the ADV7535 to allow the device tree to keep the lanes fixed
+to 4 instead of dynamically changing to 3.
+Tweaked the PLL so it's not hard-coded to a device tree speed, but
+instead it allows the connected device to specify the clock.
+Fixed the PMS calculator a bit to allow for better precision and
+lowering of the DSI PHY ref clock.
+Updated the imx8mm device tree with a lower PHY clock and removed
+changed the clock parent a bit.
+Pulled in the NXP lookup table for determining the DPHY timings based
+on the requested clock rates.  This way, different resolutions are
+available
+using 4-lane-only mode.
+Since some of the clocks appear to divide by 3, there are some
+potential rounding errors which may have to be addressed, so not all
+resolutions work
+To date, I have tested the following on my monitor:
 
-> 
-> Regards,
-> Christian.
-> 
->>
->> But of cause this can be fixed in other way:
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -180,6 +180,9 @@ drm_gem_remove_prime_handles(struct drm_gem_object 
->> *obj, struct drm_file *filp)
->> drm_prime_remove_buf_handle_locked(&filp->prime,
->> obj->dma_buf);
->>         }
->> +       if (obj->import_attach)
->> + drm_prime_remove_buf_handle_locked(&filp->prime,
->> + obj->import_attach->dmabuf);
->>         mutex_unlock(&filp->prime.lock);
->>  }
->>
->>
->>> So this is pretty much a clear NAK to this patch since it shouldn't 
->>> be necessary or something is seriously broken somewhere else.
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
->>>> ---
->>>>
->>>> Changes in v2:
->>>> Fix a typo of rbtree.
->>>>
->>>>   drivers/gpu/drm/drm_gem.c      | 17 +----------------
->>>>   drivers/gpu/drm/drm_internal.h |  4 ++--
->>>>   drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
->>>>   3 files changed, 15 insertions(+), 26 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>> index eb0c2d041f13..ed39da383570 100644
->>>> --- a/drivers/gpu/drm/drm_gem.c
->>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct 
->>>> drm_device *dev,
->>>>   }
->>>>   EXPORT_SYMBOL(drm_gem_private_object_init);
->>>> -static void
->>>> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct 
->>>> drm_file *filp)
->>>> -{
->>>> -    /*
->>>> -     * Note: obj->dma_buf can't disappear as long as we still hold a
->>>> -     * handle reference in obj->handle_count.
->>>> -     */
->>>> -    mutex_lock(&filp->prime.lock);
->>>> -    if (obj->dma_buf) {
->>>> - drm_prime_remove_buf_handle_locked(&filp->prime,
->>>> -                           obj->dma_buf);
->>>> -    }
->>>> -    mutex_unlock(&filp->prime.lock);
->>>> -}
->>>> -
->>>>   /**
->>>>    * drm_gem_object_handle_free - release resources bound to 
->>>> userspace handles
->>>>    * @obj: GEM object to clean up.
->>>> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, 
->>>> void *data)
->>>>       if (obj->funcs->close)
->>>>           obj->funcs->close(obj, file_priv);
->>>> -    drm_gem_remove_prime_handles(obj, file_priv);
->>>> +    drm_prime_remove_buf_handle(&file_priv->prime, id);
->>>>       drm_vma_node_revoke(&obj->vma_node, file_priv);
->>>>       drm_gem_object_handle_put_unlocked(obj);
->>>> diff --git a/drivers/gpu/drm/drm_internal.h 
->>>> b/drivers/gpu/drm/drm_internal.h
->>>> index 1fbbc19f1ac0..7bb98e6a446d 100644
->>>> --- a/drivers/gpu/drm/drm_internal.h
->>>> +++ b/drivers/gpu/drm/drm_internal.h
->>>> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device 
->>>> *dev, void *data,
->>>>   void drm_prime_init_file_private(struct drm_prime_file_private 
->>>> *prime_fpriv);
->>>>   void drm_prime_destroy_file_private(struct drm_prime_file_private 
->>>> *prime_fpriv);
->>>> -void drm_prime_remove_buf_handle_locked(struct 
->>>> drm_prime_file_private *prime_fpriv,
->>>> -                    struct dma_buf *dma_buf);
->>>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
->>>> *prime_fpriv,
->>>> +                 uint32_t handle);
->>>>   /* drm_drv.c */
->>>>   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
->>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->>>> index e3f09f18110c..bd5366b16381 100644
->>>> --- a/drivers/gpu/drm/drm_prime.c
->>>> +++ b/drivers/gpu/drm/drm_prime.c
->>>> @@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct 
->>>> drm_prime_file_private *prime_fpri
->>>>       return -ENOENT;
->>>>   }
->>>> -void drm_prime_remove_buf_handle_locked(struct 
->>>> drm_prime_file_private *prime_fpriv,
->>>> -                    struct dma_buf *dma_buf)
->>>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
->>>> *prime_fpriv,
->>>> +                 uint32_t handle)
->>>>   {
->>>>       struct rb_node *rb;
->>>> -    rb = prime_fpriv->dmabufs.rb_node;
->>>> +    mutex_lock(&prime_fpriv->lock);
->>>> +
->>>> +    rb = prime_fpriv->handles.rb_node;
->>>>       while (rb) {
->>>>           struct drm_prime_member *member;
->>>> -        member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
->>>> -        if (member->dma_buf == dma_buf) {
->>>> +        member = rb_entry(rb, struct drm_prime_member, handle_rb);
->>>> +        if (member->handle == handle) {
->>>>               rb_erase(&member->handle_rb, &prime_fpriv->handles);
->>>>               rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
->>>> -            dma_buf_put(dma_buf);
->>>> +            dma_buf_put(member->dma_buf);
->>>>               kfree(member);
->>>> -            return;
->>>> -        } else if (member->dma_buf < dma_buf) {
->>>> +            break;
->>>> +        } else if (member->handle < handle) {
->>>>               rb = rb->rb_right;
->>>>           } else {
->>>>               rb = rb->rb_left;
->>>>           }
->>>>       }
->>>> +
->>>> +    mutex_unlock(&prime_fpriv->lock);
->>>>   }
->>>>   void drm_prime_init_file_private(struct drm_prime_file_private 
->>>> *prime_fpriv)
->>>
->>>
->>
-> 
-> 
+1920x1080-60
+1920x1080-50
+1280x720-50
+800x600-75
+720x576-50
 
+Several resolutions are close, but they don't compleley appear
+correctly.  They may require some further adjustments to either the
+clocking or addressing the porch calculation and identifying rounding
+errors.
+
+adam
+>
+> adam
+>
+> >
+> > Regards,
+> >   Marco
