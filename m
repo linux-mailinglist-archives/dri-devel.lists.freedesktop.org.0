@@ -2,63 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C223558E04A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 21:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D40058E054
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 21:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83431A38BE;
-	Tue,  9 Aug 2022 19:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A77A233F;
+	Tue,  9 Aug 2022 19:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3788B756
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 19:38:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1B5A46133D
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 19:38:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7D57DC4347C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 19:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660073902;
- bh=lpeksKkm2WlmXmIwBmNdc+g2SPoUND+xS79BF+W8siY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=JrBul86eNuqmiG54w3LVL8ArlZcJqSsoKei2FlOn4w1OGedMRkuzyU2DqEUk5vWv2
- 2pE7vpOpXa1xVMl1fa7WUAsYsJ1aB16Ajln0P5C8kgVcjS5Oowhy3v10NOxubTPyeU
- RmBQXrqtnCjH6S0G4C6EtUX2mHqcsL6p3VTcSyYWh+W0nznM08bn7BT0wUwgZxZy/e
- UgtkOX56iFZs+bMzH+N+jVGuOcY+gm+yIKEfJ2zlkXVR0SzVIqzIZwfu/gxiWAu1IU
- 7Dl7fE+WnK0cHnAzGMNgmGR6X2p9CxXzjOeq6o4xHU3qFfhlUxyPRPNiToScbDr+H7
- LQ2qcjorFJ8kQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 6857BC433E9; Tue,  9 Aug 2022 19:38:22 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Tue, 09 Aug 2022 19:38:22 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-ZtzFHY5G8h@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90FB89BBDD;
+ Tue,  9 Aug 2022 19:41:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 353BF481;
+ Tue,  9 Aug 2022 21:41:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1660074070;
+ bh=rnTlhA+7itYdIfTW32ifBVjomGwsXV3Dtp5vpL/yWn8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=subvJCvOFNwFu37XSbc0Xg0EgGh7/6c4WWphuTUpniP6Jx+rqURdsju1bsp+4uY3T
+ jxADsAJPqIl04hiBhvamE0otoa7q2RNCeapeSYFS8IvlV7lfsld6Q7crX/E7jLaaRa
+ QxMRorVQc7Os334/PP6J6l3m8R02Qspv+lnKnG9w=
+Date: Tue, 9 Aug 2022 22:40:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [RFC] drm/bridge: adv7533: remove dynamic lane switching from
+ adv7533 bridge
+Message-ID: <YvK4SpvF0zwtaIM9@pendragon.ideasonboard.com>
+References: <1660005330-12369-1-git-send-email-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1660005330-12369-1-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,24 +47,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: jernej.skrabec@gmail.com, andrzej.hajda@intel.com, narmstrong@baylibre.com,
+ airlied@linux.ie, sam@ravnborg.org, jonas@kwiboo.se,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ robert.foss@linaro.org, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com, colin.king@intel.com,
+ freedreno@lists.freedesktop.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+Hi Abhinav,
 
---- Comment #38 from Alex Deucher (alexdeucher@gmail.com) ---
-(In reply to Harald Judt from comment #36)
-> Maybe these are also relevant, they occur right after resuming, before all
-> those other messages:
-> [drm] Fence fallback timer expired on ring sdma0
-> [drm] Fence fallback timer expired on ring sdma0
+Thank you for the patch.
 
-Those are usually a sign of interrupt issues on the platform.  E.g., interr=
-upts
-not being proper enabled on the platform after resume.
+On Mon, Aug 08, 2022 at 05:35:30PM -0700, Abhinav Kumar wrote:
+> adv7533 bridge tries to dynamically switch lanes based on the
+> mode by detaching and attaching the mipi dsi device.
+> 
+> This approach is incorrect because as per the DSI spec the
+> number of lanes is fixed at the time of system design or initial
+> configuration and may not change dynamically.
 
---=20
-You may reply to this email to add a comment.
+Is that really so ? The number of lanes connected on the board is
+certainlyset at design time, but a lower number of lanes can be used at
+runtime. It shouldn't change dynamically while the display is on, but it
+could change at mode set time.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> In addition this method of dynamic switch of detaching and
+> attaching the mipi dsi device also results in removing
+> and adding the component which is not necessary.
+
+Yes, that doesn't look good, and the .mode_valid() operation is
+definitely not the right point where to set the number of lanes.
+
+> This approach is also prone to deadlocks. So for example, on the
+> db410c whenever this path is executed with lockdep enabled,
+> this results in a deadlock due to below ordering of locks.
+> 
+> -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
+>         lock_acquire+0x6c/0x90
+>         drm_modeset_acquire_init+0xf4/0x150
+>         drmm_mode_config_init+0x220/0x770
+>         msm_drm_bind+0x13c/0x654
+>         try_to_bring_up_aggregate_device+0x164/0x1d0
+>         __component_add+0xa8/0x174
+>         component_add+0x18/0x2c
+>         dsi_dev_attach+0x24/0x30
+>         dsi_host_attach+0x98/0x14c
+>         devm_mipi_dsi_attach+0x38/0xb0
+>         adv7533_attach_dsi+0x8c/0x110
+>         adv7511_probe+0x5a0/0x930
+>         i2c_device_probe+0x30c/0x350
+>         really_probe.part.0+0x9c/0x2b0
+>         __driver_probe_device+0x98/0x144
+>         driver_probe_device+0xac/0x14c
+>         __device_attach_driver+0xbc/0x124
+>         bus_for_each_drv+0x78/0xd0
+>         __device_attach+0xa8/0x1c0
+>         device_initial_probe+0x18/0x24
+>         bus_probe_device+0xa0/0xac
+>         deferred_probe_work_func+0x90/0xd0
+>         process_one_work+0x28c/0x6b0
+>         worker_thread+0x240/0x444
+>         kthread+0x110/0x114
+>         ret_from_fork+0x10/0x20
+> 
+> -> #0 (component_mutex){+.+.}-{3:3}:
+>         __lock_acquire+0x1280/0x20ac
+>         lock_acquire.part.0+0xe0/0x230
+>         lock_acquire+0x6c/0x90
+>         __mutex_lock+0x84/0x400
+>         mutex_lock_nested+0x3c/0x70
+>         component_del+0x34/0x170
+>         dsi_dev_detach+0x24/0x30
+>         dsi_host_detach+0x20/0x64
+>         mipi_dsi_detach+0x2c/0x40
+>         adv7533_mode_set+0x64/0x90
+>         adv7511_bridge_mode_set+0x210/0x214
+>         drm_bridge_chain_mode_set+0x5c/0x84
+>         crtc_set_mode+0x18c/0x1dc
+>         drm_atomic_helper_commit_modeset_disables+0x40/0x50
+>         msm_atomic_commit_tail+0x1d0/0x6e0
+>         commit_tail+0xa4/0x180
+>         drm_atomic_helper_commit+0x178/0x3b0
+>         drm_atomic_commit+0xa4/0xe0
+>         drm_client_modeset_commit_atomic+0x228/0x284
+>         drm_client_modeset_commit_locked+0x64/0x1d0
+>         drm_client_modeset_commit+0x34/0x60
+>         drm_fb_helper_lastclose+0x74/0xcc
+>         drm_lastclose+0x3c/0x80
+>         drm_release+0xfc/0x114
+>         __fput+0x70/0x224
+>         ____fput+0x14/0x20
+>         task_work_run+0x88/0x1a0
+>         do_exit+0x350/0xa50
+>         do_group_exit+0x38/0xa4
+>         __wake_up_parent+0x0/0x34
+>         invoke_syscall+0x48/0x114
+>         el0_svc_common.constprop.0+0x60/0x11c
+>         do_el0_svc+0x30/0xc0
+>         el0_svc+0x58/0x100
+>         el0t_64_sync_handler+0x1b0/0x1bc
+>         el0t_64_sync+0x18c/0x190
+> 
+> Due to above reasons, remove the dynamic lane switching
+> code from adv7533 bridge chip and filter out the modes
+> which would need different number of lanes as compared
+> to the initialization time using the mode_valid callback.
+> 
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++++++++----
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 25 +++++++++++++------------
+>  3 files changed, 29 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> index 9e3bb8a8ee40..0a7cec80b75d 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -417,7 +417,8 @@ static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+>  
+>  void adv7533_dsi_power_on(struct adv7511 *adv);
+>  void adv7533_dsi_power_off(struct adv7511 *adv);
+> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
+> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+> +		const struct drm_display_mode *mode);
+>  int adv7533_patch_registers(struct adv7511 *adv);
+>  int adv7533_patch_cec_registers(struct adv7511 *adv);
+>  int adv7533_attach_dsi(struct adv7511 *adv);
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index 5bb9300040dd..1115ef9be83c 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -697,7 +697,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
+>  }
+>  
+>  static enum drm_mode_status adv7511_mode_valid(struct adv7511 *adv7511,
+> -			      struct drm_display_mode *mode)
+> +			      const struct drm_display_mode *mode)
+>  {
+>  	if (mode->clock > 165000)
+>  		return MODE_CLOCK_HIGH;
+> @@ -791,9 +791,6 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+>  	regmap_update_bits(adv7511->regmap, 0x17,
+>  		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+>  
+> -	if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
+> -		adv7533_mode_set(adv7511, adj_mode);
+> -
+>  	drm_mode_copy(&adv7511->curr_mode, adj_mode);
+>  
+>  	/*
+> @@ -913,6 +910,18 @@ static void adv7511_bridge_mode_set(struct drm_bridge *bridge,
+>  	adv7511_mode_set(adv, mode, adj_mode);
+>  }
+>  
+> +static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
+> +		const struct drm_display_info *info,
+> +		const struct drm_display_mode *mode)
+> +{
+> +	struct adv7511 *adv = bridge_to_adv7511(bridge);
+> +
+> +	if (adv->type == ADV7533 || adv->type == ADV7535)
+> +		return adv7533_mode_valid(adv, mode);
+> +	else
+> +		return adv7511_mode_valid(adv, mode);
+> +}
+> +
+>  static int adv7511_bridge_attach(struct drm_bridge *bridge,
+>  				 enum drm_bridge_attach_flags flags)
+>  {
+> @@ -960,6 +969,7 @@ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
+>  	.enable = adv7511_bridge_enable,
+>  	.disable = adv7511_bridge_disable,
+>  	.mode_set = adv7511_bridge_mode_set,
+> +	.mode_valid = adv7511_bridge_mode_valid,
+>  	.attach = adv7511_bridge_attach,
+>  	.detect = adv7511_bridge_detect,
+>  	.get_edid = adv7511_bridge_get_edid,
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> index ef6270806d1d..4a6d45edf431 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -100,26 +100,27 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
+>  	regmap_write(adv->regmap_cec, 0x27, 0x0b);
+>  }
+>  
+> -void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode)
+> +enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+> +		const struct drm_display_mode *mode)
+>  {
+> +	int lanes;
+>  	struct mipi_dsi_device *dsi = adv->dsi;
+> -	int lanes, ret;
+> -
+> -	if (adv->num_dsi_lanes != 4)
+> -		return;
+>  
+>  	if (mode->clock > 80000)
+>  		lanes = 4;
+>  	else
+>  		lanes = 3;
+>  
+> -	if (lanes != dsi->lanes) {
+> -		mipi_dsi_detach(dsi);
+> -		dsi->lanes = lanes;
+> -		ret = mipi_dsi_attach(dsi);
+> -		if (ret)
+> -			dev_err(&dsi->dev, "failed to change host lanes\n");
+> -	}
+> +	/*
+> +	 * number of lanes cannot be changed after initialization
+> +	 * as per section 6.1 of the DSI specification. Hence filter
+> +	 * out the modes which shall need different number of lanes
+> +	 * than what was configured in the device tree.
+> +	 */
+> +	if (lanes != dsi->lanes)
+> +		return MODE_BAD;
+> +
+> +	return MODE_OK;
+>  }
+>  
+>  int adv7533_patch_registers(struct adv7511 *adv)
+
+-- 
+Regards,
+
+Laurent Pinchart
