@@ -2,63 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43F658D4D4
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 09:42:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DDB58D4FD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 09:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCECAC9E66;
-	Tue,  9 Aug 2022 07:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5391CA3D9;
+	Tue,  9 Aug 2022 07:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69C7C9E34
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 07:41:21 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2CE0C34A44;
- Tue,  9 Aug 2022 07:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660030880; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4Xh2jpP1wbYFtK4GZ1t8YG+YABoNc8b8QlXm17Y1jy0=;
- b=aeA2Lh6YiB5VM5GMLJ+IPsivMkMOF7Jakb6aYv1tGV1NMhzIEZtVTcazE0MmfA1Z/vjWc6
- wI4R+/Tv2csiXmvNV/ej2/cZVpCccUJTnJraZGWktIwctLsonO/ZoFKsXzC0wIz62M/si4
- UdsGy+EzHtz7TJGqmQmQM92XGEZ5SNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660030880;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4Xh2jpP1wbYFtK4GZ1t8YG+YABoNc8b8QlXm17Y1jy0=;
- b=N5b7UsAqpd3eSF8Q7dYNe8VJ9kBqhHUhWlrJMYZkPwMV9eDmS5AVn6N4euFbBMYqRGG60M
- O72XlyIBcSVBN/CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE34413AA1;
- Tue,  9 Aug 2022 07:41:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SspUOJ8P8mJ6fQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 09 Aug 2022 07:41:19 +0000
-Message-ID: <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de>
-Date: Tue, 9 Aug 2022 09:41:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.0
-Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF793CA3AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 07:55:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qs4Z1BxaYHgmuVdT763fIKoE8K0P0mkJNRoiBUDhUAqfeljzMN8IdmwG0ZMVh6O6iuyzhr9nrgjTm4Yji/+yK9dQyFnkGr7pGHXtqkUtZrzaCXo1vloZ3nBqlXHQxOczpFVIDY0xakbBO5INKaNGtxJdtP4ItRDGQJjoAEM+gdSSZS7S3nM9aw5f5D6TdkROEIutflr2XRoyriTC7TXpPoFItIVMM74wtqHQGXjpuaZ8IAkTchV+FzTvXtowdBglHEThjzaJbPMttEYZfsaxVU53lGaSAEZL4IioMEplNqquD+DmpxtQPyVAk5GW1H2k16YJDicRlYiG923v091RRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rylQ9wwCwKhdnHkHC+zGZDWUU5JcjP+/snakbPcU2aU=;
+ b=OUNx4jCbsHME4HShbVqBkk4GPx0CwwjJI8bCt5wj9udycN2F6MeUFxbsOb5I6v7syOVWsnnEoY+LdECIijIIozyxYeFuFNz5p0AShaWnNsNfPn1pi5MjsY++omTkWcgMOTyt3kcs11BoO0zYd9wKqaI7ri9s9EBKhq0/mxFEqb/oaOkEgoWFHLxJa/TFMe0ut7nAXUcoo8G4M6qN4H03oHwUA8Y6/q2tpcatRltX4oPYN83fxNd+Anq6ZY4rLNaXEMt9tWEiKBsXJwFBjAAb6PGUfFvU+AoPwJI0xt7qK3PgJocZ/x+cOkH5iFYGLpOd5a8N84vqPTOStM1Qj8ZfFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rylQ9wwCwKhdnHkHC+zGZDWUU5JcjP+/snakbPcU2aU=;
+ b=lH7HZ2RheJjOcfRN6nIuA4M0lmL9f2LDUsHfYbET+hWlMGNcbRjOUfpkbb/Sz8enChKMUpA1Qzb9pxsFxcljV9vaSv+x00IsLGoAFF8q0XrIczU6X+FYWVtNE5qCuiVkJ9G0/QTjOrTAFnlZmqDdS5KZGbH7ZgmJWv0won1idJE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH8PR12MB7026.namprd12.prod.outlook.com (2603:10b6:510:1bd::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Tue, 9 Aug
+ 2022 07:55:18 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
+ 07:55:18 +0000
+Message-ID: <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
+Date: Tue, 9 Aug 2022 09:55:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] drm/gem: Fix GEM handle release errors
 Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-References: <20220804075826.27036-1-tiwai@suse.de>
- <20220804075826.27036-4-tiwai@suse.de>
- <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de> <87h72lx4yw.wl-tiwai@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <87h72lx4yw.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ai9jFhmK27dZqcVAe4F2gK2O"
+To: Chen Jeffy <jeffy.chen@rock-chips.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
+ <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
+ <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
+ <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
+ <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0172.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::10) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9ff9f518-0481-44e2-88a0-08da79dc803e
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7026:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7JxvOU8oOE0B2LoeCMzBR1JyMeSPNkxKMdHCFlegg83FBOSS4MiUbPfCwpRw2NXye3ESt3a5jbb0LpTroaKpXNeofK0/NxclyXWjN3tbOz92WAJAj+1uuBheayDH0TfPINNPp63KqNl44ttCtKJUFNddP8Y3AwSZy955pWqp5otCOJtW6rQgbdoOBHb1OSbdw0IGFiYLBIK3VLbKiNK1FLWh27mhgSEyTOb5aeU9btFZw2nAHgiiDrgG2rU/DxYpMjR7L7f+2qJ1g9p3JK1SGCYmOoX6kI4XRRKDHe6pdaxkGFNeclMWrAIORJYhe4/H/E2reULDi2I08Ya29rBo9WFsUHnt93VSO+wgTP04vZJCT3lu+HR1ayVlcLgtOe9EGKWmnEzgfshUEwAAdezT6Aj3dQkhywOKvysn7erKcJbNjqP18jK73C/YLPd9Fwf3t+VUkqcolDh5MpsoEmeVQaE+zf0ZTlW3uUDGdYOwVJ6UxgAoLP0e5WLF5HbNwzLa/vsKIyhKDfjixu9q4+cjKZYKXW6F6OB36f/FbzJn7hFNl1xiFBbe4uX/g+D5wpQjT8gZ+g5aEd48gzCdF11NmZ0gt29oTp19viCYs9cnSLc9qQ6WgXGR/xszMC3D1GVqcsf223Jy5jc+U13uE7WMjKGNCeB5Z6Oj8sufQeCQuxkT62DoNO7xoyYqMCxKzHYDg/8xKAx7ptI2CHVjaYDaDmRFzTDmsIKnU0f1EpTkm6CIq82HKJ80SCc4TDJIDSQgNRPk329UBBXmKlBbFgQcL6laoaKLi91+JBGJxCUeXxQsmujyyjCL+YWOsqwy6eLSdoPdIxMV3smoEt4StZDxLHLj3p4dOHXH+Ye+MJavMP/buj047iS+IUNFu2F8EDdw
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(31696002)(31686004)(2906002)(2616005)(478600001)(110136005)(54906003)(36756003)(38100700002)(8936002)(5660300002)(7416002)(6666004)(66946007)(6512007)(26005)(4326008)(6506007)(83380400001)(41300700001)(66476007)(66574015)(316002)(86362001)(66556008)(8676002)(186003)(6486002)(966005)(45080400002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGhjM3pwUFpJb3NsbVpuTnRCNElPUkhxV3pOT29ySTZ1eU1jNTlIVjJZQXJ5?=
+ =?utf-8?B?cElGeDIrTlNsQi9xQlRQdHZRY3N4Q0xCVTZzVXFTdzN4d2VkQXRoKzU4SlRT?=
+ =?utf-8?B?OEVnaWR4VEJyZkEyTGNDOFhTNzZSV1BueGpoTDZTRjlwWEU0NFNJUUlITXVq?=
+ =?utf-8?B?c0JralNSRmRrbGhTcWtXcUNYM3d6RG52d1A0SkNUMUlrWEJRdFFYWjdvU2ZB?=
+ =?utf-8?B?dEpYRXBMRXlNTkFPNUQ1U2ovYWpneGNoSFBGZjFWRGVtU1ZqZkY2Tm1ubVB2?=
+ =?utf-8?B?TEppd3dKaGFTZlQ4SGZNeUYraWhHMThBM2xtUGFaYkg3eW1aSkQzREZWVGlQ?=
+ =?utf-8?B?eU1UR21pRnRSV2VSNTl3WTU4YVpzUlVRdkZUR0RSaUZYUUNxYmtFd2tsM0FT?=
+ =?utf-8?B?VjdDekJMVUowSFZEWW5McHZWMWxHK0F3MTY4REdYMHlMTFFya2JNMkxkLzdB?=
+ =?utf-8?B?aXRIdkwwSVdyR3dYbzJRMkEyc2ZjUTBSK25zWDFKanVPUkFBSEd3L1RxMUtr?=
+ =?utf-8?B?RzRCUDhtRmdGRkdrZ1dRM1hyUEIzT3VOS2I3VUlMZk1BWmJwL2xnWlE3T21Y?=
+ =?utf-8?B?REhzYnI3aVcyQTNOY21uMDg0eHpINU1WVFFhRFNqUVN0ZUFmNVFpc0RyMWhi?=
+ =?utf-8?B?d0FIdW43Mmk2YkVsaHdjTE1ZT1FpQ0pNTnN0WkQ1dFFKUHJxa1pxeEQ2UFdy?=
+ =?utf-8?B?dHZOeUk3YzJhV3U4UmV2MGpsWU44Y1BUV2lXOVJGTENmUWNOdVhPZ2NMQ3Bw?=
+ =?utf-8?B?WXB1SmJ1UG00K1czbE1rZytmUVdQRmVQeVEzN2Vzd0JSOG9CRjJYSWVvVStY?=
+ =?utf-8?B?UDZydHJiUmc4QmwrT2FJZTFSem5FdzhQdHl3NllPQkY2cjIyRE52OW0vK0hX?=
+ =?utf-8?B?aE1SemtmdWxWMVBxNjdVL3NBeGIrV0huNWp4Sjl5dGZlUFExeG80VUJMRkpl?=
+ =?utf-8?B?bEEyVEhPL2NtYXhSdnFwVjZtMHA5d2dXY3Ntc1RTZHJDUzZQWTR5TTBXQXZ1?=
+ =?utf-8?B?R2ZyZ3EwRVEyd1Y5Z3d2SlA2OUQ4bys3Q2lNaXN1M0FrRVFkUzNFWnNRNXJC?=
+ =?utf-8?B?bUVXVFU2SUFoNm1haDJRekZ5elFLZjJHYnB1QmpCWkNTeENXQnd4WlFGb2xS?=
+ =?utf-8?B?TXc3ZFRidkxGUituUzJCQzUvM3h2N0ZhTjFQZDdkNHZKMnp3Z0FSWDNDRVF1?=
+ =?utf-8?B?Y3BLR1ZsQStVbjhJS0dzWE5Tc00vQ2JSaGU2RjI0TXBKalNVKzl4Zld0OWZG?=
+ =?utf-8?B?ZjJPdXJ2emRheGF3cmFsd3Zoend0VXhNRFBsMVlhenlBdzRKbmpramZMTlBi?=
+ =?utf-8?B?TC82eDlFVWd3T2tyWkxoQXpZVnh3Z1ROOHdsaGVyVHJCM1J5eUd2cTAxeVB4?=
+ =?utf-8?B?S25WR0E0Q1MvOUJlTGN4c2JXejRFNnZVWkoyTzlPMmgxdkxLM1hwR3hIZmlC?=
+ =?utf-8?B?RDkwYk9ZcVIzMzBVYmZqcGlTWmtRY2FkSU5yWU0wY2dFSXRGMlBDVUVOallq?=
+ =?utf-8?B?SEwvTGJaRm5kdWt2YkxqSmlSbXRTbXFpeWxXYW1mcDZMV1o1TlE3M0FDT0Zu?=
+ =?utf-8?B?VWpJcnBNbjQzQ09aQW9NMWN6a043VUppWEw2bTBIK3FqSXdtWEgrNm5yRUlI?=
+ =?utf-8?B?WGVQR01WamZ5R3UzVkpMS1Q5a3B5TFovTG9HbGtHbC85WlQzRU5lbFAzMnFm?=
+ =?utf-8?B?a0wwdFBOTW9MR2ZEUkV2d3VWNjVEbHN2b3BmUk5lbVBpeDJGeVJjK01NVFZS?=
+ =?utf-8?B?cktQODdKK3lWNVJYRXFpUGs3aEhScHJxNVhIbkpROHN1N2tWdzBYYzYvV1NL?=
+ =?utf-8?B?SFBWUEQzdWFlRHJoamdkZFJSaGZHL2xkczlKT3B0NlIrdmhqb3VvWUhLcGNs?=
+ =?utf-8?B?bFdJVGkrU3FqeC96RWpEWS9XVC9VSXRYNG90ZHIvUi8xbGJrejJ5QUtEdE9T?=
+ =?utf-8?B?Um55QjRsb1hoZFBVKzkwMzZoVDREazF3SDIyV2xMMEVseGpvRFVsTWNRY2Ji?=
+ =?utf-8?B?VlZBZ2VTSDJWN1BzRnVRYTE4RWVnRzcrSTlnUUFSK3RqOVZ1b1RYYk9hRFFo?=
+ =?utf-8?B?d011cDZLdWNPV3I5b0x5T1pjQWJCTHpDamFGT3p0TEZNZXIzSlBxOUFvNDRp?=
+ =?utf-8?Q?26Ghh6r8YHmrG46C9ay/M0JqS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ff9f518-0481-44e2-88a0-08da79dc803e
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 07:55:18.0037 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EUnaJwUjvTZDq82ApoMuAsUoiVyqNDV8shMorTKIJKiTCkqRSchCKVLF+0WMZdQW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7026
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,159 +129,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ai9jFhmK27dZqcVAe4F2gK2O
-Content-Type: multipart/mixed; boundary="------------qXE9z3FedFZkzDaugS6KIMqN";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de>
-Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
-References: <20220804075826.27036-1-tiwai@suse.de>
- <20220804075826.27036-4-tiwai@suse.de>
- <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de> <87h72lx4yw.wl-tiwai@suse.de>
-In-Reply-To: <87h72lx4yw.wl-tiwai@suse.de>
+Am 09.08.22 um 03:28 schrieb Chen Jeffy:
+> Hi Christian,
+>
+> On 8/9 星期二 2:03, Christian König wrote:
+>> Hi Jeffy,
+>>
+>> Am 08.08.22 um 05:51 schrieb Chen Jeffy:
+>>> Hi Christian,
+>>>
+>>> Thanks for your reply, and sorry i didn't make it clear.
+>>>
+>>> On 8/8 星期一 0:52, Christian König wrote:
+>>>> Am 03.08.22 um 10:32 schrieb Jeffy Chen:
+>>>>> Currently we are assuming a one to one mapping between dmabuf and 
+>>>>> handle
+>>>>> when releasing GEM handles.
+>>>>>
+>>>>> But that is not always true, since we would create extra handles 
+>>>>> for the
+>>>>> GEM obj in cases like gem_open() and getfb{,2}().
+>>>>>
+>>>>> A similar issue was reported at:
+>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20211105083308.392156-1-jay.xu%40rock-chips.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C52cd6ca16a3a415b92a708da79a67dec%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637956053232922419%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=hIuH18B10sbVAyS0D4iK6R6WYc%2BZ7mlxGcKdUae%2BW6Y%3D&amp;reserved=0 
+>>>>>
+>>>>>
+>>>>> Another problem is that the drm_gem_remove_prime_handles() now only
+>>>>> remove handle to the exported dmabuf (gem_obj->dma_buf), so the 
+>>>>> imported
+>>>>> ones would leak:
+>>>>> WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 
+>>>>> drm_prime_destroy_file_private+0x18/0x24
+>>>>>
+>>>>> Let's fix these by using handle to find the exact map to remove.
+>>>>
+>>>> Well we are clearly something missing here. As far as I can see the 
+>>>> current code is correct.
+>>>>
+>>>> Creating multiple GEM handles for the same DMA-buf is possible, but 
+>>>> illegal. >
+>>>> In other words when a GEM handle is exported as DMA-buf and 
+>>>> imported again you should intentionally always get the same handle.
+>>>
+>>> These issue are not about having handles for importing an exported 
+>>> dma-buf case, but for having multiple handles to a GEM object(which 
+>>> means having multiple handles to a dma-buf).
+>>>
+>>> I know the drm-prime is trying to make dma-buf and handle maps one 
+>>> to one, but the drm-gem is allowing to create extra handles for a 
+>>> GEM object, for example:
+>>> drm_gem_open_ioctl -> drm_gem_handle_create_tail
+>>> drm_mode_getfb2_ioctl -> drm_gem_handle_create
+>>> drm_mode_getfb -> fb->funcs->create_handle
+>>
+>> Yes, so far that's correct.
+>>
+>>>
+>>>
+>>> So we are allowing GEM object to have multiple handles, and GEM 
+>>> object could have at most one dma-buf, doesn't that means that 
+>>> dma-buf could map to multiple handles?
+>>
+>> No, at least not for the same GEM file private. That's the reason why 
+>> the rb is indexed by the dma_buf object and not the handle.
+>>
+>> In other words the rb is so that you have exactly one handle for each 
+>> dma_buf in each file private.
+>
+> I don't think so, because if user get multiple handles for the same 
+> GEM obj and use drm_gem_prime_handle_to_fd() for those handles
 
---------------qXE9z3FedFZkzDaugS6KIMqN
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Mhm, that works? This is illegal and should have been prevented somehow.
 
-SGkNCg0KQW0gMDkuMDguMjIgdW0gMDk6MTUgc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IE9u
-IFR1ZSwgMDkgQXVnIDIwMjIgMDk6MTM6MTYgKzAyMDAsDQo+IFRob21hcyBaaW1tZXJtYW5u
-IHdyb3RlOg0KPj4NCj4+IEhpDQo+Pg0KPj4gQW0gMDQuMDguMjIgdW0gMDk6NTggc2Nocmll
-YiBUYWthc2hpIEl3YWk6DQo+Pj4gQXQgYm90aCBzdXNwZW5kIGFuZCBkaXNjb25uZWN0LCB3
-ZSBzaG91bGQgcmF0aGVyIGNhbmNlbCB0aGUgcGVuZGluZw0KPj4+IFVSQnMgaW1tZWRpYXRl
-bHkuICBGb3IgdGhlIHN1c3BlbmQgY2FzZSwgdGhlIGRpc3BsYXkgd2lsbCBiZSB0dXJuZWQN
-Cj4+PiBvZmYsIHNvIGl0IG1ha2VzIG5vIHNlbnNlIHRvIHByb2Nlc3MgdGhlIHJlbmRlcmlu
-Zy4gIEFuZCBmb3IgdGhlDQo+Pj4gZGlzY29ubmVjdCBjYXNlLCB0aGUgZGV2aWNlIG1heSBi
-ZSBubyBsb25nZXIgYWNjZXNzaWJsZSwgaGVuY2Ugd2UNCj4+PiBzaG91bGRuJ3QgZG8gYW55
-IHN1Ym1pc3Npb24uDQo+Pj4NCj4+PiBUZXN0ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPg0KPj4+IFNpZ25lZC1vZmYtYnk6IFRha2FzaGkgSXdhaSA8
-dGl3YWlAc3VzZS5kZT4NCj4+PiAtLS0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdWRsL3Vk
-bF9kcnYuaCAgICAgfCAgMiArKw0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21h
-aW4uYyAgICB8IDI1ICsrKysrKysrKysrKysrKysrKysrKystLS0NCj4+PiAgICBkcml2ZXJz
-L2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMgfCAgMiArKw0KPj4+ICAgIDMgZmlsZXMgY2hh
-bmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4+Pg0KPj4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2Ry
-bS91ZGwvdWRsX2Rydi5oDQo+Pj4gaW5kZXggZjAxZTUwYzViN2I3Li4yOGFhZjc1ZDcxY2Yg
-MTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmgNCj4+PiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaA0KPj4+IEBAIC0zOSw2ICszOSw3
-IEBAIHN0cnVjdCB1cmJfbm9kZSB7DQo+Pj4gICAgICBzdHJ1Y3QgdXJiX2xpc3Qgew0KPj4+
-ICAgIAlzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7DQo+Pj4gKwlzdHJ1Y3QgbGlzdF9oZWFkIGlu
-X2ZsaWdodDsNCj4+PiAgICAJc3BpbmxvY2tfdCBsb2NrOw0KPj4+ICAgIAl3YWl0X3F1ZXVl
-X2hlYWRfdCBzbGVlcDsNCj4+PiAgICAJaW50IGF2YWlsYWJsZTsNCj4+PiBAQCAtODQsNiAr
-ODUsNyBAQCBzdGF0aWMgaW5saW5lIHN0cnVjdCB1cmIgKnVkbF9nZXRfdXJiKHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYpDQo+Pj4gICAgICBpbnQgdWRsX3N1Ym1pdF91cmIoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwgc3RydWN0IHVyYiAqdXJiLA0KPj4+IHNpemVfdCBsZW4pOw0KPj4+
-ICAgIGludCB1ZGxfc3luY19wZW5kaW5nX3VyYnMoc3RydWN0IGRybV9kZXZpY2UgKmRldik7
-DQo+Pj4gK3ZvaWQgdWRsX2tpbGxfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYpOw0KPj4+ICAgIHZvaWQgdWRsX3VyYl9jb21wbGV0aW9uKHN0cnVjdCB1cmIgKnVyYik7
-DQo+Pj4gICAgICBpbnQgdWRsX2luaXQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCk7DQo+Pj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYyBiL2RyaXZlcnMv
-Z3B1L2RybS91ZGwvdWRsX21haW4uYw0KPj4+IGluZGV4IDkzNjE1NjQ4NDE0Yi4uNDcyMDRi
-N2ViMTBlIDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4u
-Yw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21haW4uYw0KPj4+IEBAIC0x
-MzUsNyArMTM1LDcgQEAgdm9pZCB1ZGxfdXJiX2NvbXBsZXRpb24oc3RydWN0IHVyYiAqdXJi
-KQ0KPj4+ICAgIAl1cmItPnRyYW5zZmVyX2J1ZmZlcl9sZW5ndGggPSB1ZGwtPnVyYnMuc2l6
-ZTsgLyogcmVzZXQgdG8gYWN0dWFsICovDQo+Pj4gICAgICAJc3Bpbl9sb2NrX2lycXNhdmUo
-JnVkbC0+dXJicy5sb2NrLCBmbGFncyk7DQo+Pj4gLQlsaXN0X2FkZF90YWlsKCZ1bm9kZS0+
-ZW50cnksICZ1ZGwtPnVyYnMubGlzdCk7DQo+Pj4gKwlsaXN0X21vdmUoJnVub2RlLT5lbnRy
-eSwgJnVkbC0+dXJicy5saXN0KTsNCj4+PiAgICAJdWRsLT51cmJzLmF2YWlsYWJsZSsrOw0K
-Pj4+ICAgIAlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZ1ZGwtPnVyYnMubG9jaywgZmxhZ3Mp
-Ow0KPj4+ICAgIEBAIC0xODAsNiArMTgwLDcgQEAgc3RhdGljIGludCB1ZGxfYWxsb2NfdXJi
-X2xpc3Qoc3RydWN0DQo+Pj4gZHJtX2RldmljZSAqZGV2LCBpbnQgY291bnQsIHNpemVfdCBz
-aXplKQ0KPj4+ICAgIHJldHJ5Og0KPj4+ICAgIAl1ZGwtPnVyYnMuc2l6ZSA9IHNpemU7DQo+
-Pj4gICAgCUlOSVRfTElTVF9IRUFEKCZ1ZGwtPnVyYnMubGlzdCk7DQo+Pj4gKwlJTklUX0xJ
-U1RfSEVBRCgmdWRsLT51cmJzLmluX2ZsaWdodCk7DQo+Pj4gICAgICAJaW5pdF93YWl0cXVl
-dWVfaGVhZCgmdWRsLT51cmJzLnNsZWVwKTsNCj4+PiAgICAJdWRsLT51cmJzLmNvdW50ID0g
-MDsNCj4+PiBAQCAtMjQ2LDcgKzI0Nyw3IEBAIHN0cnVjdCB1cmIgKnVkbF9nZXRfdXJiX3Rp
-bWVvdXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgbG9uZyB0aW1lb3V0KQ0KPj4+ICAgIAl9
-DQo+Pj4gICAgICAJdW5vZGUgPSBsaXN0X2ZpcnN0X2VudHJ5KCZ1ZGwtPnVyYnMubGlzdCwg
-c3RydWN0IHVyYl9ub2RlLA0KPj4+IGVudHJ5KTsNCj4+PiAtCWxpc3RfZGVsX2luaXQoJnVu
-b2RlLT5lbnRyeSk7DQo+Pj4gKwlsaXN0X21vdmUoJnVub2RlLT5lbnRyeSwgJnVkbC0+dXJi
-cy5pbl9mbGlnaHQpOw0KPj4+ICAgIAl1ZGwtPnVyYnMuYXZhaWxhYmxlLS07DQo+Pj4gICAg
-ICB1bmxvY2s6DQo+Pj4gQEAgLTI3OSw3ICsyODAsNyBAQCBpbnQgdWRsX3N5bmNfcGVuZGlu
-Z191cmJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pj4gICAgCXNwaW5fbG9ja19pcnEo
-JnVkbC0+dXJicy5sb2NrKTsNCj4+PiAgICAJLyogMiBzZWNvbmRzIGFzIGEgc2FuZSB0aW1l
-b3V0ICovDQo+Pj4gICAgCWlmICghd2FpdF9ldmVudF9sb2NrX2lycV90aW1lb3V0KHVkbC0+
-dXJicy5zbGVlcCwNCj4+PiAtCQkJCQkgdWRsLT51cmJzLmF2YWlsYWJsZSA9PSB1ZGwtPnVy
-YnMuY291bnQsDQo+Pj4gKwkJCQkJIGxpc3RfZW1wdHkoJnVkbC0+dXJicy5pbl9mbGlnaHQp
-LA0KPj4+ICAgIAkJCQkJIHVkbC0+dXJicy5sb2NrLA0KPj4+ICAgIAkJCQkJIG1zZWNzX3Rv
-X2ppZmZpZXMoMjAwMCkpKQ0KPj4+ICAgIAkJcmV0ID0gLUVUSU1FRE9VVDsNCj4+PiBAQCAt
-Mjg3LDYgKzI4OCwyMyBAQCBpbnQgdWRsX3N5bmNfcGVuZGluZ191cmJzKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYpDQo+Pj4gICAgCXJldHVybiByZXQ7DQo+Pj4gICAgfQ0KPj4+ICAgICsv
-KiBraWxsIHBlbmRpbmcgVVJCcyAqLw0KPj4+ICt2b2lkIHVkbF9raWxsX3BlbmRpbmdfdXJi
-cyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPj4+ICt7DQo+Pj4gKwlzdHJ1Y3QgdWRsX2Rl
-dmljZSAqdWRsID0gdG9fdWRsKGRldik7DQo+Pj4gKwlzdHJ1Y3QgdXJiX25vZGUgKnVub2Rl
-Ow0KPj4+ICsNCj4+PiArCXNwaW5fbG9ja19pcnEoJnVkbC0+dXJicy5sb2NrKTsNCj4+PiAr
-CXdoaWxlICghbGlzdF9lbXB0eSgmdWRsLT51cmJzLmluX2ZsaWdodCkpIHsNCj4+PiArCQl1
-bm9kZSA9IGxpc3RfZmlyc3RfZW50cnkoJnVkbC0+dXJicy5pbl9mbGlnaHQsDQo+Pj4gKwkJ
-CQkJIHN0cnVjdCB1cmJfbm9kZSwgZW50cnkpOw0KPj4+ICsJCXNwaW5fdW5sb2NrX2lycSgm
-dWRsLT51cmJzLmxvY2spOw0KPj4+ICsJCXVzYl9raWxsX3VyYih1bm9kZS0+dXJiKTsNCj4+
-PiArCQlzcGluX2xvY2tfaXJxKCZ1ZGwtPnVyYnMubG9jayk7DQo+Pj4gKwl9DQo+Pj4gKwlz
-cGluX3VubG9ja19pcnEoJnVkbC0+dXJicy5sb2NrKTsNCj4+PiArfQ0KPj4+ICsNCj4+PiAg
-ICBpbnQgdWRsX2luaXQoc3RydWN0IHVkbF9kZXZpY2UgKnVkbCkNCj4+PiAgICB7DQo+Pj4g
-ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmdWRsLT5kcm07DQo+Pj4gQEAgLTMzNSw2
-ICszNTMsNyBAQCBpbnQgdWRsX2Ryb3BfdXNiKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+
-Pj4gICAgew0KPj4+ICAgIAlzdHJ1Y3QgdWRsX2RldmljZSAqdWRsID0gdG9fdWRsKGRldik7
-DQo+Pj4gICAgKwl1ZGxfa2lsbF9wZW5kaW5nX3VyYnMoZGV2KTsNCj4+PiAgICAJdWRsX2Zy
-ZWVfdXJiX2xpc3QoZGV2KTsNCj4+PiAgICAJcHV0X2RldmljZSh1ZGwtPmRtYWRldik7DQo+
-Pj4gICAgCXVkbC0+ZG1hZGV2ID0gTlVMTDsNCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9k
-ZXNldC5jDQo+Pj4gaW5kZXggNTAwMjU2MDZiNmFkLi4xNjkxMTBkOGZjMmUgMTAwNjQ0DQo+
-Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jDQo+Pj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jDQo+Pj4gQEAgLTM5Nyw2ICszOTcs
-OCBAQCB1ZGxfc2ltcGxlX2Rpc3BsYXlfcGlwZV9kaXNhYmxlKHN0cnVjdCBkcm1fc2ltcGxl
-X2Rpc3BsYXlfcGlwZSAqcGlwZSkNCj4+PiAgICAJc3RydWN0IHVyYiAqdXJiOw0KPj4+ICAg
-IAljaGFyICpidWY7DQo+Pj4gICAgKwl1ZGxfa2lsbF9wZW5kaW5nX3VyYnMoZGV2KTsNCj4+
-PiArDQo+Pg0KPj4gSSBhbHJlYWR5IHJldmlld2VkIHRoZSBwYXRjaHNldCwgYnV0IEkgaGF2
-ZSBhbm90aGVyIGNvbW1lbnQuIEkgdGhpbmsNCj4+IHdlIHNob3VsZCBvbmx5IGtpbGwgdXJi
-cyBmcm9tIHdpdGhpbiB0aGUgc3VzcGVuZCBoYW5kbGVyLiBTYW1lIGZvciB0aGUNCj4+IGNh
-bGwgdG8gdGhlIFVSQi1zeW5jIGZ1bmN0aW9uIGluIHBhdGNoIDIuDQo+Pg0KPj4gVGhpcyBk
-aXNhYmxlIGZ1bmN0aW9uIGlzIHBhcnQgb2YgdGhlIHJlZ3VsYXIgbW9kZXNldCBwYXRoLiBJ
-dCdzDQo+PiBwcm9iYWJseSBub3QgYXBwcm9wcmlhdGUgdG8gb3V0cmlnaHQgcmVtb3ZlIHBl
-bmRpbmcgVVJCcyBoZXJlLiBUaGlzDQo+PiBjYW4gbGVhZCB0byBmYWlsZWQgbW9kZXNldHMs
-IHdoaWNoIHdvdWxkIGhhdmUgc3VjY2VlZGVkIG90aGVyd2lzZS4NCj4gDQo+IFdlbGwsIHRo
-ZSBkZXZpY2Ugc2hhbGwgYmUgdHVybmVkIG9mZiByaWdodCBhZnRlciB0aGF0IHBvaW50LCBz
-byB0aGUNCj4gYWxsIHBlbmRpbmcgcmVuZGVyaW5nIG1ha2VzIGxpdHRsZSBzZW5zZSwgbm8/
-DQoNCnVkbF9zaW1wbGVfZGlzcGxheV9waXBlX2Rpc2FibGUoKSBvbmx5IGRpc2FibGVzIHRo
-ZSBkaXNwbGF5LCBidXQgbm90IHRoZSANCmRldmljZS4gVGhlIGtpbGwgb3BlcmF0aW9uIGhl
-cmUgY291bGQgcG90ZW50aWFsbHkga2lsbCBzb21lIHZhbGlkIA0KbW9kZXNldCBvcGVyYXRp
-b24gdGhhdCB3YXMgc3RpbGwgZ29pbmcgb24uIEFuZCB3aG8ga25vd3Mgd2hhdCB0aGUgZGV2
-aWNlIA0Kc3RhdGUgaXMgYWZ0ZXIgdGhhdC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
-PiANCj4gDQo+IFRha2FzaGkNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
-IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Let me double check the code.
 
---------------qXE9z3FedFZkzDaugS6KIMqN--
+Thanks for pointing that out,
+Christian.
 
---------------ai9jFhmK27dZqcVAe4F2gK2O
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
+> , the current code would try to add multiple maps to rb:
+> drm_prime_add_buf_handle(buf_1, hdl_1)
+> drm_prime_add_buf_handle(buf_1, hdl_2)
+> ...
+> drm_prime_add_buf_handle(buf_1, hdl_n)
+>
+>>
+>>>
+>>> Or should we rewrite the GEM framework to limit GEM object with uniq 
+>>> handle?
+>>
+>> No, the extra handles are expected because when you call 
+>> drm_mode_getfb*() and drm_gem_open_ioctl() the caller now owns the 
+>> returned GEM handle.
+>>
+>>>
+>>> The other issue is that we are leaking dma-buf <-> handle map for 
+>>> the imported dma-buf, since the drm_gem_remove_prime_handles doesn't 
+>>> take care of obj->import_attach->dmabuf.
+>>
+>> No, that's correct as well. obj->dma_buf is set even for imported 
+>> DMA-buf objects. See drm_gem_prime_fd_to_handle().
+>
+> Well, that obj->dma_buf would be set in 
+> drm_gem_prime_fd_to_handle(create new handle), and cleared when 
+> releasing the latest handle(release handle).
+>
+> So it doesn't cover other handle creating path.
+>
+> For example, a imported dma buf:
+> drm_gem_prime_fd_to_handle <-- we got a handle and obj->dma_buf and 
+> obj->import_attach->dmabuf
+> drm_gem_handle_delete <-- we lost that handle and obj->dma_buf cleared
+> drm_gem_open_ioctl/or getfb* <-- we got a new handle and 
+> obj->import_attach->dmabuf
+> drm_gem_handle_delete <-- we lost that handle and obj->dma_buf is 
+> null, which means rb leaks.
+>
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> But of cause this can be fixed in other way:
+>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>> @@ -180,6 +180,9 @@ drm_gem_remove_prime_handles(struct 
+>>> drm_gem_object *obj, struct drm_file *filp)
+>>> drm_prime_remove_buf_handle_locked(&filp->prime,
+>>> obj->dma_buf);
+>>>         }
+>>> +       if (obj->import_attach)
+>>> + drm_prime_remove_buf_handle_locked(&filp->prime,
+>>> + obj->import_attach->dmabuf);
+>>>         mutex_unlock(&filp->prime.lock);
+>>>  }
+>>>
+>>>
+>>>> So this is pretty much a clear NAK to this patch since it shouldn't 
+>>>> be necessary or something is seriously broken somewhere else.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+>>>>> ---
+>>>>>
+>>>>> Changes in v2:
+>>>>> Fix a typo of rbtree.
+>>>>>
+>>>>>   drivers/gpu/drm/drm_gem.c      | 17 +----------------
+>>>>>   drivers/gpu/drm/drm_internal.h |  4 ++--
+>>>>>   drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
+>>>>>   3 files changed, 15 insertions(+), 26 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>>>> index eb0c2d041f13..ed39da383570 100644
+>>>>> --- a/drivers/gpu/drm/drm_gem.c
+>>>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>>>> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct 
+>>>>> drm_device *dev,
+>>>>>   }
+>>>>>   EXPORT_SYMBOL(drm_gem_private_object_init);
+>>>>> -static void
+>>>>> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct 
+>>>>> drm_file *filp)
+>>>>> -{
+>>>>> -    /*
+>>>>> -     * Note: obj->dma_buf can't disappear as long as we still hold a
+>>>>> -     * handle reference in obj->handle_count.
+>>>>> -     */
+>>>>> -    mutex_lock(&filp->prime.lock);
+>>>>> -    if (obj->dma_buf) {
+>>>>> - drm_prime_remove_buf_handle_locked(&filp->prime,
+>>>>> -                           obj->dma_buf);
+>>>>> -    }
+>>>>> -    mutex_unlock(&filp->prime.lock);
+>>>>> -}
+>>>>> -
+>>>>>   /**
+>>>>>    * drm_gem_object_handle_free - release resources bound to 
+>>>>> userspace handles
+>>>>>    * @obj: GEM object to clean up.
+>>>>> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void 
+>>>>> *ptr, void *data)
+>>>>>       if (obj->funcs->close)
+>>>>>           obj->funcs->close(obj, file_priv);
+>>>>> -    drm_gem_remove_prime_handles(obj, file_priv);
+>>>>> +    drm_prime_remove_buf_handle(&file_priv->prime, id);
+>>>>>       drm_vma_node_revoke(&obj->vma_node, file_priv);
+>>>>>       drm_gem_object_handle_put_unlocked(obj);
+>>>>> diff --git a/drivers/gpu/drm/drm_internal.h 
+>>>>> b/drivers/gpu/drm/drm_internal.h
+>>>>> index 1fbbc19f1ac0..7bb98e6a446d 100644
+>>>>> --- a/drivers/gpu/drm/drm_internal.h
+>>>>> +++ b/drivers/gpu/drm/drm_internal.h
+>>>>> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct 
+>>>>> drm_device *dev, void *data,
+>>>>>   void drm_prime_init_file_private(struct drm_prime_file_private 
+>>>>> *prime_fpriv);
+>>>>>   void drm_prime_destroy_file_private(struct 
+>>>>> drm_prime_file_private *prime_fpriv);
+>>>>> -void drm_prime_remove_buf_handle_locked(struct 
+>>>>> drm_prime_file_private *prime_fpriv,
+>>>>> -                    struct dma_buf *dma_buf);
+>>>>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
+>>>>> *prime_fpriv,
+>>>>> +                 uint32_t handle);
+>>>>>   /* drm_drv.c */
+>>>>>   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+>>>>> diff --git a/drivers/gpu/drm/drm_prime.c 
+>>>>> b/drivers/gpu/drm/drm_prime.c
+>>>>> index e3f09f18110c..bd5366b16381 100644
+>>>>> --- a/drivers/gpu/drm/drm_prime.c
+>>>>> +++ b/drivers/gpu/drm/drm_prime.c
+>>>>> @@ -190,29 +190,33 @@ static int 
+>>>>> drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+>>>>>       return -ENOENT;
+>>>>>   }
+>>>>> -void drm_prime_remove_buf_handle_locked(struct 
+>>>>> drm_prime_file_private *prime_fpriv,
+>>>>> -                    struct dma_buf *dma_buf)
+>>>>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
+>>>>> *prime_fpriv,
+>>>>> +                 uint32_t handle)
+>>>>>   {
+>>>>>       struct rb_node *rb;
+>>>>> -    rb = prime_fpriv->dmabufs.rb_node;
+>>>>> +    mutex_lock(&prime_fpriv->lock);
+>>>>> +
+>>>>> +    rb = prime_fpriv->handles.rb_node;
+>>>>>       while (rb) {
+>>>>>           struct drm_prime_member *member;
+>>>>> -        member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+>>>>> -        if (member->dma_buf == dma_buf) {
+>>>>> +        member = rb_entry(rb, struct drm_prime_member, handle_rb);
+>>>>> +        if (member->handle == handle) {
+>>>>>               rb_erase(&member->handle_rb, &prime_fpriv->handles);
+>>>>>               rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+>>>>> -            dma_buf_put(dma_buf);
+>>>>> +            dma_buf_put(member->dma_buf);
+>>>>>               kfree(member);
+>>>>> -            return;
+>>>>> -        } else if (member->dma_buf < dma_buf) {
+>>>>> +            break;
+>>>>> +        } else if (member->handle < handle) {
+>>>>>               rb = rb->rb_right;
+>>>>>           } else {
+>>>>>               rb = rb->rb_left;
+>>>>>           }
+>>>>>       }
+>>>>> +
+>>>>> +    mutex_unlock(&prime_fpriv->lock);
+>>>>>   }
+>>>>>   void drm_prime_init_file_private(struct drm_prime_file_private 
+>>>>> *prime_fpriv)
+>>>>
+>>>>
+>>>
+>>
+>>
+>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLyD58FAwAAAAAACgkQlh/E3EQov+AL
-vg/8CrBFgfAbAC+7scBUKa16Xg4TFI4bvgq2CXtrARCBxMWOUwurKcHb9WTJqpKmA+q5eFAHPiOO
-Hg4bNkzXYRut94B32JyE+eL0RJaCX6pdKZJevVc7mp1+StiT7WELrffIibve+T3wIyONx6KDos+B
-cwRE8BCsgrivR0Bfb6ocJn7SJW4rk56d+BukCaODta85fOp0lgU2aWg+22rDI9ItUQ2mqGy9wgOP
-lQnpG2kdIpELxHJzkH0GOSjuDNONn075+1BRBUVPjjw/DHK+l/sn+XbS7+g4T6JCfhiusRYTRGTo
-syhuBOKueMx2BDht9r+QQaQJz1H67abdgJ64fE8XC1HXUnYYRk+Dpmc5tuDnku7Sd06ZrYSv1c6J
-1UWjVtnYwrG+CREKjBAj881KakA/NVHcGrUBpmor3jW/5D2PN+Un+oZjzEeQb1ZyAcDmFoC/2Hko
-TvX9JuTyOGbvImyrAbbmpdBvj5h7lOMZzuwNK//TkJ8plLL9oTaA55Nm30PnJubcaz8iyGk7TBAS
-9WIlAXKwbevTB2Q42xZmLEAzVMxya/F12IGpBpMeQhQExJTiCX8SiXq9QCYAdHP8LHgioa5XYtbN
-dFsixQexyidlva1HBFfCZV6kDehf/AzPBHDwrmJG5t/bcmJOkyY10VtMhI7iYGOlhzlI/cAApT5g
-oBU=
-=4mxo
------END PGP SIGNATURE-----
-
---------------ai9jFhmK27dZqcVAe4F2gK2O--
