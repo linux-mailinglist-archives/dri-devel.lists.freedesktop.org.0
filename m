@@ -2,69 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DAE58DA6E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 16:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB74558DA82
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 16:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC9CD8C67;
-	Tue,  9 Aug 2022 14:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C53B18BD45;
+	Tue,  9 Aug 2022 14:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB0DD8BC1
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 14:37:15 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id ay12so3600648wmb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Aug 2022 07:37:15 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23F7CD9447
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 14:46:15 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id z17so14576778wrq.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Aug 2022 07:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc; bh=A68NIbIg/H1nJ9is16UY07r9xLu1Koj/fixZivFhYJ0=;
- b=RoKIYUaTlzGf4GWjMigQE3YrLAatx6VH16JBAqrKpBQlgWZ/zCFmJjSLlmCfBeagQp
- 1bgs5vg7QlIFB7f1BM8Fq5+RRDuAZDYGaZYx/sIZmtagYhW2CYqsZD8w0LVULh+Yejus
- ZoatQ25jGAZiSvFZw86IkL4+HFNHHikHlea8o=
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc;
+ bh=GU85vH0JwZyYgfvgPi4uNIOzQTqcxTNpZf0fdkfbw3E=;
+ b=cGqWfEM031PLNJ3KzfPfP+udllMIZG1weeQeYwd/jHYlN+GzXSzPZDD/+a7LgB0GzI
+ nM3sOrM0M2uKJKnGth6xfOifFqiAinTk2krgDkCfyxbaFrY5ocdohAnd0H/a/vVwe0lS
+ yovylzfg11jKLpxKZL27PpulfArYd+AjLllp8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=A68NIbIg/H1nJ9is16UY07r9xLu1Koj/fixZivFhYJ0=;
- b=Yr9ZFJEs6NqsZzWQqlG03WZAwqjSWqkMBch5DPxS3XSFUNgYcAGXz7SNUwBj/P+Bfg
- 0IdeSOqfGelWGfgEoUBZ9Qa1hR7hI7otsT8SP63GX24Qs0tgiVCGLhD2HhY3tdzCHKwC
- PnVd1UBYi4jnNcwgX8G4llJEF/3jZyyB5QkvwdpSVVlntFlWnzDG2tk731yzqi5h7kYM
- kimo/Eua35YPDr0z8sRku1bOurUho13/p3KHchMVq6cJ4g/30ziterPgGlqqLZyXJsJe
- WtwU9uY2oVLXIHSMmy0hOsVTqtWfeklX22EOkPXQZfks0WOi32H3+ZzUTnQFwZOCP2iO
- V2EQ==
-X-Gm-Message-State: ACgBeo0Zd5pHtdlwMzAqK4vLSG6XYJjTijhR2YcCf3L8xyOhRe+FM6aJ
- IZMFSce3KQO6yRMHQQ0j3lj/VB6M+wDfh88o
-X-Google-Smtp-Source: AA6agR4Hs60cgPkKn6k7V2vVbrPweIxQJV8V2V9Xx/U8IqUSY/RDnxQzl7r2u3sJN/ws6oM79ETHOA==
-X-Received: by 2002:a05:600c:1d8a:b0:3a3:1104:88ad with SMTP id
- p10-20020a05600c1d8a00b003a3110488admr15641707wms.179.1660055833818; 
- Tue, 09 Aug 2022 07:37:13 -0700 (PDT)
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc;
+ bh=GU85vH0JwZyYgfvgPi4uNIOzQTqcxTNpZf0fdkfbw3E=;
+ b=lNz3fQ/812ALvWhrj44tvo55tqtvmtbmYXLksM9ed1LRQFimD0XoUsCWM3uN08Ftl9
+ K5MJxoJWZXYCihZJQMSdmHEqtUCx9Jk2qWxG6d1bpRJKYaB+X4t+DAVBLs96pkThOfr0
+ vgWwq+H838eSjtn7RisCfjwRFIx20K5Y+AYzfKT7CRDabDkTMTJiaLXuiOPgfIlcIWAt
+ 9uO6ZqMjHId6VKzAZvF6M+FeOWqnK9c8K8TdzXuGTMJVLNFzvqswRSuSpD11aYaGngvO
+ CtE8Nos0ftufejA9PcbYazFUOjpPHhUt7OqzIbfI3rdufjqvUZ0NZryOQJmsuanRjb2c
+ PQ5w==
+X-Gm-Message-State: ACgBeo25bhXmytq0keXjqs2wq1e0Exed+uu3OkKqs6GvbqYQh8f2WZ0X
+ c3mfg74ndaKhQLvtvVYxTDqJDA==
+X-Google-Smtp-Source: AA6agR4wNTRW3WH6s5IDTVPaHbcPGt8ACxu8E3GaSvcFwrkbIoiXBDALV6KyScP+LquedtXpwKq6nQ==
+X-Received: by 2002:a05:6000:381:b0:221:7507:bb24 with SMTP id
+ u1-20020a056000038100b002217507bb24mr12253940wrf.373.1660056374190; 
+ Tue, 09 Aug 2022 07:46:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a7bc452000000b003a53da4ef8bsm7217837wmi.16.2022.08.09.07.37.12
+ d13-20020adfe88d000000b0021e13efa17esm13713701wrm.70.2022.08.09.07.46.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 07:37:13 -0700 (PDT)
-Date: Tue, 9 Aug 2022 16:37:11 +0200
+ Tue, 09 Aug 2022 07:46:13 -0700 (PDT)
+Date: Tue, 9 Aug 2022 16:46:11 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
-Message-ID: <YvJxF/oBjqYAWXyg@phenom.ffwll.local>
-References: <CAP+8YyGL_WEME-1_oB_K5_K600c5kcmO0GxXBQGVQEF7aP_D7w@mail.gmail.com>
- <91e843ca-928a-7ab1-12e4-89fbba085403@amd.com>
- <CAP+8YyHqcoxVeropBpeuSRX4kNtVezi1-s3FKSic_Z_OQ8BcAg@mail.gmail.com>
- <1e04e766-4a5b-6825-6991-3bd542f562b5@amd.com>
- <CAP+8YyGEHUZhCCUa-3sSVmgGMrTkj=vQomPar=hTN=3-RCznOA@mail.gmail.com>
- <71cc9552-4bf6-4941-e903-2ea62a22a2e9@amd.com>
- <YrYfw6T4MGvifIco@phenom.ffwll.local>
- <785d01ba-7d4a-1b69-a97a-6144ce0f6772@amd.com>
- <YreQER+Szg5dxyNN@phenom.ffwll.local>
- <ac6e1937-4943-9bc1-8a85-74447e6c0447@amd.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: DMA-buf and uncached system memory
+Message-ID: <YvJzM1km0iJ3eFnR@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, 
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linaro-mm-sig@lists.linaro.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media <linux-media@vger.kernel.org>
+References: <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+ <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+ <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+ <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
+ <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
+ <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
+ <CAPj87rOykZv7bjNhHPT4StrsPz8Y_DWqab4Ryq=Qqh77LS2e=Q@mail.gmail.com>
+ <578953dd-6298-2bfe-a8fb-52004b84fd17@amd.com>
+ <YrY0cQY1BTL5H7Xp@phenom.ffwll.local>
+ <5eeefadd-7804-3876-c8da-3e6f1bcb9dc0@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ac6e1937-4943-9bc1-8a85-74447e6c0447@amd.com>
+In-Reply-To: <5eeefadd-7804-3876-c8da-3e6f1bcb9dc0@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,84 +91,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ Pekka Paalanen <ppaalanen@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Back from vacations and work change and out sick and absolutely
-everything else going wrong]
-
-On Mon, Jul 04, 2022 at 03:37:43PM +0200, Christian König wrote:
-> Hey Daniel,
+On Mon, Jul 04, 2022 at 03:48:03PM +0200, Christian König wrote:
+> Hi Daniel,
 > 
-> Am 26.06.22 um 00:45 schrieb Daniel Vetter:
-> > [SNIP]
-> > I think we should highlight a bit more that for explicitly synchronized
-> > userspace like vk OTHER is the normal case. So really not an exception.
-> > Ofc aside from amdkgf there's currently no driver doing this, but really
-> > we should have lots of them ...
+> Am 25.06.22 um 00:02 schrieb Daniel Vetter:
+> > On Thu, Jun 23, 2022 at 01:32:18PM +0200, Christian König wrote:
+> > > Am 23.06.22 um 13:27 schrieb Daniel Stone:
+> > > > [SNIP]
+> > > > If it's really your belief that dmabuf requires universal snooping, I
+> > > > recommend you send the patch to update the documentation, as well as
+> > > > to remove DRIVER_PRIME from, realistically, most non-PCIE drivers.
+> > > Well, to be honest I think that would indeed be necessary.
+> > > 
+> > > What we have created are essentially two different worlds, one for PCI
+> > > devices and one for the rest.
+> > > 
+> > > This was indeed not the intention, but it's a fact that basically all
+> > > DMA-buf based PCI drivers assume coherent access.
+> > dma-buf does not require universal snooping.
 > > 
-> > See https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2FYZ%2By%2BUwo809qtvs5%40phenom.ffwll.local%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C88037a566a8d4c8d4aca08da56fc6e3c%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637917939428739923%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=6sYto7GCLw8i3pT9OCFN1l6dxeYYHPghzKDMYxqUw90%3D&amp;reserved=0
+> > It does defacto require that all device access is coherent with all other
+> > device access, and consistent with the exporters notion of how cpu
+> > coherency is achieved. Not that coherent does not mean snooping, as long
+> > as all devices do unsnooped access and the exporter either does wc/uc or
+> > flushes caches that's perfectly fine, and how all the arm soc dma-buf
+> > sharing works.
+> 
+> We should probably start documenting that better.
+
+Agreed :-)
+
+Are you volunteering to type up something that reflects the current sorry
+state of affairs? I'm not sure I'm the best since I guess I've been too
+badly involved in this ...
+
+> > We did originally have the wording in there that you have to map/unamp
+> > around every device access, but that got dropped because no one was doing
+> > that anyway.
 > > 
-> > I didn't find anything else. So not sure how we managed to create
-> > confusion here :-(
-> 
-> Well you said something like "Yeah, READ is supposed to be used for
-> that...." and that created the impression that AMDGPU should start using
-> that for Vulkan submissions and you are rejecting my idea of using BOOKKEEP
-> for that.
-> 
-> > > I mean that still makes a lot of sense to me because if I'm not completely
-> > > mistaken we do have use cases which break, especially Vulkan+encoding.
-> > Yeah I think we only have some communication fumble here, nothing else :-)
-> 
-> Ok, well then @Bas: Sorry for all the noise, we are actually all on the same
-> page :)
-> 
-> > And yes libva doesn't have any support for vk's explicit sync model, so
-> > that will just fall flat on its face. Might motivate a few folks to fix
-> > libva :-)
-> 
-> Well that's not the problem. The problem is that we have a couple of use
-> cases where libva is supposed to encode a Vulkan surface without letting
-> Vulkan know about that.
-> 
-> In other words: Application shares DMA-buf between Vulkan and VA-API,
-> renders with Vulkan and encodes with VA-API without any explicit
-> synchronization between the two.
-> 
-> I know that this is absolutely against the Vulkan specification, but it just
-> happened to work fine. And when you break something which used to work
-> people start to complain...
-
-Yeah I feared that, and worse libva doesn't have the nice gl interop
-extensions to make it actually work.
-
-> > Note that on i915 side it's exactly the same, we've also been setting the
-> > READ fence thus far. Since the breakage will be introduced by upgrading
-> > mesa we'll at least avoid the kernel regression complaints, or at least I
-> > hope we can get away with that.
-> 
-> Yeah, the path to salvation start's with the words: It's not my f... problem
-> :)
-> 
-> > Since really I don't have any idea how it could be fixed otherwise, except
-> > through some really, really terrible hacks. Maybe kernel module option or
-> > so.
+> > Now where this totally breaks down is how we make this work, because the
+> > idea was that dma_buf_attach validates this all. Where this means all the
+> > hilarious reasons buffer sharing might not work:
+> > - wrong coherency mode (cpu cached or not)
+> > - not contiguous (we do check that, but only once we get the sg from
+> >    dma_buf_attachment_map, which strictly speaking is a bit too late but
+> >    most drivers do attach&map as one step so not that bad in practice)
+> > - whether the dma api will throw in bounce buffers or not
+> > - random shit like "oh this is in the wrong memory bank", which I think
+> >    never landed in upstream
 > > 
-> > Anyway I think all we need is just a patch to the dma_resv docs to explain
-> > that USAGE_BOOKKEEPING is what vulkan userspace wants, and why. Bas,
-> > you're up to typing that?
+> > p2p connectivity is about the only one that gets this right, yay. And the
+> > only reason we can even get it right is because all the information is
+> > exposed to drivers fully.
 > 
-> I can do that. I'm just back from a week of vacation and still digging
-> through my mails.
+> Yeah, that's why I designed P2P that way :)
+> 
+> I also don't think it's that bad, at least for radeon, nouveau and amdgpu
+> all the migration restrictions are actually handled correctly.
+> 
+> In other words when a DMA-buf is about to be used by another device we use
+> TTM to move the buffer around so that it can actually be accessed by that
+> device.
+> 
+> What I haven't foreseen in here is that we need to deal with different
+> caching behaviors between exporter and importer.
 
-Yeah I think the best path is we're pushing hard for adding the libva
-syncobj extensions like gl has, so that this can be done properly. And
-then just pave it over with kernel modoptions until userspace is fixed.
+Yeah we should have done caching explicitly and full opt-in like with p2p.
+The trouble is that this would have been a multi-year fight with dma api
+folks, who insist it must be all transparent. So the politically clever
+thing was to just ignore the problem and land dma-buf, but it comes back
+to bite us now :-/
 
-If we end up making implicit sync part of defacto vk api on linux, then a
-_lot_ of people will be very sad :-(
+> > The issue is that the device dma api refuses to share this information
+> > because it would "leak". Which sucks, because we have defacto build every
+> > single cross-device use-case of dma-buf on the assumption we can check
+> > this (up to gl/vk specs), but oh well.
+> > 
+> > So in practice this gets sorted out by endless piles of hacks to make
+> > individual use-cases work.
+> > 
+> > Oh and: This is definitely not limited to arm socs. x86 socs with intel
+> > at least have exactly all the same issues, and they get solved by adding
+> > various shitty hacks to the involved drivers (like i915+amdgpu). Luckily
+> > the intel camera driver isn't in upstream yet, since that would break a
+> > bunch of the hacks since suddently there will be now 2 cpu cache
+> > incoherent devices in an x86 system.
+> > 
+> > Ideally someone fixes this, but I'm not hopeful.
+> > 
+> > I recommend pouring more drinks.
+> > 
+> > What is definitely not correct is claiming that dma-buf wasn't meant for
+> > this. We discussed cache coherency issues endless in budapest 12 or so
+> > years ago, I was there. It's just that the reality of the current
+> > implementation is falling short, and every time someone tries to fix it we
+> > get shouted down by dma api maintainers for looking behind their current.
+> 
+> Well that explains this, I've joined the party a year later and haven't
+> witnessed all of this.
+
+Yay, cleared up another confusion!
+
+> > tldr; You have to magically know to not use cpu cached allocators on these
+> > machines.
+> 
+> Or reject the attachment. As far as I can see that is still the cleanest
+> option.
+
+Yeah rejecting is always an ok thing if it just doesn't work.
 -Daniel
 -- 
 Daniel Vetter
