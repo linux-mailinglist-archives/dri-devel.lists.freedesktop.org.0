@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA5558D373
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 07:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9AA58D396
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 08:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2AEC6693;
-	Tue,  9 Aug 2022 05:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4428BF6D;
+	Tue,  9 Aug 2022 06:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB53C6679
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 05:59:14 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2795wmT2064811;
- Tue, 9 Aug 2022 00:58:48 -0500
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 680B2C6B5A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 06:09:03 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 27968jgW044816;
+ Tue, 9 Aug 2022 01:08:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1660024729;
- bh=LUvo/OXGaY+SlJRBebaT+WlLA9ZtximoQEN9c9PwbGE=;
+ s=ti-com-17Q1; t=1660025325;
+ bh=wiHB6xD9Q5AdYRvL7AHA6OTJj98bD0Jg2wNMsviboic=;
  h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=rjCJODQXh1A0uAlqW+uoYJUJ7W2hlUcFdng4Uho9UFe6o2pYJXaRyx/STZ9Yi3myq
- 9hS9XC8ER6DhI3CFThKlURDAseqOtWUsSi7UH1dBAebl6ZBZojjNGw/s8fmtwKHmyj
- RjquQMadPzpOv913jv8LL8K+0nneE51Vji2MTtr8=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2795wmms018047
+ b=LCPo+mC7UbTES/O6NyGnVGaKyeZAsQjipQVoTwYjEZcv+OyUBCUnDHOFUe4ho1731
+ wMWHqW3zYZ+jFcORYFtDOVy7XbSW7AxShdnd1Cc4WL94izKplEh5cB+Y7eq/Pdl2oF
+ OjurfNfhoPU1MePqTl45jaCC/dWJ9HruL+l4zd1M=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 27968j9U088478
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 9 Aug 2022 00:58:48 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 9 Aug 2022 01:08:45 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 9
- Aug 2022 00:58:48 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2022 01:08:44 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 9 Aug 2022 00:58:48 -0500
+ Frontend Transport; Tue, 9 Aug 2022 01:08:44 -0500
 Received: from [172.24.157.172] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2795whnR039818;
- Tue, 9 Aug 2022 00:58:44 -0500
-Message-ID: <1f9de2d8-7507-bdc2-93c1-470c8e060586@ti.com>
-Date: Tue, 9 Aug 2022 11:28:43 +0530
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 27968exD088222;
+ Tue, 9 Aug 2022 01:08:41 -0500
+Message-ID: <cb9ada9f-9673-2039-c22b-fa0d3345fe41@ti.com>
+Date: Tue, 9 Aug 2022 11:38:40 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.1.0
-Subject: Re: [PATCH 4/8] drm/tidss: Add support for Dual Link LVDS Bus Format
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20220719080845.22122-1-a-bhatia1@ti.com>
- <20220719080845.22122-5-a-bhatia1@ti.com>
- <f2909af1-be23-009b-ba71-34206f099473@ideasonboard.com>
- <ec8dce9b-51d6-a566-67bb-b76f6f3458d7@ideasonboard.com>
+Subject: Re: [PATCH v3 2/2] drm/tidss: Add support for AM625 DSS
 Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Rob Herring <robh+dt@kernel.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>
+References: <20220627151200.4693-1-a-bhatia1@ti.com>
+ <20220627151200.4693-3-a-bhatia1@ti.com>
+ <4382b760-418f-4033-97f2-47e082a30232@ideasonboard.com>
 From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <ec8dce9b-51d6-a566-67bb-b76f6f3458d7@ideasonboard.com>
+In-Reply-To: <4382b760-418f-4033-97f2-47e082a30232@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -67,126 +69,92 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- David Airlie <airlied@linux.ie>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
- Darren Etheridge <detheridge@ti.com>, Rob Herring <robh+dt@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Rahul T R <r-ravikumar@ti.com>,
- Krunal Bhargav <k-bhargav@ti.com>
+ Rahul T R <r-ravikumar@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Tomi,
 
-On 28-Jul-22 17:15, Tomi Valkeinen wrote:
-> On 28/07/2022 14:03, Tomi Valkeinen wrote:
->> On 19/07/2022 11:08, Aradhya Bhatia wrote:
->>> The 2 OLDI TXes in the AM625 SoC can be synced together to output a 2K
->>> resolution video.
->>>
->>> Add support in the driver for the discovery of such a dual mode
->>> connection on the OLDI video port, using the values of "ti,oldi-mode"
->>> property.
->>>
->>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>> ---
->>>   drivers/gpu/drm/tidss/tidss_dispc.c | 39 +++++++++++++++++++++--------
->>>   1 file changed, 28 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c 
->>> b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> index add725fa682b..fb1fdecfc83a 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> @@ -853,25 +853,36 @@ void dispc_set_irqenable(struct dispc_device 
->>> *dispc, dispc_irq_t mask)
->>>       }
->>>   }
->>> -enum dispc_oldi_mode_reg_val { SPWG_18 = 0, JEIDA_24 = 1, SPWG_24 = 
->>> 2 };
->>> +enum dispc_oldi_mode_reg_val {
->>> +    SPWG_18        = 0,
->>> +    JEIDA_24    = 1,
->>> +    SPWG_24        = 2,
->>> +    DL_SPWG_18    = 4,
->>> +    DL_JEIDA_24    = 5,
->>> +    DL_SPWG_24    = 6,
->>> +};
->>>   struct dispc_bus_format {
->>>       u32 bus_fmt;
->>>       u32 data_width;
->>>       bool is_oldi_fmt;
->>> +    bool is_dual_link;
->>>       enum dispc_oldi_mode_reg_val oldi_mode_reg_val;
->>>   };
->>>   static const struct dispc_bus_format dispc_bus_formats[] = {
->>> -    { MEDIA_BUS_FMT_RGB444_1X12,        12, false, 0 },
->>> -    { MEDIA_BUS_FMT_RGB565_1X16,        16, false, 0 },
->>> -    { MEDIA_BUS_FMT_RGB666_1X18,        18, false, 0 },
->>> -    { MEDIA_BUS_FMT_RGB888_1X24,        24, false, 0 },
->>> -    { MEDIA_BUS_FMT_RGB101010_1X30,        30, false, 0 },
->>> -    { MEDIA_BUS_FMT_RGB121212_1X36,        36, false, 0 },
->>> -    { MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,    18, true, SPWG_18 },
->>> -    { MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,    24, true, SPWG_24 },
->>> -    { MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,    24, true, JEIDA_24 },
->>> +    { MEDIA_BUS_FMT_RGB444_1X12,        12, false, false, 0 },
->>> +    { MEDIA_BUS_FMT_RGB565_1X16,        16, false, false, 0 },
->>> +    { MEDIA_BUS_FMT_RGB666_1X18,        18, false, false, 0 },
->>> +    { MEDIA_BUS_FMT_RGB888_1X24,        24, false, false, 0 },
->>> +    { MEDIA_BUS_FMT_RGB101010_1X30,        30, false, false, 0 },
->>> +    { MEDIA_BUS_FMT_RGB121212_1X36,        36, false, false, 0 },
->>> +    { MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,    18, true, false, SPWG_18 },
->>> +    { MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,    24, true, false, SPWG_24 },
->>> +    { MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,    24, true, false, JEIDA_24 },
->>> +    { MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,    18, true, true, DL_SPWG_18 },
->>> +    { MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,    24, true, true, DL_SPWG_24 },
->>> +    { MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,    24, true, true, DL_JEIDA_24 },
->>>   };
+On 28-Jul-22 17:34, Tomi Valkeinen wrote:
+> On 27/06/2022 18:12, Aradhya Bhatia wrote:
+>> Add support for the DSS IP on TI's new AM625 SoC in the tidss driver.
 >>
->> So the dual link sends two pixels per clock, right? Are there panel or 
->> bridge drivers that support this? My initial thought was that it 
->> should be a new bus format.
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> Reviewed-by: Rahul T R <r-ravikumar@ti.com>
+>> ---
+>>   drivers/gpu/drm/tidss/tidss_dispc.c | 56 ++++++++++++++++++++++++++++-
+>>   drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
+>>   drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
+>>   3 files changed, 58 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c 
+>> b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> index dae47853b728..f084f0688a54 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> @@ -272,6 +272,55 @@ const struct dispc_features dispc_j721e_feats = {
+>>       .vid_order = { 1, 3, 0, 2 },
+>>   };
+>> +const struct dispc_features dispc_am625_feats = {
+>> +    .max_pclk_khz = {
+>> +        [DISPC_VP_DPI] = 165000,
+>> +        [DISPC_VP_OLDI] = 165000,
+>> +    },
+>> +
+>> +    .scaling = {
+>> +        .in_width_max_5tap_rgb = 1280,
+>> +        .in_width_max_3tap_rgb = 2560,
+>> +        .in_width_max_5tap_yuv = 2560,
+>> +        .in_width_max_3tap_yuv = 4096,
+>> +        .upscale_limit = 16,
+>> +        .downscale_limit_5tap = 4,
+>> +        .downscale_limit_3tap = 2,
+>> +        /*
+>> +         * The max supported pixel inc value is 255. The value
+>> +         * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
+>> +         * The maximum bpp of all formats supported by the HW
+>> +         * is 8. So the maximum supported xinc value is 32,
+>> +         * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
+>> +         */
+>> +        .xinc_max = 32,
+>> +    },
+>> +
+>> +    .subrev = DISPC_AM625,
+>> +
+>> +    .common = "common",
+>> +    .common_regs = tidss_am65x_common_regs,
+>> +
+>> +    .num_vps = 2,
+>> +    .vp_name = { "vp1", "vp2" },
+>> +    .ovr_name = { "ovr1", "ovr2" },
+>> +    .vpclk_name =  { "vp1", "vp2" },
+>> +    .vp_bus_type = { DISPC_VP_OLDI, DISPC_VP_DPI },
 > 
-> Looks like we have drm bridges supporting dual link, and they use the 
-> "normal" bus format. Did you have a look at them? They require two port 
-> nodes for dual link, and use the existence of the second one to decide 
-> if dual link is used or not.
-The above edits were not for adding a new bus format for dual link
-connections. I added them in order to be able to write the correct OLDI
-config values in the register.
-
+> This looks correct, but with the two OLDI TXes, I think there will be 
+> some interesting issues.
 > 
-> There are also lvds helpers in drm_of.c. I didn't look closely, but it 
-> looked to me that the helpers can tell you if the ports are connected to 
-> a dual link bridge. If not, you could fall back to cloning. This way no 
-> extra properties are needed. But you will need to add a port node, which 
-> I think you need to add anyway for cloning.
-I have now seen drm_of.c and examples (renesas' rcar lvds) that use the
-apis that drm_of.c is offering. In those cases, the OLDI TXes are being
-modeled as separate devices, which is not the case with the tidss' OLDI
-TXes. Since the only few OLDI registers are in the DSS address space,
-they were just being configured through the tidss driver.
+> The tidss_kms.c associates a DSS VP and a DT port, but that's no longer 
+> true if you add the ports for both OLDI TXes, as they both use the same 
+> VP. I think fixing that won't affect this patch, though, and merging 
+> this patch will, afaik, enable similar DSS functionality as we have for 
+> AM65x.
+> 
+> So, I think these two patches could be merged, or we could wait a bit 
+> until the OLDI situation becomes more clear. Up to you. In any case, for 
+> both patches:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>\
 
-Even in DT, the dss port (for OLDI) connects to the panel port's
-endpoint directly. Even in cases of dual link or cloning, it's only a
-singular remote-to-endpoint connection between the (OLDI) VP and the
-panel port. Hence the requirement of the properties in the earlier
-patches of the series.
+Thank you for the review!
 
-The use of lvds helper functions does not seem feasible in this case,
-because even they read DT properties to determine the dual link
-connection and those properties need to be a part of a lvds bridge
-device.
+This patch set is required for the dss DT patches to be upstreamed for
+the AM625-SK, so I would like them to get merged.
 
-I have also been considering the idea of implementing a new device
-driver for the OLDI TXes, not unlike the renesas' one. That way the
-driver could have the properties and the lvds helper functions at their
-disposal. I am just slightly unsure if that would allow space for any
-conflicts because of the shared register space.
-
-Do let me know what you think!
+Since these were posted in the previous merge window, I will re-send 
+with your tag.
 
 Regards
 Aradhya
