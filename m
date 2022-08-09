@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7221A58DC52
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 18:43:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E62B758DC58
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Aug 2022 18:45:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036FE8AFE9;
-	Tue,  9 Aug 2022 16:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F177B911DF;
+	Tue,  9 Aug 2022 16:44:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2BB61137EA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 16:41:13 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id y13so23133078ejp.13
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Aug 2022 09:41:13 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10054113521
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Aug 2022 16:44:27 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id
+ r1-20020a05600c35c100b003a326685e7cso801031wmq.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Aug 2022 09:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:from:to:cc;
- bh=naNpYkxE68tX1ARbD3iQv+CO+kO6ut9LpVz/MEIjf2U=;
- b=iX9Se9TiI3Acb0PyhnYkVRNdA7lVQuf4CJDx2D6WpGaKbYqVnU4KX3GTPDDKS7PYVg
- gZCH6sdLyyngWxfgd5D+yNp6kzG+ewgTuTXqWMqSckX17sr8zonXMCWzvhLjGrjQGv/c
- ell5/FxG7+4Gqy9X+TsWsq7ykFiSjP9m/Frk8=
+ bh=kG73ZFGwpqA9MEsaOhGxOyq0S5W0g/PKck6MJrQJjh4=;
+ b=IjvlDT3GgnKcWar5hWlV3kmPtlMIw3szkL6RRUTSuwPJE7rdHudxhXegyQLbP/fx1M
+ NhNiueI3flr6TSRZBFjxGWtzcrHT0mmP3lo5PnjVx5SsmwuMN8QhC2d/mki5v4qH7HDx
+ 8w91tH2jhqzru340MMXj1N/ZvULmrkBUYw3Is=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:x-gm-message-state:from:to:cc;
- bh=naNpYkxE68tX1ARbD3iQv+CO+kO6ut9LpVz/MEIjf2U=;
- b=BZ63B808hOiY8ljn/iVvR66tzjg+L98ut+o9BSyMbRihAMlytYP/V29MRPEoiKTzaA
- EfeRBNVv6mnjcfMZfSb2pUuof+fhqAIV7AyejsHgnRe2XCpTZDoVuR2I52pTFZAZ+e2i
- SCQE8WrPeGI8wSuptrC7GuIVeFTACPqTtCDZGIgJCcqIRrilbc0oHRVcW7UcGVuDJiMb
- P3xdHoyq07Qiq/IJneANqQWcUczT+2oHEZIzhs4noo1BwOGRxzH/Ff4mjANRIAiudA7n
- h9YaJ8TuSyx4jkH05WcTIL5Znc/FwQM/HaGhrqeH/r69KvcqwgU0nvxcBmmUCYCFuWAr
- MYpw==
-X-Gm-Message-State: ACgBeo32DYv71bsa21veYDAqVNEVxLntuk9f38xxiv5s/u9r4tuOznEk
- 3ZUCMjyki+otZdYpt5Co8vvzkw==
-X-Google-Smtp-Source: AA6agR5JiN6PB/2pP/tfQ4vgKWFUin1cCx29k5oNnI6uFJ+xd5aN1v/0W1ws1t92QMVelRHOPdZjFw==
-X-Received: by 2002:a17:907:3f98:b0:730:cfce:9c0f with SMTP id
- hr24-20020a1709073f9800b00730cfce9c0fmr18168166ejc.475.1660063272111; 
- Tue, 09 Aug 2022 09:41:12 -0700 (PDT)
+ bh=kG73ZFGwpqA9MEsaOhGxOyq0S5W0g/PKck6MJrQJjh4=;
+ b=aFe0ex9BxmlAOTLi19fVMUUPwcG+ivk8KXUA4H+YuC8QRqCm1GJbJfBqNbLkIduG7b
+ rEx4Mjb7paKGiWntkRUxQHMNc6duh01pFW75ChBk66PvjYGWUtSMcjgr6DuqtvzdUjOo
+ gZIKBOWynp4aT5aRj7o1ZR/Lr4uq7di1s7x02vrMlVtPDbTQ3lWTa3x3uSu3NeFiEp/x
+ ZHetzBSdwtZql9OTTFB8s/JA/RVGuYZw1Uo6ub6UEEfZ7xEIz3cZ94lvBScKZk6Uey+i
+ q84PVTHXiyiuAJOFuhsbsuXBTocq12C27Ec1mkwdvCfDKZAN4L0qg0qZKmOqhsC6EbqI
+ ITXw==
+X-Gm-Message-State: ACgBeo3t1jBOH/XHuQOysV0KbJ/TE3NyyU6ub5+pnQEC9AKYqt0AMcrX
+ KHnQ4Mk1vN0TAgCGn0IXimfAOg==
+X-Google-Smtp-Source: AA6agR7Mh8M3suAF/jwjxN+ICA7FrHXNw3HuqSciA+CCbg9rxGZ4/Yyg824wTV/ciSBKOP3NeoJYRQ==
+X-Received: by 2002:a1c:f60f:0:b0:3a0:3e0c:1de1 with SMTP id
+ w15-20020a1cf60f000000b003a03e0c1de1mr21550404wmc.56.1660063465672; 
+ Tue, 09 Aug 2022 09:44:25 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- n25-20020a056402515900b0043d1a9f6e4asm6277567edd.9.2022.08.09.09.41.11
+ h19-20020a05600c351300b003a501ad8648sm18098101wmq.40.2022.08.09.09.44.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 09:41:11 -0700 (PDT)
-Date: Tue, 9 Aug 2022 18:41:09 +0200
+ Tue, 09 Aug 2022 09:44:25 -0700 (PDT)
+Date: Tue, 9 Aug 2022 18:44:22 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v7 1/2] drm/gem: Properly annotate WW context on
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v8 1/2] drm/gem: Properly annotate WW context on
  drm_gem_lock_reservations() error
-Message-ID: <YvKOJRbTsBk91aPO@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+Message-ID: <YvKO5r5Sr56e9vBf@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
  Chia-I Wu <olvaffe@gmail.com>,
@@ -60,18 +63,18 @@ Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Emil Velikov <emil.l.velikov@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Dmitry Osipenko <digetx@gmail.com>, linux-tegra@vger.kernel.org,
  kernel@collabora.com, virtualization@lists.linux-foundation.org
-References: <20220630200405.1883897-1-dmitry.osipenko@collabora.com>
- <20220630200405.1883897-2-dmitry.osipenko@collabora.com>
+References: <20220701090240.1896131-1-dmitry.osipenko@collabora.com>
+ <20220701090240.1896131-2-dmitry.osipenko@collabora.com>
+ <a42237c9-6304-4b06-cede-2175c7e7b87d@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220630200405.1883897-2-dmitry.osipenko@collabora.com>
+In-Reply-To: <a42237c9-6304-4b06-cede-2175c7e7b87d@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,62 +88,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+Cc: dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>,
  linux-kernel@vger.kernel.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- virtualization@lists.linux-foundation.org
+ Emil Velikov <emil.l.velikov@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 30, 2022 at 11:04:04PM +0300, Dmitry Osipenko wrote:
-> Use ww_acquire_fini() in the error code paths. Otherwise lockdep
-> thinks that lock is held when lock's memory is freed after the
-> drm_gem_lock_reservations() error. The ww_acquire_context needs to be
-> annotated as "released", which fixes the noisy "WARNING: held lock freed!"
-> splat of VirtIO-GPU driver with CONFIG_DEBUG_MUTEXES=y and enabled lockdep.
+On Tue, Jul 05, 2022 at 01:33:51PM +0200, Christian König wrote:
+> Am 01.07.22 um 11:02 schrieb Dmitry Osipenko:
+> > Use ww_acquire_fini() in the error code paths. Otherwise lockdep
+> > thinks that lock is held when lock's memory is freed after the
+> > drm_gem_lock_reservations() error. The ww_acquire_context needs to be
+> > annotated as "released", which fixes the noisy "WARNING: held lock freed!"
+> > splat of VirtIO-GPU driver with CONFIG_DEBUG_MUTEXES=y and enabled lockdep.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 7edc3e3b975b5 ("drm: Add helpers for locking an array of BO reservations.")
+> > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 7edc3e3b975b5 ("drm: Add helpers for locking an array of BO reservations.")
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-I merged this one to drm-misc-next-fixes. The other one looks like there's
-still opens pending, pls resubmit appropriately (and maybe with some
-analysis in the commit message of how exactly this impacts other drivers).
+Also added this r-b tag when merging to drm-misc-next-fixes.
 -Daniel
 
-> ---
->  drivers/gpu/drm/drm_gem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index eb0c2d041f13..86d670c71286 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1226,7 +1226,7 @@ drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
->  		ret = dma_resv_lock_slow_interruptible(obj->resv,
->  								 acquire_ctx);
->  		if (ret) {
-> -			ww_acquire_done(acquire_ctx);
-> +			ww_acquire_fini(acquire_ctx);
->  			return ret;
->  		}
->  	}
-> @@ -1251,7 +1251,7 @@ drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
->  				goto retry;
->  			}
->  
-> -			ww_acquire_done(acquire_ctx);
-> +			ww_acquire_fini(acquire_ctx);
->  			return ret;
->  		}
->  	}
-> -- 
-> 2.36.1
+> > ---
+> >   drivers/gpu/drm/drm_gem.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > index eb0c2d041f13..86d670c71286 100644
+> > --- a/drivers/gpu/drm/drm_gem.c
+> > +++ b/drivers/gpu/drm/drm_gem.c
+> > @@ -1226,7 +1226,7 @@ drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
+> >   		ret = dma_resv_lock_slow_interruptible(obj->resv,
+> >   								 acquire_ctx);
+> >   		if (ret) {
+> > -			ww_acquire_done(acquire_ctx);
+> > +			ww_acquire_fini(acquire_ctx);
+> >   			return ret;
+> >   		}
+> >   	}
+> > @@ -1251,7 +1251,7 @@ drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
+> >   				goto retry;
+> >   			}
+> > -			ww_acquire_done(acquire_ctx);
+> > +			ww_acquire_fini(acquire_ctx);
+> >   			return ret;
+> >   		}
+> >   	}
 > 
 
 -- 
