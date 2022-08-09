@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FD358F7EC
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 08:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A2F58F7ED
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 08:50:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB345A46FB;
-	Thu, 11 Aug 2022 06:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA1F1A490A;
+	Thu, 11 Aug 2022 06:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE0814B61D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 03:54:40 +0000 (UTC)
-X-UUID: 328f09c9b7304a3a8d9a50012db37c3f-20220809
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F9F14A592
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 03:54:39 +0000 (UTC)
+X-UUID: b54becb6e30d460f9203479f7d63bee7-20220809
 X-Spam-Fingerprint: 0
 X-GW-Reason: 11109
 X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMeS6uumcgOimgeWuoeaguA==
 X-Content-Feature: ica/max.line-size 104 audit/email.address 1 dict/adv 1
  dict/contack 1 dict/notice 2 dict/operate 1 meta/cnt.alert 1
-X-UUID: 328f09c9b7304a3a8d9a50012db37c3f-20220809
+X-UUID: b54becb6e30d460f9203479f7d63bee7-20220809
 X-User: oushixiong@kylinos.cn
 Received: from localhost.localdomain [(116.128.244.169)] by mailgw
  (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
- with ESMTP id 20370262; Tue, 09 Aug 2022 19:44:41 +0800
+ with ESMTP id 57318634; Tue, 09 Aug 2022 19:52:43 +0800
 From: oushixiong <oushixiong@kylinos.cn>
 To: Dave Airlie <airlied@redhat.com>
 Subject: [PATCH] drm/ast: radeon amdgpu for ast add prime
-Date: Tue,  9 Aug 2022 19:44:39 +0800
-Message-Id: <20220809114439.2063863-1-oushixiong@kylinos.cn>
+Date: Tue,  9 Aug 2022 19:52:39 +0800
+Message-Id: <20220809115239.2072299-1-oushixiong@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
