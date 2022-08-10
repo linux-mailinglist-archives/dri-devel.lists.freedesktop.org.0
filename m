@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A61A58EBE3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 14:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2DD58ECD9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 15:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 534A614B216;
-	Wed, 10 Aug 2022 12:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2557FAEC67;
+	Wed, 10 Aug 2022 13:13:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1829C14A862
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 12:19:55 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id h13so17558365wrf.6
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 05:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc;
- bh=RY2Ewo6bOI+v2XIS1ytjQN36YoqMz59NHMWH4OJMAHc=;
- b=RPF7rm/X78U5LLWWcqww7LvuWd7cnT3VyaR9t5pnnOHSSeNI6gaLK19VnuEZnr9Xxu
- ql2mH1jULHhHK1iyB7SY6LOaV20CaBEI88IbKOfcSvy1YZzsrzLxhW1BIOZxJuLPRJbs
- XjXYXe5HKztRcVBF0e+xdH0zXb2ZSpo4KihOg=
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5269B6D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 13:13:15 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id x9so12361604ljj.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 06:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=nngQRZGnds/Y7NmNdfaLwTyh7fHDxPDaXz0krm4HOo0=;
+ b=c6lQknkbXfNFPzpsmuorNmQebcNwoxTJb5dqCpryz0rtLMsD6hVHC672kC8f2fgrS2
+ q5oagdpE+I2lafw4k7bIG6SfeDn8Xfm3w54Wo3dOIMLOHEK+qcifgMx5UJbM7Z7IpNXR
+ Hem9/Ds96oeqm1vCMXqn/WxKy2tOpuuZSdpPVJQdWZW9zFz1cf0X2PystESFqo90yJok
+ BBxFJIOMGlrqeapimi+HyQ6kr9w/Y5XFR9yVKa5Zqr0wp54HTiSH6lnmzu+eQi8BzT/m
+ RMAud1swZybbuuKJH2XnkpisuJxIs5oiY/xdyskyN8hav0vv8XPsGEGq5d5tXe4DFyxs
+ eGhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=RY2Ewo6bOI+v2XIS1ytjQN36YoqMz59NHMWH4OJMAHc=;
- b=fQpusnFKzU9iOyFxlvHYmj9dYeUCyAusAO68Xa8H+qe1F9RMm/fewuTCVV9VGCIimL
- +kZ9atpzWeakshwM3CEg1Epp25Ucmlm3pAUq5qZ0N7MAiebTD57vOFbil/EAgA2S+/LH
- 74NONeLdYjGbSTadH8y1Lf7kcIgRoISqwFNN+WiNbJuZoTToCaJT64t8GixyGDJYdAtV
- A9iqLxojrPb9H0NAsEkJ/GMO+Axi3J2KZROVVIdEZAupDurvSmrvxSSgp5Vw2LAiac/s
- NoBqmbE7Y4JAPHlVjTMuoquq3EE9sZ7ZM2wbnIy1l2euzkz/Abg5PX8G+f2o5qbqqh+7
- BcIA==
-X-Gm-Message-State: ACgBeo10GYg8e1OKo7CLVFw7zlo/xtHyphxwAAmpb3V4OL8V+lHId45s
- XymQuEYErm3oPB/aPISpr8bIJg==
-X-Google-Smtp-Source: AA6agR4yZWOcUa33jynrJHs2cf/zf0goQtVxoIpzpPE5JePnnd3YXT9tMWXVXa6vunC8PfoLgNNPFQ==
-X-Received: by 2002:a05:6000:1704:b0:220:69a7:ec2b with SMTP id
- n4-20020a056000170400b0022069a7ec2bmr17957746wrc.436.1660133993546; 
- Wed, 10 Aug 2022 05:19:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=nngQRZGnds/Y7NmNdfaLwTyh7fHDxPDaXz0krm4HOo0=;
+ b=tF4cKlh4DOq+626ZY+JfWkwBSB7C576+8kGjc0Z0PlywLL2C010OBpeYMd64qqHSiQ
+ sBFnJcHVyuW7HroHdWk4CUNbGmyPFfHIBffC7GuY0AOhQk6JRs4u+sIL/EjiPXx9cJF2
+ H8oDTU9wt/Qe5zWxKC+PoTAvcLRf4ADQLNjTx6AXHZi9/rMPZ3jZ0GoM3rg1mrVIthjf
+ AaehAMLOUiTN2FBry5DWQxPjbTpX12VdssNy7z+WgzGByBOLsTk5ZJrBOh0K3dxFLwJv
+ cGQ7TSy4W0xM6kCAmedb79t2vvIvOqohUCN9oxz4HdF8OKkp58maiqFUWBtR5w/1E5eb
+ t3BA==
+X-Gm-Message-State: ACgBeo1xQRDFGOZml69xHRyZ60MLmQ3IfpZJX+Pdhvh3EL6nA+vIFDqZ
+ RdvHYXyoFurOuryqubzBtlxP4g==
+X-Google-Smtp-Source: AA6agR63AjRSD7TVUqQA6Z/Rd87jj+EvZtoRkDO5XZs7B2qRb+FhFcfdmxgxqZklv/4j2aNTOcmxqQ==
+X-Received: by 2002:a05:651c:546:b0:25f:dd42:5d08 with SMTP id
+ q6-20020a05651c054600b0025fdd425d08mr4690192ljp.239.1660137193840; 
+ Wed, 10 Aug 2022 06:13:13 -0700 (PDT)
+Received: from localhost.localdomain ([83.146.140.105])
  by smtp.gmail.com with ESMTPSA id
- q3-20020a056000136300b0021b956da1dcsm15910553wrz.113.2022.08.10.05.19.52
+ h11-20020a19700b000000b0048b08f0c4e9sm337349lfc.176.2022.08.10.06.13.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 05:19:53 -0700 (PDT)
-Date: Wed, 10 Aug 2022 14:19:51 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Yonghua Huang <yonghua.huang@intel.com>
-Subject: Re: [PATCH] virt: acrn: obtain pa from VMA with PFNMAP flag
-Message-ID: <YvOiZ2jp2Fv0Ex0J@phenom.ffwll.local>
-Mail-Followup-To: Yonghua Huang <yonghua.huang@intel.com>,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, reinette.chatre@intel.com,
- zhi.a.wang@intel.com, yu1.wang@intel.com, fei1.Li@intel.com,
- Linux MM <linux-mm@kvack.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20220228022212.419406-1-yonghua.huang@intel.com>
+ Wed, 10 Aug 2022 06:13:13 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ Jonathan Bakker <xc-racer2@live.ca>, Pratyush Yadav <p.yadav@ti.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: [PATCH] spi/panel: dt-bindings: drop 3-wire from common properties
+Date: Wed, 10 Aug 2022 16:13:11 +0300
+Message-Id: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220228022212.419406-1-yonghua.huang@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,90 +75,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yu1.wang@intel.com, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Linux MM <linux-mm@kvack.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, reinette.chatre@intel.com,
- fei1.Li@intel.com, zhi.a.wang@intel.com
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 05:22:12AM +0300, Yonghua Huang wrote:
->  acrn_vm_ram_map can't pin the user pages with VM_PFNMAP flag
->  by calling get_user_pages_fast(), the PA(physical pages)
->  may be mapped by kernel driver and set PFNMAP flag.
-> 
->  This patch fixes logic to setup EPT mapping for PFN mapped RAM region
->  by checking the memory attribute before adding EPT mapping for them.
-> 
-> Fixes: 88f537d5e8dd ("virt: acrn: Introduce EPT mapping management")
-> Signed-off-by: Yonghua Huang <yonghua.huang@intel.com>
-> Signed-off-by: Fei Li <fei1.li@intel.com>
-> ---
->  drivers/virt/acrn/mm.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/virt/acrn/mm.c b/drivers/virt/acrn/mm.c
-> index c4f2e15c8a2b..3b1b1e7a844b 100644
-> --- a/drivers/virt/acrn/mm.c
-> +++ b/drivers/virt/acrn/mm.c
-> @@ -162,10 +162,34 @@ int acrn_vm_ram_map(struct acrn_vm *vm, struct acrn_vm_memmap *memmap)
->  	void *remap_vaddr;
->  	int ret, pinned;
->  	u64 user_vm_pa;
-> +	unsigned long pfn;
-> +	struct vm_area_struct *vma;
->  
->  	if (!vm || !memmap)
->  		return -EINVAL;
->  
-> +	mmap_read_lock(current->mm);
-> +	vma = vma_lookup(current->mm, memmap->vma_base);
-> +	if (vma && ((vma->vm_flags & VM_PFNMAP) != 0)) {
-> +		if ((memmap->vma_base + memmap->len) > vma->vm_end) {
-> +			mmap_read_unlock(current->mm);
-> +			return -EINVAL;
-> +		}
-> +
-> +		ret = follow_pfn(vma, memmap->vma_base, &pfn);
+The spi-3wire property is device specific and should be accepted only if
+device really needs them.  Drop it from common spi-peripheral-props.yaml
+schema, mention in few panel drivers which use it and include instead in
+the SPI controller bindings.  The controller bindings will provide
+spi-3wire type validation and one place for description.  Each device
+schema must list the property if it is applicable.
 
-This races, don't use follow_pfn() and most definitely don't add new
-users. In some cases follow_pte, but the pte/pfn is still only valid for
-as long as you hold the pte spinlock.
+The Samsung S6E63M0 panel uses also spi-cpha/cpol properties on at least
+one board (ste-ux500-samsung-janice/dts), so add also these to the
+panel's bindings.
 
-> +		mmap_read_unlock(current->mm);
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/display/panel/kingdisplay,kd035g6-54nt.yaml     | 2 ++
+ .../bindings/display/panel/leadtek,ltk035c5444t.yaml         | 2 ++
+ .../devicetree/bindings/display/panel/samsung,s6e63m0.yaml   | 4 ++++
+ Documentation/devicetree/bindings/spi/spi-controller.yaml    | 5 +++++
+ .../devicetree/bindings/spi/spi-peripheral-props.yaml        | 5 -----
+ 5 files changed, 13 insertions(+), 5 deletions(-)
 
-Definitely after here there's zero guarantees about this pfn and it could
-point at anything.
-
-Please fix, I tried pretty hard to get rid of follow_pfn(), but some of
-them are just too hard to fix (e.g. kvm needs a pretty hug rewrite to get
-it all sorted).
-
-Cheers, Daniel
-
-> +		if (ret < 0) {
-> +			dev_dbg(acrn_dev.this_device,
-> +				"Failed to lookup PFN at VMA:%pK.\n", (void *)memmap->vma_base);
-> +			return ret;
-> +		}
-> +
-> +		return acrn_mm_region_add(vm, memmap->user_vm_pa,
-> +			 PFN_PHYS(pfn), memmap->len,
-> +			 ACRN_MEM_TYPE_WB, memmap->attr);
-> +	}
-> +	mmap_read_unlock(current->mm);
-> +
->  	/* Get the page number of the map region */
->  	nr_pages = memmap->len >> PAGE_SHIFT;
->  	pages = vzalloc(nr_pages * sizeof(struct page *));
-> 
-> base-commit: 73878e5eb1bd3c9656685ca60bc3a49d17311e0c
-> -- 
-> 2.25.1
-> 
-
+diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml
+index 2a2756d19681..b4be9bd8ddde 100644
+--- a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml
++++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.yaml
+@@ -23,6 +23,8 @@ properties:
+   reg: true
+   reset-gpios: true
+ 
++  spi-3wire: true
++
+ required:
+   - compatible
+   - power-supply
+diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.yaml
+index 817a9bed7d5a..ebdca5f5a001 100644
+--- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.yaml
++++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.yaml
+@@ -24,6 +24,8 @@ properties:
+   reg: true
+   reset-gpios: true
+ 
++  spi-3wire: true
++
+ required:
+   - compatible
+   - power-supply
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+index 940f7f88526f..6f1fc7469f07 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+@@ -24,6 +24,10 @@ properties:
+   default-brightness: true
+   max-brightness: true
+ 
++  spi-3wire: true
++  spi-cpha: true
++  spi-cpol: true
++
+   vdd3-supply:
+     description: VDD regulator
+ 
+diff --git a/Documentation/devicetree/bindings/spi/spi-controller.yaml b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+index 655713fba7e2..01042a7f382e 100644
+--- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
++++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+@@ -96,6 +96,11 @@ patternProperties:
+     $ref: spi-peripheral-props.yaml
+ 
+     properties:
++      spi-3wire:
++        $ref: /schemas/types.yaml#/definitions/flag
++        description:
++          The device requires 3-wire mode.
++
+       spi-cpha:
+         $ref: /schemas/types.yaml#/definitions/flag
+         description:
+diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+index ce048e782e80..4beeb9e17694 100644
+--- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
++++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+@@ -29,11 +29,6 @@ properties:
+     description:
+       Chip select used by the device.
+ 
+-  spi-3wire:
+-    $ref: /schemas/types.yaml#/definitions/flag
+-    description:
+-      The device requires 3-wire mode.
+-
+   spi-cs-high:
+     $ref: /schemas/types.yaml#/definitions/flag
+     description:
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
