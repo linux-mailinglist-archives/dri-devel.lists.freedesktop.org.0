@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854BC58E8D5
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 10:34:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA5358E8E6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 10:37:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBADF2164;
-	Wed, 10 Aug 2022 08:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4622CF2640;
+	Wed, 10 Aug 2022 08:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA752F20F7
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 08:33:34 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id w197so3880814oie.5
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 01:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=qng18ezuViFS4JHv1suUwHMOD3dA0ddp/TS8ruYkzxY=;
- b=Xo7HewGoXQ93vdJ673ZkR+tcoUdDl9VfPro55Vby9VrJvIMSVQRWW+l8IzswksIecM
- FJ23GJpiXQh/pyuvnpU5g3iQbV02xodcvNiDJwDMgL67ZXX2fNtmG9OBAvT/AJiLKz1O
- m57OQJzScr8ptLkEC3wAZsB50Mtf/5dHx8myw=
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88365F25C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 08:37:20 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id m2so13655141pls.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 01:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=+8Zc8rYa4ZxEs+Ek2Veiq0PdTVu1ampOcuivxciZFJ0=;
+ b=4P/ZUbIZjm73r78BXFNP71nshS+JXMhpGurRsQ6u30PLvyV1/jSisEnt/wjw70iAKt
+ dbh2AvaMkGOastO2TZ257O6ZVKxQWDR0KL5qIXa0Mx9LCRikzecreU8jOwNx+uM4neCb
+ BpEyCCUL2HRor7KNQw1a3Nz/Wo/IG2uALiV+QuAgudl+/4gw9szJq4W0WMYtd9pZNEUM
+ FzU9L1H0ONwYmZXIwHYOhU3vqV5WoQGf0klR64xK4iuiFGTS66Ydrwv1JPT3ojk8z41+
+ xM51EvsgwdoJtAakJT1+9ueQ9RJl2T9JgoRafmqQIMP+PBz2OaDffRI8Ytka40vffp4B
+ FBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=qng18ezuViFS4JHv1suUwHMOD3dA0ddp/TS8ruYkzxY=;
- b=ol2hj98cRLq0uZClvcgPHq1HcFl5P1yMkdH2Nb1BH+O+HPf4xZ+9r0YsfiOc1APs6E
- IKu9Ml/UAgT7xPvQbpgi3rYMHpLQJdc0Jrio4R+fcxwG/duisi5obD65lvMkAICnq4Eh
- FRX4IyqybICrBHcWkHWV7HeziwXXfWO9Uxe1DlbAljef0B2vYaQQsZBDw5/WGT6bmlGP
- ZpDnOEPZ36Viegq3bqCfTXjvehihSQipQP+3haruX1xbGay0OdBQFOk+SqlGiUqUAeIn
- GHWbJ/FQvAGxZlxNM/LizzccNgxYNm0Ky1N5q3KTBVJFQPGoNPmc2yU2uRIsl6ET/IoT
- As1g==
-X-Gm-Message-State: ACgBeo0gCppW7WtD4bZ3E7NaBVW6TmifEdGRAe9IeGKFArdVpqZTDtSe
- yZga34MjzD+oL+pe5lVyGb7g1PPpKE0tKBTW5w5bgQ==
-X-Google-Smtp-Source: AA6agR6cStCNNsa+U2EXzNpks0Z071z2RD/SJln63AZJsOezVgSlE5S5WcCDeNCK/XxqGOBfJDhs4RSMetdDlNSIpBY=
-X-Received: by 2002:a05:6808:1489:b0:33a:861c:838e with SMTP id
- e9-20020a056808148900b0033a861c838emr895072oiw.228.1660120413972; Wed, 10 Aug
- 2022 01:33:33 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=+8Zc8rYa4ZxEs+Ek2Veiq0PdTVu1ampOcuivxciZFJ0=;
+ b=NuTREeMTVAI1NFFfp6XR2eb4gVG4IttdEPn41toeNNyGjpALmMLhFI+J5L3z1+BWYy
+ fIBJmsX9CCYnjJD0yDxAO+e3vO8NDEhCZkenh2Ks3XZF8Pd+6vXKU4wPlBSuenE3XPCp
+ 6Zu4RNc5OQW28IP/RuosSaH2VP/0KKKdNBY0qwf42cvaOR7wTjSlFbAK68ijFydAk45J
+ 8YOfFMuLVhXJuCoto0orEkQITWlLXkK0ujwpJygdL7xGx9Aezy7WhtMAILqPNsQWz8Ft
+ emGHrQuMW7aYQc3azQCRIhtO5f/M1zRnetGJgpNVDnM0IqKO7Cfg5zSybQD3rPczMttb
+ NxnQ==
+X-Gm-Message-State: ACgBeo1BXHuxpAHbaiZiYXBT2yK2JG+DZYS3qbWhZbcEQ0Yt1Wtl+eGz
+ grLKGNaQX3MhxQU3fn+EUg6l/gSM+h5eGg==
+X-Google-Smtp-Source: AA6agR7L3QFrswCxE+ExkFevYhjKCaNMiyRwotJVapBpfZHxZ7APHHcKeHV4wMY7XBjhMm3S/Q8xBQ==
+X-Received: by 2002:a17:902:f548:b0:16f:9649:be69 with SMTP id
+ h8-20020a170902f54800b0016f9649be69mr21690874plf.134.1660120639828; 
+ Wed, 10 Aug 2022 01:37:19 -0700 (PDT)
+Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
+ by smtp.gmail.com with ESMTPSA id
+ f1-20020aa79681000000b0052d63fb109asm1323607pfk.20.2022.08.10.01.37.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 01:37:19 -0700 (PDT)
+From: Takanari Hayama <taki@igel.co.jp>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/3] Add DRM pixel blend mode support to R-Car DU
+Date: Wed, 10 Aug 2022 17:37:08 +0900
+Message-Id: <20220810083711.219642-1-taki@igel.co.jp>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220701090240.1896131-1-dmitry.osipenko@collabora.com>
- <20220701090240.1896131-2-dmitry.osipenko@collabora.com>
- <a42237c9-6304-4b06-cede-2175c7e7b87d@amd.com>
- <YvKO5r5Sr56e9vBf@phenom.ffwll.local>
- <e760f555-7f2d-dea9-70b2-c0881adc3afc@amd.com>
-In-Reply-To: <e760f555-7f2d-dea9-70b2-c0881adc3afc@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 10 Aug 2022 10:33:22 +0200
-Message-ID: <CAKMK7uEd1xX6P4YRgYOfjvqpwVmQ0YZPkHdK=4auwrkBE9CEzQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/2] drm/gem: Properly annotate WW context on
- drm_gem_lock_reservations() error
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,87 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
- linux-kernel@vger.kernel.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- virtualization@lists.linux-foundation.org
+Cc: Takanari Hayama <taki@igel.co.jp>, airlied@linux.ie,
+ kieran.bingham+renesas@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+ mchehab@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Aug 2022 at 08:52, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> Am 09.08.22 um 18:44 schrieb Daniel Vetter:
-> > On Tue, Jul 05, 2022 at 01:33:51PM +0200, Christian K=C3=B6nig wrote:
-> >> Am 01.07.22 um 11:02 schrieb Dmitry Osipenko:
-> >>> Use ww_acquire_fini() in the error code paths. Otherwise lockdep
-> >>> thinks that lock is held when lock's memory is freed after the
-> >>> drm_gem_lock_reservations() error. The ww_acquire_context needs to be
-> >>> annotated as "released", which fixes the noisy "WARNING: held lock fr=
-eed!"
-> >>> splat of VirtIO-GPU driver with CONFIG_DEBUG_MUTEXES=3Dy and enabled =
-lockdep.
-> >>>
-> >>> Cc: stable@vger.kernel.org
-> >>> Fixes: 7edc3e3b975b5 ("drm: Add helpers for locking an array of BO re=
-servations.")
-> >>> Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Also added this r-b tag when merging to drm-misc-next-fixes.
->
-> IIRC I've already pushed this to drm-misc-fixes with a CC stable tag
-> about 2 weeks ago.
->
-> Please double check, it probably just hasn't come down the stream again y=
-et.
+The series of patches adds support for DRM pixel blend mode to R-Car DU
+driver. The current R-Car DU implicitly supports "Coverage" only.
 
-Hm quickly check and I didn't spot it? There's a few patches from
-Dmitry in the last few pulls, and some more stuff pending, but not
-these two afaics?
--Daniel
+Unfortunately, this changes the default blending mode of R-Car DU to
+"Pre-multiplied" which is the default when pixel blend mode is
+supported.
 
->
-> Christian.
->
-> > -Daniel
-> >
-> >>> ---
-> >>>    drivers/gpu/drm/drm_gem.c | 4 ++--
-> >>>    1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> >>> index eb0c2d041f13..86d670c71286 100644
-> >>> --- a/drivers/gpu/drm/drm_gem.c
-> >>> +++ b/drivers/gpu/drm/drm_gem.c
-> >>> @@ -1226,7 +1226,7 @@ drm_gem_lock_reservations(struct drm_gem_object=
- **objs, int count,
-> >>>             ret =3D dma_resv_lock_slow_interruptible(obj->resv,
-> >>>                                                              acquire_=
-ctx);
-> >>>             if (ret) {
-> >>> -                   ww_acquire_done(acquire_ctx);
-> >>> +                   ww_acquire_fini(acquire_ctx);
-> >>>                     return ret;
-> >>>             }
-> >>>     }
-> >>> @@ -1251,7 +1251,7 @@ drm_gem_lock_reservations(struct drm_gem_object=
- **objs, int count,
-> >>>                             goto retry;
-> >>>                     }
-> >>> -                   ww_acquire_done(acquire_ctx);
-> >>> +                   ww_acquire_fini(acquire_ctx);
-> >>>                     return ret;
-> >>>             }
-> >>>     }
->
+v2:
+ vsp1:
+ - Add a premult flag instead of blend mode enum
+ rcar-du:
+ - Support DRM_MODE_BLEND_PREMULTI via the premult flag
+ - Support DRM_MODE_BLEND_PIXEL_NONE via format override [1]
 
+[1] https://lore.kernel.org/linux-renesas-soc/20220704025231.3911138-1-taki@igel.co.jp/T/#m3351cb5965cd5bf2d416fa5ca5007773260205bd
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Takanari Hayama (3):
+  media: vsp1: add premultiplied alpha support
+  drm: rcar-du: Add DRM_MODE_BLEND_PREMULTI support
+  drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
+
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         | 26 ++++++++++++++++++-
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  2 ++
+ include/media/vsp1.h                          |  2 ++
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
