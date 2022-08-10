@@ -2,62 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A2C58F7EB
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 08:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6798C58F7EE
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 08:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE352A4733;
-	Thu, 11 Aug 2022 06:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D10A492A;
+	Thu, 11 Aug 2022 06:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E640914AC81
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 11:32:02 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id o2so13491324lfb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 04:32:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=0n1Y/OzhfJeE+j8g4UzOYZL6N5O4tDg71xSPH024khI=;
- b=kA7ZPWE9auNagXtgXGfNtwEbiMHmU8S7bBqOGTC5NBs+JJVZUXFFFEKRBKXN0LiZTT
- 8P2baQgcumnHOmqX6NsVEjubxnpriOq+frTO+MO9OeJaYrKLoifhAi7spYfhjOGPpc3y
- /ymTjg8OFT7ro70OslfoDXPppb7eNMwKTJTDA30Gddtjtl4aCrS5bq2+0lwscyTjwPgZ
- 9XqVPHRM7dh7/p8X7XwoaajDzVBGXk1VM6g2+HW02gSiMnKvuyadkG18Jhgnln7nzXph
- qujTz7lr0LXTEintAq/wjENu1LQF89E4HU2Wm7mJglCYq5s9eQaZghukzoNwdYwEdEpF
- TaPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=0n1Y/OzhfJeE+j8g4UzOYZL6N5O4tDg71xSPH024khI=;
- b=lQ9Fvm5ezvQpY2mmdSyF9jhyvI5HVkgLAZw/l/56uSOXm5xoEoQG6aDiitPmVYUoCN
- GsxN/KTg5OwD2NMIQhHOi1Yj0mq5iOjUyjz7r/gO3h79YRWqe30k67zc6ZYEBApNSO/m
- YL6LmSMXO8ZO8PtekN3MZuqK2SIQI9wbrnW0IVfP+KvBGrEv4h1XUexExh8Gy1FGatYI
- xk/yegehhmrRyuSsY8XOjZGOesQd5mCdt1wLVxToonKeazzqrTNxkyFc3B8pxE07txpk
- BNbC7Jnhrmlr2RAHr6oUVmjQfFc88G4hyMoVESq01eFCIG35TQv+WwzSg18t0JdJ3iu3
- ECcQ==
-X-Gm-Message-State: ACgBeo2ABrYwV7GTAjJe9/JMmHwHNgE1fo+38kagqHgpQA977OFTVEHK
- Js2FDwfSYnahWbO4Gs5Unzs=
-X-Google-Smtp-Source: AA6agR4HJ7z9C6Qx/mQgUXeus0gaIaf5bRpOkkYd5YSpgaeaMscj9In5G4yyt6jyUcuHoI4k+C+cpw==
-X-Received: by 2002:a05:6512:13a4:b0:477:a28a:2280 with SMTP id
- p36-20020a05651213a400b00477a28a2280mr8901373lfa.689.1660131121036; 
- Wed, 10 Aug 2022 04:32:01 -0700 (PDT)
-Received: from fedora ([213.255.186.46]) by smtp.gmail.com with ESMTPSA id
- v10-20020a2ea60a000000b0026008acb55asm134927ljp.113.2022.08.10.04.31.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 04:32:00 -0700 (PDT)
-Date: Wed, 10 Aug 2022 14:31:46 +0300
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
-Subject: [RFC PATCH 5/7] gpu: drm: meson: simplify using
- devm_regulator_get_enable_optional()
-Message-ID: <cc21cea63a24bf5d372e4a5903de303516c3db98.1660127865.git.mazziesaccount@gmail.com>
-References: <cover.1660127865.git.mazziesaccount@gmail.com>
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2FC1123FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 12:42:18 +0000 (UTC)
+X-UUID: c4934064c55443dd86bed5484202a623-20220810
+X-UUID: c4934064c55443dd86bed5484202a623-20220810
+X-User: oushixiong@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
+ with ESMTP id 768362455; Wed, 10 Aug 2022 20:42:12 +0800
+From: oushixiong <oushixiong@kylinos.cn>
+To: Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] drm/ast: add dmabuf/prime buffer sharing support
+Date: Wed, 10 Aug 2022 20:41:59 +0800
+Message-Id: <20220810124159.711349-1-oushixiong@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ON+BJfnFjobaZBs+"
-Content-Disposition: inline
-In-Reply-To: <cover.1660127865.git.mazziesaccount@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 11 Aug 2022 06:49:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,111 +39,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mark Brown <broonie@kernel.org>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: David Airlie <airlied@linux.ie>, oushixiong <oushixiong@kylinos.cn>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch adds ast specific codes for DRM prime feature.
+Add the prime function to solve the xorg conflict problem when AST
+and AMD are in place at the same time, so that both can be displayed.
 
---ON+BJfnFjobaZBs+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Drop open-coded pattern: 'devm_regulator_get(), regulator_enable(),
-add_action_or_reset(regulator_disable)' and use the
-devm_regulator_get_enable_optional(). Also drop the seemingly unused
-struct member 'hdmi_supply'.
-
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Signed-off-by: oushixiong <oushixiong@kylinos.cn>
 ---
- drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.c  |  22 +++++++
+ drivers/gpu/drm/ast/ast_mode.c | 112 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 133 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/=
-meson_dw_hdmi.c
-index 5cd2b2ebbbd3..7642f740272b 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -140,7 +140,6 @@ struct meson_dw_hdmi {
- 	struct reset_control *hdmitx_apb;
- 	struct reset_control *hdmitx_ctrl;
- 	struct reset_control *hdmitx_phy;
--	struct regulator *hdmi_supply;
- 	u32 irq_stat;
- 	struct dw_hdmi *hdmi;
- 	struct drm_bridge *bridge;
-@@ -665,11 +664,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *m=
-eson_dw_hdmi)
-=20
- }
-=20
--static void meson_disable_regulator(void *data)
--{
--	regulator_disable(data);
--}
--
- static void meson_disable_clk(void *data)
- {
- 	clk_disable_unprepare(data);
-@@ -723,20 +717,9 @@ static int meson_dw_hdmi_bind(struct device *dev, stru=
-ct device *master,
- 	meson_dw_hdmi->data =3D match;
- 	dw_plat_data =3D &meson_dw_hdmi->dw_plat_data;
-=20
--	meson_dw_hdmi->hdmi_supply =3D devm_regulator_get_optional(dev, "hdmi");
--	if (IS_ERR(meson_dw_hdmi->hdmi_supply)) {
--		if (PTR_ERR(meson_dw_hdmi->hdmi_supply) =3D=3D -EPROBE_DEFER)
--			return -EPROBE_DEFER;
--		meson_dw_hdmi->hdmi_supply =3D NULL;
--	} else {
--		ret =3D regulator_enable(meson_dw_hdmi->hdmi_supply);
--		if (ret)
--			return ret;
--		ret =3D devm_add_action_or_reset(dev, meson_disable_regulator,
--					       meson_dw_hdmi->hdmi_supply);
--		if (ret)
--			return ret;
--	}
-+	ret =3D devm_regulator_get_enable_optional(dev, "hdmi");
-+	if (ret !=3D -ENODEV)
-+		return ret;
-=20
- 	meson_dw_hdmi->hdmitx_apb =3D devm_reset_control_get_exclusive(dev,
- 						"hdmitx_apb");
---=20
-2.37.1
+diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+index 7465c4f0156a..6f0c0992c2f0 100644
+--- a/drivers/gpu/drm/ast/ast_drv.c
++++ b/drivers/gpu/drm/ast/ast_drv.c
+@@ -28,6 +28,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/dma-buf.h>
+ 
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -50,6 +51,23 @@ module_param_named(modeset, ast_modeset, int, 0400);
+ 
+ DEFINE_DRM_GEM_FOPS(ast_fops);
+ 
++struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
++					struct dma_buf_attachment *attach,
++					struct sg_table *sg)
++{
++	struct drm_gem_vram_object *gbo;
++	struct dma_resv *resv = attach->dmabuf->resv;
++
++	ww_mutex_lock(&resv->lock, NULL);
++	gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0);
++	ww_mutex_unlock(&resv->lock);
++
++	if (IS_ERR(gbo))
++		return NULL;
++
++	return &gbo->bo.base;
++}
++
+ static const struct drm_driver ast_driver = {
+ 	.driver_features = DRIVER_ATOMIC |
+ 			   DRIVER_GEM |
+@@ -63,6 +81,10 @@ static const struct drm_driver ast_driver = {
+ 	.minor = DRIVER_MINOR,
+ 	.patchlevel = DRIVER_PATCHLEVEL,
+ 
++	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
++	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
++	.gem_prime_import_sg_table = ast_gem_prime_import_sg_table,
++
+ 	DRM_GEM_VRAM_DRIVER
+ };
+ 
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 45b56b39ad47..213ab5df634c 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -48,6 +48,8 @@
+ #include "ast_drv.h"
+ #include "ast_tables.h"
+ 
++MODULE_IMPORT_NS(DMA_BUF);
++
+ static inline void ast_load_palette_index(struct ast_private *ast,
+ 				     u8 index, u8 red, u8 green,
+ 				     u8 blue)
+@@ -1535,8 +1537,116 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
+ 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+ };
+ 
++int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
++					int width, int height)
++{
++	struct drm_gem_vram_object *dst_bo = NULL;
++	void *dst = NULL;
++	int ret = 0, i;
++	unsigned long offset = 0;
++	bool unmap = false;
++	unsigned int bytesPerPixel;
++	struct iosys_map map;
++	struct iosys_map dmabuf_map;
++
++	bytesPerPixel = fb->format->cpp[0];
++
++	if (!fb->obj[0]->import_attach)
++		return -EINVAL;
++
++	if (!fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr) {
++		ret = dma_buf_vmap(fb->obj[0]->import_attach->dmabuf, &dmabuf_map);
++		if (ret)
++			return 0;
++	} else {
++		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
++	}
++
++	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
++
++	ret = drm_gem_vram_pin(dst_bo, 0);
++	if (ret) {
++		DRM_ERROR("ast_bo_pin failed\n");
++		goto error;
++	}
++
++	if (!dst_bo->map.vaddr) {
++		ret = drm_gem_vram_vmap(dst_bo, &map);
++		if (ret) {
++			DRM_ERROR("failed to vmap fbcon\n");
++			drm_gem_vram_unpin(dst_bo);
++			goto error;
++		}
++		unmap = true;
++	}
++	dst = dst_bo->map.vaddr;
++
++	for (i = y; i < y + height; i++) {
++		offset = i * fb->pitches[0] + (x * bytesPerPixel);
++		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
++			width * bytesPerPixel);
++	}
++
++	if (unmap)
++		drm_gem_vram_vunmap(dst_bo, &map);
++
++	drm_gem_vram_unpin(dst_bo);
++error:
++	return 0;
++}
++
++
++int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
++				struct drm_file *file,
++				unsigned int flags,
++				unsigned int color,
++				struct drm_clip_rect *clips,
++				unsigned int num_clips)
++{
++	int i, ret = 0;
++
++	drm_modeset_lock_all(fb->dev);
++	if (fb->obj[0]->import_attach) {
++		ret = dma_buf_begin_cpu_access(fb->obj[0]->import_attach->dmabuf,
++				DMA_FROM_DEVICE);
++		if (ret)
++			goto unlock;
++	}
++
++	for (i = 0; i < num_clips; i++) {
++		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
++				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
++		if (ret)
++			break;
++	}
++
++	if (fb->obj[0]->import_attach) {
++		dma_buf_end_cpu_access(fb->obj[0]->import_attach->dmabuf,
++				DMA_FROM_DEVICE);
++	}
++
++unlock:
++	drm_modeset_unlock_all(fb->dev);
++
++	return ret;
++}
++
++static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
++	.destroy	= drm_gem_fb_destroy,
++	.create_handle	= drm_gem_fb_create_handle,
++	.dirty		= ast_user_framebuffer_dirty,
++};
++
++struct drm_framebuffer *
++ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
++				const struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
++					&ast_gem_fb_funcs_dirtyfb);
++}
++
+ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+-	.fb_create = drm_gem_fb_create,
++	.fb_create = ast_gem_fb_create_with_dirty,
+ 	.mode_valid = drm_vram_helper_mode_valid,
+ 	.atomic_check = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+-- 
+2.17.1
 
 
---=20
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =3D]=20
-
---ON+BJfnFjobaZBs+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmLzlyIACgkQeFA3/03a
-ocVZnwf+Lv1xHGjupIg4noibrWXhjS6WmrvGpZqs49VnTsvbxRbVPjEzn6JfF+8i
-SbHdoe+KSl5d/OfYx7CtXlQnJwJ5qLZHIaYcMewnJHMzQwSWQdeu+/W6DbAmuPPi
-rOZtSzW/jDUANoxUtDX5sfgimagrnUWh1VPSxOz4CYjq6r77TquMfF1hclrECSVD
-DrElf2B0R3Yw2OHJmoWsg80uk96ZURuXJB1/H5entU0CMKZZbpEeX2hhYDu7c6rl
-EXbfot5+kVmIc7PwYI0D8ysIXmylHqKzJUqy8kMiL9zHXNm+eXeBvpxry7ryt2S5
-7wITQS0z6ReN4U0nhXrniyBKGJ8MIw==
-=4h4p
------END PGP SIGNATURE-----
-
---ON+BJfnFjobaZBs+--
+No virus found
+		Checked by Hillstone Network AntiVirus
