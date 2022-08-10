@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425BC58E616
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 06:15:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E93258E61C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 06:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0D8E7703;
-	Wed, 10 Aug 2022 04:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56E88E7860;
+	Wed, 10 Aug 2022 04:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262F3E76EE
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 04:13:57 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id w28so2165540qtc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Aug 2022 21:13:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:sender:from:to:cc;
- bh=7Z8E1tRy8DEO4L44K4+rES+Wo27HhEwi3F5Zd1Y62lo=;
- b=Omh2cHOc9YzBsiCv5UIi/fmV5MSwotRu0fgS64CeaZn640zaZByRqtRgW1f8abDe4S
- YgWmwwY6PwlhMaQTBNwnWlqtY4fNBYBGTe5cGKoezSij+hO0fXW+2Fo8I+kJxMTTlH6f
- vEcXI8VOpV6NwveWlSmXvaLHBATKJEL9yFuuyjbGdI1uNzH6MfI/TRh1ejIKEIGGTlPF
- NdZzskbkoT1zHMSiI0pJpujBvXKqE7PgG8CU7uGkpIhBjoip26ix6RBTULQM4z4PV0v6
- sTEjG41ZIlt4dU7gBXtqT63Jk1FovO4eUpzKFxn8fIIP9FBL7+bB+dPwEun79f2BKJ0q
- MMNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:sender:x-gm-message-state:from:to:cc;
- bh=7Z8E1tRy8DEO4L44K4+rES+Wo27HhEwi3F5Zd1Y62lo=;
- b=T5wWREldnpeDeWJ7xWR0b2/6vzBZpgBvE+T+NNE+0Bz6ADh8/LEzVE5FPajH2Qj6U1
- 81XnJKNJnVUTJqyzXQ13uXxm6pVfbcArp6RpadVoVLSQYOJsLeozybxOWbMMrvHgCBUt
- 8DuIw7FDhlpHtx9DVLQ6HuXVINYEG1bPR7T3R7eNCLb1CnPrhGYtxa+NFm1bhwe+VMtq
- 0Zqwak2pH134sc/7hUPc5cSwTksGk8mdlRmftOz8RgoamzgVQpJvvFS+RAfyKjMFa3Wa
- S6UX8u6S5FjdZrnp+EP6X+FPw0OVdYDNREtBO86xrBySWZdSsJ4Y0/5EcSeSHZA87prX
- KaUA==
-X-Gm-Message-State: ACgBeo3oJUvKwwOUyOTQdRPmCVOuArLt/599zEB41LLfw+tLXdXzDKgn
- 8pBj9bSj2oUcTSKFXsN/+6k=
-X-Google-Smtp-Source: AA6agR6waT3oAVnaEr8qa9BZnbHjoNMUkqD1Co1VFcDx22E7UewBgzLHIlEvdmIgk8KAATEoUYGsbQ==
-X-Received: by 2002:ac8:5891:0:b0:342:e991:e89b with SMTP id
- t17-20020ac85891000000b00342e991e89bmr17813674qta.406.1660104836808; 
- Tue, 09 Aug 2022 21:13:56 -0700 (PDT)
-Received: from localhost.localdomain
- (2603-9001-6802-6005-37b9-aa24-2dc4-90c5.inf6.spectrum.com.
- [2603:9001:6802:6005:37b9:aa24:2dc4:90c5])
- by smtp.gmail.com with ESMTPSA id
- bl9-20020a05620a1a8900b006b905e003a4sm13741422qkb.135.2022.08.09.21.13.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Aug 2022 21:13:56 -0700 (PDT)
-From: Julian Braha <julianbraha@gmail.com>
-To: sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
- thierry.reding@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 1/2] dt-bindings: panel-simple-dsi: add Tianma TL057FVXP01
-Date: Wed, 10 Aug 2022 00:13:53 -0400
-Message-Id: <20220810041354.691896-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com
+ [115.236.118.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270F6E7793
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 04:16:21 +0000 (UTC)
+Received: from [192.168.111.100] (unknown [58.22.7.114])
+ by mail-m11885.qiye.163.com (Hmail) with ESMTPA id C437A4C0160;
+ Wed, 10 Aug 2022 12:16:18 +0800 (CST)
+Message-ID: <05488346-ebbd-b1d9-4094-a83daf65f6db@rock-chips.com>
+Date: Wed, 10 Aug 2022 12:16:16 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.1
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v2] drm/gem: Fix GEM handle release
+ errors
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
+ <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
+ <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
+ <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
+ <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
+ <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
+ <71e47fe6-440b-e9ea-cd66-8362c41428ca@amd.com>
+ <6b3e82f9-6902-fd5c-c67d-e2c42c995133@rock-chips.com>
+ <cb478ae3-a6c6-ea90-a47c-13d52b606942@amd.com>
+From: Chen Jeffy <jeffy.chen@rock-chips.com>
+In-Reply-To: <cb478ae3-a6c6-ea90-a47c-13d52b606942@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTUIeVh9KT0oaGh0ZHhpLTVUTARMWGhIXJB
+ QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NQw6HCo6ET0rMywTAQ0sGhY#
+ NB0KCS5VSlVKTU1LSktPQkxCTktIVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFNSUtINwY+
+X-HM-Tid: 0a8285f7b2cd2eb9kusnc437a4c0160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +58,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jianqun Xu <jay.xu@rock-chips.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds the bindings for the Tianma TL057FVXP01 DSI panel,
-found on the Motorola Moto G6.
+Hi Christian,
 
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
----
-v4:
-Fixed makefile entry.
+On 8/9 星期二 18:18, Christian König wrote:
+> Hi Jeffy,
+> 
+> Am 09.08.22 um 12:02 schrieb Chen Jeffy:
+>> Hi Christian,
+>>
+>> On 8/9 星期二 17:08, Christian König wrote:
+>>> Hi Jeffy,
+>>>
+>>> Am 09.08.22 um 09:55 schrieb Christian König:
+>>>> [SNIP]
+>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> So we are allowing GEM object to have multiple handles, and GEM 
+>>>>>>> object could have at most one dma-buf, doesn't that means that 
+>>>>>>> dma-buf could map to multiple handles?
+>>>>>>
+>>>>>> No, at least not for the same GEM file private. That's the reason 
+>>>>>> why the rb is indexed by the dma_buf object and not the handle.
+>>>>>>
+>>>>>> In other words the rb is so that you have exactly one handle for 
+>>>>>> each dma_buf in each file private.
+>>>>>
+>>>>> I don't think so, because if user get multiple handles for the same 
+>>>>> GEM obj and use drm_gem_prime_handle_to_fd() for those handles
+>>>>
+>>>> Mhm, that works? This is illegal and should have been prevented 
+>>>> somehow.
+>>>
+>>> At least I see the problem now. I'm just not sure how to fix it.
+>>>
+>>> Your v2 patch indeed prevents leakage of the drm_prime_member for the 
+>>> additional handles, but those shouldn't have been added in the first 
+>>> place.
+>>>
+>>> The issue is that with this we make it unpredictable which handle is 
+>>> returned. E.g. if we have handle 2,5,7 it can be that because of 
+>>> re-balancing the tree sometimes 2 and sometimes 5 is returned.
+>>
+>> Maybe cache the latest returned handle in the obj(after 
+>> drm_gem_prime_fd_to_handle), and clear it when that handle been 
+>> deleted in drm_gem_handle_delete()?
+> 
+> That won't work. The handle is per fpriv, but the same object is used by 
+> multiple fpriv instances. >
+> What we could maybe do is to prevent adding multiple lockup structures 
+> when there is already one, but that's not something I can easily judge.
 
-v3:
-Fixed kconfig dependencies.
+So maybe we need to protect that unique lookup structure been deleted 
+before deleting the last handle, and make the handle unique for GEM obj, 
+in case of that unique lookup's handle been deleted earlier that others?
 
-v2:
-Fixed accidental whitespace deletion.
----
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
- 1 file changed, 2 insertions(+)
+How about adding a GEM obj rbtree too, and make drm_prime_member kref-ed?
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index 2c00813f5d20..1b3d5e5acefd 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -57,6 +57,8 @@ properties:
-       - samsung,sofef00
-         # Shangai Top Display Optoelectronics 7" TL070WSH30 1024x600 TFT LCD panel
-       - tdo,tl070wsh30
-+        # Tianma Micro-electronics TL057FVXP01 5.7" 2160x1080 LCD panel
-+      - tianma,tl057fvxp01
+So the 
+drm_prime_add_buf_handle/drm_gem_handle_create_tail/drm_gem_handle_delete 
+would be looking up drm_prime_member by GEM obj, then update dmabuf rb 
+and inc/dec drm_prime_member's kref, 
+drm_gem_prime_fd_to_handle/drm_gem_prime_handle_to_fd remain unchanged.
 
-   reg:
-     maxItems: 1
---
-2.34.1
+> 
+> Daniel seems to be either very busy or on vacation otherwise he would 
+> have chimed in by now.
+> 
+> Anyway, your patch seems to at least fix the of hand memory leak, so 
+> feel free to add my rb to the v2 and push it to drm-misc-fixes for now.
+> 
+> Thanks,
+> Christian.
+> 
+>>
+>>
+>> Something like:
+>> drm_gem_prime_fd_to_handle
+>>   handle = drm_prime_lookup_buf_handle(buf)
+>>   obj = obj_from_handle(handle)
+>>   if !obj->primary_handle
+>>     obj->primary_handle = handle
+>>   return obj->primary_handle
+>>
+>> Or maybe limit GEM obj with a single lifetime handle?
+>>
+>>>
+>>> That's not really a good idea and breaks a couple of assumptions as 
+>>> far as I know.
+>>>
+>>> Ideas?
+>>>
+>>> Thanks,
+>>> Christian.
+>>>
+>>
+> 
+> 
+
