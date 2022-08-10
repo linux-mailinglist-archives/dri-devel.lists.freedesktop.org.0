@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC74758F30C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 21:29:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A748C58F33F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 21:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E7990B33;
-	Wed, 10 Aug 2022 19:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3FC10EC4C;
+	Wed, 10 Aug 2022 19:35:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D7E8EC81
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=IX//JcdkrgOZqycBs6XCkLC14hxbQjy7W58Do3AHHr4=;
- b=bNo6ejTh28wb6w48qdvjndLox0n+iCZ51gERiqghArSg48NhiJsYrvRpRZlN4Oubv60MEvPHYbX5i
- dbQZat/NZE9YdgZpFg557H2z9p6Qv+gUhHLpJw9FzSFb3WNzgpF2uSk4pLasESxHEnlgh+FqTbHUPE
- e5Np7jshJdd9k8iZTY/v+NV4A61gXrtIrR+Q1YBwJdsF+cT7RGxyS3SU4GlgE9fAUbAdb0yDrPvh5C
- FOFwoOnbAcjxq4K7UJoA3nX2HJS5uIOTt7xgAMBmrBFTRNVnwwFKG3HwNgmZHdM2hKvw6hF4zeObnX
- zjTYTlbSfnR2qWx+ZY76jfZin5oDd/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=IX//JcdkrgOZqycBs6XCkLC14hxbQjy7W58Do3AHHr4=;
- b=MHULCe8FkTij12+TAjeRG2VXBXoON5yOGXk3yqOc5jDo/vrVX0hJrpG4b0WIEz0+wIvmIWoLOApRn
- PEwqqDQBQ==
-X-HalOne-Cookie: 0a1fdabb9d0abbc5267b9af2cc175d9d0b078763
-X-HalOne-ID: bde75fde-18e2-11ed-a6cc-d0431ea8a283
-Received: from mailproxy4.cst.dirpod4-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id bde75fde-18e2-11ed-a6cc-d0431ea8a283;
- Wed, 10 Aug 2022 19:29:24 +0000 (UTC)
-Date: Wed, 10 Aug 2022 21:29:23 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/4] drm/modes: Add initializer macro DRM_MODE_INIT()
-Message-ID: <YvQHE51Ouj6FgfG6@ravnborg.org>
-References: <20220810112053.19547-1-tzimmermann@suse.de>
- <20220810112053.19547-4-tzimmermann@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9F910FD20
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:35:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7CFE761374
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:35:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E628EC433C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660160148;
+ bh=QLZd8R8UuiEP1ol6MBHCA8sMLRNVWMlmj5a9PIR3yxU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PQbAATReEg4tAC63wkT6/7GGmAPC+fn+Dsi5rGCi4+bw4CCsV8hsITkCpKl3A8srA
+ jj6GBkqwTzsTUHpdUzAW8hVcUJc9wEIjwbK/zIFA/2toSW/AtDKa+vBWyri+fts7zf
+ Ml4VhvOkQmjZShHx+zP5vplkZypX3RQxppPVhnWpq5iNH/WWpOsieT8xJjj1iSZm3s
+ DlDzmBzBjnOriP+qWiRlkOpGJxhOXvIucsJ7cw5gxUV1ASZB0n54db9OOnIMpCSDR7
+ HX7MqH+e+Sg0x9KFPv0qbP1usSugdeWksYNExfW4x0GXJYLG32SLzx6zCSzQ6pZtl8
+ I161Yj9Pa5eqg==
+Received: by mail-vs1-f54.google.com with SMTP id j2so16231867vsp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 12:35:48 -0700 (PDT)
+X-Gm-Message-State: ACgBeo05tmFY9Ci4ox3JOhbeucb0LwtBllpvK9T/ikPh1agYws/t0wec
+ XDvqUb4FRUm95NYvQ/fyf93tV2NZhb708i3pCw==
+X-Google-Smtp-Source: AA6agR6ByJIxW7D+Y+tlXWu4JJOaeqM4BYEflHuRHNnzk2UPmYm3x90UWbxQh10prAf0G5nYRkx5rflaTPm7HPoizvY=
+X-Received: by 2002:a67:c19c:0:b0:386:3a4b:dd5 with SMTP id
+ h28-20020a67c19c000000b003863a4b0dd5mr11476424vsj.53.1660160147922; Wed, 10
+ Aug 2022 12:35:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220810112053.19547-4-tzimmermann@suse.de>
+References: <20220711131550.361350-1-windhl@126.com>
+ <YvPeNbHCV29oHNtw@phenom.ffwll.local>
+In-Reply-To: <YvPeNbHCV29oHNtw@phenom.ffwll.local>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 10 Aug 2022 13:35:36 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKX-XsMM90iQNmk=9de9cJu51+ebLAtBcRcAvHAHFbH=g@mail.gmail.com>
+Message-ID: <CAL_JsqKX-XsMM90iQNmk=9de9cJu51+ebLAtBcRcAvHAHFbH=g@mail.gmail.com>
+Subject: Re: [PATCH] drm:pl111: Add of_node_put() when breaking out of
+ for_each_available_child_of_node()
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,122 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david@lechnology.com, emma@anholt.net, airlied@linux.ie, javierm@redhat.com,
- noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- kamlesh.gurudasani@gmail.com
+Cc: airlied@linux.ie, Liang He <windhl@126.com>, emma@anholt.net,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 10, 2022 at 01:20:52PM +0200, Thomas Zimmermann wrote:
-> The macro DRM_MODE_INIT() initializes an instance of
-> struct drm_display_mode with typical parameters. Convert simpledrm
-> and also update the macro DRM_SIMPLE_MODE().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+On Wed, Aug 10, 2022 at 10:37 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Jul 11, 2022 at 09:15:50PM +0800, Liang He wrote:
+> > The reference 'child' in the iteration of for_each_available_child_of_node()
+> > is only escaped out into a local variable which is only used to check
+> > its value. So we still need to the of_node_put() when breaking of the
+> > for_each_available_child_of_node() which will automatically increase
+> > and decrease the refcount.
+> >
+> > Fixes: ca454bd42dc2 ("drm/pl111: Support the Versatile Express")
+> > Signed-off-by: Liang He <windhl@126.com>
+> > ---
+> >
+> > As 'Check-after-Put' has been widely accepted in kernel source, we just
+> > use it. If the maintainer thinks it is harmful, I'd like also to use
+> > 'Check-and-Put' coding style but with a bit more work.
+> >
+> >  drivers/gpu/drm/pl111/pl111_versatile.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
+> > index bdd883f4f0da..963a5d5e6987 100644
+> > --- a/drivers/gpu/drm/pl111/pl111_versatile.c
+> > +++ b/drivers/gpu/drm/pl111/pl111_versatile.c
+> > @@ -402,6 +402,7 @@ static int pl111_vexpress_clcd_init(struct device *dev, struct device_node *np,
+> >               if (of_device_is_compatible(child, "arm,pl111")) {
+> >                       has_coretile_clcd = true;
+> >                       ct_clcd = child;
+> > +                     of_node_put(child);
+>
+> The same issue seems to exist right below in the next break? Can you pls
+> respin with that included?
 
-It is nice that the macros are now documented.
+It has a put already.
 
-	Sam
-
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 23 ++++++++-------------
->  include/drm/drm_modes.h          | 35 +++++++++++++++++++++++++++-----
->  2 files changed, 39 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 31d3bc6c5acf..cc509154b296 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -30,16 +30,6 @@
->  #define DRIVER_MAJOR	1
->  #define DRIVER_MINOR	0
->  
-> -/*
-> - * Assume a monitor resolution of 96 dpi to
-> - * get a somewhat reasonable screen size.
-> - */
-> -#define RES_MM(d)	\
-> -	(((d) * 254ul) / (96ul * 10ul))
-> -
-> -#define SIMPLEDRM_MODE(hd, vd)	\
-> -	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
-> -
->  /*
->   * Helpers for simplefb
->   */
-> @@ -641,10 +631,15 @@ static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
->  static struct drm_display_mode simpledrm_mode(unsigned int width,
->  					      unsigned int height)
->  {
-> -	struct drm_display_mode mode = { SIMPLEDRM_MODE(width, height) };
-> -
-> -	mode.clock = mode.hdisplay * mode.vdisplay * 60 / 1000 /* kHz */;
-> -	drm_mode_set_name(&mode);
-> +	/*
-> +	 * Assume a monitor resolution of 96 dpi to
-> +	 * get a somewhat reasonable screen size.
-> +	 */
-> +	const struct drm_display_mode mode = {
-> +		DRM_MODE_INIT(60, width, height,
-> +			      DRM_MODE_RES_MM(width, 96ul),
-> +			      DRM_MODE_RES_MM(height, 96ul))
-> +	};
->  
->  	return mode;
->  }
-> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> index a80ae9639e96..bb932806f029 100644
-> --- a/include/drm/drm_modes.h
-> +++ b/include/drm/drm_modes.h
-> @@ -138,6 +138,35 @@ enum drm_mode_status {
->  	.vsync_start = (vss), .vsync_end = (vse), .vtotal = (vt), \
->  	.vscan = (vs), .flags = (f)
->  
-> +/**
-> + * DRM_MODE_RES_MM - Calculates the display size from resolution and DPI
-> + * @res: The resolution in pixel
-> + * @dpi: The number of dots per inch
-> + */
-> +#define DRM_MODE_RES_MM(res, dpi)	\
-> +	(((res) * 254ul) / ((dpi) * 10ul))
-> +
-> +#define __DRM_MODE_INIT(pix, hd, vd, hd_mm, vd_mm) \
-> +	.type = DRM_MODE_TYPE_DRIVER, .clock = (pix), \
-> +	.hdisplay = (hd), .hsync_start = (hd), .hsync_end = (hd), \
-> +	.htotal = (hd), .vdisplay = (vd), .vsync_start = (vd), \
-> +	.vsync_end = (vd), .vtotal = (vd), .width_mm = (hd_mm), \
-> +	.height_mm = (vd_mm)
-> +
-> +/**
-> + * DRM_SIMPLE_MODE_INIT - Initialize display mode
-> + * @hz: Vertical refresh rate in Hertz
-> + * @hd: Horizontal resolution, width
-> + * @vd: Vertical resolution, height
-> + * @hd_mm: Display width in millimeters
-> + * @vd_mm: Display height in millimeters
-> + *
-> + * This macro initializes a &drm_display_mode that contains information about
-> + * refresh rate, resolution and physical size.
-> + */
-> +#define DRM_MODE_INIT(hz, hd, vd, hd_mm, vd_mm) \
-> +	__DRM_MODE_INIT((hd) * (vd) * (hz) / 1000 /* kHz */, hd, vd, hd_mm, vd_mm)
-> +
->  /**
->   * DRM_SIMPLE_MODE - Simple display mode
->   * @hd: Horizontal resolution, width
-> @@ -149,11 +178,7 @@ enum drm_mode_status {
->   * resolution and physical size.
->   */
->  #define DRM_SIMPLE_MODE(hd, vd, hd_mm, vd_mm) \
-> -	.type = DRM_MODE_TYPE_DRIVER, .clock = 1 /* pass validation */, \
-> -	.hdisplay = (hd), .hsync_start = (hd), .hsync_end = (hd), \
-> -	.htotal = (hd), .vdisplay = (vd), .vsync_start = (vd), \
-> -	.vsync_end = (vd), .vtotal = (vd), .width_mm = (hd_mm), \
-> -	.height_mm = (vd_mm)
-> +	__DRM_MODE_INIT(1 /* pass validation */, hd, vd, hd_mm, vd_mm)
->  
->  #define CRTC_INTERLACE_HALVE_V	(1 << 0) /* halve V values for interlacing */
->  #define CRTC_STEREO_DOUBLE	(1 << 1) /* adjust timings for stereo modes */
-> -- 
-> 2.37.1
+Reviewed-by: Rob Herring <robh@kernel.org>
