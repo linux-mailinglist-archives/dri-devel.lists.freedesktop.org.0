@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449E958F4E1
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 01:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBCA58F4E3
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 01:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEB011AA4B;
-	Wed, 10 Aug 2022 23:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBA09511F;
+	Wed, 10 Aug 2022 23:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519BE9500F;
- Wed, 10 Aug 2022 23:29:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A32559505E;
+ Wed, 10 Aug 2022 23:29:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,16 +19,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ciDPhF07fS+tRj3SbXyJWbm9upDSDTB8l7rbsGiPQ3k=; b=RkaB8hBq3/R/1OYWjtaZU64XCX
- 3OmzaUdxiynm4exZuNrmc6p80Mw5Q6TYSSnSb/f1mTTaOmyzWraHCWxeISIq1a1ICOLOzZmlweG0o
- YOmSL381a0dVFwm5y1rNY8WU5GNzqwCjTruBEEV0GEyTjt4gRDE2hh+yRINWGSaTFlAi1r6sEUQBM
- DLld2kb46YIkOfVWUrCd61qLCINDWkePkLM9hWKCHeyfQMuPQ4RxM+rbHM2B8H7Lgj9+lvMGgr/nv
- B9KLN8qAnLDY6xslPCom9REx6WbYaVQXvAoCBquUIG8VXYXzipYvOf+Drhi1GLdT5TXFFv6zg5n1n
- qYTw7yMQ==;
+ bh=+7t/7eAOvi8kAxMn65dXL5tgH7liqj/5NHPtUP/lMtI=; b=pYnj2wc3dKklpInsGJAB6JOMxK
+ RisYrT54Mjn3hO7kYTNobeqKnjZeRV1LjM0LCfKx9FUuGDWMHLdwPeoO9Y2lM2zXRJQ5VpgSfR3wy
+ PVjjHqoaOCu60lckijE5fAPa+ogOQ0RMyw/Q9fhi5Tlaq0dGouHesKsU/MRzAriDZ0f83iXpoNJyc
+ B3ghaHF/kBAvOwRiMedh0MDLA+6z3lcGj47WLcsX1BNE0Jl2ihxaOtHyPu807Rhviy8yiAHVrXutJ
+ gffrmqdSNoNuHJUUmC2rDWmGvNQP1YQ2Is33xeR53dPYd3ZDvD/uEaV0uZjVbvW+Gn+W5+RTY6peO
+ 0MUNUnKg==;
 Received: from [191.17.41.12] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oLv8x-004r9g-62; Thu, 11 Aug 2022 01:29:43 +0200
+ id 1oLv94-004r9g-EZ; Thu, 11 Aug 2022 01:29:50 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
@@ -39,10 +39,10 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Tom St Denis <tom.stdenis@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: [PATCH v3 3/4] Documentation/gpu: Document GFXOFF's count and
- residency
-Date: Wed, 10 Aug 2022 20:28:57 -0300
-Message-Id: <20220810232858.11844-4-andrealmeid@igalia.com>
+Subject: [PATCH v3 4/4] drm/amdgpu: Document gfx_off members of struct
+ amdgpu_gfx
+Date: Wed, 10 Aug 2022 20:28:58 -0300
+Message-Id: <20220810232858.11844-5-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220810232858.11844-1-andrealmeid@igalia.com>
 References: <20220810232858.11844-1-andrealmeid@igalia.com>
@@ -66,48 +66,36 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation explaining those two new files.
-
-While here, add a note about the value type.
+Add comments to document gfx_off related members of struct amdgpu_gfx.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- Documentation/gpu/amdgpu/thermal.rst | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/gpu/amdgpu/thermal.rst b/Documentation/gpu/amdgpu/thermal.rst
-index 997231b6adcf..5e27e4eb3959 100644
---- a/Documentation/gpu/amdgpu/thermal.rst
-+++ b/Documentation/gpu/amdgpu/thermal.rst
-@@ -72,7 +72,8 @@ card's RLC (RunList Controller) firmware powers off the gfx engine
- dynamically when there is no workload on gfx or compute pipes. GFXOFF is on by
- default on supported GPUs.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+index 1b8b4a5270c9..8abdf41d0f83 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+@@ -332,12 +332,12 @@ struct amdgpu_gfx {
+ 	uint32_t                        srbm_soft_reset;
  
--Userspace can interact with GFXOFF through a debugfs interface:
-+Userspace can interact with GFXOFF through a debugfs interface (all values in
-+`uint32_t`, unless otherwise noted):
+ 	/* gfx off */
+-	bool                            gfx_off_state; /* true: enabled, false: disabled */
+-	struct mutex                    gfx_off_mutex;
+-	uint32_t                        gfx_off_req_count; /* default 1, enable gfx off: dec 1, disable gfx off: add 1 */
+-	struct delayed_work             gfx_off_delay_work;
+-	uint32_t                        gfx_off_residency;
+-	uint64_t                        gfx_off_entrycount;
++	bool                            gfx_off_state;      /* true: enabled, false: disabled */
++	struct mutex                    gfx_off_mutex;      /* mutex to change gfxoff state */
++	uint32_t                        gfx_off_req_count;  /* default 1, enable gfx off: dec 1, disable gfx off: add 1 */
++	struct delayed_work             gfx_off_delay_work; /* async work to set gfx block off */
++	uint32_t                        gfx_off_residency;  /* last logged residency */
++	uint64_t                        gfx_off_entrycount; /* count of times GPU has get into GFXOFF state */
  
- ``amdgpu_gfxoff``
- -----------------
-@@ -104,3 +105,18 @@ Read it to check current GFXOFF's status of a GPU::
- If GFXOFF is enabled, the value will be transitioning around [0, 3], always
- getting into 0 when possible. When it's disabled, it's always at 2. Returns
- ``-EINVAL`` if it's not supported.
-+
-+``amdgpu_gfxoff_count``
-+-----------------------
-+
-+Read it to get the total GFXOFF entry count at the time of query since system
-+power-up. The value is an `uint64_t` type, however, due to firmware limitations,
-+it can currently overflow as an `uint32_t`. *Only supported in vangogh*
-+
-+``amdgpu_gfxoff_residency``
-+---------------------------
-+
-+Write 1 to amdgpu_gfxoff_residency to start logging, and 0 to stop. Read it to
-+get average GFXOFF residency % multiplied by 100 during the last logging
-+interval. E.g. a value of 7854 means 78.54% of the time in the last logging
-+interval the GPU was in GFXOFF mode. *Only supported in vangogh*
+ 	/* pipe reservation */
+ 	struct mutex			pipe_reserve_mutex;
 -- 
 2.37.1
 
