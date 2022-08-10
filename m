@@ -1,61 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF1B58F09A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:44:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B22EB58F09D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10F4010FC49;
-	Wed, 10 Aug 2022 16:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B38110FDC0;
+	Wed, 10 Aug 2022 16:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D52F112E65
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:41:45 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id x19so13730150lfq.7
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:41:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=IboOlRmkttx834Bl91hUxolhlCg7lfoSCMSCS2p/U0k=;
- b=IHIfCGGqkNbEP24ylvFw7WsvsOXR9bN3DKWRU/gGHfevmOOUx7Wmgl3UZ5XBLAmAAc
- 8l30WDp+ajTAJ3AXbT1BYhjgIop+o6VtXEqFeLy3zjMrtj+cF4wBv9A4fh9Ul1KeHXrI
- c6nnrm9Ys+9Z0Cz9/jbBxzrE93uCAnvVeD15H2oV19A66UH1MmBGRAsE6piRmmvF+FH3
- 8L6ARDFbnfjMU1UOQV5d+8PUcOqJvZFTF/AMQez8MhJr3uySjEh4wJUhWDcXN+u+/nAj
- dZDk6swzcgt89/iIVoddm+yLaLZgDlFOA6OzicnmlkeYOoeJGbdSikVH6M7kErVKpcQv
- /dYQ==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5918710E3B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:42:53 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id
+ c187-20020a1c35c4000000b003a30d88fe8eso1307404wma.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc;
+ bh=caDNEl7O4r0UYVlzN7+UmHEEEUCui795HHbEaawKiHE=;
+ b=S5QQAFrMKCtLcDVFS3bfahOn76A0XBEJv+NC+1I+ozvQZtg7E8LG5y2GP0jzlL7vWg
+ KWBrzmzW3DSvxgm28eAHgY8cpKXkwpX56TpvYkpgMSSxTYZBGP3n4HsXnrqeNCIvVHWm
+ b1XBCOs4Q+O1dV/vxJKBRqh1GFYoppu4TogsM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=IboOlRmkttx834Bl91hUxolhlCg7lfoSCMSCS2p/U0k=;
- b=Q8TI+qR5Fh3nKfDe/y4jJD0G0fLiU1AMsrLnf5+Y+StDrD4y2cf7Le1GXgSykDiVl4
- 3Kwey5HyKUqIQt3blQorvo94rwjVoJAhtZzNGG7ioHAQpO6TNIEuxP+paewP+6OcRKMG
- MHqWXpjAIvyJnzPhhkmg/YsCO7nHmugLAVppGQ6uGwgm6psOCak8iK4cxRfuUgwgC/4p
- ElIdJ4dbC+4t7FzM6AcQfloTUmwPk+BfX3emihzgLVlsXeAQ7zjiZTfOt2V47CVUNN14
- nhupKQdIdkEoh3XWMi2BXnhsRKsTkWFGrQCn9ShBSGxQ393ap/ZqfHbRnh5i1DqU7wtk
- Z6uw==
-X-Gm-Message-State: ACgBeo2uXy/bxqYMxIam9qIMCz37YLiZzPg/rQQquNmLbNQRHIOxconP
- ApX77ak3oP9kC690qqRPvh5fkvqSbIjmFIb+xWH8XyHKrJNenA==
-X-Google-Smtp-Source: AA6agR7WOzfuKIJOAsH+/Ea7ziF0uJfqoTF8MsUll/UBw5AXR9ENEiQu36r7CNYitAm+4Jj6oSj6WL6ZDT1kyS+uuh0=
-X-Received: by 2002:a17:907:3e21:b0:730:92bb:7fcd with SMTP id
- hp33-20020a1709073e2100b0073092bb7fcdmr20734969ejc.170.1660149689636; Wed, 10
- Aug 2022 09:41:29 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc;
+ bh=caDNEl7O4r0UYVlzN7+UmHEEEUCui795HHbEaawKiHE=;
+ b=RXynoHV6NBWSjg6RPrWYiY5c5A1MgzFBngMl1b2vl4zWe8Nwzrt3bA2MMavtJVTFSb
+ +gU7+XSdcD85+1GCmI8QUkJc/i1KhHHNdWRrSoRMD/VU1H9ma4TrBHifTecqIJimRGvl
+ 3stAH052w/da1oDd9UhzgxRM4imz6V5Na8zMRUIFR/NGp0aRZKBvVlYET2SpiN+tzvIA
+ daK7k1A9OJqhHW4mrxp3kdwC0iwkD3UqK1Uy0ggYksvMVw6RauDvi6nLDqLtJZ8eaIaK
+ 6pyoh+tPo0TJ0PVNJnsjchFDD+zE802t/YcHayHMzVhsx83JMK20BCguvNsu6fWLyua2
+ 0TOg==
+X-Gm-Message-State: ACgBeo1wywalkILAIixNWuZuiUzUnJd5DQCU3mIql/p7D3O8CTW8aBnt
+ PBGwOwhD2mzQncDz7OZnSDWytg==
+X-Google-Smtp-Source: AA6agR5M8dV1awXpkYQGRJWDfCDyLSLcsB22cqRYuR/yCVmcd1U/JfV3GxdJUr7JouwwYx1ndTJnOA==
+X-Received: by 2002:a05:600c:4fd5:b0:3a3:4664:6d55 with SMTP id
+ o21-20020a05600c4fd500b003a346646d55mr3163330wmq.73.1660149771921; 
+ Wed, 10 Aug 2022 09:42:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ s4-20020a05600c384400b003a4eea0aa48sm3120158wmr.0.2022.08.10.09.42.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 09:42:51 -0700 (PDT)
+Date: Wed, 10 Aug 2022 18:42:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: John Stultz <jstultz@google.com>
+Subject: Re: [RFC][PATCH 3/3] kselftest: Add drm_syncobj API test tool
+Message-ID: <YvPgCRqMz1bw9gmI@phenom.ffwll.local>
+Mail-Followup-To: John Stultz <jstultz@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Chunming Zhou <david1.zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Shuah Khan <shuah@kernel.org>,
+ dri-devel@lists.freedesktop.org
+References: <20220712042258.293010-1-jstultz@google.com>
+ <20220712042258.293010-3-jstultz@google.com>
+ <44e2cb41-641c-2a50-3e38-284e4504f012@amd.com>
+ <CANDhNCrPhJacBjQZ4DMhmo9iaxBov8m8tbTqdU07PheaKFbE-g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220709115837.560877-1-jose.exposito89@gmail.com>
- <20220709115837.560877-5-jose.exposito89@gmail.com>
- <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
- <20220717170054.GA1028249@elementary>
-In-Reply-To: <20220717170054.GA1028249@elementary>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Wed, 10 Aug 2022 09:41:18 -0700
-Message-ID: <CAGS_qxqqsLQ-aCfZHTJbYqb3e21hNSzobAmsZNN_QETXExwQ+A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb565()
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANDhNCrPhJacBjQZ4DMhmo9iaxBov8m8tbTqdU07PheaKFbE-g@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,45 +85,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
- David Gow <davidgow@google.com>, Isabella Basso <isabbasso@riseup.net>,
- KUnit Development <kunit-dev@googlegroups.com>
+Cc: Chunming Zhou <david1.zhou@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Shuah Khan <shuah@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 17, 2022 at 10:01 AM Jos=C3=A9 Exp=C3=B3sito
-<jose.exposito89@gmail.com> wrote:
->
-> Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com> wrote:
-> > I already fixed the warning and added the reviewed by tags, however, I
-> > noticed that rebasing the series on the latest drm-misc-next show this
-> > error:
-> > [...]
->
-> Sorry for the extra email. I forgot to mention that the error is only
-> present in UML. Running in other architectures works as expected.
-> Tested on x86_64 and PowerPC.
+On Tue, Jul 12, 2022 at 08:52:53AM -0700, John Stultz wrote:
+> On Tue, Jul 12, 2022 at 12:43 AM Christian König
+> <christian.koenig@amd.com> wrote:
+> > Am 12.07.22 um 06:22 schrieb John Stultz:
+> > > An initial pass at a drm_syncobj API test.
+> > >
+> > > Currently covers trivial use of:
+> > >    DRM_IOCTL_SYNCOBJ_CREATE
+> > >    DRM_IOCTL_SYNCOBJ_DESTROY
+> > >    DRM_IOCTL_SYNCOBJ_HANDLE_TO_FD
+> > >    DRM_IOCTL_SYNCOBJ_FD_TO_HANDLE
+> > >    DRM_IOCTL_SYNCOBJ_WAIT
+> > >    DRM_IOCTL_SYNCOBJ_RESET
+> > >    DRM_IOCTL_SYNCOBJ_SIGNAL
+> > >    DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT
+> > >    DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL
+> > >
+> > > And demonstrates how the userspace API can be used, along with
+> > > some fairly simple bad parameter checking.
+> > >
+> > > The patch includes a few helpers taken from libdrm, as at least
+> > > on the VM I was testing with, I didn't have a new enough libdrm
+> > > to support the *_TIMELINE_* ioctls. Ideally the ioctl-helper bits
+> > > can be dropped at a later time.
+> > >
+> > > Feedback would be appreciated!
+> >
+> > DRM userspace selftests usually go either into libdrm or igt and not
+> > into the kernel source.
+> 
+> Appreciate the pointer, I'll rework and submit to one of those projects.
 
-Can you take a look at the raw output?
+https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#testing-and-validation
 
-It would be .kunit/test.log (or replace .kunit with w/e --build_dir
-you're using).
-You could also run the test with --raw_output to have kunit.py print
-that out instead.
-We might want to compare the output on UML vs x86 and see what looks suspic=
-ious.
+There should be already a ton of syncobj tests, so probably more just work
+needed to make them work on vgem so we can test them all without a
+suitable hw driver loaded.
 
-These errors
-  [ERROR] Test: xrgb8888_to_rgb332_test: missing subtest result line!
-means that kunit.py can't parse the KTAP output.
-
-It could be that the output is mangled for some reason.
-I recall running into a UML-specific issue with output mangling on an
-old kernel fork. I doubt it's related to this one, but it shows that
-it's possible there could be something going on.
-
--Daniel
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
