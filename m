@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A42F58EFF5
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9708B58EFF9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D863B10E7C5;
-	Wed, 10 Aug 2022 16:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D99510F562;
+	Wed, 10 Aug 2022 16:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 774F810E102;
- Wed, 10 Aug 2022 16:01:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KKr3/p7RXk6Xd7JZFfPWIxAClLn2mUrBIY5Ne5PRLek=; b=L8dRFbdhNwtpr3+2ATPgf6lwH+
- u9BwHPLH/dmnm8mITuJ++Gpx8rqBHuB9s9Gi+HTKufdfpzmmCjAnkCws4n+2p01pYZHGMzOzVtpEL
- RFczXZ3mXbUA80XgWJ4LAkAhyvVxdufnWXVy3dSLghfCbLXINAN3HvyS/qcjKLBOZIK0yCfM2olL6
- v2DR/p8zT4xS5CKOke0TXJzlywb3+hQJTO9d7NXIdgmug2XNX6S4dCvOnqpHUEeoT4JItkfR/QLMo
- YUSqKGm2A/H8s8tyQF4P8NOjoYzX/aXhuKmTpa1Qxg+q3qhbnR1Nqfj8ZOZuHwt1nV0RigknlSFxW
- m+9OeSxw==;
-Received: from [191.17.41.12] (helo=[192.168.15.109])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1oLo9N-004UMr-Ht; Wed, 10 Aug 2022 18:01:41 +0200
-Message-ID: <0e3b981b-f324-d52c-dc67-4ea9100769ef@igalia.com>
-Date: Wed, 10 Aug 2022 13:01:22 -0300
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D67089E14
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:02:15 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id
+ p12-20020a7bcc8c000000b003a5360f218fso1235277wma.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc;
+ bh=l8/2lnja9nL6p7OH6ZMKU6YrHDC9nL9IFx4bCiysLJE=;
+ b=SoMYGdDBirjwK82ZiHhEwxiAU2LXgo/qmYKwj25kGDmr/2HQjxmBszjBG+ULV6eN/7
+ +LPICEEUIULROP4JVJdX8Fw5tdWWZcrRdnATTDyJxvXDXn3OTvsv8XTktqud9gtj8wc7
+ +y9+jUTHVYAuXJCsCx8wvPIMnMJVqxt22+liQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=l8/2lnja9nL6p7OH6ZMKU6YrHDC9nL9IFx4bCiysLJE=;
+ b=djtW0qh5hRE2FUS7eGkVo6P4e3qbd9IE9HnpCNnBSMJdM5cOtgsudGeq1PgVfLgea9
+ tTa3vtGKENlHE+oEYbF0uzxxdrbeCWs8Hzke1o9yYq410Ij4MKlith4WBeJNx/ttZhen
+ kWPmiKUxGxfuiInnGKY+Q3xzATlrBQOA6GOk4SwSLK2iPfeX/7VhFNy2RFhVvVFQQTH0
+ KH9Tw+KLxk7prOi/aMHrpRLc3kP1ufghr+8v79su3m+rrzC2BNWUjL2dkLxSRwCImGBC
+ G13ADz9B59+L2lMDXNpjzAbfmK9lCvjWjXoCh/OqyQ8m1d4wTJOoS7MFubMNdRfk7Ilm
+ ADVQ==
+X-Gm-Message-State: ACgBeo378xlFY69JtQOfOxQ1PniiboidbDStCFfXQew9j607FSZoaKYI
+ AU1pcmMvbGETgrlOIzINaswbrw==
+X-Google-Smtp-Source: AA6agR6ZnGhaEqcnZ+/Gihz1HN0O86s73EJ4JBla34lVdwPmBl6ZdnsId1glDTd6IlfJ2YXJxSqa2w==
+X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
+ v16-20020a1cf710000000b003941960e8a1mr2999393wmh.154.1660147333609; 
+ Wed, 10 Aug 2022 09:02:13 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ i5-20020a1c3b05000000b003a503a64e5esm2973492wma.15.2022.08.10.09.02.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 09:02:12 -0700 (PDT)
+Date: Wed, 10 Aug 2022 18:02:10 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 00/10] drm: Add support for low-color frame buffer
+ formats
+Message-ID: <YvPWghWg/+rmc5nx@phenom.ffwll.local>
+Mail-Followup-To: Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <cover.1657294931.git.geert@linux-m68k.org>
+ <YsmE1D8lGp4XKs99@ravnborg.org>
+ <d6e5204e-5bbb-fe51-fd29-5452198bf368@suse.de>
+ <Ysvpk4fzef6caO5y@ravnborg.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 0/4] drm/amd: Add more GFXOFF stats for vangogh
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>
-References: <20220726182152.123649-1-andrealmeid@igalia.com>
- <CADnq5_MJAbhQ8VZcPVY5nhg3VnefKPnSscMnRPsm2wB04G6wBg@mail.gmail.com>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <CADnq5_MJAbhQ8VZcPVY5nhg3VnefKPnSscMnRPsm2wB04G6wBg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ysvpk4fzef6caO5y@ravnborg.org>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +80,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Jack Xiao <Jack.Xiao@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, kernel-dev@igalia.com,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-m68k@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jul 11, 2022 at 11:12:51AM +0200, Sam Ravnborg wrote:
+> Hi Thomas,
+> 
+> On Mon, Jul 11, 2022 at 10:50:00AM +0200, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 09.07.22 um 15:38 schrieb Sam Ravnborg:
+> > > Hi Geert,
+> > > 
+> > > On Fri, Jul 08, 2022 at 08:20:45PM +0200, Geert Uytterhoeven wrote:
+> > > > 	Hi all,
+> > > > 
+> > > > A long outstanding issue with the DRM subsystem has been the lack of
+> > > > support for low-color displays, as used typically on older desktop
+> > > > systems, and on small embedded displays.
+> > 
+> > For the patchset
+> > 
+> > Acked-by: Thomas Zimemrmann <tzimmermann@suse.de>
+> > 
+> > > 
+> > > IT is super to have this addressed - thanks!
+> > > 
+> > > > 
+> > > > This patch series adds support for color-indexed frame buffer formats
+> > > > with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+> > > > work-in-progress Atari DRM driver supporting 2, 4, 16, 256, and 65536
+> > > > colors, with text console operation, fbtest, and modetest.
+> > > > 
+> > > > Overview:
+> > > >    - Patch 1 introduces a helper, to be used by later patches in the
+> > > >      series,
+> > > >    - Patch 2 introduces a flag to indicate color-indexed formats,
+> > > >    - Patches 3 and 4 correct calculations of bits per pixel for sub-byte
+> > > >      pixel formats,
+> > > >    - Patches 5 and 6 introduce the new C[124] formats,
+> > > >    - Patch 7 fixes an untested code path,
+> > > >    - Patch 8 documents the use of "red" for light-on-dark displays,
+> > > >    - Patches 9 and 10 add more fourcc codes for light-on-dark and
+> > > >      dark-on-light frame buffer formats, which may be useful for e.g. the
+> > > >      ssd130x and repaper drivers.
+> > > 
+> > > Applied all patches to drm-misc (drm-misc-next), including the last two
+> > > RFC patches as we then have the formats ready when a user pops up.
+> > 
+> > I know it's v3 already, but give people at least a workday for reviewing
+> > before merging patches of this size and impact. Friday-evening patches are
+> > not supposed to be merged on Saturday afternoons.
+> 
+> Sorry for being too enthusiastic on this one.
+> Will wait a bit more in the future for these kind of patches.
 
+Took me a bit longer to unburry and get to this, and lgtm except patch 1
+where I have a semantic concern. Can you pls do the quick patch to adjust
+that? Since this is all about the Cx/Rx/Dx formats I don't think it'll
+matter really.
 
-Às 12:57 de 10/08/22, Alex Deucher escreveu:
-> On Tue, Jul 26, 2022 at 2:23 PM André Almeida <andrealmeid@igalia.com> wrote:
->>
->> This series adds new logging features for GFXOFF available for vangogh
->> and documentation for it.
->>
->> I've created a small userspace program to interact with this new debugfs
->> interface and it can be found at:
->>
->> https://gitlab.freedesktop.org/andrealmeid/gfxoff_tool
->>
->> Changelog:
->>  v2:
->>  - Make entrycount uint64_t
->>  - Add a note in docs about data types and overflow
-> 
-> A minor comment on patch 2, the rest looks good to me.
-> 
-
-ok, let me send a v3
-
-> Thanks,
-> 
-> Alex
-> 
-> 
->>
->> André Almeida (4):
->>   drm/amd: Add detailed GFXOFF stats to debugfs
->>   drm/amd/pm: Implement GFXOFF's entry count and residency for vangogh
->>   Documentation/gpu: Document GFXOFF's count and residency
->>   drm/amdgpu: Document gfx_off members of struct amdgpu_gfx
->>
->>  Documentation/gpu/amdgpu/thermal.rst          |  18 +-
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   | 168 ++++++++++++++++++
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   2 +
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c       |  39 ++++
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h       |  14 +-
->>  drivers/gpu/drm/amd/pm/amdgpu_dpm.c           |  45 +++++
->>  drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h       |   3 +
->>  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     |  35 +++-
->>  drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  22 +++
->>  .../pm/swsmu/inc/pmfw_if/smu_v11_5_ppsmc.h    |   5 +-
->>  drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   5 +-
->>  .../gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c  |  92 ++++++++++
->>  drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
->>  13 files changed, 443 insertions(+), 8 deletions(-)
->>
->> --
->> 2.37.1
->>
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
