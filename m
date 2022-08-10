@@ -2,73 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6AF58EEBB
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 16:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C909C58EEDB
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 16:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C60349B31A;
-	Wed, 10 Aug 2022 14:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE66C10F8C9;
+	Wed, 10 Aug 2022 14:54:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA4DAB4D5
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 14:47:56 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id w15so16368565ljw.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 07:47:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=xAWbyrjApOISWNxRGXk8EYQy587Toi36q77R+G3hDzc=;
- b=eEDtTm8qxAkipar2MHl4PYLASIA8YnYRV2ynvJSiM4Cct5aihxVp5/IQCKXhqdp+H+
- crJH4GADLjpldQYcCFk4KHWZ0PCBK8UjwPs1PNt91XEnTqv273JxLSijKMf+R8APDndc
- eyxHSrbVogq5Bm81JJEY8hbY5PRrJW4WrfXx/yylwBNsp4FAJOvQObHs42d41jY2MG7A
- 9iItnkHxxYqp1fz/CgS1Dz1WcMXDVR2q/0WMytQV2SqsaIyi8MdP8giUEa0MUAGMWP5u
- RG22sj9kqJaGPxZIAA69HQXNPliPxltu159ZYkwkBWTBAD4xhDRpJirL7ews7lJznrUy
- 5rsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=xAWbyrjApOISWNxRGXk8EYQy587Toi36q77R+G3hDzc=;
- b=vziPlhQlTeLgtLqIZTO3QoZg655OgNILVpd+Mt2prSzpWKpmSFfu71A3gVWmGZsm97
- 1beU+XB3jPX5shCED+wODWhzhziDJtPzvMBFWwyuVUhXcgy10WJufGo3RU1es8upjxtq
- iNPqPp9cZO5Un4Z4MwRJd6wFhG5meeK+W/tvHaX6JMLxqvsughXOn3Ptus80jURHgOjs
- 8CCNOo+tOZ1YeAhiAN5FOBy52dkSFQZAu9XHEFgul+nFYZUbtjIU7oi8/XI7jB+mtATb
- sXaOsmh+GfD5ridwE2lqi/r2NasBISCH8zeA1iITzI80RbpwQRiHuPWdpkqRIaxw74JZ
- jR/g==
-X-Gm-Message-State: ACgBeo2YLENz3dTcdSLHm3PRNNKwSqtb3pfk+VRurlZXpGqVAAFo7CAY
- 4PiUQU+AyWx2DzBc2ypAdZpr5Q==
-X-Google-Smtp-Source: AA6agR5+VKezNQWlbJ5jGG0wOWbGdljEwN+NvnLLR8ppNZnwuZNWvZOlx4TkI6EEuuwMpFiWwy3z/g==
-X-Received: by 2002:a2e:b0c9:0:b0:25e:71e3:8441 with SMTP id
- g9-20020a2eb0c9000000b0025e71e38441mr9604841ljl.156.1660142874467; 
- Wed, 10 Aug 2022 07:47:54 -0700 (PDT)
-Received: from [192.168.1.39] ([83.146.140.105])
- by smtp.gmail.com with ESMTPSA id
- p12-20020a2ea4cc000000b0025d743eb0c5sm429749ljm.112.2022.08.10.07.47.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Aug 2022 07:47:53 -0700 (PDT)
-Message-ID: <c5cc8752-d7e2-b870-6887-c025137ed8a1@linaro.org>
-Date: Wed, 10 Aug 2022 17:47:52 +0300
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9241318A18A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 14:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660143234; x=1691679234;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8/kiRD5KASeEm0qrDCgsbhpYlcpK5GKHycyo+DHLTPo=;
+ b=X7fZWX0rUTPAlG+Z3WcUGTPwTZAd340P8OxSm/OY5J1GZjz+uNZ6G3Cu
+ JifRCc/KWUU/r9aPFHj4aU1dqRk1Q0PjKPMxVp3W1ETQlAKJpBzP1u9f0
+ MB4slX48sB4D5J0kA9x2CY/b5TrBCRnWCQB+KX2/SN31S5w+d9sWsiy/s
+ GU13pYW1Hbr08remALS9Us4CEB+eXgpkA/z4t+uGFdQtTYrG7z6xSIChM
+ yiEBH+VFim1pBOHODhckE3yUC1D8tn0HmKGflJ1F9QggXqJghNVqLeHPK
+ 2mKWxtBmj2D+G0CqSdwnRF6GqI3rIMh1/YsCfsN0bcS2T4+iZ+7BlVHQ2 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="291890312"
+X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="291890312"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2022 07:53:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; d="scan'208";a="694543865"
+Received: from lkp-server02.sh.intel.com (HELO 5d6b42aa80b8) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2022 07:53:51 -0700
+Received: from kbuild by 5d6b42aa80b8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oLn5i-0000N7-2D;
+ Wed, 10 Aug 2022 14:53:50 +0000
+Date: Wed, 10 Aug 2022 22:53:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH] drm/ast: radeon amdgpu for ast add prime
+Message-ID: <202208102237.Mz7bao9A-lkp@intel.com>
+References: <20220810010216.15941-1-oushixiong@kylinos.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/7] dt-bindings: msm/dp: Add SDM845 and SC8280XP
- compatibles
-Content-Language: en-US
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-References: <20220810035013.3582848-1-bjorn.andersson@linaro.org>
- <20220810035013.3582848-2-bjorn.andersson@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220810035013.3582848-2-bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220810010216.15941-1-oushixiong@kylinos.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,38 +58,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: oushixiong <oushixiong@kylinos.cn>, kbuild-all@lists.01.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/08/2022 06:50, Bjorn Andersson wrote:
-> Add compatibles for the DisplayPort and Embedded DisplayPort blocks in
-> Qualcomm SDM845 and SC8280XP platforms.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  .../devicetree/bindings/display/msm/dp-controller.yaml         | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index 94bc6e1b6451..90f9302d1731 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -16,11 +16,14 @@ description: |
->  properties:
->    compatible:
->      enum:
-> +      - qcom,sdm845-dp
->        - qcom,sc7180-dp
+Hi oushixiong,
 
-Alphabetical order, please.
+Thank you for the patch! Perhaps something to improve:
 
-The DTS warnings from the bot look unrelated to this patch.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next linus/master v5.19 next-20220810]
+[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong/drm-ast-radeon-amdgpu-for-ast-add-prime/20220810-100424
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220810/202208102237.Mz7bao9A-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/a2b719dc6ac02cee10916696a4ba1caf7b24b20f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review oushixiong/drm-ast-radeon-amdgpu-for-ast-add-prime/20220810-100424
+        git checkout a2b719dc6ac02cee10916696a4ba1caf7b24b20f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/ast/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ast/ast_drv.c:54:24: warning: no previous prototype for 'ast_gem_prime_import_sg_table' [-Wmissing-prototypes]
+      54 | struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/ast/ast_mode.c:1713:5: warning: no previous prototype for 'ast_handle_damage' [-Wmissing-prototypes]
+    1713 | int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/ast/ast_mode.c:1772:5: warning: no previous prototype for 'ast_user_framebuffer_dirty' [-Wmissing-prototypes]
+    1772 | int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/ast/ast_mode.c:1815:1: warning: no previous prototype for 'ast_gem_fb_create_with_dirty' [-Wmissing-prototypes]
+    1815 | ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/ast_gem_prime_import_sg_table +54 drivers/gpu/drm/ast/ast_drv.c
 
-Best regards,
-Krzysztof
+    53	
+  > 54	struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
+    55						struct dma_buf_attachment *attach,
+    56						struct sg_table *sg)
+    57	{
+    58		struct drm_gem_vram_object *gbo;
+    59		struct dma_resv *resv = attach->dmabuf->resv;
+    60	
+    61		ww_mutex_lock(&resv->lock, NULL);
+    62		gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0, sg, resv);
+    63		ww_mutex_unlock(&resv->lock);
+    64	
+    65		if (IS_ERR(gbo))
+    66			return NULL;
+    67	
+    68		return &gbo->bo.base;
+    69	}
+    70	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
