@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AC458F256
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 20:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF60258F28F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 20:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B97168F2DF;
-	Wed, 10 Aug 2022 18:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3DA118B599;
+	Wed, 10 Aug 2022 18:53:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6758B7ED
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 18:28:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAFD111A136;
+ Wed, 10 Aug 2022 18:53:20 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru
+ [109.252.119.13])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 15A4C61459
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 18:28:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 75051C43140
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 18:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660156117;
- bh=VZXtYeybhW5tdnrEGgCVqhqfLneEuLRvGIY1xk7AsL4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nqoSNFprkSBO5d9Q8ddcjX1E7pysRLtB8zvUmJHu3Hyf2M0F6rq01/tiFJMG1NACc
- wtpBH/sF8hBFlzx3EnJHmvTSBd4iOZpDD/AAqdiR3hA36dRlPRvoj3YjVSOeoP2DYB
- M90ak+afWMHMiWE1Zp12AJd36F71/KMaMHtP9c5vVcf/BvtFldMYdwzO7pRPdyKEbY
- GGLu5Dv2TfGx7YmhxrEnjgvF9a6zobBrH9YV2dnrr+/ex0iq2h/BXl0ETug2YER6fJ
- Cg6wXsYzH0qPxQagvzDsJZ3emSAvXyrGV2S9D3dVVITBqa1ysRBQRCd78fPRq7x6zv
- QlV7SmEu8yJ5A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 64DDEC0422F; Wed, 10 Aug 2022 18:28:37 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215618] vblank related lockup during start of SteamVR using
- Valve Index HMD
-Date: Wed, 10 Aug 2022 18:28:37 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: farmboy0@googlemail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215618-2300-89t6gJT9TI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215618-2300@https.bugzilla.kernel.org/>
-References: <bug-215618-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 944246601C70;
+ Wed, 10 Aug 2022 19:53:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1660157599;
+ bh=xbCaL2ScXB+T0FyoL/VdM0qhBj61RQMv/0Mh8aht9Y0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=byieT9EU43F/eRBpe3bi/nsXqvGsphP+xnN+9uCcJQiiqE+2eL+6OggtflfgiZV5H
+ 2tbgBedC4VmW8VqMPGH+MSJmFXxmN5L0KjGxSmnjKSb9TYnT6q+8+bdtF2Dueo+auX
+ 67XZQj1miiDmUza/2oi5U1NkSKSVPEVKs1DgEoiMZjakSsK7ADM0J790qkaQ8pphu7
+ M1BkTB2bL3dJox2DaLhHDMTu8D3c4zfRYO6jQNX4dYPdDaIr7OfFFbIsXhbVC8CrhI
+ DDaWDFnqfaqxGjPW9cdp+mVCoxjC3Q4VxEfkM8NccRtG0HVYtdCNsAeJQgHxfz0CIU
+ fpCGA/irmwkpA==
+Message-ID: <0863cafa-c252-e194-3d23-ef640941e36e@collabora.com>
+Date: Wed, 10 Aug 2022 21:53:13 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [Linaro-mm-sig] [PATCH v2 3/5] dma-buf: Move all dma-bufs to
+ dynamic locking specification
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
+ <20220725151839.31622-4-dmitry.osipenko@collabora.com>
+ <6c8bded9-1809-608f-749a-5ee28b852d32@gmail.com>
+ <562fbacf-3673-ff3c-23a1-124284b4456c@collabora.com>
+ <87724722-b9f3-a016-c25c-4b0415f2c37f@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <87724722-b9f3-a016-c25c-4b0415f2c37f@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,21 +62,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-rdma@vger.kernel.org,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ spice-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, David Airlie <airlied@linux.ie>,
+ amd-gfx@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215618
+On 8/10/22 21:25, Christian König wrote:
+> Am 10.08.22 um 19:49 schrieb Dmitry Osipenko:
+>> On 8/10/22 14:30, Christian König wrote:
+>>> Am 25.07.22 um 17:18 schrieb Dmitry Osipenko:
+>>>> This patch moves the non-dynamic dma-buf users over to the dynamic
+>>>> locking specification. The strict locking convention prevents deadlock
+>>>> situation for dma-buf importers and exporters.
+>>>>
+>>>> Previously the "unlocked" versions of the dma-buf API functions weren't
+>>>> taking the reservation lock and this patch makes them to take the lock.
+>>>>
+>>>> Intel and AMD GPU drivers already were mapping imported dma-bufs under
+>>>> the held lock, hence the "locked" variant of the functions are added
+>>>> for them and the drivers are updated to use the "locked" versions.
+>>> In general "Yes, please", but that won't be that easy.
+>>>
+>>> You not only need to change amdgpu and i915, but all drivers
+>>> implementing the map_dma_buf(), unmap_dma_buf() callbacks.
+>>>
+>>> Auditing all that code is a huge bunch of work.
+>> Hm, neither of drivers take the resv lock in map_dma_buf/unmap_dma_buf.
+>> It's easy to audit them all and I did it. So either I'm missing
+>> something or it doesn't take much time to check them all. Am I really
+>> missing something?
+> 
+> Ok, so this is only changing map/unmap now?
 
---- Comment #4 from farmboy0@googlemail.com ---
-The issue still happens with 5.18.9.
+It also vmap/vunmap and attach/detach: In the previous patch I added the
+_unlocked postfix to the func names and in this patch I made them all to
+actually take the lock.
 
-The issue has also been reported to mesa and someone bisected it to the
-following commit:
+> In this case please separate this from the documentation change.
 
-https://gitlab.freedesktop.org/drm/amd/-/issues/1980#note_1400657
+I'll factor out the doc in the v3.
 
---=20
-You may reply to this email to add a comment.
+> I would also drop the _locked postfix from the function name, just
+> having _unlocked on all functions which are supposed to be called with
+> the lock held should be sufficient.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Noted for the v3.
+
+> Thanks for looking into this,
+> Christian.
+
+Thank you for the review.
+
+-- 
+Best regards,
+Dmitry
