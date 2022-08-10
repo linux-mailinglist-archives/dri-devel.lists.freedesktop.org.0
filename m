@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C251B58E403
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 02:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56D658E4CC
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 04:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4BECCA03;
-	Wed, 10 Aug 2022 00:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2557EE3074;
+	Wed, 10 Aug 2022 02:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2ACA9CD0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 00:17:17 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 10F516120A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 00:17:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 703C8C43140
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 00:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660090635;
- bh=yGMAEbwnNZcFCwjOq9JMQFVnlD1TsCUAX7+OBCcD4NA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=BVlTTQfMXf4C8NA5zc/Soly5Zf/Cm6BTNQmEdGAVeYtRr1t0bby2CdknRs24fkMTz
- HIfCltZ2lAH2KLVehiJnv5c75PlUZETb0Nk2qx51fzjAqTcRvwXaZihu8DKWMnIXx8
- 48aby8Os09tFWinCD84h5JH4lBZyuaHzc/dF0QW4o4L7H/G70pPwVYh5wX0aYNFCJY
- Pr+EFJLlRIPEPQXLzkEFeKEhf5Dsfc8vzkGuxt3RAmGsPHZyvNC5W6uLAqrsn4J2jJ
- dLfmfl02A/JqanuIXzgCDt3RlAuH/w7Dx664uL6ZQl34BCAIOGq3qyLsWhD7ofpK1E
- x2Sj+hjJNk8Ew==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 5702CC433E4; Wed, 10 Aug 2022 00:17:15 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216277] X11 doesn't wait for amdgpu driver to be up
-Date: Wed, 10 Aug 2022 00:17:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dark_sylinc@yahoo.com.ar
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216277-2300-BxxhEV8sV0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216277-2300@https.bugzilla.kernel.org/>
-References: <bug-216277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998ECE304D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 02:10:27 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ j66-20020a9d17c8000000b00636b0377a8cso8754899otj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Aug 2022 19:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc;
+ bh=jLuXr02/4FcnH6sSE/wa3hWFY34+NhWVn6axHTm9v/U=;
+ b=SnnzWIIwqEobH0Hd3ElkxWCS38PwdORjOB/7trnM5hVytyfdptItihRxhMGoPP5fqe
+ sKhDjKnAmbLJIES5S/ksPgr1XhXVLMEs5mTFcH8A4VgLJWI3ICoZdbpVobzoT2IOXJyU
+ LK2WAGuvO87YkEAZsMlvKsPAZ7tuRLY3R30fc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc;
+ bh=jLuXr02/4FcnH6sSE/wa3hWFY34+NhWVn6axHTm9v/U=;
+ b=tv0eW66qspfzIVaMYdRRL0ScVgE++omi93t0UFsDKWJU+FWZ2dSyQRBkFD78c10VF1
+ UVhfCFLNIbwhOK/t60ch+RljiPelh9UNjT4Pms/O68FjqVqjpRzfaPanYtspvFZ93kBp
+ l1XfWsFoGjwpdo9ob3h9FYIUTs7/QjgHvctfqZAGrsEZ7ujyj+RaG36EAnXc1Acjg8tE
+ Gq/C86wIHZLDFMemeydW0H4TV9FsXcjB2skslt57UeLXc8ORW09xi956AI/i4h/JYEIA
+ g5R64jjq4PGW7vablos5QlaUnTCiMQsBCWgx6hkVNXZZNvO0gzVUeTd960qQZqWVcR5E
+ pCeg==
+X-Gm-Message-State: ACgBeo2Gqano6axuZ295TzeG3vcE2RWsBXBfeUAvoW47g3EDsPdpouKW
+ XW67RJBrJMPCetBF6zdBda0CdaSUMbWK6TFdkMIjKQ==
+X-Google-Smtp-Source: AA6agR5OcLVB+7ZF57mi3MW+ZH7iZGc+sxaF/YsydE2T4hd6AePeikXS7eWcIyvhYpSWNwM09WrM0Xvr8aG+ebLGr54=
+X-Received: by 2002:a05:6830:34a9:b0:637:eaf:573a with SMTP id
+ c41-20020a05683034a900b006370eaf573amr1897387otu.3.1660097426801; Tue, 09 Aug
+ 2022 19:10:26 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 9 Aug 2022 21:10:26 -0500
 MIME-Version: 1.0
+In-Reply-To: <1660077890-31622-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1660077890-31622-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 9 Aug 2022 21:10:26 -0500
+Message-ID: <CAE-0n50e_rwTGwHyi=bajNCQ==h3ETO0iM1f75VpvoeLEpaZoA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: check hpd_state before push idle pattern at
+ dp_bridge_disable()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +68,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216277
+Quoting Kuogee Hsieh (2022-08-09 13:44:50)
+> dp_bridge_disable() is the first step toward tearing down main link.
+> Its major function is to start transmitting idle pattern to replace
+> video stream. This patch will check hpd_state to make sure main link
+> is enabled before commit changes of main link's configuration to
+> push idle pattern out to avoid system crashing due to main link clock
+> is disabled while access main link registers.
+>
+> Fixes: 13ea4799a81b ("drm/msm/dp: remove extra wrappers and public functions");
 
---- Comment #7 from dark_sylinc@yahoo.com.ar ---
-Adding amdgpu to initramfs seems to have workarounded the problem.
-
-I have not experienced this problem after it. I can also visibly see the bo=
-ot
-process is slightly different (splash becomes 1920x1080 a bit sooner)
-
-If anyone is having the same issue, the workaround is (Ubuntu):
-
-echo "amdgpu" | sudo tee --append /etc/initramfs-tools/modules
-sudo update-initramfs -c -k $(uname -r)
-
-If done properly then running:
-
-lsinitramfs /boot/initrd.img-$(uname -r) | grep amdgpu
-
-Should return multiple hits
-
-Then reboot.
-
-This ticket can be closed; but probably a new one to track an interface to
-notify when kernel is done loading all video interfaces should be created.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Does it really fix 375a126090b9 ("drm/msm/dp: tear down main link at
+unplug handle immediately")? I don't see how removing extra wrappers
+caused us to start trying to set the idle pattern when the device was
+unclocked.
