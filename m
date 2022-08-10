@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E007658F304
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 21:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F2C58F305
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 21:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57BF4913C3;
-	Wed, 10 Aug 2022 19:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25840113DE7;
+	Wed, 10 Aug 2022 19:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8CB88BFA1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:26:15 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru
- [109.252.119.13])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F1FD86601C73;
- Wed, 10 Aug 2022 20:26:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660159574;
- bh=lKDS+8XGWYTEUMy9n4JVlMo+97ehb8hPjoaSdgmoHsI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ca0mCEqTwate7hBwX9o+nUz8JpwDmjo7nQv6ySUjKW4CuE+Dqzg/nDRpy81WSU6M5
- Qw2/brgHxEM0B+o02EXi9Oc+za8LOWC/FRPkNpwDs/kuw4cSemcG9/JeKb5qwDQ5+U
- Fu3nRb90Vr2zl75fQ20Q9xbpueW701PD5qYzncovk4c469mTYTKp8FWnTf9hSRboIR
- LXmoYbtLP3KEO6vY1cWhbl48eVmbdI1srieFfshO9SzFs2votZ8WJUk8/s1abNXikv
- 7jsTeKWR5qg9FcQh+h6fbIo5yFFZQpBrMlCPdHGZMKsx0QYtuikd2lOguvkgz6rkO0
- uY+tlcbpmfQmw==
-Message-ID: <9674d00e-c0d6-ceba-feab-5dc475bda694@collabora.com>
-Date: Wed, 10 Aug 2022 22:26:11 +0300
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A68591400
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=0cifcFno1Bujwcj4DGyDEUKRSeBT35xyYqZdDXPdDTQ=;
+ b=RSU9YhFxnNWfoLIlgmXo11lumfZtfmZFP0ph/knbb2mqBMzpy7AM1CdSrMk3eIKIaRGwSneAFePBH
+ 2k7bk3LcGYG/dc1S8dznmzwX4uY0Be7sRTwoQ54jhQ0NT+cf353wYlw3FUSYx53EFcwA3rdpVNPKyc
+ BA6S52MQIdk39BReBC+9Fp4idsDr3lqdqwpUXU0BUowtUZ6vidF+s9mhDjJZ7hu446FIz1xaut+DKa
+ opfo4O0MPmbKKSiHmoUH2UT1rKgaLjK48B7nqjkRuN6qeAlCkZHHD0QQpJPdiNgw6/S9HUIHMvGc0/
+ xfVJGbdw1E5JMQJ5nWcnShRAOIO32mQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=0cifcFno1Bujwcj4DGyDEUKRSeBT35xyYqZdDXPdDTQ=;
+ b=Dzc6Xtls8HS0BUIUEu7XkglpfG9sdcyTrDrIvSVcnShjCMmruUE/Wyo3W571XsjMfH6zx1tjwvPrc
+ u7US9znCw==
+X-HalOne-Cookie: d44dc801f8d6cdf3063665698d7d5a0e9f008e78
+X-HalOne-ID: 5819626f-18e2-11ed-a6cc-d0431ea8a283
+Received: from mailproxy3.cst.dirpod4-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 5819626f-18e2-11ed-a6cc-d0431ea8a283;
+ Wed, 10 Aug 2022 19:26:34 +0000 (UTC)
+Date: Wed, 10 Aug 2022 21:26:32 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/4] drm/probe-helper: Add
+ drm_crtc_helper_mode_valid_static()
+Message-ID: <YvQGaIfkske73Dgp@ravnborg.org>
+References: <20220810112053.19547-1-tzimmermann@suse.de>
+ <20220810112053.19547-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v8 2/2] drm/gem: Don't map imported GEMs
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com
-References: <20220701090240.1896131-1-dmitry.osipenko@collabora.com>
- <20220701090240.1896131-3-dmitry.osipenko@collabora.com>
- <2bb95e80-b60a-36c0-76c8-a06833032c77@amd.com>
- <CAF6AEGtqPeF1DjmBKgzWK39Yi81YiNjTjDNn85TKx7uwicFTSA@mail.gmail.com>
- <2a646ce4-c2ec-3b11-77a0-cc720afd6fe1@collabora.com>
- <YvOav/vF2awVWIu0@phenom.ffwll.local>
- <CAF6AEGvfAJgwBe4+sK0gAkZ++MwH9x4=698C8XSnmfYNMFZqfA@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAF6AEGvfAJgwBe4+sK0gAkZ++MwH9x4=698C8XSnmfYNMFZqfA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220810112053.19547-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +60,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: david@lechnology.com, emma@anholt.net, airlied@linux.ie, javierm@redhat.com,
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org,
+ kamlesh.gurudasani@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/10/22 18:08, Rob Clark wrote:
-> On Wed, Aug 10, 2022 at 4:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>
->> On Wed, Jul 06, 2022 at 10:02:07AM +0300, Dmitry Osipenko wrote:
->>> On 7/6/22 00:48, Rob Clark wrote:
->>>> On Tue, Jul 5, 2022 at 4:51 AM Christian König <christian.koenig@amd.com> wrote:
->>>>>
->>>>> Am 01.07.22 um 11:02 schrieb Dmitry Osipenko:
->>>>>> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
->>>>>> handle imported dma-bufs properly, which results in mapping of something
->>>>>> else than the imported dma-buf. On NVIDIA Tegra we get a hard lockup when
->>>>>> userspace writes to the memory mapping of a dma-buf that was imported into
->>>>>> Tegra's DRM GEM.
->>>>>>
->>>>>> Majority of DRM drivers prohibit mapping of the imported GEM objects.
->>>>>> Mapping of imported GEMs require special care from userspace since it
->>>>>> should sync dma-buf because mapping coherency of the exporter device may
->>>>>> not match the DRM device. Let's prohibit the mapping for all DRM drivers
->>>>>> for consistency.
->>>>>>
->>>>>> Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>>>
->>>>> I'm pretty sure that this is the right approach, but it's certainly more
->>>>> than possible that somebody abused this already.
->>>>
->>>> I suspect that this is abused if you run deqp cts on android.. ie. all
->>>> winsys buffers are dma-buf imports from gralloc.  And then when you
->>>> hit readpix...
->>>>
->>>> You might only hit this in scenarios with separate gpu and display (or
->>>> dGPU+iGPU) because self-imports are handled differently in
->>>> drm_gem_prime_import_dev().. and maybe not in cases where you end up
->>>> with a blit from tiled/compressed to linear.. maybe that narrows the
->>>> scope enough to just fix it in userspace?
->>>
->>> Given that that only drivers which use DRM-SHMEM potentially could've
->>> map imported dma-bufs (Panfrost, Lima) and they already don't allow to
->>> do that, I think we're good.
->>
->> So can I have an ack from Rob here or are there still questions that this
->> might go boom?
->>
->> Dmitry, since you have a bunch of patches merged now I think would also be
->> good to get commit rights so you can drive this more yourself. I've asked
->> Daniel Stone to help you out with getting that.
-> 
-> I *think* we'd be ok with this on msm, mostly just by dumb luck.
-> Because the dma-buf's we import will be self-import.  I'm less sure
-> about panfrost (src/panfrost/lib/pan_bo.c doesn't seem to have a
-> special path for imported dma-bufs either, and in that case they won't
-> be self-imports.. but I guess no one has tried to run android cts on
-> panfrost).
+Hi Thomas,
 
-The last time I tried to mmap dma-buf imported to Panfrost didn't work
-because Panfrost didn't implement something needed for that. I'll need
-to take a look again because can't recall what it was.
-
-> What about something less drastic to start, like (apologies for
-> hand-edited patch):
+On Wed, Aug 10, 2022 at 01:20:51PM +0200, Thomas Zimmermann wrote:
+> Add drm_crtc_helper_mode_valid_static(), which validates a given mode
+> against a display hardware's mode. Convert simpledrm and use it in a
+> few other drivers with static modes.
 > 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 86d670c71286..fc9ec42fa0ab 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1034,6 +1034,10 @@ int drm_gem_mmap_obj(struct drm_gem_object
-> *obj, unsigned long obj_size,
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+With the header file fixed,
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+> ---
+>  drivers/gpu/drm/drm_mipi_dbi.c               | 18 ++++++++++++++
+>  drivers/gpu/drm/drm_probe_helper.c           | 25 ++++++++++++++++++++
+>  drivers/gpu/drm/panel/panel-ilitek-ili9341.c |  1 +
+>  drivers/gpu/drm/tiny/hx8357d.c               |  1 +
+>  drivers/gpu/drm/tiny/ili9163.c               |  1 +
+>  drivers/gpu/drm/tiny/ili9341.c               |  1 +
+>  drivers/gpu/drm/tiny/ili9486.c               |  1 +
+>  drivers/gpu/drm/tiny/mi0283qt.c              |  1 +
+>  drivers/gpu/drm/tiny/panel-mipi-dbi.c        |  1 +
+>  drivers/gpu/drm/tiny/repaper.c               | 10 ++++++++
+>  drivers/gpu/drm/tiny/simpledrm.c             | 10 +-------
+>  drivers/gpu/drm/tiny/st7735r.c               |  1 +
+>  include/drm/drm_mipi_dbi.h                   |  2 ++
+>  include/drm/drm_probe_helper.h               |  8 +++++--
+>  14 files changed, 70 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index b67ec9a5cda9..d544a99df9df 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -309,6 +309,24 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  	drm_dev_exit(idx);
+>  }
+>  
+> +/**
+> + * mipi_dbi_pipe_mode_valid - MIPI DBI mode-valid helper
+> + * @pipe: Simple display pipe
+> + * @mode: The mode to test
+> + *
+> + * This function validates a given display mode against the MIPI DBI's hardware
+> + * display. Drivers can use this as their &drm_simple_display_pipe_funcs->mode_valid
+> + * callback.
+> + */
+> +enum drm_mode_status mipi_dbi_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
+> +					      const struct drm_display_mode *mode)
+> +{
+> +	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
+> +
+> +	return drm_crtc_helper_mode_valid_static(&pipe->crtc, mode, &dbidev->mode);
+> +}
+> +EXPORT_SYMBOL(mipi_dbi_pipe_mode_valid);
+> +
+>  /**
+>   * mipi_dbi_pipe_update - Display pipe update helper
+>   * @pipe: Simple display pipe
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 809187377e4e..bc3876853fca 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -1014,6 +1014,31 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_helper_hpd_irq_event);
+>  
+> +/**
+> + * drm_crtc_helper_mode_valid_static - Validates a display mode
+> + * @crtc: the crtc
+> + * @mode: the mode to validate
+> + * @hw_mode: the display hardware's mode
+> + *
+> + * Returns:
+> + * MODE_OK on success, or another mode-status code otherwise.
+> + */
+> +enum drm_mode_status drm_crtc_helper_mode_valid_static(struct drm_crtc *crtc,
+> +						       const struct drm_display_mode *mode,
+> +						       const struct drm_display_mode *hw_mode)
+> +{
+> +
+> +	if (mode->hdisplay != hw_mode->hdisplay && mode->vdisplay != hw_mode->vdisplay)
+> +		return MODE_ONE_SIZE;
+> +	else if (mode->hdisplay != hw_mode->hdisplay)
+> +		return MODE_ONE_WIDTH;
+> +	else if (mode->vdisplay != hw_mode->vdisplay)
+> +		return MODE_ONE_HEIGHT;
+> +
+> +	return MODE_OK;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_helper_mode_valid_static);
+> +
+>  /**
+>   * drm_connector_helper_get_modes_from_ddc - Updates the connector's EDID
+>   *                                           property from the connector's
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> index 7da09e34385d..39dc40cf681f 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> @@ -576,6 +576,7 @@ static void ili9341_dbi_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs ili9341_dbi_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = ili9341_dbi_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357d.c
+> index 57f229a785bf..48c24aa8c28a 100644
+> --- a/drivers/gpu/drm/tiny/hx8357d.c
+> +++ b/drivers/gpu/drm/tiny/hx8357d.c
+> @@ -181,6 +181,7 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs hx8357d_pipe_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = yx240qv29_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
+> index 86439e50e304..9a1a5943bee0 100644
+> --- a/drivers/gpu/drm/tiny/ili9163.c
+> +++ b/drivers/gpu/drm/tiny/ili9163.c
+> @@ -100,6 +100,7 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs ili9163_pipe_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = yx240qv29_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili9341.c
+> index b8826a0b086b..69b265e78096 100644
+> --- a/drivers/gpu/drm/tiny/ili9341.c
+> +++ b/drivers/gpu/drm/tiny/ili9341.c
+> @@ -137,6 +137,7 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs ili9341_pipe_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = yx240qv29_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
+> index a5b433a8e0d8..c80028bb1d11 100644
+> --- a/drivers/gpu/drm/tiny/ili9486.c
+> +++ b/drivers/gpu/drm/tiny/ili9486.c
+> @@ -150,6 +150,7 @@ static void waveshare_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs waveshare_pipe_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = waveshare_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
+> index 27f1bd4da2f4..bc522fb3d94d 100644
+> --- a/drivers/gpu/drm/tiny/mi0283qt.c
+> +++ b/drivers/gpu/drm/tiny/mi0283qt.c
+> @@ -141,6 +141,7 @@ static void mi0283qt_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs mi0283qt_pipe_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = mi0283qt_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+> index a76fefa8adbc..955a61d628e7 100644
+> --- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+> +++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+> @@ -212,6 +212,7 @@ static void panel_mipi_dbi_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs panel_mipi_dbi_pipe_funcs = {
+> +	.mode_valid = mipi_dbi_pipe_mode_valid,
+>  	.enable = panel_mipi_dbi_enable,
+>  	.disable = mipi_dbi_pipe_disable,
+>  	.update = mipi_dbi_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+> index 855968fd46af..a7995a3c9397 100644
+> --- a/drivers/gpu/drm/tiny/repaper.c
+> +++ b/drivers/gpu/drm/tiny/repaper.c
+> @@ -621,6 +621,15 @@ static void power_off(struct repaper_epd *epd)
+>  	gpiod_set_value_cansleep(epd->discharge, 0);
+>  }
+>  
+> +static enum drm_mode_status repaper_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
+> +						    const struct drm_display_mode *mode)
+> +{
+> +	struct drm_crtc *crtc = &pipe->crtc;
+> +	struct repaper_epd *epd = drm_to_epd(crtc->dev);
+> +
+> +	return drm_crtc_helper_mode_valid_static(crtc, mode, epd->mode);
+> +}
+> +
+>  static void repaper_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  				struct drm_crtc_state *crtc_state,
+>  				struct drm_plane_state *plane_state)
+> @@ -831,6 +840,7 @@ static void repaper_pipe_update(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs repaper_pipe_funcs = {
+> +	.mode_valid = repaper_pipe_mode_valid,
+>  	.enable = repaper_pipe_enable,
+>  	.disable = repaper_pipe_disable,
+>  	.update = repaper_pipe_update,
+> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+> index 2d5b56c4a77d..31d3bc6c5acf 100644
+> --- a/drivers/gpu/drm/tiny/simpledrm.c
+> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> @@ -570,15 +570,7 @@ static enum drm_mode_status simpledrm_crtc_helper_mode_valid(struct drm_crtc *cr
 >  {
->         int ret;
-> 
-> +       WARN_ON_ONCE(obj->import_attach);
+>  	struct simpledrm_device *sdev = simpledrm_device_of_dev(crtc->dev);
+>  
+> -	if (mode->hdisplay != sdev->mode.hdisplay &&
+> -	    mode->vdisplay != sdev->mode.vdisplay)
+> -		return MODE_ONE_SIZE;
+> -	else if (mode->hdisplay != sdev->mode.hdisplay)
+> -		return MODE_ONE_WIDTH;
+> -	else if (mode->vdisplay != sdev->mode.vdisplay)
+> -		return MODE_ONE_HEIGHT;
+> -
+> -	return MODE_OK;
+> +	return drm_crtc_helper_mode_valid_static(crtc, mode, &sdev->mode);
+>  }
+>  
+>  static int simpledrm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
+> index d2042a0f02dd..c36ba08acda1 100644
+> --- a/drivers/gpu/drm/tiny/st7735r.c
+> +++ b/drivers/gpu/drm/tiny/st7735r.c
+> @@ -133,6 +133,7 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  }
+>  
+>  static const struct drm_simple_display_pipe_funcs st7735r_pipe_funcs = {
+> +	.mode_valid	= mipi_dbi_pipe_mode_valid,
+>  	.enable		= st7735r_pipe_enable,
+>  	.disable	= mipi_dbi_pipe_disable,
+>  	.update		= mipi_dbi_pipe_update,
+> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> index dad2f187b64b..14eaecb1825c 100644
+> --- a/include/drm/drm_mipi_dbi.h
+> +++ b/include/drm/drm_mipi_dbi.h
+> @@ -155,6 +155,8 @@ int mipi_dbi_dev_init_with_formats(struct mipi_dbi_dev *dbidev,
+>  int mipi_dbi_dev_init(struct mipi_dbi_dev *dbidev,
+>  		      const struct drm_simple_display_pipe_funcs *funcs,
+>  		      const struct drm_display_mode *mode, unsigned int rotation);
+> +enum drm_mode_status mipi_dbi_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
+> +					      const struct drm_display_mode *mode);
+>  void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
+>  			  struct drm_plane_state *old_state);
+>  void mipi_dbi_enable_flush(struct mipi_dbi_dev *dbidev,
+> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+> index 5a883ee9fc32..22b283b35654 100644
+> --- a/include/drm/drm_probe_helper.h
+> +++ b/include/drm/drm_probe_helper.h
+> @@ -3,11 +3,11 @@
+>  #ifndef __DRM_PROBE_HELPER_H__
+>  #define __DRM_PROBE_HELPER_H__
+>  
+> -#include <linux/types.h>
+> +#include <drm/drm_modes.h>
+There is no reason to pull in the header, a forward of struct drm_display_mode
+should be enough. I expect this to be a left-over from a previous
+iteration.
 
-This will hang NVIDIA Tegra, which is what this patch fixed initially.
-If neither of upstream DRM drivers need to map imported dma-bufs and
-never needed, then why do we need this?
-
--- 
-Best regards,
-Dmitry
+>  
+>  struct drm_connector;
+> +struct drm_crtc;
+>  struct drm_device;
+> -struct drm_display_mode;
+>  struct drm_modeset_acquire_ctx;
+>  
+>  int drm_helper_probe_single_connector_modes(struct drm_connector
+> @@ -27,6 +27,10 @@ void drm_kms_helper_poll_disable(struct drm_device *dev);
+>  void drm_kms_helper_poll_enable(struct drm_device *dev);
+>  bool drm_kms_helper_is_poll_worker(void);
+>  
+> +enum drm_mode_status drm_crtc_helper_mode_valid_static(struct drm_crtc *crtc,
+> +						       const struct drm_display_mode *mode,
+> +						       const struct drm_display_mode *hw_mode);
+> +
+>  int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
+>  int drm_connector_helper_get_modes_static(struct drm_connector *connector,
+>  					  const struct drm_display_mode *hw_mode);
+> -- 
+> 2.37.1
