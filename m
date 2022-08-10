@@ -2,46 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B8658F03E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D2958F078
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E49FE92FF9;
-	Wed, 10 Aug 2022 16:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E5491C00;
+	Wed, 10 Aug 2022 16:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD49D12A90D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:18:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA46B61136;
- Wed, 10 Aug 2022 16:18:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FF3C433D6;
- Wed, 10 Aug 2022 16:18:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660148335;
- bh=WOQyPg8F0GVppRHtF6EF9IpQjF8KSCRpyTeSvQhMwxg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S89LvgN8qVLeqDRD2w8AhD8yUAPYdHlfhL6whMkMxakEohbZ+Un4+LjsfKKaIaUe7
- EJsJZeZPXTn3F6xD/lHbj5AEBAPRflPFS0IdDB/1GtTyuKpu6AG9Blr/jff7Dbl+ZC
- G1adPQFCuYz404oBBoeY4IjfH5FrDXs9fnje8W/WQ8dLSYq3Oykw/u6P686Omusjzl
- KZYjpx612gkx65/8XkAzwHWLoeJ/KLAZapG4/G7VFgkV9wdCkZ1hAXN3rF34y6D/rG
- Eo3ONAbz+SMT+pkve212jW7LMzFgPVgtBEub//Gg0L3+sJQUFVQn2oMIX44rB/uapM
- MjeFMq3Bc9cuw==
-Date: Wed, 10 Aug 2022 17:18:48 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] spi/panel: dt-bindings: drop 3-wire from common properties
-Message-ID: <YvPaaOgCUABREOcX@sirena.org.uk>
-References: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA0D113743
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:31:53 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id
+ q1-20020a05600c040100b003a52db97fffso1255338wmb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc;
+ bh=VlxSVSh4TBV3g0hrz44ERG5bQdABeiPaNu0wSLgb4Pg=;
+ b=X+fhvSQC7TSTK4j3QNGEQvlf6uuTzpYO/9AD715gfzd+7yaQux1eya4IyKMsorRVAM
+ cRreGrBXnuJ3+8ccozEYY4N7Gn4WxqQ7WP64+MaQDOMf9n0Ze3sO1jfWIzEi+r9EVKUM
+ PiTRLICNJLQZW3rkY4MxMd8VhJhyhshif2KxI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc;
+ bh=VlxSVSh4TBV3g0hrz44ERG5bQdABeiPaNu0wSLgb4Pg=;
+ b=yToQiisJy5dklOflWg/IyeDKDQerPliXdSR6D6S3FxkgyGMafgAcj3CqSo0qiAGVlF
+ Id4KPlP057kJDNF+N951HhiJC93fsPwQkT//4r97LjFJy2/+TH7Hqy76Zph+7AD2llco
+ A1zflav4YpW2L+Yo7n8b3xaiSOhnLbRU0HKkxx5y8Pjtx4BHElD9ByvYNfp4J3bm5Ikn
+ M9otO+wZTpj2RrRw3B8FH/XGPk/Y0Atb+Y/Jx6+a1L8pQ1Rx9woDgCC7HPAJMgPmoRT3
+ 0SBD+YS7IA48X51d0XukpYRQmmzLFixRyJbWq1plJhbQukBe1L4c+/twHn9s0SgTybrB
+ Dwtg==
+X-Gm-Message-State: ACgBeo1v12pogbqdhJth1Nmo263BSvsqn5CUf1KpGb4Q463yE+l3Arf8
+ 6h/0jOGiwoOV0IQ92GwIBBq1Eg==
+X-Google-Smtp-Source: AA6agR6Kd0jjywQgmPLRp2Q+ytUTiLAiAgjJ619ktBQijD4gk6n84NU4HxO7RhUIl9YJIpn6Wquj+Q==
+X-Received: by 2002:a05:600c:4f0e:b0:3a3:3077:e5b3 with SMTP id
+ l14-20020a05600c4f0e00b003a33077e5b3mr3016818wmq.94.1660149112232; 
+ Wed, 10 Aug 2022 09:31:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ l3-20020a5d4803000000b0021e42e7c7dbsm16417354wrq.83.2022.08.10.09.31.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 09:31:51 -0700 (PDT)
+Date: Wed, 10 Aug 2022 18:31:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb565()
+Message-ID: <YvPddQEptMj23HSj@phenom.ffwll.local>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
+ <jose.exposito89@gmail.com>, 
+ David Gow <davidgow@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Latypov <dlatypov@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ maarten.lankhorst@linux.intel.com,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+ Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, dri-devel@lists.freedesktop.org,
+ KUnit Development <kunit-dev@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220709115837.560877-1-jose.exposito89@gmail.com>
+ <20220709115837.560877-5-jose.exposito89@gmail.com>
+ <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
+ <20220717170054.GA1028249@elementary>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="C7paN41YzbGadmb4"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
-X-Cookie: First pull up, then pull down.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220717170054.GA1028249@elementary>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +89,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Christophe Branchereau <cbranchereau@gmail.com>,
- Jonathan Bakker <xc-racer2@live.ca>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Pratyush Yadav <p.yadav@ti.com>
+Cc: dri-devel@lists.freedesktop.org, David Gow <davidgow@google.com>,
+ magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+ Daniel Latypov <dlatypov@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
+ Isabella Basso <isabbasso@riseup.net>,
+ KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Jul 17, 2022 at 07:00:54PM +0200, José Expósito wrote:
+> José Expósito <jose.exposito89@gmail.com> wrote:
+> > I already fixed the warning and added the reviewed by tags, however, I
+> > noticed that rebasing the series on the latest drm-misc-next show this
+> > error:
+> > [...]
+> 
+> Sorry for the extra email. I forgot to mention that the error is only
+> present in UML. Running in other architectures works as expected.
+> Tested on x86_64 and PowerPC.
 
---C7paN41YzbGadmb4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Aug 10, 2022 at 04:13:11PM +0300, Krzysztof Kozlowski wrote:
-> The spi-3wire property is device specific and should be accepted only if
-> device really needs them.  Drop it from common spi-peripheral-props.yaml
-> schema, mention in few panel drivers which use it and include instead in
-> the SPI controller bindings.  The controller bindings will provide
-> spi-3wire type validation and one place for description.  Each device
-> schema must list the property if it is applicable.
-
-What's the plan for getting this merged?  I can just apply it at -rc1 if
-that works for people?
-
---C7paN41YzbGadmb4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLz2mgACgkQJNaLcl1U
-h9ChMQf9H6LPOdfGbu1FptjroVm8hHLsgruU3wnuUkhB1F1WtZkMEbcb9zAEutl7
-JxSo0Fu8wBzvndSpzXzOyZlQsukueeOcTXd9lFZI3NQmKRSD7DAgl9UzMeXnETdx
-aarr1MxJYaTONXaMvQxrCLMLuaqNZ7eQ4XexnuXrv52Lh6LYp52/IAijKwfH19oz
-E79hMp+bVng67iZRNwn+0HuZgbR83ZCyDqFJpP9li7m756PseyEU2nf1F3cYP0D6
-Y8hVZ02benHf+kIxA0nQR4FjM2OV1tuzvDobJikC3V3OLg8VVGoM4aZEbM6rEiaP
-gTGuMwxcZU0NSsmxTd30vnu3YkgzCg==
-=keHt
------END PGP SIGNATURE-----
-
---C7paN41YzbGadmb4--
+Maybe a regression in the kunit infrastructure? Just guessing here ...
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
