@@ -1,54 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBCA58F4E3
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 01:30:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF36358F507
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 01:58:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBA09511F;
-	Wed, 10 Aug 2022 23:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8AF113CE5;
+	Wed, 10 Aug 2022 23:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A32559505E;
- Wed, 10 Aug 2022 23:29:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=+7t/7eAOvi8kAxMn65dXL5tgH7liqj/5NHPtUP/lMtI=; b=pYnj2wc3dKklpInsGJAB6JOMxK
- RisYrT54Mjn3hO7kYTNobeqKnjZeRV1LjM0LCfKx9FUuGDWMHLdwPeoO9Y2lM2zXRJQ5VpgSfR3wy
- PVjjHqoaOCu60lckijE5fAPa+ogOQ0RMyw/Q9fhi5Tlaq0dGouHesKsU/MRzAriDZ0f83iXpoNJyc
- B3ghaHF/kBAvOwRiMedh0MDLA+6z3lcGj47WLcsX1BNE0Jl2ihxaOtHyPu807Rhviy8yiAHVrXutJ
- gffrmqdSNoNuHJUUmC2rDWmGvNQP1YQ2Is33xeR53dPYd3ZDvD/uEaV0uZjVbvW+Gn+W5+RTY6peO
- 0MUNUnKg==;
-Received: from [191.17.41.12] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oLv94-004r9g-EZ; Thu, 11 Aug 2022 01:29:50 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
- 'Pan Xinhui' <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Jack Xiao <Jack.Xiao@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tom St Denis <tom.stdenis@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: [PATCH v3 4/4] drm/amdgpu: Document gfx_off members of struct
- amdgpu_gfx
-Date: Wed, 10 Aug 2022 20:28:58 -0300
-Message-Id: <20220810232858.11844-5-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220810232858.11844-1-andrealmeid@igalia.com>
-References: <20220810232858.11844-1-andrealmeid@igalia.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A46A3113CE5;
+ Wed, 10 Aug 2022 23:58:01 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27ANS5tu011894;
+ Wed, 10 Aug 2022 23:57:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=iKZo6L4ks80dAbx5RILErWCqMWwJ78yCTiIRsqpNI0w=;
+ b=a/qivNS2b8zA43RXF6HBTCF/jVYSzkRkg+d2y7+7tsPJeGGq6anGUv7nsAt2qIsAdisn
+ MlHPD8f2HEB7ArCltDIxY5DBxcn4L7V+2bXjwocXQdyDpeiQ47B8fwrUUh42Ei3RVh9G
+ K0754OTB2Vb0u7c0L9w6umCQXkGNEvsCm0mJGljnQjyoDL7VGNgbkbz3w5qUq2xz30z7
+ /QDfZSSUSgsc8NK9fvWCDqCmveFcchZ3Eqxp+yFE1MojzMy+m0kxjx/4ICrs1qMCELVM
+ KGS1/jAQ9SL+Y8lH6ZqEATrAgl6BS6jjqHTYsu/Z+sAv0I4H8HAgfy/dLJOxqLVUuMBM +Q== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3huwr24b0u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 23:57:55 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.47.97.222])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27ANvrtF004901
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 23:57:53 GMT
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 10 Aug 2022 16:57:53 -0700
+Received: from [10.110.86.199] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 10 Aug
+ 2022 16:57:51 -0700
+Message-ID: <dbda8bce-2890-e5e3-4052-073a52eb06a6@quicinc.com>
+Date: Wed, 10 Aug 2022 16:57:51 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3] drm/msm/dp: check hpd_state before push idle pattern
+ at dp_bridge_disable()
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1660159551-13828-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n533SUb3Bg=pR8Fhwo-M5qLWiti4nzLR-rSGVAsrXgEYNQ@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n533SUb3Bg=pR8Fhwo-M5qLWiti4nzLR-rSGVAsrXgEYNQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: z5McM-bdfMc4yNFQcm4ab-8hgVxndqT7
+X-Proofpoint-ORIG-GUID: z5McM-bdfMc4yNFQcm4ab-8hgVxndqT7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-10_16,2022-08-10_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208100072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +91,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- kernel-dev@igalia.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add comments to document gfx_off related members of struct amdgpu_gfx.
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+On 8/10/2022 3:22 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-08-10 12:25:51)
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index b36f8b6..678289a 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1729,10 +1729,20 @@ void dp_bridge_disable(struct drm_bridge *drm_bridge)
+>>          struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
+>>          struct msm_dp *dp = dp_bridge->dp_display;
+>>          struct dp_display_private *dp_display;
+>> +       u32 state;
+>>
+>>          dp_display = container_of(dp, struct dp_display_private, dp_display);
+>>
+>> +       mutex_lock(&dp_display->event_mutex);
+>> +
+>> +       state = dp_display->hpd_state;
+>> +       if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED) {
+> It's concerning that we have to check this at all. Are we still
+> interjecting into the disable path when the cable is disconnected?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
-index 1b8b4a5270c9..8abdf41d0f83 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
-@@ -332,12 +332,12 @@ struct amdgpu_gfx {
- 	uint32_t                        srbm_soft_reset;
- 
- 	/* gfx off */
--	bool                            gfx_off_state; /* true: enabled, false: disabled */
--	struct mutex                    gfx_off_mutex;
--	uint32_t                        gfx_off_req_count; /* default 1, enable gfx off: dec 1, disable gfx off: add 1 */
--	struct delayed_work             gfx_off_delay_work;
--	uint32_t                        gfx_off_residency;
--	uint64_t                        gfx_off_entrycount;
-+	bool                            gfx_off_state;      /* true: enabled, false: disabled */
-+	struct mutex                    gfx_off_mutex;      /* mutex to change gfxoff state */
-+	uint32_t                        gfx_off_req_count;  /* default 1, enable gfx off: dec 1, disable gfx off: add 1 */
-+	struct delayed_work             gfx_off_delay_work; /* async work to set gfx block off */
-+	uint32_t                        gfx_off_residency;  /* last logged residency */
-+	uint64_t                        gfx_off_entrycount; /* count of times GPU has get into GFXOFF state */
- 
- 	/* pipe reservation */
- 	struct mutex			pipe_reserve_mutex;
--- 
-2.37.1
+yes,
 
+The problem is not from cable disconnected.
+
+There is a corner case that this function is called at drm shutdown 
+(drm_release).
+
+At that time, mainlink is not enabled, hence dp_ctrl_push_idle() will 
+cause system crash.
+
+
+
+>> +               mutex_unlock(&dp_display->event_mutex);
+>> +               return;
+>> +       }
+>> +
+>>          dp_ctrl_push_idle(dp_display->ctrl);
+>> +       mutex_unlock(&dp_display->event_mutex);
