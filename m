@@ -1,47 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49ED458E42E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 02:44:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C251B58E403
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 02:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89288DF82F;
-	Wed, 10 Aug 2022 00:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4BECCA03;
+	Wed, 10 Aug 2022 00:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF40BDF7E6;
- Wed, 10 Aug 2022 00:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660092213; x=1691628213;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=9D74/qZCe/VWsjW3YltQLfgj6t+AO7P4OXWI1xp7RvM=;
- b=i36Uj2lwuD1FpBfLg5+Mk0r8GvItdXyzOrSEBHsPuiU6IFrVkeQUhc7W
- 0LFa5+1CIebh2oEcyVjL4kDUdQVGQK4dpRwlWfrwZ2PfCj90tLuADPjZd
- tv1g1LWRowsRRMon2QodtgrlWFpxWq+7FBXJlql9VEi0iisdOrUffFiZi
- V8+fnRoZwMlQKOpbdBCOGI0jCMAY3t89BRjvhXzY5H+ym5/c8NDxg+Myo
- umbXuRKAoWH2cab/v1zAdRgwvpjQD4hGW1LU3CM05+cNOwIBPRsPZOw3q
- 8Y8JlUO61LtS1x5CEGT2wPe9aqCyk0yCP9G9MlqjqRd3oLEbDk/MpPVPo A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="271351301"
-X-IronPort-AV: E=Sophos;i="5.93,225,1654585200"; d="scan'208";a="271351301"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2022 17:43:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,225,1654585200"; d="scan'208";a="581021751"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga006.jf.intel.com with ESMTP; 09 Aug 2022 17:43:31 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc/slpc: Allow SLPC to use efficient frequency
-Date: Tue,  9 Aug 2022 17:03:06 -0700
-Message-Id: <20220810000306.5476-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.35.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2ACA9CD0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 00:17:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 10F516120A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 00:17:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 703C8C43140
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 00:17:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660090635;
+ bh=yGMAEbwnNZcFCwjOq9JMQFVnlD1TsCUAX7+OBCcD4NA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BVlTTQfMXf4C8NA5zc/Soly5Zf/Cm6BTNQmEdGAVeYtRr1t0bby2CdknRs24fkMTz
+ HIfCltZ2lAH2KLVehiJnv5c75PlUZETb0Nk2qx51fzjAqTcRvwXaZihu8DKWMnIXx8
+ 48aby8Os09tFWinCD84h5JH4lBZyuaHzc/dF0QW4o4L7H/G70pPwVYh5wX0aYNFCJY
+ Pr+EFJLlRIPEPQXLzkEFeKEhf5Dsfc8vzkGuxt3RAmGsPHZyvNC5W6uLAqrsn4J2jJ
+ dLfmfl02A/JqanuIXzgCDt3RlAuH/w7Dx664uL6ZQl34BCAIOGq3qyLsWhD7ofpK1E
+ x2Sj+hjJNk8Ew==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 5702CC433E4; Wed, 10 Aug 2022 00:17:15 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216277] X11 doesn't wait for amdgpu driver to be up
+Date: Wed, 10 Aug 2022 00:17:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dark_sylinc@yahoo.com.ar
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216277-2300-BxxhEV8sV0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216277-2300@https.bugzilla.kernel.org/>
+References: <bug-216277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,112 +70,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Host Turbo operates at efficient frequency when GT is not idle unless
-the user or workload has forced it to a higher level. Replicate the same
-behavior in SLPC by allowing the algorithm to use efficient frequency.
-We had disabled it during boot due to concerns that it might break
-kernel ABI for min frequency. However, this is not the case, since
-SLPC will still abide by the (min,max) range limits and pcode forces
-frequency to 0 anyways when GT is in C6.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216277
 
-We also see much better perf numbers with benchmarks like glmark2 with
-efficient frequency usage enabled.
+--- Comment #7 from dark_sylinc@yahoo.com.ar ---
+Adding amdgpu to initramfs seems to have workarounded the problem.
 
-Fixes: 025cb07bebfa ("drm/i915/guc/slpc: Cache platform frequency limits")
+I have not experienced this problem after it. I can also visibly see the bo=
+ot
+process is slightly different (splash becomes 1920x1080 a bit sooner)
 
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 52 ---------------------
- 1 file changed, 52 deletions(-)
+If anyone is having the same issue, the workaround is (Ubuntu):
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index e1fa1f32f29e..4b824da3048a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -137,17 +137,6 @@ static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
- 	return ret > 0 ? -EPROTO : ret;
- }
- 
--static int guc_action_slpc_unset_param(struct intel_guc *guc, u8 id)
--{
--	u32 request[] = {
--		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
--		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 1),
--		id,
--	};
--
--	return intel_guc_send(guc, request, ARRAY_SIZE(request));
--}
--
- static bool slpc_is_running(struct intel_guc_slpc *slpc)
- {
- 	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
-@@ -201,16 +190,6 @@ static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
- 	return ret;
- }
- 
--static int slpc_unset_param(struct intel_guc_slpc *slpc,
--			    u8 id)
--{
--	struct intel_guc *guc = slpc_to_guc(slpc);
--
--	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
--
--	return guc_action_slpc_unset_param(guc, id);
--}
--
- static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
- {
- 	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-@@ -597,29 +576,6 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
- 	return 0;
- }
- 
--static int slpc_ignore_eff_freq(struct intel_guc_slpc *slpc, bool ignore)
--{
--	int ret = 0;
--
--	if (ignore) {
--		ret = slpc_set_param(slpc,
--				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
--				     ignore);
--		if (!ret)
--			return slpc_set_param(slpc,
--					      SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
--					      slpc->min_freq);
--	} else {
--		ret = slpc_unset_param(slpc,
--				       SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY);
--		if (!ret)
--			return slpc_unset_param(slpc,
--						SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ);
--	}
--
--	return ret;
--}
--
- static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
- {
- 	/* Force SLPC to used platform rp0 */
-@@ -679,14 +635,6 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
- 
- 	slpc_get_rp_values(slpc);
- 
--	/* Ignore efficient freq and set min to platform min */
--	ret = slpc_ignore_eff_freq(slpc, true);
--	if (unlikely(ret)) {
--		i915_probe_error(i915, "Failed to set SLPC min to RPn (%pe)\n",
--				 ERR_PTR(ret));
--		return ret;
--	}
--
- 	/* Set SLPC max limit to RP0 */
- 	ret = slpc_use_fused_rp0(slpc);
- 	if (unlikely(ret)) {
--- 
-2.35.1
+echo "amdgpu" | sudo tee --append /etc/initramfs-tools/modules
+sudo update-initramfs -c -k $(uname -r)
 
+If done properly then running:
+
+lsinitramfs /boot/initrd.img-$(uname -r) | grep amdgpu
+
+Should return multiple hits
+
+Then reboot.
+
+This ticket can be closed; but probably a new one to track an interface to
+notify when kernel is done loading all video interfaces should be created.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
