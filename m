@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108F158E8E8
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 10:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748EB58E8E7
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 10:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92DA1F267E;
-	Wed, 10 Aug 2022 08:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C50F2608;
+	Wed, 10 Aug 2022 08:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A027F25E0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 08:37:23 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id p8so13603933plq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 01:37:23 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C559F2603
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 08:37:26 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id w14so13625393plp.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 01:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=d90Ctq/OPngocvREk+GXxmfwi7GNqq+AEV+FEzVAMS8=;
- b=kXHsqDzg9eFLQNS73LhRngPr30CHfcOtnrah6S6sVl9bt1OpLuScI1Zn6wFnBUBXIq
- cKku8Wa99+gE+HGDwuBY0f6+iBb8Y0laxczs5RIzTZyjyOaN1bZXzMXsRd6HhrzF4Flr
- kekIFKWe8xGQopgxPPi6GWS5K2ACZZ4BILipySPbsz+GHkOfcFaQua392ZOTQG459rK6
- IOT9emkCQ3BZwgec3fRYs9v9rrnbVoLMMguWToloIJ6J9te3ehVNYTK0HXUh1LxuTf1t
- C9PfZWgKkCt6enCdmtIWEyjyXLnD4HL2miXLeevY3sL/5/TlfD3Um7xxi0FgiVcgY5fL
- TXmA==
+ bh=jZE/fMa3whjYdRXk0oQ0myv5N7zyZKLStFntjy3bwEI=;
+ b=7izV4xzqPBcm+fkGJWQIWEYXXyBl2KJE72/4VWAYy62YD15G97Ha+FQ7JAASfztKKX
+ 2XbzwrixQzYP67EER7qP3Uch8n7LGJ3tilyLpiibbUMrlq1wpOX3aCLqQus00U00Vs5U
+ XkjIGhmt0gdTU29kmMhJZeayU27DKxFc+0lz4mbQ1MxIVcEv0Lz0pzgbn2SJ79cqPgtM
+ pKL74U+gySXOOWjI2QN+nKFRdBkYYtDQgWilsQT1qP6SY4JuoFEqvjyIXycc4QASNwE4
+ DwtushkKw3ADZQZkEhwi3gQZU29mugL4ocadBfdmNJRqNjU86DU7SB66Zz6U26+kOs8C
+ TuhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=d90Ctq/OPngocvREk+GXxmfwi7GNqq+AEV+FEzVAMS8=;
- b=4iqMSpMs5tiUVsAbSrFG56IaTjv1/8U4Ick46ysYcsz9gYh0HWUT0tix2cf8ri/RWB
- JuCxMHx8XcB4eLOxBf8bnel6I9mmXhHKsdXIOWNi5XciSdu2Dj+qIn7Egjhy45k4nkgS
- +QODAm1+a6BSy4TfYfmKSkciMyQiT4wkK4iomhf88c/R7PZFI6FKFCt5/p3+g9WanvJe
- cNToAkQPnpKJ+Fqr8ecToA73noVzQZXaiXpoZoPUabPmTa5oHnxhpO9HB8lkS4wrgNxV
- ZGsW1Eox3fOmcifZwN58tUBxqFSdy4GE85b2+atoAqQbohheNRynY++IzpuN7fry4nk+
- 9X5A==
-X-Gm-Message-State: ACgBeo1vkFHIwEYTcclcBMQ7OHRUAlW4AkDUAzKlG2sDxmR0dOnrvOGU
- ur+qYOiJq3i33+7Mj+SWdz2QZR6QABEt+w==
-X-Google-Smtp-Source: AA6agR7U/tzZCTxijYOzxq+LH0GDr3RTwNGfEtRLSKlLBM1JnsO6+XPGZRMXp+ZL6lnN4uyCR67a/w==
-X-Received: by 2002:a17:903:25d2:b0:16d:d026:daed with SMTP id
- jc18-20020a17090325d200b0016dd026daedmr27123381plb.101.1660120642794; 
- Wed, 10 Aug 2022 01:37:22 -0700 (PDT)
+ bh=jZE/fMa3whjYdRXk0oQ0myv5N7zyZKLStFntjy3bwEI=;
+ b=MB8QOG7OQ65wtx6C85NKEHOj0Xe0ROlq2hhn23StRFzTA44eMhXbbwAjQCuDZBnp1p
+ h9OvGayMD0Mqrf2yZYFUwCnhQe7CDvXLdNmAlZFnNRWZlZceSJjBLMeWEJhokx3LzX0d
+ TbyvIX/tCMLuhELxbRI6yds0RCAfh1T2VBBE2u7g6Oe+d9St0TxuYKISMPbMXDIfQrWk
+ mYqVUkTTXHYg4Zd8fS+ueUctDkVp9eVFpOIXP+H1WjIHkeDPyZgt5GROkQDo1Hc5mt7L
+ 7KU7pnV4yrX0glyXJ0xIlCF+HsYt/8ivMG+Mc+wZDORkg5XkWnDBaMbL1A9EODpyu7Wl
+ WU9A==
+X-Gm-Message-State: ACgBeo2cl2lbxmWHrd4a3klEd90LRAQFNQa1/4oJAagWazQQpzRIH7dz
+ Gca+2C9lLHT5xR1H2zTldFfz8d6O6zdtLw==
+X-Google-Smtp-Source: AA6agR6fRL4zAL56XiuF0fIRADvxgqbnar/ch8938KFYKoyIOFDHiYvHp5/BaQbSepd5w8c4gsQUww==
+X-Received: by 2002:a17:902:d503:b0:16f:1503:4815 with SMTP id
+ b3-20020a170902d50300b0016f15034815mr26788702plg.17.1660120645661; 
+ Wed, 10 Aug 2022 01:37:25 -0700 (PDT)
 Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
  by smtp.gmail.com with ESMTPSA id
- f1-20020aa79681000000b0052d63fb109asm1323607pfk.20.2022.08.10.01.37.20
+ f1-20020aa79681000000b0052d63fb109asm1323607pfk.20.2022.08.10.01.37.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 01:37:22 -0700 (PDT)
+ Wed, 10 Aug 2022 01:37:25 -0700 (PDT)
 From: Takanari Hayama <taki@igel.co.jp>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
-Date: Wed, 10 Aug 2022 17:37:09 +0900
-Message-Id: <20220810083711.219642-2-taki@igel.co.jp>
+Subject: [PATCH v2 2/3] drm: rcar-du: Add DRM_MODE_BLEND_PREMULTI support
+Date: Wed, 10 Aug 2022 17:37:10 +0900
+Message-Id: <20220810083711.219642-3-taki@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220810083711.219642-1-taki@igel.co.jp>
 References: <20220810083711.219642-1-taki@igel.co.jp>
@@ -77,50 +77,45 @@ Cc: Takanari Hayama <taki@igel.co.jp>, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support DRM blend mode in R-Car DU driver, we must be able to pass
-a plane with the premultiplied alpha. Adding a new property to
-vsp1_du_atomic_config allows the R-Car DU driver to pass the
-premultiplied alpha plane.
+R-Car DU driver implicitly supports DRM_MODE_BLEND_COVERAGE only.
+This adds a support for DRM_MODE_BLEND_PREMULTI. As a consequence,
+DRM_MODE_BLEND_PREMULTI becomes the default. If DRM_MODE_BLEND_COVERAGE
+is desired, it should be set explicitly.
+
+This behavior comes from how DRM blend mode is supported.
+drm_plane_create_blend_mode_property() creates the blend mode property
+with the default value of DRM_MODE_BLEND_PREMULTI. This default value
+cannot be modified from the atomic driver.
 
 Signed-off-by: Takanari Hayama <taki@igel.co.jp>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
- include/media/vsp1.h                           | 2 ++
- 2 files changed, 4 insertions(+)
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-index 0c2507dc03d6..019e18976bd8 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-@@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
- 	rpf->mem.addr[1] = cfg->mem[1];
- 	rpf->mem.addr[2] = cfg->mem[2];
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 8eb9b2b097ae..b9580fcfec7a 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -167,6 +167,8 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+ 		cfg.mem[i] = sg_dma_address(state->sg_tables[i].sgl)
+ 			   + fb->offsets[i];
  
-+	rpf->format.flags = (cfg->premult) ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
++	cfg.premult = (state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI);
 +
- 	vsp1->drm->inputs[rpf_index].crop = cfg->src;
- 	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
- 	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
-diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-index cc1b0d42ce95..48f4a5023d81 100644
---- a/include/media/vsp1.h
-+++ b/include/media/vsp1.h
-@@ -51,6 +51,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
-  * @dst: destination rectangle on the display (integer coordinates)
-  * @alpha: alpha value (0: fully transparent, 255: fully opaque)
-  * @zpos: Z position of the plane (from 0 to number of planes minus 1)
-+ * @premult: true for premultiplied alpha
-  */
- struct vsp1_du_atomic_config {
- 	u32 pixelformat;
-@@ -60,6 +61,7 @@ struct vsp1_du_atomic_config {
- 	struct v4l2_rect dst;
- 	unsigned int alpha;
- 	unsigned int zpos;
-+	bool premult;
- };
+ 	format = rcar_du_format_info(state->format->fourcc);
+ 	cfg.pixelformat = format->v4l2;
  
- /**
+@@ -444,6 +446,10 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 						       num_planes - 1);
+ 		}
+ 
++		drm_plane_create_blend_mode_property(&plane->plane,
++					BIT(DRM_MODE_BLEND_PREMULTI) |
++					BIT(DRM_MODE_BLEND_COVERAGE));
++
+ 		vsp->num_planes++;
+ 	}
+ 
 -- 
 2.25.1
 
