@@ -1,46 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB24258ED9D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 15:52:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AFE58EDF9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 16:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 537A2B354C;
-	Wed, 10 Aug 2022 13:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985D318BF31;
+	Wed, 10 Aug 2022 14:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEA6793AF4
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 13:51:27 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4M2rvM0MtqzDrd6;
- Wed, 10 Aug 2022 13:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1660139487; bh=qv1S5tIbjN7aEZzqKmCt5yLrrfxcUWdTk0QdJ7TAsJ4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Gtjg5hmCM9yQuA5btLHdJgkoa9FyZeJp/oS/7bYjbrNTPVBEGgKl8s2cACp8iVOpm
- PrNRCs2fZopvYR20ZoHsPPRT2i+YdpVAGj0GzfDWeFWpdEYcBntONsfwIluMkeyqkZ
- KAcHlnpI7UHFzZ355q7VwLpYog1Tu3EYNzJeVm6U=
-X-Riseup-User-ID: 7745193802DAD896E84DD757FD1497A2A0BC6D97B8EE9E648C3AD338921AC21C
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4M2rvH6L08z5vMX;
- Wed, 10 Aug 2022 13:51:23 +0000 (UTC)
-Message-ID: <c54b7350-15da-2e38-46ca-a4dfe0e398a6@riseup.net>
-Date: Wed, 10 Aug 2022 10:51:20 -0300
+Received: from mo-csw.securemx.jp (mo-csw1515.securemx.jp [210.130.202.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98462BB7F
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 14:10:55 +0000 (UTC)
+Received: by mo-csw.securemx.jp (mx-mo-csw1515) id 27AEAgaB003525;
+ Wed, 10 Aug 2022 23:10:43 +0900
+X-Iguazu-Qid: 34trbpZOfxgaFR450y
+X-Iguazu-QSIG: v=2; s=0; t=1660140642; q=34trbpZOfxgaFR450y;
+ m=31MFKplLmQJrGFCmXm3zY/HRciNKbsJoh+M7BEN3oYw=
+Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
+ by relay.securemx.jp (mx-mr1511) id 27AEAfuq004377
+ (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+ Wed, 10 Aug 2022 23:10:41 +0900
+X-SA-MID: 43725840
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FbI1hh9gfk6atuwYzjvslZ4ItRHamE3HtBw+/IqwCxJMblt+KTewE+FHh1eSaYYgjg9cVdtstwvf48LhDktsCeUGYswM1xW4eJd5hwx1+H5zZ1X+zv6fNU+woGWAS3h80ftUqPHmmu9j0IPwAaL2Swggg3FdNNlLrfp5tSR96V2nnF5lhx8m+FHb7+yP94Imk7UnBt0WFCaMA2S3YwU/golx1ME/bm8AqyfSCf55c5t1UJ9PUyz2sbGxezB09QuZe371nnPEdL2JQxpF55MhnpVvWw+dP/bGIuw/jTr9+TbHM4FG3U6rFdNZ4567a3ZKgXXJmASlsORGQU/kr/KDPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mG+/xoJidwwjEcdl7YpurlyryNYlch5v+2jTUbnOaUM=;
+ b=M/NvhM1Zz42tEYVr7ubMXP3XSdoRa2sbEUxO8Etx1uI+fzLoMfitOXhhHXnQuPOYg+Pqg/FCoFn7TvOj1eVOvHpkuJTUGFRUkxTuS3D9qb0a5XCmb7t5/B+MEhrgTXdIx7Yr1oHbXGz3e/+Suf3E/Jeea5pJ9P84oJa965FUXVgQGEl6ZxMBNY+cFi74j3lwpUtTT0zjWENH8J9TfJijeI6m1h4MUX6ootolEDns3uikHSrA/rxfhkhpLfuFrOESmNsM9NXSWoenC7+mQQ0dcAv0svQrfzRVQ3E0uVYtcvCeCLBxzJsLx7CI8zoO1rYoTUMli/hL2hFvAwSvJQR1Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
+ header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
+From: <yuji2.ishikawa@toshiba.co.jp>
+To: <oded.gabbay@gmail.com>, <airlied@gmail.com>, <gregkh@linuxfoundation.org>,
+ <jiho.chu@samsung.com>
+Subject: RE: New subsystem for acceleration devices
+Thread-Topic: New subsystem for acceleration devices
+Thread-Index: AQHYpNMiuKJkJQ8DYkaebqXY59xh6q2djiWAgAAVQYCAADu3gIAAgxIAgAFD4wCAA2RFgIAEHdUAgAENkRA=
+Date: Wed, 10 Aug 2022 14:05:36 +0000
+X-TSB-HOP2: ON
+Message-ID: <TYAPR01MB6201272491EA2F23A14A9D8192659@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+References: <CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com>
+ <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
+ <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
+ <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
+ <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
+ <CAPM=9txme2dQD9kyM6gnYyXL34hYP8wcGMbduOUcFsKe+4zTcQ@mail.gmail.com>
+ <CAFCwf11TPKTF_Ndi60FneWp5g3SoawJvfJoKVWJ-QjxjpawMmg@mail.gmail.com>
+ <CAFCwf13WU3ZEjurEaEnVC56zorwKr-uuQn-ec10r301Fh+XEtA@mail.gmail.com>
+In-Reply-To: <CAFCwf13WU3ZEjurEaEnVC56zorwKr-uuQn-ec10r301Fh+XEtA@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=toshiba.co.jp;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b54e89fb-8524-4edc-747b-08da7ad965f9
+x-ms-traffictypediagnostic: TYAPR01MB3856:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: S0gBeFfTnwX28t388llP4LOIxQhxMd9VI9q5X8SxaUS1NkUH8ogasJn7HmHXcAsGehxEXXn10Vvtp930d4067klNwlB4KjpgWM9qMucWIuaKgfhcqo2Wvl0mY8s5l028qcjhsFFC52hb+wT1EnmUXJqymlftpXdiyotVICjZF32bXlX+0ntWa7k5C0DYqsUeWwTX8798siluoAEOUWJLT6MfG7IiPAJgeR0zYLXnPn1En4J3Z1asHnl5c8cNBQ2gc7rnBYHhNdQP4BHjAxihVkiWGizozTE69tc2+PCntVECeb7i4s3icCzjbAqpUkZ7xIUDsgBr8Z4zkQOdRBaQ/pfujPotcNOxu9LL2F7c8zWFosNBQLPjEz23qkJvJbllqPRsMD+ob9MhUjRXsZqwdN8MC+I5T0ggCdEe5nVj5L99zktAP/q/TwO0KCXc9QBt9aFXzWQ5DjfuMipkuR1Ov8Hhh6nNuTzK4CMzRAKLyqwt3/oqxv09aW5ds7A8x0Kh3ZnT9E8dqeG/9AeEBAEsNQD4vItSZ3oLsc6/w8D6Pz+V6BhVJyhI/6SCcPqroYb27o96eTKGYRz8VdVleSCFDyBr3utMVetJl7WxbzZ5pD1op7WKj2auApN08M/yrirfl5/LXFVGM/b6UTEZvN2IAjxF4t2JWtkzVjmQmPEZWAC8Aue6l7rOickmO7t5MoC7TpZXmBKSoveuV9E9k3JuJls+Y/ZKx57OmW7TWBkbsA6bAFW3OHBhtmvNhxlNCISSmgooXC6zfkz2PX6OJ6BK2MPOg3c+quvinwd3rppZlTYu7nalDSN5y9oRKUdRunq0DRIitiyCvr8tM9muIiDIqw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYAPR01MB6201.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(396003)(136003)(39860400002)(346002)(366004)(53546011)(478600001)(71200400001)(55236004)(26005)(7696005)(41300700001)(966005)(9686003)(6506007)(122000001)(38070700005)(186003)(38100700002)(5660300002)(4326008)(64756008)(33656002)(8676002)(66946007)(66476007)(76116006)(66446008)(2906002)(66556008)(83380400001)(8936002)(52536014)(54906003)(110136005)(86362001)(55016003)(316002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MTdSYXo0aE1iY1JsQlA1eHdhaDNTVEtKS3VlV2twenJOWEVEMmZZQ2JvWXVx?=
+ =?utf-8?B?YkwydVdLUmhtYUlFVytlREJHY0tmeVlCNklzVnh3dkMrUnhqR2xRanJOOTh3?=
+ =?utf-8?B?WjQxTFl2dnFZSURiMkFKUExtUVcyN0dCemMxTXVMRWR2VjZqa3dXeWZ2eTJX?=
+ =?utf-8?B?Y2QvbGlCb3hCUUhrRjY3T3JRUkl3d3BjeUprUWlFYUpkRGV5aVB5eVRvNkw5?=
+ =?utf-8?B?dGVGUWdHeExOelViYy84UHFpaVRGMUtSUlNWNWtheldnVXF6allPNVFBUkk1?=
+ =?utf-8?B?ZG1VZ0thWkJKcjMvWEwwVW9TUU5oNjdnVUFQM3B6K1VrS3o2bVB1MzNuZ2Ew?=
+ =?utf-8?B?Yjg5aGo1Q0NTSE9VekR3aUhsWERRMEl2bVdsdmNCN3BPYTY2a0h0NDlvMUc3?=
+ =?utf-8?B?RjVkSmxWZGpsYzlNQ0sxYmsydDB1ZUlIYUhhVWhpRFVDVFVWa0RyeFdwNEhW?=
+ =?utf-8?B?MklHcWdFU2dWaGZSYkxSMXNzMVpsWW1nT3BRZmE1Yk12bFkvVS8rd1NmaGw4?=
+ =?utf-8?B?WnlTdnd0M0NBUmh5YnhYaHJVT3RHSzRLd2JBTHpUMERtTmhkakV3UkVxWTYz?=
+ =?utf-8?B?eUsxeDZra0NXZExPMmZYckhzQ2V2TGV6dG1Xa1l1dFpiWEUzWEZpcnhkcS9t?=
+ =?utf-8?B?eTAwVUVVdEdlQVp2dnpqL3FCYXM1eEI0Zm5uaUhVRzBUd1lSZGJYbnRGWUla?=
+ =?utf-8?B?RXg3VmFGQUFRUi9iM0NMb1F0VjBKV2IyNFc0N2c4aVloeFpyc2wySnBBM3dv?=
+ =?utf-8?B?RkkzK1ZWY0pQUU41UTduY2hPZU1IcXM0dUdJM0dzaVJIV0tKOFJjTVV0Ymhl?=
+ =?utf-8?B?TzRjYkVhSTlCdldieFFpRVhOZURFNDBGcS9TcnJvQzBNbDdiVWcydnFaNjFY?=
+ =?utf-8?B?QlhuZUxYNnA2NXB3a2FVVks2TGl0aTlDbzNqNUtodGRjeTF3TDA4TGhvekVY?=
+ =?utf-8?B?QU9Yeml0UFJrYlJ2ZndEV0dLaWZHVEJmVklMSzBJYmdCMG1mMGwwSVZucWNn?=
+ =?utf-8?B?OGYzVDZEdmZFMXdJcGdlSWhDTlZDcCtHellWSllNTXBZeWs2dWhGR1dmV0V2?=
+ =?utf-8?B?aUJjNkpYczU3L0I2VDhWRVh3TVVrY2MyalQ2TlRNS1BxMTFFZHpiU1l4MWR4?=
+ =?utf-8?B?dHJLa2Q2OVlxa1JxRDlMaGs0YjNMMEdkWi85MlM2eDZPODJJNFV1bzBHR3pp?=
+ =?utf-8?B?MEJOdmJkd2FBYXdnbk52V0ttNWZ6UUVpTi93TWNVKytWN0daMnZvWUFpY3lN?=
+ =?utf-8?B?MW1rdTVCREZoUW5rR1dLaEt6N1lXa0FHQkdyMHFVdFhaMEhQbWVoRC9KRjhl?=
+ =?utf-8?B?eWNHSVNJQmNPRmtFZHFWYitjRFMxSjNNNWZmd0czc1lxQ2p2TTRyOVo1OEdF?=
+ =?utf-8?B?UHM2OS84bEVBbHhINXI5dUVvS0pnWmNnQTNodmNTS21SaGtISTRxS2VRV29F?=
+ =?utf-8?B?eTVLYjMyRitjRENDSm5rOFVwOU9ESlFHMU5QSGJ3WWRWRDVjY2pGRXVjbzh3?=
+ =?utf-8?B?MnBENnJjL2svM2NjMlVwSFA2U3ZKdUdpRzhUVHlMVHRxNU43YnNqQmhjMTNa?=
+ =?utf-8?B?WG1HSmNxeEx3bzJjc1NUdzVwR1ZneEFrbnF2b1UzTG0xVzNiYnM0ZDRXSmdk?=
+ =?utf-8?B?OGs0L2ZwUXE3SGhmZVVZN2tpbkM3a0R6bVFuSkhmbmhVTitKWEorcHJseW9K?=
+ =?utf-8?B?L3psdHYvRVVnR2JDcXRNMmp1OGpaK2pPTDNYejdsY3VPRlNHTitIN0pVQ3lE?=
+ =?utf-8?B?L3UrK29WMG52cS9GbzJ5RHQ2UjMveVg0TDNHVldFZnZzQ3p2MWdOaGFuQ1d2?=
+ =?utf-8?B?RVJubmJDb2ZwaDE5cjJyMnU2QU1sWXRqTEk0eUprTVpCYzl0L2ROcWhpejFQ?=
+ =?utf-8?B?cElrWStxRHlXa1ZIaU1JQmVIa0l3L3UxM3AwRUpRYW5IRGFEUHd4QTJrWTYy?=
+ =?utf-8?B?Njh5cGt6bUFOdlNleWI5cUY4dHFRaEFDdzA1Q3ZsejVERGtmNHZGeWJjeWtr?=
+ =?utf-8?B?K3dycFA5TjdlTFB1cE9WYlhmQnpoanJPT0lHc2pURHBidGxaWGR4N21RUk9L?=
+ =?utf-8?B?ZEFOZ29HZ29lOG9JNVNSeGE2UjNWeU9IN2lPY1Izc2c4eHl1RzBGVDk2YVYr?=
+ =?utf-8?B?eHRrQ0FZNDRHZVUxZFhxWGFDRkJlS1MyVlJIanBkcUR2c2laV0dkdFdWbDEw?=
+ =?utf-8?B?NkE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] drm/cmdline-parser: Merge negative tests
-Content-Language: en-US
-To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20220804131704.97083-1-michal.winiarski@intel.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220804131704.97083-1-michal.winiarski@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYAPR01MB6201.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b54e89fb-8524-4edc-747b-08da7ad965f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2022 14:05:36.3529 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jshWlmKCFAahU6MDZCG8yHVlQXnh4ih5PGvNG5Bit96iFMZkzYMWF8k63HfMVnk1NH4TRMXJER8dVbKhfadELRxiT4NfQJDIXW6P+C2h98M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3856
+X-OriginatorOrg: toshiba.co.jp
+MSSCP.TransferMailToMossAgent: 103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,434 +131,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>
+Cc: jgg@nvidia.com, arnd@arndb.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBPZGVkIEdhYmJheSA8b2RlZC5n
+YWJiYXlAZ21haWwuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIEF1Z3VzdCAxMCwgMjAyMiA2OjQy
+IEFNDQo+IFRvOiBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+OyBHcmVnIEtyb2FoLUhh
+cnRtYW4NCj4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPjsgaXNoaWthd2EgeXVqaSjnn7Pl
+t50g5oKg5Y+4IOKXi++8su+8pO+8o+KWoe+8oe+8qe+8tO+8o+KXiw0KPiDvvKXvvKHplospIDx5
+dWppMi5pc2hpa2F3YUB0b3NoaWJhLmNvLmpwPjsgSmlobyBDaHUgPGppaG8uY2h1QHNhbXN1bmcu
+Y29tPg0KPiBDYzogZHJpLWRldmVsIDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsg
+QXJuZCBCZXJnbWFubg0KPiA8YXJuZEBhcm5kYi5kZT47IExpbnV4LUtlcm5lbEBWZ2VyLiBLZXJu
+ZWwuIE9yZw0KPiA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47IEphc29uIEd1bnRob3Jw
+ZSA8amdnQG52aWRpYS5jb20+DQo+IFN1YmplY3Q6IFJlOiBOZXcgc3Vic3lzdGVtIGZvciBhY2Nl
+bGVyYXRpb24gZGV2aWNlcw0KPiANCj4gSGkgSmlobywgWXVqaS4NCj4gDQo+IEkgd2FudCB0byB1
+cGRhdGUgdGhhdCBJJ20gY3VycmVudGx5IGluIGRpc2N1c3Npb25zIHdpdGggRGF2ZSB0byBmaWd1
+cmUgb3V0IHdoYXQncw0KPiB0aGUgYmVzdCB3YXkgdG8gbW92ZSBmb3J3YXJkLiBXZSBhcmUgd3Jp
+dGluZyBpdCBkb3duIHRvIGRvIGEgcHJvcGVyIGNvbXBhcmlzb24NCj4gYmV0d2VlbiB0aGUgdHdv
+IHBhdGhzIChuZXcgYWNjZWwgc3Vic3lzdGVtIG9yIHVzaW5nIGRybSkuIEkgZ3Vlc3MgaXQgd2ls
+bCB0YWtlDQo+IGEgd2VlayBvciBzby4NCj4gDQo+IEluIHRoZSBtZWFudGltZSwgSSdtIHB1dHRp
+bmcgdGhlIGFjY2VsIGNvZGUgb24gaG9sZC4gSSBoYXZlIG9ubHkgbWFuYWdlZCB0byBkbw0KPiB0
+aGUgdmVyeSBiYXNpYyBpbmZyYSBhbmQgYWRkIGEgZGVtbyBkcml2ZXIgdGhhdCBzaG93cyBob3cg
+dG8gcmVnaXN0ZXIgYW5kDQo+IHVucmVnaXN0ZXIgZnJvbSBpdC4NCj4gWW91IGNhbiBjaGVjayB0
+aGUgY29kZSBhdDoNCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
+bC9naXQvb2dhYmJheS9saW51eC5naXQvbG9nLz9oPWFjDQo+IGNlbA0KPiANCj4gSXQgaGFzIHR3
+byBjb21taXRzLiBUaGUgZmlyc3QgYWRkcyB0aGUgc3Vic3lzdGVtIGNvZGUgYW5kIHRoZSBzZWNv
+bmQgYWRkcyB0aGUNCj4gZGVtbyBkcml2ZXIuDQo+IFRoZSBzdWJzeXN0ZW0gY29kZSBpcyBiYXNp
+Y2FsbHkgZHJtIGNvZGUgY29waWVkIGFuZCByZW5hbWVkIGFuZCBzbGlnaHRseQ0KPiBtb2RpZmll
+ZCwgYnV0IEkgcmVhbGx5IG9ubHkgd29ya2VkIG9uIGl0IGZvciBhIGNvdXBsZSBvZiBob3VycyBz
+byB0YWtlIHRoYXQgaW50bw0KPiBjb25zaWRlcmF0aW9uLg0KPiANCj4gVGhlIGltcG9ydGFudCB0
+aGluZyBpcyB0aGF0IHRoZSBkZW1vIGRyaXZlciBzaG93cyB0aGUgYmFzaWMgc3RlcHMgYXJlIHJl
+YWxseQ0KPiBzaW1wbGUuIFlvdSBuZWVkIHRvIGFkZCB0d28gZnVuY3Rpb24gY2FsbHMgaW4geW91
+ciBwcm9iZSBhbmQgb25lIGZ1bmN0aW9uIGNhbGwgaW4NCj4geW91ciByZWxlYXNlLiBPZiBjb3Vy
+c2UgeW91IHdpbGwgbmVlZCB0byBzdXBwbHkgc29tZSBmdW5jdGlvbiBjYWxsYmFja3MsIGJ1dCBJ
+DQo+IGhhdmVuJ3QgZ290IHRvIGZpbGwgdGhhdCBpbiB0aGUgZGVtbyBkcml2ZXIuIE9uY2UgeW91
+IHJlZ2lzdGVyLCB5b3UgZ2V0DQo+IC9kZXYvYWNjZWwvYWMwIGFuZA0KPiAvZGV2L2FjY2VsL2Fj
+X2NvbnRyb2xENjQgKGlmIHlvdSB3YW50IGEgY29udHJvbCBkZXZpY2UpLiBJZiBJIHdlcmUgdG8g
+Y29udGludWUNCj4gdGhpcywgdGhlIG5leHQgc3RlcCBpcyB0byBkbyB0aGUgb3BlbiBhbmQgY2xv
+c2UgcGFydC4NCj4gDQo+IEkgd2lsbCB1cGRhdGUgb25jZSB3ZSBrbm93IHdoZXJlIHRoaW5ncyBh
+cmUgaGVhZGluZy4gQXMgSSBzYWlkLCBJIGltYWdpbmUgaXQgY2FuDQo+IHRha2UgYSBmZXcgd2Vl
+a3MuDQo+IA0KPiBUaGFua3MsDQo+IE9kZWQNCg0KSGkgT2RkZWQsDQpUaGFuayB5b3UgZm9yIHVw
+bG9hZGluZyB0aGUgZnJhbWV3b3JrIGFzIHdlbGwgYXMgYSBzYW1wbGUuIA0KSXQncyBleGNpdGlu
+ZyB0byBzZWUgbmV3IHNvZnR3YXJlIGlzIGdyb3dpbmcgdXAuDQoNClNpbmNlIFZpc2NvbnRpIERO
+TiBpcyBhIHBsYXRmb3JtIGRldmljZSwgSSdsbCB3cml0ZSBzb21lIHRlc3QgY29kZSB0byBpbml0
+aWFsaXplIGRyaXZlciBhbmQgc2VlIGlmIGl0IHdvcmtzLg0KDQpSZWdhcmRzLA0KWXVqaQ0K
 
-
-On 8/4/22 10:17, Michał Winiarski wrote:
-> Negative tests can be expressed as a single parameterized test case,
-> which highlights that we're following the same test logic (passing
-> negative cmdline and expecting drm_mode_parse_command_line_for_connector
-> to fail), which improves readability.
-> 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-
-Tested-by: Maíra Canal <mairacanal@riseup.net>
-
-Best Regards,
-- Maíra Canal
-
-> ---
->  .../gpu/drm/tests/drm_cmdline_parser_test.c   | 293 ++++++------------
->  1 file changed, 103 insertions(+), 190 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> index 59b29cdfdd35..058808faaf4a 100644
-> --- a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> +++ b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
-> @@ -109,24 +109,6 @@ static void drm_cmdline_test_force_d_only(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_OFF);
->  }
->  
-> -static void drm_cmdline_test_margin_only(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "m";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_interlace_only(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "i";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_res(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -149,42 +131,6 @@ static void drm_cmdline_test_res(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> -static void drm_cmdline_test_res_missing_x(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "x480";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_res_missing_y(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "1024x";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_res_bad_y(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "1024xtest";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_res_missing_y_bpp(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "1024x-24";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_res_vesa(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -274,15 +220,6 @@ static void drm_cmdline_test_res_bpp(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> -static void drm_cmdline_test_res_bad_bpp(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480-test";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_res_refresh(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -306,15 +243,6 @@ static void drm_cmdline_test_res_refresh(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> -static void drm_cmdline_test_res_bad_refresh(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480@refresh";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_res_bpp_refresh(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -411,15 +339,6 @@ static void drm_cmdline_test_res_bpp_refresh_force_off(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_OFF);
->  }
->  
-> -static void drm_cmdline_test_res_bpp_refresh_force_on_off(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline =  "720x480-24@60de";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_res_bpp_refresh_force_on(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -563,24 +482,6 @@ static void drm_cmdline_test_res_vesa_margins(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> -static void drm_cmdline_test_res_invalid_mode(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480f";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_res_bpp_wrong_place_mode(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480e-24";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_name(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -608,42 +509,6 @@ static void drm_cmdline_test_name_bpp(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.bpp, 24);
->  }
->  
-> -static void drm_cmdline_test_name_bpp_refresh(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "NTSC-24@60";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_name_refresh(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "NTSC@60";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_name_refresh_wrong_mode(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "NTSC@60m";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_name_refresh_invalid_mode(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "NTSC@60f";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_name_option(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -762,33 +627,6 @@ static void drm_cmdline_test_rotate_270(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> -static void drm_cmdline_test_rotate_multiple(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480,rotate=0,rotate=90";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_rotate_invalid_val(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480,rotate=42";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
-> -static void drm_cmdline_test_rotate_truncated(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480,rotate=";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_hmirror(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -885,15 +723,6 @@ static void drm_cmdline_test_multiple_options(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> -static void drm_cmdline_test_invalid_option(struct kunit *test)
-> -{
-> -	struct drm_cmdline_mode mode = { };
-> -	const char *cmdline = "720x480,test=42";
-> -
-> -	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(cmdline,
-> -									   &no_connector, &mode));
-> -}
-> -
->  static void drm_cmdline_test_bpp_extra_and_option(struct kunit *test)
->  {
->  	struct drm_cmdline_mode mode = { };
-> @@ -1006,64 +835,148 @@ static void drm_cmdline_test_panel_orientation(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, mode.force, DRM_FORCE_UNSPECIFIED);
->  }
->  
-> +struct drm_cmdline_negative_test {
-> +	const char *name;
-> +	const char *cmdline;
-> +};
-> +
-> +static void drm_cmdline_test_negative(struct kunit *test)
-> +{
-> +	const struct drm_cmdline_negative_test *params = test->param_value;
-> +	struct drm_cmdline_mode mode = { };
-> +
-> +	KUNIT_EXPECT_FALSE(test, drm_mode_parse_command_line_for_connector(params->cmdline,
-> +									   &no_connector,
-> +									   &mode));
-> +}
-> +
-> +static const struct drm_cmdline_negative_test drm_cmdline_negative_tests[] = {
-> +	{
-> +		.name = "margin_only",
-> +		.cmdline = "m",
-> +	},
-> +	{
-> +		.name = "interlace_only",
-> +		.cmdline = "i",
-> +	},
-> +	{
-> +		.name = "res_missing_x",
-> +		.cmdline = "x480",
-> +	},
-> +	{
-> +		.name = "res_missing_y",
-> +		.cmdline = "1024x",
-> +	},
-> +	{
-> +		.name = "res_bad_y",
-> +		.cmdline = "1024xtest",
-> +	},
-> +	{
-> +		.name = "res_missing_y_bpp",
-> +		.cmdline = "1024x-24",
-> +	},
-> +	{
-> +		.name = "res_bad_bpp",
-> +		.cmdline = "720x480-test",
-> +	},
-> +	{
-> +		.name = "res_bad_refresh",
-> +		.cmdline = "720x480@refresh",
-> +	},
-> +	{
-> +		.name = "res_bpp_refresh_force_on_off",
-> +		.cmdline = "720x480-24@60de",
-> +	},
-> +	{
-> +		.name = "res_invalid_mode",
-> +		.cmdline = "720x480f",
-> +	},
-> +	{
-> +		.name = "res_bpp_wrong_place_mode",
-> +		.cmdline = "720x480e-24",
-> +	},
-> +	{
-> +		.name = "name_bpp_refresh",
-> +		.cmdline = "NTSC-24@60",
-> +	},
-> +	{
-> +		.name = "name_refresh",
-> +		.cmdline = "NTSC@60",
-> +	},
-> +	{
-> +		.name = "name_refresh_wrong_mode",
-> +		.cmdline = "NTSC@60m",
-> +	},
-> +	{
-> +		.name = "name_refresh_invalid_mode",
-> +		.cmdline = "NTSC@60f",
-> +	},
-> +	{
-> +		.name = "rotate_multiple",
-> +		.cmdline = "720x480,rotate=0,rotate=90",
-> +	},
-> +	{
-> +		.name = "rotate_invalid_val",
-> +		.cmdline = "720x480,rotate=42",
-> +	},
-> +	{
-> +		.name = "rotate_truncated",
-> +		.cmdline = "720x480,rotate=",
-> +	},
-> +	{
-> +		.name = "invalid_option",
-> +		.cmdline = "720x480,test=42",
-> +	},
-> +};
-> +
-> +static void drm_cmdline_negative_desc(const struct drm_cmdline_negative_test *t,
-> +				      char *desc)
-> +{
-> +	sprintf(desc, "%s", t->name);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(drm_cmdline_negative, drm_cmdline_negative_tests, drm_cmdline_negative_desc);
-> +
->  static struct kunit_case drm_cmdline_parser_tests[] = {
->  	KUNIT_CASE(drm_cmdline_test_force_d_only),
->  	KUNIT_CASE(drm_cmdline_test_force_D_only_dvi),
->  	KUNIT_CASE(drm_cmdline_test_force_D_only_hdmi),
->  	KUNIT_CASE(drm_cmdline_test_force_D_only_not_digital),
->  	KUNIT_CASE(drm_cmdline_test_force_e_only),
-> -	KUNIT_CASE(drm_cmdline_test_margin_only),
-> -	KUNIT_CASE(drm_cmdline_test_interlace_only),
->  	KUNIT_CASE(drm_cmdline_test_res),
-> -	KUNIT_CASE(drm_cmdline_test_res_missing_x),
-> -	KUNIT_CASE(drm_cmdline_test_res_missing_y),
-> -	KUNIT_CASE(drm_cmdline_test_res_bad_y),
-> -	KUNIT_CASE(drm_cmdline_test_res_missing_y_bpp),
->  	KUNIT_CASE(drm_cmdline_test_res_vesa),
->  	KUNIT_CASE(drm_cmdline_test_res_vesa_rblank),
->  	KUNIT_CASE(drm_cmdline_test_res_rblank),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp),
-> -	KUNIT_CASE(drm_cmdline_test_res_bad_bpp),
->  	KUNIT_CASE(drm_cmdline_test_res_refresh),
-> -	KUNIT_CASE(drm_cmdline_test_res_bad_refresh),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_interlaced),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_margins),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_off),
-> -	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_off),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_analog),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_force_on_digital),
->  	KUNIT_CASE(drm_cmdline_test_res_bpp_refresh_interlaced_margins_force_on),
->  	KUNIT_CASE(drm_cmdline_test_res_margins_force_on),
->  	KUNIT_CASE(drm_cmdline_test_res_vesa_margins),
-> -	KUNIT_CASE(drm_cmdline_test_res_invalid_mode),
-> -	KUNIT_CASE(drm_cmdline_test_res_bpp_wrong_place_mode),
->  	KUNIT_CASE(drm_cmdline_test_name),
->  	KUNIT_CASE(drm_cmdline_test_name_bpp),
-> -	KUNIT_CASE(drm_cmdline_test_name_refresh),
-> -	KUNIT_CASE(drm_cmdline_test_name_bpp_refresh),
-> -	KUNIT_CASE(drm_cmdline_test_name_refresh_wrong_mode),
-> -	KUNIT_CASE(drm_cmdline_test_name_refresh_invalid_mode),
->  	KUNIT_CASE(drm_cmdline_test_name_option),
->  	KUNIT_CASE(drm_cmdline_test_name_bpp_option),
->  	KUNIT_CASE(drm_cmdline_test_rotate_0),
->  	KUNIT_CASE(drm_cmdline_test_rotate_90),
->  	KUNIT_CASE(drm_cmdline_test_rotate_180),
->  	KUNIT_CASE(drm_cmdline_test_rotate_270),
-> -	KUNIT_CASE(drm_cmdline_test_rotate_multiple),
-> -	KUNIT_CASE(drm_cmdline_test_rotate_invalid_val),
-> -	KUNIT_CASE(drm_cmdline_test_rotate_truncated),
->  	KUNIT_CASE(drm_cmdline_test_hmirror),
->  	KUNIT_CASE(drm_cmdline_test_vmirror),
->  	KUNIT_CASE(drm_cmdline_test_margin_options),
->  	KUNIT_CASE(drm_cmdline_test_multiple_options),
-> -	KUNIT_CASE(drm_cmdline_test_invalid_option),
->  	KUNIT_CASE(drm_cmdline_test_bpp_extra_and_option),
->  	KUNIT_CASE(drm_cmdline_test_extra_and_option),
->  	KUNIT_CASE(drm_cmdline_test_freestanding_options),
->  	KUNIT_CASE(drm_cmdline_test_freestanding_force_e_and_options),
->  	KUNIT_CASE(drm_cmdline_test_panel_orientation),
-> +	KUNIT_CASE_PARAM(drm_cmdline_test_negative, drm_cmdline_negative_gen_params),
->  	{}
->  };
->  
