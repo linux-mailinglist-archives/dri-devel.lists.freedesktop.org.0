@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7359458E8E9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 10:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF6D58E92F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 10:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D0CF26E2;
-	Wed, 10 Aug 2022 08:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F02D9AFB1A;
+	Wed, 10 Aug 2022 08:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC95EF2603
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 08:37:28 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id p8so13604106plq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 01:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=DlRTchSrzeAqXD0wdz67azlV3bDFmBslifJgwlEGxrM=;
- b=XiblQ0IjpoXyM6X8nG1Bqtjxl+4Rp39neB/BGQgF1rb/xUqeUS7R9Ojxxnp0hwZiam
- gWgc+4uN29aGkxpDLV906WmjMuTxi7boS0vwrB0q60mrq4JeEgmMSorVgA8xfwapewp/
- stAcBju6WaL03CGT/F9P/DzwBPk/wGamp4rKdwMeXasvjZ7lEFvfGvDitdQBnlPr+xuA
- j2LUvTQLykL167pOfsDBf6T8QOYtQb11SaIMh6aaFu3Ebx+4OBwETfjQi6xP4DxZMzG7
- ftoFdA9c6HYJhg+vztVE/xfuquZwv3ksxOM3RHN1UpDaqYLxJV0Vuc+Y/FKtSASetcxn
- IIkA==
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBBBAFC43
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 08:58:45 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id 7so22303234ybw.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 01:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=2PmnQy9U1/lt+p+l2hFrCjWUU3aQ4y+M/PEcXE/12/M=;
+ b=hVE1t++rCxMZhMYt1GawIULran/IylUDFqwBk5nwsKqUWql6L/107UrX2s/XV8Pc2C
+ vw1FUcNtVohHQvJCzGpzIv+buAz/wncXboJPMlqZU4tVdYhtpjNl0SCDNkxPB8FMSxAy
+ HNYbwUDS682oyFo6612DPRKU3JaUm1s+pmxjU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=DlRTchSrzeAqXD0wdz67azlV3bDFmBslifJgwlEGxrM=;
- b=CYRNgJXnFhZKw+vhVVSq2cqQnG3jmJnvGcYOTOxvKzNHRWdLcuiv5ajWOjJT8KpUEq
- jxYELyDHp/d1W+5UXuOc8M272toCLs3Bg4YMCuWJDhr1U3k7x52P4aPmkCAe18sZK7cZ
- lzWJs9xw+ikk8oo4U1bQZmYEMwG37+nvf8UYkHxB43ay4SJ5SzOfo9elqwVbfdnu/i8/
- y0lcB3ayyl+HSEBRVVpmet5K7tBik3EzYR3l8LyxO2WJFIGy25P73wOnK9aHspzkcqjo
- pp+jz2H2EZZ2hLvhsT12Ee8mdgDtwaZENG7HDKaZir12rdk2DntQbvM2L6cv4slNtfBK
- c69A==
-X-Gm-Message-State: ACgBeo2gSYbOv2h0C6cdZNoxTq01nIRw95jhezuyjmFEOaTAb3D1AwHz
- bwe5ajZiG3Iyme53lVro+WcarHTmmkRzVQ==
-X-Google-Smtp-Source: AA6agR5u/K6sPizHHrobatXs/nWTKWNULiDkMsbUmVu44yCeLzjkRs56eKuLL6inCGwILPvj05VDaQ==
-X-Received: by 2002:a17:90b:38cc:b0:1f7:2835:d45e with SMTP id
- nn12-20020a17090b38cc00b001f72835d45emr2494905pjb.177.1660120648422; 
- Wed, 10 Aug 2022 01:37:28 -0700 (PDT)
-Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id
- f1-20020aa79681000000b0052d63fb109asm1323607pfk.20.2022.08.10.01.37.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 01:37:28 -0700 (PDT)
-From: Takanari Hayama <taki@igel.co.jp>
-To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 3/3] drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
-Date: Wed, 10 Aug 2022 17:37:11 +0900
-Message-Id: <20220810083711.219642-4-taki@igel.co.jp>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220810083711.219642-1-taki@igel.co.jp>
-References: <20220810083711.219642-1-taki@igel.co.jp>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=2PmnQy9U1/lt+p+l2hFrCjWUU3aQ4y+M/PEcXE/12/M=;
+ b=HfvEYlRyKJRmfF5lFZ/nkLoFqyfNuSnH8mRC+Jzi1xpD9HdZvkPAhfQfa64rUUlzSy
+ sauC8D7+VO5XJHNfNRU7rfbH6VuPdimZ45T6ceQ0CUplF4OgAIljCiMMTEsmGzCC/4oK
+ 7VMFfMzhku7VUMMvyzuYb+WrkTDAMkU+T9eD+yhse+VvVUH7D+7lm/4xIY49oZH6pAy8
+ H3A2pv11uqvshDBoalFmsCzA4qPyIM7rIRpskcWW+CmO/4sAG00eZhhORRyWtg+YSoAi
+ VGS4mDvB15bdNa46Uxs2lrpnlp0i09YoOR4GImO26NRnq6HFEraRaNDiBoL+3mQPmMVB
+ cZhg==
+X-Gm-Message-State: ACgBeo2e3a0LbmnPagfH30WnF2TrwBZMECLeXncKRimpmM9ADyNQD2C5
+ pKhkCHOGRgfItGzUuYUuQ/8aKNDVvIydBtEcYJRmjg==
+X-Google-Smtp-Source: AA6agR4MsGGUtyoBj/+yfnuqG/nZkrPYAXn5jSRB3Z0SE44kHwOP2tZOVpF2oR9/x9/29h2lTYjFz3mqg67VAFwVp4Y=
+X-Received: by 2002:a25:cec6:0:b0:671:72cf:f585 with SMTP id
+ x189-20020a25cec6000000b0067172cff585mr24617848ybe.201.1660121924228; Wed, 10
+ Aug 2022 01:58:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220726033058.403715-1-xji@analogixsemi.com>
+ <9385f8642e6ad5491a036360c644dc21b9a3f009.camel@mediatek.com>
+In-Reply-To: <9385f8642e6ad5491a036360c644dc21b9a3f009.camel@mediatek.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Wed, 10 Aug 2022 16:58:18 +0800
+Message-ID: <CAJMQK-injwWcNVC-niYTgbFQ3R6yOMGkSX+vAuwWAEiMhhft3Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Support HDMI_I2S audio format
+To: Jiaxin Yu <jiaxin.yu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,70 +61,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Takanari Hayama <taki@igel.co.jp>, airlied@linux.ie,
- kieran.bingham+renesas@ideasonboard.com, laurent.pinchart@ideasonboard.com,
- mchehab@kernel.org
+Cc: dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ qwen@analogixsemi.com, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, bliang@analogixsemi.com,
+ Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_MODE_BLEND_PIXEL_NONE ignores an alpha channel.
+On Tue, Jul 26, 2022 at 5:16 PM Jiaxin Yu <jiaxin.yu@mediatek.com> wrote:
+>
+> On Tue, 2022-07-26 at 11:30 +0800, Xin Ji wrote:
+> > 1. Support HDMI_I2S audio format.
+> > 2. Return 0 if there is no sink connection in .hw_param callback.
+> >
+> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > ---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 23 +++++++++++++++++--
+> > ----
+> >  1 file changed, 17 insertions(+), 6 deletions(-)
+> >
+> Acked-by: Jiaxin Yu<jiaxin.yu@mediatek.com>
+Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
 
-Rcar-du driver supports only 3 formats with an alpha channel
-(DRM_FORMAT_ARGB1555, DRM_FORMAT_ARGB8888 and DRM_FORMAT_ARGB4444). We
-simply override the format passed to VSP1 for blending with the pixel
-format without alpha channel.
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Takanari Hayama <taki@igel.co.jp>
----
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index b9580fcfec7a..7cce2d414ced 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -151,6 +151,7 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- 		.alpha = state->state.alpha >> 8,
- 		.zpos = state->state.zpos,
- 	};
-+	u32 fourcc = state->format->fourcc;
- 	unsigned int i;
- 
- 	cfg.src.left = state->state.src.x1 >> 16;
-@@ -169,7 +170,23 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- 
- 	cfg.premult = (state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI);
- 
--	format = rcar_du_format_info(state->format->fourcc);
-+	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
-+		switch (fourcc) {
-+		case DRM_FORMAT_ARGB1555:
-+			fourcc = DRM_FORMAT_XRGB1555;
-+			break;
-+
-+		case DRM_FORMAT_ARGB4444:
-+			fourcc = DRM_FORMAT_XRGB4444;
-+			break;
-+
-+		case DRM_FORMAT_ARGB8888:
-+			fourcc = DRM_FORMAT_XRGB8888;
-+			break;
-+		}
-+	}
-+
-+	format = rcar_du_format_info(fourcc);
- 	cfg.pixelformat = format->v4l2;
- 
- 	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
-@@ -447,6 +464,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 		}
- 
- 		drm_plane_create_blend_mode_property(&plane->plane,
-+					BIT(DRM_MODE_BLEND_PIXEL_NONE) |
- 					BIT(DRM_MODE_BLEND_PREMULTI) |
- 					BIT(DRM_MODE_BLEND_COVERAGE));
- 
--- 
-2.25.1
-
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > index 79fc7a50b497..c74b5df4cade 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > @@ -1797,8 +1797,13 @@ static int anx7625_audio_hw_params(struct
+> > device *dev, void *data,
+> >       int wl, ch, rate;
+> >       int ret = 0;
+> >
+> > -     if (fmt->fmt != HDMI_DSP_A) {
+> > -             DRM_DEV_ERROR(dev, "only supports DSP_A\n");
+> > +     if (anx7625_sink_detect(ctx) == connector_status_disconnected)
+> > {
+> > +             DRM_DEV_DEBUG_DRIVER(dev, "DP not connected\n");
+> > +             return 0;
+> > +     }
+> > +
+> > +     if (fmt->fmt != HDMI_DSP_A && fmt->fmt != HDMI_I2S) {
+> > +             DRM_DEV_ERROR(dev, "only supports DSP_A & I2S\n");
+> >               return -EINVAL;
+> >       }
+> >
+> > @@ -1806,10 +1811,16 @@ static int anx7625_audio_hw_params(struct
+> > device *dev, void *data,
+> >                            params->sample_rate, params->sample_width,
+> >                            params->cea.channels);
+> >
+> > -     ret |= anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
+> > -                                 AUDIO_CHANNEL_STATUS_6,
+> > -                                 ~I2S_SLAVE_MODE,
+> > -                                 TDM_SLAVE_MODE);
+> > +     if (fmt->fmt == HDMI_DSP_A)
+> > +             ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
+> > +                                        AUDIO_CHANNEL_STATUS_6,
+> > +                                        ~I2S_SLAVE_MODE,
+> > +                                        TDM_SLAVE_MODE);
+> > +     else
+> > +             ret = anx7625_write_and_or(ctx, ctx->i2c.tx_p2_client,
+> > +                                        AUDIO_CHANNEL_STATUS_6,
+> > +                                        ~TDM_SLAVE_MODE,
+> > +                                        I2S_SLAVE_MODE);
+> >
+> >       /* Word length */
+> >       switch (params->sample_width) {
+>
