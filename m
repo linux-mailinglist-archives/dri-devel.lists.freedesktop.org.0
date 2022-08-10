@@ -1,34 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D4E58E7D4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 09:24:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B3058E7D7
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 09:25:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B436EEEB76;
-	Wed, 10 Aug 2022 07:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3107A12BC29;
+	Wed, 10 Aug 2022 07:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9D6E29B4
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 02:01:49 +0000 (UTC)
-X-UUID: 9f05555bce6943ec8b941971f42bb69e-20220810
-X-Spam-Fingerprint: 0
-X-GW-Reason: 11109
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMeS6uumcgOimgeWuoeaguA==
-X-Content-Feature: ica/max.line-size 104 audit/email.address 1 dict/adv 1
- dict/contack 1 dict/notice 2 dict/operate 1 meta/cnt.alert 1
-X-UUID: 9f05555bce6943ec8b941971f42bb69e-20220810
-X-User: oushixiong@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
- with ESMTP id 120562178; Wed, 10 Aug 2022 09:02:22 +0800
-From: oushixiong <oushixiong@kylinos.cn>
-To: Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] drm/ast: radeon amdgpu for ast add prime
-Date: Wed, 10 Aug 2022 09:02:16 +0800
-Message-Id: <20220810010216.15941-1-oushixiong@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 867 seconds by postgrey-1.36 at gabe;
+ Wed, 10 Aug 2022 05:05:07 UTC
+Received: from mx5.cs.washington.edu (mx5.cs.washington.edu
+ [IPv6:2607:4000:200:11::6a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32686E9818
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 05:05:07 +0000 (UTC)
+Received: from mx5.cs.washington.edu (localhost [IPv6:0:0:0:0:0:0:0:1])
+ by mx5.cs.washington.edu (8.17.1/8.17.1/1.26) with ESMTP id 27A4oVYD212469;
+ Tue, 9 Aug 2022 21:50:31 -0700
+Received: from attu4.cs.washington.edu (attu4.cs.washington.edu
+ [IPv6:2607:4000:200:10:0:0:0:8c]) (authenticated bits=128)
+ by mx5.cs.washington.edu (8.17.1/8.17.1/1.26) with ESMTPSA id 27A4oR7R212445
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+ Tue, 9 Aug 2022 21:50:27 -0700
+Received: from attu4.cs.washington.edu (localhost [127.0.0.1])
+ by attu4.cs.washington.edu (8.15.2/8.15.2/1.23) with ESMTP id 27A4oR1S2634744; 
+ Tue, 9 Aug 2022 21:50:27 -0700
+Received: (from klee33@localhost)
+ by attu4.cs.washington.edu (8.15.2/8.15.2/Submit/1.2) id 27A4oPEJ2634732;
+ Tue, 9 Aug 2022 21:50:25 -0700
+From: Kenneth Lee <klee33@uw.edu>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie
+Subject: [PATCH] drm: Use kzalloc for allocating only one element
+Date: Tue,  9 Aug 2022 21:50:12 -0700
+Message-Id: <20220810045012.2634661-1-klee33@uw.edu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 10 Aug 2022 07:24:12 +0000
@@ -44,291 +51,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oushixiong <oushixiong@kylinos.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Kenneth Lee <klee33@uw.edu>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds ast specific codes for DRM prime feature.
-Add the prime function to solve the xorg conflict problem when AST
-and AMD are in place at the same time, so that both can be displayed.
+Use kzalloc(...) rather than kcalloc(1, ...) because the number of
+elements we are specifying in this case is 1, so kzalloc would
+accomplish the same thing and we can simplify.
 
-Signed-off-by: oushixiong <oushixiong@kylinos.cn>
+Signed-off-by: Kenneth Lee <klee33@uw.edu>
 ---
- drivers/gpu/drm/ast/ast_drv.c                |  22 ++++
- drivers/gpu/drm/ast/ast_mode.c               | 115 ++++++++++++++++++-
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |   1 -
- drivers/gpu/drm/drm_gem_vram_helper.c        |  16 ++-
- include/drm/drm_gem_vram_helper.h            |   4 +-
- 5 files changed, 150 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c         | 2 +-
+ drivers/gpu/drm/bridge/nwl-dsi.c                | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_evict.c | 2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c              | 2 +-
+ drivers/gpu/drm/radeon/radeon_atombios.c        | 3 +--
+ drivers/gpu/drm/radeon/radeon_combios.c         | 4 ++--
+ drivers/gpu/drm/v3d/v3d_gem.c                   | 2 +-
+ drivers/gpu/drm/vc4/vc4_gem.c                   | 4 ++--
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c      | 2 +-
+ 9 files changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 7465c4f0156a..3650462a8734 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -28,6 +28,7 @@
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+index 6d72355ac492..4a6ef5cccddc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+@@ -279,7 +279,7 @@ static int acp_hw_init(void *handle)
+ 			goto failure;
+ 		}
  
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/dma-buf.h>
+-		i2s_pdata = kcalloc(1, sizeof(struct i2s_platform_data), GFP_KERNEL);
++		i2s_pdata = kzalloc(sizeof(struct i2s_platform_data), GFP_KERNEL);
+ 		if (!i2s_pdata) {
+ 			r = -ENOMEM;
+ 			goto failure;
+diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+index 6dc2a4e191d7..56dd1781925b 100644
+--- a/drivers/gpu/drm/bridge/nwl-dsi.c
++++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+@@ -949,7 +949,7 @@ static u32 *nwl_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+ 		return NULL;
+ 	}
  
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -50,6 +51,23 @@ module_param_named(modeset, ast_modeset, int, 0400);
+-	input_fmts = kcalloc(1, sizeof(*input_fmts), GFP_KERNEL);
++	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
+ 	if (!input_fmts)
+ 		return NULL;
+ 	input_fmts[0] = input_fmt;
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+index 8c6517d29b8e..11c6f4cb95ae 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+@@ -420,7 +420,7 @@ static int igt_evict_contexts(void *arg)
+ 		struct reserved *r;
  
- DEFINE_DRM_GEM_FOPS(ast_fops);
+ 		mutex_unlock(&ggtt->vm.mutex);
+-		r = kcalloc(1, sizeof(*r), GFP_KERNEL);
++		r = kzalloc(sizeof(*r), GFP_KERNEL);
+ 		mutex_lock(&ggtt->vm.mutex);
+ 		if (!r) {
+ 			err = -ENOMEM;
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 630a4e301ef6..4f83656cb52f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -658,7 +658,7 @@ static u32 *mtk_dpi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
  
-+struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
-+					struct dma_buf_attachment *attach,
-+					struct sg_table *sg)
-+{
-+	struct drm_gem_vram_object *gbo;
-+	struct dma_resv *resv = attach->dmabuf->resv;
-+
-+	ww_mutex_lock(&resv->lock, NULL);
-+	gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0, sg, resv);
-+	ww_mutex_unlock(&resv->lock);
-+
-+	if (IS_ERR(gbo))
-+		return NULL;
-+
-+	return &gbo->bo.base;
-+}
-+
- static const struct drm_driver ast_driver = {
- 	.driver_features = DRIVER_ATOMIC |
- 			   DRIVER_GEM |
-@@ -63,6 +81,10 @@ static const struct drm_driver ast_driver = {
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
+ 	*num_input_fmts = 0;
  
-+	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-+	.gem_prime_import_sg_table = ast_gem_prime_import_sg_table,
-+
- 	DRM_GEM_VRAM_DRIVER
- };
+-	input_fmts = kcalloc(1, sizeof(*input_fmts),
++	input_fmts = kzalloc(sizeof(*input_fmts),
+ 			     GFP_KERNEL);
+ 	if (!input_fmts)
+ 		return NULL;
+diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
+index 28c4413f4dc8..e8a4283614b2 100644
+--- a/drivers/gpu/drm/radeon/radeon_atombios.c
++++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+@@ -2786,8 +2786,7 @@ void radeon_atombios_get_power_modes(struct radeon_device *rdev)
+ 		rdev->pm.power_state = kzalloc(sizeof(struct radeon_power_state), GFP_KERNEL);
+ 		if (rdev->pm.power_state) {
+ 			rdev->pm.power_state[0].clock_info =
+-				kcalloc(1,
+-				        sizeof(struct radeon_pm_clock_info),
++				kzalloc(sizeof(struct radeon_pm_clock_info),
+ 				        GFP_KERNEL);
+ 			if (rdev->pm.power_state[0].clock_info) {
+ 				/* add the default mode */
+diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
+index 783a6b8802d5..b3147711e9f9 100644
+--- a/drivers/gpu/drm/radeon/radeon_combios.c
++++ b/drivers/gpu/drm/radeon/radeon_combios.c
+@@ -2650,10 +2650,10 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
+ 	if (rdev->pm.power_state) {
+ 		/* allocate 1 clock mode per state */
+ 		rdev->pm.power_state[0].clock_info =
+-			kcalloc(1, sizeof(struct radeon_pm_clock_info),
++			kzalloc(sizeof(struct radeon_pm_clock_info),
+ 				GFP_KERNEL);
+ 		rdev->pm.power_state[1].clock_info =
+-			kcalloc(1, sizeof(struct radeon_pm_clock_info),
++			kzalloc(sizeof(struct radeon_pm_clock_info),
+ 				GFP_KERNEL);
+ 		if (!rdev->pm.power_state[0].clock_info ||
+ 		    !rdev->pm.power_state[1].clock_info)
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 725a252e837b..362d2e78365d 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -462,7 +462,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	bool has_multisync = se && (se->flags & DRM_V3D_EXT_ID_MULTI_SYNC);
+ 	int ret, i;
  
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 45b56b39ad47..f059faa8c35a 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -48,6 +48,8 @@
- #include "ast_drv.h"
- #include "ast_tables.h"
+-	*container = kcalloc(1, size, GFP_KERNEL);
++	*container = kzalloc(size, GFP_KERNEL);
+ 	if (!*container) {
+ 		DRM_ERROR("Cannot allocate memory for v3d job.");
+ 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index fe10d9c3fff8..52c407147d33 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -159,7 +159,7 @@ vc4_save_hang_state(struct drm_device *dev)
+ 	unsigned long irqflags;
+ 	unsigned int i, j, k, unref_list_count;
  
-+MODULE_IMPORT_NS(DMA_BUF);
-+
- static inline void ast_load_palette_index(struct ast_private *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -926,7 +928,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+-	kernel_state = kcalloc(1, sizeof(*kernel_state), GFP_KERNEL);
++	kernel_state = kzalloc(sizeof(*kernel_state), GFP_KERNEL);
+ 	if (!kernel_state)
+ 		return;
  
- 	for (i = 0; i < ARRAY_SIZE(ast_cursor_plane->hwc); ++i) {
--		gbo = drm_gem_vram_create(dev, size, 0);
-+		gbo = drm_gem_vram_create(dev, size, 0, NULL, NULL);
- 		if (IS_ERR(gbo)) {
- 			ret = PTR_ERR(gbo);
- 			goto err_hwc;
-@@ -1535,8 +1537,117 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
- };
- 
-+int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-+					int width, int height)
-+{
-+	struct drm_gem_vram_object *dst_bo = NULL;
-+	void *dst = NULL;
-+	int ret = 0, i;
-+	unsigned long offset = 0;
-+	bool unmap = false;
-+	unsigned int bytesPerPixel;
-+	struct iosys_map map;
-+	struct iosys_map dmabuf_map;
-+
-+	bytesPerPixel = fb->format->cpp[0];
-+
-+	if (!fb->obj[0]->import_attach)
-+		return -EINVAL;
-+
-+	if (!fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr) {
-+		ret = dma_buf_vmap(fb->obj[0]->import_attach->dmabuf, &dmabuf_map);
-+		if (ret)
-+			return 0;
-+	} else {
-+		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
-+	}
-+
-+	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
-+
-+	ret = drm_gem_vram_pin(dst_bo, 0);
-+	if (ret) {
-+		DRM_ERROR("ast_bo_pin failed\n");
-+		goto error;
-+	}
-+
-+	if (!dst_bo->map.vaddr) {
-+		ret = drm_gem_vram_vmap(dst_bo, &map);
-+		if (ret) {
-+			DRM_ERROR("failed to vmap fbcon\n");
-+			drm_gem_vram_unpin(dst_bo);
-+			goto error;
-+		}
-+		unmap = true;
-+	}
-+	dst = dst_bo->map.vaddr;
-+
-+	for (i = y; i < y + height; i++) {
-+		offset = i * fb->pitches[0] + (x * bytesPerPixel);
-+		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
-+			width * bytesPerPixel);
-+	}
-+
-+	if (unmap)
-+		drm_gem_vram_vunmap(dst_bo, &map);
-+
-+	drm_gem_vram_unpin(dst_bo);
-+error:
-+	return 0;
-+}
-+
-+
-+int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-+				struct drm_file *file,
-+				unsigned int flags,
-+				unsigned int color,
-+				struct drm_clip_rect *clips,
-+				unsigned int num_clips)
-+{
-+	int i, ret = 0;
-+
-+	drm_modeset_lock_all(fb->dev);
-+	if (fb->obj[0]->import_attach) {
-+		ret = dma_buf_begin_cpu_access(fb->obj[0]->import_attach->dmabuf,
-+				DMA_FROM_DEVICE);
-+		if (ret)
-+			goto unlock;
-+	}
-+
-+	for (i = 0; i < num_clips; i++) {
-+		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
-+				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
-+		if (ret)
-+			break;
-+	}
-+
-+	if (fb->obj[0]->import_attach) {
-+		dma_buf_end_cpu_access(fb->obj[0]->import_attach->dmabuf,
-+				DMA_FROM_DEVICE);
-+	}
-+
-+unlock:
-+	drm_modeset_unlock_all(fb->dev);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(ast_user_framebuffer_dirty);
-+
-+static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
-+	.destroy	= drm_gem_fb_destroy,
-+	.create_handle	= drm_gem_fb_create_handle,
-+	.dirty		= ast_user_framebuffer_dirty,
-+};
-+
-+struct drm_framebuffer *
-+ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
-+				const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-+					&ast_gem_fb_funcs_dirtyfb);
-+}
-+
- static const struct drm_mode_config_funcs ast_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create,
-+	.fb_create = ast_gem_fb_create_with_dirty,
- 	.mode_valid = drm_vram_helper_mode_valid,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index f4619803acd0..f65165d5e86c 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -15,7 +15,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper.h>
--
- #include "drm_internal.h"
- 
- MODULE_IMPORT_NS(DMA_BUF);
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index dc7f938bfff2..a31adb3c546d 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -184,14 +184,22 @@ static void drm_gem_vram_placement(struct drm_gem_vram_object *gbo,
-  */
- struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 						size_t size,
--						unsigned long pg_align)
-+						unsigned long pg_align,
-+						struct sg_table *sg,
-+						struct dma_resv *resv)
- {
- 	struct drm_gem_vram_object *gbo;
- 	struct drm_gem_object *gem;
- 	struct drm_vram_mm *vmm = dev->vram_mm;
- 	struct ttm_device *bdev;
-+	enum ttm_bo_type type;
- 	int ret;
- 
-+	if (sg)
-+		type = ttm_bo_type_sg;
-+	else
-+		type = ttm_bo_type_device;
-+
- 	if (WARN_ONCE(!vmm, "VRAM MM not initialized"))
- 		return ERR_PTR(-EINVAL);
- 
-@@ -225,8 +233,8 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 	 * A failing ttm_bo_init will call ttm_buffer_object_destroy
- 	 * to release gbo->bo.base and kfree gbo.
- 	 */
--	ret = ttm_bo_init(bdev, &gbo->bo, size, ttm_bo_type_device,
--			  &gbo->placement, pg_align, false, NULL, NULL,
-+	ret = ttm_bo_init(bdev, &gbo->bo, size, type,
-+			  &gbo->placement, pg_align, false, sg, resv,
- 			  ttm_buffer_object_destroy);
- 	if (ret)
- 		return ERR_PTR(ret);
-@@ -521,7 +529,7 @@ int drm_gem_vram_fill_create_dumb(struct drm_file *file,
- 	if (!size)
+@@ -1194,7 +1194,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
  		return -EINVAL;
+ 	}
  
--	gbo = drm_gem_vram_create(dev, size, pg_align);
-+	gbo = drm_gem_vram_create(dev, size, pg_align, NULL, NULL);
- 	if (IS_ERR(gbo))
- 		return PTR_ERR(gbo);
+-	exec = kcalloc(1, sizeof(*exec), GFP_KERNEL);
++	exec = kzalloc(sizeof(*exec), GFP_KERNEL);
+ 	if (!exec) {
+ 		DRM_ERROR("malloc failure on exec struct\n");
+ 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/vc4/vc4_validate_shaders.c b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
+index e315aeb5fef5..e84c17615313 100644
+--- a/drivers/gpu/drm/vc4/vc4_validate_shaders.c
++++ b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
+@@ -801,7 +801,7 @@ vc4_validate_shader(struct drm_gem_cma_object *shader_obj)
+ 	if (!validation_state.branch_targets)
+ 		goto fail;
  
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index c083a1d71cf4..42c8f181cbd7 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -92,7 +92,9 @@ static inline struct drm_gem_vram_object *drm_gem_vram_of_gem(
+-	validated_shader = kcalloc(1, sizeof(*validated_shader), GFP_KERNEL);
++	validated_shader = kzalloc(sizeof(*validated_shader), GFP_KERNEL);
+ 	if (!validated_shader)
+ 		goto fail;
  
- struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 						size_t size,
--						unsigned long pg_align);
-+						unsigned long pg_align,
-+						struct sg_table *sg,
-+						struct dma_resv *resv);
- void drm_gem_vram_put(struct drm_gem_vram_object *gbo);
- s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
- int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
 -- 
-2.17.1
+2.31.1
 
-
-No virus found
-		Checked by Hillstone Network AntiVirus
