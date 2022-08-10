@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED6258F009
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:05:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7725158F001
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757DA90261;
-	Wed, 10 Aug 2022 16:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D712AC2D;
+	Wed, 10 Aug 2022 16:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
- [209.85.166.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD3F2BFD2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:03:45 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id h138so12484392iof.12
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:03:45 -0700 (PDT)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
+ [209.85.166.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762951131CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:03:47 +0000 (UTC)
+Received: by mail-il1-f172.google.com with SMTP id p9so7282946ilq.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:03:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=gUFodgoC2lqTFaNasV7YrZykU95cfxFWACtBt8544i0=;
- b=hEh71p2ql8vFfYP/A7KpRvQ+lIipKGkjBe//NNFjsngPornH6rPN2IV+i4y1JT1Iaa
- fcPsjykM0HGUlMbzWdxX7u4NPO/qRkd9oqwcqIp9MREvMRMEwdXxyOechAQIBwyOS3jK
- W0Vkswe1FiURX8KCxpuwuhxgTi0NNowHefCFhv/JAuiIYmajCWCUSGoy5WXsyXMC1Cp3
- 5oJjUoEMe+WUXLSjRF4DrCLfxWnYxF/3D17Uh6bEv49Kep2d4+FbRIzxSimZCeQPLY/w
- wF9YR9TA4VMIb0bSwyfS4uzJD6L3Sjmw/2yUcZUHa72uraz2yAq+aiYnEKc4DaR4qC1T
- UQiw==
-X-Gm-Message-State: ACgBeo0CTTRxLwP5kBWAVRkcxLMB/FpkdJL5wUvWmubUKgyWI2OQIf6A
- mW/tQ43v5wHJt18RMp9YnA==
-X-Google-Smtp-Source: AA6agR4B7/p6u94ML83YbYJrjwN2UKytsOAzrt31dANpFxXzc/VXUvtvEbBrHLarP+5xG25DICyg+g==
-X-Received: by 2002:a05:6638:2504:b0:343:38c9:eb27 with SMTP id
- v4-20020a056638250400b0034338c9eb27mr2808124jat.92.1660147424916; 
- Wed, 10 Aug 2022 09:03:44 -0700 (PDT)
+ bh=IrtUFJXfmfdQKeaT5ZVd35+tzRi7zWIlb+Wsybvtzfw=;
+ b=1a++R6NSM4i2Z0UK5Kpi4yi5z8EkQIFtuuGfIlepRecPKYgivmT5Kg2dOOmddtXsEr
+ dXbj8MpsPfmJtJx/l8fAoocQyNwbo2G1BfpJ/TcWJfYcqVUkWNkXihtIBqKlyk7fk1JM
+ p08NyHlK7p2+KfNy0dD94iM8cvVYLdbRYfP8zZjYuBSOvhQWohgSi0voY08NBmJraEMF
+ siz98xeT/HMIFdLs7jhoRwMOMrbjmeINF+oySD177DArfnokrUFKjNUUWacAeLtcYCZ5
+ N6LRjnXTKpSoW/IOo1umkQ0drcAAbnh4cICPPDKYIKTxds3bAyniiRDB9/qVPq6+qmr0
+ kX8w==
+X-Gm-Message-State: ACgBeo0mlS+G6I8YFinikOAaEn9bidS9hS4NplHjMLukQM/Gy9FVrBcO
+ Fm25TQz9UMu3BrZsFfwkRw==
+X-Google-Smtp-Source: AA6agR5L6UDKesXHoDGK9TS6LftDSNWSGOXJ/sv+fkC0JxoXQwGpeO5paASudn/YE/O29MWZ9eM0Eg==
+X-Received: by 2002:a05:6e02:198b:b0:2e0:d13c:b508 with SMTP id
+ g11-20020a056e02198b00b002e0d13cb508mr8053060ilf.315.1660147426681; 
+ Wed, 10 Aug 2022 09:03:46 -0700 (PDT)
 Received: from xps15.herring.priv ([64.188.179.248])
  by smtp.googlemail.com with ESMTPSA id
- a27-20020a02735b000000b00341a215d3cesm7617629jae.63.2022.08.10.09.03.43
+ a27-20020a02735b000000b00341a215d3cesm7617629jae.63.2022.08.10.09.03.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 09:03:44 -0700 (PDT)
+ Wed, 10 Aug 2022 09:03:46 -0700 (PDT)
 From: Rob Herring <robh@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 1/2] dt-bindings: display: arm,
- versatile-tft-panel: Drop erroneous properties in example
-Date: Wed, 10 Aug 2022 10:03:40 -0600
-Message-Id: <20220810160341.51995-2-robh@kernel.org>
+Subject: [PATCH 2/2] dt-bindings: arm,
+ versatile-sysreg: Convert to DT schema format
+Date: Wed, 10 Aug 2022 10:03:41 -0600
+Message-Id: <20220810160341.51995-3-robh@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220810160341.51995-1-robh@kernel.org>
 References: <20220810160341.51995-1-robh@kernel.org>
@@ -67,29 +67,76 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 'arm,versatile-sysreg' node in the example should not have
-'#address-cells' and '#size-cells' properties as the child node doesn't
-have 'reg'.
+Convert the arm,versatile-sysreg binding to DT schema format.
+
+The original binding was missing 'simple-mfd' and a 'panel' sub node which
+the only user (versatile-ab.dts) of this binding has.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/display/panel/arm,versatile-tft-panel.yaml        | 3 ---
- 1 file changed, 3 deletions(-)
+ .../bindings/arm/arm,versatile-sysreg.yaml    | 35 +++++++++++++++++++
+ .../bindings/arm/versatile-sysreg.txt         | 10 ------
+ 2 files changed, 35 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml
+ delete mode 100644 Documentation/devicetree/bindings/arm/versatile-sysreg.txt
 
-diff --git a/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml b/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
-index be69e0cc50fc..c9958f824d9a 100644
---- a/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
-@@ -37,9 +37,6 @@ examples:
-         compatible = "arm,versatile-sysreg", "syscon", "simple-mfd";
-         reg = <0x00000 0x1000>;
- 
--        #address-cells = <1>;
--        #size-cells = <0>;
+diff --git a/Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml b/Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml
+new file mode 100644
+index 000000000000..491eef1e1b10
+--- /dev/null
++++ b/Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml
+@@ -0,0 +1,35 @@
++# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/arm/arm,versatile-sysreg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Arm Versatile system registers
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description:
++  This is a system control registers block, providing multiple low level
++  platform functions like board detection and identification, software
++  interrupt generation, MMC and NOR Flash control, etc.
++
++properties:
++  compatible:
++    items:
++      - const: arm,versatile-sysreg
++      - const: syscon
++      - const: simple-mfd
++
++  reg:
++    maxItems: 1
++
++  panel:
++    type: object
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++...
+diff --git a/Documentation/devicetree/bindings/arm/versatile-sysreg.txt b/Documentation/devicetree/bindings/arm/versatile-sysreg.txt
+deleted file mode 100644
+index a4f15262d717..000000000000
+--- a/Documentation/devicetree/bindings/arm/versatile-sysreg.txt
++++ /dev/null
+@@ -1,10 +0,0 @@
+-ARM Versatile system registers
+---------------------------------------
 -
-         panel {
-             compatible = "arm,versatile-tft-panel";
- 
+-This is a system control registers block, providing multiple low level
+-platform functions like board detection and identification, software
+-interrupt generation, MMC and NOR Flash control etc.
+-
+-Required node properties:
+-- compatible value : = "arm,versatile-sysreg", "syscon"
+-- reg : physical base address and the size of the registers window
 -- 
 2.34.1
 
