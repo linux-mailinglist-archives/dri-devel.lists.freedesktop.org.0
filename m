@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7725158F001
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B8658F03E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:20:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D712AC2D;
-	Wed, 10 Aug 2022 16:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49FE92FF9;
+	Wed, 10 Aug 2022 16:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
- [209.85.166.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 762951131CC
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:03:47 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id p9so7282946ilq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:03:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=IrtUFJXfmfdQKeaT5ZVd35+tzRi7zWIlb+Wsybvtzfw=;
- b=1a++R6NSM4i2Z0UK5Kpi4yi5z8EkQIFtuuGfIlepRecPKYgivmT5Kg2dOOmddtXsEr
- dXbj8MpsPfmJtJx/l8fAoocQyNwbo2G1BfpJ/TcWJfYcqVUkWNkXihtIBqKlyk7fk1JM
- p08NyHlK7p2+KfNy0dD94iM8cvVYLdbRYfP8zZjYuBSOvhQWohgSi0voY08NBmJraEMF
- siz98xeT/HMIFdLs7jhoRwMOMrbjmeINF+oySD177DArfnokrUFKjNUUWacAeLtcYCZ5
- N6LRjnXTKpSoW/IOo1umkQ0drcAAbnh4cICPPDKYIKTxds3bAyniiRDB9/qVPq6+qmr0
- kX8w==
-X-Gm-Message-State: ACgBeo0mlS+G6I8YFinikOAaEn9bidS9hS4NplHjMLukQM/Gy9FVrBcO
- Fm25TQz9UMu3BrZsFfwkRw==
-X-Google-Smtp-Source: AA6agR5L6UDKesXHoDGK9TS6LftDSNWSGOXJ/sv+fkC0JxoXQwGpeO5paASudn/YE/O29MWZ9eM0Eg==
-X-Received: by 2002:a05:6e02:198b:b0:2e0:d13c:b508 with SMTP id
- g11-20020a056e02198b00b002e0d13cb508mr8053060ilf.315.1660147426681; 
- Wed, 10 Aug 2022 09:03:46 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.248])
- by smtp.googlemail.com with ESMTPSA id
- a27-20020a02735b000000b00341a215d3cesm7617629jae.63.2022.08.10.09.03.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 09:03:46 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 2/2] dt-bindings: arm,
- versatile-sysreg: Convert to DT schema format
-Date: Wed, 10 Aug 2022 10:03:41 -0600
-Message-Id: <20220810160341.51995-3-robh@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220810160341.51995-1-robh@kernel.org>
-References: <20220810160341.51995-1-robh@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD49D12A90D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:18:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EA46B61136;
+ Wed, 10 Aug 2022 16:18:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FF3C433D6;
+ Wed, 10 Aug 2022 16:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660148335;
+ bh=WOQyPg8F0GVppRHtF6EF9IpQjF8KSCRpyTeSvQhMwxg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S89LvgN8qVLeqDRD2w8AhD8yUAPYdHlfhL6whMkMxakEohbZ+Un4+LjsfKKaIaUe7
+ EJsJZeZPXTn3F6xD/lHbj5AEBAPRflPFS0IdDB/1GtTyuKpu6AG9Blr/jff7Dbl+ZC
+ G1adPQFCuYz404oBBoeY4IjfH5FrDXs9fnje8W/WQ8dLSYq3Oykw/u6P686Omusjzl
+ KZYjpx612gkx65/8XkAzwHWLoeJ/KLAZapG4/G7VFgkV9wdCkZ1hAXN3rF34y6D/rG
+ Eo3ONAbz+SMT+pkve212jW7LMzFgPVgtBEub//Gg0L3+sJQUFVQn2oMIX44rB/uapM
+ MjeFMq3Bc9cuw==
+Date: Wed, 10 Aug 2022 17:18:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] spi/panel: dt-bindings: drop 3-wire from common properties
+Message-ID: <YvPaaOgCUABREOcX@sirena.org.uk>
+References: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="C7paN41YzbGadmb4"
+Content-Disposition: inline
+In-Reply-To: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
+X-Cookie: First pull up, then pull down.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +54,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ Jonathan Bakker <xc-racer2@live.ca>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Pratyush Yadav <p.yadav@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the arm,versatile-sysreg binding to DT schema format.
 
-The original binding was missing 'simple-mfd' and a 'panel' sub node which
-the only user (versatile-ab.dts) of this binding has.
+--C7paN41YzbGadmb4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../bindings/arm/arm,versatile-sysreg.yaml    | 35 +++++++++++++++++++
- .../bindings/arm/versatile-sysreg.txt         | 10 ------
- 2 files changed, 35 insertions(+), 10 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml
- delete mode 100644 Documentation/devicetree/bindings/arm/versatile-sysreg.txt
+On Wed, Aug 10, 2022 at 04:13:11PM +0300, Krzysztof Kozlowski wrote:
+> The spi-3wire property is device specific and should be accepted only if
+> device really needs them.  Drop it from common spi-peripheral-props.yaml
+> schema, mention in few panel drivers which use it and include instead in
+> the SPI controller bindings.  The controller bindings will provide
+> spi-3wire type validation and one place for description.  Each device
+> schema must list the property if it is applicable.
 
-diff --git a/Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml b/Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml
-new file mode 100644
-index 000000000000..491eef1e1b10
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arm/arm,versatile-sysreg.yaml
-@@ -0,0 +1,35 @@
-+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/arm/arm,versatile-sysreg.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Arm Versatile system registers
-+
-+maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+description:
-+  This is a system control registers block, providing multiple low level
-+  platform functions like board detection and identification, software
-+  interrupt generation, MMC and NOR Flash control, etc.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: arm,versatile-sysreg
-+      - const: syscon
-+      - const: simple-mfd
-+
-+  reg:
-+    maxItems: 1
-+
-+  panel:
-+    type: object
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+...
-diff --git a/Documentation/devicetree/bindings/arm/versatile-sysreg.txt b/Documentation/devicetree/bindings/arm/versatile-sysreg.txt
-deleted file mode 100644
-index a4f15262d717..000000000000
---- a/Documentation/devicetree/bindings/arm/versatile-sysreg.txt
-+++ /dev/null
-@@ -1,10 +0,0 @@
--ARM Versatile system registers
----------------------------------------
--
--This is a system control registers block, providing multiple low level
--platform functions like board detection and identification, software
--interrupt generation, MMC and NOR Flash control etc.
--
--Required node properties:
--- compatible value : = "arm,versatile-sysreg", "syscon"
--- reg : physical base address and the size of the registers window
--- 
-2.34.1
+What's the plan for getting this merged?  I can just apply it at -rc1 if
+that works for people?
 
+--C7paN41YzbGadmb4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLz2mgACgkQJNaLcl1U
+h9ChMQf9H6LPOdfGbu1FptjroVm8hHLsgruU3wnuUkhB1F1WtZkMEbcb9zAEutl7
+JxSo0Fu8wBzvndSpzXzOyZlQsukueeOcTXd9lFZI3NQmKRSD7DAgl9UzMeXnETdx
+aarr1MxJYaTONXaMvQxrCLMLuaqNZ7eQ4XexnuXrv52Lh6LYp52/IAijKwfH19oz
+E79hMp+bVng67iZRNwn+0HuZgbR83ZCyDqFJpP9li7m756PseyEU2nf1F3cYP0D6
+Y8hVZ02benHf+kIxA0nQR4FjM2OV1tuzvDobJikC3V3OLg8VVGoM4aZEbM6rEiaP
+gTGuMwxcZU0NSsmxTd30vnu3YkgzCg==
+=keHt
+-----END PGP SIGNATURE-----
+
+--C7paN41YzbGadmb4--
