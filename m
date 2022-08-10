@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A4058F098
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF1B58F09A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 18:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDC4112291;
-	Wed, 10 Aug 2022 16:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10F4010FC49;
+	Wed, 10 Aug 2022 16:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A762918BA6C;
- Wed, 10 Aug 2022 16:41:23 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- cb12-20020a056830618c00b00616b871cef3so10992975otb.5; 
- Wed, 10 Aug 2022 09:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D52F112E65
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 16:41:45 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id x19so13730150lfq.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc;
- bh=XTiTJ4FxwpWw84LKiNSYSTO/gnrN5qUZqhqmKW/Gh4w=;
- b=iga87Q0F4KLtml0NyMbtr1doo/KawlNydW0obAC9W9XBiNKTLuc1dMMr/L4myWJJ96
- RjUTWxAXFZr3TjlQ21zg9Of0DCXVXPRilL9UrcA8kO7QEhdtNkFddzJx/QOHI8CbQWIm
- 7W4UcXySZoD/kMnHqpgnbDT3yf1ctBtw3XpjfDz/Nv3fYhMV3x1Ui3sG8O73WGnfFMAe
- Y7LRSZCv7bOs1dQa/KbAX9s7/bHvJnL0OAzEIqFm0nxq3ObFt0VMZrAPsC0ZvUDh/IZ6
- 4hVNzZlY6ScDa9WRaxIODBundsFeu2eK/lej7WY//Sp2ZdQVZX4euO6ivO6wgJNB8C4U
- J1vg==
+ bh=IboOlRmkttx834Bl91hUxolhlCg7lfoSCMSCS2p/U0k=;
+ b=IHIfCGGqkNbEP24ylvFw7WsvsOXR9bN3DKWRU/gGHfevmOOUx7Wmgl3UZ5XBLAmAAc
+ 8l30WDp+ajTAJ3AXbT1BYhjgIop+o6VtXEqFeLy3zjMrtj+cF4wBv9A4fh9Ul1KeHXrI
+ c6nnrm9Ys+9Z0Cz9/jbBxzrE93uCAnvVeD15H2oV19A66UH1MmBGRAsE6piRmmvF+FH3
+ 8L6ARDFbnfjMU1UOQV5d+8PUcOqJvZFTF/AMQez8MhJr3uySjEh4wJUhWDcXN+u+/nAj
+ dZDk6swzcgt89/iIVoddm+yLaLZgDlFOA6OzicnmlkeYOoeJGbdSikVH6M7kErVKpcQv
+ /dYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=XTiTJ4FxwpWw84LKiNSYSTO/gnrN5qUZqhqmKW/Gh4w=;
- b=plRdnXNK23U2IHQvk0n/Ps17LdEp+P+C7GO9wapSRue/qQp24QZOS0rk20fr0aZekm
- pyKYZNV3w0myhw7KQdhi7dxyGrBMU33IzE4lEg24ooBfMyTaF1q3OgdYhfOu0T/AQEfp
- cYTMUFaILLSm1orEEYXqFJWBsUeQmDtmsgbKon81Pw0LRwml3dIpnCfAY2bqtEIUFnD6
- FQ0Viy0fjwYzt9ooZoXZQiysMtUPN+7ioFIygvW2PZjv4asFAcXQKlnZGOaakmj+laoD
- op4whgtTE3VfG3XzEKLMzjH6kRykGY6iWlPLzkQgVPD3CZTXkP34vUbAnO7/MICOJew6
- Qgtg==
-X-Gm-Message-State: ACgBeo1qlruzyd1Zaj1HIcCE6YiJQ+I02qeBQzS83lPIdykSL2QQsdr0
- B+o+wtLaxsb631Fb/IdiJcc+ci9Y0Nrb9PERc74=
-X-Google-Smtp-Source: AA6agR6wR4ecNZe8+daGyRZM7VDRQFe/FZPJGUKIa38dUFuAS7M6VAf17HivKhzzWW1T/4Ni+myaw/45sJblGkIs5ZM=
-X-Received: by 2002:a9d:c64:0:b0:636:df4c:e766 with SMTP id
- 91-20020a9d0c64000000b00636df4ce766mr5897353otr.12.1660149682412; Wed, 10 Aug
- 2022 09:41:22 -0700 (PDT)
+ bh=IboOlRmkttx834Bl91hUxolhlCg7lfoSCMSCS2p/U0k=;
+ b=Q8TI+qR5Fh3nKfDe/y4jJD0G0fLiU1AMsrLnf5+Y+StDrD4y2cf7Le1GXgSykDiVl4
+ 3Kwey5HyKUqIQt3blQorvo94rwjVoJAhtZzNGG7ioHAQpO6TNIEuxP+paewP+6OcRKMG
+ MHqWXpjAIvyJnzPhhkmg/YsCO7nHmugLAVppGQ6uGwgm6psOCak8iK4cxRfuUgwgC/4p
+ ElIdJ4dbC+4t7FzM6AcQfloTUmwPk+BfX3emihzgLVlsXeAQ7zjiZTfOt2V47CVUNN14
+ nhupKQdIdkEoh3XWMi2BXnhsRKsTkWFGrQCn9ShBSGxQ393ap/ZqfHbRnh5i1DqU7wtk
+ Z6uw==
+X-Gm-Message-State: ACgBeo2uXy/bxqYMxIam9qIMCz37YLiZzPg/rQQquNmLbNQRHIOxconP
+ ApX77ak3oP9kC690qqRPvh5fkvqSbIjmFIb+xWH8XyHKrJNenA==
+X-Google-Smtp-Source: AA6agR7WOzfuKIJOAsH+/Ea7ziF0uJfqoTF8MsUll/UBw5AXR9ENEiQu36r7CNYitAm+4Jj6oSj6WL6ZDT1kyS+uuh0=
+X-Received: by 2002:a17:907:3e21:b0:730:92bb:7fcd with SMTP id
+ hp33-20020a1709073e2100b0073092bb7fcdmr20734969ejc.170.1660149689636; Wed, 10
+ Aug 2022 09:41:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220730034923.25500-1-mailmesebin00@gmail.com>
- <31187f41-64c8-d7ce-fcf2-5da421b3e194@igalia.com>
-In-Reply-To: <31187f41-64c8-d7ce-fcf2-5da421b3e194@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 10 Aug 2022 12:41:11 -0400
-Message-ID: <CADnq5_OOWekUj-Y8Y64=vUUMfUmEXUyQ1Ougmqj2afKtu6hdNA@mail.gmail.com>
-Subject: Re: [PATCHv2 -next] drm/amdgpu: double free error and freeing
- uninitialized null pointer
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+References: <20220709115837.560877-1-jose.exposito89@gmail.com>
+ <20220709115837.560877-5-jose.exposito89@gmail.com>
+ <CABVgOSmhOBdXPH_=B_WRcUjMGC-wVPTLBwCdbgZLb0o3-O8pKw@mail.gmail.com>
+ <20220717170054.GA1028249@elementary>
+In-Reply-To: <20220717170054.GA1028249@elementary>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Wed, 10 Aug 2022 09:41:18 -0700
+Message-ID: <CAGS_qxqqsLQ-aCfZHTJbYqb3e21hNSzobAmsZNN_QETXExwQ+A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb565()
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,32 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- David Airlie <airlied@linux.ie>, Sebin Sebastian <mailmesebin00@gmail.com>,
- Lijo Lazar <lijo.lazar@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
+ David Gow <davidgow@google.com>, Isabella Basso <isabbasso@riseup.net>,
+ KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Mon, Aug 1, 2022 at 1:08 PM Andr=C3=A9 Almeida <andrealmeid@igalia.com> =
-wrote:
+On Sun, Jul 17, 2022 at 10:01 AM Jos=C3=A9 Exp=C3=B3sito
+<jose.exposito89@gmail.com> wrote:
 >
-> =C3=80s 00:46 de 30/07/22, Sebin Sebastian escreveu:
-> > Fix a double free and an uninitialized pointer read error. Both tmp and
-> > new are pointing at same address and both are freed which leads to
-> > double free. Adding a check to verify if new and tmp are free in the
-> > error_free label fixes the double free issue. new is not initialized to
-> > null which also leads to a free on an uninitialized pointer.
-> >
-> > Suggested by: S. Amaranath <Amaranath.Somalapuram@amd.com>
-> > Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
+> Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com> wrote:
+> > I already fixed the warning and added the reviewed by tags, however, I
+> > noticed that rebasing the series on the latest drm-misc-next show this
+> > error:
+> > [...]
 >
-> Reviewed-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> Sorry for the extra email. I forgot to mention that the error is only
+> present in UML. Running in other architectures works as expected.
+> Tested on x86_64 and PowerPC.
+
+Can you take a look at the raw output?
+
+It would be .kunit/test.log (or replace .kunit with w/e --build_dir
+you're using).
+You could also run the test with --raw_output to have kunit.py print
+that out instead.
+We might want to compare the output on UML vs x86 and see what looks suspic=
+ious.
+
+These errors
+  [ERROR] Test: xrgb8888_to_rgb332_test: missing subtest result line!
+means that kunit.py can't parse the KTAP output.
+
+It could be that the output is mangled for some reason.
+I recall running into a UML-specific issue with output mangling on an
+old kernel fork. I doubt it's related to this one, but it shows that
+it's possible there could be something going on.
+
+-Daniel
