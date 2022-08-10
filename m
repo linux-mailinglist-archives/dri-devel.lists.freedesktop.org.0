@@ -1,64 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E0A58F18A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 19:26:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAD158F1FE
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 19:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DC5112996;
-	Wed, 10 Aug 2022 17:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E04108A9AC;
+	Wed, 10 Aug 2022 17:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72FAA12A163
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 17:26:20 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id bs25so73144wrb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 10:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=yQkBkfOo8k25QBF8/V+qz53CEBZNBWR8yDZ22JLO334=;
- b=ajme8M6DMtkn8m436NlSix04pj43UCxqMSspZK63up3TGZkGt9Sw0o3097zhbTjBRf
- gTSBjnMb/JbBgWUWWq96D+C4r92pk4YuhXDgQfj+TcMmKSWyIgqn5ZF4IclOOMrGOaJV
- 6/nlo7UUXoyAXGjs3gsRPt264hxTa/+wljRDLqkq9i5wlk4jgZvafCK6re81odgd9xsB
- eLffJMbyKn7a+zlYY84aOoWr8pw0pJolC6Fi5JzLsCasjeIUJ8Hu1pHMrR9cStd7DIEO
- JAF46SrwCfO2ua04wgZmbB9NziqVNQ7p4Unm/PyqMV+W//SZGbsmklmbAUK1PFemuVZU
- 1MnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=yQkBkfOo8k25QBF8/V+qz53CEBZNBWR8yDZ22JLO334=;
- b=zGjfDpDbaFWVMWfKXV6kYICa2MfdTcR/0tEyt2MeBHdC6qVkUpUDrWaqG1O4EdWyLf
- TpZKe7nUPCVJmBJBt4nqEwiS0XWMpSX6zUUhegE6NyxuLhMY6oIY4U9QEzXi7lYYrTHT
- JmTfxEV7Ap7AQPp4FKlxwfebqJgOLj5QQT98KARNUUerdlQBcEyerd21unR10bmuoktx
- MNl8z3Ml7dXK4IOnnJ5D1v5zB+EbsltvZ/jlm7XaDaHWhK7HxqREEpCZ2Oz5F5ORl8mc
- kCxzcFZjUfTI+YnvjsyVlwop5dA+avMSm/4s71ZJZvB5z9ggMFziXFFE9Lb2WTwsmBWo
- 5MzQ==
-X-Gm-Message-State: ACgBeo3/w9+3SNadNQGyG4qDkgKM2Ar+zKcyNCXgwzQvjtclGSWOll4S
- TTP/iBRmAz6Vq+fO5DGNP4o=
-X-Google-Smtp-Source: AA6agR6Gv7kU22Dkze4nmrfvh1iRJdomSy/KJlH8y5Eoa7g41RhDBbSLi0JH3hLVHxzak0zw7kA/uw==
-X-Received: by 2002:a5d:4907:0:b0:21f:bc42:989 with SMTP id
- x7-20020a5d4907000000b0021fbc420989mr17948544wrq.375.1660152378994; 
- Wed, 10 Aug 2022 10:26:18 -0700 (PDT)
-Received: from able.fritz.box (p57b0bd9f.dip0.t-ipconnect.de. [87.176.189.159])
- by smtp.gmail.com with ESMTPSA id
- 17-20020a05600c26d100b003a2f2bb72d5sm3561059wmv.45.2022.08.10.10.26.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Aug 2022 10:26:18 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: jason@jlekstrand.net, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf/dma-resv: check if the new fence is really later
-Date: Wed, 10 Aug 2022 19:26:17 +0200
-Message-Id: <20220810172617.140047-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
+ Wed, 10 Aug 2022 17:56:16 UTC
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22BD32AF98
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 17:56:15 +0000 (UTC)
+Received: from [192.168.1.103] (31.173.82.128) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 10 Aug
+ 2022 20:41:02 +0300
+Subject: Re: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
+To: Takanari Hayama <taki@igel.co.jp>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20220810083711.219642-1-taki@igel.co.jp>
+ <20220810083711.219642-2-taki@igel.co.jp>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <0a9fd415-a4e8-2f87-3cbd-8e31b758cede@omp.ru>
+Date: Wed, 10 Aug 2022 20:41:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220810083711.219642-2-taki@igel.co.jp>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.82.128]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 08/10/2022 17:26:28
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172165 [Aug 10 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 495 495 bb4e71e2e9e23696ab912b286436360a94c9b107
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.128 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.128
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 08/10/2022 17:30:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 8/10/2022 2:00:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,40 +82,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: airlied@linux.ie, mchehab@kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously when we added a fence to a dma_resv object we always
-assumed the the newer than all the existing fences.
+Hello!
 
-With Jason's work to add an UAPI to explicit export/import that's not
-necessary the case any more. So without this check we would allow
-userspace to force the kernel into an use after free error.
+On 8/10/22 11:37 AM, Takanari Hayama wrote:
 
-Since the change is very small and defensive it's probably a good
-idea to backport this to stable kernels as well just in case others
-are using the dma_resv object in the same way.
+> To support DRM blend mode in R-Car DU driver, we must be able to pass
+> a plane with the premultiplied alpha. Adding a new property to
+> vsp1_du_atomic_config allows the R-Car DU driver to pass the
+> premultiplied alpha plane.
+> 
+> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
+>  include/media/vsp1.h                           | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index 0c2507dc03d6..019e18976bd8 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>  	rpf->mem.addr[1] = cfg->mem[1];
+>  	rpf->mem.addr[2] = cfg->mem[2];
+>  
+> +	rpf->format.flags = (cfg->premult) ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
+> +
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-resv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  Parens are hardly needed here... :-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 205acb2c744d..e3885c90a3ac 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -295,7 +295,8 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
- 		enum dma_resv_usage old_usage;
- 
- 		dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
--		if ((old->context == fence->context && old_usage >= usage) ||
-+		if ((old->context == fence->context && old_usage >= usage &&
-+		     dma_fence_is_later(fence, old)) ||
- 		    dma_fence_is_signaled(old)) {
- 			dma_resv_list_set(fobj, i, fence, usage);
- 			dma_fence_put(old);
--- 
-2.25.1
+[...]
 
+MBR, Sergey
