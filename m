@@ -2,52 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DAC58F2F9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 21:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CEB58F2FF
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 21:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073C18BB35;
-	Wed, 10 Aug 2022 19:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297F92BB00;
+	Wed, 10 Aug 2022 19:26:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013F190F3A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 19:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=wzx94/ir+kA9NB3suUBAiyU2K9Maf5LwjgVOrSpmywE=;
- b=SgV0ug57UQvWyQ0CAB50uctIfsAa3Qx5ZjYXZ0kVCJdU5FPcPCQgnS3ekuRDKLYGVWFd5Mp1CAbD8
- T1ml8SDKyt43QHCTm9B/Yy3xcBCtfdtWRvi9F+3zFt27HvSM7EjtV4ud8OancJUE5KCceEAGx9F+2b
- aRSvXXFFvUojhBqbEK0xsO2IZJfeoTu+9o+NI4ktownKg5R8k4Bst8bMyVRUcw2M/mBaSgxC5Fj/Jt
- hkBUIChX1WZ1s7+Bubfp6o7JI9wwjWUHP1Wf3+OV0vs8Z7hye9luoR5kGkRzfyQJIDofOaIqRaXUlO
- koYQlLNEqnMiNANCgw9zBV8Q4bxBpUg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=wzx94/ir+kA9NB3suUBAiyU2K9Maf5LwjgVOrSpmywE=;
- b=gxey+57RYRPIGOYjR/tFpEok3f409SSyNkSmfcq/rIb7oQVzAvVmjef5RAGthbtd8Ipnw6Dwqu2mF
- tQhdBiVDg==
-X-HalOne-Cookie: a18d742ed085c070426e8cb847bf0d5b334118a0
-X-HalOne-ID: 9ba0001f-18e1-11ed-be83-d0431ea8bb03
-Received: from mailproxy1.cst.dirpod4-cph3.one.com
- (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 9ba0001f-18e1-11ed-be83-d0431ea8bb03;
- Wed, 10 Aug 2022 19:21:17 +0000 (UTC)
-Date: Wed, 10 Aug 2022 21:21:16 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/4] drm/probe-helper: Add
- drm_connector_helper_get_modes_static()
-Message-ID: <YvQFLF49qVpCj0l7@ravnborg.org>
-References: <20220810112053.19547-1-tzimmermann@suse.de>
- <20220810112053.19547-2-tzimmermann@suse.de>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8773814A5BF;
+ Wed, 10 Aug 2022 19:26:11 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27AJ2fAF009454;
+ Wed, 10 Aug 2022 19:26:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=QRXN9BzYWPSLiDAJmspLQn15ZiL/h1lw0lJm6a2Ic+k=;
+ b=ERUIjktCk84jkrZl2shBhuM9Oywox/7ILjzB8kjtsFVPjRZzGxu//TZHV12rI7/CtS4s
+ 7q2Uus3SHSyz64msFB26dm02N1d13b104z8RhkHYOLVxgU5VrRCFu2eehTtfHE+2tKig
+ T6zh4mvXKZVmH5FOrsRThuy1QdKldpTp27KZQZo1Zvn7ilfbooojpIh+ZJF95R0Kyi6L
+ VWBEldKWseDZHWsHzUnm0SCyDNLh2ZOT0cvb/uO9xnnv8bEwhbRbWrgCmiFuHrUI/PW7
+ ZL/7B26KY7OgUY7L/TM0uerS5gmtgfOw4QD8YjNHI8+RIc6R0ZUAY3IgK2mavr8jv2Yk zg== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3huwr23pur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 19:26:04 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.47.97.222])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27AJQ2Vh019356
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Aug 2022 19:26:03 GMT
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 10 Aug 2022 12:26:02 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 10 Aug 2022 12:26:01 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v3] drm/msm/dp: check hpd_state before push idle pattern at
+ dp_bridge_disable()
+Date: Wed, 10 Aug 2022 12:25:51 -0700
+Message-ID: <1660159551-13828-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220810112053.19547-2-tzimmermann@suse.de>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: QJccwxpnxr0NLiT3POONYcw1jbSwkiXS
+X-Proofpoint-ORIG-GUID: QJccwxpnxr0NLiT3POONYcw1jbSwkiXS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-10_12,2022-08-10_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 mlxlogscore=897 spamscore=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208100059
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,223 +84,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david@lechnology.com, emma@anholt.net, airlied@linux.ie, javierm@redhat.com,
- noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- kamlesh.gurudasani@gmail.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+dp_bridge_disable() is the first step toward tearing down main link.
+Its major function is to start transmitting idle pattern to replace
+video stream. This patch will check hpd_state to make sure main link
+is enabled before commit changes of main link's configuration to
+push idle pattern out to avoid system crashing due to main link clock
+is disabled while access main link registers.
 
-On Wed, Aug 10, 2022 at 01:20:50PM +0200, Thomas Zimmermann wrote:
-> Add drm_connector_helper_get_modes_static(), which duplicates a single
-> display mode for a connector. Convert drivers.
+SError Interrupt on CPU7, code 0x00000000be000411 -- SError
+CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
+Hardware name: Google Lazor (rev3 - 8) (DT)
+pstate: a04000c9 (NzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __cmpxchg_case_acq_32+0x14/0x2c
+lr : do_raw_spin_lock+0xa4/0xdc
+sp : ffffffc01092b6a0
+x29: ffffffc01092b6a0 x28: 0000000000000028 x27: 0000000000000038
+x26: 0000000000000004 x25: ffffffd2973dce48 x24: 0000000000000000
+x23: 00000000ffffffff x22: 00000000ffffffff x21: ffffffd2978d0008
+x20: ffffffd2978d0008 x19: ffffff80ff759fc0 x18: 0000000000000000
+x17: 004800a501260460 x16: 0441043b04600438 x15: 04380000089807d0
+x14: 07b0089807800780 x13: 0000000000000000 x12: 0000000000000000
+x11: 0000000000000438 x10: 00000000000007d0 x9 : ffffffd2973e09e4
+x8 : ffffff8092d53300 x7 : ffffff808902e8b8 x6 : 0000000000000001
+x5 : ffffff808902e880 x4 : 0000000000000000 x3 : ffffff80ff759fc0
+x2 : 0000000000000001 x1 : 0000000000000000 x0 : ffffff80ff759fc0
+Kernel panic - not syncing: Asynchronous SError Interrupt
+CPU: 7 PID: 3878 Comm: Xorg Not tainted 5.19.0-stb-cbq #19
+Hardware name: Google Lazor (rev3 - 8) (DT)
+Call trace:
+ dump_backtrace.part.0+0xbc/0xe4
+ show_stack+0x24/0x70
+ dump_stack_lvl+0x68/0x84
+ dump_stack+0x18/0x34
+ panic+0x14c/0x32c
+ nmi_panic+0x58/0x7c
+ arm64_serror_panic+0x78/0x84
+ do_serror+0x40/0x64
+ el1h_64_error_handler+0x30/0x48
+ el1h_64_error+0x68/0x6c
+ __cmpxchg_case_acq_32+0x14/0x2c
+ _raw_spin_lock_irqsave+0x38/0x4c
+ lock_timer_base+0x40/0x78
+ __mod_timer+0xf4/0x25c
+ schedule_timeout+0xd4/0xfc
+ __wait_for_common+0xac/0x140
+ wait_for_completion_timeout+0x2c/0x54
+ dp_ctrl_push_idle+0x40/0x88
+ dp_bridge_disable+0x24/0x30
+ drm_atomic_bridge_chain_disable+0x90/0xbc
+ drm_atomic_helper_commit_modeset_disables+0x198/0x444
+ msm_atomic_commit_tail+0x1d0/0x374
+ commit_tail+0x80/0x108
+ drm_atomic_helper_commit+0x118/0x11c
+ drm_atomic_commit+0xb4/0xe0
+ drm_client_modeset_commit_atomic+0x184/0x224
+ drm_client_modeset_commit_locked+0x58/0x160
+ drm_client_modeset_commit+0x3c/0x64
+ __drm_fb_helper_restore_fbdev_mode_unlocked+0x98/0xac
+ drm_fb_helper_set_par+0x74/0x80
+ drm_fb_helper_hotplug_event+0xdc/0xe0
+ __drm_fb_helper_restore_fbdev_mode_unlocked+0x7c/0xac
+ drm_fb_helper_restore_fbdev_mode_unlocked+0x20/0x2c
+ drm_fb_helper_lastclose+0x20/0x2c
+ drm_lastclose+0x44/0x6c
+ drm_release+0x88/0xd4
+ __fput+0x104/0x220
+ ____fput+0x1c/0x28
+ task_work_run+0x8c/0x100
+ do_exit+0x450/0x8d0
+ do_group_exit+0x40/0xac
+ __wake_up_parent+0x0/0x38
+ invoke_syscall+0x84/0x11c
+ el0_svc_common.constprop.0+0xb8/0xe4
+ do_el0_svc+0x8c/0xb8
+ el0_svc+0x2c/0x54
+ el0t_64_sync_handler+0x120/0x1c0
+ el0t_64_sync+0x190/0x194
+SMP: stopping secondary CPUs
+Kernel Offset: 0x128e800000 from 0xffffffc008000000
+PHYS_OFFSET: 0x80000000
+CPU features: 0x800,00c2a015,19801c82
+Memory Limit: none
 
-I like this helper!
-There are a lot of panels that can benefit from the same helper.
+Changes in v3:
+-- correct Reported-by
+-- add call stack trace
 
-The current users that are replaced do not do so, but some panels also
-set:
+Changes in v2:
+-- changes Fixes patch
+-- fix eported-by
+-- add Closes tag
 
-        connector->display_info.bpc = 8;
-        connector->display_info.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
-        drm_display_info_set_bus_formats(&connector->display_info, &bus_format, 1);
+Fixes: 375a126090b9 ("drm/msm/dp: tear down main link at unplug handle immediately")
+Reported-by: Leonard Lausen <leonard@lausen.nl>
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/17
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-I looked at a similar helper for panels once, but for panels I stopped
-there as we then had to pass bpc, bus_format and bus_mode as arguments.
-Maybe that is over-engineering things.
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index b36f8b6..678289a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1729,10 +1729,20 @@ void dp_bridge_disable(struct drm_bridge *drm_bridge)
+ 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
+ 	struct msm_dp *dp = dp_bridge->dp_display;
+ 	struct dp_display_private *dp_display;
++	u32 state;
+ 
+ 	dp_display = container_of(dp, struct dp_display_private, dp_display);
+ 
++	mutex_lock(&dp_display->event_mutex);
++
++	state = dp_display->hpd_state;
++	if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED) {
++		mutex_unlock(&dp_display->event_mutex);
++		return;
++	}
++
+ 	dp_ctrl_push_idle(dp_display->ctrl);
++	mutex_unlock(&dp_display->event_mutex);
+ }
+ 
+ void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Someone that knows when we must pass bpc, bus_mode, bus_flags and when
-not can maybe help here.
-
-The current helper is fine as is, but I wonder if we can cover more
-use cases with an extra helper.
-
-It would also be nice to convert the panels that can use the new helper,
-but that should be in a new patch and can be done later.
-
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-but I have a few comments in the following.
-
-> ---
->  drivers/gpu/drm/drm_mipi_dbi.c     | 20 +--------------
->  drivers/gpu/drm/drm_probe_helper.c | 40 ++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tiny/repaper.c     | 16 +-----------
->  drivers/gpu/drm/tiny/simpledrm.c   | 18 +-------------
->  include/drm/drm_probe_helper.h     |  3 +++
->  5 files changed, 46 insertions(+), 51 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index 84abc3920b57..b67ec9a5cda9 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -415,26 +415,8 @@ EXPORT_SYMBOL(mipi_dbi_pipe_disable);
->  static int mipi_dbi_connector_get_modes(struct drm_connector *connector)
->  {
->  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(connector->dev);
-> -	struct drm_display_mode *mode;
->  
-> -	mode = drm_mode_duplicate(connector->dev, &dbidev->mode);
-> -	if (!mode) {
-> -		DRM_ERROR("Failed to duplicate mode\n");
-> -		return 0;
-> -	}
-> -
-> -	if (mode->name[0] == '\0')
-> -		drm_mode_set_name(mode);
-> -
-> -	mode->type |= DRM_MODE_TYPE_PREFERRED;
-> -	drm_mode_probed_add(connector, mode);
-> -
-> -	if (mode->width_mm) {
-> -		connector->display_info.width_mm = mode->width_mm;
-> -		connector->display_info.height_mm = mode->height_mm;
-> -	}
-> -
-> -	return 1;
-> +	return drm_connector_helper_get_modes_static(connector, &dbidev->mode);
->  }
->  
->  static const struct drm_connector_helper_funcs mipi_dbi_connector_hfuncs = {
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index bb427c5a4f1f..809187377e4e 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -1050,6 +1050,46 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector)
->  }
->  EXPORT_SYMBOL(drm_connector_helper_get_modes_from_ddc);
->  
-> +/**
-> + * drm_connector_helper_get_modes_static - Duplicates a display mode for a connector
-The hw mode is duplicated so maybe name it ..._modes_hw()?
-
-But I dunno.. Naming is hard.
-
-> + * @connector: the connector
-> + * @hw_mode: the display hardware's mode
-> + *
-> + * This function duplicates a display modes for a connector. Drivers for hardware
-> + * that only supports a single mode can use this function in there connector's
-                                                                their? 
-> + * get_modes helper.
-> + *
-> + * Returns:
-> + * The number of created modes.
-> + */
-> +int drm_connector_helper_get_modes_static(struct drm_connector *connector,
-> +					  const struct drm_display_mode *hw_mode)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(dev, hw_mode);
-> +	if (!mode) {
-> +		drm_err(dev, "Failed to duplicate mode " DRM_MODE_FMT "\n",
-> +			DRM_MODE_ARG(hw_mode));
-> +		return 0;
-> +	}
-> +
-> +	if (mode->name[0] == '\0')
-> +		drm_mode_set_name(mode);
-Hmm, so we rely that it was set to something relevant before. I guess
-that's OK.
-> +
-> +	mode->type |= DRM_MODE_TYPE_PREFERRED;
-> +	drm_mode_probed_add(connector, mode);
-> +
-> +	if (mode->width_mm)
-> +		connector->display_info.width_mm = mode->width_mm;
-> +	if (mode->height_mm)
-> +		connector->display_info.height_mm = mode->height_mm;
-> +
-> +	return 1;
-> +}
-> +EXPORT_SYMBOL(drm_connector_helper_get_modes_static);
-> +
->  /**
->   * drm_connector_helper_get_modes - Read EDID and update connector.
->   * @connector: The connector
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-> index c4c1be3ac0b8..855968fd46af 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -839,22 +839,8 @@ static const struct drm_simple_display_pipe_funcs repaper_pipe_funcs = {
->  static int repaper_connector_get_modes(struct drm_connector *connector)
->  {
->  	struct repaper_epd *epd = drm_to_epd(connector->dev);
-> -	struct drm_display_mode *mode;
->  
-> -	mode = drm_mode_duplicate(connector->dev, epd->mode);
-> -	if (!mode) {
-> -		DRM_ERROR("Failed to duplicate mode\n");
-> -		return 0;
-> -	}
-> -
-> -	drm_mode_set_name(mode);
-> -	mode->type |= DRM_MODE_TYPE_PREFERRED;
-> -	drm_mode_probed_add(connector, mode);
-> -
-> -	connector->display_info.width_mm = mode->width_mm;
-> -	connector->display_info.height_mm = mode->height_mm;
-> -
-> -	return 1;
-> +	return drm_connector_helper_get_modes_static(connector, epd->mode);
->  }
->  
->  static const struct drm_connector_helper_funcs repaper_connector_hfuncs = {
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index a81f91814595..2d5b56c4a77d 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -620,24 +620,8 @@ static const struct drm_encoder_funcs simpledrm_encoder_funcs = {
->  static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
->  {
->  	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->dev);
-> -	struct drm_display_mode *mode;
->  
-> -	mode = drm_mode_duplicate(connector->dev, &sdev->mode);
-> -	if (!mode)
-> -		return 0;
-> -
-> -	if (mode->name[0] == '\0')
-> -		drm_mode_set_name(mode);
-> -
-> -	mode->type |= DRM_MODE_TYPE_PREFERRED;
-> -	drm_mode_probed_add(connector, mode);
-> -
-> -	if (mode->width_mm)
-> -		connector->display_info.width_mm = mode->width_mm;
-> -	if (mode->height_mm)
-> -		connector->display_info.height_mm = mode->height_mm;
-> -
-> -	return 1;
-> +	return drm_connector_helper_get_modes_static(connector, &sdev->mode);
->  }
->  
->  static const struct drm_connector_helper_funcs simpledrm_connector_helper_funcs = {
-> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-> index 8075e02aa865..5a883ee9fc32 100644
-> --- a/include/drm/drm_probe_helper.h
-> +++ b/include/drm/drm_probe_helper.h
-> @@ -7,6 +7,7 @@
->  
->  struct drm_connector;
->  struct drm_device;
-> +struct drm_display_mode;
->  struct drm_modeset_acquire_ctx;
->  
->  int drm_helper_probe_single_connector_modes(struct drm_connector
-> @@ -27,6 +28,8 @@ void drm_kms_helper_poll_enable(struct drm_device *dev);
->  bool drm_kms_helper_is_poll_worker(void);
->  
->  int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
-> +int drm_connector_helper_get_modes_static(struct drm_connector *connector,
-> +					  const struct drm_display_mode *hw_mode);
->  int drm_connector_helper_get_modes(struct drm_connector *connector);
->  
->  #endif
-> -- 
-> 2.37.1
