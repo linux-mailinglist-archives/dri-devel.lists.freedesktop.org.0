@@ -2,35 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A2F58F7ED
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 08:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58D058F7EF
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 08:50:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1F1A490A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF17A46CB;
 	Thu, 11 Aug 2022 06:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25F9F14A592
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 03:54:39 +0000 (UTC)
-X-UUID: b54becb6e30d460f9203479f7d63bee7-20220809
-X-Spam-Fingerprint: 0
-X-GW-Reason: 11109
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMeS6uumcgOimgeWuoeaguA==
-X-Content-Feature: ica/max.line-size 104 audit/email.address 1 dict/adv 1
- dict/contack 1 dict/notice 2 dict/operate 1 meta/cnt.alert 1
-X-UUID: b54becb6e30d460f9203479f7d63bee7-20220809
-X-User: oushixiong@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
- with ESMTP id 57318634; Tue, 09 Aug 2022 19:52:43 +0800
-From: oushixiong <oushixiong@kylinos.cn>
-To: Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] drm/ast: radeon amdgpu for ast add prime
-Date: Tue,  9 Aug 2022 19:52:39 +0800
-Message-Id: <20220809115239.2072299-1-oushixiong@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Greylist: delayed 356 seconds by postgrey-1.36 at gabe;
+ Wed, 10 Aug 2022 09:06:58 UTC
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 387E5EA2ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:06:58 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20220810090100epoutp035e8236754526f699afa0fcce3cf026ba~J8DflOXDZ2707427074epoutp031
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 09:01:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20220810090100epoutp035e8236754526f699afa0fcce3cf026ba~J8DflOXDZ2707427074epoutp031
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1660122060;
+ bh=KbeBxIzTLNIWRe5IYA9cswHWLNutgMsrvlyBZOJkBFc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Gd/XZLb8FtUpbj2u3mOjaC2Aivs42wsMU3KztJMuNdeHBFqwW8G1Wp6o4V/RKEZm+
+ nyt29tD55/OwfUJD/bp02zET5kmCffs9oMOH7/GAm8ttJI1hx7M7thB+FhUe9VvCcZ
+ fIh0T1HLvdzwkHqJurdhQEiUg0/yvDCAXX8G/nFE=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220810090100epcas1p18cc7926e37ef41847592a1e911915ab4~J8DfQZBXS1069510695epcas1p1a;
+ Wed, 10 Aug 2022 09:01:00 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.36.145]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4M2kSC0fp8z4x9Q1; Wed, 10 Aug
+ 2022 09:00:59 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 24.7C.09967.AC373F26; Wed, 10 Aug 2022 18:00:58 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20220810090058epcas1p346589365aad7bae18b85a201e7d5ec8b~J8DdxzR8d2541925419epcas1p3B;
+ Wed, 10 Aug 2022 09:00:58 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220810090058epsmtrp1d7606db11a1757bc8c57ed7933ee2138~J8DdrrEsO2721327213epsmtrp1q;
+ Wed, 10 Aug 2022 09:00:58 +0000 (GMT)
+X-AuditID: b6c32a38-4a3ff700000226ef-20-62f373cad2b6
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ BD.B1.08905.AC373F26; Wed, 10 Aug 2022 18:00:58 +0900 (KST)
+Received: from jiho-chu04.tn.corp.samsungelectronics.net (unknown
+ [10.113.112.236]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220810090058epsmtip1e6127b9a62604a39caf83f99d69766bf~J8DdanLpJ0927609276epsmtip1f;
+ Wed, 10 Aug 2022 09:00:58 +0000 (GMT)
+Date: Wed, 10 Aug 2022 18:00:58 +0900
+From: Jiho Chu <jiho.chu@samsung.com>
+To: Oded Gabbay <oded.gabbay@gmail.com>
+Subject: Re: New subsystem for acceleration devices
+Message-Id: <20220810180058.48cfbbcfdf5b8b7f19ce26b4@samsung.com>
+In-Reply-To: <CAFCwf13WU3ZEjurEaEnVC56zorwKr-uuQn-ec10r301Fh+XEtA@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.30; i686-pc-mingw32)
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGJsWRmVeSWpSXmKPExsWy7bCmru6p4s9JBjf6rSxOXF/EZPF30jF2
+ iytf37NZNC9ez2Zx5d8eRovLu+awWVx4cZvV4srzAAcOj9+/JjF67Jx1l91j/9w17B73u48z
+ efQ2v2PzuLXa2OPzJrkA9qhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE
+ 3FRbJRefAF23zBygm5QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqpBSk5BaYFesWJucWl
+ eel6eaklVoYGBkamQIUJ2RkHGwwL9vJW/Jx8mbmB8RhXFyMnh4SAicSph/+Zuxi5OIQEdjBK
+ NP3rZIdwPjFKnD17HCrzjVHi6fUHjDAtN99/garayyixZstyFging0liYetSIIeDg0VAVeLM
+ rGiQBjYgc+aMNewgtoiAusS1fT1sIPXMAjuZJO6de8UEkhAWMJY4u/M3G4jNK+AosaFjIVic
+ UyBQYteCJ2wQmy0k7vasYAWZzysgKPF3hzBImFlAXmL72zlgl0oITOSQWHR6AQtEvYvEgwu3
+ oa4Wlnh1fAs7hC0l8bK/DcrOlpjSsQiqvkDi3POtzCDzJYDuubgiBcRkFtCUWL9LH6JCUWLn
+ 77mMEGv5JN597WGFqOaV6GgTgihRkljy5zDUcAmJqTO+MUHYHhINy3cwQkJqKqvEj2tb2SYw
+ KsxCeGYWkmdmISxewMi8ilEstaA4Nz212LDABB69yfm5mxjBCVTLYgfj3Lcf9A4xMnEwHmKU
+ 4GBWEuE9svZ9khBvSmJlVWpRfnxRaU5q8SFGU2DMTGSWEk3OB6bwvJJ4QxNLAxMzI2MTC0Mz
+ QyVx3t6ppxOFBNITS1KzU1MLUotg+pg4OKUamPQ/LxC8FaAb8V7WaYbpjCTZG7FRMoWyza2+
+ DDN2eC1nNb3PaWY/abJq+us5jXI/X1zays3J8HKHkO9OP7fQe5UBBl9sjX1UYnasv/Xs9p78
+ Iw/sjjBwfPwRnHzD7HeoQeyKalaH5bJLQpkvzXc2+/fJTvfS6u9/Lis/2BcSk/Sw8m1tzIe9
+ RoFT5hdt32D+Qva13L8qezFr313b0/2jUp/0yjvkpb3csiO+7PzEI0yn680fi5RydLX5rlww
+ 6++7LvXef8d1OySn1N3UY7nd8PKfGqN90JXeGZO/yhs8uNGTv9vpZ+Gb47oP5UzTb6ZM5fWz
+ 9MqVKJyo+O2M7u2oF/eY3hyRnLZRLTbxRWXydiWW4oxEQy3mouJEAHyGBaQpBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJLMWRmVeSWpSXmKPExsWy7bCSnO6p4s9JBjtXilucuL6IyeLvpGPs
+ Fle+vmezaF68ns3iyr89jBaXd81hs7jw4jarxZXnAQ4cHr9/TWL02DnrLrvH/rlr2D3udx9n
+ 8uhtfsfmcWu1scfnTXIB7FFcNimpOZllqUX6dglcGQcbDAv28lb8nHyZuYHxGFcXIyeHhICJ
+ xM33X9i7GLk4hAR2M0os+bucDSIhIbHp3nLmLkYOIFtY4vDhYoiaNiaJ5gXHwOIsAqoSZ2ZF
+ g5SzAZkzZ6xhB7FFBNQlru3rYQOpZxbYySTxY0UrK0hCWMBY4uzO32DzeQUcJTZ0LGQCsTkF
+ AiV2LXjCBrFgKqvEj2tboY6wkLjbs4IVZBmvgKDE3x3CIGFmAS2Jh79usUDY8hLb385hnsAo
+ OAuhahaSqllIqhYwMq9ilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiODS3NHYzbV33Q
+ O8TIxMF4iFGCg1lJhPfI2vdJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5N
+ LUgtgskycXBKNTDt4tNTTnHcvuCcbV+J/8yC+S8Zcy9xFz589J/rXMthBpV3rbZ5igaTDdbY
+ Oj6Qzw/W/vJjfkle9vWyH5/S3u7Y/4RJReRgSav38aNrZ/dV/3/0bst0DrbI6+qqk5L2e/40
+ E0hm4VaVf71X6+rZtnOCZb8M65Q47zgqnAu/0PDpcgtzuaiazv8gsUmbwh/MW7SrO3pfWvKP
+ SQ+ebLLJ6ny3yak8Y9dHXzND1Vm1b4r/3ljXskZxjqBB7deFzAl1P+rmOgdNyDDZuXrbgc1d
+ s34EHGm/q37Gyn+CdMzVJeu/272o68nslPwxobdnzzbhVRuNm6aH+FU33jzEFuEYK5M085FZ
+ yLPp+VPDHsYr6QsrsRRnJBpqMRcVJwIAKF8defwCAAA=
+X-CMS-MailID: 20220810090058epcas1p346589365aad7bae18b85a201e7d5ec8b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220809214255epcas1p2608fb28462f5f2cea028f71ea0899887
+References: <CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com>
+ <CAPM=9tzWuoWAOjHJdJYVDRjoRq-4wpg2KGiCHjLLd+OfWEh5AQ@mail.gmail.com>
+ <CAFCwf12N6DeJAQVjY7PFG50q2m405e=XCCFvHBn1RG65BGbT8w@mail.gmail.com>
+ <CAPM=9txSKv_xwZJ6SndtqsdQm6aK1KJVF91dB5Odhc_Xv6Qdrw@mail.gmail.com>
+ <CAFCwf10CsLgt+_qT7dT=8DVXsL0a=w=uXN6HC=CpP5EfitvLfQ@mail.gmail.com>
+ <CAPM=9txme2dQD9kyM6gnYyXL34hYP8wcGMbduOUcFsKe+4zTcQ@mail.gmail.com>
+ <CAFCwf11TPKTF_Ndi60FneWp5g3SoawJvfJoKVWJ-QjxjpawMmg@mail.gmail.com>
+ <CGME20220809214255epcas1p2608fb28462f5f2cea028f71ea0899887@epcas1p2.samsung.com>
+ <CAFCwf13WU3ZEjurEaEnVC56zorwKr-uuQn-ec10r301Fh+XEtA@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 11 Aug 2022 06:49:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,291 +124,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oushixiong <oushixiong@kylinos.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds ast specific codes for DRM prime feature.
-Add the prime function to solve the xorg conflict problem when AST
-and AMD are in place at the same time, so that both can be displayed.
+On Wed, 10 Aug 2022 00:42:24 +0300
+Oded Gabbay <oded.gabbay@gmail.com> wrote:
 
-Signed-off-by: oushixiong <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/ast/ast_drv.c                |  22 ++++
- drivers/gpu/drm/ast/ast_mode.c               | 115 ++++++++++++++++++-
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |   1 -
- drivers/gpu/drm/drm_gem_vram_helper.c        |  16 ++-
- include/drm/drm_gem_vram_helper.h            |   4 +-
- 5 files changed, 150 insertions(+), 8 deletions(-)
+> 
+> Hi Jiho, Yuji.
+> 
+> I want to update that I'm currently in discussions with Dave to figure
+> out what's the best way to move forward. We are writing it down to do
+> a proper comparison between the two paths (new accel subsystem or
+> using drm). I guess it will take a week or so.
+> 
+> In the meantime, I'm putting the accel code on hold. I have only
+> managed to do the very basic infra and add a demo driver that shows
+> how to register and unregister from it.
+> You can check the code at:
+> https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git/log/?h=accel
+> 
+> It has two commits. The first adds the subsystem code and the second
+> adds the demo driver.
+> The subsystem code is basically drm code copied and renamed and
+> slightly modified, but I really only worked on it for a couple of
+> hours so take that into consideration.
+> 
+> The important thing is that the demo driver shows the basic steps are
+> really simple. You need to add two function calls in your probe and
+> one function call in your release. Of course you will need to supply
+> some function callbacks, but I haven't got to fill that in the demo
+> driver. Once you register, you get /dev/accel/ac0 and
+> /dev/accel/ac_controlD64 (if you want a control device). If I were to
+> continue this, the next step is to do the open and close part.
+> 
+> I will update once we know where things are heading. As I said, I
+> imagine it can take a few weeks.
+> 
+> Thanks,
+> Oded
+> 
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 7465c4f0156a..3650462a8734 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -28,6 +28,7 @@
- 
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/dma-buf.h>
- 
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -50,6 +51,23 @@ module_param_named(modeset, ast_modeset, int, 0400);
- 
- DEFINE_DRM_GEM_FOPS(ast_fops);
- 
-+struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
-+					struct dma_buf_attachment *attach,
-+					struct sg_table *sg)
-+{
-+	struct drm_gem_vram_object *gbo;
-+	struct dma_resv *resv = attach->dmabuf->resv;
-+
-+	ww_mutex_lock(&resv->lock, NULL);
-+	gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0, sg, resv);
-+	ww_mutex_unlock(&resv->lock);
-+
-+	if (IS_ERR(gbo))
-+		return NULL;
-+
-+	return &gbo->bo.base;
-+}
-+
- static const struct drm_driver ast_driver = {
- 	.driver_features = DRIVER_ATOMIC |
- 			   DRIVER_GEM |
-@@ -63,6 +81,10 @@ static const struct drm_driver ast_driver = {
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
- 
-+	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-+	.gem_prime_import_sg_table = ast_gem_prime_import_sg_table,
-+
- 	DRM_GEM_VRAM_DRIVER
- };
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 45b56b39ad47..f059faa8c35a 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -48,6 +48,8 @@
- #include "ast_drv.h"
- #include "ast_tables.h"
- 
-+MODULE_IMPORT_NS(DMA_BUF);
-+
- static inline void ast_load_palette_index(struct ast_private *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -926,7 +928,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
- 
- 	for (i = 0; i < ARRAY_SIZE(ast_cursor_plane->hwc); ++i) {
--		gbo = drm_gem_vram_create(dev, size, 0);
-+		gbo = drm_gem_vram_create(dev, size, 0, NULL, NULL);
- 		if (IS_ERR(gbo)) {
- 			ret = PTR_ERR(gbo);
- 			goto err_hwc;
-@@ -1535,8 +1537,117 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
- };
- 
-+int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-+					int width, int height)
-+{
-+	struct drm_gem_vram_object *dst_bo = NULL;
-+	void *dst = NULL;
-+	int ret = 0, i;
-+	unsigned long offset = 0;
-+	bool unmap = false;
-+	unsigned int bytesPerPixel;
-+	struct iosys_map map;
-+	struct iosys_map dmabuf_map;
-+
-+	bytesPerPixel = fb->format->cpp[0];
-+
-+	if (!fb->obj[0]->import_attach)
-+		return -EINVAL;
-+
-+	if (!fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr) {
-+		ret = dma_buf_vmap(fb->obj[0]->import_attach->dmabuf, &dmabuf_map);
-+		if (ret)
-+			return 0;
-+	} else {
-+		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
-+	}
-+
-+	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
-+
-+	ret = drm_gem_vram_pin(dst_bo, 0);
-+	if (ret) {
-+		DRM_ERROR("ast_bo_pin failed\n");
-+		goto error;
-+	}
-+
-+	if (!dst_bo->map.vaddr) {
-+		ret = drm_gem_vram_vmap(dst_bo, &map);
-+		if (ret) {
-+			DRM_ERROR("failed to vmap fbcon\n");
-+			drm_gem_vram_unpin(dst_bo);
-+			goto error;
-+		}
-+		unmap = true;
-+	}
-+	dst = dst_bo->map.vaddr;
-+
-+	for (i = y; i < y + height; i++) {
-+		offset = i * fb->pitches[0] + (x * bytesPerPixel);
-+		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
-+			width * bytesPerPixel);
-+	}
-+
-+	if (unmap)
-+		drm_gem_vram_vunmap(dst_bo, &map);
-+
-+	drm_gem_vram_unpin(dst_bo);
-+error:
-+	return 0;
-+}
-+
-+
-+int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-+				struct drm_file *file,
-+				unsigned int flags,
-+				unsigned int color,
-+				struct drm_clip_rect *clips,
-+				unsigned int num_clips)
-+{
-+	int i, ret = 0;
-+
-+	drm_modeset_lock_all(fb->dev);
-+	if (fb->obj[0]->import_attach) {
-+		ret = dma_buf_begin_cpu_access(fb->obj[0]->import_attach->dmabuf,
-+				DMA_FROM_DEVICE);
-+		if (ret)
-+			goto unlock;
-+	}
-+
-+	for (i = 0; i < num_clips; i++) {
-+		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
-+				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
-+		if (ret)
-+			break;
-+	}
-+
-+	if (fb->obj[0]->import_attach) {
-+		dma_buf_end_cpu_access(fb->obj[0]->import_attach->dmabuf,
-+				DMA_FROM_DEVICE);
-+	}
-+
-+unlock:
-+	drm_modeset_unlock_all(fb->dev);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(ast_user_framebuffer_dirty);
-+
-+static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
-+	.destroy	= drm_gem_fb_destroy,
-+	.create_handle	= drm_gem_fb_create_handle,
-+	.dirty		= ast_user_framebuffer_dirty,
-+};
-+
-+struct drm_framebuffer *
-+ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
-+				const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-+					&ast_gem_fb_funcs_dirtyfb);
-+}
-+
- static const struct drm_mode_config_funcs ast_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create,
-+	.fb_create = ast_gem_fb_create_with_dirty,
- 	.mode_valid = drm_vram_helper_mode_valid,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index f4619803acd0..f65165d5e86c 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -15,7 +15,6 @@
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper.h>
--
- #include "drm_internal.h"
- 
- MODULE_IMPORT_NS(DMA_BUF);
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index dc7f938bfff2..a31adb3c546d 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -184,14 +184,22 @@ static void drm_gem_vram_placement(struct drm_gem_vram_object *gbo,
-  */
- struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 						size_t size,
--						unsigned long pg_align)
-+						unsigned long pg_align,
-+						struct sg_table *sg,
-+						struct dma_resv *resv)
- {
- 	struct drm_gem_vram_object *gbo;
- 	struct drm_gem_object *gem;
- 	struct drm_vram_mm *vmm = dev->vram_mm;
- 	struct ttm_device *bdev;
-+	enum ttm_bo_type type;
- 	int ret;
- 
-+	if (sg)
-+		type = ttm_bo_type_sg;
-+	else
-+		type = ttm_bo_type_device;
-+
- 	if (WARN_ONCE(!vmm, "VRAM MM not initialized"))
- 		return ERR_PTR(-EINVAL);
- 
-@@ -225,8 +233,8 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 	 * A failing ttm_bo_init will call ttm_buffer_object_destroy
- 	 * to release gbo->bo.base and kfree gbo.
- 	 */
--	ret = ttm_bo_init(bdev, &gbo->bo, size, ttm_bo_type_device,
--			  &gbo->placement, pg_align, false, NULL, NULL,
-+	ret = ttm_bo_init(bdev, &gbo->bo, size, type,
-+			  &gbo->placement, pg_align, false, sg, resv,
- 			  ttm_buffer_object_destroy);
- 	if (ret)
- 		return ERR_PTR(ret);
-@@ -521,7 +529,7 @@ int drm_gem_vram_fill_create_dumb(struct drm_file *file,
- 	if (!size)
- 		return -EINVAL;
- 
--	gbo = drm_gem_vram_create(dev, size, pg_align);
-+	gbo = drm_gem_vram_create(dev, size, pg_align, NULL, NULL);
- 	if (IS_ERR(gbo))
- 		return PTR_ERR(gbo);
- 
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index c083a1d71cf4..42c8f181cbd7 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -92,7 +92,9 @@ static inline struct drm_gem_vram_object *drm_gem_vram_of_gem(
- 
- struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 						size_t size,
--						unsigned long pg_align);
-+						unsigned long pg_align,
-+						struct sg_table *sg,
-+						struct dma_resv *resv);
- void drm_gem_vram_put(struct drm_gem_vram_object *gbo);
- s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
- int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
--- 
-2.17.1
+Hi Oded,
+Thanks for sharing your code, it looks good start from basic drm code.
+I hope the discussion makes better result.
 
+Thanks,
+Jiho Chu
 
-No virus found
-		Checked by Hillstone Network AntiVirus
