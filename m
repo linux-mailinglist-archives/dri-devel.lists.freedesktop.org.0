@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC4358F1DE
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 19:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AA858F1E8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Aug 2022 19:49:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2475A10E152;
-	Wed, 10 Aug 2022 17:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF4C81120A2;
+	Wed, 10 Aug 2022 17:48:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 192BE12A5C1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 17:48:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DDBA361407
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 17:48:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AFE3FC433C1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 17:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660153690;
- bh=7PzTdql+nzAfbMk6Pf5Pp41IJZA/UIcoAsRyICwf2yI=;
- h=From:To:Subject:Date:From;
- b=d0bz2kvspTNuBtOHvF53hXIDUUAtSOYiw8YJ0tyJxekEiHqW6dNs3OgfI86iZkIeQ
- r/InvPIfuSixdg9tooX/Tcn9uakZCyunEqSphAi9xjgQ6hpsO88PfqdXcPCSEkVYgM
- ZEg283FrFbyIQ6FYh/W29nB4fYV4IAjB30B6thFTCe30ogV/XcouUfxM1QP0VCLwRg
- o3ySkYxZFWZCMRTIU47F5Zix4kNXQwejeNQQ/O+jduSVPpu3LMul2ei1n2WjRLSMsn
- zAiq9SvOaej6NUQ/pGMu0ihkIJXFbUSivhGI3XH1ROT1mulpQFWpww74d0DKpuabmB
- xPPCRPf8U3YCw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9DBC9C433E7; Wed, 10 Aug 2022 17:48:10 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216350] New: amdgpu 0000:06:00.0:
- drm_WARN_ON(atomic_read(&vblank->refcount) == 0)
-Date: Wed, 10 Aug 2022 17:48:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: icedragon.aw@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-216350-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+ [209.85.166.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93AE310E152
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 17:48:13 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id g15so6252338iob.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Aug 2022 10:48:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=+N6oE2+z+9jwTNAaSVyxqcqUp5JuLCFc7tr+Z6FAGws=;
+ b=WYGZtxq1M1tQCEa9hUNSYw5SJmvWZkWTyA207fC4aMaseKdp2Idlzy2+5dBz7t9CCh
+ B4j6IyM+79Fr4b9CUelja2+HRN/MaFQvCen3KutJ7HKW0U4MhpBNXVX5hxtr0DehWTAk
+ canhGYfm2SAcv28+g4fhM95oZ3RI4buEnsMLmLAtdB0J+4W25zf0FpsoKxSc9XJ2w+z7
+ WswZLWTSRNV2HOrPIEnN0ffdVokiVtZhInQiLCZSpyD0oiEWEsDgPGMbBmTiwPm27783
+ x80l4FEXR4IniTzy979sFW8+4MyrC2GwU55spOMRX2LDe4VLRMz+DUpsQtNBtd96p+dU
+ BuIA==
+X-Gm-Message-State: ACgBeo3E2RapP7I+cYNKfHqn9n6ABwd/MARDF7jimZEK6M7p9u8z2rJ0
+ LBWpL0fFXnLcAsy7SpCsMQ==
+X-Google-Smtp-Source: AA6agR79rHhKYr5RzkGcMvA3P9iJe8YVNwuun47x0eShM+Vw1kbLR7EV9dZX7F59f9epoBEIufX+yQ==
+X-Received: by 2002:a02:664a:0:b0:33f:5310:35e1 with SMTP id
+ l10-20020a02664a000000b0033f531035e1mr13120728jaf.214.1660153692739; 
+ Wed, 10 Aug 2022 10:48:12 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020a029702000000b0034274a116f1sm7736516jai.20.2022.08.10.10.48.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Aug 2022 10:48:12 -0700 (PDT)
+Received: (nullmailer pid 223548 invoked by uid 1000);
+ Wed, 10 Aug 2022 17:48:10 -0000
+Date: Wed, 10 Aug 2022 11:48:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH 1/8] dt-bindings: display: ti,am65x-dss: Add port
+ properties for DSS
+Message-ID: <20220810174810.GA200295-robh@kernel.org>
+References: <20220719080845.22122-1-a-bhatia1@ti.com>
+ <20220719080845.22122-2-a-bhatia1@ti.com>
+ <20220720232845.GA4164694-robh@kernel.org>
+ <a2e5037c-22c0-8424-4031-0bf587120990@ti.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2e5037c-22c0-8424-4031-0bf587120990@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,128 +65,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Tomi Valkeinen <tomba@kernel.org>, David Airlie <airlied@linux.ie>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Krunal Bhargav <k-bhargav@ti.com>, Darren Etheridge <detheridge@ti.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Devarsh Thakkar <devarsht@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Rahul T R <r-ravikumar@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216350
+On Mon, Jul 25, 2022 at 04:56:15PM +0530, Aradhya Bhatia wrote:
+> 
+> 
+> On 21-Jul-22 04:58, Rob Herring wrote:
+> > On Tue, Jul 19, 2022 at 01:38:38PM +0530, Aradhya Bhatia wrote:
+> > > Add "ti,oldi-mode" property to indicate the tidss driver the OLDI output
+> > > mode. The 2 OLDI TXes on am625-dss allow a 3 different types of panel
+> > > connections with the board.
+> > > 
+> > > 1. Single Link / Single Mode on OLDI TX 0 OR 1.
+> > > 2. Single Link / Duplicate Mode on OLDI TX 0 and 1.
+> > > 3. Dual Link / Single Mode on OLDI TX 0 and 1.
+> > > 
+> > > Add "ti,rgb565-to-888" property to override 16bit output from a videoport
+> > > for a bridge that only accepts 24bit RGB888 DPI input.
+> > > 
+> > > On some boards the HDMI bridge takes a 24bit DPI input, but only 16 data
+> > > pins are actually enabled from the SoC.  This new property forces the
+> > > output to be RGB565 on a specific video port if the bridge requests a
+> > > 24bit RGB color space.
+> > > 
+> > > This assumes that the video port is connected like so:
+> > > 
+> > > SoC : Bridge
+> > > R0 ->   R3
+> > > R1 ->   R4
+> > > R2 ->   R5
+> > > R3 ->   R6
+> > > R4 ->   R7
+> > > G0 ->   G2
+> > > G1 ->   G3
+> > > G2 ->   G4
+> > > G3 ->   G5
+> > > G4 ->   G6
+> > > G5 ->   G7
+> > > B0 ->   B3
+> > > B1 ->   B4
+> > > B2 ->   B5
+> > > B3 ->   B6
+> > > B4 ->   B7
+> > > 
+> > > On the bridge side R0->R2, G0->G1, B0->B2 would be tied to ground.
+> > > The bridge sees 24bits of data,  but the lsb's are always zero.
+> > 
+> > Unless the bridge ignores the LSBs, that's not the right way to do 16 to
+> > 24 bit. The LSBs should be connected to the MSB of the color component
+> > to get full color range.
+> > 
+> > > 
+> > > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> > > ---
+> > >   .../bindings/display/ti/ti,am65x-dss.yaml     | 25 +++++++++++++++++--
+> > >   1 file changed, 23 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> > > index 6bbce921479d..11d9b3821409 100644
+> > > --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> > > @@ -80,15 +80,35 @@ properties:
+> > >       properties:
+> > >         port@0:
+> > > -        $ref: /schemas/graph.yaml#/properties/port
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > >           description:
+> > >             The DSS OLDI output port node form video port 1
+> > > +        properties:
+> > > +          ti,oldi-mode:
+> > > +            description: TI specific property to indicate the mode the OLDI TXes
+> > > +              and the display panel are connected in.
+> > > +              0 -> OLDI TXes OFF (driver default for am625-dss)
+> > > +              1 -> Single link, Single Mode (OLDI0) (driver default for am65x-dss)
+> > > +              2 -> Single link, Single Mode (OLDI1)
+> > > +              3 -> Single link, Duplicate Mode
+> > > +              4 -> Dual link (Only Single Mode)
+> > > +            $ref: /schemas/types.yaml#/definitions/uint32
+> > > +            enum: [0, 1, 2, 3, 4]
+> > 
+> > Wouldn't 'data-lanes' property work for this purpose.
+> > 
+> > Generally, we don't put properties in port nodes.
+> > 
+> Thank you for the suggestions Rob!
+> 
+> I looked into the "data-lanes" property and it seems that the property
+> alone would not be able to help distinguish between the "Single link,
+> Duplicate mode" (Mode 3) and "Dual link, Single mode" (Mode 4). For both
+> the cases, the property will look like "data-lanes = <0 1>;" in the DT
+> node.
+> 
+> I have an idea on what the driver could use along with the data-lanes
+> property to ascertain the OLDI mode.
+> 
+> By means of number of remote-endpoints in DTS.
+> The OLDI output port of DSS can be made to have 2 remote endpoints when
+> 2 panels are connected as "Single link, Duplicate Mode" vs only 1 remote
+> endpoint for "Dual Link, Single Mode". Based on the count, the driver
+> can distinguish between the two when both the data-lanes are activated
+> in DT node.
 
-            Bug ID: 216350
-           Summary: amdgpu 0000:06:00.0:
-                    drm_WARN_ON(atomic_read(&vblank->refcount) =3D=3D 0)
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.19 and older
-          Hardware: AMD
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: icedragon.aw@web.de
-        Regression: No
+You can only have 1 'remote-endpoint'. However, you can have multiple 
+endpoint nodes which is generally used for fanout (output) or muxed 
+(input) cases. Your case is fanout as it is the same data sent to 
+multiple connections.
 
-Every times I put my monitor OFF and after some seconds ON I get the follow=
-ing
-kernel error message (no other issues observed):
+data-lanes would be kind of redundant in that case since it would be 1 
+lane per endpoint.
 
-[50119.305713] ------------[ cut here ]------------
-[50119.305717] amdgpu 0000:06:00.0: drm_WARN_ON(atomic_read(&vblank->refcou=
-nt)
-=3D=3D 0)
-[50119.305728] WARNING: CPU: 7 PID: 75006 at drm_vblank_put+0x121/0x140
-[50119.305736] Modules linked in: ufs snd_usb_audio snd_usbmidi_lib uvcvideo
-vhost_net vhost vhost_iotlb vmnet(OE) vmw_vsock_vmci_transport vsock vmw_vm=
-ci
-vmmon(OE) ipt_REJECT nf_reject_ipv4 bridge stp llc razerkbd(OE) razermouse(=
-OE)
-xt_hl ip6_tables ip6t_rt xt_LOG nf_log_syslog nft_limit xt_limit xt_addrtype
-nft_chain_nat xt_MASQUERADE nf_nat xt_conntrack nf_conntrack nf_defrag_ipv6
-nf_defrag_ipv4 nft_compat binfmt_misc nls_iso8859_1 hid_generic usbhid hid
-si2157 si2168 m88rs6000t a8293 cx25840 snd_hda_codec_hdmi snd_hda_intel
-snd_intel_dspcfg cx23885 snd_hda_codec tveeprom snd_hwdep altera_ci cx2341x
-snd_hda_core tda18271 snd_pcm snd_seq_midi altera_stapl snd_seq_midi_event
-videobuf2_dvb videobuf2_dma_sg snd_rawmidi m88ds3103 i2c_mux intel_rapl_com=
-mon
-dvb_core iosf_mbi snd_seq videobuf2_vmalloc amd64_edac videobuf2_memops
-edac_mce_amd snd_seq_device videobuf2_v4l2 snd_timer videobuf2_common rc_co=
-re
-snd videodev soundcore mc wmi_bmof sch_fq_codel nct6775 wmi nct6775_core
-hwmon_vid lm92
-[50119.305806]  lm83 autofs4 raid10 raid1 raid0 multipath linear i2c_piix4
-r8169 e1000e realtek xhci_pci xhci_pci_renesas
-[50119.305817] CPU: 7 PID: 75006 Comm: Isolated Web Co Tainted: G        W =
- OE=20
-   5.19.0-aw #1
-[50119.305820] Hardware name: To Be Filled By O.E.M. B550M Pro4/B550M Pro4,
-BIOS L2.32 05/17/2022
-[50119.305822] RIP: 0010:drm_vblank_put+0x121/0x140
-[50119.305826] Code: 8b 7f 08 4c 8b 67 50 4d 85 e4 74 25 e8 78 32 61 00 48 =
-c7
-c1 20 ee 5e 85 4c 89 e2 48 c7 c7 df 8b 5e 85 48 89 c6 e8 64 53 bc 00 <0f> 0=
-b e9
-6d ff ff ff 4c 8b 27 eb d6 66 66 2e 0f 1f 84 00 00 00 00
-[50119.305828] RSP: 0000:ffff9eccc264fc98 EFLAGS: 00010046
-[50119.305831] RAX: 0000000000000000 RBX: ffff9058cb2ad028 RCX:
-0000000000000000
-[50119.305832] RDX: 0000000000000000 RSI: 0000000000000000 RDI:
-0000000000000000
-[50119.305834] RBP: ffff9eccc264fca8 R08: 0000000000000000 R09:
-0000000000000000
-[50119.305835] R10: 0000000000000000 R11: 0000000000000000 R12:
-ffff9058c177d210
-[50119.305836] R13: 0000000000000086 R14: ffff9058caac0170 R15:
-ffff905993b52e80
-[50119.305838] FS:  00007fee4742e480(0000) GS:ffff90679e3c0000(0000)
-knlGS:0000000000000000
-[50119.305840] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[50119.305842] CR2: 000010fb7e33c000 CR3: 00000003d4474000 CR4:
-0000000000350ee0
-[50119.305843] Call Trace:
-[50119.305845]  <TASK>
-[50119.305850]  drm_crtc_vblank_put+0x17/0x40
-[50119.305853]  dm_pflip_high_irq+0xeb/0x2c0
-[50119.305857]  amdgpu_dm_irq_handler+0xaa/0x280
-[50119.305860]  amdgpu_irq_dispatch+0xde/0x2c0
-[50119.305864]  amdgpu_ih_process+0xa3/0x140
-[50119.305867]  amdgpu_irq_handler+0x24/0x80
-[50119.305869]  __handle_irq_event_percpu+0x4f/0x1c0
-[50119.305873]  handle_irq_event+0x39/0x80
-[50119.305876]  handle_edge_irq+0x8c/0x280
-[50119.305879]  __common_interrupt+0x52/0x100
-[50119.305883]  common_interrupt+0x3d/0xc0
-[50119.305888]  asm_common_interrupt+0x27/0x40
-[50119.305890] RIP: 0033:0x2b359729d460
-[50119.305893] Code: 40 b1 bb 2e ee 7f 00 00 ff 21 0f 0b 18 00 00 00 00 00 =
-00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 10 75 42 9f 46 0f 00 00 <33> c=
-9 49
-bb 40 5f 5e 6c dc 1a 00 00 4c 39 18 0f 85 50 00 00 00 48
-[50119.305894] RSP: 002b:00007ffdfe7c3780 EFLAGS: 00000246
-[50119.305896] RAX: 000013e886654550 RBX: 0000240dc88f0670 RCX:
-00007fee2ebc8260
-[50119.305898] RDX: 000013e8866fffff RSI: 0000000000000000 RDI:
-00007ffdfe7c3610
-[50119.305899] RBP: 00007ffdfe7c3850 R08: 00007fee3ffb5410 R09:
-0000000000000000
-[50119.305900] R10: 00007ffdfe7c33d0 R11: fff9000000000001 R12:
-00000f469f40de40
-[50119.305902] R13: 00007ffdfe7c4120 R14: 00007fee32ff2b35 R15:
-00007fee3b21d100
-[50119.305905]  </TASK>
-[50119.305906] ---[ end trace 0000000000000000 ]---
+> 
+> Let me know if you think this method would be appropriate.
+> > > +
+> > >         port@1:
+> > > -        $ref: /schemas/graph.yaml#/properties/port
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > >           description:
+> > >             The DSS DPI output port node from video port 2
+> > > +        properties:
+> > > +          ti,rgb565-to-888:
+> > > +            description:
+> > > +              property to override DPI output to 16bit for 24bit bridge
+> > > +            type: boolean
+> > 
+> > There's work underway for standard way to handle interface formats[1].
+> > Please help/comment on that to make sure it works for you.
+> > 
+> > Rob
+> > 
+> > [1] https://lore.kernel.org/all/20220628181838.2031-3-max.oss.09@gmail.com/
+> 
+> I also followed what this patch series is implementing. This seems to be
+> applicable for cases where the DPI pins are drawn and forwarded towards
+> a simple panel capable of accepting the raw parallel data.
+> 
+> It does not cover for the bridges with lesser number of formats to
+> support.
 
-This always reproducible - can also be reproduced on 5.18.x mainline kernel.
-Kernel: mainline kernel 5.18.x and 5.19 from kernel.org
-CPU: AMD Ryzen 7 PRO 4750G with Radeon Graphics
-Monitor: DELL S3422DWG
-Linux: Kubuntu 22.04.1 LTS - with latest patches
+Not sure what you mean here, but raise it on that thread.
 
-Not other issues observed - system is still usable.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Rob
