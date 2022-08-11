@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32013590175
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A9A5901C1
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7CF2B497F;
-	Thu, 11 Aug 2022 16:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF8B89778B;
+	Thu, 11 Aug 2022 16:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDAC98D580
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:00:16 +0000 (UTC)
+X-Greylist: delayed 1537 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Aug 2022 16:00:43 UTC
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E09F8ED4A;
+ Thu, 11 Aug 2022 16:00:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6E27AB82172;
- Thu, 11 Aug 2022 16:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 988A6C433D7;
- Thu, 11 Aug 2022 16:00:12 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 95CE5CE2256;
+ Thu, 11 Aug 2022 16:00:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96AB4C433D6;
+ Thu, 11 Aug 2022 16:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660233614;
- bh=SyOADJj+ILiiJ+e/eFz+NYJUoMOSMjGukNO2QZYUOu8=;
+ s=k20201202; t=1660233639;
+ bh=id/+ZTd9+Vg7mlteQAlUJbibewSF+8p4GBZGenOOAkQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y56U1lVvIe7KVK8vD3Y6y6LzIL3yJZL0DY0748gFxDwEojLoG/R7AwHN0O9s3Mig7
- qGZdld1Qc8J/JeTXrSPUndG6c4s+Vgu8SXUsvazbwU1thrAsY6iF9ZiadAkZAaWCsi
- Is2MkhqA0qXiByQVJIzUJfDFYEDCTfDLbuEVJZDcqIQIWFNN1Fl0Wfxxr//ij1jTsC
- GKH85WFC4V/VNr4+vXJ+nPekXcM3r0CLkDDMedPuYmq6db9Ff+SIWr9xOz6P7+HBRN
- hKQQqtW44NAERPdVLFZDQ/5+V+ewXTqIXxeaUpWBfUfeYGBYJVo8F0mztaEEVwmyc8
- eIhwOzjcEmx3w==
+ b=buQpnOa3B26n1GtiAPS+2LWWAJwqpPYMBfKoM9d6fm+66rvK8LWf9d1cThGjEMsnq
+ hSJdehZF9RLUfesoTqm5jJtqF+1owthUGqUZL23d3afLaLxzJQoM1fFklzr6J5Nrzh
+ 83oO1JZ1lbHJCeTUc7RQm8rV8ZPwG5t/O167Rf3MiFpih+7oAOa3jpnoappNGsThb7
+ dnTODiLSecC/Q3WwiHa6bhTHipBDVEXx0+v2a41b6Hnjvp1mi0tDZWjzQ7CqiOdD5m
+ wk0AzTknUhds79jBhCojhb2uU9YT+V6WJ7TmnAVGhLCjjo1IIuALUPYoMt/UWYIwtu
+ cpYH8qvO+FyGg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 30/69] drm/bridge/tc358775: Fix DSI clock
- division for vsync delay calculation
-Date: Thu, 11 Aug 2022 11:55:39 -0400
-Message-Id: <20220811155632.1536867-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 36/69] amdgpu/pm: Fix possible array
+ out-of-bounds if SCLK levels != 2
+Date: Thu, 11 Aug 2022 11:55:45 -0400
+Message-Id: <20220811155632.1536867-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811155632.1536867-1-sashal@kernel.org>
 References: <20220811155632.1536867-1-sashal@kernel.org>
@@ -55,46 +58,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, narmstrong@baylibre.com, airlied@linux.ie,
- Jiri Vanek <jirivanek1@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- Vinay Simha BN <simhavcs@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, kevin1.wang@amd.com,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ tao.zhou1@amd.com, amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
+ Stanley.Yang@amd.com, kent.russell@amd.com,
+ Darren Powell <darren.powell@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
+ Kenneth Feng <kenneth.feng@amd.com>, christian.koenig@amd.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jiri Vanek <jirivanek1@gmail.com>
+From: Darren Powell <darren.powell@amd.com>
 
-[ Upstream commit 993a87917c2af59efb0ee1ce43c878ca8790ba1c ]
+[ Upstream commit ceb180361e3851007547c55035cd1de03f108f75 ]
 
-Use the same PCLK divide option (divide DSI clock to generate pixel clock)
-which is set to LVDS Configuration Register (LVCFG) also for a VSync delay
-calculation. Without this change an auxiliary variable could underflow
-during the calculation for some dual-link LVDS panels and then calculated
-VSync delay is wrong. This leads to a shifted picture on a panel.
+ [v2]
+simplified fix after Lijo's feedback
+ removed clocks.num_levels from calculation of loop count
+   removed unsafe accesses to shim table freq_values
+ retained corner case output only min,now if
+   clocks.num_levels == 1 && now > min
 
-Tested-by: Jiri Vanek <jirivanek1@gmail.com>
-Signed-off-by: Jiri Vanek <jirivanek1@gmail.com>
-Reviewed-by: Vinay Simha BN <simhavcs@gmail.com>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220615222221.1501-3-jirivanek1@gmail.com
+ [v1]
+added a check to populate and use SCLK shim table freq_values only
+   if using dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL or
+                         AMD_DPM_FORCED_LEVEL_PERF_DETERMINISM
+removed clocks.num_levels from calculation of shim table size
+removed unsafe accesses to shim table freq_values
+   output gfx_table values if using other dpm levels
+added check for freq_match when using freq_values for when now == min_clk
+
+== Test ==
+LOGFILE=aldebaran-sclk.test.log
+AMDGPU_PCI_ADDR=`lspci -nn | grep "VGA\|Display" | cut -d " " -f 1`
+AMDGPU_HWMON=`ls -la /sys/class/hwmon | grep $AMDGPU_PCI_ADDR | awk '{print $9}'`
+HWMON_DIR=/sys/class/hwmon/${AMDGPU_HWMON}
+
+lspci -nn | grep "VGA\|Display"  > $LOGFILE
+FILES="pp_od_clk_voltage
+pp_dpm_sclk"
+
+for f in $FILES
+do
+  echo === $f === >> $LOGFILE
+  cat $HWMON_DIR/device/$f >> $LOGFILE
+done
+cat $LOGFILE
+
+Signed-off-by: Darren Powell <darren.powell@amd.com>
+Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    | 34 +++++++------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 2272adcc5b4a..70b6210c9803 100644
---- a/drivers/gpu/drm/bridge/tc358775.c
-+++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -429,7 +429,7 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
- 		val = TC358775_VPCTRL_MSF(1);
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+index d0c6b864d00a..b82ef1e10018 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+@@ -729,7 +729,7 @@ static int aldebaran_print_clk_levels(struct smu_context *smu,
+ 	struct smu_13_0_dpm_table *single_dpm_table;
+ 	struct smu_dpm_context *smu_dpm = &smu->smu_dpm;
+ 	struct smu_13_0_dpm_context *dpm_context = NULL;
+-	uint32_t display_levels;
++	int display_levels;
+ 	uint32_t freq_values[3] = {0};
+ 	uint32_t min_clk, max_clk;
  
- 	dsiclk = mode->crtc_clock * 3 * tc->bpc / tc->num_dsi_lanes / 1000;
--	clkdiv = dsiclk / DIVIDE_BY_3 * tc->lvds_link;
-+	clkdiv = dsiclk / (tc->lvds_link == DUAL_LINK ? DIVIDE_BY_6 : DIVIDE_BY_3);
- 	byteclk = dsiclk / 4;
- 	t1 = hactive * (tc->bpc * 3 / 8) / tc->num_dsi_lanes;
- 	t2 = ((100000 / clkdiv)) * (hactive + hback_porch + hsync_len + hfront_porch) / 1000;
+@@ -761,7 +761,7 @@ static int aldebaran_print_clk_levels(struct smu_context *smu,
+ 			return ret;
+ 		}
+ 
+-		display_levels = clocks.num_levels;
++		display_levels = (clocks.num_levels == 1) ? 1 : 2;
+ 
+ 		min_clk = pstate_table->gfxclk_pstate.curr.min;
+ 		max_clk = pstate_table->gfxclk_pstate.curr.max;
+@@ -771,30 +771,20 @@ static int aldebaran_print_clk_levels(struct smu_context *smu,
+ 
+ 		/* fine-grained dpm has only 2 levels */
+ 		if (now > min_clk && now < max_clk) {
+-			display_levels = clocks.num_levels + 1;
++			display_levels++;
+ 			freq_values[2] = max_clk;
+ 			freq_values[1] = now;
+ 		}
+ 
+-		/*
+-		 * For DPM disabled case, there will be only one clock level.
+-		 * And it's safe to assume that is always the current clock.
+-		 */
+-		if (display_levels == clocks.num_levels) {
+-			for (i = 0; i < clocks.num_levels; i++)
+-				size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i,
+-					freq_values[i],
+-					(clocks.num_levels == 1) ?
+-						"*" :
+-						(aldebaran_freqs_in_same_level(
+-							 freq_values[i], now) ?
+-							 "*" :
+-							 ""));
+-		} else {
+-			for (i = 0; i < display_levels; i++)
+-				size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i,
+-						freq_values[i], i == 1 ? "*" : "");
+-		}
++		for (i = 0; i < display_levels; i++)
++			size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i,
++				freq_values[i],
++				(display_levels == 1) ?
++					"*" :
++					(aldebaran_freqs_in_same_level(
++						 freq_values[i], now) ?
++						 "*" :
++						 ""));
+ 
+ 		break;
+ 
 -- 
 2.35.1
 
