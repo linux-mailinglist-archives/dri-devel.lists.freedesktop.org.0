@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD2959059B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 19:16:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A1B5905D0
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 19:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE7E112FF6;
-	Thu, 11 Aug 2022 17:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2D4113C5B;
+	Thu, 11 Aug 2022 17:24:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179DF11ACE6;
- Thu, 11 Aug 2022 17:16:26 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id l188so21974829oia.4;
- Thu, 11 Aug 2022 10:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=KfbvK1kB8bEVX+Bg3v0uAmAH4X0cmlYYTnpUW0qFVPQ=;
- b=TnkO0E874E+5j6klJFh8ek6SsnENd71jthFGsFpua2yYT5NQw0Pv81Jxt31gT4bW9s
- LGjKTwHL4DnMsXhZGXPm7oRcS1kxvSfp9nPTnkDeRFvTFAEvAEL91hOJjq1rtDMOIFfb
- s0fRKqkufOEOskCOyspzuYGiEfIItVxs2JEQUq/WJcHWwk+196JVL/HUR2MwC4pMNx+j
- Msb5XcCNOW/JcgNCVUdQpR8GgZWFNKvkmC42KDjfxols2OkYZTqs+8xeN8BtGI+8+Ic9
- EStOeW5RQE2g8nWdb71bmJELef5l4vE55QoC9yf4CSX2xmLd81W6QP/uq10mflmWZMfH
- zHCw==
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F02CC10E306
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 17:23:46 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id u1so26434023lfq.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 10:23:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=AnCsPAQ6S5XSMkIG5oYaEC4K5z7sA59ctKWoQkq2VZE=;
+ b=eZ4X4GLue+7uCz/ZMdt6KiL0wwxwfOlsFXXUIvTDvfaqzjGGu/eHR4GY7K+304++VC
+ cvM+FfLUCiVvwNMY2IcknNcGlbWHPZzwwhf0CSTt2Zlsjmr80frYREw7HI665gaa4nso
+ StVqfgzuQ3R7LHR8IgXcTneqcFse/+utscQUU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=KfbvK1kB8bEVX+Bg3v0uAmAH4X0cmlYYTnpUW0qFVPQ=;
- b=sWfpTory6pRnT/uY8nbyoqJ4RiY/OAq1Gli06FXDZA5M3dud3Lcq+MeJdnxkJIBqjq
- +nGmVzAIYI8ZYcNZ/jNlWx6xBbVTdKbydCy+nMFKzAaz2BjUXoq4B5V42IqW6Fri+RfY
- n4lYW2c0U2d1FtfQatp5bmSs+8z8Doiz5/Wj215Vp692Ri5N7ItQDbhvX2rliGz8eek5
- pPgttB5IKUrv5lukfuraStJ4HZQ/3CykSQjc0LPMDO3yRGscJlS/Kvy2vmo8ogs03f3Z
- fX/jXsmm9zGMoiFy0ODkcLdxy0QkdvH+/Dan5MdA2/DZ5wfMoRj56xEqFOgyYjC9+e7H
- BmUg==
-X-Gm-Message-State: ACgBeo14upo4uBjWTKFiEdMDHjx/gD7af9FzcTgIhV3F5/gPqRJjVtgG
- zBmLTf2gTV1s9xYPeERXK4Iyt5DaaJcrWd23Of0=
-X-Google-Smtp-Source: AA6agR4Bzynj5rmJ8wCQm3W9k/cxzVFKyJgGxa2jF7SPAmi/iTivBeW/gA2Idukm9kGS55zj0zOhNVtOD/B82NJlMXc=
-X-Received: by 2002:a05:6808:19a3:b0:33e:1525:3fb4 with SMTP id
- bj35-20020a05680819a300b0033e15253fb4mr106057oib.106.1660238185376; Thu, 11
- Aug 2022 10:16:25 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=AnCsPAQ6S5XSMkIG5oYaEC4K5z7sA59ctKWoQkq2VZE=;
+ b=zPlregTX5NVJqZqxl3Uay0aBsOH8eXP49cd/zxr/i1R+xyT7JuGqswuGbElGre4Ekw
+ 03AWniWhFIJmL2i4sCMZHLbxyqcVooFd2m69aGuts08Vu5VIQQ/ZfeTNDnL4d3sS+V4+
+ pIEaCSvnWWnZn5pHPuEnglJX9L1O75qpmkTZquDOYvpumxTAtsHDlab4Dbz/FfTg3lk1
+ +7J3gTgLs6x3BzvDNyL8o6Rrty2w2SkLEDIRf1zyZ6ue2tiiQ5+XJ32nZH80nYoZ8LvV
+ uFB4+ihyPWOZc/Z2nHjHVO0ca8gdMcuevz7rWT2Lmk6DeAHsbcxxbp0nceArvOkp80+j
+ EfFw==
+X-Gm-Message-State: ACgBeo3ktHsyiWV/v8AqRMegnBKB8iPkuYgASurUPxygNdAKX4+Szz4u
+ DezUgwqn1doq7goqe1sKezwBEchOcegdkdsfM6Wi0g==
+X-Google-Smtp-Source: AA6agR6j80HYYi81ZMQfJPQuzUD8MfI8mzNa8691kVB444Gkfl8LcmXfdDVbbCTwUTbWTYzkc1UipZP3SG0BBTeOxBQ=
+X-Received: by 2002:a05:6512:e82:b0:48b:23f5:d153 with SMTP id
+ bi2-20020a0565120e8200b0048b23f5d153mr95521lfb.291.1660238625050; Thu, 11 Aug
+ 2022 10:23:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <YvU4GD8HtZ1A4dhI@debian>
-In-Reply-To: <YvU4GD8HtZ1A4dhI@debian>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 11 Aug 2022 13:16:14 -0400
-Message-ID: <CADnq5_PwbwjmvvKedpZeeQHk7N+kawKpXywjNGqa=1jSKRcw0A@mail.gmail.com>
-Subject: Re: build failure of next-20220811 due to b1a63a0b48ad
- ("drm/amd/display: consider DSC pass-through during mode validation")
-To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-5-tzimmermann@suse.de>
+ <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
+ <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
+ <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
+In-Reply-To: <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 11 Aug 2022 19:23:33 +0200
+Message-ID: <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
+ set
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +66,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- linux-next@vger.kernel.org, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Paul Mackerras <paulus@samba.org>, Michal Suchanek <msuchanek@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 11, 2022 at 1:11 PM Sudip Mukherjee (Codethink)
-<sudipm.mukherjee@gmail.com> wrote:
+On Wed, 27 Jul 2022 at 09:53, Thomas Zimmermann <tzimmermann@suse.de> wrote=
+:
 >
-> Hi All,
+> Hi
 >
-> Not sure if it has been reported, builds of riscv, alpha, s390, arm,
-> arm64, xtensa, mips, csky allmodconfig have failed to build next-20220811
-> with the error:
+> Am 25.07.22 um 17:13 schrieb Javier Martinez Canillas:
+> > Hello Geert,
+> >
+> > On 7/21/22 16:46, Geert Uytterhoeven wrote:
+> >> Hi Thomas,
+> >>
+> >> On Wed, Jul 20, 2022 at 4:27 PM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+> >>> Compute the framebuffer's scanline stride length if not given by
+> >>> the simplefb data.
+> >>>
+> >>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>
+> >> Thanks for your patch!
+> >>
+> >>> --- a/drivers/gpu/drm/tiny/simpledrm.c
+> >>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> >>> @@ -743,6 +743,9 @@ static struct simpledrm_device *simpledrm_device_=
+create(struct drm_driver *drv,
+> >>>                  drm_err(dev, "no simplefb configuration found\n");
+> >>>                  return ERR_PTR(-ENODEV);
+> >>>          }
+> >>> +       if (!stride)
+> >>> +               stride =3D format->cpp[0] * width;
+> >>
+> >> DIV_ROUND_UP(drm_format_info_bpp(format) * width, 8)
+> >>
+> >
+> > I think you meant here:
+> >
+> > DIV_ROUND_UP(drm_format_info_bpp(format, 0) * width, 8) ?
 >
-> ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-> ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->
-> git bisect pointed to b1a63a0b48ad ("drm/amd/display: consider DSC pass-through during mode validation")
-> And, reverting that commit has fixed the build failure.
->
-> I will be happy to test any patch or provide any extra log if needed.
+> I guess, that's the right function. My original code is correct, but cpp
+> is also deprecated.
 
-https://patchwork.freedesktop.org/patch/497116/
+You all mean drm_format_info_min_pitch().
 
-Alex
+I really don't want drivers to go grab any of the legacy format info
+fields like bpp or depth. switch() statements on the fourcc code for
+programming registers, or one of the real helper functions in
+drm_fourcc.c (there might be some gaps), but not ever going through
+legacy concepts. Anything else just leads to subtle bugs when new
+formats get added and oops suddenly the assumptions don't hold.
+
+Those should be strictly limited to legacy (i.e. not drm_fourcc aware)
+interfaces. Heck I think even fbdev emulation should completely switch
+over to drm_fourcc/drm_format_info, but alas that's a pile of work and
+not much payoff.
+
+I'm trying to volunteer Same to add a legacy_bpp tag to the above
+helper and appropriately limit it, I think limiting to formats with
+depth!=3D0 is probably the right thing. And then we should probably
+remove a pile of the cargo-culted depth!=3D0 entries too.
+-Daniel
 
 >
+> Best regards
+> Thomas
+>
+> >
+> > With that change,
+> >
+> > Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+> >
 >
 > --
-> Regards
-> Sudip
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
