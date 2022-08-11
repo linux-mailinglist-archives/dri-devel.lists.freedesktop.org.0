@@ -2,45 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BA85907D9
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 23:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39385907F4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 23:20:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294C518B723;
-	Thu, 11 Aug 2022 21:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B0710FD7B;
+	Thu, 11 Aug 2022 21:19:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1949518B5A2;
- Thu, 11 Aug 2022 21:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660252112; x=1691788112;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VNi1/5JGKDD2w03JIs2UoFJvnRyEt00JKmBug4Ih8IE=;
- b=nnnlQ6FrFC86rdwD/fw7e7hR32Uc3NTk2EVslYISwYUr+spOIo1mGqFF
- w5mEKgR96hhjjGg/ndjYTH/1Yi7FvhOM/srpXbdf1k/eocdin7vFB1NQx
- LR0l06RmRTWjv+3CHQ1k87HY9xFoJtU/0PLBKCiePLWeQl65BEisbUryn
- MQuj0/6LscERv2kg9GYToXi+LxFr0dbeuKV8xpOvYjZV8m/+WStmI+gfn
- KwG/n1DKxGMxuUzhLYe6Lbj1vMXlU7z49PP4Jq6+OZgsIFNFaYUvd75Bc
- +ekOz9BphtE+Qh5sBy4CsoFVrJ6LQsp1fw7Q43Rky1O5LSFePeavTWfKr w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="271235705"
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="271235705"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2022 14:08:31 -0700
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="708768758"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2022 14:08:31 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: clear stalled request after a reset
-Date: Thu, 11 Aug 2022 14:08:12 -0700
-Message-Id: <20220811210812.3239621-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAAB10FAFD;
+ Thu, 11 Aug 2022 21:19:42 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BL101H017487;
+ Thu, 11 Aug 2022 21:19:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=5U+s+Yn3cyeuZfaM1EzTRsyPLeu5gbrWluIaMDdEdgM=;
+ b=B7pPylBFaBt+onJO4rP9Oac0dTm4wUC0sgwHanHwiJm+ZZ2WVBsMqvHFX5WWQsnFl3Sw
+ oenW5QVPTQuHEJpTI9qYdI0EiiSST90XwXZGI8WWjMQItMTytaQ9Z0f90Y+rrVmr4D6t
+ y2pUeZFE1U55iZBwsjeuYkQG9NUzsA1tR9FydJ3NMer4heV6U0acIoZVKKghWjiu2Y1u
+ KSTm/VUNRI29VD34JjvpPABRPRaBMDAVYWZ3uT2gADVHoYjviuTIUJHkMDsHnp5y5Q6o
+ BcUlsMAuW8sAMcu3SZGUTRbdxhPP2AhMaGtG+MQnrcpFCiLrjsFrWUO2TZ/vq9F8fU4/ xQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hw3a6s9s1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Aug 2022 21:19:31 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BLJTbc011682
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Aug 2022 21:19:29 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 11 Aug 2022 14:19:28 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v3] drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix tps4
+Date: Thu, 11 Aug 2022 14:19:21 -0700
+Message-ID: <1660252761-14595-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: T8nLp6bwS8A888zIYb7LfcqVQA6OSqw3
+X-Proofpoint-ORIG-GUID: T8nLp6bwS8A888zIYb7LfcqVQA6OSqw3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-11_13,2022-08-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 spamscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208110064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +79,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, stable@vger.kernel.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the GuC CTs are full and we need to stall the request submission
-while waiting for space, we save the stalled request and where the stall
-occurred; when the CTs have space again we pick up the request submission
-from where we left off.
+Data Symbols scrambled is required for tps4 at link training 2.
+Therefore SCRAMBLING_DISABLE bit should not be set for tps4 to
+work.
 
-If a full GT reset occurs, the state of all contexts is cleared and all
-non-guilty requests are unsubmitted, therefore we need to restart the
-stalled request submission from scratch. To make sure that we do so,
-clear the saved request after a reset.
+RECOVERED_CLOCK_OUT_EN is for enable simple EYE test for jitter
+measurement with minimal equipment for embedded applications purpose
+and is not required to be set during normal operation.
+Current implementation always have RECOVERED_CLOCK_OUT_EN bit set
+which cause SCRAMBLING_DISABLE bit wrongly set at tps4 which prevent
+tps4 from working.
 
-Fixes note: the patch that introduced the bug is in 5.15, but no
-officially supported platform had GuC submission enabled by default
-in that kernel, so the backport to that particular version (and only
-that one) can potentially be skipped.
+This patch delete setting RECOVERED_CLOCK_OUT_EN to fix SCRAMBLING_DISABLE
+be wrongly set at tps4.
 
-Fixes: 925dc1cf58ed ("drm/i915/guc: Implement GuC submission tasklet")
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: <stable@vger.kernel.org> # v5.15+
+Changes in v2:
+-- fix Fixes tag
+
+Changes in v3:
+-- revise commit text
+
+Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 0d17da77e787..0d56b615bf78 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4002,6 +4002,13 @@ static inline void guc_init_lrc_mapping(struct intel_guc *guc)
- 	/* make sure all descriptors are clean... */
- 	xa_destroy(&guc->context_lookup);
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index ab6aa13..013ca02 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1214,7 +1214,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+ 	if (ret)
+ 		return ret;
  
-+	/*
-+	 * A reset might have occurred while we had a pending stalled request,
-+	 * so make sure we clean that up.
-+	 */
-+	guc->stalled_request = NULL;
-+	guc->submission_stall_reason = STALL_NONE;
-+
- 	/*
- 	 * Some contexts might have been pinned before we enabled GuC
- 	 * submission, so we need to add them to the GuC bookeeping.
+-	dp_ctrl_train_pattern_set(ctrl, pattern | DP_RECOVERED_CLOCK_OUT_EN);
++	dp_ctrl_train_pattern_set(ctrl, pattern);
+ 
+ 	for (tries = 0; tries <= maximum_retries; tries++) {
+ 		drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
 -- 
-2.25.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
