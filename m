@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9F9590028
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F396F59002A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:40:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53DFD10F6A6;
-	Thu, 11 Aug 2022 15:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B43B459F;
+	Thu, 11 Aug 2022 15:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18504B45AF;
- Thu, 11 Aug 2022 15:39:01 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDBAFB45C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:39:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9835A616CA;
- Thu, 11 Aug 2022 15:39:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93189C433C1;
- Thu, 11 Aug 2022 15:38:58 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 2F83DCE224E;
+ Thu, 11 Aug 2022 15:39:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB9CC433D7;
+ Thu, 11 Aug 2022 15:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660232340;
- bh=7ryKt3BvDv8KyfJYLeaDSvJJFnVL4177BFp4TNwqe/E=;
+ s=k20201202; t=1660232388;
+ bh=i16o/UpQOLnaNmb6qlvby7vOoR3dY23lMEGXDmWnHrk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EatQvS4a/p1Za8mUpLLsmd0LAXAW2f24ONwRmMb5EvZyjxnKniSQ2GiV/Rv3G+cK8
- /x7VCljiRjWXTBAbh0VRks5AccoqrB3VsW49KLu4Z/rEKqlywmhzF/IfiLsby5ZLdV
- h0wn0S2Ph3Cwv2CdClEKDfrpyBYTlGke7BKRxMEeqmeCg7PailE5wnsxR1L4SXrnUX
- gMzCF0HzmLKpcfYZ5HKvk77NqaFjqz/DU2fsgq2zdi8MuO+NrPtji8087zXkHIn1fn
- 1FNygqH8miT2ND7kllWhBjjD9Wu+DQWhy56YqMQlGvwGa80tbIg+vMvE1UvifYdL9w
- gdee6Zd1z71Zw==
+ b=sm90RI0lo8u4ujfMpWnNVTlat5k0NHBmxg7i3s+CY/vfgqVHMrTmxjomjAj/IcCVD
+ K9w3PRnOWE2jTeC4MQ5DPYF4vZ/hMHXRk3pX3QS0t5/pQKTJn9+Kvgtq67cZSbP2pI
+ ZTPfsEaRU2HuQpvxgDmNadG8dx3uUIHBm7GgZxUlxiUMuHyeKntGoo1fyE20HFvFEN
+ Kt1Fe6vtnn5CnDe5KnDxmp8178F4I69Oxq/MqoklrXAmqxm5q9EOClt6eOdS9dqgvU
+ 88W+mUiPl/XwEm1GsdttKu9FnxDWMZaV13jgOuOSPyNf2mxAwByn+kdWD8gexV6CYY
+ GAw3QQ4hobGTQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 070/105] drm/amdgpu: fix file permissions on some
- files
-Date: Thu, 11 Aug 2022 11:27:54 -0400
-Message-Id: <20220811152851.1520029-70-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 075/105] drm/amdgpu: Call trace info was found in
+ dmesg when loading amdgpu
+Date: Thu, 11 Aug 2022 11:27:59 -0400
+Message-Id: <20220811152851.1520029-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
 References: <20220811152851.1520029-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,58 +56,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, charlene.liu@amd.com,
- Guchun Chen <guchun.chen@amd.com>, airlied@linux.ie, Xinhui.Pan@amd.com,
- zhan.liu@amd.com, amd-gfx@lists.freedesktop.org, HaoPing.Liu@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- jun.lei@amd.com, =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, sathishkumar.sundararaju@amd.com,
+ lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, guchun.chen@amd.com,
+ airlied@linux.ie, Jingwen Chen <Jingwen.Chen2@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com, lin cao <lin.cao@amd.com>,
+ danijel.slivka@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ Mohammadzafar.ziya@amd.com, evan.quan@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: lin cao <lin.cao@amd.com>
 
-[ Upstream commit 0a94608f0f7de9b1135ffea3546afe68eafef57f ]
+[ Upstream commit 748262eb400e809aa13e3485f4983c3db3d0ebb3 ]
 
-Drop execute.
+In the case of SRIOV, the register smnMp1_PMI_3_FIFO will get an invalid
+value which will cause the "shift out of bound". In Ubuntu22.04, this
+issue will be checked an related call trace will be reported in dmesg.
 
-Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/2085
-Reviewed-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: lin cao <lin.cao@amd.com>
+Reviewed-by: Jingwen Chen <Jingwen.Chen2@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_offset.h   | 0
- drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_sh_mask.h  | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_offset.h    | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_sh_mask.h   | 0
- drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_offset.h  | 0
- drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_sh_mask.h | 0
- 6 files changed, 0 insertions(+), 0 deletions(-)
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_sh_mask.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_sh_mask.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_sh_mask.h
+ drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_offset.h b/drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/clk/clk_11_0_1_sh_mask.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_3_sh_mask.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_2_0_3_sh_mask.h
-old mode 100755
-new mode 100644
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+index 78f3d9e722bb..4db7e32efd08 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+@@ -886,6 +886,7 @@ static void sienna_cichlid_stb_init(struct smu_context *smu);
+ 
+ static int sienna_cichlid_init_smc_tables(struct smu_context *smu)
+ {
++	struct amdgpu_device *adev = smu->adev;
+ 	int ret = 0;
+ 
+ 	ret = sienna_cichlid_tables_init(smu);
+@@ -896,7 +897,8 @@ static int sienna_cichlid_init_smc_tables(struct smu_context *smu)
+ 	if (ret)
+ 		return ret;
+ 
+-	sienna_cichlid_stb_init(smu);
++	if (!amdgpu_sriov_vf(adev))
++		sienna_cichlid_stb_init(smu);
+ 
+ 	return smu_v11_0_init_smc_tables(smu);
+ }
 -- 
 2.35.1
 
