@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1314358F735
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 07:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A5E58F75D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 07:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8C91120B3;
-	Thu, 11 Aug 2022 05:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBFEA1F42;
+	Thu, 11 Aug 2022 05:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E18310F5A8
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 05:11:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8B35661405
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 05:11:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DDEDAC433B5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 05:11:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660194681;
- bh=8YwSVuALwGv3rK5Ar+liwRwOnsMLJXkmt+ZXWcz0lkY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=bxLKi+37xSFv3ApK9DSSBsL/bj8NYuLkPN1MawDOnTMMJ1Rn1WUtKaDXhgRm1JdrX
- 0LyPVgZUNE91WwlH9MiV2UN1xbi7K9P0unGoishVQyq2ZypaNDnYfGC5QUZrHlFTlw
- 8id2t1Jrw5jkLfFBxEPy5u19AOnhFeaEwoD2OVRWpWMIVYDb1FVWGijwkRCK7/4Da3
- IpFuirvShrabzSQ8nV5bqqaFp+kGW8TO0K5f9w/qAyU+JoXyxAauNRdmFl/LTDwsIB
- VEIR5zaWHIO1jBBb55TCuzXi7Ng+2vZWOk+bL/etERoq6Ov+o5SsXBFd7Uwos62sE6
- 3SZGTp2aTfMAA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C5307C433E4; Thu, 11 Aug 2022 05:11:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406ADA1ED5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 05:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660196874; x=1691732874;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=BCa/831KTwzVLYxqVh1kNYE56d6AfUbv9GUiF6NREhk=;
+ b=LHDkmP+K+Bp0TfYlHu7VkTqtBwu+g4V1tIhdF+4uffRS3ChmIyUMhUiL
+ 1QvdH1tPoGGDH/kLljoI3ncVCtu0LEBvRDv3iGM7JoYzKaO/+yyG9lM1j
+ iL4KP8oKgIlCuhkocX/zIJf/YR2JTKkFcKOmzeWqXgB5H3ZXFB9FDDAur
+ DYN4mFb3ZaF2X7g2nkfjG0a/lYecBWmAiU7iYT5l48U/ZxlLfD1kQlE8s
+ 6Q6Edym5KWlz3SM4pftAaRxqcMfqdaKIwqeVr36hz+w8jIAQdUU4KN5Ul
+ 5IjoLzrIhzxZ3aLCvkXDlHVDjGFAUGsZ3TnEjwJ/U+8TYwflG8OIO+R6g g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="377555974"
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="377555974"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2022 22:47:53 -0700
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="747690432"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2022 22:47:51 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216350] amdgpu 0000:06:00.0:
- drm_WARN_ON(atomic_read(&vblank->refcount) == 0)
-Date: Thu, 11 Aug 2022 05:11:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216350-2300-HZggXeqW2r@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216350-2300@https.bugzilla.kernel.org/>
-References: <bug-216350-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH 0/4] Fix HFVSDB parsing
+Date: Thu, 11 Aug 2022 11:17:14 +0530
+Message-Id: <20220811054718.2115917-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: uma.shankar@intel.com, swati2.sharma@intel.com, maarten.lankhorst@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216350
+Fix issues in HFVSDB parsing for DSC support.
+Also minor refactoring in Logging.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Split from original patch into a new series.
+https://patchwork.freedesktop.org/patch/495193/
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+Ankit Nautiyal (4):
+  drm/edid: Fix minimum bpc supported with DSC1.2 for HDMI sink
+  drm/edid: Split DSC parsing into separate function
+  drm/edid: Refactor HFVSDB parsing for DSC1.2
+  drm/edid: Avoid multiple log lines for HFVSDB parsing
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please report here instead https://gitlab.freedesktop.org/drm/amd/-/issues
+ drivers/gpu/drm/drm_edid.c | 153 +++++++++++++++++++++----------------
+ 1 file changed, 87 insertions(+), 66 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+-- 
+2.25.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
