@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5905B5900AB
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:47:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1303D5900B5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F06EB478A;
-	Thu, 11 Aug 2022 15:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAFAEB47BC;
+	Thu, 11 Aug 2022 15:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47215B46C5;
- Thu, 11 Aug 2022 15:46:58 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD64CB47AA;
+ Thu, 11 Aug 2022 15:47:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C706161703;
- Thu, 11 Aug 2022 15:46:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7F7AC433C1;
- Thu, 11 Aug 2022 15:46:54 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 649E3B82165;
+ Thu, 11 Aug 2022 15:47:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D042C433C1;
+ Thu, 11 Aug 2022 15:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660232817;
- bh=YDmtYKjfdhdut1HGAolCC7cCkrzJrISqk2g5tTpJr+A=;
+ s=k20201202; t=1660232846;
+ bh=7qVD5RzjjIj20icR2AXiT1GDasC4l434DxJV+E2gjQo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O+2TbhMFxiDBumRHFsDEgUTM+D3AxXN/hnp98iLoWYf4pADMqeZBKRjjQLZ7GCSA3
- x4Vq34pqDCbpRcXUao5qcKo1XMbMrsd5Etq+cusg8kqgZp2+RIgejP6rttKx58y0YU
- 2Zca2YDttoyTjSicwLUxeZXdV19tneqJwhMkj+cjOcvOl32nKfb+mq32aHF4DZ/UhJ
- NuJbzetSiXqIjsd7GqHr9J/Zofz/Tnew4AJsmykqeqVLrj772W0g7Bd2Jqa7ke0x9h
- +nNZpfE5fadbZlMViosWSbncCfw38VbIHz4BZP802wdzV2eyt2o81FuZXljx9mS+f/
- hYtD8Q2RmkQqg==
+ b=S6vUjENhhpwtEBH3px7DYfTrZKy994R6QsxcTVq9Qf76vrakx4d8mbrgMJIdwqn0c
+ YoYtD1nQElqFaGCJPHldHwbTIhsqUACnRAHmx7dZ5GnqNwENEDpXLuK58K/v68Fe5D
+ sUhm81JFSHAjp9NWi3uB3/2yjvjlqCoIaIpc/KUrcxHMXSet8qCuUMmt1tx4QcC3yc
+ DYFi501jlDFtwCKszLTPcPQosW+yVWDzn5TbCWdDBXstrpoh+U83jtQA0FfaX2wMZQ
+ Znj5YyuuZbvdXoorktJJpzXq2DsLS05uIDU1GQHvt1wqM536EEmQvuf7R6mvrjcZ8s
+ K+mRTzzYvEAoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 41/93] amdgpu/pm: Fix possible array
- out-of-bounds if SCLK levels != 2
-Date: Thu, 11 Aug 2022 11:41:35 -0400
-Message-Id: <20220811154237.1531313-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 47/93] drm/amdgpu/display/dc: Fix null pointer
+ exception
+Date: Thu, 11 Aug 2022 11:41:41 -0400
+Message-Id: <20220811154237.1531313-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811154237.1531313-1-sashal@kernel.org>
 References: <20220811154237.1531313-1-sashal@kernel.org>
@@ -56,125 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, kevin1.wang@amd.com,
- airlied@linux.ie, lang.yu@amd.com, dri-devel@lists.freedesktop.org,
- Xinhui.Pan@amd.com, tao.zhou1@amd.com, amd-gfx@lists.freedesktop.org,
- luben.tuikov@amd.com, Stanley.Yang@amd.com, kent.russell@amd.com,
- Darren Powell <darren.powell@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- Kenneth Feng <kenneth.feng@amd.com>, christian.koenig@amd.com,
- Hawking.Zhang@amd.com
+Cc: airlied@linux.ie, dale.zhao@amd.com, dri-devel@lists.freedesktop.org,
+ Yi-Ling.Chen2@amd.com, isabbasso@riseup.net, Anthony.Koo@amd.com,
+ Sasha Levin <sashal@kernel.org>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ amd-gfx@lists.freedesktop.org, alex.hung@amd.com, Jerry.Zuo@amd.com,
+ sunpeng.li@amd.com, mwen@igalia.com, hanghong.ma@amd.com,
+ agustin.gutierrez@amd.com, Sungjoon.Kim@amd.com, Xinhui.Pan@amd.com,
+ Roman.Li@amd.com, Rahul Kumar <rahul.kumar1@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Darren Powell <darren.powell@amd.com>
+From: Rahul Kumar <rahul.kumar1@amd.com>
 
-[ Upstream commit ceb180361e3851007547c55035cd1de03f108f75 ]
+[ Upstream commit 1c4dae3e4639540fb567e570cc56a3c292afb6fe ]
 
- [v2]
-simplified fix after Lijo's feedback
- removed clocks.num_levels from calculation of loop count
-   removed unsafe accesses to shim table freq_values
- retained corner case output only min,now if
-   clocks.num_levels == 1 && now > min
+We observed hard hang due to NULL derefrence This issue is seen after
+running system all the time after two or three days
 
- [v1]
-added a check to populate and use SCLK shim table freq_values only
-   if using dpm_level == AMD_DPM_FORCED_LEVEL_MANUAL or
-                         AMD_DPM_FORCED_LEVEL_PERF_DETERMINISM
-removed clocks.num_levels from calculation of shim table size
-removed unsafe accesses to shim table freq_values
-   output gfx_table values if using other dpm levels
-added check for freq_match when using freq_values for when now == min_clk
+struct dc *dc = plane_state->ctx->dc; Randomly in long run we found
+plane_state or plane_state->ctx is found NULL which causes exception.
 
-== Test ==
-LOGFILE=aldebaran-sclk.test.log
-AMDGPU_PCI_ADDR=`lspci -nn | grep "VGA\|Display" | cut -d " " -f 1`
-AMDGPU_HWMON=`ls -la /sys/class/hwmon | grep $AMDGPU_PCI_ADDR | awk '{print $9}'`
-HWMON_DIR=/sys/class/hwmon/${AMDGPU_HWMON}
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+PF: supervisor read access in kernel mode
+PF: error_code(0x0000) - not-present page
+PGD 1dc7f2067 P4D 1dc7f2067 PUD 222c75067 PMD 0
+Oops: 0000 [#1] SMP NOPTI
+CPU: 5 PID: 29855 Comm: kworker/u16:4 ...
+...
+Workqueue: events_unbound commit_work [drm_kms_helper]
+RIP: 0010:dcn10_update_pending_status+0x1f/0xee [amdgpu]
+Code: 41 5f c3 0f 1f 44 00 00 b0 01 c3 0f 1f 44 00 00 41 55 41 54 55 53 48 8b 1f 4c 8b af f8 00 00 00 48 8b 83 88 03 00 00 48 85 db <4c> 8b 20 0f 84 bf 00 00 00 48 89 fd 48 8b bf b8 00 00 00 48 8b 07
+RSP: 0018:ffff942941997ab8 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff8d7fd98d2000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffff8d7e3e87c708 RDI: ffff8d7f2d8c0690
+RBP: ffff8d7f2d8c0000 R08: ffff942941997a34 R09: 00000000ffffffff
+R10: 0000000000005000 R11: 00000000000000f0 R12: ffff8d7f2d8c0690
+R13: ffff8d8035a41680 R14: 00000000000186a0 R15: ffff8d7f2d8c1dd8
+FS:  0000000000000000(0000) GS:ffff8d8037340000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000148030000 CR4: 00000000003406e0
+Call Trace:
+ dc_commit_state+0x6a2/0x7f0 [amdgpu]
+ amdgpu_dm_atomic_commit_tail+0x460/0x19bb [amdgpu]
 
-lspci -nn | grep "VGA\|Display"  > $LOGFILE
-FILES="pp_od_clk_voltage
-pp_dpm_sclk"
-
-for f in $FILES
-do
-  echo === $f === >> $LOGFILE
-  cat $HWMON_DIR/device/$f >> $LOGFILE
-done
-cat $LOGFILE
-
-Signed-off-by: Darren Powell <darren.powell@amd.com>
-Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
+Tested-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Rahul Kumar <rahul.kumar1@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    | 34 +++++++------------
- 1 file changed, 12 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-index 7f998f24af81..b57750cb27c4 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-@@ -733,7 +733,7 @@ static int aldebaran_print_clk_levels(struct smu_context *smu,
- 	struct smu_13_0_dpm_table *single_dpm_table;
- 	struct smu_dpm_context *smu_dpm = &smu->smu_dpm;
- 	struct smu_13_0_dpm_context *dpm_context = NULL;
--	uint32_t display_levels;
-+	int display_levels;
- 	uint32_t freq_values[3] = {0};
- 	uint32_t min_clk, max_clk;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+index 83fbea2df410..b12a46c4e872 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+@@ -3205,7 +3205,7 @@ void dcn10_update_pending_status(struct pipe_ctx *pipe_ctx)
+ 	struct dc_plane_state *plane_state = pipe_ctx->plane_state;
+ 	struct timing_generator *tg = pipe_ctx->stream_res.tg;
+ 	bool flip_pending;
+-	struct dc *dc = plane_state->ctx->dc;
++	struct dc *dc = pipe_ctx->stream->ctx->dc;
  
-@@ -765,7 +765,7 @@ static int aldebaran_print_clk_levels(struct smu_context *smu,
- 			return ret;
- 		}
- 
--		display_levels = clocks.num_levels;
-+		display_levels = (clocks.num_levels == 1) ? 1 : 2;
- 
- 		min_clk = pstate_table->gfxclk_pstate.curr.min;
- 		max_clk = pstate_table->gfxclk_pstate.curr.max;
-@@ -775,30 +775,20 @@ static int aldebaran_print_clk_levels(struct smu_context *smu,
- 
- 		/* fine-grained dpm has only 2 levels */
- 		if (now > min_clk && now < max_clk) {
--			display_levels = clocks.num_levels + 1;
-+			display_levels++;
- 			freq_values[2] = max_clk;
- 			freq_values[1] = now;
- 		}
- 
--		/*
--		 * For DPM disabled case, there will be only one clock level.
--		 * And it's safe to assume that is always the current clock.
--		 */
--		if (display_levels == clocks.num_levels) {
--			for (i = 0; i < clocks.num_levels; i++)
--				size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i,
--					freq_values[i],
--					(clocks.num_levels == 1) ?
--						"*" :
--						(aldebaran_freqs_in_same_level(
--							 freq_values[i], now) ?
--							 "*" :
--							 ""));
--		} else {
--			for (i = 0; i < display_levels; i++)
--				size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i,
--						freq_values[i], i == 1 ? "*" : "");
--		}
-+		for (i = 0; i < display_levels; i++)
-+			size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i,
-+				freq_values[i],
-+				(display_levels == 1) ?
-+					"*" :
-+					(aldebaran_freqs_in_same_level(
-+						 freq_values[i], now) ?
-+						 "*" :
-+						 ""));
- 
- 		break;
- 
+ 	if (plane_state == NULL)
+ 		return;
 -- 
 2.35.1
 
