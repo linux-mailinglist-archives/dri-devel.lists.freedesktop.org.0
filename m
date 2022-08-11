@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2430590C75
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 09:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F89590C71
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 09:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A67113E83;
-	Fri, 12 Aug 2022 07:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32F5A9066;
+	Fri, 12 Aug 2022 07:22:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D0BAFD0E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:56:50 +0000 (UTC)
-X-QQ-mid: bizesmtp82t1660233403tyl386yp
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA87211A6E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:01:25 +0000 (UTC)
+X-QQ-mid: bizesmtp90t1660233677t7kazeqf
 Received: from localhost.localdomain ( [110.188.55.240])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 11 Aug 2022 23:56:35 +0800 (CST)
-X-QQ-SSF: 0100000000200080H000B00A0000020
-X-QQ-FEAT: ntUToVEOiWoVPRpveSlZH+C/roA2UqPB/y8XhP4iN2dSWbOjCT0FeQqVlLK8A
- HZ3ArrUUBx0AGwShvtWE4XkltAfd6RtAJVwuXZjkPdrYmzJMT53W8Tp2flCe/vAQNtLtv1B
- g28u0I78SSe7vTJFyHEr1TLkhe2lsCsE8UTgMyyY+DP5+x1zdopURsF1h6e+hsDMtROJ024
- HkoZNwuhkjP8XaAfMqVfeZ0oXYjOZc/d6x5RrlcgBJAHNrYVBfVnrrvUz8yUJIVN48g/roZ
- aor7wL8N862bQNzi5ljMuoyiw/lpIxRETahGJSnKsJAwIObGGWe7sdNBr3x/weIN+ZQCVku
- /iX/0Me1XZzVyrvW0TNaLGsN8T5XS30D9Oqjc8NYE2LUADxR2XO1CRpCOIssB0hLewCc6z2
- m0H1pXQRdMg=
+ id ; Fri, 12 Aug 2022 00:01:12 +0800 (CST)
+X-QQ-SSF: 0100000000000080H000000A0000020
+X-QQ-FEAT: ILHsT53NKPgyimJccMYtRICob5h5v4gBQ1pwz09xH1r8vp6AzRaN7xxiRXs3V
+ HEqsS4oVFnTccMV9E48O1NHXafi6/CPdPa8zhywonBGhS+vNZzH4cCOHLgx7ZlQuZ8kdvOg
+ OQjSZ1LSOITlj2UVTrUox6FprR70VCs7gYcvzsna8EMWWRCErQF3dEygakf2klPoXcTca7Q
+ vYJsI80hW1tgktE+00RTOSf7hhdFqUTsep6tny/bJJcKq2ObskAbpFD6r4NtpcBoxV07b1i
+ pPovhB1Hq59u1XYJOLOjyZ+5JhjCOz1G64mJG0y+ve/BBN9gBcpSCdWhew67HEgP2YCQt4j
+ tbVpaEnvQphGiXMn/I=
 X-QQ-GoodBg: 0
 From: min tang <tangmin@cdjrlc.com>
 To: airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/vmwgfx: Fix comment typo
-Date: Thu, 11 Aug 2022 23:56:23 +0800
-Message-Id: <20220811155623.13661-1-tangmin@cdjrlc.com>
+Subject: [PATCH] drm/ttm: Fix comment typo
+Date: Fri, 12 Aug 2022 00:01:00 +0800
+Message-Id: <20220811160100.13798-1-tangmin@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
@@ -52,27 +51,26 @@ Cc: min tang <tangmin@cdjrlc.com>, linux-graphics-maintainer@vmware.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The double `should' is duplicated in line 72, remove one.
+The double `sure' is duplicated in line 454, remove one.
 
 Signed-off-by: min tang <tangmin@cdjrlc.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 1d1c8b82c898..7c04e8150fe2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -69,7 +69,7 @@ struct vmw_du_update_plane {
- 	 *
- 	 * Some surface resource or buffer object need some extra cmd submission
- 	 * like update GB image for proxy surface and define a GMRFB for screen
--	 * object. That should should be done here as this callback will be
-+	 * object. That should be done here as this callback will be
- 	 * called after FIFO allocation with the address of command buufer.
- 	 *
- 	 * This callback is optional.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
+index 7bc99b1279f7..2e9349e01e8e 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
+@@ -450,7 +450,7 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
+ 	}
+ 
+ 	/*
+-	 * If we don't track dirty using the MKWRITE method, make sure
++	 * If we don't track dirty using the MKWRITE method, make
+ 	 * sure the page protection is write-enabled so we don't get
+ 	 * a lot of unnecessary write faults.
+ 	 */
 -- 
 2.17.1
-
 
