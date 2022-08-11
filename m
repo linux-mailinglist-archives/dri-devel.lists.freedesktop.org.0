@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B1759036A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C1D590370
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:28:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF0711B78E;
-	Thu, 11 Aug 2022 16:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2432B56C;
+	Thu, 11 Aug 2022 16:27:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A079012ABAC
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:23:56 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id x21so23612057edd.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 09:23:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc; bh=CGJLh5fwI8XQrf/HgES3NshCYyQG5xarWVJzeoV1rSA=;
- b=CfnDNDaKyp87KPpjlPIaY/VdjjfMO93y7z/gyXNUM0yyP2OYcvOn2iq06TrcsajXyz
- woIkq1LLzB998oamfVoVI4oxQTzA2UuPNydRbETjpovVKzSvMRwIav+RwIBrNb2hfkA0
- NlQYBj47L7BB/jjgMvUvYqzBlT9zZNwI7JFf8=
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A28D8930C;
+ Thu, 11 Aug 2022 16:26:53 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so22054837fac.9; 
+ Thu, 11 Aug 2022 09:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=5J2eH8J3KSl2i4YDEioQLvvMu1VvonnCUhWQOwBSDRw=;
+ b=g5NLb4S5XMMgc+h6eG+K38NaBHb92GcTAzTX77Jua8RvMjEfTYydyLtADeo/smWoT9
+ 5THR+29CZPyFptA0p63FWuVu2HLssx5ppjo+jarmSd9O0s5QS6V9yX28IulVq6uJbUVx
+ whwcctoxwZeSdZW9PrsJFgC9mN9xCUNP5qkEnKTjubG6xCHvdvKl0d48LbDXOq/mq/ui
+ vMsNvLcrbw6Cr/CCCvVcMkfq3+bc+eIhFA2fvjdnuxlXMWhF9QAaZLyZT9JTVnEL7Snk
+ GJS2tz0QlJiRXNB8FkE+aEa/hrR2mZvVEt8crfWb1lAUSJlWQgwkZmFjcrinNLp5vWbJ
+ qZjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=CGJLh5fwI8XQrf/HgES3NshCYyQG5xarWVJzeoV1rSA=;
- b=BJLr5fldsIGzzeKh5qmRHx1yddEnc6otOqT9MxFBeX2ewwpoOHnoxaEPcn5lKWRCFT
- qM72JNE810EQv+nQEiIOclw8L4p5r560sVw1T4y5xNcnyfvEJo7IrxnMlxDOjR4r6tO3
- DDJPrGwfJ/Xlgq4j/jz8HllSLWTMmz341jnClEHiYpi+wYln+nwzW9klMQsdtFDSewSx
- ZybJBI3OMp/4V+6Vnz9Oq1QjrS+U1uF5Z2L3O4TDmAjQO5eODRT+XM6b9OuPjLjtMAZx
- UGnKm/DT1mdka1cw35wnNK9m5xte8QcYhZoc57XRWEkerJSM9z9L1SzUCynUR/3wo8sS
- 7xKQ==
-X-Gm-Message-State: ACgBeo1bZK11wu4CflfxRrELxrbVnK30QLgxJUcasMUTB8+KaE5eIS2a
- 21CbyVbbfe15o7GO3VOucGBlMQ==
-X-Google-Smtp-Source: AA6agR7QfAREBCz6ilh9rq8pFJoYiu/o9wkD4Gho91MFI33EXm2Vz/b6UWPUtmSt4Mc3qXg+55Gy9w==
-X-Received: by 2002:aa7:c9c2:0:b0:440:b458:9403 with SMTP id
- i2-20020aa7c9c2000000b00440b4589403mr17865619edt.132.1660235034917; 
- Thu, 11 Aug 2022 09:23:54 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- fx9-20020a170906b74900b0073094d244d6sm3649026ejb.55.2022.08.11.09.23.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 09:23:53 -0700 (PDT)
-Date: Thu, 11 Aug 2022 18:23:52 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm: Use original src rect while
- initializing damage iterator
-Message-ID: <YvUtGBkK7B3DZgjc@phenom.ffwll.local>
-References: <20220715134958.2605746-1-jouni.hogander@intel.com>
- <20220715134958.2605746-2-jouni.hogander@intel.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=5J2eH8J3KSl2i4YDEioQLvvMu1VvonnCUhWQOwBSDRw=;
+ b=opa7lj60AQUFgv5cjoeYBZNcUV6P2coHzKHpvJIn4pipu2uRLhDKLqAz1fdcHBDwAB
+ WRewmvWWPBXT7kGwGmFP/CqIXZAcqL51YyiSvzZ21CxqB6cR9re26UER9hwNmP/+q7Z8
+ 9mm5XPPiL3hMHgJg8JlF8pkUiEMCf8k1OOIk5om5htX1v5WGRMA4JmNT7swHWfUhgvwm
+ LsVOVvhLdIVHhe9Isa6z6UaDp0U0Tvxy4jwVE0kHfGsWPTxSOO/lsnMB2yVnERFRlA/o
+ HT5MGMgedKWuawSzoz+h+td4H6Q5KvSIXwC0JmxCBi3woxnYg3YlD9PZQwM4MpT7RdpX
+ 8baQ==
+X-Gm-Message-State: ACgBeo2BfK957lHLGwt0QIVDtJ3IIqdf8HYIVEBUsv3YHAoEbRHj+3W2
+ QmyZpvKK0ojbgAssmAOThlmMNkQa2R6O4722J0A=
+X-Google-Smtp-Source: AA6agR6gwmUJ5JYVJhxblwMwPCs6Fab74OrRJm7YlWzO6etz4AwDRdeZ4nBqzVap0+TZfCco+KRx0oX0DaxKDa6r5DM=
+X-Received: by 2002:a05:6870:3398:b0:113:7f43:d0e9 with SMTP id
+ w24-20020a056870339800b001137f43d0e9mr3826646oae.33.1660235212490; Thu, 11
+ Aug 2022 09:26:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220715134958.2605746-2-jouni.hogander@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220811162307.1384962-1-hamza.mahfooz@amd.com>
+In-Reply-To: <20220811162307.1384962-1-hamza.mahfooz@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 11 Aug 2022 12:26:41 -0400
+Message-ID: <CADnq5_MiH6_n5nnq5KW+LMxMyHtm0Mwmb7e5pi=Pr2S8Hjjiog@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix DSC related non-x86/PPC64
+ compilation issue
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,65 +65,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Anders Roxell <anders.roxell@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Roman Li <Roman.Li@amd.com>,
+ David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 15, 2022 at 04:49:56PM +0300, Jouni Högander wrote:
-> drm_plane_state->src might be modified by the driver. This is done
-> e.g. in i915 driver when there is bigger framebuffer than the plane
-> and there is some offset within framebuffer. I915 driver calculates
-> separate offset and adjusts src rect coords to be relative to this
-> offset. Damage clips are still relative to original src coords
-> provided by user-space.
-> 
-> This patch ensures original coordinates provided by user-space are
-> used when initiliazing damage iterator.
-> 
-> Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
+On Thu, Aug 11, 2022 at 12:24 PM Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+>
+> Need to protect DSC code with CONFIG_DRM_AMD_DC_DCN.
+> Fixes the following build errors on arm64:
+> ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>
+> Fixes: 0087990a9f57 ("drm/amd/display: consider DSC pass-through during mode validation")
+> Reported-by: Anders Roxell <anders.roxell@linaro.org>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-Ah kunit test for this would be awesome. Iirc we have a few already for
-rect/damage stuff, defo should extend/fix those.
--Daniel
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
 > ---
->  drivers/gpu/drm/drm_damage_helper.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-> index 937b699ac2a8..d8b2955e88fd 100644
-> --- a/drivers/gpu/drm/drm_damage_helper.c
-> +++ b/drivers/gpu/drm/drm_damage_helper.c
-> @@ -224,6 +224,7 @@ drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
->  				   const struct drm_plane_state *old_state,
->  				   const struct drm_plane_state *state)
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index ef6c94cd852b..0c52c0867211 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -1387,8 +1387,6 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+>         return (ret == 0);
+>  }
+>
+> -#endif
+> -
+>  static unsigned int kbps_from_pbn(unsigned int pbn)
 >  {
-> +	struct drm_rect src;
->  	memset(iter, 0, sizeof(*iter));
->  
->  	if (!state || !state->crtc || !state->fb || !state->visible)
-> @@ -233,10 +234,12 @@ drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
->  	iter->num_clips = drm_plane_get_damage_clips_count(state);
->  
->  	/* Round down for x1/y1 and round up for x2/y2 to catch all pixels */
-> -	iter->plane_src.x1 = state->src.x1 >> 16;
-> -	iter->plane_src.y1 = state->src.y1 >> 16;
-> -	iter->plane_src.x2 = (state->src.x2 >> 16) + !!(state->src.x2 & 0xFFFF);
-> -	iter->plane_src.y2 = (state->src.y2 >> 16) + !!(state->src.y2 & 0xFFFF);
-> +	src = drm_plane_state_src(state);
-> +
-> +	iter->plane_src.x1 = src.x1 >> 16;
-> +	iter->plane_src.y1 = src.y1 >> 16;
-> +	iter->plane_src.x2 = (src.x2 >> 16) + !!(src.x2 & 0xFFFF);
-> +	iter->plane_src.y2 = (src.y2 >> 16) + !!(src.y2 & 0xFFFF);
->  
->  	if (!iter->clips || !drm_rect_equals(&state->src, &old_state->src)) {
->  		iter->clips = NULL;
-> -- 
-> 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>         unsigned int kbps = pbn;
+> @@ -1416,6 +1414,7 @@ static bool is_dsc_common_config_possible(struct dc_stream_state *stream,
+>
+>         return bw_range->max_target_bpp_x16 && bw_range->min_target_bpp_x16;
+>  }
+> +#endif /* CONFIG_DRM_AMD_DC_DCN */
+>
+>  enum dc_status dm_dp_mst_is_port_support_mode(
+>         struct amdgpu_dm_connector *aconnector,
+> @@ -1428,6 +1427,7 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+>         struct dc_dsc_bw_range bw_range = {0};
+>         int bpp, pbn, branch_max_throughput_mps = 0;
+>
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>         /*
+>          * check if the mode could be supported if DSC pass-through is supported
+>          * AND check if there enough bandwidth available to support the mode
+> @@ -1461,13 +1461,16 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+>                         return DC_FAIL_BANDWIDTH_VALIDATE;
+>                 }
+>         } else {
+> +#endif
+>                 /* check if mode could be supported within full_pbn */
+>                 bpp = convert_dc_color_depth_into_bpc(stream->timing.display_color_depth) * 3;
+>                 pbn = drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp, false);
+>
+>                 if (pbn > aconnector->port->full_pbn)
+>                         return DC_FAIL_BANDWIDTH_VALIDATE;
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>         }
+> +#endif
+>
+>         /* check is mst dsc output bandwidth branch_overall_throughput_0_mps */
+>         switch (stream->timing.pixel_encoding) {
+> --
+> 2.37.1
+>
