@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3CD59015C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACAC59015E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8132411234A;
-	Thu, 11 Aug 2022 15:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C27A1AD871;
+	Thu, 11 Aug 2022 15:57:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F999B8D9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:56:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60E7118B182;
+ Thu, 11 Aug 2022 15:57:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D30E7612F4;
- Thu, 11 Aug 2022 15:56:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA8C0C433D6;
- Thu, 11 Aug 2022 15:56:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D99A3612F4;
+ Thu, 11 Aug 2022 15:57:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E16BC433D6;
+ Thu, 11 Aug 2022 15:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660233412;
- bh=vrdBkE2ZmzcmSjIjhiu+vMiXHBgu40Oq7MDBGADFiN8=;
+ s=k20201202; t=1660233423;
+ bh=S+9wRYp0p0oEdN+PIYmEdODlGUmWCcf3Hu8qY0WNB1E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jIJB8B2R4Nat0MZeke+fQizjhCVuhFKqQqiYdYD8VqqJKk2EbyXLo0vgJ1pxKbaaE
- EKPkGjxXmGchoJ8TYAK0E17bpcoTINL7wTxttqoIRf99bu4NGLlZBTZbMC2tgkcMo5
- EBSVuz/2cA7YGqu/jo0M57PXzOe7u/KjGBIJtidrtUWR6tUPVWz8TL3jD+S47wVToL
- 1SJLZejoMAnrrnVTCy5iRVIct8kjW1ARnocHlP1FH0DLP5Lftn5gOGERxC19S2BNXh
- LMS3fD798s1eXA0Ou/0MfKORhxYOye98/GNks2dVlhoaxIYpweeCbZmS40kOVJ2iRX
- 95ciu7GZ+Nehg==
+ b=LEyBVwNbZ21maUUWIMcXMGzDFuPAx70/Kmwq2cvFkrUI7IhOq5vH7JYu9I2TFaWW6
+ 3Ogm96mAX2EBC3GYUuTD0BtiZTSVAPUv2KgExHGHFtAXgBNBexxuFKU84b1mBiChCb
+ jKuN1Y2cQWFrujdwPauVeCYsyxnkJSZqq6Pli+TcFiPOjM+E2eUS4I5VzR3VUHpoJ4
+ GhCRwdSkLqjaS6VSxnymrbv6QwjNbx4g3dy2zv+hZsvHvgyKf6pHxYLC4TRppMlTse
+ OrXzT3zydpff72LVzRwF8UcHFzOzgamSeIXZseibR9vHyfc8yYPKIc9PM6dGPOJemv
+ aTMuEvyrAbcLQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 02/69] drm/r128: Fix undefined behavior due to
- shift overflowing the constant
-Date: Thu, 11 Aug 2022 11:55:11 -0400
-Message-Id: <20220811155632.1536867-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 05/69] drm/nouveau: clear output poll workers
+ before nouveau_fbcon_destroy()
+Date: Thu, 11 Aug 2022 11:55:14 -0400
+Message-Id: <20220811155632.1536867-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811155632.1536867-1-sashal@kernel.org>
 References: <20220811155632.1536867-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,58 +55,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Randy Dunlap <rdunlap@infradead.org>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Borislav Petkov <bp@suse.de>
+Cc: Sasha Levin <sashal@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Mark Menzynski <mmenzyns@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Borislav Petkov <bp@suse.de>
+From: Mark Menzynski <mmenzyns@redhat.com>
 
-[ Upstream commit 6556551f8848f98eff356c8aacae42c8dd65b2df ]
+[ Upstream commit 6b03816f869529393b37d03e5d75b68f7365a7a4 ]
 
-Fix:
+Resources needed for output poll workers are destroyed in
+nouveau_fbcon_fini() before output poll workers are cleared in
+nouveau_display_fini(). This means there is a time between fbcon_fini()
+and display_fini(), where if output poll happens, it crashes.
 
-  drivers/gpu/drm/r128/r128_cce.c: In function ‘r128_do_init_cce’:
-  drivers/gpu/drm/r128/r128_cce.c:417:2: error: case label does not reduce to an integer constant
-    case R128_PM4_64BM_64VCBM_64INDBM:
-    ^~~~
-  drivers/gpu/drm/r128/r128_cce.c:418:2: error: case label does not reduce to an integer constant
-    case R128_PM4_64PIO_64VCPIO_64INDPIO:
-    ^~~~
+This patch introduces another output poll clearing before fbcon
+resources are destroyed.
 
-See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
-details as to why it triggers with older gccs only.
+BUG: KASAN: use-after-free in
+__drm_fb_helper_initial_config_and_unlock.cold+0x1f3/0x291
+[drm_kms_helper]
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220405151517.29753-5-bp@alien8.de
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Mark Menzynski <mmenzyns@redhat.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220523113541.10562-1-mmenzyns@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/r128/r128_drv.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/r128/r128_drv.h b/drivers/gpu/drm/r128/r128_drv.h
-index 2e1bc01aa5c9..970e192b0d51 100644
---- a/drivers/gpu/drm/r128/r128_drv.h
-+++ b/drivers/gpu/drm/r128/r128_drv.h
-@@ -300,8 +300,8 @@ extern long r128_compat_ioctl(struct file *filp, unsigned int cmd,
- #	define R128_PM4_64PIO_128INDBM		(5  << 28)
- #	define R128_PM4_64BM_128INDBM		(6  << 28)
- #	define R128_PM4_64PIO_64VCBM_64INDBM	(7  << 28)
--#	define R128_PM4_64BM_64VCBM_64INDBM	(8  << 28)
--#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15 << 28)
-+#	define R128_PM4_64BM_64VCBM_64INDBM	(8U  << 28)
-+#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15U << 28)
- #	define R128_PM4_BUFFER_CNTL_NOUPDATE	(1  << 27)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+index 4f9b3aa5deda..5226323e55d3 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+@@ -39,6 +39,7 @@
  
- #define R128_PM4_BUFFER_WM_CNTL		0x0708
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
++#include <drm/drm_probe_helper.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_atomic.h>
+@@ -605,6 +606,7 @@ nouveau_fbcon_fini(struct drm_device *dev)
+ 	if (!drm->fbcon)
+ 		return;
+ 
++	drm_kms_helper_poll_fini(dev);
+ 	nouveau_fbcon_accel_fini(dev);
+ 	nouveau_fbcon_destroy(dev, drm->fbcon);
+ 	kfree(drm->fbcon);
 -- 
 2.35.1
 
