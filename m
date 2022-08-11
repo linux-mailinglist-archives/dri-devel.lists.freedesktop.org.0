@@ -2,72 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFE859029F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B925902C6
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:14:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE8C11B3D5;
-	Thu, 11 Aug 2022 16:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A30711A45A;
+	Thu, 11 Aug 2022 16:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A03214AC29
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:11:44 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id j8so34323711ejx.9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 09:11:44 -0700 (PDT)
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE6B11B1D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:13:48 +0000 (UTC)
+Received: by mail-ej1-x642.google.com with SMTP id kb8so34367888ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 09:13:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc;
- bh=LEZOE0Zt4s9PCFiKFwKYRDr114AmkBBPDRdQoJzg3yY=;
- b=LoZkUtf5xb8gMd6GN3/nO/n1py2Og5JC5zdDRm8vx7llsnHr+1KIC171liULEbmot5
- VBfKEU1S/2YtzlEkYUoZYafjv2UsYl0vFEKeRj3essa3WmKld/4ZAFVCpyozdfroy2ql
- z7CCAVaTuWDBXLuznzbB4azxbiwFfC0QaA35U=
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=zOizcOJIgGhIFewZIe3tvubYUQPW/ntL4zGunsrA5cw=;
+ b=Qr3BDp2juYCGelRivuqM4UY+YzW3uhXpsjH5+gYZbu4b/3zTcBI8ZH6mreBtxXYvBt
+ PeFIvWDNS1zXcUcNpWyyxsRfets6LKqEm3joxorkU1MJGzzVtcT0w9LT8T+bD2lBmJKW
+ tx2ZPbmqEtI8YkoI5p9WuGWFA6QDenuo0Vjsg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=LEZOE0Zt4s9PCFiKFwKYRDr114AmkBBPDRdQoJzg3yY=;
- b=hRVI2SmNOpjHKHd9MoCOal/TK9946TNliO4oeMUx8imjHZt3Jp4LDjZqeS3wbIKF6x
- +bCVaW9ddOouB9dQtD73rEpxh+5DATmQTTBQLbfAoRBHD2QzKiO4RKpBxleaUcGL6Gzr
- k1934XZ7B7l2L6ntWUCjz0ZqMfq9/qRGie2P5rjfed6EIQFX+xAV6Tf8Gh7KrCPcyH8X
- bnvjjj8hMhxVn7B5RlgQnJn58PYF7qTsLK0Lie7WJaF78uoWl6gPfPQtDp6gKglfTooB
- aQuyBxKuF9kULa6HQQmzM1RM/hjYymR18AMMqmE18mc2QEfPXRZKC+Z0mXOu5QtIuzhC
- 4Wkw==
-X-Gm-Message-State: ACgBeo1Cf5q9bUIhaJkSukj9msvcqPdaTZ5/wTUZ8z2rfU8TOoHVYRQt
- MmIsnvgQSe0lCPFW655lsBGC2g==
-X-Google-Smtp-Source: AA6agR66L82QusO6KrB9+U3SJWdVMGMWDY+DvWnD4qEGwK4ex8vWC3yUtjD00Z3O76kxXxSBatkgMg==
-X-Received: by 2002:a17:907:2d2b:b0:731:2179:5ba with SMTP id
- gs43-20020a1709072d2b00b00731217905bamr19660655ejc.207.1660234302668; 
- Thu, 11 Aug 2022 09:11:42 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=zOizcOJIgGhIFewZIe3tvubYUQPW/ntL4zGunsrA5cw=;
+ b=qrBqHqdL0zOidqC4uDRqyFN/ZCG+pzvOAiQpJfkSCPkddzdF8G00OFtzDjGjxXmnty
+ FD57r+w+WF9xPeu7TpuN6aabc+s2cVraEa83azoSn5594nQodcKPglpWosgBUP3s1AWC
+ P+12mKFZ46zsQIMs6Ai3NEforQFGQYittbW0O/o7gg8dnyrW+5n582sT1BOqGiZSGs37
+ UkzZ+4I2ZaeBmXEvXIhDJ8ODoCTMtBPebJfii2UfeyhR2zaoEhvwNMDjwmaKtPqcr6E3
+ r6fMoHzVN2ow5R9OiLcJ9mDd7D2/bdpACSh0A1MpNySOgtoLMMJfQ6UUibUigsgJCmBK
+ FPIg==
+X-Gm-Message-State: ACgBeo2jF+j32dgB+Mb1fEiT0z6TU5xYoRx52jqjZ+SW8Im1nd+hm0qX
+ KzUERWVV0nRKToQDU9sbDkxmig==
+X-Google-Smtp-Source: AA6agR4VY+h5OjJ214NHuhkvNNtRyE7xfzFLbkbwMj1pY8fIL4OWEp83VpubLbSxZt7nDyyNAlPSLQ==
+X-Received: by 2002:a17:906:58c6:b0:731:39e0:3eb8 with SMTP id
+ e6-20020a17090658c600b0073139e03eb8mr17662181ejs.205.1660234426792; 
+ Thu, 11 Aug 2022 09:13:46 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a17090626ca00b0072ed9efc9dfsm3679678ejc.48.2022.08.11.09.11.41
+ s25-20020a1709066c9900b00734bfab4d59sm372376ejr.170.2022.08.11.09.13.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 09:11:41 -0700 (PDT)
-Date: Thu, 11 Aug 2022 18:11:40 +0200
+ Thu, 11 Aug 2022 09:13:46 -0700 (PDT)
+Date: Thu, 11 Aug 2022 18:13:44 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 01/10] drm/fourcc: Add drm_format_info_bpp() helper
-Message-ID: <YvUqPL5l8/+XbvaQ@phenom.ffwll.local>
-Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux/m68k <linux-m68k@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <cover.1657294931.git.geert@linux-m68k.org>
- <1cae5ebc28513ec1c91c66b00647ce3ca23bfba7.1657294931.git.geert@linux-m68k.org>
- <YvPVxy4kYKdzWgT8@phenom.ffwll.local>
- <CAMuHMdVMuuXgYW-AkyB+G77Wsjkm715u1ifDvaY=5DufXjryRA@mail.gmail.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] drm:pl111: Add of_node_put() when breaking out of
+ for_each_available_child_of_node()
+Message-ID: <YvUquMUG6VoMiwGQ@phenom.ffwll.local>
+References: <20220711131550.361350-1-windhl@126.com>
+ <YvPeNbHCV29oHNtw@phenom.ffwll.local>
+ <CAL_JsqKX-XsMM90iQNmk=9de9cJu51+ebLAtBcRcAvHAHFbH=g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVMuuXgYW-AkyB+G77Wsjkm715u1ifDvaY=5DufXjryRA@mail.gmail.com>
+In-Reply-To: <CAL_JsqKX-XsMM90iQNmk=9de9cJu51+ebLAtBcRcAvHAHFbH=g@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,85 +70,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Linux/m68k <linux-m68k@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: airlied@linux.ie, Liang He <windhl@126.com>,
+ dri-devel@lists.freedesktop.org, emma@anholt.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 11, 2022 at 09:59:39AM +0200, Geert Uytterhoeven wrote:
-> Hi Daniel,
-> 
-> On Wed, Aug 10, 2022 at 5:59 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Fri, Jul 08, 2022 at 08:20:46PM +0200, Geert Uytterhoeven wrote:
-> > > Add a helper to retrieve the actual number of bits per pixel for a
-> > > plane, taking into account the number of characters and pixels per
-> > > block for tiled formats.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> > > --- a/drivers/gpu/drm/drm_fourcc.c
-> > > +++ b/drivers/gpu/drm/drm_fourcc.c
-> > > @@ -370,6 +370,25 @@ unsigned int drm_format_info_block_height(const struct drm_format_info *info,
-> > >  }
-> > >  EXPORT_SYMBOL(drm_format_info_block_height);
-> > >
-> > > +/**
-> > > + * drm_format_info_bpp - number of bits per pixel
-> > > + * @info: pixel format info
-> > > + * @plane: plane index
-> > > + *
-> > > + * Returns:
-> > > + * The actual number of bits per pixel, depending on the plane index.
-> > > + */
-> > > +unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
-> > > +{
-> > > +     if (!info || plane < 0 || plane >= info->num_planes)
-> > > +             return 0;
-> > > +
-> > > +     return info->char_per_block[plane] * 8 /
-> > > +            (drm_format_info_block_width(info, plane) *
-> > > +             drm_format_info_block_height(info, plane));
+On Wed, Aug 10, 2022 at 01:35:36PM -0600, Rob Herring wrote:
+> On Wed, Aug 10, 2022 at 10:37 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 > >
-> > Do we really needs this for blocky formats where this is potentially
-> > ill-defined? I think if there's no need then this should also return 0
-> > when block_width/height != 1, it doesn't make much sense to compute bpp
-> > when it's not really bits per _pixel_.
+> > On Mon, Jul 11, 2022 at 09:15:50PM +0800, Liang He wrote:
+> > > The reference 'child' in the iteration of for_each_available_child_of_node()
+> > > is only escaped out into a local variable which is only used to check
+> > > its value. So we still need to the of_node_put() when breaking of the
+> > > for_each_available_child_of_node() which will automatically increase
+> > > and decrease the refcount.
+> > >
+> > > Fixes: ca454bd42dc2 ("drm/pl111: Support the Versatile Express")
+> > > Signed-off-by: Liang He <windhl@126.com>
+> > > ---
+> > >
+> > > As 'Check-after-Put' has been widely accepted in kernel source, we just
+> > > use it. If the maintainer thinks it is harmful, I'd like also to use
+> > > 'Check-and-Put' coding style but with a bit more work.
+> > >
+> > >  drivers/gpu/drm/pl111/pl111_versatile.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
+> > > index bdd883f4f0da..963a5d5e6987 100644
+> > > --- a/drivers/gpu/drm/pl111/pl111_versatile.c
+> > > +++ b/drivers/gpu/drm/pl111/pl111_versatile.c
+> > > @@ -402,6 +402,7 @@ static int pl111_vexpress_clcd_init(struct device *dev, struct device_node *np,
+> > >               if (of_device_is_compatible(child, "arm,pl111")) {
+> > >                       has_coretile_clcd = true;
+> > >                       ct_clcd = child;
+> > > +                     of_node_put(child);
+> >
+> > The same issue seems to exist right below in the next break? Can you pls
+> > respin with that included?
 > 
-> Yes, we do need this.  For low-color formats, the number of bits
-> per pixel is less than eight, and block_width is larger than one.
-> That is actually the point of this patch.
-
-Hm right, I didn't realize that this is how we have to describe the
-formats with less than 8 bpp.
-
-I think we can include them easily with a check for char_per_block == 1
-and then making sure that the division does not have a reminder (just in
-case someone does something really funny, it could e.g. be a 332 layout or
-something like that for 3 pixels).
-
-> > Minimally this needs to check whether the division actually makes sense or
-> > whether there's a reminder, and if there's  reminder, then fail. But that
-> > feels like a bad hack and I think we should avoid it if it's not
-> > absolutely necessary.
+> It has a put already.
 > 
-> Looking at drivers/gpu/drm/drm_fourcc.c, the only supported format
-> where there can be a remainder is P030, which has 2 spare bits per
-> 32-bit word, and thus is special anyway.
-> Still, 4 * 8 / 3 = 10, so you get the correct numbers of bits for
-> the first plane.  For the second plane, you get 8 * 8 / 3 = 21,
-> but as .is_yuv = true, you have to divide that result by two again,
-> so you get 10 again.
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Yeah I don't think we should describe these with bpp or cpp or anything
-like that. bpp < 8 makes sense since that's how this has been done since
-decades, but trying to extend these to funny new formats is a bad idea.
-This is also why cpp and depth refuse to compute these (or at least
-should).
+Huh I was blind.
+
+Thanks for patch&review, pushed to drm-misc-next.
 -Daniel
 -- 
 Daniel Vetter
