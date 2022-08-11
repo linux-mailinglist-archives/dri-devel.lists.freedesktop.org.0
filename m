@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697F6590257
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:09:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D126859026C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3415410FCA0;
-	Thu, 11 Aug 2022 16:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02909112C41;
+	Thu, 11 Aug 2022 16:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 340E012A746
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:08:47 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C564F113E5F;
+ Thu, 11 Aug 2022 16:09:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C048AB821AE;
- Thu, 11 Aug 2022 16:08:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C47C433C1;
- Thu, 11 Aug 2022 16:08:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5085361426;
+ Thu, 11 Aug 2022 16:09:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAB6C433C1;
+ Thu, 11 Aug 2022 16:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660234124;
- bh=xgAvagYUr1AMw6qb2QzsbPq4Zr6sFU6jAqOUa4LLJ28=;
+ s=k20201202; t=1660234143;
+ bh=BlKBMOH6o2j7WE88oomjY+BnlOaiVoPJIpUyChZ8a3s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hlp53luzaE99nRdXFiIRWiHxbVAJouEvZfKMJFyKTEaHfgyUQIv1qmL9e7HKFbxY3
- JbOO7YqkLVWqRTm/y+6Y7Wz1r/Sj3Z50x5q8cuJGnKVYne3rDvUcF/AhpZDZ+CoPk0
- TV5sJT87YOMSeDu7udwD+dvG4fDvHbblXFw6mYng31hOIa2n8shOwtLW1ffl94794u
- 5zoftMf60gSITIxyHiNL/GDYsIE+TmiNmvD0orDArzIyNfRxaCCiqtua3xTUCDK+6Q
- HgFWNeLwe8o1ppanqCNltOGL66HwR229OBlIAzPEz4hOCoKZ3S3Ab2te07gPoXxBYO
- WuEB5VWQ8GDFA==
+ b=Vwj5zc422+HgIR24zlz4AZyx1A0EbgOnosyvilDO8C+YeU12B3DlutDDj8nTLAt8C
+ 9W1E0cMyrXJR2i73DpjPI1fR4hh8G/9RbXrhbmH2x4WXxPuNbRc/oLbf+dhXSjIele
+ IFlbJe3EgAM3pD8/Ml1boqTRxTCVc7jFqIJoUDvZuR+YbYHKam6VgQC6WjvNJpZ+gZ
+ Lh+kpMpvEXIb2jxAKBMvgJmyYPmmwhC2BehKuB7n1/8WV9+63Q3L9TWt5uF8GcmUDi
+ QwnF0vnQWtKLDrH1yGY0g92yooy2oWNzkNXiHPNclaUy2Vy2Pxegddb9ZZP2eUf17n
+ LXr7M3G+BPM5w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 09/25] udmabuf: Set the DMA mask for the udmabuf
- device (v2)
-Date: Thu, 11 Aug 2022 12:08:04 -0400
-Message-Id: <20220811160826.1541971-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 16/25] drm/nouveau/nvkm: use list_add_tail() when
+ building object tree
+Date: Thu, 11 Aug 2022 12:08:11 -0400
+Message-Id: <20220811160826.1541971-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811160826.1541971-1-sashal@kernel.org>
 References: <20220811160826.1541971-1-sashal@kernel.org>
@@ -55,113 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, kherbst@redhat.com, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit 9e9fa6a9198b767b00f48160800128e83a038f9f ]
+[ Upstream commit 61c1f340bc809a1ca1e3c8794207a91cde1a7c78 ]
 
-If the DMA mask is not set explicitly, the following warning occurs
-when the userspace tries to access the dma-buf via the CPU as
-reported by syzbot here:
+Fixes resume from hibernate failing on (at least) TU102, where cursor
+channel init failed due to being performed before the core channel.
 
-WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188
-__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Modules linked in:
-CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted
-5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-Google 01/01/2011
-RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0
-83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45
-   31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
-RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
-RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
-R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
-R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
- get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
- begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
- dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
- dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f62fcf530f9
-Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89
-f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01
-f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
-RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
+Not solid idea why suspend-to-ram worked, but, presumably HW being in
+an entirely clean state has something to do with it.
 
-v2: Dont't forget to deregister if DMA mask setup fails.
-
-Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20220520205235.3687336-1-vivek.kasireddy@intel.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Reviewed-by: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Dave Airlie <airlied@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/udmabuf.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/core/ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index c6e9b7bd7618..80ccdf96093f 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -287,7 +287,23 @@ static struct miscdevice udmabuf_misc = {
- 
- static int __init udmabuf_dev_init(void)
- {
--	return misc_register(&udmabuf_misc);
-+	int ret;
-+
-+	ret = misc_register(&udmabuf_misc);
-+	if (ret < 0) {
-+		pr_err("Could not initialize udmabuf device\n");
-+		return ret;
-+	}
-+
-+	ret = dma_coerce_mask_and_coherent(udmabuf_misc.this_device,
-+					   DMA_BIT_MASK(64));
-+	if (ret < 0) {
-+		pr_err("Could not setup DMA mask for udmabuf device\n");
-+		misc_deregister(&udmabuf_misc);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static void __exit udmabuf_dev_exit(void)
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+index d777df5a64e6..2aa0d6fed580 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+@@ -128,7 +128,7 @@ nvkm_ioctl_new(struct nvkm_client *client,
+ 	if (ret == 0) {
+ 		ret = nvkm_object_init(object);
+ 		if (ret == 0) {
+-			list_add(&object->head, &parent->tree);
++			list_add_tail(&object->head, &parent->tree);
+ 			if (nvkm_object_insert(object)) {
+ 				client->data = object;
+ 				return 0;
 -- 
 2.35.1
 
