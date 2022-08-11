@@ -1,65 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A445902CA
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:17:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D5859036C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43FA514BAED;
-	Thu, 11 Aug 2022 16:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1672714B0A6;
+	Thu, 11 Aug 2022 16:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB0711BDB8
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:17:01 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id x21so23588121edd.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 09:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc;
- bh=FKiZACvkKw9LJYBJ2h3jlaGgAsQU1bwnXLwRDR9yT3I=;
- b=CKb5yp5AlsHOzRnjW6gGGKOXnJHJFuoFfFWlOYaU+zjwicn+RgMPO4SmLrqrOTi2Ep
- zNC3p5ZCmouBZEqqCEHTpqpjfsJLyLKU90h6yE+U7CNoNRiOd1N7lRwUhUXlgQeVUlbc
- hLil7mpA+SEHHDIhGNsQkU1pfPKKLmBOGJH7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=FKiZACvkKw9LJYBJ2h3jlaGgAsQU1bwnXLwRDR9yT3I=;
- b=nkjsZJ+2FFxo/mQuUa/bs7n79Oy5MVe6xoYivgYFl3m6eBotfycAbQQZwjZVsjVmiL
- R0SSwiUdozNDa7PhbsotqHuDkcOIDYLADIPCwL77BVKm4wy5XFJIs1J80wjDGM3y7Dka
- 9WNK5D0J/YUMcGiYcO2Pes4fwKXU63BwH3SVzXA1MlRGPdjjbzTss+z6nw36ZGiUOBH0
- XxyXnGnch+Ax7nU+z9S9AKFlHTBjJbT3V8OCqmGYt9JWReNSl1IkFLEFu1pPwiQCTteB
- 7dd8Px/VSdyixksx+z96nfK+WS074ji5OpijVyI1EQTMRDeJgncKJ086/1pd2Ea0I+Hf
- awng==
-X-Gm-Message-State: ACgBeo1YX2eh5gCr81KqZVEbGMdP3H8WgJlnIau6mbwO2o6MUJE65Cz9
- fEbUdQw1z6owOPaFiOto6ZSPhw==
-X-Google-Smtp-Source: AA6agR4WXsL0j3WbG+fDyqOnb9nTbr1O3ieXgLW+b78d3bIIny4GyRZsyNatCGfGS9ZuSMQgwou8Dw==
-X-Received: by 2002:aa7:db44:0:b0:43d:267c:edd9 with SMTP id
- n4-20020aa7db44000000b0043d267cedd9mr31885768edt.385.1660234619848; 
- Thu, 11 Aug 2022 09:16:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- o15-20020aa7dd4f000000b0043bba5ed21csm9261609edw.15.2022.08.11.09.16.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Aug 2022 09:16:58 -0700 (PDT)
-Date: Thu, 11 Aug 2022 18:16:57 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH 2/2] drm/virtio: kms: use drm managed resources
-Message-ID: <YvUrefus4/EoCV2J@phenom.ffwll.local>
-Mail-Followup-To: Danilo Krummrich <dakr@redhat.com>, airlied@linux.ie,
- kraxel@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220714130028.2127858-1-dakr@redhat.com>
- <20220714130028.2127858-3-dakr@redhat.com>
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2084.outbound.protection.outlook.com [40.107.102.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C24F11B229;
+ Thu, 11 Aug 2022 16:24:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gYR1HOE1CS/yChqO1nk1qUEI5GkMni4/4hyH8oZpDlHWmjbM50xS1NBt0ACwlFQAicYj/wIakiTSEEGBEeZQ6Wdl+DUqYdjJImkwb8UQkusDtXGtjzksMWHIuiXQchu8X0kCRrwdAsvEfVMdoa5GtdaYVCmIFy6zhXG8oYaKUhZBB51yBjQD6nSx/TbbVJzQDtQR2mroVrO+8g11gRZWn2At0i0yD4p8oVjljEW61uwnnC+mMhmzxpBBRy6FDVjR83nNnDS/3YNV9OoZh5gkf8dArJcSOvMR/1wVZGt+9tGYe2NqavHwVvCd9eaMPk+SQhl7K90GtDCYvzNPDSNZCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=08O0Lgt/6qG7zz+CVZEcuC5Mr+62j1ha2DulHnxSeUU=;
+ b=Z4KKXOxSFZGPfjD9EjgcANP6gIcc35rfsiPXeH8/u6yibbzvCh2zhpx4Fks8yAziM/09LlRStJ+T7CeRm5/gUfUmF7xK13kKhK7KAHFE1UTUn+y0EbXGGlopdQhYZfxmbQ9YUBRRVVvHL4NIBMf+jX7Zdf5eDAVmSDRoZZAWPBR9MCzyt8WInGyXQiVN2KSGo4u5TALFYO22P6IRp2lJ5mykK1Xp2r1p4ArPmMvkVxndRpa6My7FKVO+pmqVMgfNngzQOYxPVc8uuvowV4TY2EmGC0e8Erh49Ef8Vh5IymEtkATDI9wCM5H7B+g1ge5dEMh4exeRlUMW9UkxpB+VeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=08O0Lgt/6qG7zz+CVZEcuC5Mr+62j1ha2DulHnxSeUU=;
+ b=JqwS+JpkrbW099b8D/CFKcYQwWFsPOcVsPCKo+wlfsEbhuODYG9Go9UetNKyvksztPcp3S6m58VeM3LMq8l+5tDsFUZSrrTdUg20laRg8SfPoAYSDaNpTUF7FsqHhQfG65hbVAWH0hO0ekbK8sr/uJKLFHzwYd59zKvD4DwsbIg=
+Received: from BN0PR07CA0010.namprd07.prod.outlook.com (2603:10b6:408:141::10)
+ by CO6PR12MB5491.namprd12.prod.outlook.com (2603:10b6:303:13b::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 11 Aug
+ 2022 16:24:20 +0000
+Received: from BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:141:cafe::cd) by BN0PR07CA0010.outlook.office365.com
+ (2603:10b6:408:141::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.12 via Frontend
+ Transport; Thu, 11 Aug 2022 16:24:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT043.mail.protection.outlook.com (10.13.177.218) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5525.11 via Frontend Transport; Thu, 11 Aug 2022 16:24:19 +0000
+Received: from hamza-pc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 11 Aug
+ 2022 11:24:05 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amd/display: fix DSC related non-x86/PPC64 compilation
+ issue
+Date: Thu, 11 Aug 2022 12:23:07 -0400
+Message-ID: <20220811162307.1384962-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220714130028.2127858-3-dakr@redhat.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cae2537d-af5f-40f2-40a5-08da7bb5f17a
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5491:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: //lcgFveT3XjMUAWPXCbQk4CJwH7t1thlvr+v6rTnzS+/FThQwfUya+yNzeGVChTb2sQahsoUOeLQPwue17WnmNWg99WWZc/waYr9AbrdjUSW8YffUilA2unM9neBVuUjGoa6bBvXH3oBG5DuuVnrYpDPWEKU8ZHw4tUotm+F1TPvfYQjrtgbMKLedWyD2Lr0LplbT/lIYwYLnd0/q3tZl7xhqAdl5EmnocqCzjcLMQBS8+b2ObVFH9h7d6/zeLqQxs2Sq9qzW4JFL+w4g2guLe6QoatDA51rpGrbMXamas5UdN0jvwc37ChtlwUYV+K+PA7g68SpS8ztQ1fXlm/O3yeT0hh49De8LWPwiDpIRKELzcwAxjjO7P9WpY0nVEvDLFKh6affaSUc5w+GKNiyRGhcX4ZkNjNs7zfFrW+S2NgBcgFNymLRrEkYH3YcngBowpXwZ7LDFV6hoD1fM6I6vZQEzFkImQ0DjhI/Yahz0RLMai3oT24rE4oaFwUZerysT8Y8ra4/TCuXTmXDlpppGykhza1W/T3Wrb9stWHm58mWyZqpghUJC9WCHKwyq+nEnV9LT4jMnm40+8q833PKc24hoQiTLkZqMIynzXzcGQOcmyOHulCmAa78LKfvD+InqAUwBmlW1Hmtpkp22PRDa2/Idij55bSAgESbAklKztMQaZFUQn/kD1fpgrwxbLKBLMnD1a7lS2592w7P074A69BY+4siv530uUGZ2nc08DJhpYRQ4osdX7p/RebCT7y5JKWjWivnhW3Yhy2qb4XYLf2hWn8gbOjO1q8+Iad5sofcCv+B6Ii+PjeI4iZleb+SdWeJ67KU9grLgV44IamSuNrWS81o/d/79y8wCI3stpxUI8R8RXFXNc9EoeNviSj
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(346002)(376002)(39860400002)(396003)(40470700004)(46966006)(36840700001)(7696005)(41300700001)(26005)(40460700003)(426003)(2616005)(1076003)(336012)(47076005)(40480700001)(82310400005)(16526019)(186003)(83380400001)(8676002)(70206006)(70586007)(4326008)(2906002)(8936002)(5660300002)(44832011)(478600001)(54906003)(316002)(6916009)(81166007)(356005)(36756003)(86362001)(36860700001)(82740400003)(16060500005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 16:24:19.5558 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cae2537d-af5f-40f2-40a5-08da7bb5f17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5491
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,97 +99,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- linux-kernel@vger.kernel.org
+Cc: Anders Roxell <anders.roxell@linaro.org>, Leo Li <sunpeng.li@amd.com>,
+ dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <Roman.Li@amd.com>,
+ amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 14, 2022 at 03:00:28PM +0200, Danilo Krummrich wrote:
-> Allocate driver structures with drm managed resource allocators in order
-> to cleanup/simplify the drm driver .release callback.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+Need to protect DSC code with CONFIG_DRM_AMD_DC_DCN.
+Fixes the following build errors on arm64:
+ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
 
-On both patches:
+Fixes: 0087990a9f57 ("drm/amd/display: consider DSC pass-through during mode validation")
+Reported-by: Anders Roxell <anders.roxell@linaro.org>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I'm assuming you have commits rights or know someone who does :-)
--Daniel
-
-
-> ---
->  drivers/gpu/drm/virtio/virtgpu_kms.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> index 3313b92db531..63ebe63ef409 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> @@ -28,6 +28,7 @@
->  #include <linux/virtio_ring.h>
->  
->  #include <drm/drm_file.h>
-> +#include <drm/drm_managed.h>
->  
->  #include "virtgpu_drv.h"
->  
-> @@ -66,10 +67,11 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
->  {
->  	int i, ret;
->  	bool invalid_capset_id = false;
-> +	struct drm_device *drm = vgdev->ddev;
->  
-> -	vgdev->capsets = kcalloc(num_capsets,
-> -				 sizeof(struct virtio_gpu_drv_capset),
-> -				 GFP_KERNEL);
-> +	vgdev->capsets = drmm_kcalloc(drm, num_capsets,
-> +				      sizeof(struct virtio_gpu_drv_capset),
-> +				      GFP_KERNEL);
->  	if (!vgdev->capsets) {
->  		DRM_ERROR("failed to allocate cap sets\n");
->  		return;
-> @@ -94,7 +96,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
->  
->  		if (ret == 0 || invalid_capset_id) {
->  			spin_lock(&vgdev->display_info_lock);
-> -			kfree(vgdev->capsets);
-> +			drmm_kfree(drm, vgdev->capsets);
->  			vgdev->capsets = NULL;
->  			spin_unlock(&vgdev->display_info_lock);
->  			return;
-> @@ -126,7 +128,7 @@ int virtio_gpu_init(struct drm_device *dev)
->  	if (!virtio_has_feature(dev_to_virtio(dev->dev), VIRTIO_F_VERSION_1))
->  		return -ENODEV;
->  
-> -	vgdev = kzalloc(sizeof(struct virtio_gpu_device), GFP_KERNEL);
-> +	vgdev = drmm_kzalloc(dev, sizeof(struct virtio_gpu_device), GFP_KERNEL);
->  	if (!vgdev)
->  		return -ENOMEM;
->  
-> @@ -257,7 +259,6 @@ int virtio_gpu_init(struct drm_device *dev)
->  	vgdev->vdev->config->del_vqs(vgdev->vdev);
->  err_vqs:
->  	dev->dev_private = NULL;
-> -	kfree(vgdev);
->  	return ret;
->  }
->  
-> @@ -296,9 +297,6 @@ void virtio_gpu_release(struct drm_device *dev)
->  
->  	if (vgdev->has_host_visible)
->  		drm_mm_takedown(&vgdev->host_visible_mm);
-> -
-> -	kfree(vgdev->capsets);
-> -	kfree(vgdev);
->  }
->  
->  int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file)
-> -- 
-> 2.36.1
-> 
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index ef6c94cd852b..0c52c0867211 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -1387,8 +1387,6 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+ 	return (ret == 0);
+ }
+ 
+-#endif
+-
+ static unsigned int kbps_from_pbn(unsigned int pbn)
+ {
+ 	unsigned int kbps = pbn;
+@@ -1416,6 +1414,7 @@ static bool is_dsc_common_config_possible(struct dc_stream_state *stream,
+ 
+ 	return bw_range->max_target_bpp_x16 && bw_range->min_target_bpp_x16;
+ }
++#endif /* CONFIG_DRM_AMD_DC_DCN */
+ 
+ enum dc_status dm_dp_mst_is_port_support_mode(
+ 	struct amdgpu_dm_connector *aconnector,
+@@ -1428,6 +1427,7 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+ 	struct dc_dsc_bw_range bw_range = {0};
+ 	int bpp, pbn, branch_max_throughput_mps = 0;
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	/*
+ 	 * check if the mode could be supported if DSC pass-through is supported
+ 	 * AND check if there enough bandwidth available to support the mode
+@@ -1461,13 +1461,16 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+ 			return DC_FAIL_BANDWIDTH_VALIDATE;
+ 		}
+ 	} else {
++#endif
+ 		/* check if mode could be supported within full_pbn */
+ 		bpp = convert_dc_color_depth_into_bpc(stream->timing.display_color_depth) * 3;
+ 		pbn = drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp, false);
+ 
+ 		if (pbn > aconnector->port->full_pbn)
+ 			return DC_FAIL_BANDWIDTH_VALIDATE;
++#if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	}
++#endif
+ 
+ 	/* check is mst dsc output bandwidth branch_overall_throughput_0_mps */
+ 	switch (stream->timing.pixel_encoding) {
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.37.1
+
