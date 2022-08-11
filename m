@@ -1,59 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7314590632
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 20:12:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7D7590630
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 20:09:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E86F111AB51;
-	Thu, 11 Aug 2022 18:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0427F1120EB;
+	Thu, 11 Aug 2022 18:09:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D7611A1C4;
- Thu, 11 Aug 2022 18:11:52 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-31f661b3f89so180529467b3.11; 
- Thu, 11 Aug 2022 11:11:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=y2QNTJtA+QkycDzAJ2gpgSvPbeV+rknwYt+wRwQVE9U=;
- b=DOL0/7BCufuS1Z5S25RF66e3W79quG1uKIMs+Et22SQVj9mUJ5Rr1OR1MkhErrjmbx
- XeeZVG1bK+ZCf6fI+B/vROHj/GkE3FxDrzW1+pdtb/yN+8jpJ+NitKHfIJ5sRgsz0p8e
- Fe/7ViKYvUdEVhAJX83sc4T4S9xx6AZbsagBU00EehxhO+bX3XN8GMGy1UdfAosvv+zD
- lPHZ3xGY5RdmpfBsjtapQ8k5zkLzBFNU0cNnIxS6TJ3/lbcbRp3MoVlwAyFmcUDlvNRs
- ZyYdUDmCaJQrjUsZKMFxRjOYAOppWnhkzNrcMaA/v9MlmnB2CyoZ63JCmQTMzl+PXIiN
- SrpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=y2QNTJtA+QkycDzAJ2gpgSvPbeV+rknwYt+wRwQVE9U=;
- b=pf41MCQWLt9Zva0E1jtqxqryCuIhzwjaZx04JQvV7EGodfAwlaCVqWZ3Y9vXjpUV5n
- hm1hSM5o8z1IrnAcuuXKbZzqVlmnzg5T2wAB354jAI/BGh+ghx1beVvWYLv2OwmNpSmu
- 9WSQvZJWCLZhcqWAzgoBLv5JL3j3Ru5Ganf1FtgNMoTZi5SGIPn4HlZpHGVFDD4/pbYV
- PzLkUQc8c3uKrKsX72SlVXooZi6X1J7CJ9omysQp19i0orWeAVb3zL6penpw8NgiZzKH
- Ry49qntWP9wO5f7xmtYdZk2U5Dhez9gjYVOgRDsPCC5zkPoi+14RHoNYBY+tPV8q9gZ/
- ilRg==
-X-Gm-Message-State: ACgBeo2rYHxafgaXiwbgWqdPuEtBLkSOGZbEjx7AZvU5DocCLtPS5cb1
- zabtY0wrKF+YYzbYa2cwld++KNM+ywCg2gd21KXK5ecexp6+AA==
-X-Google-Smtp-Source: AA6agR4SU1v+xBEONP5Zol2FeSnVE6WaQBbeKZ+bxN8tcA2+V/9UzSOZ2jG8TlaLq1mJcPPxaSGer5ZC+xkULYAUMIU=
-X-Received: by 2002:a0d:f846:0:b0:324:cb8a:e0ff with SMTP id
- i67-20020a0df846000000b00324cb8ae0ffmr432591ywf.478.1660241511833; Thu, 11
- Aug 2022 11:11:51 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54DFD14A91A;
+ Thu, 11 Aug 2022 18:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660241359; x=1691777359;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ucgrEvIJ3CB2H2h68uHhBlgS+0ZIqt5p3WEUGYt7+v4=;
+ b=GYotEF33tcl6LZLATb1ODPDJffQgaKeI8xPvXln8Xm68OWTmYDEMjnvl
+ dEyw7GJ9D8NBRtx1y6ZcMBH6o0Guc2ww7S0xKYrfxiy48jhYLCsbO0ApI
+ quyEpH+aU6eISIEQOzVwGAfOUGu9ePJ1olmOY7DWYWUikkLTKodg2ECZ0
+ 9zCcYqkvY/2AfwNNxnrRtJ7dXZfUkiVPBl4oOuBrAjLVPUrDxKeyfPK97
+ EETgoJhMAmRIWq/DAMASiHN+oFWclHQPaPhMVj2MLPXk26r5Vzm9bFVXI
+ 2HbUtkbvTJ1jvCPoP0/cnOZoGSibTHCfljZa5Aynn18ocjdAp7lVLU2yH g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="292686270"
+X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="292686270"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 11:09:18 -0700
+X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="634337169"
+Received: from mdnavare-mobl1.jf.intel.com ([10.165.21.211])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 11:09:18 -0700
+Date: Thu, 11 Aug 2022 11:11:39 -0700
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH 0/2] Add DP MST DSC support to i915
+Message-ID: <20220811181139.GA660634@mdnavare-mobl1.jf.intel.com>
+References: <20220810081753.12075-1-stanislav.lisovskiy@intel.com>
+ <419bcc405fa4b298acb3f167316217bcca9f7c07.camel@redhat.com>
+ <YvSvDpq35CxfbnRJ@intel.com>
 MIME-Version: 1.0
-References: <CADVatmN_TzJKdfM40BQPW=cRm5VxX=qAKxq2yW4P_xDN6=VoOA@mail.gmail.com>
- <20220811175759.1518840-1-hamza.mahfooz@amd.com>
-In-Reply-To: <20220811175759.1518840-1-hamza.mahfooz@amd.com>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Thu, 11 Aug 2022 19:11:15 +0100
-Message-ID: <CADVatmM3PdWy-75qJD29Xm2ow48GV5xPsE26L1_ZPL7LFgJdfQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/display: fix DSC related non-x86/PPC64
- compilation issue
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YvSvDpq35CxfbnRJ@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,35 +57,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anders Roxell <anders.roxell@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- hersen wu <hersenxs.wu@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Roman Li <Roman.Li@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ jani.saarinen@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 11, 2022 at 7:00 PM Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
->
-> Need to protect DSC code with CONFIG_DRM_AMD_DC_DCN.
-> Fixes the following build errors on arm64:
-> ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-> ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->
-> Fixes: 0087990a9f57 ("drm/amd/display: consider DSC pass-through during mode validation")
-> Reported-by: Anders Roxell <anders.roxell@linaro.org>
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+On Thu, Aug 11, 2022 at 10:33:51AM +0300, Lisovskiy, Stanislav wrote:
+> On Wed, Aug 10, 2022 at 04:02:08PM -0400, Lyude Paul wrote:
+> > Btw, what's the plan for this? Figured I'd ask since I noticed this on the ML,
+> > nd I'm now finishing up getting the atomic only MST patches I've been working
+> > on merged :)
+> 
+> Current plan is that I need to fix this, as current implementation doesn't
+> seem to work because of my wrong assumption that drm_dp_mst_find_vcpi_slots
+> will fail if no slots are available and then we can fallback to DSC.
+> 
+> In reality that function can return whatever bogus value it wants, like
+> 71 slots, while you have only 63 available. The real check is done in
+> drm_dp_mst_atomic_check, which would of course reject that configuration,
+> however by that moment its going to be too late for swithcing to DSC.
+> 
+> So looke like I will have to move that check at least partly to where DSC/no DSC decision is done. However if there are multiple displays we get
+> another problem, lets say we have 2 displays requiring 40 vcpi slots each in DSC
+> mode with certain input bpp.
+> We have now either option to reject the whole config or go back and try with
+> another bpp to check if we can reduce amount of slots.
+> Because by default we choose the first one which fits, however by the time when 
+> compute_config is called, we still don't have all config computed, which might
+> lead to that last crtc can either run our of vcpi slots or we will have to 
+> go back and try recalculating with higher compression ratio.
+> 
+> My other question was that DSC was supposed to be "visually" lossless, wondering
+> why we are still trying with different bpps? Could have just set highest
+> compression ratio right away.
 
-Thanks, fixes the build failure for me,
-Tested-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+We do want to still maintain as high pic quality as possible. So we try
+to find out the min compression ration that will make the mode fit into
+the available link BW.
 
+Manasi
 
--- 
-Regards
-Sudip
+> 
+> So need to sort this out first before floating new series.
+> 
+> Stan
+> 
+> > 
+> > On Wed, 2022-08-10 at 11:17 +0300, Stanislav Lisovskiy wrote:
+> > > Currently we have only DSC support for DP SST.
+> > > 
+> > > Stanislav Lisovskiy (2):
+> > >   drm: Add missing DP DSC extended capability definitions.
+> > >   drm/i915: Add DSC support to MST path
+> > > 
+> > >  drivers/gpu/drm/i915/display/intel_dp.c     |  76 +++++-----
+> > >  drivers/gpu/drm/i915/display/intel_dp.h     |  17 +++
+> > >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 145 ++++++++++++++++++++
+> > >  include/drm/display/drm_dp.h                |  10 +-
+> > >  4 files changed, 203 insertions(+), 45 deletions(-)
+> > > 
+> > 
+> > -- 
+> > Cheers,
+> >  Lyude Paul (she/her)
+> >  Software Engineer at Red Hat
+> > 
