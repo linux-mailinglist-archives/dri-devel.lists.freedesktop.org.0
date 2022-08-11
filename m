@@ -1,74 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2F158F903
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 10:27:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1348B58F920
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 10:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477A711BCE9;
-	Thu, 11 Aug 2022 08:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A517018B11F;
+	Thu, 11 Aug 2022 08:33:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E8792A44
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 08:26:56 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id s9so18586548ljs.6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 01:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=aFp18g3W0LGsukVneJEK/1E3oiiot3UTXvd9sFAT8nw=;
- b=FqWcBq881TMTPntLfTmspF/MO4q8vssSHi7sEwMMId7K8gaHZO7iDS19GycjfK/9eX
- cFkAyPoL+ZxgFs9dY8+KnKf6KghP2eQzh3/5e6CQ/yNuLXuxNR9SPKZrpjiyncVvDb3O
- XXeumafKovUw/dYZQxYK5tO0Uaaw87e+2IHMLlXkYC2LEPH0U3H7RPvoAztqsE04Q7FO
- Mf+k14XGfUr4CH3epxKAHe8GlAmmds9FGDbUI0nJLOb1IsNlO9dOjdxiEQQeUqdAQup0
- 8VNiPpAsjtTUvBYLnnqxgnUTB3eLW0jqoT030lVtBRxB3+Ebqa1AV3PA1it84KPPmRUC
- l0Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=aFp18g3W0LGsukVneJEK/1E3oiiot3UTXvd9sFAT8nw=;
- b=fyvDDYUD2WwnuH0pcIn32vkpn0hUXXqMLBQry6JWlfeTGLDqOvgnIZ1csg94EebEHm
- y9A5rQJw9yv+iIH+NhCwFPoV+yf2O7Oz/f7DkXNxuSZt37dXVbC+WFwe07C43N+ZZvLU
- GyieX0i4OVk9Uo72k5d1KDTWMn3U8ebFpR1/KEVIFC9Jtp6l0pgQLFcfgUEDt6brz6AQ
- ejGHf6lah9kW8bCphTHk41SZKt64LKhbyPSWjSoqcImz7Y/Cc/+gw88pqERbHoGhItox
- DVDO6Tw+rsIXvzk4NF0pzbZGFHAaGAj+3yBCXu3hvZ21I0toSUbgB2WFEdfYTNbjgX8b
- AQxQ==
-X-Gm-Message-State: ACgBeo1DbwUiPPuXNpHOSR1UUAcbbS4hxMfllbTBGD1bHDW+uagvSXBD
- cS2wV6JcoXf0o9iccrtdpySSHA==
-X-Google-Smtp-Source: AA6agR7WKZFo0Gd0CrwW+kQqeYyEuLnmEdTMd3As+yvfv/ebcpxDY62N1UnBLOwwuNPgfwQgBjnxwg==
-X-Received: by 2002:a05:651c:154b:b0:25e:c73d:a786 with SMTP id
- y11-20020a05651c154b00b0025ec73da786mr7507173ljp.397.1660206414645; 
- Thu, 11 Aug 2022 01:26:54 -0700 (PDT)
-Received: from [192.168.1.39] ([83.146.140.105])
- by smtp.gmail.com with ESMTPSA id
- t5-20020a05651c204500b0025e08d58e75sm720412ljo.133.2022.08.11.01.26.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 01:26:54 -0700 (PDT)
-Message-ID: <1cbb9946-2171-46ee-be6d-84b914ecc47f@linaro.org>
-Date: Thu, 11 Aug 2022 11:26:52 +0300
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE1310F6F8;
+ Thu, 11 Aug 2022 08:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660206808; x=1691742808;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=xoZeswWC5uikhXIWMEX56vJhMGj3B7Pt03UnG2ou+vs=;
+ b=iJJG8c6VNnKUMeI9H5riK2nNGIxLSJN62/4tzj4u+vXZOernT++F76hi
+ oRCRUPLp0FdhXfgMqM1tVeNreVm7g1kAJU+rAYU/IeXesivdlpsyZ6Ij1
+ Yc5TGCCUkQlBokiMT6L3EuyfS/S5yLXIiYxo57hkZEsxY007aB+UC5ElC
+ 4UP+v8S8ren0QJAX1IfT5tQwBibMw2AHxRiVkSgsgsy3p5hkOtZk6Zs2N
+ YAL0PVAUEaZeMcGuiIZ5h9RP/A6lDmbXSC0wX/aFd99QOp0oxl3CS4BBv
+ CzGCoik1X7MM1rIf4pSlASX6PoVTkaSeLG/+D5+P6P9JpEV5aTJp7v8Cd A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="353033592"
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="353033592"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 01:33:23 -0700
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; d="scan'208";a="665278766"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.6.241])
+ ([10.213.6.241])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 01:33:19 -0700
+Message-ID: <7418ebd6-a969-c2db-1704-aacad08c3000@intel.com>
+Date: Thu, 11 Aug 2022 10:33:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/3] dt-bindings: display/msm: Add binding for SC8280XP
- MDSS
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.12.0
+Subject: Re: [Intel-gfx] [PATCH v6 0/4] drm/i915/display: stop HPD workers
+ before display driver unregister
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220811040121.3775613-1-bjorn.andersson@linaro.org>
- <20220811040121.3775613-2-bjorn.andersson@linaro.org>
- <db9b74f9-1f65-5b88-1c81-0a3fd6dcf9a6@linaro.org>
- <74afb676-4a85-7a8e-f7ea-20d8a0967d7d@linaro.org>
-In-Reply-To: <74afb676-4a85-7a8e-f7ea-20d8a0967d7d@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ "Deak, Imre" <imre.deak@intel.com>
+References: <20220722125143.1604709-1-andrzej.hajda@intel.com>
+ <94d076ad-b0ff-0469-a741-255360a7da41@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <94d076ad-b0ff-0469-a741-255360a7da41@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,25 +66,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/08/2022 11:04, Krzysztof Kozlowski wrote:
->>
->> additionalProperties:false on this level
->>
->> which will point to missing properties (e.g. opp-table)
+Hi Imre, Jani, Ville,
+
+Since one of CI test machines is back (bat-rpls-2) tests are regularly 
+aborted on this machine due to bugs this patchset resolves [1], 
+reviewing/merging these patches would allow to cure the situation on CI.
+
+[1]: https://intel-gfx-ci.01.org/tree/drm-tip/bat-rpls-2.html
+
+Regards
+Andrzej
+
+On 02.08.2022 14:24, Gwan-gyeong Mun wrote:
+> Hi Jani, Ville and Imre,
 > 
-> I'll fix existing bindings which have similar issue.
+> If there are no problems after reviewing this patch series, could you 
+> please merge it?
+> 
+> Many thanks,
+> G.G.
+> 
+> On 7/22/22 3:51 PM, Andrzej Hajda wrote:
+>> Hi Jani, Ville, Arun,
+>>
+>> This patchset is replacement of patch
+>> "drm/i915/display: disable HPD workers before display driver 
+>> unregister" [1].
+>> Ive decided to split patch into two parts - fbdev and MST, there are 
+>> different
+>> issues.
+>> Ive also dropped shutdown path, as it has slightly different 
+>> requirements,
+>> and more importantly I am not able to test properly.
+>>
+>> v2 (thx Arun for review):
+>>    - reword of commit message (Arun)
+>>    - intel_fbdev_hpd_set_suspend replaced with intel_fbdev_set_suspend 
+>> (Arun)
+>> v3:
+>>    - new patch adding suspended flag, to handle
+>>      https://gitlab.freedesktop.org/drm/intel/-/issues/5950
+>> v4:
+>>    - check suspend flag also in i915_digport_work_func
+>> v5:
+>>    - added patch blocking FB creation in case HPD is supended,
+>>    - added R-B from Arun to patch 3, thx
+>> v6:
+>>    - finally, after getting direct access to bat-rpls-2, I have found 
+>> the source of last WARN,
+>>      intel_fbdev_hpd_set_suspend was not called in case of deferred 
+>> setup, fixed in patch 2.
+>>
+>> [1]: https://patchwork.freedesktop.org/series/103811/
+>>
+>> Regards
+>> Andrzej
+>>
+>>
+>> Andrzej Hajda (4):
+>>    drm/i915/hpd: postpone HPD cancel work after last user suspension
+>>    drm/i915/fbdev: suspend HPD before fbdev unregistration
+>>    drm/i915/display: add hotplug.suspended flag
+>>    drm/i915/fbdev: do not create fbdev if HPD is suspended
+>>
+>>   drivers/gpu/drm/i915/display/intel_display.c |  3 +++
+>>   drivers/gpu/drm/i915/display/intel_fbdev.c   | 12 ++++++++++--
+>>   drivers/gpu/drm/i915/display/intel_hotplug.c | 11 ++++++++++-
+>>   drivers/gpu/drm/i915/display/intel_hotplug.h |  2 +-
+>>   drivers/gpu/drm/i915/i915_driver.c           |  4 ++--
+>>   drivers/gpu/drm/i915/i915_drv.h              |  2 ++
+>>   drivers/gpu/drm/i915/i915_irq.c              |  1 -
+>>   7 files changed, 28 insertions(+), 7 deletions(-)
+>>
 
-Hm, I think Dmitry is already working on this:
-https://lore.kernel.org/all/20220710090040.35193-5-dmitry.baryshkov@linaro.org/
-so your patches should be on top of his.
-
-
-Best regards,
-Krzysztof
