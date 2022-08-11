@@ -2,141 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0854058FA49
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 11:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E732258FB61
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 13:33:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31F31126EC;
-	Thu, 11 Aug 2022 09:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00411ABEE2;
+	Thu, 11 Aug 2022 11:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 276FC11A73D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 09:55:42 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B95XGW018353;
- Thu, 11 Aug 2022 09:55:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
- bh=sru0Pdl7vKjbGOuFp/xgfN45UliZWTWOhOvBnzMSkgo=;
- b=qYMQUiOwSnR8i+QUXB1LHZ/T0SoeGiOiCCq7FBhVkhE2pkNTYnY1vEwowRXIuctwXyrC
- gnpOeH06it6bI9mNXgAQK7W7R50dvUIPTH2VLao+quJuSJxh/ypIySLBJVA0gb/MMX9u
- tCoBW8BtjO6mz2meyPhf08K69eWj/lTnAX4UZ6Jv2qER3Pb/tAklFgtTp2Xl8utpDI+v
- jL7KYPKUw1rlboUvgxSMbjwr96UgqxKr6PMgcRs+9sjpNjB0eUmgf9yfqlg9eZjrgTGf
- TxsKyJkgva8GcWBana6TdOJsMAxlwXLHCJ7A1Obapjo6FacE9+Mb5wFp2D9iDPxuHaxm ew== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3huwqgm6fb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Aug 2022 09:55:41 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 27B8tJkB004899; Thu, 11 Aug 2022 09:55:39 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3huwqjfyrq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Aug 2022 09:55:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wx3Snwcw80J+D8GTTdWsvqshX3/77pllevGUE/7vT8OcUk1EHTM7rBMjXjXQX6fZzBKP0ZvUlegj59jHDhFs7GBgd8QKbwAMlieVH1qoa3g6E69DwmisuB57dsQywG0GgQXFyDuaQNsYNZN2aiaXo7snkpleANuBzrPWGRdYzQfAWoSo0xPAimnJq8LUlSLJQuBhKhO4CjS/eNi1rDUsP9z0o7N40dg91FvElWluP+HyxRozTr0mJda95u1NqglTlSm56gI0pYkSrvTnnTrO0tyWISU4EericVcsyqXK8uBxrZrh1L53a7oT8bdGsIRUQRs84qtuObA5tDpVm3qAGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sru0Pdl7vKjbGOuFp/xgfN45UliZWTWOhOvBnzMSkgo=;
- b=eb0T1X05yGIrKF2kdZYOdCoF2VEl+ePOXRUltCHNKKP5/Ylku+ffNBpBySwXtrdwFr+j7tNwcZXY/plWebVoJLquNUgOtrgh9RPhlsOUTeGpM2tXm5qqRa0GPiVvY90GHrq8hyF29gu0EmGTkyY9gc5hI6aFGl/h7deRAm+Y8CR1y9LiTp8ISFcNe2kLeQfQsX+LJgUh7HY/ZcHlO3AV5nEBbnS7T5N7hopCIkPr9ehqBQIeUI44bO5xP4eK1iCFlo4zTIwYPh4knEUPA9XOZ1lGho4BhixAJ09fCMSJL0ttNJQQBLu7eg3Ghm21ecZk077rqVZlzJfdfIw27uAIHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sru0Pdl7vKjbGOuFp/xgfN45UliZWTWOhOvBnzMSkgo=;
- b=BjrCoAy0jVplpeC0+o/bpuAuDRV0uoh/gatgatSqCV5HNOGNrgfa6Mj2GLBBR0Uf98bnr0we6qUb8uUXaaQCQuNu5LHU/T0GBaRoxxQSD1ZzgLgq+9YTT3vlM0eTtuLJ/LFmu8zK8YyY6XzKKZEJdSzZqzRLiNl0eLCunfvjtp8=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM6PR10MB3898.namprd10.prod.outlook.com
- (2603:10b6:5:1ff::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Thu, 11 Aug
- 2022 09:55:37 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5504.024; Thu, 11 Aug 2022
- 09:55:36 +0000
-Date: Thu, 11 Aug 2022 12:55:27 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Arunpravin.PaneerSelvam@amd.com
-Subject: [bug report] drm/ttm: Fix dummy res NULL ptr deref bug
-Message-ID: <YvTSD44z0csJ8YsP@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: ZR0P278CA0055.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:21::6) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607ECABE3D;
+ Thu, 11 Aug 2022 11:32:21 +0000 (UTC)
+X-UUID: ff9f4d8306354fb196b7d922a2cb1400-20220811
+X-Spam-Fingerprint: 0
+X-GW-Reason: 11109
+X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
+X-Content-Feature: ica/max.line-size 113 audit/email.address 1 dict/adv 2
+ dict/notice 2 dict/software 1 dict/transaction 1
+ meta/cnt.alert 1
+X-CPASD-INFO: 41a7705116064a5f92a4568cd298c964@fYGbV2RiY2FdVnKCg6SAoFljkWRlYli
+ ypmxZaJFpYlSVgnxsTV5qXFWCgGpQYWNdYlV3fGtQYmBgZFB5i4Jyj1RgXmCCVHSTgHZrgWdlYA==
+X-CLOUD-ID: 41a7705116064a5f92a4568cd298c964
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
+ TVAL:196.
+ 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:408.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
+ PHC:-5
+ .0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
+ SIG:-
+ 5, AUF:1, DUF:2124, ACD:46, DCD:46, SL:0, EISP:0, AG:0, CFC:0.593, CFSR:0.024,
+ UAT:0, RA
+ F:0, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
+ ATTNUM:0, E AF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: ff9f4d8306354fb196b7d922a2cb1400-20220811
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: ff9f4d8306354fb196b7d922a2cb1400-20220811
+X-User: lizhenneng@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <lizhenneng@kylinos.cn>) (Generic MTA)
+ with ESMTP id 2069526652; Thu, 11 Aug 2022 15:20:31 +0800
+From: Zhenneng Li <lizhenneng@kylinos.cn>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm/amdgpu: use native mode for dp aux transfer
+Date: Thu, 11 Aug 2022 15:20:12 +0800
+Message-Id: <20220811072012.962460-1-lizhenneng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 06722c44-0d32-404e-55f0-08da7b7fa3d8
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3898:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xcnl/Zg3N/oriQquSZVxH1MiLocwa1SD2/RzZbdXFennRUtRI4mtCqFlpE4YCHag3S/pREnttTr+YdKRN44v21o59HuV8VUUGJkhmIsPXWC17hMCCoccQwalOuYpp8102HQA73JbxnkmorcACbGKfr87uNFDmLffhBpt7QvCqcTHPHm8OHINj6E9n6dxc0ADEs8VjVXEBDK8eRLMXcUtj4vsWE2fHFumB4LzzDwz+9Rw5H23nFqhePAFETEPFyJabLiDY3AhmqX9ulbWS/EuO2tWscUU9APDRb8jnK+jDgS5AgzdkSCSzVnJiV/2X5RbYcoLBHeSRtTq8SvRPwJUuwWa7BqQKRq+BGnS/aO8qRUQgUUQUdA7t8/SUhkfLW5CnREbwfZiCMOp5m9LRbKYyOosrU9XC68Xb7z2e7OcQFyrFA3Mfk5LmcohsDGFBYhzr+QiFlUijKJlSInfgTIos7TMMVhEZ8PUaN1N9qnjBWk0j+xUC1R/mX2xQBNF3yBY3y5GxyilBa503W31YmpcAE0qUgWuo18IWirAqKgSReDO+MMwYtfjBtxSKNwXw6iq6uhPupxUWwW2ufAF2wG4R/DBDrO8vdPdg0VzjsX5Zmz7bzrLZUWDUZc08j6p1mMqZVbYmXMcTgmKTvxrQBN3F70LK4KjWPM3ATGwxuhuOIQfGLaQTqNLvBIU4rnhIDcJio3rhwe+YFMI9uYunlCNEtnTl3vj9P+QT+d3AOrbrLtmuaAlLAIWJhK2cDHY8GgOc1q+hHu84zuSWcS/OHRbguHf6ucg/J53Emw1Q0VWesQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(7916004)(396003)(346002)(136003)(366004)(39860400002)(376002)(2906002)(8936002)(5660300002)(44832011)(86362001)(33716001)(26005)(66476007)(186003)(52116002)(9686003)(41300700001)(6506007)(6512007)(6666004)(83380400001)(478600001)(38350700002)(316002)(6916009)(4326008)(66556008)(8676002)(38100700002)(66946007)(6486002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qB7n6QC7wbwfQKeg2QL3gUdxIZARKhsMQyMNb+IeEiTr2VI0Go1M78t3aCrb?=
- =?us-ascii?Q?FCWYuIZi0fNXVLXzpmOPdZlLSVMTC3QgKRhqjiwncDDKELgApmAKsN3X9YfE?=
- =?us-ascii?Q?N1xEkCDeGH1pw+Nln4WII7m0IKYBJNKKJ0ih31Fda8Kd7gwBx82mpyoqiPlV?=
- =?us-ascii?Q?NymAz5F6mSXN5d2Sz/YQqRQ7wfmXYPM43YwUcM+sFbKz5BJKRz90+uWR8cxO?=
- =?us-ascii?Q?7wzbxk83eyEFQk6sEIv76E98kZiFM9mgj1C8wxTil2pv+I1Wn7sX7xfugP/p?=
- =?us-ascii?Q?s0uSRLRNu4KE1C0Y+m1FszgiNpjSgwsl8LSfYhPSmRE4aWubsI9CZ1gLGWh4?=
- =?us-ascii?Q?WWcXjAXSUMWgtEv7xnw6rx9ie0fNyVJPFWpLPLfpTy9yBtzfwCHDvqNkuCRj?=
- =?us-ascii?Q?9Uslrqcm5Zh1byM1q8tD+xgVYAceMMD7phpxxzL60HXpJmqQRr4a3gVEJYjv?=
- =?us-ascii?Q?BaHV1jxZQ1SZ44t3GhRPfZjI6njFP4dzeV7ndmUcs2793u+2xCmWS8esgNku?=
- =?us-ascii?Q?KTbywZgustOYgHnUkOxXhPYinwDnJnlTRCkhrLPo59H573BzmZfPBSJJzbo0?=
- =?us-ascii?Q?Fb9TaBt29qxhuoY5uqg2JwqKatcqUeGAUe6zivLw3JwIfh+epT8aQ1Y5UeHS?=
- =?us-ascii?Q?SrUs7U+pbbhjlfKdbCida/cJQLblwDtBmVhDlNOwD/iBzDiTaaFPq26KQw6W?=
- =?us-ascii?Q?khKED3/UNVsGTq3cAvjpd5ZYvYSW0NpyJEXDPQt0GHGcqzwo6d0+HAS8vXUI?=
- =?us-ascii?Q?pxz/+LlQhzjJwzxek7HPR92gd065TJviMaMd7ENMKiT5siZGXV5F9iJn8aZG?=
- =?us-ascii?Q?CoGbcdpFIIbo0J+aX0lVXqbJaKeVcq5bmcZPeaQrWZdTd6qdWO7uJL8FKDEg?=
- =?us-ascii?Q?QpRhsc2tczkt7LRWJvOpyc1Hn8Amqg0biU8c4ChlaLXEG/woIiqzSUSvEY7K?=
- =?us-ascii?Q?svuJX5oKP6W9NRKbNZHL5QLqDG9Vh+sI2sD0OnKUe4DyjviG9sAxxNTgQMDA?=
- =?us-ascii?Q?j1zB6VeCIZsmhtDaZE31I0eGuq5dwlFDwOjmKRutuf8muIuYgxroDfrqnOhJ?=
- =?us-ascii?Q?FvTyZxVo7gHtLBZgVgNv+i8axBZijB8erL8RWJsyANeB85GYLRGn6YGQlg9n?=
- =?us-ascii?Q?3Wwzy+45NyfiAQNAHztkEXhjPvjZaX77YJHd172sPbtzknDssT3nXWoPEGiW?=
- =?us-ascii?Q?FIJ9DpvjZsxA5UZd9Gcet8nFD7238qCWN/3r4ohOuJkEJ1bL7WODKTBCeeqX?=
- =?us-ascii?Q?hFATJWn7OxiG8k+7dUruj2jg2YYTISESQ4iLb7LurxqScsoOVnZFG2EWJk93?=
- =?us-ascii?Q?GEWhvS+hqNK6vSliHnepMMUkv9eDDdmTOe8QFvLcARE4RpLd0+WrBhY2gpVF?=
- =?us-ascii?Q?cRs513ewgBP0FcalDAn8cTb5zoVIUoCbFdSGmeo3lM0B0k7+UInDVZKlKLMr?=
- =?us-ascii?Q?x/4iHM7yp6RmVqyc1sbMlfPtZ+8hNoDCD+0J9IBz5f8F5y9VF1+QeCjRKYoP?=
- =?us-ascii?Q?wcBHgmwnyIP96OC0ZjIKn0zngXCij5CffFEcizK+Sx7sMm1P/FUCDkwmGbbJ?=
- =?us-ascii?Q?jTILdMczQetITlG1g5TC19PovxvOVAnE2ejO4oR56YhWumn2uTFZGpqE5WV3?=
- =?us-ascii?Q?iw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: /5VOToay9yqxb0eudunbaRdlORqpDN4iiWvu+r9yW1bRmQJqk9ILRJVnIubiDwzhjOX7llT0OXClNsHi1EK27UNukYuoWtb+zDS+vQjboYCDCOn9PRiiTHItmaFrvEYi1NOJYJaU0sXewJslvvITZlYrnwNU8ZbWQoPd1lUv1uUacPhUBBGB/1KnLCdRpfXwjqaaPAaHGeHif3Ty8QZzpr9XKcIRG1gS7yvLUP0TXuCaF+VK4IBwT214O3j+Zz8upAW09xDuFMWBwo4Z7kdDrg1+LNfcB8Yer209dJ5YD368R0hf1pWNXzVLunabgrjJmGFyrgh/kfusQNKfoD3v2uR6SDjSHcGX0dKhtPJUXdhdOk6YcY2YqZb5PzZr6Wz9N+mwvGOTROPvSHDnSrq9vask8Fyz5bOHsT2t/t1+Kgf2UZTP3gIccXYFjYBxGvXa410FPbFcRNn922VFehARJit+VNvQ/VafgZ00hSfAolz9GKoTbB8ab41vbNWepzp45IIjkOge96CFpTgPNL9Tf/aQQkAMyuxu+uKMYo/aXz2DjmhZKGzBV7PGVjNyHzSmDy+F+cOivfn8bOn8/qGzrw2Umsa7nC0U/NT7XeDqSkdxoxr9B5Ztxd7h+gsLTAMZNIUDwdVaWw+s/acgdIE4WthumPUG1p2qafizxl4w0JIgoOP5+3i/YQCQduPjVc0l4Kc8gsgBFx5goKDDPFE0of/q1xoMoHriAiJ8OXgHEUR3lH3KHBMuPttpkcDUABQx2L+NBiIyjfQUBs2GU1OLTVdBkx2gqXVBwRNfIEqF4OPNJnDqWzSIvwaVj7aULDTk
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06722c44-0d32-404e-55f0-08da7b7fa3d8
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 09:55:36.7835 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nALG25N1O+OL9Sur0w+VF0MjiaFHd3y1QRUI66Hxfkjc82UQltxB3dsm0DfrO3rOf3wyd1zZpkR+SxtkTQnqVDmReUHAhinfUef+Ntpub68=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3898
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-11_05,2022-08-10_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=930
- phishscore=0
- spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208110028
-X-Proofpoint-GUID: 2jNBILpf1R8e75f0FGuhjx_PAqezs-SU
-X-Proofpoint-ORIG-GUID: 2jNBILpf1R8e75f0FGuhjx_PAqezs-SU
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,44 +60,412 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Jack Xiao <Jack.Xiao@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Zhenneng Li <lizhenneng@kylinos.cn>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Arunpravin Paneer Selvam,
+When using amdgpu for e8860, the monitor sometimes haven't any signal,
+and the kernel reports some errors:
+[   17.317302][ 2] [ T1045] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ERROR* channel eq failed: 5 tries
+[   17.326963][ 2] [ T1045] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ERROR* channel eq failed
+But if I use radeon for e8860, everything are always normal, the reason is
+that radeon use native mode and amdgpu use atombios mode
+when init dp aux, so when I use native mode for amdgpu, everything
+are always normal.
 
-This is a semi-automatic email about new static checker warnings.
+Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+Change-Id: Ia9a2be3ab03e56b1c8337fdbf713461196fbc58f
+---
+ drivers/gpu/drm/amd/amdgpu/Makefile          |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h          |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c | 273 +++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h     |   2 +
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c     |   5 +-
+ 7 files changed, 290 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
 
-The patch cf4b7387c0a8: "drm/ttm: Fix dummy res NULL ptr deref bug"
-from Aug 9, 2022, leads to the following Smatch complaint:
+diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+index 3e0e2eb7e235..2913cf46f848 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Makefile
++++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+@@ -58,7 +58,7 @@ amdgpu-y += amdgpu_device.o amdgpu_kms.o \
+ 	amdgpu_vm_sdma.o amdgpu_discovery.o amdgpu_ras_eeprom.o amdgpu_nbio.o \
+ 	amdgpu_umc.o smu_v11_0_i2c.o amdgpu_fru_eeprom.o amdgpu_rap.o \
+ 	amdgpu_fw_attestation.o amdgpu_securedisplay.o \
+-	amdgpu_eeprom.o amdgpu_mca.o amdgpu_psp_ta.o amdgpu_lsdma.o
++	amdgpu_eeprom.o amdgpu_mca.o amdgpu_psp_ta.o amdgpu_lsdma.o amdgpu_dp_auxch.o
+ 
+ amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 30ce6bb6fa77..15e0288b1997 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -238,6 +238,8 @@ extern int amdgpu_num_kcq;
+ #define AMDGPU_VCNFW_LOG_SIZE (32 * 1024)
+ extern int amdgpu_vcnfw_log;
+ 
++extern int amdgpu_auxch;
++
+ #define AMDGPU_VM_MAX_NUM_CTX			4096
+ #define AMDGPU_SG_THRESHOLD			(256*1024*1024)
+ #define AMDGPU_DEFAULT_GTT_SIZE_MB		3072ULL /* 3GB by default */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+index 9ba4817a9148..68c8d79e2937 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+@@ -49,7 +49,10 @@ static struct amdgpu_i2c_bus_rec amdgpu_atombios_get_bus_rec_for_i2c_gpio(ATOM_G
+ 
+ 	memset(&i2c, 0, sizeof(struct amdgpu_i2c_bus_rec));
+ 
+-	i2c.mask_clk_reg = le16_to_cpu(gpio->usClkMaskRegisterIndex);
++	if (amdgpu_auxch)
++		i2c.mask_clk_reg = le16_to_cpu(gpio->usClkMaskRegisterIndex) * 4;
++	else
++		i2c.mask_clk_reg = le16_to_cpu(gpio->usClkMaskRegisterIndex);
+ 	i2c.mask_data_reg = le16_to_cpu(gpio->usDataMaskRegisterIndex);
+ 	i2c.en_clk_reg = le16_to_cpu(gpio->usClkEnRegisterIndex);
+ 	i2c.en_data_reg = le16_to_cpu(gpio->usDataEnRegisterIndex);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
+new file mode 100644
+index 000000000000..22078f1ca936
+--- /dev/null
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
+@@ -0,0 +1,273 @@
++/*
++ * Copyright 2015 Red Hat Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ *
++ * Authors: Dave Airlie
++ */
++
++#include "amdgpu.h"
++
++#define 	AUX_SW_RX_OVERFLOW			(1 << 8)
++#define 	AUX_SW_RX_HPD_DISCON			(1 << 9)
++#define 	AUX_SW_RX_PARTIAL_BYTE			(1 << 10)
++#define 	AUX_SW_NON_AUX_MODE			(1 << 11)
++#define 	AUX_SW_RX_SYNC_INVALID_L		(1 << 17)
++#define 	AUX_SW_RX_SYNC_INVALID_H		(1 << 18)
++#define 	AUX_SW_RX_INVALID_START			(1 << 19)
++#define 	AUX_SW_RX_RECV_NO_DET			(1 << 20)
++#define 	AUX_SW_RX_RECV_INVALID_H		(1 << 22)
++#define 	AUX_SW_RX_RECV_INVALID_V		(1 << 23)
++#define		AUX_CONTROL				0x6200
++#define 	AUX_HPD_SEL(x)				(((x) & 0x7) << 20)
++#define 	AUX_EN					(1 << 0)
++#define 	AUX_LS_READ_EN				(1 << 8)
++#define		AUX_SW_CONTROL				0x6204
++#define 	AUX_SW_WR_BYTES(x)			(((x) & 0x1f) << 16)
++#define AUX_SW_DATA					0x6218
++#define AUX_SW_DATA_RW					(1 << 0)
++#define AUX_SW_AUTOINCREMENT_DISABLE			(1 << 31)
++#define AUX_SW_INTERRUPT_CONTROL			0x620c
++#define 	AUX_SW_DONE_ACK				(1 << 1)
++#define 	AUX_SW_GO				(1 << 0)
++#define AUX_SW_STATUS					0x6210
++#define 	AUX_SW_DONE				(1 << 0)
++#define 	AUX_SW_RX_TIMEOUT			(1 << 7)
++#define AUX_SW_DATA_RW					(1 << 0)
++#define AUX_SW_DATA_MASK(x)				(((x) & 0xff) << 8)
++
++#define AUX_RX_ERROR_FLAGS (AUX_SW_RX_OVERFLOW |	     \
++			    AUX_SW_RX_HPD_DISCON |	     \
++			    AUX_SW_RX_PARTIAL_BYTE |	     \
++			    AUX_SW_NON_AUX_MODE |	     \
++			    AUX_SW_RX_SYNC_INVALID_L |	     \
++			    AUX_SW_RX_SYNC_INVALID_H |	     \
++			    AUX_SW_RX_INVALID_START |	     \
++			    AUX_SW_RX_RECV_NO_DET |	     \
++			    AUX_SW_RX_RECV_INVALID_H |	     \
++			    AUX_SW_RX_RECV_INVALID_V)
++
++#define AUX_SW_REPLY_GET_BYTE_COUNT(x) (((x) >> 24) & 0x1f)
++
++#define BARE_ADDRESS_SIZE 3
++
++#define R100_MM_INDEX                   0x0000
++#define R100_MM_DATA                      0x0004
++#define AMDGPU_MIN_MMIO_SIZE 0x10000
++uint32_t venus_mm_rreg_slow(struct amdgpu_device *adev, uint32_t reg)
++{
++        unsigned long flags;
++        uint32_t ret;
++
++        spin_lock_irqsave(&adev->mmio_idx_lock, flags);
++        writel(reg, ((void __iomem *)adev->rmmio) + R100_MM_INDEX);
++        ret = readl(((void __iomem *)adev->rmmio) + R100_MM_DATA);
++        spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
++        return ret;
++}
++void venus_mm_wreg_slow(struct amdgpu_device *adev, uint32_t reg, uint32_t v)
++{
++        unsigned long flags;
++
++        spin_lock_irqsave(&adev->mmio_idx_lock, flags);
++        writel(reg, ((void __iomem *)adev->rmmio) + R100_MM_INDEX);
++        writel(v, ((void __iomem *)adev->rmmio) + R100_MM_DATA);
++        spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
++}
++static inline uint32_t venus_mm_rreg(struct amdgpu_device *adev, uint32_t reg,
++                                    bool always_indirect)
++{
++        /* The mmio size is 64kb at minimum. Allows the if to be optimized out. */
++        if ((reg < adev->rmmio_size || reg < AMDGPU_MIN_MMIO_SIZE) && !always_indirect)
++                return readl(((void __iomem *)adev->rmmio) + reg);
++        else
++                return venus_mm_rreg_slow(adev, reg);
++}
++static inline void venus_mm_wreg(struct amdgpu_device *adev, uint32_t reg, uint32_t v,
++                                bool always_indirect)
++{
++        if ((reg < adev->rmmio_size || reg < AMDGPU_MIN_MMIO_SIZE) && !always_indirect)
++                writel(v, ((void __iomem *)adev->rmmio) + reg);
++        else
++                venus_mm_wreg_slow(adev, reg, v);
++}
++
++#define RREG32_VENUS(reg) venus_mm_rreg(adev, (reg), false)
++#define WREG32_VENUS(reg, v) venus_mm_wreg(adev, (reg), (v), false)
++
++static const u32 aux_offset[] =
++{
++	0x6200 - 0x6200,
++	0x6250 - 0x6200,
++	0x62a0 - 0x6200,
++	0x6300 - 0x6200,
++	0x6350 - 0x6200,
++	0x63a0 - 0x6200,
++};
++
++ssize_t
++amdgpu_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
++{
++	struct amdgpu_i2c_chan *chan =
++		container_of(aux, struct amdgpu_i2c_chan, aux);
++	struct drm_device *dev = chan->dev;
++	struct amdgpu_device *adev = dev->dev_private;
++	int ret = 0, i;
++	uint32_t tmp, ack = 0;
++	int instance = chan->rec.i2c_id & 0xf;
++	u8 byte;
++	u8 *buf = msg->buffer;
++	int retry_count = 0;
++	int bytes;
++	int msize;
++	bool is_write = false;
++
++	if (WARN_ON(msg->size > 16))
++		return -E2BIG;
++
++	switch (msg->request & ~DP_AUX_I2C_MOT) {
++	case DP_AUX_NATIVE_WRITE:
++	case DP_AUX_I2C_WRITE:
++		is_write = true;
++		break;
++	case DP_AUX_NATIVE_READ:
++	case DP_AUX_I2C_READ:
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	/* work out two sizes required */
++	msize = 0;
++	bytes = BARE_ADDRESS_SIZE;
++	if (msg->size) {
++		msize = msg->size - 1;
++		bytes++;
++		if (is_write)
++			bytes += msg->size;
++	}
++
++	mutex_lock(&chan->mutex);
++
++	/* switch the pad to aux mode */
++	tmp = RREG32_VENUS(chan->rec.mask_clk_reg);
++	tmp |= (1 << 16);
++	WREG32_VENUS(chan->rec.mask_clk_reg, tmp);
++
++	/* setup AUX control register with correct HPD pin */
++	tmp = RREG32_VENUS(AUX_CONTROL + aux_offset[instance]);
++	tmp &= AUX_HPD_SEL(0x7);
++	tmp |= AUX_HPD_SEL(chan->rec.hpd);
++	tmp |= AUX_EN | AUX_LS_READ_EN;
++
++	WREG32_VENUS(AUX_CONTROL + aux_offset[instance], tmp);
++
++	/* atombios appears to write this twice lets copy it */
++	WREG32_VENUS(AUX_SW_CONTROL + aux_offset[instance],
++	       AUX_SW_WR_BYTES(bytes));
++	WREG32_VENUS(AUX_SW_CONTROL + aux_offset[instance],
++	       AUX_SW_WR_BYTES(bytes));
++
++	/* write the data header into the registers */
++	/* request, address, msg size */
++	byte = (msg->request << 4) | ((msg->address >> 16) & 0xf);
++	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
++	       AUX_SW_DATA_MASK(byte) | AUX_SW_AUTOINCREMENT_DISABLE);
++
++	byte = (msg->address >> 8) & 0xff;
++	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
++	       AUX_SW_DATA_MASK(byte));
++
++	byte = msg->address & 0xff;
++	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
++	       AUX_SW_DATA_MASK(byte));
++
++	byte = msize;
++	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
++	       AUX_SW_DATA_MASK(byte));
++
++	/* if we are writing - write the msg buffer */
++	if (is_write) {
++		for (i = 0; i < msg->size; i++) {
++			WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
++			       AUX_SW_DATA_MASK(buf[i]));
++		}
++	}
++
++	/* clear the ACK */
++	WREG32_VENUS(AUX_SW_INTERRUPT_CONTROL + aux_offset[instance], AUX_SW_DONE_ACK);
++
++	/* write the size and GO bits */
++	WREG32_VENUS(AUX_SW_CONTROL + aux_offset[instance],
++	       AUX_SW_WR_BYTES(bytes) | AUX_SW_GO);
++
++	/* poll the status registers - TODO irq support */
++	do {
++		tmp = RREG32_VENUS(AUX_SW_STATUS + aux_offset[instance]);
++		if (tmp & AUX_SW_DONE) {
++			break;
++		}
++		usleep_range(100, 200);
++	} while (retry_count++ < 1000);
++
++	if (retry_count >= 1000) {
++		DRM_ERROR("auxch hw never signalled completion, error %08x\n", tmp);
++		ret = -EIO;
++		goto done;
++	}
++
++	if (tmp & AUX_SW_RX_TIMEOUT) {
++		ret = -ETIMEDOUT;
++		goto done;
++	}
++	if (tmp & AUX_RX_ERROR_FLAGS) {
++		DRM_DEBUG_KMS_RATELIMITED("dp_aux_ch flags not zero: %08x\n",
++					  tmp);
++		ret = -EIO;
++		goto done;
++	}
++
++	bytes = AUX_SW_REPLY_GET_BYTE_COUNT(tmp);
++	if (bytes) {
++		WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
++		       AUX_SW_DATA_RW | AUX_SW_AUTOINCREMENT_DISABLE);
++
++		tmp = RREG32_VENUS(AUX_SW_DATA + aux_offset[instance]);
++		ack = (tmp >> 8) & 0xff;
++
++		for (i = 0; i < bytes - 1; i++) {
++			tmp = RREG32_VENUS(AUX_SW_DATA + aux_offset[instance]);
++			if (buf)
++				buf[i] = (tmp >> 8) & 0xff;
++		}
++		if (buf)
++			ret = bytes - 1;
++	}
++
++	WREG32_VENUS(AUX_SW_INTERRUPT_CONTROL + aux_offset[instance], AUX_SW_DONE_ACK);
++
++	if (is_write)
++		ret = msg->size;
++done:
++	mutex_unlock(&chan->mutex);
++
++	if (ret >= 0)
++		msg->reply = ack >> 4;
++	return ret;
++}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 8890300766a5..2ac7636ddafb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -180,6 +180,7 @@ int amdgpu_num_kcq = -1;
+ int amdgpu_smartshift_bias;
+ int amdgpu_use_xgmi_p2p = 1;
+ int amdgpu_vcnfw_log;
++int amdgpu_auxch = 0;
+ 
+ static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
+ 
+@@ -882,6 +883,9 @@ MODULE_PARM_DESC(smu_pptable_id,
+ 	"specify pptable id to be used (-1 = auto(default) value, 0 = use pptable from vbios, > 0 = soft pptable id)");
+ module_param_named(smu_pptable_id, amdgpu_smu_pptable_id, int, 0444);
+ 
++MODULE_PARM_DESC(auxch, "Use native auxch experimental support (1 = enable, 0 = disable, -1 = auto)");
++module_param_named(auxch, amdgpu_auxch, int, 0444);
++
+ /* These devices are not supported by amdgpu.
+  * They are supported by the mach64, r128, radeon drivers
+  */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index f80b4838cea1..95fffc110c75 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -619,5 +619,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 				uint32_t page_flip_flags, uint32_t target,
+ 				struct drm_modeset_acquire_ctx *ctx);
+ extern const struct drm_mode_config_funcs amdgpu_mode_funcs;
++extern ssize_t
++amdgpu_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+index 87c41e0e9b7c..846ecc315665 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+@@ -188,7 +188,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
+ void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
+ {
+ 	amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
+-	amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
++	if (amdgpu_auxch)
++		amdgpu_connector->ddc_bus->aux.transfer = amdgpu_dp_aux_transfer_native;
++	else
++		amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
+ 	amdgpu_connector->ddc_bus->aux.drm_dev = amdgpu_connector->base.dev;
+ 
+ 	drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
+-- 
+2.25.1
 
-    drivers/gpu/drm/ttm/ttm_bo.c:915 ttm_bo_validate()
-    warn: variable dereferenced before check 'bo->resource' (see line 907)
 
-drivers/gpu/drm/ttm/ttm_bo.c
-   906		 */
-   907		if (!ttm_resource_compat(bo->resource, placement)) {
-                                         ^^^^^^^^^^^^
-Unchecked dereference here inside the function.
-
-   908			ret = ttm_bo_move_buffer(bo, placement, ctx);
-   909			if (ret)
-   910				return ret;
-   911		}
-   912		/*
-   913		 * We might need to add a TTM.
-   914		 */
-   915		if (!bo->resource || bo->resource->mem_type == TTM_PL_SYSTEM) {
-                     ^^^^^^^^^^^^
-Checked too late.
-
-This NULL check was added deliberately based on a report from the kbuild
-bot, but it's not clear why bo->resource is NULL at this point.  Was the
-patch tested?  There is a stable@vger.kernel.org but there is no Fixes
-tag.
-
-   916			ret = ttm_tt_create(bo, true);
-   917			if (ret)
-
-regards,
-dan carpenter
+No virus found
+		Checked by Hillstone Network AntiVirus
