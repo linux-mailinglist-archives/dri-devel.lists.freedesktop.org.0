@@ -1,59 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A1B5905D0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 19:24:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B27A5905D8
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 19:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC2D4113C5B;
-	Thu, 11 Aug 2022 17:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB97D14AC16;
+	Thu, 11 Aug 2022 17:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F02CC10E306
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 17:23:46 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id u1so26434023lfq.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 10:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=AnCsPAQ6S5XSMkIG5oYaEC4K5z7sA59ctKWoQkq2VZE=;
- b=eZ4X4GLue+7uCz/ZMdt6KiL0wwxwfOlsFXXUIvTDvfaqzjGGu/eHR4GY7K+304++VC
- cvM+FfLUCiVvwNMY2IcknNcGlbWHPZzwwhf0CSTt2Zlsjmr80frYREw7HI665gaa4nso
- StVqfgzuQ3R7LHR8IgXcTneqcFse/+utscQUU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=AnCsPAQ6S5XSMkIG5oYaEC4K5z7sA59ctKWoQkq2VZE=;
- b=zPlregTX5NVJqZqxl3Uay0aBsOH8eXP49cd/zxr/i1R+xyT7JuGqswuGbElGre4Ekw
- 03AWniWhFIJmL2i4sCMZHLbxyqcVooFd2m69aGuts08Vu5VIQQ/ZfeTNDnL4d3sS+V4+
- pIEaCSvnWWnZn5pHPuEnglJX9L1O75qpmkTZquDOYvpumxTAtsHDlab4Dbz/FfTg3lk1
- +7J3gTgLs6x3BzvDNyL8o6Rrty2w2SkLEDIRf1zyZ6ue2tiiQ5+XJ32nZH80nYoZ8LvV
- uFB4+ihyPWOZc/Z2nHjHVO0ca8gdMcuevz7rWT2Lmk6DeAHsbcxxbp0nceArvOkp80+j
- EfFw==
-X-Gm-Message-State: ACgBeo3ktHsyiWV/v8AqRMegnBKB8iPkuYgASurUPxygNdAKX4+Szz4u
- DezUgwqn1doq7goqe1sKezwBEchOcegdkdsfM6Wi0g==
-X-Google-Smtp-Source: AA6agR6j80HYYi81ZMQfJPQuzUD8MfI8mzNa8691kVB444Gkfl8LcmXfdDVbbCTwUTbWTYzkc1UipZP3SG0BBTeOxBQ=
-X-Received: by 2002:a05:6512:e82:b0:48b:23f5:d153 with SMTP id
- bi2-20020a0565120e8200b0048b23f5d153mr95521lfb.291.1660238625050; Thu, 11 Aug
- 2022 10:23:45 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64D712A234
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 17:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660238830; x=1691774830;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=9sI4oxnww2fiOkHy8m67wJBameA5pi7QXPxfqb0WHaI=;
+ b=SoFHGOGXSCN+Q1paEBete6bVUOiwpmsTOlwqE7WFzFFsyM6RyUw7E4Q8
+ roiB7p84f5w1cLuGZ9aGEACWtBe75fc/3HtVH26Gsw2MD2luwYy4d8wwL
+ 4OHusK6q9CGRG/qU4XyvrpvjyctYRH85KRb62XuCBpmg6U5I12TlQtqCL
+ y0sfAY7FRISeeddkExFzcT4C/A5EBUBvA7whzhvVvnn8wfhMungHZoh2u
+ tGtV19dPakFGRE17MXl7V0p80Qbg9Og/8pe1QEzT9wcPg5WTQ4a8TRENc
+ 8y/RX6jlH1q0phM0at+ILEWZVC1s+YKl7Vt522Mz7smQqLuBBCeHZzTVF Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="355417274"
+X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="355417274"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2022 10:27:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="933406465"
+Received: from lkp-server02.sh.intel.com (HELO cfab306db114) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 11 Aug 2022 10:26:59 -0700
+Received: from kbuild by cfab306db114 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oMBxS-0000SR-1J;
+ Thu, 11 Aug 2022 17:26:58 +0000
+Date: Fri, 12 Aug 2022 01:26:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH] drm/ast: radeon amdgpu for ast add prime
+Message-ID: <202208120134.9nXiGv1Q-lkp@intel.com>
+References: <20220809114439.2063863-1-oushixiong@kylinos.cn>
 MIME-Version: 1.0
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-5-tzimmermann@suse.de>
- <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
- <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
- <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
-In-Reply-To: <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 11 Aug 2022 19:23:33 +0200
-Message-ID: <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
- set
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220809114439.2063863-1-oushixiong@kylinos.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,99 +58,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Paul Mackerras <paulus@samba.org>, Michal Suchanek <msuchanek@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: oushixiong <oushixiong@kylinos.cn>, kbuild-all@lists.01.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Jul 2022 at 09:53, Thomas Zimmermann <tzimmermann@suse.de> wrote=
-:
->
-> Hi
->
-> Am 25.07.22 um 17:13 schrieb Javier Martinez Canillas:
-> > Hello Geert,
-> >
-> > On 7/21/22 16:46, Geert Uytterhoeven wrote:
-> >> Hi Thomas,
-> >>
-> >> On Wed, Jul 20, 2022 at 4:27 PM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
-> >>> Compute the framebuffer's scanline stride length if not given by
-> >>> the simplefb data.
-> >>>
-> >>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>
-> >> Thanks for your patch!
-> >>
-> >>> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> >>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> >>> @@ -743,6 +743,9 @@ static struct simpledrm_device *simpledrm_device_=
-create(struct drm_driver *drv,
-> >>>                  drm_err(dev, "no simplefb configuration found\n");
-> >>>                  return ERR_PTR(-ENODEV);
-> >>>          }
-> >>> +       if (!stride)
-> >>> +               stride =3D format->cpp[0] * width;
-> >>
-> >> DIV_ROUND_UP(drm_format_info_bpp(format) * width, 8)
-> >>
-> >
-> > I think you meant here:
-> >
-> > DIV_ROUND_UP(drm_format_info_bpp(format, 0) * width, 8) ?
->
-> I guess, that's the right function. My original code is correct, but cpp
-> is also deprecated.
+Hi oushixiong,
 
-You all mean drm_format_info_min_pitch().
+Thank you for the patch! Perhaps something to improve:
 
-I really don't want drivers to go grab any of the legacy format info
-fields like bpp or depth. switch() statements on the fourcc code for
-programming registers, or one of the real helper functions in
-drm_fourcc.c (there might be some gaps), but not ever going through
-legacy concepts. Anything else just leads to subtle bugs when new
-formats get added and oops suddenly the assumptions don't hold.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next linus/master v5.19 next-20220811]
+[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Those should be strictly limited to legacy (i.e. not drm_fourcc aware)
-interfaces. Heck I think even fbdev emulation should completely switch
-over to drm_fourcc/drm_format_info, but alas that's a pile of work and
-not much payoff.
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong/drm-ast-radeon-amdgpu-for-ast-add-prime/20220811-115710
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: arm64-randconfig-r033-20220810 (https://download.01.org/0day-ci/archive/20220812/202208120134.9nXiGv1Q-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 5f1c7e2cc5a3c07cbc2412e851a7283c1841f520)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/1b9b79a00132f2917ca66bea714a6f21fc939b0f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review oushixiong/drm-ast-radeon-amdgpu-for-ast-add-prime/20220811-115710
+        git checkout 1b9b79a00132f2917ca66bea714a6f21fc939b0f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/ast/
 
-I'm trying to volunteer Same to add a legacy_bpp tag to the above
-helper and appropriately limit it, I think limiting to formats with
-depth!=3D0 is probably the right thing. And then we should probably
-remove a pile of the cargo-culted depth!=3D0 entries too.
--Daniel
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
->
-> Best regards
-> Thomas
->
-> >
-> > With that change,
-> >
-> > Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-> >
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ast/ast_drv.c:54:24: warning: no previous prototype for function 'ast_gem_prime_import_sg_table' [-Wmissing-prototypes]
+   struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
+                          ^
+   drivers/gpu/drm/ast/ast_drv.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
+   ^
+   static 
+   1 warning generated.
+--
+>> drivers/gpu/drm/ast/ast_mode.c:1713:5: warning: no previous prototype for function 'ast_handle_damage' [-Wmissing-prototypes]
+   int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
+       ^
+   drivers/gpu/drm/ast/ast_mode.c:1713:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
+   ^
+   static 
+>> drivers/gpu/drm/ast/ast_mode.c:1772:5: warning: no previous prototype for function 'ast_user_framebuffer_dirty' [-Wmissing-prototypes]
+   int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
+       ^
+   drivers/gpu/drm/ast/ast_mode.c:1772:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
+   ^
+   static 
+>> drivers/gpu/drm/ast/ast_mode.c:1815:1: warning: no previous prototype for function 'ast_gem_fb_create_with_dirty' [-Wmissing-prototypes]
+   ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
+   ^
+   drivers/gpu/drm/ast/ast_mode.c:1814:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct drm_framebuffer *
+   ^
+   static 
+   3 warnings generated.
 
 
+vim +/ast_gem_prime_import_sg_table +54 drivers/gpu/drm/ast/ast_drv.c
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+    53	
+  > 54	struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
+    55						struct dma_buf_attachment *attach,
+    56						struct sg_table *sg)
+    57	{
+    58		struct drm_gem_vram_object *gbo;
+    59		struct dma_resv *resv = attach->dmabuf->resv;
+    60	
+    61		ww_mutex_lock(&resv->lock, NULL);
+    62		gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0, sg, resv);
+    63		ww_mutex_unlock(&resv->lock);
+    64	
+    65		if (IS_ERR(gbo))
+    66			return NULL;
+    67	
+    68		return &gbo->bo.base;
+    69	}
+    70	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
