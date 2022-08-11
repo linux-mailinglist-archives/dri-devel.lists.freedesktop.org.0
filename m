@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D621859063B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 20:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD7759063C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 20:26:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982D2113B1D;
-	Thu, 11 Aug 2022 18:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3321418A77A;
+	Thu, 11 Aug 2022 18:26:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC2E112F01
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 18:26:03 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 71D8120CD9;
- Thu, 11 Aug 2022 18:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1660242362; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8Evt2V79tzbtV7su2NzxU13qv6eZNOQwgPrEPCv2shE=;
- b=igSDV18OSz9SWt559xkotV+C0/38cLzOimYiM2ngYL5Dltdql+UX/rtoMMNNTos697JA+O
- FLrvLJZrGJKyAJOy70SopyysXNv+7EQH8h1K2ZfISZCynzPo39BUuEq2FPmAWnBjW9HQ9y
- ZzTAWHtb/132ynPrxjwhvXOnV0y08/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1660242362;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8Evt2V79tzbtV7su2NzxU13qv6eZNOQwgPrEPCv2shE=;
- b=RBOzN2LwWUkWwwFa2p85FlZ1majRQO8hZ3KEjyGTzkYyYSqiABft9QMOXVW2sZhiuUYsGW
- re37NtTw+fzs6jCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC3161342A;
- Thu, 11 Aug 2022 18:26:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rDnQLrlJ9WJoawAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 11 Aug 2022 18:26:01 +0000
-Message-ID: <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
-Date: Thu, 11 Aug 2022 20:26:01 +0200
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE25310FEB4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 18:26:15 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id m2so17633623pls.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 11:26:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=DNRqJUO9qW+nOcXv54/BTKzSqJWHyKLs5RY2LsJLtKw=;
+ b=xc0VQ/tXgJI3CNx3hHgICA6Z2jEuWQ/uwjKgyzakD9pvtgaib073alKdtAxe0Exz6L
+ bCPUdYQlVzM/Nz34uuK70LSXiBfUUpNlWrLM04+G0Z/lyuj3csGesp6p/8HBaJt/ni7h
+ dFQpnrFXf6UysrTohohxCGSYXB0YL5yavCBJVPNucgXlVuXS7kpF34mYcyi5hEgIvFVA
+ cagr9VMwdF45mDJH4T6ptGgJj+Kdubuw1TKk4Myhx7t5Enjky8wMVggeTrTv0vs4s7j+
+ XsXjpefcMOWDJuiFpemFXUieXEf/r9K3HvRTkfedaBD7pgZoaNs6uXO1W55AL8q5uOSd
+ OVGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=DNRqJUO9qW+nOcXv54/BTKzSqJWHyKLs5RY2LsJLtKw=;
+ b=bDCL7c9I+LvM8VJAsCymAqaFlQPgRklpuQoivRGngMGLgMGaSn/HfEdwxyH5J36D+h
+ vwyaapExZ3ZnP3UD0smZTEYqCmgmcY5s1FoQvrZBSQyDzC6fEqJNLAsP2N1vL5HmM05r
+ qqDdHGu01QsIZVb/0ROdzJ/Rh5b0X8+A5nUkyfojh57Gkp9sy2TqP63LvzWrlaQ+rQIh
+ xsbNzVdV2Va+bwRX6wJPxVzu6VRWPzfx31zLmoUCzECPoz7QwTTUqoxkfQyqxYnOT3il
+ 4h4UrEyzVoGOfzV827132ghOGzXMO1wr9NR4sV1v74skSUeXuUSPczdlmdwv8ZdezAS2
+ 3O7A==
+X-Gm-Message-State: ACgBeo2Frubz5NYETR7Nbf/oSD3JhM5Lg2Ne4PdEKdPtM2clPHsBi72S
+ +AxDOTdjkEZi675FwOqgcUzP2prC+A8ai2LKaJvseA==
+X-Google-Smtp-Source: AA6agR6E7weULEtj7kwVFvfsBwBE4Gop3xNBO3A8utdizicMa/BbTEIuAq5NU9tKxnYE47khriF2jMkXLkNBAs4yiHY=
+X-Received: by 2002:a17:903:120d:b0:171:4fa0:7b4a with SMTP id
+ l13-20020a170903120d00b001714fa07b4amr381532plh.45.1660242375230; Thu, 11 Aug
+ 2022 11:26:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.0
-Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
- set
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-5-tzimmermann@suse.de>
- <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
- <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
- <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
- <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------maUWoRsPXczniKbRzx7qYboj"
+References: <CADVatmN_TzJKdfM40BQPW=cRm5VxX=qAKxq2yW4P_xDN6=VoOA@mail.gmail.com>
+ <20220811175759.1518840-1-hamza.mahfooz@amd.com>
+In-Reply-To: <20220811175759.1518840-1-hamza.mahfooz@amd.com>
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Thu, 11 Aug 2022 20:26:04 +0200
+Message-ID: <CADYN=9JgX6PVhes_9cbL4qFEjyiYhbpHMXTB-oEdn4j9Rz3tJA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/display: fix DSC related non-x86/PPC64
+ compilation issue
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,129 +65,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
- Helge Deller <deller@gmx.de>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Paul Mackerras <paulus@samba.org>, Michal Suchanek <msuchanek@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>,
+ dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------maUWoRsPXczniKbRzx7qYboj
-Content-Type: multipart/mixed; boundary="------------knbY9dhxWhTYz9JlrI0Fp7eU";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, David Airlie <airlied@linux.ie>,
- Helge Deller <deller@gmx.de>, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>, Michal Suchanek <msuchanek@suse.de>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Message-ID: <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
-Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
- set
-References: <20220720142732.32041-1-tzimmermann@suse.de>
- <20220720142732.32041-5-tzimmermann@suse.de>
- <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
- <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
- <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
- <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
-In-Reply-To: <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
+On Thu, 11 Aug 2022 at 20:00, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+>
+> Need to protect DSC code with CONFIG_DRM_AMD_DC_DCN.
+> Fixes the following build errors on arm64:
+> ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>
+> Fixes: 0087990a9f57 ("drm/amd/display: consider DSC pass-through during mode validation")
+> Reported-by: Anders Roxell <anders.roxell@linaro.org>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
---------------knbY9dhxWhTYz9JlrI0Fp7eU
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thank you for the quick fix.
 
-SGkgRGFuaWVsDQoNCkFtIDExLjA4LjIyIHVtIDE5OjIzIHNjaHJpZWIgRGFuaWVsIFZldHRl
-cjoNCj4gT24gV2VkLCAyNyBKdWwgMjAyMiBhdCAwOTo1MywgVGhvbWFzIFppbW1lcm1hbm4g
-PHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4NCj4+IEhpDQo+Pg0KPj4gQW0gMjUu
-MDcuMjIgdW0gMTc6MTMgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXM6DQo+Pj4g
-SGVsbG8gR2VlcnQsDQo+Pj4NCj4+PiBPbiA3LzIxLzIyIDE2OjQ2LCBHZWVydCBVeXR0ZXJo
-b2V2ZW4gd3JvdGU6DQo+Pj4+IEhpIFRob21hcywNCj4+Pj4NCj4+Pj4gT24gV2VkLCBKdWwg
-MjAsIDIwMjIgYXQgNDoyNyBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT4gd3JvdGU6DQo+Pj4+PiBDb21wdXRlIHRoZSBmcmFtZWJ1ZmZlcidzIHNjYW5saW5l
-IHN0cmlkZSBsZW5ndGggaWYgbm90IGdpdmVuIGJ5DQo+Pj4+PiB0aGUgc2ltcGxlZmIgZGF0
-YS4NCj4+Pj4+DQo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4NCj4+Pj4NCj4+Pj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0K
-Pj4+Pg0KPj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+
-Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+Pj4+PiBAQCAt
-NzQzLDYgKzc0Myw5IEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxl
-ZHJtX2RldmljZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4+Pj4+ICAgICAg
-ICAgICAgICAgICAgIGRybV9lcnIoZGV2LCAibm8gc2ltcGxlZmIgY29uZmlndXJhdGlvbiBm
-b3VuZFxuIik7DQo+Pj4+PiAgICAgICAgICAgICAgICAgICByZXR1cm4gRVJSX1BUUigtRU5P
-REVWKTsNCj4+Pj4+ICAgICAgICAgICB9DQo+Pj4+PiArICAgICAgIGlmICghc3RyaWRlKQ0K
-Pj4+Pj4gKyAgICAgICAgICAgICAgIHN0cmlkZSA9IGZvcm1hdC0+Y3BwWzBdICogd2lkdGg7
-DQo+Pj4+DQo+Pj4+IERJVl9ST1VORF9VUChkcm1fZm9ybWF0X2luZm9fYnBwKGZvcm1hdCkg
-KiB3aWR0aCwgOCkNCj4+Pj4NCj4+Pg0KPj4+IEkgdGhpbmsgeW91IG1lYW50IGhlcmU6DQo+
-Pj4NCj4+PiBESVZfUk9VTkRfVVAoZHJtX2Zvcm1hdF9pbmZvX2JwcChmb3JtYXQsIDApICog
-d2lkdGgsIDgpID8NCj4+DQo+PiBJIGd1ZXNzLCB0aGF0J3MgdGhlIHJpZ2h0IGZ1bmN0aW9u
-LiBNeSBvcmlnaW5hbCBjb2RlIGlzIGNvcnJlY3QsIGJ1dCBjcHANCj4+IGlzIGFsc28gZGVw
-cmVjYXRlZC4NCj4gDQo+IFlvdSBhbGwgbWVhbiBkcm1fZm9ybWF0X2luZm9fbWluX3BpdGNo
-KCkuDQoNClRoYW5rcyBhIGxvdC4gSSB3YXNuJ3QgZXZlbiBhd2FyZSBvZiB0aGlzIGZ1bmN0
-aW9uLCBidXQgSSBoYWQgYWxtb3N0IA0Kd3JpdHRlbiBteSBvd24gaW1wbGVtZW50YXRpb24g
-b2YgaXQuICBJJ2xsIHVwZGF0ZSB0aGUgcGF0Y2ggYWNjb3JkaW5nbHkuDQoNCkJlc3QgcmVn
-YXJkcw0KVGhvbWFzDQoNCj4gDQo+IEkgcmVhbGx5IGRvbid0IHdhbnQgZHJpdmVycyB0byBn
-byBncmFiIGFueSBvZiB0aGUgbGVnYWN5IGZvcm1hdCBpbmZvDQo+IGZpZWxkcyBsaWtlIGJw
-cCBvciBkZXB0aC4gc3dpdGNoKCkgc3RhdGVtZW50cyBvbiB0aGUgZm91cmNjIGNvZGUgZm9y
-DQo+IHByb2dyYW1taW5nIHJlZ2lzdGVycywgb3Igb25lIG9mIHRoZSByZWFsIGhlbHBlciBm
-dW5jdGlvbnMgaW4NCj4gZHJtX2ZvdXJjYy5jICh0aGVyZSBtaWdodCBiZSBzb21lIGdhcHMp
-LCBidXQgbm90IGV2ZXIgZ29pbmcgdGhyb3VnaA0KPiBsZWdhY3kgY29uY2VwdHMuIEFueXRo
-aW5nIGVsc2UganVzdCBsZWFkcyB0byBzdWJ0bGUgYnVncyB3aGVuIG5ldw0KPiBmb3JtYXRz
-IGdldCBhZGRlZCBhbmQgb29wcyBzdWRkZW5seSB0aGUgYXNzdW1wdGlvbnMgZG9uJ3QgaG9s
-ZC4NCj4gDQo+IFRob3NlIHNob3VsZCBiZSBzdHJpY3RseSBsaW1pdGVkIHRvIGxlZ2FjeSAo
-aS5lLiBub3QgZHJtX2ZvdXJjYyBhd2FyZSkNCj4gaW50ZXJmYWNlcy4gSGVjayBJIHRoaW5r
-IGV2ZW4gZmJkZXYgZW11bGF0aW9uIHNob3VsZCBjb21wbGV0ZWx5IHN3aXRjaA0KPiBvdmVy
-IHRvIGRybV9mb3VyY2MvZHJtX2Zvcm1hdF9pbmZvLCBidXQgYWxhcyB0aGF0J3MgYSBwaWxl
-IG9mIHdvcmsgYW5kDQo+IG5vdCBtdWNoIHBheW9mZi4NCj4gDQo+IEknbSB0cnlpbmcgdG8g
-dm9sdW50ZWVyIFNhbWUgdG8gYWRkIGEgbGVnYWN5X2JwcCB0YWcgdG8gdGhlIGFib3ZlDQo+
-IGhlbHBlciBhbmQgYXBwcm9wcmlhdGVseSBsaW1pdCBpdCwgSSB0aGluayBsaW1pdGluZyB0
-byBmb3JtYXRzIHdpdGgNCj4gZGVwdGghPTAgaXMgcHJvYmFibHkgdGhlIHJpZ2h0IHRoaW5n
-LiBBbmQgdGhlbiB3ZSBzaG91bGQgcHJvYmFibHkNCj4gcmVtb3ZlIGEgcGlsZSBvZiB0aGUg
-Y2FyZ28tY3VsdGVkIGRlcHRoIT0wIGVudHJpZXMgdG9vLg0KPiAtRGFuaWVsDQo+IA0KPj4N
-Cj4+IEJlc3QgcmVnYXJkcw0KPj4gVGhvbWFzDQo+Pg0KPj4+DQo+Pj4gV2l0aCB0aGF0IGNo
-YW5nZSwNCj4+Pg0KPj4+IEFja2VkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGph
-dmllcm1AcmVkaGF0LmNvbT4NCj4+Pg0KPj4NCj4+IC0tDQo+PiBUaG9tYXMgWmltbWVybWFu
-bg0KPj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KPj4gU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQo+PiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcs
-IEdlcm1hbnkNCj4+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCj4+IEdlc2Now6RmdHNm
-w7xocmVyOiBJdm8gVG90ZXYNCj4gDQo+IA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
-bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
-R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
-CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
-ZXYNCg==
+Tested-by: Anders Roxell <anders.roxell@linaro.org>
 
---------------knbY9dhxWhTYz9JlrI0Fp7eU--
+Cheers,
+Anders
 
---------------maUWoRsPXczniKbRzx7qYboj
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmL1SbkFAwAAAAAACgkQlh/E3EQov+B1
-lg//Ym6ehziJBzhSMwPC8lDOsIrzuYMuJkHN0hR3O142eRbdc6Ffh0PhynnA70H4i/YgECu6xdTT
-xDGuFiO7BJi+JKyTR6OObSdfXS3uwkRGnz9OLV2qNDa6HVQeQwz5xl09pgM9Wt4NvqjTpEWDB5PC
-ERHe1YCcjp4o5MVufdcp0lDW6j9qWWyBdnZJrmJ7SO9XEjDsKvWpkxu5QE+jcxrpwQ+DPqgJU6YD
-wGc6LxlLDkSANq2/APAOUS11ZeRcfVv2ZYeu+vRypzfsj4u1FKbhpVGIFFYU4MzXMT9D/EQY+SY0
-zLX0EFv65GaWzxlfDhcBLHO944P8V6fyo1K8Q3WOITnLdgM9yY11IvhL3eFUehGvPbN/Mxvk7gxd
-kZuoF3l3m/vPTc6zRr+00YuGCR2bqnQs66pTN/wssHgaQJSPhkqPzH1ddG7VJ0aWqQ+EvOnxewev
-ktZ/jzoCfDUx1/0kc/F8HY5g8a7jjSkSK5e8Xaj6PR7bEOM3BuMWWktDVmrl9xVO/VD8fsXdF+mR
-Is5dA67JP7kV2cy32X7+05eJLdORDlJw4i21APRWznP1jgBi0G2/tYyjYGbr+JFfQAjycQaYXsyT
-Vux2gtVlmlm3gCPE6D3DPze7GDbWMW2urBZyCFR9+CPGRGe4ZBniw4JGL4poJCbTz6DT4t9E6kPr
-Mbw=
-=rKDi
------END PGP SIGNATURE-----
-
---------------maUWoRsPXczniKbRzx7qYboj--
+> ---
+> v2: Fix WERROR build failure by guarding unused variables
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index ef6c94cd852b..ce6929224a6e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -1387,8 +1387,6 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+>         return (ret == 0);
+>  }
+>
+> -#endif
+> -
+>  static unsigned int kbps_from_pbn(unsigned int pbn)
+>  {
+>         unsigned int kbps = pbn;
+> @@ -1416,17 +1414,19 @@ static bool is_dsc_common_config_possible(struct dc_stream_state *stream,
+>
+>         return bw_range->max_target_bpp_x16 && bw_range->min_target_bpp_x16;
+>  }
+> +#endif /* CONFIG_DRM_AMD_DC_DCN */
+>
+>  enum dc_status dm_dp_mst_is_port_support_mode(
+>         struct amdgpu_dm_connector *aconnector,
+>         struct dc_stream_state *stream)
+>  {
+> +       int bpp, pbn, branch_max_throughput_mps = 0;
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>         struct dc_link_settings cur_link_settings;
+>         unsigned int end_to_end_bw_in_kbps = 0;
+>         unsigned int upper_link_bw_in_kbps = 0, down_link_bw_in_kbps = 0;
+>         unsigned int max_compressed_bw_in_kbps = 0;
+>         struct dc_dsc_bw_range bw_range = {0};
+> -       int bpp, pbn, branch_max_throughput_mps = 0;
+>
+>         /*
+>          * check if the mode could be supported if DSC pass-through is supported
+> @@ -1461,13 +1461,16 @@ enum dc_status dm_dp_mst_is_port_support_mode(
+>                         return DC_FAIL_BANDWIDTH_VALIDATE;
+>                 }
+>         } else {
+> +#endif
+>                 /* check if mode could be supported within full_pbn */
+>                 bpp = convert_dc_color_depth_into_bpc(stream->timing.display_color_depth) * 3;
+>                 pbn = drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp, false);
+>
+>                 if (pbn > aconnector->port->full_pbn)
+>                         return DC_FAIL_BANDWIDTH_VALIDATE;
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>         }
+> +#endif
+>
+>         /* check is mst dsc output bandwidth branch_overall_throughput_0_mps */
+>         switch (stream->timing.pixel_encoding) {
+> --
+> 2.37.1
+>
