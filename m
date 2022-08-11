@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B27A5905D8
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 19:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38395905FC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 19:38:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB97D14AC16;
-	Thu, 11 Aug 2022 17:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5950F10E279;
+	Thu, 11 Aug 2022 17:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64D712A234
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 17:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660238830; x=1691774830;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9sI4oxnww2fiOkHy8m67wJBameA5pi7QXPxfqb0WHaI=;
- b=SoFHGOGXSCN+Q1paEBete6bVUOiwpmsTOlwqE7WFzFFsyM6RyUw7E4Q8
- roiB7p84f5w1cLuGZ9aGEACWtBe75fc/3HtVH26Gsw2MD2luwYy4d8wwL
- 4OHusK6q9CGRG/qU4XyvrpvjyctYRH85KRb62XuCBpmg6U5I12TlQtqCL
- y0sfAY7FRISeeddkExFzcT4C/A5EBUBvA7whzhvVvnn8wfhMungHZoh2u
- tGtV19dPakFGRE17MXl7V0p80Qbg9Og/8pe1QEzT9wcPg5WTQ4a8TRENc
- 8y/RX6jlH1q0phM0at+ILEWZVC1s+YKl7Vt522Mz7smQqLuBBCeHZzTVF Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="355417274"
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="355417274"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2022 10:27:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; d="scan'208";a="933406465"
-Received: from lkp-server02.sh.intel.com (HELO cfab306db114) ([10.239.97.151])
- by fmsmga005.fm.intel.com with ESMTP; 11 Aug 2022 10:26:59 -0700
-Received: from kbuild by cfab306db114 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oMBxS-0000SR-1J;
- Thu, 11 Aug 2022 17:26:58 +0000
-Date: Fri, 12 Aug 2022 01:26:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: oushixiong <oushixiong@kylinos.cn>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH] drm/ast: radeon amdgpu for ast add prime
-Message-ID: <202208120134.9nXiGv1Q-lkp@intel.com>
-References: <20220809114439.2063863-1-oushixiong@kylinos.cn>
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF6210E86B;
+ Thu, 11 Aug 2022 17:38:18 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id k12so29358572ybk.6;
+ Thu, 11 Aug 2022 10:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=+OaTTx4oKfd+EHTbl5rmEQCqRiCYo959iJOiqkKHNok=;
+ b=HeB+hPTiJ1uZaiTO/ANwYnKPfTZ9ZMXOV9MM63aIOh9DHNP7A5h2dND4zSDYTwwNJc
+ DbzipewVIURR6bWo/hcoL7NpVnIMllhIsAJE+Cskv9AQ7vSHQEuMX42oFjXpkUwJ3z76
+ se5z4IAAN2kbb5PlJVWqYVYSrLEAKWY4+eSpJ34RFmYXNDN3fu1wkmC2BpTEVgygrgor
+ 710Hunf3AFu150hTCgXWrJk5OF/dvvznrs6JY7JpLF24vvc2UFOsw7CC6lRcTH/G5q1I
+ PvkYg0xfBW7X7KH7Rdq/d9v+k13bOP6FcdXVK6j5vDv/f28js4CuJwdhKs3aQj4ihH6g
+ g1Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=+OaTTx4oKfd+EHTbl5rmEQCqRiCYo959iJOiqkKHNok=;
+ b=3f9WNBKmbRPcqVXF2r6UWR4qi7uKZC3XJeEHCckOxN6P4umzzn+ZPMvSua8g66ueDq
+ aROn4C08DwVogyZtdF4+xTW6XyWdIJmrtesD39CF7+HAqn5rPi7moIN0dEVcPsSQjVIO
+ 76VfdXOtajTrlfb/5XfcxJlCY+r70nc4lnQCVYT0dlu06sVW+XgiVmh8yF8eMLxP3AeL
+ wxrJFLyPBakTlIV7fde0uak3dZxQRJSpQoE/CHwnWV3/bcSkOTfFfb2Q9lXK2OHzqD1j
+ IhzOdzxB9wB9ULuw8VsmvsrT2p/3ykRYiK9i5ihTnYQbnVM7+sOFfbBRhrIK/xnUZK+L
+ uVCQ==
+X-Gm-Message-State: ACgBeo0Ez2kIvV2dQVNnYxEGJ5fUZfpNUa0hEG0y5ekyTPgVmegHoID2
+ Wab9xoR//aVX9sXLd2MvvRUkOlsoImp/rVK0i8Y=
+X-Google-Smtp-Source: AA6agR5k04ip0oNeMAM5/9PWslkduulNrUTTzhzoDjAL3q9yQnZ0ey9WtWfVfrYgoweBZiqNzvIuNVsdnVb6mprdvys=
+X-Received: by 2002:a25:ac92:0:b0:67b:ac46:5e43 with SMTP id
+ x18-20020a25ac92000000b0067bac465e43mr361354ybi.183.1660239497180; Thu, 11
+ Aug 2022 10:38:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220809114439.2063863-1-oushixiong@kylinos.cn>
+References: <YvU4GD8HtZ1A4dhI@debian>
+ <CADnq5_PwbwjmvvKedpZeeQHk7N+kawKpXywjNGqa=1jSKRcw0A@mail.gmail.com>
+In-Reply-To: <CADnq5_PwbwjmvvKedpZeeQHk7N+kawKpXywjNGqa=1jSKRcw0A@mail.gmail.com>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Thu, 11 Aug 2022 18:37:41 +0100
+Message-ID: <CADVatmN_TzJKdfM40BQPW=cRm5VxX=qAKxq2yW4P_xDN6=VoOA@mail.gmail.com>
+Subject: Re: build failure of next-20220811 due to b1a63a0b48ad
+ ("drm/amd/display: consider DSC pass-through during mode validation")
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,100 +65,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oushixiong <oushixiong@kylinos.cn>, kbuild-all@lists.01.org,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ linux-next <linux-next@vger.kernel.org>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi oushixiong,
+On Thu, Aug 11, 2022 at 6:16 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Thu, Aug 11, 2022 at 1:11 PM Sudip Mukherjee (Codethink)
+> <sudipm.mukherjee@gmail.com> wrote:
+> >
+> > Hi All,
+> >
+> > Not sure if it has been reported, builds of riscv, alpha, s390, arm,
+> > arm64, xtensa, mips, csky allmodconfig have failed to build next-20220811
+> > with the error:
+> >
+> > ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> > ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> >
+> > git bisect pointed to b1a63a0b48ad ("drm/amd/display: consider DSC pass-through during mode validation")
+> > And, reverting that commit has fixed the build failure.
+> >
+> > I will be happy to test any patch or provide any extra log if needed.
+>
+> https://patchwork.freedesktop.org/patch/497116/
 
-Thank you for the patch! Perhaps something to improve:
+Thanks, that has fixed this failure. But it has now caused these new
+errors resulting in a build failure.
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next linus/master v5.19 next-20220811]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong/drm-ast-radeon-amdgpu-for-ast-add-prime/20220811-115710
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: arm64-randconfig-r033-20220810 (https://download.01.org/0day-ci/archive/20220812/202208120134.9nXiGv1Q-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 5f1c7e2cc5a3c07cbc2412e851a7283c1841f520)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/1b9b79a00132f2917ca66bea714a6f21fc939b0f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review oushixiong/drm-ast-radeon-amdgpu-for-ast-add-prime/20220811-115710
-        git checkout 1b9b79a00132f2917ca66bea714a6f21fc939b0f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/ast/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/ast/ast_drv.c:54:24: warning: no previous prototype for function 'ast_gem_prime_import_sg_table' [-Wmissing-prototypes]
-   struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
-                          ^
-   drivers/gpu/drm/ast/ast_drv.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
-   ^
-   static 
-   1 warning generated.
---
->> drivers/gpu/drm/ast/ast_mode.c:1713:5: warning: no previous prototype for function 'ast_handle_damage' [-Wmissing-prototypes]
-   int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-       ^
-   drivers/gpu/drm/ast/ast_mode.c:1713:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-   ^
-   static 
->> drivers/gpu/drm/ast/ast_mode.c:1772:5: warning: no previous prototype for function 'ast_user_framebuffer_dirty' [-Wmissing-prototypes]
-   int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-       ^
-   drivers/gpu/drm/ast/ast_mode.c:1772:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-   ^
-   static 
->> drivers/gpu/drm/ast/ast_mode.c:1815:1: warning: no previous prototype for function 'ast_gem_fb_create_with_dirty' [-Wmissing-prototypes]
-   ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
-   ^
-   drivers/gpu/drm/ast/ast_mode.c:1814:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct drm_framebuffer *
-   ^
-   static 
-   3 warnings generated.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:
+In function 'dm_dp_mst_is_port_support_mode':
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:1427:32:
+error: unused variable 'bw_range' [-Werror=unused-variable]
+ 1427 |         struct dc_dsc_bw_range bw_range = {0};
+      |                                ^~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:1426:22:
+error: unused variable 'max_compressed_bw_in_kbps'
+[-Werror=unused-variable]
+ 1426 |         unsigned int max_compressed_bw_in_kbps = 0;
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:1425:49:
+error: unused variable 'down_link_bw_in_kbps'
+[-Werror=unused-variable]
+ 1425 |         unsigned int upper_link_bw_in_kbps = 0,
+down_link_bw_in_kbps = 0;
+      |                                                 ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:1425:22:
+error: unused variable 'upper_link_bw_in_kbps'
+[-Werror=unused-variable]
+ 1425 |         unsigned int upper_link_bw_in_kbps = 0,
+down_link_bw_in_kbps = 0;
+      |                      ^~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:1424:22:
+error: unused variable 'end_to_end_bw_in_kbps'
+[-Werror=unused-variable]
+ 1424 |         unsigned int end_to_end_bw_in_kbps = 0;
+      |                      ^~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:1423:33:
+error: unused variable 'cur_link_settings' [-Werror=unused-variable]
+ 1423 |         struct dc_link_settings cur_link_settings;
 
 
-vim +/ast_gem_prime_import_sg_table +54 drivers/gpu/drm/ast/ast_drv.c
-
-    53	
-  > 54	struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
-    55						struct dma_buf_attachment *attach,
-    56						struct sg_table *sg)
-    57	{
-    58		struct drm_gem_vram_object *gbo;
-    59		struct dma_resv *resv = attach->dmabuf->resv;
-    60	
-    61		ww_mutex_lock(&resv->lock, NULL);
-    62		gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0, sg, resv);
-    63		ww_mutex_unlock(&resv->lock);
-    64	
-    65		if (IS_ERR(gbo))
-    66			return NULL;
-    67	
-    68		return &gbo->bo.base;
-    69	}
-    70	
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards
+Sudip
