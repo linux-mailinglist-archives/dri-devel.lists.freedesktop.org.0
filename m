@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785C9590088
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A2059008B
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:44:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A3BB4699;
-	Thu, 11 Aug 2022 15:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB034B46D2;
+	Thu, 11 Aug 2022 15:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A089BB46A9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:44:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B29B468D;
+ Thu, 11 Aug 2022 15:44:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2DC29616E3;
- Thu, 11 Aug 2022 15:44:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD98EC433D6;
- Thu, 11 Aug 2022 15:43:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D2AF2616C6;
+ Thu, 11 Aug 2022 15:44:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E2BC433C1;
+ Thu, 11 Aug 2022 15:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660232641;
- bh=oWt4bHA0SKEbzA6rHRAU0Mg9sn9j7BULLOUuu1JNWrY=;
+ s=k20201202; t=1660232662;
+ bh=lNmtDLIAAiL3OFFYkzeWZzx9f+FhqJ2Knhh21WF6OUM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sbXkOZgNER6M/ag9mM8sml0QtIWR3lt9pkXDkY5Foyj97AUElHmkyHZT+ESI7QAy3
- ekpyOxiyojHStgNolhO3L4nDtqLcUVGxAG2yuLoLeiSwKvH+L1YzagEXvytvYhcDQU
- HPk2UUKa/6H9ukR2FCnfoRgIw5Hc6WzRBbiZ1F6hMwwWrrQRlxQ/Spgpm9nMzMfsRu
- ga8LiXzA4lkiXVykPnjy3Tb6e2CnKnnfqVDYk3Bg1VV9rMd+bzWl5AVmgu96LWQMB8
- MeEQdoFaXcIEzCIcu1gidBMvnQUOwMin2q7RpuWIK82kU2IlJLoY/Sr6V6qw9aWyhe
- ctvHO4U7vzqHQ==
+ b=UuN7KA5ay2FrIrO5TcUDrpAWmHzJO/bhZY2VbMMf3JRnLhFY8WkTa384OgWXX2oMp
+ ea8qp9sRAUkG3+3QKBwbUGYIErDm+yFzZM+shBg5IcqAORjnWZQo0evgAYturhzFMP
+ c+Io8L6fuX3AKd4vohWX9o8zDwgAUgZTxzjz1mem0mpjljdLpfv1f2UN3Cm5PzRGEC
+ emnjtFGN8VhVxwQ4ACr81ovTiBLXRjx62jKYRKuoAQOnRSG/OtVSrQ2efwn1MJzcbt
+ BaqExrvCLpIAXg7dHAwzYXGmetRhgGbERRLx+T8uF7f4a3Mh/6gWnvtHC2GFkDKLdc
+ eBsYkilhQvw+A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 13/93] drm/probe-helper: Default to 640x480 if no
- EDID on DP
-Date: Thu, 11 Aug 2022 11:41:07 -0400
-Message-Id: <20220811154237.1531313-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 16/93] drm/amd/display: Fix dpp dto for disabled
+ pipes
+Date: Thu, 11 Aug 2022 11:41:10 -0400
+Message-Id: <20220811154237.1531313-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811154237.1531313-1-sashal@kernel.org>
 References: <20220811154237.1531313-1-sashal@kernel.org>
@@ -56,89 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, airlied@linux.ie,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: airlied@linux.ie, Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
+ Yi-Ling.Chen2@amd.com, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ isabbasso@riseup.net, Jun.Lei@amd.com, Jimmy.Kizito@amd.com,
+ Sasha Levin <sashal@kernel.org>, gabe.teeger@amd.com, wenjing.liu@amd.com,
+ amd-gfx@lists.freedesktop.org, Jerry.Zuo@amd.com, sunpeng.li@amd.com,
+ Duncan Ma <duncan.ma@amd.com>, mwen@igalia.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Sungjoon.Kim@amd.com,
+ Hansen Dsouza <Hansen.Dsouza@amd.com>, Xinhui.Pan@amd.com,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Douglas Anderson <dianders@chromium.org>
+From: Duncan Ma <duncan.ma@amd.com>
 
-[ Upstream commit fae7d186403ee5a9375ec75938e0de99718e066a ]
+[ Upstream commit d4965c53b95d7533dfc2309d2fc25838bd33220e ]
 
-If we're unable to read the EDID for a display because it's corrupt /
-bogus / invalid then we'll add a set of standard modes for the
-display. Since we have no true information about the connected
-display, these modes are essentially guesses but better than nothing.
-At the moment, none of the modes returned is marked as preferred, but
-the modes are sorted such that the higher resolution modes are listed
-first.
+[Why]
+When switching from 1 pipe to 4to1 mpc combine,
+DppDtoClk aren't enabled for the disabled pipes
+pior to programming the pipes. Upon optimizing
+bandwidth, DppDto are enabled causing intermittent
+underflow.
 
-When userspace sees these modes presented by the kernel it needs to
-figure out which one to pick. At least one userspace, ChromeOS [1]
-seems to use the rules (which seem pretty reasonable):
-1. Try to pick the first mode marked as preferred.
-2. Try to pick the mode which matches the first detailed timing
-   descriptor in the EDID.
-3. If no modes were marked as preferred then pick the first mode.
+[How]
+Update dppclk dto whenever pipe are flagged to
+enable.
 
-Unfortunately, userspace's rules combined with what the kernel is
-doing causes us to fail section 4.2.2.6 (EDID Corruption Detection) of
-the DP 1.4a Link CTS. That test case says that, while it's OK to allow
-some implementation-specific fall-back modes if the EDID is bad that
-userspace should _default_ to 640x480.
-
-Let's fix this by marking 640x480 as default for DP in the no-EDID
-case.
-
-NOTES:
-- In the discussion around v3 of this patch [2] there was talk about
-  solving this in userspace and I even implemented a patch that would
-  have solved this for ChromeOS, but then the discussion turned back
-  to solving this in the kernel.
-- Also in the discussion of v3 [2] it was requested to limit this
-  change to just DP since folks were worried that it would break some
-  subtle corner case on VGA or HDMI.
-
-[1] https://source.chromium.org/chromium/chromium/src/+/a051f741d0a15caff2251301efe081c30e0f4a96:ui/ozone/platform/drm/common/drm_util.cc;l=488
-[2] https://lore.kernel.org/r/20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220601112302.v4.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid
+Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Reviewed-by: Hansen Dsouza <Hansen.Dsouza@amd.com>
+Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Duncan Ma <duncan.ma@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 682359512996..2c7902b16321 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -516,8 +516,17 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
- 		count = drm_add_override_edid_modes(connector);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+index b627c41713cc..76decaed5acd 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+@@ -1412,11 +1412,15 @@ static void dcn20_update_dchubp_dpp(
+ 	struct hubp *hubp = pipe_ctx->plane_res.hubp;
+ 	struct dpp *dpp = pipe_ctx->plane_res.dpp;
+ 	struct dc_plane_state *plane_state = pipe_ctx->plane_state;
++	struct dccg *dccg = dc->res_pool->dccg;
+ 	bool viewport_changed = false;
  
- 	if (count == 0 && (connector->status == connector_status_connected ||
--			   connector->status == connector_status_unknown))
-+			   connector->status == connector_status_unknown)) {
- 		count = drm_add_modes_noedid(connector, 1024, 768);
+ 	if (pipe_ctx->update_flags.bits.dppclk)
+ 		dpp->funcs->dpp_dppclk_control(dpp, false, true);
+ 
++	if (pipe_ctx->update_flags.bits.enable)
++		dccg->funcs->update_dpp_dto(dccg, dpp->inst, pipe_ctx->plane_res.bw.dppclk_khz);
 +
-+		/*
-+		 * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-+		 * Link CTS specifies that 640x480 (the official "failsafe"
-+		 * mode) needs to be the default if there's no EDID.
-+		 */
-+		if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-+			drm_set_preferred_mode(connector, 640, 480);
-+	}
- 	count += drm_helper_probe_add_cmdline_mode(connector);
- 	if (count == 0)
- 		goto prune;
+ 	/* TODO: Need input parameter to tell current DCHUB pipe tie to which OTG
+ 	 * VTG is within DCHUBBUB which is commond block share by each pipe HUBP.
+ 	 * VTG is 1:1 mapping with OTG. Each pipe HUBP will select which VTG
 -- 
 2.35.1
 
