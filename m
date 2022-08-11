@@ -1,58 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD7759063C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 20:26:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F8259063E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 20:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3321418A77A;
-	Thu, 11 Aug 2022 18:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111B318A059;
+	Thu, 11 Aug 2022 18:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE25310FEB4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 18:26:15 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id m2so17633623pls.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 11:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=DNRqJUO9qW+nOcXv54/BTKzSqJWHyKLs5RY2LsJLtKw=;
- b=xc0VQ/tXgJI3CNx3hHgICA6Z2jEuWQ/uwjKgyzakD9pvtgaib073alKdtAxe0Exz6L
- bCPUdYQlVzM/Nz34uuK70LSXiBfUUpNlWrLM04+G0Z/lyuj3csGesp6p/8HBaJt/ni7h
- dFQpnrFXf6UysrTohohxCGSYXB0YL5yavCBJVPNucgXlVuXS7kpF34mYcyi5hEgIvFVA
- cagr9VMwdF45mDJH4T6ptGgJj+Kdubuw1TKk4Myhx7t5Enjky8wMVggeTrTv0vs4s7j+
- XsXjpefcMOWDJuiFpemFXUieXEf/r9K3HvRTkfedaBD7pgZoaNs6uXO1W55AL8q5uOSd
- OVGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=DNRqJUO9qW+nOcXv54/BTKzSqJWHyKLs5RY2LsJLtKw=;
- b=bDCL7c9I+LvM8VJAsCymAqaFlQPgRklpuQoivRGngMGLgMGaSn/HfEdwxyH5J36D+h
- vwyaapExZ3ZnP3UD0smZTEYqCmgmcY5s1FoQvrZBSQyDzC6fEqJNLAsP2N1vL5HmM05r
- qqDdHGu01QsIZVb/0ROdzJ/Rh5b0X8+A5nUkyfojh57Gkp9sy2TqP63LvzWrlaQ+rQIh
- xsbNzVdV2Va+bwRX6wJPxVzu6VRWPzfx31zLmoUCzECPoz7QwTTUqoxkfQyqxYnOT3il
- 4h4UrEyzVoGOfzV827132ghOGzXMO1wr9NR4sV1v74skSUeXuUSPczdlmdwv8ZdezAS2
- 3O7A==
-X-Gm-Message-State: ACgBeo2Frubz5NYETR7Nbf/oSD3JhM5Lg2Ne4PdEKdPtM2clPHsBi72S
- +AxDOTdjkEZi675FwOqgcUzP2prC+A8ai2LKaJvseA==
-X-Google-Smtp-Source: AA6agR6E7weULEtj7kwVFvfsBwBE4Gop3xNBO3A8utdizicMa/BbTEIuAq5NU9tKxnYE47khriF2jMkXLkNBAs4yiHY=
-X-Received: by 2002:a17:903:120d:b0:171:4fa0:7b4a with SMTP id
- l13-20020a170903120d00b001714fa07b4amr381532plh.45.1660242375230; Thu, 11 Aug
- 2022 11:26:15 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C54B112DAD
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 18:27:45 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E2E165D033;
+ Thu, 11 Aug 2022 18:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660242463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mmhGtB6FXSZpLzfrvvfB9H7akA33XGJaU66I9ObAa3o=;
+ b=u1ivS7gURKRWmEt3SXvUEtkL3QdLoHAzWiVE2QsZ7n2EM5A+XqHTfpiVO/S7O+XfwbiPbg
+ VYUxJBj/nGIU9oF96DEipj+lUnsVElot/YVyoE/bnjjxbzy/0WBCpvL4f3l19UWrTEycRV
+ s/IotquVKESwOFjEXDjGgvikkznD81E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660242463;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mmhGtB6FXSZpLzfrvvfB9H7akA33XGJaU66I9ObAa3o=;
+ b=l404YYu47umALBgsxVPOPQ9jesQsx8So3N/7pQFVxNFq8BPMx5GXWep75aydnOZPHxG+Dn
+ Qkujjw9Ht72sCSAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C8BE1342A;
+ Thu, 11 Aug 2022 18:27:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KV8HHR9K9WIDbAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 Aug 2022 18:27:43 +0000
+Message-ID: <b22b363c-187b-0783-32ab-f9683af2e20a@suse.de>
+Date: Thu, 11 Aug 2022 20:27:42 +0200
 MIME-Version: 1.0
-References: <CADVatmN_TzJKdfM40BQPW=cRm5VxX=qAKxq2yW4P_xDN6=VoOA@mail.gmail.com>
- <20220811175759.1518840-1-hamza.mahfooz@amd.com>
-In-Reply-To: <20220811175759.1518840-1-hamza.mahfooz@amd.com>
-From: Anders Roxell <anders.roxell@linaro.org>
-Date: Thu, 11 Aug 2022 20:26:04 +0200
-Message-ID: <CADYN=9JgX6PVhes_9cbL4qFEjyiYhbpHMXTB-oEdn4j9Rz3tJA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/display: fix DSC related non-x86/PPC64
- compilation issue
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
+ set
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-5-tzimmermann@suse.de>
+ <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
+ <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
+ <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
+ <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
+ <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
+In-Reply-To: <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------LSZZYhOrrqcsK5J9MO0ldbZw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,94 +76,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>,
- dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Paul Mackerras <paulus@samba.org>, Michal Suchanek <msuchanek@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Aug 2022 at 20:00, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
->
-> Need to protect DSC code with CONFIG_DRM_AMD_DC_DCN.
-> Fixes the following build errors on arm64:
-> ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-> ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->
-> Fixes: 0087990a9f57 ("drm/amd/display: consider DSC pass-through during mode validation")
-> Reported-by: Anders Roxell <anders.roxell@linaro.org>
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------LSZZYhOrrqcsK5J9MO0ldbZw
+Content-Type: multipart/mixed; boundary="------------w8q008snlhRGhtZ4sZOSVr2W";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, David Airlie <airlied@linux.ie>,
+ Helge Deller <deller@gmx.de>, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>, Michal Suchanek <msuchanek@suse.de>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Message-ID: <b22b363c-187b-0783-32ab-f9683af2e20a@suse.de>
+Subject: Re: [PATCH v2 04/10] drm/simpledrm: Compute framebuffer stride if not
+ set
+References: <20220720142732.32041-1-tzimmermann@suse.de>
+ <20220720142732.32041-5-tzimmermann@suse.de>
+ <CAMuHMdWEah62Ho4C8NQr-qwz62pKQiJiTi8Fa4KcXNRzo7ySJA@mail.gmail.com>
+ <4a7c2c1d-2bf9-84e7-9257-41fcfd66ab9d@redhat.com>
+ <20f4e5e6-2ff2-af21-1f85-70a545d147bc@suse.de>
+ <CAKMK7uGr_SbHAm7r5VNWgpM2cPMFYpCmyE_Aq8TYc84rOAtJpA@mail.gmail.com>
+ <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
+In-Reply-To: <33ce5744-5d41-2501-6105-2585529820d2@suse.de>
 
-Thank you for the quick fix.
+--------------w8q008snlhRGhtZ4sZOSVr2W
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Tested-by: Anders Roxell <anders.roxell@linaro.org>
+DQoNCkFtIDExLjA4LjIyIHVtIDIwOjI2IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+
+IEhpIERhbmllbA0KPiANCj4gQW0gMTEuMDguMjIgdW0gMTk6MjMgc2NocmllYiBEYW5pZWwg
+VmV0dGVyOg0KPj4gT24gV2VkLCAyNyBKdWwgMjAyMiBhdCAwOTo1MywgVGhvbWFzIFppbW1l
+cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IA0KPj4gd3JvdGU6DQo+Pj4NCj4+PiBIaQ0K
+Pj4+DQo+Pj4gQW0gMjUuMDcuMjIgdW0gMTc6MTMgc2NocmllYiBKYXZpZXIgTWFydGluZXog
+Q2FuaWxsYXM6DQo+Pj4+IEhlbGxvIEdlZXJ0LA0KPj4+Pg0KPj4+PiBPbiA3LzIxLzIyIDE2
+OjQ2LCBHZWVydCBVeXR0ZXJob2V2ZW4gd3JvdGU6DQo+Pj4+PiBIaSBUaG9tYXMsDQo+Pj4+
+Pg0KPj4+Pj4gT24gV2VkLCBKdWwgMjAsIDIwMjIgYXQgNDoyNyBQTSBUaG9tYXMgWmltbWVy
+bWFubiANCj4+Pj4+IDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+Pj4+PiBDb21w
+dXRlIHRoZSBmcmFtZWJ1ZmZlcidzIHNjYW5saW5lIHN0cmlkZSBsZW5ndGggaWYgbm90IGdp
+dmVuIGJ5DQo+Pj4+Pj4gdGhlIHNpbXBsZWZiIGRhdGEuDQo+Pj4+Pj4NCj4+Pj4+PiBTaWdu
+ZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+
+Pj4+DQo+Pj4+PiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+Pj4+Pg0KPj4+Pj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+Pj4+Pj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+Pj4+PiBAQCAtNzQzLDYgKzc0Myw5IEBA
+IHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSANCj4+Pj4+PiAqc2ltcGxlZHJtX2Rl
+dmljZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4+Pj4+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9lcnIoZGV2LCAibm8gc2ltcGxlZmIgY29u
+ZmlndXJhdGlvbiBmb3VuZFxuIik7DQo+Pj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCByZXR1cm4gRVJSX1BUUigtRU5PREVWKTsNCj4+Pj4+PiDCoMKgwqDCoMKg
+wqDCoMKgwqAgfQ0KPj4+Pj4+ICvCoMKgwqDCoMKgwqAgaWYgKCFzdHJpZGUpDQo+Pj4+Pj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RyaWRlID0gZm9ybWF0LT5jcHBbMF0g
+KiB3aWR0aDsNCj4+Pj4+DQo+Pj4+PiBESVZfUk9VTkRfVVAoZHJtX2Zvcm1hdF9pbmZvX2Jw
+cChmb3JtYXQpICogd2lkdGgsIDgpDQo+Pj4+Pg0KPj4+Pg0KPj4+PiBJIHRoaW5rIHlvdSBt
+ZWFudCBoZXJlOg0KPj4+Pg0KPj4+PiBESVZfUk9VTkRfVVAoZHJtX2Zvcm1hdF9pbmZvX2Jw
+cChmb3JtYXQsIDApICogd2lkdGgsIDgpID8NCj4+Pg0KPj4+IEkgZ3Vlc3MsIHRoYXQncyB0
+aGUgcmlnaHQgZnVuY3Rpb24uIE15IG9yaWdpbmFsIGNvZGUgaXMgY29ycmVjdCwgYnV0IGNw
+cA0KPj4+IGlzIGFsc28gZGVwcmVjYXRlZC4NCj4+DQo+PiBZb3UgYWxsIG1lYW4gZHJtX2Zv
+cm1hdF9pbmZvX21pbl9waXRjaCgpLg0KPiANCj4gVGhhbmtzIGEgbG90LiBJIHdhc24ndCBl
+dmVuIGF3YXJlIG9mIHRoaXMgZnVuY3Rpb24sIGJ1dCBJIGhhZCBhbG1vc3QgDQo+IHdyaXR0
+ZW4gbXkgb3duIGltcGxlbWVudGF0aW9uIG9mIGl0LsKgIEknbGwgdXBkYXRlIHRoZSBwYXRj
+aCBhY2NvcmRpbmdseS4NCg0KQXJnaGgsIHRvbyBsYXRlLiBJIG1lcmdlZCB0aGF0IHBhdGNo
+IGFscmVhZHkuDQoNCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMNCj4gDQo+Pg0KPj4g
+SSByZWFsbHkgZG9uJ3Qgd2FudCBkcml2ZXJzIHRvIGdvIGdyYWIgYW55IG9mIHRoZSBsZWdh
+Y3kgZm9ybWF0IGluZm8NCj4+IGZpZWxkcyBsaWtlIGJwcCBvciBkZXB0aC4gc3dpdGNoKCkg
+c3RhdGVtZW50cyBvbiB0aGUgZm91cmNjIGNvZGUgZm9yDQo+PiBwcm9ncmFtbWluZyByZWdp
+c3RlcnMsIG9yIG9uZSBvZiB0aGUgcmVhbCBoZWxwZXIgZnVuY3Rpb25zIGluDQo+PiBkcm1f
+Zm91cmNjLmMgKHRoZXJlIG1pZ2h0IGJlIHNvbWUgZ2FwcyksIGJ1dCBub3QgZXZlciBnb2lu
+ZyB0aHJvdWdoDQo+PiBsZWdhY3kgY29uY2VwdHMuIEFueXRoaW5nIGVsc2UganVzdCBsZWFk
+cyB0byBzdWJ0bGUgYnVncyB3aGVuIG5ldw0KPj4gZm9ybWF0cyBnZXQgYWRkZWQgYW5kIG9v
+cHMgc3VkZGVubHkgdGhlIGFzc3VtcHRpb25zIGRvbid0IGhvbGQuDQo+Pg0KPj4gVGhvc2Ug
+c2hvdWxkIGJlIHN0cmljdGx5IGxpbWl0ZWQgdG8gbGVnYWN5IChpLmUuIG5vdCBkcm1fZm91
+cmNjIGF3YXJlKQ0KPj4gaW50ZXJmYWNlcy4gSGVjayBJIHRoaW5rIGV2ZW4gZmJkZXYgZW11
+bGF0aW9uIHNob3VsZCBjb21wbGV0ZWx5IHN3aXRjaA0KPj4gb3ZlciB0byBkcm1fZm91cmNj
+L2RybV9mb3JtYXRfaW5mbywgYnV0IGFsYXMgdGhhdCdzIGEgcGlsZSBvZiB3b3JrIGFuZA0K
+Pj4gbm90IG11Y2ggcGF5b2ZmLg0KPj4NCj4+IEknbSB0cnlpbmcgdG8gdm9sdW50ZWVyIFNh
+bWUgdG8gYWRkIGEgbGVnYWN5X2JwcCB0YWcgdG8gdGhlIGFib3ZlDQo+PiBoZWxwZXIgYW5k
+IGFwcHJvcHJpYXRlbHkgbGltaXQgaXQsIEkgdGhpbmsgbGltaXRpbmcgdG8gZm9ybWF0cyB3
+aXRoDQo+PiBkZXB0aCE9MCBpcyBwcm9iYWJseSB0aGUgcmlnaHQgdGhpbmcuIEFuZCB0aGVu
+IHdlIHNob3VsZCBwcm9iYWJseQ0KPj4gcmVtb3ZlIGEgcGlsZSBvZiB0aGUgY2FyZ28tY3Vs
+dGVkIGRlcHRoIT0wIGVudHJpZXMgdG9vLg0KPj4gLURhbmllbA0KPj4NCj4+Pg0KPj4+IEJl
+c3QgcmVnYXJkcw0KPj4+IFRob21hcw0KPj4+DQo+Pj4+DQo+Pj4+IFdpdGggdGhhdCBjaGFu
+Z2UsDQo+Pj4+DQo+Pj4+IEFja2VkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGph
+dmllcm1AcmVkaGF0LmNvbT4NCj4+Pj4NCj4+Pg0KPj4+IC0tIA0KPj4+IFRob21hcyBaaW1t
+ZXJtYW5uDQo+Pj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KPj4+IFNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KPj4+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
+vHJuYmVyZywgR2VybWFueQ0KPj4+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCj4+PiBH
+ZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo+Pg0KPj4NCj4+DQo+IA0KDQotLSANClRo
+b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
+vGhyZXI6IEl2byBUb3Rldg0K
 
-Cheers,
-Anders
+--------------w8q008snlhRGhtZ4sZOSVr2W--
 
-> ---
-> v2: Fix WERROR build failure by guarding unused variables
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index ef6c94cd852b..ce6929224a6e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -1387,8 +1387,6 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
->         return (ret == 0);
->  }
->
-> -#endif
-> -
->  static unsigned int kbps_from_pbn(unsigned int pbn)
->  {
->         unsigned int kbps = pbn;
-> @@ -1416,17 +1414,19 @@ static bool is_dsc_common_config_possible(struct dc_stream_state *stream,
->
->         return bw_range->max_target_bpp_x16 && bw_range->min_target_bpp_x16;
->  }
-> +#endif /* CONFIG_DRM_AMD_DC_DCN */
->
->  enum dc_status dm_dp_mst_is_port_support_mode(
->         struct amdgpu_dm_connector *aconnector,
->         struct dc_stream_state *stream)
->  {
-> +       int bpp, pbn, branch_max_throughput_mps = 0;
-> +#if defined(CONFIG_DRM_AMD_DC_DCN)
->         struct dc_link_settings cur_link_settings;
->         unsigned int end_to_end_bw_in_kbps = 0;
->         unsigned int upper_link_bw_in_kbps = 0, down_link_bw_in_kbps = 0;
->         unsigned int max_compressed_bw_in_kbps = 0;
->         struct dc_dsc_bw_range bw_range = {0};
-> -       int bpp, pbn, branch_max_throughput_mps = 0;
->
->         /*
->          * check if the mode could be supported if DSC pass-through is supported
-> @@ -1461,13 +1461,16 @@ enum dc_status dm_dp_mst_is_port_support_mode(
->                         return DC_FAIL_BANDWIDTH_VALIDATE;
->                 }
->         } else {
-> +#endif
->                 /* check if mode could be supported within full_pbn */
->                 bpp = convert_dc_color_depth_into_bpc(stream->timing.display_color_depth) * 3;
->                 pbn = drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp, false);
->
->                 if (pbn > aconnector->port->full_pbn)
->                         return DC_FAIL_BANDWIDTH_VALIDATE;
-> +#if defined(CONFIG_DRM_AMD_DC_DCN)
->         }
-> +#endif
->
->         /* check is mst dsc output bandwidth branch_overall_throughput_0_mps */
->         switch (stream->timing.pixel_encoding) {
-> --
-> 2.37.1
->
+--------------LSZZYhOrrqcsK5J9MO0ldbZw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmL1Sh8FAwAAAAAACgkQlh/E3EQov+D6
+4xAAsJryU49DynqjRGt9N/fzFXv0iDF/YcwezcE5z4p5vpSXpAYKL352fTnb7AHgWe6+wGHTgO0E
+ZCD+47CYuUT0DZQsXpKq86Z1b9AfGtq9w0+GJmwmleYur3btaIvKhp4jHGElC5l+Q/QaYjJ+6nFQ
+0Lb4ikSeoNB6eK9R7sG2i40nM2kiYi/NiGX7mNn3wr0hPDc9SkE37UxBfxq8m1G/Ze85DrYfP8L9
+9xfgdjriZUlRI/xTISWd/hxjigXhJC+ah9V08/weF4sCXDzVV2chbYVYOZj0zb0RjNjWa6LijvJb
+0JN4CMGiG8yO3uYZPDhxq2LLnSXuY9sdrB7oo5ahchYswy5fNgjL8wEPXmYxA/lKCS/iekyJgxkK
+Whod+K8GmnNhKRpu7CD9Ndl+Swln0LuuVYDZ90yCL94/9RZ1r17lm4V5GKJXedfsS1hcvRORvStq
+rsLEZvq9XO1INJtZLBa+x7nyCFHGarrDzMiVG7FLy4D6hZkeBLWtJIzOBKddXEkrmOyRJBq9Vbsh
+R7ei0TWBxozp4PkvPzvUuuSUae4T/dTc/9PWrv/zqmmx3UpRaSEbnQSDii8eH3q6VDx9jmUh+i1P
+r+5b1799hnkVpWdGN1eMWT9xxTqnjLpSsntj3IKTKEaeZ/tg/+kISy1G24jypqRDpuqW2jMSEv/E
+i4A=
+=1ZG4
+-----END PGP SIGNATURE-----
+
+--------------LSZZYhOrrqcsK5J9MO0ldbZw--
