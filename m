@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEDA58F8A7
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 09:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF4658F8B5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 10:00:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3497612B8DE;
-	Thu, 11 Aug 2022 07:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD9039A6BE;
+	Thu, 11 Aug 2022 08:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C607F10F3A5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 07:56:09 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id x10so916099ljq.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 00:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=HGD+mIOoUzZZibF46I+q3hJDknL0evsBnB4j8896RDE=;
- b=w2Ve8pp7kpZ5uxP6kONzTfBLYo+GLlwLTI7YboNcnwSUyzMvCwh29zN6fAO49uGDiN
- 2VkGvu5lb5NoOGvCo9WLrxVNL2kkhkZIqJy4urwI/xgg+7eImhMqGsWALOoMnzCuQr5a
- bKphNe9iQ97fbwjNLqIGNqLFqimYiYA4/dLFxdeNGB77EkbPI0c/rV9Hivs6Z4wDlomk
- mQ/HBLn/W6xohgtVK02g79ptUnDbrLrzhBlbmIFRD9MiGsm31GZQ1IOFu1mw95/Nafxo
- H+2XTOYXnTJd9XCIgwRairgOHXj4qxGE/iMLiBsmwycAmo1lOFjZ/OQyThUyS/wqO6Gi
- L1Vw==
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F17197E91
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 07:59:54 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id j11so12748016qvt.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 00:59:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=HGD+mIOoUzZZibF46I+q3hJDknL0evsBnB4j8896RDE=;
- b=7V1ZDO+SumGw1gCiTVNirxx3ivUlI8bt7qdj9/K4zVBnecqwUxP1Z/QSZIhW0stRQQ
- RqNlKvjSMXRxWrMquYf3Ctz3DScoFjoWSrzCN8ATuVbfE5chihX8f6X7ng9l/DREtqaK
- +Fepa5UhN+hM80sf6cRj3m5uoKYwr/K3lJOzAuL+vWW88vDpViDZZLWn5EleReyhmYZF
- ydl5gmnGUtjfmc2savM7IuybgsmmGKNlJpZ23iXJoLsuT1UhHBJRBLym9H8zdKFP5HXl
- qPra8+TF/myKno4yhq+QPuxqe6kZ4c3CE9MpEsv9SxOAtpXxGTju908g9GiRsonQFIwa
- /YHQ==
-X-Gm-Message-State: ACgBeo2sz0IrSIJVCYnTvyyKdbn/rVXnLEKhbbhABWiUMD8xUPI6saG2
- p3fvqgLvvQZq8oi6l9ajhuH8fw==
-X-Google-Smtp-Source: AA6agR4c8fIm9+sSNAAoQ/CG7qvl6RSg1/y9svFJ1Yzku00jo7ICQImd2/4B1MH6UMreW6bzwNBm1A==
-X-Received: by 2002:a05:651c:241:b0:25e:65bd:3a8a with SMTP id
- x1-20020a05651c024100b0025e65bd3a8amr10308517ljn.206.1660204567994; 
- Thu, 11 Aug 2022 00:56:07 -0700 (PDT)
-Received: from [192.168.1.39] ([83.146.140.105])
- by smtp.gmail.com with ESMTPSA id
- j2-20020a056512398200b0048b008844b8sm607407lfu.270.2022.08.11.00.56.06
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Mzt9xiZn2UZTlTKHVMvt4CFBZHRE5sVzzM2CBT3iHn0=;
+ b=WpoBdEUl3RgAbX2Bl56+7tQ5/ALMjPv7/qlfYR1KeBWb3K3uncQKvsfa/YXzzVS/CV
+ 4REC8nr+LMtT2HmlXa7EbRzW3TA9RQKYHmxixM0slg9t3F8UZvBtcWct3SHHlc/5MjiH
+ sJJYPE/0IvJ+zLgmOCRahJTbAFGPnUoMv4VyKfJepEuG47f67MwLg8WkMMYz/NesIIMl
+ 8t710PiLIZeUbe6sj0bhhQwk3reXR1TQ3wi5rjBfHE1212IHHNQrGla7wnWjwBobOv9N
+ tYgT8XYgfC8zJAc9KfulYh/UZO42eUcSNO18lCgMJ4ojCvwyhDq/y5TkY7n891Y5ntnH
+ TrnQ==
+X-Gm-Message-State: ACgBeo3xx2x8SdD3555kJ2idCmy6wOOPOlg0ZAH6hHTeC4eart4QYwXR
+ wGAKiZM+0P13PLaUtJoyWkc25ZDodZyGDC0W
+X-Google-Smtp-Source: AA6agR4+/CygjLahcwK3hNnG9d5Jf76xNY+i4yo4Ynn0pVp+XAd4iJaxg3+zc740PaOGpgQJaQs2vg==
+X-Received: by 2002:ad4:4ea1:0:b0:474:8090:5cd2 with SMTP id
+ ed1-20020ad44ea1000000b0047480905cd2mr26772770qvb.105.1660204792736; 
+ Thu, 11 Aug 2022 00:59:52 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
+ [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
+ l1-20020a05620a28c100b006b998b5191esm1617221qkp.87.2022.08.11.00.59.51
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Aug 2022 00:56:07 -0700 (PDT)
-Message-ID: <db9b74f9-1f65-5b88-1c81-0a3fd6dcf9a6@linaro.org>
-Date: Thu, 11 Aug 2022 10:56:06 +0300
+ Thu, 11 Aug 2022 00:59:51 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-324ec5a9e97so165163227b3.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 00:59:51 -0700 (PDT)
+X-Received: by 2002:a81:b049:0:b0:324:7408:94b with SMTP id
+ x9-20020a81b049000000b003247408094bmr31043465ywk.283.1660204791329; Thu, 11
+ Aug 2022 00:59:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/3] dt-bindings: display/msm: Add binding for SC8280XP
- MDSS
-Content-Language: en-US
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220811040121.3775613-1-bjorn.andersson@linaro.org>
- <20220811040121.3775613-2-bjorn.andersson@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220811040121.3775613-2-bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1657294931.git.geert@linux-m68k.org>
+ <1cae5ebc28513ec1c91c66b00647ce3ca23bfba7.1657294931.git.geert@linux-m68k.org>
+ <YvPVxy4kYKdzWgT8@phenom.ffwll.local>
+In-Reply-To: <YvPVxy4kYKdzWgT8@phenom.ffwll.local>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Aug 2022 09:59:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVMuuXgYW-AkyB+G77Wsjkm715u1ifDvaY=5DufXjryRA@mail.gmail.com>
+Message-ID: <CAMuHMdVMuuXgYW-AkyB+G77Wsjkm715u1ifDvaY=5DufXjryRA@mail.gmail.com>
+Subject: Re: [PATCH v3 01/10] drm/fourcc: Add drm_format_info_bpp() helper
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,140 +68,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/08/2022 07:01, Bjorn Andersson wrote:
-> Add binding for the display subsystem and display processing unit in the
-> Qualcomm SC8280XP platform.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  .../bindings/display/msm/dpu-sc8280xp.yaml    | 284 ++++++++++++++++++
->  1 file changed, 284 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.yaml
-> new file mode 100644
-> index 000000000000..6c25943e639c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu-sc8280xp.yaml
+Hi Daniel,
 
-qcom prefix is needed (also when file is in msm subdir)
+On Wed, Aug 10, 2022 at 5:59 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Fri, Jul 08, 2022 at 08:20:46PM +0200, Geert Uytterhoeven wrote:
+> > Add a helper to retrieve the actual number of bits per pixel for a
+> > plane, taking into account the number of characters and pixels per
+> > block for tiled formats.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-The file name should be based on compatible, so "qcom,sc8280xp-mdss.yaml"
+> > --- a/drivers/gpu/drm/drm_fourcc.c
+> > +++ b/drivers/gpu/drm/drm_fourcc.c
+> > @@ -370,6 +370,25 @@ unsigned int drm_format_info_block_height(const struct drm_format_info *info,
+> >  }
+> >  EXPORT_SYMBOL(drm_format_info_block_height);
+> >
+> > +/**
+> > + * drm_format_info_bpp - number of bits per pixel
+> > + * @info: pixel format info
+> > + * @plane: plane index
+> > + *
+> > + * Returns:
+> > + * The actual number of bits per pixel, depending on the plane index.
+> > + */
+> > +unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
+> > +{
+> > +     if (!info || plane < 0 || plane >= info->num_planes)
+> > +             return 0;
+> > +
+> > +     return info->char_per_block[plane] * 8 /
+> > +            (drm_format_info_block_width(info, plane) *
+> > +             drm_format_info_block_height(info, plane));
+>
+> Do we really needs this for blocky formats where this is potentially
+> ill-defined? I think if there's no need then this should also return 0
+> when block_width/height != 1, it doesn't make much sense to compute bpp
+> when it's not really bits per _pixel_.
 
-> @@ -0,0 +1,284 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/dpu-sc8280xp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Display Processing Unit for SC8280XP
-> +
-> +maintainers:
-> +  - Bjorn Andersson <bjorn.andersson@linaro.org>
-> +
-> +description:
-> +  Device tree bindings for MSM Mobile Display Subsystem (MDSS) that encapsulates
-> +  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
-> +  bindings of MDSS and DPU are mentioned for SC8280XP.
+Yes, we do need this.  For low-color formats, the number of bits
+per pixel is less than eight, and block_width is larger than one.
+That is actually the point of this patch.
 
-s/Device tree bindings//
-so just:
+> Minimally this needs to check whether the division actually makes sense or
+> whether there's a reminder, and if there's  reminder, then fail. But that
+> feels like a bad hack and I think we should avoid it if it's not
+> absolutely necessary.
 
-SC8280XP MSM Mobile Display Subsystem (MDSS) that encapsulates
-sub-blocks like DPU display controller, DSI and DP interfaces etc.
+Looking at drivers/gpu/drm/drm_fourcc.c, the only supported format
+where there can be a remainder is P030, which has 2 spare bits per
+32-bit word, and thus is special anyway.
+Still, 4 * 8 / 3 = 10, so you get the correct numbers of bits for
+the first plane.  For the second plane, you get 8 * 8 / 3 = 21,
+but as .is_yuv = true, you have to divide that result by two again,
+so you get 10 again.
 
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,sc8280xp-mdss
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reg-names:
-> +    const: mdss
+Gr{oetje,eeting}s,
 
-You do not need reg names for one item, especially if the name is kind
-of obvious... unless you re-use existing driver which needs it? Then
-maybe let's change the driver to take first element?
+                        Geert
 
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Display AHB clock from gcc
-> +      - description: Display AHB clock from dispcc
-> +      - description: Display core clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iface
-> +      - const: ahb
-> +      - const: core
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  "#address-cells": true
-> +
-> +  "#size-cells": true
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I see other DPU bindings also specify both as "true". Why not a fixed
-number (const)?
-
-> +
-> +  "#interrupt-cells":
-> +    const: 1
-> +
-> +  iommus:
-> +    items:
-> +      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
-> +
-> +  ranges: true
-> +
-> +  interconnects:
-> +    minItems: 2
-
-No need for minItems in such case.
-
-> +    maxItems: 2
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: mdp0-mem
-> +      - const: mdp1-mem
-> +
-> +  resets:
-> +    items:
-> +      - description: MDSS_CORE reset
-> +
-> +patternProperties:
-> +  "^display-controller@[0-9a-f]+$":
-> +    type: object
-> +    description: Node containing the properties of DPU.
-
-additionalProperties:false on this level
-
-which will point to missing properties (e.g. opp-table)
-
-> +
-> +    properties:
-> +      compatible:
-> +        const: qcom,sc8280xp-dpu
-> +
-
-
-Best regards,
-Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
