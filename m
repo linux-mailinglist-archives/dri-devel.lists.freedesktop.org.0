@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E578590067
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:43:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D4659005F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44A5E99D9B;
-	Thu, 11 Aug 2022 15:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B253B3B90;
+	Thu, 11 Aug 2022 15:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB17B467A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:43:09 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B90A10F42B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:43:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F33DE616D2;
- Thu, 11 Aug 2022 15:43:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04432C433C1;
- Thu, 11 Aug 2022 15:43:06 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 18BE8B82150;
+ Thu, 11 Aug 2022 15:43:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1189C433D7;
+ Thu, 11 Aug 2022 15:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660232588;
- bh=uhGj3sXlMWLnhbKS7l+x7ghdxc5RdmKGvX75RnpZqJA=;
+ s=k20201202; t=1660232590;
+ bh=9Ueg5z2RmYuHVN12Ymoa2nwN1mbLVrlL9TUmV9jv+48=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vIZ1oA47+eTHO37PzRSKLX+vOBUL0PjBXEsGtZumgQmCI8vawUb5pLqVgLbOCOD1a
- qqinRnmH302lUpxlFfbaGFej+JNOuAFoHq6LUyVkrKe/wAg/GU8aI5rttTky2yJJVm
- VkgOZ4fta/YwRlW3GfGJX5MXx7gPqPnK1d21LL00UmSWflsoTJfPNVU27wjigD8POy
- IK8joVpaTwzH9XW4s3G0lDT3Gmt3BVOUcLyrKrTRmKjbe6he8Ql5BhkxaaoWGHKmDq
- 80TQjDD3IcQm+L/BKUgYVCwDuSfspfYYjyQtEyVIw8weQBCg+fb/aQBUjnW5RXCZ8l
- ZQVGbZiNK/1Rg==
+ b=V5+JYZwH6klAmtNEzhbrmoxpRTccxNjO4AmiB/HEWd/00FC7vsdgHeK+CoOrELMeE
+ 0C9NNdXpKureLvEN9nUS/MV7N7bWova9JYU87q9MOyzoJ5JTmdqUTVZwqQ+ybKRuN9
+ 0RmlAAHRhUpncT8p0f6TzqgCxungxIeLYDI9msDmc34daDTOvHE5NlcOSD3UM9Cscu
+ n4OYecpVpCOMoNntM6BXA+GdVfc1+P5NpoQ13iyzLh99Q5K0YtqAD0UzhAZqfN227K
+ 5hW6V7t1gBWonmv/JaFJ5wXF1ufXEIgcFSQ+KAmqM5dSO1S1/CLrmChEhRUYJ01WLz
+ MS7gt7TYhEKGg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 07/93] drm/panfrost: Don't set L2_MMU_CONFIG
- quirks
-Date: Thu, 11 Aug 2022 11:41:01 -0400
-Message-Id: <20220811154237.1531313-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 08/93] drm/panfrost: Add arm,
+ mali-valhall-jm compatible
+Date: Thu, 11 Aug 2022 11:41:02 -0400
+Message-Id: <20220811154237.1531313-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811154237.1531313-1-sashal@kernel.org>
 References: <20220811154237.1531313-1-sashal@kernel.org>
@@ -64,59 +64,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 
-[ Upstream commit d8e53d8a4e0ae842ef5e83e0dfb0796980f710cf ]
+[ Upstream commit 952cd974509251d6b5074bc3677b8297826a6ef1 ]
 
-L2_MMU_CONFIG is an implementation-defined register. Different Mali GPUs
-define slightly different MAX_READS and MAX_WRITES fields, which
-throttle outstanding reads and writes when set to non-zero values. When
-left as zero, reads and writes are not throttled.
+The most important Valhall-specific quirks have been handled, so add the
+Valhall compatible and probe.
 
-Both kbase and panfrost always zero these registers. Per discussion with
-Steven Price, there are two reasons these quirks may be used:
+v2: Use arm,mali-valhall-jm compatible.
 
-1. Simulating slower memory subsystems. This use case is only of
-   interest to system-on-chip designers; it is not relevant to mainline.
-
-2. Working around broken memory subsystems. Hopefully we never see this
-   case in mainline. If we do, we'll need to set this register based on
-   an SoC-compatible, rather than generally matching on the GPU model.
-
-To the best of our knowledge, these fields are zero at reset, so the
-write is not necessary. Let's remove the write to aid porting to new
-Mali GPUs, which have different layouts for the L2_MMU_CONFIG register.
-
-Suggested-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220525145754.25866-8-alyssa.rosenzweig@collabora.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20220525145754.25866-10-alyssa.rosenzweig@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panfrost/panfrost_gpu.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 295bef27fb55..e1a6e763d0dc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -127,18 +127,6 @@ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
- 	gpu_write(pfdev, GPU_TILER_CONFIG, quirks);
- 
- 
--	quirks = gpu_read(pfdev, GPU_L2_MMU_CONFIG);
--
--	/* Limit read & write ID width for AXI */
--	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG))
--		quirks &= ~(L2_MMU_CONFIG_3BIT_LIMIT_EXTERNAL_READS |
--			    L2_MMU_CONFIG_3BIT_LIMIT_EXTERNAL_WRITES);
--	else
--		quirks &= ~(L2_MMU_CONFIG_LIMIT_EXTERNAL_READS |
--			    L2_MMU_CONFIG_LIMIT_EXTERNAL_WRITES);
--
--	gpu_write(pfdev, GPU_L2_MMU_CONFIG, quirks);
--
- 	quirks = 0;
- 	if ((panfrost_model_eq(pfdev, 0x860) || panfrost_model_eq(pfdev, 0x880)) &&
- 	    pfdev->features.revision >= 0x2000)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 601e124842e1..c1260532f003 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -664,6 +664,7 @@ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "arm,mali-t860", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t880", .data = &default_data, },
+ 	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
++	{ .compatible = "arm,mali-valhall-jm", .data = &default_data, },
+ 	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
+ 	{}
+ };
 -- 
 2.35.1
 
