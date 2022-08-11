@@ -1,72 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BA65908D2
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 00:58:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4150A590907
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 01:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2369D926B9;
-	Thu, 11 Aug 2022 22:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9588E7D0;
+	Thu, 11 Aug 2022 23:17:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 723708BD92;
- Thu, 11 Aug 2022 22:58:04 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BMchoS031684;
- Thu, 11 Aug 2022 22:57:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=xVaFdP9YnOOfriV34XRVwBTP9uPK6xLsJxnZttySgp0=;
- b=oeu/aKkxLtUQvQYQ4o6jisW4HurkfJfdS4RXweNCuHISSsQ+TyENYQja+nQexZNTuw2U
- g4cSbe2fAU+B9wSz3Yju2CAMAf3WofmUmgQdf7r8vuAPlHNzbWYvcFtXSazDOmbEKPai
- lVG9TYMqxtn2H2eT4OquJj45SvMezCElxckdgfNuzW5+LBI2aR4Us47HfMbWpfukIHI1
- TxQt3Q6O/PhMMv2YG7el3MP1a5qeW+R331kyow0pwHUsyX8R3oY9hFZnynmP7uz7z4Yq
- t50m7RWKlj1cB4QM31zVSuerAkFJrGDnVxbbWbR5UTnfBFtkBIMYcqh5rtAk6UbW1Jn8 sw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hwa8d02eu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 22:57:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BMvvwe010071
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 22:57:57 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 11 Aug 2022 15:57:56 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v5] drm/msm/dp: delete DP_RECOVERED_CLOCK_OUT_EN to fix tps4
-Date: Thu, 11 Aug 2022 15:57:50 -0700
-Message-ID: <1660258670-4200-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+X-Greylist: delayed 543 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Aug 2022 23:16:43 UTC
+Received: from gimli.rothwell.id.au (gimli.rothwell.id.au [103.230.158.156])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2FC12A202
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 23:16:43 +0000 (UTC)
+Received: from authenticated.rothwell.id.au (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.rothwell.id.au (Postfix) with ESMTPSA id 4M3jBY2S2CzyZt;
+ Fri, 12 Aug 2022 09:07:33 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rothwell.id.au;
+ s=201702; t=1660259255;
+ bh=MQdGlv7/KuLvICsIqGjekw2CdHuPtmyaZo7g6m/4FjI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=adZNluClMa2RHl848Ly9cmmxaBRWrS5jN925SdAWWhmWEqgqt1j6UPqyrhqmTz7dx
+ 5/OLBxkgKq0xH+1eeUdBZkuhyMZ6W33mnxSu+fPSPNXEiixZMceZ9S/ONjEGAScSWq
+ fQ34MLaIPk3soIwNg5I/x8Z5iovR/F+idT0otWFtHsiEOrN/GEpoMVrKzeniPK8foV
+ uKaaFFVdJkGqulsfxrpHZbdNDVSbIYC9eVLwOe/dzR0IjlMRiOAc2VHLSzWh3GvDQq
+ jzl/WG7CdoDbDm4z2Da/8yZnUMmvlMF3k1MY5bX7boTxbH1evSclE2TEWbk2sZQ+WQ
+ 5jx5A7bpu5c+w==
+Date: Fri, 12 Aug 2022 09:07:31 +1000
+From: Stephen Rothwell <sfr@rothwell.id.au>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: build failure of next-20220811 due to b1a63a0b48ad
+ ("drm/amd/display: consider DSC pass-through during mode validation")
+Message-ID: <20220812090731.31da7d85@oak.ozlabs.ibm.com>
+In-Reply-To: <YvU4GD8HtZ1A4dhI@debian>
+References: <YvU4GD8HtZ1A4dhI@debian>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: dIXcJ7UY6pmG2FEuyfMM6U03V8WOqLSA
-X-Proofpoint-ORIG-GUID: dIXcJ7UY6pmG2FEuyfMM6U03V8WOqLSA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-11_14,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 spamscore=0
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
- impostorscore=0 suspectscore=0 malwarescore=0 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208110068
+Content-Type: multipart/signed; boundary="Sig_/lBwBYWJZfaTJxqb/SqOb3za";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,63 +54,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ "Sudip Mukherjee \(Codethink\)" <sudipm.mukherjee@gmail.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, linux-next@vger.kernel.org,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Data Symbols scrambled is required for tps4 at link training 2.
-Therefore SCRAMBLING_DISABLE bit should not be set for tps4 to
-work.
+--Sig_/lBwBYWJZfaTJxqb/SqOb3za
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-RECOVERED_CLOCK_OUT_EN is for enable simple EYE test for jitter
-measurement with minimal equipment for embedded applications purpose
-and is not required to be set during normal operation. Current
-implementation always have RECOVERED_CLOCK_OUT_EN bit set which
-cause SCRAMBLING_DISABLE bit wrongly set at tps4 which prevent
-tps4 from working.
+Hi all,
 
-This patch delete setting RECOVERED_CLOCK_OUT_EN to fix
-SCRAMBLING_DISABLE be wrongly set at tps4.
+On Thu, 11 Aug 2022 18:10:48 +0100 "Sudip Mukherjee (Codethink)" <sudipm.mu=
+kherjee@gmail.com> wrote:
+>
+> Not sure if it has been reported, builds of riscv, alpha, s390, arm,
+> arm64, xtensa, mips, csky allmodconfig have failed to build next-20220811
+> with the error:
+>=20
+> ERROR: modpost: "dc_dsc_compute_bandwidth_range" [drivers/gpu/drm/amd/amd=
+gpu/amdgpu.ko] undefined!
+> ERROR: modpost: "dc_dsc_get_policy_for_timing" [drivers/gpu/drm/amd/amdgp=
+u/amdgpu.ko] undefined!
+>=20
+> git bisect pointed to b1a63a0b48ad ("drm/amd/display: consider DSC pass-t=
+hrough during mode validation")
+> And, reverting that commit has fixed the build failure.
+>=20
+> I will be happy to test any patch or provide any extra log if needed.
 
-Changes in v2:
--- fix Fixes tag
+I have reverted that commit in today's linux-next.
 
-Changes in v3:
--- revise commit text
+--=20
+Cheers,
+Stephen Rothwell
 
-Changes in v4:
--- fix commit text newline
+--Sig_/lBwBYWJZfaTJxqb/SqOb3za
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Changes in v5:
--- fix commit text line over 75 chars
+-----BEGIN PGP SIGNATURE-----
 
-Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmL1i7MACgkQAVBC80lX
+0GzSzAf8DKPebARHzdTqD13VNr3O67jzPL8ES7pQodgFmZMSKK3Y+vrG88X3EVSk
+ix+XD73wo/KvGZwASDZf7CMKj84ihNm3re6hPjsLcHMeZ4bpwJi46enWVl+EA3zQ
+cDzSOP++Vl1dm/RNZXMVm30CIvVjX8MgDuwGqXhWvbWL2Q0yq1xg3dddCYLl9y4p
+R3MSWvVXijrkQSdsM0v6oYI80x5GpcQPk+H+fpsmkd0EwKDKG0sNste7Sbk9XfqM
+ljtDoOkgQ85wzHC8IExlgQnjDMswtlW/b78kzXfdysl8KIQrHjo5aOsds0ZeHkCZ
+tbr3b9HgZktRYDXh16COSYyVZFzJKg==
+=Mbox
+-----END PGP SIGNATURE-----
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index ab6aa13..013ca02 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1214,7 +1214,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
- 	if (ret)
- 		return ret;
- 
--	dp_ctrl_train_pattern_set(ctrl, pattern | DP_RECOVERED_CLOCK_OUT_EN);
-+	dp_ctrl_train_pattern_set(ctrl, pattern);
- 
- 	for (tries = 0; tries <= maximum_retries; tries++) {
- 		drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+--Sig_/lBwBYWJZfaTJxqb/SqOb3za--
