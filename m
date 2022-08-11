@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E732258FB61
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 13:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682EC58FA82
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 12:11:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00411ABEE2;
-	Thu, 11 Aug 2022 11:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4004811356E;
+	Thu, 11 Aug 2022 10:11:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 607ECABE3D;
- Thu, 11 Aug 2022 11:32:21 +0000 (UTC)
-X-UUID: ff9f4d8306354fb196b7d922a2cb1400-20220811
-X-Spam-Fingerprint: 0
-X-GW-Reason: 11109
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
-X-Content-Feature: ica/max.line-size 113 audit/email.address 1 dict/adv 2
- dict/notice 2 dict/software 1 dict/transaction 1
- meta/cnt.alert 1
-X-CPASD-INFO: 41a7705116064a5f92a4568cd298c964@fYGbV2RiY2FdVnKCg6SAoFljkWRlYli
- ypmxZaJFpYlSVgnxsTV5qXFWCgGpQYWNdYlV3fGtQYmBgZFB5i4Jyj1RgXmCCVHSTgHZrgWdlYA==
-X-CLOUD-ID: 41a7705116064a5f92a4568cd298c964
-X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
- TVAL:196.
- 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:408.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
- PHC:-5
- .0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
- SIG:-
- 5, AUF:1, DUF:2124, ACD:46, DCD:46, SL:0, EISP:0, AG:0, CFC:0.593, CFSR:0.024,
- UAT:0, RA
- F:0, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
- ATTNUM:0, E AF:0,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: ff9f4d8306354fb196b7d922a2cb1400-20220811
-X-CPASD-BLOCK: 1000
-X-CPASD-STAGE: 1
-X-UUID: ff9f4d8306354fb196b7d922a2cb1400-20220811
-X-User: lizhenneng@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <lizhenneng@kylinos.cn>) (Generic MTA)
- with ESMTP id 2069526652; Thu, 11 Aug 2022 15:20:31 +0800
-From: Zhenneng Li <lizhenneng@kylinos.cn>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/amdgpu: use native mode for dp aux transfer
-Date: Thu, 11 Aug 2022 15:20:12 +0800
-Message-Id: <20220811072012.962460-1-lizhenneng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EDD511B354
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 10:10:49 +0000 (UTC)
+Received: from [192.168.1.27] (cst-prg-101-15.cust.vodafone.cz [46.135.101.15])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: tomeu)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 4C7016601CE0;
+ Thu, 11 Aug 2022 11:10:46 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1660212647;
+ bh=I1SxPAOTQmS391q7M7+rbhIoiQgbNcXxYlia5tr4Ij0=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=d9IAHi5H/2iR9+UloeTd/m2oXigxG4nwYR6wP0PIor8dF+WyE4xbV0UFnATUb+yKh
+ Sr2A4QjzyYaLjbPh3KEpg8s78/CKH5s+eXgGW7SuW4EzR1AY6sodX89LAx5lkO8I5o
+ FDh/PIbbywsihLNf8Jt5UI/nTOahBtaMQuEz0eo5++iBsNOw/fnrwah41vU4ML7nlv
+ hhoQUxeIQA/flK3ajaPbc0lbaisMbBlU0LvVnc69qOpXnNj3hLWWDO4x7ju4UDxd6t
+ zr+rQgRwejK2Gsr2Ucd9yNDig+V5uii+WHkF37I1Fmr8M2rXDWUtlY/Z3f57I5i2jM
+ SElJYHUDsXs2Q==
+Subject: Re: [PATCH v5] drm: Add initial ci/ subdirectory
+To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>,
+ Nicholas Choi <nicholas.choi@amd.com>, Sun peng Li <Sunpeng.Li@amd.com>,
+ "Chiu, Harrison" <Harrison.Chiu@amd.com>,
+ "Wentland, Harry" <Harry.Wentland@amd.com>
+References: <20220517081656.47625-1-tomeu.vizoso@collabora.com>
+ <20220726181636.19967-1-tomeu.vizoso@collabora.com>
+ <d8e5be9b-4cd7-4677-59f4-7c9c49ed22d4@amd.com>
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-ID: <c217d4ef-ebbf-858b-ff0c-376ad8a4bca2@collabora.com>
+Date: Thu, 11 Aug 2022 12:10:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <d8e5be9b-4cd7-4677-59f4-7c9c49ed22d4@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,412 +59,1527 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Xiao <Jack.Xiao@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Zhenneng Li <lizhenneng@kylinos.cn>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Kevin Hilman <khilman@baylibre.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Carlo Caione <carlo@caione.org>, linux-amlogic@lists.infradead.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using amdgpu for e8860, the monitor sometimes haven't any signal,
-and the kernel reports some errors:
-[   17.317302][ 2] [ T1045] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ERROR* channel eq failed: 5 tries
-[   17.326963][ 2] [ T1045] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ERROR* channel eq failed
-But if I use radeon for e8860, everything are always normal, the reason is
-that radeon use native mode and amdgpu use atombios mode
-when init dp aux, so when I use native mode for amdgpu, everything
-are always normal.
+On 8/10/22 8:24 PM, Rodrigo Siqueira Jordao wrote:
+> Hi Tomeu,
+> 
+> First of all, nice patch! I just saw it, and I have some basic questions 
+> (I don't understand many of these CI details). I also CC some CI folks 
+> from the display team at AMD.
 
-Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
-Change-Id: Ia9a2be3ab03e56b1c8337fdbf713461196fbc58f
----
- drivers/gpu/drm/amd/amdgpu/Makefile          |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h          |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c |   5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c | 273 +++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h     |   2 +
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c     |   5 +-
- 7 files changed, 290 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
+Thanks for the feedback!
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
-index 3e0e2eb7e235..2913cf46f848 100644
---- a/drivers/gpu/drm/amd/amdgpu/Makefile
-+++ b/drivers/gpu/drm/amd/amdgpu/Makefile
-@@ -58,7 +58,7 @@ amdgpu-y += amdgpu_device.o amdgpu_kms.o \
- 	amdgpu_vm_sdma.o amdgpu_discovery.o amdgpu_ras_eeprom.o amdgpu_nbio.o \
- 	amdgpu_umc.o smu_v11_0_i2c.o amdgpu_fru_eeprom.o amdgpu_rap.o \
- 	amdgpu_fw_attestation.o amdgpu_securedisplay.o \
--	amdgpu_eeprom.o amdgpu_mca.o amdgpu_psp_ta.o amdgpu_lsdma.o
-+	amdgpu_eeprom.o amdgpu_mca.o amdgpu_psp_ta.o amdgpu_lsdma.o amdgpu_dp_auxch.o
- 
- amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 30ce6bb6fa77..15e0288b1997 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -238,6 +238,8 @@ extern int amdgpu_num_kcq;
- #define AMDGPU_VCNFW_LOG_SIZE (32 * 1024)
- extern int amdgpu_vcnfw_log;
- 
-+extern int amdgpu_auxch;
-+
- #define AMDGPU_VM_MAX_NUM_CTX			4096
- #define AMDGPU_SG_THRESHOLD			(256*1024*1024)
- #define AMDGPU_DEFAULT_GTT_SIZE_MB		3072ULL /* 3GB by default */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 9ba4817a9148..68c8d79e2937 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -49,7 +49,10 @@ static struct amdgpu_i2c_bus_rec amdgpu_atombios_get_bus_rec_for_i2c_gpio(ATOM_G
- 
- 	memset(&i2c, 0, sizeof(struct amdgpu_i2c_bus_rec));
- 
--	i2c.mask_clk_reg = le16_to_cpu(gpio->usClkMaskRegisterIndex);
-+	if (amdgpu_auxch)
-+		i2c.mask_clk_reg = le16_to_cpu(gpio->usClkMaskRegisterIndex) * 4;
-+	else
-+		i2c.mask_clk_reg = le16_to_cpu(gpio->usClkMaskRegisterIndex);
- 	i2c.mask_data_reg = le16_to_cpu(gpio->usDataMaskRegisterIndex);
- 	i2c.en_clk_reg = le16_to_cpu(gpio->usClkEnRegisterIndex);
- 	i2c.en_data_reg = le16_to_cpu(gpio->usDataEnRegisterIndex);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
-new file mode 100644
-index 000000000000..22078f1ca936
---- /dev/null
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
-@@ -0,0 +1,273 @@
-+/*
-+ * Copyright 2015 Red Hat Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: Dave Airlie
-+ */
-+
-+#include "amdgpu.h"
-+
-+#define 	AUX_SW_RX_OVERFLOW			(1 << 8)
-+#define 	AUX_SW_RX_HPD_DISCON			(1 << 9)
-+#define 	AUX_SW_RX_PARTIAL_BYTE			(1 << 10)
-+#define 	AUX_SW_NON_AUX_MODE			(1 << 11)
-+#define 	AUX_SW_RX_SYNC_INVALID_L		(1 << 17)
-+#define 	AUX_SW_RX_SYNC_INVALID_H		(1 << 18)
-+#define 	AUX_SW_RX_INVALID_START			(1 << 19)
-+#define 	AUX_SW_RX_RECV_NO_DET			(1 << 20)
-+#define 	AUX_SW_RX_RECV_INVALID_H		(1 << 22)
-+#define 	AUX_SW_RX_RECV_INVALID_V		(1 << 23)
-+#define		AUX_CONTROL				0x6200
-+#define 	AUX_HPD_SEL(x)				(((x) & 0x7) << 20)
-+#define 	AUX_EN					(1 << 0)
-+#define 	AUX_LS_READ_EN				(1 << 8)
-+#define		AUX_SW_CONTROL				0x6204
-+#define 	AUX_SW_WR_BYTES(x)			(((x) & 0x1f) << 16)
-+#define AUX_SW_DATA					0x6218
-+#define AUX_SW_DATA_RW					(1 << 0)
-+#define AUX_SW_AUTOINCREMENT_DISABLE			(1 << 31)
-+#define AUX_SW_INTERRUPT_CONTROL			0x620c
-+#define 	AUX_SW_DONE_ACK				(1 << 1)
-+#define 	AUX_SW_GO				(1 << 0)
-+#define AUX_SW_STATUS					0x6210
-+#define 	AUX_SW_DONE				(1 << 0)
-+#define 	AUX_SW_RX_TIMEOUT			(1 << 7)
-+#define AUX_SW_DATA_RW					(1 << 0)
-+#define AUX_SW_DATA_MASK(x)				(((x) & 0xff) << 8)
-+
-+#define AUX_RX_ERROR_FLAGS (AUX_SW_RX_OVERFLOW |	     \
-+			    AUX_SW_RX_HPD_DISCON |	     \
-+			    AUX_SW_RX_PARTIAL_BYTE |	     \
-+			    AUX_SW_NON_AUX_MODE |	     \
-+			    AUX_SW_RX_SYNC_INVALID_L |	     \
-+			    AUX_SW_RX_SYNC_INVALID_H |	     \
-+			    AUX_SW_RX_INVALID_START |	     \
-+			    AUX_SW_RX_RECV_NO_DET |	     \
-+			    AUX_SW_RX_RECV_INVALID_H |	     \
-+			    AUX_SW_RX_RECV_INVALID_V)
-+
-+#define AUX_SW_REPLY_GET_BYTE_COUNT(x) (((x) >> 24) & 0x1f)
-+
-+#define BARE_ADDRESS_SIZE 3
-+
-+#define R100_MM_INDEX                   0x0000
-+#define R100_MM_DATA                      0x0004
-+#define AMDGPU_MIN_MMIO_SIZE 0x10000
-+uint32_t venus_mm_rreg_slow(struct amdgpu_device *adev, uint32_t reg)
-+{
-+        unsigned long flags;
-+        uint32_t ret;
-+
-+        spin_lock_irqsave(&adev->mmio_idx_lock, flags);
-+        writel(reg, ((void __iomem *)adev->rmmio) + R100_MM_INDEX);
-+        ret = readl(((void __iomem *)adev->rmmio) + R100_MM_DATA);
-+        spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
-+        return ret;
-+}
-+void venus_mm_wreg_slow(struct amdgpu_device *adev, uint32_t reg, uint32_t v)
-+{
-+        unsigned long flags;
-+
-+        spin_lock_irqsave(&adev->mmio_idx_lock, flags);
-+        writel(reg, ((void __iomem *)adev->rmmio) + R100_MM_INDEX);
-+        writel(v, ((void __iomem *)adev->rmmio) + R100_MM_DATA);
-+        spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
-+}
-+static inline uint32_t venus_mm_rreg(struct amdgpu_device *adev, uint32_t reg,
-+                                    bool always_indirect)
-+{
-+        /* The mmio size is 64kb at minimum. Allows the if to be optimized out. */
-+        if ((reg < adev->rmmio_size || reg < AMDGPU_MIN_MMIO_SIZE) && !always_indirect)
-+                return readl(((void __iomem *)adev->rmmio) + reg);
-+        else
-+                return venus_mm_rreg_slow(adev, reg);
-+}
-+static inline void venus_mm_wreg(struct amdgpu_device *adev, uint32_t reg, uint32_t v,
-+                                bool always_indirect)
-+{
-+        if ((reg < adev->rmmio_size || reg < AMDGPU_MIN_MMIO_SIZE) && !always_indirect)
-+                writel(v, ((void __iomem *)adev->rmmio) + reg);
-+        else
-+                venus_mm_wreg_slow(adev, reg, v);
-+}
-+
-+#define RREG32_VENUS(reg) venus_mm_rreg(adev, (reg), false)
-+#define WREG32_VENUS(reg, v) venus_mm_wreg(adev, (reg), (v), false)
-+
-+static const u32 aux_offset[] =
-+{
-+	0x6200 - 0x6200,
-+	0x6250 - 0x6200,
-+	0x62a0 - 0x6200,
-+	0x6300 - 0x6200,
-+	0x6350 - 0x6200,
-+	0x63a0 - 0x6200,
-+};
-+
-+ssize_t
-+amdgpu_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
-+{
-+	struct amdgpu_i2c_chan *chan =
-+		container_of(aux, struct amdgpu_i2c_chan, aux);
-+	struct drm_device *dev = chan->dev;
-+	struct amdgpu_device *adev = dev->dev_private;
-+	int ret = 0, i;
-+	uint32_t tmp, ack = 0;
-+	int instance = chan->rec.i2c_id & 0xf;
-+	u8 byte;
-+	u8 *buf = msg->buffer;
-+	int retry_count = 0;
-+	int bytes;
-+	int msize;
-+	bool is_write = false;
-+
-+	if (WARN_ON(msg->size > 16))
-+		return -E2BIG;
-+
-+	switch (msg->request & ~DP_AUX_I2C_MOT) {
-+	case DP_AUX_NATIVE_WRITE:
-+	case DP_AUX_I2C_WRITE:
-+		is_write = true;
-+		break;
-+	case DP_AUX_NATIVE_READ:
-+	case DP_AUX_I2C_READ:
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	/* work out two sizes required */
-+	msize = 0;
-+	bytes = BARE_ADDRESS_SIZE;
-+	if (msg->size) {
-+		msize = msg->size - 1;
-+		bytes++;
-+		if (is_write)
-+			bytes += msg->size;
-+	}
-+
-+	mutex_lock(&chan->mutex);
-+
-+	/* switch the pad to aux mode */
-+	tmp = RREG32_VENUS(chan->rec.mask_clk_reg);
-+	tmp |= (1 << 16);
-+	WREG32_VENUS(chan->rec.mask_clk_reg, tmp);
-+
-+	/* setup AUX control register with correct HPD pin */
-+	tmp = RREG32_VENUS(AUX_CONTROL + aux_offset[instance]);
-+	tmp &= AUX_HPD_SEL(0x7);
-+	tmp |= AUX_HPD_SEL(chan->rec.hpd);
-+	tmp |= AUX_EN | AUX_LS_READ_EN;
-+
-+	WREG32_VENUS(AUX_CONTROL + aux_offset[instance], tmp);
-+
-+	/* atombios appears to write this twice lets copy it */
-+	WREG32_VENUS(AUX_SW_CONTROL + aux_offset[instance],
-+	       AUX_SW_WR_BYTES(bytes));
-+	WREG32_VENUS(AUX_SW_CONTROL + aux_offset[instance],
-+	       AUX_SW_WR_BYTES(bytes));
-+
-+	/* write the data header into the registers */
-+	/* request, address, msg size */
-+	byte = (msg->request << 4) | ((msg->address >> 16) & 0xf);
-+	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
-+	       AUX_SW_DATA_MASK(byte) | AUX_SW_AUTOINCREMENT_DISABLE);
-+
-+	byte = (msg->address >> 8) & 0xff;
-+	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
-+	       AUX_SW_DATA_MASK(byte));
-+
-+	byte = msg->address & 0xff;
-+	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
-+	       AUX_SW_DATA_MASK(byte));
-+
-+	byte = msize;
-+	WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
-+	       AUX_SW_DATA_MASK(byte));
-+
-+	/* if we are writing - write the msg buffer */
-+	if (is_write) {
-+		for (i = 0; i < msg->size; i++) {
-+			WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
-+			       AUX_SW_DATA_MASK(buf[i]));
-+		}
-+	}
-+
-+	/* clear the ACK */
-+	WREG32_VENUS(AUX_SW_INTERRUPT_CONTROL + aux_offset[instance], AUX_SW_DONE_ACK);
-+
-+	/* write the size and GO bits */
-+	WREG32_VENUS(AUX_SW_CONTROL + aux_offset[instance],
-+	       AUX_SW_WR_BYTES(bytes) | AUX_SW_GO);
-+
-+	/* poll the status registers - TODO irq support */
-+	do {
-+		tmp = RREG32_VENUS(AUX_SW_STATUS + aux_offset[instance]);
-+		if (tmp & AUX_SW_DONE) {
-+			break;
-+		}
-+		usleep_range(100, 200);
-+	} while (retry_count++ < 1000);
-+
-+	if (retry_count >= 1000) {
-+		DRM_ERROR("auxch hw never signalled completion, error %08x\n", tmp);
-+		ret = -EIO;
-+		goto done;
-+	}
-+
-+	if (tmp & AUX_SW_RX_TIMEOUT) {
-+		ret = -ETIMEDOUT;
-+		goto done;
-+	}
-+	if (tmp & AUX_RX_ERROR_FLAGS) {
-+		DRM_DEBUG_KMS_RATELIMITED("dp_aux_ch flags not zero: %08x\n",
-+					  tmp);
-+		ret = -EIO;
-+		goto done;
-+	}
-+
-+	bytes = AUX_SW_REPLY_GET_BYTE_COUNT(tmp);
-+	if (bytes) {
-+		WREG32_VENUS(AUX_SW_DATA + aux_offset[instance],
-+		       AUX_SW_DATA_RW | AUX_SW_AUTOINCREMENT_DISABLE);
-+
-+		tmp = RREG32_VENUS(AUX_SW_DATA + aux_offset[instance]);
-+		ack = (tmp >> 8) & 0xff;
-+
-+		for (i = 0; i < bytes - 1; i++) {
-+			tmp = RREG32_VENUS(AUX_SW_DATA + aux_offset[instance]);
-+			if (buf)
-+				buf[i] = (tmp >> 8) & 0xff;
-+		}
-+		if (buf)
-+			ret = bytes - 1;
-+	}
-+
-+	WREG32_VENUS(AUX_SW_INTERRUPT_CONTROL + aux_offset[instance], AUX_SW_DONE_ACK);
-+
-+	if (is_write)
-+		ret = msg->size;
-+done:
-+	mutex_unlock(&chan->mutex);
-+
-+	if (ret >= 0)
-+		msg->reply = ack >> 4;
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 8890300766a5..2ac7636ddafb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -180,6 +180,7 @@ int amdgpu_num_kcq = -1;
- int amdgpu_smartshift_bias;
- int amdgpu_use_xgmi_p2p = 1;
- int amdgpu_vcnfw_log;
-+int amdgpu_auxch = 0;
- 
- static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
- 
-@@ -882,6 +883,9 @@ MODULE_PARM_DESC(smu_pptable_id,
- 	"specify pptable id to be used (-1 = auto(default) value, 0 = use pptable from vbios, > 0 = soft pptable id)");
- module_param_named(smu_pptable_id, amdgpu_smu_pptable_id, int, 0444);
- 
-+MODULE_PARM_DESC(auxch, "Use native auxch experimental support (1 = enable, 0 = disable, -1 = auto)");
-+module_param_named(auxch, amdgpu_auxch, int, 0444);
-+
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
-  */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index f80b4838cea1..95fffc110c75 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -619,5 +619,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
- 				uint32_t page_flip_flags, uint32_t target,
- 				struct drm_modeset_acquire_ctx *ctx);
- extern const struct drm_mode_config_funcs amdgpu_mode_funcs;
-+extern ssize_t
-+amdgpu_dp_aux_transfer_native(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg);
- 
- #endif
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-index 87c41e0e9b7c..846ecc315665 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-@@ -188,7 +188,10 @@ amdgpu_atombios_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m
- void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
- {
- 	amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
--	amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
-+	if (amdgpu_auxch)
-+		amdgpu_connector->ddc_bus->aux.transfer = amdgpu_dp_aux_transfer_native;
-+	else
-+		amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
- 	amdgpu_connector->ddc_bus->aux.drm_dev = amdgpu_connector->base.dev;
- 
- 	drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
+> On 2022-07-26 14:16, Tomeu Vizoso wrote:
+>> And use it to store expectations about what the DRM drivers are
+>> supposed to pass in the IGT test suite.
+>>
+>> Also include a configuration file that points to the out-of-tree CI
+>> scripts.
+>>
+>> By storing the test expectations along the code we can make sure both
+>> stay in sync with each other, and so we can know when a code change
+>> breaks those expectations.
+>>
+>> This will allow all contributors to drm to reuse the infrastructure
+>> already in gitlab.freedesktop.org to test the driver on several
+>> generations of the hardware.
+>>
+>> v2:
+>>    - Fix names of result expectation files to match SoC
+>>    - Don't execute tests that are going to skip on all boards
+>>
+>> v3:
+>>    - Remove tracking of dmesg output during test execution
+>>
+>> v4:
+>>    - Move up to drivers/gpu/drm
+>>    - Add support for a bunch of other drivers
+>>    - Explain how to incorporate fixes for CI from a
+>>      ${TARGET_BRANCH}-external-fixes branch
+>>    - Remove tests that pass from expected results file, to reduce the
+>>      size of in-tree files
+>>    - Add docs about how to deal with outages in automated testing labs
+>>    - Specify the exact SHA of the CI scripts to be used
+>>
+>> v5:
+>>    - Remove unneeded skips from Meson expectations file
+>>    - Use a more advanced runner that detects flakes automatically
+>>    - Use a more succint format for the expectations
+>>    - Run many more tests (and use sharding to finish in time)
+>>    - Use skip lists to avoid hanging machines
+>>    - Add some build testing
+>>    - Build IGT in each pipeline for faster uprevs
+>>    - List failures in the GitLab UI
+>>
+>> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+>> ---
+>>   Documentation/gpu/automated_testing.rst       | 84 ++++++++++++++++++
+>>   drivers/gpu/drm/ci/amdgpu-stoney-fails.txt    | 13 +++
+>>   drivers/gpu/drm/ci/amdgpu-stoney-flakes.txt   | 20 +++++
+>>   drivers/gpu/drm/ci/amdgpu-stoney-skips.txt    |  2 +
+>>   drivers/gpu/drm/ci/gitlab-ci.yml              | 13 +++
+>>   drivers/gpu/drm/ci/i915-amly-flakes.txt       | 32 +++++++
+>>   drivers/gpu/drm/ci/i915-amly-skips.txt        |  2 +
+>>   drivers/gpu/drm/ci/i915-apl-fails.txt         | 29 +++++++
+>>   drivers/gpu/drm/ci/i915-apl-flakes.txt        |  1 +
+>>   drivers/gpu/drm/ci/i915-apl-skips.txt         |  2 +
+>>   drivers/gpu/drm/ci/i915-cml-flakes.txt        | 36 ++++++++
+>>   drivers/gpu/drm/ci/i915-glk-flakes.txt        | 40 +++++++++
+>>   drivers/gpu/drm/ci/i915-glk-skips.txt         |  2 +
+>>   drivers/gpu/drm/ci/i915-kbl-fails.txt         |  8 ++
+>>   drivers/gpu/drm/ci/i915-kbl-flakes.txt        | 24 ++++++
+>>   drivers/gpu/drm/ci/i915-kbl-skips.txt         |  2 +
+>>   drivers/gpu/drm/ci/i915-tgl-fails.txt         | 19 ++++
+>>   drivers/gpu/drm/ci/i915-tgl-flakes.txt        |  6 ++
+>>   drivers/gpu/drm/ci/i915-tgl-skips.txt         |  8 ++
+>>   drivers/gpu/drm/ci/i915-whl-fails.txt         | 30 +++++++
+>>   drivers/gpu/drm/ci/i915-whl-flakes.txt        |  1 +
+>>   drivers/gpu/drm/ci/mediatek-mt8173-fails.txt  | 29 +++++++
+>>   drivers/gpu/drm/ci/mediatek-mt8183-fails.txt  | 10 +++
+>>   drivers/gpu/drm/ci/mediatek-mt8183-flakes.txt | 14 +++
+>>   drivers/gpu/drm/ci/meson-g12b-fails.txt       |  5 ++
+>>   drivers/gpu/drm/ci/meson-g12b-flakes.txt      |  4 +
+>>   drivers/gpu/drm/ci/msm-apq8016-fails.txt      | 15 ++++
+>>   drivers/gpu/drm/ci/msm-apq8016-flakes.txt     |  4 +
+>>   drivers/gpu/drm/ci/msm-apq8096-fails.txt      |  2 +
+>>   drivers/gpu/drm/ci/msm-apq8096-flakes.txt     |  4 +
+>>   drivers/gpu/drm/ci/msm-apq8096-skips.txt      |  2 +
+>>   drivers/gpu/drm/ci/msm-sc7180-fails.txt       | 22 +++++
+>>   drivers/gpu/drm/ci/msm-sc7180-flakes.txt      | 14 +++
+>>   drivers/gpu/drm/ci/msm-sc7180-skips.txt       | 18 ++++
+>>   drivers/gpu/drm/ci/msm-sdm845-fails.txt       | 44 ++++++++++
+>>   drivers/gpu/drm/ci/msm-sdm845-flakes.txt      | 33 +++++++
+>>   drivers/gpu/drm/ci/msm-sdm845-skips.txt       |  2 +
+>>   drivers/gpu/drm/ci/rockchip-rk3288-fails.txt  | 75 ++++++++++++++++
+>>   drivers/gpu/drm/ci/rockchip-rk3288-flakes.txt |  5 ++
+>>   drivers/gpu/drm/ci/rockchip-rk3288-skips.txt  | 46 ++++++++++
+>>   drivers/gpu/drm/ci/rockchip-rk3399-fails.txt  | 86 +++++++++++++++++++
+>>   drivers/gpu/drm/ci/rockchip-rk3399-flakes.txt | 25 ++++++
+>>   drivers/gpu/drm/ci/rockchip-rk3399-skips.txt  |  5 ++
+>>   drivers/gpu/drm/ci/virtio_gpu-none-fails.txt  | 38 ++++++++
+>>   drivers/gpu/drm/ci/virtio_gpu-none-flakes.txt |  0
+>>   drivers/gpu/drm/ci/virtio_gpu-none-skips.txt  |  6 ++
+>>   46 files changed, 882 insertions(+)
+>>   create mode 100644 Documentation/gpu/automated_testing.rst
+>>   create mode 100644 drivers/gpu/drm/ci/amdgpu-stoney-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/amdgpu-stoney-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/amdgpu-stoney-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
+>>   create mode 100644 drivers/gpu/drm/ci/i915-amly-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-amly-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-apl-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-apl-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-apl-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-cml-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-glk-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-glk-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-kbl-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-kbl-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-kbl-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-tgl-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-tgl-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-tgl-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-whl-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/i915-whl-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/mediatek-mt8173-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/mediatek-mt8183-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/mediatek-mt8183-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/meson-g12b-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/meson-g12b-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-apq8016-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-apq8016-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-apq8096-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-apq8096-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-apq8096-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-sc7180-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-sc7180-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-sc7180-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-sdm845-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-sdm845-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/msm-sdm845-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/rockchip-rk3288-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/rockchip-rk3288-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/rockchip-rk3288-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/rockchip-rk3399-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/rockchip-rk3399-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/rockchip-rk3399-skips.txt
+>>   create mode 100644 drivers/gpu/drm/ci/virtio_gpu-none-fails.txt
+>>   create mode 100644 drivers/gpu/drm/ci/virtio_gpu-none-flakes.txt
+>>   create mode 100644 drivers/gpu/drm/ci/virtio_gpu-none-skips.txt
+>>
+>> diff --git a/Documentation/gpu/automated_testing.rst 
+>> b/Documentation/gpu/automated_testing.rst
+>> new file mode 100644
+>> index 000000000000..61003ecc7b6e
+>> --- /dev/null
+>> +++ b/Documentation/gpu/automated_testing.rst
+>> @@ -0,0 +1,84 @@
+>> +.. SPDX-License-Identifier: GPL-2.0+
+>> +
+>> +=========================================
+>> +Automated testing of the DRM subsystem
+>> +=========================================
+>> +
+>> +
+>> +Introduction
+>> +============
+>> +
+>> +Making sure that changes to the core or drivers don't introduce 
+>> regressions can be very time consuming when lots of different hardware 
+>> configurations need to be tested. Moreover, it isn't practical for 
+>> each person interested in this testing to have to acquire and maintain 
+>> what can be a considerable amount of hardware.
+>> +
+>> +Also, it is desirable for developers to check for regressions in 
+>> their code by themselves, instead of relying on the maintainers 
+>> finding them and then reporting back.
+>> +
+>> +There are facilities in gitlab.freedesktop.org to automatically test 
+>> Mesa that can be used as well for testing the DRM subsystem. This 
+>> document explains how people interested in testing it can use this 
+>> shared infrastructure to save quite some time and effort.
+>> +
+>> +
+>> +Relevant files
+>> +==============
+>> +
+>> +drivers/gpu/drm/ci/gitlab-ci.yml
+>> +--------------------------------
+>> +
+>> +Specifies the specific version of the scripts to be used. GitLab CI 
+>> will use the values defined in this file to fetch the right scripts.
+>> +
+>> +
+>> +drivers/gpu/drm/ci/${DRIVER_NAME}.testlist
+>> +------------------------------------------
+>> +
+>> +Specifies the tests that the current code is expected to be able to 
+>> reliably run for ${DRIVER_NAME}. These tests are expected to not hang 
+>> the DUT (Device Under Testing) when running on the revision they 
+>> belong to, and to give consistent results.
+> 
+> The IGT repo has testlists per vendor (e.g., 
+> https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/tree/master/tests/intel-ci). 
+> What is the advantage of keeping a similar IGT list here? Should we 
+> maintain that list in both projects?
+
+Yes, I think that would be better, but the ones currently there were too 
+small or too big to be useful here.
+
+Note that the documentation here is erroneous, the test lists in this 
+iteration are in the drm-ci repo, not in the kernel. Will fix this when 
+I send my rebased patches.
+
+>> +drivers/gpu/drm/ci/${DRIVER_NAME}_*_results.txt
+>> +----------------------------------------
+>> +
+>> +Specifies the expected results of running this specific kernel 
+>> revision on a given hardware configuration.
+>> +
+>> +
+>> +How to enable automated testing on your tree
+>> +============================================
+>> +
+>> +1. Create a Linux tree in https://gitlab.freedesktop.org/ if you 
+>> don't have one yet
+>> +
+>> +2. In your kernel repo's configuration (eg. 
+>> https://gitlab.freedesktop.org/tomeu/linux/-/settings/ci_cd), change 
+>> the CI/CD configuration file from .gitlab-ci.yml to 
+>> drivers/gpu/drm/ci/gitlab-ci.yml.
+>> +
+>> +3. Next time you push to this repository, you will see a CI pipeline 
+>> being created (eg. 
+>> https://gitlab.freedesktop.org/tomeu/linux/-/pipelines)
+>> +
+>> +4. The various jobs will be run and when the pipeline is finished, 
+>> all jobs should be green unless a regression has been found.
+>> +
+>> +
+>> +How to update test expectations
+>> +===============================
+>> +
+>> +If your changes to the code fix any tests, you will have to update 
+>> one or more of the files in 
+>> drivers/gpu/drm/ci/${DRIVER_NAME}_*_results.txt, for each of the test 
+>> platforms affected by the change.
+>> +
+>> +If you have run a pipeline and it failed because of a mismatched test 
+>> result, you will have been offered a patch at the end of the run that 
+>> you can apply after reviewing it.
+>> +
+>> +
+>> +How to expand coverage
+>> +======================
+>> +
+>> +If your code changes makes it possible to run more tests (by solving 
+>> reliability issues, for example), more tests can be added to this 
+>> list, and then the expected results updated with the patch file that 
+>> will be printed at the end of each job.
+>> +
+>> +If there is a need for updating the version of IGT being used (maybe 
+>> you have added more tests to it), follow the instructions at 
+>> https://gitlab.freedesktop.org/gfx-ci/drm-ci/-/tree/main#upreving-igt.
+> 
+> Usually, we run our IGT test on the latest code from the IGT repo. Is it 
+> possible to configure this behavior?
+
+If this was the default behavior, it would create a lot of trouble 
+because pipelines for the same code would sometimes pass or fail based 
+on whatever had been pushed to the IGT repo. It is really important for 
+this to work well for everybody that the pipeline is kept green at all 
+times for checked-in code.
+
+But it is already very easy to uprev IGT, it just requires updating a 
+commit hash in the drm-ci repo.
+
+>> +How to test your changes to the scripts
+>> +==========================================
+>> +
+>> +For testing changes to the scripts in the drm-ci repo, change the 
+>> DRM_CI_PROJECT_PATH variable in drivers/gpu/drm/ci/gitlab-ci.yml to 
+>> match your fork of the project (eg. tomeu/drm-ci). This fork needs to 
+>> be in https://gitlab.freedesktop.org/.
+>> +
+>> +
+>> +How to incorporate external fixes in your testing
+>> +=================================================
+>> +
+>> +Often, regressions in other trees will prevent testing changes local 
+>> to the tree under test. These fixes will be automatically merged in 
+>> during the build jobs from a branch in the target tree that is named 
+>> as ${TARGET_BRANCH}-external-fixes.
+>> +
+>> +If the pipeline is not in a merge request and a branch with the same 
+>> name exists in the local tree, commits from that branch will be merged 
+>> in as well.
+>> +
+>> +
+>> +How to deal with automated testing labs that may be down
+>> +========================================================
+>> +
+>> +If a hardware farm is down and thus causing pipelines to fail that 
+>> would otherwise pass, one can disable all jobs that would be submitted 
+>> to that farm by editing the file at 
+>> https://gitlab.freedesktop.org/gfx-ci/lab-status/-/blob/main/lab-status.yml. 
+>>
+> 
+> 
+> This part is the one that I really want to understand. How can we plug 
+> our farm? Do you have a guideline? I want to know if we can run a 
+> prototype.
+
+We are reusing the device farms that were added to 
+gitlab.freedesktop.org for testing Mesa.
+
+You should be able to plug your own lab for use in your personal branch 
+without requiring anything from anybody else. You just need an account 
+in gitlab.freedesktop.org.
+
+Currently, there are two modes through which DUTs are made available to 
+Gitlab CI: baremetal and LAVA. The latter should better scale to several 
+dozens of devices but has a higher initial installation effort. It would 
+allow this farm to be used in other CIs such as kernelci.org, though.
+
+There is some documentation about this in Mesa:
+
+* https://docs.mesa3d.org/ci/bare-metal.html
+* https://docs.mesa3d.org/ci/LAVA.html
+
+Ask in #freedesktop in OFTC if you need any help.
+
+>> diff --git a/drivers/gpu/drm/ci/amdgpu-stoney-fails.txt 
+>> b/drivers/gpu/drm/ci/amdgpu-stoney-fails.txt
+>> new file mode 100644
+>> index 000000000000..e721568b6ec3
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/amdgpu-stoney-fails.txt
+>> @@ -0,0 +1,13 @@
+>> +kms_addfb_basic@bad-pitch-65536,Fail
+>> +kms_addfb_basic@bo-too-small,Fail
+>> +kms_bw@linear-tiling-1-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-1-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>> +kms_cursor_crc@pipe-A-cursor-size-change,Fail
+>> +kms_cursor_crc@pipe-B-cursor-size-change,Fail
+>> +kms_hdr@bpc-switch,Fail
+>> +kms_hdr@bpc-switch-dpms,Fail
+>> +kms_plane_multiple@atomic-pipe-A-tiling-none,Fail
+>> +kms_rotation_crc@primary-rotation-180,Fail
+>> +kms_universal_plane@disable-primary-vs-flip-pipe-B,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/amdgpu-stoney-flakes.txt 
+>> b/drivers/gpu/drm/ci/amdgpu-stoney-flakes.txt
+>> new file mode 100644
+>> index 000000000000..a2cbc339838c
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/amdgpu-stoney-flakes.txt
+>> @@ -0,0 +1,20 @@
+>> +kms_addfb_basic@too-high
+>> +kms_atomic_transition@plane-all-modeset-transition-internal-panels
+>> +kms_atomic_transition@plane-all-transition
+>> +kms_atomic_transition@plane-use-after-nonblocking-unbind
+>> +kms_bw@linear-tiling-1-displays-1920x1080p
+>> +kms_bw@linear-tiling-2-displays-1920x1080p
+>> +kms_bw@linear-tiling-2-displays-2560x1440p
+>> +kms_bw@linear-tiling-3-displays-2560x1440p
+>> +kms_bw@linear-tiling-3-displays-3840x2160p
+>> +kms_cursor_edge_walk@pipe-A-64x64-bottom-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-top-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-bottom-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-left-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-top-edge
+>> +kms_plane_multiple@atomic-pipe-B-tiling-none
+>> +kms_plane@pixel-format
+>> +kms_plane_scaling@downscale-with-rotation-factor-0-5
+>> +kms_universal_plane@disable-primary-vs-flip-pipe-A
+> 
+> We have multiple test lists for different ASICs, and we are working to 
+> have one unified list. I guess we just need to that list here?
+> 
+> Maybe Nicholas/Herrison can provide a complete list here.
+
+Maybe add it to the IGT repo and from there it will be used in this CI 
+once it can run reliably enough?
+
+Cheers,
+
+Tomeu
+
+> Thanks
+> Siqueira
+> 
+> 
+>> diff --git a/drivers/gpu/drm/ci/amdgpu-stoney-skips.txt 
+>> b/drivers/gpu/drm/ci/amdgpu-stoney-skips.txt
+>> new file mode 100644
+>> index 000000000000..e2c538a0f954
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/amdgpu-stoney-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
+>> b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> new file mode 100644
+>> index 000000000000..8898bbe0f180
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> @@ -0,0 +1,13 @@
+>> +variables:
+>> +  # Change this to use your fork of drm-ci
+>> +  DRM_CI_PROJECT_PATH: &drm-ci-project-path gfx-ci/drm-ci
+>> +  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 
+>> bccff240ca042820484096f0782e8f060bd83bca
+>> +
+>> +  UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>> +  TARGET_BRANCH: drm-next
+>> +
+>> +include:
+>> +  - project: *drm-ci-project-path
+>> +    ref: *drm-ci-commit-sha
+>> +    file:
+>> +      - '.gitlab-ci.yml'
+>> diff --git a/drivers/gpu/drm/ci/i915-amly-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-amly-flakes.txt
+>> new file mode 100644
+>> index 000000000000..67d78f10b671
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-amly-flakes.txt
+>> @@ -0,0 +1,32 @@
+>> +kms_bw@linear-tiling-2-displays-1920x1080p
+>> +kms_bw@linear-tiling-2-displays-2560x1440p
+>> +kms_bw@linear-tiling-2-displays-3840x2160p
+>> +kms_bw@linear-tiling-3-displays-1920x1080p
+>> +kms_bw@linear-tiling-3-displays-2560x1440p
+>> +kms_bw@linear-tiling-3-displays-3840x2160p
+>> +kms_bw@linear-tiling-4-displays-1920x1080p
+>> +kms_bw@linear-tiling-4-displays-2560x1440p
+>> +kms_bw@linear-tiling-4-displays-3840x2160p
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling
+>> +kms_plane_alpha_blend@pipe-A-alpha-basic
+>> +kms_plane_alpha_blend@pipe-A-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-A-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-A-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-B-alpha-basic
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-B-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-C-alpha-basic
+>> +kms_plane_alpha_blend@pipe-C-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-C-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-C-constant-alpha-max
+>> +kms_sysfs_edid_timing
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-amly-skips.txt 
+>> b/drivers/gpu/drm/ci/i915-amly-skips.txt
+>> new file mode 100644
+>> index 000000000000..e2c538a0f954
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-amly-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-apl-fails.txt 
+>> b/drivers/gpu/drm/ci/i915-apl-fails.txt
+>> new file mode 100644
+>> index 000000000000..a077f29d5cba
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-apl-fails.txt
+>> @@ -0,0 +1,29 @@
+>> +kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-4-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-4-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-4-displays-3840x2160p,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
+>>
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
+>> +kms_plane_alpha_blend@pipe-A-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-A-alpha-transparent-fb,Fail
+>> +kms_plane_alpha_blend@pipe-A-constant-alpha-max,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-transparent-fb,Fail
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max,Fail
+>> +kms_plane_alpha_blend@pipe-C-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-C-alpha-transparent-fb,Fail
+>> +kms_plane_alpha_blend@pipe-C-constant-alpha-max,Fail
+>> +kms_sysfs_edid_timing,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-apl-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-apl-flakes.txt
+>> new file mode 100644
+>> index 000000000000..618bbe6bb793
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-apl-flakes.txt
+>> @@ -0,0 +1 @@
+>> +kms_frontbuffer_tracking@fbc-tiling-linear
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-apl-skips.txt 
+>> b/drivers/gpu/drm/ci/i915-apl-skips.txt
+>> new file mode 100644
+>> index 000000000000..e2c538a0f954
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-apl-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-cml-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-cml-flakes.txt
+>> new file mode 100644
+>> index 000000000000..a214419c6dc5
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-cml-flakes.txt
+>> @@ -0,0 +1,36 @@
+>> +kms_bw@linear-tiling-2-displays-1920x1080p
+>> +kms_bw@linear-tiling-2-displays-2560x1440p
+>> +kms_bw@linear-tiling-2-displays-3840x2160p
+>> +kms_bw@linear-tiling-3-displays-1920x1080p
+>> +kms_bw@linear-tiling-3-displays-2560x1440p
+>> +kms_bw@linear-tiling-3-displays-3840x2160p
+>> +kms_bw@linear-tiling-4-displays-1920x1080p
+>> +kms_bw@linear-tiling-4-displays-2560x1440p
+>> +kms_bw@linear-tiling-4-displays-3840x2160p
+>> +kms_flip@flip-vs-suspend
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling
+>> +kms_hdr@bpc-switch-suspend
+>> +kms_plane_alpha_blend@pipe-A-alpha-basic
+>> +kms_plane_alpha_blend@pipe-A-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-A-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-A-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-B-alpha-basic
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-B-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-C-alpha-basic
+>> +kms_plane_alpha_blend@pipe-C-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-C-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-C-constant-alpha-max
+>> +kms_psr2_su@page_flip-NV12
+>> +kms_psr2_su@page_flip-P010
+>> +kms_setmode@basic
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-glk-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-glk-flakes.txt
+>> new file mode 100644
+>> index 000000000000..aedb3d2ef885
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-glk-flakes.txt
+>> @@ -0,0 +1,40 @@
+>> +kms_bw@linear-tiling-1-displays-3840x2160p
+>> +kms_bw@linear-tiling-2-displays-1920x1080p
+>> +kms_bw@linear-tiling-2-displays-2560x1440p
+>> +kms_bw@linear-tiling-2-displays-3840x2160p
+>> +kms_bw@linear-tiling-3-displays-1920x1080p
+>> +kms_bw@linear-tiling-3-displays-2560x1440p
+>> +kms_bw@linear-tiling-3-displays-3840x2160p
+>> +kms_bw@linear-tiling-4-displays-1920x1080p
+>> +kms_bw@linear-tiling-4-displays-2560x1440p
+>> +kms_bw@linear-tiling-4-displays-3840x2160p
+>> +kms_flip@blocking-wf_vblank
+>> +kms_flip@wf_vblank-ts-check
+>> +kms_flip@wf_vblank-ts-check-interruptible
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling
+>> +kms_frontbuffer_tracking@fbc-tiling-linear
+>> +kms_plane_alpha_blend@pipe-A-alpha-basic
+>> +kms_plane_alpha_blend@pipe-A-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-A-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-A-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-B-alpha-basic
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-B-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-C-alpha-basic
+>> +kms_plane_alpha_blend@pipe-C-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-C-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-C-constant-alpha-max
+>> +kms_rotation_crc@multiplane-rotation
+>> +kms_rotation_crc@multiplane-rotation-cropping-bottom
+>> +kms_rotation_crc@multiplane-rotation-cropping-top
+>> +kms_setmode@basic
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-glk-skips.txt 
+>> b/drivers/gpu/drm/ci/i915-glk-skips.txt
+>> new file mode 100644
+>> index 000000000000..e2c538a0f954
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-glk-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-kbl-fails.txt 
+>> b/drivers/gpu/drm/ci/i915-kbl-fails.txt
+>> new file mode 100644
+>> index 000000000000..f81f065e27e8
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-kbl-fails.txt
+>> @@ -0,0 +1,8 @@
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-4-displays-2560x1440p,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
+>> +kms_plane_alpha_blend@pipe-A-constant-alpha-max,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-C-constant-alpha-max,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-kbl-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-kbl-flakes.txt
+>> new file mode 100644
+>> index 000000000000..f82017654cf5
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-kbl-flakes.txt
+>> @@ -0,0 +1,24 @@
+>> +kms_bw@linear-tiling-2-displays-1920x1080p
+>> +kms_bw@linear-tiling-2-displays-3840x2160p
+>> +kms_bw@linear-tiling-3-displays-1920x1080p
+>> +kms_bw@linear-tiling-3-displays-2560x1440p
+>> +kms_bw@linear-tiling-3-displays-3840x2160p
+>> +kms_bw@linear-tiling-4-displays-1920x1080p
+>> +kms_bw@linear-tiling-4-displays-3840x2160p
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling
+>> +kms_plane_alpha_blend@pipe-A-alpha-basic
+>> +kms_plane_alpha_blend@pipe-A-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-A-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-B-alpha-basic
+>> +kms_plane_alpha_blend@pipe-B-alpha-transparent-fb
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max
+>> +kms_plane_alpha_blend@pipe-C-alpha-basic
+>> +kms_plane_alpha_blend@pipe-C-alpha-opaque-fb
+>> +kms_plane_alpha_blend@pipe-C-alpha-transparent-fb
+>> +kms_sysfs_edid_timing
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-kbl-skips.txt 
+>> b/drivers/gpu/drm/ci/i915-kbl-skips.txt
+>> new file mode 100644
+>> index 000000000000..e2c538a0f954
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-kbl-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-tgl-fails.txt 
+>> b/drivers/gpu/drm/ci/i915-tgl-fails.txt
+>> new file mode 100644
+>> index 000000000000..270644ce220c
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-tgl-fails.txt
+>> @@ -0,0 +1,19 @@
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-4-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-4-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-4-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-5-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-5-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-5-displays-3840x2160p,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
+>>
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
+>> +kms_rotation_crc@bad-pixel-format,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-tgl-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-tgl-flakes.txt
+>> new file mode 100644
+>> index 000000000000..15fba77ff19d
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-tgl-flakes.txt
+>> @@ -0,0 +1,6 @@
+>> +kms_draw_crc@draw-method-rgb565-blt-untiled
+>> +kms_draw_crc@draw-method-xrgb8888-mmap-gtt-untiled
+>> +kms_draw_crc@draw-method-xrgb8888-mmap-gtt-xtiled
+>> +kms_flip@blocking-absolute-wf_vblank
+>> +kms_flip@bo-too-big-interruptible
+>> +kms_flip@flip-vs-rmfb-interruptible
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-tgl-skips.txt 
+>> b/drivers/gpu/drm/ci/i915-tgl-skips.txt
+>> new file mode 100644
+>> index 000000000000..14f33c7ba03b
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-tgl-skips.txt
+>> @@ -0,0 +1,8 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> +
+>> +# GPU hangs, then the whole machine
+>> +gem_eio.*
+>> +
+>> +# Whole machine hangs
+>> +kms_flip@absolute-wf_vblank@a-edp1
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-whl-fails.txt 
+>> b/drivers/gpu/drm/ci/i915-whl-fails.txt
+>> new file mode 100644
+>> index 000000000000..dbfedfa5d63f
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-whl-fails.txt
+>> @@ -0,0 +1,30 @@
+>> +kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-4-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-4-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-4-displays-3840x2160p,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
+>>
+>> +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
+>> +kms_frontbuffer_tracking@fbc-tiling-linear,Fail
+>> +kms_plane_alpha_blend@pipe-A-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-A-alpha-transparent-fb,Fail
+>> +kms_plane_alpha_blend@pipe-A-constant-alpha-max,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-transparent-fb,Fail
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max,Fail
+>> +kms_plane_alpha_blend@pipe-C-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-C-alpha-transparent-fb,Fail
+>> +kms_plane_alpha_blend@pipe-C-constant-alpha-max,Fail
+>> +kms_sysfs_edid_timing,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/i915-whl-flakes.txt 
+>> b/drivers/gpu/drm/ci/i915-whl-flakes.txt
+>> new file mode 100644
+>> index 000000000000..6bcac5b84fbb
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/i915-whl-flakes.txt
+>> @@ -0,0 +1 @@
+>> +kms_flip@flip-vs-suspend
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/mediatek-mt8173-fails.txt 
+>> b/drivers/gpu/drm/ci/mediatek-mt8173-fails.txt
+>> new file mode 100644
+>> index 000000000000..7f74fb9afc99
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/mediatek-mt8173-fails.txt
+>> @@ -0,0 +1,29 @@
+>> +kms_3d,Fail
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_bw@linear-tiling-1-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-1-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-1-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>> +kms_color@pipe-A-invalid-gamma-lut-sizes,Fail
+>> +kms_color@pipe-B-invalid-gamma-lut-sizes,Fail
+>> +kms_force_connector_basic@force-connector-state,Fail
+>> +kms_force_connector_basic@force-edid,Fail
+>> +kms_force_connector_basic@force-load-detect,Fail
+>> +kms_force_connector_basic@prune-stale-modes,Fail
+>> +kms_invalid_mode@int-max-clock,Fail
+>> +kms_plane_scaling@planes-upscale-20x20,Fail
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-25,Fail
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-5,Fail
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-75,Fail
+>> +kms_plane_scaling@upscale-with-modifier-20x20,Fail
+>> +kms_plane_scaling@upscale-with-pixel-format-20x20,Fail
+>> +kms_plane_scaling@upscale-with-rotation-20x20,Fail
+>> +kms_properties@get_properties-sanity-atomic,Fail
+>> +kms_properties@plane-properties-atomic,Fail
+>> +kms_properties@plane-properties-legacy,Fail
+>> +kms_rmfb@close-fd,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/mediatek-mt8183-fails.txt 
+>> b/drivers/gpu/drm/ci/mediatek-mt8183-fails.txt
+>> new file mode 100644
+>> index 000000000000..6ff81d00e84e
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/mediatek-mt8183-fails.txt
+>> @@ -0,0 +1,10 @@
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_bw@linear-tiling-1-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>> +kms_color@pipe-A-invalid-gamma-lut-sizes,Fail
+>> +kms_plane_scaling@upscale-with-rotation-20x20,Fail
+>> +kms_rmfb@close-fd,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/mediatek-mt8183-flakes.txt 
+>> b/drivers/gpu/drm/ci/mediatek-mt8183-flakes.txt
+>> new file mode 100644
+>> index 000000000000..208890b79eb0
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/mediatek-mt8183-flakes.txt
+>> @@ -0,0 +1,14 @@
+>> +core_setmaster_vs_auth
+>> +kms_bw@linear-tiling-1-displays-1920x1080p
+>> +kms_bw@linear-tiling-1-displays-3840x2160p
+>> +kms_bw@linear-tiling-3-displays-1920x1080p
+>> +kms_cursor_legacy@cursor-vs-flip-atomic
+>> +kms_plane_scaling@invalid-num-scalers
+>> +kms_plane_scaling@planes-upscale-20x20
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-5
+>> +kms_plane_scaling@upscale-with-modifier-20x20
+>> +kms_plane_scaling@upscale-with-pixel-format-20x20
+>> +kms_prop_blob@invalid-set-prop-any
+>> +kms_properties@get_properties-sanity-atomic
+>> +kms_properties@plane-properties-atomic
+>> +kms_properties@plane-properties-legacy
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/meson-g12b-fails.txt 
+>> b/drivers/gpu/drm/ci/meson-g12b-fails.txt
+>> new file mode 100644
+>> index 000000000000..345e1426b3a3
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/meson-g12b-fails.txt
+>> @@ -0,0 +1,5 @@
+>> +kms_3d,Fail
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_properties@connector-properties-atomic,Fail
+>> +kms_properties@get_properties-sanity-atomic,Fail
+>> +kms_properties@get_properties-sanity-non-atomic,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/meson-g12b-flakes.txt 
+>> b/drivers/gpu/drm/ci/meson-g12b-flakes.txt
+>> new file mode 100644
+>> index 000000000000..b63329d06767
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/meson-g12b-flakes.txt
+>> @@ -0,0 +1,4 @@
+>> +kms_force_connector_basic@force-connector-state
+>> +kms_force_connector_basic@force-edid
+>> +kms_force_connector_basic@force-load-detect
+>> +kms_force_connector_basic@prune-stale-modes
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/msm-apq8016-fails.txt 
+>> b/drivers/gpu/drm/ci/msm-apq8016-fails.txt
+>> new file mode 100644
+>> index 000000000000..16c2dfab3f16
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-apq8016-fails.txt
+>> @@ -0,0 +1,15 @@
+>> +kms_3d,Fail
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_cursor_legacy@all-pipes-forked-move,Fail
+>> +kms_cursor_legacy@all-pipes-torture-bo,Fail
+>> +kms_cursor_legacy@all-pipes-forked-bo,Fail
+>> +kms_cursor_legacy@all-pipes-single-bo,Fail
+>> +kms_cursor_legacy@all-pipes-single-move,Fail
+>> +kms_cursor_legacy@all-pipes-torture-move,Fail
+>> +kms_cursor_legacy@pipe-A-forked-bo,Fail
+>> +kms_cursor_legacy@pipe-A-forked-move,Fail
+>> +kms_cursor_legacy@pipe-A-single-bo,Fail
+>> +kms_cursor_legacy@pipe-A-single-move,Fail
+>> +kms_cursor_legacy@pipe-A-torture-bo,Fail
+>> +kms_cursor_legacy@pipe-A-torture-move,Fail
+>> +kms_hdmi_inject@inject-4k,Fail
+>> diff --git a/drivers/gpu/drm/ci/msm-apq8016-flakes.txt 
+>> b/drivers/gpu/drm/ci/msm-apq8016-flakes.txt
+>> new file mode 100644
+>> index 000000000000..b63329d06767
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-apq8016-flakes.txt
+>> @@ -0,0 +1,4 @@
+>> +kms_force_connector_basic@force-connector-state
+>> +kms_force_connector_basic@force-edid
+>> +kms_force_connector_basic@force-load-detect
+>> +kms_force_connector_basic@prune-stale-modes
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/msm-apq8096-fails.txt 
+>> b/drivers/gpu/drm/ci/msm-apq8096-fails.txt
+>> new file mode 100644
+>> index 000000000000..88a1fc0a3b0d
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-apq8096-fails.txt
+>> @@ -0,0 +1,2 @@
+>> +kms_3d,Fail
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> diff --git a/drivers/gpu/drm/ci/msm-apq8096-flakes.txt 
+>> b/drivers/gpu/drm/ci/msm-apq8096-flakes.txt
+>> new file mode 100644
+>> index 000000000000..b63329d06767
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-apq8096-flakes.txt
+>> @@ -0,0 +1,4 @@
+>> +kms_force_connector_basic@force-connector-state
+>> +kms_force_connector_basic@force-edid
+>> +kms_force_connector_basic@force-load-detect
+>> +kms_force_connector_basic@prune-stale-modes
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/msm-apq8096-skips.txt 
+>> b/drivers/gpu/drm/ci/msm-apq8096-skips.txt
+>> new file mode 100644
+>> index 000000000000..cd49c8ce2059
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-apq8096-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Whole machine hangs
+>> +kms_cursor_legacy@all-pipes-torture-move
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/msm-sc7180-fails.txt 
+>> b/drivers/gpu/drm/ci/msm-sc7180-fails.txt
+>> new file mode 100644
+>> index 000000000000..0b159b6469c8
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-sc7180-fails.txt
+>> @@ -0,0 +1,22 @@
+>> +kms_cursor_legacy@cursor-vs-flip-toggle,Fail
+>> +kms_cursor_legacy@cursorA-vs-flipA-atomic-transitions,Crash
+>> +kms_plane@pixel-format,Fail
+>> +kms_plane@pixel-format-source-clamping,Fail
+>> +kms_plane@plane-position-covered,Fail
+>> +kms_plane@plane-position-hole,Fail
+>> +kms_plane@plane-position-hole-dpms,Fail
+>> +kms_plane_alpha_blend@pipe-A-alpha-7efc,Fail
+>> +kms_plane_alpha_blend@pipe-A-coverage-7efc,Fail
+>> +kms_plane_alpha_blend@pipe-A-coverage-vs-premult-vs-constant,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-7efc,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-basic,Fail
+>> +kms_plane_alpha_blend@pipe-B-alpha-opaque-fb,Fail
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-max,Fail
+>> +kms_plane_alpha_blend@pipe-B-constant-alpha-mid,Fail
+>> +kms_plane_alpha_blend@pipe-B-coverage-7efc,Fail
+>> +kms_plane_alpha_blend@pipe-B-coverage-vs-premult-vs-constant,Fail
+>> +kms_plane_multiple@atomic-pipe-A-tiling-none,Crash
+>> +kms_rmfb@close-fd,Fail
+>> +kms_rotation_crc@primary-rotation-180,Fail
+>> +kms_universal_plane@disable-primary-vs-flip-pipe-B,Fail
+>> +kms_universal_plane@disable-primary-vs-flip-pipe-b,Fail
+>> diff --git a/drivers/gpu/drm/ci/msm-sc7180-flakes.txt 
+>> b/drivers/gpu/drm/ci/msm-sc7180-flakes.txt
+>> new file mode 100644
+>> index 000000000000..6022edace190
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-sc7180-flakes.txt
+>> @@ -0,0 +1,14 @@
+>> +# Test ends up reading CRC from frame before cursor update
+>> +# sometimes.. tbd if this is a kernel CRC bug or a test
+>> +# bug
+>> +kms_cursor_crc@pipe-.*
+>> +
+>> +kms_cursor_edge_walk@pipe-A-64x64-bottom-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-left-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-top-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-bottom-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-left-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-top-edge
+>> +kms_plane_multiple@atomic-pipe-A-tiling-none
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/msm-sc7180-skips.txt 
+>> b/drivers/gpu/drm/ci/msm-sc7180-skips.txt
+>> new file mode 100644
+>> index 000000000000..40916ddff81f
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-sc7180-skips.txt
+>> @@ -0,0 +1,18 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> +
+>> +# Test incorrectly assumes that CTM support implies gamma/degamma
+>> +# LUT support.  None of the subtests handle the case of only having
+>> +# CTM support
+>> +kms_color.*
+>> +
+>> +# 4k@60 is not supported on this hw, but driver doesn't handle it
+>> +# too gracefully.. https://gitlab.freedesktop.org/drm/msm/-/issues/15
+>> +kms_bw@linear-tiling-.*-displays-3840x2160p
+>> +
+>> +# Until igt fix lands: https://patchwork.freedesktop.org/patch/493175/
+>> +kms_bw@linear-tiling-2.*
+>> +kms_bw@linear-tiling-3.*
+>> +kms_bw@linear-tiling-4.*
+>> +kms_bw@linear-tiling-5.*
+>> +kms_bw@linear-tiling-6.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/msm-sdm845-fails.txt 
+>> b/drivers/gpu/drm/ci/msm-sdm845-fails.txt
+>> new file mode 100644
+>> index 000000000000..8133927a44df
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-sdm845-fails.txt
+>> @@ -0,0 +1,44 @@
+>> +kms_color@pipe-A-ctm-0-25,Fail
+>> +kms_color@pipe-A-ctm-0-5,Fail
+>> +kms_color@pipe-A-ctm-0-75,Fail
+>> +kms_color@pipe-A-ctm-blue-to-red,Fail
+>> +kms_color@pipe-A-ctm-green-to-red,Fail
+>> +kms_color@pipe-A-ctm-max,Fail
+>> +kms_color@pipe-A-ctm-negative,Fail
+>> +kms_color@pipe-A-ctm-red-to-blue,Fail
+>> +kms_color@pipe-A-legacy-gamma,Fail
+>> +kms_cursor_legacy@basic-flip-after-cursor-atomic,Fail
+>> +kms_cursor_legacy@basic-flip-after-cursor-legacy,Fail
+>> +kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
+>> +kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
+>> +kms_cursor_legacy@cursor-vs-flip-atomic,Fail
+>> +kms_cursor_legacy@cursor-vs-flip-atomic-transitions,Fail
+>> +kms_cursor_legacy@cursor-vs-flip-legacy,Fail
+>> +kms_cursor_legacy@cursor-vs-flip-toggle,Fail
+>> +kms_cursor_legacy@flip-vs-cursor-atomic,Fail
+>> +kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
+>> +kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
+>> +kms_cursor_legacy@flip-vs-cursor-legacy,Fail
+>> +kms_cursor_legacy@short-flip-after-cursor-atomic-transitions,Fail
+>> +kms_cursor_legacy@short-flip-after-cursor-toggle,Fail
+>> +kms_cursor_legacy@short-flip-before-cursor-atomic-transitions,Fail
+>> +kms_cursor_legacy@short-flip-before-cursor-toggle,Fail
+>> +kms_plane@pixel-format,Fail
+>> +kms_plane@pixel-format-source-clamping,Fail
+>> +kms_plane_alpha_blend@pipe-A-alpha-7efc,Fail
+>> +kms_plane_alpha_blend@pipe-A-coverage-7efc,Fail
+>> +kms_plane_alpha_blend@pipe-A-coverage-vs-premult-vs-constant,Fail
+>> +kms_plane_cursor@pipe-A-overlay-size-128,Fail
+>> +kms_plane_cursor@pipe-A-overlay-size-256,Fail
+>> +kms_plane_cursor@pipe-A-overlay-size-64,Fail
+>> +kms_plane_cursor@pipe-A-viewport-size-128,Fail
+>> +kms_plane_cursor@pipe-A-viewport-size-256,Fail
+>> +kms_plane_cursor@pipe-A-viewport-size-64,Fail
+>> +kms_plane_scaling@downscale-with-pixel-format-factor-0-25,Timeout
+>> +kms_plane_scaling@downscale-with-pixel-format-factor-0-5,Timeout
+>> +kms_plane_scaling@downscale-with-pixel-format-factor-0-75,Timeout
+>> +kms_plane_scaling@invalid-num-scalers,Fail
+>> +kms_plane_scaling@planes-downscale-factor-0-25,Fail
+>> +kms_plane_scaling@scaler-with-clipping-clamping,Timeout
+>> +kms_plane_scaling@scaler-with-pixel-format-unity-scaling,Timeout
+>> +kms_rmfb@close-fd,Fail
+>> diff --git a/drivers/gpu/drm/ci/msm-sdm845-flakes.txt 
+>> b/drivers/gpu/drm/ci/msm-sdm845-flakes.txt
+>> new file mode 100644
+>> index 000000000000..da4406b74828
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-sdm845-flakes.txt
+>> @@ -0,0 +1,33 @@
+>> +# Test ends up reading CRC from frame before cursor update
+>> +# sometimes.. tbd if this is a kernel CRC bug or a test
+>> +# bug
+>> +kms_cursor_crc@pipe-A-cursor-alpha-opaque
+>> +kms_cursor_crc@pipe-A-cursor-dpms
+>> +kms_cursor_crc@pipe-A-cursor-size-change
+>> +kms_cursor_legacy@flip-vs-cursor-toggle
+>> +kms_cursor_legacy@pipe-A-forked-bo
+>> +kms_cursor_legacy@pipe-A-forked-move
+>> +kms_cursor_crc@pipe-A-cursor-32x10-offscreen
+>> +kms_cursor_crc@pipe-A-cursor-32x10-onscreen
+>> +kms_cursor_crc@pipe-A-cursor-32x10-random
+>> +kms_cursor_crc@pipe-A-cursor-32x10-sliding
+>> +kms_cursor_crc@pipe-A-cursor-32x32-offscreen
+>> +kms_cursor_crc@pipe-A-cursor-32x32-onscreen
+>> +kms_cursor_crc@pipe-A-cursor-32x32-random
+>> +kms_cursor_crc@pipe-A-cursor-32x32-sliding
+>> +kms_cursor_crc@pipe-A-cursor-64x21-offscreen
+>> +kms_cursor_crc@pipe-A-cursor-64x21-onscreen
+>> +kms_cursor_crc@pipe-A-cursor-64x21-random
+>> +kms_cursor_crc@pipe-A-cursor-64x21-sliding
+>> +kms_cursor_crc@pipe-A-cursor-64x64-offscreen
+>> +kms_cursor_crc@pipe-A-cursor-64x64-onscreen
+>> +kms_cursor_crc@pipe-A-cursor-64x64-random
+>> +kms_cursor_crc@pipe-A-cursor-64x64-sliding
+>> +kms_cursor_crc@pipe-A-cursor-dpms
+>> +kms_cursor_crc@pipe-A-cursor-suspend
+>> +kms_cursor_edge_walk@pipe-A-64x64-bottom-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-left-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-top-edge
+>> +
+>> +kms_flip@dpms-vs-vblank-race-interruptible
+>> diff --git a/drivers/gpu/drm/ci/msm-sdm845-skips.txt 
+>> b/drivers/gpu/drm/ci/msm-sdm845-skips.txt
+>> new file mode 100644
+>> index 000000000000..42675f1c6d76
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/msm-sdm845-skips.txt
+>> @@ -0,0 +1,2 @@
+>> +# Hangs machine
+>> +kms_bw.*
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/rockchip-rk3288-fails.txt 
+>> b/drivers/gpu/drm/ci/rockchip-rk3288-fails.txt
+>> new file mode 100644
+>> index 000000000000..e2a264647a58
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/rockchip-rk3288-fails.txt
+>> @@ -0,0 +1,75 @@
+>> +kms_3d,Fail
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-3-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-3-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x21-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x21-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x21-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-alpha-opaque,Fail
+>> +kms_cursor_crc@pipe-A-cursor-dpms,Fail
+>> +kms_cursor_crc@pipe-A-cursor-size-change,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-sliding,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-sliding,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x21-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x21-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-sliding,Fail
+>> +kms_cursor_crc@pipe-B-cursor-alpha-opaque,Fail
+>> +kms_cursor_crc@pipe-B-cursor-size-change,Fail
+>> +kms_force_connector_basic@force-connector-state,Fail
+>> +kms_force_connector_basic@force-edid,Fail
+>> +kms_force_connector_basic@force-load-detect,Fail
+>> +kms_force_connector_basic@prune-stale-modes,Fail
+>> +kms_invalid_mode@int-max-clock,Fail
+>> +kms_pipe_crc_basic@nonblocking-crc-pipe-A-frame-sequence,Fail
+>> +kms_pipe_crc_basic@nonblocking-crc-pipe-B-frame-sequence,Fail
+>> +kms_pipe_crc_basic@read-crc-pipe-A-frame-sequence,Fail
+>> +kms_pipe_crc_basic@read-crc-pipe-B-frame-sequence,Fail
+>> +kms_plane_cursor@pipe-A-overlay-size-128,Fail
+>> +kms_plane_cursor@pipe-A-overlay-size-256,Fail
+>> +kms_plane_cursor@pipe-A-overlay-size-64,Fail
+>> +kms_plane_cursor@pipe-A-primary-size-128,Fail
+>> +kms_plane_cursor@pipe-A-primary-size-256,Fail
+>> +kms_plane_cursor@pipe-A-primary-size-64,Fail
+>> +kms_plane_cursor@pipe-A-viewport-size-128,Fail
+>> +kms_plane_cursor@pipe-A-viewport-size-256,Fail
+>> +kms_plane_cursor@pipe-A-viewport-size-64,Fail
+>> +kms_plane_cursor@pipe-B-overlay-size-128,Fail
+>> +kms_plane_cursor@pipe-B-overlay-size-256,Fail
+>> +kms_plane_cursor@pipe-B-overlay-size-64,Fail
+>> +kms_plane_cursor@pipe-B-primary-size-128,Fail
+>> +kms_plane_cursor@pipe-B-primary-size-256,Fail
+>> +kms_plane_cursor@pipe-B-primary-size-64,Fail
+>> +kms_plane_cursor@pipe-B-viewport-size-128,Fail
+>> +kms_plane_cursor@pipe-B-viewport-size-256,Fail
+>> +kms_plane_cursor@pipe-B-viewport-size-64,Fail
+>> +kms_plane_scaling@downscale-with-modifier-factor-0-25,Fail
+>> +kms_plane_scaling@downscale-with-rotation-factor-0-25,Fail
+>> +kms_plane_scaling@upscale-with-modifier-20x20,Fail
+>> +kms_plane_scaling@upscale-with-modifier-factor-0-25,Fail
+>> +kms_plane_scaling@upscale-with-pixel-format-20x20,Fail
+>> +kms_plane_scaling@upscale-with-pixel-format-factor-0-25,Fail
+>> +kms_plane_scaling@upscale-with-rotation-20x20,Fail
+>> +kms_prime@basic-crc,Fail
+>> +kms_properties@connector-properties-atomic,Fail
+>> +kms_properties@get_properties-sanity-atomic,Fail
+>> +kms_properties@get_properties-sanity-non-atomic,Fail
+>> +kms_rmfb@close-fd,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/rockchip-rk3288-flakes.txt 
+>> b/drivers/gpu/drm/ci/rockchip-rk3288-flakes.txt
+>> new file mode 100644
+>> index 000000000000..447fb26cc344
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/rockchip-rk3288-flakes.txt
+>> @@ -0,0 +1,5 @@
+>> +kms_cursor_crc@pipe-B-cursor-dpms
+>> +kms_cursor_edge_walk@pipe-A-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-A-64x64-top-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-top-edge
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/rockchip-rk3288-skips.txt 
+>> b/drivers/gpu/drm/ci/rockchip-rk3288-skips.txt
+>> new file mode 100644
+>> index 000000000000..26f9a03fc074
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/rockchip-rk3288-skips.txt
+>> @@ -0,0 +1,46 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> +
+>> +# Too unstable, machine ends up hanging after lots of Oopses
+>> +kms_cursor_legacy.*
+>> +
+>> +# Started hanging the machine on Linux 5.19-rc2:
+>> +#
+>> +# [IGT] kms_plane_lowres: executing
+>> +# [IGT] kms_plane_lowres: starting subtest pipe-F-tiling-y
+>> +# [IGT] kms_plane_lowres: exiting, ret=77
+>> +# Console: switching to colour frame buffer device 170x48
+>> +# rockchip-drm display-subsystem: [drm] *ERROR* flip_done timed out
+>> +# rockchip-drm display-subsystem: [drm] *ERROR* [CRTC:35:crtc-0] 
+>> commit wait timed out
+>> +# BUG: spinlock bad magic on CPU#3, kms_plane_lowre/482
+>> +# 8<--- cut here ---
+>> +# Unable to handle kernel paging request at virtual address 7812078e
+>> +# [7812078e] *pgd=00000000
+>> +# Internal error: Oops: 5 [#1] SMP ARM
+>> +# Modules linked in:
+>> +# CPU: 3 PID: 482 Comm: kms_plane_lowre Tainted: G        W         
+>> 5.19.0-rc2-323596-g00535de92171 #1
+>> +# Hardware name: Rockchip (Device Tree)
+>> +# Process kms_plane_lowre (pid: 482, stack limit = 0x1193ac2b)
+>> +#  spin_dump from do_raw_spin_lock+0xa4/0xe8
+>> +#  do_raw_spin_lock from wait_for_completion_timeout+0x2c/0x120
+>> +#  wait_for_completion_timeout from drm_crtc_commit_wait+0x18/0x7c
+>> +#  drm_crtc_commit_wait from 
+>> drm_atomic_helper_wait_for_dependencies+0x44/0x168
+>> +#  drm_atomic_helper_wait_for_dependencies from commit_tail+0x34/0x180
+>> +#  commit_tail from drm_atomic_helper_commit+0x164/0x18c
+>> +#  drm_atomic_helper_commit from drm_atomic_commit+0xac/0xe4
+>> +#  drm_atomic_commit from drm_client_modeset_commit_atomic+0x23c/0x284
+>> +#  drm_client_modeset_commit_atomic from 
+>> drm_client_modeset_commit_locked+0x60/0x1c8
+>> +#  drm_client_modeset_commit_locked from 
+>> drm_client_modeset_commit+0x24/0x40
+>> +#  drm_client_modeset_commit from drm_fbdev_client_restore+0x58/0x94
+>> +#  drm_fbdev_client_restore from drm_client_dev_restore+0x70/0xbc
+>> +#  drm_client_dev_restore from drm_release+0xf4/0x114
+>> +#  drm_release from __fput+0x74/0x240
+>> +#  __fput from task_work_run+0x84/0xb4
+>> +#  task_work_run from do_exit+0x34c/0xa20
+>> +#  do_exit from do_group_exit+0x34/0x98
+>> +#  do_group_exit from __wake_up_parent+0x0/0x18
+>> +# Code: e595c008 12843d19 03e00000 03093168 (15940508)
+>> +# ---[ end trace 0000000000000000 ]---
+>> +# note: kms_plane_lowre[482] exited with preempt_count 1
+>> +# Fixing recursive fault but reboot is needed!
+>> +kms_plane_lowres@pipe-F-tiling-y
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/rockchip-rk3399-fails.txt 
+>> b/drivers/gpu/drm/ci/rockchip-rk3399-fails.txt
+>> new file mode 100644
+>> index 000000000000..0f8afa7e2adc
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/rockchip-rk3399-fails.txt
+>> @@ -0,0 +1,86 @@
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_color@pipe-A-legacy-gamma,Fail
+>> +kms_color@pipe-B-legacy-gamma,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-offscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x10-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-offscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-A-cursor-32x32-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x21-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x21-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x21-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-offscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-onscreen,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-random,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-A-cursor-64x64-sliding,Fail
+>> +kms_cursor_crc@pipe-A-cursor-alpha-opaque,Fail
+>> +kms_cursor_crc@pipe-A-cursor-alpha-transparent,Fail
+>> +kms_cursor_crc@pipe-A-cursor-dpms,Fail
+>> +kms_cursor_crc@pipe-A-cursor-size-change,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x10-sliding,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-offscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-B-cursor-32x32-sliding,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x21-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x21-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x21-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-offscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-onscreen,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-random,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-rapid-movement,Fail
+>> +kms_cursor_crc@pipe-B-cursor-64x64-sliding,Fail
+>> +kms_cursor_crc@pipe-B-cursor-alpha-opaque,Fail
+>> +kms_cursor_crc@pipe-B-cursor-dpms,Fail
+>> +kms_cursor_crc@pipe-B-cursor-size-change,Fail
+>> +kms_cursor_edge_walk@pipe-A-64x64-bottom-edge,Fail
+>> +kms_cursor_edge_walk@pipe-A-64x64-left-edge,Fail
+>> +kms_cursor_edge_walk@pipe-A-64x64-top-edge,Fail
+>> +kms_cursor_edge_walk@pipe-B-64x64-bottom-edge,Fail
+>> +kms_cursor_edge_walk@pipe-B-64x64-right-edge,Fail
+>> +kms_cursor_edge_walk@pipe-B-64x64-top-edge,Fail
+>> +kms_invalid_mode@int-max-clock,Fail
+>> +kms_pipe_crc_basic@compare-crc-sanitycheck-pipe-A,Fail
+>> +kms_pipe_crc_basic@nonblocking-crc-pipe-A,Fail
+>> +kms_pipe_crc_basic@nonblocking-crc-pipe-A-frame-sequence,Fail
+>> +kms_pipe_crc_basic@nonblocking-crc-pipe-B,Fail
+>> +kms_pipe_crc_basic@nonblocking-crc-pipe-B-frame-sequence,Fail
+>> +kms_pipe_crc_basic@read-crc-pipe-A,Fail
+>> +kms_pipe_crc_basic@read-crc-pipe-A-frame-sequence,Fail
+>> +kms_pipe_crc_basic@read-crc-pipe-B,Fail
+>> +kms_pipe_crc_basic@read-crc-pipe-B-frame-sequence,Fail
+>> +kms_plane@plane-panning-bottom-right,Fail
+>> +kms_plane@plane-panning-top-left,Fail
+>> +kms_plane_cursor@pipe-B-overlay-size-128,Fail
+>> +kms_plane_cursor@pipe-B-overlay-size-256,Fail
+>> +kms_plane_cursor@pipe-B-overlay-size-64,Fail
+>> +kms_plane_cursor@pipe-B-primary-size-128,Fail
+>> +kms_plane_cursor@pipe-B-primary-size-256,Fail
+>> +kms_plane_cursor@pipe-B-primary-size-64,Fail
+>> +kms_plane_cursor@pipe-B-viewport-size-128,Fail
+>> +kms_plane_cursor@pipe-B-viewport-size-256,Fail
+>> +kms_plane_cursor@pipe-B-viewport-size-64,Fail
+>> +kms_plane_multiple@atomic-pipe-B-tiling-none,Fail
+>> +kms_prime@basic-crc,Fail
+>> +kms_rmfb@close-fd,Fail
+>> +kms_universal_plane@universal-plane-pipe-B-functional,Fail
+>> +kms_vblank@pipe-A-query-forked,Fail
+>> +kms_vblank@pipe-A-query-idle,Fail
+>> +kms_vblank@pipe-A-wait-busy,Fail
+>> +kms_vblank@pipe-A-wait-forked,Fail
+>> +kms_vblank@pipe-A-wait-forked-busy,Fail
+>> +kms_vblank@pipe-B-query-forked,Fail
+>> +kms_vblank@pipe-B-query-idle,Fail
+>> +kms_vblank@pipe-B-wait-busy,Fail
+>> +kms_vblank@pipe-B-wait-forked,Fail
+>> +kms_vblank@pipe-B-wait-forked-busy,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/rockchip-rk3399-flakes.txt 
+>> b/drivers/gpu/drm/ci/rockchip-rk3399-flakes.txt
+>> new file mode 100644
+>> index 000000000000..b4c37a4315e4
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/rockchip-rk3399-flakes.txt
+>> @@ -0,0 +1,25 @@
+>> +kms_cursor_crc@pipe-A-cursor-64x21-offscreen
+>> +kms_cursor_crc@pipe-A-cursor-64x21-rapid-movement
+>> +kms_cursor_crc@pipe-B-cursor-32x10-offscreen
+>> +kms_cursor_crc@pipe-B-cursor-32x10-rapid-movement
+>> +kms_cursor_crc@pipe-B-cursor-32x32-offscreen
+>> +kms_cursor_crc@pipe-B-cursor-32x32-rapid-movement
+>> +kms_cursor_crc@pipe-B-cursor-64x64-offscreen
+>> +kms_cursor_crc@pipe-B-cursor-64x64-rapid-movement
+>> +kms_cursor_edge_walk@pipe-A-64x64-right-edge
+>> +kms_cursor_edge_walk@pipe-B-64x64-left-edge
+>> +kms_flip@flip-vs-expired-vblank
+>> +kms_pipe_crc_basic@compare-crc-sanitycheck-pipe-B
+>> +kms_plane_multiple@atomic-pipe-A-tiling-none
+>> +kms_plane@plane-position-hole
+>> +kms_sequence@get-forked
+>> +kms_sequence@get-forked-busy
+>> +kms_setmode@basic
+>> +kms_vblank@pipe-A-accuracy-idle
+>> +kms_vblank@pipe-A-query-busy
+>> +kms_vblank@pipe-A-query-forked-busy
+>> +kms_vblank@pipe-A-wait-idle
+>> +kms_vblank@pipe-B-accuracy-idle
+>> +kms_vblank@pipe-B-query-busy
+>> +kms_vblank@pipe-B-query-forked-busy
+>> +kms_vblank@pipe-B-wait-idle
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/rockchip-rk3399-skips.txt 
+>> b/drivers/gpu/drm/ci/rockchip-rk3399-skips.txt
+>> new file mode 100644
+>> index 000000000000..10c3d81a919a
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/rockchip-rk3399-skips.txt
+>> @@ -0,0 +1,5 @@
+>> +# Suspend to RAM seems to be broken on this machine
+>> +.*suspend.*
+>> +
+>> +# Too unstable, machine ends up hanging after lots of Oopses
+>> +kms_cursor_legacy.*
+>> diff --git a/drivers/gpu/drm/ci/virtio_gpu-none-fails.txt 
+>> b/drivers/gpu/drm/ci/virtio_gpu-none-fails.txt
+>> new file mode 100644
+>> index 000000000000..2178bdd064dd
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/virtio_gpu-none-fails.txt
+>> @@ -0,0 +1,38 @@
+>> +kms_addfb_basic@addfb25-bad-modifier,Fail
+>> +kms_addfb_basic@bad-pitch-65536,Fail
+>> +kms_addfb_basic@bo-too-small,Fail
+>> +kms_addfb_basic@size-max,Fail
+>> +kms_addfb_basic@too-high,Fail
+>> +kms_atomic_transition@plane-primary-toggle-with-vblank-wait,Fail
+>> +kms_bw@linear-tiling-1-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-1-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-1-displays-3840x2160p,Fail
+>> +kms_bw@linear-tiling-2-displays-1920x1080p,Fail
+>> +kms_bw@linear-tiling-2-displays-2560x1440p,Fail
+>> +kms_bw@linear-tiling-2-displays-3840x2160p,Fail
+>> +kms_invalid_mode@int-max-clock,Fail
+>> +kms_plane_scaling@downscale-with-modifier-factor-0-25,Fail
+>> +kms_plane_scaling@downscale-with-rotation-factor-0-25,Fail
+>> +kms_plane_scaling@planes-upscale-20x20,Fail
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-25,Fail
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-5,Fail
+>> +kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-75,Fail
+>> +kms_plane_scaling@upscale-with-modifier-20x20,Fail
+>> +kms_plane_scaling@upscale-with-modifier-factor-0-25,Fail
+>> +kms_plane_scaling@upscale-with-pixel-format-20x20,Fail
+>> +kms_plane_scaling@upscale-with-pixel-format-factor-0-25,Fail
+>> +kms_plane_scaling@upscale-with-rotation-20x20,Fail
+>> +kms_vblank@crtc-id,Fail
+>> +kms_vblank@invalid,Fail
+>> +kms_vblank@pipe-A-accuracy-idle,Fail
+>> +kms_vblank@pipe-A-query-busy,Fail
+>> +kms_vblank@pipe-A-query-forked,Fail
+>> +kms_vblank@pipe-A-query-forked-busy,Fail
+>> +kms_vblank@pipe-A-query-idle,Fail
+>> +kms_vblank@pipe-A-ts-continuation-idle,Fail
+>> +kms_vblank@pipe-A-ts-continuation-modeset,Fail
+>> +kms_vblank@pipe-A-ts-continuation-suspend,Fail
+>> +kms_vblank@pipe-A-wait-busy,Fail
+>> +kms_vblank@pipe-A-wait-forked,Fail
+>> +kms_vblank@pipe-A-wait-forked-busy,Fail
+>> +kms_vblank@pipe-A-wait-idle,Fail
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/ci/virtio_gpu-none-flakes.txt 
+>> b/drivers/gpu/drm/ci/virtio_gpu-none-flakes.txt
+>> new file mode 100644
+>> index 000000000000..e69de29bb2d1
+>> diff --git a/drivers/gpu/drm/ci/virtio_gpu-none-skips.txt 
+>> b/drivers/gpu/drm/ci/virtio_gpu-none-skips.txt
+>> new file mode 100644
+>> index 000000000000..78be18174012
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/virtio_gpu-none-skips.txt
+>> @@ -0,0 +1,6 @@
+>> +# Hits a "refcount_t: underflow; use-after-free" in 
+>> virtio_gpu_fence_event_process
+>> +# When run in a particular order with other tests
+>> +kms_cursor_legacy.*
+>> +
+>> +# Job just hangs without any output
+>> +kms_flip@flip-vs-suspend.*
+>> \ No newline at end of file
+> 
+> 
+
 -- 
-2.25.1
+Tomeu Vizoso
+Consultant Principal Software Engineer
 
-
-No virus found
-		Checked by Hillstone Network AntiVirus
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, United 
+Kingdom
+Registered in England & Wales, no. 5513718
