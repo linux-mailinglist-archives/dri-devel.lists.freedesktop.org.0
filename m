@@ -1,82 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6458F51E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 02:15:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EDA58F578
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 03:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA1B12B61C;
-	Thu, 11 Aug 2022 00:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F2CF98C0B;
+	Thu, 11 Aug 2022 01:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB07E90032
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 00:14:52 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27ANfprg013343;
- Thu, 11 Aug 2022 00:14:44 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0DC892D8E;
+ Thu, 11 Aug 2022 01:00:37 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B0utgB027306;
+ Thu, 11 Aug 2022 01:00:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hYovFST2jWA0C0Fhfy50LhcbGZNSRZGprpAAMccayHg=;
- b=orPrVYSyOl1xuMqzEqt3saGtCXdVZmylQEKnb1P+Tff61NW/FyEW8C6QoJjkFcVXCXJY
- t0lDXBaeTQoAoLZbyWu8dHr5GjnIyIVU4GItq7LM7WZexV52dEK81T7e8wzyyBEYIqJB
- usLaSvgDiHo7AmtBQM+8MGJC9U9F7MY+3fb4dsUNNasVh1Vbv+uvlGbAPTP9QIgclVN0
- L7ktJGZB1WojZSiUIM+ckONHdcxS+dOOvwsLmjVGV7M/FQbBS8onbhJNokRQadyT3CNC
- deLAtZ8ZE2hNzPGmLWf3aSS1sh5MhT2ruazKpZMlGcdfIoolZsBUYd8tRDhZ4NSS3cuT JQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ bh=me/5r5qWiQcpA8mAhRZ3L9pdIUQMlr6KAhNDwGgZ1xY=;
+ b=EPObgrd2Lv9hy3KFh+TxikxgKMuEX902Pmej9L9CzH299++FcIaJ+kHshvdsDoZPtigK
+ RBmqpchlBZmTmbpwZXgvEMNIvd/13s0qADnaXZ4e7BReW6P1KJvvd5c6zpEgtJjebRA6
+ uTi1QC2GlglM885RnnNyCF2AjvvTGVeDiw7l2C65saH6rtZMDUq4FZra6ucfehZ3t3Aa
+ Xt3rt5af4HPFt92laYyxgwW6YbnkEVMJtSr/3qt35t7OTo+SAmjDwQnDAFMMkQGZCly3
+ fKx+uqC6HzvmjD2Rdb0IJ7LUEwwlTcnKbPBIU3AKtJAJmYRC4V9vgCFcG3QZIvQp/Sjg ig== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3huwr24btj-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3huwr9meb6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 00:14:44 +0000
+ Thu, 11 Aug 2022 01:00:29 +0000
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
  [10.47.97.222])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27B0Eg8n029065
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27B10R77025793
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 00:14:42 GMT
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
+ Thu, 11 Aug 2022 01:00:27 GMT
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 10 Aug 2022 17:14:42 -0700
-Received: from [10.71.111.52] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ 15.2.986.22; Wed, 10 Aug 2022 18:00:27 -0700
+Received: from [10.111.167.201] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 10 Aug
- 2022 17:14:41 -0700
-Message-ID: <3e1346f6-999e-c8b3-d841-dcf713eac797@quicinc.com>
-Date: Wed, 10 Aug 2022 17:14:41 -0700
+ 2022 18:00:23 -0700
+Message-ID: <0641a116-5b58-4305-bf2d-f53dcb747276@quicinc.com>
+Date: Wed, 10 Aug 2022 18:00:21 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH libdrm v1 2/2] tests/modetest: Add support for writeback
- connector
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3] drm/msm/dp: check hpd_state before push idle pattern
+ at dp_bridge_disable()
 Content-Language: en-US
-To: Andy Yan <andyshrk@163.com>
-References: <20220725192639.5437-1-quic_rohiiyer@quicinc.com>
- <20220725192639.5437-3-quic_rohiiyer@quicinc.com>
- <6d76f7bb.fcf.1823839180b.Coremail.andyshrk@163.com>
-From: Rohith Iyer <quic_rohiiyer@quicinc.com>
-In-Reply-To: <6d76f7bb.fcf.1823839180b.Coremail.andyshrk@163.com>
+To: Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1660159551-13828-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n533SUb3Bg=pR8Fhwo-M5qLWiti4nzLR-rSGVAsrXgEYNQ@mail.gmail.com>
+ <dbda8bce-2890-e5e3-4052-073a52eb06a6@quicinc.com>
+ <CAE-0n51NyrP8CikcK_3wj4EEsurmmSZ4RY3pLhJJmkY2_8wNZw@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAE-0n51NyrP8CikcK_3wj4EEsurmmSZ4RY3pLhJJmkY2_8wNZw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: XR7TaYB_Xjdl65ym2YJblas949RUb-V3
-X-Proofpoint-ORIG-GUID: XR7TaYB_Xjdl65ym2YJblas949RUb-V3
+X-Proofpoint-ORIG-GUID: F3p-M1QjwzsQ-wfincQmIzloy34SdwXZ
+X-Proofpoint-GUID: F3p-M1QjwzsQ-wfincQmIzloy34SdwXZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-10_16,2022-08-10_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- mlxscore=0 adultscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 clxscore=1011 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208100073
+ mlxscore=0 malwarescore=0
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208110001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,91 +94,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- hoegsberg@google.com, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Hi Stephen
 
-On 7/25/2022 6:57 PM, Andy Yan wrote:
-> 
-> Hi Rohith:
-> 
-> 
-> 
-> 
-> At 2022-07-26 03:26:39, "Rohith Iyer" <quic_rohiiyer@quicinc.com> wrote:
->> Add writeback support to modetest with the below options:
-> 
->> +		case 'o':
->> +			pipe_args->dump = true;
->> +			dump_path = optarg;
->> +			break;
->> 		case 'P':
->> 			plane_args = realloc(plane_args,
->> 					     (plane_count + 1) * sizeof *plane_args);
->> @@ -2098,6 +2173,7 @@ int main(int argc, char **argv)
->> 			crtcs = 1;
->> 			planes = 1;
->> 			break;
->> +		case 'x':
->> 		case 's':
->> 			pipe_args = realloc(pipe_args,
->> 					    (count + 1) * sizeof *pipe_args);
->> @@ -2109,7 +2185,7 @@ int main(int argc, char **argv)
+On 8/10/2022 5:09 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-08-10 16:57:51)
 >>
->> 			if (parse_connector(&pipe_args[count], optarg) < 0)
->> 				usage(argv[0]);
->> -
->> +			pipe_args->custom = (c == 'x');
->> 			count++;
->> 			break;
->> 		case 'C':
->> @@ -2165,6 +2241,7 @@ int main(int argc, char **argv)
+>> On 8/10/2022 3:22 PM, Stephen Boyd wrote:
+>>> Quoting Kuogee Hsieh (2022-08-10 12:25:51)
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> index b36f8b6..678289a 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> @@ -1729,10 +1729,20 @@ void dp_bridge_disable(struct drm_bridge *drm_bridge)
+>>>>           struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
+>>>>           struct msm_dp *dp = dp_bridge->dp_display;
+>>>>           struct dp_display_private *dp_display;
+>>>> +       u32 state;
+>>>>
+>>>>           dp_display = container_of(dp, struct dp_display_private, dp_display);
+>>>>
+>>>> +       mutex_lock(&dp_display->event_mutex);
+>>>> +
+>>>> +       state = dp_display->hpd_state;
+>>>> +       if (state != ST_DISCONNECT_PENDING && state != ST_CONNECTED) {
+>>> It's concerning that we have to check this at all. Are we still
+>>> interjecting into the disable path when the cable is disconnected?
 >>
->> 	if (use_atomic) {
->> 		ret = drmSetClientCap(dev.fd, DRM_CLIENT_CAP_ATOMIC, 1);
->> +		drmSetClientCap(dev.fd, DRM_CLIENT_CAP_WRITEBACK_CONNECTORS, 1);
->> 		if (ret) {
->> 			fprintf(stderr, "no atomic modesetting support: %s\n", strerror(errno));
->> 			drmClose(dev.fd);
->> @@ -2208,6 +2285,8 @@ int main(int argc, char **argv)
->> 			if (set_preferred || count)
->> 				set_mode(&dev, pipe_args, count);
+>> yes,
 >>
->> +			writeback_config(&dev, pipe_args, count);
->> +
->> 			if (plane_count)
->> 				atomic_set_planes(&dev, plane_args, plane_count, false);
+>> The problem is not from cable disconnected.
 >>
->> @@ -2217,6 +2296,13 @@ int main(int argc, char **argv)
->> 				return 1;
->> 			}
+>> There is a corner case that this function is called at drm shutdown
+>> (drm_release).
+>>
+>> At that time, mainlink is not enabled, hence dp_ctrl_push_idle() will
+>> cause system crash.
 > 
->>
+> The mainlink is only disabled when the cable is disconnected though?
 > 
-> 
-> How do we make sure the writeback is finished?  Do we need a writeback fence here?
+> Let me put it this way, if we have to check that the state is
+> "connected" or "disconnected pending" in the disable path then there's
+> an issue where this driver is being called in unexpected ways. This
+> driver is fighting the drm core each time there's a state check. We
+> really need to get rid of the state tracking entirely, and make sure
+> that the drm core is calling into the driver at the right time, i.e.
+> bridge disable is only called when the mainlink is enabled, etc.
 
-Thanks for pointing this out. We plan to have a function that polls on 
-the writeback fence fd, until the writeback is finished. Let me know if 
-you have something else in mind.
+So if link training failed, we do not send a uevent to usermode and will 
+bail out here:
 
-> 
->> +			/*
->> +			 * Since only writeback connectors have an output fb, this should only be
->> +			 * called for writeback.
->> +			 */
->> +			if (pipe_args->dump)
->> +				dump_output_fb(&dev, pipe_args, dump_path, count);
->> +
->> 			if (test_vsync)
->> 				atomic_test_page_flip(&dev, pipe_args, plane_args, plane_count);
->>
->> -- 
->> 2.31.0
+         rc = dp_ctrl_on_link(dp->ctrl);
+         if (rc) {
+                 DRM_ERROR("failed to complete DP link training\n");
+                 goto end;
+         }
 
-Thanks,
-Rohith
+So this commit is not coming from usermode but from the drm_release() path.
+
+Even then, you do have a valid point. DRM framework should not have 
+caused the disable path to happen without an enable.
+
+I went through the stack mentioned in the issue.
+
+Lets see this part of the stack:
+
+dp_ctrl_push_idle+0x40/0x88
+  dp_bridge_disable+0x24/0x30
+  drm_atomic_bridge_chain_disable+0x90/0xbc
+  drm_atomic_helper_commit_modeset_disables+0x198/0x444
+  msm_atomic_commit_tail+0x1d0/0x374
+
+In drm_atomic_helper_commit_modeset_disables(), we call disable_outputs().
+
+AFAICT, this is the only place which has a protection to not call the 
+disable() flow if it was not enabled here:
+
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_helper.c#L1063
+
+But that function is only checking crtc_state->active. Thats set by the 
+usermode:
+
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_uapi.c#L407
+
+Now, if usermode sets that to true and then crashed it can bypass this 
+check and we will crash in the location kuogee is trying to fix.
+
+ From the issue mentioned in 
+https://gitlab.freedesktop.org/drm/msm/-/issues/17, the reporter did 
+mention the usermode crashed.
+
+So this is my tentative analysis of whats happening here.
+
+Ideally yes, we should have been protected by the location mentioned 
+above in disable_outputs() but looks to me due to the above hypothesis 
+its getting bypassed.
+
+Thanks
+
+Abhinav
+
+
+
