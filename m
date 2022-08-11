@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0CB590053
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E276859005A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 17:43:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D5DB462A;
-	Thu, 11 Aug 2022 15:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8371BB466F;
+	Thu, 11 Aug 2022 15:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3131496387;
- Thu, 11 Aug 2022 15:41:16 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42CC5943F4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 15:42:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B99DE616D2;
- Thu, 11 Aug 2022 15:41:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D10DDC433B5;
- Thu, 11 Aug 2022 15:41:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 89897CE2258;
+ Thu, 11 Aug 2022 15:42:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 661CBC433D7;
+ Thu, 11 Aug 2022 15:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660232475;
- bh=WVuZfz8VgtoHhI8op1ASuHj/Mtm0UN0UEcjFv78yres=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sF8a8kSDVfOUnyIQY8ryOskxhbAtvZlJkcaA484LSlgnSEkSsLfgKfcMdeLfdz3NP
- rHxMbD0nv0VM9CfUeQbhKt8DCkd6VHeV11ues8+PjsN5/uQ9hTFHY4GKYPLh3LIXEh
- 3PFmpHuJplaf79dNNKVTqcteIhsuz02GZA0893Y4LmO59xDtJNJyVx7xcwZGlJ9ILI
- 8xZuZVI/T4KT5nvWKjgw98a2udvfenNb2fcFWg4BrBvlPBBBtsVWSas2oRgq0TPTuF
- eq6k643N1kWgXxE4nsE1dli9ImbmVpHXVeEq/EyF0WIIL6IjSHqLNLZV4lU4+/0xhD
- Nk1dAdRM1Q4/g==
+ s=k20201202; t=1660232563;
+ bh=xQmukVhejqSSvaIVDFsfMkvhcUx1mL0PI7bqN3mEXus=;
+ h=From:To:Cc:Subject:Date:From;
+ b=d4CXwt1cqNnn59qi82DeBc3VC6j8uMAsfvf/RUV7u+XJFVp2hwcQnaFYQBmdMwGuT
+ ens8eCyDYDXi8U8k87Vada0Xw3uTiSdnzYkRl92HPw0ioYnFpsJ54zgG4LXGVuxb6h
+ l6ICuYjJju0rLx554ZelyWN/htQLON4TlmMxs4IDH3PzoiEvqgUoBxKRIfE1Posy3E
+ s41U0vjlXMf64y9jlAqO3DsCsLBcjQ+nL4hGtLAXCxxpCSCccShBN42anIUXK0zsqo
+ nu6ybCyKpZ6z4M9qXVmqKj/6BQXHltGqB1Ta+2jJpaGybdU431cD4zUwipW+ImqYST
+ InHqQ2dm0O0Zw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 092/105] drm/amdkfd: Process notifier release
- callback don't take mutex
-Date: Thu, 11 Aug 2022 11:28:16 -0400
-Message-Id: <20220811152851.1520029-92-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 01/93] fbdev: Restart conflicting fb removal loop
+ when unregistering devices
+Date: Thu, 11 Aug 2022 11:40:55 -0400
+Message-Id: <20220811154237.1531313-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
-References: <20220811152851.1520029-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,113 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- airlied@linux.ie, Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ tzimmermann@suse.de, Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ deng.changcheng@zte.com.cn, alexander.deucher@amd.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
 
-[ Upstream commit 74097f9fd2f5ebdae04fcba59da345386415cbf3 ]
+[ Upstream commit 3367aa7d74d240261de2543ddb35531ccad9d884 ]
 
-Move process queues cleanup to deferred work kfd_process_wq_release, to
-avoid potential deadlock circular locking warning:
+Drivers that want to remove registered conflicting framebuffers prior to
+register their own framebuffer, call to remove_conflicting_framebuffers().
 
- WARNING: possible circular locking dependency detected
-               the existing dependency chain (in reverse order) is:
-      -> #2
-        ((work_completion)(&svms->deferred_list_work)){+.+.}-{0:0}:
-        __flush_work+0x343/0x4a0
-        svm_range_list_lock_and_flush_work+0x39/0xc0
-        svm_range_set_attr+0xe8/0x1080 [amdgpu]
-        kfd_ioctl+0x19b/0x600 [amdgpu]
-        __x64_sys_ioctl+0x81/0xb0
-        do_syscall_64+0x34/0x80
-        entry_SYSCALL_64_after_hwframe+0x44/0xae
+This function takes the registration_lock mutex, to prevent a race when
+drivers register framebuffer devices. But if a conflicting framebuffer
+device is found, the underlaying platform device is unregistered and this
+will lead to the platform driver .remove callback to be called. Which in
+turn will call to unregister_framebuffer() that takes the same lock.
 
-      -> #1 (&info->lock#2){+.+.}-{3:3}:
-        __mutex_lock+0xa4/0x940
-        amdgpu_amdkfd_gpuvm_acquire_process_vm+0x2e3/0x590
-        kfd_process_device_init_vm+0x61/0x200 [amdgpu]
-        kfd_ioctl_acquire_vm+0x83/0xb0 [amdgpu]
-        kfd_ioctl+0x19b/0x600 [amdgpu]
-        __x64_sys_ioctl+0x81/0xb0
-        do_syscall_64+0x34/0x80
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
+To prevent this, a struct fb_info.forced_out field was used as indication
+to unregister_framebuffer() whether the mutex has to be grabbed or not.
 
-      -> #0 (&process->mutex){+.+.}-{3:3}:
-        __lock_acquire+0x1365/0x23d0
-        lock_acquire+0xc9/0x2e0
-        __mutex_lock+0xa4/0x940
-        kfd_process_notifier_release+0x96/0xe0 [amdgpu]
-        __mmu_notifier_release+0x94/0x210
-        exit_mmap+0x35/0x1f0
-        mmput+0x63/0x120
-        svm_range_deferred_list_work+0x177/0x2c0 [amdgpu]
-        process_one_work+0x2a4/0x600
-        worker_thread+0x39/0x3e0
-        kthread+0x16d/0x1a0
+But this could be unsafe, since the fbdev core is making assumptions about
+what drivers may or may not do in their .remove callbacks. Allowing to run
+these callbacks with the registration_lock held can cause deadlocks, since
+the fbdev core has no control over what drivers do in their removal path.
 
-  Possible unsafe locking scenario:
+A better solution is to drop the lock before platform_device_unregister(),
+so unregister_framebuffer() can take it when called from the fbdev driver.
+The lock is acquired again after the device has been unregistered and at
+this point the removal loop can be restarted.
 
-      CPU0                    CPU1
-        ----                    ----
-   lock((work_completion)(&svms->deferred_list_work));
-                                lock(&info->lock#2);
-             lock((work_completion)(&svms->deferred_list_work));
-   lock(&process->mutex);
+Since the conflicting framebuffer device has already been removed, the
+loop would just finish when no more conflicting framebuffers are found.
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220511113039.1252432-1-javierm@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 22 +++++++++++++++-------
+ include/linux/fb.h               |  1 -
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index b8b185e242d3..9ad293fb95af 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1114,6 +1114,15 @@ static void kfd_process_wq_release(struct work_struct *work)
- 	struct kfd_process *p = container_of(work, struct kfd_process,
- 					     release_work);
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 643383d74edc..82880f59ba67 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1566,6 +1566,7 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
+ {
+ 	int i;
  
-+	kfd_process_dequeue_from_all_devices(p);
-+	pqm_uninit(&p->pqm);
-+
-+	/* Signal the eviction fence after user mode queues are
-+	 * destroyed. This allows any BOs to be freed without
-+	 * triggering pointless evictions or waiting for fences.
-+	 */
-+	dma_fence_signal(p->ef);
-+
- 	kfd_process_remove_sysfs(p);
- 	kfd_iommu_unbind_process(p);
- 
-@@ -1178,20 +1187,8 @@ static void kfd_process_notifier_release(struct mmu_notifier *mn,
- 	cancel_delayed_work_sync(&p->eviction_work);
- 	cancel_delayed_work_sync(&p->restore_work);
- 
--	mutex_lock(&p->mutex);
--
--	kfd_process_dequeue_from_all_devices(p);
--	pqm_uninit(&p->pqm);
--
- 	/* Indicate to other users that MM is no longer valid */
- 	p->mm = NULL;
--	/* Signal the eviction fence after user mode queues are
--	 * destroyed. This allows any BOs to be freed without
--	 * triggering pointless evictions or waiting for fences.
--	 */
--	dma_fence_signal(p->ef);
--
--	mutex_unlock(&p->mutex);
- 
- 	mmu_notifier_put(&p->mmu_notifier);
++restart_removal:
+ 	/* check all firmware fbs and kick off if the base addr overlaps */
+ 	for_each_registered_fb(i) {
+ 		struct apertures_struct *gen_aper;
+@@ -1600,12 +1601,23 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
+ 				 */
+ 				do_unregister_framebuffer(registered_fb[i]);
+ 			} else if (dev_is_platform(device)) {
+-				registered_fb[i]->forced_out = true;
++				/*
++				 * Drop the lock because if the device is unregistered, its
++				 * driver will call to unregister_framebuffer(), that takes
++				 * this lock.
++				 */
++				mutex_unlock(&registration_lock);
+ 				platform_device_unregister(to_platform_device(device));
++				mutex_lock(&registration_lock);
+ 			} else {
+ 				pr_warn("fb%d: cannot remove device\n", i);
+ 				do_unregister_framebuffer(registered_fb[i]);
+ 			}
++			/*
++			 * Restart the removal loop now that the device has been
++			 * unregistered and its associated framebuffer gone.
++			 */
++			goto restart_removal;
+ 		}
+ 	}
  }
+@@ -1946,13 +1958,9 @@ EXPORT_SYMBOL(register_framebuffer);
+ void
+ unregister_framebuffer(struct fb_info *fb_info)
+ {
+-	bool forced_out = fb_info->forced_out;
+-
+-	if (!forced_out)
+-		mutex_lock(&registration_lock);
++	mutex_lock(&registration_lock);
+ 	do_unregister_framebuffer(fb_info);
+-	if (!forced_out)
+-		mutex_unlock(&registration_lock);
++	mutex_unlock(&registration_lock);
+ }
+ EXPORT_SYMBOL(unregister_framebuffer);
+ 
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 9a77ab615c36..ae399d3ea4f9 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -503,7 +503,6 @@ struct fb_info {
+ 	} *apertures;
+ 
+ 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
+-	bool forced_out; /* set when being removed by another driver */
+ };
+ 
+ static inline struct apertures_struct *alloc_apertures(unsigned int max_num) {
 -- 
 2.35.1
 
