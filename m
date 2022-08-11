@@ -1,49 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498075902A2
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:12:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFE859029F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 18:12:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A673014AD18;
-	Thu, 11 Aug 2022 16:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE8C11B3D5;
+	Thu, 11 Aug 2022 16:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC78C14B181;
- Thu, 11 Aug 2022 16:11:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 72611B821AC;
- Thu, 11 Aug 2022 16:11:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E156C433D7;
- Thu, 11 Aug 2022 16:11:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660234309;
- bh=yl0xHkcESV7NTyfRvJaAPC4xYMup5ytE1fDcH4xEmw4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m4rR0LoC+AvxVYQLikjFdqDeSbDtu0PghQP+wXEIjWknEZcQUM/RweaGT3xjal0+x
- mlNKhEM+2ZYMiwhhhy1wmpi1mPHwUI+OSrQaXGA1fK87+KpWxEJKAKBSWthBI9oOc3
- lv0X9QSS4zlH1085F9xalcAE/JqlngN+ZQymD5UotfyWXQtKZbtdI/QcR6F6Cu2zUN
- ++b8UYW1rxXk2zKNdBS2YqkmaQi8hwrZFo6TcFpGomcXLQtfemULJ+NrwwIAgo2pJg
- X/QNqsE1KYTJgFhfBsjk/FxIQfjqjKpDgt4Juv/S6gulEwLwMHIiN8qGA97lN9W+bm
- HCAuT7ABZib0Q==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 02/12] drm/radeon: Initialize fences array entries
- in radeon_sa_bo_next_hole
-Date: Thu, 11 Aug 2022 12:11:28 -0400
-Message-Id: <20220811161144.1543598-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220811161144.1543598-1-sashal@kernel.org>
-References: <20220811161144.1543598-1-sashal@kernel.org>
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A03214AC29
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 16:11:44 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id j8so34323711ejx.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 09:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc;
+ bh=LEZOE0Zt4s9PCFiKFwKYRDr114AmkBBPDRdQoJzg3yY=;
+ b=LoZkUtf5xb8gMd6GN3/nO/n1py2Og5JC5zdDRm8vx7llsnHr+1KIC171liULEbmot5
+ VBfKEU1S/2YtzlEkYUoZYafjv2UsYl0vFEKeRj3essa3WmKld/4ZAFVCpyozdfroy2ql
+ z7CCAVaTuWDBXLuznzbB4azxbiwFfC0QaA35U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=LEZOE0Zt4s9PCFiKFwKYRDr114AmkBBPDRdQoJzg3yY=;
+ b=hRVI2SmNOpjHKHd9MoCOal/TK9946TNliO4oeMUx8imjHZt3Jp4LDjZqeS3wbIKF6x
+ +bCVaW9ddOouB9dQtD73rEpxh+5DATmQTTBQLbfAoRBHD2QzKiO4RKpBxleaUcGL6Gzr
+ k1934XZ7B7l2L6ntWUCjz0ZqMfq9/qRGie2P5rjfed6EIQFX+xAV6Tf8Gh7KrCPcyH8X
+ bnvjjj8hMhxVn7B5RlgQnJn58PYF7qTsLK0Lie7WJaF78uoWl6gPfPQtDp6gKglfTooB
+ aQuyBxKuF9kULa6HQQmzM1RM/hjYymR18AMMqmE18mc2QEfPXRZKC+Z0mXOu5QtIuzhC
+ 4Wkw==
+X-Gm-Message-State: ACgBeo1Cf5q9bUIhaJkSukj9msvcqPdaTZ5/wTUZ8z2rfU8TOoHVYRQt
+ MmIsnvgQSe0lCPFW655lsBGC2g==
+X-Google-Smtp-Source: AA6agR66L82QusO6KrB9+U3SJWdVMGMWDY+DvWnD4qEGwK4ex8vWC3yUtjD00Z3O76kxXxSBatkgMg==
+X-Received: by 2002:a17:907:2d2b:b0:731:2179:5ba with SMTP id
+ gs43-20020a1709072d2b00b00731217905bamr19660655ejc.207.1660234302668; 
+ Thu, 11 Aug 2022 09:11:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ u10-20020a17090626ca00b0072ed9efc9dfsm3679678ejc.48.2022.08.11.09.11.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Aug 2022 09:11:41 -0700 (PDT)
+Date: Thu, 11 Aug 2022 18:11:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 01/10] drm/fourcc: Add drm_format_info_bpp() helper
+Message-ID: <YvUqPL5l8/+XbvaQ@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux/m68k <linux-m68k@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <cover.1657294931.git.geert@linux-m68k.org>
+ <1cae5ebc28513ec1c91c66b00647ce3ca23bfba7.1657294931.git.geert@linux-m68k.org>
+ <YvPVxy4kYKdzWgT8@phenom.ffwll.local>
+ <CAMuHMdVMuuXgYW-AkyB+G77Wsjkm715u1ifDvaY=5DufXjryRA@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVMuuXgYW-AkyB+G77Wsjkm715u1ifDvaY=5DufXjryRA@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +81,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>
+On Thu, Aug 11, 2022 at 09:59:39AM +0200, Geert Uytterhoeven wrote:
+> Hi Daniel,
+> 
+> On Wed, Aug 10, 2022 at 5:59 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Fri, Jul 08, 2022 at 08:20:46PM +0200, Geert Uytterhoeven wrote:
+> > > Add a helper to retrieve the actual number of bits per pixel for a
+> > > plane, taking into account the number of characters and pixels per
+> > > block for tiled formats.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> > > --- a/drivers/gpu/drm/drm_fourcc.c
+> > > +++ b/drivers/gpu/drm/drm_fourcc.c
+> > > @@ -370,6 +370,25 @@ unsigned int drm_format_info_block_height(const struct drm_format_info *info,
+> > >  }
+> > >  EXPORT_SYMBOL(drm_format_info_block_height);
+> > >
+> > > +/**
+> > > + * drm_format_info_bpp - number of bits per pixel
+> > > + * @info: pixel format info
+> > > + * @plane: plane index
+> > > + *
+> > > + * Returns:
+> > > + * The actual number of bits per pixel, depending on the plane index.
+> > > + */
+> > > +unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
+> > > +{
+> > > +     if (!info || plane < 0 || plane >= info->num_planes)
+> > > +             return 0;
+> > > +
+> > > +     return info->char_per_block[plane] * 8 /
+> > > +            (drm_format_info_block_width(info, plane) *
+> > > +             drm_format_info_block_height(info, plane));
+> >
+> > Do we really needs this for blocky formats where this is potentially
+> > ill-defined? I think if there's no need then this should also return 0
+> > when block_width/height != 1, it doesn't make much sense to compute bpp
+> > when it's not really bits per _pixel_.
+> 
+> Yes, we do need this.  For low-color formats, the number of bits
+> per pixel is less than eight, and block_width is larger than one.
+> That is actually the point of this patch.
 
-[ Upstream commit 0381ac3ca2e727d4dfb7264d9416a8ba6bb6c18b ]
+Hm right, I didn't realize that this is how we have to describe the
+formats with less than 8 bpp.
 
-Similar to the handling of amdgpu_sa_bo_next_hole in commit 6a15f3ff19a8
-("drm/amdgpu: Initialize fences array entries in amdgpu_sa_bo_next_hole"),
-we thought a patch might be needed here as well.
+I think we can include them easily with a check for char_per_block == 1
+and then making sure that the division does not have a reminder (just in
+case someone does something really funny, it could e.g. be a 332 layout or
+something like that for 3 pixels).
 
-The entries were only initialized once in radeon_sa_bo_new. If a fence
-wasn't signalled yet in the first radeon_sa_bo_next_hole call, but then
-got signalled before a later radeon_sa_bo_next_hole call, it could
-destroy the fence but leave its pointer in the array, resulting in
-use-after-free in radeon_sa_bo_new.
+> > Minimally this needs to check whether the division actually makes sense or
+> > whether there's a reminder, and if there's  reminder, then fail. But that
+> > feels like a bad hack and I think we should avoid it if it's not
+> > absolutely necessary.
+> 
+> Looking at drivers/gpu/drm/drm_fourcc.c, the only supported format
+> where there can be a remainder is P030, which has 2 spare bits per
+> 32-bit word, and thus is special anyway.
+> Still, 4 * 8 / 3 = 10, so you get the correct numbers of bits for
+> the first plane.  For the second plane, you get 8 * 8 / 3 = 21,
+> but as .is_yuv = true, you have to divide that result by two again,
+> so you get 10 again.
 
-Signed-off-by: Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/radeon/radeon_sa.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_sa.c b/drivers/gpu/drm/radeon/radeon_sa.c
-index 197b157b73d0..0cb6eeb77b5f 100644
---- a/drivers/gpu/drm/radeon/radeon_sa.c
-+++ b/drivers/gpu/drm/radeon/radeon_sa.c
-@@ -267,6 +267,8 @@ static bool radeon_sa_bo_next_hole(struct radeon_sa_manager *sa_manager,
- 	for (i = 0; i < RADEON_NUM_RINGS; ++i) {
- 		struct radeon_sa_bo *sa_bo;
- 
-+		fences[i] = NULL;
-+
- 		if (list_empty(&sa_manager->flist[i])) {
- 			continue;
- 		}
-@@ -332,10 +334,8 @@ int radeon_sa_bo_new(struct radeon_device *rdev,
- 
- 	spin_lock(&sa_manager->wq.lock);
- 	do {
--		for (i = 0; i < RADEON_NUM_RINGS; ++i) {
--			fences[i] = NULL;
-+		for (i = 0; i < RADEON_NUM_RINGS; ++i)
- 			tries[i] = 0;
--		}
- 
- 		do {
- 			radeon_sa_bo_try_free(sa_manager);
+Yeah I don't think we should describe these with bpp or cpp or anything
+like that. bpp < 8 makes sense since that's how this has been done since
+decades, but trying to extend these to funny new formats is a bad idea.
+This is also why cpp and depth refuse to compute these (or at least
+should).
+-Daniel
 -- 
-2.35.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
