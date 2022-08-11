@@ -2,78 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B2458FB8D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 13:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553D358FB9D
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Aug 2022 13:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C879AD123;
-	Thu, 11 Aug 2022 11:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51617AD7E1;
+	Thu, 11 Aug 2022 11:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 720 seconds by postgrey-1.36 at gabe;
- Thu, 11 Aug 2022 11:44:16 UTC
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C34DCAD0D3;
- Thu, 11 Aug 2022 11:44:15 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B6fSQJ018190;
- Thu, 11 Aug 2022 11:30:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=7KaiEaKQcKJR7xjpPNQ8FEdyIVIj3AxeDSRSxYpiISg=;
- b=Zoi//DwlVP2oGIHdR42tfOnYMU+wPMze4rwMbIDsnijoqWHaZD6a/WUok9yME9tj/BSZ
- 4JeBDCFdnn4iECos+tfspdqez3Vntb+NtyiYsCRVgZnd9ixybOb+UBqBfEa0FpkduCBC
- 21K1H3PkdPhSXf34HWvG+Cmtk2EU5zkgTwlD+AUOYEi4gcHxetaoQ1obnmgJ1ue7HUho
- a9YWMCpVYAWZ6yvqSKbaKFWQ2R2WbyugIqYnlRQ4UFPUfcMwhh7hCeuOID9n7iYr5Mjo
- rKn0Cnr52OuEifu9/hQadC7vqGOye29ltZp5VBVFbbpC0sSNlw4BOkWVSx0pTjjFOq5g jg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3huwr8wuwk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 11:30:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BBFhpQ024546
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Aug 2022 11:15:43 GMT
-Received: from [10.216.12.63] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 11 Aug
- 2022 04:15:35 -0700
-Message-ID: <647583a6-6e1f-b3d9-cc1d-2ca4564cceed@quicinc.com>
-Date: Thu, 11 Aug 2022 16:45:31 +0530
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28B1AD78F
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 11:49:49 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id h22so7790961qtu.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 04:49:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=v7hLfcMomteQMGYnnnGVzBU2y9bVfdrurSUN+5SjKM8=;
+ b=qK27SGUTKSuft3TZUjPr5k0c9XIlJAQiR8F9AQMrjHlGIil9Y7nOrzSlZrTvXdNtme
+ W8dufO7XKP7umFeHa0svydJKgYPL/fe8sLPlSdthfE/kVfqklq/Nva1TO+KvrBJwH6AS
+ z+9CsSy48L/5nFmopYxNiVfAzQyNfBVIvN5SY0tIZNXIQZbY5D8roLiWCQ3f7FqMd3ZH
+ XKUxt/WuMKQz0fn2bNE13gSlZTLfkyif8e2ZMB+iaBp8V3kF3mcsWUru4JvBwvTN28dE
+ 6AD4JTseM9RwtWt2Qr5ttmSjJ/LLbszCuGNO5652JXKXthSNsHkUgQtxaVyqh7DFvaXY
+ o54w==
+X-Gm-Message-State: ACgBeo2jSLEX1j4JyFE4Cq+ucsNqNki+rG8HOTXGKazqfLn63+dMZkOr
+ YGFzWtXN20O2YRFNopDQGXzqu//t29GZpPud
+X-Google-Smtp-Source: AA6agR5UhMwr94G4+j/0Ej7FRCpycdHmelLyBptRSpOZRpXaQoeTgqXARjV1slOcCDQSzFbGgWjwjQ==
+X-Received: by 2002:a05:622a:1707:b0:343:645e:333d with SMTP id
+ h7-20020a05622a170700b00343645e333dmr2947041qtk.497.1660218588387; 
+ Thu, 11 Aug 2022 04:49:48 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ bi34-20020a05620a31a200b006b9c9b7db8bsm953681qkb.82.2022.08.11.04.49.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Aug 2022 04:49:47 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-328303afa6eso169549107b3.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Aug 2022 04:49:46 -0700 (PDT)
+X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
+ v18-20020a81b812000000b0032868e4c886mr31521818ywe.502.1660218586534; Thu, 11
+ Aug 2022 04:49:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 0/5] clk/qcom: Support gdsc collapse polling using 'reset'
- inteface
-Content-Language: en-US
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <1659172664-10345-1-git-send-email-quic_akhilpo@quicinc.com>
- <YvLMJ2yQRhBFp2y9@baldur>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <YvLMJ2yQRhBFp2y9@baldur>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: fJhxWupsDssORr3TgLNUO8nf0c7zzTVK
-X-Proofpoint-ORIG-GUID: fJhxWupsDssORr3TgLNUO8nf0c7zzTVK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-11_05,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 adultscore=0 suspectscore=0 spamscore=0 clxscore=1011
- priorityscore=1501 mlxscore=0 phishscore=0 mlxlogscore=916 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208110034
+References: <20220811102304.70769-1-strochuk@ispras.ru>
+In-Reply-To: <20220811102304.70769-1-strochuk@ispras.ru>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Aug 2022 13:49:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXRVHiBZj=MQ3jLy2AEnwrvMXt6KXbZXr10ZJMhJDAmsw@mail.gmail.com>
+Message-ID: <CAMuHMdXRVHiBZj=MQ3jLy2AEnwrvMXt6KXbZXr10ZJMhJDAmsw@mail.gmail.com>
+Subject: Re: [PATCH] drm/fb-helper: add virtual screen size check to
+ drm_fb_helper_check_var()
+To: Andrey Strachuk <strochuk@ispras.ru>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,68 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: ldv-project@linuxtesting.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/10/2022 2:35 AM, Bjorn Andersson wrote:
-> On Sat 30 Jul 04:17 CDT 2022, Akhil P Oommen wrote:
->
->> Some clients like adreno gpu driver would like to ensure that its gdsc
->> is collapsed at hardware during a gpu reset sequence. This is because it
->> has a votable gdsc which could be ON due to a vote from another subsystem
->> like tz, hyp etc or due to an internal hardware signal. To allow
->> this, gpucc driver can expose an interface to the client driver using
->> reset framework. Using this the client driver can trigger a polling within
->> the gdsc driver.
->>
->> This series is rebased on top of linus's master branch.
->>
->> Related discussion: https://patchwork.freedesktop.org/patch/493144/
->>
-> Forgive me if I'm assuming too much, but isn't this an extension of:
->
-> 85a3d920d30a ("clk: qcom: Add a dummy enable function for GX gdsc")
->
-> With the additional requirement that disable should really ensure that
-> the GDSC is turned off?
-Also, gpu driver needs a way to ensure cx gdsc was collapsed at least 
-once before it goes ahead with re-init.
+Hi Andrey,
 
-Btw, the patch you mentioned is about gx gdsc in gpucc which is supposed 
-to be owned by gmu (except when it is in bad shape). But the current 
-series is about cx gdsc which is shared with other subsystems/drivers.
-
--Akhil.
+On Thu, Aug 11, 2022 at 12:23 PM Andrey Strachuk <strochuk@ispras.ru> wrote:
+> Add virtual screen size check to drm_fb_helper_check_var() in
+> order to validate userspace input.
 >
-> Regards,
-> Bjorn
+> Found by Linux Verification Center (linuxtesting.org) with syzkaller.
 >
->> Akhil P Oommen (5):
->>    dt-bindings: clk: qcom: Support gpu cx gdsc reset
->>    clk: qcom: Allow custom reset ops
->>    clk: qcom: gpucc-sc7280: Add cx collapse reset support
->>    clk: qcom: gdsc: Add a reset op to poll gdsc collapse
->>    arm64: dts: qcom: sc7280: Add Reset support for gpu
->>
->>   arch/arm64/boot/dts/qcom/sc7280.dtsi          |  3 +++
->>   drivers/clk/qcom/gdsc.c                       | 23 +++++++++++++++++++----
->>   drivers/clk/qcom/gdsc.h                       |  7 +++++++
->>   drivers/clk/qcom/gpucc-sc7280.c               |  6 ++++++
->>   drivers/clk/qcom/reset.c                      |  6 ++++++
->>   drivers/clk/qcom/reset.h                      |  2 ++
->>   include/dt-bindings/clock/qcom,gpucc-sc7280.h |  3 +++
->>   7 files changed, 46 insertions(+), 4 deletions(-)
->>
->> -- 
->> 2.7.4
->>
+> Signed-off-by: Andrey Strachuk <strochuk@ispras.ru>
 
+Thanks for your patch!
+
+> Fixes: 6c11df58fd1a ("fbmem: Check virtual screen sizes in fb_set_var()")
+
+This Fixes tag is misleading: the bug has existed since basically
+forever.
+
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1355,6 +1355,16 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+>             (drm_format_info_block_height(fb->format, 0) > 1))
+>                 return -EINVAL;
+>
+> +       /* verify that virtual resolution >= physical resolution */
+> +       if (var->xres_virtual < var->xres ||
+> +           var->yres_virtual < var->yres) {
+> +               drm_dbg_kms(dev, "requested virtual screen size that is "
+> +                               "below the physical size(%ux%u vs. %ux%u)\n",
+> +                       var->xres_virtual, var->yres_virtual,
+> +                       var->xres, var->yres);
+> +               return -EINVAL;
+
+According to the fbdev rounding rules, invalid values should be rounded
+up, if possible.  Hence it is better to not return an error, but round up:
+
+    if (var->xres_virtual < var->xres)
+            var->xres_virtual = var->xres;
+    if (var->yres_virtual < var->yres)
+            var->yres_virtual = var->yres;
+
+> +       }
+> +
+>         /*
+>          * Changes struct fb_var_screeninfo are currently not pushed back
+>          * to KMS, hence fail if different settings are requested.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
