@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FF4591689
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 23:01:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B55591688
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 23:01:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6220D12BA91;
-	Fri, 12 Aug 2022 20:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2693018A65F;
+	Fri, 12 Aug 2022 20:59:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D683018A818
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 20:58:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA80518B0F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 20:58:57 +0000 (UTC)
 Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4M4GHW4LxJzDrYp;
- Fri, 12 Aug 2022 20:58:47 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4M4GHd5dgqzDrWj;
+ Fri, 12 Aug 2022 20:58:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1660337927; bh=4hKi98zmcpOygJlC/brm5+e7Zm6yFWUFqTK/C2pjE6E=;
+ t=1660337934; bh=y80rAjtyI90l4pYA2PmLI6hAu/QfuENqfs+DM+rz9e4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KxmILLhifmsCArKZceHkBvO5Hv0pfvwRrI/HEswBTu0FoWIXmYXcIQsRNYBXNB33z
- 80oopLBZ6Ec3Jv/Q69iuWlNuG6ySuzXJbDY5M6NSZo5gXJ2mC0rpev94DxHo4EFgzP
- AaPJzDwCRnWJ58u2ulV+25KcNCWGu53ODXeV9Pvc=
-X-Riseup-User-ID: 018427D77F8C1B0ED7E92F6C037AF4BED3A940C33AD9DA3F32EDD34960F4EA7B
+ b=dUbVjMjKDhpin6ofO4Y/kQBqZBGCJGvRw+jednuCUhS4YAu2LEStdopmY6YbLEn30
+ aWTgP2T7jzzpaaoLKn5x4hsZJltMZ1wksVwa2LeAqRJhNaFBhucyzmsJ++pn46r6H8
+ DWznccXjRl49P+HBGcpFV1ncOfFYnqDo71291XLg=
+X-Riseup-User-ID: DC9824601D8E0EC01A28321600E13B59C361C0F47D58838ABB1CFB09111CD323
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4M4GHT2hGdz5vTk;
- Fri, 12 Aug 2022 20:58:45 +0000 (UTC)
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4M4GHZ4ZhBz5vTk;
+ Fri, 12 Aug 2022 20:58:50 +0000 (UTC)
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 4/5] drm/sti: Drop of_gpio header
-Date: Fri, 12 Aug 2022 17:57:45 -0300
-Message-Id: <20220812205746.609107-5-mairacanal@riseup.net>
+Subject: [PATCH 5/5] drm/vc4: Drop of_gpio header
+Date: Fri, 12 Aug 2022 17:57:46 -0300
+Message-Id: <20220812205746.609107-6-mairacanal@riseup.net>
 In-Reply-To: <20220812205746.609107-1-mairacanal@riseup.net>
 References: <20220812205746.609107-1-mairacanal@riseup.net>
 MIME-Version: 1.0
@@ -54,32 +54,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alain Volmat <alain.volmat@foss.st.com>
+ Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This driver includes the deprecated OF GPIO header <linux/of_gpio.h>
-yet fail to use symbols from it, so drop this include.
+yet fail to use symbols from it, so drop the include.
 
-Cc: Alain Volmat <alain.volmat@foss.st.com>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 ---
- drivers/gpu/drm/sti/sti_dvo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-index b6ee8a82e656..0fc7710b054a 100644
---- a/drivers/gpu/drm/sti/sti_dvo.c
-+++ b/drivers/gpu/drm/sti/sti_dvo.c
-@@ -8,7 +8,7 @@
- #include <linux/component.h>
- #include <linux/debugfs.h>
- #include <linux/module.h>
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 6f61a1b8a1a3..84e5a91c2ea7 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -42,7 +42,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/of_address.h>
 -#include <linux/of_gpio.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- 
- #include <drm/drm_atomic_helper.h>
+ #include <linux/of_platform.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/rational.h>
 -- 
 2.37.1
 
