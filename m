@@ -1,52 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DA9591629
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 22:02:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFAC591637
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 22:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 696C9B25A0;
-	Fri, 12 Aug 2022 20:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFAA93EF4;
+	Fri, 12 Aug 2022 20:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6DBB2625;
- Fri, 12 Aug 2022 20:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660334518; x=1691870518;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rObx9CQiZ9p/Xt7cKP+MPNTbdMgI9rNEvHssjBplX/w=;
- b=ntYj8qVQV3QmxhO+7T6Pt1s+R7tc1UpQtQ8X7/Hvw9ugijgbWAarm9wV
- JvI2nygMPKMmKGeH/qBSGVS6snq0D12rbE1yZ5nZvY+vuKSKP054z4Ivx
- imL4DkMSrdgW4Hd3J2wB0fAwRwEdzEzOkkahiBY1ywFq3AMW+gfOTd2JW
- X0kf8telgCOPdu4yqGdoX0j5qrPjj/pReQF2lbmUAqO7prcylQz7N87LP
- +HXFIxqCCCy+H1tBcbTBNmZjjG8pqQdBJLOTdmiBVMG/HRBcISxXNfCxX
- 0WjFZe0cYZztHEuRWPsk/9ITZ/cD3Od6daLuQQlyjhaN7PJdtPrg/Lw0B g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10437"; a="377969257"
-X-IronPort-AV: E=Sophos;i="5.93,233,1654585200"; d="scan'208";a="377969257"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2022 13:01:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,233,1654585200"; d="scan'208";a="782069924"
-Received: from lkp-server02.sh.intel.com (HELO 8745164cafc7) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 12 Aug 2022 13:01:54 -0700
-Received: from kbuild by 8745164cafc7 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oMaqv-0000sm-1J;
- Fri, 12 Aug 2022 20:01:53 +0000
-Date: Sat, 13 Aug 2022 04:00:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhenneng Li <lizhenneng@kylinos.cn>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: Re: [PATCH] drm/amdgpu: use native mode for dp aux transfer
-Message-ID: <202208130320.NDvnbeVL-lkp@intel.com>
-References: <20220811072012.962460-1-lizhenneng@kylinos.cn>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAAFB3798;
+ Fri, 12 Aug 2022 20:26:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E2bhvjrG8cz2hYEs7XTCvKUFcGvytbifmrMiLOnwsLQM44YT4ENeXMBOHSPCNwQQa2+le+T+i4wclOVzTIPnjBQ1RIoVqF0GqqTVzGELUkxFA2ltXQYr8EQNc9flsRIjGlNuSoBRgfc/ElPyC3DuWNaguqCg5KHh0KmUL91lWtVHRHsv1pUIwaC/8jTEfyPyVkGftxp+WJ/8prGAXyi5FazBjnNLA6JhW7yZDpXr10+Q7e0SunqVTqobYx68Ii/vz3FRfkBXYgHIkHAIqPsW4xNHRpzMNDAIA0Hz8mQuwcyfiUgwbCCxo77nBKaMCxJzghZzJyrj390hkFEl8hPn0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c7a+7IJCSCFUPHtB3/MC60OqR2m+JcLGRX91/AxADAw=;
+ b=WqmKMVkNjl4ZhnrHJ1CXJhPp1xFwGdxpFq8fv45q3B31PhqjJQawE4H3vj43734CLRITxEJ2AOFVimpLUgWmRn4unXFj+BTNl8Jo9LQntBPnFWtcGJskvTJgbxvUmxzUqGSIwJigQCjAcL7amPun0v18aY/v1PvFKaj8fGZQgyo2xwv0dr2ncLkBepqxqvkCqAbQJPoTCzSll4JutBT/uM608/UUoR2liz/aEuVFKLFu7YZF51zYr8oaC4ul+2fT386nyfx6Mqr0/11yKE5hzAAqBNgs9wuTwd7NZn0UZoRS69Y6zPPTv+D2SucdLhqCGJ6w7ATywS86znUYcc55IQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c7a+7IJCSCFUPHtB3/MC60OqR2m+JcLGRX91/AxADAw=;
+ b=hPLlvp/tV9T2j+fSudQo2wupV/NjPD8zJ9wGaEwX9dCXPal2irKlVxYTu0s3nLMsSAspCKUXraEhAl7kHfJW03J6GxiBquKF3OefN72B4L/7VbaUWWjgHPZo3Nx5ZIYNTpwMfl8gtszM1aVHHs3g1NnAsd/+qOW3G8PwoKDenpk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by MN2PR12MB3277.namprd12.prod.outlook.com (2603:10b6:208:103::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Fri, 12 Aug
+ 2022 20:26:49 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::406d:afb5:d2d7:8115]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::406d:afb5:d2d7:8115%5]) with mapi id 15.20.5504.025; Fri, 12 Aug 2022
+ 20:26:49 +0000
+Message-ID: <82233e68-106f-39e9-b20d-7794eb7a8933@amd.com>
+Date: Fri, 12 Aug 2022 16:26:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Subject: Selecting CPUs for queuing work on
+Organization: AMD Inc.
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH2PR07CA0034.namprd07.prod.outlook.com
+ (2603:10b6:610:20::47) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220811072012.962460-1-lizhenneng@kylinos.cn>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4654ff8d-42bb-44ee-548b-08da7ca0fbd5
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3277:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NWpvROhs6QDpY8UKEA6MDRqMkcIv7AvKUBFS9s/2BT6nMcA6GQiJWP9yHDZMcno67zGvfs1IvcXXBreQfU4dVQtCtK1unDpP2r0FgC/5N15LKnAMfq7BTTlF8HL7zsKHtj+OcuCVuG3OvjH2CCh8KtUfv9NCPWmDxjztjwccd/Yfpjb9dNjml9Fz1+CcQ2DK+XTaDL1dEUyBHTAEYEutzgIRGWNTVMa7+1z1NK4mYMURZJLWNVENNHWk2JAXPOlx3Ws6RGAWC9XKUYv4Ix63xK0OGPrRom1ga7vhsFIxlz22t3zHjuTIXKBEFymAPy6fgidhBaBdhrJx/ZLywOEpHllrAmmMa4VUGSeEblcGsOstDz79D2YIjI25+ntccykQ+KKK8GUbPdl1Sa26YoI2+cm4gMHF4u5y4R38n6dLxYFNqcPrA6Abw1ExdP8yspBG6YcMT/dmvKpb0Gi0hvW+79Fj4eFsb6CwUQa5PaQV6z5goXm4//1Yge69g1rh2wYWDeihK+RnBShypbedxQPtkear2qapmBedE/EVDlUGm3XYAK/F9el7BjwKUOKTr/DMzLjR/EtXdpgIamzxOigcph+vjaMb5PoB79jIKu1IFjOk0LfcMXHL4dWpH/bhdW9CsV1udrwMSjBclkAmCPS9AuQNJwsCQ32a5EZnNO9VnsejbmaJIujQwb37lu/l/R3XPni9EH56CO76RUSrfMScXVe5UmNoC07C9KAo8T87WxQwrwjUsUvNNwtAxM4n6vBrq5XTDbWa/v6LqW0O+E3u3IeM2vFOl9JMiNEn9Ikv3Yno1GJuFp75ZpdDsc0rzJ021cNuTIa3gfgF1pjQSxYOhWIDgi9C8ryR4OuNcC07vWe0ToQXd8C1YwStdBrdpjI/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(39860400002)(366004)(41300700001)(316002)(31696002)(6512007)(26005)(36756003)(6506007)(36916002)(478600001)(40140700001)(6486002)(31686004)(2616005)(84970400001)(186003)(86362001)(966005)(8676002)(66476007)(66556008)(110136005)(54906003)(66946007)(4326008)(38100700002)(5660300002)(2906002)(44832011)(8936002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?czE1Z3RJSlNrcWhoRmg3YzBuSVBMT2t2REUvSFlFbjFjTlZzNUdhaHhCZ3oz?=
+ =?utf-8?B?NVFUTjJ2cUtCNExDaVlVUk91THk4T3d2eFJwR2FiMkYvQmFMNmFBSzZZWG1w?=
+ =?utf-8?B?QXVrTS9tRXh5dmU2WUZTa29UL3psTWVhQ3k5TVVRQmx3S2ZEODdNTXVtWjFh?=
+ =?utf-8?B?bVRFamprTXVndXRueU9Cb1VUak5TKzVueWJlQW1XelVaNUFCS3hPV3dSNjVG?=
+ =?utf-8?B?Y1pxL2Z3VEVzbW55Sk9RMG1YY05aWFZ5c0tVQlpSQ2pTTC9BbzU5QXJaalIz?=
+ =?utf-8?B?ejAzaS9zUjk0S0ZYellkZFEzd2JLOVhBazNlR3lqNzBHUWlxbktQMHNXK3FY?=
+ =?utf-8?B?UTVrTGhEQlBvcE12aUo3Q0x3YlNIcmIxOVJ6cXNTdC8rOGs4VW0yYWdKZTBp?=
+ =?utf-8?B?RGdVOXdPcDJwb2xmUDZkSVZzOEhzK2ZDUGUvaXVOWTlrdWZ4WDZVaTRZOWN0?=
+ =?utf-8?B?d1F5Ti9Xa1ZNZU1GMDQ1S1c5cFhsQWJrc2NIUEdxR2c2WEc1cmhFTGFXRElI?=
+ =?utf-8?B?S2RNWkZBZyt6VVhZRXJReDY5Z2YvWmJZUDZHZnVKVVYyOU04eVJkV2ZFVWtp?=
+ =?utf-8?B?ZncyVlU2TUJtVFF1a0l1R0J6RW40Q2NEcWd4QXNXYyt6U2Y0bEhGS2dhbmR5?=
+ =?utf-8?B?cGw1Y2g4TVRieFh0UGk4bnpaVVM3eGc4N3NkNDFGSE5FL0xwMmhRZjFMWWl0?=
+ =?utf-8?B?dDZ3OHFFTVJIRGpLSHpGd1F2bFVLVmJ2c0VhdURtQTFLdGxaZThodVA4Vmg5?=
+ =?utf-8?B?ODRsVlIzVU16YW9PQ1ZhMHBnOHRxa2NhcGljSmNRY2lBc3BRdllZM3pSZnU4?=
+ =?utf-8?B?YVpXWTJ1TGlzQ1RIV1dBbXRCcldwTUZIUmVNYndpNGc1TS9RRnEwVWJ3elBk?=
+ =?utf-8?B?bVY1a05jQmorMTVwOXZoMkhvOWNweGdqdFZxOGRudEJ0WDAySGdtSlF2TjJ1?=
+ =?utf-8?B?ZnA2aUM3a2syTWRRNllwZzlMZ2d1cFd2aHE4WTlFenZTTEtvbUlrVEhmaTA2?=
+ =?utf-8?B?VGdpb2lIZlpYUlFTWktjTWJUVy9GMnJuTnlqVDRJYlRyeTJOTXc1SlNLY2VY?=
+ =?utf-8?B?eko0bFBVc1ErSlhyMDIySFRUZFlMTWZVS1FHdjM4T3d1QWRtcXY4ZmNuaU1r?=
+ =?utf-8?B?c2hDeU4vUUxTRjlHRSt5Z1g3YktjazBHalZRYmJlRjcrNDJldWlhcFpFYWwr?=
+ =?utf-8?B?Yk9nYUZSZS9BcjFaaGV5NDhQdTVDeisva2ZBTU5zSmFvbXNmR0FwUWo5eG02?=
+ =?utf-8?B?cFpVN3M3UE0zZ3JIMFdXb1BxUnJoUTJ4anJpSkoyZWFhbnRJWFJGRlArQjlV?=
+ =?utf-8?B?bS9XT2tkNmdCOHNKUjlONlZneEZ3ckI5ZkU2R1E4REF2aDFxNGZKQmUwL2Iw?=
+ =?utf-8?B?N29oYTZVb0hPY3B1WU04ZWttNWw1R0hvclhEWVBSaVBMbjZReERTR2lzalN2?=
+ =?utf-8?B?SVRPMkllbjBWMTNFYjNQNGxvMGc2REc5UitDYjdMckZlTEV1Vkl3c05SMTRY?=
+ =?utf-8?B?YWJjVlF1NkhyYVp4WHBNa0pGQUlpT3VpY1ZIWjFRSVVCOVhOK0NZQVB6SEd0?=
+ =?utf-8?B?UDRhZVpwcmV5M3ZzWS8zbGNiT2JKM2hjQ1dHVFloUCtFbXQ2Nk9xZzF2bXhi?=
+ =?utf-8?B?Z2tzVExMVEZjRVB6NFZZeVh3dFFMQm1pSU1hMy9WZWlWdUt3U3RiZUhzNWRX?=
+ =?utf-8?B?SVFoVUtRQzBEMkZTT3JlNVpKUlQzNXIxakM0RW50dkVJZkIzSnBINjFpNEln?=
+ =?utf-8?B?MlR5Zm5qS08xMmQrUFg3bndOcGFFb09ORzh4UmpQUWxoZGVDOWFiY2MwZm5J?=
+ =?utf-8?B?T0RJdjNpTnZtSHlvNXpkcVZFTlBScWJ3R2RCTlBzcUVUSmdCc0FialphS0p3?=
+ =?utf-8?B?Z2dRM3BxU1BrWEVNM2VmN2NsNXpUOXBxYXFxcWhNSStrZ1AwdFNFUU53T1py?=
+ =?utf-8?B?bENOSmNETmFGMFlqbUVLVHQ2R255OTdNd2twbFo0dnEzWndCSU1HUUZSS3d0?=
+ =?utf-8?B?RGNZVnJMSmU1ZDZsZmh0Y0hZajVIUktxc3BmUXZNbWhRRk5pWGsxREJIdWM4?=
+ =?utf-8?B?SllUc0xERGNpeVJBY1Q4eVg5S2ZINisxcG5aUVBUa1ZsbTJLK2ZZR1Z3dDIr?=
+ =?utf-8?Q?Am3Eit8nl3E5kPGm1cfNlZeGg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4654ff8d-42bb-44ee-548b-08da7ca0fbd5
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 20:26:48.8958 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QknAz3+smBCzniEfc2pdu8PZBG3+9MtqhtxC0teGEias8H3BVeh1JfsmrZ8+R44ZERRNZsRmFDslGDU0bGNing==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3277
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,174 +124,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Xiao <Jack.Xiao@amd.com>, llvm@lists.linux.dev,
- kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Zhenneng Li <lizhenneng@kylinos.cn>,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Philip Yang <Philip.Yang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zhenneng,
+Hi workqueue maintainers,
 
-Thank you for the patch! Perhaps something to improve:
+In the KFD (amdgpu) driver we found a need to schedule bottom half 
+interrupt handlers on CPU cores different from the one where the 
+top-half interrupt handler runs to avoid the interrupt handler stalling 
+the bottom half in extreme scenarios. See my latest patch that tries to 
+use a different hyperthread on the same CPU core, or falls back to a 
+different core in the same NUMA node if that fails: 
+https://lore.kernel.org/all/20220811190433.1213179-1-Felix.Kuehling@amd.com/
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v5.19 next-20220812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Dave pointed out that the driver may not be the best place to implement 
+such logic and suggested that we should have an abstraction, maybe in 
+the workqueue code. Do you feel this is something that could or should 
+be provided by the core workqueue code? Or maybe some other place?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhenneng-Li/drm-amdgpu-use-native-mode-for-dp-aux-transfer/20220811-193443
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-config: s390-randconfig-r034-20220812 (https://download.01.org/0day-ci/archive/20220813/202208130320.NDvnbeVL-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 5f1c7e2cc5a3c07cbc2412e851a7283c1841f520)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/1098c6fecb4292d634dbdccff9e720400dc7138d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zhenneng-Li/drm-amdgpu-use-native-mode-for-dp-aux-transfer/20220811-193443
-        git checkout 1098c6fecb4292d634dbdccff9e720400dc7138d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+Thank you,
+   Felix
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:25:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:52:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:25:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:52:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:25:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:52:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:73:10: warning: no previous prototype for function 'venus_mm_rreg_slow' [-Wmissing-prototypes]
-   uint32_t venus_mm_rreg_slow(struct amdgpu_device *adev, uint32_t reg)
-            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:73:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   uint32_t venus_mm_rreg_slow(struct amdgpu_device *adev, uint32_t reg)
-   ^
-   static 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:84:6: warning: no previous prototype for function 'venus_mm_wreg_slow' [-Wmissing-prototypes]
-   void venus_mm_wreg_slow(struct amdgpu_device *adev, uint32_t reg, uint32_t v)
-        ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c:84:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void venus_mm_wreg_slow(struct amdgpu_device *adev, uint32_t reg, uint32_t v)
-   ^
-   static 
-   14 warnings generated.
-
-
-vim +/venus_mm_rreg_slow +73 drivers/gpu/drm/amd/amdgpu/amdgpu_dp_auxch.c
-
-    69	
-    70	#define R100_MM_INDEX                   0x0000
-    71	#define R100_MM_DATA                      0x0004
-    72	#define AMDGPU_MIN_MMIO_SIZE 0x10000
-  > 73	uint32_t venus_mm_rreg_slow(struct amdgpu_device *adev, uint32_t reg)
-    74	{
-    75	        unsigned long flags;
-    76	        uint32_t ret;
-    77	
-    78	        spin_lock_irqsave(&adev->mmio_idx_lock, flags);
-    79	        writel(reg, ((void __iomem *)adev->rmmio) + R100_MM_INDEX);
-    80	        ret = readl(((void __iomem *)adev->rmmio) + R100_MM_DATA);
-    81	        spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
-    82	        return ret;
-    83	}
-  > 84	void venus_mm_wreg_slow(struct amdgpu_device *adev, uint32_t reg, uint32_t v)
-    85	{
-    86	        unsigned long flags;
-    87	
-    88	        spin_lock_irqsave(&adev->mmio_idx_lock, flags);
-    89	        writel(reg, ((void __iomem *)adev->rmmio) + R100_MM_INDEX);
-    90	        writel(v, ((void __iomem *)adev->rmmio) + R100_MM_DATA);
-    91	        spin_unlock_irqrestore(&adev->mmio_idx_lock, flags);
-    92	}
-    93	static inline uint32_t venus_mm_rreg(struct amdgpu_device *adev, uint32_t reg,
-    94	                                    bool always_indirect)
-    95	{
-    96	        /* The mmio size is 64kb at minimum. Allows the if to be optimized out. */
-    97	        if ((reg < adev->rmmio_size || reg < AMDGPU_MIN_MMIO_SIZE) && !always_indirect)
-    98	                return readl(((void __iomem *)adev->rmmio) + reg);
-    99	        else
-   100	                return venus_mm_rreg_slow(adev, reg);
-   101	}
-   102	static inline void venus_mm_wreg(struct amdgpu_device *adev, uint32_t reg, uint32_t v,
-   103	                                bool always_indirect)
-   104	{
-   105	        if ((reg < adev->rmmio_size || reg < AMDGPU_MIN_MMIO_SIZE) && !always_indirect)
-   106	                writel(v, ((void __iomem *)adev->rmmio) + reg);
-   107	        else
-   108	                venus_mm_wreg_slow(adev, reg, v);
-   109	}
-   110	
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+F e l i x   K u e h l i n g
+PMTS Software Development Engineer | Linux Compute Kernel
+1 Commerce Valley Dr. East, Markham, ON L3T 7X6 Canada
+(O) +1(289)695-1597
+     _     _   _   _____   _____
+    / \   | \ / | |  _  \  \ _  |
+   / A \  | \M/ | | |D) )  /|_| |
+  /_/ \_\ |_| |_| |_____/ |__/ \|   facebook.com/AMD | amd.com
+
