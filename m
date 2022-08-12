@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034EF591496
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 19:04:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5920E5914D9
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 19:35:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61EF82B9AF;
-	Fri, 12 Aug 2022 17:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 326CD8E9E8;
+	Fri, 12 Aug 2022 17:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
- [209.85.166.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A56112BEDE
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 17:03:47 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id c5so772561ilh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 10:03:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=CbsNiIytCv9TuWDoxy66NWQwnGNftXPPpewBJoHfDIA=;
- b=YwEoeZyrD2x/tma+DMEnKRUn7luzjpU8O1K5m2onPu6KZJ7R060Jn984JFRVMiKbIw
- LpazvImdCd0KcYsACOReo9kL/UPqJP1vK2DTfVZ29JF8HbxLGOHXUd6tKuqdlC4PAHHu
- jOiACj70pLD/epw7YJ/jnex75XUSl1UJrw3XeRCAiHjSWOP0gY2ghdJrr+qtE4ibUOfx
- xxQvRIDJOLTb5tdy0WXbrcHecQjBrTzm0aeM0RjD4X7UT24v0eanhk8zHbFyza0PtWWB
- VrsBEsq+1RcaMkdiYtYSffXpfs71cWqo12Pp9j+LH+0/2H+B8XL8bdmD6kp0NwCpjp19
- vv1Q==
-X-Gm-Message-State: ACgBeo1igY0YlOAf/1SaI9J5wnsv5SFQLcvrY1itU4vh7JETkoBOxQb9
- kxsUyKIR8eoDRLYWvlx9Pw==
-X-Google-Smtp-Source: AA6agR5GGZj+HKLM7Mbb9Xw/65Zf53mj7vmnn/eflsC5QhVZLQwAoBMdhIHCeDPP16ImS8/8n8bnbQ==
-X-Received: by 2002:a05:6e02:80a:b0:2e3:4975:bf8a with SMTP id
- u10-20020a056e02080a00b002e34975bf8amr2115319ilm.316.1660323826577; 
- Fri, 12 Aug 2022 10:03:46 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id
- c17-20020a023311000000b003434ee85d38sm105274jae.4.2022.08.12.10.03.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 10:03:46 -0700 (PDT)
-Received: (nullmailer pid 327993 invoked by uid 1000);
- Fri, 12 Aug 2022 17:03:43 -0000
-Date: Fri, 12 Aug 2022 11:03:43 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] spi/panel: dt-bindings: drop 3-wire from common properties
-Message-ID: <20220812170343.GA327951-robh@kernel.org>
-References: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9AB2BAAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 17:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=DBNdtOCw0LSYm0ZFIR59vVL/UMB0LcrTuUEDdG9dGAk=;
+ b=ujthIcqej4LObWRrCsw5IWIWnE8n1H0dYnjVlpz4voLm33xuBKadG5guUbAd/gAwrcCnVfvOOC0i8
+ NTEdgn3f11VIPzNIyeZlKUnLp4F1NymNTUyEan5RHZOuxwoKHHHF+I0pi5KSm/oIucmWrB6UnKTOI3
+ OAYSD9ERPuTqhCPqe5FPxCH24NMPb8kx9y4ZMc5kYsHmJmtmVlcgtwHP7gk+5vwpfD5YtVSr31YYcH
+ KQ0prRvTcwABIVUeF7XwgWI1g7ygJdysm9YkKRJOihIj3Te2eSmbE0FrVjg6qquB24gEi+GAb2z2DY
+ KP08oA7FmmsbdQySK9MJhCmItz9QJNQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=DBNdtOCw0LSYm0ZFIR59vVL/UMB0LcrTuUEDdG9dGAk=;
+ b=rNCRxNM3gFjY1CjnZyOQr+Siy3c+7vaVtLmBwJHnm/iNOu08YALyEhKMbNsaj5rZAPDI1ylYlCBzF
+ laKV5sJDQ==
+X-HalOne-Cookie: 86752c2dd7620a1c2b98c62bc5a16f4f32505b9c
+X-HalOne-ID: 0f6569d0-1a65-11ed-be83-d0431ea8bb03
+Received: from mailproxy1.cst.dirpod4-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 0f6569d0-1a65-11ed-be83-d0431ea8bb03;
+ Fri, 12 Aug 2022 17:34:47 +0000 (UTC)
+Date: Fri, 12 Aug 2022 19:34:45 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/4] drm/probe-helper: Add
+ drm_crtc_helper_mode_valid_static()
+Message-ID: <YvaPNTYDZOrVMWND@ravnborg.org>
+References: <20220810112053.19547-1-tzimmermann@suse.de>
+ <20220810112053.19547-3-tzimmermann@suse.de>
+ <YvQGaIfkske73Dgp@ravnborg.org>
+ <5d4bddb5-bdce-0800-61ad-40fa470ceaf9@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220810131311.428645-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <5d4bddb5-bdce-0800-61ad-40fa470ceaf9@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +62,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>, Jonathan Bakker <xc-racer2@live.ca>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Christophe Branchereau <cbranchereau@gmail.com>,
- Pratyush Yadav <p.yadav@ti.com>
+Cc: david@lechnology.com, emma@anholt.net, airlied@linux.ie, javierm@redhat.com,
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org,
+ kamlesh.gurudasani@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Aug 2022 16:13:11 +0300, Krzysztof Kozlowski wrote:
-> The spi-3wire property is device specific and should be accepted only if
-> device really needs them.  Drop it from common spi-peripheral-props.yaml
-> schema, mention in few panel drivers which use it and include instead in
-> the SPI controller bindings.  The controller bindings will provide
-> spi-3wire type validation and one place for description.  Each device
-> schema must list the property if it is applicable.
+On Fri, Aug 12, 2022 at 06:37:17PM +0200, Thomas Zimmermann wrote:
+> Hi Sam
 > 
-> The Samsung S6E63M0 panel uses also spi-cpha/cpol properties on at least
-> one board (ste-ux500-samsung-janice/dts), so add also these to the
-> panel's bindings.
+> Am 10.08.22 um 21:26 schrieb Sam Ravnborg:
+> > Hi Thomas,
+> > 
+> > On Wed, Aug 10, 2022 at 01:20:51PM +0200, Thomas Zimmermann wrote:
+> > > Add drm_crtc_helper_mode_valid_static(), which validates a given mode
+> > > against a display hardware's mode. Convert simpledrm and use it in a
+> > > few other drivers with static modes.
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > 
+> > With the header file fixed,
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/display/panel/kingdisplay,kd035g6-54nt.yaml     | 2 ++
->  .../bindings/display/panel/leadtek,ltk035c5444t.yaml         | 2 ++
->  .../devicetree/bindings/display/panel/samsung,s6e63m0.yaml   | 4 ++++
->  Documentation/devicetree/bindings/spi/spi-controller.yaml    | 5 +++++
->  .../devicetree/bindings/spi/spi-peripheral-props.yaml        | 5 -----
->  5 files changed, 13 insertions(+), 5 deletions(-)
-> 
+> The include statement is required for enum drm_mode_status.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Obviously - missed that.
+
+	Sam
