@@ -1,66 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989875914FB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 19:37:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FAB59151F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 19:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A2814B5F8;
-	Fri, 12 Aug 2022 17:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0913D9378F;
+	Fri, 12 Aug 2022 17:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 636488F258;
- Fri, 12 Aug 2022 17:37:02 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id s18so561768uac.10;
- Fri, 12 Aug 2022 10:37:02 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76F292D9E;
+ Fri, 12 Aug 2022 17:58:02 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id z17so1963380wrq.4;
+ Fri, 12 Aug 2022 10:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:reply-to:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=dizPcrD7xaXzAQLAnOvA/lJAJfB2ho1YY43Lw3GIZ2w=;
- b=Lq3WwTdrt3jfthJq/u97yFXe4RHqde540SLRAxlnszttUC7h5f60tyX14x0KSDc5LX
- 4r0zkBPbxqJXcnnsJ4ZCBXJvdBw9RVCuhLMIdoAY7UqsTDGaqJdqWVXVgSn7RzkaLGAp
- jObndePyxg+TK2DFK/BdCyLVIaFg/UuyX2a+WKIuaMi3ZQJ0aF00PCaQMTSc6n32iPTc
- AxpmSQeswsUV1kS3nnQt+sp1rLUHCLv9b5AJQSsrudXvlk13uhOz2VVfAQO/x5OiM8x4
- 7mD/gT7dsrRvKAjl+zD0iZdCCXAHLWRxIKe+92BWgZe+69WQWAKkllth9/Y9qRuIX+iy
- Kkvg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=w8rPxxUwax5JSBYc+MunKfzJoBwcTejD8FTqXrjwB9Q=;
+ b=ZwbNXCMdTWEOw1KTNDeKg360UJPG1HCsisp9+uIXW+AigUK7JmFTPhWn7FWmgINCpT
+ rY7PLkCGfIgguc5MJ32GWWbMwoRGbrciy52PmMX1/5lfI+D30PYnOCwwVfBKBtPaUO/j
+ jYYLJn+GgsmN4Sun3E86Ttf/CyJOHKdJX0obiuUQjFrYu9dJaoyFzwwcqIuPBGKsMxPe
+ M72hExseMtt+PHjI93iQSBcrxtHFZL/mjeY81Pz5VAWFt9PzKIBklpHqsfs4HOpWlXKp
+ 1568kstFdwaTNQgqRboZuJDIWBp5MvvF5h0Q7MacN0YSXLEmyowtVOQpKpMF/mqMtWQ3
+ dQyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:reply-to:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=dizPcrD7xaXzAQLAnOvA/lJAJfB2ho1YY43Lw3GIZ2w=;
- b=LkE9iRHupJvez34s/wPLeIx3JrEHPbKORhhjchFONfP94LeMkP2Fi+KucwVafN20hV
- wJeoxcaRzb7dnYb8v4R2vs+q+FDgUNLgCoBFoulyW7gfucHmmOXIwN0cNxV1GGASjU21
- DL+2E7gjy0sh4ExWMFGBh3jA9DOy5CUxGStOb6cX3HNGgtZxQkvCrVGJp0+C4lyFIB+A
- cIBlJJJGzVvgjPh9Vv5foglawZ8VkG7fqLDDv8FfAUvnTCxLT0x3iczDDVLqeHx2/WLh
- pYitXq1ba/MIqilJhI8UyGoY9uujtTJedPSJCfWUW0URj54mvT5Rq2/zVcYTafLm37Vd
- 1osg==
-X-Gm-Message-State: ACgBeo0wYMFlB4KPz8nMAxQyt5VhXiogDU3h840hkaRg4AqOpyV1FCMk
- zE7XIL9tXH1Jl0cgdChcUdY=
-X-Google-Smtp-Source: AA6agR7Tv5COQ1lJT43XUNgNFNdFg+u4AY4yoTnhGQw7c+iaZmZPk2lYqyVssMVzUx77zM9XWUwdUg==
-X-Received: by 2002:ab0:6602:0:b0:38d:539:d611 with SMTP id
- r2-20020ab06602000000b0038d0539d611mr2406701uam.103.1660325821392; 
- Fri, 12 Aug 2022 10:37:01 -0700 (PDT)
-Received: from ?IPV6:2804:14c:4c2:8202::1003? ([2804:14c:4c2:8202::1003])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=w8rPxxUwax5JSBYc+MunKfzJoBwcTejD8FTqXrjwB9Q=;
+ b=i1nV8roZHTm2Vb4QZSHrX4NLoF+q36nPriXEf0YEUgYzPl5o3LsZXVqyrlMwojGcnp
+ t/gCZeXf9YrJFUwcj4xv92xkbCFnR00KGa0LoOjVvsOkSfojqwvGJuPpJta73MjRoxt1
+ QcLBS7DuFjUwuFW4ck/adj/HUb506Rka32fqQdco3bZUODnAZQ32SAgKjxrtcpy9J8VZ
+ pX70hG/DdvT/9iF/K25nwB0iJPjNDjQTjWUWOh6N/WCgUYiOaFvsGRFceqUXCmDfByLE
+ sExJgMx+tCU5GYWS6auGWvPRuv7eT3qAdnoia+NgD9GM7dCDpqUQjdqcPm6Bw7eF+WT9
+ ANnQ==
+X-Gm-Message-State: ACgBeo2n9JSpeitAogPdNqNKCCSxur1h7K3fQpt0hMYB1P34ttP9zPp0
+ Eajeu+mZ3porTW+hFphftyk=
+X-Google-Smtp-Source: AA6agR5BpjeASKsLrsRErii9wRhEEOlS5DHluRVxLpyj5mSQJt2UYcFvMbrTkLZMSIXhaY7aQVzWcA==
+X-Received: by 2002:a5d:5848:0:b0:222:c8cd:288 with SMTP id
+ i8-20020a5d5848000000b00222c8cd0288mr2788260wrf.34.1660327081009; 
+ Fri, 12 Aug 2022 10:58:01 -0700 (PDT)
+Received: from localhost.localdomain
+ (host-79-53-105-123.retail.telecomitalia.it. [79.53.105.123])
  by smtp.gmail.com with ESMTPSA id
- g19-20020ab05993000000b00383fbaaa7d2sm121055uad.22.2022.08.12.10.36.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 10:37:01 -0700 (PDT)
-Message-ID: <e95a5040-6cd2-3b74-1b65-50bc7c6b6ddb@gmail.com>
-Date: Fri, 12 Aug 2022 14:36:56 -0300
+ c3-20020adffb03000000b002206236ab3dsm129831wrr.3.2022.08.12.10.57.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Aug 2022 10:57:59 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
+ Jonathan Kim <jonathan.kim@amd.com>, Philip Yang <Philip.Yang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>, Zack Rusin <zackr@vmware.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drm/amd/amdgpu: Replace kmap() with kmap_local_page()
+Date: Fri, 12 Aug 2022 19:57:53 +0200
+Message-Id: <20220812175753.22926-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] drm/amd/display: remove unreachable code
-Content-Language: en-US
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-References: <20220812031911.62729-1-jiapeng.chong@linux.alibaba.com>
-From: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-In-Reply-To: <20220812031911.62729-1-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,49 +78,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: 20220812031911.62729-1-jiapeng.chong@linux.alibaba.com
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Ira Weiny <ira.weiny@intel.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+kmap() is being deprecated in favor of kmap_local_page().
 
-On 12/08/2022 00:19, Jiapeng Chong wrote:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_util_32.c:1658 dml32_TruncToValidBPP() warn: ignoring unreachable code.
-> 
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=1894
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->   .../drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c   | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-> index 05fc14a47fba..0758e1da55a9 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-> @@ -1654,10 +1654,6 @@ double dml32_TruncToValidBPP(
->   		else
->   			return DesiredBPP;
->   	}
-> -
-> -	*RequiredSlots = dml_ceil(DesiredBPP / MaxLinkBPP * 64, 1);
-> -
-> -	return BPP_INVALID;
->   } // TruncToValidBPP
->   
->   double dml32_RequiredDTBCLK(
+There are two main problems with kmap(): (1) It comes with an overhead as
+mapping space is restricted and protected by a global lock for
+synchronization and (2) it also requires global TLB invalidation when the
+kmap’s pool wraps and it might block when the mapping space is fully
+utilized until a slot becomes available.
 
-Seems correct.
+With kmap_local_page() the mappings are per thread, CPU local, can take
+page faults, and can be called from any context (including interrupts).
+It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
+the tasks can be preempted and, when they are scheduled to run again, the
+kernel virtual addresses are restored and are still valid.
 
-Reviewed-by: Tales Aparecida <tales.aparecida@gmail.com>
+Since its use in amdgpu/amdgpu_ttm.c is safe, it should be preferred.
 
-I feel like RequiredSlots is not actually used anywhere in the code, 
-just passed around dml32_TruncToValidBPP() and 
-dml32_CalculateOutputLink(). I've looked for any mentions of it in the 
-mailing list, but could not find anything that implied it's part of 
-ground working. I wonder if it's something outside the Linux tree for 
-other platforms or related to HW gospel.
+Therefore, replace kmap() with kmap_local_page() in amdgpu/amdgpu_ttm.c.
+
+Suggested-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 3b4c19412625..c11657b5915f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -2301,9 +2301,9 @@ static ssize_t amdgpu_iomem_read(struct file *f, char __user *buf,
+ 		if (p->mapping != adev->mman.bdev.dev_mapping)
+ 			return -EPERM;
+ 
+-		ptr = kmap(p);
++		ptr = kmap_local_page(p);
+ 		r = copy_to_user(buf, ptr + off, bytes);
+-		kunmap(p);
++		kunmap_local(ptr);
+ 		if (r)
+ 			return -EFAULT;
+ 
+@@ -2352,9 +2352,9 @@ static ssize_t amdgpu_iomem_write(struct file *f, const char __user *buf,
+ 		if (p->mapping != adev->mman.bdev.dev_mapping)
+ 			return -EPERM;
+ 
+-		ptr = kmap(p);
++		ptr = kmap_local_page(p);
+ 		r = copy_from_user(ptr + off, buf, bytes);
+-		kunmap(p);
++		kunmap_local(ptr);
+ 		if (r)
+ 			return -EFAULT;
+ 
+-- 
+2.37.1
+
