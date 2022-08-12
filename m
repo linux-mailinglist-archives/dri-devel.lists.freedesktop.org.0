@@ -2,70 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852CE590CB7
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 09:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397BD590CB0
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 09:43:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 926BB18B0EA;
-	Fri, 12 Aug 2022 07:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A78018AFBB;
+	Fri, 12 Aug 2022 07:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28EE618A89C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 07:42:59 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 84FE75C0162;
- Fri, 12 Aug 2022 03:42:58 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42793113FF8
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 07:43:00 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id A09425C016D;
+ Fri, 12 Aug 2022 03:42:59 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 12 Aug 2022 03:42:58 -0400
+ by compute5.internal (MEProxy); Fri, 12 Aug 2022 03:42:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm2; t=1660290178; x=1660376578; bh=sEqATm0wVZd4GFSPGrPKNfMfo
- m+92qSRyi/XXJHwM1s=; b=aeBVoIsHbD45G6B2CSXU/+fJbfPj6LzUteE+SGT3r
- urv+m1IDsRbX9YJJDBkkg9qfT/fKl8h4/Nw0c7RI9waZavC2Zcr3bS7PKMPBet5q
- Lc6ENhGbDyZjgilTRxYsTmsZsR1UROCiARJuuNLHcAMjtBjMshtv7mMJMoTWi+5h
- Xq+KgG1BDfzdtbcVMcd6El9EBfVrAPkO0dSev0HDxeUSr2rROHEGSF9V6lDNjYhT
- UIPHo8iO3OvaBS4oDbpKannB3q9aPFSHEQffek9wNQRSTQn8jiSD0xGrkbuI6PBp
- 332uFSbEt+eLEL6qNvGat3Xk9CREPQQNjCO830tYjiIdA==
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1660290179; x=1660376579; bh=Wf
+ Jpahh3aSFrGN16htkTw4dfeA0tePGew2nMqyXnTQQ=; b=Zu0EBJ4b+rn/CU/MPN
+ fTt8teFR9LeeHCna7nl7C0nu+ejS+IysUA7bih08SLbdwc1BUc8AFprWFDS7Nv6c
+ asTpZJxEuImeNiALWV4PwCuTffg+JjkP7/jnR+FrorSei3p/x93LQvqOPRYAOilb
+ lQ8sZvpoAWUZjw5OBj0XCUaek4zc8wCBXIYbrZxOWbv4wtxvbhD/v/RiMb4k3fIV
+ G1Dd2pMqmrav4X39V7IRC4Bq97XH4FOsxpeli9iDrjS797y3hcvcYqKPtRMXDVH3
+ XnFmseI/gA5TaFZWiHM2OyYSucqsy/LWIQEE7fBcQZ29bFSNcjtalMEwzlkUmvHd
+ YPYQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1660290178; x=1660376578; bh=sEqATm0wVZd4GFSPGrPKNfMfom+92qSRyi/
- XXJHwM1s=; b=GY1vSeir5ajF1syvZuLHsaWDIyXnjG2u+a5LHIy+0ICG5rpB3tP
- Ku2pKsrtfIXv9XjXezMfRVLrgNAyO5h2iQGW8Td7z09qd/93rQ+rDM3Hr8uWmXCX
- N5WdXeaBkQ5iEUuZvJu/5D8DngGzFstcvKEnP7+cxSMMOLR2ralBv+IEApKCQis0
- V1a2tF4SzCm2fYlvAz9iKmCvcY5rTHRksnkGPhIkXXPTEBp03Cdk4b5rlPXyqYmr
- /UhlOxN2zDVFh5qDHFexe2f3iyvMLXOcK87MY/XhO+VPXOuRjjHnOuhS8FG4q44M
- nI6jMCSu8LSNK5owaFyy/qXgoO8jM0fLVig==
-X-ME-Sender: <xms:ggT2YrVxdsxffic8WE0sF0HJGB__LdGX1uw1CrVRQ4_bJzF98WFUTQ>
- <xme:ggT2YjkkaYmjVCF865taabHe-2QPUNifwFrIto563OBDxeJZcQV0-pyiNf18YC5ig
- BdKkjC6PwYvHoaoNw>
-X-ME-Received: <xmr:ggT2Ynb6O8IGrf2Nilr_3ivTSYyBCJvXL8IfPWs2PIhLH9KgqB6lpMBNlS7fBi7bsNgwO3_yem6DSflVNCFyLw0IDURcQG8WlhqISVH_spKbVeUz7tdJQb7PhavhsSXHkALUGg>
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1660290179; x=1660376579; bh=WfJpahh3aSFrG
+ N16htkTw4dfeA0tePGew2nMqyXnTQQ=; b=26jbJgd/CSn+PETj88pnb9hF0mMmp
+ FeujPRTq9sGd1tSaKGy4Tkk5+H+Dt1N36FQg/KUfph6NeYuw5chddF1XYpFJxCzC
+ k4x5xtzR5Iyb9wTOfuIq+uYSGDyR2yFkHr5zJEEDWbv0csGmhrgfPzbZuvgxbSmL
+ hnBcP38q/CFy4PNGClu0Bi7dtNusA3ZBI6v8yVV2yV0p5oOxEDWzhBQvc/9cZPH5
+ dFE7IXfuQaf4Ez+w1mIW0qn2nM+0qSJ+ExT03bUJsXWD60jzaTlZg9TDsyOWDsZB
+ sBMDbtpZBZjeuogc3tPpLQsntWbyOpZNqyBVb5vk1zwlk5pczRLbhbcIQ==
+X-ME-Sender: <xms:gwT2YrTqUMh3ip_25XFWmnuXeae8Zu5KtLMUpoaVlS8U8BTNTQymaA>
+ <xme:gwT2YszCN7u-27GuMu5mKIvxCgLVvwipLMxylCP_DsWBdBlKyRMLQCR9Pio-u1Hks
+ ryMLLE6vrk_xE_1zA>
+X-ME-Received: <xmr:gwT2Yg2RMUOv0ia9J5wImwaqq0jGGgmqtfoX2MHkFe9G3L5KxIRBXsoZP_AlKzAgoOGZU3KbguG1odvmF9a01Iqg_pjE-Xo2-m1AZeTwrL43NDZb1ReQKKtnftyNt_FVtvDmgA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedguddvhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
- lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
- frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
- hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:ggT2YmUUOxSk46kfSLU_DMCI7xFLyIIuvxmHc75RmQEHFU_RNtU6Kw>
- <xmx:ggT2Ylkx2lCDoBnG_EvzaDqavatBbiT1o4wVdoqHp-XHqRXIcAFs_A>
- <xmx:ggT2YjeVL6IvleKt4_apCQm4DA2tSXw6crTDh5gkfFPcaIwViOu3tA>
- <xmx:ggT2Yo9ibAE-IQeu7C5tStgXJgXoDeEIt_Jwj4a1rWIe67msC_caCQ>
+ enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghm
+ uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+ ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
+ gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:gwT2YrDcS2dGikRzeZyB4Zkpxa4AiM9yjuhhPy_4PQUN2t6ivJktIw>
+ <xmx:gwT2YkjbFnKHEeIrMfw3eY363kkExSoS-hYrMXbSXdvPMwKGxbQewQ>
+ <xmx:gwT2YvqpBDROyxwKfXFg8TrxwRz9zW1rQtDGEmnMmtC_HgJxWPCmQA>
+ <xmx:gwT2Yla7EVLt4l2Zg0oFPWEWiRNV4aHOi336NxVcnAL_psWhiN2dYA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Aug 2022 03:42:57 -0400 (EDT)
+ 12 Aug 2022 03:42:58 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 0/4] drm/sun4i: dsi: Support the A100/D1 controller variant
-Date: Fri, 12 Aug 2022 02:42:52 -0500
-Message-Id: <20220812074257.58254-1-samuel@sholland.org>
+Subject: [PATCH 1/4] dt-bindings: display: sun6i-dsi: Fix clock conditional
+Date: Fri, 12 Aug 2022 02:42:53 -0500
+Message-Id: <20220812074257.58254-2-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220812074257.58254-1-samuel@sholland.org>
+References: <20220812074257.58254-1-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,36 +92,40 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds support for the digital part of the DSI controller
-found in the A100 and D1 SoCs (plus T7, which is not supported by
-mainline Linux). There are two changes to the hardware integration:
-  1) the module clock routes through the TCON TOP, and
-  2) the separate I/O domain is removed.
+The A64 case should have limited maxItems, instead of duplicating the
+minItems value from the main binding. While here, simplify the binding
+by making this an "else" case of the two-clock conditional block.
 
-The actual register interface appears to be the same as before. The
-register definitions in the D1 BSP exactly match the A64 BSP.
+Fixes: fe5040f2843a ("dt-bindings: sun6i-dsi: Document A64 MIPI-DSI controller")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-The BSP describes this as the "40nm" DSI controller variant. There is
-also a "28nm" variant with a different register interface; that one is
-found in a different subset of SoCs (V5 and A50).
+ .../bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-A100/D1 also come with an updated DPHY, described by the BSP as a
-"combo" PHY, which is now also used for LVDS channel 0. (LVDS and DSI
-share the same pins on Port D.) Since that is a different subsystem,
-I am sending that as a separate series.
-
-
-Samuel Holland (4):
-  dt-bindings: display: sun6i-dsi: Fix clock conditional
-  dt-bindings: display: sun6i-dsi: Add the A100 variant
-  drm/sun4i: dsi: Add a variant structure
-  drm/sun4i: dsi: Add the A100 variant
-
- .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 30 +++++++---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c        | 58 +++++++++++++------
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h        |  7 +++
- 3 files changed, 69 insertions(+), 26 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+index bf0bdf54e5f9..ae55ef3fb1fe 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+@@ -78,16 +78,10 @@ allOf:
+       required:
+         - clock-names
+ 
+-  - if:
+-      properties:
+-        compatible:
+-          contains:
+-            const: allwinner,sun50i-a64-mipi-dsi
+-
+-    then:
++    else:
+       properties:
+         clocks:
+-          minItems: 1
++          maxItems: 1
+ 
+ unevaluatedProperties: false
+ 
 -- 
 2.35.1
 
