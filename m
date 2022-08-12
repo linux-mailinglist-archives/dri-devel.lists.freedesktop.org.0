@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929855916CB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 23:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34005591766
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Aug 2022 00:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9358A445;
-	Fri, 12 Aug 2022 21:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1245AB8C1;
+	Fri, 12 Aug 2022 22:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1496C18B5CC;
- Fri, 12 Aug 2022 21:43:10 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- w11-20020a17090a380b00b001f73f75a1feso9465396pjb.2; 
- Fri, 12 Aug 2022 14:43:10 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87A72AB80A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 22:39:28 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id 130so2075112pfv.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 15:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc;
- bh=HsCUQ8j36I4b68/toXmGXuF2hsPiyYP9smjWccI2rQk=;
- b=T8edxcRXD18BsL1RTMjGrj5n5dQsaZ4ojGAmMwVXKsYJdht7fJ7wztz/lJ1kLjnRrU
- 6Q7c32Y6LN1DE3ooBXiX1OUl6mf/pVEtG+KgbRHbR6NKEp0cSOrtaM+jq500rZ+KzukA
- mc/wTkGgq4u9MKsQT0i919rJABVE6il55R8QLPNON59KLiyPH0abZHeRnsixJqjlZz74
- P1pnhPNaFVgWLAU+ZB+dW7vmVM7yHyVBv3Z4Ldo9oUzYBcC34Z8ZXJTo29AtuInBURZU
- nEx3PPBKtG0g1ceLACYgAXiP6itMQ9oIL1UEEjnecWNcY+pVJiNV/pMKYRyNMh++rqv+
- CmOw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=WoqjtI8/PDq4XLeCuA4BUU9vOzNcEPwvP6PaF9+jchw=;
+ b=kCH5GDRZUrtkc7wWNsc5nuqbMku7NBjt44npkV7Va47a7utj6FA4TomD1TL+NsJMVK
+ iSP2uNzTV+S5agOwMfCzu8BIwfzHY21+IKiEpcfPq3bCaxllz5hpz5y4prNqvAa8Uzk8
+ HVihG7IleZ+dcCwz9GI1Pfep9EMwK0bI04WDrv8pz/3TULKedlTuuMzsdyVqhhJr1foG
+ 254E7QnrI2TAiX+gXbn6O8c51AYcyFN4ubCJ6EQFRt9moTLwQjlhkjWEGOcbf9Bl68fR
+ lv0St731bY5X959cZgFEwn0Y9tORv+mtnoIHxaWYOB0mAjVWst+yaVCw5BGZVVZ9W0IL
+ PllQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
- bh=HsCUQ8j36I4b68/toXmGXuF2hsPiyYP9smjWccI2rQk=;
- b=JHVK9zN/3hWVAXzg04lJybXIfxGL+7Qv6VY90+Sbbaiy3bWRIVIqSKeX519Oh2TYho
- ApNCILvpiFwUoNfMybIi9ZEK3HLlidwbInmcGHou4CD/O8e/gNoK2zOK+w1iOfQVl7o7
- mXokriKaHI/P7EcWOjGBiY468G0GGkzOzEckPGgSu87eV4IxgjqqH6fwARyJEg5o7gF2
- gGJFav/1a/DvOl0zVuAMvAGLlGeSGIV9kRt1UFbNLs3qg+ZZMjGQAuDvEWHfTxdXA72h
- q72LhqqBxjo3r9nQlILbgMa0L5SaEYx+2Zw9sIarKExhlfq3EmYukWPJs+yDJKHW9w98
- rM1Q==
-X-Gm-Message-State: ACgBeo26G0gWjbJpBW5AqIW38f9tQC5t0Zb64EjtQxF9v7uShsc4zS8O
- XtVF9hmUHesCd1nk+frRd4w=
-X-Google-Smtp-Source: AA6agR4Fgetd/4HyBb1xn64ltu8RG1s/lBb7ckWrb3o9x7Qa3INFkzW5TI9HPOMXY2FYziGwhUfswQ==
-X-Received: by 2002:a17:90a:d70f:b0:1f3:290b:c8f6 with SMTP id
- y15-20020a17090ad70f00b001f3290bc8f6mr15857826pju.190.1660340589426; 
- Fri, 12 Aug 2022 14:43:09 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:aae])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=WoqjtI8/PDq4XLeCuA4BUU9vOzNcEPwvP6PaF9+jchw=;
+ b=LOFoLmIKbn2ct5PM5U4brrJ2WHdXlB5yIfN7u4levx0xuNl1grNk/msCBp8n1w3CH4
+ AYhT4mZtEM5Ql/mi8QCVQb7uRxYzDgUtG59oPvjoZMvD3mrlXh4LDdb6C9qL56m2Apd9
+ 3h5org7EYkRULKDkygU8DxlAEqM4p4rUNPiLHYhP8wDAYs1zFhOsFpbaPV5JMVXK+qks
+ deH8Qcqno8zLAIOitypRUmv6FtVRW1SojIkO/VuWOUo9dEo5zmpNzxcmAJqmNk6hu8jd
+ I7TTBFD+NZDV0HMLThYszhmn6fdIGyytrdgDHPrkCi+yZ4AuJMGKS94K3MD3Lc5sqBF4
+ 0p5g==
+X-Gm-Message-State: ACgBeo06L8bRbmzau1nkjxczX9lHOF9Va6tGqzNL5TWNuYyI8rJif/qb
+ Rfi2db3zrrl8s9OQc/g3wNP5RWnBD7s=
+X-Google-Smtp-Source: AA6agR5c193Q2KiScRnuf+nXAXJspANTuNt8azcyAEmzHXLvouKJGN9t8xNlwdLZp0TstxxFt+2jUQ==
+X-Received: by 2002:a63:6b87:0:b0:41c:2fb4:24f1 with SMTP id
+ g129-20020a636b87000000b0041c2fb424f1mr4913613pgc.452.1660343967087; 
+ Fri, 12 Aug 2022 15:39:27 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- g23-20020a63e617000000b0041cd2417c66sm1762561pgh.18.2022.08.12.14.43.08
+ fh3-20020a17090b034300b001ef87123615sm315731pjb.37.2022.08.12.15.39.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Aug 2022 14:43:08 -0700 (PDT)
-Date: Fri, 12 Aug 2022 11:43:07 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: Selecting CPUs for queuing work on
-Message-ID: <YvbJa/6UvSswf8ve@slm.duckdns.org>
-References: <82233e68-106f-39e9-b20d-7794eb7a8933@amd.com>
- <Yva4g3V2jAP0NKcY@slm.duckdns.org>
- <5256fc4b-437b-f7fb-55b6-abab091e0182@amd.com>
+ Fri, 12 Aug 2022 15:39:25 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: Fix same-context optimization
+Date: Fri, 12 Aug 2022 15:40:00 -0700
+Message-Id: <20220812224001.2806463-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5256fc4b-437b-f7fb-55b6-abab091e0182@amd.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,37 +67,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Lingfeng Yang <lfy@google.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+From: Rob Clark <robdclark@chromium.org>
 
-On Fri, Aug 12, 2022 at 04:54:04PM -0400, Felix Kuehling wrote:
-> In principle, I think IRQ routing to CPUs can change dynamically with
-> irqbalance.
+When VIRTGPU_EXECBUF_RING_IDX is used, we should be considering the
+timeline that the EB if running on rather than the global driver fence
+context.
 
-I wonder whether this is something which should be exposed to userland
-rather than trying to do dynamically in the kernel and let irqbalance or
-whatever deal with it. People use irq affinity to steer these handlings to
-specfic CPUs and the usual expectation is that the bottom half handling is
-gonna take place on the same cpu usually through softirq. It's kinda awkard
-to have this secondary assignment happening implicitly.
+Fixes: 85c83ea915ed ("drm/virtio: implement context init: allocate an array of fence contexts")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> What we need is kind of the opposite of WQ_UNBOUND. As I understand it,
-> WQ_UNBOUND can schedule anywhere to maximize concurrency. What we need is to
-> schedule to very specific, predictable CPUs. We only have one work item per
-> GPU that processes all the interrupts in order, so we don't need the
-> concurrency of WQ_UNBOUND.
-
-Each WQ_UNBOUND workqueue has a cpumask associated with it and the cpumask
-can be changed dynamically, so it can be used for sth like this, but I'm not
-yet convinced that's the right thing to do.
-
-Thanks.
-
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index fa2f757583f7..9e6cb3c2666e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -168,7 +168,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 		 * array contains any fence from a foreign context.
+ 		 */
+ 		ret = 0;
+-		if (!dma_fence_match_context(in_fence, vgdev->fence_drv.context))
++		if (!dma_fence_match_context(in_fence, fence_ctx + ring_idx))
+ 			ret = dma_fence_wait(in_fence, true);
+ 
+ 		dma_fence_put(in_fence);
 -- 
-tejun
+2.36.1
+
