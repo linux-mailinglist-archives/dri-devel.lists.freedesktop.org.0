@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D756F591052
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 13:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FB15911BA
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 15:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9267A69C6;
-	Fri, 12 Aug 2022 11:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C088B4368;
+	Fri, 12 Aug 2022 13:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B016094F71;
- Fri, 12 Aug 2022 11:46:27 +0000 (UTC)
-Received: from [192.168.2.145] (unknown [109.252.119.13])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+X-Greylist: delayed 492 seconds by postgrey-1.36 at gabe;
+ Fri, 12 Aug 2022 11:55:18 UTC
+Received: from mx2.securetransport.de (mx2.securetransport.de [188.68.39.254])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6453BAE6BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 11:55:18 +0000 (UTC)
+Received: from mail.dh-electronics.com (unknown [77.24.89.57])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id BD19E66016F2;
- Fri, 12 Aug 2022 12:46:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660304786;
- bh=C5rdDWAQ0gULbYpYsWO6A2mmdZ/uxYEqrEknr4MoOf8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=f3cXPfNXtZHtoSYE1rfxtQ30MUhUVhGrG/NArO1c7kQB8/Xy+FmlqaaOTXT5gVdlP
- JQXrT9UtGLSc+oBaf/E/efq95t8eHa3wW8rsdseitQlUvtaI4DwUh/ptuZTZ+7D4oa
- 7gYb8ygLDMwAttTQiJt/HYS3piyRQe36Z1IpIZJqOFl16YT77Eqw1UGF1vppI4t/Vf
- GlTMr5So6lTOFJQj6bSYwIN6RamDBXBlbOMkDkPHaJHbuvpX0ALyNVMapf4xI3a4LC
- uDEbP9wEVI4gkRbHJNZkFWXDO04u0wVdnPFCF2dEImetIe9dBjI0qKFkC2Wjrvs/O9
- MpZiQvPIhyRKg==
-Message-ID: <b7bc8c98-d613-a50d-454c-06ca76d707e1@collabora.com>
-Date: Fri, 12 Aug 2022 14:46:20 +0300
+ by mx2.securetransport.de (Postfix) with ESMTPSA id 34FAA5E911;
+ Fri, 12 Aug 2022 13:46:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
+ s=dhelectronicscom; t=1660304805;
+ bh=fbnAMyRh8wvq7TCAWCxHV4tQFskBMN3RaYIZybVxiro=;
+ h=From:To:CC:Subject:Date:From;
+ b=NuZn/hVYq3p9DIKyzN44PxfIfJWbKbaXYfGUmNAMruy5XCtx2G9BsROZhPavyYMC7
+ Q6Mx30c2qWFgonmvriBqXRzYh12HQetz5Y4YSJELaZK+sTAdJ3tWnC72OW6ZylQ3wv
+ IbZ//YeOwBKNKQlk4WuN+EW9wtnwfgHt3vfNw5lCfHTLSAbhZ2fv+LYdM6a0K4Azoi
+ j+sq0PNEffEVpvsPbu4blYfNCi49TvxLyt9WFYNOkQ2+i/Q6j/Fue3FzG/Qh1yun69
+ Rrh6vxll3MqBf1QD596dUDQmYJz1AiMdSJbBjQKjLzH6QnCwaRhwdoeQDOzbG1ddFJ
+ WAWOi7KuG9GKg==
+Received: from DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) by
+ DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.12; Fri, 12 Aug 2022 13:46:39 +0200
+Received: from Stretch-CN.dh-electronics.org (10.64.6.116) by
+ DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.12 via Frontend Transport; Fri, 12 Aug 2022 13:46:38 +0200
+From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] dt-bindings: display: simple: Add Multi-Inno Technology
+ MI0800FT-9 panel
+Date: Fri, 12 Aug 2022 13:46:00 +0200
+Message-ID: <20220812114600.4895-1-cniedermaier@dh-electronics.com>
+X-Mailer: git-send-email 2.11.0
+X-klartext: yes
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [Linaro-mm-sig] [PATCH v2 3/5] dma-buf: Move all dma-bufs to
- dynamic locking specification
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
- <20220725151839.31622-4-dmitry.osipenko@collabora.com>
- <6c8bded9-1809-608f-749a-5ee28b852d32@gmail.com>
- <562fbacf-3673-ff3c-23a1-124284b4456c@collabora.com>
- <87724722-b9f3-a016-c25c-4b0415f2c37f@amd.com>
- <0863cafa-c252-e194-3d23-ef640941e36e@collabora.com>
- <93484389-1f79-b364-700f-60769fc5f8a5@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <93484389-1f79-b364-700f-60769fc5f8a5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Mailman-Approved-At: Fri, 12 Aug 2022 13:52:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,75 +60,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-rdma@vger.kernel.org,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- spice-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, David Airlie <airlied@linux.ie>,
- amd-gfx@lists.freedesktop.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/12/22 14:34, Christian König wrote:
-> 
-> 
-> Am 10.08.22 um 20:53 schrieb Dmitry Osipenko:
->> On 8/10/22 21:25, Christian König wrote:
->>> Am 10.08.22 um 19:49 schrieb Dmitry Osipenko:
->>>> On 8/10/22 14:30, Christian König wrote:
->>>>> Am 25.07.22 um 17:18 schrieb Dmitry Osipenko:
->>>>>> This patch moves the non-dynamic dma-buf users over to the dynamic
->>>>>> locking specification. The strict locking convention prevents
->>>>>> deadlock
->>>>>> situation for dma-buf importers and exporters.
->>>>>>
->>>>>> Previously the "unlocked" versions of the dma-buf API functions
->>>>>> weren't
->>>>>> taking the reservation lock and this patch makes them to take the
->>>>>> lock.
->>>>>>
->>>>>> Intel and AMD GPU drivers already were mapping imported dma-bufs
->>>>>> under
->>>>>> the held lock, hence the "locked" variant of the functions are added
->>>>>> for them and the drivers are updated to use the "locked" versions.
->>>>> In general "Yes, please", but that won't be that easy.
->>>>>
->>>>> You not only need to change amdgpu and i915, but all drivers
->>>>> implementing the map_dma_buf(), unmap_dma_buf() callbacks.
->>>>>
->>>>> Auditing all that code is a huge bunch of work.
->>>> Hm, neither of drivers take the resv lock in map_dma_buf/unmap_dma_buf.
->>>> It's easy to audit them all and I did it. So either I'm missing
->>>> something or it doesn't take much time to check them all. Am I really
->>>> missing something?
->>> Ok, so this is only changing map/unmap now?
->> It also vmap/vunmap and attach/detach: In the previous patch I added the
->> _unlocked postfix to the func names and in this patch I made them all to
->> actually take the lock.
-> 
-> 
-> Take your patch "[PATCH v2 2/5] drm/gem: Take reservation lock for
-> vmap/vunmap operations" as a blueprint on how to approach it.
-> 
-> E.g. one callback at a time and then document the result in the end.
+Add Multi-Inno Technology MI0800FT-9 8" 800x600 DPI panel
+compatible string.
 
-Yeah, I'll do it for v3. I'm vaguely recalling that there was a problem
-when I wanted to split this patch in the past, but don't remember what
-it was.. maybe that problem is gone now, will see :)
+Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index bc8e9c0c1dc3..5d9d7683efea 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -234,6 +234,8 @@ properties:
+       - mitsubishi,aa070mc01-ca1
+         # Multi-Inno Technology Co.,Ltd MI0700S4T-6 7" 800x480 TFT Resistive Touch Module
+       - multi-inno,mi0700s4t-6
++        # Multi-Inno Technology Co.,Ltd MI0800FT-9 8" 800x600 TFT Resistive Touch Module
++      - multi-inno,mi0800ft-9
+         # Multi-Inno Technology Co.,Ltd MI1010AIT-1CP 10.1" 1280x800 LVDS IPS Cap Touch Mod.
+       - multi-inno,mi1010ait-1cp
+         # NEC LCD Technologies, Ltd. 12.1" WXGA (1280x800) LVDS TFT LCD panel
 -- 
-Best regards,
-Dmitry
+2.11.0
+
