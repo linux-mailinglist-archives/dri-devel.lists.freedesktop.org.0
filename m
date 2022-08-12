@@ -1,76 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D475C590CBC
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 09:43:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE68590CBE
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 09:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B346A18A89C;
-	Fri, 12 Aug 2022 07:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8174214B3D2;
+	Fri, 12 Aug 2022 07:44:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7764B12B6BB
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 07:43:03 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id CD6265C01A1;
- Fri, 12 Aug 2022 03:43:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 12 Aug 2022 03:43:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1660290182; x=1660376582; bh=kx
- +9JKlWu32A6DmgeW0vWkd2q0Mj+Ryf50uEWGXvNj8=; b=iIKLRIB19DcRslJJ2i
- adprTUQaPIsQ6jWhm4grS6ilrNmR9s+mlmQ9Ap7mS0iLmzfOTo1CbSzpt2PVQBp1
- 7K1qulONUQOnVGU+eczWFLYnrIjd/JYZ/PRyesvlNLvX8vwq/O12ycqIdCC1ikNr
- cK/ySOF7clrtLGp+UmM2zW8vG9znmrCzYjzglv2QGwwXfMqTnD2DAS50fVxrxoSu
- fXLyVobNuIMEDPwH0x55Nrn2+Srw2K6mTW9qE68AM6c7U0SC/GUd46TbjOtyoVcv
- R0gbUWn97Y7pEEaxlJjocOt+EnxzOn88dqL40hNzCm57F+4Tpp5JFbr4nxZiiHag
- qK4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1660290182; x=1660376582; bh=kx+9JKlWu32A6
- DmgeW0vWkd2q0Mj+Ryf50uEWGXvNj8=; b=FKlhHqc3qMj2+NtbJ+qjwEVCP1sZG
- Pv4n0OPhUiSWUR81+UCNTJriHcL7UR9FbxdZ0nbw9xxsIceKrh+oUs8nBnMGxlSA
- ihmVy7CFLt6jhAUuD6JMxdbn6oVn447U/xCC+XJgJBKqs3H5igTszzS4NZuGLhwQ
- ehTVayYpahVDx3WlGU16Pm3wpEuD5rw9vIfFZVIWkVO+65r5IINvrywYCNztzQJM
- 6jAY0CU/TLUuxhY5+l/Y6b/E5jjZ3Ald7DKHcOOXw+VdIzvtuA2niJ5XEI8XXvmq
- cI0mGllRt6QizGExAwuuVLBlcpKDkOQCN+qppS02BT6IHYemcr+YRrTLw==
-X-ME-Sender: <xms:hgT2Yg6Bbv6ol6cTdCTK0j6GTpB9B2HN7o8UVO39ON_azn7DH8R4Yw>
- <xme:hgT2Yh6j3QEKDVkIPYTQSCQyBCLk82_inKC1XjTmhuxDz3Pr8mgZCOshAp6ZeqDuv
- ZIr8zzeAZ9Wbu973Q>
-X-ME-Received: <xmr:hgT2Yve_80bIAiFOtB_BQxsCD_3ZpsnIwjY6TMyJ8MceGwPK5a6cnUow1GJVESA93H7Wl9b1DXIn92kmo2isLC-hN6qKIYKA6xXyoDvxES25gvKlc-3Q5pCf2wTdA3pvav2tcw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedguddvgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghm
- uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
- ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
- gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:hgT2YlIS2KK6NuTI-2pNcotAgru7l6NVUnQAxbZnETLu25KJQ0wwKQ>
- <xmx:hgT2YkI9UbL8F_CD4HRU7tR2oG0QJsyzHD5X80CwAAaC-3K1IJGBVg>
- <xmx:hgT2Ymz9Xh-tYR-3ETZPvHZ36-Naq2C9Xv85nut1TLWrt5Rn9ynjtg>
- <xmx:hgT2YmClg_8a5ajGyKXImZ1ft7f8rin0pzazTvRa8oSkr5ozxluSjw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Aug 2022 03:43:02 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 4/4] drm/sun4i: dsi: Add the A100 variant
-Date: Fri, 12 Aug 2022 02:42:56 -0500
-Message-Id: <20220812074257.58254-5-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220812074257.58254-1-samuel@sholland.org>
-References: <20220812074257.58254-1-samuel@sholland.org>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67F9210E1EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 07:43:08 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id z20so175325ljq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Aug 2022 00:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=3VS7TWQot+IlEnwML927JkmV58E4LYSjP3ZVnbKvo9o=;
+ b=H6veR4g/W1qzmoejhWrzNTQwPauG85mbgpysc5AndaHpPwUL46BFgVxeeGb2A66u5P
+ IXdCseqv9FE799SRriDfUyuz/1BJcdY522DlofonUQtYQCPqxHzkpWLZKQ+W2CSV7QUo
+ 09hxtgv2kBaeVaLTKw0A76lTFs2Ua3TSFv3Bq7sWzfIr+HcUZ0p7UUL2ZjmMglDKcyRb
+ tsLPdOsyfNd9lUvZMsQlAuimpvqm/V0mVwj8e8azBjnadFAn6+6pa4z1CXX2ZspADiVR
+ ExqWeCB6yJKm8solaw/dXy2p2CqnYDt3T18qOd6Z2BPCCjiq42cOMbEFYY+AxQ6Y6uxX
+ T8gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=3VS7TWQot+IlEnwML927JkmV58E4LYSjP3ZVnbKvo9o=;
+ b=yKIhRjTXf0Lh3PYkpd2hV6vC3oJDDjextaTTOTxHKHDyCuMPo+Lj/YSIz4rLe5FBoD
+ nim3wKOIKNKw6kFm0FdIA2BvPMHh+o+g4f0Fg9uvzLiLMSgD4It9fc+QT2IfjnYPXait
+ Yl6LztVHX4q7dCvoyeBdioeHehuZCaiwLXr2vxGM6dSBoPbC37mraPJqdJCh6L4ojr4j
+ CCkpVXpjh3h6Dp/EWkuTelLe1WsKYHwKcXpEjmBlAlfjD3WPx87aHfBIQEXAwxvjmItr
+ ORWUguZQ58a2RyYs1uP3FO+iCYwM22oU3rwZeJu19gR3pQm5EkZtdl5ziJKJhjCNPFDr
+ TScw==
+X-Gm-Message-State: ACgBeo0gYxwsPXf8zDqZvwgPb2y5kGRegG49ZTotzwJtw9jWun5hhIZv
+ vrUspEMgZGSkqz+ZHqKM5/r/Fg==
+X-Google-Smtp-Source: AA6agR7ZfeMJcaErbEl0GD4He0/9ETlWF7jSLhneR8xK84QqhWg3QQHewdW5lNe/WC0N5Wv2ZlPPOg==
+X-Received: by 2002:a05:651c:c98:b0:25e:6894:650 with SMTP id
+ bz24-20020a05651c0c9800b0025e68940650mr840132ljb.487.1660290186671; 
+ Fri, 12 Aug 2022 00:43:06 -0700 (PDT)
+Received: from [192.168.1.39] ([83.146.140.105])
+ by smtp.gmail.com with ESMTPSA id
+ m4-20020a056512114400b0048b12c4c7e6sm126911lfg.12.2022.08.12.00.43.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Aug 2022 00:43:06 -0700 (PDT)
+Message-ID: <ba1b272c-0d3a-b1c7-0ca3-5279496e1a6a@linaro.org>
+Date: Fri, 12 Aug 2022 10:43:02 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] dt-bindings: display: sun4i: Add D1 TCONs to conditionals
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>
+References: <20220812073702.57618-1-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220812073702.57618-1-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,51 +74,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The A100 variant of the MIPI DSI controller now gets its module clock
-from the TCON via the TCON TOP, so the clock rate cannot be set to a
-fixed value. Otherwise, it appears to be the same as the A31 variant.
+On 12/08/2022 10:37, Samuel Holland wrote:
+> When adding the D1 TCON bindings, I missed the conditional blocks that
+> restrict the binding for TCON LCD vs TCON TV hardware. Add the D1 TCON
+> variants to the appropriate blocks for DE2 TCON LCDs and TCON TVs.
+> 
+> Fixes: ae5a5d26c15c ("dt-bindings: display: Add D1 display engine compatibles")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
 
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 6479ade416b9..5db5ecdc2fc6 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1222,6 +1222,10 @@ static const struct sun6i_dsi_variant sun6i_a31_mipi_dsi_variant = {
- static const struct sun6i_dsi_variant sun50i_a64_mipi_dsi_variant = {
- };
- 
-+static const struct sun6i_dsi_variant sun50i_a100_mipi_dsi_variant = {
-+	.has_mod_clk	= true,
-+};
-+
- static const struct of_device_id sun6i_dsi_of_table[] = {
- 	{
- 		.compatible	= "allwinner,sun6i-a31-mipi-dsi",
-@@ -1231,6 +1235,10 @@ static const struct of_device_id sun6i_dsi_of_table[] = {
- 		.compatible	= "allwinner,sun50i-a64-mipi-dsi",
- 		.data		= &sun50i_a64_mipi_dsi_variant,
- 	},
-+	{
-+		.compatible	= "allwinner,sun50i-a100-mipi-dsi",
-+		.data		= &sun50i_a100_mipi_dsi_variant,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun6i_dsi_of_table);
--- 
-2.35.1
 
+Best regards,
+Krzysztof
