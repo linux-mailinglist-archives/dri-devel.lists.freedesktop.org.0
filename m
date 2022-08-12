@@ -2,66 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E096E590FCD
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 12:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FD6590FE3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Aug 2022 13:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3A77AEE52;
-	Fri, 12 Aug 2022 10:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA038D04D;
+	Fri, 12 Aug 2022 11:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D6B93FF1;
- Fri, 12 Aug 2022 10:56:02 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id s23so413600wmj.4;
- Fri, 12 Aug 2022 03:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=wCpuZt7zsXJCv3TvvAq6C8ZRf18JeBZLzSKLyeoAOvA=;
- b=fnS1IPb0E6N1C98wxeCMIWt6EtshUj7O+SNyhhr57QZBHDadvq4q27+uS9ThH0DE7v
- MCxkfL+z13JSzOaI7VdqGJqXXe+vibHJ4cAM28KU7yo5nsCVQsmbpN6unHBGUDsb6/Gq
- i6A+pa9Kq7qkyErb7k4tHbzu8NxB1toJu09kR68HSincaHrgUUU4in19ra3LCidpG1z0
- gJIpje3PsxPgNmKNDG5coEyNNl2fVnrYNnfkxakrZhvd+qTLeCyPLp/Rdvl5t6zDUJZC
- wiS42T3nbhVS56q6c0k7YFG5i0zIdFqBE6zsCaZBbW9p69kIO9iSVOiAOkFv/QGPQ5S+
- Qikg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=wCpuZt7zsXJCv3TvvAq6C8ZRf18JeBZLzSKLyeoAOvA=;
- b=RmaemZVPVoJ5u09mV0hzXIEw26GPJB8ce7lyAEsS73lUtehMbesREUvivgHM2ck3yS
- VlqO83MLHPz22HbGmpgq+sCDUTxgqwFRKV3hMHHURQu6dSaghhRBIhWmVhj18FTRCx9I
- GZyZ/nRKKB9/q4ti5st1BxNgu7cqg9aZsXBEsjrnw1idpWzF35huS2wMPD2V4FuTMeTx
- lLOb36Itgmy31p77Jg/4Vu2dCXoRYAXFcu4SU/9kXciTr5dwbRztAJ7SPTcUrf3CAr9x
- RIoTK2lPiDXzLNKpOLyD5ZgNQ93Bn+tMWGLLt87e7THrdUsKWl7dRiBGpti68VnZmnK0
- TwwQ==
-X-Gm-Message-State: ACgBeo2cdzmLV+wa3KV0KKj2X0ZNj0cy9TgHdmngz1B1PjLDM/QVrYEx
- f2UVSTVozoIQmyM2OxCnF2w=
-X-Google-Smtp-Source: AA6agR7d5inXLGzsnj4k2QyMbh37IJq1TJbdxWbcr3Zz8PUpaIsqBHZlXkkbkDbpsRtZaYoT2BbxjA==
-X-Received: by 2002:a1c:cc11:0:b0:3a4:c032:c44 with SMTP id
- h17-20020a1ccc11000000b003a4c0320c44mr9006222wmb.84.1660301760738; 
- Fri, 12 Aug 2022 03:56:00 -0700 (PDT)
-Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de.
- [87.176.189.159]) by smtp.gmail.com with ESMTPSA id
- t5-20020a5d4605000000b0021b956da1dcsm1586433wrq.113.2022.08.12.03.55.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Aug 2022 03:56:00 -0700 (PDT)
-Message-ID: <b23e4037-2030-32d0-d626-b5a846fcafeb@gmail.com>
-Date: Fri, 12 Aug 2022 12:55:58 +0200
-MIME-Version: 1.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 404442BED9;
+ Fri, 12 Aug 2022 11:13:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WHmmSw2caYY4agOYrrHw+CfGiRQr69S+nzVI/P5PZoLZ7OGREa2nFmWFU/6DYf6IF481e+mC2GMHfC70b9HwbzFF6/gyhVa9lQhWYZsdrahjJ/bq+IjNxL+X3BtD6j+gUbha5gmyTjKGQmdgo+fJcTd+Fr47+DCmzf8B4aqyBJdH2QLSHP75BD+Kq3XaEOI3zIsrKgSr/W44RXVqTQtdNj+3pRJCeSM9EIjp0BGt1LCqgABqYJf86GGWEtlSvSfSYbHumDc0DMOH2DusMVBq/NioggjUaG9RG6T/EcGVJ6gmfifZ7lIug/NZASL19uUg7aIO2Y5v4vWsHMsGxULP6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+r1sr3YBpcktqgueix3X0grbtz2BoGsiHxUIc2NeDsI=;
+ b=k1ev4D4ck1Ww2hL7taApcMAG+U7zIoyTcQ9dZnH5Jcb7+k5VvtmBuamy8fOy4gZ2WropcbPe0n2Of+HKL9Dpb/OtMg/YxZ4PhhKuW5Lnn2yP/X8agCpIY5xDH/wizWJ6L9lza1tFY95ha4MwkoWfXqEJ1HF7AC6meU2kExCcJRYwu+bFJa1FXCUkySXvCwBJVqUl7h5J3Je3c7D1QRfM6SNu5Tq7uWF9lXk7hBclGPKM27uvGHuwU459l+2LGIuTatyfmetMfVKu75iYRtn9/+EPLIGk6Vh2JNXDi7nRl6+6MzEJ/UggO/T0BU1kmwTJxd5ZY1s1gB93vvE+Onl/MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+r1sr3YBpcktqgueix3X0grbtz2BoGsiHxUIc2NeDsI=;
+ b=tijI9ii8MTYw+xwIIy8+aA707BENB87CEcjepo6OGbYsT2dCT6wT6UcXzKbKix87B7Hi4F4ibh/6hmOLVw1aM60I2lCxqxAbrQy5AJK6S3RuREZZuAYXQLKEfFU5i17pqHTKCf6FJyWurcb9demArSl1Kirydaai4XeraeJuGzo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY4PR12MB1831.namprd12.prod.outlook.com (2603:10b6:903:128::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Fri, 12 Aug
+ 2022 11:13:07 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Fri, 12 Aug 2022
+ 11:13:06 +0000
+Message-ID: <f750ab62-7deb-21a1-753e-1ee838386265@amd.com>
+Date: Fri, 12 Aug 2022 13:12:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/radeon: add a force flush to delay work when radeon
+Subject: Re: [PATCH] drm/amdgpu: remove useless condition in
+ amdgpu_job_stop_all_jobs_on_sched()
 Content-Language: en-US
-To: Zhenneng Li <lizhenneng@kylinos.cn>,
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Andrey Strachuk <strochuk@ispras.ru>,
  Alex Deucher <alexander.deucher@amd.com>
-References: <20220811072540.964309-1-lizhenneng@kylinos.cn>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220811072540.964309-1-lizhenneng@kylinos.cn>
+References: <20220719103954.6737-1-strochuk@ispras.ru>
+ <fac8ce6e-6f5f-598d-35cc-7bf01ac90f30@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <fac8ce6e-6f5f-598d-35cc-7bf01ac90f30@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0137.eurprd06.prod.outlook.com
+ (2603:10a6:20b:467::29) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0b641b37-3c03-40cd-7de1-08da7c53a1cd
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1831:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: h69yE+RjhM0XQdQD1H3Azwom7ij0Uq2NEkHN7Jm6fD15B8jISioY1AgaNrxUsCWOA7q80cbVX1IhjJQ7Owv7CqEk8Yy+T9n9TBQwv6mitpcNcWh+SGQB6tfLna5XUBr6YZS3I9YjkyqtAeXfSm5c2asDa546RCsHzaZp+vWyxIzBZtLnI6W/X38QHeIs7BsW0nCAZK4cope9OPgsDh0VdZi18rTu/gZU7+6KdPV6XqR4Fe7MxA3gpnZTBKIIT+2YsPPt6+x+ASOcpG9ZoWeBG1BJMUpGVcsazVAnHI69l7BZGKJXY4skqsFg9j5dyqn3HCkGTwYU0vaPELEip0ht9eB5hur9rIu3LHQrfWxVbp+X0N7TYPPPVJkiAyFyEejc1IqQ4kHiOZENkoPvD8WzosqTPkXLJQjhDKro/ubCh5NK1Q+gMcRKf5Fj/I82o2OCMDXW34LZAwrkkVIEMHoLmvVvyE36aKxqlbmRpHcstHBIqSkmIx6g2kPfdOQeZR9ApA3ci4gmEaEAYmVycIfD+OEkfftHGL31XRhKUn5lLK/04blFAfCliDUBzeXUMbdD6hQjPtVChOLDuCBX8gR2Rn3HkTFAm+zsp0u+kQOz5Zx3CdWjFN8CPRQHeoI+3OYrtPiCqu83FZZnxwOCfYma7rIG67VvyVI1Q0ViK6Ti49XKrY8nEbm80FlD7AKx0TypM1sNKndXr9pLklOxD/zBdTTzEz7HFKG6SW2nfT/b2kYkBThnqNKeKWlLn0wcqxL3Zf7d4fJQrNTqN1cth5/DrkPnsiC7rTMTtZwVqjhWmgZyDFilV6NZUQnLnQXOk1ekoxGYapzlpBn8KoqNh3OT1g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(53546011)(2616005)(186003)(54906003)(41300700001)(6666004)(26005)(110136005)(6512007)(316002)(31696002)(6486002)(86362001)(478600001)(6506007)(6636002)(38100700002)(83380400001)(2906002)(4326008)(8676002)(5660300002)(66946007)(66556008)(66476007)(31686004)(8936002)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emFqK0dGamV2cW9KSm9vYXZ4U044R1F3SU5ocmxQRXV6VWFtQUYyTGwxK3Vs?=
+ =?utf-8?B?dGJFOHQyNUY5OHRTUlpZVDU3blVESkx0QkxFMy94UW96b21nQkJNR2N1QVVs?=
+ =?utf-8?B?eWEyL3pxd3ZFcHJWVmxSRkNYejN2UzlhK2FDbjUzTVM4N3VhQmNzdDNBWTNn?=
+ =?utf-8?B?V255Y0hFaWhkcTRHL2w1bnNaamxCVEJtWDFyMmtuTXI3QUt4QXlrcU9LYUdB?=
+ =?utf-8?B?eFZJSWo5MFcvajVGUVFaMmllamZWQlo1a2dOOTk2ZXgrK00yMmhPTzcyWnhV?=
+ =?utf-8?B?Q0FqbEw5T2JpWld3QUx0dUNURjFIQjVvTGZ4S0wvUnRBNnFlajNwdGdnSzAy?=
+ =?utf-8?B?QllMTW5vZTVsZXBvTkZlZEdlRUJTTUFvVkRldi93TlRtUjFRSU96UmhrOVdL?=
+ =?utf-8?B?S2VrbU9MR1hBZFhCdXRkOHl4SkpyS1MxMklCL1Y5aHJKbTdUTWNFcFJGVkx2?=
+ =?utf-8?B?SCtHanl6QWZQbkJJMlEra1hBREYxbTl2cmI1YndUVUF5bWVVWHcrQlVINDU3?=
+ =?utf-8?B?Q01HMVRtWTc3dFlwZ25meGtQK3NqNDNEY2UyaDJKKzhyMVYxbkoyTjVPMXBR?=
+ =?utf-8?B?cnFIWHFVS2diQi9LZTlxY1QrQWtSOElSM29GSTFFMTI2L1A4NlJSZHhmRm9Q?=
+ =?utf-8?B?ellLTENmakNpcjJlc25jdDRka1F0aURnaDhacnVoV3JWR2N5alNuRkQ5Nlgr?=
+ =?utf-8?B?dXRQNlhJcFliemtINkN6aTN2UWZMTFM4eG1kWTFxMW83WEh1M1U0R2hRUC9u?=
+ =?utf-8?B?OW1CL0xMd3pja1h4bUF2dnU5eDdsR1VhK3lXeU5tSUhtRDE1RVNJM0VvQ1pp?=
+ =?utf-8?B?MU9WNldXbE42NUwxenpmNkRlL0FPMkloQlBwMXNjSEkzWGpYQjNPWXBhWFNm?=
+ =?utf-8?B?dXl3UVQ5STJQMzJsd0FzbDlndDdvcHNxTjBYRHd4dGlSN053ak5DUUtlVEdj?=
+ =?utf-8?B?dWtXOThwNXlIajRLK2RaV1BXTktOZ05IVHdDVXM2anNVeTc4ZCtFcEJ1V0Y4?=
+ =?utf-8?B?NVRtQlVDNWhsS0hHcm4vZ2F0OTFWVmZzakVYcC9qT2pWcG5lcGkrWG53T1Jk?=
+ =?utf-8?B?VzRRMUJCZHZLdXJSTTdJSm9mYmFlV1pjKzVwNFE3dUdQZnZZcElZZ2FOVzBM?=
+ =?utf-8?B?SDVxa0swZkNvdzFKZDJNQWtOdHVyQVhWR3lmME02eWovOTZsRGIwWVg2M2Ja?=
+ =?utf-8?B?RVorZ3VzTnFuLzZzL0p6RlhtK0dORVBSSkY1eWY3cmR6N1c4cUc1OTBzc2c5?=
+ =?utf-8?B?Qkt0T0tRd05RanB2eTdHZ1dYQ3dzb0RWWng0RFpsUG5hOXJKeGM0RVJqMU5X?=
+ =?utf-8?B?Z3UzbWkzZThXWEQ2U2FaQnNUc0w3VGhoeSsxb1hZRTkzTEZSNzFmS3ZBd0ls?=
+ =?utf-8?B?T012aFZOUVJTUUNOTFpHam9WK2dWVWo5cEtVUjNBeXpycmo0Njc1amhYWHgx?=
+ =?utf-8?B?eUI3dnVobEpZcHk4MkxFT0JjUVBneHlkVFM4enlHUi9laFNxUlRDbWNnV0Jo?=
+ =?utf-8?B?V01uSVQ4dmNXVEw3MnloNEdUM1VUQXRCSUNrcnNoQVl3ekpDUlJPb2VjNlpL?=
+ =?utf-8?B?VzBacmhYeFZ5VkFGVWdpdDlydDhUMGNEQktvajFwZDE5QWZjRlRRdGZvUTBr?=
+ =?utf-8?B?ZDMrazlrWVR4d2tmaFhkZTUyUDNOcVh4RFUzdTFDc1JXUTk3VEN0aWpGN1Nn?=
+ =?utf-8?B?U1ZTcEdQNE52Q1FoU2w4UnpWSlh0R2M0aGJkNVpZUVpuWWdJa2sraHZTL3JS?=
+ =?utf-8?B?NVF6bFdrUW44QktSa3ZOU2dYYllxZnFFeTgrbVdvZmZ1UHdmak1mU2NKNjNR?=
+ =?utf-8?B?ZVRybWd0aXlpSlJBQldBYXpDcU1tKzFFNTNaK3RRSHpUY3FkS2FqUzJZNzBy?=
+ =?utf-8?B?ajZzam00dElsNml6blJDM3R0MjN4V25hUW12Y2JuTzFuYnpBNy82WUdhdDFU?=
+ =?utf-8?B?UmNzZDFMcUhNVFp5UE5CZGR4NEdmSytZT2g0M2FDK0JwRUw1c1hwREpEaGhh?=
+ =?utf-8?B?MjcvMFNFZFl3L0x1dDJOY2NaMnBkcFhtdFZMNVNxNDFmb2syY0h1MHgzOE1O?=
+ =?utf-8?B?UlcwQ3ZGcENkRFZ0b0JFSUpNaEpMbFRZZWNXMlk2Q0Y5VmZoL1Zjb3ZweHA0?=
+ =?utf-8?Q?r3MXh23DwGMQ2oPqxceq241YO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b641b37-3c03-40cd-7de1-08da7c53a1cd
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 11:13:06.8043 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oH2NzpPxptp6o2Kd56++0CPVMyNWHbaTwTJbuNb9ShhCVTE9LTkMmyUJ6udu8KMA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1831
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,82 +128,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Pan Xinhui <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, ldv-project@linuxtesting.org,
+ Jack Zhang <Jack.Zhang1@amd.com>, Guchun Chen <guchun.chen@amd.com>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Surbhi Kakarya <surbhi.kakarya@amd.com>,
+ Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.08.22 um 09:25 schrieb Zhenneng Li:
-> Although radeon card fence and wait for gpu to finish processing current batch rings,
-> there is still a corner case that radeon lockup work queue may not be fully flushed,
-> and meanwhile the radeon_suspend_kms() function has called pci_set_power_state() to
-> put device in D3hot state.
+@Alex was that one already picked up?
 
-If I'm not completely mistaken the reset worker uses the suspend/resume 
-functionality as well to get the hardware into a working state again.
-
-So if I'm not completely mistaken this here would lead to a deadlock, 
-please double check that.
-
-Regards,
-Christian.
-
-> Per PCI spec rev 4.0 on 5.3.1.4.1 D3hot State.
->> Configuration and Message requests are the only TLPs accepted by a Function in
->> the D3hot state. All other received Requests must be handled as Unsupported Requests,
->> and all received Completions may optionally be handled as Unexpected Completions.
-> This issue will happen in following logs:
-> Unable to handle kernel paging request at virtual address 00008800e0008010
-> CPU 0 kworker/0:3(131): Oops 0
-> pc = [<ffffffff811bea5c>]  ra = [<ffffffff81240844>]  ps = 0000 Tainted: G        W
-> pc is at si_gpu_check_soft_reset+0x3c/0x240
-> ra is at si_dma_is_lockup+0x34/0xd0
-> v0 = 0000000000000000  t0 = fff08800e0008010  t1 = 0000000000010000
-> t2 = 0000000000008010  t3 = fff00007e3c00000  t4 = fff00007e3c00258
-> t5 = 000000000000ffff  t6 = 0000000000000001  t7 = fff00007ef078000
-> s0 = fff00007e3c016e8  s1 = fff00007e3c00000  s2 = fff00007e3c00018
-> s3 = fff00007e3c00000  s4 = fff00007fff59d80  s5 = 0000000000000000
-> s6 = fff00007ef07bd98
-> a0 = fff00007e3c00000  a1 = fff00007e3c016e8  a2 = 0000000000000008
-> a3 = 0000000000000001  a4 = 8f5c28f5c28f5c29  a5 = ffffffff810f4338
-> t8 = 0000000000000275  t9 = ffffffff809b66f8  t10 = ff6769c5d964b800
-> t11= 000000000000b886  pv = ffffffff811bea20  at = 0000000000000000
-> gp = ffffffff81d89690  sp = 00000000aa814126
-> Disabling lock debugging due to kernel taint
-> Trace:
-> [<ffffffff81240844>] si_dma_is_lockup+0x34/0xd0
-> [<ffffffff81119610>] radeon_fence_check_lockup+0xd0/0x290
-> [<ffffffff80977010>] process_one_work+0x280/0x550
-> [<ffffffff80977350>] worker_thread+0x70/0x7c0
-> [<ffffffff80977410>] worker_thread+0x130/0x7c0
-> [<ffffffff80982040>] kthread+0x200/0x210
-> [<ffffffff809772e0>] worker_thread+0x0/0x7c0
-> [<ffffffff80981f8c>] kthread+0x14c/0x210
-> [<ffffffff80911658>] ret_from_kernel_thread+0x18/0x20
-> [<ffffffff80981e40>] kthread+0x0/0x210
->   Code: ad3e0008  43f0074a  ad7e0018  ad9e0020  8c3001e8  40230101
->   <88210000> 4821ed21
-> So force lockup work queue flush to fix this problem.
+Am 25.07.22 um 18:40 schrieb Andrey Grodzovsky:
+> Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 >
-> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
-> ---
->   drivers/gpu/drm/radeon/radeon_device.c | 3 +++
->   1 file changed, 3 insertions(+)
+> Andrey
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-> index 15692cb241fc..e608ca26780a 100644
-> --- a/drivers/gpu/drm/radeon/radeon_device.c
-> +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> @@ -1604,6 +1604,9 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
->   		if (r) {
->   			/* delay GPU reset to resume */
->   			radeon_fence_driver_force_completion(rdev, i);
-> +		} else {
-> +			/* finish executing delayed work */
-> +			flush_delayed_work(&rdev->fence_drv[i].lockup_work);
->   		}
->   	}
->   
+> On 2022-07-19 06:39, Andrey Strachuk wrote:
+>> Local variable 'rq' is initialized by an address
+>> of field of drm_sched_job, so it does not make
+>> sense to compare 'rq' with NULL.
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>>
+>> Signed-off-by: Andrey Strachuk <strochuk@ispras.ru>
+>> Fixes: 7c6e68c777f1 ("drm/amdgpu: Avoid HW GPU reset for RAS.")
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 4 ----
+>>   1 file changed, 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>> index 67f66f2f1809..600401f2a98f 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>> @@ -285,10 +285,6 @@ void amdgpu_job_stop_all_jobs_on_sched(struct 
+>> drm_gpu_scheduler *sched)
+>>       /* Signal all jobs not yet scheduled */
+>>       for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= 
+>> DRM_SCHED_PRIORITY_MIN; i--) {
+>>           struct drm_sched_rq *rq = &sched->sched_rq[i];
+>> -
+>> -        if (!rq)
+>> -            continue;
+>> -
+>>           spin_lock(&rq->lock);
+>>           list_for_each_entry(s_entity, &rq->entities, list) {
+>>               while ((s_job = 
+>> to_drm_sched_job(spsc_queue_pop(&s_entity->job_queue)))) {
 
