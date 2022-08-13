@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3598C59FC25
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 15:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFC659FE55
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:28:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9996910E084;
-	Wed, 24 Aug 2022 13:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7001811B9E7;
+	Wed, 24 Aug 2022 15:28:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D50AE10E084;
- Wed, 24 Aug 2022 13:46:46 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F1BA97F3;
+ Sat, 13 Aug 2022 01:09:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661348808; x=1692884808;
+ t=1660352951; x=1691888951;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GXdPhCs+OiXL6atbTQKesx51GVza2ZRqHVt6nYJiM6g=;
- b=nFVW72q1du5PwvFv8n/c1Cd8h3DUYnAN5cySQD4kUSmOeYkc2tQVm8t/
- RCZD23WWW/pP2U9of8i4TTD963S/vTIT6oPchx/0WFpGKwZw4YU7Ax7UW
- fHUWDHKmY01gjkLJJe+K+5ePcB75jgBFqqSDtCUHDlx+/e0VXrhI2tGeg
- vw/jNPWNaBeBjoVUw5LwRnUvpqW5Cy6l4vb5MJID6mHtNgkFYbDJPN8lx
- /JJ8pxZkKjdnOpqFzC7GDAbn5bFtNlL033GbMOxjK9mXrnF2alu1pxB4y
- Yl3WCHtdA5qfZ4ozy0Okjq+fvSgTLdLhiNoeDwC+7BoVMTQ4qmeXQhLmb A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10449"; a="355697386"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="355697386"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2022 06:46:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; d="scan'208";a="609764547"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.59])
- by orsmga002.jf.intel.com with SMTP; 24 Aug 2022 06:46:40 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 24 Aug 2022 16:46:39 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/edid: Handle EDID 1.4 range descriptor h/vfreq offsets
-Date: Wed, 24 Aug 2022 16:46:39 +0300
-Message-Id: <20220824134639.8454-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220819092728.14753-1-ville.syrjala@linux.intel.com>
-References: <20220819092728.14753-1-ville.syrjala@linux.intel.com>
+ bh=+iAHdiE53eJhFbUBHHSk44M7dSlJIiKyoBbOUgFS8F4=;
+ b=MIcn1EKKP43ef5//8RHg79PiAiA5G6LZQP21rX0GV6hTVOUF9URBq27U
+ D8krwkqo81vhjM+hVHqnerqAfULr2Vmd14xOABdE2qZD5dCKJCQR/9cv+
+ koUZLqi6p0Bw3kQ+1xKW8sif+IsfHXJ2l4udt8bTd7i2zwFcrZu1Ylg9u
+ /YZDvnGmpimqyA67FBo6ykPhIRRswlV2Q+MPq+lA8T0X8gfvHNA+JbKSZ
+ jsIJEQuwfwggO533hR/qfSbRrFslgtt3vKPhvbURja62meaZ3b6xxEwqv
+ 2ZWojCWA5I9IbbpHjLEI5zUdje9L+oG5tUyUggP7Rex0Y8HIX7ynrhE8O Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10437"; a="289285896"
+X-IronPort-AV: E=Sophos;i="5.93,233,1654585200"; d="scan'208";a="289285896"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2022 18:09:11 -0700
+X-IronPort-AV: E=Sophos;i="5.93,233,1654585200"; d="scan'208";a="666038376"
+Received: from akoska-mobl1.ger.corp.intel.com (HELO hades.ger.corp.intel.com)
+ ([10.252.36.156])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2022 18:09:08 -0700
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 5/8] drm/i915: Check for integer truncation on the
+ configuration of ttm place
+Date: Sat, 13 Aug 2022 04:08:54 +0300
+Message-Id: <20220813010857.4043956-6-gwan-gyeong.mun@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220813010857.4043956-1-gwan-gyeong.mun@intel.com>
+References: <20220813010857.4043956-1-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -58,121 +58,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org
+Cc: thomas.hellstrom@linux.intel.com, andi.shyti@linux.intel.com,
+ jani.nikula@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, airlied@linux.ie,
+ andrzej.hajda@intel.com, matthew.auld@intel.com, mchehab@kernel.org,
+ nirmoy.das@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+There is an impedance mismatch between the first/last valid page
+frame number of ttm place in unsigned and our memory/page accounting in
+unsigned long.
+As the object size is under the control of userspace, we have to be prudent
+and catch the conversion errors.
+To catch the implicit truncation as we switch from unsigned long to
+unsigned, we use overflows_type check and report E2BIG or overflow_type
+prior to the operation.
 
-EDID 1.4 introduced some extra flags in the range
-descriptor to support min/max h/vfreq >= 255. Consult them
-to correctly parse the vfreq limits.
+v3: Not to change execution inside a macro. (Mauro)
+    Add safe_conversion_gem_bug_on() macro and remove temporal
+    SAFE_CONVERSION() macro.
+v4: Fix unhandled GEM_BUG_ON() macro call from safe_conversion_gem_bug_on()
+v6: Fix to follow general use case for GEM_BUG_ON(). (Jani)
 
-Note that some combinations of the flags are documented
-as "reserved" (as are some other values in the descriptor)
-but explicitly checking for those doesn't seem particularly
-worthwile since we end up with bogus results whether we
-decode them or not.
-
-v2: Increase the storage to u16 to make it work (Jani)
-    Note the "reserved" values situation (Jani)
-
-Cc: stable@vger.kernel.org
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6519
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> (v2)
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v3)
+Reported-by: kernel test robot <lkp@intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> (v5)
 ---
- drivers/gpu/drm/drm_edid.c  | 24 ++++++++++++++++++------
- include/drm/drm_connector.h |  4 ++--
- include/drm/drm_edid.h      |  5 +++++
- 3 files changed, 25 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  6 +++---
+ drivers/gpu/drm/i915/intel_region_ttm.c | 22 +++++++++++++++++++---
+ 2 files changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 90a5e26eafa8..4005dab6147d 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -6020,12 +6020,14 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 9f2be1892b6c..30f488712abe 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -140,14 +140,14 @@ i915_ttm_place_from_region(const struct intel_memory_region *mr,
+ 	if (flags & I915_BO_ALLOC_CONTIGUOUS)
+ 		place->flags |= TTM_PL_FLAG_CONTIGUOUS;
+ 	if (offset != I915_BO_INVALID_OFFSET) {
+-		place->fpfn = offset >> PAGE_SHIFT;
+-		place->lpfn = place->fpfn + (size >> PAGE_SHIFT);
++		GEM_BUG_ON(!safe_conversion(&place->fpfn, offset >> PAGE_SHIFT));
++		GEM_BUG_ON(!safe_conversion(&place->lpfn, place->fpfn + (size >> PAGE_SHIFT)));
+ 	} else if (mr->io_size && mr->io_size < mr->total) {
+ 		if (flags & I915_BO_ALLOC_GPU_ONLY) {
+ 			place->flags |= TTM_PL_FLAG_TOPDOWN;
+ 		} else {
+ 			place->fpfn = 0;
+-			place->lpfn = mr->io_size >> PAGE_SHIFT;
++			GEM_BUG_ON(!safe_conversion(&place->lpfn, mr->io_size >> PAGE_SHIFT));
+ 		}
+ 	}
  }
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 575d67bc6ffe..c480b0b50bcc 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -209,14 +209,28 @@ intel_region_ttm_resource_alloc(struct intel_memory_region *mem,
+ 	if (flags & I915_BO_ALLOC_CONTIGUOUS)
+ 		place.flags |= TTM_PL_FLAG_CONTIGUOUS;
+ 	if (offset != I915_BO_INVALID_OFFSET) {
+-		place.fpfn = offset >> PAGE_SHIFT;
+-		place.lpfn = place.fpfn + (size >> PAGE_SHIFT);
++		if (!safe_conversion(&place.fpfn, offset >> PAGE_SHIFT)) {
++			GEM_BUG_ON(!safe_conversion(&place.fpfn,offset >> PAGE_SHIFT));
++			ret = -E2BIG;
++			goto out;
++		}
++		if (!safe_conversion(&place.lpfn, place.fpfn + (size >> PAGE_SHIFT))) {
++			GEM_BUG_ON(!safe_conversion(&place.lpfn,
++						    place.fpfn + (size >> PAGE_SHIFT)));
++			ret = -E2BIG;
++			goto out;
++		}
+ 	} else if (mem->io_size && mem->io_size < mem->total) {
+ 		if (flags & I915_BO_ALLOC_GPU_ONLY) {
+ 			place.flags |= TTM_PL_FLAG_TOPDOWN;
+ 		} else {
+ 			place.fpfn = 0;
+-			place.lpfn = mem->io_size >> PAGE_SHIFT;
++			if (!safe_conversion(&place.lpfn, mem->io_size >> PAGE_SHIFT)) {
++				GEM_BUG_ON(!safe_conversion(&place.lpfn,
++							    mem->io_size >> PAGE_SHIFT));
++				ret = -E2BIG;
++				goto out;
++			}
+ 		}
+ 	}
  
- static
--void get_monitor_range(const struct detailed_timing *timing,
--		       void *info_monitor_range)
-+void get_monitor_range(const struct detailed_timing *timing, void *c)
- {
--	struct drm_monitor_range_info *monitor_range = info_monitor_range;
-+	struct detailed_mode_closure *closure = c;
-+	struct drm_display_info *info = &closure->connector->display_info;
-+	struct drm_monitor_range_info *monitor_range = &info->monitor_range;
- 	const struct detailed_non_pixel *data = &timing->data.other_data;
- 	const struct detailed_data_monitor_range *range = &data->data.range;
-+	const struct edid *edid = closure->drm_edid->edid;
+@@ -224,6 +238,8 @@ intel_region_ttm_resource_alloc(struct intel_memory_region *mem,
+ 	mock_bo.bdev = &mem->i915->bdev;
  
- 	if (!is_display_descriptor(timing, EDID_DETAIL_MONITOR_RANGE))
- 		return;
-@@ -6041,18 +6043,28 @@ void get_monitor_range(const struct detailed_timing *timing,
- 
- 	monitor_range->min_vfreq = range->min_vfreq;
- 	monitor_range->max_vfreq = range->max_vfreq;
+ 	ret = man->func->alloc(man, &mock_bo, &place, &res);
 +
-+	if (edid->revision >= 4) {
-+		if (data->pad2 & DRM_EDID_RANGE_OFFSET_MIN_VFREQ)
-+			monitor_range->min_vfreq += 255;
-+		if (data->pad2 & DRM_EDID_RANGE_OFFSET_MAX_VFREQ)
-+			monitor_range->max_vfreq += 255;
-+	}
- }
- 
- static void drm_get_monitor_range(struct drm_connector *connector,
- 				  const struct drm_edid *drm_edid)
- {
--	struct drm_display_info *info = &connector->display_info;
-+	const struct drm_display_info *info = &connector->display_info;
-+	struct detailed_mode_closure closure = {
-+		.connector = connector,
-+		.drm_edid = drm_edid,
-+	};
- 
- 	if (!version_greater(drm_edid, 1, 1))
- 		return;
- 
--	drm_for_each_detailed_block(drm_edid, get_monitor_range,
--				    &info->monitor_range);
-+	drm_for_each_detailed_block(drm_edid, get_monitor_range, &closure);
- 
- 	DRM_DEBUG_KMS("Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
- 		      info->monitor_range.min_vfreq,
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 248206bbd975..56aee949c6fa 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -319,8 +319,8 @@ enum drm_panel_orientation {
-  *             EDID's detailed monitor range
-  */
- struct drm_monitor_range_info {
--	u8 min_vfreq;
--	u8 max_vfreq;
-+	u16 min_vfreq;
-+	u16 max_vfreq;
- };
- 
- /**
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 2181977ae683..d81da97cad6e 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -92,6 +92,11 @@ struct detailed_data_string {
- 	u8 str[13];
- } __attribute__((packed));
- 
-+#define DRM_EDID_RANGE_OFFSET_MIN_VFREQ (1 << 0)
-+#define DRM_EDID_RANGE_OFFSET_MAX_VFREQ (1 << 1)
-+#define DRM_EDID_RANGE_OFFSET_MIN_HFREQ (1 << 2)
-+#define DRM_EDID_RANGE_OFFSET_MAX_HFREQ (1 << 3)
-+
- #define DRM_EDID_DEFAULT_GTF_SUPPORT_FLAG   0x00
- #define DRM_EDID_RANGE_LIMITS_ONLY_FLAG     0x01
- #define DRM_EDID_SECONDARY_GTF_SUPPORT_FLAG 0x02
++out:
+ 	if (ret == -ENOSPC)
+ 		ret = -ENXIO;
+ 	if (!ret)
 -- 
-2.35.1
+2.34.1
 
