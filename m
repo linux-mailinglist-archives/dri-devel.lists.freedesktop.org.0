@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25D9591B4E
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Aug 2022 17:17:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 576A6591B71
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Aug 2022 17:35:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8CB2BCFA;
-	Sat, 13 Aug 2022 15:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14342BD395;
+	Sat, 13 Aug 2022 15:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51760BCD20;
- Sat, 13 Aug 2022 15:16:47 +0000 (UTC)
-X-QQ-mid: bizesmtp74t1660403795twerpap8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 709C6BD35D
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Aug 2022 15:34:53 +0000 (UTC)
+X-QQ-mid: bizesmtp83t1660404880tmhkwk9h
 Received: from localhost.localdomain ( [110.188.55.240])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 13 Aug 2022 23:16:28 +0800 (CST)
+ id ; Sat, 13 Aug 2022 23:34:33 +0800 (CST)
 X-QQ-SSF: 0100000000200080H000B00A0000020
-X-QQ-FEAT: DRnj/z+Sqac7eaaRnRxjohl0DEvoOesJDpkPKa5FAiUeCIb4HB4wRQobyKARc
- 2u+3PVZtiijWZKitdsaVoddTICob6JL/nXE4UWivOeUdM7x8N4dpy7bz7LH9RKmBLCJBW6K
- RREVCUsjGcsmpzf54Ur9zgspPaB8cgvxCEtbjJUdA+IvMCFeOj1VdCSrfJ8tRQ/HJZLXJRL
- bmoZTZYSRxZReH0vbmnl1tHXZ+r2nQJ2NObg92HN+G+NhbR6n7ysmYA6q0DMz7VNZN//p+L
- A9zKhfcPkMGYP4duw4yLuEFtH32np6SoL5RUnRdfRpCNiYrf4M/T45q9AmJzIXvRMNOF7Ay
- 21zLIE84pSggkGo3SrGIu/Fhf1mfUk16ICswMPbkYhRpq4hE6EmjWmdIoji8A==
+X-QQ-FEAT: ao4JQgu0M39k2YuXdaMww2Xpj7yFVsZdElscKH/kG6xdjcbJlkdsynj1frJMm
+ DPgyYwtCVUbGGdblLd18IjZ5nE9SSMpygzZvukm4g5S95VkUa5IOBLfg8dKwSEWTp2BA0kJ
+ xmkf9ycHpSbClO0QyF1uA9yl+t9TK0uRHiQZYmTf6Y5jEJKr+QeercZwhuwSLJJT+QJvYTp
+ 2cZkT9t2VXDamXUhxyFKBwmJySyUVU9dxpMY89n5C2Orz0GbeMgXchdSx28lkHAQteC9qoq
+ 9UZvkyDC8TBJkS/SGO9cJFXew96ewfYENKukPjZxR6o/wmbFE7R6kpcGXVXkTALayYDTNpF
+ cUulzg801p9zHnLA1BCLkZ99HWt7otEe9GOUxHMHMw4UQsVMeclidz0ZnShkg==
 X-QQ-GoodBg: 0
 From: min tang <tangmin@cdjrlc.com>
 To: airlied@linux.ie,
-	daniel@ffwll.ch,
-	srinivas.pandruvada@linux.intel.com
-Subject: [PATCH] drm/i915/gt: Unneeded semicolon
-Date: Sat, 13 Aug 2022 23:16:16 +0800
-Message-Id: <20220813151616.4193-1-tangmin@cdjrlc.com>
+	daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: Unneeded semicolon
+Date: Sat, 13 Aug 2022 23:34:21 +0800
+Message-Id: <20220813153421.4754-1-tangmin@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
@@ -46,60 +45,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: min tang <tangmin@cdjrlc.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, dan.carpenter@oracle.com
+Cc: Charlene.Liu@amd.com, min tang <tangmin@cdjrlc.com>, sunpeng.li@amd.com,
+ qingqing.zhuo@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no semicolon after '}' in line 648.
+There is no semicolon after '}' in line 510.
 
 Signed-off-by: min tang <tangmin@cdjrlc.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c         | 2 +-
- tools/power/x86/intel-speed-select/hfi-events.c | 2 +-
- tools/testing/selftests/timers/nanosleep.c      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 2c35324b5f68..a69b244f14d0 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -645,7 +645,7 @@ static int scatter_list_length(struct scatterlist *sg)
- 	while (sg && sg_dma_len(sg)) {
- 		len += sg_dma_len(sg);
- 		sg = sg_next(sg);
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+index 27501b735a9c..c87cf8771c6d 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+@@ -505,7 +505,7 @@ static void dcn315_clk_mgr_helper_populate_bw_params(
+ 		bw_params->clk_table.entries[i].dispclk_mhz = clock_table->DispClocks[i];
+ 		bw_params->clk_table.entries[i].dppclk_mhz = clock_table->DppClocks[i];
+ 		bw_params->clk_table.entries[i].wck_ratio = 1;
 -	};
 +	}
  
- 	return len;
- }
-diff --git a/tools/power/x86/intel-speed-select/hfi-events.c b/tools/power/x86/intel-speed-select/hfi-events.c
-index 761375062505..f0ed69721308 100644
---- a/tools/power/x86/intel-speed-select/hfi-events.c
-+++ b/tools/power/x86/intel-speed-select/hfi-events.c
-@@ -144,7 +144,7 @@ static int family_handler(struct nl_msg *msg, void *arg)
- 			continue;
- 		res->id = nla_get_u32(tb2[CTRL_ATTR_MCAST_GRP_ID]);
- 		break;
--	};
-+	}
- 
- 	return 0;
- }
-diff --git a/tools/testing/selftests/timers/nanosleep.c b/tools/testing/selftests/timers/nanosleep.c
-index 71b5441c2fd9..433a09676aeb 100644
---- a/tools/testing/selftests/timers/nanosleep.c
-+++ b/tools/testing/selftests/timers/nanosleep.c
-@@ -72,7 +72,7 @@ char *clockstring(int clockid)
- 		return "CLOCK_BOOTTIME_ALARM";
- 	case CLOCK_TAI:
- 		return "CLOCK_TAI";
--	};
-+	}
- 	return "UNKNOWN_CLOCKID";
- }
- 
+ 	/* Make sure to include at least one entry and highest pstate */
+ 	if (max_pstate != min_pstate || i == 0) {
 -- 
 2.17.1
 
