@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894D5591A6F
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Aug 2022 14:59:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF3B591A73
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Aug 2022 15:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17BB5B9D53;
-	Sat, 13 Aug 2022 12:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0CB9DE9;
+	Sat, 13 Aug 2022 13:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5BB5B9D86
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Aug 2022 12:58:50 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32469B9DCE
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Aug 2022 13:00:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 21B8960DC5;
- Sat, 13 Aug 2022 12:58:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CF5DC433D6;
- Sat, 13 Aug 2022 12:58:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id BA0CAB80139;
+ Sat, 13 Aug 2022 13:00:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FCDC433C1;
+ Sat, 13 Aug 2022 13:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1660395529;
- bh=5NyHQzKOCtGwkuR/g7cMMRpvWdI7KBgCgYJChVpKhtw=;
+ s=korg; t=1660395617;
+ bh=Nj/5VlOu+CvcYgrJZrCB74JeGgmmcmxyBXiRdyu1DwU=;
  h=Subject:To:Cc:From:Date:From;
- b=whf3/c+2O2Iz1XXROFoLwRLTCVIrYrQslSXpSP69uTelDAeMjfK91x91SBqgIuPzD
- /GizedibSxpWYwYHmIUxb+S5eBwSwLcXZcc2auB7Hl+AZPHirYeeBVukUnsR5lLVRL
- T2EXj9ZMchB/zh9yIXhZSXxnHFERvtgXRNf4DKwM=
+ b=qUExqu0eR85v0/5GiUZxWr0F7PjQP5fbghEdCIvVVHs9TUCuctymPTfjz0ADE9oAP
+ SjDoiezOdzET7pNzn74EKwMkeHqznIZ+kIZ4myqZ9JXNdHpg4+p0RRZlf1jDDVpPu4
+ U9CKrKbRc4P2e+mq+krV6vvFjD6b73U7jsuQyUCE=
 Subject: Patch "drm/hyperv-drm: Include framebuffer and EDID headers" has been
- added to the 5.18-stable tree
+ added to the 5.19-stable tree
 To: drawat.floss@gmail.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
  maxime@cerno.tech, mripard@kernel.org, tzimmermann@suse.de,
  ville.syrjala@linux.intel.com
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 13 Aug 2022 14:57:22 +0200
-Message-ID: <1660395442249150@kroah.com>
+Date: Sat, 13 Aug 2022 14:57:32 +0200
+Message-ID: <1660395452177248@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/hyperv-drm: Include framebuffer and EDID headers
 
-to the 5.18-stable tree which can be found at:
+to the 5.19-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-hyperv-drm-include-framebuffer-and-edid-headers.patch
-and it can be found in the queue-5.18 subdirectory.
+and it can be found in the queue-5.19 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -138,4 +139,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.18/drm-hyperv-drm-include-framebuffer-and-edid-headers.patch
+queue-5.19/drm-hyperv-drm-include-framebuffer-and-edid-headers.patch
+queue-5.19/drm-fb-helper-fix-out-of-bounds-access.patch
