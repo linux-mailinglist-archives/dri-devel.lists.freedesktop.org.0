@@ -1,83 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A486959FEF1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 17:59:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE3359FF6F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 18:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2C3AB958D;
-	Wed, 24 Aug 2022 15:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1602CBAD6E;
+	Wed, 24 Aug 2022 16:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF01B9490
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 15:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661356725;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6Ff1QmPIlyrYnAdXajfzHu5Yv9RSqOuxoN2Oa3D8Yus=;
- b=bVsXOJeO75JREgZF6nVqLvkr+mST/Hd34Ez2MvRyIFxGBLxiZYLzGCnt9Hi1YYpemGjyMr
- hT1TiyaAuO+BvCkoES6gLeT7nXSpRkDuiJgiaGrAIxf0YDI3XMrh43pIsOo39UhRDdaY2o
- /dyLrAZRwz/dghgSqPRrmBft3xaLJ1U=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-661-fwdS3VWMPKaNdGztxQ5fLQ-1; Wed, 24 Aug 2022 11:58:44 -0400
-X-MC-Unique: fwdS3VWMPKaNdGztxQ5fLQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- hd35-20020a17090796a300b0073d67a500e6so3379172ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Aug 2022 08:58:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=6Ff1QmPIlyrYnAdXajfzHu5Yv9RSqOuxoN2Oa3D8Yus=;
- b=6X/IGTUwl06C6ES/0CPqUOI87Xbball8q1FpL33GoYZXNr/woVKa2pf552Tfsi3b4y
- HV74fUZl/KX21lUaSBltHSI2XqqCc7RPRJB7Iv10UBQLxNYWEx8OEYqSJ0jiv5OtfeJQ
- ULSNhiHC/dovKLSPKgyV0CuAAOSoMQWAMXhik1DnxewMbAFjVFZ1eYniojfcBeqvo3QB
- m17ViCIHz8c266MVchumw5Q2sIaZZeL8r6emBpQhzrd/OuUSFXu9c4lOcmqp+pqNuNCE
- lQ5VJiHL3Mp1M5FoNC8v/OdmpUOH1JIBkBrrqFV7xEyADQPHE7h+/zFmKIIfP/nK4LMc
- tU9w==
-X-Gm-Message-State: ACgBeo3ZruvZPEyZO6fPSKJowfNvXiOkpHtqIjIGcSoy+QwSU/+LMBeB
- UgNN6fE/x5zO9p6A1OZ7dkbpSkYibAOCm/To2SS76p3CVN6HFirCMdPWv0YLhAti0/+WJZWzIEF
- MsJEy0fGMMZwUR1/p34jWwFmOHIfI
-X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
- hv7-20020a17090760c700b0073952bacbd0mr3379477ejc.152.1661356722619; 
- Wed, 24 Aug 2022 08:58:42 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7GI3i0UedamIoOYIDqmV1E+eiXCyENJwr+fHf8/hxFh8cyg/ZDO32RED6QhINoR/yFqFW+kw==
-X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
- hv7-20020a17090760c700b0073952bacbd0mr3379471ejc.152.1661356722438; 
- Wed, 24 Aug 2022 08:58:42 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
- ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- bm2-20020a0564020b0200b0044604ad8b41sm3318568edb.23.2022.08.24.08.58.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 08:58:41 -0700 (PDT)
-Message-ID: <bd89a246-ee32-7b54-9c9c-7090cc7d51a2@redhat.com>
-Date: Wed, 24 Aug 2022 17:58:40 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7C8C97D67
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 16:29:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 58D96B80AEE;
+ Sun, 14 Aug 2022 16:29:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 318A3C433D6;
+ Sun, 14 Aug 2022 16:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660494596;
+ bh=BG1IryY/JpKplKDyYH7hpVvg67ZthQH8oyEbqAqfFfc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=AePX59s2OIY3o67XhI6VmcjfskIOU/JFlKoUbLnvjVhoHBSrRt3tdLp6yXgCPou6e
+ e5LB0olUlCBf1GA8jvP7/0W8K3XdVB65ykT7aUzOBL1QTs0Gt+tWx9KgWyvVj5Y3sm
+ mN3Mlk4f/7o1ic8jWdioMpXT/pkmHkoJBkkgZ+Qon4cVDKHk+wSeAZZA4JOOhf6pi7
+ 8ucEr7mz+2aN9N1zHsLWrFtHtIRB0udILDZXBZa/lqJa3zGZ8WdLCIWxW/7/HYEZBq
+ nsCF3ke7OhfoeSKmvoMNSF5lSQbcIR41lju80cLO4sehnpLI4zP7UiVWjmXzgibcfQ
+ Sj9PXwwYokbAg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 13/14] video: fbdev: i740fb: Check the argument
+ of i740_calc_vclk()
+Date: Sun, 14 Aug 2022 12:29:19 -0400
+Message-Id: <20220814162922.2398723-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220814162922.2398723-1-sashal@kernel.org>
+References: <20220814162922.2398723-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH drm-misc-next v2 2/4] drm/vc4: plane: protect device
- resources after removal
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220819110849.192037-1-dakr@redhat.com>
- <20220819110849.192037-3-dakr@redhat.com>
- <20220824154823.qu3tdwypg5o3ci4z@houat>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20220824154823.qu3tdwypg5o3ci4z@houat>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,38 +56,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org, linux@zary.sk,
+ Helge Deller <deller@gmx.de>, Zheyu Ma <zheyuma97@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-On 8/24/22 17:48, Maxime Ripard wrote:
->> @@ -1252,12 +1261,17 @@ void vc4_plane_async_set_fb(struct drm_plane *plane, struct drm_framebuffer *fb)
->>   	WARN_ON_ONCE(plane->state->crtc_x < 0 || plane->state->crtc_y < 0);
->>   	addr = bo->dma_addr + fb->offsets[0];
->>   
->> +	if (!drm_dev_enter(plane->dev, &idx))
->> +		return;
->> +
->>   	/* Write the new address into the hardware immediately.  The
->>   	 * scanout will start from this address as soon as the FIFO
->>   	 * needs to refill with pixels.
->>   	 */
->>   	writel(addr, &vc4_state->hw_dlist[vc4_state->ptr0_offset]);
->>   
->> +	drm_dev_exit(idx);
->> +
-> 
-> You did change the CRTC patch, but the comment to protect the entire
-> function also applies to this one.
+[ Upstream commit 40bf722f8064f50200b8c4f8946cd625b441dda9 ]
 
-Yes, I changed this one too, but missed this particular function - gonna 
-send a v3.
+Since the user can control the arguments of the ioctl() from the user
+space, under special arguments that may result in a divide-by-zero bug.
 
-- Danilo
+If the user provides an improper 'pixclock' value that makes the argumet
+of i740_calc_vclk() less than 'I740_RFREQ_FIX', it will cause a
+divide-by-zero bug in:
+    drivers/video/fbdev/i740fb.c:353 p_best = min(15, ilog2(I740_MAX_VCO_FREQ / (freq / I740_RFREQ_FIX)));
 
-> 
-> Maxime
+The following log can reveal it:
+
+divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+RIP: 0010:i740_calc_vclk drivers/video/fbdev/i740fb.c:353 [inline]
+RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:646 [inline]
+RIP: 0010:i740fb_set_par+0x163f/0x3b70 drivers/video/fbdev/i740fb.c:742
+Call Trace:
+ fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1034
+ do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
+ fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
+
+Fix this by checking the argument of i740_calc_vclk() first.
+
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/fbdev/i740fb.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
+index f6d7b04d6dff..bdbafff4529f 100644
+--- a/drivers/video/fbdev/i740fb.c
++++ b/drivers/video/fbdev/i740fb.c
+@@ -399,7 +399,7 @@ static int i740fb_decode_var(const struct fb_var_screeninfo *var,
+ 	u32 xres, right, hslen, left, xtotal;
+ 	u32 yres, lower, vslen, upper, ytotal;
+ 	u32 vxres, xoffset, vyres, yoffset;
+-	u32 bpp, base, dacspeed24, mem;
++	u32 bpp, base, dacspeed24, mem, freq;
+ 	u8 r7;
+ 	int i;
+ 
+@@ -642,7 +642,12 @@ static int i740fb_decode_var(const struct fb_var_screeninfo *var,
+ 	par->atc[VGA_ATC_OVERSCAN] = 0;
+ 
+ 	/* Calculate VCLK that most closely matches the requested dot clock */
+-	i740_calc_vclk((((u32)1e9) / var->pixclock) * (u32)(1e3), par);
++	freq = (((u32)1e9) / var->pixclock) * (u32)(1e3);
++	if (freq < I740_RFREQ_FIX) {
++		fb_dbg(info, "invalid pixclock\n");
++		freq = I740_RFREQ_FIX;
++	}
++	i740_calc_vclk(freq, par);
+ 
+ 	/* Since we program the clocks ourselves, always use VCLK2. */
+ 	par->misc |= 0x0C;
+-- 
+2.35.1
 
