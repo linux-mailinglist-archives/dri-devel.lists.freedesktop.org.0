@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B18592181
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 17:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA559239F
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 18:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79F64C090B;
-	Sun, 14 Aug 2022 15:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906332B4E9;
+	Sun, 14 Aug 2022 16:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12147BBC15
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 15:35:41 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2508811B24B
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 16:23:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7AC3C60CF1;
- Sun, 14 Aug 2022 15:35:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACAD8C43141;
- Sun, 14 Aug 2022 15:35:38 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C15A2B80B88;
+ Sun, 14 Aug 2022 16:23:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA08EC433C1;
+ Sun, 14 Aug 2022 16:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660491339;
- bh=lDreysDaux3KE/9sQ1RBGecbIuH1BLpw3sVQTIQLoC0=;
+ s=k20201202; t=1660494195;
+ bh=FBzSE+qqafdeYuAtXm87bCElk3pUGrsMH2kRGcVhxpc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VIyoyQG90qf6E2Qbbt7i2iUA2kVg8obiAjWKlvE1dTAapuP4KNKEUo80NqaitMgiU
- 53RBWJglZSO0RPxQcMbq5bnsBU91vGxNtK+2dQFfGjDRe4ww04IBymjv0zxyJM2xkc
- GkGaK9eLrpcKNB+UYKfH7hZ899ZiPKhUT8lUoGV8m4RezNz0pk2P0A2lEb9tKjpi7f
- zlWTpL9Xrlhc701M0FFxCgJclzU+bkiQWxjZdnP/fO0qsZA7IxKyhX2ZRdP1uSPoF4
- ywjYtFqkEC6snT9D/+bAt2u5mwk1xu2l6c1vObB7ReemkrPNQhZg6gTYc2Xy6QdGaQ
- A5deUJf0mdPeg==
+ b=rXMhGJFfZTt4cIdQy5YfoTa3PFNWlucJMiIEdaHQarKSbIDRm9gTK082FNyivQ/bl
+ EUVoK5goHlxSurniL+Qall7U3h4OOqgylVHKl4NVSOl9lL9rsq0oq5F2FnmhARbLbt
+ ZgaKPSyvMJz0EgrqG3JjrpM+HatPtR/x6uxhn3OPmoTuwcJto6s8iSYWbAddnJWPcR
+ WrcOASk/I/DP5s5SVdGmO8N+AE8geA/msM28f72FeZmdR95FDExsgXGDefMkyKlQPV
+ eQ+ZAF4B7GOpieXiJHTWYDhcFT4cmteYbs3tjGcshMtldiJkFybCUT0VR43Eumgy7i
+ PAVReWz0/9qEw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 05/21] drm/meson: Fix overflow implicit truncation
- warnings
-Date: Sun, 14 Aug 2022 11:35:15 -0400
-Message-Id: <20220814153531.2379705-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 45/48] video: fbdev: i740fb: Check the argument
+ of i740_calc_vclk()
+Date: Sun, 14 Aug 2022 12:19:38 -0400
+Message-Id: <20220814161943.2394452-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153531.2379705-1-sashal@kernel.org>
-References: <20220814153531.2379705-1-sashal@kernel.org>
+In-Reply-To: <20220814161943.2394452-1-sashal@kernel.org>
+References: <20220814161943.2394452-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,76 +55,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
- kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Neil Armstrong <narmstrong@baylibre.com>, airlied@linux.ie,
- khilman@baylibre.com, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org, linux@zary.sk,
+ Helge Deller <deller@gmx.de>, Zheyu Ma <zheyuma97@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit 98692f52c588225034cbff458622c2c06dfcb544 ]
+[ Upstream commit 40bf722f8064f50200b8c4f8946cd625b441dda9 ]
 
-Fix -Woverflow warnings for drm/meson driver which is a result
-of moving arm64 custom MMIO accessor macros to asm-generic function
-implementations giving a bonus type-checking now and uncovering these
-overflow warnings.
+Since the user can control the arguments of the ioctl() from the user
+space, under special arguments that may result in a divide-by-zero bug.
 
-drivers/gpu/drm/meson/meson_viu.c: In function ‘meson_viu_init’:
-drivers/gpu/drm/meson/meson_registers.h:1826:48: error: large integer implicitly truncated to unsigned type [-Werror=overflow]
- #define  VIU_OSD_BLEND_REORDER(dest, src)      ((src) << (dest * 4))
-                                                ^
-drivers/gpu/drm/meson/meson_viu.c:472:18: note: in expansion of macro ‘VIU_OSD_BLEND_REORDER’
-   writel_relaxed(VIU_OSD_BLEND_REORDER(0, 1) |
-                  ^~~~~~~~~~~~~~~~~~~~~
+If the user provides an improper 'pixclock' value that makes the argumet
+of i740_calc_vclk() less than 'I740_RFREQ_FIX', it will cause a
+divide-by-zero bug in:
+    drivers/video/fbdev/i740fb.c:353 p_best = min(15, ilog2(I740_MAX_VCO_FREQ / (freq / I740_RFREQ_FIX)));
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+The following log can reveal it:
+
+divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+RIP: 0010:i740_calc_vclk drivers/video/fbdev/i740fb.c:353 [inline]
+RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:646 [inline]
+RIP: 0010:i740fb_set_par+0x163f/0x3b70 drivers/video/fbdev/i740fb.c:742
+Call Trace:
+ fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1034
+ do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1110
+ fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1189
+
+Fix this by checking the argument of i740_calc_vclk() first.
+
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/meson/meson_viu.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/video/fbdev/i740fb.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
-index 33698814c022..9991f0a43b1a 100644
---- a/drivers/gpu/drm/meson/meson_viu.c
-+++ b/drivers/gpu/drm/meson/meson_viu.c
-@@ -400,17 +400,17 @@ void meson_viu_init(struct meson_drm *priv)
- 			priv->io_base + _REG(VD2_IF0_LUMA_FIFO_SIZE));
+diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
+index 09dd85553d4f..7f09a0daaaa2 100644
+--- a/drivers/video/fbdev/i740fb.c
++++ b/drivers/video/fbdev/i740fb.c
+@@ -400,7 +400,7 @@ static int i740fb_decode_var(const struct fb_var_screeninfo *var,
+ 	u32 xres, right, hslen, left, xtotal;
+ 	u32 yres, lower, vslen, upper, ytotal;
+ 	u32 vxres, xoffset, vyres, yoffset;
+-	u32 bpp, base, dacspeed24, mem;
++	u32 bpp, base, dacspeed24, mem, freq;
+ 	u8 r7;
+ 	int i;
  
- 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
--		writel_relaxed(VIU_OSD_BLEND_REORDER(0, 1) |
--			       VIU_OSD_BLEND_REORDER(1, 0) |
--			       VIU_OSD_BLEND_REORDER(2, 0) |
--			       VIU_OSD_BLEND_REORDER(3, 0) |
--			       VIU_OSD_BLEND_DIN_EN(1) |
--			       VIU_OSD_BLEND1_DIN3_BYPASS_TO_DOUT1 |
--			       VIU_OSD_BLEND1_DOUT_BYPASS_TO_BLEND2 |
--			       VIU_OSD_BLEND_DIN0_BYPASS_TO_DOUT0 |
--			       VIU_OSD_BLEND_BLEN2_PREMULT_EN(1) |
--			       VIU_OSD_BLEND_HOLD_LINES(4),
--			       priv->io_base + _REG(VIU_OSD_BLEND_CTRL));
-+		u32 val = (u32)VIU_OSD_BLEND_REORDER(0, 1) |
-+			  (u32)VIU_OSD_BLEND_REORDER(1, 0) |
-+			  (u32)VIU_OSD_BLEND_REORDER(2, 0) |
-+			  (u32)VIU_OSD_BLEND_REORDER(3, 0) |
-+			  (u32)VIU_OSD_BLEND_DIN_EN(1) |
-+			  (u32)VIU_OSD_BLEND1_DIN3_BYPASS_TO_DOUT1 |
-+			  (u32)VIU_OSD_BLEND1_DOUT_BYPASS_TO_BLEND2 |
-+			  (u32)VIU_OSD_BLEND_DIN0_BYPASS_TO_DOUT0 |
-+			  (u32)VIU_OSD_BLEND_BLEN2_PREMULT_EN(1) |
-+			  (u32)VIU_OSD_BLEND_HOLD_LINES(4);
-+		writel_relaxed(val, priv->io_base + _REG(VIU_OSD_BLEND_CTRL));
+@@ -643,7 +643,12 @@ static int i740fb_decode_var(const struct fb_var_screeninfo *var,
+ 	par->atc[VGA_ATC_OVERSCAN] = 0;
  
- 		writel_relaxed(OSD_BLEND_PATH_SEL_ENABLE,
- 			       priv->io_base + _REG(OSD1_BLEND_SRC_CTRL));
+ 	/* Calculate VCLK that most closely matches the requested dot clock */
+-	i740_calc_vclk((((u32)1e9) / var->pixclock) * (u32)(1e3), par);
++	freq = (((u32)1e9) / var->pixclock) * (u32)(1e3);
++	if (freq < I740_RFREQ_FIX) {
++		fb_dbg(info, "invalid pixclock\n");
++		freq = I740_RFREQ_FIX;
++	}
++	i740_calc_vclk(freq, par);
+ 
+ 	/* Since we program the clocks ourselves, always use VCLK2. */
+ 	par->misc |= 0x0C;
 -- 
 2.35.1
 
