@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7D9591EDA
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 09:06:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEF8591EF8
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 09:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E662DC67B7;
-	Sun, 14 Aug 2022 07:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB34CAC19;
+	Sun, 14 Aug 2022 07:47:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A09B7B9E
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 07:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660460753; x=1691996753;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=K4tl8ZYGeFhA+U5umZeSuWeZdwow0wgZ4xqCXX2El6g=;
- b=kWvKwX7OzNs1TUZsS9yMEWQHdEB3sblq+R5Fh2Ze1GOt4AfelNr7+LmY
- 6H5ejAD/h+c/FvGfxb4o5oh33Cux77Md4EoYv+8n/1j6kQjvV2ep9jgSE
- lp/oVg/3QRcC7CUpryTpBVFxqQxAhsR8VzdozcS2GfE6oPyeJVMStkccF
- L3dyiXovgMtgLpzoWxud9uG53yeMK6XB8ZhXYoxH4XOG3IgUxaQhMvE/F
- uUv212PP1sGnKWCl3bRTcnXhjDZayMxxqy1siL2D/g5og3SM3wHXrMALy
- NrYTNazXPoG52um4p+MZ3LnabiO2BkwFm2QkLiY1kjQDPXOl/gBaywyY5 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10437"; a="274857781"
-X-IronPort-AV: E=Sophos;i="5.93,236,1654585200"; d="scan'208";a="274857781"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2022 00:05:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,236,1654585200"; d="scan'208";a="695675504"
-Received: from lkp-server02.sh.intel.com (HELO 8745164cafc7) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 14 Aug 2022 00:05:46 -0700
-Received: from kbuild by 8745164cafc7 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oN7gv-0002bb-1c;
- Sun, 14 Aug 2022 07:05:45 +0000
-Date: Sun, 14 Aug 2022 15:04:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Markuss Broks <markuss.broks@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] efi: earlycon: Add support for generic
- framebuffers and move to console subsystem
-Message-ID: <202208141430.Ez8EkEwO-lkp@intel.com>
-References: <20220806163255.10404-4-markuss.broks@gmail.com>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8DDCA969
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 07:46:55 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id e13so6101725edj.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 00:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=0ZqIRQWJDcAC5WtbT7TgFRmcMUbjN/uJOcvXh/zp784=;
+ b=gxLU9r/njC15ZNa7u6wmpTydgDAmpZqNMGimY2taEyzEHjjMII7wiFB+6IgXe8E7Tj
+ tEiKi+U/UOWI5BgH/N7PCzqY5Do6hz8mQ3uKO2ptcCp7hy+PGyH88inR6MuKIdA/usqX
+ ofY8vpWAhNCh7o50QyseDquZ+A3VyEKw2hqIwB64vW8V/sR+stgRWaL3TfVysNs9Bw2h
+ sLn/NLo7rTFRCVaQkz9t5NHfjvBNXXBlI1H2ToZQT7ar+86To1Ol2M0G8wM01rc8UAMC
+ EP404fnL3P2vDtpig9tQU+cSAZakASLZfRp36Os/ODMalwIl7Wru2Udldvs7qG62w6qv
+ em5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=0ZqIRQWJDcAC5WtbT7TgFRmcMUbjN/uJOcvXh/zp784=;
+ b=79NUyXfY8wnmFivkc5pZcqRHibTPCQ3SNpGemq3g2YAkYITwGgjbxCUtsCRXWZd5rG
+ GfhWq7xHG4g7mBgTzRStleJPsUkJmXnKN0xN0qC2NUf3EbvhRtVqTcOya4kAFgDurlrP
+ PCxEg2UyMpIKc9GWgmhdFNwhV7jA9CUvDWpDnbDtpctdWhW5fpyF/Uob+bYG9gfmkaxy
+ sdsQ+kH2e0H7wEHXQUGRTKf7hceH/SWwK2/yxByi5NX7ViHMppfa4TdGSYf0zkBouvwp
+ iPqVhQgyhf5tHbSTk/MgqGEPB/7B+2NZTRj/ZmP4JReIBXu4L93s7BH+i0bkLZA3FdRs
+ uOSQ==
+X-Gm-Message-State: ACgBeo02z35cAoiwiwGyrOBeQnNPqec8m23SShaUs1yquOjrF4QgrRUk
+ tkC1vAnSKHntxVZ+fV/kA/Y=
+X-Google-Smtp-Source: AA6agR4PqI308kOBU328tJjNj3BJGJwFneQKD2OMYaR6Vh3pmZvoBbypevpZRbQBhX87/O3h9QhLAg==
+X-Received: by 2002:a05:6402:4029:b0:443:a5f5:5324 with SMTP id
+ d41-20020a056402402900b00443a5f55324mr1351235eda.51.1660463213805; 
+ Sun, 14 Aug 2022 00:46:53 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net.
+ [89.212.118.115]) by smtp.gmail.com with ESMTPSA id
+ 17-20020a170906201100b0072f1e7b06d9sm2667073ejo.59.2022.08.14.00.46.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Aug 2022 00:46:53 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+ Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 3/4] drm/sun4i: dsi: Add a variant structure
+Date: Sun, 14 Aug 2022 09:46:51 +0200
+Message-ID: <4731474.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20220812074257.58254-4-samuel@sholland.org>
+References: <20220812074257.58254-1-samuel@sholland.org>
+ <20220812074257.58254-4-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220806163255.10404-4-markuss.broks@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,63 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
- Markuss Broks <markuss.broks@gmail.com>, linux-doc@vger.kernel.org,
- Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- Wei Ming Chen <jj251510319013@gmail.com>, phone-devel@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-serial@vger.kernel.org,
- Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, Michal Suchanek <msuchanek@suse.de>,
- kbuild-all@lists.01.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Helge Deller <deller@gmx.de>
+Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Markuss,
+Dne petek, 12. avgust 2022 ob 09:42:55 CEST je Samuel Holland napisal(a):
+> Replace the ad-hoc calls to of_device_is_compatible() with a structure
+> describing the differences between variants. This is in preparation for
+> adding more variants to the driver.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-I love your patch! Perhaps something to improve:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on efi/next staging/staging-testing usb/usb-testing linus/master v5.19 next-20220812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards,
+Jernej
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markuss-Broks/Add-generic-framebuffer-support-to-EFI-earlycon-driver/20220807-003646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-config: x86_64-kismet-CONFIG_FB_EARLYCON-CONFIG_EFI_EARLYCON-0-0 (https://download.01.org/0day-ci/archive/20220814/202208141430.Ez8EkEwO-lkp@intel.com/config)
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/97dfc2aa69b065de769a191352afe2099c52fedb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Markuss-Broks/Add-generic-framebuffer-support-to-EFI-earlycon-driver/20220807-003646
-        git checkout 97dfc2aa69b065de769a191352afe2099c52fedb
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_FB_EARLYCON --selectors CONFIG_EFI_EARLYCON -a=x86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=x86_64 olddefconfig
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_EARLYCON when selected by EFI_EARLYCON
-   
-   WARNING: unmet direct dependencies detected for FB_EARLYCON
-     Depends on [n]: VT [=y] && SERIAL_EARLYCON [=n] && !ARM && !IA64
-     Selected by [y]:
-     - EFI_EARLYCON [=y] && EFI [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
