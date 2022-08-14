@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F875920DB
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 17:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA17259210E
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 17:33:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF34511B23D;
-	Sun, 14 Aug 2022 15:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F131C10E9C3;
+	Sun, 14 Aug 2022 15:33:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4FCCE96E
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 15:31:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA3C945CB
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 15:33:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 205B460C05;
- Sun, 14 Aug 2022 15:30:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E18C433D6;
- Sun, 14 Aug 2022 15:30:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DDEA760D3A;
+ Sun, 14 Aug 2022 15:33:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78C0CC4347C;
+ Sun, 14 Aug 2022 15:33:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660491056;
+ s=k20201202; t=1660491182;
  bh=YA7qGjAoZ0w68jbN59Y8bWwXYBlkSuhDhVnrXYHcvq8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OMF4rrtPsLxTsUC13FTY1pKYHw14XFUPrHdEEQeLJGMosSQKljhHyy32ML8ios2vj
- if5zYbMBYZCs9255pPtoCNJ1K5uImyx6D7BIAXRj57mh+mi11Hb2vNfsEqpa3pcUYk
- P4cuW08rZQxXQXesAB9pWXyx0sk10MSWhq5CaQQoPGEXYN7chZJKgM+Yq0+PCobCiC
- TyaJoMasWYtBpBSuhiWWQOxIVpOQFP7OzGJe2aNCX6oQYRLdXW9polOaFPr1Z61hDw
- yeGrCMGaB37aI7gwrW+1qT9FTL1vn+0koqfMqVd6NPKrCFmJ0LiEI8zv3knrHhNq2F
- zD3Xlvlwv62/w==
+ b=ertf7rlKBMi1CLJ8kEqV7aMNYFNcHzc3664Dc/cT0yNgOE52jf2h/mHUZhgcvwZlm
+ oKpnkPC6aScqcRdoBmybnG41Q1pUjShs+wHOgoME0Np7Bc8ThWi1nEUYOps7joWKaT
+ WYRdEMvP7+pRIVS0yies5ybBi4kIgd/fA5vZA7R1x5vuKWW1m6CMMDoeQvs7sK+ZFu
+ o83UFrQBWXjcqzym5dy/Xwm0EkfuaOsCZl6RVA+xg0wdWEXN7+fbtlnWVQluAt5Zls
+ MLEPURVHfKwqzUoiP2M+eR5wR9hS54ObloZ7G12xJMAecoEfJ/uIk2tmXTivFha/mi
+ 2R16Z2A7jF3PQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 13/56] drm/meson: Fix overflow implicit
+Subject: [PATCH AUTOSEL 5.15 10/46] drm/meson: Fix overflow implicit
  truncation warnings
-Date: Sun, 14 Aug 2022 11:29:43 -0400
-Message-Id: <20220814153026.2377377-13-sashal@kernel.org>
+Date: Sun, 14 Aug 2022 11:32:11 -0400
+Message-Id: <20220814153247.2378312-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
-References: <20220814153026.2377377-1-sashal@kernel.org>
+In-Reply-To: <20220814153247.2378312-1-sashal@kernel.org>
+References: <20220814153247.2378312-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
