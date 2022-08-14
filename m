@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD1859214A
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 17:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B18592181
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 17:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACFBCD124;
-	Sun, 14 Aug 2022 15:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79F64C090B;
+	Sun, 14 Aug 2022 15:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBAEC81EF
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 15:34:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12147BBC15
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 15:35:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E5B4BB80B27;
- Sun, 14 Aug 2022 15:34:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46901C43142;
- Sun, 14 Aug 2022 15:34:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7AC3C60CF1;
+ Sun, 14 Aug 2022 15:35:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACAD8C43141;
+ Sun, 14 Aug 2022 15:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660491281;
- bh=YA7qGjAoZ0w68jbN59Y8bWwXYBlkSuhDhVnrXYHcvq8=;
+ s=k20201202; t=1660491339;
+ bh=lDreysDaux3KE/9sQ1RBGecbIuH1BLpw3sVQTIQLoC0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gm4z/RmK99ADP92vAmkMgCQZWIqkJyKWbr7udGFL/53K3QjQazR0QiDYMmVx9PvHn
- ljity6+kBBgl5Y51Gz9PfErPP9qTA8jOuQF93aPVjVLZPrM6aiElKYRuCx+EL3qAdE
- d0i4YrWni1ykO+48ZRiAQt4lix4KZNLUuhwbpTZLClp/veho6HjbJ3yWIms6Di+tfh
- XrZGKmqyqf7UM5d0pLMHjPb+T/e4I4oGWjHi06+PvzDEcYKooVfO2hav7T4ggQPGwE
- aFqmtwEc8gn8CSVGg2oSJi/1H1miRlXGJx8Slq/iuszBF+wA3RWmuFABezfGdp41Wr
- Pa7Z9N1ELeF7Q==
+ b=VIyoyQG90qf6E2Qbbt7i2iUA2kVg8obiAjWKlvE1dTAapuP4KNKEUo80NqaitMgiU
+ 53RBWJglZSO0RPxQcMbq5bnsBU91vGxNtK+2dQFfGjDRe4ww04IBymjv0zxyJM2xkc
+ GkGaK9eLrpcKNB+UYKfH7hZ899ZiPKhUT8lUoGV8m4RezNz0pk2P0A2lEb9tKjpi7f
+ zlWTpL9Xrlhc701M0FFxCgJclzU+bkiQWxjZdnP/fO0qsZA7IxKyhX2ZRdP1uSPoF4
+ ywjYtFqkEC6snT9D/+bAt2u5mwk1xu2l6c1vObB7ReemkrPNQhZg6gTYc2Xy6QdGaQ
+ A5deUJf0mdPeg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 06/31] drm/meson: Fix overflow implicit
- truncation warnings
-Date: Sun, 14 Aug 2022 11:34:06 -0400
-Message-Id: <20220814153431.2379231-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 05/21] drm/meson: Fix overflow implicit truncation
+ warnings
+Date: Sun, 14 Aug 2022 11:35:15 -0400
+Message-Id: <20220814153531.2379705-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153431.2379231-1-sashal@kernel.org>
-References: <20220814153431.2379231-1-sashal@kernel.org>
+In-Reply-To: <20220814153531.2379705-1-sashal@kernel.org>
+References: <20220814153531.2379705-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -95,10 +95,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
-index 259f3e6bec90..bb7e109534de 100644
+index 33698814c022..9991f0a43b1a 100644
 --- a/drivers/gpu/drm/meson/meson_viu.c
 +++ b/drivers/gpu/drm/meson/meson_viu.c
-@@ -469,17 +469,17 @@ void meson_viu_init(struct meson_drm *priv)
+@@ -400,17 +400,17 @@ void meson_viu_init(struct meson_drm *priv)
  			priv->io_base + _REG(VD2_IF0_LUMA_FIFO_SIZE));
  
  	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
