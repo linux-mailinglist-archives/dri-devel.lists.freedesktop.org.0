@@ -1,82 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDE15925DD
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 19:54:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFE359267B
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 23:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8EE59668D;
-	Sun, 14 Aug 2022 17:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BB98EE45;
+	Sun, 14 Aug 2022 21:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0D4965E5
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 17:54:45 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id D11373200413;
- Sun, 14 Aug 2022 13:54:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Sun, 14 Aug 2022 13:54:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1660499681; x=
- 1660586081; bh=rg5A4PneXluGDG51+pizXl8CwAXEzj0HygpUz3KfuU0=; b=k
- t/a6rRNBrJpta/FUoyDpMq5odlszXC2rivLR5tqgVAkWn8GMr9kzvwstfIa6W7Mm
- cxS1+vJJfngCm2EH8Ix1PFB6Mo1zXujAuPct0zC+MesFucxkrZRZLh0bEACeUJWx
- 5XJxtjN+VlJDOTTcNcngmjA/ofeznMkJ3RI9at58AdeuUy46zNq8ngp9Z2wkWAa1
- V9xcANB6kD9kKd1Uv8rIiQnrqR+N9D3KsjBnYzAxoIYegQ2EFowP+hnT/5/2YCsq
- 9BiOxFUpMYlzeEHHO9SyMIQPvXrGHU54gDKWYy8gUsjFjK0d+/QKT8MNmW3DmJ8U
- EGcLlzzRQ5CpcB9dwkA0A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660499681; x=
- 1660586081; bh=rg5A4PneXluGDG51+pizXl8CwAXEzj0HygpUz3KfuU0=; b=F
- KQVJnQl9ap/WznUnkz5+LpehylIOQNrL7uMR5T6Edte+JHQZcrV4Y1PU4UoARazQ
- VyPI0oythbIDrBv4L+QHOEj6sV6Gr4wYTapdiUVdhLjq/+EGApreyhHBGVcX98c5
- IPtYkdrfWW8sIt/mExNB/vTgDocCrEqpRsJQotSz3GA4cCZ3Kb4wun2ZdgkqjMbX
- XBY1uikGfAzsIutcA+ESbxmBbgBYPdNaIWI69pZ+KTjPcxpsmynjk40g/b3cmlQF
- D3mpDIq53R/xSH3J/JP3W+sHJwDbI362AGVmGHiwr6OB2Jyve06Psg3KpE6vIyT2
- LbJLXI5K7cOcHp0DyQgbA==
-X-ME-Sender: <xms:4Tb5YrTEs2KOEwa4hE8qQyp6l5A2BE-k6tjE5LfDpOP9WTT3a9uDRg>
- <xme:4Tb5YsyUKj-f9N52JZbmbB-aiP1D4jkkNDVOuYazrsuQUUE5PhMNMJdhfnrtM-gXR
- e6xSHjlG783yctZ3w>
-X-ME-Received: <xmr:4Tb5Yg37QDLjpXLjvA0mA39-KYA6GGZXwKc3K1kK3SyFtD0LAFBnenl8qMZcbHrYg0H6K5H_PdDmyTcEDQbxyI4H9i3dEzgB2meJRGQpqVvXS9-oeWQrKT3EIQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehtddguddvtdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefuvfevfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgr
- mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
- cuggftrfgrthhtvghrnheptdevhfehhefgvdekteffleduueduheduuedvtdevleelkeev
- vdeuvdeihfekueehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
- hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:4Tb5YrD-F8LK1lI1jECLiaAEoEl_lKIT2zEY_HTLg2H4jReNIIpdQA>
- <xmx:4Tb5YkhVjdmuSQvPTgZ2cx1lxbJfE2jBoWrjAwYlDku1_wiybtvtIA>
- <xmx:4Tb5YvqbEitNLqYJ9NR_bCQZ7n-C003raaAu3KUD2xwSYZ_hxU2jiA>
- <xmx:4Tb5Ygjq0j3-SeolZmylSueGRY3XVGcLWpvcCSNL0WAYs1HkXqcnpw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Aug 2022 13:54:40 -0400 (EDT)
-Subject: Re: [PATCH] drm/sun4i: dsi: Prevent underflow when computing packet
- sizes
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>
-References: <20220812031623.34057-1-samuel@sholland.org>
- <8100632.T7Z3S40VBb@jernej-laptop>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <093fee4d-d0b9-c6f2-8dde-d50b514fbc69@sholland.org>
-Date: Sun, 14 Aug 2022 12:54:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
+ [IPv6:2607:f8b0:4864:20::f2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64408EE45;
+ Sun, 14 Aug 2022 21:12:02 +0000 (UTC)
+Received: by mail-qv1-xf2a.google.com with SMTP id j11so4265845qvt.10;
+ Sun, 14 Aug 2022 14:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=H1TyYCgDFOLBpbwuT7QI2PWkd8yCNKoZK+SX9krmjpU=;
+ b=mRG5JQUdhIJ9GAOwN8zf9CENEzTwv4gDa6MzdHh6vyHy5SopBXHsngmqNlW0ZcDqRa
+ bGyruk9vZXUYcbIM+f9S+TI1WlOuqM5r3LLS5nAsBME6YZJuBRPWAhjQh52g4N7SXEJX
+ 9ZIr/pQI2ox62EHYhyhGMlUY+7IPwjwu8N/P3v6RaEYR3lumwe1OKvTT8Pcy7LtSvE0b
+ spyYIdYl/G+ykrDRB40ltWeHnS4r3NA8wMx87u0eiBuNedycL/m4WYVwXwPo4fg8gc74
+ P47J6UKsDe1H5x2knvDEg76bqGmlaajALbkHubQvDaqku2DFnC/MOMKxCV8gFVZx9hUk
+ 6Ukw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=H1TyYCgDFOLBpbwuT7QI2PWkd8yCNKoZK+SX9krmjpU=;
+ b=L46OhDjTkKAXXDrvvZbZw2kTI5lFESb+9vu3o4TT5AFOqktYrVzAQv2X1feuZSiREI
+ lEBMVBfx2QLbRBYBMKHtfbP89GLFcN5dm0+VF9L3/600hJTb5ovffGosMWC9jdFldHrn
+ LyvZCoG0ZV0Dm0YpmV+Vj/uQVptil3Bq8TXxCpQOHJDbGsu+8OPMpj8+9A9E7RJ1FeXO
+ d5xNk2MBilQj8xqUjXxFwMhy8nCLKkRuTIKH542IHVimf6Sqgulr9HfULhUrzYGIXmJl
+ vpscOj+b3QCaqi875runMrAYqFvlB/GbFyWKC1P2lXMqpEvgCI8lHh4JFYl4GG7B88vt
+ 2ZiA==
+X-Gm-Message-State: ACgBeo3/EZakJ/RrDIN76oMUtB4qG+RWvhy56tQIza5yiMqnUpNbqwnh
+ kHqrs/QB4a1IF7q+sKfdMTL+td/XVwIV7iAdKCQ63ACse15AjYB8HtE=
+X-Google-Smtp-Source: AA6agR5S73EueL4IQb54rQCHLhOtWm7QLKarjhQX2plDKNvRGnJq2HlufEHzklXoMPPEdQh7enghLcXtMHJKOUx3i8A=
+X-Received: by 2002:a05:6214:c6c:b0:476:99a4:26b9 with SMTP id
+ t12-20020a0562140c6c00b0047699a426b9mr11428458qvj.128.1660511521578; Sun, 14
+ Aug 2022 14:12:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8100632.T7Z3S40VBb@jernej-laptop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Mon, 15 Aug 2022 02:11:50 +0500
+Message-ID: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
+Subject: [BUG][5.20] refcount_t: underflow; use-after-free
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,58 +63,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/14/22 2:55 AM, Jernej Škrabec wrote:
-> Dne petek, 12. avgust 2022 ob 05:16:23 CEST je Samuel Holland napisal(a):
->> Currently, the packet overhead is subtracted using unsigned arithmetic.
->> With a short sync pulse, this could underflow and wrap around to near
->> the maximal u16 value. Fix this by using signed subtraction. The call to
->> max() will correctly handle any negative numbers that are produced.
->>
->> Apply the same fix to the other timings, even though those subtractions
->> are less likely to underflow.
->>
->> Fixes: 133add5b5ad4 ("drm/sun4i: Add Allwinner A31 MIPI-DSI controller
->> support") Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 10 +++++-----
->>  1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
->> b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c index b4dfa166eccd..34234a144e87
->> 100644
->> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
->> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
->> @@ -522,77 +522,77 @@ static void sun6i_dsi_setup_format(struct sun6i_dsi
->> *dsi, SUN6I_DSI_PIXEL_PF1_CRC_INIT_LINE0(0xffff) |
->>  		     SUN6I_DSI_PIXEL_PF1_CRC_INIT_LINEN(0xffff));
->>
->>  	regmap_write(dsi->regs, SUN6I_DSI_PIXEL_CTL0_REG,
->>  		     SUN6I_DSI_PIXEL_CTL0_PD_PLUG_DISABLE |
->>  		     SUN6I_DSI_PIXEL_CTL0_FORMAT(fmt));
->>  }
->>
->>  static void sun6i_dsi_setup_timings(struct sun6i_dsi *dsi,
->>  				    struct drm_display_mode *mode)
->>  {
->>  	struct mipi_dsi_device *device = dsi->device;
->> -	unsigned int Bpp = mipi_dsi_pixel_format_to_bpp(device->format) / 8;
->> +	int Bpp = mipi_dsi_pixel_format_to_bpp(device->format) / 8;
-> 
-> Nit: mipi_dsi_pixel_format_to_bpp() can return -EINVAL in case of unsupported 
-> format. Would it make sense to check it?
+Hi folks.
+Joined testing 5.20 today (7ebfc85e2cd7).
+I encountered a frequently GPU freeze, after which a message appears
+in the kernel logs:
+[ 220.280990] ------------[ cut here ]------------
+[ 220.281000] refcount_t: underflow; use-after-free.
+[ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28
+refcount_warn_saturate+0xba/0x110
+[ 220.281029] Modules linked in: uinput rfcomm snd_seq_dummy
+snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
+nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
+nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
+nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
+qrtr bnep sunrpc snd_seq_midi snd_seq_midi_event vfat intel_rapl_msr
+fat intel_rapl_common snd_hda_codec_realtek mt76x2u
+snd_hda_codec_generic snd_hda_codec_hdmi mt76x2_common iwlmvm
+mt76x02_usb edac_mce_amd mt76_usb snd_hda_intel snd_intel_dspcfg
+mt76x02_lib snd_intel_sdw_acpi snd_usb_audio snd_hda_codec mt76
+kvm_amd uvcvideo mac80211 snd_hda_core btusb eeepc_wmi snd_usbmidi_lib
+videobuf2_vmalloc videobuf2_memops kvm btrtl snd_rawmidi asus_wmi
+snd_hwdep videobuf2_v4l2 btbcm iwlwifi ledtrig_audio libarc4 btintel
+snd_seq videobuf2_common sparse_keymap btmtk irqbypass videodev
+snd_seq_device joydev xpad iwlmei platform_profile bluetooth
+ff_memless snd_pcm mc rapl
+[ 220.281185] video snd_timer cfg80211 wmi_bmof snd pcspkr soundcore
+k10temp i2c_piix4 rfkill mei asus_ec_sensors acpi_cpufreq zram
+hid_logitech_hidpp amdgpu igb dca drm_ttm_helper ttm crct10dif_pclmul
+iommu_v2 crc32_pclmul gpu_sched crc32c_intel ucsi_ccg drm_buddy nvme
+typec_ucsi ghash_clmulni_intel drm_display_helper ccp nvme_core typec
+sp5100_tco cec wmi ip6_tables ip_tables fuse
+[ 220.281258] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
+amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
+amd64_edac():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
+amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
+pcc_cpufreq():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
+amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
+pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
+pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
+pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
+amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
+pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
+amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 pcc_cpufreq():1
+[ 220.281388] pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
+fjes():1 fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
+[ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L -------
+--- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
+[ 220.281421] Hardware name: System manufacturer System Product
+Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
+[ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
+[ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
+7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
+6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
+c7
+[ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
+[ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 0000000000000000
+[ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000ffffffff
+[ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0d18d7930
+[ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058ca360400
+[ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 0000000000000003
+[ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000)
+knlGS:0000000000000000
+[ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 0000000000350ee0
+[ 220.281480] Call Trace:
+[ 220.281485] <TASK>
+[ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
+[ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+[ 220.282028] drm_ioctl_kernel+0xa4/0x150
+[ 220.282043] drm_ioctl+0x21f/0x420
+[ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+[ 220.282275] ? lock_release+0x14f/0x460
+[ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
+[ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
+[ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
+[ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
+[ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
+[ 220.282534] __x64_sys_ioctl+0x90/0xd0
+[ 220.282545] do_syscall_64+0x5b/0x80
+[ 220.282551] ? futex_wake+0x6c/0x150
+[ 220.282568] ? lock_is_held_type+0xe8/0x140
+[ 220.282580] ? do_syscall_64+0x67/0x80
+[ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
+[ 220.282592] ? do_syscall_64+0x67/0x80
+[ 220.282597] ? do_syscall_64+0x67/0x80
+[ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
+[ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[ 220.282616] RIP: 0033:0x7f8282a4f8bf
+[ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
+00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
+0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
+00
+[ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX:
+0000000000000010
+[ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f8282a4f8bf
+[ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 0000000000000018
+[ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f82683df4b0
+[ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000c0186444
+[ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 0000000000000003
+[ 220.282689] </TASK>
+[ 220.282693] irq event stamp: 6232311
+[ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>]
+__up_console_sem+0x5e/0x70
+[ 220.282704] hardirqs last disabled at (6232326):
+[<ffffffff9718cd63>] __up_console_sem+0x43/0x70
+[ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>]
+__irq_exit_rcu+0xf9/0x170
+[ 220.282716] softirqs last disabled at (6232061):
+[<ffffffff970ff669>] __irq_exit_rcu+0xf9/0x170
+[ 220.282722] ---[ end trace 0000000000000000 ]---
 
-The switch statement in mipi_dsi_pixel_format_to_bpp() handles every value in
-the enumeration, so I think the -EINVAL is just there to keep GCC from
-complaining. If we do want to handle this case, it would need to be in
-sun6i_dsi_attach(), since the other places we use mipi_dsi_pixel_format_to_bpp()
-are way too late to handle any errors.
 
-Regards,
-Samuel
+Full kernel log is here:
+https://pastebin.com/gn01DVxE
+
+My GPU hardware is AMD Radeon 6900XT.
+
+-- 
+Best Regards,
+Mike Gavrilov.
