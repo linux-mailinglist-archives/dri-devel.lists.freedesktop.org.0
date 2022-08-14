@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5762959244D
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 18:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28126592452
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Aug 2022 18:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC0196BC3;
-	Sun, 14 Aug 2022 16:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53F895BA2;
+	Sun, 14 Aug 2022 16:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07725903C1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 16:30:37 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDA5113F24
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 16:31:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8C02060FC3;
- Sun, 14 Aug 2022 16:30:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ADF8C433C1;
- Sun, 14 Aug 2022 16:30:35 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 75E55B80B37;
+ Sun, 14 Aug 2022 16:31:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60221C433C1;
+ Sun, 14 Aug 2022 16:31:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660494636;
+ s=k20201202; t=1660494675;
  bh=QJRKZeqWyHOAMgpIQr673Jjz8RQb1Y0LVJw0ylK1rRM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DBXtui74Wlr8KyiWwcxMOVjEM7QHTxAe4VqRsrVCnlvGptoHJYGNpNOC/TgklIukv
- EjZTcBH6NLTUJ/jBJBSVmFf4bj+pigUPIXvYkdD3mqcfaG2fDGumpSvo+2Kp/BvP+U
- hhwDW/x13U7UJ1r+w9aubBLbKnvAQGQx6zc47UiXT+maEgCzTWUOmEA18alVrkdtdZ
- 4SOhxC4+rr8dCGZhC10S1CkwMDnvMKQKvzSe2aT8AYCYNYsI9qFtilUqZkU/CjPdaz
- LFv9o7R5HNijKjKaizoap+tvLDWR6h2kG9awEW3lJkEDz/dVawE09BbbP03GXTgqf7
- 5VcDHJxEHGD2w==
+ b=uS/+6wltoyffidAKki2gMIEeG6JC03BBaZ33OibIk4FSEJ98+U9hLBi7DS/E4DXT5
+ pff7Yi7UGoI3hAlhzoPCFDz2s2VfW743hkbcQfNVYO1RtCRCADBWO/NFFT+miF8H0X
+ De3n2aAtznYXZ9mIP9Kf/hrfhIag0WL8xrV72PbNsUN/SGHx/tkvb9jVmLPBnQTxvk
+ DDL6s0zxHne5JE7aIlXeG0ImMnlw3pqDLrUEk0d9RxSK7110+5GL/OjIxBNXRgzNom
+ micFIvotNoglFyzDmrRB6ULXCyoH/ORhE4krLWPqgvIZA8x13xuneYC8cAUrtpGBHO
+ 3joEpJ6mU6uhw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 8/9] video: fbdev: i740fb: Check the argument of
+Subject: [PATCH AUTOSEL 4.9 7/8] video: fbdev: i740fb: Check the argument of
  i740_calc_vclk()
-Date: Sun, 14 Aug 2022 12:29:58 -0400
-Message-Id: <20220814162959.2399011-8-sashal@kernel.org>
+Date: Sun, 14 Aug 2022 12:30:40 -0400
+Message-Id: <20220814163041.2399552-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814162959.2399011-1-sashal@kernel.org>
-References: <20220814162959.2399011-1-sashal@kernel.org>
+In-Reply-To: <20220814163041.2399552-1-sashal@kernel.org>
+References: <20220814163041.2399552-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
