@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C005933C8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 19:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B5B5933DB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 19:09:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8340FCE7EF;
-	Mon, 15 Aug 2022 17:02:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA5BCEAE8;
+	Mon, 15 Aug 2022 17:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F25B9150B;
- Mon, 15 Aug 2022 17:02:03 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id a22so6513705pfg.3;
- Mon, 15 Aug 2022 10:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=kVI9j3DYdqBdWkziBWW1kk/pn2Ueg4C4jZV3ff8Htjw=;
- b=gZqQLXqcl92oRRJt+5e5u2qjisa8kzB6aZhxd9PIhqUmCxltZj383GoU8Cz3j8Tk4c
- vN3dentoCQF+MRI0FvyRZDu3ppO1yOn+l9OA8GhHnGrLqRWgaIjY5eBqJDZC13icn8hw
- +JAwQvLxC0EWZOG74h3jwKTqvyhuQAgdTqTQO3xsOZuG6xc4trx06//kNQR1Qf0Ld1Qt
- tKFvpd6kAwyjbVJ8t5yuX1bSinVtAAjspK7Ilp9HakXaNORZYJnsYGPk0LyRyExCiuIq
- zgLrz1HmdPJhISBHvYLb3Ttimvk0hFUuuNhLGuw8c59leJyeKyuYyxmeeXGhUtcLAc0k
- 0nSQ==
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A81DCEA67
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 17:08:17 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ z22-20020a056830129600b0063711f456ceso5842258otp.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:from:to:cc;
+ bh=w5mvqeDCehc7GaKrA3r1nsUFJqaSzpg+13M7sA6ODP4=;
+ b=EXo9TqZYcqeI62mYaP39HnHFE1Jgu2Gp4yw1YH7g4irL+MqYlSooTegqxrGX/1fPdS
+ i7LTVrfmDVZjkoYfavZW6Z5yTUIjGmyuJuTYhLnaTSHQ1Bj0oFKEAXVOWBn2QmHIhso5
+ TbJZq75FEa02PtPcpEJJB/M1x7jEHhwEKyvBk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=kVI9j3DYdqBdWkziBWW1kk/pn2Ueg4C4jZV3ff8Htjw=;
- b=yXLg74SpL1geW94zzIOYWy2BjI7MM6P8Ob5OVe9HV2HUTAA46nF6fALukQY0Ufut6j
- sPzruywfKfOJ6v7PlcAueGXLL1vPLmkgc79/hgCb6kYbI4gSrWKzHcAhAv+ry+irV2il
- 07P271xilHAk5gy5riRG8QnXJz0H97p1/QbYEUIIhOlnCp3FMKoIg7wq1fIm7hOemJ3L
- 7oWjVGah92qDaq5CV5p9Mv6tsdYQnaj6ndiu3HIlqSmmivC5k1X+BhWMfvwspfrDnUUU
- lr5ROgMRf/V7sIjCiFnZfuV4bx7R4lUOa2rS0tnCFdsU61bzXZjCcIvlePIH8jp1Vn+k
- GxcA==
-X-Gm-Message-State: ACgBeo18Pd7Q85uNlyMMVtYZ3qONdnGbwG9cA9xz2vXWnPUlXcMkEfsJ
- y41AF2mSdIUey67kfzlRD2A=
-X-Google-Smtp-Source: AA6agR5RZ22iqECqURoT+vxzrH03J8Q9Bvu9e6PkSFwJuTLDiJCN3IdbpLDIa0y8FwM7EIYwWL+bEw==
-X-Received: by 2002:aa7:88d1:0:b0:52e:f8e:aab5 with SMTP id
- k17-20020aa788d1000000b0052e0f8eaab5mr17090966pff.63.1660582921848; 
- Mon, 15 Aug 2022 10:02:01 -0700 (PDT)
-Received: from [192.168.0.110] ([103.159.189.138])
- by smtp.gmail.com with ESMTPSA id
- l20-20020a17090b079400b001f89383d587sm4767063pjz.56.2022.08.15.10.01.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 10:02:01 -0700 (PDT)
-Message-ID: <1e720378-8398-3e4a-5a77-e34b2fec58fd@gmail.com>
-Date: Mon, 15 Aug 2022 23:01:49 +0600
+ h=content-transfer-encoding:cc:to:subject:message-id:date:user-agent
+ :from:references:in-reply-to:mime-version:x-gm-message-state:from:to
+ :cc; bh=w5mvqeDCehc7GaKrA3r1nsUFJqaSzpg+13M7sA6ODP4=;
+ b=YAF3/p1GCA+5jNPGdz70kngjzmZJV+tO76dxZ4I58a61lrfXtlGCJeM4umZ8X5uIgH
+ NWiLIHKk+ckdMaUsKMs/mBJRD954uwEtb/Sz1jWVtAJ1bLFGyLaMc8xWJLW5PXWuIhH0
+ DaIuYO51Fs8oArVPTIu6ep1wkgwXF/E6BCBGjFPwFrehHiH+Z2TvZzwbSKLcuYyx9stq
+ IPaUDFEHB2uuO7kda9MC/jEFGba2Hoe2ub5fWFonXYxgG40pX2M3w8g1Obbkfehq6khC
+ HcLrEgVzEpDhOJ9aWe1sAOm9+Fc4q3PEgkG/UoC4VGB3wALoMPV5HX2Q4VgB8urCguK/
+ f41A==
+X-Gm-Message-State: ACgBeo38TY6gp5lyOFnseHCEiTFqNyCCmwdzOS+OWpbqueuADCxy9ot4
+ 1jszqTZh0Jq4cG3Vjlo/cTJEaI1Z++P/EQPoqImsmQ==
+X-Google-Smtp-Source: AA6agR49gUW9vuHC0Dzoy8S1A7T61B09e5tua3NyVPTV7sd0acqlwzykUCsQVgv29H+kCTLbcY+y6r4riaOarGM+ysQ=
+X-Received: by 2002:a9d:738c:0:b0:638:9962:8cb6 with SMTP id
+ j12-20020a9d738c000000b0063899628cb6mr2917548otk.73.1660583296069; Mon, 15
+ Aug 2022 10:08:16 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 15 Aug 2022 12:08:15 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in
- vcn_v4_0_stop
-Content-Language: en-US
-To: Greg KH <greg@kroah.com>
-References: <20220815070056.10816-1-khalid.masum.92@gmail.com>
- <SJ1PR12MB61944B1D53330D5E9531158695689@SJ1PR12MB6194.namprd12.prod.outlook.com>
- <86088c17-585c-4a53-312d-ef339b824538@gmail.com> <YvpwVh359EMGa5kO@kroah.com>
-From: Khalid Masum <khalid.masum.92@gmail.com>
-In-Reply-To: <YvpwVh359EMGa5kO@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1e792f49-febf-43bf-d828-8ecf99cbeba3@quicinc.com>
+References: <1660159551-13828-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n533SUb3Bg=pR8Fhwo-M5qLWiti4nzLR-rSGVAsrXgEYNQ@mail.gmail.com>
+ <dbda8bce-2890-e5e3-4052-073a52eb06a6@quicinc.com>
+ <CAE-0n51NyrP8CikcK_3wj4EEsurmmSZ4RY3pLhJJmkY2_8wNZw@mail.gmail.com>
+ <0641a116-5b58-4305-bf2d-f53dcb747276@quicinc.com>
+ <1e792f49-febf-43bf-d828-8ecf99cbeba3@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 15 Aug 2022 12:08:15 -0500
+Message-ID: <CAE-0n50QXiJs=k78Tmd7om28MgWChypwC8LPRzF2jx_qB5+0FQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dp: check hpd_state before push idle pattern
+ at dp_bridge_disable()
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ agross@kernel.org, airlied@linux.ie, bjorn.andersson@linaro.org, 
+ daniel@ffwll.ch, dianders@chromium.org, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,101 +75,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wan Jiabing <wanjiabing@vivo.com>, David Airlie <airlied@linux.ie>, "Liu,
- Leo" <Leo.Liu@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Jiang,
- Sonny" <Sonny.Jiang@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Dong, Ruijing" <Ruijing.Dong@amd.com>,
- "Zhu, James" <James.Zhu@amd.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/15/22 22:12, Greg KH wrote:
-> On Mon, Aug 15, 2022 at 09:11:18PM +0600, Khalid Masum wrote:
->> On 8/15/22 20:15, Dong, Ruijing wrote:
->>> [AMD Official Use Only - General]
->>>
->>> Sorry, which "r" value was overwritten?  I didn't see the point of making this change.
->>>
->>> Thanks
->>> Ruijing
->>>
->>> -----Original Message-----
->>> From: Khalid Masum <khalid.masum.92@gmail.com>
->>> Sent: Monday, August 15, 2022 3:01 AM
->>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; linux-kernel-mentees@lists.linuxfoundation.org
->>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Zhu, James <James.Zhu@amd.com>; Jiang, Sonny <Sonny.Jiang@amd.com>; Dong, Ruijing <Ruijing.Dong@amd.com>; Wan Jiabing <wanjiabing@vivo.com>; Liu, Leo <Leo.Liu@amd.com>; Khalid Masum <khalid.masum.92@gmail.com>
->>> Subject: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in vcn_v4_0_stop
->>>
->>> The value assigned from vcn_v4_0_stop_dbg_mode to r is overwritten before it can be used. Remove this assignment.
->>>
->>> Addresses-Coverity: 1504988 ("Unused value")
->>> Fixes: 8da1170a16e4 ("drm/amdgpu: add VCN4 ip block support")
->>> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>> index ca14c3ef742e..80b8a2c66b36 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>> @@ -1154,7 +1154,7 @@ static int vcn_v4_0_stop(struct amdgpu_device *adev)
->>>                   fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
->>>
->>>                   if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
->>> -                       r = vcn_v4_0_stop_dpg_mode(adev, i);
->>> +                       vcn_v4_0_stop_dpg_mode(adev, i);
->>>                           continue;
->>>                   }
->>>
->>> --
->>> 2.37.1
->>>
->>
->> After value is overwritten soon right after the diff.
->>
->> See:
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>
->> static int vcn_v4_0_stop(struct amdgpu_device *adev)
->> {
->>          volatile struct amdgpu_vcn4_fw_shared *fw_shared;
->> ...
->>
->>          for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
->>                  fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
->>                  fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
->>
->>                  if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
->>                          r = vcn_v4_0_stop_dpg_mode(adev, i);
->>                          continue;
->>                  }
->>
->>                  /* wait for vcn idle */
->>                  r = SOC15_WAIT_ON_RREG(VCN, i, regUVD_STATUS,
->> UVD_STATUS__IDLE, 0x7);
->>
->> Here, any value assigned to r is overwritten before it could
->> be used. So the assignment in the true branch of the if statement
->> here can be removed.
-> 
-> Why not fix vcn_v4_0_stop_dpg_mode() to not return anything, as it does
-> not, and then remove this assignment as well, which would fix up
-> everything at once to be more obvious what is happening and why.
+Quoting Kuogee Hsieh (2022-08-11 08:20:01)
+>
+> On 8/10/2022 6:00 PM, Abhinav Kumar wrote:
+> >
+> > Even then, you do have a valid point. DRM framework should not have
+> > caused the disable path to happen without an enable.
+> >
+> > I went through the stack mentioned in the issue.
+> >
+> > Lets see this part of the stack:
+> >
+> > dp_ctrl_push_idle+0x40/0x88
+> > =C2=A0dp_bridge_disable+0x24/0x30
+> > =C2=A0drm_atomic_bridge_chain_disable+0x90/0xbc
+> > =C2=A0drm_atomic_helper_commit_modeset_disables+0x198/0x444
+> > =C2=A0msm_atomic_commit_tail+0x1d0/0x374
+> >
+> > In drm_atomic_helper_commit_modeset_disables(), we call
+> > disable_outputs().
+> >
+> > AFAICT, this is the only place which has a protection to not call the
+> > disable() flow if it was not enabled here:
+> >
+> > https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/=
+drm_atomic_helper.c#L1063
+> >
+> >
+> > But that function is only checking crtc_state->active. Thats set by
+> > the usermode:
+> >
+> > https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/=
+drm_atomic_uapi.c#L407
+> >
+> >
+> > Now, if usermode sets that to true and then crashed it can bypass this
+> > check and we will crash in the location kuogee is trying to fix.
 
-That makes sense. I shall send a v2 this way. Thanks for your suggestion.
+That seems bad, no? We don't want userspace to be able to crash and then
+be able to call the disable path when enable never succeeded.
 
-> 
-> thanks,
-> 
-> greg k-h
+> >
+> > From the issue mentioned in
+> > https://gitlab.freedesktop.org/drm/msm/-/issues/17, the reporter did
+> > mention the usermode crashed.
+> >
+> > So this is my tentative analysis of whats happening here.
+> >
+> > Ideally yes, we should have been protected by the location mentioned
+> > above in disable_outputs() but looks to me due to the above hypothesis
+> > its getting bypassed.
 
-thanks,
-   -- Khalid Masum
+Can you fix the problem there? Not fixing it means that every driver out
+there has to develop the same "fix", when it could be fixed in the core
+one time.
 
+Ideally drivers are simple. They configure the hardware for what the
+function pointer is asking for. State management and things like that
+should be pushed into the core framework so that we don't have to
+duplicate that multiple times.
+
+> >
+> > Thanks
+> >
+> > Abhinav
+> >
+> >
+> Ii sound likes that there is a hole either at user space or drm.
+>
+> But that should not cause dp_bridge_disable() at dp driver to crash.
+
+Agreed.
+
+>
+> Therefore it is properly to check hdp_state condition at
+> dp_bridge_disable() to prevent it from crashing.
+>
+
+Disagree. Userspace shouldn't be able to get drm into a wedged state.
