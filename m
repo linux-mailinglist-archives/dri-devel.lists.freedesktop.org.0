@@ -2,67 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CFC59270F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 02:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE376592712
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 02:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1E314BBBD;
-	Mon, 15 Aug 2022 00:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D1991CF8;
+	Mon, 15 Aug 2022 00:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10BD09B6D1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 00:18:23 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id f20so8655699lfc.10
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 17:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=dOknBgc5UbPpZFFYKxB6Q/eU48moFsOVNFbn48pYSQg=;
- b=AspiYKH79iJJtZv71ON0TvCrguWKzv99x1fGz7/PyzkQa77RqnL2LM7xO8rlLKlEuf
- /GsUDSaTclyH0wkwOWEFS8Qnmnq2PO0wv34HDzKwL3BAdTbz4lawnFiQD1DjzM35eUnC
- fjVqklkPrsIfb8J4aaTjIKkcZjyRwtJQCGqk43MmHdmqP3p4Mdt97BpyJ92rIsEk+Csg
- 2/rdxTwFSCnGN4cFQYK1ZnNr7fEl9BZfH5WMffCMfxd23ZixHDvsJN9rVJcMyEVoLX5q
- kqiJPBjTIAwpGzriokaoqODHLHSizwC1bYDgFDoIFCfQbiwqwTlq+z6nW2nr92YIAeAp
- de7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=dOknBgc5UbPpZFFYKxB6Q/eU48moFsOVNFbn48pYSQg=;
- b=XjRIGwTZZJ8idZjdiiuijOtVaQNZmzffuRpBoodmxvxE6pNzYKt3/Y42oOoBIAlVYg
- 930o8d7ogLvkpCknk5xj1cswfIKg0jdHs+kgXM5FVsV4+s68iJeiwV87syDom7rmulL4
- 1HYYaIGfmV0KmUxyaNxTlRPpBnNOEMVRBcsCyyk4QkDyiZYH/u/W3gDS8XVgI4yRssza
- PiRVkyKu2BPgRKi4kjwwYu9WmrYD60fUC5rkkKSUbgYv7QL5GKGKlH6KMOHQZIC+h6Ms
- 0/QdX3YP3YGAB4JX+XS41NBBGMK42dRUZKgWLxEbimDo9HZ1ELAPlLGdusnrxbdvaMJy
- ucaw==
-X-Gm-Message-State: ACgBeo0cPNb2Ex0KRkIUCPmSxZ168RCxQv2OF08C+DWiXgeoRjJA3E7B
- 86F3/6uSM8VABPe1W4u8dbjE++vJVj0=
-X-Google-Smtp-Source: AA6agR576b3b15SI2icrCgfVnFcES2Oz2HX8DioN78FTjO/xoyNuT9wvKhWxr5i2O/fe8jG+Zax7lg==
-X-Received: by 2002:a05:6512:3b8e:b0:48b:23c6:9b0 with SMTP id
- g14-20020a0565123b8e00b0048b23c609b0mr4871954lfv.470.1660522701160; 
- Sun, 14 Aug 2022 17:18:21 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru.
- [109.252.119.13]) by smtp.googlemail.com with ESMTPSA id
- b7-20020ac25e87000000b0048af6d57260sm927577lfq.295.2022.08.14.17.18.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Aug 2022 17:18:20 -0700 (PDT)
-Message-ID: <5bf48b51-35c0-532b-1464-325adef7b0ff@gmail.com>
-Date: Mon, 15 Aug 2022 03:18:14 +0300
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27CE11BF19;
+ Mon, 15 Aug 2022 00:20:11 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4M5Zfz1Gmpz9sNt;
+ Mon, 15 Aug 2022 00:20:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1660522811; bh=jq7j1PaCuaYOhK8IBgLkHW2SmpjHRy3ID/Ygd5BJPmw=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=pAgtKCEdl6uGBs8JO7CLozJtazm5Uk+6DzWMNwICXcL+evzrXOwVF7kTd41hZtdlh
+ VpbZX4pGvsws8oSpD4Cn0ylpktreBE0Je3oTiDV5DXf785Aot0gxWdUJd4YdNZLMbJ
+ Uy2ZiU536sStdC38wPiUax8dwPlc3O9smuoy4sIE=
+X-Riseup-User-ID: 2D5718D621D7FD407F0500978020029A908F06A32F2CB14F6AC58C42362A2115
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4M5Zfx4Cfqz1yQc;
+ Mon, 15 Aug 2022 00:20:09 +0000 (UTC)
+Message-ID: <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
+Date: Sun, 14 Aug 2022 21:20:01 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] drm/bridge: sii902x: add support for
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
 Content-Language: en-US
-To: Neil Armstrong <narmstrong@baylibre.com>, andrzej.hajda@intel.com,
- robert.foss@linaro.org
-References: <20220113144305.1074389-1-narmstrong@baylibre.com>
- <25976b46-21b4-6e3f-0182-85dd4ca2b654@gmail.com>
- <a4a36360-3f77-17a0-9239-08cb8c08de74@baylibre.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <a4a36360-3f77-17a0-9239-08cb8c08de74@baylibre.com>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,280 +56,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-08.08.2022 12:15, Neil Armstrong пишет:
-> Hi Dmitry,
-> 
-> On 31/07/2022 22:07, Dmitry Osipenko wrote:
->> 13.01.2022 17:43, Neil Armstrong пишет:
->>> This adds support for DRM_BRIDGE_ATTACH_NO_CONNECTOR by adding the
->>> bridge get_edid() and detect() callbacks after refactoring the connector
->>> get_modes() and connector_detect() callbacks.
->>>
->>> In order to keep the bridge working, extra code in get_modes() has been
->>> moved to more logical places.
->>>
->>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->>> ---
->>>   drivers/gpu/drm/bridge/sii902x.c | 129 ++++++++++++++++++++++++-------
->>>   
-> 
-> 1 file changed, 99 insertions(+), 30 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/sii902x.c
->>> b/drivers/gpu/drm/bridge/sii902x.c
->>> index 89558e581530..65549fbfdc87 100644
->>> --- a/drivers/gpu/drm/bridge/sii902x.c
->>> +++ b/drivers/gpu/drm/bridge/sii902x.c
->>> @@ -166,10 +166,12 @@ struct sii902x {
->>>       struct i2c_client *i2c;
->>>       struct regmap *regmap;
->>>       struct drm_bridge bridge;
->>> +    struct drm_bridge *next_bridge;
->>>       struct drm_connector connector;
->>>       struct gpio_desc *reset_gpio;
->>>       struct i2c_mux_core *i2cmux;
->>>       struct regulator_bulk_data supplies[2];
->>> +    bool sink_is_hdmi;
->>>       /*
->>>        * Mutex protects audio and video functions from interfering
->>>        * each other, by keeping their i2c command sequences atomic.
->>> @@ -245,10 +247,8 @@ static void sii902x_reset(struct sii902x *sii902x)
->>>       gpiod_set_value(sii902x->reset_gpio, 0);
->>>   }
->>>   -static enum drm_connector_status
->>> -sii902x_connector_detect(struct drm_connector *connector, bool force)
->>> +static enum drm_connector_status sii902x_detect(struct sii902x
->>> *sii902x)
->>>   {
->>> -    struct sii902x *sii902x = connector_to_sii902x(connector);
->>>       unsigned int status;
->>>         mutex_lock(&sii902x->mutex);
->>> @@ -261,6 +261,14 @@ sii902x_connector_detect(struct drm_connector
->>> *connector, bool force)
->>>              connector_status_connected : connector_status_disconnected;
->>>   }
->>>   +static enum drm_connector_status
->>> +sii902x_connector_detect(struct drm_connector *connector, bool force)
->>> +{
->>> +    struct sii902x *sii902x = connector_to_sii902x(connector);
->>> +
->>> +    return sii902x_detect(sii902x);
->>> +}
->>> +
->>>   static const struct drm_connector_funcs sii902x_connector_funcs = {
->>>       .detect = sii902x_connector_detect,
->>>       .fill_modes = drm_helper_probe_single_connector_modes,
->>> @@ -270,42 +278,40 @@ static const struct drm_connector_funcs
->>> sii902x_connector_funcs = {
->>>       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->>>   };
->>>   -static int sii902x_get_modes(struct drm_connector *connector)
->>> +static struct edid *sii902x_get_edid(struct sii902x *sii902x,
->>> +                     struct drm_connector *connector)
->>>   {
->>> -    struct sii902x *sii902x = connector_to_sii902x(connector);
->>> -    u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
->>> -    u8 output_mode = SII902X_SYS_CTRL_OUTPUT_DVI;
->>>       struct edid *edid;
->>> -    int num = 0, ret;
->>>         mutex_lock(&sii902x->mutex);
->>>         edid = drm_get_edid(connector, sii902x->i2cmux->adapter[0]);
->>> -    drm_connector_update_edid_property(connector, edid);
->>>       if (edid) {
->>>           if (drm_detect_hdmi_monitor(edid))
->>> -            output_mode = SII902X_SYS_CTRL_OUTPUT_HDMI;
->>> -
->>> -        num = drm_add_edid_modes(connector, edid);
->>> -        kfree(edid);
->>> +            sii902x->sink_is_hdmi = true;
->>> +        else
->>> +            sii902x->sink_is_hdmi = false;
->>>       }
->>>   -    ret = drm_display_info_set_bus_formats(&connector->display_info,
->>> -                           &bus_format, 1);
->>> -    if (ret)
->>> -        goto error_out;
->>> +    mutex_unlock(&sii902x->mutex);
->>>   -    ret = regmap_update_bits(sii902x->regmap, SII902X_SYS_CTRL_DATA,
->>> -                 SII902X_SYS_CTRL_OUTPUT_MODE, output_mode);
->>> -    if (ret)
->>> -        goto error_out;
->>> +    return edid;
->>> +}
->>>   -    ret = num;
->>> +static int sii902x_get_modes(struct drm_connector *connector)
->>> +{
->>> +    struct sii902x *sii902x = connector_to_sii902x(connector);
->>> +    struct edid *edid;
->>> +    int num = 0;
->>>   -error_out:
->>> -    mutex_unlock(&sii902x->mutex);
->>> +    edid = sii902x_get_edid(sii902x, connector);
->>> +    drm_connector_update_edid_property(connector, edid);
->>> +    if (edid) {
->>> +        num = drm_add_edid_modes(connector, edid);
->>> +        kfree(edid);
->>> +    }
->>>   -    return ret;
->>> +    return num;
->>>   }
->>>     static enum drm_mode_status sii902x_mode_valid(struct
->>> drm_connector *connector,
->>> @@ -354,12 +360,16 @@ static void sii902x_bridge_mode_set(struct
->>> drm_bridge *bridge,
->>>                       const struct drm_display_mode *adj)
->>>   {
->>>       struct sii902x *sii902x = bridge_to_sii902x(bridge);
->>> +    u8 output_mode = SII902X_SYS_CTRL_OUTPUT_DVI;
->>>       struct regmap *regmap = sii902x->regmap;
->>>       u8 buf[HDMI_INFOFRAME_SIZE(AVI)];
->>>       struct hdmi_avi_infoframe frame;
->>>       u16 pixel_clock_10kHz = adj->clock / 10;
->>>       int ret;
->>>   +    if (sii902x->sink_is_hdmi)
->>> +        output_mode = SII902X_SYS_CTRL_OUTPUT_HDMI;
->>> +
->>>       buf[0] = pixel_clock_10kHz & 0xff;
->>>       buf[1] = pixel_clock_10kHz >> 8;
->>>       buf[2] = drm_mode_vrefresh(adj);
->>> @@ -375,6 +385,11 @@ static void sii902x_bridge_mode_set(struct
->>> drm_bridge *bridge,
->>>         mutex_lock(&sii902x->mutex);
->>>   +    ret = regmap_update_bits(sii902x->regmap, SII902X_SYS_CTRL_DATA,
->>> +                 SII902X_SYS_CTRL_OUTPUT_MODE, output_mode);
->>> +    if (ret)
->>> +        goto out;
->>> +
->>>       ret = regmap_bulk_write(regmap, SII902X_TPI_VIDEO_DATA, buf, 10);
->>>       if (ret)
->>>           goto out;
->>> @@ -405,13 +420,13 @@ static int sii902x_bridge_attach(struct
->>> drm_bridge *bridge,
->>>                    enum drm_bridge_attach_flags flags)
->>>   {
->>>       struct sii902x *sii902x = bridge_to_sii902x(bridge);
->>> +    u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
->>>       struct drm_device *drm = bridge->dev;
->>>       int ret;
->>>   -    if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
->>> -        DRM_ERROR("Fix bridge driver to make connector optional!");
->>> -        return -EINVAL;
->>> -    }
->>> +    if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
->>> +        return drm_bridge_attach(bridge->encoder, sii902x->next_bridge,
->>> +                     bridge, flags);
->>>         drm_connector_helper_add(&sii902x->connector,
->>>                    &sii902x_connector_helper_funcs);
->>> @@ -433,16 +448,38 @@ static int sii902x_bridge_attach(struct
->>> drm_bridge *bridge,
->>>       else
->>>           sii902x->connector.polled = DRM_CONNECTOR_POLL_CONNECT;
->>>   +    ret =
->>> drm_display_info_set_bus_formats(&sii902x->connector.display_info,
->>> +                           &bus_format, 1);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>>       drm_connector_attach_encoder(&sii902x->connector,
->>> bridge->encoder);
->>>         return 0;
->>>   }
->>>   +static enum drm_connector_status sii902x_bridge_detect(struct
->>> drm_bridge *bridge)
->>> +{
->>> +    struct sii902x *sii902x = bridge_to_sii902x(bridge);
->>> +
->>> +    return sii902x_detect(sii902x);
->>> +}
->>> +
->>> +static struct edid *sii902x_bridge_get_edid(struct drm_bridge *bridge,
->>> +                        struct drm_connector *connector)
->>> +{
->>> +    struct sii902x *sii902x = bridge_to_sii902x(bridge);
->>> +
->>> +    return sii902x_get_edid(sii902x, connector);
->>> +}
->>> +
->>>   static const struct drm_bridge_funcs sii902x_bridge_funcs = {
->>>       .attach = sii902x_bridge_attach,
->>>       .mode_set = sii902x_bridge_mode_set,
->>>       .disable = sii902x_bridge_disable,
->>>       .enable = sii902x_bridge_enable,
->>> +    .detect = sii902x_bridge_detect,
->>> +    .get_edid = sii902x_bridge_get_edid,
->>>   };
->>>     static int sii902x_mute(struct sii902x *sii902x, bool mute)
->>> @@ -829,8 +866,12 @@ static irqreturn_t sii902x_interrupt(int irq,
->>> void *data)
->>>         mutex_unlock(&sii902x->mutex);
->>>   -    if ((status & SII902X_HOTPLUG_EVENT) && sii902x->bridge.dev)
->>> +    if ((status & SII902X_HOTPLUG_EVENT) && sii902x->bridge.dev) {
->>>           drm_helper_hpd_irq_event(sii902x->bridge.dev);
->>> +        drm_bridge_hpd_notify(&sii902x->bridge, (status &
->>> SII902X_PLUGGED_STATUS)
->>> +                                ? connector_status_connected
->>> +                                : connector_status_disconnected);
->>> +    }
->>>         return IRQ_HANDLED;
->>>   }
->>> @@ -1001,6 +1042,11 @@ static int sii902x_init(struct sii902x *sii902x)
->>>       sii902x->bridge.funcs = &sii902x_bridge_funcs;
->>>       sii902x->bridge.of_node = dev->of_node;
->>>       sii902x->bridge.timings = &default_sii902x_timings;
->>> +    sii902x->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
->>> +
->>> +    if (sii902x->i2c->irq > 0)
->>> +        sii902x->bridge.ops |= DRM_BRIDGE_OP_HPD;
->>> +
->>>       drm_bridge_add(&sii902x->bridge);
->>>         sii902x_audio_codec_init(sii902x, dev);
->>> @@ -1022,6 +1068,7 @@ static int sii902x_probe(struct i2c_client
->>> *client,
->>>                const struct i2c_device_id *id)
->>>   {
->>>       struct device *dev = &client->dev;
->>> +    struct device_node *endpoint;
->>>       struct sii902x *sii902x;
->>>       int ret;
->>>   @@ -1049,6 +1096,28 @@ static int sii902x_probe(struct i2c_client
->>> *client,
->>>           return PTR_ERR(sii902x->reset_gpio);
->>>       }
->>>   +    endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
->>> +    if (endpoint) {
->>> +        struct device_node *remote =
->>> of_graph_get_remote_port_parent(endpoint);
->>> +
->>> +        of_node_put(endpoint);
->>> +        if (!remote) {
->>> +            dev_err(dev, "Endpoint in port@1 unconnected\n");
->>> +            return -ENODEV;
->>> +        }
->>> +
->>> +        if (!of_device_is_available(remote)) {
->>> +            dev_err(dev, "port@1 remote device is disabled\n");
->>> +            of_node_put(remote);
->>> +            return -ENODEV;
->>> +        }
->>> +
->>> +        sii902x->next_bridge = of_drm_find_bridge(remote);
->>> +        of_node_put(remote);
->>> +        if (!sii902x->next_bridge)
->>> +            return -EPROBE_DEFER;
->>
->> Hi,
->>
->> This patch broke ARM/QEMU vexpress display because of_drm_find_bridge()
->> always fail with -EPROBE_DEFER. Reverting this patch returns display
->> back. Please fix or revert, thanks in advance.
-> 
-> Can you share a QEMU cmdline to reproduce ?
+Hi Mikhail
 
-qemu-system-arm -cpu cortex-a9 -M vexpress-a9 -smp 2 -m 1024 -kernel
-arch/arm/boot/zImage -dtb arch/arm/boot/dts/vexpress-v2p-ca9.dtb -serial
-stdio -net nic,model=lan9118 -net user
+Looks like this use-after-free problem was introduced on
+90af0ca047f3049c4b46e902f432ad6ef1e2ded6. Checking this patch it seems
+like: if amdgpu_cs_vm_handling return r != 0, then it will unlock
+bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
+amdgpu_cs_parser_fini.
+
+Maybe the following patch will help:
+
+---
+From 71d718c0f53a334bb59bcd5dabd29bbe92c724af Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+Date: Sun, 14 Aug 2022 21:12:24 -0300
+Subject: [PATCH] drm/amdgpu: Fix use-after-free on amdgpu_bo_list mutex
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fixes: 90af0ca047f3 ("drm/amdgpu: Protect the amdgpu_bo_list list with a
+mutex v2")
+Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index d8f1335bc68f..a7fce7b14321 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -837,17 +837,14 @@ static int amdgpu_cs_vm_handling(struct
+amdgpu_cs_parser *p)
+ 			continue;
+
+ 		r = amdgpu_vm_bo_update(adev, bo_va, false);
+-		if (r) {
+-			mutex_unlock(&p->bo_list->bo_list_mutex);
++		if (r)
+ 			return r;
+-		}
+
+ 		r = amdgpu_sync_fence(&p->job->sync, bo_va->last_pt_update);
+-		if (r) {
+-			mutex_unlock(&p->bo_list->bo_list_mutex);
++		if (r)
+ 			return r;
+-		}
+ 	}
++	mutex_unlock(&p->bo_list->bo_list_mutex);
+
+ 	r = amdgpu_vm_handle_moved(adev, vm);
+ 	if (r)
+-- 
+2.37.1
+---
+Best Regards,
+- Maíra Canal
+
+On 8/14/22 18:11, Mikhail Gavrilov wrote:
+> Hi folks.
+> Joined testing 5.20 today (7ebfc85e2cd7).
+> I encountered a frequently GPU freeze, after which a message appears
+> in the kernel logs:
+> [ 220.280990] ------------[ cut here ]------------
+> [ 220.281000] refcount_t: underflow; use-after-free.
+> [ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28
+> refcount_warn_saturate+0xba/0x110
+> [ 220.281029] Modules linked in: uinput rfcomm snd_seq_dummy
+> snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
+> nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
+> nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
+> nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
+> qrtr bnep sunrpc snd_seq_midi snd_seq_midi_event vfat intel_rapl_msr
+> fat intel_rapl_common snd_hda_codec_realtek mt76x2u
+> snd_hda_codec_generic snd_hda_codec_hdmi mt76x2_common iwlmvm
+> mt76x02_usb edac_mce_amd mt76_usb snd_hda_intel snd_intel_dspcfg
+> mt76x02_lib snd_intel_sdw_acpi snd_usb_audio snd_hda_codec mt76
+> kvm_amd uvcvideo mac80211 snd_hda_core btusb eeepc_wmi snd_usbmidi_lib
+> videobuf2_vmalloc videobuf2_memops kvm btrtl snd_rawmidi asus_wmi
+> snd_hwdep videobuf2_v4l2 btbcm iwlwifi ledtrig_audio libarc4 btintel
+> snd_seq videobuf2_common sparse_keymap btmtk irqbypass videodev
+> snd_seq_device joydev xpad iwlmei platform_profile bluetooth
+> ff_memless snd_pcm mc rapl
+> [ 220.281185] video snd_timer cfg80211 wmi_bmof snd pcspkr soundcore
+> k10temp i2c_piix4 rfkill mei asus_ec_sensors acpi_cpufreq zram
+> hid_logitech_hidpp amdgpu igb dca drm_ttm_helper ttm crct10dif_pclmul
+> iommu_v2 crc32_pclmul gpu_sched crc32c_intel ucsi_ccg drm_buddy nvme
+> typec_ucsi ghash_clmulni_intel drm_display_helper ccp nvme_core typec
+> sp5100_tco cec wmi ip6_tables ip_tables fuse
+> [ 220.281258] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
+> amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
+> amd64_edac():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
+> amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
+> pcc_cpufreq():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
+> amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
+> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
+> pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
+> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
+> amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
+> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
+> amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 pcc_cpufreq():1
+> [ 220.281388] pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
+> fjes():1 fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
+> [ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L -------
+> --- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
+> [ 220.281421] Hardware name: System manufacturer System Product
+> Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
+> [ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
+> [ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
+> 7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
+> 6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
+> c7
+> [ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
+> [ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 0000000000000000
+> [ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000ffffffff
+> [ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0d18d7930
+> [ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058ca360400
+> [ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 0000000000000003
+> [ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000)
+> knlGS:0000000000000000
+> [ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 0000000000350ee0
+> [ 220.281480] Call Trace:
+> [ 220.281485] <TASK>
+> [ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
+> [ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> [ 220.282028] drm_ioctl_kernel+0xa4/0x150
+> [ 220.282043] drm_ioctl+0x21f/0x420
+> [ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> [ 220.282275] ? lock_release+0x14f/0x460
+> [ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> [ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> [ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
+> [ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
+> [ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
+> [ 220.282534] __x64_sys_ioctl+0x90/0xd0
+> [ 220.282545] do_syscall_64+0x5b/0x80
+> [ 220.282551] ? futex_wake+0x6c/0x150
+> [ 220.282568] ? lock_is_held_type+0xe8/0x140
+> [ 220.282580] ? do_syscall_64+0x67/0x80
+> [ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
+> [ 220.282592] ? do_syscall_64+0x67/0x80
+> [ 220.282597] ? do_syscall_64+0x67/0x80
+> [ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
+> [ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> [ 220.282616] RIP: 0033:0x7f8282a4f8bf
+> [ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
+> 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
+> 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
+> 00
+> [ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX:
+> 0000000000000010
+> [ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f8282a4f8bf
+> [ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 0000000000000018
+> [ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f82683df4b0
+> [ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000c0186444
+> [ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 0000000000000003
+> [ 220.282689] </TASK>
+> [ 220.282693] irq event stamp: 6232311
+> [ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>]
+> __up_console_sem+0x5e/0x70
+> [ 220.282704] hardirqs last disabled at (6232326):
+> [<ffffffff9718cd63>] __up_console_sem+0x43/0x70
+> [ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>]
+> __irq_exit_rcu+0xf9/0x170
+> [ 220.282716] softirqs last disabled at (6232061):
+> [<ffffffff970ff669>] __irq_exit_rcu+0xf9/0x170
+> [ 220.282722] ---[ end trace 0000000000000000 ]---
+> 
+> 
+> Full kernel log is here:
+> https://pastebin.com/gn01DVxE
+> 
+> My GPU hardware is AMD Radeon 6900XT.
+> 
