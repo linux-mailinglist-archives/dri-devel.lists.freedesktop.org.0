@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45F8592B5A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:10:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AB9592B5B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F40FFAFC77;
-	Mon, 15 Aug 2022 10:09:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E245B0593;
+	Mon, 15 Aug 2022 10:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2976011A288
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:09:16 +0000 (UTC)
-Received: from [IPV6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1] (unknown
- [IPv6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 76D4166016A1;
- Mon, 15 Aug 2022 11:09:14 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660558155;
- bh=IxA0RyRCASMAbomjQ2FWjdpXxwbEqxEzDpKA7fGLa7Q=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=go6c+u43kUxsC/J1y+p7RUVs759KcyhNIhYyXhunR6hhypP/9riSdcsuKp9xYkp9z
- zhxWZeGVtPTWSmnnhLpvXwmlqZUubpnEZ5Rn75kcnFUaMdCAuWKmi4tYq9T3Jwy6Y3
- 2OZZQkT9PP/tBSmpvDs5SFHnzaPpglhOQkYAV3nbdIL+5J5nE6pKG9NVZO6vUuL7Rh
- 7zCsGxGex5LS/fC62BDhwS6clWn0oioBq7sPlILr5ze//9trIq4GRbpsdv/U9Wgykt
- qR0xDhFOJK2vibBgqzspHgpag3ADM+XPkgfYvDrP7s4iXjtWFZQYCG5Iq/UML8QGTY
- GFlSyHuGlBNNQ==
-Message-ID: <134bce02-58d6-8553-bb73-42dfda18a595@collabora.com>
-Date: Mon, 15 Aug 2022 13:09:11 +0300
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0ADA7CEE
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:10:08 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id e27so3813246wra.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 03:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=b0BG6zqNuGD+/4ZeY3ZglvZEqAlCRmK7KBUEnJVhtZY=;
+ b=x0cUGTaM7DOQAD+YM58GNbMGMtq1gCmQlmnmftzyBI29oKOvOdUlbgecFPFJ1BgZ2U
+ tbjw+j+BNQVl5617D4uN38Xk/t/ozPQhcj0zP9x5zHbOMYz42hh6Y3uIIKlA1DIGv29l
+ Zz9pRvJgziux1lNhfbSJCWACFx+5s1VuYbQpW2rlkcGeNAgJjmxfj6HcX6PPlGPCR3i+
+ A54aV6J+phJTrjfuRVi5lDVuAFoJ0fxT74VtsF2UkDfld1p1oeL12QlyZUNVeQsme2Wq
+ 4mxzFzFw5aifvA0PRsOep8QRrYACpu7wzjecti+yimKmReAvpqzMnBQmO6/2lCno20F1
+ ev2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=b0BG6zqNuGD+/4ZeY3ZglvZEqAlCRmK7KBUEnJVhtZY=;
+ b=nObdwhOn44oNlDmr+yrBSkpAl5ial1ibmyBfXlPDXDpJh4iJHqnklzbc+pRneFp/QC
+ oUBQ58LPs2wc7rZDPD1phoy+3Vj/F5fbmRSi6dXVUDkuwzi83NTwR+QrkKHA4XZjTrls
+ cCWZyUj/0/cesCYy+noBdEyNdRX6a+9iOVEmiex+tsBupkGBWwVNMrbYhHMoE7e7kLvz
+ 1GK94qNqNG+1w3Px3ZFrTKOaO1f+ZG5b58LLs8QJpOHgrRNJ7iu6j7JcYTGfbkxPkVoN
+ 9na66XRb7Sz2gRqDOCk/ivGdV3hZcohIOg9+srAsibB5dB0AhE8n6sPFDmrN3roO2ic2
+ l/eA==
+X-Gm-Message-State: ACgBeo09f3CsVA1ezUerClsUqfN2Q2P4cJEhNEF0lDDO4KmoTq/IoDmw
+ prVvLnURD/B9c8KPWzvuxdoBDg==
+X-Google-Smtp-Source: AA6agR5hAfQyfMOqfODbwifOJptkZd3sU12ygFhz9rZ+qe8JD6bOzrF7GiV/dIjhd/OOaU2EJnS8Bw==
+X-Received: by 2002:adf:fa81:0:b0:224:f260:2523 with SMTP id
+ h1-20020adffa81000000b00224f2602523mr5305703wrr.26.1660558206570; 
+ Mon, 15 Aug 2022 03:10:06 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ w5-20020adfee45000000b0020e6ce4dabdsm6693090wro.103.2022.08.15.03.10.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Aug 2022 03:10:06 -0700 (PDT)
+Date: Mon, 15 Aug 2022 11:10:03 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [RESEND PATCH v8 05/12] dt-bindings: backlight: Add MediaTek
+ MT6370 backlight
+Message-ID: <20220815101003.ilgbrxhsqk53i7u3@maple.lan>
+References: <20220815090125.27705-1-peterwu.pub@gmail.com>
+ <20220815090125.27705-6-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220815090125.27705-6-peterwu.pub@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,41 +71,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
+ linux-iio@vger.kernel.org, broonie@kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz,
+ linux-leds@vger.kernel.org, deller@gmx.de, lee@kernel.org,
+ chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
+ mazziesaccount@gmail.com, szunichen@gmail.com, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ andriy.shevchenko@linux.intel.com, linux-arm-kernel@lists.infradead.org,
+ jingoohan1@gmail.com, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ sre@kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/15/22 13:05, Christian König wrote:
-> Am 15.08.22 um 11:54 schrieb Dmitry Osipenko:
->> Higher order pages allocated using alloc_pages() aren't refcounted and
->> they
->> need to be refcounted, otherwise it's impossible to map them by KVM. This
->> patch sets the refcount of the tail pages and fixes the KVM memory
->> mapping
->> faults.
->>
->> Without this change guest virgl driver can't map host buffers into guest
->> and can't provide OpenGL 4.5 profile support to the guest. The host
->> mappings are also needed for enabling the Venus driver using host GPU
->> drivers that are utilizing TTM.
->>
->> Based on a patch proposed by Trigger Huang.
-> 
-> Well I can't count how often I have repeated this: This is an absolutely
-> clear NAK!
-> 
-> TTM pages are not reference counted in the first place and because of
-> this giving them to virgl is illegal.
+On Mon, Aug 15, 2022 at 05:01:18PM +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> Add MT6370 backlight binding documentation.
+>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 
-A? The first page is refcounted when allocated, the tail pages are not.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-> Please immediately stop this completely broken approach. We have
-> discussed this multiple times now.
 
-Could you please give me a link to these discussions?
-
--- 
-Best regards,
-Dmitry
+Daniel.
