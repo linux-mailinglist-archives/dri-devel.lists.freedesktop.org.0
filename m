@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27BB59FFA9
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 18:41:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0BC59FFB4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 18:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB25BBEC0;
-	Wed, 24 Aug 2022 16:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F98BBF57;
+	Wed, 24 Aug 2022 16:43:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9E1EAEED0;
- Mon, 15 Aug 2022 08:03:36 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2A091AD1;
+ Mon, 15 Aug 2022 08:58:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660550616; x=1692086616;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=JlLyLQigQB2gh7Z0RA16HbP1Gz9PymOUgkhDRIw7aAE=;
- b=YITfLnCa1yZpMRrxICXLEoOJ4r8eL0ikTYk3tvcKjVMz6pdEjY1EVdJz
- l/zeexVl9Q68vC+PBCgkaZBvJ6FfEjSB/TcTtpCmnQNyw8xqF5ZJMZDHI
- GLvYLuKNz2dnO5YoglTb7dNn/oeeXLEvHMwBmWpK/MKfjyX68HcyC5+5z
- bU/u+jMy+oeQCrvuasZoCpgaoNupo3qTh1TQ+PS04JoBfoqkYc8dqonVl
- GMmxPyXMz6ZD7G5dfdVNMRzKfMwhmutJcOjgH6A0/Ou9JEV+O95+1kNge
- BwYEv/UzB1bii/k5/zsjcFVKOYhik961Ez+0bcMb5iZhG8bUyh2Pi5Ejb Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10439"; a="292710442"
-X-IronPort-AV: E=Sophos;i="5.93,237,1654585200"; d="scan'208";a="292710442"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2022 01:03:35 -0700
-X-IronPort-AV: E=Sophos;i="5.93,237,1654585200"; d="scan'208";a="666582418"
+ t=1660553925; x=1692089925;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=+QXcJIOXR1vrrsHnPhx+seBgBDzNwvg86mSKHqQu/lE=;
+ b=FEYoDqpdYXC1YQQf4vsTwm5iZWBTO9v9nUgtP6ftu4T6xzSMOBfWrDPg
+ E+CthL+K6ksl/mWAo2APcnJLUhQu5BXZ1iifxM1FyfHZaBP8sLHQfyfm2
+ Cp6RnxDK/7zCG6SDHwDk3xB+3t1oSoSuDABJqQ9hh0IsH2P04EC7s9DaF
+ rWzAGcKxlVrTtOzVJ6XffA60bV12BfQfhWh1SXqRCQBe5W/p42ECRmBRg
+ m2QlTUOxVxNItBXr3rBTXL0BNLHPiwpd2iGmRaVJk2wQKdLMmcSIgRmHd
+ CSoDAQmuRL7TqYP0DJ2z+ahVSDBhfx5ym96Ocz90Uh9p3fAZr0eq/hlf/ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10439"; a="353663519"
+X-IronPort-AV: E=Sophos;i="5.93,238,1654585200"; d="scan'208";a="353663519"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2022 01:58:44 -0700
+X-IronPort-AV: E=Sophos;i="5.93,238,1654585200"; d="scan'208";a="635408161"
 Received: from abelova-mobl2.ccr.corp.intel.com (HELO localhost)
  ([10.252.50.172])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2022 01:03:32 -0700
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2022 01:58:43 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v6 5/8] drm/i915: Check for integer truncation on the
- configuration of ttm place
-In-Reply-To: <20220813010857.4043956-6-gwan-gyeong.mun@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220813010857.4043956-1-gwan-gyeong.mun@intel.com>
- <20220813010857.4043956-6-gwan-gyeong.mun@intel.com>
-Date: Mon, 15 Aug 2022 11:03:29 +0300
-Message-ID: <877d3arl0u.fsf@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/dp: add drm_dp_phy_name() for getting DP PHY name
+Date: Mon, 15 Aug 2022 11:58:34 +0300
+Message-Id: <b08dc12a7e621a48ec35546d6cd1ed4b1434810d.1660553850.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1660553850.git.jani.nikula@intel.com>
+References: <cover.1660553850.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,130 +58,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, andi.shyti@linux.intel.com,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- andrzej.hajda@intel.com, matthew.auld@intel.com, mchehab@kernel.org,
- nirmoy.das@intel.com
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 13 Aug 2022, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
-> There is an impedance mismatch between the first/last valid page
-> frame number of ttm place in unsigned and our memory/page accounting in
-> unsigned long.
-> As the object size is under the control of userspace, we have to be prude=
-nt
-> and catch the conversion errors.
-> To catch the implicit truncation as we switch from unsigned long to
-> unsigned, we use overflows_type check and report E2BIG or overflow_type
-> prior to the operation.
->
-> v3: Not to change execution inside a macro. (Mauro)
->     Add safe_conversion_gem_bug_on() macro and remove temporal
->     SAFE_CONVERSION() macro.
-> v4: Fix unhandled GEM_BUG_ON() macro call from safe_conversion_gem_bug_on=
-()
-> v6: Fix to follow general use case for GEM_BUG_ON(). (Jani)
->
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> (v2)
-> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org> (v3)
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> (v5)
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  6 +++---
->  drivers/gpu/drm/i915/intel_region_ttm.c | 22 +++++++++++++++++++---
->  2 files changed, 22 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
-15/gem/i915_gem_ttm.c
-> index 9f2be1892b6c..30f488712abe 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -140,14 +140,14 @@ i915_ttm_place_from_region(const struct intel_memor=
-y_region *mr,
->  	if (flags & I915_BO_ALLOC_CONTIGUOUS)
->  		place->flags |=3D TTM_PL_FLAG_CONTIGUOUS;
->  	if (offset !=3D I915_BO_INVALID_OFFSET) {
-> -		place->fpfn =3D offset >> PAGE_SHIFT;
-> -		place->lpfn =3D place->fpfn + (size >> PAGE_SHIFT);
-> +		GEM_BUG_ON(!safe_conversion(&place->fpfn, offset >> PAGE_SHIFT));
-> +		GEM_BUG_ON(!safe_conversion(&place->lpfn, place->fpfn + (size >> PAGE_=
-SHIFT)));
+Add a helper for getting the DP PHY name. In the interest of caller
+simplicity and to avoid allocations and passing in of buffers, duplicate
+the const strings to return. It's a minor penalty to pay for simplicity
+in all the call sites.
 
-This would be the natural thing to do with BUG_ON/WARN_ON. And I'd like
-it if we could use it like this. But, as I tried to say, GEM_BUG_ON is
-nothing like BUG_ON/WARN_ON, and no code is generated for
-CONFIG_DRM_I915_DEBUG_GEM=3Dn. And our CI will never catch it because it
-always has CONFIG_DRM_I915_DEBUG_GEM=3Dy.
+v2: Rebase, add kernel-doc, ensure non-NULL always
 
-BR,
-Jani.
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com> # v1
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c | 32 +++++++++++++++++++++++++
+ include/drm/display/drm_dp_helper.h     |  2 ++
+ 2 files changed, 34 insertions(+)
 
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 32b295003f49..92990a3d577a 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -390,6 +390,38 @@ void drm_dp_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
+ }
+ EXPORT_SYMBOL(drm_dp_link_train_channel_eq_delay);
+ 
++/**
++ * drm_dp_phy_name() - Get the name of the given DP PHY
++ * @dp_phy: The DP PHY identifier
++ *
++ * Given the @dp_phy, get a user friendly name of the DP PHY, either "DPRX" or
++ * "LTTPR <N>", or "<INVALID DP PHY>" on errors. The returned string is always
++ * non-NULL and valid.
++ *
++ * Returns: Name of the DP PHY.
++ */
++const char *drm_dp_phy_name(enum drm_dp_phy dp_phy)
++{
++	static const char * const phy_names[] = {
++		[DP_PHY_DPRX] = "DPRX",
++		[DP_PHY_LTTPR1] = "LTTPR 1",
++		[DP_PHY_LTTPR2] = "LTTPR 2",
++		[DP_PHY_LTTPR3] = "LTTPR 3",
++		[DP_PHY_LTTPR4] = "LTTPR 4",
++		[DP_PHY_LTTPR5] = "LTTPR 5",
++		[DP_PHY_LTTPR6] = "LTTPR 6",
++		[DP_PHY_LTTPR7] = "LTTPR 7",
++		[DP_PHY_LTTPR8] = "LTTPR 8",
++	};
++
++	if (dp_phy < 0 || dp_phy >= ARRAY_SIZE(phy_names) ||
++	    WARN_ON(!phy_names[dp_phy]))
++		return "<INVALID DP PHY>";
++
++	return phy_names[dp_phy];
++}
++EXPORT_SYMBOL(drm_dp_phy_name);
++
+ void drm_dp_lttpr_link_train_clock_recovery_delay(void)
+ {
+ 	usleep_range(100, 200);
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index db0fe9f8a612..ab55453f2d2c 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -69,6 +69,8 @@ bool drm_dp_128b132b_link_training_failed(const u8 link_status[DP_LINK_STATUS_SI
+ u8 drm_dp_link_rate_to_bw_code(int link_rate);
+ int drm_dp_bw_code_to_link_rate(u8 link_bw);
+ 
++const char *drm_dp_phy_name(enum drm_dp_phy dp_phy);
++
+ /**
+  * struct drm_dp_vsc_sdp - drm DP VSC SDP
+  *
+-- 
+2.34.1
 
->  	} else if (mr->io_size && mr->io_size < mr->total) {
->  		if (flags & I915_BO_ALLOC_GPU_ONLY) {
->  			place->flags |=3D TTM_PL_FLAG_TOPDOWN;
->  		} else {
->  			place->fpfn =3D 0;
-> -			place->lpfn =3D mr->io_size >> PAGE_SHIFT;
-> +			GEM_BUG_ON(!safe_conversion(&place->lpfn, mr->io_size >> PAGE_SHIFT));
->  		}
->  	}
->  }
-> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i9=
-15/intel_region_ttm.c
-> index 575d67bc6ffe..c480b0b50bcc 100644
-> --- a/drivers/gpu/drm/i915/intel_region_ttm.c
-> +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-> @@ -209,14 +209,28 @@ intel_region_ttm_resource_alloc(struct intel_memory=
-_region *mem,
->  	if (flags & I915_BO_ALLOC_CONTIGUOUS)
->  		place.flags |=3D TTM_PL_FLAG_CONTIGUOUS;
->  	if (offset !=3D I915_BO_INVALID_OFFSET) {
-> -		place.fpfn =3D offset >> PAGE_SHIFT;
-> -		place.lpfn =3D place.fpfn + (size >> PAGE_SHIFT);
-> +		if (!safe_conversion(&place.fpfn, offset >> PAGE_SHIFT)) {
-> +			GEM_BUG_ON(!safe_conversion(&place.fpfn,offset >> PAGE_SHIFT));
-> +			ret =3D -E2BIG;
-> +			goto out;
-> +		}
-> +		if (!safe_conversion(&place.lpfn, place.fpfn + (size >> PAGE_SHIFT))) {
-> +			GEM_BUG_ON(!safe_conversion(&place.lpfn,
-> +						    place.fpfn + (size >> PAGE_SHIFT)));
-> +			ret =3D -E2BIG;
-> +			goto out;
-> +		}
->  	} else if (mem->io_size && mem->io_size < mem->total) {
->  		if (flags & I915_BO_ALLOC_GPU_ONLY) {
->  			place.flags |=3D TTM_PL_FLAG_TOPDOWN;
->  		} else {
->  			place.fpfn =3D 0;
-> -			place.lpfn =3D mem->io_size >> PAGE_SHIFT;
-> +			if (!safe_conversion(&place.lpfn, mem->io_size >> PAGE_SHIFT)) {
-> +				GEM_BUG_ON(!safe_conversion(&place.lpfn,
-> +							    mem->io_size >> PAGE_SHIFT));
-> +				ret =3D -E2BIG;
-> +				goto out;
-> +			}
->  		}
->  	}
->=20=20
-> @@ -224,6 +238,8 @@ intel_region_ttm_resource_alloc(struct intel_memory_r=
-egion *mem,
->  	mock_bo.bdev =3D &mem->i915->bdev;
->=20=20
->  	ret =3D man->func->alloc(man, &mock_bo, &place, &res);
-> +
-> +out:
->  	if (ret =3D=3D -ENOSPC)
->  		ret =3D -ENXIO;
->  	if (!ret)
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
