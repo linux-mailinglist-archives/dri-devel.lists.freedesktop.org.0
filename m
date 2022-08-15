@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C27C5935D7
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 20:45:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD875935D2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 20:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4208D182D;
-	Mon, 15 Aug 2022 18:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F921D179B;
+	Mon, 15 Aug 2022 18:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B84ED163A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 18:43:25 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FEqPCw019609;
- Mon, 15 Aug 2022 18:43:21 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39EE9D165E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 18:43:26 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FI1EeB005530;
+ Mon, 15 Aug 2022 18:43:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=7k2KNNNcv1NlL20+H1Kb55Si1O03wQ/BH/0JPsdMe1M=;
- b=fgpmOyN4iBKm3QxlbLqnAJ530pD2Ri+yvSnxi654VPQZUFrleB+L+hpNY22sJkg1ndRE
- gtgLJxHBIJWRmNEecpCZG6NaRPG9KMJMPcxPh7GSQyiwKilmq957NhYfgnIdgDuEecBR
- JgZxWs30tqUOAT8ZiJhUOiPlgBABVBCDFaRhaa6/TI0Lkb4lMSVXzatC2+LFbfuGoASe
- Tg44Rqgg0WgP0uDrGhkyZY4eduYWDgP+SwZWO3Pm820dASXReU/h7y00hLkR0q0+fjZp
- pIR8MVUiW6y3Ez+pdco6d84aJYE16MWxtWeDS2YsYDPel9BOJq0D/1EG8MvfTNkJ3xWi GQ== 
+ bh=p8kQzWwmkE3KMqRHvpu/MqXRiD9ltGQciMmCkDrQn9Q=;
+ b=I9prnWv6Yr99e+hS6QBa6IYFkQM2TKKcIh2BE4CSm7A7VcJNrbu15B7r5HqKb3sXGgr7
+ VXf8Vj7QhqoPTHqgHcKkA+KRSKhLmh2G3ql6Pdu2OQhkTAyO+2IzAqlJNEcaMMg9wap5
+ nM9DcTutXFwwd9rLmTHn8IHnJMM6UWWoXr1FfOWL4jJeEpKfg3yi9U/5c2eontktY2Ot
+ NoQ+kLKiJsdp8Hvl8vNIS0JsuxLXOX7Q6ID5OeT0SrF1Y8l96qPn/6+XePOSKaABOrqa
+ kothYh6va8PsXQE8J4wtn8fvP5pzAUOVRg8kdHyGe+rOoQvEskhmfvHqfUJ9C5yz2gea bQ== 
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hx54sx0vg-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hx4qpx2my-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Aug 2022 18:43:21 +0000
+ Mon, 15 Aug 2022 18:43:22 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27FIhKge028382
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27FIhM1t028389
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Aug 2022 18:43:20 GMT
+ Mon, 15 Aug 2022 18:43:22 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 15 Aug 2022 11:43:19 -0700
+ 15.2.986.22; Mon, 15 Aug 2022 11:43:21 -0700
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <airlied@linux.ie>, <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <tzimmermann@suse.de>
-Subject: [RFC PATCH 11/14] drm/qaic: Add telemetry
-Date: Mon, 15 Aug 2022 12:42:33 -0600
-Message-ID: <1660588956-24027-12-git-send-email-quic_jhugo@quicinc.com>
+Subject: [RFC PATCH 12/14] drm/qaic: Add tracepoints
+Date: Mon, 15 Aug 2022 12:42:34 -0600
+Message-ID: <1660588956-24027-13-git-send-email-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com>
 References: <1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com>
@@ -58,16 +58,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 0WJtV8Um0yZAVkBFlPcCuXx89O8AamUl
-X-Proofpoint-ORIG-GUID: 0WJtV8Um0yZAVkBFlPcCuXx89O8AamUl
+X-Proofpoint-ORIG-GUID: NqSPTkvZQCQvixCAOwq8der_Fvl0CFQP
+X-Proofpoint-GUID: NqSPTkvZQCQvixCAOwq8der_Fvl0CFQP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-15_08,2022-08-15_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
- clxscore=1015 suspectscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 mlxscore=0 phishscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 impostorscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208150070
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,897 +87,514 @@ Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A QAIC device has a number of attributes like thermal limits which can be
-read and in some cases, controlled from the host.  Expose these attributes
-via hwmon.  Use the pre-defined interface where possible, but define
-custom interfaces where it is not possible.
+Add QAIC specific tracepoints which can be useful in debugging issues.
 
-Change-Id: I3b559baed4016e27457658c9286f4c529f95dbbb
+Change-Id: I8cde015990d5a3482dbba142cf0a4bbb4512cb02
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/gpu/drm/qaic/qaic_telemetry.c | 851 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/qaic/qaic_telemetry.h |  14 +
- 2 files changed, 865 insertions(+)
- create mode 100644 drivers/gpu/drm/qaic/qaic_telemetry.c
- create mode 100644 drivers/gpu/drm/qaic/qaic_telemetry.h
+ drivers/gpu/drm/qaic/qaic_trace.h | 493 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 493 insertions(+)
+ create mode 100644 drivers/gpu/drm/qaic/qaic_trace.h
 
-diff --git a/drivers/gpu/drm/qaic/qaic_telemetry.c b/drivers/gpu/drm/qaic/qaic_telemetry.c
+diff --git a/drivers/gpu/drm/qaic/qaic_trace.h b/drivers/gpu/drm/qaic/qaic_trace.h
 new file mode 100644
-index 0000000..44950d1
+index 0000000..0be824eb
 --- /dev/null
-+++ b/drivers/gpu/drm/qaic/qaic_telemetry.c
-@@ -0,0 +1,851 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/* Copyright (c) 2020-2021, The Linux Foundation. All rights reserved. */
-+/* Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved. */
-+
-+#include <asm/byteorder.h>
-+#include <linux/completion.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/kernel.h>
-+#include <linux/kref.h>
-+#include <linux/list.h>
-+#include <linux/mhi.h>
-+#include <linux/mutex.h>
-+#include <linux/srcu.h>
-+#include <linux/workqueue.h>
-+
-+#include "qaic.h"
-+#include "qaic_telemetry.h"
-+
-+#if defined(CONFIG_QAIC_HWMON)
-+
-+#define MAGIC		0x55AA
-+#define VERSION		0x1
-+#define RESP_TIMEOUT	(1 * HZ)
-+
-+enum cmds {
-+	CMD_THERMAL_SOC_TEMP,
-+	CMD_THERMAL_SOC_MAX_TEMP,
-+	CMD_THERMAL_BOARD_TEMP,
-+	CMD_THERMAL_BOARD_MAX_TEMP,
-+	CMD_THERMAL_DDR_TEMP,
-+	CMD_THERMAL_WARNING_TEMP,
-+	CMD_THERMAL_SHUTDOWN_TEMP,
-+	CMD_CURRENT_TDP,
-+	CMD_BOARD_POWER,
-+	CMD_POWER_STATE,
-+	CMD_POWER_MAX,
-+	CMD_THROTTLE_PERCENT,
-+	CMD_THROTTLE_TIME,
-+	CMD_UPTIME,
-+	CMD_THERMAL_SOC_FLOOR_TEMP,
-+	CMD_THERMAL_SOC_CEILING_TEMP,
-+};
-+
-+enum cmd_type {
-+	TYPE_READ,  /* read value from device */
-+	TYPE_WRITE, /* write value to device */
-+};
-+
-+enum msg_type {
-+	MSG_PUSH, /* async push from device */
-+	MSG_REQ,  /* sync request to device */
-+	MSG_RESP, /* sync response from device */
-+};
-+
-+struct telemetry_data {
-+	u8	cmd;
-+	u8	cmd_type;
-+	u8	status;
-+	__le64	val; /*signed*/
-+} __packed;
-+
-+struct telemetry_header {
-+	__le16	magic;
-+	__le16	ver;
-+	__le32	seq_num;
-+	u8	type;
-+	u8	id;
-+	__le16	len;
-+} __packed;
-+
-+struct telemetry_msg { /* little endian encoded */
-+	struct telemetry_header hdr;
-+	struct telemetry_data data;
-+} __packed;
-+
-+struct wrapper_msg {
-+	struct kref ref_count;
-+	struct telemetry_msg msg;
-+};
-+
-+struct xfer_queue_elem {
-+	/*
-+	 * Node in list of ongoing transfer request on telemetry channel.
-+	 * Maintained by root device struct
-+	 */
-+	struct list_head list;
-+	/* Sequence number of this transfer request */
-+	u32 seq_num;
-+	/* This is used to wait on until completion of transfer request */
-+	struct completion xfer_done;
-+	/* Received data from device */
-+	void *buf;
-+};
-+
-+struct resp_work {
-+	/* Work struct to schedule work coming on QAIC_TELEMETRY channel */
-+	struct work_struct work;
-+	/* Root struct of device, used to access device resources */
-+	struct qaic_device *qdev;
-+	/* Buffer used by MHI for transfer requests */
-+	void *buf;
-+};
-+
-+static void free_wrapper(struct kref *ref)
-+{
-+	struct wrapper_msg *wrapper = container_of(ref, struct wrapper_msg,
-+						   ref_count);
-+
-+	kfree(wrapper);
-+}
-+
-+static int telemetry_request(struct qaic_device *qdev, u8 cmd, u8 cmd_type,
-+			     s64 *val)
-+{
-+	struct wrapper_msg *wrapper;
-+	struct xfer_queue_elem elem;
-+	struct telemetry_msg *resp;
-+	struct telemetry_msg *req;
-+	long ret = 0;
-+
-+	wrapper = kzalloc(sizeof(*wrapper), GFP_KERNEL);
-+	if (!wrapper)
-+		return -ENOMEM;
-+
-+	kref_init(&wrapper->ref_count);
-+	req = &wrapper->msg;
-+
-+	ret = mutex_lock_interruptible(&qdev->tele_mutex);
-+	if (ret)
-+		goto free_req;
-+
-+	req->hdr.magic = cpu_to_le16(MAGIC);
-+	req->hdr.ver = cpu_to_le16(VERSION);
-+	req->hdr.seq_num = cpu_to_le32(qdev->tele_next_seq_num++);
-+	req->hdr.type = MSG_REQ;
-+	req->hdr.id = 0;
-+	req->hdr.len = cpu_to_le16(sizeof(req->data));
-+
-+	req->data.cmd = cmd;
-+	req->data.cmd_type = cmd_type;
-+	req->data.status = 0;
-+	if (cmd_type == TYPE_READ)
-+		req->data.val = cpu_to_le64(0);
-+	else
-+		req->data.val = cpu_to_le64(*val);
-+
-+	elem.seq_num = qdev->tele_next_seq_num - 1;
-+	elem.buf = NULL;
-+	init_completion(&elem.xfer_done);
-+	if (likely(!qdev->tele_lost_buf)) {
-+		resp = kmalloc(sizeof(*resp), GFP_KERNEL);
-+		if (!resp) {
-+			mutex_unlock(&qdev->tele_mutex);
-+			ret = -ENOMEM;
-+			goto free_req;
-+		}
-+
-+		ret = mhi_queue_buf(qdev->tele_ch, DMA_FROM_DEVICE,
-+				    resp, sizeof(*resp), MHI_EOT);
-+		if (ret) {
-+			mutex_unlock(&qdev->tele_mutex);
-+			goto free_resp;
-+		}
-+	} else {
-+		/*
-+		 * we lost a buffer because we queued a recv buf, but then
-+		 * queuing the corresponding tx buf failed.  To try to avoid
-+		 * a memory leak, lets reclaim it and use it for this
-+		 * transaction.
-+		 */
-+		qdev->tele_lost_buf = false;
-+	}
-+
-+	kref_get(&wrapper->ref_count);
-+	ret = mhi_queue_buf(qdev->tele_ch, DMA_TO_DEVICE, req, sizeof(*req),
-+			    MHI_EOT);
-+	if (ret) {
-+		qdev->tele_lost_buf = true;
-+		kref_put(&wrapper->ref_count, free_wrapper);
-+		mutex_unlock(&qdev->tele_mutex);
-+		goto free_req;
-+	}
-+
-+	list_add_tail(&elem.list, &qdev->tele_xfer_list);
-+	mutex_unlock(&qdev->tele_mutex);
-+
-+	ret = wait_for_completion_interruptible_timeout(&elem.xfer_done,
-+							RESP_TIMEOUT);
-+	/*
-+	 * not using _interruptable because we have to cleanup or we'll
-+	 * likely cause memory corruption
-+	 */
-+	mutex_lock(&qdev->tele_mutex);
-+	if (!list_empty(&elem.list))
-+		list_del(&elem.list);
-+	if (!ret && !elem.buf)
-+		ret = -ETIMEDOUT;
-+	else if (ret > 0 && !elem.buf)
-+		ret = -EIO;
-+	mutex_unlock(&qdev->tele_mutex);
-+
-+	resp = elem.buf;
-+
-+	if (ret < 0)
-+		goto free_resp;
-+
-+	if (le16_to_cpu(resp->hdr.magic) != MAGIC ||
-+	    le16_to_cpu(resp->hdr.ver) != VERSION ||
-+	    resp->hdr.type != MSG_RESP ||
-+	    resp->hdr.id != 0 ||
-+	    le16_to_cpu(resp->hdr.len) != sizeof(resp->data) ||
-+	    resp->data.cmd != cmd ||
-+	    resp->data.cmd_type != cmd_type ||
-+	    resp->data.status) {
-+		ret = -EINVAL;
-+		goto free_resp;
-+	}
-+
-+	if (cmd_type == TYPE_READ)
-+		*val = le64_to_cpu(resp->data.val);
-+
-+	ret = 0;
-+
-+free_resp:
-+	kfree(resp);
-+free_req:
-+	kref_put(&wrapper->ref_count, free_wrapper);
-+
-+	return ret;
-+}
-+
-+static ssize_t throttle_percent_show(struct device *dev,
-+				     struct device_attribute *a, char *buf)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	s64 val = 0;
-+	int rcu_id;
-+	int ret;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_THROTTLE_PERCENT, TYPE_READ, &val);
-+
-+	if (ret) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return ret;
-+	}
-+
-+	/*
-+	 * The percent the device performance is being throttled to meet
-+	 * the limits.  IE performance is throttled 20% to meet power/thermal/
-+	 * etc limits.
-+	 */
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return sprintf(buf, "%lld\n", val);
-+}
-+
-+static SENSOR_DEVICE_ATTR_RO(throttle_percent, throttle_percent, 0);
-+
-+static ssize_t throttle_time_show(struct device *dev,
-+				  struct device_attribute *a, char *buf)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	s64 val = 0;
-+	int rcu_id;
-+	int ret;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_THROTTLE_TIME, TYPE_READ, &val);
-+
-+	if (ret) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return ret;
-+	}
-+
-+	/* The time, in seconds, the device has been in a throttled state */
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return sprintf(buf, "%lld\n", val);
-+}
-+
-+static SENSOR_DEVICE_ATTR_RO(throttle_time, throttle_time, 0);
-+
-+static ssize_t power_level_show(struct device *dev, struct device_attribute *a,
-+				char *buf)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	s64 val = 0;
-+	int rcu_id;
-+	int ret;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_POWER_STATE, TYPE_READ, &val);
-+
-+	if (ret) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return ret;
-+	}
-+
-+	/*
-+	 * Power level the device is operating at.  What is the upper limit
-+	 * it is allowed to consume.
-+	 * 1 - full power
-+	 * 2 - reduced power
-+	 * 3 - minimal power
-+	 */
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return sprintf(buf, "%lld\n", val);
-+}
-+
-+static ssize_t power_level_store(struct device *dev, struct device_attribute *a,
-+				 const char *buf, size_t count)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	int rcu_id;
-+	s64 val;
-+	int ret;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	if (kstrtol(buf, 10, (long *)&val)) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -EINVAL;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_POWER_STATE, TYPE_WRITE, &val);
-+
-+	if (ret) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return ret;
-+	}
-+
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return count;
-+}
-+
-+static SENSOR_DEVICE_ATTR_RW(power_level, power_level, 0);
-+
-+static struct attribute *power_attrs[] = {
-+	&sensor_dev_attr_power_level.dev_attr.attr,
-+	&sensor_dev_attr_throttle_percent.dev_attr.attr,
-+	&sensor_dev_attr_throttle_time.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group power_group = {
-+	.attrs = power_attrs,
-+};
-+
-+static ssize_t uptime_show(struct device *dev,
-+			   struct device_attribute *a, char *buf)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	s64 val = 0;
-+	int rcu_id;
-+	int ret;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_UPTIME, TYPE_READ, &val);
-+
-+	if (ret) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return ret;
-+	}
-+
-+	/* The time, in seconds, the device has been up */
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return sprintf(buf, "%lld\n", val);
-+}
-+
-+static SENSOR_DEVICE_ATTR_RO(uptime, uptime, 0);
-+
-+static struct attribute *uptime_attrs[] = {
-+	&sensor_dev_attr_uptime.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group uptime_group = {
-+	.attrs = uptime_attrs,
-+};
-+
-+static ssize_t soc_temp_floor_show(struct device *dev,
-+				   struct device_attribute *a, char *buf)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	int rcu_id;
-+	int ret;
-+	s64 val;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		ret = -ENODEV;
-+		goto exit;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_THERMAL_SOC_FLOOR_TEMP,
-+				TYPE_READ, &val);
-+	if (ret)
-+		goto exit;
-+
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return sprintf(buf, "%lld\n", val * 1000);
-+
-+exit:
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return ret;
-+}
-+
-+static SENSOR_DEVICE_ATTR_RO(temp2_floor, soc_temp_floor, 0);
-+
-+static ssize_t soc_temp_ceiling_show(struct device *dev,
-+				     struct device_attribute *a, char *buf)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	int rcu_id;
-+	int ret;
-+	s64 val;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		ret = -ENODEV;
-+		goto exit;
-+	}
-+
-+	ret = telemetry_request(qdev, CMD_THERMAL_SOC_CEILING_TEMP,
-+				TYPE_READ, &val);
-+	if (ret)
-+		goto exit;
-+
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return sprintf(buf, "%lld\n", val * 1000);
-+
-+exit:
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return ret;
-+}
-+
-+static SENSOR_DEVICE_ATTR_RO(temp2_ceiling, soc_temp_ceiling, 0);
-+
-+static struct attribute *temp2_attrs[] = {
-+	&sensor_dev_attr_temp2_floor.dev_attr.attr,
-+	&sensor_dev_attr_temp2_ceiling.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group temp2_group = {
-+	.attrs = temp2_attrs,
-+};
-+
-+static umode_t qaic_is_visible(const void *data, enum hwmon_sensor_types type,
-+			       u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_power:
-+		switch (attr) {
-+		case hwmon_power_max:
-+			return 0644;
-+		default:
-+			return 0444;
-+		}
-+		break;
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_input:
-+			fallthrough;
-+		case hwmon_temp_highest:
-+			fallthrough;
-+		case hwmon_temp_alarm:
-+			return 0444;
-+		case hwmon_temp_crit:
-+			fallthrough;
-+		case hwmon_temp_emergency:
-+			return 0644;
-+		}
-+		break;
-+	default:
-+		return 0;
-+	}
-+	return 0;
-+}
-+
-+static int qaic_read(struct device *dev, enum hwmon_sensor_types type,
-+		     u32 attr, int channel, long *vall)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	int ret = -EOPNOTSUPP;
-+	s64 val = 0;
-+	int rcu_id;
-+	u8 cmd;
-+
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	switch (type) {
-+	case hwmon_power:
-+		switch (attr) {
-+		case hwmon_power_max:
-+			ret = telemetry_request(qdev, CMD_CURRENT_TDP,
-+						TYPE_READ, &val);
-+			val *= 1000000;
-+			goto exit;
-+		case hwmon_power_input:
-+			ret = telemetry_request(qdev, CMD_BOARD_POWER,
-+						TYPE_READ, &val);
-+			val *= 1000000;
-+			goto exit;
-+		default:
-+			goto exit;
-+		}
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_crit:
-+			ret = telemetry_request(qdev, CMD_THERMAL_WARNING_TEMP,
-+						TYPE_READ, &val);
-+			val *= 1000;
-+			goto exit;
-+		case hwmon_temp_emergency:
-+			ret = telemetry_request(qdev, CMD_THERMAL_SHUTDOWN_TEMP,
-+						TYPE_READ, &val);
-+			val *= 1000;
-+			goto exit;
-+		case hwmon_temp_alarm:
-+			ret = telemetry_request(qdev, CMD_THERMAL_DDR_TEMP,
-+						TYPE_READ, &val);
-+			goto exit;
-+		case hwmon_temp_input:
-+			if (channel == 0)
-+				cmd = CMD_THERMAL_BOARD_TEMP;
-+			else if (channel == 1)
-+				cmd = CMD_THERMAL_SOC_TEMP;
-+			else
-+				goto exit;
-+			ret = telemetry_request(qdev, cmd, TYPE_READ, &val);
-+			val *= 1000;
-+			goto exit;
-+		case hwmon_temp_highest:
-+			if (channel == 0)
-+				cmd = CMD_THERMAL_BOARD_MAX_TEMP;
-+			else if (channel == 1)
-+				cmd = CMD_THERMAL_SOC_MAX_TEMP;
-+			else
-+				goto exit;
-+			ret = telemetry_request(qdev, cmd, TYPE_READ, &val);
-+			val *= 1000;
-+			goto exit;
-+		default:
-+			goto exit;
-+		}
-+	default:
-+		goto exit;
-+	}
-+
-+exit:
-+	*vall = (long)val;
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return ret;
-+}
-+
-+static int qaic_write(struct device *dev, enum hwmon_sensor_types type,
-+		      u32 attr, int channel, long vall)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(dev);
-+	int ret = -EOPNOTSUPP;
-+	int rcu_id;
-+	s64 val;
-+
-+	val = vall;
-+	rcu_id = srcu_read_lock(&qdev->dev_lock);
-+	if (qdev->in_reset) {
-+		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+		return -ENODEV;
-+	}
-+
-+	switch (type) {
-+	case hwmon_power:
-+		switch (attr) {
-+		case hwmon_power_max:
-+			val /= 1000000;
-+			ret = telemetry_request(qdev, CMD_CURRENT_TDP,
-+						TYPE_WRITE, &val);
-+			goto exit;
-+		default:
-+			goto exit;
-+		}
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_crit:
-+			val /= 1000;
-+			ret = telemetry_request(qdev, CMD_THERMAL_WARNING_TEMP,
-+						TYPE_WRITE, &val);
-+			goto exit;
-+		case hwmon_temp_emergency:
-+			val /= 1000;
-+			ret = telemetry_request(qdev, CMD_THERMAL_SHUTDOWN_TEMP,
-+						TYPE_WRITE, &val);
-+			goto exit;
-+		default:
-+			goto exit;
-+		}
-+	default:
-+		goto exit;
-+	}
-+
-+exit:
-+	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-+	return ret;
-+}
-+
-+static const struct attribute_group *special_groups[] = {
-+	&power_group,
-+	&uptime_group,
-+	&temp2_group,
-+	NULL,
-+};
-+
-+static const struct hwmon_ops qaic_ops = {
-+	.is_visible = qaic_is_visible,
-+	.read = qaic_read,
-+	.write = qaic_write,
-+};
-+
-+static const u32 qaic_config_temp[] = {
-+	/* board level */
-+	HWMON_T_INPUT | HWMON_T_HIGHEST,
-+	/* SoC level */
-+	HWMON_T_INPUT | HWMON_T_HIGHEST | HWMON_T_CRIT | HWMON_T_EMERGENCY,
-+	/* DDR level */
-+	HWMON_T_ALARM,
-+	0
-+};
-+
-+static const struct hwmon_channel_info qaic_temp = {
-+	.type = hwmon_temp,
-+	.config = qaic_config_temp,
-+};
-+
-+static const u32 qaic_config_power[] = {
-+	HWMON_P_INPUT | HWMON_P_MAX, /* board level */
-+	0
-+};
-+
-+static const struct hwmon_channel_info qaic_power = {
-+	.type = hwmon_power,
-+	.config = qaic_config_power,
-+};
-+
-+static const struct hwmon_channel_info *qaic_info[] = {
-+	&qaic_power,
-+	&qaic_temp,
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info qaic_chip_info = {
-+	.ops = &qaic_ops,
-+	.info = qaic_info
-+};
-+
-+static int qaic_telemetry_mhi_probe(struct mhi_device *mhi_dev,
-+				    const struct mhi_device_id *id)
-+{
-+	struct qaic_device *qdev;
-+	int ret;
-+
-+	qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
-+
-+	dev_set_drvdata(&mhi_dev->dev, qdev);
-+	qdev->tele_ch = mhi_dev;
-+	qdev->tele_lost_buf = false;
-+	ret = mhi_prepare_for_transfer(qdev->tele_ch);
-+
-+	if (ret)
-+		return ret;
-+
-+	qdev->hwmon = hwmon_device_register_with_info(&qdev->pdev->dev, "qaic",
-+						      qdev, &qaic_chip_info,
-+						      special_groups);
-+	if (!qdev->hwmon) {
-+		mhi_unprepare_from_transfer(qdev->tele_ch);
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
-+static void qaic_telemetry_mhi_remove(struct mhi_device *mhi_dev)
-+{
-+	struct qaic_device *qdev;
-+
-+	qdev = dev_get_drvdata(&mhi_dev->dev);
-+	hwmon_device_unregister(qdev->hwmon);
-+	mhi_unprepare_from_transfer(qdev->tele_ch);
-+	qdev->tele_ch = NULL;
-+	qdev->hwmon = NULL;
-+}
-+
-+static void resp_worker(struct work_struct *work)
-+{
-+	struct resp_work *resp = container_of(work, struct resp_work, work);
-+	struct qaic_device *qdev = resp->qdev;
-+	struct telemetry_msg *msg = resp->buf;
-+	struct xfer_queue_elem *elem;
-+	struct xfer_queue_elem *i;
-+	bool found = false;
-+
-+	if (le16_to_cpu(msg->hdr.magic) != MAGIC) {
-+		kfree(msg);
-+		kfree(resp);
-+		return;
-+	}
-+
-+	mutex_lock(&qdev->tele_mutex);
-+	list_for_each_entry_safe(elem, i, &qdev->tele_xfer_list, list) {
-+		if (elem->seq_num == le32_to_cpu(msg->hdr.seq_num)) {
-+			found = true;
-+			list_del_init(&elem->list);
-+			elem->buf = msg;
-+			complete_all(&elem->xfer_done);
-+			break;
-+		}
-+	}
-+	mutex_unlock(&qdev->tele_mutex);
-+
-+	if (!found)
-+		/* request must have timed out, drop packet */
-+		kfree(msg);
-+
-+	kfree(resp);
-+}
-+
-+static void qaic_telemetry_mhi_ul_xfer_cb(struct mhi_device *mhi_dev,
-+					  struct mhi_result *mhi_result)
-+{
-+	struct telemetry_msg *msg = mhi_result->buf_addr;
-+	struct wrapper_msg *wrapper = container_of(msg, struct wrapper_msg,
-+						   msg);
-+
-+	kref_put(&wrapper->ref_count, free_wrapper);
-+}
-+
-+static void qaic_telemetry_mhi_dl_xfer_cb(struct mhi_device *mhi_dev,
-+					  struct mhi_result *mhi_result)
-+{
-+	struct qaic_device *qdev = dev_get_drvdata(&mhi_dev->dev);
-+	struct telemetry_msg *msg = mhi_result->buf_addr;
-+	struct resp_work *resp;
-+
-+	if (mhi_result->transaction_status) {
-+		kfree(msg);
-+		return;
-+	}
-+
-+	resp = kmalloc(sizeof(*resp), GFP_ATOMIC);
-+	if (!resp) {
-+		pci_err(qdev->pdev, "dl_xfer_cb alloc fail, dropping message\n");
-+		kfree(msg);
-+		return;
-+	}
-+
-+	INIT_WORK(&resp->work, resp_worker);
-+	resp->qdev = qdev;
-+	resp->buf = msg;
-+	queue_work(qdev->tele_wq, &resp->work);
-+}
-+
-+static const struct mhi_device_id qaic_telemetry_mhi_match_table[] = {
-+	{ .chan = "QAIC_TELEMETRY", },
-+	{},
-+};
-+
-+static struct mhi_driver qaic_telemetry_mhi_driver = {
-+	.id_table = qaic_telemetry_mhi_match_table,
-+	.remove = qaic_telemetry_mhi_remove,
-+	.probe = qaic_telemetry_mhi_probe,
-+	.ul_xfer_cb = qaic_telemetry_mhi_ul_xfer_cb,
-+	.dl_xfer_cb = qaic_telemetry_mhi_dl_xfer_cb,
-+	.driver = {
-+		.name = "qaic_telemetry",
-+		.owner = THIS_MODULE,
-+	},
-+};
-+
-+void qaic_telemetry_register(void)
-+{
-+	int ret;
-+
-+	ret = mhi_driver_register(&qaic_telemetry_mhi_driver);
-+	if (ret)
-+		pr_debug("qaic: telemetry register failed %d\n", ret);
-+}
-+
-+void qaic_telemetry_unregister(void)
-+{
-+	mhi_driver_unregister(&qaic_telemetry_mhi_driver);
-+}
-+
-+void wake_all_telemetry(struct qaic_device *qdev)
-+{
-+	struct xfer_queue_elem *elem;
-+	struct xfer_queue_elem *i;
-+
-+	mutex_lock(&qdev->tele_mutex);
-+	list_for_each_entry_safe(elem, i, &qdev->tele_xfer_list, list) {
-+		list_del_init(&elem->list);
-+		complete_all(&elem->xfer_done);
-+	}
-+	qdev->tele_lost_buf = false;
-+	mutex_unlock(&qdev->tele_mutex);
-+}
-+
-+#else
-+
-+void qaic_telemetry_register(void)
-+{
-+}
-+
-+void qaic_telemetry_unregister(void)
-+{
-+}
-+
-+void wake_all_telemetry(struct qaic_device *qdev)
-+{
-+}
-+
-+#endif /* CONFIG_QAIC_HWMON */
-diff --git a/drivers/gpu/drm/qaic/qaic_telemetry.h b/drivers/gpu/drm/qaic/qaic_telemetry.h
-new file mode 100644
-index 0000000..01e178f4
---- /dev/null
-+++ b/drivers/gpu/drm/qaic/qaic_telemetry.h
-@@ -0,0 +1,14 @@
++++ b/drivers/gpu/drm/qaic/qaic_trace.h
+@@ -0,0 +1,493 @@
 +/* SPDX-License-Identifier: GPL-2.0-only
 + *
-+ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#ifndef __QAIC_TELEMETRY_H__
-+#define __QAIC_TELEMETRY_H__
++#if !defined(_TRACE_QAIC_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_QAIC_H
++#include <linux/tracepoint.h>
++#include <uapi/drm/qaic_drm.h>
 +
-+#include "qaic.h"
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM qaic
++#define TRACE_INCLUDE_FILE qaic_trace
++#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm/qaic
 +
-+void qaic_telemetry_register(void);
-+void qaic_telemetry_unregister(void);
-+void wake_all_telemetry(struct qaic_device *qdev);
-+#endif /* __QAIC_TELEMETRY_H__ */
++TRACE_EVENT(qaic_ioctl,
++	TP_PROTO(struct qaic_device *qdev, struct qaic_user *usr,
++		 unsigned int cmd, bool in),
++	TP_ARGS(qdev, usr, cmd, in),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(unsigned int, user)
++		__field(unsigned int, cmd)
++		__field(unsigned int, type)
++		__field(unsigned int, nr)
++		__field(unsigned int, size)
++		__field(unsigned int, dir)
++		__field(bool, in)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->user =	usr->handle;
++		__entry->cmd =	cmd;
++		__entry->type =	_IOC_TYPE(cmd);
++		__entry->nr =	_IOC_NR(cmd);
++		__entry->size =	_IOC_SIZE(cmd);
++		__entry->dir =	_IOC_DIR(cmd);
++		__entry->in =	in;
++	),
++	TP_printk("%s:%s user:%d cmd:0x%x (%c nr=%d len=%d dir=%d)",
++		__entry->in ? "Entry" : "Exit", __get_str(device),
++		__entry->user, __entry->cmd, __entry->type, __entry->nr,
++		__entry->size, __entry->dir)
++);
++
++TRACE_EVENT(qaic_mhi_queue_error,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++		__field(int, ret)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++		__entry->ret = ret;
++	),
++	TP_printk("%s %s %d",
++		__get_str(device), __get_str(msg), __entry->ret)
++);
++
++DECLARE_EVENT_CLASS(qaic_manage_error,
++	TP_PROTO(struct qaic_device *qdev, struct qaic_user *usr,
++		 const char *msg),
++	TP_ARGS(qdev, usr, msg),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(unsigned int, user)
++		__string(msg, msg)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->user =	usr->handle;
++		__assign_str(msg, msg);
++	),
++	TP_printk("%s user:%d %s",
++		  __get_str(device), __entry->user, __get_str(msg))
++);
++
++DEFINE_EVENT(qaic_manage_error, manage_error,
++	TP_PROTO(struct qaic_device *qdev, struct qaic_user *usr,
++		 const char *msg),
++	TP_ARGS(qdev, usr, msg)
++);
++
++DECLARE_EVENT_CLASS(qaic_encdec_error,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++	),
++	TP_printk("%s %s", __get_str(device), __get_str(msg))
++);
++
++DEFINE_EVENT(qaic_encdec_error, encode_error,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg)
++);
++
++DEFINE_EVENT(qaic_encdec_error, decode_error,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg)
++);
++
++TRACE_EVENT(qaic_control_dbg,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++		__field(int, ret)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++		__entry->ret = ret;
++	),
++	TP_printk("%s %s %d",
++		  __get_str(device), __get_str(msg), __entry->ret)
++);
++
++TRACE_EVENT(qaic_encode_passthrough,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_passthrough *in_trans),
++	TP_ARGS(qdev, in_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = in_trans->hdr.len;
++	),
++	TP_printk("%s len %u", __get_str(device), __entry->len)
++);
++
++TRACE_EVENT(qaic_encode_dma,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_dma_xfer *in_trans),
++	TP_ARGS(qdev, in_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++		__field(__u32, tag)
++		__field(__u32, count)
++		__field(__u64, addr)
++		__field(__u64, size)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = in_trans->hdr.len;
++		__entry->tag = in_trans->tag;
++		__entry->count = in_trans->count;
++		__entry->addr = in_trans->addr;
++		__entry->size = in_trans->size;
++	),
++	TP_printk("%s len %u tag %u count %u address 0x%llx size %llu",
++		  __get_str(device), __entry->len, __entry->tag, __entry->count,
++		  __entry->addr, __entry->size)
++);
++
++TRACE_EVENT(qaic_encode_activate,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_activate_to_dev *in_trans),
++	TP_ARGS(qdev, in_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++		__field(__u32, queue_size)
++		__field(__u32, eventfd)
++		__field(__u32, options)
++		__field(__u32, pad)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = in_trans->hdr.len;
++		__entry->queue_size = in_trans->queue_size;
++		__entry->eventfd = in_trans->eventfd;
++		__entry->options = in_trans->options;
++		__entry->pad = in_trans->pad;
++	),
++	TP_printk("%s len %u queue_size %u eventfd %u options %u pad %u",
++		  __get_str(device), __entry->len, __entry->queue_size,
++		  __entry->eventfd, __entry->options, __entry->pad)
++);
++
++TRACE_EVENT(qaic_encode_deactivate,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_deactivate *in_trans),
++	TP_ARGS(qdev, in_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++		__field(__u32, dbc_id)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = in_trans->hdr.len;
++		__entry->dbc_id = in_trans->dbc_id;
++	),
++	TP_printk("%s len %u dbc_id %u",
++		  __get_str(device), __entry->len, __entry->dbc_id)
++);
++
++TRACE_EVENT(qaic_encode_status,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_status_to_dev *in_trans),
++	TP_ARGS(qdev, in_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = in_trans->hdr.len;
++	),
++	TP_printk("%s len %u", __get_str(device), __entry->len)
++);
++
++TRACE_EVENT(qaic_decode_passthrough,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_passthrough *out_trans),
++	TP_ARGS(qdev, out_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = out_trans->hdr.len;
++	),
++	TP_printk("%s len %u", __get_str(device), __entry->len)
++);
++
++TRACE_EVENT(qaic_decode_activate,
++	TP_PROTO(struct qaic_device *qdev,
++		struct qaic_manage_trans_activate_from_dev *out_trans),
++	TP_ARGS(qdev, out_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++		__field(__u32, status)
++		__field(__u32, dbc_id)
++		__field(__u64, options)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = out_trans->hdr.len;
++		__entry->status = out_trans->status;
++		__entry->dbc_id = out_trans->dbc_id;
++		__entry->options = out_trans->options;
++	),
++	TP_printk("%s len %u status %u dbc_id %u options %llu",
++		  __get_str(device), __entry->len, __entry->status,
++		  __entry->dbc_id, __entry->options)
++);
++
++TRACE_EVENT(qaic_decode_deactivate,
++	TP_PROTO(struct qaic_device *qdev, u32 dbc_id, u32 status),
++	TP_ARGS(qdev, dbc_id, status),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(u32, dbc_id)
++		__field(u32, status)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->dbc_id = dbc_id;
++		__entry->status = status;
++	),
++	TP_printk("%s dbc_id %u status %u",
++		  __get_str(device), __entry->dbc_id, __entry->status)
++);
++
++TRACE_EVENT(qaic_decode_status,
++	TP_PROTO(struct qaic_device *qdev,
++		 struct qaic_manage_trans_status_from_dev *out_trans),
++	TP_ARGS(qdev, out_trans),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__field(__u32, len)
++		__field(__u16, major)
++		__field(__u16, minor)
++		__field(__u32, status)
++		__field(__u64, status_flags)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__entry->len = out_trans->hdr.len;
++		__entry->major = out_trans->major;
++		__entry->minor = out_trans->minor;
++		__entry->status = out_trans->status;
++		__entry->status_flags = out_trans->status_flags;
++	),
++	TP_printk("%s len %u major %u minor %u status %u flags 0x%llx",
++		  __get_str(device), __entry->len, __entry->major, __entry->minor,
++		  __entry->status, __entry->status_flags)
++);
++
++DECLARE_EVENT_CLASS(qaic_data_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++		__field(int, ret)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++		__entry->ret = ret;
++	),
++	TP_printk("%s %s %d", __get_str(device), __get_str(msg), __entry->ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_mem_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_mmap_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_exec_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_wait_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_stats_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_util_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DEFINE_EVENT(qaic_data_err, qaic_attach_err,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, int ret),
++	TP_ARGS(qdev, msg, ret)
++);
++
++DECLARE_EVENT_CLASS(qaic_data_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++		__string(msg_var1, msg_var1)
++		__field(int, ret)
++		__field(u64, var1)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++		__assign_str(msg_var1, msg_var1);
++		__entry->ret = ret;
++		__entry->var1 = var1;
++	),
++	TP_printk("%s %s Error:%d %s:%llu",
++		  __get_str(device), __get_str(msg), __entry->ret,
++		  __get_str(msg_var1), __entry->var1)
++);
++
++DEFINE_EVENT(qaic_data_err_1, qaic_mem_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1)
++);
++
++DEFINE_EVENT(qaic_data_err_1, qaic_mmap_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1)
++);
++
++DEFINE_EVENT(qaic_data_err_1, qaic_attach_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1)
++);
++
++DEFINE_EVENT(qaic_data_err_1, qaic_exec_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1)
++);
++
++DEFINE_EVENT(qaic_data_err_1, qaic_wait_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1)
++);
++
++DEFINE_EVENT(qaic_data_err_1, qaic_stats_err_1,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 int ret, u64 var1),
++	TP_ARGS(qdev, msg, msg_var1, ret, var1)
++);
++
++DECLARE_EVENT_CLASS(qaic_data_err_2,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 const char *msg_var2, int ret, u64 var1, u64 var2),
++	TP_ARGS(qdev, msg, msg_var1, msg_var2, ret, var1, var2),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++		__string(msg_var1, msg_var1)
++		__string(msg_var2, msg_var2)
++		__field(int, ret)
++		__field(u64, var1)
++		__field(u64, var2)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++		__assign_str(msg_var1, msg_var1);
++		__assign_str(msg_var2, msg_var2);
++		__entry->ret = ret;
++		__entry->var1 = var1;
++		__entry->var2 = var2;
++	),
++	TP_printk("%s %s Error:%d %s:%llu %s:%llu",
++		  __get_str(device), __get_str(msg), __entry->ret,
++		  __get_str(msg_var1), __entry->var1,
++		  __get_str(msg_var2), __entry->var2)
++);
++
++DEFINE_EVENT(qaic_data_err_2, qaic_mem_err_2,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 const char *msg_var2, int ret, u64 var1, u64 var2),
++	TP_ARGS(qdev, msg, msg_var1, msg_var2, ret, var1, var2)
++);
++
++DEFINE_EVENT(qaic_data_err_2, qaic_attach_err_2,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 const char *msg_var2, int ret, u64 var1, u64 var2),
++	TP_ARGS(qdev, msg, msg_var1, msg_var2, ret, var1, var2)
++);
++
++DEFINE_EVENT(qaic_data_err_2, qaic_exec_err_2,
++	TP_PROTO(struct qaic_device *qdev, const char *msg, const char *msg_var1,
++		 const char *msg_var2, int ret, u64 var1, u64 var2),
++	TP_ARGS(qdev, msg, msg_var1, msg_var2, ret, var1, var2)
++);
++
++DECLARE_EVENT_CLASS(qaic_ssr,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg),
++	TP_STRUCT__entry(
++		__string(device, dev_name(&qdev->pdev->dev))
++		__string(msg, msg)
++	),
++	TP_fast_assign(
++		__assign_str(device, dev_name(&qdev->pdev->dev));
++		__assign_str(msg, msg);
++	),
++	TP_printk("%s %s", __get_str(device), __get_str(msg))
++);
++
++DEFINE_EVENT(qaic_ssr, qaic_ssr_cmd,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg)
++);
++
++DEFINE_EVENT(qaic_ssr, qaic_ssr_event,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg)
++);
++
++DEFINE_EVENT(qaic_ssr, qaic_ssr_dump,
++	TP_PROTO(struct qaic_device *qdev, const char *msg),
++	TP_ARGS(qdev, msg)
++);
++
++#endif /* _TRACE_QAIC_H */
++#include <trace/define_trace.h>
 -- 
 2.7.4
 
