@@ -2,77 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4FA592AE1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 10:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470BC592B49
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 11:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3206CB2A70;
-	Mon, 15 Aug 2022 08:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F1D11AC2D;
+	Mon, 15 Aug 2022 09:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4403B2767
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 08:06:08 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 7A96A5C0092;
- Mon, 15 Aug 2022 04:06:07 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 15 Aug 2022 04:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1660550767; x=
- 1660637167; bh=knwRU+bLBZ3g4CQ8zAEuXBbOAgpnVyopGPc5P1G0sDM=; b=W
- zzb+5XOS7rNUJupliXv9e9czReYE8D2Qaph1L4zme+A4HT6c+oRl481iLa2od272
- hzW9cumMhKtrQsMS9Q184LWPWNcfSW/ziueDreMOQJ3uzRTaPciW7INNaTMAFNl5
- crzsrcr998k6GhNAVNqcRR2hgxoxd5SmvfhLCn1/eEDoNOwsSrdhkQLaTYN1/WkI
- Aehe9UcI9l2OU7vkDbPHYOPKDurmlhLUjjUSc2w0dm+dABQhaJopdynKzg0CufAY
- 2Qns26LuUl2e4en9jvY3kl1iXJ7fBO63AsX4ZFLTI1Y7LmVc5R6tSLFrkpq2pkFA
- yOACAf8s48Ox4QqQ/CbWQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660550767; x=
- 1660637167; bh=knwRU+bLBZ3g4CQ8zAEuXBbOAgpnVyopGPc5P1G0sDM=; b=V
- mhGD3oSN/qv5uwOxZKmj0Cat2IozNBYgqAMG2041fIKT8luwHzte43bRc0jr2Lbt
- TnM5PMRWsjZvTw9J+khsAykBdzt8rrxZZR1r0LTrymGefC3DWiOyK89EVRR2ZnE2
- lAITsSEXeHjLF/3NN+cil9jZr51E2ooqny+eKdVwKZS81+LmIP4qzZRsqM/EINnC
- ByvUvA6KP2WFvxEHP2zciBnHmHFc7TwetB9RX8Ux7DsRFNLeoee3FoDFW3mfkVOl
- XqgfwPX2qpWsktk9CYrbCMWEAgTj/eMwBoOwPi5n9PbvJ430iKbsV8BWCwc2SWOB
- eDBDYVjvufsfCoGRzTbDw==
-X-ME-Sender: <xms:b_75Ypfa897JPT4SvxVmAh667wKPXT8mcDdGVNdz945JYLcuD44xzg>
- <xme:b_75YnPYYcGtzpmCnDunBOR1NP9gLsWM1EL64Nyg0cR9GPwpVmqOpBcuxdX3v1Slc
- gbPNBTI4vjIZF4hOHo>
-X-ME-Received: <xmr:b_75YijThHr5EZZJjhGL2ybUa5RCKEMioSW09uU3Cujqxq49QgWO0IhFbPW4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvdcutefuodetggdotefrodftvfcurf
- hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertd
- ertdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghr
- nhhordhtvggthheqnecuggftrfgrthhtvghrnhepueeigefghfffffeifeehudeiuedvte
- egueefffevgfetvdffheehkeffvedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfr
- rghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:b_75Yi9EBx4f9GsJ-2kFCUtSRhTjU4lqsivBxXzVXnNofdLvNxyy-w>
- <xmx:b_75YlsG8ikAx7sPs4vYU991cU9gbZODtC7Xmm2tDukm6_G5LkUBWQ>
- <xmx:b_75YhETjZTbzykWxSGf5rd2LVdAf0a7hs50b0eniauAEhFoZbnTvg>
- <xmx:b_75YpgTedu0r4eu4hMZL7Ve7Jn6NwiNhdS2qyyd-G6yzkrKf0AECg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 04:06:06 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: mairacanal@riseup.net,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: Re: [PATCH 5/5] drm/vc4: Drop of_gpio header
-Date: Mon, 15 Aug 2022 10:06:03 +0200
-Message-Id: <166055075108.287804.18132829696518528327.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220812205746.609107-6-mairacanal@riseup.net>
-References: <20220812205746.609107-1-mairacanal@riseup.net>
- <20220812205746.609107-6-mairacanal@riseup.net>
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6E911382A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 09:49:14 +0000 (UTC)
+X-UUID: 3f618f1b57eb4e66bf4b267ffaa0b010-20220815
+X-Spam-Fingerprint: 0
+X-GW-Reason: 13103
+X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
+X-Content-Feature: ica/max.line-size 103 audit/email.address 2 dict/adv 1
+ dict/notice 2 meta/cnt.alert 1
+X-UUID: 3f618f1b57eb4e66bf4b267ffaa0b010-20220815
+X-User: oushixiong@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1275458966; Mon, 15 Aug 2022 16:14:47 +0800
+From: oushixiong <oushixiong@kylinos.cn>
+To: Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] drm/ast: add dmabuf/prime buffer sharing support
+Date: Mon, 15 Aug 2022 16:14:30 +0800
+Message-Id: <20220815081430.2919066-1-oushixiong@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,18 +43,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- emma@anholt.net, linux-kernel@vger.kernel.org
+Cc: oushixiong <oushixiong@kylinos.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ kernel test robot <lkp@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Aug 2022 17:57:46 -0300, Maíra Canal wrote:
-> This driver includes the deprecated OF GPIO header <linux/of_gpio.h>
-> yet fail to use symbols from it, so drop the include.
-> 
-> 
+This patch adds ast specific codes for DRM prime feature.
+Add the prime function to solve the xorg conflict problem when AST
+and AMD are in place at the same time, so that both can be displayed.
 
-Applied to drm/drm-misc (drm-misc-next).
+Signed-off-by: oushixiong <oushixiong@kylinos.cn>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+ drivers/gpu/drm/ast/ast_drv.c  |  22 ++++++
+ drivers/gpu/drm/ast/ast_mode.c | 125 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 146 insertions(+), 1 deletion(-)
 
-Thanks!
-Maxime
+diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+index 7465c4f0156a..6c1f75174368 100644
+--- a/drivers/gpu/drm/ast/ast_drv.c
++++ b/drivers/gpu/drm/ast/ast_drv.c
+@@ -28,6 +28,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/dma-buf.h>
+ 
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -50,6 +51,23 @@ module_param_named(modeset, ast_modeset, int, 0400);
+ 
+ DEFINE_DRM_GEM_FOPS(ast_fops);
+ 
++static struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
++					struct dma_buf_attachment *attach,
++					struct sg_table *sg)
++{
++	struct drm_gem_vram_object *gbo;
++	struct dma_resv *resv = attach->dmabuf->resv;
++
++	ww_mutex_lock(&resv->lock, NULL);
++	gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0);
++	ww_mutex_unlock(&resv->lock);
++
++	if (IS_ERR(gbo))
++		return NULL;
++
++	return &gbo->bo.base;
++}
++
+ static const struct drm_driver ast_driver = {
+ 	.driver_features = DRIVER_ATOMIC |
+ 			   DRIVER_GEM |
+@@ -63,6 +81,10 @@ static const struct drm_driver ast_driver = {
+ 	.minor = DRIVER_MINOR,
+ 	.patchlevel = DRIVER_PATCHLEVEL,
+ 
++	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
++	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
++	.gem_prime_import_sg_table = ast_gem_prime_import_sg_table,
++
+ 	DRM_GEM_VRAM_DRIVER
+ };
+ 
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 45b56b39ad47..ebe732705e34 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -48,6 +48,8 @@
+ #include "ast_drv.h"
+ #include "ast_tables.h"
+ 
++MODULE_IMPORT_NS(DMA_BUF);
++
+ static inline void ast_load_palette_index(struct ast_private *ast,
+ 				     u8 index, u8 red, u8 green,
+ 				     u8 blue)
+@@ -1535,8 +1537,129 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
+ 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+ };
+ 
++static int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
++					int width, int height)
++{
++	struct drm_gem_vram_object *dst_bo = NULL;
++	void *dst = NULL;
++	int ret = 0, i;
++	unsigned long offset = 0;
++	bool unmap = false;
++	unsigned int bytesPerPixel;
++	struct iosys_map map;
++	struct iosys_map dmabuf_map;
++
++	bytesPerPixel = fb->format->cpp[0];
++
++	if (!fb->obj[0]->import_attach)
++		return -EINVAL;
++
++	if (!fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr) {
++		ret = dma_buf_vmap(fb->obj[0]->import_attach->dmabuf, &dmabuf_map);
++		if (ret)
++			return 0;
++	} else
++		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
++
++	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
++
++	ret = drm_gem_vram_pin(dst_bo, 0);
++	if (ret) {
++		DRM_ERROR("ast_bo_pin failed\n");
++		goto error;
++	}
++
++	if (!dst_bo->map.vaddr) {
++		ret = drm_gem_vram_vmap(dst_bo, &map);
++		if (ret) {
++			DRM_ERROR("failed to vmap fbcon\n");
++			drm_gem_vram_unpin(dst_bo);
++			goto error;
++		}
++		unmap = true;
++	}
++	dst = dst_bo->map.vaddr;
++
++	for (i = y; i < y + height; i++) {
++		offset = i * fb->pitches[0] + (x * bytesPerPixel);
++		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
++			width * bytesPerPixel);
++	}
++
++	if (unmap)
++		drm_gem_vram_vunmap(dst_bo, &map);
++
++	drm_gem_vram_unpin(dst_bo);
++error:
++	return 0;
++}
++
++
++static int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
++				struct drm_file *file,
++				unsigned int flags,
++				unsigned int color,
++				struct drm_clip_rect *clips,
++				unsigned int num_clips)
++{
++	int i, ret = 0;
++
++	drm_modeset_lock_all(fb->dev);
++	if (fb->obj[0]->import_attach) {
++		ret = dma_buf_begin_cpu_access(fb->obj[0]->import_attach->dmabuf,
++				DMA_FROM_DEVICE);
++		if (ret)
++			goto unlock;
++	}
++
++	for (i = 0; i < num_clips; i++) {
++		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
++				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
++		if (ret)
++			break;
++	}
++
++	if (fb->obj[0]->import_attach) {
++		dma_buf_end_cpu_access(fb->obj[0]->import_attach->dmabuf,
++				DMA_FROM_DEVICE);
++	}
++
++unlock:
++	drm_modeset_unlock_all(fb->dev);
++
++	return ret;
++}
++
++static void ast_user_framebuffer_destroy(struct drm_framebuffer *fb)
++{
++	struct iosys_map dmabuf_map;
++
++	if (fb->obj[0]->import_attach) {
++		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
++		if (dmabuf_map.vaddr)
++			dma_buf_vunmap(fb->obj[0]->import_attach->dmabuf,
++					&dmabuf_map);
++	}
++
++	drm_gem_fb_destroy(fb);
++}
++
++static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
++	.destroy	= ast_user_framebuffer_destroy,
++	.create_handle	= drm_gem_fb_create_handle,
++	.dirty		= ast_user_framebuffer_dirty,
++};
++
++static struct drm_framebuffer *
++ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
++				const struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
++					&ast_gem_fb_funcs_dirtyfb);
++}
++
+ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+-	.fb_create = drm_gem_fb_create,
++	.fb_create = ast_gem_fb_create_with_dirty,
+ 	.mode_valid = drm_vram_helper_mode_valid,
+ 	.atomic_check = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+-- 
+2.17.1
+
+
+No virus found
+		Checked by Hillstone Network AntiVirus
