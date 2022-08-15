@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2756A592B8A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E7F592B8E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACE510E36B;
-	Mon, 15 Aug 2022 10:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4C3B37F6;
+	Mon, 15 Aug 2022 10:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCBFAB2813
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:47:06 +0000 (UTC)
-Received: from [IPV6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1] (unknown
- [IPv6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5882A6601BAA;
- Mon, 15 Aug 2022 11:47:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1660560425;
- bh=4Q0fuKDJh4SMCJxcnmsdvamWwLpHx4eVgLbDngQNTRs=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=TfIUMPVDQhkaQvgEuHwsbfs+xYUiwndQE5gfjtjam2Cd+/7Kz5vOYMqyP5A0NqMMY
- tpSP/0te7JTBVYBx4zjJFGPB8CaaQQ96yfePGe7dCNPV4ieHsIxUsn/LEhGMlv0TsJ
- eNDB7HTELwo1oxhJHy+pKzYxVQEbhHGC3hQ+JzTQvt2Yvm2qNRDAink5eO5GX4jcTJ
- CFCUZGtakrrFrsx062NQiYFmjqnNAVp0WUC5gJGSkb2q/lE2smd72WxymLAx9UoaUW
- 008064xppDHITZIlXmkwGOZbPDUYiQA3FK7M3oNkIzl8+VQuXjferLsHauq/TbORG3
- KPrHxEvw7EHFQ==
-Message-ID: <2df57a30-2afb-23dc-c7f5-f61c113dd5b4@collabora.com>
-Date: Mon, 15 Aug 2022 13:47:01 +0300
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 104AEAEEA1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vh4WP5c9FJ0MbLK61vY6yRT/SQaaMEr8RbbREz+rZ1g=; b=b1TJYcymPjKnvyimmR5TjK81Mu
+ VqbuVBHbCfn54WGnqn0VB7piwq8YS9MKHNpYBPPOvVgVgp2zlJtU9MFGi7NrC9Be70mYyrw+TW1EW
+ cNVYeWCOkfSvyulTlCiQT9jnM28OmqhwKChxRrhWHa812xj2Du4i5eaMDXWJDocyjv1ikGAs+wYcB
+ XQ4Z6Yh28waRpNDKXpQZisudD5+cFUqFL8m9SLmx+AKeDFVXUCU0neZoELSCxtN5DM7H077grQe+s
+ zywFm7UJLVQ7ZJpq4rQVY2XG4QCDYe/PczZS6fBvKKfGIJWQ+oB40qpMJNvxKx2PZqV93BUmiJ1d+
+ 2i/+GCAA==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=52543)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oNXe0-00013Y-A2; Mon, 15 Aug 2022 12:48:28 +0200
+Message-ID: <53216533-d0d6-90d5-b9d1-c7d935867a54@tronnes.org>
+Date: Mon, 15 Aug 2022 12:48:20 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <134bce02-58d6-8553-bb73-42dfda18a595@collabora.com>
- <8caf3008-dcf3-985a-631e-e019b277c6f0@amd.com>
- <4fcc4739-2da9-1b89-209c-876129604d7d@amd.com>
- <14be3b22-1d60-732b-c695-ddacc6b21055@collabora.com>
-In-Reply-To: <14be3b22-1d60-732b-c695-ddacc6b21055@collabora.com>
+Subject: Re: [PATCH v1 03/35] drm/atomic: Add TV subconnector property to
+ get/set_property
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-3-3d53ae722097@cerno.tech>
+ <6e47ce2d-25c7-7254-703d-2a1d3bb64373@tronnes.org>
+ <20220815073546.4isrl7o3bt5g23pk@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220815073546.4isrl7o3bt5g23pk@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,74 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/15/22 13:18, Dmitry Osipenko wrote:
-> On 8/15/22 13:14, Christian König wrote:
->> Am 15.08.22 um 12:11 schrieb Christian König:
->>> Am 15.08.22 um 12:09 schrieb Dmitry Osipenko:
->>>> On 8/15/22 13:05, Christian König wrote:
->>>>> Am 15.08.22 um 11:54 schrieb Dmitry Osipenko:
->>>>>> Higher order pages allocated using alloc_pages() aren't refcounted and
->>>>>> they
->>>>>> need to be refcounted, otherwise it's impossible to map them by
->>>>>> KVM. This
->>>>>> patch sets the refcount of the tail pages and fixes the KVM memory
->>>>>> mapping
->>>>>> faults.
->>>>>>
->>>>>> Without this change guest virgl driver can't map host buffers into
->>>>>> guest
->>>>>> and can't provide OpenGL 4.5 profile support to the guest. The host
->>>>>> mappings are also needed for enabling the Venus driver using host GPU
->>>>>> drivers that are utilizing TTM.
->>>>>>
->>>>>> Based on a patch proposed by Trigger Huang.
->>>>> Well I can't count how often I have repeated this: This is an
->>>>> absolutely
->>>>> clear NAK!
->>>>>
->>>>> TTM pages are not reference counted in the first place and because of
->>>>> this giving them to virgl is illegal.
->>>> A? The first page is refcounted when allocated, the tail pages are not.
->>>
->>> No they aren't. The first page is just by coincident initialized with
->>> a refcount of 1. This refcount is completely ignored and not used at all.
->>>
->>> Incrementing the reference count and by this mapping the page into
->>> some other address space is illegal and corrupts the internal state
->>> tracking of TTM.
->>
->> See this comment in the source code as well:
->>
->>         /* Don't set the __GFP_COMP flag for higher order allocations.
->>          * Mapping pages directly into an userspace process and calling
->>          * put_page() on a TTM allocated page is illegal.
->>          */
->>
->> I have absolutely no idea how somebody had the idea he could do this.
+
+
+Den 15.08.2022 09.35, skrev Maxime Ripard:
+> Hi Noralf,
 > 
-> I saw this comment, but it doesn't make sense because it doesn't explain
-> why it's illegal. Hence it looks like a bogus comment since the
-> refcouting certainly works, at least to a some degree because I haven't
-> noticed any problems in practice, maybe by luck :)
+> Thanks for your review
 > 
-> I'll try to dig out the older discussions, thank you for the quick reply!
+> On Mon, Aug 08, 2022 at 02:30:42PM +0200, Noralf Trønnes wrote:
+>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+>>> The subconnector property was created by drm_mode_create_tv_properties(),
+>>> but wasn't exposed to the userspace through the generic
+>>> atomic_get/set_property implementation, and wasn't stored in any generic
+>>> state structure.
+>>>
+>>> Let's solve this.
+>>>
+>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>
+>> I just realised that this and the select_subconnector property isn't
+>> used by any drivers. Do you plan to use them? Maybe they don't need to
+>> be wired up at all.
+> 
+> I'm not sure really
+> 
+> It's true that the subconnector and select_subconnector fields in the TV
+> connector state aren't used by any driver, but the ch7006 and nouveau
+> will update the property content through a call to
+> drm_object_property_set_value
+> 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i2c/ch7006_drv.c#L217
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c#L185
+> 
+> I think it could still be useful to report it in the connector state, if
+> only for consistency?
+> 
 
-Are you sure it was really discussed in public previously? All I can
-find is yours two answers to a similar patches where you're saying that
-this it's a wrong solution without in-depth explanation and further
-discussions.
+Yeah maybe.
 
-Maybe it was discussed privately? In this case I will be happy to get
-more info from you about the root of the problem so I could start to
-look at how to fix it properly. It's not apparent where the problem is
-to a TTM newbie like me.
+I just realised that I have support in the GUD protocol for these
+properties so any future devices that rely on them them will need this
+patch, so I'm now suddenly in favor of this :)
 
--- 
-Best regards,
-Dmitry
+Noralf.
