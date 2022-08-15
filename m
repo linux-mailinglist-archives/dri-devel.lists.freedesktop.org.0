@@ -2,127 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A850592C35
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3C5592D8E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F17FCB5628;
-	Mon, 15 Aug 2022 10:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE975B784A;
+	Mon, 15 Aug 2022 10:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2072.outbound.protection.outlook.com [40.107.92.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E93FAF675
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:51:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OGAviiRDqThd7GSmGpSQz2VVlLp34WkAgBdq+TV5vLmnX3KsknOMrXjz4h1KkUrMV99BxR0LNo+40B86mFmztdxXkTudPeRtdtmqI+z7qCbEpbxfZbBDGc1qv6+WFgvmm2pDcK3Nfm7ELJLWJE12kWarz62q57dP+2TnfslV9bb4C+rOwy9fRJukjxnuXFJPQhqiKgoiqTgztJSvNz34EdB7NUxjwXdOkLKvGCBKtQ48YWwz/JraHou+HNs7eU0WVaYeOb9QLDacxXJ38uVqEo8q0Cy17X/BUYulHCMyLwn0Iv0wBwlUm7wgcYoPrcjS3moZnxelCMPoSFKlp9D4Xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0Tgiv53NsWYoN74iEuZueQIdYjz4ya+eJ2Dde/RobPM=;
- b=icCIXRa5su7kxZ1mdtZim3RQmlIqbywtkuys8stmRyalXFOKDwszNKOn3mOphB9gQLe0iayM05gW+O2VNS6MzUaf75RZU0jKky+oZ/BxfPSqXNV0WoQVpnrRZnvkCAVEwgAnxUWb2fopUcY9AVdS33h0uEQB/rTPK0lSMB9X49FBk8m0OGL3GYfGG5l4QTe1LhSi9COuOUolGDsjf1/9dcoTBTBuK9k8PVJQG9LuRSH/TfZ9TjYUIAe0bt4KaaRPHaa2z3MJpS8aHsA1aZ7jUCP0W9rtWVIPAilcbgueKugLJir0o2e3t/V99wNKbxVbtnu4cySN+vrrypgqzqEIew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Tgiv53NsWYoN74iEuZueQIdYjz4ya+eJ2Dde/RobPM=;
- b=mKcXCJjf75RC3fPtCrMgANqclsFf9ReaKg5/qsA/b0DBMB6NHVDFTidj17t3KLyz3z4P4r4zIky71arDVFfge/2FHz9jjLyuelj1a7/pJkWFAXBn5Ho/4SpKjQqr99fuNUVG6bhab0fIrlBPVbSSSYASZusnCfYxp12HypPkask=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN6PR12MB1297.namprd12.prod.outlook.com (2603:10b6:404:14::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Mon, 15 Aug
- 2022 10:51:09 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Mon, 15 Aug 2022
- 10:51:09 +0000
-Message-ID: <57562db8-bacf-e82d-8417-ab6343c1d2fa@amd.com>
-Date: Mon, 15 Aug 2022 12:51:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <134bce02-58d6-8553-bb73-42dfda18a595@collabora.com>
- <8caf3008-dcf3-985a-631e-e019b277c6f0@amd.com>
- <4fcc4739-2da9-1b89-209c-876129604d7d@amd.com>
- <14be3b22-1d60-732b-c695-ddacc6b21055@collabora.com>
- <2df57a30-2afb-23dc-c7f5-f61c113dd5b4@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2df57a30-2afb-23dc-c7f5-f61c113dd5b4@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS8P250CA0012.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:330::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44FDFB2F14;
+ Mon, 15 Aug 2022 10:56:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=LrP4jZdmsTb97GoKgNSVptxjvQRZMVwcGyPsTI6NqiM=; b=apQyE1MuyI6HMghYR/wHHNL39u
+ wecUUqTM1Tzu8AQm1l5TC+qsj8KNjuyUlVDKA/KheQsI0Y5PO8ZUhUO5GwwWvfyzbmInoOybsUhZM
+ QWSNWZjioSXwr/vS9QjclhqD8HSOzdcm8kVxipFtNOb9xIVxfCpqnLD9SAUUhf21amgXAS6cfCCrN
+ jGZUdWZ90gk99col+b3ql14KpW9MFvjLhHMW3qjRU3k6t73lF9D6PeOvMB3qyUVoCzhiaLNRiyEcq
+ S3WnCJuFquG70LRhbeU7YtY9wFLoh2J84ThWx6d1FhmZgqd6TItZcNxjGWYmCTjR7enx4oAPzJzFW
+ xbI2rG4g==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oNXlL-009OQu-E7; Mon, 15 Aug 2022 12:56:03 +0200
+Date: Mon, 15 Aug 2022 09:55:42 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
+Message-ID: <20220815105542.meuiebxipc35bwug@mail.igalia.com>
+References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
+ <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b573563c-8429-41a2-a060-08da7eac0f8b
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1297:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KVFozuItucHq5XWkNNyOSbfWxMkUmJZCoZYZFvdHS9zXiutpqc9uAkDsetuaRB9jOJr8aovvZQWSWzTcmITf3KvszrhM4QgO7d0uceFrns15+0i8TIEVn26g3BH/1AYSkTFDmvxZujGWSn0ohBn595zowXvLpjHSVK9gZt7Je7fswquvSBHaxFlOXkbhLeNqUsD6j3HmVrJpp2TDkqDTwIJcRVMar2N2MturLwZSWtmva+qjjqso+UvG0jGrEkPPg+Dr8H/2ReCcd37xmHK0X8bHXE31f8Mk/tS998zmjG+maVqOUjuE7evOruqotp9F1IK1y84BMgTvmCRqc1xP/wF/1TpqfHofuLymqusKx+hlC/Rvp7dqjKIHe2Ae5clPq/rgh+EuC2fWG2FEtdYu6A8i394Ag6pT9IWaHAGZNzxPgmoqCNPVG/927oZhI09CTJ8uaTu00YouT0RQ6tLxPzoEKn6AVbxL1GF6PQQ8Ptnkm1H9yE0wNHfEaUco3aB+xAN60qBEZcOfY1u+H+KxlVqR9tzG9iscd03qIjJyS4sjBYd9QzNrUiAnJLJYxgjMVkwJZt95vZY4OOK0pNxueJ9pRgLXVdMSJF2rcRbg5UlR2F1SaY1VWoeVhya3zRRNASchFQFtuMSFvLdpBNrKeennLQ8uUX0AjnIk+L4gz/LABixJrJxrX93Jy1pn9U6+rk4EpRwnPz1OSMqamfMAFW9iWyeB1MF96CYnV7jbBQ5C6K2iAauRcUUD9BldzoQACwPc4CHAdpwV01nvp/ZYh5h38MbZYu2E98cAUrK7vXUgdVbuaJnDu6GKuh4qlt9cQSVRIHNNJmWDdntoWk5Llg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(376002)(346002)(39860400002)(136003)(396003)(316002)(6486002)(6512007)(31696002)(6666004)(38100700002)(53546011)(8676002)(66476007)(4326008)(66556008)(66946007)(6506007)(478600001)(83380400001)(41300700001)(110136005)(36756003)(186003)(2906002)(2616005)(66574015)(5660300002)(7416002)(31686004)(8936002)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mk5lUDFzK2xqa3o4djJRcUR4N3ZZMU1lOFI3UHZpVGtHOUNmb3EwSDlWc1FC?=
- =?utf-8?B?N2Q4ZHBIS3FwOVVCcUFEaXVrNU80TWp5WkdqRTRJcTJuWEZ0UXhVNG5zcXZu?=
- =?utf-8?B?RnVTZnQ2djhJY1JuTTZISkVqTTJLOUVWZVNuZFZxY2VzZE1KY2hKMUEvWjJI?=
- =?utf-8?B?eFVSNXRscy9yS1ZBVTRmQXVqWjU0bVR4UEtmRTdmM0QzS3dkR1ptUmhEa2gv?=
- =?utf-8?B?MDYyL2F1VTFmQ3ZibnZDK1F1QjlnUjhRVVZKTlZNVTJ6dzVUTXF3R2xxbWla?=
- =?utf-8?B?TTQxbW9FYVBGajgwclFsWm5MdmwxWUsvRUkycWNNYld2T3ExN3Fma0d4WFJm?=
- =?utf-8?B?VVBQQ2FBRkhuV2tDNFRqN1l2NDRYbDFHNjFVdHRrMS9RS0U1ZlB5UmlqaTBC?=
- =?utf-8?B?L2kwQjNrSnhWSEZlZkc4SXp4ZU9zczdxK3lIR083WUh3RkRuYzZ5WXp0MXJp?=
- =?utf-8?B?V25TUW5uMnVpQ0xMVVV4dEtsRTNIdCt3SU5oSFBoL1pIRGgwUVE2YVY4Unk3?=
- =?utf-8?B?VGovZm8vV0RGSTQ3M0E0eDNVSjlIbjZYSWQ4SXI1VmE2QW5kcjdvQkxIUzIx?=
- =?utf-8?B?RHpjRlZkWkMxbTZWa0FVSVhaaUlqVzkweTJZWk1RRGlUR3UyZG5lN3QxUFYr?=
- =?utf-8?B?dUdCRStYbmphWFc3U1VyZE91ZmNwbWdyejBkYmpCaXdzK28yYVNZcXZneUxF?=
- =?utf-8?B?U05pem1OblpjaTRTVklHQ1dPZ3hIZXJ0UU1Xa1kxcitlbHY5YUtBS29JMEpj?=
- =?utf-8?B?aDFwbWlKSVhhUEp0QnVocGVXWkdteE5ZOERiRVFkSTRJclA2eFY1R2puclVN?=
- =?utf-8?B?emJXR1ArM0FuN0ZOb1dGcW9WZXZTRC9QUFFvQTY1RjVFT0I5clJMNXBXcTNP?=
- =?utf-8?B?Skd2a3pwaEhNbXludXlGWjNCUWZwUGFUOTY2ZWpBeC9QMUh3bStiVSt5MW83?=
- =?utf-8?B?K0xOeklodWxtQ2l5bFhkNTRGRGZhaG52b0RIenR1VU9UcTZXTmxtWnFXbEpT?=
- =?utf-8?B?ZjVjMzFkZXBZYjVQTHI5YmhOZjgwWTExQXpYV2sycUdZYnQrNkIvOVZJM1pv?=
- =?utf-8?B?T2FqKzBZa0tqN1RhSHF4V1ZtRXk1NDZlakNSOWhXWnJZMWZNM2hUM2pKWWNs?=
- =?utf-8?B?RzMvU2gyYWszcHhJLzZVRUd2RW1TblVFSDA0N3pxajI0U2NEbEozSGhqalNq?=
- =?utf-8?B?LzNoWllnZksrU2tsVmpkbXRMU1ZLNUhwbXh3anRCK25QVG16dEVWQzhSY2Jw?=
- =?utf-8?B?K3hVazZkQ1pERkk2Qk5tZjlYdm4rVXpyN1ZONjRUdVovT1pkQVA0MTFVZVNh?=
- =?utf-8?B?MTh0NDBQWmp2a0VUUGJSUS95d05CQ3lGQ3VIUGFXWXpSVUxlWWdTdXhYcnMz?=
- =?utf-8?B?Z0htR2d2RVM5REtHY2drdzNZYlp1em1YQjJzNWpCcU81cUo3N2w0c2lrRkh6?=
- =?utf-8?B?VTEvSDBmK0hYZlB1S1lTWTJMR1dQdlRFLzZvc1RDQ2Q4ZlN4VDYvcUFzMkJu?=
- =?utf-8?B?STZkMDdHaWl3eHZWcXZ1RGQ0WkFtZTFUSVNkNmJndlBXYUxJWFd5T3VsNkhP?=
- =?utf-8?B?cUVmT1NRajdqSXQvWHpkQjJuVGhja0I0ajhxZTc1aDhSRmw2ckE0MW8rNU5y?=
- =?utf-8?B?cTNVRE9PUGlLRFlTWGNRK0d6NjYydkdIekF6Njh4ZlZQUEQreU0rbkg4ZGhj?=
- =?utf-8?B?clc5OGxXYm9mLzRzNVU2N3h4cDBKcGR1UzRYRDlLbjNHQStsNys4akJMWUVx?=
- =?utf-8?B?RVNkeEs1Y25BYnVjcEQvQXhwR3M5aFBjZzg0NGNtZExmWkVrUDd6WEZhTzdw?=
- =?utf-8?B?QUpUTFE0bGI3YUxrbUczazZEdUl3Z0RWS3J5UHRVOFdQZmYvM3I5R0tmZGwz?=
- =?utf-8?B?blVNWFpvYWIwcVZCSUpTVTg4SE14YVQ0WDlsNHdrNmVZQWtoZmVNTWQ2dmtn?=
- =?utf-8?B?YkxVMElLTjg2VXBvYVBmL1hQZ1FSc2Y3c2NWMkdYZXpZYkVyM1hsa2N4cTZQ?=
- =?utf-8?B?aGhQZmlEeGRidjBwaXljR0hIRjhTZzRrMHY3Y3U1eU1UWVZPUUphMHRYR3Jy?=
- =?utf-8?B?aFphVlQ1VVRrRzVhV0VDdCsyL3daQW43cTNQTzhqc3hscks1Y1J5bjBrN0Rt?=
- =?utf-8?B?TXNiem1TVkdvWHFJNDdLL1JnSEsvdDRGVjlMUkoybE1HWTZ6RUg2clprdFpY?=
- =?utf-8?Q?DeKC7oDJvAZA7/dR97/7A/kmXDnOnVPIwRmwvHXugRdi?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b573563c-8429-41a2-a060-08da7eac0f8b
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 10:51:08.8973 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0JcvsjCGdy0ZWL5dwb25N4w0AIDvw5kD2cbqLcN6zhIDKX6e8Irf5d/0TPf3owXI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1297
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="o4zd5pbplcropbu6"
+Content-Disposition: inline
+In-Reply-To: <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,82 +53,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
+Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.08.22 um 12:47 schrieb Dmitry Osipenko:
-> On 8/15/22 13:18, Dmitry Osipenko wrote:
->> On 8/15/22 13:14, Christian König wrote:
->>> Am 15.08.22 um 12:11 schrieb Christian König:
->>>> Am 15.08.22 um 12:09 schrieb Dmitry Osipenko:
->>>>> On 8/15/22 13:05, Christian König wrote:
->>>>>> Am 15.08.22 um 11:54 schrieb Dmitry Osipenko:
->>>>>>> Higher order pages allocated using alloc_pages() aren't refcounted and
->>>>>>> they
->>>>>>> need to be refcounted, otherwise it's impossible to map them by
->>>>>>> KVM. This
->>>>>>> patch sets the refcount of the tail pages and fixes the KVM memory
->>>>>>> mapping
->>>>>>> faults.
->>>>>>>
->>>>>>> Without this change guest virgl driver can't map host buffers into
->>>>>>> guest
->>>>>>> and can't provide OpenGL 4.5 profile support to the guest. The host
->>>>>>> mappings are also needed for enabling the Venus driver using host GPU
->>>>>>> drivers that are utilizing TTM.
->>>>>>>
->>>>>>> Based on a patch proposed by Trigger Huang.
->>>>>> Well I can't count how often I have repeated this: This is an
->>>>>> absolutely
->>>>>> clear NAK!
->>>>>>
->>>>>> TTM pages are not reference counted in the first place and because of
->>>>>> this giving them to virgl is illegal.
->>>>> A? The first page is refcounted when allocated, the tail pages are not.
->>>> No they aren't. The first page is just by coincident initialized with
->>>> a refcount of 1. This refcount is completely ignored and not used at all.
->>>>
->>>> Incrementing the reference count and by this mapping the page into
->>>> some other address space is illegal and corrupts the internal state
->>>> tracking of TTM.
->>> See this comment in the source code as well:
->>>
->>>          /* Don't set the __GFP_COMP flag for higher order allocations.
->>>           * Mapping pages directly into an userspace process and calling
->>>           * put_page() on a TTM allocated page is illegal.
->>>           */
->>>
->>> I have absolutely no idea how somebody had the idea he could do this.
->> I saw this comment, but it doesn't make sense because it doesn't explain
->> why it's illegal. Hence it looks like a bogus comment since the
->> refcouting certainly works, at least to a some degree because I haven't
->> noticed any problems in practice, maybe by luck :)
->>
->> I'll try to dig out the older discussions, thank you for the quick reply!
-> Are you sure it was really discussed in public previously? All I can
-> find is yours two answers to a similar patches where you're saying that
-> this it's a wrong solution without in-depth explanation and further
-> discussions.
 
-Yeah, that's my problem as well I can't find that of hand.
+--o4zd5pbplcropbu6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But yes it certainly was discussed in public.
+On 08/14, Ma=EDra Canal wrote:
+> Hi Mikhail
+>=20
+> Looks like this use-after-free problem was introduced on
+> 90af0ca047f3049c4b46e902f432ad6ef1e2ded6. Checking this patch it seems
+> like: if amdgpu_cs_vm_handling return r !=3D 0, then it will unlock
+> bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
+> amdgpu_cs_parser_fini.
+>=20
+> Maybe the following patch will help:
+>=20
+> ---
+> From 71d718c0f53a334bb59bcd5dabd29bbe92c724af Mon Sep 17 00:00:00 2001
+> From: =3D?UTF-8?q?Ma=3DC3=3DADra=3D20Canal?=3D <mairacanal@riseup.net>
+> Date: Sun, 14 Aug 2022 21:12:24 -0300
+> Subject: [PATCH] drm/amdgpu: Fix use-after-free on amdgpu_bo_list mutex
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=3DUTF-8
+> Content-Transfer-Encoding: 8bit
+>=20
+> Fixes: 90af0ca047f3 ("drm/amdgpu: Protect the amdgpu_bo_list list with a
+> mutex v2")
+> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> Signed-off-by: Ma=EDra Canal <mairacanal@riseup.net>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> index d8f1335bc68f..a7fce7b14321 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -837,17 +837,14 @@ static int amdgpu_cs_vm_handling(struct
+> amdgpu_cs_parser *p)
+>  			continue;
+>=20
+>  		r =3D amdgpu_vm_bo_update(adev, bo_va, false);
+> -		if (r) {
+> -			mutex_unlock(&p->bo_list->bo_list_mutex);
+> +		if (r)
+>  			return r;
+> -		}
+>=20
+>  		r =3D amdgpu_sync_fence(&p->job->sync, bo_va->last_pt_update);
+> -		if (r) {
+> -			mutex_unlock(&p->bo_list->bo_list_mutex);
+> +		if (r)
+>  			return r;
+> -		}
+>  	}
+> +	mutex_unlock(&p->bo_list->bo_list_mutex);
 
->
-> Maybe it was discussed privately? In this case I will be happy to get
-> more info from you about the root of the problem so I could start to
-> look at how to fix it properly. It's not apparent where the problem is
-> to a TTM newbie like me.
->
+I think we don't need to unlock the bo_list_mutex here. If return !=3D 0
+amdgpu_cs_parser_fini() will unlock it; otherwise, amdgpu_cs_submit()
+unlocks it in the end.
 
-Well this is completely unfixable. See the whole purpose of TTM is to 
-allow tracing where what is mapped of a buffer object.
+BR,
 
-If you circumvent that and increase the page reference yourself than 
-that whole functionality can't work correctly any more.
+Melissa
+>=20
+>  	r =3D amdgpu_vm_handle_moved(adev, vm);
+>  	if (r)
+> --=20
+> 2.37.1
+> ---
+> Best Regards,
+> - Ma=EDra Canal
+>=20
+> On 8/14/22 18:11, Mikhail Gavrilov wrote:
+> > Hi folks.
+> > Joined testing 5.20 today (7ebfc85e2cd7).
+> > I encountered a frequently GPU freeze, after which a message appears
+> > in the kernel logs:
+> > [ 220.280990] ------------[ cut here ]------------
+> > [ 220.281000] refcount_t: underflow; use-after-free.
+> > [ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28
+> > refcount_warn_saturate+0xba/0x110
+> > [ 220.281029] Modules linked in: uinput rfcomm snd_seq_dummy
+> > snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
+> > nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
+> > nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
+> > nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
+> > qrtr bnep sunrpc snd_seq_midi snd_seq_midi_event vfat intel_rapl_msr
+> > fat intel_rapl_common snd_hda_codec_realtek mt76x2u
+> > snd_hda_codec_generic snd_hda_codec_hdmi mt76x2_common iwlmvm
+> > mt76x02_usb edac_mce_amd mt76_usb snd_hda_intel snd_intel_dspcfg
+> > mt76x02_lib snd_intel_sdw_acpi snd_usb_audio snd_hda_codec mt76
+> > kvm_amd uvcvideo mac80211 snd_hda_core btusb eeepc_wmi snd_usbmidi_lib
+> > videobuf2_vmalloc videobuf2_memops kvm btrtl snd_rawmidi asus_wmi
+> > snd_hwdep videobuf2_v4l2 btbcm iwlwifi ledtrig_audio libarc4 btintel
+> > snd_seq videobuf2_common sparse_keymap btmtk irqbypass videodev
+> > snd_seq_device joydev xpad iwlmei platform_profile bluetooth
+> > ff_memless snd_pcm mc rapl
+> > [ 220.281185] video snd_timer cfg80211 wmi_bmof snd pcspkr soundcore
+> > k10temp i2c_piix4 rfkill mei asus_ec_sensors acpi_cpufreq zram
+> > hid_logitech_hidpp amdgpu igb dca drm_ttm_helper ttm crct10dif_pclmul
+> > iommu_v2 crc32_pclmul gpu_sched crc32c_intel ucsi_ccg drm_buddy nvme
+> > typec_ucsi ghash_clmulni_intel drm_display_helper ccp nvme_core typec
+> > sp5100_tco cec wmi ip6_tables ip_tables fuse
+> > [ 220.281258] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
+> > amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
+> > amd64_edac():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
+> > amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
+> > pcc_cpufreq():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
+> > amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
+> > pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
+> > pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
+> > pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> > pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> > pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> > pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
+> > amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
+> > pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
+> > pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
+> > amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 pcc_cpufreq():1
+> > [ 220.281388] pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
+> > fjes():1 fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
+> > [ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L -------
+> > --- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
+> > [ 220.281421] Hardware name: System manufacturer System Product
+> > Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
+> > [ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
+> > [ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
+> > 7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
+> > 6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
+> > c7
+> > [ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
+> > [ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 00000000=
+00000000
+> > [ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000=
+ffffffff
+> > [ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0=
+d18d7930
+> > [ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058=
+ca360400
+> > [ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 00000000=
+00000003
+> > [ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000)
+> > knlGS:0000000000000000
+> > [ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 00000000=
+00350ee0
+> > [ 220.281480] Call Trace:
+> > [ 220.281485] <TASK>
+> > [ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
+> > [ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> > [ 220.282028] drm_ioctl_kernel+0xa4/0x150
+> > [ 220.282043] drm_ioctl+0x21f/0x420
+> > [ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> > [ 220.282275] ? lock_release+0x14f/0x460
+> > [ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> > [ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> > [ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
+> > [ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
+> > [ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
+> > [ 220.282534] __x64_sys_ioctl+0x90/0xd0
+> > [ 220.282545] do_syscall_64+0x5b/0x80
+> > [ 220.282551] ? futex_wake+0x6c/0x150
+> > [ 220.282568] ? lock_is_held_type+0xe8/0x140
+> > [ 220.282580] ? do_syscall_64+0x67/0x80
+> > [ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
+> > [ 220.282592] ? do_syscall_64+0x67/0x80
+> > [ 220.282597] ? do_syscall_64+0x67/0x80
+> > [ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
+> > [ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> > [ 220.282616] RIP: 0033:0x7f8282a4f8bf
+> > [ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
+> > 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
+> > 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
+> > 00
+> > [ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX:
+> > 0000000000000010
+> > [ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f82=
+82a4f8bf
+> > [ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 00000000=
+00000018
+> > [ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f82=
+683df4b0
+> > [ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000=
+c0186444
+> > [ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 00000000=
+00000003
+> > [ 220.282689] </TASK>
+> > [ 220.282693] irq event stamp: 6232311
+> > [ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>]
+> > __up_console_sem+0x5e/0x70
+> > [ 220.282704] hardirqs last disabled at (6232326):
+> > [<ffffffff9718cd63>] __up_console_sem+0x43/0x70
+> > [ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>]
+> > __irq_exit_rcu+0xf9/0x170
+> > [ 220.282716] softirqs last disabled at (6232061):
+> > [<ffffffff970ff669>] __irq_exit_rcu+0xf9/0x170
+> > [ 220.282722] ---[ end trace 0000000000000000 ]---
+> >=20
+> >=20
+> > Full kernel log is here:
+> > https://pastebin.com/gn01DVxE
+> >=20
+> > My GPU hardware is AMD Radeon 6900XT.
+> >=20
 
-Regards,
-Christian.
+--o4zd5pbplcropbu6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmL6JiEACgkQwqF3j0dL
+ehwq9w//b69lAXI0xYUzfnBdRcjUey7Yi/e1eZO3DlQSRYtYRYNfxmZXOHEIy+Bu
+g/EOszZbbQCy2MreuAxk7rCurgRRq6jUYXWd+F40VSQsuw1q11BkeMcwD6+rDkEn
+qt/+0SIebwcOtV+ZYnR+nzf6Tq5mgfdho4PCYXYSW1pETvxme/5+sPdr3tHHL/Sl
++hN/HOdmLaI+/Nn2kcRTbuKVPEn0hAbR2cNi+KRTF3I81kIBNgM2AKvPcWaJEkn/
+E3O51jMo+uYJBDZhcsgJt0vj9feKchEuvGaZ2yjZoipRnUQw2rnqL4nUaw9jLMMO
+2YEwr+24TwuCCdOaZK+ADhI9RW0F08PdTyXrs7DyU+/YWdfKllCy1cd+ErCHW2Bn
+TIEzM+0J7mmS/kMBr+mT0NT8ZGjX/d/D1BJHG1SJqHxwKpOvDz/y+jCurGJSefpv
+UJ4U+3OaPhwRjiSDyvjsDUslC98meEdtLk8OPTEHUJP+aXMkI6Ujbt0PSxYCVB6L
+yKBdfvDXPwGGn4WlBcynDCExogVmNuFAdktkBowST2a5T7OLf8nV42F/UXJJvLdx
+UiM52Ws2icCxOBNHe2QXuPrO6FGs+Xl0jc9olLko8/kz8oE2RqK53z7u83f5nXyn
+oVUmc0mRsnxon/GR1THi68TCKjZ+WXxbfwhUdg9JlEPeAjXuKa8=
+=jyzg
+-----END PGP SIGNATURE-----
+
+--o4zd5pbplcropbu6--
