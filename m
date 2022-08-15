@@ -1,79 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1913592A62
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 09:36:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A17592A71
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 09:47:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B045B00D3;
-	Mon, 15 Aug 2022 07:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D194AE67F;
+	Mon, 15 Aug 2022 07:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBB5AFD6E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 07:35:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id F351C5804E8;
- Mon, 15 Aug 2022 03:35:49 -0400 (EDT)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF9F11BF2C
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 07:47:20 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 71C745C00B4;
+ Mon, 15 Aug 2022 03:47:19 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 15 Aug 2022 03:35:50 -0400
+ by compute2.internal (MEProxy); Mon, 15 Aug 2022 03:47:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660548949; x=1660556149; bh=w9cQgkryOZ
- rTMuW8XbykeJZc+OJXgmDOa/70G6lboNg=; b=a5Ds27l9BT9gOjMBPCN8BzkuxZ
- JYLjsFx9gxDEY5jvI8+yLp7UJhD8WWmUdMHgdMOd1+jOTTL6z6nO8sE7C04QdVFr
- WKsmIChwrzUXFabb1EMJXVQUvs36XecJXmNqauTih8YUfEcCmz9tGvqhOxKqqKcj
- V8PxpauTR8IPSeHQMXP8A1pOzhALkkV1LapqiQ18CfJBZ5Myw3Oub8ZkCER5t6de
- DGF7ZEZAWC9+fYOH2qU0+/iopU/2mhJ+BdQA+1f9d3uq5a0rZ+HwzKciVD4pdXgQ
- leyj4feuLXBwYeqpUYKFT7cHsJfnGIXzODBJ4ELoFiRSvbxzpycNVsH8UrUg==
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1660549639; x=
+ 1660636039; bh=khmr8My1/aYtGWoyc1tu0pnFYFeZzQHpVSJzTcR8GWc=; b=l
+ hv2dMSxbgNyYg+5kzn7scng8/sD8mR1YIAT42WGkQLmdEd+/I26aKgp3iW5tU0UK
+ /OPloBRT0KQq6VdvkgOonbXByKBzTn7JRxY0WHbW2GemTEvI4ssjU/5l9OCZMCe2
+ sv/XubdZdrCOEXN/gluaGP1A8DYawbsbmd6GxAZSi878j4Q4t6r8ENxl0caE8emX
+ fKfHdj28NOG8EYPQ/cxlWaUC0BZpeN/jyodroHHllcHjltxy9Fs2z1hQZ7nBZb/s
+ ljU5irohL+FSoW9OnsH7xZ+evh045J1xG2GpJRCfcrj2Zg/aLpHZMcNFs0tyMJBd
+ odkoAt7K25oTJhi5yBIZw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660548949; x=1660556149; bh=w9cQgkryOZrTMuW8XbykeJZc+OJX
- gmDOa/70G6lboNg=; b=EtirkQGRowRlx/E866o7sqMqyKYnM9kxioAwm+IzTakk
- qlysK9fam5BbvguehMYjkavviohBTL9rUlcSWF2QqgNO0MugdbsK1LeJVco4qE7z
- yuHH7FtGIqkC0iPFYWP3Zju9/czFX8FIaPHUOv17FKKmKwI0HDJ+gjyObV+csWXM
- B6XLw8tA4p4xn1EgA3TC4FfCsCMOEYtEgaoPMf4Ws4DyenyhpoE/C3YkXYJUGQBA
- xbuxhiYH+MYXdh4rLmhAfUSRRDZzxQRmVesNvIjYZwZlgRZQIBjq5hnm1zu8uc7H
- cNAC7YU2FuVXeXa2CE5pv/tdOanE4QGLbhHMLc7yAA==
-X-ME-Sender: <xms:VPf5YkviSOqdHKUdvcs1SXcxJhlbX9TTPl83EHIUA76kTVmZhX1Drg>
- <xme:VPf5YhfYcStHwnAkwix3KC95sbwd-jA-74C10AdbCECQM-4kSuALUPIp4srJ_3doN
- TQQdpUXOPhXHBdnztE>
-X-ME-Received: <xmr:VPf5YvwDMuZwU5LqS0XYHVoq5U6sOBZzZE7EcfAYtjzt17ehmmSHAXx_WYeu>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddguddvhecutefuodetggdotefrod
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660549639; x=
+ 1660636039; bh=khmr8My1/aYtGWoyc1tu0pnFYFeZzQHpVSJzTcR8GWc=; b=W
+ J726LH8dCVK/IiKs88VCwZbwbqIf51A1YKauLzBmfpMZtTIMz2lkcXg/hOXZnrVk
+ OWrQN4Y38CkJSJ48jG59fwJ4c1iQ7wqdS+UOKEZ3QcijMJ1Q+D/EyPGoaufZTQnA
+ IPT9lGgsMe6KLI17pIztTtFJjj/WayQb3CCtJMZER2dQsodLqnVzuPGrFZFOJN+e
+ C9UDmHPorR6dfFmsQSWDr3UacvBZsfy/gtqJGsguBIyOslM1iOer80ThSPnhSuGL
+ bmf2arvAJyoK8SerOJ9vGfdIR4XESosHwFituz9tYS6M+r4fBCjVqQ1AJJ2Rvs0d
+ 1ks+e7y4Ja9As3jQi4VPQ==
+X-ME-Sender: <xms:B_r5YkrDBIW_EjmJuqR-3fvbb_dAuoPWhGByabUAkTRZkzSippV0RA>
+ <xme:B_r5Yqq-qWad0PSINUNTlCjt-ghpSMen9KxF0GJM00LQKm92_LFqDvBDMx6e_jFV_
+ YX3zRRl0hROxLYxgTU>
+X-ME-Received: <xmr:B_r5YpNCq1-9CQzyZ8isH8CplhuIhEZSMtUTAjVjPGFaqhTu2NfXA9cWsNM1>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddguddvjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepieehffffvefgiedthfeiieeutdfgffekhfehgfehgfeiuddutdfftdek
- ffehheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
- vggthh
-X-ME-Proxy: <xmx:VPf5YnOGE2wUjkjwKlwnIAjpuJJkfd3fcKFVwCxNC_uXGB8_BV8m4w>
- <xmx:VPf5Yk9VY3eyUyHkM2fxUhvHM2io7DxqyN4nPkFEGaZA3Phol2aI4g>
- <xmx:VPf5YvXoqru6zervnrA9nNxiFD2Q-50dEcJeCLOf-R7gOTrUr9_z4Q>
- <xmx:Vff5Ygv-y_nAn6ggoJu4LcrIVWBPql4muCx5Ua5DRqmGS2UUTNJk3A>
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgse
+ htkeertdertdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgv
+ segtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepueeigefghfffffeifeehud
+ eiuedvteegueefffevgfetvdffheehkeffvedufeeinecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:B_r5Yr7WIriCAAvZP4-pzXbDltTmsUO_d_I1bSWwA8YWsevXOux4cw>
+ <xmx:B_r5Yj7nL6vttUJ4MCWMM7yLAqcAq6oiE5SWEyVqXsoRDu778RHYZQ>
+ <xmx:B_r5YrjFNV8yZ_HLg2uTCyNtS378VnB-y0SxZ3gf0IFzJuhKrM8-gQ>
+ <xmx:B_r5YgEjs7Htgfnr0w-A7G_eKGuMCyjJyVRYKnJCLQIgaaJzwlcWlQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 03:35:48 -0400 (EDT)
-Date: Mon, 15 Aug 2022 09:35:46 +0200
+ 15 Aug 2022 03:47:18 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v1 03/35] drm/atomic: Add TV subconnector property to
- get/set_property
-Message-ID: <20220815073546.4isrl7o3bt5g23pk@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-3-3d53ae722097@cerno.tech>
- <6e47ce2d-25c7-7254-703d-2a1d3bb64373@tronnes.org>
+To: jernej.skrabec@gmail.com, wens@csie.org, samuel@sholland.org,
+ mripard@kernel.org
+Subject: Re: [PATCH] drm/sun4i: dsi: Prevent underflow when computing packet
+ sizes
+Date: Mon, 15 Aug 2022 09:47:14 +0200
+Message-Id: <166054963291.173470.13302885096018416390.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220812031623.34057-1-samuel@sholland.org>
+References: <20220812031623.34057-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="u67ey6tc73oyu5na"
-Content-Disposition: inline
-In-Reply-To: <6e47ce2d-25c7-7254-703d-2a1d3bb64373@tronnes.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,73 +85,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 11 Aug 2022 22:16:23 -0500, Samuel Holland wrote:
+> Currently, the packet overhead is subtracted using unsigned arithmetic.
+> With a short sync pulse, this could underflow and wrap around to near
+> the maximal u16 value. Fix this by using signed subtraction. The call to
+> max() will correctly handle any negative numbers that are produced.
+> 
+> Apply the same fix to the other timings, even though those subtractions
+> are less likely to underflow.
+> 
+> [...]
 
---u67ey6tc73oyu5na
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to drm/drm-misc (drm-misc-fixes).
 
-Hi Noralf,
-
-Thanks for your review
-
-On Mon, Aug 08, 2022 at 02:30:42PM +0200, Noralf Tr=F8nnes wrote:
-> Den 29.07.2022 18.34, skrev Maxime Ripard:
-> > The subconnector property was created by drm_mode_create_tv_properties(=
-),
-> > but wasn't exposed to the userspace through the generic
-> > atomic_get/set_property implementation, and wasn't stored in any generic
-> > state structure.
-> >=20
-> > Let's solve this.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> I just realised that this and the select_subconnector property isn't
-> used by any drivers. Do you plan to use them? Maybe they don't need to
-> be wired up at all.
-
-I'm not sure really
-
-It's true that the subconnector and select_subconnector fields in the TV
-connector state aren't used by any driver, but the ch7006 and nouveau
-will update the property content through a call to
-drm_object_property_set_value
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i2c/ch7006_d=
-rv.c#L217
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/disp=
-nv04/tvnv17.c#L185
-
-I think it could still be useful to report it in the connector state, if
-only for consistency?
-
+Thanks!
 Maxime
-
---u67ey6tc73oyu5na
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvn3UgAKCRDj7w1vZxhR
-xbmZAQD5nsl1fKLqTQPIrC0VdS9xyWDxecKIIygi1DB180AxtgEA6DpFUfV8x3sb
-JZ8Mmo3OvmOSy7NnGeEzHLlA/1/Mtg0=
-=joBf
------END PGP SIGNATURE-----
-
---u67ey6tc73oyu5na--
