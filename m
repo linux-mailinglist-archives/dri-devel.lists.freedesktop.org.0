@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDFC592B16
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 11:02:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0108592B18
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 11:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5990CB49B8;
-	Mon, 15 Aug 2022 09:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043D0B063F;
+	Mon, 15 Aug 2022 09:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD994A7D49
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 09:02:03 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id t22so6452416pjy.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 02:02:03 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5C7E112CB5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 09:02:18 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id 17so5850209plj.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 02:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=VlsK9VG8JeEKnHO9SgYwlWP8w/10katNg0OpeVoez20=;
- b=NgYJIcAw4FudOOCMawiEuWZxFqtHcLtD3vTuACefn24x36dvXnEnGU6YsCMCZvznCH
- GLnntUk5VBxLiuWZNQmCAQyt5g/+GUNl7Gg7QUfvoJYiKcjEIkE4NZ/HaHzEM5ZA6Rh7
- DB2pajACx2I2PC9eKEsEfJRUTh0ae/AbI/O5one0dz7Mlo7wD9GBUH7371sBJF6ycVdQ
- OLKzuVsUuzj4bPAl6vTEkpBDy2x5UqluXmQ0zBibFHrizhSq03QvCHeKtuYJHWIttK/O
- LlgA4Ir+dgbnvecus2ZyMi/UWJgT6z2XL2wncomrP65IuBsT9lR0oKS8BMzhv7GTE0jo
- D6jw==
+ bh=jAsfJ+1Mj231OgXM143U7NPHPGk8lg/9nj5rbtDQosU=;
+ b=WZ7JCEDfOCy3EQc5zn+wa2S43ThV6A5Z+pXUm6y6i/JVlAKwcpmswgci9bKG6Tto0s
+ R1ATcrJysD9d/BYkcsdmTjMU5H9nBlu9VxBkly86fZF+5sJpeCDliZcdf+4+iWYDlXkM
+ aUCwf7twuGPYRbkgqG0cHysxXNgC1ytMhfnlCGVzgcNgClELvHpR1w6ZBchctvbmu+jS
+ 6g+SuWzKgvUyNZ/klrYsx6R+BYTuSnvKMuIeQYRs+h2aIU1KA3unKUNEBJ/v5fRDIJ5s
+ O8qXrbCZ9RiEUqx485ArryjaPy7bDd+4mQOQDsDQRAicC5W9Tljyw/aKLA6v9wkpTH12
+ s9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=VlsK9VG8JeEKnHO9SgYwlWP8w/10katNg0OpeVoez20=;
- b=qh+yFGxQZdCJJH+LbPxdewV5UREpfN1eFtk3CcUHIsiAsyMvFmvnRMRDkXcwZ4gMQW
- T1DlWPvz0a6OeUA/RDlFjxXvks8rC0lpy6xUg/pe9kiJkLb6oEO/0M0h5cudlNg27nsi
- nEQCJdFVUHW8rJO6qbVmrn0iyp5Jja+OoGsScNq4THpl2V0RvKyuNYfGO1BSd3wsmKFr
- 70Pr+1u/ADw3TDaDbPfeh7pSnA53yTr8NRbTjcBXG7f3miYxReAo8Iq+6nshbyp8pkAR
- A1t4UK4Hv1zfisERJeKxYRJ/QXZ8mnyYe/gLUSJphXXwVnp+ZU+KRvyg7bakPcYa0ISM
- WOXg==
-X-Gm-Message-State: ACgBeo0RZv126PRakD0DSju9TDNc6gdBIigLQPOh+alNvm2+xNECaVAm
- VxukKnYmh6MI6peRVYD+Vfo=
-X-Google-Smtp-Source: AA6agR5Ex/q+cYEhdYO5Un2Dewa4DsqhifKbGnf09+BlibZOGwFs0rOgXHcTL2j+SCj1BLcwLBZ3bA==
-X-Received: by 2002:a17:902:d1d5:b0:16d:d21d:abb8 with SMTP id
- g21-20020a170902d1d500b0016dd21dabb8mr16263105plb.138.1660554123106; 
- Mon, 15 Aug 2022 02:02:03 -0700 (PDT)
+ bh=jAsfJ+1Mj231OgXM143U7NPHPGk8lg/9nj5rbtDQosU=;
+ b=m/9IZ1Sp3xlg9v8ZO0UzFDq4wfTngsnPuCTdNg3CgJEoERNdZR1t6gayfwgPk5P68o
+ DPBQR+F/uVSJp5GDcfTsaJEW0RDCZU8BjQxA+pc09KsEGw7lQzx6l9J0FHTuqnWNAK9W
+ VHreeFbQVzo0InjHmh4PbW+XXC40/6Fg3CRuBPCFPNDncuseEQ2Ru5AYLv4qLxfWHqeA
+ Ji8x/yhTSIx2Jmz2UZ+EbXKY3lD/Pjh0EsonSKdYiMEfPCK4n4pduiInZksgZ6pRrVYD
+ /TNSsY7fmGIsRQW5jb1mTyeXYw7znppEKNbGEc751zY2q5njbQNLGZO7JtIQcyxl4EbQ
+ OmVw==
+X-Gm-Message-State: ACgBeo0LEqtTJl61DZQLKbaWtC4Bj5mWucaXBIdTzw85S8Yyv3PjpJZ4
+ GHdWqk6X+7NdzHkWGu8FZL4=
+X-Google-Smtp-Source: AA6agR5dIpLJZek/MOUWkP2ReJX+eAO+AT8j8pByvCyU/tbsfvLHdxFvGlojO+1yfFH1nCHoON9fTQ==
+X-Received: by 2002:a17:903:264f:b0:16f:8435:d9a8 with SMTP id
+ je15-20020a170903264f00b0016f8435d9a8mr16300638plb.112.1660554138279; 
+ Mon, 15 Aug 2022 02:02:18 -0700 (PDT)
 Received: from DESKTOP-IBN2BAQ.localdomain ([123.110.155.185])
  by smtp.gmail.com with ESMTPSA id
- a17-20020a656411000000b00412a708f38asm5491612pgv.35.2022.08.15.02.01.57
+ a17-20020a656411000000b00412a708f38asm5491612pgv.35.2022.08.15.02.02.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Aug 2022 02:02:02 -0700 (PDT)
+ Mon, 15 Aug 2022 02:02:18 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -55,10 +55,9 @@ To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  linux@roeck-us.net, heikki.krogerus@linux.intel.com, deller@gmx.de,
  broonie@kernel.org, mazziesaccount@gmail.com, lgirdwood@gmail.com,
  andriy.shevchenko@linux.intel.com
-Subject: [RESEND PATCH v8 02/12] dt-bindings: power: supply: Add MediaTek
- MT6370 Charger
-Date: Mon, 15 Aug 2022 17:01:15 +0800
-Message-Id: <20220815090125.27705-3-peterwu.pub@gmail.com>
+Subject: [RESEND v8 04/12] dt-bindings: leds: Add MediaTek MT6370 flashlight
+Date: Mon, 15 Aug 2022 17:01:17 +0800
+Message-Id: <20220815090125.27705-5-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220815090125.27705-1-peterwu.pub@gmail.com>
 References: <20220815090125.27705-1-peterwu.pub@gmail.com>
@@ -86,111 +85,65 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ChiaEn Wu <chiaen_wu@richtek.com>
+From: Alice Chen <alice_chen@richtek.com>
 
-Add MediaTek MT6370 Charger binding documentation.
+Add MediaTek MT6370 flashlight binding documentation.
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Alice Chen <alice_chen@richtek.com>
 Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 ---
- .../power/supply/mediatek,mt6370-charger.yaml | 88 +++++++++++++++++++
- 1 file changed, 88 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+ .../leds/mediatek,mt6370-flashlight.yaml      | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
 
-diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+diff --git a/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml b/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
 new file mode 100644
-index 000000000000..bd09a0af7e65
+index 000000000000..e9d02ed6a590
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-@@ -0,0 +1,88 @@
++++ b/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
+@@ -0,0 +1,41 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml#
++$id: http://devicetree.org/schemas/leds/mediatek,mt6370-flashlight.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: MediaTek MT6370 Battery Charger
++title: Flash LED driver for MT6370 PMIC from MediaTek Integrated.
 +
 +maintainers:
-+  - ChiaEn Wu <chiaen_wu@richtek.com>
++  - Alice Chen <alice_chen@richtek.com>
 +
 +description: |
 +  This module is part of the MT6370 MFD device.
-+  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
++  Add MT6370 flash LED driver include 2-channel flash LED support Torch/Strobe Mode.
 +
 +properties:
 +  compatible:
-+    const: mediatek,mt6370-charger
++    const: mediatek,mt6370-flashlight
 +
-+  interrupts:
-+    description: |
-+      Specify what irqs are needed to be handled by MT6370 Charger driver. IRQ
-+      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCTRL_UVP_D"
-+      are required.
-+    items:
-+      - description: BC1.2 done irq
-+      - description: usb plug in irq
-+      - description: mivr irq
++  "#address-cells":
++    const: 1
 +
-+  interrupt-names:
-+    items:
-+      - const: attach_i
-+      - const: uvp_d_evt
-+      - const: mivr
++  "#size-cells":
++    const: 0
 +
-+  io-channels:
-+    description: |
-+      Use ADC channel to read VBUS, IBUS, IBAT, etc., info.
-+    minItems: 1
-+    items:
-+      - description: |
-+          VBUS voltage with lower accuracy (+-75mV) but higher measure
-+          range (1~22V)
-+      - description: |
-+          VBUS voltage with higher accuracy (+-30mV) but lower measure
-+          range (1~9.76V)
-+      - description: the main system input voltage
-+      - description: battery voltage
-+      - description: battery temperature-sense input voltage
-+      - description: IBUS current (required)
-+      - description: battery current
-+      - description: |
-+          regulated output voltage to supply for the PWM low-side gate driver
-+          and the bootstrap capacitor
-+      - description: IC junction temperature
-+
-+  io-channel-names:
-+    minItems: 1
-+    items:
-+      - const: vbusdiv5
-+      - const: vbusdiv2
-+      - const: vsys
-+      - const: vbat
-+      - const: ts_bat
-+      - const: ibus
-+      - const: ibat
-+      - const: chg_vddp
-+      - const: temp_jc
-+
-+  usb-otg-vbus-regulator:
++patternProperties:
++  "^led@[0-1]$":
 +    type: object
-+    description: OTG boost regulator.
++    $ref: common.yaml#
 +    unevaluatedProperties: false
-+    $ref: /schemas/regulator/regulator.yaml#
 +
 +    properties:
-+      enable-gpios:
-+        maxItems: 1
++      reg:
++        enum: [0, 1]
 +
 +required:
 +  - compatible
-+  - interrupts
-+  - interrupt-names
-+  - io-channels
++  - "#address-cells"
++  - "#size-cells"
 +
 +additionalProperties: false
-+
-+...
 -- 
 2.34.1
 
