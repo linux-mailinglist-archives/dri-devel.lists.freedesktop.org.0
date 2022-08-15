@@ -1,36 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470BC592B49
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 11:49:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A84E4592AFD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 10:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61F1D11AC2D;
-	Mon, 15 Aug 2022 09:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7B1AE996;
+	Mon, 15 Aug 2022 08:30:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6E911382A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 09:49:14 +0000 (UTC)
-X-UUID: 3f618f1b57eb4e66bf4b267ffaa0b010-20220815
-X-Spam-Fingerprint: 0
-X-GW-Reason: 13103
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
-X-Content-Feature: ica/max.line-size 103 audit/email.address 2 dict/adv 1
- dict/notice 2 meta/cnt.alert 1
-X-UUID: 3f618f1b57eb4e66bf4b267ffaa0b010-20220815
-X-User: oushixiong@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
- with ESMTP id 1275458966; Mon, 15 Aug 2022 16:14:47 +0800
-From: oushixiong <oushixiong@kylinos.cn>
-To: Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] drm/ast: add dmabuf/prime buffer sharing support
-Date: Mon, 15 Aug 2022 16:14:30 +0800
-Message-Id: <20220815081430.2919066-1-oushixiong@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8D092A75
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 08:30:08 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1B9C65805B4;
+ Mon, 15 Aug 2022 04:30:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 15 Aug 2022 04:30:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1660552208; x=1660559408; bh=RA5kw03+WB
+ AXnGH4vH/n/ZMFMILVebJisUqvkOeE43M=; b=DVbua1mRF33kH9w/O355c52UXa
+ R37aIM29S8U5nFIswhVh3S1KzVMaRHFkrJumjiSzfEe73pmgrGHP/XOjRVW66/VG
+ N3QH0I79a0TpfsaafoT+GBGAsdAMd709ZCpWajcuJcua0fdBc3Fh4CKPbxxxlx7Q
+ bGJx3hBtpz6GbTxeYzMMBryViTChP6YkrFqUBYWh9q1GR7GfIQE00sCk7/6+dDtd
+ uo+rLaPyhbNm3xCH7fMU5m1+kDzjr8KwAPtDFe82uzEB5ll7gz0Cox5zEsJJ86DX
+ SQo9O2h+yeN75pP7cjUtxqiK5ysUpoB7ggRUyEme9XxK0bL0OgZsGU7CgbMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660552208; x=1660559408; bh=RA5kw03+WBAXnGH4vH/n/ZMFMILV
+ ebJisUqvkOeE43M=; b=HbD9vCTkb+dEYIAuIpXto4lTqguTRzigb2zedkkpl+jb
+ PpCVKrmzgqmuM+1QY8AAC/TQpZ95qCcPjzE4UUmWv2IGC3NDUZ3BthaQ7IZ0XqUg
+ CBNMUFaHlxu6n9rBf9niKZZmge8ufbeIy5vIwQQWvmNeKHqyiGeWeccr+1ztKJ2P
+ iWFC75XpK7dJtgUEVnvz6wUY6NIlM5Nr1B8ksLnfjAqHyG8L3f1bYQQID5WN0tA7
+ 2/ubEhQPaF9cBUKrOdmDnG/6mItBQZMoXBDXvpH7GjxpMXeP2qHWSuOu3GsrJuAI
+ pBbfqno1ILKYUVnMvx1e1ef665zwVkXul3gzG/EuIg==
+X-ME-Sender: <xms:DwT6YmlaqgoGj3rd9g0xA6dBUendmwC8SSq4tGWYLy74f5EF7GyU6g>
+ <xme:DwT6Yt3whEYBF1OOu3egQKQH0A9bfd8aa6efrO2z1coh4wN8UmwTmeoOFU2GxJ3h7
+ kMbi_EnY24KgQpC3Jw>
+X-ME-Received: <xmr:DwT6Ykp0HSBN6R43g7b18UEAaCRQm9PdNPw8U0zdlzlnleGsshrNQUUad559>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgtdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:DwT6YqlrIMgmSHXbJ3aObSDrjee1DNKa14wvckdoAdtxiYR1NCKWMQ>
+ <xmx:DwT6Yk1xl2CqThy3NwvDQqGh4iN1oq31OiTqxQb3eIb4BUqZSp_tZA>
+ <xmx:DwT6YhsIKerepeTFgj4K20JDC3LnTnF8pdUimfYelf5idBY9Lm3Kwg>
+ <xmx:EAT6YindEcgZw6YGtsCD2CIZmh4o-alqMqIAtZEQAlNjcMnlu8sSDg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Aug 2022 04:30:06 -0400 (EDT)
+Date: Mon, 15 Aug 2022 10:30:04 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Subject: Re: [PATCH v1 14/35] drm/atomic-helper: Add an analog TV
+ atomic_check implementation
+Message-ID: <20220815083004.4zei3raab7uqehqf@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-14-3d53ae722097@cerno.tech>
+ <10a2f71c-d943-4965-1f15-d84145769ccf@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3blbnbsxxj3gnoe3"
+Content-Disposition: inline
+In-Reply-To: <10a2f71c-d943-4965-1f15-d84145769ccf@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,220 +85,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oushixiong <oushixiong@kylinos.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
  David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- kernel test robot <lkp@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds ast specific codes for DRM prime feature.
-Add the prime function to solve the xorg conflict problem when AST
-and AMD are in place at the same time, so that both can be displayed.
 
-Signed-off-by: oushixiong <oushixiong@kylinos.cn>
-Reported-by: kernel test robot <lkp@intel.com>
----
- drivers/gpu/drm/ast/ast_drv.c  |  22 ++++++
- drivers/gpu/drm/ast/ast_mode.c | 125 ++++++++++++++++++++++++++++++++-
- 2 files changed, 146 insertions(+), 1 deletion(-)
+--3blbnbsxxj3gnoe3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 7465c4f0156a..6c1f75174368 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -28,6 +28,7 @@
- 
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/dma-buf.h>
- 
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -50,6 +51,23 @@ module_param_named(modeset, ast_modeset, int, 0400);
- 
- DEFINE_DRM_GEM_FOPS(ast_fops);
- 
-+static struct drm_gem_object *ast_gem_prime_import_sg_table(struct drm_device *dev,
-+					struct dma_buf_attachment *attach,
-+					struct sg_table *sg)
-+{
-+	struct drm_gem_vram_object *gbo;
-+	struct dma_resv *resv = attach->dmabuf->resv;
-+
-+	ww_mutex_lock(&resv->lock, NULL);
-+	gbo = drm_gem_vram_create(dev, attach->dmabuf->size, 0);
-+	ww_mutex_unlock(&resv->lock);
-+
-+	if (IS_ERR(gbo))
-+		return NULL;
-+
-+	return &gbo->bo.base;
-+}
-+
- static const struct drm_driver ast_driver = {
- 	.driver_features = DRIVER_ATOMIC |
- 			   DRIVER_GEM |
-@@ -63,6 +81,10 @@ static const struct drm_driver ast_driver = {
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
- 
-+	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-+	.gem_prime_import_sg_table = ast_gem_prime_import_sg_table,
-+
- 	DRM_GEM_VRAM_DRIVER
- };
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 45b56b39ad47..ebe732705e34 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -48,6 +48,8 @@
- #include "ast_drv.h"
- #include "ast_tables.h"
- 
-+MODULE_IMPORT_NS(DMA_BUF);
-+
- static inline void ast_load_palette_index(struct ast_private *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -1535,8 +1537,129 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
- };
- 
-+static int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-+					int width, int height)
-+{
-+	struct drm_gem_vram_object *dst_bo = NULL;
-+	void *dst = NULL;
-+	int ret = 0, i;
-+	unsigned long offset = 0;
-+	bool unmap = false;
-+	unsigned int bytesPerPixel;
-+	struct iosys_map map;
-+	struct iosys_map dmabuf_map;
-+
-+	bytesPerPixel = fb->format->cpp[0];
-+
-+	if (!fb->obj[0]->import_attach)
-+		return -EINVAL;
-+
-+	if (!fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr) {
-+		ret = dma_buf_vmap(fb->obj[0]->import_attach->dmabuf, &dmabuf_map);
-+		if (ret)
-+			return 0;
-+	} else
-+		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
-+
-+	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
-+
-+	ret = drm_gem_vram_pin(dst_bo, 0);
-+	if (ret) {
-+		DRM_ERROR("ast_bo_pin failed\n");
-+		goto error;
-+	}
-+
-+	if (!dst_bo->map.vaddr) {
-+		ret = drm_gem_vram_vmap(dst_bo, &map);
-+		if (ret) {
-+			DRM_ERROR("failed to vmap fbcon\n");
-+			drm_gem_vram_unpin(dst_bo);
-+			goto error;
-+		}
-+		unmap = true;
-+	}
-+	dst = dst_bo->map.vaddr;
-+
-+	for (i = y; i < y + height; i++) {
-+		offset = i * fb->pitches[0] + (x * bytesPerPixel);
-+		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
-+			width * bytesPerPixel);
-+	}
-+
-+	if (unmap)
-+		drm_gem_vram_vunmap(dst_bo, &map);
-+
-+	drm_gem_vram_unpin(dst_bo);
-+error:
-+	return 0;
-+}
-+
-+
-+static int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-+				struct drm_file *file,
-+				unsigned int flags,
-+				unsigned int color,
-+				struct drm_clip_rect *clips,
-+				unsigned int num_clips)
-+{
-+	int i, ret = 0;
-+
-+	drm_modeset_lock_all(fb->dev);
-+	if (fb->obj[0]->import_attach) {
-+		ret = dma_buf_begin_cpu_access(fb->obj[0]->import_attach->dmabuf,
-+				DMA_FROM_DEVICE);
-+		if (ret)
-+			goto unlock;
-+	}
-+
-+	for (i = 0; i < num_clips; i++) {
-+		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
-+				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
-+		if (ret)
-+			break;
-+	}
-+
-+	if (fb->obj[0]->import_attach) {
-+		dma_buf_end_cpu_access(fb->obj[0]->import_attach->dmabuf,
-+				DMA_FROM_DEVICE);
-+	}
-+
-+unlock:
-+	drm_modeset_unlock_all(fb->dev);
-+
-+	return ret;
-+}
-+
-+static void ast_user_framebuffer_destroy(struct drm_framebuffer *fb)
-+{
-+	struct iosys_map dmabuf_map;
-+
-+	if (fb->obj[0]->import_attach) {
-+		dmabuf_map.vaddr = fb->obj[0]->import_attach->dmabuf->vmap_ptr.vaddr;
-+		if (dmabuf_map.vaddr)
-+			dma_buf_vunmap(fb->obj[0]->import_attach->dmabuf,
-+					&dmabuf_map);
-+	}
-+
-+	drm_gem_fb_destroy(fb);
-+}
-+
-+static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
-+	.destroy	= ast_user_framebuffer_destroy,
-+	.create_handle	= drm_gem_fb_create_handle,
-+	.dirty		= ast_user_framebuffer_dirty,
-+};
-+
-+static struct drm_framebuffer *
-+ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
-+				const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-+					&ast_gem_fb_funcs_dirtyfb);
-+}
-+
- static const struct drm_mode_config_funcs ast_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create,
-+	.fb_create = ast_gem_fb_create_with_dirty,
- 	.mode_valid = drm_vram_helper_mode_valid,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
--- 
-2.17.1
+Hi,
 
+On Fri, Jul 29, 2022 at 07:16:31PM +0200, Mateusz Kwiatkowski wrote:
+> I'm pretty sure that PAL-60 and SECAM-60 should be tied to the 480i mode.
+> Those are non-standard "norms" that use 60 Hz sync (which is largely
+> synonymous with 480i in the analog TV world) with PAL/SECAM color encoding.
 
-No virus found
-		Checked by Hillstone Network AntiVirus
+Understood, I've changed it.
+
+Maxime
+
+--3blbnbsxxj3gnoe3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvoEDAAKCRDj7w1vZxhR
+xSaoAP917KRrvUvrHF4D7EakrA32d9JtkzDYQ4YvSsQNyQebUwEA4QYkvJjSsUY2
+HL6BrTQmByiQ2K+kmlv7ynXMH5TMxwM=
+=29xc
+-----END PGP SIGNATURE-----
+
+--3blbnbsxxj3gnoe3--
