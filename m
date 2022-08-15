@@ -1,61 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76849592A03
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 09:02:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CEA8592A61
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 09:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F076BA3430;
-	Mon, 15 Aug 2022 07:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF88AFDFC;
+	Mon, 15 Aug 2022 07:35:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ACCAADFB5;
- Mon, 15 Aug 2022 07:01:23 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id 17so5709760pli.0;
- Mon, 15 Aug 2022 00:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=lBxuKExwJiydRUzCxRZG0pdDOfLn9vnu6Gvrg3IOunk=;
- b=N2pYGvniog5ztC4WpHJhrj6BeJx9tktZsy+GCUmnqRhXpAxABkZ5aqV9Q0nkMNfvgS
- ir2vahkblaz1/952V515s81n2Db6xV+r6LR9ZFy5etUzT0MD/rkgSC+aQS18vQ7PeQq3
- EV8RTskC5koFGiIDYAyZETNdqzN0BJQLix4lR7x8vmaMTI14jzOKqJvyAWzXi+Q0FaGK
- xpkXSvzYKRIpRF6K9td0tdRAwp+70PzydSVHL477nXuTwLZLw85Mb7fTaIwvHJdjpPGO
- cFMzSaiNmWBQ2Dq9jDn1rUCV8uFPuuNcsPPCf13pmU2xAAbvM2C3ToEIqPiVa6wQS0Wn
- epSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=lBxuKExwJiydRUzCxRZG0pdDOfLn9vnu6Gvrg3IOunk=;
- b=mXCbsyX+uosUIlED3AMw0bc143z7TxAUdcsJZ3MYwrbeRBwfeOrPqkdKCU4AHKyszS
- NsppbZUYr4SfNnqUaxCc644HFDv25RNi/IHyJVBNPVgS3ir9NrYnAm4ExPEFS+Ogaxmm
- /jG0T5Wr8Mqu3YXEVHHMYPqnR6hgqlErRBcMlDpESl3xOmVLNuFk6Fi4jmN5Gxu+JdI0
- BFp3viSFbmAwxQtWl0US0wFcrCXw2IvNoB11V3fY4T2WOWH1jPJQJ7LZMm4N77k2NzCI
- IIQjavPNYxxHxAXQg/v+23lHKHN61osJONcLU6M3j3W8g/fvOggCvRZPVJTnA4qvrzJ6
- 8tHw==
-X-Gm-Message-State: ACgBeo0h8tlitg57+kIIJyPDeqzdU1Meu7LYI8qykxpqm8EliDABQ8hk
- +ThTY4ovA0u5AfqvXKFTZzpBej9sbhsSRK4p
-X-Google-Smtp-Source: AA6agR7sVypDFOcf7uuBLF8hsvBcfE4nZsErFsVMqm9kaY77S3uHGMBjMpNocX1KWARSUXPR0DWzEA==
-X-Received: by 2002:a17:902:d4c1:b0:16f:8311:54bc with SMTP id
- o1-20020a170902d4c100b0016f831154bcmr14884497plg.25.1660546882289; 
- Mon, 15 Aug 2022 00:01:22 -0700 (PDT)
-Received: from fedora.. ([103.159.189.139]) by smtp.gmail.com with ESMTPSA id
- g2-20020aa79dc2000000b0052d27ccea39sm6224743pfq.19.2022.08.15.00.01.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Aug 2022 00:01:21 -0700 (PDT)
-From: Khalid Masum <khalid.masum.92@gmail.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in
- vcn_v4_0_stop
-Date: Mon, 15 Aug 2022 13:00:56 +0600
-Message-Id: <20220815070056.10816-1-khalid.masum.92@gmail.com>
-X-Mailer: git-send-email 2.37.1
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCCDDAB6A0;
+ Mon, 15 Aug 2022 07:34:26 +0000 (UTC)
+X-UUID: 959acbab234941399b0f551cce68c329-20220815
+X-CPASD-INFO: 1356cf6c575f474587e1bfe31a0696fb@eoNvVpCYZJNhV3eyg3p_b1holWGSkoW
+ Cc5tQZmdmkoKVgnxsTV5qXFWCgGpQYWNdYlV3fGtQYmBgZFB5i4Jyj1RgXmCCVHSTgHNtVWaRlg==
+X-CLOUD-ID: 1356cf6c575f474587e1bfe31a0696fb
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
+ TVAL:168.
+ 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:270.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
+ PHC:-5
+ .0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
+ SIG:-
+ 5, AUF:3, DUF:2354, ACD:50, DCD:50, SL:0, EISP:0, AG:0, CFC:0.741, CFSR:0.041,
+ UAT:0, RA
+ F:2, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
+ ATTNUM:0, E AF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: 959acbab234941399b0f551cce68c329-20220815
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: 959acbab234941399b0f551cce68c329-20220815
+X-User: lizhenneng@kylinos.cn
+Received: from [172.20.124.41] [(116.128.244.169)] by mailgw
+ (envelope-from <lizhenneng@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
+ with ESMTP id 1747963816; Mon, 15 Aug 2022 15:34:25 +0800
+Message-ID: <db2a43da-256d-402e-882b-c05436d4e83b@kylinos.cn>
+Date: Mon, 15 Aug 2022 15:34:18 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] drm/radeon: add a force flush to delay work when radeon
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+References: <20220811072540.964309-1-lizhenneng@kylinos.cn>
+ <b23e4037-2030-32d0-d626-b5a846fcafeb@gmail.com>
+From: =?UTF-8?B?5p2O55yf6IO9?= <lizhenneng@kylinos.cn>
+In-Reply-To: <b23e4037-2030-32d0-d626-b5a846fcafeb@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,38 +61,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wan Jiabing <wanjiabing@vivo.com>, Khalid Masum <khalid.masum.92@gmail.com>,
- David Airlie <airlied@linux.ie>, Pan Xinhui <Xinhui.Pan@amd.com>,
- Sonny Jiang <sonny.jiang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Ruijing Dong <ruijing.dong@amd.com>, James Zhu <James.Zhu@amd.com>,
- Leo Liu <leo.liu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The value assigned from vcn_v4_0_stop_dbg_mode to r is overwritten
-before it can be used. Remove this assignment.
 
-Addresses-Coverity: 1504988 ("Unused value")
-Fixes: 8da1170a16e4 ("drm/amdgpu: add VCN4 ip block support")
-Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+在 2022/8/12 18:55, Christian König 写道:
+> Am 11.08.22 um 09:25 schrieb Zhenneng Li:
+>> Although radeon card fence and wait for gpu to finish processing 
+>> current batch rings,
+>> there is still a corner case that radeon lockup work queue may not be 
+>> fully flushed,
+>> and meanwhile the radeon_suspend_kms() function has called 
+>> pci_set_power_state() to
+>> put device in D3hot state.
+>
+> If I'm not completely mistaken the reset worker uses the 
+> suspend/resume functionality as well to get the hardware into a 
+> working state again.
+>
+> So if I'm not completely mistaken this here would lead to a deadlock, 
+> please double check that.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-index ca14c3ef742e..80b8a2c66b36 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-@@ -1154,7 +1154,7 @@ static int vcn_v4_0_stop(struct amdgpu_device *adev)
- 		fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
- 
- 		if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
--			r = vcn_v4_0_stop_dpg_mode(adev, i);
-+			vcn_v4_0_stop_dpg_mode(adev, i);
- 			continue;
- 		}
- 
--- 
-2.37.1
+We have tested many times, there are no deadlock.
 
+In which situation, there would lead to a deadlock?
+
+>
+> Regards,
+> Christian.
+>
+>> Per PCI spec rev 4.0 on 5.3.1.4.1 D3hot State.
+>>> Configuration and Message requests are the only TLPs accepted by a 
+>>> Function in
+>>> the D3hot state. All other received Requests must be handled as 
+>>> Unsupported Requests,
+>>> and all received Completions may optionally be handled as Unexpected 
+>>> Completions.
+>> This issue will happen in following logs:
+>> Unable to handle kernel paging request at virtual address 
+>> 00008800e0008010
+>> CPU 0 kworker/0:3(131): Oops 0
+>> pc = [<ffffffff811bea5c>]  ra = [<ffffffff81240844>]  ps = 0000 
+>> Tainted: G        W
+>> pc is at si_gpu_check_soft_reset+0x3c/0x240
+>> ra is at si_dma_is_lockup+0x34/0xd0
+>> v0 = 0000000000000000  t0 = fff08800e0008010  t1 = 0000000000010000
+>> t2 = 0000000000008010  t3 = fff00007e3c00000  t4 = fff00007e3c00258
+>> t5 = 000000000000ffff  t6 = 0000000000000001  t7 = fff00007ef078000
+>> s0 = fff00007e3c016e8  s1 = fff00007e3c00000  s2 = fff00007e3c00018
+>> s3 = fff00007e3c00000  s4 = fff00007fff59d80  s5 = 0000000000000000
+>> s6 = fff00007ef07bd98
+>> a0 = fff00007e3c00000  a1 = fff00007e3c016e8  a2 = 0000000000000008
+>> a3 = 0000000000000001  a4 = 8f5c28f5c28f5c29  a5 = ffffffff810f4338
+>> t8 = 0000000000000275  t9 = ffffffff809b66f8  t10 = ff6769c5d964b800
+>> t11= 000000000000b886  pv = ffffffff811bea20  at = 0000000000000000
+>> gp = ffffffff81d89690  sp = 00000000aa814126
+>> Disabling lock debugging due to kernel taint
+>> Trace:
+>> [<ffffffff81240844>] si_dma_is_lockup+0x34/0xd0
+>> [<ffffffff81119610>] radeon_fence_check_lockup+0xd0/0x290
+>> [<ffffffff80977010>] process_one_work+0x280/0x550
+>> [<ffffffff80977350>] worker_thread+0x70/0x7c0
+>> [<ffffffff80977410>] worker_thread+0x130/0x7c0
+>> [<ffffffff80982040>] kthread+0x200/0x210
+>> [<ffffffff809772e0>] worker_thread+0x0/0x7c0
+>> [<ffffffff80981f8c>] kthread+0x14c/0x210
+>> [<ffffffff80911658>] ret_from_kernel_thread+0x18/0x20
+>> [<ffffffff80981e40>] kthread+0x0/0x210
+>>   Code: ad3e0008  43f0074a  ad7e0018  ad9e0020  8c3001e8 40230101
+>>   <88210000> 4821ed21
+>> So force lockup work queue flush to fix this problem.
+>>
+>> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+>> ---
+>>   drivers/gpu/drm/radeon/radeon_device.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/radeon_device.c 
+>> b/drivers/gpu/drm/radeon/radeon_device.c
+>> index 15692cb241fc..e608ca26780a 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_device.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+>> @@ -1604,6 +1604,9 @@ int radeon_suspend_kms(struct drm_device *dev, 
+>> bool suspend,
+>>           if (r) {
+>>               /* delay GPU reset to resume */
+>>               radeon_fence_driver_force_completion(rdev, i);
+>> +        } else {
+>> +            /* finish executing delayed work */
+>> + flush_delayed_work(&rdev->fence_drv[i].lockup_work);
+>>           }
+>>       }
+>
