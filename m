@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B164593A70
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 21:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3630B5935F2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 20:58:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE20D396D;
-	Mon, 15 Aug 2022 19:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12EA2D20AF;
+	Mon, 15 Aug 2022 18:58:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23E9DBB103
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 19:41:21 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA1B9D2499
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 18:58:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7F0F9B80EA7;
- Mon, 15 Aug 2022 19:41:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AC9DC433C1;
- Mon, 15 Aug 2022 19:41:18 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 37B92B81082;
+ Mon, 15 Aug 2022 18:58:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68762C433C1;
+ Mon, 15 Aug 2022 18:58:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1660592479;
+ s=korg; t=1660589882;
  bh=VZdlmM1yI6DDiCaE7reYOZ8qKqKYhTpxSZQNW8mwYrA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=x+Y5fbziQhKsn//QXaDcGNghp+kyOY5yRCSRH/8HoerahCmtbBCSgtEARoD9ZdK2b
- ch3risgZj+SJmQ8z1+pEuIboDYtDYJQIqgsMseruJRn37xCG5hupBo58K4JTna378l
- szBWfvhF179ACqDCKT0RF0K6hZ3+ilXZOeBboz7Q=
+ b=msGIP1HDYk5KxLDjeDYGm0Gcx986g/CmOgNmmDjEnqOqiWJ3xR9EYcAFsjmDXaqzS
+ T4ErQ9dHYoFbzdvfSLHK9wL5TsWG0HYl/UhYQhJPJ4aCPJbOH5OKxtePBVWhSCp0ax
+ 2RM2v36czVcDkWPBBU6iomT6U/GxkPWDUJlKqVkM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.19 0087/1157] drm/hyperv-drm: Include framebuffer and EDID
+Subject: [PATCH 5.18 0079/1095] drm/hyperv-drm: Include framebuffer and EDID
  headers
-Date: Mon, 15 Aug 2022 19:50:43 +0200
-Message-Id: <20220815180443.041121873@linuxfoundation.org>
+Date: Mon, 15 Aug 2022 19:51:18 +0200
+Message-Id: <20220815180432.787310852@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220815180439.416659447@linuxfoundation.org>
-References: <20220815180439.416659447@linuxfoundation.org>
+In-Reply-To: <20220815180429.240518113@linuxfoundation.org>
+References: <20220815180429.240518113@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
