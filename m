@@ -1,60 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B665929A1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 08:35:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E0B5929C1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 08:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7B6ACB8F;
-	Mon, 15 Aug 2022 06:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284B8AD189;
+	Mon, 15 Aug 2022 06:43:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A22ACBC5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 06:35:02 +0000 (UTC)
-X-UUID: 54195b813a394fdbb34eca0cdbf7a3ba-20220815
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=0oVsLLs6Bg4oTydvl/icM72CiYInRV1zOsDw1/gzWl8=; 
- b=b1TZF60fI73azApmuMiKOOHfNOLdUDNdOqpXBwGYvj8oSvonTK6SyWY9AUxU2vJCfv9PFqwfPkVI62AniEd9F/LWj2zwTVUhbbJH7sWtBjrQ8hzoDNfYUPAv1Il+CaSf+uPG5529F7yd+7Z1WWapFC9MpjzdonK8bLnlSKYCnfs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.9, REQID:cca631e0-34a3-48c0-9b07-5cd7d09c1d93, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_H
- am,ACTION:release,TS:0
-X-CID-META: VersionHash:3d8acc9, CLOUDID:6e82ac9c-da39-4e3b-a854-56c7d2111b46,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 54195b813a394fdbb34eca0cdbf7a3ba-20220815
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 254329838; Mon, 15 Aug 2022 14:34:59 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Mon, 15 Aug 2022 14:34:57 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 15 Aug 2022 14:34:57 +0800
-Message-ID: <f5a27f00c89cadfb4fd2347f35a9504f964a4205.camel@mediatek.com>
-Subject: Re: [PATCH v25 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
-From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Mon, 15 Aug 2022 14:34:57 +0800
-In-Reply-To: <20220804072827.22383-1-nancy.lin@mediatek.com>
-References: <20220804072827.22383-1-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26F9BAD1AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 06:43:05 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id E4D2C5C00B9;
+ Mon, 15 Aug 2022 02:43:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 15 Aug 2022 02:43:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1660545781; x=1660632181; bh=8v1UNNv97h
+ 9J2L3WvxkH00sK+2Af+0MdgE0J1dhPpWA=; b=QBYvXoFE2expmhkMkPUa5b9q5J
+ PJJ2hvuYdIuDuAStEHtfVpFxuE0rm9pi0n2MqT8brNudqMCmcIs9iMMb7udhtyQu
+ Jku39EGmJVm1Ssj6AamPCjWZzdFFfLjumzy9QPcewvh8JfdmkDJ72G42IUMCw4FS
+ dY4zC1H7DdhPpwZMMXrYLllHVJNk4cfil++OCi6mg3uIMKgtfIqhLTYzAI3s4CSZ
+ bhjbP6E7sPa4hdayqvNaqYbabL06vdMam6fahFpUOQRojr4F8QBCosgYl9Dyx/NM
+ Mo1XAE48Hm8nDCGZRWoClZnluZ4o7XD1+Ek+uFF8npJE7bCs2PTFxRE4RBag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660545781; x=1660632181; bh=8v1UNNv97h9J2L3WvxkH00sK+2Af
+ +0MdgE0J1dhPpWA=; b=mYi0k5szCs5yZozk29RRx8q5qgOTdLBRsL8hGMEWLfnH
+ ez8RFhJdZEdDQOdWsSA/wMS270RyUrecpyaq7QjdnNyttVRBu1quc4+SD867LYro
+ 41Gr25rR0YctXAS0odKzpWTU8nY+23p+681+AmJwC5EW23NI1YaKhH9BkP5EwiAs
+ 0lqhSPE6Id/EJ7TOOqf397/CPpWxA/txw8bCu09H7Md8jvNWABv2oFXgqqRbwt1b
+ Mn6kBMDGLy67+47x6LXSwTvxDMjCFZjkv70itsEjcM6uXHs4U15dzrMoRhBuy+TC
+ AAaaxtH845XqkVGyhhIR/lgsXSh8uZxVy4yNVFXiiw==
+X-ME-Sender: <xms:9er5YmbPDT0JdOfn9FMUEzoXns9jT0o6gk3Kvl416ecLoTlZ5CQInA>
+ <xme:9er5YpYONVVk6v9MGzUWveEA27hHAy-pGy9Ne_p5GQOBxk6cm6Bwg5-7BD6Pe3tBD
+ s2BIFHWwue-w9C64s4>
+X-ME-Received: <xmr:9er5Yg9SWnCsZZjs9aeDVnuGso9ndQG1WSNZa8u-tEayhh4HVu2M7MdLyN3O>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgudduhecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+ fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:9er5YorW5eieMVy2cljIB4lVcVYjdRVQptdswd1VCSBAU2maX4hE1A>
+ <xmx:9er5YhoZGFiNdqZxuHq_5t9vxVZD_3NCg6kRG6RtG-Bqh1mVVIXouA>
+ <xmx:9er5YmSorlkhw-ItEgf4iwovSGC9316WpxYvm4b-_XmfNz4T_bbe7Q>
+ <xmx:9er5YiScjy43Usltq-fQC9u7FMsF0LG3ru--gDdz_rjhDCxwBLnKvg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Aug 2022 02:43:00 -0400 (EDT)
+Date: Mon, 15 Aug 2022 08:42:48 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 3/4] drm/sun4i: dsi: Add a variant structure
+Message-ID: <20220815064248.4ujitfpvtw6y3k4k@houat>
+References: <20220812074257.58254-1-samuel@sholland.org>
+ <20220812074257.58254-4-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fe5pr2l7i2tpjvdm"
+Content-Disposition: inline
+In-Reply-To: <20220812074257.58254-4-samuel@sholland.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,261 +83,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan
- Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-08-04 at 15:28 +0800, Nancy.Lin wrote:
-> The hardware path of vdosys1 with DPTx output need to go through by
-> several modules, such as, OVL_ADAPTOR and MERGE.
-> 
-> Add DRM and these modules support by the patches below:
-> 
-> Changes in v25:
-> - rebase to next-20220803
-> 
-> Changes in v24:
-> - fix ovl_adaptor binding issue (mtk_disp_ovl_adaptor.c)
->   - Since ovl_adaptor is an aggregated component, it should be
-> bounded after
->     all its child components are bounded.
-> - rebase to next-20220708
-> 
-> Changes in v23:
-> - separate[7] mmsys/mutex and drm patches into two series
-> 
-> Changes in v22:
-> - rebase to next-20220525
-> - rebase to vdosys0 series v22
-> - separate dts to a new patch
-> 
-> Changes in v21:
-> - fix reviewer comment
->   - fix rdma and ethdr binding doc and dts
-> 
-> Changes in v20:
-> - fix reviewer comment
->   - update mmsys update bit api name
->   - add mtk_mmsys_update_bits error message if lose gce property
->   - list all mt8195 vdosys1 reset bits
-> 
-> Changes in v19:
-> - fix reviewer comment
->   - separate mt8195 mmsys component to a new patch
->   - separate mt8195 vdo0 and vdo1 routing table
->   - separate mmsys_write_reg api to a new patch and simplify write
-> reg code
->   - separate mmsys 64 bit reset to a new patch
->   - separate mtk-mutex dp_intf1 component to a new patch
-> 
-> Changes in v18:
-> - fix reviewer comment
->   - fix rdma binding doc
->   - fix ethdr binding doc
->   - refine mmsys config cmdq support
->   - refine merge reset control flow, get reset control in probe
-> function
->   - add ethdr reset control error handling and remove dbg log
-> - rebase to vdosys0 series v20 (ref [5])
-> 
-> Changes in v17:
-> - fix reviewer comment in v16
->   - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
->   - separate mmsys config API
->   - move mdp_rdma binding yaml
-> - fix ovl adaptor pm runtime get sync timing issue
-> - rebase to vdosys0 series v19 (ref [5])
-> - rebase to [7] for modify vblank register change
-> 
-> Changes in v16:
-> - fix reviewer comment in v 15
->   - fix mtk_drm_ddp_comp.c alignment
->   - fix vdosys0 mmsys num before adding vdosys1 patch
-> 
-> Changes in v15:
-> - fix ethdr uppercase hex number in dts
-> 
-> Changes in v14:
-> - remove MTK_MMSYS 64 bit dependency
-> - add ethdr.yaml back and fix dt_schema check fail
-> 
-> Resend v13
-> - add related maintainer in maillist
-> 
-> Changes in v13:
-> - fix reviewer comment in v12
->   - fix rdma dt-binding format
->   - fix dts node naming
-> - fix 32 bit build error
->   - modify 64bit dependency for mtk-mmsys
-> - rebase to vdosys0 series v16. (ref [5])
-> 
-> Changes in v12:
-> - fix reviewer comment in v11
->   - modify mbox index
->   - refine dma dev for ovl_adaptor sub driver
-> 
-> Changes in v11:
-> - remove ethdr vblank spin lock
-> - refine ovl_adaptor print message
-> 
-> Changes in v10:
-> - refine ethdr reset control using
-> devm_reset_control_array_get_optional_exclusive
-> - fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
-> 
-> Changes in v9:
-> - rebase on kernel-5.16-rc1
-> - rebase on vdosys0 series v13. (ref [5])
-> - fix ovl_adaptor sub driver is brought up unintentionally
-> - fix clang build test fail- duplicate ethdr/mdp_rdma
-> init_module/cleanup_module symbol issue 
-> 
-> Changes in v8:
-> - separate merge async reset to new patch.
-> - separate drm ovl_adaptor sub driver to new patch.
-> - fix reviewer comment in v7.
-> 
-> Changes in v7:
-> - rebase on vdosys0 series v12 (ref[5])
-> - add dma description in ethdr binding document.
-> - refine vdosys1 bit definition of mmsys routing table.
-> - separate merge modification into 3 pathces.
-> - separate mutex modification into 2 patches.
-> - add plane color coding for mdp_rdma csc.
-> - move mdp_rdma pm control to ovl_adaptor.
-> - fix reviewer comment in v6.
-> 
-> Changes in v6:
-> - rebase on kernel-5.15-rc1.
-> - change mbox label to gce0 for dts node of vdosys1.
-> - modify mmsys reset num for mt8195.
-> - rebase on vdosys0 series v10. (ref [5])
-> - use drm to bring up ovl_adaptor driver.
-> - move drm iommu/mutex check from kms init to drm bind.
-> - modify rdma binding doc location.
-> (Documentation/devicetree/bindings/arm/)
-> - modify for reviewer's comment in v5.
-> 
-> Changes in v5:
-> - add mmsys reset controller reference.
-> 
-> Changes in v4:
-> - use merge common driver for merge1~4.
-> - refine ovl_adaptor rdma driver.
-> - use ovl_adaptor ddp_comp function instead of ethdr.
-> - modify for reviewer's comment in v3.
-> 
-> Changes in v3:
-> - modify for reviewer's comment in v2.
-> - add vdosys1 2 pixels align limit.
-> - add mixer odd offset support.
-> 
-> Changes in v2:
-> - Merge PSEUDO_OVL and ETHDR into one DRM component.
-> - Add mmsys config API for vdosys1 hardware setting.
-> - Add mmsys reset control using linux reset framework.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> 
-> This series are based on the following patch:
-> [1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
->     20220112114724.1953-4-tinghan.shen@mediatek.com
-> [2] arm64: dts: mt8195: add IOMMU and smi nodes
->     20210615173233.26682-15-tinghan.shen@mediatek.com
-> [3] [v2] arm64: dts: mt8195: add display node for vdosys0
->     20220225021535.2655-1-jason-jh.lin@mediatek.com
-> [4] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
->     20220407075726.17771-2-yong.wu@mediatek.com
-> [5] Add MediaTek SoC DRM (vdosys1) support for mt8195
->     20220526110233.20080-1-nancy.lin@mediatek.com
-> 
-> Nancy.Lin (7):
->   dt-bindings: mediatek: add ethdr definition for mt8195
->   drm/mediatek: add ETHDR support for MT8195
->   drm/mediatek: add ovl_adaptor support for MT8195
->   drm/mediatek: add dma dev get function
->   drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
->   drm/mediatek: add drm ovl_adaptor sub driver for MT8195
->   drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
-> 
->  .../display/mediatek/mediatek,ethdr.yaml      | 188 +++++++
->  drivers/gpu/drm/mediatek/Makefile             |   2 +
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  26 +
->  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 528
-> ++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 129 +++--
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 359 ++++++++----
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  24 +-
->  drivers/gpu/drm/mediatek/mtk_ethdr.c          | 370 ++++++++++++
->  drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
->  12 files changed, 1615 insertions(+), 197 deletions(-)
->  create mode 100644
-> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yam
-> l
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
 
-Hello all,
+--fe5pr2l7i2tpjvdm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Because Kernel 6.0-rc1 is released, I re-test this series.
-I use dp series [1] to test this mmsys series because this series is
-used to control external display.
+Hi Samuel,
 
-In my test, I can do modtest of these mode for DP and it passed.
-Whole series again for 6.0-rc1:
-Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+On Fri, Aug 12, 2022 at 02:42:55AM -0500, Samuel Holland wrote:
+> Replace the ad-hoc calls to of_device_is_compatible() with a structure
+> describing the differences between variants. This is in preparation for
+> adding more variants to the driver.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>=20
+>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 50 +++++++++++++++++---------
+>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  7 ++++
+>  2 files changed, 40 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun=
+4i/sun6i_mipi_dsi.c
+> index b4dfa166eccd..6479ade416b9 100644
+> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> @@ -1101,12 +1101,16 @@ static const struct component_ops sun6i_dsi_ops =
+=3D {
+> =20
+>  static int sun6i_dsi_probe(struct platform_device *pdev)
+>  {
+> +	const struct sun6i_dsi_variant *variant;
+>  	struct device *dev =3D &pdev->dev;
+> -	const char *bus_clk_name =3D NULL;
+>  	struct sun6i_dsi *dsi;
+>  	void __iomem *base;
+>  	int ret;
+> =20
+> +	variant =3D device_get_match_data(dev);
+> +	if (!variant)
+> +		return -EINVAL;
+> +
+>  	dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+>  	if (!dsi)
+>  		return -ENOMEM;
+> @@ -1114,10 +1118,7 @@ static int sun6i_dsi_probe(struct platform_device =
+*pdev)
+>  	dsi->dev =3D dev;
+>  	dsi->host.ops =3D &sun6i_dsi_host_ops;
+>  	dsi->host.dev =3D dev;
+> -
+> -	if (of_device_is_compatible(dev->of_node,
+> -				    "allwinner,sun6i-a31-mipi-dsi"))
+> -		bus_clk_name =3D "bus";
+> +	dsi->variant =3D variant;
+> =20
+>  	base =3D devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(base)) {
+> @@ -1142,7 +1143,7 @@ static int sun6i_dsi_probe(struct platform_device *=
+pdev)
+>  		return PTR_ERR(dsi->regs);
+>  	}
+> =20
+> -	dsi->bus_clk =3D devm_clk_get(dev, bus_clk_name);
+> +	dsi->bus_clk =3D devm_clk_get(dev, variant->has_mod_clk ? "bus" : NULL);
+>  	if (IS_ERR(dsi->bus_clk))
+>  		return dev_err_probe(dev, PTR_ERR(dsi->bus_clk),
+>  				     "Couldn't get the DSI bus clock\n");
+> @@ -1151,21 +1152,21 @@ static int sun6i_dsi_probe(struct platform_device=
+ *pdev)
+>  	if (ret)
+>  		return ret;
+> =20
+> -	if (of_device_is_compatible(dev->of_node,
+> -				    "allwinner,sun6i-a31-mipi-dsi")) {
+> +	if (variant->has_mod_clk) {
+>  		dsi->mod_clk =3D devm_clk_get(dev, "mod");
+>  		if (IS_ERR(dsi->mod_clk)) {
+>  			dev_err(dev, "Couldn't get the DSI mod clock\n");
+>  			ret =3D PTR_ERR(dsi->mod_clk);
+>  			goto err_attach_clk;
+>  		}
+> -	}
+> =20
+> -	/*
+> -	 * In order to operate properly, that clock seems to be always
+> -	 * set to 297MHz.
+> -	 */
+> -	clk_set_rate_exclusive(dsi->mod_clk, 297000000);
+> +		/*
+> +		 * In order to operate properly, the module clock on the
+> +		 * A31 variant always seems to be set to 297MHz.
+> +		 */
+> +		if (variant->set_mod_clk)
+> +			clk_set_rate_exclusive(dsi->mod_clk, 297000000);
+> +	}
+>
+>
+>  	dsi->dphy =3D devm_phy_get(dev, "dphy");
+>  	if (IS_ERR(dsi->dphy)) {
+> @@ -1205,16 +1206,31 @@ static int sun6i_dsi_remove(struct platform_devic=
+e *pdev)
+> =20
+>  	component_del(&pdev->dev, &sun6i_dsi_ops);
+>  	mipi_dsi_host_unregister(&dsi->host);
+> -	clk_rate_exclusive_put(dsi->mod_clk);
+> +	if (dsi->variant->has_mod_clk && dsi->variant->set_mod_clk)
+> +		clk_rate_exclusive_put(dsi->mod_clk);
 
-  #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
-flags: phsync, pvsync; type: preferred, driver
-  #1 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352
-flags: phsync, pvsync; type: driver
-  #2 1920x1080 50.00 1920 2448 2492 2640 1080 1084 1089 1125 148500
-flags: phsync, pvsync; type: driver
-  #3 1680x1050 59.95 1680 1784 1960 2240 1050 1053 1059 1089 146250
-flags: nhsync, pvsync; type: driver
-  #4 1600x900 60.00 1600 1624 1704 1800 900 901 904 1000 108000 flags:
-phsync, pvsync; type: driver
-  #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000
-flags: phsync, pvsync; type: driver
-  #6 1280x800 59.81 1280 1352 1480 1680 800 803 809 831 83500 flags:
-nhsync, pvsync; type: driver
-  #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags:
-phsync, pvsync; type: driver
-  #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags:
-phsync, pvsync; type: driver
-  #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags:
-phsync, pvsync; type: driver
-  #10 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags:
-nhsync, nvsync; type: driver
-  #11 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags:
-phsync, pvsync; type: driver
-  #12 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags:
-nhsync, nvsync; type: driver
-  #13 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags:
-nhsync, nvsync; type: driver
-  #14 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags:
-nhsync, nvsync; type: driver
-  #15 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags:
-nhsync, nvsync; type: driver
-  #16 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags:
-nhsync, nvsync; type: driver
+There's also a clk_rate_exclusive_put call in the bind error path
 
-[1]:
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=665597
+Maxime
 
-BRs,
-Bo-Chen
+--fe5pr2l7i2tpjvdm
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvnq6AAKCRDj7w1vZxhR
+xRUgAQC+Q6FefSqQzlCuirg8gH0Zff7RElCM+/kmmzZdz/QEiwEA1K0JgOyS8Xbv
+pApMRj4LRfKxndHBOk/R4DCvHbcNxwk=
+=pvGf
+-----END PGP SIGNATURE-----
+
+--fe5pr2l7i2tpjvdm--
