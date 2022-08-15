@@ -1,130 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67310592E33
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 13:28:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E3D592E4B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 13:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCDB7B898F;
-	Mon, 15 Aug 2022 11:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 996EEB0584;
+	Mon, 15 Aug 2022 11:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDCBEB8830
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 11:28:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKMSEzqMOK0B9DXTFIQr2yqpcdWBA7UB/Pw2QQpcuPDD2Q2X2uLLaSUNWTMZp4KQmE9a9PsMH41+vHlZVtU8gFNWZRIVobWDVW8WmkGU35FC01LhZOb+PhUE14mDwja1EwF8tXZycR2kaWNGW6tXJavWESZx1izSHpqAVIvttdoJsBQMSiCdlsm5cIkz2GFBCSxD2uO6ZjC/2rlN0lJJG1qlYobW3NLTkjOaOXCJtIXCXFVyPRk9Tmy7NvZCVWX//QZifHZlOtN5XmF010FhPvFW2hj81rPTv8/StpzvK/l/bBN1/ahQGwbhRLVOQez0tpLZRobFDA7hwcsy8YJZ0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oM6YTzPvEFv72OGkdeMo9uDD9nhyICWlOUixTGt4yKc=;
- b=HHRvt3QaTjV+zCAvnmIPYgxVI4DLACqdVQaRoIuvCNGyPyva/ZaI1yAM/36Rjd++Khf79gY57qJ6ArFJ9q4vBpcsSxZf/9aDMaTYf5np5K2pxd/3YCYJxq6uRwVgWRVedFNSb9/foR4y63vBAnIDmI2/asOFJ1UieNHunuVZq2Ecuyy3JActkvH/KL2U1D5qA1WQfsl/H3ydyu92UMjc9nxx0ys0R3nlLgNAzTNdu1XRllzwhRVpst2RHeDYVwdvGjWcnw+g1fHyPAk9+stIl0YwGz94LOo9Acew1Ut+nQMhUUcTACpmqn1OLdU/IHhwNupHPrpbOcLfNfgiM0iDWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oM6YTzPvEFv72OGkdeMo9uDD9nhyICWlOUixTGt4yKc=;
- b=lDgfQ/gKgDuGqG+1xtkTzKjAhfhzP6nwaJ2Jwsm/i0riEB21d/2ZZb8NwR+cRvz6GqoMLhfYDb1FJE6H1THTMXlh41gw0JB3L0zhaY0vTsTnyxqV9oGPY7yAKCrCIqmkdInCh1rxWwHZ5KXwMj/RXOZBqm7S7YeyWzIaIsEjL78=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BL0PR12MB2403.namprd12.prod.outlook.com (2603:10b6:207:40::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Mon, 15 Aug
- 2022 11:28:17 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Mon, 15 Aug 2022
- 11:28:17 +0000
-Message-ID: <8f749cd0-9a04-7c72-6a4f-a42d501e1489@amd.com>
-Date: Mon, 15 Aug 2022 13:28:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1] drm/ttm: Refcount allocated tail pages
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Trigger Huang <Trigger.Huang@gmail.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Antonio Caggiano <antonio.caggiano@collabora.com>
-References: <20220815095423.11131-1-dmitry.osipenko@collabora.com>
- <8230a356-be38-f228-4a8e-95124e8e8db6@amd.com>
- <134bce02-58d6-8553-bb73-42dfda18a595@collabora.com>
- <8caf3008-dcf3-985a-631e-e019b277c6f0@amd.com>
- <4fcc4739-2da9-1b89-209c-876129604d7d@amd.com>
- <14be3b22-1d60-732b-c695-ddacc6b21055@collabora.com>
- <2df57a30-2afb-23dc-c7f5-f61c113dd5b4@collabora.com>
- <57562db8-bacf-e82d-8417-ab6343c1d2fa@amd.com>
- <86a87de8-24a9-3c53-3ac7-612ca97e41df@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <86a87de8-24a9-3c53-3ac7-612ca97e41df@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0098.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::8) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD882AC57;
+ Mon, 15 Aug 2022 11:39:56 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4M5slJ0jsYzDqK1;
+ Mon, 15 Aug 2022 11:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1660563596; bh=Ivqcw69hFHNcDctihAUBvHj1D0kLXqB98wgJ/RA5tWE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hKrothk0wjrhN77qvM5nwlFVUnPyBG6Gbz9tj2cPbPNlwTbeLgpbDKHll+fKJYuz2
+ UruRzIjQdpkqLe+YoFeGrrqecsiNljTaXfjbnAJ43yAadII+ppcHhoNaNOYz410+Qt
+ NJxrcGf7fQjCE75hcS7puQXfHehhuzau4/9Hxyog=
+X-Riseup-User-ID: 5C95B1E76654EB79FDDDDCF7BCA1D906FA5A58BFC84BF5DDBD905CEDE6B5A695
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4M5slD0M1kz5vXT;
+ Mon, 15 Aug 2022 11:39:51 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amdgpu: Fix use-after-free on amdgpu_bo_list mutex
+Date: Mon, 15 Aug 2022 08:39:31 -0300
+Message-Id: <20220815113931.53226-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 31cac634-54d0-4eac-f907-08da7eb13fa1
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2403:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UV8J8YvXgwgJn8Wd9cyNjJwNtemsQ05Q0C/YSHdDqwqvQhWMzBcNgtYXH/tW5LLFJ9pNMZgq5irjQr/YYc29HKyfa2Y5lLdmONvYKLIAN41u+4Jdpe1JJvFOKZvtrBqZXEsftwI5jnXDG6gmttazXXpyIcXfcTiHbUIPW1VbKYMbLlsYV/g1NY5Od31tv2SEK4CbcLffrRDymrr45QkllxjY+XCU9oNTxPsbPcnbAZx19ZRm3RCU4FIQ1xvrXeDIZaHMh32XWkr+oNj2lYCiTFDU7GeyQj+OKkYHbqmUIOGBoMtu7wPHs/UaFfZGwqCr9Pf1WvgKajyAykPFt4a0RtEAymtP5jHJG85JFnGs8SICwBroEbgcdPpkTh6YThHNerybj/CnpHxvBzXqWzA3W7AJ/OUyoKQ5ZIRbvxKwsKKJhDW6qwyYnhslORi7XHNMTMvJ0+0MNXagtnN87SKu07jZtwipLihVLAseWfNR2z/eHINV3Sx/dkJLTfTSlughYX5lPvrJBeMrZ0KICYLx0AQvtxYjzXuygoJYy1zufP5smYcZZF+PQlbW1zdA63Nsz/URubbYMZcvb5kwXFHth9bUe8NbJLJzBfwIf1uASe5erLZucNf2iqaemNnGS2XqCipDWslEV+LngDU8DuFlst+FOa9FzWIRN5t6C9Xz4g5CDfAnYUjx2VWDfhkZB3uMu8t6AX6er8OcSpSIg73izU6bywz4oBZxYpgo+rdusB0Ua6LtV2E/TVK69aCcS0EfWJ4pfpK660SxAA52E22nG/NPDYxzpAPXk6bspSQq8deGOAm7YLgKXLp55dut2cFGTbnlegGRMU1hK9B2QRo0Gw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(39860400002)(366004)(396003)(346002)(38100700002)(5660300002)(66556008)(66946007)(8676002)(66476007)(186003)(478600001)(2616005)(41300700001)(6506007)(6512007)(6666004)(316002)(6486002)(83380400001)(4326008)(110136005)(31686004)(36756003)(7416002)(8936002)(31696002)(86362001)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDlqV2c5MGM2bTcwOXY0MXU5ZkRObzhoUDZxNWNMZklyMmdNMnA3TGNuaXdU?=
- =?utf-8?B?bnhXQXFlc2ZJYnk0SGVrY3BWdTZlbDZDWnR0TmZNU0hFSk84SlhtYS9BTTV0?=
- =?utf-8?B?cjdCTmN6K2d0UU1hYXB2MWluOHFUNTR4aTV3SVIzVS92aU02dHVoRjQwNXVJ?=
- =?utf-8?B?YkRiamtMNzZqYUNGMWtxZkJMdUp5TFFXSEFTRDFyV3kzSGUxakM0Y3BPNnJX?=
- =?utf-8?B?Q2d6b0d5NTB0d2VqZmV6bDFieDhnNzBsQ2VJbDR0N0xrZmxBTm5VLzZXQ1JL?=
- =?utf-8?B?Tm4zY0VjM1F3MElUSG1kWGsxNklhSFhGVTJUbjVmbkU2c0R0cmpQV1FTRW9x?=
- =?utf-8?B?d2pqQVV5UWEzZmpNcW9CMFhuZThuYmR2am51ZjI0bXIrZFlsQnRLclNnTTdu?=
- =?utf-8?B?OG1FSm1IN0hxd2pZM3E1dmxlV0YrLzBJQVpOSHErQjJlUmM3K0xYdkprYkh1?=
- =?utf-8?B?VmZCeE9YcTNUcWpoOGh2M0dDNWVpYkc5Ym9nYjFXdktGS0VVenV1ZGYxRExM?=
- =?utf-8?B?c2ZSTjcrUWVINWVDd2F5OUhjNDVIcVV5SUhqT1pqSzIrT0k5SkZaY2JBUGJ0?=
- =?utf-8?B?ZjRBclZRdWNqY2t6MURrOVJYaFNzY21COXNSdjljdVVqTWJCNWJFTkhLbjU5?=
- =?utf-8?B?TTdyMFFEQko4dE95SWJMdjNia2VzcTVkeTk1NEFUTmpjZ2dSR0Y5dWROV1pV?=
- =?utf-8?B?bm5UZEhISElaT2hpUHZIN1Z2SUx5Y20wNy8zTzUwSFBsYzVDcjhQVlRLYld2?=
- =?utf-8?B?VDhvV2FISjZlQ0RaSHdtd01mcTBuSndOL1NGNFJMcU1qZThRZ3lmOHJOY1Zt?=
- =?utf-8?B?NmdIUGVTRG5IWkNaTU11UUErY0JySzQzKy9vUnlUK2ZnTnNSNDNkd1FRei9n?=
- =?utf-8?B?YzVJN2k5Ly8xTk5SR3FBYzV3dExYcm5aWFZ2bTZRc01lbEd5T3pPTjJYM1pz?=
- =?utf-8?B?VHh1SDRXOXdGVkx3OFNhZTVPU2I3WjZWYk5MNWpZTkpUMlBYNGh5bUVwYlNy?=
- =?utf-8?B?eGlrMmoxT2diWGJzckNsc2N2VlduSXRpREdSOGlSNFUybVRmTEZwNDhQMWJn?=
- =?utf-8?B?dDBoVWJ0L1lWTFJNclhHODQvenZWVG50ajNBWGNQVDlZaE9ZdXgyODBhK1Za?=
- =?utf-8?B?WDRsbHRXd1Y3MjFjeEJCcVQ2czZIRlZ4b2dHZE9zUDFNck5kMTVqVFdMSTdk?=
- =?utf-8?B?SFQzVHg1WHdHQ1V3czlFVFJPVTlLWDNOZUg2dXQxRjZoMXUzSUdCZmo3WUNH?=
- =?utf-8?B?SFdNM0xVNEM2ZmwrcEliV3dBTnBNU1pHbzNvcjNBQWFhNnNtVW5iY2p4OUQy?=
- =?utf-8?B?WlNqbGQrQmRNekJWNldZWkJWSkt0NGdnendEWHlPMFJtZjZsa1JZdEFNSUVs?=
- =?utf-8?B?TXA2ZC9oY2xlVGV6Sjk1d2g3bitjMk5LNzAwMGc0azQxM3NlaUovd2NMVGJF?=
- =?utf-8?B?SUJQNis1SkFjcVZYUnlpTUJiQzQzN1pvQW9nT01BakpkUXZpUGpha3hzcFVP?=
- =?utf-8?B?WFBnK1F2Ri9Ka0s5cktTa1NyQk11L2hjMlBDa09XeFdTK05HUGxVRjBvNnRV?=
- =?utf-8?B?SUkzb3pXNEdKZVBHZS9WWEwyT1dlUDYvS1ZwcHVTWVNQTXQ2VDlmWk45clpM?=
- =?utf-8?B?SnhxZWFTTVF2UnVaWUlSL2pRSUlodVd6VmlNdEVCUmJ1dFFUNDNORk81Rkkx?=
- =?utf-8?B?ZTBpNzhHcGY5bEdPZ2F3dTFHc21rWnlZZnNXREROSmpXbUM5bmF4MkN0eUo4?=
- =?utf-8?B?ZG1YaWMydE9EaFhlZWh0ckdqaWltVjdCbjRUcGhMajIzVnpiWXZvTlY0RlF6?=
- =?utf-8?B?SGVHeTM5YWpDWHQ5emsxZEdPR2N4RllaWEE1WmFGM1puV0JaM3NTcTdwL2hX?=
- =?utf-8?B?M3JqRndnQnpWNEJoMVUvRUN1dkhBRzlIV2QxQ3pUMjZJZ0JoWmtWSmJEbCtU?=
- =?utf-8?B?ZHl6aGhmdUtlSm80NzRzSUxqOXc0WHFRc1d2bzd5ZzhCNVJ4ZUlZUG5HOTJO?=
- =?utf-8?B?SEk4SkZMN3hQbTEyeEZ6blcxSUtqSm9WRmYyYVJXS0w0NXdGMUF6dEEyQ0Fp?=
- =?utf-8?B?Si95K0ExUXlGZGhIR3VwdVpteWlSNm56aXZKdmtQT3hEUVIxMnhweGtVUDdI?=
- =?utf-8?B?THVWUGNnK203ZW91N0svYnU5VlUxNEMyQm5nTGZqK3E3b3FMWk9RdDU1VkJv?=
- =?utf-8?Q?/WbXiRbpN5u9OblBOWfpJa9WveEVoLpxgGImj0cVQl+N?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31cac634-54d0-4eac-f907-08da7eb13fa1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 11:28:17.1205 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t5w3v60m2R264dzCYE5uiqiYEjXnVjXsOPQzB4rBWF4M4G/cHpK0zrFnoi5Bv0tb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2403
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,47 +51,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mwen@igalia.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ amd-gfx@lists.freedesktop.org, Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.08.22 um 13:19 schrieb Dmitry Osipenko:
-> [SNIP]
->>>> I'll try to dig out the older discussions, thank you for the quick
->>>> reply!
->>> Are you sure it was really discussed in public previously? All I can
->>> find is yours two answers to a similar patches where you're saying that
->>> this it's a wrong solution without in-depth explanation and further
->>> discussions.
->> Yeah, that's my problem as well I can't find that of hand.
->>
->> But yes it certainly was discussed in public.
-> If it was only CC'd to dri-devel, then could be that emails didn't pass
-> the spam moderation :/
+If amdgpu_cs_vm_handling returns r != 0, then it will unlock the
+bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
+amdgpu_cs_parser_fini. This problem results in the following
+use-after-free problem:
 
-That might be possible.
+[ 220.280990] ------------[ cut here ]------------
+[ 220.281000] refcount_t: underflow; use-after-free.
+[ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28 refcount_warn_saturate+0xba/0x110
+[ 220.281029] ------------[ cut here ]------------
+[ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L ------- --- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
+[ 220.281421] Hardware name: System manufacturer System Product Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
+[ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
+[ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
+7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
+6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
+c7
+[ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
+[ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 0000000000000000
+[ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000ffffffff
+[ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0d18d7930
+[ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058ca360400
+[ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 0000000000000003
+[ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000) knlGS:0000000000000000
+[ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 0000000000350ee0
+[ 220.281480] Call Trace:
+[ 220.281485] <TASK>
+[ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
+[ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+[ 220.282028] drm_ioctl_kernel+0xa4/0x150
+[ 220.282043] drm_ioctl+0x21f/0x420
+[ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+[ 220.282275] ? lock_release+0x14f/0x460
+[ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
+[ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
+[ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
+[ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
+[ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
+[ 220.282534] __x64_sys_ioctl+0x90/0xd0
+[ 220.282545] do_syscall_64+0x5b/0x80
+[ 220.282551] ? futex_wake+0x6c/0x150
+[ 220.282568] ? lock_is_held_type+0xe8/0x140
+[ 220.282580] ? do_syscall_64+0x67/0x80
+[ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
+[ 220.282592] ? do_syscall_64+0x67/0x80
+[ 220.282597] ? do_syscall_64+0x67/0x80
+[ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
+[ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[ 220.282616] RIP: 0033:0x7f8282a4f8bf
+[ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
+00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
+0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
+00
+[ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f8282a4f8bf
+[ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 0000000000000018
+[ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f82683df4b0
+[ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000c0186444
+[ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 0000000000000003
+[ 220.282689] </TASK>
+[ 220.282693] irq event stamp: 6232311
+[ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>] __up_console_sem+0x5e/0x70
+[ 220.282704] hardirqs last disabled at (6232326): [<ffffffff9718cd63>] __up_console_sem+0x43/0x70
+[ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>] __irq_exit_rcu+0xf9/0x170
+[ 220.282716] softirqs last disabled at (6232061): [<ffffffff970ff669>] __irq_exit_rcu+0xf9/0x170
+[ 220.282722] ---[ end trace 0000000000000000 ]---
 
->>> Maybe it was discussed privately? In this case I will be happy to get
->>> more info from you about the root of the problem so I could start to
->>> look at how to fix it properly. It's not apparent where the problem is
->>> to a TTM newbie like me.
->>>
->> Well this is completely unfixable. See the whole purpose of TTM is to
->> allow tracing where what is mapped of a buffer object.
->>
->> If you circumvent that and increase the page reference yourself than
->> that whole functionality can't work correctly any more.
-> Are you suggesting that the problem is that TTM doesn't see the KVM page
-> faults/mappings?
+Therefore, remove the mutex_unlock from the amdgpu_cs_vm_handling
+function, so that amdgpu_cs_submit and amdgpu_cs_parser_fini can handle
+the unlock.
 
-Yes, and no. It's one of the issues, but there is more behind that (e.g. 
-what happens when TTM switches from pages to local memory for backing a BO).
+Fixes: 90af0ca047f3 ("drm/amdgpu: Protect the amdgpu_bo_list list with a mutex v2")
+Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
+Thanks Melissa and Christian for the feedback on mutex_unlock.
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-Another question is why is KVM accessing the page structure in the first 
-place? The VMA is mapped with VM_PFNMAP and VM_IO, KVM should never ever 
-touch any of those pages.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index d8f1335bc68f..b7bae833c804 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -837,16 +837,12 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
+ 			continue;
+ 
+ 		r = amdgpu_vm_bo_update(adev, bo_va, false);
+-		if (r) {
+-			mutex_unlock(&p->bo_list->bo_list_mutex);
++		if (r)
+ 			return r;
+-		}
+ 
+ 		r = amdgpu_sync_fence(&p->job->sync, bo_va->last_pt_update);
+-		if (r) {
+-			mutex_unlock(&p->bo_list->bo_list_mutex);
++		if (r)
+ 			return r;
+-		}
+ 	}
+ 
+ 	r = amdgpu_vm_handle_moved(adev, vm);
+-- 
+2.37.2
 
-Regards,
-Christian.
