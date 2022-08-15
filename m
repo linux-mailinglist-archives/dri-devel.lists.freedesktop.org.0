@@ -1,52 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E48594371
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 00:56:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFB65946F3
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 01:22:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA34D6868;
-	Mon, 15 Aug 2022 22:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F68DD6F04;
+	Mon, 15 Aug 2022 23:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB67D6872
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 22:56:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8F1F4612D2;
- Mon, 15 Aug 2022 22:56:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDF4C433C1;
- Mon, 15 Aug 2022 22:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660604165;
- bh=xMmA6oKgbgUn6m+9eT6q7pbLR6zVbVy796oIUBAaC34=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F9SlKgjQLmKKrMBqJ3vvsBrd/Yrlq/4jXbrxweWPj+yty8ovPhmdnEnTIWpGowipZ
- ECHdt+y2tO9y8qZfE+f+YPkED7huG/w9HkviixPVFvChrzkt8yQHvMo9O2VEBMNnzT
- JrgsR7XULrWGVBkNhntK/xnHOk7eDkZMlqsrXDiqjhP0aUimZ6hEjHJq68SJqJNXZ8
- Mn7TB54t7gXDP09+nIigfo9+G8xUNeiGZ8KoKq/3xI0hTgVnGoFpEhhQ4uxC2ZsnD5
- nbKSi9SZujYbs+PUjccW7ijsGglrXKDh+DVk9PUS1QTRrpf9KPISuwCizKTspA2CBS
- QyObtjpXNSFrg==
-Date: Mon, 15 Aug 2022 23:55:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
-Message-ID: <YvrO+velKdYdGVve@sirena.org.uk>
-References: <cover.1660292316.git.mazziesaccount@gmail.com>
- <166057828406.697572.228317501909350108.b4-ty@kernel.org>
- <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
- <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
- <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
- <20220815205857.308B1C433D6@smtp.kernel.org>
- <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902ADD6EF5;
+ Mon, 15 Aug 2022 23:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660605745; x=1692141745;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3BYs7DEwqC7+7x0zkYz3ETq3+BLk8JS8wrbtxUjRzqY=;
+ b=evVxGHKQHX/UVbP4EscIlBIN8iee01V6lTAB9+jGFOHbKPkiBYwllMSF
+ lFZPs11UGkX5M2NmhaYqrwnGOaRy3Q4kFRDxsz3t4xqntOP9sJdaGPtC5
+ Ib3qxlRphWqxKPvP8YgV5C6Xz2/V7/C0mf0e/vZSAgkf6jdKC0oOV/bdw
+ VuMQjn3Kz0pUKQhmeAFaJv4g3aP3djcJE4rSR623MBs2yReP4Osq0ac6/
+ k4yNznEf2pJ1CiSatJUC0hGZB4UFh76UrWQO/aDlRpleTt/mErWvJP6jC
+ DrLFiYv8nnPsUoy4dxJXCl14onWrGhtlR++n/lOLxsaGDjPucQMrF1lyF Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="290832445"
+X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="290832445"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2022 16:22:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="666854740"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmsmga008.fm.intel.com with ESMTP; 15 Aug 2022 16:22:19 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/guc/slpc: Allow SLPC to use efficient frequency
+Date: Mon, 15 Aug 2022 16:22:04 -0700
+Message-Id: <20220815232204.34900-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4yZYFMFbpCwRNWoh"
-Content-Disposition: inline
-In-Reply-To: <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
-X-Cookie: We have ears, earther...FOUR OF THEM!
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,122 +54,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaoqian Lin <linmq006@gmail.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Michael Turq uette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-clk@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-iio@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, Johan Hovold <johan+linaro@kernel.org>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Alexandru Ardelean <aardelean@deviqon.com>,
- Alexandru Tachici <alexandru.tachici@analog.com>,
- Jean Delvare <jdelvare@suse.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Aswath Govindraju <a-govindraju@ti.com>, linux-amlogic@lists.infradead.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Host Turbo operates at efficient frequency when GT is not idle unless
+the user or workload has forced it to a higher level. Replicate the same
+behavior in SLPC by allowing the algorithm to use efficient frequency.
+We had disabled it during boot due to concerns that it might break
+kernel ABI for min frequency. However, this is not the case since
+SLPC will still abide by the (min,max) range limits.
 
---4yZYFMFbpCwRNWoh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+With this change, min freq will be at efficient frequency level at init
+instead of fused min (RPn). If user chooses to reduce min freq below the
+efficient freq, we will turn off usage of efficient frequency and honor
+the user request. When a higher value is written, it will get toggled
+back again.
 
-On Tue, Aug 16, 2022 at 12:17:17AM +0300, Laurent Pinchart wrote:
-> On Mon, Aug 15, 2022 at 01:58:55PM -0700, Stephen Boyd wrote:
+The patch also corrects the register which needs to be read for obtaining
+the correct efficient frequency for Gen9+.
 
-> > The basic idea is that drivers should be focused on what they're
-> > driving, not navigating the (sometimes) complex integration that's
-> > taking place around them. When a device driver probe function is called
-> > the device should already be powered on.
+We see much better perf numbers with benchmarks like glmark2 with
+efficient frequency usage enabled as expected.
 
-> No. ACPI does that in many cases, and that's a real bad idea. There are
-> devices that you do *not* want to power up on probe. I'm thinking, for
-> example, about camera sensors that have a privacy LED that will light up
-> when the sensor is powered up. You don't want it to flash on boot. There
-> are also other use cases related to fault tolerance where you want
-> drivers to initialize properly and only access the device later.
+v2: Address review comments (Rodrigo)
 
-I don't think it's an either/or thing in terms of approach here - we
-need a range of options to choose from.  ACPI is totally fine and solves
-real problems for the systems it targets, the problems we see with it
-are mainly that it has a very strong system abstraction and doesn't cope
-well when things go outside that coupled with the fact that Windows long
-ago decided that board files were totally fine for papering over any
-problems so people haven't worked on standardisation where they should.
-Some SoCs like to do similar things with their power controller cores.
+BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/5468
 
-Conversely for example with many (but not all) SoC IPs the mechanics of
-the system integration and range of options available are such that
-dealing with them is kind of out of scope of the driver, but they're
-often very repetitive over any given SoC so there is a benefit in
-pushing things into power domains rather than having the driver for the
-IP manage everything.  We need to be able to be flexible so we can find
-the best idioms to represent the different systems in front of us rather
-than trying to force all systems into a single idiom.
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_rps.c         |  7 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 66 ++++-----------------
+ drivers/gpu/drm/i915/intel_mchbar_regs.h    |  3 +
+ 3 files changed, 22 insertions(+), 54 deletions(-)
 
-> These devres helpers go in the exact opposite direction of what we
-> should be doing, by telling driver authors it's totally fine to not
-> implement power management. Why don't we just drop error handling and go
-> back to the big kernel lock in that case ? That was much easier to
-> program too.
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index c7d381ad90cf..8c289a032103 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -1107,7 +1107,12 @@ void gen6_rps_get_freq_caps(struct intel_rps *rps, struct intel_rps_freq_caps *c
+ 		caps->min_freq = (rp_state_cap >>  0) & 0xff;
+ 	} else {
+ 		caps->rp0_freq = (rp_state_cap >>  0) & 0xff;
+-		caps->rp1_freq = (rp_state_cap >>  8) & 0xff;
++		if (GRAPHICS_VER(i915) >= 10)
++			caps->rp1_freq = REG_FIELD_GET(RPE_MASK,
++						       intel_uncore_read(to_gt(i915)->uncore,
++						       GEN10_FREQ_INFO_REC));
++		else
++			caps->rp1_freq = (rp_state_cap >>  8) & 0xff;
+ 		caps->min_freq = (rp_state_cap >> 16) & 0xff;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+index e1fa1f32f29e..9d49ccef03bb 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -137,17 +137,6 @@ static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
+ 	return ret > 0 ? -EPROTO : ret;
+ }
+ 
+-static int guc_action_slpc_unset_param(struct intel_guc *guc, u8 id)
+-{
+-	u32 request[] = {
+-		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
+-		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 1),
+-		id,
+-	};
+-
+-	return intel_guc_send(guc, request, ARRAY_SIZE(request));
+-}
+-
+ static bool slpc_is_running(struct intel_guc_slpc *slpc)
+ {
+ 	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
+@@ -201,16 +190,6 @@ static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
+ 	return ret;
+ }
+ 
+-static int slpc_unset_param(struct intel_guc_slpc *slpc,
+-			    u8 id)
+-{
+-	struct intel_guc *guc = slpc_to_guc(slpc);
+-
+-	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
+-
+-	return guc_action_slpc_unset_param(guc, id);
+-}
+-
+ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
+ {
+ 	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+@@ -491,6 +470,16 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+ 
+ 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+ 
++		/* Ignore efficient freq if lower min freq is requested */
++		ret = slpc_set_param(slpc,
++				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
++				     val < slpc->rp1_freq);
++		if (unlikely(ret)) {
++			i915_probe_error(i915, "Failed to toggle efficient freq (%pe)\n",
++					 ERR_PTR(ret));
++			return ret;
++		}
++
+ 		ret = slpc_set_param(slpc,
+ 				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+ 				     val);
+@@ -587,7 +576,9 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
+ 		return ret;
+ 
+ 	if (!slpc->min_freq_softlimit) {
+-		slpc->min_freq_softlimit = slpc->min_freq;
++		ret = intel_guc_slpc_get_min_freq(slpc, &slpc->min_freq_softlimit);
++		if (unlikely(ret))
++			return ret;
+ 		slpc_to_gt(slpc)->defaults.min_freq = slpc->min_freq_softlimit;
+ 	} else if (slpc->min_freq_softlimit != slpc->min_freq) {
+ 		return intel_guc_slpc_set_min_freq(slpc,
+@@ -597,29 +588,6 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
+ 	return 0;
+ }
+ 
+-static int slpc_ignore_eff_freq(struct intel_guc_slpc *slpc, bool ignore)
+-{
+-	int ret = 0;
+-
+-	if (ignore) {
+-		ret = slpc_set_param(slpc,
+-				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
+-				     ignore);
+-		if (!ret)
+-			return slpc_set_param(slpc,
+-					      SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+-					      slpc->min_freq);
+-	} else {
+-		ret = slpc_unset_param(slpc,
+-				       SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY);
+-		if (!ret)
+-			return slpc_unset_param(slpc,
+-						SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ);
+-	}
+-
+-	return ret;
+-}
+-
+ static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
+ {
+ 	/* Force SLPC to used platform rp0 */
+@@ -679,14 +647,6 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 
+ 	slpc_get_rp_values(slpc);
+ 
+-	/* Ignore efficient freq and set min to platform min */
+-	ret = slpc_ignore_eff_freq(slpc, true);
+-	if (unlikely(ret)) {
+-		i915_probe_error(i915, "Failed to set SLPC min to RPn (%pe)\n",
+-				 ERR_PTR(ret));
+-		return ret;
+-	}
+-
+ 	/* Set SLPC max limit to RP0 */
+ 	ret = slpc_use_fused_rp0(slpc);
+ 	if (unlikely(ret)) {
+diff --git a/drivers/gpu/drm/i915/intel_mchbar_regs.h b/drivers/gpu/drm/i915/intel_mchbar_regs.h
+index 2aad2f0cc8db..ffc702b79579 100644
+--- a/drivers/gpu/drm/i915/intel_mchbar_regs.h
++++ b/drivers/gpu/drm/i915/intel_mchbar_regs.h
+@@ -196,6 +196,9 @@
+ #define   RP1_CAP_MASK				REG_GENMASK(15, 8)
+ #define   RPN_CAP_MASK				REG_GENMASK(23, 16)
+ 
++#define GEN10_FREQ_INFO_REC			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5ef0)
++#define   RPE_MASK				REG_GENMASK(15, 8)
++
+ /* snb MCH registers for priority tuning */
+ #define MCH_SSKPD				_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5d10)
+ #define   SSKPD_NEW_WM0_MASK_HSW		REG_GENMASK64(63, 56)
+-- 
+2.35.1
 
-Sometimes it's totally fine to not worry, at least at a first pass.
-Perhaps you're more concerned with real time, perhaps your system
-doesn't provide control for the relevant resources.  Sometimes the
-savings are so negligable that it's questionable if doing the power
-manageement is an overall power saving.
-
-> You will very quickly see drivers doing this (either directly or
-> indirectly):
-
-> probe()
-> {
-> 	devm_clk_get_enabled();
-> 	devm_regulator_get_enable();
-> }
-
-> Without a devres-based get+enable API drivers can get the resources they
-> need in any order, possibly moving some of those resource acquisition
-> operations to different functions, and then have a clear block of code
-> that enables the resources in the right order. These devres helpers give
-> a false sense of security to driver authors and they will end up
-> introducing problems, the same way that devm_kzalloc() makes it
-> outrageously easy to crash the kernel by disconnecting a device that is
-> in use.
-
-TBH I think the problem you have here is with devm not with this
-particular function.  That's a different conversation, and a totally
-valid one especially when you start looking at things like implementing
-userspace APIs which need to cope with hardware going away while still
-visible to userspace.  It's *probably* more of a subsystem conversation
-than a driver one though, or at least I think subsystems should try to
-arrange to make it so.
-
---4yZYFMFbpCwRNWoh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL6zvkACgkQJNaLcl1U
-h9BEBgf/WTDdAdcRZ8SC6FxARw3vM71UeFKkIqUwBU+PYuhgUK2NBJXqpbKPrtVC
-yhBxnG6LjbPlUdTmuHr7/VqE4w4fNgcbxFZcYvfbmC/oBSNtHkHDEQSOC8CTi5Ud
-BhNvQSBIa3+a6oHsz1yPIG8kL5noW4VKMVNiRuvR+6X8cSrXhZpk8GJLLWM0zBzX
-99KnGDVttgaVcftUhxYXdmdeGIIU2t9DH5HaUG3txWB3IuuRlyJxBPY1mCNfjXl2
-xZXp0tLQFshCLqDSYsTQbS8X+xDNxeBSG8hbWEDfvFHxX/YYBUAb3nZ4+npTcaVl
-gZBIzTYNJg5nvwsv+0jghdLDxGTLnQ==
-=WE6e
------END PGP SIGNATURE-----
-
---4yZYFMFbpCwRNWoh--
