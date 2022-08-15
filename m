@@ -2,121 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8BA2593089
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 16:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2391B593112
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 16:56:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E604B3517;
-	Mon, 15 Aug 2022 14:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26684C50FC;
+	Mon, 15 Aug 2022 14:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2073.outbound.protection.outlook.com [40.107.237.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B120691A6D;
- Mon, 15 Aug 2022 14:15:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=btkq2GHZW64hjlLjoukJborBUZpXTYP76PcHhTlKvP5MyGLPbGvGuw9LHZtb8FOhXuWlJqxaWDMbkwgVKOI0tkIFvtE6jeUDow3Rt5C06CwKOL/CQukVmZvykT+xWwTLLYZlTzEddhqHwRgy2ATKdlmazrKeD7jMw2N4+ss5Pr7fnCqjU0h6vJ0iiPor1H137Dt5SSDYrl3aQ96ZfWimuZJ8LJfXvCoUpb6S6INv2dXyXQsSRx9tqCIFrUI8LRMWBX4gVNK5gm/tVE4m6eoLKpJHAT91ozReJwINSmymLthGXZEcdUWxGx1ZKbxwG0U0tZhDSw6mrPQM3VB/2PLgRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xb8e6Ra2FCuG3msrZAuA2nNavwofwj6iVRkCwgiINx8=;
- b=cRgHPS38ASc4dk3Cxge0fhReGxv5imMj1dbc6lCHhAZOmL3/WcVbbKDIC05EmSweTtLRkOsBp8fWJa2sBs2qvX1RuxxZJjppOgR9fTPdS/8SPmVNNnbf6KsREdjFH6hOpyY9cpTI/P4tBVhKB23ePQFAmATys4J+ClJHym3aZ0VrQzgQ0cuurn5MvUI9C+F+1eEF6Rf0P17jtoIxl98s1NqiXlXsE0y139+fWXIIV9j+IpKajYevnNNQWwItce3+qGbv1/lo4hDF4KaO9DulcQZ3c3AkbUrXlrtuCiAkkyLdyctpy2LK918uXgETPNscgx81eioEOJdeK+mclIQIeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xb8e6Ra2FCuG3msrZAuA2nNavwofwj6iVRkCwgiINx8=;
- b=IefYeyUnpTP9k2uAD7aXGfetaEnA4YCs+o5094xCbEgJVs1zanY2BZMCpcTE8YQvtGPgNpheB4pggP6HtW378YeCO7fb9fKzBIhfp6GPHwsrb+eHrmD9W2temB75V9cI8bNw6CKgLUmCL4LcS7GP44nFj6SVX6WqQVZtI1/YFrs=
-Received: from SJ1PR12MB6194.namprd12.prod.outlook.com (2603:10b6:a03:458::12)
- by BN6PR12MB1476.namprd12.prod.outlook.com (2603:10b6:405:11::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Mon, 15 Aug
- 2022 14:15:50 +0000
-Received: from SJ1PR12MB6194.namprd12.prod.outlook.com
- ([fe80::bc88:3db6:f931:98fc]) by SJ1PR12MB6194.namprd12.prod.outlook.com
- ([fe80::bc88:3db6:f931:98fc%5]) with mapi id 15.20.5525.011; Mon, 15 Aug 2022
- 14:15:50 +0000
-From: "Dong, Ruijing" <Ruijing.Dong@amd.com>
-To: Khalid Masum <khalid.masum.92@gmail.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Subject: RE: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in
- vcn_v4_0_stop
-Thread-Topic: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in
- vcn_v4_0_stop
-Thread-Index: AQHYsHTWuO318jhUpE6H84biXg/lfq2v+0Dg
-Date: Mon, 15 Aug 2022 14:15:50 +0000
-Message-ID: <SJ1PR12MB61944B1D53330D5E9531158695689@SJ1PR12MB6194.namprd12.prod.outlook.com>
-References: <20220815070056.10816-1-khalid.masum.92@gmail.com>
-In-Reply-To: <20220815070056.10816-1-khalid.masum.92@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=1ee40afe-175f-49ed-8d70-e0de6c1fa9d1;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-08-15T13:51:12Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ec37b68c-2d74-465b-8f74-08da7ec8a7ef
-x-ms-traffictypediagnostic: BN6PR12MB1476:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: M2NX0+OYDGFVcvfffRKhILsEvMILezKBH0PXgU61khQILeTejHYVwzrJ1s/bY3F7XY3412xCrW1DpOVnlR27sdM4nGs4Rzzn/YEshJy7L+Kr+itl0E4XooK08OV5ltuUUtB9fSBAFK0tb5t9YbI9k2K0nzzIi7gv28i3Kz3KX2TTayTy3EPfuNdKyiKxwlniLYjwn+IEq2gy/tYOADgqwL42+HNrQajtHwPTl5oJF3wa1PcIFUWQg8HNFMtgGoOTTt/RvPqJ5RdNg3VGtnf7oYtQGrHg8v4+KRPD47guRtFtleKvl03mRfZjFX15jg6OK6FtmE6xU92LmSjpquD5BFA6WaAGvY5c4Wq5PD+AzuUZDxjvrcfFoAAcXUQUPv02r1QosW2xhZ9+b1Tn4g1sBMiYzdQCZddMjM9hzJt6+hFhQezQuvbfiDiiRVXUzExQrml73Oh95wT0VyQGCkfJqmDmW1J8kzFp0/7R3Z9+XXnBKo3u9RDfgC/5kTB2XP6pHdX2OHbv9m60aNJQV/B+s5GwEIfYxh8KHkvButv1z5vDZ4viJspRM7zi1QqKl8W9xVAHuwD42zhvlJIGlMd7fJGDSWq4rpP6teSRKYDD3dW2E5TfT4HHWYIS7tE1b7U1aDKllEcwfZ3M88jqNz5OHht4A2Gdfm3czeQKgP+zdljL7X5V3S8Pl8lle9jdETib9kwZGyoOlu9w0KUb9DKU292IdjkQvf2F5LVjpv3ciwHz9q/JmRNQyBQGZeE/x5elMTbV7+BGtzaJiucEXIosur7Bs/Rp5ihs71J9r1Zwdhg=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ1PR12MB6194.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(54906003)(5660300002)(52536014)(7696005)(6506007)(53546011)(9686003)(41300700001)(86362001)(26005)(8936002)(71200400001)(66946007)(38070700005)(478600001)(66476007)(110136005)(8676002)(316002)(64756008)(66556008)(66446008)(76116006)(2906002)(4326008)(122000001)(83380400001)(33656002)(186003)(55016003)(38100700002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YJ6jSFrBa5AwcpEstkwKivdikORk7p6srKSG3BlNEcdNUEhKVzHsdTuU95/h?=
- =?us-ascii?Q?N2YambKTQzJUkvxO7v+pfb0jp/GsH3Hk4JCZZ1D/KTCm8/GTN0+r9OSZwP2j?=
- =?us-ascii?Q?5xDDGOd9VlhYaMJ9WBWLPZHh8ZGkhEduW79kogDdeZrNyxbjzSavITIOj5xW?=
- =?us-ascii?Q?squxQUVGTeiWEwicyfBS+HGlHC8JuiY2H0JsrKM3hDTWKbeEgISooNjMHcM0?=
- =?us-ascii?Q?I4vqNnHNeV2oyAMhACW/kNunU3r/3IRcZaVDjCYotVDufWjAvDrd8qYGY75v?=
- =?us-ascii?Q?X5x41wLaI/1zZKfp6DQ0LbH4/FvGpl34xhVdcsstvfCaF6L38Z5WEGaiNEYT?=
- =?us-ascii?Q?CSPS9vqWMcD1OrJt/TmJTTUVWl1ONThjOaic9Lp85j2KaDbBqT0uSDIj4fBB?=
- =?us-ascii?Q?IR+k+bV6/qduBosTMJaFEQ2bc2gEuP2UG4f5vbv/ynnJG44gi/fq1vSUA2AS?=
- =?us-ascii?Q?4d2hw5KaaT2NCnn5MpSSVEIzOCBPRf3Q4/CB9e4Y3t4Nc6fXRdB30L0QrBXF?=
- =?us-ascii?Q?AJS/K73Gtu+jDXb2owRC3DxcRUmIYI+HrB+Fquv5uDIyTgshX00E8Llz/Eq+?=
- =?us-ascii?Q?A+CGB2sCvsTsGJG8bARCIgWAt5wFEvJtP66Fmig7pFbvNqAXcsw2+ENiXnVc?=
- =?us-ascii?Q?2RH7xBBY5sn7Uhl/LrsaX6T57W7ZzCDf8OXrV0XBqmiJ44N7Ypdz3JC2l0o0?=
- =?us-ascii?Q?LpJldXYjxJaAvvKs+yAS/IszBVs4dYY6Zev3KbDiov1KOg1cQvGr7m3TYn+E?=
- =?us-ascii?Q?gCeO0U8MMDDzFWdfc1wO8DYX0VOQdMLmeh/HXE3R1xg0+3NlOHobGVaEIpR/?=
- =?us-ascii?Q?l5AF7kxXn6WUKMCoa9LHHNJvGGVOAGN4uo9auYXvLsIPGkfxTPNyKOCfZy+A?=
- =?us-ascii?Q?AdvPIOpOE/WGk7heQLegoBn9R+5J+OsrF/QaJ6XSMCNp1VenGor0ZEWSiQf3?=
- =?us-ascii?Q?kMoEjqIn1wZWqaZVtGhqXzn+sjh7BSihI5AvjiH/jeWWYOpIFC3lMUbphF2E?=
- =?us-ascii?Q?5fL+8trwKzCjpt73xblmDp52RtWUr0haBic/7uJxLpjGPgbj6NpNw2WeHL72?=
- =?us-ascii?Q?/aa6rFqDyy50LlQtKt6jJPCvBcsLlhUEhhqiG7zrMUMfuZbyLSXOMmnb/z7s?=
- =?us-ascii?Q?IRQbQ88xzxRNJ4GynT/w3qyVpg2YV58Ve2mGDb+lK2GbNk2oRcEFWNSfD+Ff?=
- =?us-ascii?Q?2wbQ0A0oKJjR0O+FxvtjKtqb32vheONIuEODWS9QCe4ulZSKL9xaV1KjwBFu?=
- =?us-ascii?Q?Zm42oj7HgZEZcNVYr4tWFi9kKqlP7nS1OMhTtucSHG3SX0f/00+euURrHE1K?=
- =?us-ascii?Q?LgL1RLR/iqxMS909vadneKU5pyA/uJLKtxBkVOxGBqDxDMFJ26TEBArYb11a?=
- =?us-ascii?Q?i/yHhEn3EYB+1UvEnxtb8dLQzzLEaINsvEsnigW0KwUcyRo3PpA7BwbDW89X?=
- =?us-ascii?Q?nWdweUhJtec4acNAx5bO3L+aUGDzV0i8TAtzo9OASdVvOyacfq3nd5w2Wdwy?=
- =?us-ascii?Q?S7AAo6gAviB/CPB+UtQ/SybHeX4OTD+9m6rcN6vVqy5b5CGLLUSCV+AkALPg?=
- =?us-ascii?Q?0VJCwMRm5ugAEXyyDzE=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7676B9D4A;
+ Mon, 15 Aug 2022 14:55:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=RrH4eWU03e065wwHvvpiAmOHxfpRqSBh3MQbyr57ReI=; b=WAvG11EmjzW4oK+0A7ZPf9a1j0
+ iYi3AcXBSLN/BrHJht0qSlZ3bvqLKEmslbPvZIm0O9+LdIPjWkR4ZZpQa9y36Wi76cnNlQ11l1xGv
+ EQbdJyepYSkBfLyyTbAqmx1jAZuf5aarq9Fiq7udqArovs6iMeJv9Z2zo1lNF6iMr0L3AhtvGU3eW
+ 46iD4R65elSiiw/CJXfJwm0dtrhHVfUGXtMnlU9GUKCzobdHvTb6FLr8zjGokEeP9prkWMRr8a3mE
+ Dhca5XZ7BUz7gr7vE2HA2lYrupflI6iRh0gY4RNzO5/86tq3k5M7LguZtufLAbwEcyDCrbmmk0H1H
+ E9VKTgqQ==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oNbUW-009U0o-9L; Mon, 15 Aug 2022 16:54:56 +0200
+Date: Mon, 15 Aug 2022 13:54:41 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH] drm/amdgpu: Fix use-after-free on amdgpu_bo_list mutex
+Message-ID: <20220815145441.scqsi4udv2t7z57k@mail.igalia.com>
+References: <20220815113931.53226-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6194.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec37b68c-2d74-465b-8f74-08da7ec8a7ef
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2022 14:15:50.1775 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ShQfY29Qw79jX08VlseZfkFpPngtuVgCZSrQwX4aKAaH3buTnsCjeUtyDA/QklFz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1476
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="giisndjw5d6njnaf"
+Content-Disposition: inline
+In-Reply-To: <20220815113931.53226-1-mairacanal@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,59 +52,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wan Jiabing <wanjiabing@vivo.com>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, "Jiang, Sonny" <Sonny.Jiang@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Zhu, James" <James.Zhu@amd.com>, "Liu,
- Leo" <Leo.Liu@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - General]
 
-Sorry, which "r" value was overwritten?  I didn't see the point of making t=
-his change.
+--giisndjw5d6njnaf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
-Ruijing
+On 08/15, Ma=EDra Canal wrote:
+> If amdgpu_cs_vm_handling returns r !=3D 0, then it will unlock the
+> bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
+> amdgpu_cs_parser_fini. This problem results in the following
+> use-after-free problem:
+>=20
+> [ 220.280990] ------------[ cut here ]------------
+> [ 220.281000] refcount_t: underflow; use-after-free.
+> [ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28 refcount_war=
+n_saturate+0xba/0x110
+> [ 220.281029] ------------[ cut here ]------------
+> [ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L ------- --=
+- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
+> [ 220.281421] Hardware name: System manufacturer System Product Name/ROG =
+STRIX X570-I GAMING, BIOS 4403 04/27/2022
+> [ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
+> [ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
+> 7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
+> 6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
+> c7
+> [ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
+> [ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 0000000000=
+000000
+> [ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000ff=
+ffffff
+> [ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0d1=
+8d7930
+> [ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058ca=
+360400
+> [ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 0000000000=
+000003
+> [ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000) knlGS:=
+0000000000000000
+> [ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 0000000000=
+350ee0
+> [ 220.281480] Call Trace:
+> [ 220.281485] <TASK>
+> [ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
+> [ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> [ 220.282028] drm_ioctl_kernel+0xa4/0x150
+> [ 220.282043] drm_ioctl+0x21f/0x420
+> [ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> [ 220.282275] ? lock_release+0x14f/0x460
+> [ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> [ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> [ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
+> [ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
+> [ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
+> [ 220.282534] __x64_sys_ioctl+0x90/0xd0
+> [ 220.282545] do_syscall_64+0x5b/0x80
+> [ 220.282551] ? futex_wake+0x6c/0x150
+> [ 220.282568] ? lock_is_held_type+0xe8/0x140
+> [ 220.282580] ? do_syscall_64+0x67/0x80
+> [ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
+> [ 220.282592] ? do_syscall_64+0x67/0x80
+> [ 220.282597] ? do_syscall_64+0x67/0x80
+> [ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
+> [ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> [ 220.282616] RIP: 0033:0x7f8282a4f8bf
+> [ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
+> 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
+> 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
+> 00
+> [ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX: 00000=
+00000000010
+> [ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f8282=
+a4f8bf
+> [ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 0000000000=
+000018
+> [ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f8268=
+3df4b0
+> [ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000c0=
+186444
+> [ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 0000000000=
+000003
+> [ 220.282689] </TASK>
+> [ 220.282693] irq event stamp: 6232311
+> [ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>] __=
+up_console_sem+0x5e/0x70
+> [ 220.282704] hardirqs last disabled at (6232326): [<ffffffff9718cd63>] _=
+_up_console_sem+0x43/0x70
+> [ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>] __=
+irq_exit_rcu+0xf9/0x170
+> [ 220.282716] softirqs last disabled at (6232061): [<ffffffff970ff669>] _=
+_irq_exit_rcu+0xf9/0x170
+> [ 220.282722] ---[ end trace 0000000000000000 ]---
+>=20
+> Therefore, remove the mutex_unlock from the amdgpu_cs_vm_handling
+> function, so that amdgpu_cs_submit and amdgpu_cs_parser_fini can handle
+> the unlock.
+>=20
+> Fixes: 90af0ca047f3 ("drm/amdgpu: Protect the amdgpu_bo_list list with a =
+mutex v2")
+> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> Signed-off-by: Ma=EDra Canal <mairacanal@riseup.net>
+> ---
+> Thanks Melissa and Christian for the feedback on mutex_unlock.
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_cs.c
+> index d8f1335bc68f..b7bae833c804 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -837,16 +837,12 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_p=
+arser *p)
+>  			continue;
+> =20
+>  		r =3D amdgpu_vm_bo_update(adev, bo_va, false);
+> -		if (r) {
+> -			mutex_unlock(&p->bo_list->bo_list_mutex);
+> +		if (r)
+>  			return r;
+> -		}
+> =20
+>  		r =3D amdgpu_sync_fence(&p->job->sync, bo_va->last_pt_update);
+> -		if (r) {
+> -			mutex_unlock(&p->bo_list->bo_list_mutex);
+> +		if (r)
+>  			return r;
+> -		}
+Nice catch, Ma=EDra!
 
------Original Message-----
-From: Khalid Masum <khalid.masum.92@gmail.com>
-Sent: Monday, August 15, 2022 3:01 AM
-To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-k=
-ernel@vger.kernel.org; linux-kernel-mentees@lists.linuxfoundation.org
-Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Chri=
-stian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David Airlie <airl=
-ied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Zhu, James <James.Zhu@amd.c=
-om>; Jiang, Sonny <Sonny.Jiang@amd.com>; Dong, Ruijing <Ruijing.Dong@amd.co=
-m>; Wan Jiabing <wanjiabing@vivo.com>; Liu, Leo <Leo.Liu@amd.com>; Khalid M=
-asum <khalid.masum.92@gmail.com>
-Subject: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in vcn=
-_v4_0_stop
+Reviewed-by: Melissa Wen <mwen@igalia.com>
 
-The value assigned from vcn_v4_0_stop_dbg_mode to r is overwritten before i=
-t can be used. Remove this assignment.
+>  	}
+> =20
+>  	r =3D amdgpu_vm_handle_moved(adev, vm);
+> --=20
+> 2.37.2
+>=20
 
-Addresses-Coverity: 1504988 ("Unused value")
-Fixes: 8da1170a16e4 ("drm/amdgpu: add VCN4 ip block support")
-Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--giisndjw5d6njnaf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/am=
-dgpu/vcn_v4_0.c
-index ca14c3ef742e..80b8a2c66b36 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-@@ -1154,7 +1154,7 @@ static int vcn_v4_0_stop(struct amdgpu_device *adev)
-                fw_shared->sq.queue_mode |=3D FW_QUEUE_DPG_HOLD_OFF;
+-----BEGIN PGP SIGNATURE-----
 
-                if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
--                       r =3D vcn_v4_0_stop_dpg_mode(adev, i);
-+                       vcn_v4_0_stop_dpg_mode(adev, i);
-                        continue;
-                }
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmL6XisACgkQwqF3j0dL
+ehwNyhAAl08bFtnkOEzrR9xOQOi+okthKLBgO6CRI1YDHyByBJlJ+lr+XCTvRpWU
+V2uU9l+qt3IuZ2vdm+INU3x5+ftcbxuZPawSU1Dv0bMbvtfBsee9V/vh+HRW0fDi
+8tkBLBrQv/J2HdZAN5CXB+or/M7Mjil0J0//RA16vxzLHyVc28wRGtTO4ntck+Uu
+P+2ON9tYzOVsbhTMuILfBH1P/nQzPYhZQK3Aahdex7TGyngYS5FQZ4e2bTGOGWd9
+17YL+qkL20CwRGnC1LCLT7/yxA/9KhYmfzAOJ9rs8OS6KS/w5G1BTTfIeg1uJA7N
+umT97eBdl4TRhUIxOgcN7n/i6oyoR7aMwUIa0HpeSDK/EKNxZkdNeSr3Mrflo4wN
+jGGN1Gw2BDDVNvH5pBe97TrinEMUzjKhaNNt98D68iE2OEBTEP6LHj1fC+oYmjZR
+pKegZZEkVTNum4YgSnVfAq53FxwBaUVUazKam/VA37UHlmY1qpwpAMG0SPby1HfB
+f4kYtbEW9UQ6ePmu9WDdUVTJjgjuzAdbh4Dy1o1YiudyMpjIb3MCX+90tL6ouihC
+M11cfF4R3Bdi9NSDVTZIgM51gZ/BgnrsPVsjbGN4DGc+Hf6kdwIdZcxmfg3+OhXw
+V5aKSvbZOFS+kEtKawE+afkwczT4t0s8S+wYy9bBvehLiyJH9AY=
+=yLta
+-----END PGP SIGNATURE-----
 
---
-2.37.1
-
+--giisndjw5d6njnaf--
