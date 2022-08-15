@@ -1,58 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76192592B7C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:38:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7C6592B82
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 12:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A64DC989FA;
-	Mon, 15 Aug 2022 10:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E557AAF56F;
+	Mon, 15 Aug 2022 10:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0C7D12AF20;
- Mon, 15 Aug 2022 10:37:43 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id i24so5191735qkg.13;
- Mon, 15 Aug 2022 03:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=Lv6oUrQJgvMNPNLhhepsKSTA09owo4lM6SFZE9X9Tf4=;
- b=qbhZHr0+ja4KNNL5U0a1nPqJkVSk4CbwQOEQ6S4+biyGchgue4CauN++CL79+H6V5s
- VkkZ6InKgwQNR30kg7X3aVcb/rf/uM67Zst7/xHbRZHPvh2INn8ize3S6nX7HOq0iZpZ
- vuQEROdCT8sffXfvKzdRiPcdR+3/pYrTdy7K0xP/b4ZGxw6g/LdAnP+Mum8RJsHjp8qi
- ZEh59XTVaTMFrY6Dt2rZWMBqRtTQgh1P1spDykuZYVuRKGq4NHlcPZ6isN4sSQzMwLDC
- Zyw7mfvwmTWf4S3MjO9qPZkz1iqeuTjs7GpHF0eWJKQ+ZG6R6Ru6Blq9UuLPeesMxJUf
- UcCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=Lv6oUrQJgvMNPNLhhepsKSTA09owo4lM6SFZE9X9Tf4=;
- b=UsSKN9llY4p0h843nzMDzs7Ccm7TeMKwDhsUx5bzzb3t59SUdmqLmeP5o6ufXu5zvl
- AjtKutFW4kMBYKRioj9kgbEEiHrXc4VREuTM/Tazw/Kio67CUIk1mwAdM8XoJaweaU0b
- WyiUlggBy8XU4OtVubXowC9pd10Lyg3rVrUF0ZaFFkZ+9Xf3PH/UyqVivtOERjdBb1Wj
- h/ZRoWGTNuuxu5JgavRY104SdE21Hycrg3gBEAm1gqBpRctXVlzYTEN50rWe6mvpyaIK
- uqeHZ2Uy2BZCHpy1xd1hTqRkbX+zysDTW/fZ0OLF6si4Ybs1b7L4ANNWyhajayUVKYc2
- U8Xw==
-X-Gm-Message-State: ACgBeo1aIGvJ1oE4IcScQS0jHrb93iVi9ixj7R/OIUvk0eytoU3H+X+k
- 1wkvEffjBFa3rmll/Ub3qJCWvJUn0UgZVy2xego=
-X-Google-Smtp-Source: AA6agR6UfLIE0OwQ///KGJAAGQzM+Cm+pHusr7PVAYvSKQRQPQzWmHKCV2w8TmsCQK4gioskGDyjzbM9UUNth2SiZ/4=
-X-Received: by 2002:a37:6946:0:b0:6b9:7406:8204 with SMTP id
- e67-20020a376946000000b006b974068204mr10952162qkc.47.1660559862529; Mon, 15
- Aug 2022 03:37:42 -0700 (PDT)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFD3B026A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 10:40:48 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4CAB758024F;
+ Mon, 15 Aug 2022 06:40:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Mon, 15 Aug 2022 06:40:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1660560046; x=1660567246; bh=xZdyFzkGwx
+ NMaSQo9f1nE23W8o0Knxs8zi25rNE/F+g=; b=K0y9jdKT7Kqzfipo6DBG31ePNj
+ Fb0wyla4+TvyGQ/KrNeInN+6WERTOM9Nyjd3dYIhJfCozuQXBgY+BKkPTqQpHGOW
+ 2d7TWIlHQYfRafW2TQFflIOgPgCruZcXThcmkSWzd+41bi/FeV9bhRku3kkA8k+U
+ jV4xFniD75iqFZYiDWBnTiHMCcuvb2AhkPg5iGdwlF9XB8Lua7lDzCOAkRW42IU3
+ AXJmWiEuQyhGdCTnodHHzf3lItiiLT1Z0VrFFnGZrguStTTk/yDH11eO6AtR49za
+ 3jQ++ef7BBrPi2IuxaaDvS571gfD8ScZvA4gZYeWAjlIyeUdzn4MeHKPyfQw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1660560046; x=1660567246; bh=xZdyFzkGwxNMaSQo9f1nE23W8o0K
+ nxs8zi25rNE/F+g=; b=KuELks6dtpN1WqhnN7uKXV+ed912oj+rJmyd1lNhf2CZ
+ c/+JIhTQpRs9odLjPNmpgNH2T7eaqsJB+TSTK/UI83wcb+EFSY6zmMcfrbkZLCPj
+ Tf6Gsg6+yzuwW25e8dKfs168TxSpyRDzA1KZ9HRku8dgyryvYtIXJ3sPkqQiCqwq
+ ufocVBlrbMIyCs0gZmbuUJKnLFKXljZRBd8w1Puuudvmy/mJdWFphZD5HOlQcoGa
+ 6BpmTZR4CGaTiHWiocmSG8dqh2hTnOhm0CATBtm/hq7K5W6gPRP5GGPZ4B3HqgY3
+ Ri/U1F28EdCPwNgmrsydQYAQwCHwsyCPsyhkugX8Wg==
+X-ME-Sender: <xms:rCL6YhbbYH_kqaDn4cLbM_M0B9mDmlCm5zrZzg36ARp-nL9_ISA6mw>
+ <xme:rCL6YoYoUZVON99FeMGEiNDuROvTBBhIhEGoEUCy-9iobL4dzdtHVVxJ8QS3ps1pi
+ xVvKLd4fJrwa_-n1g4>
+X-ME-Received: <xmr:rCL6Yj_93gSWPrkTEC3bWOTeTokDGtEeg0XtGHXA3Ud3Av6Ba9-bAPDfls-X>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgfeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+ ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:rCL6YvrZb8d-70a2yCKLG23pvQYKghlC03ajxx8SGoIbIft-vVGjwg>
+ <xmx:rCL6YsovMmOaDx-QoWNCODYJdhrHPFwrWAdwZt8KTlLJ2hWCVa1ngA>
+ <xmx:rCL6YlRxbA4IVIfJXPfh5Oy9TI_xAgceXYr5NZwtlneMgj9nqxc6lg>
+ <xmx:riL6YlY4P3xtxIziMyH_eBPDfULxza36rNr2CLomIy3NS99U_2Afww>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Aug 2022 06:40:43 -0400 (EDT)
+Date: Mon, 15 Aug 2022 12:40:41 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v1 06/35] drm/connector: Only register TV mode property
+ if present
+Message-ID: <20220815104041.6ymspbhpjdxg2aoe@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-6-3d53ae722097@cerno.tech>
+ <d96df677-a1a7-ae49-bda6-abad025dc974@tronnes.org>
 MIME-Version: 1.0
-References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
- <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
-In-Reply-To: <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Mon, 15 Aug 2022 15:37:31 +0500
-Message-ID: <CABXGCsMFYnE+Wn2EAWuC8DSVj=TVprj6ABZwRK-hXcw-1hnMyw@mail.gmail.com>
-Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dvyzowdjas7acdtu"
+Content-Disposition: inline
+In-Reply-To: <d96df677-a1a7-ae49-bda6-abad025dc974@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,124 +85,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 15, 2022 at 5:20 AM Ma=C3=ADra Canal <mairacanal@riseup.net> wr=
-ote:
->
-> Hi Mikhail
->
-> Looks like this use-after-free problem was introduced on
-> 90af0ca047f3049c4b46e902f432ad6ef1e2ded6. Checking this patch it seems
-> like: if amdgpu_cs_vm_handling return r !=3D 0, then it will unlock
-> bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
-> amdgpu_cs_parser_fini.
->
-> Maybe the following patch will help:
 
-Thanks, I tested this patch.
-But with this patch use-after-free problem happening in another place:
+--dvyzowdjas7acdtu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[  894.012920] ------------[ cut here ]------------
-[  894.012939] refcount_t: underflow; use-after-free.
-[  894.012968] WARNING: CPU: 14 PID: 205 at lib/refcount.c:28
-refcount_warn_saturate+0xba/0x110
-[  894.012999] Modules linked in: tls uinput rfcomm snd_seq_dummy
-snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
-nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
-nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
-qrtr bnep sunrpc snd_seq_midi snd_seq_midi_event snd_hda_codec_realtek
-mt76x2u mt76x2_common snd_hda_codec_generic snd_hda_codec_hdmi
-intel_rapl_msr mt76x02_usb intel_rapl_common snd_hda_intel mt76_usb
-snd_intel_dspcfg vfat iwlmvm snd_intel_sdw_acpi mt76x02_lib fat
-snd_usb_audio snd_hda_codec mt76 edac_mce_amd snd_usbmidi_lib
-snd_hda_core btusb snd_rawmidi snd_hwdep mac80211 mc iwlwifi btrtl
-eeepc_wmi asus_wmi btbcm snd_seq kvm_amd libarc4 ledtrig_audio
-snd_seq_device btintel iwlmei sparse_keymap btmtk kvm snd_pcm
-irqbypass platform_profile snd_timer xpad joydev cfg80211 rapl
-hid_logitech_hidpp bluetooth ff_memless wmi_bmof video pcspkr snd
-k10temp i2c_piix4
-[  894.013086]  soundcore rfkill mei asus_ec_sensors acpi_cpufreq zram
-amdgpu drm_ttm_helper ttm iommu_v2 crct10dif_pclmul ucsi_ccg gpu_sched
-crc32_pclmul crc32c_intel typec_ucsi drm_buddy typec
-drm_display_helper ghash_clmulni_intel igb ccp cec nvme sp5100_tco
-nvme_core dca wmi ip6_tables ip_tables fuse
-[  894.013322] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-amd64_edac():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-pcc_cpufreq():1 pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
-[  894.013455]  pcc_cpufreq():1 pcc_cpufreq():1 fjes():1
-pcc_cpufreq():1 fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
-[  894.013690] CPU: 14 PID: 205 Comm: kworker/14:1 Tainted: G        W
-   L    -------  ---
-5.20.0-0.rc0.20220812git7ebfc85e2cd7.11.fc38.x86_64 #1
-[  894.013725] Hardware name: System manufacturer System Product
-Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
-[  894.013756] Workqueue: events drm_sched_entity_kill_jobs_work [gpu_sched=
-]
-[  894.013779] RIP: 0010:refcount_warn_saturate+0xba/0x110
-[  894.013796] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d
-de 7e be 01 00 75 85 48 c7 c7 f8 98 8e 9c c6 05 ce 7e be 01 01 e8 56
-4a 6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff
-48 c7
-[  894.013842] RSP: 0018:ffffb48681153e60 EFLAGS: 00010286
-[  894.013858] RAX: 0000000000000026 RBX: ffff9bad16f1f028 RCX: 00000000000=
-00000
-[  894.013878] RDX: 0000000000000001 RSI: ffffffff9c8d06dc RDI: 00000000fff=
-fffff
-[  894.013897] RBP: ffff9bba663f5600 R08: 0000000000000000 R09: ffffb486811=
-53d10
-[  894.013916] R10: 0000000000000003 R11: ffff9bbaae2fffe8 R12: ffff9bba663=
-fc800
-[  894.013934] R13: ffff9bab93fcab40 R14: ffff9bba663fc805 R15: ffff9bad16f=
-1f030
-[  894.013954] FS:  0000000000000000(0000) GS:ffff9bba66200000(0000)
-knlGS:0000000000000000
-[  894.013975] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  894.013991] CR2: 00001aa46b2ec008 CR3: 0000000101516000 CR4: 00000000003=
-50ee0
-[  894.014011] Call Trace:
-[  894.014022]  <TASK>
-[  894.014030]  process_one_work+0x2a0/0x600
-[  894.014051]  worker_thread+0x4f/0x3a0
-[  894.014065]  ? process_one_work+0x600/0x600
-[  894.014079]  kthread+0xf5/0x120
-[  894.014092]  ? kthread_complete_and_exit+0x20/0x20
-[  894.014109]  ret_from_fork+0x22/0x30
-[  894.014129]  </TASK>
-[  894.014137] irq event stamp: 5802
-[  894.014148] hardirqs last  enabled at (5801): [<ffffffff9bf2a9e4>]
-_raw_spin_unlock_irq+0x24/0x50
-[  894.014178] hardirqs last disabled at (5802): [<ffffffff9bf21d8c>]
-__schedule+0xe2c/0x16d0
-[  894.014206] softirqs last  enabled at (4350): [<ffffffff9b7acb88>]
-rht_deferred_worker+0x708/0xc00
-[  894.014235] softirqs last disabled at (4348): [<ffffffff9b7ac677>]
-rht_deferred_worker+0x1f7/0xc00
-[  894.014264] ---[ end trace 0000000000000000 ]---
+Hi,
 
-Full kernel log is here:
-https://pastebin.com/wwWkXQJZ
+On Mon, Aug 08, 2022 at 02:49:08PM +0200, Noralf Tr=F8nnes wrote:
+> Den 29.07.2022 18.34, skrev Maxime Ripard:
+> > The drm_create_tv_properties() will create the TV mode property
+> > unconditionally.
+> >=20
+> > However, since we'll gradually phase it out, let's register it only if =
+we
+> > have a list passed as an argument. This will make the transition easier.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+>=20
+> I don't understand why this makes the transition easier, but if you
+> think so:
 
+So the basic idea behind this series was to introduce the new property,
+gradually convert the old drivers to the new one, and finally remove the
+old one.
 
---=20
-Best Regards,
-Mike Gavrilov.
+In order to keep the backward compatibility, we need to add to the
+drivers some custom get/set_property hook to expose the old property and
+fill the new one if needed.
+
+That means that each driver would have to create the old property, which
+will conflict with that code
+
+Maxime
+
+--dvyzowdjas7acdtu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvoiqQAKCRDj7w1vZxhR
+xaybAQC2LtyY3MToe9xoyVgcLBOfo1ql+NWQtjIn17TggFlnRgEAr4/9dmteOoOs
+AoYm/Hq80I2UIc7K4NZgCJX6MSwZCQ4=
+=bqI2
+-----END PGP SIGNATURE-----
+
+--dvyzowdjas7acdtu--
