@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBDC5931E5
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 17:32:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C71F05931E0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 17:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21785CC568;
-	Mon, 15 Aug 2022 15:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9C6CC4E4;
+	Mon, 15 Aug 2022 15:32:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2A6CC4A5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 15:31:47 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 63C043200657;
- Mon, 15 Aug 2022 11:31:45 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D517990187
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 15:31:52 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 9FE1C3200657;
+ Mon, 15 Aug 2022 11:31:50 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 15 Aug 2022 11:31:47 -0400
+ by compute1.internal (MEProxy); Mon, 15 Aug 2022 11:31:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1660577504; x=
- 1660663904; bh=zDlYuKttoMMva0k5dTZ+8Vb+jrME1/H4pvpISkPn7Lg=; b=R
- 7FVtnuK3s2G9UnAjv4Tvy1spq9QYCS+kDbNeymJ9SM4ICGUfu57OJqOJZOur65DG
- fowYJhI+NffD+F07ktE3h9Z4mTFJb0aH6Y646y0zZ2hNKubL/D04X7YlN/tJcBLM
- iykLuLavlKa3m5VQS9EeFr0TCvsqSfoPj0zTckws91Ku5zY9S+s4gAIiFpgMcVl9
- ss4v/GxcX91tVhlqSjD7jofz70opEeCKlURojelEF7FFz/TlVbnvUZXsGzIUSKAd
- Umco9tcz5GqXpGkDSks6MnfBPGmUR7nL4MVmdW7KwOTsoVr+76kSHy5RLFTYzFKo
- 8WVdVb7Y+khT4mVysGjkw==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1660577510; x=
+ 1660663910; bh=StVI078uHa9LEWnG3+gzk/1OZCUwJHy0Ly4XGqnb+/8=; b=A
+ hmnCyQSp2Jtlf3f0dUI9MLEgz8E4A+RnMruBEqvpi1pTfcmIpsymmPJjwGlxq874
+ /j7vA+OkJXZi3WjEybSDzv4LkLm9+ngQlBDxzAB5/RM7gOVKaRJPiZT7C0VcbVNc
+ uzTS88yipsohfEqFV5n02QPobU0tWA0OA92i93DvMgxBzeNF0mtnNEmVxXe9wR7A
+ CWeIa6ubrpeYxfz3mjiW3NucISW2VEVuELBwvT3bIA+me2pHP878+iJOBnq1hpUM
+ xD9jblTpgzp0dot/nUZMilqS93AyMgjZM3ENQX8oK4HJqEK/xN3lDLYRMWNhX6AH
+ YnnmADwgazbDkBPS8Ymaw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660577504; x=
- 1660663904; bh=zDlYuKttoMMva0k5dTZ+8Vb+jrME1/H4pvpISkPn7Lg=; b=5
- j+uTraAsefqk6eSBj8rukf/1tDHJ29C0JR7+1o+zJiwU/JO41wRaSRiGye7xzVzN
- zEVuZD46kXLgpHfd/gSFGeKE63DyAqYr1vkcpHQpG43Sgy9TIKN05if+tdNdFRRM
- 08XKkTvfDEH5NrCCous39MgsVdpZNkcr1RgTdsiH0ilUuPl+vTfWaVdZ83H9ujpP
- 3wwCvpATmBqhlVhuzsN9Wo2Mey7O83119WQqgln6ASR0rAkDavgHrU4NUEcR1XHV
- phtokOuru4ztF+7gw+Mypuc6c+C/MFbcp3HMzsShp7AEoCB2WJOmKMfY2c8MGwRe
- xHDWhpdGcjN4JZDYQsLZA==
-X-ME-Sender: <xms:4Gb6Yt1mec6Y9AgVjOoKGbHFosWF2OpVel_stgV5vT-RqpBMFTQdPA>
- <xme:4Gb6YkF2zb2J8KQdS9Y_FpRMl2OdmAi5v1Kof562elEr5ZCOvnG_KuE2nmWKktA9O
- L6Hb_zXCJVpmXPovEU>
-X-ME-Received: <xmr:4Gb6Yt4XBsIe2pjMMNyaV0UXqholGNggi7oJ9dpxpJ8Nqsclo3QyZz2snV5X>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgledtucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660577510; x=
+ 1660663910; bh=StVI078uHa9LEWnG3+gzk/1OZCUwJHy0Ly4XGqnb+/8=; b=x
+ zf6+KwdZoTkI4sr5gdPdwmWq6puivzVW91VyGhdHMhmjG1oh7/FX7TnGT6uaGdrl
+ scZ40hTOh4246dty6a+d1x3J6YiyfR2BvqxOPVXWIlNjvENDeHFqbsmLxv97KZa7
+ speKtRpDy2pIPp1jSJaavH9YdK+k6RfIBf41ZkOPxZudVaFgMdM++xx5FFaQWFQU
+ 7LL0uAvKk53Rbn/RNAaZs7KnpE9d73aqXzr7a8rW5LuVYRJsaj1rxcvGbqbSQYHH
+ uibeijS+jxyyiwvixZBuSE89yRKTerscMYzhKecLcmA4uJegAnge4fDeRZDezssk
+ mMkIPrMsX0L8b/zkzjHRg==
+X-ME-Sender: <xms:5Wb6YmIxcMm-0vIoeaYApC3pQ9yQWySv7FdfcOiCqsrunEKqN-oy6g>
+ <xme:5Wb6YuIucVuUBZQaIgo1UmcBFe_3AvAojbO2WnmstuC4fXY0HSq4r6b2S5wL5ZAWd
+ qWz65A5w3nlCBWqJIA>
+X-ME-Received: <xmr:5Wb6YmtaCMvps0IGvEbbiQtWrIJFxqAqP8SC8-yi4f3V-IZ1l0LIVmrqG6la>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgleduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfogfesthekredtredtjeenucfhrhhomhepofgr
@@ -54,13 +54,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgledtucetufdoteggod
  frrghtthgvrhhnpefgfffgteffuddulefhveeiffffudelvefggeekueetgfffjeehleel
  keejfefhjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:4Gb6Yq0Jld-vO3YnvavfI5YwQCaC3X_bO2VqGpM46GbJdjicmhLyJw>
- <xmx:4Gb6YgFR5kbQcfVXWQbktCBmJn6vwb0DSgLa4KFG1aZo0NKOLo6yLA>
- <xmx:4Gb6Yr__qSjLnjG6blGlNr-z-F6l-nwypssaINF1qvO5_hkMuQnDQQ>
- <xmx:4Gb6YmHZaYmRna6xYOIyjDP6_Obp0Qnajcv3jrqNKoXTZmAGT-E0Ng>
+X-ME-Proxy: <xmx:5Wb6YrYNUl0Pkqv5jVjyp_ESJmGPx4_m9nV5imoP9lbZGC2QLR0h2A>
+ <xmx:5Wb6YtYeTShHVu37PnbkwTfO9NgzNBYM0e-gLFumIx6USbP60_CjLA>
+ <xmx:5Wb6YnABufQPmFB9zsT44q5Wgwftqf_YIoJ395UvXlJT2crMba-I4A>
+ <xmx:5mb6YmIXdAepp2aZ3CDuQIQUyUVhuavDWCvSzyKVLGRsR0heSFpvyA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 11:31:43 -0400 (EDT)
+ 15 Aug 2022 11:31:49 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
@@ -68,20 +68,20 @@ To: Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
  Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <sboyd@kernel.org>,
  Scott Branden <sbranden@broadcom.com>, Maxime Ripard <mripard@kernel.org>,
  Emma Anholt <emma@anholt.net>
-Subject: [PATCH v1 2/7] clk: bcm: rpi: Add a function to retrieve the maximum
-Date: Mon, 15 Aug 2022 17:31:24 +0200
-Message-Id: <20220815-rpi-fix-4k-60-v1-2-c52bd642f7c6@cerno.tech>
+Subject: [PATCH v1 3/7] clk: bcm: rpi: Add a function to retrieve the minimum
+Date: Mon, 15 Aug 2022 17:31:25 +0200
+Message-Id: <20220815-rpi-fix-4k-60-v1-3-c52bd642f7c6@cerno.tech>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
 References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.10.0-dev-a76f5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3364; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=wAQVJMgLbRnifaGUTCUy+ZporTuJb2HjcXq358WgEfw=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDEm/0k7k61kV2XhfO/8gQ3a536KV+bJHJz7kVePKS7D+65rp
- vnRjRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACZSa8nwT3+X3d6Zs7ROP5R9FyL55V
- S78UeNhIDPbod21As5/7y0eQrDP3tL2XNdthnvfvzqbnsgqinNciNZLOZGStfU/5sTJzTrsQEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2926; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=G3fWEKQi3f54XxrlPgabVz9v9R9wr1SUhSPhe0bvlgw=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDEm/0k605p6aNW1Kn0mO0c0wnpXmJtGO1//sMbHvW6XBvVvS
+ wPZORykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACYitZLhf3b+ltdrHxiefibZ36F0qr
+ vepvigPnv9Q8nLHxdHrqjVmMHIsMlnxkZOh5ovH5YxJG+891R3yYsL6yM/TMu+ff/SdbkkaVYA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Content-Transfer-Encoding: 8bit
@@ -110,56 +110,40 @@ config.txt file.
 Some of these options will affect the kernel capabilities, and we thus
 need to be able to detect it to operate reliably.
 
-One of such parameters is the hdmi_enable_4kp60 parameter that will
+One of such parameters is the core_clock parameter that allows users to
 setup the clocks in a way that is suitable to reach the pixel
-frequencies required by the 4k at 60Hz and higher modes.
+frequencies required by the 4096x2016 resolution at 60Hz and higher
+modes.
 
-If the user forgot to enable it, then those modes will simply not work
+If the user misconfigured it, then those modes will simply not work
 but are still likely to be picked up by the userspace, which is a poor
 user-experience.
 
 The kernel can't access the config.txt file directly, but one of the
-effect that parameter has is that the core clock frequency maximum will
-be much higher. Thus we can infer whether it was enabled or not by
-querying the firmware for that maximum, and if it isn't prevent any of
-the modes that wouldn't work.
+effect that parameter has is that the core clock frequency minimum will
+be raised. Thus we can infer its setup by querying the firmware for that
+minimum, and if it isn't ignore any of the modes that wouldn't work.
 
-The HDMI driver is already doing this, but was relying on a behaviour of
-clk_round_rate() that got changed recently, and doesn't return the
-result we would like anymore.
+We had in the past a discussion for the maximum and it was suggested to
+create a small, ad-hoc function to query the RaspberryPi firmware for
+the minimum rate a given clock has, so let's do the same here.
 
-We also considered introducing a CCF function to access the maximum of a
-given struct clk, but that wouldn't work if the clock is further
-constrained by another user.
-
-It was thus suggested to create a small, ad-hoc function to query the
-RaspberryPi firmware for the maximum rate a given clock has.
-
-Suggested-by: Stephen Boyd <sboyd@kernel.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 6c0a0fd6cd79..182e8817eac2 100644
+index 182e8817eac2..b81da5b1dd1e 100644
 --- a/drivers/clk/bcm/clk-raspberrypi.c
 +++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -16,6 +16,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- 
-+#include <soc/bcm2835/raspberrypi-clocks.h>
- #include <soc/bcm2835/raspberrypi-firmware.h>
- 
- enum rpi_firmware_clk_id {
-@@ -254,6 +255,33 @@ static int raspberrypi_fw_dumb_determine_rate(struct clk_hw *hw,
- 	return 0;
+@@ -282,6 +282,33 @@ unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk)
  }
+ EXPORT_SYMBOL_GPL(rpi_firmware_clk_get_max_rate);
  
-+unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk)
++unsigned long rpi_firmware_clk_get_min_rate(struct clk *clk)
 +{
 +	const struct raspberrypi_clk_data *data;
 +	struct raspberrypi_clk *rpi;
 +	struct clk_hw *hw;
-+	u32 max_rate;
++	u32 min_rate;
 +	int ret;
 +
 +	if (!clk)
@@ -172,39 +156,40 @@ index 6c0a0fd6cd79..182e8817eac2 100644
 +	data = clk_hw_to_data(hw);
 +	rpi = data->rpi;
 +	ret = raspberrypi_clock_property(rpi->firmware, data,
-+					 RPI_FIRMWARE_GET_MAX_CLOCK_RATE,
-+					 &max_rate);
++					 RPI_FIRMWARE_GET_MIN_CLOCK_RATE,
++					 &min_rate);
 +	if (ret)
 +		return 0;
 +
-+	return max_rate;
++	return min_rate;
 +}
-+EXPORT_SYMBOL_GPL(rpi_firmware_clk_get_max_rate);
++EXPORT_SYMBOL_GPL(rpi_firmware_clk_get_min_rate);
 +
  static const struct clk_ops raspberrypi_firmware_clk_ops = {
  	.is_prepared	= raspberrypi_fw_is_prepared,
  	.recalc_rate	= raspberrypi_fw_get_rate,
 diff --git a/include/soc/bcm2835/raspberrypi-clocks.h b/include/soc/bcm2835/raspberrypi-clocks.h
-new file mode 100644
-index 000000000000..ff0b608b51a8
---- /dev/null
+index ff0b608b51a8..627535877964 100644
+--- a/include/soc/bcm2835/raspberrypi-clocks.h
 +++ b/include/soc/bcm2835/raspberrypi-clocks.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
+@@ -5,11 +5,17 @@
+ 
+ #if IS_ENABLED(CONFIG_CLK_RASPBERRYPI)
+ unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk);
++unsigned long rpi_firmware_clk_get_min_rate(struct clk *clk);
+ #else
+ static inline unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk)
+ {
+ 	return ULONG_MAX;
+ }
 +
-+#ifndef __SOC_RASPBERRY_CLOCKS_H__
-+#define __SOC_RASPBERRY_CLOCKS_H__
-+
-+#if IS_ENABLED(CONFIG_CLK_RASPBERRYPI)
-+unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk);
-+#else
-+static inline unsigned long rpi_firmware_clk_get_max_rate(struct clk *clk)
++static inline unsigned long rpi_firmware_clk_get_min_rate(struct clk *clk)
 +{
-+	return ULONG_MAX;
++	return 0;
 +}
-+#endif
-+
-+#endif /* __SOC_RASPBERRY_CLOCKS_H__ */
+ #endif
+ 
+ #endif /* __SOC_RASPBERRY_CLOCKS_H__ */
 
 -- 
 b4 0.10.0-dev-a76f5
