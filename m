@@ -2,72 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B255159298F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 08:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F5A59299E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 08:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F96ABE94;
-	Mon, 15 Aug 2022 06:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356AEACB46;
+	Mon, 15 Aug 2022 06:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B60D18A6FA
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 06:23:34 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id w19so11963702ejc.7
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Aug 2022 23:23:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
- bh=g6xD4nL/8TaKP3Oc8FoGSHeffZNL83IBED3zRKVGQAg=;
- b=iQsGt7d2MVUBuZSkGPZ/w5qO2/pn1fzc4aWxHBNEIbM7xzGmz0EXG3AEcktGZxO7My
- mihhuQi7dotX1/Zcs3AohuIUNNB55Gw2xCu8xDkHGPPL4H+ElATE3539AyQtHG4ppO68
- wbE5IELWiFYaW7EAy/+0za41PEVPTeOjuUEcX9VdEO1zsETJXH2Kd4NHuJeJx04NuMTd
- DlPgH0sgt/BhtXWkorwdfqCH/4YSKYCj4ED+9uFNRWbAMPL9CTJdzGWoKj3MfDNhiOAN
- ymAMZxoTuukhWq82ROeDw6EbeQHqqEg8hBZxvypEcJwvf8hA1TM+YP72/CCwAPq+HnTa
- oEeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc;
- bh=g6xD4nL/8TaKP3Oc8FoGSHeffZNL83IBED3zRKVGQAg=;
- b=jCrk52MXrx7veKxak9u+RhIWufpBd0ShlQtAdIv1Hb7RKpLdtoq4C6ZtvgAi0Rm8My
- F18fNTRkSV5tfz6dvGpI9r21qCEAHSB5Ig/qWvZgpU5bHqT9Xaon6rguV3Q5gzRVgCg9
- u/0aPTa6Y1fzfgTgWElynowixCOrt+JEC1ghxg60JPX13AnPRI+MWwA26lzpJGXyNtTI
- 51EjSZOfepipRyXOwRCNqp3tyifk45yFCkWUbNyx1lwPCvHQl0snNVAIcBDSRGdmWSdv
- lucdl6ltv9wPbRXwYDb3B10zu/KguNIvhUP1P4UtGjBJgV3J30UAvAXc5rCkJWZRaY1I
- 2QnQ==
-X-Gm-Message-State: ACgBeo2Lu+2FjAUt4zfCYbk7ufUW0HJc8GszrZnAFVzXBCw2nmvB4FBb
- yObdL4tOmpGy7TxHgEBxzfurTSETlYMu5g==
-X-Google-Smtp-Source: AA6agR5SOSjcUz28Aqy1iZqJzrtsPW/+H1VYz/5JKhpZCCR2J3Nky25QvvgHoG9nAu+QRmwX6Fbv5g==
-X-Received: by 2002:a17:906:8a44:b0:730:9d18:17b5 with SMTP id
- gx4-20020a1709068a4400b007309d1817b5mr9417763ejc.378.1660544612813; 
- Sun, 14 Aug 2022 23:23:32 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id
- u4-20020a50eac4000000b0043ba7df7a42sm6022349edp.26.2022.08.14.23.23.31
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 14 Aug 2022 23:23:32 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
- DMM/TILER
-To: Yongqin Liu <yongqin.liu@linaro.org>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
- <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
- <CAMSo37XdZSZUHLWJj373DdtOBA9=uD8SJ7ywWCYF2pU1i4cB_g@mail.gmail.com>
- <ed4fe238-4fcd-1253-658f-18fe1e1f13b0@gmail.com>
- <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <4128aed0-211a-d12a-6a86-deb4457d39f7@gmail.com>
-Date: Mon, 15 Aug 2022 09:23:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4281ACB22
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 06:34:36 +0000 (UTC)
+X-UUID: f44872fa9cdb4dc4989cfcf68ac57b0d-20220815
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=9tgsfVD7JzXCij0I6PTzM0jBVxw+WRwR4OTXvbHVvMY=; 
+ b=tYDzgbKIF5GM2z4zKgHK4XKljq70s5WTr0MSV4ELGeeJZY62gccCBerE6WB5hENmuJ61PCfumjqamECrRJJUieLYWRDC6MW5bqJ8Wh2rwEwJsIygstXdTzToUg2aLqP2gNtuqK+xtImzGVXL9DSQkPX1fIYrA3ARcsVlvEpuslI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.9, REQID:e4361ad3-c451-4e35-828f-948bcb387de4, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_
+ Ham,ACTION:release,TS:51
+X-CID-INFO: VERSION:1.1.9, REQID:e4361ad3-c451-4e35-828f-948bcb387de4, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ha
+ m,ACTION:release,TS:51
+X-CID-META: VersionHash:3d8acc9, CLOUDID:aeead2ae-9535-44a6-aa9b-7f62b79b6ff6,
+ C
+ OID:ab0f6c612549,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: f44872fa9cdb4dc4989cfcf68ac57b0d-20220815
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 999824249; Mon, 15 Aug 2022 14:34:30 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 15 Aug 2022 14:34:28 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 15 Aug 2022 14:34:28 +0800
+Message-ID: <2279a329adcc8703837e8c3db68fc6d89eb47802.camel@mediatek.com>
+Subject: Re: [PATCH v25 00/10] Add MediaTek SoC(vdosys1) support for mt8195
+From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Mon, 15 Aug 2022 14:34:28 +0800
+In-Reply-To: <20220711075245.10492-1-nancy.lin@mediatek.com>
+References: <20220711075245.10492-1-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <CAMSo37V3U5nYng77jzSnKH73CTLhGYQJu11Q5wRt289se5nFJw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,160 +71,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Bajjuri, Praneeth" <praneeth@ti.com>, tomba@kernel.org, airlied@linux.ie,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, merlijn@wizzup.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tony@atomide.com, linux-omap@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
-
-On 14.08.22 г. 17:27 ч., Yongqin Liu wrote:
-> Hi, IvayIo
+On Mon, 2022-07-11 at 15:52 +0800, Nancy.Lin wrote:
+> The hardware path of vdosys1 with DPTx output need to go through by
+> several modules, such as, OVL_ADAPTOR and MERGE.
 > 
-> Thanks very much for the reply!
+> Add mmsys and mutex modules support by the patches below:
 > 
-> On Sat, 13 Aug 2022 at 14:58, Ivaylo Dimitrov
-> <ivo.g.dimitrov.75@gmail.com> wrote:
->>
->> Hi Liu,
->>
->> On 12.08.22 г. 7:35 ч., Yongqin Liu wrote:
->>> Hi, Ivaylo, Tomi
->>>
->>> We have one X15 Android AOSP master build, it could not have the home
->>> screen displayed
->>> on the hdmi monitor connected with this change, with the following
->>> message printed on the serial console
->>>       [  607.404205] omapdrm omapdrm.0: Failed to setup plane plane-0
->>>       [  607.410522] omapdrm omapdrm.0: Failed to setup plane plane-1
->>>       [  607.416381] omapdrm omapdrm.0: Failed to setup plane plane-2
->>>       [  607.422088] omapdrm omapdrm.0: Failed to setup plane plane-3
->>>
->>>      # for details, please check the link here: http://ix.io/47m1
->>>
->>> It will work with home screen displayed on the hdmi monitor if this
->>> change is reverted.
->>>
->>> Is this the broken problem you talked about here?
->>>
->>> And could you please give some suggestions on how to have the x15
->>> Android build work with this change?
->>>
->>
->> Make sure scanout (i.e. those to be displayed) buffers are actually
->> allocated as such - OMAP_BO_SCANOUT flag must be set when calling
->> omap_bo_new().
+> Changes in v25:
+> - fix reviewer comment
+>   - refine mtk_mmsys_reset_update func
+> - rebase to next-20220708
 > 
-> I am not familiar with this area, I am sorry if I asked quite silly questions:(
-> I googled omap_bo_new, and found it's a function of libdrm here[1], is
-> it what you meant here?
+> Changes in v24:
+> - fix reviewer comment
+>   - refine mtk_mmsys_reset_update func
+> - rebase to next-20220622
 > 
-
-Yes, calling this function from userspace ends in kernel code the 
-$subject patch is part of.
-
-> If it's the omap_bo_new that we should pass OMAP_BO_SCANOUT when it is called,
-> then is it the correct way to update omap_bo_new to add the OMAP_BO_SCANOUT flag
-> before it calls omap_bo_new_impl?
+> Changes in v23:
+> - separate[7] mmsys/mutex and drm patches into two series
 > 
-
-omap_bo_new() is fine and does not need any updates/fixes, it is the 
-code that uses it (whoever it is, I am not familiar with the userspace 
-you are using) that shall pass correct flags (third parameter) when 
-calling it.
-
-BTW you shall really find who and how uses OMAP BO API, in theory it 
-might use ioctls directly and not call omap_bo_xxx functions. strace 
-would be your friend there. or gdb, or whatever tools are used on 
-android. Or put some printfs() in omap_bo_new() that output the PID of 
-the calling process, etc.
-
-> And another question is that, since the userspace(libdrm) will be used
-> to work with different kernel versions,
-> like the old 4.14, 4.19, etc, do you think there will be problem to
-> pass  OMAP_BO_SCANOUT
-> from the userspace side with the old kernels(which does not have this change)?
-> does this change need to be backported to the old kernel versions?
-
-There should not be any issue. The changes could be backported if one 
-hits the issues this $series is fixing, but there is no need.
-
+> Changes in v22:
+> - rebase to next-20220525
+> - rebase to vdosys0 series v22
+> - separate dts to a new patch
 > 
-> And the last question is that, omap_bo_new might be called by some
-> property binaries what not everyone
-> could get the source to update, for such case what's your suggestions?
+> Changes in v21:
+> - fix reviewer comment
+>   - fix rdma and ethdr binding doc and dts
 > 
-
-Hard to say without knowing what that library would be.
-
-When I hit issues with closed blobs, sometimes I reverse-engineer them 
-to fix the issue, example:
-
-https://github.com/maemo-leste/sgx-ddk-um/tree/master/dbm
-
-This is REed libdbm from sgx-ddk-um 1.17.4948957, that is responsible 
-for allocating BOs (what omap_bo_new() does) but it uses DUMB buffers 
-API, instead of OMAP BO API.
-
-I guess you are using some older version of sgx-ddk-um, so you may fix 
-in similar way. Or binary patch.
-
-Regards,
-Ivo
-
-> [1]: https://gitlab.freedesktop.org/mesa/drm/-/blob/main/omap/omap_drm.c#L227
+> Changes in v20:
+> - fix reviewer comment
+>   - update mmsys update bit api name
+>   - add mtk_mmsys_update_bits error message if lose gce property
+>   - list all mt8195 vdosys1 reset bits
 > 
-> Thanks,
-> Yongqin Liu
->>> On Thu, 17 Feb 2022 at 23:29, Ivaylo Dimitrov
->>> <ivo.g.dimitrov.75@gmail.com> wrote:
->>>>
->>>>
->>>>
->>>> On 17.02.22 г. 14:46 ч., Tomi Valkeinen wrote:
->>>>> Hi,
->>>>>
->>>>> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
->>>>>> On devices with DMM, all allocations are done through either DMM or
->>>>>> TILER.
->>>>>> DMM/TILER being a limited resource means that such allocations will start
->>>>>> to fail before actual free memory is exhausted. What is even worse is
->>>>>> that
->>>>>> with time DMM/TILER space gets fragmented to the point that even if we
->>>>>> have
->>>>>> enough free DMM/TILER space and free memory, allocation fails because
->>>>>> there
->>>>>> is no big enough free block in DMM/TILER space.
->>>>>>
->>>>>> Such failures can be easily observed with OMAP xorg DDX, for example -
->>>>>> starting few GUI applications (so buffers for their windows are
->>>>>> allocated)
->>>>>> and then rotating landscape<->portrait while closing and opening new
->>>>>> windows soon results in allocation failures.
->>>>>>
->>>>>> Fix that by mapping buffers through DMM/TILER only when really needed,
->>>>>> like, for scanout buffers.
->>>>>
->>>>> Doesn't this break users that get a buffer from omapdrm and expect it to
->>>>> be contiguous?
->>>>>
->>>>
->>>> If you mean dumb buffer, then no, this does not break users as dumb
->>>> buffers are allocated as scanout:
->>>>
->>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/omap_gem.c#L603
->>>>
->>>> If you mean omap_bo allocated buffers, then if users want
->>>> linear(scanout) buffer, then they request it explicitly by passing
->>>> OMAP_BO_SCANOUT.
->>>>
->>>> Ivo
->>>
->>>
->>>
+> Changes in v19:
+> - fix reviewer comment
+>   - separate mt8195 mmsys component to a new patch
+>   - separate mt8195 vdo0 and vdo1 routing table
+>   - separate mmsys_write_reg api to a new patch and simplify write
+> reg code
+>   - separate mmsys 64 bit reset to a new patch
+>   - separate mtk-mutex dp_intf1 component to a new patch
 > 
+> Changes in v18:
+> - fix reviewer comment
+>   - fix rdma binding doc
+>   - fix ethdr binding doc
+>   - refine mmsys config cmdq support
+>   - refine merge reset control flow, get reset control in probe
+> function
+>   - add ethdr reset control error handling and remove dbg log
+> - rebase to vdosys0 series v20 (ref [5])
 > 
+> Changes in v17:
+> - fix reviewer comment in v16
+>   - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+>   - separate mmsys config API
+>   - move mdp_rdma binding yaml
+> - fix ovl adaptor pm runtime get sync timing issue
+> - rebase to vdosys0 series v19 (ref [5])
+> - rebase to [7] for modify vblank register change
 > 
+> Changes in v16:
+> - fix reviewer comment in v 15
+>   - fix mtk_drm_ddp_comp.c alignment
+>   - fix vdosys0 mmsys num before adding vdosys1 patch
+> 
+> Changes in v15:
+> - fix ethdr uppercase hex number in dts
+> 
+> Changes in v14:
+> - remove MTK_MMSYS 64 bit dependency
+> - add ethdr.yaml back and fix dt_schema check fail
+> 
+> Resend v13
+> - add related maintainer in maillist
+> 
+> Changes in v13:
+> - fix reviewer comment in v12
+>   - fix rdma dt-binding format
+>   - fix dts node naming
+> - fix 32 bit build error
+>   - modify 64bit dependency for mtk-mmsys
+> - rebase to vdosys0 series v16. (ref [5])
+> 
+> Changes in v12:
+> - fix reviewer comment in v11
+>   - modify mbox index
+>   - refine dma dev for ovl_adaptor sub driver
+> 
+> Changes in v11:
+> - remove ethdr vblank spin lock
+> - refine ovl_adaptor print message
+> 
+> Changes in v10:
+> - refine ethdr reset control using
+> devm_reset_control_array_get_optional_exclusive
+> - fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+> 
+> Changes in v9:
+> - rebase on kernel-5.16-rc1
+> - rebase on vdosys0 series v13. (ref [5])
+> - fix ovl_adaptor sub driver is brought up unintentionally
+> - fix clang build test fail- duplicate ethdr/mdp_rdma
+> init_module/cleanup_module symbol issue 
+> 
+> Changes in v8:
+> - separate merge async reset to new patch.
+> - separate drm ovl_adaptor sub driver to new patch.
+> - fix reviewer comment in v7.
+> 
+> Changes in v7:
+> - rebase on vdosys0 series v12 (ref[5])
+> - add dma description in ethdr binding document.
+> - refine vdosys1 bit definition of mmsys routing table.
+> - separate merge modification into 3 pathces.
+> - separate mutex modification into 2 patches.
+> - add plane color coding for mdp_rdma csc.
+> - move mdp_rdma pm control to ovl_adaptor.
+> - fix reviewer comment in v6.
+> 
+> Changes in v6:
+> - rebase on kernel-5.15-rc1.
+> - change mbox label to gce0 for dts node of vdosys1.
+> - modify mmsys reset num for mt8195.
+> - rebase on vdosys0 series v10. (ref [5])
+> - use drm to bring up ovl_adaptor driver.
+> - move drm iommu/mutex check from kms init to drm bind.
+> - modify rdma binding doc location.
+> (Documentation/devicetree/bindings/arm/)
+> - modify for reviewer's comment in v5.
+> 
+> Changes in v5:
+> - add mmsys reset controller reference.
+> 
+> Changes in v4:
+> - use merge common driver for merge1~4.
+> - refine ovl_adaptor rdma driver.
+> - use ovl_adaptor ddp_comp function instead of ethdr.
+> - modify for reviewer's comment in v3.
+> 
+> Changes in v3:
+> - modify for reviewer's comment in v2.
+> - add vdosys1 2 pixels align limit.
+> - add mixer odd offset support.
+> 
+> Changes in v2:
+> - Merge PSEUDO_OVL and ETHDR into one DRM component.
+> - Add mmsys config API for vdosys1 hardware setting.
+> - Add mmsys reset control using linux reset framework.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> 
+> This series are based on the following patch:
+> [1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+>     20220112114724.1953-4-tinghan.shen@mediatek.com
+> [2] arm64: dts: mt8195: add IOMMU and smi nodes
+>     20210615173233.26682-15-tinghan.shen@mediatek.com
+> [3] arm64: dts: mt8195: add gce node
+>     20220126090109.32143-1-jason-jh.lin@mediatek.com
+> [4] [v2] arm64: dts: mt8195: add display node for vdosys0
+>     20220225021535.2655-1-jason-jh.lin@mediatek.com
+> [5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
+>     20220526102126.19756-1-jason-jh.lin@mediatek.com
+> [6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+>     20220407075726.17771-2-yong.wu@mediatek.com
+> [7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+>     20220526110233.20080-1-nancy.lin@mediatek.com
+> 
+> Nancy.Lin (10):
+>   dt-bindings: reset: mt8195: add vdosys1 reset control bit
+>   soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
+>   soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+>   soc: mediatek: add mtk_mmsys_update_bits API
+>   soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+>   soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+>     vdosys1
+>   soc: mediatek: mmsys: add mmsys for support 64 reset bits
+>   soc: mediatek: mmsys: add reset control for MT8195 vdosys1
+>   soc: mediatek: add mtk-mutex component - dp_intf1
+>   soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+> 
+>  drivers/soc/mediatek/mt8195-mmsys.h       | 146
+> ++++++++++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.c          | 132 ++++++++++++++-----
+>  drivers/soc/mediatek/mtk-mmsys.h          |   1 +
+>  drivers/soc/mediatek/mtk-mutex.c          |  37 ++++++
+>  include/dt-bindings/reset/mt8195-resets.h |  45 +++++++
+>  include/linux/soc/mediatek/mtk-mmsys.h    |  25 ++++
+>  6 files changed, 355 insertions(+), 31 deletions(-)
+
+Hello Matthias,
+
+Because Kernel 6.0-rc1 is released, I re-test this series.
+I use dp series [1] to test this mmsys series because this series is
+used to control external display.
+
+In my test, I can do modtest of these mode for DP and it passed.
+Whole series again for 6.0-rc1:
+Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+
+  #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500
+flags: phsync, pvsync; type: preferred, driver
+  #1 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352
+flags: phsync, pvsync; type: driver
+  #2 1920x1080 50.00 1920 2448 2492 2640 1080 1084 1089 1125 148500
+flags: phsync, pvsync; type: driver
+  #3 1680x1050 59.95 1680 1784 1960 2240 1050 1053 1059 1089 146250
+flags: nhsync, pvsync; type: driver
+  #4 1600x900 60.00 1600 1624 1704 1800 900 901 904 1000 108000 flags:
+phsync, pvsync; type: driver
+  #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000
+flags: phsync, pvsync; type: driver
+  #6 1280x800 59.81 1280 1352 1480 1680 800 803 809 831 83500 flags:
+nhsync, pvsync; type: driver
+  #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags:
+phsync, pvsync; type: driver
+  #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags:
+phsync, pvsync; type: driver
+  #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags:
+phsync, pvsync; type: driver
+  #10 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags:
+nhsync, nvsync; type: driver
+  #11 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags:
+phsync, pvsync; type: driver
+  #12 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags:
+nhsync, nvsync; type: driver
+  #13 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags:
+nhsync, nvsync; type: driver
+  #14 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags:
+nhsync, nvsync; type: driver
+  #15 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags:
+nhsync, nvsync; type: driver
+  #16 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags:
+nhsync, nvsync; type: driver
+
+[1]:
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=665597
+
+BRs,
+Bo-Chen
+
