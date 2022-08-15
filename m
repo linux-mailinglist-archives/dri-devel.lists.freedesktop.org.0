@@ -2,48 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE376592712
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 02:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788CE5928E3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 06:56:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D1991CF8;
-	Mon, 15 Aug 2022 00:20:24 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27CE11BF19;
- Mon, 15 Aug 2022 00:20:11 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4M5Zfz1Gmpz9sNt;
- Mon, 15 Aug 2022 00:20:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1660522811; bh=jq7j1PaCuaYOhK8IBgLkHW2SmpjHRy3ID/Ygd5BJPmw=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=pAgtKCEdl6uGBs8JO7CLozJtazm5Uk+6DzWMNwICXcL+evzrXOwVF7kTd41hZtdlh
- VpbZX4pGvsws8oSpD4Cn0ylpktreBE0Je3oTiDV5DXf785Aot0gxWdUJd4YdNZLMbJ
- Uy2ZiU536sStdC38wPiUax8dwPlc3O9smuoy4sIE=
-X-Riseup-User-ID: 2D5718D621D7FD407F0500978020029A908F06A32F2CB14F6AC58C42362A2115
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4M5Zfx4Cfqz1yQc;
- Mon, 15 Aug 2022 00:20:09 +0000 (UTC)
-Message-ID: <be6f1ce4-46b1-7a80-230c-b99f203ce8ad@riseup.net>
-Date: Sun, 14 Aug 2022 21:20:01 -0300
-MIME-Version: 1.0
-Subject: Re: [BUG][5.20] refcount_t: underflow; use-after-free
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028AAA7F54;
+	Mon, 15 Aug 2022 04:56:03 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A94AA7F54;
+ Mon, 15 Aug 2022 04:55:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660539352; x=1692075352;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=tIZV6CEGPVP69yLAzhGougGfjGYoWoHl0LglTmykxq0=;
+ b=EOwbxxLCj/jwBYnBvRhdah8KOtC3s+Zzj9z4gGkmNUlSVFH21MpozsHR
+ yj3g6OFwwAjHs6g3h1ifeF7itrOTD4YyEdJpUCp+Y4bYOEO+a+IW/yQSE
+ OAIo9L719Oxkcu+R97Olkjq0KR3uQNEmZGJh/08HaxxjxG7wI92b+EfxV
+ 72pI2LX8af61LEhZvXdpSF1O/2nFyHN8tIfJetE/AwdsOyNvfyvEd2yhj
+ E6C/5LufnVFEc5/e8STuxpvHEnikHPJojLA3h4LzbF3E7deg+nPBFuIGx
+ S5+V8M0fi3D87tHRIFT8qocaD2WJB2LBDewQEyoGelJXW2NWAAr1FmCPH A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10439"; a="289459284"
+X-IronPort-AV: E=Sophos;i="5.93,237,1654585200"; d="scan'208";a="289459284"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2022 21:55:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,237,1654585200"; d="scan'208";a="695864335"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by FMSMGA003.fm.intel.com with ESMTP; 14 Aug 2022 21:55:51 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Sun, 14 Aug 2022 21:55:51 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Sun, 14 Aug 2022 21:55:50 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Sun, 14 Aug 2022 21:55:50 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Sun, 14 Aug 2022 21:55:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g5yShTZlYWCrmGSPNXMktoYKJpXoJxVvVO5P+7H/ReFDr30YNQVmz8ASFFnQLE/g2gTN5nVHJEXLT3kV7zH+NOq0/+qWYoPjxqMVu/97xeUVRzYh/Ix9ABROQezwl/fpc+8w+knS68UYJcuKqIrAoxB8MW7LzNZWzeC+8O9RyYGctIKdZxSvKooes0lKGbHBVLiOcR6BLWK3tMIJreLUXQr/WSdqIgWK9zRkWPSKlPa7Z3CZVv8tdptRjZFIv8AulVE8bV+/K3EnUJL4kd5XEGDzvQWqqN9nfCxDDk37FAX0N/c+egns5aA7TyuGSs9PCI+OT+h5qdoiY36xge5JwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tIZV6CEGPVP69yLAzhGougGfjGYoWoHl0LglTmykxq0=;
+ b=dff5b6PMzN8g9mqSwPl+Q9uhwHScQCkh3btzu/xvSoRzVKmpLoDcq5iKCttPRl+nWTK0gXKJaVxFn81tDcrSu4edX6d2C9c5qDtEq/mmr7ng+I4l6Mq4pyatAzrwYDq8ZIKWKYJIzTdwiG10Vc4orR6wNQ53PM8NnAXi+P5jTQwmyrLLcd2HHbwQbejo1bj6HqGG1mQMHxaZodeNQNMXK0VfRfCntsjE2YFQ2IMnJEmzA8scqJivEUIBT2flClMqfDj6mKDLGBY4qtv8kHErG4sjQCD5sKC2Ap5Nub4C7GVgJba3JN61i501OTpOn88mMTgswZoFo0cqlSIIzPfnTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ MN2PR11MB4413.namprd11.prod.outlook.com (2603:10b6:208:191::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Mon, 15 Aug
+ 2022 04:55:48 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::fdd1:18b1:3e9c:b03e]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::fdd1:18b1:3e9c:b03e%5]) with mapi id 15.20.5525.011; Mon, 15 Aug 2022
+ 04:55:48 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Harrison, John C" <john.c.harrison@intel.com>,
+ "Intel-GFX@Lists.FreeDesktop.Org" <Intel-GFX@Lists.FreeDesktop.Org>
+Subject: Re: [Intel-gfx] [PATCH 3/7] drm/i915/guc: Add GuC <-> kernel time
+ stamp translation information
+Thread-Topic: [Intel-gfx] [PATCH 3/7] drm/i915/guc: Add GuC <-> kernel time
+ stamp translation information
+Thread-Index: AQHYoikMsVf/doc2k0CksYIgyCdh1a2fg8YAgAXlgoCAChlWgA==
+Date: Mon, 15 Aug 2022 04:55:48 +0000
+Message-ID: <42b3fa4fab7657b4fcdf4933185b289ca47c6ff0.camel@intel.com>
+References: <20220728022028.2190627-1-John.C.Harrison@Intel.com>
+ <20220728022028.2190627-4-John.C.Harrison@Intel.com>
+ <f1c122a1babf75c8fb0910ee5e2e48d9f52e9722.camel@intel.com>
+ <2b8105b9-f05c-454b-c678-af1cf98f54b7@intel.com>
+In-Reply-To: <2b8105b9-f05c-454b-c678-af1cf98f54b7@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-References: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <CABXGCsM58-8fxVKAVkwsshg+33B_1_t_WesG160AtVBe1ZvKiw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.5-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8729ce23-003c-4cf2-ec18-08da7e7a6bd1
+x-ms-traffictypediagnostic: MN2PR11MB4413:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OJ3obX2Dvd0r1Xqnb6RysQpmxQp9uq1Kqkny4yfB+gs/2FFD8i/UeKbYQ+feTYcjZB2lWyRajH0fEPBdVHF4raXeZSCZl5oz3Ww9Ow9fMWZtXZazrVRGQFW3P6Ww7xfuuqp5w16dA+yKuqpFy4bbymV1arkbVCQR5QNG0JhYLvjI7WdjBrbnrXihRp0Nyxqz3dLLOAhI9zR0/eDWkrkH9cziB7vaJTv9Qto+wq+nXkcJPqvmHfiIMlFKWUN0l5XbU6861cF91cs70oRLklxhjMRiS1Po0jdUP7qy9DXDw37pP0olmlMwdvLAADUJCouLFGheItgWFbZqWC0GVKb4VTuvG4apSYo2Fr5w1mntuGwQVjjh00YeAy5nofofAUr6N6/K2OmDz8vjPYc5VSUGZ4x+I5wsm0Kr+x8ny/Xbr7/P22h2/NUtTA0uCl6l8sWHHiNUjYzeWa5Ulofna4xX5Ize6tz96j1zAMZrHrqq+0P6ZjkNTk/G+ncB2M7O0pV0gaaEn5ROA6ZKXOTW3kIC6Ju4glcTsYoKpMwOQS46zFXpKMX/gMFz95YepXV1vSie+syLquXhwHjwMSY+EKKzTt3yA25hOtJ2ZIJJZB6BpG7t07S60RDvz6FE273kUJwLgijheFeFhjUXQ4ti7Umk5zHSRjreESdq7xH6TYYnud2KBA8VtTOd+xa6Xylep1WMDkolISdzcm2dndUEG0+v/avhB93D1lpGTu4KaS4DNcPRiOg4Hs12oDSNTbTiarAC4zKJ+3V6xJZC4JCxMp3s1A2R4cNEHRcu/XwBMTu9u4PrdZni7Vt3QcE2yUwyMCB9
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(39860400002)(376002)(396003)(346002)(136003)(366004)(5660300002)(2906002)(82960400001)(86362001)(38070700005)(38100700002)(122000001)(41300700001)(6506007)(53546011)(316002)(478600001)(71200400001)(6486002)(2616005)(186003)(26005)(83380400001)(6512007)(8676002)(66556008)(76116006)(64756008)(66946007)(66476007)(450100002)(4326008)(66446008)(8936002)(91956017)(110136005)(36756003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OUQrTUVhb2wwdjRIVHhJYVVRQ1c3ZVdKRHo2OGRjVWh6Y0dNZTk5QVJJQ1lS?=
+ =?utf-8?B?WkFtbk5CVnQ4ODdjclBWOGVEazZPYWpuTVpTTEs1NUlQOGVOdWVlb2ZHQ1Y4?=
+ =?utf-8?B?eUg1Q0Jsd3IwaE5Od2t0SmRWRzRSWFhKNk9BV1BLMklMWTRwY0llVVBJUDFr?=
+ =?utf-8?B?R2dieGZWVmtJamhTQXpoTjRENWNSSythQnhjbWJIbXdsczIxREJqeVM3RnBy?=
+ =?utf-8?B?b3pIbkFFNFU1WjBuS0xhblg2MW9UMXpjZVdHSldXUmhESFhMNlRiRklGajRR?=
+ =?utf-8?B?eTZZOGFHOXY2eHM5T1RnaHI1VVdtT3FYbXVDckpCS1pPYlhqRE13d2dSRkxH?=
+ =?utf-8?B?eU5ZYmVHK3l0dWlDMFhBZ28zbmNzcjIzUTVNRUN2aC8yUG4zRUhpOGErWHlj?=
+ =?utf-8?B?VmJZZWEva29RUkJtdHlzNi9Qa2dCbVllQlFSSVBCekVIdHlOTEhyRU9ER0p2?=
+ =?utf-8?B?QjlsRlhEN0wxN3c2b25ac1FWU1N0Z2FQclJ4TXh4bHZSQjdYb2FzUjJvd2tx?=
+ =?utf-8?B?WEdKLytCTFNYa0JCZDBhOTk5VTRLVVRsRHhETXhVWmdBcHhLV2hML1VNZDkx?=
+ =?utf-8?B?bkRyWlVabHcxTHYrYTJVaUNtc1dwbmNYUmkrSG12cEY0QXExVEswcVFEd0dH?=
+ =?utf-8?B?WFdUeklSa2p6QkU1QS9zdDhobUNXVFh6VjNYUTFDTDZBcFpBNUdwRm1iV25r?=
+ =?utf-8?B?SjhJL3h6cGJCa2VUTnd6RllDc2JYaHFxWERxU1VJdzVIZWVPUlp4OTdOT0Fo?=
+ =?utf-8?B?THFHV1ZnVldHcFQrN2NmNlZhNVQwcnErT3lmdjNVbzdyVmRpK2g3eHRuS2Z4?=
+ =?utf-8?B?aityZ1RCdWtWM2hPL3ZRQnVWU092bjZCdnZhV2UrU3Z3UXBZcWxrQjh1d21V?=
+ =?utf-8?B?aldlZUdPbXllSDdQQk5DWkJkKy9mQmN5Ti8vaUVFZUdJOG44UkIwYmRJdFdL?=
+ =?utf-8?B?ckdjZEpxKy9ZUVcxVE04YzlGU09VTTFCRDh4dzIxTVlaN2dQSzRFbGE5ZElG?=
+ =?utf-8?B?aE81VWIyTHpVMHBGTzN6SzFVYU9nbWIvWmU1Mzd4WDJ6cmZ1dlNZeVdWYXdm?=
+ =?utf-8?B?aWtCQmhkTlM4MExva1JiUy9wT0xZT09wNDl5UXZsc2dDMTV4M24wa2JGbUFw?=
+ =?utf-8?B?OTAxbjRRczVZbCtBbTkxdTFjR1dreXFrMmZVSExLNkI1U0k3QnBleTdKOFVa?=
+ =?utf-8?B?ZFlSaE0rclJoS2J2NUlKcktPdE9FY2VFcTJReURTUFA2Njg5aE12RmJnSEZ6?=
+ =?utf-8?B?SGczSHMvMnA2OWJtZVVVWFNqTjBxUWZmSmFKUFlVT3ludHFtWDBpbXlXZHZl?=
+ =?utf-8?B?OWdpU1RhOThjTXZ0TTZEM3RVRExPUkVvdmhqZ2V1ZVBXUkZJa0FuNmNWekJW?=
+ =?utf-8?B?bXM0dXRRaFd5aytZVDJYbDJ4WHBYenprT1VOaERjdTViRGdpR3lFNklmUGNN?=
+ =?utf-8?B?cDhxcUVkN3lwUzNrRGxnQTVKbXJyUUVtREozRVl5TEtHYUp3Nm5QV0h6QS9H?=
+ =?utf-8?B?ZU5jaWZocHVYMHAyckNWNUIyNWhZTlU2bHpnM2pGcCtiKzJZU29xWS9aREVw?=
+ =?utf-8?B?ckdxTm8rZlExeHFZRFFPVHlpMzdxaXBLc0taUlF4VE5UT0dwYUViWU8xWkUw?=
+ =?utf-8?B?ZDFRNGdJWTlEZ0ZSWUk1eWdtZm96Ulh6V1FEdEphbDg0WGh3VUdKVzhJL3NJ?=
+ =?utf-8?B?UmNQVmpmVmszMWU4MzJuRFg0b1RXM0s4MnBUT08xMEJTemhUeDFubkZBbEJl?=
+ =?utf-8?B?S000Zy9BSno0YldzNmVwaTRyZ0RyOG1uWSszQnRpMFU3SnhpUTdjYVZ6ZDhL?=
+ =?utf-8?B?b0ZpbGtQN0Uza01hcExpbGszOVFYUlA0MEZGamV6c3BkbnRKaTVTckNMTDVR?=
+ =?utf-8?B?TnYwbjlqdVNEVjlLa1QzaE5acEY0dExEVlpwVHpKbjVCOCsvejRWNDlUVnlY?=
+ =?utf-8?B?WjdoUlgzZzZmY0JJVHVNOXRNMW1zMDI0bDJ1N0NyL3pBVjlIUXNsMVRsTEZt?=
+ =?utf-8?B?dWI0dVJwRUJuWVUzeTBYYStXMURLSFJ0T0IxNTZWZVBQc29wNWhhUE1EcndD?=
+ =?utf-8?B?UnhVRlljK1plRDg0clh0Ynlqd1pmdTdJWE5udTF3dmRnQ0xGelVLV1c0TkVC?=
+ =?utf-8?B?VmtOMWMvWmRwdmE1TGpnOGNtc2hxM3p5WXNBWDJ4bDk1R3o5UkEyTU9XREk0?=
+ =?utf-8?Q?GC6iqDeGfdAdP7EFJDTkX94=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8A684D21938B3D408517CBACE29273FB@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8729ce23-003c-4cf2-ec18-08da7e7a6bd1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2022 04:55:48.6219 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ilMXpQOXZ6DNp4QfU9ebRqbQbPn70DM/Znd+BJ7puVpdr6am07NBIN/ODJpnof+SoFVTaLvhUCiyNG66X7FcretAwZn44awFAGR4wetdYVMxGHb4WOmtQPyVcPZmnbYR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4413
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,187 +165,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "DRI-Devel@Lists.FreeDesktop.Org" <DRI-Devel@Lists.FreeDesktop.Org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mikhail
-
-Looks like this use-after-free problem was introduced on
-90af0ca047f3049c4b46e902f432ad6ef1e2ded6. Checking this patch it seems
-like: if amdgpu_cs_vm_handling return r != 0, then it will unlock
-bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
-amdgpu_cs_parser_fini.
-
-Maybe the following patch will help:
-
----
-From 71d718c0f53a334bb59bcd5dabd29bbe92c724af Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-Date: Sun, 14 Aug 2022 21:12:24 -0300
-Subject: [PATCH] drm/amdgpu: Fix use-after-free on amdgpu_bo_list mutex
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Fixes: 90af0ca047f3 ("drm/amdgpu: Protect the amdgpu_bo_list list with a
-mutex v2")
-Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index d8f1335bc68f..a7fce7b14321 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -837,17 +837,14 @@ static int amdgpu_cs_vm_handling(struct
-amdgpu_cs_parser *p)
- 			continue;
-
- 		r = amdgpu_vm_bo_update(adev, bo_va, false);
--		if (r) {
--			mutex_unlock(&p->bo_list->bo_list_mutex);
-+		if (r)
- 			return r;
--		}
-
- 		r = amdgpu_sync_fence(&p->job->sync, bo_va->last_pt_update);
--		if (r) {
--			mutex_unlock(&p->bo_list->bo_list_mutex);
-+		if (r)
- 			return r;
--		}
- 	}
-+	mutex_unlock(&p->bo_list->bo_list_mutex);
-
- 	r = amdgpu_vm_handle_moved(adev, vm);
- 	if (r)
--- 
-2.37.1
----
-Best Regards,
-- Maíra Canal
-
-On 8/14/22 18:11, Mikhail Gavrilov wrote:
-> Hi folks.
-> Joined testing 5.20 today (7ebfc85e2cd7).
-> I encountered a frequently GPU freeze, after which a message appears
-> in the kernel logs:
-> [ 220.280990] ------------[ cut here ]------------
-> [ 220.281000] refcount_t: underflow; use-after-free.
-> [ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28
-> refcount_warn_saturate+0xba/0x110
-> [ 220.281029] Modules linked in: uinput rfcomm snd_seq_dummy
-> snd_hrtimer nft_objref nf_conntrack_netbios_ns nf_conntrack_broadcast
-> nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
-> nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-> nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink
-> qrtr bnep sunrpc snd_seq_midi snd_seq_midi_event vfat intel_rapl_msr
-> fat intel_rapl_common snd_hda_codec_realtek mt76x2u
-> snd_hda_codec_generic snd_hda_codec_hdmi mt76x2_common iwlmvm
-> mt76x02_usb edac_mce_amd mt76_usb snd_hda_intel snd_intel_dspcfg
-> mt76x02_lib snd_intel_sdw_acpi snd_usb_audio snd_hda_codec mt76
-> kvm_amd uvcvideo mac80211 snd_hda_core btusb eeepc_wmi snd_usbmidi_lib
-> videobuf2_vmalloc videobuf2_memops kvm btrtl snd_rawmidi asus_wmi
-> snd_hwdep videobuf2_v4l2 btbcm iwlwifi ledtrig_audio libarc4 btintel
-> snd_seq videobuf2_common sparse_keymap btmtk irqbypass videodev
-> snd_seq_device joydev xpad iwlmei platform_profile bluetooth
-> ff_memless snd_pcm mc rapl
-> [ 220.281185] video snd_timer cfg80211 wmi_bmof snd pcspkr soundcore
-> k10temp i2c_piix4 rfkill mei asus_ec_sensors acpi_cpufreq zram
-> hid_logitech_hidpp amdgpu igb dca drm_ttm_helper ttm crct10dif_pclmul
-> iommu_v2 crc32_pclmul gpu_sched crc32c_intel ucsi_ccg drm_buddy nvme
-> typec_ucsi ghash_clmulni_intel drm_display_helper ccp nvme_core typec
-> sp5100_tco cec wmi ip6_tables ip_tables fuse
-> [ 220.281258] Unloaded tainted modules: amd64_edac():1 amd64_edac():1
-> amd64_edac():1 amd64_edac():1 amd64_edac():1 amd64_edac():1
-> amd64_edac():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
-> amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
-> pcc_cpufreq():1 amd64_edac():1 amd64_edac():1 pcc_cpufreq():1
-> amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1
-> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-> pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-> pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1
-> amd64_edac():1 pcc_cpufreq():1 amd64_edac():1 amd64_edac():1
-> pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1 amd64_edac():1
-> pcc_cpufreq():1 pcc_cpufreq():1 amd64_edac():1 pcc_cpufreq():1
-> amd64_edac():1 pcc_cpufreq():1 pcc_cpufreq():1 pcc_cpufreq():1
-> [ 220.281388] pcc_cpufreq():1 fjes():1 pcc_cpufreq():1 fjes():1
-> fjes():1 fjes():1 fjes():1 fjes():1 fjes():1 fjes():1
-> [ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L -------
-> --- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
-> [ 220.281421] Hardware name: System manufacturer System Product
-> Name/ROG STRIX X570-I GAMING, BIOS 4403 04/27/2022
-> [ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
-> [ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
-> 7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
-> 6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
-> c7
-> [ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
-> [ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 0000000000000000
-> [ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000ffffffff
-> [ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0d18d7930
-> [ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058ca360400
-> [ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 0000000000000003
-> [ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000)
-> knlGS:0000000000000000
-> [ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 0000000000350ee0
-> [ 220.281480] Call Trace:
-> [ 220.281485] <TASK>
-> [ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
-> [ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
-> [ 220.282028] drm_ioctl_kernel+0xa4/0x150
-> [ 220.282043] drm_ioctl+0x21f/0x420
-> [ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
-> [ 220.282275] ? lock_release+0x14f/0x460
-> [ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
-> [ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
-> [ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
-> [ 220.282534] __x64_sys_ioctl+0x90/0xd0
-> [ 220.282545] do_syscall_64+0x5b/0x80
-> [ 220.282551] ? futex_wake+0x6c/0x150
-> [ 220.282568] ? lock_is_held_type+0xe8/0x140
-> [ 220.282580] ? do_syscall_64+0x67/0x80
-> [ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
-> [ 220.282592] ? do_syscall_64+0x67/0x80
-> [ 220.282597] ? do_syscall_64+0x67/0x80
-> [ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
-> [ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> [ 220.282616] RIP: 0033:0x7f8282a4f8bf
-> [ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
-> 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
-> 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
-> 00
-> [ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX:
-> 0000000000000010
-> [ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f8282a4f8bf
-> [ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 0000000000000018
-> [ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f82683df4b0
-> [ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000c0186444
-> [ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 0000000000000003
-> [ 220.282689] </TASK>
-> [ 220.282693] irq event stamp: 6232311
-> [ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>]
-> __up_console_sem+0x5e/0x70
-> [ 220.282704] hardirqs last disabled at (6232326):
-> [<ffffffff9718cd63>] __up_console_sem+0x43/0x70
-> [ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>]
-> __irq_exit_rcu+0xf9/0x170
-> [ 220.282716] softirqs last disabled at (6232061):
-> [<ffffffff970ff669>] __irq_exit_rcu+0xf9/0x170
-> [ 220.282722] ---[ end trace 0000000000000000 ]---
-> 
-> 
-> Full kernel log is here:
-> https://pastebin.com/gn01DVxE
-> 
-> My GPU hardware is AMD Radeon 6900XT.
-> 
+U291bmRzIGdvb2QgLSB0aGFua3MuIChpZ25vcmUgdGhlICJkb2luZyB0aGUgb3Bwb3NpdGUiIGNv
+bW1lbnQpLg0KDQpSZXZpZXdlZC1ieTogQWxhbiBQcmV2aW4gPGFsYW4ucHJldmluLnRlcmVzLmFs
+ZXhpc0BpbnRlbC5jb20+DQoNCk9uIE1vbiwgMjAyMi0wOC0wOCBhdCAxMTo0MyAtMDcwMCwgSGFy
+cmlzb24sIEpvaG4gQyB3cm90ZToNCj4gT24gOC80LzIwMjIgMTc6NDAsIFRlcmVzIEFsZXhpcywg
+QWxhbiBQcmV2aW4gd3JvdGU6DQo+ID4gSSBoYXZlIGEgcXVlc3Rpb24gb24gYmVsb3cgY29kZS4g
+RXZlcnl0aGluZyBlbHNlIGxvb2tlZCBnb29kLg0KPiA+IFdpbGwgci1iIGFzIHNvb24gYXMgd2Ug
+Y2FuIGNsb3NlIG9uIGJlbG93IHF1ZXN0aW9uDQo+ID4gLi4uYWxhbg0KPiA+IA0KPiA+IA0KPiA+
+IE9uIFdlZCwgMjAyMi0wNy0yNyBhdCAxOToyMCAtMDcwMCwgSm9obi5DLkhhcnJpc29uQEludGVs
+LmNvbSB3cm90ZToNCj4gPiA+IEZyb206IEpvaG4gSGFycmlzb24gPEpvaG4uQy5IYXJyaXNvbkBJ
+bnRlbC5jb20+DQo+ID4gPiANCj4gPiA+IEl0IGlzIHVzZWZ1bCB0byBiZSBhYmxlIHRvIG1hdGNo
+IEd1QyBldmVudHMgdG8ga2VybmVsIGV2ZW50cyB3aGVuDQo+ID4gPiBsb29raW5nIGF0IHRoZSBH
+dUMgbG9nLiBUaGF0IHJlcXVpcmVzIGJlaW5nIGFibGUgdG8gY29udmVydCBHdUMNCj4gPiA+IHRp
+bWVzdGFtcHMgdG8ga2VybmVsIHRpbWUuIFNvLCB3aGVuIGR1bXBpbmcgZXJyb3IgY2FwdHVyZXMg
+YW5kL29yIEd1Qw0KPiA+ID4gbG9ncywgaW5jbHVkZSBhIHN0YW1wIGluIGJvdGggdGltZSB6b25l
+cyBwbHVzIHRoZSBjbG9jayBmcmVxdWVuY3kuDQo+ID4gPiANCj4gPiA+IFNpZ25lZC1vZmYtYnk6
+IEpvaG4gSGFycmlzb24gPEpvaG4uQy5IYXJyaXNvbkBJbnRlbC5jb20+DQo+ID4gPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dwdV9lcnJvci5jDQo+ID4gPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pOTE1X2dwdV9lcnJvci5jDQo+ID4gPiBAQCAtMTY3NSw2ICsxNjc4LDEz
+IEBAIGd0X3JlY29yZF91YyhzdHJ1Y3QgaW50ZWxfZ3RfY29yZWR1bXAgKmd0LA0KPiA+ID4gICAJ
+ICovDQo+ID4gPiAgIAllcnJvcl91Yy0+Z3VjX2Z3LnBhdGggPSBrc3RyZHVwKHVjLT5ndWMuZncu
+cGF0aCwgQUxMT1dfRkFJTCk7DQo+ID4gPiAgIAllcnJvcl91Yy0+aHVjX2Z3LnBhdGggPSBrc3Ry
+ZHVwKHVjLT5odWMuZncucGF0aCwgQUxMT1dfRkFJTCk7DQo+ID4gPiArDQo+ID4gPiArCS8qDQo+
+ID4gPiArCSAqIFNhdmUgdGhlIEd1QyBsb2cgYW5kIGluY2x1ZGUgYSB0aW1lc3RhbXAgcmVmZXJl
+bmNlIGZvciBjb252ZXJ0aW5nIHRoZQ0KPiA+ID4gKwkgKiBsb2cgdGltZXMgdG8gc3lzdGVtIHRp
+bWVzIChpbiBjb25qdW5jdGlvbiB3aXRoIHRoZSBlcnJvci0+Ym9vdHRpbWUgYW5kDQo+ID4gPiAr
+CSAqIGd0LT5jbG9ja19mcmVxdWVuY3kgZmllbGRzIHNhdmVkIGVsc2V3aGVyZSkuDQo+ID4gPiAr
+CSAqLw0KPiA+ID4gKwllcnJvcl91Yy0+dGltZXN0YW1wID0gaW50ZWxfdW5jb3JlX3JlYWQoZ3Qt
+Pl9ndC0+dW5jb3JlLCBHVUNQTVRJTUVTVEFNUCk7DQo+ID4gQWxhbjp0aGlzIHJlZ2lzdGVyIGlz
+IGluIHRoZSBHVUMtU0hJTSBkb21haW4gYW5kIHNvIHVubGVzcyBpIGFtIG1pc3Rha2VuIHUgbWln
+aHQgbmVlZCB0byBlbnN1cmUgd2UgaG9sZCBhIHdha2VyZWYgc28NCj4gPiB0aGF0IGFyZSBnZXR0
+aW5nIGEgbGl2ZSB2YWx1ZSBvZiB0aGUgcmVhbCB0aW1lc3RhbXAgcmVnaXN0ZXIgdGhhdCB0aGlz
+IHJlZ2lzdGVyIGlzIG1pcnJvci1pbmcgYW5kIG5vdCBhIHN0YWxlIHNuYXBzaG90Lg0KPiA+IE9y
+IHdhcyB0aGlzIGFscmVhZHkgZG9uZSBmYXJ0aGVyIHVwIHRoZSBzdGFjaz8gT3IgYXJlIHdlIGRv
+aW5nIHRoZSBvcHBvc2l0ZSAtIGluIHdoaWNoIGNhc2Ugd2Ugc2hvdWxkIGVuc3VyZSB3ZSBkcm9w
+IGFsDQo+ID4gICB3YWtlcmVmIHByaW9yIHRvIHRoaXMgcG9pbnQuICh3aGljaCBpIGFtIG5vdCBz
+dXJlIGlzIGEgcmVsaWFibGUgbWV0aG9kIHNpbmNlIHdlIHdvdWxkbnQga25vdyB3aGF0IEd1QyBy
+ZWYgd2FzIGF0KS4NCj4gVGhlIGludGVsX3VuY29yZV9yZWFkKCkgZG9lcyBhIGZvcmNld2FrZSBh
+Y3F1aXJlIGltcGxpY2l0bHkuDQo+IA0KPiBOb3Qgc3VyZSB3aGF0IHlvdSBtZWFuIGFib3V0IGRy
+b3BwaW5nIGFsbCB3YWtlcmVmcyBwcmlvciB0byB0aGlzIHBvaW50Pw0KPiANCj4gSm9obi4NCj4g
+DQo+ID4gPiAgIAllcnJvcl91Yy0+Z3VjX2xvZyA9IGNyZWF0ZV92bWFfY29yZWR1bXAoZ3QtPl9n
+dCwgdWMtPmd1Yy5sb2cudm1hLA0KPiA+ID4gICAJCQkJCQkiR3VDIGxvZyBidWZmZXIiLCBjb21w
+cmVzcyk7DQo+ID4gPiAgIA0KDQo=
