@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9261F593392
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 18:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C005933C8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 19:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B716CE4E7;
-	Mon, 15 Aug 2022 16:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8340FCE7EF;
+	Mon, 15 Aug 2022 17:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E406CE4A5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 16:53:05 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id b2so5921534qkh.12
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 09:53:05 -0700 (PDT)
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F25B9150B;
+ Mon, 15 Aug 2022 17:02:03 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id a22so6513705pfg.3;
+ Mon, 15 Aug 2022 10:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=Ca5bhtx3a2wclC0QMv8WKb3qLmGTDNtJ6yijFkZ/Gyg=;
- b=WIAx1xf8+dgsn8Ft/ucwTcNkyDnkEk3OU6PhyZmLeOqCFFJy+UibslPtCYTSrnZI4E
- IU4dhnTrgAqkSqDHbJPj5dgBY+3r4opZv2k+VGI6aQBRn22aO1BUGj6Q8WegjSaEkzMz
- jAB3yHvThB7EdZ8f4k7/HiJ7NSDdKlqlByWO37UQ8dhPXjDZP+AKAeEJJ1yGJbC3j/zX
- eS6oXYqla40LKpgem31++4qpK83m0nqWmeEjlTrQolgR79BzyaDELqHhRy04Igg8n09/
- EOvzoA3GTOVpTTWUxrKwQlBLFM0mX6mdCdZrrPUMVLeEcRQiSHF992maZ7fUS6LMNvut
- oh7w==
+ :from:to:cc; bh=kVI9j3DYdqBdWkziBWW1kk/pn2Ueg4C4jZV3ff8Htjw=;
+ b=gZqQLXqcl92oRRJt+5e5u2qjisa8kzB6aZhxd9PIhqUmCxltZj383GoU8Cz3j8Tk4c
+ vN3dentoCQF+MRI0FvyRZDu3ppO1yOn+l9OA8GhHnGrLqRWgaIjY5eBqJDZC13icn8hw
+ +JAwQvLxC0EWZOG74h3jwKTqvyhuQAgdTqTQO3xsOZuG6xc4trx06//kNQR1Qf0Ld1Qt
+ tKFvpd6kAwyjbVJ8t5yuX1bSinVtAAjspK7Ilp9HakXaNORZYJnsYGPk0LyRyExCiuIq
+ zgLrz1HmdPJhISBHvYLb3Ttimvk0hFUuuNhLGuw8c59leJyeKyuYyxmeeXGhUtcLAc0k
+ 0nSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=Ca5bhtx3a2wclC0QMv8WKb3qLmGTDNtJ6yijFkZ/Gyg=;
- b=lkb7csj79+nE5m5MEEnyzYnxnD59lZBWzQsmusD0uSSghlrCC5eWCkrQ9nFAEMzW9+
- GKubF2BJ75rXqOhtfHjJEAHuOI7f/7+wJxW8TQ6+bRLJjIgfk1IUyqGhnv2BZLZ+mXG3
- J6jsP7mPCQIItxCbcLJpRapN8RBOBf39o6HXEMiebthFZU2cFSly6txLZr/zDe0PVV/f
- PyyLs0mm3EyyVf8pX2hlNGk0gFK/cNWYP+TG1WMoQ/Ozu4sOcJnImwqLwTDB7ftl49aC
- vb6YQp4GpkPUaWl3oqgU/6BLlqnN2w8QtiQh57i1kSAG/LHHWbCW68Vtk6ZV4PgGBuh0
- Vp8A==
-X-Gm-Message-State: ACgBeo04+Q0j/jgUZPXQwUTeNOLFVkdzNdsgVFHbaNfkZDVgcFfYw3GV
- vE9rrzwCqXkTAZi+ahNPiY8=
-X-Google-Smtp-Source: AA6agR79y9ice2MpPT1JmvuoKzzqgoPS09YIxD6rO/HKNgh9A66vNMNY9XKrGEHiFVWTqMDKhyLwwQ==
-X-Received: by 2002:a05:620a:1357:b0:6ba:e661:f91a with SMTP id
- c23-20020a05620a135700b006bae661f91amr9519903qkl.744.1660582384034; 
- Mon, 15 Aug 2022 09:53:04 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id
- dt2-20020a05620a478200b006b93b61bc74sm9652869qkb.9.2022.08.15.09.53.02
+ bh=kVI9j3DYdqBdWkziBWW1kk/pn2Ueg4C4jZV3ff8Htjw=;
+ b=yXLg74SpL1geW94zzIOYWy2BjI7MM6P8Ob5OVe9HV2HUTAA46nF6fALukQY0Ufut6j
+ sPzruywfKfOJ6v7PlcAueGXLL1vPLmkgc79/hgCb6kYbI4gSrWKzHcAhAv+ry+irV2il
+ 07P271xilHAk5gy5riRG8QnXJz0H97p1/QbYEUIIhOlnCp3FMKoIg7wq1fIm7hOemJ3L
+ 7oWjVGah92qDaq5CV5p9Mv6tsdYQnaj6ndiu3HIlqSmmivC5k1X+BhWMfvwspfrDnUUU
+ lr5ROgMRf/V7sIjCiFnZfuV4bx7R4lUOa2rS0tnCFdsU61bzXZjCcIvlePIH8jp1Vn+k
+ GxcA==
+X-Gm-Message-State: ACgBeo18Pd7Q85uNlyMMVtYZ3qONdnGbwG9cA9xz2vXWnPUlXcMkEfsJ
+ y41AF2mSdIUey67kfzlRD2A=
+X-Google-Smtp-Source: AA6agR5RZ22iqECqURoT+vxzrH03J8Q9Bvu9e6PkSFwJuTLDiJCN3IdbpLDIa0y8FwM7EIYwWL+bEw==
+X-Received: by 2002:aa7:88d1:0:b0:52e:f8e:aab5 with SMTP id
+ k17-20020aa788d1000000b0052e0f8eaab5mr17090966pff.63.1660582921848; 
+ Mon, 15 Aug 2022 10:02:01 -0700 (PDT)
+Received: from [192.168.0.110] ([103.159.189.138])
+ by smtp.gmail.com with ESMTPSA id
+ l20-20020a17090b079400b001f89383d587sm4767063pjz.56.2022.08.15.10.01.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 09:53:03 -0700 (PDT)
-Message-ID: <129cc9c4-b99f-cff4-bd16-093441e39a66@gmail.com>
-Date: Mon, 15 Aug 2022 09:52:59 -0700
+ Mon, 15 Aug 2022 10:02:01 -0700 (PDT)
+Message-ID: <1e720378-8398-3e4a-5a77-e34b2fec58fd@gmail.com>
+Date: Mon, 15 Aug 2022 23:01:49 +0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 23/33] drm/vc4: hdmi: Move HDMI reset to pm_resume
+ Thunderbird/91.12.0
+Subject: Re: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in
+ vcn_v4_0_stop
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Stefan Wahren <stefan.wahren@i2se.com>
-References: <20220613144800.326124-1-maxime@cerno.tech>
- <20220613144800.326124-24-maxime@cerno.tech>
- <ebd018b6-456e-fb22-b075-4da87f50b20b@gmail.com>
- <c82f57ba-0b60-10a0-d254-da91a32a923d@gmail.com>
- <abc70ec9-cf6a-3057-0d80-65a3cb81ea2b@i2se.com>
- <20220815141253.ku5tlwien4lipqn6@houat>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20220815141253.ku5tlwien4lipqn6@houat>
+To: Greg KH <greg@kroah.com>
+References: <20220815070056.10816-1-khalid.masum.92@gmail.com>
+ <SJ1PR12MB61944B1D53330D5E9531158695689@SJ1PR12MB6194.namprd12.prod.outlook.com>
+ <86088c17-585c-4a53-312d-ef339b824538@gmail.com> <YvpwVh359EMGa5kO@kroah.com>
+From: Khalid Masum <khalid.masum.92@gmail.com>
+In-Reply-To: <YvpwVh359EMGa5kO@kroah.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,72 +76,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Wan Jiabing <wanjiabing@vivo.com>, David Airlie <airlied@linux.ie>, "Liu,
+ Leo" <Leo.Liu@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Jiang,
+ Sonny" <Sonny.Jiang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Dong, Ruijing" <Ruijing.Dong@amd.com>,
+ "Zhu, James" <James.Zhu@amd.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/15/22 07:12, Maxime Ripard wrote:
-> On Wed, Aug 10, 2022 at 10:33:48PM +0200, Stefan Wahren wrote:
->> Hi Florian,
->>
->> Am 09.08.22 um 21:02 schrieb Florian Fainelli:
->>> On 8/4/22 16:11, Florian Fainelli wrote:
->>>> On 6/13/22 07:47, Maxime Ripard wrote:
->>>>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>>>>
->>>>> The BCM2835-37 found in the RaspberryPi 0 to 3 have a power domain
->>>>> attached to the HDMI block, handled in Linux through runtime_pm.
->>>>>
->>>>> That power domain is shared with the VEC block, so even if we put our
->>>>> runtime_pm reference in the HDMI driver it would keep being on. If the
->>>>> VEC is disabled though, the power domain would be disabled and we would
->>>>> lose any initialization done in our bind implementation.
->>>>>
->>>>> That initialization involves calling the reset function and
->>>>> initializing
->>>>> the CEC registers.
->>>>>
->>>>> Let's move the initialization to our runtime_resume implementation so
->>>>> that we initialize everything properly if we ever need to.
->>>>>
->>>>> Fixes: c86b41214362 ("drm/vc4: hdmi: Move the HSM clock enable
->>>>> to runtime_pm")
->>>>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>>>
->>>> After seeing the same warning as Stefan reported in the link below,
->>>> but on the Raspberry Pi 4B:
->>>>
->>>> https://www.spinics.net/lists/dri-devel/msg354170.html
->>>>
->>>> a separate bisection effort led me to this commit, before is fine,
->>>> after produces 4 warnings during boot, see attached log.
->>>>
->>>> Is there a fix that we can try that would also cover the Raspberry
->>>> Pi 4B? Is it possible that this series precipitates the problem:
->>>>
->>>> https://www.spinics.net/lists/arm-kernel/msg984638.html
+On 8/15/22 22:12, Greg KH wrote:
+> On Mon, Aug 15, 2022 at 09:11:18PM +0600, Khalid Masum wrote:
+>> On 8/15/22 20:15, Dong, Ruijing wrote:
+>>> [AMD Official Use Only - General]
 >>>
->>> Maxime, Dave, anything you would want me to try? Still seeing these
->>> warnings with net-next-6.0-11220-g15205c2829ca
+>>> Sorry, which "r" value was overwritten?  I didn't see the point of making this change.
+>>>
+>>> Thanks
+>>> Ruijing
+>>>
+>>> -----Original Message-----
+>>> From: Khalid Masum <khalid.masum.92@gmail.com>
+>>> Sent: Monday, August 15, 2022 3:01 AM
+>>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; linux-kernel-mentees@lists.linuxfoundation.org
+>>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Zhu, James <James.Zhu@amd.com>; Jiang, Sonny <Sonny.Jiang@amd.com>; Dong, Ruijing <Ruijing.Dong@amd.com>; Wan Jiabing <wanjiabing@vivo.com>; Liu, Leo <Leo.Liu@amd.com>; Khalid Masum <khalid.masum.92@gmail.com>
+>>> Subject: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in vcn_v4_0_stop
+>>>
+>>> The value assigned from vcn_v4_0_stop_dbg_mode to r is overwritten before it can be used. Remove this assignment.
+>>>
+>>> Addresses-Coverity: 1504988 ("Unused value")
+>>> Fixes: 8da1170a16e4 ("drm/amdgpu: add VCN4 ip block support")
+>>> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>>> index ca14c3ef742e..80b8a2c66b36 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>>> @@ -1154,7 +1154,7 @@ static int vcn_v4_0_stop(struct amdgpu_device *adev)
+>>>                   fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
+>>>
+>>>                   if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
+>>> -                       r = vcn_v4_0_stop_dpg_mode(adev, i);
+>>> +                       vcn_v4_0_stop_dpg_mode(adev, i);
+>>>                           continue;
+>>>                   }
+>>>
+>>> --
+>>> 2.37.1
+>>>
 >>
->> At first this issue doesn't occur in Linux 5.19. So it's something new. I
->> was able to reproduce with todays linux-next, but interestingly it doesn't
->> occur in drm-misc-next.
+>> After value is overwritten soon right after the diff.
+>>
+>> See:
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>>
+>> static int vcn_v4_0_stop(struct amdgpu_device *adev)
+>> {
+>>          volatile struct amdgpu_vcn4_fw_shared *fw_shared;
+>> ...
+>>
+>>          for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+>>                  fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
+>>                  fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
+>>
+>>                  if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
+>>                          r = vcn_v4_0_stop_dpg_mode(adev, i);
+>>                          continue;
+>>                  }
+>>
+>>                  /* wait for vcn idle */
+>>                  r = SOC15_WAIT_ON_RREG(VCN, i, regUVD_STATUS,
+>> UVD_STATUS__IDLE, 0x7);
+>>
+>> Here, any value assigned to r is overwritten before it could
+>> be used. So the assignment in the true branch of the if statement
+>> here can be removed.
 > 
-> Yeah, it should be fixed by
-> https://lore.kernel.org/all/20220629123510.1915022-38-maxime@cerno.tech/
-> https://lore.kernel.org/all/20220629123510.1915022-39-maxime@cerno.tech/
+> Why not fix vcn_v4_0_stop_dpg_mode() to not return anything, as it does
+> not, and then remove this assignment as well, which would fix up
+> everything at once to be more obvious what is happening and why.
+
+That makes sense. I shall send a v2 this way. Thanks for your suggestion.
+
 > 
-> Both patches apparently didn't make the cut for the merge window, if it
-> works for you we can always queue them in drm-misc-fixes
+> thanks,
+> 
+> greg k-h
 
-Both of these patches eliminate the warning, I don't have a good set-up 
-yet for ensuring that HDMI/V3dD is functional however:
+thanks,
+   -- Khalid Masum
 
-Tested-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
