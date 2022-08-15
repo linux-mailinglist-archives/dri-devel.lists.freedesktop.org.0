@@ -2,79 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9319159FFE7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 18:57:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3465A0010
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:08:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B188EBC87C;
-	Wed, 24 Aug 2022 16:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29EBABB161;
+	Wed, 24 Aug 2022 17:08:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99B812AF94
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 14:13:00 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 6A7F1320092B;
- Mon, 15 Aug 2022 10:12:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 15 Aug 2022 10:12:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660572775; x=1660659175; bh=95mnvlvEkK
- 9mcSKd+kXococ32XhrGijoHEj32aw3dTo=; b=KUQstMpzpwAhkWnnt1cZfvs0z4
- HZMs7KNFQuc1k6Zi0PpRjijfcCOs4eyFKbVkqniFvjMun7QqCr4hPW1ANW36akzN
- D2B+J7gkdXb3ssXurvxgAfxCvWSuOFwf3A/U7WmjRcdteXoPYsxyDJjOOTNooydp
- hd5YF4YKDbXdCR7Iha3DftQ2Xir/hrN2msLJYfeO7W5JbSGm/w0hh8Nz3gZiBMBx
- Z3YdzAce3ZJYDRAIOyvi3lMQ86b82gr3S88xX8PzupJhBFNo3oNWZUA2Z6JK4pOq
- CPJDjr1+UwwxLpvWiHl3hCOVl0ZWOXwDmOvKvyLI2IwmCT8PIWkqDtYc/fSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660572775; x=1660659175; bh=95mnvlvEkK9mcSKd+kXococ32Xhr
- GijoHEj32aw3dTo=; b=NkB9gui6R6v16173wtaAHvR5mlbwl46SixOuyOz2oIa8
- brcabkES/gu4L4AHcTx668lzi8XUSelIDs2rA8uDnqVSjclFUoerCkd6SHJUByRN
- /LKujfQsPBegVWrScCsVRqJGZMhmDk4qGvABIO9vDYXDTTjkUYbF4HZGQCOKk1H0
- Giao1wjgP4xh13ZN3CkMD8Cpk+CbcEh05vAhcXzfSXSFvmrpavJjad6k+Vwjhblu
- ksV0vcNllD+Z0CnuwDX5aMPR+KeKVzxwSQHgBlUs5yVIRK5cqPlLihVbawKCuebc
- G0XlzvuFYLHapbdD+42YRhCyGuc+ExJP8T18oPPn/A==
-X-ME-Sender: <xms:Z1T6YvboOsrEDL8TJ45WQhA396Ci87UgGEr4Qjo81CWI2kXnwLLhwg>
- <xme:Z1T6YuZQIGcrqLLl1E9URHLxwNXCqYIz58hrUcvoF3efrurbuLzan--GtX1vUVgnf
- FMPdYTbda1K-WDOeMw>
-X-ME-Received: <xmr:Z1T6Yh9u2fA8hT54d4IhRRiQyhpzEAiPcknVq5TvUrwp0SdObxXI6n-cp28l>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgjeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeehleeiieegtdevgfefhfeigeeuueelteetfeeljeeuudekieefgefgjeet
- hffhteenucffohhmrghinhepshhpihhnihgtshdrnhgvthdpkhgvrhhnvghlrdhorhhgne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihi
- mhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Z1T6Ylop-5AumVIataLeVsDqxWv7f8FwoEl2zlE0qXBBlQjAh8GY9w>
- <xmx:Z1T6Yqo7U8kv8sSURKHWNR-u3VSp9bFwE5vTBbtVqz45tJ5odol5Tw>
- <xmx:Z1T6YrS_qW0AUW7mgQLD8tJLGeVgZqR44T-o6CNAg5Rz_X9TlBrhcw>
- <xmx:Z1T6Yrd3rElC4NgR3cCK_tnR7baTd9o9lD4RH_8CD9SIKBq22XBQBg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 10:12:54 -0400 (EDT)
-Date: Mon, 15 Aug 2022 16:12:53 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH 23/33] drm/vc4: hdmi: Move HDMI reset to pm_resume
-Message-ID: <20220815141253.ku5tlwien4lipqn6@houat>
-References: <20220613144800.326124-1-maxime@cerno.tech>
- <20220613144800.326124-24-maxime@cerno.tech>
- <ebd018b6-456e-fb22-b075-4da87f50b20b@gmail.com>
- <c82f57ba-0b60-10a0-d254-da91a32a923d@gmail.com>
- <abc70ec9-cf6a-3057-0d80-65a3cb81ea2b@i2se.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2AF98A57
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 16:33:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8EAC8611F3;
+ Mon, 15 Aug 2022 16:33:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E692C433D6;
+ Mon, 15 Aug 2022 16:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660581199;
+ bh=kBOMgsseA60cqKb8ZaWTeKRcdiuM8BBVMgx3WGOT2Vw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rmTxXiWdCfaKxjfeSH/wn3LpbaEYrRaZCw1f92jgSGWCcG2dAITp6jUamOj/9Et5l
+ NLxQdQJ6bRwiBMzF3WOgxKy/ruO+5WFA5KyvFSSpRu6Jp4vPceQTBAGYsxJnkRaDiF
+ VQs4HiAFoB6wMNroGRnPP1YIk98jhwB97kSZHSmw+l5iAPSEtqIYeHeV+2kguNbDCh
+ OMOaadd3jKZLNLo5Ra4binpuaeeuHjzws48ygCy26/f3fh0/Z6Z2lPNoKbe/MHMGoD
+ GRXNAh75/ymq45hZtYg5HjEKzu7bs/86N8gD/EMtnzrZtzuqtoEpW8lvyZOhjfQys0
+ rKBQntmgxyAVw==
+Date: Mon, 15 Aug 2022 17:33:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+Message-ID: <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+ <166057828406.697572.228317501909350108.b4-ty@kernel.org>
+ <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="73oi5wd36zdvpqte"
+ protocol="application/pgp-signature"; boundary="EyxHVb4W1IFNOeWj"
 Content-Disposition: inline
-In-Reply-To: <abc70ec9-cf6a-3057-0d80-65a3cb81ea2b@i2se.com>
+In-Reply-To: <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
+X-Cookie: We have ears, earther...FOUR OF THEM!
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,90 +55,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Miaoqian Lin <linmq006@gmail.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-clk@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-iio@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, Johan Hovold <johan+linaro@kernel.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Alexandru Ardelean <aardelean@deviqon.com>,
+ Alexandru Tachici <alexandru.tachici@analog.com>,
+ Jean Delvare <jdelvare@suse.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Aswath Govindraju <a-govindraju@ti.com>, linux-amlogic@lists.infradead.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---73oi5wd36zdvpqte
+--EyxHVb4W1IFNOeWj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 10, 2022 at 10:33:48PM +0200, Stefan Wahren wrote:
-> Hi Florian,
->=20
-> Am 09.08.22 um 21:02 schrieb Florian Fainelli:
-> > On 8/4/22 16:11, Florian Fainelli wrote:
-> > > On 6/13/22 07:47, Maxime Ripard wrote:
-> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > >=20
-> > > > The BCM2835-37 found in the RaspberryPi 0 to 3 have a power domain
-> > > > attached to the HDMI block, handled in Linux through runtime_pm.
-> > > >=20
-> > > > That power domain is shared with the VEC block, so even if we put o=
-ur
-> > > > runtime_pm reference in the HDMI driver it would keep being on. If =
-the
-> > > > VEC is disabled though, the power domain would be disabled and we w=
-ould
-> > > > lose any initialization done in our bind implementation.
-> > > >=20
-> > > > That initialization involves calling the reset function and
-> > > > initializing
-> > > > the CEC registers.
-> > > >=20
-> > > > Let's move the initialization to our runtime_resume implementation =
-so
-> > > > that we initialize everything properly if we ever need to.
-> > > >=20
-> > > > Fixes: c86b41214362 ("drm/vc4: hdmi: Move the HSM clock enable
-> > > > to runtime_pm")
-> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > >=20
-> > > After seeing the same warning as Stefan reported in the link below,
-> > > but on the Raspberry Pi 4B:
-> > >=20
-> > > https://www.spinics.net/lists/dri-devel/msg354170.html
-> > >=20
-> > > a separate bisection effort led me to this commit, before is fine,
-> > > after produces 4 warnings during boot, see attached log.
-> > >=20
-> > > Is there a fix that we can try that would also cover the Raspberry
-> > > Pi 4B? Is it possible that this series precipitates the problem:
-> > >=20
-> > > https://www.spinics.net/lists/arm-kernel/msg984638.html
-> >=20
-> > Maxime, Dave, anything you would want me to try? Still seeing these
-> > warnings with net-next-6.0-11220-g15205c2829ca
->=20
-> At first this issue doesn't occur in Linux 5.19. So it's something new. I
-> was able to reproduce with todays linux-next, but interestingly it doesn't
-> occur in drm-misc-next.
+On Mon, Aug 15, 2022 at 06:54:45PM +0300, Laurent Pinchart wrote:
 
-Yeah, it should be fixed by
-https://lore.kernel.org/all/20220629123510.1915022-38-maxime@cerno.tech/
-https://lore.kernel.org/all/20220629123510.1915022-39-maxime@cerno.tech/
+> - With devres, you don't have full control over the order in which
+>   resources will be released, which means that you can't control the
+>   power off sequence, in particular if it needs to be sequenced with
+>   GPIOs and clocks. That's not a concern for all drivers, but this API
+>   will creep in in places where it shouldn't be used, driver authours
+>   should really pay attention to power management and not live with the
+>   false impression that everything will be handled automatically for
+>   them. In the worst cases, an incorrect power off sequence could lead
+>   to hardware damage.
 
-Both patches apparently didn't make the cut for the merge window, if it
-works for you we can always queue them in drm-misc-fixes
+I basically agree with these concerns which is why I was only happy with
+this API when Matti suggested doing it in a way that meant that the
+callers are unable to access the regulator at runtime, this means that
+if anyone wants to do any kind of management of the power state outside
+of probe and remove they are forced to convert to the full fat APIs.
+The general ordering concern with devm is that the free happens too late
+but for the most part this isn't such a concern with regulators, they
+might have delayed power off anyway due to sharing - it's no worse than
+memory allocation AFAICT.  Given all the other APIs using devm it's
+probably going to end up fixing some bugs.
 
-Maxime
+For sequencing I'm not convinced it's much worse than the bulk API is
+anyway, and practically speaking I expect most devices that have
+problems here will also need more control over power anyway - it's
+certainly the common case that hardware has pretty basic requirements
+and is fairly tolerant.
 
---73oi5wd36zdvpqte
+> - Powering regulators on at probe time and leaving them on is a very bad
+>   practice from a power management point of view, and should really be
+>   discouraged. Adding convenience helpers to make this easy is the wrong
+>   message, we should instead push driver authors to implement proper
+>   runtime PM.
+
+The stick simply isn't working here as far as I can see.
+
+--EyxHVb4W1IFNOeWj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvpUZAAKCRDj7w1vZxhR
-xcAoAP9G1nDrgOaBqajshCG+Nty8iWrrk/O2VXuLc6WXd1h8LAEA4dbyof/M8e0D
-l5cY054CQDpeuJPPhHtv2RjesmW+BQY=
-=FhAK
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL6dUIACgkQJNaLcl1U
+h9BS1Qf/aJ5FfSf2ZpgAnj2K1EYyJTQAf5hxweM6P8/UPf0PG25qZnrQ04w2KT+U
+J0dyFRSYl6wQbpFV7qxu5fLJC4OGjrDvyUmF+FgpX4qXSZYWhspqlsH73vA5olJB
+JssncwLyZQcX9kCua0RpN2NZ0+L7PAywvZ87c+2Ss00YkuS4GSE3CmeK3AhmHYfP
+4sjjQuZeLgAF3KmoG8ImBJh+a9aRORWWmvVboZ4reeEkMfnIC37kD92wTH6+ubec
+Rink1Toz39UYEOFWWLMmC9VkRDTunn4JGF6ei4tDrxADrV2aCJ+05N5wV7N0Eg/D
+37fKiGeyHN4cc64BVj5NW6aFp6UfgQ==
+=aGMq
 -----END PGP SIGNATURE-----
 
---73oi5wd36zdvpqte--
+--EyxHVb4W1IFNOeWj--
