@@ -1,91 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE4A5931FA
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 17:34:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6D3593256
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Aug 2022 17:45:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2240CC534;
-	Mon, 15 Aug 2022 15:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D98AD904;
+	Mon, 15 Aug 2022 15:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4104CCC51E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 15:32:12 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 55DA43200903;
- Mon, 15 Aug 2022 11:32:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 15 Aug 2022 11:32:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1660577529; x=
- 1660663929; bh=0H1FgCTKGm4EwtAlZfdPc/4yY1n4HBSyRugi/OIJS9g=; b=i
- s9Pwq361itx3Jtl4ywNGvG4TAFsd8iXDpwLJ432J/j4IADTZDWxuIXWPHZwNi7JN
- up+cvVK3NC7bE8d8l0o8b2500uYnSrfJEojLWvn+zdXZOZlU8u5iUnkCLSh/alL2
- s9QB/Bxy/56V9lSIRpvuBkUa6sNR3+VERlTJelHIiamdCzzygWmj0uMtK15B451q
- oFwQvQ/XZ8LGDFx9tOwGJEA5EmGYXQ9EHm6D+6ZP2/a1wHfYvra8S+ldrNgRBI2j
- zfKQVhYk5A7cS/w68HHNqOPQvADiLAHC00VvKH7hVlqlCy7wa1jwO++fBqMpfLO1
- z2tNIgZXEuypOzW85LaeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660577529; x=
- 1660663929; bh=0H1FgCTKGm4EwtAlZfdPc/4yY1n4HBSyRugi/OIJS9g=; b=2
- W6J17YR5uDpGSKqt9GFekVnfOcJFfWut+dzg+fA4476CEUV9qMiVh1AkVNG6ELfF
- fPsrY2HgOECI7TFitRnxPS6YJbtLidgUoetIQhj4a3y5ArDSOXvzCInGj58oDKmz
- mLMp1tsDls/5EorXa+eVc79vSqSYNq7j9CintlCVx2w/2QpZ2tGSsCYYuHdTxN5S
- rFmbbThNsd7yPKbhdVMBCNgolEHqbLfF9ySBvnn+cwWuqpN5po2iTR1TLcHjpt0U
- 7FmaJdL4kM1QwyoIf9Cq3G3SrF9rxlrp7gctu2aVVi1Q0gxjQZIcH7JDkcpUDo/U
- nJO4hnwhd9XF15kJqA4Jg==
-X-ME-Sender: <xms:-Wb6Ynvit5JZ93qho07T7YiifEuFsD0oZNrm9ds9wjF_srKqhRBqeg>
- <xme:-Wb6YocMIGm9Fu80uY9thGRnTaIDK5JiONYPAwmJJS_rQ5LzbdcH9K9WNqHInT4gM
- qFbPtZAxxadPbhQp3Y>
-X-ME-Received: <xmr:-Wb6Yqz3uiNsx3epovQIfs3KKgBeKMlNBAe8tbIumW6A5gFsiW7U85oX8LyP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgledtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhggtgfogfesthekredtredtjeenucfhrhhomhepofgr
- gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
- frrghtthgvrhhnpefgfffgteffuddulefhveeiffffudelvefggeekueetgfffjeehleel
- keejfefhjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:-Wb6YmNok_DwS_2IX_2nmI1m18cUAvoULSgiAoxYaZMSl3rs-zwGZw>
- <xmx:-Wb6Yn8oFDC8QDSTVIKbqYbwh29V8F9_EPXrAWFeP4__A2KIpZ2upQ>
- <xmx:-Wb6YmX08YxcpIdjd2yAyTwFCIOYJTba8eu9s_tANOy-OF3VQ5IQbQ>
- <xmx:-Wb6Yuf_IqsKMKCNmLPX8geuYpLpyNAcTHJiA16ITzpnnzTdCLE1lA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 11:32:09 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Michael Turquette <mturquette@baylibre.com>, Ray Jui <rjui@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Florian Fainelli <f.fainelli@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <sboyd@kernel.org>,
- Scott Branden <sbranden@broadcom.com>, Maxime Ripard <mripard@kernel.org>,
- Emma Anholt <emma@anholt.net>
-Subject: [PATCH v1 7/7] drm/vc4: Make sure we don't end up with a core clock
- too high
-Date: Mon, 15 Aug 2022 17:31:29 +0200
-Message-Id: <20220815-rpi-fix-4k-60-v1-7-c52bd642f7c6@cerno.tech>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
-References: <20220815-rpi-fix-4k-60-v1-0-c52bd642f7c6@cerno.tech>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD08CCCAF3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Aug 2022 15:44:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 3598ACE1138;
+ Mon, 15 Aug 2022 15:44:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D75C433B5;
+ Mon, 15 Aug 2022 15:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1660578291;
+ bh=0cDp9g/DZRNyVyG0xcXbePrDhYuvBMojyZXBHZyUY9I=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=l6IQ1sWU9IPna9cOCYEFqB0HqZ5nlQHnoLXXa0NrRXBVAq8kHLEdH09q01143ONW4
+ 7jugllPQkwHCLzVFMmlwxzTbLH0tpat3RU3o7lxO3fDLBffpbLcShNuxNMXLBMqvkP
+ cA7HQxaYo0V77Wq8V4LHRdibXl07pS0KmWCXeNhfkRBWPr2KTxmw67LQ2hwjTBvxWt
+ MaoRevor5ccbGpasSuPro0ZMP6XihJePD6cFSDeDv+3Nuok5rgI8Njr5XuEUTikogP
+ DeuqxKzZgzli+SyyQayzL3zxJCdUoAzLvsNdHXC8aE/WWWu5usxSihNquHZpBkA68s
+ 9aKEx8WUVVfUA==
+From: Mark Brown <broonie@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <cover.1660292316.git.mazziesaccount@gmail.com>
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+Message-Id: <166057828406.697572.228317501909350108.b4-ty@kernel.org>
+Date: Mon, 15 Aug 2022 16:44:44 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.10.0-dev-a76f5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2484; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=5xL8zqAbx64ymg/R2TZazkdU4kRqZkVFXJuXP1IVv7A=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDEm/0k5YZt2yOnqh5LT2jrYtu/bzGz9g4Aq+HREa9zL+wjHv
- nWvsO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCR5ixGhu2p88p/tNU+SEpdLytQWJ
- 6RpddvzDMjOW3znZtihvwzixgZTrJItM8969r9Q2jjhHlvv/Td2bTt4hPV9F9ZXMd7bqnE8QEA
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fe10a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,81 +53,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>, Dom Cobley <popcornmix@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: Miaoqian Lin <linmq006@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>, linux-doc@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-iio@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>, Alexandru Ardelean <aardelean@deviqon.com>, Alexandru Tachici <alexandru.tachici@analog.com>, Jean Delvare <jdelvare@suse.com>, Michael Hennerich <Michael.Hennerich@analog.com>, Jonas Karlman <jonas@kwiboo.se>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Aswath Govindraju <a-govindraju@ti.com>, linux-amlogic@li
+ sts.infradead.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>, Nuno Sá <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following the clock rate range improvements to the clock framework,
-trying to set a disjoint range on a clock will now result in an error.
+On Fri, 12 Aug 2022 13:08:17 +0300, Matti Vaittinen wrote:
+> Devm helpers for regulator get and enable
+> 
+> First patch in the series is actually just a simple documentation fix
+> which could be taken in as it is now.
+> 
+> A few* drivers seem to use pattern demonstrated by pseudocode:
+> 
+> [...]
 
-Thus, we can't set a minimum rate higher than the maximum reported by
-the firmware, or clk_set_min_rate() will fail.
+Applied to
 
-Thus we need to clamp the rate we are about to ask for to the maximum
-rate possible on that clock.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Thanks!
 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index b45dcdfd7306..4794e7235bb0 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -22,6 +22,8 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-+#include <soc/bcm2835/raspberrypi-clocks.h>
-+
- #include "vc4_drv.h"
- #include "vc4_regs.h"
- 
-@@ -354,6 +356,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct vc4_hvs_state *new_hvs_state;
- 	struct drm_crtc *crtc;
- 	struct vc4_hvs_state *old_hvs_state;
-+	unsigned long max_clock_rate;
- 	unsigned int channel;
- 	int i;
- 
-@@ -394,11 +397,12 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		old_hvs_state->fifo_state[channel].pending_commit = NULL;
- 	}
- 
-+	max_clock_rate = rpi_firmware_clk_get_max_rate(hvs->core_clk);
- 	if (vc4->is_vc5) {
- 		unsigned long state_rate = max(old_hvs_state->core_clock_rate,
- 					       new_hvs_state->core_clock_rate);
--		unsigned long core_rate = max_t(unsigned long,
--						500000000, state_rate);
-+		unsigned long core_rate = clamp_t(unsigned long, state_rate,
-+						  500000000, max_clock_rate);
- 
- 		drm_dbg(dev, "Raising the core clock at %lu Hz\n", core_rate);
- 
-@@ -432,14 +436,17 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 
- 	if (vc4->is_vc5) {
--		drm_dbg(dev, "Running the core clock at %lu Hz\n",
--			new_hvs_state->core_clock_rate);
-+		unsigned long core_rate = min_t(unsigned long,
-+					       max_clock_rate,
-+					       new_hvs_state->core_clock_rate);
-+
-+		drm_dbg(dev, "Running the core clock at %lu Hz\n", core_rate);
- 
- 		/*
- 		 * Request a clock rate based on the current HVS
- 		 * requirements.
- 		 */
--		WARN_ON(clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate));
-+		WARN_ON(clk_set_min_rate(hvs->core_clk, core_rate));
- 
- 		drm_dbg(dev, "Core clock actual rate: %lu Hz\n",
- 			clk_get_rate(hvs->core_clk));
+[1/7] docs: devres: regulator: Add missing devm_* functions to devres.rst
+      commit: 9b6744f60b6b47bc0757a1955adb4d2c3ab22e13
+[2/7] regulator: Add devm helpers for get and enable
+      (no commit info)
 
--- 
-b4 0.10.0-dev-a76f5
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
