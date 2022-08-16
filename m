@@ -1,79 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A777595D9E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:47:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02730595DAB
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C59379BE4B;
-	Tue, 16 Aug 2022 13:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F19EE94380;
+	Tue, 16 Aug 2022 13:49:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CAA4A9276
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:46:28 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id CF7A85803B8;
- Tue, 16 Aug 2022 09:46:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 16 Aug 2022 09:46:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660657587; x=1660664787; bh=gHbL+MytjJ
- sZvOVGVzDN1GM9hKYjC7rxGk40WyTKaIo=; b=g5XU3Y09Fp0m6twECmjiDPgoD8
- SlSF+LAfJbkef44m7fWMWdW6HV2pS8Rl6yMS4aqsH+reDeg0xYhJpkyl06HlSiGS
- NhkqwOPuDcU5X5mmwbKdFkJSLfL3xMUbf1VSrJij1t1lgyNtXf4d3JaAEK1djaHV
- 955s/W/wAZCpzb/9Dma0gBHmULtU7/xrZL49O6Sp0gQcze1wdeHTgqmhWEurWo86
- CHU43FOJBFSeXSfJftsTiUJx+aHQm5s1GJSuQYoE43+LVuQnW1WzOkmmGyBSOTmm
- FdcDkO+sLNBuPxXgd1oHCa0Z01GatPcRdW5mlyldKfx9mnTSDbuvYIWrZYwg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660657587; x=1660664787; bh=gHbL+MytjJsZvOVGVzDN1GM9hKYj
- C7rxGk40WyTKaIo=; b=kmAgyWxk9CRWsdlOPMowrQ81I+xu32+X9sXWngkrs64D
- SpOvcWAlxbw4Z7Ks4uXYyMx5fSC0RmtNSYud9WV7FPvtPCdlXlRCwWUXW8mJVN1G
- RmUrd8KXTue9ZVbBDHQXUwylRMHzD4wm0u60mUJ+imY8cTogoOd734xD19lkT/LJ
- KX8tO6ikVBnZSRUERu3BcC7LJ6/Ux9czDptrE4aGzhssG7V3TWFjaeufH9waKDyN
- SeXuuL4AGKV2dr03uawgCjnZL6ltWaXMrMs1StJtc5ATl112Gbz+Hth1PAp4J3pl
- 8r+eaBxJ3JQvPIuuyo2otHLpBAhF80CIdzeSgYQiLA==
-X-ME-Sender: <xms:s5_7YqzzZQoAWUgz1kfH2ymHepyDm213uAckzgqFSzuMaMENVi6OvA>
- <xme:s5_7YmRk2xhRYIKNBPL4rKPaaDGM-WL0mlsQMugX_AJhMl-ZzxSU2uvV2BgqwcnOJ
- NyWuvY05qtQfyjYOzg>
-X-ME-Received: <xmr:s5_7YsXuK-3JVFMmyMVM2XGYJzmQJN3e8iWhTp0eTeEZkQ8npxP1GXZaUoU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:s5_7YggUuaxFesnjbcsrU2LUladhr5kLaWWzL5KaGVvRylgv9wHsYg>
- <xmx:s5_7YsB7cHZfSR07JuLU_cnuM3OwfsClKgn7QiX8wWN4CQE6hYD60w>
- <xmx:s5_7YhLN-ZJinuVFhhhltyU-kp6lbX_ruN80INBF1QvhJvew5W1rVQ>
- <xmx:s5_7YuxTmg5yDXXc4a6DbirShoBajE24XWu7p0WiFGAumrChOuVWbg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 09:46:26 -0400 (EDT)
-Date: Tue, 16 Aug 2022 15:46:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 09/35] drm/modes: Move named modes parsing to a
- separate function
-Message-ID: <20220816134624.cmb5s6i6pkdhu3qj@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-9-3d53ae722097@cerno.tech>
- <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15A78AD33E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:48:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C89181FD77;
+ Tue, 16 Aug 2022 13:48:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660657734; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=zs56Ss/bzwM57cfE6M1+UtWjH0EThvHzVH62RNeSXtE=;
+ b=NFrrhA72Zo9sPhcPrtaLSez4vCGficHsFDZyizmweUMNZI54oLbK3/w++jAZlHYwWGAnlA
+ QZCAX19cM9k+COME/hu/DmcAdZekt7zpg76l5HBidMBRr6xVyjVIkruG99jINF9dup1FzI
+ xyV9qos0KF7zJxZGy7MBRUntWdxWqUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660657734;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=zs56Ss/bzwM57cfE6M1+UtWjH0EThvHzVH62RNeSXtE=;
+ b=B2o06dZU4S6NWCjDjQFFp1UYB5fvXgR4lsgKzuz7Ohocs9P+m/0ENUloqPk8+SnHDw0AMB
+ nAdoD3h5vfdneYDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7911C139B7;
+ Tue, 16 Aug 2022 13:48:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id tvOEHEag+2KOcwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 16 Aug 2022 13:48:54 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, sam@ravnborg.org, noralf@tronnes.org, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ emma@anholt.net, kamlesh.gurudasani@gmail.com, david@lechnology.com
+Subject: [PATCH v2 0/4] drm/probe-helper,
+ modes: Helpers for single-mode displays
+Date: Tue, 16 Aug 2022 15:48:49 +0200
+Message-Id: <20220816134853.12468-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xbotrfh2f6jawwvu"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,109 +64,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patchset moves code from simpledrm to probe and display-mode
+helpers. The new functions will be useful for the upcoming driver
+for PowerPC displays. [1] Where possible, existing drivers are
+being converted to use them.
 
---xbotrfh2f6jawwvu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2:
+	* replace 'static' and 'hw' naming with 'fixed'
+	* use u32 for 4CC codes (Sam)
+	* print a warning if not all formats can be used (Sam)
+	* comment fixes (Sam)
 
-On Fri, Aug 12, 2022 at 03:27:17PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Fri, Jul 29, 2022 at 6:36 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > The current construction of the named mode parsing doesn't allow to ext=
-end
-> > it easily. Let's move it to a separate function so we can add more
-> > parameters and modes.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Thanks for your patch, which looks similar to my "[PATCH v2 2/5]
-> drm/modes: Extract drm_mode_parse_cmdline_named_mode()"
-> (https://lore.kernel.org/dri-devel/1371554419ae63cb54c2a377db0c1016fcf200=
-bb.1657788997.git.geert@linux-m68k.org
-> ;-)
+[1] https://patchwork.freedesktop.org/series/106538/
 
-Indeed, I forgot about that one, sorry :/
+Thomas Zimmermann (4):
+  drm/probe-helper: Add drm_connector_helper_get_modes_fixed()
+  drm/probe-helper: Add drm_crtc_helper_mode_valid_fixed()
+  drm/modes: Add initializer macro DRM_MODE_INIT()
+  drm/format-helper: Add drm_fb_build_fourcc_list() helper
 
-I think I'd still prefer to have the check for refresh + named mode
-outside of the function, since I see them as an "integration" issue, not
-a parsing one.
+ drivers/gpu/drm/drm_format_helper.c          | 103 +++++++++++++++++++
+ drivers/gpu/drm/drm_mipi_dbi.c               |  38 +++----
+ drivers/gpu/drm/drm_probe_helper.c           |  65 ++++++++++++
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c |   1 +
+ drivers/gpu/drm/tiny/hx8357d.c               |   1 +
+ drivers/gpu/drm/tiny/ili9163.c               |   1 +
+ drivers/gpu/drm/tiny/ili9341.c               |   1 +
+ drivers/gpu/drm/tiny/ili9486.c               |   1 +
+ drivers/gpu/drm/tiny/mi0283qt.c              |   1 +
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c        |   1 +
+ drivers/gpu/drm/tiny/repaper.c               |  26 ++---
+ drivers/gpu/drm/tiny/simpledrm.c             |  96 +++--------------
+ drivers/gpu/drm/tiny/st7735r.c               |   1 +
+ include/drm/drm_format_helper.h              |  11 +-
+ include/drm/drm_mipi_dbi.h                   |   2 +
+ include/drm/drm_modes.h                      |  35 ++++++-
+ include/drm/drm_probe_helper.h               |   9 +-
+ 17 files changed, 271 insertions(+), 122 deletions(-)
 
-It's not the named mode parsing that fails, but the fact that we both
-have a valid refresh and a valid named mode.
+-- 
+2.37.1
 
->=20
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1773,6 +1773,28 @@ static const char * const drm_named_modes_whitel=
-ist[] =3D {
-> >         "PAL",
-> >  };
-> >
-> > +static bool drm_mode_parse_cmdline_named_mode(const char *name,
-> > +                                             unsigned int name_end,
-> > +                                             struct drm_cmdline_mode *=
-cmdline_mode)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> > +               int ret;
-> > +
-> > +               ret =3D str_has_prefix(name, drm_named_modes_whitelist[=
-i]);
-> > +               if (ret !=3D name_end)
-> > +                       continue;
-> > +
-> > +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]=
-);
-> > +               cmdline_mode->specified =3D true;
-> > +
-> > +               return true;
-> > +       }
-> > +
-> > +       return false;
->=20
-> What's the point in returning a value, if it is never checked?
-> Just make this function return void?
-
-Yeah, it's something I went back and forth to between the dev, and it's
-an artifact.
-
-I'll drop that patch, take your version and move the refresh check to
-drm_mode_parse_command_line_for_connector if that's alright for you?
-
-Maxime
-
---xbotrfh2f6jawwvu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvufsAAKCRDj7w1vZxhR
-xRvYAP9DR7LzVwd0ITVjjsOrO+BQ9andM/0A4P6qCsx/ywFipQEA+bV9F+NyoFUN
-oNXdDnnG7g+hOqMsx28nmzB45wcO6w0=
-=uJzR
------END PGP SIGNATURE-----
-
---xbotrfh2f6jawwvu--
