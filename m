@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56EE595A28
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 13:31:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31042595A7F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 13:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A43E410EF7D;
-	Tue, 16 Aug 2022 11:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6E914B057;
+	Tue, 16 Aug 2022 11:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7D210E932
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 11:31:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F23A494622
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 11:45:04 +0000 (UTC)
+Received: from [192.168.2.145] (unknown [109.252.119.13])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id A4779CE17B9;
- Tue, 16 Aug 2022 11:31:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9B8C433C1;
- Tue, 16 Aug 2022 11:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660649502;
- bh=DNGxZGCzNE/W9SNa3AOcpRXwEUSzLHawjI4GPUOozEs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ibyaO5o/Nr/cFFgJEL7PPVekFs+0Q3USPuDu3QwvW87IXj9cmqYanCsbSmFkhICCI
- /bS/xCmD23/cb+FBxGnzpVz3kjeVAkO2lYjT75WQKNF5axNhVAwouihZTg6FbLvEAY
- J4D9uKaJlitqM9D4ZYgx+VikKjvj7peGJBkuhBXKCVwCi46fJVtOhi63JN8hMrZFCH
- UkfZ0SYPO3LlM1dZqhAEgMC/gX42n3x6mQYJi/OWry/0M9xvDVAnxC5iuOOswm5mZI
- QOIIYWVpSbd9EF5OhCbydJMADpl7C+bCAHQspCqNHYt9riKK17LZaBtj0TiuX1S5h2
- kfxfjwbz6D43A==
-Date: Tue, 16 Aug 2022 12:31:31 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
-Message-ID: <YvuAE0Y3QbAf9Zh/@sirena.org.uk>
-References: <166057828406.697572.228317501909350108.b4-ty@kernel.org>
- <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
- <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
- <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
- <20220815205857.308B1C433D6@smtp.kernel.org>
- <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
- <YvrO+velKdYdGVve@sirena.org.uk>
- <57c312b3-ca5b-6efb-6356-43b6513a0c88@gmail.com>
- <YvtzJw3jmocM0JFi@sirena.org.uk>
- <bb590e14-f99b-5bfb-414b-a45ca77045c2@fi.rohmeurope.com>
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B2D9B6600378;
+ Tue, 16 Aug 2022 12:45:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1660650302;
+ bh=7Ctnq/1YKCdh79+wpq2cnY9AriN4+pKHbihCdjdYb2E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CeK7rqQy+qimxpsn499aowNiuV+GVsrAHOKU4zmRVmT0A/UMjP1sWHaFyhYu1kqOL
+ wtlGxiyOEMjM48Za7WvvmycLquHoxWUj+R4/2zEFb59h+wEgCCsDtFCfBPmLWM7QBJ
+ R/logZBnPT9KN2RLI3d0covTgP1icGFrvWWGtZo4hlpi4BJoPwuPBNo9FGOZLfRFVy
+ PcYR6uc0M/JwKlDlkt7X8Pn5VNWSFWpN0tLqjVOGNdezuSVZaQpHDHtiquw+Yh6urM
+ sVwrjXDTgLtXQIcK/TdPgMvx3o4ciL+PxPspR+lVjL8kDYAEyjYu9ej/PcARYGXBGp
+ o1h9lriyPED+Q==
+Message-ID: <5f118e10-db7a-a128-1e87-c9dddb65b2ac@collabora.com>
+Date: Tue, 16 Aug 2022 14:44:56 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="GRi4H55EvexP+ViS"
-Content-Disposition: inline
-In-Reply-To: <bb590e14-f99b-5bfb-414b-a45ca77045c2@fi.rohmeurope.com>
-X-Cookie: A bachelor is an unaltared male.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v8 2/2] drm/gem: Don't map imported GEMs
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20220701090240.1896131-1-dmitry.osipenko@collabora.com>
+ <20220701090240.1896131-3-dmitry.osipenko@collabora.com>
+ <2bb95e80-b60a-36c0-76c8-a06833032c77@amd.com>
+ <CAF6AEGtqPeF1DjmBKgzWK39Yi81YiNjTjDNn85TKx7uwicFTSA@mail.gmail.com>
+ <2a646ce4-c2ec-3b11-77a0-cc720afd6fe1@collabora.com>
+ <YvOav/vF2awVWIu0@phenom.ffwll.local>
+ <CAF6AEGvfAJgwBe4+sK0gAkZ++MwH9x4=698C8XSnmfYNMFZqfA@mail.gmail.com>
+ <9674d00e-c0d6-ceba-feab-5dc475bda694@collabora.com>
+ <CAF6AEGv1cVC9ZNMwpwFOki5CrwD3kSAHM9EUFZGWY-y5zcQsCg@mail.gmail.com>
+ <fc019528-7ec7-9e5b-1b6d-c44da14346cf@collabora.com>
+ <CAF6AEGv8zSd0fEYB9hd2QOyTt53gFSQoL8JdZtCvtCdYfMfB2Q@mail.gmail.com>
+ <73b51dde-689f-64ce-a1c8-0d7c84a2ed66@collabora.com>
+ <CAF6AEGuR1cRQYaQBYGnMBzy=XJUcN2o2gzabZaGO2Dj62Uq1DA@mail.gmail.com>
+ <CAF6AEGvvR1NUd_GKP=Bxp3VTDMBYT+OwTkkgOWxgYFijZaVVEQ@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAF6AEGvvR1NUd_GKP=Bxp3VTDMBYT+OwTkkgOWxgYFijZaVVEQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,75 +69,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaoqian Lin <linmq006@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Michael Turq uette <mturquette@baylibre.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- Jerome Brunet <jbrunet@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
- Kevin Hilman <khilman@baylibre.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Johan Hovold <johan+linaro@kernel.org>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Alexandru Ardelean <aardelean@deviqon.com>,
- Alexandru Tachici <alexandru.tachici@analog.com>,
- Jean Delvare <jdelvare@suse.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Aswath Govindraju <a-govindraju@ti.com>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: kernel@collabora.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/12/22 18:01, Rob Clark wrote:
+> On Fri, Aug 12, 2022 at 7:57 AM Rob Clark <robdclark@gmail.com> wrote:
+>>
+>> On Fri, Aug 12, 2022 at 4:26 AM Dmitry Osipenko
+>> <dmitry.osipenko@collabora.com> wrote:
+>>>
+>>> On 8/11/22 02:19, Rob Clark wrote:
+>>>> On Wed, Aug 10, 2022 at 3:23 PM Dmitry Osipenko
+>>>> <dmitry.osipenko@collabora.com> wrote:
+>>>>>
+>>>>> On 8/11/22 01:03, Rob Clark wrote:
+>>>>>> On Wed, Aug 10, 2022 at 12:26 PM Dmitry Osipenko
+>>>>>> <dmitry.osipenko@collabora.com> wrote:
+>>>>>>>
+>>>>>>> On 8/10/22 18:08, Rob Clark wrote:
+>>>>>>>> On Wed, Aug 10, 2022 at 4:47 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>>>>>>
+>>>>>>>>> On Wed, Jul 06, 2022 at 10:02:07AM +0300, Dmitry Osipenko wrote:
+>>>>>>>>>> On 7/6/22 00:48, Rob Clark wrote:
+>>>>>>>>>>> On Tue, Jul 5, 2022 at 4:51 AM Christian König <christian.koenig@amd.com> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> Am 01.07.22 um 11:02 schrieb Dmitry Osipenko:
+>>>>>>>>>>>>> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
+>>>>>>>>>>>>> handle imported dma-bufs properly, which results in mapping of something
+>>>>>>>>>>>>> else than the imported dma-buf. On NVIDIA Tegra we get a hard lockup when
+>>>>>>>>>>>>> userspace writes to the memory mapping of a dma-buf that was imported into
+>>>>>>>>>>>>> Tegra's DRM GEM.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Majority of DRM drivers prohibit mapping of the imported GEM objects.
+>>>>>>>>>>>>> Mapping of imported GEMs require special care from userspace since it
+>>>>>>>>>>>>> should sync dma-buf because mapping coherency of the exporter device may
+>>>>>>>>>>>>> not match the DRM device. Let's prohibit the mapping for all DRM drivers
+>>>>>>>>>>>>> for consistency.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>>>>>>>>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>>>>>>>>>>
+>>>>>>>>>>>> I'm pretty sure that this is the right approach, but it's certainly more
+>>>>>>>>>>>> than possible that somebody abused this already.
+>>>>>>>>>>>
+>>>>>>>>>>> I suspect that this is abused if you run deqp cts on android.. ie. all
+>>>>>>>>>>> winsys buffers are dma-buf imports from gralloc.  And then when you
+>>>>>>>>>>> hit readpix...
+>>>>>>>>>>>
+>>>>>>>>>>> You might only hit this in scenarios with separate gpu and display (or
+>>>>>>>>>>> dGPU+iGPU) because self-imports are handled differently in
+>>>>>>>>>>> drm_gem_prime_import_dev().. and maybe not in cases where you end up
+>>>>>>>>>>> with a blit from tiled/compressed to linear.. maybe that narrows the
+>>>>>>>>>>> scope enough to just fix it in userspace?
+>>>>>>>>>>
+>>>>>>>>>> Given that that only drivers which use DRM-SHMEM potentially could've
+>>>>>>>>>> map imported dma-bufs (Panfrost, Lima) and they already don't allow to
+>>>>>>>>>> do that, I think we're good.
+>>>>>>>>>
+>>>>>>>>> So can I have an ack from Rob here or are there still questions that this
+>>>>>>>>> might go boom?
+>>>>>>>>>
+>>>>>>>>> Dmitry, since you have a bunch of patches merged now I think would also be
+>>>>>>>>> good to get commit rights so you can drive this more yourself. I've asked
+>>>>>>>>> Daniel Stone to help you out with getting that.
+>>>>>>>>
+>>>>>>>> I *think* we'd be ok with this on msm, mostly just by dumb luck.
+>>>>>>>> Because the dma-buf's we import will be self-import.  I'm less sure
+>>>>>>>> about panfrost (src/panfrost/lib/pan_bo.c doesn't seem to have a
+>>>>>>>> special path for imported dma-bufs either, and in that case they won't
+>>>>>>>> be self-imports.. but I guess no one has tried to run android cts on
+>>>>>>>> panfrost).
+>>>>>>>
+>>>>>>> The last time I tried to mmap dma-buf imported to Panfrost didn't work
+>>>>>>> because Panfrost didn't implement something needed for that. I'll need
+>>>>>>> to take a look again because can't recall what it was.
+>>> Upd: I re-checked Panfrost using today's linux-next and mapping of
+>>> imported dma-buf works, I mapped imported buf from video decoder.
+>>> Apparently previously I had some local kernel change that broke the mapping.
+>>>
+>>>>>>>> What about something less drastic to start, like (apologies for
+>>>>>>>> hand-edited patch):
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>>>>>>> index 86d670c71286..fc9ec42fa0ab 100644
+>>>>>>>> --- a/drivers/gpu/drm/drm_gem.c
+>>>>>>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>>>>>>> @@ -1034,6 +1034,10 @@ int drm_gem_mmap_obj(struct drm_gem_object
+>>>>>>>> *obj, unsigned long obj_size,
+>>>>>>>>  {
+>>>>>>>>         int ret;
+>>>>>>>>
+>>>>>>>> +       WARN_ON_ONCE(obj->import_attach);
+>>>>>>>
+>>>>>>> This will hang NVIDIA Tegra, which is what this patch fixed initially.
+>>>>>>> If neither of upstream DRM drivers need to map imported dma-bufs and
+>>>>>>> never needed, then why do we need this?
+>>>>>>
+>>>>>> oh, tegra isn't using shmem helpers?  I assumed it was.  Well my point
+>>>>>> was to make a more targeted fail on tegra, and a WARN_ON for everyone
+>>>>>> else to make it clear that what they are doing is undefined behavior.
+>>>>>> Because so far existing userspace (or well, panfrost and freedreno at
+>>>>>> least, those are the two I know or checked) don't make special cases
+>>>>>> for mmap'ing against the dmabuf fd against the dmabuf fd instead of
+>>>>>> the drm device fd.
+>>>>>
+>>>>> It's not clear to me what bad Android does form yours comments. Does it
+>>>>> export dma-buf from GPU and then import it to GPU? If yes, then DRM core
+>>>>> has a check for the self-importing [1].
+>>>>>
+>>>>> [1]
+>>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_prime.c#L918
+>>>>>
+>>>>> If you're meaning something else, then please explain in a more details.
+>>>>
+>>>> So, android/gralloc allocates buffers externally to the driver and
+>>>> imports them into driver.  (And that seems to not just be window
+>>>> surfaces, but in cases random textures, etc)
+>>>>
+>>>> In the normal case these should be allocated from drm/msm so it should
+>>>> hit [1].. this is the "dumb luck" I mentioned earlier.  But I'm not
+>>>> confident enough to say that there is no other case.
+>>>>
+>>>>>
+>>>>>> I *think* it should work out that we don't hit this path with
+>>>>>> freedreno but on android I can't really guarantee or prove it.  So
+>>>>>> your patch would potentially break existing working userspace.  Maybe
+>>>>>> it is userspace that isn't portable (but OTOH it isn't like you are
+>>>>>> going to be using freedreno on tegra).  So why don't you go for a more
+>>>>>> targeted fix that only returns an error on hw where this is
+>>>>>> problematic?
+>>>>>
+>>>>> That's what the first versions of the patch did and Christian suggested
+>>>>> that it's not a good approach. In fact it should be not only Tegra that
+>>>>> has a broken dma-buf mapping, but apparently OMAP driver too.
+>>>>
+>>>> Hmm, I guess I'm a bit more conservative when it comes to potentially
+>>>> breaking userspace.
+>>>
+>>> If such userspace exists, then of course the mapping should continue to
+>>> work. Still will be great to know what that userpsace is.
+>>
+>> Definitely existing mesa does not have a special mmap path for
+>> imported dma-bufs (both in the case of panfrost and freedreno, I
+>> didn't check any others).  The only question is whether there is a
+>> case where some app/test/etc imports a foreign dma-buf fd and then
+>> does something that would trigger mmap'ing, like readpix.
+> 
+> The other complication I noticed is that we don't seem to keep around
+> the fd after importing to a GEM handle.  And I could imagine that
+> doing so could cause issues with too many fd's.  So I guess the best
+> thing is to keep the status quo and let drivers that cannot mmap
+> imported buffers just fail mmap?
 
---GRi4H55EvexP+ViS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That actually should be all the drivers excluding those that use
+DRM-SHMEM because only DRM-SHMEM uses dma_buf_mmap(), that's why it
+works for Panfrost. I'm pretty sure mmaping of imported GEMs doesn't
+work for the MSM driver, isn't it?
 
-On Tue, Aug 16, 2022 at 11:06:21AM +0000, Vaittinen, Matti wrote:
+Intel and AMD drivers don't allow to map the imported dma-bufs. Both
+refuse to do the mapping.
 
-> I wonder if writing such 'release callbacks' is compulsory? I mean, if I=
-=20
-> was writing a driver to some new (to me) subsystem and was required to=20
-> write an explicit release-callback for a resource - then it'd surely=20
-> rang a bell about potentially double freeing stuff with devm. Especially=
-=20
-> if the doc stated the callback can be called after the driver has been=20
-> detached.
+Although, AMDGPU "succeeds" to do the mapping using
+AMDGPU_GEM_DOMAIN_GTT, but then touching the mapping causes bus fault,
+hence mapping actually fails. I think it might be the AMDGPU
+driver/libdrm bug, haven't checked yet.
 
-Generally yes, thoguh people can and do leave them blank and it's easy
-enough to do some cleanup in there that assumes that the device is still
-present and not think the device might've gone away especially if the
-hardware isn't practically hotpluggable.
+So we're back to the point that neither of DRM drivers need to map
+imported dma-bufs and this was never tested. In this case this patch is
+valid, IMO.
 
---GRi4H55EvexP+ViS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL7gBIACgkQJNaLcl1U
-h9AzDwf9HyzkouCr6DLxGa2jy+krXW2whkKczGUewYVjLonIovCKJI3OKOOMeqaZ
-rggHFUZDlyHpe4f23sQn190TBdngSGLYf1nrOt1WMUf3vCkLA05c7RcsGPCZdlGm
-TaL1HglUSxZ6Mce97JyRZ3k3Uw28ImBl0LWx3nunXvOqv6UUjs0cc0NdiGSD3JEA
-q7cLUiSYA4BzPVJg8bAXNNgXRdqY08D9aqih79uT+vgmcurosxM9InLGjKWb4xRw
-UlVPhgqtHOGKTfgLfNuPG7s+nSv91LUEf43AMjI0HE92IutdyHoYhleNfB5V7kAU
-vbqH3vEZToSso212DUSGKfURUbqHBg==
-=2bTO
------END PGP SIGNATURE-----
-
---GRi4H55EvexP+ViS--
+-- 
+Best regards,
+Dmitry
