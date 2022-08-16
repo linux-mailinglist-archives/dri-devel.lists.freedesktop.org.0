@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CE4595F99
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 17:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1E759604A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 18:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C86C68F9C2;
-	Tue, 16 Aug 2022 15:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7FCA92F6;
+	Tue, 16 Aug 2022 16:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 317FD8F9C2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:50:05 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3BB98580406;
- Tue, 16 Aug 2022 11:50:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 16 Aug 2022 11:50:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660665002; x=1660672202; bh=uDbm7d0qwz
- 4pvPmD2wfHPxR0S82D7wURNJkfQ0Lpz5Y=; b=GrGNwQalKlm7CiiXRQTu6nzxia
- lNKtaztECVkRYFzsHTJHj89rIUrFwmUoIAoU6cJBFaQWmYAlSbs72tAWQNugKR+5
- fy+pwZh3Pqnf77LvpxJwQMVxPIbzko1in8QqqTq+UPfeY7lLQ6biUGk+L9cIViw3
- dlBa7d4wAJ899T83CjTK5L7HCpXJ5hC3P6SAxNxLTbsJG7r6j1XtwIzmSAmBAgPr
- qHeDdfI0vnQoZTewzKMqqWeuXReBK/uE0n87Tj4Q2TA8nkk/GBNIuSLi6uDX55cJ
- LYMS8tDRI5GSus2De0i/aGfUAR1eGlY2dNy8FrY4rsX149VV+f/y+gH7PIzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660665002; x=1660672202; bh=uDbm7d0qwz4pvPmD2wfHPxR0S82D
- 7wURNJkfQ0Lpz5Y=; b=UN35GHbGXMmB42WjDX7dQmoYxakSQnjIoMD8v58QKWSK
- l1U/RN4AoVWqPbmEc7+QW6Ic0R2k1xYqYZ+ABLRAQngyQ9CPunkrW3XlEW8TBiOV
- QByLAPrEXFfZnpGVKsbOJZ+UkxHiAO2fVeFfFONW9TgbKjGpp7uSThAzOcUmdYxS
- +LSivv2AfFmQKzXkIlbUUS9Jp+NLTsMY/1dJT04GjGqSWVI20Ip9yyK4Ly8N8Qln
- CVKvXnIdTAPHDZxe68Noi6reLm5fzRbYKoISeOPTFcSSx1VXm0Hrs57BU9wDJ67l
- vP4NRKjx5E2vJmRENMpSu+7tSrtHjEKTvf9UR4bn6w==
-X-ME-Sender: <xms:p7z7YvWgoNrTPVlF091lQmiOGp0_-rnmiTWXAjM2vdj3cAg8qjbQKw>
- <xme:p7z7YnnC0oYCO0Fas4pAOneqx8Kv0fVU9-535wQ_bLn_El-PCQBcBHtUx8ff9DWPv
- 3W9YJgwOHqat-hYysc>
-X-ME-Received: <xmr:p7z7YrbbYe_EjXLt8SwM-1CQRz41ek1Bh4RaQduH7e4kEnS8r6vLZdbt__Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgleehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:p7z7YqV8u3zjGwpyFN9h4ZerxWD9iD-890iBPzSDfxmvewlX2yP7RA>
- <xmx:p7z7YpkUMMgT4Y3SmDtzAe42LdqQr_uEi7fiHCNYE81r9tqXWmjBbw>
- <xmx:p7z7YnfX7JrTZsCzX9iW8-Z1i2O_nxMGIfLKZGuQYRVb2fiQ227MFA>
- <xmx:qrz7YrVZSph2gnyH9vEwdblGdGfop_tCyNPS_3YKedhfZsCPGGXCrA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 11:49:59 -0400 (EDT)
-Date: Tue, 16 Aug 2022 17:49:56 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220816154956.pkdpxmmw27mia5ix@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
- <20220816132040.uwirtjm5yr6rdd3q@houat>
- <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat>
- <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F585A90C4;
+ Tue, 16 Aug 2022 16:31:48 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27GGIRGD020603;
+ Tue, 16 Aug 2022 16:31:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+JVztAJrFmffVkcN5cBnFPtMt3xVZVog5t/baqeuFaE=;
+ b=ZRKRhj6WbFlB6BFz/rg5/agOADzOJb3rJTF+Na4PKSrcAL9AywOqmE29+1TzVYijOvOs
+ fG7XUH1Lmmv4xcl5L+yjkNhJNynM6IE+zqlkEoUMlWBTP7LK/L9N+xHy2cWJ+INJiDy3
+ UIvylx06AvnHJFimoArP6vLvTOEo1eNZDmPVqoBwDiV8HaUfye+nNvz/2ep5YuDlgwIq
+ 9tCrl6bq5XDdRcCa1SecIMwjJuKe6I53nNE6bk+W7hErApCZxZqzvWG/jSa2rciYQF2+
+ IqnwRMhOpeN3ZbKXsEILTgyi078MO4FtciEZQLQgacukNYv3XSBcPYeiL/mRxvcEHkeC rQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j08un1bhp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 16 Aug 2022 16:31:42 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.47.97.222])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27GGVfS0020453
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 16 Aug 2022 16:31:41 GMT
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 16 Aug 2022 09:31:41 -0700
+Received: from [10.110.125.243] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 16 Aug
+ 2022 09:31:39 -0700
+Message-ID: <f6493f87-479a-7755-914d-5bb7d1560ee3@quicinc.com>
+Date: Tue, 16 Aug 2022 09:31:29 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="txot7fjmru2r6vem"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3] drm/msm/dp: check hpd_state before push idle pattern
+ at dp_bridge_disable()
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1660159551-13828-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n533SUb3Bg=pR8Fhwo-M5qLWiti4nzLR-rSGVAsrXgEYNQ@mail.gmail.com>
+ <dbda8bce-2890-e5e3-4052-073a52eb06a6@quicinc.com>
+ <CAE-0n51NyrP8CikcK_3wj4EEsurmmSZ4RY3pLhJJmkY2_8wNZw@mail.gmail.com>
+ <0641a116-5b58-4305-bf2d-f53dcb747276@quicinc.com>
+ <1e792f49-febf-43bf-d828-8ecf99cbeba3@quicinc.com>
+ <CAE-0n50QXiJs=k78Tmd7om28MgWChypwC8LPRzF2jx_qB5+0FQ@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n50QXiJs=k78Tmd7om28MgWChypwC8LPRzF2jx_qB5+0FQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Hg0hR1wVYjLHqsYyJBSGS-lYas6GHNIA
+X-Proofpoint-GUID: Hg0hR1wVYjLHqsYyJBSGS-lYas6GHNIA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-16_08,2022-08-16_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ impostorscore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208160062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,73 +97,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---txot7fjmru2r6vem
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/15/2022 10:08 AM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-08-11 08:20:01)
+>> On 8/10/2022 6:00 PM, Abhinav Kumar wrote:
+>>> Even then, you do have a valid point. DRM framework should not have
+>>> caused the disable path to happen without an enable.
+>>>
+>>> I went through the stack mentioned in the issue.
+>>>
+>>> Lets see this part of the stack:
+>>>
+>>> dp_ctrl_push_idle+0x40/0x88
+>>>   dp_bridge_disable+0x24/0x30
+>>>   drm_atomic_bridge_chain_disable+0x90/0xbc
+>>>   drm_atomic_helper_commit_modeset_disables+0x198/0x444
+>>>   msm_atomic_commit_tail+0x1d0/0x374
+>>>
+>>> In drm_atomic_helper_commit_modeset_disables(), we call
+>>> disable_outputs().
+>>>
+>>> AFAICT, this is the only place which has a protection to not call the
+>>> disable() flow if it was not enabled here:
+>>>
+>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_helper.c#L1063
+>>>
+>>>
+>>> But that function is only checking crtc_state->active. Thats set by
+>>> the usermode:
+>>>
+>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_uapi.c#L407
+>>>
+>>>
+>>> Now, if usermode sets that to true and then crashed it can bypass this
+>>> check and we will crash in the location kuogee is trying to fix.
+> That seems bad, no? We don't want userspace to be able to crash and then
+> be able to call the disable path when enable never succeeded.
+>
+>>>  From the issue mentioned in
+>>> https://gitlab.freedesktop.org/drm/msm/-/issues/17, the reporter did
+>>> mention the usermode crashed.
+>>>
+>>> So this is my tentative analysis of whats happening here.
+>>>
+>>> Ideally yes, we should have been protected by the location mentioned
+>>> above in disable_outputs() but looks to me due to the above hypothesis
+>>> its getting bypassed.
+> Can you fix the problem there? Not fixing it means that every driver out
+> there has to develop the same "fix", when it could be fixed in the core
+> one time.
 
-On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60")=
-, or
-> > > > > handle them through "@<refresh>".  The latter would impact "[PATC=
-H v1
-> > > > > 09/35] drm/modes: Move named modes parsing to a separate function=
-", as
-> > > > > currently a named mode and a refresh rate can't be specified both.
-> > > >
-> > > > I think the former would make more sense. It simplifies a bit the
-> > > > parser, and we're going to use a named mode anyway.
-> > > >
-> > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as=
- a
-> > > > > command-line option" uses a separate "tv_mode" option, and not th=
-e main
-> > > > > mode name, I think you want to add them here.
-> > > >
-> > > > It's a separate story I think, we could have a named mode hd720p50,
-> > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
-> > >
-> > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
-> >
-> > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
->=20
-> Above you said "I think the former would make more sense", so that
-> should be "1280x720,tv_mode=3Dhd720p50"?
+The reporter is running GNOME Display Manager (gdm3) instead of chrome.
 
-No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=3Dhd720p
-and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
+We can not duplicate this problem locally. Hence we can not confirm this 
+is the root cause of this bug or not.
 
-Maxime
+Do you know who is more proper to investigate more into this?
 
---txot7fjmru2r6vem
-Content-Type: application/pgp-signature; name="signature.asc"
+> Ideally drivers are simple. They configure the hardware for what the
+> function pointer is asking for. State management and things like that
+> should be pushed into the core framework so that we don't have to
+> duplicate that multiple times.
+>
+>>> Thanks
+>>>
+>>> Abhinav
+>>>
+>>>
+>> Ii sound likes that there is a hole either at user space or drm.
+>>
+>> But that should not cause dp_bridge_disable() at dp driver to crash.
+> Agreed.
+>
+>> Therefore it is properly to check hdp_state condition at
+>> dp_bridge_disable() to prevent it from crashing.
+>>
+> Disagree. Userspace shouldn't be able to get drm into a wedged state.
 
------BEGIN PGP SIGNATURE-----
+not sure for this.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvu8pAAKCRDj7w1vZxhR
-xeBJAQDkJDuBb9NT3t74aPA6633aiSdZ5T/VyRAsiD1bq7XLFgD/ZVFyws0xlUf2
-pztAVRTUkSu7seGcOJ3pPbEwOnqabwU=
-=6Lb9
------END PGP SIGNATURE-----
+I agree if this is simple driver such as i2c which does not need to 
+maintain any states during operation.
 
---txot7fjmru2r6vem--
+but mdp/dp is far more complexity. we really do not want to have any 
+crash happen at mdp/dp in the filed.
+
+would you please reconsider our point to add this hdp_state checking 
+here to prevent any crash happen.
+
