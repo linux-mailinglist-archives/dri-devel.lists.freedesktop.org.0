@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025975A00B4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F0A5A00B5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:49:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 166B7A6D1B;
-	Wed, 24 Aug 2022 17:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E54E38B068;
+	Wed, 24 Aug 2022 17:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41AF110EFBE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 10:55:43 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id x25so10136826ljm.5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 03:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=CBKTj5rqOn3nvVZvcReemvDBMrFOZ0r/iVEgRvVlj7w=;
- b=Svwnc6Ps2mgT9rljkrmJhSM3ngCsPTTHBKJzpTazCrTqpdidG8FwIHPuGIgyAoVs8a
- HQf+fS7Z8nY+INAGOTIma8iZTmjlJQI6M1kimeObK88koD6bClhAhI3AA+jdy7lAUVjG
- /UzHgVuP1lc+egFn6Tj6VjKaIDM85G1ccfHfakvvt7QDc20ARPnoV91A8nTk8SlcKdvY
- q+1uL/sXiTezwoEdVtr3ENmibRF/kVtU5AHCoz5bvmo2xDCz4H3WhJKBOvFhwIoRt/L9
- ewgVblpBi4+u/eSvyR0Mf1rDOoUV8sYQQfyh00MJD3Ps1jU/IwqksR70UzMOkYqSWLzA
- FoUA==
+X-Greylist: delayed 360 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Aug 2022 11:35:27 UTC
+Received: from smtp-relay-internal-1.canonical.com
+ (smtp-relay-internal-1.canonical.com [185.125.188.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5DA18A6AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 11:35:27 +0000 (UTC)
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id F0B483F03E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 11:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1660649365;
+ bh=aSmJyx7D+51w1LpJgRV3eRqde7lEGdt1JKguqJZK45s=;
+ h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+ To:Cc:Content-Type;
+ b=J7+OYlnkQpf1uYZ2ozVsmLf9M0ZZm4z/MQBgW/NrJeHttVSNgSYdQvMNS8CP8opNx
+ uz0MM1JCUL/Jh9a70wJp9/VjpAoRMLcUAbquA8Eb6TqD8l8sTN3Bz4yXTin2fHXfvw
+ f4WbbdE9aPgztYNEwqfKzTqdRK4Fw0QObb0S4ciiQKZCNa8STmVhj2y/pu6CTrg4kU
+ XF7+ijXtTGw6U+AsPbdevrC+9OqB/0gBbCgRA6+hJepqOQxAqwRs3MiMlSXSLZJmUB
+ yvAMMzT9esGTY35H3e/dsVBDA3lR76tX3PYKeS9tv8pth5vTOLBcpFKeu8wYS+OQ9S
+ Goolch5grqKIw==
+Received: by mail-oo1-f72.google.com with SMTP id
+ t25-20020a4a7619000000b0044a8eef0d7dso4380003ooc.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 04:29:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=CBKTj5rqOn3nvVZvcReemvDBMrFOZ0r/iVEgRvVlj7w=;
- b=1LoK8MUEClEHrSPrszjV5TqVGlUq+NnzSVNc6W4FfAjNUvfQ1mBtLvyqgTG6oRnP7z
- Fxb3L6M3sCckhBMIBEw9RG1ZpfM9ZImW4AJdvGIQLGQMveIImjmHlUvzZ+vou+VhlOng
- jnwfdjCiW75BH6GGyh5jgZ6v9hhAYxSK5dIOygaEDjhxx5uuhKqLe5MjIX2jsRqDJEmz
- 7NfvT5LPasuG76O7xbrqQ/dDMmeMBGHPPYbsJaJaRn3UcpCfbH1CEGVe9iOSVKDL1sYj
- fDAg3WP5nXGi482jxJLy69rbmpla02pdDmG9CNLVntin/tiGtnoR5wJiAQnfeuDyyoB9
- TugA==
-X-Gm-Message-State: ACgBeo3FXlR1dnWYcXA9Edt++2zpGEoyjKd7mXg5ASxAav8/N3B5Xb9Y
- nZcgDprk7PKkLKVg7fI+Jkl5yA==
-X-Google-Smtp-Source: AA6agR7vC+j/ek79i+GD6KzISBYbeOBbqXj7aSllLfYBky7D81Wi0pnmae4dvqzohY1PwIPgyMwKyA==
-X-Received: by 2002:a2e:a410:0:b0:25e:4bca:6287 with SMTP id
- p16-20020a2ea410000000b0025e4bca6287mr6589533ljn.31.1660647341625; 
- Tue, 16 Aug 2022 03:55:41 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4?
- (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi.
- [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
- by smtp.gmail.com with ESMTPSA id
- s27-20020a056512203b00b0048b4690c78esm1345283lfs.288.2022.08.16.03.55.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 03:55:40 -0700 (PDT)
-Message-ID: <a9c71f3b-0c7b-ee8f-d350-0ab453018558@linaro.org>
-Date: Tue, 16 Aug 2022 13:55:39 +0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=aSmJyx7D+51w1LpJgRV3eRqde7lEGdt1JKguqJZK45s=;
+ b=rZ7p7Vx5xM1197Ex8tkDx05TZMjrZbf2SeAPuZCKbAPTc2FaX59MfcWAFPwUi0Xipc
+ g6aI5RUMHSj0wo96Ai9IcEOfNGbndgziJJcOfnLBk+aFRHF9UmilzWnCZJngYSfSNXb9
+ rEhCCEgelzZ306NW5wZNzRQHHgPURmcFfmVq32I2Ctz+nnnOD5d0OSVV42mRzgoKAfo4
+ wU/JBW007Js2Lzg9AY2xNWmuRfo4P9NqIH6+gpyo+ibqD9dFi64xp1SJL38GtRP+j/6S
+ I1RhNq1vxbsTdZqIZTPoKr3G0KhFzUio9eF1QDnRcpEi7KqOibxk5CZpqiG41I5zafSR
+ jzbA==
+X-Gm-Message-State: ACgBeo1eSpvyXj08sI+/C/q83MSHPzX4IpHE5i1o+8YQKfQglopDzzXW
+ V7uMIIL0lBPGu2aFWLP3hRsoBxCf3RQqC+wgqui0bkaOvwzV525bMvihIHoleWtwqfQMRMpEFmm
+ QMKZZnUOImYQHEGWtvO3IKkjv4aCbeTes8xSyq9PlMq+rvwOIUvLRhrqlzER3EQ==
+X-Received: by 2002:a9d:f05:0:b0:637:1068:1081 with SMTP id
+ 5-20020a9d0f05000000b0063710681081mr7028765ott.224.1660649364938; 
+ Tue, 16 Aug 2022 04:29:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR40aLi1aejRJbmvKkK+SamiRZIPYXn99+43Y4C0pFABoznjtNDPzRNRT6iTGkRayNIBEZgpA6ErMuo6SjBRYzA=
+X-Received: by 2002:a9d:f05:0:b0:637:1068:1081 with SMTP id
+ 5-20020a9d0f05000000b0063710681081mr7028758ott.224.1660649364645; Tue, 16 Aug
+ 2022 04:29:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC PATCH 01/14] drm/qaic: Add documentation for AIC100
- accelerator driver
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, airlied@linux.ie, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
-References: <1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com>
- <1660588956-24027-2-git-send-email-quic_jhugo@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1660588956-24027-2-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220816025217.618181-1-kai.heng.feng@canonical.com>
+ <87leror4sl.fsf@intel.com>
+In-Reply-To: <87leror4sl.fsf@intel.com>
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date: Tue, 16 Aug 2022 19:29:11 +0800
+Message-ID: <CAAd53p76ut7QRFdM4NjaRua=Hc4bu9_=7+Q_t8ExJysEAhJf=Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Switch TGL-H DP-IN to dGFX when it's supported
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,24 +79,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
+Cc: tvrtko.ursulin@linux.intel.com,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, rodrigo.vivi@intel.com,
+ Zenghui Yu <yuzenghui@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/08/2022 21:42, Jeffrey Hugo wrote:
-> Add documentation covering both the QAIC driver, and the device that it
-> drives.
+On Tue, Aug 16, 2022 at 4:06 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Tue, 16 Aug 2022, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+> > On mobile workstations like HP ZBook Fury G8, iGFX's DP-IN can switch to
+> > dGFX so external monitors are routed to dGFX, and more monitors can be
+> > supported as result.
+> >
+> > To switch the DP-IN to dGFX, the driver needs to invoke _DSM function 20
+> > on intel_dsm_guid2. This method is described in Intel document 632107.
+>
+> Is this the policy decision that we want to unconditionally make,
+> though?
 
-Thank you for your patch. There is something to discuss/improve.
+I believes so, so more external monitors can be supported at the same time.
 
+Kai-Heng
 
-> 
-> Change-Id: Iee519cc0a276249c4e8684507d27ae2c33e29aeb
-
-You need to drop all such non-standard tags. Please run
-scripts/checkpatch and fix all the warnings.
-
-Best regards,
-Krzysztof
+>
+> BR,
+> Jani.
+>
+> >
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_acpi.c | 18 +++++++++++++++++-
+> >  1 file changed, 17 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+> > index e78430001f077..3bd5930e2769b 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> > @@ -20,6 +20,7 @@ static const guid_t intel_dsm_guid =
+> >                 0xa8, 0x54, 0x0f, 0x13, 0x17, 0xb0, 0x1c, 0x2c);
+> >
+> >  #define INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED 0 /* No args */
+> > +#define INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX 20 /* No args */
+> >
+> >  static const guid_t intel_dsm_guid2 =
+> >       GUID_INIT(0x3e5b41c6, 0xeb1d, 0x4260,
+> > @@ -187,6 +188,7 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+> >       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> >       acpi_handle dhandle;
+> >       union acpi_object *obj;
+> > +     int supported = 0;
+> >
+> >       dhandle = ACPI_HANDLE(&pdev->dev);
+> >       if (!dhandle)
+> > @@ -194,8 +196,22 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
+> >
+> >       obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
+> >                               INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED, NULL);
+> > -     if (obj)
+> > +     if (obj) {
+> > +             if (obj->type == ACPI_TYPE_INTEGER)
+> > +                     supported = obj->integer.value;
+> > +
+> >               ACPI_FREE(obj);
+> > +     }
+> > +
+> > +     /* Tiger Lake H DP-IN Boot Time Switching from iGfx to dGfx */
+> > +     if (supported & BIT(20)) {
+> > +             obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2,
+> > +                                     INTEL_DSM_REVISION_ID,
+> > +                                     INTEL_DSM_FN_DP_IN_SWITCH_TO_DGFX,
+> > +                                     NULL);
+> > +             if (obj)
+> > +                     ACPI_FREE(obj);
+> > +     }
+> >  }
+> >
+> >  /*
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
