@@ -1,49 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B48595773
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 12:03:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 097525957CF
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 12:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B35712A7D7;
-	Tue, 16 Aug 2022 10:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C46A113A8F;
+	Tue, 16 Aug 2022 10:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C61410E80E;
- Tue, 16 Aug 2022 10:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660644211; x=1692180211;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=QbCT1sLbylKU8NArDQzZ1P96rD3BVMmOXRpXN7woAJk=;
- b=Ttf4fZXYx6lCXT+as6b+EzypjZXxPUzY9pBdLuVsXT34CdvVpCjKkywV
- JLZpCHyAiQOz5JIqrf3odUKo8DAehJ/fwUoyz4ySbQqxvrG4UcFWY9aCZ
- yPfOLy2gdHmesiiHtJy96m/i0hnwmO5uG4BnJXhYCzQ/K+/wmGvePZ/r2
- m5Xu7pl6Hhsbb1KQyQ7UGy1a+CNYmGrToJKAlxnrELeKKIJ4eOOCNiju6
- Tgg70VbECzjbFQhQvZOwVOoixZ0Su7z6085s9nsFF4M5ArA1VohZr5GoJ
- c/y8SaH6B/GLsqNBS05rSyjdVp0mvpAgSV5a/eq7Ff6yfuyyZmJy9TFMs g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="292175033"
-X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; d="scan'208";a="292175033"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2022 03:03:30 -0700
-X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; d="scan'208";a="667044414"
-Received: from kinzelba-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.39.194])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2022 03:03:26 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Denis Arefev <arefev@swemel.ru>
-Subject: Re: [PATCH 3/3] i915-pmu: Add extra check NULL
-In-Reply-To: <20220816092525.37670-1-arefev@swemel.ru>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220816092525.37670-1-arefev@swemel.ru>
-Date: Tue, 16 Aug 2022 13:03:24 +0300
-Message-ID: <878rnoqzdf.fsf@intel.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAA614A80C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 10:15:47 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id z25so14280601lfr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 03:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=ufp4H7rgUv3piu8wKA37diRya3zA+ELaA177Z/OUKNY=;
+ b=vjpTI1nUBtQAb8FiCq4ze9Hoy2vYeTM4xPEBh8quv1Ctigs0CRf8MA/1jOB3BIp1Qc
+ 3uQnNRkUD7q9LD1ckTaCFCRlRaxzGKvhG6W4pMfaObJSOYbaGvT1UBf43z/7b9wCACK0
+ yBy8rk6WuxcRZm/6gvTNbHvqqnjjGgLJUdivr5qzmtNs/3bTkFek1c5Ca9oNdcz/nEoh
+ h1cIzKnF4SjE5NYaxxaSeQlofLA01h6pmq8yBwyy2RiAwmEskYrWaDy2GeSMTKzVoqEs
+ ITTyJX+rpfLls4czihvRnIidRffg5DZSv26qlNg4PuipLpVM6fXOdclTxZgTE/v4UkqN
+ +APg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=ufp4H7rgUv3piu8wKA37diRya3zA+ELaA177Z/OUKNY=;
+ b=0OOG5fVKT1aV2jd2a3FKgXJXGv36Xu1IoI5nstHUvkn9KUuDamQoHxS6DvHZXSiWoA
+ qslASDgfAP629WI8lGp+qWbMSZqtSOaXqboApQrfrXLByLAUKAqKnNkhLC3pDg+EvTZC
+ NNWd5dKM82KbCjHicrmmoQpArOdC8VDkeg9qXZt75araFpR8OdY4wpuHMrfLS6Wg1TVm
+ SX2CnZizdpTa0d07uj4kOFtUxA4py3mnaqneC5EmnKYhAnTMmbqSebuoOtcNcCAkM/SS
+ 1qe77PZKfU98NR9v8mVXA5Zmnh5Jp0VHaEHbt4mWWh9682Awm00hAqe92uAK4SE8UKcF
+ qPtw==
+X-Gm-Message-State: ACgBeo2z/RvVF+DbB2YA8/naDIE+3IILB2wksLhXA42S3u06BMt8pmoL
+ MDCLPxbLmCn4mZ08HhM75aIl8Q==
+X-Google-Smtp-Source: AA6agR4z6ZC4xF9H6MLo6Peaz9OsbXIbllfdQX/DZN0wrJYHDr+xgVqS/gUjsuD7724os3Mc9vC0TQ==
+X-Received: by 2002:ac2:5a4d:0:b0:492:a190:3825 with SMTP id
+ r13-20020ac25a4d000000b00492a1903825mr89903lfn.153.1660644945826; 
+ Tue, 16 Aug 2022 03:15:45 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4?
+ (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi.
+ [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
+ by smtp.gmail.com with ESMTPSA id
+ a23-20020a05651c031700b0026008acb55asm1746480ljp.113.2022.08.16.03.15.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Aug 2022 03:15:45 -0700 (PDT)
+Message-ID: <3cdc8b67-c088-808a-c141-c70c9b8a8a9c@linaro.org>
+Date: Tue, 16 Aug 2022 13:15:43 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/4] dt-bindings: display: sun6i-dsi: Add the A100 variant
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>
+References: <20220812074257.58254-1-samuel@sholland.org>
+ <20220812074257.58254-3-samuel@sholland.org>
+ <13fcaa01-d2c0-e57f-bedc-b2e0536a55f9@linaro.org>
+ <379eabe8-3f55-d69f-dd2d-120b8d13f1b3@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <379eabe8-3f55-d69f-dd2d-120b8d13f1b3@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,50 +79,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ldv-project@linuxtesting.org, trufanov@swemel.ru,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, vfh@swemel.ru,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Aug 2022, Denis Arefev <arefev@swemel.ru> wrote:
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+On 13/08/2022 01:58, Samuel Holland wrote:
+> Hi Krzysztof,
+> 
+> On 8/12/22 5:49 AM, Krzysztof Kozlowski wrote:
+>> On 12/08/2022 10:42, Samuel Holland wrote:
+>>> The "40nm" MIPI DSI controller found in the A100 and D1 SoCs has the
+>>> same register layout as previous SoC integrations. However, its module
+>>> clock now comes from the TCON, which means it no longer runs at a fixed
+>>> rate, so this needs to be distinguished in the driver.
+>>>
+>>> The controller also now uses pins on Port D instead of dedicated pins,
+>>> so it drops the separate power domain.
+>>>
+>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>>> ---
+>>> Removal of the vcc-dsi-supply is maybe a bit questionable. Since there
+>>> is no "VCC-DSI" pin anymore, it's not obvious which pin actually does
+>>> power the DSI controller/PHY. Possibly power comes from VCC-PD or VCC-IO
+>>> or VCC-LVDS. So far, all boards have all of these as always-on supplies,
+>>> so it is hard to test.
+>>>
+>>>  .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 28 +++++++++++++++----
+>>>  1 file changed, 23 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+>>> index ae55ef3fb1fe..c53c25b87bd4 100644
+>>> --- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+>>> @@ -12,9 +12,14 @@ maintainers:
+>>>  
+>>>  properties:
+>>>    compatible:
+>>> -    enum:
+>>> -      - allwinner,sun6i-a31-mipi-dsi
+>>> -      - allwinner,sun50i-a64-mipi-dsi
+>>> +    oneOf:
+>>> +      - enum:
+>>> +          - allwinner,sun6i-a31-mipi-dsi
+>>> +          - allwinner,sun50i-a64-mipi-dsi
+>>> +          - allwinner,sun50i-a100-mipi-dsi
+>>
+>> While you are moving code, how about bringing alphabetical order?
+> 
+> I have put the sun*i prefix in numeric order, which matches (almost) all of our
 
-The subject prefix should be something along the lines of
-"drm/i915/pmu".
+5 is before 6, so strictly numerical order would be:
+allwinner,sun50i-a64-mipi-dsi
+allwinner,sun50i-a100-mipi-dsi
+allwinner,sun6i-a31-mipi-dsi
 
-The subject is misleading; there are no functional changes here, just
-whitespace changes. I'm guessing you intended to send something else?
+> other bindings. It roughly corresponds to chronological order as well. It
+> doesn't make much sense to me to sort sun50i (ARM64 SoCs) between sun5i and
+> sun6i (early ARMv7 SoCs).
 
-Finally, the commit message is primarily for describing why the change
-is being made, not to advertize organizations or tools.
+However if you say you already implemented some order (obvious for
+Allwinner folks), then of course it is fine with me. I just hope other
+people will get figure out this order, so they can maintain it.
 
+So assuming there is some order:
 
-BR,
-Jani.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-
->
-> Signed-off-by: Denis Arefev <arefev@swemel.ru>
-> ---
->  drivers/gpu/drm/i915/i915_pmu.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-> index 34a7f0ef1f67..33db49ffac3d 100644
-> --- a/drivers/gpu/drm/i915/i915_pmu.c
-> +++ b/drivers/gpu/drm/i915/i915_pmu.c
-> @@ -704,8 +704,7 @@ static void i915_pmu_disable(struct perf_event *event)
->  		 * Decrement the reference count and clear the enabled
->  		 * bitmask when the last listener on an event goes away.
->  		 */
-> -		if(engine != NULL)
-> -		{
-> +		if (engine != NULL) {
->  		        if (--engine->pmu.enable_count[sample] == 0)
->  			        engine->pmu.enable &= ~BIT(sample);
->  		}
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Best regards,
+Krzysztof
