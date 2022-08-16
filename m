@@ -2,83 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F96C5A00C2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5135A00C8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD479BE85E;
-	Wed, 24 Aug 2022 17:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2238ABEF94;
+	Wed, 24 Aug 2022 17:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBFCC10FAB2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 14:50:57 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27GB0Hus032057;
- Tue, 16 Aug 2022 14:50:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=FVmxu4Kpgh/PEz4lvaHtDQ+ONJaDkADmoBabIh6f9Xk=;
- b=BdoAvu97dstuMW5cD0MVOuainuxwZRkcrjwxk2G8xHhjYD8eTqRmwlWB5vhe+CzZppVr
- cxY6+dPSGhm/iq9GzOwBiIaAuIfiT/vFxk3CPzaVVIIWkgJOtc8wBcosVpJUzTmg1ecn
- 3KJdK9PjF+U3xhks7mVDTdeIbeG9giMd6m3s+CyjJ1YG1eFl2theSKBwFVHIkDfveX58
- hxAMTRP/YrOPbyouwI2LuJsCBa9e09A0MdYAbke2kJfRHpSf0udtog6GsTDpjXMAGPyM
- Ytt1maBYO5IPWadsiiLYRGPkhki2iqijVTeia+DU3y+UgtXHHEu7jJ1PD0dhMxHWCPPM 6A== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j05ev1mb7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Aug 2022 14:50:52 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
- [10.47.97.222])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27GEoqL9019177
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Aug 2022 14:50:52 GMT
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 16 Aug 2022 07:50:51 -0700
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 16 Aug
- 2022 07:50:50 -0700
-Message-ID: <3981919c-1e48-8249-c09d-1c8ded3f3fc7@quicinc.com>
-Date: Tue, 16 Aug 2022 08:50:49 -0600
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7456994F32
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:37:03 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 370543471E;
+ Tue, 16 Aug 2022 15:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660664222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SLnZ81N68p1pCRNQDGd4aZufCAeqClMy0Swaf735zVw=;
+ b=0s5Av3B6KNoTHWiXK0NNOTDIFFCPmJxC10giYosPgbzQ9XaTPEeSeooEAhZEOceNA1DUnW
+ y52NTaKnpXJf2ifIe8hNUx1kN/F7ePk2JJiRKjNrM9Nrrzze3316Oak3/a49OqhGhjrqXL
+ 4itUSqKO/x0HtNvnd7ODcDUEpjF1w1s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660664222;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SLnZ81N68p1pCRNQDGd4aZufCAeqClMy0Swaf735zVw=;
+ b=ZSGd0x1axx4rukLQ6BtzKxJXIm47o4Cjh1gbmvA0yxcm04X0oUDw1Wno4dWnGhuOCapt8H
+ eDGrXdHzQroZo2AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D35DC139B7;
+ Tue, 16 Aug 2022 15:37:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4DnbMp25+2LKJAAAMHmgww
+ (envelope-from <tiwai@suse.de>); Tue, 16 Aug 2022 15:37:01 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 04/12] Revert "drm/udl: Kill pending URBs at suspend and
+ disconnect"
+Date: Tue, 16 Aug 2022 17:36:47 +0200
+Message-Id: <20220816153655.27526-5-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220816153655.27526-1-tiwai@suse.de>
+References: <20220816153655.27526-1-tiwai@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH 01/14] drm/qaic: Add documentation for AIC100
- accelerator driver
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <airlied@linux.ie>, 
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>
-References: <1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com>
- <1660588956-24027-2-git-send-email-quic_jhugo@quicinc.com>
- <a9c71f3b-0c7b-ee8f-d350-0ab453018558@linaro.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <a9c71f3b-0c7b-ee8f-d350-0ab453018558@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: E3qxsNLRgCkD31k514xqDxc7I7dpqr1p
-X-Proofpoint-GUID: E3qxsNLRgCkD31k514xqDxc7I7dpqr1p
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-16_08,2022-08-16_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 spamscore=0
- phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxlogscore=563
- adultscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208160056
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,24 +68,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/16/2022 4:55 AM, Krzysztof Kozlowski wrote:
-> On 15/08/2022 21:42, Jeffrey Hugo wrote:
->> Add documentation covering both the QAIC driver, and the device that it
->> drives.
-> 
-> Thank you for your patch. There is something to discuss/improve.
-> 
-> 
->>
->> Change-Id: Iee519cc0a276249c4e8684507d27ae2c33e29aeb
-> 
-> You need to drop all such non-standard tags. 
+This reverts the recent fix commit
+  e25d5954264d ("drm/udl: Kill pending URBs at suspend and disconnect")
+as it turned out to lead to potential hangup at a disconnection, and
+it doesn't help much for suspend/resume problem, either.
 
-Noted.
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/gpu/drm/udl/udl_drv.h     |  2 --
+ drivers/gpu/drm/udl/udl_main.c    | 25 +++----------------------
+ drivers/gpu/drm/udl/udl_modeset.c |  2 --
+ 3 files changed, 3 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+index 37c14b0ff1fc..5923d2e02bc8 100644
+--- a/drivers/gpu/drm/udl/udl_drv.h
++++ b/drivers/gpu/drm/udl/udl_drv.h
+@@ -39,7 +39,6 @@ struct urb_node {
+ 
+ struct urb_list {
+ 	struct list_head list;
+-	struct list_head in_flight;
+ 	spinlock_t lock;
+ 	wait_queue_head_t sleep;
+ 	int available;
+@@ -85,7 +84,6 @@ static inline struct urb *udl_get_urb(struct drm_device *dev)
+ 
+ int udl_submit_urb(struct drm_device *dev, struct urb *urb, size_t len);
+ int udl_sync_pending_urbs(struct drm_device *dev);
+-void udl_kill_pending_urbs(struct drm_device *dev);
+ void udl_urb_completion(struct urb *urb);
+ 
+ int udl_init(struct udl_device *udl);
+diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+index 7d1e6bbc165c..a9f6b710b254 100644
+--- a/drivers/gpu/drm/udl/udl_main.c
++++ b/drivers/gpu/drm/udl/udl_main.c
+@@ -135,7 +135,7 @@ void udl_urb_completion(struct urb *urb)
+ 	urb->transfer_buffer_length = udl->urbs.size; /* reset to actual */
+ 
+ 	spin_lock_irqsave(&udl->urbs.lock, flags);
+-	list_move(&unode->entry, &udl->urbs.list);
++	list_add_tail(&unode->entry, &udl->urbs.list);
+ 	udl->urbs.available++;
+ 	spin_unlock_irqrestore(&udl->urbs.lock, flags);
+ 
+@@ -180,7 +180,6 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
+ retry:
+ 	udl->urbs.size = size;
+ 	INIT_LIST_HEAD(&udl->urbs.list);
+-	INIT_LIST_HEAD(&udl->urbs.in_flight);
+ 
+ 	init_waitqueue_head(&udl->urbs.sleep);
+ 	udl->urbs.count = 0;
+@@ -247,7 +246,7 @@ struct urb *udl_get_urb_timeout(struct drm_device *dev, long timeout)
+ 	}
+ 
+ 	unode = list_first_entry(&udl->urbs.list, struct urb_node, entry);
+-	list_move(&unode->entry, &udl->urbs.in_flight);
++	list_del_init(&unode->entry);
+ 	udl->urbs.available--;
+ 
+ unlock:
+@@ -281,7 +280,7 @@ int udl_sync_pending_urbs(struct drm_device *dev)
+ 	spin_lock_irq(&udl->urbs.lock);
+ 	/* 2 seconds as a sane timeout */
+ 	if (!wait_event_lock_irq_timeout(udl->urbs.sleep,
+-					 list_empty(&udl->urbs.in_flight),
++					 udl->urbs.available == udl->urbs.count,
+ 					 udl->urbs.lock,
+ 					 msecs_to_jiffies(2000)))
+ 		ret = -ETIMEDOUT;
+@@ -289,23 +288,6 @@ int udl_sync_pending_urbs(struct drm_device *dev)
+ 	return ret;
+ }
+ 
+-/* kill pending URBs */
+-void udl_kill_pending_urbs(struct drm_device *dev)
+-{
+-	struct udl_device *udl = to_udl(dev);
+-	struct urb_node *unode;
+-
+-	spin_lock_irq(&udl->urbs.lock);
+-	while (!list_empty(&udl->urbs.in_flight)) {
+-		unode = list_first_entry(&udl->urbs.in_flight,
+-					 struct urb_node, entry);
+-		spin_unlock_irq(&udl->urbs.lock);
+-		usb_kill_urb(unode->urb);
+-		spin_lock_irq(&udl->urbs.lock);
+-	}
+-	spin_unlock_irq(&udl->urbs.lock);
+-}
+-
+ int udl_init(struct udl_device *udl)
+ {
+ 	struct drm_device *dev = &udl->drm;
+@@ -354,7 +336,6 @@ int udl_drop_usb(struct drm_device *dev)
+ {
+ 	struct udl_device *udl = to_udl(dev);
+ 
+-	udl_kill_pending_urbs(dev);
+ 	udl_free_urb_list(dev);
+ 	put_device(udl->dmadev);
+ 	udl->dmadev = NULL;
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 187aba2d7825..c34d564773a3 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -398,8 +398,6 @@ udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
+ 	struct urb *urb;
+ 	char *buf;
+ 
+-	udl_kill_pending_urbs(dev);
+-
+ 	urb = udl_get_urb(dev);
+ 	if (!urb)
+ 		return;
+-- 
+2.35.3
 
