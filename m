@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F31B5954D5
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 10:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D45059550E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 10:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35AFAD605;
-	Tue, 16 Aug 2022 08:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974398BDB0;
+	Tue, 16 Aug 2022 08:24:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2E7AB251
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 08:18:07 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id a22so8157416pfg.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 01:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA5BE11AEB2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 08:24:06 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id e28so7616338qts.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 01:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=yiBicl/xtck+sUvDa6HbwVr3KCpBiQ3kP9sWsGd0v+M=;
- b=uT3jiYPYFRn7lq9viYTDzroDVdXL8pYjwBzK6ZhdPWJ3ales5ct7XINz7ercxdfD7Y
- rvax/AK/RPxyH9Qyvj6cKGyu5Z9eSVcZeTL3ghWM02DMNeRTu1dNZ7beU/wveqK5kb+b
- cgTDsiraqeHQID8d9ZRhhEi710zRj0h9tNoJIy/ZIZdDiEU/5Tq3uSnDDCMR184RYyCg
- LVWxI+KwzGdKQ6ji/qPZRP+nel4pcCCfqXweiR63F69BqC+Nt+6QIM31Ab1sSdW2FTPk
- LjcGqOsRMi5qhAbnOjRjnE/4ICeEvzLIfRc/1JoVKPEsJ2GoYjX+SmVkYwcf+ocJax8W
- K0eQ==
+ bh=URNWhoG6Jht3PNpZTFjRMq9C2xuK/GPJGs5c4/qP8Qo=;
+ b=WMTSsJZCsuR2GWexgektS/N4A4uFwS5j+U4U9bXLj9a3L47qI380JV+vKz4DRgUo7m
+ JQ0ZPw6GRXuu40crI4HPnyfuU8Mwuj1qNeEIP4TcZGai2JWBghl1MLZHSVb55P06F6bx
+ B1nlcqlENsza+hf4Ohd1X2ICgnXG9gNZC7PGiYkFdA7ZFjkUfcc87MSd36YKblkLzxGa
+ 2BnwA9oruaCFleVvpGTBbHY4dKpfAmqqekOjjv8m9YDssWVu8bRB/z5KMz8EGrrjZ7Sy
+ Eu4fOB4U87dlJ/FQykdL1H5XL0UdE1RlRY7jmsZJ10A3yVUtG2esLd0xOaEnLq9ua0pr
+ 3xdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=yiBicl/xtck+sUvDa6HbwVr3KCpBiQ3kP9sWsGd0v+M=;
- b=aRXDxqt2yfvmXBnhY8n5gFe9Xtjy0GqsV9Zc1pDp8uegHtvQfn5/UKCaqlkdJ1Cq0t
- i5cfUSgMUBpYO05ILoOhVxG+5GBzRYRA6wOEPrTHFIQ+QhyIo6ADX02ZFnrndeougX8J
- IieSdvzqfZcuxD5WDW6ydgATGJc6Z26azANvEP7SQSP7bHK5V5noOF3yslvGdur/iNhy
- RhIc2udm5lcm9wto4j/5omEfZ+DTk0JCaxNanL9dFPKAQzDGEZetKBqtV2ELl498OCHW
- SzIJRxgPdXNEL+3lH15n/MiXdtoR3KOhqnK1jVJ5uZb088FWKKPMLUwo2RGPANr6aTft
- PscA==
-X-Gm-Message-State: ACgBeo0t4ZT/GV+M8hS+SiLzOGWvl02l56LmDqu/odnpkyhTZCaZonjh
- dn61hPb5bD77g70S0PLQFT4LzhWXfftRG0casuIZHQ==
-X-Google-Smtp-Source: AA6agR7a2co2/3EHjLJWWfyl0Y9FC9Qup8Vvr947CQmLmaKAXgb15xFZYz1xNiLfRaHjV9zeEjmoSBme+mzy7PUZf/A=
-X-Received: by 2002:a63:e217:0:b0:41a:69b1:a68e with SMTP id
- q23-20020a63e217000000b0041a69b1a68emr16488504pgh.428.1660637887011; Tue, 16
- Aug 2022 01:18:07 -0700 (PDT)
+ bh=URNWhoG6Jht3PNpZTFjRMq9C2xuK/GPJGs5c4/qP8Qo=;
+ b=kGlTJdfycEGMMVpPsaQXaIaGqHkzN6Bt/Lc+hxksPXEC4IUZ8cvSTSpt0gVkpSrvGd
+ yaBGnr/ZQ7t/zgVgBBqnQi1oRQVdkybADhuVV57BuiQrvjfvjmeIDIAdHdH23amwb1KD
+ aD0t+4A1azlk8B9OFQ42FlyjHukBSNIzjV5R7YH9HLjznl+XNoEC+d3hw5cUm+WTNplw
+ 9rjX/KEvcUXUOCHUxaL+ywKDvz97LU0Lvefjlkx/06Q+NnLGtsWV1V/LtAaleDaKf/2k
+ ZBwE9LW+EMAKLjKt0o5pQFqaHf2ZkYRPm9ackiVRTTOSq77I8TIhXxMX8hW7quWwQlhO
+ ePhQ==
+X-Gm-Message-State: ACgBeo0s2TMzU9Yh7hYazGMTP9ni4RQKzFHTNxs/tQNEtVxiL+E9sVQe
+ ptCpC5HzfimWG7HFJ4Am7q52I+YC8a4xhZ9XTds=
+X-Google-Smtp-Source: AA6agR5pnQGi7oingWiXnnixDq3edlax9wsTNuhcRBi9pIKjuflZ8obEieyrcjYpsw/u/5tbgjY0kZ/rOVvlBmyXAN8=
+X-Received: by 2002:a05:622a:14cf:b0:343:5b6:68ca with SMTP id
+ u15-20020a05622a14cf00b0034305b668camr16705479qtx.195.1660638245828; Tue, 16
+ Aug 2022 01:24:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220812143055.12938-1-olivier.masse@nxp.com>
-In-Reply-To: <20220812143055.12938-1-olivier.masse@nxp.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 16 Aug 2022 10:17:56 +0200
-Message-ID: <CAHUa44EgA1btRyj2ByooyLr9Q+8AmW=9EfjtQFxyr7DuCXASvA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
-To: Olivier Masse <olivier.masse@nxp.com>
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+ <166057828406.697572.228317501909350108.b4-ty@kernel.org>
+ <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
+ <Yvp1Qkuh7xfeb/B2@sirena.org.uk> <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
+In-Reply-To: <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 16 Aug 2022 11:23:29 +0300
+Message-ID: <CAHp75VcAS2Km_aWOV-XhMe9JkLER-1DYbJbkM9pa-i9yhHqsFQ@mail.gmail.com>
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,43 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sumit.garg@linaro.org, clement.faure@nxp.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
- etienne.carriere@linaro.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: Miaoqian Lin <linmq006@gmail.com>,
+ Linux Documentation List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ linux-clk <linux-clk@vger.kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-iio <linux-iio@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Johan Hovold <johan+linaro@kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, Alexandru Ardelean <aardelean@deviqon.com>,
+ Alexandru Tachici <alexandru.tachici@analog.com>,
+ Jean Delvare <jdelvare@suse.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Mark Brown <broonie@kernel.org>, Aswath Govindraju <a-govindraju@ti.com>,
+ linux-amlogic <linux-amlogic@lists.infradead.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ linux-hwmon@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Olivier,
+On Mon, Aug 15, 2022 at 11:20 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Aug 15, 2022 at 05:33:06PM +0100, Mark Brown wrote:
 
-On Fri, Aug 12, 2022 at 4:31 PM Olivier Masse <olivier.masse@nxp.com> wrote:
->
-> Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
-> shared memory from a dmabuf file descriptor.
-> This new ioctl will allow the Linux Kernel to register a buffer
-> to be used by the Secure Data Path OPTEE OS feature.
->
-> Please find more information here:
-> https://static.linaro.org/connect/san19/presentations/san19-107.pdf
->
-> Patch tested on Hikey 6220.
+...
 
-What's new in this V2?
+> However, should a devm_clk_get_enable() or similar function be
+> implemented, we'll run into trouble.
 
-Thanks,
-Jens
+And in 5.19 we have devm_clk_get_enable(), are we already in trouble?
 
->
-> Etienne Carriere (1):
->   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
->
->  drivers/tee/tee_core.c   | 38 +++++++++++++++
->  drivers/tee/tee_shm.c    | 99 +++++++++++++++++++++++++++++++++++++++-
->  include/linux/tee_drv.h  | 11 +++++
->  include/uapi/linux/tee.h | 29 ++++++++++++
->  4 files changed, 175 insertions(+), 2 deletions(-)
->
-> --
-> 2.25.0
->
+-- 
+With Best Regards,
+Andy Shevchenko
