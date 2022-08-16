@@ -1,139 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B22A5A0058
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:26:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDC35A00B3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Aug 2022 19:48:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0014193898;
-	Wed, 24 Aug 2022 17:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6045BE473;
+	Wed, 24 Aug 2022 17:48:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBEBD6F6D;
- Mon, 15 Aug 2022 23:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660605870; x=1692141870;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=q+KLyWt7WKyGKPBtGF0gXTww1jk0tXikfxXAhLlHsY8=;
- b=YrEU4/L17UVxhnlaG9RpcMlhyvpDFuO7R0hnJR8MExnXZV2y9oA6zqFp
- GxFjcRh7mU6YMjtZ33JI4qisq/H/S2U9I6+gf9XTo2TAKCE6p/u20RZQu
- W4hTuYnoB4IC7Eeazj6Ie2xQm9TOjZ7U+EQ7QroJQ0UnOJGve93Lse7Oi
- 2VBZ40plNDU1xdOZGod//TvNKEj/e0XcL8UBaCUtFPhRDn648YYedEeMj
- Z4uwFrIDbj0+Z0VZEV+PpyyDks2xcjEEz57/e59koOFTQpVM51POjHorc
- CzgdtTwwMtHMjCzWGQwaqjUgkIWGDeetIEMn1UganNi+cMz3UEjnKK6qc g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="279040014"
-X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="279040014"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2022 16:24:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; d="scan'208";a="674995201"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga004.fm.intel.com with ESMTP; 15 Aug 2022 16:24:29 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 15 Aug 2022 16:24:29 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 15 Aug 2022 16:24:29 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Mon, 15 Aug 2022 16:24:29 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Mon, 15 Aug 2022 16:24:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=liPGPcGZYfmHhghqMvGXyk34cGvfIqQIF1l1gIs7WO5QqJx59eLCwgjYTpKJtlkQ3RV14Sd9kxC6JYEAydwzVU2Rxz7o/kt171DC0CHVHYpRi4ut2jKH1s7SOxBxqwLQ9uhMWVO7fZ65tKIG3S/rOd9c8tpSFNSQG7nQMNPos1i3tu1VosJg9BcC0eJ+Xk1sRcNiKgisQ9LqNi8zRZAzcCVt0xKLwhmhXdUh5n440zXb14vnj/qYBMbiQNK/y7JLqACfzV7bqvcM0Khxykj2yvxbDPd7WZ4AW7lZPzlyLqe7LJwP2Pts9V9yhsH28T//Co+BtHvO+CE7vyXBp8t0tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zsw3jEgihPPFnFC7kWZj/dnPx3fjNh/Jf/MUBKyS90M=;
- b=X2fpXBfSJicRrBBZKpNg+/N8lcEbP0nWyHb89np+LcKun0JRwJFyMohhXvsUSxKWkMBlrAaY+t2xuJQ0eiQ3QHTzKCqd/Q8XQIjcaAKpi79trfvn2S1jhtBj6t1zq+aP15somrw/cC0O9xSqdufOENMPEz9pfZLBw54NCYcetW/fpsYmE2/3ivdcOjjNEEBOm40rg0yB9KzC2oRgIXn6rjGkOKQ/KBsp9ZRTYS6mwQLEj0pCBac6Na/ZiRLntuw+ZMh/lJauItd2sfJJZvp5wjxcwxQ3CiuLRiLN3D8RjXYqUdFLOCBLiYA3WkkNUac/gI00uKJuNcvF5T/UeLe5pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BN6PR11MB3908.namprd11.prod.outlook.com (2603:10b6:405:7d::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Mon, 15 Aug
- 2022 23:24:26 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::a968:40aa:6163:5c79]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::a968:40aa:6163:5c79%6]) with mapi id 15.20.5504.027; Mon, 15 Aug 2022
- 23:24:26 +0000
-Date: Mon, 15 Aug 2022 19:24:21 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Subject: Re: [PATCH v2] drm/i915/guc/slpc: Allow SLPC to use efficient
- frequency
-Message-ID: <YvrVpahJvPcJjVAh@intel.com>
-References: <20220815232204.34900-1-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220815232204.34900-1-vinay.belgaumkar@intel.com>
-X-ClientProxiedBy: BYAPR06CA0059.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::36) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6285311AEAB
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 09:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bIEYAdJMn8rJfxn0kVE7GP80ys7ubTpy0sCOub6aPs4=; b=CKoCDea0HqbcbzaDQ9f24zjk7P
+ UVqHhjEHGavJ5cii86GWwrZaWQJmxUAXZcNINGer8F72h3kmbRppk573SxDxeGmm8TV4wH3IMpewp
+ ezcCjp7FuaFz9mJFE167azuVlCfDV8Yx0UFB5dqTE2PEN6dFKUW1Zd/WyFlMvtMItCubDKeXR3e09
+ mxjQoiLiWZP2APT790i1y4JN5UgBrAcHFFIEcvGrv/YS+B8/Ncbop9kpmytPJURC7PFricfiUNai9
+ w24g9Hj45j8zDLWPn7FbaETtjeiLI1TuG/4mBDC/SWLs45mSYLT11bag9AwfFDIghKiPfE03HAoIy
+ TcAvZP4w==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=56539)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oNt5f-0004wT-VP; Tue, 16 Aug 2022 11:42:27 +0200
+Message-ID: <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
+Date: Tue, 16 Aug 2022 11:42:20 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 93b9ae0c-c157-495b-b02a-08da7f154b23
-X-MS-TrafficTypeDiagnostic: BN6PR11MB3908:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K3sHwYUv+YM9TENzZ1m+Bhxs4/vQry3rYfTrkeTn5uYxGySC45pujlLtTLGbpbQdBPKIm5TeBO9Xu2qG+p64pDkiZiaIvHOVlB8fvNIVjPWafDkM1CUO/9g2uvcT4CEabKARJxc7KC0tEDGd7PRVfdy8aEr+RIxkwAqFwNgh3hw5GrLhuXET+iMkMsSSJ1NhpQ+Pk7evK3ePmtYCaWCid/O65e6xTvOnpMfFUjCV8q0DTZ61+0tGhO1yFQGr2DdQfxRnSAKZIwR9HZkDvtsfCdqwBcpnq9JnI1Ws95eOLM4RQ6uGX87xeKWYmMET8lTJttQ59EMPZtcnCDYbpshjHxeM6iXLBBa/WF4sAd+wdk4rqQgCsAe2Xd9akjOsjGvAhIy/QwirXJkUbb5eld14FTjgaf9fpqcfbbQYfR1+0mJM669PL4Ys0nYD+irWCsOHbIRzBtIJN2SxHpDhyR761172+RBzUtJiVx9ULGZUwkz2mWceXE6i1tPfjvTglwNxYPwBSpz1W7HzqkHMg3P42soCdkecu2iYDemRKde3ij7YBgm4Dt3USo2k6sG91G7PhHKLXZK616a0o3W1Kee7rnO6bq40LceJgxmP4cZec4ul+u5KxNdA3elEteJIB6h0Rl0Z/NXSn23jLaWRS84zkXVlIk6dUTNsN53y7kmRSc7npaVi/ODdZzgZ/lyFqGUF
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(39860400002)(376002)(346002)(136003)(366004)(6862004)(316002)(5660300002)(2906002)(44832011)(82960400001)(86362001)(41300700001)(6506007)(6666004)(966005)(38100700002)(6512007)(6486002)(478600001)(2616005)(186003)(26005)(83380400001)(8676002)(66946007)(66556008)(66476007)(8936002)(450100002)(37006003)(4326008)(6636002)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E/40yQJ+24eqBdU8wr/ISfOAgCqvwg2i4IKMhFQAODp32kXxyJ+hkvjhdmZa?=
- =?us-ascii?Q?/Llgzwv9O3BR6kNWbs/e4CmxlzEpNf6mOYB2jrjAjI4i3P5WVfgm1x+j/rWc?=
- =?us-ascii?Q?VFEvTaSjOX5GYYvwJTGKcCUxHnKGrunfnzmVdINi59ep1WpL4pbkiHsxle1a?=
- =?us-ascii?Q?CRkVpQoQhSTEDtbKgK4oc+Kul/f5GBSQbIL14E6hAgFOUKZpeSNHgAWzMZ7k?=
- =?us-ascii?Q?9ZO0V82gBdgNhIe+RTIFPsUIipebDyrZxBK9Ze3NEe5mZefrYwa1hMtfQunN?=
- =?us-ascii?Q?Jl/J/i+nDCkcsxjBXPf6JegsbPS0w73LKegXKtVO5W5qoc2P2V3IVDmcJeYU?=
- =?us-ascii?Q?gD7j/MHld+hUMMM6hVYjigc8Cr8oji82+1dxDnQRTCs+x+mwXNuob1I0wWop?=
- =?us-ascii?Q?P2po4xm+Sm4FFVkq+2Gj2ju2ZZ12xLJbhzFteqIUONmgIzwrH/crjQjcRbEw?=
- =?us-ascii?Q?jtE5+GIJYUWdEwgHE3HDL8ecx1qbLqcGeJNn2xrmhSDP4bZ6Oq7eSVmuZcEm?=
- =?us-ascii?Q?h2czSTGUhlckzkikbzonjGzC4PW1T6Q6oboWeth/T95Ej3XGXMhCerU0JOlh?=
- =?us-ascii?Q?Sk5Qua1qSsyCxV2QeDdP9aRRhKJXvSQA/PNWBzJergdpw+M39uiNuo4QfYso?=
- =?us-ascii?Q?00B0z32aefBQ3R2m0SMxw9fA0z5sZNgCr1c6gmTdfrzEdk2f8CTWhLifPuIn?=
- =?us-ascii?Q?FIvrWctT0NUM9FIeajaOjyCyMVZk38oizf+yMctmtstyvv0uSLME5JH67ksy?=
- =?us-ascii?Q?FNhx47hkDVXHmBt7RSQ86ZRex/9WGOZxvaIdWUKCWptneVpMly5ouQsZnchm?=
- =?us-ascii?Q?59SHu9mSiO+rYtqQ6XCmlDC1S3JhispHhU1xwLcCiAokW750oQe3JZtyufqk?=
- =?us-ascii?Q?YMhN1RoqjPggzCKypzsdEX7P8oAoVXk7x1B74LRU2xZ3l5OFS4XhDNCHc4j2?=
- =?us-ascii?Q?Vj2bkkkxZ3G95hmquE2uVizNOvn9yjMIkIuCjVJK2HDXmGrC2yYDmupM2YfL?=
- =?us-ascii?Q?x4m9JS9S/ZUHbLjK5kkKt7rsUJ4JuSQbdeAnIYiySosXfi75y9Z97q4b1ztr?=
- =?us-ascii?Q?BVZbD8tUiegQrbOEQl+NP8ETjD9U380qac49dEFRwEtFKTRYzyAllBKj+IkI?=
- =?us-ascii?Q?STdN3KaVLubkkQx6MgXxbvwTW+p3DJfAuqtIh+cwhysdfBwhtGhJvBzs2H8c?=
- =?us-ascii?Q?fdUSHJlkAwOqx9HZ0FSi9A5bD2+GpvcpB3bF5JTrl35mTZh239EvvFkWb2G3?=
- =?us-ascii?Q?+MpxFvblEBb3MBNAGh83Zgd2zTHeN0gVhQ2oX6dBUJJ8MktBGHszar8+WCRH?=
- =?us-ascii?Q?1IMoOHyvS7lVvqx9SiSshvccq1sPms9oQrb0ez//iHB+xRZBjzReHWH0NdqR?=
- =?us-ascii?Q?1i2JZfFctuii/Fs+m6dBI325AqdQ3JVUsLTdFpuZGrhGgdjJcdsR4MEkJ9h7?=
- =?us-ascii?Q?coq+BQgFPDeiVXdIXNqYNE0EzOA1NpH6m+NaRB6nJMqDUTFEFfN804hUhCvc?=
- =?us-ascii?Q?P8dfFghqq0EFrD/NmdgBAwRDDy3ntKL0/RM2rNBgwPm/VwzeK8zz14GROxma?=
- =?us-ascii?Q?Br5PWSpEf1NM1T+WV1DTr19EYQ2LJHBScLslGq2uSPrZi96OEmTvPp/QLjT3?=
- =?us-ascii?Q?1Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93b9ae0c-c157-495b-b02a-08da7f154b23
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 23:24:26.1454 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wVWGuLaCqycJLsj3kfvY79nK0VEA56+PQqzNg9PxueQTareKapB9STIl3NgezymYu0YvtpKKLzUfT0qHu1t3KA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB3908
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
+ <20220816082612.grebxql5ynnfnvfd@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220816082612.grebxql5ynnfnvfd@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,188 +57,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 15, 2022 at 04:22:04PM -0700, Vinay Belgaumkar wrote:
-> Host Turbo operates at efficient frequency when GT is not idle unless
-> the user or workload has forced it to a higher level. Replicate the same
-> behavior in SLPC by allowing the algorithm to use efficient frequency.
-> We had disabled it during boot due to concerns that it might break
-> kernel ABI for min frequency. However, this is not the case since
-> SLPC will still abide by the (min,max) range limits.
-> 
-> With this change, min freq will be at efficient frequency level at init
-> instead of fused min (RPn). If user chooses to reduce min freq below the
-> efficient freq, we will turn off usage of efficient frequency and honor
-> the user request. When a higher value is written, it will get toggled
-> back again.
-> 
-> The patch also corrects the register which needs to be read for obtaining
-> the correct efficient frequency for Gen9+.
-> 
-> We see much better perf numbers with benchmarks like glmark2 with
-> efficient frequency usage enabled as expected.
-> 
-> v2: Address review comments (Rodrigo)
-> 
-> BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/5468
-> 
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_rps.c         |  7 ++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 66 ++++-----------------
->  drivers/gpu/drm/i915/intel_mchbar_regs.h    |  3 +
->  3 files changed, 22 insertions(+), 54 deletions(-)
+
+Den 16.08.2022 10.26, skrev Maxime Ripard:
+> Hi,
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-> index c7d381ad90cf..8c289a032103 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-> @@ -1107,7 +1107,12 @@ void gen6_rps_get_freq_caps(struct intel_rps *rps, struct intel_rps_freq_caps *c
->  		caps->min_freq = (rp_state_cap >>  0) & 0xff;
->  	} else {
->  		caps->rp0_freq = (rp_state_cap >>  0) & 0xff;
-> -		caps->rp1_freq = (rp_state_cap >>  8) & 0xff;
-> +		if (GRAPHICS_VER(i915) >= 10)
-> +			caps->rp1_freq = REG_FIELD_GET(RPE_MASK,
-> +						       intel_uncore_read(to_gt(i915)->uncore,
-> +						       GEN10_FREQ_INFO_REC));
-> +		else
-> +			caps->rp1_freq = (rp_state_cap >>  8) & 0xff;
->  		caps->min_freq = (rp_state_cap >> 16) & 0xff;
->  	}
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index e1fa1f32f29e..9d49ccef03bb 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -137,17 +137,6 @@ static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
->  	return ret > 0 ? -EPROTO : ret;
->  }
->  
-> -static int guc_action_slpc_unset_param(struct intel_guc *guc, u8 id)
-> -{
-> -	u32 request[] = {
-> -		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
-> -		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 1),
-> -		id,
-> -	};
-> -
-> -	return intel_guc_send(guc, request, ARRAY_SIZE(request));
-> -}
-> -
->  static bool slpc_is_running(struct intel_guc_slpc *slpc)
->  {
->  	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
-> @@ -201,16 +190,6 @@ static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
->  	return ret;
->  }
->  
-> -static int slpc_unset_param(struct intel_guc_slpc *slpc,
-> -			    u8 id)
-> -{
-> -	struct intel_guc *guc = slpc_to_guc(slpc);
-> -
-> -	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
-> -
-> -	return guc_action_slpc_unset_param(guc, id);
-> -}
-> -
->  static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
->  {
->  	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> @@ -491,6 +470,16 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
->  
->  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
->  
-> +		/* Ignore efficient freq if lower min freq is requested */
-> +		ret = slpc_set_param(slpc,
-> +				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
-> +				     val < slpc->rp1_freq);
-> +		if (unlikely(ret)) {
-> +			i915_probe_error(i915, "Failed to toggle efficient freq (%pe)\n",
-> +					 ERR_PTR(ret));
-> +			return ret;
-> +		}
-> +
->  		ret = slpc_set_param(slpc,
->  				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
->  				     val);
-> @@ -587,7 +576,9 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
->  		return ret;
->  
->  	if (!slpc->min_freq_softlimit) {
-> -		slpc->min_freq_softlimit = slpc->min_freq;
-> +		ret = intel_guc_slpc_get_min_freq(slpc, &slpc->min_freq_softlimit);
-> +		if (unlikely(ret))
-> +			return ret;
->  		slpc_to_gt(slpc)->defaults.min_freq = slpc->min_freq_softlimit;
->  	} else if (slpc->min_freq_softlimit != slpc->min_freq) {
->  		return intel_guc_slpc_set_min_freq(slpc,
-> @@ -597,29 +588,6 @@ static int slpc_set_softlimits(struct intel_guc_slpc *slpc)
->  	return 0;
->  }
->  
-> -static int slpc_ignore_eff_freq(struct intel_guc_slpc *slpc, bool ignore)
-> -{
-> -	int ret = 0;
-> -
-> -	if (ignore) {
-> -		ret = slpc_set_param(slpc,
-> -				     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
-> -				     ignore);
-> -		if (!ret)
-> -			return slpc_set_param(slpc,
-> -					      SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-> -					      slpc->min_freq);
-> -	} else {
-> -		ret = slpc_unset_param(slpc,
-> -				       SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY);
-> -		if (!ret)
-> -			return slpc_unset_param(slpc,
-> -						SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ);
-> -	}
-> -
-> -	return ret;
-> -}
-> -
->  static int slpc_use_fused_rp0(struct intel_guc_slpc *slpc)
->  {
->  	/* Force SLPC to used platform rp0 */
-> @@ -679,14 +647,6 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->  
->  	slpc_get_rp_values(slpc);
->  
-> -	/* Ignore efficient freq and set min to platform min */
-> -	ret = slpc_ignore_eff_freq(slpc, true);
-> -	if (unlikely(ret)) {
-> -		i915_probe_error(i915, "Failed to set SLPC min to RPn (%pe)\n",
-> -				 ERR_PTR(ret));
-> -		return ret;
-> -	}
-> -
->  	/* Set SLPC max limit to RP0 */
->  	ret = slpc_use_fused_rp0(slpc);
->  	if (unlikely(ret)) {
-> diff --git a/drivers/gpu/drm/i915/intel_mchbar_regs.h b/drivers/gpu/drm/i915/intel_mchbar_regs.h
-> index 2aad2f0cc8db..ffc702b79579 100644
-> --- a/drivers/gpu/drm/i915/intel_mchbar_regs.h
-> +++ b/drivers/gpu/drm/i915/intel_mchbar_regs.h
-> @@ -196,6 +196,9 @@
->  #define   RP1_CAP_MASK				REG_GENMASK(15, 8)
->  #define   RPN_CAP_MASK				REG_GENMASK(23, 16)
->  
-> +#define GEN10_FREQ_INFO_REC			_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5ef0)
-> +#define   RPE_MASK				REG_GENMASK(15, 8)
-> +
->  /* snb MCH registers for priority tuning */
->  #define MCH_SSKPD				_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5d10)
->  #define   SSKPD_NEW_WM0_MASK_HSW		REG_GENMASK64(63, 56)
-> -- 
-> 2.35.1
+> On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Trønnes wrote:
+>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+>>> The TV mode property has been around for a while now to select and get the
+>>> current TV mode output on an analog TV connector.
+>>>
+>>> Despite that property name being generic, its content isn't and has been
+>>> driver-specific which makes it hard to build any generic behaviour on top
+>>> of it, both in kernel and user-space.
+>>>
+>>> Let's create a new bitmask tv norm property, that can contain any of the
+>>> analog TV standards currently supported by kernel drivers. Each driver can
+>>> then pass in a bitmask of the modes it supports.
+>>>
+>>> We'll then be able to phase out the older tv mode property.
+>>>
+>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>>
+>>
+>> Please also update Documentation/gpu/kms-properties.csv
+>>
+>> Requirements for adding a new property is found in
+>> Documentation/gpu/drm-kms.rst
 > 
+> I knew this was going to be raised at some point, so I'm glad it's that
+> early :)
+> 
+> I really don't know what to do there. If we stick by our usual rules,
+> then we can't have any of that work merged.
+> 
+> However, I think the status quo is not really satisfactory either.
+> Indeed, we have a property, that doesn't follow those requirements
+> either, with a driver-specific content, and that stands in the way of
+> fixes and further improvements at both the core framework and driver
+> levels.
+> 
+> So having that new property still seems like a net improvement at the
+> driver, framework and uAPI levels, even if it's not entirely following
+> the requirements we have in place.
+> 
+> Even more so since, realistically, those kind of interfaces will never
+> get any new development on the user-space side of things, it's
+> considered by everyone as legacy.
+> 
+> This also is something we need to support at some point if we want to
+> completely deprecate the fbdev drivers and provide decent alternatives
+> in KMS.
+> 
+> So yeah, strictly speaking, we would not qualify for our requirements
+> there. I still think we have a strong case for an exception though.
+> 
+
+Which requirements would that be? The only one I can see is the
+documentation and maybe an IGT test.
+
+Noralf.
+
+>>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> index c06d0639d552..d7ff6c644c2f 100644
+>>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> @@ -700,6 +700,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>>>  		state->tv.margins.bottom = val;
+>>>  	} else if (property == config->tv_mode_property) {
+>>>  		state->tv.mode = val;
+>>> +	} else if (property == config->tv_norm_property) {
+>>> +		state->tv.norm = val;
+>>>  	} else if (property == config->tv_brightness_property) {
+>>>  		state->tv.brightness = val;
+>>>  	} else if (property == config->tv_contrast_property) {
+>>> @@ -810,6 +812,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>>>  		*val = state->tv.margins.bottom;
+>>>  	} else if (property == config->tv_mode_property) {
+>>>  		*val = state->tv.mode;
+>>> +	} else if (property == config->tv_norm_property) {
+>>> +		*val = state->tv.norm;
+>>>  	} else if (property == config->tv_brightness_property) {
+>>>  		*val = state->tv.brightness;
+>>>  	} else if (property == config->tv_contrast_property) {
+>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>>> index e3142c8142b3..68a4e47f85a9 100644
+>>> --- a/drivers/gpu/drm/drm_connector.c
+>>> +++ b/drivers/gpu/drm/drm_connector.c
+>>> @@ -1637,6 +1637,7 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>>>  /**
+>>>   * drm_mode_create_tv_properties - create TV specific connector properties
+>>>   * @dev: DRM device
+>>> + * @supported_tv_norms: Bitmask of TV norms supported (See DRM_MODE_TV_NORM_*)
+>>>   * @num_modes: number of different TV formats (modes) supported
+>>>   * @modes: array of pointers to strings containing name of each format
+>>>   *
+>>> @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>>>   * 0 on success or a negative error code on failure.
+>>>   */
+>>>  int drm_mode_create_tv_properties(struct drm_device *dev,
+>>> +				  unsigned int supported_tv_norms,
+>>>  				  unsigned int num_modes,
+>>>  				  const char * const modes[])
+>>>  {
+>>> +	static const struct drm_prop_enum_list tv_norm_values[] = {
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+>>> +	};
+>>>  	struct drm_property *tv_selector;
+>>>  	struct drm_property *tv_subconnector;
+>>> +	struct drm_property *tv_norm;
+>>>  	unsigned int i;
+>>>  
+>>>  	if (dev->mode_config.tv_select_subconnector_property)
+>>> @@ -1686,6 +1716,13 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
+>>>  	if (drm_mode_create_tv_margin_properties(dev))
+>>>  		goto nomem;
+>>>  
+>>> +	tv_norm = drm_property_create_bitmask(dev, 0, "tv norm",
+>>> +					   tv_norm_values, ARRAY_SIZE(tv_norm_values),
+>>> +					   supported_tv_norms);
+>>
+>> I expected this to be an enum, why a bitmask? Userspace can set multiple
+>> bits in a bitmask.
+> 
+> I went for a bitmask since it allowed to report the capabilities of a
+> driver, but I just realised that you can do that with an enum too, like
+> we do for color encodings.
+> 
+> I'll switch for an enum, thanks!
+> Maxime
