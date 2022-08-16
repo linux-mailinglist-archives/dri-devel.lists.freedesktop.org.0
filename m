@@ -2,47 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102AA596430
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 23:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F42365964A7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 23:33:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A938310E138;
-	Tue, 16 Aug 2022 21:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F76710E051;
+	Tue, 16 Aug 2022 21:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A60AB10E0D9;
- Tue, 16 Aug 2022 21:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1660683977; x=1692219977;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=EIr1juTtvFbl3G7D6BGoHem5dTsyCHBzoQV/fy1pPwE=;
- b=G6pcfXHeNwwiIMIxuWriczvdRbxb9BKzfdyaoJqu736U+NRidZm0Jk4y
- JiAi2kc3DcpiUPQDLV8uvHBxsvWIZkMCPxQbVAH/ZhV5zmg5gj9hxyqLF
- kJkPFZGxq9NN6oMIb1iwuALZFsWj6XRxdaO9IQSzJbFqbOez4bhRWjEd7
- zk37JIr/CqGTDR/q7CNRABm1bRw4Rm22F/ovsSNB8IFMvP9XNIV+JVbXG
- yGjCqRo5+CPahcAjSFSBvCbPKC2zyi/to7+htRK5SIbXh4Mm5ZwhaPJrQ
- QbWUjfGCwTCmP9lwcaH2IaKlrxJTqReVaLq4zXkzXCuINJzpPuXm8VdZj w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="292325486"
-X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="292325486"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2022 14:06:17 -0700
-X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; d="scan'208";a="733440960"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2022 14:06:17 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915/dg2: Add additional tuning settings
-Date: Tue, 16 Aug 2022 14:06:01 -0700
-Message-Id: <20220816210601.2041572-2-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220816210601.2041572-1-matthew.d.roper@intel.com>
-References: <20220816210601.2041572-1-matthew.d.roper@intel.com>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2406310E051;
+ Tue, 16 Aug 2022 21:32:45 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id o184so13442255oif.13;
+ Tue, 16 Aug 2022 14:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=4Hla4ZA4BWKwugZgsUC5KzdOgD0AlmxxCuVyu9Z4b48=;
+ b=dCqxYiQyvEpw3hBd1dSBIATpFMn00raMhL9jVvffvPPzNl56cQjRzAsexYB+sPd49l
+ 8o2PiaNOKWgBaLc54GWaGc0uGtFpkheDsTB5YT0Xebi8iPiWHhf52Y93S8qCcJeYogEB
+ M9FTuPYYkBl6wzAW5Hg7Tfxan7S4PCKRm99x6/CV8QfrC3AaaqZ/5rwU+mTDE91uyIPv
+ C939OIZOARvcwfDz6EaC28geQOQBUWa0DAnuMspi4HReETwxOdLfXYeO/oBLSDEnCq/F
+ hwTNNBMf65D09jN8+X1r26Rpm+wMrqneqxgjGcrfjrt3kPTIHmnnMqR2jgNVXRvGwzeB
+ nJpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=4Hla4ZA4BWKwugZgsUC5KzdOgD0AlmxxCuVyu9Z4b48=;
+ b=LjWQ29PP5vyqvhtSPsTO32V4qtUxgJvpmFDg9fa/NJZxFXHCnMxgTo32g0WqH3ZU0Y
+ 8qYhdGXWDf1Id1spqp528TRQRcWvTWLObNx1yGN5ojtzbWRysYvXKwuL39Az2JK9jWv8
+ WQEfV/mIlxc1hWR1ghGJRG8/U4mb4Dwk5LcTPrEf45PziQYblmEaUGyY9m7V9zUwwQ0m
+ FSmWjjwhg45n5YU7P/cL6hlUQVqWYkmxHmOD9hd4t+u9PeBD81GzIcBS7vWqLkd6d8L6
+ Ncf5mxOQtSnh4Is8vE/b3CZfG1F4ls1aNVAknFNWWxLsbYUReBcwSS35gIFcAEYniVVQ
+ DO7A==
+X-Gm-Message-State: ACgBeo0NTpu1EIBR5e6L2uooUL7rI2qYQxb/YgjJISG6sJtTERe1UOU8
+ S0rXcrBVtP4mNtNSfroLxSqmy7Vvf1hwVG/fKxs=
+X-Google-Smtp-Source: AA6agR7hM4R/XEc7qpVtS67PYyp0/x4CPJhk2BHa4uqwyoFkHCxX6WU4aqQemy6UrZycB6a41KDIVhwLgpDdH/tX3QQ=
+X-Received: by 2002:a05:6808:ecb:b0:33a:3b54:37f9 with SMTP id
+ q11-20020a0568080ecb00b0033a3b5437f9mr213627oiv.33.1660685564027; Tue, 16 Aug
+ 2022 14:32:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220815113931.53226-1-mairacanal@riseup.net>
+ <20220815145441.scqsi4udv2t7z57k@mail.igalia.com>
+In-Reply-To: <20220815145441.scqsi4udv2t7z57k@mail.igalia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 16 Aug 2022 17:32:32 -0400
+Message-ID: <CADnq5_NVq1vvAkoVaki76CKb3n-xFgtXydjhe8AgM7eJnZM7_g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix use-after-free on amdgpu_bo_list mutex
+To: Melissa Wen <mwen@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,119 +65,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
+ amd-gfx@lists.freedesktop.org, Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some additional MMIO tuning settings have appeared in the bspec's
-performance tuning guide section.
+Applied.  Thanks!
 
-One of the tuning settings here is also documented as formal workaround
-Wa_22012654132 for some steppings of DG2.  However the tuning setting
-applies to all DG2 variants and steppings, making it a superset of the
-workaround.
+Alex
 
-v2:
- - Move DRAW_WATERMARK to engine workaround section.  It only moves into
-   the engine context on future platforms.  (Lucas)
- - CHICKEN_RASTER_2 needs to be handled as a masked register.  (Lucas)
-
-Bspec: 68331
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  8 ++++++
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 27 ++++++++++++++-------
- 2 files changed, 26 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index b3b49f6d6d1c..f64fafe28f72 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -259,6 +259,9 @@
- #define   GEN9_PREEMPT_GPGPU_COMMAND_LEVEL	GEN9_PREEMPT_GPGPU_LEVEL(1, 0)
- #define   GEN9_PREEMPT_GPGPU_LEVEL_MASK		GEN9_PREEMPT_GPGPU_LEVEL(1, 1)
- 
-+#define DRAW_WATERMARK				_MMIO(0x26c0)
-+#define   VERT_WM_VAL				REG_GENMASK(9, 0)
-+
- #define GEN12_GLOBAL_MOCS(i)			_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
- 
- #define RENDER_HWS_PGA_GEN7			_MMIO(0x4080)
-@@ -374,6 +377,9 @@
- #define CHICKEN_RASTER_1			_MMIO(0x6204)
- #define   DIS_SF_ROUND_NEAREST_EVEN		REG_BIT(8)
- 
-+#define CHICKEN_RASTER_2			_MMIO(0x6208)
-+#define   TBIMR_FAST_CLIP			REG_BIT(5)
-+
- #define VFLSKPD					_MMIO(0x62a8)
- #define   DIS_OVER_FETCH_CACHE			REG_BIT(1)
- #define   DIS_MULT_MISS_RD_SQUASH		REG_BIT(0)
-@@ -1124,6 +1130,8 @@
- 
- #define RT_CTRL					_MMIO(0xe530)
- #define   DIS_NULL_QUERY			REG_BIT(10)
-+#define   STACKID_CTRL				REG_GENMASK(6, 5)
-+#define   STACKID_CTRL_512			REG_FIELD_PREP(STACKID_CTRL, 0x2)
- 
- #define EU_PERF_CNTL1				_MMIO(0xe558)
- #define EU_PERF_CNTL5				_MMIO(0xe55c)
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index a68d279b01f0..31e129329fb0 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -568,6 +568,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
- 				   struct i915_wa_list *wal)
- {
-+	wa_masked_en(wal, CHICKEN_RASTER_2, TBIMR_FAST_CLIP);
- 	wa_write_clr_set(wal, GEN11_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
- 			 REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
- 	wa_add(wal,
-@@ -2195,15 +2196,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		wa_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
- 	}
- 
--	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_C0) ||
--	    IS_DG2_G11(i915)) {
--		/* Wa_22012654132:dg2 */
--		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
--		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
--		       0 /* write-only, so skip validation */,
--		       true);
--	}
--
- 	/* Wa_14013202645:dg2 */
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_B0, STEP_C0) ||
- 	    IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0))
-@@ -2692,6 +2684,23 @@ add_render_compute_tuning_settings(struct drm_i915_private *i915,
- 
- 	if (IS_DG2(i915)) {
- 		wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
-+		wa_write_clr_set(wal, RT_CTRL, STACKID_CTRL, STACKID_CTRL_512);
-+		wa_write_clr_set(wal, DRAW_WATERMARK, VERT_WM_VAL,
-+				 REG_FIELD_PREP(VERT_WM_VAL, 0x3FF));
-+
-+		/*
-+		 * This is also listed as Wa_22012654132 for certain DG2
-+		 * steppings, but the tuning setting programming is a superset
-+		 * since it applies to all DG2 variants and steppings.
-+		 *
-+		 * Note that register 0xE420 is write-only and cannot be read
-+		 * back for verification on DG2 (due to Wa_14012342262), so
-+		 * we need to explicitly skip the readback.
-+		 */
-+		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
-+		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
-+		       0 /* write-only, so skip validation */,
-+		       true);
- 	}
- }
- 
--- 
-2.37.1
-
+On Mon, Aug 15, 2022 at 10:56 AM Melissa Wen <mwen@igalia.com> wrote:
+>
+> On 08/15, Ma=C3=ADra Canal wrote:
+> > If amdgpu_cs_vm_handling returns r !=3D 0, then it will unlock the
+> > bo_list_mutex inside the function amdgpu_cs_vm_handling and again on
+> > amdgpu_cs_parser_fini. This problem results in the following
+> > use-after-free problem:
+> >
+> > [ 220.280990] ------------[ cut here ]------------
+> > [ 220.281000] refcount_t: underflow; use-after-free.
+> > [ 220.281019] WARNING: CPU: 1 PID: 3746 at lib/refcount.c:28 refcount_w=
+arn_saturate+0xba/0x110
+> > [ 220.281029] ------------[ cut here ]------------
+> > [ 220.281415] CPU: 1 PID: 3746 Comm: chrome:cs0 Tainted: G W L ------- =
+--- 5.20.0-0.rc0.20220812git7ebfc85e2cd7.10.fc38.x86_64 #1
+> > [ 220.281421] Hardware name: System manufacturer System Product Name/RO=
+G STRIX X570-I GAMING, BIOS 4403 04/27/2022
+> > [ 220.281426] RIP: 0010:refcount_warn_saturate+0xba/0x110
+> > [ 220.281431] Code: 01 01 e8 79 4a 6f 00 0f 0b e9 42 47 a5 00 80 3d de
+> > 7e be 01 00 75 85 48 c7 c7 f8 98 8e 98 c6 05 ce 7e be 01 01 e8 56 4a
+> > 6f 00 <0f> 0b e9 1f 47 a5 00 80 3d b9 7e be 01 00 0f 85 5e ff ff ff 48
+> > c7
+> > [ 220.281437] RSP: 0018:ffffb4b0d18d7a80 EFLAGS: 00010282
+> > [ 220.281443] RAX: 0000000000000026 RBX: 0000000000000003 RCX: 00000000=
+00000000
+> > [ 220.281448] RDX: 0000000000000001 RSI: ffffffff988d06dc RDI: 00000000=
+ffffffff
+> > [ 220.281452] RBP: 00000000ffffffff R08: 0000000000000000 R09: ffffb4b0=
+d18d7930
+> > [ 220.281457] R10: 0000000000000003 R11: ffffa0672e2fffe8 R12: ffffa058=
+ca360400
+> > [ 220.281461] R13: ffffa05846c50a18 R14: 00000000fffffe00 R15: 00000000=
+00000003
+> > [ 220.281465] FS: 00007f82683e06c0(0000) GS:ffffa066e2e00000(0000) knlG=
+S:0000000000000000
+> > [ 220.281470] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [ 220.281475] CR2: 00003590005cc000 CR3: 00000001fca46000 CR4: 00000000=
+00350ee0
+> > [ 220.281480] Call Trace:
+> > [ 220.281485] <TASK>
+> > [ 220.281490] amdgpu_cs_ioctl+0x4e2/0x2070 [amdgpu]
+> > [ 220.281806] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> > [ 220.282028] drm_ioctl_kernel+0xa4/0x150
+> > [ 220.282043] drm_ioctl+0x21f/0x420
+> > [ 220.282053] ? amdgpu_cs_find_mapping+0xe0/0xe0 [amdgpu]
+> > [ 220.282275] ? lock_release+0x14f/0x460
+> > [ 220.282282] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> > [ 220.282290] ? _raw_spin_unlock_irqrestore+0x30/0x60
+> > [ 220.282297] ? lockdep_hardirqs_on+0x7d/0x100
+> > [ 220.282305] ? _raw_spin_unlock_irqrestore+0x40/0x60
+> > [ 220.282317] amdgpu_drm_ioctl+0x4a/0x80 [amdgpu]
+> > [ 220.282534] __x64_sys_ioctl+0x90/0xd0
+> > [ 220.282545] do_syscall_64+0x5b/0x80
+> > [ 220.282551] ? futex_wake+0x6c/0x150
+> > [ 220.282568] ? lock_is_held_type+0xe8/0x140
+> > [ 220.282580] ? do_syscall_64+0x67/0x80
+> > [ 220.282585] ? lockdep_hardirqs_on+0x7d/0x100
+> > [ 220.282592] ? do_syscall_64+0x67/0x80
+> > [ 220.282597] ? do_syscall_64+0x67/0x80
+> > [ 220.282602] ? lockdep_hardirqs_on+0x7d/0x100
+> > [ 220.282609] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> > [ 220.282616] RIP: 0033:0x7f8282a4f8bf
+> > [ 220.282639] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10
+> > 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00
+> > 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00
+> > 00
+> > [ 220.282644] RSP: 002b:00007f82683df410 EFLAGS: 00000246 ORIG_RAX: 000=
+0000000000010
+> > [ 220.282651] RAX: ffffffffffffffda RBX: 00007f82683df588 RCX: 00007f82=
+82a4f8bf
+> > [ 220.282655] RDX: 00007f82683df4d0 RSI: 00000000c0186444 RDI: 00000000=
+00000018
+> > [ 220.282659] RBP: 00007f82683df4d0 R08: 00007f82683df5e0 R09: 00007f82=
+683df4b0
+> > [ 220.282663] R10: 00001d04000a0600 R11: 0000000000000246 R12: 00000000=
+c0186444
+> > [ 220.282667] R13: 0000000000000018 R14: 00007f82683df588 R15: 00000000=
+00000003
+> > [ 220.282689] </TASK>
+> > [ 220.282693] irq event stamp: 6232311
+> > [ 220.282697] hardirqs last enabled at (6232319): [<ffffffff9718cd7e>] =
+__up_console_sem+0x5e/0x70
+> > [ 220.282704] hardirqs last disabled at (6232326): [<ffffffff9718cd63>]=
+ __up_console_sem+0x43/0x70
+> > [ 220.282709] softirqs last enabled at (6232072): [<ffffffff970ff669>] =
+__irq_exit_rcu+0xf9/0x170
+> > [ 220.282716] softirqs last disabled at (6232061): [<ffffffff970ff669>]=
+ __irq_exit_rcu+0xf9/0x170
+> > [ 220.282722] ---[ end trace 0000000000000000 ]---
+> >
+> > Therefore, remove the mutex_unlock from the amdgpu_cs_vm_handling
+> > function, so that amdgpu_cs_submit and amdgpu_cs_parser_fini can handle
+> > the unlock.
+> >
+> > Fixes: 90af0ca047f3 ("drm/amdgpu: Protect the amdgpu_bo_list list with =
+a mutex v2")
+> > Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> > Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+> > ---
+> > Thanks Melissa and Christian for the feedback on mutex_unlock.
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_cs.c
+> > index d8f1335bc68f..b7bae833c804 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > @@ -837,16 +837,12 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs=
+_parser *p)
+> >                       continue;
+> >
+> >               r =3D amdgpu_vm_bo_update(adev, bo_va, false);
+> > -             if (r) {
+> > -                     mutex_unlock(&p->bo_list->bo_list_mutex);
+> > +             if (r)
+> >                       return r;
+> > -             }
+> >
+> >               r =3D amdgpu_sync_fence(&p->job->sync, bo_va->last_pt_upd=
+ate);
+> > -             if (r) {
+> > -                     mutex_unlock(&p->bo_list->bo_list_mutex);
+> > +             if (r)
+> >                       return r;
+> > -             }
+> Nice catch, Ma=C3=ADra!
+>
+> Reviewed-by: Melissa Wen <mwen@igalia.com>
+>
+> >       }
+> >
+> >       r =3D amdgpu_vm_handle_moved(adev, vm);
+> > --
+> > 2.37.2
+> >
