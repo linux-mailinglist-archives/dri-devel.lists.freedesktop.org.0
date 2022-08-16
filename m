@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05EF595E91
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 16:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72FD595EAD
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 17:01:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78ABF8B35C;
-	Tue, 16 Aug 2022 14:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72EEA91056;
+	Tue, 16 Aug 2022 15:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB818A986E
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 14:49:59 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id e28so8281778qts.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:49:59 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B6A910EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 15:00:53 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id w18so3305774qki.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 08:00:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=tf29XLGj+1bd58LVE065Hm1nPqeAKMph377e+8mce68=;
- b=Pm9H/6RoDFkk4qMQbygu7dX1qOYaVG+2Z9FPK+xuI505NbYzu8KoIZRzHdAOCVmLyg
- 4k4NB3o7wP0IEuTTNujYrFjMBIG/HsoMF/PfGE/npgqAK7dI5hoBtX1QPfbPtZXlcfro
- 0k+97S7YolzwvYLEwI2iDwR3oUuw6qVLMlOIoB9te/NfnYjwvz/HaKInNihdYfDP/VqX
- oHwQz188bmI9wqVqzXkQblDz5D99BjyjuQzxVV3W+cq7fpo0F25q2+Nai/eyqEXMZlJX
- efOCg0xrPqMsmy6go8ZFdjHLKRwWbU647lDegpl98FRIcUgyrTXmLPC5iWnn1dUa5MDJ
- EjIg==
-X-Gm-Message-State: ACgBeo0e1sgq83qoTaba4LVLJARKT+a7ijDG/DD76jiuObduCvTgZH5g
- XKLyq9taoCDObdGJ/fpeMvCIYkxOJyMZ1g==
-X-Google-Smtp-Source: AA6agR5OfEmW8/Dy6J+XY26me02wmOfWiXl6MSKH+vCUMSMFeAJu1wc1jCSMjOd5CxIdD/2D8y3f2g==
-X-Received: by 2002:ac8:5c0e:0:b0:342:7cba:8fad with SMTP id
- i14-20020ac85c0e000000b003427cba8fadmr18149869qti.667.1660661398573; 
- Tue, 16 Aug 2022 07:49:58 -0700 (PDT)
+ bh=5LUM7nzor1/XqC5vXK/cNLgsMpFS8BfigyHBrmKtMuQ=;
+ b=Opax8YGP5DfMwiNQb1mk//T+ikv5DjqAXywEvFpI1VZsfwYKQgAuMq+Bw5o8An+TXg
+ tuCR65fOdM2fG9LAcNPIs7vnGVCqQt2fN5JV71+l8dXIRixwcyiq6vURM3T6hHF8BFm0
+ EVfgJMgW5sWd6Ri+SuxrwDfob1jafzTAVEv94VRdHdblUC4X6iaFVjxewaWfxayPa9Zg
+ N+NARaLpI5CNrBPPpG9TNdlcBj4zx0ZN/xNmsk4WV8Z0MepDPFQ4mBY/p5weRZm95g/z
+ TpM3Qf9vRTBHDGUAYJ3N2x4U8rQ5FDlXfDEX5PiYrrghLS6KIYo7X2VEGN7a6n1cTFr0
+ r35w==
+X-Gm-Message-State: ACgBeo3A87iRrDNX/ImILcZziH7+5SAL8hb2xfOTDbbbkx9s8nR1pJbg
+ x/YvIT3EZ4e3RYqLBRVSxk0lF4E6BB68xQ==
+X-Google-Smtp-Source: AA6agR7NcboB4Y9kKyNXt3ViF8E3y74/8mGiaaAOK8Mak8N417PAL6t78wVU7L9UDrJjmxZP1agHhA==
+X-Received: by 2002:a05:620a:2004:b0:6bb:54c1:38cd with SMTP id
+ c4-20020a05620a200400b006bb54c138cdmr4464427qka.332.1660662051916; 
+ Tue, 16 Aug 2022 08:00:51 -0700 (PDT)
 Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
  [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
- t24-20020a37ea18000000b006b9a8fc0c93sm11580265qkj.53.2022.08.16.07.49.58
+ bm34-20020a05620a19a200b006bac157ec19sm11391973qkb.123.2022.08.16.08.00.51
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Aug 2022 07:49:58 -0700 (PDT)
+ Tue, 16 Aug 2022 08:00:51 -0700 (PDT)
 Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-332fc508d88so87790737b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 07:49:58 -0700 (PDT)
-X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
- v18-20020a81b812000000b0032868e4c886mr16448315ywe.502.1660661082059; Tue, 16
- Aug 2022 07:44:42 -0700 (PDT)
+ 00721157ae682-3321c2a8d4cso105199787b3.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 08:00:51 -0700 (PDT)
+X-Received: by 2002:a5b:bcd:0:b0:68f:b4c0:7eca with SMTP id
+ c13-20020a5b0bcd000000b0068fb4c07ecamr130640ybr.202.1660662049765; Tue, 16
+ Aug 2022 08:00:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-9-3d53ae722097@cerno.tech>
- <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
- <20220816134624.cmb5s6i6pkdhu3qj@houat>
-In-Reply-To: <20220816134624.cmb5s6i6pkdhu3qj@houat>
+ <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+ <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+ <20220816132636.3tmwqmrox64pu3lt@houat>
+In-Reply-To: <20220816132636.3tmwqmrox64pu3lt@houat>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Aug 2022 16:44:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWMMaGS_pEZ4OTdXn8jvFnx-Rx81qPseGUeGUcSBqys8A@mail.gmail.com>
-Message-ID: <CAMuHMdWMMaGS_pEZ4OTdXn8jvFnx-Rx81qPseGUeGUcSBqys8A@mail.gmail.com>
-Subject: Re: [PATCH v1 09/35] drm/modes: Move named modes parsing to a
- separate function
+Date: Tue, 16 Aug 2022 17:00:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+Message-ID: <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
 To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,67 +90,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime,
 
-On Tue, Aug 16, 2022 at 3:46 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Fri, Aug 12, 2022 at 03:27:17PM +0200, Geert Uytterhoeven wrote:
-> > On Fri, Jul 29, 2022 at 6:36 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > The current construction of the named mode parsing doesn't allow to extend
-> > > it easily. Let's move it to a separate function so we can add more
-> > > parameters and modes.
-> > >
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Tue, Aug 16, 2022 at 3:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Fri, Aug 12, 2022 at 03:18:58PM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-lines
+> > > modes in the drivers.
 > >
-> > Thanks for your patch, which looks similar to my "[PATCH v2 2/5]
-> > drm/modes: Extract drm_mode_parse_cmdline_named_mode()"
-> > (https://lore.kernel.org/dri-devel/1371554419ae63cb54c2a377db0c1016fcf200bb.1657788997.git.geert@linux-m68k.org
-> > ;-)
->
-> Indeed, I forgot about that one, sorry :/
->
-> I think I'd still prefer to have the check for refresh + named mode
-> outside of the function, since I see them as an "integration" issue, not
-> a parsing one.
->
-> It's not the named mode parsing that fails, but the fact that we both
-> have a valid refresh and a valid named mode.
->
+> > Nit: strictly speaking these are not analog modes, but the digital
+> > variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
+> > 13.5 MHz sampling frequency for pixels.
 > >
-> > > --- a/drivers/gpu/drm/drm_modes.c
-> > > +++ b/drivers/gpu/drm/drm_modes.c
-> > > @@ -1773,6 +1773,28 @@ static const char * const drm_named_modes_whitelist[] = {
-> > >         "PAL",
-> > >  };
-> > >
-> > > +static bool drm_mode_parse_cmdline_named_mode(const char *name,
-> > > +                                             unsigned int name_end,
-> > > +                                             struct drm_cmdline_mode *cmdline_mode)
-> > > +{
-> > > +       unsigned int i;
-> > > +
-> > > +       for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> > > +               int ret;
-> > > +
-> > > +               ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
-> > > +               if (ret != name_end)
-> > > +                       continue;
-> > > +
-> > > +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
-> > > +               cmdline_mode->specified = true;
-> > > +
-> > > +               return true;
-> > > +       }
-> > > +
-> > > +       return false;
+> > In analog modes, the only discrete values are the number of lines, and
+> > the frame/field rate (fixing the horizontal sync rate when combined).
 > >
-> > What's the point in returning a value, if it is never checked?
-> > Just make this function return void?
+> > The number of (in)visible pixels per line depends on the available
+> > bandwidth.  In a digital variant (which is anything generated by a
+> > digital computer system), the latter depends on the pixel clock, which
+> > can wildly differ from the 13.5 MHz used in the BT.656 standard. (e.g.
+> > Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC)).
+> >
+> > So I think we probably need some way to generate a PAL/NTSC-compatible
+> > mode based not only on resolution, but also on pixel clock.
 >
-> Yeah, it's something I went back and forth to between the dev, and it's
-> an artifact.
+> This would also fix the comments made by Jani and Thomas, so I quite
+> like the idea of it.
 >
-> I'll drop that patch, take your version and move the refresh check to
-> drm_mode_parse_command_line_for_connector if that's alright for you?
+> I'm struggling a bit to find how would could implement this though.
+>
+> From what you were saying, I guess the prototype would be something like
+>
+> struct drm_display_mode *drm_create_analog_mode(unsigned int pixel_clock,
+>                                                 unsigned int lines,
+>                                                 unsigned int frame_rate)
+>
+> But I have zero idea on what the implementation would be. Do you have
+> some resources for this you could point me to?
 
-Fine for me.
+Horizontally, I think you should calculate left/right margins and
+hsync length to yield timings that match those for the BT.656 PAL/NTSC
+modes.  I.e. when a 640x512 mode with a pixel clock of 14 MHz is
+requested, you want to calculate left', right', and hslen' for
+
+| <---- left' ---> | <- 640 pixels -> | <---- right' ---> | <--- hslen' --> |
+                        @ 14 MHz
+
+so they match the timings for left, right, and hslen for
+
+| <--- left ---> | <--- 720 pixels ---> | <--- right ---> | <--- hslen ---> |
+                        @ 13.5 MHz
+
+As 640 pixels @ 14 MHz are less wide than 720 pixels @ 13.5 MHz,
+you want to make sure to align the center of the visible part.
+
+Vertically, it's simpler, as the number of lines is discrete.
+You do have to take into account interlace and doublescan, and
+progressive modes with 262/312 lines.
 
 Gr{oetje,eeting}s,
 
