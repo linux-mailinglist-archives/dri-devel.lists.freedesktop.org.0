@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49F359557F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 10:43:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9745955A0
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 10:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D4DA3D96;
-	Tue, 16 Aug 2022 08:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E107BC4E5A;
+	Tue, 16 Aug 2022 08:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32718A2DFC
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 08:42:58 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id h27so3200655qkk.9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 01:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=M8+zN5n51GohpbStdjKXmJWXHgqhXr7wmE0QoYJl1Tg=;
- b=qLuGJVydbZapmuhh/ri/mPvYA5bm4nMtIaG76TKtA3Mvo/gBhkJK17beJcQl4lBkM0
- iPBdZSSrCNgcezsRIABTJwp7UtgOhSIzqLsuYw6uKZIdWj2+EzGX4Ynvo2pcygJ3ES0H
- rNv2bDiwY+8yFgEBX8y3Q+RZ0w+7z61uHWS67T1C+ZdmOf9xIz3+Ss494E0LnAKj62KJ
- uuV7tjhnSgJ133uq7dK9dc8YkqzpGgSLl11+J0G8NNyLbKRknzb7wyR2X4f7YRD/3396
- ChRcoJ8Z8tpfDVeQs7eHQAwLSDOEU4j8m9CRydpoEnGFQI0rjqmOED+9BOVCNq8moS5U
- UQgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=M8+zN5n51GohpbStdjKXmJWXHgqhXr7wmE0QoYJl1Tg=;
- b=Js1gY+0W6K+yxxAiSA75Nz53KnQ3FqnEwGQLL/KGkXKoyE7H1j4zJN61KS0HeuqbUP
- quxkSYjT/eaBC7BqoRPlxbioihWkDFqscxZqFhV5OCOrwqkAy0TJ0zxudtyKDQjAcBd5
- Oi74UnlSpmL2GMCn6scsuVRn1yypHJwBizViTJPllL1rKcgJHbGewCq6s5qV0r1wck6p
- hbwosVPFghBDvXQnlmrXsETzMGwHkLnVoMkq0v6DoEAUp2KK59tnccpkTnWF4YYU9VG0
- +8uev0qFxJv1YxtEAggaKdGcGVO29frbSUqoJqGhCecyYxcHAq6RMq4oTN/kW4KOFvZe
- 0KQQ==
-X-Gm-Message-State: ACgBeo1ZzUfsaJCrsxRqoHb34ay7CuDRhjqM7SWiltAMCpf0uIuS/S5E
- Ar8JKN7D3lawxX5NuXoH24FxmY0yyVlA2Q7FFcg=
-X-Google-Smtp-Source: AA6agR4R4lk0CDBQHZmGfGnS3MaEvTJE6k0Sqbe/jCHB+ee624GaEK+KH/pS5yDyRz1iFyVysOe/Lnz9Oes4idkTrfs=
-X-Received: by 2002:ae9:e311:0:b0:6ba:e711:fb27 with SMTP id
- v17-20020ae9e311000000b006bae711fb27mr11131735qkf.320.1660639377250; Tue, 16
- Aug 2022 01:42:57 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2A48C3F98;
+ Tue, 16 Aug 2022 08:53:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1660640002; x=1692176002;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=K6Og00L1IjRsIWgGWRQD8kVwArgaWlic4/wfGISF5fQ=;
+ b=DE0LYbKjehhUE3A4voSSpqWJu2fIh1i85k5BPrKyBcfQzfc8azDkIieb
+ c14Y5yx99K1NtMZgPFfTAS1BZ60YS79vBGujGZPY7RaU4O4BZerofcOxK
+ tT9Xh8RWP3jRbFkz00huefs+yPlIxWGXzjm7CnHlmUt5+54Ij7cdQtO24
+ xnjSpInO65C9M7ZW6lmSoIxDtoipnkX7s5LUSA4fpf0NAKiJ0nofRB3xq
+ 58OGIQv5M2ONWk4XjMOSoEyCMTCFjDiHFNfky8rKT8yqJnMLQ/XPp1qWJ
+ ePv1vRJJ6/dv36vED4LC8C9S2wXrSPaQeWrlCekYOVRsWEwNmiv+3c351 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="275219719"
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; d="scan'208";a="275219719"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 01:53:20 -0700
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; d="scan'208";a="583220366"
+Received: from kinzelba-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.39.194])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2022 01:53:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Bo Liu <liubo03@inspur.com>, airlied@linux.ie, daniel@ffwll.ch,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, linus.walleij@linaro.org,
+ thierry.reding@gmail.com, sam@ravnborg.org
+Subject: Re: [PATCH] drm: Fix all occurences of the "the the" typo
+In-Reply-To: <20220816083759.4382-1-liubo03@inspur.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220816083759.4382-1-liubo03@inspur.com>
+Date: Tue, 16 Aug 2022 11:53:14 +0300
+Message-ID: <87edxgr2md.fsf@intel.com>
 MIME-Version: 1.0
-References: <cover.1660292316.git.mazziesaccount@gmail.com>
- <166057828406.697572.228317501909350108.b4-ty@kernel.org>
- <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
- <Yvp1Qkuh7xfeb/B2@sirena.org.uk> <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
- <20220815205857.308B1C433D6@smtp.kernel.org>
- <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
-In-Reply-To: <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 16 Aug 2022 11:42:20 +0300
-Message-ID: <CAHp75VefRphjAhSmrUVC8aaAhrwMD+9Jr=OROFU-0JuNhuFYDw@mail.gmail.com>
-Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +59,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaoqian Lin <linmq006@gmail.com>,
- Linux Documentation List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Turq uette <mturquette@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- linux-clk <linux-clk@vger.kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
- Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-iio <linux-iio@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Johan Hovold <johan+linaro@kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Alexandru Ardelean <aardelean@deviqon.com>,
- Alexandru Tachici <alexandru.tachici@analog.com>,
- Jean Delvare <jdelvare@suse.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mark Brown <broonie@kernel.org>, Aswath Govindraju <a-govindraju@ti.com>,
- linux-amlogic <linux-amlogic@lists.infradead.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- linux-hwmon@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, Bo Liu <liubo03@inspur.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 16, 2022 at 8:37 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Aug 15, 2022 at 01:58:55PM -0700, Stephen Boyd wrote:
-> > Quoting Laurent Pinchart (2022-08-15 11:52:36)
-> > > On Mon, Aug 15, 2022 at 05:33:06PM +0100, Mark Brown wrote:
+On Tue, 16 Aug 2022, Bo Liu <liubo03@inspur.com> wrote:
+> There are double "the" in messages in file drm_dp_helper.c,
+> i915_irq.c and panel-novatek-nt35510.c, fix it.
 
-...
+Please split to three patches.
 
-> > > we'll run into trouble. Supplying active high input signals
-> > > to a device that is not powered can lead to latch-up, which tends to
-> > > only manifest after a statistically significant number of occurrences of
-> > > the condition, and can slowly damage the hardware over time. This is a
-> > > real concern as it will typically not be caught during early
-> > > development. I think we would still be better off with requiring drivers
-> > > to manually handle powering off the device until we provide a mechanism
-> > > that can do so safely in an automated way.
-> >
-> > Can you describe the error scenario further? I think it's driver author
-> > error that would lead to getting and enabling the regulator after
-> > getting and enabling a clk that drives out a clock signal on some pins
-> > that aren't powered yet. I'm not sure that's all that much easier to do
-> > with these sorts of devm APIs, but if it is then I'm concerned.
+BR,
+Jani.
+
 >
-> You will very quickly see drivers doing this (either directly or
-> indirectly):
+> Signed-off-by: Bo Liu <liubo03@inspur.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c       | 2 +-
+>  drivers/gpu/drm/i915/i915_irq.c               | 2 +-
+>  drivers/gpu/drm/panel/panel-novatek-nt35510.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 >
-> probe()
-> {
->         devm_clk_get_enabled();
->         devm_regulator_get_enable();
-> }
-
-And how is it devm specific? If the author puts the same without devm
-the ordering would be wrong, correct? devm allows us to focus on
-ordering in a *single* place, which is a win. You seem to be proposing
-to make a high burden on a driver's author to focus on ordering in the
-*three* places. I disagree with that. Yet the driver author has to
-understand many issues with any tool they use. So the root cause of
-your whining is rather on the edge of documentation and education.
-(Yes, I have heard about issues with object lifetime in v4l2
-subdevices regarding to devm, but it seems irrelevant to devm
-mechanism itself.)
-
-> Without a devres-based get+enable API drivers can get the resources they
-> need in any order, possibly moving some of those resource acquisition
-> operations to different functions, and then have a clear block of code
-> that enables the resources in the right order. These devres helpers give
-> a false sense of security to driver authors and they will end up
-> introducing problems, the same way that devm_kzalloc() makes it
-> outrageously easy to crash the kernel by disconnecting a device that is
-> in use.
-
-
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index e5bab236b3ae..32b295003f49 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -1597,7 +1597,7 @@ static int drm_dp_aux_reply_duration(const struct drm_dp_aux_msg *msg)
+>  
+>  /*
+>   * Calculate the length of the i2c transfer in usec, assuming
+> - * the i2c bus speed is as specified. Gives the the "worst"
+> + * the i2c bus speed is as specified. Gives the "worst"
+>   * case estimate, ie. successful while as long as possible.
+>   * Doesn't account the "MOT" bit, and instead assumes each
+>   * message includes a START, ADDRESS and STOP. Neither does it
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index 73cebc6aa650..783a6ca41a61 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -65,7 +65,7 @@
+>  
+>  /*
+>   * Interrupt statistic for PMU. Increments the counter only if the
+> - * interrupt originated from the the GPU so interrupts from a device which
+> + * interrupt originated from the GPU so interrupts from a device which
+>   * shares the interrupt line are not accounted.
+>   */
+>  static inline void pmu_irq_stats(struct drm_i915_private *i915,
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> index 40ea41b0a5dd..4085822f619a 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> @@ -231,7 +231,7 @@ struct nt35510_config {
+>  	 * bits 0..2 in the lower nibble controls HCK, the booster clock
+>  	 * frequency, the values are the same as for PCK in @bt1ctr.
+>  	 * bits 4..5 in the upper nibble controls BTH, the boosting
+> -	 * amplification for the the step-up circuit.
+> +	 * amplification for the step-up circuit.
+>  	 * 0 = AVDD + VDDB
+>  	 * 1 = AVDD - AVEE
+>  	 * 2 = AVDD - AVEE + VDDB
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Jani Nikula, Intel Open Source Graphics Center
