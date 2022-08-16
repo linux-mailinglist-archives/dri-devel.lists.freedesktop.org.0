@@ -2,77 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D9E595DC2
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5709595DCF
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 15:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5A8ADADE;
-	Tue, 16 Aug 2022 13:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD49993AC1;
+	Tue, 16 Aug 2022 13:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A849AD948
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:51:08 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 419555801CF;
- Tue, 16 Aug 2022 09:51:08 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 16 Aug 2022 09:51:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1660657868; x=1660665068; bh=yuVLbrrN+N
- 1iK12i7DUjM6pGqTkdcihboprTmt6Byjw=; b=odX2548XwGXoGeKNs0MbkWaSSx
- lfpsoLA8A8tZ3+XRhAbG1K21dnqkAYavMxd5ydxZzSSazv9h7PvZWs3oaJqIVzdA
- RfmZLhQ6h0EfZpOr1x+wr6wcBilxBz5VUTfO6oIvSod3iW4DRW9iZAY5JWrBRVWy
- 8RbA1h9nm3vFyOx+F+XZ3Oi0Ew0Vp7PsnmwPJmo+2pX+i+6ZJpekDYbdmpGtfVCo
- 3VAKjkXEUHf0bOEZYobFiUnvijuSsqOZ7WAeqXo3nvUpCPV8fn3snx0SW0lCtRGR
- 3K7tv7ETwiQEhEEeQLinpzolbgJNH5qkXFL+wVcSjhd7ht2J/SWD6yDSAvuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1660657868; x=1660665068; bh=yuVLbrrN+N1iK12i7DUjM6pGqTkd
- cihboprTmt6Byjw=; b=A1Si8qi+Laz5mf39bB95eWK9Z9k4Uwq/ARX10hcF5KoC
- rsCZ4h4myKe7lFZDNiG31Mst8v4bkATp+OYda5/B48kbYWQ2u0KmB9codo9djrHe
- yTOUZjbJZyB8E2j3I25Q+pbwyeqoVuqgfw6Eb/Ta82kHO4XwYxUPaMPA+8XxwcC+
- bTV1VisVVgUolSf0+JPD6hqwLHiiFwPXAG/3ChEFsyvxGYNAfSU1zvmJVn9fuQJm
- kxGz4+rdbVp3wtvdqh8E4B2HCDmNbzxD8l1XRhP9sDDFyjJPZjCwbnP9t0tfssr5
- yfc8ortuZ8OiMn3m0oboGq9/2l0bSlAJDth5K7vXyQ==
-X-ME-Sender: <xms:y6D7Yi5dGJhRTsSGZBa9vyukMq9hYKB9U0_RHpfh03QgEetm5byqvg>
- <xme:y6D7Yr4cdbgoEw_0L-SdM11M8wG7DlbMGgv-7R9rQA-mUT5LaO75CFlSi5iBSgWaD
- __y_zatS_jJqtm1Es0>
-X-ME-Received: <xmr:y6D7YhdJOPym6auR3F3LbUaT7Gw7xA6ooEFtcT0WCjCINXg2WimtbPEekYY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:y6D7YvI0uY1gs0_NlIylruE9Zs-XXwZlX_P_FEl_My6SPc7HLEwL4A>
- <xmx:y6D7YmK7yKTdmpQmBSGQH2Y4I_GTRd_KRzJGnECTVLhPLnKVUgehWw>
- <xmx:y6D7YgxxEL2lavOAuWvzDdfmduCHGRSf9UhoPNKAuLZ7cRiW3e-2BA>
- <xmx:zKD7Ym6mGad4cGanjPeIgtE-CDNYjoT7Vt1767fMSgxfM1B86VJUWQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 09:51:06 -0400 (EDT)
-Date: Tue, 16 Aug 2022 15:51:05 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
- command-line option
-Message-ID: <20220816135105.goztqjzqqhhigytd@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
- <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="oapqvc3fwa7skyps"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF93611350F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 13:55:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F2E4C3458A;
+ Tue, 16 Aug 2022 13:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1660658123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uZ1rhP5h+o+pAIkaqiAfxqHKk/DnvqzaGpIhfBTwdSk=;
+ b=ZJkccRT2TYgphKsNtn16YFOKH8VqK+/TzxCnRlbpEt4db+J6fxEF8OywuP3HooFGsVddB7
+ /tqrYYD1CTvA6EQPPvH0rD44tHxMk93Lkjo4IGDNmqyDSdBovD54K163g5FEPL7HL57ARY
+ ZjI52vZfSIuSqxSU6c0RLo/ffm/z19w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1660658124;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uZ1rhP5h+o+pAIkaqiAfxqHKk/DnvqzaGpIhfBTwdSk=;
+ b=k3NpvueGl1OZf71ck/Cbnuaxb7FBdBcrGqzhAhaMT8l+B/nkpQ8z+siVEIIrwtLY7xYQqm
+ dRBpXeyrPjo8JLBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2FAC139B7;
+ Tue, 16 Aug 2022 13:55:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id gcq7Msuh+2KadgAAMHmgww
+ (envelope-from <tiwai@suse.de>); Tue, 16 Aug 2022 13:55:23 +0000
+Date: Tue, 16 Aug 2022 15:55:23 +0200
+Message-ID: <87fshwxph0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/4] drm/udl: Kill pending URBs at suspend and disconnect
+In-Reply-To: <875yj1wz8d.wl-tiwai@suse.de>
+References: <20220804075826.27036-1-tiwai@suse.de>
+ <20220804075826.27036-4-tiwai@suse.de>
+ <bebcfa4a-7908-d8ba-3bff-ea7c2ee2d7a9@suse.de>
+ <87h72lx4yw.wl-tiwai@suse.de>
+ <2a307221-62a8-a5f8-354f-d92e90f74f04@suse.de>
+ <87a68dwzzi.wl-tiwai@suse.de>
+ <32d98960-a952-b3ab-c3fb-0d615626a3d1@suse.de>
+ <875yj1wz8d.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,119 +72,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 09 Aug 2022 11:19:30 +0200,
+Takashi Iwai wrote:
+> 
+> On Tue, 09 Aug 2022 11:13:46 +0200,
+> Thomas Zimmermann wrote:
+> > 
+> > Hi
+> > 
+> > Am 09.08.22 um 11:03 schrieb Takashi Iwai:
+> > > On Tue, 09 Aug 2022 09:41:19 +0200,
+> > > Thomas Zimmermann wrote:
+> > >> 
+> > >> Hi
+> > >> 
+> > >> Am 09.08.22 um 09:15 schrieb Takashi Iwai:
+> > >>> On Tue, 09 Aug 2022 09:13:16 +0200,
+> > >>> Thomas Zimmermann wrote:
+> > >>>> 
+> > >>>> Hi
+> > >>>> 
+> > >>>> Am 04.08.22 um 09:58 schrieb Takashi Iwai:
+> > >>>>> At both suspend and disconnect, we should rather cancel the pending
+> > >>>>> URBs immediately.  For the suspend case, the display will be turned
+> > >>>>> off, so it makes no sense to process the rendering.  And for the
+> > >>>>> disconnect case, the device may be no longer accessible, hence we
+> > >>>>> shouldn't do any submission.
+> > >>>>> 
+> > >>>>> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > >>>>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > >>>>> ---
+> > >>>>>     drivers/gpu/drm/udl/udl_drv.h     |  2 ++
+> > >>>>>     drivers/gpu/drm/udl/udl_main.c    | 25 ++++++++++++++++++++++---
+> > >>>>>     drivers/gpu/drm/udl/udl_modeset.c |  2 ++
+> > >>>>>     3 files changed, 26 insertions(+), 3 deletions(-)
+> > >>>>> 
+> > >>>>> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+> > >>>>> index f01e50c5b7b7..28aaf75d71cf 100644
+> > >>>>> --- a/drivers/gpu/drm/udl/udl_drv.h
+> > >>>>> +++ b/drivers/gpu/drm/udl/udl_drv.h
+> > >>>>> @@ -39,6 +39,7 @@ struct urb_node {
+> > >>>>>       struct urb_list {
+> > >>>>>     	struct list_head list;
+> > >>>>> +	struct list_head in_flight;
+> > >>>>>     	spinlock_t lock;
+> > >>>>>     	wait_queue_head_t sleep;
+> > >>>>>     	int available;
+> > >>>>> @@ -84,6 +85,7 @@ static inline struct urb *udl_get_urb(struct drm_device *dev)
+> > >>>>>       int udl_submit_urb(struct drm_device *dev, struct urb *urb,
+> > >>>>> size_t len);
+> > >>>>>     int udl_sync_pending_urbs(struct drm_device *dev);
+> > >>>>> +void udl_kill_pending_urbs(struct drm_device *dev);
+> > >>>>>     void udl_urb_completion(struct urb *urb);
+> > >>>>>       int udl_init(struct udl_device *udl);
+> > >>>>> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> > >>>>> index 93615648414b..47204b7eb10e 100644
+> > >>>>> --- a/drivers/gpu/drm/udl/udl_main.c
+> > >>>>> +++ b/drivers/gpu/drm/udl/udl_main.c
+> > >>>>> @@ -135,7 +135,7 @@ void udl_urb_completion(struct urb *urb)
+> > >>>>>     	urb->transfer_buffer_length = udl->urbs.size; /* reset to actual */
+> > >>>>>       	spin_lock_irqsave(&udl->urbs.lock, flags);
+> > >>>>> -	list_add_tail(&unode->entry, &udl->urbs.list);
+> > >>>>> +	list_move(&unode->entry, &udl->urbs.list);
+> > >>>>>     	udl->urbs.available++;
+> > >>>>>     	spin_unlock_irqrestore(&udl->urbs.lock, flags);
+> > >>>>>     @@ -180,6 +180,7 @@ static int udl_alloc_urb_list(struct
+> > >>>>> drm_device *dev, int count, size_t size)
+> > >>>>>     retry:
+> > >>>>>     	udl->urbs.size = size;
+> > >>>>>     	INIT_LIST_HEAD(&udl->urbs.list);
+> > >>>>> +	INIT_LIST_HEAD(&udl->urbs.in_flight);
+> > >>>>>       	init_waitqueue_head(&udl->urbs.sleep);
+> > >>>>>     	udl->urbs.count = 0;
+> > >>>>> @@ -246,7 +247,7 @@ struct urb *udl_get_urb_timeout(struct drm_device *dev, long timeout)
+> > >>>>>     	}
+> > >>>>>       	unode = list_first_entry(&udl->urbs.list, struct urb_node,
+> > >>>>> entry);
+> > >>>>> -	list_del_init(&unode->entry);
+> > >>>>> +	list_move(&unode->entry, &udl->urbs.in_flight);
+> > >>>>>     	udl->urbs.available--;
+> > >>>>>       unlock:
+> > >>>>> @@ -279,7 +280,7 @@ int udl_sync_pending_urbs(struct drm_device *dev)
+> > >>>>>     	spin_lock_irq(&udl->urbs.lock);
+> > >>>>>     	/* 2 seconds as a sane timeout */
+> > >>>>>     	if (!wait_event_lock_irq_timeout(udl->urbs.sleep,
+> > >>>>> -					 udl->urbs.available == udl->urbs.count,
+> > >>>>> +					 list_empty(&udl->urbs.in_flight),
+> > >>>>>     					 udl->urbs.lock,
+> > >>>>>     					 msecs_to_jiffies(2000)))
+> > >>>>>     		ret = -ETIMEDOUT;
+> > >>>>> @@ -287,6 +288,23 @@ int udl_sync_pending_urbs(struct drm_device *dev)
+> > >>>>>     	return ret;
+> > >>>>>     }
+> > >>>>>     +/* kill pending URBs */
+> > >>>>> +void udl_kill_pending_urbs(struct drm_device *dev)
+> > >>>>> +{
+> > >>>>> +	struct udl_device *udl = to_udl(dev);
+> > >>>>> +	struct urb_node *unode;
+> > >>>>> +
+> > >>>>> +	spin_lock_irq(&udl->urbs.lock);
+> > >>>>> +	while (!list_empty(&udl->urbs.in_flight)) {
+> > >>>>> +		unode = list_first_entry(&udl->urbs.in_flight,
+> > >>>>> +					 struct urb_node, entry);
+> > >>>>> +		spin_unlock_irq(&udl->urbs.lock);
+> > >>>>> +		usb_kill_urb(unode->urb);
+> > >>>>> +		spin_lock_irq(&udl->urbs.lock);
+> > >>>>> +	}
+> > >>>>> +	spin_unlock_irq(&udl->urbs.lock);
+> > >>>>> +}
+> > >>>>> +
+> > >>>>>     int udl_init(struct udl_device *udl)
+> > >>>>>     {
+> > >>>>>     	struct drm_device *dev = &udl->drm;
+> > >>>>> @@ -335,6 +353,7 @@ int udl_drop_usb(struct drm_device *dev)
+> > >>>>>     {
+> > >>>>>     	struct udl_device *udl = to_udl(dev);
+> > >>>>>     +	udl_kill_pending_urbs(dev);
+> > >>>>>     	udl_free_urb_list(dev);
+> > >>>>>     	put_device(udl->dmadev);
+> > >>>>>     	udl->dmadev = NULL;
+> > >>>>> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> > >>>>> index 50025606b6ad..169110d8fc2e 100644
+> > >>>>> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> > >>>>> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> > >>>>> @@ -397,6 +397,8 @@ udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
+> > >>>>>     	struct urb *urb;
+> > >>>>>     	char *buf;
+> > >>>>>     +	udl_kill_pending_urbs(dev);
+> > >>>>> +
+> > >>>> 
+> > >>>> I already reviewed the patchset, but I have another comment. I think
+> > >>>> we should only kill urbs from within the suspend handler. Same for the
+> > >>>> call to the URB-sync function in patch 2.
+> > >>>> 
+> > >>>> This disable function is part of the regular modeset path. It's
+> > >>>> probably not appropriate to outright remove pending URBs here. This
+> > >>>> can lead to failed modesets, which would have succeeded otherwise.
+> > >>> 
+> > >>> Well, the device shall be turned off right after that point, so the
+> > >>> all pending rendering makes little sense, no?
+> > >> 
+> > >> udl_simple_display_pipe_disable() only disables the display, but not
+> > >> the device. The kill operation here could potentially kill some valid
+> > >> modeset operation that was still going on. And who knows what the
+> > >> device state is after that.
+> > > 
+> > > But udl_simple_display_pipe_disable() invokes UDL_BLANK_MODE_POWERDOWN
+> > > command right after the place I've put udl_kill_pending_urbs().  So it
+> > > shall blank / turn off the power (of the device, as it has a single
+> > > output).  And the URB completion doesn't do any error handling but
+> > > just re-links URB chain and wakes up the queue.  So killing a pending
+> > > URB would nothing but canceling the in-flight URBs, and there should
+> > > be no disturbance to the modeset operation itself, as the screen will
+> > > be blanked immediately.
+> > 
+> > The blank mode is essentially DPMS. It's unrelated to the device's
+> > display mode.
+> 
+> The function invokes the UDL_BLANK_MODE_POWERDOWN command; that will
+> discard the whole rendered picture.  And, the counterpart,
+> udl_simple_display_pipe_enable(), re-initializes the mode fully from
+> the scratch again.
+> So what's the point to continue rendering that is immediately cleared
+> (from the screen and from the device state)?  Killing pending URBs
+> doesn't influence on the internal (modeset) state of the driver.
 
---oapqvc3fwa7skyps
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In anyway, this patchset seems problematic around the disconnection,
+and maybe this particular one is no much improvement, better to drop
+for now.
 
-On Fri, Aug 12, 2022 at 03:31:19PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Fri, Jul 29, 2022 at 6:37 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > Our new tv mode option allows to specify the TV mode from a property.
-> > However, it can still be useful, for example to avoid any boot time
-> > artifact, to set that property directly from the kernel command line.
-> >
-> > Let's add some code to allow it, and some unit tests to exercise that c=
-ode.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Thanks for your patch!
->=20
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1677,6 +1677,80 @@ static int drm_mode_parse_panel_orientation(cons=
-t char *delim,
-> >         return 0;
-> >  }
-> >
-> > +#define TV_OPTION_EQUAL(value, len, option) \
-> > +       ((strlen(option) =3D=3D len) && !strncmp(value, option, len))
-> > +
-> > +static int drm_mode_parse_tv_mode(const char *delim,
-> > +                                 struct drm_cmdline_mode *mode)
-> > +{
-> > +       const char *value;
-> > +       unsigned int len;
-> > +
-> > +       if (*delim !=3D '=3D')
-> > +               return -EINVAL;
-> > +
-> > +       value =3D delim + 1;
-> > +       delim =3D strchr(value, ',');
-> > +       if (!delim)
-> > +               delim =3D value + strlen(value);
-> > +
-> > +       len =3D delim - value;
-> > +       if (TV_OPTION_EQUAL(value, len, "NTSC-443"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_443;
-> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-J"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_J;
-> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-M"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_M;
->=20
-> [...]
->=20
-> You already have the array tv_norm_values[] from "[PATCH v1 05/35]
-> drm/connector: Add TV standard property". Can't you export that, and
-> loop over that array instead?
+I'll resubmit the v2 patch set including your resume fixes later.
 
-I'm not sure, the command line doesn't follow the same conventions than
-the property names for a number of conventions, but at the same time we
-should try to keep it as consistent as possible...
 
-Then again, Jani and Thomas didn't seem too fond about exposing data as
-part of the API, so I'm not sure how we could expose that properly.
+thanks,
 
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD480I"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480I;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD480P"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480P;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD576I"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576I;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD576P"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576P;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD720P"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD720P;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD1080I"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD1080I;
->=20
-> The names in tv_norm_values[] use lower-case, while you use upper-case
-> here.
-
-Indeed, I'll fix it, thanks!
-Maxime
-
---oapqvc3fwa7skyps
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvugyAAKCRDj7w1vZxhR
-xYVoAQDFAMNuU1dbZgCiVBYUf+Y13tqfHCtlOuPYmSb6Gmh3xgEAgXYxzEcBWNLK
-j9bSNzYbE9lp+H3MaLuAPoiaBAXIRQE=
-=szbm
------END PGP SIGNATURE-----
-
---oapqvc3fwa7skyps--
+Takashi
