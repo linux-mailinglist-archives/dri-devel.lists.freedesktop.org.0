@@ -2,61 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448A7596129
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 19:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E949596169
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Aug 2022 19:47:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12CEB11B781;
-	Tue, 16 Aug 2022 17:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127B011344F;
+	Tue, 16 Aug 2022 17:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4451127AD;
- Tue, 16 Aug 2022 17:29:21 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id n12so5443025iod.3;
- Tue, 16 Aug 2022 10:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=4o155QaZQuD8qm7MI4O8okVjEDTqIZy55Z4sPe7oT5g=;
- b=jnnsiX7G+dUoOH5+ROcE0bTG6XWLxBEQCWLDE9mHktOjMmb2qsqtAZyUSsvNFgv+kP
- xAL/eOC4cT9w7Ik+FvGGoteVAFK6sPmLD6iMzzMdZJnY2mnvQ1CsDwKYmhg3cs/4gK2/
- 5ZFu8V0Lcn7cWeMjhkCyhTEqHe2E5V9qFTDyur2WmxUB8cHnEm0QMsPyVwW/uLfa/kq/
- C9xFeDY0pjwovtQgymj6HyIS7I9yWM9oA2t79ZxiPLQEGXY7jxjSt48l8s8dVq4ROXKZ
- zVYSWz3qpFtVyHgcSdlT+yU1v2MqcokBEfl95wg6cogrRLFvUdjrhH7nnT+KxXvNgKaE
- sDNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=4o155QaZQuD8qm7MI4O8okVjEDTqIZy55Z4sPe7oT5g=;
- b=1xHZaO64cKQoa7xXoZqv/VNdCE3tdWrvmonNPBz2uJ6CCaRUv90WFnwzEne2Pcqw1n
- Kj4egLJx+PcJIhAuxL3S5a2qEJPfINFUeo9uy1OI1TTVd7f8B4pgDEQyuhewkd9xWVef
- 2qVrSbXzyf8onuYmAh6KJsHpvvRdak9LPEuMVGv0zP52BGM6yuxu9tVxcxgbqNBpqcwv
- B/6KXXFd1kq1jOrC+JpwYIFGKe/CA6JaFFTC3I3P0YctQIyBSymQIK/c6lrAZDfbvTXo
- +JB5Cq1JvkxbuyfLKRJJysPXbSnkWWMiDmzo9OWEg3IKsvOrpQVcgTwRG041M2uR9rpJ
- 6NSg==
-X-Gm-Message-State: ACgBeo0rDfAtSGk3lpMa6f1i69lynvXe4dYfYJaUTpPfgWdbL3t1jHkJ
- 2Ro5+dubfk4W0yvj9ifzXQjkQ/pvKF+9B3ONmyU=
-X-Google-Smtp-Source: AA6agR6ETfz+kJcyDU8fuH4n+LxW26e0xYbG9TSvCTS90ookzjzYt5aqiDJqFzfMYksjvi/dkVKTVEHdzQRBpjdEy4E=
-X-Received: by 2002:a05:6638:134b:b0:344:9e5f:ce31 with SMTP id
- u11-20020a056638134b00b003449e5fce31mr6832608jad.129.1660670960245; Tue, 16
- Aug 2022 10:29:20 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C96D211375B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Aug 2022 17:47:18 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27GGY0vu024985;
+ Tue, 16 Aug 2022 17:47:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/Wuc0B6y4vX6bDn7I6gIO/zcUN12rv4sZHwiSegwac4=;
+ b=PiZPT3jG+GzLY4LSUhPzs7uXojnWmfe6EQ5g1IcJeKmkdVShVYOOhdPWx9ugEBKPAxYC
+ 50hq2FGFQ0uoRfJ/Z+yZsddr92tOFht/MFJsZLSZE4s92qOTHzQoK6UKwr+BBJ6oh8RI
+ bLYZhDAKPFsV7qCxIUVXYMB4WLtNzwvUVCDUcatpqLq2D9wsGLCXGVj1XT/yuFHYY28r
+ wkDfTeWm0qsgE+VD4/q4/o4DvcTZFCZdqvJLpKr8XkG/XDF+fa3RZ108flrTJJRg0JDl
+ ZmtfwHUEYebWxPM8yujWx1HYFKBTQueWYK07d7P0+BEV+eoQBgdB2gqpaMKWFlSKhTWT Qg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j0ev4r9ut-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 16 Aug 2022 17:47:06 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.47.97.222])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27GHl5pf028694
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 16 Aug 2022 17:47:05 GMT
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 16 Aug 2022 10:47:04 -0700
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 16 Aug
+ 2022 10:47:03 -0700
+Message-ID: <e9786447-edd4-90e0-25a9-b35e96adbfc2@quicinc.com>
+Date: Tue, 16 Aug 2022 11:47:03 -0600
 MIME-Version: 1.0
-References: <20220815211516.3169470-1-robdclark@gmail.com>
- <20220815211516.3169470-2-robdclark@gmail.com>
- <327c77d5-5812-a158-6c9f-c68e15a5a6b4@amd.com>
- <CAF6AEGu3oxM+EX_FsLpw4m0KouMyFMLN=AGGbf=6TVQGkJ7jQg@mail.gmail.com>
- <6396ccf9-a677-427d-f5f9-12d30ad2197e@amd.com>
-In-Reply-To: <6396ccf9-a677-427d-f5f9-12d30ad2197e@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 16 Aug 2022 10:29:51 -0700
-Message-ID: <CAF6AEGsbc9PuSOyvhnr0ALQiLY9gSBySHyisEOfteZq9NXN0VA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dma-buf: Add ioctl to query mmap coherency/cache
- info
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [RFC PATCH 02/14] drm/qaic: Add uapi and core driver file
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <airlied@linux.ie>, 
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>
+References: <1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com>
+ <1660588956-24027-3-git-send-email-quic_jhugo@quicinc.com>
+ <10ad6023-703d-65cf-6b00-2caa658c49e9@linaro.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <10ad6023-703d-65cf-6b00-2caa658c49e9@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: uJQvdK3hAEWX0PwIUNU6pEb8JebSdL7v
+X-Proofpoint-ORIG-GUID: uJQvdK3hAEWX0PwIUNU6pEb8JebSdL7v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-16_08,2022-08-16_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
+ clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208160066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,397 +90,463 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+ quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 16, 2022 at 9:51 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 16.08.22 um 16:26 schrieb Rob Clark:
-> > On Tue, Aug 16, 2022 at 1:27 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 15.08.22 um 23:15 schrieb Rob Clark:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> This is a fairly narrowly focused interface, providing a way for a VM=
-M
-> >>> in userspace to tell the guest kernel what pgprot settings to use whe=
-n
-> >>> mapping a buffer to guest userspace.
-> >>>
-> >>> For buffers that get mapped into guest userspace, virglrenderer retur=
-ns
-> >>> a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
-> >>> pages into the guest VM, it needs to report to drm/virtio in the gues=
-t
-> >>> the cache settings to use for guest userspace.  In particular, on som=
-e
-> >>> architectures, creating aliased mappings with different cache attribu=
-tes
-> >>> is frowned upon, so it is important that the guest mappings have the
-> >>> same cache attributes as any potential host mappings.
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> ---
-> >>> v2: Combine with coherency, as that is a related concept.. and it is
-> >>>       relevant to the VMM whether coherent access without the SYNC io=
-ctl
-> >>>       is possible; set map_info at export time to make it more clear
-> >>>       that it applies for the lifetime of the dma-buf (for any mmap
-> >>>       created via the dma-buf)
-> >> Well, exactly that's a conceptual NAK from my side.
-> >>
-> >> The caching information can change at any time. For CPU mappings even
-> >> without further notice from the exporter.
-> > You should look before you criticize, as I left you a way out.. the
-> > idea was that DMA_BUF_MAP_INCOHERENT should indicate that the buffer
-> > cannot be mapped to the guest.  We could ofc add more DMA_BUF_MAP_*
-> > values if something else would suit you better.  But the goal is to
-> > give the VMM enough information to dtrt, or return an error if mapping
-> > to guest is not possible.  That seems better than assuming mapping to
-> > guest will work and guessing about cache attrs
->
-> Well I'm not rejecting the implementation, I'm rejecting this from the
-> conceptual point of view.
->
-> We intentional gave the exporter full control over the CPU mappings.
-> This approach here breaks that now.
->
-> I haven't seen the full detailed reason why we should do that and to be
-> honest KVM seems to mess with things it is not supposed to touch.
->
-> For example the page reference count of mappings marked with VM_IO is a
-> complete no-go. This is a very strong evidence that this was based on
-> rather dangerous halve knowledge about the background of the handling her=
-e.
->
-> So as long as I don't see a full explanation why KVM is grabbing
-> reference to pages while faulting them and why we manually need to
-> forward the caching while the hardware documentation indicates otherwise
-> I will be rejecting this whole approach.
+On 8/16/2022 5:06 AM, Krzysztof Kozlowski wrote:
+> On 15/08/2022 21:42, Jeffrey Hugo wrote:
+>> Add the QAIC driver uapi file and core driver file that binds to the PCIe
+>> device.  The core driver file also creates the drm device and manages all
+>> the interconnections between the different parts of the driver.
+> 
+> Thank you for your patch. There is something to discuss/improve.
+> 
+> 
+>>
+>> Change-Id: I28854e8a5dacda217439be2f65a4ab67d4dccd1e
+> 
+> This has to go...
+> 
 
-Didn't we cover this on the previous iteration already.  From a host
-kernel PoV these are just normal host userspace mappings.  The
-userspace VMM mapping becomes the "physical address" in the guest and
-the stage 2 translation tables map it to the guest userspace.
+Yep, made this mistake in the entire series.  I have a note to do better 
+next time.  It won't be necessary to continue pointing this out for the 
+rest of the series.
 
-The resulting cache attrs from combination of S1 and S2 translation
-can differ.  So ideally we setup the S2 pgtables in guest aligned with
-host userspace mappings
+Since this is RFC and not expected to be merged anyways, I'm hoping it's 
+not necessary to respin just to enable further reviews.
 
-BR,
--R
+> 
+>> +static int qaic_pci_probe(struct pci_dev *pdev,
+>> +			  const struct pci_device_id *id)
+>> +{
+>> +	int ret;
+>> +	int i;
+>> +	int mhi_irq;
+>> +	struct qaic_device *qdev;
+>> +
+>> +	qdev = kzalloc(sizeof(*qdev), GFP_KERNEL);
+>> +	if (!qdev) {
+> 
+> return -ENOMEM;
 
->
-> Regards,
-> Christian.
->
-> >
-> > BR,
-> > -R
-> >
-> >> If the hardware can't use the caching information from the host CPU pa=
-ge
-> >> tables directly then that pretty much completely breaks the concept th=
-at
-> >> the exporter is responsible for setting up those page tables.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>    drivers/dma-buf/dma-buf.c    | 63 +++++++++++++++++++++++++++-----=
--
-> >>>    include/linux/dma-buf.h      | 11 ++++++
-> >>>    include/uapi/linux/dma-buf.h | 68 ++++++++++++++++++++++++++++++++=
-++++
-> >>>    3 files changed, 132 insertions(+), 10 deletions(-)
-> >>>
-> >>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >>> index 32f55640890c..262c4706f721 100644
-> >>> --- a/drivers/dma-buf/dma-buf.c
-> >>> +++ b/drivers/dma-buf/dma-buf.c
-> >>> @@ -125,6 +125,32 @@ static struct file_system_type dma_buf_fs_type =
-=3D {
-> >>>        .kill_sb =3D kill_anon_super,
-> >>>    };
-> >>>
-> >>> +static int __dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_str=
-uct *vma)
-> >>> +{
-> >>> +     int ret;
-> >>> +
-> >>> +     /* check if buffer supports mmap */
-> >>> +     if (!dmabuf->ops->mmap)
-> >>> +             return -EINVAL;
-> >>> +
-> >>> +     ret =3D dmabuf->ops->mmap(dmabuf, vma);
-> >>> +
-> >>> +     /*
-> >>> +      * If the exporter claims to support coherent access, ensure th=
-e
-> >>> +      * pgprot flags match the claim.
-> >>> +      */
-> >>> +     if ((dmabuf->map_info !=3D DMA_BUF_MAP_INCOHERENT) && !ret) {
-> >>> +             pgprot_t wc_prot =3D pgprot_writecombine(vma->vm_page_p=
-rot);
-> >>> +             if (dmabuf->map_info =3D=3D DMA_BUF_COHERENT_WC) {
-> >>> +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) !=3D=
- pgprot_val(wc_prot));
-> >>> +             } else {
-> >>> +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) =3D=
-=3D pgprot_val(wc_prot));
-> >>> +             }
-> >>> +     }
-> >>> +
-> >>> +     return ret;
-> >>> +}
-> >>> +
-> >>>    static int dma_buf_mmap_internal(struct file *file, struct vm_area=
-_struct *vma)
-> >>>    {
-> >>>        struct dma_buf *dmabuf;
-> >>> @@ -134,16 +160,12 @@ static int dma_buf_mmap_internal(struct file *f=
-ile, struct vm_area_struct *vma)
-> >>>
-> >>>        dmabuf =3D file->private_data;
-> >>>
-> >>> -     /* check if buffer supports mmap */
-> >>> -     if (!dmabuf->ops->mmap)
-> >>> -             return -EINVAL;
-> >>> -
-> >>>        /* check for overflowing the buffer's size */
-> >>>        if (vma->vm_pgoff + vma_pages(vma) >
-> >>>            dmabuf->size >> PAGE_SHIFT)
-> >>>                return -EINVAL;
-> >>>
-> >>> -     return dmabuf->ops->mmap(dmabuf, vma);
-> >>> +     return __dma_buf_mmap(dmabuf, vma);
-> >>>    }
-> >>>
-> >>>    static loff_t dma_buf_llseek(struct file *file, loff_t offset, int=
- whence)
-> >>> @@ -326,6 +348,27 @@ static long dma_buf_set_name(struct dma_buf *dma=
-buf, const char __user *buf)
-> >>>        return 0;
-> >>>    }
-> >>>
-> >>> +static long dma_buf_info(struct dma_buf *dmabuf, void __user *uarg)
-> >>> +{
-> >>> +     struct dma_buf_info arg;
-> >>> +
-> >>> +     if (copy_from_user(&arg, uarg, sizeof(arg)))
-> >>> +             return -EFAULT;
-> >>> +
-> >>> +     switch (arg.param) {
-> >>> +     case DMA_BUF_INFO_MAP_INFO:
-> >>> +             arg.value =3D dmabuf->map_info;
-> >>> +             break;
-> >>> +     default:
-> >>> +             return -EINVAL;
-> >>> +     }
-> >>> +
-> >>> +     if (copy_to_user(uarg, &arg, sizeof(arg)))
-> >>> +             return -EFAULT;
-> >>> +
-> >>> +     return 0;
-> >>> +}
-> >>> +
-> >>>    static long dma_buf_ioctl(struct file *file,
-> >>>                          unsigned int cmd, unsigned long arg)
-> >>>    {
-> >>> @@ -369,6 +412,9 @@ static long dma_buf_ioctl(struct file *file,
-> >>>        case DMA_BUF_SET_NAME_B:
-> >>>                return dma_buf_set_name(dmabuf, (const char __user *)a=
-rg);
-> >>>
-> >>> +     case DMA_BUF_IOCTL_INFO:
-> >>> +             return dma_buf_info(dmabuf, (void __user *)arg);
-> >>> +
-> >>>        default:
-> >>>                return -ENOTTY;
-> >>>        }
-> >>> @@ -530,6 +576,7 @@ struct dma_buf *dma_buf_export(const struct dma_b=
-uf_export_info *exp_info)
-> >>>        dmabuf->priv =3D exp_info->priv;
-> >>>        dmabuf->ops =3D exp_info->ops;
-> >>>        dmabuf->size =3D exp_info->size;
-> >>> +     dmabuf->map_info =3D exp_info->map_info;
-> >>>        dmabuf->exp_name =3D exp_info->exp_name;
-> >>>        dmabuf->owner =3D exp_info->owner;
-> >>>        spin_lock_init(&dmabuf->name_lock);
-> >>> @@ -1245,10 +1292,6 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struc=
-t vm_area_struct *vma,
-> >>>        if (WARN_ON(!dmabuf || !vma))
-> >>>                return -EINVAL;
-> >>>
-> >>> -     /* check if buffer supports mmap */
-> >>> -     if (!dmabuf->ops->mmap)
-> >>> -             return -EINVAL;
-> >>> -
-> >>>        /* check for offset overflow */
-> >>>        if (pgoff + vma_pages(vma) < pgoff)
-> >>>                return -EOVERFLOW;
-> >>> @@ -1262,7 +1305,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct=
- vm_area_struct *vma,
-> >>>        vma_set_file(vma, dmabuf->file);
-> >>>        vma->vm_pgoff =3D pgoff;
-> >>>
-> >>> -     return dmabuf->ops->mmap(dmabuf, vma);
-> >>> +     return __dma_buf_mmap(dmabuf, vma);
-> >>>    }
-> >>>    EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
-> >>>
-> >>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >>> index 71731796c8c3..37923c8d5c24 100644
-> >>> --- a/include/linux/dma-buf.h
-> >>> +++ b/include/linux/dma-buf.h
-> >>> @@ -23,6 +23,8 @@
-> >>>    #include <linux/dma-fence.h>
-> >>>    #include <linux/wait.h>
-> >>>
-> >>> +#include <uapi/linux/dma-buf.h>
-> >>> +
-> >>>    struct device;
-> >>>    struct dma_buf;
-> >>>    struct dma_buf_attachment;
-> >>> @@ -307,6 +309,13 @@ struct dma_buf {
-> >>>         */
-> >>>        size_t size;
-> >>>
-> >>> +     /**
-> >>> +      * @map_info:
-> >>> +      *
-> >>> +      * CPU mapping/coherency information for the buffer.
-> >>> +      */
-> >>> +     enum dma_buf_map_info map_info;
-> >>> +
-> >>>        /**
-> >>>         * @file:
-> >>>         *
-> >>> @@ -533,6 +542,7 @@ struct dma_buf_attachment {
-> >>>     * @ops:    Attach allocator-defined dma buf ops to the new buffer
-> >>>     * @size:   Size of the buffer - invariant over the lifetime of th=
-e buffer
-> >>>     * @flags:  mode flags for the file
-> >>> + * @map_info:        CPU mapping/coherency information for the buffe=
-r
-> >>>     * @resv:   reservation-object, NULL to allocate default one
-> >>>     * @priv:   Attach private data of allocator to this buffer
-> >>>     *
-> >>> @@ -545,6 +555,7 @@ struct dma_buf_export_info {
-> >>>        const struct dma_buf_ops *ops;
-> >>>        size_t size;
-> >>>        int flags;
-> >>> +     enum dma_buf_map_info map_info;
-> >>>        struct dma_resv *resv;
-> >>>        void *priv;
-> >>>    };
-> >>> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-bu=
-f.h
-> >>> index b1523cb8ab30..07b403ffdb43 100644
-> >>> --- a/include/uapi/linux/dma-buf.h
-> >>> +++ b/include/uapi/linux/dma-buf.h
-> >>> @@ -85,6 +85,72 @@ struct dma_buf_sync {
-> >>>
-> >>>    #define DMA_BUF_NAME_LEN    32
-> >>>
-> >>> +/**
-> >>> + * enum dma_buf_map_info - CPU mapping info
-> >>> + *
-> >>> + * This enum describes coherency of a userspace mapping of the dmabu=
-f.
-> >>> + *
-> >>> + * Importing devices should check dma_buf::map_info flag and reject =
-an
-> >>> + * import if unsupported.  For example, if the exporting device uses
-> >>> + * @DMA_BUF_COHERENT_CACHED but the importing device does not suppor=
-t
-> >>> + * CPU cache coherency, the dma-buf import should fail.
-> >>> + */
-> >>> +enum dma_buf_map_info {
-> >>> +     /**
-> >>> +      * @DMA_BUF_MAP_INCOHERENT: CPU mapping is incoherent.
-> >>> +      *
-> >>> +      * Use of DMA_BUF_IOCTL_SYNC is required for CPU managed cohere=
-nency.
-> >>> +      */
-> >>> +     DMA_BUF_MAP_INCOHERENT,
-> >>> +
-> >>> +     /**
-> >>> +      * @DMA_BUF_COHERENT_WC: CPU mapping is coherent but not cached=
-.
-> >>> +      *
-> >>> +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not re=
-quired.
-> >>> +      * However fences may be still required for synchronizing acces=
-s.  Ie.
-> >>> +      * coherency can only be relied upon by an explicit-fencing use=
-rspace.
-> >>> +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC=
-.
-> >>> +      *
-> >>> +      * The cpu mapping is writecombine.
-> >>> +      */
-> >>> +     DMA_BUF_COHERENT_WC,
-> >>> +
-> >>> +     /**
-> >>> +      * @DMA_BUF_COHERENT_CACHED: CPU mapping is coherent and CPU ca=
-ched.
-> >>> +      *
-> >>> +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not re=
-quired.
-> >>> +      * However fences may be still required for synchronizing acces=
-s.  Ie.
-> >>> +      * coherency can only be relied upon by an explicit-fencing use=
-rspace.
-> >>> +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC=
-.
-> >>> +      *
-> >>> +      * The cpu mapping is cached.
-> >>> +      */
-> >>> +     DMA_BUF_COHERENT_CACHED,
-> >>> +};
-> >>> +
-> >>> +/**
-> >>> + * struct dma_buf_info - Query info about the buffer.
-> >>> + */
-> >>> +struct dma_buf_info {
-> >>> +
-> >>> +#define DMA_BUF_INFO_MAP_INFO    1
-> >>> +
-> >>> +     /**
-> >>> +      * @param: Which param to query
-> >>> +      *
-> >>> +      * DMA_BUF_INFO_MAP_INFO:
-> >>> +      *     Returns enum dma_buf_map_info, describing the coherency =
-and
-> >>> +      *     caching of a CPU mapping of the buffer.
-> >>> +      */
-> >>> +     __u32 param;
-> >>> +     __u32 pad;
-> >>> +
-> >>> +     /**
-> >>> +      * @value: Return value of the query.
-> >>> +      */
-> >>> +     __u64 value;
-> >>> +};
-> >>> +
-> >>>    #define DMA_BUF_BASE                'b'
-> >>>    #define DMA_BUF_IOCTL_SYNC  _IOW(DMA_BUF_BASE, 0, struct dma_buf_s=
-ync)
-> >>>
-> >>> @@ -95,4 +161,6 @@ struct dma_buf_sync {
-> >>>    #define DMA_BUF_SET_NAME_A  _IOW(DMA_BUF_BASE, 1, __u32)
-> >>>    #define DMA_BUF_SET_NAME_B  _IOW(DMA_BUF_BASE, 1, __u64)
-> >>>
-> >>> +#define DMA_BUF_IOCTL_INFO   _IOWR(DMA_BUF_BASE, 2, struct dma_buf_i=
-nfo)
-> >>> +
-> >>>    #endif
->
+So, no centralized exit per the coding style?  Ok.
+
+> 
+>> +		ret = -ENOMEM;
+>> +		goto qdev_fail;
+>> +	}
+>> +
+>> +	if (id->device == PCI_DEV_AIC100) {
+>> +		qdev->num_dbc = 16;
+>> +		qdev->dbc = kcalloc(qdev->num_dbc, sizeof(*qdev->dbc),
+>> +				    GFP_KERNEL);
+> 
+> Why not devm?
+
+We were having issues with devm and the PCI stuff.  Looking at this 
+again, I think we can apply that here.
+
+> 
+>> +		if (!qdev->dbc) {
+>> +			ret = -ENOMEM;
+>> +			goto device_id_fail;
+>> +		}
+>> +	} else {
+>> +		pci_dbg(pdev, "%s: No matching device found for device id %d\n",
+>> +			__func__, id->device);
+> 
+> How this can happen?
+
+Badly functioning hardware.  That hardware has been removed from 
+circulation.  Given that this is an init path and not performance 
+critical, having this handle the scenario in a sane way instead of 
+having the driver blow up in a weird way much later on makes me feel better.
+
+> 
+>> +		ret = -EINVAL;
+>> +		goto device_id_fail;
+>> +	}
+>> +
+>> +	qdev->cntl_wq = alloc_workqueue("qaic_cntl", WQ_UNBOUND, 0);
+>> +	if (!qdev->cntl_wq) {
+>> +		ret = -ENOMEM;
+>> +		goto wq_fail;
+>> +	}
+>> +	qdev->tele_wq = alloc_workqueue("qaic_tele", WQ_UNBOUND, 0);
+>> +	if (!qdev->tele_wq) {
+>> +		ret = -ENOMEM;
+>> +		goto tele_wq_fail;
+>> +	}
+>> +	qdev->ssr_wq = alloc_workqueue("qaic_ssr", WQ_UNBOUND, 0);
+>> +	if (!qdev->ssr_wq) {
+>> +		ret = -ENOMEM;
+>> +		goto ssr_wq_fail;
+>> +	}
+>> +	pci_set_drvdata(pdev, qdev);
+>> +	qdev->pdev = pdev;
+>> +	mutex_init(&qdev->cntl_mutex);
+>> +	INIT_LIST_HEAD(&qdev->cntl_xfer_list);
+>> +	init_srcu_struct(&qdev->dev_lock);
+>> +	mutex_init(&qdev->tele_mutex);
+>> +	INIT_LIST_HEAD(&qdev->tele_xfer_list);
+>> +	INIT_LIST_HEAD(&qdev->bootlog);
+>> +	mutex_init(&qdev->bootlog_mutex);
+>> +	INIT_LIST_HEAD(&qdev->qaic_drm_devices);
+>> +	mutex_init(&qdev->qaic_drm_devices_mutex);
+>> +	for (i = 0; i < qdev->num_dbc; ++i) {
+>> +		mutex_init(&qdev->dbc[i].handle_lock);
+>> +		spin_lock_init(&qdev->dbc[i].xfer_lock);
+>> +		idr_init(&qdev->dbc[i].buf_handles);
+>> +		qdev->dbc[i].qdev = qdev;
+>> +		qdev->dbc[i].id = i;
+>> +		INIT_LIST_HEAD(&qdev->dbc[i].xfer_list);
+>> +		init_srcu_struct(&qdev->dbc[i].ch_lock);
+>> +		init_waitqueue_head(&qdev->dbc[i].dbc_release);
+>> +		INIT_LIST_HEAD(&qdev->dbc[i].bo_lists);
+>> +	}
+>> +
+>> +	qdev->bars = pci_select_bars(pdev, IORESOURCE_MEM);
+>> +
+>> +	/* make sure the device has the expected BARs */
+>> +	if (qdev->bars != (BIT(0) | BIT(2) | BIT(4))) {
+>> +		pci_dbg(pdev, "%s: expected BARs 0, 2, and 4 not found in device.  Found 0x%x\n",
+>> +			__func__, qdev->bars);
+>> +		ret = -EINVAL;
+>> +		goto bar_fail;
+>> +	}
+>> +
+>> +	ret = pci_enable_device(pdev);
+>> +	if (ret)
+>> +		goto enable_fail;
+>> +
+>> +	ret = pci_request_selected_regions(pdev, qdev->bars, "aic100");
+>> +	if (ret)
+>> +		goto request_regions_fail;
+>> +
+>> +	pci_set_master(pdev);
+>> +
+>> +	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
+>> +	if (ret)
+>> +		goto dma_mask_fail;
+>> +	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
+>> +	if (ret)
+>> +		goto dma_mask_fail;
+>> +	ret = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+>> +	if (ret)
+>> +		goto dma_mask_fail;
+>> +
+>> +	qdev->bar_0 = pci_ioremap_bar(pdev, 0);
+>> +	if (!qdev->bar_0) {
+>> +		ret = -ENOMEM;
+>> +		goto ioremap_0_fail;
+>> +	}
+>> +
+>> +	qdev->bar_2 = pci_ioremap_bar(pdev, 2);
+>> +	if (!qdev->bar_2) {
+>> +		ret = -ENOMEM;
+>> +		goto ioremap_2_fail;
+>> +	}
+>> +
+>> +	for (i = 0; i < qdev->num_dbc; ++i)
+>> +		qdev->dbc[i].dbc_base = qdev->bar_2 + QAIC_DBC_OFF(i);
+>> +
+>> +	ret = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
+>> +	if (ret < 0)
+>> +		goto alloc_irq_fail;
+>> +
+>> +	if (ret < 32) {
+>> +		pci_err(pdev, "%s: Requested 32 MSIs.  Obtained %d MSIs which is less than the 32 required.\n",
+>> +			__func__, ret);
+>> +		ret = -ENODEV;
+>> +		goto invalid_msi_config;
+>> +	}
+>> +
+>> +	mhi_irq = pci_irq_vector(pdev, 0);
+>> +	if (mhi_irq < 0) {
+>> +		ret = mhi_irq;
+>> +		goto get_mhi_irq_fail;
+>> +	}
+>> +
+>> +	for (i = 0; i < qdev->num_dbc; ++i) {
+>> +		ret = devm_request_threaded_irq(&pdev->dev,
+>> +						pci_irq_vector(pdev, i + 1),
+>> +						dbc_irq_handler,
+>> +						dbc_irq_threaded_fn,
+>> +						IRQF_SHARED,
+>> +						"qaic_dbc",
+>> +						&qdev->dbc[i]);
+>> +		if (ret)
+>> +			goto get_dbc_irq_failed;
+>> +
+>> +		if (poll_datapath) {
+>> +			qdev->dbc[i].irq = pci_irq_vector(pdev, i + 1);
+>> +			disable_irq_nosync(qdev->dbc[i].irq);
+>> +			INIT_WORK(&qdev->dbc[i].poll_work, irq_polling_work);
+>> +		}
+>> +	}
+>> +
+>> +	qdev->mhi_cntl = qaic_mhi_register_controller(pdev, qdev->bar_0, mhi_irq);
+>> +	if (IS_ERR(qdev->mhi_cntl)) {
+>> +		ret = PTR_ERR(qdev->mhi_cntl);
+>> +		goto mhi_register_fail;
+>> +	}
+>> +
+>> +	return 0;
+>> +
+>> +mhi_register_fail:
+>> +get_dbc_irq_failed:
+>> +	for (i = 0; i < qdev->num_dbc; ++i)
+>> +		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i + 1),
+>> +			      &qdev->dbc[i]);
+>> +get_mhi_irq_fail:
+>> +invalid_msi_config:
+>> +	pci_free_irq_vectors(pdev);
+>> +alloc_irq_fail:
+>> +	iounmap(qdev->bar_2);
+>> +ioremap_2_fail:
+>> +	iounmap(qdev->bar_0);
+>> +ioremap_0_fail:
+>> +dma_mask_fail:
+>> +	pci_clear_master(pdev);
+>> +	pci_release_selected_regions(pdev, qdev->bars);
+>> +request_regions_fail:
+>> +	pci_disable_device(pdev);
+>> +enable_fail:
+>> +	pci_set_drvdata(pdev, NULL);
+>> +bar_fail:
+>> +	for (i = 0; i < qdev->num_dbc; ++i) {
+>> +		cleanup_srcu_struct(&qdev->dbc[i].ch_lock);
+>> +		idr_destroy(&qdev->dbc[i].buf_handles);
+>> +	}
+>> +	cleanup_srcu_struct(&qdev->dev_lock);
+>> +	destroy_workqueue(qdev->ssr_wq);
+>> +ssr_wq_fail:
+>> +	destroy_workqueue(qdev->tele_wq);
+>> +tele_wq_fail:
+>> +	destroy_workqueue(qdev->cntl_wq);
+>> +wq_fail:
+>> +	kfree(qdev->dbc);
+>> +device_id_fail:
+>> +	kfree(qdev);
+>> +qdev_fail:
+>> +	return ret;
+>> +}
+>> +
+>> +static void qaic_pci_remove(struct pci_dev *pdev)
+>> +{
+>> +	struct qaic_device *qdev = pci_get_drvdata(pdev);
+>> +	int i;
+>> +
+>> +	if (!qdev)
+>> +		return;
+>> +
+>> +	qaic_dev_reset_clean_local_state(qdev, false);
+>> +	qaic_mhi_free_controller(qdev->mhi_cntl, link_up);
+>> +	for (i = 0; i < qdev->num_dbc; ++i) {
+>> +		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i + 1),
+>> +			      &qdev->dbc[i]);
+>> +		cleanup_srcu_struct(&qdev->dbc[i].ch_lock);
+>> +		idr_destroy(&qdev->dbc[i].buf_handles);
+>> +	}
+>> +	destroy_workqueue(qdev->cntl_wq);
+>> +	destroy_workqueue(qdev->tele_wq);
+>> +	destroy_workqueue(qdev->ssr_wq);
+>> +	pci_free_irq_vectors(pdev);
+>> +	iounmap(qdev->bar_0);
+>> +	pci_clear_master(pdev);
+>> +	pci_release_selected_regions(pdev, qdev->bars);
+>> +	pci_disable_device(pdev);
+>> +	pci_set_drvdata(pdev, NULL);
+>> +	kfree(qdev->dbc);
+>> +	kfree(qdev);
+>> +}
+>> +
+>> +static void qaic_pci_shutdown(struct pci_dev *pdev)
+>> +{
+>> +	link_up = true;
+>> +	qaic_pci_remove(pdev);
+>> +}
+>> +
+>> +static pci_ers_result_t qaic_pci_error_detected(struct pci_dev *pdev,
+>> +						pci_channel_state_t error)
+>> +{
+>> +	return PCI_ERS_RESULT_NEED_RESET;
+>> +}
+>> +
+>> +static void qaic_pci_reset_prepare(struct pci_dev *pdev)
+>> +{
+>> +	struct qaic_device *qdev = pci_get_drvdata(pdev);
+>> +
+>> +	qaic_notify_reset(qdev);
+>> +	qaic_mhi_start_reset(qdev->mhi_cntl);
+>> +	qaic_dev_reset_clean_local_state(qdev, false);
+>> +}
+>> +
+>> +static void qaic_pci_reset_done(struct pci_dev *pdev)
+>> +{
+>> +	struct qaic_device *qdev = pci_get_drvdata(pdev);
+>> +
+>> +	qdev->in_reset = false;
+>> +	qaic_mhi_reset_done(qdev->mhi_cntl);
+>> +}
+>> +
+>> +static const struct mhi_device_id qaic_mhi_match_table[] = {
+>> +	{ .chan = "QAIC_CONTROL", },
+>> +	{},
+>> +};
+>> +
+>> +static struct mhi_driver qaic_mhi_driver = {
+>> +	.id_table = qaic_mhi_match_table,
+>> +	.remove = qaic_mhi_remove,
+>> +	.probe = qaic_mhi_probe,
+>> +	.ul_xfer_cb = qaic_mhi_ul_xfer_cb,
+>> +	.dl_xfer_cb = qaic_mhi_dl_xfer_cb,
+>> +	.driver = {
+>> +		.name = "qaic_mhi",
+>> +		.owner = THIS_MODULE,
+> 
+> Please run coccinelle/coccicheck and fix the warnings. Usually core sets
+> THIS_MODULE.
+
+Ah, thats right.  Legacy compatibility that should not be here.
+
+> 
+>> +	},
+>> +};
+>> +
+>> +static const struct pci_device_id ids[] = {
+> 
+> qaic_ids
+
+Fair.
+
+> 
+>> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, PCI_DEV_AIC100), },
+>> +	{ 0, }
+> 
+> Just {}
+
+Fair.
+
+> 
+>> +};
+>> +MODULE_DEVICE_TABLE(pci, ids);
+>> +
+>> +static const struct pci_error_handlers qaic_pci_err_handler = {
+>> +	.error_detected = qaic_pci_error_detected,
+>> +	.reset_prepare = qaic_pci_reset_prepare,
+>> +	.reset_done = qaic_pci_reset_done,
+>> +};
+>> +
+>> +static struct pci_driver qaic_pci_driver = {
+>> +	.name = QAIC_NAME,
+>> +	.id_table = ids,
+>> +	.probe = qaic_pci_probe,
+>> +	.remove = qaic_pci_remove,
+>> +	.shutdown = qaic_pci_shutdown,
+>> +	.err_handler = &qaic_pci_err_handler,
+>> +};
+>> +
+>> +static int __init qaic_init(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	if (datapath_polling) {
+>> +		poll_datapath = true;
+>> +		pr_info("qaic: driver initializing in datapath polling mode\n");
+> 
+> No pr() in normal path of init/exit.
+
+This is not the normal path.  datapath_polling is a module parameter. 
+This is something the user can enable, and so it would be good to have 
+the user informed that the option took effect.
+
+> 
+>> +	}
+>> +
+>> +	qaic_logging_register();
+>> +
+>> +	ret = mhi_driver_register(&qaic_mhi_driver);
+>> +	if (ret) {
+>> +		pr_debug("qaic: mhi_driver_register failed %d\n", ret);
+>> +		goto free_class;
+>> +	}
+>> +
+>> +	ret = pci_register_driver(&qaic_pci_driver);
+>> +
+> 
+> No need for such blank lines.
+
+Agreed.
+
+> 
+>> +	if (ret) {
+>> +		pr_debug("qaic: pci_register_driver failed %d\n", ret);
+>> +		goto free_mhi;
+>> +	}
+>> +
+>> +	qaic_telemetry_register();
+>> +	qaic_ras_register();
+>> +	qaic_ssr_register();
+>> +	goto out;
+> 
+> return 0.
+
+Ok.
+
+> 
+>> +
+>> +free_mhi:
+>> +	mhi_driver_unregister(&qaic_mhi_driver);
+>> +free_class:
+>> +out:
+>> +	if (ret)
+>> +		qaic_logging_unregister();
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void __exit qaic_exit(void)
+>> +{
+>> +	pr_debug("qaic: exit\n");
+> 
+> No pr() in normal path of init/exit.
+
+Sure.
+
+> 
+>> +	link_up = true;
+> 
+> This is confusing...
+
+Will add a comment.  This ties into MHI, and how it can tear down in two 
+different ways, usually based on the link state.
+
+In this case, we are doing a clean tear down where the link is still up, 
+and so we should have MHI do the extra tear down that leaves the device 
+in a good state, in the event the driver gets added again.
+
+> 
+>> +	pci_unregister_driver(&qaic_pci_driver);
+>> +	mhi_driver_unregister(&qaic_mhi_driver);
+>> +	qaic_telemetry_unregister();
+>> +	qaic_ras_unregister();
+>> +	qaic_ssr_unregister();
+> 
+> Order of cleanup is usually reverse from init.
+
+Fair.
+
+> 
+>> +	qaic_logging_unregister();
+>> +}
+>> +
+>> +module_init(qaic_init);
+>> +module_exit(qaic_exit);
+> 
+> Best regards,
+> Krzysztof
+
